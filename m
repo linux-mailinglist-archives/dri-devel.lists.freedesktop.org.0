@@ -2,38 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15131C00AC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1BD1C00C8
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 17:50:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C096E926;
-	Thu, 30 Apr 2020 15:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1560B6E267;
+	Thu, 30 Apr 2020 15:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BEF6E926
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:43:55 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E50CF321;
- Thu, 30 Apr 2020 17:43:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1588261433;
- bh=Do32UHrdQBqNNKFRv503Sk7LGrGsjlplh+T+mU5OPas=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Zlhsteij7qegRRtqdJjIZ/xX58tXpejHGAAliwDgoDvHlxNeCzN6FrTQZjBSoado0
- c6s2hCl52MNylAnF7PfGA10K480U5oeauDy1BVp5M20gf2IRxupd+iuIfI8HSKB26Z
- w61OeyTwMMiCEdjjCpzPKPafr3UNsdch8yHR8iH0=
-Date: Thu, 30 Apr 2020 18:43:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Vincent Whitchurch <vincent.whitchurch@axis.com>
-Subject: Re: [PATCH v2] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER
- handling
-Message-ID: <20200430154351.GN5856@pendragon.ideasonboard.com>
-References: <20200430115439.9649-1-vincent.whitchurch@axis.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4306E267
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:50:51 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1E9D32076D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 15:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588261851;
+ bh=AWlUUUEQmtBP6tJdyVBdRVvYUBKUIGdA1MEl0dfcZ1c=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=blFWQQqDR5s9d3ZEJt7rWSG47Ui51YmWTKkh3itQ/Sp3SU0kVuXu63FPnOk2WS56J
+ zW77QmZcKSZJszbq/CKFhEiS+PSGTxjHBYA2jEAYMkYU/coTMAB0qLBIOeZbeo9tlb
+ 28HbThPQWnva6dMg986HdyvMzNJmd6p02ghaf77g=
+Received: by mail-ed1-f42.google.com with SMTP id d16so4933650edq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 08:50:51 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYuhW8kA7gXHv6Y+PRNcvnH54pH++YaDwrATzApBNv6wYBo8bv9
+ 3h/AoTqfLvrHmFLHr+hdVjZKn1P4MjaFGFmYdA==
+X-Google-Smtp-Source: APiQypLNtAe4WGt202vWspF3DK8VQGAkLi64NfyhwMTDL4r2HZtxav6S7QTWNUTBLfZims+Y6t3pKABbZl+n/V80byk=
+X-Received: by 2002:a05:6402:48b:: with SMTP id
+ k11mr3417709edv.47.1588261849430; 
+ Thu, 30 Apr 2020 08:50:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200430115439.9649-1-vincent.whitchurch@axis.com>
+References: <CAAOTY_86d-UryKQrLy8-zjTbrTRrHL4k3x=bx1KqvWxPL5jj2Q@mail.gmail.com>
+ <AOsApgASCAa7imxfuvZwXqq0.3.1588228291133.Hmail.bernard@vivo.com>
+In-Reply-To: <AOsApgASCAa7imxfuvZwXqq0.3.1588228291133.Hmail.bernard@vivo.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 30 Apr 2020 23:50:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8o239n_y4LJiyU5978e87knZmNRJwSHZbEDxLLasiJjw@mail.gmail.com>
+Message-ID: <CAAOTY_8o239n_y4LJiyU5978e87knZmNRJwSHZbEDxLLasiJjw@mail.gmail.com>
+Subject: Re: Re: [PATCH] drm/mediatek: cleanup coding style in mediatek a bit
+To: Bernard <bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,155 +55,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, narmstrong@baylibre.com,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl, a.hajda@samsung.com,
- kernel@axis.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, opensource.kernel@vivo.com,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Vincent,
-
-Thank you for the patch.
-
-On Thu, Apr 30, 2020 at 01:54:39PM +0200, Vincent Whitchurch wrote:
-> If adv7511's devm_clk_get() for the cec clock returns -EPROBE_DEFER, we
-> end up in an infinite probe loop.  This happens:
-> 
->  (1) adv7511's probe is called.
-> 
->  (2) adv7511's probe adds some secondary i2c devices which bind to the
->  dummy driver and thus call driver_deferred_probe_trigger() and
->  increment deferred_trigger_count (see driver_bound()).
-> 
->  (3) adv7511's probe returns -EPROBE_DEFER, and since the
->  deferred_trigger_count has changed during the probe call,
->  driver_deferred_probe_trigger() is called immediately (see
->  really_probe()) and adv7511's probe is scheduled.
-> 
->  (4) Goto step 1.
-> 
-> [   61.972915] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
-> [   61.992734] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003f
-> [   61.993343] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003f'
-> [   61.993626] really_probe: bus: 'i2c': really_probe: bound device 0-003f to driver dummy
-> [   61.995604] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-0038
-> [   61.996381] driver_bound: driver: 'dummy': driver_bound: bound to device '0-0038'
-> [   61.996663] really_probe: bus: 'i2c': really_probe: bound device 0-0038 to driver dummy
-> [   61.998651] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003c
-> [   61.999222] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003c'
-> [   61.999496] really_probe: bus: 'i2c': really_probe: bound device 0-003c to driver dummy
-> [   62.010050] really_probe: i2c 0-0039: Driver adv7511 requests probe deferral
-> [   62.011380] really_probe: bus: 'platform': really_probe: probing driver pwm-clock with device clock-cec
-> [   62.012812] really_probe: platform clock-cec: Driver pwm-clock requests probe deferral
-> [   62.024679] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
-> 
-> Fix this by calling devm_clk_get() before registering the secondary
-> devices.
-> 
-> Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
-> ---
-> v2: Add devm_clk_put() in error path.
-> 
->  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 31 ++++++++------------
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 11 +++++--
->  2 files changed, 21 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> index a20a45c0b353..f5e9d0b238d2 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-> @@ -286,28 +286,17 @@ static const struct cec_adap_ops adv7511_cec_adap_ops = {
->  	.adap_transmit = adv7511_cec_adap_transmit,
->  };
->  
-> -static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
-> -{
-> -	adv7511->cec_clk = devm_clk_get(dev, "cec");
-> -	if (IS_ERR(adv7511->cec_clk)) {
-> -		int ret = PTR_ERR(adv7511->cec_clk);
-> -
-> -		adv7511->cec_clk = NULL;
-> -		return ret;
-> -	}
-> -	clk_prepare_enable(adv7511->cec_clk);
-> -	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
-> -	return 0;
-> -}
-> -
->  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->  {
->  	unsigned int offset = adv7511->type == ADV7533 ?
->  						ADV7533_REG_CEC_OFFSET : 0;
-> -	int ret = adv7511_cec_parse_dt(dev, adv7511);
-> +	int ret;
->  
-> -	if (ret)
-> -		goto err_cec_parse_dt;
-> +	if (!adv7511->cec_clk)
-> +		goto err_cec_no_clock;
-> +
-> +	clk_prepare_enable(adv7511->cec_clk);
-> +	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
->  
->  	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
->  		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
-> @@ -342,8 +331,12 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
->  err_cec_alloc:
->  	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
->  		 ret);
-> -err_cec_parse_dt:
-> +	clk_disable_unprepare(adv7511->cec_clk);
-> +	devm_clk_put(dev, adv7511->cec_clk);
-> +	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
-> +	adv7511->cec_clk = NULL;
-> +err_cec_no_clock:
->  	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
->  		     ADV7511_CEC_CTRL_POWER_DOWN);
-> -	return ret == -EPROBE_DEFER ? ret : 0;
-> +	return 0;
-
-If this function can't fail anymore, I would make it void. With that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  }
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index 9e13e466e72c..ebc548e23ece 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1122,6 +1122,15 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->  	if (ret)
->  		return ret;
->  
-> +	adv7511->cec_clk = devm_clk_get(dev, "cec");
-> +	if (IS_ERR(adv7511->cec_clk)) {
-> +		ret = PTR_ERR(adv7511->cec_clk);
-> +		if (ret == -EPROBE_DEFER)
-> +			return ret;
-> +
-> +		adv7511->cec_clk = NULL;
-> +	}
-> +
->  	ret = adv7511_init_regulators(adv7511);
->  	if (ret) {
->  		dev_err(dev, "failed to init regulators\n");
-> @@ -1226,8 +1235,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->  
->  err_unregister_cec:
->  	i2c_unregister_device(adv7511->i2c_cec);
-> -	if (adv7511->cec_clk)
-> -		clk_disable_unprepare(adv7511->cec_clk);
->  err_i2c_unregister_packet:
->  	i2c_unregister_device(adv7511->i2c_packet);
->  err_i2c_unregister_edid:
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEJlcm5hcmQ6CgpCZXJuYXJkIDxiZXJuYXJkQHZpdm8uY29tPiDmlrwgMjAyMOW5tDTmnIgz
+MOaXpSDpgLHlm5sg5LiL5Y2IMjozMuWvq+mBk++8mgo+Cj4KPgo+IOWPkeS7tuS6uu+8mkNodW4t
+S3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+IOWPkemAgeaXpeacn++8mjIwMjAt
+MDQtMjkgMjI6MjI6NTAKPiDmlLbku7bkurrvvJpCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5j
+b20+Cj4g5oqE6YCB5Lq677yaQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+
+LFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+LERhdmlkIEFpcmxpZSA8YWly
+bGllZEBsaW51eC5pZT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixNYXR0aGlhcyBC
+cnVnZ2VyIDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPixEUkkgRGV2ZWxvcG1lbnQgPGRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+LExpbnV4IEFSTSA8bGludXgtYXJtLWtlcm5lbEBsaXN0
+cy5pbmZyYWRlYWQub3JnPiwibW9kZXJhdGVkIGxpc3Q6QVJNL01lZGlhdGVrIFNvQyBzdXBwb3J0
+IiA8bGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZz4sbGludXgta2VybmVsIDxsaW51
+eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPixvcGVuc291cmNlLmtlcm5lbEB2aXZvLmNvbQo+IOS4
+u+mimO+8mlJlOiBbUEFUQ0hdIGRybS9tZWRpYXRlazogY2xlYW51cCBjb2Rpbmcgc3R5bGUgaW4g
+bWVkaWF0ZWsgYSBiaXQ+SGksIEJlcm5hcmQ6Cj4gPgo+ID5CZXJuYXJkIFpoYW8gPGJlcm5hcmRA
+dml2by5jb20+IOaWvCAyMDIw5bm0NOaciDI35pelIOmAseS4gCDkuIvljYgzOjUz5a+r6YGT77ya
+Cj4gPj4KPiA+PiBUaGlzIGNvZGUgY2hhbmdlIGlzIHRvIG1ha2UgY29kZSBiaXQgbW9yZSByZWFk
+YWJsZS4KPiA+PiBPcHRpbWlzZSBhcnJheSBzaXplIGFsaWduIHRvIEhETUkgbWFjcm8gZGVmaW5l
+Lgo+ID4+IEFkZCBjaGVjayBpZiBsZW4gaXMgb3ZlcmFuZ2UuCj4gPgo+ID5PbmUgcGF0Y2ggc2hv
+dWxkIGp1c3QgZG8gb25lIHRoaW5nLCBidXQgdGhpcyBkbyB0aHJlZSB0aGluZ3MuCj4gPlNvIGJy
+ZWFrIHRoaXMgaW50byB0aHJlZSBwYXRjaGVzLgo+ID4KPiA+UmVnYXJkcywKPiA+Q2h1bi1LdWFu
+Zy4KPgo+IEhpCj4gVGhpcyBvcHRpbWl6YXRpb24gaXMgbWFpbmx5IHRvIG1ha2UgdGhlIGNvZGUg
+YSBiaXQgcmVhZGFibGUuCj4gVGhlc2UgbW9kaWZpY2F0aW9ucyBhcmUgcmVsYXRlZCwgbWFpbiBp
+biBzZXZlcmFsIHJlbGF0ZWQgZnVuY3Rpb24gY2FsbHMgaW4gdGhlIHNhbWUgZmlsZS4KPiBJIHdh
+cyBhIGJpdCBjb25mdXNlZCB0aGF0IGlmIGl0IGlzIHJlYWxseSBuZWNlc3NhcnkgdG8gY2hhbmdl
+IHRvIHRocmVlIHNlcGFyYXRlIHBhdGNoIHN1Ym1pc3Npb25zPwo+Cj4gUmVnYXJkcwo+IEJlcm5h
+cmQKPgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8u
+Y29tPgo+ID4+IC0tLQo+ID4+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyB8
+IDIyICsrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2Vy
+dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19oZG1pLmMKPiA+PiBpbmRleCBmZjQzYTNkODA0MTAuLjQwZmI1MTU0ZWQ1ZCAxMDA2NDQKPiA+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYwo+ID4+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jCj4gPj4gQEAgLTMxMSwxNSArMzExLDE1
+IEBAIHN0YXRpYyB2b2lkIG10a19oZG1pX2h3X3NlbmRfaW5mb19mcmFtZShzdHJ1Y3QgbXRrX2hk
+bWkgKmhkbWksIHU4ICpidWZmZXIsCj4gPj4gICAgICAgICB1OCBjaGVja3N1bTsKPiA+PiAgICAg
+ICAgIGludCBjdHJsX2ZyYW1lX2VuID0gMDsKPiA+Pgo+ID4+IC0gICAgICAgZnJhbWVfdHlwZSA9
+ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGZyYW1lX3Zl
+ciA9ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGZyYW1l
+X2xlbiA9ICpidWZmZXI7Cj4gPj4gLSAgICAgICBidWZmZXIgKz0gMTsKPiA+PiAtICAgICAgIGNo
+ZWNrc3VtID0gKmJ1ZmZlcjsKPiA+PiAtICAgICAgIGJ1ZmZlciArPSAxOwo+ID4+ICsgICAgICAg
+ZnJhbWVfdHlwZSA9ICpidWZmZXIrKzsKPiA+PiArICAgICAgIGZyYW1lX3ZlciA9ICpidWZmZXIr
+KzsKPiA+PiArICAgICAgIGZyYW1lX2xlbiA9ICpidWZmZXIrKzsKPiA+PiArICAgICAgIGNoZWNr
+c3VtID0gKmJ1ZmZlcisrOwoKVGhpcyBwYXJ0IGxvb2tzIGxpa2UgY2xlYW51cCwgc28ga2VlcCBp
+biB0aGlzIHBhdGNoLgoKPiA+PiAgICAgICAgIGZyYW1lX2RhdGEgPSBidWZmZXI7Cj4gPj4gKyAg
+ICAgICBpZiAoKGZyYW1lX2xlbiArIEhETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpFKSA+IGxlbikg
+ewo+ID4+ICsgICAgICAgICAgICAgICBkZXZfZXJyKGhkbWktPmRldiwgIldyb25nIGZyYW1lIGxl
+bjogJWRcbiIsIGZyYW1lX2xlbjsKPiA+PiArICAgICAgICAgICAgICAgcmV0dXJuOwoKVGhpcyBp
+cyBlcnJvciBjaGVja2luZywgbm90IGNsZWFudXAgdGhlIGNvZGluZyBzdHlsZSwgc28gbW92ZSB0
+aGlzIHRvCmFub3RoZXIgcGF0Y2guCgo+ID4+ICsgICAgICAgfQo+ID4+Cj4gPj4gICAgICAgICBk
+ZXZfZGJnKGhkbWktPmRldiwKPiA+PiAgICAgICAgICAgICAgICAgImZyYW1lX3R5cGU6MHgleCxm
+cmFtZV92ZXI6MHgleCxmcmFtZV9sZW46MHgleCxjaGVja3N1bToweCV4XG4iLAo+ID4+IEBAIC05
+ODIsNyArOTgyLDcgQEAgc3RhdGljIGludCBtdGtfaGRtaV9zZXR1cF9hdmlfaW5mb2ZyYW1lKHN0
+cnVjdCBtdGtfaGRtaSAqaGRtaSwKPiA+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gPj4gIHsKPiA+PiAgICAg
+ICAgIHN0cnVjdCBoZG1pX2F2aV9pbmZvZnJhbWUgZnJhbWU7Cj4gPj4gLSAgICAgICB1OCBidWZm
+ZXJbMTddOwo+ID4+ICsgICAgICAgdTggYnVmZmVyW0hETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpF
+ICsgSERNSV9BVklfSU5GT0ZSQU1FX1NJWkVdOwoKVGhpcyBpcyB0byBzeW1ib2xpemUgdGhlIG51
+bWJlciwgc3ltYm9saXphdGlvbiBpcyBtb3JlIHRoYW4gY2xlYW51cC4KClJlZ2FyZHMsCkNodW4t
+S3VhbmcuCgo+ID4+ICAgICAgICAgc3NpemVfdCBlcnI7Cj4gPj4KPiA+PiAgICAgICAgIGVyciA9
+IGRybV9oZG1pX2F2aV9pbmZvZnJhbWVfZnJvbV9kaXNwbGF5X21vZGUoJmZyYW1lLAo+ID4+IEBA
+IC0xMDA4LDcgKzEwMDgsNyBAQCBzdGF0aWMgaW50IG10a19oZG1pX3NldHVwX3NwZF9pbmZvZnJh
+bWUoc3RydWN0IG10a19oZG1pICpoZG1pLAo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBjb25zdCBjaGFyICpwcm9kdWN0KQo+ID4+ICB7Cj4gPj4gICAgICAgICBz
+dHJ1Y3QgaGRtaV9zcGRfaW5mb2ZyYW1lIGZyYW1lOwo+ID4+IC0gICAgICAgdTggYnVmZmVyWzI5
+XTsKPiA+PiArICAgICAgIHU4IGJ1ZmZlcltIRE1JX0lORk9GUkFNRV9IRUFERVJfU0laRSArIEhE
+TUlfU1BEX0lORk9GUkFNRV9TSVpFXTsKPiA+PiAgICAgICAgIHNzaXplX3QgZXJyOwo+ID4+Cj4g
+Pj4gICAgICAgICBlcnIgPSBoZG1pX3NwZF9pbmZvZnJhbWVfaW5pdCgmZnJhbWUsIHZlbmRvciwg
+cHJvZHVjdCk7Cj4gPj4gQEAgLTEwMzEsNyArMTAzMSw3IEBAIHN0YXRpYyBpbnQgbXRrX2hkbWlf
+c2V0dXBfc3BkX2luZm9mcmFtZShzdHJ1Y3QgbXRrX2hkbWkgKmhkbWksCj4gPj4gIHN0YXRpYyBp
+bnQgbXRrX2hkbWlfc2V0dXBfYXVkaW9faW5mb2ZyYW1lKHN0cnVjdCBtdGtfaGRtaSAqaGRtaSkK
+PiA+PiAgewo+ID4+ICAgICAgICAgc3RydWN0IGhkbWlfYXVkaW9faW5mb2ZyYW1lIGZyYW1lOwo+
+ID4+IC0gICAgICAgdTggYnVmZmVyWzE0XTsKPiA+PiArICAgICAgIHU4IGJ1ZmZlcltIRE1JX0lO
+Rk9GUkFNRV9IRUFERVJfU0laRSArIEhETUlfQVVESU9fSU5GT0ZSQU1FX1NJWkVdOwo+ID4+ICAg
+ICAgICAgc3NpemVfdCBlcnI7Cj4gPj4KPiA+PiAgICAgICAgIGVyciA9IGhkbWlfYXVkaW9faW5m
+b2ZyYW1lX2luaXQoJmZyYW1lKTsKPiA+PiAtLQo+ID4+IDIuMjYuMgo+ID4+Cj4gPj4KPiA+PiBf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+IExpbnV4
+LW1lZGlhdGVrIG1haWxpbmcgbGlzdAo+ID4+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKPiA+PiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LW1lZGlhdGVrCj4KPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCj4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0Cj4gTGludXgtbWVkaWF0ZWtA
+bGlzdHMuaW5mcmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4v
+bGlzdGluZm8vbGludXgtbWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
