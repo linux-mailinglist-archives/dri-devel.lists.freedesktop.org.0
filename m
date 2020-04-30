@@ -2,55 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB421C0EAE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CBC1C0805
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 22:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86DC26EBAA;
-	Fri,  1 May 2020 07:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF106E43D;
+	Thu, 30 Apr 2020 20:38:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 607686E43D;
- Thu, 30 Apr 2020 20:18:57 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 18so421512pfx.6;
- Thu, 30 Apr 2020 13:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=c6sNQQbXXpU5p2FuijRbtB6WLWnnDlNaexeMBmOH9os=;
- b=AMJF0mMZCNk2Aie4LhGSvy4Yz8R7SHPXqoWRRSAOz3mGEvgEKilOJKxXS8id9b2bLa
- 2TyI2vxvVgmfLzZzo8yTylejyILFUMIFiNpKAwEkh6axdilQdDkAym/zL0CQ+2qToaHn
- jWW6pZ6IKhzrPaHUBgDNIUwUXRUUprx17V4yYEY+N7nMd3q0kpczZIhDXs75wgAdroEz
- mv1MzrdBgMJb6BO2IaCTX99B60dnOEuJRnkas1LLa4xluStvlTqZHJik6SDh/mHJONZY
- q9whWQRov+7VO3rosvRJji6yxbZPfqnNSzh6agjnYFJuxq8gNzk8rxi1GRWU4vW/Z+8d
- EYhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=c6sNQQbXXpU5p2FuijRbtB6WLWnnDlNaexeMBmOH9os=;
- b=srtvIZsvWmB1N6QunXAk3YgE1puoYvfT08SGtfySg1kPqXN4zPOgbT7x8CRDIPQ2PI
- 0qtKprNQOdg+PLb97yrodDpeyo9/sAwMEoXD7mL+PuVx9VrP7pYG6YgNZSyDq2ak5WHj
- wkxUgbO8jixeFKLVZBgLUDJW/OFuEH3olkEcN3kgRJnCI9QdeN4Ag/IA8hPpEUlX8icz
- meOIAhCDufnfEamzFYbG3d5HrbHsdwfCz3Zs2bm5IIARsU9FVkF1Wsw0nnkTVUcCVgA5
- 1biky9Y8dwDqj5XD1qYY7eP3llu+kOP14XZBe4flYUlf9DbMiiSjTWZ/kogd4oMeorPB
- 2LAw==
-X-Gm-Message-State: AGi0PuYPE3PGtt7oEUjE1wDBuDqBs9Yvk49JObPVs7sLf26m2bydbkr4
- m3DL5371UuK8umflSax8wD3HOTZsEDQ=
-X-Google-Smtp-Source: APiQypKPGdVlOsYhKcq1mKI7cuDudA78+0Dqfc8fvIvzCBbopM81voaAfO9uBe+SDndiAY1gpae/Sg==
-X-Received: by 2002:a63:5907:: with SMTP id n7mr652937pgb.439.1588277936882;
- Thu, 30 Apr 2020 13:18:56 -0700 (PDT)
-Received: from jordon-HP-15-Notebook-PC.domain.name ([122.167.43.171])
- by smtp.gmail.com with ESMTPSA id 14sm523310pjd.36.2020.04.30.13.18.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Apr 2020 13:18:55 -0700 (PDT)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: bskeggs@redhat.com, airlied@linux.ie, daniel@ffwll.ch, tzimmermann@suse.de,
- alexander.deucher@amd.com, lyude@redhat.com, sam@ravnborg.org
-Subject: [PATCH] drm/nouveau/dispnv04: Remove dead code
-Date: Fri,  1 May 2020 01:56:53 +0530
-Message-Id: <1588278413-21682-1-git-send-email-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 1.9.1
-X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0226E43D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 20:38:50 +0000 (UTC)
+IronPort-SDR: ZhbRDvAsCKKjSCmCyK11HOjAlw9+SnfgW7samMig9/jXqFQ0RECf4qaBu7BBcUXkmw9+Tw+irj
+ jnfTevy9TkiA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2020 13:38:49 -0700
+IronPort-SDR: I4KrUIKV1JIB236IcZ/nZ88R5GBVmHR6Cx62c+EO6isHRqV8HMXGZ8LGPtTewSc3X7sQE/xJP4
+ Vwm62Pd83kiw==
+X-IronPort-AV: E=Sophos;i="5.73,337,1583222400"; d="scan'208";a="248380175"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2020 13:38:49 -0700
+From: ira.weiny@intel.com
+To: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
+Subject: [PATCH V1 00/10] Remove duplicated kmap code
+Date: Thu, 30 Apr 2020 13:38:35 -0700
+Message-Id: <20200430203845.582900-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +45,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, inux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Souptick Joarder <jrdr.linux@gmail.com>
-MIME-Version: 1.0
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These are dead code since 3.10. If there is no plan to use
-it further, these can be removed forever.
+From: Ira Weiny <ira.weiny@intel.com>
 
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+The kmap infrastructure has been copied almost verbatim to every architecture.
+This series consolidates obvious duplicated code by defining core functions
+which call into the architectures only when needed.
+
+Some of the k[un]map_atomic() implementations have some similarities but the
+similarities were not sufficient to warrant further changes.
+
+In addition we remove a duplicate implementation of kmap() in DRM.
+
+Testing was done by 0day to cover all the architectures I can't readily
+build/test.
+
 ---
- drivers/gpu/drm/nouveau/dispnv04/crtc.c | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+Changes from V0:
+	rebase to 5.7-rc4
+	Define kmap_flush_tlb() and make kmap() truely arch independent.
+	Redefine the k[un]map_atomic_* code to call into the architectures for
+		high mem pages
+	Ensure all architectures define kmap_prot, use it appropriately, and
+		define kmap_atomic_prot()
+	Remove drm implementation of kmap_atomic()
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-index 1f08de4..ad0ef7d 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-@@ -269,31 +269,11 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
- 		horizStart = horizTotal - 5;
- 		horizEnd = horizTotal - 2;
- 		horizBlankEnd = horizTotal + 4;
--#if 0
--		if (dev->overlayAdaptor && drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS)
--			/* This reportedly works around some video overlay bandwidth problems */
--			horizTotal += 2;
--#endif
- 	}
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		vertTotal |= 1;
- 
--#if 0
--	ErrorF("horizDisplay: 0x%X \n", horizDisplay);
--	ErrorF("horizStart: 0x%X \n", horizStart);
--	ErrorF("horizEnd: 0x%X \n", horizEnd);
--	ErrorF("horizTotal: 0x%X \n", horizTotal);
--	ErrorF("horizBlankStart: 0x%X \n", horizBlankStart);
--	ErrorF("horizBlankEnd: 0x%X \n", horizBlankEnd);
--	ErrorF("vertDisplay: 0x%X \n", vertDisplay);
--	ErrorF("vertStart: 0x%X \n", vertStart);
--	ErrorF("vertEnd: 0x%X \n", vertEnd);
--	ErrorF("vertTotal: 0x%X \n", vertTotal);
--	ErrorF("vertBlankStart: 0x%X \n", vertBlankStart);
--	ErrorF("vertBlankEnd: 0x%X \n", vertBlankEnd);
--#endif
--
- 	/*
- 	* compute correct Hsync & Vsync polarity
- 	*/
-@@ -492,14 +472,6 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
- 	/* Except for rare conditions I2C is enabled on the primary crtc */
- 	if (nv_crtc->index == 0)
- 		regp->crtc_eng_ctrl |= NV_CRTC_FSEL_I2C;
--#if 0
--	/* Set overlay to desired crtc. */
--	if (dev->overlayAdaptor) {
--		NVPortPrivPtr pPriv = GET_OVERLAY_PRIVATE(dev);
--		if (pPriv->overlayCRTC == nv_crtc->index)
--			regp->crtc_eng_ctrl |= NV_CRTC_FSEL_OVERLAY;
--	}
--#endif
- 
- 	/* ADDRESS_SPACE_PNVM is the same as setting HCUR_ASI */
- 	regp->cursor_cfg = NV_PCRTC_CURSOR_CONFIG_CUR_LINES_64 |
+
+Ira Weiny (10):
+  arch/kmap: Remove BUG_ON()
+  arch/xtensa: Move kmap build bug out of the way
+  arch/kmap: Remove redundant arch specific kmaps
+  arch/kunmap: Remove duplicate kunmap implementations
+  arch/kmap_atomic: Consolidate duplicate code
+  arch/kunmap_atomic: Consolidate duplicate code
+  arch/kmap: Ensure kmap_prot visibility
+  arch/kmap: Don't hard code kmap_prot values
+  arch/kmap: Define kmap_atomic_prot() for all arch's
+  drm: Remove drm specific kmap_atomic code
+
+ arch/arc/include/asm/highmem.h        | 16 +------
+ arch/arc/mm/highmem.c                 | 28 +++----------
+ arch/arm/include/asm/highmem.h        |  9 +---
+ arch/arm/mm/highmem.c                 | 35 +++-------------
+ arch/csky/include/asm/highmem.h       | 11 ++---
+ arch/csky/mm/highmem.c                | 43 +++++--------------
+ arch/microblaze/include/asm/highmem.h | 29 ++-----------
+ arch/microblaze/mm/highmem.c          | 16 ++-----
+ arch/microblaze/mm/init.c             |  3 --
+ arch/mips/include/asm/highmem.h       | 11 ++---
+ arch/mips/mm/cache.c                  |  6 +--
+ arch/mips/mm/highmem.c                | 49 ++++------------------
+ arch/nds32/include/asm/highmem.h      |  9 +---
+ arch/nds32/mm/highmem.c               | 39 +++--------------
+ arch/parisc/include/asm/cacheflush.h  |  4 +-
+ arch/powerpc/include/asm/highmem.h    | 30 ++------------
+ arch/powerpc/mm/highmem.c             | 21 ++--------
+ arch/powerpc/mm/mem.c                 |  3 --
+ arch/sparc/include/asm/highmem.h      | 23 +---------
+ arch/sparc/mm/highmem.c               | 18 +++-----
+ arch/x86/include/asm/highmem.h        | 11 +----
+ arch/x86/mm/highmem_32.c              | 50 ++--------------------
+ arch/xtensa/include/asm/highmem.h     | 28 +------------
+ arch/xtensa/mm/highmem.c              | 23 +++++-----
+ drivers/gpu/drm/ttm/ttm_bo_util.c     | 56 ++-----------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c  | 16 +++----
+ include/drm/ttm/ttm_bo_api.h          |  4 --
+ include/linux/highmem.h               | 60 +++++++++++++++++++++++++--
+ 28 files changed, 159 insertions(+), 492 deletions(-)
+
 -- 
-1.9.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
