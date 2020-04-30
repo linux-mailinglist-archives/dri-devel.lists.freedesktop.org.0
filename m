@@ -1,47 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C74A1BF407
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 11:20:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B5B1BF40C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Apr 2020 11:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E346E198;
-	Thu, 30 Apr 2020 09:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6765A6E15A;
+	Thu, 30 Apr 2020 09:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9B76E198
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 09:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JGLc3a8ABGQstMR37awCEhI2dEUBYckj05oUPEzH5zM=; b=O4V/PgrcyNboVQMuC2pLT8XbA1
- oazmcsBDo3SqYAigfLRfcShWTqbVV+zQmLLQdIvnWneZYCjJ0syXrKnxBbIN2Tp0GNfSHwSDmt8nU
- 7YvsfqrON1QdxVz12P8t17OwX73BerxvhHyE7EEiby7enzme4FvfnyfaZgC9NUmFksSOeMkaF9Zzf
- LU9jvsb0GGUIstsvUiQpgSa/tlC7zXm/2EbwiNI2F2FxGPbiQ3RY2WY3WIls513fuWRdVz5aZBzB8
- mhd1ukAowutdTTBkrXpzcVMSS7AgtDWr1Qs7kDIZ/a2zGzrXsckczG1T6GtQSxVd/XPQVbzC4JIpE
- yXxDftEw==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61049
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jU5MQ-0002XZ-G5; Thu, 30 Apr 2020 11:20:02 +0200
-Subject: Re: [PATCH 01/10] backlight: Add backlight_device_get_by_name()
-To: Lee Jones <lee.jones@linaro.org>
-References: <20200429124830.27475-1-noralf@tronnes.org>
- <20200429124830.27475-2-noralf@tronnes.org> <20200430083219.GC3118@dell>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <0fbc4eb5-cb39-5974-85bb-9f13278ecab4@tronnes.org>
-Date: Thu, 30 Apr 2020 11:20:01 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 383C26E15A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 09:22:33 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id F00E02001E;
+ Thu, 30 Apr 2020 11:22:30 +0200 (CEST)
+Date: Thu, 30 Apr 2020 11:22:29 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/ast: Don't check new mode if CRTC is being disabled
+Message-ID: <20200430092229.GB15077@ravnborg.org>
+References: <20200430091330.9824-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200430083219.GC3118@dell>
+Content-Disposition: inline
+In-Reply-To: <20200430091330.9824-1-tzimmermann@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=28qUGEEF9bhw9h5bs9MA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,75 +43,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: cogarre@gmail.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ airlied@redhat.com, emil.velikov@collabora.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMzAuMDQuMjAyMCAxMC4zMiwgc2tyZXYgTGVlIEpvbmVzOgo+IE9uIFdlZCwgMjkgQXBy
-IDIwMjAsIE5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPiAKPj4gQWRkIGEgd2F5IHRvIGxvb2t1cCBh
-IGJhY2tsaWdodCBkZXZpY2UgYmFzZWQgb24gaXRzIG5hbWUuCj4+IFdpbGwgYmUgdXNlZCBieSBh
-IFVTQiBkaXNwbGF5IGdhZGdldCBnZXR0aW5nIHRoZSBuYW1lIGZyb20gY29uZmlnZnMuCj4+Cj4+
-IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+PiBDYzogRGFuaWVsIFRob21w
-c29uIDxkYW5pZWwudGhvbXBzb25AbGluYXJvLm9yZz4KPj4gQ2M6IEppbmdvbyBIYW4gPGppbmdv
-b2hhbjFAZ21haWwuY29tPgo+PiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFs
-ZkB0cm9ubmVzLm9yZz4KPj4gLS0tCj4+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9iYWNrbGln
-aHQuYyB8IDIxICsrKysrKysrKysrKysrKysrKysrKwo+PiAgaW5jbHVkZS9saW51eC9iYWNrbGln
-aHQuaCAgICAgICAgICAgfCAgMSArCj4+ICAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMo
-KykKPiAKPiBPbmNlIHJldmlld2VkLCBjYW4gdGhpcyBwYXRjaCBiZSBhcHBsaWVkIG9uIGl0cyBv
-d24/Cj4gCgpJZiB5b3UgY2FuIGFwcGx5IGl0IGZvciA1LjgsIHRoZW4gd2UncmUgZ29vZC4gRFJN
-IGhhcyBjdXRvZmYgYXQgLXJjNSBhbmQKdGhlIGRyaXZlciB3b24ndCBiZSByZWFkeSBmb3IgdGhh
-dC4gVGhpcyBwYXRjaCBoYXMgdGhpcyBkZXBlbmRlbmN5CmNoYWluOiB1c2IgLT4gZHJtIC0+IGJh
-Y2tsaWdodC4gU28gaWYgeW91IGNhbiBhcHBseSBpdCBmb3IgNS44LCB0aGluZ3MKZ2V0cyBlYXNp
-ZXIuCgo+IE15IGd1ZXNzIGlzIHRoYXQgaXQgY2FuJ3QsIGFzIHRoZSBvdGhlciBwYXRjaGVzIGlu
-IHRoaXMgc2V0IGRlcGVuZCBvbgo+IGl0LCByaWdodD8gIElmIHRoaXMgYXNzdW1wdGlvbiBpcyB0
-cnVlLCB5b3UgbmVlZCB0byBzZW5kIG1lIHRoZSByZXN0Cj4gb2YgdGhlIHNldC4KPiAKPiBGWUk6
-IEl0J3Mgbm9ybWFsbHkgYmV0dGVyIHRvIHNlbmQgdGhlIHdob2xlIHNldCB0byBldmVyeW9uZSwg
-YXMgaXQKPiBwcm92aWRlcyB2aXNpYmlsaXR5IG9uIGN1cnJlbnQgcmV2aWV3IChvciBsYWNrIHRo
-ZXJlIG9mKSBzdGF0dXMgb2YgdGhlCj4gb3RoZXIgcGF0Y2hlcyBhbmQgYWxsb3dzIGVhY2ggb2Yg
-dGhlIG1haW50YWluZXJzIHRvIGRpc2N1c3MgcG9zc2libGUKPiBtZXJnZSBzdHJhdGVnaWVzLgoK
-ZHJpLWRldmVsIGlzIHRoZSBNTCBmb3IgYmFja2xpZ2h0IHNvIEkgYXNzdW1lZCB5b3UgZ290IHRo
-ZSBmdWxsIHNldC4KSSBoYXZlIGhhZCB0cm91YmxlIGluIHRoZSBwYXN0IHdpdGggbXkgZW1haWwg
-cHJvdmlkZXIgZHJvcHBpbmcgcGFydHMgb2YKYSBzZXJpZXMgd2hlbiBJIGhhZCB0byBtYW55IHJl
-Y2lwaWVudHMuCgpOb3JhbGYuCgo+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNr
-bGlnaHQvYmFja2xpZ2h0LmMgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9iYWNrbGlnaHQuYwo+
-PiBpbmRleCBjYWMzZTM1ZDc2MzAuLjkyZDgwYWEwYzBlZiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy92aWRlby9iYWNrbGlnaHQvYmFja2xpZ2h0LmMKPj4gKysrIGIvZHJpdmVycy92aWRlby9iYWNr
-bGlnaHQvYmFja2xpZ2h0LmMKPj4gQEAgLTQzMiw2ICs0MzIsMjcgQEAgc3RydWN0IGJhY2tsaWdo
-dF9kZXZpY2UgKmJhY2tsaWdodF9kZXZpY2VfZ2V0X2J5X3R5cGUoZW51bSBiYWNrbGlnaHRfdHlw
-ZSB0eXBlKQo+PiAgfQo+PiAgRVhQT1JUX1NZTUJPTChiYWNrbGlnaHRfZGV2aWNlX2dldF9ieV90
-eXBlKTsKPj4gIAo+PiArLyoqCj4+ICsgKiBiYWNrbGlnaHRfZGV2aWNlX2dldF9ieV9uYW1lIC0g
-R2V0IGJhY2tsaWdodCBkZXZpY2UgYnkgbmFtZQo+PiArICogQG5hbWU6IERldmljZSBuYW1lCj4+
-ICsgKgo+PiArICogVGhpcyBmdW5jdGlvbiBsb29rcyB1cCBhIGJhY2tsaWdodCBkZXZpY2UgYnkg
-aXRzIG5hbWUuIEl0IG9idGFpbnMgYSByZWZlcmVuY2UKPj4gKyAqIG9uIHRoZSBiYWNrbGlnaHQg
-ZGV2aWNlIGFuZCBpdCBpcyB0aGUgY2FsbGVyJ3MgcmVzcG9uc2liaWxpdHkgdG8gZHJvcCB0aGUK
-Pj4gKyAqIHJlZmVyZW5jZSBieSBjYWxsaW5nIGJhY2tsaWdodF9wdXQoKS4KPj4gKyAqCj4+ICsg
-KiBSZXR1cm5zOgo+PiArICogQSBwb2ludGVyIHRvIHRoZSBiYWNrbGlnaHQgZGV2aWNlIGlmIGZv
-dW5kLCBvdGhlcndpc2UgTlVMTC4KPj4gKyAqLwo+PiArc3RydWN0IGJhY2tsaWdodF9kZXZpY2Ug
-KmJhY2tsaWdodF9kZXZpY2VfZ2V0X2J5X25hbWUoY29uc3QgY2hhciAqbmFtZSkKPj4gK3sKPj4g
-KwlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4+ICsKPj4gKwlkZXYgPSBjbGFzc19maW5kX2RldmljZV9i
-eV9uYW1lKGJhY2tsaWdodF9jbGFzcywgbmFtZSk7Cj4+ICsKPj4gKwlyZXR1cm4gZGV2ID8gdG9f
-YmFja2xpZ2h0X2RldmljZShkZXYpIDogTlVMTDsKPj4gK30KPj4gK0VYUE9SVF9TWU1CT0woYmFj
-a2xpZ2h0X2RldmljZV9nZXRfYnlfbmFtZSk7Cj4+ICsKPj4gIC8qKgo+PiAgICogYmFja2xpZ2h0
-X2RldmljZV91bnJlZ2lzdGVyIC0gdW5yZWdpc3RlcnMgYSBiYWNrbGlnaHQgZGV2aWNlIG9iamVj
-dC4KPj4gICAqIEBiZDogdGhlIGJhY2tsaWdodCBkZXZpY2Ugb2JqZWN0IHRvIGJlIHVucmVnaXN0
-ZXJlZCBhbmQgZnJlZWQuCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2JhY2tsaWdodC5o
-IGIvaW5jbHVkZS9saW51eC9iYWNrbGlnaHQuaAo+PiBpbmRleCBjN2Q2YjJlOGMzYjUuLjU2ZTQ1
-ODBkNGY1NSAxMDA2NDQKPj4gLS0tIGEvaW5jbHVkZS9saW51eC9iYWNrbGlnaHQuaAo+PiArKysg
-Yi9pbmNsdWRlL2xpbnV4L2JhY2tsaWdodC5oCj4+IEBAIC0xOTAsNiArMTkwLDcgQEAgZXh0ZXJu
-IHZvaWQgYmFja2xpZ2h0X2ZvcmNlX3VwZGF0ZShzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqYmQs
-Cj4+ICBleHRlcm4gaW50IGJhY2tsaWdodF9yZWdpc3Rlcl9ub3RpZmllcihzdHJ1Y3Qgbm90aWZp
-ZXJfYmxvY2sgKm5iKTsKPj4gIGV4dGVybiBpbnQgYmFja2xpZ2h0X3VucmVnaXN0ZXJfbm90aWZp
-ZXIoc3RydWN0IG5vdGlmaWVyX2Jsb2NrICpuYik7Cj4+ICBleHRlcm4gc3RydWN0IGJhY2tsaWdo
-dF9kZXZpY2UgKmJhY2tsaWdodF9kZXZpY2VfZ2V0X2J5X3R5cGUoZW51bSBiYWNrbGlnaHRfdHlw
-ZSB0eXBlKTsKPj4gK3N0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiYWNrbGlnaHRfZGV2aWNlX2dl
-dF9ieV9uYW1lKGNvbnN0IGNoYXIgKm5hbWUpOwo+PiAgZXh0ZXJuIGludCBiYWNrbGlnaHRfZGV2
-aWNlX3NldF9icmlnaHRuZXNzKHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiZCwgdW5zaWduZWQg
-bG9uZyBicmlnaHRuZXNzKTsKPj4gIAo+PiAgI2RlZmluZSB0b19iYWNrbGlnaHRfZGV2aWNlKG9i
-aikgY29udGFpbmVyX29mKG9iaiwgc3RydWN0IGJhY2tsaWdodF9kZXZpY2UsIGRldikKPiAKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Thomas.
+
+On Thu, Apr 30, 2020 at 11:13:30AM +0200, Thomas Zimmermann wrote:
+> Suspending failed because there's no mode if the CRTC is being
+> disabled. Early-out in this case. This fixes runtime PM for ast.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Don't you miss:
+
+Reported-by:
+Tested-by:
+Fixes:
+???
+
+	Sam
+
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 7a9f20a2fd303..089b7d9a0cf3f 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (!state->enable)
+> +		return 0; /* no checks required if CRTC is being disabled */
+> +
+>  	ast_state = to_ast_crtc_state(state);
+>  
+>  	format = ast_state->format;
+> -- 
+> 2.26.0
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
