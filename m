@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A811C1D80
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 21:01:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA2B1C1D87
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 21:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16CD6ED31;
-	Fri,  1 May 2020 19:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2AA6ED35;
+	Fri,  1 May 2020 19:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68076ED31
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 19:01:51 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id t199so578238oif.7
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 12:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LMHcXNrz3zhrHnqit232OJlMzuARuHoUe7nsiYDOkco=;
- b=UntPIa0Cvl/kGm1Feg2IwMKj/LyidTxG24GKd+jWt7NC0FWh32Mo+L7v/raeC6ovRf
- ADYVNuFPCd+kiw17nIQhzCbWAVAukYbQ+8UmP+ySXXb2ziBYjBruuXz+8O0yFE+gBjpE
- zkeFaW/GLk8b2Lz5UX5r5JfawXzw+4HhNTZtEQgpRPA97wluyD/i17WepzTgof+gACX9
- n5n4GewjabnbZRDxX6DKw4084Q4FcSuexAMrnh6DZQ4QRsFyoQaBLXWdpNkv2QfdjXWi
- B9qn836vftMISEpaE1gzPC8ddaRZgavhorj7xAbff9tWbwKlIyEMQlabcYNnOwDE4YZ8
- qklA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LMHcXNrz3zhrHnqit232OJlMzuARuHoUe7nsiYDOkco=;
- b=ZwsBBt8wEFRUBF6OK8xsWjmXwoAfw3K54EMjqo6d5YIFcEntaj0mrJD5q48an62IDE
- xXIK1Th3MQfp8Hihrc31l4iqcghjZOcSfVgGCuR4I65L7iyrFRMND70HkYB+/Zs1qAaN
- ZEaaGao2Qbcib4kwOaJTdNYl2b/CGWqqsdg9DlVa10gQPvwaw2HU9tw2Sq3Ynel6wqLW
- bSVERm7jbXEl9eGeii980nv3Gic5/wwOypq62RUCjF4xPGI6L+yN76eIivQgQ7zOf659
- 7iY3LNRRaSQGraT+ZyX0QBren35MliV6xvI2WC6kcFGkvU0lojhyuXj2x3tBgn2NsWSb
- kwaw==
-X-Gm-Message-State: AGi0Pub5aV9zW+Gt+Pg+LYiu1Gb5kUDmWQdL90ls/FWj/d/W+bpFAA+/
- 71rA6XbBWA4TnOdFOO5JPdM+IWa6MSOOLQN3e9HGFA==
-X-Google-Smtp-Source: APiQypJYvqKKFvfOFQUK1ntLEscYvQrHeBF7fGsVt3flNjLdjYuuXkdbUHFmseAznhnmIL+vzVVh7igl6t18YXGu6mU=
-X-Received: by 2002:a54:4f02:: with SMTP id e2mr838335oiy.10.1588359710953;
- Fri, 01 May 2020 12:01:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-4-john.stultz@linaro.org>
- <20200501102143.xcckvsfecumbei3c@DESKTOP-E1NTVVP.localdomain>
- <47e7eded-7240-887a-39e1-97c55bf752e7@arm.com>
-In-Reply-To: <47e7eded-7240-887a-39e1-97c55bf752e7@arm.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 1 May 2020 12:01:40 -0700
-Message-ID: <CALAqxLU6kmvJ+xPCFzc3N+RNMv4g=L9bmzgE0wrOXefiGfPoHg@mail.gmail.com>
-Subject: Re: [RFC][PATCH 3/4] dma-buf: cma_heap: Extend logic to export CMA
- regions tagged with "linux,cma-heap"
-To: Robin Murphy <robin.murphy@arm.com>
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC976ED35
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 19:03:29 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1588359809; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=GY5sqtDiJc80ZiMq+8+zAVXgb8kIjKkuNxyYZsSwO/g=;
+ b=eh8JErfgfu2NIt47d30klEqOqzHlPQjSlTWT9aqrIL8i+EYmrMAF24Hq/uIoDdqjz2H9U6E5
+ wKdpGoGwMizvXLJvNhLf7X/aeJ6qd6bytUgHMh10Jf/mI7bpJi3jNMaiFstshYVEpqwzxPAX
+ G1sOHM36vYT8TnjncAPMgC2uoU8=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eac7280.7f33ca176a40-smtp-out-n01;
+ Fri, 01 May 2020 19:03:28 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3B6BFC44792; Fri,  1 May 2020 19:03:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2352CC433CB;
+ Fri,  1 May 2020 19:03:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2352CC433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2] drm/msm: Check for powered down HW in the devfreq callbacks
+Date: Fri,  1 May 2020 13:03:20 -0600
+Message-Id: <20200501190320.17681-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,96 +62,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, nd <nd@arm.com>,
- Sandeep Patil <sspatil@google.com>, Christoph Hellwig <hch@lst.de>,
- Chenbo Feng <fengc@google.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, "Andrew F. Davis" <afd@ti.com>,
- linux-mm <linux-mm@kvack.org>, Rob Herring <robh+dt@kernel.org>,
- Alistair Strachan <astrachan@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: freedreno@lists.freedesktop.org,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ben Dooks <ben.dooks@codethink.co.uk>,
+ dri-devel@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 1, 2020 at 4:08 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2020-05-01 11:21 am, Brian Starkey wrote:
-> > Hi John,
-> >
-> > On Fri, May 01, 2020 at 07:39:48AM +0000, John Stultz wrote:
-> >> This patch reworks the cma_heap initialization so that
-> >> we expose both the default CMA region and any CMA regions
-> >> tagged with "linux,cma-heap" in the device-tree.
-> >>
-> >> Cc: Rob Herring <robh+dt@kernel.org>
-> >> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> >> Cc: "Andrew F. Davis" <afd@ti.com>
-> >> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> >> Cc: Liam Mark <lmark@codeaurora.org>
-> >> Cc: Pratik Patel <pratikp@codeaurora.org>
-> >> Cc: Laura Abbott <labbott@redhat.com>
-> >> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> >> Cc: Chenbo Feng <fengc@google.com>
-> >> Cc: Alistair Strachan <astrachan@google.com>
-> >> Cc: Sandeep Patil <sspatil@google.com>
-> >> Cc: Hridya Valsaraju <hridya@google.com>
-> >> Cc: Christoph Hellwig <hch@lst.de>
-> >> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> >> Cc: Robin Murphy <robin.murphy@arm.com>
-> >> Cc: Andrew Morton <akpm@linux-foundation.org>
-> >> Cc: devicetree@vger.kernel.org
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: linux-mm@kvack.org
-> >> Signed-off-by: John Stultz <john.stultz@linaro.org>
-> >> ---
-> >>   drivers/dma-buf/heaps/cma_heap.c | 18 +++++++++---------
-> >>   1 file changed, 9 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> >> index 626cf7fd033a..dd154e2db101 100644
-> >> --- a/drivers/dma-buf/heaps/cma_heap.c
-> >> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> >> @@ -141,6 +141,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
-> >>   {
-> >>      struct cma_heap *cma_heap;
-> >>      struct dma_heap_export_info exp_info;
-> >> +    struct cma *default_cma = dev_get_cma_area(NULL);
-> >> +
-> >> +    /* We only add the default heap and explicitly tagged heaps */
-> >> +    if (cma != default_cma && !cma_dma_heap_enabled(cma))
-> >> +            return 0;
-> >
-> > Thinking about the pl111 thread[1], I'm wondering if we should also
-> > let drivers call this directly to expose their CMA pools, even if they
-> > aren't tagged for dma-heaps in DT. But perhaps that's too close to
-> > policy.
->
-> That sounds much like what my first thoughts were - apologies if I'm
-> wildly off-base here, but as far as I understand:
->
-> - Device drivers know whether they have their own "memory-region" or not.
-> - Device drivers already have to do *something* to participate in dma-buf.
-> - Device drivers know best how they make use of both the above.
-> - Therefore couldn't it be left to drivers to choose whether to register
-> their CMA regions as heaps, without having to mess with DT at all?
+Writing to the devfreq sysfs nodes while the GPU is powered down can
+result in a system crash (on a5xx) or a nasty GMU error (on a6xx):
 
-I guess I'm not opposed to this. But I guess I'd like to see some more
-details? You're thinking the pl111 driver would add the
-"memory-region" node itself?
+ $ /sys/class/devfreq/5000000.gpu# echo 500000000 > min_freq
+  [  104.841625] platform 506a000.gmu: [drm:a6xx_gmu_set_oob]
+	*ERROR* Timeout waiting for GMU OOB set GPU_DCVS: 0x0
 
-Assuming that's the case, my only worry is what if that memory-region
-node isn't a CMA area, but instead something like a carveout? Does the
-driver need to parse enough of the dt to figure out where to register
-the region as a heap?
+Despite the fact that we carefully try to suspend the devfreq device when
+the hardware is powered down there are lots of holes in the governors that
+don't check for the suspend state and blindly call into the devfreq
+callbacks that end up triggering hardware reads in the GPU driver.
 
-thanks
--john
+Call pm_runtime_get_if_in_use() in the gpu_busy() and gpu_set_freq()
+callbacks to skip the hardware access if it isn't active.
+
+v2: Use pm_runtime_get_if_in_use() per Eric Anholt
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+---
+
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 6 ++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 +++++++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 724024a2243a..4d7f269edfcc 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1404,6 +1404,10 @@ static unsigned long a5xx_gpu_busy(struct msm_gpu *gpu)
+ {
+ 	u64 busy_cycles, busy_time;
+ 
++	/* Only read the gpu busy if the hardware is already active */
++	if (pm_runtime_get_if_in_use(&gpu->pdev->dev) <= 0)
++		return 0;
++
+ 	busy_cycles = gpu_read64(gpu, REG_A5XX_RBBM_PERFCTR_RBBM_0_LO,
+ 			REG_A5XX_RBBM_PERFCTR_RBBM_0_HI);
+ 
+@@ -1412,6 +1416,8 @@ static unsigned long a5xx_gpu_busy(struct msm_gpu *gpu)
+ 
+ 	gpu->devfreq.busy_cycles = busy_cycles;
+ 
++	pm_runtime_put(&gpu->pdev->dev);
++
+ 	if (WARN_ON(busy_time > ~0LU))
+ 		return ~0LU;
+ 
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index c4e71abbdd53..8ace989b11db 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -108,6 +108,13 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
+ 	struct msm_gpu *gpu = &adreno_gpu->base;
+ 	int ret;
+ 
++	/*
++	 * This can get called from devfreq while the hardware is idle. Don't
++	 * bring up the power if it isn't already active
++	 */
++	if (pm_runtime_get_if_in_use(gmu->dev) <= 0)
++		return;
++
+ 	gmu_write(gmu, REG_A6XX_GMU_DCVS_ACK_OPTION, 0);
+ 
+ 	gmu_write(gmu, REG_A6XX_GMU_DCVS_PERF_SETTING,
+@@ -134,6 +141,7 @@ static void __a6xx_gmu_set_freq(struct a6xx_gmu *gmu, int index)
+ 	 * for now leave it at max so that the performance is nominal.
+ 	 */
+ 	icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
++	pm_runtime_put(gmu->dev);
+ }
+ 
+ void a6xx_gmu_set_freq(struct msm_gpu *gpu, unsigned long freq)
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 68af24150de5..bf43eb2fb078 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -810,6 +810,11 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+ 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+ 	u64 busy_cycles, busy_time;
+ 
++
++	/* Only read the gpu busy if the hardware is already active */
++	if (pm_runtime_get_if_in_use(a6xx_gpu->gmu.dev) <= 0)
++		return 0;
++
+ 	busy_cycles = gmu_read64(&a6xx_gpu->gmu,
+ 			REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_L,
+ 			REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H);
+@@ -819,6 +824,8 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+ 
+ 	gpu->devfreq.busy_cycles = busy_cycles;
+ 
++	pm_runtime_put(a6xx_gpu->gmu.dev);
++
+ 	if (WARN_ON(busy_time > ~0LU))
+ 		return ~0LU;
+ 
+-- 
+2.17.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
