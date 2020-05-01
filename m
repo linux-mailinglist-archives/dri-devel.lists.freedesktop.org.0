@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A791C133B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 15:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523C71C2403
+	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 10:34:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07166EC8E;
-	Fri,  1 May 2020 13:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B372F6E0C8;
+	Sat,  2 May 2020 08:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 363 seconds by postgrey-1.36 at gabe;
- Fri, 01 May 2020 13:28:16 UTC
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7FB6EC8E
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1YNtvX4oLOqohRGsO2EGt5NIEzrQblXC2Xx169MlaTc=; b=WepnMGF1q6j/hhvfishf7vhy4D
- kniChuzNXNrOa+AdBwaLSRVLJ4pySwfWgZ/4pNVZL/zpyVxMp3Ff0a4Pl6FXM1m3F8er3dKoR7ygl
- KVehHEnXvTy110W4KB0xxELh8mliDhnd2VNeUgTBtd2sQ+FVq1eVtfJnLCPuGMGWIcRZ6atycgXKY
- OR+4SoPQ7tFbWqoDe6vNiag+2eF7vteNp/R4USHZhztj1hHbrW1kAM4ZklknWAhGuUeILQx20/n6b
- YCkmtrQ5QXdUBR8j20j4BcRbMov8C2r1mRAsCxd+6+y6LQfQYP/KA9w6uyVVC9jRzNaG6P+DHHnOz
- 6YSxJogA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:57902
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jUVcI-0001IF-Uh; Fri, 01 May 2020 15:22:10 +0200
-Subject: Re: [PATCH 00/10] Generic USB Display driver
-To: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org
-References: <20200429124830.27475-1-noralf@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <10d713c1-f1dd-431e-6b64-520304575ac7@tronnes.org>
-Date: Fri, 1 May 2020 15:22:09 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0383E6EC8A;
+ Fri,  1 May 2020 13:15:52 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id l11so3839872lfc.5;
+ Fri, 01 May 2020 06:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fH1uQyb91g9BRoTHNdBr1xD1n5oHVtfhK1lN3zoG4Rk=;
+ b=Aw2AkAXsWbng9nGYiFe0ptX+OybKGnkaCp5157HDfEmyu+TU5ufUVJvW4+lOH6ztVB
+ 73zPXr/2iKPU8gx42sHP2l7CmWO5hlC2jMcm7fdcT26Vv1Poe6QpZucWoYCvXw2+gri8
+ GtKiR/dvq6XiVIbdqhDNkj9vAWM/8NEfXlHNnkZo2rvIRYfN7IvQQ7dy+3EV3yLUv1cB
+ GF2C8Ik2V0RjPAN94rPAGoGV2uLyJEq6b7cMRi7/uJUm3oXp9MHHZQfvQkIY8jrGqHWo
+ Ebtj96Qs4zPBaUdksKtf+Z0B7ORDmw0P39NYlY3EpIcRjcHWRRdm4je9QaspY8pT4Hqe
+ Etaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fH1uQyb91g9BRoTHNdBr1xD1n5oHVtfhK1lN3zoG4Rk=;
+ b=m7+upWXciAN+jMlMrtIkkJS6yY7Fz2Z/JY8cQjv/kzflQujWl3xoBtO8AgutVFN+fg
+ CIJKNfndzHwdsKrWwmCs6Qd5toqAZU+t/eU+dw0+J2DZ5AJlQXdI5UZyi5xc8nn/IPrQ
+ 4yMFh0fEEdoGzgt1Ylc2+625yq+1KyQM084QsF6WIT7SL7fV2Ax5j9AG2M881n59KyOx
+ zYdT1+J5/t8fAIEYY0c1YkLBvkgxLF2fz7skrGwLy6c9GJ1FovSQDVeibk/g5ZdIvzfO
+ T3S5calJrlW/kUgj8kMOc2IPA7jAGzqrZ2Zxwv10ioa8YIaqUKJ1c8MEswup3WW+zIqJ
+ vYRQ==
+X-Gm-Message-State: AGi0PuY0r7SzxE0JCjv3LRAqBN5JxjxQVtplFh+RIqeq/zoCn/p7tMXb
+ KrqpZcRrUMVVzGE9W93XZmDOK3BtwTDTHe9ldzk=
+X-Google-Smtp-Source: APiQypIlgTEljLdRs53ypaaUWZ/FkvFXTQCVFzi38BrHASkAEXWCo5yHyupQ8kzxYTLNvBK5UVZwW9JoUGx/ZYvtOQw=
+X-Received: by 2002:a05:6512:108a:: with SMTP id
+ j10mr2585989lfg.38.1588338950886; 
+ Fri, 01 May 2020 06:15:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200429124830.27475-1-noralf@tronnes.org>
+References: <1588278413-21682-1-git-send-email-jrdr.linux@gmail.com>
+ <CAKb7UvhNzfJLS8--5LySAjyzH2bidfZbP7VgzEVfeV2Erva4YQ@mail.gmail.com>
+In-Reply-To: <CAKb7UvhNzfJLS8--5LySAjyzH2bidfZbP7VgzEVfeV2Erva4YQ@mail.gmail.com>
+From: Souptick Joarder <jrdr.linux@gmail.com>
+Date: Fri, 1 May 2020 18:53:43 +0530
+Message-ID: <CAFqt6zaRjjJYo3RWjjug4GJFZH7CT=6c0kRf=UjtH3_MeQa5Ew@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau/dispnv04: Remove dead code
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+X-Mailman-Approved-At: Sat, 02 May 2020 08:34:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,67 +63,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: inux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ nouveau <nouveau@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjkuMDQuMjAyMCAxNC40OCwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IEhpLAo+IAo+
-IEEgd2hpbGUgYmFjayBJIGhhZCB0aGUgaWRlYSB0byB0dXJuIGEgUmFzcGJlcnJ5IFBpIFplcm8g
-aW50byBhICQ1Cj4gVVNCIHRvIEhETUkvU0RUVi9EU0kvRFBJIGRpc3BsYXkgYWRhcHRlci4KPiAK
-PiBUaGlzIHNlcmllcyBhZGRzIGEgVVNCIGhvc3QgZHJpdmVyIGFuZCBhIGRldmljZS9nYWRnZXQg
-ZHJpdmVyIHRvIGFjaGlldmUKPiB0aGF0Lgo+IAo+IFRoZSByZWFzb24gZm9yIGNhbGxpbmcgaXQg
-J0dlbmVyaWMnIGlzIHNvIGFueW9uZSBjYW4gbWFrZSBhIFVTQgo+IGRpc3BsYXkvYWRhcHRlciBh
-Z2FpbnN0IHRoaXMgZHJpdmVyLCBhbGwgdGhhdCdzIG5lZWRlZCBpcyB0byBhZGQgYSBVU0IKPiB2
-aWQ6cGlkLiBJIHdhcyBob3BpbmcgdG8gaGF2ZSBzb21lb25lIHdvcmtpbmcgb24gYSBtaWNyb2Nv
-bnRyb2xsZXIgYmFzZWQKPiBVU0IgZGlzcGxheSBieSBub3csIGJ1dCB1bmZvcnR1bmF0ZWx5IHRo
-YXQgaGFzIGJlZW4gZGVsYXllZC4gSXQgd291bGQKPiBoYXZlIGJlZW4gbmljZSB0byBoYXZlIGEg
-bWljcm9jb250cm9sbGVyIGltcGxlbWVudGF0aW9uIHRvIGVuc3VyZSB0aGF0IEkKPiBoYXZlbid0
-IG1hZGUgdGhpbmdzIHVubmVjZXNzYXJ5IGRpZmZpY3VsdCB0byBpbXBsZW1lbnQuCj4gCj4gUGVy
-Zm9ybWFuY2UKPiBUaGUgb25lIHRoaW5nIHRoYXQgZGVjaWRlcyBob3cgdXNlZnVsIHRoaXMgYWxs
-IGlzLCBpcyBob3cgc21vb3RoIGFuCj4gZXhwZXJpZW5jZSBpdCBnaXZlcy4gTXkgaG9wZSB3YXMg
-dGhhdCBpdCBzaG91bGQgbm90IGJlIG5vdGljZWFibHkgbGFnZ3kKPiB3aXRoIG9yZGluYXJ5IG9m
-ZmljZSB1c2Ugb24gMTkyMHgxMDgwQFJHMTYuIEknbSBwbGVhc2VkIHRvIHNlZSB0aGF0IGl0J3MK
-PiBhbHNvIHBvc3NpYmxlIHRvIHdhdGNoIHlvdXR1YmUgbW92aWVzLCBhbHRob3VnaCBub3QgaW4g
-ZnVsbHNjcmVlbi4KPiAKPiBTb21lIG9mIHRoZSBtYWluIGZhY3RvcnMgdGhhdCBhZmZlY3RzIHBl
-cmZvcm1hbmNlOgo+IC0gRGlzcGxheSByZXNvbHV0aW9uCj4gLSBVc2Vyc3BhY2UgcHJvdmlkaW5n
-IGRhbWFnZSByZXBvcnRzIChGQl9EQU1BR0VfQ0xJUFMgb3IKPiBEUk1fSU9DVExfTU9ERV9ESVJU
-WUZCKQo+IC0gQ29sb3IgZGVwdGggKERSTV9DQVBfRFVNQl9QUkVGRVJSRURfREVQVEggPSAxNiBp
-ZiBSR0I1NjUpCj4gLSBIb3cgd2VsbCB0aGUgZnJhbWVzIGNvbXByZXNzIChsejQpCj4gLSBHYWRn
-ZXQgZGV2aWNlIG1lbW9yeSBiYW5kd2lkdGgsIENQVSBwb3dlciBmb3IgZGVjb21wcmVzc2lvbgo+
-IC0gKEJpZyBlbmRpYW4gaG9zdHMgd2lsbCBoYXZlIHRvIGRvIGJ5dGUgc3dhcHBpbmcgb24gdGhl
-IGZyYW1lcykKCk9uZSBmYWN0b3IgdGhhdCBJIGZvcmdvdCBpcyBVU0IyIHZzIFVTQjMuClRoZSBQ
-aSdzIGhhdmUgYSBVU0IyIERldmljZSBjb250cm9sbGVyIChkd2MyKS4gSSBjb3VsZG4ndCBmaW5k
-IGEgY2hlYXAKYm9hcmQgd2l0aCBhIFVTQjMgRGV2aWNlIGNvbnRyb2xsZXIgdGhhdCBjb3VsZCBy
-dW4gbWFpbmxpbmUgTGludXgsIHNvIEkKaGF2ZW4ndCB0cmllZCB0aGF0LgoKPiAKPiBJJ3ZlIHRl
-c3RlZCB0aGVzZToKPiAtIHhvcmctc2VydmVyIG9uIFBpNC4gVGhpcyB3YXMgbmljZSBhbmQgc21v
-b3RoIHNpbmNlIGl0IHVzZXMKPiBEUk1fSU9DVExfTU9ERV9ESVJUWUZCIGFuZCBob25vdXJzIERS
-TV9DQVBfRFVNQl9QUkVGRVJSRURfREVQVEguCj4gLSBVYnVudHUgMjAuMDQgR05PTUUgb24geDg2
-LiBUaGlzIHdhcyB1c2VhYmxlLCBidXQgbm90IHNvIGdvb2QgZm9yCj4gbW92aWVzLiBHTk9NRSBk
-b2Vzbid0IGxvb2sgYXQgRFJNX0NBUF9EVU1CX1BSRUZFUlJFRF9ERVBUSCBhbmQgZG9lc24ndAo+
-IHNldCBGQl9EQU1BR0VfQ0xJUFMgb24gdGhlIHBhZ2VmbGlwcy4KPiAKPiBJJ3ZlIG1hZGUgYSBz
-aG9ydCB2aWRlbyB0byBzaG93IHdoYXQgaXQgbG9va3MgbGlrZVsxXS4KCkkgZ290IGEgcXVlc3Rp
-b24gaWYgdGhpcyB3b3VsZCB3b3JrIHdpdGggdXNiaXBbNF0sIFVTQiBvdmVyIElQLgpJIGRpZCBh
-IHF1aWNrIHRlc3Qgd2l0aCB0d28gUGk0J3MgY29ubmVjdGVkIGJ5IGNhYmxlIHRvIHRoZSBzYW1l
-IG5ldHdvcmsKc3dpdGNoICgxR2IpLiBTaG93aW5nIGEgbW92aWUgaW4gYSB3aW5kb3cgbGlrZSBt
-eSBwcmV2aW91cyB0ZXN0IGRpZG4ndApzaG93IG11Y2ggb2YgYSBkaWZmZXJlbmNlLiBNYXliZSBz
-b21lIG9jY2FzaW9uYWwgZ2xpdGNoaW5nLCBoYXJkIHRvIHRlbGwKd2l0aG91dCBwcm9wZXIgdGVz
-dHMuCgpUaGVyZSdzIG5vIHBhZ2VmbGlwcGluZyBvbiB0aGUgZGV2aWNlIHNpZGUsIHNvIGl0IGNv
-dWxkIGJlIHRlYXJpbmcgdGhhdApJIHNhdy4KCk5vcmFsZi4KCls0XSB0b29scy91c2IvdXNiaXAv
-UkVBRE1FCgo+IAo+IEkgaGF2ZSB1c2VkIGEgUGk0IGFzIHRoZSBnYWRnZXQgZHVyaW5nIGRldmVs
-b3BtZW50IHNpbmNlIGl0IGhhcyBtdWNoCj4gYmV0dGVyIG1lbW9yeSBiYW5kd2l0aCAoNDAwMCB2
-cyAyMDAgTUJwcylbMl0gYW5kIENQVSB0aGFuIHRoZSBQaVouIFRoZXkKPiBib3RoIGhhdmUgdGhl
-IHNhbWUgZ2FkZ2V0IGNvbnRyb2xsZXIgKGR3YzIpLgo+IAo+IEkgZGlkIGFuIFJGQyBbM10gb2Yg
-dGhpcyAyIG1vbnRocyBhZ28gd2hlcmUgSSBsb29rZWQgYXQgZG9pbmcgYSBNdWx0aQo+IEZ1bmN0
-aW9uIFVTQiBkZXZpY2UuIEkgZ2F2ZSB1cCBvbiB0aGF0IHdoZW4gSSByZWFsaXNlZCBob3cgbXVj
-aCB3b3JrIHRoZQo+IHJldmlldyBwcm9jZXNzIHdvdWxkIGJlLiBTbyBJIHN0cmlwcGVkIGRvd24g
-dG8gbXkgb3JpZ2luYWwgaWRlYS4gSSBoYXZlCj4gbWFkZSBzdXJlIHRoYXQgdGhlIGRyaXZlcnMg
-d2lsbCB0b2xlcmF0ZSBhbm90aGVyIFVTQiBpbnRlcmZhY2Ugb2YgdHlwZQo+IFZFTkRPUiwgc28g
-aXQncyBzdGlsbCBwb3NzaWJsZSBmb3IgdGhlIGRpc3BsYXkgdG8gYmUgcGFydCBvZiBhIG11bHRp
-Cj4gZnVuY3Rpb24gZGV2aWNlLgo+IAo+IE5vcmFsZi4KPiAKPiBbMV0gaHR0cHM6Ly95b3V0dS5i
-ZS9BaEdaV3dVbThKVQo+IFsyXSBodHRwczovL21hZ3BpLnJhc3BiZXJyeXBpLm9yZy9hcnRpY2xl
-cy9yYXNwYmVycnktcGktc3BlY3MtYmVuY2htYXJrcwo+IFszXSBodHRwczovL3BhdGNod29yay5m
-cmVlZGVza3RvcC5vcmcvc2VyaWVzLzczNTA4Lwo+IApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, May 1, 2020 at 2:21 AM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
+>
+> Interesting. I do remember seeing some snow on NV5's overlay at high
+> resolutions. Wonder if it was because of this missing code...
+
+What was the problem ? Does enabling this dead code will fix the problem ?
+
+>
+> On Thu, Apr 30, 2020 at 4:19 PM Souptick Joarder <jrdr.linux@gmail.com> wrote:
+> >
+> > These are dead code since 3.10. If there is no plan to use
+> > it further, these can be removed forever.
+> >
+> > Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 28 ----------------------------
+> >  1 file changed, 28 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> > index 1f08de4..ad0ef7d 100644
+> > --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> > +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> > @@ -269,31 +269,11 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
+> >                 horizStart = horizTotal - 5;
+> >                 horizEnd = horizTotal - 2;
+> >                 horizBlankEnd = horizTotal + 4;
+> > -#if 0
+> > -               if (dev->overlayAdaptor && drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS)
+> > -                       /* This reportedly works around some video overlay bandwidth problems */
+> > -                       horizTotal += 2;
+> > -#endif
+> >         }
+> >
+> >         if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> >                 vertTotal |= 1;
+> >
+> > -#if 0
+> > -       ErrorF("horizDisplay: 0x%X \n", horizDisplay);
+> > -       ErrorF("horizStart: 0x%X \n", horizStart);
+> > -       ErrorF("horizEnd: 0x%X \n", horizEnd);
+> > -       ErrorF("horizTotal: 0x%X \n", horizTotal);
+> > -       ErrorF("horizBlankStart: 0x%X \n", horizBlankStart);
+> > -       ErrorF("horizBlankEnd: 0x%X \n", horizBlankEnd);
+> > -       ErrorF("vertDisplay: 0x%X \n", vertDisplay);
+> > -       ErrorF("vertStart: 0x%X \n", vertStart);
+> > -       ErrorF("vertEnd: 0x%X \n", vertEnd);
+> > -       ErrorF("vertTotal: 0x%X \n", vertTotal);
+> > -       ErrorF("vertBlankStart: 0x%X \n", vertBlankStart);
+> > -       ErrorF("vertBlankEnd: 0x%X \n", vertBlankEnd);
+> > -#endif
+> > -
+> >         /*
+> >         * compute correct Hsync & Vsync polarity
+> >         */
+> > @@ -492,14 +472,6 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
+> >         /* Except for rare conditions I2C is enabled on the primary crtc */
+> >         if (nv_crtc->index == 0)
+> >                 regp->crtc_eng_ctrl |= NV_CRTC_FSEL_I2C;
+> > -#if 0
+> > -       /* Set overlay to desired crtc. */
+> > -       if (dev->overlayAdaptor) {
+> > -               NVPortPrivPtr pPriv = GET_OVERLAY_PRIVATE(dev);
+> > -               if (pPriv->overlayCRTC == nv_crtc->index)
+> > -                       regp->crtc_eng_ctrl |= NV_CRTC_FSEL_OVERLAY;
+> > -       }
+> > -#endif
+> >
+> >         /* ADDRESS_SPACE_PNVM is the same as setting HCUR_ASI */
+> >         regp->cursor_cfg = NV_PCRTC_CURSOR_CONFIG_CUR_LINES_64 |
+> > --
+> > 1.9.1
+> >
+> > _______________________________________________
+> > Nouveau mailing list
+> > Nouveau@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/nouveau
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
