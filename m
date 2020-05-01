@@ -1,42 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048841C19BA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 17:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA7A1C1A0C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 17:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 268226E049;
-	Fri,  1 May 2020 15:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2ECB6ECDC;
+	Fri,  1 May 2020 15:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013806E049
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 15:38:03 +0000 (UTC)
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de
- [95.90.213.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 37C702496C;
- Fri,  1 May 2020 15:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588347483;
- bh=X9IwW9Dgu1ZI2pQWkGwOoQW72Fqs/UdpS+9EuBxTAMQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=etq06kbGpfocH4wTcLTCj5CUBNhx2E/wFL1e+ua6SGhKezE5HsiwpYvhwXnQ4SgvV
- J3u04HIdzbDjrs9SmxDE8PV9whI77H2Agr6IHtE6R/o19qvwVdZu+svjo4+0biyrfQ
- ZAwxiVZkBiKcWs6jSwfiVZgv+n93c3NVjMPF0bI0=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
- (envelope-from <mchehab@kernel.org>)
- id 1jUXjl-00FE59-7w; Fri, 01 May 2020 17:38:01 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH 11/14] docs: move other kAPI documents to core-api
-Date: Fri,  1 May 2020 17:37:55 +0200
-Message-Id: <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1588345503.git.mchehab+huawei@kernel.org>
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A154E6ECD1;
+ Fri,  1 May 2020 15:49:36 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id l11so4173029lfc.5;
+ Fri, 01 May 2020 08:49:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TEYpigawvqRYekmUHvTBKHyude1zy4qSIDermmjofq0=;
+ b=B7I8d6z5k0VlDhv1Kdr65KEMHXtSyT/AHFpcRWdkyTvAFgsBD11TfkMC3yWAaGLZ9X
+ i7Z0TD2Vhv8saU0IY1dGRnTTspHWp7+Kz8YfPAvC4pxTb3Q1iall4h51wdNSVPyr9GfN
+ GQWYET+blUdtoF32TkRUuhrPQ7hsskkm7n7Ru36w4LFo+Xd7r2T7Ot0joKv2l/QNl8g0
+ g0JV3jLNc7lMRHNMFl/e8XgUiMNNfz8hzc1Eq+zLiLXjLhpW0LyxOeqeA0ZnrwpQKunS
+ NQhmDh0nh24hPl0EHrzK1Ql+ErSLMONcvWOVwxu78CmZkzawibjlJJcX+u95iCfjMGKy
+ tMMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TEYpigawvqRYekmUHvTBKHyude1zy4qSIDermmjofq0=;
+ b=mRZvdJQNh8XUdk1DgVt9X6ml5pNZLECfJTx2pbFVWHyjw6lnWLZJveGgB6hRkoZr2o
+ z8A1qN9aHA4R76HZR8zpu54WEZFOVz1V5kmDO7r8JQW8mh5lRpE5CqVq0LC7TDX38sa6
+ TJ4mMqY/M0O7Q/VdAuddpLXV5JL9axOJ+gvztvUbHGt1fetVrM27hUQdhI0Abcn9/Ewk
+ lqeMf7EX//r9lYZzBavWgqm8O6L5sqxvb2G/cwA2aimcT38XVJpiJF0fHf6TAigP3bSE
+ G8rn0uH1yJNy0vVlzJlxnbDisSZnhoPz/DEktXxbzEXccgJZPYrY3kw+kY/Zog3vz6L0
+ qngQ==
+X-Gm-Message-State: AGi0Pubys9layBHvpp+s1c3Beiv9WcrmI+y+wdp7Z8LaMlvAYgE9KIqv
+ laY1cUws3Y5/36/rd6u2pGswR2iyqDffeQ==
+X-Google-Smtp-Source: APiQypIZ9brl9YvCAyvNpfXP3blb2AxsEk1bMk0LDNkDxAVqgKXWBmsmCcmZ/9gq0DB7VQKWOjEZZA==
+X-Received: by 2002:a19:7909:: with SMTP id u9mr2927273lfc.130.1588348174592; 
+ Fri, 01 May 2020 08:49:34 -0700 (PDT)
+Received: from [192.168.0.103] (static-91-225-135-18.devs.futuro.pl.
+ [91.225.135.18])
+ by smtp.gmail.com with ESMTPSA id w27sm2917041lfn.45.2020.05.01.08.49.33
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 01 May 2020 08:49:34 -0700 (PDT)
+Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
+ DRM_MODESET_LOCK_ALL_* helpers
+To: Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>
+References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
+ <875zdiacv2.fsf@intel.com>
+ <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
+ <CAKMK7uEzTn2nKyEaxMcd6602tprwkdnBrmrFYO+_Hi7FY39jAw@mail.gmail.com>
+From: =?UTF-8?B?TWljaGHFgiBPcnplxYI=?= <michalorzel.eng@gmail.com>
+Message-ID: <520d517e-5e8f-a6c7-1c8a-38d1a368a79f@gmail.com>
+Date: Fri, 1 May 2020 17:49:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uEzTn2nKyEaxMcd6602tprwkdnBrmrFYO+_Hi7FY39jAw@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,186 +74,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Peter Xu <peterx@redhat.com>, Masahiro Yamada <yamada.masahiro@socionext.com>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
- Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>,
- David Airlie <airlied@linux.ie>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Collingbourne <pcc@google.com>,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Patrick Bellasi <patrick.bellasi@arm.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a number of random documents that seem to be
-describing some aspects of the core-api. Move them to such
-directory, adding them at the core-api/index.rst file.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
- Documentation/core-api/index.rst                            | 6 ++++++
- Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
- Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
- .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
- .../unaligned-memory-access.rst}                            | 0
- Documentation/gpu/drm-mm.rst                                | 2 +-
- arch/Kconfig                                                | 2 +-
- init/Kconfig                                                | 2 +-
- mm/Kconfig                                                  | 2 +-
- mm/nommu.c                                                  | 2 +-
- 11 files changed, 12 insertions(+), 6 deletions(-)
- rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
- rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
- rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
- rename Documentation/{unaligned-memory-access.txt => core-api/unaligned-memory-access.rst} (100%)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 0329a4d3fa9e..0bf2f2a84a9f 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -583,7 +583,7 @@ trimming of allocations is initiated.
- 
- The default value is 1.
- 
--See Documentation/nommu-mmap.txt for more information.
-+See Documentation/core-api/nommu-mmap.rst for more information.
- 
- 
- numa_zonelist_order
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index eeac63ba17c3..fe03a639a91a 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -38,10 +38,14 @@ Library functionality that is used throughout the kernel.
-    circular-buffers
-    rbtree
-    generic-radix-tree
-+   mailbox
-    packing
-+   rbtree
-+   this_cpu_ops
-    timekeeping
-    errseq
- 
-+
- Concurrency primitives
- ======================
- 
-@@ -82,11 +86,13 @@ more memory-management documentation in :doc:`/vm/index`.
-    :maxdepth: 1
- 
-    memory-allocation
-+   unaligned-memory-access
-    dma-api
-    dma-api-howto
-    dma-attributes
-    dma-isa-lpc
-    bus-virt-phys-mapping
-+   nommu-mmap
-    mm-api
-    genalloc
-    pin_user_pages
-diff --git a/Documentation/mailbox.txt b/Documentation/core-api/mailbox.rst
-similarity index 100%
-rename from Documentation/mailbox.txt
-rename to Documentation/core-api/mailbox.rst
-diff --git a/Documentation/nommu-mmap.txt b/Documentation/core-api/nommu-mmap.rst
-similarity index 100%
-rename from Documentation/nommu-mmap.txt
-rename to Documentation/core-api/nommu-mmap.rst
-diff --git a/Documentation/this_cpu_ops.txt b/Documentation/core-api/this_cpu_ops.rst
-similarity index 100%
-rename from Documentation/this_cpu_ops.txt
-rename to Documentation/core-api/this_cpu_ops.rst
-diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/core-api/unaligned-memory-access.rst
-similarity index 100%
-rename from Documentation/unaligned-memory-access.txt
-rename to Documentation/core-api/unaligned-memory-access.rst
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 1839762044be..e0bbcbb6f512 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -314,7 +314,7 @@ To use drm_gem_cma_get_unmapped_area(), drivers must fill the struct
- a pointer on drm_gem_cma_get_unmapped_area().
- 
- More detailed information about get_unmapped_area can be found in
--Documentation/nommu-mmap.txt
-+Documentation/core-api/nommu-mmap.rst
- 
- Memory Coherency
- ----------------
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 786a85d4ad40..b0b4046c9d13 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -147,7 +147,7 @@ config HAVE_EFFICIENT_UNALIGNED_ACCESS
- 	  problems with received packets if doing so would not help
- 	  much.
- 
--	  See Documentation/unaligned-memory-access.txt for more
-+	  See Documentation/core-api/unaligned-memory-access.rst for more
- 	  information on the topic of unaligned memory accesses.
- 
- config ARCH_USE_BUILTIN_BSWAP
-diff --git a/init/Kconfig b/init/Kconfig
-index 492bb7000aa4..61ccfd9243e3 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1950,7 +1950,7 @@ config MMAP_ALLOW_UNINITIALIZED
- 	  userspace.  Since that isn't generally a problem on no-MMU systems,
- 	  it is normally safe to say Y here.
- 
--	  See Documentation/nommu-mmap.txt for more information.
-+	  See Documentation/core-api/nommu-mmap.rst for more information.
- 
- config SYSTEM_DATA_VERIFICATION
- 	def_bool n
-diff --git a/mm/Kconfig b/mm/Kconfig
-index db626b8d4fdb..2a133c40a4b7 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -382,7 +382,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
- 	  This option specifies the initial value of this option.  The default
- 	  of 1 says that all excess pages should be trimmed.
- 
--	  See Documentation/nommu-mmap.txt for more information.
-+	  See Documentation/core-api/nommu-mmap.rst for more information.
- 
- config TRANSPARENT_HUGEPAGE
- 	bool "Transparent Hugepage Support"
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 371697bf372d..e3e707d6f124 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -5,7 +5,7 @@
-  *  Replacement code for mm functions to support CPU's that don't
-  *  have any form of memory management unit (thus no virtual memory).
-  *
-- *  See Documentation/nommu-mmap.txt
-+ *  See Documentation/core-api/nommu-mmap.rst
-  *
-  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
-  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
--- 
-2.25.4
+On 30.04.2020 20:30, Daniel Vetter wrote:
+> On Thu, Apr 30, 2020 at 5:38 PM Sean Paul <seanpaul@chromium.org> wrote:
+>>
+>> On Wed, Apr 29, 2020 at 4:57 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>>>
+>>> On Tue, 28 Apr 2020, Michal Orzel <michalorzel.eng@gmail.com> wrote:
+>>>> As suggested by the TODO list for the kernel DRM subsystem, replace
+>>>> the deprecated functions that take/drop modeset locks with new helpers.
+>>>>
+>>>> Signed-off-by: Michal Orzel <michalorzel.eng@gmail.com>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
+>>>>  1 file changed, 6 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+>>>> index 35c2719..901b078 100644
+>>>> --- a/drivers/gpu/drm/drm_mode_object.c
+>>>> +++ b/drivers/gpu/drm/drm_mode_object.c
+>>>> @@ -402,12 +402,13 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+>>>>  {
+>>>>       struct drm_mode_obj_get_properties *arg = data;
+>>>>       struct drm_mode_object *obj;
+>>>> +     struct drm_modeset_acquire_ctx ctx;
+>>>>       int ret = 0;
+>>>>
+>>>>       if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>>>>               return -EOPNOTSUPP;
+>>>>
+>>>> -     drm_modeset_lock_all(dev);
+>>>> +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+>>>
+>>> I cry a little every time I look at the DRM_MODESET_LOCK_ALL_BEGIN and
+>>> DRM_MODESET_LOCK_ALL_END macros. :(
+>>>
+>>> Currently only six users... but there are ~60 calls to
+>>> drm_modeset_lock_all{,_ctx} that I presume are to be replaced. I wonder
+>>> if this will come back and haunt us.
+>>>
+>>
+>> What's the alternative? Seems like the options without the macros is
+>> to use incorrect scope or have a bunch of retry/backoff cargo-cult
+>> everywhere (and hope the copy source is done correctly).
+> 
+> Yeah Sean & me had a bunch of bikesheds and this is the least worst
+> option we could come up with. You can't make it a function because of
+> the control flow. You don't want to open code this because it's tricky
+> to get right, if all you want is to just grab all locks. But it is
+> magic hidden behind a macro, which occasionally ends up hurting.
+> -Daniel
+So what are we doing with this problem? Should we replace at once approx. 60 calls?
 
+Michal
+> 
+>> Sean
+>>
+>>> BR,
+>>> Jani.
+>>>
+>>>
+>>>>
+>>>>       obj = drm_mode_object_find(dev, file_priv, arg->obj_id, arg->obj_type);
+>>>>       if (!obj) {
+>>>> @@ -427,7 +428,7 @@ int drm_mode_obj_get_properties_ioctl(struct drm_device *dev, void *data,
+>>>>  out_unref:
+>>>>       drm_mode_object_put(obj);
+>>>>  out:
+>>>> -     drm_modeset_unlock_all(dev);
+>>>> +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
+>>>>       return ret;
+>>>>  }
+>>>>
+>>>> @@ -449,12 +450,13 @@ static int set_property_legacy(struct drm_mode_object *obj,
+>>>>  {
+>>>>       struct drm_device *dev = prop->dev;
+>>>>       struct drm_mode_object *ref;
+>>>> +     struct drm_modeset_acquire_ctx ctx;
+>>>>       int ret = -EINVAL;
+>>>>
+>>>>       if (!drm_property_change_valid_get(prop, prop_value, &ref))
+>>>>               return -EINVAL;
+>>>>
+>>>> -     drm_modeset_lock_all(dev);
+>>>> +     DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+>>>>       switch (obj->type) {
+>>>>       case DRM_MODE_OBJECT_CONNECTOR:
+>>>>               ret = drm_connector_set_obj_prop(obj, prop, prop_value);
+>>>> @@ -468,7 +470,7 @@ static int set_property_legacy(struct drm_mode_object *obj,
+>>>>               break;
+>>>>       }
+>>>>       drm_property_change_valid_put(prop, ref);
+>>>> -     drm_modeset_unlock_all(dev);
+>>>> +     DRM_MODESET_LOCK_ALL_END(ctx, ret);
+>>>>
+>>>>       return ret;
+>>>>  }
+>>>
+>>> --
+>>> Jani Nikula, Intel Open Source Graphics Center
+> 
+> 
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
