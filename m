@@ -1,36 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719FC1C2406
-	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 10:34:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3A61C12CC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 15:23:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4306ED88;
-	Sat,  2 May 2020 08:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466FE6EC8D;
+	Fri,  1 May 2020 13:23:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr
- [80.12.242.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A75E46E2A5
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 12:55:28 +0000 (UTC)
-Received: from localhost.localdomain ([92.148.198.27]) by mwinf5d51 with ME
- id ZQvK2200L0bxQ9003QvKEZ; Fri, 01 May 2020 14:55:26 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 01 May 2020 14:55:26 +0200
-X-ME-IP: 92.148.198.27
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: yannick.fertre@st.com, philippe.cornu@st.com, benjamin.gaignard@linaro.org,
- vincent.abriou@st.com, airlied@linux.ie, daniel@ffwll.ch,
- mcoquelin.stm32@gmail.com, alexandre.torgue@st.com, eric@anholt.net,
- narmstrong@baylibre.com
-Subject: [PATCH] drm/stm: Fix an error handling path in
- 'stm_drm_platform_probe()'
-Date: Fri,  1 May 2020 14:55:11 +0200
-Message-Id: <20200501125511.132029-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F33646EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:22:59 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id e10so3607935vsp.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 06:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U7xeNDMpHG9rttpBfQjByhPTpX3h4BbkQQpHxvH2CZY=;
+ b=QBgcezRdiTZ5O0AKGNPhFnqQwJKhLxPatFGx1VkjabRFvvPJ2z7kDBQt2wFLybzz/s
+ O5nr7B9UQPW93TqKjDq5h6h3D4X6+ZDvmUC8jQut7TTJnyiL9YTcOStN/quJtXRlzYFv
+ iVLrSUg0rEQBTXqa9e44vriQgentq+xkjn7YncAUQSNxWgtfvzTxY4+OewqInuW6lyZY
+ Uew1mpqbkdhe3XIvc/cvglrefbid4dr99wbjXBv7hW1BkHH4qeK86oqHyvmdvGLigu2W
+ 7E7ShWBenmgqlw05U3q3B/x3WPdsAAJbvxCKkpCIAG/nUZr/1WvPpRBzHx2RzxXfI4Ve
+ aomw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U7xeNDMpHG9rttpBfQjByhPTpX3h4BbkQQpHxvH2CZY=;
+ b=GRrrYKx0Fg40qHSF9zSruwzLIRgJDL4h5lS4bP/1RNsv3AAZwdqmS0jeKFES+YIkAf
+ Sfm+8aD9vp3dvVAqJF+ifk1MN/GnnMSsH6mvmDYN4yLiRzZhbXRrrbqy/0xwQoCiwY5E
+ fFeVHFjRtX+O6ZoLoro0t80hiJlH28qPAq1UEg7zFTp3AXth2mQYEKhMsgF9d7ndNcbF
+ c7x2+PMMZRF6ci1keRRekboGozz/c13XE/GycwlbxDJe1QyEeOKrXYnJshCTydWj1Jli
+ ZwnD/tP7vzS6un+oYfj+siSrhMblI1uYLCJS6C/haIHX7Eix4e8xxglYlB3r5KK8/YnS
+ VQIA==
+X-Gm-Message-State: AGi0PuakNH7Xui5s5TZSEw0+JXNfxicd+CkHfVW3QC4txjWTcSYqDLkK
+ 7E3g9Udt/H149yLLFO4RZGGhRX2dik52WgqsOIU=
+X-Google-Smtp-Source: APiQypKB0BtXJ4i0ar2xkSBjNCYc8mbYtpFtlyqFHL2iNLNbpxtiE97/Xpm8hrfYyvE+tgBhrqSWJFnrxE/oPAaC3cU=
+X-Received: by 2002:a67:c482:: with SMTP id d2mr3091868vsk.37.1588339379008;
+ Fri, 01 May 2020 06:22:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 02 May 2020 08:34:27 +0000
+References: <20200430091330.9824-1-tzimmermann@suse.de>
+In-Reply-To: <20200430091330.9824-1-tzimmermann@suse.de>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 1 May 2020 14:20:40 +0100
+Message-ID: <CACvgo50vfeN1-JUOYAu_8H2LJV5qXadZhM21Zw8yepyOyS7rWw@mail.gmail.com>
+Subject: Re: [PATCH] drm/ast: Don't check new mode if CRTC is being disabled
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,47 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: cogarre@gmail.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If 'drm_dev_register()' fails, a call to 'drv_load()' must be undone, as
-already done in the remove function.
+Hi Thomas,
 
-Fixes: b759012c5fa7 ("drm/stm: Add STM32 LTDC driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/gpu/drm/stm/drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Couple of fly-by ideas/suggestions.
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index ea9fcbdc68b3..9a66e350abd5 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -206,12 +206,14 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
- 
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret)
--		goto err_put;
-+		goto err_unload;
- 
- 	drm_fbdev_generic_setup(ddev, 16);
- 
- 	return 0;
- 
-+err_unload:
-+	drv_unload(ddev);
- err_put:
- 	drm_dev_put(ddev);
- 
--- 
-2.25.1
+On Thu, 30 Apr 2020 at 10:13, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Suspending failed because there's no mode if the CRTC is being
+> disabled. Early-out in this case. This fixes runtime PM for ast.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 7a9f20a2fd303..089b7d9a0cf3f 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>                 return -EINVAL;
+Unrelated:
+This feels quite dirty. If AST1180 does not support atomic modeset
+simply remove the DRIVER_ATOMIC bit.
+You can do that at runtime, via drm_device::driver_features in say,
+ast_detect_chip()?
 
+The drm_driver::driver_features is immutable, or it ought to be.
+
+>         }
+>
+> +       if (!state->enable)
+> +               return 0; /* no checks required if CRTC is being disabled */
+> +
+I cannot think of a reason why a driver would need to perform
+crtc_atomic_check, if the crtc is being disabled.
+Can you spot any? If not, this should be better served in core, which
+calls this callback.
+Correct?
+
+HTH
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
