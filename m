@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404581C0EF0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E12821C0F21
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 10:08:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645496EC10;
-	Fri,  1 May 2020 07:40:15 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DDA6EC10
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:13 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id o185so4250151pgo.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QD+OM/IPa9x7hJvHclwxEGNJ9gIn9LRrmuc2cMqM+jk=;
- b=uHgfP9cWbKjgsICCn22DXY5E8YVkK4lR5mSH38oijVyLq+WDsYAckO411+fCRx4fSG
- 92T98KiXWYh/Veuu9k4mILrjo6zo4M8S4hPIn1pjXH4afDJRgMkF3HIHomYHPtbJ2CIT
- oHO3AozrS69KPbj/CTUAtS0sIYMkdKaiEqIvnSOR5NCG1ZOjYGvWsRTbWlGF2X+swrpU
- pF1SZxSAvCiYlvGEZHBmQuMPgM/YMkwvPoLMwh2SWAo7qUkc5ifkQoPpgJfJmVVL5VBG
- jEdBB2/STxwoSAR6Dj/ZZDJ0PZXyVaXxiFVJoKoWWEDCYQLst2EN08W0fE9yARqfug+f
- NI7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=QD+OM/IPa9x7hJvHclwxEGNJ9gIn9LRrmuc2cMqM+jk=;
- b=c75zsyh87E0EpGJpg+D/34GwVmvaw6sjtXYbySvObwDfNPjc/JpEFOjfXiHGgD+dcD
- qTuw34hteiwW0jq/UlXBRmrqokhRJneZOOns1E3lUTPRaDV5Ok4CTC4qgFCZ/XEA7PN+
- Sw+IjvVSQVa2J9PTMuaeJU0XbL8vuVTCQ1u+eNgiZ+5aMb6J03fvWznU6/bSEQDB0vYy
- kBK5CyfgWHYJITJoadNfPV1jWlFIRiZfmdgyKZYsI3Jt/4k+/4CdvnoROQ/hntYwJSOm
- Nys21x89lBa/1FxkDN0TtGL9Wx383iMzTbQsQFBNy3WCF0k6jJ0UA6eqZOS/bp0ISQak
- 2cxQ==
-X-Gm-Message-State: AGi0PuaMQxxwCqNBjnfJ6+7nHAlk1rlnqA8TjNaQRpOibYHBklgRQIQZ
- QkF3ye4WRBROAHi3FPwTtFA7cw==
-X-Google-Smtp-Source: APiQypIe0OyaYrak6ULk6jy1juCWPHfm+627JYy+N9jmFW5Ppc7wa4zxgW6OTSiIq3XBtubeLxsMWQ==
-X-Received: by 2002:a62:e113:: with SMTP id q19mr2839382pfh.107.1588318813249; 
- Fri, 01 May 2020 00:40:13 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- w12sm1557841pfq.133.2020.05.01.00.40.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 May 2020 00:40:12 -0700 (PDT)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 4/4] example: dts: hi3660-hikey960: Add dts entries to
- test cma heap binding
-Date: Fri,  1 May 2020 07:39:49 +0000
-Message-Id: <20200501073949.120396-5-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200501073949.120396-1-john.stultz@linaro.org>
-References: <20200501073949.120396-1-john.stultz@linaro.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5009D6EA90;
+	Fri,  1 May 2020 08:08:20 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3FC6EC1B
+ for <dri-devel@freedesktop.org>; Fri,  1 May 2020 08:08:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1588320498; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: To:
+ Subject: Sender; bh=qcrL4Oy4sFTZZxhYPssgoqySFm5x5kTnylNldDFq1lo=;
+ b=dpF3TmpqBkAc0WoJuyH2DJWD3yzScvyG6EE4re+IBLdGEyAylt8Ze+1jiMVqBF1My20bthcq
+ ZxxL3nfEkTR2rcE7YFKlTnRQxPEMhCz/Z11e3W3G5HQcPiRT+CUvxk7AAawab3Kxjo6itU3X
+ O5g9BRjwAlNt1swYEtVXQ3eDRVI=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eabd8e7.7f9c7552e618-smtp-out-n05;
+ Fri, 01 May 2020 08:08:07 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A54C0C43636; Fri,  1 May 2020 08:08:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.227] (unknown [49.204.180.16])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C2FB1C433CB;
+ Fri,  1 May 2020 08:08:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C2FB1C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+Subject: Re: [Freedreno] [PATCH v2] dt-bindings: arm-smmu: Add sc7180
+ compatible string and mem_iface clock
+To: Doug Anderson <dianders@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, dri-devel@freedesktop.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+References: <1588219187-19295-1-git-send-email-smasetty@codeaurora.org>
+ <20200430181233.GA21991@jcrouse1-lnx.qualcomm.com>
+ <CAD=FV=Usp5RxgXtjtgBe6jR3o=-+EXkYZuVzx_AF3=BsVu+OeA@mail.gmail.com>
+From: Sharat Masetty <smasetty@codeaurora.org>
+Message-ID: <d310dd37-edab-2218-7ee6-40b1aba6633b@codeaurora.org>
+Date: Fri, 1 May 2020 13:38:00 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAD=FV=Usp5RxgXtjtgBe6jR3o=-+EXkYZuVzx_AF3=BsVu+OeA@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +77,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sandeep Patil <sspatil@google.com>,
- Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
- Chenbo Feng <fengc@google.com>, Alistair Strachan <astrachan@google.com>,
- Liam Mark <lmark@codeaurora.org>, "Andrew F. Davis" <afd@ti.com>,
- linux-mm@kvack.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adds example test entry to create and expose a dummy "camera"
-cma region via the dmabuf heaps interface
 
-This isn't a patch I'm submitting to merge, but just an example
-of how this functionality can be used, which I've used for
-testing.
+On 4/30/2020 11:51 PM, Doug Anderson wrote:
+> Hi,
+>
+> On Thu, Apr 30, 2020 at 11:12 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>> On Thu, Apr 30, 2020 at 09:29:47AM +0530, Sharat Masetty wrote:
+>>> This patch adds a new compatible string for sc7180 and also an
+>>> additional clock listing needed to power the TBUs and the TCU.
+>>>
+>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+>>> ---
+>>> v2: Addressed review comments from Doug
+>>>
+>>>   Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+>>> index 6515dbe..ba5dba4 100644
+>>> --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+>>> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+>>> @@ -28,6 +28,7 @@ properties:
+>>>             - enum:
+>>>                 - qcom,msm8996-smmu-v2
+>>>                 - qcom,msm8998-smmu-v2
+>>> +              - qcom,sc7180-smmu-v2
+>>>                 - qcom,sdm845-smmu-v2
+>>>             - const: qcom,smmu-v2
+>>>
+>>> @@ -113,16 +114,23 @@ properties:
+>>>         present in such cases.
+>>>
+>>>     clock-names:
+>>> +    minItems: 2
+>>> +    maxItems: 3
+>>>       items:
+>>>         - const: bus
+>>>         - const: iface
+>>> +      - const: mem_iface
+>> Hi Sharat -
+>>
+>> I think there was a bit of confusion due to renaming between downstream and
+>> upstream.  Currently for the sdm845 and friends we have:
+>>
+>>    clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
+>>       <&gcc GCC_GPU_CFG_AHB_CLK>;
+>>    clock-names = "bus", "iface";
+>>
+>> Confusingly these same clocks downstream are "mem_iface_clk" and "iface_clk"
+>> respectively.
+>>
+>> It looks like you are trying to add GCC_DDRSS_GPU_AXI_CLK as "mem_iface" which
+>> was formerly "mem_clk" downstream. I'm not sure if the naming change is
+>> intentional or you were trying to make upstream and downstream match and didn't
+>> realize that they were renamed.
+>>
+>> I'm not sure if we need DDRSS_GPU_AXI_CLK or not. Empirically it works without
+>> it for sdm845 (I don't have a sc7180 to test) but we should probably loop back
+>> with either the clock team or the hardware designers to be sure there isn't a
+>> corner case that is missing. I agree with Doug that its always best if we don't
+>> need to add a clock.
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Andrew F. Davis" <afd@ti.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Pratik Patel <pratikp@codeaurora.org>
-Cc: Laura Abbott <labbott@redhat.com>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Chenbo Feng <fengc@google.com>
-Cc: Alistair Strachan <astrachan@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-mm@kvack.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
+Thanks Jordan and Doug for the updates. My intention was to add the 
+third clock as listed downstream, but as you said the naming is a bit 
+misleading. From the clock GCC_DDRSS_GPU_AXI_CLK description, this is 
+needed for the GPU to DDR access and all transactions to the DDR from 
+the GPU go through the SMMU. It is listed in the SMMU dt node because 
+its needed by SMMU to perform pagetable walks.
 
-diff --git a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-index c0a6aad9593f..5eef1a76d51a 100644
---- a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-+++ b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-@@ -81,6 +81,13 @@
- 			reusable;
- 			linux,cma-default;
- 		};
-+
-+		cma_camera: cma-camera {
-+			compatible = "shared-dma-pool";
-+			reg = <0x0 0x24C00000 0x0 0x4000000>;
-+			reusable;
-+			linux,cma-heap;
-+		};
- 	};
- 
- 	reboot-mode-syscon@32100000 {
--- 
-2.17.1
+I think we may be fine by not listing this clock in the SMMU node 
+because the same clock is listed in both the GMU and also the GPU.
 
+> I can confirm that on sc7180 the GPU seems to come up just fine
+> without the clock being specified in the iommu node.  Definitely would
+> be good to know what's broken and if nothing is broken maybe we can
+> change this patch to just add the sc7180 compatible string and drop
+> the clock.  I do note that the GMU already has a reference to the same
+> "GCC_DDRSS_GPU_AXI_CLK" clock.
+>
+> -Doug
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
