@@ -1,73 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECA21C1DAE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 21:13:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4CD1C1D76
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 20:58:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C777E6ED3E;
-	Fri,  1 May 2020 19:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC246ED33;
+	Fri,  1 May 2020 18:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1265 seconds by postgrey-1.36 at gabe;
- Fri, 01 May 2020 19:13:06 UTC
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com
- [192.185.146.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34966ED38
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 19:13:06 +0000 (UTC)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
- by gateway33.websitewelcome.com (Postfix) with ESMTP id 9EC3C3558
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:52:00 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id UalUjWxSvSl8qUalUjvLy2; Fri, 01 May 2020 13:52:00 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
- Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=FomgKemsxSQOPPsglc8VE0B4GO1rp6G2EJ9gCbZ2nas=; b=gaOuF2uzZoFMUvAVrJE2McUX34
- C/oeo/Z/GK7YoSfkM5a5Lx09qTZ7ZEnwZ6g9jiKRxGCvEi6b70xjxYisRA1xDeNQ1eJyGhCBd8tjq
- p9fIVk6rQ+hMlBPTQnf9D9uK8wiiEZaS8A7pMU7DDFvWISaMrrDwO1owbVKzXwAWw9QwMYPIvMTE7
- ay2grDRwpR+dfKjDB3IT19ouxU8ls4prbzjqbjq585YEbRuIk1M3WhUefHHjaL9GBRrzHmpniKpCH
- Kb9I7dZD5CD5dXWiB2sHdwcK9cKRdAwBRHLLBTsaqi1tk5vnsgTyJmeGQi5J5IVVTweLm8ozAanYf
- Gck1BJbg==;
-Received: from [189.207.59.248] (port=52120 helo=embeddedor)
- by gator4166.hostgator.com with esmtpa (Exim 4.92)
- (envelope-from <gustavo@embeddedor.com>)
- id 1jUalU-001fON-42; Fri, 01 May 2020 13:52:00 -0500
-Date: Fri, 1 May 2020 13:56:21 -0500
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Mukul Joshi <mukul.joshi@amd.com>
-Subject: [PATCH] drm/amdkfd: Remove logically dead code in kfd_procfs_show
-Message-ID: <20200501185621.GA17880@embeddedor>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752106ED31
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 18:58:20 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id w2so7972707edx.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 11:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Vt0QD0qGDDBVo/FGY17/QPfRi70EGhMjrVST5CXganc=;
+ b=n+VOSW7MD4XNSmZihQfjum+mxK5FnIdMcEiBsOxO2YKarPrGhNRlvcg2KHGBfRAO6e
+ 4gbTcv566mvkBg2iFpc/NReOVomtY9GLeW4yURrBxLL94iCOMH2NFhidOSWDfOVLE8h5
+ QYrYIGtF90V/JseWG8q987eBRh2ABNYDpFCvHQr5VZK4WNOxMrhCyO9RONejoHOPH296
+ sHzmULyHaChfwP/e/fMlyiabp3YCA16BBXIfKWM2tDqpwkLKNwN9ZYhLwBrIsHtUfS1Y
+ fXdtX4nNCU0HVUP/jeU7v5WrRblEk6xrYarJ+/+Kfdv8tLcKTkqacAqVy9gqdGwqr0YQ
+ VRDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vt0QD0qGDDBVo/FGY17/QPfRi70EGhMjrVST5CXganc=;
+ b=nYp+QPLtliaxKaXB5x3CN+B6mR9ARBVzdxF6zHXeYSCY2B3L1RAzTphAf99PlITSfn
+ c02qOQH0PxHWd2R3jgpxKHGg4/WKy12PuA/yPrQtbNlOzZ/mcZlMI//Aym/rnxjtcdww
+ jPXDY2s4mIu5Eat4drssqlfZVzqhhmetfsYf/JCItNTlaBs5G5oCffbzyBb7Xw3e43TN
+ kSQfUdtpc7H2QaLdg/dyYDxu1fxfQZ6shDx/TnBlDTfqHLJ+w4VFED+CydBZvVSimMks
+ UkUcZmWpg9ksifrfSqnCV+rjpFNWHGcXl69aAiKM5CKb65wnU8j4vAY5xu11Kt3LafNh
+ 0bWQ==
+X-Gm-Message-State: AGi0PuaRkw+4ejEc7u20ThOq+tDpslJjqVD45TxOakaBw9wlEQ1UvYzD
+ 7P0og5Dau3RRD/IkBOA5tn/2GA9SqkeDFeFzkOUtMw==
+X-Google-Smtp-Source: APiQypLXpYI05phFZgf41A4e2ccy/aLjYv3h3qo7mTf3PdPfV7hhelvJX+6ErvFxVnYeV8WkozZ6Kn83pMp9XjQxpfs=
+X-Received: by 2002:a50:aa8d:: with SMTP id q13mr4726587edc.88.1588359499000; 
+ Fri, 01 May 2020 11:58:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.207.59.248
-X-Source-L: No
-X-Exim-ID: 1jUalU-001fON-42
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [189.207.59.248]:52120
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 9
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <20200501182533.19753-1-jcrouse@codeaurora.org>
+In-Reply-To: <20200501182533.19753-1-jcrouse@codeaurora.org>
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 1 May 2020 11:58:08 -0700
+Message-ID: <CADaigPXLOp8+cJ6XGzUm=bmyyhMO2qCGHhgAA44Auq9NvhfFhw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Check for powered down HW in the devfreq
+ callbacks
+To: Jordan Crouse <jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,50 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+Cc: freedreno@lists.freedesktop.org, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, stable@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Ben Dooks <ben.dooks@codethink.co.uk>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-container_of is never null, so the null check on pdd is unnecessary.
+On Fri, May 1, 2020 at 11:26 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> Writing to the devfreq sysfs nodes while the GPU is powered down can
+> result in a system crash (on a5xx) or a nasty GMU error (on a6xx):
+>
+>  $ /sys/class/devfreq/5000000.gpu# echo 500000000 > min_freq
+>   [  104.841625] platform 506a000.gmu: [drm:a6xx_gmu_set_oob]
+>         *ERROR* Timeout waiting for GMU OOB set GPU_DCVS: 0x0
+>
+> Despite the fact that we carefully try to suspend the devfreq device when
+> the hardware is powered down there are lots of holes in the governors that
+> don't check for the suspend state and blindly call into the devfreq
+> callbacks that end up triggering hardware reads in the GPU driver.
+>
+> Check the power state in the gpu_busy() and gpu_set_freq() callbacks for
+> a5xx and a6xx to make sure that the hardware is active before trying to
+> access it.
 
-If the null check is removed, function kfd_procfs_show()
-will always return before reaching "return 0", hence
-such return is logically dead. So, remove it, as well.
-
-Addresses-Coverity-ID: 1492793 ("Logically dead code")
-Fixes: d4566dee849e ("drm/amdkfd: Track GPU memory utilization per process")
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 598296034b43..63dcd30b2cdc 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -87,14 +87,11 @@ static ssize_t kfd_procfs_show(struct kobject *kobj, struct attribute *attr,
- 	} else if (strncmp(attr->name, "vram_", 5) == 0) {
- 		struct kfd_process_device *pdd = container_of(attr, struct kfd_process_device,
- 							      attr_vram);
--		if (pdd)
--			return snprintf(buffer, PAGE_SIZE, "%llu\n", READ_ONCE(pdd->vram_usage));
-+		return snprintf(buffer, PAGE_SIZE, "%llu\n", READ_ONCE(pdd->vram_usage));
- 	} else {
- 		pr_err("Invalid attribute");
- 		return -EINVAL;
- 	}
--
--	return 0;
- }
- 
- static void kfd_procfs_kobj_release(struct kobject *kobj)
--- 
-2.26.0
-
+Chatted on IRC -- while this avoids the instaboot on db820c when
+setting /sys/class/devfreq/devfreq1/min_freq, I think we should be
+using pm_runtime_get_if_in_use() to avoid the races while still
+avoiding bringing up the GPU.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
