@@ -2,39 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15ED01C0E91
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0661C0EB5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:24:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F70C6EA62;
-	Fri,  1 May 2020 07:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF526EC17;
+	Fri,  1 May 2020 07:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zx2c4.com (mail.zx2c4.com [192.95.5.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1F56E27C;
- Thu, 30 Apr 2020 22:10:50 +0000 (UTC)
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 5b2fc6ad;
- Thu, 30 Apr 2020 21:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=from:to:cc
- :subject:date:message-id:mime-version:content-transfer-encoding;
- s=mail; bh=aJFrtx6lQiBbgvKXPLew//Y8Ivk=; b=lHSlfuScgujAfXJtyKYA
- 1RfqTOsRlND8ZJBESNTBjJ3IbgUyajG5cOXCrHYltelH69//dV1x/XPeXX0CwW+k
- 71LXbj/jJ2Gin8s/PKsrAEarzTAHG3r05Zr0d8J5ztjLV6r/9/J8jAVclxG9/AmO
- qZ3vfzKjL59/YIUuSJv9y42mR27ZmItkPkAlpMdz+8FG7km7xNnFbTc89TIpOvR3
- aaPDDUGNxwP+d2F4hwlEjS6TaRD05C47OxTxwwFssa43xeY+EVn9WzaMYHqxJycL
- x5ydiSJeP5h3jGy2+hWAoaEV8pvtNtW2yTu4lEqijWGcY5j/AsHNqEdYirvth3iL
- iQ==
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4ee62b72
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 30 Apr 2020 21:58:52 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, bigeasy@linutronix.de, tglx@linutronix.de,
- chris@chris-wilson.co.uk
-Subject: [PATCH] drm/i915: check to see if SIMD registers are available before
- using SIMD
-Date: Thu, 30 Apr 2020 16:10:16 -0600
-Message-Id: <20200430221016.3866-1-Jason@zx2c4.com>
+Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C4B6E28E
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 02:24:48 +0000 (UTC)
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1jUL72-00FWOz-Ta; Fri, 01 May 2020 02:09:13 +0000
+Date: Fri, 1 May 2020 03:09:12 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: ira.weiny@intel.com
+Subject: Re: [PATCH V1 05/10] arch/kmap_atomic: Consolidate duplicate code
+Message-ID: <20200501020912.GD23230@ZenIV.linux.org.uk>
+References: <20200430203845.582900-1-ira.weiny@intel.com>
+ <20200430203845.582900-6-ira.weiny@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200430203845.582900-6-ira.weiny@intel.com>
 X-Mailman-Approved-At: Fri, 01 May 2020 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,65 +37,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, stable@vger.kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sometimes it's not okay to use SIMD registers, the conditions for which
-have changed subtly from kernel release to kernel release. Usually the
-pattern is to check for may_use_simd() and then fallback to using
-something slower in the unlikely case SIMD registers aren't available.
-So, this patch fixes up i915's accelerated memcpy routines to fallback
-to boring memcpy if may_use_simd() is false.
+On Thu, Apr 30, 2020 at 01:38:40PM -0700, ira.weiny@intel.com wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
+> 
+> Every arch has the same code to ensure atomic operations and a check for
+> !HIGHMEM page.
+> 
+> Remove the duplicate code by defining a core kmap_atomic() which only
+> calls the arch specific kmap_atomic_high() when the page is high memory.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/gpu/drm/i915/i915_memcpy.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Err....  AFAICS, you've just silently changed the semantics for
+kmap_atomic_prot() here.  And while most of the callers are converted,
+drivers/gpu/drm/ttm/ttm_bo_util.c one is not, so at the very least it's
+a bisect hazard...
 
-diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/i915/i915_memcpy.c
-index fdd550405fd3..7c0e022586bc 100644
---- a/drivers/gpu/drm/i915/i915_memcpy.c
-+++ b/drivers/gpu/drm/i915/i915_memcpy.c
-@@ -24,6 +24,7 @@
- 
- #include <linux/kernel.h>
- #include <asm/fpu/api.h>
-+#include <asm/simd.h>
- 
- #include "i915_memcpy.h"
- 
-@@ -38,6 +39,12 @@ static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
- #ifdef CONFIG_AS_MOVNTDQA
- static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
- {
-+	if (unlikely(!may_use_simd())) {
-+		memcpy(dst, src, len);
-+		return;
-+	}
-+
-+
- 	kernel_fpu_begin();
- 
- 	while (len >= 4) {
-@@ -67,6 +74,11 @@ static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
- 
- static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
- {
-+	if (unlikely(!may_use_simd())) {
-+		memcpy(dst, src, len);
-+		return;
-+	}
-+
- 	kernel_fpu_begin();
- 
- 	while (len >= 4) {
--- 
-2.26.2
-
+And I would argue that having kmap_atomic() differ from kmap_atomic_prot()
+wrt disabling preempt is asking for trouble.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
