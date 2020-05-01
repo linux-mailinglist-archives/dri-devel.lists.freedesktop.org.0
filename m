@@ -1,56 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7622A1C0EE9
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC1B1C0EEA
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6536E03D;
-	Fri,  1 May 2020 07:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5977F6EBA6;
+	Fri,  1 May 2020 07:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A23616E03D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:39:56 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id 145so1262831pfw.13
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:39:56 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73E36EBA6
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:03 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id e6so2071098pjt.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=7dbuQPhIsTcQHi6Sc8OBXbUFsIKd1Ghgu7yJHTjcrBA=;
- b=uSMKBOO6QIs4uLVfahwgnBUw2gO5QWpFhQb6F1MFxTptPMF+Z0o/WwC6bov2PX1B+z
- GpMi0QLlCm5bjeCQb1Ib4KAhIABJItLI42QmCZQZGMtFoAd5BloKynNn9kQq3/e29zu2
- 9IyjzXDmbfN8mJesTXXH8vGo6U5pKfc97OK3wq90VHEBym+PgXw/vn++YmU/npiUaTr5
- EKndS27RG5ykIcMNfuIjRBSN+x85vpHDVdCcNP20vltiVGnPnJOhrLIPCacJWk+nw8H5
- h/1ZfEiY9PDJtMZv9WMs5aKqGIRak+Cy8hyL1nVn2z4TqrdRTnPu7SgigutOZnbMfMx7
- 2gGg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=NSH9BerjJoV88xjF7QVK1SklBZqxZKa42SGy8GT/SY0=;
+ b=gMfRkU6y7H6ig9SB1voFB4Yprbz40Y65m2Mu8m2ApDv+jlMCQ2E6B9PMumov1+nGbF
+ 45e9GP/a2A50GpZUNhd4HGTouy7LlSl5VzwQlUCMs1AXhJXwuMJcLarUGrUkRjxNS0+s
+ CyzTAHjlmacCveMfha1bTwwkBCOPfUE7uuSPucD0Z+vxu1J/f4pWD34fBtGcMp6CN5j0
+ WMzgYCWeYRnk5hwW12qNNwjCMvrO4G4QzAW5V1SgWMWdDrFL1f6Szn68URsUfcJpdrLj
+ vJQtM0xsiQq2qKPoVohGRHexTuBl0Itj2tNgGnXC3UD9PZdIeoJ518WZvDOK9dLvUKuk
+ HzRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=7dbuQPhIsTcQHi6Sc8OBXbUFsIKd1Ghgu7yJHTjcrBA=;
- b=hpCSGpZ8O9YK/iwmEge8Gbzvonl7r4eZqCz2yV6vNlRyd21Iikr31dU7ds1j57Q/YK
- 0EOXMY88zNGzPUOTtrXVGvRmsroXAQkm77ZUR84LB1tZb+CL0b2xOGYc8DCuEA0mu5n2
- NuaaTVZbsz4drEFeIl/R8GPn6WuBGcNAP7GzS+kmVXIu0Bj6K5nx2k+DOQku0MYZ2sl3
- 6nWXSw/3k1xHxiSjN8SJSwZc4T1+yKi2jCIWHqQDz8nGaAGqjgA1UQzpLoWGdzSX65mW
- NtTWI9Rj7VmFIOIdIIy/d59Pm23tyM7p4UpiiCcYQSoe9MYyWqHlw7igdKGg8HIyEY8u
- TBaA==
-X-Gm-Message-State: AGi0PuYPiAgJ7bv9RByZgyvPTYcNB/o7UG3LrbZeJEumI1IlEWNET4Hl
- op5nGY/OvGMXI45ko5lfjLHVDg==
-X-Google-Smtp-Source: APiQypJ4tRvRarVqfbdjkqTxsXvJvyOp8AuLCGCLRECI0h2PDJqsBBZbjfCR605Pbtspben2FOegvQ==
-X-Received: by 2002:a62:7bcf:: with SMTP id w198mr2002566pfc.226.1588318796201; 
- Fri, 01 May 2020 00:39:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=NSH9BerjJoV88xjF7QVK1SklBZqxZKa42SGy8GT/SY0=;
+ b=WixncW8p6RUH7nP7X88/Wn1KLWVPuBkUmfbkKAudoKY9GLoYzSWQkMKD2WkG8gdPMf
+ 4Tjrx47hn1RpEleaaw9ukPeIPmM05LxvV9M4pLqKuJWKWvKIPfKodVl7QGKkUV3oVob5
+ L+sDp3B0KSmBIU3nvKfVvNjC2nIG9UA3w2Oij4fe/arEgtSCW9r64TcWt2AdVE84hY7T
+ IAbbmDmRID1VWJnsPxZOXJ36PqgoGOhhlmBZJYn+z3v06gQfPK3/X3hBXo0yGdy+s4e9
+ kwoySGFcdy/3SV2/Omm3uCrpmRuW94MJIjRTBa+AVRuL3OuM2PcjauVpeFxncrN4GNZ/
+ YKew==
+X-Gm-Message-State: AGi0Pua8Ry0NUzFbYXtZ1ePu5S6DfpZvRq6G36G/BxaWVhFS8BlkXJKo
+ aWPiJJ6YO0rrY3DI8avM8sYW8Q==
+X-Google-Smtp-Source: APiQypJx7E4+GSzc/77OGnxoI4XuIbUstaIsftZ+TRzVjzHs+hgtNb6KovPmKD4Pj3wjrWGJONPmuw==
+X-Received: by 2002:a17:90a:734b:: with SMTP id
+ j11mr3082377pjs.108.1588318803469; 
+ Fri, 01 May 2020 00:40:03 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- w12sm1557841pfq.133.2020.05.01.00.39.52
+ w12sm1557841pfq.133.2020.05.01.00.39.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 May 2020 00:39:55 -0700 (PDT)
+ Fri, 01 May 2020 00:40:03 -0700 (PDT)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 0/4] Support non-default CMA regions to the dmabuf heaps
- interface
-Date: Fri,  1 May 2020 07:39:45 +0000
-Message-Id: <20200501073949.120396-1-john.stultz@linaro.org>
+Subject: [RFC][PATCH 1/4] devicetree: bindings: Add linux,
+ cma-heap tag for reserved memory
+Date: Fri,  1 May 2020 07:39:46 +0000
+Message-Id: <20200501073949.120396-2-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200501073949.120396-1-john.stultz@linaro.org>
+References: <20200501073949.120396-1-john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,19 +82,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a much belated second stab at allowing non-default CMA
-regions to be exposed via the dmabuf heaps interface.
-
-Previous attempt was here:
- https://lore.kernel.org/lkml/20191025225009.50305-2-john.stultz@linaro.org/T/
-
-This pass tried to take Rob's earlier suggestion to use a flag
-property.
-
-Feedback would be greatly welcome!
-
-thanks
--john
+This patch adds a linux,cma-heap property for CMA reserved memory
+regions, which will be used to allow the region to be exposed via
+the DMA-BUF Heaps interface
 
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
@@ -111,24 +105,25 @@ Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-mm@kvack.org
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+---
+ .../devicetree/bindings/reserved-memory/reserved-memory.txt    | 3 +++
+ 1 file changed, 3 insertions(+)
 
-John Stultz (4):
-  devicetree: bindings: Add linux,cma-heap tag for reserved memory
-  mm: cma: Add dma_heap flag to cma structure
-  dma-buf: cma_heap: Extend logic to export CMA regions tagged with
-    "linux,cma-heap"
-  example: dts: hi3660-hikey960: Add dts entries to test cma heap
-    binding
-
- .../reserved-memory/reserved-memory.txt        |  3 +++
- .../boot/dts/hisilicon/hi3660-hikey960.dts     |  7 +++++++
- drivers/dma-buf/heaps/cma_heap.c               | 18 +++++++++---------
- include/linux/cma.h                            |  3 +++
- kernel/dma/contiguous.c                        |  3 +++
- mm/cma.c                                       | 11 +++++++++++
- mm/cma.h                                       |  1 +
- 7 files changed, 37 insertions(+), 9 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+index bac4afa3b197..e97b6a4c3bc0 100644
+--- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
++++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+@@ -68,6 +68,9 @@ Linux implementation note:
+ - If a "linux,cma-default" property is present, then Linux will use the
+   region for the default pool of the contiguous memory allocator.
+ 
++- If a "linux,cma-heap" property is present, then Linux will expose the
++  the CMA region via the DMA-BUF Heaps interface.
++
+ - If a "linux,dma-default" property is present, then Linux will use the
+   region for the default pool of the consistent DMA allocator.
+ 
 -- 
 2.17.1
 
