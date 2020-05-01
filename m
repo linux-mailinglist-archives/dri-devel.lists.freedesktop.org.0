@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2101C0C56
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 04:55:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 057D91C0C5E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 04:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E3F6E112;
-	Fri,  1 May 2020 02:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E3E6E211;
+	Fri,  1 May 2020 02:55:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93236E112
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 02:55:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9346E211;
+ Fri,  1 May 2020 02:55:24 +0000 (UTC)
 Received: from localhost (unknown [137.135.114.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CD6C1207DD;
- Fri,  1 May 2020 02:55:17 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6C55D208CA;
+ Fri,  1 May 2020 02:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588301718;
- bh=cJZDwhdKmVmAPA17KoxHWrNGsDZvlWmk5qDuWgIP+t0=;
- h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Subject:In-Reply-To:References:
- From;
- b=jKiEoLAUB4IlX2S9ZlvEgjNZZKWcDbwbeEOOKopwQqxhB0oR3+kPYgihsF/3oR5vK
- d1xvXGiCK09TP9iwc/+BxKu6uuLCqwhsA10oN2K5ESZZzyrRlPU1ODCmLENmb1zwES
- i3cMxi5S3sherx9lZdfSvtHGZ/8MpyaZLl8gxFL0=
-Date: Fri, 01 May 2020 02:55:17 +0000
+ s=default; t=1588301724;
+ bh=gcre97zKG/Sx8BrHs1RfK1MGXOXD3cGd6/7KuVMd0LA=;
+ h=Date:From:To:To:To:To:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Cc:Subject:
+ In-Reply-To:References:From;
+ b=DC3dPsw962xIv6aSoCZ0rCVnZAOLKvGZ2P1zLV2PyJBbpo4uGJF36xaoZTt+sthCg
+ tw0dvPlzCmW0QVoAsOK+2hgCWkGyyD6AEunOzpXMpNUG2T/DhEnurwmkolZ3tYzZrt
+ 0gQ7DEB14/9ZwSy71ViRdLKue/n3fs8b2TSfMmVs=
+Date: Fri, 01 May 2020 02:55:23 +0000
 From: Sasha Levin <sashal@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
-To: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/1] drm/dp_mst: Kill the second sideband tx slot,
- save the world
-In-Reply-To: <20200427213422.1414614-2-lyude@redhat.com>
-References: <20200427213422.1414614-2-lyude@redhat.com>
-Message-Id: <20200501025517.CD6C1207DD@mail.kernel.org>
+To: Sean Paul <sean@poorly.run>
+To: Sean Paul <seanpaul@chromium.org>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v6 01/16] drm/i915: Fix sha_text population code
+In-Reply-To: <20200429195502.39919-2-sean@poorly.run>
+References: <20200429195502.39919-2-sean@poorly.run>
+Message-Id: <20200501025524.6C55D208CA@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,8 +47,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, stable@vger.kernel.org, "Lin,
- Wayne" <Wayne.Lin@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, stable@vger.kernel.org, juston.li@intel.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -60,114 +61,39 @@ Hi
 [This is an automated email]
 
 This commit has been processed because it contains a "Fixes:" tag
-fixing commit: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)").
+fixing commit: ee5e5e7a5e0f ("drm/i915: Add HDCP framework + base implementation").
 
-The bot has tested the following trees: v5.6.7, v5.4.35, v4.19.118, v4.14.177, v4.9.220, v4.4.220.
+The bot has tested the following trees: v5.6.7, v5.4.35, v4.19.118.
 
 v5.6.7: Failed to apply! Possible dependencies:
-    1cfff5f01563 ("drm/dp_mst: Convert drm_dp_mst_topology_mgr.is_waiting_for_dwn_reply to bitfield")
+    65833c463886 ("drm/i915/hdcp: conversion to struct drm_device based logging macros.")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
 
 v5.4.35: Failed to apply! Possible dependencies:
-    14692a3637d4 ("drm/dp_mst: Add probe_lock")
-    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
-    37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
-    50094b5dcd32 ("drm/dp_mst: Destroy topology_mgr mutexes")
-    5950f0b797fc ("drm/dp_mst: Move link address dumping into a function")
-    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
-    60f9ae9d0d3d ("drm/dp_mst: Remove huge conditional in drm_dp_mst_handle_up_req()")
-    7cb12d48314e ("drm/dp_mst: Destroy MSTBs asynchronously")
-    7cbce45d6243 ("drm/dp_mst: Move test_calc_pbn_mode() into an actual selftest")
-    8b1e589d138c ("drm/dp_mst: Refactor drm_dp_mst_handle_down_rep()")
-    9408cc94eb04 ("drm/dp_mst: Handle UP requests asynchronously")
-    a29d881875fc ("drm/dp_mst: Refactor drm_dp_mst_handle_up_req()")
-    caf81ec6cd72 ("drm: Destroy the correct mutex name in drm_dp_mst_topology_mgr_destroy")
-    e2839ff692c6 ("drm/dp_mst: Rename drm_dp_add_port and drm_dp_update_port")
+    65833c463886 ("drm/i915/hdcp: conversion to struct drm_device based logging macros.")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
+    692059318c0f ("drm/i915/hdcp: Enable HDCP 1.4 and 2.2 on Gen12+")
 
 v4.19.118: Failed to apply! Possible dependencies:
-    16bff572cc66 ("drm/dp-mst-helper: Remove hotplug callback")
-    19b85cfabf5c ("drm/bochs: move remaining fb bits to kms")
-    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
-    2f69deb1d9a1 ("drm/arcpgu: prepare for drmP.h removal from drm_modeset_helper.h")
-    48b442238250 ("drm/bochs: fix DRM_FORMAT_* handling for big endian machines.")
-    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
-    580fc13f3ee4 ("drm/dp: drmP.h include removal")
-    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
-    6579c39594ae ("drm/bochs: atomic: switch planes to atomic, wire up helpers.")
-    6abb49402a79 ("drm/bridge: cdns: prepare for drmP.h removal from drm_modeset_helper.h")
-    6c76c0eb031f ("drm/bridge: ti-sn65dsi86: Fixup register names")
-    7780eb9ce80f ("bochs: convert to drm_dev_register")
-    86351de023dd ("drm/bochs: support changing byteorder at mode set time")
-    a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
-    b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
-    df2052cc9221 ("bochs: convert to drm_fb_helper_fbdev_setup/teardown")
-    f38b7cca6d0e ("drm/bridge: tc358764: Add DSI to LVDS bridge driver")
-    fcd70cd36b9b ("drm: Split out drm_probe_helper.h")
-    fe1f664a3609 ("drm/arc: do not rely on drmP.h from drm_gem_cma_helper.h")
-
-v4.14.177: Failed to apply! Possible dependencies:
-    1b0c0f9dc5ca ("drm/amdgpu: move userptr BOs to CPU domain during CS v2")
-    1ed3d2567c80 ("drm/amdgpu: keep the MMU lock until the update ends v4")
-    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
-    3fe89771cb0a ("drm/amdgpu: stop reserving the BO in the MMU callback v3")
-    4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
-    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
-    580fc13f3ee4 ("drm/dp: drmP.h include removal")
-    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
-    60de1c1740f3 ("drm/amdgpu: use a rw_semaphore for MMU notifiers")
-    9a18999640fa ("drm/amdgpu: move MMU notifier related defines to amdgpu_mn.h")
-    9cca0b8e5df0 ("drm/amdgpu: move amdgpu_cs_sysvm_access_required into find_mapping")
-    a216ab09955d ("drm/amdgpu: fix userptr put_page handling")
-    b72cf4fca2bb ("drm/amdgpu: move taking mmap_sem into get_user_pages v2")
-    ca666a3c298f ("drm/amdgpu: stop using BO status for user pages")
-    fcd70cd36b9b ("drm: Split out drm_probe_helper.h")
-
-v4.9.220: Failed to apply! Possible dependencies:
-    178e32c224d2 ("drm/atomic: Remove pointless private object NULL state check")
-    1cec20f0ea0e ("dma-buf: Restart reservation_object_wait_timeout_rcu() after writes")
-    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
-    3941dae15ed9 ("drm_dp_aux_dev: switch to read_iter/write_iter")
-    3f3353b7e121 ("drm/dp: Introduce MST topology state to track available link bandwidth")
-    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
-    580fc13f3ee4 ("drm/dp: drmP.h include removal")
-    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
-    6806cdf9aa1c ("drm/kms-helpers: Use recommened kerneldoc for struct member refs")
-    78010cd9736e ("dma-buf/fence: add an lockdep_assert_held()")
-    9498c19b3f53 ("drm: Move tile group code into drm_connector.c")
-    9a83a71ac0d5 ("drm/fences: add DOC: for explicit fencing")
-    a4370c777406 ("drm/atomic: Make private objs proper objects")
-    b430c27a7de3 ("drm: Add driver-private objects to atomic state")
-    beaf5af48034 ("drm/fence: add out-fences support")
-    d807ed1c55fb ("drm: atomic: Clarify documentation around drm_atomic_crtc_needs_modeset")
-    ea0dd85a75f1 ("drm/doc: use preferred struct reference in kernel-doc")
-    f54d1867005c ("dma-buf: Rename struct fence to dma_fence")
-    fedf54132d24 ("dma-buf: Restart reservation_object_get_fences_rcu() after writes")
-
-v4.4.220: Failed to apply! Possible dependencies:
-    22554020409f ("Documentation/gpu: use recommended order of heading markers")
-    22cba31bae9d ("Documentation/sphinx: add basic working Sphinx configuration and build")
-    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
-    2fa91d15588c ("Documentation/gpu: split up mm, kms and kms-helpers from internals")
-    311b62d94c0b ("drm/doc: Reorg for drm-kms.rst")
-    321a95ae35f2 ("drm: Extract drm_encoder.[hc]")
-    36230cb5668c ("drm/dp: Allow signals to interrupt drm_aux-dev reads/writes")
-    3941dae15ed9 ("drm_dp_aux_dev: switch to read_iter/write_iter")
-    43968d7b806d ("drm: Extract drm_plane.[hc]")
-    522171951761 ("drm: Extract drm_connector.[hc]")
-    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
-    580fc13f3ee4 ("drm/dp: drmP.h include removal")
-    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
-    5fff80bbdb6b ("drm/atomic: Allow for holes in connector state, v2.")
-    70412cfa6dde ("drm/kms_helper: Add a common place to call init and exit functions.")
-    96106c9729f5 ("drm: fix implicit declaration build error on ia64")
-    9b20fa08d3fd ("Documentation/gpu: convert the KMS properties table to CSV")
-    a095caa7f5ec ("drm/atomic-helper: roll out commit synchronization")
-    a4370c777406 ("drm/atomic: Make private objs proper objects")
-    b430c27a7de3 ("drm: Add driver-private objects to atomic state")
-    be9174a482b9 ("drm/atomic-helper: use for_each_*_in_state more")
-    ca00c2b986ea ("Documentation/gpu: split up the gpu documentation")
-    cb597fcea5c2 ("Documentation/gpu: add new gpu.rst converted from DocBook gpu.tmpl")
-    e94cb37b34eb ("drm/dp: Add a drm_aux-dev module for reading/writing dpcd registers.")
-    ede53344dbfd ("drm: Add helper for DP++ adaptors")
+    04707f971636 ("drm/i915: Initialize HDCP2.2")
+    09d56393c1d8 ("drm/i915: hdcp1.4 CP_IRQ handling and SW encryption tracking")
+    2f80d7bd8d93 ("drm/i915: drop all drmP.h includes")
+    33b7f3ee6e00 ("drm/i915: Add CRTC output format YCBCR 4:2:0")
+    340a44bef234 ("drm/i915/icl: program MG_DP_MODE")
+    342ac601df64 ("drm/i915: hdcp_check_link only on CP_IRQ")
+    47658556da85 ("drm/i915/dp: Do not grab crtc modeset lock in intel_dp_detect()")
+    667944ad77f1 ("drm/i915/hdcp: use intel_de_*() functions for register access")
+    668b6c176c33 ("drm/i915: Add YCBCR 4:2:0/4:4:4 support for LSPCON")
+    7b610f1fbed2 ("drm/i915/dp: Add DSC params and DSC config to intel_crtc_state")
+    9055aac76589 ("drm/i915: MEI interface implementation")
+    9844bc87cb7a ("drm/i915/dp: Fix duplication of DEVICE_SERVICE_IRQ handling")
+    bdc93fe0eb82 ("drm/i915/debugfs: hdcp capability of a sink")
+    cbfa8ac835cb ("drm/i915/dp: Kill intel_dp->detect_done flag")
+    d3dacc70797b ("drm/i915: wrapping all hdcp var into intel_hdcp")
+    d5acd97f5571 ("drm/i915/dp: Use a local variable for intel_encoder *")
+    d78aa650670d ("drm: Add drm/drm_util.h header file")
+    de25eb7f3075 ("drm/i915: introduce dp_to_i915() helper")
+    f106d1005ac7 ("drm/i915: Pullout the bksv read and validation")
 
 
 NOTE: The patch will not be queued to stable trees until it is upstream.
