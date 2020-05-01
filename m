@@ -2,45 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DBF1C1340
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 15:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DCC1C2412
+	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 10:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9F46ECA5;
-	Fri,  1 May 2020 13:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC926ED8D;
+	Sat,  2 May 2020 08:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
- [209.85.221.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 800136EC9B;
- Fri,  1 May 2020 13:31:00 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id g129so2676081vkh.9;
- Fri, 01 May 2020 06:31:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IZ7QyG2hsna1y/z+nQV4Eu9dHzqx+15AW1Ph689mvrM=;
- b=IBJcSbC76fYkGeqt+vGjs0/H9b7Dg5SWRHQ999pEQJ1u173hJgwLapyFbENmBIMTcd
- ZXVeYdvfpyhIbwtIAiRTWgyQVP7XjpQ0qR7AVlhMt+6NF7Gm6rNvRz0a2cL2/10fa3y3
- pyyhQ9F4k4cVPXkegJ9K/U/eAT5gUZ3LgKx+iWPnVDqublkUzjlYBD+bVZEBGOzAHIl7
- THGNj0kYZhfxayVjgM389/MCMO4ASYU1UxfVPCBfC8cA6l4eCjWrTw1rUm+1T6efRjMv
- 0c9zHwpybqft84ycfGsBZ7xiOQNQyo1Pd6QVKwswKjqYAF5WbdYTIA0U4ZV3RlHBBJVa
- 9JAQ==
-X-Gm-Message-State: AGi0Puajii8mzlH1wUysZaWXx+jxyxQbBBhOKU16rLa/LRPG4hKtLini
- i20pkajvELeCBu4/t1BVROnrBzG/l0GhTvPfKtU=
-X-Google-Smtp-Source: APiQypLUzCKdKX2Ff0GAXLqJ9GShRDU4GFVmNwrGhfcJ1DIfhH3Mt04Y2LEgmNR4vlW2vVf7TWTB94yI9ZDGLFe7nlo=
-X-Received: by 2002:a1f:cd06:: with SMTP id d6mr2515722vkg.94.1588339859596;
- Fri, 01 May 2020 06:30:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <1588278413-21682-1-git-send-email-jrdr.linux@gmail.com>
- <CAKb7UvhNzfJLS8--5LySAjyzH2bidfZbP7VgzEVfeV2Erva4YQ@mail.gmail.com>
- <CAFqt6zaRjjJYo3RWjjug4GJFZH7CT=6c0kRf=UjtH3_MeQa5Ew@mail.gmail.com>
-In-Reply-To: <CAFqt6zaRjjJYo3RWjjug4GJFZH7CT=6c0kRf=UjtH3_MeQa5Ew@mail.gmail.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Fri, 1 May 2020 09:30:47 -0400
-Message-ID: <CAKb7Uvhr3ViZBZ0knMYXqbaJsb09Pp-meCR5XRZ=rWWk8KnkhA@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau/dispnv04: Remove dead code
-To: Souptick Joarder <jrdr.linux@gmail.com>
+Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
+ [103.229.18.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483F76E2B0;
+ Fri,  1 May 2020 13:33:11 +0000 (UTC)
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+ by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 01 May 2020 19:01:32 +0530
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg01-blr.qualcomm.com with ESMTP; 01 May 2020 19:01:09 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id EEBE4487F; Fri,  1 May 2020 19:01:07 +0530 (IST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH] drm/msm/dpu: ensure device suspend happens during PM sleep
+Date: Fri,  1 May 2020 19:01:03 +0530
+Message-Id: <1588339863-1322-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Sat, 02 May 2020 08:34:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,30 +40,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: inux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 1, 2020 at 9:15 AM Souptick Joarder <jrdr.linux@gmail.com> wrote:
->
-> On Fri, May 1, 2020 at 2:21 AM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> >
-> > Interesting. I do remember seeing some snow on NV5's overlay at high
-> > resolutions. Wonder if it was because of this missing code...
->
-> What was the problem ? Does enabling this dead code will fix the problem ?
+"The PM core always increments the runtime usage counter
+before calling the ->suspend() callback and decrements it
+after calling the ->resume() callback"
 
-This "dead" code is essentially documentation. It's from the
-xf86-video-nv driver which was the base of the dispnv04 code. It won't
-compile as-is, which is why it's #if 0'd out.
+DPU and DSI are managed as runtime devices. When
+suspend is triggered, PM core adds a refcount on all the
+devices and calls device suspend, since usage count is
+already incremented, runtime suspend was not getting called
+and it kept the clocks on which resulted in target not
+entering into XO shutdown.
 
-  -ilia
+Add changes to force suspend on runtime devices during pm sleep.
+
+Changes in v1:
+ - Remove unnecessary checks in the function
+    _dpu_kms_disable_dpu (Rob Clark).
+
+Changes in v2:
+ - Avoid using suspend_late to reset the usagecount
+   as suspend_late might not be called during suspend
+   call failures (Doug).
+
+Changes in v3:
+ - Use force suspend instead of managing device usage_count
+   via runtime put and get API's to trigger callbacks (Doug).
+
+Changes in v4:
+ - Check the return values of pm_runtime_force_suspend and
+   pm_runtime_force_resume API's and pass appropriately (Doug).
+
+Changes in v5:
+ - With v4 patch, test cycle has uncovered issues in device resume.
+
+   On bubs: cmd tx failures were seen as SW is sending panel off
+   commands when the dsi resources are turned off.
+
+   Upon suspend, DRM driver will issue a NULL composition to the
+   dpu, followed by turning off all the HW blocks.
+
+   v5 changes will serialize the NULL commit and resource unwinding
+   by handling them under PM prepare and PM complete phases there by
+   ensuring that clks are on when panel off commands are being
+   processed.
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi.c           |  2 ++
+ drivers/gpu/drm/msm/msm_drv.c           | 20 ++++++++++++++++----
+ 3 files changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ce19f1d..b886d9d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1123,6 +1123,8 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
+ 
+ static const struct dev_pm_ops dpu_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ static const struct of_device_id dpu_dt_match[] = {
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 55ea4bc2..62704885 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -161,6 +161,8 @@ static int dsi_dev_remove(struct platform_device *pdev)
+ 
+ static const struct dev_pm_ops dsi_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(msm_dsi_runtime_suspend, msm_dsi_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ };
+ 
+ static struct platform_driver dsi_driver = {
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7d985f8..47d492b 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1036,7 +1036,7 @@ static int msm_ioctl_submitqueue_close(struct drm_device *dev, void *data,
+ };
+ 
+ #ifdef CONFIG_PM_SLEEP
+-static int msm_pm_suspend(struct device *dev)
++static int msm_pm_prepare(struct device *dev)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct msm_drm_private *priv = ddev->dev_private;
+@@ -1054,18 +1054,28 @@ static int msm_pm_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int msm_pm_resume(struct device *dev)
++static void msm_pm_complete(struct device *dev)
+ {
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct msm_drm_private *priv = ddev->dev_private;
+ 	int ret;
+ 
+ 	if (WARN_ON(!priv->pm_state))
+-		return -ENOENT;
++		return;
+ 
+ 	ret = drm_atomic_helper_resume(ddev, priv->pm_state);
+ 	if (!ret)
+ 		priv->pm_state = NULL;
++}
++
++static int msm_pm_resume(struct device *dev)
++{
++	int ret;
++
++	/* unwind runtime_disable called by force suspend */
++	pm_runtime_enable(dev);
++
++	ret = pm_runtime_resume(dev);
+ 
+ 	return ret;
+ }
+@@ -1102,8 +1112,10 @@ static int msm_runtime_resume(struct device *dev)
+ #endif
+ 
+ static const struct dev_pm_ops msm_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(msm_pm_suspend, msm_pm_resume)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, msm_pm_resume)
+ 	SET_RUNTIME_PM_OPS(msm_runtime_suspend, msm_runtime_resume, NULL)
++	.prepare = msm_pm_prepare,
++	.complete = msm_pm_complete,
+ };
+ 
+ /*
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
