@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523C71C2403
-	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 10:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1593C1C12CF
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 15:24:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B372F6E0C8;
-	Sat,  2 May 2020 08:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED74E6EC92;
+	Fri,  1 May 2020 13:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0383E6EC8A;
- Fri,  1 May 2020 13:15:52 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id l11so3839872lfc.5;
- Fri, 01 May 2020 06:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fH1uQyb91g9BRoTHNdBr1xD1n5oHVtfhK1lN3zoG4Rk=;
- b=Aw2AkAXsWbng9nGYiFe0ptX+OybKGnkaCp5157HDfEmyu+TU5ufUVJvW4+lOH6ztVB
- 73zPXr/2iKPU8gx42sHP2l7CmWO5hlC2jMcm7fdcT26Vv1Poe6QpZucWoYCvXw2+gri8
- GtKiR/dvq6XiVIbdqhDNkj9vAWM/8NEfXlHNnkZo2rvIRYfN7IvQQ7dy+3EV3yLUv1cB
- GF2C8Ik2V0RjPAN94rPAGoGV2uLyJEq6b7cMRi7/uJUm3oXp9MHHZQfvQkIY8jrGqHWo
- Ebtj96Qs4zPBaUdksKtf+Z0B7ORDmw0P39NYlY3EpIcRjcHWRRdm4je9QaspY8pT4Hqe
- Etaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fH1uQyb91g9BRoTHNdBr1xD1n5oHVtfhK1lN3zoG4Rk=;
- b=m7+upWXciAN+jMlMrtIkkJS6yY7Fz2Z/JY8cQjv/kzflQujWl3xoBtO8AgutVFN+fg
- CIJKNfndzHwdsKrWwmCs6Qd5toqAZU+t/eU+dw0+J2DZ5AJlQXdI5UZyi5xc8nn/IPrQ
- 4yMFh0fEEdoGzgt1Ylc2+625yq+1KyQM084QsF6WIT7SL7fV2Ax5j9AG2M881n59KyOx
- zYdT1+J5/t8fAIEYY0c1YkLBvkgxLF2fz7skrGwLy6c9GJ1FovSQDVeibk/g5ZdIvzfO
- T3S5calJrlW/kUgj8kMOc2IPA7jAGzqrZ2Zxwv10ioa8YIaqUKJ1c8MEswup3WW+zIqJ
- vYRQ==
-X-Gm-Message-State: AGi0PuY0r7SzxE0JCjv3LRAqBN5JxjxQVtplFh+RIqeq/zoCn/p7tMXb
- KrqpZcRrUMVVzGE9W93XZmDOK3BtwTDTHe9ldzk=
-X-Google-Smtp-Source: APiQypIlgTEljLdRs53ypaaUWZ/FkvFXTQCVFzi38BrHASkAEXWCo5yHyupQ8kzxYTLNvBK5UVZwW9JoUGx/ZYvtOQw=
-X-Received: by 2002:a05:6512:108a:: with SMTP id
- j10mr2585989lfg.38.1588338950886; 
- Fri, 01 May 2020 06:15:50 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0926EC8E
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:24:49 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8760424960
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:24:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588339489;
+ bh=d8OPxjX6yuJbdOTlfUXM7Zvc614YcSXkktA7q5/FxRY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=oRiwD0Q+jvvpP6sMUM7uXKK++I/eOZnt6Ikrp6rtJBAPD/6vZl/OFq4Uxzqg573dr
+ HXTT0bMxoz2GibxZPq00kqvlqfP1GYpMyc+LbA3Tf2Ofs9mJFJf4NsfNvEueN0i/ZY
+ ldEXuawf8h0p2ODo+BCBInJ2O4GxSh/bcIMpNLxQ=
+Received: by mail-ed1-f50.google.com with SMTP id l3so7216862edq.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 06:24:49 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaRog9lLuH48ofooYFPfnnJ1xYUHgbOvzqndMaQttxp79+NHlmU
+ dIU0tBpHTim8H89Ow5I4U79IbiHlsmaOeLY6xg==
+X-Google-Smtp-Source: APiQypKel2U1e5MRHXKLL7Rnuz1U41FBCv2Ii6mcl2FuZrvIApbgp6jSgjZ93cS0z2rzE3pcCu/kvy2F5YvYBuZXTp0=
+X-Received: by 2002:aa7:dd95:: with SMTP id g21mr3461314edv.148.1588339487975; 
+ Fri, 01 May 2020 06:24:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588278413-21682-1-git-send-email-jrdr.linux@gmail.com>
- <CAKb7UvhNzfJLS8--5LySAjyzH2bidfZbP7VgzEVfeV2Erva4YQ@mail.gmail.com>
-In-Reply-To: <CAKb7UvhNzfJLS8--5LySAjyzH2bidfZbP7VgzEVfeV2Erva4YQ@mail.gmail.com>
-From: Souptick Joarder <jrdr.linux@gmail.com>
-Date: Fri, 1 May 2020 18:53:43 +0530
-Message-ID: <CAFqt6zaRjjJYo3RWjjug4GJFZH7CT=6c0kRf=UjtH3_MeQa5Ew@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau/dispnv04: Remove dead code
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-X-Mailman-Approved-At: Sat, 02 May 2020 08:34:27 +0000
+References: <20200417150614.2631786-1-enric.balletbo@collabora.com>
+ <20200417150614.2631786-6-enric.balletbo@collabora.com>
+In-Reply-To: <20200417150614.2631786-6-enric.balletbo@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 1 May 2020 21:24:34 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9Gc9uCtfcp+qo=KnVOYfyjw4rDpe15A1q6G2A-iXpSow@mail.gmail.com>
+Message-ID: <CAAOTY_9Gc9uCtfcp+qo=KnVOYfyjw4rDpe15A1q6G2A-iXpSow@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] drm/mediatek: mtk_dsi: Use simple encoder
+To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,93 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: inux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 1, 2020 at 2:21 AM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
->
-> Interesting. I do remember seeing some snow on NV5's overlay at high
-> resolutions. Wonder if it was because of this missing code...
-
-What was the problem ? Does enabling this dead code will fix the problem ?
-
->
-> On Thu, Apr 30, 2020 at 4:19 PM Souptick Joarder <jrdr.linux@gmail.com> wrote:
-> >
-> > These are dead code since 3.10. If there is no plan to use
-> > it further, these can be removed forever.
-> >
-> > Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-> > ---
-> >  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 28 ----------------------------
-> >  1 file changed, 28 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> > index 1f08de4..ad0ef7d 100644
-> > --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> > +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
-> > @@ -269,31 +269,11 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
-> >                 horizStart = horizTotal - 5;
-> >                 horizEnd = horizTotal - 2;
-> >                 horizBlankEnd = horizTotal + 4;
-> > -#if 0
-> > -               if (dev->overlayAdaptor && drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS)
-> > -                       /* This reportedly works around some video overlay bandwidth problems */
-> > -                       horizTotal += 2;
-> > -#endif
-> >         }
-> >
-> >         if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> >                 vertTotal |= 1;
-> >
-> > -#if 0
-> > -       ErrorF("horizDisplay: 0x%X \n", horizDisplay);
-> > -       ErrorF("horizStart: 0x%X \n", horizStart);
-> > -       ErrorF("horizEnd: 0x%X \n", horizEnd);
-> > -       ErrorF("horizTotal: 0x%X \n", horizTotal);
-> > -       ErrorF("horizBlankStart: 0x%X \n", horizBlankStart);
-> > -       ErrorF("horizBlankEnd: 0x%X \n", horizBlankEnd);
-> > -       ErrorF("vertDisplay: 0x%X \n", vertDisplay);
-> > -       ErrorF("vertStart: 0x%X \n", vertStart);
-> > -       ErrorF("vertEnd: 0x%X \n", vertEnd);
-> > -       ErrorF("vertTotal: 0x%X \n", vertTotal);
-> > -       ErrorF("vertBlankStart: 0x%X \n", vertBlankStart);
-> > -       ErrorF("vertBlankEnd: 0x%X \n", vertBlankEnd);
-> > -#endif
-> > -
-> >         /*
-> >         * compute correct Hsync & Vsync polarity
-> >         */
-> > @@ -492,14 +472,6 @@ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mod
-> >         /* Except for rare conditions I2C is enabled on the primary crtc */
-> >         if (nv_crtc->index == 0)
-> >                 regp->crtc_eng_ctrl |= NV_CRTC_FSEL_I2C;
-> > -#if 0
-> > -       /* Set overlay to desired crtc. */
-> > -       if (dev->overlayAdaptor) {
-> > -               NVPortPrivPtr pPriv = GET_OVERLAY_PRIVATE(dev);
-> > -               if (pPriv->overlayCRTC == nv_crtc->index)
-> > -                       regp->crtc_eng_ctrl |= NV_CRTC_FSEL_OVERLAY;
-> > -       }
-> > -#endif
-> >
-> >         /* ADDRESS_SPACE_PNVM is the same as setting HCUR_ASI */
-> >         regp->cursor_cfg = NV_PCRTC_CURSOR_CONFIG_CUR_LINES_64 |
-> > --
-> > 1.9.1
-> >
-> > _______________________________________________
-> > Nouveau mailing list
-> > Nouveau@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/nouveau
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEVucmljOgoKRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFi
+b3JhLmNvbT4g5pa8IDIwMjDlubQ05pyIMTfml6Ug6YCx5LqUIOS4i+WNiDExOjA25a+r6YGT77ya
+Cj4KPiBUaGUgbXRrX2RzaSBkcml2ZXIgdXNlcyBhbiBlbXB0eSBpbXBsZW1lbnRhdGlvbiBmb3Ig
+aXRzIGVuY29kZXIuIFJlcGxhY2UKPiB0aGUgY29kZSB3aXRoIHRoZSBnZW5lcmljIHNpbXBsZSBl
+bmNvZGVyLgoKUmV2aWV3ZWQtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwu
+b3JnPgoKPgo+IFNpZ25lZC1vZmYtYnk6IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJh
+bGxldGJvQGNvbGxhYm9yYS5jb20+Cj4gUmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxh
+dXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiAtLS0KPgo+IENoYW5nZXMgaW4gdjM6
+IE5vbmUKPiBDaGFuZ2VzIGluIHYyOiBOb25lCj4KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kc2kuYyB8IDE0ICsrKy0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2Vy
+dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5j
+Cj4gaW5kZXggODY5YWUwYTJlOWY4Li5kNjg2OTRmZjAwZGMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
+YXRlay9tdGtfZHNpLmMKPiBAQCAtMjIsNiArMjIsNyBAQAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9w
+YW5lbC5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+ICAjaW5jbHVkZSA8ZHJtL2Ry
+bV9wcm9iZV9oZWxwZXIuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIu
+aD4KPgo+ICAjaW5jbHVkZSAibXRrX2RybV9kZHBfY29tcC5oIgo+Cj4gQEAgLTc4OCwxNSArNzg5
+LDYgQEAgc3RhdGljIHZvaWQgbXRrX291dHB1dF9kc2lfZGlzYWJsZShzdHJ1Y3QgbXRrX2RzaSAq
+ZHNpKQo+ICAgICAgICAgZHNpLT5lbmFibGVkID0gZmFsc2U7Cj4gIH0KPgo+IC1zdGF0aWMgdm9p
+ZCBtdGtfZHNpX2VuY29kZXJfZGVzdHJveShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpCj4g
+LXsKPiAtICAgICAgIGRybV9lbmNvZGVyX2NsZWFudXAoZW5jb2Rlcik7Cj4gLX0KPiAtCj4gLXN0
+YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJfZnVuY3MgbXRrX2RzaV9lbmNvZGVyX2Z1bmNz
+ID0gewo+IC0gICAgICAgLmRlc3Ryb3kgPSBtdGtfZHNpX2VuY29kZXJfZGVzdHJveSwKPiAtfTsK
+PiAtCj4gIHN0YXRpYyBpbnQgbXRrX2RzaV9jcmVhdGVfY29ubl9lbmMoc3RydWN0IGRybV9kZXZp
+Y2UgKmRybSwgc3RydWN0IG10a19kc2kgKmRzaSk7Cj4gIHN0YXRpYyB2b2lkIG10a19kc2lfZGVz
+dHJveV9jb25uX2VuYyhzdHJ1Y3QgbXRrX2RzaSAqZHNpKTsKPgo+IEBAIC0xMTQwLDggKzExMzIs
+OCBAQCBzdGF0aWMgaW50IG10a19kc2lfZW5jb2Rlcl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpk
+cm0sIHN0cnVjdCBtdGtfZHNpICpkc2kpCj4gIHsKPiAgICAgICAgIGludCByZXQ7Cj4KPiAtICAg
+ICAgIHJldCA9IGRybV9lbmNvZGVyX2luaXQoZHJtLCAmZHNpLT5lbmNvZGVyLCAmbXRrX2RzaV9l
+bmNvZGVyX2Z1bmNzLAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEUk1fTU9ERV9F
+TkNPREVSX0RTSSwgTlVMTCk7Cj4gKyAgICAgICByZXQgPSBkcm1fc2ltcGxlX2VuY29kZXJfaW5p
+dChkcm0sICZkc2ktPmVuY29kZXIsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBEUk1fTU9ERV9FTkNPREVSX0RTSSk7Cj4gICAgICAgICBpZiAocmV0KSB7Cj4gICAgICAg
+ICAgICAgICAgIERSTV9FUlJPUigiRmFpbGVkIHRvIGVuY29kZXIgaW5pdCB0byBkcm1cbiIpOwo+
+ICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+IC0tCj4gMi4yNS4xCj4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
