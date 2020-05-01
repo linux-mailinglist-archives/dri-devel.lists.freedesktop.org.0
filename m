@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396431C17D8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 16:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1821C17F1
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 16:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F317D6ECBC;
-	Fri,  1 May 2020 14:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2DF76E047;
+	Fri,  1 May 2020 14:39:25 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3373D6ECBC
- for <dri-devel@freedesktop.org>; Fri,  1 May 2020 14:34:46 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id y185so6385018vsy.8
- for <dri-devel@freedesktop.org>; Fri, 01 May 2020 07:34:46 -0700 (PDT)
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
+ [IPv6:2607:f8b0:4864:20::943])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 010256E047
+ for <dri-devel@freedesktop.org>; Fri,  1 May 2020 14:39:24 +0000 (UTC)
+Received: by mail-ua1-x943.google.com with SMTP id i5so3821106uaq.1
+ for <dri-devel@freedesktop.org>; Fri, 01 May 2020 07:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OafIZu0wl5yq5qjn+apPMv+CXZqAeKvj/lS9W7KUmfg=;
- b=bSkRbiyeyKlAUXC/Tij0LYdPA/GCDrTqy+eOsvg+0HMnmGzomgcFgIZwMrkFKKVTFx
- rY8tpU0oqwWB6Dgr1WBXsWo+XG8OHxSQyZFNutZh6UJLWPxJ5JTiiUQc32rVT9J+WYwK
- FlXoxI2nbxZJsuVKCqKMo1d+Br/kZKZFVpkOo=
+ :cc; bh=URjoa0IPAuVJrJzf1GzsjjCJgtImSI4fVU++g+IJyuo=;
+ b=SMxlHq5r/xlgb1aFLRF6VaIP1+SWFfbYQhAXjYZD4COiPW8KJ+YqJlOeUxHxCY5DlG
+ Idx1WYR1HxdMRSDeEA2FIMDrtrlxs+zIzz57nuJsVPdb23kkRR6vDORPdekV6cr8T2ey
+ XFPCDrZn+jfp9p8SrvmZa/jauPbMy65QXIIZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OafIZu0wl5yq5qjn+apPMv+CXZqAeKvj/lS9W7KUmfg=;
- b=o5HCSU1K+C69jdkZsS2tET82C0R1WD10XxrpTZ96oFHlb005us1duEoPC21UiMBDvx
- p7AarspIr/5tp2yfk748WLtf7fVRUpNstOrwVgHRkx+7E4+9beXwxvm29lbSDJYXNFvq
- SDURUoAo1wrRTCW/EO0Zr6kAvcAS6UhH3pLyKejVbs9vEIckcGryN9vgvtebqMBcOyLy
- uZt7bkTHJ9JlyEyG9GCTG4L5QaOyfCWbdYiRccb2Li5mfGjHbGgFYYzcdtnu5bmOiMZo
- 6O/2JRz/GUqs3KS1w/oD4yo+Xcx3eqoQ+uQQlGOjw0ACzLTcyeWhCqwTRAhY4Pw+PFav
- rfMQ==
-X-Gm-Message-State: AGi0Pubh8/rMJw3G5PDeWUpMvtjHRP2E6AlNL4iTYafcredOGLgKGvui
- dGQGcVC3B+c5cIOFiQyG3fS5FiZlV4w=
-X-Google-Smtp-Source: APiQypJ/pgfv7EfOd4KiEiMQFsIXpyQvKF2K+irV9pLFtZSx3ldn9TfPQYl58I2dV7abNgVzQ+RSWg==
-X-Received: by 2002:a67:f951:: with SMTP id u17mr3501987vsq.12.1588343684937; 
- Fri, 01 May 2020 07:34:44 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com.
- [209.85.222.53])
- by smtp.gmail.com with ESMTPSA id 91sm665981uag.4.2020.05.01.07.34.44
+ bh=URjoa0IPAuVJrJzf1GzsjjCJgtImSI4fVU++g+IJyuo=;
+ b=LWt+V5aIhHHHUx7MwlvYI2NowRJxQOFWCV/KYC0hIZJxKsXm0jJpEgTMRuRFosTIyQ
+ DXG/fCZBWzX+2PGMUss8RVzCrq71+vpDwzlURu6BtIec6sw3HSTuMC7OR5pUfgXeH2AX
+ uWkNrbgHMXJYN1rsssxVmt/ctsc7KwWMFVYWHF5PiCj85S4rkNUR5PG4rZlRGNHdBms/
+ GkxADzI3y0tXYIk3CiMCHjXBh4Mk9l9eyZlHaCC7oKYGxq0WvfWEUE8WA1zaO9/UXs7A
+ twosbWshASbNHEzP1Hrbt2S4pS9MMN4lrpYQ2kZ/7H26uguiUQ1O/nqIiRbP+sedqcf+
+ OBoQ==
+X-Gm-Message-State: AGi0PuaF69OLk+ouz0ZrKbTs2rL9hEEf/3akCsZ1JLz6v78eTWnHyMGE
+ tO6oUiYH0E2AAmmSmOt1dUzBi2blrvY=
+X-Google-Smtp-Source: APiQypI8ciR5KeOVCLC+dBCXTFlWr7+LVYaVK7l0YB8XQHfAohzxvQxqJc0FRT+tD5dCnQtX8XCocA==
+X-Received: by 2002:a9f:310e:: with SMTP id m14mr3077413uab.103.1588343963867; 
+ Fri, 01 May 2020 07:39:23 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
+ [209.85.217.54])
+ by smtp.gmail.com with ESMTPSA id s184sm801045vss.29.2020.05.01.07.39.23
  for <dri-devel@freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 07:34:44 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id t8so3805349uap.3
- for <dri-devel@freedesktop.org>; Fri, 01 May 2020 07:34:44 -0700 (PDT)
-X-Received: by 2002:ab0:b13:: with SMTP id b19mr3050483uak.91.1588343683637;
- Fri, 01 May 2020 07:34:43 -0700 (PDT)
+ Fri, 01 May 2020 07:39:23 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id s11so6400684vsm.3
+ for <dri-devel@freedesktop.org>; Fri, 01 May 2020 07:39:23 -0700 (PDT)
+X-Received: by 2002:a67:bd07:: with SMTP id y7mr3484487vsq.109.1588343962687; 
+ Fri, 01 May 2020 07:39:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
- <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
-In-Reply-To: <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 1 May 2020 07:34:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X76J9FAwtx4-8pjEkEqSo=2rz4Wv2ZR6c1Zps21b1E7w@mail.gmail.com>
-Message-ID: <CAD=FV=X76J9FAwtx4-8pjEkEqSo=2rz4Wv2ZR6c1Zps21b1E7w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: arm-smmu: Add sc7180 compatible string
+Date: Fri, 1 May 2020 07:39:11 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W+uaPTZHKXq6WYgx-ZDL1QTedEpNw9T747UBD_g1O8CQ@mail.gmail.com>
+Message-ID: <CAD=FV=W+uaPTZHKXq6WYgx-ZDL1QTedEpNw9T747UBD_g1O8CQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
 To: Sharat Masetty <smasetty@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,14 +85,25 @@ Hi,
 
 On Fri, May 1, 2020 at 3:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
 >
-> This patch simply adds a new compatible string for SC7180 platform.
+> This patch adds the required dt nodes and properties
+> to enabled A618 GPU.
 >
 > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 > ---
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> * Remove GCC_DDRSS_GPU_AXI_CLK clock reference from gpu smmu node.
+>
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 102 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+
+This is the newer version of the patch:
+
+https://lore.kernel.org/r/1581320465-15854-2-git-send-email-smasetty@codeaurora.org
+
+The change to remove the extra IOMMU clock matches our discussions and
+there's no longer anything blocking this from landing.
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Tested-by: Douglas Anderson <dianders@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
