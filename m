@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040341C1D6E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 20:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECA21C1DAE
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 21:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE006ED2E;
-	Fri,  1 May 2020 18:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C777E6ED3E;
+	Fri,  1 May 2020 19:13:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B806ED2E
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 18:56:01 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id t11so4935236pgg.2
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 11:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s1EsMbTEf6j/ZHzUaKkn1YFI/ZhYtkll4VtOXEGE/Qo=;
- b=Os+O8K60E50v0xl6uXOkcptoSwydFdR2qi7gODSBjOMXhO7RuAcjzOWglTPhN51zNQ
- dy67gSKdv/JYm5z9unltIK2YeMXFkO7dWQPa1HC05Z7AY7OkU+/ynNHvm4oXJS/2na1s
- JuvOPJSiNjLwSp8zNRb8qOsrdwOR9s54uaWfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s1EsMbTEf6j/ZHzUaKkn1YFI/ZhYtkll4VtOXEGE/Qo=;
- b=CguS4dGrFucJQHQsZ4ut9v+NptvdBoQesYHWBwPCH13X3OP0s1iGpOO53iMR+BGygc
- gUvmsYCznYpcmkJUygw/MF+jqeNQ4ucCmJY3uitQyEMS04KdliSOYiuukkU+mu7Hv7+y
- m7hnAY+mDOlePV/CpMrtDZL2xG5PrOi0U9NxHk5Tx3lO+aUWqDtnEpMLfWQkpnO/5XoT
- O0CZYeKrFpc7AlgrICSPGwu7wsZQgJURlJbttlA/kvSR018uSsYtAp84tLdhkbrFIlBA
- piYWHGdA196AckkbGy7P0rd1vqijYddSzXo1t+g4SmaL1sFBjK5dB9vO8ciwm+HzEwSP
- oBvw==
-X-Gm-Message-State: AGi0PuZETStCn0SiZUpFgy59FzKC/vgaCNL48bQh4Oqz9kmXXnW7B84k
- RNhbQje3YURFlnzOx04TkD9vtFmCeKw=
-X-Google-Smtp-Source: APiQypIYjR3mEYucKfOhFUVZEb7UtqlLlGZYVPCzqnX9y3N1FjTBO/41sZb+dX/Xcyt67b8wm9atOg==
-X-Received: by 2002:a62:15d8:: with SMTP id 207mr5184635pfv.140.1588359361019; 
- Fri, 01 May 2020 11:56:01 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id t12sm2586135pgm.37.2020.05.01.11.55.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 01 May 2020 11:56:00 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: create context before RESOURCE_CREATE_2D in 3D
- mode
-Date: Fri,  1 May 2020 11:55:57 -0700
-Message-Id: <20200501185557.740-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.24.1
+X-Greylist: delayed 1265 seconds by postgrey-1.36 at gabe;
+ Fri, 01 May 2020 19:13:06 UTC
+Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com
+ [192.185.146.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F34966ED38
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 19:13:06 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+ by gateway33.websitewelcome.com (Postfix) with ESMTP id 9EC3C3558
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 13:52:00 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id UalUjWxSvSl8qUalUjvLy2; Fri, 01 May 2020 13:52:00 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+ Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=FomgKemsxSQOPPsglc8VE0B4GO1rp6G2EJ9gCbZ2nas=; b=gaOuF2uzZoFMUvAVrJE2McUX34
+ C/oeo/Z/GK7YoSfkM5a5Lx09qTZ7ZEnwZ6g9jiKRxGCvEi6b70xjxYisRA1xDeNQ1eJyGhCBd8tjq
+ p9fIVk6rQ+hMlBPTQnf9D9uK8wiiEZaS8A7pMU7DDFvWISaMrrDwO1owbVKzXwAWw9QwMYPIvMTE7
+ ay2grDRwpR+dfKjDB3IT19ouxU8ls4prbzjqbjq585YEbRuIk1M3WhUefHHjaL9GBRrzHmpniKpCH
+ Kb9I7dZD5CD5dXWiB2sHdwcK9cKRdAwBRHLLBTsaqi1tk5vnsgTyJmeGQi5J5IVVTweLm8ozAanYf
+ Gck1BJbg==;
+Received: from [189.207.59.248] (port=52120 helo=embeddedor)
+ by gator4166.hostgator.com with esmtpa (Exim 4.92)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1jUalU-001fON-42; Fri, 01 May 2020 13:52:00 -0500
+Date: Fri, 1 May 2020 13:56:21 -0500
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Mukul Joshi <mukul.joshi@amd.com>
+Subject: [PATCH] drm/amdkfd: Remove logically dead code in kfd_procfs_show
+Message-ID: <20200501185621.GA17880@embeddedor>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.207.59.248
+X-Source-L: No
+X-Exim-ID: 1jUalU-001fON-42
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [189.207.59.248]:52120
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 9
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +80,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If 3D is enabled, but userspace requests a dumb buffer, we will
-call CTX_ATTACH_RESOURCE before actually creating the context.
+container_of is never null, so the null check on pdd is unnecessary.
 
-Fixes: 72b48ae800da ("drm/virtio: enqueue virtio_gpu_create_context
-                      after the first 3D ioctl")
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+If the null check is removed, function kfd_procfs_show()
+will always return before reaching "return 0", hence
+such return is logically dead. So, remove it, as well.
+
+Addresses-Coverity-ID: 1492793 ("Logically dead code")
+Fixes: d4566dee849e ("drm/amdkfd: Track GPU memory utilization per process")
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 +
- drivers/gpu/drm/virtio/virtgpu_gem.c   | 3 +++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 3 +--
- 3 files changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 49bebdee6d91..9ff9f4ac0522 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -221,6 +221,7 @@ struct virtio_gpu_fpriv {
- /* virtgpu_ioctl.c */
- #define DRM_VIRTIO_NUM_IOCTLS 10
- extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
-+void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index 598296034b43..63dcd30b2cdc 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -87,14 +87,11 @@ static ssize_t kfd_procfs_show(struct kobject *kobj, struct attribute *attr,
+ 	} else if (strncmp(attr->name, "vram_", 5) == 0) {
+ 		struct kfd_process_device *pdd = container_of(attr, struct kfd_process_device,
+ 							      attr_vram);
+-		if (pdd)
+-			return snprintf(buffer, PAGE_SIZE, "%llu\n", READ_ONCE(pdd->vram_usage));
++		return snprintf(buffer, PAGE_SIZE, "%llu\n", READ_ONCE(pdd->vram_usage));
+ 	} else {
+ 		pr_err("Invalid attribute");
+ 		return -EINVAL;
+ 	}
+-
+-	return 0;
+ }
  
- /* virtgpu_kms.c */
- int virtio_gpu_init(struct drm_device *dev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 1025658be4df..d6cb350ae52a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -39,6 +39,9 @@ static int virtio_gpu_gem_create(struct drm_file *file,
- 	int ret;
- 	u32 handle;
- 
-+	if (vgdev->has_virgl_3d)
-+		virtio_gpu_create_context(dev, file);
-+
- 	ret = virtio_gpu_object_create(vgdev, params, &obj, NULL);
- 	if (ret < 0)
- 		return ret;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 867c5e239d55..6c7619c13277 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -33,8 +33,7 @@
- 
- #include "virtgpu_drv.h"
- 
--static void virtio_gpu_create_context(struct drm_device *dev,
--				      struct drm_file *file)
-+void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file)
- {
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+ static void kfd_procfs_kobj_release(struct kobject *kobj)
 -- 
-2.26.2.526.g744177e7f7-goog
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
