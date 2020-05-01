@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608851C0EEF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404581C0EF0
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D49E6EC0F;
-	Fri,  1 May 2020 07:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645496EC10;
+	Fri,  1 May 2020 07:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F456EC0F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:10 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id c21so3410551plz.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:10 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DDA6EC10
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:13 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id o185so4250151pgo.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=68MF0mDAuQKXmyv4cM6UCkwuoNI6S07F0Y008UnFGIA=;
- b=d7DrWM7Pg1LzeLY9hTHX3Vu6bzl5opKrCH2QlCTt6Jrx2Kf5gZhk+v6vTLU6f+ULz2
- PTiPKHZARFJ6lrB3W3f9Ywxqo6KsLZQ/vb3d1Tw5dk54Ht4in1nQE5s/8lPxhYRC9x1a
- D6edusf8njClbUpHSkZBebx7PTMR1SOSvH/r7MaZr6myG/iAla1rNjPRCW6OW+XNQIHt
- OmRiF3MrZcOxTbSbEdUqOK7VqTixWGAKbO/x12boCmXJ9u9lBV04xM/B/YgAAbeVKoUN
- UGDdZTWUZA10VOkmyzHXDnEI1gjDagbffVyU61Fe1nwJg3me3bJZ6FbrIMvJuUZ+dixf
- BcUw==
+ bh=QD+OM/IPa9x7hJvHclwxEGNJ9gIn9LRrmuc2cMqM+jk=;
+ b=uHgfP9cWbKjgsICCn22DXY5E8YVkK4lR5mSH38oijVyLq+WDsYAckO411+fCRx4fSG
+ 92T98KiXWYh/Veuu9k4mILrjo6zo4M8S4hPIn1pjXH4afDJRgMkF3HIHomYHPtbJ2CIT
+ oHO3AozrS69KPbj/CTUAtS0sIYMkdKaiEqIvnSOR5NCG1ZOjYGvWsRTbWlGF2X+swrpU
+ pF1SZxSAvCiYlvGEZHBmQuMPgM/YMkwvPoLMwh2SWAo7qUkc5ifkQoPpgJfJmVVL5VBG
+ jEdBB2/STxwoSAR6Dj/ZZDJ0PZXyVaXxiFVJoKoWWEDCYQLst2EN08W0fE9yARqfug+f
+ NI7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=68MF0mDAuQKXmyv4cM6UCkwuoNI6S07F0Y008UnFGIA=;
- b=PVGyG6PY7XXxfeVbZE0JqYFeKdDD/V3oCxejfqw7bhlZEfSdp3mpFu9mPE7qQMe+SE
- R/kb8Zcg78nQVMPJim0BEzHNy/H/nY/sgDp35aci6gveALRobKo7ltJjo3Ul53Wg4QO9
- +lCnCzS9XF2ByB7JWFriyWGITlo74H1tSjgvr+w12zqSnsHzU/cjHG1+htXoQXhh2o4z
- +Fx2O5N8EzTgOmk7LCPdLb33lf0rsi5r0l/pLDLFHR+yTOowQnnePkA3hCeURlashx6B
- KbTkTvFoC+NKEMRD9iAuLHVqbF8wUdsQZnXR1DbcqHTgZQ4d8MTymxLixDKohSiYU8ak
- Ce5w==
-X-Gm-Message-State: AGi0PubdjhcynC9CQKwiAwjJsOpONujtEDn8voaxUFbHAEioTBAnsSMO
- zV6EBxPdC8zvljBMEh8SHsFODA==
-X-Google-Smtp-Source: APiQypJiEJ4kQAfPAoSZcmNCfZQu1/ZpRWQas3IjFCF2RyIzmyY+jFIehrdb4AljNbKemje+OfRRHA==
-X-Received: by 2002:a17:90a:3ace:: with SMTP id
- b72mr3264947pjc.48.1588318809841; 
- Fri, 01 May 2020 00:40:09 -0700 (PDT)
+ bh=QD+OM/IPa9x7hJvHclwxEGNJ9gIn9LRrmuc2cMqM+jk=;
+ b=c75zsyh87E0EpGJpg+D/34GwVmvaw6sjtXYbySvObwDfNPjc/JpEFOjfXiHGgD+dcD
+ qTuw34hteiwW0jq/UlXBRmrqokhRJneZOOns1E3lUTPRaDV5Ok4CTC4qgFCZ/XEA7PN+
+ Sw+IjvVSQVa2J9PTMuaeJU0XbL8vuVTCQ1u+eNgiZ+5aMb6J03fvWznU6/bSEQDB0vYy
+ kBK5CyfgWHYJITJoadNfPV1jWlFIRiZfmdgyKZYsI3Jt/4k+/4CdvnoROQ/hntYwJSOm
+ Nys21x89lBa/1FxkDN0TtGL9Wx383iMzTbQsQFBNy3WCF0k6jJ0UA6eqZOS/bp0ISQak
+ 2cxQ==
+X-Gm-Message-State: AGi0PuaMQxxwCqNBjnfJ6+7nHAlk1rlnqA8TjNaQRpOibYHBklgRQIQZ
+ QkF3ye4WRBROAHi3FPwTtFA7cw==
+X-Google-Smtp-Source: APiQypIe0OyaYrak6ULk6jy1juCWPHfm+627JYy+N9jmFW5Ppc7wa4zxgW6OTSiIq3XBtubeLxsMWQ==
+X-Received: by 2002:a62:e113:: with SMTP id q19mr2839382pfh.107.1588318813249; 
+ Fri, 01 May 2020 00:40:13 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- w12sm1557841pfq.133.2020.05.01.00.40.06
+ w12sm1557841pfq.133.2020.05.01.00.40.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 May 2020 00:40:09 -0700 (PDT)
+ Fri, 01 May 2020 00:40:12 -0700 (PDT)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 3/4] dma-buf: cma_heap: Extend logic to export CMA
- regions tagged with "linux, cma-heap"
-Date: Fri,  1 May 2020 07:39:48 +0000
-Message-Id: <20200501073949.120396-4-john.stultz@linaro.org>
+Subject: [RFC][PATCH 4/4] example: dts: hi3660-hikey960: Add dts entries to
+ test cma heap binding
+Date: Fri,  1 May 2020 07:39:49 +0000
+Message-Id: <20200501073949.120396-5-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200501073949.120396-1-john.stultz@linaro.org>
 References: <20200501073949.120396-1-john.stultz@linaro.org>
@@ -82,9 +81,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch reworks the cma_heap initialization so that
-we expose both the default CMA region and any CMA regions
-tagged with "linux,cma-heap" in the device-tree.
+Adds example test entry to create and expose a dummy "camera"
+cma region via the dmabuf heaps interface
+
+This isn't a patch I'm submitting to merge, but just an example
+of how this functionality can be used, which I've used for
+testing.
 
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
@@ -107,46 +109,27 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-mm@kvack.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- drivers/dma-buf/heaps/cma_heap.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 626cf7fd033a..dd154e2db101 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -141,6 +141,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
- {
- 	struct cma_heap *cma_heap;
- 	struct dma_heap_export_info exp_info;
-+	struct cma *default_cma = dev_get_cma_area(NULL);
+diff --git a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
+index c0a6aad9593f..5eef1a76d51a 100644
+--- a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
++++ b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
+@@ -81,6 +81,13 @@
+ 			reusable;
+ 			linux,cma-default;
+ 		};
 +
-+	/* We only add the default heap and explicitly tagged heaps */
-+	if (cma != default_cma && !cma_dma_heap_enabled(cma))
-+		return 0;
++		cma_camera: cma-camera {
++			compatible = "shared-dma-pool";
++			reg = <0x0 0x24C00000 0x0 0x4000000>;
++			reusable;
++			linux,cma-heap;
++		};
+ 	};
  
- 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
- 	if (!cma_heap)
-@@ -162,16 +167,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
- 	return 0;
- }
- 
--static int add_default_cma_heap(void)
-+static int cma_heaps_init(void)
- {
--	struct cma *default_cma = dev_get_cma_area(NULL);
--	int ret = 0;
--
--	if (default_cma)
--		ret = __add_cma_heap(default_cma, NULL);
--
--	return ret;
-+	cma_for_each_area(__add_cma_heap, NULL);
-+	return 0;
- }
--module_init(add_default_cma_heap);
-+module_init(cma_heaps_init);
- MODULE_DESCRIPTION("DMA-BUF CMA Heap");
- MODULE_LICENSE("GPL v2");
+ 	reboot-mode-syscon@32100000 {
 -- 
 2.17.1
 
