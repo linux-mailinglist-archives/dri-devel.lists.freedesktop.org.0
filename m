@@ -2,67 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898EF1C0C36
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 04:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2101C0C56
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 04:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA386E200;
-	Fri,  1 May 2020 02:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E3F6E112;
+	Fri,  1 May 2020 02:55:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F17B6E200
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 02:38:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588300706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P8k2aTeCbIA0Pe5nqRNlnguJBbZob6iEKj+wNv40n6s=;
- b=iDuSKx6wUSQHiVhDo3SnlmiOzi51Bn9nmlQYnDXQfttTwFFQKD/Tzu+sRC57qfdxb4MmCf
- hdGbRQ05lg6QDGAC0/OhfXO8zQ3btV4bwwziVkV5YKATwtsFzxRfMJk+BDmV1WcAzGlQCE
- DO8DadEG1afNmalt6kzNJo94jOTRrxk=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-VEb0kuXJM5iPhGfacczs5w-1; Thu, 30 Apr 2020 22:38:22 -0400
-X-MC-Unique: VEb0kuXJM5iPhGfacczs5w-1
-Received: by mail-vk1-f197.google.com with SMTP id j206so4154371vke.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Apr 2020 19:38:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P8k2aTeCbIA0Pe5nqRNlnguJBbZob6iEKj+wNv40n6s=;
- b=VGTNIpH9v+6KqsfJFzMeBFzuaU5mpOoeT0hQAJUZq45ylAaAHzxd5i8cyExKbd4/p1
- FZmJz7re+SmElS+B752IPik0K3iSIVbf4qoML35iKfA//5e2RO2g3ajqcwTBn+yU75DD
- x7G8isdCfWz5/yFLVRa3gomg1CXr+Rc+/jjRg5mYeZerVt7+sfvcPhgPTUMD6m8goilR
- 8qWpHC6bnBrGjk+Ce9LZezvHI1TACGxFNI9KYPz5ldRIHUrpUDBYV0zuhAs8QGox5YCp
- ov6IcKXhLFKmoR+KT+/m4cEC2btHdALPgzkKiRZphk7fV35tg0HBhZcxlXYUAG3xZglU
- ZMqw==
-X-Gm-Message-State: AGi0PuZaRRKWA1f0lIkQ+8aBUlhNT6BYspk4DB+p2FzyyVAt1k1kKDk7
- 6NdEL1leWavvmhj8y5VHKBX33iHcAyM/SR2s0JFX1YoK9RWK8z07bkiRIwKUHSEhNCFKpCsLmo/
- rCB8ti0pP2lrNl4nRt1vg+sC8qyf6cRHrjvLw5IvzhHo8
-X-Received: by 2002:a05:6102:4d:: with SMTP id
- k13mr1848882vsp.198.1588300701704; 
- Thu, 30 Apr 2020 19:38:21 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKu6ClZ61atP80MD4lQJkn2FtP3gZkiC+YuTXU2rwKV21SshkG1nW93zQxISm3Y7jRVOl6JpuyIYF8Yu55j3FA=
-X-Received: by 2002:a05:6102:4d:: with SMTP id
- k13mr1848869vsp.198.1588300701546; 
- Thu, 30 Apr 2020 19:38:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200414131348.444715-1-hch@lst.de>
- <20200414131348.444715-22-hch@lst.de>
- <20200414151344.zgt2pnq7cjq2bgv6@debian>
- <CAMeeMh8Q3Od76WaTasw+BpYVF58P-HQMaiFKHxXbZ_Q3tQPZ=A@mail.gmail.com>
-In-Reply-To: <CAMeeMh8Q3Od76WaTasw+BpYVF58P-HQMaiFKHxXbZ_Q3tQPZ=A@mail.gmail.com>
-From: John Dorminy <jdorminy@redhat.com>
-Date: Thu, 30 Apr 2020 22:38:10 -0400
-Message-ID: <CAMeeMh_9N0ORhPM8EmkGeeuiDoQY3+QoAPX5QBuK7=gsC5ONng@mail.gmail.com>
-Subject: Re: [PATCH 21/29] mm: remove the pgprot argument to __vmalloc
-To: Wei Liu <wei.liu@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C93236E112
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 02:55:18 +0000 (UTC)
+Received: from localhost (unknown [137.135.114.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CD6C1207DD;
+ Fri,  1 May 2020 02:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588301718;
+ bh=cJZDwhdKmVmAPA17KoxHWrNGsDZvlWmk5qDuWgIP+t0=;
+ h=Date:From:To:To:To:Cc:Cc:Cc:Cc:Subject:In-Reply-To:References:
+ From;
+ b=jKiEoLAUB4IlX2S9ZlvEgjNZZKWcDbwbeEOOKopwQqxhB0oR3+kPYgihsF/3oR5vK
+ d1xvXGiCK09TP9iwc/+BxKu6uuLCqwhsA10oN2K5ESZZzyrRlPU1ODCmLENmb1zwES
+ i3cMxi5S3sherx9lZdfSvtHGZ/8MpyaZLl8gxFL0=
+Date: Fri, 01 May 2020 02:55:17 +0000
+From: Sasha Levin <sashal@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/1] drm/dp_mst: Kill the second sideband tx slot,
+ save the world
+In-Reply-To: <20200427213422.1414614-2-lyude@redhat.com>
+References: <20200427213422.1414614-2-lyude@redhat.com>
+Message-Id: <20200501025517.CD6C1207DD@mail.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +47,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Michael Kelley <mikelley@microsoft.com>,
- linux-mm@kvack.org, "K. Y. Srinivasan" <kys@microsoft.com>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Stephen Hemminger <sthemmin@microsoft.com>, x86@kernel.org,
- Christoph Hellwig <hch@lst.de>, Peter Zijlstra <peterz@infradead.org>,
- Gao Xiang <xiang@kernel.org>, Laura Abbott <labbott@redhat.com>,
- Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Sean Paul <sean@poorly.run>, stable@vger.kernel.org, "Lin,
+ Wayne" <Wayne.Lin@amd.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> On Tue, Apr 14, 2020 at 03:13:40PM +0200, Christoph Hellwig wrote:
->> > The pgprot argument to __vmalloc is always PROT_KERNEL now, so remove
->> > it.
+Hi
 
-Greetings;
+[This is an automated email]
 
-I recently noticed this change via the linux-next tree.
+This commit has been processed because it contains a "Fixes:" tag
+fixing commit: ad7f8a1f9ced ("drm/helper: add Displayport multi-stream helper (v0.6)").
 
-It may not be possible to edit at this late date, but the change
-description refers to PROT_KERNEL, which is a symbol which does not
-appear to exist; perhaps PAGE_KERNEL was meant? The mismatch caused me
-and a couple other folks some confusion briefly until we decided it
-was supposed to be PAGE_KERNEL; if it's not too late, editing the
-description to clarify so would be nice.
+The bot has tested the following trees: v5.6.7, v5.4.35, v4.19.118, v4.14.177, v4.9.220, v4.4.220.
 
-Many thanks.
+v5.6.7: Failed to apply! Possible dependencies:
+    1cfff5f01563 ("drm/dp_mst: Convert drm_dp_mst_topology_mgr.is_waiting_for_dwn_reply to bitfield")
 
-John Dorminy
+v5.4.35: Failed to apply! Possible dependencies:
+    14692a3637d4 ("drm/dp_mst: Add probe_lock")
+    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+    37dfdc55ffeb ("drm/dp_mst: Cleanup drm_dp_send_link_address() a bit")
+    50094b5dcd32 ("drm/dp_mst: Destroy topology_mgr mutexes")
+    5950f0b797fc ("drm/dp_mst: Move link address dumping into a function")
+    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+    60f9ae9d0d3d ("drm/dp_mst: Remove huge conditional in drm_dp_mst_handle_up_req()")
+    7cb12d48314e ("drm/dp_mst: Destroy MSTBs asynchronously")
+    7cbce45d6243 ("drm/dp_mst: Move test_calc_pbn_mode() into an actual selftest")
+    8b1e589d138c ("drm/dp_mst: Refactor drm_dp_mst_handle_down_rep()")
+    9408cc94eb04 ("drm/dp_mst: Handle UP requests asynchronously")
+    a29d881875fc ("drm/dp_mst: Refactor drm_dp_mst_handle_up_req()")
+    caf81ec6cd72 ("drm: Destroy the correct mutex name in drm_dp_mst_topology_mgr_destroy")
+    e2839ff692c6 ("drm/dp_mst: Rename drm_dp_add_port and drm_dp_update_port")
 
+v4.19.118: Failed to apply! Possible dependencies:
+    16bff572cc66 ("drm/dp-mst-helper: Remove hotplug callback")
+    19b85cfabf5c ("drm/bochs: move remaining fb bits to kms")
+    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+    2f69deb1d9a1 ("drm/arcpgu: prepare for drmP.h removal from drm_modeset_helper.h")
+    48b442238250 ("drm/bochs: fix DRM_FORMAT_* handling for big endian machines.")
+    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
+    580fc13f3ee4 ("drm/dp: drmP.h include removal")
+    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+    6579c39594ae ("drm/bochs: atomic: switch planes to atomic, wire up helpers.")
+    6abb49402a79 ("drm/bridge: cdns: prepare for drmP.h removal from drm_modeset_helper.h")
+    6c76c0eb031f ("drm/bridge: ti-sn65dsi86: Fixup register names")
+    7780eb9ce80f ("bochs: convert to drm_dev_register")
+    86351de023dd ("drm/bochs: support changing byteorder at mode set time")
+    a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+    b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
+    df2052cc9221 ("bochs: convert to drm_fb_helper_fbdev_setup/teardown")
+    f38b7cca6d0e ("drm/bridge: tc358764: Add DSI to LVDS bridge driver")
+    fcd70cd36b9b ("drm: Split out drm_probe_helper.h")
+    fe1f664a3609 ("drm/arc: do not rely on drmP.h from drm_gem_cma_helper.h")
+
+v4.14.177: Failed to apply! Possible dependencies:
+    1b0c0f9dc5ca ("drm/amdgpu: move userptr BOs to CPU domain during CS v2")
+    1ed3d2567c80 ("drm/amdgpu: keep the MMU lock until the update ends v4")
+    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+    3fe89771cb0a ("drm/amdgpu: stop reserving the BO in the MMU callback v3")
+    4562236b3bc0 ("drm/amd/dc: Add dc display driver (v2)")
+    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
+    580fc13f3ee4 ("drm/dp: drmP.h include removal")
+    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+    60de1c1740f3 ("drm/amdgpu: use a rw_semaphore for MMU notifiers")
+    9a18999640fa ("drm/amdgpu: move MMU notifier related defines to amdgpu_mn.h")
+    9cca0b8e5df0 ("drm/amdgpu: move amdgpu_cs_sysvm_access_required into find_mapping")
+    a216ab09955d ("drm/amdgpu: fix userptr put_page handling")
+    b72cf4fca2bb ("drm/amdgpu: move taking mmap_sem into get_user_pages v2")
+    ca666a3c298f ("drm/amdgpu: stop using BO status for user pages")
+    fcd70cd36b9b ("drm: Split out drm_probe_helper.h")
+
+v4.9.220: Failed to apply! Possible dependencies:
+    178e32c224d2 ("drm/atomic: Remove pointless private object NULL state check")
+    1cec20f0ea0e ("dma-buf: Restart reservation_object_wait_timeout_rcu() after writes")
+    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+    3941dae15ed9 ("drm_dp_aux_dev: switch to read_iter/write_iter")
+    3f3353b7e121 ("drm/dp: Introduce MST topology state to track available link bandwidth")
+    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
+    580fc13f3ee4 ("drm/dp: drmP.h include removal")
+    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+    6806cdf9aa1c ("drm/kms-helpers: Use recommened kerneldoc for struct member refs")
+    78010cd9736e ("dma-buf/fence: add an lockdep_assert_held()")
+    9498c19b3f53 ("drm: Move tile group code into drm_connector.c")
+    9a83a71ac0d5 ("drm/fences: add DOC: for explicit fencing")
+    a4370c777406 ("drm/atomic: Make private objs proper objects")
+    b430c27a7de3 ("drm: Add driver-private objects to atomic state")
+    beaf5af48034 ("drm/fence: add out-fences support")
+    d807ed1c55fb ("drm: atomic: Clarify documentation around drm_atomic_crtc_needs_modeset")
+    ea0dd85a75f1 ("drm/doc: use preferred struct reference in kernel-doc")
+    f54d1867005c ("dma-buf: Rename struct fence to dma_fence")
+    fedf54132d24 ("dma-buf: Restart reservation_object_get_fences_rcu() after writes")
+
+v4.4.220: Failed to apply! Possible dependencies:
+    22554020409f ("Documentation/gpu: use recommended order of heading markers")
+    22cba31bae9d ("Documentation/sphinx: add basic working Sphinx configuration and build")
+    2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
+    2fa91d15588c ("Documentation/gpu: split up mm, kms and kms-helpers from internals")
+    311b62d94c0b ("drm/doc: Reorg for drm-kms.rst")
+    321a95ae35f2 ("drm: Extract drm_encoder.[hc]")
+    36230cb5668c ("drm/dp: Allow signals to interrupt drm_aux-dev reads/writes")
+    3941dae15ed9 ("drm_dp_aux_dev: switch to read_iter/write_iter")
+    43968d7b806d ("drm: Extract drm_plane.[hc]")
+    522171951761 ("drm: Extract drm_connector.[hc]")
+    562836a269e3 ("drm/dp_mst: Enable registration of AUX devices for MST ports")
+    580fc13f3ee4 ("drm/dp: drmP.h include removal")
+    5a64967a2f3b ("drm/dp_mst: Have DP_Tx send one msg at a time")
+    5fff80bbdb6b ("drm/atomic: Allow for holes in connector state, v2.")
+    70412cfa6dde ("drm/kms_helper: Add a common place to call init and exit functions.")
+    96106c9729f5 ("drm: fix implicit declaration build error on ia64")
+    9b20fa08d3fd ("Documentation/gpu: convert the KMS properties table to CSV")
+    a095caa7f5ec ("drm/atomic-helper: roll out commit synchronization")
+    a4370c777406 ("drm/atomic: Make private objs proper objects")
+    b430c27a7de3 ("drm: Add driver-private objects to atomic state")
+    be9174a482b9 ("drm/atomic-helper: use for_each_*_in_state more")
+    ca00c2b986ea ("Documentation/gpu: split up the gpu documentation")
+    cb597fcea5c2 ("Documentation/gpu: add new gpu.rst converted from DocBook gpu.tmpl")
+    e94cb37b34eb ("drm/dp: Add a drm_aux-dev module for reading/writing dpcd registers.")
+    ede53344dbfd ("drm: Add helper for DP++ adaptors")
+
+
+NOTE: The patch will not be queued to stable trees until it is upstream.
+
+How should we proceed with this patch?
+
+-- 
+Thanks
+Sasha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
