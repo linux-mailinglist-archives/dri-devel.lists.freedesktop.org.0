@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45841C0EEE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608851C0EEF
+	for <lists+dri-devel@lfdr.de>; Fri,  1 May 2020 09:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8546EC06;
-	Fri,  1 May 2020 07:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D49E6EC0F;
+	Fri,  1 May 2020 07:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 068576EC06
- for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:07 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id e6so2071143pjt.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:07 -0700 (PDT)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52F456EC0F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 May 2020 07:40:10 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id c21so3410551plz.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 May 2020 00:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=pbJ0rXWHkCLJRyK9vXiUuFPqdQtHbtzqJkW11UYQ0Gg=;
- b=vb0wY5RB7Avh9W40PInSuMIMfqVVX8c5gNx4ovRY8kJyxvZpFLdww15R4N6GP0BdJO
- kgrgqAzooQ68Q9h97J83Z4uygdncUlx9LUQNXlDR83RSSuYlXcMHM61ShwEckSNa/w7j
- zGeH7KfIJLwO4jcDE+hc8uyeYhlVyv3TJoSE5JPRSbPgtGRPc13KO8L6QoWmL398HqVa
- 3w+KMqQFA5upozNshMJzy7mU+yY6mts1x0PnRbUfUkevtqmFalyAtIiDrHPV6U79ju0B
- RGvaj1qzRpkf+1dHg8hx94nkYH28ELKWwg+2aR17hsgwFDSTrgW0H37OI6J/sl2XNoQk
- 7nXA==
+ bh=68MF0mDAuQKXmyv4cM6UCkwuoNI6S07F0Y008UnFGIA=;
+ b=d7DrWM7Pg1LzeLY9hTHX3Vu6bzl5opKrCH2QlCTt6Jrx2Kf5gZhk+v6vTLU6f+ULz2
+ PTiPKHZARFJ6lrB3W3f9Ywxqo6KsLZQ/vb3d1Tw5dk54Ht4in1nQE5s/8lPxhYRC9x1a
+ D6edusf8njClbUpHSkZBebx7PTMR1SOSvH/r7MaZr6myG/iAla1rNjPRCW6OW+XNQIHt
+ OmRiF3MrZcOxTbSbEdUqOK7VqTixWGAKbO/x12boCmXJ9u9lBV04xM/B/YgAAbeVKoUN
+ UGDdZTWUZA10VOkmyzHXDnEI1gjDagbffVyU61Fe1nwJg3me3bJZ6FbrIMvJuUZ+dixf
+ BcUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=pbJ0rXWHkCLJRyK9vXiUuFPqdQtHbtzqJkW11UYQ0Gg=;
- b=E8tMXk5NZVuu6H+PpWUgeKlSnMN/uUfdcC6EwgNWR1x6pT4EaE30veEDcGG04nx0wN
- wGgCY7NJh7WNW4+lurQ0H0HDqgbVYE2h4+VMMv1AS5ouQ9fxk4aDtUiyJCHoJ/9pkh27
- W7xD2iCXdSvNXBVu07yKRg0mBKon6GHIgBMjh1h1BtBVxuAvWjDBK/CqNWBS3oliCDnm
- EmvQnVdZ89dyEJkv3LwmvtvdtwqNOSN3bcrdvQYRiG/dbLehSyB/AwYF3Hz9qp2D/eGk
- QmESymVx8cRLl9f33XDb9Z22soCnWMkE27v1nB+v9vZHZ5KIpbqyKfve6K/eYvQhB9ea
- Vg4A==
-X-Gm-Message-State: AGi0PuYkbls1HTyeu9J/Jb3EonsvIhdYMV46kyc6FwBauxEs1xTyATzy
- z1bSs3xXSWPK4krHJuNRNR36ow==
-X-Google-Smtp-Source: APiQypJrHuK513hl/mWNZ3CMK5SALK94WvqJyZlw7ryX0HGGvoYccP4SvWf/0xIaXWcS+grMnsx+6Q==
-X-Received: by 2002:a17:902:6b01:: with SMTP id
- o1mr3395641plk.64.1588318806626; 
- Fri, 01 May 2020 00:40:06 -0700 (PDT)
+ bh=68MF0mDAuQKXmyv4cM6UCkwuoNI6S07F0Y008UnFGIA=;
+ b=PVGyG6PY7XXxfeVbZE0JqYFeKdDD/V3oCxejfqw7bhlZEfSdp3mpFu9mPE7qQMe+SE
+ R/kb8Zcg78nQVMPJim0BEzHNy/H/nY/sgDp35aci6gveALRobKo7ltJjo3Ul53Wg4QO9
+ +lCnCzS9XF2ByB7JWFriyWGITlo74H1tSjgvr+w12zqSnsHzU/cjHG1+htXoQXhh2o4z
+ +Fx2O5N8EzTgOmk7LCPdLb33lf0rsi5r0l/pLDLFHR+yTOowQnnePkA3hCeURlashx6B
+ KbTkTvFoC+NKEMRD9iAuLHVqbF8wUdsQZnXR1DbcqHTgZQ4d8MTymxLixDKohSiYU8ak
+ Ce5w==
+X-Gm-Message-State: AGi0PubdjhcynC9CQKwiAwjJsOpONujtEDn8voaxUFbHAEioTBAnsSMO
+ zV6EBxPdC8zvljBMEh8SHsFODA==
+X-Google-Smtp-Source: APiQypJiEJ4kQAfPAoSZcmNCfZQu1/ZpRWQas3IjFCF2RyIzmyY+jFIehrdb4AljNbKemje+OfRRHA==
+X-Received: by 2002:a17:90a:3ace:: with SMTP id
+ b72mr3264947pjc.48.1588318809841; 
+ Fri, 01 May 2020 00:40:09 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- w12sm1557841pfq.133.2020.05.01.00.40.03
+ w12sm1557841pfq.133.2020.05.01.00.40.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 May 2020 00:40:06 -0700 (PDT)
+ Fri, 01 May 2020 00:40:09 -0700 (PDT)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [RFC][PATCH 2/4] mm: cma: Add dma_heap flag to cma structure
-Date: Fri,  1 May 2020 07:39:47 +0000
-Message-Id: <20200501073949.120396-3-john.stultz@linaro.org>
+Subject: [RFC][PATCH 3/4] dma-buf: cma_heap: Extend logic to export CMA
+ regions tagged with "linux, cma-heap"
+Date: Fri,  1 May 2020 07:39:48 +0000
+Message-Id: <20200501073949.120396-4-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200501073949.120396-1-john.stultz@linaro.org>
 References: <20200501073949.120396-1-john.stultz@linaro.org>
@@ -81,11 +82,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a dma_heap flag on the cma structure,
-along with accessors to set and read the flag.
-
-This is then used to process and store the "linux,cma-heap"
-property documented in the previous patch.
+This patch reworks the cma_heap initialization so that
+we expose both the default CMA region and any CMA regions
+tagged with "linux,cma-heap" in the device-tree.
 
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
@@ -108,88 +107,46 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-mm@kvack.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- include/linux/cma.h     |  3 +++
- kernel/dma/contiguous.c |  3 +++
- mm/cma.c                | 11 +++++++++++
- mm/cma.h                |  1 +
- 4 files changed, 18 insertions(+)
+ drivers/dma-buf/heaps/cma_heap.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/cma.h b/include/linux/cma.h
-index 6ff79fefd01f..d8b8e6ce221c 100644
---- a/include/linux/cma.h
-+++ b/include/linux/cma.h
-@@ -25,6 +25,9 @@ extern phys_addr_t cma_get_base(const struct cma *cma);
- extern unsigned long cma_get_size(const struct cma *cma);
- extern const char *cma_get_name(const struct cma *cma);
- 
-+extern void __init cma_enable_dma_heap(struct cma *cma, bool enabled);
-+extern bool cma_dma_heap_enabled(struct cma *cma);
-+
- extern int __init cma_declare_contiguous_nid(phys_addr_t base,
- 			phys_addr_t size, phys_addr_t limit,
- 			phys_addr_t alignment, unsigned int order_per_bit,
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 8bc6f2d670f9..f667fd51daa2 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -303,6 +303,7 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
- 	phys_addr_t mask = align - 1;
- 	unsigned long node = rmem->fdt_node;
- 	bool default_cma = of_get_flat_dt_prop(node, "linux,cma-default", NULL);
-+	bool heap_exported = of_get_flat_dt_prop(node, "linux,cma-heap", NULL);
- 	struct cma *cma;
- 	int err;
- 
-@@ -332,6 +333,8 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
- 	if (default_cma)
- 		dma_contiguous_set_default(cma);
- 
-+	cma_enable_dma_heap(cma, heap_exported);
-+
- 	rmem->ops = &rmem_cma_ops;
- 	rmem->priv = cma;
- 
-diff --git a/mm/cma.c b/mm/cma.c
-index 0463ad2ce06b..ec671bd8f66e 100644
---- a/mm/cma.c
-+++ b/mm/cma.c
-@@ -55,6 +55,16 @@ const char *cma_get_name(const struct cma *cma)
- 	return cma->name ? cma->name : "(undefined)";
- }
- 
-+void __init cma_enable_dma_heap(struct cma *cma, bool enabled)
-+{
-+	cma->dma_heap = enabled;
-+}
-+
-+bool cma_dma_heap_enabled(struct cma *cma)
-+{
-+	return !!cma->dma_heap;
-+}
-+
- static unsigned long cma_bitmap_aligned_mask(const struct cma *cma,
- 					     unsigned int align_order)
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 626cf7fd033a..dd154e2db101 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -141,6 +141,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
  {
-@@ -157,6 +167,7 @@ static int __init cma_init_reserved_areas(void)
- }
- core_initcall(cma_init_reserved_areas);
- 
+ 	struct cma_heap *cma_heap;
+ 	struct dma_heap_export_info exp_info;
++	struct cma *default_cma = dev_get_cma_area(NULL);
 +
- /**
-  * cma_init_reserved_mem() - create custom contiguous area from reserved memory
-  * @base: Base address of the reserved area
-diff --git a/mm/cma.h b/mm/cma.h
-index 33c0b517733c..6fe2242c724f 100644
---- a/mm/cma.h
-+++ b/mm/cma.h
-@@ -13,6 +13,7 @@ struct cma {
- 	spinlock_t mem_head_lock;
- #endif
- 	const char *name;
-+	bool dma_heap;
- };
++	/* We only add the default heap and explicitly tagged heaps */
++	if (cma != default_cma && !cma_dma_heap_enabled(cma))
++		return 0;
  
- extern struct cma cma_areas[MAX_CMA_AREAS];
+ 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
+ 	if (!cma_heap)
+@@ -162,16 +167,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
+ 	return 0;
+ }
+ 
+-static int add_default_cma_heap(void)
++static int cma_heaps_init(void)
+ {
+-	struct cma *default_cma = dev_get_cma_area(NULL);
+-	int ret = 0;
+-
+-	if (default_cma)
+-		ret = __add_cma_heap(default_cma, NULL);
+-
+-	return ret;
++	cma_for_each_area(__add_cma_heap, NULL);
++	return 0;
+ }
+-module_init(add_default_cma_heap);
++module_init(cma_heaps_init);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
+ MODULE_LICENSE("GPL v2");
 -- 
 2.17.1
 
