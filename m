@@ -2,37 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C23E1C23B3
-	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 09:05:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BA31C240B
+	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 10:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A324D6E06D;
-	Sat,  2 May 2020 07:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D9496ED90;
+	Sat,  2 May 2020 08:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBFA6E06D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 May 2020 07:05:35 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 91CCB20034;
- Sat,  2 May 2020 09:05:32 +0200 (CEST)
-Date: Sat, 2 May 2020 09:05:31 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Konrad Dybcio <konradybcio@gmail.com>
-Subject: Re: [PATCH 1/2] drivers: drm: panel: Add TM5P5 NT35596 panel driver
-Message-ID: <20200502070531.GA11754@ravnborg.org>
-References: <20200501204825.146424-1-konradybcio@gmail.com>
- <20200501204825.146424-2-konradybcio@gmail.com>
+X-Greylist: delayed 1795 seconds by postgrey-1.36 at gabe;
+ Sat, 02 May 2020 08:14:46 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F166E09A
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 May 2020 08:14:46 +0000 (UTC)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0427cVh5078521; Sat, 2 May 2020 03:43:56 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30r84n7rx7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 02 May 2020 03:43:56 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0427hkFd089425;
+ Sat, 2 May 2020 03:43:55 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30r84n7rwq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 02 May 2020 03:43:55 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 0427eCnX017574;
+ Sat, 2 May 2020 07:43:53 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 30s0g585ds-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 02 May 2020 07:43:53 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0427hpCW8061248
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 2 May 2020 07:43:51 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 30C4DA4040;
+ Sat,  2 May 2020 07:43:51 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33F6FA404D;
+ Sat,  2 May 2020 07:43:48 +0000 (GMT)
+Received: from linux.ibm.com (unknown [9.148.204.17])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Sat,  2 May 2020 07:43:48 +0000 (GMT)
+Date: Sat, 2 May 2020 10:43:46 +0300
+From: Mike Rapoport <rppt@linux.ibm.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 11/14] docs: move other kAPI documents to core-api
+Message-ID: <20200502074346.GD342687@linux.ibm.com>
+References: <cover.1588345503.git.mchehab+huawei@kernel.org>
+ <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200501204825.146424-2-konradybcio@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=90fzL4WGibWdTmK8KlIA:9
- a=CjuIK1q_8ugA:10
+In-Reply-To: <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-05-02_03:2020-05-01,
+ 2020-05-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 clxscore=1011 suspectscore=1
+ spamscore=0 priorityscore=1501 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005020061
+X-Mailman-Approved-At: Sat, 02 May 2020 08:34:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,472 +86,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, skrzynka@konradybcio.pl,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Peter Xu <peterx@redhat.com>, Masahiro Yamada <yamada.masahiro@socionext.com>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
+ Will Deacon <will@kernel.org>, Ingo Molnar <mingo@kernel.org>,
+ Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>,
+ "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>, David Airlie <airlied@linux.ie>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Peter Collingbourne <pcc@google.com>,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Patrick Bellasi <patrick.bellasi@arm.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad.
+Hello Mauro,
 
-On Fri, May 01, 2020 at 10:48:22PM +0200, Konrad Dybcio wrote:
-> This adds support for TMP5P5 NT35596 1080x1920 video
-> mode panel that can be found on some Asus Zenfone 2
-> Laser (Z00T) devices.
-
-Very well-writen driver. Only a few small things in the following.
-
-	Sam
-
+On Fri, May 01, 2020 at 05:37:55PM +0200, Mauro Carvalho Chehab wrote:
+> There are a number of random documents that seem to be
+> describing some aspects of the core-api. Move them to such
+> directory, adding them at the core-api/index.rst file.
 > 
-> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/gpu/drm/panel/Kconfig               |   9 +
->  drivers/gpu/drm/panel/Makefile              |   1 +
->  drivers/gpu/drm/panel/panel-tm5p5-nt35596.c | 366 ++++++++++++++++++++
->  3 files changed, 376 insertions(+)
->  create mode 100644 drivers/gpu/drm/panel/panel-tm5p5-nt35596.c
+>  Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
+>  Documentation/core-api/index.rst                            | 6 ++++++
+>  Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
+>  Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
+
+The nommu-mmap mostly provides description of user visible behaviuour. I
+think it's bettter to have it in admin-guide/mm/.
+
+>  .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
+>  .../unaligned-memory-access.rst}                            | 0
+>  Documentation/gpu/drm-mm.rst                                | 2 +-
+>  arch/Kconfig                                                | 2 +-
+>  init/Kconfig                                                | 2 +-
+>  mm/Kconfig                                                  | 2 +-
+>  mm/nommu.c                                                  | 2 +-
+>  11 files changed, 12 insertions(+), 6 deletions(-)
+>  rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
+>  rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
+>  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
+>  rename Documentation/{unaligned-memory-access.txt => core-api/unaligned-memory-access.rst} (100%)
 > 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index a1723c1b5fbf8..6ff892334ac4b 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -401,6 +401,15 @@ config DRM_PANEL_SONY_ACX565AKM
->  	  Say Y here if you want to enable support for the Sony ACX565AKM
->  	  800x600 3.5" panel (found on the Nokia N900).
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index 0329a4d3fa9e..0bf2f2a84a9f 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -583,7 +583,7 @@ trimming of allocations is initiated.
 >  
-> +config DRM_PANEL_TM5P5_NT35596
-> +	tristate "TM5P5 NT35596 panel"
-> +	depends on GPIOLIB && OF
-> +	depends on DRM_MIPI_DSI
-> +	help
-> +	  Say Y here if you want to enable support for the TMP5P5
-> +	  NT35596 1080x1920 video mode panel as found in some Asus
-> +	  Zenfone 2 Laser Z00T devices.
-> +
->  config DRM_PANEL_TPO_TD028TTEC1
->  	tristate "Toppoly (TPO) TD028TTEC1 panel driver"
->  	depends on OF && SPI
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index 96a883cd66305..4fc7e00b18502 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -42,6 +42,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
->  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
->  obj-$(CONFIG_DRM_PANEL_SONY_ACX424AKP) += panel-sony-acx424akp.o
->  obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
-> +obj-$(CONFIG_DRM_PANEL_TM5P5_NT35596) += panel-tm5p5-nt35596.o
->  obj-$(CONFIG_DRM_PANEL_TPO_TD028TTEC1) += panel-tpo-td028ttec1.o
->  obj-$(CONFIG_DRM_PANEL_TPO_TD043MTEA1) += panel-tpo-td043mtea1.o
->  obj-$(CONFIG_DRM_PANEL_TPO_TPG110) += panel-tpo-tpg110.o
-> diff --git a/drivers/gpu/drm/panel/panel-tm5p5-nt35596.c b/drivers/gpu/drm/panel/panel-tm5p5-nt35596.c
-> new file mode 100644
-> index 0000000000000..c361ab76812b8
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-tm5p5-nt35596.c
-> @@ -0,0 +1,366 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +
-> +struct tm5p5_nt35596 {
-> +	struct drm_panel panel;
-> +	struct mipi_dsi_device *dsi;
-> +	struct regulator_bulk_data supplies[2];
-> +	struct gpio_desc *reset_gpio;
-> +	bool prepared;
-> +};
-> +
-> +static inline struct tm5p5_nt35596 *to_tm5p5_nt35596(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct tm5p5_nt35596, panel);
-> +}
-> +
-> +#define dsi_generic_write_seq(dsi, seq...) do {				\
-> +		static const u8 d[] = { seq };				\
-> +		int ret;						\
-> +		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +	} while (0)
-> +
-> +#define dsi_dcs_write_seq(dsi, seq...) do {				\
-> +		static const u8 d[] = { seq };				\
-> +		int ret;						\
-> +		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-> +		if (ret < 0)						\
-> +			return ret;					\
-> +	} while (0)
-> +
-> +static void tm5p5_nt35596_reset(struct tm5p5_nt35596 *ctx)
-> +{
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(1000, 2000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(1000, 2000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(15000, 16000);
-> +}
-> +
-> +static int tm5p5_nt35596_on(struct tm5p5_nt35596 *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-
-Do you have any idea of what happens in the following?
-I recall 0xff is explained in a few other drivers for example.
-
-If you get an idea it would be nice with a few headlines.
-> +
-> +	dsi_generic_write_seq(dsi, 0xff, 0x05);
-> +	dsi_generic_write_seq(dsi, 0xfb, 0x01);
-> +	dsi_generic_write_seq(dsi, 0xc5, 0x31);
-> +	dsi_generic_write_seq(dsi, 0xff, 0x04);
-> +	dsi_generic_write_seq(dsi, 0x01, 0x84);
-> +	dsi_generic_write_seq(dsi, 0x05, 0x25);
-> +	dsi_generic_write_seq(dsi, 0x06, 0x01);
-> +	dsi_generic_write_seq(dsi, 0x07, 0x20);
-> +	dsi_generic_write_seq(dsi, 0x08, 0x06);
-> +	dsi_generic_write_seq(dsi, 0x09, 0x08);
-> +	dsi_generic_write_seq(dsi, 0x0a, 0x10);
-> +	dsi_generic_write_seq(dsi, 0x0b, 0x10);
-> +	dsi_generic_write_seq(dsi, 0x0c, 0x10);
-> +	dsi_generic_write_seq(dsi, 0x0d, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x0e, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x0f, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x10, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x11, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x12, 0x14);
-> +	dsi_generic_write_seq(dsi, 0x17, 0xf3);
-> +	dsi_generic_write_seq(dsi, 0x18, 0xc0);
-> +	dsi_generic_write_seq(dsi, 0x19, 0xc0);
-> +	dsi_generic_write_seq(dsi, 0x1a, 0xc0);
-> +	dsi_generic_write_seq(dsi, 0x1b, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0x1c, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0x1d, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0x1e, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0x1f, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0x20, 0xb3);
-> +	dsi_generic_write_seq(dsi, 0xfb, 0x01);
-> +	dsi_generic_write_seq(dsi, 0xff, 0x00);
-> +	dsi_generic_write_seq(dsi, 0xfb, 0x01);
-> +	dsi_generic_write_seq(dsi, 0x35, 0x01);
-> +	dsi_generic_write_seq(dsi, 0xd3, 0x06);
-> +	dsi_generic_write_seq(dsi, 0xd4, 0x04);
-> +	dsi_generic_write_seq(dsi, 0x5e, 0x0d);
-> +	dsi_generic_write_seq(dsi, 0x11, 0x00);
-> +	msleep(100);
-> +	dsi_generic_write_seq(dsi, 0x29, 0x00);
-> +	dsi_generic_write_seq(dsi, 0x53, 0x24);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tm5p5_nt35596_off(struct tm5p5_nt35596 *ctx)
-> +{
-> +	struct mipi_dsi_device *dsi = ctx->dsi;
-> +	struct device *dev = &dsi->dev;
-> +	int ret;
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to set display off: %d\n", ret);
-> +		return ret;
-> +	}
-> +	msleep(60);
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> +		return ret;
-> +	}
-
-I wonder why the panel do not need a:
-mipi_dsi_dcs_exit_sleep_mode()
-and
-mipi_dsi_dcs_set_display_on()
-
-in the tm5p5_nt35596_on() function.
-
-Usually the prepare and unprepare steps are
-somehow symmetrical.
-
-> +
-> +	dsi_dcs_write_seq(dsi, 0x4f, 0x01);
-> +
-> +	return 0;
-> +}
-> +
-> +static int tm5p5_nt35596_prepare(struct drm_panel *panel)
-> +{
-> +	struct tm5p5_nt35596 *ctx = to_tm5p5_nt35596(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	if (ctx->prepared)
-> +		return 0;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	tm5p5_nt35596_reset(ctx);
-> +
-> +	ret = tm5p5_nt35596_on(ctx);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-Line too long.
-
-> +		return ret;
-> +	}
-> +
-> +	ctx->prepared = true;
-> +	return 0;
-> +}
-> +
-> +static int tm5p5_nt35596_unprepare(struct drm_panel *panel)
-> +{
-> +	struct tm5p5_nt35596 *ctx = to_tm5p5_nt35596(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	if (!ctx->prepared)
-> +		return 0;
-> +
-> +	ret = tm5p5_nt35596_off(ctx);
-> +	if (ret < 0)
-> +		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +
-> +	ctx->prepared = false;
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode tm5p5_nt35596_mode = {
-> +	.clock = (1080 + 100 + 8 + 16) * (1920 + 4 + 2 + 4) * 60 / 1000,
-> +	.hdisplay = 1080,
-> +	.hsync_start = 1080 + 100,
-> +	.hsync_end = 1080 + 100 + 8,
-> +	.htotal = 1080 + 100 + 8 + 16,
-> +	.vdisplay = 1920,
-> +	.vsync_start = 1920 + 4,
-> +	.vsync_end = 1920 + 4 + 2,
-> +	.vtotal = 1920 + 4 + 2 + 4,
-> +	.vrefresh = 60,
-> +	.width_mm = 68,
-> +	.height_mm = 121,
-> +};
-We have patches pending to remove vrefresh, which I thought
-was already applied. Anyway, keep it here.
-We will eaither remove it later or if the patches crosses
-I will do it when applying this patch.
-
-> +
-> +static int tm5p5_nt35596_get_modes(struct drm_panel *panel,
-> +				   struct drm_connector *connector)
-> +{
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, &tm5p5_nt35596_mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct drm_panel_funcs tm5p5_nt35596_panel_funcs = {
-> +	.prepare = tm5p5_nt35596_prepare,
-> +	.unprepare = tm5p5_nt35596_unprepare,
-> +	.get_modes = tm5p5_nt35596_get_modes,
-> +};
-> +
-> +static int tm5p5_nt35596_bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = bl->props.brightness;
-> +	int ret;
-> +
-> +	if (bl->props.power != FB_BLANK_UNBLANK ||
-> +	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-> +	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> +		brightness = 0;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return 0;
-> +}
-> +
-> +// TODO: Check if /sys/class/backlight/.../actual_brightness actually returns
-> +// correct values. If not, remove this function.
-Please resolve this TODO
-
-> +static int tm5p5_nt35596_bl_get_brightness(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = bl->props.brightness;
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return brightness & 0xff;
-> +}
-> +
-> +static const struct backlight_ops tm5p5_nt35596_bl_ops = {
-> +	.update_status = tm5p5_nt35596_bl_update_status,
-> +	.get_brightness = tm5p5_nt35596_bl_get_brightness,
-> +};
-> +
-> +static struct backlight_device *
-> +tm5p5_nt35596_create_backlight(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct backlight_properties props = {
-> +		.type = BACKLIGHT_RAW,
-> +		.brightness = 255,
-> +		.max_brightness = 255,
-> +	};
-Make props const.
-
-> +
-> +	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
-> +					      &tm5p5_nt35596_bl_ops, &props);
-> +}
-> +
-> +static int tm5p5_nt35596_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct tm5p5_nt35596 *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	ctx->supplies[0].supply = "vdd";
-> +	ctx->supplies[1].supply = "vddio";
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-> +				      ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to get regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> +	if (IS_ERR(ctx->reset_gpio)) {
-> +		ret = PTR_ERR(ctx->reset_gpio);
-> +		dev_err(dev, "Failed to get reset-gpios: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ctx->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_EOT_PACKET |
-> +			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
-> +
-> +	drm_panel_init(&ctx->panel, dev, &tm5p5_nt35596_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +
-> +	ctx->panel.backlight = tm5p5_nt35596_create_backlight(dsi);
-> +	if (IS_ERR(ctx->panel.backlight)) {
-> +		ret = PTR_ERR(ctx->panel.backlight);
-> +		dev_err(dev, "Failed to create backlight: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = drm_panel_add(&ctx->panel);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to add panel: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mipi_dsi_attach(dsi);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int tm5p5_nt35596_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct tm5p5_nt35596 *ctx = mipi_dsi_get_drvdata(dsi);
-> +	int ret;
-> +
-> +	ret = mipi_dsi_detach(dsi);
-> +	if (ret < 0)
-> +		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-Line too long I think
-
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id tm5p5_nt35596_of_match[] = {
-> +	{ .compatible = "tm5p5,nt35596" },
-vendor tm5p5 is not documented.
-
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, tm5p5_nt35596_of_match);
-> +
-> +static struct mipi_dsi_driver tm5p5_nt35596_driver = {
-> +	.probe = tm5p5_nt35596_probe,
-> +	.remove = tm5p5_nt35596_remove,
-> +	.driver = {
-> +		.name = "panel-tm5p5-nt35596",
-> +		.of_match_table = tm5p5_nt35596_of_match,
-> +	},
-> +};
-> +module_mipi_dsi_driver(tm5p5_nt35596_driver);
-> +
-> +MODULE_AUTHOR("Konrad Dybcio <konradybcio@gmail.com>");
-> +MODULE_DESCRIPTION("DRM driver for tm5p5 nt35596 1080p video mode dsi panel");
-> +MODULE_LICENSE("GPL v2");
+>  The default value is 1.
+>  
+> -See Documentation/nommu-mmap.txt for more information.
+> +See Documentation/core-api/nommu-mmap.rst for more information.
+>  
+>  
+>  numa_zonelist_order
+> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+> index eeac63ba17c3..fe03a639a91a 100644
+> --- a/Documentation/core-api/index.rst
+> +++ b/Documentation/core-api/index.rst
+> @@ -38,10 +38,14 @@ Library functionality that is used throughout the kernel.
+>     circular-buffers
+>     rbtree
+>     generic-radix-tree
+> +   mailbox
+>     packing
+> +   rbtree
+> +   this_cpu_ops
+>     timekeeping
+>     errseq
+>  
+> +
+>  Concurrency primitives
+>  ======================
+>  
+> @@ -82,11 +86,13 @@ more memory-management documentation in :doc:`/vm/index`.
+>     :maxdepth: 1
+>  
+>     memory-allocation
+> +   unaligned-memory-access
+>     dma-api
+>     dma-api-howto
+>     dma-attributes
+>     dma-isa-lpc
+>     bus-virt-phys-mapping
+> +   nommu-mmap
+>     mm-api
+>     genalloc
+>     pin_user_pages
+> diff --git a/Documentation/mailbox.txt b/Documentation/core-api/mailbox.rst
+> similarity index 100%
+> rename from Documentation/mailbox.txt
+> rename to Documentation/core-api/mailbox.rst
+> diff --git a/Documentation/nommu-mmap.txt b/Documentation/core-api/nommu-mmap.rst
+> similarity index 100%
+> rename from Documentation/nommu-mmap.txt
+> rename to Documentation/core-api/nommu-mmap.rst
+> diff --git a/Documentation/this_cpu_ops.txt b/Documentation/core-api/this_cpu_ops.rst
+> similarity index 100%
+> rename from Documentation/this_cpu_ops.txt
+> rename to Documentation/core-api/this_cpu_ops.rst
+> diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/core-api/unaligned-memory-access.rst
+> similarity index 100%
+> rename from Documentation/unaligned-memory-access.txt
+> rename to Documentation/core-api/unaligned-memory-access.rst
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 1839762044be..e0bbcbb6f512 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -314,7 +314,7 @@ To use drm_gem_cma_get_unmapped_area(), drivers must fill the struct
+>  a pointer on drm_gem_cma_get_unmapped_area().
+>  
+>  More detailed information about get_unmapped_area can be found in
+> -Documentation/nommu-mmap.txt
+> +Documentation/core-api/nommu-mmap.rst
+>  
+>  Memory Coherency
+>  ----------------
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 786a85d4ad40..b0b4046c9d13 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -147,7 +147,7 @@ config HAVE_EFFICIENT_UNALIGNED_ACCESS
+>  	  problems with received packets if doing so would not help
+>  	  much.
+>  
+> -	  See Documentation/unaligned-memory-access.txt for more
+> +	  See Documentation/core-api/unaligned-memory-access.rst for more
+>  	  information on the topic of unaligned memory accesses.
+>  
+>  config ARCH_USE_BUILTIN_BSWAP
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 492bb7000aa4..61ccfd9243e3 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1950,7 +1950,7 @@ config MMAP_ALLOW_UNINITIALIZED
+>  	  userspace.  Since that isn't generally a problem on no-MMU systems,
+>  	  it is normally safe to say Y here.
+>  
+> -	  See Documentation/nommu-mmap.txt for more information.
+> +	  See Documentation/core-api/nommu-mmap.rst for more information.
+>  
+>  config SYSTEM_DATA_VERIFICATION
+>  	def_bool n
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index db626b8d4fdb..2a133c40a4b7 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -382,7 +382,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+>  	  This option specifies the initial value of this option.  The default
+>  	  of 1 says that all excess pages should be trimmed.
+>  
+> -	  See Documentation/nommu-mmap.txt for more information.
+> +	  See Documentation/core-api/nommu-mmap.rst for more information.
+>  
+>  config TRANSPARENT_HUGEPAGE
+>  	bool "Transparent Hugepage Support"
+> diff --git a/mm/nommu.c b/mm/nommu.c
+> index 371697bf372d..e3e707d6f124 100644
+> --- a/mm/nommu.c
+> +++ b/mm/nommu.c
+> @@ -5,7 +5,7 @@
+>   *  Replacement code for mm functions to support CPU's that don't
+>   *  have any form of memory management unit (thus no virtual memory).
+>   *
+> - *  See Documentation/nommu-mmap.txt
+> + *  See Documentation/core-api/nommu-mmap.rst
+>   *
+>   *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+>   *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
 > -- 
-> 2.26.1
+> 2.25.4
+> 
+
+-- 
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
