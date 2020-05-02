@@ -1,36 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7ED1C23F2
-	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 09:53:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E151C243B
+	for <lists+dri-devel@lfdr.de>; Sat,  2 May 2020 11:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C8B6E0AA;
-	Sat,  2 May 2020 07:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A548B6E0C9;
+	Sat,  2 May 2020 09:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB9B6E0AA
- for <dri-devel@lists.freedesktop.org>; Sat,  2 May 2020 07:53:52 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 15CE820034;
- Sat,  2 May 2020 09:53:47 +0200 (CEST)
-Date: Sat, 2 May 2020 09:53:40 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: allen <allen.chen@ite.com.tw>
-Subject: Re: [PATCH v9 0/3] IT6505 cover letter
-Message-ID: <20200502075340.GA15420@ravnborg.org>
-References: <1587979103-5630-1-git-send-email-allen.chen@ite.com.tw>
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D62BB6E0C9
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 May 2020 09:00:08 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21090891-1500050 for multiple; Sat, 02 May 2020 10:00:00 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1587979103-5630-1-git-send-email-allen.chen@ite.com.tw>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=bHKA5wnqmxRAZF-cxx8A:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <d5789d27-bf14-c1e7-d9c0-71fce6e16f24@amd.com>
+References: <20200430095839.6474-1-nirmoy.das@amd.com>
+ <158824170487.7361.8387026848955948115@build.alporthouse.com>
+ <d5789d27-bf14-c1e7-d9c0-71fce6e16f24@amd.com>
+To: Nirmoy <nirmodas@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/1] drm/mm: optimize rb_hole_addr rbtree search
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Message-ID: <158841000025.27785.3023804138122028190@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Sat, 02 May 2020 10:00:00 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,55 +41,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Stephan Gerhold <stephan@gerhold.net>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>,
- "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: nirmoy.das@amd.com, christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Allen.
+Quoting Nirmoy (2020-04-30 11:30:43)
+> 
+> On 4/30/20 12:15 PM, Chris Wilson wrote:
+> > Quoting Nirmoy Das (2020-04-30 10:58:39)
+> >> +void insert_hole_addr(struct rb_root *root, struct drm_mm_node *node)
+> > ^ static
+> 
+> 
+> Ah I forgot!
+> 
+> >
+> > (sparse [make C=1] or make W=1 will spot this)
+> 
+> 
+> Thanks for the tip :)
+> 
+> Nirmoy
+> 
+> >
+> > Looks good, I'll check more carefully later.
 
-On Mon, Apr 27, 2020 at 05:16:51PM +0800, allen wrote:
-> The IT6505 is a high-performance DisplayPort 1.1a transmitter, fully compliant with DisplayPort 1.1a, HDCP 1.3 specifications. The IT6505 supports color depth of up to 36 bits (12 bits/color) and ensures robust transmission of high-quality uncompressed video content, along with uncompressed and compressed digital audio content.
-> 
-> This series contains document bindings, revert commit, add vendor prefix, Kconfig to control the function enable or not.
+Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
 
-Applied the fix for ITE vendor prefix and the binding to drm-misc-next.
-Did a few edits before pushing out.
+If you do find some time to add some more tests, that would be great!
 
-	Sam
-
-> 
-> Allen Chen (1):
->   WIP: drm/bridge: add it6505 driver
-> 
-> allen (2):
->   dt-bindings: Add vendor prefix for ITE Tech. Inc.
->   WIP: dt-bindings: Add binding for IT6505.
-> 
->  .../bindings/display/bridge/ite,it6505.yaml        |   91 +
->  .../devicetree/bindings/vendor-prefixes.yaml       |    2 +-
->  drivers/gpu/drm/bridge/Kconfig                     |    7 +
->  drivers/gpu/drm/bridge/Makefile                    |    1 +
->  drivers/gpu/drm/bridge/ite-it6505.c                | 3136 ++++++++++++++++++++
->  5 files changed, 3236 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
->  create mode 100644 drivers/gpu/drm/bridge/ite-it6505.c
-> 
-> -- 
-> 1.9.1
+Even converting your example into a test-drm_mm benchmark [spending a
+few seconds runtime max!] will be very useful.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
