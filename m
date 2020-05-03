@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB041C2CD2
-	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 15:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2171C3382
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1635F6E214;
-	Sun,  3 May 2020 13:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B9F6E332;
+	Mon,  4 May 2020 07:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6F4A6E214
- for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 13:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LwqDvUwwp1e3yLi2gQ5RHgo3muJ414vIaU96DdbwfeQ=; b=ccxEoxGDrXp932KZIObS1AUTaw
- yQs6yL0T3X3ZOZrj6gkUuvWg8F1446U3YGgt8JNi68/QZsRC2FzjgjAI4AyJ+6gFGSgEa5MZHKg3v
- e7yS+4zWjpes8Wlb+vQ6c+Iu6jkEI8G9uVBOukX7Nfok01g0Nnu8gmW3qXCRV1TDN8j3CVVohkVIm
- RWqMsRvhP89cwxIvo4HwJ8JCBs2fmeS681Ka7FGivHgJWbm14+b/tjuG28TOqX6IaDWIVAWHEq3zw
- e5+eGwiUVW6x+OhNzpdyPMGN6HqNdCMXi9wXpBcDdxdVbIulOG58MFI1kdKHP4xNfyOTcIcpGa4Lu
- DLo7yIbQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:55643
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jVEpR-0007ZY-MQ; Sun, 03 May 2020 15:38:45 +0200
-Subject: Re: [PATCH 07/10] drm/format-helper: Add drm_fb_swab()
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200429124830.27475-1-noralf@tronnes.org>
- <20200429124830.27475-8-noralf@tronnes.org>
- <20200503102959.GA17117@ravnborg.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <1fbe4cb0-65a1-0573-8958-6db49c1c1dc9@tronnes.org>
-Date: Sun, 3 May 2020 15:38:44 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA1A6E239
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 14:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1588515503; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vYs6wssFrETsp+qNNeSVPy/cndj0TdQNmxHWM359UFk=;
+ b=Lr0jnkGAF04IuHztE3Vp3y/0o/vkczf8c9TJAZ28yBffO0sSmhtzfMKHriQll2mRqDs/xN
+ NxcOAyO7VIz0bPGThARTJMimaMOcDyAsoeqrsNCyCQ75L2aQPud1w6ym8anwTY/5plN3Ri
+ pkBpVwx4gSou1l8VxpNLyx4JtfpQYI4=
+Date: Sun, 03 May 2020 16:18:08 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v7 01/12] dt-bindings: add img, pvrsgx.yaml for Imagination
+ GPUs
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <8EER9Q.C206SXNSICP7@crapouillou.net>
+In-Reply-To: <3D8B59D6-83E3-4FE6-9C99-E2E5616A8139@goldelico.com>
+References: <cover.1587760454.git.hns@goldelico.com>
+ <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
+ <NMCE9Q.LWG45P20NBVJ@crapouillou.net>
+ <28138EC0-0FA5-4F97-B528-3442BF087C7A@goldelico.com>
+ <TEAR9Q.6HI5DFRO5U0I3@crapouillou.net>
+ <3D8B59D6-83E3-4FE6-9C99-E2E5616A8139@goldelico.com>
 MIME-Version: 1.0
-In-Reply-To: <20200503102959.GA17117@ravnborg.org>
+X-Mailman-Approved-At: Mon, 04 May 2020 07:17:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,120 +49,273 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ James Hogan <jhogan@kernel.org>, Jonathan Bakker <xc-racer2@live.ca>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, letux-kernel@openphoenux.org,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Tony Lindgren <tony@atomide.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, devicetree@vger.kernel.org,
+ =?iso-8859-1?q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ kernel@pyra-handheld.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDMuMDUuMjAyMCAxMi4yOSwgc2tyZXYgU2FtIFJhdm5ib3JnOgo+IEhpIE5vcmFsZgo+
-IAo+IE9uIFdlZCwgQXByIDI5LCAyMDIwIGF0IDAyOjQ4OjI3UE0gKzAyMDAsIE5vcmFsZiBUcsO4
-bm5lcyB3cm90ZToKPj4gVGhpcyByZXBsYWNlcyBkcm1fZmJfc3dhYjE2KCkgd2l0aCBkcm1fZmJf
-c3dhYigpIHN1cHBvcnRpbmcgMTYgYW5kIDMyLWJpdC4KPj4gQWxzbyBtYWtlIHBpeGVsIGxpbmUg
-Y2FjaGluZyBvcHRpb25hbC4KPj4KPj4gU2lnbmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxu
-b3JhbGZAdHJvbm5lcy5vcmc+Cj4gQSBjb3VwbGUgb2Ygbml0cywgd2l0aCB0aGVzZSBjb25zaWRl
-cmVkOgo+IFJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gCj4+
-IC0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgfCA2MSArKysrKysr
-KysrKysrKysrKysrLS0tLS0tLS0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5j
-ICAgICAgfCAgMiArLQo+PiAgaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCAgICAgfCAg
-NCArLQo+PiAgMyBmaWxlcyBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMo
-LSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMKPj4gaW5kZXggMDg5N2NiOWFl
-YWZmLi41YzE0N2M0OTY2OGMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9y
-bWF0X2hlbHBlci5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBlci5j
-Cj4+IEBAIC03OSwzOSArNzksNjAgQEAgdm9pZCBkcm1fZmJfbWVtY3B5X2RzdGNsaXAodm9pZCBf
-X2lvbWVtICpkc3QsIHZvaWQgKnZhZGRyLAo+PiAgRVhQT1JUX1NZTUJPTChkcm1fZmJfbWVtY3B5
-X2RzdGNsaXApOwo+PiAgCj4+ICAvKioKPj4gLSAqIGRybV9mYl9zd2FiMTYgLSBTd2FwIGJ5dGVz
-IGludG8gY2xpcCBidWZmZXIKPj4gLSAqIEBkc3Q6IFJHQjU2NSBkZXN0aW5hdGlvbiBidWZmZXIK
-Pj4gLSAqIEB2YWRkcjogUkdCNTY1IHNvdXJjZSBidWZmZXIKPj4gKyAqIGRybV9mYl9zd2FiIC0g
-U3dhcCBieXRlcyBpbnRvIGNsaXAgYnVmZmVyCj4+ICsgKiBAZHN0OiBEZXN0aW5hdGlvbiBidWZm
-ZXIKPj4gKyAqIEBzcmM6IFNvdXJjZSBidWZmZXIKPj4gICAqIEBmYjogRFJNIGZyYW1lYnVmZmVy
-Cj4+ICAgKiBAY2xpcDogQ2xpcCByZWN0YW5nbGUgYXJlYSB0byBjb3B5Cj4+ICsgKiBAY2FjaGVk
-OiBTb3VyY2UgYnVmZmVyIGlzIG1hcHBlZCBjYWNoZWQgKGVnLiBub3Qgd3JpdGUtY29tYmluZWQp
-Cj4+ICsgKgo+PiArICogSWYgQGNhY2hlZCBpcyBmYWxzZSBhIHRlbXBvcmFyeSBidWZmZXIgaXMg
-dXNlZCB0byBjYWNoZSBvbmUgcGl4ZWwgbGluZSBhdCBhCj4+ICsgKiB0aW1lIHRvIHNwZWVkIHVw
-IHNsb3cgdW5jYWNoZWQgcmVhZHMuCj4+ICsgKgo+PiArICogVGhpcyBmdW5jdGlvbiBkb2VzIG5v
-dCBhcHBseSBjbGlwcGluZyBvbiBkc3QsIGkuZS4gdGhlIGRlc3RpbmF0aW9uCj4+ICsgKiBpcyBh
-IHNtYWxsIGJ1ZmZlciBjb250YWluaW5nIHRoZSBjbGlwIHJlY3Qgb25seS4KPj4gICAqLwo+PiAt
-dm9pZCBkcm1fZmJfc3dhYjE2KHUxNiAqZHN0LCB2b2lkICp2YWRkciwgc3RydWN0IGRybV9mcmFt
-ZWJ1ZmZlciAqZmIsCj4+IC0JCSAgIHN0cnVjdCBkcm1fcmVjdCAqY2xpcCkKPj4gK3ZvaWQgZHJt
-X2ZiX3N3YWIodm9pZCAqZHN0LCB2b2lkICpzcmMsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZi
-LAo+PiArCQkgc3RydWN0IGRybV9yZWN0ICpjbGlwLCBib29sIGNhY2hlZCkKPj4gIHsKPj4gLQlz
-aXplX3QgbGVuID0gKGNsaXAtPngyIC0gY2xpcC0+eDEpICogc2l6ZW9mKHUxNik7Cj4+ICsJdTgg
-Y3BwID0gZmItPmZvcm1hdC0+Y3BwWzBdOwo+IFVzZSBvZiBmb3JtYXQtPmNwcCBpcyBkZXByZWNh
-dGVkLCBzaG91bGQgYmUgY2hhcl9wZXJfYmxvY2sgYWNjb3JkaW5nIHRvCj4gdGhlIGNvbW1lbnQg
-aW4gZHJtX2ZvdXJjYy5oCgpJIGR1Y2tlZCB0aGlzIGJlY2F1c2UgaWYgSSBoYWQgdG8gZG8gaXQg
-cHJvcGVybHkgSSB3b3VsZCBoYXZlIHRvIGxvb2sgYXQKYmxvY2sgd2lkdGgvaGVpZ2h0IGFzIHdl
-bGwgYW5kIHllcyBlbnN1cmUgdGhhdCBudW1fcGxhbmVzIGlzIDEuIFRoYXQKd291bGQgbGVhdmUg
-bWUgd2l0aCB3cml0aW5nIGEgaGVscGVyIGZ1bmN0aW9uIGZvciBzb21ldGhpbmcgSSBkb24ndApy
-ZWFsbHkgdW5kZXJzdGFuZCA6LSkKCnN0YXRpYyBpbmxpbmUgYm9vbApkcm1fZm9ybWF0X2luZm9f
-aXNfV0hBVF9UT19DQUxMX1RISVMoY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqaW5mbykK
-ewoJcmV0dXJuIGluZm8tPm51bV9wbGFuZXMgPT0gMSAmJgoJICAgICAgIGRybV9mb3JtYXRfaW5m
-b19ibG9ja193aWR0aChpbmZvLCAwKSA9PSAxICYmCgkgICAgICAgZHJtX2Zvcm1hdF9pbmZvX2Js
-b2NrX2hlaWdodChpbmZvLCAwKSA9PSAxOwp9CgpPciBJIGNvdWxkIG9mYyBqdXN0IHNwZWxsIG91
-dCB0aGUgZnVsbCBhc3NlcnQgaW5zaWRlIHRoaXMgZnVuY3Rpb246CgoJaW5mby0+bnVtX3BsYW5l
-cyA9PSAxICYmCglkcm1fZm9ybWF0X2luZm9fYmxvY2tfd2lkdGgoaW5mbywgMCkgPT0gMSAmJgoJ
-ZHJtX2Zvcm1hdF9pbmZvX2Jsb2NrX2hlaWdodChpbmZvLCAwKSA9PSAxICYmCglpbmZvLT5jaGFy
-X3Blcl9ibG9ja1swXSA9PSAyICYmCglpbmZvLT5jaGFyX3Blcl9ibG9ja1swXSA9PSA0CgpUaGF0
-IHdheSBJIGRvbid0IGhhdmUgdG8ga25vdyB3aGF0IEknbSBhY3R1YWxseSBjaGVja2luZy4KSSdt
-IHVzaW5nIGRybV9mYl9zd2FiKCkgZm9yIFJHQiBmb3JtYXRzLCBidXQgaXQgY2FuIGJlIHVzZWQg
-Zm9yIGFueQpmb3JtYXQgdGhhdCBtZWV0cyB0aGUgYWJvdmUgY3JpdGVyaWEuCgpBbmQgbWF5YmUg
-SSBzaG91bGQgY2hlY2sgLmhzdWIgYW5kIC52c3ViIGFzIHdlbGwsIEkgZG9uJ3Qga25vdy4KCmNw
-cCB3YXMgc3VjaCBhIG5pY2Ugc2ltcGxlIGNvbmNlcHQgOi0pIFNvIEknbGwga2VlcCBpdCB1bmxl
-c3Mgc29tZW9uZQprbm93bGVkZ2VhYmxlIHNoaW5lcyBzb21lIGxpZ2h0IG9uIHRoaXMuCgo+IAo+
-PiArCXNpemVfdCBsZW4gPSBkcm1fcmVjdF93aWR0aChjbGlwKSAqIGNwcDsKPj4gKwl1MTYgKnNy
-YzE2LCAqZHN0MTYgPSBkc3Q7Cj4+ICsJdTMyICpzcmMzMiwgKmRzdDMyID0gZHN0Owo+PiAgCXVu
-c2lnbmVkIGludCB4LCB5Owo+PiAtCXUxNiAqc3JjLCAqYnVmOwo+PiArCXZvaWQgKmJ1ZiA9IE5V
-TEw7Cj4+ICAKPj4gLQkvKgo+PiAtCSAqIFRoZSBjbWEgbWVtb3J5IGlzIHdyaXRlLWNvbWJpbmVk
-IHNvIHJlYWRzIGFyZSB1bmNhY2hlZC4KPj4gLQkgKiBTcGVlZCB1cCBieSBmZXRjaGluZyBvbmUg
-bGluZSBhdCBhIHRpbWUuCj4+IC0JICovCj4+IC0JYnVmID0ga21hbGxvYyhsZW4sIEdGUF9LRVJO
-RUwpOwo+PiAtCWlmICghYnVmKQo+PiArCWlmIChXQVJOX09OX09OQ0UoY3BwID09IDEpKQo+PiAg
-CQlyZXR1cm47Cj4gT3IgY3BwICE9IDIgJiYgY3BwICE9IDQ/CgpJbmRlZWQsIEkgYWdyZWUuCgpO
-b3JhbGYuCgo+PiAgCj4+ICsJaWYgKCFjYWNoZWQpCj4+ICsJCWJ1ZiA9IGttYWxsb2MobGVuLCBH
-RlBfS0VSTkVMKTsKPj4gKwo+PiArCXNyYyArPSBjbGlwX29mZnNldChjbGlwLCBmYi0+cGl0Y2hl
-c1swXSwgY3BwKTsKPiBHb29kIHRoYXQgZHJtX3JlY3Rfd2lkdGgoKSBhbmQgY2xpcF9vZmZzZXQo
-KSBhcmUgdXNlZCwKPiByZXBsYWNpbmcgb3Blbi1jb2RlZCB2YXJpYW50cy4KPiAKPj4gKwo+PiAg
-CWZvciAoeSA9IGNsaXAtPnkxOyB5IDwgY2xpcC0+eTI7IHkrKykgewo+PiAtCQlzcmMgPSB2YWRk
-ciArICh5ICogZmItPnBpdGNoZXNbMF0pOwo+PiAtCQlzcmMgKz0gY2xpcC0+eDE7Cj4+IC0JCW1l
-bWNweShidWYsIHNyYywgbGVuKTsKPj4gLQkJc3JjID0gYnVmOwo+PiAtCQlmb3IgKHggPSBjbGlw
-LT54MTsgeCA8IGNsaXAtPngyOyB4KyspCj4+IC0JCQkqZHN0KysgPSBzd2FiMTYoKnNyYysrKTsK
-Pj4gKwkJaWYgKGJ1Zikgewo+PiArCQkJbWVtY3B5KGJ1Ziwgc3JjLCBsZW4pOwo+PiArCQkJc3Jj
-MTYgPSBidWY7Cj4+ICsJCQlzcmMzMiA9IGJ1ZjsKPj4gKwkJfSBlbHNlIHsKPj4gKwkJCXNyYzE2
-ID0gc3JjOwo+PiArCQkJc3JjMzIgPSBzcmM7Cj4+ICsJCX0KPj4gKwo+PiArCQlmb3IgKHggPSBj
-bGlwLT54MTsgeCA8IGNsaXAtPngyOyB4KyspIHsKPj4gKwkJCWlmIChjcHAgPT0gNCkKPj4gKwkJ
-CQkqZHN0MzIrKyA9IHN3YWIzMigqc3JjMzIrKyk7Cj4+ICsJCQllbHNlCj4+ICsJCQkJKmRzdDE2
-KysgPSBzd2FiMTYoKnNyYzE2KyspOwo+PiArCQl9Cj4+ICsKPj4gKwkJc3JjICs9IGZiLT5waXRj
-aGVzWzBdOwo+PiAgCX0KPj4gIAo+PiAgCWtmcmVlKGJ1Zik7Cj4+ICB9Cj4+IC1FWFBPUlRfU1lN
-Qk9MKGRybV9mYl9zd2FiMTYpOwo+PiArRVhQT1JUX1NZTUJPTChkcm1fZmJfc3dhYik7Cj4+ICAK
-Pj4gIHN0YXRpYyB2b2lkIGRybV9mYl94cmdiODg4OF90b19yZ2I1NjVfbGluZSh1MTYgKmRidWYs
-IHUzMiAqc2J1ZiwKPj4gIAkJCQkJICAgdW5zaWduZWQgaW50IHBpeGVscywKPj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWlwaV9kYmkuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-bWlwaV9kYmkuYwo+PiBpbmRleCAxNmJmZjFiZTRiOGEuLmJmZWZiY2I2OTI4NyAxMDA2NDQKPj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9taXBpX2RiaS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fbWlwaV9kYmkuYwo+PiBAQCAtMjE3LDcgKzIxNyw3IEBAIGludCBtaXBpX2RiaV9i
-dWZfY29weSh2b2lkICpkc3QsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+PiAgCXN3aXRj
-aCAoZmItPmZvcm1hdC0+Zm9ybWF0KSB7Cj4+ICAJY2FzZSBEUk1fRk9STUFUX1JHQjU2NToKPj4g
-IAkJaWYgKHN3YXApCj4+IC0JCQlkcm1fZmJfc3dhYjE2KGRzdCwgc3JjLCBmYiwgY2xpcCk7Cj4+
-ICsJCQlkcm1fZmJfc3dhYihkc3QsIHNyYywgZmIsIGNsaXAsICFpbXBvcnRfYXR0YWNoKTsKPj4g
-IAkJZWxzZQo+PiAgCQkJZHJtX2ZiX21lbWNweShkc3QsIHNyYywgZmIsIGNsaXApOwo+PiAgCQli
-cmVhazsKPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmggYi9p
-bmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oCj4+IGluZGV4IGFjMjIwYWExYTI0NS4uNWY5
-ZTM3MDMyNDY4IDEwMDY0NAo+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5o
-Cj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmgKPj4gQEAgLTE0LDggKzE0
-LDggQEAgdm9pZCBkcm1fZmJfbWVtY3B5KHZvaWQgKmRzdCwgdm9pZCAqdmFkZHIsIHN0cnVjdCBk
-cm1fZnJhbWVidWZmZXIgKmZiLAo+PiAgdm9pZCBkcm1fZmJfbWVtY3B5X2RzdGNsaXAodm9pZCBf
-X2lvbWVtICpkc3QsIHZvaWQgKnZhZGRyLAo+PiAgCQkJICAgc3RydWN0IGRybV9mcmFtZWJ1ZmZl
-ciAqZmIsCj4+ICAJCQkgICBzdHJ1Y3QgZHJtX3JlY3QgKmNsaXApOwo+PiAtdm9pZCBkcm1fZmJf
-c3dhYjE2KHUxNiAqZHN0LCB2b2lkICp2YWRkciwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIs
-Cj4+IC0JCSAgIHN0cnVjdCBkcm1fcmVjdCAqY2xpcCk7Cj4+ICt2b2lkIGRybV9mYl9zd2FiKHZv
-aWQgKmRzdCwgdm9pZCAqc3JjLCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPj4gKwkJIHN0
-cnVjdCBkcm1fcmVjdCAqY2xpcCwgYm9vbCBjYWNoZWQpOwo+PiAgdm9pZCBkcm1fZmJfeHJnYjg4
-ODhfdG9fcmdiNTY1KHZvaWQgKmRzdCwgdm9pZCAqdmFkZHIsCj4+ICAJCQkgICAgICAgc3RydWN0
-IGRybV9mcmFtZWJ1ZmZlciAqZmIsCj4+ICAJCQkgICAgICAgc3RydWN0IGRybV9yZWN0ICpjbGlw
-LCBib29sIHN3YWIpOwo+PiAtLSAKPj4gMi4yMy4wCj4+Cj4+IF9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4g
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+
+Le dim. 3 mai 2020 =E0 15:31, H. Nikolaus Schaller <hns@goldelico.com> a =
+
+=E9crit :
+> Hi Paul,
+> =
+
+>>  Am 03.05.2020 um 14:52 schrieb Paul Cercueil <paul@crapouillou.net>:
+>> =
+
+>>>>  It's possible to forbid the presence of the 'clocks' property on =
+
+>>>> some implementations, and require it on others.
+>>>  To be precise we have to specify the exact number of clocks =
+
+>>> (between 0 and 4) for every architecture.
+>>>  This also contradicts my dream to get rid of the architecture =
+
+>>> specific components in the long run. My dream (because I can't tell =
+
+>>> how it can be done) is that we can one day develop something which =
+
+>>> just needs compatible =3D img,530 or imp,540 or img,544. Then we =
+
+>>> can't make the number clocks depend on the implementation any more.
+>> =
+
+>>  As we said before, the number of clocks is a property of the GPU =
+
+>> and *not* its integration into the SoC.
+> =
+
+> Well, it is a not very well documented property of the GPU. We have =
+
+> no data sheet of the standalone GPU. Only several SoC data sheets =
+
+> which give some indications.
+
+Maybe we can nicely ask them?
+
+I expect Paul Burton to have some contacts at ImgTec. Asking for a doc =
+
+would be too much, but maybe they can help a bit with the DT bindings.
+
+> It appears as if some sgx5xx versions have 3 clocks and some have 4. =
+
+> So you are right, the number of clocks depends on the sgx5xx version =
+
+> and that could be made dependent in the bindings (if necessary).
+> =
+
+>> =
+
+>>  So you would *not* have a number of clocks between 0 and 4. You get =
+
+>> either 0, or 4, depending on whether or not you have a wrapper.
+> =
+
+> I think this is contradicting your previous sentence. If the number =
+
+> of clocks is a property of the GPU and not the integration it must =
+
+> also not depend on whether there is a wrapper. I.e. it must be a =
+
+> constant for any type of integration.
+
+Well, I expected all SGX versions to have 4 clocks.
+
+If some SGX versions have 3 clocks, and others have 4 clocks, it's =
+
+still OK as long as the number of clocks is enforced, so that all =
+
+implementations of a given SGX core will have to use the same number of =
+
+clocks.
+
+> The really correct variant would be to always make the SoC =
+
+> integration (wrapper) a separate subsystem (because it is never part =
+
+> of the SGX core but some interface bus) and clock provider and =
+
+> connect it explicitly to the clock inputs.
+
+About the wrapper... I don't really know how it's done there. But you =
+
+could very well pass all clocks unconditionally to the SGX node, even =
+
+if it's inside a wrapper.
+The wrapper itself probably needs only one clock, the one that allows =
+
+it to access its registers.
+
+> To be clear: I am not at all against describing the clocks. I just =
+
+> doubt that the time we invest into discussing on this level of detail =
+
+> and adding conditional clock requirements is worth the result. IMHO =
+
+> the bindings and .dts do not become better by describing them in more =
+
+> detail than just "optional". It just takes our time from contributing =
+
+> to other subsystems.
+> =
+
+
+You have a new SoC with a SGX, and you only need to enable one clock to =
+
+get it to work. So you create a devicetree node which receives only one =
+
+clock.
+
+Turns out, that the bootloader was enabling the other 3 clocks, and =
+
+since the last release, it doesn't anymore. You're left with having to =
+
+support a broken devicetree.
+
+That's the kind of problem that can be easily avoided by enforcing the =
+
+number of clocks that have to be provided.
+>> =
+
+>> =
+
+>>>>  See how it's done for instance on =
+
+>>>> Documentation/devicetree/bindings/serial/samsung_uart.yaml.
+>>>  Yes I know the design pattern, but I wonder if such a move makes =
+
+>>> the whole thing even less maintainable.
+>>>  Assume we have finished DTS for some SoC. Then these DTS have been =
+
+>>> tested on real hardware and are working. Clocks are there where =
+
+>>> needed and missing where not. We may now forbid or not forbid them =
+
+>>> for some implementations in the bindings.yaml but the result of =
+
+>>> dtbs_check won't change! Because they are tested and working and =
+
+>>> the bindings.yaml has been adapted to the result. So we have just =
+
+>>> duplicated something for no practical benefit.
+>>>  Next, assume there is coming support for more and more new SoC. =
+
+>>> Then, developers not only have to figure out which clocks they need =
+
+>>> in the DTS but they also have to add a patch to the implementation =
+
+>>> specific part of the bindings.yaml to clearly define exactly the =
+
+>>> same what they already have written into their .dts (the clocks are =
+
+>>> either there for the of_node or they are not). So again the rules =
+
+>>> are for no benefit, since a new SoC is introduced exactly once. And =
+
+>>> tested if it works. And if it is there, it will stay as it is. It =
+
+>>> is just work for maintainers to review that patch as well.
+>> =
+
+>>  If you add support for a new SoC, you'd still need to modify the =
+
+>> binding to add the compatible string. So the argument of "more work" =
+
+>> is moot.
+> =
+
+> Agreed, I forgot this aspect. Nevertheless, it is easier to review a =
+
+> new compatible string than a new clock number rule (question: how do =
+
+> you practically review this? By looking if it does match the DTS?).
+> =
+
+> We have to add the compatible string as long as we need to have the =
+
+> SoC name in the compatible string (which as said is my dream to get =
+
+> rid of in far future). If we could get rid of it, there won't be a =
+
+> change any more. By just taking "img,sgx544" into a new SoC. The =
+
+> change would be moved into SoC specific wrappers. In such an ideal =
+
+> world, we would explicitly describe the wrappers as separate DT =
+
+> nodes. Even if they have no explicit driver (e.g. by some =
+
+> simple-pm-bus).
+
+What's wrong with having the SoC name in the compatible string?
+
+You cannot use just a "img,sgx544" compatible string, as then you would =
+
+assume that the same SGX version in (e.g.) an Ingenic or a Omap SoC is =
+
+the exact same. This may actually be true. But the moment you discover =
+
+even a tiny thing that needs to be handled differently, you wouldn't =
+
+have the possibility to do so.
+
+>                    PRCM,bus,
+> Processor <<---->> Wrapper <<----->> SGX
+> ti,...             ti,sysc           img,sgx530
+> img,...            simple-bus        img,sgx540
+> samsung,...        ...               img,sgx544
+> other,             other,gpu-wrapper img,...
+> =
+
+> But this IMHO correct proposal was already rejected.
+> =
+
+> So at the moment we are circling around several proposals because =
+
+> none can fulfill all requirements.
+> =
+
+> Therefore my attempt to solve the gordian knot is to make clocks =
+
+> generally optional. This keeps the bindings simple but not generally =
+
+> wrong. And since the DTS are not only tested against bindings.yaml =
+
+> but on real hardware, the omission to enforce a specific number of =
+
+> clocks doesn't harm anyone. As said it is impossible to get the SGX =
+
+> running without defining the correct clocks (whether they are =
+
+> enforced by bindings.yaml or not).
+
+That's what I tried to explain above. You'd be able to get the SGX to =
+
+work without a single clock in devicetree. That doesn't mean it should =
+
+be allowed.
+
+Cheers,
+-Paul
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
