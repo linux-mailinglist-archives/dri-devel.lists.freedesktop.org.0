@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9219A1C2D82
-	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 17:42:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2781C2DEE
+	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 18:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 000666E25E;
-	Sun,  3 May 2020 15:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F8B6E0B7;
+	Sun,  3 May 2020 16:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A49806E25E
- for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 15:42:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 151556E0B7
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 16:25:33 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 9C3ED804A4;
- Sun,  3 May 2020 17:42:10 +0200 (CEST)
-Date: Sun, 3 May 2020 17:42:09 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 93985804E5;
+ Sun,  3 May 2020 18:25:30 +0200 (CEST)
+Date: Sun, 3 May 2020 18:25:29 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 10/17] drm/mgag200: Set pitch in a separate helper function
-Message-ID: <20200503154209.GC23105@ravnborg.org>
+Subject: Re: [PATCH 12/17] drm/mgag200: Move TAGFIFO reset into separate
+ function
+Message-ID: <20200503162529.GD23105@ravnborg.org>
 References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-11-tzimmermann@suse.de>
+ <20200429143238.10115-13-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200429143238.10115-11-tzimmermann@suse.de>
+In-Reply-To: <20200429143238.10115-13-tzimmermann@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=9j-RmjQqD388Yx8HkDUA:9 a=CjuIK1q_8ugA:10
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=CQqKy-xza9vA-qq3lXsA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,119 +56,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas.
 
-On Wed, Apr 29, 2020 at 04:32:31PM +0200, Thomas Zimmermann wrote:
-> The framebuffer's pitch is now set in mgag200_set_offset().
+One nit about a bit name below.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+On Wed, Apr 29, 2020 at 04:32:33PM +0200, Thomas Zimmermann wrote:
+> 5
+> 
+> The TAGFIFO state is now reset in mgag200_g200er_reset_tagfifo().
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I failed to follow this code.
-
 > ---
->  drivers/gpu/drm/mgag200/mgag200_mode.c | 41 +++++++++++++++++---------
->  1 file changed, 27 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  6 ++++
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 45 +++++++++++++++++---------
+>  2 files changed, 35 insertions(+), 16 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> index 9b957d9fc7e04..b10da90e0f35a 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+> @@ -49,6 +49,12 @@
+>  		WREG8(ATTR_DATA, v);				\
+>  	} while (0)						\
+>  
+> +#define RREG_SEQ(reg, v)					\
+> +	do {							\
+> +		WREG8(MGAREG_SEQ_INDEX, reg);			\
+> +		v = RREG8(MGAREG_SEQ_DATA);			\
+> +	} while (0)						\
+> +
+>  #define WREG_SEQ(reg, v)					\
+>  	do {							\
+>  		WREG8(MGAREG_SEQ_INDEX, reg);			\
 > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 92dee31f16c42..eb83e471d72fc 100644
+> index 73f7135cbb3d8..6b88c306ff4d7 100644
 > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -1003,6 +1003,32 @@ static void mgag200_set_mode_regs(struct mga_device *mdev,
->  	mga_crtc_set_plls(mdev, mode->clock);
+> @@ -1091,6 +1091,33 @@ static void mgag200_set_format_regs(struct mga_device *mdev,
+>  	WREG_ECRT(3, crtcext3);
 >  }
 >  
-> +static void mgag200_set_offset(struct mga_device *mdev,
-> +			       const struct drm_framebuffer *fb)
+> +static void mgag200_g200er_reset_tagfifo(struct mga_device *mdev)
 > +{
-> +	unsigned int offset;
-> +	uint8_t crtc13, crtcext0;
-> +	u8 bppshift;
+> +	static uint32_t RESET_FLAG = 0x00200000; /* undocumented magic value */
+> +	u8 seq1;
+> +	u32 memctl;
 > +
-> +	bppshift = mdev->bpp_shifts[fb->format->cpp[0] - 1];
-Hmm, use of cpp is deprecated. But is continue to be used all over.
+> +	/* screen off */
+> +	RREG_SEQ(0x01, seq1);
+> +	seq1 |= 0x20;
+This looks like this:
+#define        M_SEQ1_SCROFF            0x20
 
-> +
-> +	offset = fb->pitches[0] / fb->format->cpp[0];
-> +	if (fb->format->cpp[0] * 8 == 24)
-> +		offset = (offset * 3) >> (4 - bppshift);
-> +	else
-> +		offset = offset >> (4 - bppshift);
-> +
-> +	RREG_ECRT(0, crtcext0);
-> +
-> +	crtc13 = offset & 0xff;
-> +
-> +	crtcext0 &= ~GENMASK(5, 4);
-> +	crtcext0 |= (offset & GENMASK(9, 8)) >> 4;
-Lot's of hardcoded numbers.
-Could the reg file include these so you had more readable defined names?
 
+> +	WREG_SEQ(0x01, seq1);
 > +
-> +	WREG_CRT(0x13, crtc13);
-> +	WREG_ECRT(0x00, crtcext0);
+> +	memctl = RREG32(MGAREG_MEMCTL);
+> +
+> +	memctl |= RESET_FLAG;
+> +	WREG32(MGAREG_MEMCTL, memctl);
+> +
+> +	udelay(1000);
+> +
+> +	memctl &= ~RESET_FLAG;
+> +	WREG32(MGAREG_MEMCTL, memctl);
+> +
+> +	/* screen on */
+> +	RREG_SEQ(0x01, seq1);
+> +	seq1 &= ~0x20;
+> +	WREG_SEQ(0x01, seq1);
+Here seq1 is read again, the old code used the old value.
+I think new code is better.
+
 > +}
 > +
 >  static int mga_crtc_mode_set(struct drm_crtc *crtc,
 >  				struct drm_display_mode *mode,
 >  				struct drm_display_mode *adjusted_mode,
-> @@ -1011,7 +1037,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
->  	struct drm_device *dev = crtc->dev;
->  	struct mga_device *mdev = dev->dev_private;
->  	const struct drm_framebuffer *fb = crtc->primary->fb;
-> -	int pitch;
->  	int option = 0, option2 = 0;
->  	int i;
->  	unsigned char misc = 0;
-> @@ -1122,12 +1147,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
->  	WREG_SEQ(3, 0);
->  	WREG_SEQ(4, 0xe);
->  
-> -	pitch = fb->pitches[0] / fb->format->cpp[0];
-> -	if (fb->format->cpp[0] * 8 == 24)
-> -		pitch = (pitch * 3) >> (4 - bppshift);
-> -	else
-> -		pitch = pitch >> (4 - bppshift);
-> -
->  	WREG_GFX(0, 0);
->  	WREG_GFX(1, 0);
->  	WREG_GFX(2, 0);
-> @@ -1144,20 +1163,15 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
->  	WREG_CRT(13, 0);
->  	WREG_CRT(14, 0);
->  	WREG_CRT(15, 0);
-> -	WREG_CRT(19, pitch & 0xFF);
-> -
-> -	ext_vga[0] = 0;
->  
->  	/* TODO interlace */
->  
-> -	ext_vga[0] |= (pitch & 0x300) >> 4;
->  	if (fb->format->cpp[0] * 8 == 24)
->  		ext_vga[3] = (((1 << bppshift) * 3) - 1) | 0x80;
->  	else
->  		ext_vga[3] = ((1 << bppshift) - 1) | 0x80;
->  	ext_vga[4] = 0;
->  
-> -	WREG_ECRT(0, ext_vga[0]);
->  	WREG_ECRT(3, ext_vga[3]);
->  	WREG_ECRT(4, ext_vga[4]);
->  
-> @@ -1171,8 +1185,6 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
->  		WREG_ECRT(6, 0);
->  	}
->  
-> -	WREG_ECRT(0, ext_vga[0]);
-> -
->  	misc = RREG8(MGA_MISC_IN);
->  	misc |= MGAREG_MISC_IOADSEL |
->  		MGAREG_MISC_RAMMAPEN |
-> @@ -1180,6 +1192,7 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
->  	WREG8(MGA_MISC_OUT, misc);
->  
->  	mga_crtc_do_set_base(mdev, fb, old_fb);
-> +	mgag200_set_offset(mdev, fb);
+> @@ -1225,22 +1252,8 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
 >  
 >  	mgag200_set_mode_regs(mdev, mode);
-
-	Sam
+>  
+> -	/* reset tagfifo */
+> -	if (mdev->type == G200_ER) {
+> -		u32 mem_ctl = RREG32(MGAREG_MEMCTL);
+> -		u8 seq1;
+> -
+> -		/* screen off */
+> -		WREG8(MGAREG_SEQ_INDEX, 0x01);
+> -		seq1 = RREG8(MGAREG_SEQ_DATA) | 0x20;
+> -		WREG8(MGAREG_SEQ_DATA, seq1);
+> -
+> -		WREG32(MGAREG_MEMCTL, mem_ctl | 0x00200000);
+> -		udelay(1000);
+> -		WREG32(MGAREG_MEMCTL, mem_ctl & ~0x00200000);
+> -
+> -		WREG8(MGAREG_SEQ_DATA, seq1 & ~0x20);
+> -	}
+> +	if (mdev->type == G200_ER)
+> +		mgag200_g200er_reset_tagfifo(mdev);
+>  
+>  
+>  	if (IS_G200_SE(mdev)) {
+> -- 
+> 2.26.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-dev
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
