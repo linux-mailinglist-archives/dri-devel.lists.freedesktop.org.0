@@ -2,40 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0BE1C2AC2
-	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 10:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86381C2B10
+	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 11:55:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C506E147;
-	Sun,  3 May 2020 08:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DF66E162;
+	Sun,  3 May 2020 09:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D2B6E147
- for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 08:47:21 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 93CE3804D8;
- Sun,  3 May 2020 10:47:19 +0200 (CEST)
-Date: Sun, 3 May 2020 10:47:18 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH 06/10] drm/client: Add a way to set modeset, properties
- and rotation
-Message-ID: <20200503084718.GD11582@ravnborg.org>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A79E36E162
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 09:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=X21p+jrDOFBDYsPp52/LLvj2Q5MLglkIB748DUPTo+M=; b=BDCR6JKsZWj2U2CNJtoUdncGI7
+ jpvT+k83/iwkiwV/TFVA2gIuAKGMrK01zC6unOiQOZ9ip+qlBk3xD0WbssdHtaNpjIau1C38sidqM
+ I55pNa+yTDXqTbOjpIVUIILipSIcqvK8jB5eUTT0UnJS58MarDXndiCjACKBytrhRqX1chpXh5ixc
+ moUPICcKqh1/u7cexG/3XYj+LNxcQdTcGXmLxpwQfc52v0V2G304XBuf+Pc5mDeLhkumZ4eW87vI4
+ 1RDwiurcp0kZ/5BxvTggqtwtyF474tgdcW5iuE+cafPGCol/y3KuyWQ3QSpGuqOhmxBlpFoChlNEZ
+ RWcxS7Kg==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:54810
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jVBKr-0005Um-DC; Sun, 03 May 2020 11:54:57 +0200
+Subject: Re: [PATCH 04/10] drm/client: Add drm_client_framebuffer_flush()
+To: Sam Ravnborg <sam@ravnborg.org>
 References: <20200429124830.27475-1-noralf@tronnes.org>
- <20200429124830.27475-7-noralf@tronnes.org>
+ <20200429124830.27475-5-noralf@tronnes.org>
+ <20200503074837.GB11582@ravnborg.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <17a3a14e-c4ea-6da6-db4e-675825ff0a11@tronnes.org>
+Date: Sun, 3 May 2020 11:54:56 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200429124830.27475-7-noralf@tronnes.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=8nJEP1OIZ-IA:10 a=SJz97ENfAAAA:8 a=e5mUnYsNAAAA:8
- a=OjnSlZTqKBFCDp3KnJ0A:9 a=9lAPmBeHr4KPkJBX:21 a=kcPXfmX6iNT9LeGJ:21
- a=wPNLvfGTeEIA:10 a=vFet0B0WnEQeilDPIY6i:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
+In-Reply-To: <20200503074837.GB11582@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,349 +55,76 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf.
-
-Some comments in the following - partly because I still do not fully
-grasp modeset etc.
-
-	Sam
-
-On Wed, Apr 29, 2020 at 02:48:26PM +0200, Noralf Tr=F8nnes wrote:
-> This adds functions for clients that need more control over the
-> configuration than what's setup by drm_client_modeset_probe().
-> Connector, fb and display mode can be set using drm_client_modeset_set().
-> Plane rotation can be set using drm_client_modeset_set_rotation() and
-> other properties using drm_client_modeset_set_property(). Property
-> setting is only implemented for atomic drivers.
-> =
-
-> Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
-> ---
->  drivers/gpu/drm/drm_client_modeset.c | 139 +++++++++++++++++++++++++++
->  include/drm/drm_client.h             |  38 +++++++-
->  2 files changed, 176 insertions(+), 1 deletion(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_c=
-lient_modeset.c
-> index 177158ff2a40..1eef6869cae1 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -83,6 +83,10 @@ static void drm_client_modeset_release(struct drm_clie=
-nt_dev *client)
->  		}
->  		modeset->num_connectors =3D 0;
->  	}
-> +
-> +	kfree(client->properties);
-> +	client->properties =3D NULL;
-> +	client->num_properties =3D 0;
-
-I failed to see why this code is in drm_client_modeset_release()
-and not in drm_client_modeset_free().
-In other words - why do we need to free properties in drm_client_modeset_pr=
-obe()
-which is the only other user of drm_client_modeset_release().
-
->  }
->  =
-
->  void drm_client_modeset_free(struct drm_client_dev *client)
-> @@ -879,6 +883,132 @@ int drm_client_modeset_probe(struct drm_client_dev =
-*client, unsigned int width,
->  }
->  EXPORT_SYMBOL(drm_client_modeset_probe);
->  =
-
-> +/**
-> + * drm_client_modeset_set() - Set modeset configuration
-> + * @client: DRM client
-> + * @connector: Connector
-> + * @mode: Display mode
-> + * @fb: Framebuffer
-> + *
-> + * This function releases any current modeset info, including properties=
-, and
-> + * sets the new modeset in the client's modeset array.
-> + *
-> + * Returns:
-> + * Zero on success or negative error code on failure.
-> + */
-> +int drm_client_modeset_set(struct drm_client_dev *client, struct drm_con=
-nector *connector,
-> +			   struct drm_display_mode *mode, struct drm_framebuffer *fb)
-> +{
-> +	struct drm_mode_set *modeset;
-> +	int ret =3D -ENOENT;
-> +
-Need to check if atomic is supported?
-Or maybe I just do not get all this atomic stuff yet..
-
-> +	mutex_lock(&client->modeset_mutex);
-> +
-> +	drm_client_modeset_release(client);
-If the check below fails - is it then correct to release modeset?
-> +
-> +	if (!connector || !mode || !fb) {
-> +		ret =3D 0;
-Error out, it is not a success if we cannot do anything?
-
-> +		goto unlock;
-> +	}
-> +
-> +	drm_client_for_each_modeset(modeset, client) {
-> +		if (!connector_has_possible_crtc(connector, modeset->crtc))
-> +			continue;
-> +
-> +		modeset->mode =3D drm_mode_duplicate(client->dev, mode);
-> +		if (!modeset->mode) {
-> +			ret =3D -ENOMEM;
-> +			break;
-> +		}
-> +
-> +		drm_mode_set_crtcinfo(modeset->mode, CRTC_INTERLACE_HALVE_V);
-> +
-> +		drm_connector_get(connector);
-> +		modeset->connectors[modeset->num_connectors++] =3D connector;
-> +
-> +		modeset->fb =3D fb;
-> +		ret =3D 0;
-> +		break;
-> +	}
-> +unlock:
-> +	mutex_unlock(&client->modeset_mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_client_modeset_set);
-> +
-> +/**
-> + * drm_client_modeset_set_property() - Set a property on the current con=
-figuration
-> + * @client: DRM client
-> + * @obj: DRM Mode Object
-> + * @prop: DRM Property
-> + * @value: Property value
-> + *
-> + * Note: Currently only implemented for atomic drivers.
-Are there any reason to in the future support legacy (non-atomic)
-drivers.
-If not then reword - as the above reads like it is on a TODO list to
-support legacy drivers.
-
-> + *
-> + * Returns:
-> + * Zero on success or negative error code on failure.
-> + */
-> +int drm_client_modeset_set_property(struct drm_client_dev *client, struc=
-t drm_mode_object *obj,
-> +				    struct drm_property *prop, u64 value)
-> +{
-> +	struct drm_client_property *properties;
-> +	int ret =3D 0;
-> +
-> +	if (!prop)
-> +		return -EINVAL;
-> +
-Need to check if atomic is supported?
-Or maybe I just do not get all this atomic stuff yet..
-
-> +	mutex_lock(&client->modeset_mutex);
-> +
-> +	properties =3D krealloc(client->properties,
-> +			      (client->num_properties + 1) * sizeof(*properties), GFP_KERNEL);
-> +	if (!properties) {
-> +		ret =3D -ENOMEM;
-> +		goto unlock;
-> +	}
-> +
-> +	properties[client->num_properties].obj =3D obj;
-> +	properties[client->num_properties].prop =3D prop;
-The drm_client_modeset_set_property() take over ownership of prop.
-This looks wrong - should this be a copy of prop?
-properties[].prop should not be a pointer but a full drm_property
-struct?
-
-> +	properties[client->num_properties].value =3D value;
-> +	client->properties =3D properties;
-> +	client->num_properties++;
-> +unlock:
-> +	mutex_unlock(&client->modeset_mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_client_modeset_set_property);
-> +
-> +/**
-> + * drm_client_modeset_set_rotation() - Set rotation on the current confi=
-guration
-> + * @client: DRM client
-> + * @value: Rotation value
-> + *
-> + * Returns:
-> + * Zero on success or negative error code on failure.
-> + */
-> +int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 v=
-alue)
-> +{
-> +	struct drm_plane *plane =3D NULL;
-> +	struct drm_mode_set *modeset;
-> +
-> +	mutex_lock(&client->modeset_mutex);
-> +	drm_client_for_each_modeset(modeset, client) {
-> +		if (modeset->mode) {
-> +			plane =3D modeset->crtc->primary;
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&client->modeset_mutex);
-> +
-> +	if (!plane)
-> +		return -ENOENT;
-> +
-> +	return drm_client_modeset_set_property(client, &plane->base,
-> +					       plane->rotation_property, value);
-> +}
-> +EXPORT_SYMBOL(drm_client_modeset_set_rotation);
-> +
->  /**
->   * drm_client_rotation() - Check the initial rotation value
->   * @modeset: DRM modeset
-> @@ -973,6 +1103,7 @@ static int drm_client_modeset_commit_atomic(struct d=
-rm_client_dev *client, bool
->  	struct drm_atomic_state *state;
->  	struct drm_modeset_acquire_ctx ctx;
->  	struct drm_mode_set *mode_set;
-> +	unsigned int i;
->  	int ret;
->  =
-
->  	drm_modeset_acquire_init(&ctx, 0);
-> @@ -1033,6 +1164,14 @@ static int drm_client_modeset_commit_atomic(struct=
- drm_client_dev *client, bool
->  		}
->  	}
->  =
-
-> +	for (i =3D 0; i < client->num_properties; i++) {
-> +		struct drm_client_property *prop =3D &client->properties[i];
-> +
-> +		ret =3D drm_atomic_set_property(state, NULL, prop->obj, prop->prop, pr=
-op->value);
-> +		if (ret)
-> +			goto out_state;
-> +	}
-> +
-With the code above drm_atomic_set_property() is called also when check
-is true. I had expected that check would not change anything.
-
->  	if (check)
->  		ret =3D drm_atomic_check_only(state);
->  	else
-> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> index b6ffa4863e45..4b266741ec0e 100644
-> --- a/include/drm/drm_client.h
-> +++ b/include/drm/drm_client.h
-> @@ -16,6 +16,7 @@ struct drm_file;
->  struct drm_framebuffer;
->  struct drm_gem_object;
->  struct drm_minor;
-> +struct drm_property;
->  struct module;
->  =
-
->  /**
-> @@ -64,6 +65,26 @@ struct drm_client_funcs {
->  	int (*hotplug)(struct drm_client_dev *client);
->  };
->  =
-
-> +/**
-> + * struct drm_client_property - DRM client property
-> + */
-> +struct drm_client_property {
-> +	/**
-> +	 * @obj: DRM Mode Object to which the property belongs.
-> +	 */
-> +	struct drm_mode_object *obj;
-> +
-> +	/**
-> +	 * @prop: DRM Property.
-> +	 */
-> +	struct drm_property *prop;
-> +
-> +	/**
-> +	 * @value: Property value.
-> +	 */
-> +	u64 value;
-> +};
-> +
->  /**
->   * struct drm_client_dev - DRM client instance
->   */
-> @@ -97,7 +118,7 @@ struct drm_client_dev {
->  	struct drm_file *file;
->  =
-
->  	/**
-> -	 * @modeset_mutex: Protects @modesets.
-> +	 * @modeset_mutex: Protects @modesets and @properties.
->  	 */
->  	struct mutex modeset_mutex;
->  =
-
-> @@ -105,6 +126,16 @@ struct drm_client_dev {
->  	 * @modesets: CRTC configurations
->  	 */
->  	struct drm_mode_set *modesets;
-> +
-> +	/**
-> +	 * @properties: DRM properties attached to the configuration.
-> +	 */
-> +	struct drm_client_property *properties;
-> +
-> +	/**
-> +	 * @num_properties: Number of attached properties.
-> +	 */
-> +	unsigned int num_properties;
->  };
->  =
-
->  int drm_client_init(struct drm_device *dev, struct drm_client_dev *clien=
-t,
-> @@ -163,6 +194,11 @@ void drm_client_buffer_vunmap(struct drm_client_buff=
-er *buffer);
->  int drm_client_modeset_create(struct drm_client_dev *client);
->  void drm_client_modeset_free(struct drm_client_dev *client);
->  int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int=
- width, unsigned int height);
-> +int drm_client_modeset_set(struct drm_client_dev *client, struct drm_con=
-nector *connector,
-> +			   struct drm_display_mode *mode, struct drm_framebuffer *fb);
-> +int drm_client_modeset_set_property(struct drm_client_dev *client, struc=
-t drm_mode_object *obj,
-> +				    struct drm_property *prop, u64 value);
-> +int drm_client_modeset_set_rotation(struct drm_client_dev *client, u64 v=
-alue);
->  bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rot=
-ation);
->  int drm_client_modeset_check(struct drm_client_dev *client);
->  int drm_client_modeset_commit_locked(struct drm_client_dev *client);
-> -- =
-
-> 2.23.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMDMuMDUuMjAyMCAwOS40OCwgc2tyZXYgU2FtIFJhdm5ib3JnOgo+IEhpIE5vcmFsZi4K
+PiAKPiBPbiBXZWQsIEFwciAyOSwgMjAyMCBhdCAwMjo0ODoyNFBNICswMjAwLCBOb3JhbGYgVHLD
+uG5uZXMgd3JvdGU6Cj4+IFNvbWUgZHJpdmVycyBuZWVkIGV4cGxpY2l0IGZsdXNoaW5nIG9mIGJ1
+ZmZlciBjaGFuZ2VzLCBhZGQgYSBmdW5jdGlvbgo+PiB0aGF0IGRvZXMgdGhhdC4KPiBJIHRydXN0
+IHlvdSBvbiB0aGlzLgoKQWxsIGRyaXZlcnMgaW4gdGlueS8gYW5kIGF0IGxlYXN0IHVkbCBuZWVk
+IHRvIGJlIHRvbGQgdG8gZmx1c2ggY2hhbmdlcy4KRm9yIHVzZXJzcGFjZSB0aGlzIGhhcHBlbnMg
+ZWl0aGVyIGJ5IGNhbGxpbmcgRFJNX0lPQ1RMX01PREVfRElSVFlGQiBvcgpkb2luZyBhIHBhZ2Uv
+YnVmZmVyIGZsaXAgRFJNX0lPQ1RMX01PREVfUEFHRV9GTElQIG9yIGRvIGEKRFJNX0lPQ1RMX01P
+REVfQVRPTUlDIChjYW4gY29udGFpbiBkYW1hZ2UgcmVwb3J0IHVzaW5nIHBsYW5lIHByb3BlcnR5
+CkZCX0RBTUFHRV9DTElQUykuIEZvciBkcml2ZXJzIHRoYXQgdXNlIGRybV9nZW1fZmJfY3JlYXRl
+X3dpdGhfZGlydHkoKQphbmQgdGhlIGRybV9kYW1hZ2VfaGVscGVyIChhbGwgb2YgdGhlbSBub3cg
+SSB0aGluaykgdGhpcyB3aWxsIHJlc3VsdCBpbgphbiBhdG9taWMgY29tbWl0LiBUaGUgZHJpdmVy
+IGNhbiB1c2UgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX21lcmdlZCgpCnRvIGdldCB0aGUgY29t
+YmluZWQgZGFtYWdlIHJlY3RhbmdsZS4KCk5vcmFsZi4KCj4gCj4+Cj4+IFNpZ25lZC1vZmYtYnk6
+IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgo+IFNvbWUgYmlrZXNoZWRkaW5n
+IGJlbG93LiBFaXRoZXIgd2F5Ogo+IFJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZu
+Ym9yZy5vcmc+Cj4gCj4+IC0tLQo+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYyB8IDMx
+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPj4gIGluY2x1ZGUvZHJtL2RybV9jbGll
+bnQuaCAgICAgfCAgMSArCj4+ICAyIGZpbGVzIGNoYW5nZWQsIDMyIGluc2VydGlvbnMoKykKPj4K
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMgYi9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2NsaWVudC5jCj4+IGluZGV4IGNiNWVlOWYxZmZhYS4uOGRiYzJlY2RjYWVhIDEw
+MDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jCj4+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fY2xpZW50LmMKPj4gQEAgLTQ4Myw2ICs0ODMsMzcgQEAgdm9pZCBkcm1f
+Y2xpZW50X2ZyYW1lYnVmZmVyX2RlbGV0ZShzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZl
+cikKPj4gIH0KPj4gIEVYUE9SVF9TWU1CT0woZHJtX2NsaWVudF9mcmFtZWJ1ZmZlcl9kZWxldGUp
+Owo+PiAgCj4+ICsvKioKPj4gKyAqIGRybV9jbGllbnRfZnJhbWVidWZmZXJfZmx1c2ggLSBNYW51
+YWxseSBmbHVzaCBjbGllbnQgZnJhbWVidWZmZXIKPj4gKyAqIEBidWZmZXI6IERSTSBjbGllbnQg
+YnVmZmVyIChjYW4gYmUgTlVMTCkKPj4gKyAqIEByZWN0OiBEYW1hZ2UgcmVjdGFuZ2xlIChpZiBO
+VUxMIGZsdXNoZXMgYWxsKQo+PiArICoKPj4gKyAqIFRoaXMgY2FsbHMgJmRybV9mcmFtZWJ1ZmZl
+cl9mdW5jcy0+ZGlydHkgKGlmIHByZXNlbnQpIHRvIGZsdXNoIGJ1ZmZlciBjaGFuZ2VzCj4+ICsg
+KiBmb3IgZHJpdmVycyB0aGF0IG5lZWQgaXQuCj4+ICsgKgo+PiArICogUmV0dXJuczoKPj4gKyAq
+IFplcm8gb24gc3VjY2VzcyBvciBuZWdhdGl2ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4+ICsg
+Ki8KPiAKPiBBbHRlcm5hdGl2ZSBwcm9wb3NhbCAtIHRoYXQgSSB0aGluayBpcyBzaW1wbGVyLgo+
+IEJ1dCBib3RoIHZhcmlhbnRzIHdvcmtzIGZvciBtZS4KPj4gK2ludCBkcm1fY2xpZW50X2ZyYW1l
+YnVmZmVyX2ZsdXNoKHN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVyLCBzdHJ1Y3QgZHJt
+X3JlY3QgKnJlY3QpCj4+ICt7Cj4gCXN0cnVjdCBkcm1fZnJhbWVidWZmZXJfZnVuY3MgKmZ1bmNz
+Owo+IAlzdHJ1Y3QgZHJtX2NsaXBfcmVjdCBjbGlwOwo+PiArCj4+ICsJaWYgKCFidWZmZXIgfHwg
+IWJ1ZmZlci0+ZmIgfHwgIWJ1ZmZlci0+ZmItPmZ1bmNzLT5kaXJ0eSkKPj4gKwkJcmV0dXJuIDA7
+Cj4gCWZ1bmNzID0gYnVmZmVyLT5mYi0+ZnVuY3M7Cj4+ICsKPj4gKwlpZiAocmVjdCkgewo+PiAr
+CQljbGlwLngxID0gcmVjdC0+eDE7Cj4+ICsJCWNsaXAueTEgPSByZWN0LT55MTsKPj4gKwkJY2xp
+cC54MiA9IHJlY3QtPngyOwo+PiArCQljbGlwLnkyID0gcmVjdC0+eTI7Cj4gCQlyZXR1cm4gZnVu
+Y3MtPmRpcnR5KGJ1ZmZlci0+ZmIsIGJ1ZmZlci0+Y2xpZW50LT5maWxlLAo+IAkJCQkgICAgMCwg
+MCwgJmNsaXAsIDEpOwo+PiArCX0gZWxzZSB7Cj4gCQlyZXR1cm4gZnVuY3MtPmRpcnR5KGJ1ZmZl
+ci0+ZmIsIGJ1ZmZlci0+Y2xpZW50LT5maWxlLAo+IAkJCQkgICAgMCwgMCwgTlVMTCwgMCk7Cj4g
+CX0KPiAKPj4gKwo+PiArCXJldHVybiBidWZmZXItPmZiLT5mdW5jcy0+ZGlydHkoYnVmZmVyLT5m
+YiwgYnVmZmVyLT5jbGllbnQtPmZpbGUsCj4+ICsJCQkJCTAsIDAsIGNsaXAsIGNsaXAgPyAxIDog
+MCk7Cj4+ICt9Cj4+ICtFWFBPUlRfU1lNQk9MKGRybV9jbGllbnRfZnJhbWVidWZmZXJfZmx1c2gp
+Owo+PiArCj4+ICAjaWZkZWYgQ09ORklHX0RFQlVHX0ZTCj4+ICBzdGF0aWMgaW50IGRybV9jbGll
+bnRfZGVidWdmc19pbnRlcm5hbF9jbGllbnRzKHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAqZGF0
+YSkKPj4gIHsKPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaCBiL2luY2x1
+ZGUvZHJtL2RybV9jbGllbnQuaAo+PiBpbmRleCBiYmI1Njg5ZmE5YTguLjZlZjUzNjRkNmRmYiAx
+MDA2NDQKPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oCj4+ICsrKyBiL2luY2x1ZGUv
+ZHJtL2RybV9jbGllbnQuaAo+PiBAQCAtMTU2LDYgKzE1Niw3IEBAIHN0cnVjdCBkcm1fY2xpZW50
+X2J1ZmZlciB7Cj4+ICBzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKgo+PiAgZHJtX2NsaWVudF9m
+cmFtZWJ1ZmZlcl9jcmVhdGUoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQsIHUzMiB3aWR0
+aCwgdTMyIGhlaWdodCwgdTMyIGZvcm1hdCk7Cj4+ICB2b2lkIGRybV9jbGllbnRfZnJhbWVidWZm
+ZXJfZGVsZXRlKHN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVyKTsKPj4gK2ludCBkcm1f
+Y2xpZW50X2ZyYW1lYnVmZmVyX2ZsdXNoKHN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVy
+LCBzdHJ1Y3QgZHJtX3JlY3QgKnJlY3QpOwo+PiAgdm9pZCAqZHJtX2NsaWVudF9idWZmZXJfdm1h
+cChzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlcik7Cj4+ICB2b2lkIGRybV9jbGllbnRf
+YnVmZmVyX3Z1bm1hcChzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlcik7Cj4+ICAKPj4g
+LS0gCj4+IDIuMjMuMAo+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
