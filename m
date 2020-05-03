@@ -2,54 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537E61C2D18
-	for <lists+dri-devel@lfdr.de>; Sun,  3 May 2020 16:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCB01C3384
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8D336E183;
-	Sun,  3 May 2020 14:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A9C6E32B;
+	Mon,  4 May 2020 07:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35AFF6E183;
- Sun,  3 May 2020 14:50:02 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id k18so9703921ion.0;
- Sun, 03 May 2020 07:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B1Ggi2tOtn6fWjPzvZwzQsgJOov1/FsKi8Om8sDMRcA=;
- b=HxvGAhT9OTNgDUFLYzZZRcoKMfhGjPBshUnyOSIlMXSNcv9h4/Oz/o13+7VqT8UxVr
- GLfT479WXZaLdb87jHp9szW1ydM+olqSwgfBXwJ/1wmNMXmE0eBqXLRAO4FvulgdYqmW
- OqykNoHblX1DfvOOlq1bWLPODvfKm6n0lvVq5BSgvedpNbZ5xaGzPHcNW/2sEUN26Mtt
- vGNHfaV62vuJTeeqDlXRNnLOMKS0dsoNIiO4FxiI6Uy+y5A6x/8Hx5JZWzTdryi0MqLC
- 6EEGCwRbLB1XNl4ntFaKq2KatDVLf0NPst2/NeJErdUgW4GqlCVe6u01dG5Jh5Xxt0yp
- GcuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B1Ggi2tOtn6fWjPzvZwzQsgJOov1/FsKi8Om8sDMRcA=;
- b=UWaQ7VuaPRQD1OEBHmG28ndzWdEqqyufdNfkKsZBglTyDxUPqHMcpeSLNUO5dL41Zv
- zdttS1msasVYVhPXjVU0F+2p/TYoF73Px9YSJlpzOmcROPxDvTuGIP9jyCx5T0Zq9CPa
- 8qOu+bF7zsnFcFFq27K041FBwjIkQ6meGlHP1iwmNZgvLnUsnV7qb2iR4xqpKFLw/fWR
- tgod/waYqzJnOEuopy+/DHSZUMrAVlnHbbcfpESgDZZANDl1LaEBXh+Ey2SMPkLukr6q
- JsmTgPZg8Qn4SSctH3+e6SKgOiHNjJgM1o3YSUZttfFBRbsmOoyE4cM7g2VaG0KOShmJ
- /iqg==
-X-Gm-Message-State: AGi0Pua0ksfDeRI5x7WdeFN8TDnrJRR7fyRtMVAaVKRHHJ4fPmEEa3gE
- 6CWrx4NAzk1VMEGtZee+0t7UL3r+vzX5zpuC0jU=
-X-Google-Smtp-Source: APiQypLbcKgX3zhmAur79Vn+sc0A1kneTzi/1Vo1IHxvDZMcqShXBChBJ4soO8y6+dAipoLOjkTP4D38bcG/hwiWprc=
-X-Received: by 2002:a6b:dd16:: with SMTP id f22mr11782741ioc.178.1588517401325; 
- Sun, 03 May 2020 07:50:01 -0700 (PDT)
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 607316E255
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 May 2020 15:01:49 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 5955480BF;
+ Sun,  3 May 2020 15:02:34 +0000 (UTC)
+Date: Sun, 3 May 2020 08:01:43 -0700
+From: Tony Lindgren <tony@atomide.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v7 01/12] dt-bindings: add img,pvrsgx.yaml for
+ Imagination GPUs
+Message-ID: <20200503150143.GG37466@atomide.com>
+References: <cover.1587760454.git.hns@goldelico.com>
+ <3a451e360fed84bc40287678b4d6be13821cfbc0.1587760454.git.hns@goldelico.com>
+ <NMCE9Q.LWG45P20NBVJ@crapouillou.net>
+ <28138EC0-0FA5-4F97-B528-3442BF087C7A@goldelico.com>
+ <TEAR9Q.6HI5DFRO5U0I3@crapouillou.net>
+ <3D8B59D6-83E3-4FE6-9C99-E2E5616A8139@goldelico.com>
+ <8EER9Q.C206SXNSICP7@crapouillou.net>
 MIME-Version: 1.0
-References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
- <20200430124602.14463-5-frieder.schrempf@kontron.de>
-In-Reply-To: <20200430124602.14463-5-frieder.schrempf@kontron.de>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 3 May 2020 09:49:50 -0500
-Message-ID: <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
- core using Etnaviv
-To: Schrempf Frieder <frieder.schrempf@kontron.de>
+Content-Disposition: inline
+In-Reply-To: <8EER9Q.C206SXNSICP7@crapouillou.net>
+X-Mailman-Approved-At: Mon, 04 May 2020 07:17:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,48 +44,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Peng Fan <peng.fan@nxp.com>, Anson Huang <Anson.Huang@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Leonard Crestez <leonard.crestez@nxp.com>,
- "S.j. Wang" <shengjiu.wang@nxp.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Li Jun <jun.li@nxp.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Jonathan Bakker <xc-racer2@live.ca>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, letux-kernel@openphoenux.org,
+ Paul Burton <paulburton@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-samsung-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, James Hogan <jhogan@kernel.org>,
+ devicetree@vger.kernel.org,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Philipp Rossak <embed3d@gmail.com>, openpvrsgx-devgroup@letux.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ kernel@pyra-handheld.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 30, 2020 at 7:46 AM Schrempf Frieder
-<frieder.schrempf@kontron.de> wrote:
->
-> From: Frieder Schrempf <frieder.schrempf@kontron.de>
->
-> According to the documents, the i.MX8M-Mini features a GC320 and a
-> GCNanoUltra GPU core. Etnaviv detects them as:
->
->         etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
->         etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
->
-> This seems to work fine more or less without any changes to the HWDB,
-> which still might be needed in the future to correct some features,
-> etc.
->
-> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> ---
-Since not everyone uses the 3D or 2D, would it make sense to mark them
-as disabled by default and let people who need the 3D and 2D enable
-them at their respective board files?
+* Paul Cercueil <paul@crapouillou.net> [200503 14:19]:
+> You have a new SoC with a SGX, and you only need to enable one clock to get
+> it to work. So you create a devicetree node which receives only one clock.
+> 
+> Turns out, that the bootloader was enabling the other 3 clocks, and since
+> the last release, it doesn't anymore. You're left with having to support a
+> broken devicetree.
+> 
+> That's the kind of problem that can be easily avoided by enforcing the
+> number of clocks that have to be provided.
 
-adam
+The number of clocks depends on how it's wired for the SoC.
 
-> 2.17.1
+On omaps, there's are no controls for additinoal SGX clocks. Sure some
+of the clocks may be routed to multple places internally by the wrapper
+module. But we have no control over that.
+
+If we wanted to specify just the "fck" clock on omaps, then we can
+do it with something like this:
+
+allOf:
+  - if:
+    properites:
+      compatible:
+        enum:
+	  - "ti,omap4-sgx544-112"
+	  - "ti,omap5-sgx544-116"
+	  - "ti,dra7-sgx544-116"
+    then:
+      properties:
+        clocks:
+	  minItems: 1
+	  maxItems: 1
+
+        clock-names:
+	  const: fck
+
+    required:
+      - clocks
+      - clock-names
+
+There's no need for the SGX driver to toggle the "fck" here, it's
+all done by PM runtime alreaedy so we would be just tweaking
+the usage count for it. But hey, showing the clock rate might
+be nice. Or maybe we want to at some point scale it, so no problem
+specifying it.
+
+For omap3, we should then specify "fck" and "ick". On omap4 and
+later, there's no separate control over the "ick".
+
+Then for the other SoCs, you can specify whatever clocks you need
+there.
+
+Regards,
+
+Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
