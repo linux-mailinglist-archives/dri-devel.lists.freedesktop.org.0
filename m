@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B451C45C0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B2C1C45C2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF626E455;
-	Mon,  4 May 2020 18:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A2F6E459;
+	Mon,  4 May 2020 18:24:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D7F6E455;
- Mon,  4 May 2020 18:24:22 +0000 (UTC)
-IronPort-SDR: zBCsLEXatfJibP94RAkk5RTdytM91Nzmndj74wE7jnf1DMuY+8omNFCFf+Gth7ITERR+q++xIk
- e7L6XHPw+J1Q==
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7AE6E457;
+ Mon,  4 May 2020 18:24:31 +0000 (UTC)
+IronPort-SDR: u6U0jcSFODoRAPHPNDYaHLTiOGohl4XJbkMXgb0KKH3SSSnaof5e3XqikSxSImk9r3Zj/TRHol
+ qXq+8YgDNqMw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2020 11:24:22 -0700
-IronPort-SDR: +HmZQlRI3NDBlIJJrMSsNyufWTIxTr8q13Dqhjfftf0dROcSrC19AyIMhXZ/maHlxFQyBwkNsy
- I3+Ps30qjEpQ==
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2020 11:24:31 -0700
+IronPort-SDR: /b68/7D1FhLYcpyIBYf2zJAIDgWVsaIF5qUbSuwN0sodaLVX/u5W07NdpjzJENbYApYKy7ITY4
+ /crJMGO/JyoQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172118"
+X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172161"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:17 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:25 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Imre Deak <imre.deak@intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: [PATCH v2 3/9] drm/i915/display/sdvo: Prefer drm_WARN* over WARN*
-Date: Mon,  4 May 2020 23:45:54 +0530
-Message-Id: <20200504181600.18503-4-pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [PATCH v2 4/9] drm/i915/display/tc: Prefer drm_WARN_ON over WARN_ON
+Date: Mon,  4 May 2020 23:45:55 +0530
+Message-Id: <20200504181600.18503-5-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -61,121 +62,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 struct drm_device specific drm_WARN* macros include device information
 in the backtrace, so we know what device the warnings originate from.
 
-Prefer drm_WARN* over WARN* calls.
+Prefer drm_WARN_ON over WARN_ON.
+
+Conversion is done with below sementic patch:
+
+@@
+identifier func, T;
+@@
+func(...) {
+...
+struct drm_i915_private *T = ...;
+<+...
+-WARN_ON(
++drm_WARN_ON(&T->drm,
+...)
+...+>
+}
+
+@@
+identifier func, T;
+@@
+func(struct intel_digital_port *T,...) {
++struct drm_i915_private *i915 = to_i915(T->base.base.dev);
+<+...
+-WARN_ON(
++drm_WARN_ON(&i915->drm,
+...)
+...+>
+
+}
 
 changes since v1:
-- Added dev_priv local variable and used it in drm_WARN* calls (Jani)
+- Add i915 local variable and use it in drm_WARN_ON (Jani)
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_sdvo.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/display/intel_tc.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index bc6c26818e15..773523dcd107 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -411,6 +411,7 @@ static const char *sdvo_cmd_name(u8 cmd)
- static void intel_sdvo_debug_write(struct intel_sdvo *intel_sdvo, u8 cmd,
- 				   const void *args, int args_len)
- {
-+	struct drm_i915_private *dev_priv = to_i915(intel_sdvo->base.base.dev);
- 	const char *cmd_name;
- 	int i, pos = 0;
- 	char buffer[64];
-@@ -431,7 +432,7 @@ static void intel_sdvo_debug_write(struct intel_sdvo *intel_sdvo, u8 cmd,
- 	else
- 		BUF_PRINT("(%02X)", cmd);
- 
--	WARN_ON(pos >= sizeof(buffer) - 1);
-+	drm_WARN_ON(&dev_priv->drm, pos >= sizeof(buffer) - 1);
- #undef BUF_PRINT
- 
- 	DRM_DEBUG_KMS("%s: W: %02X %s\n", SDVO_NAME(intel_sdvo), cmd, buffer);
-@@ -533,6 +534,7 @@ static bool intel_sdvo_write_cmd(struct intel_sdvo *intel_sdvo, u8 cmd,
- static bool intel_sdvo_read_response(struct intel_sdvo *intel_sdvo,
- 				     void *response, int response_len)
- {
-+	struct drm_i915_private *dev_priv = to_i915(intel_sdvo->base.base.dev);
- 	const char *cmd_status;
- 	u8 retry = 15; /* 5 quick checks, followed by 10 long checks */
- 	u8 status;
-@@ -597,7 +599,7 @@ static bool intel_sdvo_read_response(struct intel_sdvo *intel_sdvo,
- 		BUF_PRINT(" %02X", ((u8 *)response)[i]);
+diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+index d3bd5e798fbc..a2ffc991bc0e 100644
+--- a/drivers/gpu/drm/i915/display/intel_tc.c
++++ b/drivers/gpu/drm/i915/display/intel_tc.c
+@@ -360,12 +360,12 @@ static void icl_tc_phy_connect(struct intel_digital_port *dig_port,
  	}
  
--	WARN_ON(pos >= sizeof(buffer) - 1);
-+	drm_WARN_ON(&dev_priv->drm, pos >= sizeof(buffer) - 1);
- #undef BUF_PRINT
+ 	if (!icl_tc_phy_set_safe_mode(dig_port, false) &&
+-	    !WARN_ON(dig_port->tc_legacy_port))
++	    !drm_WARN_ON(&i915->drm, dig_port->tc_legacy_port))
+ 		goto out_set_tbt_alt_mode;
  
- 	DRM_DEBUG_KMS("%s: R: %s\n", SDVO_NAME(intel_sdvo), buffer);
-@@ -1081,6 +1083,7 @@ static bool intel_sdvo_compute_avi_infoframe(struct intel_sdvo *intel_sdvo,
- 					     struct intel_crtc_state *crtc_state,
- 					     struct drm_connector_state *conn_state)
+ 	max_lanes = intel_tc_port_fia_max_lane_count(dig_port);
+ 	if (dig_port->tc_legacy_port) {
+-		WARN_ON(max_lanes != 4);
++		drm_WARN_ON(&i915->drm, max_lanes != 4);
+ 		dig_port->tc_mode = TC_PORT_LEGACY;
+ 
+ 		return;
+@@ -445,18 +445,20 @@ static bool icl_tc_phy_is_connected(struct intel_digital_port *dig_port)
+ static enum tc_port_mode
+ intel_tc_port_get_current_mode(struct intel_digital_port *dig_port)
  {
-+	struct drm_i915_private *dev_priv = to_i915(intel_sdvo->base.base.dev);
- 	struct hdmi_avi_infoframe *frame = &crtc_state->infoframes.avi.avi;
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
-@@ -1106,7 +1109,7 @@ static bool intel_sdvo_compute_avi_infoframe(struct intel_sdvo *intel_sdvo,
- 					   HDMI_QUANTIZATION_RANGE_FULL);
++	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+ 	u32 live_status_mask = tc_port_live_status_mask(dig_port);
+ 	bool in_safe_mode = icl_tc_phy_is_in_safe_mode(dig_port);
+ 	enum tc_port_mode mode;
  
- 	ret = hdmi_avi_infoframe_check(frame);
--	if (WARN_ON(ret))
-+	if (drm_WARN_ON(&dev_priv->drm, ret))
- 		return false;
+-	if (in_safe_mode || WARN_ON(!icl_tc_phy_status_complete(dig_port)))
++	if (in_safe_mode ||
++	    drm_WARN_ON(&i915->drm, !icl_tc_phy_status_complete(dig_port)))
+ 		return TC_PORT_TBT_ALT;
  
- 	return true;
-@@ -1115,6 +1118,7 @@ static bool intel_sdvo_compute_avi_infoframe(struct intel_sdvo *intel_sdvo,
- static bool intel_sdvo_set_avi_infoframe(struct intel_sdvo *intel_sdvo,
- 					 const struct intel_crtc_state *crtc_state)
- {
-+	struct drm_i915_private *dev_priv = to_i915(intel_sdvo->base.base.dev);
- 	u8 sdvo_data[HDMI_INFOFRAME_SIZE(AVI)];
- 	const union hdmi_infoframe *frame = &crtc_state->infoframes.avi;
- 	ssize_t len;
-@@ -1123,11 +1127,12 @@ static bool intel_sdvo_set_avi_infoframe(struct intel_sdvo *intel_sdvo,
- 	     intel_hdmi_infoframe_enable(HDMI_INFOFRAME_TYPE_AVI)) == 0)
- 		return true;
+ 	mode = dig_port->tc_legacy_port ? TC_PORT_LEGACY : TC_PORT_DP_ALT;
+ 	if (live_status_mask) {
+ 		enum tc_port_mode live_mode = fls(live_status_mask) - 1;
  
--	if (WARN_ON(frame->any.type != HDMI_INFOFRAME_TYPE_AVI))
-+	if (drm_WARN_ON(&dev_priv->drm,
-+			frame->any.type != HDMI_INFOFRAME_TYPE_AVI))
- 		return false;
- 
- 	len = hdmi_infoframe_pack_only(frame, sdvo_data, sizeof(sdvo_data));
--	if (WARN_ON(len < 0))
-+	if (drm_WARN_ON(&dev_priv->drm, len < 0))
- 		return false;
- 
- 	return intel_sdvo_write_infoframe(intel_sdvo, SDVO_HBUF_INDEX_AVI_IF,
-@@ -1237,6 +1242,7 @@ intel_sdvo_get_preferred_input_mode(struct intel_sdvo *intel_sdvo,
- 
- static void i9xx_adjust_sdvo_tv_clock(struct intel_crtc_state *pipe_config)
- {
-+	struct drm_i915_private *dev_priv = to_i915(pipe_config->uapi.crtc->dev);
- 	unsigned dotclock = pipe_config->port_clock;
- 	struct dpll *clock = &pipe_config->dpll;
- 
-@@ -1257,7 +1263,8 @@ static void i9xx_adjust_sdvo_tv_clock(struct intel_crtc_state *pipe_config)
- 		clock->m1 = 12;
- 		clock->m2 = 8;
- 	} else {
--		WARN(1, "SDVO TV clock out of range: %i\n", dotclock);
-+		drm_WARN(&dev_priv->drm, 1,
-+			 "SDVO TV clock out of range: %i\n", dotclock);
+-		if (!WARN_ON(live_mode == TC_PORT_TBT_ALT))
++		if (!drm_WARN_ON(&i915->drm, live_mode == TC_PORT_TBT_ALT))
+ 			mode = live_mode;
  	}
  
- 	pipe_config->clock_set = true;
-@@ -2293,7 +2300,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
- 				return 0;
- 			}
+@@ -505,7 +507,9 @@ static void
+ intel_tc_port_link_init_refcount(struct intel_digital_port *dig_port,
+ 				 int refcount)
+ {
+-	WARN_ON(dig_port->tc_link_refcount);
++	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
++
++	drm_WARN_ON(&i915->drm, dig_port->tc_link_refcount);
+ 	dig_port->tc_link_refcount = refcount;
+ }
  
--		WARN_ON(1);
-+		drm_WARN_ON(connector->dev, 1);
- 		*val = 0;
- 	} else if (property == intel_sdvo_connector->top ||
- 		   property == intel_sdvo_connector->bottom)
 -- 
 2.23.0
 
