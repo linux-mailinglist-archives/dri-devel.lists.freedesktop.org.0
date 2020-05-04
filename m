@@ -2,29 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5676D1C3383
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FC31C3386
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 921D16E32D;
-	Mon,  4 May 2020 07:17:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7128A6E33A;
+	Mon,  4 May 2020 07:17:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CC36E2E0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 05:34:33 +0000 (UTC)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jVTjp-000ZHp-A5; Mon, 04 May 2020 05:33:57 +0000
-Date: Mon, 4 May 2020 06:33:57 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH V2 00/11] Subject: Remove duplicated kmap code
-Message-ID: <20200504053357.GV23230@ZenIV.linux.org.uk>
-References: <20200504010912.982044-1-ira.weiny@intel.com>
- <20200504013509.GU23230@ZenIV.linux.org.uk>
- <20200504050447.GA979899@iweiny-DESK2.sc.intel.com>
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B666E326
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 06:35:58 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id h30so10443803vsr.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 May 2020 23:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5sFJYLc/0VUdiszQsskqwyzqT4X+yBo4BGoRsgAELP8=;
+ b=w0XGA768oHIzv2ggftjQOGlT6jWI8cD7B/hFDXHnLiHdftXRdssuj+DM4uSXaAgTpI
+ 5eIRxvoNBR8MEvD36bWKlbPvLEDKwUaPPeTE7oEtxH9uWFLOVHeWFq9iaT09woZiUbxX
+ gOw+c2Ar5IMdSlobe97mK788mPLoWO8d9s6FwRa9XSNKkaRWZPOiFPcNlRH4P5Zdjafm
+ qqbpoJ9LX9jm5/aYTAShd4JXVlfZ46AZyX9VBNiDjTcx4j/wrfDuGnaXfnRPVoM8nMbm
+ Kx+ofGOiNwHx2Q+ryv2D60qNRiv1rSS4a/IsD/R9d37W89kor/isaYMqwaQurXpzcBKe
+ Jl+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5sFJYLc/0VUdiszQsskqwyzqT4X+yBo4BGoRsgAELP8=;
+ b=RvG0zbA4lb8wONGdY0i8/E5hk/gpn2sFg5p0Y5czEHwjoNPTRhXiCn0bAYl/IWSMpA
+ 3SW3apRmT1YomDJc5QLYo2+K3RWXZoNNW2KAZxF6b0dVsqVgo6MVowPf4iRlFyHOPUnn
+ Vz0ak8pZSAvmXS+sOysx5Z8Dr9G6lE9vyJvgXdY3pk/JuXtQgvIafgvXR2ygw9WNbjKj
+ ho/v5IO6p3kW1HRDT2urDfsFEGZ/lU/YMpyGHPl2w6f8WHm5SQb0I7LvMGv+vRqrKAv0
+ RBcA1mMgt8LVm3U4tz0yDNrRYyoZB+5FCZ4pU5UQLnglPQlpcEVbw8cZpe0R+PRW+xG5
+ KaTA==
+X-Gm-Message-State: AGi0Pubd1Gpvbk4TztYzFxsOjcyXZXYadtkJ0XUaq8+bimrCe2+JNUMS
+ DptEo6PTpyHIchBUCla/cAJHKBruOJYQODZDjFychg==
+X-Google-Smtp-Source: APiQypKTJI0Xlt9dGE+0uJMLYsCNcQkeRzkxYMbdYpJXByDZ7vhKcQaxHvTj/nEv+e1qF1f+EkvX1YRc9YSoLnOdaBo=
+X-Received: by 2002:a67:bd07:: with SMTP id y7mr11154865vsq.109.1588574157839; 
+ Sun, 03 May 2020 23:35:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200504050447.GA979899@iweiny-DESK2.sc.intel.com>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <20200427072342.5499-1-jian-hong@endlessm.com>
+ <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
+In-Reply-To: <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
+From: Jian-Hong Pan <jian-hong@endlessm.com>
+Date: Mon, 4 May 2020 14:35:08 +0800
+Message-ID: <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
+To: Maxime Ripard <maxime@cerno.tech>
 X-Mailman-Approved-At: Mon, 04 May 2020 07:17:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -38,203 +65,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Linux Kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-i2c@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 03, 2020 at 10:04:47PM -0700, Ira Weiny wrote:
-
-> Grepping for 'asm/highmem.h' and investigations don't reveal any issues...  But
-> you do have me worried.  That said 0-day has been crunching on multiple
-> versions of this series without issues such as this (save the mips issue
-> above).
-> 
-> I have to say it would be nice if the relation between linux/highmem.h and
-> asm/highmem.h was more straightforward.
-
-IIRC, the headache was due to asm/pgtable.h on several architectures and
-asm/cacheflush.h on parisc.
-
-<digs the notes out>
-
-||         IOW, there's one in linux/highmem.h (conditional on !CONFIG_HIGHMEM,
-|| !ARCH_HAS_KMAP) and several per-architecture variants, usually declared in
-|| their asm/highmem.h.  In three of those (microblaze, parisc and powerpc) these
-|| are inlines (parisc one identical to linux/highmem.h, lives in asm/cacheflush.h,
-|| powerpc and microblaze ones calling kmap_atomic_prot() which is defined in
-|| arch/$ARCH/mm/highmem.c).
-|| 
-||         parisc case is weird - essentially, they want to call 
-|| flush_kernel_dcache_page_addr() at the places where kunmap/kunmap_atomic
-|| is done.  And they do so despite not selecting HIGHMEM, with definitions
-|| in usual place.  They do have ARCH_HAS_KMAP defined, which prevents
-|| getting buggered in linux/highmem.h.  ARCH_HAS_KMAP is parisc-unique,
-|| BTW, and checked only in linux/highmem.h.
-|| 
-||         All genuine arch-specific variants are defined in (or call functions
-|| defined in) translation units that are only included CONFIG_HIGHMEM builds.
-|| 
-||         It would be tempting to consolidate those, e.g. by adding __kmap_atomic()
-|| and __kmap_atomic_prot() without that boilerplate, with universal kmap_atomic()
-|| and kmap_atomic_prot() in linux/highmem.h.  Potential problem with that would
-|| be something that pulls ash/highmem.h (or asm/cacheflush.h in case of parisc)
-|| directly and uses kmap_atomic/kmap_atomic_prot.  There's not a lot places
-|| pulling asm/highmem.h, and many of them are not even in includes:
-|| 
-|| arch/arm/include/asm/efi.h:13:#include <asm/highmem.h>
-|| arch/arm/mm/dma-mapping.c:31:#include <asm/highmem.h>
-|| arch/arm/mm/flush.c:14:#include <asm/highmem.h>
-|| arch/arm/mm/mmu.c:27:#include <asm/highmem.h>
-|| arch/mips/include/asm/pgtable-32.h:22:#include <asm/highmem.h>
-|| arch/mips/mm/cache.c:19:#include <asm/highmem.h>
-|| arch/mips/mm/fault.c:28:#include <asm/highmem.h>                /* For VMALLOC_END */
-|| arch/nds32/include/asm/pgtable.h:60:#include <asm/highmem.h>
-|| arch/x86/kernel/setup_percpu.c:20:#include <asm/highmem.h>
-|| include/linux/highmem.h:35:#include <asm/highmem.h>
-|| 
-|| Users of asm/cacheflush.h are rather more numerous; however, anything
-|| outside of parisc-specific code has to pull linux/highmem.h, or it won't see
-|| the definitions of kmap_atomic/kmap_atomic_prot at all.  arch/parisc itself
-|| has no callers of those.
-|| 
-|| Outside of arch/* there is a plenty of callers.  However, the following is
-|| true: all instances of kmap_atomic or kmap_atomic_prot outside of arch/*
-|| are either inside the linux/highmem.h or are preceded by include of
-|| linux/highmem.h on any build that sees them (there is a common include
-|| chain that is conditional upon CONFIG_BLOCK, but it's only needed in
-|| drivers that are BLOCK-dependent).  It was not fun to verify, to put
-|| it mildly...
-|| 
-|| So for parisc we have no problem - leaving __kmap_atomic()/__kmap_atomic_prot()
-|| in asm/cachefile.h and adding universal wrappers in linux/highmem.h will be
-|| fine.  For other architectures the things might be trickier.
-|| 
-|| * arc: all users in arch/arc/ are within arch/arc/mm/{cache,highmem}.c;
-|| both pull linux/highmem.h.  We are fine.
-|| 
-|| * arm: much, much worse.  We have several files that pull linux/highmem.h:
-|| arch/arm/mm/cache-feroceon-l2.c, arch/arm/mm/cache-xsc3l2.c,
-|| arch/arm/mm/copypage-*.c, arch/arm/mm/dma-mapping.c, arch/arm/mm/flush.c,
-|| arch/arm/mm/highmem.c, arch/arm/probes/uprobes/core.c,
-|| arch/arm/include/asm/kvm_mmu.h (kmap_atomic_pfn()).
-|| Those are fine, but we also have this:
-|| arch/arm/include/asm/pgtable.h:200:#define __pte_map(pmd)               (pte_t *)kmap_atomic(pmd_page(*(pmd)))
-|| arch/arm/include/asm/pgtable.h:208:#define pte_offset_map(pmd,addr)     (__pte_map(pmd) + pte_index(addr))
-|| and sure as hell, asm/pgtable.h does *NOT* pull linux/highmem.h.
-|| 
-|| Fortunately, the users of pte_offset_map() (__pte_map() has no other users)
-|| are few, both in arch/arm and outside of arch.  All arm ones are pulling
-|| linux/highmem (arch/arm/mm/{pgd,fault*}.c).  Outside of arch we have several
-|| that pull highmem.h (by way of rmap.h or pagemap.h, usually):
-||         fs/userfaultfd.c, mm/gup.c, mm/hmm.c, mm/huge_memory.c,
-||         mm/khugepaged.c, mm/memory-failure.c, mm/memory.c, mm/migrate.c,
-||         mm/mremap.c, mm/page_vma_mapped.c, mm/swap_state.c, mm/swapfile.c,
-||         mm/vmalloc.c
-|| and then there are these in linux/mm.h:
-|| 
-|| #define pte_offset_map_lock(mm, pmd, address, ptlp)     \
-|| ({                                                      \
-||         spinlock_t *__ptl = pte_lockptr(mm, pmd);       \
-||         pte_t *__pte = pte_offset_map(pmd, address);    \
-||         *(ptlp) = __ptl;                                \
-||         spin_lock(__ptl);                               \
-||         __pte;                                          \
-|| })
-|| #define pte_alloc_map(mm, pmd, address)                 \
-||         (pte_alloc(mm, pmd) ? NULL : pte_offset_map(pmd, address))
-|| #define pte_alloc_map_lock(mm, pmd, address, ptlp)      \
-||         (pte_alloc(mm, pmd) ?                   \
-||                  NULL : pte_offset_map_lock(mm, pmd, address, ptlp))
-|| 
-||         These have two users in arch/arm (arch/arm/mm/pgd.c and
-|| arch/arm/lib/uaccess_with_memcpy.c, both pulling highmem.h).  Outside of
-|| arch there are several new files (plus a lot of what we'd already seen
-|| in mm/*.c, unsurprisingly):
-||         fs/proc/task_mmu.c, mm/ksm.c, mm/madvise.c, mm/memcontrol.c,
-||         mm/mempolicy.c, mm/mincore.c, mm/mprotect.c, mm/pagewalk.c,
-||         mm/shmem.c, mm/userfaultfd.c,
-|| all pulling linux/highmem.h, as pretty much all core VM does.  So we are
-|| still fine.
-|| 
-|| * csky: users in arch/csky/abiv2/cacheflush.c, arch/csky/mm/dma-mapping.c,
-|| arch/csky/mm/highmem.c, all pulling linux/highmem.h
-|| 
-|| * microblaze: users in arch/microblaze/mm/highmem.c (pulls linux/highmem.h) and,
-|| arch/microblaze/include/asm/pgtable.h, this:
-|| #define pte_offset_map(dir, addr)               \
-||         ((pte_t *) kmap_atomic(pmd_page(*(dir))) + pte_index(addr))
-||         One pte_offset_map user in arch/microblaze:
-|| arch/microblaze/kernel/signal.c:207:    ptep = pte_offset_map(pmdp, address);
-|| Messy, but doesn't require any changes (we have asm/pgalloc.h included
-|| there, and that pull linux/highmem.h).
-||         Outside of arch we'd already sorted it out when looking at arm.
-|| 
-|| * mips: users in arch/mips/kernel/crash_dump.c, arch/mips/kernel/uprobes.c,
-|| arch/mips/mm/c-r4k.c, arch/mips/mm/dma-noncoherent.c, arch/mips/mm/highmem.c,
-|| and arch/mips/mm/init.c (all pulling linux/highmem.h) plus this
-|| arch/mips/mm/cache.c, which relies upon asm/highmem.h.  This can be switched
-|| to linux/highmem.h.  On !CONFIG_HIGHMEM builds the call of kmap_atomic() in
-|| there is eliminated, since it's conditional upon PageHighMem().  IOW, even
-|| though we get a call of (inexistent) out-of-line version, it's not going to
-|| survive into object file.  With linux/highmem.h use it will be an equally
-|| eliminated call of inlined version.
-|| XXX: arch/mips/mm/cache.c
-|| 
-|| * nds32: users in arch/nds32/kernel/dma.c, arch/nds32/mm/cacheflush.c and
-|| arch/nds32/mm/highmem.c, all pulling linux/highmem.h
-|| 
-|| * powerpc: users in arch/powerpc/kvm/book3s_pr.c,
-|| arch/powerpc/kvm/e500_mmu_host.c, arch/powerpc/mm/dma-noncoherent.c,
-|| arch/powerpc/mm/highmem.c and arch/powerpc/mm/mem.c, all pulling
-|| linux/highmem.h, a user in arch/powerpc/mm/hugetlbpage.c pulling it
-|| via asm/tlb.h -> linux/pagemap.h -> linux/highmem.h and
-|| macros for pte_offset_map in arch/powerpc/include/asm/*/32/pgtable.h.
-|| Users of that within arch/powerpc are either 64bit-only or
-|| pull linux/highmem.h (arch/powerpc/mm/pgtable_32.c and
-|| arch/powerpc/xmon/xmon.c).  Users outside of arch - same as for arm.
-|| 
-|| * sparc: users in arch/sparc/kernel/uprobes.c and arch/sparc/mm/highmem.c
-|| (both pulling linux/highmem.h directly) + arch/sparc/mm/init_64.c pulling
-|| it via linux/pagemap.h.  Strangely, arch/sparc/mm/io-unit.c and
-|| arch/sparc/mm/iommu.c both include linux/highmem.h with odd comment
-|| that seems to indicate that once upon a time pte_offset_map() used to
-|| requite kmap_atomic() there...  Right, it used to - until 2002.
-|| These includes are pointless, then...
-|| 
-|| * x86: users in arch/x86/kernel/crash_dump_32.c, arch/x86/kvm/svm.c,
-|| arch/x86/lib/usercopy_64.c, arch/x86/mm/highmem_32.c and arch/x86/mm/iomap_32.c,
-|| all pulling linux/highmem.h, users in paging_tmpl.h (included from
-|| arch/x86/kvm/mmu/mmu.c, which has pulled linux/highmem.h prior to that)
-|| and definition of pte_offset_map() (in asm/pgtable_32.h)
-|| Users of pte_offset_map() and friends in arch/x86 are in
-|| arch/x86/kernel/vm86_32.c and arch/x86/mm/dump_pagetables.c (both
-|| pulling linux/highmem.h), in arch/x86/mm/mem_encrypt_identity.c
-|| (64bit-only, pte_offset_map() doesn't use kmap_atomic() there) and
-|| arch/x86/kernel/tboot.c (pulls linux/highmem.h via asm/pgalloc.h
-|| and linux/pagemap.h)
-|| 
-|| * xtensa: users in arch/xtensa/kernel/pci-dma.c, arch/xtensa/mm/highmem.c,
-|| arch/xtensa/mm/cache.c and arch/xtensa/platforms/iss/simdisk.c (all pull
-|| linux/highmem.h).
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+TWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+IOaWvCAyMDIw5bm0NOaciDI55pelIOmA
+seS4iSDkuIrljYgxMjoyMeWvq+mBk++8mgo+Cj4gSGksCj4KPiBPbiBNb24sIEFwciAyNywgMjAy
+MCBhdCAwMzoyMzo0MlBNICswODAwLCBKaWFuLUhvbmcgUGFuIHdyb3RlOgo+ID4gSGkgTWF4aW1l
+LAo+ID4KPiA+IFRoYW5rcyBmb3IgeW91ciBWMiBwYXRjaCBzZXJpZXMhICBJJ20gdGVzdGluZyBp
+dC4KPiA+Cj4gPiBUaGlzIHBhdGNoIHNlcmllcyBpcyBhcHBsaWVkIHVwb24gbWFpbmxpbmUga2Vy
+bmVsIDUuNy1yYzIgY2xlYW5seSBhbmQgYnVpbHQuCj4gPiBTeXN0ZW0gY2FuIGJvb3QgaW50byBj
+b25zb2xlIHRleHQgbW9kZSwgYnV0IG5vIGdyYXBoaWMgVUkuCj4gPgo+ID4gR2V0IHRoZSBlcnJv
+ciBpbiB2YzVfaGRtaV9waHlfaW5pdCgpLCBhbmQgZnVsbCBkbWVzZyBpcyBhdCBbMV06Cj4gPgo+
+ID4gWyAgICA1LjU4NzU0M10gdmM0X2hkbWkgZmVmMDA3MDAuaGRtaTogVW5rbm93biByZWdpc3Rl
+ciBJRCA0Ngo+ID4gWyAgICA1LjU4NzcwMF0gZGVidWdmczogRGlyZWN0b3J5ICdmZWYwMDcwMC5o
+ZG1pJyB3aXRoIHBhcmVudCAndmM0LWhkbWknIGFscmVhZHkgcHJlc2VudCEKPiA+IFsgICAgNS41
+ODgwNzBdIHZjNF9oZG1pIGZlZjAwNzAwLmhkbWk6IHZjNC1oZG1pLWhpZmkgPC0+IGZlZjAwNzAw
+LmhkbWkgbWFwcGluZyBvawo+ID4gWyAgICA1LjU4ODA3Nl0gdmM0X2hkbWkgZmVmMDA3MDAuaGRt
+aTogQVNvQzogbm8gRE1JIHZlbmRvciBuYW1lIQo+ID4gWyAgICA1LjU4ODI2M10gdmM0LWRybSBn
+cHU6IGJvdW5kIGZlZjAwNzAwLmhkbWkgKG9wcyB2YzRfaGRtaV9vcHMpCj4gPiBbICAgIDUuNTg4
+Mjk5XSB2YzRfaGRtaSBmZWYwNTcwMC5oZG1pOiBVbmtub3duIHJlZ2lzdGVyIElEIDQ2Cj4gPiBb
+ICAgIDUuNTg4MzczXSBkZWJ1Z2ZzOiBEaXJlY3RvcnkgJ3ZjNC1oZG1pJyB3aXRoIHBhcmVudCAn
+YXNvYycgYWxyZWFkeSBwcmVzZW50IQo+ID4gWyAgICA1LjU4ODY3M10gdmM0X2hkbWkgZmVmMDU3
+MDAuaGRtaTogdmM0LWhkbWktaGlmaSA8LT4gZmVmMDU3MDAuaGRtaSBtYXBwaW5nIG9rCj4gPiBb
+ICAgIDUuNTg4Njc3XSB2YzRfaGRtaSBmZWYwNTcwMC5oZG1pOiBBU29DOiBubyBETUkgdmVuZG9y
+IG5hbWUhCj4gPiBbICAgIDUuNTg4ODA5XSB2YzQtZHJtIGdwdTogYm91bmQgZmVmMDU3MDAuaGRt
+aSAob3BzIHZjNF9oZG1pX29wcykKPiA+IFsgICAgNS41ODg4NTRdIHZjNC1kcm0gZ3B1OiBib3Vu
+ZCBmZTgwNjAwMC52ZWMgKG9wcyB2YzRfdmVjX29wcykKPiA+IFsgICAgNS41ODg4OTddIHZjNC1k
+cm0gZ3B1OiBib3VuZCBmZTAwNDAwMC50eHAgKG9wcyB2YzRfdHhwX29wcykKPiA+IFsgICAgNS41
+ODg5MzRdIHZjNC1kcm0gZ3B1OiBib3VuZCBmZTQwMDAwMC5odnMgKG9wcyB2YzRfaHZzX29wcykK
+PiA+IFsgICAgNS41ODg5OTBdIHZjNC1kcm0gZ3B1OiBib3VuZCBmZTIwNjAwMC5waXhlbHZhbHZl
+IChvcHMgdmM0X2NydGNfb3BzKQo+ID4gWyAgICA1LjU4OTAzMF0gdmM0LWRybSBncHU6IGJvdW5k
+IGZlMjA3MDAwLnBpeGVsdmFsdmUgKG9wcyB2YzRfY3J0Y19vcHMpCj4gPiBbICAgIDUuNTg5MDc0
+XSB2YzQtZHJtIGdwdTogYm91bmQgZmUyMGEwMDAucGl4ZWx2YWx2ZSAob3BzIHZjNF9jcnRjX29w
+cykKPiA+IFsgICAgNS41ODkxMDZdIHZjNC1kcm0gZ3B1OiBib3VuZCBmZTIxNjAwMC5waXhlbHZh
+bHZlIChvcHMgdmM0X2NydGNfb3BzKQo+ID4gWyAgICA1LjU4OTE0NV0gdmM0LWRybSBncHU6IGJv
+dW5kIGZlYzEyMDAwLnBpeGVsdmFsdmUgKG9wcyB2YzRfY3J0Y19vcHMpCj4gPiBbICAgIDUuNTg5
+Mjk0XSBjaGVja2luZyBnZW5lcmljICgzZTUxMzAwMCA2ZDhjMDApIHZzIGh3ICgwIGZmZmZmZmZm
+ZmZmZmZmZmYpCj4gPiBbICAgIDUuNTg5Mjk3XSBmYjA6IHN3aXRjaGluZyB0byB2YzRkcm1mYiBm
+cm9tIHNpbXBsZQo+ID4gWyAgICA1LjU4OTQzM10gQ29uc29sZTogc3dpdGNoaW5nIHRvIGNvbG91
+ciBkdW1teSBkZXZpY2UgODB4MjUKPiA+IFsgICAgNS41ODk0ODFdIFtkcm1dIFN1cHBvcnRzIHZi
+bGFuayB0aW1lc3RhbXAgY2FjaGluZyBSZXYgMiAoMjEuMTAuMjAxMykuCj4gPiBbICAgIDUuNTg5
+ODE2XSBbZHJtXSBJbml0aWFsaXplZCB2YzQgMC4wLjAgMjAxNDA2MTYgZm9yIGdwdSBvbiBtaW5v
+ciAwCj4gPiBbICAgIDUuNjAxMDc5XSAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0t
+LS0KPiA+IFsgICAgNS42MDEwOTVdIFdBUk5JTkc6IENQVTogMiBQSUQ6IDEyNyBhdCBkcml2ZXJz
+L2dwdS9kcm0vdmM0L3ZjNF9oZG1pX3BoeS5jOjQxMyB2YzVfaGRtaV9waHlfaW5pdCsweDdhYy8w
+eDIwNzgKPiA+IFsgICAgNS42MDEwOTddIE1vZHVsZXMgbGlua2VkIGluOgo+ID4gWyAgICA1LjYw
+MTEwM10gQ1BVOiAyIFBJRDogMTI3IENvbW06IGt3b3JrZXIvMjoxIE5vdCB0YWludGVkIDUuNy4w
+LXJjMi0wMDA5MS1nYTE4MWRmNTlhOTMwICM3Cj4gPiBbICAgIDUuNjAxMTA1XSBIYXJkd2FyZSBu
+YW1lOiBSYXNwYmVycnkgUGkgNCBNb2RlbCBCIChEVCkKPiA+IFsgICAgNS42MDExMTJdIFdvcmtx
+dWV1ZTogZXZlbnRzIGRlZmVycmVkX3Byb2JlX3dvcmtfZnVuYwo+ID4gWyAgICA1LjYwMTExNl0g
+cHN0YXRlOiAyMDAwMDAwNSAobnpDdiBkYWlmIC1QQU4gLVVBTykKPiA+IFsgICAgNS42MDExMTld
+IHBjIDogdmM1X2hkbWlfcGh5X2luaXQrMHg3YWMvMHgyMDc4Cj4gPiBbICAgIDUuNjAxMTIzXSBs
+ciA6IHZjNF9oZG1pX2VuY29kZXJfZW5hYmxlKzB4MWI4LzB4MWFjMAo+ID4gWyAgICA1LjYwMTEy
+NF0gc3AgOiBmZmZmODAwMDEyMTdiNDEwCj4gPiBbICAgIDUuNjAxMTI2XSB4Mjk6IGZmZmY4MDAw
+MTIxN2I0MTAgeDI4OiBmZmZmMDAwMGVjNjM3MGYwCj4gPiBbICAgIDUuNjAxMTI5XSB4Mjc6IGZm
+ZmYwMDAwZjY1MGQ0MDAgeDI2OiAwMDAwMDAwMDhhNTAwMDAwCj4gPiBbICAgIDUuNjAxMTMyXSB4
+MjU6IGZmZmY4MDAwMTEzYjRhYzAgeDI0OiAwMDAwMDAwMDAwMDAyMDYwCj4gPiBbICAgIDUuNjAx
+MTM1XSB4MjM6IDAwMDAwMDAwMGE1MDAwMDAgeDIyOiAwMDAwMDAwMDAwMDAwMzAwCj4gPiBbICAg
+IDUuNjAxMTM3XSB4MjE6IDAwMDAwMDAwMDhkOWVlMjAgeDIwOiBmZmZmMDAwMGVjNTM1MDgwCj4g
+PiBbICAgIDUuNjAxMTQwXSB4MTk6IDAwMDAwMDAxMDk4OWU3YzAgeDE4OiAwMDAwMDAwMDAwMDAw
+MDAwCj4gPiBbICAgIDUuNjAxMTQyXSB4MTc6IDAwMDAwMDAwMDAwMDAwMDEgeDE2OiAwMDAwMDAw
+MDAwMDA1MjA3Cj4gPiBbICAgIDUuNjAxMTQ1XSB4MTU6IDAwMDA0OTMyYWQyOTNjOTIgeDE0OiAw
+MDAwMDAwMDAwMDAwMTM3Cj4gPiBbICAgIDUuNjAxMTQ3XSB4MTM6IGZmZmY4MDAwMTAwMTUwMDAg
+eDEyOiAwMDAwMDAwMDAwMDAwMDAxCj4gPiBbICAgIDUuNjAxMTUwXSB4MTE6IDAwMDAwMDAwMDAw
+MDAwMDEgeDEwOiAwMDAwMDAwMDAwMDAwMDAwCj4gPiBbICAgIDUuNjAxMTUyXSB4OSA6IDAwMDAw
+MDAwMDAwMDAwMDAgeDggOiBmZmZmODAwMDEwMDE1MDM4Cj4gPiBbICAgIDUuNjAxMTU0XSB4NyA6
+IDAwMDAwMDAwMDAwMDAwMDEgeDYgOiBmZmZmODAwMDEyMTdiMzY4Cj4gPiBbICAgIDUuNjAxMTU3
+XSB4NSA6IDAwMDAwMDAwMDAwMDAwMDAgeDQgOiAwMDAwMDAwMDAwMDAwMDRjCj4gPiBbICAgIDUu
+NjAxMTU5XSB4MyA6IDAwMDAwMDAwMDAwMDAwMDAgeDIgOiBmZmZmODAwMDExM2I0YWMwCj4gPiBb
+ICAgIDUuNjAxMTYyXSB4MSA6IGZmZmY4MDAwMTIwYzVmNDQgeDAgOiAwMDAwMDAwMGRjODk4NGZm
+Cj4gPiBbICAgIDUuNjAxMTY0XSBDYWxsIHRyYWNlOgo+ID4gWyAgICA1LjYwMTE2OV0gIHZjNV9o
+ZG1pX3BoeV9pbml0KzB4N2FjLzB4MjA3OAo+ID4gWyAgICA1LjYwMTE3Ml0gIHZjNF9oZG1pX2Vu
+Y29kZXJfZW5hYmxlKzB4MWI4LzB4MWFjMAo+ID4gWyAgICA1LjYwMTE3Nl0gIGRybV9hdG9taWNf
+aGVscGVyX2NvbW1pdF9tb2Rlc2V0X2VuYWJsZXMrMHgyMjQvMHgyNDgKPiA+IFsgICAgNS42MDEx
+NzldICB2YzRfYXRvbWljX2NvbXBsZXRlX2NvbW1pdCsweDQwMC8weDU1OAo+ID4gWyAgICA1LjYw
+MTE4Ml0gIHZjNF9hdG9taWNfY29tbWl0KzB4MWUwLzB4MjAwCj4gPiBbICAgIDUuNjAxMTg1XSAg
+ZHJtX2F0b21pY19jb21taXQrMHg0Yy8weDYwCj4gPiBbICAgIDUuNjAxMTkwXSAgZHJtX2NsaWVu
+dF9tb2Rlc2V0X2NvbW1pdF9hdG9taWMuaXNyYS4wKzB4MTdjLzB4MjM4Cj4gPiBbICAgIDUuNjAx
+MTkyXSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9sb2NrZWQrMHg1Yy8weDE5OAo+ID4gWyAg
+ICA1LjYwMTE5NV0gIGRybV9jbGllbnRfbW9kZXNldF9jb21taXQrMHgzMC8weDU4Cj4gPiBbICAg
+IDUuNjAxMjAxXSAgZHJtX2ZiX2hlbHBlcl9yZXN0b3JlX2ZiZGV2X21vZGVfdW5sb2NrZWQrMHg3
+OC8weGUwCj4gPiBbICAgIDUuNjAxMjA0XSAgZHJtX2ZiX2hlbHBlcl9zZXRfcGFyKzB4MzAvMHg2
+OAo+ID4gWyAgICA1LjYwMTIwOF0gIGZiY29uX2luaXQrMHgzZDQvMHg1OTgKPiA+IFsgICAgNS42
+MDEyMTJdICB2aXN1YWxfaW5pdCsweGIwLzB4MTA4Cj4gPiBbICAgIDUuNjAxMjE0XSAgZG9fYmlu
+ZF9jb25fZHJpdmVyKzB4MWQwLzB4M2E4Cj4gPiBbICAgIDUuNjAxMjE3XSAgZG9fdGFrZV9vdmVy
+X2NvbnNvbGUrMHgxNDQvMHgyMDgKPiA+IFsgICAgNS42MDEyMTldICBkb19mYmNvbl90YWtlb3Zl
+cisweDY4LzB4ZDgKPiA+IFsgICAgNS42MDEyMjJdICBmYmNvbl9mYl9yZWdpc3RlcmVkKzB4MTAw
+LzB4MTE4Cj4gPiBbICAgIDUuNjAxMjI2XSAgcmVnaXN0ZXJfZnJhbWVidWZmZXIrMHgxZjQvMHgz
+MzgKPiA+IFsgICAgNS42MDEyMjldICBfX2RybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5k
+X3VubG9jaysweDJmOC8weDRhMAo+ID4gWyAgICA1LjYwMTIzMl0gIGRybV9mYmRldl9jbGllbnRf
+aG90cGx1ZysweGQ0LzB4MWIwCj4gPiBbICAgIDUuNjAxMjM1XSAgZHJtX2ZiZGV2X2dlbmVyaWNf
+c2V0dXArMHhiMC8weDEzMAo+ID4gWyAgICA1LjYwMTIzOF0gIHZjNF9kcm1fYmluZCsweDE4NC8w
+eDFhMAo+ID4gWyAgICA1LjYwMTI0MV0gIHRyeV90b19icmluZ191cF9tYXN0ZXIrMHgxNjgvMHgx
+YzgKPiA+IFsgICAgNS42MDEyNDRdICBfX2NvbXBvbmVudF9hZGQrMHhhNC8weDE3MAo+ID4gWyAg
+ICA1LjYwMTI0Nl0gIGNvbXBvbmVudF9hZGQrMHgxNC8weDIwCj4gPiBbICAgIDUuNjAxMjQ4XSAg
+dmM0X3ZlY19kZXZfcHJvYmUrMHgyMC8weDMwCj4gPiBbICAgIDUuNjAxMjUyXSAgcGxhdGZvcm1f
+ZHJ2X3Byb2JlKzB4NTQvMHhhOAo+ID4gWyAgICA1LjYwMTI1NF0gIHJlYWxseV9wcm9iZSsweGQ4
+LzB4MzIwCj4gPiBbICAgIDUuNjAxMjU2XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDU4LzB4ZjAK
+PiA+IFsgICAgNS42MDEyNThdICBfX2RldmljZV9hdHRhY2hfZHJpdmVyKzB4ODQvMHhjOAo+ID4g
+WyAgICA1LjYwMTI2M10gIGJ1c19mb3JfZWFjaF9kcnYrMHg3OC8weGM4Cj4gPiBbICAgIDUuNjAx
+MjY1XSAgX19kZXZpY2VfYXR0YWNoKzB4ZTQvMHgxNDAKPiA+IFsgICAgNS42MDEyNjddICBkZXZp
+Y2VfaW5pdGlhbF9wcm9iZSsweDE0LzB4MjAKPiA+IFsgICAgNS42MDEyNjldICBidXNfcHJvYmVf
+ZGV2aWNlKzB4OWMvMHhhOAo+ID4gWyAgICA1LjYwMTI3MV0gIGRlZmVycmVkX3Byb2JlX3dvcmtf
+ZnVuYysweDc0LzB4YjAKPiA+IFsgICAgNS42MDEyNzZdICBwcm9jZXNzX29uZV93b3JrKzB4MWJj
+LzB4MzM4Cj4gPiBbICAgIDUuNjAxMjc5XSAgd29ya2VyX3RocmVhZCsweDFmOC8weDQyOAo+ID4g
+WyAgICA1LjYwMTI4Ml0gIGt0aHJlYWQrMHgxMzgvMHgxNTgKPiA+IFsgICAgNS42MDEyODZdICBy
+ZXRfZnJvbV9mb3JrKzB4MTAvMHgxYwo+ID4gWyAgICA1LjYwMTI4OF0gLS0tWyBlbmQgdHJhY2Ug
+Y2ZiYTA5OTYyMThjM2YzZCBdLS0tCj4KPiBUaGFua3MgZm9yIHRlc3RpbmchCj4KPiBEbyB5b3Ug
+aGF2ZSBhIGJpdCBtb3JlIGRldGFpbHMgcmVnYXJkaW5nIHlvdXIgc2V0dXA/IFdhcyBpdCBjb25u
+ZWN0ZWQgdG8gYW4KPiBleHRlcm5hbCBkaXNwbGF5PwoKWWVzLCB0aGUgSERNSSBjYWJsZSBpcyBj
+b25uZWN0ZWQgdG8gSERNSTAgcG9ydCBvbiBSUGkgNC4KCj4gSWYgc28sIGRvIHlvdSBrbm93IHRo
+ZSByZXNvbHV0aW9uIGl0IHdhcyB0cnlpbmcgdG8gc2V0dXA/CgpBY2NvcmRpbmcgdG8gdGhlIGxv
+ZywgSSB0aGluayBpdCBpcyAxOTIweDEwODA6CkFwciAyNyAxNTozNzoyNSBlbmRsZXNzIGdkbS1Y
+b3JnLTowWzE5NjBdOiAoSUkpIG1vZGVzZXQoMCk6IE91dHB1dApIRE1JLTEgY29ubmVjdGVkCkFw
+ciAyNyAxNTozNzoyNSBlbmRsZXNzIGdkbS1Yb3JnLTowWzE5NjBdOiAoSUkpIG1vZGVzZXQoMCk6
+IE91dHB1dApIRE1JLTIgZGlzY29ubmVjdGVkCkFwciAyNyAxNTozNzoyNSBlbmRsZXNzIGdkbS1Y
+b3JnLTowWzE5NjBdOiAoSUkpIG1vZGVzZXQoMCk6IE91dHB1dApDb21wb3NpdGUtMSBkaXNjb25u
+ZWN0ZWQKQXByIDI3IDE1OjM3OjI1IGVuZGxlc3MgZ2RtLVhvcmctOjBbMTk2MF06IChJSSkgbW9k
+ZXNldCgwKTogVXNpbmcKZXhhY3Qgc2l6ZXMgZm9yIGluaXRpYWwgbW9kZXMKQXByIDI3IDE1OjM3
+OjI1IGVuZGxlc3MgZ2RtLVhvcmctOjBbMTk2MF06IChJSSkgbW9kZXNldCgwKTogT3V0cHV0CkhE
+TUktMSB1c2luZyBpbml0aWFsIG1vZGUgMTkyMHgxMDgwICswKzAKCmh0dHBzOi8vZ2lzdC5naXRo
+dWIuY29tL3N0YXJuaWdodC80NWUxNDY4YmZhMDQyNmE1NGQyZmI0YTkyNjljZmI5NAoKUmVnYXJk
+cywKSmlhbi1Ib25nIFBhbgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
