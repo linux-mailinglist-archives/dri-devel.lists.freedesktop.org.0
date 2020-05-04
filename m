@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B2C1C45C2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBA31C45C4
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A2F6E459;
-	Mon,  4 May 2020 18:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1306E45E;
+	Mon,  4 May 2020 18:24:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7AE6E457;
- Mon,  4 May 2020 18:24:31 +0000 (UTC)
-IronPort-SDR: u6U0jcSFODoRAPHPNDYaHLTiOGohl4XJbkMXgb0KKH3SSSnaof5e3XqikSxSImk9r3Zj/TRHol
- qXq+8YgDNqMw==
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFC26E45E;
+ Mon,  4 May 2020 18:24:47 +0000 (UTC)
+IronPort-SDR: 1Plrm/fG29ajpaTdYBIrc50/oYqUFg9vAK5zO31Gu6b+2CPWM54Qk4j99Juq2Kr3NMLK0638mF
+ QyNsIbO22saA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2020 11:24:31 -0700
-IronPort-SDR: /b68/7D1FhLYcpyIBYf2zJAIDgWVsaIF5qUbSuwN0sodaLVX/u5W07NdpjzJENbYApYKy7ITY4
- /crJMGO/JyoQ==
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2020 11:24:46 -0700
+IronPort-SDR: Xjx4a1bkIM2/pJLgNG8MgAikWACpvhWtPoAiezzHKEDw1t1fEmnPQTM+dg84hft9WArTQZhHqK
+ 4eC9OcaKRUxg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172161"
+X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172200"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:25 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:41 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Imre Deak <imre.deak@intel.com>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: [PATCH v2 4/9] drm/i915/display/tc: Prefer drm_WARN_ON over WARN_ON
-Date: Mon,  4 May 2020 23:45:55 +0530
-Message-Id: <20200504181600.18503-5-pankaj.laxminarayan.bharadiya@intel.com>
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
+Subject: [PATCH v2 5/9] drm/i915/gem: Prefer drm_WARN* over WARN*
+Date: Mon,  4 May 2020 23:45:56 +0530
+Message-Id: <20200504181600.18503-6-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -62,97 +64,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 struct drm_device specific drm_WARN* macros include device information
 in the backtrace, so we know what device the warnings originate from.
 
-Prefer drm_WARN_ON over WARN_ON.
-
-Conversion is done with below sementic patch:
-
-@@
-identifier func, T;
-@@
-func(...) {
-...
-struct drm_i915_private *T = ...;
-<+...
--WARN_ON(
-+drm_WARN_ON(&T->drm,
-...)
-...+>
-}
-
-@@
-identifier func, T;
-@@
-func(struct intel_digital_port *T,...) {
-+struct drm_i915_private *i915 = to_i915(T->base.base.dev);
-<+...
--WARN_ON(
-+drm_WARN_ON(&i915->drm,
-...)
-...+>
-
-}
-
-changes since v1:
-- Add i915 local variable and use it in drm_WARN_ON (Jani)
+Prefer drm_WARN* over WARN* at places where struct drm_device pointer
+can be extracted.
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_tc.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c       | 3 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c    | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
-index d3bd5e798fbc..a2ffc991bc0e 100644
---- a/drivers/gpu/drm/i915/display/intel_tc.c
-+++ b/drivers/gpu/drm/i915/display/intel_tc.c
-@@ -360,12 +360,12 @@ static void icl_tc_phy_connect(struct intel_digital_port *dig_port,
- 	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index cce7df231cb9..cf9f0e078202 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1574,7 +1574,7 @@ eb_relocate_entry(struct i915_execbuffer *eb,
+ 			err = i915_vma_bind(target->vma,
+ 					    target->vma->obj->cache_level,
+ 					    PIN_GLOBAL, NULL);
+-			if (WARN_ONCE(err,
++			if (drm_WARN_ONCE(&i915->drm, err,
+ 				      "Unexpected failure to bind target VMA!"))
+ 				return err;
+ 		}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+index 7fe9831aa9ba..4c1c7232b024 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+@@ -27,7 +27,8 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
+ 	void *dst;
+ 	int i;
  
- 	if (!icl_tc_phy_set_safe_mode(dig_port, false) &&
--	    !WARN_ON(dig_port->tc_legacy_port))
-+	    !drm_WARN_ON(&i915->drm, dig_port->tc_legacy_port))
- 		goto out_set_tbt_alt_mode;
+-	if (WARN_ON(i915_gem_object_needs_bit17_swizzle(obj)))
++	if (drm_WARN_ON(obj->base.dev,
++			i915_gem_object_needs_bit17_swizzle(obj)))
+ 		return -EINVAL;
  
- 	max_lanes = intel_tc_port_fia_max_lane_count(dig_port);
- 	if (dig_port->tc_legacy_port) {
--		WARN_ON(max_lanes != 4);
-+		drm_WARN_ON(&i915->drm, max_lanes != 4);
- 		dig_port->tc_mode = TC_PORT_LEGACY;
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+index 7ffd7afeb7a5..8b0708708671 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+@@ -235,7 +235,7 @@ i915_gem_userptr_init__mmu_notifier(struct drm_i915_gem_object *obj,
+ 	if (flags & I915_USERPTR_UNSYNCHRONIZED)
+ 		return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
  
- 		return;
-@@ -445,18 +445,20 @@ static bool icl_tc_phy_is_connected(struct intel_digital_port *dig_port)
- static enum tc_port_mode
- intel_tc_port_get_current_mode(struct intel_digital_port *dig_port)
- {
-+	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
- 	u32 live_status_mask = tc_port_live_status_mask(dig_port);
- 	bool in_safe_mode = icl_tc_phy_is_in_safe_mode(dig_port);
- 	enum tc_port_mode mode;
+-	if (WARN_ON(obj->userptr.mm == NULL))
++	if (drm_WARN_ON(obj->base.dev, obj->userptr.mm == NULL))
+ 		return -EINVAL;
  
--	if (in_safe_mode || WARN_ON(!icl_tc_phy_status_complete(dig_port)))
-+	if (in_safe_mode ||
-+	    drm_WARN_ON(&i915->drm, !icl_tc_phy_status_complete(dig_port)))
- 		return TC_PORT_TBT_ALT;
- 
- 	mode = dig_port->tc_legacy_port ? TC_PORT_LEGACY : TC_PORT_DP_ALT;
- 	if (live_status_mask) {
- 		enum tc_port_mode live_mode = fls(live_status_mask) - 1;
- 
--		if (!WARN_ON(live_mode == TC_PORT_TBT_ALT))
-+		if (!drm_WARN_ON(&i915->drm, live_mode == TC_PORT_TBT_ALT))
- 			mode = live_mode;
- 	}
- 
-@@ -505,7 +507,9 @@ static void
- intel_tc_port_link_init_refcount(struct intel_digital_port *dig_port,
- 				 int refcount)
- {
--	WARN_ON(dig_port->tc_link_refcount);
-+	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-+
-+	drm_WARN_ON(&i915->drm, dig_port->tc_link_refcount);
- 	dig_port->tc_link_refcount = refcount;
- }
- 
+ 	mn = i915_mmu_notifier_find(obj->userptr.mm);
 -- 
 2.23.0
 
