@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170EF1C47AF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 22:07:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D212A1C47CD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 22:17:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435426E4A1;
-	Mon,  4 May 2020 20:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C8EC6E09C;
+	Mon,  4 May 2020 20:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4067B6E09C
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 20:06:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id D973D804C8;
- Mon,  4 May 2020 22:06:55 +0200 (CEST)
-Date: Mon, 4 May 2020 22:06:49 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Subject: Re: [PATCH v5 3/3] drm/bridge: chrontel-ch7033: Add a new driver
-Message-ID: <20200504200649.GC8122@ravnborg.org>
-References: <20200424213539.93157-1-lkundrak@v3.sk>
- <20200424213539.93157-4-lkundrak@v3.sk>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9DC6E09C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 20:17:42 +0000 (UTC)
+IronPort-SDR: YCY/HoxVD3j6eIGI4dxAdrVsRuiZcc/vCq0TpkMmxFSa1XMOnIMTTco/95TkFw0GrzRRb9GlqH
+ JsfDbc94czfQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2020 13:17:41 -0700
+IronPort-SDR: OYoBb9EcG6PzS5UAd9k77YV0gaTZYmm1DcRZ4uqQeCz86bBXFX/xyL9KJHExdor7XE7mjPR+P5
+ pGDCvjdTpwPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,353,1583222400"; d="scan'208";a="284015855"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by fmsmga004.fm.intel.com with ESMTP; 04 May 2020 13:17:41 -0700
+Date: Mon, 4 May 2020 13:17:41 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH V2 00/11] Subject: Remove duplicated kmap code
+Message-ID: <20200504201740.GA985739@iweiny-DESK2.sc.intel.com>
+References: <20200504010912.982044-1-ira.weiny@intel.com>
+ <20200504013509.GU23230@ZenIV.linux.org.uk>
+ <20200504050447.GA979899@iweiny-DESK2.sc.intel.com>
+ <20200504053357.GV23230@ZenIV.linux.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200424213539.93157-4-lkundrak@v3.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=_G2uAb-18WruFnNJAWUA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200504053357.GV23230@ZenIV.linux.org.uk>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,740 +50,283 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lubomir.
+On Mon, May 04, 2020 at 06:33:57AM +0100, Al Viro wrote:
+> On Sun, May 03, 2020 at 10:04:47PM -0700, Ira Weiny wrote:
+> 
+> > Grepping for 'asm/highmem.h' and investigations don't reveal any issues...  But
+> > you do have me worried.  That said 0-day has been crunching on multiple
+> > versions of this series without issues such as this (save the mips issue
+> > above).
+> > 
+> > I have to say it would be nice if the relation between linux/highmem.h and
+> > asm/highmem.h was more straightforward.
+> 
+> IIRC, the headache was due to asm/pgtable.h on several architectures and
+> asm/cacheflush.h on parisc.
+> 
+> <digs the notes out>
+> 
+> ||         IOW, there's one in linux/highmem.h (conditional on !CONFIG_HIGHMEM,
+> || !ARCH_HAS_KMAP) and several per-architecture variants, usually declared in
+> || their asm/highmem.h.  In three of those (microblaze, parisc and powerpc) these
+> || are inlines (parisc one identical to linux/highmem.h, lives in asm/cacheflush.h,
+> || powerpc and microblaze ones calling kmap_atomic_prot() which is defined in
+> || arch/$ARCH/mm/highmem.c).
+> || 
+> ||         parisc case is weird - essentially, they want to call 
+> || flush_kernel_dcache_page_addr() at the places where kunmap/kunmap_atomic
+> || is done.  And they do so despite not selecting HIGHMEM, with definitions
+> || in usual place.  They do have ARCH_HAS_KMAP defined, which prevents
+> || getting buggered in linux/highmem.h.  ARCH_HAS_KMAP is parisc-unique,
+> || BTW, and checked only in linux/highmem.h.
+> || 
+> ||         All genuine arch-specific variants are defined in (or call functions
+> || defined in) translation units that are only included CONFIG_HIGHMEM builds.
 
-Drivers looks good. I look forward to the day we have moved
-connector stuff to the displaydriver - this will simplify this driver
-even more.
+I agree with this statement.  But IMO additional confusion is caused by the
+fact that some arch's condition the declarations on CONFIG_HIGHMEM within
+asm/highmem.h (arc, arm, nds32) while others depend on linux/highmem.h (and
+elsewhere) to do so (csky, microblaze, mips, powerpc, sparc, x86, xtensa).
 
-One Q in the following.
+Why?
 
-	Sam
+I think (perhaps naive) over time asm/highmem.h needs to be isolated to being
+included in linux/highmem.h.  But as you point out below that is not so easy.
+I think that this series helps toward that goal.
 
-On Fri, Apr 24, 2020 at 11:35:39PM +0200, Lubomir Rintel wrote:
-> This is a driver for video encoder with VGA and DVI/HDMI outputs.
-> 
-> There is no documentation for the chip -- the operation was guessed from
-> what was sniffed on a Dell Wyse 3020 ThinOS terminal, the register names
-> come from the ch7035 driver in Mediatek's GPL code dump.
-> 
-> Only bare minimum is implemented -- no fancy stuff, such as scaling. That
-> would only worsen our misery. We don't load the firmware and we don't need
-> to even bother enabling the MCU.  There are probably no distributable
-> firmware images anyway.
-> 
-> Tested with a handful of monitors ranging from 1024x768@75 to 1400x1050@60,
-> with VGA as well as DVI.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> ---
-> Changes since v4:
-> - Removed the registration with the component framework and creation of
->   drm_encoder.
-> 
-> Changes since v3:
-> - Cosmetic changes; drop ch7033_encoder_destroy() and use
->   drm_encoder_cleanup() for drm_encoder_funcs.destroy callback
->   directly.
-> 
-> Changes since v1:
-> - Sort the includes
-> - Drop a useless model id read
-> - Chain to the bridge-connector instead of dealing with the HPD/EDID
->   readout machinery ourselves
-> - Utilize regmap to access the registers
-> 
->  drivers/gpu/drm/bridge/Kconfig           |  10 +
->  drivers/gpu/drm/bridge/Makefile          |   1 +
->  drivers/gpu/drm/bridge/chrontel-ch7033.c | 620 +++++++++++++++++++++++
->  3 files changed, 631 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/chrontel-ch7033.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index aaed2347ace9..0ebc72d62a5b 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -27,6 +27,16 @@ config DRM_CDNS_DSI
->  	  Support Cadence DPI to DSI bridge. This is an internal
->  	  bridge and is meant to be directly embedded in a SoC.
->  
-> +config DRM_CHRONTEL_CH7033
-> +	tristate "Chrontel CH7033 Video Encoder"
-> +	depends on OF
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  Enable support for the Chrontel CH7033 VGA/DVI/HDMI Encoder, as
-> +	  found in the Dell Wyse 3020 thin client.
-> +
-> +	  If in doubt, say "N".
-> +
->  config DRM_DISPLAY_CONNECTOR
->  	tristate "Display connector support"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 6fb062b5b0f0..a844315feddb 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -1,5 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
-> +obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
->  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
->  obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
->  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
-> diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> new file mode 100644
-> index 000000000000..f8675d82974b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-> @@ -0,0 +1,620 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Chrontel CH7033 Video Encoder Driver
-> + *
-> + * Copyright (C) 2019,2020 Lubomir Rintel
-> + */
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +/* Page 0, Register 0x07 */
-> +enum {
-> +	DRI_PD		= BIT(3),
-> +	IO_PD		= BIT(5),
-> +};
-> +
-> +/* Page 0, Register 0x08 */
-> +enum {
-> +	DRI_PDDRI	= GENMASK(7, 4),
-> +	PDDAC		= GENMASK(3, 1),
-> +	PANEN		= BIT(0),
-> +};
-> +
-> +/* Page 0, Register 0x09 */
-> +enum {
-> +	DPD		= BIT(7),
-> +	GCKOFF		= BIT(6),
-> +	TV_BP		= BIT(5),
-> +	SCLPD		= BIT(4),
-> +	SDPD		= BIT(3),
-> +	VGA_PD		= BIT(2),
-> +	HDBKPD		= BIT(1),
-> +	HDMI_PD		= BIT(0),
-> +};
-> +
-> +/* Page 0, Register 0x0a */
-> +enum {
-> +	MEMINIT		= BIT(7),
-> +	MEMIDLE		= BIT(6),
-> +	MEMPD		= BIT(5),
-> +	STOP		= BIT(4),
-> +	LVDS_PD		= BIT(3),
-> +	HD_DVIB		= BIT(2),
-> +	HDCP_PD		= BIT(1),
-> +	MCU_PD		= BIT(0),
-> +};
-> +
-> +/* Page 0, Register 0x18 */
-> +enum {
-> +	IDF		= GENMASK(7, 4),
-> +	INTEN		= BIT(3),
-> +	SWAP		= GENMASK(2, 0),
-> +};
-> +
-> +enum {
-> +	BYTE_SWAP_RGB	= 0,
-> +	BYTE_SWAP_RBG	= 1,
-> +	BYTE_SWAP_GRB	= 2,
-> +	BYTE_SWAP_GBR	= 3,
-> +	BYTE_SWAP_BRG	= 4,
-> +	BYTE_SWAP_BGR	= 5,
-> +};
-> +
-> +/* Page 0, Register 0x19 */
-> +enum {
-> +	HPO_I		= BIT(5),
-> +	VPO_I		= BIT(4),
-> +	DEPO_I		= BIT(3),
-> +	CRYS_EN		= BIT(2),
-> +	GCLKFREQ	= GENMASK(2, 0),
-> +};
-> +
-> +/* Page 0, Register 0x2e */
-> +enum {
-> +	HFLIP		= BIT(7),
-> +	VFLIP		= BIT(6),
-> +	DEPO_O		= BIT(5),
-> +	HPO_O		= BIT(4),
-> +	VPO_O		= BIT(3),
-> +	TE		= GENMASK(2, 0),
-> +};
-> +
-> +/* Page 0, Register 0x2b */
-> +enum {
-> +	SWAPS		= GENMASK(7, 4),
-> +	VFMT		= GENMASK(3, 0),
-> +};
-> +
-> +/* Page 0, Register 0x54 */
-> +enum {
-> +	COMP_BP		= BIT(7),
-> +	DAC_EN_T	= BIT(6),
-> +	HWO_HDMI_HI	= GENMASK(5, 3),
-> +	HOO_HDMI_HI	= GENMASK(2, 0),
-> +};
-> +
-> +/* Page 0, Register 0x57 */
-> +enum {
-> +	FLDSEN		= BIT(7),
-> +	VWO_HDMI_HI	= GENMASK(5, 3),
-> +	VOO_HDMI_HI	= GENMASK(2, 0),
-> +};
-> +
-> +/* Page 0, Register 0x7e */
-> +enum {
-> +	HDMI_LVDS_SEL	= BIT(7),
-> +	DE_GEN		= BIT(6),
-> +	PWM_INDEX_HI	= BIT(5),
-> +	USE_DE		= BIT(4),
-> +	R_INT		= GENMASK(3, 0),
-> +};
-> +
-> +/* Page 1, Register 0x07 */
-> +enum {
-> +	BPCKSEL		= BIT(7),
-> +	DRI_CMFB_EN	= BIT(6),
-> +	CEC_PUEN	= BIT(5),
-> +	CEC_T		= BIT(3),
-> +	CKINV		= BIT(2),
-> +	CK_TVINV	= BIT(1),
-> +	DRI_CKS2	= BIT(0),
-> +};
-> +
-> +/* Page 1, Register 0x08 */
-> +enum {
-> +	DACG		= BIT(6),
-> +	DACKTST		= BIT(5),
-> +	DEDGEB		= BIT(4),
-> +	SYO		= BIT(3),
-> +	DRI_IT_LVDS	= GENMASK(2, 1),
-> +	DISPON		= BIT(0),
-> +};
-> +
-> +/* Page 1, Register 0x0c */
-> +enum {
-> +	DRI_PLL_CP	= GENMASK(7, 6),
-> +	DRI_PLL_DIVSEL	= BIT(5),
-> +	DRI_PLL_N1_1	= BIT(4),
-> +	DRI_PLL_N1_0	= BIT(3),
-> +	DRI_PLL_N3_1	= BIT(2),
-> +	DRI_PLL_N3_0	= BIT(1),
-> +	DRI_PLL_CKTSTEN = BIT(0),
-> +};
-> +
-> +/* Page 1, Register 0x6b */
-> +enum {
-> +	VCO3CS		= GENMASK(7, 6),
-> +	ICPGBK2_0	= GENMASK(5, 3),
-> +	DRI_VCO357SC	= BIT(2),
-> +	PDPLL2		= BIT(1),
-> +	DRI_PD_SER	= BIT(0),
-> +};
-> +
-> +/* Page 1, Register 0x6c */
-> +enum {
-> +	PLL2N11		= GENMASK(7, 4),
-> +	PLL2N5_4	= BIT(3),
-> +	PLL2N5_TOP	= BIT(2),
-> +	DRI_PLL_PD	= BIT(1),
-> +	PD_I2CM		= BIT(0),
-> +};
-> +
-> +/* Page 3, Register 0x28 */
-> +enum {
-> +	DIFF_EN		= GENMASK(7, 6),
-> +	CORREC_EN	= GENMASK(5, 4),
-> +	VGACLK_BP	= BIT(3),
-> +	HM_LV_SEL	= BIT(2),
-> +	HD_VGA_SEL	= BIT(1),
-> +};
-> +
-> +/* Page 3, Register 0x2a */
-> +enum {
-> +	LVDSCLK_BP	= BIT(7),
-> +	HDTVCLK_BP	= BIT(6),
-> +	HDMICLK_BP	= BIT(5),
-> +	HDTV_BP		= BIT(4),
-> +	HDMI_BP		= BIT(3),
-> +	THRWL		= GENMASK(2, 0),
-> +};
-> +
-> +/* Page 4, Register 0x52 */
-> +enum {
-> +	PGM_ARSTB	= BIT(7),
-> +	MCU_ARSTB	= BIT(6),
-> +	MCU_RETB	= BIT(2),
-> +	RESETIB		= BIT(1),
-> +	RESETDB		= BIT(0),
-> +};
-> +
-> +struct ch7033_priv {
-> +	struct regmap *regmap;
-> +	struct drm_bridge *next_bridge;
-> +	struct drm_bridge bridge;
-> +	struct drm_connector connector;
-> +};
-> +
-> +#define conn_to_ch7033_priv(x) \
-> +	container_of(x, struct ch7033_priv, connector)
-> +#define bridge_to_ch7033_priv(x) \
-> +	container_of(x, struct ch7033_priv, bridge)
-> +
-> +
-> +static enum drm_connector_status ch7033_connector_detect(
-> +	struct drm_connector *connector, bool force)
-> +{
-> +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> +
-> +	return drm_bridge_detect(priv->next_bridge);
-> +}
-> +
-> +static const struct drm_connector_funcs ch7033_connector_funcs = {
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.detect = ch7033_connector_detect,
-> +	.destroy = drm_connector_cleanup,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static int ch7033_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> +	struct edid *edid;
-> +	int ret;
-> +
-> +	edid = drm_bridge_get_edid(priv->next_bridge, connector);
+> || 
+> ||         It would be tempting to consolidate those, e.g. by adding __kmap_atomic()
+> || and __kmap_atomic_prot() without that boilerplate, with universal kmap_atomic()
+> || and kmap_atomic_prot() in linux/highmem.h.  Potential problem with that would
+> || be something that pulls ash/highmem.h (or asm/cacheflush.h in case of parisc)
+> || directly and uses kmap_atomic/kmap_atomic_prot.  There's not a lot places
+> || pulling asm/highmem.h, and many of them are not even in includes:
+> || 
+> || arch/arm/include/asm/efi.h:13:#include <asm/highmem.h>
+> || arch/arm/mm/dma-mapping.c:31:#include <asm/highmem.h>
+> || arch/arm/mm/flush.c:14:#include <asm/highmem.h>
+> || arch/arm/mm/mmu.c:27:#include <asm/highmem.h>
+> || arch/mips/include/asm/pgtable-32.h:22:#include <asm/highmem.h>
+> || arch/mips/mm/cache.c:19:#include <asm/highmem.h>
+> || arch/mips/mm/fault.c:28:#include <asm/highmem.h>                /* For VMALLOC_END */
+> || arch/nds32/include/asm/pgtable.h:60:#include <asm/highmem.h>
+> || arch/x86/kernel/setup_percpu.c:20:#include <asm/highmem.h>
+> || include/linux/highmem.h:35:#include <asm/highmem.h>
+> || 
+> || Users of asm/cacheflush.h are rather more numerous; however, anything
+> || outside of parisc-specific code has to pull linux/highmem.h, or it won't see
+> || the definitions of kmap_atomic/kmap_atomic_prot at all.  arch/parisc itself
+> || has no callers of those.
+> || 
+> || Outside of arch/* there is a plenty of callers.  However, the following is
+> || true: all instances of kmap_atomic or kmap_atomic_prot outside of arch/*
+> || are either inside the linux/highmem.h or are preceded by include of
+> || linux/highmem.h on any build that sees them (there is a common include
+> || chain that is conditional upon CONFIG_BLOCK, but it's only needed in
+> || drivers that are BLOCK-dependent).  It was not fun to verify, to put
+> || it mildly...
+> || 
+> || So for parisc we have no problem - leaving __kmap_atomic()/__kmap_atomic_prot()
+> || in asm/cachefile.h and adding universal wrappers in linux/highmem.h will be
+> || fine.  For other architectures the things might be trickier.
 
-> +	drm_connector_update_edid_property(connector, edid);
-I have seen that others do drm_connector_update_edid_property()
-in the get_modes operation - but I am yet to understand why that
-is correct in a get operation.
-Maybe you know?
+And the follow up series removes kmap_* from asm/cachefile.h in parisc which
+should be cleaner going forward.
+
+> || 
+> || * arc: all users in arch/arc/ are within arch/arc/mm/{cache,highmem}.c;
+> || both pull linux/highmem.h.  We are fine.
+
+Still fine.
+
+> || 
+> || * arm: much, much worse.  We have several files that pull linux/highmem.h:
+> || arch/arm/mm/cache-feroceon-l2.c, arch/arm/mm/cache-xsc3l2.c,
+> || arch/arm/mm/copypage-*.c, arch/arm/mm/dma-mapping.c, arch/arm/mm/flush.c,
+> || arch/arm/mm/highmem.c, arch/arm/probes/uprobes/core.c,
+> || arch/arm/include/asm/kvm_mmu.h (kmap_atomic_pfn()).
+> || Those are fine, but we also have this:
+> || arch/arm/include/asm/pgtable.h:200:#define __pte_map(pmd)               (pte_t *)kmap_atomic(pmd_page(*(pmd)))
+> || arch/arm/include/asm/pgtable.h:208:#define pte_offset_map(pmd,addr)     (__pte_map(pmd) + pte_index(addr))
+> || and sure as hell, asm/pgtable.h does *NOT* pull linux/highmem.h.
+
+It does not pull asm/highmem.h either...
+
+> || 
+> || Fortunately, the users of pte_offset_map() (__pte_map() has no other users)
+> || are few, both in arch/arm and outside of arch.  All arm ones are pulling
+> || linux/highmem (arch/arm/mm/{pgd,fault*}.c).  Outside of arch we have several
+> || that pull highmem.h (by way of rmap.h or pagemap.h, usually):
+> ||         fs/userfaultfd.c, mm/gup.c, mm/hmm.c, mm/huge_memory.c,
+> ||         mm/khugepaged.c, mm/memory-failure.c, mm/memory.c, mm/migrate.c,
+> ||         mm/mremap.c, mm/page_vma_mapped.c, mm/swap_state.c, mm/swapfile.c,
+> ||         mm/vmalloc.c
+> || and then there are these in linux/mm.h:
+> || 
+> || #define pte_offset_map_lock(mm, pmd, address, ptlp)     \
+> || ({                                                      \
+> ||         spinlock_t *__ptl = pte_lockptr(mm, pmd);       \
+> ||         pte_t *__pte = pte_offset_map(pmd, address);    \
+> ||         *(ptlp) = __ptl;                                \
+> ||         spin_lock(__ptl);                               \
+> ||         __pte;                                          \
+> || })
+> || #define pte_alloc_map(mm, pmd, address)                 \
+> ||         (pte_alloc(mm, pmd) ? NULL : pte_offset_map(pmd, address))
+> || #define pte_alloc_map_lock(mm, pmd, address, ptlp)      \
+> ||         (pte_alloc(mm, pmd) ?                   \
+> ||                  NULL : pte_offset_map_lock(mm, pmd, address, ptlp))
+> || 
+> ||         These have two users in arch/arm (arch/arm/mm/pgd.c and
+> || arch/arm/lib/uaccess_with_memcpy.c, both pulling highmem.h).  Outside of
+> || arch there are several new files (plus a lot of what we'd already seen
+> || in mm/*.c, unsurprisingly):
+> ||         fs/proc/task_mmu.c, mm/ksm.c, mm/madvise.c, mm/memcontrol.c,
+> ||         mm/mempolicy.c, mm/mincore.c, mm/mprotect.c, mm/pagewalk.c,
+> ||         mm/shmem.c, mm/userfaultfd.c,
+> || all pulling linux/highmem.h, as pretty much all core VM does.  So we are
+> || still fine.
+
+This all seems the same now.
+
+> || 
+> || * csky: users in arch/csky/abiv2/cacheflush.c, arch/csky/mm/dma-mapping.c,
+> || arch/csky/mm/highmem.c, all pulling linux/highmem.h
+
+Yes still are.
+
+> || 
+> || * microblaze: users in arch/microblaze/mm/highmem.c (pulls linux/highmem.h) and,
+> || arch/microblaze/include/asm/pgtable.h, this:
+> || #define pte_offset_map(dir, addr)               \
+> ||         ((pte_t *) kmap_atomic(pmd_page(*(dir))) + pte_index(addr))
+> ||         One pte_offset_map user in arch/microblaze:
+> || arch/microblaze/kernel/signal.c:207:    ptep = pte_offset_map(pmdp, address);
+> || Messy, but doesn't require any changes (we have asm/pgalloc.h included
+> || there, and that pull linux/highmem.h).
+
+AFAICS asm/pgtable.h does not include asm/highmem.h here...
+
+So looks like arch/microblaze/kernel/signal.c will need linux/highmem.h
+
+> ||         Outside of arch we'd already sorted it out when looking at arm.
+> || 
+> || * mips: users in arch/mips/kernel/crash_dump.c, arch/mips/kernel/uprobes.c,
+> || arch/mips/mm/c-r4k.c, arch/mips/mm/dma-noncoherent.c, arch/mips/mm/highmem.c,
+> || and arch/mips/mm/init.c (all pulling linux/highmem.h) plus this
+> || arch/mips/mm/cache.c, which relies upon asm/highmem.h.  This can be switched
+> || to linux/highmem.h.  On !CONFIG_HIGHMEM builds the call of kmap_atomic() in
+> || there is eliminated, since it's conditional upon PageHighMem().  IOW, even
+> || though we get a call of (inexistent) out-of-line version, it's not going to
+> || survive into object file.  With linux/highmem.h use it will be an equally
+> || eliminated call of inlined version.
+> || XXX: arch/mips/mm/cache.c
+
+Fixed as part of this series.
+
+> || 
+> || * nds32: users in arch/nds32/kernel/dma.c, arch/nds32/mm/cacheflush.c and
+> || arch/nds32/mm/highmem.c, all pulling linux/highmem.h
+
+Still looks ok.
+
+> || 
+> || * powerpc: users in arch/powerpc/kvm/book3s_pr.c,
+> || arch/powerpc/kvm/e500_mmu_host.c, arch/powerpc/mm/dma-noncoherent.c,
+> || arch/powerpc/mm/highmem.c and arch/powerpc/mm/mem.c, all pulling
+> || linux/highmem.h,
+
+still good
+
+> a user in arch/powerpc/mm/hugetlbpage.c pulling it
+> || via asm/tlb.h -> linux/pagemap.h -> linux/highmem.h
+
+good
+
+> and
+> || macros for pte_offset_map in arch/powerpc/include/asm/*/32/pgtable.h.
+> || Users of that within arch/powerpc are either 64bit-only or
+> || pull linux/highmem.h (arch/powerpc/mm/pgtable_32.c and
+> || arch/powerpc/xmon/xmon.c).
+>
+
+Looks ok.
+
+> || Users outside of arch - same as for arm.
+> || 
+> || * sparc: users in arch/sparc/kernel/uprobes.c and arch/sparc/mm/highmem.c
+> || (both pulling linux/highmem.h directly) + arch/sparc/mm/init_64.c pulling
+> || it via linux/pagemap.h.
+
+Looks ok.
+
+> Strangely, arch/sparc/mm/io-unit.c and
+> || arch/sparc/mm/iommu.c both include linux/highmem.h with odd comment
+> || that seems to indicate that once upon a time pte_offset_map() used to
+> || requite kmap_atomic() there...  Right, it used to - until 2002.
+> || These includes are pointless, then...
+
+Looks like it...
+
+I'll throw in a patch for that.
+
+> || 
+> || * x86: users in arch/x86/kernel/crash_dump_32.c, arch/x86/kvm/svm.c,
+> || arch/x86/lib/usercopy_64.c, arch/x86/mm/highmem_32.c and arch/x86/mm/iomap_32.c,
+> || all pulling linux/highmem.h, users in paging_tmpl.h (included from
+> || arch/x86/kvm/mmu/mmu.c, which has pulled linux/highmem.h prior to that)
+> || and definition of pte_offset_map() (in asm/pgtable_32.h)
+> || Users of pte_offset_map() and friends in arch/x86 are in
+> || arch/x86/kernel/vm86_32.c and arch/x86/mm/dump_pagetables.c (both
+> || pulling linux/highmem.h), in arch/x86/mm/mem_encrypt_identity.c
+> || (64bit-only, pte_offset_map() doesn't use kmap_atomic() there) and
+> || arch/x86/kernel/tboot.c (pulls linux/highmem.h via asm/pgalloc.h
+> || and linux/pagemap.h)
+
+I've built these and they seem fine.
+
+> || 
+> || * xtensa: users in arch/xtensa/kernel/pci-dma.c, arch/xtensa/mm/highmem.c,
+> || arch/xtensa/mm/cache.c and arch/xtensa/platforms/iss/simdisk.c (all pull
+> || linux/highmem.h).
+
+Actually
+
+arch/xtensa/mm/cache.c gets linux/highmem.h from linux/pagemap.h
+
+arch/xtensa/platforms/iss/simdisk.c may have an issue?
+	linux/blkdev.h -> CONFIG_BLOCK -> linux/pagemap.h -> linux/highmem.h
+	But simdisk.c requires BLK_DEV_SIMDISK -> CONFIG_BLOCK...
+	<sigh>
+
+So xtensa still seems good AFAICS.
 
 
-> +	if (edid) {
-> +		ret = drm_add_edid_modes(connector, edid);
-> +		kfree(edid);
-> +	} else {
-> +		ret = drm_add_modes_noedid(connector, 1920, 1080);
-> +		drm_set_preferred_mode(connector, 1024, 768);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static struct drm_encoder *ch7033_connector_best_encoder(
-> +			struct drm_connector *connector)
-> +{
-> +	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
-> +
-> +	return priv->bridge.encoder;
-> +}
-> +
-> +static const struct drm_connector_helper_funcs ch7033_connector_helper_funcs = {
-> +	.get_modes = ch7033_connector_get_modes,
-> +	.best_encoder = ch7033_connector_best_encoder,
-> +};
-> +
-> +static void ch7033_hpd_event(void *arg, enum drm_connector_status status)
-> +{
-> +	struct ch7033_priv *priv = arg;
-> +
-> +	if (priv->bridge.dev)
-> +		drm_helper_hpd_irq_event(priv->connector.dev);
-> +}
-> +
-> +static int ch7033_bridge_attach(struct drm_bridge *bridge,
-> +				enum drm_bridge_attach_flags flags)
-> +{
-> +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> +	struct drm_connector *connector = &priv->connector;
-> +	int ret;
-> +
-> +	ret = drm_bridge_attach(bridge->encoder, priv->next_bridge, bridge,
-> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> +		return 0;
-> +
-> +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_DETECT) {
-> +		connector->polled = DRM_CONNECTOR_POLL_HPD;
-> +	} else {
-> +		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
-> +				    DRM_CONNECTOR_POLL_DISCONNECT;
-> +	}
-> +
-> +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD) {
-> +		drm_bridge_hpd_enable(priv->next_bridge, ch7033_hpd_event,
-> +				      priv);
-> +	}
-> +
-> +	drm_connector_helper_add(connector,
-> +				 &ch7033_connector_helper_funcs);
-> +	ret = drm_connector_init_with_ddc(bridge->dev, &priv->connector,
-> +					  &ch7033_connector_funcs,
-> +					  priv->next_bridge->type,
-> +					  priv->next_bridge->ddc);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to initialize connector\n");
-> +		return ret;
-> +	}
-> +
-> +	return drm_connector_attach_encoder(&priv->connector, bridge->encoder);
-> +}
-> +
-> +static void ch7033_bridge_detach(struct drm_bridge *bridge)
-> +{
-> +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> +
-> +	if (priv->next_bridge->ops & DRM_BRIDGE_OP_HPD)
-> +		drm_bridge_hpd_disable(priv->next_bridge);
-> +	drm_connector_cleanup(&priv->connector);
-> +}
-> +
-> +static enum drm_mode_status ch7033_bridge_mode_valid(struct drm_bridge *bridge,
-> +				     const struct drm_display_mode *mode)
-> +{
-> +	if (mode->clock > 165000)
-> +		return MODE_CLOCK_HIGH;
-> +	if (mode->hdisplay >= 1920)
-> +		return MODE_BAD_HVALUE;
-> +	if (mode->vdisplay >= 1080)
-> +		return MODE_BAD_VVALUE;
-> +	return MODE_OK;
-> +}
-> +
-> +static void ch7033_bridge_disable(struct drm_bridge *bridge)
-> +{
-> +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> +
-> +	regmap_write(priv->regmap, 0x03, 0x04);
-> +	regmap_update_bits(priv->regmap, 0x52, RESETDB, 0x00);
-> +}
-> +
-> +static void ch7033_bridge_enable(struct drm_bridge *bridge)
-> +{
-> +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> +
-> +	regmap_write(priv->regmap, 0x03, 0x04);
-> +	regmap_update_bits(priv->regmap, 0x52, RESETDB, RESETDB);
-> +}
-> +
-> +static void ch7033_bridge_mode_set(struct drm_bridge *bridge,
-> +				   const struct drm_display_mode *mode,
-> +				   const struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct ch7033_priv *priv = bridge_to_ch7033_priv(bridge);
-> +	int hbporch = mode->hsync_start - mode->hdisplay;
-> +	int hsynclen = mode->hsync_end - mode->hsync_start;
-> +	int vbporch = mode->vsync_start - mode->vdisplay;
-> +	int vsynclen = mode->vsync_end - mode->vsync_start;
-> +
-> +	/*
-> +	 * Page 4
-> +	 */
-> +	regmap_write(priv->regmap, 0x03, 0x04);
-> +
-> +	/* Turn everything off to set all the registers to their defaults. */
-> +	regmap_write(priv->regmap, 0x52, 0x00);
-> +	/* Bring I/O block up. */
-> +	regmap_write(priv->regmap, 0x52, RESETIB);
-> +
-> +	/*
-> +	 * Page 0
-> +	 */
-> +	regmap_write(priv->regmap, 0x03, 0x00);
-> +
-> +	/* Bring up parts we need from the power down. */
-> +	regmap_update_bits(priv->regmap, 0x07, DRI_PD | IO_PD, 0);
-> +	regmap_update_bits(priv->regmap, 0x08, DRI_PDDRI | PDDAC | PANEN, 0);
-> +	regmap_update_bits(priv->regmap, 0x09, DPD | GCKOFF |
-> +					       HDMI_PD | VGA_PD, 0);
-> +	regmap_update_bits(priv->regmap, 0x0a, HD_DVIB, 0);
-> +
-> +	/* Horizontal input timing. */
-> +	regmap_write(priv->regmap, 0x0b, (mode->htotal >> 8) << 3 |
-> +					 (mode->hdisplay >> 8));
-> +	regmap_write(priv->regmap, 0x0c, mode->hdisplay);
-> +	regmap_write(priv->regmap, 0x0d, mode->htotal);
-> +	regmap_write(priv->regmap, 0x0e, (hsynclen >> 8) << 3 |
-> +					 (hbporch >> 8));
-> +	regmap_write(priv->regmap, 0x0f, hbporch);
-> +	regmap_write(priv->regmap, 0x10, hsynclen);
-> +
-> +	/* Vertical input timing. */
-> +	regmap_write(priv->regmap, 0x11, (mode->vtotal >> 8) << 3 |
-> +					 (mode->vdisplay >> 8));
-> +	regmap_write(priv->regmap, 0x12, mode->vdisplay);
-> +	regmap_write(priv->regmap, 0x13, mode->vtotal);
-> +	regmap_write(priv->regmap, 0x14, ((vsynclen >> 8) << 3) |
-> +					 (vbporch >> 8));
-> +	regmap_write(priv->regmap, 0x15, vbporch);
-> +	regmap_write(priv->regmap, 0x16, vsynclen);
-> +
-> +	/* Input color swap. */
-> +	regmap_update_bits(priv->regmap, 0x18, SWAP, BYTE_SWAP_BGR);
-> +
-> +	/* Input clock and sync polarity. */
-> +	regmap_update_bits(priv->regmap, 0x19, 0x1, mode->clock >> 16);
-> +	regmap_update_bits(priv->regmap, 0x19, HPO_I | VPO_I | GCLKFREQ,
-> +			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_I : 0 |
-> +			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_I : 0 |
-> +			   mode->clock >> 16);
-> +	regmap_write(priv->regmap, 0x1a, mode->clock >> 8);
-> +	regmap_write(priv->regmap, 0x1b, mode->clock);
-> +
-> +	/* Horizontal output timing. */
-> +	regmap_write(priv->regmap, 0x1f, (mode->htotal >> 8) << 3 |
-> +					 (mode->hdisplay >> 8));
-> +	regmap_write(priv->regmap, 0x20, mode->hdisplay);
-> +	regmap_write(priv->regmap, 0x21, mode->htotal);
-> +
-> +	/* Vertical output timing. */
-> +	regmap_write(priv->regmap, 0x25, (mode->vtotal >> 8) << 3 |
-> +					 (mode->vdisplay >> 8));
-> +	regmap_write(priv->regmap, 0x26, mode->vdisplay);
-> +	regmap_write(priv->regmap, 0x27, mode->vtotal);
-> +
-> +	/* VGA channel bypass */
-> +	regmap_update_bits(priv->regmap, 0x2b, VFMT, 9);
-> +
-> +	/* Output sync polarity. */
-> +	regmap_update_bits(priv->regmap, 0x2e, HPO_O | VPO_O,
-> +			   (mode->flags & DRM_MODE_FLAG_PHSYNC) ? HPO_O : 0 |
-> +			   (mode->flags & DRM_MODE_FLAG_PVSYNC) ? VPO_O : 0);
-> +
-> +	/* HDMI horizontal output timing. */
-> +	regmap_update_bits(priv->regmap, 0x54, HWO_HDMI_HI | HOO_HDMI_HI,
-> +					       (hsynclen >> 8) << 3 |
-> +					       (hbporch >> 8));
-> +	regmap_write(priv->regmap, 0x55, hbporch);
-> +	regmap_write(priv->regmap, 0x56, hsynclen);
-> +
-> +	/* HDMI vertical output timing. */
-> +	regmap_update_bits(priv->regmap, 0x57, VWO_HDMI_HI | VOO_HDMI_HI,
-> +					       (vsynclen >> 8) << 3 |
-> +					       (vbporch >> 8));
-> +	regmap_write(priv->regmap, 0x58, vbporch);
-> +	regmap_write(priv->regmap, 0x59, vsynclen);
-> +
-> +	/* Pick HDMI, not LVDS. */
-> +	regmap_update_bits(priv->regmap, 0x7e, HDMI_LVDS_SEL, HDMI_LVDS_SEL);
-> +
-> +	/*
-> +	 * Page 1
-> +	 */
-> +	regmap_write(priv->regmap, 0x03, 0x01);
-> +
-> +	/* No idea what these do, but VGA is wobbly and blinky without them. */
-> +	regmap_update_bits(priv->regmap, 0x07, CKINV, CKINV);
-> +	regmap_update_bits(priv->regmap, 0x08, DISPON, DISPON);
-> +
-> +	/* DRI PLL */
-> +	regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_DIVSEL, DRI_PLL_DIVSEL);
-> +	if (mode->clock <= 40000) {
-> +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> +						       DRI_PLL_N1_0 |
-> +						       DRI_PLL_N3_1 |
-> +						       DRI_PLL_N3_0,
-> +						       0);
-> +	} else if (mode->clock < 80000) {
-> +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> +						       DRI_PLL_N1_0 |
-> +						       DRI_PLL_N3_1 |
-> +						       DRI_PLL_N3_0,
-> +						       DRI_PLL_N3_0 |
-> +						       DRI_PLL_N1_0);
-> +	} else {
-> +		regmap_update_bits(priv->regmap, 0x0c, DRI_PLL_N1_1 |
-> +						       DRI_PLL_N1_0 |
-> +						       DRI_PLL_N3_1 |
-> +						       DRI_PLL_N3_0,
-> +						       DRI_PLL_N3_1 |
-> +						       DRI_PLL_N1_1);
-> +	}
-> +
-> +	/* This seems to be color calibration for VGA. */
-> +	regmap_write(priv->regmap, 0x64, 0x29); /* LSB Blue */
-> +	regmap_write(priv->regmap, 0x65, 0x29); /* LSB Green */
-> +	regmap_write(priv->regmap, 0x66, 0x29); /* LSB Red */
-> +	regmap_write(priv->regmap, 0x67, 0x00); /* MSB Blue */
-> +	regmap_write(priv->regmap, 0x68, 0x00); /* MSB Green */
-> +	regmap_write(priv->regmap, 0x69, 0x00); /* MSB Red */
-> +
-> +	regmap_update_bits(priv->regmap, 0x6b, DRI_PD_SER, 0x00);
-> +	regmap_update_bits(priv->regmap, 0x6c, DRI_PLL_PD, 0x00);
-> +
-> +	/*
-> +	 * Page 3
-> +	 */
-> +	regmap_write(priv->regmap, 0x03, 0x03);
-> +
-> +	/* More bypasses and apparently another HDMI/LVDS selector. */
-> +	regmap_update_bits(priv->regmap, 0x28, VGACLK_BP | HM_LV_SEL,
-> +					       VGACLK_BP | HM_LV_SEL);
-> +	regmap_update_bits(priv->regmap, 0x2a, HDMICLK_BP | HDMI_BP,
-> +					       HDMICLK_BP | HDMI_BP);
-> +
-> +	/*
-> +	 * Page 4
-> +	 */
-> +	regmap_write(priv->regmap, 0x03, 0x04);
-> +
-> +	/* Output clock. */
-> +	regmap_write(priv->regmap, 0x10, mode->clock >> 16);
-> +	regmap_write(priv->regmap, 0x11, mode->clock >> 8);
-> +	regmap_write(priv->regmap, 0x12, mode->clock);
-> +}
-> +
-> +static const struct drm_bridge_funcs ch7033_bridge_funcs = {
-> +	.attach = ch7033_bridge_attach,
-> +	.detach = ch7033_bridge_detach,
-> +	.mode_valid = ch7033_bridge_mode_valid,
-> +	.disable = ch7033_bridge_disable,
-> +	.enable = ch7033_bridge_enable,
-> +	.mode_set = ch7033_bridge_mode_set,
-> +};
-> +
-> +static const struct regmap_config ch7033_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0x7f,
-> +};
-> +
-> +static int ch7033_probe(struct i2c_client *client,
-> +			const struct i2c_device_id *id)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct ch7033_priv *priv;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(dev, priv);
-> +
-> +	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, NULL,
-> +					  &priv->next_bridge);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->regmap = devm_regmap_init_i2c(client, &ch7033_regmap_config);
-> +	if (IS_ERR(priv->regmap)) {
-> +		dev_err(&client->dev, "regmap init failed\n");
-> +		return PTR_ERR(priv->regmap);
-> +	}
-> +
-> +	ret = regmap_read(priv->regmap, 0x00, &val);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-> +		return ret;
-> +	}
-> +	if ((val & 0xf7) != 0x56) {
-> +		dev_err(&client->dev, "the device is not a ch7033\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	regmap_write(priv->regmap, 0x03, 0x04);
-> +	ret = regmap_read(priv->regmap, 0x51, &val);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "error reading the model id: %d\n", ret);
-> +		return ret;
-> +	}
-> +	if ((val & 0x0f) != 3) {
-> +		dev_err(&client->dev, "unknown revision %u\n", val);
-> +		return -ENODEV;
-> +	}
-> +
-> +	INIT_LIST_HEAD(&priv->bridge.list);
-> +	priv->bridge.funcs = &ch7033_bridge_funcs;
-> +	priv->bridge.of_node = dev->of_node;
-> +	drm_bridge_add(&priv->bridge);
-> +
-> +	dev_info(dev, "Chrontel CH7033 Video Encoder\n");
-> +	return 0;
-> +}
-> +
-> +static int ch7033_remove(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct ch7033_priv *priv = dev_get_drvdata(dev);
-> +
-> +	drm_bridge_remove(&priv->bridge);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ch7033_dt_ids[] = {
-> +	{ .compatible = "chrontel,ch7033", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ch7033_dt_ids);
-> +
-> +static const struct i2c_device_id ch7033_ids[] = {
-> +	{ "ch7033", 0 },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, ch7033_ids);
-> +
-> +static struct i2c_driver ch7033_driver = {
-> +	.probe = ch7033_probe,
-> +	.remove = ch7033_remove,
-> +	.driver = {
-> +		.name = "ch7033",
-> +		.of_match_table = of_match_ptr(ch7033_dt_ids),
-> +	},
-> +	.id_table = ch7033_ids,
-> +};
-> +
-> +module_i2c_driver(ch7033_driver);
-> +
-> +MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-> +MODULE_DESCRIPTION("Chrontel CH7033 Video Encoder Driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.26.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+In summary it looks like the use of kmap_atomic() in pte_offset_map() is a
+potential issue in microblaze.  I've fixed that in my local tree.
+
+Ira
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
