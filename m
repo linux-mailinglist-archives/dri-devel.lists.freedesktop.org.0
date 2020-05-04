@@ -2,32 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67781C338A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13F51C3097
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 03:09:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD336E33F;
-	Mon,  4 May 2020 07:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF7886E137;
+	Mon,  4 May 2020 01:09:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D754689C9D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 00:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1588550848; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=Og/j3lrDawHdRp8z99AJL6zzmAtKNk6LO+CSF386elo=;
- b=dxkuOxVWPCvXN+DOozc5p52AeLVU3kGASNLM1TsJxlihOuYd1MacV87YqItPrh86fkGjQA
- HQgIAT4GKO5d+A70Tc1nm0xF13pRizM0DJB30GjcjofG12yQZYAlOeMuhEoeahwgGT8UdJ
- 2X+Khc37SMZ+zNEyJPjQ8TDKMGpElIY=
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] gpu/drm: ingenic: Fix bogus crtc_atomic_check callback
-Date: Mon,  4 May 2020 02:07:20 +0200
-Message-Id: <20200504000720.311584-1-paul@crapouillou.net>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF046E05A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 01:09:21 +0000 (UTC)
+IronPort-SDR: tFD/ZHVCELnNVrB/eVPQc0D+Cbuwyf2KlOE3OuoPnqzYJu56g88kITfJS++nF2C3pshpTtFCSR
+ 92cCTEBympjA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2020 18:09:20 -0700
+IronPort-SDR: fHucA4RWhttBOWYdNcVbZcLe92djrCMA36BhMr8sTNTq9uR1pF6GcVTIexdnyZrcSkJFrWzqIJ
+ LnPtCLKlHAVA==
+X-IronPort-AV: E=Sophos;i="5.73,350,1583222400"; d="scan'208";a="248071661"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2020 18:09:19 -0700
+From: ira.weiny@intel.com
+To: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
+Subject: [PATCH V2 00/11] Subject: Remove duplicated kmap code
+Date: Sun,  3 May 2020 18:09:01 -0700
+Message-Id: <20200504010912.982044-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 04 May 2020 07:17:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,41 +45,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "H . Nikolaus Schaller" <hns@goldelico.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- dri-devel@lists.freedesktop.org
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code was comparing the SoC's maximum height with the mode's width,
-and vice-versa. D'oh.
+From: Ira Weiny <ira.weiny@intel.com>
 
-Cc: stable@vger.kernel.org # v5.6+
-Fixes: a7c909b7c037 ("gpu/drm: ingenic: Check for display size in CRTC atomic check")
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+The kmap infrastructure has been copied almost verbatim to every architecture.
+This series consolidates obvious duplicated code by defining core functions
+which call into the architectures only when needed.
+
+Some of the k[un]map_atomic() implementations have some similarities but the
+similarities were not sufficient to warrant further changes.
+
+In addition we remove a duplicate implementation of kmap() in DRM.
+
+Testing was done by 0day to cover all the architectures I can't readily
+build/test.
+
 ---
- drivers/gpu/drm/ingenic/ingenic-drm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes from V1:
+	Fix bisect-ability
+	Update commit message and fix line lengths
+	Remove unneded kunmap_atomic_high() declarations
+	Remove unneded kmap_atomic_high() declarations
+	collect reviews
+	rebase to 5.7-rc4
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-index 9dfe7cb530e1..5f19e07c152e 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-@@ -328,8 +328,8 @@ static int ingenic_drm_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (!drm_atomic_crtc_needs_modeset(state))
- 		return 0;
- 
--	if (state->mode.hdisplay > priv->soc_info->max_height ||
--	    state->mode.vdisplay > priv->soc_info->max_width)
-+	if (state->mode.hdisplay > priv->soc_info->max_width ||
-+	    state->mode.vdisplay > priv->soc_info->max_height)
- 		return -EINVAL;
- 
- 	rate = clk_round_rate(priv->pix_clk,
+Changes from V0:
+	Define kmap_flush_tlb() and make kmap() truely arch independent.
+	Redefine the k[un]map_atomic_* code to call into the architectures for
+		high mem pages
+	Ensure all architectures define kmap_prot, use it appropriately, and
+		define kmap_atomic_prot()
+	Remove drm implementation of kmap_atomic()
+
+Ira Weiny (11):
+  arch/kmap: Remove BUG_ON()
+  arch/xtensa: Move kmap build bug out of the way
+  arch/kmap: Remove redundant arch specific kmaps
+  arch/kunmap: Remove duplicate kunmap implementations
+  {x86,powerpc,microblaze}/kmap: Move preempt disable
+  arch/kmap_atomic: Consolidate duplicate code
+  arch/kunmap_atomic: Consolidate duplicate code
+  arch/kmap: Ensure kmap_prot visibility
+  arch/kmap: Don't hard code kmap_prot values
+  arch/kmap: Define kmap_atomic_prot() for all arch's
+  drm: Remove drm specific kmap_atomic code
+
+ arch/arc/include/asm/highmem.h        | 15 -------
+ arch/arc/mm/highmem.c                 | 28 +++---------
+ arch/arm/include/asm/highmem.h        |  7 ---
+ arch/arm/mm/highmem.c                 | 35 +++------------
+ arch/csky/include/asm/highmem.h       |  9 +---
+ arch/csky/mm/highmem.c                | 43 +++++--------------
+ arch/microblaze/include/asm/highmem.h | 28 +-----------
+ arch/microblaze/mm/highmem.c          | 16 ++-----
+ arch/microblaze/mm/init.c             |  3 --
+ arch/mips/include/asm/highmem.h       |  9 +---
+ arch/mips/mm/cache.c                  |  6 +--
+ arch/mips/mm/highmem.c                | 49 ++++-----------------
+ arch/nds32/include/asm/highmem.h      |  7 ---
+ arch/nds32/mm/highmem.c               | 39 +++--------------
+ arch/parisc/include/asm/cacheflush.h  |  4 +-
+ arch/powerpc/include/asm/highmem.h    | 29 +------------
+ arch/powerpc/mm/highmem.c             | 21 ++-------
+ arch/powerpc/mm/mem.c                 |  3 --
+ arch/sparc/include/asm/highmem.h      | 22 ----------
+ arch/sparc/mm/highmem.c               | 18 +++-----
+ arch/x86/include/asm/highmem.h        |  9 ----
+ arch/x86/mm/highmem_32.c              | 50 ++-------------------
+ arch/xtensa/include/asm/highmem.h     | 27 ------------
+ arch/xtensa/mm/highmem.c              | 22 ++++------
+ drivers/gpu/drm/ttm/ttm_bo_util.c     | 56 ++----------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_blit.c  | 16 +++----
+ include/drm/ttm/ttm_bo_api.h          |  4 --
+ include/linux/highmem.h               | 62 +++++++++++++++++++++++++--
+ 28 files changed, 140 insertions(+), 497 deletions(-)
+
 -- 
-2.26.2
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
