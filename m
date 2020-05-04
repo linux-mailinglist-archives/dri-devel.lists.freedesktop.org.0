@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9E41C4A3E
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 01:27:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C291C4A4C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 01:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF3B6E4EC;
-	Mon,  4 May 2020 23:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFB86E4F1;
+	Mon,  4 May 2020 23:29:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5956E4EC
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 23:27:29 +0000 (UTC)
-IronPort-SDR: IJ4uEQI7yB0tgGqCsvAicI2dRQ7w3jvpl1tVX3wsomY2xoueNdAatHLx6vci3kj9kzrhIw+22z
- N42vDJUgrMHw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2020 16:27:28 -0700
-IronPort-SDR: FfmHJ+ZXo1f5ZQiiqbjWS0lOXVjHvUwnQi1XbTU0n32Bds1d2LVvsjbZwDRAuatgMzoWj4tKIj
- rnIe76RxdCiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,353,1583222400"; d="scan'208";a="248380428"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga007.jf.intel.com with ESMTP; 04 May 2020 16:27:26 -0700
-Date: Mon, 4 May 2020 16:27:26 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH V2 00/11] Subject: Remove duplicated kmap code
-Message-ID: <20200504232725.GA1084304@iweiny-DESK2.sc.intel.com>
-References: <20200504010912.982044-1-ira.weiny@intel.com>
- <20200504013509.GU23230@ZenIV.linux.org.uk>
- <20200504050447.GA979899@iweiny-DESK2.sc.intel.com>
- <20200504053357.GV23230@ZenIV.linux.org.uk>
- <20200504201740.GA985739@iweiny-DESK2.sc.intel.com>
- <20200504210225.GW23230@ZenIV.linux.org.uk>
+Received: from smtprelay.hostedemail.com (smtprelay0011.hostedemail.com
+ [216.40.44.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39E26E4F1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 23:29:04 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay06.hostedemail.com (Postfix) with ESMTP id 8294D1822384F;
+ Mon,  4 May 2020 23:29:02 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:800:857:960:973:988:989:1260:1277:1311:1313:1314:1345:1437:1515:1516:1518:1535:1544:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3355:3867:4321:4605:5007:6117:6119:6642:7903:7974:8879:9592:10004:10848:11026:11473:11657:11658:11914:12043:12296:12297:12438:12555:12760:12986:13439:14181:14659:14721:21080:21451:21611:21627:21773:30054:30055,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: burst33_88fb33cf02246
+X-Filterd-Recvd-Size: 5410
+Received: from XPS-9350.home (unknown [47.151.136.130])
+ (Authenticated sender: joe@perches.com)
+ by omf04.hostedemail.com (Postfix) with ESMTPA;
+ Mon,  4 May 2020 23:29:01 +0000 (UTC)
+Message-ID: <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
+Subject: [trivial PATCH] video: fbdev: Use IS_BUILTIN
+From: Joe Perches <joe@perches.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Date: Mon, 04 May 2020 16:29:00 -0700
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200504210225.GW23230@ZenIV.linux.org.uk>
-User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,108 +48,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 04, 2020 at 10:02:25PM +0100, Al Viro wrote:
-> On Mon, May 04, 2020 at 01:17:41PM -0700, Ira Weiny wrote:
-> 
-> > > || * arm: much, much worse.  We have several files that pull linux/highmem.h:
-> > > || arch/arm/mm/cache-feroceon-l2.c, arch/arm/mm/cache-xsc3l2.c,
-> > > || arch/arm/mm/copypage-*.c, arch/arm/mm/dma-mapping.c, arch/arm/mm/flush.c,
-> > > || arch/arm/mm/highmem.c, arch/arm/probes/uprobes/core.c,
-> > > || arch/arm/include/asm/kvm_mmu.h (kmap_atomic_pfn()).
-> > > || Those are fine, but we also have this:
-> > > || arch/arm/include/asm/pgtable.h:200:#define __pte_map(pmd)               (pte_t *)kmap_atomic(pmd_page(*(pmd)))
-> > > || arch/arm/include/asm/pgtable.h:208:#define pte_offset_map(pmd,addr)     (__pte_map(pmd) + pte_index(addr))
-> > > || and sure as hell, asm/pgtable.h does *NOT* pull linux/highmem.h.
-> > 
-> > It does not pull asm/highmem.h either...
-> 
-> No, but the users of those macros need to be considered.
+IS_BUILTIN can be use to replace various initializations
+like #if CONFIG_<FOO> int val = 1; #else int val = 0; #endif
+so do so.
 
-Agreed, I was trying to point out that highmem.h was being pulled from
-somewhere else prior to my series, sorry.
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ drivers/video/fbdev/aty/aty128fb.c     | 6 +-----
+ drivers/video/fbdev/aty/atyfb_base.c   | 7 +------
+ drivers/video/fbdev/aty/radeon_base.c  | 6 +-----
+ drivers/video/fbdev/nvidia/nvidia.c    | 6 +-----
+ drivers/video/fbdev/omap/omapfb_main.c | 6 +-----
+ drivers/video/fbdev/riva/fbdev.c       | 6 +-----
+ drivers/video/fbdev/s3c2410fb.c        | 6 +-----
+ 7 files changed, 7 insertions(+), 36 deletions(-)
 
-> 
-> > > || #define pte_offset_map(dir, addr)               \
-> > > ||         ((pte_t *) kmap_atomic(pmd_page(*(dir))) + pte_index(addr))
-> > > ||         One pte_offset_map user in arch/microblaze:
-> > > || arch/microblaze/kernel/signal.c:207:    ptep = pte_offset_map(pmdp, address);
-> > > || Messy, but doesn't require any changes (we have asm/pgalloc.h included
-> > > || there, and that pull linux/highmem.h).
-> > 
-> > AFAICS asm/pgtable.h does not include asm/highmem.h here...
-> > 
-> > So looks like arch/microblaze/kernel/signal.c will need linux/highmem.h
-> 
-> See above - line 39 in there is
-> #include <asm/pgalloc.h>
-> and line 14 in arch/microblaze/include/asm/pgalloc.h is
-> #include <linux/highmem.h>
-> It's conditional upon CONFIG_MMU in there, but so's the use of
-> pte_offset_map() in arch/microblaze/kernel/signal.c 
-> 
-> So it shouldn't be a problem.
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index d05d4195acad..6fae6ad6cb77 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -384,11 +384,7 @@ static int default_lcd_on = 1;
+ static bool mtrr = true;
+ 
+ #ifdef CONFIG_FB_ATY128_BACKLIGHT
+-#ifdef CONFIG_PMAC_BACKLIGHT
+-static int backlight = 1;
+-#else
+-static int backlight = 0;
+-#endif
++static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
+ #endif
+ 
+ /* PLL constants */
+diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
+index 49d192869cf5..23a29d61c2a2 100644
+--- a/drivers/video/fbdev/aty/atyfb_base.c
++++ b/drivers/video/fbdev/aty/atyfb_base.c
+@@ -317,12 +317,7 @@ static int mclk;
+ static int xclk;
+ static int comp_sync = -1;
+ static char *mode;
+-
+-#ifdef CONFIG_PMAC_BACKLIGHT
+-static int backlight = 1;
+-#else
+-static int backlight = 0;
+-#endif
++static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
+ 
+ #ifdef CONFIG_PPC
+ static int default_vmode = VMODE_CHOOSE;
+diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
+index e116a3f9ad56..3fe509cb9b87 100644
+--- a/drivers/video/fbdev/aty/radeon_base.c
++++ b/drivers/video/fbdev/aty/radeon_base.c
+@@ -269,11 +269,7 @@ static bool force_measure_pll = 0;
+ static bool nomtrr = 0;
+ static bool force_sleep;
+ static bool ignore_devlist;
+-#ifdef CONFIG_PMAC_BACKLIGHT
+-static int backlight = 1;
+-#else
+-static int backlight = 0;
+-#endif
++static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
+ 
+ /* Note about this function: we have some rare cases where we must not schedule,
+  * this typically happen with our special "wake up early" hook which allows us to
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index c24de9107958..c6820e21875d 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -74,11 +74,7 @@ static int vram = 0;
+ static int bpp = 8;
+ static int reverse_i2c;
+ static bool nomtrr = false;
+-#ifdef CONFIG_PMAC_BACKLIGHT
+-static int backlight = 1;
+-#else
+-static int backlight = 0;
+-#endif
++static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
+ 
+ static char *mode_option = NULL;
+ 
+diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+index 1a9d6242916e..0cbcc74fa943 100644
+--- a/drivers/video/fbdev/omap/omapfb_main.c
++++ b/drivers/video/fbdev/omap/omapfb_main.c
+@@ -34,11 +34,7 @@ static unsigned long	def_vyres;
+ static unsigned int	def_rotate;
+ static unsigned int	def_mirror;
+ 
+-#ifdef CONFIG_FB_OMAP_MANUAL_UPDATE
+-static bool		manual_update = 1;
+-#else
+-static bool		manual_update;
+-#endif
++static bool	manual_update = IS_BUILTIN(CONFIG_FB_OMAP_MANUAL_UPDATE);
+ 
+ static struct platform_device	*fbdev_pdev;
+ static struct lcd_panel		*fbdev_panel;
+diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
+index 764ec3285e62..9b3493846f4d 100644
+--- a/drivers/video/fbdev/riva/fbdev.c
++++ b/drivers/video/fbdev/riva/fbdev.c
+@@ -202,11 +202,7 @@ static int flatpanel = -1; /* Autodetect later */
+ static int forceCRTC = -1;
+ static bool noaccel  = 0;
+ static bool nomtrr = 0;
+-#ifdef CONFIG_PMAC_BACKLIGHT
+-static int backlight = 1;
+-#else
+-static int backlight = 0;
+-#endif
++static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
+ 
+ static char *mode_option = NULL;
+ static bool strictmode       = 0;
+diff --git a/drivers/video/fbdev/s3c2410fb.c b/drivers/video/fbdev/s3c2410fb.c
+index 2fb15a540167..6f8fa501583f 100644
+--- a/drivers/video/fbdev/s3c2410fb.c
++++ b/drivers/video/fbdev/s3c2410fb.c
+@@ -44,11 +44,7 @@
+ #include "s3c2410fb.h"
+ 
+ /* Debugging stuff */
+-#ifdef CONFIG_FB_S3C2410_DEBUG
+-static int debug	= 1;
+-#else
+-static int debug;
+-#endif
++static int debug = IS_BUILTIN(CONFIG_FB_S3C2410_DEBUG);
+ 
+ #define dprintk(msg...) \
+ do { \
 
-Ah ok, I did not see that one.  Ok I'll drop that change and this series should
-be good.
 
-I was setting up to submit another version with 3 more patches you have
-suggested:
-
-kmap: Remove kmap_atomic_to_page()
-parisc/kmap: Remove duplicate kmap code
-sparc: Remove unnecessary includes
-
-Would you like to see those folded in?  I submitted 2 of the above as a
-separate series already.
-
-> 
-> > > || * xtensa: users in arch/xtensa/kernel/pci-dma.c, arch/xtensa/mm/highmem.c,
-> > > || arch/xtensa/mm/cache.c and arch/xtensa/platforms/iss/simdisk.c (all pull
-> > > || linux/highmem.h).
-> > 
-> > Actually
-> > 
-> > arch/xtensa/mm/cache.c gets linux/highmem.h from linux/pagemap.h
-> > 
-> > arch/xtensa/platforms/iss/simdisk.c may have an issue?
-> > 	linux/blkdev.h -> CONFIG_BLOCK -> linux/pagemap.h -> linux/highmem.h
-> > 	But simdisk.c requires BLK_DEV_SIMDISK -> CONFIG_BLOCK...
-> > 	<sigh>
-> 
-> Yep - see above re major chain of indirect includes conditional upon CONFIG_BLOCK
-> and its uses in places that only build with such configs.  There's a plenty of
-> similar considerations outside of arch/*, unfortunately...
-
-Indeed.
-
-FWIW the last 2 versions of this series have had no build failures with 0-day.
-
-This series in particular just finished 164 configs without issue.
-
-Would you like me to submit a new series?  With your additional patches?
-
-Ira
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
