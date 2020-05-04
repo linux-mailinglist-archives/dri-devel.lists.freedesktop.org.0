@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764111C34D8
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 10:50:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9541C353F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 11:06:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2EA96E357;
-	Mon,  4 May 2020 08:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B24206E364;
+	Mon,  4 May 2020 09:06:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (mail-eopbgr30077.outbound.protection.outlook.com [40.107.3.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319B36E357
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 08:50:20 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150081.outbound.protection.outlook.com [40.107.15.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC7A6E35D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 09:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ccOjH4U5ZLihVh8WAibZSAYYBO4ImtOs2UMnmc8KAcg=;
- b=Mb63dsVOylMgGDsEnJDGWmMzwArA5Ga7PKav3uakdea2pxbes1H24YpbtrvknRkA6Neam1wzLKooLDoAa8mMZhZDMybTPDYS4m334tnc6NazKPsGdZy5ufx6o6TGxPZn6LizakyrvbPgvr0X/V1mpVOfH45/ZBs5imbKV5cDitM=
-Received: from DB6PR07CA0172.eurprd07.prod.outlook.com (2603:10a6:6:43::26) by
- DB8PR08MB4187.eurprd08.prod.outlook.com (2603:10a6:10:a5::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20; Mon, 4 May 2020 08:50:17 +0000
-Received: from DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:43:cafe::63) by DB6PR07CA0172.outlook.office365.com
- (2603:10a6:6:43::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.17 via Frontend
- Transport; Mon, 4 May 2020 08:50:17 +0000
+ bh=me03ZDsFYyyUDzA23dGXx6iBVPgSmnXSn0KWN4Dd3EM=;
+ b=28u1SGw5rJWQb9jhV37HkHEhDp1xKLwup0mAM0Aq+H7RryGPw/LCt/CevpHHzReQzoHUClOQWQypNfPDepJlGuC21gy2NDPCgwSaE5bAnKudmrhW38ikElxv0kWVNqiy2Gb7Nsh1jglAXuzkngm3W6xAP6DKm11s/TmBxvfXr9o=
+Received: from AM5PR04CA0001.eurprd04.prod.outlook.com (2603:10a6:206:1::14)
+ by DBBPR08MB4267.eurprd08.prod.outlook.com (2603:10a6:10:cb::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Mon, 4 May
+ 2020 09:06:38 +0000
+Received: from AM5EUR03FT040.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:206:1:cafe::26) by AM5PR04CA0001.outlook.office365.com
+ (2603:10a6:206:1::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
+ Transport; Mon, 4 May 2020 09:06:38 +0000
 Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
  verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
@@ -36,113 +36,114 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  63.35.35.123 as permitted sender) receiver=protection.outlook.com;
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT015.mail.protection.outlook.com (10.152.20.145) with
+ AM5EUR03FT040.mail.protection.outlook.com (10.152.17.148) with
  Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20 via Frontend Transport; Mon, 4 May 2020 08:50:17 +0000
-Received: ("Tessian outbound ff098c684b24:v54");
- Mon, 04 May 2020 08:50:17 +0000
+ 15.20.2958.20 via Frontend Transport; Mon, 4 May 2020 09:06:37 +0000
+Received: ("Tessian outbound 4cdf5642225a:v54");
+ Mon, 04 May 2020 09:06:37 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 55b1d0c16200114a
+X-CR-MTA-CID: b360b976e1bbede9
 X-CR-MTA-TID: 64aa7808
-Received: from fe1fcf1b13ab.2
+Received: from 1bcda96b86ba.1
  by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 6FC8B5AC-99D6-4982-9724-01A3C4E8A0F0.1; 
- Mon, 04 May 2020 08:50:12 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id fe1fcf1b13ab.2
+ 390088F8-F9AF-4029-90E4-6893A561AB32.1; 
+ Mon, 04 May 2020 09:06:31 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1bcda96b86ba.1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Mon, 04 May 2020 08:50:12 +0000
+ Mon, 04 May 2020 09:06:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NAuoL5p4dyhMXpDBc1adi8goDuN5O9Jt1ihLwwIPoBpOvLXYRZkYCDL2/FKcxqbTq7KboFDqnpuv3yM4vB1RDwFBI6w0E7GseCNgs/Y10ckH7DKvMG9guE5bfbHdeWRzLCUqMZjmufCz014potNL7UAvRGO62hLrh+4rSK+yuLTZB9UQ3UFnhyc+Ih9nRkPjXrAmdbUDp0d8gvqz5x7TKlfu8JOVgolIDU5UNC8GGg0jUEa0tSEFPVZTEXFQ74LkitNd4ZRARP1sWarNiKHPwSWCEcEv9u38Q8gdOLlIijBx+8gkEm4MBbjWEiLZJt/U6anD/f4a3K3g2KDQiNGgpg==
+ b=KoQyfqoVL30oSmA9a1Q6JjSQLfnCnVUahKRZh9LPEyeAMQQrAL+TXS+29mhR/6QFv/UIt7UEuM5suVp1/zMedDASaeYkpvQL1J2w40uAdFDCeENWejm+9CKaPadQ6J4pzSpNJs5Nghj8xwYg7muLJXQi7NEq2dhIbdQ+FBo1XNopwkCuLmlPzubkxOX179K9LuXxXURP4JIB9lddRBU1+Nphfo0A4cpZZnNEMNDlHX5rxEoEcaYqEe87ygkN3UzB74rchtqbjcnC8B84WEkGd9/nSbjleCyX7s/0ocJB+A4ba3Sf34rKIBEErwhw035/iLRVC/E9koNk0jSVrrU29Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ccOjH4U5ZLihVh8WAibZSAYYBO4ImtOs2UMnmc8KAcg=;
- b=B3DDdrh6GH2af9UovD6rx6hX+wSRbbd6ND6PjjYP2Q77+eTGseUfT4gWDe/Bb9X9/ujhdkXcbZ7kBXvIyoBFNl2n9zMkg1F6nrdogiGg9hw85pTZS1THpJ4U88+ZJJcbS8D6sdi613pLtJDAwlDgT+PlekOVCh8w0Oxs/Vqw+mf3lJw+S9QmKhWP4WrHqvzCffflvAkiHXXIw6Q0tgD5EQUczzaGQ2Fw5XfJTCXgbBmzIHuOrmBmfvRe7q5QEh3kFJCZhBNuj1Dj3ucmi+2cGq7La++/lCEnM0aO5npTQQgrlyIEUoksNuc3dCXqS80xGY4TjDQrKg9QbKw0DVUIWg==
+ bh=me03ZDsFYyyUDzA23dGXx6iBVPgSmnXSn0KWN4Dd3EM=;
+ b=OJnDsOpkUhfOQG4uj3W5TOw9bdAE+bGLYrk+zQ2gTN9vnGX7WlmDWkbdsEXhkle1kJKXki32jeivCvTgN2zO/DFusCYXW5qTZkL8f/3xtQFnLP+CVginSUcaEKJQdJgjboO0ixoq+/ZCMou3NY0Wgh/PX0wjvlXgSThmJ96tT6S0SxU9NdqIulIX6FQn0FL0WBVkZoWX1TUnijMEM2Uy/sZfOJ2HwYr3oPQvPUNigdLx8w+4kHOFXncVdVDtt0sZE5mlv/1GAuv6KoJTwrU4bDfnYGERG4PPtVBiSRjujS2G5XL4Xz0bnf56Sf8/t5z++52F+OjfhFJa/vdQMtx2gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ccOjH4U5ZLihVh8WAibZSAYYBO4ImtOs2UMnmc8KAcg=;
- b=Mb63dsVOylMgGDsEnJDGWmMzwArA5Ga7PKav3uakdea2pxbes1H24YpbtrvknRkA6Neam1wzLKooLDoAa8mMZhZDMybTPDYS4m334tnc6NazKPsGdZy5ufx6o6TGxPZn6LizakyrvbPgvr0X/V1mpVOfH45/ZBs5imbKV5cDitM=
+ bh=me03ZDsFYyyUDzA23dGXx6iBVPgSmnXSn0KWN4Dd3EM=;
+ b=28u1SGw5rJWQb9jhV37HkHEhDp1xKLwup0mAM0Aq+H7RryGPw/LCt/CevpHHzReQzoHUClOQWQypNfPDepJlGuC21gy2NDPCgwSaE5bAnKudmrhW38ikElxv0kWVNqiy2Gb7Nsh1jglAXuzkngm3W6xAP6DKm11s/TmBxvfXr9o=
 Authentication-Results-Original: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
 Received: from AM6PR08MB3829.eurprd08.prod.outlook.com (2603:10a6:20b:85::14)
- by AM6PR08MB4039.eurprd08.prod.outlook.com (2603:10a6:20b:a1::31)
+ by AM6PR08MB4262.eurprd08.prod.outlook.com (2603:10a6:20b:b4::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Mon, 4 May
- 2020 08:50:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.27; Mon, 4 May
+ 2020 09:06:28 +0000
 Received: from AM6PR08MB3829.eurprd08.prod.outlook.com
  ([fe80::78d3:4ffd:f7da:b26d]) by AM6PR08MB3829.eurprd08.prod.outlook.com
  ([fe80::78d3:4ffd:f7da:b26d%3]) with mapi id 15.20.2958.030; Mon, 4 May 2020
- 08:50:08 +0000
-Date: Mon, 4 May 2020 09:50:07 +0100
+ 09:06:28 +0000
+Date: Mon, 4 May 2020 10:06:28 +0100
 From: Brian Starkey <brian.starkey@arm.com>
 To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [RFC][PATCH 1/4] devicetree: bindings: Add linux,cma-heap tag
- for reserved memory
-Message-ID: <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
+Subject: Re: [RFC][PATCH 3/4] dma-buf: cma_heap: Extend logic to export CMA
+ regions tagged with "linux,cma-heap"
+Message-ID: <20200504090628.d2q32dwyg6em5pp7@DESKTOP-E1NTVVP.localdomain>
 References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-2-john.stultz@linaro.org>
- <20200501104216.4f226c2a7bzval5o@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
+ <20200501073949.120396-4-john.stultz@linaro.org>
+ <20200501102143.xcckvsfecumbei3c@DESKTOP-E1NTVVP.localdomain>
+ <47e7eded-7240-887a-39e1-97c55bf752e7@arm.com>
+ <CALAqxLU6kmvJ+xPCFzc3N+RNMv4g=L9bmzgE0wrOXefiGfPoHg@mail.gmail.com>
 Content-Disposition: inline
-In-Reply-To: <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
+In-Reply-To: <CALAqxLU6kmvJ+xPCFzc3N+RNMv4g=L9bmzgE0wrOXefiGfPoHg@mail.gmail.com>
 User-Agent: NeoMutt/20180716-849-147d51-dirty
-X-ClientProxiedBy: LNXP123CA0014.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:d2::26) To AM6PR08MB3829.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LNXP123CA0020.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:d2::32) To AM6PR08MB3829.eurprd08.prod.outlook.com
  (2603:10a6:20b:85::14)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from DESKTOP-E1NTVVP.localdomain (82.1.208.173) by
- LNXP123CA0014.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:d2::26) with Microsoft
+ LNXP123CA0020.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:d2::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20 via Frontend Transport; Mon, 4 May 2020 08:50:07 +0000
+ 15.20.2958.20 via Frontend Transport; Mon, 4 May 2020 09:06:27 +0000
 X-Originating-IP: [82.1.208.173]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0fdd7b42-03df-4f7a-ad49-08d7f0082b70
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4039:|AM6PR08MB4039:|DB8PR08MB4187:
+X-MS-Office365-Filtering-Correlation-Id: 98e9a7e2-0b54-426b-f8c7-08d7f00a7395
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4262:|AM6PR08MB4262:|DBBPR08MB4267:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DB8PR08MB4187DE809F6A5E4F0BCF8AA7F0A60@DB8PR08MB4187.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DBBPR08MB4267DC105A6AF06D8F850C7DF0A60@DBBPR08MB4267.eurprd08.prod.outlook.com>
 x-checkrecipientrouted: true
 NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;OLM:3513;
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;OLM:8882;
 X-Forefront-PRVS: 03932714EB
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 5aqkfSzawpaRGdgh5I+KcYz/6WcivLoO6/DG8JpWeatju/j35p/g7hEEeuQTx5LSNabZm1nIXnJ/qLxw12L8HLS1jy7+lz6O0+ucX2QmwsNGds4Hn5XMOTgdxC2UNBB/SXdjuuV3U9177N6ku241jPPzRQ/O/13M8Ge6wB+qyMGmb7RbFU7jNO9NdsOAiQDxIUuD6oeZ52hFwqpKfw3jEGizY7iglAm4WX6i9elJDBkIuHhEWkLb7Mu/dfAbX1WI2s6iKt7OEyIH1aHbmO84gFfxVVltMtVg+md7esKlGKGcr9YP06I+I47iRCANHfjS2xk2PkmnfsS480atEfcWIVt88BE+whAbIx3hjm7qoWIu67pzyABTr07HDb3RY8pwEZr6LTM3Qni930CrMMhx1tN5L4quDK+zflnkv7YpOtRsD1H1MfUKlM/k00+1Iegh/FlGprg1NDM45ldKYc7IXBBktw4ufv84iLGM8VMjonptcdzidWCJXOQDAyjgjsbB
+X-Microsoft-Antispam-Message-Info-Original: zPp3U3FEfsKFX7a9HESOO4JYYUae2MCPEeZbO0oeUZvohxp4UEUzbT+Kd+JZYAxN1qkNS8ibuIlDxrpXK9uBJVVDJrxk66DnYCbOk5rag4XhLiglzUbmhzcLI+kZWDvyWDe9QjH4dT+pT3CVkqRWJfH2dDtEUisgPV+Ct9rhH2ur7cZw9fhB1qSbBAAHqUnWdBfl2aAz2mbT93+WHBGjhK7Wg2eQd88eFlIxKacVLA4QOR4uvbBK8fUSzQLK1XfGM+Y3ruaM0uk8grPUPwVhYy5JC8yY8UueHt4VJNiiHqxkJo1jFJI8sFSAjPy6YO/1J5FDHhRuWKCj6LhXYR94BPFdhOmsEs5w1ygSgzrTuzVF1S/CTA28T8gXDyoEmL6lfKlJZlNqDyWbNEuNo0tBI3i36TQtTgJ9d+fIHQzekHlfkl5ocSJVcYY1J/9oNAvfxeiXlRGMv5iM/OFvUtT9eKViMM3Rk4Fl0UXtcjGZ1CDQuxGJOHzBcskcXY5A3i6k
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM6PR08MB3829.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFTY:;
- SFS:(4636009)(366004)(136003)(39860400002)(396003)(346002)(376002)(86362001)(6916009)(52116002)(2906002)(7696005)(66946007)(9686003)(478600001)(5660300002)(16526019)(186003)(66556008)(6506007)(53546011)(66476007)(26005)(44832011)(1076003)(956004)(7416002)(55016002)(8936002)(54906003)(316002)(8676002)(4326008)(142933001);
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(86362001)(55016002)(2906002)(6916009)(478600001)(8936002)(9686003)(5660300002)(8676002)(6506007)(66946007)(956004)(53546011)(7416002)(186003)(26005)(16526019)(1076003)(52116002)(7696005)(66556008)(66476007)(4326008)(54906003)(44832011)(316002)(142933001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: PjXOCi9sreftXgJc64m9gRBwy8tZkkmGzDCG4ZvgEtLy3S3GQzWK62il6VVM48kCv9LqrCplVroT1It4eRoOvhmzPxyRCNZm6sAXwdNEM62uazFdiJj4Cnk95MBlfERAjsUeV1SdQs5a0vV1gQ1j0ToU6c+MtuS7WN9SMu/7Iy+5nyr1aQRBJd6ToQxx5kBsKJouUf6b85tfvm1lmhh0LJ3O2tSutSy4nOvcrPbV5zS80dTcEXbIVnG88LJRjxyKYKGBf4ni4qUFhkYGdmk7vcJ1Ni2JZHJ9z1DvM7m4gu8WqMVHfFpnrmELj6YwSTM/QQP/+D5osfCdSbrRqNxzWQSKpd0Jgkpjd4zC21pePtCYuRQ/E6oD3UDJfOgfaYec37eTNqg15bI+N7fj5ClTr9DLXfE3rUyqgJTNcUoqtgiEYciiDbAPgFRsrONIL5s+xQ8ghqjoTqA5nokQRN2Mq0C4S7aRvYZuoH3sttQ0sZIh/baODO4jVBCS4aDoGlKZFezHb0aPm/6tmB/zkTe3OWHuySU9QRmg8Hv9vlx2uT3Pe0CE/vaxQLhwiraun9sa0LDKIAxoHxx/xU0qbx9Pje01x/ILqqIJDmdDRReKATHTVjtcqiX2sAJ5z4YJ+m7fI2PqfSy5lQZdSj/bRoCFLwphrOUR+Fv/UVakC0cKDj7HgoUnukV7CxmWVk/41TRb0Bpjc5871+R4ZQQ+Wx6OhtLsOUUk7R+zoJbxYjmrcacYIxYA0lLj7cF/uQwPVWRBWUyNkS9WCIMMMPQ3pk59+1Oi9VgjODNfeSWwGkHRU8c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4039
+X-MS-Exchange-AntiSpam-MessageData: sT9mVsWfaq0GWQLx5SCmDh2PZAKCVxGVOa/HtbFPMiQkmM/jLPFfCz/od7+jwvM25EL8lcL++dW4N9i0YLOxrWE9/sbpfdOJ6VUEUAx3KxsHASJNlD0DUtA1nt4kyKxVr8c6g0jBmix14lZoRCwmTjTURMMpkvJ4oZVCi+HWlu6SGbrGL6kxI1uLYWvIxceWO5xcdeCxRLRhzVvAIGGES06vbNNSP1uHF9mAVH39ZqoXIzejdJq7G8yLVFM9ctuFSZ96Q/WW5T3xxnYhszjaDAurxc0SDrFK0w4JFXiCr6LeQA505FcOb3xtSCMyTNYVXTkbFtgSfv4M3aZYRSqp7eopCPH7r23VIop3hOZPbF0F3JdDHpqevFHX3uCjuCC83hwDwjRaNJlDoBBaYu+GXrHpFZNb6XLtyIDoMHrYQTzqw0vqa+QhJqST+1Ng+tO1wBQUBDDLWZSCkg15nmdWxImU0Ec+Yd5ioNA4T1HQHxqMHz6xzJezUCkGVjdQJgW1+uAK0jGy4fIeg8ZSCg6jQ5v4pkhHuIH5L4GAUKGw1my7eNlti81CwqN/sZ+wNwS9CG7on74aklo1PcunO8O2WEawjmRFj3ZGbe+7pWT7XUJ1L8HdQvGy4aIuzYYHVMUXUiUt1apqxyrE95VSelLJRwmKoCGmCgSC8ssqPOBRSfl+eUyxpWDrmtEMZpu9QEl4sF8HAcsl1/pvDSeZCCB4VcED60TCFLtDVecLJNCJOysw+kNjL5VmOKwfFMB2wzN77rEL3ymSho0FxDrOOREpx2pCfidaqncU9YxhcKCFDBU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4262
 Original-Authentication-Results: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
 X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT015.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT040.eop-EUR03.prod.protection.outlook.com
 X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
  PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
- SFS:(4636009)(376002)(346002)(39860400002)(136003)(396003)(46966005)(2906002)(186003)(47076004)(86362001)(16526019)(1076003)(478600001)(6506007)(53546011)(5660300002)(8676002)(8936002)(55016002)(26005)(7696005)(316002)(4326008)(70586007)(70206006)(336012)(54906003)(6862004)(81166007)(356005)(82740400003)(9686003)(44832011)(956004)(82310400002)(142933001);
+ SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(46966005)(186003)(16526019)(81166007)(1076003)(356005)(26005)(5660300002)(82740400003)(86362001)(70586007)(478600001)(2906002)(53546011)(336012)(956004)(6506007)(6862004)(7696005)(47076004)(4326008)(54906003)(316002)(82310400002)(8936002)(44832011)(36906005)(55016002)(9686003)(8676002)(70206006)(142933001);
  DIR:OUT; SFP:1101; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: cb0f6ef8-cfa9-4aef-0c4d-08d7f00825cf
+X-MS-Office365-Filtering-Correlation-Id-Prvs: d4c63e69-87bf-49ea-0be7-08d7f00a6e0c
 X-Forefront-PRVS: 03932714EB
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5815IbdMwFKpkfPHa0eTWTAwHPM9oH+zdDSVmBndCN1FclGY04ZN6WSOXwyC+1BB4wtSqX1NmZcQDdlayMnTJxAkw/yd2TdFO2C3kU6EogOr3Fxjhnq26J9H2ABX8qNGBNeoDal1/fgEiPFY+0XWzmeUFE1aHVfvHgdODn0SMZFZ6w8wvDkWldcTEJdPpcbbEeuw+7NqXOG2tzrCYs8MuPlamslHHuInz60D7Gbmyy/PF32ijb8k4vGAhgXmX1bONWODloVgKj4kcP2suT6TpWgPMEdEIRSX/OzSM+VVX0NwPrVSg8tTtDpgrjRKTJaMmkCtzSbtiF6Jy+PT6PWOJgIQL7GXc4x9OHz8ZmrRbB7XDvn98IUCJMxl0Ah2YPCdT/VZ6bRlaqJI6AlzhlEuY4zL/Tnhky1TrtwqWkifRgUabfXj8rjCu3EviGTQpZL4UNPDzX3vgXt9jHwNhrYJbqPupWXSSrIJ9eftc1r10VfH4Reklqt1z9HHgACgfTdL7fY44VFtT2UBlytz4ruO+XJPY7JZnKMSJCrV1gwFw1c=
+X-Microsoft-Antispam-Message-Info: IuYLDDtLlv/htUceet2DQOLzA/DbzTddF3iuQYw0+nT0fMZO+Pxu0F9vCLQSVJoSTs7qIPbTRbnFfmrkWt+Si15CxU7WQqpAJiT8AE9Eic8DDRkC4IHz8cL/Y4fDWHEnEFFrVdXRMIOHXoSdMCH20y2VaI9xpX+GRDmQ/wEEwa0dJcZz2ofK/mI/B2BRXNQegsGUt46FoqrQZvKZFJ0zFYTVVFe4HqvjkcdCpI3397pKglpE/p357NHPvC0FcZJ3Dg7blFq+DXXykIUyJImhqI5TlktQMM3ehPMat2gM6679CkYw9kmPChGFdkQrrz9t5HInHRc3Fy9gbo2QPRQm6QXmy1fbZazPvEgpgLfF++1cl2mEDEtnRV7TKsJYerTIQb23Ax1Hd2Z8DsDkjL8N/KdlkHQrMfgkML9kCJ9t8iFoa1cJ9zaOxAEvn9e+HqtTJP1gDp84zJcePDOHJQY335+Uv1yw/r2y5xvJlwGpLYLgRI83sIqmNdp+skG+S+pqfBnj6Y85RexdHFMkVi1c4QA7kyEW4gMJyD4zfatRitM=
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2020 08:50:17.5293 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fdd7b42-03df-4f7a-ad49-08d7f0082b70
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2020 09:06:37.4922 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98e9a7e2-0b54-426b-f8c7-08d7f00a7395
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
  Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4187
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4267
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,97 +159,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, nd <nd@arm.com>,
  Alistair Strachan <astrachan@google.com>, Sandeep Patil <sspatil@google.com>,
- Robin Murphy <robin.murphy@arm.com>, Chenbo Feng <fengc@google.com>,
+ Pratik Patel <pratikp@codeaurora.org>, Chenbo Feng <fengc@google.com>,
  lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
  "Andrew F. Davis" <afd@ti.com>, linux-mm <linux-mm@kvack.org>,
  Rob Herring <robh+dt@kernel.org>, Christoph Hellwig <hch@lst.de>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Hridya Valsaraju <hridya@google.com>,
  Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 01, 2020 at 11:40:16AM -0700, John Stultz wrote:
-> On Fri, May 1, 2020 at 3:42 AM Brian Starkey <brian.starkey@arm.com> wrote:
+On Fri, May 01, 2020 at 12:01:40PM -0700, John Stultz wrote:
+> On Fri, May 1, 2020 at 4:08 AM Robin Murphy <robin.murphy@arm.com> wrote:
 > >
-> > Hi,
-> >
-> > On Fri, May 01, 2020 at 07:39:46AM +0000, John Stultz wrote:
-> > > This patch adds a linux,cma-heap property for CMA reserved memory
-> > > regions, which will be used to allow the region to be exposed via
-> > > the DMA-BUF Heaps interface
+> > On 2020-05-01 11:21 am, Brian Starkey wrote:
+> > > Hi John,
 > > >
-> > > Cc: Rob Herring <robh+dt@kernel.org>
-> > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > Cc: "Andrew F. Davis" <afd@ti.com>
-> > > Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> > > Cc: Liam Mark <lmark@codeaurora.org>
-> > > Cc: Pratik Patel <pratikp@codeaurora.org>
-> > > Cc: Laura Abbott <labbott@redhat.com>
-> > > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > > Cc: Chenbo Feng <fengc@google.com>
-> > > Cc: Alistair Strachan <astrachan@google.com>
-> > > Cc: Sandeep Patil <sspatil@google.com>
-> > > Cc: Hridya Valsaraju <hridya@google.com>
-> > > Cc: Christoph Hellwig <hch@lst.de>
-> > > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > Cc: Robin Murphy <robin.murphy@arm.com>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: devicetree@vger.kernel.org
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: linux-mm@kvack.org
-> > > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > > ---
-> > >  .../devicetree/bindings/reserved-memory/reserved-memory.txt    | 3 +++
-> > >  1 file changed, 3 insertions(+)
+> > > On Fri, May 01, 2020 at 07:39:48AM +0000, John Stultz wrote:
+> > >> This patch reworks the cma_heap initialization so that
+> > >> we expose both the default CMA region and any CMA regions
+> > >> tagged with "linux,cma-heap" in the device-tree.
+> > >>
+> > >> Cc: Rob Herring <robh+dt@kernel.org>
+> > >> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > >> Cc: "Andrew F. Davis" <afd@ti.com>
+> > >> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> > >> Cc: Liam Mark <lmark@codeaurora.org>
+> > >> Cc: Pratik Patel <pratikp@codeaurora.org>
+> > >> Cc: Laura Abbott <labbott@redhat.com>
+> > >> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> > >> Cc: Chenbo Feng <fengc@google.com>
+> > >> Cc: Alistair Strachan <astrachan@google.com>
+> > >> Cc: Sandeep Patil <sspatil@google.com>
+> > >> Cc: Hridya Valsaraju <hridya@google.com>
+> > >> Cc: Christoph Hellwig <hch@lst.de>
+> > >> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> > >> Cc: Robin Murphy <robin.murphy@arm.com>
+> > >> Cc: Andrew Morton <akpm@linux-foundation.org>
+> > >> Cc: devicetree@vger.kernel.org
+> > >> Cc: dri-devel@lists.freedesktop.org
+> > >> Cc: linux-mm@kvack.org
+> > >> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> > >> ---
+> > >>   drivers/dma-buf/heaps/cma_heap.c | 18 +++++++++---------
+> > >>   1 file changed, 9 insertions(+), 9 deletions(-)
+> > >>
+> > >> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> > >> index 626cf7fd033a..dd154e2db101 100644
+> > >> --- a/drivers/dma-buf/heaps/cma_heap.c
+> > >> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> > >> @@ -141,6 +141,11 @@ static int __add_cma_heap(struct cma *cma, void *data)
+> > >>   {
+> > >>      struct cma_heap *cma_heap;
+> > >>      struct dma_heap_export_info exp_info;
+> > >> +    struct cma *default_cma = dev_get_cma_area(NULL);
+> > >> +
+> > >> +    /* We only add the default heap and explicitly tagged heaps */
+> > >> +    if (cma != default_cma && !cma_dma_heap_enabled(cma))
+> > >> +            return 0;
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> > > index bac4afa3b197..e97b6a4c3bc0 100644
-> > > --- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> > > +++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-> > > @@ -68,6 +68,9 @@ Linux implementation note:
-> > >  - If a "linux,cma-default" property is present, then Linux will use the
-> > >    region for the default pool of the contiguous memory allocator.
-> > >
-> > > +- If a "linux,cma-heap" property is present, then Linux will expose the
-> > > +  the CMA region via the DMA-BUF Heaps interface.
-> > > +
+> > > Thinking about the pl111 thread[1], I'm wondering if we should also
+> > > let drivers call this directly to expose their CMA pools, even if they
+> > > aren't tagged for dma-heaps in DT. But perhaps that's too close to
+> > > policy.
 > >
-> > Would it be useful or even possible to give some indication of what
-> > the heap will end up being called? I'm afraid I don't remember what if
-> > any conclusions came out of previous discussions on UAPI for heap
-> > enumeration.
-> 
-> So the name we expose is the CMA name itself. So with dt it will be
-> the name of the reserved memory node that the flag property is added
-> to.
-> 
-
-Yeah I'm just wondering if that's "stable" so we can say "the heap
-will use the node name", or if saying that would cause us a headache
-in the future.
-
-> > I suppose CMA names haven't been relevant to userspace before, but
-> > they perhaps would be with this change.
+> > That sounds much like what my first thoughts were - apologies if I'm
+> > wildly off-base here, but as far as I understand:
 > >
-> > Alternatively, leaving it effectively undefined doesn't tie us down,
-> > and something like links in sysfs can be added as a richer API in the
-> > future.
+> > - Device drivers know whether they have their own "memory-region" or not.
+> > - Device drivers already have to do *something* to participate in dma-buf.
+> > - Device drivers know best how they make use of both the above.
+> > - Therefore couldn't it be left to drivers to choose whether to register
+> > their CMA regions as heaps, without having to mess with DT at all?
 > 
-> Hrm. Mind expanding on what you're thinking here?
+> I guess I'm not opposed to this. But I guess I'd like to see some more
+> details? You're thinking the pl111 driver would add the
+> "memory-region" node itself?
+> 
+> Assuming that's the case, my only worry is what if that memory-region
+> node isn't a CMA area, but instead something like a carveout? Does the
+> driver need to parse enough of the dt to figure out where to register
+> the region as a heap?
 
-Super hand-wavy, something like:
+My thinking was more like there would already be a reserved-memory
+node in DT for the chunk of memory, appropriately tagged so that it
+gets added as a CMA region. 
 
-/sys/devices/blah/display@2f000000/cma_region is a symlink to
-	/sys/class/dma_heaps/heap_display
+The device's node would have "memory-region=<&blah>;" and would use
+of_reserved_mem_device_init() to link up dev->cma_area to the
+corresponding cma region.
 
-I think danvet had some thoughts in this vein.
+So far, that's all in-place already. The bit that's missing is
+exposing that dev->cma_area to userspace as a dma_heap - so we could
+just have "int cma_heap_add(struct cma *cma)" or "int
+cma_heap_dev_add(struct device *dev)" or something exported for
+drivers to expose their device-assigned cma region if they wanted to.
 
-Cheers,
+I don't think this runs into the lifetime problems of generalised
+heaps-as-modules either, because the CMA region will never go away
+even if the driver does.
+
+Alongside that, I do think the completely DT-driven approach can be
+useful too - because there may be regions which aren't associated with
+any specific device driver, that we want exported as heaps.
+
+Hope that makes sense,
 -Brian
 
 > 
