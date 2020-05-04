@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075BE1C45BB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E01C45BD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 20:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DAD6E0D5;
-	Mon,  4 May 2020 18:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FC56E446;
+	Mon,  4 May 2020 18:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A236E0D5;
- Mon,  4 May 2020 18:24:09 +0000 (UTC)
-IronPort-SDR: ZMWyLJ/xAXIt3GPxULmN1+CUJH8NCUyXGKpjmO+YQkmYGnRR6GrRfhyaopqf6l9GSbYzdaZ7Z1
- qIvgUYIxBSNw==
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCDB6E446;
+ Mon,  4 May 2020 18:24:16 +0000 (UTC)
+IronPort-SDR: rp+5uN+aUVm8TsZqQAL+PA3auzeBN1rAWvpLVM3j/si6KKL4/FXXplkC49TY+hgsISZIwYfdC5
+ vxHBnch5PGKA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2020 11:24:08 -0700
-IronPort-SDR: da3f3ujxcys7BndBffR0zfZ1xFJftw6rGYArSgB/hsEnmN4ktSdUsN7aYofLScKTOIt5SmMjWZ
- vFkx/nQTnsBQ==
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2020 11:24:16 -0700
+IronPort-SDR: qt0RTYQCOFj12K5GkkTULG7nAGtysMaJk+P93oxvKrR0SYXNZ7uUveCzTsliwAlRFDn9MIFamJ
+ 3PnzYn/Ht0GQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172057"
+X-IronPort-AV: E=Sophos;i="5.73,352,1583222400"; d="scan'208";a="369172091"
 Received: from plaxmina-desktop.iind.intel.com ([10.145.162.62])
- by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:03 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 04 May 2020 11:24:10 -0700
 From: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 To: jani.nikula@linux.intel.com, daniel@ffwll.ch,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Imre Deak <imre.deak@intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
  =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Matt Roper <matthew.d.roper@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: [PATCH v2 1/9] drm/i915/display/display_power: Prefer drm_WARN_ON
- over WARN_ON
-Date: Mon,  4 May 2020 23:45:52 +0530
-Message-Id: <20200504181600.18503-2-pankaj.laxminarayan.bharadiya@intel.com>
+ Chris Wilson <chris@chris-wilson.co.uk>, Imre Deak <imre.deak@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
+Subject: [PATCH v2 2/9] drm/i915/display/dp: Prefer drm_WARN* over WARN*
+Date: Mon,  4 May 2020 23:45:53 +0530
+Message-Id: <20200504181600.18503-3-pankaj.laxminarayan.bharadiya@intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
 References: <20200504181600.18503-1-pankaj.laxminarayan.bharadiya@intel.com>
@@ -65,111 +64,191 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 struct drm_device specific drm_WARN* macros include device information
 in the backtrace, so we know what device the warnings originate from.
 
-Prefer drm_WARN_ON over WARN_ON at places where struct i915_power_domains
-struct is available.
+Prefer drm_WARN* over WARN* at places where struct intel_dp or struct
+drm_i915_private pointer is available.
 
 Conversion is done with below sementic patch:
 
-@@
+@rule1@
 identifier func, T;
 @@
-func(struct i915_power_domains *T,...) {
-+ struct drm_i915_private *i915 = container_of(T, struct drm_i915_private, power_domains);
+func(...) {
+...
+struct drm_i915_private *T = ...;
 <+...
+(
+-WARN_ON(
++drm_WARN_ON(&T->drm,
+...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&T->drm,
+...)
+)
+...+>
+}
+
+@rule2@
+identifier func, T;
+@@
+func(struct drm_i915_private *T,...) {
+<+...
+(
+-WARN_ON(
++drm_WARN_ON(&T->drm,
+...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&T->drm,
+...)
+)
+...+>
+}
+
+@rule3@
+identifier func, T;
+@@
+func(struct intel_dp *T,...) {
++ struct drm_i915_private *i915 = dp_to_i915(T);
+<+...
+(
 -WARN_ON(
 +drm_WARN_ON(&i915->drm,
 ...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&i915->drm,
+...)
+)
 ...+>
 
 }
 
-changes since v1:
-- Fix commit subject (Jani)
+@rule4@
+identifier func, T;
+@@
+func(...) {
+...
+struct intel_dp *T = ...;
++ struct drm_i915_private *i915 = dp_to_i915(T);
+<+...
+(
+-WARN_ON(
++drm_WARN_ON(&i915->drm,
+...)
+|
+-WARN_ON_ONCE(
++drm_WARN_ON_ONCE(&i915->drm,
+...)
+)
+...+>
+
+}
 
 Signed-off-by: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
 ---
- .../drm/i915/display/intel_display_power.c    | 35 +++++++++++++------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
-index 49998906cc61..69039cea1b5a 100644
---- a/drivers/gpu/drm/i915/display/intel_display_power.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_power.c
-@@ -1943,22 +1943,29 @@ static u64 __async_put_domains_mask(struct i915_power_domains *power_domains)
- static bool
- assert_async_put_domain_masks_disjoint(struct i915_power_domains *power_domains)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 6952b0295096..ac44fc242879 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -409,7 +409,10 @@ static int intel_dp_rate_index(const int *rates, int len, int rate)
+ 
+ static void intel_dp_set_common_rates(struct intel_dp *intel_dp)
  {
--	return !WARN_ON(power_domains->async_put_domains[0] &
--			power_domains->async_put_domains[1]);
-+	struct drm_i915_private *i915 = container_of(power_domains,
-+						     struct drm_i915_private,
-+						     power_domains);
-+	return !drm_WARN_ON(&i915->drm, power_domains->async_put_domains[0] &
-+			    power_domains->async_put_domains[1]);
- }
+-	WARN_ON(!intel_dp->num_source_rates || !intel_dp->num_sink_rates);
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++
++	drm_WARN_ON(&i915->drm,
++		    !intel_dp->num_source_rates || !intel_dp->num_sink_rates);
  
- static bool
- __async_put_domains_state_ok(struct i915_power_domains *power_domains)
- {
-+	struct drm_i915_private *i915 = container_of(power_domains,
-+						     struct drm_i915_private,
-+						     power_domains);
- 	enum intel_display_power_domain domain;
- 	bool err = false;
+ 	intel_dp->num_common_rates = intersect_rates(intel_dp->source_rates,
+ 						     intel_dp->num_source_rates,
+@@ -418,7 +421,7 @@ static void intel_dp_set_common_rates(struct intel_dp *intel_dp)
+ 						     intel_dp->common_rates);
  
- 	err |= !assert_async_put_domain_masks_disjoint(power_domains);
--	err |= WARN_ON(!!power_domains->async_put_wakeref !=
--		       !!__async_put_domains_mask(power_domains));
-+	err |= drm_WARN_ON(&i915->drm, !!power_domains->async_put_wakeref !=
-+			   !!__async_put_domains_mask(power_domains));
- 
- 	for_each_power_domain(domain, __async_put_domains_mask(power_domains))
--		err |= WARN_ON(power_domains->domain_use_count[domain] != 1);
-+		err |= drm_WARN_ON(&i915->drm,
-+				   power_domains->domain_use_count[domain] != 1);
- 
- 	return !err;
- }
-@@ -2200,11 +2207,14 @@ static void
- queue_async_put_domains_work(struct i915_power_domains *power_domains,
- 			     intel_wakeref_t wakeref)
- {
--	WARN_ON(power_domains->async_put_wakeref);
-+	struct drm_i915_private *i915 = container_of(power_domains,
-+						     struct drm_i915_private,
-+						     power_domains);
-+	drm_WARN_ON(&i915->drm, power_domains->async_put_wakeref);
- 	power_domains->async_put_wakeref = wakeref;
--	WARN_ON(!queue_delayed_work(system_unbound_wq,
--				    &power_domains->async_put_work,
--				    msecs_to_jiffies(100)));
-+	drm_WARN_ON(&i915->drm, !queue_delayed_work(system_unbound_wq,
-+						    &power_domains->async_put_work,
-+						    msecs_to_jiffies(100)));
- }
- 
- static void
-@@ -4365,6 +4375,9 @@ __set_power_wells(struct i915_power_domains *power_domains,
- 		  const struct i915_power_well_desc *power_well_descs,
- 		  int power_well_count)
- {
-+	struct drm_i915_private *i915 = container_of(power_domains,
-+						     struct drm_i915_private,
-+						     power_domains);
- 	u64 power_well_ids = 0;
- 	int i;
- 
-@@ -4384,8 +4397,8 @@ __set_power_wells(struct i915_power_domains *power_domains,
- 		if (id == DISP_PW_ID_NONE)
- 			continue;
- 
--		WARN_ON(id >= sizeof(power_well_ids) * 8);
--		WARN_ON(power_well_ids & BIT_ULL(id));
-+		drm_WARN_ON(&i915->drm, id >= sizeof(power_well_ids) * 8);
-+		drm_WARN_ON(&i915->drm, power_well_ids & BIT_ULL(id));
- 		power_well_ids |= BIT_ULL(id);
+ 	/* Paranoia, there should always be something in common. */
+-	if (WARN_ON(intel_dp->num_common_rates == 0)) {
++	if (drm_WARN_ON(&i915->drm, intel_dp->num_common_rates == 0)) {
+ 		intel_dp->common_rates[0] = 162000;
+ 		intel_dp->num_common_rates = 1;
  	}
+@@ -1554,6 +1557,7 @@ static ssize_t
+ intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+ {
+ 	struct intel_dp *intel_dp = container_of(aux, struct intel_dp, aux);
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	u8 txbuf[20], rxbuf[20];
+ 	size_t txsize, rxsize;
+ 	int ret;
+@@ -1567,10 +1571,10 @@ intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+ 		txsize = msg->size ? HEADER_SIZE + msg->size : BARE_ADDRESS_SIZE;
+ 		rxsize = 2; /* 0 or 1 data bytes */
  
+-		if (WARN_ON(txsize > 20))
++		if (drm_WARN_ON(&i915->drm, txsize > 20))
+ 			return -E2BIG;
+ 
+-		WARN_ON(!msg->buffer != !msg->size);
++		drm_WARN_ON(&i915->drm, !msg->buffer != !msg->size);
+ 
+ 		if (msg->buffer)
+ 			memcpy(txbuf + HEADER_SIZE, msg->buffer, msg->size);
+@@ -1595,7 +1599,7 @@ intel_dp_aux_transfer(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
+ 		txsize = msg->size ? HEADER_SIZE : BARE_ADDRESS_SIZE;
+ 		rxsize = msg->size + 1;
+ 
+-		if (WARN_ON(rxsize > 20))
++		if (drm_WARN_ON(&i915->drm, rxsize > 20))
+ 			return -E2BIG;
+ 
+ 		ret = intel_dp_aux_xfer(intel_dp, txbuf, txsize,
+@@ -1870,10 +1874,11 @@ static void intel_dp_print_rates(struct intel_dp *intel_dp)
+ int
+ intel_dp_max_link_rate(struct intel_dp *intel_dp)
+ {
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	int len;
+ 
+ 	len = intel_dp_common_len_rate_limit(intel_dp, intel_dp->max_link_rate);
+-	if (WARN_ON(len <= 0))
++	if (drm_WARN_ON(&i915->drm, len <= 0))
+ 		return 162000;
+ 
+ 	return intel_dp->common_rates[len - 1];
+@@ -1881,10 +1886,11 @@ intel_dp_max_link_rate(struct intel_dp *intel_dp)
+ 
+ int intel_dp_rate_select(struct intel_dp *intel_dp, int rate)
+ {
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+ 	int i = intel_dp_rate_index(intel_dp->sink_rates,
+ 				    intel_dp->num_sink_rates, rate);
+ 
+-	if (WARN_ON(i < 0))
++	if (drm_WARN_ON(&i915->drm, i < 0))
+ 		i = 0;
+ 
+ 	return i;
+@@ -5580,7 +5586,7 @@ intel_dp_check_mst_status(struct intel_dp *intel_dp)
+ 	if (!intel_dp->is_mst)
+ 		return -EINVAL;
+ 
+-	WARN_ON_ONCE(intel_dp->active_mst_links < 0);
++	drm_WARN_ON_ONCE(&i915->drm, intel_dp->active_mst_links < 0);
+ 
+ 	for (;;) {
+ 		u8 esi[DP_DPRX_ESI_LEN] = {};
+@@ -5942,7 +5948,7 @@ intel_dp_detect_dpcd(struct intel_dp *intel_dp)
+ 	u8 *dpcd = intel_dp->dpcd;
+ 	u8 type;
+ 
+-	if (WARN_ON(intel_dp_is_edp(intel_dp)))
++	if (drm_WARN_ON(&i915->drm, intel_dp_is_edp(intel_dp)))
+ 		return connector_status_connected;
+ 
+ 	if (lspcon->active)
 -- 
 2.23.0
 
