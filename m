@@ -1,100 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885481C3A32
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 14:54:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F061C3AC5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 15:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2316E3DF;
-	Mon,  4 May 2020 12:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA1D6E3E1;
+	Mon,  4 May 2020 13:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9DE96E3D6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 12:54:26 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200504125425euoutp010a49d76a56145a4b8b46ec151d00e05d~L1G63gRxo2860028600euoutp016
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 12:54:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200504125425euoutp010a49d76a56145a4b8b46ec151d00e05d~L1G63gRxo2860028600euoutp016
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1588596865;
- bh=nL6s2qmhXVj8ojZqxdlRyULSFgOINvfslVF6oVYkjYo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BI3SS6WgGwHE6z6hb8H2c3rnXkhkt7VLJTt0LS0pGoNowiCWFFnG2ql+QKz4aVIG0
- HeTD9424iZz7JBQObzI4cdFbEUO2GRQqSFI65na/9OWtkwAJX4vgpVhtiq+hPkHN5J
- o3ApZuT2se/h5vL6bEMG2R1V/FFj6Z6e1KB/wh+8=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200504125425eucas1p18f24436a94facbca4aad0c4973fc3bb1~L1G6Z0i_m1058810588eucas1p1l;
- Mon,  4 May 2020 12:54:25 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 93.E2.60679.08010BE5; Mon,  4
- May 2020 13:54:25 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200504125424eucas1p2a654aa95d553e10422dcb5125f960a49~L1G6KQaoN0599205992eucas1p2E;
- Mon,  4 May 2020 12:54:24 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200504125424eusmtrp1f37551067796b55c518d1f9421bfaf01~L1G6JlmPT2497724977eusmtrp1i;
- Mon,  4 May 2020 12:54:24 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-bd-5eb01080de42
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 2F.06.07950.08010BE5; Mon,  4
- May 2020 13:54:24 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200504125424eusmtip27a30e28a337f5989f1eb1fc1e87c59b2~L1G5df-nc0241002410eusmtip2K;
- Mon,  4 May 2020 12:54:24 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 21/21] staging: ion: fix sg_table nents vs. orig_nents
- misuse
-Date: Mon,  4 May 2020 14:53:59 +0200
-Message-Id: <20200504125359.5678-21-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200504125359.5678-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSaUwTYRDNt9tul6aFpZDwiURiIxI0nPpjBc8Ek03wh1GJN1plAwRaSJc7
- MSKoaAHlMIpIEJWEoyAITUXkBimXUKUQRG4kBiKHoQIlSm1ZxH9v3rw3bzIZHBW1cu3xEFkk
- LZdJwsQYn6NuM/S63iIqAjyMFQiZ1tOBkG+yy7mkUZ2BkrXdazxS92sBI4uVHxAyv8GHLK5d
- RUi9bgIhK6cGuGRfTS5GlrWO8MimxW9csnNkiXfUkirNKwXUaH0Lh6pbzudQwwO1GPV2eZxL
- jaVoEKqq4Cb1dX0KpbIGCwH1/ksCRi3U92PUA1UJoJYqd5wUXuAfDKTDQqJpufvhq/zgZ9N+
- EWrnWOP4RyQB5O5UAByHxH7YmHJCAfi4iCgCULcywGULPYDzhgIeWywBOJpeaupYbDiSNYub
- qkIAc5KVYMuirP+EmlUY4QkVcwrMjG2JOwC2pwnMIpRIQqHWmALMDRviFGzXT2+IOIQTNDxe
- 2TALiUNQVTaCsHGOUFnRiJqXtTDxT9OczXMgMcSDkxnsHEj4wg7V9831bOCsRsVjsQPsykrl
- sIYkACd6ynhskQpgX2L2ptsHDvesYeYElHCB5TXuLH0M5mn7EfZKlnBwztpMoyaYqX6CsrQQ
- 3rsrYtW7YY7m9VZsk/YzymIKZk9WbZ6xxXSt+WkkHTjm/A/LB6AE2NFRjDSIZrxkdIwbI5Ey
- UbIgt+vh0kpg+q2udY2+GtT8vtYMCByIBcJzS+UBIq4kmomTNgOIo2JbYfVtEyUMlMTF0/Lw
- K/KoMJppBttxjthOuO/lzGURESSJpENpOoKW/+siuIV9AmDKt+1djcc98tz+nBW86B0bcg01
- WN3Pj1s1yEfHUH9Hv4uR74yZz2P1ZxyGHef8yg60Wbmo3PWFw+fnH3rLThe/uhG46xHmHTUT
- 4D1SqF5AYqyVTOLEkRSvnlin4/wfFr4l2llF2kKDi65bM4421fl3zhVXTxYlrQkv/XSwFjiJ
- OUywxHMPKmckfwFtt0aZVwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKIsWRmVeSWpSXmKPExsVy+t/xe7oNAhviDCZN0LPoPXeSyWLjjPWs
- Fv+3TWS22HPmF7vFla/v2SxWrj7KZLFgv7XFyj0/mCy+XHnIZLHp8TVWi8u75rBZrD1yl93i
- 4IcnrBan7n5md+DzWDNvDaPHvX2HWTz2flvA4nHn2h42j+3fHrB63O8+zuSxeUm9x+1/j5k9
- Jt9Yzuix+2YDm8f7fVfZPPq2rGL0+LxJLoA3Ss+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRS
- z9DYPNbKyFRJ384mJTUnsyy1SN8uQS9j9lPvgm3qFf8fnGVqYJyj2MXIySEhYCLRfvwDaxcj
- F4eQwFJGiRPPzzFBJGQkTk5rYIWwhSX+XOtigyj6xCjR178SrIhNwFCi6y1EQkSgk1FiWvdH
- dhCHWaCbWeL6omlA7RwcwgIBEru2S4I0sAioSvyc9p0ZxOYVsJXYsvYu1DZ5idUbDjCDlHMC
- xWf2qoOEhQTyJe4+/ccygZFvASPDKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxNjMAo2nbs55Yd
- jF3vgg8xCnAwKvHwbvi6Pk6INbGsuDL3EKMEB7OSCO+OFqAQb0piZVVqUX58UWlOavEhRlOg
- myYyS4km5wMjPK8k3tDU0NzC0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA+Ol
- zzJNPgUTDhRLFj/fem7xsZO/7iqurD0vylZdeUA/YJkCxza7V/2fc59kOprOdJa87mpb+5Vx
- ton7sopHNRN8XKbc23PAKKfLNdj26wsRnvXvwtg3u51289exT/7JWH1k0n82mdQdQVp/GBev
- 2DzJ4cdC9S6mJ4VLp/2J/HKHX6Q53FNmlYsSS3FGoqEWc1FxIgAuM6M4uAIAAA==
-X-CMS-MailID: 20200504125424eucas1p2a654aa95d553e10422dcb5125f960a49
-X-Msg-Generator: CA
-X-RootMTR: 20200504125424eucas1p2a654aa95d553e10422dcb5125f960a49
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200504125424eucas1p2a654aa95d553e10422dcb5125f960a49
-References: <20200504125017.5494-1-m.szyprowski@samsung.com>
- <20200504125359.5678-1-m.szyprowski@samsung.com>
- <CGME20200504125424eucas1p2a654aa95d553e10422dcb5125f960a49@eucas1p2.samsung.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C372D6E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 13:03:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 19662AF0F;
+ Mon,  4 May 2020 13:03:10 +0000 (UTC)
+Subject: Re: [PATCH 08/17] drm/mgag200: Split MISC register update into PLL
+ selection, SYNC and I/O
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-9-tzimmermann@suse.de>
+ <20200503153432.GA23105@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <3e1b1164-7dae-91a5-6973-1eec17d02f6d@suse.de>
+Date: Mon, 4 May 2020 15:03:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200503153432.GA23105@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,145 +66,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Laura Abbott <labbott@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: john.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com
+Content-Type: multipart/mixed; boundary="===============1182253729=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-numer of the created entries in the DMA address space. However the
-subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-called with the original number of entries passed to dma_map_sg. The
-sg_table->nents in turn holds the result of the dma_map_sg call as stated
-in include/linux/scatterlist.h. Adapt the code to obey those rules.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1182253729==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="vJ8ZwtPxdgkWuvGeo2sEr9VATf6io78Cy"
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-For more information, see '[PATCH v2 00/21] DRM: fix struct sg_table nents
-vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/4/373
----
- drivers/staging/android/ion/ion.c             | 17 +++++++++--------
- drivers/staging/android/ion/ion_heap.c        |  6 +++---
- drivers/staging/android/ion/ion_system_heap.c |  2 +-
- 3 files changed, 13 insertions(+), 12 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--vJ8ZwtPxdgkWuvGeo2sEr9VATf6io78Cy
+Content-Type: multipart/mixed; boundary="IJ1oEUMoZYq2CeK0bej38LeCISUxmsdto";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
+ noralf@tronnes.org, john.p.donnelly@oracle.com,
+ dri-devel@lists.freedesktop.org
+Message-ID: <3e1b1164-7dae-91a5-6973-1eec17d02f6d@suse.de>
+Subject: Re: [PATCH 08/17] drm/mgag200: Split MISC register update into PLL
+ selection, SYNC and I/O
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-9-tzimmermann@suse.de>
+ <20200503153432.GA23105@ravnborg.org>
+In-Reply-To: <20200503153432.GA23105@ravnborg.org>
 
-diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
-index 38b51ea..b14170c 100644
---- a/drivers/staging/android/ion/ion.c
-+++ b/drivers/staging/android/ion/ion.c
-@@ -147,14 +147,14 @@ static struct sg_table *dup_sg_table(struct sg_table *table)
- 	if (!new_table)
- 		return ERR_PTR(-ENOMEM);
- 
--	ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-+	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
- 	if (ret) {
- 		kfree(new_table);
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
- 	new_sg = new_table->sgl;
--	for_each_sg(table->sgl, sg, table->nents, i) {
-+	for_each_sg(table->sgl, sg, table->orig_nents, i) {
- 		memcpy(new_sg, sg, sizeof(*sg));
- 		new_sg->dma_address = 0;
- 		new_sg = sg_next(new_sg);
-@@ -227,8 +227,9 @@ static struct sg_table *ion_map_dma_buf(struct dma_buf_attachment *attachment,
- 
- 	table = a->table;
- 
--	if (!dma_map_sg(attachment->dev, table->sgl, table->nents,
--			direction))
-+	table->nents = dma_map_sg(attachment->dev, table->sgl,
-+				  table->orig_nents, direction);
-+	if (!table->nents)
- 		return ERR_PTR(-ENOMEM);
- 
- 	return table;
-@@ -238,7 +239,7 @@ static void ion_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 			      struct sg_table *table,
- 			      enum dma_data_direction direction)
- {
--	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
-+	dma_unmap_sg(attachment->dev, table->sgl, table->orig_nents, direction);
- }
- 
- static int ion_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-@@ -297,7 +298,7 @@ static int ion_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 
- 	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
--		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->nents,
-+		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->orig_nents,
- 				    direction);
- 	}
- 
-@@ -320,8 +321,8 @@ static int ion_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 
- 	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
--		dma_sync_sg_for_device(a->dev, a->table->sgl, a->table->nents,
--				       direction);
-+		dma_sync_sg_for_device(a->dev, a->table->sgl,
-+				       a->table->orig_nents, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
-index 0755b11..f2f7ca7 100644
---- a/drivers/staging/android/ion/ion_heap.c
-+++ b/drivers/staging/android/ion/ion_heap.c
-@@ -38,7 +38,7 @@ void *ion_heap_map_kernel(struct ion_heap *heap,
- 	else
- 		pgprot = pgprot_writecombine(PAGE_KERNEL);
- 
--	for_each_sg(table->sgl, sg, table->nents, i) {
-+	for_each_sg(table->sgl, sg, table->orig_nents, i) {
- 		int npages_this_entry = PAGE_ALIGN(sg->length) / PAGE_SIZE;
- 		struct page *page = sg_page(sg);
- 
-@@ -71,7 +71,7 @@ int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
- 	int i;
- 	int ret;
- 
--	for_each_sg(table->sgl, sg, table->nents, i) {
-+	for_each_sg(table->sgl, sg, table->orig_nents, i) {
- 		struct page *page = sg_page(sg);
- 		unsigned long remainder = vma->vm_end - addr;
- 		unsigned long len = sg->length;
-@@ -142,7 +142,7 @@ int ion_heap_buffer_zero(struct ion_buffer *buffer)
- 	else
- 		pgprot = pgprot_writecombine(PAGE_KERNEL);
- 
--	return ion_heap_sglist_zero(table->sgl, table->nents, pgprot);
-+	return ion_heap_sglist_zero(table->sgl, table->orig_nents, pgprot);
- }
- 
- int ion_heap_pages_zero(struct page *page, size_t size, pgprot_t pgprot)
-diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
-index b83a1d1..34f6e81 100644
---- a/drivers/staging/android/ion/ion_system_heap.c
-+++ b/drivers/staging/android/ion/ion_system_heap.c
-@@ -162,7 +162,7 @@ static void ion_system_heap_free(struct ion_buffer *buffer)
- 	if (!(buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE))
- 		ion_heap_buffer_zero(buffer);
- 
--	for_each_sg(table->sgl, sg, table->nents, i)
-+	for_each_sg(table->sgl, sg, table->orig_nents, i)
- 		free_buffer_page(sys_heap, buffer, sg_page(sg));
- 	sg_free_table(table);
- 	kfree(table);
--- 
-1.9.1
+--IJ1oEUMoZYq2CeK0bej38LeCISUxmsdto
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 03.05.20 um 17:34 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> On Wed, Apr 29, 2020 at 04:32:29PM +0200, Thomas Zimmermann wrote:
+>> Set different fields in MISC in their rsp location in the code. This
+>> patch also fixes a bug in the original code where the mode's SYNC flag=
+s
+>> were never written into the MISC register.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/mgag200/mgag200_mode.c | 37 ++++++++++++++++++-------=
+-
+>>  drivers/gpu/drm/mgag200/mgag200_reg.h  |  5 +++-
+>>  2 files changed, 30 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
+mgag200/mgag200_mode.c
+>> index 749ba6e420ac7..b5bb02e9f05d6 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>> @@ -704,6 +704,8 @@ static int mga_g200er_set_plls(struct mga_device *=
+mdev, long clock)
+>> =20
+>>  static int mga_crtc_set_plls(struct mga_device *mdev, long clock)
+>>  {
+>> +	uint8_t misc;
+>=20
+> General comment.
+> uint8_t and friends are for uapi stuff.
+> kernel internal prefer u8 and friends.
+
+Ok.
+
+>=20
+> Would be good to clean this up in the drivire, maybe as a follow-up
+> patch after is becomes atomic.
+>=20
+>=20
+>> +
+>>  	switch(mdev->type) {
+>>  	case G200_SE_A:
+>>  	case G200_SE_B:
+>> @@ -724,6 +726,12 @@ static int mga_crtc_set_plls(struct mga_device *m=
+dev, long clock)
+>>  		return mga_g200er_set_plls(mdev, clock);
+>>  		break;
+>>  	}
+>> +
+>> +	misc =3D RREG8(MGA_MISC_IN);
+>> +	misc &=3D ~GENMASK(3, 2);
+> The code would be easier to read if we had a=20
+> #define MGAREG_MISC_CLK_SEL_MASK	GENMASK(3, 2)
+>=20
+> So the above became:
+> 	misc &=3D ~MGAREG_MISC_CLK_SEL_MASK;
+>=20
+> Then it is more clear that the CLK_SEL bits are clared and then
+> MGA_MSK is set.
+
+Sure.
+
+>=20
+>> +	misc |=3D MGAREG_MISC_CLK_SEL_MGA_MSK;
+>> +	WREG8(MGA_MISC_OUT, misc);
+>> +
+>>  	return 0;
+>>  }
+>> =20
+>> @@ -916,7 +924,7 @@ static void mgag200_set_mode_regs(struct mga_devic=
+e *mdev,
+>>  {
+>>  	unsigned int hdisplay, hsyncstart, hsyncend, htotal;
+>>  	unsigned int vdisplay, vsyncstart, vsyncend, vtotal;
+>> -	uint8_t misc =3D 0;
+>> +	uint8_t misc;
+>>  	uint8_t crtcext1, crtcext2, crtcext5;
+>> =20
+>>  	hdisplay =3D mode->hdisplay / 8 - 1;
+>> @@ -933,10 +941,17 @@ static void mgag200_set_mode_regs(struct mga_dev=
+ice *mdev,
+>>  	vsyncend =3D mode->vsync_end - 1;
+>>  	vtotal =3D mode->vtotal - 2;
+>> =20
+>> +	misc =3D RREG8(MGA_MISC_IN);
+>> +
+>>  	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>> -		misc |=3D 0x40;
+>> +		misc |=3D MGAREG_MISC_HSYNCPOL;
+>> +	else
+>> +		misc &=3D ~MGAREG_MISC_HSYNCPOL;
+>> +
+> So the code just assumes DRM_MODE_FLAG_PHSYNC if
+> DRM_MODE_FLAG_NHSYNC is not set.
+> I think that is fine, but it also indicate how hoorible the
+> flags definitions are in mode->flags
+
+If polarity is not negative (i.e., bit set), it is positive (i.e., bit
+cleared). What else could you set in MISC?
+
+Having multiple flags in mode->flags that signal the same state is
+somewhat problematic. I expect that the consistency of a mode's flags is
+validated somewhere within the core.
+
+>=20
+>=20
+>>  	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>> -		misc |=3D 0x80;
+>> +		misc |=3D MGAREG_MISC_VSYNCPOL;
+>> +	else
+>> +		misc &=3D ~MGAREG_MISC_VSYNCPOL;
+> And this code was touched in previous patch, but I gess it is better
+> to update it here.
+>=20
+>> =20
+>>  	crtcext1 =3D (((htotal - 4) & 0x100) >> 8) |
+>>  		   ((hdisplay & 0x100) >> 7) |
+>> @@ -982,6 +997,10 @@ static void mgag200_set_mode_regs(struct mga_devi=
+ce *mdev,
+>>  	WREG_ECRT(0x01, crtcext1);
+>>  	WREG_ECRT(0x02, crtcext2);
+>>  	WREG_ECRT(0x05, crtcext5);
+>> +
+>> +	WREG8(MGA_MISC_OUT, misc);
+>> +
+>> +	mga_crtc_set_plls(mdev, mode->clock);
+>>  }
+>> =20
+>>  static int mga_crtc_mode_set(struct drm_crtc *crtc,
+>> @@ -1140,12 +1159,6 @@ static int mga_crtc_mode_set(struct drm_crtc *c=
+rtc,
+>>  		ext_vga[3] =3D ((1 << bppshift) - 1) | 0x80;
+>>  	ext_vga[4] =3D 0;
+>> =20
+>> -	/* Set pixel clocks */
+>> -	misc =3D 0x2d;
+>> -	WREG8(MGA_MISC_OUT, misc);
+>> -
+>> -	mga_crtc_set_plls(mdev, mode->clock);
+>> -
+>>  	WREG_ECRT(0, ext_vga[0]);
+>>  	WREG_ECRT(3, ext_vga[3]);
+>>  	WREG_ECRT(4, ext_vga[4]);
+>> @@ -1161,9 +1174,11 @@ static int mga_crtc_mode_set(struct drm_crtc *c=
+rtc,
+>>  	}
+>> =20
+>>  	WREG_ECRT(0, ext_vga[0]);
+>> -	/* Enable mga pixel clock */
+>> -	misc =3D 0x2d;
+>> =20
+>> +	misc =3D RREG8(MGA_MISC_IN);
+>> +	misc |=3D MGAREG_MISC_IOADSEL |
+>> +		MGAREG_MISC_RAMMAPEN |
+>> +		MGAREG_MISC_HIGH_PG_SEL;
+>>  	WREG8(MGA_MISC_OUT, misc);
+>=20
+> I am left puzzeled why there is several writes to MGA_MISC_OUT.
+> The driver needs to read back and then write again.
+>=20
+> Would it be simpler to have one function that only took care of
+> misc register update?
+
+I'm not quite sure what you mean. MISC contains all kinds of unrelated
+state. In the final atomic code, different state is set in different
+places. It's simple to have a function read-modify-write the content of
+MISC for the bits that it cares about. With multiple functions, that
+leads to some duplicated reads and write, but the code as a whole is simp=
+le.
+
+Best regards
+Thomas
+
+>=20
+>> =20
+>>  	mga_crtc_do_set_base(mdev, fb, old_fb);
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_reg.h b/drivers/gpu/drm/m=
+gag200/mgag200_reg.h
+>> index c096a9d6bcbc1..89e12c55153cf 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_reg.h
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
+>> @@ -16,10 +16,11 @@
+>>   *		MGA1064SG Mystique register file
+>>   */
+>> =20
+>> -
+>>  #ifndef _MGA_REG_H_
+>>  #define _MGA_REG_H_
+>> =20
+>> +#include <linux/bits.h>
+>> +
+>>  #define	MGAREG_DWGCTL		0x1c00
+>>  #define	MGAREG_MACCESS		0x1c04
+>>  /* the following is a mystique only register */
+>> @@ -227,6 +228,8 @@
+>>  #define MGAREG_MISC_CLK_SEL_MGA_MSK	(0x3 << 2)
+>>  #define MGAREG_MISC_VIDEO_DIS	(0x1 << 4)
+>>  #define MGAREG_MISC_HIGH_PG_SEL	(0x1 << 5)
+>> +#define MGAREG_MISC_HSYNCPOL		BIT(6)
+>> +#define MGAREG_MISC_VSYNCPOL		BIT(7)
+> I like BIT(), but mixing (1 << N) and BIT() does not look nice.
+> Oh, and do not get me started on GENMASK() :-)
+>=20
+> 	Sam
+>> =20
+>>  /* MMIO VGA registers */
+>>  #define MGAREG_SEQ_INDEX	0x1fc4
+>> --=20
+>> 2.26.0
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--IJ1oEUMoZYq2CeK0bej38LeCISUxmsdto--
+
+--vJ8ZwtPxdgkWuvGeo2sEr9VATf6io78Cy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6wEogACgkQaA3BHVML
+eiOJZQgAul15rJR/v0H/Nrfp3RTm5KWV7JcdQHgYgzWjmCyrRBiZHDxnkRFPkq2b
+lAPkAwRrku44MVQ6Od5qeahxWR2o9DiUFQYiO07RXq7jdwdSwFU9b69TRcd+3FLl
+ULGhHbYvVbwnz8ADusUpYh5zrLLeRrFok5A2YQvzAXeJL2ucSoLfPuQmCw4PbIBC
+GY7d1md5INWuh2f7wN2PTGgSTBwIxoX/WGjiJb48s27U07cK5fTC5SB1Qjxq5L86
+sJ2n42pYDeBpYRHsRbV188O8ty/yHp2MQ8o3jVfi6t3zj0xeVc0zDjcUqBEVG3DR
+bPg3PXxc5pBZB6ahURBsUC8AbNnhAg==
+=lt9i
+-----END PGP SIGNATURE-----
+
+--vJ8ZwtPxdgkWuvGeo2sEr9VATf6io78Cy--
+
+--===============1182253729==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1182253729==--
