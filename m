@@ -1,40 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7E11C3CFE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 16:29:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5751C3E86
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 17:32:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D866E418;
-	Mon,  4 May 2020 14:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FEB76E423;
+	Mon,  4 May 2020 15:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1126E418
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 14:29:10 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 52E37804C8;
- Mon,  4 May 2020 16:29:08 +0200 (CEST)
-Date: Mon, 4 May 2020 16:29:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 12/17] drm/mgag200: Move TAGFIFO reset into separate
- function
-Message-ID: <20200504142907.GB28466@ravnborg.org>
-References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-13-tzimmermann@suse.de>
- <20200503162529.GD23105@ravnborg.org>
- <0aa60bf9-2833-4eb7-89cf-90a796d6f0b6@suse.de>
+X-Greylist: delayed 1888 seconds by postgrey-1.36 at gabe;
+ Mon, 04 May 2020 15:32:06 UTC
+Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com
+ [192.185.148.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899B66E423
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 15:32:06 +0000 (UTC)
+Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
+ by gateway30.websitewelcome.com (Postfix) with ESMTP id 1A7D9239864
+ for <dri-devel@lists.freedesktop.org>;
+ Mon,  4 May 2020 10:00:26 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
+ id Vca1jVZYYVQh0Vca1jc1XS; Mon, 04 May 2020 10:00:26 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+ Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+1JYBdusNEcbfurXrebTZTOPT2a0N++LhWMXr79SGeg=; b=sE1pIwLxvKhX30ejPg28L6ami+
+ g0vB8HKkCvGgT29H+zyump16lqlpqZRFS39S51Od7vXiOTcbVL+5tBXKEIVlsOfTvs9L9OKWn9Npn
+ 7cful0T6ESyw28FAh6q7IXZSZpJYdKlfDTTVfKDAKePEEHgog7P5Ra3luXvgE016QpfbiO3jvZqvs
+ 1zXhpGu9OLZniUEetyYACoHPk1Qk8u/C/8Sjttz3VdJVyN1vzx1O4QGsVIbVSsXlpZkRN0uNvuz+2
+ fqGSbAFdu9Ur1oTdeK2mJFeCa706ViUEhs6k3NMlBsHaA3lSSkg42rdfxxLCnuanV76gvbkOZyTRS
+ wUBaeR4g==;
+Received: from [189.207.59.248] (port=60830 helo=embeddedor)
+ by gator4166.hostgator.com with esmtpa (Exim 4.92)
+ (envelope-from <gustavo@embeddedor.com>)
+ id 1jVca1-003k6N-Cu; Mon, 04 May 2020 10:00:25 -0500
+Date: Mon, 4 May 2020 10:04:50 -0500
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: [PATCH][next] drm/i915/gem: Fix inconsistent IS_ERR and PTR_ERR
+Message-ID: <20200504150450.GA20991@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0aa60bf9-2833-4eb7-89cf-90a796d6f0b6@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=pitqBozi8Ri6JXG7c38A:9 a=CjuIK1q_8ugA:10
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.207.59.248
+X-Source-L: No
+X-Exim-ID: 1jVca1-003k6N-Cu
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [189.207.59.248]:60830
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 9
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,46 +81,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
- kraxel@redhat.com, airlied@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+Fix inconsistent IS_ERR and PTR_ERR in __reloc_gpu_alloc().
 
-> > 
-> > 
-> >> +	WREG_SEQ(0x01, seq1);
-> >> +
-> >> +	memctl = RREG32(MGAREG_MEMCTL);
-> >> +
-> >> +	memctl |= RESET_FLAG;
-> >> +	WREG32(MGAREG_MEMCTL, memctl);
-> >> +
-> >> +	udelay(1000);
-> >> +
-> >> +	memctl &= ~RESET_FLAG;
-> >> +	WREG32(MGAREG_MEMCTL, memctl);
-> >> +
-> >> +	/* screen on */
-> >> +	RREG_SEQ(0x01, seq1);
-> >> +	seq1 &= ~0x20;
-> >> +	WREG_SEQ(0x01, seq1);
-> > Here seq1 is read again, the old code used the old value.
-> > I think new code is better.
-> 
-> You mean 'the old code was better,' right?
-Well, if there is no good reason to change it stick with the old code we
-know works.
+The proper pointer to be passed as argument is ce.
 
-I was not sure what would happen with the register when reset
-was performed. So maybe reading back would be better, hence my comment.
-But re-using the old value gives full control of the register.
-So yeah, old code was better.
+This bug was detected with the help of Coccinelle.
 
-	Sam
+Fixes: 6f576d6277ce ("drm/i915/gem: Try an alternate engine for relocations")
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index cce7df231cb9..78fdbfd068d3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1325,7 +1325,7 @@ static int __reloc_gpu_alloc(struct i915_execbuffer *eb,
+ 
+ 		ce = intel_context_create(engine);
+ 		if (IS_ERR(ce)) {
+-			err = PTR_ERR(rq);
++			err = PTR_ERR(ce);
+ 			goto err_unpin;
+ 		}
+ 
+-- 
+2.26.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
