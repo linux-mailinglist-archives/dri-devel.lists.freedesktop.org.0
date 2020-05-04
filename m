@@ -2,28 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230AD1C3387
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 09:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1761C3183
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 05:53:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF736E33C;
-	Mon,  4 May 2020 07:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06E0489F63;
+	Mon,  4 May 2020 03:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ZenIV.linux.org.uk (zeniv.linux.org.uk [IPv6:2002:c35c:fd02::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 938CA89F71
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 01:35:59 +0000 (UTC)
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1jVQ0j-000SR4-3a; Mon, 04 May 2020 01:35:09 +0000
-Date: Mon, 4 May 2020 02:35:09 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: ira.weiny@intel.com
-Subject: Re: [PATCH V2 00/11] Subject: Remove duplicated kmap code
-Message-ID: <20200504013509.GU23230@ZenIV.linux.org.uk>
-References: <20200504010912.982044-1-ira.weiny@intel.com>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E7689F63
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 03:52:55 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49Fppq0Lzgz9sSm;
+ Mon,  4 May 2020 13:52:51 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1588564373;
+ bh=6O/gTKsKfyQgDitWq0l6CCrgWrqbk/bSQq70qnnSe3E=;
+ h=Date:From:To:Cc:Subject:From;
+ b=S7jBsOJWmznqSx1FAqVyzn88QdxQmSP+VBwGijonT5xHux/1CM+6LgjfeTcyjs4Gx
+ ucPBtPjf7QA+eBv1QxLjNOVGGKA+V1Mmv7Ch3azEOQ8X9gM+vsTC+2FE3HgiWRGLHQ
+ 9yPrd+QTWw1jyTvELf1ebdia5rwKPha6paRcZbJvrfDlCfqE46a7lrvk4GNtgER+su
+ 7zd3Jm/VWxwRFY6BhSt+WM2YfB/HZ4W74tE1NsI6GqiXogksLJFBbV8yMvNhb8cIJS
+ 92poDUyaKDlYBaGMKWGgSDPdtzt9zz9DLJROdubmG8Aku4WvcjcH2KXDVSUVMvDWOx
+ WYNefqynvcG6g==
+Date: Mon, 4 May 2020 13:52:50 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Rob Herring <robherring2@gmail.com>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the devicetree tree with the drm tree
+Message-ID: <20200504135250.51966c49@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200504010912.982044-1-ira.weiny@intel.com>
-X-Mailman-Approved-At: Mon, 04 May 2020 07:17:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,76 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0777780258=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 03, 2020 at 06:09:01PM -0700, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> The kmap infrastructure has been copied almost verbatim to every architecture.
-> This series consolidates obvious duplicated code by defining core functions
-> which call into the architectures only when needed.
-> 
-> Some of the k[un]map_atomic() implementations have some similarities but the
-> similarities were not sufficient to warrant further changes.
-> 
-> In addition we remove a duplicate implementation of kmap() in DRM.
-> 
-> Testing was done by 0day to cover all the architectures I can't readily
-> build/test.
+--===============0777780258==
+Content-Type: multipart/signed; boundary="Sig_/IU7RdpOOufZBs8ITHvKaWMh";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-OK...  Looking through my old notes on kmap unification (this winter, never
-went anywhere),
+--Sig_/IU7RdpOOufZBs8ITHvKaWMh
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-* arch/mips/mm/cache.c ought to use linux/highmem.h, not asm/highmem.h
-I suspect that your series doesn't build on some configs there.  Hadn't
-verified that, though.
+Hi all,
 
-* kmap_atomic_to_page() is dead, but not quite gone - csky and nds32 brought
-the damn thing back (nds32 - only an extern).  It needs killin'...
+Today's linux-next merge of the devicetree tree got a conflict in:
 
-* parisc is (arguably) abusing kunmap()/kunmap_atomic() for cache flushing.
-Replace the bulk of its highmem.h with
-#define ARCH_HAS_FLUSH_ON_KUNMAP
-#define arch_before_kunmap flush_kernel_dcache_page_addr
-and have default kunmap()/kunmap_atomic() do
-#ifdef ARCH_HAS_FLUSH_ON_KUNMAP
-	arch_before_kunmap(page_address(page));
-#endif
-and
-#ifdef ARCH_HAS_FLUSH_ON_KUNMAP
-	arch_before_kunmap(addr);
-#endif
-resp.  Kills ARCH_HAS_KMAP along with ifdefs on it, makes parisc use somewhat
-less hacky.
+  Documentation/devicetree/bindings/display/panel/panel-common.yaml
 
-I'd suggest checking various configs on mips - that's likely to cause headache.
-Said that, my analysis of include chains back then is pretty much worthless
-by now - I really hate the amount of indirect include chains leading to that
-sucker on some, but not all configs ;-/  IIRC, the proof that everything
-using kmap*/kunmap* would pull linux/highmem.h regardless of config took several
-hours of digging, ran for several pages and had been hopelessly brittle.
-arch/mips/mm/cache.c was the only exception caught by it, but these days
-there might be more.
+between commit:
+
+  92e513fb0798 ("dt-bindings: display: grammar fixes in panel/")
+
+from the drm tree and commit:
+
+  3d21a4609335 ("dt-bindings: Remove cases of 'allOf' containing a '$ref'")
+
+from the devicetree tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc Documentation/devicetree/bindings/display/panel/panel-common.yaml
+index 17b8367f12dd,db3d270a33c6..000000000000
+--- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
+@@@ -63,11 -61,10 +61,10 @@@ properties
+ =20
+    display-timings:
+      description:
+ -      Some display panels supports several resolutions with different tim=
+ing.
+ +      Some display panels support several resolutions with different timi=
+ngs.
+        The display-timings bindings supports specifying several timings and
+ -      optional specify which is the native mode.
+ +      optionally specifying which is the native mode.
+-     allOf:
+-       - $ref: display-timings.yaml#
++     $ref: display-timings.yaml#
+ =20
+    # Connectivity
+    port:
+
+--Sig_/IU7RdpOOufZBs8ITHvKaWMh
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6vkZIACgkQAVBC80lX
+0GzgGAf6AnkTS9RySIb8lS8RUC4ksAylmyKYPffMLVU8BUG8Ao7cRfSaPsALfaNf
+W9yr1VA1+jcFqj8CjG0Tjm+O5Gz+Rc/L1GC0Og/7cls5bUkXvYNaNx3Do4ovS+ZM
+5jIf8q2JxhpJod14CX/MskBzqlBVTElg9kAlzzpOkHnInmvbTzXZ2WcSXcPp/M73
+R5+c7zwW4ba3GzUcj6MmnxCxP51mdvB+6uYNlUU7thZ5qeQHt6FucdSNzxH8KdJU
+s4x4lFpIGOE0NHgxWJvmjpZyK/3Do5kQRsVd6GJLGbIFw0eS0UxIHLlGOUVboCcB
+NbPR89aw5DtXdvXpEbimJ6VUyp5crQ==
+=cs8Y
+-----END PGP SIGNATURE-----
+
+--Sig_/IU7RdpOOufZBs8ITHvKaWMh--
+
+--===============0777780258==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0777780258==--
