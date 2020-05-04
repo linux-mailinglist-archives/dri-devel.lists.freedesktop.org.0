@@ -1,26 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45AA01C39C5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 14:45:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B167B1C39CC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 14:46:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73BDA6E3CB;
-	Mon,  4 May 2020 12:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D0289817;
+	Mon,  4 May 2020 12:46:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 345956E3CB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 12:45:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1CF289817
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 12:46:39 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 9190EAC4D;
- Mon,  4 May 2020 12:45:46 +0000 (UTC)
-Subject: Re: [PATCH 17/17] drm/mgag200: Replace VRAM helpers with SHMEM helpers
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-18-tzimmermann@suse.de>
- <CACvgo50KRJV1E-D3KBmKdDWOqY_JH8V29U+f9igUtCS058VxUg@mail.gmail.com>
+ by mx2.suse.de (Postfix) with ESMTP id 2057BABD0;
+ Mon,  4 May 2020 12:46:40 +0000 (UTC)
+Subject: Re: [PATCH v2] drm/ast: Don't check new mode if CRTC is being disabled
+To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, sam@ravnborg.org, 
+ emil.velikov@collabora.com, cogarre@gmail.com
+References: <20200504121203.7203-1-tzimmermann@suse.de>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -47,12 +46,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <a11dbe2e-239c-413c-7ad1-d611c19c97d1@suse.de>
-Date: Mon, 4 May 2020 14:45:41 +0200
+Message-ID: <e5b7c9d4-da92-61f3-23f4-30ad51aade8e@suse.de>
+Date: Mon, 4 May 2020 14:46:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CACvgo50KRJV1E-D3KBmKdDWOqY_JH8V29U+f9igUtCS058VxUg@mail.gmail.com>
+In-Reply-To: <20200504121203.7203-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +64,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, Sam Ravnborg <sam@ravnborg.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1910919760=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1114902401=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1910919760==
+--===============1114902401==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="tp0lvJLS8RYmJ6mO5IgtrE7x65KtkZmMp"
+ boundary="mUEoQtfPhE5vZ9461JgjJq65vInc1QSzm"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tp0lvJLS8RYmJ6mO5IgtrE7x65KtkZmMp
-Content-Type: multipart/mixed; boundary="ICQHHRLHJSc5xyHKsq7dDFhfe7FXCuNab";
+--mUEoQtfPhE5vZ9461JgjJq65vInc1QSzm
+Content-Type: multipart/mixed; boundary="85cm4miHjUi3OXXKTxklqcbviJa7hk541";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: john.p.donnelly@oracle.com, ML dri-devel
- <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <a11dbe2e-239c-413c-7ad1-d611c19c97d1@suse.de>
-Subject: Re: [PATCH 17/17] drm/mgag200: Replace VRAM helpers with SHMEM
- helpers
-References: <20200429143238.10115-1-tzimmermann@suse.de>
- <20200429143238.10115-18-tzimmermann@suse.de>
- <CACvgo50KRJV1E-D3KBmKdDWOqY_JH8V29U+f9igUtCS058VxUg@mail.gmail.com>
-In-Reply-To: <CACvgo50KRJV1E-D3KBmKdDWOqY_JH8V29U+f9igUtCS058VxUg@mail.gmail.com>
+To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, sam@ravnborg.org,
+ emil.velikov@collabora.com, cogarre@gmail.com
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ stable@vger.kernel.org
+Message-ID: <e5b7c9d4-da92-61f3-23f4-30ad51aade8e@suse.de>
+Subject: Re: [PATCH v2] drm/ast: Don't check new mode if CRTC is being
+ disabled
+References: <20200504121203.7203-1-tzimmermann@suse.de>
+In-Reply-To: <20200504121203.7203-1-tzimmermann@suse.de>
 
---ICQHHRLHJSc5xyHKsq7dDFhfe7FXCuNab
+--85cm4miHjUi3OXXKTxklqcbviJa7hk541
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-Am 04.05.20 um 14:29 schrieb Emil Velikov:
-> Hi Thomas,
->=20
-> Just a couple of fly-by comments.
->=20
-> On Wed, 29 Apr 2020 at 15:33, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
->=20
->> @@ -1618,21 +1640,13 @@ mgag200_simple_display_pipe_update(struct drm_=
-simple_display_pipe *pipe,
->>         struct mga_device *mdev =3D to_mga_device(dev);
->>         struct drm_plane_state *state =3D plane->state;
->>         struct drm_framebuffer *fb =3D state->fb;
->> -       struct drm_gem_vram_object *gbo;
->> -       s64 gpu_addr;
->> +       struct drm_rect damage;
->>
->>         if (!fb)
->>                 return;
->>
->> -       gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->> -
->> -       gpu_addr =3D drm_gem_vram_offset(gbo);
->> -       if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
->> -               return; /* BUG: BO should have been pinned to VRAM. */=
-
->> -
->> -       mgag200_set_format_regs(mdev, fb);
-> This function seems to be missing from the handle_damage helper.
->=20
-> Is that intentional, something which should be squashed with another
-> patch or it belongs in the helper?
-
-Thanks for noticing. That line should not have been here at all.
-Changing format registers might require an update to the PLL. And that
-in turn requires a full modeset in _enable(). The enable function
-already sets the format regs; this line can be removed.
 
 
+Am 04.05.20 um 14:12 schrieb Thomas Zimmermann:
+> Suspending failed because there's no mode if the CRTC is being
+> disabled. Early-out in this case. This fixes runtime PM for ast.
 >=20
->> -       mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
->> -       mgag200_set_offset(mdev, fb);
->> +       if (drm_atomic_helper_damage_merged(old_state, state, &damage)=
+> v2:
+> 	* add Tested-by/Reviewed-by tags
+
+s/Reviewed-by/Reported-by
+
+Will be fixed in v3.
+
+> 	* add Fixes tags and CC (Sam)
+> 	* improved comment
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: Cary Garrett <cogarre@gmail.com>
+> Tested-by: Cary Garrett <cogarre@gmail.com>
+> Fixes: b48e1b6ffd28 ("drm/ast: Add CRTC helpers for atomic modesetting"=
 )
->> +               mgag200_handle_damage(mdev, fb, &damage);
->>  }
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: <stable@vger.kernel.org> # v5.6+
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >=20
->=20
->=20
->>  int mgag200_mm_init(struct mga_device *mdev)
->>  {
->=20
->> +       arch_io_reserve_memtype_wc(pci_resource_start(pdev, 0),
->> +                                  pci_resource_len(pdev, 0));
->>
->> -       arch_io_reserve_memtype_wc(pci_resource_start(dev->pdev, 0),
->> -                                  pci_resource_len(dev->pdev, 0));
->> +       mdev->fb_mtrr =3D arch_phys_wc_add(pci_resource_start(pdev, 0)=
-,
->> +                                        pci_resource_len(pdev, 0));
->>
->> -       mdev->fb_mtrr =3D arch_phys_wc_add(pci_resource_start(dev->pde=
-v, 0),
->> -                                        pci_resource_len(dev->pdev, 0=
-));
->=20
-> Some spurious s/dev->pdev/pdev/g changes got in the way. Might as well
-> do those separately...
->=20
->> +       mdev->vram =3D ioremap(pci_resource_start(pdev, 0),
->> +                            pci_resource_len(pdev, 0));
->> +       if (!mdev->vram) {
->> +               ret =3D -ENOMEM;
->> +               goto err_arch_phys_wc_del;
->> +       }
->>
->>         mdev->vram_fb_available =3D mdev->mc.vram_size;
->>
->>         return 0;
->> +
->> +err_arch_phys_wc_del:
->> +       arch_phys_wc_del(mdev->fb_mtrr);
->> +       arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
->> +                               pci_resource_len(dev->pdev, 0));
-> ... and consistently?
-
-Good points.
-
-Best regards
-Thomas
-
->=20
-> HTH
-> Emil
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index 7a9f20a2fd303..0cbbb21edb4e1 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_=
+crtc *crtc,
+>  		return -EINVAL;
+>  	}
+> =20
+> +	if (!state->enable)
+> +		return 0; /* no mode checks if CRTC is being disabled */
+> +
+>  	ast_state =3D to_ast_crtc_state(state);
+> =20
+>  	format =3D ast_state->format;
 >=20
 
 --=20
@@ -212,28 +154,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---ICQHHRLHJSc5xyHKsq7dDFhfe7FXCuNab--
+--85cm4miHjUi3OXXKTxklqcbviJa7hk541--
 
---tp0lvJLS8RYmJ6mO5IgtrE7x65KtkZmMp
+--mUEoQtfPhE5vZ9461JgjJq65vInc1QSzm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6wDnUACgkQaA3BHVML
-eiMX9QgAu/Apl4c0KA9uka6Jyr/fakqz6M1Tn93NFBDsRhifcIuOo213STJpzZqi
-RFXhAja3ur9b8TUv6QIm3aoXQSqFJ96mSKkRXPc182MD7+p0N0gDb1/YCSzu+lTu
-9F/1YNGqh7HxPPhxv5HSzc8vJJYgXBEZhCh+w9IRkCbmayyPULIm6hG9pt5hBUXh
-SccYZHs0oBsoqJSAaBecapEDpyF5HAktoFsOWjToT/yMwM6DTRX6TnKsDi3QLC1c
-SuRrC592LmPE8+xPWGFMw/VNJ17A9cwd49AJdPYyHl7B8DexRhb6DkeiAaYMRj/p
-AMbev6ScUG6KjzG3R24j5z38OkDHqA==
-=AvEm
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6wDq0ACgkQaA3BHVML
+eiOG4AgAuPIqFe4NgpUsglsAOb49yjEcWFLLBfkn6FyjksXWXU4FSEelpTNfFliO
+XHmYtu228nwSJbJFFu+jiHOTD3Y3OGbUMq2ffJBMRHN2utApuHhJB/2izMCwzGgP
+ta+cSByWgXbGzvXXJfgUOCq3cUtSbP2JFRjYnE+Ig6gKP3Fd/OxNWkRIbawz8X0j
+e2yuDE6kDkV0dfsipSH4oRsw9tv5B2evK2/pnR/E1sD5sKJ8LrVD8BSmxO4X++wE
+Z5CIyXVgmgcQSakaaw0garxSMzA+a7LSqvGniXVRYj6DFRDpQ0t+4ohCTpfnY0LW
+OXR+Xn4ufhLxLw3ly8eRkW6j7umXyQ==
+=gtoc
 -----END PGP SIGNATURE-----
 
---tp0lvJLS8RYmJ6mO5IgtrE7x65KtkZmMp--
+--mUEoQtfPhE5vZ9461JgjJq65vInc1QSzm--
 
---===============1910919760==
+--===============1114902401==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -244,4 +186,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1910919760==--
+--===============1114902401==--
