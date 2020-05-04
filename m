@@ -2,53 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1E41C3B4B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 15:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931A01C4E99
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D15891BA;
-	Mon,  4 May 2020 13:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BE56E524;
+	Tue,  5 May 2020 06:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C55F18916C
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 13:31:12 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id h30so11083018vsr.5
- for <dri-devel@lists.freedesktop.org>; Mon, 04 May 2020 06:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CKVu8p9mULpUJV26UBlO0ZNVdeoAZyl4GvIcj32jLfc=;
- b=Mdj8ICMvEINKyngRw0C56nn/l70As9jUYBHBkF7cB5XPbu+mS0V+QXTSGwZ9vlwKq/
- lkS7FbUhHKFI1QZLjxbDEtVDHihnWopja1AsKIp/YiO6vlZuHplAaKzMuaf5NSWarM2f
- KE6OzrRJue09kKbucJDol8hpl92GUJw5LCudHtr2vwmQhIff8Z7LW3KuKoGvJ/9c8lUU
- DobuZ7uqytasqL9HeMiFXjeogYQTH2QtTtcOfKk05IDThTnqhz0uwt8isZ9nrz4Vg/S7
- 1m6i83pXMaNaZW/a0QUdFo3Fo/YLOU2tkt1jq1akV8fUi/jwrnk8jfSWaUZs/RdsCMzo
- yFbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CKVu8p9mULpUJV26UBlO0ZNVdeoAZyl4GvIcj32jLfc=;
- b=fpOmCtc1C8u7UaKxc0kT7oYdyiYyusWSrMeAfKWTt+aHQfVscmhWU5LU0rsaT2S7/w
- hRy5A70fKeGje7+QOHYKOCT/0o113TbUqS98M7ANv6PorCn05iVkHMg+M6GnRefHggPr
- LrgUOp/PGMsdMyCKvY/ewXx4f1ut4N+G4oECASyMPnOCBAtOZZC+7dIzi0eYxl/h3miU
- ZQjhyYg4/CP1N9zpX9E57dlfLj3ebIPTUYQSttvoaTwaVRZC3hMS/KyLShRpuqW6VopF
- ALsw9kHk5kV1QeO5JTPF1+ibMcu7gCkMj0VvkhpaKt535wDbXtMskSAk2YhaEUntUj0d
- i1gg==
-X-Gm-Message-State: AGi0PuY3CWX4DQhqr57RIOHlSLFYzwNdh2Ob5Baz0sVU2wkGEp5/R74h
- jwJ1oVwlmlw/Ebie6OPSqbM+2SPSX2wVm3oX+Bg=
-X-Google-Smtp-Source: APiQypJrs2cq7AvRRR2YZKwloVT46aVj/YrXmcbh7EbV/r3x3vAWHo4cobHouut4syrWSDqbQsPB2Tivz++SgHG/97k=
-X-Received: by 2002:a67:c482:: with SMTP id d2mr12058478vsk.37.1588599071846; 
- Mon, 04 May 2020 06:31:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200430192746.1866325-1-paul.kocialkowski@bootlin.com>
- <20200430192746.1866325-3-paul.kocialkowski@bootlin.com>
-In-Reply-To: <20200430192746.1866325-3-paul.kocialkowski@bootlin.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 4 May 2020 14:28:47 +0100
-Message-ID: <CACvgo51mRse3su4exyTqXYJRPPc0VqaX9+tRyKUuBPtm5Q+6XQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/3] drm: Add support for the LogiCVC display controller
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B7C5898BC;
+ Mon,  4 May 2020 13:31:31 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 04 May 2020 19:01:27 +0530
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 04 May 2020 19:01:07 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id EAE0346E3; Mon,  4 May 2020 19:01:05 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm/dpu: update bandwidth threshold check
+Date: Mon,  4 May 2020 19:01:03 +0530
+Message-Id: <1588599063-15754-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Tue, 05 May 2020 06:58:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +40,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>, linux-kernel@vger.kernel.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ mka@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Maximum allowed bandwidth  has no dependency on the type
+of panel used. Hence, cleanup the code to use max_bw_high
+as the threshold value for bandwidth checks.
 
-Just had a casual quick look for custom KMS properties, since new
-drivers made that mistake in the past.
-Thanks for not including any o/
+Update the maximum allowed bandwidth as 6.8Gbps for
+SC7180 target.
 
-I made a couple of trivial suggestions - if you agree, feel free to
-keep them as follow-up patches.
+Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c  | 23 +----------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  4 ++--
+ 2 files changed, 3 insertions(+), 24 deletions(-)
 
-On Thu, 30 Apr 2020 at 20:28, Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index 11f2beb..7c230f7 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -36,22 +36,6 @@ static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+ 	return to_dpu_kms(priv->kms);
+ }
+ 
+-static bool _dpu_core_video_mode_intf_connected(struct drm_crtc *crtc)
+-{
+-	struct drm_crtc *tmp_crtc;
+-
+-	drm_for_each_crtc(tmp_crtc, crtc->dev) {
+-		if ((dpu_crtc_get_intf_mode(tmp_crtc) == INTF_MODE_VIDEO) &&
+-				tmp_crtc->enabled) {
+-			DPU_DEBUG("video interface connected crtc:%d\n",
+-				tmp_crtc->base.id);
+-			return true;
+-		}
+-	}
+-
+-	return false;
+-}
+-
+ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
+ 		struct drm_crtc *crtc,
+ 		struct drm_crtc_state *state,
+@@ -94,7 +78,6 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+ 	u32 bw, threshold;
+ 	u64 bw_sum_of_intfs = 0;
+ 	enum dpu_crtc_client_type curr_client_type;
+-	bool is_video_mode;
+ 	struct dpu_crtc_state *dpu_cstate;
+ 	struct drm_crtc *tmp_crtc;
+ 	struct dpu_kms *kms;
+@@ -144,11 +127,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+ 		bw = DIV_ROUND_UP_ULL(bw_sum_of_intfs, 1000);
+ 		DPU_DEBUG("calculated bandwidth=%uk\n", bw);
+ 
+-		is_video_mode = dpu_crtc_get_intf_mode(crtc) == INTF_MODE_VIDEO;
+-		threshold = (is_video_mode ||
+-			_dpu_core_video_mode_intf_connected(crtc)) ?
+-			kms->catalog->perf.max_bw_low :
+-			kms->catalog->perf.max_bw_high;
++		threshold = kms->catalog->perf.max_bw_high;
+ 
+ 		DPU_DEBUG("final threshold bw limit = %d\n", threshold);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index c567917..6ad7472 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -515,8 +515,8 @@
+ };
+ 
+ static const struct dpu_perf_cfg sc7180_perf_data = {
+-	.max_bw_low = 3900000,
+-	.max_bw_high = 5500000,
++	.max_bw_low = 6800000,
++	.max_bw_high = 6800000,
+ 	.min_core_ib = 2400000,
+ 	.min_llcc_ib = 800000,
+ 	.min_dram_ib = 800000,
+-- 
+1.9.1
 
-> +int logicvc_of_property_parse_u32(struct device_node *of_node,
-> +                                 const char *name, u32 *target)
-> +{
-> +       struct logicvc_of_property *property;
-> +       const char *string;
-> +       u32 value;
-> +       int ret;
-> +
-> +       property = logicvc_of_property_lookup(name);
-> +       if (!property)
-> +               return -EINVAL;
-> +
-One could have the logicvc_of_properties[] entries indexed with the
-logicvc_of_property_parse_{u32,bool} caller, using that instead of the
-name string.
-
-Aside: I suspect the array (as most other arrays in this patch) should
-be annotated const, correct?
-
-
-> +       if (property->range[0] || property->range[1])
-> +               if (value < property->range[0] || value > property->range[1])
-Combine the two ifs?
-
--Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
