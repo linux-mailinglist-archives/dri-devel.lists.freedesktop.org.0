@@ -2,30 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13871C4E9A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDAE1C4E8E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB5346E523;
-	Tue,  5 May 2020 06:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 859166E50C;
+	Tue,  5 May 2020 06:58:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820906E391
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 11:33:06 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id A203D400EF87F3558DB5;
- Mon,  4 May 2020 19:33:04 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Mon, 4 May 2020
- 19:32:59 +0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5AB6E391
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 11:33:17 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 387597363C817F9ED181;
+ Mon,  4 May 2020 19:33:16 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Mon, 4 May 2020
+ 19:33:07 +0800
 From: Jason Yan <yanaijie@huawei.com>
-To: <eric@anholt.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <sumit.semwal@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH] drm/vc4: make vc4_queue_seqno_cb() return void
-Date: Mon, 4 May 2020 19:32:21 +0800
-Message-ID: <20200504113221.40488-1-yanaijie@huawei.com>
+To: <shawnguo@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/zte: remove unneeded semicolon
+Date: Mon, 4 May 2020 19:32:30 +0800
+Message-ID: <20200504113230.40588-1-yanaijie@huawei.com>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.124.28]
@@ -49,64 +47,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No one uses the return value of this function, so make it return void.
-This fixes the following coccicheck warning:
+Fix the following coccicheck warning:
 
-drivers/gpu/drm/vc4/vc4_gem.c:1029:5-8: Unneeded variable: "ret". Return
-"0" on line 1044
+drivers/gpu/drm/zte/zx_vga.c:158:2-3: Unneeded semicolon
+drivers/gpu/drm/zte/zx_vga.c:171:2-3: Unneeded semicolon
+drivers/gpu/drm/zte/zx_vga.c:179:2-3: Unneeded semicolon
 
 Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/vc4/vc4_drv.h | 6 +++---
- drivers/gpu/drm/vc4/vc4_gem.c | 9 +++------
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/zte/zx_vga.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 3b1f02efefbe..990b15b82e24 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -810,9 +810,9 @@ void vc4_move_job_to_render(struct drm_device *dev, struct vc4_exec_info *exec);
- int vc4_wait_for_seqno(struct drm_device *dev, uint64_t seqno,
- 		       uint64_t timeout_ns, bool interruptible);
- void vc4_job_handle_completed(struct vc4_dev *vc4);
--int vc4_queue_seqno_cb(struct drm_device *dev,
--		       struct vc4_seqno_cb *cb, uint64_t seqno,
--		       void (*func)(struct vc4_seqno_cb *cb));
-+void vc4_queue_seqno_cb(struct drm_device *dev,
-+		        struct vc4_seqno_cb *cb, uint64_t seqno,
-+		        void (*func)(struct vc4_seqno_cb *cb));
- int vc4_gem_madvise_ioctl(struct drm_device *dev, void *data,
- 			  struct drm_file *file_priv);
+diff --git a/drivers/gpu/drm/zte/zx_vga.c b/drivers/gpu/drm/zte/zx_vga.c
+index a7ed7f5ca837..0f9bbb7e3b8d 100644
+--- a/drivers/gpu/drm/zte/zx_vga.c
++++ b/drivers/gpu/drm/zte/zx_vga.c
+@@ -155,7 +155,7 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "failed to init encoder: %d\n", ret);
+ 		return ret;
+-	};
++	}
  
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index e1cfc3ccd05a..fbcb4fa4e80a 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -1021,12 +1021,11 @@ static void vc4_seqno_cb_work(struct work_struct *work)
- 	cb->func(cb);
- }
+ 	drm_encoder_helper_add(encoder, &zx_vga_encoder_helper_funcs);
  
--int vc4_queue_seqno_cb(struct drm_device *dev,
--		       struct vc4_seqno_cb *cb, uint64_t seqno,
--		       void (*func)(struct vc4_seqno_cb *cb))
-+void vc4_queue_seqno_cb(struct drm_device *dev,
-+		        struct vc4_seqno_cb *cb, uint64_t seqno,
-+		        void (*func)(struct vc4_seqno_cb *cb))
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	int ret = 0;
- 	unsigned long irqflags;
+@@ -168,7 +168,7 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "failed to init connector: %d\n", ret);
+ 		goto clean_encoder;
+-	};
++	}
  
- 	cb->func = func;
-@@ -1040,8 +1039,6 @@ int vc4_queue_seqno_cb(struct drm_device *dev,
- 		schedule_work(&cb->work);
- 	}
- 	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
--
--	return ret;
- }
+ 	drm_connector_helper_add(connector, &zx_vga_connector_helper_funcs);
  
- /* Scheduled when any job has been completed, this walks the list of
+@@ -176,7 +176,7 @@ static int zx_vga_register(struct drm_device *drm, struct zx_vga *vga)
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "failed to attach encoder: %d\n", ret);
+ 		goto clean_connector;
+-	};
++	}
+ 
+ 	return 0;
+ 
 -- 
 2.21.1
 
