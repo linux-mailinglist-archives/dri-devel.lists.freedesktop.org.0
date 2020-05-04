@@ -2,144 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3673A1C42FB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 19:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC93E1C4327
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 19:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108D36E453;
-	Mon,  4 May 2020 17:35:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F223E8981B;
+	Mon,  4 May 2020 17:45:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5506E452;
- Mon,  4 May 2020 17:35:31 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id i19so101268ioh.12;
- Mon, 04 May 2020 10:35:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZQHrnm+spwGvLGeYymKtHAQI/9mjuULqPO8XBvNMcpo=;
- b=Vi78elTES9EStJNpbu3qQsjSY2B/VWTUw4DE5yVei9cTnSu68Qb80yAPus9BZ1Uy1E
- XZT5F3IP/FyEGZFVFOAgrUmk+DlbYDx+xhMugYCPTIkvTV2C9em3DmLfqbTE5WnUTaFB
- LfGkKAzcJVKKoWzbWL7bYahgW6r9DlI2NGZ3Xl4btNnm/XT7Kg6Ex5Iy9v4FMf0AOulo
- OP0xQjCR0jAovjT27GyPEQ0UAgab3rAmvcL9CkTiEXyfXfr6lIpCyP7/gGfiR7HqVDKu
- rtcPA5xKV949FJHZ1xa0G9kb9Myk5JMSrg0IxjlaoxZIhYeKJhMFRZ02vzYPTKOoSP8h
- C3ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ZQHrnm+spwGvLGeYymKtHAQI/9mjuULqPO8XBvNMcpo=;
- b=Mb2YqMi2GLcktL2/OTQRMp+veBiyQmhzAxb1M9FDpO30SgTejF/EFLKunTQ5W98CAc
- 7JAp2Ql9f00YUGZwRA99UIM98LX8robLqwkF3TjDT/0NjpseeXhQ/tTjiOjBhITEZXof
- Cbyr0q4CBimONSUTqA2s8Jy4dg1V0kgZVFtTbW6kQdj0nX27NiIspuv0Amexm4uKBBsy
- 8PZj/mTt4Kkm/oiGX1PsmaUW2pOKg8dEj+brtNsw7TJ2kiR9B5qfai7kD5n9X5+I5Ss5
- uMzAcQ4K0E9vDtYqGwr4o8x5ofQ5ADEcQjH628aABAba6f+Lju0h3UFR9egJLvqdKYxt
- FzRg==
-X-Gm-Message-State: AGi0PubhjBo4M/v8lvwWKUQs3yEq6p7sYN8YwPFTarXr69AHtoVvAiAy
- towVFIzzaGv4jBt8C2WfD5NsT9I7
-X-Google-Smtp-Source: APiQypIiJAe5HDHI4o6EslonNfh2HlveVMWf/FTorB6y4uOrQdImnogXJN3S+niFDHKKObs911rNTA==
-X-Received: by 2002:a5e:a50a:: with SMTP id 10mr16544957iog.121.1588613730418; 
- Mon, 04 May 2020 10:35:30 -0700 (PDT)
-Received: from ?IPv6:2602:47:da86:c000:6d4:c4ff:fe4a:ea6b?
- ([2602:47:da86:c000:6d4:c4ff:fe4a:ea6b])
- by smtp.gmail.com with ESMTPSA id x29sm5546901ilk.74.2020.05.04.10.35.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 10:35:29 -0700 (PDT)
-Subject: Re: [PATCH] drm/amd/display: Fix pageflip event race condition for
- DCN. (v2)
-From: Matt Coffin <mcoffin13@gmail.com>
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>,
- Alex Deucher <alexdeucher@gmail.com>,
- Mario Kleiner <mario.kleiner.de@gmail.com>
-References: <20200305212044.3857-1-mario.kleiner.de@gmail.com>
- <CADnq5_PoEbgyQ1a+DMkSpTkN2QHHEpHie53Wxo7eRktsKxKs7Q@mail.gmail.com>
- <cd4b7cfd-1fec-db5a-ded1-65e89b14ea35@amd.com>
- <41ab0520-e29a-b6ed-bf5e-fbdf1eec0ceb@daenzer.net>
- <ec27e398-d40a-1abd-cd24-7d84ddb7ca85@gmail.com>
-Autocrypt: addr=mcoffin13@gmail.com; keydata=
- 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
- tuwClJVHcEqY1gkUE/HKR1MQFfXl979G/1Ql1g==
-Message-ID: <f158dc9e-0441-bdd3-0e57-5f4e15e6456f@gmail.com>
-Date: Mon, 4 May 2020 11:35:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B358981B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 17:45:40 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 674D0804C8;
+ Mon,  4 May 2020 19:45:29 +0200 (CEST)
+Date: Mon, 4 May 2020 19:45:22 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] docs: dt: fix broken links due to txt->yaml renames
+Message-ID: <20200504174522.GA3383@ravnborg.org>
+References: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ec27e398-d40a-1abd-cd24-7d84ddb7ca85@gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8 a=7CQSdrXTAAAA:8
+ a=8AirrxEcAAAA:8 a=vzhER2c_AAAA:8 a=pGLkceISAAAA:8 a=e5mUnYsNAAAA:8
+ a=bwdeMy8yTPKsQMvDTKEA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=ST-jHhOKWsTCqRlWije3:22 a=0YTRHmU2iG2pZC6F1fw2:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,136 +48,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Harry Wentland <hwentlan@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, Olivier Moysan <olivier.moysan@st.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Sean Wang <sean.wang@mediatek.com>, Jyri Sarha <jsarha@ti.com>,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnaud Pouliquen <arnaud.pouliquen@st.com>, Sandy Huang <hjc@rock-chips.com>,
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5IGd1eXMsCgpUaGlzIGlzIHN0aWxsIGFuIGlzc3VlIGZvciBtZSwgYW5kIEknbSBzdGlsbCBo
-YXZpbmcgdG8gcnVuIGEgcGF0Y2ggdG8KcmV2ZXJ0IHRoaXMgYXMgb2YgNS43LXJjNC4gVG8gYXZv
-aWQgYnJlYWtpbmcgYSBsb3Qgb2YgcGVvcGxlJ3MgTmF2aQpzZXR1cHMgaW4gNS43LCBpcyB0aGVy
-ZSBhbnkgbmV3cyBvbiB0aGlzPyBIYXMgYW55b25lIGVsc2UgYXQgdGhlIHZlcnkKbGVhc3QgYmVl
-biBhYmxlIHRvIHJlcHJvZHVjZSB0aGUgcHJvYmxlbT8KCkl0IGhhcHBlbnMgZm9yIG1lIGluIGV2
-ZXJ5IHNpbmdsZSBwcm9ncmFtIHRoYXQgbWVzYSBhbGxvd3MgdG8gdXRpbGl6ZQp2YXJpYWJsZSBy
-ZWZyZXNoIHJhdGVzLCBhbmQgcmV2ZXJ0aW5nIGl0ICJmaXhlcyIgdGhlIGlzc3VlLgoKQ2hlZXJz
-LCBhbmQgc29ycnkgZm9yIHRoZSBleHRyYSBlbWFpbCwganVzdCBtYWtpbmcgc3VyZSB0aGlzIGlz
-IHN0aWxsIG9uCnNvbWVvbmUncyByYWRhciwKTWF0dAoKT24gNC8xNC8yMCA1OjMyIFBNLCBNYXR0
-IENvZmZpbiB3cm90ZToKPiBIZXkgZXZlcnlvbmUsCj4gCj4gVGhpcyBwYXRjaCBicm9rZSB2YXJp
-YWJsZSByZWZyZXNoIHJhdGUgaW4gZ2FtZXMgKGFsbCB0aGF0IEkndmUgdHJpZWQgc28KPiBmYXIu
-Li4gUHJvamVjdCBDQVJTIDIsIERpUlQgUmFsbHkgMi4wLCBBc3NldHRvIENvcnNhIENvbXBldGl6
-aW9uZSkgYXMKPiB3ZWxsIGFzIGEgc2ltcGxlIGZyZWVzeW5jIHRlc3RlciBhcHBsaWNhdGlvbi4K
-PiAKPiBGcmVlU3luYyB0ZXN0ZXIgSSd2ZSBiZWVuIHVzaW5nOiBodHRwczovL2dpdGh1Yi5jb20v
-Tml4b2xhL1ZSUlRlc3QKPiAKPiBJJ20gbm90IGF0IGFsbCBmYW1pbGlhciB3aXRoIHRoZSBwYWdl
-IGZsaXBwaW5nIGNvZGUsIHNvIGl0IHdvdWxkIHRha2UgbWUKPiBhIGxvbmcgdGltZSB0byBmaW5k
-IHRoZSAqcmlnaHQqIHdheSB0byBmaXggaXQsIGJ1dCBkb2VzIHNvbWVvbmUgZWxzZSBzZWUKPiB3
-aHkgaXQgd291bGQgZG8gdGhhdD8KPiAKPiBUaGUgc3ltcHRvbSBpcyB0aGF0IHRoZSByZWZyZXNo
-IHJhdGUgb2YgdGhlIGRpc3BsYXkgY29uc3RhbnRseSBib3VuY2VzCj4gYmV0d2VlbiB0aGUgdHdv
-IGVuZHMgb2YgdGhlIEZyZWVTeW5jIHJhbmdlIChmb3IgbWUgNDAgLT4gMTQ0KSwgYW5kIHRoZQo+
-IGdhbWUgc3R1dHRlcnMgbGlrZSBhIG1hZG1hbi4KPiAKPiBBbnkgaGVscCBvbiB3aGVyZSB0byBz
-dGFydCwgaWRlYXMgb24gaG93IHRvIGZpeCBpdCAob3RoZXIgdGhhbiBqdXN0Cj4gcmV2ZXJ0IHRo
-aXMgY29tbWl0LCB3aGljaCBJJ3ZlIGRvbmUgaW4gdGhlIGludGVyaW0pLCBvciBhbHRlcm5hdGl2
-ZQo+IHBhdGNoZXMgd291bGQgYmUgYXBwcmVjaWF0ZWQuCj4gCj4gVGhhbmtzIGluIGFkdmFuY2Ug
-Zm9yIHRoZSB3b3JrL2hlbHAsCj4gTWF0dAo+IAo+IE9uIDMvMTMvMjAgODo0MiBBTSwgTWljaGVs
-IETDpG56ZXIgd3JvdGU6Cj4+IE9uIDIwMjAtMDMtMTMgMTozNSBwLm0uLCBLYXpsYXVza2FzLCBO
-aWNob2xhcyB3cm90ZToKPj4+IE9uIDIwMjAtMDMtMTIgMTA6MzIgYS5tLiwgQWxleCBEZXVjaGVy
-IHdyb3RlOgo+Pj4+IE9uIFRodSwgTWFyIDUsIDIwMjAgYXQgNDoyMSBQTSBNYXJpbyBLbGVpbmVy
-Cj4+Pj4gPG1hcmlvLmtsZWluZXIuZGVAZ21haWwuY29tPiB3cm90ZToKPj4+Pj4KPj4+Pj4gQ29t
-bWl0ICcxNmYxN2VkYThiYWQgKCJkcm0vYW1kL2Rpc3BsYXk6IFNlbmQgdmJsYW5rIGFuZCB1c2Vy
-Cj4+Pj4+IGV2ZW50cyBhdCB2c2FydHVwIGZvciBEQ04iKScgaW50cm9kdWNlcyBhIG5ldyB3YXkg
-b2YgcGFnZWZsaXAKPj4+Pj4gY29tcGxldGlvbiBoYW5kbGluZyBmb3IgRENOLCBhbmQgc29tZSB0
-cm91YmxlLgo+Pj4+Pgo+Pj4+PiBUaGUgY3VycmVudCBpbXBsZW1lbnRhdGlvbiBpbnRyb2R1Y2Vz
-IGEgcmFjZSBjb25kaXRpb24sIHdoaWNoCj4+Pj4+IGNhbiBjYXVzZSBwYWdlZmxpcCBjb21wbGV0
-aW9uIGV2ZW50cyB0byBiZSBzZW50IG91dCBvbmUgdmJsYW5rCj4+Pj4+IHRvbyBlYXJseSwgdGhl
-cmVieSBjb25mdXNpbmcgdXNlcnNwYWNlIGFuZCBjYXVzaW5nIGZsaWNrZXI6Cj4+Pj4+Cj4+Pj4+
-IHByZXBhcmVfZmxpcF9pc3IoKToKPj4+Pj4KPj4+Pj4gMS4gUGFnZWZsaXAgcHJvZ3JhbW1pbmcg
-dGFrZXMgdGhlIGRkZXYtPmV2ZW50X2xvY2suCj4+Pj4+IDIuIFNldHMgYWNydGMtPnBmbGlwX3N0
-YXR1cyA9PSBBTURHUFVfRkxJUF9TVUJNSVRURUQKPj4+Pj4gMy4gUmVsZWFzZXMgZGRldi0+ZXZl
-bnRfbG9jay4KPj4+Pj4KPj4+Pj4gLS0+IERlYWRsaW5lIGZvciBzdXJmYWNlIGFkZHJlc3MgcmVn
-cyBkb3VibGUtYnVmZmVyaW5nIHBhc3NlcyBvbgo+Pj4+PiDCoMKgwqDCoCB0YXJnZXQgcGlwZS4K
-Pj4+Pj4KPj4+Pj4gNC4gZGNfY29tbWl0X3VwZGF0ZXNfZm9yX3N0cmVhbSgpIE1NSU8gcHJvZ3Jh
-bXMgdGhlIG5ldyBwYWdlZmxpcAo+Pj4+PiDCoMKgwqAgaW50byBodywgYnV0IHRvbyBsYXRlIGZv
-ciBjdXJyZW50IHZibGFuay4KPj4+Pj4KPj4+Pj4gPT4gcGZsaXBfc3RhdHVzID09IEFNREdQVV9G
-TElQX1NVQk1JVFRFRCwgYnV0IGZsaXAgd29uJ3QgY29tcGxldGUKPj4+Pj4gwqDCoMKgIGluIGN1
-cnJlbnQgdmJsYW5rIGR1ZSB0byBtaXNzaW5nIHRoZSBkb3VibGUtYnVmZmVyaW5nIGRlYWRsaW5l
-Cj4+Pj4+IMKgwqDCoCBieSBhIHRpbnkgYml0Lgo+Pj4+Pgo+Pj4+PiA1LiBWU1RBUlRVUCB0cmln
-Z2VyIHBvaW50IGluIHZibGFuayBpcyByZWFjaGVkLCBWU1RBUlRVUCBpcnEgZmlyZXMsCj4+Pj4+
-IMKgwqDCoCBkbV9kY25fY3J0Y19oaWdoX2lycSgpIGdldHMgY2FsbGVkLgo+Pj4+Pgo+Pj4+PiA2
-LiBEZXRlY3RzIHBmbGlwX3N0YXR1cyA9PSBBTURHUFVfRkxJUF9TVUJNSVRURUQgYW5kIGFzc3Vt
-ZXMgdGhlCj4+Pj4+IMKgwqDCoCBwYWdlZmxpcCBoYXMgYmVlbiBjb21wbGV0ZWQvd2lsbCBjb21w
-bGV0ZSBpbiB0aGlzIHZibGFuayBhbmQKPj4+Pj4gwqDCoMKgIHNlbmRzIG91dCBwYWdlZmxpcCBj
-b21wbGV0aW9uIGV2ZW50IHRvIHVzZXJzcGFjZSBhbmQgcmVzZXRzCj4+Pj4+IMKgwqDCoCBwZmxp
-cF9zdGF0dXMgPSBBTURHUFVfRkxJUF9OT05FLgo+Pj4+Pgo+Pj4+PiA9PiBGbGlwIGNvbXBsZXRp
-b24gZXZlbnQgc2VudCBvdXQgb25lIHZibGFuayB0b28gZWFybHkuCj4+Pj4+Cj4+Pj4+IFRoaXMg
-YmVoYXZpb3VyIGhhcyBiZWVuIG9ic2VydmVkIGR1cmluZyBteSB0ZXN0aW5nIHdpdGggbWVhc3Vy
-ZW1lbnQKPj4+Pj4gaGFyZHdhcmUgYSBjb3VwbGUgb2YgdGltZS4KPj4+Pj4KPj4+Pj4gVGhlIGNv
-bW1pdCBtZXNzYWdlIHNheXMgdGhhdCB0aGUgZXh0cmEgZmxpcCBldmVudCBjb2RlIHdhcyBhZGRl
-ZCB0bwo+Pj4+PiBkbV9kY25fY3J0Y19oaWdoX2lycSgpIHRvIHByZXZlbnQgbWlzc2luZyB0byBz
-ZW5kIG91dCBwYWdlZmxpcCBldmVudHMKPj4+Pj4gaW4gY2FzZSB0aGUgcGZsaXAgaXJxIGRvZXNu
-J3QgZmlyZSwgYmVjYXVzZSB0aGUgIkRDSCBIVUJQIiBjb21wb25lbnQKPj4+Pj4gaXMgY2xvY2sg
-Z2F0ZWQgYW5kIGRvZXNuJ3QgZmlyZSBwZmxpcCBpcnFzIGluIHRoYXQgc3RhdGUuIEFsc28gdGhh
-dAo+Pj4+PiB0aGlzIGNsb2NrIGdhdGluZyBtYXkgaGFwcGVuIGlmIG5vIHBsYW5lcyBhcmUgYWN0
-aXZlLiBBY2NvcmRpbmcgdG8KPj4+Pj4gTmljaG9sYXMsIHRoZSBjbG9jayBnYXRpbmcgY2FuIGFs
-c28gaGFwcGVuIGlmIHBzciBpcyBhY3RpdmUsIGFuZCB0aGUKPj4+Pj4gZ2F0aW5nIGlzIGNvbnRy
-b2xsZWQgaW5kZXBlbmRlbnRseSBieSB0aGUgaGFyZHdhcmUsIHNvIGRpZmZpY3VsdCB0bwo+Pj4+
-PiBkZXRlY3QgaWYgYW5kIHdoZW4gdGhlIGNvbXBsZXRpb24gY29kZSBpbiBhYm92ZSBjb21taXQg
-aXMgbmVlZGVkLgo+Pj4+Pgo+Pj4+PiBUaGlzIHBhdGNoIHRyaWVzIHRoZSBmb2xsb3dpbmcgc29s
-dXRpb246IEl0IG9ubHkgZXhlY3V0ZXMgdGhlIGV4dHJhCj4+Pj4+IHBmbGlwCj4+Pj4+IGNvbXBs
-ZXRpb24gY29kZSBpbiBkbV9kY25fY3J0Y19oaWdoX2lycSgpIGlmZiB0aGUgaGFyZHdhcmUgcmVw
-b3J0cwo+Pj4+PiB0aGF0IHRoZXJlIGFyZW4ndCBhbnkgc3VyZmFjZSB1cGRhdGVkIHBlbmRpbmcg
-aW4gdGhlIGRvdWJsZS1idWZmZXJlZAo+Pj4+PiBzdXJmYWNlIHNjYW5vdXQgYWRkcmVzcyByZWdp
-c3RlcnMuIE90aGVyd2lzZSBpdCBsZWF2ZXMgcGZsaXAgY29tcGxldGlvbgo+Pj4+PiB0byB0aGUg
-cGZsaXAgaXJxIGhhbmRsZXIsIGZvciBhIG1vcmUgcmFjZS1mcmVlIGV4cGVyaWVuY2UuCj4+Pj4+
-Cj4+Pj4+IFRoaXMgd291bGQgb25seSBndWFyZCBhZ2FpbnN0IHRoZSBvcmRlciBvZiBldmVudHMg
-bWVudGlvbmVkIGFib3ZlLgo+Pj4+PiBJZiBTdGVwIDUgKFZTVEFSVFVQIHRyaWdnZXIpIGhhcHBl
-bnMgYmVmb3JlIHN0ZXAgNCB0aGVuIHRoaXMgd29uJ3QgaGVscAo+Pj4+PiBhdCBhbGwsIGJlY2F1
-c2UgMS0zICsgNSBtaWdodCBoYXBwZW4gZXZlbiB3aXRob3V0IHRoZSBodyBiZWluZwo+Pj4+PiBw
-cm9ncmFtbWVkCj4+Pj4+IGF0IGFsbCwgaWUuIG5vIHN1cmZhY2UgdXBkYXRlIHBlbmRpbmcgYmVj
-YXVzZSBub25lIHlldCBwcm9ncmFtbWVkCj4+Pj4+IGludG8gaHcuCj4+Pj4+Cj4+Pj4+IFRoZXJl
-Zm9yZSB0aGlzIHBhdGNoIGFsc28gY2hhbmdlcyBsb2NraW5nIGluIGFtZGdwdV9kbV9jb21taXRf
-cGxhbmVzKCksCj4+Pj4+IHNvIHRoYXQgcHJlcGFyZV9mbGlwX2lzcigpIGFuZCBkY19jb21taXRf
-dXBkYXRlc19mb3Jfc3RyZWFtKCkgYXJlIGRvbmUKPj4+Pj4gdW5kZXIgZXZlbnRfbG9jayBwcm90
-ZWN0aW9uIHdpdGhpbiB0aGUgc2FtZSBjcml0aWNhbCBzZWN0aW9uLgo+Pj4+Pgo+Pj4+PiB2Mjog
-VGFrZSBOaWNob2xhcyBjb21tZW50cyBpbnRvIGFjY291bnQsIHRyeSBhIGRpZmZlcmVudCBzb2x1
-dGlvbi4KPj4+Pj4KPj4+Pj4gTGlnaHRseSB0ZXN0ZWQgb24gUG9sYXJpcyAobG9ja2luZykgYW5k
-IFJhdmVuICh0aGUgd2hvbGUgRENOIHN0dWZmKS4KPj4+Pj4gU2VlbXMgdG8gd29yayB3aXRob3V0
-IGNhdXNpbmcgb2J2aW91cyBuZXcgdHJvdWJsZS4KPj4+Pgo+Pj4+IE5pY2ssIGFueSBjb21tZW50
-cyBvbiB0aGlzP8KgIENhbiB3ZSBnZXQgdGhpcyBjb21taXR0ZWQgb3IgZG8geW91IHRoaW5rCj4+
-Pj4gaXQgbmVlZHMgYWRkaXRpb25hbCByZXdvcms/Cj4+Pj4KPj4+PiBUaGFua3MsCj4+Pj4KPj4+
-PiBBbGV4Cj4+Pgo+Pj4gSGkgQWxleCwgTWFyaW8sCj4+Pgo+Pj4gVGhpcyBtaWdodCBiZSBhIGxp
-dHRsZSBzdHJhbmdlLCBidXQgaWYgd2Ugd2FudCB0byBnZXQgdGhpcyBpbiBhcyBhIGZpeAo+Pj4g
-Zm9yIHJlZ3Jlc3Npb25zIGNhdXNlZCBieSB0aGUgb3JpZ2luYWwgdmJsYW5rIGFuZCB1c2VyIGV2
-ZW50cyBhdAo+Pj4gdnN0YXJ0dXAgcGF0Y2ggdGhlbiBJJ20gYWN0dWFsbHkgZ29pbmcgdG8gZ2l2
-ZSBteSByZXZpZXdlZCBieSBvbiB0aGUKPj4+ICp2MSogb2YgdGhpcyBwYXRjaCAoYnV0IG5vdCB0
-aGlzIHYyKToKPj4+Cj4+PiBSZXZpZXdlZC1ieTogTmljaG9sYXMgS2F6bGF1c2thcyA8bmljaG9s
-YXMua2F6bGF1c2thc0BhbWQuY29tPgo+Pj4KPj4+IFlvdSBjYW4gZmVlbCBmcmVlIHRvIGFwcGx5
-IHRoYXQgb25lLgo+Pj4KPj4+IFJlYXNvbiAxOiBBZnRlciBoYXZpbmcgdGhvdWdodCBhYm91dCBp
-dCBzb21lIG1vcmUgSSBkb24ndCB0aGluayB3ZQo+Pj4gZW5hYmxlIGFueXRoaW5nIHRvZGF5IHRo
-YXQgaGFzIGh1YnAgcG93ZXJlZCBkb3duIGF0IHRoZSBzYW1lIHRpbWUgd2UKPj4+IGV4cGVjdCB0
-byBiZSB3YWl0aW5nIGZvciBhIGZsaXAgLSBlZy4gRE1DVSBwb3dlcmluZyBkb3duIEhVQlAgZHVy
-aW5nIFBTUgo+Pj4gZW50cnkuIFN0YXRpYyBzY3JlZW4gaW50ZXJydXB0IHNob3VsZCBoYXBwZW4g
-YWZ0ZXIgdGhhdCBmbGlwIGZpbmlzaGVzIEkKPj4+IHRoaW5rLgo+Pj4KPj4+IFRoZSBDUlRDIGNh
-biBzdGlsbCBiZSBwb3dlcmVkIG9uIHdpdGggemVybyBwbGFuZXMsIGFuZCBJIGRvbid0IHRoaW5r
-IGFueQo+Pj4gdXNlcnNwYWNlIGV4cGxpY2l0bHkgYXNrcyBmb3IgdmJsYW5rIGV2ZW50cyBpbiB0
-aGlzIGNhc2UgYnV0IGl0IGRvZXNuJ3QKPj4+IGh1cnQgdG8gaGF2ZSB0aGUgY2hlY2suCj4+Pgo+
-Pj4gUmVhc29uIDI6IFRoaXMgbmV3IHBhdGNoIHdpbGwgbmVlZCBtdWNoIG1vcmUgdGhvcm91Z2gg
-dGVzdGluZyBmcm9tIHNpZGUKPj4+IHRvIGZ1bGx5IHVuZGVyc3RhbmQgdGhlIGNvbnNlcXVlbmNl
-cyBvZiBsb2NraW5nIHRoZSBlbnRpcmUgREMgY29tbWl0Cj4+PiBzZXF1ZW5jZS4gRm9yIGp1c3Qg
-YSBwYWdlIGZsaXAgdGhhdCBzb3VuZHMgZmluZSwgYnV0IGZvciBhbnl0aGluZyBtb3JlCj4+PiB0
-aGFuIChlZy4gZnVsbCB1cGRhdGVzLCBtb2Rlc2V0cywgZXRjKSBJIGRvbid0IHRoaW5rIHdlIHdh
-bnQgdG8gYmUKPj4+IGRpc2FibGluZyBpbnRlcnJ1cHRzIGZvciBwb3RlbnRpYWxseSBtYW55IG1p
-bGxpc2Vjb25kcy4KPj4KPj4gQWghIEkgd2FzIHdvbmRlcmluZyB3aGVyZSB0aGUgYXR0YWNoZWQg
-c3BsYXQgY29tZXMgZnJvbSwgYnV0IEkgdGhpbmsKPj4gdGhpcyBleHBsYWlucyBpdDogV2l0aCB0
-aGlzIHBhdGNoIGFtZGdwdV9kbV9jb21taXRfcGxhbmVzIGtlZXBzIHRoZQo+PiBwY3J0Yy0+ZGV2
-LT5ldmVudF9sb2NrIHNwaW5sb2NrIGxvY2tlZCB3aGlsZSBjYWxsaW5nCj4+IGRjX2NvbW1pdF91
-cGRhdGVzX2Zvcl9zdHJlYW0sIHdoaWNoIGVuZHMgdXAgY2FsbGluZwo+PiBzbXVfc2V0X2Rpc3Bs
-YXlfY291bnQsIHdoaWNoIHRyaWVzIHRvIGxvY2sgYSBtdXRleC4KPj4KPj4KPj4KPj4gX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gYW1kLWdmeCBtYWls
-aW5nIGxpc3QKPj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4Cj4+Cl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Mauro.
+
+On Mon, May 04, 2020 at 11:30:20AM +0200, Mauro Carvalho Chehab wrote:
+> There are some new broken doc links due to yaml renames
+> at DT. Developers should really run:
+> 
+> 	./scripts/documentation-file-ref-check
+> 
+> in order to solve those issues while submitting patches.
+Would love if some bot could do this for me on any patches that creates
+.yaml files or so.
+I know I will forget this and it can be automated.
+If I get a bot mail that my patch would broke a link I would
+have it fixed before it hits any tree.
+
+
+> This tool can even fix most of the issues with:
+> 
+> 	./scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Patch looks good.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+> ---
+> 
+> PS.: This patch is against today's linux-next.
+> 
+> 
+>  .../devicetree/bindings/display/bridge/sii902x.txt          | 2 +-
+>  .../devicetree/bindings/display/rockchip/rockchip-drm.yaml  | 2 +-
+>  .../devicetree/bindings/net/mediatek-bluetooth.txt          | 2 +-
+>  .../devicetree/bindings/sound/audio-graph-card.txt          | 2 +-
+>  .../devicetree/bindings/sound/st,sti-asoc-card.txt          | 2 +-
+>  Documentation/mips/ingenic-tcu.rst                          | 2 +-
+>  MAINTAINERS                                                 | 6 +++---
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+> index 6e14e087c0d0..0d1db3f9da84 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+> @@ -37,7 +37,7 @@ Optional properties:
+>  	simple-card or audio-graph-card binding. See their binding
+>  	documents on how to describe the way the sii902x device is
+>  	connected to the rest of the audio system:
+> -	Documentation/devicetree/bindings/sound/simple-card.txt
+> +	Documentation/devicetree/bindings/sound/simple-card.yaml
+>  	Documentation/devicetree/bindings/sound/audio-graph-card.txt
+>  	Note: In case of the audio-graph-card binding the used port
+>  	index should be 3.
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+> index ec8ae742d4da..7204da5eb4c5 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+> @@ -24,7 +24,7 @@ properties:
+>      description: |
+>        Should contain a list of phandles pointing to display interface port
+>        of vop devices. vop definitions as defined in
+> -      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
+> +      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
+> index 219bcbd0d344..9ef5bacda8c1 100644
+> --- a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
+> +++ b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
+> @@ -3,7 +3,7 @@ MediaTek SoC built-in Bluetooth Devices
+>  
+>  This device is a serial attached device to BTIF device and thus it must be a
+>  child node of the serial node with BTIF. The dt-bindings details for BTIF
+> -device can be known via Documentation/devicetree/bindings/serial/8250.txt.
+> +device can be known via Documentation/devicetree/bindings/serial/8250.yaml.
+>  
+>  Required properties:
+>  
+> diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card.txt b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
+> index 269682619a70..d5f6919a2d69 100644
+> --- a/Documentation/devicetree/bindings/sound/audio-graph-card.txt
+> +++ b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
+> @@ -5,7 +5,7 @@ It is based on common bindings for device graphs.
+>  see ${LINUX}/Documentation/devicetree/bindings/graph.txt
+>  
+>  Basically, Audio Graph Card property is same as Simple Card.
+> -see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.txt
+> +see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.yaml
+>  
+>  Below are same as Simple-Card.
+>  
+> diff --git a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+> index 4d51f3f5ea98..a6ffcdec6f6a 100644
+> --- a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+> +++ b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+> @@ -5,7 +5,7 @@ codec or external codecs.
+>  
+>  sti sound drivers allows to expose sti SoC audio interface through the
+>  generic ASoC simple card. For details about sound card declaration please refer to
+> -Documentation/devicetree/bindings/sound/simple-card.txt.
+> +Documentation/devicetree/bindings/sound/simple-card.yaml.
+>  
+>  1) sti-uniperiph-dai: audio dai device.
+>  ---------------------------------------
+> diff --git a/Documentation/mips/ingenic-tcu.rst b/Documentation/mips/ingenic-tcu.rst
+> index c5a646b14450..2b75760619b4 100644
+> --- a/Documentation/mips/ingenic-tcu.rst
+> +++ b/Documentation/mips/ingenic-tcu.rst
+> @@ -68,4 +68,4 @@ and frameworks can be controlled from the same registers, all of these
+>  drivers access their registers through the same regmap.
+>  
+>  For more information regarding the devicetree bindings of the TCU drivers,
+> -have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.txt.
+> +have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.yaml.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b6ec0b3c3125..b70842425302 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3911,7 +3911,7 @@ L:	linux-crypto@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/char/hw_random/cctrng.c
+>  F:	drivers/char/hw_random/cctrng.h
+> -F:	Documentation/devicetree/bindings/rng/arm-cctrng.txt
+> +F:	Documentation/devicetree/bindings/rng/arm-cctrng.yaml
+>  W:	https://developer.arm.com/products/system-ip/trustzone-cryptocell/cryptocell-700-family
+>  
+>  CEC FRAMEWORK
+> @@ -5446,7 +5446,7 @@ F:	include/uapi/drm/r128_drm.h
+>  DRM DRIVER FOR RAYDIUM RM67191 PANELS
+>  M:	Robert Chiras <robert.chiras@nxp.com>
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
+> +F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+>  F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
+>  
+>  DRM DRIVER FOR ROCKTECH JH057N00900 PANELS
+> @@ -16294,7 +16294,7 @@ M:	Hoan Tran <hoan@os.amperecomputing.com>
+>  M:	Serge Semin <fancer.lancer@gmail.com>
+>  L:	linux-gpio@vger.kernel.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/gpio/snps-dwapb-gpio.txt
+> +F:	Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
+>  F:	drivers/gpio/gpio-dwapb.c
+>  
+>  SYNOPSYS DESIGNWARE AXI DMAC DRIVER
+> -- 
+> 2.25.4
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
