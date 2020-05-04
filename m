@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AF01C30B9
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 03:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708611C30C1
+	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 03:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77386E2DE;
-	Mon,  4 May 2020 01:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC5A6E2E3;
+	Mon,  4 May 2020 01:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57E9F6E2DD
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 01:09:29 +0000 (UTC)
-IronPort-SDR: yekVVkxZjAo06242TX3yVDwJI5s+JMC/Lps7x0VpE5/+9Rm9dRVGfgKH9b5w/rG9K78fUe5n7G
- Bth0KIWlCh+A==
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4EB6E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 01:09:30 +0000 (UTC)
+IronPort-SDR: qLwiVnLJpVzdkNFblkaOkyiQmMc5Y0tmYRJ9OT2SGHakBR37XX6VCzutxgE9ryLJJ/xJV6A8j4
+ bGsX1uE7Yqig==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2020 18:09:28 -0700
-IronPort-SDR: 6dN4fbKn5qErRIWaoKWH07mWVYNOCPviRZMGvIcIWTz6J/8GRBBHiGxD2qZgWjf1M1gLl+TvjQ
- 1Np6R1XqPZDw==
-X-IronPort-AV: E=Sophos;i="5.73,350,1583222400"; d="scan'208";a="460505622"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2020 18:09:29 -0700
+IronPort-SDR: yIWbpyNnJK23O38ot1zP6qnkQwoJpxscFho/IBZq1ORSeIXkL2daLFySWpbNKHcGiinXSlxc8a
+ TqbJxPtSi8Rg==
+X-IronPort-AV: E=Sophos;i="5.73,350,1583222400"; d="scan'208";a="283749975"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2020 18:09:28 -0700
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 May 2020 18:09:29 -0700
 From: ira.weiny@intel.com
 To: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
  Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>
-Subject: [PATCH V2 10/11] arch/kmap: Define kmap_atomic_prot() for all arch's
-Date: Sun,  3 May 2020 18:09:11 -0700
-Message-Id: <20200504010912.982044-11-ira.weiny@intel.com>
+Subject: [PATCH V2 11/11] drm: Remove drm specific kmap_atomic code
+Date: Sun,  3 May 2020 18:09:12 -0700
+Message-Id: <20200504010912.982044-12-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200504010912.982044-1-ira.weiny@intel.com>
 References: <20200504010912.982044-1-ira.weiny@intel.com>
@@ -54,366 +54,114 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
  "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
  Ira Weiny <ira.weiny@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
  Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
  linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ira Weiny <ira.weiny@intel.com>
-
-To support kmap_atomic_prot(), all architectures need to support
-protections passed to their kmap_atomic_high() function.  Pass
-protections into kmap_atomic_high() and change the name to
-kmap_atomic_high_prot() to match.
-
-Then define kmap_atomic_prot() as a core function which calls
-kmap_atomic_high_prot() when needed.
-
-Finally, redefine kmap_atomic() as a wrapper of kmap_atomic_prot() with
-the default kmap_prot exported by the architectures.
-
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
----
-Changes from V1:
-	Adjust for bisect-ability
-	Adjust for removing kunmap_atomic_high
-	Remove kmap_atomic_high_prot declarations
----
- arch/arc/mm/highmem.c                 |  6 +++---
- arch/arm/mm/highmem.c                 |  6 +++---
- arch/csky/mm/highmem.c                |  6 +++---
- arch/microblaze/include/asm/highmem.h | 16 ----------------
- arch/mips/mm/highmem.c                |  6 +++---
- arch/nds32/mm/highmem.c               |  6 +++---
- arch/powerpc/include/asm/highmem.h    | 17 -----------------
- arch/sparc/mm/highmem.c               |  6 +++---
- arch/x86/include/asm/highmem.h        | 14 --------------
- arch/xtensa/mm/highmem.c              |  6 +++---
- include/linux/highmem.h               |  7 ++++---
- 11 files changed, 25 insertions(+), 71 deletions(-)
-
-diff --git a/arch/arc/mm/highmem.c b/arch/arc/mm/highmem.c
-index 5d3eab4ac0b0..479b0d72d3cf 100644
---- a/arch/arc/mm/highmem.c
-+++ b/arch/arc/mm/highmem.c
-@@ -49,7 +49,7 @@
- extern pte_t * pkmap_page_table;
- static pte_t * fixmap_page_table;
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	int idx, cpu_idx;
- 	unsigned long vaddr;
-@@ -59,11 +59,11 @@ void *kmap_atomic_high(struct page *page)
- 	vaddr = FIXMAP_ADDR(idx);
- 
- 	set_pte_at(&init_mm, vaddr, fixmap_page_table + idx,
--		   mk_pte(page, kmap_prot));
-+		   mk_pte(page, prot));
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kv)
- {
-diff --git a/arch/arm/mm/highmem.c b/arch/arm/mm/highmem.c
-index ac8394655a6e..e013f6b81328 100644
---- a/arch/arm/mm/highmem.c
-+++ b/arch/arm/mm/highmem.c
-@@ -31,7 +31,7 @@ static inline pte_t get_fixmap_pte(unsigned long vaddr)
- 	return *ptep;
- }
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned int idx;
- 	unsigned long vaddr;
-@@ -67,11 +67,11 @@ void *kmap_atomic_high(struct page *page)
- 	 * in place, so the contained TLB flush ensures the TLB is updated
- 	 * with the new mapping.
- 	 */
--	set_fixmap_pte(idx, mk_pte(page, kmap_prot));
-+	set_fixmap_pte(idx, mk_pte(page, prot));
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/arch/csky/mm/highmem.c b/arch/csky/mm/highmem.c
-index f4311669b5bb..3ae5c8cd7619 100644
---- a/arch/csky/mm/highmem.c
-+++ b/arch/csky/mm/highmem.c
-@@ -21,7 +21,7 @@ EXPORT_SYMBOL(kmap_flush_tlb);
- 
- EXPORT_SYMBOL(kmap);
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned long vaddr;
- 	int idx, type;
-@@ -32,12 +32,12 @@ void *kmap_atomic_high(struct page *page)
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	BUG_ON(!pte_none(*(kmap_pte - idx)));
- #endif
--	set_pte(kmap_pte-idx, mk_pte(page, kmap_prot));
-+	set_pte(kmap_pte-idx, mk_pte(page, prot));
- 	flush_tlb_one((unsigned long)vaddr);
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/arch/microblaze/include/asm/highmem.h b/arch/microblaze/include/asm/highmem.h
-index 033ac5b5c2da..d7c55cfd27bd 100644
---- a/arch/microblaze/include/asm/highmem.h
-+++ b/arch/microblaze/include/asm/highmem.h
-@@ -51,22 +51,6 @@ extern pte_t *pkmap_page_table;
- #define PKMAP_NR(virt)  ((virt - PKMAP_BASE) >> PAGE_SHIFT)
- #define PKMAP_ADDR(nr)  (PKMAP_BASE + ((nr) << PAGE_SHIFT))
- 
--extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
--void *kmap_atomic_prot(struct page *page, pgprot_t prot)
--{
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
--	return kmap_atomic_high_prot(page, prot);
--}
--
--static inline void *kmap_atomic_high(struct page *page)
--{
--	return kmap_atomic_high_prot(page, kmap_prot);
--}
--
- #define flush_cache_kmaps()	{ flush_icache(); flush_dcache(); }
- 
- #endif /* __KERNEL__ */
-diff --git a/arch/mips/mm/highmem.c b/arch/mips/mm/highmem.c
-index 87023bd1a33c..37e244cdb14e 100644
---- a/arch/mips/mm/highmem.c
-+++ b/arch/mips/mm/highmem.c
-@@ -18,7 +18,7 @@ void kmap_flush_tlb(unsigned long addr)
- }
- EXPORT_SYMBOL(kmap_flush_tlb);
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned long vaddr;
- 	int idx, type;
-@@ -29,12 +29,12 @@ void *kmap_atomic_high(struct page *page)
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	BUG_ON(!pte_none(*(kmap_pte - idx)));
- #endif
--	set_pte(kmap_pte-idx, mk_pte(page, kmap_prot));
-+	set_pte(kmap_pte-idx, mk_pte(page, prot));
- 	local_flush_tlb_one((unsigned long)vaddr);
- 
- 	return (void*) vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/arch/nds32/mm/highmem.c b/arch/nds32/mm/highmem.c
-index 809f8c830f06..63ded527c1e8 100644
---- a/arch/nds32/mm/highmem.c
-+++ b/arch/nds32/mm/highmem.c
-@@ -10,7 +10,7 @@
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned int idx;
- 	unsigned long vaddr, pte;
-@@ -21,7 +21,7 @@ void *kmap_atomic_high(struct page *page)
- 
- 	idx = type + KM_TYPE_NR * smp_processor_id();
- 	vaddr = __fix_to_virt(FIX_KMAP_BEGIN + idx);
--	pte = (page_to_pfn(page) << PAGE_SHIFT) | (kmap_prot);
-+	pte = (page_to_pfn(page) << PAGE_SHIFT) | prot;
- 	ptep = pte_offset_kernel(pmd_off_k(vaddr), vaddr);
- 	set_pte(ptep, pte);
- 
-@@ -32,7 +32,7 @@ void *kmap_atomic_high(struct page *page)
- 	return (void *)vaddr;
- }
- 
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/arch/powerpc/include/asm/highmem.h b/arch/powerpc/include/asm/highmem.h
-index ee5de974c5ef..8d8ee3fcd800 100644
---- a/arch/powerpc/include/asm/highmem.h
-+++ b/arch/powerpc/include/asm/highmem.h
-@@ -59,23 +59,6 @@ extern pte_t *pkmap_page_table;
- #define PKMAP_NR(virt)  ((virt-PKMAP_BASE) >> PAGE_SHIFT)
- #define PKMAP_ADDR(nr)  (PKMAP_BASE + ((nr) << PAGE_SHIFT))
- 
--extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
--static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
--{
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
--	return kmap_atomic_high_prot(page, prot);
--}
--
--static inline void *kmap_atomic_high(struct page *page)
--{
--	return kmap_atomic_high_prot(page, kmap_prot);
--}
--
--
- #define flush_cache_kmaps()	flush_cache_all()
- 
- #endif /* __KERNEL__ */
-diff --git a/arch/sparc/mm/highmem.c b/arch/sparc/mm/highmem.c
-index 9f06d75e88e1..414f578d1e57 100644
---- a/arch/sparc/mm/highmem.c
-+++ b/arch/sparc/mm/highmem.c
-@@ -54,7 +54,7 @@ void __init kmap_init(void)
-         kmap_prot = __pgprot(SRMMU_ET_PTE | SRMMU_PRIV | SRMMU_CACHE);
- }
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	unsigned long vaddr;
- 	long idx, type;
-@@ -73,7 +73,7 @@ void *kmap_atomic_high(struct page *page)
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	BUG_ON(!pte_none(*(kmap_pte-idx)));
- #endif
--	set_pte(kmap_pte-idx, mk_pte(page, kmap_prot));
-+	set_pte(kmap_pte-idx, mk_pte(page, prot));
- /* XXX Fix - Anton */
- #if 0
- 	__flush_tlb_one(vaddr);
-@@ -83,7 +83,7 @@ void *kmap_atomic_high(struct page *page)
- 
- 	return (void*) vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/arch/x86/include/asm/highmem.h b/arch/x86/include/asm/highmem.h
-index be66b77885a0..0f420b24e0fc 100644
---- a/arch/x86/include/asm/highmem.h
-+++ b/arch/x86/include/asm/highmem.h
-@@ -58,20 +58,6 @@ extern unsigned long highstart_pfn, highend_pfn;
- #define PKMAP_NR(virt)  ((virt-PKMAP_BASE) >> PAGE_SHIFT)
- #define PKMAP_ADDR(nr)  (PKMAP_BASE + ((nr) << PAGE_SHIFT))
- 
--extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
--static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
--{
--	preempt_disable();
--	pagefault_disable();
--	if (!PageHighMem(page))
--		return page_address(page);
--
--	return kmap_atomic_high_prot(page, prot);
--}
--static inline void *kmap_atomic_high(struct page *page)
--{
--	return kmap_atomic_high_prot(page, kmap_prot);
--}
- void *kmap_atomic_pfn(unsigned long pfn);
- void *kmap_atomic_prot_pfn(unsigned long pfn, pgprot_t prot);
- 
-diff --git a/arch/xtensa/mm/highmem.c b/arch/xtensa/mm/highmem.c
-index 50168b09510a..99b5ad137ab5 100644
---- a/arch/xtensa/mm/highmem.c
-+++ b/arch/xtensa/mm/highmem.c
-@@ -37,7 +37,7 @@ static inline enum fixed_addresses kmap_idx(int type, unsigned long color)
- 		color;
- }
- 
--void *kmap_atomic_high(struct page *page)
-+void *kmap_atomic_high_prot(struct page *page, pgprot_t prot)
- {
- 	enum fixed_addresses idx;
- 	unsigned long vaddr;
-@@ -48,11 +48,11 @@ void *kmap_atomic_high(struct page *page)
- #ifdef CONFIG_DEBUG_HIGHMEM
- 	BUG_ON(!pte_none(*(kmap_pte + idx)));
- #endif
--	set_pte(kmap_pte + idx, mk_pte(page, kmap_prot));
-+	set_pte(kmap_pte + idx, mk_pte(page, prot));
- 
- 	return (void *)vaddr;
- }
--EXPORT_SYMBOL(kmap_atomic_high);
-+EXPORT_SYMBOL(kmap_atomic_high_prot);
- 
- void kunmap_atomic_high(void *kvaddr)
- {
-diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index c36c0ee09423..89838306f50d 100644
---- a/include/linux/highmem.h
-+++ b/include/linux/highmem.h
-@@ -32,7 +32,7 @@ static inline void invalidate_kernel_vmap_range(void *vaddr, int size)
- #include <asm/kmap_types.h>
- 
- #ifdef CONFIG_HIGHMEM
--extern void *kmap_atomic_high(struct page *page);
-+extern void *kmap_atomic_high_prot(struct page *page, pgprot_t prot);
- extern void kunmap_atomic_high(void *kvaddr);
- #include <asm/highmem.h>
- 
-@@ -76,14 +76,15 @@ static inline void kunmap(struct page *page)
-  * be used in IRQ contexts, so in some (very limited) cases we need
-  * it.
-  */
--static inline void *kmap_atomic(struct page *page)
-+static inline void *kmap_atomic_prot(struct page *page, pgprot_t prot)
- {
- 	preempt_disable();
- 	pagefault_disable();
- 	if (!PageHighMem(page))
- 		return page_address(page);
--	return kmap_atomic_high(page);
-+	return kmap_atomic_high_prot(page, prot);
- }
-+#define kmap_atomic(page)	kmap_atomic_prot(page, kmap_prot)
- 
- /* declarations for linux/mm/highmem.c */
- unsigned int nr_free_highpages(void);
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogSXJhIFdlaW55IDxpcmEud2VpbnlAaW50ZWwuY29tPgoKa21hcF9hdG9taWNfcHJvdCgp
+IGlzIG5vdyBleHBvcnRlZCBieSBhbGwgYXJjaGl0ZWN0dXJlcy4gIFVzZSB0aGlzCmZ1bmN0aW9u
+IHJhdGhlciB0aGFuIG9wZW4gY29kaW5nIGEgZHJpdmVyIHNwZWNpZmljIGttYXBfYXRvbWljLgoK
+UmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
+UmV2aWV3ZWQtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgpTaWduZWQtb2ZmLWJ5
+OiBJcmEgV2VpbnkgPGlyYS53ZWlueUBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fYm9fdXRpbC5jICAgIHwgNTYgKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogZHJp
+dmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYmxpdC5jIHwgMTYgKysrKy0tLS0KIGluY2x1ZGUv
+ZHJtL3R0bS90dG1fYm9fYXBpLmggICAgICAgICB8ICA0IC0tCiAzIGZpbGVzIGNoYW5nZWQsIDEy
+IGluc2VydGlvbnMoKyksIDY0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS90dG0vdHRtX2JvX3V0aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwu
+YwppbmRleCA1MmQyYjcxZjE1ODguLmYwOWIwOTZiYTRmZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3R0bS90dG1fYm9fdXRpbC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
+X3V0aWwuYwpAQCAtMjU3LDU0ICsyNTcsNiBAQCBzdGF0aWMgaW50IHR0bV9jb3B5X2lvX3BhZ2Uo
+dm9pZCAqZHN0LCB2b2lkICpzcmMsIHVuc2lnbmVkIGxvbmcgcGFnZSkKIAlyZXR1cm4gMDsKIH0K
+IAotI2lmZGVmIENPTkZJR19YODYKLSNkZWZpbmUgX190dG1fa21hcF9hdG9taWNfcHJvdChfX3Bh
+Z2UsIF9fcHJvdCkga21hcF9hdG9taWNfcHJvdChfX3BhZ2UsIF9fcHJvdCkKLSNkZWZpbmUgX190
+dG1fa3VubWFwX2F0b21pYyhfX2FkZHIpIGt1bm1hcF9hdG9taWMoX19hZGRyKQotI2Vsc2UKLSNk
+ZWZpbmUgX190dG1fa21hcF9hdG9taWNfcHJvdChfX3BhZ2UsIF9fcHJvdCkgdm1hcCgmX19wYWdl
+LCAxLCAwLCAgX19wcm90KQotI2RlZmluZSBfX3R0bV9rdW5tYXBfYXRvbWljKF9fYWRkcikgdnVu
+bWFwKF9fYWRkcikKLSNlbmRpZgotCi0KLS8qKgotICogdHRtX2ttYXBfYXRvbWljX3Byb3QgLSBF
+ZmZpY2llbnQga2VybmVsIG1hcCBvZiBhIHNpbmdsZSBwYWdlIHdpdGgKLSAqIHNwZWNpZmllZCBw
+YWdlIHByb3RlY3Rpb24uCi0gKgotICogQHBhZ2U6IFRoZSBwYWdlIHRvIG1hcC4KLSAqIEBwcm90
+OiBUaGUgcGFnZSBwcm90ZWN0aW9uLgotICoKLSAqIFRoaXMgZnVuY3Rpb24gbWFwcyBhIFRUTSBw
+YWdlIHVzaW5nIHRoZSBrbWFwX2F0b21pYyBhcGkgaWYgYXZhaWxhYmxlLAotICogb3RoZXJ3aXNl
+IGZhbGxzIGJhY2sgdG8gdm1hcC4gVGhlIHVzZXIgbXVzdCBtYWtlIHN1cmUgdGhhdCB0aGUKLSAq
+IHNwZWNpZmllZCBwYWdlIGRvZXMgbm90IGhhdmUgYW4gYWxpYXNlZCBtYXBwaW5nIHdpdGggYSBk
+aWZmZXJlbnQgY2FjaGluZwotICogcG9saWN5IHVubGVzcyB0aGUgYXJjaGl0ZWN0dXJlIGV4cGxp
+Y2l0bHkgYWxsb3dzIGl0LiBBbHNvIG1hcHBpbmcgYW5kCi0gKiB1bm1hcHBpbmcgdXNpbmcgdGhp
+cyBhcGkgbXVzdCBiZSBjb3JyZWN0bHkgbmVzdGVkLiBVbm1hcHBpbmcgc2hvdWxkCi0gKiBvY2N1
+ciBpbiB0aGUgcmV2ZXJzZSBvcmRlciBvZiBtYXBwaW5nLgotICovCi12b2lkICp0dG1fa21hcF9h
+dG9taWNfcHJvdChzdHJ1Y3QgcGFnZSAqcGFnZSwgcGdwcm90X3QgcHJvdCkKLXsKLQlpZiAocGdw
+cm90X3ZhbChwcm90KSA9PSBwZ3Byb3RfdmFsKFBBR0VfS0VSTkVMKSkKLQkJcmV0dXJuIGttYXBf
+YXRvbWljKHBhZ2UpOwotCWVsc2UKLQkJcmV0dXJuIF9fdHRtX2ttYXBfYXRvbWljX3Byb3QocGFn
+ZSwgcHJvdCk7Ci19Ci1FWFBPUlRfU1lNQk9MKHR0bV9rbWFwX2F0b21pY19wcm90KTsKLQotLyoq
+Ci0gKiB0dG1fa3VubWFwX2F0b21pY19wcm90IC0gVW5tYXAgYSBwYWdlIHRoYXQgd2FzIG1hcHBl
+ZCB1c2luZwotICogdHRtX2ttYXBfYXRvbWljX3Byb3QuCi0gKgotICogQGFkZHI6IFRoZSB2aXJ0
+dWFsIGFkZHJlc3MgZnJvbSB0aGUgbWFwLgotICogQHByb3Q6IFRoZSBwYWdlIHByb3RlY3Rpb24u
+Ci0gKi8KLXZvaWQgdHRtX2t1bm1hcF9hdG9taWNfcHJvdCh2b2lkICphZGRyLCBwZ3Byb3RfdCBw
+cm90KQotewotCWlmIChwZ3Byb3RfdmFsKHByb3QpID09IHBncHJvdF92YWwoUEFHRV9LRVJORUwp
+KQotCQlrdW5tYXBfYXRvbWljKGFkZHIpOwotCWVsc2UKLQkJX190dG1fa3VubWFwX2F0b21pYyhh
+ZGRyKTsKLX0KLUVYUE9SVF9TWU1CT0wodHRtX2t1bm1hcF9hdG9taWNfcHJvdCk7Ci0KIHN0YXRp
+YyBpbnQgdHRtX2NvcHlfaW9fdHRtX3BhZ2Uoc3RydWN0IHR0bV90dCAqdHRtLCB2b2lkICpzcmMs
+CiAJCQkJdW5zaWduZWQgbG9uZyBwYWdlLAogCQkJCXBncHJvdF90IHByb3QpCkBAIC0zMTYsMTMg
+KzI2OCwxMyBAQCBzdGF0aWMgaW50IHR0bV9jb3B5X2lvX3R0bV9wYWdlKHN0cnVjdCB0dG1fdHQg
+KnR0bSwgdm9pZCAqc3JjLAogCQlyZXR1cm4gLUVOT01FTTsKIAogCXNyYyA9ICh2b2lkICopKCh1
+bnNpZ25lZCBsb25nKXNyYyArIChwYWdlIDw8IFBBR0VfU0hJRlQpKTsKLQlkc3QgPSB0dG1fa21h
+cF9hdG9taWNfcHJvdChkLCBwcm90KTsKKwlkc3QgPSBrbWFwX2F0b21pY19wcm90KGQsIHByb3Qp
+OwogCWlmICghZHN0KQogCQlyZXR1cm4gLUVOT01FTTsKIAogCW1lbWNweV9mcm9taW8oZHN0LCBz
+cmMsIFBBR0VfU0laRSk7CiAKLQl0dG1fa3VubWFwX2F0b21pY19wcm90KGRzdCwgcHJvdCk7CisJ
+a3VubWFwX2F0b21pYyhkc3QpOwogCiAJcmV0dXJuIDA7CiB9CkBAIC0zMzgsMTMgKzI5MCwxMyBA
+QCBzdGF0aWMgaW50IHR0bV9jb3B5X3R0bV9pb19wYWdlKHN0cnVjdCB0dG1fdHQgKnR0bSwgdm9p
+ZCAqZHN0LAogCQlyZXR1cm4gLUVOT01FTTsKIAogCWRzdCA9ICh2b2lkICopKCh1bnNpZ25lZCBs
+b25nKWRzdCArIChwYWdlIDw8IFBBR0VfU0hJRlQpKTsKLQlzcmMgPSB0dG1fa21hcF9hdG9taWNf
+cHJvdChzLCBwcm90KTsKKwlzcmMgPSBrbWFwX2F0b21pY19wcm90KHMsIHByb3QpOwogCWlmICgh
+c3JjKQogCQlyZXR1cm4gLUVOT01FTTsKIAogCW1lbWNweV90b2lvKGRzdCwgc3JjLCBQQUdFX1NJ
+WkUpOwogCi0JdHRtX2t1bm1hcF9hdG9taWNfcHJvdChzcmMsIHByb3QpOworCWt1bm1hcF9hdG9t
+aWMoc3JjKTsKIAogCXJldHVybiAwOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zt
+d2dmeC92bXdnZnhfYmxpdC5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYmxpdC5j
+CmluZGV4IGJiNDZjYTBjNDU4Zi4uOTRkNDU2YTFkMWE5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vdm13Z2Z4L3Ztd2dmeF9ibGl0LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92
+bXdnZnhfYmxpdC5jCkBAIC0zNzQsMTIgKzM3NCwxMiBAQCBzdGF0aWMgaW50IHZtd19ib19jcHVf
+YmxpdF9saW5lKHN0cnVjdCB2bXdfYm9fYmxpdF9saW5lX2RhdGEgKmQsCiAJCWNvcHlfc2l6ZSA9
+IG1pbl90KHUzMiwgY29weV9zaXplLCBQQUdFX1NJWkUgLSBzcmNfcGFnZV9vZmZzZXQpOwogCiAJ
+CWlmICh1bm1hcF9zcmMpIHsKLQkJCXR0bV9rdW5tYXBfYXRvbWljX3Byb3QoZC0+c3JjX2FkZHIs
+IGQtPnNyY19wcm90KTsKKwkJCWt1bm1hcF9hdG9taWMoZC0+c3JjX2FkZHIpOwogCQkJZC0+c3Jj
+X2FkZHIgPSBOVUxMOwogCQl9CiAKIAkJaWYgKHVubWFwX2RzdCkgewotCQkJdHRtX2t1bm1hcF9h
+dG9taWNfcHJvdChkLT5kc3RfYWRkciwgZC0+ZHN0X3Byb3QpOworCQkJa3VubWFwX2F0b21pYyhk
+LT5kc3RfYWRkcik7CiAJCQlkLT5kc3RfYWRkciA9IE5VTEw7CiAJCX0KIApAQCAtMzg4LDggKzM4
+OCw4IEBAIHN0YXRpYyBpbnQgdm13X2JvX2NwdV9ibGl0X2xpbmUoc3RydWN0IHZtd19ib19ibGl0
+X2xpbmVfZGF0YSAqZCwKIAkJCQlyZXR1cm4gLUVJTlZBTDsKIAogCQkJZC0+ZHN0X2FkZHIgPQot
+CQkJCXR0bV9rbWFwX2F0b21pY19wcm90KGQtPmRzdF9wYWdlc1tkc3RfcGFnZV0sCi0JCQkJCQkg
+ICAgIGQtPmRzdF9wcm90KTsKKwkJCQlrbWFwX2F0b21pY19wcm90KGQtPmRzdF9wYWdlc1tkc3Rf
+cGFnZV0sCisJCQkJCQkgZC0+ZHN0X3Byb3QpOwogCQkJaWYgKCFkLT5kc3RfYWRkcikKIAkJCQly
+ZXR1cm4gLUVOT01FTTsKIApAQCAtNDAxLDggKzQwMSw4IEBAIHN0YXRpYyBpbnQgdm13X2JvX2Nw
+dV9ibGl0X2xpbmUoc3RydWN0IHZtd19ib19ibGl0X2xpbmVfZGF0YSAqZCwKIAkJCQlyZXR1cm4g
+LUVJTlZBTDsKIAogCQkJZC0+c3JjX2FkZHIgPQotCQkJCXR0bV9rbWFwX2F0b21pY19wcm90KGQt
+PnNyY19wYWdlc1tzcmNfcGFnZV0sCi0JCQkJCQkgICAgIGQtPnNyY19wcm90KTsKKwkJCQlrbWFw
+X2F0b21pY19wcm90KGQtPnNyY19wYWdlc1tzcmNfcGFnZV0sCisJCQkJCQkgZC0+c3JjX3Byb3Qp
+OwogCQkJaWYgKCFkLT5zcmNfYWRkcikKIAkJCQlyZXR1cm4gLUVOT01FTTsKIApAQCAtNDk5LDkg
+KzQ5OSw5IEBAIGludCB2bXdfYm9fY3B1X2JsaXQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpk
+c3QsCiAJfQogb3V0OgogCWlmIChkLnNyY19hZGRyKQotCQl0dG1fa3VubWFwX2F0b21pY19wcm90
+KGQuc3JjX2FkZHIsIGQuc3JjX3Byb3QpOworCQlrdW5tYXBfYXRvbWljKGQuc3JjX2FkZHIpOwog
+CWlmIChkLmRzdF9hZGRyKQotCQl0dG1fa3VubWFwX2F0b21pY19wcm90KGQuZHN0X2FkZHIsIGQu
+ZHN0X3Byb3QpOworCQlrdW5tYXBfYXRvbWljKGQuZHN0X2FkZHIpOwogCiAJcmV0dXJuIHJldDsK
+IH0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggYi9pbmNsdWRlL2Ry
+bS90dG0vdHRtX2JvX2FwaS5oCmluZGV4IDBhOWQwNDJlMDc1YS4uZGUxY2NkY2Q1NzAzIDEwMDY0
+NAotLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2FwaS5oCisrKyBiL2luY2x1ZGUvZHJtL3R0
+bS90dG1fYm9fYXBpLmgKQEAgLTY2OCwxMCArNjY4LDYgQEAgaW50IHR0bV9ib19tbWFwX29iaihz
+dHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSwgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibyk7
+CiBpbnQgdHRtX2JvX21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVj
+dCAqdm1hLAogCQlzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldik7CiAKLXZvaWQgKnR0bV9rbWFw
+X2F0b21pY19wcm90KHN0cnVjdCBwYWdlICpwYWdlLCBwZ3Byb3RfdCBwcm90KTsKLQotdm9pZCB0
+dG1fa3VubWFwX2F0b21pY19wcm90KHZvaWQgKmFkZHIsIHBncHJvdF90IHByb3QpOwotCiAvKioK
+ICAqIHR0bV9ib19pbwogICoKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
