@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF661C3671
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 12:08:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0EF1C4E9E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 456766E13A;
-	Mon,  4 May 2020 10:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCDE6E530;
+	Tue,  5 May 2020 06:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 929F36E13A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 10:08:25 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A4A0320721;
- Mon,  4 May 2020 10:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588586905;
- bh=SEUEOqsjoer4k2pCLVUZGnBWrdTnfIZTUHr1uR6kYbQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s8qWgABDlen8Jac9q20c1YllmktbBgQLwXvc8TBGFNLZ2MO1yY4Ec1y361P0/V74B
- I1neWkTKuG7sNhzZqWsXbJ6hnkIKSKwGvLVKRk8tXi/nQ5Jmadvr9Uiykfd916GshI
- PbRZU1DH16iq28zmb1/RCo2z6rsKEhwjbInxx6VU=
-Date: Mon, 4 May 2020 11:08:22 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] docs: dt: fix broken links due to txt->yaml renames
-Message-ID: <20200504100822.GA5491@sirena.org.uk>
-References: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66FA6E358
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 10:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1588587350; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iAMvD4AOFiyNiGQjo6JeJKVv4xAdRKZUMhJN2Epwr2k=;
+ b=UrbW2A4nwL1bFKGDFE1I1i8N7cLMa7po2zmhqGrh0gIeffRnKbjGtVeMJmKGb/NmfJ+iJR
+ JaOk7J0E7m/0i5m17hU6vN2i85jZ+UR098T6tDTNZjhyWsLsPV0gtREwOhptja2SFD343R
+ xnlaraBEZl2T9l0nQSa5Q+voSBByMvI=
+Date: Mon, 04 May 2020 12:15:37 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm: ingenic-drm: add MODULE_DEVICE_TABLE
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Message-Id: <1UXS9Q.L3SJ8WOQ2MPT1@crapouillou.net>
+In-Reply-To: <1694a29b7a3449b6b662cec33d1b33f2ee0b174a.1588574111.git.hns@goldelico.com>
+References: <1694a29b7a3449b6b662cec33d1b33f2ee0b174a.1588574111.git.hns@goldelico.com>
 MIME-Version: 1.0
-In-Reply-To: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
-X-Cookie: My life is a patio of fun!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Tue, 05 May 2020 06:58:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,68 +43,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Olivier Moysan <olivier.moysan@st.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-rockchip@lists.infradead.org,
- Sandy Huang <hjc@rock-chips.com>, linux-mips@vger.kernel.org,
- devicetree@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
- Jyri Sarha <jsarha@ti.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnaud Pouliquen <arnaud.pouliquen@st.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-bluetooth@vger.kernel.org,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
-Content-Type: multipart/mixed; boundary="===============1996046142=="
+Cc: Paul Boddie <paul@boddie.org.uk>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, letux-kernel@openphoenux.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1996046142==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
-Content-Disposition: inline
+Hi Nikolaus,
 
 
---6TrnltStXW4iwmi0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Le lun. 4 mai 2020 =E0 8:35, H. Nikolaus Schaller <hns@goldelico.com> a =
 
-On Mon, May 04, 2020 at 11:30:20AM +0200, Mauro Carvalho Chehab wrote:
-> There are some new broken doc links due to yaml renames
-> at DT. Developers should really run:
+=E9crit :
+> so that the driver can load by matching the device tree
+> if compiled as module.
+> =
 
-Acked-by: Mark Brown <broonie@kernel.org>
+> Cc: stable@vger.kernel.org # v5.3+
+> Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx =
 
---6TrnltStXW4iwmi0
-Content-Type: application/pgp-signature; name="signature.asc"
+> SoCs")
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 
------BEGIN PGP SIGNATURE-----
+Applied, thanks.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl6v6ZIACgkQJNaLcl1U
-h9Aaywf9G/ypPAVhxAZkzN0IYu6e43sydvSull/M+q3UIdY9VmDdIhUXVgXoOCOh
-ltmOBr9lM8MTLi7nYRlTCsC7mmSE9EMyF3AlPAwCzT9Y9gffa33run0/3I2SDvJZ
-pUXeobj10+FRhp4iWUSpCkUrMEO8SzGHVXCbLZBLUYkvPWdsaMchNpj2iuy/IIMg
-TW9jzMHLeZGsGR/6OgEBbyKegSqC8r3BHT6xfLGtEzoji30kwnPAHvx2D75DBbHH
-dMN+lrHBjpgpaLZWPYHVf5yVjqrH77LcpGqpvTdoP4ckdZZfHyu2ZmFZiyl5yXJV
-56POKfO+q6cm0wiAfAZyg41Om6tanA==
-=2+iq
------END PGP SIGNATURE-----
+-Paul
 
---6TrnltStXW4iwmi0--
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm.c | 1 +
+>  1 file changed, 1 insertion(+)
+> =
 
---===============1996046142==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c =
+
+> b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> index 9dfe7cb530e11..1754c05470690 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> @@ -843,6 +843,7 @@ static const struct of_device_id =
+
+> ingenic_drm_of_match[] =3D {
+>  	{ .compatible =3D "ingenic,jz4770-lcd", .data =3D &jz4770_soc_info },
+>  	{ /* sentinel */ },
+>  };
+> +MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+> =
+
+>  static struct platform_driver ingenic_drm_driver =3D {
+>  	.driver =3D {
+> --
+> 2.26.2
+> =
+
+
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1996046142==--
