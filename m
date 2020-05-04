@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2061C46A4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 May 2020 21:04:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E121C4EA0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE286E158;
-	Mon,  4 May 2020 19:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 938EC6E52C;
+	Tue,  5 May 2020 06:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0050.hostedemail.com
- [216.40.44.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB6A6E158
- for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 19:04:06 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 90A1018022F46;
- Mon,  4 May 2020 19:04:05 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
- RULES_HIT:41:355:379:599:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2553:2559:2562:2693:2731:2828:2895:2902:3138:3139:3140:3141:3142:3352:3622:3867:3868:3870:3872:3874:4321:5007:6742:6743:7903:10004:10400:10848:11232:11658:11914:12043:12297:12740:12895:13069:13075:13161:13229:13311:13357:13439:13894:14096:14097:14180:14659:14721:14777:21060:21080:21627:21939:30026:30054:30060:30070:30090:30091,
- 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
- DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
- LFtime:2, LUA_SUMMARY:none
-X-HE-Tag: scarf42_6021543c5600
-X-Filterd-Recvd-Size: 2806
-Received: from XPS-9350.home (unknown [47.151.136.130])
- (Authenticated sender: joe@perches.com)
- by omf07.hostedemail.com (Postfix) with ESMTPA;
- Mon,  4 May 2020 19:04:01 +0000 (UTC)
-Message-ID: <7af4a2979fb5c060af769a996d3e5917b4d265d0.camel@perches.com>
-Subject: Re: [PATCH] docs: dt: fix broken links due to txt->yaml renames
-From: Joe Perches <joe@perches.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
- Sam Ravnborg <sam@ravnborg.org>
-Date: Mon, 04 May 2020 12:04:00 -0700
-In-Reply-To: <20200504175553.jdm7a7aabloevxba@pengutronix.de>
-References: <967df5c3303b478b76199d4379fe40f5094f3f9b.1588584538.git.mchehab+huawei@kernel.org>
- <20200504174522.GA3383@ravnborg.org>
- <20200504175553.jdm7a7aabloevxba@pengutronix.de>
-User-Agent: Evolution 3.36.1-2 
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD5D89CC1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 May 2020 19:39:56 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id u127so846185wmg.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 May 2020 12:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NW8oQWWMjyDuVRlAJpFreByMFafi4QpaqckDeeBZAK4=;
+ b=BGvZgbNEWZJtJB/rLL03NY9rGi/ehlH0jg4N4WKhGixHvbUP/tquGIF4e4ki56rWne
+ Tz+uVwFhd/70t7HHez2Wfo7FBUinRRAwV0VJriMwat8q2EEUNSlL64jdTT5bA10iKRyx
+ IIowCe8n3GYDpxPnBrITwbAUvLNRl0fWAdB735ya0JBTSIRaMoUqvamsrQXPyr+8zaiF
+ XF453YXLy1G6JebbBAtF6Qkh80Zh3npwl8uGSw1KXyMRg7rXYI3UU96M4TJ5/6WKwNoT
+ yN6EOUFOZvFiEU0gO+PL9RHUPFEThCSX/0Tb5IUPAPUIyDtMAemXAQhDOqu87hAVH/Ds
+ G6OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NW8oQWWMjyDuVRlAJpFreByMFafi4QpaqckDeeBZAK4=;
+ b=ZhNpXYuOBpiKwHLHLRbK6DwD9z21m9tU/+7QKseqUo+t4BQFILovoWJQcPR9+H82k4
+ rWgCVaHe17AQlgV6bpb2lfnqsFRVSLA2xE4lsDixOceIPbi7PMzW2ksSGDBUS1T+SaS8
+ pTAsFSiPW64V+ZL7n1+m89eXzT4R6nxBm/bEpFxMbSHyoflCFKzOkxRHxod+RLIciHbn
+ fD+xWKHHjG/5TPpsZqILRi4WDR/tA/U2qA90/Mrkj5kAvUPTiKEvzbqn7uU3cbCp0Bh9
+ agAknfMNFPddflgdj23a6LAIdDZfelT15MGzZF/vT57SIPwTx/GVhC+skPBtpnqxffjV
+ fpng==
+X-Gm-Message-State: AGi0PuZkQdxQEvy5YZ6ac81tbRdllutAbuU+GjPENWpv8qj1eLK5jDVw
+ b84aZNHosBVYRe6mHUMSEEQ=
+X-Google-Smtp-Source: APiQypKgVNA1FOuWyq3/1fPwRoS94xnMG7wOri4uYVEUV4/OF7DNlSDZCeZjGj/SyAfRTNf6GeY4FA==
+X-Received: by 2002:a1c:dc8b:: with SMTP id
+ t133mr16729738wmg.117.1588621195459; 
+ Mon, 04 May 2020 12:39:55 -0700 (PDT)
+Received: from localhost.localdomain (abag125.neoplus.adsl.tpnet.pl.
+ [83.6.170.125])
+ by smtp.googlemail.com with ESMTPSA id p7sm20631312wrf.31.2020.05.04.12.39.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 12:39:55 -0700 (PDT)
+From: Konrad Dybcio <konradybcio@gmail.com>
+To: 
+Subject: [v2 PATCH 0/2] Add support for ASUS Z00T TM5P5 NT35596 panel
+Date: Mon,  4 May 2020 21:38:12 +0200
+Message-Id: <20200504193816.126299-1-konradybcio@gmail.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 05 May 2020 06:58:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,53 +67,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Olivier Moysan <olivier.moysan@st.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Sean Wang <sean.wang@mediatek.com>,
- Jyri Sarha <jsarha@ti.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnaud Pouliquen <arnaud.pouliquen@st.com>, Sandy Huang <hjc@rock-chips.com>,
- linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Konrad Dybcio <konradybcio@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-05-04 at 19:55 +0200, Uwe Kleine-K=F6nig wrote:
-> Hi Sam,
-> =
+changes since v1:
+- make `backlight_properties props` constant
+- a couple of line breaks
+- change name and compatible to reflect ASUS being the vendor
+- remove a redundant TODO
 
-> On Mon, May 04, 2020 at 07:45:22PM +0200, Sam Ravnborg wrote:
-> > On Mon, May 04, 2020 at 11:30:20AM +0200, Mauro Carvalho Chehab wrote:
-> > > There are some new broken doc links due to yaml renames
-> > > at DT. Developers should really run:
-> > > =
+Konrad Dybcio (2):
+  drivers: drm: panel: Add ASUS TM5P5 NT35596 panel driver
+  dt-bindings: display: Document ASUS Z00T TM5P5 NT35596 panel
+    compatible
 
-> > > 	./scripts/documentation-file-ref-check
-> > > =
+ .../display/panel/asus,z00t-tm5p5-n35596.yaml |  56 +++
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 367 ++++++++++++++++++
+ 4 files changed, 434 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/asus,z00t-tm5p5-n35596.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
 
-> > > in order to solve those issues while submitting patches.
-> > Would love if some bot could do this for me on any patches that creates
-> > .yaml files or so.
-> > I know I will forget this and it can be automated.
-> > If I get a bot mail that my patch would broke a link I would
-> > have it fixed before it hits any tree.
-> =
-
-> What about adding a check to check_patch?
-
-There's already a checkpatch warning when a patch renames
-a file without a MAINTAINERS update.
+-- 
+2.26.1
 
 _______________________________________________
 dri-devel mailing list
