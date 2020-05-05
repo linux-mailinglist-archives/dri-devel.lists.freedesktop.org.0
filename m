@@ -2,115 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3FA1C5062
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 10:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAEB1C50A8
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 10:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C6B6E142;
-	Tue,  5 May 2020 08:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965C96E14D;
+	Tue,  5 May 2020 08:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D636E558
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 08:33:30 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id g12so1300057wmh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 01:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=F/CJ5NUrRqyL+rMld/C9MVsOTa09vTP6RI4wKJqKWvU=;
- b=HySaDe4VCFfiAe5l8/lVNdscI4BHTkHOPM182GN5IKJ5Yx2z0UZnLJfUgWjMW/s+Id
- hkNuKbJkyWykEIuVozJhcTDSxDueSZkVZMQf/gDdIE3GDvF/khkANZwiaqMNNrzHhJZs
- jzTYqBt+LqEpc2oEJ66KD7Xoyewb29mp/AVbzLpgTTdpoUM15qdw8dvQvgUrSBSdi3eK
- De673jweYJs0LsumAQxqFDtn1GOfIYO+1CP6S1OaimRGJiMIaEHgakWfeRPoecWrtcg+
- pKEX0c02XEs/I3vDMM6iXR7yhHAqeJ5xkpFr6dNFuWdF+lbDoLAK80exh/b4BGFXhsRO
- 7pgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=F/CJ5NUrRqyL+rMld/C9MVsOTa09vTP6RI4wKJqKWvU=;
- b=WYi3RcrbH5sVxHxyv4UrDFdXeTa6keJn39LJQZGeepyoHhygUtl6z/JkNuwMwD/zEA
- ilklG9MCLO++E+DzMMd66JZKgbHR+v7hCO0GFotVxxOFKJhbZ3amSRGUrjVITs7dZNlj
- JT+G+0v0MoVGXsp5OZyHyHkKLmjWGHuobpIkc08QbFpsHv2aGVMHlaMwAyrbh02FkBMI
- 3YskwYYunLV/Hc8hDt6l/WtxDjUFr9Z2reyCk0tvn6Aa9MUJfTzFvBwcHupn4anuGuqV
- GquyZvGenIckzn1VQxpAzqC5GGUTq0GCsStfJ07fFCXJYM4QPi4lTo8ycEOieN3GWQwf
- N6tQ==
-X-Gm-Message-State: AGi0PubZD2EbHFlhIJBZrEdhVa2QLAvY18lFhNOPja+nwqi3Uwe72bbW
- jLiGQtThKM2jZuGvpn4RtFvPYg==
-X-Google-Smtp-Source: APiQypIoL4KhPpubj8k69d1POQqvRyhDdGK1vs/uCmnz77yT9TZFAM4unDd0jhD6wzsztQCSt6A4KA==
-X-Received: by 2002:a1c:7905:: with SMTP id l5mr2140930wme.5.1588667608581;
- Tue, 05 May 2020 01:33:28 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:4460:3fd3:382:4a71?
- ([2a01:e35:2ec0:82b0:4460:3fd3:382:4a71])
- by smtp.gmail.com with ESMTPSA id i25sm2526213wml.43.2020.05.05.01.33.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 01:33:27 -0700 (PDT)
-Subject: Re: [PATCH v2] drm/meson: add mode selection limits against specific
- SoC revisions
-To: dri-devel@lists.freedesktop.org
-References: <20200428092147.13698-1-narmstrong@baylibre.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <aef62be6-8167-a920-38cf-fd4f6da31edc@baylibre.com>
-Date: Tue, 5 May 2020 10:33:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200428092147.13698-1-narmstrong@baylibre.com>
-Content-Language: en-US
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA3588830
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 08:43:12 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200505084309euoutp02a133c4a14ed02dd6b0f4138017113e74~MFU0vqSuE2383823838euoutp02j
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 08:43:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200505084309euoutp02a133c4a14ed02dd6b0f4138017113e74~MFU0vqSuE2383823838euoutp02j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1588668189;
+ bh=gWvd1hDyo79x/s7tOktXvp9ucuQRiTgmKZjpFecY7X0=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=usnItLxxgUdMh6jZjR4EQ1AXCGMA2t/PLscZksyJqHW+MZhfdDoA4njWO0JXQExtt
+ QonZDNG9gvziDO+LvgsIxbBo2K73AzUy/RZSEyd2yvyIfGxwLFhVdc7B+Cm94YGs2+
+ G/dI+xm+BzswzjyMKqO9+RsWU/B70lFtpinEb1w4=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200505084309eucas1p1c8645351ceb70dd394c27c84d73af9c1~MFU0btZIj0757407574eucas1p15;
+ Tue,  5 May 2020 08:43:09 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id FF.A1.60679.D1721BE5; Tue,  5
+ May 2020 09:43:09 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200505084308eucas1p1aa040c3ae325a6c7d92f956b1f5aad0d~MFUz90wG30752907529eucas1p15;
+ Tue,  5 May 2020 08:43:08 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200505084308eusmtrp1f6d10f1165c581cda2504a3b128040e8~MFUz9FVZm0716407164eusmtrp12;
+ Tue,  5 May 2020 08:43:08 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-a8-5eb1271dbcb6
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 01.A0.07950.C1721BE5; Tue,  5
+ May 2020 09:43:08 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200505084308eusmtip13a12b282487c6faf89fcb2ab4db393d5~MFUzetK7V0070700707eusmtip1g;
+ Tue,  5 May 2020 08:43:08 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/25] DRM: fix struct sg_table nents vs. orig_nents misuse
+Date: Tue,  5 May 2020 10:43:00 +0200
+Message-Id: <20200505083926.28503-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsWy7djPc7qy6hvjDHbul7boPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrH2yF12i4MfnrA6cHusmbeG
+ 0WPvtwUsHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgiuKySUnN
+ ySxLLdK3S+DK2LXuA2PBPsuKno1r2RsYL+t0MXJySAiYSLxc/Zuti5GLQ0hgBaPEjpefmUAS
+ QgJfGCX+r3aESHxmlJg7+TcLTMfdy8tYIBLLGSX2XG2HagfqeLjiNlg7m4ChRNfbLjYQW0Sg
+ lVHiRC8PiM0sMINJ4ujrUhBbWCBA4sjX6WBTWQRUJR43tYDZvAK2Ev37ZrNDbJOXWL3hADPI
+ AgmB6ewS2/vOQJ3hItHYc4MNwhaWeHV8C1SDjMTpyT0sEA3NQBedW8sO4fQwSlxumsEIUWUt
+ cefcL6BuDqCTNCXW79KHCDtKPG29wAwSlhDgk7jxVhDiaD6JSdumQ4V5JTrahCCq1SRmHV8H
+ t/bghUvMELaHxPtbLWDDhQRiJRY89ZnAKDcLYdUCRsZVjOKppcW56anFRnmp5XrFibnFpXnp
+ esn5uZsYgQnm9L/jX3Yw7vqTdIhRgINRiYc34vP6OCHWxLLiytxDjBIczEoivMt+bIgT4k1J
+ rKxKLcqPLyrNSS0+xCjNwaIkzmu86GWskEB6YklqdmpqQWoRTJaJg1OqgXHzrvouv+pGg5nb
+ TN/NX2Nj9WFhafAfFu7VIl9C1/q03VfMlDy5Um0aq90ftgsXlPLXqQYtf+v2Ul+mqmrT366W
+ j+KzpII3/Zx1+TarFUdZcr+g5V2F3Ncyta8OnJ+g4X4ope732cbydYntszvWPpd+Ev93ve/z
+ xbnHyzqvfedsNu2s3zbXxU+JpTgj0VCLuag4EQCuXNZLLAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrILMWRmVeSWpSXmKPExsVy+t/xu7oy6hvjDJYdsLDoPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrH2yF12i4MfnrA6cHusmbeG
+ 0WPvtwUsHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgitKzKcov
+ LUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL2LXuA2PBPsuK
+ no1r2RsYL+t0MXJySAiYSNy9vIyli5GLQ0hgKaPE4x1TWSESMhInpzVA2cISf651sUEUfWKU
+ 6Hu/hR0kwSZgKNH1FiIhItDJKDGt+yM7iMMsMI9JYtHDQ0AOB4ewgJ/E0/9JIA0sAqoSj5ta
+ WEBsXgFbif59s9khNshLrN5wgHkCI88CRoZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgcG9
+ 7djPLTsYu94FH2IU4GBU4uHd8HV9nBBrYllxZe4hRgkOZiUR3mU/NsQJ8aYkVlalFuXHF5Xm
+ pBYfYjQFWj6RWUo0OR8YeXkl8YamhuYWlobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqY
+ ODilGhjF2hdPaUzmDRDJ/dU4qe7Sm9ki/5k/bQgxeBCwK+ZlsEvCg5p/mkH3tfXURMLOX1c3
+ v1T5Lts09M33JW6TduXmiS40PRi3Se5LW2lE5j+u2+EZKxuC+Nwe/3/dKftFuF9FN7Hw1QmR
+ v1Uqqp9mCKYzb4j6dORgaWvwxeSNCzqO7BIvjOlZ5KLEUpyRaKjFXFScCADCUtXChAIAAA==
+X-CMS-MailID: 20200505084308eucas1p1aa040c3ae325a6c7d92f956b1f5aad0d
+X-Msg-Generator: CA
+X-RootMTR: 20200505084308eucas1p1aa040c3ae325a6c7d92f956b1f5aad0d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200505084308eucas1p1aa040c3ae325a6c7d92f956b1f5aad0d
+References: <CGME20200505084308eucas1p1aa040c3ae325a6c7d92f956b1f5aad0d@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,190 +101,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: martin.blumenstingl@googlemail.com, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/04/2020 11:21, Neil Armstrong wrote:
-> The Amlogic S805X/Y uses the same die as the S905X, but with more
-> limited graphics capabilities.
-> 
-> This adds a soc version detection adding specific limitations on the HDMI
-> mode selections.
-> 
-> Here, we limit to HDMI 1.3a max HDMI PHY clock frequency.
-> 
-> Changes sinces v1:
-> - Moved frequency check in the vclk code, and also checks DMT modes
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  drivers/gpu/drm/meson/meson_drv.c     | 29 ++++++++++++++++++++++++++-
->  drivers/gpu/drm/meson/meson_drv.h     |  6 ++++++
->  drivers/gpu/drm/meson/meson_dw_hdmi.c |  2 +-
->  drivers/gpu/drm/meson/meson_vclk.c    | 16 ++++++++++++++-
->  drivers/gpu/drm/meson/meson_vclk.h    |  3 ++-
->  5 files changed, 52 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-> index 6f29fab79952..621f6de0f076 100644
-> --- a/drivers/gpu/drm/meson/meson_drv.c
-> +++ b/drivers/gpu/drm/meson/meson_drv.c
-> @@ -11,6 +11,7 @@
->  #include <linux/component.h>
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
-> +#include <linux/sys_soc.h>
->  #include <linux/platform_device.h>
->  #include <linux/soc/amlogic/meson-canvas.h>
->  
-> @@ -183,6 +184,24 @@ static void meson_remove_framebuffers(void)
->  	kfree(ap);
->  }
->  
-> +struct meson_drm_soc_attr {
-> +	struct meson_drm_soc_limits limits;
-> +	const struct soc_device_attribute *attrs;
-> +};
-> +
-> +static const struct meson_drm_soc_attr meson_drm_soc_attrs[] = {
-> +	/* S805X/S805Y HDMI PLL won't lock for HDMI PHY freq > 1,65GHz */
-> +	{
-> +		.limits = {
-> +			.max_hdmi_phy_freq = 1650000,
-> +		},
-> +		.attrs = (const struct soc_device_attribute []) {
-> +			{ .soc_id = "GXL (S805*)", },
-> +			{ /* sentinel */ },
-> +		}
-> +	},
-> +};
-> +
->  static int meson_drv_bind_master(struct device *dev, bool has_components)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
-> @@ -191,7 +210,7 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
->  	struct drm_device *drm;
->  	struct resource *res;
->  	void __iomem *regs;
-> -	int ret;
-> +	int ret, i;
->  
->  	/* Checks if an output connector is available */
->  	if (!meson_vpu_has_available_connectors(dev)) {
-> @@ -281,6 +300,14 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
->  	if (ret)
->  		goto free_drm;
->  
-> +	/* Assign limits per soc revision/package */
-> +	for (i = 0 ; i < ARRAY_SIZE(meson_drm_soc_attrs) ; ++i) {
-> +		if (soc_device_match(meson_drm_soc_attrs[i].attrs)) {
-> +			priv->limits = &meson_drm_soc_attrs[i].limits;
-> +			break;
-> +		}
-> +	}
-> +
->  	/* Remove early framebuffers (ie. simplefb) */
->  	meson_remove_framebuffers();
->  
-> diff --git a/drivers/gpu/drm/meson/meson_drv.h b/drivers/gpu/drm/meson/meson_drv.h
-> index 04fdf3826643..5b23704a80d6 100644
-> --- a/drivers/gpu/drm/meson/meson_drv.h
-> +++ b/drivers/gpu/drm/meson/meson_drv.h
-> @@ -30,6 +30,10 @@ struct meson_drm_match_data {
->  	struct meson_afbcd_ops *afbcd_ops;
->  };
->  
-> +struct meson_drm_soc_limits {
-> +	unsigned int max_hdmi_phy_freq;
-> +};
-> +
->  struct meson_drm {
->  	struct device *dev;
->  	enum vpu_compatible compat;
-> @@ -48,6 +52,8 @@ struct meson_drm {
->  	struct drm_plane *primary_plane;
->  	struct drm_plane *overlay_plane;
->  
-> +	const struct meson_drm_soc_limits *limits;
-> +
->  	/* Components Data */
->  	struct {
->  		bool osd1_enabled;
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index e8c94915a4fc..5be963e9db05 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -695,7 +695,7 @@ dw_hdmi_mode_valid(struct drm_connector *connector,
->  	dev_dbg(connector->dev->dev, "%s: vclk:%d phy=%d venc=%d hdmi=%d\n",
->  		__func__, phy_freq, vclk_freq, venc_freq, hdmi_freq);
->  
-> -	return meson_vclk_vic_supported_freq(phy_freq, vclk_freq);
-> +	return meson_vclk_vic_supported_freq(priv, phy_freq, vclk_freq);
->  }
->  
->  /* Encoder */
-> diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
-> index fdf26dac9fa8..0eb86943a358 100644
-> --- a/drivers/gpu/drm/meson/meson_vclk.c
-> +++ b/drivers/gpu/drm/meson/meson_vclk.c
-> @@ -725,6 +725,13 @@ meson_vclk_dmt_supported_freq(struct meson_drm *priv, unsigned int freq)
->  	/* In DMT mode, path after PLL is always /10 */
->  	freq *= 10;
->  
-> +	/* Check against soc revision/package limits */
-> +	if (priv->limits) {
-> +		if (priv->limits->max_hdmi_phy_freq &&
-> +		    freq > priv->limits->max_hdmi_phy_freq)
-> +			return MODE_CLOCK_HIGH;
-> +	}
-> +
->  	if (meson_hdmi_pll_find_params(priv, freq, &m, &frac, &od))
->  		return MODE_OK;
->  
-> @@ -762,7 +769,7 @@ static void meson_hdmi_pll_generic_set(struct meson_drm *priv,
->  }
->  
->  enum drm_mode_status
-> -meson_vclk_vic_supported_freq(unsigned int phy_freq,
-> +meson_vclk_vic_supported_freq(struct meson_drm *priv, unsigned int phy_freq,
->  			      unsigned int vclk_freq)
->  {
->  	int i;
-> @@ -770,6 +777,13 @@ meson_vclk_vic_supported_freq(unsigned int phy_freq,
->  	DRM_DEBUG_DRIVER("phy_freq = %d vclk_freq = %d\n",
->  			 phy_freq, vclk_freq);
->  
-> +	/* Check against soc revision/package limits */
-> +	if (priv->limits) {
-> +		if (priv->limits->max_hdmi_phy_freq &&
-> +		    phy_freq > priv->limits->max_hdmi_phy_freq)
-> +			return MODE_CLOCK_HIGH;
-> +	}
-> +
->  	for (i = 0 ; params[i].pixel_freq ; ++i) {
->  		DRM_DEBUG_DRIVER("i = %d pixel_freq = %d alt = %d\n",
->  				 i, params[i].pixel_freq,
-> diff --git a/drivers/gpu/drm/meson/meson_vclk.h b/drivers/gpu/drm/meson/meson_vclk.h
-> index aed0ab2efa71..60617aaf18dd 100644
-> --- a/drivers/gpu/drm/meson/meson_vclk.h
-> +++ b/drivers/gpu/drm/meson/meson_vclk.h
-> @@ -25,7 +25,8 @@ enum {
->  enum drm_mode_status
->  meson_vclk_dmt_supported_freq(struct meson_drm *priv, unsigned int freq);
->  enum drm_mode_status
-> -meson_vclk_vic_supported_freq(unsigned int phy_freq, unsigned int vclk_freq);
-> +meson_vclk_vic_supported_freq(struct meson_drm *priv, unsigned int phy_freq,
-> +			      unsigned int vclk_freq);
->  
->  void meson_vclk_setup(struct meson_drm *priv, unsigned int target,
->  		      unsigned int phy_freq, unsigned int vclk_freq,
-> 
+Dear All,
 
-Applied to drm-misc-next with commit log fixup
+During the Exynos DRM GEM rework and fixing the issues in the 
+drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
+drivers in DRM framework incorrectly use nents and orig_nents entries of
+the struct sg_table.
+
+In case of the most DMA-mapping implementations exchanging those two
+entries or using nents for all loops on the scatterlist is harmless,
+because they both have the same value. There exists however a DMA-mapping
+implementations, for which such incorrect usage breaks things. The nents
+returned by dma_map_sg() might be lower than the nents passed as its
+parameter and this is perfectly fine. DMA framework or IOMMU is allowed
+to join consecutive chunks while mapping if such operation is supported
+by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
+where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
+is described here [2]
+
+The DMA-mapping framework documentation [3] states that dma_map_sg()
+returns the numer of the created entries in the DMA address space.
+However the subsequent calls to dma_sync_sg_for_{device,cpu} and
+dma_unmap_sg must be called with the original number of entries passed to
+dma_map_sg. The common pattern in DRM drivers were to assign the
+dma_map_sg() return value to sg_table->nents and use that value for
+the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
+the code iterated over nents times to access the pages stored in the
+processed scatterlist, while it should use orig_nents as the numer of
+the page entries.
+
+I've tried to identify all such incorrect usage of sg_table->nents and
+this is a result of my research. It looks that the incorrect pattern has
+been copied over the many drivers mainly in the DRM subsystem. Too bad in
+most cases it even worked correctly if the system used simple, linear
+DMA-mapping implementation, for which swapping nents and orig_nents
+doesn't make any difference. To avoid similar issues in the future, I've
+introduced a common dma-mapping wrappers, which operate directly on the
+sg_table objects.
+
+The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
+it fully. The driver creatively uses sg_table->orig_nents to store the
+size of the allocate scatterlist and ignores the number of the entries
+returned by dma_map_sg function. In this patchset I only fixed the
+sg_table objects exported by dmabuf related functions. I hope that I
+didn't break anything there.
+
+Patches are based on top of Linux next-20200504.
+
+Best regards,
+Marek Szyprowski
+
+
+References:
+
+[1] https://lkml.org/lkml/2020/3/27/555 
+[2] https://lkml.org/lkml/2020/3/29/65
+[3] Documentation/DMA-API-HOWTO.txt
+
+
+Changelog:
+
+v3:
+- introduce dma_*_sgtable_* wrappers and use them in all patches
+
+v2: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- dropped most of the changes to drm/i915
+- added fixes for rcar-du, xen, media and ion
+- fixed a few issues pointed by kbuild test robot
+- added wide cc: list for each patch
+
+v1: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- initial version
+
+
+Patch summary:
+
+Marek Szyprowski (25):
+  dma-mapping: add generic helpers for mapping sgtable objects
+  drm: core: fix common struct sg_table related issues
+  drm: amdgpu: fix common struct sg_table related issues
+  drm: armada: fix common struct sg_table related issues
+  drm: etnaviv: fix common struct sg_table related issues
+  drm: exynos: fix common struct sg_table related issues
+  drm: i915: fix common struct sg_table related issues
+  drm: lima: fix common struct sg_table related issues
+  drm: msm: fix common struct sg_table related issues
+  drm: panfrost: fix common struct sg_table related issues
+  drm: radeon: fix common struct sg_table related issues
+  drm: rockchip: fix common struct sg_table related issues
+  drm: tegra: fix common struct sg_table related issues
+  drm: virtio: fix common struct sg_table related issues
+  drm: vmwgfx: fix common struct sg_table related issues
+  xen: gntdev: fix common struct sg_table related issues
+  drm: host1x: fix common struct sg_table related issues
+  drm: rcar-du: fix common struct sg_table related issues
+  dmabuf: fix common struct sg_table related issues
+  staging: ion: fix common struct sg_table related issues
+  staging: tegra-vde: fix common struct sg_table related issues
+  misc: fastrpc: fix common struct sg_table related issues
+  rapidio: fix common struct sg_table related issues
+  samples: vfio-mdev/mbochs: fix common struct sg_table related issues
+  media: pci: fix common ALSA DMA-mapping related codes
+
+ drivers/dma-buf/heaps/heap-helpers.c             | 13 +++++-----
+ drivers/dma-buf/udmabuf.c                        |  7 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c      |  6 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  9 +++----
+ drivers/gpu/drm/armada/armada_gem.c              | 10 ++++----
+ drivers/gpu/drm/drm_cache.c                      |  2 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c           | 14 +++++++----
+ drivers/gpu/drm/drm_prime.c                      | 13 +++++-----
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c            | 12 ++++-----
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c          |  9 +++----
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c       | 13 ++++------
+ drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c |  7 +++---
+ drivers/gpu/drm/lima/lima_gem.c                  | 11 +++++---
+ drivers/gpu/drm/msm/msm_gem.c                    | 13 ++++------
+ drivers/gpu/drm/msm/msm_iommu.c                  |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c          |  4 +--
+ drivers/gpu/drm/panfrost/panfrost_mmu.c          |  5 ++--
+ drivers/gpu/drm/radeon/radeon_ttm.c              | 11 ++++----
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c      | 26 +++++++++----------
+ drivers/gpu/drm/tegra/gem.c                      | 27 ++++++++------------
+ drivers/gpu/drm/tegra/plane.c                    | 15 ++++-------
+ drivers/gpu/drm/virtio/virtgpu_object.c          | 17 ++++++-------
+ drivers/gpu/drm/virtio/virtgpu_vq.c              | 10 +++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c       | 17 +++----------
+ drivers/gpu/host1x/job.c                         | 22 ++++++----------
+ drivers/media/pci/cx23885/cx23885-alsa.c         |  2 +-
+ drivers/media/pci/cx25821/cx25821-alsa.c         |  2 +-
+ drivers/media/pci/cx88/cx88-alsa.c               |  2 +-
+ drivers/media/pci/saa7134/saa7134-alsa.c         |  2 +-
+ drivers/media/platform/vsp1/vsp1_drm.c           |  9 ++++---
+ drivers/misc/fastrpc.c                           |  4 +--
+ drivers/rapidio/devices/rio_mport_cdev.c         |  8 +++---
+ drivers/staging/android/ion/ion.c                | 25 ++++++++----------
+ drivers/staging/android/ion/ion_heap.c           |  6 ++---
+ drivers/staging/android/ion/ion_system_heap.c    |  2 +-
+ drivers/staging/media/tegra-vde/iommu.c          |  4 +--
+ drivers/xen/gntdev-dmabuf.c                      |  7 +++---
+ include/linux/dma-mapping.h                      | 32 ++++++++++++++++++++++++
+ include/linux/iommu.h                            |  6 +++++
+ samples/vfio-mdev/mbochs.c                       |  3 ++-
+ 40 files changed, 202 insertions(+), 207 deletions(-)
+
+-- 
+1.9.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
