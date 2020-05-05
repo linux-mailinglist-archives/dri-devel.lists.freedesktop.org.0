@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134791C58C3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 16:18:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8663D1C5963
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 16:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43AB36E5BB;
-	Tue,  5 May 2020 14:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC89C6E5C0;
+	Tue,  5 May 2020 14:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDAF6E5C1
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 14:18:24 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y4so2726264wrm.11
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 07:18:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=HZxEkrAK08n4CSM48wActTdCrNpm7aS6hU4TZJhvOto=;
- b=DSXDDKc4RIqW1vaUgM5y0/vth/jcNb7NsDTbrjZYcB3GQR5YEONXiL85xCX0ceu4w/
- cS2uUlPc7i66wAUW14mcW//s66FvLuVgKZ5iwXMNmLUnaknpQX4alBlXiVwxzjvY04R4
- gqKE15czr4+zwfr2jS2xfuCu4KtEOO7L3p/lY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HZxEkrAK08n4CSM48wActTdCrNpm7aS6hU4TZJhvOto=;
- b=Rpzc05qSbtbRgi4r5/w9C5vidLcOVHPGfXexA+XXG/ndyNnir1TEZfpCO0RHRFLC2j
- FqoBn07ScVXtNw74C+WQLSslBhAmJwP5CJI6JIgY1vWTVlHBCWOwAn2+FmE3JlSmMMtG
- IdmpUaWKU46On4rbICYA+NMxvKGy9nTzdTLQXrqRyt7g08j7B6LMSdSucyBAs3yKAiw6
- ChauUP5J8e4WdekfT3TNZKNCCiXEEtEI1QTSU7yLDyCfpQL7CHvU+ZQtayQMVvgyGpCq
- uXqrnSAbfrVdOoXYmLk8mc+tHOqjGY8KDP29tVd2q5B7qU3jsatC8EQdkC223XpFGLMs
- Uf2w==
-X-Gm-Message-State: AGi0Pubk9Pa9ZQWtyfY3UQQMqaqCZ/ab9Q2N9bxmIbc+GCn7R32FeUOI
- E06pfS91EP/lERQ8eFe3a38xvg==
-X-Google-Smtp-Source: APiQypJN+bSYcMhP01HYNbMTHkPWULNqylvYoIt8vIduo34jsmMnDxWrl7E+Nxc/aGTLCFET8DhwAA==
-X-Received: by 2002:adf:ab57:: with SMTP id r23mr4319909wrc.180.1588688302865; 
- Tue, 05 May 2020 07:18:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z16sm3787109wrl.0.2020.05.05.07.18.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 May 2020 07:18:22 -0700 (PDT)
-Date: Tue, 5 May 2020 16:18:20 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 5/5] drm/mgag200: Embed DRM device instance in struct
- mga_device
-Message-ID: <20200505141820.GU10381@phenom.ffwll.local>
-References: <20200505095649.25814-1-tzimmermann@suse.de>
- <20200505095649.25814-6-tzimmermann@suse.de>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1348E6E5BD;
+ Tue,  5 May 2020 14:25:35 +0000 (UTC)
+Received: from localhost.localdomain ([149.172.19.189]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MJVU0-1jpiHq2SC0-00Jpo7; Tue, 05 May 2020 16:25:22 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amdgpu/dc: don't pass -mhard-float to clang
+Date: Tue,  5 May 2020 16:24:56 +0200
+Message-Id: <20200505142519.1138945-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200505095649.25814-6-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.4.0-4-amd64 
+X-Provags-ID: V03:K1:kyuCbCEFYOcHR9DitYTjAbdHsjMrBAl6tRD/hASI8cLhgsKb51z
+ 4SM5jXD33rd9/xC4Ev/039yaCDjFmF940iPtDNjHpkoyNLksYCThRDq3NxoD5XAj9b56A+N
+ Wn1FMJsGA+XcWsm8tu1gT6IJamHNPqS//MWiN5SJg/G/fHJknT72vtObM6aOgfGAKtrJpXy
+ 2uj8DD9Q4oJPQ0wB4c8yg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zuXYTAazwNE=:PutM/bcLCGJjXJnOuEuYkH
+ ZYpn4w7i2HwOMEBxnl8nED8rAiamNiwCxhrgA18hTQyg/lkPUp39/qIPXLPi3Z0xE83px2DKu
+ ktQ86tTo2g5qB588P9fOBUEiVXI0iu3VX9yzyocfYCaCB0fz+MHFjKeiSV1q55BtLzDGOqWG1
+ 9VoJ+D3p5nhYeRUyWS4H8XoojR+X2Ne3OfTL5pPuTW8NMIfF7twoyVo+L897h7mmku9BKWJqR
+ ahqfIzW13oTTMA3W/PoKXRtWxpzNEQ0HEbYykyVAoQbGdVJq30sfAiXLGaFUw6MyGjPfLqBxv
+ EN9q2TxRx+wyFVulikYVOaduHdAwjG6FU1maMCdzIcNP5rE1OLjQLywYBBCziS46+obh9J4dV
+ K1cdjItfVQUFOoKzmZTEpHcdS0xkbPRQARihqQcuYmI0qug3JwpQo/Si19/NoVYvUZNHdL+Z7
+ ksMqzvtFiE74x5kMdFAAmDTvCqY/7X3hq8T6kR9aCFNN2giRR909dKlMC76msaQFcdfggubY1
+ yIBDsnLNXTQPcr3pIPWbxt1Mo6rY6j4kaoEJjXQ2AWEq7z06KQNGV87ooVcyi2Wag3NcUDcmK
+ SQ+AvWrCQ4spBhCBt+RawkuBvWH4emWNZ//soISOPpuCipnlu+XkdidFfYhfCTYx/5LdPPUo4
+ JK1mGkJAe4P7+JEqTKlxn8bwSv7eGO+a0OvJKK2nsrv/aOSvUd7UYH/0T7i2dt3RmkjGKRyzA
+ Q00x5Iezmpf4ojKXOh+y7MBF9RbadJpAEiStCnqyCN7juVfsCadGE2d+BXgkE/FmZmpyZ2B2t
+ avuyqPcFNOJpGaZHCb1llcI/0ZQQm3FbIKEJqyQXc7iUb5dP9s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,218 +56,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cogarre@gmail.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
+Cc: Charlene Liu <charlene.liu@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ clang-built-linux@googlegroups.com, Marc Zyngier <maz@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Timothy Pearson <tpearson@raptorengineering.com>,
+ dri-devel@lists.freedesktop.org, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ Anthony Koo <Anthony.Koo@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 05, 2020 at 11:56:49AM +0200, Thomas Zimmermann wrote:
-> As it is best practice now, the DRM device instance is now embedded in
-> struct mga_device. All references to dev_private have been removed.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mgag200/mgag200_cursor.c |  6 +++---
->  drivers/gpu/drm/mgag200/mgag200_drv.c    |  2 +-
->  drivers/gpu/drm/mgag200/mgag200_drv.h    |  4 ++--
->  drivers/gpu/drm/mgag200/mgag200_main.c   | 16 ++++++----------
->  drivers/gpu/drm/mgag200/mgag200_mode.c   |  4 ++--
->  drivers/gpu/drm/mgag200/mgag200_ttm.c    |  4 ++--
->  6 files changed, 16 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> index aebc9ce43d551..e3c717c0cffc0 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> @@ -15,7 +15,7 @@ static bool warn_palette = true;
->  static int mgag200_cursor_update(struct mga_device *mdev, void *dst, void *src,
->  				 unsigned int width, unsigned int height)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	unsigned int i, row, col;
->  	uint32_t colour_set[16];
->  	uint32_t *next_space = &colour_set[0];
-> @@ -119,7 +119,7 @@ static void mgag200_cursor_set_base(struct mga_device *mdev, u64 address)
->  static int mgag200_show_cursor(struct mga_device *mdev, void *src,
->  			       unsigned int width, unsigned int height)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	struct drm_gem_vram_object *gbo;
->  	void *dst;
->  	s64 off;
-> @@ -196,7 +196,7 @@ static void mgag200_move_cursor(struct mga_device *mdev, int x, int y)
->  
->  int mgag200_cursor_init(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	size_t ncursors = ARRAY_SIZE(mdev->cursor.gbo);
->  	size_t size;
->  	int ret;
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index ad12c1b7c66cc..fc0775694c097 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -71,7 +71,7 @@ static int mga_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	if (ret)
->  		goto err_pci_disable_device;
->  
-> -	dev = mdev->dev;
-> +	dev = &mdev->base;
->  
->  	ret = drm_dev_register(dev, ent->driver_data);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 1ce0386669ffa..fb2797d6ff690 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -96,7 +96,7 @@
->  
->  #define to_mga_crtc(x) container_of(x, struct mga_crtc, base)
->  #define to_mga_connector(x) container_of(x, struct mga_connector, base)
-> -#define to_mga_device(x) ((struct mga_device *)(x)->dev_private)
-> +#define to_mga_device(x) container_of(x, struct mga_device, base)
->  
->  struct mga_crtc {
->  	struct drm_crtc base;
-> @@ -153,7 +153,7 @@ enum mga_type {
->  #define IS_G200_SE(mdev) (mdev->type == G200_SE_A || mdev->type == G200_SE_B)
->  
->  struct mga_device {
-> -	struct drm_device		*dev;
-> +	struct drm_device		base;
->  	unsigned long			flags;
->  
->  	resource_size_t			rmmio_base;
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-> index 070ff1f433df2..ca3ed463c2d41 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
-> @@ -67,7 +67,7 @@ static int mga_probe_vram(struct mga_device *mdev, void __iomem *mem)
->  /* Map the framebuffer from the card and configure the core */
->  static int mga_vram_init(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	void __iomem *mem;
->  
->  	/* BAR 0 is VRAM */
-> @@ -100,14 +100,12 @@ static int mga_vram_init(struct mga_device *mdev)
->  int mgag200_device_init(struct mga_device *mdev, struct drm_driver *drv,
->  			struct pci_dev *pdev, unsigned long flags)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	int ret, option;
->  
-> -	dev = drm_dev_alloc(drv, &pdev->dev);
-> -	if (IS_ERR(dev))
-> -		return PTR_ERR(dev);
-> -	dev->dev_private = (void *)mdev;
-> -	mdev->dev = dev;
-> +	ret = drm_dev_init(dev, drv, &pdev->dev);
+Clang does not appear to care, and instead prints a warning:
 
-You devm_kzalloc this structure in the previous patch. That's kinda less
-correct than what we have now ... I think this patch and the previous one
-are needless detour, and straight going to embedding and
-devm_drm_dev_alloc like I've done e.g. in
+clang: warning: argument unused during compilation: '-mhard-float' [-Wunused-command-line-argument]
 
-commit cd8294540776f7986b7cf658a3579d576853610c
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed Apr 15 09:40:30 2020 +0200
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/amd/display/dc/calcs/Makefile | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dcn20/Makefile | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dcn21/Makefile | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dml/Makefile   | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dsc/Makefile   | 5 +++--
+ 5 files changed, 15 insertions(+), 10 deletions(-)
 
-    drm/aspeed: Use devm_drm_dev_alloc
-
-Then clean up all the fallout later on (i.e. switch over to mga_device and
-away from drm_device, heck even the to_mag_device pointer upcasting you
-can all do afterwards).
-
-The intermediate stages all have tricky rules for what exactly can and
-can't be done, for no real gain, so here a massively split patch series
-imo just increases the risks you break something somewhere.
-
-Cheers, Daniel
-
-> +	if (ret)
-> +		return ret;
->  
->  	dev->pdev = pdev;
->  	pci_set_drvdata(pdev, dev);
-> @@ -185,17 +183,15 @@ int mgag200_device_init(struct mga_device *mdev, struct drm_driver *drv,
->  err_drm_dev_put:
->  	drm_dev_put(dev);
->  err_mm:
-> -	dev->dev_private = NULL;
->  	return ret;
->  }
->  
->  void mgag200_device_fini(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  
->  	mgag200_modeset_fini(mdev);
->  	drm_mode_config_cleanup(dev);
->  	mgag200_cursor_fini(mdev);
->  	mgag200_mm_fini(mdev);
-> -	dev->dev_private = NULL;
->  }
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index aaa73b29b04f0..eb58742026adf 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -1433,7 +1433,7 @@ static const struct drm_crtc_helper_funcs mga_helper_funcs = {
->  /* CRTC setup */
->  static void mga_crtc_init(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	struct mga_crtc *mga_crtc;
->  
->  	mga_crtc = kzalloc(sizeof(struct mga_crtc) +
-> @@ -1618,7 +1618,7 @@ static struct drm_connector *mga_vga_init(struct drm_device *dev)
->  
->  int mgag200_modeset_init(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  	struct drm_encoder *encoder = &mdev->encoder;
->  	struct drm_connector *connector;
->  	int ret;
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_ttm.c b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-> index e89657630ea71..86a582490bb67 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_ttm.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-> @@ -34,7 +34,7 @@ int mgag200_mm_init(struct mga_device *mdev)
->  {
->  	struct drm_vram_mm *vmm;
->  	int ret;
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  
->  	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
->  				       mdev->mc.vram_size);
-> @@ -57,7 +57,7 @@ int mgag200_mm_init(struct mga_device *mdev)
->  
->  void mgag200_mm_fini(struct mga_device *mdev)
->  {
-> -	struct drm_device *dev = mdev->dev;
-> +	struct drm_device *dev = &mdev->base;
->  
->  	mdev->vram_fb_available = 0;
->  
-> -- 
-> 2.26.0
-> 
-
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/Makefile b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
+index 4674aca8f206..64195cacf6fc 100644
+--- a/drivers/gpu/drm/amd/display/dc/calcs/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
+@@ -26,14 +26,15 @@
+ #
+ 
+ ifdef CONFIG_X86
+-calcs_ccflags := -mhard-float -msse
++calcs_ccflags := -msse
+ endif
+ 
+ ifdef CONFIG_PPC64
+-calcs_ccflags := -mhard-float -maltivec
++calcs_ccflags := -maltivec
+ endif
+ 
+ ifdef CONFIG_CC_IS_GCC
++calcs_ccflags += -mhard-float
+ ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+ IS_OLD_GCC = 1
+ endif
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/Makefile b/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
+index 5fcaf78334ff..0d3ce716c753 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/Makefile
+@@ -10,14 +10,15 @@ DCN20 = dcn20_resource.o dcn20_init.o dcn20_hwseq.o dcn20_dpp.o dcn20_dpp_cm.o d
+ DCN20 += dcn20_dsc.o
+ 
+ ifdef CONFIG_X86
+-CFLAGS_$(AMDDALPATH)/dc/dcn20/dcn20_resource.o := -mhard-float -msse
++CFLAGS_$(AMDDALPATH)/dc/dcn20/dcn20_resource.o := -msse
+ endif
+ 
+ ifdef CONFIG_PPC64
+-CFLAGS_$(AMDDALPATH)/dc/dcn20/dcn20_resource.o := -mhard-float -maltivec
++CFLAGS_$(AMDDALPATH)/dc/dcn20/dcn20_resource.o := -maltivec
+ endif
+ 
+ ifdef CONFIG_CC_IS_GCC
++CFLAGS_$(AMDDALPATH)/dc/dcn20/dcn20_resource.o += -mhard-float
+ ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+ IS_OLD_GCC = 1
+ endif
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/Makefile b/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
+index 07684d3e375a..fd209d1cf6bb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/Makefile
+@@ -6,14 +6,15 @@ DCN21 = dcn21_init.o dcn21_hubp.o dcn21_hubbub.o dcn21_resource.o \
+ 	 dcn21_hwseq.o dcn21_link_encoder.o
+ 
+ ifdef CONFIG_X86
+-CFLAGS_$(AMDDALPATH)/dc/dcn21/dcn21_resource.o := -mhard-float -msse
++CFLAGS_$(AMDDALPATH)/dc/dcn21/dcn21_resource.o := -msse
+ endif
+ 
+ ifdef CONFIG_PPC64
+-CFLAGS_$(AMDDALPATH)/dc/dcn21/dcn21_resource.o := -mhard-float -maltivec
++CFLAGS_$(AMDDALPATH)/dc/dcn21/dcn21_resource.o := -maltivec
+ endif
+ 
+ ifdef CONFIG_CC_IS_GCC
++CFLAGS_$(AMDDALPATH)/dc/dcn21/dcn21_resource.o += -mhard-float
+ ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+ IS_OLD_GCC = 1
+ endif
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+index 7ee8b8460a9b..fb74e79e15a2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+@@ -26,14 +26,15 @@
+ # subcomponents.
+ 
+ ifdef CONFIG_X86
+-dml_ccflags := -mhard-float -msse
++dml_ccflags := -msse
+ endif
+ 
+ ifdef CONFIG_PPC64
+-dml_ccflags := -mhard-float -maltivec
++dml_ccflags := -maltivec
+ endif
+ 
+ ifdef CONFIG_CC_IS_GCC
++dml_ccflags += -mhard-float
+ ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+ IS_OLD_GCC = 1
+ endif
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/Makefile b/drivers/gpu/drm/amd/display/dc/dsc/Makefile
+index 3f66868df171..b0077f5c318d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dsc/Makefile
+@@ -3,14 +3,15 @@
+ # Makefile for the 'dsc' sub-component of DAL.
+ 
+ ifdef CONFIG_X86
+-dsc_ccflags := -mhard-float -msse
++dsc_ccflags := -msse
+ endif
+ 
+ ifdef CONFIG_PPC64
+-dsc_ccflags := -mhard-float -maltivec
++dsc_ccflags := -maltivec
+ endif
+ 
+ ifdef CONFIG_CC_IS_GCC
++dsc_ccflags += -mhard-float
+ ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+ IS_OLD_GCC = 1
+ endif
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
