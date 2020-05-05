@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8FD1C60EE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 21:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91241C69A9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 09:03:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054A96E811;
-	Tue,  5 May 2020 19:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD786E492;
+	Wed,  6 May 2020 07:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
- [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354586E811
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 19:17:27 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id q10so1999453ile.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 12:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JGWtDPFJFvJbELqtTuPzk6LfT6mv0oz8nn2/9XlSU3Q=;
- b=qclpj/dGRht+Y7fUGP7/FudbQ/5yEi9etymvceMusEjDnIk6dwjvat9davZniUU2+y
- pmIY0b7VIzp4tY2xYfAsDIZwFZhfJ+Eo83rvF+DJGM0A7HVhECZ6s3v4NXHkIHWWnNsR
- NRSUAnbVrsbT/jfYvZ9NlQPy8B5fAcVnbvxLlyVI6AlPKWtfCbqcQ2G/MxpBy4PdwKYI
- wPr7rTYfhyDT846ttujxIoTNCxOGLBSZzfkn1R/MlyFmtjPnLM6EXzTRGhalX1htKJ3p
- jeqWaKWnAM3umzRW6CKtjigccqFOUjH/y0sK1j5kRO2kASTTp3Zy5R9fTIjttmRy2PRX
- Kz4g==
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D84896F7
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 19:53:00 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id mq3so56488pjb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 12:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=+v3yXRYBdTDl2IQ3cSUD9x3QkNmu1c3yvGjn11hkD6o=;
+ b=eXgdwU2TBfQdWavLRxs2y5/iRl3vmiwWS6NswNs0wL9cavsvf9xF6/lQ0oqivf3eA4
+ qkDuUL3Kg4nxS/2JKNla7YdZrhClL1oUid/Bd+bMalzTGF3r0tTUlFQBtnukDRxqHtbk
+ H4gEpbvEJKHX+bfTUSkJ7ShyvrTMs/IpePiqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JGWtDPFJFvJbELqtTuPzk6LfT6mv0oz8nn2/9XlSU3Q=;
- b=qYW/20LWuFSmCpT2R2K+gh7WQLOXnIFPQ30JGtWZZ6c+rLxg7o6WPZSl60rNTQ+IDh
- sodACu5PECsYvnCAsiEkoQZh2/fZh60fCB3p06uPfLrdFC5Te4gmpjbXY+WcbQwLbQ7r
- 3rWYC87ckwOD0P54qjMKeNUoJFab1Z9hFMEb2HvXtg+sTtY8Jz11cILBs0TCSg1ATfEx
- ZRGE0x9aEFaBgr9jEJnqqUlMA+tOOl++rm5uZKr5hjHoFcJAVmQhCfW+h9pXLwfr7kil
- kTZZmhrdWdnaDr5LaGV4EdvfkhxcPBZ/WhnDuuxT2n08AdPJlRGifCvcdXAEN2VMoT8t
- j6Dg==
-X-Gm-Message-State: AGi0PubrtS+hP+r3HAiO+1SgIr1OACWB9o9bpzLXDzeNB82Mk8T0voTn
- bKHhjxgzM/FpLwFrhcwZZNFu8oSaagAVETIQbMk=
-X-Google-Smtp-Source: APiQypKELxG2Zu+/IgnOHznksCTrFyYCI3/sZ1fZH4dlfuIptkeTpaoBq89BBsr63uaFngoOVdlLMTMHMYn3exK6JO8=
-X-Received: by 2002:a92:b69b:: with SMTP id m27mr5240435ill.250.1588706246508; 
- Tue, 05 May 2020 12:17:26 -0700 (PDT)
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=+v3yXRYBdTDl2IQ3cSUD9x3QkNmu1c3yvGjn11hkD6o=;
+ b=aodFDPvQ2KkjkdtNBs0FVAdeDRqb6rKXqvP8QTz7lBzAX8Vi3bKMOyqmNEwryoZZl4
+ Xr+iR3o5xdEO7ZK4BSvGtfAQYrsYTPzb+dnfE8hhH0/MRi6VeFOrzk/QUx0UtDmq5aET
+ TJQOhHvMHCDzQaD4ULOaFrFh07hT5kSE6MERGvnnldCP70O9tx3Gqy6lLuYk9FVMYhv4
+ aTvo/upesqIMauZVkQvSaFXpPU1ieU2+JuFOt3KcrkP3u1k0mWAf2qUZ8HJYbkr44LsX
+ ArXQqdnHkbgqkqId0O68twOHF4+gZiQnxSyEULAvgPQB6Y+lrBjhHBK1kqcgPrrvwpJH
+ O3qg==
+X-Gm-Message-State: AGi0PuZLyBIBlaDkWa8Y8yHEN3izXsVeqoVjy221ca51YKpvKTjwG1e4
+ 22hE8rBii7q1fyCHZJ9FEf2sPg==
+X-Google-Smtp-Source: APiQypIvJmxfC6YfB9qaWpknOl3wjvxDysY0VfmXMU+FrQLXWMy/7r1rrON3iWj84bN6y2eYj6M4lw==
+X-Received: by 2002:a17:90a:d0c3:: with SMTP id
+ y3mr5001545pjw.25.1588708380549; 
+ Tue, 05 May 2020 12:53:00 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id r78sm2678084pfr.10.2020.05.05.12.52.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 May 2020 12:52:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJwc6KtGT4+Y2jT1fxzYrkcqvkxgs9GGqxT-zZtj6ktRf-67jQ@mail.gmail.com>
- <20200505190336.GA12664@ravnborg.org>
-In-Reply-To: <20200505190336.GA12664@ravnborg.org>
-From: Artem Mygaiev <joculator@gmail.com>
-Date: Tue, 5 May 2020 22:17:15 +0300
-Message-ID: <CAJwc6Kv8D+h-eYsGyk2+QXvbZY5MA8B5ExVBW3mEY9cCbPqZ3Q@mail.gmail.com>
-Subject: Re: Question about sRGB framebuffer support
-To: Sam Ravnborg <sam@ravnborg.org>, Phong LE <ple@baylibre.com>
+In-Reply-To: <CAD=FV=Uq6K95FBkKYn=M6+7cfyam11n_f-9AMxosmDBZQYfmsQ@mail.gmail.com>
+References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
+ <158865745768.11125.12003632060774071567@swboyd.mtv.corp.google.com>
+ <CAD=FV=Uq6K95FBkKYn=M6+7cfyam11n_f-9AMxosmDBZQYfmsQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
+ polarity
+From: Stephen Boyd <swboyd@chromium.org>
+To: Doug Anderson <dianders@chromium.org>
+Date: Tue, 05 May 2020 12:52:58 -0700
+Message-ID: <158870837878.26370.13953763070282841423@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
+X-Mailman-Approved-At: Wed, 06 May 2020 07:02:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam
-
-On Tue, May 5, 2020 at 10:03 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Artem.
->
-> On Tue, May 05, 2020 at 01:24:16PM +0300, Artem Mygaiev wrote:
-> > Hello all
+Quoting Doug Anderson (2020-05-05 11:45:05)
+> On Mon, May 4, 2020 at 10:44 PM Stephen Boyd <swboyd@chromium.org> wrote:
 > >
-> > I am currently working on DRM/KMS driver for Fresco Logic FL2000 USB display
-> > controller [1]. I have already implemented a POC driver [2] which is working for
-> > me, although there are still plenty of things to improve or fix, of course.
+> > Quoting Douglas Anderson (2020-05-04 21:36:31)
+> > >         regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
+> > >                            CHA_DSI_LANES_MASK, val);
+> > >
+> > > +       regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
+> > > +       regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
+> > > +                          pdata->ln_polrs << LN_POLRS_OFFSET);
+> > > +
+> > >         /* set dsi clk frequency value */
+> > >         ti_sn_bridge_set_dsi_rate(pdata);
+> > >
+> > > @@ -1063,6 +1066,50 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
+> > >         return ret;
+> > >  }
+> > >
+> > > +static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
+> > > +                                    struct device_node *np)
+> > > +{
+> > > +       u32 lane_assignments[SN_MAX_DP_LANES] = { 0, 1, 2, 3 };
+> > > +       u32 lane_polarities[SN_MAX_DP_LANES] = { };
+> > > +       struct device_node *endpoint;
+> > > +       u8 ln_assign = 0;
+> > > +       u8 ln_polrs = 0;
 > >
-> > So far I have one thing that I somehow cannot find in DRM/KMS documentation or
-> > existing drivers: how to tell the system that HW expects sRGB (i.e. non-linear)
-> > color encoding in framebuffers? This is a HW limitation that I cannot influence
-> > by configuration.
-> >
-> > Any pointers are greatly appreciated.
-> No clue, I hope others can help you.
->
+> > Do we need to assign to 0 to start? Seems like no?
+> 
+> Yes.  See usage:
+> 
+>   ln_assign = ln_assign << LN_ASSIGN_WIDTH | lane_assignments[i];
+>   ln_polrs = ln_polrs << 1 | lane_polarities[i];
+> 
+> Notably each time we shift a new bit in we base on the old value.  If
+> you think it'll make it clearer, I can put this initialization at the
+> beginning of the loop.  It's 2 extra lines of code but if it adds
+> clarity I'll do it.
 
-Meanwhile I have implemented conversion to rgb565 in driver, HW seem
-to handle it correctly.
-
-> >
-> > [1] www.frescologic.com/product/single/fl2000
->
-> > [2] https://github.com/klogg/fl2000_drm
-> I just visited your github site - and noticed you are using the
-> it66121 bridge.
->
-> Phong LE <ple@baylibre.com> have recently submitted a patch to
-> add this bridge to the kernel:
-> https://lore.kernel.org/dri-devel/20200311125135.30832-1-ple@baylibre.com/
-
-Thanks for the pointer, the code looks familiar :)
-
-@Phong, feel free to add me to reviewers, I'll also test it with fl2k later on.
-
->
-> I did not really looks at your code, awaits that you feel ready to submit
-> it.
->         Sam
-
-Best regards,
-Artem Mygaiev
+No it doesn't really make it any clearer.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
