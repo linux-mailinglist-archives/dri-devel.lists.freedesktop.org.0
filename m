@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CC31C564F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 15:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE5B1C5663
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 15:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BF3895F5;
-	Tue,  5 May 2020 13:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD49389711;
+	Tue,  5 May 2020 13:08:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B832C895F5
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 13:07:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5EB989711
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 13:08:21 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207581] [amdgpu] Framebuffer no image CARRIZO and STONEY
-Date: Tue, 05 May 2020 13:07:08 +0000
+Date: Tue, 05 May 2020 13:08:21 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207581-2300-YWZ8MJbz9q@https.bugzilla.kernel.org/>
+Message-ID: <bug-207581-2300-N9g577bjk9@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207581-2300@https.bugzilla.kernel.org/>
 References: <bug-207581-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,10 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207581
 
---- Comment #1 from Jan Burgmeier (Jan.Burgmeier@unicon-software.com) ---
-Created attachment 288909
-  --> https://bugzilla.kernel.org/attachment.cgi?id=288909&action=edit
-lspci from lenovo 14w
+--- Comment #2 from Jan Burgmeier (Jan.Burgmeier@unicon-software.com) ---
+Created attachment 288911
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288911&action=edit
+lspci from IGEL UD7
 
 -- 
 You are receiving this mail because:
