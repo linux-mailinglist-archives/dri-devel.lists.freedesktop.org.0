@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1951C4E9C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 08:59:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016731C4DEC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 07:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C49686E52E;
-	Tue,  5 May 2020 06:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7FF16E3AC;
+	Tue,  5 May 2020 05:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA0466E0FD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 05:44:19 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id u10so375379pls.8
- for <dri-devel@lists.freedesktop.org>; Mon, 04 May 2020 22:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=OFyVgPW92xjeHjZOe3d3BTj75xEysQbpF9I3kxPup5I=;
- b=fqcQe4nTEPPqqUKFm8/irKkoCtCZhv5uz7tbiq6X/lrL0rbErtDlV6Z9fIJnnyHTbb
- WXKN028/CTSLOnK0pv+DU+ZH1xDdlXzRTO0xHKOYyaPVcyLAmhwH7TLcqE+vzRbU65K9
- /vOyhR7ZIDYOv8AzmWW2hfJjjb5ukdnp6PLbA=
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D52B6E3AC;
+ Tue,  5 May 2020 05:55:09 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id a21so313369ljb.9;
+ Mon, 04 May 2020 22:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5Jl8Jj64ibC9mIAmg/Ap6Jj3w1BwlRCCyo3VEMK9xNk=;
+ b=FbUX3wWMmYHcjwSRdlYy4lardgWzwLOqBHDjy5LpkkW7NILuTjeFJDm7A0mXyFjQtl
+ mJaT9TDGvIrE0jOMLX1wAb46VKaVkhOgkC5EIEjx1kn9oqwJgqTAvIbQOyLSgsLsEc+F
+ 7weYeDrINH1T4d+ACbCVO7LNc6Hc1Rfn7EgCAQA984az1ORolPCpoqSHmZQlUwMj3pj6
+ CMDwsyuCZ3adwDcLuulIypamK2ZpO7tHjw99oP9lKpiLHVMNtlfvB4ogz51E3YH+iN/x
+ cD38T+UMnnCjlVepELQrpDcAXzuipkQVgpFKC8VrUNoQTRFlC5oCBoyQsMatAVHw7eJm
+ v5oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=OFyVgPW92xjeHjZOe3d3BTj75xEysQbpF9I3kxPup5I=;
- b=rmYkbqbfPkfDj0GTrp4AI2NDs0J2w6rVdd7LCRgcjS1NE0nVFuMkpdN/odWiT7yf3h
- OsxuWwXsq5dQD7NpjH40BbAvrlA/9J25wzhmDe6DQct9tS2rjTTcukhDb0ceFaG1g0Ik
- cEapVHBVd5StRsUduZTLxjMFYq5MIGkZDoURtQqaFGmMj8pTr08n5SkFd76FHfu0JGlb
- eRTKrUQuHkEDNkXihIR11xB4a7SYo7ZrVC9sf5UNdlXf3Xii2E8Qcb2xAAnXglV5R7DS
- /zZeiYl9FcQeXzjrjaGDH7Nu2VJZHa9gnnqtsJvGAPsgM3ciCJHiFv2dipy8ClpepcRk
- CZoQ==
-X-Gm-Message-State: AGi0PuYIGfD66Y10MwUZ4FlYvw3DDMo0FnGbPgMzoe6vbLhXGkXwt3y0
- oU82OD5GsSm+1CxTRFu4ca00dQ==
-X-Google-Smtp-Source: APiQypKOZu4YMMmeSCWuV0yt1TPUe1gyOAOvbQ/KrM0zsU6tN1ZsiYm3L3tqll+HXgbuCJ3zsKE3YA==
-X-Received: by 2002:a17:902:8641:: with SMTP id
- y1mr1649408plt.14.1588657459376; 
- Mon, 04 May 2020 22:44:19 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
- by smtp.gmail.com with ESMTPSA id b29sm862082pfp.68.2020.05.04.22.44.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 22:44:18 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5Jl8Jj64ibC9mIAmg/Ap6Jj3w1BwlRCCyo3VEMK9xNk=;
+ b=jbO6DTw0Tzo/EuKVEVp8Bfjy4hsdkMJwMhqGGrZ18Mlqa5TS+ykxzfU4GTxs5bRQUo
+ V47rAN1RgCDFCrWoShWgbUb3/pSGPnFgT8a/mMTCBq/VnFA/PCT8MIstWsrSKyZ1CPU3
+ zuhlX14NGvqB2Ngs0/dN0WiIr+ZIk+IoTdzmUVtcCUdUcCkOvieheXLDL6wrFU6/dhHV
+ C10f4dIx4GrNjd79SRezgqkTvNFh1ABi8D9QoEHimhWfuX++7Bde6KZf2YAznrIXDjLm
+ WLPiEZGtCbo+MvL+NOlFR1PJMkJFvRCNCmyXy1G51oKUTr4JbCyqLU+bEA965Rz05Cfg
+ xhyQ==
+X-Gm-Message-State: AGi0Pub0R+ZUIg1kBVgfFL7JjEcCN+uMkuwN7DqqtCJH8q4a7Ls+EAwC
+ GJwr6a3AdItOCCJHBHYPl3LaQyjV+5+vzA==
+X-Google-Smtp-Source: APiQypKj427kpn++lsVAknyegPhtGV744X0rKkRsUjaI13o2Clu5IZP2HJNkrcmtGSp5f2+iUyb7eA==
+X-Received: by 2002:a2e:9791:: with SMTP id y17mr757567lji.174.1588658107094; 
+ Mon, 04 May 2020 22:55:07 -0700 (PDT)
+Received: from [192.168.0.103] (static-91-225-135-18.devs.futuro.pl.
+ [91.225.135.18])
+ by smtp.gmail.com with ESMTPSA id a12sm816405ljj.64.2020.05.04.22.55.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 04 May 2020 22:55:06 -0700 (PDT)
+Subject: Re: [PATCH] drm: Replace drm_modeset_lock/unlock_all with
+ DRM_MODESET_LOCK_ALL_* helpers
+To: Sean Paul <seanpaul@chromium.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <1588093804-30446-1-git-send-email-michalorzel.eng@gmail.com>
+ <875zdiacv2.fsf@intel.com>
+ <CAOw6vbK69aWzti9a7MXNmAfVfJXzzC5g74p4ukSE49MhaV_b3g@mail.gmail.com>
+ <CAKMK7uEzTn2nKyEaxMcd6602tprwkdnBrmrFYO+_Hi7FY39jAw@mail.gmail.com>
+ <520d517e-5e8f-a6c7-1c8a-38d1a368a79f@gmail.com>
+ <20200504115309.GJ10381@phenom.ffwll.local>
+From: =?UTF-8?B?TWljaGHFgiBPcnplxYI=?= <michalorzel.eng@gmail.com>
+Message-ID: <9cd2487b-c6a8-b057-e53c-b3dd1e7141aa@gmail.com>
+Date: Tue, 5 May 2020 07:55:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
-References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
- polarity
-From: Stephen Boyd <swboyd@chromium.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>
-Date: Mon, 04 May 2020 22:44:17 -0700
-Message-ID: <158865745768.11125.12003632060774071567@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
-X-Mailman-Approved-At: Tue, 05 May 2020 06:58:49 +0000
+In-Reply-To: <20200504115309.GJ10381@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,132 +77,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- seanpaul@chromium.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2020-05-04 21:36:31)
-> The ti-sn65dsi86 MIPI DSI to eDP bridge chip supports arbitrary
-> remapping of eDP lanes and also polarity inversion.  Both of these
-> features have been described in the device tree bindings for the
-> device since the beginning but were never implemented in the driver.
-> Implement both of them.
-> 
-> Part of this change also allows you to (via the same device tree
-> bindings) specify to use fewer than the max number of DP lanes that
-> the panel reports.  This could be useful if your display supports more
-> lanes but only a few are hooked up on your board.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-
-Except for one thing below:
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 1a125423eb07..52cca54b525f 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -707,26 +716,20 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->         int dp_rate_idx;
->         unsigned int val;
->         int ret = -EINVAL;
-> +       int max_dp_lanes;
->  
-> -       /*
-> -        * Run with the maximum number of lanes that the DP sink supports.
-> -        *
-> -        * Depending use cases, we might want to revisit this later because:
-> -        * - It's plausible that someone may have run fewer lines to the
-> -        *   sink than the sink actually supports, assuming that the lines
-> -        *   will just be driven at a higher rate.
-> -        * - The DP spec seems to indicate that it's more important to minimize
-> -        *   the number of lanes than the link rate.
-> -        *
-> -        * If we do revisit, it would be important to measure the power impact.
-> -        */
-> -       pdata->dp_lanes = ti_sn_get_max_lanes(pdata);
-> +       max_dp_lanes = ti_sn_get_max_lanes(pdata);
-> +       pdata->dp_lanes = min(pdata->dp_lanes, max_dp_lanes);
->  
->         /* DSI_A lane config */
->         val = CHA_DSI_LANES(4 - pdata->dsi->lanes);
-
-Not a problem in this patch, but maybe this can be SN_MAX_DP_LANES -
-pdata->dsi->lanes now.
-
->         regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
->                            CHA_DSI_LANES_MASK, val);
->  
-> +       regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
-> +       regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
-> +                          pdata->ln_polrs << LN_POLRS_OFFSET);
-> +
->         /* set dsi clk frequency value */
->         ti_sn_bridge_set_dsi_rate(pdata);
->  
-> @@ -1063,6 +1066,50 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
->         return ret;
->  }
->  
-> +static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
-> +                                    struct device_node *np)
-> +{
-> +       u32 lane_assignments[SN_MAX_DP_LANES] = { 0, 1, 2, 3 };
-> +       u32 lane_polarities[SN_MAX_DP_LANES] = { };
-> +       struct device_node *endpoint;
-> +       u8 ln_assign = 0;
-> +       u8 ln_polrs = 0;
-
-Do we need to assign to 0 to start? Seems like no?
-
-> +       int dp_lanes;
-> +       int i;
-> +
-> +       /*
-> +        * Read config from the device tree about lane remapping and lane
-> +        * polarities.  These are optional and we assume identity map and
-> +        * normal polarity if nothing is specified.  It's OK to specify just
-> +        * data-lanes but not lane-polarities but not vice versa.
-> +        */
-> +       endpoint = of_graph_get_endpoint_by_regs(np, 1, -1);
-> +       dp_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> +       if (dp_lanes > 0) {
-> +               of_property_read_u32_array(endpoint, "data-lanes",
-> +                                          lane_assignments, dp_lanes);
-> +               of_property_read_u32_array(endpoint, "lane-polarities",
-> +                                          lane_polarities, dp_lanes);
-> +       } else {
-> +               dp_lanes = SN_MAX_DP_LANES;
-> +       }
-
-Needs an of_node_put(endpoint) here for the
-of_graph_get_endpoint_by_regs() above.
-
-> +
-> +       /*
-> +        * Convert into register format.  Loop over all lanes even if
-> +        * data-lanes had fewer elements so that we nicely initialize
-> +        * the LN_ASSIGN register.
-> +        */
-> +       for (i = SN_MAX_DP_LANES - 1; i >= 0; i--) {
-> +               ln_assign = ln_assign << LN_ASSIGN_WIDTH | lane_assignments[i];
-> +               ln_polrs = ln_polrs << 1 | lane_polarities[i];
-> +       }
-> +
-> +       /* Stash in our struct for when we power on */
-> +       pdata->dp_lanes = dp_lanes;
-> +       pdata->ln_assign = ln_assign;
-> +       pdata->ln_polrs = ln_polrs;
-> +}
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiAwNC4wNS4yMDIwIDEzOjUzLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIEZyaSwgTWF5
+IDAxLCAyMDIwIGF0IDA1OjQ5OjMzUE0gKzAyMDAsIE1pY2hhxYIgT3J6ZcWCIHdyb3RlOgo+Pgo+
+Pgo+PiBPbiAzMC4wNC4yMDIwIDIwOjMwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4gT24gVGh1
+LCBBcHIgMzAsIDIwMjAgYXQgNTozOCBQTSBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9y
+Zz4gd3JvdGU6Cj4+Pj4KPj4+PiBPbiBXZWQsIEFwciAyOSwgMjAyMCBhdCA0OjU3IEFNIEphbmkg
+TmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+Pj4+Pgo+Pj4+PiBP
+biBUdWUsIDI4IEFwciAyMDIwLCBNaWNoYWwgT3J6ZWwgPG1pY2hhbG9yemVsLmVuZ0BnbWFpbC5j
+b20+IHdyb3RlOgo+Pj4+Pj4gQXMgc3VnZ2VzdGVkIGJ5IHRoZSBUT0RPIGxpc3QgZm9yIHRoZSBr
+ZXJuZWwgRFJNIHN1YnN5c3RlbSwgcmVwbGFjZQo+Pj4+Pj4gdGhlIGRlcHJlY2F0ZWQgZnVuY3Rp
+b25zIHRoYXQgdGFrZS9kcm9wIG1vZGVzZXQgbG9ja3Mgd2l0aCBuZXcgaGVscGVycy4KPj4+Pj4+
+Cj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWwgT3J6ZWwgPG1pY2hhbG9yemVsLmVuZ0BnbWFp
+bC5jb20+Cj4+Pj4+PiAtLS0KPj4+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVfb2JqZWN0
+LmMgfCAxMCArKysrKystLS0tCj4+Pj4+PiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
+KSwgNCBkZWxldGlvbnMoLSkKPj4+Pj4+Cj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9tb2RlX29iamVjdC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tb2RlX29iamVjdC5j
+Cj4+Pj4+PiBpbmRleCAzNWMyNzE5Li45MDFiMDc4IDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9tb2RlX29iamVjdC5jCj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX21vZGVfb2JqZWN0LmMKPj4+Pj4+IEBAIC00MDIsMTIgKzQwMiwxMyBAQCBpbnQgZHJtX21v
+ZGVfb2JqX2dldF9wcm9wZXJ0aWVzX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQg
+KmRhdGEsCj4+Pj4+PiAgewo+Pj4+Pj4gICAgICAgc3RydWN0IGRybV9tb2RlX29ial9nZXRfcHJv
+cGVydGllcyAqYXJnID0gZGF0YTsKPj4+Pj4+ICAgICAgIHN0cnVjdCBkcm1fbW9kZV9vYmplY3Qg
+Km9iajsKPj4+Pj4+ICsgICAgIHN0cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCBjdHg7Cj4+
+Pj4+PiAgICAgICBpbnQgcmV0ID0gMDsKPj4+Pj4+Cj4+Pj4+PiAgICAgICBpZiAoIWRybV9jb3Jl
+X2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTU9ERVNFVCkpCj4+Pj4+PiAgICAgICAgICAgICAg
+IHJldHVybiAtRU9QTk9UU1VQUDsKPj4+Pj4+Cj4+Pj4+PiAtICAgICBkcm1fbW9kZXNldF9sb2Nr
+X2FsbChkZXYpOwo+Pj4+Pj4gKyAgICAgRFJNX01PREVTRVRfTE9DS19BTExfQkVHSU4oZGV2LCBj
+dHgsIDAsIHJldCk7Cj4+Pj4+Cj4+Pj4+IEkgY3J5IGEgbGl0dGxlIGV2ZXJ5IHRpbWUgSSBsb29r
+IGF0IHRoZSBEUk1fTU9ERVNFVF9MT0NLX0FMTF9CRUdJTiBhbmQKPj4+Pj4gRFJNX01PREVTRVRf
+TE9DS19BTExfRU5EIG1hY3Jvcy4gOigKPj4+Pj4KPj4+Pj4gQ3VycmVudGx5IG9ubHkgc2l4IHVz
+ZXJzLi4uIGJ1dCB0aGVyZSBhcmUgfjYwIGNhbGxzIHRvCj4+Pj4+IGRybV9tb2Rlc2V0X2xvY2tf
+YWxseyxfY3R4fSB0aGF0IEkgcHJlc3VtZSBhcmUgdG8gYmUgcmVwbGFjZWQuIEkgd29uZGVyCj4+
+Pj4+IGlmIHRoaXMgd2lsbCBjb21lIGJhY2sgYW5kIGhhdW50IHVzLgo+Pj4+Pgo+Pj4+Cj4+Pj4g
+V2hhdCdzIHRoZSBhbHRlcm5hdGl2ZT8gU2VlbXMgbGlrZSB0aGUgb3B0aW9ucyB3aXRob3V0IHRo
+ZSBtYWNyb3MgaXMKPj4+PiB0byB1c2UgaW5jb3JyZWN0IHNjb3BlIG9yIGhhdmUgYSBidW5jaCBv
+ZiByZXRyeS9iYWNrb2ZmIGNhcmdvLWN1bHQKPj4+PiBldmVyeXdoZXJlIChhbmQgaG9wZSB0aGUg
+Y29weSBzb3VyY2UgaXMgZG9uZSBjb3JyZWN0bHkpLgo+Pj4KPj4+IFllYWggU2VhbiAmIG1lIGhh
+ZCBhIGJ1bmNoIG9mIGJpa2VzaGVkcyBhbmQgdGhpcyBpcyB0aGUgbGVhc3Qgd29yc3QKPj4+IG9w
+dGlvbiB3ZSBjb3VsZCBjb21lIHVwIHdpdGguIFlvdSBjYW4ndCBtYWtlIGl0IGEgZnVuY3Rpb24g
+YmVjYXVzZSBvZgo+Pj4gdGhlIGNvbnRyb2wgZmxvdy4gWW91IGRvbid0IHdhbnQgdG8gb3BlbiBj
+b2RlIHRoaXMgYmVjYXVzZSBpdCdzIHRyaWNreQo+Pj4gdG8gZ2V0IHJpZ2h0LCBpZiBhbGwgeW91
+IHdhbnQgaXMgdG8ganVzdCBncmFiIGFsbCBsb2Nrcy4gQnV0IGl0IGlzCj4+PiBtYWdpYyBoaWRk
+ZW4gYmVoaW5kIGEgbWFjcm8sIHdoaWNoIG9jY2FzaW9uYWxseSBlbmRzIHVwIGh1cnRpbmcuCj4+
+PiAtRGFuaWVsCj4+IFNvIHdoYXQgYXJlIHdlIGRvaW5nIHdpdGggdGhpcyBwcm9ibGVtPyBTaG91
+bGQgd2UgcmVwbGFjZSBhdCBvbmNlIGFwcHJveC4gNjAgY2FsbHM/Cj4gCj4gSSdtIGNvbmZ1c2Vk
+IGJ5IHlvdXIgcXVlc3Rpb24gLSBkcmFkdWFsIGNvbnZlcnNpb24gaXMgZW50aXJlbHkgb3J0aG9n
+b25hbAo+IHRvIHdoYXQgZXhhY3RseSB3ZSdyZSBjb252ZXJ0aW5nIHRvby4gQWxsIEkgYWRkZWQg
+aGVyZSBpcyB0aGF0IHdlJ3ZlCj4gZGlzY3Vzc2VkIHRoaXMgYXQgbGVuZ3RoLCBhbmQgdGhlIG1h
+Y3JvIGlzIHRoZSBiZXN0IHRoaW5nIHdlJ3ZlIGNvbWUgdXAKPiB3aXRoLiBJIHN0aWxsIHRoaW5r
+IGl0J3MgdGhlIGJlc3QgY29tcHJvbWlzZS4KPiAKPiBGbGFnLWRheSBjb252ZXJzaW9uIGZvciBv
+dmVyIDYwIGNhbGxzIGRvZXNuJ3Qgd29yaywgbm8gbWF0dGVyIHdoYXQuCj4gLURhbmllbAo+IApJ
+IGFncmVlIHdpdGggdGhhdC4gQWxsIEkgd2FudGVkIHRvIGFzayB3YXMgd2hldGhlciBJIHNob3Vs
+ZCBhZGQgc29tZXRoaW5nIGFkZGl0aW9uYWwgdG8gdGhpcyBwYXRjaCBvciBub3QuCgpUaGFua3Ms
+Ck1pY2hhbAo+Pgo+PiBNaWNoYWwKPj4+Cj4+Pj4gU2Vhbgo+Pj4+Cj4+Pj4+IEJSLAo+Pj4+PiBK
+YW5pLgo+Pj4+Pgo+Pj4+Pgo+Pj4+Pj4KPj4+Pj4+ICAgICAgIG9iaiA9IGRybV9tb2RlX29iamVj
+dF9maW5kKGRldiwgZmlsZV9wcml2LCBhcmctPm9ial9pZCwgYXJnLT5vYmpfdHlwZSk7Cj4+Pj4+
+PiAgICAgICBpZiAoIW9iaikgewo+Pj4+Pj4gQEAgLTQyNyw3ICs0MjgsNyBAQCBpbnQgZHJtX21v
+ZGVfb2JqX2dldF9wcm9wZXJ0aWVzX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQg
+KmRhdGEsCj4+Pj4+PiAgb3V0X3VucmVmOgo+Pj4+Pj4gICAgICAgZHJtX21vZGVfb2JqZWN0X3B1
+dChvYmopOwo+Pj4+Pj4gIG91dDoKPj4+Pj4+IC0gICAgIGRybV9tb2Rlc2V0X3VubG9ja19hbGwo
+ZGV2KTsKPj4+Pj4+ICsgICAgIERSTV9NT0RFU0VUX0xPQ0tfQUxMX0VORChjdHgsIHJldCk7Cj4+
+Pj4+PiAgICAgICByZXR1cm4gcmV0Owo+Pj4+Pj4gIH0KPj4+Pj4+Cj4+Pj4+PiBAQCAtNDQ5LDEy
+ICs0NTAsMTMgQEAgc3RhdGljIGludCBzZXRfcHJvcGVydHlfbGVnYWN5KHN0cnVjdCBkcm1fbW9k
+ZV9vYmplY3QgKm9iaiwKPj4+Pj4+ICB7Cj4+Pj4+PiAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2ID0gcHJvcC0+ZGV2Owo+Pj4+Pj4gICAgICAgc3RydWN0IGRybV9tb2RlX29iamVjdCAqcmVm
+Owo+Pj4+Pj4gKyAgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4IGN0eDsKPj4+Pj4+
+ICAgICAgIGludCByZXQgPSAtRUlOVkFMOwo+Pj4+Pj4KPj4+Pj4+ICAgICAgIGlmICghZHJtX3By
+b3BlcnR5X2NoYW5nZV92YWxpZF9nZXQocHJvcCwgcHJvcF92YWx1ZSwgJnJlZikpCj4+Pj4+PiAg
+ICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwo+Pj4+Pj4KPj4+Pj4+IC0gICAgIGRybV9tb2Rl
+c2V0X2xvY2tfYWxsKGRldik7Cj4+Pj4+PiArICAgICBEUk1fTU9ERVNFVF9MT0NLX0FMTF9CRUdJ
+TihkZXYsIGN0eCwgMCwgcmV0KTsKPj4+Pj4+ICAgICAgIHN3aXRjaCAob2JqLT50eXBlKSB7Cj4+
+Pj4+PiAgICAgICBjYXNlIERSTV9NT0RFX09CSkVDVF9DT05ORUNUT1I6Cj4+Pj4+PiAgICAgICAg
+ICAgICAgIHJldCA9IGRybV9jb25uZWN0b3Jfc2V0X29ial9wcm9wKG9iaiwgcHJvcCwgcHJvcF92
+YWx1ZSk7Cj4+Pj4+PiBAQCAtNDY4LDcgKzQ3MCw3IEBAIHN0YXRpYyBpbnQgc2V0X3Byb3BlcnR5
+X2xlZ2FjeShzdHJ1Y3QgZHJtX21vZGVfb2JqZWN0ICpvYmosCj4+Pj4+PiAgICAgICAgICAgICAg
+IGJyZWFrOwo+Pj4+Pj4gICAgICAgfQo+Pj4+Pj4gICAgICAgZHJtX3Byb3BlcnR5X2NoYW5nZV92
+YWxpZF9wdXQocHJvcCwgcmVmKTsKPj4+Pj4+IC0gICAgIGRybV9tb2Rlc2V0X3VubG9ja19hbGwo
+ZGV2KTsKPj4+Pj4+ICsgICAgIERSTV9NT0RFU0VUX0xPQ0tfQUxMX0VORChjdHgsIHJldCk7Cj4+
+Pj4+Pgo+Pj4+Pj4gICAgICAgcmV0dXJuIHJldDsKPj4+Pj4+ICB9Cj4+Pj4+Cj4+Pj4+IC0tCj4+
+Pj4+IEphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKPj4+Cj4+
+Pgo+Pj4KPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
