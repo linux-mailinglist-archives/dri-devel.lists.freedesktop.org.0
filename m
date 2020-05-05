@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25291C6301
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 23:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B911C6309
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 23:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163246E42E;
-	Tue,  5 May 2020 21:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1E56E430;
+	Tue,  5 May 2020 21:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478D66E42E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 21:24:37 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id y10so991388uao.8
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 14:24:37 -0700 (PDT)
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F2A6E430
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 21:25:40 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id p139so899087vkd.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 14:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xD9oC230/p7xdIyNhq/DI72VMWwLQ0pXEid/2VB2RIE=;
- b=mjnNLkkpMuBQM4TIComyfZixfgQHhE7tuFWValYOOMp5lib8ve2bEYRSkPoc6w3DfW
- x+MXBWW0cMkQbuC/d4jz2iCfV4rJYanNXcJZAoAycgsG6CSrTebEpKdKS1Jiumphdr4L
- iCabexNFAQFv7/oUMBhn7gE3sdcfhe6/b55/Y=
+ :cc; bh=SD6x55Qhc8P/MQPIZ2l6eEcYMnu118KHZyq+VyyY6KU=;
+ b=fvA9b4tWrD/H0GLbXPEs6tOAK8UDJwvrvOiaBXGDoleVtHqp6BYMLM+ltfgx/p5gGm
+ LwoaRBfPSkzoqh3TIhzjxtbDYblUMcqBZBysucb+19H1nqGwdJsX/IL9K9qBxJ5AZJo2
+ DsCRTaiymbtLV9sjkfLLVI0ujcE7nd8j8d/m8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xD9oC230/p7xdIyNhq/DI72VMWwLQ0pXEid/2VB2RIE=;
- b=T+O4NwSG5KcFZXwuNjZvVLmVOH3V0BpOvGBhPNlrRou8S8rxYSvFm+feVXcz3fB2LF
- +HAetFF2UceIUpAv9MVY8CQDhZQZnBGqnzWFqLQCRq1p0aady7HHVFJQPFoVOJzhNmYO
- Yqg6hmcHC/SnwQoTQi1NbnfGMIkN5qp5xmzo121vFo/Qo4hEh5vKn1iD5yqV7VVoYMeB
- m4SXbAQIsmfluny98VxLtLe/BkWSF/Ki6+QsrAzTfXT9hGPZ/2brfewPjbHi29fMw8et
- opvgtGiXZQ1nHRGhFt3BFfGWr/siwE2KEEzyNVPlQFUpauVxiHvup9dyyHEzceuhiktf
- cp3Q==
-X-Gm-Message-State: AGi0PuaGGuKj9kjp+y5gnT6x9Vt7peru57KgEIuHglpvkLoQlkrOmRA7
- N4ryu74lWlsWBxklgC/lkP7idG1sk1g=
-X-Google-Smtp-Source: APiQypLhuU+JOGIhrvGI5z7yg4gqM+wgyodkbc1aD1PUF14diXqc7fvMtg9HXNwtJcO6iAXAB5vOGQ==
-X-Received: by 2002:ab0:6806:: with SMTP id z6mr4345931uar.0.1588713876137;
- Tue, 05 May 2020 14:24:36 -0700 (PDT)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51])
- by smtp.gmail.com with ESMTPSA id 64sm105240vkx.12.2020.05.05.14.24.35
+ bh=SD6x55Qhc8P/MQPIZ2l6eEcYMnu118KHZyq+VyyY6KU=;
+ b=mjVQV5lZmrkqflz52L10C21+wa6Zw/RpR6KeHQLHwb0VlgPHe6vI/5MxxILkogyHW1
+ Jo/1eJu9zOFP3NYeUCkdt57jpv9Oeh+GJ+QdaqLkA+hSAk4wrVThIDpY6P0MixZSWxKX
+ AvDU7v7FmQ37fRlKGIHmSzTWVBMjOdC9GT9YODjLSv0kAR6NxEVpzUITFG8rFfoI7eyA
+ kgX4XO+EYFNrMntK/vdSes3CGH7j++6cG+LIwEYi8UIG7mD0U6pKzLlrF8n2gfzTooH9
+ jid9cnK3Kkq/dxXu8fFU4pq6h69gmjXB84gukjZadaKvNVrNAuwoJQgzTT4VRoJ7kSkL
+ Mjog==
+X-Gm-Message-State: AGi0Puaj9j7eQGHGkjogT5WVoiOf807BRFdWJOECEfHpCeodQrNYNqfY
+ mgI7ETVCSHTqVTxmNZGTPaMgInXP5z8=
+X-Google-Smtp-Source: APiQypK35UZdGpqkgpErSuNE+Nczww+2XdLQE93nwWpj3mwrDlaOZa+RJW+YJcA5tIqwVN2fGVLqwg==
+X-Received: by 2002:ac5:c810:: with SMTP id y16mr4265849vkl.49.1588713939637; 
+ Tue, 05 May 2020 14:25:39 -0700 (PDT)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com.
+ [209.85.217.47])
+ by smtp.gmail.com with ESMTPSA id a18sm1708059vsq.7.2020.05.05.14.25.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 14:24:35 -0700 (PDT)
-Received: by mail-vs1-f51.google.com with SMTP id x136so122731vsx.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 14:24:35 -0700 (PDT)
-X-Received: by 2002:a05:6102:4d:: with SMTP id
- k13mr4884961vsp.198.1588713874617; 
- Tue, 05 May 2020 14:24:34 -0700 (PDT)
+ Tue, 05 May 2020 14:25:38 -0700 (PDT)
+Received: by mail-vs1-f47.google.com with SMTP id 1so153781vsl.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 14:25:38 -0700 (PDT)
+X-Received: by 2002:a67:c40c:: with SMTP id c12mr4978460vsk.106.1588713937569; 
+ Tue, 05 May 2020 14:25:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
  <20200505082436.GD9658@pendragon.ideasonboard.com>
  <CAD=FV=WjUpwu5204K8yHzqsJv4vQX5S5CArH1Kj_kqjhZzTc9A@mail.gmail.com>
  <20200505210609.GA6094@pendragon.ideasonboard.com>
  <CAD=FV=UnGOYh8JX2=fEAqPN7wqANc0QevTirNO-WUDYMPqXcrg@mail.gmail.com>
- <20200505211401.GC6094@pendragon.ideasonboard.com>
-In-Reply-To: <20200505211401.GC6094@pendragon.ideasonboard.com>
+ <20200505212055.GA17960@ravnborg.org>
+In-Reply-To: <20200505212055.GA17960@ravnborg.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 May 2020 14:24:23 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WgRC-HViMxttF4VK+n48HNRuqAau8S7mgx6oSWsbZcgA@mail.gmail.com>
-Message-ID: <CAD=FV=WgRC-HViMxttF4VK+n48HNRuqAau8S7mgx6oSWsbZcgA@mail.gmail.com>
+Date: Tue, 5 May 2020 14:25:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Viwon0KV297H55Cv0XTaf5p2JFnzjc97m1srpbbmVMnQ@mail.gmail.com>
+Message-ID: <CAD=FV=Viwon0KV297H55Cv0XTaf5p2JFnzjc97m1srpbbmVMnQ@mail.gmail.com>
 Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
  polarity
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,7 +80,8 @@ Cc: Rob Clark <robdclark@chromium.org>,
  linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
  LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>
+ Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -89,29 +89,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, May 5, 2020 at 2:14 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Tue, May 5, 2020 at 2:21 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
-> > I'll add this documentation into the comments of the yaml, but I'm not
-> > going to try to implement enforcement at the yaml level.
+> Hi Dough.
 >
-> Why not ? :-)
+> > >
+> > > If we don't want to test that, I would at least document it in the DT
+> > > bindings. It will be a good occasion to switch the bindings to YAML ;-)
+> >
+> > Interesting that you bring this up.  Conversion to yaml is sitting
+> > waiting to land (or additional review comments):
+> >
+> > https://lore.kernel.org/r/20200430124442.v4.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid/
+>
+> Whole series is on my TODO list.
+> But it needs a few hours so do not expect anything until the weekend.
 
-Because trying to describe anything in the yaml bindings that doesn't
-fit in the exact pattern of things that the yaml bindings are designed
-to check is like constructing the empire state building with only
-toothpicks.
-
-If you want to suggest some syntax that would actually make this
-doable without blowing out the yaml bindings then I'm happy to add it.
-Me being naive would assume that we'd need to do an exhaustive list of
-the OK combinations.  That would be fine for the 1-land and 2-lane
-cases, but for 4 lanes that means adding 256 entries to the bindings.
-
-I think the correct way to do this would require adding code in the
-<https://github.com/devicetree-org/dt-schema> project but that's
-really only done for generic subsystem-level concepts and not for a
-single driver.
+No problem.  I know how hard it is to find time for big chunks like
+this.  I'll hope for something next week.  :-)
 
 -Doug
 _______________________________________________
