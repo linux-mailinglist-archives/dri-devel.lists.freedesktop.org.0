@@ -2,38 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454C31C5033
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 10:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7815C1C69A4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 09:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4CB6E140;
-	Tue,  5 May 2020 08:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBC886E28E;
+	Wed,  6 May 2020 07:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1256E140
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 08:24:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD92A542;
- Tue,  5 May 2020 10:24:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1588667082;
- bh=K/OJh48zGNT78SlVNOwf5w0V7ZXOE1Xg23O044fx8sw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jyS3r+8IzBwPQtU1IuirZ0ch5WrFVcklVSMD/H39tp1sK5Wy9mLINXROlwuS315zo
- nBHeuPebnJvTgU6yxoBCvyPmhNZRf1UC95RwPCcEXu9oQO+sJTvcIWZwRrK2BZMOpo
- BGlJ/sNOtZlEaQadu0FMohyo7ahbSbHJbmwOZ0kA=
-Date: Tue, 5 May 2020 11:24:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
- polarity
-Message-ID: <20200505082436.GD9658@pendragon.ideasonboard.com>
-References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC1B06E142
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 08:24:49 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id x4so1240777wmj.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 01:24:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+ :references; bh=xGGP0A8xqujpkkJ8oWkAeu/OIxPilG38zuMmQrK5MZI=;
+ b=jJhWZffScCx0e3lZoT4DkVbNHp/EHRJX1cSSuiBRgV9+tcA6W2H2xvor11VKMwPeTT
+ pNPzCTZzis1zWQMrPpq8yXrl4sihNtFVNIxkblUc06JHNHgHi7GY/CVICeOZ7HSwZwhK
+ LLljMHGC+9d9aALbIYpuo59t2atWcCoPyVY5fR6I6jtbtJqELYICrGgDhv0xr52Z00Vt
+ jOdmrs1XzTqZhAT72WpfhswrSwnjZC9QIr2Xmjwh2g46o82uRwUplDKWZABWbjZYVGuB
+ R/Qwcv1j1IT5L7AdAGZ54/NaTWO9LAulJGJwISyh47dRb5h6OFeaYuY7+WpZa7N3Pt4L
+ te+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:message-id:mime-version:subject:date
+ :in-reply-to:cc:to:references;
+ bh=xGGP0A8xqujpkkJ8oWkAeu/OIxPilG38zuMmQrK5MZI=;
+ b=Nlc5mbooeBVtET9Oqr37hEGagDdAkcQCp6BIcAwKQEG7ABozAwjYvVAn/PcKp0xVEa
+ r7U+h6LFEqg7XEkonBeiNQCu8uxdPcFBO8dcyTwwELDv/eWaUuizv1adNsKMfBb8XK0F
+ gm5V9duni8VbtRB91kPnShe0z39ZjUZsujSSH+o0E6Z+uZoXN//76nCsZMD6UNnwdFIy
+ Donup9NMCbWsdGjqsgRwmkJ46Qc0RATW+vdfwbAByCISAIgJRAXu+Q4vFi9Q7zqaiJCl
+ palPBc6AOFq5+XIOvkFABUSj9c1rqgwSFdakehVWyFlS4cKJh9lT8toyIXtCTGlbhk9r
+ 3xlw==
+X-Gm-Message-State: AGi0PuYPiFCUhV56s1P9fdFPancoz2G0bLfLD4g5cDkIiAAds0OMNjIX
+ MdQD/fHbMeHeDvu4XYDjE5U=
+X-Google-Smtp-Source: APiQypLFZMKLVpQMC6w3cBKrq2WU5NbIS9vaEpctXys2UHhz6d6TgzfmwjNaGDDg771mlz3n9Utg8g==
+X-Received: by 2002:a7b:c104:: with SMTP id w4mr2119154wmi.8.1588667088401;
+ Tue, 05 May 2020 01:24:48 -0700 (PDT)
+Received: from macbook-pro-alvaro.lan (246.red-83-44-9.dynamicip.rima-tde.net.
+ [83.44.9.246])
+ by smtp.gmail.com with ESMTPSA id n6sm1997551wrs.81.2020.05.05.01.24.46
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 05 May 2020 01:24:47 -0700 (PDT)
+From: =?utf-8?Q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>
+Message-Id: <FFE6FE5C-4FE0-49B6-AD36-CEF344015283@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] nand: brcmnand: correctly verify erased pages
+Date: Tue, 5 May 2020 10:24:46 +0200
+In-Reply-To: <2fea8057-8b84-790e-60ba-b6848a186e18@gmail.com>
+To: Florian Fainelli <f.fainelli@gmail.com>
+References: <20200504092943.2739784-1-noltari@gmail.com>
+ <2fea8057-8b84-790e-60ba-b6848a186e18@gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Mailman-Approved-At: Wed, 06 May 2020 07:02:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,203 +68,345 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+Cc: vigneshr@ti.com, kdasu.kdev@gmail.com, richard@nod.at,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, seanpaul@chromium.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ linaro-mm-sig@lists.linaro.org, linux-mtd@lists.infradead.org,
+ miquel.raynal@bootlin.com, bcm-kernel-feedback-list@broadcom.com,
+ computersforpeace@gmail.com, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1113090153=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas,
 
-Thank you for the patch.
+--===============1113090153==
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_299C2087-3EC6-467B-A0F1-58BBF48C0264"
 
-On Mon, May 04, 2020 at 09:36:31PM -0700, Douglas Anderson wrote:
-> The ti-sn65dsi86 MIPI DSI to eDP bridge chip supports arbitrary
-> remapping of eDP lanes and also polarity inversion.  Both of these
-> features have been described in the device tree bindings for the
-> device since the beginning but were never implemented in the driver.
-> Implement both of them.
-> 
-> Part of this change also allows you to (via the same device tree
-> bindings) specify to use fewer than the max number of DP lanes that
-> the panel reports.  This could be useful if your display supports more
-> lanes but only a few are hooked up on your board.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This patch is based upon my my outstanding series[1] not because there
-> is any real requirement but simply to avoid merge conflicts.  I
-> believe that my previous series is ready to land.  If, however, you'd
-> prefer that I rebase this patch somewhere atop something else then
-> please shout.
-> 
-> [1] https://lore.kernel.org/r/20200430194617.197510-1-dianders@chromium.org
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 75 ++++++++++++++++++++++-----
->  1 file changed, 62 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 1a125423eb07..52cca54b525f 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -50,8 +50,12 @@
->  #define SN_CHA_VERTICAL_BACK_PORCH_REG		0x36
->  #define SN_CHA_HORIZONTAL_FRONT_PORCH_REG	0x38
->  #define SN_CHA_VERTICAL_FRONT_PORCH_REG		0x3A
-> +#define SN_LN_ASSIGN_REG			0x59
-> +#define  LN_ASSIGN_WIDTH			2
->  #define SN_ENH_FRAME_REG			0x5A
->  #define  VSTREAM_ENABLE				BIT(3)
-> +#define  LN_POLRS_OFFSET			4
-> +#define  LN_POLRS_MASK				0xf0
->  #define SN_DATA_FORMAT_REG			0x5B
->  #define  BPP_18_RGB				BIT(0)
->  #define SN_HPD_DISABLE_REG			0x5C
-> @@ -98,6 +102,7 @@
->  
->  #define SN_REGULATOR_SUPPLY_NUM		4
->  
-> +#define SN_MAX_DP_LANES			4
->  #define SN_NUM_GPIOS			4
->  
->  /**
-> @@ -115,6 +120,8 @@
->   * @enable_gpio:  The GPIO we toggle to enable the bridge.
->   * @supplies:     Data for bulk enabling/disabling our regulators.
->   * @dp_lanes:     Count of dp_lanes we're using.
-> + * @ln_assign:    Value to program to the LN_ASSIGN register.
-> + * @ln_polr:      Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
->   *
->   * @gchip:        If we expose our GPIOs, this is used.
->   * @gchip_output: A cache of whether we've set GPIOs to output.  This
-> @@ -140,6 +147,8 @@ struct ti_sn_bridge {
->  	struct gpio_desc		*enable_gpio;
->  	struct regulator_bulk_data	supplies[SN_REGULATOR_SUPPLY_NUM];
->  	int				dp_lanes;
-> +	u8				ln_assign;
-> +	u8				ln_polrs;
->  
->  	struct gpio_chip		gchip;
->  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
-> @@ -707,26 +716,20 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->  	int dp_rate_idx;
->  	unsigned int val;
->  	int ret = -EINVAL;
-> +	int max_dp_lanes;
->  
-> -	/*
-> -	 * Run with the maximum number of lanes that the DP sink supports.
-> -	 *
-> -	 * Depending use cases, we might want to revisit this later because:
-> -	 * - It's plausible that someone may have run fewer lines to the
-> -	 *   sink than the sink actually supports, assuming that the lines
-> -	 *   will just be driven at a higher rate.
-> -	 * - The DP spec seems to indicate that it's more important to minimize
-> -	 *   the number of lanes than the link rate.
-> -	 *
-> -	 * If we do revisit, it would be important to measure the power impact.
-> -	 */
-> -	pdata->dp_lanes = ti_sn_get_max_lanes(pdata);
-> +	max_dp_lanes = ti_sn_get_max_lanes(pdata);
-> +	pdata->dp_lanes = min(pdata->dp_lanes, max_dp_lanes);
->  
->  	/* DSI_A lane config */
->  	val = CHA_DSI_LANES(4 - pdata->dsi->lanes);
->  	regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
->  			   CHA_DSI_LANES_MASK, val);
->  
-> +	regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
-> +	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
-> +			   pdata->ln_polrs << LN_POLRS_OFFSET);
-> +
->  	/* set dsi clk frequency value */
->  	ti_sn_bridge_set_dsi_rate(pdata);
->  
-> @@ -1063,6 +1066,50 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
->  	return ret;
->  }
->  
-> +static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
-> +				     struct device_node *np)
-> +{
-> +	u32 lane_assignments[SN_MAX_DP_LANES] = { 0, 1, 2, 3 };
-> +	u32 lane_polarities[SN_MAX_DP_LANES] = { };
-> +	struct device_node *endpoint;
-> +	u8 ln_assign = 0;
-> +	u8 ln_polrs = 0;
-> +	int dp_lanes;
-> +	int i;
-> +
-> +	/*
-> +	 * Read config from the device tree about lane remapping and lane
-> +	 * polarities.  These are optional and we assume identity map and
-> +	 * normal polarity if nothing is specified.  It's OK to specify just
-> +	 * data-lanes but not lane-polarities but not vice versa.
-> +	 */
-> +	endpoint = of_graph_get_endpoint_by_regs(np, 1, -1);
 
-Shouldn't you check for endpoint == NULL and fail probe if it is ?
+--Apple-Mail=_299C2087-3EC6-467B-A0F1-58BBF48C0264
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-> +	dp_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> +	if (dp_lanes > 0) {
-> +		of_property_read_u32_array(endpoint, "data-lanes",
-> +					   lane_assignments, dp_lanes);
-> +		of_property_read_u32_array(endpoint, "lane-polarities",
-> +					   lane_polarities, dp_lanes);
+Hi Florian,
 
-Similarly, with a buggy DT, you may have a buffer overrun here. I would
-first check that dp_lanes <= SN_MAX_DP_LANES and error out otherwise.
+I added it on v2.
 
-> +	} else {
-> +		dp_lanes = SN_MAX_DP_LANES;
-> +	}
-> +
-> +	/*
-> +	 * Convert into register format.  Loop over all lanes even if
-> +	 * data-lanes had fewer elements so that we nicely initialize
-> +	 * the LN_ASSIGN register.
-> +	 */
-> +	for (i = SN_MAX_DP_LANES - 1; i >= 0; i--) {
-> +		ln_assign = ln_assign << LN_ASSIGN_WIDTH | lane_assignments[i];
-> +		ln_polrs = ln_polrs << 1 | lane_polarities[i];
-> +	}
+Best regards,
+=C3=81lvaro.
 
-The datasheet documents the lane remapping register as allowing pretty
-much any combination, but "Table 12. Logical to Physical Supported
-Combinations" only documents a subset (for instance data-lanes = <2 3>
-isn't allowed in that table). Should we guard against invalid
-configurations ?
+> El 4 may 2020, a las 23:43, Florian Fainelli <f.fainelli@gmail.com> =
+escribi=C3=B3:
+>=20
+>=20
+>=20
+> On 5/4/2020 2:29 AM, =C3=81lvaro Fern=C3=A1ndez Rojas wrote:
+>> The current code checks that the whole OOB area is erased.
+>> This is a problem when JFFS2 cleanmarkers are added to the OOB, since =
+it will
+>> fail due to the usable OOB bytes not being 0xff.
+>> Correct this by only checking that the ECC aren't 0xff.
+>>=20
+>> Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com =
+<mailto:noltari@gmail.com>>
+>=20
+> Can you provide a Fixes: tag for this change?
+>=20
+>> ---
+>> drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 ++++++++++++++++++----
+>> 1 file changed, 18 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c =
+b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+>> index e4e3ceeac38f..546f0807b887 100644
+>> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+>> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+>> @@ -2018,6 +2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info =
+*mtd, struct nand_chip *chip,
+>> static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+>> 		  struct nand_chip *chip, void *buf, u64 addr)
+>> {
+>> +	struct mtd_oob_region oobecc;
+>> 	int i, sas;
+>> 	void *oob =3D chip->oob_poi;
+>> 	int bitflips =3D 0;
+>> @@ -2035,11 +2036,24 @@ static int =
+brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+>> 	if (ret)
+>> 		return ret;
+>>=20
+>> -	for (i =3D 0; i < chip->ecc.steps; i++, oob +=3D sas) {
+>> +	for (i =3D 0; i < chip->ecc.steps; i++) {
+>> 		ecc_chunk =3D buf + chip->ecc.size * i;
+>> -		ret =3D nand_check_erased_ecc_chunk(ecc_chunk,
+>> -						  chip->ecc.size,
+>> -						  oob, sas, NULL, 0,
+>> +
+>> +		ret =3D nand_check_erased_ecc_chunk(ecc_chunk, =
+chip->ecc.size,
+>> +						  NULL, 0, NULL, 0,
+>> +						  chip->ecc.strength);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +
+>> +		bitflips =3D max(bitflips, ret);
+>> +	}
+>> +
+>> +	for (i =3D 0; mtd->ooblayout->ecc(mtd, i, &oobecc) !=3D -ERANGE; =
+i++)
+>> +	{
+>> +		ret =3D nand_check_erased_ecc_chunk(NULL, 0,
+>> +						  oob + oobecc.offset,
+>> +						  oobecc.length,
+>> +						  NULL, 0,
+>> 						  chip->ecc.strength);
+>> 		if (ret < 0)
+>> 			return ret;
+>>=20
+>=20
+> --=20
+> Florian
 
-> +
-> +	/* Stash in our struct for when we power on */
-> +	pdata->dp_lanes = dp_lanes;
-> +	pdata->ln_assign = ln_assign;
-> +	pdata->ln_polrs = ln_polrs;
-> +}
-> +
->  static int ti_sn_bridge_probe(struct i2c_client *client,
->  			      const struct i2c_device_id *id)
->  {
-> @@ -1105,6 +1152,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->  		return ret;
->  	}
->  
-> +	ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
-> +
->  	ret = ti_sn_bridge_parse_regulators(pdata);
->  	if (ret) {
->  		DRM_ERROR("failed to parse regulators\n");
-> 
 
--- 
-Regards,
+--Apple-Mail=_299C2087-3EC6-467B-A0F1-58BBF48C0264
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
-Laurent Pinchart
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">Hi =
+Florian,<div class=3D""><br class=3D""></div><div class=3D"">I added it =
+on v2.</div><div class=3D""><br class=3D""></div><div class=3D"">Best =
+regards,</div><div class=3D"">=C3=81lvaro.<br class=3D""><div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">El 4 may =
+2020, a las 23:43, Florian Fainelli &lt;<a =
+href=3D"mailto:f.fainelli@gmail.com" =
+class=3D"">f.fainelli@gmail.com</a>&gt; escribi=C3=B3:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" class=3D"">On 5/4/2020 2:29 AM, =C3=81lvaro =
+Fern=C3=A1ndez Rojas wrote:</span><br style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><blockquote type=3D"cite" =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D"">The current code checks that the =
+whole OOB area is erased.<br class=3D"">This is a problem when JFFS2 =
+cleanmarkers are added to the OOB, since it will<br class=3D"">fail due =
+to the usable OOB bytes not being 0xff.<br class=3D"">Correct this by =
+only checking that the ECC aren't 0xff.<br class=3D""><br =
+class=3D"">Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas &lt;<a =
+href=3D"mailto:noltari@gmail.com" class=3D"">noltari@gmail.com</a>&gt;<br =
+class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">Can you provide a Fixes: tag for this change?</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" =
+class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
+font-size: 12px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">---<br =
+class=3D"">drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 =
+++++++++++++++++++----<br class=3D"">1 file changed, 18 insertions(+), 4 =
+deletions(-)<br class=3D""><br class=3D"">diff --git =
+a/drivers/mtd/nand/raw/brcmnand/brcmnand.c =
+b/drivers/mtd/nand/raw/brcmnand/brcmnand.c<br class=3D"">index =
+e4e3ceeac38f..546f0807b887 100644<br class=3D"">--- =
+a/drivers/mtd/nand/raw/brcmnand/brcmnand.c<br class=3D"">+++ =
+b/drivers/mtd/nand/raw/brcmnand/brcmnand.c<br class=3D"">@@ -2018,6 =
++2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct =
+nand_chip *chip,<br class=3D"">static int =
+brcmstb_nand_verify_erased_page(struct mtd_info *mtd,<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;struct nand_chip =
+*chip, void *buf, u64 addr)<br class=3D"">{<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>struct =
+mtd_oob_region oobecc;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>int i, sas;<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>void *oob =
+=3D chip-&gt;oob_poi;<br class=3D""><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>int bitflips =3D 0;<br =
+class=3D"">@@ -2035,11 +2036,24 @@ static int =
+brcmstb_nand_verify_erased_page(struct mtd_info *mtd,<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
+(ret)<br class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>return ret;<br class=3D""><br class=3D"">-<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>for (i =3D =
+0; i &lt; chip-&gt;ecc.steps; i++, oob +=3D sas) {<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>for (i =3D =
+0; i &lt; chip-&gt;ecc.steps; i++) {<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>ecc_chunk =
+=3D buf + chip-&gt;ecc.size * i;<br class=3D"">-<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>ret =3D =
+nand_check_erased_ecc_chunk(ecc_chunk,<br class=3D"">-<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;chip-&gt;ecc.size,<br =
+class=3D"">-<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-converted-space">&nbsp;</span>&nbsp;oob, =
+sas, NULL, 0,<br class=3D"">+<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>ret =3D =
+nand_check_erased_ecc_chunk(ecc_chunk, chip-&gt;ecc.size,<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-converted-space">&nbsp;</span>&nbsp;NULL, 0, =
+NULL, 0,<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;chip-&gt;ecc.strength);=
+<br class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>if (ret &lt; 0)<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>return =
+ret;<br class=3D"">+<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>bitflips =3D max(bitflips, =
+ret);<br class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>}<br class=3D"">+<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>for (i =3D =
+0; mtd-&gt;ooblayout-&gt;ecc(mtd, i, &amp;oobecc) !=3D -ERANGE; i++)<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>{<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>ret =3D =
+nand_check_erased_ecc_chunk(NULL, 0,<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;oob + =
+oobecc.offset,<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;oobecc.length,<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-converted-space">&nbsp;</span>&nbsp;NULL, =
+0,<br class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;chip-&gt;ecc.strength);=
+<br class=3D""><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>if (ret &lt; 0)<br class=3D""><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>return =
+ret;<br class=3D""><br class=3D""></blockquote><br style=3D"caret-color: =
+rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
+normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">--<span class=3D"Apple-converted-space">&nbsp;</span></span><br=
+ style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant-caps: normal; font-weight: =
+normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
+display: inline !important;" =
+class=3D"">Florian</span></div></blockquote></div><br =
+class=3D""></div></body></html>=
+
+--Apple-Mail=_299C2087-3EC6-467B-A0F1-58BBF48C0264--
+
+--===============1113090153==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1113090153==--
