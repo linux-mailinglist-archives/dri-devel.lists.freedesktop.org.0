@@ -2,104 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D641C53AE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 12:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38321C69AB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 09:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFB16E1C0;
-	Tue,  5 May 2020 10:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B35E6E497;
+	Wed,  6 May 2020 07:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97D896E1CD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 10:52:01 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200505105159euoutp018b9efa05405f12d886adae7c8dd15259~MHFT9aTuD0925809258euoutp01Z
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 10:51:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200505105159euoutp018b9efa05405f12d886adae7c8dd15259~MHFT9aTuD0925809258euoutp01Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1588675919;
- bh=yMyzoBogPw6/n1rpQDeBRxUwooVdKS0ckX3oXuZ31Gs=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=n9pEqCvgIdXgwRkn/S8vJWOkA7kgQo9PssCow77WZf48maX9xlcPeNPXiHkqcK5S+
- NIX2W+V0U0pCOAzNwdJFMTEfD6x8wYQft3xwqtcLC25s12xbFmmJ8BU+L+9G5EGTBw
- nsx9IdZnk+c0EH96H+giCg0ubsAyFjqnjcJarAnw=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200505105159eucas1p2e3417a908d5bdeaa73d3b629279ddda5~MHFTtvAJo0098600986eucas1p2j;
- Tue,  5 May 2020 10:51:59 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 7A.61.61286.F4541BE5; Tue,  5
- May 2020 11:51:59 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200505105158eucas1p2188fe0a38af9dc0195c9f1f5927761d5~MHFTD8nBA0658106581eucas1p2i;
- Tue,  5 May 2020 10:51:58 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200505105158eusmtrp12f82351d230d5cab13dcdc992691e1b2~MHFTDKTMU2856128561eusmtrp1E;
- Tue,  5 May 2020 10:51:58 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-9b-5eb1454fa229
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 5F.82.07950.E4541BE5; Tue,  5
- May 2020 11:51:58 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200505105158eusmtip2279b8eab8ea11ac35b06618ad8e6334c~MHFSYOBrz3039930399eusmtip2t;
- Tue,  5 May 2020 10:51:58 +0000 (GMT)
-Subject: Re: [PATCH v3 02/25] drm: core: fix common struct sg_table related
- issues
-To: Christoph Hellwig <hch@lst.de>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <5dd1cb55-accb-0dc6-4ca5-90c57cd19527@samsung.com>
-Date: Tue, 5 May 2020 12:51:58 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200505101508.GA14860@lst.de>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUzMcRzH973fw/06fnwddp/F2M7TSNFk+21hmrLfJtLWzJg4/MS663JX
- EhspTp2KHk45yWVW5KHc5bIwutGpprWy5Pkpix6EOtS4dPfz0H+vz/vz/uz7fm9fhpD3UL7M
- rrgEQRenUitpGWmvG2zyjwi7Fr3wpmkWl9VUL+GuFVZQ3LA9h+Aeufpo7uKl+xLOcieYG3j0
- RsJZ37VRXGtNEc2VfLlOcoaMUoqr/dxBcVU9OdRylr9cfBnxt79ZSN5ankHz1d9eU3xxfST/
- 6phTwtvOH+Sfud8RfF57GeJvPkmh+eyqcsTbGvfz/dZpa9kNsiXbBfWuPYJuwbItsp1um5OO
- H5buPdR6V5qC7tJG5MMADgJzwxfSiGSMHF9AYGoe/DMMIKhNN0vFoR/B++4jxN+T5wPHkYfl
- uAxBRRYnmvoQZOekSTyLiTgKrrc4vTwJK+F910PkMRG4jQD7RyfpWdA4EIy9Rm8QFi+D/Ft3
- vDqJZ8LFuqMjxwwzGW+CgrYo0TIB6k91eC0+eD4YTrsoDxN4OlT3FhEiK+Bpx1mJGNTEwL2G
- xSKHQp+rhhR5InQ5q6QiT4XGvExvZcBpCN40XZGKQyaC1tRCJLqC4XnTEO0JROC5UFGzQJRD
- wJ3Z45UBj4P23glihnGQay8gRJmFdINcdM8Gs/Pqv2drm1uIE0hpHtXMPKqNeVQb8/93LYgs
- RwohUa+JEfSBcUJSgF6l0SfGxQRs02qsaOQPNrqdX28gV8tWB8IMUo5l1/dXRMsp1R59ssaB
- gCGUk9jSH5XRcna7KnmfoNNu1iWqBb0DTWFIpYJddO7jJjmOUSUIsYIQL+j+biWMj28KyqIc
- nd3JB5tpiOhck0qdXdEwmT0Rnj3Fr1jhXuWMDT3grzApgzZsK7hQsiNtR+fKkF/awwbeb5ZG
- 5o+1lsgPhSGfLOPnDb5wqJPzk8a2/yqpXnrjTJctOJyPyN0YUPn9Z9dhpnDG4/3r5swcGrP6
- bcLxl/YHSXt3C2Gak6b1CluUktTvVAXOI3R61W+h15eOfwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrPIsWRmVeSWpSXmKPExsVy+t/xe7p+rhvjDO5/MLPoPXeSyWLjjPWs
- Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrHw41YWi7bOZawWBz88YbXY
- 8mYiqwOvx5p5axg99n5bwOKxaVUnm8f2bw9YPeadDPS4332cyWPzknqP2/8eM3tMvrGc0WP3
- zQY2j74tqxg9Np+u9vi8SS6AN0rPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshU
- Sd/OJiU1J7MstUjfLkEv49/m42wF/9krGi8fYG9gPMDWxcjJISFgInHnSz8jiC0ksJRRYuVK
- Roi4jMTJaQ2sELawxJ9rXUD1XEA1bxkl1hxfyQKSEBYIkdh66TgTiC0ioCTx9NVZRpAiZoEb
- zBLfNveyQ3TMZpJY3TgPbCybgKFE19susNW8AnYSU/bsB5vEIqAisfJYO9AkDg5RgViJloua
- ECWCEidnPgEr4RTQkWib/RXsImYBM4l5mx8yQ9jyEtvfzoGyxSVuPZnPNIFRaBaS9llIWmYh
- aZmFpGUBI8sqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwMjfduznlh2MXe+CDzEKcDAq8fBu
- +Lo+Tog1say4MvcQowQHs5II77IfG+KEeFMSK6tSi/Lji0pzUosPMZoC/TaRWUo0OR+YlPJK
- 4g1NDc0tLA3Njc2NzSyUxHk7BA7GCAmkJ5akZqemFqQWwfQxcXBKNTAu/Zj24MUfVz3/Poea
- 0hulT25wlU9Ypq3cd7k5wLzwlUjziYBk2WU3+yJcU9h+R4l47p5x9dNFy0NHJPJmmz6bv8W5
- 9wp7V7/ZzF3TOI/+K7uw+GFA+GrDucqrshSjE/z7pl1YvNXNZFvwly8ijNcjki/eduvISnj4
- sdCkUZrP3KfLQPnstCQlluKMREMt5qLiRADg0UVbEgMAAA==
-X-CMS-MailID: 20200505105158eucas1p2188fe0a38af9dc0195c9f1f5927761d5
-X-Msg-Generator: CA
-X-RootMTR: 20200505084625eucas1p1a3c25fd171f360e0aab2f76700699454
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200505084625eucas1p1a3c25fd171f360e0aab2f76700699454
-References: <20200505083926.28503-1-m.szyprowski@samsung.com>
- <20200505084614.30424-1-m.szyprowski@samsung.com>
- <CGME20200505084625eucas1p1a3c25fd171f360e0aab2f76700699454@eucas1p1.samsung.com>
- <20200505084614.30424-2-m.szyprowski@samsung.com>
- <20200505101508.GA14860@lst.de>
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D846E21E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 12:20:25 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 045CJLd1148552;
+ Tue, 5 May 2020 12:20:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=l6Hovj0frqbndClOojkWvSLrtSIeQ1ZkVqYnLI65NLM=;
+ b=inoc/0jleiTS50+G3DyhVY4HcIqQelWxZlKB95HBmeer6rDtNjxvysg7rSVAe9BsB0UD
+ S4+pB/p+HGa2U5H/Qmzv3SKlT7gDeuZrnNavSDfz2bE7RgGbeYwLmKiNaLqLALjUuxJt
+ UWiwO9rpfhAB1M4rfTdcSbiK7Bp3V2gvWpILKY7zyBjKeSp9aDykfJuUhsvUzde+6Jzk
+ O2KzqxgrX5IJXAJJXlixbj6BapLMEtuDP+5Bezw+RvzPhfd2ZsEsfxR8VwnKeciMA7YX
+ oYjJj/bRe1cKENjmRNd2vx3uB2mmI6DmLGWfAA9GJA8TmZ8n26+io4jb8ZSOJsp1a6dr SA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 30s0tmcaaw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 05 May 2020 12:20:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 045CCdNN093841;
+ Tue, 5 May 2020 12:20:22 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 30sjjyjh3p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 05 May 2020 12:20:22 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 045CKCKv025328;
+ Tue, 5 May 2020 12:20:12 GMT
+Received: from dhcp-10-154-151-51.vpn.oracle.com (/10.154.151.51)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 05 May 2020 05:20:12 -0700
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Subject: Re: [PATCH 00/17] drm/mgag200: Convert to atomic modesetting
+From: John Donnelly <john.p.donnelly@oracle.com>
+In-Reply-To: <aa14e291-5ddf-bd02-ceb7-5cb291a20858@suse.de>
+Date: Tue, 5 May 2020 07:20:10 -0500
+Message-Id: <8802DE27-AA22-4407-A177-17636FC6740A@oracle.com>
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <793986e2-eb08-db03-689f-db4442b0e872@Oracle.com>
+ <aa14e291-5ddf-bd02-ceb7-5cb291a20858@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+X-Mailer: Apple Mail (2.3445.9.1)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 phishscore=0
+ bulkscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005050099
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
+ phishscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005050099
+X-Mailman-Approved-At: Wed, 06 May 2020 07:02:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,49 +81,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
 
-On 05.05.2020 12:15, Christoph Hellwig wrote:
->> -		for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
->> +		for_each_sg_page(st->sgl, &sg_iter, st->orig_nents, 0)
-> Would it make sense to also add a for_each_sgtable_page helper that
-> hides the use of orig_nents?  To be used like:
->
-> 		for_each_sgtable_page(st, &sg_iter, 0) {
 
-We would need two helpers:
+> On May 4, 2020, at 8:39 AM, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> 
+> Hi John
+> 
+> Am 30.04.20 um 02:11 schrieb John Donnelly:
+>> On 4/29/20 9:32 AM, Thomas Zimmermann wrote:
+>>> This patchset converts mgag200 to atomic modesetting. It uses simple
+>>> KMS helpers and SHMEM.
+>>> 
+>>> Patches 1 to 4 simplifies the driver before the conversion. For example,
+>>> the HW cursor is not usable with the way universal planes work. A few
+>>> data structures can be cleaned up.
+>>> 
+>>> Patches 5 to 15 untangle the existing modesetting code into smaller
+>>> functions. Specifically, mode setting and plane updates are being
+>>> separated from each other.
+>>> 
+>>> Patch 16 converts mgag200 to simple KMS helpers and enables atomic
+>>> mode setting.
+>>> 
+>>> As some HW seems to require a framebuffer offset of 0 within the video
+>>> memory, it does not work with atomic modesetting. Atomically switching
+>>> plane framebuffers, requires either source or target buffer to be located
+>>> at a non-0 offet. To resolve this problem, patch 17 converts mgag200 from
+>>> VRAM helpers to SHMEM helpers. During plane updates, the content of the
+>>> SHMEM BO is memcpy'd to VRAM. From my subjective obersation, performance
+>>> is not nuch different from the original code.
+>>> 
+>>> The patchset has been tested on MGA G200EH hardware.
+>>> 
+>>> Thomas Zimmermann (17):
+>>>    drm/mgag200: Remove HW cursor
+>>>    drm/mgag200: Remove unused fields from struct mga_device
+>>>    drm/mgag200: Embed connector instance in struct mga_device
+>>>    drm/mgag200: Use managed mode-config initialization
+>>>    drm/mgag200: Clean up mga_set_start_address()
+>>>    drm/mgag200: Clean up mga_crtc_do_set_base()
+>>>    drm/mgag200: Move mode-setting code into separate helper function
+>>>    drm/mgag200: Split MISC register update into PLL selection, SYNC and
+>>>      I/O
+>>>    drm/mgag200: Update mode registers after plane registers
+>>>    drm/mgag200: Set pitch in a separate helper function
+>>>    drm/mgag200: Set primary plane's format in separate helper function
+>>>    drm/mgag200: Move TAGFIFO reset into separate function
+>>>    drm/mgag200: Move hiprilvl setting into separate functions
+>>>    drm/mgag200: Move register initialization into separate function
+>>>    drm/mgag200: Remove waiting from DPMS code
+>>>    drm/mgag200: Convert to simple KMS helper
+>>>    drm/mgag200: Replace VRAM helpers with SHMEM helpers
+>>> 
+>>>   drivers/gpu/drm/mgag200/Kconfig          |   4 +-
+>>>   drivers/gpu/drm/mgag200/Makefile         |   2 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_cursor.c | 319 --------
+>>>   drivers/gpu/drm/mgag200/mgag200_drv.c    |  51 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_drv.h    |  43 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_main.c   |  28 -
+>>>   drivers/gpu/drm/mgag200/mgag200_mode.c   | 948 ++++++++++++-----------
+>>>   drivers/gpu/drm/mgag200/mgag200_reg.h    |   5 +-
+>>>   drivers/gpu/drm/mgag200/mgag200_ttm.c    |  35 +-
+>>>   9 files changed, 563 insertions(+), 872 deletions(-)
+>>>   delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
+>>> 
+>>> -- 
+>>> 2.26.0
+>>> 
+>> 
+>> 
+>>  Hi Thomas ,
+>> 
+>>  I would like to test this on hardware that uses this device integrated
+>> into as BMC  ( iLo ) that I have ran into problems before. Can you post
+>> your staging URL so I can clone it ?
+> 
+> I uploaded the patches at
+> 
+> 
+> https://gitlab.freedesktop.org/tzimmermann/linux/-/tree/mgag200-simplekms-20200504
+> 
+> You can clone them with
+> 
+>  git clone git@gitlab.freedesktop.org:tzimmermann/linux.git
+> 
+> and checkout the mgag200-simplekms-20200405 branch afterwards.
+> 
+> Best regards
+> Thomas
+> 
+>> 
+>> 
+>> ( Thank you for CC'ing me. I removed my email from on dlist recently) .
+>> 
+>> 
+>> 
 
-for_each_sgtable_cpu_page() and for_each_sgtable_dma_page().
+     I had no issues running  these changes with gnome on a server with a mgag200 integrated into a BMC .
 
-I considered them, but then I found that there are already 
-for_each_sg_page(), for_each_sg_dma_page() and various special iterators 
-like sg_page_iter, sg_dma_page_iter and sg_mapping_iter. Too bad that 
-they are almost not used, at least in the DRM subsystem. I wonder if it 
-make sense to apply them or simply provide the two above mentioned 
-wrappers?
-
->> +	for_each_sg(sgt->sgl, sg, sgt->orig_nents, count) {
-> Same here, e.g.
->
-> 	for_each_sgtable_entry(sgt, sg, count) {
->
-> ?
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+    Tested-by:  John Donnelly <John.p.donnelly@oracle.com>
 
 _______________________________________________
 dri-devel mailing list
