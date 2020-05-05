@@ -2,38 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033D51C60A9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 21:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE78A1C60AD
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 21:04:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B14DD6E479;
-	Tue,  5 May 2020 19:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E50026E802;
+	Tue,  5 May 2020 19:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524B26E479
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 19:03:41 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 31D8C80441;
- Tue,  5 May 2020 21:03:38 +0200 (CEST)
-Date: Tue, 5 May 2020 21:03:36 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Artem Mygaiev <joculator@gmail.com>, Phong LE <ple@baylibre.com>
-Subject: Re: Question about sRGB framebuffer support
-Message-ID: <20200505190336.GA12664@ravnborg.org>
-References: <CAJwc6KtGT4+Y2jT1fxzYrkcqvkxgs9GGqxT-zZtj6ktRf-67jQ@mail.gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 967C36E802
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 19:04:13 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id j4so2613105otr.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 12:04:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Ez2jZ5YWvWKk1xrc5GCCzcclQFVn2i3O0Z1QVwxg5FI=;
+ b=c9gwUQXa/0I8LK+hHSiOObs4sT+Isbm90C0KDA282FxMd2wJ9MNtJRIkCyATGEbE1u
+ 0QYd3US3ZRXY2QWdYkwYoZlFVs+gkjq/PC6BxCBZWXWFCzOacTea8EwVGMTdJIMtFQbk
+ pzW3eJWe3bcQcxT56/o9/OLzS14IJYxanDlHXJi4jILWr5mnGstyrD7/fCEmspoHKUBH
+ O5TGyz/lQlqMGB9jt06MPSo/LA6biJjAVjJf+/0O0jMGgHWh8BLRP7AM9JXxBer0ZvhQ
+ rXr+/k5LWbF38p08YwH0sG4xBhvPIlMUDEjFiZEwI8WX3DQf+17GlqNOy6AUjO6Bc1Md
+ AeRg==
+X-Gm-Message-State: AGi0PuYSSabI1BZXSgufpbQHiFBsN3wxHiygLfH5Qp/aFXNJk/Ztn+fA
+ DOWQyge11bz8vf9EQPi1yQ==
+X-Google-Smtp-Source: APiQypLUoaZRtev0sjEUdQ8Wn5budqzOQLwjk0QYb1YINN2vbjLc9NGTn4SK0zkfuNm90+AXolxkHg==
+X-Received: by 2002:a9d:7d8a:: with SMTP id j10mr3878531otn.266.1588705452881; 
+ Tue, 05 May 2020 12:04:12 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id k8sm400975oop.30.2020.05.05.12.04.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 May 2020 12:04:12 -0700 (PDT)
+Received: (nullmailer pid 13521 invoked by uid 1000);
+ Tue, 05 May 2020 19:04:11 -0000
+Date: Tue, 5 May 2020 14:04:11 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kiran Gunda <kgunda@codeaurora.org>
+Subject: Re: [PATCH V6 3/4] backlight: qcom-wled: Add WLED5 bindings
+Message-ID: <20200505190410.GA13452@bogus>
+References: <1587656017-27911-1-git-send-email-kgunda@codeaurora.org>
+ <1587656017-27911-4-git-send-email-kgunda@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAJwc6KtGT4+Y2jT1fxzYrkcqvkxgs9GGqxT-zZtj6ktRf-67jQ@mail.gmail.com>
+In-Reply-To: <1587656017-27911-4-git-send-email-kgunda@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=jta1ecBkAAAA:8 a=vsRjAEWcAAAA:20 a=IpJZQVW2AAAA:8
- a=VwQbUJbxAAAA:8 a=m7yZuxv1mVnD7CP__70A:9 a=CjuIK1q_8ugA:10
- a=GL3GKE0QfFW_AYR4f9um:22 a=IawgGOuG5U0WyFbmm1f5:22
- a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,43 +61,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org,
+ Kiran Gunda <kgunda@codeaurora.org>, b.zolnierkie@samsung.com,
+ jingoohan1@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ devicetree@vger.kernel.org, robh+dt@kernel.org, jacek.anaszewski@gmail.com,
+ pavel@ucw.cz, linux-arm-msm@vger.kernel.org,
+ Subbaraman Narayanamurthy <subbaram@codeaurora.org>, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, Dan Murphy <dmurphy@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Artem.
-
-On Tue, May 05, 2020 at 01:24:16PM +0300, Artem Mygaiev wrote:
-> Hello all
+On Thu, 23 Apr 2020 21:03:36 +0530, Kiran Gunda wrote:
+> Add WLED5 specific bindings.
 > 
-> I am currently working on DRM/KMS driver for Fresco Logic FL2000 USB display
-> controller [1]. I have already implemented a POC driver [2] which is working for
-> me, although there are still plenty of things to improve or fix, of course.
+> Signed-off-by: Kiran Gunda <kgunda@codeaurora.org>
+> Signed-off-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
+> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+> ---
+>  .../bindings/leds/backlight/qcom-wled.yaml         | 59 ++++++++++++++++++++--
+>  1 file changed, 56 insertions(+), 3 deletions(-)
 > 
-> So far I have one thing that I somehow cannot find in DRM/KMS documentation or
-> existing drivers: how to tell the system that HW expects sRGB (i.e. non-linear)
-> color encoding in framebuffers? This is a HW limitation that I cannot influence
-> by configuration.
-> 
-> Any pointers are greatly appreciated.
-No clue, I hope others can help you.
 
-> 
-> [1] www.frescologic.com/product/single/fl2000
-
-> [2] https://github.com/klogg/fl2000_drm
-I just visited your github site - and noticed you are using the
-it66121 bridge.
-
-Phong LE <ple@baylibre.com> have recently submitted a patch to
-add this bridge to the kernel:
-https://lore.kernel.org/dri-devel/20200311125135.30832-1-ple@baylibre.com/
-
-I did not really looks at your code, awaits that you feel ready to submit
-it.
-	Sam
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
