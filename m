@@ -1,44 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE201C4D1D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 06:23:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A26E1C4D50
+	for <lists+dri-devel@lfdr.de>; Tue,  5 May 2020 06:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF556E125;
-	Tue,  5 May 2020 04:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573B56E045;
+	Tue,  5 May 2020 04:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2146E125
- for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 04:23:26 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207383] [Regression] 5.7-rc: amdgpu/polaris11 gpf:
- amdgpu_atomic_commit_tail
-Date: Tue, 05 May 2020 04:23:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: 1i5t5.duncan@cox.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207383-2300-toHl9jJcqk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207383-2300@https.bugzilla.kernel.org/>
-References: <bug-207383-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 717BD6E045
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 May 2020 04:32:38 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id t7so326468plr.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 May 2020 21:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OGLmPxsShIHn4CHHbn8Pe8eVKKsfBl2KpXHBFAlksI8=;
+ b=btGoVaOqEwDh281RyzGWWpVCibotYTf5Q5OZiRkLjKUSde0ATaySojqpvzC60y/oCY
+ LJyDkuQcisPIKzP+b1dgIQe8h/fyUo5uDW32lSNQSGFw/rvCwQ28Kh1Daiv/5BaDtQgG
+ BXISZfHmzwspCJZ+ZsuW6xjf5lZyTP06U8EVE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OGLmPxsShIHn4CHHbn8Pe8eVKKsfBl2KpXHBFAlksI8=;
+ b=nh9c8dHIxmMrngACZUNWeUHqx9JNgMgQPPar/9KumSrML185sx113emcHSEqWDo4tC
+ x92Brpfi7b23UYsefikOMSpqc4YKGdcdirGG/Q5KjyM2qCCr0gEMDHoPIpGfC2kY78Cm
+ jpGn1U6WlSq9Hsf54LEQjjzQXuJ7XIwFjBPWkoEAlPBHn9aqldy3zo24g8dSJuL3F5Ou
+ S7uY1atUpKqNB9WmQx1RIhRmgAVU6B/swmGNymKO5Ll5zP+Yi5Cm0o++y/WdmyB+CGHb
+ cJYK/a9kVU4ZSGxySSO1mSciKLXxulw+j5KnpJnFfNOFOoDn/iB81DdiDQCo6gJI4/Rf
+ iBew==
+X-Gm-Message-State: AGi0Pua7GR6ixNMh39Eg3E8pbTlJJ/a6FfRLKmnRljmgvYsaPGoNNw5H
+ QyvTApHgta7hWSMcS4W8hzoVXA==
+X-Google-Smtp-Source: APiQypJRhfyblghgHdLN4pfxYjK2JQv0NLCq3d5jMQ6MWWmHOgq57l9LIwfyXHf0s/iviGLG8+DN3A==
+X-Received: by 2002:a17:90a:fb4e:: with SMTP id
+ iq14mr608631pjb.146.1588653158036; 
+ Mon, 04 May 2020 21:32:38 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+ by smtp.gmail.com with ESMTPSA id w11sm545075pjy.11.2020.05.04.21.32.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 21:32:37 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: Fix off-by-one error in clock choice
+Date: Mon,  4 May 2020 21:32:29 -0700
+Message-Id: <20200504213225.1.I21646c7c37ff63f52ae6cdccc9bc829fbc3d9424@changeid>
+X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,39 +65,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Sandeep Panda <spanda@codeaurora.org>,
+ seanpaul@chromium.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207383
+If the rate in our table is _equal_ to the rate we want then it's OK
+to pick it.  It doesn't need to be greater than the one we want.
 
---- Comment #11 from Duncan (1i5t5.duncan@cox.net) ---
-(In reply to Duncan from comment #10)
-> I did get an apparent graphics crash at the bisect-point above, but it
-> didn't dump anything in the log this time
+Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-Got a gpf dump with amdgpu_atomic_commit_tail, confirming it's the same bug. 
-Still a couple bisect steps to go, but the EFI candidate's out now, leaving
-only three (plus mediatek and nouveau, and an amdgpu that says it was doc fix
-only), and the current round is testing between 406 and the 6bf/17f pair so I
-should eliminate at least one of the three this round:
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-4064b9827
-Peter Xu
-mm: allow VM_FAULT_RETRY for multiple times
-
-6bfef2f91
-Jason Gunthorpe
-mm/hmm: remove HMM_FAULT_SNAPSHOT
-
-17ffdc482
-Christoph Hellwig
-mm: simplify device private page handling in hmm_range_fault
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 6ad688b320ae..be000b0ca56b 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -475,7 +475,7 @@ static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn_bridge *pdata)
+ 				   1000 * pdata->dp_lanes * DP_CLK_FUDGE_DEN);
+ 
+ 	for (i = 1; i < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut) - 1; i++)
+-		if (ti_sn_bridge_dp_rate_lut[i] > dp_rate_mhz)
++		if (ti_sn_bridge_dp_rate_lut[i] >= dp_rate_mhz)
+ 			break;
+ 
+ 	return i;
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2.526.g744177e7f7-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
