@@ -2,39 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978F31C76E3
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB8D1C831C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A77356E8AF;
-	Wed,  6 May 2020 16:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4EA66E93A;
+	Thu,  7 May 2020 07:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93BE6E8AF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:45:20 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 753D08046E;
- Wed,  6 May 2020 18:45:18 +0200 (CEST)
-Date: Wed, 6 May 2020 18:45:17 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Dmitry Osipenko <digetx@gmail.com>, g@ravnborg.org
-Subject: Re: [PATCH v5 5/6] drm/tegra: output: rgb: Support LVDS encoder bridge
-Message-ID: <20200506164517.GE19296@ravnborg.org>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E90B6E8B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 17:05:31 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id g4so3194657ljl.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 10:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i6DgO5+TRdDJq45v1B/zETVA5zYOWCANdfi6IDZAE08=;
+ b=nJ/sVN4kSr6t9IdoSsZPyyOmbUtLWQu7s5b311BEDJvl06V1lFO2Wk5poGrlIbZsWG
+ G8EybU7nSnwfFfkbvCXPrcZUZQIqm16wZ+rPp0O3hQE0JEcsYsFTb3O3J/N12j9y2gzY
+ RBKwbVGcFBA26M8N0u/dDpO8IVTP26eaMkcKJ0052VehWgaqhfAqoGIcUzS/bm+YkiGh
+ Ky74G8aJ+0xjJNlTypLKNlTCx+b/tYENL6cUTpTDZwR/eERinbs/nmOg/5KfmgeHFH8G
+ DQemBq3wpqRb34Ade7odH7pdEztMk6j5BPSz1mhgc2rrp7b5WDgNZtw5mGMw6mWcU5J2
+ Vzgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i6DgO5+TRdDJq45v1B/zETVA5zYOWCANdfi6IDZAE08=;
+ b=e8dhcX1dFs4MLqQ9KnwUf9GLqf2tB2cd4OqZgr133ifaPCoRA3lCh5dU50+5DpgmVx
+ iLp0cLUtMxFE9Nb34NeoOUWieK4sQmlV8BlU3duJIhvV6Vm39j4JYmy1c0KRLbQnWWjg
+ XSBb2oAZ6qZyRo+ecvteF3x01Pv0qCqXfiALMq1SbvGoVZoJwLYhbwGVSuiZbPFm6wNn
+ fIh2IpxJFwlYMSOV4hTcnZ2Ij2oFmj58a3lv56ryx3YsgcrgRLkaFsilqwRw++wpd6Ou
+ GlKGl29772r9uGnvNPGIBtcdUM3YfN4CgSeZAy5h4wgjfn3GT+6UAT/QPFInV7brXrX1
+ u+Lw==
+X-Gm-Message-State: AGi0Pua+l9mzvF0OxQAALyWeD3K1cKn+i02fvbQAOgEs7hDogxXy9PI2
+ DvOtC0Z+Rs4mFjCNiwcZipscuvpu
+X-Google-Smtp-Source: APiQypKTUTxtYqnFPuX+HwJKBbGWBlPEj9Ko1LNSd7vmorqXwvlYb84XnkdhwewUOEpEiJLOYMc43Q==
+X-Received: by 2002:a2e:80c1:: with SMTP id r1mr5389478ljg.227.1588784729261; 
+ Wed, 06 May 2020 10:05:29 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.googlemail.com with ESMTPSA id d9sm1971851lfa.77.2020.05.06.10.05.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 May 2020 10:05:28 -0700 (PDT)
+Subject: Re: [PATCH v5 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
+ check graph's presence
+To: Sam Ravnborg <sam@ravnborg.org>
 References: <20200418170703.1583-1-digetx@gmail.com>
- <20200418170703.1583-6-digetx@gmail.com>
+ <20200418170703.1583-3-digetx@gmail.com>
+ <20200506164133.GB19296@ravnborg.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f288e704-2fdb-d548-9f5b-8016412dfd3f@gmail.com>
+Date: Wed, 6 May 2020 20:05:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200418170703.1583-6-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
- a=e5mUnYsNAAAA:8 a=EMU4hVWXcrfB3vzXjuAA:9 a=CjuIK1q_8ugA:10
- a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200506164133.GB19296@ravnborg.org>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,116 +79,22 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 18, 2020 at 08:07:02PM +0300, Dmitry Osipenko wrote:
-> Newer Tegra device-trees will specify a video output graph, which involves
-> LVDS encoder bridge. This patch adds support for the LVDS encoder bridge
-> to the RGB output, allowing us to model the display hardware properly.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/tegra/rgb.c | 58 +++++++++++++++++++++++++++++++------
->  1 file changed, 49 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-> index 0562a7eb793f..9a7024ec96bc 100644
-> --- a/drivers/gpu/drm/tegra/rgb.c
-> +++ b/drivers/gpu/drm/tegra/rgb.c
-> @@ -7,6 +7,7 @@
->  #include <linux/clk.h>
->  
->  #include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge_connector.h>
->  #include <drm/drm_panel.h>
->  #include <drm/drm_simple_kms_helper.h>
->  
-> @@ -267,24 +268,63 @@ int tegra_dc_rgb_remove(struct tegra_dc *dc)
->  int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
->  {
->  	struct tegra_output *output = dc->rgb;
-> +	struct drm_connector *connector;
->  	int err;
->  
->  	if (!dc->rgb)
->  		return -ENODEV;
->  
-> -	drm_connector_init(drm, &output->connector, &tegra_rgb_connector_funcs,
-> -			   DRM_MODE_CONNECTOR_LVDS);
-> -	drm_connector_helper_add(&output->connector,
-> -				 &tegra_rgb_connector_helper_funcs);
-> -	output->connector.dpms = DRM_MODE_DPMS_OFF;
-> -
->  	drm_simple_encoder_init(drm, &output->encoder, DRM_MODE_ENCODER_LVDS);
->  	drm_encoder_helper_add(&output->encoder,
->  			       &tegra_rgb_encoder_helper_funcs);
->  
-> -	drm_connector_attach_encoder(&output->connector,
-> -					  &output->encoder);
-> -	drm_connector_register(&output->connector);
-> +	/*
-> +	 * Tegra devices that have LVDS panel utilize LVDS encoder bridge
-> +	 * for converting up to 28 LCD LVTTL lanes into 5/4 LVDS lanes that
-> +	 * go to display panel's receiver.
-> +	 *
-> +	 * Encoder usually have a power-down control which needs to be enabled
-> +	 * in order to transmit data to the panel.  Historically devices that
-> +	 * use an older device-tree version didn't model the bridge, assuming
-> +	 * that encoder is turned ON by default, while today's DRM allows us
-> +	 * to model LVDS encoder properly.
-> +	 *
-> +	 * Newer device-trees utilize LVDS encoder bridge, which provides
-> +	 * us with a connector and handles the display panel.
-> +	 *
-> +	 * For older device-trees we fall back to our own connector and use
-> +	 * nvidia,panel phandle.
-> +	 */
-> +	if (output->bridge) {
-> +		err = drm_bridge_attach(&output->encoder, output->bridge,
-> +					NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +		if (err) {
-> +			dev_err(output->dev, "failed to attach bridge: %d\n",
-> +				err);
-> +			return err;
-> +		}
-> +
-> +		connector = drm_bridge_connector_init(drm, &output->encoder);
-> +		if (IS_ERR(connector)) {
-> +			dev_err(output->dev,
-> +				"failed to initialize bridge connector: %pe\n",
-> +				connector);
-> +			return PTR_ERR(connector);
-> +		}
-> +
-> +		drm_connector_attach_encoder(connector, &output->encoder);
-> +	} else {
-> +		drm_connector_init(drm, &output->connector,
-> +				   &tegra_rgb_connector_funcs,
-> +				   DRM_MODE_CONNECTOR_LVDS);
-> +		drm_connector_helper_add(&output->connector,
-> +					 &tegra_rgb_connector_helper_funcs);
-> +		output->connector.dpms = DRM_MODE_DPMS_OFF;
-> +
-> +		drm_connector_attach_encoder(&output->connector,
-> +					     &output->encoder);
-> +		drm_connector_register(&output->connector);
-> +	}
->  
->  	err = tegra_output_init(drm, output);
->  	if (err < 0) {
-> -- 
-> 2.26.0
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDYuMDUuMjAyMCAxOTo0MSwgU2FtIFJhdm5ib3JnINC/0LjRiNC10YI6Cj4gT24gU2F0LCBBcHIg
+MTgsIDIwMjAgYXQgMDg6MDY6NTlQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiBX
+aGVuIGdyYXBoIGlzbid0IGRlZmluZWQgaW4gYSBkZXZpY2UtdHJlZSwgdGhlIG9mX2dyYXBoX2dl
+dF9yZW1vdGVfbm9kZSgpCj4+IHByaW50cyBhIG5vaXN5IGVycm9yIG1lc3NhZ2UsIHRlbGxpbmcg
+dGhhdCBwb3J0IG5vZGUgaXMgbm90IGZvdW5kLiBUaGlzIGlzCj4+IHVuZGVzaXJhYmxlIGJlaGF2
+aW91ciBpbiBvdXIgY2FzZSBiZWNhdXNlIGFic2VuY2Ugb2YgYSBwYW5lbC9icmlkZ2UgZ3JhcGgK
+Pj4gaXMgYSB2YWxpZCBjYXNlLiBMZXQncyBjaGVjayBwcmVzZW5jZSBvZiB0aGUgbG9jYWwgcG9y
+dCBpbiBhIGRldmljZS10cmVlCj4+IGJlZm9yZSBwcm9jZWVkaW5nIHdpdGggcGFyc2luZyB0aGUg
+Z3JhcGguCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWls
+LmNvbT4KPiBSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgoKVGhh
+bmsgeW91IGFnYWluIGZvciB0YWtpbmcgYSBsb29rIGF0IHRoZXNlIHBhdGNoZXMhCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
