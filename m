@@ -1,61 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA221C780F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 19:35:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3DF1C782A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 19:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F946E8B7;
-	Wed,  6 May 2020 17:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0CF6E8BA;
+	Wed,  6 May 2020 17:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B29A36E8B7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 17:35:43 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 046HZVkw103808;
- Wed, 6 May 2020 12:35:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1588786531;
- bh=EaGNiVHRrlAZYXXBERxfZT7BGumy9fgH/Sfqh9FjJlc=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=EF5rBrg4HaRDOlGi6AEnqAdzew8tmyq3c6VEkbyVuQhCVWPq7GTRT3wdAFQhU0o/1
- l4gbAAe7XGImtfHrJbviASZQITOZ+Q9R6V/BfcOeUgmpsfVobtkx5RLpbf2Dq7GDPG
- yIwsqKJOE0XeGpHrG4sTB4N4OCyHsCE1Tgq95ii4=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 046HZVFP049979
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 6 May 2020 12:35:31 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 6 May
- 2020 12:35:31 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 6 May 2020 12:35:31 -0500
-Received: from [10.250.38.163] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 046HZUNM126702;
- Wed, 6 May 2020 12:35:30 -0500
-Subject: Re: [RFC][PATCH 1/4] devicetree: bindings: Add linux, cma-heap tag for
- reserved memory
-To: John Stultz <john.stultz@linaro.org>
-References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-2-john.stultz@linaro.org>
- <20200501104216.4f226c2a7bzval5o@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
- <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
- <1bddb721-d4d9-f113-bacc-0a0ca2d57753@ti.com>
- <CALAqxLWnEj-c3CYGC6p23cwMqce-MV6pJOzGbp+ptWFB0NQoog@mail.gmail.com>
-From: "Andrew F. Davis" <afd@ti.com>
-Message-ID: <1b82e66e-01b9-5c4d-9777-1aa34bf1b07e@ti.com>
-Date: Wed, 6 May 2020 13:35:30 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8773F6E8BA
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 17:41:01 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 6599A803E8;
+ Wed,  6 May 2020 19:40:59 +0200 (CEST)
+Date: Wed, 6 May 2020 19:40:52 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] video: fbdev: i810: use true,false for bool variables
+Message-ID: <20200506174052.GF19296@ravnborg.org>
+References: <20200422071826.49038-1-yanaijie@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CALAqxLWnEj-c3CYGC6p23cwMqce-MV6pJOzGbp+ptWFB0NQoog@mail.gmail.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20200422071826.49038-1-yanaijie@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
+ a=t5bY3fDbLEjA0SOcjXMA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,95 +44,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, nd <nd@arm.com>,
- Alistair Strachan <astrachan@google.com>, Sandeep Patil <sspatil@google.com>,
- Robin Murphy <robin.murphy@arm.com>, Chenbo Feng <fengc@google.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- linux-mm <linux-mm@kvack.org>, Rob Herring <robh+dt@kernel.org>,
- Christoph Hellwig <hch@lst.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, b.zolnierkie@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/6/20 12:30 PM, John Stultz wrote:
-> On Wed, May 6, 2020 at 9:04 AM Andrew F. Davis <afd@ti.com> wrote:
->> On 5/4/20 4:50 AM, Brian Starkey wrote:
->>> On Fri, May 01, 2020 at 11:40:16AM -0700, John Stultz wrote:
->>>> So the name we expose is the CMA name itself. So with dt it will be
->>>> the name of the reserved memory node that the flag property is added
->>>> to.
->>>>
->>>
->>> Yeah I'm just wondering if that's "stable" so we can say "the heap
->>> will use the node name", or if saying that would cause us a headache
->>> in the future.
->>
->>
->> The issue is going to be this causes the node name in DT to become a
->> kind of ABI. Right now until we have some userspace lib that enumerates
->> the heaps in a stable way programs will hard-code the full heap name,
->> which right now would look like:
->>
->> char *heap = "/dev/dma_heap/dma_heap_mem@89000000";
->>
+On Wed, Apr 22, 2020 at 03:18:26PM +0800, Jason Yan wrote:
+> Fix the following coccicheck warning:
 > 
-> If that's what the device chose to export.
+> drivers/video/fbdev/i810/i810_main.c:1969:3-7: WARNING: Assignment of
+> 0/1 to bool variable
+> drivers/video/fbdev/i810/i810_main.c:1971:3-8: WARNING: Assignment of
+> 0/1 to bool variable
+> drivers/video/fbdev/i810/i810_main.c:1973:3-9: WARNING: Assignment of
+> 0/1 to bool variable
+> drivers/video/fbdev/i810/i810_main.c:1975:3-7: WARNING: Assignment of
+> 0/1 to bool variable
+> drivers/video/fbdev/i810/i810_main.c:2001:3-9: WARNING: Assignment of
+> 0/1 to bool variable
 > 
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
 
+Thanks.
 
-Well no "device" exported it, we did mostly automatically using only DT
-information. When making a DT I don't want to be thinking about how
-names will break userspace, for instance if node naming guidance is
-updated do apps suddenly stop working? That worries me a bit.
+I have pushed this and your other three patches to drm-misc-next.
+They will show up in the mainline kernel in the next merge window.
 
+	Sam
 
->> Yuk.. we might want to look into exporting heap properties to make them
->> searchable based on something other than name here soon. Or this will be
->> a mess to cleanup in the future.
+> ---
+>  drivers/video/fbdev/i810/i810_main.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Eh. I don't see this as such an issue. On different systems we have
-> different device nodes. Some boards have more or fewer NICs, or
-> various partitions, etc. There has to be some device specific userland
-> config that determines which partitions are mounted where (this is my
-> "gralloc is fstab" thesis :)
+> diff --git a/drivers/video/fbdev/i810/i810_main.c b/drivers/video/fbdev/i810/i810_main.c
+> index aa7583d963ac..13bbf7fe13bf 100644
+> --- a/drivers/video/fbdev/i810/i810_main.c
+> +++ b/drivers/video/fbdev/i810/i810_main.c
+> @@ -1966,13 +1966,13 @@ static int i810fb_setup(char *options)
+>  	
+>  	while ((this_opt = strsep(&options, ",")) != NULL) {
+>  		if (!strncmp(this_opt, "mtrr", 4))
+> -			mtrr = 1;
+> +			mtrr = true;
+>  		else if (!strncmp(this_opt, "accel", 5))
+> -			accel = 1;
+> +			accel = true;
+>  		else if (!strncmp(this_opt, "extvga", 6))
+> -			extvga = 1;
+> +			extvga = true;
+>  		else if (!strncmp(this_opt, "sync", 4))
+> -			sync = 1;
+> +			sync = true;
+>  		else if (!strncmp(this_opt, "vram:", 5))
+>  			vram = (simple_strtoul(this_opt+5, NULL, 0));
+>  		else if (!strncmp(this_opt, "voffset:", 8))
+> @@ -1998,7 +1998,7 @@ static int i810fb_setup(char *options)
+>  		else if (!strncmp(this_opt, "vsync2:", 7))
+>  			vsync2 = simple_strtoul(this_opt+7, NULL, 0);
+>  		else if (!strncmp(this_opt, "dcolor", 6))
+> -			dcolor = 1;
+> +			dcolor = true;
+>  		else if (!strncmp(this_opt, "ddc3", 4))
+>  			ddc3 = true;
+>  		else
+> -- 
+> 2.21.1
 > 
-
-
-Oh I agree here, net interface names and /dev/<hd> names have a history
-of changing, but those did both break a lot of apps. It could be argued
-they were abusing the API by making assumptions about the names, but we
-still have old scripts floating assuming "eth0" is going to just work..
-
-So the sooner we get this fstab scheme in place and in practice, the
-fewer apps in the wild will hard-code names.
-
-
-> I think with the heaps, qualities other than name are going to be
-> poorly specified or unenumerable, so any generic query interface is
-> going to fall down there (and be awful to use).
-> 
-
-
-Sure, so this "fstab" style config will have to be a mapping of names
-(which we will have to make static per heap in kernel) to properties
-that interest the current users of a system. For now I can only think of
-cached/uncached, contiguous/sg, and secure/mappable. Then maybe a list
-of devices that can consume buffers of that variety, should allow for
-simple constraint matching. I'll need to think on this a bit more as the
-use-cases show up..
-
-Andrew
-
-
-> thanks
-> -john
-> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
