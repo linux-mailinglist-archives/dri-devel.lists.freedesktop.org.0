@@ -1,59 +1,192 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883241C6A5F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 09:48:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 603A11C8319
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F04689BBD;
-	Wed,  6 May 2020 07:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E936E93E;
+	Thu,  7 May 2020 07:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9961E89BBD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 07:48:35 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id CDC89AC4A;
- Wed,  6 May 2020 07:48:36 +0000 (UTC)
-Subject: Re: [PATCH 3/5] drm/mgag200: Remove several references to struct
- mga_device.dev
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200505095649.25814-1-tzimmermann@suse.de>
- <20200505095649.25814-4-tzimmermann@suse.de>
- <20200505140930.GS10381@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <89f1e47f-54a4-937d-fd16-a3582bcb1acc@suse.de>
-Date: Wed, 6 May 2020 09:48:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
+ [149.117.73.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6F89BF6
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 07:50:35 +0000 (UTC)
+Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com
+ [10.192.0.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4030B439C8;
+ Wed,  6 May 2020 07:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1588751435; bh=9x9+swrBKLXXWFOc9qd7COZYa3dThq3U4qCJsLiEriI=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=H4Rg3YndDelkQYvIzT8C/Qa1Qrp7m7yppZXYMWcftkF1ALXwxs6RpT36ZM+8DFmT2
+ vv3YyVsmHvFeUD7fEpv/kG3as8IxWxgUEdCfUZ1agPeWA4RR4t2knrALNaARc41Bqh
+ ihRHcN10rAJU3Gs8+Rv/4pO3+1KEiPbugHGs1mpFSKxYJIhuu2CycHXbFVx+zur5Bj
+ ugd1uBeM14opLWk3tutDIDB9ij1PxUBjh+8xjqPNiLJCQdWeeLFRq33RZySGb14f7t
+ J5H1jRVTYb1248XCsPifZA5i64mgjqKqdQTBCC2HLfMKXExaKFb4luGnps5AwyErMT
+ ukAE7uopyI5mQ==
+Received: from US01WEHTC3.internal.synopsys.com
+ (us01wehtc3.internal.synopsys.com [10.15.84.232])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id B552FA0072;
+ Wed,  6 May 2020 07:50:30 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 6 May 2020 00:50:22 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.202.3.67) by
+ mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Wed, 6 May 2020 00:50:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SvQT2DETU3gDa+/3LH5EKU7vvk9WRULD0nqG8r7n5rHGAgPgi5riAXpaEs2WLOLodj0p4GWTYPGZETAmV0Jd00xApxZoKHHt5H9f/mAhS845unKYGYQBDBgvGaAK+QoOZCzmyrZgbZ4OqcDWAXsjJNZoelu/S7qBDk74frDwGDi0i3Lt8X8IMaywWywdV3VbirP/Wp95L9WsgN15P4BjfYYQqd7MJkT7uJtlINXw5pe5tw7AZd1E9Eag2KvAR56hgMiAAqvkJj+r6sQ5/twkQltI490fbP2xD4keCsmmy4JDxqV8ibx6X6ybYwNP4gcl0HXPbKCV2pRf1zh3NOvrEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q5ZzI3oy4cPfZTepzUf+Lp3PttpdxyAK4CTtOAxYucY=;
+ b=BlkfMB4vKc162zMCfIRmChHBHBwS80Cynub/9kQhG0J+GH+Gvtb6MPR+HbVcKHMxNuDEZgyp7Vi0b82Jf09hRAbL/hUUOqJOzWYM3gnMR1f5aUOrXKUOI/xZ+lqY5/C+q3FCLlUxhowg3AAEikh2L1s1gbxzlcGeR6fT4FqBPOAv0hRtQDOZM1KAQnrdSx7B4Ge7e3T1612sYEz/EImYrerCIOfDq8EDn4bpQHr5B7jMjnw4Jgc+JdnuhFD3W+Mok1Pxpo7CdkkG1+HK9qeLVtgcfcmsOlXuXnw3i1U5uCma7qv+uudcPNngSWtRnFL51KPC7VULi2wBNuCEDC2xDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q5ZzI3oy4cPfZTepzUf+Lp3PttpdxyAK4CTtOAxYucY=;
+ b=dWTUDH7/nUejpA8eqwzg2GpLB/7GUONz7EGdy54bPnMCp/lT7Yd52IHRXNxkNjV/F3liBcqJ8uXyGocUJr4fTFRRU33BgyiYhGCFXCkjmDQsWkHWHY11MogvKvdL6m6iXmt2jr+7b4AjVjmOdA5TdxHOgYi0K0SUIYAFFHMEpzg=
+Received: from CH2PR12MB3782.namprd12.prod.outlook.com (2603:10b6:610:23::28)
+ by CH2PR12MB3703.namprd12.prod.outlook.com (2603:10b6:610:2d::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Wed, 6 May
+ 2020 07:50:20 +0000
+Received: from CH2PR12MB3782.namprd12.prod.outlook.com
+ ([fe80::c8ba:1b80:f234:e1c2]) by CH2PR12MB3782.namprd12.prod.outlook.com
+ ([fe80::c8ba:1b80:f234:e1c2%2]) with mapi id 15.20.2979.028; Wed, 6 May 2020
+ 07:50:20 +0000
+From: Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
+To: Joe Perches <joe@perches.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 4/4] MAINTAINERS: Add IPK MIPI DSI Host driver entry
+Thread-Topic: [PATCH v3 4/4] MAINTAINERS: Add IPK MIPI DSI Host driver entry
+Thread-Index: AQHWHJYQcNtVWX8xzEGtfnV7MAyxz6iNC8KAgA2wx3A=
+Date: Wed, 6 May 2020 07:50:20 +0000
+Message-ID: <CH2PR12MB3782AD9798BAD67D01473853CBA40@CH2PR12MB3782.namprd12.prod.outlook.com>
+References: <cover.1587992776.git.angelo.ribeiro@synopsys.com>
+ <abe4ca0b0662c17212fc5107080e949f1d3377c1.1587992776.git.angelo.ribeiro@synopsys.com>
+ <afe39d6c755dbc0d79e913b531ed12ed94ec1b13.camel@perches.com>
+In-Reply-To: <afe39d6c755dbc0d79e913b531ed12ed94ec1b13.camel@perches.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYW5nZWxvclxh?=
+ =?us-ascii?Q?cHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJh?=
+ =?us-ascii?Q?MjllMzViXG1zZ3NcbXNnLTNhNjY0NTk1LThmNmUtMTFlYS05ZDczLWZjNzc3?=
+ =?us-ascii?Q?NGVlZGMyZVxhbWUtdGVzdFwzYTY2NDU5Ny04ZjZlLTExZWEtOWQ3My1mYzc3?=
+ =?us-ascii?Q?NzRlZWRjMmVib2R5LnR4dCIgc3o9IjEzMDUiIHQ9IjEzMjMzMjI1MDE4NzI5?=
+ =?us-ascii?Q?NjQxNyIgaD0iNVBJNVpsVk9rQ2JkN2I4SzMwcjdUTHJ4MzE4PSIgaWQ9IiIg?=
+ =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFD?=
+ =?us-ascii?Q?aDdyMzhlaVBXQVdiM3N5bElPWnF2WnZlektVZzVtcThPQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQVFBQkFBQUFIYVd5TkFBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
+ =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
+ =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
+ =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
+ =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
+ =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
+ =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
+ =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
+ =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
+ =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
+ =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
+ =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
+ =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
+ =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
+ =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
+ =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
+ =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
+ =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
+ =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
+ =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
+ =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
+ =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
+ =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
+ =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
+ =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
+authentication-results: perches.com; dkim=none (message not signed)
+ header.d=none;perches.com; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [95.136.124.74]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f6d200d1-a899-4646-3c9f-08d7f1922063
+x-ms-traffictypediagnostic: CH2PR12MB3703:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR12MB3703E84CC5CE4CDBEE3D71FCCBA40@CH2PR12MB3703.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 03950F25EC
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fqX2D1op+YFx11WS1iENOjp1DdKxS3H52oaPEX7I3JxErmpMaf3szOTampul4T8EsAxOLlhLh/MRthtTGLfxH0B4V71m/dwEA9dV5VoONUT0wCWPW7bUmmjfgB8zGuVs2cQy2KoH2j9oUOmi8wQCyqfouIsXTUDL2cqVEHVQSudu66/qnOCbsibAt25PUswGw2+ifTZiv2rAbuukRw+XPXXLLf+8cDm+QizLNg5vImp0FNmB4W8fl/J5V268WDGT2gT0Ya3oYhgGAzO9jOcYOW07ObuJeR2vWMABeItf6OM/3yA6CWLiPhPrEW4Q7puIPxdSxZ+nRfjoxn2wCVQLXF96F5tNhSNi1VrTWCcp7Z3CL36+nQI1ANxnl4uhGaT8vRdexHmIL118lP2isx1hy2eTPyB7+p29sF1wX8F61hw6YUbaJwgHQ0eVH8OY0EmQncC4b/abQG7eqiWTHYdZFaMoM8lyJXHvMNpFW1b0l7M7hPaqvMdj9xBCJ/yI8p4ngCkg1kTd/U/MPvZH8UsH+g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3782.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(346002)(376002)(366004)(396003)(39850400004)(33430700001)(71200400001)(76116006)(66556008)(5660300002)(66946007)(66446008)(66476007)(64756008)(33656002)(2906002)(52536014)(26005)(107886003)(6506007)(186003)(86362001)(7696005)(8676002)(55016002)(9686003)(478600001)(8936002)(4326008)(54906003)(33440700001)(110136005)(316002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: KKlXaOk7XBy1dPXxGemAT84tqnfE7vF2RomgJ9pJAHxH8cTSZtHFeRA4p/G5yQADlQHy/sFxgbH4P1Dl7b3BIMk+1guYkkG7vE7GvwetBdtYzGMruTxEf7TTYwOZZM6nhXI2xD8MCC4wD2LMsaUUM0ubpyv1j9XP0+rTRdkZGna0l1NjtxVKmbd1wd5pcNtTE8Iq8SjY4xXi/0y0pSyE0qpe6INeU0X87UCjUAakmEOxZLQdBcViHYXG7BdtlL2cyKjhtAKoxloWjIpwkrELB9qOdr+2qUyAk6SZjEe+jtbQG2v1t1CjlLKOK0H+7tUu9C80SA0/TIvB5z19aZiNRkk14uoPZ+bUmkwMuJ2gjF99PJ6MtM1Ryy4Av0n4NeJrChZXEDQ/zr+S0oHPOCD3R9t2KyWHav2WepfsiUh+azDTWGqbJmaS3P1VaKv9JM+BqBfh080VcAv0Gwu9MVFNHlJQLCyz6gpUvjyHsQqUM32CAclOq8FvStewAElmBIK7MmYJ0d9TtpZ0T4nT9Q2hwKfkfDqlwlPAu8odYcv08doCOmjVlyN1EarOks/al1t76IbmBxf7NAtQjZynPklOsBcRKxzK8P8Wl9SoRK+oFU8xblQxlyPPiRAVOvo6MBz0SwZeeRG20mtjFILn71mQqgyq3G8P1z3hoyNpI7obu67oUORx9RmT5nkWmXLlg07sQB4Gs6XJb6SmyGCEAh+IiFdCDIsdA2skRswMJ1JQrqbC9Jr/DlvXmUeMuqTnf1sYulS86RuyRTECp3/sW8TFnhKYUVxSoC5qkBhUaEbmJX4=
 MIME-Version: 1.0
-In-Reply-To: <20200505140930.GS10381@phenom.ffwll.local>
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6d200d1-a899-4646-3c9f-08d7f1922063
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2020 07:50:20.5829 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: T07JWX4eEaoJJ2B5/Fea1h6ch9XY2QPN4Ot+M9PR2eB/z9h0aWUwxEkIgcgv46Hp3aLQ+361iRV/yfTPA+rs5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3703
+X-OriginatorOrg: synopsys.com
+X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,232 +199,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cogarre@gmail.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============0614684738=="
+Cc: Joao Pinto <Joao.Pinto@synopsys.com>, David Airlie <airlied@linux.ie>,
+ Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0614684738==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="G9NWfUmI4ihVkRrkQD1jiYomsuH8hY1HT"
+From: Joe Perches <joe@perches.com>
+Date: Mon, Apr 27, 2020 at 15:45:17
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---G9NWfUmI4ihVkRrkQD1jiYomsuH8hY1HT
-Content-Type: multipart/mixed; boundary="iwozDBVgvRXftpvcdHg1V9sZCxMNO7bxw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@redhat.com, kraxel@redhat.com, sam@ravnborg.org,
- emil.velikov@collabora.com, cogarre@gmail.com,
- dri-devel@lists.freedesktop.org
-Message-ID: <89f1e47f-54a4-937d-fd16-a3582bcb1acc@suse.de>
-Subject: Re: [PATCH 3/5] drm/mgag200: Remove several references to struct
- mga_device.dev
-References: <20200505095649.25814-1-tzimmermann@suse.de>
- <20200505095649.25814-4-tzimmermann@suse.de>
- <20200505140930.GS10381@phenom.ffwll.local>
-In-Reply-To: <20200505140930.GS10381@phenom.ffwll.local>
+> On Mon, 2020-04-27 at 16:00 +0200, Angelo Ribeiro wrote:
+> > Creates entry for Synopsys DesignWare IPK DRM driver and
+> > adds myself as maintainer.
+> []
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> []
+> > @@ -5507,6 +5507,14 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+> >  F:	Documentation/devicetree/bindings/display/ste,mcde.txt
+> >  F:	drivers/gpu/drm/mcde/
+> >  
+> > +DRM DRIVER FOR SYNOPSYS DESIGNWARE IPK
+> > +M:	Angelo Ribeiro <angelo.ribeiro@synopsys.com>
+> > +L:	dri-devel@lists.freedesktop.org
+> > +S:	Maintained
+> > +F:	drivers/gpu/drm/ipk/
+> > +F:	Documentation/devicetree/bindings/display/ipk/
+> > +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> 
+> There is now a preferred order for the entries in a section.
+> 
+> Please use:
+> 
+> DRM DRIVER FOR SYNOPSYS DESIGNWARE IPK
+> M:	Angelo Ribeiro <angelo.ribeiro@synopsys.com>
+> L:	dri-devel@lists.freedesktop.org>
+> S:	Maintained
+> T:	git git://anongit.freedesktop.org/drm/drm-misc
+> F:	Document
+> ation/devicetree/bindings/display/ipk/>
+> F:	drivers/gpu/drm/ipk/
 
---iwozDBVgvRXftpvcdHg1V9sZCxMNO7bxw
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hi Joe,
 
-Hi
+Thanks for the review I will apply it.
 
-Am 05.05.20 um 16:09 schrieb Daniel Vetter:
-> On Tue, May 05, 2020 at 11:56:47AM +0200, Thomas Zimmermann wrote:
->> Done in preparation of embedding the DRM device in struct mga_device.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Not exactly sure what the goal is, since mga_vga_init still uses
-> drm_device and not the mdev struct. *shrug*
-
-It replaces 'mdev->dev' with simply 'dev'. That makes patch 5 easier to
-read.
-
-Best regards
-Thomas
-
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->=20
->> ---
->>  drivers/gpu/drm/mgag200/mgag200_main.c | 21 +++++++++++----------
->>  drivers/gpu/drm/mgag200/mgag200_mode.c | 17 +++++++++--------
->>  2 files changed, 20 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/=
-mgag200/mgag200_main.c
->> index 3830d3f3c9fa2..010b309c01fc4 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
->> @@ -66,25 +66,26 @@ static int mga_probe_vram(struct mga_device *mdev,=
- void __iomem *mem)
->>  /* Map the framebuffer from the card and configure the core */
->>  static int mga_vram_init(struct mga_device *mdev)
->>  {
->> +	struct drm_device *dev =3D mdev->dev;
->>  	void __iomem *mem;
->> =20
->>  	/* BAR 0 is VRAM */
->> -	mdev->mc.vram_base =3D pci_resource_start(mdev->dev->pdev, 0);
->> -	mdev->mc.vram_window =3D pci_resource_len(mdev->dev->pdev, 0);
->> +	mdev->mc.vram_base =3D pci_resource_start(dev->pdev, 0);
->> +	mdev->mc.vram_window =3D pci_resource_len(dev->pdev, 0);
->> =20
->> -	if (!devm_request_mem_region(mdev->dev->dev, mdev->mc.vram_base, mde=
-v->mc.vram_window,
->> -				"mgadrmfb_vram")) {
->> +	if (!devm_request_mem_region(dev->dev, mdev->mc.vram_base,
->> +				     mdev->mc.vram_window, "mgadrmfb_vram")) {
->>  		DRM_ERROR("can't reserve VRAM\n");
->>  		return -ENXIO;
->>  	}
->> =20
->> -	mem =3D pci_iomap(mdev->dev->pdev, 0, 0);
->> +	mem =3D pci_iomap(dev->pdev, 0, 0);
->>  	if (!mem)
->>  		return -ENOMEM;
->> =20
->>  	mdev->mc.vram_size =3D mga_probe_vram(mdev, mem);
->> =20
->> -	pci_iounmap(mdev->dev->pdev, mem);
->> +	pci_iounmap(dev->pdev, mem);
->> =20
->>  	return 0;
->>  }
->> @@ -116,11 +117,11 @@ int mgag200_driver_load(struct drm_device *dev, =
-unsigned long flags)
->>  	mdev->has_sdram =3D !(option & (1 << 14));
->> =20
->>  	/* BAR 0 is the framebuffer, BAR 1 contains registers */
->> -	mdev->rmmio_base =3D pci_resource_start(mdev->dev->pdev, 1);
->> -	mdev->rmmio_size =3D pci_resource_len(mdev->dev->pdev, 1);
->> +	mdev->rmmio_base =3D pci_resource_start(dev->pdev, 1);
->> +	mdev->rmmio_size =3D pci_resource_len(dev->pdev, 1);
->> =20
->> -	if (!devm_request_mem_region(mdev->dev->dev, mdev->rmmio_base, mdev-=
->rmmio_size,
->> -				"mgadrmfb_mmio")) {
->> +	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
->> +				     mdev->rmmio_size, "mgadrmfb_mmio")) {
->>  		drm_err(dev, "can't reserve mmio registers\n");
->>  		return -ENOMEM;
->>  	}
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/=
-mgag200/mgag200_mode.c
->> index fa91869c0db52..aaa73b29b04f0 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->> @@ -1433,6 +1433,7 @@ static const struct drm_crtc_helper_funcs mga_he=
-lper_funcs =3D {
->>  /* CRTC setup */
->>  static void mga_crtc_init(struct mga_device *mdev)
->>  {
->> +	struct drm_device *dev =3D mdev->dev;
->>  	struct mga_crtc *mga_crtc;
->> =20
->>  	mga_crtc =3D kzalloc(sizeof(struct mga_crtc) +
->> @@ -1442,7 +1443,7 @@ static void mga_crtc_init(struct mga_device *mde=
-v)
->>  	if (mga_crtc =3D=3D NULL)
->>  		return;
->> =20
->> -	drm_crtc_init(mdev->dev, &mga_crtc->base, &mga_crtc_funcs);
->> +	drm_crtc_init(dev, &mga_crtc->base, &mga_crtc_funcs);
->> =20
->>  	drm_mode_crtc_set_gamma_size(&mga_crtc->base, MGAG200_LUT_SIZE);
->>  	mdev->mode_info.crtc =3D mga_crtc;
->> @@ -1617,30 +1618,30 @@ static struct drm_connector *mga_vga_init(stru=
-ct drm_device *dev)
->> =20
->>  int mgag200_modeset_init(struct mga_device *mdev)
->>  {
->> +	struct drm_device *dev =3D mdev->dev;
->>  	struct drm_encoder *encoder =3D &mdev->encoder;
->>  	struct drm_connector *connector;
->>  	int ret;
->> =20
->>  	mdev->mode_info.mode_config_initialized =3D true;
->> =20
->> -	mdev->dev->mode_config.max_width =3D MGAG200_MAX_FB_WIDTH;
->> -	mdev->dev->mode_config.max_height =3D MGAG200_MAX_FB_HEIGHT;
->> +	dev->mode_config.max_width =3D MGAG200_MAX_FB_WIDTH;
->> +	dev->mode_config.max_height =3D MGAG200_MAX_FB_HEIGHT;
->> =20
->> -	mdev->dev->mode_config.fb_base =3D mdev->mc.vram_base;
->> +	dev->mode_config.fb_base =3D mdev->mc.vram_base;
->> =20
->>  	mga_crtc_init(mdev);
->> =20
->> -	ret =3D drm_simple_encoder_init(mdev->dev, encoder,
->> -				      DRM_MODE_ENCODER_DAC);
->> +	ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);=
-
->>  	if (ret) {
->> -		drm_err(mdev->dev,
->> +		drm_err(dev,
->>  			"drm_simple_encoder_init() failed, error %d\n",
->>  			ret);
->>  		return ret;
->>  	}
->>  	encoder->possible_crtcs =3D 0x1;
->> =20
->> -	connector =3D mga_vga_init(mdev->dev);
->> +	connector =3D mga_vga_init(dev);
->>  	if (!connector) {
->>  		DRM_ERROR("mga_vga_init failed\n");
->>  		return -1;
->> --=20
->> 2.26.0
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---iwozDBVgvRXftpvcdHg1V9sZCxMNO7bxw--
-
---G9NWfUmI4ihVkRrkQD1jiYomsuH8hY1HT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6ya84ACgkQaA3BHVML
-eiNOxAf/fnb/Cw1VBJzI+S4LUuHW85v+w52ojvbirRfLCO3yaVf9T/g3pukPLNej
-eXj6W1GhHMQ+eSCdlQpfIBm3JK359wy0kGiDBiSp6eAYR/M+98P0LgTQ5BtuDduU
-f0d5NTlPCPKe2WA3ZdHX3rEsqWnCkVr+uc673/HcSbqxOsTW/K1McNfIgBsgfOMl
-WrR5Jsl4D2W1122KetU2i0iYxkFtbb/gri5cHRCBDsq4M8Ki0mU0NM5CZcc6djMM
-3rJ8hcj8rHmVywj6NgTNgkOanEvySH9pRloxfo8FSnLDUoZQ07fcIiLfkTzzzQup
-lJlNbXiGF5PK3dGRhQhhDnJ6yOXZKg==
-=Hln6
------END PGP SIGNATURE-----
-
---G9NWfUmI4ihVkRrkQD1jiYomsuH8hY1HT--
-
---===============0614684738==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Angelo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0614684738==--
