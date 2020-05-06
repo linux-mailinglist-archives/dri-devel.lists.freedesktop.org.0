@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B231C8312
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F5F1C830F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8EA6E92F;
-	Thu,  7 May 2020 07:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379646E933;
+	Thu,  7 May 2020 07:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-m17613.qiye.163.com (mail-m17613.qiye.163.com
  [59.111.176.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687096E877
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 12:34:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2C26E877
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 12:43:04 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [157.0.31.122])
- by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 376994829E3;
- Wed,  6 May 2020 20:34:03 +0800 (CST)
+ by mail-m17613.qiye.163.com (Hmail) with ESMTPA id 6308D48281A;
+ Wed,  6 May 2020 20:43:01 +0800 (CST)
 From: Bernard Zhao <bernard@vivo.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/mediatek: cleanup coding style in mediatek a bit
-Date: Wed,  6 May 2020 05:33:55 -0700
-Message-Id: <20200506123356.9147-1-bernard@vivo.com>
+Subject: [PATCH] drm/mediatek: eliminate the magic number in array size
+Date: Wed,  6 May 2020 05:42:55 -0700
+Message-Id: <20200506124255.9477-1-bernard@vivo.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZTlVPTUlCQkJDSUtMS0JJSFlXWShZQU
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VPQ01CQkJCQ0NOTk5CSllXWShZQU
  hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ORg6Nyo6Pjg0PzgZKh42NVEX
- Ph1PFANVSlVKTkNDTE1DT09IT0NMVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSUlZV1kIAVlBSUpDTTcG
-X-HM-Tid: 0a71e9fa8c1193bakuws376994829e3
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mhw6KRw6FDg2Tjg5DBVNOhhR
+ Ag8wCjlVSlVKTkNDTE1DQkNKTU5OVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSUlZV1kIAVlBSUxISjcG
+X-HM-Tid: 0a71ea02c25d93bakuws6308d48281a
 X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,36 +52,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code change is to make code bit more readable.
+Eiminate the magic number in array size, there macro defines in
+hdmi.h.
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index ff43a3d80410..43e9876fd50c 100644
+index ff43a3d80410..4c962c7f06e5 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -311,14 +311,10 @@ static void mtk_hdmi_hw_send_info_frame(struct mtk_hdmi *hdmi, u8 *buffer,
- 	u8 checksum;
- 	int ctrl_frame_en = 0;
+@@ -982,7 +982,7 @@ static int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi,
+ 					struct drm_display_mode *mode)
+ {
+ 	struct hdmi_avi_infoframe frame;
+-	u8 buffer[17];
++	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_AVI_INFOFRAME_SIZE];
+ 	ssize_t err;
  
--	frame_type = *buffer;
--	buffer += 1;
--	frame_ver = *buffer;
--	buffer += 1;
--	frame_len = *buffer;
--	buffer += 1;
--	checksum = *buffer;
--	buffer += 1;
-+	frame_type = *buffer++;
-+	frame_ver = *buffer++;
-+	frame_len = *buffer++;
-+	checksum = *buffer++;
- 	frame_data = buffer;
+ 	err = drm_hdmi_avi_infoframe_from_display_mode(&frame,
+@@ -1008,7 +1008,7 @@ static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi,
+ 					const char *product)
+ {
+ 	struct hdmi_spd_infoframe frame;
+-	u8 buffer[29];
++	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_SPD_INFOFRAME_SIZE];
+ 	ssize_t err;
  
- 	dev_dbg(hdmi->dev,
+ 	err = hdmi_spd_infoframe_init(&frame, vendor, product);
+@@ -1031,7 +1031,7 @@ static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi,
+ static int mtk_hdmi_setup_audio_infoframe(struct mtk_hdmi *hdmi)
+ {
+ 	struct hdmi_audio_infoframe frame;
+-	u8 buffer[14];
++	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_AUDIO_INFOFRAME_SIZE];
+ 	ssize_t err;
+ 
+ 	err = hdmi_audio_infoframe_init(&frame);
 -- 
 2.26.2
 
