@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995F41C6AB6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 10:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C69F1C6AC5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 10:04:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA3B589BAF;
-	Wed,  6 May 2020 08:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D96489EAE;
+	Wed,  6 May 2020 08:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF5389BAF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 08:02:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F91889EAE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 08:04:13 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207595] [amdgpu] Displayport MST not functional on AMD Stoney
-Date: Wed, 06 May 2020 08:02:19 +0000
+Date: Wed, 06 May 2020 08:04:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.description
-Message-ID: <bug-207595-2300-N7oXGeEzVH@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-207595-2300-7tzEXl3MnZ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207595-2300@https.bugzilla.kernel.org/>
 References: <bug-207595-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,12 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207595
 
-Johannes Braun (jjo.braun@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #288943|kernel config 5.4.28        |5.4.28: kernel config
-        description|                            |5.4.28
+--- Comment #3 from Johannes Braun (jjo.braun@gmail.com) ---
+Created attachment 288945
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288945&action=edit
+5.4.36: kernel config
 
 -- 
 You are receiving this mail because:
