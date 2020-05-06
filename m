@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5418A1C6C50
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 11:00:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 863E81C6C62
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 11:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685436E22D;
-	Wed,  6 May 2020 09:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B343E89D81;
+	Wed,  6 May 2020 09:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA776E838
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 09:00:04 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CCDA5206B8;
- Wed,  6 May 2020 09:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588755604;
- bh=wkCAig0biVYQrEo5tBbvfhG1E6y87apeatskJQTVqog=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mQmMQDiZka3D9Q1N6qzzTCXfYAf3wfcemPa9IqGbBtf9GV/iFilGTX045Pna2M1kY
- ntwlaXgPCCXah5ilHODHM1+lfE6cvJIsMpQCqNWjAk7jTaNnfmd1xi2xu9GFCuxSCB
- IL3hx8OgIoE9iC/Gg5tPwBl9PpskaokP21NHTZsk=
-Date: Wed, 6 May 2020 11:00:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Charan Teja Kalla <charante@codeaurora.org>
-Subject: Re: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
-Message-ID: <20200506090002.GA2619587@kroah.com>
-References: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
- <20200505100806.GA4177627@kroah.com>
- <8424b2ac-3ea6-6e5b-b99c-951a569f493d@codeaurora.org>
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEE3689D81
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 09:04:34 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id d7so1355115ioq.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 02:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sTnxH9G9lR6+PJewhmpGTxPtG0Z0Cz1wccF+DGccv+M=;
+ b=Nf6tozgJRQRu37up6F72efLB+cyG2mYVv5/wWuGP57EvNLIEJJWXIg0t12DDs8fVoA
+ x5Ef6ZNng5Fnd4hWxTSo6wS33JFsXouyIzIKXv74UTmXkmKO96nnwhW19VCI6iPB6ReC
+ 7nu4204MHUz71FoC0Kootamsm1qO8IiZ7gXYbATYPO4NE6uUxbuKCjA/z0wXnM8bwhvX
+ k9SeBhPPl8X8u1LKFyB7b7dW4qknE7U1efu34gGJyLCsPPuOFnhXnFiJ0b5gjWK4+zTY
+ at+lOpdoCwcQMNoaA9TaOsEtHWHKsUNc102jtuwtILTeMG/t6W4SepDKSzvf+q1NQXpd
+ UgCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sTnxH9G9lR6+PJewhmpGTxPtG0Z0Cz1wccF+DGccv+M=;
+ b=dK0kV3jPOBg8JsMVzYv37T9BtyYlULfSlbtWnE842dFpbwtjUHv01dTms0YDzaoF4N
+ 4RR6OhIeH3aDaS23+QX6Eoizl/b/d3krDvrAEjaT27JkrkbkqQoe2q08GPg5u//T+6X5
+ sawK8YTG88NpriG9ikVWdauhRhrwVshZ53eCKfRPEGTQyh8xLNrp2UEkmGdFI3SdieUN
+ a10J9y/yREvj/ZJ4UyOVzsNbZnKc8mudFEnAICsY/jAOrGuBGsK9vfVlFu+ZXpt0+9St
+ 26ZAUy37vyfY5QHc321644qlyV9cGjJ9tLcSI1v2nP+rXxy2pH1LYi8NN8VNqELd/TKH
+ mcxQ==
+X-Gm-Message-State: AGi0PuY40bsdjtxy33a6XLlitU0+t6IHF038+dgHGvNqzMuWbT3gcwqZ
+ titZxvSj3V4bL9hVLnrP7SDJeyjDvJT74ZlEkzAT76jcDOo=
+X-Google-Smtp-Source: APiQypKdZsDxlNAG1MQN5F/vI3O3AbMtIiwtGRnzQiTlrBAq9D5U4ltEmSEim7Scvc9bURGZ48/SKFLeVNp0J4c8ETo=
+X-Received: by 2002:a02:6983:: with SMTP id e125mr7607980jac.47.1588755874113; 
+ Wed, 06 May 2020 02:04:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8424b2ac-3ea6-6e5b-b99c-951a569f493d@codeaurora.org>
+References: <CAJwc6KtGT4+Y2jT1fxzYrkcqvkxgs9GGqxT-zZtj6ktRf-67jQ@mail.gmail.com>
+ <20200506074457.GK6112@intel.com>
+In-Reply-To: <20200506074457.GK6112@intel.com>
+From: Artem Mygaiev <joculator@gmail.com>
+Date: Wed, 6 May 2020 12:04:22 +0300
+Message-ID: <CAJwc6Kum2SrGixZyJzAWjC71pxO8zkBJ7MBfdVhxZOFvWyw4RQ@mail.gmail.com>
+Subject: Re: Question about sRGB framebuffer support
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,189 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: fengc@google.com, linux-kernel@vger.kernel.org, ghackmann@google.com,
- linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 06, 2020 at 02:00:10PM +0530, Charan Teja Kalla wrote:
-> Thank you Greg for the reply.
-> =
-
-> On 5/5/2020 3:38 PM, Greg KH wrote:
-> > On Tue, Apr 28, 2020 at 01:24:02PM +0530, Charan Teja Reddy wrote:
-> > > The following race occurs while accessing the dmabuf object exported =
-as
-> > > file:
-> > > P1				P2
-> > > dma_buf_release()          dmabuffs_dname()
-> > > 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
-> > > =
-
-> > > 			   read dmabuf stored in dentry->fsdata
-> > > Free the dmabuf object
-> > > 			   Start accessing the dmabuf structure
-> > > =
-
-> > > In the above description, the dmabuf object freed in P1 is being
-> > > accessed from P2 which is resulting into the use-after-free. Below is
-> > > the dump stack reported.
-> > > =
-
-> > > Call Trace:
-> > >   kasan_report+0x12/0x20
-> > >   __asan_report_load8_noabort+0x14/0x20
-> > >   dmabuffs_dname+0x4f4/0x560
-> > >   tomoyo_realpath_from_path+0x165/0x660
-> > >   tomoyo_get_realpath
-> > >   tomoyo_check_open_permission+0x2a3/0x3e0
-> > >   tomoyo_file_open
-> > >   tomoyo_file_open+0xa9/0xd0
-> > >   security_file_open+0x71/0x300
-> > >   do_dentry_open+0x37a/0x1380
-> > >   vfs_open+0xa0/0xd0
-> > >   path_openat+0x12ee/0x3490
-> > >   do_filp_open+0x192/0x260
-> > >   do_sys_openat2+0x5eb/0x7e0
-> > >   do_sys_open+0xf2/0x180
-> > > =
-
-> > > Fixes: bb2bb90 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> > Nit, please read the documentation for how to do a Fixes: line properly,
-> > you need more digits:
-> > 	Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> =
-
-> =
-
-> Will update the patch
-> =
-
-> =
-
-> > > Reported-by:syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-> > > Signed-off-by: Charan Teja Reddy<charante@codeaurora.org>
-> > Also, any reason you didn't include the other mailing lists that
-> > get_maintainer.pl said to?
-> =
-
-> =
-
-> Really sorry for not sending to complete list. Added now.
-> =
-
-> =
-
-> > And finally, no cc: stable in the s-o-b area for an issue that needs to
-> > be backported to older kernels?
-> =
-
-> =
-
-> Will update the patch.
-> =
-
-> =
-
-> > =
-
-> > > ---
-> > >   drivers/dma-buf/dma-buf.c | 25 +++++++++++++++++++++++--
-> > >   include/linux/dma-buf.h   |  1 +
-> > >   2 files changed, 24 insertions(+), 2 deletions(-)
-> > > =
-
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index 570c923..069d8f78 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -25,6 +25,7 @@
-> > >   #include <linux/mm.h>
-> > >   #include <linux/mount.h>
-> > >   #include <linux/pseudo_fs.h>
-> > > +#include <linux/dcache.h>
-> > >   #include <uapi/linux/dma-buf.h>
-> > >   #include <uapi/linux/magic.h>
-> > > @@ -38,18 +39,34 @@ struct dma_buf_list {
-> > >   static struct dma_buf_list db_list;
-> > > +static void dmabuf_dent_put(struct dma_buf *dmabuf)
-> > > +{
-> > > +	if (atomic_dec_and_test(&dmabuf->dent_count)) {
-> > > +		kfree(dmabuf->name);
-> > > +		kfree(dmabuf);
-> > > +	}
-> > Why not just use a kref instead of an open-coded atomic value?
-> =
-
-> =
-
-> Kref approach looks cleaner. will update the patch accordingly.
-> =
-
-> =
-
-> > > +}
-> > > +
-> > >   static char *dmabuffs_dname(struct dentry *dentry, char *buffer, in=
-t buflen)
-> > >   {
-> > >   	struct dma_buf *dmabuf;
-> > >   	char name[DMA_BUF_NAME_LEN];
-> > >   	size_t ret =3D 0;
-> > > +	spin_lock(&dentry->d_lock);
-> > >   	dmabuf =3D dentry->d_fsdata;
-> > > +	if (!dmabuf || !atomic_add_unless(&dmabuf->dent_count, 1, 0)) {
-> > > +		spin_unlock(&dentry->d_lock);
-> > > +		goto out;
-> > How can dmabuf not be valid here?
-> > =
-
-> > And isn't there already a usecount for the buffer?
-> =
-
-> =
-
-> dmabuf exported as file simply relies on that file's refcount, thus fput()
-> releases the dmabuf.
-> =
-
-> We are storing the dmabuf in the dentry->d_fsdata but there is no binding
-> between the dentry and the dmabuf. So, flow will be like
-> =
-
-> 1) P1 calls fput(dmabuf_fd)
-> =
-
-> 2) P2 trying to access the file information of P1.
-> =A0=A0=A0 Eg: lsof command trying to list out the dmabuf_fd information u=
-sing
-> /proc/<P1 pid>/fd/dmabuf_fd
-> =
-
-> 3) P1 calls the file->f_op->release(dmabuf_fd_file)(ends up in calling
-> dma_buf_release()),=A0=A0 thus frees up the dmabuf buffer.
-> =
-
-> 4) P2 access the dmabuf stored in the dentry->d_fsdata which was freed in
-> step 3.
-> =
-
-> So we need to have some refcount mechanism to avoid the use-after-free in
-> step 4.
-
-Ok, but watch out, now you have 2 different reference counts for the
-same structure.  Keeping them coordinated is almost always an impossible
-task so you need to only rely on one.  If you can't use the file api,
-just drop all of the reference counting logic in there and only use the
-kref one.
-
-good luck!
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gVmlsbGUKCk9uIFdlZCwgTWF5IDYsIDIwMjAgYXQgMTA6NDUgQU0gVmlsbGUgU3lyasOk
+bMOkCjx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBPbiBUdWUsIE1h
+eSAwNSwgMjAyMCBhdCAwMToyNDoxNlBNICswMzAwLCBBcnRlbSBNeWdhaWV2IHdyb3RlOgo+ID4g
+SGVsbG8gYWxsCj4gPgo+ID4gSSBhbSBjdXJyZW50bHkgd29ya2luZyBvbiBEUk0vS01TIGRyaXZl
+ciBmb3IgRnJlc2NvIExvZ2ljIEZMMjAwMCBVU0IgZGlzcGxheQo+ID4gY29udHJvbGxlciBbMV0u
+IEkgaGF2ZSBhbHJlYWR5IGltcGxlbWVudGVkIGEgUE9DIGRyaXZlciBbMl0gd2hpY2ggaXMgd29y
+a2luZyBmb3IKPiA+IG1lLCBhbHRob3VnaCB0aGVyZSBhcmUgc3RpbGwgcGxlbnR5IG9mIHRoaW5n
+cyB0byBpbXByb3ZlIG9yIGZpeCwgb2YgY291cnNlLgo+ID4KPiA+IFNvIGZhciBJIGhhdmUgb25l
+IHRoaW5nIHRoYXQgSSBzb21laG93IGNhbm5vdCBmaW5kIGluIERSTS9LTVMgZG9jdW1lbnRhdGlv
+biBvcgo+ID4gZXhpc3RpbmcgZHJpdmVyczogaG93IHRvIHRlbGwgdGhlIHN5c3RlbSB0aGF0IEhX
+IGV4cGVjdHMgc1JHQiAoaS5lLiBub24tbGluZWFyKQo+ID4gY29sb3IgZW5jb2RpbmcgaW4gZnJh
+bWVidWZmZXJzPyBUaGlzIGlzIGEgSFcgbGltaXRhdGlvbiB0aGF0IEkgY2Fubm90IGluZmx1ZW5j
+ZQo+ID4gYnkgY29uZmlndXJhdGlvbi4KPgo+IERvZXMgaXQgZG8gc29tZXRoaW5nIHRvIHByb2Nl
+c3MgdGhlIGRhdGEgdGhhdCByZXF1aXJlcyBsaW5lYXJpemF0aW9uCj4gb3Igd2h5IGRvZXMgaXQg
+Y2FyZSBhYm91dCB0aGUgZ2FtbWEgYXBwbGllZCB0byB0aGUgZGF0YT8gSW4gYSB0eXBpY2FsCj4g
+dXNlIGNhc2UgdGhlIGRhdGEgaXMganVzdCBwYXNzZWQgdGhyb3VnaCB1bmxlc3MgdGhlIHVzZXIg
+YXNrcyBvdGhlcndpc2UsCj4gc28gaXQgZG9lc24ndCBtYXR0ZXIgbXVjaCB3aGF0IGdhbW1hIHdh
+cyB1c2VkLiBUaG91Z2ggbW9zdCBkaXNwbGF5cwo+IHByb2JhYmx5IGV4cGVjdCBzb21ldGhpbmcg
+cmVzZW1ibGluZyBzUkdCIGdhbW1hIGJ5IGRlZmF1bHQsIHNvIHRoYXQncwo+IHByZXN1bWFibHkg
+d2hhdCBtb3N0IHRoaW5ncyBnZW5lcmF0ZSwgYW5kIGltYWdlcy92aWRlb3MvZXRjLiBwcmV0dHkK
+PiBtdWNoIGFsd2F5cyBoYXZlIGdhbW1hIGFscmVhZHkgYXBwbGllZCB3aGVuIHRoZXkgYXJlIHBy
+b2R1Y2VkLgo+CgpVbmZvcnR1bmF0ZWx5IHRoZSBIVyB3YXMgZGVzaWduZWQgaW4gYSB3YXkgdGhh
+dCB3aGVuIGl0IGlzIGNvbmZpZ3VyZWQgdG8gMjQtYml0ClJHQjg4OCBpdCBleHBlY3RzIHNSR0Ig
+YW5kIGFwcGxpZXMgZGVnYW1tYSBhdXRvbWF0aWNhbGx5LiBJdCBpcyBub3QgcG9zc2libGUgdG8K
+ZGlzYWJsZSB0aGlzLCBJJ3ZlIGFza2VkIHZlbmRvciBhbmQgdGhleSBjb25maXJtZWQgdGhpcyBb
+MV0uCgpUaGUgb25seSB3b3JrYXJvdW5kIEkgY291bGQgaW1wbGVtZW50IG5vdyBpcyB0byBzd2l0
+Y2ggaXQgdG8gMTYtYml0IFJHQjU2NSBhbmQKcGVyZm9ybSBmcmFtZWJ1ZmZlciBjb252ZXJzaW9u
+cyBpbiBkcml2ZXIsIHNpbWlsYXIgdG8gd2hhdApybV9mYl94cmdiODg4OF90b19yZ2I1NjUoKSBh
+bGlrZSBoZWxwZXJzIGRvOyBidXQgaXQgd291bGQgYmUgc3RpbGwgZ3JlYXQgdG8KdW5kZXJzdGFu
+ZCB3aGV0aGVyIGl0IGlzIHBvc3NpYmxlIHRvIHN1cHBvcnQgc1JHQi4KClsxXSBodHRwczovL2dp
+dGh1Yi5jb20vRnJlc2NvTG9naWMvRkwyMDAwL2lzc3Vlcy80MgoKPiA+Cj4gPiBBbnkgcG9pbnRl
+cnMgYXJlIGdyZWF0bHkgYXBwcmVjaWF0ZWQuCj4gPgo+ID4gWzFdIHd3dy5mcmVzY29sb2dpYy5j
+b20vcHJvZHVjdC9zaW5nbGUvZmwyMDAwCj4gPiBbMl0gaHR0cHM6Ly9naXRodWIuY29tL2tsb2dn
+L2ZsMjAwMF9kcm0KPiA+Cj4gPiBCZXN0IHJlZ2FyZHMsCj4gPiAgLS0gQXJ0ZW0KPiA+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0Cj4gPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+Cj4g
+LS0KPiBWaWxsZSBTeXJqw6Rsw6QKPiBJbnRlbAoKQmVzdCByZWdhcmRzLApBcnRlbSBNeWdhaWV2
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
