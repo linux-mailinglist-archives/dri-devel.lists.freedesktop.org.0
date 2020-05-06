@@ -2,45 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2805E1C757B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 17:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B717E1C759E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:00:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5945C891B1;
-	Wed,  6 May 2020 15:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C726C6E8A0;
+	Wed,  6 May 2020 16:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD22891B1
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 15:56:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E30A9542;
- Wed,  6 May 2020 17:56:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1588780613;
- bh=JqP+SOCphmyvR7LY5kOsdyerYHIGqof5vTW6QMlbE0I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JSCJRr1YjHYhNJEGPipbcitzN44oikeZK4tjqwRcMKFUE4bUrDOMma8NIzvzBgk0S
- 5gJAR9gGYZ7ytOiUKewbJSais47zFkOxx0YnkZW8MXmf+cT8rRSO/PxqG9mwqEQD+v
- AjYuBY3gGFlLCdse5mLMf21yRvmsRIJ/EgkXX6ME=
-Date: Wed, 6 May 2020 18:56:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
- polarity
-Message-ID: <20200506155647.GD15206@pendragon.ideasonboard.com>
-References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
- <20200505082436.GD9658@pendragon.ideasonboard.com>
- <CAD=FV=WjUpwu5204K8yHzqsJv4vQX5S5CArH1Kj_kqjhZzTc9A@mail.gmail.com>
- <20200505210609.GA6094@pendragon.ideasonboard.com>
- <CAD=FV=UnGOYh8JX2=fEAqPN7wqANc0QevTirNO-WUDYMPqXcrg@mail.gmail.com>
- <20200505211401.GC6094@pendragon.ideasonboard.com>
- <CAD=FV=WgRC-HViMxttF4VK+n48HNRuqAau8S7mgx6oSWsbZcgA@mail.gmail.com>
- <CAD=FV=U8_Krob9oftJjzrYs1zrbLr9WZ-HSStv5_rbq9MpTChw@mail.gmail.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337CA6E049;
+ Wed,  6 May 2020 16:00:37 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id s8so2833466wrt.9;
+ Wed, 06 May 2020 09:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d5eC0q9kH/OLW0xvH/Ya7sSzazIuNp3mcIJJ1oeL080=;
+ b=lQ4Ia6TZkysbbNIAhDuGpiWO7KCO47RjQPcjpPSazd6nrV18G3QvrExOvMLRWcOlon
+ nRoXysP7XKcVH9sSW2dDvM8hAxLsQ5vL0VRPGfE6VyAyfXaQbRAGaXRVwVJFYggcbshQ
+ OceVO97EVdAO4rE7Ex9n/pgGpW+guIOj3cuWITRY0EBJr2Ij+D0mY42Yuu0VDNEcyDrQ
+ HfBzrxDXl8NMox2jDWQph40c5NZTu2j49IOPMMNjOWxawnWvO5FRr34r5jLU3N+/Xas3
+ ClnK59EnGBDfAu/bjEzfaR5RoHbfH+KdO63KZ0Xr8P8Tv3TKNLPqY4EWE/7PfTSmn0/6
+ kVyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d5eC0q9kH/OLW0xvH/Ya7sSzazIuNp3mcIJJ1oeL080=;
+ b=ptGInQg1b24onyYtwXvgeRZanOGqpjXIcfVnO7HknS1hvR/z2ezDVyXfAQDqR4nsJ0
+ q3DkfAfsGDBzq2t3qWjVS7zLz/kMzz3gHjiECUcvBXH63jVbDHNfnVnJ1LS69DAey7Oe
+ c8TmLqYP4OPul34xuV3sDomx+nUBmnyURU2XaC1VSKe8cqRv/zC8wNcptLz0kXMOXfJl
+ 88F0sFMK7V6kRiOV1i2a0DVSIAbOCm6aEavSGGCVtxkqx7gOo4xsYrZ2JTKKjhBd5bYQ
+ /UByCLnawiDeHrc07LFPPCuFmCc6z+Ql5dyIF6cxiDCxLuIPH/0T3qlCKGVxtf21ZKSD
+ LdhQ==
+X-Gm-Message-State: AGi0PuZERwxrFB4sskmUK8ri0unJ/vWFRUPqLevg/P2LlPrwuv7zi8nT
+ HD5/gWqQmJpGWUpZAtJr0/uUbtprwwGnYPicvlTMUg==
+X-Google-Smtp-Source: APiQypL3tXEjYhLf/bgr7Q0/DSDIJeeO4NiNwYIkbeeKaDlvH8xQfeOdRow5FP8uN2OVMaxsWCEPpToybESgb9qCgTA=
+X-Received: by 2002:a5d:4389:: with SMTP id i9mr10814250wrq.374.1588780835900; 
+ Wed, 06 May 2020 09:00:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=U8_Krob9oftJjzrYs1zrbLr9WZ-HSStv5_rbq9MpTChw@mail.gmail.com>
+References: <20200506143326.66467-1-zhengbin13@huawei.com>
+In-Reply-To: <20200506143326.66467-1-zhengbin13@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 6 May 2020 12:00:24 -0400
+Message-ID: <CADnq5_MZvyhVQ6kcd1_qHgDOGGSe+DEbQJNnGeBf6mq5zT8GrA@mail.gmail.com>
+Subject: Re: [PATCH 00/14] drm/radeon: remove comparison to bool
+To: Zheng Bin <zhengbin13@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,100 +60,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>
+Cc: Dave Airlie <airlied@linux.ie>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+On Wed, May 6, 2020 at 10:27 AM Zheng Bin <zhengbin13@huawei.com> wrote:
+>
+> Zheng Bin (14):
+>   drm/radeon: remove comparison to bool in btc_dpm.c
+>   drm/radeon: remove comparison to bool in ci_dpm.c
+>   drm/radeon: remove comparison to bool in ni_dpm.c
+>   drm/radeon: remove comparison to bool in radeon_atpx_handler.c
+>   drm/radeon: remove comparison to bool in radeon_object.c
+>   drm/radeon: remove comparison to bool in radeon_ttm.c
+>   drm/radeon: remove comparison to bool in r100.c
+>   drm/radeon: remove comparison to bool in r300.c
+>   drm/radeon: remove comparison to bool in r600.c
+>   drm/radeon: remove comparison to bool in rs600.c
+>   drm/radeon: remove comparison to bool in rs690.c
+>   drm/radeon: remove comparison to bool in rv6xx_dpm.c
+>   drm/radeon: remove comparison to bool in rv515.c
+>   drm/radeon: remove comparison to bool in si_dpm.c
 
-On Tue, May 05, 2020 at 05:18:48PM -0700, Doug Anderson wrote:
-> On Tue, May 5, 2020 at 2:24 PM Doug Anderson wrote:
-> > On Tue, May 5, 2020 at 2:14 PM Laurent Pinchart wrote:
-> > >
-> > > > I'll add this documentation into the comments of the yaml, but I'm not
-> > > > going to try to implement enforcement at the yaml level.
-> > >
-> > > Why not ? :-)
-> >
-> > Because trying to describe anything in the yaml bindings that doesn't
-> > fit in the exact pattern of things that the yaml bindings are designed
-> > to check is like constructing the empire state building with only
-> > toothpicks.
-> >
-> > If you want to suggest some syntax that would actually make this
-> > doable without blowing out the yaml bindings then I'm happy to add it.
-> > Me being naive would assume that we'd need to do an exhaustive list of
-> > the OK combinations.  That would be fine for the 1-land and 2-lane
-> > cases, but for 4 lanes that means adding 256 entries to the bindings.
-> >
-> > I think the correct way to do this would require adding code in the
-> > <https://github.com/devicetree-org/dt-schema> project but that's
-> > really only done for generic subsystem-level concepts and not for a
-> > single driver.
-> 
-> OK.  Looked at your review of the .yaml and the "uniqueItems" is
-> probably the bit I didn't think of.  With that I can limit this but
-> it's still a little awkward.  I still haven't figured out how to force
-> data-lanes and lane-polarities to have the same number of items, too.
-> I'll add this as an add-on patch to my v2 and folks can decide if they
-> like it or hate it.
+Does the checker need to be fixed?  All of these are comparing boolean
+variables to true/false.  Seems like needless code churn to me.
 
-Thanks for looking into it. Looks good to me. Regarding the same number
-of items I would assume it should be possible, I would be surprised if
-the schemas allowed a different number of items for clocks and
-clock-names for instance, but maybe that's not implemented yet. In any
-case, no big deal.
+Alex
 
-> # See ../../media/video-interface.txt for details.
-> data-lanes:
->   oneOf:
->     - minItems: 1
->       maxItems: 1
->       uniqueItems: true
->       items:
->         enum:
->           - 0
->           - 1
->       description:
->         If you have 1 logical lane it can go to either physical
->         port 0 or port 1.  Port 0 is suggested.
-> 
->     - minItems: 2
->       maxItems: 2
->       uniqueItems: true
->       items:
->         enum:
->           - 0
->           - 1
->       description:
->         If you have 2 logical lanes they can be reordered on
->         physical ports 0 and 1.
-> 
->     - minItems: 4
->       maxItems: 4
->       uniqueItems: true
->       items:
->         enum:
->           - 0
->           - 1
->           - 2
->           - 3
->       description:
->         If you have 4 logical lanes they can be reordered on
->         in any way.
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>  drivers/gpu/drm/radeon/btc_dpm.c             | 2 +-
+>  drivers/gpu/drm/radeon/ci_dpm.c              | 4 ++--
+>  drivers/gpu/drm/radeon/ni_dpm.c              | 6 +++---
+>  drivers/gpu/drm/radeon/r100.c                | 2 +-
+>  drivers/gpu/drm/radeon/r300.c                | 2 +-
+>  drivers/gpu/drm/radeon/r600.c                | 3 ++-
+>  drivers/gpu/drm/radeon/radeon_atpx_handler.c | 4 ++--
+>  drivers/gpu/drm/radeon/radeon_object.c       | 2 +-
+>  drivers/gpu/drm/radeon/radeon_ttm.c          | 2 +-
+>  drivers/gpu/drm/radeon/rs600.c               | 2 +-
+>  drivers/gpu/drm/radeon/rs690.c               | 3 ++-
+>  drivers/gpu/drm/radeon/rv515.c               | 2 +-
+>  drivers/gpu/drm/radeon/rv6xx_dpm.c           | 2 +-
+>  drivers/gpu/drm/radeon/si_dpm.c              | 6 +++---
+>  14 files changed, 22 insertions(+), 20 deletions(-)
+>
+> --
+> 2.26.0.106.g9fadedd
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
