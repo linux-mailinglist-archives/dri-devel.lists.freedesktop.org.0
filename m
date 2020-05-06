@@ -1,61 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836851C7637
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:27:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F501C8323
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E136E8A6;
-	Wed,  6 May 2020 16:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198E16E946;
+	Thu,  7 May 2020 07:05:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1369 seconds by postgrey-1.36 at gabe;
- Wed, 06 May 2020 16:27:17 UTC
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70BF66E8A6
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:27:17 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 046G4ET5110157;
- Wed, 6 May 2020 11:04:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1588781054;
- bh=jrBEKIuDSFaXhQfGrlKMPFW+Bx5UgahVAfVa73raab4=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=QK1DBcPecEckxuot4abYGboZrEbwYN8Rn9JK6Oeim1zGW9j/AvtOUFyDSgD2I1Bqe
- XveTUdb5sUjHIFiSM3FDtHr3bTgTVe+HCK1HY6um/weszTHox3ptURhZzAW7saxWSl
- PXUrwG8AUQcRPbUDNTUWv4RgJiMXknD77JEEENG0=
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 046G4Efl031379
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 6 May 2020 11:04:14 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 6 May
- 2020 11:04:13 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 6 May 2020 11:04:13 -0500
-Received: from [10.250.38.163] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 046G4CAX086976;
- Wed, 6 May 2020 11:04:12 -0500
-Subject: Re: [RFC][PATCH 1/4] devicetree: bindings: Add linux, cma-heap tag for
- reserved memory
-To: Brian Starkey <brian.starkey@arm.com>, John Stultz <john.stultz@linaro.org>
-References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-2-john.stultz@linaro.org>
- <20200501104216.4f226c2a7bzval5o@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
- <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
-From: "Andrew F. Davis" <afd@ti.com>
-Message-ID: <1bddb721-d4d9-f113-bacc-0a0ca2d57753@ti.com>
-Date: Wed, 6 May 2020 12:04:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA6D6E8A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:18:26 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id b1so1981810qtt.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 09:18:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=dI/8k01wqNtPsEMN3JryPuexKMUAM9GFAPsiKlMJOgs=;
+ b=CDYYUXVytFKURB46DxLbtSQhLKEUVHOamKg4N6ws/VeYuZqe48aW2fVU4DY/h9Bp0C
+ oxPsar9OJVyyfKYewl2b61UAK/iYMJhUOEztf6FyAWUPWMHx6K52Ms3zjFawc0T82Nl1
+ 7Xt+P1aPijxMvudfHiyJNFg5C9ZFGxb7Xq5W8dbwJ21FJwxC/q1Blc/Rw7qi4EBtZ7QU
+ QsgB9ERVVjUURncAAw80TIEnHnDpJ9Brzd9+PloSZTbvOPoos60r/CIiiaGLTHr18jlp
+ z1hKejvJ2XMgEhTqjmxxET3DODSbvUQWlTA4t/TK35N6seBmGymATrWanur938yEOAM8
+ A/+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dI/8k01wqNtPsEMN3JryPuexKMUAM9GFAPsiKlMJOgs=;
+ b=Fu0utCoNDtDZ22vst8WKxnC2/oKH7+hJ/UwnvJCjoj35oDI5UW9NpIhUCaHLiM+r2H
+ iFjSXbpZQ1p0WNEmm70Okvz1zi3eu0CZ0D3YtKNA5+NruOuUJNJzl6CabxtSCCuKNph1
+ qea6ziOrgc4wZuRk8etVPHvybvdN4VM712nbzaTBTnDdyqdi+A0XBl8co8qhnrmVRXkJ
+ Z8ucyH0TvUyvtOzgkuu0P3PfSkshVJaa3FSzBP+nNs6VWomaFFNf2UkXjuW4HjGXQzA6
+ Tm8KEgcJBS83PHjWA2fxmBOsQIsaAg43TZ4NukFZ5HFtA+ikw3ixXuSTkETj0T4q9LJt
+ MbHA==
+X-Gm-Message-State: AGi0Pub+m7FTVLst6Vl7oZguX40d3ZRh2DoUAqKrakfdTijRu+nKkyvp
+ M2P+C3n2x1kqE3HVDFFy8OvPEg==
+X-Google-Smtp-Source: APiQypKyDRDNEzprm+gsfACpH0aQyfocl+/L2XhuNJKEuZItD8tyLPJ84MVvdGkrVM9/6D8550tNkg==
+X-Received: by 2002:aed:2e83:: with SMTP id k3mr9101168qtd.2.1588781906015;
+ Wed, 06 May 2020 09:18:26 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id h13sm1895261qti.32.2020.05.06.09.18.25
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 06 May 2020 09:18:25 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jWMka-0002ut-Lq; Wed, 06 May 2020 13:18:24 -0300
+Date: Wed, 6 May 2020 13:18:24 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH hmm v2 5/5] mm/hmm: remove the customizable pfn format
+ from hmm_range_fault
+Message-ID: <20200506161824.GG26002@ziepe.ca>
+References: <5-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
+ <3c06a94c-c17f-dc31-537e-f3f6e1ace9a2@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <3c06a94c-c17f-dc31-537e-f3f6e1ace9a2@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,121 +75,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, nd <nd@arm.com>,
- Sandeep Patil <sspatil@google.com>, Robin Murphy <robin.murphy@arm.com>,
- Chenbo Feng <fengc@google.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Alistair Strachan <astrachan@google.com>,
- linux-mm <linux-mm@kvack.org>, Rob Herring <robh+dt@kernel.org>,
- Christoph Hellwig <hch@lst.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: "Yang, Philip" <Philip.Yang@amd.com>, John Hubbard <jhubbard@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ linux-mm@kvack.org, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/4/20 4:50 AM, Brian Starkey wrote:
-> On Fri, May 01, 2020 at 11:40:16AM -0700, John Stultz wrote:
->> On Fri, May 1, 2020 at 3:42 AM Brian Starkey <brian.starkey@arm.com> wrote:
->>>
->>> Hi,
->>>
->>> On Fri, May 01, 2020 at 07:39:46AM +0000, John Stultz wrote:
->>>> This patch adds a linux,cma-heap property for CMA reserved memory
->>>> regions, which will be used to allow the region to be exposed via
->>>> the DMA-BUF Heaps interface
->>>>
->>>> Cc: Rob Herring <robh+dt@kernel.org>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: "Andrew F. Davis" <afd@ti.com>
->>>> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
->>>> Cc: Liam Mark <lmark@codeaurora.org>
->>>> Cc: Pratik Patel <pratikp@codeaurora.org>
->>>> Cc: Laura Abbott <labbott@redhat.com>
->>>> Cc: Brian Starkey <Brian.Starkey@arm.com>
->>>> Cc: Chenbo Feng <fengc@google.com>
->>>> Cc: Alistair Strachan <astrachan@google.com>
->>>> Cc: Sandeep Patil <sspatil@google.com>
->>>> Cc: Hridya Valsaraju <hridya@google.com>
->>>> Cc: Christoph Hellwig <hch@lst.de>
->>>> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
->>>> Cc: Robin Murphy <robin.murphy@arm.com>
->>>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>>> Cc: devicetree@vger.kernel.org
->>>> Cc: dri-devel@lists.freedesktop.org
->>>> Cc: linux-mm@kvack.org
->>>> Signed-off-by: John Stultz <john.stultz@linaro.org>
->>>> ---
->>>>  .../devicetree/bindings/reserved-memory/reserved-memory.txt    | 3 +++
->>>>  1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->>>> index bac4afa3b197..e97b6a4c3bc0 100644
->>>> --- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->>>> +++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->>>> @@ -68,6 +68,9 @@ Linux implementation note:
->>>>  - If a "linux,cma-default" property is present, then Linux will use the
->>>>    region for the default pool of the contiguous memory allocator.
->>>>
->>>> +- If a "linux,cma-heap" property is present, then Linux will expose the
->>>> +  the CMA region via the DMA-BUF Heaps interface.
->>>> +
->>>
->>> Would it be useful or even possible to give some indication of what
->>> the heap will end up being called? I'm afraid I don't remember what if
->>> any conclusions came out of previous discussions on UAPI for heap
->>> enumeration.
->>
->> So the name we expose is the CMA name itself. So with dt it will be
->> the name of the reserved memory node that the flag property is added
->> to.
->>
+On Fri, May 01, 2020 at 05:53:26PM -0700, Ralph Campbell wrote:
+> > Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> > Tested-by: Ralph Campbell <rcampbell@nvidia.com>
+> > Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> >   Documentation/vm/hmm.rst                |  26 ++--
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  35 ++----
+> >   drivers/gpu/drm/nouveau/nouveau_dmem.c  |  27 +---
+> >   drivers/gpu/drm/nouveau/nouveau_dmem.h  |   3 +-
+> >   drivers/gpu/drm/nouveau/nouveau_svm.c   |  87 ++++++++-----
+> >   include/linux/hmm.h                     |  99 ++++++---------
+> >   mm/hmm.c                                | 160 +++++++++++-------------
+> >   7 files changed, 192 insertions(+), 245 deletions(-)
+> > 
 > 
-> Yeah I'm just wondering if that's "stable" so we can say "the heap
-> will use the node name", or if saying that would cause us a headache
-> in the future.
-
-
-The issue is going to be this causes the node name in DT to become a
-kind of ABI. Right now until we have some userspace lib that enumerates
-the heaps in a stable way programs will hard-code the full heap name,
-which right now would look like:
-
-char *heap = "/dev/dma_heap/dma_heap_mem@89000000";
-
-Yuk.. we might want to look into exporting heap properties to make them
-searchable based on something other than name here soon. Or this will be
-a mess to cleanup in the future.
-
-Andrew
-
-
+> ...snip...
 > 
->>> I suppose CMA names haven't been relevant to userspace before, but
->>> they perhaps would be with this change.
->>>
->>> Alternatively, leaving it effectively undefined doesn't tie us down,
->>> and something like links in sysfs can be added as a richer API in the
->>> future.
->>
->> Hrm. Mind expanding on what you're thinking here?
+> > +static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
+> > +				    struct hmm_range *range, u64 *ioctl_addr)
+> > +{
+> > +	unsigned long i, npages;
+> > +
+> > +	/*
+> > +	 * The ioctl_addr prepared here is passed through nvif_object_ioctl()
+> > +	 * to an eventual DMA map in something like gp100_vmm_pgt_pfn()
+> > +	 *
+> > +	 * This is all just encoding the internal hmm reprensetation into a
 > 
-> Super hand-wavy, something like:
+> s/reprensetation/representation/
 > 
-> /sys/devices/blah/display@2f000000/cma_region is a symlink to
-> 	/sys/class/dma_heaps/heap_display
-> 
-> I think danvet had some thoughts in this vein.
-> 
-> Cheers,
-> -Brian
-> 
->>
->> thanks
->> -john
+> Looks good and still tests OK with nouveau.
+
+Got it, thanks
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
