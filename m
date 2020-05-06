@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0E11C6AC6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 10:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F355E1C6AC8
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 10:05:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442536E287;
-	Wed,  6 May 2020 08:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2616E81D;
+	Wed,  6 May 2020 08:05:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2036E287
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 08:04:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF476E81D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 08:05:34 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207595] [amdgpu] Displayport MST not functional on AMD Stoney
-Date: Wed, 06 May 2020 08:04:44 +0000
+Date: Wed, 06 May 2020 08:05:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.description
-Message-ID: <bug-207595-2300-EUOJVbIBAp@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-207595-2300-4QYoO8O2Xn@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207595-2300@https.bugzilla.kernel.org/>
 References: <bug-207595-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,12 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207595
 
-Johannes Braun (jjo.braun@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #288943|5.4.28: kernel config       |5.4.28: kernel config
-        description|5.4.28                      |
+--- Comment #4 from Johannes Braun (jjo.braun@gmail.com) ---
+Created attachment 288947
+  --> https://bugzilla.kernel.org/attachment.cgi?id=288947&action=edit
+5.4.36: lspci output of Lenovo 14w notebook with stoney gpu
 
 -- 
 You are receiving this mail because:
