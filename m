@@ -2,68 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7C61C64FB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 02:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1EF1C6509
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 02:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2034A89DD3;
-	Wed,  6 May 2020 00:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E1F6E25B;
+	Wed,  6 May 2020 00:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E90789DD3
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 00:19:04 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id j1so199775vkc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 17:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uxf7PIfuQA1AmzwbgiAc6qi52bK5LTEy5mM67o299pg=;
- b=YP9DojNnvL0GKT59bxFJk7GMLrsEk2LCd5aowl6qLFcQdpPAxIs6zTVGg2i6fYhDJz
- dyvRxqWVH9vP7aAeBY2R+7ovwrMKFqgr+zf5hfdg2ome+cQL9T+tX2oEiMp15mZ3FxB7
- qL0Sg3ZHqsoiZp8InrBjMlJzG2kBeeYmEkBsk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uxf7PIfuQA1AmzwbgiAc6qi52bK5LTEy5mM67o299pg=;
- b=b2BFtACvmwppkP2Ao8qIhE/N7eDTu9tSEDPp0af/AsA0gpeJhxwysyuY56qVbWFh0Q
- 3uGI+qiOGl7V/AUMo/Wq3Wn8tmBbIhIHAzhAHFEYQsoTR42lTXo8bw+89IgUheg0RZu0
- sVtHeMi8q2PeIPhzh4NZKog4Yjz/3zoe0BvdZ0+bkRbYKK89TVSDlrSRnwzD0Oltoq0B
- 5zGAnYh8+Yl4lxIjiWj6qGoCiI/+rQSGjuda3IJdIeNof+2ZeyR3yTxSv1ZnEMK705LX
- u2Y+59+XslCnDliLmpjBkn6Z2C5xYwdvLkPo7igCdGDkuSBTMn9Nxorg5qIEeMqOLJhF
- otfQ==
-X-Gm-Message-State: AGi0PubqxAfQsrQGmQ8mUnEj9lD+5vZKLZ6Afx0w9PEQmTrQTvBYCeXI
- CgKQzVitpHc2wT9MO/+7qt91sXet5PU=
-X-Google-Smtp-Source: APiQypKp0X6a04hAvfO+shUPM6WdO68XnCpNZovvrsKPWfiS3V4/Ax7FTSRBaPNb631a4H5o9xqzdA==
-X-Received: by 2002:a1f:a6d2:: with SMTP id p201mr5078434vke.7.1588724342290; 
- Tue, 05 May 2020 17:19:02 -0700 (PDT)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com.
- [209.85.217.48])
- by smtp.gmail.com with ESMTPSA id x25sm39833vso.5.2020.05.05.17.19.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 17:19:00 -0700 (PDT)
-Received: by mail-vs1-f48.google.com with SMTP id a5so18330vsm.7
- for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 17:19:00 -0700 (PDT)
-X-Received: by 2002:a05:6102:4d:: with SMTP id
- k13mr5406597vsp.198.1588724340078; 
- Tue, 05 May 2020 17:19:00 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE2276E25B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 00:25:34 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 33B5B206B8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 00:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588724734;
+ bh=tORyrd16/TrBcFAcvt++PIww61jrCTRTKoyNEMmWqg8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=QZrZbD5+TiJ84mh5Tfs9AExzUQvVWmKfqXCAr1AHKEFtyVpJMDwCunFSsQOuF/v0y
+ 7EYhS4vEkA90GUykWHL0IBdveWs5kpchdA4oFVRb8OCIJvA5c/KOFvYwkmMe8RpSU5
+ R2XK52qLs7kJQlbrJVX0c6YmpGpSal/eLZdqMWxE=
+Received: by mail-ej1-f51.google.com with SMTP id nv1so408305ejb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 May 2020 17:25:34 -0700 (PDT)
+X-Gm-Message-State: AGi0PubTmRoBh1jEPl4H4lnoZnKvwnctue3bdZbSjEHuat8SY5T4FByx
+ j+7fxd4F5t+EzNCwg1llnKbI/dWriDHkaGi65Q==
+X-Google-Smtp-Source: APiQypKp/oeTS/9+RxLaRA+6gt87+Uwim/SeYewoJTMOqc4ThsPCt9mPOYtbLOruUFSBdnzWiU9WTdpRVNurfELuWgE=
+X-Received: by 2002:a17:906:2ad4:: with SMTP id
+ m20mr5292368eje.324.1588724732602; 
+ Tue, 05 May 2020 17:25:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200504213624.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
- <20200505082436.GD9658@pendragon.ideasonboard.com>
- <CAD=FV=WjUpwu5204K8yHzqsJv4vQX5S5CArH1Kj_kqjhZzTc9A@mail.gmail.com>
- <20200505210609.GA6094@pendragon.ideasonboard.com>
- <CAD=FV=UnGOYh8JX2=fEAqPN7wqANc0QevTirNO-WUDYMPqXcrg@mail.gmail.com>
- <20200505211401.GC6094@pendragon.ideasonboard.com>
- <CAD=FV=WgRC-HViMxttF4VK+n48HNRuqAau8S7mgx6oSWsbZcgA@mail.gmail.com>
-In-Reply-To: <CAD=FV=WgRC-HViMxttF4VK+n48HNRuqAau8S7mgx6oSWsbZcgA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 May 2020 17:18:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U8_Krob9oftJjzrYs1zrbLr9WZ-HSStv5_rbq9MpTChw@mail.gmail.com>
-Message-ID: <CAD=FV=U8_Krob9oftJjzrYs1zrbLr9WZ-HSStv5_rbq9MpTChw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement lane reordering +
- polarity
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200420060834.44461-1-amistry@google.com>
+ <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
+ <CAATStaNwCyveF-fmrT=1m-BJh=8WOyaffFzVsC_Lo_rFkm6Z=Q@mail.gmail.com>
+ <CAAOTY_9HQTiywgzGrefDHromhXtLPyWeYUyxFU8+h8sN_fo9xw@mail.gmail.com>
+In-Reply-To: <CAAOTY_9HQTiywgzGrefDHromhXtLPyWeYUyxFU8+h8sN_fo9xw@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 6 May 2020 08:25:19 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9+s8EknSFLyYHNDfJuxERTuubBXaQ41Y3J+DeuDMFGqA@mail.gmail.com>
+Message-ID: <CAAOTY_9+s8EknSFLyYHNDfJuxERTuubBXaQ41Y3J+DeuDMFGqA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: stop iterating dma addresses when
+ sg_dma_len() == 0
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,95 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Sean Paul <seanpaul@chromium.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Anand K. Mistry" <amistry@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, May 5, 2020 at 2:24 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Tue, May 5, 2020 at 2:14 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > > I'll add this documentation into the comments of the yaml, but I'm not
-> > > going to try to implement enforcement at the yaml level.
-> >
-> > Why not ? :-)
->
-> Because trying to describe anything in the yaml bindings that doesn't
-> fit in the exact pattern of things that the yaml bindings are designed
-> to check is like constructing the empire state building with only
-> toothpicks.
->
-> If you want to suggest some syntax that would actually make this
-> doable without blowing out the yaml bindings then I'm happy to add it.
-> Me being naive would assume that we'd need to do an exhaustive list of
-> the OK combinations.  That would be fine for the 1-land and 2-lane
-> cases, but for 4 lanes that means adding 256 entries to the bindings.
->
-> I think the correct way to do this would require adding code in the
-> <https://github.com/devicetree-org/dt-schema> project but that's
-> really only done for generic subsystem-level concepts and not for a
-> single driver.
-
-OK.  Looked at your review of the .yaml and the "uniqueItems" is
-probably the bit I didn't think of.  With that I can limit this but
-it's still a little awkward.  I still haven't figured out how to force
-data-lanes and lane-polarities to have the same number of items, too.
-I'll add this as an add-on patch to my v2 and folks can decide if they
-like it or hate it.
-
-# See ../../media/video-interface.txt for details.
-data-lanes:
-  oneOf:
-    - minItems: 1
-      maxItems: 1
-      uniqueItems: true
-      items:
-        enum:
-          - 0
-          - 1
-      description:
-        If you have 1 logical lane it can go to either physical
-        port 0 or port 1.  Port 0 is suggested.
-
-    - minItems: 2
-      maxItems: 2
-      uniqueItems: true
-      items:
-        enum:
-          - 0
-          - 1
-      description:
-        If you have 2 logical lanes they can be reordered on
-        physical ports 0 and 1.
-
-    - minItems: 4
-      maxItems: 4
-      uniqueItems: true
-      items:
-        enum:
-          - 0
-          - 1
-          - 2
-          - 3
-      description:
-        If you have 4 logical lanes they can be reordered on
-        in any way.
-
--Doug
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEFuYW5kLAoKQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+IOaWvCAy
+MDIw5bm0NOaciDI55pelIOmAseS4iSDkuIrljYgxMjozN+Wvq+mBk++8mgo+Cj4gSGksIEFuYW5k
+LAo+Cj4gQW5hbmQgSy4gTWlzdHJ5IDxhbWlzdHJ5QGNocm9taXVtLm9yZz4g5pa8IDIwMjDlubQ0
+5pyIMjjml6Ug6YCx5LqMIOS4iuWNiDk6NTTlr6vpgZPvvJoKPiA+Cj4gPiBPbiBTdW4sIDI2IEFw
+ciAyMDIwIGF0IDE4OjA0LCBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4g
+d3JvdGU6Cj4gPiA+Cj4gPiA+IEhpLCBBbmFuZDoKPiA+ID4KPiA+ID4gQW5hbmQgSyBNaXN0cnkg
+PGFtaXN0cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDTmnIgyMOaXpSDpgLHkuIAg5LiL5Y2I
+MjowOeWvq+mBk++8mgo+ID4gPiA+Cj4gPiA+ID4gSWYgZG1hX21hcF9zZygpIG1lcmdlcyBwYWdl
+cyB3aGVuIGNyZWF0aW5nIHRoZSBtYXBwaW5nLCBvbmx5IHRoZSBmaXJzdAo+ID4gPiA+IGVudHJp
+ZXMgd2lsbCBoYXZlIGEgdmFsaWQgc2dfZG1hX2FkZHJlc3MoKSBhbmQgc2dfZG1hX2xlbigpLCBm
+b2xsb3dlZCBieQo+ID4gPiA+IGVudHJpZXMgd2l0aCBzZ19kbWFfbGVuKCkgPT0gMC4KPiA+ID4g
+Pgo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEFuYW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGdvb2dsZS5j
+b20+CgpBdXRob3Igc2hvdWxkIHNpZ24gb2ZmIHRoaXMgcGF0Y2gsIHBsZWFzZSBnaXZlIGEgc2ln
+biBvZmYgdGFnIGJ5IGF1dGhvci4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+ID4gPiA+IC0tLQo+
+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyB8IDMgKysrCj4g
+PiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKPiA+ID4gPgo+ID4gPiA+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyBiL2RyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCj4gPiA+ID4gaW5kZXggYjA0YTNjMmIx
+MTFlMDkuLmY4ZmQ4Yjk4YzMwZTNkIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCj4gPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fZ2VtLmMKPiA+ID4gPiBAQCAtMjI0LDYgKzIyNCw5IEBAIHN0cnVjdCBk
+cm1fZ2VtX29iamVjdCAqbXRrX2dlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwKPiA+ID4gPgo+ID4gPiA+ICAgICAgICAgZXhwZWN0ZWQgPSBzZ19kbWFfYWRk
+cmVzcyhzZy0+c2dsKTsKPiA+ID4gPiAgICAgICAgIGZvcl9lYWNoX3NnKHNnLT5zZ2wsIHMsIHNn
+LT5uZW50cywgaSkgewo+ID4gPiA+ICsgICAgICAgICAgICAgICBpZiAoIXNnX2RtYV9sZW4ocykp
+Cj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7Cj4gPiA+Cj4gPiA+IEkgdGhp
+bmsgdGhpcyBzaG91bGQgYmUgJ2NvbnRpbnVlJwo+ID4KPiA+IHNjYXR0ZXJsaXN0LmggaGFzIHRo
+ZSBjb21tZW50Ogo+ID4gLyoKPiA+ICAqIFRoZXNlIG1hY3JvcyBzaG91bGQgYmUgdXNlZCBhZnRl
+ciBhIGRtYV9tYXBfc2cgY2FsbCBoYXMgYmVlbiBkb25lCj4gPiAgKiB0byBnZXQgYnVzIGFkZHJl
+c3NlcyBvZiBlYWNoIG9mIHRoZSBTRyBlbnRyaWVzIGFuZCB0aGVpciBsZW5ndGhzLgo+ID4gICog
+WW91IHNob3VsZCBvbmx5IHdvcmsgd2l0aCB0aGUgbnVtYmVyIG9mIHNnIGVudHJpZXMgZG1hX21h
+cF9zZwo+ID4gICogcmV0dXJucywgb3IgYWx0ZXJuYXRpdmVseSBzdG9wIG9uIHRoZSBmaXJzdCBz
+Z19kbWFfbGVuKHNnKSB3aGljaAo+ID4gICogaXMgMC4KPiA+ICAqLwo+ID4KPiA+IFNvIGJyZWFr
+aW5nIG9uIHRoZSBmaXJzdCBzZ19kbWFfbGVuKHNnKSA9PSAwIGFwcGVhcnMgdG8gYmUgKG9uZSBv
+ZikKPiA+IHRoZSBkb2N1bWVudGVkIGFwcHJvYWNoLgo+ID4KPgo+IE9rYXksIHlvdSdyZSByaWdo
+dC4gU28KPgo+IFJldmlld2VkLWJ5OiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVs
+Lm9yZz4KPgo+ID4gPgo+ID4gPiBSZWdhcmRzLAo+ID4gPiBDaHVuLUt1YW5nLgo+ID4gPgo+ID4g
+PiA+ICsKPiA+ID4gPiAgICAgICAgICAgICAgICAgaWYgKHNnX2RtYV9hZGRyZXNzKHMpICE9IGV4
+cGVjdGVkKSB7Cj4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJzZ190
+YWJsZSBpcyBub3QgY29udGlndW91cyIpOwo+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
+IHJldCA9IC1FSU5WQUw7Cj4gPiA+ID4gLS0KPiA+ID4gPiAyLjI2LjEuMzAxLmc1NWJjM2ViN2Ni
+OS1nb29nCj4gPiA+ID4KPiA+ID4gPgo+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCj4gPiA+ID4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0
+Cj4gPiA+ID4gTGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+ID4gPiA+IGh0dHA6
+Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbWVkaWF0ZWsKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
