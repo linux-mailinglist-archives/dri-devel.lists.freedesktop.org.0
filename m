@@ -2,29 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2667E1C8317
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1F61C6E8B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 12:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B5EC6E931;
-	Thu,  7 May 2020 07:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354416E029;
+	Wed,  6 May 2020 10:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF63D6E854
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 10:30:29 +0000 (UTC)
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
- helo=localhost) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>)
- id 1jWHIM-0008Fl-44; Wed, 06 May 2020 10:28:54 +0000
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jani.nikula@linux.intel.com
-Subject: [PATCH v5] drm/i915: Init lspcon chip dynamically
-Date: Wed,  6 May 2020 18:28:02 +0800
-Message-Id: <20200506102844.26596-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA326E029
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 10:38:21 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id k12so2003590wmj.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 03:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=0O4Wk7qXB2T/KRRRJZxGlNhMmVWqgz6eW0lYeDRj47I=;
+ b=K1NfRMSM6vdZWWn0blGT4AsqYfOEo0/nDgC5s48iO+UEDlBWTirQMshoHwVhNwz8V2
+ 6bObAu60vUZimYs3odjPKJsX/yGiFObgZyKa7mv9abZkEGLTqfmLAdg+U6afL9vXaTFZ
+ FAb4sQl2xhuzM1cfNLIYvYHnO0FZJKyKuexCk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=0O4Wk7qXB2T/KRRRJZxGlNhMmVWqgz6eW0lYeDRj47I=;
+ b=EiBbswBA/AsygZ+s53x40D71/R2bzSM7Zgs5e3hKysUdpkpSKGSye0D1aO0IoGjGhQ
+ WeXFSR6KlWYJL3w4FsTtuSShSixVUvlu0vk6IxKJrrp2sNQDEHLdjxg/jAPlnct6c3fz
+ xLToCqZairgB12Aav4Hffz4mvYrI7L3oRAp1WQArYnO3cZb24RMOjTetQhbyy0Li+Kch
+ cvibLAj1J4e2+oAQTGK0Wm6Iau9puO1o9rovNjgf4Hoa2+Gu6NYy4dFV1A3FGfpiAArG
+ r/gozwdzhbOdzM65HPtPBAjG9+eVMxEPxX1oIXP5WuN1rWK6FxYMHe9pyHvHtRQ6LMmo
+ JIUg==
+X-Gm-Message-State: AGi0PuaNbwmbiwQeHtFBhK+R9BZs4S98rwqVJh1TNdF8gfEt8c/0xIG2
+ 1u+rNX8qAlU/zhgGAUF+npLwVg==
+X-Google-Smtp-Source: APiQypJpGyj5lytK4s6T4EM+wKFpikc9dHHrp0ePqFfdPKIXZB9noVF+I5pEkDymiB13ZfqFdwcevA==
+X-Received: by 2002:a7b:cd10:: with SMTP id f16mr3934668wmj.21.1588761500004; 
+ Wed, 06 May 2020 03:38:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 17sm2305184wmo.2.2020.05.06.03.38.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 May 2020 03:38:19 -0700 (PDT)
+Date: Wed, 6 May 2020 12:38:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 2/3] drm/panel: update backlight handling for
+ samsung-s6e63j0x03
+Message-ID: <20200506103817.GV10381@phenom.ffwll.local>
+References: <20200409115239.5149-1-sam@ravnborg.org>
+ <20200409115239.5149-3-sam@ravnborg.org>
+ <CACvgo50wKm15F8z6xmTcXZHZt0NoXqpeuitmLFoenueJuY9nNA@mail.gmail.com>
+ <20200409144613.GA5396@ravnborg.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200409144613.GA5396@ravnborg.org>
+X-Operating-System: Linux phenom 5.4.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,260 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Uma Shankar <uma.shankar@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Joonas =?iso-8859-1?Q?Kylm=E4l=E4?= <joonas.kylmala@iki.fi>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Hyungwon Hwang <human.hwang@samsung.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+ =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
-becomes useless and never responds to cable hotplugging:
-[    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
-[    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed on port D
+On Thu, Apr 09, 2020 at 04:46:13PM +0200, Sam Ravnborg wrote:
+> Hi Emil.
+> =
 
-Seems like the lspcon chip on the system only gets powered after the
-cable is plugged.
+> Thanks for your feedback!
+> =
 
-Consolidate lspcon_init() into lspcon_resume() to dynamically init
-lspcon chip, and make HDMI port work.
+> On Thu, Apr 09, 2020 at 03:13:28PM +0100, Emil Velikov wrote:
+> > On Thu, 9 Apr 2020 at 12:53, Sam Ravnborg <sam@ravnborg.org> wrote:
+> > >
+> > > The samsung-s6e63j0x03 had a local way to handle backlight.
+> > >
+> > > Update the driver to use a devm_ based register function
+> > > and utilize drm_panel backlight support. The changes results
+> > > in a simpler driver with the same functionality.
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Joonas Kylm=E4l=E4 <joonas.kylmala@iki.fi>
+> > > Cc: Andrzej Hajda <a.hajda@samsung.com>
+> > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > Cc: Inki Dae <inki.dae@samsung.com>
+> > > Cc: Hyungwon Hwang <human.hwang@samsung.com>
+> > > Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > > ---
+> > >  .../gpu/drm/panel/panel-samsung-s6e63j0x03.c  | 55 ++++++++++-------=
+--
+> > >  1 file changed, 29 insertions(+), 26 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drive=
+rs/gpu/drm/panel/panel-samsung-s6e63j0x03.c
+> > > index a3570e0a90a8..2c035f87e3f0 100644
+> > > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
+> > > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
+> > > @@ -36,7 +36,6 @@
+> > >  struct s6e63j0x03 {
+> > >         struct device *dev;
+> > >         struct drm_panel panel;
+> > > -       struct backlight_device *bl_dev;
+> > >
+> > >         struct regulator_bulk_data supplies[2];
+> > >         struct gpio_desc *reset_gpio;
+> > > @@ -184,7 +183,7 @@ static unsigned int s6e63j0x03_get_brightness_ind=
+ex(unsigned int brightness)
+> > >  static int s6e63j0x03_update_gamma(struct s6e63j0x03 *ctx,
+> > >                                         unsigned int brightness)
+> > >  {
+> > > -       struct backlight_device *bl_dev =3D ctx->bl_dev;
+> > > +       struct backlight_device *bl_dev =3D ctx->panel.backlight;
+> > >         unsigned int index =3D s6e63j0x03_get_brightness_index(bright=
+ness);
+> > >         int ret;
+> > >
+> > > @@ -217,6 +216,30 @@ static const struct backlight_ops s6e63j0x03_bl_=
+ops =3D {
+> > >         .update_status =3D s6e63j0x03_set_brightness,
+> > >  };
+> > >
+> > > +static int s6e63j0x03_backlight_register(struct s6e63j0x03 *ctx)
+> > > +{
+> > > +       struct backlight_properties props =3D {
+> > Pretty sure we can (should really) make the props const.
+> Thanks, will fix either in v2 or when I apply.
+> =
 
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/203
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v5:
- - Consolidate lspcon_resume() with lspcon_init().
- - Move more logic into lspcon code.
+> > =
 
-v4:
- - Trust VBT in intel_infoframe_init().
- - Init lspcon in intel_dp_detect().
+> > Quick grep through drm, shows that there're other offenders, so might
+> > as well do that in separate series.
+> > Seems like other panels could follow suite, with later series of course.
+> > =
 
-v3:
- - Make sure it's handled under long HPD case.
+> > Back on topic, it's not immediately obvious why the FB_BLANK_*
+> > handling is safe to remove. Please add small mention in the commit log
+> > mentioning why.
+> =
 
-v2: 
- - Move lspcon_init() inside of intel_dp_hpd_pulse().
+> Maybe because it is not so?
+> Lets take a closer look.
+> backlight_enable() and backlight_disable() are called from
+> drm_panel - because drm_panel->backlight is assigned.
+> =
 
- drivers/gpu/drm/i915/display/intel_ddi.c    | 19 +------
- drivers/gpu/drm/i915/display/intel_dp.c     | 10 ++--
- drivers/gpu/drm/i915/display/intel_hdmi.c   |  3 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c | 63 ++++++++++++---------
- drivers/gpu/drm/i915/display/intel_lspcon.h |  3 +-
- 5 files changed, 43 insertions(+), 55 deletions(-)
+> =
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 5601673c3f30..798fd640da54 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -4770,7 +4770,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- {
- 	struct intel_digital_port *intel_dig_port;
- 	struct intel_encoder *encoder;
--	bool init_hdmi, init_dp, init_lspcon = false;
-+	bool init_hdmi, init_dp;
- 	enum phy phy = intel_port_to_phy(dev_priv, port);
- 
- 	init_hdmi = intel_bios_port_supports_dvi(dev_priv, port) ||
-@@ -4784,7 +4784,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 		 * is initialized before lspcon.
- 		 */
- 		init_dp = true;
--		init_lspcon = true;
- 		init_hdmi = false;
- 		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
- 			    port_name(port));
-@@ -4869,22 +4868,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 			goto err;
- 	}
- 
--	if (init_lspcon) {
--		if (lspcon_init(intel_dig_port))
--			/* TODO: handle hdmi info frame part */
--			drm_dbg_kms(&dev_priv->drm,
--				    "LSPCON init success on port %c\n",
--				    port_name(port));
--		else
--			/*
--			 * LSPCON init faied, but DP init was success, so
--			 * lets try to drive as DP++ port.
--			 */
--			drm_err(&dev_priv->drm,
--				"LSPCON init failed on port %c\n",
--				port_name(port));
--	}
--
- 	intel_infoframe_init(intel_dig_port);
- 
- 	return;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 6952b0295096..e26aa35d6e37 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5938,15 +5938,14 @@ static enum drm_connector_status
- intel_dp_detect_dpcd(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	u8 *dpcd = intel_dp->dpcd;
- 	u8 type;
- 
- 	if (WARN_ON(intel_dp_is_edp(intel_dp)))
- 		return connector_status_connected;
- 
--	if (lspcon->active)
--		lspcon_resume(lspcon);
-+	lspcon_resume(dig_port);
- 
- 	if (!intel_dp_get_dpcd(intel_dp))
- 		return connector_status_disconnected;
-@@ -7198,14 +7197,13 @@ void intel_dp_encoder_reset(struct drm_encoder *encoder)
- {
- 	struct drm_i915_private *dev_priv = to_i915(encoder->dev);
- 	struct intel_dp *intel_dp = enc_to_intel_dp(to_intel_encoder(encoder));
--	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	intel_wakeref_t wakeref;
- 
- 	if (!HAS_DDI(dev_priv))
- 		intel_dp->DP = intel_de_read(dev_priv, intel_dp->output_reg);
- 
--	if (lspcon->active)
--		lspcon_resume(lspcon);
-+	lspcon_resume(dig_port);
- 
- 	intel_dp->reset_link_params = true;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 010f37240710..643ad2127931 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3155,7 +3155,8 @@ void intel_infoframe_init(struct intel_digital_port *intel_dig_port)
- 		intel_dig_port->set_infoframes = g4x_set_infoframes;
- 		intel_dig_port->infoframes_enabled = g4x_infoframes_enabled;
- 	} else if (HAS_DDI(dev_priv)) {
--		if (intel_dig_port->lspcon.active) {
-+		if (intel_bios_is_lspcon_present(dev_priv,
-+						 intel_dig_port->base.port)) {
- 			intel_dig_port->write_infoframe = lspcon_write_infoframe;
- 			intel_dig_port->read_infoframe = lspcon_read_infoframe;
- 			intel_dig_port->set_infoframes = lspcon_set_infoframes;
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index d807c5648c87..f5f06d2a839a 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -525,44 +525,17 @@ u32 lspcon_infoframes_enabled(struct intel_encoder *encoder,
- 	return enc_to_intel_lspcon(encoder)->active;
- }
- 
--void lspcon_resume(struct intel_lspcon *lspcon)
--{
--	enum drm_lspcon_mode expected_mode;
--
--	if (lspcon_wake_native_aux_ch(lspcon)) {
--		expected_mode = DRM_LSPCON_MODE_PCON;
--		lspcon_resume_in_pcon_wa(lspcon);
--	} else {
--		expected_mode = DRM_LSPCON_MODE_LS;
--	}
--
--	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
--		return;
--
--	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
--		DRM_ERROR("LSPCON resume failed\n");
--	else
--		DRM_DEBUG_KMS("LSPCON resume success\n");
--}
--
- void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
- {
- 	lspcon_wait_mode(lspcon, DRM_LSPCON_MODE_PCON);
- }
- 
--bool lspcon_init(struct intel_digital_port *intel_dig_port)
-+static bool lspcon_init(struct intel_digital_port *intel_dig_port)
- {
- 	struct intel_dp *dp = &intel_dig_port->dp;
- 	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
--	struct drm_device *dev = intel_dig_port->base.base.dev;
--	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct drm_connector *connector = &dp->attached_connector->base;
- 
--	if (!HAS_LSPCON(dev_priv)) {
--		DRM_ERROR("LSPCON is not supported on this platform\n");
--		return false;
--	}
--
- 	lspcon->active = false;
- 	lspcon->mode = DRM_LSPCON_MODE_INVALID;
- 
-@@ -586,3 +559,37 @@ bool lspcon_init(struct intel_digital_port *intel_dig_port)
- 	DRM_DEBUG_KMS("Success: LSPCON init\n");
- 	return true;
- }
-+
-+void lspcon_resume(struct intel_digital_port *intel_dig_port)
-+{
-+	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
-+	struct drm_device *dev = intel_dig_port->base.base.dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	enum drm_lspcon_mode expected_mode;
-+
-+	if (!intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port))
-+		return;
-+
-+	if (!lspcon->active) {
-+		if (!lspcon_init(intel_dig_port)) {
-+			DRM_ERROR("LSPCON init failed on port %c\n",
-+				  port_name(intel_dig_port->base.port));
-+			return;
-+		}
-+	}
-+
-+	if (lspcon_wake_native_aux_ch(lspcon)) {
-+		expected_mode = DRM_LSPCON_MODE_PCON;
-+		lspcon_resume_in_pcon_wa(lspcon);
-+	} else {
-+		expected_mode = DRM_LSPCON_MODE_LS;
-+	}
-+
-+	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
-+		return;
-+
-+	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
-+		DRM_ERROR("LSPCON resume failed\n");
-+	else
-+		DRM_DEBUG_KMS("LSPCON resume success\n");
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.h b/drivers/gpu/drm/i915/display/intel_lspcon.h
-index 37cfddf8a9c5..169db35db13e 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.h
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.h
-@@ -15,8 +15,7 @@ struct intel_digital_port;
- struct intel_encoder;
- struct intel_lspcon;
- 
--bool lspcon_init(struct intel_digital_port *intel_dig_port);
--void lspcon_resume(struct intel_lspcon *lspcon);
-+void lspcon_resume(struct intel_digital_port *intel_dig_port);
- void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon);
- void lspcon_write_infoframe(struct intel_encoder *encoder,
- 			    const struct intel_crtc_state *crtc_state,
--- 
-2.17.1
+> drm_panel_prepare:
+> OLD:	ctx->bl_dev->props.power =3D FB_BLANK_NORMAL;
+> NEW:
+> =
 
+> drm_panel_enable:
+> OLD:	ctx->bl_dev->props.power =3D FB_BLANK_UNBLANK;
+> NEW:	backlight_enable() =3D> =
+
+> 		bd->props.power =3D FB_BLANK_UNBLANK;
+> 		bd->props.fb_blank =3D FB_BLANK_UNBLANK;
+> 	        bd->props.state &=3D ~BL_CORE_FBBLANK;
+> =
+
+> drm_panel_disable:
+> OLD:	ctx->bl_dev->props.power =3D FB_BLANK_NORMAL;
+> NEW:	backlight_disable() =3D>
+> 		bd->props.power =3D FB_BLANK_POWERDOWN;
+> 	        bd->props.fb_blank =3D FB_BLANK_POWERDOWN;
+>         	bd->props.state |=3D BL_CORE_FBBLANK;
+> =
+
+> =
+
+> drm_panel_unprepare:
+> OLD:	ctx->bl_dev->props.power =3D FB_BLANK_POWERDOWN;
+> NEW:
+> =
+
+> So old and new code are not exactly the same.
+> =
+
+> But with my (limited) backlight understanding this should
+> work as expected - and it works for many other drivers.
+> So if this does not work, then we should look at the backlight
+> handling and not do workarounds in the driver.
+> =
+
+> I will summarize the above in the individual changelogs.
+
+This is a long-term conversion even listed in the todo.rst. Backlight has
+3 different flags that control on/off, and it's a complete mess. There's
+uber-arcane rules as to in which order backlight drivers should be
+following them (I think it's a logical and, but not sure), the goal is to
+condense it all down to 1 on/off switch. todo.rst has the full plan.
+
+So moving stuff over to backlight_enable/disable() functions is Very Good.
+-Daniel
+
+> =
+
+> 	Sam
+> =
+
+> =
+
+> > =
+
+> > -Emil
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
