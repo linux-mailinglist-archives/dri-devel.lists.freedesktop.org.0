@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D52A1C8325
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657411C831A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247CA6E947;
-	Thu,  7 May 2020 07:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31566E939;
+	Thu,  7 May 2020 07:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24A7A8991D;
- Wed,  6 May 2020 14:26:36 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 16F618FC79A654FBFF77;
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4AB89856;
+ Wed,  6 May 2020 14:26:35 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 42E3DC5FB7452520B160;
  Wed,  6 May 2020 22:26:32 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS407-HUB.china.huawei.com
  (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Wed, 6 May 2020
- 22:26:22 +0800
+ 22:26:23 +0800
 From: Zheng Bin <zhengbin13@huawei.com>
 To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 12/14] drm/radeon: remove comparison to bool in rv6xx_dpm.c
-Date: Wed, 6 May 2020 22:33:24 +0800
-Message-ID: <20200506143326.66467-13-zhengbin13@huawei.com>
+Subject: [PATCH 13/14] drm/radeon: remove comparison to bool in rv515.c
+Date: Wed, 6 May 2020 22:33:25 +0800
+Message-ID: <20200506143326.66467-14-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.26.0.106.g9fadedd
 In-Reply-To: <20200506143326.66467-1-zhengbin13@huawei.com>
 References: <20200506143326.66467-1-zhengbin13@huawei.com>
@@ -52,27 +52,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes coccicheck warning:
 
-drivers/gpu/drm/radeon/rv6xx_dpm.c:1571:5-20: WARNING: Comparison to bool
+drivers/gpu/drm/radeon/rv515.c:666:5-37: WARNING: Comparison to bool
 
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
 ---
- drivers/gpu/drm/radeon/rv6xx_dpm.c | 2 +-
+ drivers/gpu/drm/radeon/rv515.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/rv6xx_dpm.c b/drivers/gpu/drm/radeon/rv6xx_dpm.c
-index 69d380fff22a..ebdb937730c2 100644
---- a/drivers/gpu/drm/radeon/rv6xx_dpm.c
-+++ b/drivers/gpu/drm/radeon/rv6xx_dpm.c
-@@ -1568,7 +1568,7 @@ int rv6xx_dpm_enable(struct radeon_device *rdev)
- 	rv6xx_program_engine_speed_parameters(rdev);
-
- 	rv6xx_enable_display_gap(rdev, true);
--	if (pi->display_gap == false)
-+	if (!pi->display_gap)
- 		rv6xx_enable_display_gap(rdev, false);
-
- 	rv6xx_program_power_level_enter_state(rdev);
+diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv515.c
+index 147e5cf8348d..77e6b9dcdb69 100644
+--- a/drivers/gpu/drm/radeon/rv515.c
++++ b/drivers/gpu/drm/radeon/rv515.c
+@@ -663,7 +663,7 @@ int rv515_init(struct radeon_device *rdev)
+ 			RREG32(R_0007C0_CP_STAT));
+ 	}
+ 	/* check if cards are posted or not */
+-	if (radeon_boot_test_post_card(rdev) == false)
++	if (!radeon_boot_test_post_card(rdev))
+ 		return -EINVAL;
+ 	/* Initialize clocks */
+ 	radeon_get_clock_info(rdev->ddev);
 --
 2.26.0.106.g9fadedd
 
