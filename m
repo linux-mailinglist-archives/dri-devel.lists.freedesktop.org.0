@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCCD1C6EE7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 13:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881CF1C831B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C396E856;
-	Wed,  6 May 2020 11:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0E526E938;
+	Thu,  7 May 2020 07:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 246056E85C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 11:06:53 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id y24so2142542wma.4
- for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 04:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=J/astE79/BRlYwebbdIbC9sjTNs8PPT8V4Knw7ssZHo=;
- b=dVK2Gl6If3xYUE9ZlOlD55GpHA+RU8qf9v3Pu3/gxAqLy/82e3cVcdeSsGr/EpUvkb
- ZFTLW5gPS9NRytonUWkHfCJT7rgVqY192FVrinoZy7ovnagBX+X7pJO0RLcBX77mbtxT
- C4miWCHF7Mtkot3UTceBV9cJs0XPv4/xWG2MY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=J/astE79/BRlYwebbdIbC9sjTNs8PPT8V4Knw7ssZHo=;
- b=JvJvlUE4CFLL+6E7Yy4vdrgPSU9bsuA68n4zrRtVstiX6kilHs7a5K6fVklzdtE+ar
- E/bRnwWS238D2CiA5L+0lEzjXtEuyz8NG109hfBMHJYIHIblwMJnQlz57iQzF09YsM7f
- Boh80Lp0ssWuAxvLUTiSMR00sjJL5YsKHIAo67tep/iZHKfxxux/IzWbvD9lf4X5DP2P
- w2XX1/d4BXcvgBrYqxES+K8bbvPoWi0NQ7f8Nw5gm6xoE64/4nQeOwK/8Qe9syAeHROb
- CtL1cQRblDOSS5/VQfY5NhZvHaLDqZEk22YXE49gN565wBOP3fuWmjq2gZs3PI9/FC25
- Cujg==
-X-Gm-Message-State: AGi0PuYmNEXDQrg6g8DoFHBcQ/AgZyXhk7y/8E7aQmYQ5TAYQTJwkey5
- FXLojDXj0yhoI6xEYy1toWGB0Q==
-X-Google-Smtp-Source: APiQypJGnBp59aY+t/cV+k4zOQkLpmHbsfh5E5/hlSw9oiHACDjc0p1VwJbAJbdI6nsweHxJwtB/Kg==
-X-Received: by 2002:a1c:9948:: with SMTP id b69mr3759089wme.44.1588763211717; 
- Wed, 06 May 2020 04:06:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x18sm2330335wmi.29.2020.05.06.04.06.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 04:06:50 -0700 (PDT)
-Date: Wed, 6 May 2020 13:06:49 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 1/5] drm/mgag200: Convert struct drm_device to struct
- mga_device with macro
-Message-ID: <20200506110649.GY10381@phenom.ffwll.local>
-References: <20200505095649.25814-1-tzimmermann@suse.de>
- <20200505095649.25814-2-tzimmermann@suse.de>
- <20200505163629.GB5082@ravnborg.org>
+Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7BD6E864;
+ Wed,  6 May 2020 11:27:16 +0000 (UTC)
+Received: from sntmail11s.snt-is.com (unknown [10.203.32.181])
+ by skedge04.snt-world.com (Postfix) with ESMTP id 44AF067A6F2;
+ Wed,  6 May 2020 13:27:11 +0200 (CEST)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail11s.snt-is.com
+ (10.203.32.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 6 May 2020
+ 13:27:10 +0200
+Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
+ sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
+ 15.01.1913.007; Wed, 6 May 2020 13:27:10 +0200
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
+To: Peng Fan <peng.fan@nxp.com>, Lucas Stach <l.stach@pengutronix.de>, "Adam
+ Ford" <aford173@gmail.com>, Anson Huang <anson.huang@nxp.com>, "Christian
+ Gmeiner" <christian.gmeiner@gmail.com>, Daniel Baluta
+ <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>, Leonard Crestez
+ <leonard.crestez@nxp.com>, Jun Li <jun.li@nxp.com>, dl-linux-imx
+ <linux-imx@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ "Russell King" <linux+etnaviv@armlinux.org.uk>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, "S.j. Wang"
+ <shengjiu.wang@nxp.com>
+Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+ fix boot on i.MX8MM
+Thread-Topic: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+ fix boot on i.MX8MM
+Thread-Index: AQHWHu1V9EwL5xxa+UiJnz7nneFudaiRmbMAgAAQ8oCAAWBPgIAHyDoA
+Date: Wed, 6 May 2020 11:27:10 +0000
+Message-ID: <24a5aceb-9c47-2029-aa5b-8fa7f9ba5670@kontron.de>
+References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
+ <20200430124602.14463-4-frieder.schrempf@kontron.de>
+ <3895f202cf5919e41a56878a62f6d5259dea12d3.camel@pengutronix.de>
+ <72e8618b-856e-de42-9282-958cd03b239f@kontron.de>
+ <DB6PR0402MB276059A8D612ECBA8812379988AB0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
+In-Reply-To: <DB6PR0402MB276059A8D612ECBA8812379988AB0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.9.193]
+x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
+Content-ID: <D25527CCBDEB3645AAE31FCF6D268574@snt-world.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200505163629.GB5082@ravnborg.org>
-X-Operating-System: Linux phenom 5.4.0-4-amd64 
+X-SnT-MailScanner-Information: Please contact the ISP for more information
+X-SnT-MailScanner-ID: 44AF067A6F2.A23F9
+X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
+ Provider for details
+X-SnT-MailScanner-SpamCheck: 
+X-SnT-MailScanner-From: frieder.schrempf@kontron.de
+X-SnT-MailScanner-To: aford173@gmail.com, anson.huang@nxp.com,
+ christian.gmeiner@gmail.com, daniel.baluta@nxp.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, festevam@gmail.com, jun.li@nxp.com,
+ kernel@pengutronix.de, l.stach@pengutronix.de,
+ leonard.crestez@nxp.com, linux+etnaviv@armlinux.org.uk,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ linux-kernel@vger.kernel.org, peng.fan@nxp.com,
+ s.hauer@pengutronix.de, shawnguo@kernel.org, shengjiu.wang@nxp.com
+X-Spam-Status: No
+X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,252 +82,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cogarre@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
- emil.velikov@collabora.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 05, 2020 at 06:36:29PM +0200, Sam Ravnborg wrote:
-> Hi Thomas.
-> 
-> On Tue, May 05, 2020 at 11:56:45AM +0200, Thomas Zimmermann wrote:
-> > Mgag200 used dev_private to look up struct mga_device for instances
-> > of struct drm_device. Use of dev_private is deprecated, so hide it in
-> > the macro to_mga_device().
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> But one nit below.
-> 
-> 	Sam
-> 
-> > ---
-> >  drivers/gpu/drm/mgag200/mgag200_cursor.c |  4 ++--
-> >  drivers/gpu/drm/mgag200/mgag200_drv.c    |  2 +-
-> >  drivers/gpu/drm/mgag200/mgag200_drv.h    |  1 +
-> >  drivers/gpu/drm/mgag200/mgag200_i2c.c    | 10 +++++-----
-> >  drivers/gpu/drm/mgag200/mgag200_main.c   |  4 ++--
-> >  drivers/gpu/drm/mgag200/mgag200_mode.c   | 18 +++++++++---------
-> >  6 files changed, 20 insertions(+), 19 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> > index d491edd317ff3..aebc9ce43d551 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_cursor.c
-> > @@ -260,7 +260,7 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
-> >  			    uint32_t handle, uint32_t width, uint32_t height)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = (struct mga_device *)dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	struct drm_gem_object *obj;
-> >  	struct drm_gem_vram_object *gbo = NULL;
-> >  	int ret;
-> > @@ -307,7 +307,7 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
-> >  
-> >  int mgag200_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
-> >  {
-> > -	struct mga_device *mdev = (struct mga_device *)crtc->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(crtc->dev);
-> >  
-> >  	/* Our origin is at (64,64) */
-> >  	x += 64;
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> > index 3298b7ef18b03..c2f0e4b40b052 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> > @@ -120,7 +120,7 @@ int mgag200_driver_dumb_create(struct drm_file *file,
-> >  			       struct drm_device *dev,
-> >  			       struct drm_mode_create_dumb *args)
-> >  {
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	unsigned long pg_align;
-> >  
-> >  	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> > index 9691252d6233f..632bbb50465c9 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> > @@ -96,6 +96,7 @@
-> >  
-> >  #define to_mga_crtc(x) container_of(x, struct mga_crtc, base)
-> >  #define to_mga_connector(x) container_of(x, struct mga_connector, base)
-> > +#define to_mga_device(x) ((struct mga_device *)(x)->dev_private)
-> A inline function would have been better, as this provide no typecheck.
-> But we assume that it is always a drm_device *.
-> We would most likely catch it as no one else has a ->dev_prvate.
+Hi Peng,
 
-Once we're using container_of it's fully typesafe, so not sure it's worth
-the interim bother.
--Daniel
+On 01.05.20 14:36, Peng Fan wrote:
+>> Subject: Re: [RFC PATCH 3/4] drm/etnaviv: Change order of enabling clocks to
+>> fix boot on i.MX8MM
+>>
+>> On 30.04.20 16:35, Lucas Stach wrote:
+>>> Am Donnerstag, den 30.04.2020, 12:46 +0000 schrieb Schrempf Frieder:
+>>>> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>>>
+>>>> On some i.MX8MM devices the boot hangs when enabling the GPU clocks.
+>>>> Changing the order of clock initalization to
+>>>>
+>>>> core -> shader -> bus -> reg
+>>>>
+>>>> fixes the issue. This is the same order used in the imx platform code
+>>>> of the downstream GPU driver in the NXP kernel [1]. For the sake of
+>>>> consistency we also adjust the order of disabling the clocks to the
+>>>> reverse.
+>>>>
+>>>> [1]
+>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsou
+>>>>
+>> rce.codeaurora.org%2Fexternal%2Fimx%2Flinux-imx%2Ftree%2Fdrivers%2F
+>> mx
+>>>>
+>> c%2Fgpu-viv%2Fhal%2Fos%2Flinux%2Fkernel%2Fplatform%2Ffreescale%2Fgc
+>> _h
+>>>>
+>> al_kernel_platform_imx.c%3Fh%3Dimx_5.4.3_2.0.0%23n1538&amp;data=02
+>> %7C
+>>>>
+>> 01%7Cpeng.fan%40nxp.com%7Cdc7da53f665e4f567e3008d7ed1c27e0%7C6
+>> 86ea1d3
+>>>>
+>> bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637238577497969787&amp;sda
+>> ta=QRHzu
+>>>> C6gSKy%2F6y2FTRvlNF5t7DmJIvTgBESYKchI%2FDw%3D&amp;reserved=0
+>>>
+>>> I don't see why the order of the clocks is important. Is this really a
+>>> GPU issue? As in: does a GPU access hang when enabling the clocks in
+>>> the wrong order? Or is this a clock driver issue with a clock access
+>>> hanging due to an upstream clock still being disabled?
+>>
+>> Actually you might be right with this being a clock driver issue. The hanging
+>> happens while enabling the clocks (unrelated to any GPU register access). The
+>> strange thing is that most of the devices we have don't care and work as is
+>> and some devices reliably fail each time when enabling the clocks in the
+>> "wrong" order.
+>>
+>> So I guess this could indeed be some clock being enabled with an upstream
+>> PLL not having locked yet or something.
+> 
+> https://eur04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.kernel.org%2Fcover%2F11433775%2F&amp;data=02%7C01%7Cfrieder.schrempf%40kontron.de%7C1014be5f9b8b4d0c6e8108d7edcc5bde%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637239334279684748&amp;sdata=UwVVzPEvNOP6I4g78uG5O9jVYmHwqyo6hj97wvtlzs0%3D&amp;reserved=0
+> 
+> Will this pachset help?
+
+Thanks for the pointer. Unfortunately the clock patches don't help. I 
+tried with 5.7-rc4 and your patches on top and the issue still persists.
+
+Also I found out that changing the order of the clock initialization as 
+proposed, does not fix the problem, either. On some boards it helps, 
+others still hang when the clocks are initialized.
+
+Thanks,
+Frieder
 
 > 
-> >  
-> >  struct mga_crtc {
-> >  	struct drm_crtc base;
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_i2c.c b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-> > index 9f4635916d322..09731e614e46d 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_i2c.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_i2c.c
-> > @@ -61,34 +61,34 @@ static inline void mga_i2c_set(struct mga_device *mdev, int mask, int state)
-> >  static void mga_gpio_setsda(void *data, int state)
-> >  {
-> >  	struct mga_i2c_chan *i2c = data;
-> > -	struct mga_device *mdev = i2c->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(i2c->dev);
-> >  	mga_i2c_set(mdev, i2c->data, state);
-> >  }
-> >  
-> >  static void mga_gpio_setscl(void *data, int state)
-> >  {
-> >  	struct mga_i2c_chan *i2c = data;
-> > -	struct mga_device *mdev = i2c->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(i2c->dev);
-> >  	mga_i2c_set(mdev, i2c->clock, state);
-> >  }
-> >  
-> >  static int mga_gpio_getsda(void *data)
-> >  {
-> >  	struct mga_i2c_chan *i2c = data;
-> > -	struct mga_device *mdev = i2c->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(i2c->dev);
-> >  	return (mga_i2c_read_gpio(mdev) & i2c->data) ? 1 : 0;
-> >  }
-> >  
-> >  static int mga_gpio_getscl(void *data)
-> >  {
-> >  	struct mga_i2c_chan *i2c = data;
-> > -	struct mga_device *mdev = i2c->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(i2c->dev);
-> >  	return (mga_i2c_read_gpio(mdev) & i2c->clock) ? 1 : 0;
-> >  }
-> >  
-> >  struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev)
-> >  {
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	struct mga_i2c_chan *i2c;
-> >  	int ret;
-> >  	int data, clock;
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-> > index b680cf47cbb94..b705b7776d2fc 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_main.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
-> > @@ -92,7 +92,7 @@ static int mga_vram_init(struct mga_device *mdev)
-> >  static int mgag200_device_init(struct drm_device *dev,
-> >  			       uint32_t flags)
-> >  {
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	int ret, option;
-> >  
-> >  	mdev->flags = mgag200_flags_from_driver_data(flags);
-> > @@ -195,7 +195,7 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
-> >  
-> >  void mgag200_driver_unload(struct drm_device *dev)
-> >  {
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  
-> >  	if (mdev == NULL)
-> >  		return;
-> > diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > index d90e83959fca1..fa91869c0db52 100644
-> > --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> > @@ -28,7 +28,7 @@
-> >  static void mga_crtc_load_lut(struct drm_crtc *crtc)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	struct drm_framebuffer *fb = crtc->primary->fb;
-> >  	u16 *r_ptr, *g_ptr, *b_ptr;
-> >  	int i;
-> > @@ -728,7 +728,7 @@ static int mga_crtc_set_plls(struct mga_device *mdev, long clock)
-> >  
-> >  static void mga_g200wb_prepare(struct drm_crtc *crtc)
-> >  {
-> > -	struct mga_device *mdev = crtc->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(crtc->dev);
-> >  	u8 tmp;
-> >  	int iter_max;
-> >  
-> > @@ -783,7 +783,7 @@ static void mga_g200wb_prepare(struct drm_crtc *crtc)
-> >  static void mga_g200wb_commit(struct drm_crtc *crtc)
-> >  {
-> >  	u8 tmp;
-> > -	struct mga_device *mdev = crtc->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(crtc->dev);
-> >  
-> >  	/* 1- The first step is to ensure that the vrsten and hrsten are set */
-> >  	WREG8(MGAREG_CRTCEXT_INDEX, 1);
-> > @@ -833,7 +833,7 @@ static void mga_g200wb_commit(struct drm_crtc *crtc)
-> >   */
-> >  static void mga_set_start_address(struct drm_crtc *crtc, unsigned offset)
-> >  {
-> > -	struct mga_device *mdev = crtc->dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(crtc->dev);
-> >  	u32 addr;
-> >  	int count;
-> >  	u8 crtcext0;
-> > @@ -902,7 +902,7 @@ static int mga_crtc_mode_set(struct drm_crtc *crtc,
-> >  				int x, int y, struct drm_framebuffer *old_fb)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	const struct drm_framebuffer *fb = crtc->primary->fb;
-> >  	int hdisplay, hsyncstart, hsyncend, htotal;
-> >  	int vdisplay, vsyncstart, vsyncend, vtotal;
-> > @@ -1263,7 +1263,7 @@ static int mga_resume(struct drm_crtc *crtc)
-> >  static void mga_crtc_dpms(struct drm_crtc *crtc, int mode)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	u8 seq1 = 0, crtcext1 = 0;
-> >  
-> >  	switch (mode) {
-> > @@ -1317,7 +1317,7 @@ static void mga_crtc_dpms(struct drm_crtc *crtc, int mode)
-> >  static void mga_crtc_prepare(struct drm_crtc *crtc)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	u8 tmp;
-> >  
-> >  	/*	mga_resume(crtc);*/
-> > @@ -1353,7 +1353,7 @@ static void mga_crtc_prepare(struct drm_crtc *crtc)
-> >  static void mga_crtc_commit(struct drm_crtc *crtc)
-> >  {
-> >  	struct drm_device *dev = crtc->dev;
-> > -	struct mga_device *mdev = dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
-> >  	u8 tmp;
-> >  
-> > @@ -1495,7 +1495,7 @@ static enum drm_mode_status mga_vga_mode_valid(struct drm_connector *connector,
-> >  				 struct drm_display_mode *mode)
-> >  {
-> >  	struct drm_device *dev = connector->dev;
-> > -	struct mga_device *mdev = (struct mga_device*)dev->dev_private;
-> > +	struct mga_device *mdev = to_mga_device(dev);
-> >  	int bpp = 32;
-> >  
-> >  	if (IS_G200_SE(mdev)) {
-> > -- 
-> > 2.26.0
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> The i.MX8M CCM root mux code in Linux needs a fix.
+> 
+> Regards,
+> Peng.
+> 
+>>
+>>>
+>>> Regards,
+>>> Lucas
+>>>
+>>>> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>>> ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 42
+>> +++++++++++++--------------
+>>>>    1 file changed, 21 insertions(+), 21 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> index 7b138d4dd068..424b2e5951f0 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> @@ -1487,55 +1487,55 @@ static int etnaviv_gpu_clk_enable(struct
+>> etnaviv_gpu *gpu)
+>>>>    {
+>>>>    	int ret;
+>>>>
+>>>> -	if (gpu->clk_reg) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_reg);
+>>>> +	if (gpu->clk_core) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_core);
+>>>>    		if (ret)
+>>>>    			return ret;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_bus) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_bus);
+>>>> +	if (gpu->clk_shader) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_shader);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_reg;
+>>>> +			goto disable_clk_core;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_core) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_core);
+>>>> +	if (gpu->clk_bus) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_bus);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_bus;
+>>>> +			goto disable_clk_shader;
+>>>>    	}
+>>>>
+>>>> -	if (gpu->clk_shader) {
+>>>> -		ret = clk_prepare_enable(gpu->clk_shader);
+>>>> +	if (gpu->clk_reg) {
+>>>> +		ret = clk_prepare_enable(gpu->clk_reg);
+>>>>    		if (ret)
+>>>> -			goto disable_clk_core;
+>>>> +			goto disable_clk_bus;
+>>>>    	}
+>>>>
+>>>>    	return 0;
+>>>>
+>>>> -disable_clk_core:
+>>>> -	if (gpu->clk_core)
+>>>> -		clk_disable_unprepare(gpu->clk_core);
+>>>>    disable_clk_bus:
+>>>>    	if (gpu->clk_bus)
+>>>>    		clk_disable_unprepare(gpu->clk_bus);
+>>>> -disable_clk_reg:
+>>>> -	if (gpu->clk_reg)
+>>>> -		clk_disable_unprepare(gpu->clk_reg);
+>>>> +disable_clk_shader:
+>>>> +	if (gpu->clk_shader)
+>>>> +		clk_disable_unprepare(gpu->clk_shader);
+>>>> +disable_clk_core:
+>>>> +	if (gpu->clk_core)
+>>>> +		clk_disable_unprepare(gpu->clk_core);
+>>>>
+>>>>    	return ret;
+>>>>    }
+>>>>
+>>>>    static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+>>>>    {
+>>>> +	if (gpu->clk_reg)
+>>>> +		clk_disable_unprepare(gpu->clk_reg);
+>>>> +	if (gpu->clk_bus)
+>>>> +		clk_disable_unprepare(gpu->clk_bus);
+>>>>    	if (gpu->clk_shader)
+>>>>    		clk_disable_unprepare(gpu->clk_shader);
+>>>>    	if (gpu->clk_core)
+>>>>    		clk_disable_unprepare(gpu->clk_core);
+>>>> -	if (gpu->clk_bus)
+>>>> -		clk_disable_unprepare(gpu->clk_bus);
+>>>> -	if (gpu->clk_reg)
+>>>> -		clk_disable_unprepare(gpu->clk_reg);
+>>>>
+>>>>    	return 0;
+>>>>    }
+>>>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> https://eur04.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-arm-kernel&amp;data=02%7C01%7Cfrieder.schrempf%40kontron.de%7C1014be5f9b8b4d0c6e8108d7edcc5bde%7C8c9d3c973fd941c8a2b1646f3942daf1%7C0%7C0%7C637239334279684748&amp;sdata=kpx6LDA6QXgR3CPGsugEIIDt2YbZuJTC7%2FxrRsDhtok%3D&amp;reserved=0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
