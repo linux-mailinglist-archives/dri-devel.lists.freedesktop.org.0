@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0731C8324
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54DB1C8309
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D35DF6E945;
-	Thu,  7 May 2020 07:05:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712676E928;
+	Thu,  7 May 2020 07:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D3C6E233;
- Wed,  6 May 2020 11:45:52 +0000 (UTC)
+Received: from skedge04.snt-world.com (skedge04.snt-world.com [91.208.41.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97CF6E866;
+ Wed,  6 May 2020 11:59:32 +0000 (UTC)
 Received: from sntmail14r.snt-is.com (unknown [10.203.32.184])
- by skedge03.snt-world.com (Postfix) with ESMTP id 586F467A6F3;
- Wed,  6 May 2020 13:45:49 +0200 (CEST)
+ by skedge04.snt-world.com (Postfix) with ESMTP id 283B267A887;
+ Wed,  6 May 2020 13:59:27 +0200 (CEST)
 Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail14r.snt-is.com
  (10.203.32.184) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 6 May 2020
- 13:45:48 +0200
+ 13:59:26 +0200
 Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
  sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
- 15.01.1913.007; Wed, 6 May 2020 13:45:48 +0200
+ 15.01.1913.007; Wed, 6 May 2020 13:59:26 +0200
 From: Schrempf Frieder <frieder.schrempf@kontron.de>
 To: Adam Ford <aford173@gmail.com>
 Subject: Re: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
  core using Etnaviv
 Thread-Topic: [RFC PATCH 4/4] arm64: dts: imx8mm: Add GPU nodes for 2D and 3D
  core using Etnaviv
-Thread-Index: AQHWHu1XU8cnqZiR7kmt3VxL/7fb7aiWVM8AgASDlAA=
-Date: Wed, 6 May 2020 11:45:48 +0000
-Message-ID: <0df68f7c-13d2-5bd6-e27a-4bf8534f88fb@kontron.de>
+Thread-Index: AQHWHu1XU8cnqZiR7kmt3VxL/7fb7aiWVM8AgASDlACAAAPOgA==
+Date: Wed, 6 May 2020 11:59:26 +0000
+Message-ID: <c9379cdb-cd53-804b-a214-bfee3022a859@kontron.de>
 References: <20200430124602.14463-1-frieder.schrempf@kontron.de>
  <20200430124602.14463-5-frieder.schrempf@kontron.de>
  <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
-In-Reply-To: <CAHCN7xJ=srZxygtG6hW_+us=qH1heY-k=EosavYH9tDk-KG0Bw@mail.gmail.com>
+ <0df68f7c-13d2-5bd6-e27a-4bf8534f88fb@kontron.de>
+In-Reply-To: <0df68f7c-13d2-5bd6-e27a-4bf8534f88fb@kontron.de>
 Accept-Language: de-DE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [172.25.9.193]
 x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-Content-ID: <D5D0FB36A8FD884AA9AA8B63FC338A6F@snt-world.com>
+Content-ID: <44F5D1A06A190C449A968796CBDACFE2@snt-world.com>
 MIME-Version: 1.0
 X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 586F467A6F3.A2ED9
+X-SnT-MailScanner-ID: 283B267A887.AF18A
 X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
  Provider for details
 X-SnT-MailScanner-SpamCheck: 
@@ -85,36 +86,33 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "S.j. Wang" <shengjiu.wang@nxp.com>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
  Li Jun <jun.li@nxp.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03.05.20 16:49, Adam Ford wrote:
-> On Thu, Apr 30, 2020 at 7:46 AM Schrempf Frieder
-> <frieder.schrempf@kontron.de> wrote:
->>
->> From: Frieder Schrempf <frieder.schrempf@kontron.de>
->>
->> According to the documents, the i.MX8M-Mini features a GC320 and a
->> GCNanoUltra GPU core. Etnaviv detects them as:
->>
->>          etnaviv-gpu 38000000.gpu: model: GC600, revision: 4653
->>          etnaviv-gpu 38008000.gpu: model: GC520, revision: 5341
->>
->> This seems to work fine more or less without any changes to the HWDB,
->> which still might be needed in the future to correct some features,
->> etc.
->>
->> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
->> ---
-> Since not everyone uses the 3D or 2D, would it make sense to mark them
-> as disabled by default and let people who need the 3D and 2D enable
-> them at their respective board files?
-
-I would rather keep it the way it has been done for other SoCs. Looking 
-at the i.MX6 devicetrees, they all seem to have the GPUs enabled by default.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMDYuMDUuMjAgMTM6NDUsIEZyaWVkZXIgU2NocmVtcGYgd3JvdGU6DQo+IE9uIDAzLjA1LjIw
+IDE2OjQ5LCBBZGFtIEZvcmQgd3JvdGU6DQo+PiBPbiBUaHUsIEFwciAzMCwgMjAyMCBhdCA3OjQ2
+IEFNIFNjaHJlbXBmIEZyaWVkZXINCj4+IDxmcmllZGVyLnNjaHJlbXBmQGtvbnRyb24uZGU+IHdy
+b3RlOg0KPj4+DQo+Pj4gRnJvbTogRnJpZWRlciBTY2hyZW1wZiA8ZnJpZWRlci5zY2hyZW1wZkBr
+b250cm9uLmRlPg0KPj4+DQo+Pj4gQWNjb3JkaW5nIHRvIHRoZSBkb2N1bWVudHMsIHRoZSBpLk1Y
+OE0tTWluaSBmZWF0dXJlcyBhIEdDMzIwIGFuZCBhDQo+Pj4gR0NOYW5vVWx0cmEgR1BVIGNvcmUu
+IEV0bmF2aXYgZGV0ZWN0cyB0aGVtIGFzOg0KPj4+DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBldG5h
+dml2LWdwdSAzODAwMDAwMC5ncHU6IG1vZGVsOiBHQzYwMCwgcmV2aXNpb246IDQ2NTMNCj4+PiDC
+oMKgwqDCoMKgwqDCoMKgIGV0bmF2aXYtZ3B1IDM4MDA4MDAwLmdwdTogbW9kZWw6IEdDNTIwLCBy
+ZXZpc2lvbjogNTM0MQ0KPj4+DQo+Pj4gVGhpcyBzZWVtcyB0byB3b3JrIGZpbmUgbW9yZSBvciBs
+ZXNzIHdpdGhvdXQgYW55IGNoYW5nZXMgdG8gdGhlIEhXREIsDQo+Pj4gd2hpY2ggc3RpbGwgbWln
+aHQgYmUgbmVlZGVkIGluIHRoZSBmdXR1cmUgdG8gY29ycmVjdCBzb21lIGZlYXR1cmVzLA0KPj4+
+IGV0Yy4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IEZyaWVkZXIgU2NocmVtcGYgPGZyaWVkZXIu
+c2NocmVtcGZAa29udHJvbi5kZT4NCj4+PiAtLS0NCj4+IFNpbmNlIG5vdCBldmVyeW9uZSB1c2Vz
+IHRoZSAzRCBvciAyRCwgd291bGQgaXQgbWFrZSBzZW5zZSB0byBtYXJrIHRoZW0NCj4+IGFzIGRp
+c2FibGVkIGJ5IGRlZmF1bHQgYW5kIGxldCBwZW9wbGUgd2hvIG5lZWQgdGhlIDNEIGFuZCAyRCBl
+bmFibGUNCj4+IHRoZW0gYXQgdGhlaXIgcmVzcGVjdGl2ZSBib2FyZCBmaWxlcz8NCj4gDQo+IEkg
+d291bGQgcmF0aGVyIGtlZXAgaXQgdGhlIHdheSBpdCBoYXMgYmVlbiBkb25lIGZvciBvdGhlciBT
+b0NzLiBMb29raW5nIA0KPiBhdCB0aGUgaS5NWDYgZGV2aWNldHJlZXMsIHRoZXkgYWxsIHNlZW0g
+dG8gaGF2ZSB0aGUgR1BVcyBlbmFibGVkIGJ5IA0KPiBkZWZhdWx0Lg0KDQpBaCwgSSBoYWQgbWlz
+c2VkIEx1Y2FzIHJlcGx5LiBIZSBhbHJlYWR5IHByb3ZpZGVkIG11Y2ggYmV0dGVyIGFyZ3VtZW50
+cyANCmZvciBrZWVwaW5nIHRoZSBHUFVzIGVuYWJsZWQgYnkgZGVmYXVsdC4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
