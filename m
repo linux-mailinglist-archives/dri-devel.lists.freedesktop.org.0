@@ -1,59 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E127B1C7646
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:30:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B941C766B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B48816E8A9;
-	Wed,  6 May 2020 16:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91B7A6E8AA;
+	Wed,  6 May 2020 16:32:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA8376E8A9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:30:28 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id i13so2269091oie.9
- for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 09:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EvHPxE7L1Cb6oif98tDAWFYOvy9QzwI+EVnlaf1jpTo=;
- b=xGbq/nBkeNTeQkh8TeQ07h15oTGAYHX6j5LFfR/RI3sHIvBIymNOSSXRcu+wHZ1aVW
- Bi9WC0jgv9B5Kp+7cwBmKtfn1QjRyVdEkInImfKuIlVtWGUJmKfhJrI1QWyRGwCX0yJD
- ZWlgp81bR5ws/479qoQiUXdTQKezTywlxfTMxQqtDA8i2bG+9sntoecsCgJ9HLEPbqvg
- G34LbxJQDBp7Gtl0+VsmxjLGveZyAEy3fCO4pbX5afZwwEcYRPCDhYIDmwlFwhGzmFcG
- Lqdq+jCKkXA8vZnRXREVS+dR1h3wiY7f35aHnymxitA672W5CrNu0RAOCSEsoG6c/aHS
- oveg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EvHPxE7L1Cb6oif98tDAWFYOvy9QzwI+EVnlaf1jpTo=;
- b=hqU6ldapNlFZNdlrFDQQVYd3dtcNA8OXgvqk1FX5Ib7pneq1EmrGesvs8MJ2TAa/vg
- v/gGhbMQmwco2UoOFynXyxNFJVsMXGRvG+9eBRJEZmELw6TFNnMe8OFJ0UmcIRNrzHiz
- UHmBibUVIIYD+LPfzy/kioZaeA3nztZpQmtHFkUt1riXMQx505ArKXdLIxJjsH3yi7DX
- li+mWk+LUc/QmLU6Ci1eq+u9tjKcwp1+SuP7n0PQl0IARcxEWJEkmXXvOqd6kR8mCIj0
- Dnr/UuE7kq9PtpCylxZ2K2QaB53pAGYeB+YSf+ULfRlYkMCDJMuDVMRpLsBz1e1gzFa1
- xH+Q==
-X-Gm-Message-State: AGi0PuZK20a4d01tvjjanl6c29l16RJLa+RoOFbtibPUjErK8ekktGW1
- KZ5D9qkzznRhKi9E1WmDhZglP1yFqjNDfHRMSdIIvw==
-X-Google-Smtp-Source: APiQypJOjwli0ENiyI3cl299qwfEK7rVXtgNZRAGsYZ2j/Qgmpsi7m4V2zQHdFeurrc2zQ1jwMe1nfOg2GrAWKcKGNo=
-X-Received: by 2002:aca:cf83:: with SMTP id f125mr3336594oig.97.1588782627545; 
- Wed, 06 May 2020 09:30:27 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C21396E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:32:42 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B68C980500;
+ Wed,  6 May 2020 18:32:38 +0200 (CEST)
+Date: Wed, 6 May 2020 18:32:37 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dmitry Osipenko <digetx@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v5 1/6] of_graph: add of_graph_get_local_port()
+Message-ID: <20200506163237.GA19296@ravnborg.org>
+References: <20200418170703.1583-1-digetx@gmail.com>
+ <20200418170703.1583-2-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-2-john.stultz@linaro.org>
- <20200501104216.4f226c2a7bzval5o@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
- <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
- <1bddb721-d4d9-f113-bacc-0a0ca2d57753@ti.com>
-In-Reply-To: <1bddb721-d4d9-f113-bacc-0a0ca2d57753@ti.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 6 May 2020 09:30:16 -0700
-Message-ID: <CALAqxLWnEj-c3CYGC6p23cwMqce-MV6pJOzGbp+ptWFB0NQoog@mail.gmail.com>
-Subject: Re: [RFC][PATCH 1/4] devicetree: bindings: Add linux, cma-heap tag for
- reserved memory
-To: "Andrew F. Davis" <afd@ti.com>
+Content-Disposition: inline
+In-Reply-To: <20200418170703.1583-2-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=cgQggk8NgEdHG04IN60A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,61 +46,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, nd <nd@arm.com>,
- Alistair Strachan <astrachan@google.com>, Sandeep Patil <sspatil@google.com>,
- Robin Murphy <robin.murphy@arm.com>, Chenbo Feng <fengc@google.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- linux-mm <linux-mm@kvack.org>, Rob Herring <robh+dt@kernel.org>,
- Christoph Hellwig <hch@lst.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 6, 2020 at 9:04 AM Andrew F. Davis <afd@ti.com> wrote:
-> On 5/4/20 4:50 AM, Brian Starkey wrote:
-> > On Fri, May 01, 2020 at 11:40:16AM -0700, John Stultz wrote:
-> >> So the name we expose is the CMA name itself. So with dt it will be
-> >> the name of the reserved memory node that the flag property is added
-> >> to.
-> >>
-> >
-> > Yeah I'm just wondering if that's "stable" so we can say "the heap
-> > will use the node name", or if saying that would cause us a headache
-> > in the future.
->
->
-> The issue is going to be this causes the node name in DT to become a
-> kind of ABI. Right now until we have some userspace lib that enumerates
-> the heaps in a stable way programs will hard-code the full heap name,
-> which right now would look like:
->
-> char *heap = "/dev/dma_heap/dma_heap_mem@89000000";
->
+Hi Dmitry
 
-If that's what the device chose to export.
+On Sat, Apr 18, 2020 at 08:06:58PM +0300, Dmitry Osipenko wrote:
+> In some case, like a DRM display code for example, it's useful to silently
+> check whether port node exists at all in a device-tree before proceeding
+> with parsing the graph.
+> 
+> This patch adds of_graph_get_local_port() which returns pointer to a local
+> port node, or NULL if graph isn't specified in a device-tree for a given
+> device node.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Nice little helper function.
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-> Yuk.. we might want to look into exporting heap properties to make them
-> searchable based on something other than name here soon. Or this will be
-> a mess to cleanup in the future.
+Rob - OK to commit to drm-misc-next?
 
-Eh. I don't see this as such an issue. On different systems we have
-different device nodes. Some boards have more or fewer NICs, or
-various partitions, etc. There has to be some device specific userland
-config that determines which partitions are mounted where (this is my
-"gralloc is fstab" thesis :)
+	Sam
 
-I think with the heaps, qualities other than name are going to be
-poorly specified or unenumerable, so any generic query interface is
-going to fall down there (and be awful to use).
-
-thanks
--john
+> ---
+>  drivers/of/property.c    | 32 +++++++++++++++++++++++---------
+>  include/linux/of_graph.h |  7 +++++++
+>  2 files changed, 30 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 252e4f600155..5dbeccaabb86 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -608,15 +608,7 @@ struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
+>  	 * parent port node.
+>  	 */
+>  	if (!prev) {
+> -		struct device_node *node;
+> -
+> -		node = of_get_child_by_name(parent, "ports");
+> -		if (node)
+> -			parent = node;
+> -
+> -		port = of_get_child_by_name(parent, "port");
+> -		of_node_put(node);
+> -
+> +		port = of_graph_get_local_port(parent);
+>  		if (!port) {
+>  			pr_err("graph: no port node found in %pOF\n", parent);
+>  			return NULL;
+> @@ -765,6 +757,28 @@ struct device_node *of_graph_get_remote_port(const struct device_node *node)
+>  }
+>  EXPORT_SYMBOL(of_graph_get_remote_port);
+>  
+> +/**
+> + * of_graph_get_local_port() - get local port node
+> + * @node: pointer to a local endpoint device_node
+> + *
+> + * Return: First local port node associated with local endpoint node linked
+> + *	   to @node. Use of_node_put() on it when done.
+> + */
+> +struct device_node *of_graph_get_local_port(const struct device_node *node)
+> +{
+> +	struct device_node *ports, *port;
+> +
+> +	ports = of_get_child_by_name(node, "ports");
+> +	if (ports)
+> +		node = ports;
+> +
+> +	port = of_get_child_by_name(node, "port");
+> +	of_node_put(ports);
+> +
+> +	return port;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_local_port);
+> +
+>  int of_graph_get_endpoint_count(const struct device_node *np)
+>  {
+>  	struct device_node *endpoint;
+> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> index 01038a6aade0..1fdeb72c7765 100644
+> --- a/include/linux/of_graph.h
+> +++ b/include/linux/of_graph.h
+> @@ -54,6 +54,7 @@ struct device_node *of_graph_get_remote_port_parent(
+>  struct device_node *of_graph_get_remote_port(const struct device_node *node);
+>  struct device_node *of_graph_get_remote_node(const struct device_node *node,
+>  					     u32 port, u32 endpoint);
+> +struct device_node *of_graph_get_local_port(const struct device_node *node);
+>  #else
+>  
+>  static inline int of_graph_parse_endpoint(const struct device_node *node,
+> @@ -116,6 +117,12 @@ static inline struct device_node *of_graph_get_remote_node(
+>  	return NULL;
+>  }
+>  
+> +static inline struct device_node *of_graph_get_local_port(
+> +					const struct device_node *node)
+> +{
+> +	return NULL;
+> +}
+> +
+>  #endif /* CONFIG_OF */
+>  
+>  #endif /* __LINUX_OF_GRAPH_H */
+> -- 
+> 2.26.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
