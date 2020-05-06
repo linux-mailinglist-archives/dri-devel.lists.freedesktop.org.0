@@ -1,61 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB611C797D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 20:34:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78FD1C8306
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 09:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DF86E055;
-	Wed,  6 May 2020 18:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1DC6E924;
+	Thu,  7 May 2020 07:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C8C6E055
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 18:34:52 +0000 (UTC)
-Received: by mail-oi1-x241.google.com with SMTP id 19so2654448oiy.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 11:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T1fc7Ga+GKDig3f8S+JUzkFdaI2xEUQOvINcVIib0WA=;
- b=Xsq7IVsHnRlZrfWWy9YjWJRmlDAazorYIfWBQeQDUMSxW5vmFtwGFsV44smBKus9S4
- xbYb62OcYapfL60xYO5QNjuV7zQBNx+e/tV+pvO4dZwTIon8yeDJ8xvqs1eOZckYIIKM
- 82sX3oNTaX2advnyIBOMLv5HZQwhuSAkK2ZFe7Q/X64IL6ZIN9XRQRBqWTE5SA/uZPAj
- ELXe+npy39Qlv9pHNXkb5zHm0rb2uVmNhJTlouQfErdSoLq0rwNof8DnAsXMJWI9N2Nf
- OXHBdxWoyxJLy2aAbBdGsphGcMpsZr+dbkNSA3gr/VhuogEZPlKXM0owJuNA/9cHcuzb
- EJ2Q==
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1496E8C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 18:45:28 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id k12so2413657qtm.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 May 2020 11:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=Xp4PtIWSbFjNlCqFouJe0yrPGUY2LlWC8culMqw4W34=;
+ b=R7lsSWur/AS2+mWO7IfggMu+O6gDIpHb5fsBvc2LXsH3PmDGNjMK0zpysOcb4Eb+cz
+ mf1+TNibVmiOreGgMt3vNl0KRwbfkShNrsiJbn/DxYcbSmXH5gNZ2gXIH9fCOUIYt2rx
+ uufl1oq3YEnO5fNw5YpjjaxL6Z++oij1nCST3wT/cti8pRbhvx/M4SzbZD4RgxRFb8j/
+ a+zbity4CLj+uAm+lxJ1UlFhn4tfneJczLNr2kYjP8d52NCpunCB2utDdguPKw1NtyIw
+ xRCnoJJk0pa86wmw4nQiE5mnB14UQ13vcfrECf72UWGBC29459PJrqkAuJYkcOi1aUv5
+ XJJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T1fc7Ga+GKDig3f8S+JUzkFdaI2xEUQOvINcVIib0WA=;
- b=DV9cpBwxEkXgd73Wygsnqj+yHKBIssNSHqwIib+d8dPEIYs5jDjkM5Ci8lTIm5CecB
- HThTonKktOQc5rhGPVsZO7cKaRkAhQm7v/KLZ5o5rXJshv3k2N7nbe/Nuvv7akixTUu3
- ssoWihzI3kJtPOjZrwXGGFF0To0Re+0cMKxhv02WiXn+AVbV9UIy3QTXxCfUPrmImvaH
- sAf1h/R2qFOsPOIdCDptGros2WTalcW/pLHJIB6vuDiEhKeGBVZ44lUmb621G+rM60iY
- g1eySd0scq7kA/qqbIzKCUVfklZrsDUAoi3fJwACd6TXQlc0EMGCkcKgoVsm+uNuUwye
- uhkA==
-X-Gm-Message-State: AGi0PubsovviK03EnLBf11gYlVxatqOmv5txv+8z6zbQm2IJXprQTjtR
- oDyA7QityY9oJ1271wxGQbWB4en07mYuIvP0o/uxIg==
-X-Google-Smtp-Source: APiQypJTlIVoV8gTdf/74eWQM4wtQW6JZTe94+ZDgV2T6N38Yf+mk/uD1Cjkm8pYAzrFmRs1xr5PeuuC9TMxezxvdSY=
-X-Received: by 2002:aca:cf83:: with SMTP id f125mr3751724oig.97.1588790092197; 
- Wed, 06 May 2020 11:34:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Xp4PtIWSbFjNlCqFouJe0yrPGUY2LlWC8culMqw4W34=;
+ b=QNjCrFd0XtZjG3TtwkcFZjcNgWB5RXY3kzQNjpEDxLMZ6WCKvR2vJMqDK/aH2p+Nur
+ OV7hZloyOBdM/cDn9ZZfsaowgdcl2Q5OqJU0pPtEIZ31RHKj8nzYh4PpbgOaN4XsPlY+
+ RTcJGlvtcCIljnmbpE+Hsb5x2bXt0roI3/g+bOHsx3zqNPFd5phj621541DNybwdTS+Z
+ JuXZWbQXfvNcz4raMbLb60flkGR1v2KoeJU9/0Mnz6m+vz9hjoifFPNzu0ndWdsijY3Y
+ TSR+2CR2aBYORb9Ea96DNMubDx2+7eF/0D3S12SmvDSmCu/0zQw4DUS4zi+SZTM5U/I5
+ tBQA==
+X-Gm-Message-State: AGi0PubbtFA6qIVqrqfIK2TvcPvTzJ3b4S7Cs66101CJ0Sp8sUuD6cXQ
+ BNB/BwVctaElapkYt/jPsgMX7A==
+X-Google-Smtp-Source: APiQypL616xxVLy7sIJ2gUjjzq8FfTN3eeP1TOOdrppMGZHDTaCWu7Efs5+lgJDGx3ZLUW9Bw/3rtw==
+X-Received: by 2002:ac8:4d06:: with SMTP id w6mr9559957qtv.180.1588790727109; 
+ Wed, 06 May 2020 11:45:27 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id x5sm715097qtx.35.2020.05.06.11.45.26
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 06 May 2020 11:45:26 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jWP2s-0002GJ-3V; Wed, 06 May 2020 15:45:26 -0300
+Date: Wed, 6 May 2020 15:45:26 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: linux-mm@kvack.org, Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH hmm v2 0/5] Adjust hmm_range_fault() API
+Message-ID: <20200506184526.GA8668@ziepe.ca>
+References: <0-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
 MIME-Version: 1.0
-References: <20200501073949.120396-1-john.stultz@linaro.org>
- <20200501073949.120396-2-john.stultz@linaro.org>
- <20200501104216.4f226c2a7bzval5o@DESKTOP-E1NTVVP.localdomain>
- <CALAqxLVScV1j-zxw=cwpE0+eDoaubchXx6SJgu=1Zvh8HnE-Tg@mail.gmail.com>
- <20200504085007.5yrjhknkg6ugbqwk@DESKTOP-E1NTVVP.localdomain>
- <1bddb721-d4d9-f113-bacc-0a0ca2d57753@ti.com>
- <CALAqxLWnEj-c3CYGC6p23cwMqce-MV6pJOzGbp+ptWFB0NQoog@mail.gmail.com>
- <1b82e66e-01b9-5c4d-9777-1aa34bf1b07e@ti.com>
-In-Reply-To: <1b82e66e-01b9-5c4d-9777-1aa34bf1b07e@ti.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 6 May 2020 11:34:40 -0700
-Message-ID: <CALAqxLVD=18djAumbP6+ML-Fc32OJbcaWGkdJ8egHsKHhvhHqg@mail.gmail.com>
-Subject: Re: [RFC][PATCH 1/4] devicetree: bindings: Add linux, cma-heap tag for
- reserved memory
-To: "Andrew F. Davis" <afd@ti.com>
+Content-Disposition: inline
+In-Reply-To: <0-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Thu, 07 May 2020 07:05:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,119 +74,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, nd <nd@arm.com>,
- Alistair Strachan <astrachan@google.com>, Sandeep Patil <sspatil@google.com>,
- Robin Murphy <robin.murphy@arm.com>, Chenbo Feng <fengc@google.com>,
- lkml <linux-kernel@vger.kernel.org>, Liam Mark <lmark@codeaurora.org>,
- linux-mm <linux-mm@kvack.org>, Rob Herring <robh+dt@kernel.org>,
- Christoph Hellwig <hch@lst.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Hridya Valsaraju <hridya@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Laura Abbott <labbott@redhat.com>,
- Pratik Patel <pratikp@codeaurora.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: amd-gfx@lists.freedesktop.org, "Yang, Philip" <Philip.Yang@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 6, 2020 at 10:35 AM Andrew F. Davis <afd@ti.com> wrote:
-> On 5/6/20 12:30 PM, John Stultz wrote:
-> > On Wed, May 6, 2020 at 9:04 AM Andrew F. Davis <afd@ti.com> wrote:
-> >> On 5/4/20 4:50 AM, Brian Starkey wrote:
-> >>> On Fri, May 01, 2020 at 11:40:16AM -0700, John Stultz wrote:
-> >>>> So the name we expose is the CMA name itself. So with dt it will be
-> >>>> the name of the reserved memory node that the flag property is added
-> >>>> to.
-> >>>>
-> >>>
-> >>> Yeah I'm just wondering if that's "stable" so we can say "the heap
-> >>> will use the node name", or if saying that would cause us a headache
-> >>> in the future.
-> >>
-> >>
-> >> The issue is going to be this causes the node name in DT to become a
-> >> kind of ABI. Right now until we have some userspace lib that enumerates
-> >> the heaps in a stable way programs will hard-code the full heap name,
-> >> which right now would look like:
-> >>
-> >> char *heap = "/dev/dma_heap/dma_heap_mem@89000000";
-> >>
-> >
-> > If that's what the device chose to export.
-> >
->
->
-> Well no "device" exported it, we did mostly automatically using only DT
-
-Sorry. By "device" I meant the board/phone/system.
-
-> information. When making a DT I don't want to be thinking about how
-> names will break userspace, for instance if node naming guidance is
-> updated do apps suddenly stop working? That worries me a bit.
-
-So when folks change an existing board/system's DT, that can cause
-userland breakage.  Be it firmware paths, or when folks moved things
-under an soc{ } node.  But at the same time, just like each system has
-a different partition layout, each system may have different heaps,
-and its up to a system level config in userland to provide the policy
-of what is used where.
-
-> > Eh. I don't see this as such an issue. On different systems we have
-> > different device nodes. Some boards have more or fewer NICs, or
-> > various partitions, etc. There has to be some device specific userland
-> > config that determines which partitions are mounted where (this is my
-> > "gralloc is fstab" thesis :)
-> >
->
-> Oh I agree here, net interface names and /dev/<hd> names have a history
-> of changing, but those did both break a lot of apps. It could be argued
-> they were abusing the API by making assumptions about the names, but we
-> still have old scripts floating assuming "eth0" is going to just work..
->
-> So the sooner we get this fstab scheme in place and in practice, the
-> fewer apps in the wild will hard-code names.
-
-Gralloc already exists on Android devices, you ask to allocate for a
-use case, and it picks the heap. It could be *much* simpler (rather
-than per-device implementations, I'm hoping to get to a single
-implementation with a fstab like config file), but it's already widely
-used.
-
-
-> > I think with the heaps, qualities other than name are going to be
-> > poorly specified or unenumerable, so any generic query interface is
-> > going to fall down there (and be awful to use).
->
-> Sure, so this "fstab" style config will have to be a mapping of names
-> (which we will have to make static per heap in kernel) to properties
-
-I'm not sure I'm following this static per-heap requirement bit . Can
-you clarify?
-
-> that interest the current users of a system. For now I can only think of
-> cached/uncached, contiguous/sg, and secure/mappable. Then maybe a list
-> of devices that can consume buffers of that variety, should allow for
-> simple constraint matching. I'll need to think on this a bit more as the
-> use-cases show up..
-
-There's a lot of other cases that are common on Android. One CMA heap
-might be sized and reserved for camera usage, so it doesn't have to
-compete with other CMA users to quickly get a bunch of frames.  Where
-as another CMA heap might be specified for a HWFB if that has to be
-contiguous.  Again, it's less about the specific attributes
-(contiguous/secure/etc - though those are important considerations
-when creating the mapping for it to work properly), and more of a
-higher level "for this use case or this pipeline, we use this heap"
-mapping.
-
-Just like an application might store data to /home/ which maps to to a
-specific partition configured on a specific system, instead of
-looking for things like "what partition has the most space".
-
-thanks
--john
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXkgMDEsIDIwMjAgYXQgMDM6MjA6NDNQTSAtMDMwMCwgSmFzb24gR3VudGhvcnBl
+IHdyb3RlOgo+IEZyb206IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxhbm94LmNvbT4KPiAKPiBU
+aGUgQVBJIGlzIGEgYml0IGNvbXBsaWNhdGVkIGZvciB0aGUgdXNlcyB3ZSBhY3R1YWxseSBoYXZl
+LCBhbmQKPiBkaXN1Y3NzaW9ucyBmb3Igc2ltcGxpZnlpbmcgaGF2ZSBjb21lIHVwIGEgbnVtYmVy
+IG9mIHRpbWVzLgo+IAo+IFRoaXMgc21hbGwgc2VyaWVzIHJlbW92ZXMgdGhlIGN1c3RvbWl6YWJs
+ZSBwZm4gZm9ybWF0IGFuZCBzaW1wbGlmaWVzIHRoZQo+IHJldHVybiBjb2RlIG9mIGhtbV9yYW5n
+ZV9mYXVsdCgpCj4gCj4gQWxsIHRoZSBkcml2ZXJzIGFyZSBhZGp1c3RlZCB0byBwcm9jZXNzIGlu
+IHRoZSBzaW1wbGlmaWVkIGZvcm1hdC4KPiBJIHdvdWxkIGFwcHJlY2lhdGVkIHRlc3RlZC1ieSdz
+IGZvciB0aGUgdHdvIGRyaXZlcnMsIHRoYW5rcyEKPiAKPiB2MjoKPiAgLSBNb3ZlIGNhbGwgY2hh
+aW4gdG8gY29tbWl0IG1lc3NhZ2UKPiAgLSBGaXggdHlwbyBvZiBITU1fUEZOX1JFUV9GQVVMVAo+
+ICAtIE1vdmUgbm91dmVhdV9obW1fY29udmVydF9wZm4oKSB0byBub3V2ZWF1X3N2bS5jCj4gIC0g
+QWRkIGFja3MgYW5kIHRlc3RlZC1ieXMKPiB2MTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8w
+LXYxLTRlYjcyNjg2ZGUzYys1MDYyLWhtbV9ub19mbGFnc19qZ2dAbWVsbGFub3guY29tCj4gCj4g
+Q2M6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IENjOiBKb2huIEh1YmJhcmQgPGpo
+dWJiYXJkQG52aWRpYS5jb20+Cj4gQ2M6IErDqXLDtG1lIEdsaXNzZSA8amdsaXNzZUByZWRoYXQu
+Y29tPgo+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cj4gVG86IFJhbHBoIENh
+bXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KPiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiBDYzogTmlyYW5qYW5hIFZpc2h3YW5hdGhhcHVyYSA8bmlyYW5qYW5hLnZpc2h3
+YW5hdGhhcHVyYUBpbnRlbC5jb20+Cj4gQ2M6IGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKPiBDYzogIkt1ZWhsaW5nLCBGZWxpeCIgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+Cj4gQ2M6
+IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBDYzogIkNocmlzdGlh
+biBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6ICJEYXZpZCAoQ2h1bk1p
+bmcpIFpob3UiIDxEYXZpZDEuWmhvdUBhbWQuY29tPgo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGxp
+bnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogIllhbmcsIFBoaWxpcCIgPFBoaWxpcC5Z
+YW5nQGFtZC5jb20+Cj4gVG86IGxpbnV4LW1tQGt2YWNrLm9yZwo+IAo+IEphc29uIEd1bnRob3Jw
+ZSAoNSk6Cj4gICBtbS9obW06IG1ha2UgQ09ORklHX0RFVklDRV9QUklWQVRFIGludG8gYSBzZWxl
+Y3QKPiAgIG1tL2htbTogbWFrZSBobW1fcmFuZ2VfZmF1bHQgcmV0dXJuIDAgb3IgLTEKPiAgIGRy
+bS9hbWRncHU6IHJlbW92ZSBkZWFkIGNvZGUgYWZ0ZXIgaG1tX3JhbmdlX2ZhdWx0KCkKPiAgIG1t
+L2htbTogcmVtb3ZlIEhNTV9QRk5fU1BFQ0lBTAo+ICAgbW0vaG1tOiByZW1vdmUgdGhlIGN1c3Rv
+bWl6YWJsZSBwZm4gZm9ybWF0IGZyb20gaG1tX3JhbmdlX2ZhdWx0CgpBcHBsaWVkIHRvIGhtbS5n
+aXQsIHRoYW5rcwoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
