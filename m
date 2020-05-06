@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1AE1C76B7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC2B1C76BB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 May 2020 18:42:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4BD6E8B9;
-	Wed,  6 May 2020 16:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D040F6E8A8;
+	Wed,  6 May 2020 16:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E9B6E8AC
- for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:41:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86DD86E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 May 2020 16:42:18 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 798738046E;
- Wed,  6 May 2020 18:41:34 +0200 (CEST)
-Date: Wed, 6 May 2020 18:41:33 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 7259A80500;
+ Wed,  6 May 2020 18:42:16 +0200 (CEST)
+Date: Wed, 6 May 2020 18:42:15 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v5 2/6] drm/of: Make drm_of_find_panel_or_bridge() to
- check graph's presence
-Message-ID: <20200506164133.GB19296@ravnborg.org>
+Subject: Re: [PATCH v5 3/6] drm/tegra: output: Don't leak OF node on error
+Message-ID: <20200506164215.GC19296@ravnborg.org>
 References: <20200418170703.1583-1-digetx@gmail.com>
- <20200418170703.1583-3-digetx@gmail.com>
+ <20200418170703.1583-4-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200418170703.1583-3-digetx@gmail.com>
+In-Reply-To: <20200418170703.1583-4-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=ZfXzQBuPKYn6lThc9qoA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
+ a=e5mUnYsNAAAA:8 a=K8HgHsMCaQdvhFoLfFEA:9 a=CjuIK1q_8ugA:10
+ a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
  a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,49 +57,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 18, 2020 at 08:06:59PM +0300, Dmitry Osipenko wrote:
-> When graph isn't defined in a device-tree, the of_graph_get_remote_node()
-> prints a noisy error message, telling that port node is not found. This is
-> undesirable behaviour in our case because absence of a panel/bridge graph
-> is a valid case. Let's check presence of the local port in a device-tree
-> before proceeding with parsing the graph.
+On Sat, Apr 18, 2020 at 08:07:00PM +0300, Dmitry Osipenko wrote:
+> The OF node should be put before returning error in tegra_output_probe(),
+> otherwise node's refcount will be leaked.
 > 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/gpu/drm/drm_of.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/tegra/output.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index b50b44e76279..e0652c38f357 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -239,13 +239,24 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  				struct drm_bridge **bridge)
->  {
->  	int ret = -EPROBE_DEFER;
-> -	struct device_node *remote;
-> +	struct device_node *local, *remote;
->  
->  	if (!panel && !bridge)
->  		return -EINVAL;
->  	if (panel)
->  		*panel = NULL;
->  
-> +	/*
-> +	 * of_graph_get_remote_node() produces a noisy error message if port
-> +	 * node isn't found and the absence of the port is a legit case here,
-> +	 * so at first we silently check presence of the local port.
-> +	 */
-> +	local = of_graph_get_local_port(np);
-> +	if (!local)
-> +		return -ENODEV;
+> diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+> index e36e5e7c2f69..a6a711d54e88 100644
+> --- a/drivers/gpu/drm/tegra/output.c
+> +++ b/drivers/gpu/drm/tegra/output.c
+> @@ -102,10 +102,10 @@ int tegra_output_probe(struct tegra_output *output)
+>  	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
+>  	if (panel) {
+>  		output->panel = of_drm_find_panel(panel);
+> +		of_node_put(panel);
 > +
-> +	of_node_put(local);
+>  		if (IS_ERR(output->panel))
+>  			return PTR_ERR(output->panel);
+> -
+> -		of_node_put(panel);
+>  	}
+>  
+>  	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
+> @@ -113,13 +113,12 @@ int tegra_output_probe(struct tegra_output *output)
+>  	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
+>  	if (ddc) {
+>  		output->ddc = of_find_i2c_adapter_by_node(ddc);
+> +		of_node_put(ddc);
 > +
->  	remote = of_graph_get_remote_node(np, port, endpoint);
->  	if (!remote)
->  		return -ENODEV;
+>  		if (!output->ddc) {
+>  			err = -EPROBE_DEFER;
+> -			of_node_put(ddc);
+>  			return err;
+>  		}
+> -
+> -		of_node_put(ddc);
+>  	}
+>  
+>  	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
 > -- 
 > 2.26.0
 > 
