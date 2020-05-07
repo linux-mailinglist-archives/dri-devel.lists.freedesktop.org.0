@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E77D1C8E69
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C491C8E6B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B94889807;
-	Thu,  7 May 2020 14:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066656E9B6;
+	Thu,  7 May 2020 14:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F7689807
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 14:28:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9F66E9C3;
+ Thu,  7 May 2020 14:29:02 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B38CF20857;
- Thu,  7 May 2020 14:28:53 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6867420936;
+ Thu,  7 May 2020 14:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861735;
- bh=d77HrayXv/zUq1hAABKyDml8cu8MWX+x2DmXs/dulIE=;
+ s=default; t=1588861742;
+ bh=qQJ8XuGD1yqiYvBBlA+XTk9Ka7sBVbNnfFgy4ubIWrU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1nuMML2NUbxZkabrfk00d3qXuaOGmGtgSj05FNMxZFv20WlhcCMS3wF8uPDuJ5zCj
- V70uQMIBpL8+uUcEEVUX6PowbIjy811bBIeAbcsI9z3RlFETDJcuAdBHCGiwTM+F9W
- vCMzMXAT1RpAz1hTEom4dcnmHryreLYigti3ipA0=
+ b=mJdrr8Zrai7DJiuWpxowo157HHyG+CGPCf9fhx+IDHebxJ68G0Xzr3mJD3t3Mmh9E
+ 0m+goOARxxZn3AIs1hFSDTipR83bQF22Wg/uOhm1s0XYCLpHsUnRlVQ5YEacn+TJuD
+ 7IvPZSplajp9BuJPHM8oVZPuYyFxdcaM6vy9W3DE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 19/35] dma-buf: Fix SET_NAME ioctl uapi
-Date: Thu,  7 May 2020 10:28:13 -0400
-Message-Id: <20200507142830.26239-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 25/35] drm/amd/powerplay: avoid using pm_en before
+ it is initialized revised
+Date: Thu,  7 May 2020 10:28:19 -0400
+Message-Id: <20200507142830.26239-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
 References: <20200507142830.26239-1-sashal@kernel.org>
@@ -49,84 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Chenbo Feng <fengc@google.com>, Greg Hackmann <ghackmann@google.com>,
- linaro-mm-sig@lists.linaro.org, minchan@kernel.org, jenhaochen@google.com,
- dri-devel@lists.freedesktop.org, Martin Liu <liumartin@google.com>,
- Daniel Vetter <daniel.vetter@intel.com>, surenb@google.com,
- linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Tiecheng Zhou <Tiecheng.Zhou@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@intel.com>
+From: Tiecheng Zhou <Tiecheng.Zhou@amd.com>
 
-[ Upstream commit a5bff92eaac45bdf6221badf9505c26792fdf99e ]
+[ Upstream commit 690ae30be163d5262feae01335b2a6f30569e5aa ]
 
-The uapi is the same on 32 and 64 bit, but the number isn't. Everyone
-who botched this please re-read:
+hwmgr->pm_en is initialized at hwmgr_hw_init.
 
-https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
+during amdgpu_device_init, there is amdgpu_asic_reset that calls to
+soc15_asic_reset (for V320 usecase, Vega10 asic), in which:
+1) soc15_asic_reset_method calls to pp_get_asic_baco_capability (pm_en)
+2) soc15_asic_baco_reset calls to pp_set_asic_baco_state (pm_en)
 
-Also, the type argument for the ioctl macros is for the type the void
-__user *arg pointer points at, which in this case would be the
-variable-sized char[] of a 0 terminated string. So this was botched in
-more than just the usual ways.
+pm_en is used in the above two cases while it has not yet been initialized
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Chenbo Feng <fengc@google.com>
-Cc: Greg Hackmann <ghackmann@google.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: minchan@kernel.org
-Cc: surenb@google.com
-Cc: jenhaochen@google.com
-Cc: Martin Liu <liumartin@google.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Tested-by: Martin Liu <liumartin@google.com>
-Reviewed-by: Martin Liu <liumartin@google.com>
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-  [sumits: updated some checkpatch fixes, corrected author email]
-Link: https://patchwork.freedesktop.org/patch/msgid/20200407133002.3486387-1-daniel.vetter@ffwll.ch
+So avoid using pm_en in the above two functions for V320 passthrough.
+
+Reviewed-by: Evan Quan <evan.quan@amd.com>
+Signed-off-by: Tiecheng Zhou <Tiecheng.Zhou@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/dma-buf.c    | 3 ++-
- include/uapi/linux/dma-buf.h | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/powerplay/amd_powerplay.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 0fb0358f00736..adc88e1dc999a 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
+diff --git a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
+index d306cc7119976..8bb5fbef7de0f 100644
+--- a/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
++++ b/drivers/gpu/drm/amd/powerplay/amd_powerplay.c
+@@ -1425,7 +1425,8 @@ static int pp_get_asic_baco_capability(void *handle, bool *cap)
+ 	if (!hwmgr)
+ 		return -EINVAL;
  
- 		return ret;
+-	if (!hwmgr->pm_en || !hwmgr->hwmgr_func->get_asic_baco_capability)
++	if (!(hwmgr->not_vf && amdgpu_dpm) ||
++		!hwmgr->hwmgr_func->get_asic_baco_capability)
+ 		return 0;
  
--	case DMA_BUF_SET_NAME:
-+	case DMA_BUF_SET_NAME_A:
-+	case DMA_BUF_SET_NAME_B:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+ 	mutex_lock(&hwmgr->smu_lock);
+@@ -1459,7 +1460,8 @@ static int pp_set_asic_baco_state(void *handle, int state)
+ 	if (!hwmgr)
+ 		return -EINVAL;
  
- 	default:
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index dbc7092e04b5a..7f30393b92c3b 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -39,6 +39,12 @@ struct dma_buf_sync {
+-	if (!hwmgr->pm_en || !hwmgr->hwmgr_func->set_asic_baco_state)
++	if (!(hwmgr->not_vf && amdgpu_dpm) ||
++		!hwmgr->hwmgr_func->set_asic_baco_state)
+ 		return 0;
  
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-+
-+/* 32/64bitness of this uapi was botched in android, there's no difference
-+ * between them in actual uapi, they're just different numbers.
-+ */
- #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
-+#define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
- 
- #endif
+ 	mutex_lock(&hwmgr->smu_lock);
 -- 
 2.20.1
 
