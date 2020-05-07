@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C1C1C8C4B
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 15:27:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69021C8C4A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 15:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC0E6E9A0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1A36E996;
 	Thu,  7 May 2020 13:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A276E98C;
- Thu,  7 May 2020 13:27:22 +0000 (UTC)
-IronPort-SDR: PR+g4k1gmsQrfKmKVKWDzcYZNMd8TU0HWnrbcimKsdXIB8ZmSI5iMVlSvSN5BKnyiinaLvz3ot
- RLcujcAjCl+A==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF446E9A0;
+ Thu,  7 May 2020 13:27:24 +0000 (UTC)
+IronPort-SDR: pij3TxNvv1Q9EPvHAn87kjSBvkgyiK+mQmfnn7vaHWH3R11vMvSaYuQlRNAOBZPEpDp28Knwtc
+ L6zkUwUaHm8Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 06:27:22 -0700
-IronPort-SDR: JOvgsRbJEqeP8wtJ8lTG1F3DVdrrlIADmY6/V/yOcy2MxC+hauAhNmr5WvnVbZOfdojjI6hgE1
- K338Jcr7FFjg==
+ 07 May 2020 06:27:24 -0700
+IronPort-SDR: iqAGuYS3sDoaTvww6dw7wov7pk/zzbrRSgkyfdR0rqlrJguS8JkjW1+VHCCb4hjHPn7tPZ2QmO
+ xhU7wydZ+Byg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; d="scan'208";a="260528025"
+X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; d="scan'208";a="260528027"
 Received: from plaurent-mobl.ger.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.251.84.89])
- by orsmga003.jf.intel.com with ESMTP; 07 May 2020 06:27:21 -0700
+ by orsmga003.jf.intel.com with ESMTP; 07 May 2020 06:27:23 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v11 10/14] drm/i915: Fix enabled infoframe states of lspcon
-Date: Thu,  7 May 2020 16:27:02 +0300
-Message-Id: <20200507132706.2058969-11-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v11 11/14] drm/i915: Program DP SDPs on pipe updates
+Date: Thu,  7 May 2020 16:27:03 +0300
+Message-Id: <20200507132706.2058969-12-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200507132706.2058969-1-gwan-gyeong.mun@intel.com>
 References: <20200507132706.2058969-1-gwan-gyeong.mun@intel.com>
@@ -48,35 +48,37 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tcGFyZWQgdG8gaW1wbGVtZW50YXRpb24gb2YgRFAgYW5kIEhETUkncyBlbmNvZGVyLT5pbmZv
-ZnJhbWVzX2VuYWJsZWQsCnRoZSBsc3Bjb24ncyBpbXBsZW1lbnRhdGlvbiByZXR1cm5zIGl0cyBh
-Y3RpdmUgc3RhdGUuICh3ZSBleHBlY3QgZW5hYmxlZAppbmZvZnJhbWUgc3RhdGVzIG9mIEhXLikg
-SXQgbGVhZHMgdG8gcGlwZSBzdGF0ZSBtaXNtYXRjaCBlcnJvcgp3aGVuIGRkaV9nZXRfY29uZmln
-IGlzIGNhbGxlZC4KCkJlY2F1c2UgdGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gb2YgbHNwY29u
-IGlzIG5vdCByZWFkeSB0byBzdXBwb3J0CnJlYWRvdXQgaW5mb2ZyYW1lcywgd2UgbmVlZCB0byBy
-ZXR1cm4gMCBoZXJlLgoKSW4gb3JkZXIgdG8gc3VwcG9ydCByZWFkb3V0IHRvIGxzcGNvbiwgd2Ug
-bmVlZCB0byBpbXBsZW1lbnQgcmVhZF9pbmZvZnJhbWUKYW5kIGluZm9mcmFtZXNfZW5hYmxlZC4g
-QW5kIHNldF9pbmZvZnJhbWVzIGFsc28gaGF2ZSB0byBzZXQgYW4gYXBwcm9wcmlhdGUKYml0IG9u
-IGNydGNfc3RhdGUtPmluZm9mcmFtZXMuZW5hYmxlCgpDYzogVmlsbGUgU3lyasOkbMOkIDx2aWxs
-ZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogR3dhbi1neWVvbmcgTXVu
-IDxnd2FuLWd5ZW9uZy5tdW5AaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVt
-YS5zaGFua2FyQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2xzcGNvbi5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9sc3Bjb24uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNwY29uLmMK
-aW5kZXggZDgwN2M1NjQ4Yzg3Li42ZmY3YjIyNmYwYTEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfbHNwY29uLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9sc3Bjb24uYwpAQCAtNTIyLDcgKzUyMiw3IEBAIHUzMiBsc3Bjb25f
-aW5mb2ZyYW1lc19lbmFibGVkKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAogCQkJICAg
-ICAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUgKnBpcGVfY29uZmlnKQogewogCS8qIEZJ
-WE1FIGFjdHVhbGx5IHJlYWQgdGhpcyBmcm9tIHRoZSBodyAqLwotCXJldHVybiBlbmNfdG9faW50
-ZWxfbHNwY29uKGVuY29kZXIpLT5hY3RpdmU7CisJcmV0dXJuIDA7CiB9CiAKIHZvaWQgbHNwY29u
-X3Jlc3VtZShzdHJ1Y3QgaW50ZWxfbHNwY29uICpsc3Bjb24pCi0tIAoyLjI1LjAKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Call intel_dp_set_infoframes() function on pipe updates to make sure
+that we send VSC SDP and HDR Metadata Infoframe SDP (when applicable)
+on fastsets.
+
+Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_ddi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index dc232cef867f..e0862b899f1b 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3864,6 +3864,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
+ 	intel_ddi_set_dp_msa(crtc_state, conn_state);
+ 
+ 	intel_psr_update(intel_dp, crtc_state);
++	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
+ 	intel_edp_drrs_enable(intel_dp, crtc_state);
+ 
+ 	intel_panel_update_backlight(state, encoder, crtc_state, conn_state);
+-- 
+2.25.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
