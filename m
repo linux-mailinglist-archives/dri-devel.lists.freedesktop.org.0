@@ -1,68 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E4F1C8550
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 11:03:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB261C8552
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 11:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3C66E95B;
-	Thu,  7 May 2020 09:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0066E95C;
+	Thu,  7 May 2020 09:03:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3696E959
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22CCA6E958
  for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 09:03:21 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id s9so3819649lfp.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 02:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=fFyQ0TgB1Baj1LV5fPUOdudRDxqFY3scstKda3YOp28=;
- b=KvXQdoQ3XeHUbKZYhKsEq4r/PfoZNwSw7hyZa/dc6Msd/PHyIsarYk1Ge9pDyiLgRj
- fYG4gF1z1y0Nd16gAnthuVuweGXOhwaHpPI2LZrt35JmtkHnlYm+tbjgdapqzdyvGghC
- WGBYirbWE1E+erzURMBviolL4jFWjKHhHo+dEvU2XqFooAKaMrZokBjZ0aCO+t6UG1N5
- QKcFVMgyyNzf6FqLDsrpe6fGn9ucOwlTs6pYur4IX8bm9gwy3CcoCyuC21zfH8EP4Woz
- xsnT64Y0mJr8gtR5ztYn5ZIT4XS5afpN7+gaBtBGw7hQx3AttnEgXyjXZheRwEqANj7F
- N8RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=fFyQ0TgB1Baj1LV5fPUOdudRDxqFY3scstKda3YOp28=;
- b=tPvfn4MdGQSL+vfD97cnXaWmHIqpNreZpBpBf6MdgsMeMIUNqNPovTWdwUlLtabnIS
- 8T6l4l6kqtick5+tcQAYuBOspV/BjF392fl1a0rpC9GIPYfv8zzLlFBsbytCsE9EY9YU
- i+XVLADGEJdgDbOwyW5oPPZw95se41Rdxy5QrVI8BMv4Ilc0omGFrDxLkbheHmmIhSa0
- nxHTCv5lSaweyTeMO4tV6D2eJ+yYaz8Vl29yHewAIU9R9Bpt01O7X2+2jRGCmwkpw4MI
- QK0C7mzXORAKvDSlpqOxv0ghTEcDtflh0kOFXlZx4de4YH546AASNq0J518e5UZteNvT
- TuZg==
-X-Gm-Message-State: AGi0PuZcF+0sdEb86C86nX3SQI5OwQBGWsQsLAGpJBXIWja3TFSOMbrn
- nRThpOGppGovYYLpZJlQPpw=
-X-Google-Smtp-Source: APiQypJgbUNdZY+fGyTYDIHfMXZDoAS9v+ntv75H3qpaeVFrg/68xKV9ddTjH8/wCjpDlZaS5n1D2w==
-X-Received: by 2002:ac2:50d8:: with SMTP id h24mr8437544lfm.63.1588842199079; 
- Thu, 07 May 2020 02:03:19 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id c20sm3016372ljk.59.2020.05.07.02.03.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 02:03:18 -0700 (PDT)
-Date: Thu, 7 May 2020 12:03:13 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Operating KMS UAPI (Re: RFC: Drm-connector properties managed
- by another driver / privacy screen support)
-Message-ID: <20200507120313.28b40a57@eldfell.localdomain>
-In-Reply-To: <20200505084852.GN10381@phenom.ffwll.local>
-References: <20200421121552.GT3456981@phenom.ffwll.local>
- <20200421173300.3cd078f4@eldfell.localdomain>
- <CAKMK7uEr6eHfEuGfLU_JTk=fbo=FBcU_aasGwUTRACny7WeojQ@mail.gmail.com>
- <20200424113216.3b5d4e90@eldfell.localdomain>
- <20200428145157.GP3456981@phenom.ffwll.local>
- <20200429130754.311d7178@eldfell.localdomain>
- <20200430135323.GC10381@phenom.ffwll.local>
- <20200504124913.65f6087f@eldfell.localdomain>
- <CAKMK7uGEi6=SK8=943Eu2AVW9yhj=scTvjdguTYQKhXzyL4D4w@mail.gmail.com>
- <20200504152228.4885e26f@eldfell.localdomain>
- <20200505084852.GN10381@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 664F3AE2B;
+ Thu,  7 May 2020 09:03:22 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org,
+ sam@ravnborg.org, john.p.donnelly@oracle.com
+Subject: [PATCH v2 4/6] drm/mgag200: Use managed mode-config initialization
+Date: Thu,  7 May 2020 11:03:13 +0200
+Message-Id: <20200507090315.21274-5-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200507090315.21274-1-tzimmermann@suse.de>
+References: <20200507090315.21274-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,180 +38,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Berg <bberg@redhat.com>, David Airlie <airlied@linux.ie>,
- Christian Kellner <ckellner@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nitin Joshi1 <njoshi1@lenovo.com>, Rajat Jain <rajatja@google.com>,
- Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============0703687995=="
+Cc: John Donnelly <John.p.donnelly@oracle.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0703687995==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/5KQLbKpDy6_6cG=f1L/3kvG"; protocol="application/pgp-signature"
+Mode configuration is now cleanued up automatically. While at it,
+move all mode-config code into mgag200_mode.c. Done in preparation
+of switching mgag200 to simple-KMS helpers.
 
---Sig_/5KQLbKpDy6_6cG=f1L/3kvG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+v2:
+	* improve commit message (Sam)
+	* rebased during cherry pick
+	* also move bpp_shift initialization
 
-On Tue, 5 May 2020 10:48:52 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+---
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 -
+ drivers/gpu/drm/mgag200/mgag200_main.c | 28 ++-------------------
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 34 ++++++++++++++++++++++----
+ 3 files changed, 31 insertions(+), 32 deletions(-)
 
-> Refocusing on where I think we still have a bit a disconnnect.
->=20
-> On Mon, May 04, 2020 at 03:22:28PM +0300, Pekka Paalanen wrote:
-> > On Mon, 4 May 2020 13:00:02 +0200
-> > Daniel Vetter <daniel@ffwll.ch> wrote: =20
-> > > On Mon, May 4, 2020 at 11:49 AM Pekka Paalanen <ppaalanen@gmail.com> =
-wrote: =20
-> > > > On Thu, 30 Apr 2020 15:53:23 +0200
-> > > > Daniel Vetter <daniel@ffwll.ch> wrote: =20
-> > > I guess my point is, this is a lot bigger problem than just the
-> > > default state. This =3D vt switching that doesn't look horrible and
-> > > doesn't result in artifacts and issues on the new compositor. =20
-> >=20
-> > I am interested in getting reliably to the same hardware state as you
-> > used to have before, either after reboots or after vt-switches. The
-> > transition does not have to be guaranteed to be smooth, but at the same
-> > time the restore policy should not exclude the possibility of a
-> > smooth transition. =20
->=20
-> So my point is kinda that if you want both, then the only way to get there
-> to have a very clear set of what's allowed to be left behind be the
-> outgoing compositor. For example:
-> - only primary plane
-> - only untiled
-> - no color transform magic
-> - ...
-
-Hi,
-
-agreed, and to this I was implicitly adding "for everything else the
-old compositor must leave behind the so called default state".
-
-That means the new compositor restoring defaults to the properties it
-does not understand is a no-op, unless the old compositor violated the
-smooth transition rules, in which case it might not be a smooth
-transition.
-
-If on some system, the default state does not result in a "usable"
-picture on screen, then a compositor that does not understand the
-property will always be broken and has always been broken.
-
-If such compositor ever worked ok on such system, it was because it
-inherited a property value that made things work. So if using defaults
-breaks things, it means the defaults were not actually the defaults.
-
-This definition probably means that defaults cannot be universal
-constants, but I think it would be enough if they were constants given
-the hardware and firmware at hand. IOW, not changed by simply rebooting
-or upgrading the kernel.
-
->=20
-> Imo this is a related problem to the save/restore topic, since if one
-> compositor does something the new one doesn't understand (e.g. tiled
-> buffers with modifiers, and new compositor doesn't use getfb2), then it's
-> going to break.
->=20
-> Similar, if the old compositor sets a new color transform property that
-> the new compositor doesn't understand, then you get a mess.
->=20
-> Blind restore handles the permanent mess issue, but it doesn't handle the
-> smooth transition issue. But both problems are of the "old compositor did
-> something the new compositor doesn't understand", hence why I chuck them
-> into the same bin. And the issue with a blind save/restore, or kernel
-> defaults, or any of the solutions proposed here is that they pretty much
-> guarantee non-smooth transitions, they only solve the permanent damange
-> part of the problem.
-
-Right, except I disagree on the "guarantee non-smooth transition", as I
-explained above.
-
-> I think to solve both, we need some kind of proper compositor switching
-> protocol, e.g. using logind:
-> - old compositor transitions to the minimal config as specified somewhere
-> - logind forces all other properties to "defaults", whether that's
->   restoring boot-up defaults or defaults obtained from the kernel or
->   something else is tbd
-
-In my mind, the new compositor would do this step. If the old
-compositor did its job, it's a no-op.
-
-> - logind maybe even does a transition if there's multiple version of the
->   protocol, e.g. v2 allows modifiers, v1 only untiled, so it'd need to do
->   a blit to untiled if the new compositor only supports v1 switching
->   protocol
-
-That would be fancy, but I'm not sure it's necessary. Maybe it becomes
-useful one day, and then that day we can look into involving actual
-protocol or logind. I just don't see a problem implementing the de
-facto protocol v1 that already exists without logind or such.
-
-> - new compositor takes over, and can continue the smooth transition since
->   it's a well-defined starting state with limited feature usage, _and_
->   everything else is reset to "defaults"
-> =20
-> I fear that if we only solve the "resets to defaults" issue then we can
-> draw ourselves into a corner for the smooth transition stuff, if e.g. the
-> wrong entity in the above dance forces the reset to defaults.
-
-I guess we fundamentally agree. It just doesn't matter who does the
-reset to defaults if the old compositor does not, the transition cannot
-be smooth.
-
-To me it seems the key here is that the old compositor *must* use "a
-simple KMS setup" and reset everything else to defaults.
-
-Actually, that's what we require in practise already. If the old
-compositor leaves something funny in KMS state, the new compositor will
-either glitch or be permanently broken when taking over.
-
-The only thing that needs more work to fix is to prevent the permanent
-breakage.
-
-I guess this line on thinking also shows the answer to what KMS programs
-are supposed to do on switching out: clean up after yourself, but don't
-shut CRTCs down or change video modes.
-
-
-Thanks,
-pq
-
---Sig_/5KQLbKpDy6_6cG=f1L/3kvG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl6zztEACgkQI1/ltBGq
-qqeybxAAiYFN5kBW9a9Bec8A6iapCKcO/UtfJc5qCBhQw3sJDs96/maYPZwbZJ7s
-CqdG3sbNvxD3+rnCv0oQ3ia2vpcWivO9boeaKylm3B+/lWDG4Es5ab59jBPtVSNv
-WQJohk6+7Jwy8UGo43zH1qwMGy/BXu8NFwBj/8jf5V4WgBPLIymZrY1a3XYZXsAs
-ZrIcsdiuAYkPQIXTQWfaOSeWkSHvVsIkiIKlmKNQYnyB3gydqGV0TtA6gpt93WUH
-gDqSZXPV5q0yBkcMVG49BYuLDdHdrfCvU2y7fuBA/N3CBcf3SAa/DpV0OGpQN2KI
-4ftep6sFKN7lEZrNbzP4yVkICYJKp0ayPd8ZXxwvBSigryHviajFdUZS+Ojn9NgV
-6HaS9WUPn1DECS0EkpjkKV82wG20vq/nKxnc/eUQfaDr9NREMzv3LscSMhYlKcFD
-Z9BfAbtO9qmBPFbxYnHBr5pacXb3p/8JwHLAINYMzUvwZFpTzospjmRmzRUUSALB
-bJGSezUM+rj4CD7Qs2FmH8hZGrl5BdiO4vxWK3i7l+w31aLaVaMxey+2z12R24JJ
-DnHDi2UcfiQ4hhY2pM4vBnNiRdlY1ls3XQiPo/ReCjwNkl1/MrtgZPw4c0mNsGfe
-I+lmM/cXmkVab6uOp6iLoy1s7/SHQ1tojOIXqPafn/dINReaHdk=
-=EczB
------END PGP SIGNATURE-----
-
---Sig_/5KQLbKpDy6_6cG=f1L/3kvG--
-
---===============0703687995==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 93e2d232931af..65d7096cad889 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -201,7 +201,6 @@ mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
+ 
+ 				/* mgag200_mode.c */
+ int mgag200_modeset_init(struct mga_device *mdev);
+-void mgag200_modeset_fini(struct mga_device *mdev);
+ 
+ 				/* mgag200_main.c */
+ int mgag200_driver_load(struct drm_device *dev, unsigned long flags);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
+index 186197b8ffd35..fd651eda6f012 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_main.c
++++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+@@ -10,15 +10,8 @@
+ 
+ #include <linux/pci.h>
+ 
+-#include <drm/drm_crtc_helper.h>
+-#include <drm/drm_gem_framebuffer_helper.h>
+-
+ #include "mgag200_drv.h"
+ 
+-static const struct drm_mode_config_funcs mga_mode_funcs = {
+-	.fb_create = drm_gem_fb_create
+-};
+-
+ static int mga_probe_vram(struct mga_device *mdev, void __iomem *mem)
+ {
+ 	int offset;
+@@ -135,27 +128,14 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
+ 	if (ret)
+ 		return ret;
+ 
+-	mdev->bpp_shifts[0] = 0;
+-	mdev->bpp_shifts[1] = 1;
+-	mdev->bpp_shifts[2] = 0;
+-	mdev->bpp_shifts[3] = 2;
+-
+ 	ret = mgag200_mm_init(mdev);
+ 	if (ret)
+ 		goto err_mm;
+ 
+-	drm_mode_config_init(dev);
+-	dev->mode_config.funcs = (void *)&mga_mode_funcs;
+-	if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
+-		dev->mode_config.preferred_depth = 16;
+-	else
+-		dev->mode_config.preferred_depth = 32;
+-	dev->mode_config.prefer_shadow = 1;
+-
+ 	ret = mgag200_modeset_init(mdev);
+ 	if (ret) {
+ 		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
+-		goto err_modeset;
++		goto err_mgag200_mm_fini;
+ 	}
+ 
+ 	ret = mgag200_cursor_init(mdev);
+@@ -164,9 +144,7 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
+ 
+ 	return 0;
+ 
+-err_modeset:
+-	drm_mode_config_cleanup(dev);
+-	mgag200_cursor_fini(mdev);
++err_mgag200_mm_fini:
+ 	mgag200_mm_fini(mdev);
+ err_mm:
+ 	dev->dev_private = NULL;
+@@ -179,8 +157,6 @@ void mgag200_driver_unload(struct drm_device *dev)
+ 
+ 	if (mdev == NULL)
+ 		return;
+-	mgag200_modeset_fini(mdev);
+-	drm_mode_config_cleanup(dev);
+ 	mgag200_cursor_fini(mdev);
+ 	mgag200_mm_fini(mdev);
+ 	dev->dev_private = NULL;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index aaa73b29b04f0..7dad386913261 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -13,6 +13,7 @@
+ 
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -1615,6 +1616,17 @@ static struct drm_connector *mga_vga_init(struct drm_device *dev)
+ 	return connector;
+ }
+ 
++static const struct drm_mode_config_funcs mgag200_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create
++};
++
++static unsigned int mgag200_preferred_depth(struct mga_device *mdev)
++{
++	if (IS_G200_SE(mdev) && mdev->vram_fb_available < (2048*1024))
++		return 16;
++	else
++		return 32;
++}
+ 
+ int mgag200_modeset_init(struct mga_device *mdev)
+ {
+@@ -1623,13 +1635,30 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 	struct drm_connector *connector;
+ 	int ret;
+ 
++	mdev->bpp_shifts[0] = 0;
++	mdev->bpp_shifts[1] = 1;
++	mdev->bpp_shifts[2] = 0;
++	mdev->bpp_shifts[3] = 2;
++
++	ret = drmm_mode_config_init(dev);
++	if (ret) {
++		drm_err(dev, "drmm_mode_config_init() failed, error %d\n",
++			ret);
++		return ret;
++	}
++
+ 	mdev->mode_info.mode_config_initialized = true;
+ 
+ 	dev->mode_config.max_width = MGAG200_MAX_FB_WIDTH;
+ 	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
+ 
++	dev->mode_config.preferred_depth = mgag200_preferred_depth(mdev);
++	dev->mode_config.prefer_shadow = 1;
++
+ 	dev->mode_config.fb_base = mdev->mc.vram_base;
+ 
++	dev->mode_config.funcs = &mgag200_mode_config_funcs;
++
+ 	mga_crtc_init(mdev);
+ 
+ 	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+@@ -1651,8 +1680,3 @@ int mgag200_modeset_init(struct mga_device *mdev)
+ 
+ 	return 0;
+ }
+-
+-void mgag200_modeset_fini(struct mga_device *mdev)
+-{
+-
+-}
+-- 
+2.26.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0703687995==--
