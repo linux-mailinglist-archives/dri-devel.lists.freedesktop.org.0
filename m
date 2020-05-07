@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A16B1C9744
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 19:16:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2BF1C9749
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 19:20:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184E36EA3B;
-	Thu,  7 May 2020 17:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 272BF6EA3F;
+	Thu,  7 May 2020 17:20:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2539E6EA3B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 17:16:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2241E6EA3F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 17:20:18 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 892ACACC5;
- Thu,  7 May 2020 17:16:17 +0000 (UTC)
-Subject: Re: [PATCH 07/36] drm/gma500: Use lockless gem BO free callback
+ by mx2.suse.de (Postfix) with ESMTP id 7BE4EABCE;
+ Thu,  7 May 2020 17:20:19 +0000 (UTC)
+Subject: Re: [PATCH 08/36] drm: remove drm_driver::gem_free_object
 To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-8-emil.l.velikov@gmail.com>
+ <20200507150822.114464-9-emil.l.velikov@gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -46,12 +46,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <54ddd1ab-e723-cff3-8295-98690af6caaa@suse.de>
-Date: Thu, 7 May 2020 19:16:10 +0200
+Message-ID: <f4fe1d12-7dda-3034-2692-c4b763259eed@suse.de>
+Date: Thu, 7 May 2020 19:20:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200507150822.114464-8-emil.l.velikov@gmail.com>
+In-Reply-To: <20200507150822.114464-9-emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +64,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: multipart/mixed; boundary="===============0729173355=="
+Content-Type: multipart/mixed; boundary="===============2004714900=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0729173355==
+--===============2004714900==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="a58XqSwQaz4xYmGZy2WZ2psaVtZIx8fmZ"
+ boundary="9PmG90LdZvMdmgBMhKWp9Sy9kW1SZfZUm"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---a58XqSwQaz4xYmGZy2WZ2psaVtZIx8fmZ
-Content-Type: multipart/mixed; boundary="uNz6qPRfWmvv1Kj9oRwQjJtDte5jD7hqU";
+--9PmG90LdZvMdmgBMhKWp9Sy9kW1SZfZUm
+Content-Type: multipart/mixed; boundary="EUUyfgrQEC3TZ9tQoKgP3vCE8t9HOcJYn";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <54ddd1ab-e723-cff3-8295-98690af6caaa@suse.de>
-Subject: Re: [PATCH 07/36] drm/gma500: Use lockless gem BO free callback
+Message-ID: <f4fe1d12-7dda-3034-2692-c4b763259eed@suse.de>
+Subject: Re: [PATCH 08/36] drm: remove drm_driver::gem_free_object
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-8-emil.l.velikov@gmail.com>
-In-Reply-To: <20200507150822.114464-8-emil.l.velikov@gmail.com>
+ <20200507150822.114464-9-emil.l.velikov@gmail.com>
+In-Reply-To: <20200507150822.114464-9-emil.l.velikov@gmail.com>
 
---uNz6qPRfWmvv1Kj9oRwQjJtDte5jD7hqU
+--EUUyfgrQEC3TZ9tQoKgP3vCE8t9HOcJYn
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+
 
 Am 07.05.20 um 17:07 schrieb Emil Velikov:
 > From: Emil Velikov <emil.velikov@collabora.com>
 >=20
-> No dev->struct_mutex anywhere to be seen.
+> No drivers set the callback, so remove it all together.
 >=20
-> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> ---
->  drivers/gpu/drm/gma500/psb_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/=
-psb_drv.c
-> index 2411eb9827b8..34b4aae9a15e 100644
-> --- a/drivers/gpu/drm/gma500/psb_drv.c
-> +++ b/drivers/gpu/drm/gma500/psb_drv.c
-> @@ -507,7 +507,7 @@ static struct drm_driver driver =3D {
->  	.irq_uninstall =3D psb_irq_uninstall,
->  	.irq_handler =3D psb_irq_handler,
-> =20
-> -	.gem_free_object =3D psb_gem_free_object,
-> +	.gem_free_object_unlocked =3D psb_gem_free_object,
-
-I'd also rename the function to psb_gem_free_object_unlocked(). In any ca=
-se
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->  	.gem_vm_ops =3D &psb_gem_vm_ops,
+> ---
+>  drivers/gpu/drm/drm_gem.c | 22 +++-------------------
+>  include/drm/drm_drv.h     |  8 --------
+>  include/drm/drm_gem.h     |  5 +++--
+>  3 files changed, 6 insertions(+), 29 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 12fa121d0966..dab8763b2e73 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -975,15 +975,10 @@ drm_gem_object_free(struct kref *kref)
+>  		container_of(kref, struct drm_gem_object, refcount);
+>  	struct drm_device *dev =3D obj->dev;
 > =20
->  	.dumb_create =3D psb_gem_dumb_create,
+> -	if (obj->funcs) {
+> +	if (obj->funcs)
+>  		obj->funcs->free(obj);
+> -	} else if (dev->driver->gem_free_object_unlocked) {
+> +	else if (dev->driver->gem_free_object_unlocked)
+>  		dev->driver->gem_free_object_unlocked(obj);
+> -	} else if (dev->driver->gem_free_object) {
+> -		WARN_ON(!mutex_is_locked(&dev->struct_mutex));
+> -
+> -		dev->driver->gem_free_object(obj);
+> -	}
+>  }
+>  EXPORT_SYMBOL(drm_gem_object_free);
+> =20
+> @@ -999,21 +994,10 @@ EXPORT_SYMBOL(drm_gem_object_free);
+>  void
+>  drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+>  {
+> -	struct drm_device *dev;
+> -
+>  	if (!obj)
+>  		return;
+> =20
+> -	dev =3D obj->dev;
+> -
+> -	if (dev->driver->gem_free_object) {
+> -		might_lock(&dev->struct_mutex);
+> -		if (kref_put_mutex(&obj->refcount, drm_gem_object_free,
+> -				&dev->struct_mutex))
+> -			mutex_unlock(&dev->struct_mutex);
+> -	} else {
+> -		kref_put(&obj->refcount, drm_gem_object_free);
+> -	}
+> +	kref_put(&obj->refcount, drm_gem_object_free);
+>  }
+>  EXPORT_SYMBOL(drm_gem_object_put_unlocked);
+> =20
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 6d457652f199..e6eff508f687 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -327,14 +327,6 @@ struct drm_driver {
+>  	 */
+>  	void (*debugfs_init)(struct drm_minor *minor);
+> =20
+> -	/**
+> -	 * @gem_free_object: deconstructor for drm_gem_objects
+> -	 *
+> -	 * This is deprecated and should not be used by new drivers. Use
+> -	 * &drm_gem_object_funcs.free instead.
+> -	 */
+> -	void (*gem_free_object) (struct drm_gem_object *obj);
+> -
+>  	/**
+>  	 * @gem_free_object_unlocked: deconstructor for drm_gem_objects
+>  	 *
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 0b375069cd48..ec2d24a60a76 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -272,8 +272,9 @@ struct drm_gem_object {
+>  	 * attachment point for the device. This is invariant over the lifeti=
+me
+>  	 * of a gem object.
+>  	 *
+> -	 * The &drm_driver.gem_free_object callback is responsible for cleani=
+ng
+> -	 * up the dma_buf attachment and references acquired at import time.
+> +	 * The &drm_driver.gem_free_object_unlocked callback is responsible f=
+or
+> +	 * cleaning up the dma_buf attachment and references acquired at impo=
+rt
+> +	 * time.
+>  	 *
+>  	 * Note that the drm gem/prime core does not depend upon drivers sett=
+ing
+>  	 * this field any more. So for drivers where this doesn't make sense
 >=20
 
 --=20
@@ -138,28 +204,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---uNz6qPRfWmvv1Kj9oRwQjJtDte5jD7hqU--
+--EUUyfgrQEC3TZ9tQoKgP3vCE8t9HOcJYn--
 
---a58XqSwQaz4xYmGZy2WZ2psaVtZIx8fmZ
+--9PmG90LdZvMdmgBMhKWp9Sy9kW1SZfZUm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl60QloACgkQaA3BHVML
-eiP2ewgAhVfU8Esqz20031yL/dxAzUHx9rImT285fClZmsuRVQUWcv8DiSRTZorQ
-HFVydocfLpf/Aw+bD3MFz+FtgvQgj/ZgtIUu1DD4Q4a/673FVfpNTopXUn12tLCM
-TuksT6MkZVGMxRcTLdMScFNS/RZs77wKVs3BEo2V4loL9j8ReAKJTO5YV2GVUwSS
-5HhsxlLLm/r/i9iblDFmfmf3qLckaqMoDxC79cK8X2FprKFslABlx6gLW3ef4P5H
-PbZxk4iz48zuz3is03lVNONf9suxlqnsj8Zu2jozejjogBbNvWTw19PHv/bGoRZ7
-zgZ409V0d79Wt2IHLPhwaUYCS9Azmg==
-=qdUk
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl60Q1AACgkQaA3BHVML
+eiP/yQgAggMYLzKiUsOsxgo/lw2JSnC6Iow+iIWRr77b0G4aFvQBlLsc7hRIr9pu
+RtZAr5bMGY1borZYUAvB0gtygBxCq5FhJUa9UBKjhsTYr1VyKJOshG2tiLVmvHFS
+3KOok4uSe/h7uwYqfvRjeABPFt5G87+gV9O4fHcXtDVX5bh+sabaPn8kQ9t4vqiv
+sewHqlv5Oqdmcltfj70Pk4A4kKcvy/ytW4tGYd6N5kqklm7t6FoSSIAmOopOCLMP
+4/0qGKaSaG5fA2I200fakCst81JzlKLR/tL8vKyWuKCeMlUCu5AWt1YGZH4GWlQW
+S0znyevI5bi8nmhHLzNDqAXcM62FEw==
+=9zf9
 -----END PGP SIGNATURE-----
 
---a58XqSwQaz4xYmGZy2WZ2psaVtZIx8fmZ--
+--9PmG90LdZvMdmgBMhKWp9Sy9kW1SZfZUm--
 
---===============0729173355==
+--===============2004714900==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -170,4 +236,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0729173355==--
+--===============2004714900==--
