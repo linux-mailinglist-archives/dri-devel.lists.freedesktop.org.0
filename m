@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63751C8E63
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:28:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E77D1C8E69
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239826E9C0;
-	Thu,  7 May 2020 14:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B94889807;
+	Thu,  7 May 2020 14:28:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A85566E9C3;
- Thu,  7 May 2020 14:28:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52F7689807
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 14:28:55 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AE2F120870;
- Thu,  7 May 2020 14:28:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B38CF20857;
+ Thu,  7 May 2020 14:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861696;
- bh=Uegwi40m6VKoo3qYz46wXwuY83tyEhWX7RHlaRpzbXs=;
+ s=default; t=1588861735;
+ bh=d77HrayXv/zUq1hAABKyDml8cu8MWX+x2DmXs/dulIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CYeYcgTQ0Ywxl4zeeXpRWLUXS/cuzDs8oE341xgiHkmSwuU6KjjJunsdP/Iva5X1U
- 4KVXKpp2ILdGiDIrDwJNE9NlcS9Xq6GmXV8Gf4OXkYmqVL9HptT3O/s2d2vylhgBIk
- fLo1bNqo7rdyvzNRGokXdUxjcd8t3Vrf10d94dTU=
+ b=1nuMML2NUbxZkabrfk00d3qXuaOGmGtgSj05FNMxZFv20WlhcCMS3wF8uPDuJ5zCj
+ V70uQMIBpL8+uUcEEVUX6PowbIjy811bBIeAbcsI9z3RlFETDJcuAdBHCGiwTM+F9W
+ vCMzMXAT1RpAz1hTEom4dcnmHryreLYigti3ipA0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 39/50] drm/qxl: lost qxl_bo_kunmap_atomic_page in
- qxl_image_init_helper()
-Date: Thu,  7 May 2020 10:27:15 -0400
-Message-Id: <20200507142726.25751-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 19/35] dma-buf: Fix SET_NAME ioctl uapi
+Date: Thu,  7 May 2020 10:28:13 -0400
+Message-Id: <20200507142830.26239-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
-References: <20200507142726.25751-1-sashal@kernel.org>
+In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
+References: <20200507142830.26239-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,42 +49,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- spice-devel@lists.freedesktop.org, Vasily Averin <vvs@virtuozzo.com>
+Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Chenbo Feng <fengc@google.com>, Greg Hackmann <ghackmann@google.com>,
+ linaro-mm-sig@lists.linaro.org, minchan@kernel.org, jenhaochen@google.com,
+ dri-devel@lists.freedesktop.org, Martin Liu <liumartin@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, surenb@google.com,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vasily Averin <vvs@virtuozzo.com>
+From: Daniel Vetter <daniel.vetter@intel.com>
 
-[ Upstream commit 5b5703dbafae74adfbe298a56a81694172caf5e6 ]
+[ Upstream commit a5bff92eaac45bdf6221badf9505c26792fdf99e ]
 
-v2: removed TODO reminder
+The uapi is the same on 32 and 64 bit, but the number isn't. Everyone
+who botched this please re-read:
 
-Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/a4e0ae09-a73c-1c62-04ef-3f990d41bea9@virtuozzo.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
+
+Also, the type argument for the ioctl macros is for the type the void
+__user *arg pointer points at, which in this case would be the
+variable-sized char[] of a 0 terminated string. So this was botched in
+more than just the usual ways.
+
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Chenbo Feng <fengc@google.com>
+Cc: Greg Hackmann <ghackmann@google.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: minchan@kernel.org
+Cc: surenb@google.com
+Cc: jenhaochen@google.com
+Cc: Martin Liu <liumartin@google.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Tested-by: Martin Liu <liumartin@google.com>
+Reviewed-by: Martin Liu <liumartin@google.com>
+Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+  [sumits: updated some checkpatch fixes, corrected author email]
+Link: https://patchwork.freedesktop.org/patch/msgid/20200407133002.3486387-1-daniel.vetter@ffwll.ch
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/qxl/qxl_image.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/dma-buf/dma-buf.c    | 3 ++-
+ include/uapi/linux/dma-buf.h | 6 ++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_image.c b/drivers/gpu/drm/qxl/qxl_image.c
-index 43688ecdd8a04..60ab7151b84dc 100644
---- a/drivers/gpu/drm/qxl/qxl_image.c
-+++ b/drivers/gpu/drm/qxl/qxl_image.c
-@@ -212,7 +212,8 @@ qxl_image_init_helper(struct qxl_device *qdev,
- 		break;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 0fb0358f00736..adc88e1dc999a 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
+ 
+ 		return ret;
+ 
+-	case DMA_BUF_SET_NAME:
++	case DMA_BUF_SET_NAME_A:
++	case DMA_BUF_SET_NAME_B:
+ 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+ 
  	default:
- 		DRM_ERROR("unsupported image bit depth\n");
--		return -EINVAL; /* TODO: cleanup */
-+		qxl_bo_kunmap_atomic_page(qdev, image_bo, ptr);
-+		return -EINVAL;
- 	}
- 	image->u.bitmap.flags = QXL_BITMAP_TOP_DOWN;
- 	image->u.bitmap.x = width;
+diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+index dbc7092e04b5a..7f30393b92c3b 100644
+--- a/include/uapi/linux/dma-buf.h
++++ b/include/uapi/linux/dma-buf.h
+@@ -39,6 +39,12 @@ struct dma_buf_sync {
+ 
+ #define DMA_BUF_BASE		'b'
+ #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
++
++/* 32/64bitness of this uapi was botched in android, there's no difference
++ * between them in actual uapi, they're just different numbers.
++ */
+ #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
++#define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
++#define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
+ 
+ #endif
 -- 
 2.20.1
 
