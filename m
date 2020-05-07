@@ -1,65 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E221C9D8A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 23:39:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A8D1C9EAC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 00:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5AE26EA6E;
-	Thu,  7 May 2020 21:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53746E0D9;
+	Thu,  7 May 2020 22:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C5E6EA6E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 21:39:29 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id s11so4376900vsm.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 14:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M2REwmdOVymRYBMV7tQ7oOUCRpm+a0YhGPMvLHsCvKk=;
- b=dQ4tCio6irYP1q8bcUw+D4VKuUlm3btWo/5PTC4DAYF8EMw5Nq218WChyhlWlpgQlS
- LbygcAsZM3d8etC+ufLui8iRcw2Yt1L5GRs/b/QZ6rR04xDKfZOl0U6nS2BPJhgsYv9U
- 9ac6paiz82cow2WGFoVPucwq70z58Ck4VpjcU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M2REwmdOVymRYBMV7tQ7oOUCRpm+a0YhGPMvLHsCvKk=;
- b=ibD+x6Gh6gwuyqm8bDs4oI8YJyNJuJLY3zWgd82MvIMqcHejmVMvFTgYnPlXY6fNq0
- oHdI4z0ctZlyIfA83ftSr+XtfWrfy9Blb4IA6YDXj+cgSPRVQuk4OiIPOKyfEmlEhzCq
- J2xG6zROiesupAwJt4+dRLqmj9Dvcaa7EVfTdwCcdIqB7OHjKah9Ehp/vhBT01OrbR/N
- sRiwa6S9UImygb1iPXfCsteZ7i96YQ1i31EnxsdLz74ZBlISkapKLjdco2YhX3NPnb6p
- SfRwMvuIMUbSKEhRicMKHMf3XnkjonF7x6JFv0UfSzArtxiEnO5foUpHxL3ZGINocg/H
- iMfQ==
-X-Gm-Message-State: AGi0Pubx5RR7xFcDnrhIK8AWK6MFtVJgq39zc3dHYGkyuo0UrmO+zom7
- v/mXxqXO/MzpTWNlIfX3NNho8Ugdnb8=
-X-Google-Smtp-Source: APiQypISknJrEImJ9kzhvb5DZd5TkLCl/QL7oAMZpnVV3UdTdIlLYeyQ/4N5EsINPG1IvQzNY6flNA==
-X-Received: by 2002:a67:eb17:: with SMTP id a23mr15085966vso.111.1588887568125; 
- Thu, 07 May 2020 14:39:28 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
- [209.85.217.41])
- by smtp.gmail.com with ESMTPSA id u85sm3803335vsu.22.2020.05.07.14.39.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 May 2020 14:39:27 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id x6so4480820vso.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 14:39:27 -0700 (PDT)
-X-Received: by 2002:a67:fc46:: with SMTP id p6mr15561029vsq.169.1588887566823; 
- Thu, 07 May 2020 14:39:26 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E09836E0D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 22:50:41 +0000 (UTC)
+IronPort-SDR: vUoxWz6YtlvmSzH5zS0wCVALlZgytzCn9yexc2b6lUY8PP9HrDFXD5KHC9FJtFJMv1tapihyOt
+ foLYhrTyD6Dg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 15:50:41 -0700
+IronPort-SDR: A94YOimG+GBTCtRnotihIHXo/4uYOm9rsXy8xtuLX5Aw2+CVkRWX3diLimU1sfCOXtFd1OcX1r
+ bTWfMT7evkVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,365,1583222400"; d="scan'208";a="278753786"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga002.jf.intel.com with ESMTP; 07 May 2020 15:50:40 -0700
+Date: Thu, 7 May 2020 15:50:40 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH V3 13/15] parisc/kmap: Remove duplicate kmap code
+Message-ID: <20200507225039.GA1428632@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-14-ira.weiny@intel.com>
+ <20200507135258.f430182578c0d63b7488916e@linux-foundation.org>
 MIME-Version: 1.0
-References: <20200506140208.v2.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
- <20200506140208.v2.2.I0a2bca02b09c1fcb6b09479b489736d600b3e57f@changeid>
-In-Reply-To: <20200506140208.v2.2.I0a2bca02b09c1fcb6b09479b489736d600b3e57f@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 7 May 2020 14:39:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xp6m_MdnrxGG5S1YyateAkHua7iQ1EU5iftH0kYxTO5A@mail.gmail.com>
-Message-ID: <CAD=FV=Xp6m_MdnrxGG5S1YyateAkHua7iQ1EU5iftH0kYxTO5A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: drm/bridge: ti-sn65dsi86: Improve the
- yaml validation
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Disposition: inline
+In-Reply-To: <20200507135258.f430182578c0d63b7488916e@linux-foundation.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,61 +49,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <seanpaul@chromium.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, May 07, 2020 at 01:52:58PM -0700, Andrew Morton wrote:
+> On Thu,  7 May 2020 08:00:01 -0700 ira.weiny@intel.com wrote:
+> 
+> > parisc reimplements the kmap calls except to flush it's dcache.  This is
+> > arguably an abuse of kmap but regardless it is messy and confusing.
+> > 
+> > Remove the duplicate code and have parisc define
+> > ARCH_HAS_FLUSH_ON_KUNMAP for a kunmap_flush_on_unmap() architecture
+> > specific call to flush the cache.
+> 
+> checkpatch says:
+> 
+> ERROR: #define of 'ARCH_HAS_FLUSH_ON_KUNMAP' is wrong - use Kconfig variables or standard guards instead
+> #69: FILE: arch/parisc/include/asm/cacheflush.h:103:
+> +#define ARCH_HAS_FLUSH_ON_KUNMAP
+> 
+> which is fair enough, I guess.  More conventional would be
+> 
+> arch/parisc/include/asm/cacheflush.h:
+> 
+> static inline void kunmap_flush_on_unmap(void *addr)
+> {
+> 	...
+> }
+> #define kunmap_flush_on_unmap kunmap_flush_on_unmap
+> 
+> 
+> include/linux/highmem.h:
+> 
+> #ifndef kunmap_flush_on_unmap
+> static inline void kunmap_flush_on_unmap(void *addr)
+> {
+> }
+> #define kunmap_flush_on_unmap kunmap_flush_on_unmap
+> #endif
+> 
+> 
+> static inline void kunmap_atomic_high(void *addr)
+> {
+> 	/* Mostly nothing to do in the CONFIG_HIGHMEM=n case as kunmap_atomic()
+> 	 * handles re-enabling faults + preemption */
+> 	kunmap_flush_on_unmap(addr);
+> }
+> 
+> 
+> but I don't really think it's worth bothering changing it.	
+> 
+> (Ditto patch 3/15)
 
-On Wed, May 6, 2020 at 2:03 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> This patch adds the following checks to the yaml:
-> - Remapping of the eDP output lanes is now limited to the subset of
->   remappings that the hardware supports.
-> - No more additional properties can be added under 'ports'.
->
-> This patch fixes the following bugs in the original yaml conversion:
-> - Fixed dependency between 'data-lanes' and 'lane-polarities', which
->   was backwards.  Now you can only specify 'lane-polarities' if you
->   specified 'data-lanes'.  I could have sworn I tried this before.
-> - We can't remap input lanes in this hardware.
->
-> This patch doesn't do, but if someone knew how I'd love to:
-> - Make sure if we have both 'lane-polarities' and 'data-lanes' that
->   they have the same number of elements.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> This patch could be squashed atop the patch adding the yaml [1].  I'm
-> sending separately for now to avoid churning the series another time.
->
-> [1] https://lore.kernel.org/r/20200430124442.v4.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid
->
-> Changes in v2:
-> - ("... Improve the yaml validation") new for v2.
->
->  .../bindings/display/bridge/ti,sn65dsi86.yaml | 74 ++++++++++---------
->  1 file changed, 40 insertions(+), 34 deletions(-)
+Yes I was following the pattern already there.
 
-Please consider this patch abandoned.  Since I had other reasons to
-send out a v5 of the original series this is now squashed in.  See:
+I'll fix up the last patch now.
+Ira
 
-https://lore.kernel.org/r/20200507143354.v5.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid
-
-NOTE that patch #1 in this series, AKA ("drm/bridge: ti-sn65dsi86:
-Implement lane reordering + polarity") is still sane/valid and still
-applies just fine atop my v5 series.
-
--Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
