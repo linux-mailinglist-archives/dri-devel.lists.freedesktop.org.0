@@ -2,35 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98BC1C9C36
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 22:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBD51C9CB5
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 22:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958466E0ED;
-	Thu,  7 May 2020 20:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8FB66EA67;
+	Thu,  7 May 2020 20:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2A86E0ED
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 20:22:42 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1jWn2T-0006Hm-Hp; Thu, 07 May 2020 20:22:37 +0000
-From: Colin King <colin.king@canonical.com>
-To: Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: [PATCH] drm/exynos: remove redundant initialization to variable
- 'start'
-Date: Thu,  7 May 2020 21:22:37 +0100
-Message-Id: <20200507202237.64350-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F9B6EA67
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 20:53:00 +0000 (UTC)
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
+ [73.231.172.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E2E7920735;
+ Thu,  7 May 2020 20:52:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588884780;
+ bh=TyVMubmSwnb6HspI26I671gs2+xz/BioghUujIiqGH8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pLECSGx/bjY/e6dPZHg/pogKtFknD7CQxEbYnTijPvo31G65TH5qkje/0482SYoYN
+ DUxu9XSArBxL1RHMChRsQBx2Ke74CL6dm6TMRGPJJfX7xkDXTBpZl44fWyvfgMqhU0
+ epsvy3zKnV8VlRwcWKCyI4E8L4mB8LcbloZDf/RA=
+Date: Thu, 7 May 2020 13:52:58 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: ira.weiny@intel.com
+Subject: Re: [PATCH V3 13/15] parisc/kmap: Remove duplicate kmap code
+Message-Id: <20200507135258.f430182578c0d63b7488916e@linux-foundation.org>
+In-Reply-To: <20200507150004.1423069-14-ira.weiny@intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-14-ira.weiny@intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,40 +47,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Thu,  7 May 2020 08:00:01 -0700 ira.weiny@intel.com wrote:
 
-The variable 'start' is being initialized with a value that is never read
-and it is being updated later with a new value.  The initialization is
-redundant and can be removed.
+> parisc reimplements the kmap calls except to flush it's dcache.  This is
+> arguably an abuse of kmap but regardless it is messy and confusing.
+> 
+> Remove the duplicate code and have parisc define
+> ARCH_HAS_FLUSH_ON_KUNMAP for a kunmap_flush_on_unmap() architecture
+> specific call to flush the cache.
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+checkpatch says:
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 902938d2568f..b0b9cb1ec18f 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1150,7 +1150,7 @@ static bool exynos_dsi_transfer_finish(struct exynos_dsi *dsi)
- {
- 	struct exynos_dsi_transfer *xfer;
- 	unsigned long flags;
--	bool start = true;
-+	bool start;
- 
- 	spin_lock_irqsave(&dsi->transfer_lock, flags);
- 
--- 
-2.25.1
+ERROR: #define of 'ARCH_HAS_FLUSH_ON_KUNMAP' is wrong - use Kconfig variables or standard guards instead
+#69: FILE: arch/parisc/include/asm/cacheflush.h:103:
++#define ARCH_HAS_FLUSH_ON_KUNMAP
 
+which is fair enough, I guess.  More conventional would be
+
+arch/parisc/include/asm/cacheflush.h:
+
+static inline void kunmap_flush_on_unmap(void *addr)
+{
+	...
+}
+#define kunmap_flush_on_unmap kunmap_flush_on_unmap
+
+
+include/linux/highmem.h:
+
+#ifndef kunmap_flush_on_unmap
+static inline void kunmap_flush_on_unmap(void *addr)
+{
+}
+#define kunmap_flush_on_unmap kunmap_flush_on_unmap
+#endif
+
+
+static inline void kunmap_atomic_high(void *addr)
+{
+	/* Mostly nothing to do in the CONFIG_HIGHMEM=n case as kunmap_atomic()
+	 * handles re-enabling faults + preemption */
+	kunmap_flush_on_unmap(addr);
+}
+
+
+but I don't really think it's worth bothering changing it.	
+
+(Ditto patch 3/15)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
