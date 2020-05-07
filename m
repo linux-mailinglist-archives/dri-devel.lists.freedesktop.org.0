@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F14B1C8EE2
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E341C8EE5
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A60E6E9B9;
-	Thu,  7 May 2020 14:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F3F6E9BB;
+	Thu,  7 May 2020 14:30:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA026E9B9;
- Thu,  7 May 2020 14:30:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 295D36E9BB;
+ Thu,  7 May 2020 14:30:28 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E563E20B1F;
- Thu,  7 May 2020 14:30:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 30BBD2083B;
+ Thu,  7 May 2020 14:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861814;
+ s=default; t=1588861828;
  bh=hrN4jo85YX8bUHMiL0SJw51uMtj6bE77uz+J0atkXvc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KSOfqGhRHhJKfKxPcihtvELrR/dcchiOCd5EYoeozLFnxVsAVz+liOydgvnkgLOhD
- 0G0MDKtDR9AVegGNIcQEXTwmn/SREX3DUFRcEfIdHRhaJ5U1jcc+9PjQxiE/O9+i7x
- Cut09Jwi/BtiF+g6mpaGjI9LFWUa21V/26SHcOJI=
+ b=H5shdAG02r5I9NsJpnMagvC1iO6hMX9o5elM+G1pxKJQPZt/8bWKt4S8O12bPB10Z
+ HUNjsoMwopFbhrOBZiqPTq68LaMXdFI8hFMa5VpW9cPfN0l2Sq/lUKnEHeBqamjRfM
+ tIgigNAkORa6a//NQYognA7eJFUpB79YKbJlrzx0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 09/11] drm/qxl: lost qxl_bo_kunmap_atomic_page in
+Subject: [PATCH AUTOSEL 4.4 8/9] drm/qxl: lost qxl_bo_kunmap_atomic_page in
  qxl_image_init_helper()
-Date: Thu,  7 May 2020 10:30:01 -0400
-Message-Id: <20200507143003.27047-9-sashal@kernel.org>
+Date: Thu,  7 May 2020 10:30:17 -0400
+Message-Id: <20200507143018.27195-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507143003.27047-1-sashal@kernel.org>
-References: <20200507143003.27047-1-sashal@kernel.org>
+In-Reply-To: <20200507143018.27195-1-sashal@kernel.org>
+References: <20200507143018.27195-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
