@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3D61C8E60
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63751C8E63
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D2C6E9BF;
-	Thu,  7 May 2020 14:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239826E9C0;
+	Thu,  7 May 2020 14:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D6D6E9BE;
- Thu,  7 May 2020 14:28:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A85566E9C3;
+ Thu,  7 May 2020 14:28:16 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CE83220B1F;
- Thu,  7 May 2020 14:28:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AE2F120870;
+ Thu,  7 May 2020 14:28:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861693;
- bh=MDZdmsagPKCRha5QAA/DRBmtg2TCG7A+Bwmwop+1W9Y=;
+ s=default; t=1588861696;
+ bh=Uegwi40m6VKoo3qYz46wXwuY83tyEhWX7RHlaRpzbXs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZdlGP+YX9H9e9Y6HQRIeVB1JDFJ0DNhGW2nXhnuR6pxSU2sMu/0JBRllluu63MvEj
- zwRcxhkNFfa3g+/aVhDFRb6+kmjI1UnMAGlwid2LVHJbDe238SLOee96RoH1zCJkjz
- oaT+V37ZKPeKI2zOPRwPMzRseUhPckEMnpktViaE=
+ b=CYeYcgTQ0Ywxl4zeeXpRWLUXS/cuzDs8oE341xgiHkmSwuU6KjjJunsdP/Iva5X1U
+ 4KVXKpp2ILdGiDIrDwJNE9NlcS9Xq6GmXV8Gf4OXkYmqVL9HptT3O/s2d2vylhgBIk
+ fLo1bNqo7rdyvzNRGokXdUxjcd8t3Vrf10d94dTU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 37/50] drm/amd/display: Update downspread percent
- to match spreadsheet for DCN2.1
-Date: Thu,  7 May 2020 10:27:13 -0400
-Message-Id: <20200507142726.25751-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 39/50] drm/qxl: lost qxl_bo_kunmap_atomic_page in
+ qxl_image_init_helper()
+Date: Thu,  7 May 2020 10:27:15 -0400
+Message-Id: <20200507142726.25751-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
 References: <20200507142726.25751-1-sashal@kernel.org>
@@ -50,51 +50,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Yongqiang Sun <yongqiang.sun@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ spice-devel@lists.freedesktop.org, Vasily Averin <vvs@virtuozzo.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sung Lee <sung.lee@amd.com>
+From: Vasily Averin <vvs@virtuozzo.com>
 
-[ Upstream commit 668a6741f809f2d15d125cfe2b39661e8f1655ea ]
+[ Upstream commit 5b5703dbafae74adfbe298a56a81694172caf5e6 ]
 
-[WHY]
-The downspread percentage was copied over from a previous version
-of the display_mode_lib spreadsheet. This value has been updated,
-and the previous value is too high to allow for such modes as
-4K120hz. The new value is sufficient for such modes.
+v2: removed TODO reminder
 
-[HOW]
-Update the value in dcn21_resource to match the spreadsheet.
-
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Yongqiang Sun <yongqiang.sun@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Vasily Averin <vvs@virtuozzo.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/a4e0ae09-a73c-1c62-04ef-3f990d41bea9@virtuozzo.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/qxl/qxl_image.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index 33d0a176841a5..122d3e734c59a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -250,7 +250,7 @@ struct _vcs_dpi_soc_bounding_box_st dcn2_1_soc = {
- 	.dram_channel_width_bytes = 4,
- 	.fabric_datapath_to_dcn_data_return_bytes = 32,
- 	.dcn_downspread_percent = 0.5,
--	.downspread_percent = 0.5,
-+	.downspread_percent = 0.38,
- 	.dram_page_open_time_ns = 50.0,
- 	.dram_rw_turnaround_time_ns = 17.5,
- 	.dram_return_buffer_per_channel_bytes = 8192,
+diff --git a/drivers/gpu/drm/qxl/qxl_image.c b/drivers/gpu/drm/qxl/qxl_image.c
+index 43688ecdd8a04..60ab7151b84dc 100644
+--- a/drivers/gpu/drm/qxl/qxl_image.c
++++ b/drivers/gpu/drm/qxl/qxl_image.c
+@@ -212,7 +212,8 @@ qxl_image_init_helper(struct qxl_device *qdev,
+ 		break;
+ 	default:
+ 		DRM_ERROR("unsupported image bit depth\n");
+-		return -EINVAL; /* TODO: cleanup */
++		qxl_bo_kunmap_atomic_page(qdev, image_bo, ptr);
++		return -EINVAL;
+ 	}
+ 	image->u.bitmap.flags = QXL_BITMAP_TOP_DOWN;
+ 	image->u.bitmap.x = width;
 -- 
 2.20.1
 
