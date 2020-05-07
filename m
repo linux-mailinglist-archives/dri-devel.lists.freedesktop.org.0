@@ -1,38 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F6E1C991B
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 20:17:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7384B1C9940
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 20:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3A46E181;
-	Thu,  7 May 2020 18:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68CE26E1A2;
+	Thu,  7 May 2020 18:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B1C6E181
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 18:17:29 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id CBE422003E;
- Thu,  7 May 2020 20:17:27 +0200 (CEST)
-Date: Thu, 7 May 2020 20:17:26 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 00/36] drm: Fareless gem_free_object
-Message-ID: <20200507181726.GE13247@ravnborg.org>
-References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72FC66E1A2;
+ Thu,  7 May 2020 18:27:40 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id g16so6394412eds.1;
+ Thu, 07 May 2020 11:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QWr9DvvsMFmVxp+qAwg3fX2KrqX/x6aAo4AYWgOB5Qw=;
+ b=Qq3s6nqqoirAAWmT8i1qcGBVqcM5eqsmvAZFMeO5bvnrgwHbozvVaIfvFH5hXFgipQ
+ eHr+jvPnrHGtNTFv13OEhpHVxgtq8tMBxgzUHHLdrlqV+/FG9GzT8yu0FUjAVBpDHC1t
+ ZQb3yEutLxMZZ6OBH6+waaxmfaWrDLTwOYJ1t4+m3MkvCZYBhXWobfNbyyStXO53ZSOf
+ KRiG5bIeT/3KiIC5SJvaA6rH9jS7frfNfUEsxhVwvI9YpFltlkz5ZiiXfiFKuCl2DAic
+ 92fsK8OAqeAY3uO0iE4FQhkZLroaVGboZchzZdD76C2pcWwPV8qDQy+NqJGIxsyz0YiH
+ DxsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QWr9DvvsMFmVxp+qAwg3fX2KrqX/x6aAo4AYWgOB5Qw=;
+ b=pLrPa3UghCOIXhB3zOLfWB+5F624VVdHMM6Z9OMggEGdSNcSJ1UQoVtvDkaubTknkH
+ UovG1bEwqB+fixueog6zt7Q4eM3K89JAMzsHBV79a4E0R6pDsHcCL32Fu35TGJK2cFoZ
+ sp/OiDc9LfXRsp0eFY6reAWEl+QF7g4LYxW9CBhrnkT45LVIhKUJaINzQW+tLA3tF3VO
+ 0Xwd8A/IS2s4j4WHcAXNT8M3ejHYeUj4HFHqdYVBvh6zwjZ6WNXxMWoVzk0Ca/tKVxD5
+ d437WBFd/BsXTyzhaTerL++hbzKwMnz5owFr9RgH65tG8jaoZ/G7EkddIpgvAtztimC6
+ 5Z1A==
+X-Gm-Message-State: AGi0PubTt4jcysHbKxVfirb9l0LTpmyQZF3YABrcJIDAFllmBkFlXhDA
+ zKK5K69KO67LesPuYimLpWIYw+MZVkBn58pldTo=
+X-Google-Smtp-Source: APiQypIFjIE2vo4XeHmJyZb97yPbBOSylzyVFDiC7OpkOgyk6jxnlccOcS92g7BZTbYHhMSpTscRNbilT+QLNX3gqwI=
+X-Received: by 2002:a50:a365:: with SMTP id 92mr13625862edn.220.1588876058972; 
+ Thu, 07 May 2020 11:27:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200507150822.114464-1-emil.l.velikov@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=L6BKwSAmEh9COuXoG9EA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200507153600.314454-1-jason@jlekstrand.net>
+ <158886626795.20858.1870213936656066157@build.alporthouse.com>
+In-Reply-To: <158886626795.20858.1870213936656066157@build.alporthouse.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 8 May 2020 04:27:27 +1000
+Message-ID: <CAPM=9tyhj+KNDFdw1nk0GASwfY5dwq2kAcxQ4oSHMt2BNyycVw@mail.gmail.com>
+Subject: Re: [PATCH] RFC: i915: Drop relocation support on Gen12+
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,201 +61,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Emil.
-On Thu, May 07, 2020 at 04:07:46PM +0100, Emil Velikov wrote:
-> Hi all,
-> 
-> Recently I had a look at the new dmabuf AMDGPU implementation.
-> 
-> Seemingly it was using the wrong drm_gem_object_put API. Namely the
-> locked one, even though the driver is struct_mutex free.
-> 
-> Upon checking with the documentation, I've noticed it's a bit misleading
-> so I've went ahead and:
-> 
->  - tweaked the drm_gem_object_put/struct_mutex references in the docs
->  - fixed up the AMDGPU caller
->  - removed the gem_free_object driver hook - \o/
->  - fold drm_gem_object_put_unlocked and __drm_gem_object_put
->  - drm_gem_object_put - add _locked suffix
->  - drm_gem_object_put_unlocked - remove _unlocked suffix
-> 
-> Although the rename patches are a handful, it does make sense to have a
-> consistent and obviously named API.
-> 
-> Input and reviews are highly appreciated.
-All patches I did not comment are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+On Fri, 8 May 2020 at 01:44, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+>
+> Quoting Jason Ekstrand (2020-05-07 16:36:00)
+> > The Vulkan driver in Mesa for Intel hardware never uses relocations if
+> > it's running on a version of i915 that supports at least softpin which
+> > all versions of i915 supporting Gen12 do.  On the OpenGL side, Gen12 is
+> > only supported by iris which never uses relocations.  The older i965
+> > driver in Mesa does use relocations but it only supports Intel hardware
+> > through Gen11 and has been deprecated for all hardware Gen9+. The entire
+> > relocation UAPI and related infrastructure, therefore, doesn't have any
+> > open-source userspace consumer starting with Gen12.
+> >
+> > Rejecting relocations starting with Gen12 has the benefit that we don't
+> > have to bother supporting it on platforms with local memory.  Given how
+> > much CPU touching of memory is required for relocations, not having to
+> > do so on platforms where not all memory is directly CPU-accessible
+> > carries significant advantages.
+>
+> You are not supplying them, the kernel is not checking them [as they
+> don't exist], so there is no material benefit. The only question is
+> maintainability.
+>
+> How confident are you that you will never use them and rewrite the
+> media-driver? The code exists, will be tested, and can just as easily
+> expire with the rest of execbuffer2.
 
-I see why you introduced _unlocked, and remove it again.
-So you could ask the compiler to help you.
+From an upstream POV I say hell yes, if the hw isn't generally available yet,
+and the media-driver/intel-compute-runtime people are warned in advance,
 
-But I see this as something that should not be committed and only
-part of your own tree.
-But thats not something I feel too strong about - let's just say it
-confused me a lttle.
+I'm all in on ripping it out for new GENs.
 
-The driver patches was only skimmed, as they were mechanical anyway.
-
-
-	Sam
-
-> Emil
-> 
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> 
-> Emil Velikov (36):
->   drm: remove unused drm_gem.h include
->   drm/gem: use _unlocked reference in drm_gem_objects_lookup docs
->   drm/todo: mention i915 in the struct_mutex section
->   drm/doc: drop struct_mutex references
->   drm/doc: drop struct_mutex refernce for drm_gem_object_free
->   drm/amdgpu: use the unlocked drm_gem_object_put
->   drm/gma500: Use lockless gem BO free callback
->   drm: remove drm_driver::gem_free_object
->   drm/gem: fold drm_gem_object_put_unlocked and __drm_gem_object_put()
->   drm/gem: add _locked suffix to drm_object_put
->   drm/gem: add drm_object_put helper
->   drm/amd: remove _unlocked suffix in drm_object_put_unlocked
->   drm/arm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/armada: remove _unlocked suffix in drm_object_put_unlocked
->   drm/etnaviv: remove _unlocked suffix in drm_object_put_unlocked
->   drm/exynos: remove _unlocked suffix in drm_object_put_unlocked
->   drm/gma500: remove _unlocked suffix in drm_object_put_unlocked
->   drm/i915: remove _unlocked suffix in drm_object_put_unlocked
->   drm/lima: remove _unlocked suffix in drm_object_put_unlocked
->   drm/mediatek: remove _unlocked suffix in drm_object_put_unlocked
->   drm/mgag200: remove _unlocked suffix in drm_object_put_unlocked
->   drm/msm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/nouveau: remove _unlocked suffix in drm_object_put_unlocked
->   drm/omapdrm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/panfrost: remove _unlocked suffix in drm_object_put_unlocked
->   drm/qxl: remove _unlocked suffix in drm_object_put_unlocked
->   drm/radeon: remove _unlocked suffix in drm_object_put_unlocked
->   drm/rockchip: remove _unlocked suffix in drm_object_put_unlocked
->   drm/tegra: remove _unlocked suffix in drm_object_put_unlocked
->   drm/v3d: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vc4: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vgem: remove _unlocked suffix in drm_object_put_unlocked
->   drm/virtio: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vkms: remove _unlocked suffix in drm_object_put_unlocked
->   drm/xen: remove _unlocked suffix in drm_object_put_unlocked
->   drm/gem: remove _unlocked suffix in drm_object_put_unlocked
-> 
->  Documentation/gpu/drm-mm.rst                  |  5 +-
->  Documentation/gpu/todo.rst                    |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c   |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 20 +++---
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  6 +-
->  .../arm/display/komeda/komeda_framebuffer.c   |  6 +-
->  drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
->  drivers/gpu/drm/armada/armada_crtc.c          |  8 +--
->  drivers/gpu/drm/armada/armada_fb.c            |  4 +-
->  drivers/gpu/drm/armada/armada_fbdev.c         |  6 +-
->  drivers/gpu/drm/armada/armada_gem.c           | 10 +--
->  drivers/gpu/drm/drm_client.c                  |  2 +-
->  drivers/gpu/drm/drm_gem.c                     | 70 +++++--------------
->  drivers/gpu/drm/drm_gem_cma_helper.c          |  8 +--
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  6 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |  4 +-
->  drivers/gpu/drm/drm_gem_ttm_helper.c          |  2 +-
->  drivers/gpu/drm/drm_gem_vram_helper.c         | 10 +--
->  drivers/gpu/drm/drm_prime.c                   |  6 +-
->  drivers/gpu/drm/drm_vm.c                      |  1 -
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  8 +--
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  6 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  2 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.c       |  4 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.h       |  2 +-
->  drivers/gpu/drm/gma500/framebuffer.c          |  2 +-
->  drivers/gpu/drm/gma500/gem.c                  |  2 +-
->  drivers/gpu/drm/gma500/gma_display.c          |  6 +-
->  drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 +-
->  drivers/gpu/drm/lima/lima_gem.c               | 10 +--
->  drivers/gpu/drm/lima/lima_sched.c             |  2 +-
->  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |  2 +-
->  drivers/gpu/drm/mgag200/mgag200_cursor.c      |  8 +--
->  drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |  4 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  6 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  2 +-
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |  4 +-
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  2 +-
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c            |  2 +-
->  drivers/gpu/drm/msm/msm_drv.c                 |  8 +--
->  drivers/gpu/drm/msm/msm_fb.c                  |  4 +-
->  drivers/gpu/drm/msm/msm_gem.c                 | 18 ++---
->  drivers/gpu/drm/msm/msm_gem_submit.c          |  2 +-
->  drivers/gpu/drm/msm/msm_gpu.c                 |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_abi16.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_display.c     |  8 +--
->  drivers/gpu/drm/nouveau/nouveau_gem.c         | 14 ++--
->  drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
->  drivers/gpu/drm/omapdrm/omap_fb.c             |  2 +-
->  drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
->  drivers/gpu/drm/omapdrm/omap_gem.c            |  4 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       | 10 +--
->  drivers/gpu/drm/panfrost/panfrost_gem.c       |  4 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  4 +-
->  drivers/gpu/drm/qxl/qxl_cmd.c                 |  2 +-
->  drivers/gpu/drm/qxl/qxl_display.c             |  6 +-
->  drivers/gpu/drm/qxl/qxl_dumb.c                |  2 +-
->  drivers/gpu/drm/qxl/qxl_gem.c                 |  2 +-
->  drivers/gpu/drm/qxl/qxl_ioctl.c               |  4 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |  4 +-
->  drivers/gpu/drm/radeon/radeon_cs.c            |  2 +-
->  drivers/gpu/drm/radeon/radeon_cursor.c        |  6 +-
->  drivers/gpu/drm/radeon/radeon_display.c       |  8 +--
->  drivers/gpu/drm/radeon/radeon_fb.c            |  4 +-
->  drivers/gpu/drm/radeon/radeon_gem.c           | 30 ++++----
->  drivers/gpu/drm/radeon/radeon_object.c        |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  2 +-
->  drivers/gpu/drm/tegra/drm.c                   | 12 ++--
->  drivers/gpu/drm/tegra/fb.c                    |  6 +-
->  drivers/gpu/drm/tegra/gem.c                   |  4 +-
->  drivers/gpu/drm/v3d/v3d_bo.c                  |  6 +-
->  drivers/gpu/drm/v3d/v3d_gem.c                 |  4 +-
->  drivers/gpu/drm/v3d/v3d_irq.c                 |  2 +-
->  drivers/gpu/drm/vc4/vc4_bo.c                  | 14 ++--
->  drivers/gpu/drm/vc4/vc4_gem.c                 | 14 ++--
->  drivers/gpu/drm/vc4/vc4_kms.c                 |  2 +-
->  drivers/gpu/drm/vc4/vc4_v3d.c                 |  4 +-
->  drivers/gpu/drm/vgem/vgem_drv.c               |  6 +-
->  drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_display.c      |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_gem.c          |  6 +-
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  6 +-
->  drivers/gpu/drm/vkms/vkms_gem.c               |  2 +-
->  drivers/gpu/drm/xen/xen_drm_front.c           |  4 +-
->  include/drm/drm_drv.h                         |  8 ---
->  include/drm/drm_gem.h                         | 28 +++-----
->  99 files changed, 269 insertions(+), 325 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
