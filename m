@@ -1,67 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCD71CA671
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514301C960F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 18:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E7E6EAA4;
-	Fri,  8 May 2020 08:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA0D489E15;
+	Thu,  7 May 2020 16:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFEE889C03;
- Thu,  7 May 2020 16:01:38 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 50F61646;
- Thu,  7 May 2020 12:01:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 07 May 2020 12:01:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=QazTyFkSQXybJPYQ9GQxKjJWf0nEOB13Mn+6NH1nk/0=; b=caR77rM9
- y0XWGg6LetvYbyD76uUkMPpmnAzWKmNN1gvldWXgBlPx1OrtuWXwLR20WKY4ZOv/
- JvylX1Rv6NEeyUsT2cAuHVMS1eUSBKM3UMqjKbe9muFE9DII6MfUr6b2bmj6alv2
- A15SxICVRthPSIP+dLN5RSb+nBqfWMHMXCx+A4tXwgYEbmRaqXhDrc4X95gYqmlM
- SfHPAyjBGcCjr9uSNalCFSRDPJBs4eCNwox74seZB0fqN8NFwKWre197FOapos/S
- /4Lo8tTIdB/kdLLjsB6+adwTshK9FTrNd7+Z5HbslevZwrYV/gNLrtw4c2K0aciP
- rvh0mhPGadouQg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=QazTyFkSQXybJPYQ9GQxKjJWf0nEO
- B13Mn+6NH1nk/0=; b=UTljZDyp9F4HoykYCrBoKQ1zYjl/5/e84eUNL/rrZhwTJ
- YF+2uqoQxmYb2mMtlJAenoJ7t52XsBRS9Uo2+WypUoywEExkbD7vzsX2finODa+F
- AmfHuGCvkJ0hekuYE1F7NXGnk8rVWasKAWvqV++FxCdin7Px4UvP886Pw1gAJwXO
- lTZmC/98dpq3J9FxMwOUs5gQxXk9jTH08FgkXWLiBwU9s/zCg2A6VyuCvDemQ04Y
- jnhLBTl9dJYyUVx5PlrfcHyMA2cYdl+/lNkxOA3PmVaEwneHQkEhhjrdg/luNC/6
- wkLjwsifGVqf/Pt/UGItBgPbtQDi0HPRz+sukcUZw==
-X-ME-Sender: <xms:3DC0XqEKFUCTVMy6JjopuBfwZYa53FHTMPigF8CYsXfw4kj74-I4Ig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgdelgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeeguedvtdehgeeghefhieegteffueefleevgefgkeevgeeiveduleejueegvdeigfen
- ucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrie
- ekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
- pehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:3DC0XiTLhuo25pFgKoFk9D77ai7FZhL_6PhRQRq9qCVLpoB7SATGAA>
- <xmx:3DC0Xvs7f6ilXOBTBpWvfWA8-kBurHJSvRPyXGlZScVT3zpkKS1lKQ>
- <xmx:3DC0XmJTzsDYDJGlF-r-zqjdPAGwM6SqibzlTWO2XVphslV2SmDA9Q>
- <xmx:3TC0XmhVLhFLHgH5CGLq0URBlY45b2vEJHvslhLnZhr8ZM5XYjJKZCFaLKw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id F06203280075;
- Thu,  7 May 2020 12:01:31 -0400 (EDT)
-Date: Thu, 7 May 2020 18:01:30 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20200507160130.id64niqgf5wsha4u@gilmour.lan>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1A6289E15;
+ Thu,  7 May 2020 16:11:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id B4E2B2A6176;
+ Thu,  7 May 2020 18:11:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id ahgL4LOqw5AX; Thu,  7 May 2020 18:11:18 +0200 (CEST)
+Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
+ [83.76.80.252])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 380502A60F7;
+ Thu,  7 May 2020 18:11:18 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
+ (envelope-from <michel@daenzer.net>)
+ id 1jWj7F-001f40-F2; Thu, 07 May 2020 18:11:17 +0200
+Subject: Re: [PATCH AUTOSEL 5.6 33/50] drm/amdgpu: bump version for invalidate
+ L2 before SDMA IBs
+To: Sasha Levin <sashal@kernel.org>
+References: <20200507142726.25751-1-sashal@kernel.org>
+ <20200507142726.25751-33-sashal@kernel.org>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <349b2cb9-71f9-a0cd-aceb-308512d7501a@daenzer.net>
+Date: Thu, 7 May 2020 18:11:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 08 May 2020 08:47:23 +0000
+In-Reply-To: <20200507142726.25751-33-sashal@kernel.org>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,94 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1545337170=="
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ stable@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1545337170==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="t6hvcwk6omuzk36w"
-Content-Disposition: inline
-
-
---t6hvcwk6omuzk36w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi!
-
-Here is this week drm-misc-fixes PR
-
-Maxime
-
-drm-misc-fixes-2020-05-07:
-A few minor fixes for an ordering issue in virtio, an (old) gcc warning
-in sun4i, a probe issue in ingenic-drm and a regression in the HDCP
-support.
-The following changes since commit 6f49c2515e2258f08f2b905c9772dbf729610415:
-
-  dma-buf: fix documentation build warnings (2020-04-30 19:47:39 +0530)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-05-07
-
-for you to fetch changes up to 5fe89a6acd668cbd1817fcdef5caa9fee568c2e8:
-
-  drm: Fix HDCP failures when SRM fw is missing (2020-05-05 14:01:53 -0400)
-
-----------------------------------------------------------------
-A few minor fixes for an ordering issue in virtio, an (old) gcc warning
-in sun4i, a probe issue in ingenic-drm and a regression in the HDCP
-support.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      sun6i: dsi: fix gcc-4.8
-
-Gurchetan Singh (1):
-      drm/virtio: create context before RESOURCE_CREATE_2D in 3D mode
-
-H. Nikolaus Schaller (1):
-      drm: ingenic-drm: add MODULE_DEVICE_TABLE
-
-Sean Paul (1):
-      drm: Fix HDCP failures when SRM fw is missing
-
- drivers/gpu/drm/drm_hdcp.c             | 8 +++++++-
- drivers/gpu/drm/ingenic/ingenic-drm.c  | 1 +
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 1 +
- drivers/gpu/drm/virtio/virtgpu_gem.c   | 3 +++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 3 +--
- 6 files changed, 14 insertions(+), 4 deletions(-)
-
---t6hvcwk6omuzk36w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXrQw2gAKCRDj7w1vZxhR
-xe0uAP47aZY1t/VxJNBKraDNUVoXvWz6VHpABOwFsOgP6lua7wD9EBM+cpRHZ/4/
-U9bZ7gWCJv0gz5sOzUd9R7jVsC2hIAc=
-=FYaG
------END PGP SIGNATURE-----
-
---t6hvcwk6omuzk36w--
-
---===============1545337170==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1545337170==--
+T24gMjAyMC0wNS0wNyA0OjI3IHAubS4sIFNhc2hhIExldmluIHdyb3RlOgo+IEZyb206IE1hcmVr
+IE9sxaHDoWsgPG1hcmVrLm9sc2FrQGFtZC5jb20+Cj4gCj4gWyBVcHN0cmVhbSBjb21taXQgOTAx
+N2E0ODk3YTIwNjU4ZjAxMGJlYmVhODI1MjYyOTYzYzEwYWZhNiBdCj4gCj4gVGhpcyBmaXhlcyBH
+UFUgaGFuZ3MgZHVlIHRvIGNhY2hlIGNvaGVyZW5jeSBpc3N1ZXMuCj4gQnVtcCB0aGUgZHJpdmVy
+IHZlcnNpb24uIFNwbGl0IG91dCBmcm9tIHRoZSBvcmlnaW5hbCBwYXRjaC4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBNYXJlayBPbMWhw6FrIDxtYXJlay5vbHNha0BhbWQuY29tPgo+IFJldmlld2VkLWJ5
+OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gVGVzdGVkLWJ5
+OiBQaWVycmUtRXJpYyBQZWxsb3V4LVByYXllciA8cGllcnJlLWVyaWMucGVsbG91eC1wcmF5ZXJA
+YW1kLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVy
+QGFtZC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3Jn
+Pgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMgfCAzICsr
+LQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYwo+IGluZGV4IDQyZjRmZWJlMjRj
+NmQuLjhkNDVhMmI2NjJhZWIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2Rydi5jCj4gQEAgLTg1LDkgKzg1LDEwIEBACj4gICAqIC0gMy4zNC4wIC0gTm9uLURDIGNhbiBm
+bGlwIGNvcnJlY3RseSBiZXR3ZWVuIGJ1ZmZlcnMgd2l0aCBkaWZmZXJlbnQgcGl0Y2hlcwo+ICAg
+KiAtIDMuMzUuMCAtIEFkZCBkcm1fYW1kZ3B1X2luZm9fZGV2aWNlOjp0Y2NfZGlzYWJsZWRfbWFz
+awo+ICAgKiAtIDMuMzYuMCAtIEFsbG93IHJlYWRpbmcgbW9yZSBzdGF0dXMgcmVnaXN0ZXJzIG9u
+IHNpL2Npawo+ICsgKiAtIDMuMzcuMCAtIEwyIGlzIGludmFsaWRhdGVkIGJlZm9yZSBTRE1BIElC
+cywgbmVlZGVkIGZvciBjb3JyZWN0bmVzcwo+ICAgKi8KPiAgI2RlZmluZSBLTVNfRFJJVkVSX01B
+Sk9SCTMKPiAtI2RlZmluZSBLTVNfRFJJVkVSX01JTk9SCTM2Cj4gKyNkZWZpbmUgS01TX0RSSVZF
+Ul9NSU5PUgkzNwo+ICAjZGVmaW5lIEtNU19EUklWRVJfUEFUQ0hMRVZFTAkwCj4gIAo+ICBpbnQg
+YW1kZ3B1X3ZyYW1fbGltaXQgPSAwOwo+IAoKVGhpcyByZXF1aXJlcyB0aGUgcGFyZW50IGNvbW1p
+dCBmZGY4MzY0NmMwNTQyZWNmYjlhZGM0ZGI4Zjc0MWExZjQzZGNhMDU4CiJkcm0vYW1kZ3B1OiBp
+bnZhbGlkYXRlIEwyIGJlZm9yZSBTRE1BIElCcyAodjIpIi4gS01TX0RSSVZFUl9NSU5PUiBpcwpi
+dW1wZWQgdG8gc2lnbmFsIHRvIHVzZXJzcGFjZSB0aGUgZml4IGluIHRoYXQgY29tbWl0IGlzIHBy
+ZXNlbnQuCgoKLS0gCkVhcnRobGluZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAg
+ICAgICAgICAgICBodHRwczovL3JlZGhhdC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAg
+ICAgICAgICAgICB8ICAgICAgICAgICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
