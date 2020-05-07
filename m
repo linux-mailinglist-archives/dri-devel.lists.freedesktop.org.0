@@ -2,72 +2,184 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C221CA679
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B891C9814
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 19:42:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B656EAA3;
-	Fri,  8 May 2020 08:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDA6A899BC;
+	Thu,  7 May 2020 17:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6C76E15F
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 17:22:13 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 7E63A47A;
- Thu,  7 May 2020 13:22:09 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 07 May 2020 13:22:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=AtwnMVHOzK8UMHe+XysxjBGhDEV
- 3ahLRRG2z8MAWYBM=; b=sZY7RTLbE1ohKxTNRii17O6xsCpoN1YEah+87xj0eLS
- J+57j84XlYK8DSLNrxOKKadBdUSUjGG7RsNFLd4fZZHiT5QAPF+GsPAtpmYQCaGu
- abOA4QN+ydVsMCT90V+U4V/PWRh+/qqAe2xAtzDb3hn4RQ+XbrKvTxf7LQOZVQT8
- pZ95J7Y+PpCxJoe/pAGw1Eh5WmncGKyPrs+2Nvb43O6vinlqNlqNdHj1YaWnpV96
- MRl0bFHXgOiu7Z0NgOcF3JB80oaSerOmzP2v+Rfhs1lI7dutz1veja8QjrzpqS3O
- zU7Olg//bqiZPxlZ2+/Flo+ILwJoD+otcWLVVdXcR9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=AtwnMV
- HOzK8UMHe+XysxjBGhDEV3ahLRRG2z8MAWYBM=; b=EGGUFkA/dhISMxhjTPC5V5
- GCgYOadHw/Twkr695smNjOAB74x7zMQB3JHh31NMgR1bjBZExWYOTFulofSvdiKM
- g3ZoyqkpiLxS0DRX2CqIXzy9t69gPYMOSXS7xba3GT0tiI7VRUUABtn+zXyaT3Jg
- Wd15u+H+BMfMjt2CKefRcOgfpTqXP2Ggh9jlMBL09TUuQTc2y3wYsXC4rC9IRz91
- 8JrCHQAE63jfJIed73IwVrwTUQzcRpSb17sBW0oh/XKod95CWZO+h+V0zs+E90eJ
- VOX5AdauRBkfOrIyZRpzT9EMHC5reWFJnWL0QQL+0c+zqqQuXh076JEqy+8CGqjg
- ==
-X-ME-Sender: <xms:uEO0Xm-UELfAKpF4LyswgBSG4YZ2DxV2vtcgFVOjuL_708jZKqYphQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgdduuddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepudelfeevuddutdetjeeggeefvdetveeftdejteevieffudefgeejleegteek
- geevnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uEO0XtFrKUKkz1AaNNtWfFKDfs_rO22-fIu0jYZoQdvrrdGxHSEbmA>
- <xmx:uEO0XoTPHIIAYuJ4KVHOfA0xMuUFg1i93P09bSwFTAQr0IcxKDEH0g>
- <xmx:uEO0XsSS0nNQed5IpxmhDL5B4RyosKBqAdzqwBbVHOVaTADSUtgqbQ>
- <xmx:ukO0XlEJo5zkuHShKco6fA_6uniuby3RbiSGXfQ0dJtpHp1gN2cc1BNk-xQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8C9F030661D0;
- Thu,  7 May 2020 13:22:00 -0400 (EDT)
-Date: Thu, 7 May 2020 19:21:58 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jian-Hong Pan <jian-hong@endlessm.com>
-Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
-Message-ID: <20200507172158.cybtakpo6cxv6wcs@gilmour.lan>
+X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
+ Thu, 07 May 2020 17:42:27 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1CDB899BC
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 17:42:27 +0000 (UTC)
+Received: from [192.168.1.164] ([37.4.249.134]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MY60L-1jcVcR2G5N-00YOAq; Thu, 07 May 2020 19:36:54 +0200
+Subject: Re: [PATCH v2 89/91] drm/vc4: hdmi: Support the BCM2711 HDMI
+ controllers
+To: Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Eric Anholt <eric@anholt.net>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <20200427072342.5499-1-jian-hong@endlessm.com>
- <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
- <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
+ <92ccd154d49ea2bb319589404ddf6045f5372f70.1587742492.git-series.maxime@cerno.tech>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <ef66c2ac-380a-ebcf-a168-099f1ff709a6@i2se.com>
+Date: Thu, 7 May 2020 19:36:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
-X-Mailman-Approved-At: Fri, 08 May 2020 08:47:23 +0000
+In-Reply-To: <92ccd154d49ea2bb319589404ddf6045f5372f70.1587742492.git-series.maxime@cerno.tech>
+Content-Language: en-US
+X-Provags-ID: V03:K1:ShyLV08/cgkmHFo95q6BJOoxPMAWPfmRNb5Ryauds2XOC2hEg2x
+ 40MxJ9nizX2/2z0Q9tm4aQauhtE24fotyBvCQaQQKR+IHS+dGs4hvjyIRdgj/FibN/KUpMk
+ qgUGu6/69vQqgx+aZjculwlf+yTdL0YwOXNEf9rlLIiFDnYQww7vSaxfoLYuxK2QvAQ/wXE
+ UVycuINNVOreMdR+zcMhA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Fn5Q55Gjy3I=:oOOHBdVPFsQ74HMwJGz7cM
+ lHNzlz15FgOTd7C7EdH9n3CZc6PB0nxx6MMzxd+OKOeX1dj8Fxl+d3uxuyq/XnD7QgrsBy6cd
+ WVc8DnbEb8MJVmSB77Mbo1ha1rgT6y+aCKX/QvpwZqc5oAXcFOBPhJYsIPMp93Kx+DxC8ciMG
+ Zr3JHtDYgVcEx/sQNH6SUPf9qIAbXwFjhBsdKya68QjnQGGA9wwmKF+NFW4T4Q4JFm53XbDHN
+ GejAHacScF4Kmp1KF4FoURZwWpmxe26C4JqFmGXvTH3+IFch1MIsD4VCKZm/TXT8jC5q00sez
+ QaMpeAFNAoW8bmreP7pCDkPAf2Q4Lv03xv8e+h16V7amGrW22eG5+ZZusC8V+JHonA7a1gCBL
+ lTtsUUAb/x8HcHpHjbzUlvKBD6XSAuSeHCkWpmmR161EYvvOncP25Hr+hXHDoPEb4IClKWOuM
+ 7Xt79wb2FrBbRL/jY494p3BA0rL9KtwKb7FwyUGcQNVVWrt0Ci2YwLnedjbjXLZdCP2cgHLn7
+ tt8oCkctmw3fxz6jTkMWPNxqvOHU3cc5ZJTHrlFdKiD1zjoFWYdEKrMf0xf+4PjxeE/iy4nLt
+ DNFq8Dl8jGwaWmS7OMvZYH9uXWR5wQD+IKEDthZHPS1hM/GO1FsMXDplitTf23wPFYbkZxwVv
+ ZK62QE2vrllW+xkAD8IXCVHu8juDCYxRI7DGMeMF7nKt/BI8/UXsTbD/mD9AgW92XcTt8+1oc
+ y2Ds5BGlHxphzYYrb2xEVXqp3aNCS/78r6BOnaoN1g21kuEEDKmEgnWUpeSmT6pGIEFXogt8h
+ HHg9WNl+vL84LYHQp52mYQvuzJL7CFvMZx7LIFMRxPrYIf9Z6jxX+BZo6DBLDyKpvgMO0Q+
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,208 +192,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-i2c@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1271012759=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---===============1271012759==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="34jthk25fxopffnu"
-Content-Disposition: inline
+Am 24.04.20 um 17:35 schrieb Maxime Ripard:
+> Now that the driver is ready for it, let's bring in the HDMI controllers
+> variants for the BCM2711.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c      | 276 +++++++++++++++++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h      |  35 ++-
+>  drivers/gpu/drm/vc4/vc4_hdmi_phy.c  | 468 +++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 201 ++++++++++++-
+>  4 files changed, 980 insertions(+)
+...
+> +
+> +#define VC4_HDMI_RM_FORMAT_SHIFT_SHIFT			24
+> +#define VC4_HDMI_RM_FORMAT_SHIFT_MASK			VC4_MASK(25, 24)
+> +
+> +#define OSCILLATOR_FREQUENCY	54000000
+Just want to mention that the oscillator frequency of the BCM2711 is
+available via bcm2711.dtsi
+> +
+>  void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi, struct drm_display_mode *mode)
+>  {
+>  	/* PHY should be in reset, like
+> @@ -38,3 +155,354 @@ void vc4_hdmi_phy_rng_disable(struct vc4_hdmi *vc4_hdmi)
+>  		   HDMI_READ(HDMI_TX_PHY_CTL_0) |
+>  		   VC4_HDMI_TX_PHY_RNG_PWRDN);
+>  }
+> +
+> +static unsigned long long
+> +phy_get_vco_freq(unsigned long long clock, u8 *vco_sel, u8 *vco_div)
+> +{
+> +	unsigned long long vco_freq = clock;
+> +	unsigned int _vco_div = 0;
+> +	unsigned int _vco_sel = 0;
+> +
+> +	while (vco_freq < 3000000000ULL) {
+> +		_vco_div++;
+> +		vco_freq = clock * _vco_div * 10;
+> +	}
+> +
+> +	if (vco_freq > 4500000000ULL)
+> +		_vco_sel = 1;
+> +
+> +	*vco_sel = _vco_sel;
+> +	*vco_div = _vco_div;
+> +
+> +	return vco_freq;
+> +}
+> +
+> +static u8 phy_get_cp_current(unsigned long vco_freq)
+> +{
+> +	if (vco_freq < 3700000000ULL)
+> +		return 0x1c;
+> +
+> +	return 0xc8;
 
+The vendor tree contains a patch [1] for this return value, which said
+that the value is a typo and causes warnings because the value must be 6
+bit.
 
---34jthk25fxopffnu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Btw that my tests with Raspberry Pi 3 and 4 were good so far.
 
-On Mon, May 04, 2020 at 02:35:08PM +0800, Jian-Hong Pan wrote:
-> Maxime Ripard <maxime@cerno.tech> =E6=96=BC 2020=E5=B9=B44=E6=9C=8829=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:21=E5=AF=AB=E9=81=93=EF=BC=9A
-> >
-> > Hi,
-> >
-> > On Mon, Apr 27, 2020 at 03:23:42PM +0800, Jian-Hong Pan wrote:
-> > > Hi Maxime,
-> > >
-> > > Thanks for your V2 patch series!  I'm testing it.
-> > >
-> > > This patch series is applied upon mainline kernel 5.7-rc2 cleanly and=
- built.
-> > > System can boot into console text mode, but no graphic UI.
-> > >
-> > > Get the error in vc5_hdmi_phy_init(), and full dmesg is at [1]:
-> > >
-> > > [    5.587543] vc4_hdmi fef00700.hdmi: Unknown register ID 46
-> > > [    5.587700] debugfs: Directory 'fef00700.hdmi' with parent 'vc4-hd=
-mi' already present!
-> > > [    5.588070] vc4_hdmi fef00700.hdmi: vc4-hdmi-hifi <-> fef00700.hdm=
-i mapping ok
-> > > [    5.588076] vc4_hdmi fef00700.hdmi: ASoC: no DMI vendor name!
-> > > [    5.588263] vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops)
-> > > [    5.588299] vc4_hdmi fef05700.hdmi: Unknown register ID 46
-> > > [    5.588373] debugfs: Directory 'vc4-hdmi' with parent 'asoc' alrea=
-dy present!
-> > > [    5.588673] vc4_hdmi fef05700.hdmi: vc4-hdmi-hifi <-> fef05700.hdm=
-i mapping ok
-> > > [    5.588677] vc4_hdmi fef05700.hdmi: ASoC: no DMI vendor name!
-> > > [    5.588809] vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops)
-> > > [    5.588854] vc4-drm gpu: bound fe806000.vec (ops vc4_vec_ops)
-> > > [    5.588897] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops)
-> > > [    5.588934] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops)
-> > > [    5.588990] vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_o=
-ps)
-> > > [    5.589030] vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_o=
-ps)
-> > > [    5.589074] vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_o=
-ps)
-> > > [    5.589106] vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_o=
-ps)
-> > > [    5.589145] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_o=
-ps)
-> > > [    5.589294] checking generic (3e513000 6d8c00) vs hw (0 ffffffffff=
-ffffff)
-> > > [    5.589297] fb0: switching to vc4drmfb from simple
-> > > [    5.589433] Console: switching to colour dummy device 80x25
-> > > [    5.589481] [drm] Supports vblank timestamp caching Rev 2 (21.10.2=
-013).
-> > > [    5.589816] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-> > > [    5.601079] ------------[ cut here ]------------
-> > > [    5.601095] WARNING: CPU: 2 PID: 127 at drivers/gpu/drm/vc4/vc4_hd=
-mi_phy.c:413 vc5_hdmi_phy_init+0x7ac/0x2078
-> > > [    5.601097] Modules linked in:
-> > > [    5.601103] CPU: 2 PID: 127 Comm: kworker/2:1 Not tainted 5.7.0-rc=
-2-00091-ga181df59a930 #7
-> > > [    5.601105] Hardware name: Raspberry Pi 4 Model B (DT)
-> > > [    5.601112] Workqueue: events deferred_probe_work_func
-> > > [    5.601116] pstate: 20000005 (nzCv daif -PAN -UAO)
-> > > [    5.601119] pc : vc5_hdmi_phy_init+0x7ac/0x2078
-> > > [    5.601123] lr : vc4_hdmi_encoder_enable+0x1b8/0x1ac0
-> > > [    5.601124] sp : ffff80001217b410
-> > > [    5.601126] x29: ffff80001217b410 x28: ffff0000ec6370f0
-> > > [    5.601129] x27: ffff0000f650d400 x26: 000000008a500000
-> > > [    5.601132] x25: ffff8000113b4ac0 x24: 0000000000002060
-> > > [    5.601135] x23: 000000000a500000 x22: 0000000000000300
-> > > [    5.601137] x21: 0000000008d9ee20 x20: ffff0000ec535080
-> > > [    5.601140] x19: 000000010989e7c0 x18: 0000000000000000
-> > > [    5.601142] x17: 0000000000000001 x16: 0000000000005207
-> > > [    5.601145] x15: 00004932ad293c92 x14: 0000000000000137
-> > > [    5.601147] x13: ffff800010015000 x12: 0000000000000001
-> > > [    5.601150] x11: 0000000000000001 x10: 0000000000000000
-> > > [    5.601152] x9 : 0000000000000000 x8 : ffff800010015038
-> > > [    5.601154] x7 : 0000000000000001 x6 : ffff80001217b368
-> > > [    5.601157] x5 : 0000000000000000 x4 : 000000000000004c
-> > > [    5.601159] x3 : 0000000000000000 x2 : ffff8000113b4ac0
-> > > [    5.601162] x1 : ffff8000120c5f44 x0 : 00000000dc8984ff
-> > > [    5.601164] Call trace:
-> > > [    5.601169]  vc5_hdmi_phy_init+0x7ac/0x2078
-> > > [    5.601172]  vc4_hdmi_encoder_enable+0x1b8/0x1ac0
-> > > [    5.601176]  drm_atomic_helper_commit_modeset_enables+0x224/0x248
-> > > [    5.601179]  vc4_atomic_complete_commit+0x400/0x558
-> > > [    5.601182]  vc4_atomic_commit+0x1e0/0x200
-> > > [    5.601185]  drm_atomic_commit+0x4c/0x60
-> > > [    5.601190]  drm_client_modeset_commit_atomic.isra.0+0x17c/0x238
-> > > [    5.601192]  drm_client_modeset_commit_locked+0x5c/0x198
-> > > [    5.601195]  drm_client_modeset_commit+0x30/0x58
-> > > [    5.601201]  drm_fb_helper_restore_fbdev_mode_unlocked+0x78/0xe0
-> > > [    5.601204]  drm_fb_helper_set_par+0x30/0x68
-> > > [    5.601208]  fbcon_init+0x3d4/0x598
-> > > [    5.601212]  visual_init+0xb0/0x108
-> > > [    5.601214]  do_bind_con_driver+0x1d0/0x3a8
-> > > [    5.601217]  do_take_over_console+0x144/0x208
-> > > [    5.601219]  do_fbcon_takeover+0x68/0xd8
-> > > [    5.601222]  fbcon_fb_registered+0x100/0x118
-> > > [    5.601226]  register_framebuffer+0x1f4/0x338
-> > > [    5.601229]  __drm_fb_helper_initial_config_and_unlock+0x2f8/0x4a0
-> > > [    5.601232]  drm_fbdev_client_hotplug+0xd4/0x1b0
-> > > [    5.601235]  drm_fbdev_generic_setup+0xb0/0x130
-> > > [    5.601238]  vc4_drm_bind+0x184/0x1a0
-> > > [    5.601241]  try_to_bring_up_master+0x168/0x1c8
-> > > [    5.601244]  __component_add+0xa4/0x170
-> > > [    5.601246]  component_add+0x14/0x20
-> > > [    5.601248]  vc4_vec_dev_probe+0x20/0x30
-> > > [    5.601252]  platform_drv_probe+0x54/0xa8
-> > > [    5.601254]  really_probe+0xd8/0x320
-> > > [    5.601256]  driver_probe_device+0x58/0xf0
-> > > [    5.601258]  __device_attach_driver+0x84/0xc8
-> > > [    5.601263]  bus_for_each_drv+0x78/0xc8
-> > > [    5.601265]  __device_attach+0xe4/0x140
-> > > [    5.601267]  device_initial_probe+0x14/0x20
-> > > [    5.601269]  bus_probe_device+0x9c/0xa8
-> > > [    5.601271]  deferred_probe_work_func+0x74/0xb0
-> > > [    5.601276]  process_one_work+0x1bc/0x338
-> > > [    5.601279]  worker_thread+0x1f8/0x428
-> > > [    5.601282]  kthread+0x138/0x158
-> > > [    5.601286]  ret_from_fork+0x10/0x1c
-> > > [    5.601288] ---[ end trace cfba0996218c3f3d ]---
-> >
-> > Thanks for testing!
-> >
-> > Do you have a bit more details regarding your setup? Was it connected t=
-o an
-> > external display?
->=20
-> Yes, the HDMI cable is connected to HDMI0 port on RPi 4.
->=20
-> > If so, do you know the resolution it was trying to setup?
->=20
-> According to the log, I think it is 1920x1080:
-> Apr 27 15:37:25 endless gdm-Xorg-:0[1960]: (II) modeset(0): Output
-> HDMI-1 connected
-> Apr 27 15:37:25 endless gdm-Xorg-:0[1960]: (II) modeset(0): Output
-> HDMI-2 disconnected
-> Apr 27 15:37:25 endless gdm-Xorg-:0[1960]: (II) modeset(0): Output
-> Composite-1 disconnected
-> Apr 27 15:37:25 endless gdm-Xorg-:0[1960]: (II) modeset(0): Using
-> exact sizes for initial modes
-> Apr 27 15:37:25 endless gdm-Xorg-:0[1960]: (II) modeset(0): Output
-> HDMI-1 using initial mode 1920x1080 +0+0
->=20
-> https://gist.github.com/starnight/45e1468bfa0426a54d2fb4a9269cfb94
+[1] -
+https://github.com/raspberrypi/linux/commit/71d5db1b342097fa4dc561202837beb934648b25
 
-It looks to be fairly standard then, and I'm testing on the same resolution=
- so
-it should be alright.
-
-Given from your log, it looks like you're running as arm64 though, while I =
-stuck
-with arm32, so it could be the explanation.
-
-Can you share your config.txt and .config so that I can try to reproduce it
-here?
-
-Thanks!
-Maxime
-
---34jthk25fxopffnu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXrRDtgAKCRDj7w1vZxhR
-xThwAP97h7Soqibnh5o2V7knb+qSIWCtf4YNw41r8AeI5KQKqQD7Bz7NiA/MBc3P
-s1xa8/8wkJ9/IwUBn9Ik2vBeuvQoPQk=
-=/FEz
------END PGP SIGNATURE-----
-
---34jthk25fxopffnu--
-
---===============1271012759==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> +}
+> +
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1271012759==--
