@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571C81C940A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC82F1C9409
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11ED6EA0C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD4A6EA0E;
 	Thu,  7 May 2020 15:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B743F6EA0A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:11:21 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id e16so6835740wra.7
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:11:21 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789766EA0C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:11:23 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id g13so6818200wrb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VQM0jqAutG1SIIPeLC+toLi1XISxe/sLa5ITGf34pqo=;
- b=i1cGCxy8mtEmMYoopmNeXsZimZjeVPik1iw4UX66oKlGRr2Eyc8F7LWxHier8q3IPO
- QwaSBj9YSJ+6BuOFhnKibBNwjk/+7xv+A3BJ50GzDDoO+vw4NYEZxqSOOlUwssnMd69r
- L6bFde0AfC122yTIzfLdPQ+ApOYCnGVH0LDbDDYl1abHuHMxTt35xm49MO6+OPITx90V
- NZyZoXnrbglwzuNEOrmnw265mbi45SMMP/2FmU2xpjb1+rMiYgw8j3O25+oVYez6uLb2
- iH52KR3KAr68a1ddJUtNEqF5SpIIJXufjNdYs0k8bV/zJGZ5aCYOnk4JwxY4N3mEavUz
- BxAQ==
+ bh=GIQ4c/yY/MjQxSYXQx75OvaHXjlgUTNA67VrFmayfpM=;
+ b=svaU3H6iVe9BnCtqT+h8Kwq2B++lTxjmDHIO8vZYhVYrM8OlbSwk7xJNI4d/8L7TIS
+ sXMCI04A9VOyNGWBmNExSBwI5XB7iX0jZzWncBlN/PO6Z7XCWv9DAHoP1Se58NriE4+E
+ P7besns2sZMc6VHHRoxo4a4Xxn2/ntfOZYyoUrNxJfKZUiOO8mUeK9FtPs8swCZX3kdR
+ hUW4tYhE7rxlcvER8czOsYTqiaN2PxhZCpKcQmW9jdxKz+rVDtPBuwZpO6M3E4hXXTWo
+ +YXArRFcezeStes6P4xhZ64Aof4tZ9OK8/kjzCKdVdSs5wH/moZ5wM7ftDFdCCqsllQ1
+ O3Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VQM0jqAutG1SIIPeLC+toLi1XISxe/sLa5ITGf34pqo=;
- b=RmBjLk1nYhPJ9UVGIykmAA71acv8dZ2StIj4q7FykmAcMyBbyVYjYJyD05Ll6iwbmj
- LvMdHuz98rQJwIhh6J949lFOiKsq74Q8IYYtrRPRkebF8BQLYNXWgokzViC3AWPm3uid
- hdIJTLVmORymqptgQjZ57OURQCFzhq8Ivfc0N5R54omGIg1ZRL0GXNNedNTQH5qotcrW
- C0RPWZyaTSTWcZWZaS3WMIX34gyz6MEDm/zkPvsIj+ZKrcAkL4i086JlfLv/OF5hd5V7
- LW3Kjp+Ic9U8vsDS+Xd5I4x3joOf4JCtdVBC0vWUMNnfpgrUC1sYVQAYsPgDVzUdu/rX
- LVig==
-X-Gm-Message-State: AGi0PuYw8TdeRP6B6h/hfpYE42oDaZsnH/mTAMnZlYXiLaHrfNAxx/47
- f9rm8YWJ3UnAJf7sdQ5UIxZk5BzJ
-X-Google-Smtp-Source: APiQypLQ5+XmNLRFlXvkxF/VJ7+gu1C0ctStU0hPiB8rxfBdcW81I6ksMDR2UYi1d2AZhw983kGGyQ==
-X-Received: by 2002:a5d:5261:: with SMTP id l1mr15637552wrc.24.1588864280071; 
- Thu, 07 May 2020 08:11:20 -0700 (PDT)
+ bh=GIQ4c/yY/MjQxSYXQx75OvaHXjlgUTNA67VrFmayfpM=;
+ b=C/OyGaMzvm67aQX9T9R2nloNWETmDyhIr6XHPEnHqL6Z+JUEqBZJX81gSrWfVQCIJq
+ pifkqo3XAHkg85TlmpC8w81EFTw1P17ZOpoJcBi5weQSvLSnMxHw4Hj6Gu46lxtKGEAj
+ qdWVWYTYGNBkHnH4EnYrEUdF4DojvUu/BUK8C+91OhX7h83nz+0liDzq/+72Pnvt7bmd
+ oQ2MPMPBGmDiv5Q3rN0CTtU/L4S5NszcCKKxR0YvHxszGzfrI/bU6Irgzc9NbCp/9uBf
+ ovjos84SHGlDC6tHEKhmc2oBdsqew6xwm2wUlcaxpK6IELX1pfamibXkJex9N4HKeHAR
+ r7+Q==
+X-Gm-Message-State: AGi0PuZRygtf39jVUXX2fHXG4mVafswmaOMh+1b2HEmxEq3MO7Cx3r5A
+ zuyYUfkRm+x+VfxHwld+j3GxZSzB
+X-Google-Smtp-Source: APiQypItFY219sX6Ko9vEDhPAZmDmB+yYBfe03Ce2iSsRD3VNVPHVra32F/YmTuixIeY87N3gqxL/Q==
+X-Received: by 2002:a5d:408b:: with SMTP id o11mr14803263wrp.97.1588864281618; 
+ Thu, 07 May 2020 08:11:21 -0700 (PDT)
 Received: from arch-x1c3.cbg.collabora.co.uk
  ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.11.18
+ by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.11.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:11:18 -0700 (PDT)
+ Thu, 07 May 2020 08:11:20 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 20/36] drm/mediatek: remove _unlocked suffix in
+Subject: [PATCH 21/36] drm/mgag200: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Thu,  7 May 2020 16:08:06 +0100
-Message-Id: <20200507150822.114464-21-emil.l.velikov@gmail.com>
+Date: Thu,  7 May 2020 16:08:07 +0100
+Message-Id: <20200507150822.114464-22-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150822.114464-1-emil.l.velikov@gmail.com>
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
@@ -68,7 +68,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
  emil.l.velikov@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -91,26 +91,43 @@ for __file in $(git grep --name-only $__from); do
   sed -i  "s/$__from/$__to/g" $__file;
 done
 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Dave Airlie <airlied@redhat.com>
 Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mgag200/mgag200_cursor.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-index b04a3c2b111e..fcb81f354224 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-@@ -117,7 +117,7 @@ int mtk_drm_gem_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
- 		goto err_handle_create;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_cursor.c b/drivers/gpu/drm/mgag200/mgag200_cursor.c
+index d491edd317ff..1a50836e003e 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_cursor.c
++++ b/drivers/gpu/drm/mgag200/mgag200_cursor.c
+@@ -286,7 +286,7 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
+ 		ret = PTR_ERR(src);
+ 		dev_err(&dev->pdev->dev,
+ 			"failed to map user buffer updates\n");
+-		goto err_drm_gem_object_put_unlocked;
++		goto err_drm_gem_object_put;
+ 	}
  
- 	/* drop reference from allocate - handle holds it now. */
--	drm_gem_object_put_unlocked(&mtk_gem->base);
-+	drm_gem_object_put(&mtk_gem->base);
+ 	ret = mgag200_show_cursor(mdev, src, width, height);
+@@ -295,13 +295,13 @@ int mgag200_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
+ 
+ 	/* Now update internal buffer pointers */
+ 	drm_gem_vram_vunmap(gbo, src);
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
  
  	return 0;
+ err_drm_gem_vram_vunmap:
+ 	drm_gem_vram_vunmap(gbo, src);
+-err_drm_gem_object_put_unlocked:
+-	drm_gem_object_put_unlocked(obj);
++err_drm_gem_object_put:
++	drm_gem_object_put(obj);
+ 	return ret;
+ }
  
 -- 
 2.25.1
