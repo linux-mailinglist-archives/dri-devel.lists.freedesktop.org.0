@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7511B1C93EB
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C47411C93EA
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF8A56E9F9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A28786E9F8;
 	Thu,  7 May 2020 15:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8AE46E9F7
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:10:57 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id y4so6811310wrm.11
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:10:57 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C827F6E9F8
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:10:59 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id l18so6827123wrn.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sOKVHQegB4DuiF6FAJRDUXMILu/YoG8Nfo5HpSFpDnk=;
- b=J/cUrPTNTTp/LF5ABqYegt1GfCaHIBG8RMRtqB/QyEf9Pt8XZOs+dvqoy4uN7iO3Bm
- 9g7hd7EmqFBoVrKiBG7k5Sliw2wUAmuSoA6KyJg/T99eCQScnILcYZO3ELtUg77tQVfR
- vqB4NaoDCtK1VtV7W03UZZYJn/2aavRCoB874G+Hxs8caP8zXdsw3pq8FOK3RZ4in2ck
- qOYiSkUH1ZczBUD0IeZ86ufrws74sUfLB4Ji5EitbaKEwLbqht7sttcpnMUm+Fw1Tchc
- Kmz3VgzJv6x79/Zqbb7fdfguWEkA5p2nmGqQuKoxHTS8J1RjdyCwC4HWeIW9U2rJsDwV
- /8LA==
+ bh=UUABl2wVRatkO4EE0YHkCwHW5aJAIn1l4xu9QGB+vNM=;
+ b=H7Rk0o6Cl38kBoDsjrUorBXviUwd9VODqmJR/Uz+tBmHZXSL9sMth1eCNS7BY2g5pb
+ z5yvy4aZ//7bJsPBL/n3lA7PC10igt8IQPCEgrndD28dzkQjR8TLHe8NnF33oM4xVjc5
+ 34IBwl3+byMAUWuzyj13A2VLWbXZ9hfkykOman9nGkQQIGNNLAAK1KBGdY9CggG6PqmO
+ 8I9ddnAHGGStkxKiE1LYZvl/Y2w6qhLlqnUTmkkTwF++a64nrfVhecjlf2DXaVezqrxC
+ 1TVlEmYg1YQocDTDp16WV3dpkWjYf0VJthNG9eiy1Dq1rf8wfGkOPUSoHdR/Cm7/7nX1
+ sw8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sOKVHQegB4DuiF6FAJRDUXMILu/YoG8Nfo5HpSFpDnk=;
- b=KS21/5dpnE7YilbHRCT7FA9zku5w2u0O0FzvXVBaq+YKaszDx9LYVvf2Gsv8hLofEW
- rb/7MilAnlezQ8MsFF111RwQtQvWJ9UdM7ddFjIURoTf0gMLxi75dJDmhEjXmt6F+CAo
- L49SYT74NdFbN9NkTJj2UGgdGaaDT75Y61t4x8VJbvtsjPfeT3jzOCl+6Gvh47kSn2h7
- r3p5MArNWr0JJOVQyEBB4z9dSfdMHWZKlcAho6bQL0JRzj86/i9b6tcAGHI7+7MgRKbz
- dHQLD1yoEvqgAmWpmJcoUPEknfKh4+0GB5he33BZJra5Tp6cXpay0UKR6ZU3QSsOZxm5
- ym5w==
-X-Gm-Message-State: AGi0PuabE+1LU9PXKR8Wu/CfQeeifUlMr7KZZnRNmKXf8aPtLfpeXepu
- 1tcDKOGaGb6zt/lOps/b2I5+Vx2k
-X-Google-Smtp-Source: APiQypJP6Nob9Au0ZF1RxPooKsvmIpIDYM8zjaNPF5L98qOe+t5O5wy+iCioYM1AIlMCbADYmWGy9A==
-X-Received: by 2002:a5d:5261:: with SMTP id l1mr15635705wrc.24.1588864256021; 
- Thu, 07 May 2020 08:10:56 -0700 (PDT)
+ bh=UUABl2wVRatkO4EE0YHkCwHW5aJAIn1l4xu9QGB+vNM=;
+ b=nYCgKdASeLXdWgwKA0SyS0F75W7nupINJ5qT0i8UIFGxNz19VY+bTm1MFYbPiClyPE
+ hqT5yNijOykynKay8qiUbsScPUKyiO8QmKfRuE1FwUyf1dMojpL2RJFFVCQ4NC9MzU1p
+ BxL4DxhFLKunx3ZFn9LjrYK6vydPN6TXWBg93Az/j0OqQFr20f6gJBBFDrpc6hDTgyOC
+ FsJb1q8honS2bk040tqJpmYC0BbziwnmOHKjs4EOXYwhZ1Yuy+2GLDpYQxWcQBpT3CgZ
+ 7wT+y4ne+am0DPcm6e6uDW7RhF9MpinPrXMlG5Zy8hiXkK6dA4I7RtIpT39U+yfNoJQK
+ /30A==
+X-Gm-Message-State: AGi0PubzEdZgikvB1QNjfdsetfJNIsyLoNPgSPRn5DyKGClVmF3tVRoL
+ cIgIS3cImSBZS1xTYe4CdZ4Ou3uf
+X-Google-Smtp-Source: APiQypKooTvQvYWO57Cqf5CDL99mSvxYzWbjkfQrGKuMathDMjVS9xcWpF4YAAbM1Mnj06DYqxi5Xw==
+X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr15422716wrt.215.1588864257866; 
+ Thu, 07 May 2020 08:10:57 -0700 (PDT)
 Received: from arch-x1c3.cbg.collabora.co.uk
  ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.10.54
+ by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.10.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:10:54 -0700 (PDT)
+ Thu, 07 May 2020 08:10:56 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/36] drm/doc: drop struct_mutex references
-Date: Thu,  7 May 2020 16:07:50 +0100
-Message-Id: <20200507150822.114464-5-emil.l.velikov@gmail.com>
+Subject: [PATCH 05/36] drm/doc: drop struct_mutex refernce for
+ drm_gem_object_free
+Date: Thu,  7 May 2020 16:07:51 +0100
+Message-Id: <20200507150822.114464-6-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150822.114464-1-emil.l.velikov@gmail.com>
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
@@ -75,34 +76,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-There's little point in providing partial and ancient information about
-the struct_mutex. Some drivers are using it, new ones should not.
+The comment that struct_mutex must be held is misleading. It is only
+required when .gem_free_object() is used.
 
-As-it this only provides for confusion.
+Since that one is going with the next patches, drop the reference.
 
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- Documentation/gpu/drm-mm.rst | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 1839762044be..5ba2ead8f317 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -178,11 +178,8 @@ GEM Objects Lifetime
- --------------------
- 
- All GEM objects are reference-counted by the GEM core. References can be
--acquired and release by calling drm_gem_object_get() and drm_gem_object_put()
--respectively. The caller must hold the :c:type:`struct drm_device <drm_device>`
--struct_mutex lock when calling drm_gem_object_get(). As a convenience, GEM
--provides drm_gem_object_put_unlocked() functions that can be called without
--holding the lock.
-+acquired and release by calling drm_gem_object_get() and drm_gem_object_put_unlocked()
-+respectively.
- 
- When the last reference to a GEM object is released the GEM core calls
- the :c:type:`struct drm_driver <drm_driver>` gem_free_object_unlocked
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 918d1ba25f63..12fa121d0966 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -965,7 +965,6 @@ EXPORT_SYMBOL(drm_gem_object_release);
+  * @kref: kref of the object to free
+  *
+  * Called after the last reference to the object has been lost.
+- * Must be called holding &drm_device.struct_mutex.
+  *
+  * Frees the object
+  */
 -- 
 2.25.1
 
