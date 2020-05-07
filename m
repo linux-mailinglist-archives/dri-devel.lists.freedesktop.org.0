@@ -2,49 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2464A1C8260
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 08:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B401C82AC
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 08:42:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 712656E041;
-	Thu,  7 May 2020 06:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921086E914;
+	Thu,  7 May 2020 06:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 601476E02E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 06:18:35 +0000 (UTC)
-IronPort-SDR: ynimP46ccXa8jP7NIjLShqMt97RrOTdoxX9Xn+gLR6+1fVppnm4S8qJD5XuKNokHxk+K8Rly9w
- L55a8Lz9erfg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2020 23:18:34 -0700
-IronPort-SDR: s+137jPejiS2+v5x9CYYcqJWZEO9Mgcpti8vCV+YamOUHmlaODLkpSOhqBAPhbxn3azAcNfO7k
- taEJ/QCHYbDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,362,1583222400"; d="scan'208";a="250002612"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 06 May 2020 23:18:32 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 07 May 2020 09:18:31 +0300
-Date: Thu, 7 May 2020 09:18:31 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Artem Mygaiev <joculator@gmail.com>
-Subject: Re: Question about sRGB framebuffer support
-Message-ID: <20200507061831.GU6112@intel.com>
-References: <CAJwc6KtGT4+Y2jT1fxzYrkcqvkxgs9GGqxT-zZtj6ktRf-67jQ@mail.gmail.com>
- <20200506074457.GK6112@intel.com>
- <CAJwc6Kum2SrGixZyJzAWjC71pxO8zkBJ7MBfdVhxZOFvWyw4RQ@mail.gmail.com>
- <20200506091840.GP6112@intel.com>
- <CAJwc6Kvg3o2S3tYOoUqfCrg9eagErtStRkgQAASwm0uFPhVxew@mail.gmail.com>
- <20200506093316.GQ6112@intel.com>
- <CAJwc6KsY0fQwQE8RA5BVnuVqNm12W7fJWdi_vR8u+91erpe8Og@mail.gmail.com>
- <20200507060759.GT6112@intel.com>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CC36E914;
+ Thu,  7 May 2020 06:42:54 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 188so5070284wmc.2;
+ Wed, 06 May 2020 23:42:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=u9x5CxPuUX9KvELHPIEAEoDfCQa03ODaNOa1+2QT5/Y=;
+ b=Jg/8Weta4UEn+UaAsuYfsWcL1WXFxhUUbzx32Wng0weqzZVChYoliVf2Dsbab7b/C0
+ W6KUk8QGFnu5KOXA/Be5pqeb7TjNTrzbp6vX/dt8j20PeV2aIBV+6olcpYubdxE/Db3J
+ C/sFMOhCAxNPRpHjouJt1eY/ipGii6NtklkePn5KEbCIwb9ff7585NWCyJJSGeBk2aQb
+ cf+XAJVC0YwTWYp0ZoJSqb8nfiGM0W0uc/5Dky7UCBR4mjQwBJHtHpCIyTEJRVDmmn8k
+ 9U0XpRh7SQ4Bhe/acqZtzzlsMDv+Ny90GzU5uCgog0nlhLPEZqbQBYSHZBMmK3CFea1C
+ bhbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=u9x5CxPuUX9KvELHPIEAEoDfCQa03ODaNOa1+2QT5/Y=;
+ b=XxeZx8CnX8/FVE/DrtF1x/A4NVnoAc7p+c74CO+IHJL8a0BpXt0ynei5hrye5+Lt4A
+ 1b0Kf5t3q8oNpslbO/W/NQ8rG6T7z57FSK9Drze47S4AsFAYwD0u0ogOLmOgboZ8VILr
+ bSHKBB+ZMOUNCZg4xGSeRrbZNPzThrzeKYuz6BYOFWytuRDiwDLD9Nw4cmVDLN+1CkTH
+ jhZ+Iotjq2PM1DXqhIFbWXzKxb7p/vcDzcjoSGM+imt1OjWwItS6VtLjGb9F0braLzl3
+ 9mqtj5Q/vri5v4OsyEFYnLNLI+oo8hpeX5nZd1b9s34Qw0HpSI/aGHaaJ68ve/KaqxrG
+ GvhA==
+X-Gm-Message-State: AGi0PuaFCk9tqMaPMsALD1jy3kO7/NNar1uyBfGmZJJLVqoNCnPjaLQx
+ cxHHGBFcb+Fl3ugYP+MKaI8=
+X-Google-Smtp-Source: APiQypKQFRvND9YMQALXyd7xMrHaeY3PO4dhEInignttoGdFAGtl2qTWrdddrR/9c7FbdjaLg2sRrg==
+X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr8755266wmc.67.1588833773329; 
+ Wed, 06 May 2020 23:42:53 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id w6sm6674286wrt.39.2020.05.06.23.42.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 06 May 2020 23:42:52 -0700 (PDT)
+Subject: Re: [PATCH] drm/amdgpu: allocate large structures dynamically
+To: Joe Perches <joe@perches.com>, Arnd Bergmann <arnd@arndb.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, John Clements <john.clements@amd.com>
+References: <20200505140208.284473-1-arnd@arndb.de>
+ <006e29037a9314fb286a5d6d84905bce99cef6c7.camel@perches.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <845a2e12-538c-fb6d-db80-78e8adf1413f@gmail.com>
+Date: Thu, 7 May 2020 08:42:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200507060759.GT6112@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <006e29037a9314fb286a5d6d84905bce99cef6c7.camel@perches.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,111 +76,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: christian.koenig@amd.com
+Cc: Guchun Chen <guchun.chen@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Dennis Li <Dennis.Li@amd.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 07, 2020 at 09:07:59AM +0300, Ville Syrj=E4l=E4 wrote:
-> On Wed, May 06, 2020 at 04:54:08PM +0300, Artem Mygaiev wrote:
-> > On Wed, May 6, 2020 at 12:33 PM Ville Syrj=E4l=E4
-> > <ville.syrjala@linux.intel.com> wrote:
-> > >
-> > > On Wed, May 06, 2020 at 12:25:00PM +0300, Artem Mygaiev wrote:
-> > > > On Wed, May 6, 2020 at 12:18 PM Ville Syrj=E4l=E4
-> > > > <ville.syrjala@linux.intel.com> wrote:
-> > > > >
-> > > > > On Wed, May 06, 2020 at 12:04:22PM +0300, Artem Mygaiev wrote:
-> > > > > > Hello Ville
-> > > > > >
-> > > > > > On Wed, May 6, 2020 at 10:45 AM Ville Syrj=E4l=E4
-> > > > > > <ville.syrjala@linux.intel.com> wrote:
-> > > > > > >
-> > > > > > > On Tue, May 05, 2020 at 01:24:16PM +0300, Artem Mygaiev wrote:
-> > > > > > > > Hello all
-> > > > > > > >
-> > > > > > > > I am currently working on DRM/KMS driver for Fresco Logic F=
-L2000 USB display
-> > > > > > > > controller [1]. I have already implemented a POC driver [2]=
- which is working for
-> > > > > > > > me, although there are still plenty of things to improve or=
- fix, of course.
-> > > > > > > >
-> > > > > > > > So far I have one thing that I somehow cannot find in DRM/K=
-MS documentation or
-> > > > > > > > existing drivers: how to tell the system that HW expects sR=
-GB (i.e. non-linear)
-> > > > > > > > color encoding in framebuffers? This is a HW limitation tha=
-t I cannot influence
-> > > > > > > > by configuration.
-> > > > > > >
-> > > > > > > Does it do something to process the data that requires linear=
-ization
-> > > > > > > or why does it care about the gamma applied to the data? In a=
- typical
-> > > > > > > use case the data is just passed through unless the user asks=
- otherwise,
-> > > > > > > so it doesn't matter much what gamma was used. Though most di=
-splays
-> > > > > > > probably expect something resembling sRGB gamma by default, s=
-o that's
-> > > > > > > presumably what most things generate, and images/videos/etc. =
-pretty
-> > > > > > > much always have gamma already applied when they are produced.
-> > > > > > >
-> > > > > >
-> > > > > > Unfortunately the HW was designed in a way that when it is conf=
-igured to 24-bit
-> > > > > > RGB888 it expects sRGB and applies degamma automatically. It is=
- not possible to
-> > > > > > disable this, I've asked vendor and they confirmed this [1].
-> > > > >
-> > > > > So it always does degamma+gamma for no real reason? That shouldn't
-> > > > > really matter (apart from potentially losing some precision in th=
-ose
-> > > > > conversions).
-> > > > >
-> > > >
-> > > > It always does only degamma (sRGB -> linear), so if you supply line=
-ar RGB it
-> > > > will totally corrupt picture colors, e.g. this is how kmscube looks=
- like:
-> > > > https://github.com/klogg/fl2000_drm/issues/15
-> > >
-> > > That doesn't really make sense to me. You never feed linear data to
-> > > actual displays.
-> > >
-> > =
+Am 06.05.20 um 21:01 schrieb Joe Perches:
+> On Tue, 2020-05-05 at 16:01 +0200, Arnd Bergmann wrote:
+>> After the structure was padded to 1024 bytes, it is no longer
+>> suitable for being a local variable, as the function surpasses
+>> the warning limit for 32-bit architectures:
+>>
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:587:5: error: stack frame size of 1072 bytes in function 'amdgpu_ras_feature_enable' [-Werror,-Wframe-larger-than=]
+>> int amdgpu_ras_feature_enable(struct amdgpu_device *adev,
+>>      ^
+>>
+>> Use kzalloc() instead to get it from the heap.
+> []
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> []
+>> @@ -588,19 +588,23 @@ int amdgpu_ras_feature_enable(struct amdgpu_device *adev,
+>>   		struct ras_common_if *head, bool enable)
+>>   {
+>>   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+>> -	union ta_ras_cmd_input info;
+>> +	union ta_ras_cmd_input *info;
+>>   	int ret;
+>>   
+>>   	if (!con)
+>>   		return -EINVAL;
+>>   
+>> +        info = kzalloc(sizeof(union ta_ras_cmd_input), GFP_KERNEL);
+> Spaces were used for indentation here not a tab.
+> It might be useful to run your proposed patches through checkpatch
+>
+> Is this an actual bug fix as the previous use didn't
+> zero unused info members?
+>
+>> +	if (!info)
+>> +		return -ENOMEM;
+>> +
+>>   	if (!enable) {
+>> -		info.disable_features = (struct ta_ras_disable_features_input) {
+>> +		info->disable_features = (struct ta_ras_disable_features_input) {
+>>   			.block_id =  amdgpu_ras_block_to_ta(head->block),
+>>   			.error_type = amdgpu_ras_error_to_ta(head->type),
+>>   		};
+>>   	} else {
+>> -		info.enable_features = (struct ta_ras_enable_features_input) {
+>> +		info->enable_features = (struct ta_ras_enable_features_input) {
+>>   			.block_id =  amdgpu_ras_block_to_ta(head->block),
+>>   			.error_type = amdgpu_ras_error_to_ta(head->type),
+>>   		};
+>> @@ -609,26 +613,33 @@ int amdgpu_ras_feature_enable(struct amdgpu_device *adev,
+>>   	/* Do not enable if it is not allowed. */
+>>   	WARN_ON(enable && !amdgpu_ras_is_feature_allowed(adev, head));
+>>   	/* Are we alerady in that state we are going to set? */
+>> -	if (!(!!enable ^ !!amdgpu_ras_is_feature_enabled(adev, head)))
+>> -		return 0;
+>> +	if (!(!!enable ^ !!amdgpu_ras_is_feature_enabled(adev, head))) {
+> And trivia:
+>
+> The !! uses with bool seem unnecessary and it's probably better
+> to make amdgpu_ras_is_feature_enabled to return bool.
+>
+> Maybe something like:
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> index 538895cfd862..05c4eaf0ddfa 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> @@ -526,16 +526,16 @@ void amdgpu_ras_parse_status_code(struct amdgpu_device* adev,
+>   }
+>   
+>   /* feature ctl begin */
+> -static int amdgpu_ras_is_feature_allowed(struct amdgpu_device *adev,
+> -		struct ras_common_if *head)
+> +static bool amdgpu_ras_is_feature_allowed(struct amdgpu_device *adev,
+> +					  struct ras_common_if *head)
+>   {
+>   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+>   
+>   	return con->hw_supported & BIT(head->block);
+>   }
+>   
+> -static int amdgpu_ras_is_feature_enabled(struct amdgpu_device *adev,
+> -		struct ras_common_if *head)
+> +static bool amdgpu_ras_is_feature_enabled(struct amdgpu_device *adev,
+> +					  struct ras_common_if *head)
+>   {
+>   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+>   
+> @@ -560,7 +560,7 @@ static int __amdgpu_ras_feature_enable(struct amdgpu_device *adev,
+>   	 */
+>   	if (!amdgpu_ras_is_feature_allowed(adev, head))
+>   		return 0;
+> -	if (!(!!enable ^ !!amdgpu_ras_is_feature_enabled(adev, head)))
+> +	if (!(enable ^ amdgpu_ras_is_feature_enabled(adev, head)))
 
-> > I have a display with gamma 1.0 (as populated in EDID) which I assume m=
-eans
-> > linear gamma (am I wrong here?) which is connected to FL2000 dongle, so=
- there is
-> > no gamma applied after de-gamma.
-> =
+And while we are at improving coding style I think that writing this as 
+"if (enabled == amdgpu_ras_is_feature_enabled(adev, head))" would be 
+much more readable.
 
-> Never seen one like that myself IIRC.
-> =
+Christian.
 
-> Hmm. Looks like edid-decode (assuming that's what you used) decodes a =
+>   		return 0;
+>   
+>   	if (enable) {
+> @@ -609,7 +609,7 @@ int amdgpu_ras_feature_enable(struct amdgpu_device *adev,
+>   	/* Do not enable if it is not allowed. */
+>   	WARN_ON(enable && !amdgpu_ras_is_feature_allowed(adev, head));
+>   	/* Are we alerady in that state we are going to set? */
+> -	if (!(!!enable ^ !!amdgpu_ras_is_feature_enabled(adev, head)))
+> +	if (!(enable ^ amdgpu_ras_is_feature_enabled(adev, head)))
+>   		return 0;
+>   
+>   	if (!amdgpu_ras_intr_triggered()) {
+>
+>
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
-> value of 0xff as 1.0 for EDID v1.3 and older. That may be what's
-> happening in your case. Unfortunately the spec only says ""If set to
-> FFh, the gamma value is not defined here." without any further hint
-> as to where it might actually be defined. I think the only other
-> place we know of is the DispID ext block. Do you have one of those?
-> I suspect DispID might require the EDID to be v1.4 though.
-
-Actually just found two ways an extension block might specify: =
-
-Display Information Extension (DI-EXT), and Display Transfer
-Characteristics Data Block (DTCDB) as part of the CEA ext block.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
