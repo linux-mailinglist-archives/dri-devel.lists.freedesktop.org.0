@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EE21C9413
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2C91C9411
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B236EA16;
-	Thu,  7 May 2020 15:11:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE696EA18;
+	Thu,  7 May 2020 15:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9086EA16
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:11:33 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id z6so7251455wml.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:11:33 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D5C6EA13
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:11:34 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id u127so7225771wmg.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7bDfvTEDaxlj15NeDnwA1LXqS0PWMOl6LaOovzDeDJ4=;
- b=fbhymtw54KllCSQ/hVbmxZAdzcu4aLoddxkkgxWKeYzxGtNGakRX/ecxY0pvjlh1YA
- XqtPBiXYus72KA0wwIPgW4jgjSYGosp5dXJ2c0ppBn6Wp0hxcK+eDdkPZRgea+WEGhF4
- YTM4NNdHvT/4B9mmyxF1vw2C+WfbCMsvEtAv7s8Spw3JngCwneDQS1+w0vC7wGeqSpVF
- 4rxi53Tnc10/mVWlWK5c125dNykE/U/30TBc8A54KWaYdvro2WQWQHlLzmnLjEJgPLmK
- 2vi2F4Si2fLItHswXIxv+9pXT7KjivT14L9z7/K3Kq3lelSJWQCjvulgO7V0EI2CflYi
- pyFw==
+ bh=Q7INWt/3YCHbgx5xU3QqSeD5DolfJhaoAwjPypOQ5tY=;
+ b=ruIbYQWxH6T53y5WyFpfNJ4KKHMRce3+sjWZhsFPcZePkMvfK8kmZct0Q6rVYOLgmF
+ TJPe/MSGRvOCH9UiCNPBra3IyWqEf2efFsxwbuq6IIwtkYuY1qJnRMpSg9xv4CidqbAT
+ QHGqEjiElB7PoQd6qvbQilmXmmkWkdppDak939E5GZpBVWzFMUD1g+O28sYA33g2GFYP
+ +uopjIxD9vMUqm8OMmWFttCpsvGyQK/IM72PFsDwNlxNhR19nazGDmSY+BrShghXI1Zx
+ uuPlZYGf2crdG4nZ5mZEg03/DYdNE8SJ1F63uYLXOFviZlk4tLn2WdF9u2gWl4j2RCJJ
+ jRbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7bDfvTEDaxlj15NeDnwA1LXqS0PWMOl6LaOovzDeDJ4=;
- b=lQW2JUeoyx1Dqk6nIf2U/8kB0J6RwbnFc5gzBDihMzpT2K7p5Fq6CQXmbO0uNV1gN5
- MCiYzTgbFdnLTyZJv13rEt6za2YbOAKESybzBdYo1HLkSOnhf9MCsL6PP2iYJ0RdYHiC
- cOSw4nCBP1+hri5rTzCGiv/t0Cjlu740hmIj5w5yBcNEgIRd9zuEXOuyyg2D80W4ftM1
- DnzygL+XEX4Ebxc4GLEJczFIQpbvI/n07c3ikjqWKbAD/HqAzEsUsBlB0puc9WyL6p1a
- k+uPAtqFKflENapKa1KlarL/p05YIdlo89aCaYWDRRFAzNkT8NaxL9KfnBB4+geWIhDW
- hbug==
-X-Gm-Message-State: AGi0PuYbIaSxhLI5aoLi1nsbXBnbsWj5lCTixBPr9E8KwZJzSTH+WWxP
- +ezXgx7vAokXxJqkiWAaWLLtwliT
-X-Google-Smtp-Source: APiQypJDbb7ByWSHI542lnktRjflbNGkS9hpmkK79jnTJipKLcyDhKJYxIIdOqmdi5n/xrwjfCDuSw==
-X-Received: by 2002:a7b:c14b:: with SMTP id z11mr10434229wmi.44.1588864291845; 
- Thu, 07 May 2020 08:11:31 -0700 (PDT)
+ bh=Q7INWt/3YCHbgx5xU3QqSeD5DolfJhaoAwjPypOQ5tY=;
+ b=OzWc3qcau5QWL0zvEdrxOzM3AGgweFNhRXPhMoEz/m9GUvSJ+htTVtPvrLewDR/vwk
+ MHn4GrgiXY3tckPlvxNpnB+zLAHxTkbjFapVBJGS8Agbbh2YkSO19Jnqk266aIYzdFjk
+ RgvOiix/oaaY02RIQHbUcGfYsr1Df8wNjJEcWv7qwoA+/uYnkJLbNDnTy+bqv0NluESI
+ JNebwxTYhk8v2Hk4fif9x0A6odcykPOnwVKLu17ysd0uB2fxUvr3CiHKnIicrcYDSGiY
+ IIYKoWk0WJLk/GGvF22fGpQ5H8AyQGN3YpI7xsqF8L5p0YBXiN2UgaSnr4WZMlFWttOZ
+ qSoA==
+X-Gm-Message-State: AGi0PuaOPwl7WqlxY9LJG3ag8BKZSpFC60luu+t46agRH/EX+YujEmCs
+ UoOlzDxvsHCB4KISuRFbGLQDbYMQ
+X-Google-Smtp-Source: APiQypKDuVnlZdp+qB8oLPnoAvt25gdewSNXurOkuaaDTlt1uWohdP3MXj/j9FE8HRF/4KOgJkp7Cw==
+X-Received: by 2002:a1c:9d84:: with SMTP id
+ g126mr10188667wme.184.1588864292964; 
+ Thu, 07 May 2020 08:11:32 -0700 (PDT)
 Received: from arch-x1c3.cbg.collabora.co.uk
  ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.11.30
+ by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.11.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:11:31 -0700 (PDT)
+ Thu, 07 May 2020 08:11:32 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 29/36] drm/tegra: remove _unlocked suffix in
+Subject: [PATCH 30/36] drm/v3d: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Thu,  7 May 2020 16:08:15 +0100
-Message-Id: <20200507150822.114464-30-emil.l.velikov@gmail.com>
+Date: Thu,  7 May 2020 16:08:16 +0100
+Message-Id: <20200507150822.114464-31-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150822.114464-1-emil.l.velikov@gmail.com>
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
@@ -68,8 +69,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- emil.l.velikov@gmail.com
+Cc: David Airlie <airlied@linux.ie>, emil.l.velikov@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -91,127 +91,81 @@ for __file in $(git grep --name-only $__from); do
   sed -i  "s/$__from/$__to/g" $__file;
 done
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Eric Anholt <eric@anholt.net>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/tegra/drm.c | 12 ++++++------
- drivers/gpu/drm/tegra/fb.c  |  6 +++---
- drivers/gpu/drm/tegra/gem.c |  4 ++--
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/v3d/v3d_bo.c  | 6 +++---
+ drivers/gpu/drm/v3d/v3d_gem.c | 4 ++--
+ drivers/gpu/drm/v3d/v3d_irq.c | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index d4f51b5c7ee5..09d71c94985c 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -328,7 +328,7 @@ int tegra_drm_submit(struct tegra_drm_context *context,
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index edd299ab53d8..8b52cb25877c 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -185,7 +185,7 @@ int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
+ 	args->offset = bo->node.start << PAGE_SHIFT;
  
- fail:
- 	while (num_refs--)
--		drm_gem_object_put_unlocked(refs[num_refs]);
-+		drm_gem_object_put(refs[num_refs]);
+ 	ret = drm_gem_handle_create(file_priv, &bo->base.base, &args->handle);
+-	drm_gem_object_put_unlocked(&bo->base.base);
++	drm_gem_object_put(&bo->base.base);
  
- 	kfree(refs);
+ 	return ret;
+ }
+@@ -208,7 +208,7 @@ int v3d_mmap_bo_ioctl(struct drm_device *dev, void *data,
+ 	}
  
-@@ -368,7 +368,7 @@ static int tegra_gem_mmap(struct drm_device *drm, void *data,
- 
- 	args->offset = drm_vma_node_offset_addr(&bo->gem.vma_node);
- 
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
+ 	args->offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
  
  	return 0;
  }
-@@ -636,7 +636,7 @@ static int tegra_gem_set_tiling(struct drm_device *drm, void *data,
- 	bo->tiling.mode = mode;
- 	bo->tiling.value = value;
+@@ -229,6 +229,6 @@ int v3d_get_bo_offset_ioctl(struct drm_device *dev, void *data,
  
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
+ 	args->offset = bo->node.start << PAGE_SHIFT;
  
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
  	return 0;
  }
-@@ -676,7 +676,7 @@ static int tegra_gem_get_tiling(struct drm_device *drm, void *data,
- 		break;
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 09a7639cf161..915f8bfdb58c 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -358,7 +358,7 @@ v3d_job_free(struct kref *ref)
+ 
+ 	for (i = 0; i < job->bo_count; i++) {
+ 		if (job->bo[i])
+-			drm_gem_object_put_unlocked(job->bo[i]);
++			drm_gem_object_put(job->bo[i]);
+ 	}
+ 	kvfree(job->bo);
+ 
+@@ -384,7 +384,7 @@ v3d_render_job_free(struct kref *ref)
+ 	struct v3d_bo *bo, *save;
+ 
+ 	list_for_each_entry_safe(bo, save, &job->unref_list, unref_head) {
+-		drm_gem_object_put_unlocked(&bo->base.base);
++		drm_gem_object_put(&bo->base.base);
  	}
  
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
+ 	v3d_job_free(ref);
+diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+index 51b65263c657..c88686489b88 100644
+--- a/drivers/gpu/drm/v3d/v3d_irq.c
++++ b/drivers/gpu/drm/v3d/v3d_irq.c
+@@ -72,7 +72,7 @@ v3d_overflow_mem_work(struct work_struct *work)
+ 	V3D_CORE_WRITE(0, V3D_PTB_BPOS, obj->size);
  
- 	return err;
- }
-@@ -701,7 +701,7 @@ static int tegra_gem_set_flags(struct drm_device *drm, void *data,
- 	if (args->flags & DRM_TEGRA_GEM_BOTTOM_UP)
- 		bo->flags |= TEGRA_BO_BOTTOM_UP;
- 
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
- 
- 	return 0;
- }
-@@ -723,7 +723,7 @@ static int tegra_gem_get_flags(struct drm_device *drm, void *data,
- 	if (bo->flags & TEGRA_BO_BOTTOM_UP)
- 		args->flags |= DRM_TEGRA_GEM_BOTTOM_UP;
- 
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index 2b0666ac681b..01939c57fc74 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -171,7 +171,7 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
- 
- unreference:
- 	while (i--)
--		drm_gem_object_put_unlocked(&planes[i]->gem);
-+		drm_gem_object_put(&planes[i]->gem);
- 
- 	return ERR_PTR(err);
- }
-@@ -235,7 +235,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
- 	info = drm_fb_helper_alloc_fbi(helper);
- 	if (IS_ERR(info)) {
- 		dev_err(drm->dev, "failed to allocate framebuffer info\n");
--		drm_gem_object_put_unlocked(&bo->gem);
-+		drm_gem_object_put(&bo->gem);
- 		return PTR_ERR(info);
- 	}
- 
-@@ -244,7 +244,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
- 		err = PTR_ERR(fbdev->fb);
- 		dev_err(drm->dev, "failed to allocate DRM framebuffer: %d\n",
- 			err);
--		drm_gem_object_put_unlocked(&bo->gem);
-+		drm_gem_object_put(&bo->gem);
- 		return PTR_ERR(fbdev->fb);
- 	}
- 
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 623768100c6a..723df142a981 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -24,7 +24,7 @@ static void tegra_bo_put(struct host1x_bo *bo)
- {
- 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
- 
--	drm_gem_object_put_unlocked(&obj->gem);
-+	drm_gem_object_put(&obj->gem);
+ out:
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
  }
  
- /* XXX move this into lib/scatterlist.c? */
-@@ -385,7 +385,7 @@ struct tegra_bo *tegra_bo_create_with_handle(struct drm_file *file,
- 		return ERR_PTR(err);
- 	}
- 
--	drm_gem_object_put_unlocked(&bo->gem);
-+	drm_gem_object_put(&bo->gem);
- 
- 	return bo;
- }
+ static irqreturn_t
 -- 
 2.25.1
 
