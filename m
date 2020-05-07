@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE57A1CA673
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401571C880B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 13:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8D1D6EAA5;
-	Fri,  8 May 2020 08:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43AD6E977;
+	Thu,  7 May 2020 11:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6A76E979;
- Thu,  7 May 2020 11:25:07 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id B8738379BE6317962F8C;
- Thu,  7 May 2020 19:25:03 +0800 (CST)
-Received: from huawei.com (10.67.174.156) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 7 May 2020
- 19:24:57 +0800
-From: ChenTao <chentao107@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH -next] drm/amd/dc: Remove a useless comparison
-Date: Thu, 7 May 2020 19:24:12 +0800
-Message-ID: <20200507112412.10829-1-chentao107@huawei.com>
-X-Mailer: git-send-email 2.22.0
-MIME-Version: 1.0
-X-Originating-IP: [10.67.174.156]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Fri, 08 May 2020 08:47:23 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD0F46E977
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 11:25:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 537171FB;
+ Thu,  7 May 2020 04:25:05 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.25])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD4823F68F;
+ Thu,  7 May 2020 04:25:03 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: [PATCH v2 16/17] dt-bindings: mali-midgard: Allow dma-coherent
+Date: Thu,  7 May 2020 12:24:29 +0100
+Message-Id: <20200507112430.183940-17-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200507112430.183940-1-andre.przywara@arm.com>
+References: <20200507112430.183940-1-andre.przywara@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,62 +40,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, Anthony.Koo@amd.com, Rodrigo.Siqueira@amd.com,
- murton.liu@amd.com, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, chentao107@huawei.com,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org, christian.koenig@amd.com,
- Su.Chung@amd.com
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following warning:
+Add the boolean dma-coherent property to the list of allowed properties,
+since some boards (Arm Juno) integrate the GPU this way.
 
-'en' is uint32_t and can never be negative.
-
-drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_hpd.c:132:10: warning:
-comparison of unsigned expression < 0 is always false [-Wtype-limits]
-  if ((en < GPIO_DDC_LINE_MIN) || (en > GPIO_DDC_LINE_MAX)) {
-drivers/gpu/drm/amd/amdgpu/../display/dc/gpio/hw_generic.c:109:10: warning:
-comparison of unsigned expression < 0 is always false [-Wtype-limits]
-  if ((en < GPIO_DDC_LINE_MIN) || (en > GPIO_DDC_LINE_MAX)) {
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: ChenTao <chentao107@huawei.com>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/gpu/drm/amd/display/dc/gpio/hw_generic.c | 2 +-
- drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_generic.c b/drivers/gpu/drm/amd/display/dc/gpio/hw_generic.c
-index f9e847e6555d..6cd50232c432 100644
---- a/drivers/gpu/drm/amd/display/dc/gpio/hw_generic.c
-+++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_generic.c
-@@ -106,7 +106,7 @@ void dal_hw_generic_init(
- 	enum gpio_id id,
- 	uint32_t en)
- {
--	if ((en < GPIO_DDC_LINE_MIN) || (en > GPIO_DDC_LINE_MAX)) {
-+	if (en > GPIO_DDC_LINE_MAX) {
- 		ASSERT_CRITICAL(false);
- 		*hw_generic = NULL;
- 	}
-diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-index 692f29de7797..f91f426699c0 100644
---- a/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-+++ b/drivers/gpu/drm/amd/display/dc/gpio/hw_hpd.c
-@@ -129,7 +129,7 @@ void dal_hw_hpd_init(
- 	enum gpio_id id,
- 	uint32_t en)
- {
--	if ((en < GPIO_DDC_LINE_MIN) || (en > GPIO_DDC_LINE_MAX)) {
-+	if (en > GPIO_DDC_LINE_MAX) {
- 		ASSERT_CRITICAL(false);
- 		*hw_hpd = NULL;
- 	}
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+index 0407e45eb8c4..5d7165385e1f 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+@@ -87,6 +87,8 @@ properties:
+   "#cooling-cells":
+     const: 2
+ 
++  dma-coherent: true
++
+ required:
+   - compatible
+   - reg
 -- 
-2.22.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
