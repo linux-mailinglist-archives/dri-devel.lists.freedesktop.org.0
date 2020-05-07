@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E3A1C92ED
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F338B1C92EC
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:00:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A586E9E7;
-	Thu,  7 May 2020 15:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B53B6E9E0;
+	Thu,  7 May 2020 15:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1BE6E9E6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:00:21 +0000 (UTC)
-IronPort-SDR: SOLfoZxGhk6X1AWCxxCB9kRint5hHrhz8hjH2L8eC8Q2JpWLGUcdLNS8gu7d5dG1Uy85uP5KaQ
- livBuEc3xdIg==
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9EB6E9E0
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:00:22 +0000 (UTC)
+IronPort-SDR: h0coQBiL6lyZD6Gph1t9+hYG+xMSNWg6axHa/LZDCESQb86h9hjEeRnpsMTeDMvwUestV0wyIB
+ h/IauNmfXesQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 May 2020 08:00:21 -0700
-IronPort-SDR: 8kelONvFWkDSLnlxb+aC09SCcHpfPaQNdOui/5AjOqlu1OGR0HzXrUJ86xU7g9SACnHrbkp/Nh
- JAksyq4FIvkw==
-X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="339377415"
+IronPort-SDR: saT76zwPdNDhyVhlS8gGstj7Z1vEVhsiCVSWpU8SA2MZuPcSyBfm4xuaedmODqMXokcDkJBKU+
+ 8RFyk6fiFs3w==
+X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="370140539"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 08:00:19 -0700
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 08:00:21 -0700
 From: ira.weiny@intel.com
 To: linux-kernel@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH V3 12/15] kmap: Remove kmap_atomic_to_page()
-Date: Thu,  7 May 2020 08:00:00 -0700
-Message-Id: <20200507150004.1423069-13-ira.weiny@intel.com>
+Subject: [PATCH V3 13/15] parisc/kmap: Remove duplicate kmap code
+Date: Thu,  7 May 2020 08:00:01 -0700
+Message-Id: <20200507150004.1423069-14-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150004.1423069-1-ira.weiny@intel.com>
 References: <20200507150004.1423069-1-ira.weiny@intel.com>
@@ -69,8 +69,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-kmap_atomic_to_page() has no callers and is only defined on 1 arch and
-declared on another.  Remove it.
+parisc reimplements the kmap calls except to flush it's dcache.  This is
+arguably an abuse of kmap but regardless it is messy and confusing.
+
+Remove the duplicate code and have parisc define
+ARCH_HAS_FLUSH_ON_KUNMAP for a kunmap_flush_on_unmap() architecture
+specific call to flush the cache.
 
 Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
@@ -79,59 +83,93 @@ Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 Changes from V2:
 	New Patch for this series
 ---
- arch/csky/include/asm/highmem.h  |  1 -
- arch/csky/mm/highmem.c           | 13 -------------
- arch/nds32/include/asm/highmem.h |  1 -
- 3 files changed, 15 deletions(-)
+ arch/parisc/include/asm/cacheflush.h | 28 ++--------------------------
+ include/linux/highmem.h              | 10 +++++++---
+ 2 files changed, 9 insertions(+), 29 deletions(-)
 
-diff --git a/arch/csky/include/asm/highmem.h b/arch/csky/include/asm/highmem.h
-index 263fbddcd0a3..ea2f3f39174d 100644
---- a/arch/csky/include/asm/highmem.h
-+++ b/arch/csky/include/asm/highmem.h
-@@ -33,7 +33,6 @@ extern pte_t *pkmap_page_table;
- #define ARCH_HAS_KMAP_FLUSH_TLB
- extern void kmap_flush_tlb(unsigned long addr);
- extern void *kmap_atomic_pfn(unsigned long pfn);
--extern struct page *kmap_atomic_to_page(void *ptr);
- 
- #define flush_cache_kmaps() do {} while (0)
- 
-diff --git a/arch/csky/mm/highmem.c b/arch/csky/mm/highmem.c
-index 3ae5c8cd7619..3b3f622f5ae9 100644
---- a/arch/csky/mm/highmem.c
-+++ b/arch/csky/mm/highmem.c
-@@ -81,19 +81,6 @@ void *kmap_atomic_pfn(unsigned long pfn)
- 	return (void *) vaddr;
+diff --git a/arch/parisc/include/asm/cacheflush.h b/arch/parisc/include/asm/cacheflush.h
+index 119c9a7681bc..99663fc1f997 100644
+--- a/arch/parisc/include/asm/cacheflush.h
++++ b/arch/parisc/include/asm/cacheflush.h
+@@ -100,35 +100,11 @@ flush_anon_page(struct vm_area_struct *vma, struct page *page, unsigned long vma
+ 	}
  }
  
--struct page *kmap_atomic_to_page(void *ptr)
+-#include <asm/kmap_types.h>
+-
+-#define ARCH_HAS_KMAP
+-
+-static inline void *kmap(struct page *page)
 -{
--	unsigned long idx, vaddr = (unsigned long)ptr;
--	pte_t *pte;
--
--	if (vaddr < FIXADDR_START)
--		return virt_to_page(ptr);
--
--	idx = virt_to_fix(vaddr);
--	pte = kmap_pte - (idx - FIX_KMAP_BEGIN);
--	return pte_page(*pte);
+-	might_sleep();
+-	return page_address(page);
 -}
 -
- static void __init kmap_pages_init(void)
+-static inline void kunmap(struct page *page)
+-{
+-	flush_kernel_dcache_page_addr(page_address(page));
+-}
+-
+-static inline void *kmap_atomic(struct page *page)
+-{
+-	preempt_disable();
+-	pagefault_disable();
+-	return page_address(page);
+-}
+-
+-static inline void kunmap_atomic_high(void *addr)
++#define ARCH_HAS_FLUSH_ON_KUNMAP
++static inline void kunmap_flush_on_unmap(void *addr)
  {
- 	unsigned long vaddr;
-diff --git a/arch/nds32/include/asm/highmem.h b/arch/nds32/include/asm/highmem.h
-index 4d21308549c9..a48a6536d41a 100644
---- a/arch/nds32/include/asm/highmem.h
-+++ b/arch/nds32/include/asm/highmem.h
-@@ -52,7 +52,6 @@ extern void kmap_init(void);
-  */
- #ifdef CONFIG_HIGHMEM
- extern void *kmap_atomic_pfn(unsigned long pfn);
--extern struct page *kmap_atomic_to_page(void *ptr);
- #endif
+ 	flush_kernel_dcache_page_addr(addr);
+ }
  
- #endif
+-#define kmap_atomic_prot(page, prot)	kmap_atomic(page)
+-#define kmap_atomic_pfn(pfn)	kmap_atomic(pfn_to_page(pfn))
+-
+ #endif /* _PARISC_CACHEFLUSH_H */
+ 
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 89838306f50d..cc0c3904e501 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -129,7 +129,6 @@ static inline struct page *kmap_to_page(void *addr)
+ 
+ static inline unsigned long totalhigh_pages(void) { return 0UL; }
+ 
+-#ifndef ARCH_HAS_KMAP
+ static inline void *kmap(struct page *page)
+ {
+ 	might_sleep();
+@@ -138,6 +137,9 @@ static inline void *kmap(struct page *page)
+ 
+ static inline void kunmap(struct page *page)
+ {
++#ifdef ARCH_HAS_FLUSH_ON_KUNMAP
++	kunmap_flush_on_unmap(page_address(page));
++#endif
+ }
+ 
+ static inline void *kmap_atomic(struct page *page)
+@@ -150,14 +152,16 @@ static inline void *kmap_atomic(struct page *page)
+ 
+ static inline void kunmap_atomic_high(void *addr)
+ {
+-	/* Nothing to do in the CONFIG_HIGHMEM=n case as kunmap_atomic()
++	/* Mostly nothing to do in the CONFIG_HIGHMEM=n case as kunmap_atomic()
+ 	 * handles re-enabling faults + preemption */
++#ifdef ARCH_HAS_FLUSH_ON_KUNMAP
++	kunmap_flush_on_unmap(addr);
++#endif
+ }
+ 
+ #define kmap_atomic_pfn(pfn)	kmap_atomic(pfn_to_page(pfn))
+ 
+ #define kmap_flush_unused()	do {} while(0)
+-#endif
+ 
+ #endif /* CONFIG_HIGHMEM */
+ 
 -- 
 2.25.1
 
