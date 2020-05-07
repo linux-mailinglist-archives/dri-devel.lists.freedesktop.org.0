@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47411C93EA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3FE1C93F0
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 17:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28786E9F8;
-	Thu,  7 May 2020 15:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8432D6E9FA;
+	Thu,  7 May 2020 15:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
  [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C827F6E9F8
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 15:10:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l18so6827123wrn.6
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 08:10:59 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388FE6E9FA;
+ Thu,  7 May 2020 15:11:01 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id s8so6841608wrt.9;
+ Thu, 07 May 2020 08:11:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UUABl2wVRatkO4EE0YHkCwHW5aJAIn1l4xu9QGB+vNM=;
- b=H7Rk0o6Cl38kBoDsjrUorBXviUwd9VODqmJR/Uz+tBmHZXSL9sMth1eCNS7BY2g5pb
- z5yvy4aZ//7bJsPBL/n3lA7PC10igt8IQPCEgrndD28dzkQjR8TLHe8NnF33oM4xVjc5
- 34IBwl3+byMAUWuzyj13A2VLWbXZ9hfkykOman9nGkQQIGNNLAAK1KBGdY9CggG6PqmO
- 8I9ddnAHGGStkxKiE1LYZvl/Y2w6qhLlqnUTmkkTwF++a64nrfVhecjlf2DXaVezqrxC
- 1TVlEmYg1YQocDTDp16WV3dpkWjYf0VJthNG9eiy1Dq1rf8wfGkOPUSoHdR/Cm7/7nX1
- sw8w==
+ bh=rLELSkIkXqc4MjKeYvGm92qJZ3Zy9onyXpkjbBhy6wg=;
+ b=Yr+Vmi6QKlnofxOYiNtwd3eAoXde2UhusYr5PcDyQb5Z0Q9cLezYKD/VJtzOzfR5xu
+ fd19PV2zRLEhANF8hyKJJvBU/zWK/xen+TJ8UZbAdaFqN20+qNCke0BmfE042HaBY/p3
+ EOWFnlGN9cSqctiNA8dM3UnFj2LjE8W8K91UFnP56MkgmmwkmT4L2n8aos6fSsfPWM/T
+ yDzb1ZUpi/+1byj1vqHXbCaN/Cq1l0+3Gi8+CCGbZbII8WNsFvimC7QW3bskOuvA4xAn
+ 7F2L0UvG2ZRdp6SNhnTL8AJHzvPFH8kzdoIgoXV/QLK21JGlkG22hwcby4W58H0ngVKe
+ DhfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UUABl2wVRatkO4EE0YHkCwHW5aJAIn1l4xu9QGB+vNM=;
- b=nYCgKdASeLXdWgwKA0SyS0F75W7nupINJ5qT0i8UIFGxNz19VY+bTm1MFYbPiClyPE
- hqT5yNijOykynKay8qiUbsScPUKyiO8QmKfRuE1FwUyf1dMojpL2RJFFVCQ4NC9MzU1p
- BxL4DxhFLKunx3ZFn9LjrYK6vydPN6TXWBg93Az/j0OqQFr20f6gJBBFDrpc6hDTgyOC
- FsJb1q8honS2bk040tqJpmYC0BbziwnmOHKjs4EOXYwhZ1Yuy+2GLDpYQxWcQBpT3CgZ
- 7wT+y4ne+am0DPcm6e6uDW7RhF9MpinPrXMlG5Zy8hiXkK6dA4I7RtIpT39U+yfNoJQK
- /30A==
-X-Gm-Message-State: AGi0PubzEdZgikvB1QNjfdsetfJNIsyLoNPgSPRn5DyKGClVmF3tVRoL
- cIgIS3cImSBZS1xTYe4CdZ4Ou3uf
-X-Google-Smtp-Source: APiQypKooTvQvYWO57Cqf5CDL99mSvxYzWbjkfQrGKuMathDMjVS9xcWpF4YAAbM1Mnj06DYqxi5Xw==
-X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr15422716wrt.215.1588864257866; 
- Thu, 07 May 2020 08:10:57 -0700 (PDT)
+ bh=rLELSkIkXqc4MjKeYvGm92qJZ3Zy9onyXpkjbBhy6wg=;
+ b=QOpy9+8n0/TXtAvfceDacO6XlJTODGtNvEzdKB/Il1GJvT0BcGpzxMyK0ibTxk+KTs
+ COs3J52VwdZ9WaImV+dQZUwgHK5Ckip//mwqGR9No5GHEvJMqMYGqnTjspF2Url4A+C8
+ oDslHKGI15vg2CFOk5+CwE0PNwTUnA8h0AbbPnHok+zKe+efjaDzPXH1ILafijmRHQGt
+ Ydb9VFe7yxZpB1XdMATtjx52WekQoLbIpsDwLFVyE6DVIdf7H3Ga04XE2eLqDXYAfU6C
+ /ykpiZChUcJEKRF5Sq0W41xkerQaQjMZKsacfjrOOeY4W3XsPSBquXCp2/8P5QQ/L0zl
+ dWjw==
+X-Gm-Message-State: AGi0Pubqgv5TnWMAf+rkO4D4vMPlyt4iuOCGclHAcBuKdFLc2T3AOyZ6
+ rCHe+FmtZ+JVC8ETZcbiQN+EYQj/
+X-Google-Smtp-Source: APiQypKaNSaGj3/LMepeWJU0dApnhwNxtE8TWXTJaCbSNqB3o/LoIfwsHTqlbZro+OBCI6xtsDPPag==
+X-Received: by 2002:a5d:49c3:: with SMTP id t3mr14981243wrs.94.1588864259352; 
+ Thu, 07 May 2020 08:10:59 -0700 (PDT)
 Received: from arch-x1c3.cbg.collabora.co.uk
  ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.10.56
+ by smtp.gmail.com with ESMTPSA id b66sm8704247wmh.12.2020.05.07.08.10.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:10:56 -0700 (PDT)
+ Thu, 07 May 2020 08:10:58 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/36] drm/doc: drop struct_mutex refernce for
- drm_gem_object_free
-Date: Thu,  7 May 2020 16:07:51 +0100
-Message-Id: <20200507150822.114464-6-emil.l.velikov@gmail.com>
+Subject: [PATCH 06/36] drm/amdgpu: use the unlocked drm_gem_object_put
+Date: Thu,  7 May 2020 16:07:52 +0100
+Message-Id: <20200507150822.114464-7-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200507150822.114464-1-emil.l.velikov@gmail.com>
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
@@ -68,40 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emil.l.velikov@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, emil.l.velikov@gmail.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emil Velikov <emil.velikov@collabora.com>
-
-The comment that struct_mutex must be held is misleading. It is only
-required when .gem_free_object() is used.
-
-Since that one is going with the next patches, drop the reference.
-
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/drm_gem.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 918d1ba25f63..12fa121d0966 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -965,7 +965,6 @@ EXPORT_SYMBOL(drm_gem_object_release);
-  * @kref: kref of the object to free
-  *
-  * Called after the last reference to the object has been lost.
-- * Must be called holding &drm_device.struct_mutex.
-  *
-  * Frees the object
-  */
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KClRoZSBkcml2
+ZXIgZG9lcyBub3QgaG9sZCBzdHJ1Y3RfbXV0ZXgsIHRodXMgdXNpbmcgdGhlIGxvY2tlZCB2ZXJz
+aW9uIG9mCnRoZSBoZWxwZXIgaXMgaW5jb3JyZWN0LgoKQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFu
+ZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkZpeGVzOiBhMzk0
+MTQ3MTZjYTAgKCJkcm0vYW1kZ3B1OiBhZGQgaW5kZXBlbmRlbnQgRE1BLWJ1ZiBpbXBvcnQgdjki
+KToKU2lnbmVkLW9mZi1ieTogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RtYV9idWYuYyB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jCmluZGV4IDQzZDhlZDdkYmQwMC4u
+NjUyYzU3YTNiODQ3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfZG1hX2J1Zi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFf
+YnVmLmMKQEAgLTU4Nyw3ICs1ODcsNyBAQCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmFtZGdwdV9n
+ZW1fcHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJYXR0YWNoID0gZG1hX2J1
+Zl9keW5hbWljX2F0dGFjaChkbWFfYnVmLCBkZXYtPmRldiwKIAkJCQkJJmFtZGdwdV9kbWFfYnVm
+X2F0dGFjaF9vcHMsIG9iaik7CiAJaWYgKElTX0VSUihhdHRhY2gpKSB7Ci0JCWRybV9nZW1fb2Jq
+ZWN0X3B1dChvYmopOworCQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQob2JqKTsKIAkJcmV0
+dXJuIEVSUl9DQVNUKGF0dGFjaCk7CiAJfQogCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
