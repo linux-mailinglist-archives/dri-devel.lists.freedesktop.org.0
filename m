@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ED81CA66E
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A511CA670
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404AC6E1F7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60B56EAA2;
 	Fri,  8 May 2020 08:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C377E6E0DF;
- Thu,  7 May 2020 11:07:53 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 1376A673389A9E16E1A2;
- Thu,  7 May 2020 19:07:49 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 7 May 2020
- 19:07:42 +0800
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E986E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 11:08:03 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 0C346672F08BDD45CEBE;
+ Thu,  7 May 2020 19:08:02 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Thu, 7 May 2020
+ 19:07:53 +0800
 From: Jason Yan <yanaijie@huawei.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <David1.Zhou@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/amd/display: remove variable "result" in
- dcn20_patch_unknown_plane_state()
-Date: Thu, 7 May 2020 19:07:03 +0800
-Message-ID: <20200507110703.37509-1-yanaijie@huawei.com>
+To: <linux-graphics-maintainer@vmware.com>, <thellstrom@vmware.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <sumit.semwal@linaro.org>,
+ <chris@chris-wilson.co.uk>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH] drm/vmwgfx: Return true in function vmw_fence_obj_signaled()
+Date: Thu, 7 May 2020 19:07:14 +0800
+Message-ID: <20200507110714.37589-1-yanaijie@huawei.com>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 X-Originating-IP: [10.175.124.28]
@@ -53,36 +52,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following coccicheck warning:
 
-drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c:3216:16-22:
-Unneeded variable: "result". Return "DC_OK" on line 3229
+drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:518:9-10: WARNING: return of 0/1
+in function 'vmw_fence_obj_signaled' with return type bool
 
 Signed-off-by: Jason Yan <yanaijie@huawei.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index 4dea550c3f83..3c0090797866 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -3228,8 +3228,6 @@ static struct dc_cap_funcs cap_funcs = {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index 178a6cd1a06f..0f8d29397157 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -515,7 +515,7 @@ bool vmw_fence_obj_signaled(struct vmw_fence_obj *fence)
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
  
- enum dc_status dcn20_patch_unknown_plane_state(struct dc_plane_state *plane_state)
- {
--	enum dc_status result = DC_OK;
--
- 	enum surface_pixel_format surf_pix_format = plane_state->format;
- 	unsigned int bpp = resource_pixel_format_to_bpp(surf_pix_format);
+ 	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
+-		return 1;
++		return true;
  
-@@ -3241,7 +3239,7 @@ enum dc_status dcn20_patch_unknown_plane_state(struct dc_plane_state *plane_stat
- 		swizzle = DC_SW_64KB_S;
+ 	vmw_fences_update(fman);
  
- 	plane_state->tiling_info.gfx9.swizzle = swizzle;
--	return result;
-+	return DC_OK;
- }
- 
- static struct resource_funcs dcn20_res_pool_funcs = {
 -- 
 2.21.1
 
