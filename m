@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6421CA66D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0F61CA67B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA5D6E1F2;
-	Fri,  8 May 2020 08:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 891DB6EAA9;
+	Fri,  8 May 2020 08:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B26E6E97A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 11:56:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id r26so6511730wmh.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 04:56:51 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5696E97D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 12:05:03 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id y4so6042727wrm.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 05:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cwbndYePx6Sf4kvKBrk06EAK0VStwNUVTL2K+SJVvwI=;
- b=ZaDlNUeMLsuMD7531bd1nDMr7SL++ZBC8CeaJNNmJgZJeTsG2xe8QrypRYuV5wz8w2
- UiZqLAoIUiFiLP15OFxtx3WEqGSaGH1TJTTI+yKEhTII41nX+1Fa1xZFxs6yL7DBIQUp
- mZi+9PEkyHlNOh8XX5FrEbw2i47OkWkMCpHpE=
+ :cc:content-transfer-encoding;
+ bh=SGLZlKnkNOnrlUlvXwMl7HftcltiGBbmSFp2HVAgndo=;
+ b=hyOUNYAOsDZKWWqHCOixppyA2yCLRZdjUpF+RZnLHJBqItce6dT4UizQy9FOZP1e/6
+ GD25wLUYiSaxA5z5dL4LZPFo16kDESKVMvBka04Xb1mVcYBVKol0kPH8DABhlWrCIE6C
+ NWDn/AYSYQp70jIqgz+VJ/64jgwWsJTMlNt1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cwbndYePx6Sf4kvKBrk06EAK0VStwNUVTL2K+SJVvwI=;
- b=J52ShS6oWRuyjoGfE82TH1GsX9F1A7Gka6rQxZawvYDQ5B8bQux9GzGA+aBUHvVdU1
- sNf3C29rEobm6Py1rwRPjwKwH0vpzXqXv71FBgHnmrqNoewerr2kOK/A64weuaVSoEv/
- Yb8Gpy0W69O4NdonqvXXTsoBi6bFYUyI6NJcACROy7B0spBozUvaWtJwIh2QHGIjpYVY
- nae+pf1Fklljm20whOb31QL78JTbaj8Eaw1/cEQoMNfe4PtauiIrbzHl7zsXWaeBqp6F
- /SgIWmOvu4zOzUNGQ1C9U+JBZCD6jZkc7l6h0RQiIDMONCWhb82qXoM4BRpGAZS1C4p+
- Z2NA==
-X-Gm-Message-State: AGi0PuZ6hQfeZhRFvA1Gd6/Ma7uInGfehmMjQFnCCxW0kPFLSI81YGK+
- aGPbQHBKURjt2/d7G9MytSa7goaD9wJGJwqoWkWgGQ==
-X-Google-Smtp-Source: APiQypKQjgXGPVpdtx8p9w+nrP8rvOLzevb6vFpHpUaJEVKIYzLAFAbdqna1vt22+43KryxqrLQnl31CR41crfy8aBQ=
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr7061026wmb.156.1588852610069; 
- Thu, 07 May 2020 04:56:50 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SGLZlKnkNOnrlUlvXwMl7HftcltiGBbmSFp2HVAgndo=;
+ b=kiyDwKFFEu+3nJd+Piq32WF3FCNpaDeXPBmdiIgVRTTQvJqkwOtj0gNqUztTdMrflA
+ B5KCndqz77DlQCK0eevrRFkT6azPaJEZDoLblgHiWj/cS6BUkzTwOW5hNdoO31m4fPTr
+ bH8CEFQ0cV4zTVne7d//jicrPIECj1LExIWfdhtCKJn1qySKjI9Zq4LAYNcl5ZE9tMf1
+ XkEwzzlhzvz18gIo8vfrqjkUH7wmc24kOAnH14OZXZTD+BQ6NjH6mEDqs8wcLxHVsvny
+ Yxs8O0zMfNcusKPdqJVGpIHQGR4RzWlh2ay2hahIC3jk3QqZGc/sUuZRTF24ctC4yZ9M
+ pa0w==
+X-Gm-Message-State: AGi0Puau2jDkJvOmlGkrV9hiVW82oXu0Kf4BHmW8ogKFuX7499fX9RIq
+ +7UYHFA39+KAPiF5KWtvaWhv1xoPCulDd/6Jts8ryw==
+X-Google-Smtp-Source: APiQypJH/afwUatYj1jaGjcUvHgD7oUYTlF8oDz2/GOBg3Wm44EhgjgOvQ7zBU70+FdGW2IMbo2TwNg/1PKujG5i3hk=
+X-Received: by 2002:a5d:4e06:: with SMTP id p6mr14710611wrt.35.1588853101604; 
+ Thu, 07 May 2020 05:05:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200420060834.44461-1-amistry@google.com>
  <CAAOTY_81qB+WJN_2-ZNqM63NOp+Es1qEmsp2qje2bfePg1O5Vw@mail.gmail.com>
@@ -47,8 +48,8 @@ References: <20200420060834.44461-1-amistry@google.com>
  <CAAOTY__B+8XY=5n5C2AYBGskRhvOs2PmHVhjKJk7NmXDVM_-Nw@mail.gmail.com>
 In-Reply-To: <CAAOTY__B+8XY=5n5C2AYBGskRhvOs2PmHVhjKJk7NmXDVM_-Nw@mail.gmail.com>
 From: Anand Mistry <amistry@chromium.org>
-Date: Thu, 7 May 2020 21:56:39 +1000
-Message-ID: <CAECpkiO9P1+GpQi+aH_B2B8d5Bsba5XJnUKJDfL-kZk455Edcg@mail.gmail.com>
+Date: Thu, 7 May 2020 22:04:50 +1000
+Message-ID: <CAECpkiOjLZrr3yqG83D6kWiWKh9XmBnbtLEeeYTn-kdxC5V7dw@mail.gmail.com>
 Subject: Re: [PATCH] drm/mediatek: stop iterating dma addresses when
  sg_dma_len() == 0
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -70,247 +71,78 @@ Cc: Anand K Mistry <amistry@google.com>,
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0241150126=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0241150126==
-Content-Type: multipart/alternative; boundary="0000000000006c8f1805a50d9359"
-
---0000000000006c8f1805a50d9359
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 6, 2020 at 10:59 PM Chun-Kuang Hu <chunkuang.hu@kernel.org>
-wrote:
->
-> Hi, Anand:
->
-> Anand Mistry <amistry@chromium.org> =E6=96=BC 2020=E5=B9=B45=E6=9C=886=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=887:03=E5=AF=AB=E9=81=93=EF=BC=9A
-> >
-> > On Wed, May 6, 2020 at 10:25 AM Chun-Kuang Hu <chunkuang.hu@kernel.org>
-wrote:
-> > >
-> > > Hi, Anand,
-> > >
-> > > Chun-Kuang Hu <chunkuang.hu@kernel.org> =E6=96=BC 2020=E5=B9=B44=E6=
-=9C=8829=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:37=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > > >
-> > > > Hi, Anand,
-> > > >
-> > > > Anand K. Mistry <amistry@chromium.org> =E6=96=BC 2020=E5=B9=B44=E6=
-=9C=8828=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=889:54=E5=AF=AB=E9=81=
-=93=EF=BC=9A
-> > > > >
-> > > > > On Sun, 26 Apr 2020 at 18:04, Chun-Kuang Hu <
-chunkuang.hu@kernel.org> wrote:
-> > > > > >
-> > > > > > Hi, Anand:
-> > > > > >
-> > > > > > Anand K Mistry <amistry@chromium.org> =E6=96=BC 2020=E5=B9=B44=
-=E6=9C=8820=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:09=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > > > > >
-> > > > > > > If dma_map_sg() merges pages when creating the mapping, only
-the first
-> > > > > > > entries will have a valid sg_dma_address() and sg_dma_len(),
-followed by
-> > > > > > > entries with sg_dma_len() =3D=3D 0.
-> > > > > > >
-> > > > > > > Signed-off-by: Anand K Mistry <amistry@google.com>
-> > >
-> > > Author should sign off this patch, please give a sign off tag by
-author.
-> >
-> > Sorry, email issues meant i sent the patch from a different account.
-> > Should I re-send the
-> > patch from the same account as the sign-off line? I'm still working my
-> > way through the kernel patch process.
-> >
->
-> If you want to use chromium account, you could simply reply this email
-> with a sign-off-by tag of chromium account.
-
-Ack. As path of least resistance, here:
-
-Signed-off-by: Anand K Mistry <amistry@chromium.org>
-
-
->
-> Regards,
-> Chun-Kuang.
->
-> > >
-> > > Regards,
-> > > Chun-Kuang.
-> > >
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/mediatek/mtk_drm_gem.c | 3 +++
-> > > > > > >  1 file changed, 3 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > > > > > > index b04a3c2b111e09..f8fd8b98c30e3d 100644
-> > > > > > > --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > > > > > > +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
-> > > > > > > @@ -224,6 +224,9 @@ struct drm_gem_object
-*mtk_gem_prime_import_sg_table(struct drm_device *dev,
-> > > > > > >
-> > > > > > >         expected =3D sg_dma_address(sg->sgl);
-> > > > > > >         for_each_sg(sg->sgl, s, sg->nents, i) {
-> > > > > > > +               if (!sg_dma_len(s))
-> > > > > > > +                       break;
-> > > > > >
-> > > > > > I think this should be 'continue'
-> > > > >
-> > > > > scatterlist.h has the comment:
-> > > > > /*
-> > > > >  * These macros should be used after a dma_map_sg call has been
-done
-> > > > >  * to get bus addresses of each of the SG entries and their
-lengths.
-> > > > >  * You should only work with the number of sg entries dma_map_sg
-> > > > >  * returns, or alternatively stop on the first sg_dma_len(sg)
-which
-> > > > >  * is 0.
-> > > > >  */
-> > > > >
-> > > > > So breaking on the first sg_dma_len(sg) =3D=3D 0 appears to be (o=
-ne
-of)
-> > > > > the documented approach.
-> > > > >
-> > > >
-> > > > Okay, you're right. So
-> > > >
-> > > > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > > >
-> > > > > >
-> > > > > > Regards,
-> > > > > > Chun-Kuang.
-> > > > > >
-> > > > > > > +
-> > > > > > >                 if (sg_dma_address(s) !=3D expected) {
-> > > > > > >                         DRM_ERROR("sg_table is not
-contiguous");
-> > > > > > >                         ret =3D -EINVAL;
-> > > > > > > --
-> > > > > > > 2.26.1.301.g55bc3eb7cb9-goog
-> > > > > > >
-> > > > > > >
-> > > > > > > _______________________________________________
-> > > > > > > Linux-mediatek mailing list
-> > > > > > > Linux-mediatek@lists.infradead.org
-> > > > > > > http://lists.infradead.org/mailman/listinfo/linux-mediatek
-
---0000000000006c8f1805a50d9359
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On Wed, May 6, 2020 at 10:59 PM Chun-Kuang Hu &lt;<a href=
-=3D"mailto:chunkuang.hu@kernel.org">chunkuang.hu@kernel.org</a>&gt; wrote:<=
-br>&gt;<br>&gt; Hi, Anand:<br>&gt;<br>&gt; Anand Mistry &lt;<a href=3D"mail=
-to:amistry@chromium.org">amistry@chromium.org</a>&gt; =E6=96=BC 2020=E5=B9=
-=B45=E6=9C=886=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=887:03=E5=AF=AB=
-=E9=81=93=EF=BC=9A<br>&gt; &gt;<br>&gt; &gt; On Wed, May 6, 2020 at 10:25 A=
-M Chun-Kuang Hu &lt;<a href=3D"mailto:chunkuang.hu@kernel.org">chunkuang.hu=
-@kernel.org</a>&gt; wrote:<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; Hi, Anand,<b=
-r>&gt; &gt; &gt;<br>&gt; &gt; &gt; Chun-Kuang Hu &lt;<a href=3D"mailto:chun=
-kuang.hu@kernel.org">chunkuang.hu@kernel.org</a>&gt; =E6=96=BC 2020=E5=B9=
-=B44=E6=9C=8829=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:37=E5=AF=
-=AB=E9=81=93=EF=BC=9A<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; Hi, Ana=
-nd,<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; Anand K. Mistry &lt;<a hr=
-ef=3D"mailto:amistry@chromium.org">amistry@chromium.org</a>&gt; =E6=96=BC 2=
-020=E5=B9=B44=E6=9C=8828=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=889:54=
-=E5=AF=AB=E9=81=93=EF=BC=9A<br>&gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &=
-gt; &gt; On Sun, 26 Apr 2020 at 18:04, Chun-Kuang Hu &lt;<a href=3D"mailto:=
-chunkuang.hu@kernel.org">chunkuang.hu@kernel.org</a>&gt; wrote:<br>&gt; &gt=
-; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; Hi, Anand:<br>&gt; &=
-gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; Anand K Mistry &lt=
-;<a href=3D"mailto:amistry@chromium.org">amistry@chromium.org</a>&gt; =E6=
-=96=BC 2020=E5=B9=B44=E6=9C=8820=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=
-=8D=882:09=E5=AF=AB=E9=81=93=EF=BC=9A<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt;=
-<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; If dma_map_sg() merges pages when cr=
-eating the mapping, only the first<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; en=
-tries will have a valid sg_dma_address() and sg_dma_len(), followed by<br>&=
-gt; &gt; &gt; &gt; &gt; &gt; &gt; entries with sg_dma_len() =3D=3D 0.<br>&g=
-t; &gt; &gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; Sign=
-ed-off-by: Anand K Mistry &lt;<a href=3D"mailto:amistry@google.com">amistry=
-@google.com</a>&gt;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; Author should sign =
-off this patch, please give a sign off tag by author.<br>&gt; &gt;<br>&gt; =
-&gt; Sorry, email issues meant i sent the patch from a different account.<b=
-r>&gt; &gt; Should I re-send the<br>&gt; &gt; patch from the same account a=
-s the sign-off line? I&#39;m still working my<br>&gt; &gt; way through the =
-kernel patch process.<br>&gt; &gt;<br>&gt;<br>&gt; If you want to use chrom=
-ium account, you could simply reply this email<br>&gt; with a sign-off-by t=
-ag of chromium account.<br><br>Ack. As path of least resistance, here:<br><=
-br>Signed-off-by: Anand K Mistry &lt;<a href=3D"mailto:amistry@chromium.org=
-">amistry@chromium.org</a>&gt;<br><br><br>&gt;<br>&gt; Regards,<br>&gt; Chu=
-n-Kuang.<br>&gt;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; Regards,<br>&gt; &gt; =
-&gt; Chun-Kuang.<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; --=
--<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=A0drivers/gpu/drm/mediatek/mtk_=
-drm_gem.c | 3 +++<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=A01 file change=
-d, 3 insertions(+)<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; =
-&gt; &gt; &gt; &gt; diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/d=
-rivers/gpu/drm/mediatek/mtk_drm_gem.c<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt;=
- index b04a3c2b111e09..f8fd8b98c30e3d 100644<br>&gt; &gt; &gt; &gt; &gt; &g=
-t; &gt; --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c<br>&gt; &gt; &gt; &gt;=
- &gt; &gt; &gt; +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c<br>&gt; &gt; &=
-gt; &gt; &gt; &gt; &gt; @@ -224,6 +224,9 @@ struct drm_gem_object *mtk_gem_=
-prime_import_sg_table(struct drm_device *dev,<br>&gt; &gt; &gt; &gt; &gt; &=
-gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-expected =3D sg_dma_address(sg-&gt;sgl);<br>&gt; &gt; &gt; &gt; &gt; &gt; &=
-gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 for_each_sg(sg-&gt;sgl, s, sg-&gt;nents, i)=
- {<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 if (!sg_dma_len(s))<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt;=
- + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 break;<br>&gt; &gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; =
-&gt; I think this should be &#39;continue&#39;<br>&gt; &gt; &gt; &gt; &gt;<=
-br>&gt; &gt; &gt; &gt; &gt; scatterlist.h has the comment:<br>&gt; &gt; &gt=
-; &gt; &gt; /*<br>&gt; &gt; &gt; &gt; &gt; =C2=A0* These macros should be u=
-sed after a dma_map_sg call has been done<br>&gt; &gt; &gt; &gt; &gt; =C2=
-=A0* to get bus addresses of each of the SG entries and their lengths.<br>&=
-gt; &gt; &gt; &gt; &gt; =C2=A0* You should only work with the number of sg =
-entries dma_map_sg<br>&gt; &gt; &gt; &gt; &gt; =C2=A0* returns, or alternat=
-ively stop on the first sg_dma_len(sg) which<br>&gt; &gt; &gt; &gt; &gt; =
-=C2=A0* is 0.<br>&gt; &gt; &gt; &gt; &gt; =C2=A0*/<br>&gt; &gt; &gt; &gt; &=
-gt;<br>&gt; &gt; &gt; &gt; &gt; So breaking on the first sg_dma_len(sg) =3D=
-=3D 0 appears to be (one of)<br>&gt; &gt; &gt; &gt; &gt; the documented app=
-roach.<br>&gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt;=
- &gt; Okay, you&#39;re right. So<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &=
-gt; Reviewed-by: Chun-Kuang Hu &lt;<a href=3D"mailto:chunkuang.hu@kernel.or=
-g">chunkuang.hu@kernel.org</a>&gt;<br>&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt;=
- &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; Regards,<br>&gt; &gt; &gt;=
- &gt; &gt; &gt; Chun-Kuang.<br>&gt; &gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &=
-gt; &gt; &gt; &gt; &gt; +<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sg_dma_address(s) !=3D ex=
-pected) {<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DRM_ERROR(&quot;sg=
-_table is not contiguous&quot;);<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ret =3D -EINVAL;<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt; --<br>&gt; &g=
-t; &gt; &gt; &gt; &gt; &gt; 2.26.1.301.g55bc3eb7cb9-goog<br>&gt; &gt; &gt; =
-&gt; &gt; &gt; &gt;<br>&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>&gt; &gt; &gt;=
- &gt; &gt; &gt; &gt; _______________________________________________<br>&gt=
-; &gt; &gt; &gt; &gt; &gt; &gt; Linux-mediatek mailing list<br>&gt; &gt; &g=
-t; &gt; &gt; &gt; &gt; <a href=3D"mailto:Linux-mediatek@lists.infradead.org=
-">Linux-mediatek@lists.infradead.org</a><br>&gt; &gt; &gt; &gt; &gt; &gt; &=
-gt; <a href=3D"http://lists.infradead.org/mailman/listinfo/linux-mediatek">=
-http://lists.infradead.org/mailman/listinfo/linux-mediatek</a></div>
-
---0000000000006c8f1805a50d9359--
-
---===============0241150126==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0241150126==--
+T24gV2VkLCBNYXkgNiwgMjAyMCBhdCAxMDo1OSBQTSBDaHVuLUt1YW5nIEh1IDxjaHVua3Vhbmcu
+aHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4KPiBIaSwgQW5hbmQ6Cj4KPiBBbmFuZCBNaXN0cnkgPGFt
+aXN0cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDXmnIg25pelIOmAseS4iSDkuIvljYg3OjAz
+5a+r6YGT77yaCj4gPgo+ID4gT24gV2VkLCBNYXkgNiwgMjAyMCBhdCAxMDoyNSBBTSBDaHVuLUt1
+YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPiA+Cj4gPiA+IEhpLCBB
+bmFuZCwKPiA+ID4KPiA+ID4gQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+
+IOaWvCAyMDIw5bm0NOaciDI55pelIOmAseS4iSDkuIrljYgxMjozN+Wvq+mBk++8mgo+ID4gPiA+
+Cj4gPiA+ID4gSGksIEFuYW5kLAo+ID4gPiA+Cj4gPiA+ID4gQW5hbmQgSy4gTWlzdHJ5IDxhbWlz
+dHJ5QGNocm9taXVtLm9yZz4g5pa8IDIwMjDlubQ05pyIMjjml6Ug6YCx5LqMIOS4iuWNiDk6NTTl
+r6vpgZPvvJoKPiA+ID4gPiA+Cj4gPiA+ID4gPiBPbiBTdW4sIDI2IEFwciAyMDIwIGF0IDE4OjA0
+LCBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPiA+ID4g
+PiA+Cj4gPiA+ID4gPiA+IEhpLCBBbmFuZDoKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gQW5hbmQg
+SyBNaXN0cnkgPGFtaXN0cnlAY2hyb21pdW0ub3JnPiDmlrwgMjAyMOW5tDTmnIgyMOaXpSDpgLHk
+uIAg5LiL5Y2IMjowOeWvq+mBk++8mgo+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gSWYgZG1h
+X21hcF9zZygpIG1lcmdlcyBwYWdlcyB3aGVuIGNyZWF0aW5nIHRoZSBtYXBwaW5nLCBvbmx5IHRo
+ZSBmaXJzdAo+ID4gPiA+ID4gPiA+IGVudHJpZXMgd2lsbCBoYXZlIGEgdmFsaWQgc2dfZG1hX2Fk
+ZHJlc3MoKSBhbmQgc2dfZG1hX2xlbigpLCBmb2xsb3dlZCBieQo+ID4gPiA+ID4gPiA+IGVudHJp
+ZXMgd2l0aCBzZ19kbWFfbGVuKCkgPT0gMC4KPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IFNp
+Z25lZC1vZmYtYnk6IEFuYW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGdvb2dsZS5jb20+Cj4gPiA+Cj4g
+PiA+IEF1dGhvciBzaG91bGQgc2lnbiBvZmYgdGhpcyBwYXRjaCwgcGxlYXNlIGdpdmUgYSBzaWdu
+IG9mZiB0YWcgYnkgYXV0aG9yLgo+ID4KPiA+IFNvcnJ5LCBlbWFpbCBpc3N1ZXMgbWVhbnQgaSBz
+ZW50IHRoZSBwYXRjaCBmcm9tIGEgZGlmZmVyZW50IGFjY291bnQuCj4gPiBTaG91bGQgSSByZS1z
+ZW5kIHRoZQo+ID4gcGF0Y2ggZnJvbSB0aGUgc2FtZSBhY2NvdW50IGFzIHRoZSBzaWduLW9mZiBs
+aW5lPyBJJ20gc3RpbGwgd29ya2luZyBteQo+ID4gd2F5IHRocm91Z2ggdGhlIGtlcm5lbCBwYXRj
+aCBwcm9jZXNzLgo+ID4KPgo+IElmIHlvdSB3YW50IHRvIHVzZSBjaHJvbWl1bSBhY2NvdW50LCB5
+b3UgY291bGQgc2ltcGx5IHJlcGx5IHRoaXMgZW1haWwKPiB3aXRoIGEgc2lnbi1vZmYtYnkgdGFn
+IG9mIGNocm9taXVtIGFjY291bnQuCgpBY2suIFRoaXMgaXMgZmluZSBmb3Igbm93LiBJJ2xsIHRy
+eSBkb2luZyBpdCBiZXR0ZXIgd2l0aCB0aGUgbmV4dCBwYXRjaC4KClNpZ25lZC1vZmYtYnk6IEFu
+YW5kIEsgTWlzdHJ5IDxhbWlzdHJ5QGNocm9taXVtLm9yZz4KCj4KPiBSZWdhcmRzLAo+IENodW4t
+S3VhbmcuCj4KPiA+ID4KPiA+ID4gUmVnYXJkcywKPiA+ID4gQ2h1bi1LdWFuZy4KPiA+ID4KPiA+
+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fZ2VtLmMgfCAzICsrKwo+ID4gPiA+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
+cnRpb25zKCspCj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9nZW0uYwo+ID4gPiA+ID4gPiA+IGluZGV4IGIwNGEzYzJiMTExZTA5Li5mOGZk
+OGI5OGMzMGUzZCAxMDA2NDQKPiA+ID4gPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RybV9nZW0uYwo+ID4gPiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX2dlbS5jCj4gPiA+ID4gPiA+ID4gQEAgLTIyNCw2ICsyMjQsOSBAQCBz
+dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsCj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiAgICAgICAgIGV4
+cGVjdGVkID0gc2dfZG1hX2FkZHJlc3Moc2ctPnNnbCk7Cj4gPiA+ID4gPiA+ID4gICAgICAgICBm
+b3JfZWFjaF9zZyhzZy0+c2dsLCBzLCBzZy0+bmVudHMsIGkpIHsKPiA+ID4gPiA+ID4gPiArICAg
+ICAgICAgICAgICAgaWYgKCFzZ19kbWFfbGVuKHMpKQo+ID4gPiA+ID4gPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgIGJyZWFrOwo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBJIHRoaW5rIHRoaXMg
+c2hvdWxkIGJlICdjb250aW51ZScKPiA+ID4gPiA+Cj4gPiA+ID4gPiBzY2F0dGVybGlzdC5oIGhh
+cyB0aGUgY29tbWVudDoKPiA+ID4gPiA+IC8qCj4gPiA+ID4gPiAgKiBUaGVzZSBtYWNyb3Mgc2hv
+dWxkIGJlIHVzZWQgYWZ0ZXIgYSBkbWFfbWFwX3NnIGNhbGwgaGFzIGJlZW4gZG9uZQo+ID4gPiA+
+ID4gICogdG8gZ2V0IGJ1cyBhZGRyZXNzZXMgb2YgZWFjaCBvZiB0aGUgU0cgZW50cmllcyBhbmQg
+dGhlaXIgbGVuZ3Rocy4KPiA+ID4gPiA+ICAqIFlvdSBzaG91bGQgb25seSB3b3JrIHdpdGggdGhl
+IG51bWJlciBvZiBzZyBlbnRyaWVzIGRtYV9tYXBfc2cKPiA+ID4gPiA+ICAqIHJldHVybnMsIG9y
+IGFsdGVybmF0aXZlbHkgc3RvcCBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgd2hpY2gKPiA+
+ID4gPiA+ICAqIGlzIDAuCj4gPiA+ID4gPiAgKi8KPiA+ID4gPiA+Cj4gPiA+ID4gPiBTbyBicmVh
+a2luZyBvbiB0aGUgZmlyc3Qgc2dfZG1hX2xlbihzZykgPT0gMCBhcHBlYXJzIHRvIGJlIChvbmUg
+b2YpCj4gPiA+ID4gPiB0aGUgZG9jdW1lbnRlZCBhcHByb2FjaC4KPiA+ID4gPiA+Cj4gPiA+ID4K
+PiA+ID4gPiBPa2F5LCB5b3UncmUgcmlnaHQuIFNvCj4gPiA+ID4KPiA+ID4gPiBSZXZpZXdlZC1i
+eTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cj4gPiA+ID4KPiA+ID4g
+PiA+ID4KPiA+ID4gPiA+ID4gUmVnYXJkcywKPiA+ID4gPiA+ID4gQ2h1bi1LdWFuZy4KPiA+ID4g
+PiA+ID4KPiA+ID4gPiA+ID4gPiArCj4gPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgIGlmIChz
+Z19kbWFfYWRkcmVzcyhzKSAhPSBleHBlY3RlZCkgewo+ID4gPiA+ID4gPiA+ICAgICAgICAgICAg
+ICAgICAgICAgICAgIERSTV9FUlJPUigic2dfdGFibGUgaXMgbm90IGNvbnRpZ3VvdXMiKTsKPiA+
+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICByZXQgPSAtRUlOVkFMOwo+ID4gPiA+
+ID4gPiA+IC0tCj4gPiA+ID4gPiA+ID4gMi4yNi4xLjMwMS5nNTViYzNlYjdjYjktZ29vZwo+ID4g
+PiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gPiA+ID4gPiA+IExpbnV4LW1lZGlhdGVr
+IG1haWxpbmcgbGlzdAo+ID4gPiA+ID4gPiA+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVh
+ZC5vcmcKPiA+ID4gPiA+ID4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LW1lZGlhdGVrCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
