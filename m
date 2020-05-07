@@ -2,35 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBF51C9B7D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 21:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F2F1C9B9F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 22:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB36D6EA5C;
-	Thu,  7 May 2020 19:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E013C6EA5E;
+	Thu,  7 May 2020 20:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9706EA5D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 May 2020 19:58:16 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 32D9380520;
- Thu,  7 May 2020 21:58:14 +0200 (CEST)
-Date: Thu, 7 May 2020 21:58:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Konrad Dybcio <konradybcio@gmail.com>
-Subject: Re: [v4 PATCH 0/2] Add support for ASUS Z00T TM5P5 NT35596 panel
-Message-ID: <20200507195812.GB17398@ravnborg.org>
-References: <20200506210957.344590-1-konradybcio@gmail.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8936EA5E;
+ Thu,  7 May 2020 20:05:46 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id k1so7905849wrx.4;
+ Thu, 07 May 2020 13:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CrYfmmSwv+JySTyTYwGzP2iBGkWHIZBd7bjrJC5ooVc=;
+ b=osxF1l8Nx4lZFIAChlc6L3qMDyZ32oexH7aQ5H/ozgPRyD2CaTJTecQT36EDvb0lwD
+ 7YpJRF3A40V4hV8WEmSMACWcLU5zAZlYT7YjqoVjRNgFlsz0K4hh00alVMMk4PVKkKCE
+ GfTnfl9kxlANmoR/tQQr+lyzXAW3xT7NipidNGuM/RF0EODE8j5gfja7SSqfHYwfLkcu
+ hv0CJyyzrXwyMvgutYdPr8XtlrqrhK/me9eT61vy+3MjEXwyAiQYzkmddcXujVydav66
+ 72CNA9OFnrjdHGL55IdU97XFvJLi5YgH6nHfdf3RDqRADGVVOkp+MySeEWYyfPWkwFxG
+ tiJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CrYfmmSwv+JySTyTYwGzP2iBGkWHIZBd7bjrJC5ooVc=;
+ b=QcW3/Iq0FtR2XkGSYcJzEyhJeqrzu1HZRQ8uByT1bDn/0OP3bZdGQP/BXbKoSAoEKW
+ dSE9ZOhuLnarJtEDvmh5DvIo1/tBCTmHn7Tew33BG6YLtg1kmkys4cRxg+sPGruUgzn2
+ f+sHdhOHKSHmFlH0Onp8crzQR3XF2V9GtgKZohT7b+YAan6wl3o42UsPnDykdgFOZ/Vl
+ Qq2Dsx4kV+zYGUUnCKO2BczdcBWlPMGCvpRqpfT256UVNroZAoYlPVhv+10i+IoHkJpp
+ 0ugcdHDGnglAwS/iqQEe5569zsf4/ZjisIAJminz18s2Cto/oFTrZeSpWIXrI9WAyEN+
+ L0aw==
+X-Gm-Message-State: AGi0Puahe9GnAuh3rRQW0Hu6ivM8U0vbi2lpURoZd1qCT7QY+5jNkiSt
+ lNAnGT5RKChIWVl0xEPAdHgWt2o/9E0OwJr/7yo=
+X-Google-Smtp-Source: APiQypKloJvDW14eWF4gCoWbXMu1WfPb9WxaMArtA+pDH2xRdXOog0Feqr5WQ78mR9b9awpNJJkchQroNzVAvOy5rsA=
+X-Received: by 2002:adf:fa91:: with SMTP id h17mr753982wrr.111.1588881945532; 
+ Thu, 07 May 2020 13:05:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200506210957.344590-1-konradybcio@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=m4rRuWqDM7RkiSaC_YMA:9 a=CjuIK1q_8ugA:10
+References: <20200507020221.10548-1-david1.zhou@amd.com>
+ <cbbcc5b3-8860-6f44-b8ec-dd96eece6d7c@gmail.com>
+In-Reply-To: <cbbcc5b3-8860-6f44-b8ec-dd96eece6d7c@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 7 May 2020 16:05:33 -0400
+Message-ID: <CADnq5_POGStjWKyWs6cR7Frj6NK49Gc79SHBEJEj4Xk8q2B=NA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Remove me from amdgpu maintainers
+To: Christian Koenig <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,53 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad.
-
-On Wed, May 06, 2020 at 11:09:54PM +0200, Konrad Dybcio wrote:
-> changes since v3:
-> - fix dt-bindings issue
-> 
-> changes since v2:
-> - fix Kconfig indentation
-> 
-> changes since v1:
-> - make `backlight_properties props` constant
-> - a couple of line breaks
-> - change name and compatible to reflect ASUS being the vendor
-> - remove a redundant TODO
-> 
-> Konrad Dybcio (2):
->   drivers: drm: panel: Add ASUS TM5P5 NT35596 panel driver
->   dt-bindings: display: Document ASUS Z00T TM5P5 NT35596 panel
->     compatible
-
-Thanks, applied in the reverse order to have the binding before the
-driver.
-Fixed a few checkpatch warnings while applying.
-We use --strict for code in drivers/gpu/*
-
-	Sam
-
-> 
->  .../panel/asus,z00t-tm5p5-nt35596.yaml        |  56 +++
->  drivers/gpu/drm/panel/Kconfig                 |  10 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  | 367 ++++++++++++++++++
->  4 files changed, 434 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/asus,z00t-tm5p5-nt35596.yaml
->  create mode 100644 drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-> 
-> -- 
-> 2.26.2
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFRodSwgTWF5IDcsIDIwMjAgYXQgMjo0NSBBTSBD
+aHJpc3RpYW4gS8O2bmlnCjxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6
+Cj4KPiBBbSAwNy4wNS4yMCB1bSAwNDowMiBzY2hyaWViIENodW5taW5nIFpob3U6Cj4gPiBHbGFk
+IHRvIHNwZW5kIHRpbWUgb24ga2VybmVsIGRyaXZlciBpbiBwYXN0IHllYXJzLgo+ID4gSSd2ZSBt
+b3ZlZCB0byBuZXcgZm9jdXMgaW4gdW1kIGFuZCBjb3VsZG4ndCBjb21taXQKPiA+IGVub3VnaCB0
+aW1lIHRvIGRpc2N1c3Npb25zLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IENodW5taW5nIFpob3Ug
+PGRhdmlkMS56aG91QGFtZC5jb20+Cj4KPiBTbyBMb25nLCBhbmQgVGhhbmtzIGZvciBBbGwgdGhl
+IEZpc2ggOikKPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29l
+bmlnQGFtZC5jb20+Cj4KPiA+IC0tLQo+ID4gICBNQUlOVEFJTkVSUyB8IDEgLQo+ID4gICAxIGZp
+bGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9NQUlOVEFJTkVS
+UyBiL01BSU5UQUlORVJTCj4gPiBpbmRleCA5MzgzMTYwOTI2MzQuLjRjYTUwOGJkNGM5ZSAxMDA2
+NDQKPiA+IC0tLSBhL01BSU5UQUlORVJTCj4gPiArKysgYi9NQUlOVEFJTkVSUwo+ID4gQEAgLTE0
+MDY2LDcgKzE0MDY2LDYgQEAgRjogICAgZHJpdmVycy9uZXQvd2lyZWxlc3MvcXVhbnRlbm5hCj4g
+PiAgIFJBREVPTiBhbmQgQU1ER1BVIERSTSBEUklWRVJTCj4gPiAgIE06ICBBbGV4IERldWNoZXIg
+PGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gPiAgIE06ICBDaHJpc3RpYW4gS8O2bmlnIDxj
+aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiAtTTogICBEYXZpZCAoQ2h1bk1pbmcpIFpob3Ug
+PERhdmlkMS5aaG91QGFtZC5jb20+Cj4gPiAgIEw6ICBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwo+ID4gICBTOiAgU3VwcG9ydGVkCj4gPiAgIFQ6ICBnaXQgZ2l0Oi8vcGVvcGxlLmZyZWVk
+ZXNrdG9wLm9yZy9+YWdkNWYvbGludXgKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vYW1kLWdmeApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
