@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47EA1C8E70
-	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:29:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B981C8EA8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 May 2020 16:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B466E9C6;
-	Thu,  7 May 2020 14:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0DC06E9B7;
+	Thu,  7 May 2020 14:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA1D6E9C5;
- Thu,  7 May 2020 14:29:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187E86E9B7;
+ Thu,  7 May 2020 14:29:38 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E848920838;
- Thu,  7 May 2020 14:29:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1D3F220838;
+ Thu,  7 May 2020 14:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861748;
- bh=Uegwi40m6VKoo3qYz46wXwuY83tyEhWX7RHlaRpzbXs=;
+ s=default; t=1588861778;
+ bh=hrN4jo85YX8bUHMiL0SJw51uMtj6bE77uz+J0atkXvc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OACktzHlMl9IoUSic6994XO9xMqlfAYHj9mUAMtlg81sGBJ/gKmfkriFU0NpsqIjl
- H8HbuQr6IZThUFNirJGcsiEmeFleXpc0NQSkNf2H+KuCFqA45dwxMMeICf93X005Ya
- bINZWsvJYeo8T+miY+zSay4Dk0O7WLLHjA2V4otw=
+ b=slr2g7Cagc1liVqlVFosb/vpwckkCxlsPBwCMhj9/PikACaCpmV/XlQwEQS/o4M+Q
+ kp+bFy/a2U5zyaVJLqshujpj3I4FJ2YqeM1DFadhtFJKH8cAsTiHq2AVLvSEzCZIjV
+ hTYftuPjZh1vYyg/LOpZf08jobCl+xEWs8E6jM1M=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 30/35] drm/qxl: lost qxl_bo_kunmap_atomic_page in
+Subject: [PATCH AUTOSEL 4.19 17/20] drm/qxl: lost qxl_bo_kunmap_atomic_page in
  qxl_image_init_helper()
-Date: Thu,  7 May 2020 10:28:24 -0400
-Message-Id: <20200507142830.26239-30-sashal@kernel.org>
+Date: Thu,  7 May 2020 10:29:13 -0400
+Message-Id: <20200507142917.26612-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
-References: <20200507142830.26239-1-sashal@kernel.org>
+In-Reply-To: <20200507142917.26612-1-sashal@kernel.org>
+References: <20200507142917.26612-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/qxl/qxl_image.c b/drivers/gpu/drm/qxl/qxl_image.c
-index 43688ecdd8a04..60ab7151b84dc 100644
+index 7fbcc35e8ad35..c89c10055641e 100644
 --- a/drivers/gpu/drm/qxl/qxl_image.c
 +++ b/drivers/gpu/drm/qxl/qxl_image.c
-@@ -212,7 +212,8 @@ qxl_image_init_helper(struct qxl_device *qdev,
+@@ -210,7 +210,8 @@ qxl_image_init_helper(struct qxl_device *qdev,
  		break;
  	default:
  		DRM_ERROR("unsupported image bit depth\n");
