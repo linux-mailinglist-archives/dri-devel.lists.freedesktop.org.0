@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFC91CBA5F
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 00:03:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A2C1CBAFF
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 00:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A3466E29D;
-	Fri,  8 May 2020 22:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95AC56E21D;
+	Fri,  8 May 2020 22:59:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89AFD6E29D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 22:03:01 +0000 (UTC)
-Received: from localhost.localdomain ([149.172.19.189]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MCsgS-1jOPdr2RNo-008sQA; Sat, 09 May 2020 00:02:03 +0200
-From: Arnd Bergmann <arnd@arndb.de>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Thomas Hellstrom <thellstrom@vmware.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm: vmwgfx: include linux/highmem.h
-Date: Sat,  9 May 2020 00:01:31 +0200
-Message-Id: <20200508220150.649044-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 059766E21D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 22:59:22 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id js4so978783pjb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 15:59:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o4yPuc1IBO0Fpnm5cH3RYbHF1/VvJ8rseVz+WFhHEck=;
+ b=VPEPKfr0LpFXRwKZseBAaugcPZIisNSbI8QDDiJ5iM7IDfqVfeloezY7Mx5OmrxuXJ
+ n0fWKGZ6VaznJFxuCz+eQRHIKwjre+sRj8KVs5Rwrq+C/UWwJDgi5xda9Gf7lFEVTATy
+ pryaY5dZVtK7IlkgvcMQje0Wi0ArhUEKlGh3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o4yPuc1IBO0Fpnm5cH3RYbHF1/VvJ8rseVz+WFhHEck=;
+ b=WjuxV0+qEYey0A0Tko0M/LeFlR5EMrn7ej69798ZqURhoAtoGe2AoqszzNG9K6eMJf
+ nPjnC8t1xq8uHa2sbQQtOnwge6CZ0h2IwPhC9eudLTRy46D3AIqMT2h7+UtFtYSFmRrE
+ Peg0UUBc6CgMaehc1esMCwfFuzl7xpbhJl6SBA5TgaMSqAWAO3qxLT00pcp3xBnKXvuZ
+ ljQ61fnmgJAsmSZA3EPi6FotGHURk28ewD5xvHpy+P53b8b5SJvZ9t1Y1yA3F2n+BI0P
+ 9c1fywBc+ZbSY4Pn6X5GAFtCOT7Zx85Q4I7H5XdzbmOALOQI6WIgb8mcY9IzPkfgUy3v
+ ORYA==
+X-Gm-Message-State: AGi0Pubc9xoRyeD7fP7f+alfYzCzVE7abF3K4rG5kzXEWfnQxuuwta9y
+ e7/j7bhQkL8/64pPTZIszjPiug==
+X-Google-Smtp-Source: APiQypLq9GOG18q+UNqlsvudYEAfECHIF4Ub5kQ4kC7q+ReXKvIaZAAJMf/RFYQ9gNVjy8LNt8MdNw==
+X-Received: by 2002:a17:902:23:: with SMTP id 32mr4625148pla.40.1588978762408; 
+ Fri, 08 May 2020 15:59:22 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+ by smtp.gmail.com with ESMTPSA id i72sm3062874pfe.104.2020.05.08.15.59.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 May 2020 15:59:21 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH 1/3] panel: simple: Fix size and bpp of BOE NV133FHM-N61
+Date: Fri,  8 May 2020 15:59:00 -0700
+Message-Id: <20200508155859.1.I4d29651c0837b4095fb4951253f44036a371732f@changeid>
+X-Mailer: git-send-email 2.26.2.645.ge9eca65c58-goog
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:TAKq1R05pzqZudtB3/eJjJKa8Xbr2qqNSVjJes2lRdzfJo28ior
- jpG2oBKBCIM9I0meRg4Do/dfII5ARO/ZpAAObB5iNU3iCCuxDZGC9ur9gy/e8/N5KH40xtl
- zubxBxUZ2TAxp6I2EEFhblKzvIbDSX2HvY1w7/WTEtxBhmU5S1+U1tGYNScR9bWvVvA9Lwt
- SUVJX3OpN5y1qagavtf6A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pQ7ZCJSaxLY=:CvneInVbDCF7wVcYheL91B
- bulOWg0njJ2uR9LvROcwWe/vwyNzxp5K6WfdXMFHBwEkfhTNw0bVcxvD8IrSFpD0KC8TviK3o
- 2mf/G8Dp7vGxGjScYm3LYde4pML/2dOUn9jiACrP7euRObZ2ijeOmEhl7jDEy27owpQao6o2f
- /SO03TB54PKwjk02/NXDsKOt4s7Vlel69d5geccRqk/dbPKsFx8eNeNQ70KZvuXUCYo+4gVNq
- AyrJYxx33AFDDBvjdTHUp8WSM6BvmQY8xW8tmCKPFZ/OY3h4XDKYApKCqQcok9vc/Qo/vaGhs
- Cy4G1g/dwFG7OyX+Lzq0K7xNNA1ZNy7YHIwqeqk0Kux4fHCq1lYpEGJqCsjRZ8zv5LJpjF4S2
- 7p3LKoai6c/b8gZZJsch7W0e69UvHCI8bPdzFlRuGC7rm0ykWB4NZuqLTBuIC/HlzC9Z+kAId
- aBhvtAWagKCUIX31Q2v8+S47zcy1i2Z7zC+nzpqp3TUXriMCajRt6Kg+rQkJdIQhxFj4HX+jd
- rcSxAvUskYewdmUfBkJAQ2hiaX28j3DARTaEFxcJRbZdL2FCMy19Ug0uF0zjogz2OxmG2Uqkr
- 4diBlDY9L7RHRrP3Hfb1MvdUSmkkFobkFN3S/ePNCydC65ZSo35zuFVrC7nvJguXY4+X0LBBM
- 0Kr81poPPMNRnAsqTGRyZTs6vUqrzVL99DXoxms9mSGpDdIlNAzAvd3gqYwC/y7Ucy7HAA+YU
- 3LyKV0Rosfc327PpqLHUs9jXHfSB+As31A6g12Nkokh9AIYp17vU1b8xjoLwZtQf1wF1C7YSD
- 0MBAFq4u699ZjeZp0+NmUAQBJjY3JBFW0XlU185Wm7IMJzeY7w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,63 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Helge Deller <deller@gmx.de>,
- Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to call kmap_atomic() etc, we need to include linux/highmem.h:
+The BOE NV133FHM-N61 is documented in the original commit to be a
+13.3" panel, but the size listed in our struct doesn't match.
+Specifically:
 
-drivers/gpu/drm/vmwgfx/vmwgfx_blit.c: In function 'vmw_bo_cpu_blit_line':
-drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:377:4: error: implicit declaration of function 'kunmap_atomic'; did you mean 'in_atomic'? [-Werror=implicit-function-declaration]
-  377 |    kunmap_atomic(d->src_addr);
-      |    ^~~~~~~~~~~~~
-      |    in_atomic
-drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:391:5: error: implicit declaration of function 'kmap_atomic_prot' [-Werror=implicit-function-declaration]
-  391 |     kmap_atomic_prot(d->dst_pages[dst_page],
-      |     ^~~~~~~~~~~~~~~~
-drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:390:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  390 |    d->dst_addr =
-      |                ^
-drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:403:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  403 |    d->src_addr =
-      |                ^
+  math.sqrt(30.0 * 30.0 + 18.7 * 18.7) / 2.54 ==> 13.92
 
-Fixes: 46385a895322 ("drm: remove drm specific kmap_atomic code")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Searching around on the Internet shows that the size that was in the
+structure was the "Outline Size", not the "Display Area".  Let's fix
+it.
+
+Also the Internet says that this panel supports 262K colors.  That's
+6bpp, not 8bpp.
+
+Fixes: b0c664cc80e8 ("panel: simple: Add BOE NV133FHM-N61")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-index 94d456a1d1a9..1629427d5734 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-@@ -27,6 +27,7 @@
-  **************************************************************************/
- 
- #include "vmwgfx_drv.h"
-+#include <linux/highmem.h>
- 
- /*
-  * Template that implements find_first_diff() for a generic
+ drivers/gpu/drm/panel/panel-simple.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index d6c29543e510..7219436499f1 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1189,10 +1189,10 @@ static const struct drm_display_mode boe_nv133fhm_n61_modes = {
+ static const struct panel_desc boe_nv133fhm_n61 = {
+ 	.modes = &boe_nv133fhm_n61_modes,
+ 	.num_modes = 1,
+-	.bpc = 8,
++	.bpc = 6,
+ 	.size = {
+-		.width = 300,
+-		.height = 187,
++		.width = 294,
++		.height = 165,
+ 	},
+ 	.delay = {
+ 		.hpd_absent_delay = 200,
 -- 
-2.26.0
+2.26.2.645.ge9eca65c58-goog
 
 _______________________________________________
 dri-devel mailing list
