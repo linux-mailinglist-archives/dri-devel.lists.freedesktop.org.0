@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40BA91CA848
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:26:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 145E11CA86E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7991F89CBC;
-	Fri,  8 May 2020 10:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45DB06EADA;
+	Fri,  8 May 2020 10:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE5889CBC
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:26:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id z8so1256545wrw.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:26:34 -0700 (PDT)
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91EBE6EADA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:35:18 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id n207so284266vkf.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=U/nGiKbFLFriNl4EVgpGj88MYeZZdcTLN4ma7CGTOns=;
- b=f5YjvUPChhk0lY3dMb5i7+8WWfjET6KiM41cHBRUu6xufVdFD+lXMAQ8LwyL+QfbD4
- W8rrmbc5708tczFvjA3+i0m70+26t13Dih7H2T0D/fedRyIbGkXRzjWEUsBoIbqs5uhU
- Ustc+v1CDaRSr16TyxMWmiXR83u5yH0ipJxHRGfE9lGYtWNkGIy/U//whczKkAFjp1b9
- GYUyiogtmunUJAeUY46LFh8/NRyJMxxO/CkFVlbB2V1yYRtxS7MAE2eEkQYMtwPM1NU7
- EqRtaEhfIHvEzGkipg7KxZKDfELKELHg6PcsTrHA3O7Fc7aHahTQkvOG2/G+WK56HcKI
- oVEw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g1M0dnG6X/ZdLSaJc75kcj4nbxBb95KPAtfkHekjG3Y=;
+ b=rwjUpQaWLzhBubkUR3QhhSNC734GFsOjNbxX0y3QmIcvzKwwfQD2+aVBaoi08yh0qR
+ gvATQlHOwvq/YQWOxHj+yB/0n0zDaR2bAFpWJvaZYBKm9eTKbHJnTW90L8JMYSxYfCma
+ NhZ2K9EIkQeMhhgKQb04Z5L+AKgNCjodZS14PlAhl2S46xL7yBNDJIdxEZ9YkTwXwYdo
+ HaWF/a+50wkr9HAXYVN9w7fQ1+UElfIvrpYAx4iqF/D+S6QUweieE6mbUObdYDr+y8gt
+ 0FkiCWy2jD7KhYusK5DHGYnqC2xiBbG9oBQZqerFrHINpLIgRMg46Vk7U4wZGy9VgOWf
+ 4cfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=U/nGiKbFLFriNl4EVgpGj88MYeZZdcTLN4ma7CGTOns=;
- b=ZAEancvJ5UpQ2dpYj/ISfHPdl/tyz+vrBrKD/bAwAqerOrzLORytMopTYNbkSc7c0j
- 8j/hmXrFyLyjnMQp0EPg9wzM6Mx40L0SVcCCrT83GT9sC4+1GuZHpoG22wVMQxdRRgFr
- FsZKCM/LJU0FSjBcCrcsW0LVE/7hEvWQv/8km5zxBUgZdCfIXzTnp6fNr9TWfXXOVgQH
- hhyxvKauKgdL6IwFMC7nD/0DZ8xtWoA9Gzoh8W2AHTi0wZJQ6MZD+ACqFwl9vAQVrQaG
- rDlcWwax1a4ODRsFleYMhbykC1RShYMz+K8BaqEO4tquIjx1eqXI+A64LpjU7MMn/TJp
- qHLQ==
-X-Gm-Message-State: AGi0PubujenvpXau7yjjZqLKxpycZwkOw0A7TStuQA7zBpdoglTZZcJo
- hksQkTqH7pIV8aog5gEvti8=
-X-Google-Smtp-Source: APiQypKRGJRAQ0UZdIySQIaoUKnB7SQfKdP6aHBF/MqvfySOmbKcCMXcGTUk1STZ47zTNYv8/b2/xw==
-X-Received: by 2002:adf:e788:: with SMTP id n8mr418066wrm.317.1588933593344;
- Fri, 08 May 2020 03:26:33 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
- by smtp.gmail.com with ESMTPSA id c19sm2364623wrb.89.2020.05.08.03.26.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 03:26:31 -0700 (PDT)
-Date: Fri, 8 May 2020 12:26:31 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] gpu: host1x: Clean up debugfs in error handling path in
- 'host1x_probe()'
-Message-ID: <20200508102631.GA3030605@ulmo>
-References: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g1M0dnG6X/ZdLSaJc75kcj4nbxBb95KPAtfkHekjG3Y=;
+ b=miMMkM4yMMlEWr2HKb74w0+zscKtD0d12BFI2WdU80COM6h3EqCET4xotFhfOyB29c
+ PLXZ7kKevn9spLiB0KhHtHqldRrBHuN3F3+V9SZboCx52YW66RW0b6eyeHviWLOmE4mc
+ iOvuBBk8WJqMmGfyBi4IEWZVXgB21cr9TypYWIYmVG0mwOfHP176e/sTvP8Polwk2yyX
+ 5Vbu6tbu4Tg/pYRKVjhlvozSlRABWpsQNbSJsdwJQBSvibGl+mpNUxF/B0mY/XlxEe/M
+ rEI3u45c7Uw9Sj0uy5whwUc3xXDPOW76O+Rha76WAnevXBnGeuZ8FuiZPOktsN0sRygJ
+ o05A==
+X-Gm-Message-State: AGi0PuZETRtEGiGg+iUkTiVUzMTp6aV3HyT6lkESjvmk/h6YAFQJeyD7
+ lKPS2Iv1d2QWEfY0NqhRXLp2yfVB2OcQhpEtbIr3+C6v
+X-Google-Smtp-Source: APiQypJuxr9P/KgaH27GjKEizVyEI5TXONbIe2ekMNjmGWVrroekHLlyMkSERXmjpBua2nXn55i9IHzLgAfA3Cda0OQ=
+X-Received: by 2002:a1f:2f91:: with SMTP id v139mr1139060vkv.22.1588934117720; 
+ Fri, 08 May 2020 03:35:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200426191630.41290-1-christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200430192746.1866325-1-paul.kocialkowski@bootlin.com>
+ <20200430192746.1866325-3-paul.kocialkowski@bootlin.com>
+ <CACvgo51mRse3su4exyTqXYJRPPc0VqaX9+tRyKUuBPtm5Q+6XQ@mail.gmail.com>
+ <20200507201103.GH2422122@aptenodytes>
+In-Reply-To: <20200507201103.GH2422122@aptenodytes>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 8 May 2020 11:32:46 +0100
+Message-ID: <CACvgo52dMPk_KPyNYhBTDOo_+s7hJuGDNjoWun63Jj4uMidszA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] drm: Add support for the LogiCVC display controller
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,70 +63,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0831631202=="
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 7 May 2020 at 21:11, Paul Kocialkowski
+<paul.kocialkowski@bootlin.com> wrote:
+>
+> Hi Emil,
+>
+> Thanks for the review!
+>
+> On Mon 04 May 20, 14:28, Emil Velikov wrote:
+> > Just had a casual quick look for custom KMS properties, since new
+> > drivers made that mistake in the past.
+> > Thanks for not including any o/
+>
+> Yeah I made sure not to include any, I know it easily gets very problematic and
+> creates disparity between drivers while needing to be kept alive even when a
+> standard way arises due to the no API breakage policy.
+>
+> The not-for-merge patch that I've sent does introduce some for the colorkey,
+> and that's why they are marked as such :)
+>
+> > I made a couple of trivial suggestions - if you agree, feel free to
+> > keep them as follow-up patches.
+> >
+> > On Thu, 30 Apr 2020 at 20:28, Paul Kocialkowski
+> > <paul.kocialkowski@bootlin.com> wrote:
+> >
+> > > +int logicvc_of_property_parse_u32(struct device_node *of_node,
+> > > +                                 const char *name, u32 *target)
+> > > +{
+> > > +       struct logicvc_of_property *property;
+> > > +       const char *string;
+> > > +       u32 value;
+> > > +       int ret;
+> > > +
+> > > +       property = logicvc_of_property_lookup(name);
+> > > +       if (!property)
+> > > +               return -EINVAL;
+> > > +
+> > One could have the logicvc_of_properties[] entries indexed with the
+> > logicvc_of_property_parse_{u32,bool} caller, using that instead of the
+> > name string.
+>
+> Do I understand correctly that you're suggesting passing each entry's
+> struct logicvc_of_property pointer to the function?
+>
+> I went for strings to make the code explicit and easy to read so I'd really
+> like to keep it that way and avoid passing things like
+> &logicvc_of_properties[4] or an index integer.
+>
+Add a some #define/enum and go to town. Example with sub-optimal names below:
 
---===============0831631202==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
-Content-Disposition: inline
+enum foobar {
+ LVC_OF_DISP_INTF,
+ LVC_OF_DISP_CLRSPC,
+...
+};
 
+static struct logicvc_of_property logicvc_of_properties[] = {
+[LVC_OF_DISP_INTF]  = {
+               .name           = "xylon,display-interface",
+...
+       },
+[LVC_OF_DISP_CLRSPC] = {
+               .name           = "xylon,display-colorspace",
+...
+       },
+...
+}
 
---pWyiEgJYm5f9v55/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+While the callers are:
 
-On Sun, Apr 26, 2020 at 09:16:30PM +0200, Christophe JAILLET wrote:
-> 'host1x_debug_init()' must be reverted in an error handling path.
->=20
-> This is already fixed in the remove function since commit 44156eee91ba
-> ("gpu: host1x: Clean up debugfs on removal")
->=20
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/gpu/host1x/dev.c | 1 +
->  1 file changed, 1 insertion(+)
+       ret = logicvc_of_property_parse_u32(of_node, LVC_OF_DISP_INTF,
+                                           &config->display_colorspace);
+       ret = logicvc_of_property_parse_u32(of_node, LVC_OF_DISP_CLRSPC,
+                                           &config->display_depth);
 
-Applied, thanks.
-
-Thierry
-
---pWyiEgJYm5f9v55/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl61M9QACgkQ3SOs138+
-s6E5qA/+MmoiWrLTVaFdEnFgY568ldpbMKJel9y+2djQ7IncLvkQt+g/Z6o0ghVD
-OkhEvQfWM6rdYUehLaFfN9k1VJ+8VaNqrvDPa+SEfivIS0lDAF5dU4x6rOxN8gFf
-t6VHONMlhZsHhPI8jlMvIW+v3OczrbDzXmo5P9o6iKPFDfkqEpbS8FAqlzhpXGPY
-qVSmowOZtNJcvF1754ssJFb95uz0kl0XZ6LNa5Pgl1YFHgBAZrUKHtu5ekmvs2hU
-tXJB6Z/nyJs8/38HWqQD6+6MjOsPVD3hBEf/Mz6PE3TLSQlTxUoGGvECjU4NNnnl
-HrdBPXIOCNYC5a8KAEyaFg9I4jUcpnhwfB7RwXZeFUmUMdl0DZx4m6jckCbD13pV
-Qax13ypm7mUuTAh1ZpzI01Vb193QG5Zx3YpSb/cFlFeoe12YXZH+j9lawuoCI83s
-TfcwxTaPtYhUd3UnxpW21SKmun49sL12lilKyLhydEWCVcMozaYJUyz7wkJPEoU5
-Jkpnu8M1YhW6W3nFa/hOBXdcEHg+LG14DRaGZ/Dfv+9oMRNcOEoW+p7WZSSDODs1
-84p1Ec/NedIcB9XJjtaB6RLkwu5PbPk5g7uBEZLl6hVSZfUnXW7/wg/zcuedwkO4
-p7GYMpqt2vRfQ7iM4VXH60fqlN3lF1GDj0T5JZsMrclFInwK2dw=
-=zg/O
------END PGP SIGNATURE-----
-
---pWyiEgJYm5f9v55/--
-
---===============0831631202==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0831631202==--
