@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FBA1CBF90
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 11:05:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DA61CBF92
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 11:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071F46E312;
-	Sat,  9 May 2020 09:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1426E301;
+	Sat,  9 May 2020 09:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
  [59.111.176.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3926E1F2
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 08:44:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF4A6EAB1
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 08:47:52 +0000 (UTC)
 Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
- by m176150.mail.qiye.163.com (Hmail) with ESMTP id 4293E1A3189;
- Fri,  8 May 2020 16:44:20 +0800 (CST)
-Message-ID: <AEMAEgD6CFDEXGkP4OWX94rO.3.1588927460255.Hmail.bernard@vivo.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gZHJtL2V4eW5vczogcmVtb3ZlIG5vIG5lZWQgZGV2bV9rZnJlZSBpbiBwcm9iZSBbcmUtc2VuZCwgd2VsY29tZSBhbnkgY29tbWVudHNd?=
+ by m176150.mail.qiye.163.com (Hmail) with ESMTP id 527F61A33D1;
+ Fri,  8 May 2020 16:47:17 +0800 (CST)
+Message-ID: <AAsAdQBuCHzEtmuRTR69xqrg.3.1588927637309.Hmail.bernard@vivo.com>
+To: =?UTF-8?B?6LW15Yab5aWO?= <bernard@vivo.com>
+Subject: =?UTF-8?B?UmU6UmU6UmU6IFtQQVRDSCB2Ml0gZHJtL2FybTogZml4ZXMgcGl4ZWwgY2xvY2sgZW5hYmxlZCB3aXRoIHdyb25nIGZvcm1hdA==?=
 X-Priority: 3
 X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
 X-Originating-IP: 157.0.31.122
-In-Reply-To: <20200508075210.GA8789@ravnborg.org>
+In-Reply-To: <AKgAPAB2CNW-P97ALGekNqqN.3.1587728256276.Hmail.bernard@vivo.com>
 MIME-Version: 1.0
 Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
- [127.0.0.1] ) ; Fri, 8 May 2020 16:44:20 +0800 (GMT+08:00)
+ [127.0.0.1] ) ; Fri, 8 May 2020 16:47:17 +0800 (GMT+08:00)
 From: Bernard <bernard@vivo.com>
-Date: Fri, 8 May 2020 16:44:20 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVNQk1LS0tLQkJKQ0lKSFlXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMTU5ITkNJTUJKN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6PjY6Phw*TTg9Pz4jPBArTzQsI0JPCTRVSFVKTkNDQklMT01OSE1JVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBTUlPSjcG
-X-HM-Tid: 0a71f374f3bc93b4kuws4293e1a3189
+Date: Fri, 8 May 2020 16:47:17 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VKQ0xLS0tJTE9NTkNJWVdZKFlBSE
+ 83V1ktWUFJV1kJDhceCFlBWTU0KTY6NyQpLjc#WQY+
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMT0pISkhMTkxJN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6Ogg6Hyo5DjgzAT4PFg4pLylNQgMKCRxVSFVKTkNDQklMTU9LT0hJVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBTExDSjcG
+X-HM-Tid: 0a71f377a76193b4kuws527f61a33d1
 X-Mailman-Approved-At: Sat, 09 May 2020 09:04:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,106 +47,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, David Airlie <airlied@linux.ie>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-From: Sam Ravnborg <sam@ravnborg.org>
-Date: 2020-05-08 15:52:10
-To:  Bernard <bernard@vivo.com>
-Cc:  Inki Dae <inki.dae@samsung.com>,Joonyoung Shim <jy0922.shim@samsung.com>,Seung-Woo Kim <sw0312.kim@samsung.com>,Kyungmin Park <kyungmin.park@samsung.com>,David Airlie <airlied@linux.ie>,Daniel Vetter <daniel@ffwll.ch>,Kukjin Kim <kgene@kernel.org>,Krzysztof Kozlowski <krzk@kernel.org>,dri-devel@lists.freedesktop.org,linux-arm-kernel@lists.infradead.org,linux-samsung-soc@vger.kernel.org,linux-kernel@vger.kernel.org,opensource.kernel@vivo.com
-Subject: Re: [PATCH] drm/exynos: remove no need devm_kfree in probe [re-send, welcome any comments]>Hi Bernard.
->
->On Wed, May 06, 2020 at 08:49:03PM +0800, Bernard wrote:
->> Remove no need devm_kfree in probe.
->> The change is to make the code a bit more readable
->> 
->> Signed-off-by: Bernard Zhao <bernard@vivo.com>
->
->Could you take a closer look and fix similar patterns
->in the rest of the driver?
->For example in exynos_dpi_probe()
->
->Is would be nice to only have to review for this
->type of changes once, so one patch-set is preferred
->over single patches over time.
->
->You can add:
->Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->
->to this patch when you re-send a new series.
->
->Thanks,
->	Sam
-
-Hi
-Sure, this is also a good chance for me to learn this code.
-I will re-check this part of the exynos driver code to see 
-if there are similar patterns, and then re-send a patch series.
-
-Regards,
-Bernard
-
->> ---
->>  drivers/gpu/drm/exynos/exynos_drm_dpi.c | 10 +++-------
->>  1 file changed, 3 insertions(+), 7 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
->> index 43fa0f26c052..e06f7d7a6695 100644
->> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
->> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
->> @@ -181,10 +181,8 @@ static int exynos_dpi_parse_dt(struct exynos_dpi *ctx)
->>  			return -ENOMEM;
->>  
->>  		ret = of_get_videomode(dn, vm, 0);
->> -		if (ret < 0) {
->> -			devm_kfree(dev, vm);
->> +		if (ret < 0)
->>  			return ret;
->> -		}
->>  
->>  		ctx->vm = vm;
->>  
->> @@ -233,10 +231,8 @@ struct drm_encoder *exynos_dpi_probe(struct device *dev)
->>  	ctx->dev = dev;
->>  
->>  	ret = exynos_dpi_parse_dt(ctx);
->> -	if (ret < 0) {
->> -		devm_kfree(dev, ctx);
->> -		return NULL;
->> -	}
->> +	if (ret < 0)
->> +		return ERR_PTR(ret);
->>  
->>  	if (ctx->panel_node) {
->>  		ctx->panel = of_drm_find_panel(ctx->panel_node);
->> -- 
->> 2.26.2
->> 
->> 
->> [re-send, welcome any comments]
->> Regards,
->> Bernard
->> 
->> 
->> 
->> 
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogIui1teWGm+WljiIgPGJlcm5hcmRAdml2by5jb20+CkRhdGU6IDIwMjAtMDQtMjQgMTk6
+Mzc6MzYKVG86ICBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KQ2M6ICBCcmlhbiBT
+dGFya2V5IDxicmlhbi5zdGFya2V5QGFybS5jb20+LERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51
+eC5pZT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnLGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsb3BlbnNvdXJjZS5rZXJu
+ZWxAdml2by5jb20KU3ViamVjdDogUmU6UmU6IFtQQVRDSCB2Ml0gZHJtL2FybTogZml4ZXMgcGl4
+ZWwgY2xvY2sgZW5hYmxlZCB3aXRoIHdyb25nIGZvcm1hdAoKCgoKRnJvbTogTGl2aXUgRHVkYXUg
+PGxpdml1LmR1ZGF1QGFybS5jb20+CkRhdGU6IDIwMjAtMDQtMjQgMTk6MDk6NTAKVG86ICBCZXJu
+YXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+CkNjOiAgQnJpYW4gU3RhcmtleSA8YnJpYW4uc3Rh
+cmtleUBhcm0uY29tPixEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+LERhbmllbCBWZXR0
+ZXIgPGRhbmllbEBmZndsbC5jaD4sZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxsaW51
+eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnLG9wZW5zb3VyY2Uua2VybmVsQHZpdm8uY29tClN1Ympl
+Y3Q6IFJlOiBbUEFUQ0ggdjJdIGRybS9hcm06IGZpeGVzIHBpeGVsIGNsb2NrIGVuYWJsZWQgd2l0
+aCB3cm9uZyBmb3JtYXQ+SGkgQmVybmFuZCwKPgo+T24gVGh1LCBBcHIgMjMsIDIwMjAgYXQgMTE6
+MzU6NTFQTSAtMDcwMCwgQmVybmFyZCBaaGFvIHdyb3RlOgo+PiBUaGUgcGl4ZWwgY2xvY2sgaXMg
+c3RpbGwgZW5hYmxlZCB3aGVuIHRoZSBmb3JtYXQgaXMgd3JvbmcuCj4+IG5vIGVycm9yIGJyYW5j
+aCBoYW5kbGUsIGFuZCBhbHNvIHNvbWUgcmVnaXN0ZXIgaXMgbm90IHNldAo+PiBpbiB0aGlzIGNh
+c2UsIGUuZzogSERMQ0RfUkVHXzxjb2xvcj5fU0VMRUNULiBNYXliZSB3ZQo+PiBzaG91bGQgZGlz
+YWJsZSB0aGlzIGNsb2NrIGFuZCB0aHJvdyBhbiB3YXJuIG1lc3NhZ2Ugd2hlbgo+PiB0aGlzIGhh
+cHBlbmVkLgo+PiBXaXRoIHRoaXMgY2hhbmdlLCB0aGUgY29kZSBtYXliZSBhIGJpdCBtb3JlIHJl
+YWRhYmxlLgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8u
+Y29tPgo+PiAKPj4gQ2hhbmdlcyBzaW5jZSBWMToKPj4gKmFkZCBmb3JtYXQgZXJyb3IgaGFuZGxl
+LCBpZiBmb3JtYXQgaXMgbm90IGNvcnJlY3QsIHRocm93Cj4+IGFuIHdhcm5pbmcgbWVzc2FnZSBh
+bmQgZGlzYWJsZSB0aGlzIGNsb2NrLgo+PiAKPj4gTGluayBmb3IgVjE6Cj4+ICpodHRwczovL2xv
+cmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTIyODUwMS8KPj4gLS0tCj4+ICBkcml2ZXJz
+L2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYyB8IDEzICsrKysrKysrKy0tLS0KPj4gIDEgZmlsZSBj
+aGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4+IAo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJt
+L2hkbGNkX2NydGMuYwo+PiBpbmRleCBhZjY3ZmVmZWQzOGQuLmYzOTQ1ZGVlMmI3ZCAxMDA2NDQK
+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMKPj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2FybS9oZGxjZF9jcnRjLmMKPj4gQEAgLTk2LDcgKzk2LDcgQEAgc3RhdGljIGlu
+dCBoZGxjZF9zZXRfcHhsX2ZtdChzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4+ICAJfQo+PiAgCj4+
+ICAJaWYgKFdBUk5fT04oIWZvcm1hdCkpCj4+IC0JCXJldHVybiAwOwo+PiArCQlyZXR1cm4gLUVJ
+TlZBTDsKPgo+VGhhdCBpcyB0aGUgcmlnaHQgZml4IQo+Cj4+ICAKPj4gIAkvKiBIRExDRCB1c2Vz
+ICdieXRlcyBwZXIgcGl4ZWwnLCB6ZXJvIG1lYW5zIDEgYnl0ZSAqLwo+PiAgCWJ0cHAgPSAoZm9y
+bWF0LT5iaXRzX3Blcl9waXhlbCArIDcpIC8gODsKPj4gQEAgLTEyNSw3ICsxMjUsNyBAQCBzdGF0
+aWMgaW50IGhkbGNkX3NldF9weGxfZm10KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPj4gIAlyZXR1
+cm4gMDsKPj4gIH0KPj4gIAo+PiAtc3RhdGljIHZvaWQgaGRsY2RfY3J0Y19tb2RlX3NldF9ub2Zi
+KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPj4gK3N0YXRpYyBpbnQgaGRsY2RfY3J0Y19tb2RlX3Nl
+dF9ub2ZiKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKPgo+QnV0IHRoaXMgaXMgbm90LiBXZSBkb24n
+dCBuZWVkIHRvIHByb3BhZ2F0ZSB0aGUgZXJyb3IgZnVydGhlciwganVzdCAuLi4uCj4KPj4gIHsK
+Pj4gIAlzdHJ1Y3QgaGRsY2RfZHJtX3ByaXZhdGUgKmhkbGNkID0gY3J0Y190b19oZGxjZF9wcml2
+KGNydGMpOwo+PiAgCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptID0gJmNydGMtPnN0YXRlLT5h
+ZGp1c3RlZF9tb2RlOwo+PiBAQCAtMTYyLDkgKzE2MiwxMCBAQCBzdGF0aWMgdm9pZCBoZGxjZF9j
+cnRjX21vZGVfc2V0X25vZmIoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+PiAgCj4+ICAJZXJyID0g
+aGRsY2Rfc2V0X3B4bF9mbXQoY3J0Yyk7Cj4+ICAJaWYgKGVycikKPj4gLQkJcmV0dXJuOwo+CgpN
+eSBwcmV2aW91cyB1bmRlcnN0YW5kaW5nIHdhcyB0aGF0IHdoZW4gc3VjaCBhbiBleGNlcHRpb24g
+b2NjdXJyZWQsIGl0IHdhcyBjYXVnaHQKaW4gdGhlIGF0b21pY19lbmFibGUgaW50ZXJmYWNlLCBh
+bmQgdGhlbiBkaXNhYmxlIHBpeGVsIGNsb2NrLiBJIGFtIG5vdCBzdXJlIGlzIHRoaXMgb2sgb3IK
+aSBoYXZlIHRvIGRvIG1vcmUgcmVnaXN0ZXIgY2xlYW4gb3BlcmFjdGlvbi4KCj4uLi4gcmV0dXJu
+IGhlcmUgc28gdGhhdCB3ZSBkb24ndCBjYWxsIGNsa19zZXRfcmF0ZSgpOwpBbmQgZm9yIHRoaXMg
+cGFydCwgaSBhbSBhIGxpdHRsZSBjb25mdXNlZCA6CjEgY2xrX3NldF9yYXRlIG11c3QgYmUgc2V0
+IGV2ZW4gaWYgZm9ybWF0IGlzIHdyb25nPwoyIFRoZSBvcmlnaW5hbCBjb2RlIGxvZ2ljIHNob3dz
+IHRoYXQgSWYgZm9ybWF0IGlzIG5vdCBjb3JyZWN0LCB3ZSB3aWxsIG5vdCBzZXQgcmVnaXN0ZXJz
+IApIRExDRF9SRUdfUElYRUxfRk9STUFUICYgSERMQ0RfUkVHXzxjb2xvcj5fU0VMRUNULCB3aWxs
+IHRoaXMgYnJpbmcgaW4KYW55IHByb2JsZW1zPwozIGlmIDEgdGhlIHJhdGUgbXVzdCBzZXQgJiAy
+IHJlZ2lzdGVycyBhYm92ZSBkb2VzbmB0IG1hdHRlciwgdGhlbiBtYXliZSB0aGVyZSBpcyBubwpu
+ZWVkIHRvIGRpc2FibGUgcGl4ZWwgY2xvY2suCkFtIGkgbWlzdW5kZXJzdGFuZGluZwoKUmVnYXJk
+cywKQmVybmFyZAoKPj4gKwkJcmV0dXJuIGVycjsKPj4gIAo+PiAgCWNsa19zZXRfcmF0ZShoZGxj
+ZC0+Y2xrLCBtLT5jcnRjX2Nsb2NrICogMTAwMCk7Cj4+ICsJcmV0dXJuIDA7Cj4+ICB9Cj4+ICAK
+Pj4gIHN0YXRpYyB2b2lkIGhkbGNkX2NydGNfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMg
+KmNydGMsCj4+IEBAIC0xNzMsNyArMTc0LDExIEBAIHN0YXRpYyB2b2lkIGhkbGNkX2NydGNfYXRv
+bWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+ICAJc3RydWN0IGhkbGNkX2RybV9w
+cml2YXRlICpoZGxjZCA9IGNydGNfdG9faGRsY2RfcHJpdihjcnRjKTsKPj4gIAo+PiAgCWNsa19w
+cmVwYXJlX2VuYWJsZShoZGxjZC0+Y2xrKTsKPj4gLQloZGxjZF9jcnRjX21vZGVfc2V0X25vZmIo
+Y3J0Yyk7Cj4+ICsJaWYgKGhkbGNkX2NydGNfbW9kZV9zZXRfbm9mYihjcnRjKSkgewo+PiArCQlE
+Uk1fREVCVUdfS01TKCJJbnZhbGlkIGZvcm1hdCwgcGl4ZWwgY2xvY2sgZW5hYmxlIGZhaWxlZCFc
+biIpOwo+PiArCQljbGtfZGlzYWJsZV91bnByZXBhcmUoaGRsY2QtPmNsayk7Cj4+ICsJCXJldHVy
+bjsKPj4gKwl9Cj4+ICAJaGRsY2Rfd3JpdGUoaGRsY2QsIEhETENEX1JFR19DT01NQU5ELCAxKTsK
+Pj4gIAlkcm1fY3J0Y192Ymxhbmtfb24oY3J0Yyk7Cj4+ICB9Cj4+IC0tIAo+PiAyLjI2LjIKPj4g
+Cj4KPi0tIAo+PT09PT09PT09PT09PT09PT09PT0KPnwgSSB3b3VsZCBsaWtlIHRvIHwKPnwgZml4
+IHRoZSB3b3JsZCwgIHwKPnwgYnV0IHRoZXkncmUgbm90IHwKPnwgZ2l2aW5nIG1lIHRoZSAgIHwK
+PiBcIHNvdXJjZSBjb2RlISAgLwo+ICAtLS0tLS0tLS0tLS0tLS0KPiAgICDCr1xfKOODhClfL8Kv
+CgoNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
