@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3491CA97E
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 13:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0491D1CBF95
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 11:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8776EB12;
-	Fri,  8 May 2020 11:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313006E314;
+	Sat,  9 May 2020 09:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A836EB12
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 11:25:23 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l18so1428379wrn.6
- for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 04:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OEiRu8fDMHeMig14yk3oyA1kFIFsdb4VwqJUmgquhAU=;
- b=bCQwNkMxTP26uja13yTIfjw4d95B04dqZEDRutICRJJ8ZwGLnZeERJ7C+TPFnPBlfK
- 7p2VFComMa+YxIY6YW38xPSW/CVkMNsEuPbNO65LYtwX4KzQjiLGxO8P7T48r0TEv7vY
- nYVq0r7DR+0pNJweI5Mho2Vw2spPcLSXBgJXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OEiRu8fDMHeMig14yk3oyA1kFIFsdb4VwqJUmgquhAU=;
- b=p10sONCsvCruufb1twF+v+xXqeAwqpMOjawtux8RX9nqCx9Y8EfA4vyKE32G35gdrr
- x8m2hH0GCMc4gsaPYc0VnO58N15hzNdc6I/8c0l8n8tez/moQp7IiCh0BhUgZ9HsVxM3
- t+rBn4DI1xlKZPrIidfmcpOM7LwXVzV58wySTtzL4fXDBCpy8DYNQ4E3V+Kh+j0Pgyo/
- N0soTA1V3udSryCLP+HKZM9o2BZ1tJxWyWdXC2sc56SQLFLNUDC8gLGNI4TCpTGKWlO3
- NbBLig2qdwPAhrq/nX6lBJxRzmZbdCA7wES22BFGf4LwZO/oqfEJ8Z3p2nd0NmgTLG6K
- u11g==
-X-Gm-Message-State: AGi0PuaOUjwDkM6Q8RGvtkDBW+zA5muHvEi0XhAgAcr8wvuQxeTvupUz
- pRYAgwMq95zMSJXDwnI6+W36kQ==
-X-Google-Smtp-Source: APiQypJs8jtJoIl/vfKuSaY8FiKYZTELm86tssK3d01t6Nnw698gk4T87xzYbAg88YZscEM1ahFKyw==
-X-Received: by 2002:adf:e7cb:: with SMTP id e11mr2314069wrn.145.1588937122602; 
- Fri, 08 May 2020 04:25:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h17sm12978205wmm.6.2020.05.08.04.25.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 04:25:21 -0700 (PDT)
-Date: Fri, 8 May 2020 13:25:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 10/36] drm/gem: add _locked suffix to drm_object_put
-Message-ID: <20200508112519.GI1383626@phenom.ffwll.local>
-References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-11-emil.l.velikov@gmail.com>
- <20200508064053.GB1383626@phenom.ffwll.local>
- <CACvgo53fa1R3gD8hCg+Ch2Tj0ZnDVScNXiZO5FbGfK_VbAP_nQ@mail.gmail.com>
+X-Greylist: delayed 10338 seconds by postgrey-1.36 at gabe;
+ Fri, 08 May 2020 11:59:23 UTC
+Received: from mail.corsac.net (unknown [78.194.244.226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873A96E185
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 11:59:23 +0000 (UTC)
+Received: from scapa.corsac.net (unknown
+ [IPv6:2a01:e34:ec2f:4e20:6af7:28ff:fe8d:2119])
+ by mail.corsac.net (Postfix) with ESMTPS id E89C591
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 13:59:21 +0200 (CEST)
+Received: from corsac (uid 1000) (envelope-from corsac@debian.org) id a00a4
+ by scapa.corsac.net (DragonFly Mail Agent v0.12);
+ Fri, 08 May 2020 13:59:21 +0200
+Message-ID: <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
+Subject: Re: [PATCH] drm/atomic: Take the atomic toys away from X
+From: Yves-Alexis Perez <corsac@debian.org>
+To: Greg KH <greg@kroah.com>
+Date: Fri, 08 May 2020 13:59:17 +0200
+In-Reply-To: <20200508095426.GA3778290@kroah.com>
+References: <20190903190642.32588-1-daniel.vetter@ffwll.ch>
+ <20190905185318.31363-1-daniel.vetter@ffwll.ch>
+ <2a05f4c4362d386d298a06a67f2f528ef603a734.camel@debian.org>
+ <20200508095426.GA3778290@kroah.com>
+User-Agent: Evolution 3.36.2-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACvgo53fa1R3gD8hCg+Ch2Tj0ZnDVScNXiZO5FbGfK_VbAP_nQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.4.0-4-amd64 
+X-Mailman-Approved-At: Sat, 09 May 2020 09:04:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,82 +46,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Michel =?ISO-8859-1?Q?D=E4nzer?= <michel@daenzer.net>, stable@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 08, 2020 at 12:00:40PM +0100, Emil Velikov wrote:
-> On Fri, 8 May 2020 at 07:40, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, May 07, 2020 at 04:07:56PM +0100, Emil Velikov wrote:
-> > > From: Emil Velikov <emil.velikov@collabora.com>
-> > >
-> > > Vast majority of DRM (core and drivers) are struct_mutex free.
-> > >
-> > > As such we have only a handful of cases where the locked helper should
-> > > be used. Make that stand out a little bit better.
-> > >
-> > > Done via the following script:
-> > >
-> > > __from=drm_gem_object_put
-> > > __to=drm_gem_object_put_locked
-> > >
-> > > for __file in $(git grep --name-only --word-regexp $__from); do
-> > >   sed -i  "s/\<$__from\>/$__to/g" $__file;
-> > > done
-> > >
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Sean Paul <sean@poorly.run>
-> > > Cc: linux-arm-msm@vger.kernel.org
-> > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> >
-> > Since
-> >
-> > commit 48e7f18392c66f9b69ebac11c54f1a2e033ced54
-> > Author: Kristian H. Kristensen <hoegsberg@gmail.com>
-> > Date:   Wed Mar 20 10:09:08 2019 -0700
-> >
-> >     drm/msm: Implement .gem_free_object_unlocked
-> >
-> > msm doesn't need the struct_mutex in the bo_put anymore, the only reason
-> > we had to use the _locked version here is historical accidents I think.
-> >
-> > I think you could convert these all to the _unlocked variant and then
-> > entirely drop the _locked version.
-> >
-> Did not check the msm driver closely, but it makes sense. Let's keep
-> that as follow-up series?
-> We're already at 36 patches, plus mixing mostly mechanical and locking
-> changes doesn't sound wise.
-
-My idea was to simply throw this patch out, and replace it by an msm patch
-to switch over to the unlocked variant.
-
-Well maybe then needs 2nd patch to throw the locked version out.
-
-So feels a bit a detour to touch msm twice, which is why I suggested to do
-the more direct route. But if you feel strongly I guess we can go this way
-and then follow up with converting msm to unlocked and throwing the
-_locked variant out for good too.
--Daniel
-
-
-> > Once we have that we could move struct_mutex into each driver (at least
-> > for msm and i915) since it's purely internal, and then wrap it in an
-> > #ifdef CONFIG_DRM_LEGACY to gloriously sunset it all :-)
-> >
-> Indeed, we're nearly there.
-> 
-> -Emil
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEEyNTYKCk9uIEZyaSwg
+MjAyMC0wNS0wOCBhdCAxMTo1NCArMDIwMCwgR3JlZyBLSCB3cm90ZToKPiA+IEhpIERhbmllbCBh
+bmQgR3JlZyAoZXNwZWNpYWxseSkuIEl0IHNlZW1zIHRoYXQgdGhpcyBwYXRjaCB3YXMgbmV2ZXIK
+PiA+IGFwcGxpZWQgdG8KPiA+IHN0YWJsZSwgbWF5YmUgaXQgZmVsbCB0aHJvdWdoIHRoZSBjcmFj
+a3M/Cj4gCj4gV2hhdCBwYXRjaCBpcyAidGhpcyBwYXRjaCI/CgpTb3JyeSwgdGhlIHBhdGNoIHdh
+cyBpbiB0aGUgbWFpbCBJIHdhcyByZXBseWluZyB0bzoKCmNvbW1pdCAyNmIxZDNiNTI3ZTdiZjNl
+MjRiODE0ZDYxNzg2NmFjNTE5OWNlNjhkCkF1dGhvcjogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
+dHRlckBmZndsbC5jaD4KRGF0ZTogICBUaHUgU2VwIDUgMjA6NTM6MTggMjAxOSArMDIwMAoKICAg
+IGRybS9hdG9taWM6IFRha2UgdGhlIGF0b21pYyB0b3lzIGF3YXkgZnJvbSBYCgo+IAo+ID4gSXQg
+ZG9lc24ndCBhcHBseSBhcy1pcyBpbiA0LjE5IGJyYW5jaCBidXQgYSBzbWFsbCBjaGFuZ2UgaW4g
+dGhlIGNvbnRleHQKPiA+IG1ha2VzCj4gPiBpdCBhcHBseS4gSSdtIGV4cGVyaWVuY2luZyBpc3N1
+ZXMgd2l0aCBsaWdodGRtIGFuZCB2dC1zd2l0Y2ggaW4gRGViaWFuCj4gPiBCdXN0ZXIKPiA+ICh3
+aGljaCBoYXMgYSA0LjE5IGtlcm5lbCkgc28gSSdkIGFwcHJlY2lhdGUgaWYgdGhlIHBhdGNoIHdh
+cyBpbmNsdWRlZCBpbgo+ID4gYXQKPiA+IGxlYXN0IHRoYXQgcmVsZWFzZS4KPiAKPiBXaGF0IGlz
+IHRoZSBnaXQgY29tbWl0IGlkIG9mIHRoZSBwYXRjaCBpbiBMaW51cydzIHRyZWU/ICBJZiB5b3Ug
+aGF2ZSBhCj4gd29ya2luZyBiYWNrcG9ydCwgdGhhdCBtYWtlcyBpdCBtdWNoIGVhc2llciB0aGFu
+IGhvcGluZyBJIGNhbiBmaXggaXQKPiB1cC4uLgoKVGhlIGNvbW1pdCBpZCBpcyBpbiBMaW51cyB0
+cmVlIGlzIDI2YjFkM2I1MjdlN2JmM2UyNGI4MTRkNjE3ODY2YWM1MTk5Y2U2OGQuIFRvCmFwcGx5
+IHByb3Blcmx5IDY5ZmRmNDIwNmE4YmE5MWEyNzdiM2Q1MGEzYTA1YjcxMjQ3NjM1YjIgd291bGQg
+bmVlZCB0byBiZQpjaGVycnktcGlja2VkIGFzIHdlbGwgYnV0IGl0IHdhc24ndCBtYXJrZWQgZm9y
+IHN0YWJsZSBzbyBJIGRpZG4ndCBib3RoZXIgYW5kCm9ubHkgZml4ZWQgdGhlIGNvbnRleHQuIEhl
+cmUncyB0aGUgYmFja3BvcnQgdG8gNC4xOSwgY29tcGlsZSBhbmQgcnVudGltZQp0ZXN0ZWQuIEl0
+IGRvZXMgZml4IHRoZSBpc3N1ZSBmb3IgbWUgKGxpa2UgaXQgZGlkIG9uIG1haW5saW5lKS4KClNv
+IEkgZ3Vlc3MKVGVzdGVkLUJ5OiBZdmVzLUFsZXhpcyBQZXJleiA8Y29yc2FjQGRlYmlhbi5vcmc+
+Cgpjb21taXQgOGE5OTkxNGY3YjUzOTU0MjYyMmRjNTcxYzgyZDZjZDIwM2JkZGY2NApBdXRob3I6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkRhdGU6ICAgVGh1IFNlcCA1
+IDIwOjUzOjE4IDIwMTkgKzAyMDAKCiAgICBkcm0vYXRvbWljOiBUYWtlIHRoZSBhdG9taWMgdG95
+cyBhd2F5IGZyb20gWAogICAgCiAgICBUaGUgLW1vZGVzZXR0aW5nIGRkeCBoYXMgYSB0b3RhbGx5
+IGJyb2tlbiBpZGVhIG9mIGhvdyBhdG9taWMgd29ya3M6CiAgICAtIGRvZXNuJ3QgZGlzYWJsZSBv
+bGQgY29ubmVjdG9ycywgYXNzdW1pbmcgdGhleSBnZXQgYXV0by1kaXNhYmxlIGxpa2UKICAgICAg
+d2l0aCB0aGUgbGVnYWN5IHNldGNydGMKICAgIC0gYXNzdW1lcyBBU1lOQ19GTElQIGlzIHdpcmVk
+IHRocm91Z2ggZm9yIHRoZSBhdG9taWMgaW9jdGwKICAgIC0gbm90IGEgc2luZ2xlIGNhbGwgdG8g
+VEVTVF9PTkxZCiAgICAKICAgIElvdyB0aGUgaW1wbGVtZW50YXRpb24gaXMgYSAxOjEgdHJhbnNs
+YXRpb24gb2YgbGVnYWN5IGlvY3RscyB0bwogICAgYXRvbWljLCB3aGljaCBpcyBhKSBicm9rZW4g
+YikgcG9pbnRsZXNzLgogICAgCiAgICBXZSBhbHJlYWR5IGhhdmUgYnVncyBpbiBib3RoIGk5MTUg
+YW5kIGFtZGdwdS1EQyB3aGVyZSB0aGlzIHByZXZlbnRzIHVzCiAgICBmcm9tIGVuYWJsaW5nIG5l
+YXQgZmVhdHVyZXMuCiAgICAKICAgIElmIGFueW9uZSBldmVyIGNhcmVzIGFib3V0IGF0b21pYyBp
+biBYIHdlIGNhbiBlYXNpbHkgYWRkIGEgbmV3IGF0b21pYwogICAgbGV2ZWwgKHJlcS0+dmFsdWUg
+PT0gMikgZm9yIFggdG8gZ2V0IGJhY2sgdGhlIHNoaW55IHRveXMuCiAgICAKICAgIFNpbmNlIHRo
+ZXNlIGJyb2tlbiB2ZXJzaW9ucyBvZiAtbW9kZXNldHRpbmcgaGF2ZSBiZWVuIHNoaXBwaW5nLAog
+ICAgdGhlcmUncyByZWFsbHkgbm8gb3RoZXIgd2F5IHRvIGdldCBvdXQgb2YgdGhpcyBiaW5kLgog
+ICAgCiAgICB2MjoKICAgIC0gYWRkIGFuIGluZm9ybWF0aW9uYWwgZG1lc2cgb3V0cHV0IChSb2Is
+IEFqYXgpCiAgICAtIHJlb3JkZXIgYWZ0ZXIgdGhlIERSSVZFUl9BVE9NSUMgY2hlY2sgdG8gYXZv
+aWQgdXNlbGVzcyBub2lzZSAoSWxpYSkKICAgIC0gYWxsb3cgcmVxLT52YWx1ZSA+IDIgc28gdGhh
+dCBYIGNhbiBkbyBhbm90aGVyIGF0dGVtcHQgYXQgYXRvbWljIGluCiAgICAgIHRoZSBmdXR1cmUK
+ICAgIAogICAgdjM6IEdvIHdpdGggcGFyYW5vaWQsIGluc2lzdCB0aGF0IHRoZSBYIHNob3VsZCBi
+ZSBmaXJzdCAoc3VnZ2VzdGVkIGJ5CiAgICBSb2IpCiAgICAKICAgIENjOiBJbGlhIE1pcmtpbiA8
+aW1pcmtpbkBhbHVtLm1pdC5lZHU+CiAgICBSZWZlcmVuY2VzOiBodHRwczovL2dpdGxhYi5mcmVl
+ZGVza3RvcC5vcmcveG9yZy94c2VydmVyL2lzc3Vlcy82MjkKICAgIFJlZmVyZW5jZXM6IGh0dHBz
+Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy94b3JnL3hzZXJ2ZXIvbWVyZ2VfcmVxdWVzdHMvMTgw
+CiAgICBSZWZlcmVuY2VzOiBhYmJjMDY5N2Q1ZmIgKCJkcm0vZmI6IHJldmVydCB0aGUgaTkxNSBB
+Y3R1YWxseSBjb25maWd1cmUKdW50aWxlZCBkaXNwbGF5cyBmcm9tIG1hc3RlciIpCiAgICBDYzog
+TWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KICAg
+IFJldmlld2VkLWJ5OiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXgu
+aW50ZWwuY29tPiAodjEpCiAgICBSZXZpZXdlZC1ieTogTmljaG9sYXMgS2F6bGF1c2thcyA8bmlj
+aG9sYXMua2F6bGF1c2thc0BhbWQuY29tPiAodjEpCiAgICBDYzogTWljaGVsIETDpG56ZXIgPG1p
+Y2hlbEBkYWVuemVyLm5ldD4KICAgIENjOiBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVyQGdtYWls
+LmNvbT4KICAgIENjOiBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KICAgIEFja2VkLWJ5
+OiBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KICAgIENjOiBTZWFuIFBhdWwgPHNlYW5A
+cG9vcmx5LnJ1bj4KICAgIENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CiAgICBD
+YzogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgogICAgQWNrZWQtYnk6IFJvYiBDbGFy
+ayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KICAgIENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCiAg
+ICBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4K
+ICAgIExpbms6IApodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQv
+MjAxOTA5MDUxODUzMTguMzEzNjMtMS1kYW5pZWwudmV0dGVyQGZmd2xsLmNoCgpkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0
+bC5jCmluZGV4IGJhMTI5YjY0YjYxZi4uYjkyNjgyZjAzN2IyIDEwMDY0NAotIC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1faW9jdGwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMK
+QEAgLTMyMSw3ICszMjEsMTIgQEAgZHJtX3NldGNsaWVudGNhcChzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCB2b2lkICpkYXRhLApzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdikKIAljYXNlIERSTV9D
+TElFTlRfQ0FQX0FUT01JQzoKIAkJaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
+VkVSX0FUT01JQykpCiAJCQlyZXR1cm4gLUVJTlZBTDsKLSAtCQlpZiAocmVxLT52YWx1ZSA+IDEp
+CisJCS8qIFRoZSBtb2Rlc2V0dGluZyBERFggaGFzIGEgdG90YWxseSBicm9rZW4gaWRlYSBvZiBh
+dG9taWMuICovCisJCWlmIChjdXJyZW50LT5jb21tWzBdID09ICdYJyAmJiByZXEtPnZhbHVlID09
+IDEpIHsKKwkJCXByX2luZm8oImJyb2tlbiBhdG9taWMgbW9kZXNldCB1c2Vyc3BhY2UgZGV0ZWN0
+ZWQsCmRpc2FibGluZyBhdG9taWNcbiIpOworCQkJcmV0dXJuIC1FT1BOT1RTVVBQOworCQl9CisJ
+CWlmIChyZXEtPnZhbHVlID4gMikKIAkJCXJldHVybiAtRUlOVkFMOwogCQlmaWxlX3ByaXYtPmF0
+b21pYyA9IHJlcS0+dmFsdWU7CiAJCWZpbGVfcHJpdi0+dW5pdmVyc2FsX3BsYW5lcyA9IHJlcS0+
+dmFsdWU7CgoKLSAtLSAKWXZlcy1BbGV4aXMKLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0K
+CmlRRXpCQUVCQ0FBZEZpRUU4dmkzNFFnZm84M3gzNWdGM3JZY3lQcFhSRnNGQWw2MVNaVUFDZ2tR
+M3JZY3lQcFgKUkZ2UGZ3Z0F6TXlGcWlWNTkyUkJLdTR0eDVJdnFhNEVDLzFPZFI4RG9qeVFsdzRB
+UDBiWWMrNE82N3hZYnZ0NQpyNEpYdUdiU3UralcvMjlWKzJ0OFpsTGk0UzdiQXZBbzJERWh1QmRH
+VnpkbUQ0Z005RUMrNjlvcVZlWldXWlRtClZVbGRMclJPOEJvUHh2MTRsWC9LL2tVL281UHY4aXZS
+b0VLczM4NUpVMnAxQXhOR0pJMlVVbUlYS0d0azdDdS8KRnUvZmxINjI3UkhqVFJrMlFZc2VtcUhx
+U0FPTmFIWXVTaVltNzgzaHo0d1lpUE9aUWRHdlMraWZId01BaFVxaApzY2FDeHYrcEJPeGFMdVpB
+ZlVYRmpEWCtxQWN1SkN4YVA5YlQ0c293ZUlwWXFqemNBZEJTbW55MCtPTE9uaWUvCkhjQnpLd3Bn
+aXRLUi9jVmFkWmdiMFVTMW9IZW8yQT09Cj1sOHoxCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0t
+LQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
