@@ -1,39 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0C51CA574
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 09:52:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D641CA5CF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 319FF6EA93;
-	Fri,  8 May 2020 07:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F5986E150;
+	Fri,  8 May 2020 08:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621426EA93
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 07:52:23 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 7451980503;
- Fri,  8 May 2020 09:52:17 +0200 (CEST)
-Date: Fri, 8 May 2020 09:52:10 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Bernard <bernard@vivo.com>
-Subject: Re: [PATCH] drm/exynos: remove no need devm_kfree in probe [re-send, 
- welcome any comments]
-Message-ID: <20200508075210.GA8789@ravnborg.org>
-References: <AMkACAAICCLCcgaekrYcyKoA.1.1588769343436.Hmail.bernard@vivo.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572076E145;
+ Fri,  8 May 2020 08:13:09 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id 188so9265879wmc.2;
+ Fri, 08 May 2020 01:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=hvvHlb38AIwzio2a69BGQcdnbFfbnB1WrpBu/rnEai8=;
+ b=BCPDgEPrHCBcXUvSB+ui+kZhF9a6Yini8k+bIfNuDis1bc+I7Ib8mvhu87wQ1sIiBu
+ X5J8nz3oWFMZaaTYaF4xa8eb3Fp4ywZ0xAZKR0MgYi10lQMFuWZ6CcWxDqxC0PsLwLEi
+ VxFpOOwcMmZhxjKB6mH+UniN39Ag6hf08y4Vh15+0jHHUFKh+TB//1cHTCYxD8TpSlmP
+ zfTc6IxcEoXCLbmtv5md/iIfH3XEw0GPXi0KZMHkZnW0/oZzj/jQl1gOSD2vtI3xAV2r
+ 1sZuwfK6sJk9TuXWCZOAQsFe/N359e5tXpz2CtHyW+FrvhuLPcDs3GS0FqkR2jfQbuzl
+ M9DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=hvvHlb38AIwzio2a69BGQcdnbFfbnB1WrpBu/rnEai8=;
+ b=PEP0TscVuD/c5Q6oWXmztKqkMOYTfyoqQ0qnUdFub16QdfVOTIxyiDyBcViMcopSiA
+ QdJf79Nq1jgXy+Adjef6cGjH2sUq9sLWqHCoXGHK5qLt9o9bi0TnoxVpcCFiroXtJDkf
+ Pg5OwErS95wpL0nzPdsQx0xCsc83JDxIg3/Nc2LA8mUe5xhH+kw9chVjguYGVy4HfzAw
+ Nm1iQbjplrID1hnHdiQmhDBH/tTnKuaPPQlbeLkxIBwkitGxKwQffPuVshZzxK+yiLKe
+ rVp1RnleU7esRNXBG4W767PCtP+zlXoJD/cxLJwSqioikvg3MSFf8PDfgzbYChtWhEpA
+ aWkg==
+X-Gm-Message-State: AGi0PubuYMIs97WW8wcI40ajhGXAr/diHqsRzAzcQf5u/SFPc3eduvEb
+ tVd9f7e/VE+wxZ2+ACVnFHykhYKE
+X-Google-Smtp-Source: APiQypLhBrep9nsjvCPR5A2p54Zja55VgqkR9lw0H5JuzpYxWCs+Rp96vbffjcPvmzkSJRfKExxvbg==
+X-Received: by 2002:a1c:7416:: with SMTP id p22mr15519157wmc.80.1588925587759; 
+ Fri, 08 May 2020 01:13:07 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id t67sm13038756wmg.40.2020.05.08.01.13.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 08 May 2020 01:13:07 -0700 (PDT)
+Subject: Re: [PATCH 06/36] drm/amdgpu: use the unlocked drm_gem_object_put
+To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
+ <20200507150822.114464-7-emil.l.velikov@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <dc448b12-3ca8-069a-61cf-4da9e5a3ad34@gmail.com>
+Date: Fri, 8 May 2020 10:13:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <AMkACAAICCLCcgaekrYcyKoA.1.1588769343436.Hmail.bernard@vivo.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=1WtWmnkvAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=BHcMzYUn60HY1PDIBp0A:9 a=CjuIK1q_8ugA:10 a=-_UHfarfsM-RsASml2Jt:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200507150822.114464-7-emil.l.velikov@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,90 +71,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>, David Airlie <airlied@linux.ie>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bernard.
-
-On Wed, May 06, 2020 at 08:49:03PM +0800, Bernard wrote:
-> Remove no need devm_kfree in probe.
-> The change is to make the code a bit more readable
-> 
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-
-Could you take a closer look and fix similar patterns
-in the rest of the driver?
-For example in exynos_dpi_probe()
-
-Is would be nice to only have to review for this
-type of changes once, so one patch-set is preferred
-over single patches over time.
-
-You can add:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-to this patch when you re-send a new series.
-
-Thanks,
-	Sam
-
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_dpi.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> index 43fa0f26c052..e06f7d7a6695 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> @@ -181,10 +181,8 @@ static int exynos_dpi_parse_dt(struct exynos_dpi *ctx)
->  			return -ENOMEM;
->  
->  		ret = of_get_videomode(dn, vm, 0);
-> -		if (ret < 0) {
-> -			devm_kfree(dev, vm);
-> +		if (ret < 0)
->  			return ret;
-> -		}
->  
->  		ctx->vm = vm;
->  
-> @@ -233,10 +231,8 @@ struct drm_encoder *exynos_dpi_probe(struct device *dev)
->  	ctx->dev = dev;
->  
->  	ret = exynos_dpi_parse_dt(ctx);
-> -	if (ret < 0) {
-> -		devm_kfree(dev, ctx);
-> -		return NULL;
-> -	}
-> +	if (ret < 0)
-> +		return ERR_PTR(ret);
->  
->  	if (ctx->panel_node) {
->  		ctx->panel = of_drm_find_panel(ctx->panel_node);
-> -- 
-> 2.26.2
-> 
-> 
-> [re-send, welcome any comments]
-> Regards,
-> Bernard
-> 
-> 
-> 
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDcuMDUuMjAgdW0gMTc6MDcgc2NocmllYiBFbWlsIFZlbGlrb3Y6Cj4gRnJvbTogRW1pbCBW
+ZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPgo+IFRoZSBkcml2ZXIgZG9lcyBu
+b3QgaG9sZCBzdHJ1Y3RfbXV0ZXgsIHRodXMgdXNpbmcgdGhlIGxvY2tlZCB2ZXJzaW9uIG9mCj4g
+dGhlIGhlbHBlciBpcyBpbmNvcnJlY3QuCj4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+Cj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gRml4ZXM6IGEz
+OTQxNDcxNmNhMCAoImRybS9hbWRncHU6IGFkZCBpbmRlcGVuZGVudCBETUEtYnVmIGltcG9ydCB2
+OSIpOgo+IFNpZ25lZC1vZmYtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZlbGlrb3ZAZ21haWwu
+Y29tPgoKUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
+LmNvbT4KCj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1
+Zi5jIHwgMiArLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rt
+YV9idWYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMKPiBp
+bmRleCA0M2Q4ZWQ3ZGJkMDAuLjY1MmM1N2EzYjg0NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2RtYV9idWYuYwo+IEBAIC01ODcsNyArNTg3LDcgQEAgc3RydWN0
+IGRybV9nZW1fb2JqZWN0ICphbWRncHVfZ2VtX3ByaW1lX2ltcG9ydChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LAo+ICAgCWF0dGFjaCA9IGRtYV9idWZfZHluYW1pY19hdHRhY2goZG1hX2J1ZiwgZGV2
+LT5kZXYsCj4gICAJCQkJCSZhbWRncHVfZG1hX2J1Zl9hdHRhY2hfb3BzLCBvYmopOwo+ICAgCWlm
+IChJU19FUlIoYXR0YWNoKSkgewo+IC0JCWRybV9nZW1fb2JqZWN0X3B1dChvYmopOwo+ICsJCWRy
+bV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZChvYmopOwo+ICAgCQlyZXR1cm4gRVJSX0NBU1QoYXR0
+YWNoKTsKPiAgIAl9Cj4gICAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
