@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8821CA803
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:14:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0661CA82A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3CD6EAD5;
-	Fri,  8 May 2020 10:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F228989DEA;
+	Fri,  8 May 2020 10:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2525E6EAD5
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:14:04 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id h4so9635602wmb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:14:04 -0700 (PDT)
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F158589DEA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:17:56 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id h30so749789vsr.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vSVzsNo/f2HsblA9EhDyIIGLzh8Z4JeTmAlaXX4Bxm4=;
- b=JMFcWPz3oKo6z2O/k/rTcfj414wMLqtRujLQ3nUf2rUVeOk7nef9GjvA/55CeCJTr7
- VM7fqFtA7xHmtHRr+m1Zd/Xnj9HrQHl95HqD7qjSXNVYBDNoOjTAJWnlxS5lq/xnw/hb
- 9YDqJL5vCRgbvS5krnmP9L0XRhd5OU/KLgQnVx4jxlGfWADZ3BhYx7aA70CvChSB0RoI
- SWGh5kQvtxBr2rnzg0Ksrfh69bspWnLhX0zY6f1JXfpVDKWivciC85TX89Tz5iLq9dHK
- e5OG4ylP4wfe7i1DvZqzotvxG4Qr76xyHnjQyOcxJ5K6j75BXlIpVI0LHjiO4cw0VL7g
- hnjw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c+oVneanRtOVOwahLtnIHX/mAnyDloy4XQ+Mg+DsNW4=;
+ b=Ud1+0AABfpM17kB9qkF13dBQ98jq4V72r9WR1ZhL25B+jC2+f7Ok2DSLnywyoe8hHj
+ WVMfwAjoKMwyx8HeKrxxbRXp0xkyAZnzlJK2CQ9chfY/njCHQ6StesKswThn/hgnQJ8Q
+ y8dQGplIuM+PrGefkmNu07UVvXVklLeTkp/vmrY7tSrtP2yOFvWwzI0XxzbGhP5XtL5F
+ n94h0ee8FuhuO7sqqIAlw6sBbELTzjIqNgT1YYn0VOSl7YBH2wjF4qgCEhy8TF0UU+QG
+ OYfXd8D2B6+jIf5ptWLHJRNcPjAS4/KBaQPmgBtZ8bLvV6lrG/pURyl5YIAyTTrk5psY
+ qFSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vSVzsNo/f2HsblA9EhDyIIGLzh8Z4JeTmAlaXX4Bxm4=;
- b=QDOOErJ2q4jKS8PLcHEHcp7KjwtzrtWg4KduNoGkjmCMyfg7QPtkMNLiI9wypJoua9
- kNVl+AJVK15CxbeA6rAPofQLjD9rlaAGNNr8sICHc+iRJ9/bI43ElnP4JmtIMRA0a7Ov
- OM0fmbgfYyAj0wQD2mB1TwWtduGIYCSRA4bJhAYwA9w0DxvtoIJSoJWEOSn2B08oPbDI
- fJDk+80ofDBB9kCjAvsx5aPcbdZmamoq+ELgExA1/vsIW0TC7exL6bghqVJr8XTRkI+a
- WJhtyHQ3T4x0YCVe+a066MWK1wENznXPG27b0JAhJ/OLz4x1llr6U7TMAgvAHYNhLaRN
- x+Og==
-X-Gm-Message-State: AGi0PuaFX001TEpMu1JoxJd3Yb7PawW0NMiCkCgSYesPXjg2J3GrxNqH
- 4VncawtQh5WNU8ncvi5GRRc=
-X-Google-Smtp-Source: APiQypJQNxGUMRRBHHoLIP9X4chOGOOgTS4J3ZHvpJEMuH3vJqu4bC631vKsVd469lBypyffY4xF7A==
-X-Received: by 2002:a1c:1d3:: with SMTP id 202mr9291808wmb.145.1588932842798; 
- Fri, 08 May 2020 03:14:02 -0700 (PDT)
-Received: from localhost (p2E5BE57B.dip0.t-ipconnect.de. [46.91.229.123])
- by smtp.gmail.com with ESMTPSA id 18sm313743wmj.19.2020.05.08.03.14.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 03:14:01 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dave Airlie <airlied@gmail.com>
-Subject: [GIT PULL] drm/tegra: Fixes for v5.7
-Date: Fri,  8 May 2020 12:13:55 +0200
-Message-Id: <20200508101355.3031268-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c+oVneanRtOVOwahLtnIHX/mAnyDloy4XQ+Mg+DsNW4=;
+ b=iy7g96tKQy+gr2aTAZBGQSV68UH4ix9s/k3DVi1XTOjrL488FM5pQ3exXOGNKJSrGY
+ DxDduEB2gU+i1Y8/iC4SrdaOvy3Cvh77ty4Tokqeu95YyoTVNlDj79aI3gu2CBwa61HE
+ VB+sKyYjaf9Zzz41I5eRjaBJ5JHmR0MGw2ragn9OF9h+NaK7wgbdjhfpqhv47baDZ0ta
+ /tJCSCkrOoQYvFkKln3RpTCHnClUn3n8gd76VayIEcsHUWCO39pRS3G6yq53ecAC6Kr2
+ pcPEE10xK1Wz3/ZPghwYz9EDXH+j88/2U5WAS+S1ZZXIPTh0Hl/CZ4QWUuYnx+E38p+5
+ 31aA==
+X-Gm-Message-State: AGi0PuaiqXQcy7O5Ce2h9gksCg/ncVMR+ivcIIHG5HePkIauMIZq3YwQ
+ 8/6yjFpMXXY0Be7c6m72WjjN2eVkI+fZBvHnIk8=
+X-Google-Smtp-Source: APiQypIiZTm+kyhnvz6JwCmtT8wi79Otwoqr4MvRO/womDVZTCchC3D10/gba7Kosfqks/3ZQFvP0KASlxs2zeWJTHY=
+X-Received: by 2002:a67:c482:: with SMTP id d2mr1295294vsk.37.1588933076074;
+ Fri, 08 May 2020 03:17:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
+ <20200507150822.114464-37-emil.l.velikov@gmail.com>
+ <20200507181413.GD13247@ravnborg.org>
+In-Reply-To: <20200507181413.GD13247@ravnborg.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 8 May 2020 11:15:24 +0100
+Message-ID: <CACvgo52pq=of3NTAte5anuYGfXRiGXY7PL6b9gp7SWGpOZSw+w@mail.gmail.com>
+Subject: Re: [PATCH 36/36] drm/gem: remove _unlocked suffix in
+ drm_object_put_unlocked
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +63,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+On Thu, 7 May 2020 at 19:14, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Emil.
+>
+> On Thu, May 07, 2020 at 04:08:22PM +0100, Emil Velikov wrote:
+> > From: Emil Velikov <emil.velikov@collabora.com>
+> >
+> > Spelling out _unlocked for each and every driver is a annoying.
+> > Especially if we consider how many drivers, do not know (or need to)
+> > about the horror stories involving struct_mutex.
+> >
+> > Just drop the suffix. It makes the API cleaner.
+> >
+> > Done via the following script:
+> >
+> > __from=drm_gem_object_put_unlocked
+> > __to=drm_gem_object_put
+> > for __file in $(git grep --name-only $__from); do
+> >   sed -i  "s/$__from/$__to/g" $__file;
+> > done
+> >
+> > With this patch, the _unlocked define is no longer needed - remove it.
+> >
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+>
+> I had prefeered this was spilt in three patches:
+> 1) drm_gem*
+> 2) drm_client, drm_prime, drm-mm
+> 3) Removal of the define
+>
+> Maybe just squash 1) and 2) in the above, but I like it spelled out that
+> the backward compatible define is dropped.
+>
+Think that we can combine your and Thomas' suggestions:
+- fold all of drm in once patch - move it all to patch 11
+- keep the #define removal as separate patch
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
-
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/tegra/linux tags/drm/tegra/for-5.7-fixes
-
-for you to fetch changes up to 4010e729349fcab69183f338fe3743df17a473a0:
-
-  gpu: host1x: Use SMMU on Tegra124 and Tegra210 (2020-04-28 11:44:07 +0200)
-
-Thanks,
-Thierry
-
-----------------------------------------------------------------
-drm/tegra: Fixes for v5.7
-
-This contains a pair of patches which fix SMMU support on Tegra124 and
-Tegra210 for host1x and the Tegra DRM driver.
-
-----------------------------------------------------------------
-Thierry Reding (2):
-      drm/tegra: Fix SMMU support on Tegra124 and Tegra210
-      gpu: host1x: Use SMMU on Tegra124 and Tegra210
-
- drivers/gpu/drm/tegra/drm.c |  3 ++-
- drivers/gpu/host1x/dev.c    | 59 ++++++++++++++++++++++++++++++++++++++++++---
- include/linux/host1x.h      |  3 +++
- 3 files changed, 60 insertions(+), 5 deletions(-)
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
