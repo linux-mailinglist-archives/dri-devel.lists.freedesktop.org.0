@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5C41CA24F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 06:35:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F80D1CA299
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 07:24:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 827FD6E1E0;
-	Fri,  8 May 2020 04:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEF76E480;
+	Fri,  8 May 2020 05:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70B2F6E1E0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 04:35:02 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49JHYb2wD7z9sRf;
- Fri,  8 May 2020 14:34:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1588912500;
- bh=tIayYZxVueV+PR3VYq1LmKUkTO9OK0vuZy2l55/pReI=;
- h=Date:From:To:Cc:Subject:From;
- b=NqxOz9zXfs6XrkfaBiIkkJUVvji+AJ3EWeOZGv3z1vo6D1eCEYYCLrk+ff/8A+r23
- Iu8/rYjHkmnjwZoZ4XcwFpDOctEqB1/rjwWz5iSDVIOF52IPHW9lL04jFH8LVlKbrz
- YgaNaHBEFd6yRzXr6REvd4MWvGphiFrkOaPWxqXEXalAdumPmvZUGSP1qJWO6Qish3
- 3gllKYZ4g4Xuvaj5SGyUKk8mZS9zXXQ3DghSdDCNBBm/3m+xYfZCo66efJPphrdKHW
- n7ikEfghdPetED3khTChQtiEat5YRlLD/Tjlh0FrF51Rkufj5+Q7ozt0or/W0KAU6h
- RYZri5aiMgp/w==
-Date: Fri, 8 May 2020 14:34:57 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, "Rafael J. Wysocki"
- <rjw@rjwysocki.net>
-Subject: linux-next: manual merge of the amdgpu tree with the pm tree
-Message-ID: <20200508143457.14acfc46@canb.auug.org.au>
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C76BA6E480
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 05:24:02 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id l3so277392edq.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 22:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=ef0QmtaHsENzA1h2bYZFII6gKVElXIt2dZPDJ6SKNPQ=;
+ b=GM4HFs6n8zTBxukvtGDxAeGK9haAZC3nRwZVVCRH1EILyVZs93+khT0YomI6HwkaJS
+ eB/Lsu5oyWJb5wmuilBG0cjbcNLgAxtOWcVBIHkarGTVhKbNVlegbYIk2fM3CDKGuwOT
+ 1fj5H/B4U/GSCgURXQGpEZEcnHCg0Z8HGzuwUvfRKJrE0dus4L2Y3WSuA3Rh/hfmTefS
+ GBiqQ6hF4TYsP9uoDvVe3JTVsCgJbT+w9sam4qBtDVbn17nEAmi+vAXLe+mwzuQDbmsF
+ HKA+MGBDEgCaqUs2tEI380CsS3YmOtDDEHWgBf13FPKbfVGOzg8TDpmZndKwQIuNXV57
+ ZKoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=ef0QmtaHsENzA1h2bYZFII6gKVElXIt2dZPDJ6SKNPQ=;
+ b=DHQaTo5DW/S/RQZAB0T7FU170dL9QBNRLCsof0pm1cUFck/ywBjDZnY/uEzK8cmsyZ
+ ZPHTplMlDyYJEj4+VX8RoApQz8YkeblYUSRHYfN5dq+lJeXIx0Rf9x+/2jOcf32KbA6d
+ wMfDvhjp7mNqToiX0b2LMZvqH0q199VVwO3rXP+vDmE/JmFZ2gAo9S+edFzACQFNuj/t
+ +2OERHF8luVjBZGx+6IGs0Q4Iq3Tm1RR4KlsnIMpfCuAydPbj7aiJD4+0WVdyJJA/jRB
+ cl6oddLahzhKPuBxRTuntG8gQyczpRTLXzhvO2wxwdN3FUslSAIMX+ohZftm+22QWLth
+ SRXA==
+X-Gm-Message-State: AGi0PuZ8XfH7QkHZepHpOC/QyWNN0kpBfZSrAGW262EDDULaIhodqkjj
+ /EpQSjui4cNfWNOCr806sNHtZDaiMJkhZxP7Rlg=
+X-Google-Smtp-Source: APiQypJse4q2t7KtC/3tgQc2PyAzjVhr9cBIg95wAOXOFBg/TX5JxfKeKxOj9bAn/JSspnT5cRSSs4tvmC9+Oo4IQ10=
+X-Received: by 2002:a05:6402:1482:: with SMTP id
+ e2mr705398edv.113.1588915441243; 
+ Thu, 07 May 2020 22:24:01 -0700 (PDT)
 MIME-Version: 1.0
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 8 May 2020 15:23:50 +1000
+Message-ID: <CAPM=9tx_hR6GYxb6zSm4Z0XMExZ0BA1NJqR8bDy5k4Nzd4xwtg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.7-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,98 +61,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0092766076=="
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0092766076==
-Content-Type: multipart/signed; boundary="Sig_/IC6dXXmr.J0j.0CdRqEFiwh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/IC6dXXmr.J0j.0CdRqEFiwh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the amdgpu tree got a conflict in:
-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-
-between commit:
-
-  e07515563d01 ("PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP")
-
-from the pm tree and commit:
-
-  500bd19a7e5d ("drm/amdgpu: only set DPM_FLAG_NEVER_SKIP for legacy ATPX B=
-OCO")
-
-from the amdgpu tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index c201bc827389,4e4c9550dcf8..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@@ -189,10 -188,12 +188,12 @@@ int amdgpu_driver_load_kms(struct drm_d
-  		dev_dbg(&dev->pdev->dev, "Error during ACPI methods call\n");
- =20
-  	if (adev->runpm) {
-- 		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
-+ 		/* only need to skip on ATPX */
-+ 		if (amdgpu_device_supports_boco(dev) &&
-+ 		    !amdgpu_is_atpx_hybrid())
- -			dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-++			dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
-  		pm_runtime_use_autosuspend(dev->dev);
-  		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
-- 		pm_runtime_set_active(dev->dev);
-  		pm_runtime_allow(dev->dev);
-  		pm_runtime_mark_last_busy(dev->dev);
-  		pm_runtime_put_autosuspend(dev->dev);
-
---Sig_/IC6dXXmr.J0j.0CdRqEFiwh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl604XEACgkQAVBC80lX
-0GxkRgf+P9we/5HxF6t1TApXGo0ooTk5FGWPYEpRZPAgF4BRJqOteGp+iQkDGUjL
-sgEjUnz9EryYLCy1OXtLuf9eOQL/HuvJvL2V36g7VzO3CW+pUm9lMwGpjujm7DQZ
-ZpjegyvDwQb0ouwV+5R8CKW2dSWDmiZ291FgTOmBy9G1bsn4XZPr9c9nlTZQW5si
-Gyc5M78YgEaFh4F/5iR8BNJ8/Z52H9cQ3JkTE/sHYA1AJTUmbBGNOmzfbw6rRxQz
-w1mbkRo38L8/ysrmipx8zdwjQwgm81JZKlvyy4CPJAcoETABeK1ki1usWAw0/eIz
-pvFYwCB3XAFi2dt8oFf/JLnmHzeNMQ==
-=U9dg
------END PGP SIGNATURE-----
-
---Sig_/IC6dXXmr.J0j.0CdRqEFiwh--
-
---===============0092766076==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0092766076==--
+SGV5IExpbnVzLAoKQW5vdGhlciBwcmV0dHkgbm9ybWFsIHdlZWssIGRpZG4ndCBnZXQgYW55IGk5
+MTUgZml4ZXMgeWV0LCBzbyBuZXh0CndlZWsgSSdkIGV4cGVjdCBkb3VibGUgdGhlIHVzdWFsIGk5
+MTUsIGJ1dCBvdGhlcndpc2UgYSBidW5jaCBvZiBhbWRncHUKYW5kIHNvbWUgc2NhdHRlcmVkIG90
+aGVyIGZpeGVzLgoKRGF2ZS4KCmRybS1maXhlcy0yMDIwLTA1LTA4Ogpkcm0gZml4ZXMgZm9yIDUu
+Ny1yYzUKCmhkY3A6Ci0gZml4IEhEQ1AgcmVncmVzc2lvbgoKYW1kZ3B1OgotIFJ1bnRpbWUgUE0g
+Zml4ZXMKLSBEQyBmaXggZm9yIFBQQwotIE1pc2MgREMgZml4ZXMKCnZpcnRpbzoKLSBmaXggY29u
+dGV4dCBvcmRlcmluZyBpc3N1ZQoKc3VuNGk6Ci0gb2xkIGdjYyB3YXJuaW5nIGZpeAoKaW5nZW5p
+Yy1kcm06Ci0gbWlzc2luZyBtb2R1bGUgc3VwcG9ydApUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2lu
+Y2UgY29tbWl0IDBlNjk4ZGZhMjgyMjExZTQxNDA3NmY5ZGM3ZTgzYzFjMjg4MzE0ZmQ6CgogIExp
+bnV4IDUuNy1yYzQgKDIwMjAtMDUtMDMgMTQ6NTY6MDQgLTA3MDApCgphcmUgYXZhaWxhYmxlIGlu
+IHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcv
+ZHJtL2RybSB0YWdzL2RybS1maXhlcy0yMDIwLTA1LTA4Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5n
+ZXMgdXAgdG8gYTlmZTZmMThjZGUwM2MyMGZhY2JmNzVkYzkxMGEzNzJjMWMxMDI1YjoKCiAgTWVy
+Z2UgdGFnICdkcm0tbWlzYy1maXhlcy0yMDIwLTA1LTA3JyBvZgpnaXQ6Ly9hbm9uZ2l0LmZyZWVk
+ZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgaW50byBkcm0tZml4ZXMgKDIwMjAtMDUtMDgKMTU6MDQ6
+MjUgKzEwMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS43LXJjNQoKaGRjcDoKLSBmaXggSERD
+UCByZWdyZXNzaW9uCgphbWRncHU6Ci0gUnVudGltZSBQTSBmaXhlcwotIERDIGZpeCBmb3IgUFBD
+Ci0gTWlzYyBEQyBmaXhlcwoKdmlydGlvOgotIGZpeCBjb250ZXh0IG9yZGVyaW5nIGlzc3VlCgpz
+dW40aToKLSBvbGQgZ2NjIHdhcm5pbmcgZml4CgppbmdlbmljLWRybToKLSBtaXNzaW5nIG1vZHVs
+ZSBzdXBwb3J0CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCkFybmQgQmVyZ21hbm4gKDEpOgogICAgICBzdW42aTogZHNpOiBm
+aXggZ2NjLTQuOAoKQXVyYWJpbmRvIFBpbGxhaSAoMSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTog
+UHJldmVudCBkcGNkIHJlYWRzIHdpdGggcGFzc2l2ZSBkb25nbGVzCgpEYW5pZWwgS29sZXNhICgx
+KToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiB3b3JrIGFyb3VuZCBmcCBjb2RlIGJlaW5nIGVtaXR0
+ZWQgb3V0c2lkZSBvZgpEQ19GUF9TVEFSVC9FTkQKCkRhdmUgQWlybGllICgyKToKICAgICAgTWVy
+Z2UgdGFnICdhbWQtZHJtLWZpeGVzLTUuNy0yMDIwLTA1LTA2JyBvZgpnaXQ6Ly9wZW9wbGUuZnJl
+ZWRlc2t0b3Aub3JnL35hZ2Q1Zi9saW51eCBpbnRvIGRybS1maXhlcwogICAgICBNZXJnZSB0YWcg
+J2RybS1taXNjLWZpeGVzLTIwMjAtMDUtMDcnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Au
+b3JnL2RybS9kcm0tbWlzYyBpbnRvIGRybS1maXhlcwoKRXZhbiBRdWFuICgyKToKICAgICAgZHJt
+L2FtZGdwdTogbW92ZSBrZmQgc3VzcGVuZCBhZnRlciBpcF9zdXNwZW5kX3BoYXNlMQogICAgICBk
+cm0vYW1kZ3B1OiBkcm9wIHJlZHVuZGFudCBjZy9wZyB1bmdhdGUgb24gcnVucG0gZW50ZXIKCkd1
+cmNoZXRhbiBTaW5naCAoMSk6CiAgICAgIGRybS92aXJ0aW86IGNyZWF0ZSBjb250ZXh0IGJlZm9y
+ZSBSRVNPVVJDRV9DUkVBVEVfMkQgaW4gM0QgbW9kZQoKSC4gTmlrb2xhdXMgU2NoYWxsZXIgKDEp
+OgogICAgICBkcm06IGluZ2VuaWMtZHJtOiBhZGQgTU9EVUxFX0RFVklDRV9UQUJMRQoKTWljaGVs
+IETDpG56ZXIgKDEpOgogICAgICBkcm0vYW1kZ3B1L2RjOiBVc2UgV0FSTl9PTl9PTkNFIGZvciBB
+U1NFUlQKClJvbWFuIExpICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBmaXggY291bnRlciBp
+biB3YWl0X2Zvcl9ub19waXBlc19wZW5kaW5nCgpTZWFuIFBhdWwgKDEpOgogICAgICBkcm06IEZp
+eCBIRENQIGZhaWx1cmVzIHdoZW4gU1JNIGZ3IGlzIG1pc3NpbmcKClN1bmcgTGVlICgxKToKICAg
+ICAgZHJtL2FtZC9kaXNwbGF5OiBVcGRhdGUgRENOMi4xIERWIENvZGUgUmV2aXNpb24KCiBkcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgICAgICAgICB8ICA3ICsrLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jICB8IDE3
+ICsrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGMuYyAg
+ICAgICAgICAgfCAgNSArKy0tCiAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24yMC9kY24y
+MF9yZXNvdXJjZS5jICB8IDMxICsrKysrKysrKysrKysrKystLS0tLS0KIC4uLi9kaXNwbGF5L2Rj
+L2RtbC9kY24yMS9kaXNwbGF5X3JxX2RsZ19jYWxjXzIxLmMgIHwgIDggKysrLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvb3NfdHlwZXMuaCAgICAgICAgICB8ICAyICstCiBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICA4ICsrKysr
+LQogZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYyAgICAgICAgICAgICAgfCAg
+MSArCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNmlfbWlwaV9kc2kuYyAgICAgICAgICAgICB8
+ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggICAgICAgICAgICAg
+ICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9nZW0uYyAgICAgICAgICAg
+ICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYyAgICAg
+ICAgICAgICB8ICAzICstLQogMTIgZmlsZXMgY2hhbmdlZCwgNTcgaW5zZXJ0aW9ucygrKSwgMzEg
+ZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
