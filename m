@@ -1,54 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F80D1CA299
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 07:24:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3231CA29C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 07:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEF76E480;
-	Fri,  8 May 2020 05:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34096E892;
+	Fri,  8 May 2020 05:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C76BA6E480
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 05:24:02 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id l3so277392edq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 22:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ef0QmtaHsENzA1h2bYZFII6gKVElXIt2dZPDJ6SKNPQ=;
- b=GM4HFs6n8zTBxukvtGDxAeGK9haAZC3nRwZVVCRH1EILyVZs93+khT0YomI6HwkaJS
- eB/Lsu5oyWJb5wmuilBG0cjbcNLgAxtOWcVBIHkarGTVhKbNVlegbYIk2fM3CDKGuwOT
- 1fj5H/B4U/GSCgURXQGpEZEcnHCg0Z8HGzuwUvfRKJrE0dus4L2Y3WSuA3Rh/hfmTefS
- GBiqQ6hF4TYsP9uoDvVe3JTVsCgJbT+w9sam4qBtDVbn17nEAmi+vAXLe+mwzuQDbmsF
- HKA+MGBDEgCaqUs2tEI380CsS3YmOtDDEHWgBf13FPKbfVGOzg8TDpmZndKwQIuNXV57
- ZKoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ef0QmtaHsENzA1h2bYZFII6gKVElXIt2dZPDJ6SKNPQ=;
- b=DHQaTo5DW/S/RQZAB0T7FU170dL9QBNRLCsof0pm1cUFck/ywBjDZnY/uEzK8cmsyZ
- ZPHTplMlDyYJEj4+VX8RoApQz8YkeblYUSRHYfN5dq+lJeXIx0Rf9x+/2jOcf32KbA6d
- wMfDvhjp7mNqToiX0b2LMZvqH0q199VVwO3rXP+vDmE/JmFZ2gAo9S+edFzACQFNuj/t
- +2OERHF8luVjBZGx+6IGs0Q4Iq3Tm1RR4KlsnIMpfCuAydPbj7aiJD4+0WVdyJJA/jRB
- cl6oddLahzhKPuBxRTuntG8gQyczpRTLXzhvO2wxwdN3FUslSAIMX+ohZftm+22QWLth
- SRXA==
-X-Gm-Message-State: AGi0PuZ8XfH7QkHZepHpOC/QyWNN0kpBfZSrAGW262EDDULaIhodqkjj
- /EpQSjui4cNfWNOCr806sNHtZDaiMJkhZxP7Rlg=
-X-Google-Smtp-Source: APiQypJse4q2t7KtC/3tgQc2PyAzjVhr9cBIg95wAOXOFBg/TX5JxfKeKxOj9bAn/JSspnT5cRSSs4tvmC9+Oo4IQ10=
-X-Received: by 2002:a05:6402:1482:: with SMTP id
- e2mr705398edv.113.1588915441243; 
- Thu, 07 May 2020 22:24:01 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA536E892;
+ Fri,  8 May 2020 05:25:40 +0000 (UTC)
+IronPort-SDR: LQts2E9hJuFyKsaR7cZZsztMA/E3qvC4jX2R3itvB40nYmBmhaIz/WS74fjvyrHMRas7vjdopF
+ ku3P+aHSb7pA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 22:25:39 -0700
+IronPort-SDR: LwQzoQnhkqpUZ0AWHuz0uiEOZPR05ed4ANCO6vlM5nGio05PsMKkS5pKmbJoQguvy9yOIt6hUn
+ USiiaD1UfXgg==
+X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; d="scan'208";a="435559079"
+Received: from rdvivi-losangeles.jf.intel.com (HELO intel.com)
+ ([10.165.21.202])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 22:25:38 -0700
+Date: Thu, 7 May 2020 22:24:37 -0700
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <20200508052437.GA3212215@intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 8 May 2020 15:23:50 +1000
-Message-ID: <CAPM=9tx_hR6GYxb6zSm4Z0XMExZ0BA1NJqR8bDy5k4Nzd4xwtg@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.7-rc5
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,68 +45,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5IExpbnVzLAoKQW5vdGhlciBwcmV0dHkgbm9ybWFsIHdlZWssIGRpZG4ndCBnZXQgYW55IGk5
-MTUgZml4ZXMgeWV0LCBzbyBuZXh0CndlZWsgSSdkIGV4cGVjdCBkb3VibGUgdGhlIHVzdWFsIGk5
-MTUsIGJ1dCBvdGhlcndpc2UgYSBidW5jaCBvZiBhbWRncHUKYW5kIHNvbWUgc2NhdHRlcmVkIG90
-aGVyIGZpeGVzLgoKRGF2ZS4KCmRybS1maXhlcy0yMDIwLTA1LTA4Ogpkcm0gZml4ZXMgZm9yIDUu
-Ny1yYzUKCmhkY3A6Ci0gZml4IEhEQ1AgcmVncmVzc2lvbgoKYW1kZ3B1OgotIFJ1bnRpbWUgUE0g
-Zml4ZXMKLSBEQyBmaXggZm9yIFBQQwotIE1pc2MgREMgZml4ZXMKCnZpcnRpbzoKLSBmaXggY29u
-dGV4dCBvcmRlcmluZyBpc3N1ZQoKc3VuNGk6Ci0gb2xkIGdjYyB3YXJuaW5nIGZpeAoKaW5nZW5p
-Yy1kcm06Ci0gbWlzc2luZyBtb2R1bGUgc3VwcG9ydApUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2lu
-Y2UgY29tbWl0IDBlNjk4ZGZhMjgyMjExZTQxNDA3NmY5ZGM3ZTgzYzFjMjg4MzE0ZmQ6CgogIExp
-bnV4IDUuNy1yYzQgKDIwMjAtMDUtMDMgMTQ6NTY6MDQgLTA3MDApCgphcmUgYXZhaWxhYmxlIGlu
-IHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcv
-ZHJtL2RybSB0YWdzL2RybS1maXhlcy0yMDIwLTA1LTA4Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5n
-ZXMgdXAgdG8gYTlmZTZmMThjZGUwM2MyMGZhY2JmNzVkYzkxMGEzNzJjMWMxMDI1YjoKCiAgTWVy
-Z2UgdGFnICdkcm0tbWlzYy1maXhlcy0yMDIwLTA1LTA3JyBvZgpnaXQ6Ly9hbm9uZ2l0LmZyZWVk
-ZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgaW50byBkcm0tZml4ZXMgKDIwMjAtMDUtMDgKMTU6MDQ6
-MjUgKzEwMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tCmRybSBmaXhlcyBmb3IgNS43LXJjNQoKaGRjcDoKLSBmaXggSERD
-UCByZWdyZXNzaW9uCgphbWRncHU6Ci0gUnVudGltZSBQTSBmaXhlcwotIERDIGZpeCBmb3IgUFBD
-Ci0gTWlzYyBEQyBmaXhlcwoKdmlydGlvOgotIGZpeCBjb250ZXh0IG9yZGVyaW5nIGlzc3VlCgpz
-dW40aToKLSBvbGQgZ2NjIHdhcm5pbmcgZml4CgppbmdlbmljLWRybToKLSBtaXNzaW5nIG1vZHVs
-ZSBzdXBwb3J0CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tCkFybmQgQmVyZ21hbm4gKDEpOgogICAgICBzdW42aTogZHNpOiBm
-aXggZ2NjLTQuOAoKQXVyYWJpbmRvIFBpbGxhaSAoMSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTog
-UHJldmVudCBkcGNkIHJlYWRzIHdpdGggcGFzc2l2ZSBkb25nbGVzCgpEYW5pZWwgS29sZXNhICgx
-KToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiB3b3JrIGFyb3VuZCBmcCBjb2RlIGJlaW5nIGVtaXR0
-ZWQgb3V0c2lkZSBvZgpEQ19GUF9TVEFSVC9FTkQKCkRhdmUgQWlybGllICgyKToKICAgICAgTWVy
-Z2UgdGFnICdhbWQtZHJtLWZpeGVzLTUuNy0yMDIwLTA1LTA2JyBvZgpnaXQ6Ly9wZW9wbGUuZnJl
-ZWRlc2t0b3Aub3JnL35hZ2Q1Zi9saW51eCBpbnRvIGRybS1maXhlcwogICAgICBNZXJnZSB0YWcg
-J2RybS1taXNjLWZpeGVzLTIwMjAtMDUtMDcnIG9mCmdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Au
-b3JnL2RybS9kcm0tbWlzYyBpbnRvIGRybS1maXhlcwoKRXZhbiBRdWFuICgyKToKICAgICAgZHJt
-L2FtZGdwdTogbW92ZSBrZmQgc3VzcGVuZCBhZnRlciBpcF9zdXNwZW5kX3BoYXNlMQogICAgICBk
-cm0vYW1kZ3B1OiBkcm9wIHJlZHVuZGFudCBjZy9wZyB1bmdhdGUgb24gcnVucG0gZW50ZXIKCkd1
-cmNoZXRhbiBTaW5naCAoMSk6CiAgICAgIGRybS92aXJ0aW86IGNyZWF0ZSBjb250ZXh0IGJlZm9y
-ZSBSRVNPVVJDRV9DUkVBVEVfMkQgaW4gM0QgbW9kZQoKSC4gTmlrb2xhdXMgU2NoYWxsZXIgKDEp
-OgogICAgICBkcm06IGluZ2VuaWMtZHJtOiBhZGQgTU9EVUxFX0RFVklDRV9UQUJMRQoKTWljaGVs
-IETDpG56ZXIgKDEpOgogICAgICBkcm0vYW1kZ3B1L2RjOiBVc2UgV0FSTl9PTl9PTkNFIGZvciBB
-U1NFUlQKClJvbWFuIExpICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBmaXggY291bnRlciBp
-biB3YWl0X2Zvcl9ub19waXBlc19wZW5kaW5nCgpTZWFuIFBhdWwgKDEpOgogICAgICBkcm06IEZp
-eCBIRENQIGZhaWx1cmVzIHdoZW4gU1JNIGZ3IGlzIG1pc3NpbmcKClN1bmcgTGVlICgxKToKICAg
-ICAgZHJtL2FtZC9kaXNwbGF5OiBVcGRhdGUgRENOMi4xIERWIENvZGUgUmV2aXNpb24KCiBkcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMgICAgICAgICB8ICA3ICsrLS0t
-CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jICB8IDE3
-ICsrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGMuYyAg
-ICAgICAgICAgfCAgNSArKy0tCiAuLi4vZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24yMC9kY24y
-MF9yZXNvdXJjZS5jICB8IDMxICsrKysrKysrKysrKysrKystLS0tLS0KIC4uLi9kaXNwbGF5L2Rj
-L2RtbC9kY24yMS9kaXNwbGF5X3JxX2RsZ19jYWxjXzIxLmMgIHwgIDggKysrLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvb3NfdHlwZXMuaCAgICAgICAgICB8ICAyICstCiBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyAgICAgICAgICAgICAgICAgICAgICAgICB8ICA4ICsrKysr
-LQogZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYyAgICAgICAgICAgICAgfCAg
-MSArCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNmlfbWlwaV9kc2kuYyAgICAgICAgICAgICB8
-ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmggICAgICAgICAgICAg
-ICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9nZW0uYyAgICAgICAgICAg
-ICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYyAgICAg
-ICAgICAgICB8ICAzICstLQogMTIgZmlsZXMgY2hhbmdlZCwgNTcgaW5zZXJ0aW9ucygrKSwgMzEg
-ZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Dave and Daniel,
+
+Here goes drm-intel-fixes-2020-05-07:
+
+- Fixes on execlist to avoid GPU hang situation (Chris)
+- Fixes couple deadlocks (Chris)
+- Timeslice preemption fixes (Chris)
+- Fix Display Port interrupt handling on Tiger Lake (Imre)
+- Reduce debug noise around Frame Buffer Compression (Peter)
+- Fix logic around IPC W/a for Coffee Lake and Kaby Lake (Sultan)
+- Avoid dereferencing a dead context (Chris)
+
+Thanks,
+Rodrigo.
+
+The following changes since commit 8598eb781cf68fd6cb67c479f1479ae58bd54fb9:
+
+  drm/i915: Use proper fault mask in interrupt postinstall too (2020-04-28 16:38:03 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-05-07
+
+for you to fetch changes up to 1bc6a60143a4f9264cc6e09ceb9919f4e813a872:
+
+  drm/i915/execlists: Track inflight CCID (2020-05-06 15:37:59 -0700)
+
+----------------------------------------------------------------
+- Fixes on execlist to avoid GPU hang situation (Chris)
+- Fixes couple deadlocks (Chris)
+- Timeslice preemption fixes (Chris)
+- Fix Display Port interrupt handling on Tiger Lake (Imre)
+- Reduce debug noise around Frame Buffer Compression (Peter)
+- Fix logic around IPC W/a for Coffee Lake and Kaby Lake (Sultan)
+- Avoid dereferencing a dead context (Chris)
+
+----------------------------------------------------------------
+Chris Wilson (7):
+      drm/i915: Avoid dereferencing a dead context
+      drm/i915/gt: Make timeslicing an explicit engine property
+      drm/i915: Check current i915_vma.pin_count status first on unbind
+      drm/i915/gt: Yield the timeslice if caught waiting on a user semaphore
+      drm/i915/gem: Remove object_is_locked assertion from unpin_from_display_plane
+      drm/i915/execlists: Avoid reusing the same logical CCID
+      drm/i915/execlists: Track inflight CCID
+
+Imre Deak (1):
+      drm/i915/tgl+: Fix interrupt handling for DP AUX transactions
+
+Peter Jones (1):
+      Make the "Reducing compressed framebufer size" message be DRM_INFO_ONCE()
+
+Sultan Alsawaf (1):
+      drm/i915: Don't enable WaIncreaseLatencyIPCEnabled when IPC is disabled
+
+ drivers/gpu/drm/i915/display/intel_fbc.c          |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c        |   7 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h     |   8 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h            |   9 --
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c         |   6 ++
+ drivers/gpu/drm/i915/gt/intel_engine_types.h      |  35 +++++--
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c            |  15 ++-
+ drivers/gpu/drm/i915/gt/intel_lrc.c               | 117 ++++++++++++++--------
+ drivers/gpu/drm/i915/gt/selftest_lrc.c            |  34 ++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |   2 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c              |   4 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c             |  12 ++-
+ drivers/gpu/drm/i915/i915_irq.c                   |  16 +--
+ drivers/gpu/drm/i915/i915_perf.c                  |   6 +-
+ drivers/gpu/drm/i915/i915_reg.h                   |   1 +
+ drivers/gpu/drm/i915/i915_vma.c                   |  25 ++---
+ drivers/gpu/drm/i915/intel_pm.c                   |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_vma.c         |   2 +-
+ 18 files changed, 180 insertions(+), 124 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
