@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA881CA871
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5331CA884
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1DE36E175;
-	Fri,  8 May 2020 10:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06416E15B;
+	Fri,  8 May 2020 10:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
- [IPv6:2607:f8b0:4864:20::a43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20DA56E175
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:37:44 +0000 (UTC)
-Received: by mail-vk1-xa43.google.com with SMTP id j127so287354vke.4
- for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:37:44 -0700 (PDT)
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
+ [IPv6:2607:f8b0:4864:20::a44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A5D6E15B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:47:36 +0000 (UTC)
+Received: by mail-vk1-xa44.google.com with SMTP id w188so298816vkf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NA9me29/TJs79X1Lqi355HvolxRtfq7AU5ESlbnuUUc=;
- b=PJ8C6AB3ttAUXPB/AmL1O/j9WoX2ImOrVWYzWM68geZrq8QPI2/8+fIurlzmzdf3nq
- RTWEk477QcQ/onDeuI9ap53vOnSPGz9IbMqa3tMlAQnL3/ZB5iowZzWI5uz3jU+pcyNi
- 6+00ALVnhCIdYvK5bhQNgYuhg7TJRFGQgdz1OwMDdgiT8ASds2BzRejKGAs/JYN/7P86
- 51IHhvEzl8Vp8nD4jVzAdTXojFHwCZZsqYExrtndjGbMzoZP+ez2dK4AcprkOtuzLZRc
- lqndEHw0uxxW5BnjQlcKS7aDkUD+DAL6n8RZBWdF3MP/lBlSDw3ALOC/aogqd69D35Nd
- Bikg==
+ :cc:content-transfer-encoding;
+ bh=ZHSJY3vDV6FXsFHSmmRamyUM2Xdmsr7sq/QOhw2cH90=;
+ b=I4AIDwxnhpILxnFUiFhbsvMc/+Hfnd5F+/kLYroFcHqp3LVkDAJzyOW9XZ52oRsykM
+ QvFwaPaSJkY3iG7iWIDN9ZBOsnZXqzAiHZ/DTOqBw2Mg06N3MqqA6PhmYzopEEiS2wTa
+ ohPaxaMlyAxl4vdv2c00TygPKIc8NsoI5KITpvzd5m99SCJ8YuNxrujsl6jHfTf4XrXC
+ 5r8MAiKtqO430WWy0/NVaxC6zwGjSDwXc18XEOs/q4C2midFx/62thO4lO0dGv4dSCD5
+ rKA0noLdslfUfTNvy84LfWf5ipMZzvJ99SHr5kJa+IJ9NEyMxEK8K7EQNd1tchTis6qP
+ vpLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NA9me29/TJs79X1Lqi355HvolxRtfq7AU5ESlbnuUUc=;
- b=G+ClIivhykpjh/xNcoXopaATanD1JLs7SQAtwGzjFp7jxuynKu5nhsuj16bzy6w8Jw
- ZPj+OcfSNFdbg8WU4VIA3E8JyQtT+wYCiwTEoLH1K7UB+C7bajE2hhSDbJ0cMPJTh3rf
- JAnrcrn+SvGyV5PSP+7w3xw3ePpmmXi1ITYN6BOS6Pq7Gtyd087dZEv28c546t/QkEKw
- eF8k3e4mpvLuv0Ae8W0d/lNafFwhJv/B4b1/q25ZcW9AE069zgAqUocwn0gK1UhTufuN
- yjBHsBzby1sfNy9nJ8aNBqf9A96/S7TunP94YuI9w0wo+BRxuPpRT7hNSOf93mde9doJ
- 9CXw==
-X-Gm-Message-State: AGi0Pua9EjDxc3Y1o5wx3+hh5PTN7r+zf9upcFEZuJhY1qNExD4QPitU
- CWXqVl3Pdmx/+wyovGJHFwcjX8ma1+L7+yoMEKYYnw==
-X-Google-Smtp-Source: APiQypL8JmcPOo542VGYsfUn4sIO/g2uEeundAcVq6Tiw29XjkxYj5gNEa5+W9A8zCEEvwnQBkxRnd6IPDTasa0z7y8=
-X-Received: by 2002:a1f:9b4f:: with SMTP id d76mr1123861vke.51.1588934263311; 
- Fri, 08 May 2020 03:37:43 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZHSJY3vDV6FXsFHSmmRamyUM2Xdmsr7sq/QOhw2cH90=;
+ b=uRhSQJFfynGr4XlKcNW0AEFeHNS5LNITi48F+zeu0KBroasGLWRPp4C2MScghBehNF
+ /r3Ov9/H/d30LXdwm/kSiaEBqRKI32T7lqsfWiLS3AE36s4sE5oYKMs8wu1X+iAClvy5
+ qsEUftQvAqa4SgV5PYNp7UzdNqqt62ewIrauEFCVvxp+8a3Cm0QwFf+WczQVs0TJ+Bgt
+ 9tn7ji4XhJ3tf4h9iQ4hgXdru3DzQOaA/Czxnn5C0/KRrvs8V94YD6zkdBuERnibVKEV
+ LMAYy0elBbnl8RhkZkS+cA5SmAEo7wxK+ExJwSX9LObghSbuQa4HVVoYsFlknIATJTHo
+ ynVQ==
+X-Gm-Message-State: AGi0PuYDNg15EXomB4HiG+ss9JmrLJ9xV+WyBX7BUv8iWhIPKp7XMIg2
+ guzyrQj9hNih9ZZT2RMfeYkAgkJ2yf+lCHx7wFQAjj1H
+X-Google-Smtp-Source: APiQypIupmbe733hpbcByNlWQGNxs9BkyGwyTgkC1C29z5oz0218a/S4mmFw+Ex7EPxXORLSwrGU1JllqORzyOEvUz0=
+X-Received: by 2002:a1f:ac0e:: with SMTP id v14mr1186751vke.28.1588934855413; 
+ Fri, 08 May 2020 03:47:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507181726.GE13247@ravnborg.org>
-In-Reply-To: <20200507181726.GE13247@ravnborg.org>
+ <20200507150822.114464-13-emil.l.velikov@gmail.com>
+ <401b83ce-73bf-952d-e98f-91b323e3adcb@amd.com>
+In-Reply-To: <401b83ce-73bf-952d-e98f-91b323e3adcb@amd.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 8 May 2020 11:35:12 +0100
-Message-ID: <CACvgo50Wn4mgFAPkhvAvvRz8TAqHKSNk1+brXU8WcVcvCj_57w@mail.gmail.com>
-Subject: Re: [PATCH 00/36] drm: Fareless gem_free_object
-To: Sam Ravnborg <sam@ravnborg.org>
+Date: Fri, 8 May 2020 11:45:04 +0100
+Message-ID: <CACvgo509CnWkeZ6RvQjy0SengxX12R63+EOZqdU0i9MNBihQwQ@mail.gmail.com>
+Subject: Re: [PATCH 12/36] drm/amd: remove _unlocked suffix in
+ drm_object_put_unlocked
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 7 May 2020 at 19:17, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Emil.
-> On Thu, May 07, 2020 at 04:07:46PM +0100, Emil Velikov wrote:
-> > Hi all,
-> >
-> > Recently I had a look at the new dmabuf AMDGPU implementation.
-> >
-> > Seemingly it was using the wrong drm_gem_object_put API. Namely the
-> > locked one, even though the driver is struct_mutex free.
-> >
-> > Upon checking with the documentation, I've noticed it's a bit misleading
-> > so I've went ahead and:
-> >
-> >  - tweaked the drm_gem_object_put/struct_mutex references in the docs
-> >  - fixed up the AMDGPU caller
-> >  - removed the gem_free_object driver hook - \o/
-> >  - fold drm_gem_object_put_unlocked and __drm_gem_object_put
-> >  - drm_gem_object_put - add _locked suffix
-> >  - drm_gem_object_put_unlocked - remove _unlocked suffix
-> >
-> > Although the rename patches are a handful, it does make sense to have a
-> > consistent and obviously named API.
-> >
-> > Input and reviews are highly appreciated.
-> All patches I did not comment are:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->
-Thanks Sam.
-
-> I see why you introduced _unlocked, and remove it again.
-> So you could ask the compiler to help you.
->
-> But I see this as something that should not be committed and only
-> part of your own tree.
-> But thats not something I feel too strong about - let's just say it
-> confused me a lttle.
->
-I believe the confusion should be addressed now.
-
--Emil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2hyaXN0aWFuLAoKT24gRnJpLCA4IE1heSAyMDIwIGF0IDEwOjIzLCBDaHJpc3RpYW4gS8O2
+bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMDcuMDUuMjAgdW0g
+MTc6MDcgc2NocmllYiBFbWlsIFZlbGlrb3Y6Cj4gPiBGcm9tOiBFbWlsIFZlbGlrb3YgPGVtaWwu
+dmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+ID4KPiA+IFNwZWxsaW5nIG91dCBfdW5sb2NrZWQgZm9y
+IGVhY2ggYW5kIGV2ZXJ5IGRyaXZlciBpcyBhIGFubm95aW5nLgo+ID4gRXNwZWNpYWxseSBpZiB3
+ZSBjb25zaWRlciBob3cgbWFueSBkcml2ZXJzLCBkbyBub3Qga25vdyAob3IgbmVlZCB0bykKPiA+
+IGFib3V0IHRoZSBob3Jyb3Igc3RvcmllcyBpbnZvbHZpbmcgc3RydWN0X211dGV4Lgo+ID4KPiA+
+IEp1c3QgZHJvcCB0aGUgc3VmZml4LiBJdCBtYWtlcyB0aGUgQVBJIGNsZWFuZXIuCj4KPiBJbiBn
+ZW5lcmFsIHNvdW5kcyBsaWtlIGEgZ29vZCBpZGVhIHRvIG1lLCBidXQgSSBkb24ndCBzZWUgdGhl
+IGZ1bGwKPiBwYXRjaHNldCBpbiBteSBtYWlsYm94Lgo+ClRoZSBzZXJpZXMgaXMgcXVpdGUgbG9u
+ZywgeW91IGNhbiBzZWUgaXQgaGVyZQpodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcv
+c2VyaWVzLzc3MDQzLwoKPiBXaXRoIHRoZSBjdXJyZW50IGNvZGUgdGhpcyBjaGFuZ2Ugd291bGQg
+cHJvYmFibHkgdHJpZ2dlciB0aGUKPiAiV0FSTl9PTighbXV0ZXhfaXNfbG9ja2VkKCZvYmotPmRl
+di0+c3RydWN0X211dGV4KSk7IiBpbgo+IGRybV9nZW1fb2JqZWN0X3B1dCgpLgo+CkVhcmxpZXIg
+cGF0Y2ggcmVuYW1lcyBkcm1fZ2VtX29iamVjdF9wdXQsIGFkZGluZyBleHBsaWNpdCAiX2xvY2tl
+ZCIKc3VmZml4IHRvIGl0LgoKSWYgdGhlIHNlcmllcyBpcyBhcHBsaWVkIGF0b21pY2FsbHksIHRo
+ZW4gdGhhdCBpc3N1ZSB3aWxsIG5vdCBoYXBwZW4uCkRvaW5nIHNvIG1pZ2h0IGNhdXNlIHRyaXZp
+YWwgbWVyZ2UgY29uZmxpY3RzLCBmb3IgaW5kaXZpZHVhbCBkcml2ZXJzLgpOb3RoaW5nIGEgc2lt
+cGxlIGJ1aWxkIGNoZWNrIHdvbid0IGhpZ2hsaWdodC9jYXRjaC4KCkFsdGhvdWdoIGlmIHRoZSBB
+TUQgdGVhbSBoYXMgcGVuZGluZyB3b3JrIHdoaWNoIHdpbGwgc2VyaW91c2x5IGNsYXNoCndpdGgg
+dGhpcywgY291bGQgZGVsYXkgdGhlICJyZW1vdmUgX3VubG9ja2VkIHN1ZmZpeCIgcGFydCBvZiB0
+aGUKc2VyaWVzLgoKLUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
