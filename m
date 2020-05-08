@@ -1,75 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8861CAA8B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 14:24:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFF01CB0FD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 15:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3F196E1F4;
-	Fri,  8 May 2020 12:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 141866E19A;
+	Fri,  8 May 2020 13:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD016E1D8;
- Fri,  8 May 2020 12:24:25 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 58CEC5800C7;
- Fri,  8 May 2020 08:24:21 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 08 May 2020 08:24:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=B
- lIPUWSMF61h4hKE0RpIdoM6DZF7DIUr3CtwDb11E7k=; b=bJBsN1zyTF5L2u4YQ
- wdiIrOWRm3rSGJnFBgh771GQtIwh09ZhPVNl4yIbKhVIqORlJgQ6fr4K9xTrYmrA
- mXWfKa8w5CjBu//+MNbXA90Ow1/obJsAqCNexzelZqNPL1GOGsg0DeSSKMLuRoZM
- 0hvTaojp2/oTzmIXLnee3uknaeTlr63oXqjWo1OwTK2qd9oQ9adWFqAvmA2YieIH
- JneIRRx4h3efAXKe0ZaO1eTph7OVTM7wNdIGbTi0v+59+veiM4uOubqB4r9W9B3K
- dDhGikKJqp6o1kJL0jhAI1V0kT6wzB1MCoIEWNRMMFOKb8b4k0qu+jWnjVJYHEYD
- cJthA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=BlIPUWSMF61h4hKE0RpIdoM6DZF7DIUr3CtwDb11E
- 7k=; b=M2G3UVLq/tw9h4fO/w2o38F6sW//kCALR03GMjnERs4d3EbdCY2gGVD/f
- Ur7wNlQ9VVBllvKvMpxCmILYSrqU/vAfurM2U4SlM6OJUfaCWEPyQsOEFvplNdEh
- Z04r3hfNva7Keam2EE+m1sDiJmQn+z8NxGJj7y+E8ImDEBRknoIH7VwsIIoDZ9SO
- onp8AZopRzitZMLPrA2ceKoCFX1GOFrpXsqLhpjfxUwOdz+midxdY5woUofIRizh
- PfHySEbyzfQoC/W6Wor3XFBUNMFKJK8YpfF58BpAHTjcqFtT2nfgxFIGDcRBd325
- jNCnBC86u0m4cMle16YHJUxGNX63A==
-X-ME-Sender: <xms:c0-1XgW556_gW_S5U6XgbkT-uIDYMPXj0RSN-fEQHLFlbQH6TTginw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrkedvgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefirhgvghcu
- mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeefieffje
- fhhfeiueelueekfeehtedutdegteetleelteeggeetfeeffefhfeekvdenucffohhmrghi
- nhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepkeefrdekiedrkeelrddutdejne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghg
- sehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:c0-1XljDuDi_flUmWAVKEqb3PUPQ-1cMpOJKDNkZMOGspK4cK_YPjQ>
- <xmx:c0-1XktC-WkWAbGZOdz5jCCifcToI9BTk-vDEughhzEmt0_62irmrA>
- <xmx:c0-1XtxlVuVguIULB0NS8wsw8GbH3E6g-pUeE9Hk4wVVlwZ1MYLPdw>
- <xmx:dU-1XrU-AP9aS6CuYghysPxkP99GqZvvjFmKSvwfYeTFJ87onY44vQ>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- by mail.messagingengine.com (Postfix) with ESMTPA id D429D30661F4;
- Fri,  8 May 2020 08:24:18 -0400 (EDT)
-Date: Fri, 8 May 2020 14:24:15 +0200
-From: Greg KH <greg@kroah.com>
-To: Yves-Alexis Perez <corsac@debian.org>
-Subject: Re: [PATCH] drm/atomic: Take the atomic toys away from X
-Message-ID: <20200508122415.GA27371@kroah.com>
-References: <20190903190642.32588-1-daniel.vetter@ffwll.ch>
- <20190905185318.31363-1-daniel.vetter@ffwll.ch>
- <2a05f4c4362d386d298a06a67f2f528ef603a734.camel@debian.org>
- <20200508095426.GA3778290@kroah.com>
- <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A917B6E19A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 13:52:11 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id 7so5260595pjo.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 06:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0jCsV9kMCvKoLy/+F2UgXK4X/51ktfa1OAMmkbW9Vos=;
+ b=ghHY8m6xtX8A574McPTJ+47EkLLBC4yXXpjqq5KpkaG44TQALnL8DTje3tAxiPinzi
+ fXfnByOXmrNQArBPy2GqK++mVUdsKUcHeqINCPGHjg0HmnstTAdBq8Pyj7wtwj10gsva
+ Ng92GCFDKcfcF2puH7AWmOgxKZpLDKE3bLs5G8mZ3jKLRq3w/W7V7+zgryKhtPTTzN8e
+ 91HI2CD9MSokbfuol3Yjg42Vw4RjQj9xnuO0Zsa5XrKwjIl71sN1hHhARQvfttm0rsdb
+ cUxf7iSBcs+dVFb2zTcuhMUUygVCggJQqUrtkYkKIBCSbkBYzLbUNk9W7+KI303KiSEk
+ EbKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0jCsV9kMCvKoLy/+F2UgXK4X/51ktfa1OAMmkbW9Vos=;
+ b=MhtvtkRalXzDKDfeQ7f/WmF7HVSpOugpYj5K27zqM6PubpCDgO2/w7LKSEqhLEr3YJ
+ 6Q+YN9tAYXZok9R2Koiixf8YTK97ZMETFnhBVQs4Slao23v6hlwUnc2FO/K8nm9P4mGQ
+ q7/+jCgHXcnGIK/sW1Ri+wF6NE0eS/HD+eB0sLsl7jq1+hcrJqK8H9YqlvAFlr55eoWI
+ ycFqScf2LAMExlWmIUHd5sXClSfQqfhda5C000M8a1D5jWfiH7xupupOWUB64U5c+X/+
+ 4ToaXAXTILaf36On9azIXg7oSHkjuY4Pjj7TKvLFO/2FKWP4KH3EkWH6M1LF0xQ8zVRQ
+ NTWA==
+X-Gm-Message-State: AGi0PuYSoFOsiLmFiLddg+UBJK+Drw44O04AuyktOHELJH/ID8hc8S8d
+ FLdcEQ7UUTVs3pN6woF8xnEkoQ==
+X-Google-Smtp-Source: APiQypI9Qdzl3FHEOWr4U3hPDPJFhtn4Y3+xwR+HhV6XqnRiET+VZg6Rk0X/IKLivbJ7mZtbbldAEQ==
+X-Received: by 2002:a17:90a:e013:: with SMTP id
+ u19mr5644114pjy.16.1588945931131; 
+ Fri, 08 May 2020 06:52:11 -0700 (PDT)
+Received: from dragon ([80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id o6sm1845540pfp.172.2020.05.08.06.52.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 08 May 2020 06:52:10 -0700 (PDT)
+Date: Fri, 8 May 2020 21:51:59 +0800
+From: Shawn Guo <shawn.guo@linaro.org>
+To: Konrad Dybcio <konradybcio@gmail.com>
+Subject: Re: [PATCH] drivers: gpu: drm: Add MDP5 configuration for MSM8x36
+ and its derivatives, such as MSM8939.
+Message-ID: <20200508135157.GD30486@dragon>
+References: <20200501205201.149804-1-konradybcio@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
+In-Reply-To: <20200501205201.149804-1-konradybcio@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,169 +69,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>, stable@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: freedreno@lists.freedesktop.org, skrzynka@konradybcio.pl,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, zhengbin <zhengbin13@huawei.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, Thomas Gleixner <tglx@linutronix.de>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>,
+ Allison Randal <allison@lohutok.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 08, 2020 at 01:59:17PM +0200, Yves-Alexis Perez wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA256
-> =
+Hi Konrad,
 
-> On Fri, 2020-05-08 at 11:54 +0200, Greg KH wrote:
-> > > Hi Daniel and Greg (especially). It seems that this patch was never
-> > > applied to
-> > > stable, maybe it fell through the cracks?
-> > =
+On Fri, May 01, 2020 at 10:51:59PM +0200, Konrad Dybcio wrote:
+> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
 
-> > What patch is "this patch"?
-> =
+Please write up some commit log.  Since this is based on msm8x16_config,
+maybe document the differences from it in commit log?
 
-> Sorry, the patch was in the mail I was replying to:
-> =
+> ---
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 70 ++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> index e3c4c250238b7..1c7de7d6870cf 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+> @@ -342,6 +342,75 @@ static const struct mdp5_cfg_hw msm8x16_config = {
+>  	.max_clk = 320000000,
+>  };
+>  
+> +static const struct mdp5_cfg_hw msm8x36_config = {
+> +	.name = "msm8x36",
+> +	.mdp = {
+> +		.count = 1,
+> +		.base = { 0x0 },
+> +		.caps = MDP_CAP_SMP |
+> +			0,
+> +	},
+> +	.smp = {
+> +		.mmb_count = 8,
+> +		.mmb_size = 10240,
+> +		.clients = {
+> +			[SSPP_VIG0] = 1, [SSPP_DMA0] = 4,
+> +			[SSPP_RGB0] = 7, [SSPP_RGB1] = 8,
+> +		},
+> +	},
+> +	.ctl = {
+> +		.count = 3,
+> +		.base = { 0x01000, 0x01200, 0x01400 },
+> +		.flush_hw_mask = 0x4003ffff,
+> +	},
+> +	.pipe_vig = {
+> +		.count = 1,
+> +		.base = { 0x04000 },
+> +		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP |
+> +				MDP_PIPE_CAP_SCALE | MDP_PIPE_CAP_CSC |
+> +				MDP_PIPE_CAP_DECIMATION,
+> +	},
+> +	.pipe_rgb = {
+> +		.count = 2,
+> +		.base = { 0x14000, 0x16000 },
+> +		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP |
+> +				MDP_PIPE_CAP_DECIMATION,
+> +	},
+> +	.pipe_dma = {
+> +		.count = 1,
+> +		.base = { 0x24000 },
+> +		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP,
+> +	},
+> +	.lm = {
+> +		.count = 1,
 
-> commit 26b1d3b527e7bf3e24b814d617866ac5199ce68d
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Thu Sep 5 20:53:18 2019 +0200
-> =
+From what I read on downstream 3.10 kernel, there should be two mixers
+just like msm8x16.
 
->     drm/atomic: Take the atomic toys away from X
-> =
+	qcom,mdss-mixer-intf-off = <0x00045000>;
+	qcom,mdss-mixer-wb-off = <0x00048000>;
 
-> > =
+> +		.base = { 0x44000 },
+> +		.instances = {
+> +				{ .id = 0, .pp = 0, .dspp = 0,
+> +				  .caps = MDP_LM_CAP_DISPLAY, },
+> +				},
+> +		.nb_stages = 8,
+> +		.max_width = 2048,
 
-> > > It doesn't apply as-is in 4.19 branch but a small change in the conte=
-xt
-> > > makes
-> > > it apply. I'm experiencing issues with lightdm and vt-switch in Debian
-> > > Buster
-> > > (which has a 4.19 kernel) so I'd appreciate if the patch was included=
- in
-> > > at
-> > > least that release.
-> > =
+It should probably be 2560 from downstream below.
 
-> > What is the git commit id of the patch in Linus's tree?  If you have a
-> > working backport, that makes it much easier than hoping I can fix it
-> > up...
-> =
+	qcom,max-mixer-width = <2560>;
 
-> The commit id is in Linus tree is 26b1d3b527e7bf3e24b814d617866ac5199ce68=
-d. To
-> apply properly 69fdf4206a8ba91a277b3d50a3a05b71247635b2 would need to be
-> cherry-picked as well but it wasn't marked for stable so I didn't bother =
-and
-> only fixed the context. Here's the backport to 4.19, compile and runtime
-> tested. It does fix the issue for me (like it did on mainline).
-> =
+> +		.max_height = 0xFFFF,
+> +	},
+> +	.pp = {
+> +		.count = 1,
+> +		.base = { 0x70000 },
+> +	},
+> +
 
-> So I guess
-> Tested-By: Yves-Alexis Perez <corsac@debian.org>
-> =
+For consistency, we may want to drop this newline.  And it looks like
+there is a .ad block on msm8x36.
 
-> commit 8a99914f7b539542622dc571c82d6cd203bddf64
-> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Date:   Thu Sep 5 20:53:18 2019 +0200
-> =
+	qcom,mdss-ad-off = <0x0079000>;
 
->     drm/atomic: Take the atomic toys away from X
->     =
+> +	.dspp = {
+> +		.count = 1,
+> +		.base = { 0x54000 },
+> +	},
+> +	.intf = {
+> +		.base = { 0x00000, 0x6a800, 0x6b000 },
+> +		.connect = {
+> +			[0] = INTF_DISABLED,
+> +			[1] = INTF_DSI,
+> +			[2] = INTF_DSI,
+> +		},
+> +	},
+> +	.max_clk = 366670000,
+> +};
 
->     The -modesetting ddx has a totally broken idea of how atomic works:
->     - doesn't disable old connectors, assuming they get auto-disable like
->       with the legacy setcrtc
->     - assumes ASYNC_FLIP is wired through for the atomic ioctl
->     - not a single call to TEST_ONLY
->     =
+Need a newline here.
 
->     Iow the implementation is a 1:1 translation of legacy ioctls to
->     atomic, which is a) broken b) pointless.
->     =
+Shawn
 
->     We already have bugs in both i915 and amdgpu-DC where this prevents us
->     from enabling neat features.
->     =
-
->     If anyone ever cares about atomic in X we can easily add a new atomic
->     level (req->value =3D=3D 2) for X to get back the shiny toys.
->     =
-
->     Since these broken versions of -modesetting have been shipping,
->     there's really no other way to get out of this bind.
->     =
-
->     v2:
->     - add an informational dmesg output (Rob, Ajax)
->     - reorder after the DRIVER_ATOMIC check to avoid useless noise (Ilia)
->     - allow req->value > 2 so that X can do another attempt at atomic in
->       the future
->     =
-
->     v3: Go with paranoid, insist that the X should be first (suggested by
->     Rob)
->     =
-
->     Cc: Ilia Mirkin <imirkin@alum.mit.edu>
->     References: https://gitlab.freedesktop.org/xorg/xserver/issues/629
->     References: https://gitlab.freedesktop.org/xorg/xserver/merge_request=
-s/180
->     References: abbc0697d5fb ("drm/fb: revert the i915 Actually configure
-> untiled displays from master")
->     Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->     Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (v=
-1)
->     Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> (v1)
->     Cc: Michel D=E4nzer <michel@daenzer.net>
->     Cc: Alex Deucher <alexdeucher@gmail.com>
->     Cc: Adam Jackson <ajax@redhat.com>
->     Acked-by: Adam Jackson <ajax@redhat.com>
->     Cc: Sean Paul <sean@poorly.run>
->     Cc: David Airlie <airlied@linux.ie>
->     Cc: Rob Clark <robdclark@gmail.com>
->     Acked-by: Rob Clark <robdclark@gmail.com>
->     Cc: stable@vger.kernel.org
->     Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->     Link: =
-
-> https://patchwork.freedesktop.org/patch/msgid/20190905185318.31363-1-dani=
-el.vetter@ffwll.ch
-> =
-
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index ba129b64b61f..b92682f037b2 100644
-> - --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -321,7 +321,12 @@ drm_setclientcap(struct drm_device *dev, void *data,
-> struct drm_file *file_priv)
->  	case DRM_CLIENT_CAP_ATOMIC:
->  		if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
->  			return -EINVAL;
-> - -		if (req->value > 1)
-> +		/* The modesetting DDX has a totally broken idea of atomic. */
-> +		if (current->comm[0] =3D=3D 'X' && req->value =3D=3D 1) {
-> +			pr_info("broken atomic modeset userspace detected,
-> disabling atomic\n");
-> +			return -EOPNOTSUPP;
-> +		}
-> +		if (req->value > 2)
->  			return -EINVAL;
->  		file_priv->atomic =3D req->value;
->  		file_priv->universal_planes =3D req->value;
-> =
-
-
-This is line-wrapped and can not be applied :(
-
-Ugh, let me see if I can do this by hand...
-
-greg k-h
+>  static const struct mdp5_cfg_hw msm8x94_config = {
+>  	.name = "msm8x94",
+>  	.mdp = {
+> @@ -840,6 +909,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+>  	{ .revision = 2, .config = { .hw = &msm8x74v2_config } },
+>  	{ .revision = 3, .config = { .hw = &apq8084_config } },
+>  	{ .revision = 6, .config = { .hw = &msm8x16_config } },
+> +	{ .revision = 8, .config = { .hw = &msm8x36_config } },
+>  	{ .revision = 9, .config = { .hw = &msm8x94_config } },
+>  	{ .revision = 7, .config = { .hw = &msm8x96_config } },
+>  	{ .revision = 11, .config = { .hw = &msm8x76_config } },
+> -- 
+> 2.26.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
