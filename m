@@ -1,58 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8321CA49D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 08:56:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3FB1CA4B4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 09:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 705016EA84;
-	Fri,  8 May 2020 06:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6ED36EA85;
+	Fri,  8 May 2020 07:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B590C6EA84
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 06:56:32 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id e26so9085567wmk.5
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 23:56:32 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CBD6EA85
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 07:00:37 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g12so9431932wmh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 00:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=+r1ChwrCS3/k7P2VK2Vu7B854WMxHDIdiHxfZnkw7h8=;
- b=HhNd5FWa8BneHtpmwlSoHzcTRY2N5PEnBnfQy95HkFNNBbmcZJFbutsAdkktV695YA
- U5g7A6VJ9TQ8sFPfHiqTzDqZKHq49xMUaOU41vDDgnhCxEoulotSAiksTJ3/YTeD2vPE
- 1Ji3VGKMjRwYq1NyuTVXNz9kXLJ2C/XngdiMU=
+ bh=8MnCc1khSljqIz98fLPIacDy/8apvfnoTAzjX1a/XTA=;
+ b=NJ58n12wUmvKp+G7bWopRKxtR/va+EFmrzC9cpGIOeOqvMOAgJfdASAR/dk4e46lrx
+ 4IqkG5/MwNcOIPcxaoCxzw5waP18CXhGYNfdbLUCsfODEXLbAhklGp5tFN8az8sRayzd
+ Cf3dc41BXm+quJsgzmm7Uc+yVIE3Svmt2nDrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=+r1ChwrCS3/k7P2VK2Vu7B854WMxHDIdiHxfZnkw7h8=;
- b=oMybb39o2mTajTzRMXaomvBXW1MOdCQE+w5ZrHXeMkY9/sF2qPfCbPOgt/d42xXa0M
- hy2YLfHsj5LLj9sEEjmd8JuUfPT+is6FGLEVY3R4A/fCMcvwpHgleznXVL54uepCS1eJ
- lkN0nH+YHvwMCxHrMw42Xu9r8n56vKYxG/rEvNio1dh+WqRnv2ZU/ojYUA9oPYlHCaN0
- mTzVQ/eXZYntf60Rqpy5LK/23uATE2vJsv1WyKxVXn/y7WhJu7Mxiz71AoCdKcGiwKvo
- XLeFiJ0L3hIPEd6gGxhIBZdw9GhwvCcO3zPd1XfXzArPhRK9s70v60zTb4xu+47vJpKL
- Sihg==
-X-Gm-Message-State: AGi0PuaGVNTYauuTpOBROt+8MWlaLf2iikd2oCTYvpNDPtDzZrf2Nfik
- /Ih25UOdFBN8u2Rh/pCq+Wl+jx628y0=
-X-Google-Smtp-Source: APiQypKeS/EGJ6PB4xP7B7CByPonUX+Okc20fchR4oXOxqWv8y+5N2Y0SXZiUl97zgOPgAPtCwL8pQ==
-X-Received: by 2002:a05:600c:1008:: with SMTP id
- c8mr13957599wmc.14.1588920991290; 
- Thu, 07 May 2020 23:56:31 -0700 (PDT)
+ bh=8MnCc1khSljqIz98fLPIacDy/8apvfnoTAzjX1a/XTA=;
+ b=Pvu08/LO9O03cEF5EwzrsBZKRttoD04sBJq7uQdGbMDj5Tp06Ee3KD6Ftzr5nUz/4X
+ CvqPub9CdD9ATIadnW+C2GbPlgZrQOUvB5mmPaTnICjEHuUjX0Q9IqlGOaJlhfjULNJp
+ tsZ481kqITgBuh1Wtlej7lmlUE5Gnx8IPiKp7ne92Iz7i6P6zBeCrpppxjrpoiUHNdLt
+ zQukvkZZWymDle994I6gjWYUiDQJng7ABEC07iNm2PCfAMRnHPea7JlncjSTi+13g+Ax
+ Z2Z/yd3lTA6i6VERsueRyIoC4wY6gmk6gxzlNU/41MVUN1tLrAxIe5gVF49d9FQgmvgI
+ pNdQ==
+X-Gm-Message-State: AGi0PubMRusrPAiKeX3o+Vb+ONJX+cnn3Q772RYUWkTQapki3KvC6ADn
+ F60MWZ68bLEj8bYZ9Xqc2jhonQ==
+X-Google-Smtp-Source: APiQypLOqs4JdrZ323p/FA7Dw8Zkacjt0l2kb4eU+AwHxgdaHxIjPyu74gv/Tyfnwg4V31/pphUu2Q==
+X-Received: by 2002:a1c:4c3:: with SMTP id 186mr10967389wme.75.1588921235701; 
+ Fri, 08 May 2020 00:00:35 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm11212079wmi.22.2020.05.07.23.56.30
+ by smtp.gmail.com with ESMTPSA id x18sm11050540wmi.29.2020.05.08.00.00.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 23:56:30 -0700 (PDT)
-Date: Fri, 8 May 2020 08:56:28 +0200
+ Fri, 08 May 2020 00:00:34 -0700 (PDT)
+Date: Fri, 8 May 2020 09:00:33 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Mika Kahola <mika.kahola@intel.com>
-Subject: Re: [PATCH v2] uapi/drm/drm_fourcc.h: Note on platform specificity
- for format modifiers
-Message-ID: <20200508065628.GD1383626@phenom.ffwll.local>
-References: <20200506120827.12250-1-mika.kahola@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3] drm/ast: Don't check new mode if CRTC is being disabled
+Message-ID: <20200508070033.GE1383626@phenom.ffwll.local>
+References: <20200507090640.21561-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200506120827.12250-1-mika.kahola@intel.com>
+In-Reply-To: <20200507090640.21561-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.4.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,67 +64,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: cogarre@gmail.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ stable@vger.kernel.org, sam@ravnborg.org, emil.velikov@collabora.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 06, 2020 at 03:08:27PM +0300, Mika Kahola wrote:
-> Make an additional note on DRM format modifiers for x and y tiling. These
-> format modifiers are defined for BDW+ platforms and therefore definition
-> is not valid for older gens. This is due to address swizzling for tiled
-> surfaces is no longer used. For newer platforms main memory controller has
-> a more effective address swizzling algorithm.
+On Thu, May 07, 2020 at 11:06:40AM +0200, Thomas Zimmermann wrote:
+> Suspending failed because there's no mode if the CRTC is being
+> disabled. Early-out in this case. This fixes runtime PM for ast.
 > 
-> v2: Rephrase comment (Daniel)
+> v3:
+> 	* fixed commit message
+> v2:
+> 	* added Tested-by/Reported-by tags
+> 	* added Fixes tags and CC (Sam)
+> 	* improved comment
 > 
-> Signed-off-by: Mika Kahola <mika.kahola@intel.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reported-by: Cary Garrett <cogarre@gmail.com>
+> Tested-by: Cary Garrett <cogarre@gmail.com>
+> Fixes: b48e1b6ffd28 ("drm/ast: Add CRTC helpers for atomic modesetting")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: <stable@vger.kernel.org> # v5.6+
+
+Yeah legacy crtc helpers just let you shut stuff off and no checks.
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  include/uapi/drm/drm_fourcc.h | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/ast/ast_mode.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 8bc0b31597d8..9e488d10f8b4 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -354,9 +354,12 @@ extern "C" {
->   * a platform-dependent stride. On top of that the memory can apply
->   * platform-depending swizzling of some higher address bits into bit6.
->   *
-> - * This format is highly platforms specific and not useful for cross-driver
-> - * sharing. It exists since on a given platform it does uniquely identify the
-> - * layout in a simple way for i915-specific userspace.
-> + * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
-> + * On earlier platforms the is highly platforms specific and not useful for
-> + * cross-driver sharing. It exists since on a given platform it does uniquely
-> + * identify the layout in a simple way for i915-specific userspace, which
-> + * facilitated conversion of userspace to modifiers. Additionally the exact
-> + * format on some really old platforms is not known.
->   */
->  #define I915_FORMAT_MOD_X_TILED	fourcc_mod_code(INTEL, 1)
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 7a9f20a2fd303..0cbbb21edb4e1 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -801,6 +801,9 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>  		return -EINVAL;
+>  	}
 >  
-> @@ -369,9 +372,12 @@ extern "C" {
->   * memory can apply platform-depending swizzling of some higher address bits
->   * into bit6.
->   *
-> - * This format is highly platforms specific and not useful for cross-driver
-> - * sharing. It exists since on a given platform it does uniquely identify the
-> - * layout in a simple way for i915-specific userspace.
-> + * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
-> + * On earlier platforms the is highly platforms specific and not useful for
-> + * cross-driver sharing. It exists since on a given platform it does uniquely
-> + * identify the layout in a simple way for i915-specific userspace, which
-> + * facilitated conversion of userspace to modifiers. Additionally the exact
-> + * format on some really old platforms is not known.
->   */
->  #define I915_FORMAT_MOD_Y_TILED	fourcc_mod_code(INTEL, 2)
+> +	if (!state->enable)
+> +		return 0; /* no mode checks if CRTC is being disabled */
+> +
+>  	ast_state = to_ast_crtc_state(state);
 >  
+>  	format = ast_state->format;
 > -- 
-> 2.20.1
+> 2.26.0
 > 
 
 -- 
