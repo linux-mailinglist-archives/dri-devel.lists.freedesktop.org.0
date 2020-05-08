@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83A11CA8F6
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 13:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D3D1CA8FB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 13:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB166EAF0;
-	Fri,  8 May 2020 11:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E436EB03;
+	Fri,  8 May 2020 11:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1BBE6EAF0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 11:08:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D0C6EB03;
+ Fri,  8 May 2020 11:09:07 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 2702080500;
- Fri,  8 May 2020 13:08:19 +0200 (CEST)
-Date: Fri, 8 May 2020 13:08:17 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id D6F2A80500;
+ Fri,  8 May 2020 13:09:04 +0200 (CEST)
+Date: Fri, 8 May 2020 13:09:03 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 04/36] drm/doc: drop struct_mutex references
-Message-ID: <20200508110817.GB15931@ravnborg.org>
+Subject: Re: [PATCH 06/36] drm/amdgpu: use the unlocked drm_gem_object_put
+Message-ID: <20200508110903.GC15931@ravnborg.org>
 References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-5-emil.l.velikov@gmail.com>
- <20200507180141.GB13247@ravnborg.org>
- <CACvgo5147kyZV1Wj6oaX4eHEZqzpyAPZAEGQS3mAJ8QN5nnOLQ@mail.gmail.com>
+ <20200507150822.114464-7-emil.l.velikov@gmail.com>
+ <20200507180310.GC13247@ravnborg.org>
+ <d79cd110-27d3-3df9-00b2-b1cad5924454@amd.com>
+ <CACvgo50TW1zxB4a20L_JD_3kOvy+BWLVaB6R_r5fTvKnkU5XTg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACvgo5147kyZV1Wj6oaX4eHEZqzpyAPZAEGQS3mAJ8QN5nnOLQ@mail.gmail.com>
+In-Reply-To: <CACvgo50TW1zxB4a20L_JD_3kOvy+BWLVaB6R_r5fTvKnkU5XTg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=QX4gbG5DAAAA:8
- a=3ipgeT0s-hC5gTi6q10A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=AbAUZ8qAyYyZVLSsDulk:22
+ a=8nJEP1OIZ-IA:10 a=zd2uoN0lAAAA:8 a=QX4gbG5DAAAA:8 a=e5mUnYsNAAAA:8
+ a=pGLkceISAAAA:8 a=6O4YvwrpDX13PYuNmRMA:9 a=wPNLvfGTeEIA:10
+ a=AbAUZ8qAyYyZVLSsDulk:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,74 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Emil.
-
-On Fri, May 08, 2020 at 11:01:25AM +0100, Emil Velikov wrote:
-> Hi Sam,
-> 
-> On Thu, 7 May 2020 at 19:01, Sam Ravnborg <sam@ravnborg.org> wrote:
+On Fri, May 08, 2020 at 10:55:42AM +0100, Emil Velikov wrote:
+> On Fri, 8 May 2020 at 09:16, Christian K=F6nig <christian.koenig@amd.com>=
+ wrote:
 > >
-> > Hi Emil.
+> > Am 07.05.20 um 20:03 schrieb Sam Ravnborg:
+> > > Hi Emil.
+> > >
+> > > On Thu, May 07, 2020 at 04:07:52PM +0100, Emil Velikov wrote:
+> > >> From: Emil Velikov <emil.velikov@collabora.com>
+> > >>
+> > >> The driver does not hold struct_mutex, thus using the locked version=
+ of
+> > >> the helper is incorrect.
+> > >>
+> > >> Cc: Alex Deucher <alexander.deucher@amd.com>
+> > >> Cc: Christian K=F6nig <christian.koenig@amd.com>
+> > >> Cc: amd-gfx@lists.freedesktop.org
+> > >> Fixes: a39414716ca0 ("drm/amdgpu: add independent DMA-buf import v9"=
+):
+> > >> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> > >> ---
+> > >>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 2 +-
+> > >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > >> index 43d8ed7dbd00..652c57a3b847 100644
+> > >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > >> @@ -587,7 +587,7 @@ struct drm_gem_object *amdgpu_gem_prime_import(s=
+truct drm_device *dev,
+> > >>      attach =3D dma_buf_dynamic_attach(dma_buf, dev->dev,
+> > >>                                      &amdgpu_dma_buf_attach_ops, obj=
+);
+> > >>      if (IS_ERR(attach)) {
+> > >> -            drm_gem_object_put(obj);
+> > >> +            drm_gem_object_put_unlocked(obj);
+> > >>              return ERR_CAST(attach);
+> > >>      }
+> > > Likewise previous patch.
+> > > Drop this as the patch is correct after the rename a few pathces late=
+r.
 > >
-> > On Thu, May 07, 2020 at 04:07:50PM +0100, Emil Velikov wrote:
-> > > From: Emil Velikov <emil.velikov@collabora.com>
-> > >
-> > > There's little point in providing partial and ancient information about
-> > > the struct_mutex. Some drivers are using it, new ones should not.
-> > >
-> > > As-it this only provides for confusion.
-> > >
-> > > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> > > ---
-> > >  Documentation/gpu/drm-mm.rst | 7 ++-----
-> > >  1 file changed, 2 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > > index 1839762044be..5ba2ead8f317 100644
-> > > --- a/Documentation/gpu/drm-mm.rst
-> > > +++ b/Documentation/gpu/drm-mm.rst
-> > > @@ -178,11 +178,8 @@ GEM Objects Lifetime
-> > >  --------------------
-> > >
-> > >  All GEM objects are reference-counted by the GEM core. References can be
-> > > -acquired and release by calling drm_gem_object_get() and drm_gem_object_put()
-> > > -respectively. The caller must hold the :c:type:`struct drm_device <drm_device>`
-> > > -struct_mutex lock when calling drm_gem_object_get(). As a convenience, GEM
-> > > -provides drm_gem_object_put_unlocked() functions that can be called without
-> > > -holding the lock.
-> > > +acquired and release by calling drm_gem_object_get() and drm_gem_object_put_unlocked()
-> > > +respectively.
+> > Well this is a bug fix in the error path and should probably be back
+> > ported, so having a separate patch is certainly a good idea.
 > >
-> > Nice to get rid of struct_mutex lock stuff.
-> > But no need to s/drm_gem_object_put/drm_gem_object_put_unlocked()/ as this will
-> > be renamed a bit later.
-> >
-> This patch fixes the documentation, for people looking it today.
-> 
-> While I would love to see the s/_unlocked//g part of the series land,
-> it is rather invasive albeit mechanical.
-> So driver maintainers are in their right to request that we push it at
-> a later point.
-
-Well, unless there is push-back within a week from one of the
-maintainers then we should apply the full series at drm-misc-next.
-Maybe wiht a gently ping in mid next week.
-
-No reason to wait for individual maintaintes to pick it up
-driver-by-driver. This would make such nice refactoring as this
-far to hard to do especially due to the dependencies to the
-first patches.
-
-But I see your rationale for keeping it like it is.
-So you can stick an
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-on the rest of the patches.
+> Precisely the goal here. The fixes tag should allow Greg and team to
+> pick/port it where applicable.
+I got it now... Thanks for spelling it out for my dense mind.
 
 	Sam
 _______________________________________________
