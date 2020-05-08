@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380EF1CA66F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E517E1CA0B4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 04:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8186E6EAA0;
-	Fri,  8 May 2020 08:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E16B6E127;
+	Fri,  8 May 2020 02:20:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
- [59.111.176.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B996E123
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 01:53:45 +0000 (UTC)
-Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
- by m176150.mail.qiye.163.com (Hmail) with ESMTP id B95D91A2142;
- Fri,  8 May 2020 09:53:07 +0800 (CST)
-Message-ID: <AKEA*wCFCDjDmtJ1Hlm3L4pz.3.1588902787737.Hmail.bernard@vivo.com>
-To: Bernard Zhao <bernard@vivo.com>
-Subject: =?UTF-8?B?UmU6W1BBVENIXSBkcml2ZXJzL3ZpZGVvOiBjbGVhbnVwIGNvZGluZyBzdHlsZSBpbiB2aWRlbyBhIGJpdA==?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 157.0.31.122
-In-Reply-To: <20200427080530.3234-1-bernard@vivo.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3E56E126;
+ Fri,  8 May 2020 02:20:39 +0000 (UTC)
+IronPort-SDR: sLYjGUbjHKnAWQovlf4Mu575v9pdiJWm7A+4AcHtVTe+o1LpK30j+GeDNwgfXxUyDWZ5oTF/8Q
+ Kzt8kJ88Wp/Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 19:20:39 -0700
+IronPort-SDR: LDkFWHHBbP2bfYOq5UuE96zwayAebjocsUKx5BCyycJvVmMv5cB87eIE0oLfZMgPI6TRfYCva8
+ SVceKsZIB1Dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,366,1583222400"; d="scan'208";a="249487077"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 07 May 2020 19:20:37 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1jWscu-000Bvx-MP; Fri, 08 May 2020 10:20:36 +0800
+Date: Fri, 8 May 2020 10:20:09 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v11 14/14] drm/i915/psr: Use new DP VSC SDP compute
+ routine on PSR
+Message-ID: <202005081038.ctmtcNFX%lkp@intel.com>
+References: <20200507132706.2058969-15-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
-Received: from bernard@vivo.com( [157.0.31.122) ] by ajax-webmail (
- [127.0.0.1] ) ; Fri, 8 May 2020 09:53:07 +0800 (GMT+08:00)
-From: Bernard <bernard@vivo.com>
-Date: Fri, 8 May 2020 09:53:07 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZT1VKTU9LS0tLSE9ISElJQ1lXWShZQU
- hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMT0xJSk5OSElIN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
- WUc6MD46UQw4PTg*ET8WDzFKMxcWSDdPCwFVSFVKTkNDQktJTENMQktDVTMWGhIXVRkeCRUaCR87
- DRINFFUYFBZFWVdZEgtZQVlKTkxVS1VISlVKSUlZV1kIAVlBT0xLSDcG
-X-HM-Tid: 0a71f1fc7b0993b4kuwsb95d91a2142
-X-Mailman-Approved-At: Fri, 08 May 2020 08:47:23 +0000
+Content-Disposition: inline
+In-Reply-To: <20200507132706.2058969-15-gwan-gyeong.mun@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,47 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Shashank Sharma <shashank.sharma@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkZyb206IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KRGF0ZTogMjAyMC0wNC0yNyAx
-NjowNToyMwpUbzogIEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1z
-dW5nLmNvbT4sVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4sIlZpbGxlIFN5cmrD
-pGzDpCIgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPixTaGFzaGFuayBTaGFybWEgPHNo
-YXNoYW5rLnNoYXJtYUBpbnRlbC5jb20+LExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT4sRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
-aD4sQmVybmFyZCBaaGFvIDxiZXJuYXJkQHZpdm8uY29tPixkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnLGxpbnV4LWZiZGV2QHZnZXIua2VybmVsLm9yZyxsaW51eC1rZXJuZWxAdmdlci5r
-ZXJuZWwub3JnCkNjOiAgb3BlbnNvdXJjZS5rZXJuZWxAdml2by5jb20KU3ViamVjdDogW1BBVENI
-XSBkcml2ZXJzL3ZpZGVvOiBjbGVhbnVwIGNvZGluZyBzdHlsZSBpbiB2aWRlbyBhIGJpdD5FbGlt
-aW5hdGUgdGhlIG1hZ2ljIG51bWJlcnMsIGFkZCB2ZW5kZXIgaW5mb2ZyYW1lIHNpemUgbWFjcm8K
-Pmxpa2Ugb3RoZXIgaGRtaSBtb2R1bGVzLgo+Cj5TaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8g
-PGJlcm5hcmRAdml2by5jb20+Cj4tLS0KPiBkcml2ZXJzL3ZpZGVvL2hkbWkuYyB8IDIgKy0KPiBp
-bmNsdWRlL2xpbnV4L2hkbWkuaCB8IDEgKwo+IDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25z
-KCspLCAxIGRlbGV0aW9uKC0pCj4KPmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2hkbWkuYyBi
-L2RyaXZlcnMvdmlkZW8vaGRtaS5jCj5pbmRleCA4NTZhOGM0ZTg0YTIuLmY2OTMwNzZmMmU1ZiAx
-MDA2NDQKPi0tLSBhL2RyaXZlcnMvdmlkZW8vaGRtaS5jCj4rKysgYi9kcml2ZXJzL3ZpZGVvL2hk
-bWkuYwo+QEAgLTQ5NSw3ICs0OTUsNyBAQCBpbnQgaGRtaV92ZW5kb3JfaW5mb2ZyYW1lX2luaXQo
-c3RydWN0IGhkbWlfdmVuZG9yX2luZm9mcmFtZSAqZnJhbWUpCj4gCSAqIHZhbHVlCj4gCSAqLwo+
-IAlmcmFtZS0+czNkX3N0cnVjdCA9IEhETUlfM0RfU1RSVUNUVVJFX0lOVkFMSUQ7Cj4tCWZyYW1l
-LT5sZW5ndGggPSA0Owo+KwlmcmFtZS0+bGVuZ3RoID0gSERNSV9WRU5ET1JfSU5GT0ZSQU1FX1NJ
-WkU7Cj4gCj4gCXJldHVybiAwOwo+IH0KPmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2hkbWku
-aCBiL2luY2x1ZGUvbGludXgvaGRtaS5oCj5pbmRleCA5NjEzZDc5NmNmYjEuLmZmMjVhZWI5NWVl
-NCAxMDA2NDQKPi0tLSBhL2luY2x1ZGUvbGludXgvaGRtaS5oCj4rKysgYi9pbmNsdWRlL2xpbnV4
-L2hkbWkuaAo+QEAgLTU3LDYgKzU3LDcgQEAgZW51bSBoZG1pX2luZm9mcmFtZV90eXBlIHsKPiAj
-ZGVmaW5lIEhETUlfU1BEX0lORk9GUkFNRV9TSVpFICAgIDI1Cj4gI2RlZmluZSBIRE1JX0FVRElP
-X0lORk9GUkFNRV9TSVpFICAxMAo+ICNkZWZpbmUgSERNSV9EUk1fSU5GT0ZSQU1FX1NJWkUgICAg
-MjYKPisjZGVmaW5lIEhETUlfVkVORE9SX0lORk9GUkFNRV9TSVpFICA0Cj4gCj4gI2RlZmluZSBI
-RE1JX0lORk9GUkFNRV9TSVpFKHR5cGUpCVwKPiAJKEhETUlfSU5GT0ZSQU1FX0hFQURFUl9TSVpF
-ICsgSERNSV8gIyMgdHlwZSAjIyBfSU5GT0ZSQU1FX1NJWkUpCj4tLSAKPjIuMjYuMgo+Cg0KDQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Gwan-gyeong,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip drm-exynos/exynos-drm-next next-20200507]
+[cannot apply to tegra-drm/drm/tegra/for-next linus/master v5.7-rc4]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+
+url:    https://github.com/0day-ci/linux/commits/Gwan-gyeong-Mun/In-order-to-readout-DP-SDPs-refactors-the-handling-of-DP-SDPs/20200508-034404
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
+
+New smatch warnings:
+drivers/gpu/drm/i915/display/intel_psr.c:727 intel_psr_compute_config() warn: inconsistent indenting
+
+Old smatch warnings:
+drivers/gpu/drm/i915/display/intel_psr.c:1564 intel_psr_short_pulse() error: uninitialized symbol 'error_status'.
+drivers/gpu/drm/i915/display/intel_psr.c:1569 intel_psr_short_pulse() error: uninitialized symbol 'error_status'.
+
+vim +727 drivers/gpu/drm/i915/display/intel_psr.c
+
+   711	
+   712	void intel_psr_compute_config(struct intel_dp *intel_dp,
+   713				      struct intel_crtc_state *crtc_state)
+   714	{
+   715		struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+   716		struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+   717		const struct drm_display_mode *adjusted_mode =
+   718			&crtc_state->hw.adjusted_mode;
+   719		int psr_setup_time;
+   720	
+   721		if (!CAN_PSR(dev_priv))
+   722			return;
+   723	
+   724		if (intel_dp != dev_priv->psr.dp)
+   725			return;
+   726	
+ > 727		 if (!psr_global_enabled(dev_priv))
+   728			return;
+   729		/*
+   730		 * HSW spec explicitly says PSR is tied to port A.
+   731		 * BDW+ platforms have a instance of PSR registers per transcoder but
+   732		 * for now it only supports one instance of PSR, so lets keep it
+   733		 * hardcoded to PORT_A
+   734		 */
+   735		if (dig_port->base.port != PORT_A) {
+   736			drm_dbg_kms(&dev_priv->drm,
+   737				    "PSR condition failed: Port not supported\n");
+   738			return;
+   739		}
+   740	
+   741		if (dev_priv->psr.sink_not_reliable) {
+   742			drm_dbg_kms(&dev_priv->drm,
+   743				    "PSR sink implementation is not reliable\n");
+   744			return;
+   745		}
+   746	
+   747		if (adjusted_mode->flags & DRM_MODE_FLAG_INTERLACE) {
+   748			drm_dbg_kms(&dev_priv->drm,
+   749				    "PSR condition failed: Interlaced mode enabled\n");
+   750			return;
+   751		}
+   752	
+   753		psr_setup_time = drm_dp_psr_setup_time(intel_dp->psr_dpcd);
+   754		if (psr_setup_time < 0) {
+   755			drm_dbg_kms(&dev_priv->drm,
+   756				    "PSR condition failed: Invalid PSR setup time (0x%02x)\n",
+   757				    intel_dp->psr_dpcd[1]);
+   758			return;
+   759		}
+   760	
+   761		if (intel_usecs_to_scanlines(adjusted_mode, psr_setup_time) >
+   762		    adjusted_mode->crtc_vtotal - adjusted_mode->crtc_vdisplay - 1) {
+   763			drm_dbg_kms(&dev_priv->drm,
+   764				    "PSR condition failed: PSR setup time (%d us) too long\n",
+   765				    psr_setup_time);
+   766			return;
+   767		}
+   768	
+   769		crtc_state->has_psr = true;
+   770		crtc_state->has_psr2 = intel_psr2_config_valid(intel_dp, crtc_state);
+   771		crtc_state->infoframes.enable |= intel_hdmi_infoframe_enable(DP_SDP_VSC);
+   772	}
+   773	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
