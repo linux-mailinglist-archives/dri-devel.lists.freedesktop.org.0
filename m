@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F117C1CA46B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 08:43:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8261CA46E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 08:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34B4E6EA7D;
-	Fri,  8 May 2020 06:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05796EA82;
+	Fri,  8 May 2020 06:44:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A76D76EA7D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 06:43:47 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id z8so535062wrw.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 23:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ELDuoD1imjy7smYxjRmmGmgUyi6qQ2eDlGPNUv2MfKQ=;
- b=FcL5QdW3vnktUSrFEtYXOFHhEcKBnXOwVWjoXy24f3eZYfZx0dwl+VObsJFVteTC8g
- wY0vJIJw5IKl249FpZKvKW7WYMQsBDmlzecEk8WFGYz1OOLHtbPXNQ1W8om2J4Ve6RuB
- 2LR3p3aG4d3Bd21i0GwaoDxsNiMYzunrA/pLY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ELDuoD1imjy7smYxjRmmGmgUyi6qQ2eDlGPNUv2MfKQ=;
- b=Z0ckrIrCcL+CJBjBKu1phtgNiQXIatQm5fWd1vO3MVEbuz0/xGH/D31HiH5ZlFl2yc
- dnF4I2AaqkCdR2Hz/bddaV8SLLoxNVMvleTq6iz8F5frgDbWsIli5Hqmx5ADKi49RuAw
- dON+h1b6knKDDlAbus8obdW/Z5C2cxxV5bARAB9TS8yrqR2ZrYse7G5F5dGLRqjHhqUQ
- v/YM9dSP9JSZUVi5tqBqsWeQ5B0QttLe1mILH3vgGxagObv4a0iDeak3ois3lGy8l9Oe
- ljgnJ7nERPULCgq52IuIaH1rLnqfeNov7qwqcPnkhbTfPmVqGdKP+1uka36L3rD+ofhC
- YKcA==
-X-Gm-Message-State: AGi0PuZ1ieLKMLR+x1Zyck8cQEgvzFE4/GO6yiWYIu5giyeqcSud5lgA
- kK+p9sv6qBHCLROK5o9lZwoowaa7mlQ=
-X-Google-Smtp-Source: APiQypJ81N6vvCuZwNsTgclrO8vv97TLwQgLmmuIQgbduYi2F4ETLLuGDfJdzz2+oLKL/MQ7W9+Row==
-X-Received: by 2002:a5d:510f:: with SMTP id s15mr1166559wrt.103.1588920226274; 
- Thu, 07 May 2020 23:43:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i74sm1368112wri.49.2020.05.07.23.43.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 23:43:45 -0700 (PDT)
-Date: Fri, 8 May 2020 08:43:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 09/36] drm/gem: fold drm_gem_object_put_unlocked and
- __drm_gem_object_put()
-Message-ID: <20200508064343.GC1383626@phenom.ffwll.local>
-References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-10-emil.l.velikov@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D515E6EA7F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 06:44:30 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 3108EAD80;
+ Fri,  8 May 2020 06:44:32 +0000 (UTC)
+Subject: Re: [PATCH -next] drm/ast: Make
+ ast_primary_plane_helper_atomic_update static
+To: Samuel Zou <zou_wei@huawei.com>, airlied@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <1588819206-11406-1-git-send-email-zou_wei@huawei.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <6fab133b-9f94-fff5-8c87-1d7c6d3e9043@suse.de>
+Date: Fri, 8 May 2020 08:44:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200507150822.114464-10-emil.l.velikov@gmail.com>
-X-Operating-System: Linux phenom 5.4.0-4-amd64 
+In-Reply-To: <1588819206-11406-1-git-send-email-zou_wei@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,127 +65,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0767489034=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 07, 2020 at 04:07:55PM +0100, Emil Velikov wrote:
-> From: Emil Velikov <emil.velikov@collabora.com>
-> 
-> With earlier patch we removed the normal overhead so now we can lift
-> the helper to the header, folding it __drm_object_put.
-> 
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0767489034==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="GP1fBK66YqPm2jQR5el3FNevgUmX2CWs1"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--GP1fBK66YqPm2jQR5el3FNevgUmX2CWs1
+Content-Type: multipart/mixed; boundary="9fVXXgiiOXDi9nrlmZbmnDfEj3AyQFBJv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Samuel Zou <zou_wei@huawei.com>, airlied@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <6fab133b-9f94-fff5-8c87-1d7c6d3e9043@suse.de>
+Subject: Re: [PATCH -next] drm/ast: Make
+ ast_primary_plane_helper_atomic_update static
+References: <1588819206-11406-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1588819206-11406-1-git-send-email-zou_wei@huawei.com>
+
+--9fVXXgiiOXDi9nrlmZbmnDfEj3AyQFBJv
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+I'll add your patch to drm-misc-next. Thanks!
+
+Am 07.05.20 um 04:40 schrieb Samuel Zou:
+> Fix the following sparse warning:
+>=20
+> drivers/gpu/drm/ast/ast_mode.c:564:6: warning:
+> symbol 'ast_primary_plane_helper_atomic_update'
+> was not declared. Should it be static?
+>=20
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->  drivers/gpu/drm/drm_gem.c                  | 19 -------------------
->  drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 +-
->  include/drm/drm_gem.h                      | 17 ++++-------------
->  3 files changed, 5 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index dab8763b2e73..599d5ff53b73 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -982,25 +982,6 @@ drm_gem_object_free(struct kref *kref)
+>  drivers/gpu/drm/ast/ast_mode.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index 7062bcd..4ddf770 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -561,8 +561,9 @@ static int ast_primary_plane_helper_atomic_check(st=
+ruct drm_plane *plane,
+>  	return 0;
 >  }
->  EXPORT_SYMBOL(drm_gem_object_free);
->  
-> -/**
-> - * drm_gem_object_put_unlocked - drop a GEM buffer object reference
-> - * @obj: GEM buffer object
-> - *
-> - * This releases a reference to @obj. Callers must not hold the
-> - * &drm_device.struct_mutex lock when calling this function.
-> - *
-> - * See also __drm_gem_object_put().
-> - */
-> -void
-> -drm_gem_object_put_unlocked(struct drm_gem_object *obj)
-> -{
-> -	if (!obj)
-> -		return;
-> -
-> -	kref_put(&obj->refcount, drm_gem_object_free);
-> -}
-> -EXPORT_SYMBOL(drm_gem_object_put_unlocked);
-> -
->  /**
->   * drm_gem_object_put - release a GEM buffer object reference
->   * @obj: GEM buffer object
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index 2faa481cc18f..41351cbf31b5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -105,7 +105,7 @@ __attribute__((nonnull))
->  static inline void
->  i915_gem_object_put(struct drm_i915_gem_object *obj)
+> =20
+> -void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+> -					    struct drm_plane_state *old_state)
+> +static void
+> +ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+> +				       struct drm_plane_state *old_state)
 >  {
-> -	__drm_gem_object_put(&obj->base);
-> +	drm_gem_object_put_unlocked(&obj->base);
->  }
->  
->  #define assert_object_held(obj) dma_resv_assert_held((obj)->base.resv)
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index ec2d24a60a76..7c877bea7b3a 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -364,27 +364,18 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
->  }
->  
->  /**
-> - * __drm_gem_object_put - raw function to release a GEM buffer object reference
-> + * drm_gem_object_put_unlocked - drop a GEM buffer object reference
->   * @obj: GEM buffer object
->   *
-> - * This function is meant to be used by drivers which are not encumbered with
-> - * &drm_device.struct_mutex legacy locking and which are using the
-> - * gem_free_object_unlocked callback. It avoids all the locking checks and
-> - * locking overhead of drm_gem_object_put() and drm_gem_object_put_unlocked().
-> - *
-> - * Drivers should never call this directly in their code. Instead they should
-> - * wrap it up into a ``driver_gem_object_put(struct driver_gem_object *obj)``
-> - * wrapper function, and use that. Shared code should never call this, to
-> - * avoid breaking drivers by accident which still depend upon
-> - * &drm_device.struct_mutex locking.
-> + * This releases a reference to @obj. Callers must not hold the
-> + * &drm_device.struct_mutex lock when calling this function.
+>  	struct ast_private *ast =3D plane->dev->dev_private;
+>  	struct drm_plane_state *state =3D plane->state;
+>=20
 
-2nd sentence talking about struct_mutex isn't true anymore, since nothing
-in here calls mutex_lock(obj->dev->struct_mutex); With your cleanup here
-we officially don't care about struct_mutex in the drm core!
-
-Aside from that lgtm, with that sentence removed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
->   */
->  static inline void
-> -__drm_gem_object_put(struct drm_gem_object *obj)
-> +drm_gem_object_put_unlocked(struct drm_gem_object *obj)
->  {
->  	kref_put(&obj->refcount, drm_gem_object_free);
->  }
->  
-> -void drm_gem_object_put_unlocked(struct drm_gem_object *obj);
->  void drm_gem_object_put(struct drm_gem_object *obj);
->  
->  int drm_gem_handle_create(struct drm_file *file_priv,
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--9fVXXgiiOXDi9nrlmZbmnDfEj3AyQFBJv--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--GP1fBK66YqPm2jQR5el3FNevgUmX2CWs1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl60/8kACgkQaA3BHVML
+eiMhngf/X8nGRb0GfvKmxWPZ/TOQXNxEnOhisWFtUna+M4nCB+ZeW+t+d4gTk9xV
+JG9aLgCPlZngs8ZTvnVj614Df8kZ8j8TrGp333d6gSWEJvh0IHrMnL8eOkR2C5iJ
+y/uBC9KLE2/jIVNleFVANBGLkUNdf11RzPggGVCv4sKin8RyX91iT5THmfEFHTTs
+vZcqsGM1axYGML+f/KjVw2m+w8ivicqQasuwPb991xAg/S96Jw1CFDqVc6FDd4lF
+qGElPvFyTGyGvlEs8VCg8KSAGV/bOBbkYvmOpycsFLIfRVpNeb4m/QJOPjq+1EUo
+n7pifydfUQIaPDXXEhUF+U0KZAjRpg==
+=+xqQ
+-----END PGP SIGNATURE-----
+
+--GP1fBK66YqPm2jQR5el3FNevgUmX2CWs1--
+
+--===============0767489034==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0767489034==--
