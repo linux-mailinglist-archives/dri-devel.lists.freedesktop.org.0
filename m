@@ -2,38 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0491D1CBF95
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 11:05:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8861CAA8B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 14:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 313006E314;
-	Sat,  9 May 2020 09:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F196E1F4;
+	Fri,  8 May 2020 12:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 10338 seconds by postgrey-1.36 at gabe;
- Fri, 08 May 2020 11:59:23 UTC
-Received: from mail.corsac.net (unknown [78.194.244.226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 873A96E185
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 11:59:23 +0000 (UTC)
-Received: from scapa.corsac.net (unknown
- [IPv6:2a01:e34:ec2f:4e20:6af7:28ff:fe8d:2119])
- by mail.corsac.net (Postfix) with ESMTPS id E89C591
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 13:59:21 +0200 (CEST)
-Received: from corsac (uid 1000) (envelope-from corsac@debian.org) id a00a4
- by scapa.corsac.net (DragonFly Mail Agent v0.12);
- Fri, 08 May 2020 13:59:21 +0200
-Message-ID: <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD016E1D8;
+ Fri,  8 May 2020 12:24:25 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 58CEC5800C7;
+ Fri,  8 May 2020 08:24:21 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 08 May 2020 08:24:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=B
+ lIPUWSMF61h4hKE0RpIdoM6DZF7DIUr3CtwDb11E7k=; b=bJBsN1zyTF5L2u4YQ
+ wdiIrOWRm3rSGJnFBgh771GQtIwh09ZhPVNl4yIbKhVIqORlJgQ6fr4K9xTrYmrA
+ mXWfKa8w5CjBu//+MNbXA90Ow1/obJsAqCNexzelZqNPL1GOGsg0DeSSKMLuRoZM
+ 0hvTaojp2/oTzmIXLnee3uknaeTlr63oXqjWo1OwTK2qd9oQ9adWFqAvmA2YieIH
+ JneIRRx4h3efAXKe0ZaO1eTph7OVTM7wNdIGbTi0v+59+veiM4uOubqB4r9W9B3K
+ dDhGikKJqp6o1kJL0jhAI1V0kT6wzB1MCoIEWNRMMFOKb8b4k0qu+jWnjVJYHEYD
+ cJthA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=BlIPUWSMF61h4hKE0RpIdoM6DZF7DIUr3CtwDb11E
+ 7k=; b=M2G3UVLq/tw9h4fO/w2o38F6sW//kCALR03GMjnERs4d3EbdCY2gGVD/f
+ Ur7wNlQ9VVBllvKvMpxCmILYSrqU/vAfurM2U4SlM6OJUfaCWEPyQsOEFvplNdEh
+ Z04r3hfNva7Keam2EE+m1sDiJmQn+z8NxGJj7y+E8ImDEBRknoIH7VwsIIoDZ9SO
+ onp8AZopRzitZMLPrA2ceKoCFX1GOFrpXsqLhpjfxUwOdz+midxdY5woUofIRizh
+ PfHySEbyzfQoC/W6Wor3XFBUNMFKJK8YpfF58BpAHTjcqFtT2nfgxFIGDcRBd325
+ jNCnBC86u0m4cMle16YHJUxGNX63A==
+X-ME-Sender: <xms:c0-1XgW556_gW_S5U6XgbkT-uIDYMPXj0RSN-fEQHLFlbQH6TTginw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrkedvgdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeefieffje
+ fhhfeiueelueekfeehtedutdegteetleelteeggeetfeeffefhfeekvdenucffohhmrghi
+ nhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepkeefrdekiedrkeelrddutdejne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghg
+ sehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:c0-1XljDuDi_flUmWAVKEqb3PUPQ-1cMpOJKDNkZMOGspK4cK_YPjQ>
+ <xmx:c0-1XktC-WkWAbGZOdz5jCCifcToI9BTk-vDEughhzEmt0_62irmrA>
+ <xmx:c0-1XtxlVuVguIULB0NS8wsw8GbH3E6g-pUeE9Hk4wVVlwZ1MYLPdw>
+ <xmx:dU-1XrU-AP9aS6CuYghysPxkP99GqZvvjFmKSvwfYeTFJ87onY44vQ>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D429D30661F4;
+ Fri,  8 May 2020 08:24:18 -0400 (EDT)
+Date: Fri, 8 May 2020 14:24:15 +0200
+From: Greg KH <greg@kroah.com>
+To: Yves-Alexis Perez <corsac@debian.org>
 Subject: Re: [PATCH] drm/atomic: Take the atomic toys away from X
-From: Yves-Alexis Perez <corsac@debian.org>
-To: Greg KH <greg@kroah.com>
-Date: Fri, 08 May 2020 13:59:17 +0200
-In-Reply-To: <20200508095426.GA3778290@kroah.com>
+Message-ID: <20200508122415.GA27371@kroah.com>
 References: <20190903190642.32588-1-daniel.vetter@ffwll.ch>
  <20190905185318.31363-1-daniel.vetter@ffwll.ch>
  <2a05f4c4362d386d298a06a67f2f528ef603a734.camel@debian.org>
  <20200508095426.GA3778290@kroah.com>
-User-Agent: Evolution 3.36.2-1 
+ <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 09 May 2020 09:04:57 +0000
+Content-Disposition: inline
+In-Reply-To: <177a9ed3375957e40b295e20bb6b42663a784a74.camel@debian.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,101 +85,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Michel =?ISO-8859-1?Q?D=E4nzer?= <michel@daenzer.net>, stable@vger.kernel.org,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>, stable@vger.kernel.org,
  Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>,
  Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LS0tLS1CRUdJTiBQR1AgU0lHTkVEIE1FU1NBR0UtLS0tLQpIYXNoOiBTSEEyNTYKCk9uIEZyaSwg
-MjAyMC0wNS0wOCBhdCAxMTo1NCArMDIwMCwgR3JlZyBLSCB3cm90ZToKPiA+IEhpIERhbmllbCBh
-bmQgR3JlZyAoZXNwZWNpYWxseSkuIEl0IHNlZW1zIHRoYXQgdGhpcyBwYXRjaCB3YXMgbmV2ZXIK
-PiA+IGFwcGxpZWQgdG8KPiA+IHN0YWJsZSwgbWF5YmUgaXQgZmVsbCB0aHJvdWdoIHRoZSBjcmFj
-a3M/Cj4gCj4gV2hhdCBwYXRjaCBpcyAidGhpcyBwYXRjaCI/CgpTb3JyeSwgdGhlIHBhdGNoIHdh
-cyBpbiB0aGUgbWFpbCBJIHdhcyByZXBseWluZyB0bzoKCmNvbW1pdCAyNmIxZDNiNTI3ZTdiZjNl
-MjRiODE0ZDYxNzg2NmFjNTE5OWNlNjhkCkF1dGhvcjogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4KRGF0ZTogICBUaHUgU2VwIDUgMjA6NTM6MTggMjAxOSArMDIwMAoKICAg
-IGRybS9hdG9taWM6IFRha2UgdGhlIGF0b21pYyB0b3lzIGF3YXkgZnJvbSBYCgo+IAo+ID4gSXQg
-ZG9lc24ndCBhcHBseSBhcy1pcyBpbiA0LjE5IGJyYW5jaCBidXQgYSBzbWFsbCBjaGFuZ2UgaW4g
-dGhlIGNvbnRleHQKPiA+IG1ha2VzCj4gPiBpdCBhcHBseS4gSSdtIGV4cGVyaWVuY2luZyBpc3N1
-ZXMgd2l0aCBsaWdodGRtIGFuZCB2dC1zd2l0Y2ggaW4gRGViaWFuCj4gPiBCdXN0ZXIKPiA+ICh3
-aGljaCBoYXMgYSA0LjE5IGtlcm5lbCkgc28gSSdkIGFwcHJlY2lhdGUgaWYgdGhlIHBhdGNoIHdh
-cyBpbmNsdWRlZCBpbgo+ID4gYXQKPiA+IGxlYXN0IHRoYXQgcmVsZWFzZS4KPiAKPiBXaGF0IGlz
-IHRoZSBnaXQgY29tbWl0IGlkIG9mIHRoZSBwYXRjaCBpbiBMaW51cydzIHRyZWU/ICBJZiB5b3Ug
-aGF2ZSBhCj4gd29ya2luZyBiYWNrcG9ydCwgdGhhdCBtYWtlcyBpdCBtdWNoIGVhc2llciB0aGFu
-IGhvcGluZyBJIGNhbiBmaXggaXQKPiB1cC4uLgoKVGhlIGNvbW1pdCBpZCBpcyBpbiBMaW51cyB0
-cmVlIGlzIDI2YjFkM2I1MjdlN2JmM2UyNGI4MTRkNjE3ODY2YWM1MTk5Y2U2OGQuIFRvCmFwcGx5
-IHByb3Blcmx5IDY5ZmRmNDIwNmE4YmE5MWEyNzdiM2Q1MGEzYTA1YjcxMjQ3NjM1YjIgd291bGQg
-bmVlZCB0byBiZQpjaGVycnktcGlja2VkIGFzIHdlbGwgYnV0IGl0IHdhc24ndCBtYXJrZWQgZm9y
-IHN0YWJsZSBzbyBJIGRpZG4ndCBib3RoZXIgYW5kCm9ubHkgZml4ZWQgdGhlIGNvbnRleHQuIEhl
-cmUncyB0aGUgYmFja3BvcnQgdG8gNC4xOSwgY29tcGlsZSBhbmQgcnVudGltZQp0ZXN0ZWQuIEl0
-IGRvZXMgZml4IHRoZSBpc3N1ZSBmb3IgbWUgKGxpa2UgaXQgZGlkIG9uIG1haW5saW5lKS4KClNv
-IEkgZ3Vlc3MKVGVzdGVkLUJ5OiBZdmVzLUFsZXhpcyBQZXJleiA8Y29yc2FjQGRlYmlhbi5vcmc+
-Cgpjb21taXQgOGE5OTkxNGY3YjUzOTU0MjYyMmRjNTcxYzgyZDZjZDIwM2JkZGY2NApBdXRob3I6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkRhdGU6ICAgVGh1IFNlcCA1
-IDIwOjUzOjE4IDIwMTkgKzAyMDAKCiAgICBkcm0vYXRvbWljOiBUYWtlIHRoZSBhdG9taWMgdG95
-cyBhd2F5IGZyb20gWAogICAgCiAgICBUaGUgLW1vZGVzZXR0aW5nIGRkeCBoYXMgYSB0b3RhbGx5
-IGJyb2tlbiBpZGVhIG9mIGhvdyBhdG9taWMgd29ya3M6CiAgICAtIGRvZXNuJ3QgZGlzYWJsZSBv
-bGQgY29ubmVjdG9ycywgYXNzdW1pbmcgdGhleSBnZXQgYXV0by1kaXNhYmxlIGxpa2UKICAgICAg
-d2l0aCB0aGUgbGVnYWN5IHNldGNydGMKICAgIC0gYXNzdW1lcyBBU1lOQ19GTElQIGlzIHdpcmVk
-IHRocm91Z2ggZm9yIHRoZSBhdG9taWMgaW9jdGwKICAgIC0gbm90IGEgc2luZ2xlIGNhbGwgdG8g
-VEVTVF9PTkxZCiAgICAKICAgIElvdyB0aGUgaW1wbGVtZW50YXRpb24gaXMgYSAxOjEgdHJhbnNs
-YXRpb24gb2YgbGVnYWN5IGlvY3RscyB0bwogICAgYXRvbWljLCB3aGljaCBpcyBhKSBicm9rZW4g
-YikgcG9pbnRsZXNzLgogICAgCiAgICBXZSBhbHJlYWR5IGhhdmUgYnVncyBpbiBib3RoIGk5MTUg
-YW5kIGFtZGdwdS1EQyB3aGVyZSB0aGlzIHByZXZlbnRzIHVzCiAgICBmcm9tIGVuYWJsaW5nIG5l
-YXQgZmVhdHVyZXMuCiAgICAKICAgIElmIGFueW9uZSBldmVyIGNhcmVzIGFib3V0IGF0b21pYyBp
-biBYIHdlIGNhbiBlYXNpbHkgYWRkIGEgbmV3IGF0b21pYwogICAgbGV2ZWwgKHJlcS0+dmFsdWUg
-PT0gMikgZm9yIFggdG8gZ2V0IGJhY2sgdGhlIHNoaW55IHRveXMuCiAgICAKICAgIFNpbmNlIHRo
-ZXNlIGJyb2tlbiB2ZXJzaW9ucyBvZiAtbW9kZXNldHRpbmcgaGF2ZSBiZWVuIHNoaXBwaW5nLAog
-ICAgdGhlcmUncyByZWFsbHkgbm8gb3RoZXIgd2F5IHRvIGdldCBvdXQgb2YgdGhpcyBiaW5kLgog
-ICAgCiAgICB2MjoKICAgIC0gYWRkIGFuIGluZm9ybWF0aW9uYWwgZG1lc2cgb3V0cHV0IChSb2Is
-IEFqYXgpCiAgICAtIHJlb3JkZXIgYWZ0ZXIgdGhlIERSSVZFUl9BVE9NSUMgY2hlY2sgdG8gYXZv
-aWQgdXNlbGVzcyBub2lzZSAoSWxpYSkKICAgIC0gYWxsb3cgcmVxLT52YWx1ZSA+IDIgc28gdGhh
-dCBYIGNhbiBkbyBhbm90aGVyIGF0dGVtcHQgYXQgYXRvbWljIGluCiAgICAgIHRoZSBmdXR1cmUK
-ICAgIAogICAgdjM6IEdvIHdpdGggcGFyYW5vaWQsIGluc2lzdCB0aGF0IHRoZSBYIHNob3VsZCBi
-ZSBmaXJzdCAoc3VnZ2VzdGVkIGJ5CiAgICBSb2IpCiAgICAKICAgIENjOiBJbGlhIE1pcmtpbiA8
-aW1pcmtpbkBhbHVtLm1pdC5lZHU+CiAgICBSZWZlcmVuY2VzOiBodHRwczovL2dpdGxhYi5mcmVl
-ZGVza3RvcC5vcmcveG9yZy94c2VydmVyL2lzc3Vlcy82MjkKICAgIFJlZmVyZW5jZXM6IGh0dHBz
-Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy94b3JnL3hzZXJ2ZXIvbWVyZ2VfcmVxdWVzdHMvMTgw
-CiAgICBSZWZlcmVuY2VzOiBhYmJjMDY5N2Q1ZmIgKCJkcm0vZmI6IHJldmVydCB0aGUgaTkxNSBB
-Y3R1YWxseSBjb25maWd1cmUKdW50aWxlZCBkaXNwbGF5cyBmcm9tIG1hc3RlciIpCiAgICBDYzog
-TWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KICAg
-IFJldmlld2VkLWJ5OiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXgu
-aW50ZWwuY29tPiAodjEpCiAgICBSZXZpZXdlZC1ieTogTmljaG9sYXMgS2F6bGF1c2thcyA8bmlj
-aG9sYXMua2F6bGF1c2thc0BhbWQuY29tPiAodjEpCiAgICBDYzogTWljaGVsIETDpG56ZXIgPG1p
-Y2hlbEBkYWVuemVyLm5ldD4KICAgIENjOiBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVyQGdtYWls
-LmNvbT4KICAgIENjOiBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KICAgIEFja2VkLWJ5
-OiBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0LmNvbT4KICAgIENjOiBTZWFuIFBhdWwgPHNlYW5A
-cG9vcmx5LnJ1bj4KICAgIENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CiAgICBD
-YzogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgogICAgQWNrZWQtYnk6IFJvYiBDbGFy
-ayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KICAgIENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCiAg
-ICBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4K
-ICAgIExpbms6IApodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcvcGF0Y2gvbXNnaWQv
-MjAxOTA5MDUxODUzMTguMzEzNjMtMS1kYW5pZWwudmV0dGVyQGZmd2xsLmNoCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0
-bC5jCmluZGV4IGJhMTI5YjY0YjYxZi4uYjkyNjgyZjAzN2IyIDEwMDY0NAotIC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1faW9jdGwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMK
-QEAgLTMyMSw3ICszMjEsMTIgQEAgZHJtX3NldGNsaWVudGNhcChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LCB2b2lkICpkYXRhLApzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdikKIAljYXNlIERSTV9D
-TElFTlRfQ0FQX0FUT01JQzoKIAkJaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJ
-VkVSX0FUT01JQykpCiAJCQlyZXR1cm4gLUVJTlZBTDsKLSAtCQlpZiAocmVxLT52YWx1ZSA+IDEp
-CisJCS8qIFRoZSBtb2Rlc2V0dGluZyBERFggaGFzIGEgdG90YWxseSBicm9rZW4gaWRlYSBvZiBh
-dG9taWMuICovCisJCWlmIChjdXJyZW50LT5jb21tWzBdID09ICdYJyAmJiByZXEtPnZhbHVlID09
-IDEpIHsKKwkJCXByX2luZm8oImJyb2tlbiBhdG9taWMgbW9kZXNldCB1c2Vyc3BhY2UgZGV0ZWN0
-ZWQsCmRpc2FibGluZyBhdG9taWNcbiIpOworCQkJcmV0dXJuIC1FT1BOT1RTVVBQOworCQl9CisJ
-CWlmIChyZXEtPnZhbHVlID4gMikKIAkJCXJldHVybiAtRUlOVkFMOwogCQlmaWxlX3ByaXYtPmF0
-b21pYyA9IHJlcS0+dmFsdWU7CiAJCWZpbGVfcHJpdi0+dW5pdmVyc2FsX3BsYW5lcyA9IHJlcS0+
-dmFsdWU7CgoKLSAtLSAKWXZlcy1BbGV4aXMKLS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0K
-CmlRRXpCQUVCQ0FBZEZpRUU4dmkzNFFnZm84M3gzNWdGM3JZY3lQcFhSRnNGQWw2MVNaVUFDZ2tR
-M3JZY3lQcFgKUkZ2UGZ3Z0F6TXlGcWlWNTkyUkJLdTR0eDVJdnFhNEVDLzFPZFI4RG9qeVFsdzRB
-UDBiWWMrNE82N3hZYnZ0NQpyNEpYdUdiU3UralcvMjlWKzJ0OFpsTGk0UzdiQXZBbzJERWh1QmRH
-VnpkbUQ0Z005RUMrNjlvcVZlWldXWlRtClZVbGRMclJPOEJvUHh2MTRsWC9LL2tVL281UHY4aXZS
-b0VLczM4NUpVMnAxQXhOR0pJMlVVbUlYS0d0azdDdS8KRnUvZmxINjI3UkhqVFJrMlFZc2VtcUhx
-U0FPTmFIWXVTaVltNzgzaHo0d1lpUE9aUWRHdlMraWZId01BaFVxaApzY2FDeHYrcEJPeGFMdVpB
-ZlVYRmpEWCtxQWN1SkN4YVA5YlQ0c293ZUlwWXFqemNBZEJTbW55MCtPTE9uaWUvCkhjQnpLd3Bn
-aXRLUi9jVmFkWmdiMFVTMW9IZW8yQT09Cj1sOHoxCi0tLS0tRU5EIFBHUCBTSUdOQVRVUkUtLS0t
-LQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Fri, May 08, 2020 at 01:59:17PM +0200, Yves-Alexis Perez wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA256
+> =
+
+> On Fri, 2020-05-08 at 11:54 +0200, Greg KH wrote:
+> > > Hi Daniel and Greg (especially). It seems that this patch was never
+> > > applied to
+> > > stable, maybe it fell through the cracks?
+> > =
+
+> > What patch is "this patch"?
+> =
+
+> Sorry, the patch was in the mail I was replying to:
+> =
+
+> commit 26b1d3b527e7bf3e24b814d617866ac5199ce68d
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Thu Sep 5 20:53:18 2019 +0200
+> =
+
+>     drm/atomic: Take the atomic toys away from X
+> =
+
+> > =
+
+> > > It doesn't apply as-is in 4.19 branch but a small change in the conte=
+xt
+> > > makes
+> > > it apply. I'm experiencing issues with lightdm and vt-switch in Debian
+> > > Buster
+> > > (which has a 4.19 kernel) so I'd appreciate if the patch was included=
+ in
+> > > at
+> > > least that release.
+> > =
+
+> > What is the git commit id of the patch in Linus's tree?  If you have a
+> > working backport, that makes it much easier than hoping I can fix it
+> > up...
+> =
+
+> The commit id is in Linus tree is 26b1d3b527e7bf3e24b814d617866ac5199ce68=
+d. To
+> apply properly 69fdf4206a8ba91a277b3d50a3a05b71247635b2 would need to be
+> cherry-picked as well but it wasn't marked for stable so I didn't bother =
+and
+> only fixed the context. Here's the backport to 4.19, compile and runtime
+> tested. It does fix the issue for me (like it did on mainline).
+> =
+
+> So I guess
+> Tested-By: Yves-Alexis Perez <corsac@debian.org>
+> =
+
+> commit 8a99914f7b539542622dc571c82d6cd203bddf64
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Thu Sep 5 20:53:18 2019 +0200
+> =
+
+>     drm/atomic: Take the atomic toys away from X
+>     =
+
+>     The -modesetting ddx has a totally broken idea of how atomic works:
+>     - doesn't disable old connectors, assuming they get auto-disable like
+>       with the legacy setcrtc
+>     - assumes ASYNC_FLIP is wired through for the atomic ioctl
+>     - not a single call to TEST_ONLY
+>     =
+
+>     Iow the implementation is a 1:1 translation of legacy ioctls to
+>     atomic, which is a) broken b) pointless.
+>     =
+
+>     We already have bugs in both i915 and amdgpu-DC where this prevents us
+>     from enabling neat features.
+>     =
+
+>     If anyone ever cares about atomic in X we can easily add a new atomic
+>     level (req->value =3D=3D 2) for X to get back the shiny toys.
+>     =
+
+>     Since these broken versions of -modesetting have been shipping,
+>     there's really no other way to get out of this bind.
+>     =
+
+>     v2:
+>     - add an informational dmesg output (Rob, Ajax)
+>     - reorder after the DRIVER_ATOMIC check to avoid useless noise (Ilia)
+>     - allow req->value > 2 so that X can do another attempt at atomic in
+>       the future
+>     =
+
+>     v3: Go with paranoid, insist that the X should be first (suggested by
+>     Rob)
+>     =
+
+>     Cc: Ilia Mirkin <imirkin@alum.mit.edu>
+>     References: https://gitlab.freedesktop.org/xorg/xserver/issues/629
+>     References: https://gitlab.freedesktop.org/xorg/xserver/merge_request=
+s/180
+>     References: abbc0697d5fb ("drm/fb: revert the i915 Actually configure
+> untiled displays from master")
+>     Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>     Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com> (v=
+1)
+>     Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> (v1)
+>     Cc: Michel D=E4nzer <michel@daenzer.net>
+>     Cc: Alex Deucher <alexdeucher@gmail.com>
+>     Cc: Adam Jackson <ajax@redhat.com>
+>     Acked-by: Adam Jackson <ajax@redhat.com>
+>     Cc: Sean Paul <sean@poorly.run>
+>     Cc: David Airlie <airlied@linux.ie>
+>     Cc: Rob Clark <robdclark@gmail.com>
+>     Acked-by: Rob Clark <robdclark@gmail.com>
+>     Cc: stable@vger.kernel.org
+>     Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>     Link: =
+
+> https://patchwork.freedesktop.org/patch/msgid/20190905185318.31363-1-dani=
+el.vetter@ffwll.ch
+> =
+
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index ba129b64b61f..b92682f037b2 100644
+> - --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -321,7 +321,12 @@ drm_setclientcap(struct drm_device *dev, void *data,
+> struct drm_file *file_priv)
+>  	case DRM_CLIENT_CAP_ATOMIC:
+>  		if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+>  			return -EINVAL;
+> - -		if (req->value > 1)
+> +		/* The modesetting DDX has a totally broken idea of atomic. */
+> +		if (current->comm[0] =3D=3D 'X' && req->value =3D=3D 1) {
+> +			pr_info("broken atomic modeset userspace detected,
+> disabling atomic\n");
+> +			return -EOPNOTSUPP;
+> +		}
+> +		if (req->value > 2)
+>  			return -EINVAL;
+>  		file_priv->atomic =3D req->value;
+>  		file_priv->universal_planes =3D req->value;
+> =
+
+
+This is line-wrapped and can not be applied :(
+
+Ugh, let me see if I can do this by hand...
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
