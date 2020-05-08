@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A421CA7F3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C431CA7FF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 12:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA476E057;
-	Fri,  8 May 2020 10:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569ED6E162;
+	Fri,  8 May 2020 10:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62866E057
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:09:32 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id g35so441832uad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FwE3UsWT96cqONd5K4XH+qgJcMDeEiY1HojvEXSbDJM=;
- b=STbTjv/IGOQd8q0f8kBVpMK8LtTBiJZuUFkZaEsPb6ODmfIt/NcksNctnyH9JfG0+d
- WPtfKJPK/VxNKqXSqan4/lqHpkOjW5zu0jO6R+UTvmvNsBUr65kXSmp6Zn0yiRoGKiFR
- CK5bmpdKEB6Vzoz2UbydRLZC065n/s4paEdQjK7dEyVqxo9rQJUVGy+wPQZOPQHXPFTd
- fVd877A4rh9vi9os+Xoqd6+Dh0rMiSG2SHifqYQRxRliFjrU5Ja2TKM+y9Ao40Uolraj
- 3x/JLvSxSWL06pUuRPcr47X4G0n+lP4G8LOQfibTv4kgj33o29Al7WmgSrp5AIkNYCan
- LZvA==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E20B6E162
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 10:12:54 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id v8so9555728wma.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 May 2020 03:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=80e4YhVYsBOu9hDZgrB+N7FSQ8gx2xhSHcqa3FFcxTg=;
+ b=PdSLtzsTfw8LPinD94rHM7kHwUY2682vpO0onvuC8PzJMDLiA+m4D1Eh2qA6qtg1MQ
+ T/lmg9cmNJ5zoOwV50V5eV5HbgIGokgAvPEvY5fyKy7xPk3MF6SHJC9BqwnWA8C197Mi
+ Gt9p0KgYD1MctPcXYt4Zn3Y1NKz4vw0RRPps8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FwE3UsWT96cqONd5K4XH+qgJcMDeEiY1HojvEXSbDJM=;
- b=jtwCEK6ERBHQzVFUeN6+eUPMhmGdE4CHR59/dQ5X26nc35pRz8GvO25xahi8JwbPoL
- l61dn+nnjmgftNkUCu8ie/UZ1y4cX4R7JcqXbIES2TdtIPpDQ3MvEAJPzS1AUC9VdYVz
- yyXFHpca+VRilrgNZooiXRHCIPc+nnfS+zQtN8aljdJBjglyTRVh4nDuJteeZphfDQHU
- H5sQJ3VqPHJLHrV/ZjCG9ZPKHfYqvVo17K3Bj19PCa/JFKSP0lHzu9RVdZThAkdamqMH
- 254KewdGR7gdZGj4GdxZweWU0fP3T02Z4qDd8JtacvXiyAdTCO9G9PB9/SGl/6BRDG/3
- OE7g==
-X-Gm-Message-State: AGi0PuYHTSzCf/zEgqHIp0haSjZ74MjdwAwbB5QuTog9EWU5n6wP0+Nq
- uomCsx7SxDE1bcfdQEGtvVHv8FyBiQJ28brTOVAXv+46
-X-Google-Smtp-Source: APiQypLTNmCg//d4ub+dhblSNOLaoB2rgX3pdgAsx2Gl0KDqkp3krHjaFjmcTAYBr/+UUwSSYJxfWvJuLgnmJtWKGn0=
-X-Received: by 2002:ab0:18d:: with SMTP id 13mr1228362ual.69.1588932571915;
- Fri, 08 May 2020 03:09:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=80e4YhVYsBOu9hDZgrB+N7FSQ8gx2xhSHcqa3FFcxTg=;
+ b=CwQ8T37WWuoZ3oiqnfNwZG56XYU1tlEknI49z2srH+nXt3fdkUfI9a91zukmaZRJIo
+ +RO2/CByvLYspElg4WQG1N9K6MMdFT23+xSNogeeKkV7kTh9NxmWZ9gFOmtvwaj6+Lz4
+ cIRsQL7i/FA8KnDO5jPkE9DkdDj3TEAzJ4cdbO5mNlVGI7no8tvbsXkwy/qAKuHRPHjr
+ i7AcPb+lZzJqdKQkbeTtg3CkvhZAQuLACYKLK9o8sdnd5sBsl9wB5ZrLPtjYCWYcCs6L
+ QN6FmoTjU3WjCz66gKduPidXgNaTdDTVeV3Cgy2nZCOzpoXTHVMlV831ugb3QxEHoH8k
+ quTQ==
+X-Gm-Message-State: AGi0PuYT/5cA/tHrsQxHsbJUPMznqWVjkvYa/6FmnhbHzvI2XgMp7Q3t
+ WTk+NAJjT7Isblc5BPfosmotHQ==
+X-Google-Smtp-Source: APiQypJMij7IvC3lWLmIUqT0PRp+I0x/fqztWOHDiYOs7hTuFqUhNJB2oUX5ovP524jc7eNI208IfQ==
+X-Received: by 2002:a1c:2289:: with SMTP id i131mr1520574wmi.111.1588932772670; 
+ Fri, 08 May 2020 03:12:52 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m1sm1751304wrx.44.2020.05.08.03.12.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 May 2020 03:12:51 -0700 (PDT)
+Date: Fri, 8 May 2020 12:12:49 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Mika Kahola <mika.kahola@intel.com>
+Subject: Re: [PATCH v2] uapi/drm/drm_fourcc.h: Note on platform specificity
+ for format modifiers
+Message-ID: <20200508101249.GG1383626@phenom.ffwll.local>
+References: <20200506120827.12250-1-mika.kahola@intel.com>
+ <20200508065628.GD1383626@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
- <20200507150822.114464-5-emil.l.velikov@gmail.com>
- <20200508062749.GC10381@phenom.ffwll.local>
-In-Reply-To: <20200508062749.GC10381@phenom.ffwll.local>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 8 May 2020 11:07:00 +0100
-Message-ID: <CACvgo50XZqz=fTK45+-NFV3u8Fxycy4hBycHG5pw=bRQRTouog@mail.gmail.com>
-Subject: Re: [PATCH 04/36] drm/doc: drop struct_mutex references
-To: Daniel Vetter <daniel@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20200508065628.GD1383626@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.4.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 May 2020 at 07:27, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, May 07, 2020 at 04:07:50PM +0100, Emil Velikov wrote:
-> > From: Emil Velikov <emil.velikov@collabora.com>
-> >
-> > There's little point in providing partial and ancient information about
-> > the struct_mutex. Some drivers are using it, new ones should not.
-> >
-> > As-it this only provides for confusion.
-> >
-> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
->
-> I think a doc patch to add a big warning for drm_device.struct_mutex would
-> also be good. The current text is kinda unhelpful.
+On Fri, May 08, 2020 at 08:56:28AM +0200, Daniel Vetter wrote:
+> On Wed, May 06, 2020 at 03:08:27PM +0300, Mika Kahola wrote:
+> > Make an additional note on DRM format modifiers for x and y tiling. These
+> > format modifiers are defined for BDW+ platforms and therefore definition
+> > is not valid for older gens. This is due to address swizzling for tiled
+> > surfaces is no longer used. For newer platforms main memory controller has
+> > a more effective address swizzling algorithm.
+> > 
+> > v2: Rephrase comment (Daniel)
+> > 
+> > Signed-off-by: Mika Kahola <mika.kahola@intel.com>
+> 
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Would something like this be enough?
+Ok I assumed you'd just push that to drm-intel with commit rights or
+something, but that got stuck so applying to drm-misc-next now.
 
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index a55874db9dd4..0988351d743c 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -146,6 +146,9 @@ struct drm_device {
-  * @struct_mutex:
-  *
-  * Lock for others (not &drm_minor.master and &drm_file.is_master)
-+ *
-+ * WARNING:
-+ * Only drivers annotated with DRIVER_LEGACY should be using this.
-  */
-  struct mutex struct_mutex;
+Cheers, Daniel
+> 
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index 8bc0b31597d8..9e488d10f8b4 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -354,9 +354,12 @@ extern "C" {
+> >   * a platform-dependent stride. On top of that the memory can apply
+> >   * platform-depending swizzling of some higher address bits into bit6.
+> >   *
+> > - * This format is highly platforms specific and not useful for cross-driver
+> > - * sharing. It exists since on a given platform it does uniquely identify the
+> > - * layout in a simple way for i915-specific userspace.
+> > + * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
+> > + * On earlier platforms the is highly platforms specific and not useful for
+> > + * cross-driver sharing. It exists since on a given platform it does uniquely
+> > + * identify the layout in a simple way for i915-specific userspace, which
+> > + * facilitated conversion of userspace to modifiers. Additionally the exact
+> > + * format on some really old platforms is not known.
+> >   */
+> >  #define I915_FORMAT_MOD_X_TILED	fourcc_mod_code(INTEL, 1)
+> >  
+> > @@ -369,9 +372,12 @@ extern "C" {
+> >   * memory can apply platform-depending swizzling of some higher address bits
+> >   * into bit6.
+> >   *
+> > - * This format is highly platforms specific and not useful for cross-driver
+> > - * sharing. It exists since on a given platform it does uniquely identify the
+> > - * layout in a simple way for i915-specific userspace.
+> > + * Note that this layout is only accurate on intel gen 8+ or valleyview chipsets.
+> > + * On earlier platforms the is highly platforms specific and not useful for
+> > + * cross-driver sharing. It exists since on a given platform it does uniquely
+> > + * identify the layout in a simple way for i915-specific userspace, which
+> > + * facilitated conversion of userspace to modifiers. Additionally the exact
+> > + * format on some really old platforms is not known.
+> >   */
+> >  #define I915_FORMAT_MOD_Y_TILED	fourcc_mod_code(INTEL, 2)
+> >  
+> > -- 
+> > 2.20.1
+> > 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
--Emil
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
