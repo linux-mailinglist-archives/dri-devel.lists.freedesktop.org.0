@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399201CA674
-	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 10:47:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F117C1CA46B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 May 2020 08:43:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 236306EAA7;
-	Fri,  8 May 2020 08:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B4E6EA7D;
+	Fri,  8 May 2020 06:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 220CE89C68
- for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 06:41:20 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1588920087; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=JGbArbE31FgJMYaWjsdsGR2edFKZOM0SJ0pUFigb4cY=;
- b=r54rmYQWkIssOczo7+4d6ttJOnxJ2q08j6rww7fQQAwesT8I8JUtlDT1bVK2hzFyVUgKqYdt
- Pdj9WxjdpP9fdw3NeuWFQH69UCXWTUO9+sLALI75KeKU7jwQiiIcJjhEIcYDxZ5oFLHwPoa2
- 9H+88MezbeggbVJVkxLADEg1Y24=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5eb4ff0b.7fa0e7ae48f0-smtp-out-n03;
- Fri, 08 May 2020 06:41:15 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B4B77C432C2; Fri,  8 May 2020 06:41:15 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from charante-linux.qualcomm.com
- (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A2B60C433BA;
- Fri,  8 May 2020 06:41:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A2B60C433BA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=charante@codeaurora.org
-From: Charan Teja Reddy <charante@codeaurora.org>
-To: sumit.semwal@linaro.org,
-	ghackmann@google.com,
-	fengc@google.com
-Subject: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
-Date: Fri,  8 May 2020 12:11:03 +0530
-Message-Id: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-X-Mailman-Approved-At: Fri, 08 May 2020 08:47:23 +0000
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76D76EA7D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 May 2020 06:43:47 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id z8so535062wrw.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 May 2020 23:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ELDuoD1imjy7smYxjRmmGmgUyi6qQ2eDlGPNUv2MfKQ=;
+ b=FcL5QdW3vnktUSrFEtYXOFHhEcKBnXOwVWjoXy24f3eZYfZx0dwl+VObsJFVteTC8g
+ wY0vJIJw5IKl249FpZKvKW7WYMQsBDmlzecEk8WFGYz1OOLHtbPXNQ1W8om2J4Ve6RuB
+ 2LR3p3aG4d3Bd21i0GwaoDxsNiMYzunrA/pLY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ELDuoD1imjy7smYxjRmmGmgUyi6qQ2eDlGPNUv2MfKQ=;
+ b=Z0ckrIrCcL+CJBjBKu1phtgNiQXIatQm5fWd1vO3MVEbuz0/xGH/D31HiH5ZlFl2yc
+ dnF4I2AaqkCdR2Hz/bddaV8SLLoxNVMvleTq6iz8F5frgDbWsIli5Hqmx5ADKi49RuAw
+ dON+h1b6knKDDlAbus8obdW/Z5C2cxxV5bARAB9TS8yrqR2ZrYse7G5F5dGLRqjHhqUQ
+ v/YM9dSP9JSZUVi5tqBqsWeQ5B0QttLe1mILH3vgGxagObv4a0iDeak3ois3lGy8l9Oe
+ ljgnJ7nERPULCgq52IuIaH1rLnqfeNov7qwqcPnkhbTfPmVqGdKP+1uka36L3rD+ofhC
+ YKcA==
+X-Gm-Message-State: AGi0PuZ1ieLKMLR+x1Zyck8cQEgvzFE4/GO6yiWYIu5giyeqcSud5lgA
+ kK+p9sv6qBHCLROK5o9lZwoowaa7mlQ=
+X-Google-Smtp-Source: APiQypJ81N6vvCuZwNsTgclrO8vv97TLwQgLmmuIQgbduYi2F4ETLLuGDfJdzz2+oLKL/MQ7W9+Row==
+X-Received: by 2002:a5d:510f:: with SMTP id s15mr1166559wrt.103.1588920226274; 
+ Thu, 07 May 2020 23:43:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i74sm1368112wri.49.2020.05.07.23.43.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 May 2020 23:43:45 -0700 (PDT)
+Date: Fri, 8 May 2020 08:43:43 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 09/36] drm/gem: fold drm_gem_object_put_unlocked and
+ __drm_gem_object_put()
+Message-ID: <20200508064343.GC1383626@phenom.ffwll.local>
+References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
+ <20200507150822.114464-10-emil.l.velikov@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200507150822.114464-10-emil.l.velikov@gmail.com>
+X-Operating-System: Linux phenom 5.4.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +66,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Charan Teja Reddy <charante@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-MIME-Version: 1.0
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following race occurs while accessing the dmabuf object exported as
-file:
-P1				P2
-dma_buf_release()          dmabuffs_dname()
-			   [say lsof reading /proc/<P1 pid>/fd/<num>]
+On Thu, May 07, 2020 at 04:07:55PM +0100, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
+> 
+> With earlier patch we removed the normal overhead so now we can lift
+> the helper to the header, folding it __drm_object_put.
+> 
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c                  | 19 -------------------
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 +-
+>  include/drm/drm_gem.h                      | 17 ++++-------------
+>  3 files changed, 5 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index dab8763b2e73..599d5ff53b73 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -982,25 +982,6 @@ drm_gem_object_free(struct kref *kref)
+>  }
+>  EXPORT_SYMBOL(drm_gem_object_free);
+>  
+> -/**
+> - * drm_gem_object_put_unlocked - drop a GEM buffer object reference
+> - * @obj: GEM buffer object
+> - *
+> - * This releases a reference to @obj. Callers must not hold the
+> - * &drm_device.struct_mutex lock when calling this function.
+> - *
+> - * See also __drm_gem_object_put().
+> - */
+> -void
+> -drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+> -{
+> -	if (!obj)
+> -		return;
+> -
+> -	kref_put(&obj->refcount, drm_gem_object_free);
+> -}
+> -EXPORT_SYMBOL(drm_gem_object_put_unlocked);
+> -
+>  /**
+>   * drm_gem_object_put - release a GEM buffer object reference
+>   * @obj: GEM buffer object
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 2faa481cc18f..41351cbf31b5 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -105,7 +105,7 @@ __attribute__((nonnull))
+>  static inline void
+>  i915_gem_object_put(struct drm_i915_gem_object *obj)
+>  {
+> -	__drm_gem_object_put(&obj->base);
+> +	drm_gem_object_put_unlocked(&obj->base);
+>  }
+>  
+>  #define assert_object_held(obj) dma_resv_assert_held((obj)->base.resv)
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index ec2d24a60a76..7c877bea7b3a 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -364,27 +364,18 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
+>  }
+>  
+>  /**
+> - * __drm_gem_object_put - raw function to release a GEM buffer object reference
+> + * drm_gem_object_put_unlocked - drop a GEM buffer object reference
+>   * @obj: GEM buffer object
+>   *
+> - * This function is meant to be used by drivers which are not encumbered with
+> - * &drm_device.struct_mutex legacy locking and which are using the
+> - * gem_free_object_unlocked callback. It avoids all the locking checks and
+> - * locking overhead of drm_gem_object_put() and drm_gem_object_put_unlocked().
+> - *
+> - * Drivers should never call this directly in their code. Instead they should
+> - * wrap it up into a ``driver_gem_object_put(struct driver_gem_object *obj)``
+> - * wrapper function, and use that. Shared code should never call this, to
+> - * avoid breaking drivers by accident which still depend upon
+> - * &drm_device.struct_mutex locking.
+> + * This releases a reference to @obj. Callers must not hold the
+> + * &drm_device.struct_mutex lock when calling this function.
 
-			   read dmabuf stored in dentry->d_fsdata
-Free the dmabuf object
-			   Start accessing the dmabuf structure
+2nd sentence talking about struct_mutex isn't true anymore, since nothing
+in here calls mutex_lock(obj->dev->struct_mutex); With your cleanup here
+we officially don't care about struct_mutex in the drm core!
 
-In the above description, the dmabuf object freed in P1 is being
-accessed from P2 which is resulting into the use-after-free. Below is
-the dump stack reported.
+Aside from that lgtm, with that sentence removed:
 
-We are reading the dmabuf object stored in the dentry->d_fsdata but
-there is no binding between the dentry and the dmabuf which means that
-the dmabuf can be freed while it is being read from ->d_fsdata and
-inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
-with an extra refcount is not a viable solution as the exported dmabuf
-is already under file's refcount and keeping the multiple refcounts on
-the same object coordinated is not possible.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-As we are reading the dmabuf in ->d_fsdata just to get the user passed
-name, we can directly store the name in d_fsdata thus can avoid the
-reading of dmabuf altogether.
 
-Call Trace:
- kasan_report+0x12/0x20
- __asan_report_load8_noabort+0x14/0x20
- dmabuffs_dname+0x4f4/0x560
- tomoyo_realpath_from_path+0x165/0x660
- tomoyo_get_realpath
- tomoyo_check_open_permission+0x2a3/0x3e0
- tomoyo_file_open
- tomoyo_file_open+0xa9/0xd0
- security_file_open+0x71/0x300
- do_dentry_open+0x37a/0x1380
- vfs_open+0xa0/0xd0
- path_openat+0x12ee/0x3490
- do_filp_open+0x192/0x260
- do_sys_openat2+0x5eb/0x7e0
- do_sys_open+0xf2/0x180
+>   */
+>  static inline void
+> -__drm_gem_object_put(struct drm_gem_object *obj)
+> +drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+>  {
+>  	kref_put(&obj->refcount, drm_gem_object_free);
+>  }
+>  
+> -void drm_gem_object_put_unlocked(struct drm_gem_object *obj);
+>  void drm_gem_object_put(struct drm_gem_object *obj);
+>  
+>  int drm_gem_handle_create(struct drm_file *file_priv,
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-Cc: <stable@vger.kernel.org> [5.3+]
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
-
-Changes in v2: 
-
-- Pass the user passed name in ->d_fsdata instead of dmabuf
-- Improve the commit message
-
-Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
-
- drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 01ce125..0071f7d 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -25,6 +25,7 @@
- #include <linux/mm.h>
- #include <linux/mount.h>
- #include <linux/pseudo_fs.h>
-+#include <linux/dcache.h>
- 
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
-@@ -40,15 +41,13 @@ struct dma_buf_list {
- 
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
--	struct dma_buf *dmabuf;
- 	char name[DMA_BUF_NAME_LEN];
- 	size_t ret = 0;
- 
--	dmabuf = dentry->d_fsdata;
--	dma_resv_lock(dmabuf->resv, NULL);
--	if (dmabuf->name)
--		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_lock(&dentry->d_lock);
-+	if (dentry->d_fsdata)
-+		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
-+	spin_unlock(&dentry->d_lock);
- 
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
-@@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
- static int dma_buf_release(struct inode *inode, struct file *file)
- {
- 	struct dma_buf *dmabuf;
-+	struct dentry *dentry = file->f_path.dentry;
- 
- 	if (!is_dma_buf_file(file))
- 		return -EINVAL;
- 
- 	dmabuf = file->private_data;
- 
-+	spin_lock(&dentry->d_lock);
-+	dentry->d_fsdata = NULL;
-+	spin_unlock(&dentry->d_lock);
- 	BUG_ON(dmabuf->vmapping_counter);
- 
- 	/*
-@@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	}
- 	kfree(dmabuf->name);
- 	dmabuf->name = name;
-+	dmabuf->file->f_path.dentry->d_fsdata = name;
- 
- out_unlock:
- 	dma_resv_unlock(dmabuf->resv);
-@@ -446,7 +450,6 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
- 		goto err_alloc_file;
- 	file->f_flags = flags & (O_ACCMODE | O_NONBLOCK);
- 	file->private_data = dmabuf;
--	file->f_path.dentry->d_fsdata = dmabuf;
- 
- 	return file;
- 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of the Code Aurora Forum, hosted by The Linux Foundation
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
