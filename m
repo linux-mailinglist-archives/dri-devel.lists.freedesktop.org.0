@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BE71CC4A2
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 23:07:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D20A41CC4A6
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 23:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592AC6E0C5;
-	Sat,  9 May 2020 21:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526156E3A6;
+	Sat,  9 May 2020 21:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3B906E0C5
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 21:07:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7351E6E3A6
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 21:09:28 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 61EBE2003E;
- Sat,  9 May 2020 23:07:07 +0200 (CEST)
-Date: Sat, 9 May 2020 23:07:00 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 25EB42003E;
+ Sat,  9 May 2020 23:09:26 +0200 (CEST)
+Date: Sat, 9 May 2020 23:09:24 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Samuel Zou <zou_wei@huawei.com>, Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH -next] drm/i2c/tda998x: Make tda998x_audio_digital_mute
- static
-Message-ID: <20200509210700.GA12666@ravnborg.org>
-References: <1588819768-11818-1-git-send-email-zou_wei@huawei.com>
+To: Jason Yan <yanaijie@huawei.com>
+Subject: Re: [PATCH] video: fbdev: pxa168fb: make pxa168fb_init_mode() return
+ void
+Message-ID: <20200509210924.GB12666@ravnborg.org>
+References: <20200506061745.19451-1-yanaijie@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1588819768-11818-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <20200506061745.19451-1-yanaijie@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
  a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
- a=Vsz2rQJ-eejM4GXTEzYA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=LIjMPlzXlnp3mKN0Lz4A:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,48 +45,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, linux@armlinux.org.uk,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, b.zolnierkie@samsung.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 07, 2020 at 10:49:28AM +0800, Samuel Zou wrote:
-> Fix the following sparse warning:
-> 
-> drivers/gpu/drm/i2c/tda998x_drv.c:1136:5: warning:
-> symbol 'tda998x_audio_digital_mute' was not declared. Should it be static?
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
+Hi Jason.
 
-Thanks.
+On Wed, May 06, 2020 at 02:17:45PM +0800, Jason Yan wrote:
+> No other functions use the return value of pxa168fb_init_mode() and the
+> return value is always 0 now. Make it return void. This fixes the
+> following coccicheck warning:
+> 
+> drivers/video/fbdev/pxa168fb.c:565:5-8: Unneeded variable: "ret". Return
+> "0" on line 597
+> 
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
 
-Pushed to drm-misc-next, so it will appear in next merge window.
+Thanks, applied to drm-misc-next.
 
 	Sam
 
 > ---
->  drivers/gpu/drm/i2c/tda998x_drv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/video/fbdev/pxa168fb.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-> index 3c90d7a..9517f52 100644
-> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
-> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-> @@ -1133,7 +1133,8 @@ static void tda998x_audio_shutdown(struct device *dev, void *data)
->  	mutex_unlock(&priv->audio_mutex);
+> diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+> index aef8a3042590..eedfbd3572a8 100644
+> --- a/drivers/video/fbdev/pxa168fb.c
+> +++ b/drivers/video/fbdev/pxa168fb.c
+> @@ -557,12 +557,11 @@ static const struct fb_ops pxa168fb_ops = {
+>  	.fb_imageblit	= cfb_imageblit,
+>  };
+>  
+> -static int pxa168fb_init_mode(struct fb_info *info,
+> +static void pxa168fb_init_mode(struct fb_info *info,
+>  			      struct pxa168fb_mach_info *mi)
+>  {
+>  	struct pxa168fb_info *fbi = info->par;
+>  	struct fb_var_screeninfo *var = &info->var;
+> -	int ret = 0;
+>  	u32 total_w, total_h, refresh;
+>  	u64 div_result;
+>  	const struct fb_videomode *m;
+> @@ -593,8 +592,6 @@ static int pxa168fb_init_mode(struct fb_info *info,
+>  	div_result = 1000000000000ll;
+>  	do_div(div_result, total_w * total_h * refresh);
+>  	var->pixclock = (u32)div_result;
+> -
+> -	return ret;
 >  }
 >  
-> -int tda998x_audio_digital_mute(struct device *dev, void *data, bool enable)
-> +static int tda998x_audio_digital_mute(struct device *dev, void *data,
-> +				      bool enable)
->  {
->  	struct tda998x_priv *priv = dev_get_drvdata(dev);
->  
+>  static int pxa168fb_probe(struct platform_device *pdev)
 > -- 
-> 2.6.2
+> 2.21.1
 > 
 > _______________________________________________
 > dri-devel mailing list
