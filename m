@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08EE1CC1DB
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CA81CC1DC
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 15:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3A76E34B;
-	Sat,  9 May 2020 13:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3AD16E065;
+	Sat,  9 May 2020 13:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 898956E34B
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 13:44:20 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26CF130D;
- Sat,  9 May 2020 15:44:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1589031858;
- bh=7ujcB1XiyYpi6kSKrCO4PkwZ8y4r1hWPfytMfvnyY4U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fMcZW0Xdwz+2i/Y1YD/XzxevPo9t5tFUqBQrZl8MQUQquRHgWOpZHE1KoxEhfQMxT
- FoG0ZMRMprkb2BVaQaMm0+f0BY5fuTPWYbRY3wuJxBg+KQCMzAR8FH+i20YZaCz/Vv
- k83pJTzCERFtUCglPJMmGagn3gFxbRHKpSakbFFo=
-Date: Sat, 9 May 2020 16:44:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: srk@48.io
-Subject: Re: [PATCH 1/2] dt-bindings: it6251: add bindings for IT6251
- LVDS-to-eDP bridge
-Message-ID: <20200509134410.GA5946@pendragon.ideasonboard.com>
-References: <20200509111732.26102-1-srk@48.io>
- <20200509111732.26102-2-srk@48.io>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 606106E065
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 13:46:10 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0166C2184D
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 13:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589031970;
+ bh=1ihYsf1+lXCkaFnSaO++0t2TtnFCHX9Hk1C6Hp+UDIQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mshE+59w+QHUu6Dwlm5achuCo37BY10YfO/zEZbWAFb7Z5vY5wWweKaoHyXIhRWrO
+ Kcav5qPZm0JsDCzmVG1Y5WhFhogoQLDKL/nxzGbwl8tnMo8Rn7LgX7b2qGtKl6P4fy
+ 2kIui5nvKyEwnV/Rv3hPEdExvCL0yLwmdKhEY+eI=
+Received: by mail-ed1-f52.google.com with SMTP id y24so3767002edo.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 May 2020 06:46:09 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZiNFdm4NVmQNkXNUrxlCadfgG6AdynjRYecZs/haFld7YF4/Vq
+ LPeml3V6jSJWU+xVbkk/DibXlwlFYFQDYxZnyg==
+X-Google-Smtp-Source: APiQypI0nckB6aAzGaag9YUcpz7BgskXRPVWx9mlUiptnww+gAulyZ1V7L1MtmvOO/kyzbErLF4fYzrUSrQKN8e9snM=
+X-Received: by 2002:a05:6402:1f6:: with SMTP id
+ i22mr6474258edy.271.1589031968414; 
+ Sat, 09 May 2020 06:46:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200509111732.26102-2-srk@48.io>
+References: <20200507150822.114464-1-emil.l.velikov@gmail.com>
+ <20200507150822.114464-21-emil.l.velikov@gmail.com>
+In-Reply-To: <20200507150822.114464-21-emil.l.velikov@gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 9 May 2020 21:45:57 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8orbATyjZkcdYKX+9544vt4LdR+0z4TXrjcr5U_5t1aA@mail.gmail.com>
+Message-ID: <CAAOTY_8orbATyjZkcdYKX+9544vt4LdR+0z4TXrjcr5U_5t1aA@mail.gmail.com>
+Subject: Re: [PATCH 20/36] drm/mediatek: remove _unlocked suffix in
+ drm_object_put_unlocked
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,166 +56,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, Sean Cross <xobs@kosagi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Richard,
-
-Thank you for the patch.
-
-On Sat, May 09, 2020 at 01:17:31PM +0200, srk@48.io wrote:
-> From: Marek Vasut <marex@denx.de>
-> 
-> Add DT bindings for ITE IT6251 LVDS-to-eDP bridge.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Signed-off-by: Richard Marko <srk@48.io>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sean Cross <xobs@kosagi.com>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
->  .../bindings/display/bridge/ite,it6251.yaml   | 97 +++++++++++++++++++
->  1 file changed, 97 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
-> new file mode 100644
-> index 000000000000..8daa44a30fa1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
-> @@ -0,0 +1,97 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/ite,it6251.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ITE IT6251 LVDS-to-eDP bridge bindings
-> +
-> +maintainers:
-> +  - Marek Vasut <marex@denx.de>
-> +  - Richard Marko <srk@48.io>
-> +
-> +description: |
-> +  The IT6251 is a high-performance single-chip
-> +  De-SSC LVDS to DisplayPort converter.
-> +  Combined with LVDS receiver and DisplayPort Transmitter,
-> +  the IT6251 supports LVDS input and DisplayPort 1.1a
-> +  output by conversion function.
-
-You could reflow this to the 80 columns limit. It also sounds like
-marketing material copied from the datasheet, with "by conversion
-function" likely a bad translation.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: ite,it6251
-> +
-> +  reg:
-> +    items:
-> +      - description: I2C address of the bridge
-> +      - description: I2C address of the LVDS part
-> +
-> +  reg-names:
-> +    items:
-> +      - const: bridge
-> +      - const: lvds
-> +
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description: |
-> +         Video port for eDP output (typically panel).
-> +
-> +      port@1:
-> +        type: object
-> +        description: |
-> +          Video port for LVDS input.
-
-We traditionally use port 0 for the input and port 1 for the output. I'd
-rather do the same here to remain consistent, and allow generic code to
-operate on this device.
-
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +    additionalProperties: false
-> +
-> +  power-supply: true
-
-There are multiple power supplies for the chip, shouldn't we have
-multiple properties ? I would also name the properties according to the
-supply name.
-
-The chip has an HPD input. I would recommend already documenting an
-optional boolean no-hpd property to report when the HPD input is not
-connected.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - power-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    it6251@5c {
-> +      compatible = "ite,it6251";
-> +      reg = <0x5c>, <0x5e>;
-> +      reg-names = "bridge", "lvds";
-> +      power-supply = <&reg_display>;
-> +
-> +      ports {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        port@0 {
-> +          reg = <0>;
-> +          bridge_out_edp0: endpoint {
-> +            remote-endpoint = <&panel_in_edp0>;
-> +          };
-> +        };
-> +
-> +        port@1 {
-> +          reg = <1>;
-> +          bridge_in_lvds0: endpoint {
-> +            remote-endpoint = <&lvds0_out>;
-> +          };
-> +        };
-> +      };
-> +    };
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEVtaWw6CgpFbWlsIFZlbGlrb3YgPGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4g5pa8IDIw
+MjDlubQ15pyIN+aXpSDpgLHlm5sg5LiL5Y2IMTE6MTHlr6vpgZPvvJoKPgo+IEZyb206IEVtaWwg
+VmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4KPiBTcGVsbGluZyBvdXQgX3Vu
+bG9ja2VkIGZvciBlYWNoIGFuZCBldmVyeSBkcml2ZXIgaXMgYSBhbm5veWluZy4KPiBFc3BlY2lh
+bGx5IGlmIHdlIGNvbnNpZGVyIGhvdyBtYW55IGRyaXZlcnMsIGRvIG5vdCBrbm93IChvciBuZWVk
+IHRvKQo+IGFib3V0IHRoZSBob3Jyb3Igc3RvcmllcyBpbnZvbHZpbmcgc3RydWN0X211dGV4Lgo+
+Cj4gSnVzdCBkcm9wIHRoZSBzdWZmaXguIEl0IG1ha2VzIHRoZSBBUEkgY2xlYW5lci4KPgo+IERv
+bmUgdmlhIHRoZSBmb2xsb3dpbmcgc2NyaXB0Ogo+Cj4gX19mcm9tPWRybV9nZW1fb2JqZWN0X3B1
+dF91bmxvY2tlZAo+IF9fdG89ZHJtX2dlbV9vYmplY3RfcHV0Cj4gZm9yIF9fZmlsZSBpbiAkKGdp
+dCBncmVwIC0tbmFtZS1vbmx5ICRfX2Zyb20pOyBkbwo+ICAgc2VkIC1pICAicy8kX19mcm9tLyRf
+X3RvL2ciICRfX2ZpbGU7Cj4gZG9uZQoKQWNrZWQtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFu
+Zy5odUBrZXJuZWwub3JnPgoKPgo+IENjOiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2Vy
+bmVsLm9yZz4KPiBDYzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KPiBD
+YzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IFNpZ25lZC1vZmYtYnk6IEVtaWwg
+VmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
+ZHJtX2dlbS5jCj4gaW5kZXggYjA0YTNjMmIxMTFlLi5mY2I4MWYzNTQyMjQgMTAwNjQ0Cj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYwo+IEBAIC0xMTcsNyArMTE3LDcgQEAgaW50
+IG10a19kcm1fZ2VtX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LCBzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAgICAgICAgICAgICAgICBnb3RvIGVycl9oYW5kbGVfY3Jl
+YXRlOwo+Cj4gICAgICAgICAvKiBkcm9wIHJlZmVyZW5jZSBmcm9tIGFsbG9jYXRlIC0gaGFuZGxl
+IGhvbGRzIGl0IG5vdy4gKi8KPiAtICAgICAgIGRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZCgm
+bXRrX2dlbS0+YmFzZSk7Cj4gKyAgICAgICBkcm1fZ2VtX29iamVjdF9wdXQoJm10a19nZW0tPmJh
+c2UpOwo+Cj4gICAgICAgICByZXR1cm4gMDsKPgo+IC0tCj4gMi4yNS4xCj4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
