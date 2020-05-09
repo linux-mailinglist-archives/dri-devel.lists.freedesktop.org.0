@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A091CD26E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D241CC0E5
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 13:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0E86E27A;
-	Mon, 11 May 2020 07:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5552C6E339;
+	Sat,  9 May 2020 11:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 456E86E32B;
- Sat,  9 May 2020 10:48:18 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k12so12745793wmj.3;
- Sat, 09 May 2020 03:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KPkpTBXFZk8/9lQwGo/IWPlBj9LHEhRMLSp+d9p19Sc=;
- b=Tr8y0xKXAra5GctwNvLtRyAa1bba2IwoqopYCSTNHICLbOXZewzdKG3+udL1UvFsh0
- lNiKP14hDcrxr64CbT5564HTEDJ4WPTLmMe8uAA84YyfqxxHW9/OyFLysZqeaKu5Cq8R
- 7ME8lRPiqLeOlcacLG/JJICWBqAuafxmgACnP7pBZsuBk1AsX7k6fcfFbIqNiQyeQmjD
- qKMoe6YWOalzhwiYIlNfusY9r3SqQcDtMzVex3TZFjcPhRZgxTK5s66919wAkoOey45B
- b030+OHYlYaXzynu/V2dsq5Vzp4+nWzFKDqLRHN1/dft0MhE/sDZeCcZIzv0cMtYvsVm
- yA9Q==
+X-Greylist: delayed 797 seconds by postgrey-1.36 at gabe;
+ Sat, 09 May 2020 11:23:14 UTC
+Received: from omr2.cc.vt.edu (omr2.cc.ipv6.vt.edu
+ [IPv6:2607:b400:92:8400:0:33:fb76:806e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 601D16E339
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 11:23:14 +0000 (UTC)
+Received: from mr5.cc.vt.edu (mail.ipv6.vt.edu
+ [IPv6:2607:b400:92:9:0:9d:8fcb:4116])
+ by omr2.cc.vt.edu (8.14.4/8.14.4) with ESMTP id 049B9uEh032162
+ for <dri-devel@lists.freedesktop.org>; Sat, 9 May 2020 07:09:56 -0400
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mr5.cc.vt.edu (8.14.7/8.14.7) with ESMTP id 049B9pC4019642
+ for <dri-devel@lists.freedesktop.org>; Sat, 9 May 2020 07:09:56 -0400
+Received: by mail-qk1-f198.google.com with SMTP id a83so4921922qkc.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 May 2020 04:09:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KPkpTBXFZk8/9lQwGo/IWPlBj9LHEhRMLSp+d9p19Sc=;
- b=Uyefb0bpU78snV1E9P64J7bEvzQrgqnZSQC7p2iD7UI522CSKekmKYd10eSsQ33oDo
- eJ4uiTNrlNbAasYb2RcubvY9t8hoKVlVvCX+Hs9hQILPCCW2B3o+4VRR2S/k7DQb9FE+
- fTVJQjDBktV/qtqSxFU6LvFvBNNJP5xU1ly3zDSZAqBjGbKJ45mwjJtCHKOwiDqqZiQi
- MUhARN/rhiHP1/US1ABIs+ax95F31SpdY5lQnMiUhMmmzzKoiFhd+LOlUKJqefEvWfd5
- 6Fmr9Hmf8YhITDYdHnzc5EV9juneu328S01AxEm83fsB9nd290yFS3Fi4vD7W5wCT/FK
- xDSg==
-X-Gm-Message-State: AGi0PubU4LQu5Z1xKSsEsrz4TsK4Kr6Kit/CmYfuBpMkI+zRvFtQsV8L
- H2sR1YI6ZDMUzaiiI0zF9w0=
-X-Google-Smtp-Source: APiQypKzJQGVgMUTZFyTGkaa+3CHh+R+8aV9dtiRSenGbepLQYS189mR2vWZ/oegBvt0gO7U8I+WjA==
-X-Received: by 2002:a05:600c:24cf:: with SMTP id
- 15mr20121734wmu.94.1589021296925; 
- Sat, 09 May 2020 03:48:16 -0700 (PDT)
-Received: from localhost.localdomain (abag125.neoplus.adsl.tpnet.pl.
- [83.6.170.125])
- by smtp.googlemail.com with ESMTPSA id p7sm7819484wrf.31.2020.05.09.03.48.15
+ h=x-gm-message-state:sender:from:to:cc:subject:mime-version
+ :content-transfer-encoding:date:message-id;
+ bh=vIjUaVr8lXgICZvNCCHOLX8uh9Z0/aUAOCq842hnMgE=;
+ b=QWuP6cAO8fRzZCNOAgzy5dIRBHOp8uGR63+FAHadI6N21ABd9GfkcuHjDYL88jJw3s
+ s9Xp9jcvDpTFCO3NylhBbcj3rMKBY0EiniX+8xdftedcyq0MlwUEK5vqEcgNVXdjvQRe
+ KEIoOFuzk3DA8H6AFLYi2+/Rmpfu63hi8UK5h2F/E6ObaJLapH4FlAXS26tqvGitmIkV
+ pDZwfo962vE9k9NbyJwfAIq5bwLYDt9HWzGPKCrbhLbLzu5c/icj2t2JM4NlnhO5GGF7
+ EgWZnfIyqYXoN3QVeadWExi67gsZaF3yz8/LXdIN++jJAabH3ecpZonu5jseJb6MYNF4
+ lzAA==
+X-Gm-Message-State: AGi0PuZT7+ZC7lvCfsuTCRqv7337ymeqNylfn47OwYkiG3Jk6HvIbrAS
+ Qf+fO3FLLdwaq+ROAiyhMJ3uSSFZfs49kZ4LGTYZCRplzAkCN0lUE37ZgieoVVU8ov74hbpWLtM
+ ArH1tuxOoq3u9PWi6UBOR76vOMSE6TfqhOP3up20=
+X-Received: by 2002:a37:7786:: with SMTP id s128mr7164218qkc.497.1589022590821; 
+ Sat, 09 May 2020 04:09:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLc8IvWBaSGDhyMTl5B9gxpmnXDY7zrvRffUZM1qewb4/r7Sxa5/smmEBjIDGRf7TUUf6kwyw==
+X-Received: by 2002:a37:7786:: with SMTP id s128mr7164185qkc.497.1589022590368; 
+ Sat, 09 May 2020 04:09:50 -0700 (PDT)
+Received: from turing-police ([2601:5c0:c001:c9e1::359])
+ by smtp.gmail.com with ESMTPSA id 10sm4316594qtp.4.2020.05.09.04.09.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 May 2020 03:48:16 -0700 (PDT)
-From: Konrad Dybcio <konradybcio@gmail.com>
-To: 
-Subject: [v2 PATCH] drivers: gpu: drm: Add MDP5 configuration for MSM8x36.
-Date: Sat,  9 May 2020 12:48:10 +0200
-Message-Id: <20200509104812.202981-1-konradybcio@gmail.com>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 11 May 2020 07:17:27 +0000
+ Sat, 09 May 2020 04:09:49 -0700 (PDT)
+From: "Valdis =?utf-8?Q?Kl=c4=93tnieks?=" <valdis.kletnieks@vt.edu>
+X-Google-Original-From: "Valdis =?utf-8?Q?Kl=c4=93tnieks?="
+ <Valdis.Kletnieks@vt.edu>
+X-Mailer: exmh version 2.9.0 11/07/2018 with nmh-1.7+dev
+To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Christoph Hellwig <hch@lst.de>
+Subject: linux-next 20200508 - build failure in kernel/resource.c w/
+ SPARSEMEM=n
+Mime-Version: 1.0
+Date: Sat, 09 May 2020 07:09:48 -0400
+Message-ID: <17362.1589022588@turing-police>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,132 +71,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konradybcio@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, zhengbin <zhengbin13@huawei.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>, Thomas Gleixner <tglx@linutronix.de>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1619771561=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change adds MDP5 configuration for MSM8x36-based SoCs,
-like MSM8936, 8939 and their APQ variants.
-The configuration is based on MSM8916's, but adds some notable
-features, like ad and pp blocks, along with some register
-changes.
+--===============1619771561==
+Content-Type: multipart/signed; boundary="==_Exmh_1589022587_4501P";
+	 micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7bit
 
-changes since v1:
-- add an ad block
-- add a second mixer @ 0x47000
-- adjust .max_width
-- write a more descriptive commit message
+--==_Exmh_1589022587_4501P
+Content-Type: text/plain; charset=us-ascii
 
-Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 76 ++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+So I did a 'make allmodconfig' and then a 'make' on an RPi4 ARM box, and it
+decided that CONFIG_SPARSEMEM=n was OK (so an include of linux/mmzone.h doesn't
+define some needed values).
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-index e3c4c250238b7..a7df8dbffdc2b 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-@@ -342,6 +342,81 @@ static const struct mdp5_cfg_hw msm8x16_config = {
- 	.max_clk = 320000000,
- };
- 
-+static const struct mdp5_cfg_hw msm8x36_config = {
-+	.name = "msm8x36",
-+	.mdp = {
-+		.count = 1,
-+		.base = { 0x0 },
-+		.caps = MDP_CAP_SMP |
-+			0,
-+	},
-+	.smp = {
-+		.mmb_count = 8,
-+		.mmb_size = 10240,
-+		.clients = {
-+			[SSPP_VIG0] = 1, [SSPP_DMA0] = 4,
-+			[SSPP_RGB0] = 7, [SSPP_RGB1] = 8,
-+		},
-+	},
-+	.ctl = {
-+		.count = 3,
-+		.base = { 0x01000, 0x01200, 0x01400 },
-+		.flush_hw_mask = 0x4003ffff,
-+	},
-+	.pipe_vig = {
-+		.count = 1,
-+		.base = { 0x04000 },
-+		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP |
-+				MDP_PIPE_CAP_SCALE | MDP_PIPE_CAP_CSC |
-+				MDP_PIPE_CAP_DECIMATION,
-+	},
-+	.pipe_rgb = {
-+		.count = 2,
-+		.base = { 0x14000, 0x16000 },
-+		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP |
-+				MDP_PIPE_CAP_DECIMATION,
-+	},
-+	.pipe_dma = {
-+		.count = 1,
-+		.base = { 0x24000 },
-+		.caps = MDP_PIPE_CAP_HFLIP | MDP_PIPE_CAP_VFLIP,
-+	},
-+	.lm = {
-+		.count = 2,
-+		.base = { 0x44000, 0x47000 },
-+		.instances = {
-+				{ .id = 0, .pp = 0, .dspp = 0,
-+				  .caps = MDP_LM_CAP_DISPLAY, },
-+				{ .id = 1, .pp = -1, .dspp = -1,
-+				  .caps = MDP_LM_CAP_WB, },
-+				},
-+		.nb_stages = 8,
-+		.max_width = 2560,
-+		.max_height = 0xFFFF,
-+	},
-+	.pp = {
-+		.count = 1,
-+		.base = { 0x70000 },
-+	},
-+	.ad = {
-+		.count = 1,
-+		.base = { 0x78000 },
-+	},
-+	.dspp = {
-+		.count = 1,
-+		.base = { 0x54000 },
-+	},
-+	.intf = {
-+		.base = { 0x00000, 0x6a800, 0x6b000 },
-+		.connect = {
-+			[0] = INTF_DISABLED,
-+			[1] = INTF_DSI,
-+			[2] = INTF_DSI,
-+		},
-+	},
-+	.max_clk = 366670000,
-+};
-+
- static const struct mdp5_cfg_hw msm8x94_config = {
- 	.name = "msm8x94",
- 	.mdp = {
-@@ -840,6 +915,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
- 	{ .revision = 2, .config = { .hw = &msm8x74v2_config } },
- 	{ .revision = 3, .config = { .hw = &apq8084_config } },
- 	{ .revision = 6, .config = { .hw = &msm8x16_config } },
-+	{ .revision = 8, .config = { .hw = &msm8x36_config } },
- 	{ .revision = 9, .config = { .hw = &msm8x94_config } },
- 	{ .revision = 7, .config = { .hw = &msm8x96_config } },
- 	{ .revision = 11, .config = { .hw = &msm8x76_config } },
--- 
-2.26.2
+The offending code in resource.c is wrapped in a #ifdef CONFIG_DEVICE_PRIVATE,
+which throws a whinge during 'make menuconfig' or 'make allmodconfig':
+
+WARNING: unmet direct dependencies detected for DEVICE_PRIVATE
+  Depends on [n]: ZONE_DEVICE [=n]
+  Selected by [m]:
+  - DRM_NOUVEAU_SVM [=y] && HAS_IOMEM [=y] && DRM_NOUVEAU [=m] && MMU [=y] && STAGING [=y]
+
+after which I end up with CONFIG_DEVICE_PRIVATE=y in the .config file.
+
+make menuconfig tells me:
+Symbol: ZONE_DEVICE [=n]
+   Type  : bool
+   Defined at mm/Kconfig:779
+     Prompt: Device memory (pmem, HMM, etc...) hotplug support
+     Depends on: MEMORY_HOTPLUG [=n] && MEMORY_HOTREMOVE [=n] && SPARSEMEM_VMEMMAP [=n] && ARCH_HAS_PTE_DEVMAP [=n]
+     Location:
+   (1) -> Memory Management options
+   Selects: XARRAY_MULTI [=n]
+
+Pretty obviously a Kconfig whoops, but I have no idea what the proper Kconfig
+fix is for this..
+
+May be related to:
+
+commit 0092908d16c604b8207c2141ec64b0fa4473bb03
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Wed Jun 26 14:27:06 2019 +0200
+
+    mm: factor out a devm_request_free_mem_region helper
+
+which added the #ifdef CONFIG_DEVICE_PRIVATE code in question, except that's a
+pretty old commit...  The only thing I'm sure of is that DEVICE_PRIVATE=y and
+SPARSEMEM=n blows up. :)
+
+  CC      kernel/resource.o
+In file included from ./include/linux/cache.h:5,
+                 from ./include/linux/printk.h:9,
+                 from ./include/linux/kernel.h:15,
+                 from ./include/asm-generic/bug.h:19,
+                 from ./arch/arm/include/asm/bug.h:60,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/mmdebug.h:5,
+                 from ./include/linux/gfp.h:5,
+                 from ./include/linux/slab.h:15,
+                 from kernel/resource.c:17:
+kernel/resource.c: In function '__request_free_mem_region':
+kernel/resource.c:1653:28: error: 'PA_SECTION_SHIFT' undeclared (first use in this function); did you mean 'SECTION_SHIFT'?
+  size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+                            ^~~~~~~~~~~~~~~~
+./include/uapi/linux/kernel.h:11:47: note: in definition of macro '__ALIGN_KERNEL_MASK'
+ #define __ALIGN_KERNEL_MASK(x, mask) (((x) + (mask)) & ~(mask))
+                                               ^~~~
+./include/linux/kernel.h:33:22: note: in expansion of macro '__ALIGN_KERNEL'
+ #define ALIGN(x, a)  __ALIGN_KERNEL((x), (a))
+                      ^~~~~~~~~~~~~~
+kernel/resource.c:1653:9: note: in expansion of macro 'ALIGN'
+  size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+         ^~~~~
+kernel/resource.c:1653:28: note: each undeclared identifier is reported only once for each function it appears in
+  size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+                            ^~~~~~~~~~~~~~~~
+./include/uapi/linux/kernel.h:11:47: note: in definition of macro '__ALIGN_KERNEL_MASK'
+ #define __ALIGN_KERNEL_MASK(x, mask) (((x) + (mask)) & ~(mask))
+                                               ^~~~
+./include/linux/kernel.h:33:22: note: in expansion of macro '__ALIGN_KERNEL'
+ #define ALIGN(x, a)  __ALIGN_KERNEL((x), (a))
+                      ^~~~~~~~~~~~~~
+kernel/resource.c:1653:9: note: in expansion of macro 'ALIGN'
+  size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+         ^~~~~
+In file included from ./include/asm-generic/bug.h:19,
+                 from ./arch/arm/include/asm/bug.h:60,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/mmdebug.h:5,
+                 from ./include/linux/gfp.h:5,
+                 from ./include/linux/slab.h:15,
+                 from kernel/resource.c:17:
+kernel/resource.c:1654:48: error: 'MAX_PHYSMEM_BITS' undeclared (first use in this function); did you mean 'MAX_UINSN_BYTES'?
+  end = min_t(unsigned long, base->end, (1UL << MAX_PHYSMEM_BITS) - 1);
+                                                ^~~~~~~~~~~~~~~~
+./include/linux/kernel.h:848:40: note: in definition of macro '__typecheck'
+   (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+                                        ^
+./include/linux/kernel.h:872:24: note: in expansion of macro '__safe_cmp'
+  __builtin_choose_expr(__safe_cmp(x, y), \
+                        ^~~~~~~~~~
+./include/linux/kernel.h:940:27: note: in expansion of macro '__careful_cmp'
+ #define min_t(type, x, y) __careful_cmp((type)(x), (type)(y), <)
+                           ^~~~~~~~~~~~~
+kernel/resource.c:1654:8: note: in expansion of macro 'min_t'
+  end = min_t(unsigned long, base->end, (1UL << MAX_PHYSMEM_BITS) - 1);
+        ^~~~~
+./include/linux/kernel.h:872:2: error: first argument to '__builtin_choose_expr' not a constant
+  __builtin_choose_expr(__safe_cmp(x, y), \
+  ^~~~~~~~~~~~~~~~~~~~~
+./include/linux/kernel.h:940:27: note: in expansion of macro '__careful_cmp'
+ #define min_t(type, x, y) __careful_cmp((type)(x), (type)(y), <)
+                           ^~~~~~~~~~~~~
+kernel/resource.c:1654:8: note: in expansion of macro 'min_t'
+  end = min_t(unsigned long, base->end, (1UL << MAX_PHYSMEM_BITS) - 1);
+        ^~~~~
+make[1]: *** [scripts/Makefile.build:273: kernel/resource.o] Error 1
+make: *** [Makefile:1726: kernel] Error 2
+
+
+--==_Exmh_1589022587_4501P
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Comment: Exmh version 2.9.0 11/07/2018
+
+iQIVAwUBXraPewdmEQWDXROgAQJVZQ//ZMYAfRDOaGeRcZmhKpgaMq3MR3P7L5Aa
+w4TzHp31ZVyuGt7Tb9o7WZRYlgPHPQoBqWUbI0ZL5Ev80E//7g+fXQqxrPtpUGGR
+LAyOaQ/adybmzSTW79V1Yf2tTIfBwqRQ/WnYQkXl3azERaU62sAGETWoFyVfAspo
+kEBKh07eWfhTk2e0Gh2BQzNw0215kh9pyEhnkDizYkUe9yx/wMBSwrBpO6s3xTCx
+/qJmwzs8VvXE482CAL5qcyzZAr+A8cnWhIzi9tLQHT2hDu+LSY2jENHpvY18fUMr
+nRZtx4oNwz6rW7s7CQMX0QB/yo1ZIahJzGbzOM7Pm+fcMR+uj6THFRj4sElu/bqY
+u/d+dDYj1x7GbBenCiK06lGLHnM0RThzLSKQblGCy93B9hQSJFx5vtmxH/asb7uU
+qUh0F12kGZ9iVBQkEhhcxMtf8mGOAIdGZtqf+wvG1vPIWywf4V0pIIOW4gEk3/RP
+KFlM0/GqulJzCvM1I1t5vufM19vJxcz5W20HldN1y1+zyWL6vw7KpUesHp2342oj
+uRij4XiNEgI5W+dyb5XSJIwvIlTBuKu6JC4dAU19vAbN9sY8Ot5fMmwp6Z8gLX1k
+c0PMIOewx6jKfsg6vJQEV/zy9SMaMM7Tp9ePDkzyAyXYDLzVRhUSCg2HuIeVCHRt
+6xH7VQNFUvg=
+=t/Th
+-----END PGP SIGNATURE-----
+
+--==_Exmh_1589022587_4501P--
+
+--===============1619771561==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1619771561==--
