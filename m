@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594661CC449
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 22:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5841CC44E
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 22:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB1926E395;
-	Sat,  9 May 2020 20:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0766E392;
+	Sat,  9 May 2020 20:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A27A6E393
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 20:00:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0576E392
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 20:00:55 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id C19D880503;
- Sat,  9 May 2020 22:00:23 +0200 (CEST)
-Date: Sat, 9 May 2020 22:00:22 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id B831B804C8;
+ Sat,  9 May 2020 22:00:52 +0200 (CEST)
+Date: Sat, 9 May 2020 22:00:51 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 1/3] panel: simple: Fix size and bpp of BOE NV133FHM-N61
-Message-ID: <20200509200021.GA30802@ravnborg.org>
+Subject: Re: [PATCH 2/3] dt-bindings: display: simple: Add BOE NV133FHM-N62
+Message-ID: <20200509200051.GB30802@ravnborg.org>
 References: <20200508155859.1.I4d29651c0837b4095fb4951253f44036a371732f@changeid>
+ <20200508155859.2.I37c879ef4ec6d4028a3d45728bc3a58060bba175@changeid>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200508155859.1.I4d29651c0837b4095fb4951253f44036a371732f@changeid>
+In-Reply-To: <20200508155859.2.I37c879ef4ec6d4028a3d45728bc3a58060bba175@changeid>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=OPD-m460KaBGQt86si8A:9
+ a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=KCbFThoRF98PNkAbFwoA:9
  a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,63 +45,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas
-
-On Fri, May 08, 2020 at 03:59:00PM -0700, Douglas Anderson wrote:
-> The BOE NV133FHM-N61 is documented in the original commit to be a
-> 13.3" panel, but the size listed in our struct doesn't match.
-> Specifically:
-> 
->   math.sqrt(30.0 * 30.0 + 18.7 * 18.7) / 2.54 ==> 13.92
-> 
-> Searching around on the Internet shows that the size that was in the
-> structure was the "Outline Size", not the "Display Area".  Let's fix
+On Fri, May 08, 2020 at 03:59:01PM -0700, Douglas Anderson wrote:
+> This panel appears to be the same or nearly the same as the BOE
+> NV133FHM-N61, but since (in the very least) it identifies itself as a
+> different model in the EDID we should add a new compatible string for
 > it.
 > 
-> Also the Internet says that this panel supports 262K colors.  That's
-> 6bpp, not 8bpp.
-> 
-> Fixes: b0c664cc80e8 ("panel: simple: Add BOE NV133FHM-N61")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Applied this and the next patch to drm-misc-next.
 
-Added to drm-misc-next as I did not think this had to be updated in
-mainline right now. Let me know if you expect it to land in mainline
-soonish.
-
+Thanks,
 	Sam
 
 > ---
 > 
->  drivers/gpu/drm/panel/panel-simple.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index d6c29543e510..7219436499f1 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1189,10 +1189,10 @@ static const struct drm_display_mode boe_nv133fhm_n61_modes = {
->  static const struct panel_desc boe_nv133fhm_n61 = {
->  	.modes = &boe_nv133fhm_n61_modes,
->  	.num_modes = 1,
-> -	.bpc = 8,
-> +	.bpc = 6,
->  	.size = {
-> -		.width = 300,
-> -		.height = 187,
-> +		.width = 294,
-> +		.height = 165,
->  	},
->  	.delay = {
->  		.hpd_absent_delay = 200,
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index fdd74d07f645..d6cca1479633 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -75,6 +75,8 @@ properties:
+>        - boe,nv101wxmn51
+>          # BOE NV133FHM-N61 13.3" FHD (1920x1080) TFT LCD Panel
+>        - boe,nv133fhm-n61
+> +        # BOE NV133FHM-N62 13.3" FHD (1920x1080) TFT LCD Panel
+> +      - boe,nv133fhm-n62
+>          # BOE NV140FHM-N49 14.0" FHD a-Si FT panel
+>        - boe,nv140fhmn49
+>          # CDTech(H.K.) Electronics Limited 4.3" 480x272 color TFT-LCD panel
 > -- 
 > 2.26.2.645.ge9eca65c58-goog
 _______________________________________________
