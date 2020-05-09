@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20A41CC4A6
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 23:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D071CC4AA
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 23:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526156E3A6;
-	Sat,  9 May 2020 21:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 795FC6E3AE;
+	Sat,  9 May 2020 21:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7351E6E3A6
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 21:09:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8118D6E3AE
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 21:11:08 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 25EB42003E;
- Sat,  9 May 2020 23:09:26 +0200 (CEST)
-Date: Sat, 9 May 2020 23:09:24 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 8CE632003E;
+ Sat,  9 May 2020 23:11:06 +0200 (CEST)
+Date: Sat, 9 May 2020 23:11:04 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Jason Yan <yanaijie@huawei.com>
 Subject: Re: [PATCH] video: fbdev: pxa168fb: make pxa168fb_init_mode() return
  void
-Message-ID: <20200509210924.GB12666@ravnborg.org>
+Message-ID: <20200509211104.GC12666@ravnborg.org>
 References: <20200506061745.19451-1-yanaijie@huawei.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -63,11 +63,6 @@ On Wed, May 06, 2020 at 02:17:45PM +0800, Jason Yan wrote:
 > "0" on line 597
 > 
 > Signed-off-by: Jason Yan <yanaijie@huawei.com>
-
-Thanks, applied to drm-misc-next.
-
-	Sam
-
 > ---
 >  drivers/video/fbdev/pxa168fb.c | 5 +----
 >  1 file changed, 1 insertion(+), 4 deletions(-)
@@ -83,6 +78,12 @@ Thanks, applied to drm-misc-next.
 > -static int pxa168fb_init_mode(struct fb_info *info,
 > +static void pxa168fb_init_mode(struct fb_info *info,
 >  			      struct pxa168fb_mach_info *mi)
+I fixed indent while applying.
+For patches in drivers/gpu/ please use --strict when you verify with
+checkpatch so you catch similar issues yourself.
+
+	Sam
+
 >  {
 >  	struct pxa168fb_info *fbi = info->par;
 >  	struct fb_var_screeninfo *var = &info->var;
