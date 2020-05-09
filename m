@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A321CC499
-	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 22:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BE71CC4A2
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 23:07:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD7B6E3A2;
-	Sat,  9 May 2020 20:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 592AC6E0C5;
+	Sat,  9 May 2020 21:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6EC16E3A2
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 20:48:35 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207667] New: power_dpm_force_performance_level set to "low"
- reduces CPU performance (Vega 8 / Ryzen 2200G)
-Date: Sat, 09 May 2020 20:48:35 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: alekshs@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-207667-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3B906E0C5
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 21:07:10 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 61EBE2003E;
+ Sat,  9 May 2020 23:07:07 +0200 (CEST)
+Date: Sat, 9 May 2020 23:07:00 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Samuel Zou <zou_wei@huawei.com>, Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH -next] drm/i2c/tda998x: Make tda998x_audio_digital_mute
+ static
+Message-ID: <20200509210700.GA12666@ravnborg.org>
+References: <1588819768-11818-1-git-send-email-zou_wei@huawei.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1588819768-11818-1-git-send-email-zou_wei@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=e5mUnYsNAAAA:8
+ a=Vsz2rQJ-eejM4GXTEzYA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,74 +45,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, linux@armlinux.org.uk,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=207667
+On Thu, May 07, 2020 at 10:49:28AM +0800, Samuel Zou wrote:
+> Fix the following sparse warning:
+> 
+> drivers/gpu/drm/i2c/tda998x_drv.c:1136:5: warning:
+> symbol 'tda998x_audio_digital_mute' was not declared. Should it be static?
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
 
-            Bug ID: 207667
-           Summary: power_dpm_force_performance_level set to "low" reduces
-                    CPU performance (Vega 8 / Ryzen 2200G)
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.6.8
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: alekshs@hotmail.com
-        Regression: No
+Thanks.
 
-I've been on a power saving quest lately, trying various different things. One
-of the things that I don't particularly need in my Ryzen 2200G is GPU
-performance. So it made sense to reduce the 400 MHz clock to lower levels to
-gain in power efficiency.
+Pushed to drm-misc-next, so it will appear in next merge window.
 
-I echoed "low" to power_dpm_force_performance_level and indeed my power
-consumption dropped while the frequency went down from 400MHz to 200MHz. I now
-see Vsoc went from 1.01v to 0.91v and Isoc went from 3.5A to 1.75A.
+	Sam
 
-What I did not expect was that I would see performance issues in terms of CPU
-tasks.
-
-CPU tasks like SHA256 hashing are unaffected.
-CPU tasks that involve RAM, like lrzip, cinebench 15 (under wine), etc, show a
-considerable drop in performance. CB15 cpu score loses >10% while an lrzip file
-compression went from 14 to 21 seconds. I also did a geekbench 5 comparison
-(more of that in the end - with links).
-
-I measured cache and memory bandwidth, it seems to be the same whether I have
-power_dpm_force_performance_level set to low or auto, so downclocking the
-integrated graphics of the ryzen didn't impact memory speeds. Maybe it's an
-interactivity thing / irq thing or something that makes tasks wait? Or maybe
-it's a power delay issue as the SOC has to increase watts on demand? I don't
-know - someone has to find out.
-
-I think it's abnormal behavior for the IGP clock to cause CPU applications to
-slow down - especially by more than 50% in some cases:
-
-I've run 2 geekbench 5.0 benchmarks, with the only difference being "low" and
-"auto" on the power_dpm_force_performance_level:
-
-Low: https://browser.geekbench.com/v5/cpu/2096508
-Auto: https://browser.geekbench.com/v5/cpu/2096537
-
-If you scroll down you see some tasks are very heavily affected while others
-aren't.
-
-For example multithreaded raytracing is at 4900 in both instances. But
-multithreaded speech recognition is 900 vs 1800, while AES is 2100 vs 4500.
-Huge differences.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> ---
+>  drivers/gpu/drm/i2c/tda998x_drv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+> index 3c90d7a..9517f52 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -1133,7 +1133,8 @@ static void tda998x_audio_shutdown(struct device *dev, void *data)
+>  	mutex_unlock(&priv->audio_mutex);
+>  }
+>  
+> -int tda998x_audio_digital_mute(struct device *dev, void *data, bool enable)
+> +static int tda998x_audio_digital_mute(struct device *dev, void *data,
+> +				      bool enable)
+>  {
+>  	struct tda998x_priv *priv = dev_get_drvdata(dev);
+>  
+> -- 
+> 2.6.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
