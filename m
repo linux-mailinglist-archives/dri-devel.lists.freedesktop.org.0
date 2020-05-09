@@ -2,35 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A7C1CD24D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F5D1CD247
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:17:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DD66E221;
-	Mon, 11 May 2020 07:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 150E66E200;
+	Mon, 11 May 2020 07:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pruto.48.io (48.io [37.205.10.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78886E33E
+X-Greylist: delayed 528 seconds by postgrey-1.36 at gabe;
+ Sat, 09 May 2020 11:27:01 UTC
+Received: from pruto.48.io (48.io [IPv6:2a01:430:17:1::ffff:361])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930126E33A
  for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 11:27:01 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by pruto.48.io (Postfix) with ESMTPSA id 2620B94C8C;
+ by pruto.48.io (Postfix) with ESMTPSA id 8B55A94C8D;
  Sat,  9 May 2020 13:18:10 +0200 (CEST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 pruto.48.io 2620B94C8C
+DMARC-Filter: OpenDMARC Filter v1.3.2 pruto.48.io 8B55A94C8D
 Authentication-Results: pruto.48.io;
  dmarc=none (p=none dis=none) header.from=48.io
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=48.io; s=default;
- t=1589023090; bh=KARkDbiFWBw5fwU/CBmudfRgDCP3DX1QEy8rHToFI6w=;
- h=From:To:Cc:Subject:Date;
- b=TpYDnwlozMKCJmINVAMNyROL4vRGCGtwNP6WniI11KG05i8Vsb0n9UZ9E9lVXlRNX
- zh9RTmRj2cyjohHodu5zFNwQs2z9zRNEv8QrdY3SElPv7j/4SNe6I0wHTqisB9F+W7
- b8deqXBknDw0ZIQOWg/cP9UrEClkpaJx8ghg32WQ=
+ t=1589023090; bh=D3x6JnWefErO/TazipsOhJ7MREKFaWlPTxw8f1HkRrE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=x6raWZpoEGEB1rMVVeudi3uDHkbdRcFBR3qdMfM94S2C+ipI5PRt8XPBWFQs7A65Z
+ vX/YBgWpdK1EA+XdZV+W5yBx07ICHMsKIse+QhdqRwgplK+qCb3zqTHGklCV2Uh6/B
+ JQYCGPudiqzcw+cABjV8xybSohSW5Nj30x3VZ68o=
 From: srk@48.io
 To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH 0/2] Novena laptop: LVDS-to-eDP bridge
-Date: Sat,  9 May 2020 13:17:30 +0200
-Message-Id: <20200509111732.26102-1-srk@48.io>
+Subject: [PATCH 1/2] dt-bindings: it6251: add bindings for IT6251 LVDS-to-eDP
+ bridge
+Date: Sat,  9 May 2020 13:17:31 +0200
+Message-Id: <20200509111732.26102-2-srk@48.io>
+In-Reply-To: <20200509111732.26102-1-srk@48.io>
+References: <20200509111732.26102-1-srk@48.io>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 11 May 2020 07:17:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,35 +63,125 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Richard Marko <srk@48.io>
+From: Marek Vasut <marex@denx.de>
 
-Contains updated patches I've received from Marek with the following
-changes:
+Add DT bindings for ITE IT6251 LVDS-to-eDP bridge.
 
-- yaml docs migration
-- extended documentation
-
-Tested on a Kosagi Novena laptop with imx6 display controller.
-
-Based on v5.7-rc2, applies to drm-misc-next 5e6ed29d72d2
-
-CC: Marek Vasut <marex@denx.de>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Richard Marko <srk@48.io>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Sean Cross <xobs@kosagi.com>
-
-Marek Vasut (2):
-  dt-bindings: it6251: add bindings for IT6251 LVDS-to-eDP bridge
-  drm/bridge: Add ITE IT6251 bridge driver
-
- .../bindings/display/bridge/ite,it6251.yaml   |  97 +++
- drivers/gpu/drm/bridge/Kconfig                |  12 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/ite-it6251.c           | 582 ++++++++++++++++++
- 4 files changed, 692 insertions(+)
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+ .../bindings/display/bridge/ite,it6251.yaml   | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
- create mode 100644 drivers/gpu/drm/bridge/ite-it6251.c
 
-
-base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
+new file mode 100644
+index 000000000000..8daa44a30fa1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
+@@ -0,0 +1,97 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/ite,it6251.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ITE IT6251 LVDS-to-eDP bridge bindings
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++  - Richard Marko <srk@48.io>
++
++description: |
++  The IT6251 is a high-performance single-chip
++  De-SSC LVDS to DisplayPort converter.
++  Combined with LVDS receiver and DisplayPort Transmitter,
++  the IT6251 supports LVDS input and DisplayPort 1.1a
++  output by conversion function.
++
++properties:
++  compatible:
++    const: ite,it6251
++
++  reg:
++    items:
++      - description: I2C address of the bridge
++      - description: I2C address of the LVDS part
++
++  reg-names:
++    items:
++      - const: bridge
++      - const: lvds
++
++  ports:
++    type: object
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description: |
++         Video port for eDP output (typically panel).
++
++      port@1:
++        type: object
++        description: |
++          Video port for LVDS input.
++
++    required:
++      - port@0
++      - port@1
++
++    additionalProperties: false
++
++  power-supply: true
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - power-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    it6251@5c {
++      compatible = "ite,it6251";
++      reg = <0x5c>, <0x5e>;
++      reg-names = "bridge", "lvds";
++      power-supply = <&reg_display>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          reg = <0>;
++          bridge_out_edp0: endpoint {
++            remote-endpoint = <&panel_in_edp0>;
++          };
++        };
++
++        port@1 {
++          reg = <1>;
++          bridge_in_lvds0: endpoint {
++            remote-endpoint = <&lvds0_out>;
++          };
++        };
++      };
++    };
 -- 
 2.25.1
 
