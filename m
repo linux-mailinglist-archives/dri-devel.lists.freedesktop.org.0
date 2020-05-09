@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3931CD24B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:17:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F9C1CD24F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586246E20B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6ED46E211;
 	Mon, 11 May 2020 07:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from pruto.48.io (48.io [37.205.10.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2756E6E33C
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 11:27:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D6C6E340
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 11:27:01 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by pruto.48.io (Postfix) with ESMTPSA id 7F64194A35;
- Sat,  9 May 2020 13:18:42 +0200 (CEST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 pruto.48.io 7F64194A35
+ by pruto.48.io (Postfix) with ESMTPSA id 1E3A7941C2;
+ Sat,  9 May 2020 13:18:43 +0200 (CEST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 pruto.48.io 1E3A7941C2
 Authentication-Results: pruto.48.io;
  dmarc=none (p=none dis=none) header.from=48.io
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=48.io; s=default;
- t=1589023122; bh=rQmJ3VZbaNqR1Alm9ewytRFpWRVzT3bSjw86Qk2N+54=;
- h=From:To:Cc:Subject:Date;
- b=cYEODrpRKCVHjb09MmTrrjw7uMeQ7CpwSZt+CPRFqhFbsVaf4pU0q5NvWPWHYU6xJ
- QywQWnnRsmlsnsI9D089FXG68rV4mJ+kax4ObiNIXLQqhddvpSQX/4Ijl6fiXdGFAo
- ehBA/Jlkctf6It+4KEUL/zzurg3sJPD+v+m22g7g=
+ t=1589023123; bh=c/MY7PZoZwLslGs8HMBVxVE+62NvRyMuHVjPYAPKs+4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=UOHMEZ4ERL7FOTpdQ/a7y4abmo73w5zIovWv3NyjKeb9jxio79BKN4Pz+v/adwQ1u
+ DKiYVlOVvKpZpLbPXtKcmOjTXPEnszBHPyN4cqv8bvMjzBBOG1YPjHNnPE9eZJkhmo
+ OSQ+ndRqlXibrITPqlb3kUxfKqWRCNUSOwnnoXjE=
 From: srk@48.io
 To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH 0/2] Novena laptop panel
-Date: Sat,  9 May 2020 13:18:32 +0200
-Message-Id: <20200509111834.26335-1-srk@48.io>
+Subject: [PATCH 1/2] dt-bindings: n133hse-ea1: Add Innolux N133HSE panel
+Date: Sat,  9 May 2020 13:18:33 +0200
+Message-Id: <20200509111834.26335-2-srk@48.io>
+In-Reply-To: <20200509111834.26335-1-srk@48.io>
+References: <20200509111834.26335-1-srk@48.io>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 11 May 2020 07:17:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,12 +47,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Richard Marko <srk@48.io>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Richard Marko <srk@48.io>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lubomir Rintel <lkundrak@v3.sk>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Fabio Estevam <fabio.estevam@nxp.com>, Sean Cross <xobs@kosagi.com>,
  Shawn Guo <shawnguo@kernel.org>
@@ -59,39 +61,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Richard Marko <srk@48.io>
+From: Sean Cross <xobs@kosagi.com>
 
-Contains updated patches I've received from Marek with the following
-changes:
+The Innolux N133HSE panel is a 13.3" 1920x1080 panel that contains an
+integrated backlight, and connects via eDP.
 
-- yaml docs migration
-- fixed Fabios email
-- panel commit split into two according to checkpatch request
-- added connector for panel
+It is used in the Kosagi Novena.
 
-Last review also requested more details for panel like timings and
-bus format but these are marked as TBD (timings) in panel datasheet
-and the bridge datasheet is not helpful either.
-
-Tested on a Kosagi Novena laptop with imx6 display controller.
-
-Based on v5.7-rc2, applies to drm-misc-next 5e6ed29d72d2
-
-CC: Marek Vasut <marex@denx.de>
-Cc: Sean Cross <xobs@kosagi.com>
+Signed-off-by: Sean Cross <xobs@kosagi.com>
+Signed-off-by: Richard Marko <srk@48.io>
 Cc: Shawn Guo <shawnguo@kernel.org>
 Cc: Fabio Estevam <fabio.estevam@nxp.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
+To: dri-devel@lists.freedesktop.org
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Sean Cross (2):
-  dt-bindings: n133hse-ea1: Add Innolux N133HSE panel
-  drm/panel: simple: Add Innolux N133HSE panel support
-
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 27 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
-
-base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 393ffc6acbba..756bf6a48e8d 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -139,6 +139,8 @@ properties:
+       - innolux,g121i1-l01
+         # Innolux Corporation 12.1" G121X1-L03 XGA (1024x768) TFT LCD panel
+       - innolux,g121x1-l03
++        # Innolux Corporation 13.3" FHD (1920x1080) TFT LCD panel
++      - innolux,n133hse-ea1
+         # Innolux Corporation 11.6" WXGA (1366x768) TFT LCD panel
+       - innolux,n116bge
+         # InnoLux 15.6" WXGA TFT LCD panel
 -- 
 2.25.1
 
