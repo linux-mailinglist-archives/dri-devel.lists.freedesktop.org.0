@@ -1,89 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D041CD259
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:18:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DE01CC3C4
+	for <lists+dri-devel@lfdr.de>; Sat,  9 May 2020 20:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9FC6E24E;
-	Mon, 11 May 2020 07:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1B06E0D5;
+	Sat,  9 May 2020 18:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12olkn2025.outbound.protection.outlook.com [40.92.23.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A4B89AC3
- for <dri-devel@lists.freedesktop.org>; Sat,  9 May 2020 17:46:20 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE846E0AD;
+ Sat,  9 May 2020 18:52:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TBKGfcQ8r98+P63VZho5A2SLQSV4ExL75O9FkQa6VIk/T4rTL3JMon/OEcD4AGlhCKUiFI+74PA4iWMW4HlpWbt9YimR602MN6Pz1nsXxurU/JyfoAcIS8GkhTajDwJr+DzLI/m0s5oF1AGy9/gmxNp6eCGrcN28J8QZqDzmBKfT1azRMfpofwTA32h7m7JAZiVC20J+JcwgevjMze74BMOt+yGkvM8b3sRMtmpgXT+riTvqSWykjgOM2J5bI7eYa2NUoPRxBKzMlDIouGsOEGXMpN6kAWCb1t/RSgSTd+N5O9h3agP60zHDh6IUY8ii8dF1D4aKVwb/jzSnmXxxUA==
+ b=R864ti6LqPVS1B3wTZX9CCvf0uN00YhmOtkhOubZkGDmRlyBR35/GYmM1iWoPxm3f6iQp/fTCbDkC/i8Uc7/IoIhcmVquFIrPoK9N0EAEL4P0vpfAncaWsVnrtwPxMiI/ulLdQcXWV9Nk2iZJW8JzNuNnr+6Sylm2GNC9klWzKjep6HSaK9vWgNGccwLj/rYkfOO6y3523iBATq9OrHnE+efy+hGQUhXSvazGfEklxyTan0U8qC60KJdj/XokadkNhja5O+VECgA7Mx6Nnckcw0EJZDQ4ASxOX70E24Y5J0pCTFxeOqoI1Ic4FgWHqoWDqaYKXBtEXlapSkB787plw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6P/ysoYMoDg11BymEOP6RDN+u+jBVKqTcBy6+gdoUJo=;
- b=HaGwjTShiPsHf2bMtBae2qw0ymSP8L72gHuyC9M1mluv4YoUPuabiZo/Gzxl7PaUoGwsxwPYiHjWLkbrWCOc5the4+hX9jKAdwoNLD9hGfIy56PylJImCKyQ5VLBTB9TpgbINNVF0eR9uGj913xuvh+S9OdTXchx7ob9QAmUQ5kCIzi+lC9DM8PzLU9qTlpCd42Xpv1/2jpz7DvbX7okWatsRdT6hKX4Wvk7Asmimi8Kg4+AET/EFWYvtTKd24ZONrl7ecHCPp4waxunzsjxDaPTF/8ftBQfmLzt2dg9dy4edQxWVyTRC/+7OeJHUBN6P/wTxVqKUGUCapsQNlGBAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
- header.d=live.ca; arc=none
-Received: from BN8NAM12FT003.eop-nam12.prod.protection.outlook.com
- (2a01:111:e400:fc66::46) by
- BN8NAM12HT163.eop-nam12.prod.protection.outlook.com (2a01:111:e400:fc66::244)
+ bh=ddLhqsdBYVQtYUlz2eYTBDUfGpkYvsnvy1s7sgvSqP0=;
+ b=ctiPrpWy9QzXBFBQcymxzEN4A57iS2+4RIWfQEx0bdqgUji3Fv8fpZAmcu3VjNQ5KR3MK1ZmBn9gUUbr5W1KlhIbXAiuxgkMs5EkF6eac2PxOS/4P+ARm3p5ttjT71izKEU9HJCjrPoYdNjLYO5URVzT/dl2jU6vPjgZEmwdYt+cu8Ajro6QvRsQGFEtwO+0XuP/F21lXEvzrccghz9JazbnFbKwCtfbl4y1mPk2QgAs/VnH5SbvYz/nHGGUzB0c0w+40HZaPD5BaLrbnd+pgZGTVkD/hbpQOFL984kKrO+QEURu9nRbfnxvgtTu5dSU6xFQTIDbDhvDX7bF/V4QHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ddLhqsdBYVQtYUlz2eYTBDUfGpkYvsnvy1s7sgvSqP0=;
+ b=xNvWorOz6CD3q5lvVFYk03AXb8ZX2mVri9TSWP+B2VLxICTINvNNTWh4Nm9BSlzjn/wTzpls8BEUyhG3TW/vpei/165fpdyvD93feToscJ/GxnTvH5lMZbtN7kMCSQPWJsifxMACjfQe0zETr+uFRi1VEYDqllVn/ew8yqI3jHg=
+Received: from MWHPR22CA0018.namprd22.prod.outlook.com (2603:10b6:300:ef::28)
+ by CY4PR12MB1766.namprd12.prod.outlook.com (2603:10b6:903:122::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.11; Sat, 9 May
- 2020 17:46:18 +0000
-Received: from BN6PR04MB0660.namprd04.prod.outlook.com
- (2a01:111:e400:fc66::4f) by BN8NAM12FT003.mail.protection.outlook.com
- (2a01:111:e400:fc66::61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.11 via Frontend
- Transport; Sat, 9 May 2020 17:46:18 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:DEB06BF210B3FDAE410F1418F57562C045E0462DFDFB5843A8DDEA13186CF3F7;
- UpperCasedChecksum:D7FBC1096683728759D117A5BB5DF5E307CAD3BF03DE15731720358CBAFF8653;
- SizeAsReceived:7839; Count:48
-Received: from BN6PR04MB0660.namprd04.prod.outlook.com
- ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
- ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2979.033; Sat, 9 May 2020
- 17:46:18 +0000
-From: Jonathan Bakker <xc-racer2@live.ca>
-To: nki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, airlied@linux.ie, daniel@ffwll.ch,
- kgene@kernel.org, krzk@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/exynos: fimc: Add support for S5PV210 variant
-Date: Sat,  9 May 2020 10:46:00 -0700
-Message-ID: <BN6PR04MB066030DAF82BE31F35A8F3BDA3A30@BN6PR04MB0660.namprd04.prod.outlook.com>
-X-Mailer: git-send-email 2.20.1
-X-ClientProxiedBy: MWHPR14CA0058.namprd14.prod.outlook.com
- (2603:10b6:300:81::20) To BN6PR04MB0660.namprd04.prod.outlook.com
- (2603:10b6:404:d9::21)
-X-Microsoft-Original-Message-ID: <20200509174600.6321-1-xc-racer2@live.ca>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Sat, 9 May
+ 2020 18:52:13 +0000
+Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:ef:cafe::e6) by MWHPR22CA0018.outlook.office365.com
+ (2603:10b6:300:ef::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend
+ Transport; Sat, 9 May 2020 18:52:13 +0000
+Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=permerror action=none
+ header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB01.amd.com (165.204.84.17) by
+ CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.2979.27 via Frontend Transport; Sat, 9 May 2020 18:52:12 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Sat, 9 May 2020
+ 13:52:11 -0500
+Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Sat, 9 May 2020
+ 13:52:11 -0500
+Received: from agrodzovsky-All-Series.amd.com (10.180.168.240) by
+ SATLEXMB02.amd.com (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5
+ via Frontend Transport; Sat, 9 May 2020 13:52:10 -0500
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/6] RFC Support hot device unplug in amdgpu
+Date: Sat, 9 May 2020 14:51:44 -0400
+Message-ID: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jon-hp-6570b.telus (2001:569:fb68:9c00:8067:f823:1e15:7520) by
- MWHPR14CA0058.namprd14.prod.outlook.com (2603:10b6:300:81::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.28 via Frontend Transport; Sat, 9 May 2020 17:46:15 +0000
-X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200509174600.6321-1-xc-racer2@live.ca>
-X-TMN: [ucLRUXUy+mSX0hMA08ILpDuZahbW+IW172qB6WNATTwSDrSs+nTl0TzPx0FH+wYN]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: efe460b7-843c-4eb9-15cc-08d7f440dfd6
-X-MS-TrafficTypeDiagnostic: BN8NAM12HT163:
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(346002)(136003)(376002)(396003)(46966005)(33430700001)(81166007)(2906002)(82310400002)(966005)(2616005)(36756003)(4326008)(26005)(426003)(336012)(33440700001)(86362001)(186003)(44832011)(7696005)(478600001)(5660300002)(6666004)(54906003)(8936002)(82740400003)(47076004)(8676002)(356005)(70586007)(70206006)(110136005)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8ae27a34-671f-4fc9-2bb0-08d7f44a15c0
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1766:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1766495508E000D6E17F8924EAA30@CY4PR12MB1766.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 03982FDC1D
+X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2608ATGCTDg6E58NzDlS3ayKxpuBDKRLqZU8VvFYAaiaJ1qGqmW7e5mJyhLDi9k9s7856AMtEk7Ssuf6cgmVy0FkqGcLAHV4U5rGrB21K2HIJxPQawU8KJeKrKVuRVLdpQA828eRaa1pYPxiu5hYGsv3+s4lhwRKTSrNUGe7yaBT888f2IED++H//l5h3Soo+WhidzRoAzPWruT1q6I2Q6FrvrEv+Sn8G2gDrHGVQoP/Zg1ytGWaVNQA9/XhDN2m
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR04MB0660.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:; SFS:; DIR:OUT; SFP:1901; 
-X-MS-Exchange-AntiSpam-MessageData: nK7xH0aEmE+V5FUMEU50d6c/A/lF28BhUWNl18zz5C7kAYCfg1wHWP15KtHnNBwesrqlB+K1Ws9sYO/SEiv28mPKFvuOROl/fUstOFf2bplEzpGbYXnOc8FsELTMThEPflzz0xFfnfMEK2y6NAfC5umm050MiXT84zvDTu5mmDYcfC4LnGZbSDdMB0vitmMLUHJB/8dCxbyuxiNRj9v2hA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efe460b7-843c-4eb9-15cc-08d7f440dfd6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2020 17:46:18.0961 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8NAM12HT163
-X-Mailman-Approved-At: Mon, 11 May 2020 07:17:28 +0000
+X-Microsoft-Antispam-Message-Info: EiMvav51yb0cHhv+WZftKF3pB2ITGjfaFN+OLSGQGapSNJGyFfCIx7edbG+afqLn31M7H4hZdBp1tg3N5MSk7NOvEtKU2wMB9gL/X3PtwWkb6F/KzXj5YbzZFkkYlE7nzpZ8Lvebx0VSK7b3NF1yTQ5xp1lBAB+Q72WjFa0lC9doqaxsOQ5ey4B2mz1w2K31PvknstcbCWR5+olqVkmOHy9dSbLStvDI/Et9/4PLljHW6N33YVXAv5wroHOzKQoyOcp++ZsnTfBSJVYi+z6HWtJeinTwjN9fvCX+oGSFjXwCzZjh5fLYDXnMMh9+a/kZegdX3H/9V6Fw3n5FtZ1ibCui5WPDHV4oteC2E0rHTdh8/kOGZarTydt+CyzlWzQ6XH5MUBYMiqERKd9L9i0wS7LZlwx+OCIJ61pt38UoESplF0uIYpH9s7S7Exhl2vZzCz+Fp43XaipgqnMBY/yfOL279lNZm7xjPI+/BYjpA3guPiJNkTxT7xbeSoPLkpa+RJoAL9QcwXHKTF0NJl4U+sGtByLuCr6obig2CMqIeaCMwA+/HL+rnUY0/zH35g4zlezcSHmyQVbeEhTb7MUe7cBLSPFoVCtZN6zWqDc+kCs=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2020 18:52:12.4158 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae27a34-671f-4fc9-2bb0-08d7f44a15c0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB01.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1766
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,87 +103,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Bakker <xc-racer2@live.ca>
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net,
+ ckoenig.leichtzumerken@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-S5PV210 can be trivially supported by this driver.  Only one of
-its FIMC devices (#2) supports the same scaling values as Exynos4, and
-it is marked by mainscaler-ext in the DTS (as it is for all of the
-Exynos4 devices).  It's limits are the same as that of id's 0-2 of
-Exynos4 so we don't even need to change the device id check.
+This RFC is a more of a proof of concept then a fully working solution as there are a few unresolved issues we are hopping to get advise on from people on the mailing list.
+Until now extracting a card either by physical extraction (e.g. eGPU with thunderbold connection or by emulation through syfs -> /sys/bus/pci/devices/device_id/remove) 
+would cause random crashes in user apps. The random crashes in apps were mostly due to the app having mapped a device backed BO into it's adress space was still 
+trying to access the BO while the backing device was gone. 
+To answer this first problem Christian suggested to fix the handling of mapped memory in the clients when the device goes away by forcibly unmap all buffers 
+the user processes has by clearing their respective VMAs mapping the device BOs. Then when the VMAs try to fill in the page tables again we check in the fault handler 
+if the device is removed and if so, return an error. This will generate a SIGBUS to the application which can then cleanly terminate. 
+This indeed was done but this in turn created a problem of kernel OOPs were the OOPSes were due to the fact that while the app was terminating because of the SIGBUS 
+it would trigger use after free in the driver by calling to accesses device structures that were already released from the pci remove sequence. 
+This we handled by introducing a 'flush' seqence during device removal were we wait for drm file reference to drop to 0 meaning all user clients directly using this device terminated. 
+With this I was able to cleanly emulate device unplug with X and glxgears running and later emulate device plug back and restart of X and glxgears.
 
-It has been tested with a modified libdrm's test from
-https://github.com/tobiasjakobi/libdrm/tree/ippv2
+But this use case is only partial and as I see it all the use cases are as follwing and the questions it raises.
 
-Signed-off-by: Jonathan Bakker <xc-racer2@live.ca>
----
- drivers/gpu/drm/exynos/exynos_drm_fimc.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+1) Application accesses a BO by opening drm file
+	1.1) BO is mapped into applications address space (BO is CPU visible) - this one we have a solution for by invaldating BO's CPU mapping casuing SIGBUS 
+	     and termination and waiting for drm file refcound to drop to 0 before releasing the device
+	1.2) BO is not mapped into applcation address space (BO is CPU invisible) - no solution yet because how we force the application to terminate in this case ?
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-index 29ab8be8604c..63e1b8ccb8e9 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-@@ -89,6 +89,7 @@ struct fimc_scaler {
-  * @regs: memory mapped io registers.
-  * @lock: locking of operations.
-  * @clocks: fimc clocks.
-+ * @num_clocks: number of fimc clocks
-  * @sc: scaler infomations.
-  * @pol: porarity of writeback.
-  * @id: fimc id.
-@@ -107,6 +108,7 @@ struct fimc_context {
- 	void __iomem	*regs;
- 	spinlock_t	lock;
- 	struct clk	*clocks[FIMC_CLKS_MAX];
-+	int		num_clocks;
- 	struct fimc_scaler	sc;
- 	int	id;
- 	int	irq;
-@@ -1183,7 +1185,7 @@ static int fimc_setup_clocks(struct fimc_context *ctx)
- 	for (i = 0; i < FIMC_CLKS_MAX; i++)
- 		ctx->clocks[i] = ERR_PTR(-EINVAL);
- 
--	for (i = 0; i < FIMC_CLKS_MAX; i++) {
-+	for (i = 0; i < ctx->num_clocks; i++) {
- 		if (i == FIMC_CLK_WB_A || i == FIMC_CLK_WB_B)
- 			dev = fimc_dev->parent;
- 		else
-@@ -1210,6 +1212,9 @@ int exynos_drm_check_fimc_device(struct device *dev)
- {
- 	int id = of_alias_get_id(dev->of_node, "fimc");
- 
-+	if (!of_property_read_bool(dev->of_node, "samsung,mainscaler-ext"))
-+		return -ENODEV;
-+
- 	if (id >= 0 && (BIT(id) & fimc_mask))
- 		return 0;
- 	return -ENODEV;
-@@ -1277,6 +1282,11 @@ static int fimc_probe(struct platform_device *pdev)
- 	ctx->dev = dev;
- 	ctx->id = of_alias_get_id(dev->of_node, "fimc");
- 
-+	if (of_device_is_compatible(dev->of_node, "samsung,s5pv210-fimc"))
-+		ctx->num_clocks = 2;
-+	else
-+		ctx->num_clocks = FIMC_CLKS_MAX;
-+
- 	/* construct formats/limits array */
- 	num_formats = ARRAY_SIZE(fimc_formats) + ARRAY_SIZE(fimc_tiled_formats);
- 	formats = devm_kcalloc(dev, num_formats, sizeof(*formats),
-@@ -1409,6 +1419,7 @@ static const struct dev_pm_ops fimc_pm_ops = {
- static const struct of_device_id fimc_of_match[] = {
- 	{ .compatible = "samsung,exynos4210-fimc" },
- 	{ .compatible = "samsung,exynos4212-fimc" },
-+	{ .compatible = "samsung,s5pv210-fimc" },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, fimc_of_match);
+2) Application accesses a BO by importing a DMA-BUF
+	2.1)  BO is mapped into applications address space (BO is CPU visible) - solution is same as 1.1 but instead of waiting for drm file release we wait for the 
+	      imported dma-buf's file release
+	2.2)  BO is not mapped into applcation address space (BO is CPU invisible) - our solution is to invalidate GPUVM page tables and destroy backing storage for 
+              all exported BOs which will in turn casue VM faults in the importing device and then when the importing driver will try to re-attach the imported BO to 
+	      update mappings we return -ENODEV in the import hook which hopeffuly will cause the user app to terminate.
+
+3) Applcation opens a drm file or imports a dma-bud and holds a reference but never access any BO or does access but never more after device was unplug - how would we 
+   force this applcation to termiante before proceeding with device removal code ? Otherwise the wait in pci remove just hangs for ever.
+
+The attached patches adress 1.1, 2.1 and 2.2, for now only 1.1 fully tested and I am still testing the others but I will be happy for any advise on all the 
+described use cases and maybe some alternative and better (more generic) approach to this like maybe obtaining PIDs of relevant processes through some revere 
+mapping from device file and exported dma-buf files and send them SIGKILL - would this make more sense or any other method ? 
+
+Patches 1-3 address 1.1
+Patch 4 addresses 2.1
+Pathces 5-6 address 2.2
+
+Reference: https://gitlab.freedesktop.org/drm/amd/-/issues/1081
+
+Andrey Grodzovsky (6):
+  drm/ttm: Add unampping of the entire device address space
+  drm/amdgpu: Force unmap all user VMAs on device removal.
+  drm/amdgpu: Wait for all user clients
+  drm/amdgpu: Wait for all clients importing out dma-bufs.
+  drm/ttm: Add destroy flag in TTM BO eviction interface
+  drm/amdgpu: Use TTM MMs destroy interface
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h         |  3 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  7 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 27 ++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     | 22 ++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  9 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  4 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 17 +++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c       |  2 +-
+ drivers/gpu/drm/qxl/qxl_object.c            |  4 +-
+ drivers/gpu/drm/radeon/radeon_object.c      |  2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                | 63 +++++++++++++++++++++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c         |  6 +--
+ include/drm/ttm/ttm_bo_api.h                |  2 +-
+ include/drm/ttm/ttm_bo_driver.h             |  2 +
+ 16 files changed, 139 insertions(+), 34 deletions(-)
+
 -- 
-2.20.1
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
