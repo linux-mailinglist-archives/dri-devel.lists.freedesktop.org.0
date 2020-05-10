@@ -1,35 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3136A1CD260
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:18:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72E61CD258
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:18:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884C06E20F;
-	Mon, 11 May 2020 07:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8D86E249;
+	Mon, 11 May 2020 07:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp09.smtpout.orange.fr
- [80.12.242.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F5186E197
- for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 15:48:47 +0000 (UTC)
-Received: from localhost.localdomain ([92.148.185.155]) by mwinf5d69 with ME
- id d3oc220073MbWjg033ocWy; Sun, 10 May 2020 17:48:44 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 10 May 2020 17:48:44 +0200
-X-ME-IP: 92.148.185.155
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, airlied@linux.ie, daniel@ffwll.ch,
- kgene@kernel.org, krzk@kernel.org
-Subject: [PATCH] drm/exynos: dsi: Remove bridge node reference in error
- handling path in probe function
-Date: Sun, 10 May 2020 17:48:33 +0200
-Message-Id: <20200510154833.238320-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A960B89F8E
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 16:55:43 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id g13so7934434wrb.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 09:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+yH7k9gYgB13VpgYEG3/Nblh9Wnj5tBiFfhJeIl7DDs=;
+ b=WZbX19e3hZcwLTtyejO//MC5pLm3CMTwEEijlQoQvY7YPA6Ak7elm34dF6giZQ5LRR
+ n4NLp2mH5WdAQhauFMYLXz7vCuXH9z2ONe4zBnkoX2b+3+euVm2FQC5TxzqTTAwXG4GS
+ 3Z0Sk07D/l76RQCp1wBVCnMYCpML4m6Beab4yAXEFAFjNuDqYR477//SaltCfhgQDAKv
+ YZ+lBOpLJRZcQYcTM2Dm4/YITYssgZG2nGt63nQ7aE3zK56h87pYI8mJHFFNVYFtx7LG
+ 11vyofZFHHTbXvw3e91k8tO7502muM8M3dtZbAqEQT5eVDPnGwqoTLkNBYwpvGAcjV3B
+ uy+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+yH7k9gYgB13VpgYEG3/Nblh9Wnj5tBiFfhJeIl7DDs=;
+ b=EOadZVyAJ+OOA+HTZ2fdzWZ8eotWD6VjChWMBu02mVHnythIb37lBObJopK+Ag++EJ
+ GZQReV6jROTo/pYH3X2x8j9czPnlrfqW/AnjE/VRldUZ6tmYGwCErZV2kpySISyar0UV
+ 4QeeJBAgQo2LqPyrij4mWSRwrKP8GfgiPVRdrGnnVaJViyIXb0/Y4RmF+HDH1mOV407R
+ aGPjNOVBF1for8d041gnKMVxz/UOEIynmndkdJTNtSAXwVHSwCIKLCzxRXaoHf39sE/r
+ 5VTDBdKwwWLdPkAVpkJnHRVv/PH1ArIYm3IGYlHQE8Gw8IBcLQ+6KjnnDMozcugmxX+5
+ UtMA==
+X-Gm-Message-State: AGi0PuY1B8nM4GZUK+JRGqIluoe2/+7nTTmK3R90wwBtACHO2BScIpOW
+ Hs7bzWhkOtNARE1vOO2UQ67Dl2/jCvQ=
+X-Google-Smtp-Source: APiQypKO460W1UO0ySq0DC1F1clgOS2zZOWECa6qEnCMEpsIWu09PeM5rrGZWTiQ+sx8PX0ES5vpfw==
+X-Received: by 2002:adf:a74b:: with SMTP id e11mr13248517wrd.99.1589129742124; 
+ Sun, 10 May 2020 09:55:42 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0:1cc8:b1f1:a2b8:a1ee])
+ by smtp.gmail.com with ESMTPSA id
+ g15sm13637670wrp.96.2020.05.10.09.55.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 May 2020 09:55:41 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH 00/15][RFC] Add regulator devfreq support to Panfrost
+Date: Sun, 10 May 2020 18:55:23 +0200
+Message-Id: <20200510165538.19720-1-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 11 May 2020 07:17:27 +0000
+X-Mailman-Approved-At: Mon, 11 May 2020 07:17:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,120 +71,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'exynos_dsi_parse_dt()' takes a reference to 'dsi->in_bridge_node'.
-This must be released in the error handling path.
-
-This patch is similar to commit 70505c2ef94b ("drm/exynos: dsi: Remove bridge node reference in removal")
-which fixed the issue in the remove function.
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-A Fixes tag could be required, but I've not been able to figure out which
-one to use.
-
-I think that moving 'exynos_dsi_parse_dt()' in the probe could simplify
-the error handling in the probe function. However, I don't know this code
-well enough to play this game. So better safe than sorry.
-So I've kept the logic in place and added goto everywhere. :(
----
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 28 ++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 902938d2568f..2aa74c3dc733 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1770,14 +1770,17 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	if (ret) {
- 		if (ret != -EPROBE_DEFER)
- 			dev_info(dev, "failed to get regulators: %d\n", ret);
--		return ret;
-+		goto err_put_in_bridge_node;
- 	}
- 
- 	dsi->clks = devm_kcalloc(dev,
- 			dsi->driver_data->num_clks, sizeof(*dsi->clks),
- 			GFP_KERNEL);
--	if (!dsi->clks)
--		return -ENOMEM;
-+	if (!dsi->clks) {
-+		ret = -ENOMEM;
-+		goto err_put_in_bridge_node;
-+	}
-+
- 
- 	for (i = 0; i < dsi->driver_data->num_clks; i++) {
- 		dsi->clks[i] = devm_clk_get(dev, clk_names[i]);
-@@ -1791,7 +1794,8 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 
- 			dev_info(dev, "failed to get the clock: %s\n",
- 					clk_names[i]);
--			return PTR_ERR(dsi->clks[i]);
-+			ret = PTR_ERR(dsi->clks[i]);
-+			goto err_put_in_bridge_node;
- 		}
- 	}
- 
-@@ -1799,19 +1803,22 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	dsi->reg_base = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(dsi->reg_base)) {
- 		dev_err(dev, "failed to remap io region\n");
--		return PTR_ERR(dsi->reg_base);
-+		ret = PTR_ERR(dsi->reg_base);
-+		goto err_put_in_bridge_node;
- 	}
- 
- 	dsi->phy = devm_phy_get(dev, "dsim");
- 	if (IS_ERR(dsi->phy)) {
- 		dev_info(dev, "failed to get dsim phy\n");
--		return PTR_ERR(dsi->phy);
-+		ret = PTR_ERR(dsi->phy);
-+		goto err_put_in_bridge_node;
- 	}
- 
- 	dsi->irq = platform_get_irq(pdev, 0);
- 	if (dsi->irq < 0) {
- 		dev_err(dev, "failed to request dsi irq resource\n");
--		return dsi->irq;
-+		ret = dsi->irq;
-+		goto err_put_in_bridge_node;
- 	}
- 
- 	irq_set_status_flags(dsi->irq, IRQ_NOAUTOEN);
-@@ -1820,7 +1827,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 					dev_name(dev), dsi);
- 	if (ret) {
- 		dev_err(dev, "failed to request dsi irq\n");
--		return ret;
-+		goto err_put_in_bridge_node;
- 	}
- 
- 	platform_set_drvdata(pdev, &dsi->encoder);
-@@ -1828,6 +1835,11 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	pm_runtime_enable(dev);
- 
- 	return component_add(dev, &exynos_dsi_component_ops);
-+
-+err_put_in_bridge_node:
-+	of_node_put(dsi->in_bridge_node);
-+
-+	return ret;
- }
- 
- static int exynos_dsi_remove(struct platform_device *pdev)
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpUaGlzIHNlcmllIGNsZWFucyBhbmQgYWRkcyByZWd1bGF0b3Igc3VwcG9ydCB0byBQYW5m
+cm9zdCBkZXZmcmVxLgpUaGlzIGlzIG1vc3RseSBiYXNlZCBvbiBjb21tZW50IGZvciB0aGUgZnJl
+c2hseSBpbnRyb2R1Y2VkIGxpbWEKZGV2ZnJlcS4KCldlIG5lZWQgdG8gYWRkIHJlZ3VsYXRvciBz
+dXBwb3J0IGJlY2F1c2Ugb24gQWxsd2lubmVyIHRoZSBHUFUgT1BQCnRhYmxlIGRlZmluZXMgYm90
+aCBmcmVxdWVuY2llcyBhbmQgdm9sdGFnZXMuCgpGaXJzdCBwYXRjaGVzIFswMS0wOF0gc2hvdWxk
+IG5vdCBjaGFuZ2UgdGhlIGFjdHVhbCBiZWhhdmlvcgphbmQgaW50cm9kdWNlIGEgcHJvcGVyIHBh
+bmZyb3N0X2RldmZyZXEgc3RydWN0LgoKRmF0Y2hlcyBhZnRlciBhcmUgV0lQIGFuZCBhZGQgcmVn
+dWxhdG9yIHN1cHBvcnQuCgpIb3dldmVyIEkgZ290IHNldmVyYWwgaXNzdWVzIGZpcnN0IHdlIG5l
+ZWQgdG8gYXZvaWQgZ2V0dGluZyByZWd1bGF0b3IKaWYgZGV2ZnJlcSBnZXQgYnkgaXRzZWxmIHRo
+ZSByZWd1bGF0b3IsIGJ1dCBhcyBvZiB0b2RheSB0aGUgT1BQCmZyYW1ld29yayBvbmx5IGdldCBh
+bmQgZG9uJ3QgZW5hYmxlIHRoZSByZWd1bGF0b3IuLi4KQW4gSEFDSyBmb3Igbm93IGlzIHRvIGFk
+ZCByZWd1bGF0b3ItYWx3YXlzLW9uIGluIHRoZSBkZXZpY2UtdHJlZS4KClRoZW4gd2hlbiBJIGVu
+YWJsZSBkZXZmcmVxIEkgZ290IHNldmVyYWwgZmF1bHRzIGxpa2UuCkknbSB0b3RhbGx5IG5vb2Ig
+b24gR1BVIHNjaGVkL2ZhdWx0IGFuZCBjb3VsZG4ndCBiZSBoZWxwZnVsbCB3aXRoIHRoaXMuCgpJ
+IGdvdCB0aGlzIHJ1bm5pbmcgZ2xtYXJrMiBvbiBUNzIwIChBbGx3aW5uZXIgSDYpIHdpdGggTWVz
+YSAyMC4wLjUuCiMgZ2xtYXJrMi1lczItZHJtCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KICAgIGdsbWFyazIgMjAxNy4wNwo9PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgICBPcGVuR0wg
+SW5mb3JtYXRpb24KICAgIEdMX1ZFTkRPUjogICAgIFBhbmZyb3N0CiAgICBHTF9SRU5ERVJFUjog
+ICBNYWxpIFQ3MjAgKFBhbmZyb3N0KQogICAgR0xfVkVSU0lPTjogICAgT3BlbkdMIEVTIDIuMCBN
+ZXNhIDIwLjAuNQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09CgpbICAgOTMuNTUwMDYzXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogR1BVIEZhdWx0
+IDB4MDAwMDAwODggKFVOS05PV04pIGF0IDB4MDAwMDAwMDA4MDExNzEwMApbICAgOTQuMDQ1NDAx
+XSBwYW5mcm9zdCAxODAwMDAwLmdwdTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTAsIGNvbmZpZz0w
+eDM3MDAsIHN0YXR1cz0weDgsIGhlYWQ9MHgyMWQ2YzAwLCB0YWlsPTB4MjFkNmMwMCwgc2NoZWRf
+am9iPTAwMDAwMDAwZTNjMjEzMmYKClsgIDMyOC44NzEwNzBdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1
+OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEgMHgwMDAwMDAwMDAwMDAwMDAwClsg
+IDMyOC44NzEwNzBdIFJlYXNvbjogVE9ETwpbICAzMjguODcxMDcwXSByYXcgZmF1bHQgc3RhdHVz
+OiAweEFBMDAwM0MyClsgIDMyOC44NzEwNzBdIGRlY29kZWQgZmF1bHQgc3RhdHVzOiBTTEFWRSBG
+QVVMVApbICAzMjguODcxMDcwXSBleGNlcHRpb24gdHlwZSAweEMyOiBUUkFOU0xBVElPTl9GQVVM
+VF9MRVZFTDIKWyAgMzI4Ljg3MTA3MF0gYWNjZXNzIHR5cGUgMHgzOiBXUklURQpbICAzMjguODcx
+MDcwXSBzb3VyY2UgaWQgMHhBQTAwClsgIDMyOS4zNzMzMjddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1
+OiBncHUgc2NoZWQgdGltZW91dCwganM9MSwgY29uZmlnPTB4MzcwMCwgc3RhdHVzPTB4OCwgaGVh
+ZD0weGExYTQ5MDAsIHRhaWw9MHhhMWE0OTAwLCBzY2hlZF9qb2I9MDAwMDAwMDA3YWMzMTA5Nwpb
+ICAzMjkuMzg2NTI3XSBwYW5mcm9zdCAxODAwMDAwLmdwdToganMgZmF1bHQsIGpzPTAsIHN0YXR1
+cz1EQVRBX0lOVkFMSURfRkFVTFQsIGhlYWQ9MHhhMWE0YzAwLCB0YWlsPTB4YTFhNGMwMApbICAz
+MjkuMzk2MjkzXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTAs
+IGNvbmZpZz0weDM3MDAsIHN0YXR1cz0weDU4LCBoZWFkPTB4YTFhNGMwMCwgdGFpbD0weGExYTRj
+MDAsIHNjaGVkX2pvYj0wMDAwMDAwMDA0YzkwMzgxClsgIDMyOS40MTE1MjFdIHBhbmZyb3N0IDE4
+MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEgMHgwMDAwMDAwMDAw
+MDAwMDAwClsgIDMyOS40MTE1MjFdIFJlYXNvbjogVE9ETwpbICAzMjkuNDExNTIxXSByYXcgZmF1
+bHQgc3RhdHVzOiAweEFBMDAwM0MyClsgIDMyOS40MTE1MjFdIGRlY29kZWQgZmF1bHQgc3RhdHVz
+OiBTTEFWRSBGQVVMVApbICAzMjkuNDExNTIxXSBleGNlcHRpb24gdHlwZSAweEMyOiBUUkFOU0xB
+VElPTl9GQVVMVF9MRVZFTDIKWyAgMzI5LjQxMTUyMV0gYWNjZXNzIHR5cGUgMHgzOiBXUklURQpb
+ICAzMjkuNDExNTIxXSBzb3VyY2UgaWQgMHhBQTAwCgpUaGFua3MgZm9yIHlvdXIgcmV2aWV3cywg
+aGVscCBvbiB0aGlzIHNlcmllLApDbGVtZW50CgpDbMOpbWVudCBQw6lyb24gKDE1KToKICBkcm0v
+cGFuZnJvc3Q6IGF2b2lkIHN0YXRpYyBkZWNsYXJhdGlvbgogIGRybS9wYW5mcm9zdDogY2xlYW4g
+aGVhZGVycyBpbiBkZXZmcmVxCiAgZHJtL3BhbmZyb3N0OiBkb24ndCB1c2UgcGZkZXZmcmVxLmJ1
+c3lfY291bnQgdG8ga25vdyBpZiBodyBpcyBpZGxlCiAgZHJtL3BhbmZyb3N0OiBpbnRyb2R1Y2Ug
+cGFuZnJvc3RfZGV2ZnJlcSBzdHJ1Y3QKICBkcm0vcGFuZnJvc3Q6IHVzZSBzcGlubG9jayBpbnN0
+ZWFkIG9mIGF0b21pYwogIGRybS9wYW5mcm9zdDogcHJvcGVybHkgaGFuZGxlIGVycm9yIGluIHBy
+b2JlCiAgZHJtL3BhbmZyb3N0OiB1c2UgZGV2aWNlX3Byb3BlcnR5X3ByZXNlbnQgdG8gY2hlY2sg
+Zm9yIE9QUAogIGRybS9wYW5mcm9zdDogbW92ZSBkZXZmcmVxX2luaXQoKS9maW5pKCkgaW4gZGV2
+aWNlCiAgZHJtL3BhbmZyb3N0OiBkeW5hbWljYWxseSBhbGxvYyByZWd1bGF0b3JzCiAgZHJtL3Bh
+bmZyb3N0OiBhZGQgcmVndWxhdG9ycyB0byBkZXZmcmVxCiAgZHJtL3BhbmZyb3N0OiBzZXQgZGV2
+ZnJlcSBjbG9jayBuYW1lCiAgYXJtNjQ6IGRlZmNvbmZpZzogRW5hYmxlIGRldmZyZXEgY29vbGlu
+ZyBkZXZpY2UKICBhcm02NDogZHRzOiBhbGx3aW5uZXI6IGg2OiBBZGQgY29vbGluZyBtYXAgZm9y
+IEdQVQogIFtETyBOT1QgTUVSR0VdIGFybTY0OiBkdHM6IGFsbHdpbm5lcjogaDY6IEFkZCBHUFUg
+T1BQIHRhYmxlCiAgW0RPIE5PVCBNRVJHRV0gYXJtNjQ6IGR0czogYWxsd2lubmVyOiBmb3JjZSBH
+UFUgcmVndWxhdG9yIHRvIGJlIGFsd2F5cwoKIC4uLi9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1i
+ZWVsaW5rLWdzMS5kdHMgICB8ICAgMSArCiBhcmNoL2FybTY0L2Jvb3QvZHRzL2FsbHdpbm5lci9z
+dW41MGktaDYuZHRzaSAgfCAxMDIgKysrKysrKysrKwogYXJjaC9hcm02NC9jb25maWdzL2RlZmNv
+bmZpZyAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
+YW5mcm9zdF9kZXZmcmVxLmMgICB8IDE5MCArKysrKysrKysrKystLS0tLS0KIGRyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmggICB8ICAzMiArKy0KIGRyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYyAgICB8ICA1NiArKysrLS0KIGRyaXZlcnMv
+Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCAgICB8ICAxNCArLQogZHJpdmVycy9n
+cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jICAgICAgIHwgIDE1ICstCiBkcml2ZXJzL2dw
+dS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMgICAgICAgfCAgMTAgKy0KIDkgZmlsZXMgY2hh
+bmdlZCwgMzEwIGluc2VydGlvbnMoKyksIDExMSBkZWxldGlvbnMoLSkKCi0tIAoyLjIwLjEKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
