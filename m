@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A3B1CEDC8
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC821CEDB8
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4F16E86B;
-	Tue, 12 May 2020 07:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 127566E849;
+	Tue, 12 May 2020 07:09:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFF06E47A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:46:01 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id y16so3865775wrs.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:46:01 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D62E36E47A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:49:00 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id k12so18078587wmj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Q2BxZKtzYVJdnhKDk6kHCLe3qRzlCf6s3v+h+pLemAg=;
- b=vt3tIM8SXmyGE76DoZTOdmElnTIl4bMIltVntIAc0he88Sp9qJRB/V82zw+WrS5ihG
- EJG7w8kdcUMgSuW4nZHMeP55c/FdVaRUqO93oTbSH/bkPfFrlHPMjgPH5/AEfRuoUu/U
- Ak1f5Qmm6SUMcApwnUw266CxwLZzc4MxBgHsCu1MEztG1efH6KjzjCsHLbufXO/JHkyg
- 4qqYKPjp/oW9mizuM4Pn3HGbqhzheYTNDFkaLvftrCVNM/VYgWqz1bSWSuZetRx/q5K6
- et6c5WXisyQm9pdE/trnsAi0Rc4P282oAY4w74LRTcifJkmjSnGbQrMkFE8BBK/CLrHU
- kIFw==
+ bh=BjHVuVtBWSdENXXYiinZ4uI8mae/pV5Z0nfAWffhAkY=;
+ b=k5UvlXD0wz5vs3V4Z1hLq6biCClQbT+SzjjXqeAWFhwqVN+GA6qeV+oLnHhDuhXDcw
+ MVX0TgpYBV2DjO6YTj2/kloLSz+106Qm/fu9Fbt1wd7Q9aE3k+RpBPuqoe4B/zYzxdUq
+ BWm+yMkxszNTBcpnFcQs0Byn+efwRCTcgItZvKIAw201wqDgUXYW7R4/7Cfdosha29v5
+ hG7krpuspf6IGF5pvCDjIZnLghI9pcVt8KAQQzkY5BjrBvfl67q0XBW22UMkTBRK4S4F
+ DLCrrH5eHw06BLRl64MM4YyqwuAW3hNxzvNkr+tVHeL/B126T/5EI79diNMMOpSg7Ksv
+ 7m/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Q2BxZKtzYVJdnhKDk6kHCLe3qRzlCf6s3v+h+pLemAg=;
- b=tBaQyDBDdlkCwxAJsWk+n1zCjlLr8o1snBJYGaDVUUqu2XVWa3/F9Hs5oEfLodd7SI
- u+YqPuxOw/MyJrRHYoJdSf6JFvvpG5SBmTArBMPdwS0GtsYpWj6fbD6P11dPIQCInX2w
- qRIJ9KkO9frS3CydVA5YH1TFAH7AgIR/rhvhV1RYT3im92jTVEJdMBF5yNhOxB1cxXzk
- w87I4FbcEYyH8vIhBw/3bGh7jPnf4OCUv+eGZ00ugunJiSY/GQkaq5JSBgXY93tHOkF2
- KnowiyzPWUJIEOAwonCfM/v9XCLqXjm3lvtUfah6KNGOg6/zkq91Dv/F8IZzahxgRO/6
- BbMw==
-X-Gm-Message-State: AGi0PuZLo2OKdXLOZDgFgswYhPLxYEo1vlzLLFdlEzauA+SbROuN3I6N
- 8HbrvUSYdQ14uGuowOu38C/Q7A==
-X-Google-Smtp-Source: APiQypIZNeq7ry3Hj06e+ssDcQCx46NyjFOu4uu1tNoXA1NhJj0eKvkluOlZpeHyLFtt4scGQaFK5w==
-X-Received: by 2002:adf:810a:: with SMTP id 10mr19863253wrm.101.1589204759978; 
- Mon, 11 May 2020 06:45:59 -0700 (PDT)
+ bh=BjHVuVtBWSdENXXYiinZ4uI8mae/pV5Z0nfAWffhAkY=;
+ b=OriBfCDL9mIEQk/6u9d25e/aja7t6eUaTMnnz4tPQm2ZQnF4qAU/oqbExZny1Ivzsb
+ dW2amVTiny9HuuqsREZc5S9TR46bQhdMjPR4HHPsfjqYMRFEzFyvz79sW2MEa6D8ZtBf
+ 0Y6Oxcc0krfJtDNlTZvRTu3a+7RUTzD4XpWR9j5Li1qkQMgQ1mX8/auIA85KaMtO20sF
+ wJKiC408MH+IraQ/sd1ssU6Pb8vOtIOVSLijYsN5BLzkmeZOX7U04H9MqVPGiCl75nye
+ 7X22C08grXP5/6EwEYMPll5HwjEvHzL7+hLh/SxsUGxCE3DKgsUjsF24PgZYcE7/cYwD
+ elnQ==
+X-Gm-Message-State: AGi0PuZXg3wGfol/HjdXAxpLdf3GVv/Q6ZsVE90ISga8Gj2kBUcvcOYM
+ LRozQe9ZShQ824QK//aXXi5s8w==
+X-Google-Smtp-Source: APiQypLt90h3E4QOKCct7odHvidKqDIEKMSux9lbzqVHNQsX/QafgI6SnH5ciyxpl3mgK+o2GNzOyg==
+X-Received: by 2002:a1c:df83:: with SMTP id
+ w125mr22393555wmg.140.1589204939170; 
+ Mon, 11 May 2020 06:48:59 -0700 (PDT)
 Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
- by smtp.gmail.com with ESMTPSA id q184sm27152043wma.25.2020.05.11.06.45.58
+ by smtp.gmail.com with ESMTPSA id a24sm26771229wmb.24.2020.05.11.06.48.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:45:58 -0700 (PDT)
-Date: Mon, 11 May 2020 14:45:55 +0100
+ Mon, 11 May 2020 06:48:58 -0700 (PDT)
+Date: Mon, 11 May 2020 14:48:54 +0100
 From: Quentin Perret <qperret@google.com>
 To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v7 06/15] PM / EM: change name of em_pd_energy to
- em_cpu_energy
-Message-ID: <20200511134555.GC29112@google.com>
+Subject: Re: [PATCH v7 07/15] Documentation: power: update Energy Model
+ description
+Message-ID: <20200511134854.GD29112@google.com>
 References: <20200511111912.3001-1-lukasz.luba@arm.com>
- <20200511111912.3001-7-lukasz.luba@arm.com>
+ <20200511111912.3001-8-lukasz.luba@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200511111912.3001-7-lukasz.luba@arm.com>
+In-Reply-To: <20200511111912.3001-8-lukasz.luba@arm.com>
 X-Mailman-Approved-At: Tue, 12 May 2020 07:09:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,13 +92,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 11 May 2020 at 12:19:03 (+0100), Lukasz Luba wrote:
-> Energy Model framework supports now other devices than CPUs. Refactor some
-> of the functions in order to prevent wrong usage. The old function
-> em_pd_energy has to generic name. It must not be used without proper
-> cpumask pointer, which is possible only for CPU devices. Thus, rename it
-> and add proper description to warn of potential wrong usage for other
-> devices.
+On Monday 11 May 2020 at 12:19:04 (+0100), Lukasz Luba wrote:
+> The Energy Model framework supports also other devices than CPUs. Update
+> related information and add description for the new usage.
 > 
 > Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 > Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
