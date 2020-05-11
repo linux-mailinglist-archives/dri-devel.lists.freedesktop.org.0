@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D86F1CDA64
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129621CDA71
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362B26E45C;
-	Mon, 11 May 2020 12:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C176E45D;
+	Mon, 11 May 2020 12:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2A26E459
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 12:45:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99AB6E45D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 12:48:17 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207595] [amdgpu] Displayport MST not functional on AMD Stoney
-Date: Mon, 11 May 2020 12:45:44 +0000
+Date: Mon, 11 May 2020 12:48:17 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207595-2300-7JA4AXoz0L@https.bugzilla.kernel.org/>
+Message-ID: <bug-207595-2300-vRZWSgGT5n@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207595-2300@https.bugzilla.kernel.org/>
 References: <bug-207595-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,9 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207595
 
---- Comment #9 from Alex Deucher (alexdeucher@gmail.com) ---
-You can ask any KMS driver via the drmModeGetResources() function call in
-libdrm.
+--- Comment #10 from Alex Deucher (alexdeucher@gmail.com) ---
+If using X, you can also use `xrandr --verbose` to see number of crtcs.
 
 -- 
 You are receiving this mail because:
