@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB6F1CD559
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 11:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F271CD563
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 11:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 287116E423;
-	Mon, 11 May 2020 09:36:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1B66E25B;
+	Mon, 11 May 2020 09:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 635156E40C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 09:36:11 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s8so10028365wrt.9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 02:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IXtgkwEKhYEZnbiVmPnyyxns5353kZGafB3yoiCz/yA=;
- b=ACEawIgwtDIBNVxSqVsPcjBwrLsMJwU+gMPOmYAxc6I0EbukPbQPQDBjkyImxFtKZm
- pLEEANyyBULhfZ3zJZsStEAWdeV5l527GZ2H6P1Im9qVThP2UpvK00/qNsHy2JVgDGdl
- pauqqXzndPy3jUC8m1mSu+A8Fm+6fgZUyuyFQ=
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79B346E25B;
+ Mon, 11 May 2020 09:37:03 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id k133so14339151oih.12;
+ Mon, 11 May 2020 02:37:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=22vKbxGNsiWZ2IBSP8WLC1U/nWrORH0rvsSsTyvQNUY=;
+ b=NlWCo7dP/VWuLfWFdFpzGMrV/pRiSGLxiW3StDcnOyZmQN6A9Bo+mt7HtKIxnbyb6O
+ B8AODeAWxDTon/SfhHFqtbftk7/4PBAtisXRVFzy741HpZy9IPiF9cB2mD2Ya5YgqZXP
+ +87UId71b74B5yjf3GPRANw9E1YJCdjRX8KDQr7shkLs+jfWI+OBsUBxLcs7mzOy7YYJ
+ ywqwXwg195c6oAZokkPSacE5AUF6ee09oxXDQ4jcwuzoBPpsIuLrPKqAih6S6KqileaB
+ HIjrM8/kIXAzo//UG6HWjEYL0RIDomANSO8k/Q4VxaM5ShEpBqzdVNbpJWPV8pqoOOaD
+ ootA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IXtgkwEKhYEZnbiVmPnyyxns5353kZGafB3yoiCz/yA=;
- b=R01E7ikcQH61iuZ701NXzZM9ZOuv0MDGBGPLl8+AXovS19GGHIxsJ9l4Kd3MykfVdg
- aMiTZtBQfby6Vsl3xPw81Lwvi8u0I8jfD+HaQ133Xt1L9xOghzGnAABJvneSagn4u4FM
- iS6QNEtK5PP5ydQGlZWaLolVoggXHUp0q3PWEChzbMBN3JeDgCqag/CfjOUO0NtTgQUq
- HaPxj80zWzPubNkHrE6ivW078E2+PM09FWsg4KpseJCcUdF5d/4HA4Wq4p/RTiityz89
- 7NdUGE2Fuh/dnBz2igfge+dSW0VeQFa8LxWRefy8jYYS9QPa3zZ38JtEKN8bqkrUvoW6
- mwDw==
-X-Gm-Message-State: AGi0PuYi9sJpIwLupibIPZPFz/JKCEJRjltGLvJZJKDJSlGorPmFa2h/
- 1Rhw5YY3dlG4iLi6PlpX4IXjBl9HNHI=
-X-Google-Smtp-Source: APiQypJ0pAu9IZ8aVc6VGafmEyPcIw0r0+TUNb6AQzG6RM/SDL7Fikpf4j/3p5rL7vEvzaOOnod28g==
-X-Received: by 2002:adf:fac4:: with SMTP id a4mr16982657wrs.134.1589189769876; 
- Mon, 11 May 2020 02:36:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q17sm9013945wmk.36.2020.05.11.02.36.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 02:36:09 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 9/9] drm/shmem-helpers: Simplify dma-buf importing
-Date: Mon, 11 May 2020 11:35:54 +0200
-Message-Id: <20200511093554.211493-10-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=22vKbxGNsiWZ2IBSP8WLC1U/nWrORH0rvsSsTyvQNUY=;
+ b=rGUjA42LbpeREkFwqrrcQmKER4w15QB3AhRUNfOan1a3ESH1SYA/o0F+jLr9qdM+h9
+ shrUrw+7kck48zErbHBipbgT3jrGVNfc8M0lpdUCvde1dDV8OQC2FytcErGJlnxXyGW6
+ hED7WXYO7Kc0bZLypeijzZPDBrNecLJ5EypNuImlNeEcOCNziIkNy+XUUsrkUzr1VkiS
+ YxrcvcnwJWfn5BrunMR9h4t/rJ9XasSYBmyO4pLq3md6JoXP0B9Rvrn1GD3sfGw4V5Om
+ 4RlDTeM+F3e0jOyyYHKHQ25cQqW6AGajCwtdFHWeB53hw4KDfQKc3hnHNcYhoBqHy09i
+ q6aw==
+X-Gm-Message-State: AGi0PuYdSes/JPAZpthA2BeJIo8bVZSHYJNmueSgTcWNNc2qXdAwhOer
+ fRiD/dHPYBuIqqQgalEAhZ7NcMnVupSWy+2NpYk=
+X-Google-Smtp-Source: APiQypItVNPD5CU0V3ko73rD3gop/ALAVZC9z5N0O6VQktyi+IqeOBVFv0YirK83X6veZdCfSKOn3G7NXIZF7PpTQHY=
+X-Received: by 2002:aca:abd0:: with SMTP id
+ u199mr18289341oie.130.1589189822681; 
+ Mon, 11 May 2020 02:37:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
+ <20200511091142.208787-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511091142.208787-3-daniel.vetter@ffwll.ch>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Mon, 11 May 2020 12:36:17 +0300
+Message-ID: <CAFCwf10m14ModSuRbQAsWf5CSJvTeP7YRzcokD=o+m2Pa0TqKg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] misc/habalabs: don't set default fence_ops->wait
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,84 +62,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LSBEaXRjaCB0aGUgLT5wYWdlcyBhcnJheQotIE1ha2UgaXQgYSBwcml2YXRlIGdlbSBibywgd2hp
-Y2ggbWVhbnMgbm8gc2htZW0gb2JqZWN0LCB3aGljaCBtZWFucwogIGZpcmV3b3JrcyBpZiBhbnlv
-bmUgY2FsbHMgZHJtX2dlbV9vYmplY3RfZ2V0X3BhZ2VzLiBCdXQgd2UndmUganVzdAogIG1hZGUg
-c3VyZSB0aGF0J3MgYWxsIGNvdmVyZWQuCgpDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhh
-dC5jb20+CkNjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgpDYzogTm9yYWxmIFRyw7hu
-bmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+ClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVt
-X2hlbHBlci5jIHwgNTkgKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2Vk
-LCAyMyBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
-X3NobWVtX2hlbHBlci5jCmluZGV4IGY3MDExMzM4ODEzZS4uOGM3ZDRmNDIyYjdiIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYwpAQCAtMzUsMjIgKzM1LDEyIEBAIHN0YXRp
-YyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgZHJtX2dlbV9zaG1lbV9mdW5jcyA9
-IHsKIAkubW1hcCA9IGRybV9nZW1fc2htZW1fbW1hcCwKIH07CiAKLS8qKgotICogZHJtX2dlbV9z
-aG1lbV9jcmVhdGUgLSBBbGxvY2F0ZSBhbiBvYmplY3Qgd2l0aCB0aGUgZ2l2ZW4gc2l6ZQotICog
-QGRldjogRFJNIGRldmljZQotICogQHNpemU6IFNpemUgb2YgdGhlIG9iamVjdCB0byBhbGxvY2F0
-ZQotICoKLSAqIFRoaXMgZnVuY3Rpb24gY3JlYXRlcyBhIHNobWVtIEdFTSBvYmplY3QuCi0gKgot
-ICogUmV0dXJuczoKLSAqIEEgc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICogb24gc3VjY2Vz
-cyBvciBhbiBFUlJfUFRSKCktZW5jb2RlZCBuZWdhdGl2ZQotICogZXJyb3IgY29kZSBvbiBmYWls
-dXJlLgotICovCi1zdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKmRybV9nZW1fc2htZW1fY3Jl
-YXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVfdCBzaXplKQorc3RhdGljIHN0cnVjdCBk
-cm1fZ2VtX3NobWVtX29iamVjdCAqCitfX2RybV9nZW1fc2htZW1fY3JlYXRlKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsIHNpemVfdCBzaXplLCBib29sIHByaXZhdGUpCiB7CiAJc3RydWN0IGRybV9n
-ZW1fc2htZW1fb2JqZWN0ICpzaG1lbTsKIAlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iajsKLQlp
-bnQgcmV0OworCWludCByZXQgPSAwOwogCiAJc2l6ZSA9IFBBR0VfQUxJR04oc2l6ZSk7CiAKQEAg
-LTY0LDcgKzU0LDEwIEBAIHN0cnVjdCBkcm1fZ2VtX3NobWVtX29iamVjdCAqZHJtX2dlbV9zaG1l
-bV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90CiAJaWYgKCFvYmotPmZ1bmNz
-KQogCQlvYmotPmZ1bmNzID0gJmRybV9nZW1fc2htZW1fZnVuY3M7CiAKLQlyZXQgPSBkcm1fZ2Vt
-X29iamVjdF9pbml0KGRldiwgb2JqLCBzaXplKTsKKwlpZiAocHJpdmF0ZSkKKwkJZHJtX2dlbV9w
-cml2YXRlX29iamVjdF9pbml0KGRldiwgb2JqLCBzaXplKTsKKwllbHNlCisJCXJldCA9IGRybV9n
-ZW1fb2JqZWN0X2luaXQoZGV2LCBvYmosIHNpemUpOwogCWlmIChyZXQpCiAJCWdvdG8gZXJyX2Zy
-ZWU7CiAKQEAgLTk2LDYgKzg5LDIxIEBAIHN0cnVjdCBkcm1fZ2VtX3NobWVtX29iamVjdCAqZHJt
-X2dlbV9zaG1lbV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90CiAKIAlyZXR1
-cm4gRVJSX1BUUihyZXQpOwogfQorLyoqCisgKiBkcm1fZ2VtX3NobWVtX2NyZWF0ZSAtIEFsbG9j
-YXRlIGFuIG9iamVjdCB3aXRoIHRoZSBnaXZlbiBzaXplCisgKiBAZGV2OiBEUk0gZGV2aWNlCisg
-KiBAc2l6ZTogU2l6ZSBvZiB0aGUgb2JqZWN0IHRvIGFsbG9jYXRlCisgKgorICogVGhpcyBmdW5j
-dGlvbiBjcmVhdGVzIGEgc2htZW0gR0VNIG9iamVjdC4KKyAqCisgKiBSZXR1cm5zOgorICogQSBz
-dHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKiBvbiBzdWNjZXNzIG9yIGFuIEVSUl9QVFIoKS1l
-bmNvZGVkIG5lZ2F0aXZlCisgKiBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCisgKi8KK3N0cnVjdCBk
-cm1fZ2VtX3NobWVtX29iamVjdCAqZHJtX2dlbV9zaG1lbV9jcmVhdGUoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldiwgc2l6ZV90IHNpemUpCit7CisJcmV0dXJuIF9fZHJtX2dlbV9zaG1lbV9jcmVhdGUo
-ZGV2LCBzaXplLCBmYWxzZSk7Cit9CiBFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX3NobWVtX2Ny
-ZWF0ZSk7CiAKIC8qKgpAQCAtMTE1LDcgKzEyMyw2IEBAIHZvaWQgZHJtX2dlbV9zaG1lbV9mcmVl
-X29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKIAlpZiAob2JqLT5pbXBvcnRfYXR0
-YWNoKSB7CiAJCXNobWVtLT5wYWdlc191c2VfY291bnQtLTsKIAkJZHJtX3ByaW1lX2dlbV9kZXN0
-cm95KG9iaiwgc2htZW0tPnNndCk7Ci0JCWt2ZnJlZShzaG1lbS0+cGFnZXMpOwogCX0gZWxzZSB7
-CiAJCWlmIChzaG1lbS0+c2d0KSB7CiAJCQlkbWFfdW5tYXBfc2cob2JqLT5kZXYtPmRldiwgc2ht
-ZW0tPnNndC0+c2dsLApAQCAtMzcxLDcgKzM3OCw3IEBAIGRybV9nZW1fc2htZW1fY3JlYXRlX3dp
-dGhfaGFuZGxlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LAogCXN0cnVjdCBkcm1fZ2VtX3No
-bWVtX29iamVjdCAqc2htZW07CiAJaW50IHJldDsKIAotCXNobWVtID0gZHJtX2dlbV9zaG1lbV9j
-cmVhdGUoZGV2LCBzaXplKTsKKwlzaG1lbSA9IF9fZHJtX2dlbV9zaG1lbV9jcmVhdGUoZGV2LCBz
-aXplLCB0cnVlKTsKIAlpZiAoSVNfRVJSKHNobWVtKSkKIAkJcmV0dXJuIHNobWVtOwogCkBAIC02
-OTUsMzYgKzcwMiwxNiBAQCBkcm1fZ2VtX3NobWVtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LAogCQkJCSAgICBzdHJ1Y3Qgc2dfdGFibGUgKnNndCkKIHsKIAlz
-aXplX3Qgc2l6ZSA9IFBBR0VfQUxJR04oYXR0YWNoLT5kbWFidWYtPnNpemUpOwotCXNpemVfdCBu
-cGFnZXMgPSBzaXplID4+IFBBR0VfU0hJRlQ7CiAJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0
-ICpzaG1lbTsKLQlpbnQgcmV0OwogCiAJc2htZW0gPSBkcm1fZ2VtX3NobWVtX2NyZWF0ZShkZXYs
-IHNpemUpOwogCWlmIChJU19FUlIoc2htZW0pKQogCQlyZXR1cm4gRVJSX0NBU1Qoc2htZW0pOwog
-Ci0Jc2htZW0tPnBhZ2VzID0ga3ZtYWxsb2NfYXJyYXkobnBhZ2VzLCBzaXplb2Yoc3RydWN0IHBh
-Z2UgKiksIEdGUF9LRVJORUwpOwotCWlmICghc2htZW0tPnBhZ2VzKSB7Ci0JCXJldCA9IC1FTk9N
-RU07Ci0JCWdvdG8gZXJyX2ZyZWVfZ2VtOwotCX0KLQotCXJldCA9IGRybV9wcmltZV9zZ190b19w
-YWdlX2FkZHJfYXJyYXlzKHNndCwgc2htZW0tPnBhZ2VzLCBOVUxMLCBucGFnZXMpOwotCWlmIChy
-ZXQgPCAwKQotCQlnb3RvIGVycl9mcmVlX2FycmF5OwotCiAJc2htZW0tPnNndCA9IHNndDsKLQlz
-aG1lbS0+cGFnZXNfdXNlX2NvdW50ID0gMTsgLyogUGVybWFuZW50bHkgcGlubmVkIGZyb20gb3Vy
-IHBvaW50IG9mIHZpZXcgKi8KIAogCURSTV9ERUJVR19QUklNRSgic2l6ZSA9ICV6dVxuIiwgc2l6
-ZSk7CiAKIAlyZXR1cm4gJnNobWVtLT5iYXNlOwotCi1lcnJfZnJlZV9hcnJheToKLQlrdmZyZWUo
-c2htZW0tPnBhZ2VzKTsKLWVycl9mcmVlX2dlbToKLQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2Nr
-ZWQoJnNobWVtLT5iYXNlKTsKLQotCXJldHVybiBFUlJfUFRSKHJldCk7CiB9CiBFWFBPUlRfU1lN
-Qk9MX0dQTChkcm1fZ2VtX3NobWVtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSk7Ci0tIAoyLjI2LjIK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, May 11, 2020 at 12:11 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> It's the default.
+Thanks for catching that.
+
+>
+> Also so much for "we're not going to tell the graphics people how to
+> review their code", dma_fence is a pretty core piece of gpu driver
+> infrastructure. And it's very much uapi relevant, including piles of
+> corresponding userspace protocols and libraries for how to pass these
+> around.
+>
+> Would be great if habanalabs would not use this (from a quick look
+> it's not needed at all), since open source the userspace and playing
+> by the usual rules isn't on the table. If that's not possible (because
+> it's actually using the uapi part of dma_fence to interact with gpu
+> drivers) then we have exactly what everyone promised we'd want to
+> avoid.
+
+We don't use the uapi parts, we currently only using the fencing and
+signaling ability of this module inside our kernel code. But maybe I
+didn't understand what you request. You want us *not* to use this
+well-written piece of kernel code because it is only used by graphics
+drivers ?
+I'm sorry but I don't get this argument, if this is indeed what you meant.
+
+Oded
+
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc:     Olof Johansson <olof@lixom.net>
+> Cc: Oded Gabbay <oded.gabbay@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>  drivers/misc/habanalabs/command_submission.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/misc/habanalabs/command_submission.c b/drivers/misc/habanalabs/command_submission.c
+> index 409276b6374d..cc3ce759b6c3 100644
+> --- a/drivers/misc/habanalabs/command_submission.c
+> +++ b/drivers/misc/habanalabs/command_submission.c
+> @@ -46,7 +46,6 @@ static const struct dma_fence_ops hl_fence_ops = {
+>         .get_driver_name = hl_fence_get_driver_name,
+>         .get_timeline_name = hl_fence_get_timeline_name,
+>         .enable_signaling = hl_fence_enable_signaling,
+> -       .wait = dma_fence_default_wait,
+>         .release = hl_fence_release
+>  };
+>
+> --
+> 2.26.2
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
