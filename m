@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF3D1CDAC0
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 15:05:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01AD1CDAE1
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 15:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6836E45F;
-	Mon, 11 May 2020 13:05:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF7C6E463;
+	Mon, 11 May 2020 13:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF196E459;
- Mon, 11 May 2020 13:05:45 +0000 (UTC)
-IronPort-SDR: 66nntVXWFwjQPiXUWU8fJ8SSfCWAe+ikVnmuB+nfGxlIZHuiQPW3mhEtyUnBSyBn4foBI827Rz
- OllqbB8y/J9A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2020 06:05:16 -0700
-IronPort-SDR: czWtYUcdtIzQmDbozwO30CWXEpq19bMYy+nvT1MOlTO3jsfBOQVEdoX89iVavUbcNSRHmk84Eg
- Pwxa6QIDFK0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,380,1583222400"; d="scan'208";a="250542938"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 11 May 2020 06:05:08 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 11 May 2020 16:05:07 +0300
-Date: Mon, 11 May 2020 16:05:07 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: Fix page flip ioctl format check
-Message-ID: <20200511130507.GK6112@intel.com>
-References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
- <20200417152310.GQ3456981@phenom.ffwll.local>
- <20200417154313.GO6112@intel.com>
- <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
- <20200417182834.GS6112@intel.com>
- <20200508170840.GE1219060@intel.com>
- <CAKMK7uHm+CmM6noHbMnmW9bSzk0dZ=9-CTpu+hxUwFbXmMkZ4g@mail.gmail.com>
- <20200511123715.GI6112@intel.com>
- <CAKMK7uFxObdsNM7PETpipr0AJs_qfTY8NEpQ6M+x9NPC5gUuEg@mail.gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA886E463
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:13:55 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id w19so4430565wmc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=lP07GPYbuRltYo+3Iad70y8ie1wwHj5MTbaRZj1YDeQ=;
+ b=MHRcU1N21CijymViZfspCaPgqvB7i+gNWy7Z8eialF920t3L7RGJBHIDlbiLwXTnVJ
+ Q4Y/U0eIsTDz71ua8yejvofLzOAGJaxzkw99reDCdOkDC4l8fthLfVoQFzyIqBGkPaTq
+ P4T/ipyOY154OHHPBxR4b0gsvmfGk8PZgv3WXgQMzoHhCeJ8xPENil32/7WF4gQCPjPY
+ Rip8Y6FNXCHBY7ncwx3GFcbR6LvKBryMFYPhgils2YszY5GlqcAj6JHih+bqKaWslLjG
+ NRRoBJWD4u4t5KKIOuaQVA4j9QUqqlCQ5xjqnXcxmNnEgcYjdWPB8RliJI9VcBtxZMH1
+ Ho/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=lP07GPYbuRltYo+3Iad70y8ie1wwHj5MTbaRZj1YDeQ=;
+ b=CySnQfIe/gm17zlz6pPXxrEC46Yb39Iz8+p6AE3wSJE15YgdYa71nhYWt1912V7l7c
+ z96x5PiEOV0WjI5OPbhUORlDJmaeO7FeQ10OoZzirGf39e3m0SKC8LOnMQOwLnR0EMhS
+ KNp3XiFFLSXiby8iHxQQFtO+sizNWvn5mMdf6LZIbuwYohzGBJ2zlXj9QVXBYswKttH3
+ DIjaEi0rX/EPYcn4+l0kojAfcbwzb6YR/yC8CuSc37Rmn1hI2y/KlBa2KPsY2BshmTWt
+ HuLmhBJgR5mpgjGCkFi69PNt6JV5D/f3yxOFMOEdaVRjpNud5tAvRNQeEC+8RGlOYgSY
+ LPcA==
+X-Gm-Message-State: AGi0PuZ03Hu0jyOJPi5rlVx4pMGksaOWaHLgzKLMF3X8+uQC+Ui/OT/1
+ AV5o/WUyvx+NwxaxYWgr1UpCLw==
+X-Google-Smtp-Source: APiQypLol12HYGLZrgvY46D5pPBnKKuAHsEXd6z42aK8VIZGakC+Xs6TvxVTRJdQu+wcfaptI12Rhg==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr30511833wmi.187.1589202834321; 
+ Mon, 11 May 2020 06:13:54 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id u10sm4374857wmc.31.2020.05.11.06.13.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 06:13:53 -0700 (PDT)
+Date: Mon, 11 May 2020 14:13:52 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v4] backlight: lms283gf05: Convert to GPIO descriptors
+Message-ID: <20200511131352.vd46nqjv5n3xe74p@holly.lan>
+References: <20200511075318.44792-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uFxObdsNM7PETpipr0AJs_qfTY8NEpQ6M+x9NPC5gUuEg@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200511075318.44792-1-linus.walleij@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,199 +67,229 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- stable <stable@vger.kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Marek Vasut <marex@denx.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, dri-devel@lists.freedesktop.org,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Daniel Mack <daniel@zonque.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 02:41:13PM +0200, Daniel Vetter wrote:
-> On Mon, May 11, 2020 at 2:37 PM Ville Syrj=E4l=E4
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Sat, May 09, 2020 at 12:13:02PM +0200, Daniel Vetter wrote:
-> > > On Fri, May 8, 2020 at 7:09 PM Rodrigo Vivi <rodrigo.vivi@intel.com> =
-wrote:
-> > > >
-> > > > On Fri, Apr 17, 2020 at 09:28:34PM +0300, Ville Syrj=E4l=E4 wrote:
-> > > > > On Fri, Apr 17, 2020 at 08:10:26PM +0200, Daniel Vetter wrote:
-> > > > > > On Fri, Apr 17, 2020 at 5:43 PM Ville Syrj=E4l=E4
-> > > > > > <ville.syrjala@linux.intel.com> wrote:
-> > > > > > >
-> > > > > > > On Fri, Apr 17, 2020 at 05:23:10PM +0200, Daniel Vetter wrote:
-> > > > > > > > On Thu, Apr 16, 2020 at 08:04:20PM +0300, Ville Syrjala wro=
-te:
-> > > > > > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > > > > >
-> > > > > > > > > Revert back to comparing fb->format->format instead fb->f=
-ormat for the
-> > > > > > > > > page flip ioctl. This check was originally only here to d=
-isallow pixel
-> > > > > > > > > format changes, but when we changed it to do the pointer =
-comparison
-> > > > > > > > > we potentially started to reject some (but definitely not=
- all) modifier
-> > > > > > > > > changes as well. In fact the current behaviour depends on=
- whether the
-> > > > > > > > > driver overrides the format info for a specific format+mo=
-difier combo.
-> > > > > > > > > Eg. on i915 this now rejects compression vs. no compressi=
-on changes but
-> > > > > > > > > does not reject any other tiling changes. That's just inc=
-onsistent
-> > > > > > > > > nonsense.
-> > > > > > > > >
-> > > > > > > > > The main reason we have to go back to the old behaviour i=
-s to fix page
-> > > > > > > > > flipping with Xorg. At some point Xorg got its atomic rig=
-hts taken away
-> > > > > > > > > and since then we can't page flip between compressed and =
-non-compressed
-> > > > > > > > > fbs on i915. Currently we get no page flipping for any ga=
-mes pretty much
-> > > > > > > > > since Mesa likes to use compressed buffers. Not sure how =
-compositors are
-> > > > > > > > > working around this (don't use one myself). I guess they =
-must be doing
-> > > > > > > > > something to get non-compressed buffers instead. Either t=
-hat or
-> > > > > > > > > somehow no one noticed the tearing from the blit fallback.
-> > > > > > > >
-> > > > > > > > Mesa only uses compressed buffers if you enable modifiers, =
-and there's a
-> > > > > > > > _loooooooooooot_ more that needs to be fixed in Xorg to ena=
-ble that for
-> > > > > > > > real. Like real atomic support.
-> > > > > > >
-> > > > > > > Why would you need atomic for modifiers? Xorg doesn't even ha=
-ve
-> > > > > > > any sensible framework for atomic and I suspect it never will.
-> > > > > >
-> > > > > > Frankly if no one cares about atomic in X I don't think we shou=
-ld do
-> > > > > > work-arounds for lack of atomic in X.
-> > > > > >
-> > > > > > > > Without modifiers all you get is X tiling,
-> > > > > > > > and that works just fine.
-> > > > > > > >
-> > > > > > > > Which would also fix this issue here you're papering over.
-> > > > > > > >
-> > > > > > > > So if this is the entire reason for this, I'm inclined to n=
-ot do this.
-> > > > > > > > Current Xorg is toast wrt modifiers, that's not news.
-> > > > > > >
-> > > > > > > Works just fine. Also pretty sure modifiers are even enabled =
-by
-> > > > > > > default now in modesetting.
-> > > > > >
-> > > > > > Y/CSS is harder to scan out, you need to verify with TEST_ONLY =
-whether
-> > > > > > it works. Otherwise good chances for some oddball black screens=
- on
-> > > > > > configurations that worked before. Which is why all non-atomic
-> > > > > > compositors reverted modifiers by default again.
-> > > > >
-> > > > > Y alone is hard to scanout also, and yet we do nothing to reject =
-that.
-> > > > > It's just an inconsistent mess.
-> > > > >
-> > > > > If we really want to keep this check then we should rewrite it
-> > > > > to be explicit:
-> > > > >
-> > > > > if (old_fb->format->format !=3D new_fb->format->format ||
-> > > > >     is_ccs(old_fb->modifier) !=3D is_ccs(new_fb->modifier))
-> > > > >     return -EINVAL;
-> > > > >
-> > > > > Now it's just a random thing that may even stop doing what it's
-> > > > > currently doing if anyone touches their .get_format_info()
-> > > > > implementation.
-> > > > >
-> > > > > >
-> > > > > > > And as stated the current check doesn't have consistent behav=
-iour
-> > > > > > > anyway. You can still flip between different modifiers as lon=
-g a the
-> > > > > > > driver doesn't override .get_format_info() for one of them. T=
-he *only*
-> > > > > > > case where that happens is CCS on i915. There is no valid rea=
-son to
-> > > > > > > special case that one.
-> > > > > >
-> > > > > > The thing is, you need atomic to make CCS work reliably enough =
-for
-> > > > > > compositors and distros to dare enabling it by default.
-> > > > >
-> > > > > If it's not enabled by default then there is no harm in letting p=
-eople
-> > > > > explicitly enable it and get better performance.
-> > > > >
-> > > > > > CCS flipping
-> > > > > > works with atomic. I really see no point in baking this in with=
- as
-> > > > > > uapi.
-> > > > >
-> > > > > It's just going back to the original intention of the check.
-> > > > > Heck, the debug message doesn't even match what it's doing now.
-> > > > >
-> > > > > > Just fix Xorg.
-> > > > >
-> > > > > Be serious. No one is going to rewrite all the randr code to be a=
-tomic.
-> > > >
-> > > > I fully understand Daniel's concern here, but I also believe this w=
-on't be
-> > > > done so soon at least. Meanwhile would it be acceptable to have a c=
-omment
-> > > > with the code /* XXX: Xorg blah... */ or /* FIXME: After Xorg blah.=
-. */
-> > > > ?
-> > >
-> > > Here's a few numbers:
-> > >
-> > > - skl shipped in Aug 2015, so about 5 years. Since then would we like
-> > > to have modifiers enabled for intel, because it costs us quite a bit
-> > > of performance. This isn't new at all.
-> > > - the last Xorg release is from May 2018, so two years. Meanwhile even
-> > > patches to fix some of the atomic mixups in -modesetting landed, but
-> > > they never shipped so not useful.
-> > > - I spent a few hours (which really is nothing) reading Xorg code
-> > > yesterday, and I concur with Daniel Stone's napkin estimate that this
-> > > will take about half to one year to fix properly. It's not happening,
-> > > no one is working on that.
-> > >
-> > > Conclusion: No one cares about modifiers on Xorg-modesetting. I don't
-> > > see why the kernel should bend over for that.
-> > >
-> > > Once that has changed (I'm not betting on that) and there's clear
-> > > effort behind modifiers for Xorg-modesetting I guess we can look into
-> > > stop-gap measures, but meanwhile the best imo is to not disturb the
-> > > dead.
-> >
-> > The alternative interpretation is that the current kernel code is
-> > just nonsense, and since no one is depending on the current nonsense
-> > behaviour we can safely change it it back to make sense.
-> >
-> > Would allow people to at least test modifier plumbing via dri3/etc.
-> > Also those of us who know what they're doing and want to actually
-> > play games on Intel GPUs can flip it on for a a bit extra performance.
-> > In the meantime I'll just have to keep carrying this patch in my own
-> > kernels.
-> =
+On Mon, May 11, 2020 at 09:53:18AM +0200, Linus Walleij wrote:
+> This converts the lms283gf05 backlight driver to use GPIO
+> descriptors and switches the single PXA Palm Z2 device
+> over to defining these.
+> 
+> Since the platform data was only used to convey GPIO
+> information we can delete the platform data header.
+> 
+> Notice that we define the proper active low semantics in
+> the board file GPIO descriptor table (active low) and
+> assert the reset line by bringing it to "1" (asserted).
+> 
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Daniel Mack <daniel@zonque.org>
+> Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-> You can also carry a one-liner for -modesetting to re-enable atomic on
-> master (it's fixed up there, simply never released, why we've had to
-> take it away). And then you can also play with modifiers.
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-Nah. I prefer to carry the obviously corect fix rather than something
-that may or may not have unknown issues.
 
--- =
-
-Ville Syrj=E4l=E4
-Intel
+> ---
+> ChangeLog v3->v4:
+> - Check IS_ERR() on the returned GPIO descriptor.
+> - Unconditionally set consumer name since the API tolerates NULL.
+> ChangeLog v2->v3:
+> - Fix a use-before-allocated bug discovered by compile tests.
+> - Remove unused ret variable as autobuilders complained.
+> ChangeLog v1->v2:
+> - Bring up the GPIO de-asserted in probe()
+> 
+> Marek: I saw this was written by you, are you regularly
+> testing the Z2 device?
+> ---
+>  arch/arm/mach-pxa/z2.c               | 12 +++++---
+>  drivers/video/backlight/lms283gf05.c | 43 +++++++++++-----------------
+>  include/linux/spi/lms283gf05.h       | 16 -----------
+>  3 files changed, 25 insertions(+), 46 deletions(-)
+>  delete mode 100644 include/linux/spi/lms283gf05.h
+> 
+> diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
+> index 21fd76bb09cd..89eb5243c85f 100644
+> --- a/arch/arm/mach-pxa/z2.c
+> +++ b/arch/arm/mach-pxa/z2.c
+> @@ -20,7 +20,6 @@
+>  #include <linux/spi/spi.h>
+>  #include <linux/spi/pxa2xx_spi.h>
+>  #include <linux/spi/libertas_spi.h>
+> -#include <linux/spi/lms283gf05.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/mtd/physmap.h>
+>  #include <linux/gpio.h>
+> @@ -578,8 +577,13 @@ static struct pxa2xx_spi_chip lms283_chip_info = {
+>  	.gpio_cs	= GPIO88_ZIPITZ2_LCD_CS,
+>  };
+>  
+> -static const struct lms283gf05_pdata lms283_pdata = {
+> -	.reset_gpio	= GPIO19_ZIPITZ2_LCD_RESET,
+> +static struct gpiod_lookup_table lms283_gpio_table = {
+> +	.dev_id = "spi2.0", /* SPI bus 2 chip select 0 */
+> +	.table = {
+> +		GPIO_LOOKUP("gpio-pxa", GPIO19_ZIPITZ2_LCD_RESET,
+> +			    "reset", GPIO_ACTIVE_LOW),
+> +		{ },
+> +	},
+>  };
+>  
+>  static struct spi_board_info spi_board_info[] __initdata = {
+> @@ -595,7 +599,6 @@ static struct spi_board_info spi_board_info[] __initdata = {
+>  {
+>  	.modalias		= "lms283gf05",
+>  	.controller_data	= &lms283_chip_info,
+> -	.platform_data		= &lms283_pdata,
+>  	.max_speed_hz		= 400000,
+>  	.bus_num		= 2,
+>  	.chip_select		= 0,
+> @@ -615,6 +618,7 @@ static void __init z2_spi_init(void)
+>  {
+>  	pxa2xx_set_spi_info(1, &pxa_ssp1_master_info);
+>  	pxa2xx_set_spi_info(2, &pxa_ssp2_master_info);
+> +	gpiod_add_lookup_table(&lms283_gpio_table);
+>  	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
+>  }
+>  #else
+> diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
+> index 0e45685bcc1c..36856962ed83 100644
+> --- a/drivers/video/backlight/lms283gf05.c
+> +++ b/drivers/video/backlight/lms283gf05.c
+> @@ -9,16 +9,16 @@
+>  #include <linux/kernel.h>
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/lcd.h>
+>  
+>  #include <linux/spi/spi.h>
+> -#include <linux/spi/lms283gf05.h>
+>  #include <linux/module.h>
+>  
+>  struct lms283gf05_state {
+>  	struct spi_device	*spi;
+>  	struct lcd_device	*ld;
+> +	struct gpio_desc	*reset;
+>  };
+>  
+>  struct lms283gf05_seq {
+> @@ -90,13 +90,13 @@ static const struct lms283gf05_seq disp_pdwnseq[] = {
+>  };
+>  
+>  
+> -static void lms283gf05_reset(unsigned long gpio, bool inverted)
+> +static void lms283gf05_reset(struct gpio_desc *gpiod)
+>  {
+> -	gpio_set_value(gpio, !inverted);
+> +	gpiod_set_value(gpiod, 0); /* De-asserted */
+>  	mdelay(100);
+> -	gpio_set_value(gpio, inverted);
+> +	gpiod_set_value(gpiod, 1); /* Asserted */
+>  	mdelay(20);
+> -	gpio_set_value(gpio, !inverted);
+> +	gpiod_set_value(gpiod, 0); /* De-asserted */
+>  	mdelay(20);
+>  }
+>  
+> @@ -125,18 +125,15 @@ static int lms283gf05_power_set(struct lcd_device *ld, int power)
+>  {
+>  	struct lms283gf05_state *st = lcd_get_data(ld);
+>  	struct spi_device *spi = st->spi;
+> -	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+>  
+>  	if (power <= FB_BLANK_NORMAL) {
+> -		if (pdata)
+> -			lms283gf05_reset(pdata->reset_gpio,
+> -					pdata->reset_inverted);
+> +		if (st->reset)
+> +			lms283gf05_reset(st->reset);
+>  		lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+>  	} else {
+>  		lms283gf05_toggle(spi, disp_pdwnseq, ARRAY_SIZE(disp_pdwnseq));
+> -		if (pdata)
+> -			gpio_set_value(pdata->reset_gpio,
+> -					pdata->reset_inverted);
+> +		if (st->reset)
+> +			gpiod_set_value(st->reset, 1); /* Asserted */
+>  	}
+>  
+>  	return 0;
+> @@ -150,24 +147,18 @@ static struct lcd_ops lms_ops = {
+>  static int lms283gf05_probe(struct spi_device *spi)
+>  {
+>  	struct lms283gf05_state *st;
+> -	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+>  	struct lcd_device *ld;
+> -	int ret = 0;
+> -
+> -	if (pdata != NULL) {
+> -		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
+> -				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
+> -				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
+> -				"LMS283GF05 RESET");
+> -		if (ret)
+> -			return ret;
+> -	}
+>  
+>  	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
+>  				GFP_KERNEL);
+>  	if (st == NULL)
+>  		return -ENOMEM;
+>  
+> +	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(st->reset))
+> +		return PTR_ERR(st->reset);
+> +	gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
+> +
+>  	ld = devm_lcd_device_register(&spi->dev, "lms283gf05", &spi->dev, st,
+>  					&lms_ops);
+>  	if (IS_ERR(ld))
+> @@ -179,8 +170,8 @@ static int lms283gf05_probe(struct spi_device *spi)
+>  	spi_set_drvdata(spi, st);
+>  
+>  	/* kick in the LCD */
+> -	if (pdata)
+> -		lms283gf05_reset(pdata->reset_gpio, pdata->reset_inverted);
+> +	if (st->reset)
+> +		lms283gf05_reset(st->reset);
+>  	lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+>  
+>  	return 0;
+> diff --git a/include/linux/spi/lms283gf05.h b/include/linux/spi/lms283gf05.h
+> deleted file mode 100644
+> index f237b2d062e9..000000000000
+> --- a/include/linux/spi/lms283gf05.h
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0-only */
+> -/*
+> - * lms283gf05.h - Platform glue for Samsung LMS283GF05 LCD
+> - *
+> - * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
+> -*/
+> -
+> -#ifndef _INCLUDE_LINUX_SPI_LMS283GF05_H_
+> -#define _INCLUDE_LINUX_SPI_LMS283GF05_H_
+> -
+> -struct lms283gf05_pdata {
+> -	unsigned long	reset_gpio;
+> -	bool		reset_inverted;
+> -};
+> -
+> -#endif /* _INCLUDE_LINUX_SPI_LMS283GF05_H_ */
+> -- 
+> 2.25.4
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
