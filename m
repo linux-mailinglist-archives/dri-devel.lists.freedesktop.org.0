@@ -1,55 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819781CE5F6
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:46:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F7E1CE5F9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC63C89739;
-	Mon, 11 May 2020 20:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADA76E588;
+	Mon, 11 May 2020 20:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7242E89739
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 20:46:32 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l11so6792548wru.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qori0jEe8833K+xXsk8AZatxV7QbwOqjDoJDqGMAGk4=;
- b=onbU+uIICwQ+nUf6GbjAMFfYyrBsWBEDvkqoWG3DCPjlgEc/KBWAmC6KWvo737c5Sk
- cXjeFnPO0ahHjqw1KusWmyZeERtyWKjaMaUD1BbZ4x1nXSVlVEtSBrEFL1jszptV8p/t
- Mp6+zT/rJQGCSGye89mRldqHURuEH62QZpd2it/BEcsf23QRhCUDH9lGMvWjtaCHOWFL
- ZmUWQh5KywWB5xFNwDjnouMD+2RzFPsnX/8fsImVV9Yc6T7Wksbbnladgoz26IBveE1/
- OhygKIsTHRALBWr1JWTKuOyo43a3IbLgeZrA0hM3cEV6iaG2SP86JdVCXA3BXEn6A1jb
- hDZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qori0jEe8833K+xXsk8AZatxV7QbwOqjDoJDqGMAGk4=;
- b=Ps/BzBoNPT9629hglOimcr0pNQfscchBsXMkD6oif9qY28U45YwDGrLqt+3p1jrLZY
- uOF/fZ15OHCgIFIK23upTYuDsVWeGxoy3FVxyt26JZZPHvPWoi0+uloxlYSHz1704Gs8
- me3BLC+lkGCwOQLtDoPRsOC4qtD9c14WOI8ZNDzWvmI+wCGuF6vJZq9xep+fK2ckIrTT
- 0UGeJlUIUqedgPF5Ucadr2UL4S1PaatR8oad2yCnC/Hm8iSnjfwuGk8/ip/MC2YfBC+Q
- rtBX44VZIZrAIggltvMZOuBvwTJycWGR11ujqYt77rjfdr/IggQJzTNSgdRCUVtb7hhU
- NZwQ==
-X-Gm-Message-State: AGi0PuZT6M9Bbk5m2Mxied4GWvl62MwjsQ1AW/QDypAH9Nsq9Q1ZImBr
- RD2Rdc+M0aJZkICQQl4rjBgz2WbzM+Rvh8D8F+E=
-X-Google-Smtp-Source: APiQypJZPeU/MpVY/LFr2d/TCmjmMDT6PXHFvfzTOPtb8zQaRTwsgb4RqI65YXvcM2+FRhTApNLBLkCRdeL3A4URy78=
-X-Received: by 2002:a5d:4389:: with SMTP id i9mr21645732wrq.374.1589229991186; 
- Mon, 11 May 2020 13:46:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
- <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
- <21a0d2ba-c27d-6b12-678e-89c04dc64a82@physik.fu-berlin.de>
-In-Reply-To: <21a0d2ba-c27d-6b12-678e-89c04dc64a82@physik.fu-berlin.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 11 May 2020 16:46:19 -0400
-Message-ID: <CADnq5_MQWJF5MB-1JyVeXCU8EAK2P-g+P13dR7eRKLkP8YmFqA@mail.gmail.com>
+Received: from mtlfep01.bell.net (belmont79srvr.owm.bell.net [184.150.200.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7643E6E588;
+ Mon, 11 May 2020 20:46:56 +0000 (UTC)
+Received: from bell.net mtlfep01 184.150.200.30 by mtlfep01.bell.net with ESMTP
+ id <20200511204653.YDJW5779.mtlfep01.bell.net@mtlspm01.bell.net>;
+ Mon, 11 May 2020 16:46:53 -0400
+Received: from [192.168.1.208] (really [70.49.140.223])
+ by mtlspm01.bell.net with ESMTP
+ id <20200511204653.IWYA130487.mtlspm01.bell.net@[192.168.1.208]>;
+ Mon, 11 May 2020 16:46:53 -0400
+Date: Mon, 11 May 2020 16:46:52 -0400
+From: Al Dunsmuir <al.dunsmuir@sympatico.ca>
+Message-ID: <1199527036.20200511164652@sympatico.ca>
+To: Alex Deucher <alexdeucher@gmail.com>
 Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <CADnq5_MYPcAoWzCcBkJAkd858gCVbJpCJobiwH_BBbwgEdx5rA@mail.gmail.com>
+References: <20200511171722.96576-1-christian.koenig@amd.com> 
+ <1815605280.20200511161440@sympatico.ca>
+ <CADnq5_MYPcAoWzCcBkJAkd858gCVbJpCJobiwH_BBbwgEdx5rA@mail.gmail.com>
+MIME-Version: 1.0
+X-CM-Analysis: v=2.3 cv=E9SzWpVl c=1 sm=1 tr=0 a=nyNe8J8XL+yB5u22Hc0alw==:117
+ a=nyNe8J8XL+yB5u22Hc0alw==:17 a=IkcTkHD0fZMA:10 a=sTwFKg_x9MkA:10
+ a=k_m-kdumAAAA:8 a=buMNVmj3JvoWGwOzv-8A:9 a=QEXdDO2ut3YA:10
+ a=2aFmp3DG3lfw9CblUY6y:22
+X-CM-Envelope: MS4wfLmS5G39LVoiaOfaeXHpVV10uhOfO8SuNhx8RwzJTXEbbfctpxYAzQ9vXOP/8MEbLGvSlud0VcIpQVFlhJbiJghCOJEVdkmel5QUCH+zNvuFt6KZlU7b
+ ULAIkKXi1sBt8VH+UKAWYZ87VZ+fUW/XWzbDa7pr0HbzxRiAxZa8orUMXWOCPuQIh0/QGl5aPmCZHlVi7uwAIqQmYh3/SP/O9tTALneRwKFKf2qFH/cVNmzS
+ PieqJhwNb3cq+nQtNxzVmIjus83K2ql5HEyGLH6Ztu+3fZdt2bZ2E97G9lIA7Xhz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,52 +48,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ nouveau <nouveau@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 4:41 PM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
->
-> On 5/11/20 10:05 PM, Alex Deucher wrote:
-> >>> For Nouveau I'm not 100% sure, but from the code it of hand looks like we can do it similar to Radeon.
-> >>>
-> >>> Please comment what you think about this.
-> >>
-> >> I would be against such a move as AGP graphics is still used by people running the powerpc
-> >> and ppc64 Debian ports on their vintage hardware [1].
-> >>
-> >> I have also CC'ed the debian-powerpc mailing list so that other users can voice their
-> >> opinion.
-> >
-> > Note there is no loss of functionality here, at least on radeon
-> > hardware.  It just comes down to which MMU gets used for access to
-> > system memory, the AGP MMU on the chipset or the MMU built into the
-> > GPU.  On powerpc hardware, AGP has been particularly unstable, and
-> > IIRC, AGP has been disabled by default on radeon on powerpc for a
-> > while.
-> Do you have a code reference at hand for this bit of information (AGP
-> being disabled on Macs)?
-
-It was disabled 2 years ago:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=037d1a66ae640ca2723f47c0115ffa9e603699b3
-
-Alex
-
->
-> Thanks,
-> Adrian
->
-> --
->  .''`.  John Paul Adrian Glaubitz
-> : :' :  Debian Developer - glaubitz@debian.org
-> `. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
->   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uZGF5LCBNYXkgMTEsIDIwMjAsIDQ6Mjc6NTUgUE0sIEFsZXggRGV1Y2hlciB3cm90ZToK
+PiBPbiBNb24sIE1heSAxMSwgMjAyMCBhdCA0OjIyIFBNIEFsIER1bnNtdWlyIDxhbC5kdW5zbXVp
+ckBzeW1wYXRpY28uY2E+IHdyb3RlOgo+Pgo+PiBPbiBNb25kYXksIE1heSAxMSwgMjAyMCwgMTox
+NzoxOSBQTSwgIkNocmlzdGlhbiBLw7ZuaWciIHdyb3RlOgo+PiA+IEhpIGd1eXMsCj4+Cj4+ID4g
+V2VsbCBsZXQncyBmYWNlIGl0IEFHUCBpcyBhIHRvdGFsIGhlYWRhY2hlIHRvIG1haW50YWluIGFu
+ZCBkZWFkIGZvciBhdCBsZWFzdCAxMCsgeWVhcnMuCj4+Cj4+ID4gV2UgaGF2ZSBhIGxvdCBvZiB4
+ODYgc3BlY2lmaWMgc3R1ZmYgaW4gdGhlIGFyY2hpdGVjdHVyZSBpbmRlcGVuZGVudAo+PiA+IGdy
+YXBoaWNzIG1lbW9yeSBtYW5hZ2VtZW50IHRvIGdldCB0aGUgY2FjaGluZyByaWdodCwgYWJ1c2lu
+ZyB0aGUgRE1BCj4+ID4gQVBJIG9uIG11bHRpcGxlIG9jY2FzaW9ucywgbmVlZCB0byBkaXN0aW5j
+dCBiZXR3ZWVuIEFHUCBhbmQgZHJpdmVyIHNwZWNpZmljIHBhZ2UgdGFibGVzIGV0YyBldGMuLi4K
+Pj4KPj4gPiBTbyB0aGUgaWRlYSBoZXJlIGlzIHRvIGp1c3QgZ28gYWhlYWQgYW5kIHJlbW92ZSB0
+aGUgc3VwcG9ydCBmcm9tCj4+ID4gUmFkZW9uIGFuZCBOb3V2ZWF1IGFuZCB0aGVuIGRyb3AgdGhl
+IG5lY2Vzc2FyeSBjb2RlIGZyb20gVFRNLgo+Pgo+PiA+IEZvciBSYWRlb24gdGhpcyBtZWFucyB0
+aGF0IHdlIGp1c3Qgc3dpdGNoIG92ZXIgdG8gdGhlIGRyaXZlcgo+PiA+IHNwZWNpZmljIHBhZ2Ug
+dGFibGVzIGFuZCBldmVyeXRoaW5nIHNob3VsZCBtb3JlIG9yIGxlc3MgY29udGludWUgdG8gd29y
+ay4KPj4KPj4gPiBGb3IgTm91dmVhdSBJJ20gbm90IDEwMCUgc3VyZSwgYnV0IGZyb20gdGhlIGNv
+ZGUgaXQgb2YgaGFuZCBsb29rcwo+PiA+IGxpa2Ugd2UgY2FuIGRvIGl0IHNpbWlsYXIgdG8gUmFk
+ZW9uLgoKPiBOb3RlIHRoZXJlIGlzIG5vIGxvc3Mgb2YgZnVuY3Rpb25hbGl0eSBoZXJlLCBhdCBs
+ZWFzdCBvbiByYWRlb24KPiBoYXJkd2FyZS4gIEl0IGp1c3QgY29tZXMgZG93biB0byB3aGljaCBN
+TVUgZ2V0cyB1c2VkIGZvciBhY2Nlc3MgdG8KPiBzeXN0ZW0gbWVtb3J5LCB0aGUgQUdQIE1NVSBv
+biB0aGUgY2hpcHNldCBvciB0aGUgTU1VIGJ1aWx0IGludG8gdGhlCj4gR1BVLiAgT24gcG93ZXJw
+YyBoYXJkd2FyZSwgQUdQIGhhcyBiZWVuIHBhcnRpY3VsYXJseSB1bnN0YWJsZSwgYW5kIEFHUAo+
+IGhhcyBiZWVuIGRpc2FibGVkIGJ5IGRlZmF1bHQgb24gcmFkZW9uIG9uIHBvd2VycGMgZm9yIHll
+YXJzIG5vdy4gIEluCj4gZmFjdCwgdGhpcyB3aWxsIHByb2JhYmx5IG1ha2Ugb2xkZXIgaGFyZHdh
+cmUgbW9yZSByZWxpYWJsZSBhcyBpdCB0YWtlcwo+IEFHUCBvdXQgb2YgdGhlIGVxdWF0aW9uLgoK
+QWxleCwKClRoYW5rcyBmb3IgdGhlIGNsYXJpZmljYXRpb24uCgpJZiB0aGUgYWN0dWFsIHBlcmZv
+cm1hbmNlIGltcGFjdCBpcyBsaXR0bGUgdG8gbm9uZSwgYW5kIHdlIGVuZCB1cCB3aXRoCm1vcmUg
+cmVsaWFibGUgb3BlcmF0aW9uIHRoYXQgaXMgY2VydGFpbmx5IGJlbmVmaWNpYWwgdGhlbiB0aGUg
+Y2hhbmdlCmlzIGluZGVlZCBmb3IgdGhlIGdvb2QuCgpUaGUgIFBob3Jvbml4ICB0aXRsZSBzY3Jl
+YW1pbmcgIkFHUCBHcmFwaGljcyBDYXJkIFN1cHBvcnQgUHJvcG9zZWQgRm9yClJlbW92YWwgIEZy
+b20gIExpbnV4ICBSYWRlb24vTlZJRElBIERyaXZlcnMiIHdhcyBuZWl0aGVyIGFjY3VyYXRlLCBu
+b3IKaGVscGZ1bC4KCkFsCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
