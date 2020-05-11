@@ -1,35 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C5C1CD151
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 07:43:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8F11CD267
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C946E16B;
-	Mon, 11 May 2020 05:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7736E6E26F;
+	Mon, 11 May 2020 07:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C306E16B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 05:43:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: tomeu) with ESMTPSA id 682772A02BF
-Subject: Re: [PATCH 00/15][RFC] Add regulator devfreq support to Panfrost
-To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>
-References: <20200510165538.19720-1-peron.clem@gmail.com>
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <20af7963-1d5a-d274-a46e-ca9a287d745a@collabora.com>
-Date: Mon, 11 May 2020 07:43:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DECE6E1BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:28:14 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id h17so8439367ior.16
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 23:28:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=SdfFMw5QKTbp52YZLfDLUPr8EGNvzpaeFUzU/UMWBC0=;
+ b=jCYJ16kZsUSOvl/35YVw0eOH/loAw/gLwFuoNQ2cBAwlE8EMv5Zz7ZJujjfW7rkpWQ
+ yOi70m1+mmEwtruWRNBUmRtQSO7XdJoOf9Jp0aXTqBVcA9YtIAyc9V5awOtFLGZ3N5th
+ 5naicmphVKLEH/2SZQwBxKklkI1UqQFivKKV4uQYG3gcYBnvpBM5t4pSbvZwlHBb9brQ
+ T/lEGincSxYtRb7lkmbv1d3Lwz1fGhISp7OzAkWz3z/OL58P25OviYvfd86ceYdy1OHL
+ rBySRZWziw5qRJOfQOVMpZ5X6t7POdeJXy6oHnE4z8q/kzQxtL/YcDyiEBV6okaPrdl0
+ RJZA==
+X-Gm-Message-State: AGi0Pua1yHK3FCmI0+5hpRTToFYzKJEenPml0ryffgS8vIrbnj3eKtNy
+ Lf4tyYtFesIGuYqL1zjQS1WiLyFJNJb0wEkmjm7GJxgznbbQ
+X-Google-Smtp-Source: APiQypLnnjc/3dhr0Q5a3fswFKEcUcTz5qP78a+YlI7XE6RnjODj+LmKxoJntZm/lCawPwk9fB9sIV9RcwKfW7XRKxPWXqr+1hce
 MIME-Version: 1.0
-In-Reply-To: <20200510165538.19720-1-peron.clem@gmail.com>
-Content-Language: en-US
+X-Received: by 2002:a5d:91c6:: with SMTP id k6mr13800452ior.13.1589178493472; 
+ Sun, 10 May 2020 23:28:13 -0700 (PDT)
+Date: Sun, 10 May 2020 23:28:13 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000096951505a55973f9@google.com>
+Subject: KASAN: vmalloc-out-of-bounds Write in drm_fb_helper_dirty_work (2)
+From: syzbot <syzbot+839b7dbe276bd3648b70@syzkaller.appspotmail.com>
+To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+X-Mailman-Approved-At: Mon, 11 May 2020 07:17:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,97 +53,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNS8xMC8yMCA2OjU1IFBNLCBDbMOpbWVudCBQw6lyb24gd3JvdGU6Cj4gSGksCj4gCj4gVGhp
-cyBzZXJpZSBjbGVhbnMgYW5kIGFkZHMgcmVndWxhdG9yIHN1cHBvcnQgdG8gUGFuZnJvc3QgZGV2
-ZnJlcS4KPiBUaGlzIGlzIG1vc3RseSBiYXNlZCBvbiBjb21tZW50IGZvciB0aGUgZnJlc2hseSBp
-bnRyb2R1Y2VkIGxpbWEKPiBkZXZmcmVxLgo+IAo+IFdlIG5lZWQgdG8gYWRkIHJlZ3VsYXRvciBz
-dXBwb3J0IGJlY2F1c2Ugb24gQWxsd2lubmVyIHRoZSBHUFUgT1BQCj4gdGFibGUgZGVmaW5lcyBi
-b3RoIGZyZXF1ZW5jaWVzIGFuZCB2b2x0YWdlcy4KPiAKPiBGaXJzdCBwYXRjaGVzIFswMS0wOF0g
-c2hvdWxkIG5vdCBjaGFuZ2UgdGhlIGFjdHVhbCBiZWhhdmlvcgo+IGFuZCBpbnRyb2R1Y2UgYSBw
-cm9wZXIgcGFuZnJvc3RfZGV2ZnJlcSBzdHJ1Y3QuCj4gCj4gRmF0Y2hlcyBhZnRlciBhcmUgV0lQ
-IGFuZCBhZGQgcmVndWxhdG9yIHN1cHBvcnQuCj4gCj4gSG93ZXZlciBJIGdvdCBzZXZlcmFsIGlz
-c3VlcyBmaXJzdCB3ZSBuZWVkIHRvIGF2b2lkIGdldHRpbmcgcmVndWxhdG9yCj4gaWYgZGV2ZnJl
-cSBnZXQgYnkgaXRzZWxmIHRoZSByZWd1bGF0b3IsIGJ1dCBhcyBvZiB0b2RheSB0aGUgT1BQCj4g
-ZnJhbWV3b3JrIG9ubHkgZ2V0IGFuZCBkb24ndCBlbmFibGUgdGhlIHJlZ3VsYXRvci4uLgo+IEFu
-IEhBQ0sgZm9yIG5vdyBpcyB0byBhZGQgcmVndWxhdG9yLWFsd2F5cy1vbiBpbiB0aGUgZGV2aWNl
-LXRyZWUuCj4gCj4gVGhlbiB3aGVuIEkgZW5hYmxlIGRldmZyZXEgSSBnb3Qgc2V2ZXJhbCBmYXVs
-dHMgbGlrZS4KPiBJJ20gdG90YWxseSBub29iIG9uIEdQVSBzY2hlZC9mYXVsdCBhbmQgY291bGRu
-J3QgYmUgaGVscGZ1bGwgd2l0aCB0aGlzLgoKRG8geW91IGtub3cgYXQgd2hpY2ggZnJlcXVlbmNp
-ZXMgZG8gdGhlIGZhdWx0cyBoYXBwZW4/IEZyb20gd2hhdCBJIGNhbiAKc2VlLCBpdCdzIGp1c3Qg
-dGhlIEdQVSBiZWhhdmluZyBlcnJhdGljYWxseSwgYW5kIHRoZSBDUFUgcmVhZGluZyByYW5kb20g
-CnZhbHVlcyBmcm9tIHRoZSBHUFUgcmVnaXN0ZXJzLiBHaXZlbiB0aGUgc3ViamVjdCBvZiB0aGlz
-IHNlcmllcywgSSBndWVzcyAKdGhlIEdQVSBpc24ndCBnZXR0aW5nIGVub3VnaCBwb3dlci4KClRo
-ZXJlIGNvdWxkIGJlIGEgcHJvYmxlbSB3aXRoIHRoZSBPUFAgdGFibGUsIG1pZ2h0IGJlIGEgZ29v
-ZCBpZGVhIHRvIHNlZSAKd2hhdCBsZXZlbHMgYXJlIHByb2JsZW1hdGljIGFuZCB0cnkgd2l0aCBh
-IG1vcmUgY29uc2VydmF0aXZlIHRhYmxlLgoKQmVzaWRlcyB0aGF0LCB0aGVyZSBjb3VsZCBiZSBh
-IHByb2JsZW0gd2l0aCBjbG9jayBmcmVxdWVuY3kgY2hhbmdlcywgb3IgCnZvbHRhZ2UgY2hhbmdl
-cy4gSXQgbWF5IHRha2Ugc29tZSB0aW1lIGZvciB0aGUgZmluYWwgc3RhdGUgdG8gYmUgc3RhYmxl
-LCAKZGVwZW5kaW5nIGhvdyB0aGUgcmVndWxhdGlvbiBoYXBwZW5zLgoKVGhhbmtzLAoKVG9tZXUK
-CgoKCj4gSSBnb3QgdGhpcyBydW5uaW5nIGdsbWFyazIgb24gVDcyMCAoQWxsd2lubmVyIEg2KSB3
-aXRoIE1lc2EgMjAuMC41Lgo+ICMgZ2xtYXJrMi1lczItZHJtCj4gPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+ICAgICAgZ2xtYXJrMiAyMDE3
-LjA3Cj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PQo+ICAgICAgT3BlbkdMIEluZm9ybWF0aW9uCj4gICAgICBHTF9WRU5ET1I6ICAgICBQYW5m
-cm9zdAo+ICAgICAgR0xfUkVOREVSRVI6ICAgTWFsaSBUNzIwIChQYW5mcm9zdCkKPiAgICAgIEdM
-X1ZFUlNJT046ICAgIE9wZW5HTCBFUyAyLjAgTWVzYSAyMC4wLjUKPiA9PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4gCj4gWyAgIDkzLjU1MDA2
-M10gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IEdQVSBGYXVsdCAweDAwMDAwMDg4IChVTktOT1dOKSBh
-dCAweDAwMDAwMDAwODAxMTcxMDAKPiBbICAgOTQuMDQ1NDAxXSBwYW5mcm9zdCAxODAwMDAwLmdw
-dTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTAsIGNvbmZpZz0weDM3MDAsIHN0YXR1cz0weDgsIGhl
-YWQ9MHgyMWQ2YzAwLCB0YWlsPTB4MjFkNmMwMCwgc2NoZWRfam9iPTAwMDAwMDAwZTNjMjEzMmYK
-PiAKPiBbICAzMjguODcxMDcwXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogVW5oYW5kbGVkIFBhZ2Ug
-ZmF1bHQgaW4gQVMwIGF0IFZBIDB4MDAwMDAwMDAwMDAwMDAwMAo+IFsgIDMyOC44NzEwNzBdIFJl
-YXNvbjogVE9ETwo+IFsgIDMyOC44NzEwNzBdIHJhdyBmYXVsdCBzdGF0dXM6IDB4QUEwMDAzQzIK
-PiBbICAzMjguODcxMDcwXSBkZWNvZGVkIGZhdWx0IHN0YXR1czogU0xBVkUgRkFVTFQKPiBbICAz
-MjguODcxMDcwXSBleGNlcHRpb24gdHlwZSAweEMyOiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDIK
-PiBbICAzMjguODcxMDcwXSBhY2Nlc3MgdHlwZSAweDM6IFdSSVRFCj4gWyAgMzI4Ljg3MTA3MF0g
-c291cmNlIGlkIDB4QUEwMAo+IFsgIDMyOS4zNzMzMjddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBn
-cHUgc2NoZWQgdGltZW91dCwganM9MSwgY29uZmlnPTB4MzcwMCwgc3RhdHVzPTB4OCwgaGVhZD0w
-eGExYTQ5MDAsIHRhaWw9MHhhMWE0OTAwLCBzY2hlZF9qb2I9MDAwMDAwMDA3YWMzMTA5Nwo+IFsg
-IDMyOS4zODY1MjddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBqcyBmYXVsdCwganM9MCwgc3RhdHVz
-PURBVEFfSU5WQUxJRF9GQVVMVCwgaGVhZD0weGExYTRjMDAsIHRhaWw9MHhhMWE0YzAwCj4gWyAg
-MzI5LjM5NjI5M10gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0w
-LCBjb25maWc9MHgzNzAwLCBzdGF0dXM9MHg1OCwgaGVhZD0weGExYTRjMDAsIHRhaWw9MHhhMWE0
-YzAwLCBzY2hlZF9qb2I9MDAwMDAwMDAwNGM5MDM4MQo+IFsgIDMyOS40MTE1MjFdIHBhbmZyb3N0
-IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEgMHgwMDAwMDAw
-MDAwMDAwMDAwCj4gWyAgMzI5LjQxMTUyMV0gUmVhc29uOiBUT0RPCj4gWyAgMzI5LjQxMTUyMV0g
-cmF3IGZhdWx0IHN0YXR1czogMHhBQTAwMDNDMgo+IFsgIDMyOS40MTE1MjFdIGRlY29kZWQgZmF1
-bHQgc3RhdHVzOiBTTEFWRSBGQVVMVAo+IFsgIDMyOS40MTE1MjFdIGV4Y2VwdGlvbiB0eXBlIDB4
-QzI6IFRSQU5TTEFUSU9OX0ZBVUxUX0xFVkVMMgo+IFsgIDMyOS40MTE1MjFdIGFjY2VzcyB0eXBl
-IDB4MzogV1JJVEUKPiBbICAzMjkuNDExNTIxXSBzb3VyY2UgaWQgMHhBQTAwCj4gCj4gVGhhbmtz
-IGZvciB5b3VyIHJldmlld3MsIGhlbHAgb24gdGhpcyBzZXJpZSwKPiBDbGVtZW50Cj4gCj4gQ2zD
-qW1lbnQgUMOpcm9uICgxNSk6Cj4gICAgZHJtL3BhbmZyb3N0OiBhdm9pZCBzdGF0aWMgZGVjbGFy
-YXRpb24KPiAgICBkcm0vcGFuZnJvc3Q6IGNsZWFuIGhlYWRlcnMgaW4gZGV2ZnJlcQo+ICAgIGRy
-bS9wYW5mcm9zdDogZG9uJ3QgdXNlIHBmZGV2ZnJlcS5idXN5X2NvdW50IHRvIGtub3cgaWYgaHcg
-aXMgaWRsZQo+ICAgIGRybS9wYW5mcm9zdDogaW50cm9kdWNlIHBhbmZyb3N0X2RldmZyZXEgc3Ry
-dWN0Cj4gICAgZHJtL3BhbmZyb3N0OiB1c2Ugc3BpbmxvY2sgaW5zdGVhZCBvZiBhdG9taWMKPiAg
-ICBkcm0vcGFuZnJvc3Q6IHByb3Blcmx5IGhhbmRsZSBlcnJvciBpbiBwcm9iZQo+ICAgIGRybS9w
-YW5mcm9zdDogdXNlIGRldmljZV9wcm9wZXJ0eV9wcmVzZW50IHRvIGNoZWNrIGZvciBPUFAKPiAg
-ICBkcm0vcGFuZnJvc3Q6IG1vdmUgZGV2ZnJlcV9pbml0KCkvZmluaSgpIGluIGRldmljZQo+ICAg
-IGRybS9wYW5mcm9zdDogZHluYW1pY2FsbHkgYWxsb2MgcmVndWxhdG9ycwo+ICAgIGRybS9wYW5m
-cm9zdDogYWRkIHJlZ3VsYXRvcnMgdG8gZGV2ZnJlcQo+ICAgIGRybS9wYW5mcm9zdDogc2V0IGRl
-dmZyZXEgY2xvY2sgbmFtZQo+ICAgIGFybTY0OiBkZWZjb25maWc6IEVuYWJsZSBkZXZmcmVxIGNv
-b2xpbmcgZGV2aWNlCj4gICAgYXJtNjQ6IGR0czogYWxsd2lubmVyOiBoNjogQWRkIGNvb2xpbmcg
-bWFwIGZvciBHUFUKPiAgICBbRE8gTk9UIE1FUkdFXSBhcm02NDogZHRzOiBhbGx3aW5uZXI6IGg2
-OiBBZGQgR1BVIE9QUCB0YWJsZQo+ICAgIFtETyBOT1QgTUVSR0VdIGFybTY0OiBkdHM6IGFsbHdp
-bm5lcjogZm9yY2UgR1BVIHJlZ3VsYXRvciB0byBiZSBhbHdheXMKPiAKPiAgIC4uLi9kdHMvYWxs
-d2lubmVyL3N1bjUwaS1oNi1iZWVsaW5rLWdzMS5kdHMgICB8ICAgMSArCj4gICBhcmNoL2FybTY0
-L2Jvb3QvZHRzL2FsbHdpbm5lci9zdW41MGktaDYuZHRzaSAgfCAxMDIgKysrKysrKysrKwo+ICAg
-YXJjaC9hcm02NC9jb25maWdzL2RlZmNvbmZpZyAgICAgICAgICAgICAgICAgIHwgICAxICsKPiAg
-IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmMgICB8IDE5MCArKysr
-KysrKysrKystLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZm
-cmVxLmggICB8ICAzMiArKy0KPiAgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9k
-ZXZpY2UuYyAgICB8ICA1NiArKysrLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
-cm9zdF9kZXZpY2UuaCAgICB8ICAxNCArLQo+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2Rydi5jICAgICAgIHwgIDE1ICstCj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
-cGFuZnJvc3Rfam9iLmMgICAgICAgfCAgMTAgKy0KPiAgIDkgZmlsZXMgY2hhbmdlZCwgMzEwIGlu
-c2VydGlvbnMoKyksIDExMSBkZWxldGlvbnMoLSkKPiAKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    e99332e7 gcc-10: mark more functions __init to avoid secti..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13de23a2100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a45301b663dae85a
+dashboard link: https://syzkaller.appspot.com/bug?extid=839b7dbe276bd3648b70
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+839b7dbe276bd3648b70@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in memcpy include/linux/string.h:381 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_blit_real drivers/gpu/drm/drm_fb_helper.c:386 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in drm_fb_helper_dirty_work+0x3f5/0x6b0 drivers/gpu/drm/drm_fb_helper.c:415
+Write of size 32 at addr ffffc900290e5fe0 by task kworker/3:3/10902
+
+CPU: 3 PID: 10902 Comm: kworker/3:3 Not tainted 5.7.0-rc4-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+Workqueue: events drm_fb_helper_dirty_work
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x188/0x20d lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0x5/0x315 mm/kasan/report.c:382
+ __kasan_report.cold+0x35/0x4d mm/kasan/report.c:511
+ kasan_report+0x33/0x50 mm/kasan/common.c:625
+ check_memory_region_inline mm/kasan/generic.c:187 [inline]
+ check_memory_region+0x141/0x190 mm/kasan/generic.c:193
+ memcpy+0x39/0x60 mm/kasan/common.c:107
+ memcpy include/linux/string.h:381 [inline]
+ drm_fb_helper_dirty_blit_real drivers/gpu/drm/drm_fb_helper.c:386 [inline]
+ drm_fb_helper_dirty_work+0x3f5/0x6b0 drivers/gpu/drm/drm_fb_helper.c:415
+ process_one_work+0x965/0x16a0 kernel/workqueue.c:2268
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2414
+ kthread+0x388/0x470 kernel/kthread.c:268
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+
+Memory state around the buggy address:
+ ffffc900290e5e80: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+ ffffc900290e5f00: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+>ffffc900290e5f80: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+                                                       ^
+ ffffc900290e6000: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+ ffffc900290e6080: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
