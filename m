@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D0D1CD781
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:19:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EF01CD7F9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F0F6E438;
-	Mon, 11 May 2020 11:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D386B6E437;
+	Mon, 11 May 2020 11:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505A26E439
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:19:35 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id v12so10408445wrp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 04:19:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5BxJAM3m0NqPF1VK2+PWokzhUb1mzLpTTCKkR+44LiQ=;
- b=RAxA0wvM8QoDHGML1mbUMPKndYci1raxxYtTn7O+Zrq8YhgXDK7m+Y15YQHsAn8cZb
- kOEmNTbUxEeJqD2r4NDDOgGQ/iESR6rTF0Ni0UDRntRqlYGjILusESzGHf3+G/cqhUSm
- ZE1YffqlVLtxTzGjBjQGG0n9ynJq41QdzPAp4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5BxJAM3m0NqPF1VK2+PWokzhUb1mzLpTTCKkR+44LiQ=;
- b=RftvutmnDf2zMTRu8t5sG3Kx2pABaFUgnCM8R/wuJUe8mhf8MbM5b9YBSEmc5F/wLj
- pZZ0RtYN1cyC/RaTMmHGIe3A68Gmfo41D2KFeV0OdvRCbNWS3BtA9pv1d1T9YEj5jBbO
- DI3YMRKRSbf4/a7P70XdjjywD2h24I+QQL/mnbrcPy5gRxxpzbSbT5cl15jvoVas+QEu
- xhMXj9yz7pnUKQaZcfG5UJDHp64E2P/0gVLx0WJpY+EoTb6fDkzxyE4RlgkO8+doQZdW
- GiZhMdiZKG053fAKF0yOE1xuTosbqh4t9gNAQifgOahHXn8RjnDXkQcVGpa+PKF8WkZv
- RTUw==
-X-Gm-Message-State: AGi0PuZg4ydqW3KxftC0OnLPZVDnNULDnbB1B+lWqHjvG20Ti0vN5Wb6
- JWg4hrcEwF3h9QM5tgbMq9dBMQ==
-X-Google-Smtp-Source: APiQypL8dcJdHuzz097XXtlby4WBcbxfOf+Yjq6IhA1aEeMCGm89alo27v2/I1zSWY50fjVAvc0J4A==
-X-Received: by 2002:adf:d0c5:: with SMTP id z5mr19611873wrh.410.1589195973642; 
- Mon, 11 May 2020 04:19:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z10sm7682261wmi.2.2020.05.11.04.19.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 04:19:32 -0700 (PDT)
-Date: Mon, 11 May 2020 13:19:31 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH 0/6] RFC Support hot device unplug in amdgpu
-Message-ID: <20200511111931.GD206103@phenom.ffwll.local>
-References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
- <20200511095433.GA206103@phenom.ffwll.local>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3166E437;
+ Mon, 11 May 2020 11:23:44 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 5054DAD73;
+ Mon, 11 May 2020 11:23:45 +0000 (UTC)
+Subject: Re: [PATCH 5/9] drm/udl: Don't call get/put_pages on imported dma-buf
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-6-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <d34c53ef-1cba-9559-8169-66535d06b6cf@suse.de>
+Date: Mon, 11 May 2020 13:23:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200511095433.GA206103@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200511093554.211493-6-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,193 +65,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1871850096=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 11:54:33AM +0200, Daniel Vetter wrote:
-> On Sat, May 09, 2020 at 02:51:44PM -0400, Andrey Grodzovsky wrote:
-> > This RFC is a more of a proof of concept then a fully working solution as there are a few unresolved issues we are hopping to get advise on from people on the mailing list.
-> > Until now extracting a card either by physical extraction (e.g. eGPU with thunderbold connection or by emulation through syfs -> /sys/bus/pci/devices/device_id/remove) 
-> > would cause random crashes in user apps. The random crashes in apps were mostly due to the app having mapped a device backed BO into it's adress space was still 
-> > trying to access the BO while the backing device was gone. 
-> > To answer this first problem Christian suggested to fix the handling of mapped memory in the clients when the device goes away by forcibly unmap all buffers 
-> > the user processes has by clearing their respective VMAs mapping the device BOs. Then when the VMAs try to fill in the page tables again we check in the fault handler 
-> > if the device is removed and if so, return an error. This will generate a SIGBUS to the application which can then cleanly terminate. 
-> > This indeed was done but this in turn created a problem of kernel OOPs were the OOPSes were due to the fact that while the app was terminating because of the SIGBUS 
-> > it would trigger use after free in the driver by calling to accesses device structures that were already released from the pci remove sequence. 
-> > This we handled by introducing a 'flush' seqence during device removal were we wait for drm file reference to drop to 0 meaning all user clients directly using this device terminated. 
-> > With this I was able to cleanly emulate device unplug with X and glxgears running and later emulate device plug back and restart of X and glxgears.
-> > 
-> > But this use case is only partial and as I see it all the use cases are as follwing and the questions it raises.
-> > 
-> > 1) Application accesses a BO by opening drm file
-> > 	1.1) BO is mapped into applications address space (BO is CPU visible) - this one we have a solution for by invaldating BO's CPU mapping casuing SIGBUS 
-> > 	     and termination and waiting for drm file refcound to drop to 0 before releasing the device
-> > 	1.2) BO is not mapped into applcation address space (BO is CPU invisible) - no solution yet because how we force the application to terminate in this case ?
-> > 
-> > 2) Application accesses a BO by importing a DMA-BUF
-> > 	2.1)  BO is mapped into applications address space (BO is CPU visible) - solution is same as 1.1 but instead of waiting for drm file release we wait for the 
-> > 	      imported dma-buf's file release
-> > 	2.2)  BO is not mapped into applcation address space (BO is CPU invisible) - our solution is to invalidate GPUVM page tables and destroy backing storage for 
-> >               all exported BOs which will in turn casue VM faults in the importing device and then when the importing driver will try to re-attach the imported BO to 
-> > 	      update mappings we return -ENODEV in the import hook which hopeffuly will cause the user app to terminate.
-> > 
-> > 3) Applcation opens a drm file or imports a dma-bud and holds a reference but never access any BO or does access but never more after device was unplug - how would we 
-> >    force this applcation to termiante before proceeding with device removal code ? Otherwise the wait in pci remove just hangs for ever.
-> > 
-> > The attached patches adress 1.1, 2.1 and 2.2, for now only 1.1 fully tested and I am still testing the others but I will be happy for any advise on all the 
-> > described use cases and maybe some alternative and better (more generic) approach to this like maybe obtaining PIDs of relevant processes through some revere 
-> > mapping from device file and exported dma-buf files and send them SIGKILL - would this make more sense or any other method ? 
-> > 
-> > Patches 1-3 address 1.1
-> > Patch 4 addresses 2.1
-> > Pathces 5-6 address 2.2
-> > 
-> > Reference: https://gitlab.freedesktop.org/drm/amd/-/issues/1081
-> 
-> So we've been working on this problem for a few years already (but it's
-> still not solved), I think you could have saved yourselfs some typing.
-> 
-> Bunch of things:
-> - we can't wait for userspace in the hotunplug handlers, that might never
->   happen. The correct way is to untangle the lifetime of your hw driver
->   for a specific struct pci_device from the drm_device lifetime.
->   Infrastructure is all there now, see drm_dev_get/put, drm_dev_unplug and
->   drm_dev_enter/exit. A bunch of usb/spi drivers use this 100% correctly
->   now, so there's examples. Plus kerneldoc explains stuff.
-> 
-> - for a big driver like amdgpu doing this split up is going to be
->   horrendously complex. I know, we've done it for i915, at least
->   partially. I strongly recommend that you're using devm_ for managing hw
->   related resources (iomap, irq, ...) as much as possible.
-> 
->   For drm_device resources (mostly structures and everything related to
->   that) we've just merged the drmm_ managed resources framework. There's
->   some more work to be done there for various kms objects, but you can at
->   least somewhat avoid tedious handrolling for everything internal
->   already.
-> 
->   Don't ever use devm_kzalloc and friends, I've looked at hundreds of uses
->   of this in drm, they're all wrong.
-> 
-> - dma-buf is hilarious (and atm unfixed), dma-fence is even worse. In
->   theory they're already refcounted and all and so should work, in
->   practice I think we need to refcount the underlying drm_device with
->   drm_dev_get/put to avoid the worst fall-out.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1871850096==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XcYnzbdU2t5ljZCUOExFvIu9UhQSgzsPM"
 
-oh I forgot one, since it's new since the last time we've seriously
-discussed this: p2p dma-buf
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XcYnzbdU2t5ljZCUOExFvIu9UhQSgzsPM
+Content-Type: multipart/mixed; boundary="IBvu5wACIyaWMOulhBzz6ySwVn2qsXCFr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <d34c53ef-1cba-9559-8169-66535d06b6cf@suse.de>
+Subject: Re: [PATCH 5/9] drm/udl: Don't call get/put_pages on imported dma-buf
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-6-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511093554.211493-6-daniel.vetter@ffwll.ch>
 
-But that /should/ be handleable with the move_notify callback. Assuming we
-don't have any bugs anywhere, and the importer can indeed get rid of all
-its mapping, always.
+--IBvu5wACIyaWMOulhBzz6ySwVn2qsXCFr
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-But for completeness probably need this one, just to keep it noted.
--Daniel
+Hi
 
-> 
-> - One unfortunate thing with drm_dev_unplug is that the driver core is
->   very opinionated and doesn't tell you whether it's a hotunplug or a
->   driver unload. In the former case trying to shut down hw just wastes
->   time (and might hit driver bugs), in the latter case driver engineers
->   very much expect everything to be shut down.
-> 
->   Right now you can only have one or the other, so this needs a module
->   option hack or similar (default to the correct hotunplug behaviour for
->   users).
-> 
-> - SIGBUS is better than crashing the kernel, but it's not even close for
->   users. They still lose everything because everything crashes because in
->   my experience, in practice, no one ever handles errors. There's a few
->   more things on top:
-> 
->   - sighandlers are global, which means only the app can use it. You can't
->     use it in e.g. mesa. They're also not composable, so if you have on
->     sighandler for gpu1 and a 2nd one for gpu2 (could be different vendor)
->     it's all sadness. Hence "usersapce will handle SIGBUS" wont work.
-> 
->   - worse, neither vk nor gl (to my knowledge) have a concept of events
->     for when the gpu died. The only stuff you have is things like
->     arb_robustness which says a) everything continues as if nothing
->     happened b) there's a function where you can ask whether your gl
->     context and all the textures/buffers are toast.
-> 
->     I think that's about the only hotunplug application model we can
->     realistically expect applications to support. That means _all_ errors
->     need to be silently eaten by either mesa or the kernel. On i915 the
->     model (also for terminally wedged gpu hangs) is that all ioctl keep
->     working, mmaps keep working, and execbuf gives you an -EIO (which mesa
->     eats silently iirc for arb_robustness).
-> 
->   Conclusion is that SIGBUS is imo a no-go, and the only option we have is
->   that a) mmaps fully keep working, doable for shmem or b) we put some
->   fake memory in there (for vram or whatever), maybe even only a single
->   page for all fake memory.
-> 
-> - you probably want arb_robustness and similar stuff in userspace as a
->   first step.
-> 
-> tldr;
-> - refcounting, not waiting for userspace
-> - nothing can fail because userspace wont handle it
-> 
-> That's at least my take on this mess, and what we've been pushing for over
-> the past few years. For kms-only drm_driver we should have achieved that
-> by now (plus/minus maybe some issues for dma-buf/fences, but kms-only
-> dma-buf/fences are simple enough that maybe we don't go boom yet).
-> 
-> For big gpus with rendering I think best next step would be to type up a
-> reasonable Gran Plan (into Documentation/gpu/todo.rst) with all the issues
-> and likely solutions. And then bikeshed that, since the above is just my
-> take on all this.
-> 
-> Cheers, Daniel
-> 
-> > 
-> > Andrey Grodzovsky (6):
-> >   drm/ttm: Add unampping of the entire device address space
-> >   drm/amdgpu: Force unmap all user VMAs on device removal.
-> >   drm/amdgpu: Wait for all user clients
-> >   drm/amdgpu: Wait for all clients importing out dma-bufs.
-> >   drm/ttm: Add destroy flag in TTM BO eviction interface
-> >   drm/amdgpu: Use TTM MMs destroy interface
-> > 
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu.h         |  3 ++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  2 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  7 +++-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 27 ++++++++++++-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     | 22 ++++++++--
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  9 +++++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  4 ++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 17 +++++++-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 +
-> >  drivers/gpu/drm/nouveau/nouveau_drm.c       |  2 +-
-> >  drivers/gpu/drm/qxl/qxl_object.c            |  4 +-
-> >  drivers/gpu/drm/radeon/radeon_object.c      |  2 +-
-> >  drivers/gpu/drm/ttm/ttm_bo.c                | 63 +++++++++++++++++++++--------
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c         |  6 +--
-> >  include/drm/ttm/ttm_bo_api.h                |  2 +-
-> >  include/drm/ttm/ttm_bo_driver.h             |  2 +
-> >  16 files changed, 139 insertions(+), 34 deletions(-)
-> > 
-> > -- 
-> > 2.7.4
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> There's no direct harm, because for the shmem helpers these are noops
+> on imported buffers. The trouble is in the locks these take - I want
+> to change dma_buf_vmap locking, and so need to make sure that we only
+> ever take certain locks on one side of the dma-buf interface: Either
+> for exporters, or for importers.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/udl/udl_gem.c | 22 ++++++++++++----------
+>  1 file changed, 12 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/udl/udl_gem.c b/drivers/gpu/drm/udl/udl_ge=
+m.c
+> index b6e26f98aa0a..c68d3e265329 100644
+> --- a/drivers/gpu/drm/udl/udl_gem.c
+> +++ b/drivers/gpu/drm/udl/udl_gem.c
+> @@ -46,29 +46,31 @@ static void *udl_gem_object_vmap(struct drm_gem_obj=
+ect *obj)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It's still not clear to me why this function exists in the first place.
+It's the same code as the default implementation, except that it doesn't
+support cached mappings.
+
+I don't see why udl is special. I'd suggest to try to use the original
+shmem function and remove this one. Same for the mmap code.
+
+Best regards
+Thomas
+
+>  	if (shmem->vmap_use_count++ > 0)
+>  		goto out;
+> =20
+> -	ret =3D drm_gem_shmem_get_pages(shmem);
+> -	if (ret)
+> -		goto err_zero_use;
+> -
+> -	if (obj->import_attach)
+> +	if (obj->import_attach) {
+>  		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
+> -	else
+> +	} else {
+> +		ret =3D drm_gem_shmem_get_pages(shmem);
+> +		if (ret)
+> +			goto err;
+> +
+>  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+>  				    VM_MAP, PAGE_KERNEL);
+> =20
+> +		if (!shmem->vaddr)
+> +			drm_gem_shmem_put_pages(shmem);
+> +	}
+> +
+>  	if (!shmem->vaddr) {
+>  		DRM_DEBUG_KMS("Failed to vmap pages\n");
+>  		ret =3D -ENOMEM;
+> -		goto err_put_pages;
+> +		goto err;
+>  	}
+> =20
+>  out:
+>  	mutex_unlock(&shmem->vmap_lock);
+>  	return shmem->vaddr;
+> =20
+> -err_put_pages:
+> -	drm_gem_shmem_put_pages(shmem);
+> -err_zero_use:
+> +err:
+>  	shmem->vmap_use_count =3D 0;
+>  	mutex_unlock(&shmem->vmap_lock);
+>  	return ERR_PTR(ret);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--IBvu5wACIyaWMOulhBzz6ySwVn2qsXCFr--
+
+--XcYnzbdU2t5ljZCUOExFvIu9UhQSgzsPM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl65NboACgkQaA3BHVML
+eiNARggAkSI2L/Mppte+wpGtVyiDpHM1i5ql+7bgugbtVmHEm+Ol2h+MBDAI6CLj
+XszK5gwBRIdIM0jHTQ3QAdoUAP3ikXlR5yweOxfB09csbyytgG59X6F4tm7qH8mm
+BkzuB4V5ysPHn/JtGWychI3Mjy8oSKAtTt3v0hnEvL2FIO6TdCiBJS26NpEfOSHS
+yxWOvyreGW+MM9IH9IwPanJ7gFXiUOyEZSKOAFOsW7Po6hs7vCs+XQeogoX8Tc0g
+G0+3csVBkKTU0MIU3uV9piJLXCnyo0xynbK+N7hsydsiE3GvAg4hKzFo8XTGuojR
+HsNH1RZwFD5ba/AXDSJTtCnz8o/3fA==
+=iRn8
+-----END PGP SIGNATURE-----
+
+--XcYnzbdU2t5ljZCUOExFvIu9UhQSgzsPM--
+
+--===============1871850096==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1871850096==--
