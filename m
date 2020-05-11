@@ -1,52 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D961CDEF9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 17:29:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD441CDF92
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 17:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0F389AB7;
-	Mon, 11 May 2020 15:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 519376E2BD;
+	Mon, 11 May 2020 15:51:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0640689AB7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 15:29:08 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id j16so15397469oih.10
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 08:29:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jr8BqxYa5N2UQFIWCH+ZeFGjIUjI6K0QpaYQti5dmF0=;
- b=Lg++tOm6IwiIzgdNtd59XFNZ5Rmlo64vDv1d4OxItcq8FR+s48C8JwmCXbAKorjZ6J
- YMSEEwHXoSig7JadxHN8PtMZuZemoD+1KjSnSKqfgM2CBbOHJslVSimDSF7trCKxPCQU
- IZR0vJPAXGKhAKd75Zi+m8C4aIcjuV9t7jzbg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jr8BqxYa5N2UQFIWCH+ZeFGjIUjI6K0QpaYQti5dmF0=;
- b=WLrQmOYXFEp7SzAib7En2LUkS9CSpweGULKvSW7sZHK+cHpinZ88C3b6z8ipAnh5Lt
- CIRVt8l+Ty8gur16CHaRv2AjsqfBAqGHTXn67VHzIZwzRP3dDcC/VexLE84OPWVUCkof
- HFDwhNC1kZdVRG6sLYQc5kTWGimN/L5RjmUN9GRan07S58mK/JMu5JGhLxBT0ekDX4X3
- FYxxyQTt9ZtCt7SbwOxCNR84j2dU/gGc7TvPUfaq0fPDTiHdXCbOlQ11KLkio2UsuDym
- LUzBqhb2ZfG2IHIc96tt9BIQ7hzp3Jgl1maJ5153J+P1Yfh1ZkXyA+wVy60Yvqmo3PsO
- 6dCQ==
-X-Gm-Message-State: AGi0PuYjOSC+tguL98ruMlVqSHSVA07armwghd2mjadP25SnyXvzdx5u
- GnL+p1E8yV9ASFooV9yjm/O+4K2KacR3PD1w4IuVjQ==
-X-Google-Smtp-Source: APiQypKoTHn0cJuzKGjhu51d/sGUsrkJZ4SrSZew0vSiBm3gQMc/ep2bCh/uj8x3VtDMZyNngfdYdPlUlBeH3a6m4Zs=
-X-Received: by 2002:aca:2113:: with SMTP id 19mr11528686oiz.128.1589210947246; 
- Mon, 11 May 2020 08:29:07 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3401A6E2BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 15:51:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9ED230E;
+ Mon, 11 May 2020 08:51:24 -0700 (PDT)
+Received: from [192.168.1.84] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19DA63F305;
+ Mon, 11 May 2020 08:51:22 -0700 (PDT)
+Subject: Re: [PATCH v3 10/25] drm: panfrost: fix common struct sg_table
+ related issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20200505083926.28503-1-m.szyprowski@samsung.com>
+ <20200505084614.30424-1-m.szyprowski@samsung.com>
+ <CGME20200505084629eucas1p23d2d6a53451e67e2b0a3544eb696008b@eucas1p2.samsung.com>
+ <20200505084614.30424-10-m.szyprowski@samsung.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <eaaeae03-3fd4-fdd7-ec21-3218a5f74a28@arm.com>
+Date: Mon, 11 May 2020 16:51:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-2-daniel.vetter@ffwll.ch>
- <CAF6AEGuy050MWGxHk48i2f4XqKuF-9q9+FD3N8z55s6sQ+CALQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGuy050MWGxHk48i2f4XqKuF-9q9+FD3N8z55s6sQ+CALQ@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 11 May 2020 17:28:56 +0200
-Message-ID: <CAKMK7uEq1vPPB9AaXb-Me6FG_pwGdRwzu87jNGquHexDRHMowg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/msm: Don't call dma_buf_vunmap without _vmap
-To: Rob Clark <robdclark@gmail.com>
+In-Reply-To: <20200505084614.30424-10-m.szyprowski@samsung.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,96 +47,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 5:24 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, May 11, 2020 at 2:36 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > I honestly don't exactly understand what's going on here, but the
-> > current code is wrong for sure: It calls dma_buf_vunmap without ever
-> > calling dma_buf_vmap.
-> >
-> > What I'm not sure about is whether the WARN_ON is correct:
-> > - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
-> >   a pretty neat layering violation of how you shouldn't peek behind
-> >   the curtain of the dma-buf exporter, but par for course. Note that
-> >   all the nice new helpers don't (and we should probably have a bit a
-> >   warning about this in the kerneldoc).
-> >
-> > - but then in the get_vaddr() in msm_gem.c, and that seems to happily
-> >   wrap a vmap() around any object with ->pages set (so including
-> >   imported dma-buf)
-> >
-> > - I'm not seeing any guarantees that userspace can't use an imported
-> >   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
-> >   guarantees that an imported dma-buf won't end up with a ->vaddr set.
->
-> fwiw, a5xx_submit_in_rb() isn't a "normal" path (build-time disabled
-> by default, and restricted to sudo).. it really only exists to
-> simplify poking at fw.
->
-> There could be vmap's in the msm_gem_submit path, however.  If we
-> don't, we should probably just disallow using an imported dma-buf as
-> cmdstream.. I don't think there is any sane reason to permit that.  We
-> should probably also disallow get_vaddr() on imported buffers.
+On 05/05/2020 09:45, Marek Szyprowski wrote:
+> The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
+> numer of the created entries in the DMA address space. However the
+> subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
+> called with the original number of the entries passed to dma_map_sg. The
+> sg_table->nents in turn holds the result of the dma_map_sg call as stated
+> in include/linux/scatterlist.h. A common mistake was to ignore a result
+> of the dma_map_sg function and don't use the sg_table->orig_nents at all.
+> 
+> To avoid such issues, lets use common dma-mapping wrappers operating
+> directly on the struct sg_table objects and adjust references to the
+> nents and orig_nents respectively.
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Yeah if that's possible and won't blow up (I can't test) I think it'd
-be best. Something like
-if (bo->import_attach) return NULL; should do the trick I think.
-Should I type that up as v2 of this?
--Daniel
+The change looks good to me:
 
->
-> BR,
-> -R
->
-> >
-> > But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
-> > calling dma_buf_vmap is the wrong thing to do.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: linux-arm-msm@vger.kernel.org
-> > Cc: freedreno@lists.freedesktop.org
-> > ---
-> >  drivers/gpu/drm/msm/msm_gem.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> > index 5a6a79fbc9d6..3305a457960e 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > @@ -907,8 +907,7 @@ static void free_object(struct msm_gem_object *msm_obj)
-> >         put_iova(obj);
-> >
-> >         if (obj->import_attach) {
-> > -               if (msm_obj->vaddr)
-> > -                       dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
-> > +               WARN_ON(msm_obj->vaddr);
-> >
-> >                 /* Don't drop the pages for imported dmabuf, as they are not
-> >                  * ours, just free the array we allocated:
-> > --
-> > 2.26.2
-> >
+Reviewed-by: Steven Price <steven.price@arm.com>
 
+Although I would have appreciated the commit message being modified to 
+match the specifics of Panfrost - the return of dma_mpa_sg() wasn't 
+being ignored, but the use of orig_nents/nents was indeed wrong.
 
+Steve
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> ---
+> For more information, see '[PATCH v3 00/25] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/5/187
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_gem.c | 4 ++--
+>   drivers/gpu/drm/panfrost/panfrost_mmu.c | 5 ++---
+>   2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index 17b654e..95d7e80 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -41,8 +41,8 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+>   
+>   		for (i = 0; i < n_sgt; i++) {
+>   			if (bo->sgts[i].sgl) {
+> -				dma_unmap_sg(pfdev->dev, bo->sgts[i].sgl,
+> -					     bo->sgts[i].nents, DMA_BIDIRECTIONAL);
+> +				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
+> +						  DMA_BIDIRECTIONAL);
+>   				sg_free_table(&bo->sgts[i]);
+>   			}
+>   		}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index ed28aeb..9926111 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -517,10 +517,9 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>   	if (ret)
+>   		goto err_pages;
+>   
+> -	if (!dma_map_sg(pfdev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL)) {
+> -		ret = -EINVAL;
+> +	ret = dma_map_sgtable(pfdev->dev, sgt, DMA_BIDIRECTIONAL);
+> +	if (ret)
+>   		goto err_map;
+> -	}
+>   
+>   	mmu_map_sg(pfdev, bomapping->mmu, addr,
+>   		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
