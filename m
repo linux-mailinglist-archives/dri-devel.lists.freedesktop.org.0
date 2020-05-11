@@ -2,60 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC201CD1F8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 08:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8879C1CD205
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 08:45:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3C546E1BA;
-	Mon, 11 May 2020 06:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2D86E1BC;
+	Mon, 11 May 2020 06:45:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD086E1BE
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:40:20 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l11so3472883wru.0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 23:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=b+54X+TX5kZJ9qRshyticlnYndABBvz6OtR/q492GBo=;
- b=M8EYmyHmTRjm+HdQp+lpCdON/vaMWQpsLthw3YYDANF7NHrHoYvnkT+xgs7I2yegeT
- CndpjBqZ9xaZCJY9kbyDMbvAZHpBdREoRk5PY6Va4ohQa2f4BzAFgSwmC1jJl54zK8Sg
- LK5xF/1zdvab2IqMpowmR3TyvXedv5cKu2yzjZTa9bhOqTYOfHJ/IHJtxTqhURlUjD24
- MKAwgay/5VFJkHkRvtGIjzqshHIZo5Fz567i+B6uir3abJMVwXLIB5Cr0RSrMSxhnew3
- AjkhNADh/Ss5sTc2oCUCtXtfq5h3fUx/VLxtT/rJtg6OPcyHI6h9jRtw/r1dUlBbumb2
- eGvA==
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1456E1BC;
+ Mon, 11 May 2020 06:45:31 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id u16so17763355wmc.5;
+ Sun, 10 May 2020 23:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=1EGHCNZLop6lpa2MpQukB0Jzk7xjNDSSnPYZVksTl3g=;
+ b=SzyQivQ/k/7XrX8ar4XJQSn6XsTnFG6KqOIWxsJDuWQaChKGSnVAjtH0PyEm1stXRX
+ 2hdUyzb8OXIMagIdiS94rTquleNZLkmhyeLuYncHNTgT3mjGHceSe0v0LHx63jEUAOPS
+ 5zR0mNg8H0+PD7hmGrH18koC9v0HpLJ0uyvbWs2qnDhEszLQTM6EjsPZFrzbH6CDK7Bh
+ yjaLRU8Xw1xNvKBua9jLiFz1qOznXnd8+2Ag0BPocSmLSEh2muXsod8FWd5IkGf2ndSD
+ ww5ZFpHG8nxl2qMqw28CHdfCe/tbQWI4PBHxXwajJX8BbZIjQvGHmCDMOe7JJcK8xBmk
+ RciQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=b+54X+TX5kZJ9qRshyticlnYndABBvz6OtR/q492GBo=;
- b=SVI0nC2opA+xT8nUnlfqwWSPZnWTBNi8yiNxhZsbi8FAiZ1kIMl3V4413Ng47J4Uhs
- Fece/Bw2e6lNVZ2IgSzM7tSBHWSm86+iQFjrFPDiKhASB1ppTRCriO8KiQtOKQ/L2y3t
- RtydNqC60jn/mbVoM9H5G5X+KkbqY1D1z/OvE8Ys0UyCwl4Ii/VzBvA6rLBAaBUNtQty
- /O1XVquKH3hVMNA00sOxQq2BW4doqFhxdPd0q5RyTaZvyNvChiHa2hOl6IUqYJ3mCbi2
- hj+iT8qpuUQcxCdY2hs4U3Oc+RfKb3UpFd2QQDU9c4M0NE89ZAJ/+rD6+l1DpIuoOcPL
- 5v4g==
-X-Gm-Message-State: AGi0Pub53mzHh4QuXmKCgLNUdTlaHaK2K0vrqlItjalOHnAVlOgpXX6W
- xOPYIo60v6F+p+kFWcYPfxfVcg==
-X-Google-Smtp-Source: APiQypLNFMVwgMOtwQds6QCltWYpc6Vs3EChos/FuLb+gpdk79SDqJOL0Xi3mG5TizXzQAknF4MLTA==
-X-Received: by 2002:adf:f00e:: with SMTP id j14mr10520253wro.252.1589179219073; 
- Sun, 10 May 2020 23:40:19 -0700 (PDT)
-Received: from dell ([2.31.163.63])
- by smtp.gmail.com with ESMTPSA id w9sm17109112wrc.27.2020.05.10.23.40.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 23:40:18 -0700 (PDT)
-Date: Mon, 11 May 2020 07:40:16 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v2 01/10] backlight: Add backlight_device_get_by_name()
-Message-ID: <20200511064016.GJ823950@dell>
-References: <20200509141619.32970-1-noralf@tronnes.org>
- <20200509141619.32970-2-noralf@tronnes.org>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=1EGHCNZLop6lpa2MpQukB0Jzk7xjNDSSnPYZVksTl3g=;
+ b=pjVxYyQoAsPLLeRmC+Qb54gXAWQboE8rUXdkOqjCIdo6uI3bFasYKqFvEgC1bWCB/u
+ GaoW1SNXqw8MhmM94BQKPs5BAjusSbtEXu9Bp6vccaOZteX/EiuO0JvkfQvp0yCyfg2p
+ 3AmoI6wLNuNcwQZGGOZslLybh1xiP6g15BZJTBnZRelXmfa80n9MtETeiqvVWw2dqRhi
+ +UaSPjn32qJw+//v0CQK6SAHaBdOynHYSorry/VBJegqvWnAi3jHzs5H/ZouZrlE+3Ke
+ pYY2GxwJPeq/qlYrMVZRyfGN6xmtMs15t8Tr57AN2njiFkPiX9sG23rXyTqY7In7ll5q
+ 7Uxg==
+X-Gm-Message-State: AGi0PuYb/s2N+15RGclQvkgSSLoh1ogqJ952HXoP+2qKmFVimgW3fycY
+ 4ail9qdK7TLCLIuLYxA6OII=
+X-Google-Smtp-Source: APiQypK5EFJWbdLc5bXtXjCxgAaG3RfG35us+gztlEfpNe17D+ozOZBQZM+xCfL9V1I+x56wlVuhTA==
+X-Received: by 2002:a1c:1f16:: with SMTP id f22mr10040983wmf.46.1589179529773; 
+ Sun, 10 May 2020 23:45:29 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id d9sm874290wmd.10.2020.05.10.23.45.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 10 May 2020 23:45:29 -0700 (PDT)
+Subject: Re: [PATCH 1/6] drm/ttm: Add unampping of the entire device address
+ space
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1589050310-19666-2-git-send-email-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e293af59-99df-c147-68d6-8fa3ade38829@gmail.com>
+Date: Mon, 11 May 2020 08:45:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200509141619.32970-2-noralf@tronnes.org>
+In-Reply-To: <1589050310-19666-2-git-send-email-andrey.grodzovsky@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,28 +73,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingoohan1@gmail.com, daniel.thompson@linaro.org, linux-usb@vger.kernel.org,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: christian.koenig@amd.com
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCAwOSBNYXkgMjAyMCwgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgoKPiBBZGQgYSB3YXkg
-dG8gbG9va3VwIGEgYmFja2xpZ2h0IGRldmljZSBiYXNlZCBvbiBpdHMgbmFtZS4KPiBXaWxsIGJl
-IHVzZWQgYnkgYSBVU0IgZGlzcGxheSBnYWRnZXQgZ2V0dGluZyB0aGUgbmFtZSBmcm9tIGNvbmZp
-Z2ZzLgo+IAo+IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+IENjOiBEYW5p
-ZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgo+IENjOiBKaW5nb28gSGFu
-IDxqaW5nb29oYW4xQGdtYWlsLmNvbT4KPiBSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1A
-cmF2bmJvcmcub3JnPgo+IFJldmlld2VkLWJ5OiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9t
-cHNvbkBsaW5hcm8ub3JnPgo+IEFja2VkLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8u
-b3JnPgo+IFNpZ25lZC1vZmYtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
-Pgo+IC0tLQo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9iYWNrbGlnaHQuYyB8IDIxICsrKysr
-KysrKysrKysrKysrKysrKwo+ICBpbmNsdWRlL2xpbnV4L2JhY2tsaWdodC5oICAgICAgICAgICB8
-ICAxICsKPiAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspCgpBcHBsaWVkLCB0aGFu
-a3MuCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dCkxpbmFybyBTZXJ2aWNlcyBUZWNobmljYWwg
-TGVhZApMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQVJNIFNvQ3MKRm9s
-bG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Am 09.05.20 um 20:51 schrieb Andrey Grodzovsky:
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c    | 22 +++++++++++++++++++++-
+>   include/drm/ttm/ttm_bo_driver.h |  2 ++
+>   2 files changed, 23 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index c5b516f..eae61cc 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -1750,9 +1750,29 @@ void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo)
+>   	ttm_bo_unmap_virtual_locked(bo);
+>   	ttm_mem_io_unlock(man);
+>   }
+> +EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+>   
+> +void ttm_bo_unmap_virtual_address_space(struct ttm_bo_device *bdev)
+> +{
+> +	struct ttm_mem_type_manager *man;
+> +	int i;
+>   
+> -EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+
+> +	for (i = 0; i < TTM_NUM_MEM_TYPES; i++) {
+> +		man = &bdev->man[i];
+> +		if (man->has_type && man->use_type)
+> +			ttm_mem_io_lock(man, false);
+> +	}
+
+You should drop that it will just result in a deadlock warning for 
+Nouveau and has no effect at all.
+
+Apart from that looks good to me,
+Christian.
+
+> +
+> +	unmap_mapping_range(bdev->dev_mapping, 0, 0 , 1);
+> +	/*TODO What about ttm_mem_io_free_vm(bo) ? */
+> +
+> +	for (i = TTM_NUM_MEM_TYPES - 1; i >= 0; i--) {
+> +		man = &bdev->man[i];
+> +		if (man->has_type && man->use_type)
+> +			ttm_mem_io_unlock(man);
+> +	}
+> +}
+> +EXPORT_SYMBOL(ttm_bo_unmap_virtual_address_space);
+>   
+>   int ttm_bo_wait(struct ttm_buffer_object *bo,
+>   		bool interruptible, bool no_wait)
+> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+> index c9e0fd0..3133463 100644
+> --- a/include/drm/ttm/ttm_bo_driver.h
+> +++ b/include/drm/ttm/ttm_bo_driver.h
+> @@ -600,6 +600,8 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
+>    */
+>   void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo);
+>   
+> +void ttm_bo_unmap_virtual_address_space(struct ttm_bo_device *bdev);
+> +
+>   /**
+>    * ttm_bo_unmap_virtual
+>    *
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
