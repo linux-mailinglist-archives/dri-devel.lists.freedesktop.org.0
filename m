@@ -2,59 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478F51CDDA7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 16:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AC81CDDF2
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 16:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5305989A32;
-	Mon, 11 May 2020 14:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39AFA89FC0;
+	Mon, 11 May 2020 14:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA5CD890B2;
- Mon, 11 May 2020 14:49:38 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id f13so9374331qkh.2;
- Mon, 11 May 2020 07:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=gkrV0mSw419OC87OxKvOah2CgTI8JgcXYdLtKZtu+jI=;
- b=IZbkwj0dnYrfFciYxfmYFQ5udCQAC5qHRAPV9NNl0BoWruyERrJx3TquhZmI4vKroe
- bTPMv9wD6vIj8W55dt+aqU/X8/3frl3lNqZxFJjTsjkVU63G/mpVcOYbRJAsG6ftrYR8
- g/xpUNmnUFiFuwoNOEQtHFdIb/8b+UbRe7YsoKYIWSukk8twD4NgDyYEwFhtVIgvlpIT
- JqSCVJ6wok5wz5QnxN7pTC60Af6N0jD3c84DQp43B6zVkh40aBT5/whHXGLxQhb6XVWJ
- 9Ddi8+64W/Wd1WjaALSO49zCtcKtaU7YziO8rguwnAY9T8WRNPQcYTbCQW2+e6ZEkYUD
- GK+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=gkrV0mSw419OC87OxKvOah2CgTI8JgcXYdLtKZtu+jI=;
- b=LkQZlSMUdpuAFxazDFPwCcrTvrKbxU4Z0ffA1UIj7tguM+AtSeuqx6Dg+I4haOnx9c
- zzVqk1e89NatcZD+LyjwblcIbIZIdnm46yFcetWITBkWuIS9zb/r8bKeNle+PyLg2lT6
- sHlfAd6Fegy+3x5Xuxp5tyZCgxyx7970gx7MYardeeOPVOcQwGHmicRhgSdMmx9AOKsY
- uFt7YBPOY1GCKsm2T9myQg9ew+ySnUXiVAQY1GOV0WcXAASoCc5CU0Gu4yitL5n9+CmV
- H1jO2iu4rfR+KQsNHycrAqCK8b9kdI846JXrebUrWmZhbkFd7nwja8Ae0p4nDjN7k5OK
- p6cQ==
-X-Gm-Message-State: AGi0PuZ3WnbVQ+kc2zbnQZ2lcej7eR3ibAgs6pjLgLfEGGsB1ofoWknN
- 1WFjdsXbSQ26sd8Mmgt4H7nsV1zm1K0=
-X-Google-Smtp-Source: APiQypJoAuzVyc03cgE6RzbdljWE3MFT+haC+VE9LQTe3tyxSQRdD9fFW6Menc2CmBM6PpOz+553Hg==
-X-Received: by 2002:a37:8302:: with SMTP id f2mr15691637qkd.220.1589208577620; 
- Mon, 11 May 2020 07:49:37 -0700 (PDT)
-Received: from localhost ([199.96.181.106])
- by smtp.gmail.com with ESMTPSA id b198sm7594350qkg.37.2020.05.11.07.49.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 07:49:37 -0700 (PDT)
-Date: Mon, 11 May 2020 10:49:35 -0400
-From: Tejun Heo <tj@kernel.org>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [RFC v4 01/12] kthread: Add kthread_queue_flush_work()
-Message-ID: <20200511144935.GD16815@mtj.duckdns.org>
-References: <20200508204751.155488-1-lyude@redhat.com>
- <20200508204751.155488-2-lyude@redhat.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC3289FC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 14:59:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
+ with ESMTPSA id 67E002A1873
+Date: Mon, 11 May 2020 16:59:11 +0200
+From: Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To: robh+dt@kernel.org
+Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
+Message-ID: <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
+Mail-Followup-To: robh+dt@kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, kernel@collabora.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, jason@lakedaemon.net,
+ laurent.pinchart@ideasonboard.com
+References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
+ <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
+ <20200506155320.GC15206@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200508204751.155488-2-lyude@redhat.com>
+In-Reply-To: <20200506155320.GC15206@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20171215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,47 +44,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Dooks <ben.dooks@codethink.co.uk>,
- "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, Liang Chen <cl@rock-chips.com>,
- Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, jason@lakedaemon.net,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, laurent.pinchart@ideasonboard.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-On Fri, May 08, 2020 at 04:46:51PM -0400, Lyude Paul wrote:
-> +bool kthread_queue_flush_work(struct kthread_work *work,
-> +			      struct kthread_flush_work *fwork);
-> +void __kthread_flush_work_fn(struct kthread_work *work);
-
-As an exposed interface, this doesn't seem great. What the user wants to say
-is "wait for the current instance of this guy" and the interface is asking
-them to queue an extra work item whose queueing return state should be
-checked and depending on that result wait on its internal completion.
-
-I'm skeptical this is a good idea in general given that unless you define
-"this instance" at the time of queueing the work item which is being
-waited-upon, there's no way to guarantee that the instance you're queueing
-the flush work item on is the instance you want unless the queuer is holding
-external synchronization which prevents the instance from running. That's a
-really confusing semantics to expose in the interface.
-
-What the above means is that the ordering that you want is only defined
-through your own locking and that maybe suggests that the sequencing should
-be implemented on that side too. It may be a bit more code but a sequence
-counter + wait queue might be the better solution here.
-
-Thanks.
-
--- 
-tejun
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUm9iLAoKV2hhdCdzIHlvdXIgb3BpbmlvbiBvbiB0aGlzPwoKU29tZSBjb250ZXh0OiBJdCdz
+IGFib3V0IGJpbmRpbmdzIHRoYXQgZGVmaW5lIHNpZ25lZCBpbnRlZ2VyIHByb3BlcnRpZXMKd2l0
+aCByYW5nZSBjaGVja3MgdGhhdCBnbyBiZWxvdyBhbmQgYWJvdmUgemVyby4gVGhlIHNjaGVtYSBj
+aGVja2VyIGZhaWxzCmJlY2F1c2UsIGFwcGFyZW50bHksIGl0IGludGVycHJldHMgZXZlcnkgY2Vs
+bCB2YWx1ZSBhcyBhbiB1aW50MzIsIHdoaWNoCm1ha2VzIHRoZSByYW5nZSBjaGVjayBmYWlsIGZv
+ciBuZWdhdGl2ZSBudW1iZXJzLgoKT24gbWnDqSAwNi0wNS0yMDIwIDE4OjUzOjIwLCBMYXVyZW50
+IFBpbmNoYXJ0IHdyb3RlOgo+IEhpIFRvbWksCj4gCj4gT24gVHVlLCBBcHIgMjgsIDIwMjAgYXQg
+MTI6NDk6MjhQTSArMDMwMCwgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gPiBPbiAyOC8wNC8yMDIw
+IDEyOjIwLCBSaWNhcmRvIENhw7F1ZWxvIHdyb3RlOgo+ID4gCj4gPiA+IDIpIFRoZSBkZWZpbml0
+aW9uIG9mIHRpLGRlc2tldyBpbiB0aGUgb3JpZ2luYWwgYmluZGluZyBzZWVtcyB0byBiZQo+ID4g
+PiB0YWlsb3JlZCB0byB0aGUgY3VycmVudCBkcml2ZXIgYW5kIHRoZSB3YXkgaXQncyBkZWZpbmVk
+IG1heSBub3QgYmUgdmVyeQo+ID4gPiBEVC1mcmllbmRseS4KPiA+ID4gCj4gPiA+ICAgIFRoaXMg
+cGFyYW1ldGVyIG1hcHMgdG8gYSAzLWJpdCBmaWVsZCBpbiBhIGhhcmR3YXJlIHJlZ2lzdGVyIHRo
+YXQgdGFrZXMKPiA+ID4gICAgYSB2YWx1ZSBmcm9tIDAgdG8gNywgc28gdGhlIFstNCwgM10gcmFu
+Z2UgZGVzY3JpYmVkIGZvciB0aGlzIHdvdWxkIG1hcAo+ID4gPiAgICB0byBbMDAwLCAxMTFdOiAt
+NCAtPiAwMDAsIC0zIC0+IDAwMSwgLTIgLT4gMDEwLCAuLi4gMyAtPiAxMTEuCj4gPiA+IAo+ID4g
+PiAgICBUaGVuLCB0aGUgZHJpdmVyIHBhcnNlcyB0aGUgcGFyYW1ldGVyICh1bnNpZ25lZCkgYW5k
+IGNhc3RzIGl0IHRvIGEKPiA+ID4gICAgc2lnbmVkIGludGVnZXIgdG8gZ2V0IGEgbnVtYmVyIGlu
+IHRoZSBbLTQsIDNdIHJhbmdlLgo+ID4gCj4gPiBJbnRlcmVzdGluZ2x5IHRoZSBjdXJyZW50IGV4
+YW1wbGUgaGFzIHRpLGRlc2tldyA9IDw0Pi4uLgo+ID4gCj4gPiA+ICAgIEEgdmVuZG9yLXNwZWNp
+ZmljIHByb3BlcnR5IG11c3QgaGF2ZSBhIHR5cGUgZGVmaW5pdGlvbiBpbiBqc29uLXNjaGVtYSwK
+PiA+ID4gICAgc28gaWYgSSB0cmFuc2xhdGUgdGhlIG9yaWdpbmFsIGJpbmRpbmdzIHNlbWFudGlj
+cyBkaXJlY3RseSwgSSBzaG91bGQKPiA+ID4gICAgZGVmaW5lIHRpLGRlc2tldyBhcyBhbiBpbnQz
+MiwgYnV0IHRoaXMgbWFrZXMgZHRfYmluZGluZ19jaGVjayBmYWlsIGlmCj4gPiA+ICAgIHRoZSBw
+cm9wZXJ0eSBoYXMgYSBuZWdhdGl2ZSB2YWx1ZSBpbiB0aGUgZXhhbXBsZSBiZWNhdXNlIG9mIHRo
+ZQo+ID4gPiAgICBpbnRlcm5hbCByZXByZXNlbnRhdGlvbiBvZiBjZWxscyBhcyB1bnNpZ25lZCBp
+bnRlZ2VyczoKPiA+ID4gCj4gPiA+ICAgICAgIHRpLGRlc2tldzowOjA6IDQyOTQ5NjcyOTMgaXMg
+Z3JlYXRlciB0aGFuIHRoZSBtYXhpbXVtIG9mIDIxNDc0ODM2NDcKPiA+IAo+ID4gSSBkb24ndCBx
+dWl0ZSB1bmRlcnN0YW5kIHRoaXMuIFdlIGNhbm5vdCBoYXZlIG5lZ2F0aXZlIG51bWJlcnMgaW4g
+ZHRzIGZpbGVzPyBPciB3ZSBjYW4sIGJ1dCAKPiA+IGR0X2JpbmRpbmdfY2hlY2sgZG9lc24ndCBo
+YW5kbGUgdGhlbSBjb3JyZWN0bHk/IE9yIHRoYXQgaW50MzIgaXMgbm90IHN1cHBvcnRlZCBpbiB5
+YW1sIGJpbmRpbmdzPwo+ID4gCj4gPiA+ICAgIFNvIEkgY2FuIHRoaW5rIG9mIHR3byBzb2x1dGlv
+bnMgdG8gdGhpczoKPiA+ID4gCj4gPiA+ICAgIGEpIEtlZXAgdGhlIHRpLGRlc2tldyBwcm9wZXJ0
+eSBhcyBhbiB1aW50MzIgYW5kIGRvY3VtZW50IHRoZSB2YWxpZAo+ID4gPiAgICByYW5nZSAoWy00
+LCAzXSkgaW4gdGhlIHByb3BlcnR5IGRlc2NyaXB0aW9uICh0aGlzIGlzIHdoYXQgdGhpcyBwYXRj
+aAo+ID4gPiAgICBkb2VzIGN1cnJlbnRseSkuCj4gPiA+IAo+ID4gPiAgICBiKSBSZWRlZmluZSB0
+aGlzIHByb3BlcnR5IHRvIGJlIGNsb3NlciB0byB0aGUgZGF0YXNoZWV0IGRlc2NyaXB0aW9uCj4g
+PiA+ICAgIChpZS4gdW5zaWduZWQgaW50ZWdlcnMgZnJvbSAwIHRvIDcpIGFuZCBhZGFwdCB0aGUg
+ZHJpdmVyIGFjY29yZGluZ2x5Lgo+ID4gPiAgICBUaGlzIHdvdWxkIGFsc28gbGV0IHVzIGRlZmlu
+ZSBpdHMgcmFuZ2UgcHJvcGVybHkgdXNpbmcgbWluaW11bSBhbmQKPiA+ID4gICAgbWF4aW11bSBw
+cm9wZXJ0aWVzIGZvciBpdC4KPiA+ID4gCj4gPiA+ICAgIEkgdGhpbmsgKGIpIGlzIHRoZSByaWdo
+dCB0aGluZyB0byBkbyBidXQgSSB3YW50IHRvIGtub3cgeW91cgo+ID4gPiAgICBvcGluaW9uLiBC
+ZXNpZGVzLCBJIGRvbid0IGhhdmUgdGhpcyBoYXJkd2FyZSBhdCBoYW5kIGFuZCBpZiBJIHVwZGF0
+ZWQKPiA+ID4gICAgdGhlIGRyaXZlciBJIHdvdWxkbid0IGJlIGFibGUgdG8gdGVzdCBpdC4KPiA+
+IAo+ID4gSSBkb24ndCB0aGluayBhbnlvbmUgaGFzIHVzZWQgZGVza2V3IHByb3BlcnR5LCBzbyBJ
+IGd1ZXNzIGNoYW5naW5nIGl0IGlzIG5vdCBvdXQgb2YgdGhlIHF1ZXN0aW9uLgo+ID4gCj4gPiBM
+YXVyZW50LCBkaWQgeW91IGhhdmUgYSBib2FyZCB0aGF0IG5lZWRzIGRlc2tldyB3aGVuIHlvdSBh
+ZGRlZCBpdCB0byB0ZnA0MTA/Cj4gCj4gSSBkaWRuJ3QgaWYgSSByZW1lbWJlciBjb3JyZWN0bHks
+IEkganVzdCBtYXBwZWQgaXQgdG8gdGhlIGhhcmR3YXJlCj4gZmVhdHVyZXMuIFRoZSBoYXJkd2Fy
+ZSByZWdpc3RlciBpbmRlZWQgdGFrZXMgYSB2YWx1ZSBiZXR3ZWVuIDAgYW5kIDcsCj4gYW5kIHRo
+YXQgaXMgbWFwcGVkIHRvIFstNCwzXSB4IHQoU1RFUCkuIEkgZG9uJ3QgbWluZCBlaXRoZXIgb3B0
+aW9uLgo+IAo+IC0tIAo+IFJlZ2FyZHMsCj4gCj4gTGF1cmVudCBQaW5jaGFydAoKSSBoYXZlbid0
+IGZvdW5kIGFueSBleGFtcGxlcyBvZiB5YW1sIGJpbmRpbmdzIGRlZmluaW5nIHNpZ25lZCBpbnRl
+Z2VyCnByb3BlcnRpZXMgc3VjaCBhcyB0aGlzLCB3aGF0J3MgdGhlIG5vcm0gaW4gdGhpcyBjYXNl
+PyBEbyB5b3UgYWdyZWUgd2l0aAphbnkgb2YgdGhlIHByb3Bvc2VkIHNvbHV0aW9ucz8gRG8geW91
+IGhhdmUgYSBiZXR0ZXIgc3VnZ2VzdGlvbj8KClRoYW5rcywKUmljYXJkbwpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
