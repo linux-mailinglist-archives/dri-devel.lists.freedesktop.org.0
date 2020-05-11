@@ -1,55 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0020E1CD876
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:31:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BEB1CD8A3
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E54E89857;
-	Mon, 11 May 2020 11:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17E756E43F;
+	Mon, 11 May 2020 11:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A600989824
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:31:18 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id t8so3254153uap.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 04:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w+Zv0++TVDvxF3xoCmnjHlgSePa05xkuBLsnjTZYh4c=;
- b=lNT2+YUw6cPy/74Cb1tOsf59oT4FKIk+H19gHX1WcIj2W9PGd9n1sLmTO9a7xNuOgt
- 8vvD3v2nGqt3Z0WPCByqiBeujm3sS2j5+me+5q5BEGnMMFqdBvRhTQhTRf3OdvAqdT1f
- N8cUCCjzWN6YySlBMCb3Ai0O+QPfWHRmV1u/06m15JBPWE9MsHqSbtAdSlaLjaDQG62M
- tvr+44say3vHiGLAwqDyPX1Ngx9jAdfIqJkoIPCTRJTapAUwi0WKjpbMifechZmJ0ms8
- LFw5qZpFnvYSEPscNhNNDIx4xpPWqYGq2ChXk8WGFlLuLEqIfXEEKUy0J1rqVjYuYjQf
- nCSA==
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52CCA6E43F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:37:44 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g12so18807659wmh.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 04:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=ONEtdIkAc0XGrzdJ+vZ9El01kQJP8dEySAsiTgZYuB0=;
+ b=QZBHN+27NsrB4jrWbRtmq8kKBtqYQxFjmxlehkFzC5xw+yq5qTaio7B1Q39/mwwPH2
+ 6giK0t+F0BCXOCLRtwvWmQpwooKyIfJXVcj17eaJUsEsOD6rKWb6iGLviL+9raxm0TdI
+ BQGuS3FAy/rQHbA2qUa3HWuMgpuXiIx7krzoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w+Zv0++TVDvxF3xoCmnjHlgSePa05xkuBLsnjTZYh4c=;
- b=pe4EngfQzXdd7kz5T4HXQShFMK5XxJCrsiu9X7CwjynaCBBnBUCscTzO6EfnBf+HOE
- wKrKLyxaHPGVMz/Z2Z5TyM/MzWcGngHFjE3V0Wh/KIamVwQ/O7HEbJD0x+J1hhjU9Uqy
- hI2kKTPF24VA3/dsq/Rf4KMRVKt3WUs+IhIjWGbCBM0+Q5o24STe4NVfx1t3Es36s86e
- GmxRCGiXrpO1318S9yS9h0ENFyJKPPs0zQvPehzhIzbXcmqM9ivky8uy9maH1xAwf3nj
- uVQt0M2M9Va0TxeX5HMvSvxRJ2D3IgZ3QiLUjlkGbrZe14FjGboQkk3zdWIZro7bw1f3
- VoLA==
-X-Gm-Message-State: AGi0PubTx533Ql6WBOQiplyq+QILnwWGEAnibQMZmTCep0pSVQSJ1KJH
- OGq8slEP8Ymr6cMP071OzbYjcrgT8MDzk/AqOdM16Gpk
-X-Google-Smtp-Source: APiQypIWJI+taFxaNCnyZ0fq8UVh4xlV54xLlQgsek6SWGUFOWZjXnIxsAuM/j/MUwfOX3xgM48UYu0u3fE65WKZnMg=
-X-Received: by 2002:ab0:1ea:: with SMTP id 97mr11374226ual.106.1589196677443; 
- Mon, 11 May 2020 04:31:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ONEtdIkAc0XGrzdJ+vZ9El01kQJP8dEySAsiTgZYuB0=;
+ b=O4WEFKFb853pr+vuv/kUUj3ptAiRwb8HoyVde4xHMe1vhOb4xmPQ1jv4wPz1TfBhac
+ HluXkr0LuYa09Gzo5jxm+i7I+T3Me1I80al8dAdsEJAIpn9SO7YYpda/7Zc04TgvsXuQ
+ DfurDaY1daCO4Y28APnj4nfMr3xHXQR3epfJp9lWZM+fLIyJRxCHwxyaY1XqiXuz06ed
+ Ztsa3TodEaFRlZURrQQH/QrHzaSGQK5GupBScSYksO4vDIKvcuyIR8Bq6OTUbkYTXpvU
+ 50dTB+OQkUxLMfGdpaMcpTyVbtq/E40P7aCJI5RDQ6Sz5k+P/pJ+zXl3JfdoaFJiTyRO
+ ItTw==
+X-Gm-Message-State: AGi0PuaP5mWiAWZa1d5XNLRuMDigHEG5Xs9/jpeawE42v77B8kItfvnt
+ V/o8Ytwkl+xD4k9L3NwUq8inBA==
+X-Google-Smtp-Source: APiQypLW21qp23JdQwUR+Xp+ib17FxstPFRyP2ifSuL9uprRmR3mzz72pX06eak3SJYySbt7OOPzVw==
+X-Received: by 2002:a7b:cd10:: with SMTP id f16mr32404977wmj.21.1589197062995; 
+ Mon, 11 May 2020 04:37:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w15sm16625890wrl.73.2020.05.11.04.37.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 04:37:42 -0700 (PDT)
+Date: Mon, 11 May 2020 13:37:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/9] drm/udl: Don't call get/put_pages on imported dma-buf
+Message-ID: <20200511113740.GE206103@phenom.ffwll.local>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-6-daniel.vetter@ffwll.ch>
+ <d34c53ef-1cba-9559-8169-66535d06b6cf@suse.de>
 MIME-Version: 1.0
-References: <20200505160329.2976059-1-emil.l.velikov@gmail.com>
- <20200505160329.2976059-2-emil.l.velikov@gmail.com>
-In-Reply-To: <20200505160329.2976059-2-emil.l.velikov@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 11 May 2020 12:28:40 +0100
-Message-ID: <CACvgo51qzvmf9oTxx_dXWPJEz8VN5VuBGaBJL-JMbbLwSoEDCw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/panel: use mipi_dsi_dcs_write_buffer where
- possible
-To: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Disposition: inline
+In-Reply-To: <d34c53ef-1cba-9559-8169-66535d06b6cf@suse.de>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,98 +67,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 May 2020 at 17:05, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> From: Emil Velikov <emil.velikov@collabora.com>
->
-> A few of the new panels create a local macro wrapping around
-> mipi_dsi_dcs_write. At the same time, they don't really care about the
-> command/payload split.
->
-> mipi_dsi_dcs_write does a kmalloc/memcpy/kfree for payload > 7 bytes.
-> kmalloc - avoid that all together by using the _buffer function.
->
-Seems like I've left an extra word here - will fix in v2, alongside
-any review feedback.
-s/kmalloc - avoid/Avoid/
+On Mon, May 11, 2020 at 01:23:38PM +0200, Thomas Zimmermann wrote:
+> Hi
+> =
 
-> Aside:
-> panel-xinpeng-xpp055c272.c calls its wrapper "generic" although it
-> should be "dcs". But that for another day/patch.
->
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> ---
->  drivers/gpu/drm/panel/panel-elida-kd35t133.c       | 4 ++--
->  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c | 4 ++--
->  drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c   | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> index 711ded453c44..00e3d67af812 100644
-> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> @@ -52,9 +52,9 @@ static inline struct kd35t133 *panel_to_kd35t133(struct drm_panel *panel)
->  }
->
->  #define dsi_dcs_write_seq(dsi, cmd, seq...) do {                       \
-> -               static const u8 d[] = { seq };                          \
-> +               static const u8 b[] = { cmd, seq };                     \
->                 int ret;                                                \
-> -               ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));   \
-> +               ret = mipi_dsi_dcs_write_buffer(dsi, b, ARRAY_SIZE(b)); \
->                 if (ret < 0)                                            \
->                         return ret;                                     \
->         } while (0)
-> diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> index 5a7a31c8513e..eaa9da3ebbea 100644
-> --- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> +++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-> @@ -246,9 +246,9 @@ struct ltk050h3146w *panel_to_ltk050h3146w(struct drm_panel *panel)
->  }
->
->  #define dsi_dcs_write_seq(dsi, cmd, seq...) do {                       \
-> -               static const u8 d[] = { seq };                          \
-> +               static const u8 b[] = { cmd, seq };                     \
->                 int ret;                                                \
-> -               ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));   \
-> +               ret = mipi_dsi_dcs_write_buffer(dsi, b, ARRAY_SIZE(b)); \
->                 if (ret < 0)                                            \
->                         return ret;                                     \
->         } while (0)
-> diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> index 1645aceab597..9e07d7e86807 100644
-> --- a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> +++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-> @@ -62,9 +62,9 @@ static inline struct xpp055c272 *panel_to_xpp055c272(struct drm_panel *panel)
->  }
->
->  #define dsi_generic_write_seq(dsi, cmd, seq...) do {                   \
-> -               static const u8 d[] = { seq };                          \
-> +               static const u8 b[] = { cmd, seq };                     \
->                 int ret;                                                \
-> -               ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));   \
-> +               ret = mipi_dsi_dcs_write_buffer(dsi, b, ARRAY_SIZE(b)); \
->                 if (ret < 0)                                            \
->                         return ret;                                     \
->         } while (0)
-> --
-> 2.25.1
->
+> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> > There's no direct harm, because for the shmem helpers these are noops
+> > on imported buffers. The trouble is in the locks these take - I want
+> > to change dma_buf_vmap locking, and so need to make sure that we only
+> > ever take certain locks on one side of the dma-buf interface: Either
+> > for exporters, or for importers.
+> > =
 
-Humble poke?
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > ---
+> >  drivers/gpu/drm/udl/udl_gem.c | 22 ++++++++++++----------
+> >  1 file changed, 12 insertions(+), 10 deletions(-)
+> > =
 
--Emil
+> > diff --git a/drivers/gpu/drm/udl/udl_gem.c b/drivers/gpu/drm/udl/udl_ge=
+m.c
+> > index b6e26f98aa0a..c68d3e265329 100644
+> > --- a/drivers/gpu/drm/udl/udl_gem.c
+> > +++ b/drivers/gpu/drm/udl/udl_gem.c
+> > @@ -46,29 +46,31 @@ static void *udl_gem_object_vmap(struct drm_gem_obj=
+ect *obj)
+> =
+
+> It's still not clear to me why this function exists in the first place.
+> It's the same code as the default implementation, except that it doesn't
+> support cached mappings.
+> =
+
+> I don't see why udl is special. I'd suggest to try to use the original
+> shmem function and remove this one. Same for the mmap code.
+
+tbh no idea, could be that the usb code is then a bit too inefficient at
+uploading stuff if it needs to cache flush.
+
+But then on x86 at least everything (except real gpus) is coherent, so
+cached mappings should be faster.
+
+No idea, but also don't have the hw so not going to touch udl that much.
+-Daniel
+
+> =
+
+> Best regards
+> Thomas
+> =
+
+> >  	if (shmem->vmap_use_count++ > 0)
+> >  		goto out;
+> >  =
+
+> > -	ret =3D drm_gem_shmem_get_pages(shmem);
+> > -	if (ret)
+> > -		goto err_zero_use;
+> > -
+> > -	if (obj->import_attach)
+> > +	if (obj->import_attach) {
+> >  		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
+> > -	else
+> > +	} else {
+> > +		ret =3D drm_gem_shmem_get_pages(shmem);
+> > +		if (ret)
+> > +			goto err;
+> > +
+> >  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+> >  				    VM_MAP, PAGE_KERNEL);
+> >  =
+
+> > +		if (!shmem->vaddr)
+> > +			drm_gem_shmem_put_pages(shmem);
+> > +	}
+> > +
+> >  	if (!shmem->vaddr) {
+> >  		DRM_DEBUG_KMS("Failed to vmap pages\n");
+> >  		ret =3D -ENOMEM;
+> > -		goto err_put_pages;
+> > +		goto err;
+> >  	}
+> >  =
+
+> >  out:
+> >  	mutex_unlock(&shmem->vmap_lock);
+> >  	return shmem->vaddr;
+> >  =
+
+> > -err_put_pages:
+> > -	drm_gem_shmem_put_pages(shmem);
+> > -err_zero_use:
+> > +err:
+> >  	shmem->vmap_use_count =3D 0;
+> >  	mutex_unlock(&shmem->vmap_lock);
+> >  	return ERR_PTR(ret);
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
