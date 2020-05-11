@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497EC1CD9FD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:34:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3C01CDA11
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E26F26E457;
-	Mon, 11 May 2020 12:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 893AB89C28;
+	Mon, 11 May 2020 12:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF5D6E44F;
- Mon, 11 May 2020 12:34:18 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k12so17829141wmj.3;
- Mon, 11 May 2020 05:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=LphsfCyPVu0MdCoxqVpG2uL08ny9bL/Y03NLWFhWvZs=;
- b=qQo2Yatr3jxyW/g0s9keYj+PhhXC0B9KF4LJ89ArBByxokBTSa0IihAC+aG27CuSdg
- zkz5CrQSomoHgEK1EfY3ozAxZSZ5G0eRo8Fx/OFIe7xl8GthIehqAfdoWwDbkwXgFGer
- zCz+nFMPJGgon6nK76RCaPsUvcyMq7gkJXJO2ySFCm164zgQDVGd8BtDm9Q056wuDSJD
- S7h8+avRUNhV+znVX8CPZSNrykxp/mnukr049Q4oSK++ZOTm3sWyh+0aeQ1DT2l4gll8
- 7suGptMRIamcclnvbrf9ZixvBo1H0cM4PYkl24c94oM+1RFrIzXIAU5C7k/dDhj+TBS4
- P+Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=LphsfCyPVu0MdCoxqVpG2uL08ny9bL/Y03NLWFhWvZs=;
- b=grufMOwoqVsxxQRhfJMggjMRl4YknUKBAzdrfsRkPgpWugpbTKJY0quKN5GpRUrzzM
- Mk+8KUwKvgZT1XVMqK6wK32n2oILiKYp2ugu8AIwXCftSOMMydwG7atPY6/XnsqUljIb
- /0tG0pOlohutOVtZXUNgC3iN+I5byR7VnaDwN5IGhQUXqyTVtIRvMpYveNXbkZsSl0xW
- 0yclQLQItTctkRlJimVv3Ye0VfRaOhSamev0hZJUgvtdD+LIz/LRb8QINajk0ZBRyO4+
- 8CMzAYH5gf+k0Ne7X9PaFsuE6PfJmz3odihJDIml715hUVPEcStDxANQFLjH46K6GaBX
- XgGA==
-X-Gm-Message-State: AGi0Puab89vA5l0XybjBK8IZK5Ify0IXZAkNGfkqbElYB7PQFSKhgaAe
- E8VuYcUyQ1rDubyYkiW2uFLgEx5P
-X-Google-Smtp-Source: APiQypKuCxKY8UrY9CQKkbYuRyuWrKZ7mdLwAFb7kE+gpM3vywtFlOoQn76/cdEYCEqmJfCslO+vLw==
-X-Received: by 2002:a1c:6344:: with SMTP id x65mr14659905wmb.51.1589200456660; 
- Mon, 11 May 2020 05:34:16 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id l19sm27136187wmj.14.2020.05.11.05.34.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 May 2020 05:34:16 -0700 (PDT)
-Subject: Re: [PATCH 0/6] RFC Support hot device unplug in amdgpu
-To: Daniel Vetter <daniel@ffwll.ch>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
- <20200511095433.GA206103@phenom.ffwll.local>
- <20200511111931.GD206103@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <1a58a623-b54d-1c90-0228-2f3d4da2dbbe@gmail.com>
-Date: Mon, 11 May 2020 14:34:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F0289C28;
+ Mon, 11 May 2020 12:37:22 +0000 (UTC)
+IronPort-SDR: jOAQN1E+zTNTO121R67MNEjLEADmMJhRXwzEQ2TH7JAD7Bj+3Cku6Um78XRpbnitxVjeWcECZR
+ 92SNI4FVbvXQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2020 05:37:21 -0700
+IronPort-SDR: 89pvjIBQT6dfYxR71EyBPWacDiW2IkF9OUIip2wPXJMERKcxwVlaDcMwo7RipYYDAtzYY8/a76
+ pp+WHbLWzmow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,380,1583222400"; d="scan'208";a="306166876"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 11 May 2020 05:37:16 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 11 May 2020 15:37:15 +0300
+Date: Mon, 11 May 2020 15:37:15 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: Fix page flip ioctl format check
+Message-ID: <20200511123715.GI6112@intel.com>
+References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
+ <20200417152310.GQ3456981@phenom.ffwll.local>
+ <20200417154313.GO6112@intel.com>
+ <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
+ <20200417182834.GS6112@intel.com>
+ <20200508170840.GE1219060@intel.com>
+ <CAKMK7uHm+CmM6noHbMnmW9bSzk0dZ=9-CTpu+hxUwFbXmMkZ4g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200511111931.GD206103@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHm+CmM6noHbMnmW9bSzk0dZ=9-CTpu+hxUwFbXmMkZ4g@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,203 +56,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ stable <stable@vger.kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.05.20 um 13:19 schrieb Daniel Vetter:
-> On Mon, May 11, 2020 at 11:54:33AM +0200, Daniel Vetter wrote:
->> On Sat, May 09, 2020 at 02:51:44PM -0400, Andrey Grodzovsky wrote:
->>> This RFC is a more of a proof of concept then a fully working solution as there are a few unresolved issues we are hopping to get advise on from people on the mailing list.
->>> Until now extracting a card either by physical extraction (e.g. eGPU with thunderbold connection or by emulation through syfs -> /sys/bus/pci/devices/device_id/remove)
->>> would cause random crashes in user apps. The random crashes in apps were mostly due to the app having mapped a device backed BO into it's adress space was still
->>> trying to access the BO while the backing device was gone.
->>> To answer this first problem Christian suggested to fix the handling of mapped memory in the clients when the device goes away by forcibly unmap all buffers
->>> the user processes has by clearing their respective VMAs mapping the device BOs. Then when the VMAs try to fill in the page tables again we check in the fault handler
->>> if the device is removed and if so, return an error. This will generate a SIGBUS to the application which can then cleanly terminate.
->>> This indeed was done but this in turn created a problem of kernel OOPs were the OOPSes were due to the fact that while the app was terminating because of the SIGBUS
->>> it would trigger use after free in the driver by calling to accesses device structures that were already released from the pci remove sequence.
->>> This we handled by introducing a 'flush' seqence during device removal were we wait for drm file reference to drop to 0 meaning all user clients directly using this device terminated.
->>> With this I was able to cleanly emulate device unplug with X and glxgears running and later emulate device plug back and restart of X and glxgears.
->>>
->>> But this use case is only partial and as I see it all the use cases are as follwing and the questions it raises.
->>>
->>> 1) Application accesses a BO by opening drm file
->>> 	1.1) BO is mapped into applications address space (BO is CPU visible) - this one we have a solution for by invaldating BO's CPU mapping casuing SIGBUS
->>> 	     and termination and waiting for drm file refcound to drop to 0 before releasing the device
->>> 	1.2) BO is not mapped into applcation address space (BO is CPU invisible) - no solution yet because how we force the application to terminate in this case ?
->>>
->>> 2) Application accesses a BO by importing a DMA-BUF
->>> 	2.1)  BO is mapped into applications address space (BO is CPU visible) - solution is same as 1.1 but instead of waiting for drm file release we wait for the
->>> 	      imported dma-buf's file release
->>> 	2.2)  BO is not mapped into applcation address space (BO is CPU invisible) - our solution is to invalidate GPUVM page tables and destroy backing storage for
->>>                all exported BOs which will in turn casue VM faults in the importing device and then when the importing driver will try to re-attach the imported BO to
->>> 	      update mappings we return -ENODEV in the import hook which hopeffuly will cause the user app to terminate.
->>>
->>> 3) Applcation opens a drm file or imports a dma-bud and holds a reference but never access any BO or does access but never more after device was unplug - how would we
->>>     force this applcation to termiante before proceeding with device removal code ? Otherwise the wait in pci remove just hangs for ever.
->>>
->>> The attached patches adress 1.1, 2.1 and 2.2, for now only 1.1 fully tested and I am still testing the others but I will be happy for any advise on all the
->>> described use cases and maybe some alternative and better (more generic) approach to this like maybe obtaining PIDs of relevant processes through some revere
->>> mapping from device file and exported dma-buf files and send them SIGKILL - would this make more sense or any other method ?
->>>
->>> Patches 1-3 address 1.1
->>> Patch 4 addresses 2.1
->>> Pathces 5-6 address 2.2
->>>
->>> Reference: https://gitlab.freedesktop.org/drm/amd/-/issues/1081
->> So we've been working on this problem for a few years already (but it's
->> still not solved), I think you could have saved yourselfs some typing.
->>
->> Bunch of things:
->> - we can't wait for userspace in the hotunplug handlers, that might never
->>    happen. The correct way is to untangle the lifetime of your hw driver
->>    for a specific struct pci_device from the drm_device lifetime.
->>    Infrastructure is all there now, see drm_dev_get/put, drm_dev_unplug and
->>    drm_dev_enter/exit. A bunch of usb/spi drivers use this 100% correctly
->>    now, so there's examples. Plus kerneldoc explains stuff.
+On Sat, May 09, 2020 at 12:13:02PM +0200, Daniel Vetter wrote:
+> On Fri, May 8, 2020 at 7:09 PM Rodrigo Vivi <rodrigo.vivi@intel.com> wrot=
+e:
+> >
+> > On Fri, Apr 17, 2020 at 09:28:34PM +0300, Ville Syrj=E4l=E4 wrote:
+> > > On Fri, Apr 17, 2020 at 08:10:26PM +0200, Daniel Vetter wrote:
+> > > > On Fri, Apr 17, 2020 at 5:43 PM Ville Syrj=E4l=E4
+> > > > <ville.syrjala@linux.intel.com> wrote:
+> > > > >
+> > > > > On Fri, Apr 17, 2020 at 05:23:10PM +0200, Daniel Vetter wrote:
+> > > > > > On Thu, Apr 16, 2020 at 08:04:20PM +0300, Ville Syrjala wrote:
+> > > > > > > From: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > > > >
+> > > > > > > Revert back to comparing fb->format->format instead fb->forma=
+t for the
+> > > > > > > page flip ioctl. This check was originally only here to disal=
+low pixel
+> > > > > > > format changes, but when we changed it to do the pointer comp=
+arison
+> > > > > > > we potentially started to reject some (but definitely not all=
+) modifier
+> > > > > > > changes as well. In fact the current behaviour depends on whe=
+ther the
+> > > > > > > driver overrides the format info for a specific format+modifi=
+er combo.
+> > > > > > > Eg. on i915 this now rejects compression vs. no compression c=
+hanges but
+> > > > > > > does not reject any other tiling changes. That's just inconsi=
+stent
+> > > > > > > nonsense.
+> > > > > > >
+> > > > > > > The main reason we have to go back to the old behaviour is to=
+ fix page
+> > > > > > > flipping with Xorg. At some point Xorg got its atomic rights =
+taken away
+> > > > > > > and since then we can't page flip between compressed and non-=
+compressed
+> > > > > > > fbs on i915. Currently we get no page flipping for any games =
+pretty much
+> > > > > > > since Mesa likes to use compressed buffers. Not sure how comp=
+ositors are
+> > > > > > > working around this (don't use one myself). I guess they must=
+ be doing
+> > > > > > > something to get non-compressed buffers instead. Either that =
+or
+> > > > > > > somehow no one noticed the tearing from the blit fallback.
+> > > > > >
+> > > > > > Mesa only uses compressed buffers if you enable modifiers, and =
+there's a
+> > > > > > _loooooooooooot_ more that needs to be fixed in Xorg to enable =
+that for
+> > > > > > real. Like real atomic support.
+> > > > >
+> > > > > Why would you need atomic for modifiers? Xorg doesn't even have
+> > > > > any sensible framework for atomic and I suspect it never will.
+> > > >
+> > > > Frankly if no one cares about atomic in X I don't think we should do
+> > > > work-arounds for lack of atomic in X.
+> > > >
+> > > > > > Without modifiers all you get is X tiling,
+> > > > > > and that works just fine.
+> > > > > >
+> > > > > > Which would also fix this issue here you're papering over.
+> > > > > >
+> > > > > > So if this is the entire reason for this, I'm inclined to not d=
+o this.
+> > > > > > Current Xorg is toast wrt modifiers, that's not news.
+> > > > >
+> > > > > Works just fine. Also pretty sure modifiers are even enabled by
+> > > > > default now in modesetting.
+> > > >
+> > > > Y/CSS is harder to scan out, you need to verify with TEST_ONLY whet=
+her
+> > > > it works. Otherwise good chances for some oddball black screens on
+> > > > configurations that worked before. Which is why all non-atomic
+> > > > compositors reverted modifiers by default again.
+> > >
+> > > Y alone is hard to scanout also, and yet we do nothing to reject that.
+> > > It's just an inconsistent mess.
+> > >
+> > > If we really want to keep this check then we should rewrite it
+> > > to be explicit:
+> > >
+> > > if (old_fb->format->format !=3D new_fb->format->format ||
+> > >     is_ccs(old_fb->modifier) !=3D is_ccs(new_fb->modifier))
+> > >     return -EINVAL;
+> > >
+> > > Now it's just a random thing that may even stop doing what it's
+> > > currently doing if anyone touches their .get_format_info()
+> > > implementation.
+> > >
+> > > >
+> > > > > And as stated the current check doesn't have consistent behaviour
+> > > > > anyway. You can still flip between different modifiers as long a =
+the
+> > > > > driver doesn't override .get_format_info() for one of them. The *=
+only*
+> > > > > case where that happens is CCS on i915. There is no valid reason =
+to
+> > > > > special case that one.
+> > > >
+> > > > The thing is, you need atomic to make CCS work reliably enough for
+> > > > compositors and distros to dare enabling it by default.
+> > >
+> > > If it's not enabled by default then there is no harm in letting people
+> > > explicitly enable it and get better performance.
+> > >
+> > > > CCS flipping
+> > > > works with atomic. I really see no point in baking this in with as
+> > > > uapi.
+> > >
+> > > It's just going back to the original intention of the check.
+> > > Heck, the debug message doesn't even match what it's doing now.
+> > >
+> > > > Just fix Xorg.
+> > >
+> > > Be serious. No one is going to rewrite all the randr code to be atomi=
+c.
+> >
+> > I fully understand Daniel's concern here, but I also believe this won't=
+ be
+> > done so soon at least. Meanwhile would it be acceptable to have a comme=
+nt
+> > with the code /* XXX: Xorg blah... */ or /* FIXME: After Xorg blah.. */
+> > ?
+> =
 
-That's exactly what we tried first and I expected that this is a 
-necessity. Ok so back to the drawing board for this.
+> Here's a few numbers:
+> =
 
->>
->> - for a big driver like amdgpu doing this split up is going to be
->>    horrendously complex. I know, we've done it for i915, at least
->>    partially. I strongly recommend that you're using devm_ for managing hw
->>    related resources (iomap, irq, ...) as much as possible.
->>
->>    For drm_device resources (mostly structures and everything related to
->>    that) we've just merged the drmm_ managed resources framework. There's
->>    some more work to be done there for various kms objects, but you can at
->>    least somewhat avoid tedious handrolling for everything internal
->>    already.
->>
->>    Don't ever use devm_kzalloc and friends, I've looked at hundreds of uses
->>    of this in drm, they're all wrong.
->>
->> - dma-buf is hilarious (and atm unfixed), dma-fence is even worse. In
->>    theory they're already refcounted and all and so should work, in
->>    practice I think we need to refcount the underlying drm_device with
->>    drm_dev_get/put to avoid the worst fall-out.
-> oh I forgot one, since it's new since the last time we've seriously
-> discussed this: p2p dma-buf
->
-> But that /should/ be handleable with the move_notify callback. Assuming we
-> don't have any bugs anywhere, and the importer can indeed get rid of all
-> its mapping, always.
+> - skl shipped in Aug 2015, so about 5 years. Since then would we like
+> to have modifiers enabled for intel, because it costs us quite a bit
+> of performance. This isn't new at all.
+> - the last Xorg release is from May 2018, so two years. Meanwhile even
+> patches to fix some of the atomic mixups in -modesetting landed, but
+> they never shipped so not useful.
+> - I spent a few hours (which really is nothing) reading Xorg code
+> yesterday, and I concur with Daniel Stone's napkin estimate that this
+> will take about half to one year to fix properly. It's not happening,
+> no one is working on that.
+> =
 
-Yeah, already noted that as well in the internal discussion.
+> Conclusion: No one cares about modifiers on Xorg-modesetting. I don't
+> see why the kernel should bend over for that.
+> =
 
->
-> But for completeness probably need this one, just to keep it noted.
-> -Daniel
->
->> - One unfortunate thing with drm_dev_unplug is that the driver core is
->>    very opinionated and doesn't tell you whether it's a hotunplug or a
->>    driver unload. In the former case trying to shut down hw just wastes
->>    time (and might hit driver bugs), in the latter case driver engineers
->>    very much expect everything to be shut down.
->>
->>    Right now you can only have one or the other, so this needs a module
->>    option hack or similar (default to the correct hotunplug behaviour for
->>    users).
->>
->> - SIGBUS is better than crashing the kernel, but it's not even close for
->>    users. They still lose everything because everything crashes because in
->>    my experience, in practice, no one ever handles errors. There's a few
->>    more things on top:
->>
->>    - sighandlers are global, which means only the app can use it. You can't
->>      use it in e.g. mesa. They're also not composable, so if you have on
->>      sighandler for gpu1 and a 2nd one for gpu2 (could be different vendor)
->>      it's all sadness. Hence "usersapce will handle SIGBUS" wont work.
->>
->>    - worse, neither vk nor gl (to my knowledge) have a concept of events
->>      for when the gpu died. The only stuff you have is things like
->>      arb_robustness which says a) everything continues as if nothing
->>      happened b) there's a function where you can ask whether your gl
->>      context and all the textures/buffers are toast.
->>
->>      I think that's about the only hotunplug application model we can
->>      realistically expect applications to support. That means _all_ errors
->>      need to be silently eaten by either mesa or the kernel. On i915 the
->>      model (also for terminally wedged gpu hangs) is that all ioctl keep
->>      working, mmaps keep working, and execbuf gives you an -EIO (which mesa
->>      eats silently iirc for arb_robustness).
->>
->>    Conclusion is that SIGBUS is imo a no-go, and the only option we have is
->>    that a) mmaps fully keep working, doable for shmem or b) we put some
->>    fake memory in there (for vram or whatever), maybe even only a single
->>    page for all fake memory.
+> Once that has changed (I'm not betting on that) and there's clear
+> effort behind modifiers for Xorg-modesetting I guess we can look into
+> stop-gap measures, but meanwhile the best imo is to not disturb the
+> dead.
 
-Ok, good to know.
+The alternative interpretation is that the current kernel code is
+just nonsense, and since no one is depending on the current nonsense
+behaviour we can safely change it it back to make sense.
 
-So to summarize no application termination, but instead redirect all 
-memory access to a dummy page.
+Would allow people to at least test modifier plumbing via dri3/etc.
+Also those of us who know what they're doing and want to actually
+play games on Intel GPUs can flip it on for a a bit extra performance.
+In the meantime I'll just have to keep carrying this patch in my own
+kernels.
 
- From the IOCTLs we return -ENODEV instead of -EIO. Is that a problem?
+-- =
 
-Thanks for the comments,
-Christian.
-
->>
->> - you probably want arb_robustness and similar stuff in userspace as a
->>    first step.
->>
->> tldr;
->> - refcounting, not waiting for userspace
->> - nothing can fail because userspace wont handle it
->>
->> That's at least my take on this mess, and what we've been pushing for over
->> the past few years. For kms-only drm_driver we should have achieved that
->> by now (plus/minus maybe some issues for dma-buf/fences, but kms-only
->> dma-buf/fences are simple enough that maybe we don't go boom yet).
->>
->> For big gpus with rendering I think best next step would be to type up a
->> reasonable Gran Plan (into Documentation/gpu/todo.rst) with all the issues
->> and likely solutions. And then bikeshed that, since the above is just my
->> take on all this.
->>
->> Cheers, Daniel
->>
->>> Andrey Grodzovsky (6):
->>>    drm/ttm: Add unampping of the entire device address space
->>>    drm/amdgpu: Force unmap all user VMAs on device removal.
->>>    drm/amdgpu: Wait for all user clients
->>>    drm/amdgpu: Wait for all clients importing out dma-bufs.
->>>    drm/ttm: Add destroy flag in TTM BO eviction interface
->>>    drm/amdgpu: Use TTM MMs destroy interface
->>>
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h         |  3 ++
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  2 +-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  7 +++-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 27 ++++++++++++-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     | 22 ++++++++--
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  9 +++++
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  4 ++
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 17 +++++++-
->>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |  1 +
->>>   drivers/gpu/drm/nouveau/nouveau_drm.c       |  2 +-
->>>   drivers/gpu/drm/qxl/qxl_object.c            |  4 +-
->>>   drivers/gpu/drm/radeon/radeon_object.c      |  2 +-
->>>   drivers/gpu/drm/ttm/ttm_bo.c                | 63 +++++++++++++++++++++--------
->>>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c         |  6 +--
->>>   include/drm/ttm/ttm_bo_api.h                |  2 +-
->>>   include/drm/ttm/ttm_bo_driver.h             |  2 +
->>>   16 files changed, 139 insertions(+), 34 deletions(-)
->>>
->>> -- 
->>> 2.7.4
->>>
->> -- 
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> http://blog.ffwll.ch
-
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
