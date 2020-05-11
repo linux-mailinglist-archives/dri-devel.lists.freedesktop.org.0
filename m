@@ -1,62 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CE91CEDC7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 380511CD90F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B92B6E853;
-	Tue, 12 May 2020 07:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E6F6E446;
+	Mon, 11 May 2020 11:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEDB89F9F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:51:55 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id e26so17733175wmk.5
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 04:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oiiy7yzaDZrfNFpAYBwGY7qa9RdD+rUsUN7jZCiG/Nk=;
- b=IZ1GX1h8kyIJjla0cM+4zc64f4XSRKtANiqnwZRYC6TXvTREkBTOmgF97cWJX4JMN/
- D/hplVMrCmD687Q5l5bjArc0/bJ6CNx5Rcq/W1h6i0myjroW0TzhSMtwawnkpMDfsTHq
- lqQ294S9l97u/OG5FE2Wiy23OxON2aIG+TE1iUsbgrx1gS1LXORQ2ETyZ5FHCdJBoH9+
- 1oUqEX2YHtu+WMiP/UojhLfG28tPH0V7OaTzaqSC6sElvY86pIbB1PbMl0FJ4CzfJ0M4
- 13iRj1wn0M7XLyqegXuuzYmIzCfr36AWq3H0s+vdE7dKO/T9b+qT2mX+yhE6fUk6dCLp
- DPrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oiiy7yzaDZrfNFpAYBwGY7qa9RdD+rUsUN7jZCiG/Nk=;
- b=ho8IVPd4pIBOWPl6qEkO5LtsOc9op/2GyOgrSoBqITgM4ubwCo27wC05JAn2Tgil9y
- wWoGjiF+TZxVNSdKCJCrD+xSsiF8wcRjWa52kg9t4qa5Yn/rpikwKaMkFRYmD9+50vsa
- fZUVHsM9MjE6tVsLtIfwF6mTUEZnYYy7EJbeEzBpSFWhyY1nnFNnQW3i6mUwO9CoodIE
- aJwYlHfM/f5/ZJbRvwzJUZTNOF3TAcbRFtartO7I2eQUe2RcXaNyQWOuOhTP7IJwz3sc
- XkN/DcTNdg6QncKyHZc2lJC0tEBrl38GLTQL1qhZFyZqK3hQl869mKgKWViVJFpZIgEP
- vtWQ==
-X-Gm-Message-State: AGi0PuYtF9nVTu1R/DV30/7x1R0ZapIonxuItAOzAv+E4aLkBJFmw3uT
- gsotcdg/ZMZ4Y34CHLkd+0UyvDy3e7DciQ==
-X-Google-Smtp-Source: APiQypIvoIlZRhIOKzLOkS565PA6K4LY8QgOBxFSsIjfZbiD6pG33iH6F5Up0icIdMnR0Z6CC5DX/Q==
-X-Received: by 2002:a1c:b604:: with SMTP id g4mr7883523wmf.103.1589197913440; 
- Mon, 11 May 2020 04:51:53 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
- by smtp.gmail.com with ESMTPSA id f26sm26316916wmj.11.2020.05.11.04.51.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 04:51:52 -0700 (PDT)
-Date: Mon, 11 May 2020 12:51:49 +0100
-From: Quentin Perret <qperret@google.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v7 02/15] PM / EM: introduce em_dev_register_perf_domain
- function
-Message-ID: <20200511115149.GB11091@google.com>
-References: <20200511111912.3001-1-lukasz.luba@arm.com>
- <20200511111912.3001-3-lukasz.luba@arm.com>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2077.outbound.protection.outlook.com [40.107.236.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692EE6E07B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:55:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xs6OjW6hd5GqHN7qC8q0o0/t4M6oFk/4tX1ZFpexjjOIBOY0Ay+nZS7vg9q7RZEm0FIyyJFDfpMZaR+sZUeP1XY0oOdLdn2bpuQH9CbtzndBH3OAAlpiG9n5My3W7dy2CF8a/mmOAE16q7z67KA/EQlSLw+zxGIjT84lS6YDYZcCr7GbHH58uuMqxG9bPBxHEFe8kAddspmcK1E8NzAUmzF/EShGigL/zEmGKuLWWOplRMXJx162KpuLjfSNlN2cnHXbK5r2sJJjqusgeBotns4xszErjMQpEt5bqWytSb0t+RGOwbKLPEM4lSsqYEOzPa5Cmfw9wKgEMLBXKSbhMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVM2gluDSkR1MjGCqSk4Gsgw+aRMEnhzDkjhScP4TCk=;
+ b=fadG9jlb+lybd6aH37Lnf3MK5OMpBTZKyIVlLRahYblEIr+DfEKe5fI9MenxoKFQESfTpVegMaQE2RESuWx/bLrqjADw6MyPqmRG7SkbncPzs0Ove9/nsEsdw3QKCXACJs0zLKEsTIsKtmLTzultJXHwD7WfUnXMvtQGq4qF/PqA5rk5vyF44MPM5ViS/LU7eCZbvSJHZ7jyyByAXEN5Exkx8cu88D/I9D3cCZbb7SXrqJWJscQIMHORxMBAH6jOi4aqvJbTcN9sYf08JqOjbjYaAh6QQqs9T4h2zRUc/GxduL0uTi9rz/qx3n+nDMSyUkm+MoZmhr4ylV7oSHy+eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVM2gluDSkR1MjGCqSk4Gsgw+aRMEnhzDkjhScP4TCk=;
+ b=gTN1iBN4wmk/s78U7Nc+DZp5x7kwFHUPojQGr8PFUCMGerbg3kTgscVqhG0WuNKv5cz+OjEkX/mLXwwcsYI4VQ5vBMmxCyj6ndMGSK90zN8fo88N2aOJgsSNoKYwk9MiVNjlP+uogJgsNmCVdZid408Dfh0bolpOKYxzzJJx+YE=
+Authentication-Results: arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
+Received: from CY4PR12MB1159.namprd12.prod.outlook.com (2603:10b6:903:36::17)
+ by CY4PR12MB1944.namprd12.prod.outlook.com (2603:10b6:903:127::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Mon, 11 May
+ 2020 11:55:40 +0000
+Received: from CY4PR12MB1159.namprd12.prod.outlook.com
+ ([fe80::e9c0:2506:396c:70b7]) by CY4PR12MB1159.namprd12.prod.outlook.com
+ ([fe80::e9c0:2506:396c:70b7%10]) with mapi id 15.20.2979.033; Mon, 11 May
+ 2020 11:55:40 +0000
+From: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To: Brian Starkey <brian.starkey@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Simon Ser <contact@emersion.fr>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>,
+ Helen Koike <helen.koike@collabora.com>
+Subject: [PATCH V4 0/3] drm/vkms: Introduces writeback support
+Date: Mon, 11 May 2020 07:55:21 -0400
+Message-Id: <20200511115524.22602-1-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.26.2
+X-ClientProxiedBy: YT1PR01CA0104.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::13) To CY4PR12MB1159.namprd12.prod.outlook.com
+ (2603:10b6:903:36::17)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200511111912.3001-3-lukasz.luba@arm.com>
-X-Mailman-Approved-At: Tue, 12 May 2020 07:09:30 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from atma2.hitronhub.home (2607:fea8:56a0:11a1::2) by
+ YT1PR01CA0104.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.28 via Frontend Transport; Mon, 11 May 2020 11:55:39 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [2607:fea8:56a0:11a1::2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 8d85039c-7aa6-47de-f4eb-08d7f5a23a05
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1944:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1944E64B28F7CAA67551F6D698A10@CY4PR12MB1944.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 04004D94E2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dJAzY+kitmP+ImE/OCfviNFD3XNA14OfeV1VRI2hP28tefBRFfvEBxAPWWz2cMjUTrL0R4YgTN6MI8bH/YvEhsExnldVDtBEwHuR4Kqf3Go7e26wEpisTE1lH+N95GI/ExZAaIeEzEfi8Sre8To0xHprZ4W6/J+MPdAxZQ7FP2lpqy95jY8QCIKh94kIzAsXIep5Ufac4qTKyjgphkszBazFIaK0D3XVKH4/0/X7hl5cI1Z/7vN3RtrYFCF4OkqZQ4nUm5d8Q7aCcMbQ8b+VbU8Glb1h+cQdwBz2fU+lk2FtmVLqK2DtHvVuwxowiQkgVf1ZUQSPK5n39Z4xVSxbD8QQUUTKsk7ty0VZwU6HWDKT1CTV806vljh0mt4bpjgT2WinN6+GP5ny13l7uqKJqjpaQypU+XzcP9GEL+hvNWdoKR27EySv2CpcmkxZ/FXQcVKFR97P+HdSNv+wO7m6pO/4OAuMDpIFoZD9ym8hOJZ39C1mqVxuto6ktsKSYB3UV+h1Snizh0FJa0xSMujQiP0V3JVo5UGZlY4Kx4OUsIFTFPzmcqKrh9A3AHxwGe+L
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1159.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(396003)(136003)(366004)(39860400002)(346002)(33430700001)(966005)(36756003)(66946007)(66476007)(86362001)(66556008)(1076003)(6666004)(6506007)(16526019)(52116002)(186003)(316002)(110136005)(2616005)(4326008)(478600001)(6512007)(2906002)(6486002)(5660300002)(33440700001)(8676002)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: /7h6M8L5RhXeUM0anFNXMIf6095JdG6sXSPhIrTVHWMKCsCsPY0sgD+5c1asK3K40bPe2KyfYjpbXO32OKrVOYWityjPZpuT2dswCeWsq5/4HvIwn4XSIHwcyv+a+AH7FR6XmkO5VyEr8jULLAdJGUYSNklxQPtllbglPBrNObGJa0GffDQMPAPQdyj7BLwX49mcMDcFuRbKPzrURGSrnBt9KPI1KgYegRxwJOwDRvVWvYkD3hJXqQjZ38y1etkpw1RCizfzJkpsb7jKIFodRnVlmP+utjhqbn9urLcHW1WxMOSl2m0N69lCQDOC/uXW/t5bncMZC9jMS2gp+dYHNnJQb5gFApwXptRFI620ONwwuujRV4XIwVp/xTYQu9oPU2sEt03MkOIakOyTJ//qIOmxDfQsppmmbpin5AP29w/eZ+aAUCtkqKA3CTEjbPgxZ/sJIN82NlEIQeVdhEc6FfAc2efTuw5lu7BOEGhH2ihzi7WEDaXZLup0Cscuf4jMWRUfFiTIV99Cj23PXzIzzw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d85039c-7aa6-47de-f4eb-08d7f5a23a05
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 11:55:40.6129 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QqqRGWaIJVkzJaH7yCXbkfa4dPMPRFyZhXfRMjSyi6W/NPFo1jBzcO4l5AeibrD4xUY9JhgB/cdmm/WcV6reng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1944
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +95,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
- tomeu.vizoso@collabora.com, sboyd@kernel.org, rdunlap@infradead.org,
- rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 11 May 2020 at 12:18:59 (+0100), Lukasz Luba wrote:
-> Add now function in the Energy Model framework which is going to support
-> new devices. This function will help in transition and make it smoother.
-> For now it still checks if the cpumask is a valid pointer, which will be
-> removed later when the new structures and infrastructure will be ready.
-> 
-> Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+This is the V4 version of a series that introduces basic writeback
+support to VKMS. This patchset starts with a pre-work that aims to make
+VKMS composer operations ready for getting the writeback support; it has
+updates on the CRC functions and reworks a small part of the VKMS
+framebuffer operations. Finally, the latest patch introduces the
+writeback support in VKMS.
 
-Acked-by: Quentin Perret <qperret@google.com>
+The previous series was reviewed and tested, this patchset only rebases
+the code on the latest version of drm-misc-next (I also tested it). It
+is important to highlight, that we have an IGT test for validating
+writeback feature as can be seen at:
+
+IGT writeback tests: https://patchwork.freedesktop.org/series/68352/
+
+Best Regards
+
+Rodrigo Siqueira (3):
+  drm/vkms: Decouple crc operations from composer
+  drm/vkms: Compute CRC without change input data
+  drm/vkms: Add support for writeback
+
+ drivers/gpu/drm/vkms/Makefile         |   9 +-
+ drivers/gpu/drm/vkms/vkms_composer.c  |  94 +++++++++++------
+ drivers/gpu/drm/vkms/vkms_drv.c       |   4 +
+ drivers/gpu/drm/vkms/vkms_drv.h       |   8 ++
+ drivers/gpu/drm/vkms/vkms_output.c    |  10 ++
+ drivers/gpu/drm/vkms/vkms_writeback.c | 142 ++++++++++++++++++++++++++
+ 6 files changed, 233 insertions(+), 34 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
+
+-- 
+2.26.2
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
