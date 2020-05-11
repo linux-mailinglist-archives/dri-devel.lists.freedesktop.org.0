@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7251CD354
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:55:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AB81CD479
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 11:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AB86E245;
-	Mon, 11 May 2020 07:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 820D4894FF;
+	Mon, 11 May 2020 09:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7638C6E245
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 07:55:25 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id a4so6649840lfh.12
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 00:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C278951B;
+ Mon, 11 May 2020 09:06:18 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id s10so8772869iog.7;
+ Mon, 11 May 2020 02:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to
  :content-transfer-encoding;
- bh=SF7bC1M4Y4Wm3/lCtnDEBhBPN4OeNbksd+i8v7G0YgU=;
- b=lNlGzDbrjNd6QbzHzc0kAB8PBUH5qlEN7zjE5riZcsMqE83ucCabFH2SIcGQ9yC4n9
- hp6wuT4dotsynH7+T20i1Rn4Lewh3wLAKfmATIMBnuIz8cCorrkJ0V86SSn0bfRMqKeq
- /6f1DkEnNjepCmgssZNDASktpsIyMbvQfvgqwLspJpqeOHbB3zccNU9k/dqoQjXdB7Vj
- zID7GcHIWC6M54qKyY1NTosC4wX9NK2Hy1BCpSfeBkxUVynUJXOpS5f2WaxyK4CJj1Eq
- Q3m+5y9PH1lxv8e0LhZzrZPI3EgTcV35dZORjxBcpcui5yaDR6JsbotN3kKsVGRdrfJ9
- UYpw==
+ bh=QAyVYN5Y2FuhYroZ4HYJatEhHS6cbEGx+yjI6Qlad5w=;
+ b=WIdrz+tRCPq24nylIoJ9yYXHQyPba6LI/9ibZhmo+cRRvhfnhqJRbTkr9RtRx/avs9
+ iq1hHVxhjnzRI7qe1vo+lCk9vOkR0uK4ZmWp+zaNkCJIxExth4n0y0re+U+/mPLSUIRz
+ LJaCxV3bL/kI1xIVQO5blfE8W3+IGRJ3rjHsi5SILsD/ogMae9FcxYYb9IqIbOUiCJHq
+ GxCFHycImjuy0JEB+KA0NYrT2RMIFlUq72HKqr3BgfRLHL2HLQ7VKSF0QOjqSC5FqkiB
+ lfqYPb76wMVwnVcIKs7+oJRugr6s5kQ909EKsqLsYywVoBK2OB0oNPbbK5JwZsGNiN4E
+ GZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to
  :content-transfer-encoding;
- bh=SF7bC1M4Y4Wm3/lCtnDEBhBPN4OeNbksd+i8v7G0YgU=;
- b=bGOUdcuaz/1RrhrTOgLyh5KyzKhe7Pz2wVOLjHb4Y/LrxlIvyYI3VWzh+rXxCzO+pY
- uM4hujY/fJr47j5CMHM78b1IGc9uMt+Q2yHWpRCm7I8Y6VONjkz6tEZtcbJd/8Xp/Qto
- fYqX6qHn4ofk2ouiJuZLWmCwVQFlpOcHgJ7p5RKZIh1IABxLK037o/6endinXREWzBQL
- nuAA/KEuxtY7ntmoKKjVTnkq0BvWBjqsIGhqtFcpDXtUoOr16ZNI+t1O8eQwH/H/Qx90
- OtFhG5Q4oSOT0B2b3A2EYPJPNCkzwdi1Qm2R+oJTN6QKCOwp2SztIpqlHgsSOFcpj5u8
- c3SA==
-X-Gm-Message-State: AOAM530pCTdqlU43nwP3kUFzrCt6fTn+Ou+GPItjoIikw6BpckYaELsx
- 6InOhWIpiM4oFvdQ1lJ4nsfciA==
-X-Google-Smtp-Source: ABdhPJyV6sOBHqtW4y6Bk5Z38gRhZ5Q+8sry0PvrI2GG/gFC+cIVxC0a23ColfVu9jbwVzTgqN1gyw==
-X-Received: by 2002:a19:7104:: with SMTP id m4mr6503827lfc.75.1589183723710;
- Mon, 11 May 2020 00:55:23 -0700 (PDT)
-Received: from localhost.localdomain
- (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
- by smtp.gmail.com with ESMTPSA id l124sm10081365lfd.11.2020.05.11.00.55.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 00:55:22 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] backlight: lms283gf05: Convert to GPIO descriptors
-Date: Mon, 11 May 2020 09:53:18 +0200
-Message-Id: <20200511075318.44792-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.25.4
+ bh=QAyVYN5Y2FuhYroZ4HYJatEhHS6cbEGx+yjI6Qlad5w=;
+ b=gX/s933v2vQ/Hxml1tKzL2xkkb/lVtbqKqljF9tuwOYFMIknW4+DjMrDKZ4J4UW6Hf
+ f8ie4i50S3T83ZL7gidOMHr1q69OElAR3nWn1kcV/ZFGnxYaim0XLDPVinIqT9xVNDcy
+ 2rxJBkc/uBY9BB7XUrEYuUkOKH+0J0rTvB7IFMnyqRiSjgcX45cqqj6mj0Oel7M+kdwh
+ Lh1VC2ndsytuWbJgGXV0VqsHnz12hQdqDT+eNR4lHJcxrLMTR/RUZZxU8Ox5KkP5W2cY
+ 5vWRIH4YCnuBe3hunbxhgDpVvAupldykQ5iY6EXLsuXeF6buPtPvAsAUE6osk0AE/reg
+ xb7Q==
+X-Gm-Message-State: AGi0PuZjfzX1lDQQLVYmvVwviyxZSuSniY6JpZ5GhIyzr0FQUq40RdW0
+ UhuEWLle8JloCxuVgCUnnF0/4ydVGhL5l+jxniusPJuu4+iBDg==
+X-Google-Smtp-Source: APiQypK83qQvbVQwjO7cN1uOCxkiUV3OTluUWr/YMfe1xlglByPNKC4n8mlhdEPGtYsPJS44AKi+hVCUfMlfoAWGfl0=
+X-Received: by 2002:a6b:b512:: with SMTP id e18mr14201827iof.168.1589187976937; 
+ Mon, 11 May 2020 02:06:16 -0700 (PDT)
 MIME-Version: 1.0
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Mon, 11 May 2020 14:06:06 +0500
+Message-ID: <CABXGCsPsnkcN7T=ZBSrpvLRX+eOs=G=eUsspwk=PG4hBJwAUTg@mail.gmail.com>
+Subject: [BUG] general protection fault, probably for non-canonical address
+ 0xfe5d6f0af7831e5e: 0000 [#1] SMP NOPTI (5.7RC4 GIT 79dede78c057)
+To: amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,223 +62,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This converts the lms283gf05 backlight driver to use GPIO
-descriptors and switches the single PXA Palm Z2 device
-over to defining these.
-
-Since the platform data was only used to convey GPIO
-information we can delete the platform data header.
-
-Notice that we define the proper active low semantics in
-the board file GPIO descriptor table (active low) and
-assert the reset line by bringing it to "1" (asserted).
-
-Cc: Marek Vasut <marex@denx.de>
-Cc: Daniel Mack <daniel@zonque.org>
-Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v3->v4:
-- Check IS_ERR() on the returned GPIO descriptor.
-- Unconditionally set consumer name since the API tolerates NULL.
-ChangeLog v2->v3:
-- Fix a use-before-allocated bug discovered by compile tests.
-- Remove unused ret variable as autobuilders complained.
-ChangeLog v1->v2:
-- Bring up the GPIO de-asserted in probe()
-
-Marek: I saw this was written by you, are you regularly
-testing the Z2 device?
----
- arch/arm/mach-pxa/z2.c               | 12 +++++---
- drivers/video/backlight/lms283gf05.c | 43 +++++++++++-----------------
- include/linux/spi/lms283gf05.h       | 16 -----------
- 3 files changed, 25 insertions(+), 46 deletions(-)
- delete mode 100644 include/linux/spi/lms283gf05.h
-
-diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
-index 21fd76bb09cd..89eb5243c85f 100644
---- a/arch/arm/mach-pxa/z2.c
-+++ b/arch/arm/mach-pxa/z2.c
-@@ -20,7 +20,6 @@
- #include <linux/spi/spi.h>
- #include <linux/spi/pxa2xx_spi.h>
- #include <linux/spi/libertas_spi.h>
--#include <linux/spi/lms283gf05.h>
- #include <linux/power_supply.h>
- #include <linux/mtd/physmap.h>
- #include <linux/gpio.h>
-@@ -578,8 +577,13 @@ static struct pxa2xx_spi_chip lms283_chip_info = {
- 	.gpio_cs	= GPIO88_ZIPITZ2_LCD_CS,
- };
- 
--static const struct lms283gf05_pdata lms283_pdata = {
--	.reset_gpio	= GPIO19_ZIPITZ2_LCD_RESET,
-+static struct gpiod_lookup_table lms283_gpio_table = {
-+	.dev_id = "spi2.0", /* SPI bus 2 chip select 0 */
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", GPIO19_ZIPITZ2_LCD_RESET,
-+			    "reset", GPIO_ACTIVE_LOW),
-+		{ },
-+	},
- };
- 
- static struct spi_board_info spi_board_info[] __initdata = {
-@@ -595,7 +599,6 @@ static struct spi_board_info spi_board_info[] __initdata = {
- {
- 	.modalias		= "lms283gf05",
- 	.controller_data	= &lms283_chip_info,
--	.platform_data		= &lms283_pdata,
- 	.max_speed_hz		= 400000,
- 	.bus_num		= 2,
- 	.chip_select		= 0,
-@@ -615,6 +618,7 @@ static void __init z2_spi_init(void)
- {
- 	pxa2xx_set_spi_info(1, &pxa_ssp1_master_info);
- 	pxa2xx_set_spi_info(2, &pxa_ssp2_master_info);
-+	gpiod_add_lookup_table(&lms283_gpio_table);
- 	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
- }
- #else
-diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
-index 0e45685bcc1c..36856962ed83 100644
---- a/drivers/video/backlight/lms283gf05.c
-+++ b/drivers/video/backlight/lms283gf05.c
-@@ -9,16 +9,16 @@
- #include <linux/kernel.h>
- #include <linux/delay.h>
- #include <linux/slab.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/lcd.h>
- 
- #include <linux/spi/spi.h>
--#include <linux/spi/lms283gf05.h>
- #include <linux/module.h>
- 
- struct lms283gf05_state {
- 	struct spi_device	*spi;
- 	struct lcd_device	*ld;
-+	struct gpio_desc	*reset;
- };
- 
- struct lms283gf05_seq {
-@@ -90,13 +90,13 @@ static const struct lms283gf05_seq disp_pdwnseq[] = {
- };
- 
- 
--static void lms283gf05_reset(unsigned long gpio, bool inverted)
-+static void lms283gf05_reset(struct gpio_desc *gpiod)
- {
--	gpio_set_value(gpio, !inverted);
-+	gpiod_set_value(gpiod, 0); /* De-asserted */
- 	mdelay(100);
--	gpio_set_value(gpio, inverted);
-+	gpiod_set_value(gpiod, 1); /* Asserted */
- 	mdelay(20);
--	gpio_set_value(gpio, !inverted);
-+	gpiod_set_value(gpiod, 0); /* De-asserted */
- 	mdelay(20);
- }
- 
-@@ -125,18 +125,15 @@ static int lms283gf05_power_set(struct lcd_device *ld, int power)
- {
- 	struct lms283gf05_state *st = lcd_get_data(ld);
- 	struct spi_device *spi = st->spi;
--	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
- 
- 	if (power <= FB_BLANK_NORMAL) {
--		if (pdata)
--			lms283gf05_reset(pdata->reset_gpio,
--					pdata->reset_inverted);
-+		if (st->reset)
-+			lms283gf05_reset(st->reset);
- 		lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
- 	} else {
- 		lms283gf05_toggle(spi, disp_pdwnseq, ARRAY_SIZE(disp_pdwnseq));
--		if (pdata)
--			gpio_set_value(pdata->reset_gpio,
--					pdata->reset_inverted);
-+		if (st->reset)
-+			gpiod_set_value(st->reset, 1); /* Asserted */
- 	}
- 
- 	return 0;
-@@ -150,24 +147,18 @@ static struct lcd_ops lms_ops = {
- static int lms283gf05_probe(struct spi_device *spi)
- {
- 	struct lms283gf05_state *st;
--	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
- 	struct lcd_device *ld;
--	int ret = 0;
--
--	if (pdata != NULL) {
--		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
--				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
--				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
--				"LMS283GF05 RESET");
--		if (ret)
--			return ret;
--	}
- 
- 	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
- 				GFP_KERNEL);
- 	if (st == NULL)
- 		return -ENOMEM;
- 
-+	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(st->reset))
-+		return PTR_ERR(st->reset);
-+	gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
-+
- 	ld = devm_lcd_device_register(&spi->dev, "lms283gf05", &spi->dev, st,
- 					&lms_ops);
- 	if (IS_ERR(ld))
-@@ -179,8 +170,8 @@ static int lms283gf05_probe(struct spi_device *spi)
- 	spi_set_drvdata(spi, st);
- 
- 	/* kick in the LCD */
--	if (pdata)
--		lms283gf05_reset(pdata->reset_gpio, pdata->reset_inverted);
-+	if (st->reset)
-+		lms283gf05_reset(st->reset);
- 	lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
- 
- 	return 0;
-diff --git a/include/linux/spi/lms283gf05.h b/include/linux/spi/lms283gf05.h
-deleted file mode 100644
-index f237b2d062e9..000000000000
---- a/include/linux/spi/lms283gf05.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * lms283gf05.h - Platform glue for Samsung LMS283GF05 LCD
-- *
-- * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
--*/
--
--#ifndef _INCLUDE_LINUX_SPI_LMS283GF05_H_
--#define _INCLUDE_LINUX_SPI_LMS283GF05_H_
--
--struct lms283gf05_pdata {
--	unsigned long	reset_gpio;
--	bool		reset_inverted;
--};
--
--#endif /* _INCLUDE_LINUX_SPI_LMS283GF05_H_ */
--- 
-2.25.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgZm9sa3MuCkkgZGlkbuKAmXQgZG8gYW55dGhpbmcgdW51c3VhbCwgSSBqdXN0IHJlc3RhcnRl
+ZCB0aGUgY29tcHV0ZXIgYWZ0ZXIgdGhlCnVwZGF0ZSwgbGF1bmNoZWQgYWxsIHRoZSBhcHBsaWNh
+dGlvbnMgdGhhdCBJIHVzdWFsbHkgbGF1bmNoIGFuZCB3ZW50CnRvIGRyaW5rIHRlYS4KV2hlbiBJ
+IHJldHVybmVkLCBJIGZvdW5kIHRoYXQgdGhlIG1vbml0b3Igd2FzIG9uIChpdCBzaG91bGQgaGF2
+ZQp0dXJuZWQgb2ZmIHNpbmNlIEkgaGFkIHNldCB0aGUgZW5lcmd5LXNhdmluZyBtb2RlIGZvciA1
+IG1pbnV0ZXMgaW4gREUpCkkgdHJpZWQgdG8gbW92ZSB0aGUgbW91c2UsIGFmdGVyIHRoYXQgSSBy
+ZWFsaXplZCB0aGF0IHRoZSBjb21wdXRlciB3YXMKY29tcGxldGVseSBmcm96ZW4uIEV2ZW4gQWx0
+K1ByblNjcitCIGRpZCBub3QgaGVscGVkIHJlYm9vdCBjb21wdXRlci4KSSBkZWNpZGVkIHRvIGZp
+bGwgdGhlIGJ1ZyByZXBvcnQgaGVyZSBzaW5jZSB0aGlzIGlzIGEgcmVhbGx5IHNlcmlvdXMgcHJv
+YmxlbS4KCmdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCwgcHJvYmFibHkgZm9yIG5vbi1jYW5vbmlj
+YWwgYWRkcmVzcwoweGZlNWQ2ZjBhZjc4MzFlNWU6IDAwMDAgWyMxXSBTTVAgTk9QVEkKQ1BVOiAx
+NiBQSUQ6IDYzNzIgQ29tbTogY2hyb21lOmNzMCBOb3QgdGFpbnRlZAo1LjcuMC0wLnJjNC4yMDIw
+MDUwOGdpdDc5ZGVkZTc4YzA1Ny4xLmZjMzMueDg2XzY0ICMxCkhhcmR3YXJlIG5hbWU6IFN5c3Rl
+bSBtYW51ZmFjdHVyZXIgU3lzdGVtIFByb2R1Y3QgTmFtZS9ST0cgU1RSSVgKWDU3MC1JIEdBTUlO
+RywgQklPUyAxNDA1IDExLzE5LzIwMTkKUklQOiAwMDEwOmttZW1fY2FjaGVfYWxsb2MrMHg4My8w
+eDMxMApDb2RlOiAwMiAwMCAwMCA0YyA4YiA0NSAwMCA2NSA0OSA4YiA1MCAwOCA2NSA0YyAwMyAw
+NSA1YiBhMyBjYyA1ZSA0ZAo4YiAyMCA0ZCA4NSBlNCAwZiA4NCAzZSAwMiAwMCAwMCA4YiA0NSAy
+MCA0OCA4YiA3ZCAwMCA0YyAwMSBlMCA8NDg+IDhiCjE4IDQ4IDg5IGMxIDQ4IDMzIDlkIGQwIDAx
+IDAwIDAwIDQ4IDBmIGM5IDQ4IDMxIGNiIDQwIGY2IGM3ClJTUDogMDAxODpmZmZmYTgzOThiMzU3
+YjA4IEVGTEFHUzogMDAwMTAyODIKUkFYOiBmZTVkNmYwYWY3ODMxZTVlIFJCWDogMDAwMDAwMDAw
+MDAwMDAwMCBSQ1g6IDAwMDAwMDAwMDAwMDAwMDAKUkRYOiAwMDAwMDAwMDAwMDA2MmI2IFJTSTog
+MDAwMDAwMDAwMDAwMDQwMCBSREk6IDAwMDAwMDAwMDAxZjgzYzAKUkJQOiBmZmZmOTUxMzc0MGU5
+MjAwIFIwODogZmZmZjk1MTM3YzNmODNjMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKUjEwOiAwMDAw
+MDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDAwMCBSMTI6IGZlNWQ2ZjBhZjc4MzFkZWUK
+UjEzOiAwMDAwMDAwMDAwMDAwZGMwIFIxNDogZmZmZjk1MTM3NDBlOTIwMCBSMTU6IGZmZmZmZmZm
+YzAzYTNlOTIKRlM6ICAwMDAwN2ZkNzdkYjVjNzAwKDAwMDApIEdTOmZmZmY5NTEzN2MyMDAwMDAo
+MDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAg
+Q1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdmZWExZmU1NjU0MCBDUjM6IDAwMDAwMDA2
+MDQyNGEwMDAgQ1I0OiAwMDAwMDAwMDAwMzQwZWUwCkNhbGwgVHJhY2U6CiBkcm1fc2NoZWRfZmVu
+Y2VfY3JlYXRlKzB4MjIvMHhjMCBbZ3B1X3NjaGVkXQogZHJtX3NjaGVkX2pvYl9pbml0KzB4NWQv
+MHhhMCBbZ3B1X3NjaGVkXQogYW1kZ3B1X2NzX2lvY3RsKzB4MTdkNS8weDFlYjAgW2FtZGdwdV0K
+ID8gYW1kZ3B1X2NzX2ZpbmRfbWFwcGluZysweGYwLzB4ZjAgW2FtZGdwdV0KIGRybV9pb2N0bF9r
+ZXJuZWwrMHg4Ni8weGQwIFtkcm1dCiBkcm1faW9jdGwrMHgyMDYvMHgzOTAgW2RybV0KID8gYW1k
+Z3B1X2NzX2ZpbmRfbWFwcGluZysweGYwLzB4ZjAgW2FtZGdwdV0KIGFtZGdwdV9kcm1faW9jdGwr
+MHg0OS8weDgwIFthbWRncHVdCiBrc3lzX2lvY3RsKzB4ODIvMHhjMAogX194NjRfc3lzX2lvY3Rs
+KzB4MTYvMHgyMAogZG9fc3lzY2FsbF82NCsweDVjLzB4YTAKIGVudHJ5X1NZU0NBTExfNjRfYWZ0
+ZXJfaHdmcmFtZSsweDQ5LzB4YjMKUklQOiAwMDMzOjB4N2ZkNzk1NDY1NGJiCkNvZGU6IDBmIDFl
+IGZhIDQ4IDhiIDA1IGNkIGI5IDBjIDAwIDY0IGM3IDAwIDI2IDAwIDAwIDAwIDQ4IGM3IGMwIGZm
+CmZmIGZmIGZmIGMzIDY2IDBmIDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIGI4IDEwIDAwIDAwIDAw
+IDBmIDA1IDw0OD4gM2QKMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgOWQgYjkgMGMgMDAg
+ZjcgZDggNjQgODkgMDEgNDgKUlNQOiAwMDJiOjAwMDA3ZmQ3N2RiNWI2MjggRUZMQUdTOiAwMDAw
+MDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDAxMApSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJY
+OiAwMDAwN2ZkNzdkYjViNjkwIFJDWDogMDAwMDdmZDc5NTQ2NTRiYgpSRFg6IDAwMDA3ZmQ3N2Ri
+NWI2OTAgUlNJOiAwMDAwMDAwMGMwMTg2NDQ0IFJESTogMDAwMDAwMDAwMDAwMDAxNgpSQlA6IDAw
+MDAwMDAwYzAxODY0NDQgUjA4OiAwMDAwN2ZkNzdkYjViN2EwIFIwOTogMDAwMDdmZDc3ZGI1YjY3
+MApSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDNh
+NzMyZjM2ZjAwMApSMTM6IDAwMDAwMDAwMDAwMDAwMTYgUjE0OiAwMDAwM2E3MzJmNTEyMmVjIFIx
+NTogMDAwMDNhNzMyZjUwYTBmOApNb2R1bGVzIGxpbmtlZCBpbjogc25kX3NlcV9kdW1teSBzbmRf
+aHJ0aW1lciB1aW5wdXQgcmZjb21tIHh0X0NIRUNLU1VNCnh0X01BU1FVRVJBREUgeHRfY29ubnRy
+YWNrIGlwdF9SRUpFQ1QgbmZfbmF0X3RmdHAgbmZfY29ubnRyYWNrX3RmdHAKdHVuIG5mdF9vYmpy
+ZWYgbmZfY29ubnRyYWNrX25ldGJpb3NfbnMgbmZfY29ubnRyYWNrX2Jyb2FkY2FzdApuZnRfZmli
+X2luZXQgbmZ0X2ZpYl9pcHY0IG5mdF9maWJfaXB2NiBuZnRfZmliIG5mdF9yZWplY3RfaW5ldApu
+Zl9yZWplY3RfaXB2NCBuZl9yZWplY3RfaXB2NiBuZnRfcmVqZWN0IG5mdF9jdCBuZnRfY2hhaW5f
+bmF0CmlwNnRhYmxlX25hdCBpcDZ0YWJsZV9tYW5nbGUgaXA2dGFibGVfcmF3IGlwNnRhYmxlX3Nl
+Y3VyaXR5CmlwdGFibGVfbmF0IG5mX25hdCBuZl9jb25udHJhY2sgbmZfZGVmcmFnX2lwdjYgbmZf
+ZGVmcmFnX2lwdjQKaXB0YWJsZV9tYW5nbGUgaXB0YWJsZV9yYXcgaXB0YWJsZV9zZWN1cml0eSBp
+cF9zZXQgbmZfdGFibGVzIG5mbmV0bGluawppcDZ0YWJsZV9maWx0ZXIgaXA2X3RhYmxlcyBpcHRh
+YmxlX2ZpbHRlciBjbWFjIGJuZXAgc3VucnBjIHZmYXQgZmF0CmhpZF9sb2dpdGVjaF9oaWRwcCB4
+cGFkIGZmX21lbWxlc3Mgam95ZGV2IGVkYWNfbWNlX2FtZCBrdm1fYW1kIGt2bQppcnFieXBhc3Mg
+Y3JjdDEwZGlmX3BjbG11bCBjcmMzMl9wY2xtdWwgZ2hhc2hfY2xtdWxuaV9pbnRlbApoaWRfbG9n
+aXRlY2hfZGogZWVlcGNfd21pIGFzdXNfd21pIHNwYXJzZV9rZXltYXAgdmlkZW8gc25kX3VzYl9h
+dWRpbwpidHVzYiBidHJ0bCB3bWlfYm1vZiBidGJjbSBzbmRfdXNibWlkaV9saWIgYnRpbnRlbCBz
+bmRfcmF3bWlkaQpibHVldG9vdGggbWMgZWNkaF9nZW5lcmljIGVjYyBwY3Nwa3Igc3A1MTAwX3Rj
+byBrMTB0ZW1wIGl3bG12bQppMmNfcGlpeDQgc25kX2hkYV9jb2RlY19yZWFsdGVrIG1hYzgwMjEx
+IHNuZF9oZGFfY29kZWNfZ2VuZXJpYwpsZWR0cmlnX2F1ZGlvCiBzbmRfaGRhX2NvZGVjX2hkbWkg
+bGliYXJjNCBzbmRfaGRhX2ludGVsIHNuZF9pbnRlbF9kc3BjZmcKc25kX2hkYV9jb2RlYyBpd2x3
+aWZpIHNuZF9oZGFfY29yZSBzbmRfaHdkZXAgY2ZnODAyMTEgc25kX3NlcQpzbmRfc2VxX2Rldmlj
+ZSBzbmRfcGNtIHJma2lsbCBzbmRfdGltZXIgc25kIGNjcCBzb3VuZGNvcmUgYWNwaV9jcHVmcmVx
+CmJpbmZtdF9taXNjIGlwX3RhYmxlcyB4ZnMgbGliY3JjMzJjIGFtZGdwdSBhbWRfaW9tbXVfdjIg
+Z3B1X3NjaGVkIHR0bQpkcm1fa21zX2hlbHBlciBjZWMgZHJtIGNyYzMyY19pbnRlbCBpZ2IgbnZt
+ZSBkY2EgbnZtZV9jb3JlCmkyY19hbGdvX2JpdCB3bWkgcGluY3RybF9hbWQgYnJfbmV0ZmlsdGVy
+IGJyaWRnZSBzdHAgbGxjIGZ1c2UKLS0tWyBlbmQgdHJhY2UgNDUyOGU1OTEzODdlZDM5OSBdLS0t
+ClJJUDogMDAxMDprbWVtX2NhY2hlX2FsbG9jKzB4ODMvMHgzMTAKQ29kZTogMDIgMDAgMDAgNGMg
+OGIgNDUgMDAgNjUgNDkgOGIgNTAgMDggNjUgNGMgMDMgMDUgNWIgYTMgY2MgNWUgNGQKOGIgMjAg
+NGQgODUgZTQgMGYgODQgM2UgMDIgMDAgMDAgOGIgNDUgMjAgNDggOGIgN2QgMDAgNGMgMDEgZTAg
+PDQ4PiA4YgoxOCA0OCA4OSBjMSA0OCAzMyA5ZCBkMCAwMSAwMCAwMCA0OCAwZiBjOSA0OCAzMSBj
+YiA0MCBmNiBjNwpSU1A6IDAwMTg6ZmZmZmE4Mzk4YjM1N2IwOCBFRkxBR1M6IDAwMDEwMjgyClJB
+WDogZmU1ZDZmMGFmNzgzMWU1ZSBSQlg6IDAwMDAwMDAwMDAwMDAwMDAgUkNYOiAwMDAwMDAwMDAw
+MDAwMDAwClJEWDogMDAwMDAwMDAwMDAwNjJiNiBSU0k6IDAwMDAwMDAwMDAwMDA0MDAgUkRJOiAw
+MDAwMDAwMDAwMWY4M2MwClJCUDogZmZmZjk1MTM3NDBlOTIwMCBSMDg6IGZmZmY5NTEzN2MzZjgz
+YzAgUjA5OiAwMDAwMDAwMDAwMDAwMDAwClIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IDAwMDAw
+MDAwMDAwMDAwMDAgUjEyOiBmZTVkNmYwYWY3ODMxZGVlClIxMzogMDAwMDAwMDAwMDAwMGRjMCBS
+MTQ6IGZmZmY5NTEzNzQwZTkyMDAgUjE1OiBmZmZmZmZmZmMwM2EzZTkyCkZTOiAgMDAwMDdmZDc3
+ZGI1YzcwMCgwMDAwKSBHUzpmZmZmOTUxMzdjMjAwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAw
+MDAwMDAKQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpD
+UjI6IDAwMDA3ZmVhMWZlNTY1NDAgQ1IzOiAwMDAwMDAwNjA0MjRhMDAwIENSNDogMDAwMDAwMDAw
+MDM0MGVlMAoKJCAvdXNyL3NyYy9rZXJuZWxzL2B1bmFtZSAtcmAvc2NyaXB0cy9mYWRkcjJsaW5l
+Ci9saWIvZGVidWcvbGliL21vZHVsZXMvYHVuYW1lIC1yYC92bWxpbnV4IGttZW1fY2FjaGVfYWxs
+b2MrMHg4My8weDMxMAprbWVtX2NhY2hlX2FsbG9jKzB4ODMvMHgzMTA6CmZyZWVsaXN0X3B0ciBh
+dCBtbS9zbHViLmM6MjYxCihpbmxpbmVkIGJ5KSBmcmVlbGlzdF9kZXJlZmVyZW5jZSBhdCBtbS9z
+bHViLmM6MjcyCihpbmxpbmVkIGJ5KSBnZXRfZnJlZXBvaW50ZXIgYXQgbW0vc2x1Yi5jOjI3OAoo
+aW5saW5lZCBieSkgZ2V0X2ZyZWVwb2ludGVyX3NhZmUgYXQgbW0vc2x1Yi5jOjI5MgooaW5saW5l
+ZCBieSkgc2xhYl9hbGxvY19ub2RlIGF0IG1tL3NsdWIuYzoyNzU0CihpbmxpbmVkIGJ5KSBzbGFi
+X2FsbG9jIGF0IG1tL3NsdWIuYzoyNzk1CihpbmxpbmVkIGJ5KSBrbWVtX2NhY2hlX2FsbG9jIGF0
+IG1tL3NsdWIuYzoyODAwCgpJIHRoaW5rIHRoaXMgaXNzdWUgcmVsYXRlZCB0byBhbWRncHUgZHJp
+dmVyLgpDYW4gYW55b25lIGxvb2sgaW50byBpdD8KClRoYW5rcy4KCkhlcmUgaXMgZnVsbCBzeXN0
+ZW0gbG9nOiBodHRwczovL3Bhc3RlYmluLmNvbS9INE5ZVHk5VQoKLS0KQmVzdCBSZWdhcmRzLApN
+aWtlIEdhdnJpbG92LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
