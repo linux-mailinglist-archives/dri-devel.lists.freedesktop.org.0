@@ -1,37 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AC81CDDF2
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 16:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC611CDE03
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 17:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39AFA89FC0;
-	Mon, 11 May 2020 14:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6B06E4A7;
+	Mon, 11 May 2020 15:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC3289FC0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 14:59:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
- with ESMTPSA id 67E002A1873
-Date: Mon, 11 May 2020 16:59:11 +0200
-From: Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To: robh+dt@kernel.org
-Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
-Message-ID: <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
-Mail-Followup-To: robh+dt@kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, kernel@collabora.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, jason@lakedaemon.net,
- laurent.pinchart@ideasonboard.com
-References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
- <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
- <20200506155320.GC15206@pendragon.ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8F56E4A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 15:01:22 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203033] nouveau hung task
+Date: Mon, 11 May 2020 15:01:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mathieu.malaterre@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-203033-2300-C0x92sr4h7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203033-2300@https.bugzilla.kernel.org/>
+References: <bug-203033-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200506155320.GC15206@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20171215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,71 +51,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jason@lakedaemon.net,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, laurent.pinchart@ideasonboard.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iLAoKV2hhdCdzIHlvdXIgb3BpbmlvbiBvbiB0aGlzPwoKU29tZSBjb250ZXh0OiBJdCdz
-IGFib3V0IGJpbmRpbmdzIHRoYXQgZGVmaW5lIHNpZ25lZCBpbnRlZ2VyIHByb3BlcnRpZXMKd2l0
-aCByYW5nZSBjaGVja3MgdGhhdCBnbyBiZWxvdyBhbmQgYWJvdmUgemVyby4gVGhlIHNjaGVtYSBj
-aGVja2VyIGZhaWxzCmJlY2F1c2UsIGFwcGFyZW50bHksIGl0IGludGVycHJldHMgZXZlcnkgY2Vs
-bCB2YWx1ZSBhcyBhbiB1aW50MzIsIHdoaWNoCm1ha2VzIHRoZSByYW5nZSBjaGVjayBmYWlsIGZv
-ciBuZWdhdGl2ZSBudW1iZXJzLgoKT24gbWnDqSAwNi0wNS0yMDIwIDE4OjUzOjIwLCBMYXVyZW50
-IFBpbmNoYXJ0IHdyb3RlOgo+IEhpIFRvbWksCj4gCj4gT24gVHVlLCBBcHIgMjgsIDIwMjAgYXQg
-MTI6NDk6MjhQTSArMDMwMCwgVG9taSBWYWxrZWluZW4gd3JvdGU6Cj4gPiBPbiAyOC8wNC8yMDIw
-IDEyOjIwLCBSaWNhcmRvIENhw7F1ZWxvIHdyb3RlOgo+ID4gCj4gPiA+IDIpIFRoZSBkZWZpbml0
-aW9uIG9mIHRpLGRlc2tldyBpbiB0aGUgb3JpZ2luYWwgYmluZGluZyBzZWVtcyB0byBiZQo+ID4g
-PiB0YWlsb3JlZCB0byB0aGUgY3VycmVudCBkcml2ZXIgYW5kIHRoZSB3YXkgaXQncyBkZWZpbmVk
-IG1heSBub3QgYmUgdmVyeQo+ID4gPiBEVC1mcmllbmRseS4KPiA+ID4gCj4gPiA+ICAgIFRoaXMg
-cGFyYW1ldGVyIG1hcHMgdG8gYSAzLWJpdCBmaWVsZCBpbiBhIGhhcmR3YXJlIHJlZ2lzdGVyIHRo
-YXQgdGFrZXMKPiA+ID4gICAgYSB2YWx1ZSBmcm9tIDAgdG8gNywgc28gdGhlIFstNCwgM10gcmFu
-Z2UgZGVzY3JpYmVkIGZvciB0aGlzIHdvdWxkIG1hcAo+ID4gPiAgICB0byBbMDAwLCAxMTFdOiAt
-NCAtPiAwMDAsIC0zIC0+IDAwMSwgLTIgLT4gMDEwLCAuLi4gMyAtPiAxMTEuCj4gPiA+IAo+ID4g
-PiAgICBUaGVuLCB0aGUgZHJpdmVyIHBhcnNlcyB0aGUgcGFyYW1ldGVyICh1bnNpZ25lZCkgYW5k
-IGNhc3RzIGl0IHRvIGEKPiA+ID4gICAgc2lnbmVkIGludGVnZXIgdG8gZ2V0IGEgbnVtYmVyIGlu
-IHRoZSBbLTQsIDNdIHJhbmdlLgo+ID4gCj4gPiBJbnRlcmVzdGluZ2x5IHRoZSBjdXJyZW50IGV4
-YW1wbGUgaGFzIHRpLGRlc2tldyA9IDw0Pi4uLgo+ID4gCj4gPiA+ICAgIEEgdmVuZG9yLXNwZWNp
-ZmljIHByb3BlcnR5IG11c3QgaGF2ZSBhIHR5cGUgZGVmaW5pdGlvbiBpbiBqc29uLXNjaGVtYSwK
-PiA+ID4gICAgc28gaWYgSSB0cmFuc2xhdGUgdGhlIG9yaWdpbmFsIGJpbmRpbmdzIHNlbWFudGlj
-cyBkaXJlY3RseSwgSSBzaG91bGQKPiA+ID4gICAgZGVmaW5lIHRpLGRlc2tldyBhcyBhbiBpbnQz
-MiwgYnV0IHRoaXMgbWFrZXMgZHRfYmluZGluZ19jaGVjayBmYWlsIGlmCj4gPiA+ICAgIHRoZSBw
-cm9wZXJ0eSBoYXMgYSBuZWdhdGl2ZSB2YWx1ZSBpbiB0aGUgZXhhbXBsZSBiZWNhdXNlIG9mIHRo
-ZQo+ID4gPiAgICBpbnRlcm5hbCByZXByZXNlbnRhdGlvbiBvZiBjZWxscyBhcyB1bnNpZ25lZCBp
-bnRlZ2VyczoKPiA+ID4gCj4gPiA+ICAgICAgIHRpLGRlc2tldzowOjA6IDQyOTQ5NjcyOTMgaXMg
-Z3JlYXRlciB0aGFuIHRoZSBtYXhpbXVtIG9mIDIxNDc0ODM2NDcKPiA+IAo+ID4gSSBkb24ndCBx
-dWl0ZSB1bmRlcnN0YW5kIHRoaXMuIFdlIGNhbm5vdCBoYXZlIG5lZ2F0aXZlIG51bWJlcnMgaW4g
-ZHRzIGZpbGVzPyBPciB3ZSBjYW4sIGJ1dCAKPiA+IGR0X2JpbmRpbmdfY2hlY2sgZG9lc24ndCBo
-YW5kbGUgdGhlbSBjb3JyZWN0bHk/IE9yIHRoYXQgaW50MzIgaXMgbm90IHN1cHBvcnRlZCBpbiB5
-YW1sIGJpbmRpbmdzPwo+ID4gCj4gPiA+ICAgIFNvIEkgY2FuIHRoaW5rIG9mIHR3byBzb2x1dGlv
-bnMgdG8gdGhpczoKPiA+ID4gCj4gPiA+ICAgIGEpIEtlZXAgdGhlIHRpLGRlc2tldyBwcm9wZXJ0
-eSBhcyBhbiB1aW50MzIgYW5kIGRvY3VtZW50IHRoZSB2YWxpZAo+ID4gPiAgICByYW5nZSAoWy00
-LCAzXSkgaW4gdGhlIHByb3BlcnR5IGRlc2NyaXB0aW9uICh0aGlzIGlzIHdoYXQgdGhpcyBwYXRj
-aAo+ID4gPiAgICBkb2VzIGN1cnJlbnRseSkuCj4gPiA+IAo+ID4gPiAgICBiKSBSZWRlZmluZSB0
-aGlzIHByb3BlcnR5IHRvIGJlIGNsb3NlciB0byB0aGUgZGF0YXNoZWV0IGRlc2NyaXB0aW9uCj4g
-PiA+ICAgIChpZS4gdW5zaWduZWQgaW50ZWdlcnMgZnJvbSAwIHRvIDcpIGFuZCBhZGFwdCB0aGUg
-ZHJpdmVyIGFjY29yZGluZ2x5Lgo+ID4gPiAgICBUaGlzIHdvdWxkIGFsc28gbGV0IHVzIGRlZmlu
-ZSBpdHMgcmFuZ2UgcHJvcGVybHkgdXNpbmcgbWluaW11bSBhbmQKPiA+ID4gICAgbWF4aW11bSBw
-cm9wZXJ0aWVzIGZvciBpdC4KPiA+ID4gCj4gPiA+ICAgIEkgdGhpbmsgKGIpIGlzIHRoZSByaWdo
-dCB0aGluZyB0byBkbyBidXQgSSB3YW50IHRvIGtub3cgeW91cgo+ID4gPiAgICBvcGluaW9uLiBC
-ZXNpZGVzLCBJIGRvbid0IGhhdmUgdGhpcyBoYXJkd2FyZSBhdCBoYW5kIGFuZCBpZiBJIHVwZGF0
-ZWQKPiA+ID4gICAgdGhlIGRyaXZlciBJIHdvdWxkbid0IGJlIGFibGUgdG8gdGVzdCBpdC4KPiA+
-IAo+ID4gSSBkb24ndCB0aGluayBhbnlvbmUgaGFzIHVzZWQgZGVza2V3IHByb3BlcnR5LCBzbyBJ
-IGd1ZXNzIGNoYW5naW5nIGl0IGlzIG5vdCBvdXQgb2YgdGhlIHF1ZXN0aW9uLgo+ID4gCj4gPiBM
-YXVyZW50LCBkaWQgeW91IGhhdmUgYSBib2FyZCB0aGF0IG5lZWRzIGRlc2tldyB3aGVuIHlvdSBh
-ZGRlZCBpdCB0byB0ZnA0MTA/Cj4gCj4gSSBkaWRuJ3QgaWYgSSByZW1lbWJlciBjb3JyZWN0bHks
-IEkganVzdCBtYXBwZWQgaXQgdG8gdGhlIGhhcmR3YXJlCj4gZmVhdHVyZXMuIFRoZSBoYXJkd2Fy
-ZSByZWdpc3RlciBpbmRlZWQgdGFrZXMgYSB2YWx1ZSBiZXR3ZWVuIDAgYW5kIDcsCj4gYW5kIHRo
-YXQgaXMgbWFwcGVkIHRvIFstNCwzXSB4IHQoU1RFUCkuIEkgZG9uJ3QgbWluZCBlaXRoZXIgb3B0
-aW9uLgo+IAo+IC0tIAo+IFJlZ2FyZHMsCj4gCj4gTGF1cmVudCBQaW5jaGFydAoKSSBoYXZlbid0
-IGZvdW5kIGFueSBleGFtcGxlcyBvZiB5YW1sIGJpbmRpbmdzIGRlZmluaW5nIHNpZ25lZCBpbnRl
-Z2VyCnByb3BlcnRpZXMgc3VjaCBhcyB0aGlzLCB3aGF0J3MgdGhlIG5vcm0gaW4gdGhpcyBjYXNl
-PyBEbyB5b3UgYWdyZWUgd2l0aAphbnkgb2YgdGhlIHByb3Bvc2VkIHNvbHV0aW9ucz8gRG8geW91
-IGhhdmUgYSBiZXR0ZXIgc3VnZ2VzdGlvbj8KClRoYW5rcywKUmljYXJkbwpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=203033
+
+--- Comment #2 from Mathieu Malaterre (mathieu.malaterre@gmail.com) ---
+Same here:
+
+May 11 16:54:31 vostrodell kernel: [  605.330992] INFO: task kworker/u8:3:162
+blocked for more than 120 seconds.
+May 11 16:54:31 vostrodell kernel: [  605.330997]       Not tainted
+5.4.0-0.bpo.4-amd64 #1 Debian 5.4.19-1~bpo10+1
+May 11 16:54:31 vostrodell kernel: [  605.330999] "echo 0 >
+/proc/sys/kernel/hung_task_timeout_secs" disables this message.
+May 11 16:54:31 vostrodell kernel: [  605.331001] kworker/u8:3    D    0   162 
+    2 0x80004000
+May 11 16:54:31 vostrodell kernel: [  605.331083] Workqueue: events_unbound
+nv50_disp_atomic_commit_work [nouveau]
+May 11 16:54:31 vostrodell kernel: [  605.331095] Call Trace:
+May 11 16:54:31 vostrodell kernel: [  605.331108]  ? __schedule+0x2e6/0x6f0
+May 11 16:54:31 vostrodell kernel: [  605.331111]  schedule+0x2f/0xa0
+May 11 16:54:31 vostrodell kernel: [  605.331114]  schedule_timeout+0x20d/0x310
+May 11 16:54:31 vostrodell kernel: [  605.331155]  ? nvif_notify_get+0x94/0xa0
+[nouveau]
+May 11 16:54:31 vostrodell kernel: [  605.331224]  ? nv84_fence_sync+0x40/0x40
+[nouveau]
+May 11 16:54:31 vostrodell kernel: [  605.331234] 
+dma_fence_default_wait+0x22f/0x290
+May 11 16:54:31 vostrodell kernel: [  605.331241]  ?
+dma_fence_release+0x140/0x140
+May 11 16:54:31 vostrodell kernel: [  605.331245] 
+dma_fence_wait_timeout+0xdd/0x100
+May 11 16:54:31 vostrodell kernel: [  605.331264] 
+drm_atomic_helper_wait_for_fences+0x3c/0xd0 [drm_kms_helper]
+May 11 16:54:31 vostrodell kernel: [  605.331332] 
+nv50_disp_atomic_commit_tail+0x72/0x710 [nouveau]
+May 11 16:54:31 vostrodell kernel: [  605.331340]  ? __switch_to_asm+0x40/0x70
+May 11 16:54:31 vostrodell kernel: [  605.331357]  ? __switch_to_asm+0x34/0x70
+May 11 16:54:31 vostrodell kernel: [  605.331360]  ? __switch_to+0x7a/0x3e0
+May 11 16:54:31 vostrodell kernel: [  605.331365]  ? __switch_to_asm+0x34/0x70
+May 11 16:54:31 vostrodell kernel: [  605.331370]  process_one_work+0x1a7/0x360
+May 11 16:54:31 vostrodell kernel: [  605.331377]  worker_thread+0x30/0x390
+May 11 16:54:31 vostrodell kernel: [  605.331383]  ? create_worker+0x1a0/0x1a0
+May 11 16:54:31 vostrodell kernel: [  605.331388]  kthread+0x112/0x130
+May 11 16:54:31 vostrodell kernel: [  605.331394]  ? kthread_park+0x80/0x80
+May 11 16:54:31 vostrodell kernel: [  605.331400]  ret_from_fork+0x35/0x40
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
