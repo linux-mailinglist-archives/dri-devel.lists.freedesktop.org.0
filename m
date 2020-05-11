@@ -1,55 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE421CE874
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C44D1CE4F0
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB51B6E7E6;
-	Mon, 11 May 2020 22:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB6F6E558;
+	Mon, 11 May 2020 20:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0A189ABE
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 19:56:19 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id l19so10963449lje.10
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 12:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=twrh0eXh5joVqZp0VxRAs/oUk/YehIWffye6JGuwDDA=;
- b=IThxMhNZByJDKLb07gmANVEAl37FJvsRy4wkLxlDeoTpwGNqCgXc/MLZQMb+OO2Wsy
- vQQGV28dvSHXuy6QMbHVWb/Iwu2odwH/a+gzt9f4Nv4u/K7n4THv+Q5xTqxBnR5VTQ1S
- BlkjDHxv9PvEAnxTaD1E7UpBhmmgfZRg/7IkE0ybq+lfSgkB4FovFaHHRMJq5c878Sgv
- pnu8SqEiYQmcBQNUuqdQ9VfMjJo0ZE6CiA1H6ppGXMQ72sx564zw6eP69B4w9kGX4Z++
- PYcUPr4Qsi4EmF4qBYh6V6hO7zxDCCcZv8RWR+NDaLkWvQLmUEQuQTiEBtD1KhMvSvUU
- DsAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=twrh0eXh5joVqZp0VxRAs/oUk/YehIWffye6JGuwDDA=;
- b=M+eMyYk8Huw4Y8bK9b4GrL30IxnTncIoRYDnyd3V3nLOLTCf8o+djoe7IR/hokSs4I
- zEyR9Swi4xaC01zcnZFwkLOozdMTld9hq9jkPeGnI1N42dT1fCkbKgzBH1lJJhps8zhg
- 9L2FeXgElY+sqdoWJtPZmqLv1EGstKfUrmk5lljiAiOycZHfL1297jWkbPHeHzTOr/r4
- /cRc/lzn6T1JAb3Znc/KjnlRyA2Ac4kPaDnArdAOYR3P42qapaEnxxD+ghxZ8EK9ED+9
- LdcYmGElQ3vBu2FA2R8xc9phGRXh/FSk7HQhfdHCbcPgrmSRYC5Yehic8NCDspIlGPJw
- OvLg==
-X-Gm-Message-State: AOAM5301EBoQQK54p/DzrJh7r8Dt5jSJb1AxdoYnRxEytuQP7gmW9yP0
- NGx7UENT7nGKhllddpZA6iCjBc3CJnpaScryW6aygg==
-X-Google-Smtp-Source: ABdhPJy1hpOvBc+JZDfBLkSZyi4nmPT5hdvElGJn2r0RdoUGot/PBEP+aWnb3ByIbkzytK85NtcUzHV/BpfSLVGE2sI=
-X-Received: by 2002:a2e:910e:: with SMTP id m14mr10426291ljg.141.1589226977122; 
- Mon, 11 May 2020 12:56:17 -0700 (PDT)
+X-Greylist: delayed 393 seconds by postgrey-1.36 at gabe;
+ Mon, 11 May 2020 20:02:27 UTC
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68AFF6E56A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 20:02:27 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.93) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1jYEWn-002HX7-7C; Mon, 11 May 2020 21:55:53 +0200
+Received: from p5b13aac7.dip0.t-ipconnect.de ([91.19.170.199]
+ helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.93)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1jYEWn-001H9q-0E; Mon, 11 May 2020 21:55:53 +0200
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
+ 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
+ scOkTAZQGVpD/8AaLH4v1w==
+Message-ID: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+Date: Mon, 11 May 2020 21:55:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200511174724.21512-1-hdegoede@redhat.com>
-In-Reply-To: <20200511174724.21512-1-hdegoede@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Mon, 11 May 2020 12:55:40 -0700
-Message-ID: <CACK8Z6HG3sM-4cBYurHCba1jopk_5SVBd7KULEvOR27eKfxpyg@mail.gmail.com>
-Subject: Re: [RFC v2 0/1] drm/connector: Add support for privacy-screen
- properties
-To: Hans de Goede <hdegoede@redhat.com>
-X-Mailman-Approved-At: Mon, 11 May 2020 22:51:58 +0000
+Content-Language: en-US
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 91.19.170.199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,189 +92,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sonny.Quintanilla@dell.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Mario Limonciello <mario.limonciello@dell.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Jared Dominguez <jaredz@redhat.com>, Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============1285374810=="
+Cc: "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1285374810==
-Content-Type: multipart/alternative; boundary="00000000000070ad0c05a564bd09"
+Hi Christian!
 
---00000000000070ad0c05a564bd09
-Content-Type: text/plain; charset="UTF-8"
+> Well let's face it AGP is a total headache to maintain and dead for at least 10+ years.
+>
+> We have a lot of x86 specific stuff in the architecture independent graphics memory management
+> to get the caching right, abusing the DMA API on multiple occasions, need to distinct between
+> AGP and driver specific page tables etc etc...
 
-Hi Hans,
+AGP isn't exclusively used on x86 but there are also a lot of PowerPC desktop machines (Apple
+PowerMac, Pegasos etc) that employ AGP graphics.
 
-On Mon, May 11, 2020 at 10:47 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> So the idea here is to just go ahead and remove the support from Radeon and Nouveau and
+> then drop the necessary code from TTM.
+> For Radeon this means that we just switch over to the driver specific page tables and
+> everything should more or less continue to work.
+>
+> For Nouveau I'm not 100% sure, but from the code it of hand looks like we can do it similar to Radeon.
+>
+> Please comment what you think about this.
 
-> Hi All,
->
-> This RFC takes Rajat's earlier patch for adding privacy-screen properties
-> infra to drm_connector.c and then adds the results of the discussion from
-> the "RFC: Drm-connector properties managed by another driver / privacy
-> screen support" mail thread on top, hence the v2.
->
+I would be against such a move as AGP graphics is still used by people running the powerpc
+and ppc64 Debian ports on their vintage hardware [1].
 
-Thank you so much for doing this. I was following the said discussion and
-eventually it became quite complex for me to understand and follow :-)
+I have also CC'ed the debian-powerpc mailing list so that other users can voice their
+opinion.
 
+Thanks,
+Adrian
 
->
-> The most important thing here is big kernel-doc comment which gets added in
-> the first patch-chunk modifying drm_connector.c, this summarizes, or at
-> least tries to summarize, the conclusions of our previous discussion on
-> the userspace API and lays down the ground rules for how the 2 new
-> "privacy-screen sw-state" and  "privacy-screen hw-state" properties are
-> to be used both from the driver side as well as from the userspace side.
->
-> Other then that this modifies Rajat's patch to add 2 properties instead
-> of one, without much other changes.
->
-> Rajat, perhaps you can do a new version of your patch-set integration /
-> using this version of the properties and then if everyone is ok with
-> the proposed userspace API Jani can hopefully merge the whole set
-> through the i915 tree sometime during the 5.9 cycle.
->
+> [1] https://cdimage.debian.org/cdimage/ports/2020-04-19/
 
-SGTM. I have actually moved to working on something else now, so I will
-most likely wait for this patch to get merged, before rebasing my other /
-remaining patches on top of that.
-
-Thanks & Best Regards,
-
-Rajat
-
-
-> This RFC takes Rajat's earlier patch for adding privacy-screen properties
-> infra to drm_connector.c and then adds the results of the discussion from
-> the "RFC: Drm-connector properties managed by another driver / privacy
-> screen support" mail thread on top, hence the v2.
->
-> The most important thing here is big kernel-doc comment which gets added in
-> the first patch-chunk modifying drm_connector.c, this summarizes, or at
-> least tries to summarize, the conclusions of our previous discussion on
-> the userspace API and lays down the ground rules for how the 2 new
-> "privacy-screen sw-state" and  "privacy-screen hw-state" properties are
-> to be used both from the driver side as well as from the userspace side.
->
-> Other then that this modifies Rajat's patch to add 2 properties instead
-> of one, without much other changes.
->
-> Rajat, perhaps you can do a new version of your patch-set integration /
-> using this version of the properties and then if everyone is ok with
-> the proposed userspace API Jani can hopefully merge the whole set
-> through the i915 tree sometime during the 5.9 cycle.
->
-> Regards,
->
-> Hans
->
-> p.s.
->
-> I plan to start working on the lcdshadow subsystem next. As discussed the
-> plan for this subsystem is to allow drivers outside of the DRM subsys, such
-> as for example the thinkpad_acpi driver, to register a lcdshadow device,
-> which DRM drivers can then get a reference to and use to implement these
-> properties.
->
->
-
---00000000000070ad0c05a564bd09
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Hans,</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, May 11, 2020 at 10:47 AM Hans de Goed=
-e &lt;<a href=3D"mailto:hdegoede@redhat.com">hdegoede@redhat.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi All,<br>
-<br>
-This RFC takes Rajat&#39;s earlier patch for adding privacy-screen properti=
-es<br>
-infra to drm_connector.c and then adds the results of the discussion from<b=
-r>
-the &quot;RFC: Drm-connector properties managed by another driver / privacy=
-<br>
-screen support&quot; mail thread on top, hence the v2.<br></blockquote><div=
-><br></div><div>Thank you so much for doing this. I was following the said =
-discussion and eventually it became quite complex for me to understand and =
-follow :-)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-<br>
-The most important thing here is big kernel-doc comment which gets added in=
-<br>
-the first patch-chunk modifying drm_connector.c, this summarizes, or at<br>
-least tries to summarize, the conclusions of our previous discussion on<br>
-the userspace API and lays down the ground rules for how the 2 new<br>
-&quot;privacy-screen sw-state&quot; and=C2=A0 &quot;privacy-screen hw-state=
-&quot; properties are<br>
-to be used both from the driver side as well as from the userspace side.<br=
->
-<br>
-Other then that this modifies Rajat&#39;s patch to add 2 properties instead=
-<br>
-of one, without much other changes.<br>
-<br>
-Rajat, perhaps you can do a new version of your patch-set integration /<br>
-using this version of the properties and then if everyone is ok with<br>
-the proposed userspace API Jani can hopefully merge the whole set<br>
-through the i915 tree sometime during the 5.9 cycle.<br></blockquote><div><=
-br></div><div>SGTM. I have actually moved to working on something else now,=
- so I will most likely wait for this patch to get merged, before rebasing m=
-y other / remaining patches on top of that.</div><div><br></div><div>Thanks=
- &amp; Best Regards,</div><div><br></div><div>Rajat</div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">This RFC takes Rajat&#39;s=
- earlier patch for adding privacy-screen properties<br>infra to drm_connect=
-or.c and then adds the results of the discussion from<br>the &quot;RFC: Drm=
--connector properties managed by another driver / privacy<br>screen support=
-&quot; mail thread on top, hence the v2.<br><br>The most important thing he=
-re is big kernel-doc comment which gets added in<br>the first patch-chunk m=
-odifying drm_connector.c, this summarizes, or at<br>least tries to summariz=
-e, the conclusions of our previous discussion on<br>the userspace API and l=
-ays down the ground rules for how the 2 new<br>&quot;privacy-screen sw-stat=
-e&quot; and =C2=A0&quot;privacy-screen hw-state&quot; properties are<br>to =
-be used both from the driver side as well as from the userspace side.<br><b=
-r>Other then that this modifies Rajat&#39;s patch to add 2 properties inste=
-ad<br>of one, without much other changes.<br><br>Rajat, perhaps you can do =
-a new version of your patch-set integration /<br>using this version of the =
-properties and then if everyone is ok with<br>the proposed userspace API Ja=
-ni can hopefully merge the whole set<br>through the i915 tree sometime duri=
-ng the 5.9 cycle.<br>
-<br>
-Regards,<br>
-<br>
-Hans<br>
-<br>
-p.s.<br>
-<br>
-I plan to start working on the lcdshadow subsystem next. As discussed the<b=
-r>
-plan for this subsystem is to allow drivers outside of the DRM subsys, such=
-<br>
-as for example the thinkpad_acpi driver, to register a lcdshadow device,<br=
->
-which DRM drivers can then get a reference to and use to implement these<br=
->
-properties.<br>
-<br>
-</blockquote></div></div>
-
---00000000000070ad0c05a564bd09--
-
---===============1285374810==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1285374810==--
