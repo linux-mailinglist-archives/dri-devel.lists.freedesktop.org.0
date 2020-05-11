@@ -2,67 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EB11CD615
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 12:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FA81CD639
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 12:15:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B26ED89AF3;
-	Mon, 11 May 2020 10:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6755E6E42B;
+	Mon, 11 May 2020 10:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1924D89AF3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 10:12:07 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id g12so18504293wmh.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 03:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=AxDN71QWVlIvPR/Qe9BjED7lK/KCTSrcSC7GeFvMB4Y=;
- b=b+tSFMrvsOVBFnenMDfROizokqqsnSkXcglzgocb+51zy42IXbNcvm5CHNupiOZMBs
- ANqitFhidqbalpsVfp+bA/q0JND5ePnK4K7dgxr1Y+0WOZLuIknw/CLde/AY7WU+iUoV
- fDLkN/x1hi73cW3Lol0SnEsnc+wQwS//RVi7k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=AxDN71QWVlIvPR/Qe9BjED7lK/KCTSrcSC7GeFvMB4Y=;
- b=fUxvS/zTYWhjceWDC2E8LOhgqogKuSboCbFz/KYkuE054oSCv34HmSwk+0cd+zHDES
- flUgCEDOBCMV6OrVprcn5yXWujcQGoIw1oRhfwMCFmpSGwNNvGY1+kkTESTV2080vS1I
- f7w8Gbsg3dBCOZj6xmNJ50/dvF1Ygrv0xNt1J1zVEdBa331QoY8kChbcREkxbfVqEQhZ
- LTgE97fLIuQzhcaJb8MeH4BFFnyH+cn9RGtA1nr2kkHfkVXBuy7a0RBZves3CVlutmcX
- LLPX1AhEFXkF7MqeucgMQgBuU5yHudRQmlznfkuIjVg0g61IYNOBS4BJ64j4vjMgCziG
- 0MKg==
-X-Gm-Message-State: AGi0PuYCK/0RM4UHmBvf1FbgMzcwroyU1mvtk41JCBwqZ3JVpPVnRoFN
- dbJP5wef6idfkrsth5CYbnmZcg==
-X-Google-Smtp-Source: APiQypJduS5g8MSJy/JNzf+Alo7zIfVFjEdcgIp2nM0k6p91EvBmHQ+tR8aq272pVf8oIkv+vmiJPw==
-X-Received: by 2002:a05:600c:230e:: with SMTP id
- 14mr2914697wmo.45.1589191925721; 
- Mon, 11 May 2020 03:12:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a10sm18015507wrp.0.2020.05.11.03.12.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:12:05 -0700 (PDT)
-Date: Mon, 11 May 2020 12:12:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH 2/3] dma-fence: use default wait function for mock fences
-Message-ID: <20200511101202.GB206103@phenom.ffwll.local>
-Mail-Followup-To: Chris Wilson <chris@chris-wilson.co.uk>,
- LKML <linux-kernel@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-media@vger.kernel.org
-References: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
- <20200511091142.208787-2-daniel.vetter@ffwll.ch>
- <158919006380.1729.6928823811672806738@build.alporthouse.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4042B6E42B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 10:15:14 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 5D1762001E;
+ Mon, 11 May 2020 12:15:09 +0200 (CEST)
+Date: Mon, 11 May 2020 12:15:08 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: srk@48.io
+Subject: Re: [PATCH 1/2] dt-bindings: it6251: add bindings for IT6251
+ LVDS-to-eDP bridge
+Message-ID: <20200511101508.GA7971@ravnborg.org>
+References: <20200509111732.26102-1-srk@48.io>
+ <20200509111732.26102-2-srk@48.io>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <158919006380.1729.6928823811672806738@build.alporthouse.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200509111732.26102-2-srk@48.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=YpGV6msqAAAA:8 a=e5mUnYsNAAAA:8
+ a=gEfo2CItAAAA:8 a=_yH9q9Z6AjBviL3TOqQA:9 a=rbfOVJjzkGrPOjLs:21
+ a=2oGGWDTR31z2Z5qq:21 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=7Sa5D-Tva0wx0rmpRu8Y:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=sptkURWiP4Gy88Gu7hUp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +49,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel.vetter@intel.com>,
- linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sean Cross <xobs@kosagi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 10:41:03AM +0100, Chris Wilson wrote:
-> Quoting Daniel Vetter (2020-05-11 10:11:41)
-> > No need to micro-optmize when we're waiting in a mocked object ...
+Hi Richard/Marek.
+
+On Sat, May 09, 2020 at 01:17:31PM +0200, srk@48.io wrote:
+> From: Marek Vasut <marex@denx.de>
 > 
-> It's setting up the expected return values for the test.
+> Add DT bindings for ITE IT6251 LVDS-to-eDP bridge.
 
-Drat, I suspect something like that but didn't spot it. Kinda wondering
-whether we should maybe lift the -ETIME special case to the generic
-version. But that's not really a safe thing to do there, drivers might
-actually use it for funny stuff.
+Looks good, just a few comments in the following.
 
-Anyway motivation is that I'm pondering some extensions of dma_fence_wait
-and removing as many of the ->wait hooks as possible would have helped.
-But there's some nastier stuff like the legacy nouvea and radeon ones.
--Daniel
+	Sam
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Signed-off-by: Richard Marko <srk@48.io>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Sean Cross <xobs@kosagi.com>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  .../bindings/display/bridge/ite,it6251.yaml   | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
+> new file mode 100644
+> index 000000000000..8daa44a30fa1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6251.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/ite,it6251.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ITE IT6251 LVDS-to-eDP bridge bindings
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +  - Richard Marko <srk@48.io>
+> +
+> +description: |
+> +  The IT6251 is a high-performance single-chip
+> +  De-SSC LVDS to DisplayPort converter.
+> +  Combined with LVDS receiver and DisplayPort Transmitter,
+> +  the IT6251 supports LVDS input and DisplayPort 1.1a
+> +  output by conversion function.
+> +
+> +properties:
+> +  compatible:
+> +    const: ite,it6251
+> +
+> +  reg:
+> +    items:
+> +      - description: I2C address of the bridge
+> +      - description: I2C address of the LVDS part
+> +
+> +  reg-names:
+> +    items:
+> +      - const: bridge
+> +      - const: lvds
+> +
+> +  ports:
+> +    type: object
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: |
+> +         Video port for eDP output (typically panel).
+port@0 is in most (all?) cases input today.
+Take for example a look at: toshiba,tc358768.yaml
+Could we do the same here?
+
+> +
+> +      port@1:
+> +        type: object
+> +        description: |
+> +          Video port for LVDS input.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +    additionalProperties: false
+> +
+> +  power-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - power-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+Add an extra level named "i2c" like we do in other bridge examples.
+> +    it6251@5c {
+My personal preference is 4 spaces for indent.
+But 2 spaces is also fine.
+
+> +      compatible = "ite,it6251";
+> +      reg = <0x5c>, <0x5e>;
+> +      reg-names = "bridge", "lvds";
+> +      power-supply = <&reg_display>;
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          reg = <0>;
+> +          bridge_out_edp0: endpoint {
+> +            remote-endpoint = <&panel_in_edp0>;
+> +          };
+> +        };
+> +
+> +        port@1 {
+> +          reg = <1>;
+> +          bridge_in_lvds0: endpoint {
+> +            remote-endpoint = <&lvds0_out>;
+> +          };
+> +        };
+> +      };
+> +    };
+
+End with a line containing only "..."
+
+This is an optional end-marker.
+See lvds-codec.yaml for an example.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
