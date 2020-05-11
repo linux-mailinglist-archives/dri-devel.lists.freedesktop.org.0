@@ -2,110 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65F71CE873
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DB61CE602
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:51:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C84C6E7E2;
-	Mon, 11 May 2020 22:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B26E96E58A;
+	Mon, 11 May 2020 20:51:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E2A6E58A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 20:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1589230125;
- bh=ejhZYMB1UC0oN/MfTvC40dNBHwOB8lkQTZkI1Rp5oBY=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=hX0MFgomoe/qBm0sn1ACfDPRT5p/FchdxUhWmAqGUbEIE/jgMQq0i2JOl4OVDmTFi
- q0iEAJP1R7dtrOl4n8lzGWepUzHMp+bbclv1bW2wfuIh/QrKf23G19qK7cVYOWCrb9
- pcECNLFYF/tqegH/qvL+ikAB0RndgS72scm0H92Q=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.10.46] ([88.151.72.79]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M26rD-1jVlRc0osj-002TZ8; Mon, 11
- May 2020 22:48:45 +0200
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- christian.koenig@amd.com
-References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
- <f57bb3dc-6888-9b19-d2f6-c432eb32a480@gmail.com>
- <3b8bfa86-73c0-0eb1-1723-a4f725aec327@physik.fu-berlin.de>
-From: Gerhard Pircher <gerhard_pircher@gmx.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gerhard_pircher@gmx.net; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <b0e4e9eb-77f1-fcca-2bf1-96fda8aca803@gmx.net>
-Date: Mon, 11 May 2020 22:48:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36976E58A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 20:51:52 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id g12so20924199wmh.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rkikq0zDsxgZt2W2jtJbRT70OAbPB2Rkt0vH5UDJcS0=;
+ b=o+7Ut8Jag9RWpvLoH11fEO6vIhINeYGTOmAxLWkr8sUBh/tLA/vG7hh+uFjfmN5nEA
+ 6HJLJZxV6GflCVeZWq31KFMdQ2PGlfH2WBIsQuCxyk0vmMEZ0jU80svp+SShggTd6T2y
+ G+VcSc+Z6S7v8eTjNB2lKwkvDRwu2EjE6UpDkAnehrzYVquspzQTGOtx0vseQDC/jFeG
+ BZJF6Zq17YSMvnTd5mpT6+6cqcbeOdovW9Pl8MWHBlAimB5z3gnPbh5b4HgYicOI391x
+ T1pqeoZGv2xFvv7EQD4bvnXWWgJmf5V/P2kLehsukETdRD59tDCaLUTSInS4SHbda6Mc
+ WM1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rkikq0zDsxgZt2W2jtJbRT70OAbPB2Rkt0vH5UDJcS0=;
+ b=B1DQaQGYJfOctG052qkjwsUbvTczNpvsaBSPcoNYFjRtLlekS6iWEoOFRw/l4aeUSE
+ QcI+iDIDwlnfbWl4iaZxa1sZ+CXJ+SzoqOsUijpgcSTYUNfbLcZVbR3qfTHfob4SoKx5
+ Bz0rhIhB1iwQ81O4CdwnGXJPFseEzPJYwADsFyATjCtJ8pYXxuDYsiU5SoCbO/kf6QHY
+ 80zDg7m+iwcW7ER+5KcG/VewyLijbgDO1AK5Pr9+wjYChviLUdRpgny9IEcyrcs15g/E
+ pfoj6DT+ALawMv9PTymL92pw5I0AWwrl97dZs2K3eWQhkuy77RURayniErLk+ftD3NZ8
+ D7/Q==
+X-Gm-Message-State: AGi0Pub/YGGTPLY31+bIJq7n6jcydmOV5WeMyWBg3kJnFT2I0UY92ha2
+ sfVVafc7WzBU5yBb+p0VB0F5Yo/QpHF31pjpUO5laQ==
+X-Google-Smtp-Source: APiQypI35SgzQ9lRlgIBY5BZtIhkcQCQXrQ1nwqU7bzCxY63uI41lYvdt12rJwX0qzG6xJB7ff7RqTBXwNpk//dOqp8=
+X-Received: by 2002:a1c:98c7:: with SMTP id a190mr16513543wme.56.1589230311626; 
+ Mon, 11 May 2020 13:51:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3b8bfa86-73c0-0eb1-1723-a4f725aec327@physik.fu-berlin.de>
-Content-Language: de-AT
-X-Provags-ID: V03:K1:zLVAY6HmK3TN2sh/8Q3UrB1Qjb0EcuKO1wgqRnjb1iqXKkpPJYO
- Gkz4C2dH0NBZ27Y2mUALjMba+RNLWnipKmrXJq36wXutj82PkraqYVDMB4qEha0i9MrRLLJ
- cWAAC+75rIhCBmhFng6TkgzRvjg64l+zhHQMqCXEvRcOUdkwDaLLzxsuLffCWdXT13ahOdc
- X6uz991ZzVP5sXWCy4QrA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uk52gUsPcDA=:Ydk58vICSvdpJphqANvu+s
- krWdQxebgihwtvnVPnLY/SJacVtcd3ZpZ4fc3+e0kCNnxIl3frEdXo6EVXzPTwh5kzdC71g3w
- X3fqUh8RzkjL30144Qqr1QL7V/yXRLc7IumwpJ14Vq6EIx29+YEzyB0ViLfrVitr5KsVReHh0
- mXrKalERKCDusn3m3RMT4X5T5HbSVjHMqJBdA7C6IYG/vh/C4K/apovXNg6KisCVPgVqzo+Ho
- ty5DuZ1QcHiQ4V+Z/XUfe/Jr3POWGTZXKgEYFCDC1L9BLUZ279GzgEw33HxAkMI6tZiG1QgBY
- 5wM2veEy/twJ36jmzOyDJW6mywTmttx1OMcjvH7l/9FmkAiAh0uChRpVm2/roxc4ZvD11VxjL
- MD6SMipOtcdAbur09yJrl12TEINlcp5OhEGPJse3RmPJG1NLP17E26HpiktVFacPXpaGxmCBQ
- C8D7MrUMsifdhvMb2i2Ub92zsyvIaQN+y3v+lQAhAnEgX8DWiRgPtI4CrWTSXcKPGX1GhSm9I
- 1Qw/qz0oHSEm0QP+DHNZataW+7u+mrEQYwlHHmb0BUnpWTLiaE8Zv8sAKFTgwI6Cg/OEvtgZW
- QQYIE1lhKKNAaRZ73V0+8uDq7Lw8qanJiqs78b/rjXhL7ifGwD2tnZMMv1usw+w4LqtC36nM/
- ffHaB+QdgyUQmCYB0tTFhGRLguEskR7ztgDqx0450zbT7GaXD5C2TFIdn5X5nr0K7N7yxKHhx
- lXIgsKV6Vd3ChpcJf+8OjERRnDMDtb/Q/3Vb/FWbbwTtjNH8UWR6G6aOOCZoadlWlEQdT/BrS
- yIxNRX57ZRZPnx0QIhBicNy1K96DbWJp9/4asUPiXF2BrJN2uvzYhXnccaaRC4qbIorQ8tZKQ
- bkEHd/VFVUOueDLpncWvX6OkH0VeS48FQJAFRSbh2zNROyjNgZvhfNYSJlTexslBVgfD6Jp1R
- lFDWoixMKGJtEvKvWCLFEF35sdAtNMCwyfPncliNRGshyqYKaDQSLtG4WQTAuzv338dpwWQc/
- /9aOzFzVMc/wfpE32HapaOyW1rF79ZC4izJZT1h77ZLtej5Ks0dbsXUKMWG232P7EPUhZp0G6
- oI5SFVJw893By5HU1sphg3kwfIp+qx6OtuqEk9SoNBCVfrb7dqeSBsONy+uDwUlzh0W6EGqol
- TpeJnenGiA359gLry9B+CkGcZtGhGG0enGHoe1fVd4pEu4zpw6820qqshB/HuFcfe+d7j3EIi
- LfkkNnQP84kAIpekJ
-X-Mailman-Approved-At: Mon, 11 May 2020 22:51:58 +0000
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+ <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
+In-Reply-To: <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 11 May 2020 16:51:40 -0400
+Message-ID: <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Rui Salvaterra <rsalvaterra@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,65 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTEuMDUuMjAgdW0gMjI6MjQgc2NocmllYiBKb2huIFBhdWwgQWRyaWFuIEdsYXViaXR6Ogo+
-IE9uIDUvMTEvMjAgMTA6MTIgUE0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEkgdW5mb3J0
-dW5hdGVseSBvbmx5IGhhdmUgYW4geDg2IE1hYyB0byB0ZXN0IHRoaXMgb24sIGJ1dCBhcyBmYXIg
-YXMgSSBrbm93IHRoZSBSYWRlb24KPj4gQUdQIHN1cHBvcnQgZm9yIFBvd2VyUEMgaXMgZGlzYWJs
-ZWQgZm9yIHllYXJzIGFscmVhZHkgYmVjYXVzZSBpdCBkaWRuJ3Qgd29ya2VkIHJlbGlhYmxlLgo+
-Cj4gSSBoYXZlIGEgY3VycmVudCBEZWJpYW4gdW5zdGFibGUgcnVubmluZyBvbiBhbiBpQm9vayBH
-NCB3aXRoIFJhZGVvbiBncmFwaGljcyBlbmFibGVkCj4gb24gYSBjdXJyZW50IGtlcm5lbCBhbmQg
-Z3JhcGhpY3Mgc3RhY2sgYW5kIGl0IHJ1bnMgZmluZS4gTm90IHN1cmUgdGhvdWdoIHdoZXRoZXIK
-PiBpdCBjdXJyZW50bHkgZW1wbG95cyBhbGwgQUdQIGZlYXR1cmVzLCBidXQgSSB3b3VsZCBsaWtl
-IHRvIGJlIGFibGUgdG8gY29udGludWUKPiB1c2luZyBpdCBhbmQgc28gYXJlIHRoZSB1c2VycyBv
-biB0aGUgZGViaWFuLXBvd2VycGMgbWFpbGluZyBsaXN0LgpJIGRpZG4ndCBoYXZlIG11Y2ggbHVj
-ayB3aXRoIGFncF91bmlub3J0aCBhbmQgcmFkZW9uIERSTSBvbiBteSBNYWNNaW5pCkc0ICgyeHgp
-IHdpdGggY3VycmVudCBEZWJpYW4gdW5zdGFibGUgKHlldCBoYXZlIHRvIHNlbmQgYW4gaW5zdGFs
-bGF0aW9uCnJlcG9ydCwgc29ycnkhKS4gVGhlIFggc2VydmVyIGRpZG4ndCBldmVuIGNvbWUgdXAg
-d2l0aCBBR1AgZW5hYmxlZC4KVGhlIG9ubHkgdGhpbmcgdGhhdCB3b3JrcyBpcywgaWYgdGhlIHJh
-ZGVvbiBkcml2ZXIgaXMgZm9yY2VkIHRvIHVzZQpQQ0lHQVJULCB3aGljaCB3YXMgZXZlbiB0aGUg
-ZGVmYXVsdCBhZnRlciBpbnN0YWxsLCBpZiBJIHJlbWVtYmVyCmNvcnJlY3RseS4KUHJvYmxlbSBp
-cyB0aGF0IGdyYXBoaWNzIGFjY2VsZXJhdGlvbiBvdmVyIFBDSSBpcyB2ZXJ5LCB2ZXJ5IHNsb3cu
-Li4gOi0oCgo+Pj4+IFNvIHRoZSBpZGVhIGhlcmUgaXMgdG8ganVzdCBnbyBhaGVhZCBhbmQgcmVt
-b3ZlIHRoZSBzdXBwb3J0IGZyb20gUmFkZW9uIGFuZCBOb3V2ZWF1IGFuZAo+Pj4+IHRoZW4gZHJv
-cCB0aGUgbmVjZXNzYXJ5IGNvZGUgZnJvbSBUVE0uCj4+Pj4gRm9yIFJhZGVvbiB0aGlzIG1lYW5z
-IHRoYXQgd2UganVzdCBzd2l0Y2ggb3ZlciB0byB0aGUgZHJpdmVyIHNwZWNpZmljIHBhZ2UgdGFi
-bGVzIGFuZAo+Pj4+IGV2ZXJ5dGhpbmcgc2hvdWxkIG1vcmUgb3IgbGVzcyBjb250aW51ZSB0byB3
-b3JrLgo+Pj4+Cj4+Pj4gRm9yIE5vdXZlYXUgSSdtIG5vdCAxMDAlIHN1cmUsIGJ1dCBmcm9tIHRo
-ZSBjb2RlIGl0IG9mIGhhbmQgbG9va3MgbGlrZSB3ZSBjYW4gZG8gaXQgc2ltaWxhciB0byBSYWRl
-b24uCj4+Pj4KPj4+PiBQbGVhc2UgY29tbWVudCB3aGF0IHlvdSB0aGluayBhYm91dCB0aGlzLgo+
-Pj4gSSB3b3VsZCBiZSBhZ2FpbnN0IHN1Y2ggYSBtb3ZlIGFzIEFHUCBncmFwaGljcyBpcyBzdGls
-bCB1c2VkIGJ5IHBlb3BsZSBydW5uaW5nIHRoZSBwb3dlcnBjCj4+PiBhbmQgcHBjNjQgRGViaWFu
-IHBvcnRzIG9uIHRoZWlyIHZpbnRhZ2UgaGFyZHdhcmUgWzFdLgo+Pgo+PiBQbGVhc2Ugbm90ZSB0
-aGF0IGF0IGxlYXN0IHRoZSBNYWMgSSB3YXMgYWJsZSB0byB0ZXN0IHdpdGggUmFkZW9uIGhhcmR3
-YXJlIGp1c3QgY29udGludW91cwo+PiB0byB3b3JrLiBCdXQgaXQgaXMgY2VydGFpbmx5IHBvc3Np
-YmxlIHRoYXQgc29tZSBwcmUgcjN4eCBnZW5lcmF0aW9uIGhhcmR3YXJlIHdpbGwgYnJlYWsgd2l0
-aCB0aGlzLgo+Pgo+PiBXZSBqdXN0IHN0b3AgdXNpbmcgdGhpcyBib2d1cyBpZGVhIG9mIHRyeWlu
-ZyB0byB1c2UgdW5jYWNoZWQgc3lzdGVtIG1lbW9yeSBhcyAiZXh0ZW5zaW9uIiBvZiB0aGUKPj4g
-b24gYm9hcmQgdmlkZW8gbWVtb3J5IGFuZCBpbnN0ZWFkIHN3aXRjaCB0byB0aGUgcmVsaWFibGUg
-ZGV2aWNlIGludGVybmFsIEdBUlQuCj4KPiBXZWxsLCB0aGUgdGl0bGUgIlJlbW92ZSBBR1Agc3Vw
-cG9ydCIgaW4gdGhlIHN1YmplY3QgaW1wbGllZCBzb21ldGhpbmcgZWxzZSB0byBtZSB3aGljaAo+
-IGlzIHdoeSBJIHdyb3RlIHRoaXMgbWFpbC4gSWYgdGhpcyBqdXN0IGFwcGxpZXMgdG8gdGhlIG1l
-Y2hhbmlzbSB0byBhbGxvdyBzeXN0ZW0gbWVtb3J5Cj4gdG8gYmUgdXNlZCBhcyBncmFwaGljcyBt
-ZW1vcnksIHRoZSByZXN1bHRzIG1heSBiZSBkaWZmZXJlbnQuCkkgd2FzIGFsc28gZm9sbG93aW5n
-IHRoZSBkaXNjdXNzaW9uIGFib3V0IEFHUCBzb21lIHRpbWUgYWdvIG9uIHRoZQpQb3dlclBDIExp
-bnV4IG1haWxpbmcgbGlzdCBhbmQgaG9uZXN0bHkgYWxzbyB1bmRlcnN0b29kIGl0IGluIHRoZQp3
-YXkgdGhhdCBBR1Agd291bGQgYmUgZW50aXJlbHkgcmVtb3ZlZC4gOi0pCgpCdXQgSSBndWVzcyB3
-aGF0IGlzIHBsYW5uZWQgaXMgdG8gdXNlIHRoZSByYWRlb24vVFRNIGRyaXZlcnMgUENJR0FSVApm
-dW5jdGlvbmFsaXR5IHdoaWxlIHByZXNlcnZpbmcgdGhlIHNldHVwIG9mIHRoZSBmYXN0IEFHUCB0
-cmFuc2ZlciBtb2RlcwoobWF5YmUgYnkgdXNpbmcgYSBzdGF0aWMgQUdQR0FSVCwgaWYgbmVjZXNz
-YXJ5PykuIElzIHRoYXQgd2hhdCBMaW51eApkZXZlbG9wZXJzIGhhdmUgaW4gbWluZCB3aXRoICJS
-ZW1vdmUgQUdQIHN1cHBvcnQiPwoKPj4gTWF5YmUgd2Ugc2hvdWxkIGp1c3QgZGVwcmVjYXRlIHRo
-ZSBjb25maWd1cmF0aW9uIG9wdGlvbiBmaXJzdD8KPgo+IFdvdWxkIHRoaXMgY2hhbmdlIGltcGx5
-IHRoZSByZW1vdmFsIG9mIENPTkZJR19BR1BfKj8gSWYgeWVzLCBJIGFzc3VtZSB0aGF0IHdvdWxk
-Cj4ga2lsbCBDT05GSUdfQUdQX1VOSU5PUlRIIHdoaWNoIHdlIGhhdmUgZW5hYmxlZCBvbiBvdXIg
-UG93ZXJQQyBrZXJuZWxzIGZvciBwb3dlcnBjCj4gYW5kIHBwYzY0Lgo+Cj4gQWRyaWFuCj4KR2Vy
-aGFyZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, May 11, 2020 at 4:25 PM Rui Salvaterra <rsalvaterra@gmail.com> wrote:
+>
+>
+>
+> A segunda, 11/05/2020, 21:21, Alex Deucher <alexdeucher@gmail.com> escreveu:
+>>
+>>
+>>
+>> Note there is no loss of functionality here, at least on radeon
+>> hardware.  It just comes down to which MMU gets used for access to
+>> system memory, the AGP MMU on the chipset or the MMU built into the
+>> GPU.  On powerpc hardware, AGP has been particularly unstable, and
+>> IIRC, AGP has been disabled by default on radeon on powerpc for a
+>> while.
+>
+>
+> So this basically just drops support for the AGP GART? What happens to the AGP signalling rates (beyond the base rate)?
+
+I don't remember enough of the details, but I strongly doubt it was
+related to which MMU was used per se.  On r1xx/r2xx parts, AGP was
+effectively the non-snooped route to memory and the internal MMU only
+provided snooped (coherent) access to memory.  That and the limited
+TLB space are probably want limited performance in that case.  I don't
+recall what sort of TLBs the chipset GART tables provided.  On r3xx
+and newer the, on-chip MMU supported both snooped and unsnooped
+transactions and had more TLB space so the difference wasn't
+significant IIRC.
+
+Alex
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
