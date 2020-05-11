@@ -2,55 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F39D1CE5AB
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B13E1CE5CA
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 22:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2AC897E7;
-	Mon, 11 May 2020 20:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE2089BEC;
+	Mon, 11 May 2020 20:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C08218929C;
- Mon, 11 May 2020 20:36:20 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id r16so9192779edw.5;
- Mon, 11 May 2020 13:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1uYG9e4dVm6PWRoL8m/kIoqP3zhS97zMzITiZZkfVo8=;
- b=TsuiNVSyuVdgW/EOzGASz9Q20Ckfj8RkQ+7t6+K55MZvuz5looNlvY2UVaTiu4R7SX
- RSXam1aHMNhP1jHAnq5ySmGP9uVuKt9OMtP5D6/BBZk/0jDoDd27QodPfH2c8fdfqlB5
- k1k7ulQCJnd+duACVn752X2Q8GTSOF2nrvDlAJjbkn0vICeXl6yUbNBy5rgxzZaVDENS
- j6z+P5ADfDcau3xp6mHV0P9kN9eHCe1pbal8KmOjZ8/oHatHc8LOr3yslCouXWD5fC19
- DCrz26wwRFkxxuycZ2Vl77jnp3OEm/4hPwa0L9LOmIGQEsvJl+tS4TEl/Sn2NA/3S5dC
- 8dBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1uYG9e4dVm6PWRoL8m/kIoqP3zhS97zMzITiZZkfVo8=;
- b=kQG+KM8g2wUHx9Bg+HhCJRa3J1IGmDhyeU5diVK0SewCBR7DqXkI03niMxw+4s/dWC
- 1223psd1RX1VcAiwYQt4kS+7tMuX9BuovkP48JkxczXj07W6IjJzIYarcispkUEdYGCd
- 15N9Onfl7pG5dS+OzG5jX0A4UUluGVdYCoDPR8WTZNPjryM1p/263t/f2RORFGG2Ni9l
- ZYfegFLXnPTws0dRt7CbL9jr35onDhgTREAe1xc78fHP/Z+WNO7Bk+DWjRrZWWEHSncD
- CMpUJm8yShmRwcPvjw2N70Sr6U/RNqZGut3UQKftELc++KRJncA2aJzZ5WwVOA+JejAQ
- O23A==
-X-Gm-Message-State: AGi0PuYrHK92rxOoBvQeQIB+CrbEGGtpwoG1JGfrTckd7aJByaLCmXhH
- oe1i9bbzgsxwywNVj9D8puucPmEPnaOhbbMmyA7aT2qH
-X-Google-Smtp-Source: APiQypJd2EfcwETUCT/8L023guh6ESXaqu8nohL13MgmMY+BO2wuzIUOXD9NKuPFyN2oza0kbWSA/6s1ReCwUv+XQNE=
-X-Received: by 2002:a50:d7c7:: with SMTP id m7mr15478740edj.101.1589229379271; 
- Mon, 11 May 2020 13:36:19 -0700 (PDT)
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AFE89BEC
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 20:41:58 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.93) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1jYFFM-002SRf-R8; Mon, 11 May 2020 22:41:56 +0200
+Received: from p5b13aac7.dip0.t-ipconnect.de ([91.19.170.199]
+ helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.93)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1jYFFM-001Nsw-Ki; Mon, 11 May 2020 22:41:56 +0200
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
+ 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
+ scOkTAZQGVpD/8AaLH4v1w==
+Message-ID: <21a0d2ba-c27d-6b12-678e-89c04dc64a82@physik.fu-berlin.de>
+Date: Mon, 11 May 2020 22:41:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-2-daniel.vetter@ffwll.ch>
- <CAF6AEGuy050MWGxHk48i2f4XqKuF-9q9+FD3N8z55s6sQ+CALQ@mail.gmail.com>
- <CAKMK7uEq1vPPB9AaXb-Me6FG_pwGdRwzu87jNGquHexDRHMowg@mail.gmail.com>
-In-Reply-To: <CAKMK7uEq1vPPB9AaXb-Me6FG_pwGdRwzu87jNGquHexDRHMowg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 11 May 2020 13:36:38 -0700
-Message-ID: <CAF6AEGuGH1-5mhtwfCC=pMe+DtLHGQxhfibJuMSDsDusMmeaEg@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm/msm: Don't call dma_buf_vunmap without _vmap
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+Content-Language: en-US
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 91.19.170.199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,110 +93,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 8:29 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Mon, May 11, 2020 at 5:24 PM Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > On Mon, May 11, 2020 at 2:36 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >
-> > > I honestly don't exactly understand what's going on here, but the
-> > > current code is wrong for sure: It calls dma_buf_vunmap without ever
-> > > calling dma_buf_vmap.
-> > >
-> > > What I'm not sure about is whether the WARN_ON is correct:
-> > > - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
-> > >   a pretty neat layering violation of how you shouldn't peek behind
-> > >   the curtain of the dma-buf exporter, but par for course. Note that
-> > >   all the nice new helpers don't (and we should probably have a bit a
-> > >   warning about this in the kerneldoc).
-> > >
-> > > - but then in the get_vaddr() in msm_gem.c, and that seems to happily
-> > >   wrap a vmap() around any object with ->pages set (so including
-> > >   imported dma-buf)
-> > >
-> > > - I'm not seeing any guarantees that userspace can't use an imported
-> > >   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
-> > >   guarantees that an imported dma-buf won't end up with a ->vaddr set.
-> >
-> > fwiw, a5xx_submit_in_rb() isn't a "normal" path (build-time disabled
-> > by default, and restricted to sudo).. it really only exists to
-> > simplify poking at fw.
-> >
-> > There could be vmap's in the msm_gem_submit path, however.  If we
-> > don't, we should probably just disallow using an imported dma-buf as
-> > cmdstream.. I don't think there is any sane reason to permit that.  We
-> > should probably also disallow get_vaddr() on imported buffers.
->
-> Yeah if that's possible and won't blow up (I can't test) I think it'd
-> be best. Something like
-> if (bo->import_attach) return NULL; should do the trick I think.
-> Should I type that up as v2 of this?
+On 5/11/20 10:05 PM, Alex Deucher wrote:
+>>> For Nouveau I'm not 100% sure, but from the code it of hand looks like we can do it similar to Radeon.
+>>>
+>>> Please comment what you think about this.
+>>
+>> I would be against such a move as AGP graphics is still used by people running the powerpc
+>> and ppc64 Debian ports on their vintage hardware [1].
+>>
+>> I have also CC'ed the debian-powerpc mailing list so that other users can voice their
+>> opinion.
+> 
+> Note there is no loss of functionality here, at least on radeon
+> hardware.  It just comes down to which MMU gets used for access to
+> system memory, the AGP MMU on the chipset or the MMU built into the
+> GPU.  On powerpc hardware, AGP has been particularly unstable, and
+> IIRC, AGP has been disabled by default on radeon on powerpc for a
+> while.
+Do you have a code reference at hand for this bit of information (AGP
+being disabled on Macs)?
 
-Sure.  It should probably be something like
+Thanks,
+Adrian
 
-  if (obj->import_attach)
-    return ERR_PTR(-ESOMETHING)
-
-looks like the gem-submit path handles an IS_ERR() return
-
-BR,
--R
-
-
-> -Daniel
->
-> >
-> > BR,
-> > -R
-> >
-> > >
-> > > But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
-> > > calling dma_buf_vmap is the wrong thing to do.
-> > >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Rob Clark <robdclark@gmail.com>
-> > > Cc: Sean Paul <sean@poorly.run>
-> > > Cc: linux-arm-msm@vger.kernel.org
-> > > Cc: freedreno@lists.freedesktop.org
-> > > ---
-> > >  drivers/gpu/drm/msm/msm_gem.c | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> > > index 5a6a79fbc9d6..3305a457960e 100644
-> > > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > > @@ -907,8 +907,7 @@ static void free_object(struct msm_gem_object *msm_obj)
-> > >         put_iova(obj);
-> > >
-> > >         if (obj->import_attach) {
-> > > -               if (msm_obj->vaddr)
-> > > -                       dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
-> > > +               WARN_ON(msm_obj->vaddr);
-> > >
-> > >                 /* Don't drop the pages for imported dmabuf, as they are not
-> > >                  * ours, just free the array we allocated:
-> > > --
-> > > 2.26.2
-> > >
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
