@@ -1,40 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C331CD8E6
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 13:51:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68081CEDC3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0B289E38;
-	Mon, 11 May 2020 11:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 875EC6E864;
+	Tue, 12 May 2020 07:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 514 seconds by postgrey-1.36 at gabe;
- Mon, 11 May 2020 11:51:43 UTC
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [83.223.78.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A851789D40;
- Mon, 11 May 2020 11:51:43 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f1c:0])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id 4913C2802D276;
- Mon, 11 May 2020 13:43:08 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id F27E2ACC2; Mon, 11 May 2020 13:43:07 +0200 (CEST)
-Date: Mon, 11 May 2020 13:43:07 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/6] RFC Support hot device unplug in amdgpu
-Message-ID: <20200511114307.jfirnlvkikmulyhu@wunner.de>
-References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
- <20200511095433.GA206103@phenom.ffwll.local>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7238D89D7D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 11:46:30 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g14so6656342wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 04:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8HihaMjBho7yHhoZ4dXDWrBXozE3xr0NvWok/3IgXso=;
+ b=KTJtUy+xvCilgtfASvMVkrHFxJGWQd6oQfRtMj53UFUDKm0GLZdcKmysVquVdcGnNQ
+ GnLnowb53q2mnDekrftfm5idSn2La4Hwi3EQlRIr2/x9kLZEGljvyDzDJ/tH/iPMhCm1
+ Br1Mj0mQ+w2yON0HQ2T8K1qFr/JqndsQWJkbeeocTf/p+tdDaBtBm97H2lzKg+T6eaZa
+ e1c0Mmv7ay3WSrdGzzxq+HftjVHi1YFqLO/rTY4o27q48B7uXHJnRU8plAj3pMPpDMjc
+ 48oZp2j9ep2hx9TCcvQ4njLDs5w+TaPPZM4SJGoDmaM0Jh1BZ2wDTD7I2hrixnS3uVeE
+ pxUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8HihaMjBho7yHhoZ4dXDWrBXozE3xr0NvWok/3IgXso=;
+ b=VFRwtjIIBdnD2fHfef7sIzTrfqQuvqMiWU8z8XQl8f1g0whZVMcsW/Dm8dFnxAbvF/
+ GGJOCxFHZKrInmj/1R3/KYiS1eTbFTS2POULwhMA6gZtZlGVZc9CA29/uy9okzCkA/R+
+ fpgiLNiDvAVbHnW1ECdLk/KHWMI2ouaBpRFCTKuHwsAKNu/fS5t53Bhg9y3SPGhAfBZH
+ hn7/TqVMYrdPqUqFFX1sk+vtislOFYKQUdbCArB1gyexVVavbcEdhmakrvJU79FHjiaF
+ MqNwH9ZluqC9QdhfpWfCX/Nhdszb+/2ShfSQaFcws/pYZrkiJesKG+mxjIWjv8AK5SWl
+ TWFg==
+X-Gm-Message-State: AGi0PuZVHnZWkkRKPwCcQJ9/G35JTu/2JNyu7fF5UIqIh3iSgag2XcEE
+ 2qKsS9mSNvCRcqItjxbBnmx8WQ==
+X-Google-Smtp-Source: APiQypK+52M5jh5tMkIap1YctDwL5nM0Q2YdPkE9mtpXjfSY9F6Whlp3f9IAQU+9uwYyfn1ELFgsiA==
+X-Received: by 2002:a7b:ce89:: with SMTP id q9mr33216701wmj.185.1589197588860; 
+ Mon, 11 May 2020 04:46:28 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+ by smtp.gmail.com with ESMTPSA id w18sm17682226wro.33.2020.05.11.04.46.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 04:46:28 -0700 (PDT)
+Date: Mon, 11 May 2020 12:46:24 +0100
+From: Quentin Perret <qperret@google.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v7 01/15] PM / EM: change naming convention from
+ 'capacity' to 'performance'
+Message-ID: <20200511114624.GA11091@google.com>
+References: <20200511111912.3001-1-lukasz.luba@arm.com>
+ <20200511111912.3001-2-lukasz.luba@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200511095433.GA206103@phenom.ffwll.local>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20200511111912.3001-2-lukasz.luba@arm.com>
+X-Mailman-Approved-At: Tue, 12 May 2020 07:09:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,45 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ckoenig.leichtzumerken@gmail.com, michel@daenzer.net,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, sboyd@kernel.org, rdunlap@infradead.org,
+ rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 11:54:33AM +0200, Daniel Vetter wrote:
-> - One unfortunate thing with drm_dev_unplug is that the driver core is
->   very opinionated and doesn't tell you whether it's a hotunplug or a
->   driver unload. In the former case trying to shut down hw just wastes
->   time (and might hit driver bugs), in the latter case driver engineers
->   very much expect everything to be shut down.
+On Monday 11 May 2020 at 12:18:58 (+0100), Lukasz Luba wrote:
+> The Energy Model uses concept of performance domain and capacity states in
+> order to calculate power used by CPUs. Change naming convention from
+> capacity to performance state would enable wider usage in future, e.g.
+> upcoming support for other devices other than CPUs.
+> 
+> Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 
-You can get that information at the PCI bus level with
-pci_dev_is_disconnected().  The flag queried by this function is set
-upon hot removal.  Be aware however that the device is guaranteed to
-be unreachable if the function returns true, but the converse is NOT
-guaranteed, i.e. the function may return false even though the device
-has just gone away.
-
-Those somewhat difficult semantics are one of the reasons why some
-people are skeptical of the function's merits (notably Greg KH).
-See this LWN article for more information:
-
-https://lwn.net/Articles/767885/
-(scroll down to the "Surprise removal" section)
-
-I've suggested to Greg a few years back that we should have a flag
-at the device level to indicate whether it's gone, not just at the bus
-level.  That way the property could be expressed regardless of the bus
-used.  It would facilitate the feature you're missing, that the driver
-core tells you whether it's a surprise removal or not.  Unfortunately
-Greg rejected the idea.
-
-Thanks,
-
-Lukas
+Acked-by: Quentin Perret <qperret@google.com>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
