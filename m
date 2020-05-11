@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598F01CE05A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 18:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 207531CE05D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 18:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6376E4FF;
-	Mon, 11 May 2020 16:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3677389970;
+	Mon, 11 May 2020 16:26:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F6B6E4FF
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 16:25:16 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 958ED89970
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 16:26:31 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3B596206DB;
- Mon, 11 May 2020 16:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589214316;
- bh=xIKZxsii59TERc8u9Ja5JM9lNh8Zm7ijJXOL5SBk/EQ=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=Q7KKE3D8YeYjrMAGQ6lQxxXV3AKsoVcRCI9FCm+G7GpA1I0BpKkhOPwQ/kLYpu+90
- N7ONH5eqfOVQ6ppsN1He5JC55Cmo3Os40bB25jx4VJDZclJaW0lGqh44EkqGXyj54+
- 3RXp4Op7mgD3XmeHIOv2N+YQAA05FMfA8jh0HwwI=
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 24955804E0;
+ Mon, 11 May 2020 18:26:24 +0200 (CEST)
+Date: Mon, 11 May 2020 18:26:22 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: robh+dt@kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ kernel@collabora.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, jason@lakedaemon.net,
+ laurent.pinchart@ideasonboard.com
+Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
+Message-ID: <20200511162622.GA19798@ravnborg.org>
+References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
+ <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
+ <20200506155320.GC15206@pendragon.ideasonboard.com>
+ <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
 MIME-Version: 1.0
-In-Reply-To: <20200507143354.v5.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid>
-References: <20200507213500.241695-1-dianders@chromium.org>
- <20200507143354.v5.4.Ifcdc4ecb12742a27862744ee1e8753cb95a38a7f@changeid>
-Subject: Re: [PATCH v5 4/6] dt-bindings: drm/bridge: ti-sn65dsi86: Convert to
- yaml
-From: Stephen Boyd <sboyd@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>, Laurent.pinchart@ideasonboard.com,
- a.hajda@samsung.com, airlied@linux.ie, bgolaszewski@baylibre.com,
- daniel@ffwll.ch, linus.walleij@linaro.org, narmstrong@baylibre.com,
- robh+dt@kernel.org, spanda@codeaurora.org
-Date: Mon, 11 May 2020 09:25:15 -0700
-Message-ID: <158921431548.26370.12664787355701762391@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Disposition: inline
+In-Reply-To: <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=8nJEP1OIZ-IA:10 a=_bxB9wg1tD68s7t2c6IA:9 a=wPNLvfGTeEIA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,28 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, linux-gpio@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, bjorn.andersson@linaro.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2020-05-07 14:34:58)
-> This moves the bindings over, based a lot on toshiba,tc358768.yaml.
-> Unless there's someone known to be better, I've set the maintainer in
-> the yaml as the first person to submit bindings.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
+Hi Ricardo.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+On Mon, May 11, 2020 at 04:59:11PM +0200, Ricardo Ca=F1uelo wrote:
+> Hi Rob,
+> =
+
+> What's your opinion on this?
+
+I'm not Rob, but anyway.
+> =
+
+> Some context: It's about bindings that define signed integer properties
+> with range checks that go below and above zero. The schema checker fails
+> because, apparently, it interprets every cell value as an uint32, which
+> makes the range check fail for negative numbers.
+> =
+
+> > > >    b) Redefine this property to be closer to the datasheet descript=
+ion
+> > > >    (ie. unsigned integers from 0 to 7) and adapt the driver accordi=
+ngly.
+> > > >    This would also let us define its range properly using minimum a=
+nd
+> > > >    maximum properties for it.
+> > > > =
+
+> > > >    I think (b) is the right thing to do but I want to know your
+> > > >    opinion. Besides, I don't have this hardware at hand and if I up=
+dated
+> > > >    the driver I wouldn't be able to test it.
+
+Based on the discussions option b) above seems like the best compromise.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
