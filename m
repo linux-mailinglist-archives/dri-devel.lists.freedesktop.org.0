@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BC41CDA3E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CFB1CDA47
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 14:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84039899DE;
-	Mon, 11 May 2020 12:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5976E454;
+	Mon, 11 May 2020 12:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701F8899DE
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 12:41:25 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id z25so7349845otq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 05:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mj+lXskCJ9RI1PVGEinHCy7GOMwX3mpGpXnJ71EL/K4=;
- b=Ng5Q8dGs4KZg1cHx8WHAvYFmT+wWyc8hQo7eMa/FdnJOSzqasB/5u0SiFj+bka0dN8
- /Q902QQUQQHt+Lgj9/5LMBnGKWjg3J+2Mgts7lDpGWiyHv+ZEcaQnlrbkweMmDqB+SD7
- nMBsnRa4EgyR8TjXDmmNE/nHv0nWJKOcH3jOw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mj+lXskCJ9RI1PVGEinHCy7GOMwX3mpGpXnJ71EL/K4=;
- b=aWsUtzEZS6fFZD/raxn/RVorocxev9FRtL7errzVVK9KQCG+7gKopkdBiO0AjEh07p
- /xnSazy4w6+/8UQhdiQCwbjrudduBq0UbsdTJM1Ltm1pzwtq2oT2zcNEgEKregBqYuOA
- 9fBavnIcz0xEXMjwqHvOQXd0NppGClj3ehlAsQk2BLIOpeaaq5jVMKD2mAweP3mPlCF9
- QWMNB/SCB9eODAG6F+et0JHrT5XM8m7VsWQAplMBvAc/33TdH/oGXvYnPA4tJwyMmt8p
- UwWJ6IRBygfi8TH3phlSvachDrGvKWa1kVSLINors2LkAEcnwdXr7L/L/299fwiSj5Qc
- PwQA==
-X-Gm-Message-State: AGi0PuYkTDxaXCvW0jOUEUjPYSb54KZTjrkIq5HbbVFBNR4mSOwkJaCA
- MCAjpBUzEF4mNITVRF+zyGuXMOL4BXK66bg9b31HaQ==
-X-Google-Smtp-Source: APiQypJYskHt4xZ6qHK6mgfLMUQRgQVql9uUQQfTdZBJUNM3d+oCk11PmofzO3n9jLivw1gNEVmDzhLikko2+EBMgT4=
-X-Received: by 2002:a9d:7c92:: with SMTP id q18mr13019563otn.281.1589200884502; 
- Mon, 11 May 2020 05:41:24 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E4F6E454
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 12:41:59 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 3B8BCAD93;
+ Mon, 11 May 2020 12:42:00 +0000 (UTC)
+Subject: Re: [PATCH 05/17] drm/mgag200: Clean up mga_set_start_address()
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-6-tzimmermann@suse.de>
+ <20200429182023.GE31071@ravnborg.org>
+ <6785948e-e72b-5f93-d0dd-bcef4d382bac@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <b9badbfd-7f38-c621-cf39-49bfe6ddbcdf@suse.de>
+Date: Mon, 11 May 2020 14:41:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200416170420.23657-1-ville.syrjala@linux.intel.com>
- <20200417152310.GQ3456981@phenom.ffwll.local>
- <20200417154313.GO6112@intel.com>
- <CAKMK7uGBWyPtm0dva=Ndk6xJx7nUKJ20kn8S37iFB8s85WWmdw@mail.gmail.com>
- <20200417182834.GS6112@intel.com> <20200508170840.GE1219060@intel.com>
- <CAKMK7uHm+CmM6noHbMnmW9bSzk0dZ=9-CTpu+hxUwFbXmMkZ4g@mail.gmail.com>
- <20200511123715.GI6112@intel.com>
-In-Reply-To: <20200511123715.GI6112@intel.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 11 May 2020 14:41:13 +0200
-Message-ID: <CAKMK7uFxObdsNM7PETpipr0AJs_qfTY8NEpQ6M+x9NPC5gUuEg@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix page flip ioctl format check
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+In-Reply-To: <6785948e-e72b-5f93-d0dd-bcef4d382bac@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,141 +66,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- stable <stable@vger.kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: john.p.donnelly@oracle.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com
+Content-Type: multipart/mixed; boundary="===============2105472820=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXkgMTEsIDIwMjAgYXQgMjozNyBQTSBWaWxsZSBTeXJqw6Rsw6QKPHZpbGxlLnN5
-cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPgo+IE9uIFNhdCwgTWF5IDA5LCAyMDIwIGF0
-IDEyOjEzOjAyUE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiBPbiBGcmksIE1heSA4
-LCAyMDIwIGF0IDc6MDkgUE0gUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPiB3
-cm90ZToKPiA+ID4KPiA+ID4gT24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMDk6Mjg6MzRQTSArMDMw
-MCwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+ID4gPiA+IE9uIEZyaSwgQXByIDE3LCAyMDIwIGF0
-IDA4OjEwOjI2UE0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gPiA+ID4gPiBPbiBGcmks
-IEFwciAxNywgMjAyMCBhdCA1OjQzIFBNIFZpbGxlIFN5cmrDpGzDpAo+ID4gPiA+ID4gPHZpbGxl
-LnN5cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4g
-T24gRnJpLCBBcHIgMTcsIDIwMjAgYXQgMDU6MjM6MTBQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiA+ID4gPiA+ID4gPiBPbiBUaHUsIEFwciAxNiwgMjAyMCBhdCAwODowNDoyMFBNICsw
-MzAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOgo+ID4gPiA+ID4gPiA+ID4gRnJvbTogVmlsbGUgU3ly
-asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+ID4gPiA+ID4gPiA+Cj4g
-PiA+ID4gPiA+ID4gPiBSZXZlcnQgYmFjayB0byBjb21wYXJpbmcgZmItPmZvcm1hdC0+Zm9ybWF0
-IGluc3RlYWQgZmItPmZvcm1hdCBmb3IgdGhlCj4gPiA+ID4gPiA+ID4gPiBwYWdlIGZsaXAgaW9j
-dGwuIFRoaXMgY2hlY2sgd2FzIG9yaWdpbmFsbHkgb25seSBoZXJlIHRvIGRpc2FsbG93IHBpeGVs
-Cj4gPiA+ID4gPiA+ID4gPiBmb3JtYXQgY2hhbmdlcywgYnV0IHdoZW4gd2UgY2hhbmdlZCBpdCB0
-byBkbyB0aGUgcG9pbnRlciBjb21wYXJpc29uCj4gPiA+ID4gPiA+ID4gPiB3ZSBwb3RlbnRpYWxs
-eSBzdGFydGVkIHRvIHJlamVjdCBzb21lIChidXQgZGVmaW5pdGVseSBub3QgYWxsKSBtb2RpZmll
-cgo+ID4gPiA+ID4gPiA+ID4gY2hhbmdlcyBhcyB3ZWxsLiBJbiBmYWN0IHRoZSBjdXJyZW50IGJl
-aGF2aW91ciBkZXBlbmRzIG9uIHdoZXRoZXIgdGhlCj4gPiA+ID4gPiA+ID4gPiBkcml2ZXIgb3Zl
-cnJpZGVzIHRoZSBmb3JtYXQgaW5mbyBmb3IgYSBzcGVjaWZpYyBmb3JtYXQrbW9kaWZpZXIgY29t
-Ym8uCj4gPiA+ID4gPiA+ID4gPiBFZy4gb24gaTkxNSB0aGlzIG5vdyByZWplY3RzIGNvbXByZXNz
-aW9uIHZzLiBubyBjb21wcmVzc2lvbiBjaGFuZ2VzIGJ1dAo+ID4gPiA+ID4gPiA+ID4gZG9lcyBu
-b3QgcmVqZWN0IGFueSBvdGhlciB0aWxpbmcgY2hhbmdlcy4gVGhhdCdzIGp1c3QgaW5jb25zaXN0
-ZW50Cj4gPiA+ID4gPiA+ID4gPiBub25zZW5zZS4KPiA+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+
-ID4gPiBUaGUgbWFpbiByZWFzb24gd2UgaGF2ZSB0byBnbyBiYWNrIHRvIHRoZSBvbGQgYmVoYXZp
-b3VyIGlzIHRvIGZpeCBwYWdlCj4gPiA+ID4gPiA+ID4gPiBmbGlwcGluZyB3aXRoIFhvcmcuIEF0
-IHNvbWUgcG9pbnQgWG9yZyBnb3QgaXRzIGF0b21pYyByaWdodHMgdGFrZW4gYXdheQo+ID4gPiA+
-ID4gPiA+ID4gYW5kIHNpbmNlIHRoZW4gd2UgY2FuJ3QgcGFnZSBmbGlwIGJldHdlZW4gY29tcHJl
-c3NlZCBhbmQgbm9uLWNvbXByZXNzZWQKPiA+ID4gPiA+ID4gPiA+IGZicyBvbiBpOTE1LiBDdXJy
-ZW50bHkgd2UgZ2V0IG5vIHBhZ2UgZmxpcHBpbmcgZm9yIGFueSBnYW1lcyBwcmV0dHkgbXVjaAo+
-ID4gPiA+ID4gPiA+ID4gc2luY2UgTWVzYSBsaWtlcyB0byB1c2UgY29tcHJlc3NlZCBidWZmZXJz
-LiBOb3Qgc3VyZSBob3cgY29tcG9zaXRvcnMgYXJlCj4gPiA+ID4gPiA+ID4gPiB3b3JraW5nIGFy
-b3VuZCB0aGlzIChkb24ndCB1c2Ugb25lIG15c2VsZikuIEkgZ3Vlc3MgdGhleSBtdXN0IGJlIGRv
-aW5nCj4gPiA+ID4gPiA+ID4gPiBzb21ldGhpbmcgdG8gZ2V0IG5vbi1jb21wcmVzc2VkIGJ1ZmZl
-cnMgaW5zdGVhZC4gRWl0aGVyIHRoYXQgb3IKPiA+ID4gPiA+ID4gPiA+IHNvbWVob3cgbm8gb25l
-IG5vdGljZWQgdGhlIHRlYXJpbmcgZnJvbSB0aGUgYmxpdCBmYWxsYmFjay4KPiA+ID4gPiA+ID4g
-Pgo+ID4gPiA+ID4gPiA+IE1lc2Egb25seSB1c2VzIGNvbXByZXNzZWQgYnVmZmVycyBpZiB5b3Ug
-ZW5hYmxlIG1vZGlmaWVycywgYW5kIHRoZXJlJ3MgYQo+ID4gPiA+ID4gPiA+IF9sb29vb29vb29v
-b29vdF8gbW9yZSB0aGF0IG5lZWRzIHRvIGJlIGZpeGVkIGluIFhvcmcgdG8gZW5hYmxlIHRoYXQg
-Zm9yCj4gPiA+ID4gPiA+ID4gcmVhbC4gTGlrZSByZWFsIGF0b21pYyBzdXBwb3J0Lgo+ID4gPiA+
-ID4gPgo+ID4gPiA+ID4gPiBXaHkgd291bGQgeW91IG5lZWQgYXRvbWljIGZvciBtb2RpZmllcnM/
-IFhvcmcgZG9lc24ndCBldmVuIGhhdmUKPiA+ID4gPiA+ID4gYW55IHNlbnNpYmxlIGZyYW1ld29y
-ayBmb3IgYXRvbWljIGFuZCBJIHN1c3BlY3QgaXQgbmV2ZXIgd2lsbC4KPiA+ID4gPiA+Cj4gPiA+
-ID4gPiBGcmFua2x5IGlmIG5vIG9uZSBjYXJlcyBhYm91dCBhdG9taWMgaW4gWCBJIGRvbid0IHRo
-aW5rIHdlIHNob3VsZCBkbwo+ID4gPiA+ID4gd29yay1hcm91bmRzIGZvciBsYWNrIG9mIGF0b21p
-YyBpbiBYLgo+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBXaXRob3V0IG1vZGlmaWVycyBhbGwgeW91
-IGdldCBpcyBYIHRpbGluZywKPiA+ID4gPiA+ID4gPiBhbmQgdGhhdCB3b3JrcyBqdXN0IGZpbmUu
-Cj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gPiBXaGljaCB3b3VsZCBhbHNvIGZpeCB0aGlzIGlz
-c3VlIGhlcmUgeW91J3JlIHBhcGVyaW5nIG92ZXIuCj4gPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4g
-PiBTbyBpZiB0aGlzIGlzIHRoZSBlbnRpcmUgcmVhc29uIGZvciB0aGlzLCBJJ20gaW5jbGluZWQg
-dG8gbm90IGRvIHRoaXMuCj4gPiA+ID4gPiA+ID4gQ3VycmVudCBYb3JnIGlzIHRvYXN0IHdydCBt
-b2RpZmllcnMsIHRoYXQncyBub3QgbmV3cy4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gV29ya3Mg
-anVzdCBmaW5lLiBBbHNvIHByZXR0eSBzdXJlIG1vZGlmaWVycyBhcmUgZXZlbiBlbmFibGVkIGJ5
-Cj4gPiA+ID4gPiA+IGRlZmF1bHQgbm93IGluIG1vZGVzZXR0aW5nLgo+ID4gPiA+ID4KPiA+ID4g
-PiA+IFkvQ1NTIGlzIGhhcmRlciB0byBzY2FuIG91dCwgeW91IG5lZWQgdG8gdmVyaWZ5IHdpdGgg
-VEVTVF9PTkxZIHdoZXRoZXIKPiA+ID4gPiA+IGl0IHdvcmtzLiBPdGhlcndpc2UgZ29vZCBjaGFu
-Y2VzIGZvciBzb21lIG9kZGJhbGwgYmxhY2sgc2NyZWVucyBvbgo+ID4gPiA+ID4gY29uZmlndXJh
-dGlvbnMgdGhhdCB3b3JrZWQgYmVmb3JlLiBXaGljaCBpcyB3aHkgYWxsIG5vbi1hdG9taWMKPiA+
-ID4gPiA+IGNvbXBvc2l0b3JzIHJldmVydGVkIG1vZGlmaWVycyBieSBkZWZhdWx0IGFnYWluLgo+
-ID4gPiA+Cj4gPiA+ID4gWSBhbG9uZSBpcyBoYXJkIHRvIHNjYW5vdXQgYWxzbywgYW5kIHlldCB3
-ZSBkbyBub3RoaW5nIHRvIHJlamVjdCB0aGF0Lgo+ID4gPiA+IEl0J3MganVzdCBhbiBpbmNvbnNp
-c3RlbnQgbWVzcy4KPiA+ID4gPgo+ID4gPiA+IElmIHdlIHJlYWxseSB3YW50IHRvIGtlZXAgdGhp
-cyBjaGVjayB0aGVuIHdlIHNob3VsZCByZXdyaXRlIGl0Cj4gPiA+ID4gdG8gYmUgZXhwbGljaXQ6
-Cj4gPiA+ID4KPiA+ID4gPiBpZiAob2xkX2ZiLT5mb3JtYXQtPmZvcm1hdCAhPSBuZXdfZmItPmZv
-cm1hdC0+Zm9ybWF0IHx8Cj4gPiA+ID4gICAgIGlzX2NjcyhvbGRfZmItPm1vZGlmaWVyKSAhPSBp
-c19jY3MobmV3X2ZiLT5tb2RpZmllcikpCj4gPiA+ID4gICAgIHJldHVybiAtRUlOVkFMOwo+ID4g
-PiA+Cj4gPiA+ID4gTm93IGl0J3MganVzdCBhIHJhbmRvbSB0aGluZyB0aGF0IG1heSBldmVuIHN0
-b3AgZG9pbmcgd2hhdCBpdCdzCj4gPiA+ID4gY3VycmVudGx5IGRvaW5nIGlmIGFueW9uZSB0b3Vj
-aGVzIHRoZWlyIC5nZXRfZm9ybWF0X2luZm8oKQo+ID4gPiA+IGltcGxlbWVudGF0aW9uLgo+ID4g
-PiA+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gPiBBbmQgYXMgc3RhdGVkIHRoZSBjdXJyZW50IGNoZWNr
-IGRvZXNuJ3QgaGF2ZSBjb25zaXN0ZW50IGJlaGF2aW91cgo+ID4gPiA+ID4gPiBhbnl3YXkuIFlv
-dSBjYW4gc3RpbGwgZmxpcCBiZXR3ZWVuIGRpZmZlcmVudCBtb2RpZmllcnMgYXMgbG9uZyBhIHRo
-ZQo+ID4gPiA+ID4gPiBkcml2ZXIgZG9lc24ndCBvdmVycmlkZSAuZ2V0X2Zvcm1hdF9pbmZvKCkg
-Zm9yIG9uZSBvZiB0aGVtLiBUaGUgKm9ubHkqCj4gPiA+ID4gPiA+IGNhc2Ugd2hlcmUgdGhhdCBo
-YXBwZW5zIGlzIENDUyBvbiBpOTE1LiBUaGVyZSBpcyBubyB2YWxpZCByZWFzb24gdG8KPiA+ID4g
-PiA+ID4gc3BlY2lhbCBjYXNlIHRoYXQgb25lLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFRoZSB0aGlu
-ZyBpcywgeW91IG5lZWQgYXRvbWljIHRvIG1ha2UgQ0NTIHdvcmsgcmVsaWFibHkgZW5vdWdoIGZv
-cgo+ID4gPiA+ID4gY29tcG9zaXRvcnMgYW5kIGRpc3Ryb3MgdG8gZGFyZSBlbmFibGluZyBpdCBi
-eSBkZWZhdWx0Lgo+ID4gPiA+Cj4gPiA+ID4gSWYgaXQncyBub3QgZW5hYmxlZCBieSBkZWZhdWx0
-IHRoZW4gdGhlcmUgaXMgbm8gaGFybSBpbiBsZXR0aW5nIHBlb3BsZQo+ID4gPiA+IGV4cGxpY2l0
-bHkgZW5hYmxlIGl0IGFuZCBnZXQgYmV0dGVyIHBlcmZvcm1hbmNlLgo+ID4gPiA+Cj4gPiA+ID4g
-PiBDQ1MgZmxpcHBpbmcKPiA+ID4gPiA+IHdvcmtzIHdpdGggYXRvbWljLiBJIHJlYWxseSBzZWUg
-bm8gcG9pbnQgaW4gYmFraW5nIHRoaXMgaW4gd2l0aCBhcwo+ID4gPiA+ID4gdWFwaS4KPiA+ID4g
-Pgo+ID4gPiA+IEl0J3MganVzdCBnb2luZyBiYWNrIHRvIHRoZSBvcmlnaW5hbCBpbnRlbnRpb24g
-b2YgdGhlIGNoZWNrLgo+ID4gPiA+IEhlY2ssIHRoZSBkZWJ1ZyBtZXNzYWdlIGRvZXNuJ3QgZXZl
-biBtYXRjaCB3aGF0IGl0J3MgZG9pbmcgbm93Lgo+ID4gPiA+Cj4gPiA+ID4gPiBKdXN0IGZpeCBY
-b3JnLgo+ID4gPiA+Cj4gPiA+ID4gQmUgc2VyaW91cy4gTm8gb25lIGlzIGdvaW5nIHRvIHJld3Jp
-dGUgYWxsIHRoZSByYW5kciBjb2RlIHRvIGJlIGF0b21pYy4KPiA+ID4KPiA+ID4gSSBmdWxseSB1
-bmRlcnN0YW5kIERhbmllbCdzIGNvbmNlcm4gaGVyZSwgYnV0IEkgYWxzbyBiZWxpZXZlIHRoaXMg
-d29uJ3QgYmUKPiA+ID4gZG9uZSBzbyBzb29uIGF0IGxlYXN0LiBNZWFud2hpbGUgd291bGQgaXQg
-YmUgYWNjZXB0YWJsZSB0byBoYXZlIGEgY29tbWVudAo+ID4gPiB3aXRoIHRoZSBjb2RlIC8qIFhY
-WDogWG9yZyBibGFoLi4uICovIG9yIC8qIEZJWE1FOiBBZnRlciBYb3JnIGJsYWguLiAqLwo+ID4g
-PiA/Cj4gPgo+ID4gSGVyZSdzIGEgZmV3IG51bWJlcnM6Cj4gPgo+ID4gLSBza2wgc2hpcHBlZCBp
-biBBdWcgMjAxNSwgc28gYWJvdXQgNSB5ZWFycy4gU2luY2UgdGhlbiB3b3VsZCB3ZSBsaWtlCj4g
-PiB0byBoYXZlIG1vZGlmaWVycyBlbmFibGVkIGZvciBpbnRlbCwgYmVjYXVzZSBpdCBjb3N0cyB1
-cyBxdWl0ZSBhIGJpdAo+ID4gb2YgcGVyZm9ybWFuY2UuIFRoaXMgaXNuJ3QgbmV3IGF0IGFsbC4K
-PiA+IC0gdGhlIGxhc3QgWG9yZyByZWxlYXNlIGlzIGZyb20gTWF5IDIwMTgsIHNvIHR3byB5ZWFy
-cy4gTWVhbndoaWxlIGV2ZW4KPiA+IHBhdGNoZXMgdG8gZml4IHNvbWUgb2YgdGhlIGF0b21pYyBt
-aXh1cHMgaW4gLW1vZGVzZXR0aW5nIGxhbmRlZCwgYnV0Cj4gPiB0aGV5IG5ldmVyIHNoaXBwZWQg
-c28gbm90IHVzZWZ1bC4KPiA+IC0gSSBzcGVudCBhIGZldyBob3VycyAod2hpY2ggcmVhbGx5IGlz
-IG5vdGhpbmcpIHJlYWRpbmcgWG9yZyBjb2RlCj4gPiB5ZXN0ZXJkYXksIGFuZCBJIGNvbmN1ciB3
-aXRoIERhbmllbCBTdG9uZSdzIG5hcGtpbiBlc3RpbWF0ZSB0aGF0IHRoaXMKPiA+IHdpbGwgdGFr
-ZSBhYm91dCBoYWxmIHRvIG9uZSB5ZWFyIHRvIGZpeCBwcm9wZXJseS4gSXQncyBub3QgaGFwcGVu
-aW5nLAo+ID4gbm8gb25lIGlzIHdvcmtpbmcgb24gdGhhdC4KPiA+Cj4gPiBDb25jbHVzaW9uOiBO
-byBvbmUgY2FyZXMgYWJvdXQgbW9kaWZpZXJzIG9uIFhvcmctbW9kZXNldHRpbmcuIEkgZG9uJ3QK
-PiA+IHNlZSB3aHkgdGhlIGtlcm5lbCBzaG91bGQgYmVuZCBvdmVyIGZvciB0aGF0Lgo+ID4KPiA+
-IE9uY2UgdGhhdCBoYXMgY2hhbmdlZCAoSSdtIG5vdCBiZXR0aW5nIG9uIHRoYXQpIGFuZCB0aGVy
-ZSdzIGNsZWFyCj4gPiBlZmZvcnQgYmVoaW5kIG1vZGlmaWVycyBmb3IgWG9yZy1tb2Rlc2V0dGlu
-ZyBJIGd1ZXNzIHdlIGNhbiBsb29rIGludG8KPiA+IHN0b3AtZ2FwIG1lYXN1cmVzLCBidXQgbWVh
-bndoaWxlIHRoZSBiZXN0IGltbyBpcyB0byBub3QgZGlzdHVyYiB0aGUKPiA+IGRlYWQuCj4KPiBU
-aGUgYWx0ZXJuYXRpdmUgaW50ZXJwcmV0YXRpb24gaXMgdGhhdCB0aGUgY3VycmVudCBrZXJuZWwg
-Y29kZSBpcwo+IGp1c3Qgbm9uc2Vuc2UsIGFuZCBzaW5jZSBubyBvbmUgaXMgZGVwZW5kaW5nIG9u
-IHRoZSBjdXJyZW50IG5vbnNlbnNlCj4gYmVoYXZpb3VyIHdlIGNhbiBzYWZlbHkgY2hhbmdlIGl0
-IGl0IGJhY2sgdG8gbWFrZSBzZW5zZS4KPgo+IFdvdWxkIGFsbG93IHBlb3BsZSB0byBhdCBsZWFz
-dCB0ZXN0IG1vZGlmaWVyIHBsdW1iaW5nIHZpYSBkcmkzL2V0Yy4KPiBBbHNvIHRob3NlIG9mIHVz
-IHdobyBrbm93IHdoYXQgdGhleSdyZSBkb2luZyBhbmQgd2FudCB0byBhY3R1YWxseQo+IHBsYXkg
-Z2FtZXMgb24gSW50ZWwgR1BVcyBjYW4gZmxpcCBpdCBvbiBmb3IgYSBhIGJpdCBleHRyYSBwZXJm
-b3JtYW5jZS4KPiBJbiB0aGUgbWVhbnRpbWUgSSdsbCBqdXN0IGhhdmUgdG8ga2VlcCBjYXJyeWlu
-ZyB0aGlzIHBhdGNoIGluIG15IG93bgo+IGtlcm5lbHMuCgpZb3UgY2FuIGFsc28gY2FycnkgYSBv
-bmUtbGluZXIgZm9yIC1tb2Rlc2V0dGluZyB0byByZS1lbmFibGUgYXRvbWljIG9uCm1hc3RlciAo
-aXQncyBmaXhlZCB1cCB0aGVyZSwgc2ltcGx5IG5ldmVyIHJlbGVhc2VkLCB3aHkgd2UndmUgaGFk
-IHRvCnRha2UgaXQgYXdheSkuIEFuZCB0aGVuIHlvdSBjYW4gYWxzbyBwbGF5IHdpdGggbW9kaWZp
-ZXJzLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBD
-b3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============2105472820==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="n7oca1UZWb3a8YnTXgJIeWnNBOGVxQrq5"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--n7oca1UZWb3a8YnTXgJIeWnNBOGVxQrq5
+Content-Type: multipart/mixed; boundary="IDxG4X5mWPNWXaifjU7E7HoFA3rgjEayd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
+ noralf@tronnes.org, john.p.donnelly@oracle.com,
+ dri-devel@lists.freedesktop.org
+Message-ID: <b9badbfd-7f38-c621-cf39-49bfe6ddbcdf@suse.de>
+Subject: Re: [PATCH 05/17] drm/mgag200: Clean up mga_set_start_address()
+References: <20200429143238.10115-1-tzimmermann@suse.de>
+ <20200429143238.10115-6-tzimmermann@suse.de>
+ <20200429182023.GE31071@ravnborg.org>
+ <6785948e-e72b-5f93-d0dd-bcef4d382bac@suse.de>
+In-Reply-To: <6785948e-e72b-5f93-d0dd-bcef4d382bac@suse.de>
+
+--IDxG4X5mWPNWXaifjU7E7HoFA3rgjEayd
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 30.04.20 um 10:23 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 29.04.20 um 20:20 schrieb Sam Ravnborg:
+>> Hi Thomas,
+>>
+>> On Wed, Apr 29, 2020 at 04:32:26PM +0200, Thomas Zimmermann wrote:
+>>> All register names and fields are now named according to the
+>>> MGA programming manuals. The function doesn't need the CRTC, so
+>>> callers pass in the device structure directly. The logging now
+>>> uses device-specific macros.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++
+>>>  drivers/gpu/drm/mgag200/mgag200_mode.c | 82 +++++++++++++++---------=
+--
+>>>  2 files changed, 53 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/=
+mgag200/mgag200_drv.h
+>>> index 4403145e3593c..9b957d9fc7e04 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>>> @@ -61,6 +61,11 @@
+>>>  		WREG8(MGAREG_CRTC_DATA, v);			\
+>>>  	} while (0)						\
+>>> =20
+>>> +#define RREG_ECRT(reg, v)					\
+>>> +	do {							\
+>>> +		WREG8(MGAREG_CRTCEXT_INDEX, reg);		\
+>>> +		v =3D RREG8(MGAREG_CRTCEXT_DATA);			\
+>>> +	} while (0)						\
+>>> =20
+>>>  #define WREG_ECRT(reg, v)					\
+>>>  	do {							\
+>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm=
+/mgag200/mgag200_mode.c
+>>> index 3d894b37a0812..b16a73c8617d6 100644
+>>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+>>> @@ -819,49 +819,53 @@ static void mga_g200wb_commit(struct drm_crtc *=
+crtc)
+>>>  }
+>>> =20
+>>>  /*
+>>> -   This is how the framebuffer base address is stored in g200 cards:=
+
+>>> -   * Assume @offset is the gpu_addr variable of the framebuffer obje=
+ct
+>>> -   * Then addr is the number of _pixels_ (not bytes) from the start =
+of
+>>> -     VRAM to the first pixel we want to display. (divided by 2 for 3=
+2bit
+>>> -     framebuffers)
+>>> -   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
+>>> -   addr<20> -> CRTCEXT0<6>
+>>> -   addr<19-16> -> CRTCEXT0<3-0>
+>>> -   addr<15-8> -> CRTCC<7-0>
+>>> -   addr<7-0> -> CRTCD<7-0>
+>>> -   CRTCEXT0 has to be programmed last to trigger an update and make =
+the
+>>> -   new addr variable take effect.
+>>> + * This is how the framebuffer base address is stored in g200 cards:=
+
+>>> + *   * Assume @offset is the gpu_addr variable of the framebuffer ob=
+ject
+>>> + *   * Then addr is the number of _pixels_ (not bytes) from the star=
+t of
+>>> + *     VRAM to the first pixel we want to display. (divided by 2 for=
+ 32bit
+>>> + *     framebuffers)
+>>> + *   * addr is stored in the CRTCEXT0, CRTCC and CRTCD registers
+>>> + *      addr<20> -> CRTCEXT0<6>
+>>> + *      addr<19-16> -> CRTCEXT0<3-0>
+>>> + *      addr<15-8> -> CRTCC<7-0>
+>>> + *      addr<7-0> -> CRTCD<7-0>
+>>> + *
+>>> + *  CRTCEXT0 has to be programmed last to trigger an update and make=
+ the
+>>> + *  new addr variable take effect.
+>>>   */
+>>> -static void mga_set_start_address(struct drm_crtc *crtc, unsigned of=
+fset)
+>>> +static void mgag200_set_startadd(struct mga_device *mdev,
+>>> +				 unsigned long offset)
+>>>  {
+>>> -	struct mga_device *mdev =3D crtc->dev->dev_private;
+>>> -	u32 addr;
+>>> -	int count;
+>>> -	u8 crtcext0;
+>>> +	struct drm_device *dev =3D mdev->dev;
+>>> +	uint32_t startadd;
+>>> +	uint8_t crtcc, crtcd, crtcext0;
+>>> =20
+>>> -	while (RREG8(0x1fda) & 0x08);
+>>> -	while (!(RREG8(0x1fda) & 0x08));
+>>> +	startadd =3D offset / 8;
+>>> =20
+>>> -	count =3D RREG8(MGAREG_VCOUNT) + 2;
+>>> -	while (RREG8(MGAREG_VCOUNT) < count);
+>>> -
+>>> -	WREG8(MGAREG_CRTCEXT_INDEX, 0);
+>>> -	crtcext0 =3D RREG8(MGAREG_CRTCEXT_DATA);
+>>> -	crtcext0 &=3D 0xB0;
+>>> -	addr =3D offset / 8;
+>>> -	/* Can't store addresses any higher than that...
+>>> -	   but we also don't have more than 16MB of memory, so it should be=
+ fine. */
+>>> -	WARN_ON(addr > 0x1fffff);
+>>> -	crtcext0 |=3D (!!(addr & (1<<20)))<<6;
+>>> -	WREG_CRT(0x0d, (u8)(addr & 0xff));
+>>> -	WREG_CRT(0x0c, (u8)(addr >> 8) & 0xff);
+>>> -	WREG_ECRT(0x0, ((u8)(addr >> 16) & 0xf) | crtcext0);
+>>> +	/*
+>>> +	 * Can't store addresses any higher than that, but we also
+>>> +	 * don't have more than 16MB of memory, so it should be fine.
+>>> +	 */
+>>> +	drm_WARN_ON(dev, startadd > 0x1fffff);
+>>> +
+>>> +	RREG_ECRT(0x00, crtcext0);
+>>> +
+>>> +	crtcc =3D (startadd >> 8) & 0xff;
+>>> +	crtcd =3D startadd & 0xff;
+>>> +	crtcext0 &=3D 0xb0;
+>>
+>>> +	crtcext0 |=3D ((startadd >> 14) & BIT(6)) |
+>> It is not so obvious that the value of bit 20 is stored in bit 6 here.=
+
+>>
+>> Maybe:
+>> 	crtcext0 |=3D ((startadd & BIT(20) >> 14) |
+>>
+>> I would find the above easier to parse.
+>=20
+> Ok. I can change that.
+
+Reading the code again, I think it's better to keep it as it is. At
+least it's consistent with the rest of the function.
+
+Best regards
+Thomas
+
+>=20
+>>
+>>> +		    ((startadd >> 16) & 0x0f);
+>>
+>>> +
+>>> +	WREG_CRT(0x0c, crtcc);
+>>> +	WREG_CRT(0x0d, crtcd);
+>>> +	WREG_ECRT(0x00, crtcext0);
+>>>  }
+>>> =20
+>>>  static int mga_crtc_do_set_base(struct drm_crtc *crtc,
+>>>  				struct drm_framebuffer *fb,
+>>>  				int x, int y, int atomic)
+>>>  {
+>>> +	struct mga_device *mdev =3D crtc->dev->dev_private;
+>> Could you use a crtc_to_mdev() macro here.
+>> So we avoid adding new users of dev_private?
+>=20
+> I introduce such a macro in a later patch. I guess I'll add a separate
+> patch for the macro and the conversion of all these dev_private referen=
+ces.
+>=20
+>=20
+>>
+>>>  	struct drm_gem_vram_object *gbo;
+>>>  	int ret;
+>>>  	s64 gpu_addr;
+>> Make this unsigned long and..
+>=20
+> The function that returns gpu_addr can fail (but shouldn't) with a
+> negative error. That's why it's signed.
+>=20
+>>
+>>> @@ -882,7 +886,7 @@ static int mga_crtc_do_set_base(struct drm_crtc *=
+crtc,
+>>>  		goto err_drm_gem_vram_unpin;
+>>>  	}
+>>> =20
+>>> -	mga_set_start_address(crtc, (u32)gpu_addr);
+>>> +	mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
+>> drop this cast.
+>>
+>>
+>>> =20
+>>>  	return 0;
+>>> =20
+>>> @@ -894,6 +898,16 @@ static int mga_crtc_do_set_base(struct drm_crtc =
+*crtc,
+>>>  static int mga_crtc_mode_set_base(struct drm_crtc *crtc, int x, int =
+y,
+>>>  				  struct drm_framebuffer *old_fb)
+>>>  {
+>>> +	struct drm_device *dev =3D crtc->dev;
+>>> +	struct mga_device *mdev =3D dev->dev_private;
+>>> +	unsigned int count;
+>>> +
+>>> +	while (RREG8(0x1fda) & 0x08) { }
+>>> +	while (!(RREG8(0x1fda) & 0x08)) { }
+>>> +
+>>> +	count =3D RREG8(MGAREG_VCOUNT) + 2;
+>>> +	while (RREG8(MGAREG_VCOUNT) < count) { }
+>>> +
+>>>  	return mga_crtc_do_set_base(crtc, old_fb, x, y, 0);
+>>>  }
+>> I do not really see why this code was lifter two functions up.
+>> Before is was deep in mga_set_start_address(), now it is in
+>> mga_crtc_mode_set_base().
+>> Puzzeled?
+>=20
+> Ah, that should have probably been explained in the commit message. The=
+
+> above code waits for the vsync flag to go up plus two scanlines. That
+> way the pageflip happens during a vblank period.
+>=20
+> It's fairly inefficient AFAICT. I don't want this code in atomic
+> modesetting, but didn't want to throw it away yet. So it's now in the
+> non-atomic callback. Later when the atomic code calls
+> mgag200_set_startadd(), it shouldn't busy-wait for vblanks.
+>=20
+> I still have a patch that adds vblank irq support to mgag200. I'd rathe=
+r
+> merge that instead of keeping this busy waiting in the driver.
+>=20
+> Best regards
+> Thomas
+>=20
+>=20
+>>
+>> 	Sam
+>>
+>>
+>>
+>>> =20
+>>> --=20
+>>> 2.26.0
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--IDxG4X5mWPNWXaifjU7E7HoFA3rgjEayd--
+
+--n7oca1UZWb3a8YnTXgJIeWnNBOGVxQrq5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl65SBEACgkQaA3BHVML
+eiPcCgf+NQbXNhcDrrtoNr6subj71wwq62Fxp/gif0jRXUlrJCH4+KkLNc27jC/K
+E6F3fX7vLUne7WAZo67kipgw4TDF/feoxNtabxMhAsRylwvC677Dh542wBoWG58i
+NTHl+zYucyDmu7m0WLxHrZ9Z12pDhz3fg9sJ+st9GKZVGNtKpPBlGoo3NwnnYUQu
+Q7fjdd6t3k7b+2Yu5ytI3/GR6ues2c33yBC65nErJioRUFd1dWdkR4X/c7odgwCO
++7EgjJGEMfIFO259AW0CbLN14CYmYYvbPAZkwsx0C5bu1i/ktjgTokkvRemwIP2H
+OSaaOANQdZb34UKAxLBUMeEnJYsxZw==
+=5GsT
+-----END PGP SIGNATURE-----
+
+--n7oca1UZWb3a8YnTXgJIeWnNBOGVxQrq5--
+
+--===============2105472820==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2105472820==--
