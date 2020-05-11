@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8879C1CD205
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 08:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758A11CD20C
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 08:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2D86E1BC;
-	Mon, 11 May 2020 06:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485AD6E1BE;
+	Mon, 11 May 2020 06:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E1456E1BC;
- Mon, 11 May 2020 06:45:31 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id u16so17763355wmc.5;
- Sun, 10 May 2020 23:45:31 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9569F6E1BE;
+ Mon, 11 May 2020 06:47:26 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id k1so9407635wrx.4;
+ Sun, 10 May 2020 23:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=1EGHCNZLop6lpa2MpQukB0Jzk7xjNDSSnPYZVksTl3g=;
- b=SzyQivQ/k/7XrX8ar4XJQSn6XsTnFG6KqOIWxsJDuWQaChKGSnVAjtH0PyEm1stXRX
- 2hdUyzb8OXIMagIdiS94rTquleNZLkmhyeLuYncHNTgT3mjGHceSe0v0LHx63jEUAOPS
- 5zR0mNg8H0+PD7hmGrH18koC9v0HpLJ0uyvbWs2qnDhEszLQTM6EjsPZFrzbH6CDK7Bh
- yjaLRU8Xw1xNvKBua9jLiFz1qOznXnd8+2Ag0BPocSmLSEh2muXsod8FWd5IkGf2ndSD
- ww5ZFpHG8nxl2qMqw28CHdfCe/tbQWI4PBHxXwajJX8BbZIjQvGHmCDMOe7JJcK8xBmk
- RciQ==
+ bh=luOlBDEYjmS6B1luOElLyizl9Zvtw4V1+71KGKPL7KI=;
+ b=gNCbgwmQfTcsdxo2d9wn7NfHwYUlJUOJcSaYKANaF2fq4swXbRQj9cr6TdpocLfJmv
+ nRqS+caqorHc/TX5LWeKgglzj0yiAuLljyuXuFboUP4214hMF4Gh36eYY9NwwZyYIbL/
+ 8qAZ/MNq90H1qa8n9hfVAG/2p8lpSSKO8k/S7+BL+oIOYPPPU8UuJuoFH3BqhJPvEjl7
+ W+s+dqc6FO7nIuAGl0fPwgMjlQskThTGEIC2jQVuBAn3Fd5sx47XOIWqF9jFuBlIshLv
+ RvPZ8fyuste+uEvtCOjOT8zRWReySDqHA9Q7GFFP13L9sp+o5B79H4Mwd+KMkdWv/Afg
+ RJkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=1EGHCNZLop6lpa2MpQukB0Jzk7xjNDSSnPYZVksTl3g=;
- b=pjVxYyQoAsPLLeRmC+Qb54gXAWQboE8rUXdkOqjCIdo6uI3bFasYKqFvEgC1bWCB/u
- GaoW1SNXqw8MhmM94BQKPs5BAjusSbtEXu9Bp6vccaOZteX/EiuO0JvkfQvp0yCyfg2p
- 3AmoI6wLNuNcwQZGGOZslLybh1xiP6g15BZJTBnZRelXmfa80n9MtETeiqvVWw2dqRhi
- +UaSPjn32qJw+//v0CQK6SAHaBdOynHYSorry/VBJegqvWnAi3jHzs5H/ZouZrlE+3Ke
- pYY2GxwJPeq/qlYrMVZRyfGN6xmtMs15t8Tr57AN2njiFkPiX9sG23rXyTqY7In7ll5q
- 7Uxg==
-X-Gm-Message-State: AGi0PuYb/s2N+15RGclQvkgSSLoh1ogqJ952HXoP+2qKmFVimgW3fycY
- 4ail9qdK7TLCLIuLYxA6OII=
-X-Google-Smtp-Source: APiQypK5EFJWbdLc5bXtXjCxgAaG3RfG35us+gztlEfpNe17D+ozOZBQZM+xCfL9V1I+x56wlVuhTA==
-X-Received: by 2002:a1c:1f16:: with SMTP id f22mr10040983wmf.46.1589179529773; 
- Sun, 10 May 2020 23:45:29 -0700 (PDT)
+ bh=luOlBDEYjmS6B1luOElLyizl9Zvtw4V1+71KGKPL7KI=;
+ b=VRXxzMZb63gplMihx+IPTH2zLyOPEt5YkbCI3LavRTB8B1mkVlFwYoOIZKhTISim6P
+ 3shjSb2k49aiD+tykjZ2Bg2F1Yy1jeF6ueXzd5JyIIQvmJ4Kuf7bBAKZL5xaro8ar07g
+ vZ1H4VvqRSoFlY/QZ6UWU5rQC2ohR2ymzGpG7eeEUMBmisNJdFAQm59Jk5jZ8+hLOmdZ
+ AyM5mvS9YIm9hK3jg9C8yXihxXCMS65a0Zw6uBlIFGjEkjYCwBVMlQ5FvVfyWDuoJP81
+ 5S7056AXE49cq6I4/njO7UFcZl60D9zu691u5feE89xCK+zn8M84xNFyttFEkn2giM1A
+ +gTw==
+X-Gm-Message-State: AGi0PuY+8Ie3vy3csU1NNLLKoWpYqrNlX3FaL1DUxr1YiQeXXyjS/nmP
+ Zu0ntBjej0RWSg3GGyFE4zz7c6W9
+X-Google-Smtp-Source: APiQypICpd6PDWuMbtzDPYF9/qQKQyWvtIbP/HSF4aAkMQk6HMykU5TPOXUw9jOTSrFx3ywEBWPgJg==
+X-Received: by 2002:adf:cd83:: with SMTP id q3mr4749954wrj.187.1589179645341; 
+ Sun, 10 May 2020 23:47:25 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
  ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id d9sm874290wmd.10.2020.05.10.23.45.28
+ by smtp.gmail.com with ESMTPSA id r11sm14778309wrv.14.2020.05.10.23.47.23
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 10 May 2020 23:45:29 -0700 (PDT)
-Subject: Re: [PATCH 1/6] drm/ttm: Add unampping of the entire device address
- space
+ Sun, 10 May 2020 23:47:24 -0700 (PDT)
+Subject: Re: [PATCH 2/6] drm/amdgpu: Force unmap all user VMAs on device
+ removal.
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
- <1589050310-19666-2-git-send-email-andrey.grodzovsky@amd.com>
+ <1589050310-19666-3-git-send-email-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e293af59-99df-c147-68d6-8fa3ade38829@gmail.com>
-Date: Mon, 11 May 2020 08:45:27 +0200
+Message-ID: <9d374ffa-40d2-d016-cd44-16c7d0505f78@gmail.com>
+Date: Mon, 11 May 2020 08:47:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1589050310-19666-2-git-send-email-andrey.grodzovsky@amd.com>
+In-Reply-To: <1589050310-19666-3-git-send-email-andrey.grodzovsky@amd.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +83,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Am 09.05.20 um 20:51 schrieb Andrey Grodzovsky:
 > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 > ---
->   drivers/gpu/drm/ttm/ttm_bo.c    | 22 +++++++++++++++++++++-
->   include/drm/ttm/ttm_bo_driver.h |  2 ++
->   2 files changed, 23 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  4 +++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 14 ++++++++++----
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  4 ++++
+>   3 files changed, 17 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index c5b516f..eae61cc 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1750,9 +1750,29 @@ void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo)
->   	ttm_bo_unmap_virtual_locked(bo);
->   	ttm_mem_io_unlock(man);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index e6978a2..4da52b7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -1374,8 +1374,10 @@ amdgpu_device_ip_get_ip_block(struct amdgpu_device *adev,
+>   			      enum amd_ip_block_type type)
+>   {
+>   	int i;
+> -
+>   	for (i = 0; i < adev->num_ip_blocks; i++)
+> +
+> +
+> +
+
+Unrelated whitespace change.
+
+>   		if (adev->ip_blocks[i].version->type == type)
+>   			return &adev->ip_blocks[i];
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 76a6198..ea2b47e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1130,16 +1130,22 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>   	return ret;
 >   }
-> +EXPORT_SYMBOL(ttm_bo_unmap_virtual);
 >   
-> +void ttm_bo_unmap_virtual_address_space(struct ttm_bo_device *bdev)
+> +static void amdgpu_force_unmap_user_space_mappings(struct drm_device *dev)
 > +{
-> +	struct ttm_mem_type_manager *man;
-> +	int i;
+> +	struct amdgpu_device *adev = dev->dev_private;
+> +
+> +	ttm_bo_unmap_virtual_address_space(&adev->mman.bdev);
+> +}
+> +
+
+If we really add a function for this we should probably put it into 
+amdgpu_ttm.c
+
+>   static void
+>   amdgpu_pci_remove(struct pci_dev *pdev)
+>   {
+>   	struct drm_device *dev = pci_get_drvdata(pdev);
 >   
-> -EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+> -#ifdef MODULE
+> -	if (THIS_MODULE->state != MODULE_STATE_GOING)
+> -#endif
+> -		DRM_ERROR("Hotplug removal is not supported\n");
 
-> +	for (i = 0; i < TTM_NUM_MEM_TYPES; i++) {
-> +		man = &bdev->man[i];
-> +		if (man->has_type && man->use_type)
-> +			ttm_mem_io_lock(man, false);
-> +	}
+Keep the warning for now, there is a lot of stuff we need to fix first 
+before removing that one.
 
-You should drop that it will just result in a deadlock warning for 
-Nouveau and has no effect at all.
-
-Apart from that looks good to me,
 Christian.
 
+>   	drm_dev_unplug(dev);
 > +
-> +	unmap_mapping_range(bdev->dev_mapping, 0, 0 , 1);
-> +	/*TODO What about ttm_mem_io_free_vm(bo) ? */
+> +	amdgpu_force_unmap_user_space_mappings(dev);
 > +
-> +	for (i = TTM_NUM_MEM_TYPES - 1; i >= 0; i--) {
-> +		man = &bdev->man[i];
-> +		if (man->has_type && man->use_type)
-> +			ttm_mem_io_unlock(man);
-> +	}
-> +}
-> +EXPORT_SYMBOL(ttm_bo_unmap_virtual_address_space);
+>   	amdgpu_driver_unload_kms(dev);
+>   	pci_disable_device(pdev);
+>   	pci_set_drvdata(pdev, NULL);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 3d822eb..22afd11 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -35,6 +35,7 @@
 >   
->   int ttm_bo_wait(struct ttm_buffer_object *bo,
->   		bool interruptible, bool no_wait)
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index c9e0fd0..3133463 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -600,6 +600,8 @@ int ttm_bo_device_init(struct ttm_bo_device *bdev,
->    */
->   void ttm_bo_unmap_virtual(struct ttm_buffer_object *bo);
+>   #include <drm/amdgpu_drm.h>
+>   #include <drm/drm_cache.h>
+> +#include <drm/drm_drv.h>
+>   #include "amdgpu.h"
+>   #include "amdgpu_trace.h"
+>   #include "amdgpu_amdkfd.h"
+> @@ -1361,6 +1362,9 @@ int amdgpu_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+>   	if (!amdgpu_bo_is_amdgpu_bo(bo))
+>   		return 0;
 >   
-> +void ttm_bo_unmap_virtual_address_space(struct ttm_bo_device *bdev);
+> +	if (drm_dev_is_unplugged(adev->ddev))
+> +		return -ENODEV;
 > +
->   /**
->    * ttm_bo_unmap_virtual
->    *
+>   	abo = ttm_to_amdgpu_bo(bo);
+>   
+>   	/* Remember that this BO was accessed by the CPU */
 
 _______________________________________________
 dri-devel mailing list
