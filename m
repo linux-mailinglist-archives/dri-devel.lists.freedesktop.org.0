@@ -1,63 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC821CEDB8
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E26641CE87E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127566E849;
-	Tue, 12 May 2020 07:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1386E7D9;
+	Mon, 11 May 2020 22:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D62E36E47A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:49:00 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id k12so18078587wmj.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4126E47E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:49:56 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id b6so8622860qkh.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BjHVuVtBWSdENXXYiinZ4uI8mae/pV5Z0nfAWffhAkY=;
- b=k5UvlXD0wz5vs3V4Z1hLq6biCClQbT+SzjjXqeAWFhwqVN+GA6qeV+oLnHhDuhXDcw
- MVX0TgpYBV2DjO6YTj2/kloLSz+106Qm/fu9Fbt1wd7Q9aE3k+RpBPuqoe4B/zYzxdUq
- BWm+yMkxszNTBcpnFcQs0Byn+efwRCTcgItZvKIAw201wqDgUXYW7R4/7Cfdosha29v5
- hG7krpuspf6IGF5pvCDjIZnLghI9pcVt8KAQQzkY5BjrBvfl67q0XBW22UMkTBRK4S4F
- DLCrrH5eHw06BLRl64MM4YyqwuAW3hNxzvNkr+tVHeL/B126T/5EI79diNMMOpSg7Ksv
- 7m/Q==
+ :content-disposition:in-reply-to:user-agent;
+ bh=4rPpMLzUp9bspNeARk829RL9zhdg6LdCbnWGM4mXn5M=;
+ b=fTLHNSaidCTBTVafRZ88/JPpZndAW4JKAiqp+xUjmlcGq11JBx+zkoc/gLYyuRZMpU
+ 8huyG7Lesc6lj13AkjhSbtSdyaW0HhfFpl0iYlVpDT1IiP7SHlaVI+MZSY7RwrTYhtBq
+ RQNBgrM8IvriB2Mvvs4e8HQwdfhdtIbJbykV3RNu3vDxx3lnpyWu6MdARnOn+R62z8Jc
+ KN8rcWegPekMEUZip8kruV0JwYQbPzQPKIlrCHz/KHExck9xbphKWhwcVarhbGi64Uoa
+ alGo+ohiWuSyQC8pRj3oZO/AC0G930Xueg4XAOk+AAPwsMsi4evR7ZHEiIxrpqeKQKyH
+ 7Trg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BjHVuVtBWSdENXXYiinZ4uI8mae/pV5Z0nfAWffhAkY=;
- b=OriBfCDL9mIEQk/6u9d25e/aja7t6eUaTMnnz4tPQm2ZQnF4qAU/oqbExZny1Ivzsb
- dW2amVTiny9HuuqsREZc5S9TR46bQhdMjPR4HHPsfjqYMRFEzFyvz79sW2MEa6D8ZtBf
- 0Y6Oxcc0krfJtDNlTZvRTu3a+7RUTzD4XpWR9j5Li1qkQMgQ1mX8/auIA85KaMtO20sF
- wJKiC408MH+IraQ/sd1ssU6Pb8vOtIOVSLijYsN5BLzkmeZOX7U04H9MqVPGiCl75nye
- 7X22C08grXP5/6EwEYMPll5HwjEvHzL7+hLh/SxsUGxCE3DKgsUjsF24PgZYcE7/cYwD
- elnQ==
-X-Gm-Message-State: AGi0PuZXg3wGfol/HjdXAxpLdf3GVv/Q6ZsVE90ISga8Gj2kBUcvcOYM
- LRozQe9ZShQ824QK//aXXi5s8w==
-X-Google-Smtp-Source: APiQypLt90h3E4QOKCct7odHvidKqDIEKMSux9lbzqVHNQsX/QafgI6SnH5ciyxpl3mgK+o2GNzOyg==
-X-Received: by 2002:a1c:df83:: with SMTP id
- w125mr22393555wmg.140.1589204939170; 
- Mon, 11 May 2020 06:48:59 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
- by smtp.gmail.com with ESMTPSA id a24sm26771229wmb.24.2020.05.11.06.48.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:48:58 -0700 (PDT)
-Date: Mon, 11 May 2020 14:48:54 +0100
-From: Quentin Perret <qperret@google.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v7 07/15] Documentation: power: update Energy Model
- description
-Message-ID: <20200511134854.GD29112@google.com>
-References: <20200511111912.3001-1-lukasz.luba@arm.com>
- <20200511111912.3001-8-lukasz.luba@arm.com>
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=4rPpMLzUp9bspNeARk829RL9zhdg6LdCbnWGM4mXn5M=;
+ b=RbFARSH/Ylix7X2WiZPVOsn/ZPwFHGyHYUQIKLDAPD5H/v0NerEu2u44Exz/xrYNJu
+ xgdKeO9FBQxKxyXsRz6nPoUQ4xpgAQMBG6QtPZrD99T3Hyuyc/yWPRrW0GXgEaDb2WN0
+ Lp+IuBIxZ7qDeZfZ/oYdULQNBJoRo+va2PWKhlYbPiu5tTTy35X6Vy6fEM9beUkVYem+
+ TQf+WPXndvouOOMJS/uSQilrWjbbJxRdNESiUo+FyfUFxL6XBUxep3v3iJXGJKZEWT2l
+ QgfY9nsi+j1Lf58vq22WqWO6TLKWjf59JapvW03A6r3aehxprSNhriQXmrfRX75zYqf7
+ 4c1g==
+X-Gm-Message-State: AGi0PuZNt0FvaA398uream0IE6+bYrQavJSAOLN/SRtPWPQd3pWv5tVL
+ QxjF7ojObgrzU4lZwUVBmG2GAQ==
+X-Google-Smtp-Source: APiQypJNAQ0/U/AQ7HD5Ea1GoiCuDrCNke0sGrNZi0ZXjdmU+vdOsV+r7iIZyEfm/aW74L1CSMAM/Q==
+X-Received: by 2002:a05:620a:2019:: with SMTP id
+ c25mr15376455qka.320.1589204995576; 
+ Mon, 11 May 2020 06:49:55 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.57.212])
+ by smtp.gmail.com with ESMTPSA id i10sm1542178qkk.128.2020.05.11.06.49.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 11 May 2020 06:49:55 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1jY8oc-0005UB-FF; Mon, 11 May 2020 10:49:54 -0300
+Date: Mon, 11 May 2020 10:49:54 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH hmm v2 1/5] mm/hmm: make CONFIG_DEVICE_PRIVATE into a
+ select
+Message-ID: <20200511134954.GS26002@ziepe.ca>
+References: <0-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
+ <1-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
+ <20200509171612.94ee332ad4f494521d911ac0@linux-foundation.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200511111912.3001-8-lukasz.luba@arm.com>
-X-Mailman-Approved-At: Tue, 12 May 2020 07:09:30 +0000
+In-Reply-To: <20200509171612.94ee332ad4f494521d911ac0@linux-foundation.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Mon, 11 May 2020 22:51:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +77,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
- viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, bsegall@google.com,
- alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
- lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
- agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
- cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
- rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- s.hauer@pengutronix.de, rostedt@goodmis.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
- tomeu.vizoso@collabora.com, sboyd@kernel.org, rdunlap@infradead.org,
- rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
- kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
- shawnguo@kernel.org
+Cc: Ralph Campbell <rcampbell@nvidia.com>, "Yang, Philip" <Philip.Yang@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Christoph Hellwig <hch@lst.de>, linux-mm@kvack.org,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 11 May 2020 at 12:19:04 (+0100), Lukasz Luba wrote:
-> The Energy Model framework supports also other devices than CPUs. Update
-> related information and add description for the new usage.
+On Sat, May 09, 2020 at 05:16:12PM -0700, Andrew Morton wrote:
+> On Fri,  1 May 2020 15:20:44 -0300 Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > 
-> Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> > From: Jason Gunthorpe <jgg@mellanox.com>
+> > 
+> > There is no reason for a user to select this or not directly - it should
+> > be selected by drivers that are going to use the feature, similar to how
+> > CONFIG_HMM_MIRROR works.
+> > 
+> > Currently all drivers provide a feature kconfig that will disable use of
+> > DEVICE_PRIVATE in that driver, allowing users to avoid enabling this if
+> > they don't want the overhead.
+> > 
+> 
+> I'm not too sure what's going on here, but i386 allmodconfig broke.
+> 
+> kernel/resource.c: In function '__request_free_mem_region':
+> kernel/resource.c:1653:28: error: 'PA_SECTION_SHIFT' undeclared (first use in this function); did you mean 'SECTIONS_PGSHIFT'?
+>   size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+> 
+> because in current mainline, allmodconfig produces
+> CONFIG_DEVICE_PRIVATE=n but in current linux-next, allmodconfig
+> produces CONFIG_DEVICE_PRIVATE=y.  But CONFIG_SPARSEMEM=n so the build
+> breaks.
 
-Acked-by: Quentin Perret <qperret@google.com>
+I think Arnd identified this, let us just revet the patch that caused
+it.
+
+> Bisection fingers this commit, but reverting it doesn't seem to fix
+> things.  Could you take a look please?
+
+There is a latter patch adding a 'select DEVICE_PRIVATE' so reverting
+this needs to swap that to 'depends on'.
+
+I've done both and updated git
+
+Regards,
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
