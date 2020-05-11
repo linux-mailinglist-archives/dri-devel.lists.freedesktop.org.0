@@ -2,74 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9842C1CCE3D
-	for <lists+dri-devel@lfdr.de>; Sun, 10 May 2020 23:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B1C1CCFE7
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 04:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F9089F71;
-	Sun, 10 May 2020 21:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E2589FCA;
+	Mon, 11 May 2020 02:53:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E631F89F71
- for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 21:44:23 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id f8so3083097plt.2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 May 2020 14:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:thread-topic:thread-index:date:message-id
- :references:in-reply-to:accept-language:content-language
- :content-transfer-encoding:mime-version;
- bh=TbO75A5Gn8gWHO4gwUNWqoHwkBpk2egJ3kslUHiUBjc=;
- b=Ys8fwHHyoBUtdt4s9CCwekJehrIh/ska7PwkTviYx+3AT7ZT/5ORkSkrZHO/qg9h/P
- c+QTP2XZT/DJniIHP33j9F7b4QpZ4vEysQUJswattEOXJFQGGG/sxegHP4K1rmHemjkY
- QSu7UGL8AdYqIeiI/uRNq0QPETdeLmX7H+nY1ZNRwZQgyV6J9b2vLl8H+BXL3oJ7qPSL
- 99oC241UfxIGRlpClQehSF7znp1aCyV4eQM/pEkO8Y1DoeQdXvVATE+QXZLQZ2lxfZBR
- 4hEg3L/xzyOLLjMXhmXfDv1/JBAFsurjMrAOpm2TIK+LMdo1ryC+QKL1kzK6GMVfy3uq
- UtzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:thread-topic:thread-index
- :date:message-id:references:in-reply-to:accept-language
- :content-language:content-transfer-encoding:mime-version;
- bh=TbO75A5Gn8gWHO4gwUNWqoHwkBpk2egJ3kslUHiUBjc=;
- b=c1iGE3W8kBlbQoCIzRs50oyBXbFrF3zDrKDBPsiwt4v0AQZOnEPxZISbGKFZm45O9c
- IuZfkNRtq6+toLaKmuJz2HfjaWbJluy9SRl3x7oiGSd2ecBzuCiowR82bD840+KWn/NR
- NaLC+PSgLdiw6TMhwxGUmnfUoaFoaifpxLsx1o45bWy/OlCwQb8BWFvpOaD+YAkh1o2z
- KAvFNTCeT0o8DBidDnQrWk0SJPy9wTCWHPflpPhxo4ELlTJ55blDyUZAzARuQl3v1Txk
- fvyiYFeOqiWYT8UnZW2+JwnHwt2XaU09hPjGAQVgLY7Hg87GT1WeaxD2cy7W7dQjSVBv
- EX9A==
-X-Gm-Message-State: AGi0Pua+n8eZ3XyD2Kym3SVfkBaIH1Iw6YmQ/bVsKreeWb3gP6S+80r0
- RrAnokWMunBAZDQWrR/Qk4QTZWBI
-X-Google-Smtp-Source: APiQypLpiBUrsTPNHWIeSrqoqJ1lPzhBjZ1nog8zsbMNjYWmqB4S+b7C+ekQ8gXMrQwgkeXU7xQodg==
-X-Received: by 2002:a17:90a:9302:: with SMTP id
- p2mr18359448pjo.230.1589147063246; 
- Sun, 10 May 2020 14:44:23 -0700 (PDT)
-Received: from SL2P216MB0105.KORP216.PROD.OUTLOOK.COM ([2603:1046:100:22::5])
- by smtp.gmail.com with ESMTPSA id
- j186sm7566456pfb.220.2020.05.10.14.44.20
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 10 May 2020 14:44:22 -0700 (PDT)
-From: Jingoo Han <jingoohan1@gmail.com>
-To: =?iso-8859-1?Q?Noralf_Tr=F8nnes?= <noralf@tronnes.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>
-Subject: Re: [PATCH v2 01/10] backlight: Add backlight_device_get_by_name()
-Thread-Topic: [PATCH v2 01/10] backlight: Add backlight_device_get_by_name()
-Thread-Index: AWZuNzkxnA4fzGnWCrmX5dZ1Wlp95mZuNzkx3D5IIXY=
-X-MS-Exchange-MessageSentRepresentingType: 1
-Date: Sun, 10 May 2020 21:44:17 +0000
-Message-ID: <SL2P216MB0105AD2B905A372B585A2828AAA00@SL2P216MB0105.KORP216.PROD.OUTLOOK.COM>
-References: <20200509141619.32970-1-noralf@tronnes.org>
- <20200509141619.32970-2-noralf@tronnes.org>
-In-Reply-To: <20200509141619.32970-2-noralf@tronnes.org>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-Exchange-Organization-SCL: -1
-X-MS-TNEF-Correlator: 
-X-MS-Exchange-Organization-RecordReviewCfmType: 0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE83589FCA
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 02:53:39 +0000 (UTC)
+IronPort-SDR: V0OyHvaLr5CY/1NI4F5CbgayaDx5mUTH5mSHyC9jvRdDjCtK9WWXLrEHCgzXC3wMTIzPXBmFDK
+ PJx4zbd7NdqA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2020 19:53:38 -0700
+IronPort-SDR: xpz1MBOyTve2Yi014woff74d4fibI1XxFdgYbe1xJfc2FdwzW8PAvDDMUi1L9EO8il9IriHxVH
+ fK+DVivYQqdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,378,1583222400"; d="scan'208";a="261613973"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2020 19:53:38 -0700
+Date: Sun, 10 May 2020 19:53:38 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] drm: vmwgfx: include linux/highmem.h
+Message-ID: <20200511025337.GA1823106@iweiny-DESK2.sc.intel.com>
+References: <20200508220150.649044-1-arnd@arndb.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200508220150.649044-1-arnd@arndb.de>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,99 +47,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Han Jingoo <jingoohan1@gmail.com>,
- "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
- "sam@ravnborg.org" <sam@ravnborg.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Christoph Hellwig <hch@lst.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Thomas Hellstrom <thellstrom@vmware.com>, Helge Deller <deller@gmx.de>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/9/20, 10:16 AM, Noralf Tr=F8nnes wrote:
-> =
+On Sat, May 09, 2020 at 12:01:31AM +0200, Arnd Bergmann wrote:
+> In order to call kmap_atomic() etc, we need to include linux/highmem.h:
+> 
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c: In function 'vmw_bo_cpu_blit_line':
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:377:4: error: implicit declaration of function 'kunmap_atomic'; did you mean 'in_atomic'? [-Werror=implicit-function-declaration]
+>   377 |    kunmap_atomic(d->src_addr);
+>       |    ^~~~~~~~~~~~~
+>       |    in_atomic
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:391:5: error: implicit declaration of function 'kmap_atomic_prot' [-Werror=implicit-function-declaration]
+>   391 |     kmap_atomic_prot(d->dst_pages[dst_page],
+>       |     ^~~~~~~~~~~~~~~~
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:390:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>   390 |    d->dst_addr =
+>       |                ^
+> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:403:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>   403 |    d->src_addr =
+>       |                ^
+> 
+> Fixes: 46385a895322 ("drm: remove drm specific kmap_atomic code")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-> Add a way to lookup a backlight device based on its name.
-> Will be used by a USB display gadget getting the name from configfs.
->
-> Cc: Lee Jones <lee.jones@linaro.org>
+I'm curious about the config which failed...  Because this compiled for me.
+Regardless it was stupid of me to not include this.
 
-Please delete this line, because Lee already sent his Acked-by.
+Thanks,
 
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-Acked-by: Jingoo Han <jingoohan1@gmail.com>
-
-Best regards,
-Jingoo Han
-
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Acked-by: Lee Jones <lee.jones@linaro.org>
-> Signed-off-by: Noralf Tr=F8nnes <noralf@tronnes.org>
 > ---
- > drivers/video/backlight/backlight.c | 21 +++++++++++++++++++++
- > include/linux/backlight.h           |  1 +
- > 2 files changed, 22 insertions(+)
->
-> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backligh=
-t/backlight.c
-> index cac3e35d7630..92d80aa0c0ef 100644
-> --- a/drivers/video/backlight/backlight.c
-> +++ b/drivers/video/backlight/backlight.c
-> @@ -432,6 +432,27 @@ struct backlight_device *backlight_device_get_by_typ=
-e(enum backlight_type type)
->  }
->  EXPORT_SYMBOL(backlight_device_get_by_type);
->  =
-
-> +/**
-> + * backlight_device_get_by_name - Get backlight device by name
-> + * @name: Device name
-> + *
-> + * This function looks up a backlight device by its name. It obtains a r=
-eference
-> + * on the backlight device and it is the caller's responsibility to drop=
- the
-> + * reference by calling backlight_put().
-> + *
-> + * Returns:
-> + * A pointer to the backlight device if found, otherwise NULL.
-> + */
-> +struct backlight_device *backlight_device_get_by_name(const char *name)
-> +{
-> +	struct device *dev;
-> +
-> +	dev =3D class_find_device_by_name(backlight_class, name);
-> +
-> +	return dev ? to_backlight_device(dev) : NULL;
-> +}
-> +EXPORT_SYMBOL(backlight_device_get_by_name);
-> +
->  /**
->   * backlight_device_unregister - unregisters a backlight device object.
->   * @bd: the backlight device object to be unregistered and freed.
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index c7d6b2e8c3b5..56e4580d4f55 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -190,6 +190,7 @@ extern void backlight_force_update(struct backlight_d=
-evice *bd,
->  extern int backlight_register_notifier(struct notifier_block *nb);
->  extern int backlight_unregister_notifier(struct notifier_block *nb);
->  extern struct backlight_device *backlight_device_get_by_type(enum backli=
-ght_type type);
-> +struct backlight_device *backlight_device_get_by_name(const char *name);
->  extern int backlight_device_set_brightness(struct backlight_device *bd, =
-unsigned long brightness);
->  =
-
->  #define to_backlight_device(obj) container_of(obj, struct backlight_devi=
-ce, dev)
-> -- =
-
-> 2.23.0
-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> index 94d456a1d1a9..1629427d5734 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+> @@ -27,6 +27,7 @@
+>   **************************************************************************/
+>  
+>  #include "vmwgfx_drv.h"
+> +#include <linux/highmem.h>
+>  
+>  /*
+>   * Template that implements find_first_diff() for a generic
+> -- 
+> 2.26.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
