@@ -1,69 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26641CE87E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C783F1CE872
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1386E7D9;
-	Mon, 11 May 2020 22:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FAD36E7DA;
+	Mon, 11 May 2020 22:51:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4126E47E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 13:49:56 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id b6so8622860qkh.11
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 06:49:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=4rPpMLzUp9bspNeARk829RL9zhdg6LdCbnWGM4mXn5M=;
- b=fTLHNSaidCTBTVafRZ88/JPpZndAW4JKAiqp+xUjmlcGq11JBx+zkoc/gLYyuRZMpU
- 8huyG7Lesc6lj13AkjhSbtSdyaW0HhfFpl0iYlVpDT1IiP7SHlaVI+MZSY7RwrTYhtBq
- RQNBgrM8IvriB2Mvvs4e8HQwdfhdtIbJbykV3RNu3vDxx3lnpyWu6MdARnOn+R62z8Jc
- KN8rcWegPekMEUZip8kruV0JwYQbPzQPKIlrCHz/KHExck9xbphKWhwcVarhbGi64Uoa
- alGo+ohiWuSyQC8pRj3oZO/AC0G930Xueg4XAOk+AAPwsMsi4evR7ZHEiIxrpqeKQKyH
- 7Trg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=4rPpMLzUp9bspNeARk829RL9zhdg6LdCbnWGM4mXn5M=;
- b=RbFARSH/Ylix7X2WiZPVOsn/ZPwFHGyHYUQIKLDAPD5H/v0NerEu2u44Exz/xrYNJu
- xgdKeO9FBQxKxyXsRz6nPoUQ4xpgAQMBG6QtPZrD99T3Hyuyc/yWPRrW0GXgEaDb2WN0
- Lp+IuBIxZ7qDeZfZ/oYdULQNBJoRo+va2PWKhlYbPiu5tTTy35X6Vy6fEM9beUkVYem+
- TQf+WPXndvouOOMJS/uSQilrWjbbJxRdNESiUo+FyfUFxL6XBUxep3v3iJXGJKZEWT2l
- QgfY9nsi+j1Lf58vq22WqWO6TLKWjf59JapvW03A6r3aehxprSNhriQXmrfRX75zYqf7
- 4c1g==
-X-Gm-Message-State: AGi0PuZNt0FvaA398uream0IE6+bYrQavJSAOLN/SRtPWPQd3pWv5tVL
- QxjF7ojObgrzU4lZwUVBmG2GAQ==
-X-Google-Smtp-Source: APiQypJNAQ0/U/AQ7HD5Ea1GoiCuDrCNke0sGrNZi0ZXjdmU+vdOsV+r7iIZyEfm/aW74L1CSMAM/Q==
-X-Received: by 2002:a05:620a:2019:: with SMTP id
- c25mr15376455qka.320.1589204995576; 
- Mon, 11 May 2020 06:49:55 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id i10sm1542178qkk.128.2020.05.11.06.49.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 11 May 2020 06:49:55 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1jY8oc-0005UB-FF; Mon, 11 May 2020 10:49:54 -0300
-Date: Mon, 11 May 2020 10:49:54 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH hmm v2 1/5] mm/hmm: make CONFIG_DEVICE_PRIVATE into a
- select
-Message-ID: <20200511134954.GS26002@ziepe.ca>
-References: <0-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
- <1-v2-b4e84f444c7d+24f57-hmm_no_flags_jgg@mellanox.com>
- <20200509171612.94ee332ad4f494521d911ac0@linux-foundation.org>
-MIME-Version: 1.0
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150079.outbound.protection.outlook.com [40.107.15.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9AE6E47E;
+ Mon, 11 May 2020 13:53:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KD1zKHPocl/DKZF00C3Jgc3L+yzaWtkM4fmpbyZACQ3QrIVEw3k6m0aFUmobUOKnX6YhGx30fotzdB8bQ0vzoBM7Tw8nEHkgiYm8EsqlsXGzkVIpxC/GdXgEJRNr/T99fh6MIXAk4Z1jRiALh2QJCna76eqzTc57CkhteszGR+j3b8wd/uZF4d5dYd5j/Y7Jk2XsF/mAT37D9ZVXucFaJW7ymYrDfUWIsyOHG1ZKzx4hmTMP3XxgYzmrusSEOOJ8mg1GqFMyXWEncLgfqpRMXMXdyYHcQY4jCUQUrsSJHERJn/0KDTH+F5bMHzCBQTmbiswsG+z4+ga0qQLZs4NWpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g5ZJ7nwLAEgiloip484vc2nqKALP6FN62V+Jo5+D1fA=;
+ b=msohBbo/PUsGUBo6mznKtwuieVd8+8RlPdFrcrbTUYQFbTryjsrhgXd42CQcxL0EdzyuCqCzp80CplC0wh3PhanJ89SFxXdB2EBocFmy6D5UbjmEFzWcNgSjVLH7LGDke3/qtkvq6iaWurrNdywsOyCxN4fMjpHgqeVdmTqlMhOyCaq74fPoRBf7o62d9oGqoRlJc3oFG7OxWRP2XYbbQTI/yGr52mPp8g7xF0z8+4CO6kNab+O01wTKE3t9QMiFC2NX0VMMIkXUavrkqkLryEq0u9OZM7fRKJJeaPlFWqKeyT5RqIyX3buR3ot/nIKUfu5HCAewvaVyY3NEtAeEGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g5ZJ7nwLAEgiloip484vc2nqKALP6FN62V+Jo5+D1fA=;
+ b=bPWKt1+j5uF0mCPq8Q7FVExWYPhxGAt82FRoHFmI9ncZOg5+2ysUJx6HoZtzXFRJJ/ijeXKDYTSTBt5lx7lngXwf+Dmv/2odzl4M3jtA4cdu/osx6IkkOxgbBqnXjFat7qjRWwomvxgn6vsMDaeK7vk7obS+Tly03fvr+x6OL1o=
+Authentication-Results: arndb.de; dkim=none (message not signed)
+ header.d=none;arndb.de; dmarc=none action=none header.from=mellanox.com;
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (2603:10a6:803:44::15)
+ by VI1PR05MB5775.eurprd05.prod.outlook.com (2603:10a6:803:ca::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30; Mon, 11 May
+ 2020 13:53:02 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::a47b:e3cd:7d6d:5d4e]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::a47b:e3cd:7d6d:5d4e%6]) with mapi id 15.20.2979.033; Mon, 11 May 2020
+ 13:53:01 +0000
+Date: Mon, 11 May 2020 10:52:57 -0300
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 2/2] nouveau: fix dependencies for DEVICE_PRIVATE
+Message-ID: <20200511135257.GT19158@mellanox.com>
+References: <20200508144017.3501418-1-arnd@arndb.de>
+ <20200508144017.3501418-2-arnd@arndb.de>
 Content-Disposition: inline
-In-Reply-To: <20200509171612.94ee332ad4f494521d911ac0@linux-foundation.org>
+In-Reply-To: <20200508144017.3501418-2-arnd@arndb.de>
 User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MN2PR19CA0042.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::19) To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:44::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.68.57.212) by
+ MN2PR19CA0042.namprd19.prod.outlook.com (2603:10b6:208:19b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33 via Frontend
+ Transport; Mon, 11 May 2020 13:53:01 +0000
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)	(envelope-from
+ <jgg@mellanox.com>)	id 1jY8rZ-0005a8-Vh; Mon, 11 May 2020 10:52:57 -0300
+X-Originating-IP: [142.68.57.212]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 1892e4fe-c0ee-47e4-5f8b-08d7f5b29eef
+X-MS-TrafficTypeDiagnostic: VI1PR05MB5775:
+X-Microsoft-Antispam-PRVS: <VI1PR05MB5775A05924E1426342803552CFA10@VI1PR05MB5775.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 04004D94E2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fZt6VaK45FmKIEiVbbdPOuFBXam2z7LSd7B4Bgx4mnEKs9gP8W7YtJ6QR6DTJthM4W8UtmF2Aga1kVRZWFgboxEDxJZq+wTbYo0zxKCPgj/mpO8oTI0C6lCpw7nqnP9c9N/IULfIcZPeL7XkxW3dHD1yYyKnUi0xscmHJQ8K7/kn70Z8+oKnNHBO10K/YiPeMUGZ6Mh3yi1Z2zLXo5Y881yO4Oos9gOJ1S4t8e/9SfKW4psrK0zkZigJY43tOxPFcHO5Anx6pVPNFSfcuCsNE5uo5de3yrP0mmr9XEHHpmw5C0aEj9BZ114WmwO76T9O0DHcnIp1p5RaruzFh20xNjqw7Jqdd7yg4GifDbXVwaVYlNBsGYjdPwEo0ozQc8Z/6pLxKPtjKzvCcLe7DG0SSwN7SlQcMSDUI5Lzo2AWb+SDDf/6mvCNDND53S91807tUAiluQZYDwnAVvGzEk4RNt0gfKd5xa962PFRExBZjjnzNML9WNpgWmoq0ePDnNZ4bAvkSlEeJEf5WPH234LLZP17av/j+Goaf2F43VPi1OIVTFB+HG1o1OFFIfhCzNkw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR05MB4141.eurprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(346002)(396003)(366004)(136003)(33430700001)(2616005)(36756003)(26005)(5660300002)(4744005)(478600001)(186003)(2906002)(1076003)(8676002)(316002)(54906003)(33440700001)(33656002)(66946007)(66476007)(8936002)(52116002)(6916009)(9746002)(9786002)(86362001)(7416002)(4326008)(66556008)(24400500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: BY/oXkvYyC8NByrdiEWbBYbEmPfwK8PollehsQ3uDEyQIb1NKNbxnJIstmMVZNshrIIuhFXQ+gQD2Lu6kgMncOhsayWKf1vru1bDXUGsIAH9vCLk+O5N7b7G2x/dFIDRRGvfOWcsWp8u7t1FkFEOk5d5lOo9llkK7JH0asJ/rVN2M67KU75pml3GbU8pxIj/2nwMhyb1vQcVgtYay6x/pk5i7cXQ1mHIWCkr8YNLQlJR2oeiMO96RSKwdhUtD1FttJMruOzegpT5xHOGYf/vwHqgGjy5v3n7ST2dPp1V/g4W984hN51WvgopJWgXTRz7da/xGfMlEmZDlMn0nw2LBsczyXy9mZMddDPQD0SbgejBmj0QkFoBhq51rpDt039MlPL/O7vT19cqwdsql89JC9iIB5e+ZM2D2RwIAXlD1QTuQSL67mRmxwkcxHlp0bMXVRSvFELtRYkWwcCTVdr1pfltdLKQjIgTmL7S+oSRwba5aMNCjaNZBCgPzi1eThcX
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1892e4fe-c0ee-47e4-5f8b-08d7f5b29eef
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 13:53:01.7974 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hfir74XcsyAKSreaMY/Uq0DVLRmfj7GSdR6SVjVoMk7uAmyBXd9b0mKhVSCQQlAjYDfU+fIr8OlNGFRezCkJ4Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB5775
 X-Mailman-Approved-At: Mon, 11 May 2020 22:51:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,59 +99,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ralph Campbell <rcampbell@nvidia.com>, "Yang, Philip" <Philip.Yang@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Christoph Hellwig <hch@lst.de>, linux-mm@kvack.org,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, John Hubbard <jhubbard@nvidia.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau@lists.freedesktop.org, Dan Williams <dan.j.williams@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 09, 2020 at 05:16:12PM -0700, Andrew Morton wrote:
-> On Fri,  1 May 2020 15:20:44 -0300 Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Fri, May 08, 2020 at 04:40:09PM +0200, Arnd Bergmann wrote:
+> CONFIG_DEVICE_PRIVATE cannot be selected in configurations
+> without ZONE_DEVICE:
 > 
-> > From: Jason Gunthorpe <jgg@mellanox.com>
-> > 
-> > There is no reason for a user to select this or not directly - it should
-> > be selected by drivers that are going to use the feature, similar to how
-> > CONFIG_HMM_MIRROR works.
-> > 
-> > Currently all drivers provide a feature kconfig that will disable use of
-> > DEVICE_PRIVATE in that driver, allowing users to avoid enabling this if
-> > they don't want the overhead.
-> > 
+> WARNING: unmet direct dependencies detected for DEVICE_PRIVATE
+>   Depends on [n]: ZONE_DEVICE [=n]
+>   Selected by [y]:
+>   - DRM_NOUVEAU_SVM [=y] && HAS_IOMEM [=y] && DRM_NOUVEAU [=y] && MMU [=y] && STAGING [=y]
+> kernel/resource.c:1653:28: error: use of undeclared identifier 'PA_SECTION_SHIFT'
+>         size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
+>                                   ^
+> kernel/resource.c:1654:48: error: use of undeclared identifier 'MAX_PHYSMEM_BITS'
 > 
-> I'm not too sure what's going on here, but i386 allmodconfig broke.
+> Add a dependency for Nouveau to avoid broken randconfig builds.
 > 
-> kernel/resource.c: In function '__request_free_mem_region':
-> kernel/resource.c:1653:28: error: 'PA_SECTION_SHIFT' undeclared (first use in this function); did you mean 'SECTIONS_PGSHIFT'?
->   size = ALIGN(size, 1UL << PA_SECTION_SHIFT);
-> 
-> because in current mainline, allmodconfig produces
-> CONFIG_DEVICE_PRIVATE=n but in current linux-next, allmodconfig
-> produces CONFIG_DEVICE_PRIVATE=y.  But CONFIG_SPARSEMEM=n so the build
-> breaks.
+> Fixes: d2c63df2242e ("mm/hmm: make CONFIG_DEVICE_PRIVATE into a
+> select")
 
-I think Arnd identified this, let us just revet the patch that caused
-it.
+I've reverted the patch this fixes, it seems more trouble than it is
+worth.
 
-> Bisection fingers this commit, but reverting it doesn't seem to fix
-> things.  Could you take a look please?
-
-There is a latter patch adding a 'select DEVICE_PRIVATE' so reverting
-this needs to swap that to 'depends on'.
-
-I've done both and updated git
-
-Regards,
+Thanks,
 Jason
 _______________________________________________
 dri-devel mailing list
