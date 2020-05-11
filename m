@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36C81CD34B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7251CD354
+	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 09:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781306E110;
-	Mon, 11 May 2020 07:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46AB86E245;
+	Mon, 11 May 2020 07:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8337E6E110
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 07:52:53 +0000 (UTC)
-Received: from mail-qk1-f181.google.com ([209.85.222.181]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MNbtD-1jjQHw0zpD-00P48i for <dri-devel@lists.freedesktop.org>; Mon, 11
- May 2020 09:52:51 +0200
-Received: by mail-qk1-f181.google.com with SMTP id s9so7913975qkm.6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 00:52:49 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZsShXFXrYp/d4QMWqrjFkfbFUTphRipnAp6ETGddN7ePNhUGDY
- tOKOgmj8/MVLYdVv436p1snXkICP090ROAfTRd8=
-X-Google-Smtp-Source: APiQypLiww9K2vQQyR9/gMZxUya12W1EmcQHsxoRkn4Cxm8H8qPnH1jzICBK99UvxZyleyeClRL49HPOukqw1fr6hCg=
-X-Received: by 2002:ac8:2bce:: with SMTP id n14mr14712603qtn.18.1589183567291; 
- Mon, 11 May 2020 00:52:47 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7638C6E245
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 07:55:25 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id a4so6649840lfh.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 00:55:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SF7bC1M4Y4Wm3/lCtnDEBhBPN4OeNbksd+i8v7G0YgU=;
+ b=lNlGzDbrjNd6QbzHzc0kAB8PBUH5qlEN7zjE5riZcsMqE83ucCabFH2SIcGQ9yC4n9
+ hp6wuT4dotsynH7+T20i1Rn4Lewh3wLAKfmATIMBnuIz8cCorrkJ0V86SSn0bfRMqKeq
+ /6f1DkEnNjepCmgssZNDASktpsIyMbvQfvgqwLspJpqeOHbB3zccNU9k/dqoQjXdB7Vj
+ zID7GcHIWC6M54qKyY1NTosC4wX9NK2Hy1BCpSfeBkxUVynUJXOpS5f2WaxyK4CJj1Eq
+ Q3m+5y9PH1lxv8e0LhZzrZPI3EgTcV35dZORjxBcpcui5yaDR6JsbotN3kKsVGRdrfJ9
+ UYpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SF7bC1M4Y4Wm3/lCtnDEBhBPN4OeNbksd+i8v7G0YgU=;
+ b=bGOUdcuaz/1RrhrTOgLyh5KyzKhe7Pz2wVOLjHb4Y/LrxlIvyYI3VWzh+rXxCzO+pY
+ uM4hujY/fJr47j5CMHM78b1IGc9uMt+Q2yHWpRCm7I8Y6VONjkz6tEZtcbJd/8Xp/Qto
+ fYqX6qHn4ofk2ouiJuZLWmCwVQFlpOcHgJ7p5RKZIh1IABxLK037o/6endinXREWzBQL
+ nuAA/KEuxtY7ntmoKKjVTnkq0BvWBjqsIGhqtFcpDXtUoOr16ZNI+t1O8eQwH/H/Qx90
+ OtFhG5Q4oSOT0B2b3A2EYPJPNCkzwdi1Qm2R+oJTN6QKCOwp2SztIpqlHgsSOFcpj5u8
+ c3SA==
+X-Gm-Message-State: AOAM530pCTdqlU43nwP3kUFzrCt6fTn+Ou+GPItjoIikw6BpckYaELsx
+ 6InOhWIpiM4oFvdQ1lJ4nsfciA==
+X-Google-Smtp-Source: ABdhPJyV6sOBHqtW4y6Bk5Z38gRhZ5Q+8sry0PvrI2GG/gFC+cIVxC0a23ColfVu9jbwVzTgqN1gyw==
+X-Received: by 2002:a19:7104:: with SMTP id m4mr6503827lfc.75.1589183723710;
+ Mon, 11 May 2020 00:55:23 -0700 (PDT)
+Received: from localhost.localdomain
+ (c-f3d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.243])
+ by smtp.gmail.com with ESMTPSA id l124sm10081365lfd.11.2020.05.11.00.55.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 00:55:22 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v4] backlight: lms283gf05: Convert to GPIO descriptors
+Date: Mon, 11 May 2020 09:53:18 +0200
+Message-Id: <20200511075318.44792-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <20200508220150.649044-1-arnd@arndb.de>
- <20200511025337.GA1823106@iweiny-DESK2.sc.intel.com>
-In-Reply-To: <20200511025337.GA1823106@iweiny-DESK2.sc.intel.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 11 May 2020 09:52:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0EN=PrHEuDNr__kRkhsaYK0mM5yYa4qhceRSKfCC-MRA@mail.gmail.com>
-Message-ID: <CAK8P3a0EN=PrHEuDNr__kRkhsaYK0mM5yYa4qhceRSKfCC-MRA@mail.gmail.com>
-Subject: Re: [PATCH] drm: vmwgfx: include linux/highmem.h
-To: Ira Weiny <ira.weiny@intel.com>
-X-Provags-ID: V03:K1:tbxlceinlEUCtLlRTYeieF8Id3DRcx9MDJTG6sKzdB9oy9PicGW
- WJyLr+YZ0cLnCvJyv65qhJ5g8gavKYAlSTO85dEB4kssJpGACEO+Hoz7TdssQ9K1KAm+5Pd
- s5yhwG0OFObotJe04/kpwaQY3xfc11lNxQFYeX58eG4ms0ZmREdREIxs54LNRe6BpCQljkl
- Jdt4FnEF36BShuADDZU+Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zRUzWgD4Is8=:6uG3V+xWaI2trM/LHqEgTZ
- SGzTlBR/Ue1mLg1OcC3khilm5+MhD6OXOM8k0iAJkxqx6kjnBVQebr3TTLRC7FhF3xMAAQAAI
- Vjys/k+qbXuh54/W+SVBkuugO6RGPeB3zwaEd6PMVUK+WVGksn2tUeC6w3NmRWBs+xkMnql4I
- uR4kwRjwv3r11N3kbelZPtt5i+lwK5gM4+XM1hDMG5RWVIdFOK5vdGFxSO86aV8rKYpXFKTSj
- SHAxfMpEwM5Qb/VsY4BFuCK6rNwXdnXAHMEEX9K+q9eRVoaL5sNK0O0cIefEMFSiXhakCMBUH
- CFlJf+bCfjDecfYf9An/yV5p5LLakJU1aS7VtLI7sd0evb1tL02chYoAtSkbz1pKVQnHUUhbf
- /VRYbRT/67uAKqOFuEaTsn8gtsgueDzpp8MmmbibFUHp66LV8YVV78mV/bXKPjbO9vGzdoAmn
- AlnEuEfhFddjqv2u6v+vpOkXPP2ei1iDNn3B0i44wCrmHC/nL570LZ9FgCkjfs4JLnXlIMNVj
- LopbUwRtxazwc42tfRb0xGDv+yRYApg0s15JzL+c28hhOrJgW7v0AKraEFfWbOyneGLSZad3e
- vNbAoa+JR8icmBU0pioscZlqgOp8a+R445d/bvlTfT1QeDkCTDpUBeZgl6cFFlzY5Y7p4SqAG
- CAQUvI3mS41GdVRQHKzjGZRf9ty0jM9Lwv65QtU35Ihyjv7VQeuoM4mnHp6JMgCRH3xH0xR0x
- CZw/enL+p+eI2qklRvtXFQtyld3j5Uu/GN4eGm0mSFvmwpsd65CxpKs3gSCVqg4VqXPag+L4q
- 47IBL2p1Mxq/hJu0BS9NcLP9zjksYj/AOIAY38SOmXQtj8gU9s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +67,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
- Christoph Hellwig <hch@lst.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Thomas Hellstrom <thellstrom@vmware.com>, Helge Deller <deller@gmx.de>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Marek Vasut <marex@denx.de>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 4:53 AM Ira Weiny <ira.weiny@intel.com> wrote:
->
-> On Sat, May 09, 2020 at 12:01:31AM +0200, Arnd Bergmann wrote:
-> > In order to call kmap_atomic() etc, we need to include linux/highmem.h:
-> >
-> > drivers/gpu/drm/vmwgfx/vmwgfx_blit.c: In function 'vmw_bo_cpu_blit_line':
-> > drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:377:4: error: implicit declaration of function 'kunmap_atomic'; did you mean 'in_atomic'? [-Werror=implicit-function-declaration]
-> >   377 |    kunmap_atomic(d->src_addr);
-> >       |    ^~~~~~~~~~~~~
-> >       |    in_atomic
-> > drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:391:5: error: implicit declaration of function 'kmap_atomic_prot' [-Werror=implicit-function-declaration]
-> >   391 |     kmap_atomic_prot(d->dst_pages[dst_page],
-> >       |     ^~~~~~~~~~~~~~~~
-> > drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:390:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> >   390 |    d->dst_addr =
-> >       |                ^
-> > drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:403:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-> >   403 |    d->src_addr =
-> >       |                ^
-> >
-> > Fixes: 46385a895322 ("drm: remove drm specific kmap_atomic code")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> I'm curious about the config which failed...  Because this compiled for me.
-> Regardless it was stupid of me to not include this.
->
-> Thanks,
->
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+This converts the lms283gf05 backlight driver to use GPIO
+descriptors and switches the single PXA Palm Z2 device
+over to defining these.
 
-I do a lot of randconfig build tests and only one of them had this problem.
+Since the platform data was only used to convey GPIO
+information we can delete the platform data header.
 
-See https://pastebin.com/LmX0Jfbg for reference, I did not check further
-which of the options caused this.
+Notice that we define the proper active low semantics in
+the board file GPIO descriptor table (active low) and
+assert the reset line by bringing it to "1" (asserted).
 
-      Arnd
+Cc: Marek Vasut <marex@denx.de>
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v3->v4:
+- Check IS_ERR() on the returned GPIO descriptor.
+- Unconditionally set consumer name since the API tolerates NULL.
+ChangeLog v2->v3:
+- Fix a use-before-allocated bug discovered by compile tests.
+- Remove unused ret variable as autobuilders complained.
+ChangeLog v1->v2:
+- Bring up the GPIO de-asserted in probe()
+
+Marek: I saw this was written by you, are you regularly
+testing the Z2 device?
+---
+ arch/arm/mach-pxa/z2.c               | 12 +++++---
+ drivers/video/backlight/lms283gf05.c | 43 +++++++++++-----------------
+ include/linux/spi/lms283gf05.h       | 16 -----------
+ 3 files changed, 25 insertions(+), 46 deletions(-)
+ delete mode 100644 include/linux/spi/lms283gf05.h
+
+diff --git a/arch/arm/mach-pxa/z2.c b/arch/arm/mach-pxa/z2.c
+index 21fd76bb09cd..89eb5243c85f 100644
+--- a/arch/arm/mach-pxa/z2.c
++++ b/arch/arm/mach-pxa/z2.c
+@@ -20,7 +20,6 @@
+ #include <linux/spi/spi.h>
+ #include <linux/spi/pxa2xx_spi.h>
+ #include <linux/spi/libertas_spi.h>
+-#include <linux/spi/lms283gf05.h>
+ #include <linux/power_supply.h>
+ #include <linux/mtd/physmap.h>
+ #include <linux/gpio.h>
+@@ -578,8 +577,13 @@ static struct pxa2xx_spi_chip lms283_chip_info = {
+ 	.gpio_cs	= GPIO88_ZIPITZ2_LCD_CS,
+ };
+ 
+-static const struct lms283gf05_pdata lms283_pdata = {
+-	.reset_gpio	= GPIO19_ZIPITZ2_LCD_RESET,
++static struct gpiod_lookup_table lms283_gpio_table = {
++	.dev_id = "spi2.0", /* SPI bus 2 chip select 0 */
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", GPIO19_ZIPITZ2_LCD_RESET,
++			    "reset", GPIO_ACTIVE_LOW),
++		{ },
++	},
+ };
+ 
+ static struct spi_board_info spi_board_info[] __initdata = {
+@@ -595,7 +599,6 @@ static struct spi_board_info spi_board_info[] __initdata = {
+ {
+ 	.modalias		= "lms283gf05",
+ 	.controller_data	= &lms283_chip_info,
+-	.platform_data		= &lms283_pdata,
+ 	.max_speed_hz		= 400000,
+ 	.bus_num		= 2,
+ 	.chip_select		= 0,
+@@ -615,6 +618,7 @@ static void __init z2_spi_init(void)
+ {
+ 	pxa2xx_set_spi_info(1, &pxa_ssp1_master_info);
+ 	pxa2xx_set_spi_info(2, &pxa_ssp2_master_info);
++	gpiod_add_lookup_table(&lms283_gpio_table);
+ 	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
+ }
+ #else
+diff --git a/drivers/video/backlight/lms283gf05.c b/drivers/video/backlight/lms283gf05.c
+index 0e45685bcc1c..36856962ed83 100644
+--- a/drivers/video/backlight/lms283gf05.c
++++ b/drivers/video/backlight/lms283gf05.c
+@@ -9,16 +9,16 @@
+ #include <linux/kernel.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/lcd.h>
+ 
+ #include <linux/spi/spi.h>
+-#include <linux/spi/lms283gf05.h>
+ #include <linux/module.h>
+ 
+ struct lms283gf05_state {
+ 	struct spi_device	*spi;
+ 	struct lcd_device	*ld;
++	struct gpio_desc	*reset;
+ };
+ 
+ struct lms283gf05_seq {
+@@ -90,13 +90,13 @@ static const struct lms283gf05_seq disp_pdwnseq[] = {
+ };
+ 
+ 
+-static void lms283gf05_reset(unsigned long gpio, bool inverted)
++static void lms283gf05_reset(struct gpio_desc *gpiod)
+ {
+-	gpio_set_value(gpio, !inverted);
++	gpiod_set_value(gpiod, 0); /* De-asserted */
+ 	mdelay(100);
+-	gpio_set_value(gpio, inverted);
++	gpiod_set_value(gpiod, 1); /* Asserted */
+ 	mdelay(20);
+-	gpio_set_value(gpio, !inverted);
++	gpiod_set_value(gpiod, 0); /* De-asserted */
+ 	mdelay(20);
+ }
+ 
+@@ -125,18 +125,15 @@ static int lms283gf05_power_set(struct lcd_device *ld, int power)
+ {
+ 	struct lms283gf05_state *st = lcd_get_data(ld);
+ 	struct spi_device *spi = st->spi;
+-	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+ 
+ 	if (power <= FB_BLANK_NORMAL) {
+-		if (pdata)
+-			lms283gf05_reset(pdata->reset_gpio,
+-					pdata->reset_inverted);
++		if (st->reset)
++			lms283gf05_reset(st->reset);
+ 		lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+ 	} else {
+ 		lms283gf05_toggle(spi, disp_pdwnseq, ARRAY_SIZE(disp_pdwnseq));
+-		if (pdata)
+-			gpio_set_value(pdata->reset_gpio,
+-					pdata->reset_inverted);
++		if (st->reset)
++			gpiod_set_value(st->reset, 1); /* Asserted */
+ 	}
+ 
+ 	return 0;
+@@ -150,24 +147,18 @@ static struct lcd_ops lms_ops = {
+ static int lms283gf05_probe(struct spi_device *spi)
+ {
+ 	struct lms283gf05_state *st;
+-	struct lms283gf05_pdata *pdata = dev_get_platdata(&spi->dev);
+ 	struct lcd_device *ld;
+-	int ret = 0;
+-
+-	if (pdata != NULL) {
+-		ret = devm_gpio_request_one(&spi->dev, pdata->reset_gpio,
+-				GPIOF_DIR_OUT | (!pdata->reset_inverted ?
+-				GPIOF_INIT_HIGH : GPIOF_INIT_LOW),
+-				"LMS283GF05 RESET");
+-		if (ret)
+-			return ret;
+-	}
+ 
+ 	st = devm_kzalloc(&spi->dev, sizeof(struct lms283gf05_state),
+ 				GFP_KERNEL);
+ 	if (st == NULL)
+ 		return -ENOMEM;
+ 
++	st->reset = gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(st->reset))
++		return PTR_ERR(st->reset);
++	gpiod_set_consumer_name(st->reset, "LMS283GF05 RESET");
++
+ 	ld = devm_lcd_device_register(&spi->dev, "lms283gf05", &spi->dev, st,
+ 					&lms_ops);
+ 	if (IS_ERR(ld))
+@@ -179,8 +170,8 @@ static int lms283gf05_probe(struct spi_device *spi)
+ 	spi_set_drvdata(spi, st);
+ 
+ 	/* kick in the LCD */
+-	if (pdata)
+-		lms283gf05_reset(pdata->reset_gpio, pdata->reset_inverted);
++	if (st->reset)
++		lms283gf05_reset(st->reset);
+ 	lms283gf05_toggle(spi, disp_initseq, ARRAY_SIZE(disp_initseq));
+ 
+ 	return 0;
+diff --git a/include/linux/spi/lms283gf05.h b/include/linux/spi/lms283gf05.h
+deleted file mode 100644
+index f237b2d062e9..000000000000
+--- a/include/linux/spi/lms283gf05.h
++++ /dev/null
+@@ -1,16 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * lms283gf05.h - Platform glue for Samsung LMS283GF05 LCD
+- *
+- * Copyright (C) 2009 Marek Vasut <marek.vasut@gmail.com>
+-*/
+-
+-#ifndef _INCLUDE_LINUX_SPI_LMS283GF05_H_
+-#define _INCLUDE_LINUX_SPI_LMS283GF05_H_
+-
+-struct lms283gf05_pdata {
+-	unsigned long	reset_gpio;
+-	bool		reset_inverted;
+-};
+-
+-#endif /* _INCLUDE_LINUX_SPI_LMS283GF05_H_ */
+-- 
+2.25.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
