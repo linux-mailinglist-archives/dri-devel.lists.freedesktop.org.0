@@ -1,40 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD441CDF92
-	for <lists+dri-devel@lfdr.de>; Mon, 11 May 2020 17:51:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D28E71CE87B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 00:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519376E2BD;
-	Mon, 11 May 2020 15:51:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2FC6E5D5;
+	Mon, 11 May 2020 22:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3401A6E2BD
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 15:51:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9ED230E;
- Mon, 11 May 2020 08:51:24 -0700 (PDT)
-Received: from [192.168.1.84] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19DA63F305;
- Mon, 11 May 2020 08:51:22 -0700 (PDT)
-Subject: Re: [PATCH v3 10/25] drm: panfrost: fix common struct sg_table
- related issues
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20200505083926.28503-1-m.szyprowski@samsung.com>
- <20200505084614.30424-1-m.szyprowski@samsung.com>
- <CGME20200505084629eucas1p23d2d6a53451e67e2b0a3544eb696008b@eucas1p2.samsung.com>
- <20200505084614.30424-10-m.szyprowski@samsung.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <eaaeae03-3fd4-fdd7-ec21-3218a5f74a28@arm.com>
-Date: Mon, 11 May 2020 16:51:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D55B76E049
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 16:24:11 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id g11so910016plp.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 09:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=nIHK0pERFEVTVOMQQjzKbYldCgkef0vrbHxpu8mVr5o=;
+ b=TCOaST54SvL3086A7HHjNJTa/H/ch7lt91lpjhI79d01O042oBl3o3vcfVKRm5Bgqr
+ yqPGz//m/aDJWTMYb7QNLl80YovugT4IKGrQtd1r/Zqt1DDke4Ieh/Xlc0YwHABLni2N
+ VVzT8Wn9BpUiNvWsFe41tKvu7vmzWntoMa20w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=nIHK0pERFEVTVOMQQjzKbYldCgkef0vrbHxpu8mVr5o=;
+ b=gJOdeIxGR0Ipoli2xO5ZEtg/0Tk5+pXhxgffdxgdS09afdmrVjZgZMTGoVkBgdqqMW
+ k95EPsZQb3Yz94q73VICSdJKoBOriShAWZYAbEpZ3Rr9EuBQ25teCV9UaIGyUYSazQt6
+ K7vkffSyVcPj3ruoX8dYN8dq9WKhf8k62Oi9AH7dDBYXmQ3dikesg4LIJJrj4QeTmV0W
+ +szWVs4+FDgsnYK5VD3mpCq7dy6ikwyEofbCEtWr9ceq1hVWq3mXMWGGjWrQLKk3RRYx
+ CyV/c7LL74JuhkUZX+KOu+tSL85d5duDtOxoREg9smLe5OxmOQQH7UXAPXbGb7QNesJm
+ wWGQ==
+X-Gm-Message-State: AGi0PuYolpViIG/FZaVB5MVwsPhD4cJun8TPgdlaqYLIyeRpDKJLhgk4
+ wyUiEpPpRJXSfsWqL5NripGEWg==
+X-Google-Smtp-Source: APiQypLIWX8xdd1JBGRzmfOJI4N2dj1AtQSQdOmDg36PNZdcgR9LSF47B8adWOS/qPaOt3Lk6Yv3GA==
+X-Received: by 2002:a17:90a:d245:: with SMTP id
+ o5mr25045160pjw.213.1589214251377; 
+ Mon, 11 May 2020 09:24:11 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id j5sm9359046pfh.58.2020.05.11.09.24.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 09:24:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200505084614.30424-10-m.szyprowski@samsung.com>
-Content-Language: en-GB
+In-Reply-To: <20200507143354.v5.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
+References: <20200507213500.241695-1-dianders@chromium.org>
+ <20200507143354.v5.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
+Subject: Re: [PATCH v5 1/6] drm/bridge: ti-sn65dsi86: Export bridge GPIOs to
+ Linux
+From: Stephen Boyd <swboyd@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>, Laurent.pinchart@ideasonboard.com,
+ a.hajda@samsung.com, airlied@linux.ie, bgolaszewski@baylibre.com,
+ daniel@ffwll.ch, linus.walleij@linaro.org, narmstrong@baylibre.com,
+ robh+dt@kernel.org, spanda@codeaurora.org
+Date: Mon, 11 May 2020 09:24:09 -0700
+Message-ID: <158921424955.26370.14824525920971881719@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
+X-Mailman-Approved-At: Mon, 11 May 2020 22:51:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,82 +71,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/05/2020 09:45, Marek Szyprowski wrote:
-> The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-> numer of the created entries in the DMA address space. However the
-> subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-> called with the original number of the entries passed to dma_map_sg. The
-> sg_table->nents in turn holds the result of the dma_map_sg call as stated
-> in include/linux/scatterlist.h. A common mistake was to ignore a result
-> of the dma_map_sg function and don't use the sg_table->orig_nents at all.
+Quoting Douglas Anderson (2020-05-07 14:34:55)
+> The ti-sn65dsi86 MIPI DSI to eDP bridge chip has 4 pins on it that can
+> be used as GPIOs in a system.  Each pin can be configured as input,
+> output, or a special function for the bridge chip.  These are:
+> - GPIO1: SUSPEND Input
+> - GPIO2: DSIA VSYNC
+> - GPIO3: DSIA HSYNC or VSYNC
+> - GPIO4: PWM
 > 
-> To avoid such issues, lets use common dma-mapping wrappers operating
-> directly on the struct sg_table objects and adjust references to the
-> nents and orig_nents respectively.
+> Let's expose these pins as GPIOs.  A few notes:
+> - Access to ti-sn65dsi86 is via i2c so we set "can_sleep".
+> - These pins can't be configured for IRQ.
+> - There are no programmable pulls or other fancy features.
+> - Keeping the bridge chip powered might be expensive.  The driver is
+>   setup such that if all used GPIOs are only inputs we'll power the
+>   bridge chip on just long enough to read the GPIO and then power it
+>   off again.  Setting a GPIO as output will keep the bridge powered.
+> - If someone releases a GPIO we'll implicitly switch it to an input so
+>   we no longer need to keep the bridge powered for it.
 > 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-The change looks good to me:
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Although I would have appreciated the commit message being modified to 
-match the specifics of Panfrost - the return of dma_mpa_sg() wasn't 
-being ignored, but the use of orig_nents/nents was indeed wrong.
-
-Steve
-
+> Because of all of the above limitations we just need to implement a
+> bare-bones GPIO driver.  The device tree bindings already account for
+> this device being a GPIO controller so we only need the driver changes
+> for it.
+> 
+> NOTE: Despite the fact that these pins are nominally muxable I don't
+> believe it makes sense to expose them through the pinctrl interface as
+> well as the GPIO interface.  The special functions are things that the
+> bridge chip driver itself would care about and it can just configure
+> the pins as needed.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > ---
-> For more information, see '[PATCH v3 00/25] DRM: fix struct sg_table nents
-> vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/5/187
-> ---
->   drivers/gpu/drm/panfrost/panfrost_gem.c | 4 ++--
->   drivers/gpu/drm/panfrost/panfrost_mmu.c | 5 ++---
->   2 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 17b654e..95d7e80 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -41,8 +41,8 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
->   
->   		for (i = 0; i < n_sgt; i++) {
->   			if (bo->sgts[i].sgl) {
-> -				dma_unmap_sg(pfdev->dev, bo->sgts[i].sgl,
-> -					     bo->sgts[i].nents, DMA_BIDIRECTIONAL);
-> +				dma_unmap_sgtable(pfdev->dev, &bo->sgts[i],
-> +						  DMA_BIDIRECTIONAL);
->   				sg_free_table(&bo->sgts[i]);
->   			}
->   		}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index ed28aeb..9926111 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -517,10 +517,9 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->   	if (ret)
->   		goto err_pages;
->   
-> -	if (!dma_map_sg(pfdev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL)) {
-> -		ret = -EINVAL;
-> +	ret = dma_map_sgtable(pfdev->dev, sgt, DMA_BIDIRECTIONAL);
-> +	if (ret)
->   		goto err_map;
-> -	}
->   
->   	mmu_map_sg(pfdev, bomapping->mmu, addr,
->   		   IOMMU_WRITE | IOMMU_READ | IOMMU_NOEXEC, sgt);
-> 
 
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
