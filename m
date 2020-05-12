@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579BE1CEA87
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 04:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B58E1CEA8A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 04:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94FE56E037;
-	Tue, 12 May 2020 02:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD136E073;
+	Tue, 12 May 2020 02:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E45F6E037
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 02:09:43 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id 63so1915150oto.8
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 19:09:43 -0700 (PDT)
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
+ [IPv6:2607:f8b0:4864:20::b44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EDD56E064;
+ Tue, 12 May 2020 02:10:15 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id o134so512730ybg.2;
+ Mon, 11 May 2020 19:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zcq/C2mPvyaxNF2lVsVAAK7HuZoD0vL2Lekk73ttM9c=;
+ b=QTUTR10HRSLC/TmGuicNIvhxEmKHNlDigJZyRKIMl5gsEAteM0iWF2eGAR9PHoTKdk
+ At3sV9vTEbhZ8oRwK/8/kCkUgmTNEE1Repq8YEpp93GaLiWSyTmfOzhDkJz0KlCT55JN
+ bsVpDPvwP32JFAJl9iu8vSl5V6tSmUurImMPDwvROdzbHw9ELGxiq0ZF6ucA3herDxcs
+ WdOWxLlkcB3zq4eaI1iWNmf3/S2ZT5nUyhO59z7zVvp+IXyTabwffYP4Zt6ZelvPvVIe
+ nqaNU/M2Q7apIJRecgFESPxwZzKAh4utAi8TGLCalSX5LLlpvewah/jzj4b6sJ0yGDs6
+ ucuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=hx2GPWhJqt9kxObM/JXtvxzVEbR5wT0H4fhgwGryEc8=;
- b=O/vGt9NfyKba89idN+q8mwW6yuSa7wSvu0UJoJxrB1AM+k2RwLrN/2AsJaz31itG6r
- UxS6WUz3mciyKqOEvq8TbYFGlCkS0jyBFy/DAQiyBg39VZisz727FigVyzNZOHsfmjwk
- ReKUbjPWIreeOqeEjl1aRV0yZU7Qs9j669XPW13n4s9FDjAcXrfYgj4zal08naogFo7y
- VUh7u3+s1Tp26AFBOGQAE+5mc3223x6dqoeOtqkf0t7AzaSDZURYTvcqoL6/B3A2de69
- aFt4nZyHvHr764xyzvTFObsFO2RPTQ/L8/A+ip9YYCc1gimycBIwf2+EfvHhNq/Qv0gk
- UH3w==
-X-Gm-Message-State: AGi0PuZbBkcGt4eeGVW278hB7n4kLzoOC4B5J1WatN4Bb3VnQjMw7xv9
- ytjCvlS7p+djc0zw3yFHvw==
-X-Google-Smtp-Source: APiQypKIirFNWU90d1Ffrh4CEIScFhMrBN5Ab2uVt6ZLzmIl26jkrZYjHyZQwqCfgrroO/ir5KlD9g==
-X-Received: by 2002:a9d:5f04:: with SMTP id f4mr16523087oti.154.1589249383244; 
- Mon, 11 May 2020 19:09:43 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t22sm5101089oij.2.2020.05.11.19.09.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 19:09:42 -0700 (PDT)
-Received: (nullmailer pid 12354 invoked by uid 1000);
- Tue, 12 May 2020 02:09:41 -0000
-Date: Mon, 11 May 2020 21:09:41 -0500
-From: Rob Herring <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, kernel@collabora.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, jason@lakedaemon.net,
- laurent.pinchart@ideasonboard.com
-Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
-Message-ID: <20200512020941.GA2002@bogus>
-References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
- <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
- <20200506155320.GC15206@pendragon.ideasonboard.com>
- <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zcq/C2mPvyaxNF2lVsVAAK7HuZoD0vL2Lekk73ttM9c=;
+ b=WeqUBeh2veTI4ta0mcaq/OxRV5CmeCC5LvLpcNsdA6RiiCMwAQce8nw+KBk0xXnf6K
+ cCsAmQ8YQ7ZtaI5xT5iriUh1kwXWqiK3Y2uh9rgrhSG/YEViUusQ9ij4FLpyKaZCE5us
+ v5UAbdrWpIJRFwAGArce0l4CeNh/BrauSpxKRYAuT6AX0DkOvERR+XtW9D8UdC14usz9
+ 7Ji9tzXabDPi4eFYoOOOtjuyla4cMRFQM6Z1JFHWDF8wPho1HUVYr+iHo+beOrnHkZjF
+ r3XSVM5P3P6AFSFpQOIg6x86fSiTSHn7uGSC/4bOlyZmGXftbj+4Bxc+/qdz5MFyiWFo
+ f4fg==
+X-Gm-Message-State: AGi0PuYau8qHFj8ya0t3ZBmLvMw4mO5s4G5k5FJB5KMiWAoBTGWgpf8N
+ xOYhJk8BS0Lq8W5yFOAom0VAQJKBPvdLa4T3AzY=
+X-Google-Smtp-Source: APiQypJrvsmTHW860BhtnJ2gO7lfm9Dv5dNGo6aH4Lk4s07qsm3DIExyEcz8w8paVk2wwZrwAOzwCSLAi48y0m9hQv8=
+X-Received: by 2002:a25:9d82:: with SMTP id v2mr29859246ybp.268.1589249414325; 
+ Mon, 11 May 2020 19:10:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200511145911.2yv3aepofxqwdsju@rcn-XPS-13-9360>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200511224148.598468-1-lyude@redhat.com>
+ <20200511224148.598468-4-lyude@redhat.com>
+ <CAKb7UvjQfw9UvxCdcu1k3t0dnq7PdQJrw5CtWhB42=uiW9-4dA@mail.gmail.com>
+In-Reply-To: <CAKb7UvjQfw9UvxCdcu1k3t0dnq7PdQJrw5CtWhB42=uiW9-4dA@mail.gmail.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Tue, 12 May 2020 12:10:03 +1000
+Message-ID: <CACAvsv7V4wHhCKVaA7F-GiF-cN21E-z82JBp=pnePgWj-Kcq0A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] drm/nouveau/kms/gv100-: Add support for interlaced
+ modes
+To: Ilia Mirkin <imirkin@alum.mit.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,136 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 04:59:11PM +0200, Ricardo Ca=F1uelo wrote:
-> Hi Rob,
-> =
+On Tue, 12 May 2020 at 09:06, Ilia Mirkin <imirkin@alum.mit.edu> wrote:
+>
+> On Mon, May 11, 2020 at 6:42 PM Lyude Paul <lyude@redhat.com> wrote:
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > index 43bcbb6d73c4..6dae00da5d7e 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> > @@ -1065,7 +1065,7 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
+> >                 return get_slave_funcs(encoder)->mode_valid(encoder, mode);
+> >         case DCB_OUTPUT_DP:
+> >                 if (mode->flags & DRM_MODE_FLAG_INTERLACE &&
+> > -                   !nv_encoder->dp.caps.interlace)
+> > +                   !nv_encoder->caps.dp_interlace)
+> >                         return MODE_NO_INTERLACE;
+> >
+> >                 max_clock  = nv_encoder->dp.link_nr;
+>
+> You probably meant for this hunk to go into an earlier patch.
+I fixed this and merged the series.
 
-> What's your opinion on this?
-> =
-
-> Some context: It's about bindings that define signed integer properties
-> with range checks that go below and above zero. The schema checker fails
-> because, apparently, it interprets every cell value as an uint32, which
-> makes the range check fail for negative numbers.
-
-The real fix is dtc needs to carry the sign thru to the yaml output =
-
-format. In the mean time, perhaps the schema should have an unsigned =
-
-range for signed types.
-
-Rob
-
-> =
-
-> On mi=E9 06-05-2020 18:53:20, Laurent Pinchart wrote:
-> > Hi Tomi,
-> > =
-
-> > On Tue, Apr 28, 2020 at 12:49:28PM +0300, Tomi Valkeinen wrote:
-> > > On 28/04/2020 12:20, Ricardo Ca=F1uelo wrote:
-> > > =
-
-> > > > 2) The definition of ti,deskew in the original binding seems to be
-> > > > tailored to the current driver and the way it's defined may not be =
-very
-> > > > DT-friendly.
-> > > > =
-
-> > > >    This parameter maps to a 3-bit field in a hardware register that=
- takes
-> > > >    a value from 0 to 7, so the [-4, 3] range described for this wou=
-ld map
-> > > >    to [000, 111]: -4 -> 000, -3 -> 001, -2 -> 010, ... 3 -> 111.
-> > > > =
-
-> > > >    Then, the driver parses the parameter (unsigned) and casts it to=
- a
-> > > >    signed integer to get a number in the [-4, 3] range.
-> > > =
-
-> > > Interestingly the current example has ti,deskew =3D <4>...
-> > > =
-
-> > > >    A vendor-specific property must have a type definition in json-s=
-chema,
-> > > >    so if I translate the original bindings semantics directly, I sh=
-ould
-> > > >    define ti,deskew as an int32, but this makes dt_binding_check fa=
-il if
-> > > >    the property has a negative value in the example because of the
-> > > >    internal representation of cells as unsigned integers:
-> > > > =
-
-> > > >       ti,deskew:0:0: 4294967293 is greater than the maximum of 2147=
-483647
-> > > =
-
-> > > I don't quite understand this. We cannot have negative numbers in dts=
- files? Or we can, but =
-
-> > > dt_binding_check doesn't handle them correctly? Or that int32 is not =
-supported in yaml bindings?
-> > > =
-
-> > > >    So I can think of two solutions to this:
-> > > > =
-
-> > > >    a) Keep the ti,deskew property as an uint32 and document the val=
-id
-> > > >    range ([-4, 3]) in the property description (this is what this p=
-atch
-> > > >    does currently).
-> > > > =
-
-> > > >    b) Redefine this property to be closer to the datasheet descript=
-ion
-> > > >    (ie. unsigned integers from 0 to 7) and adapt the driver accordi=
-ngly.
-> > > >    This would also let us define its range properly using minimum a=
-nd
-> > > >    maximum properties for it.
-> > > > =
-
-> > > >    I think (b) is the right thing to do but I want to know your
-> > > >    opinion. Besides, I don't have this hardware at hand and if I up=
-dated
-> > > >    the driver I wouldn't be able to test it.
-> > > =
-
-> > > I don't think anyone has used deskew property, so I guess changing it=
- is not out of the question.
-> > > =
-
-> > > Laurent, did you have a board that needs deskew when you added it to =
-tfp410?
-> > =
-
-> > I didn't if I remember correctly, I just mapped it to the hardware
-> > features. The hardware register indeed takes a value between 0 and 7,
-> > and that is mapped to [-4,3] x t(STEP). I don't mind either option.
-> > =
-
-> > -- =
-
-> > Regards,
-> > =
-
-> > Laurent Pinchart
-> =
-
-> I haven't found any examples of yaml bindings defining signed integer
-> properties such as this, what's the norm in this case? Do you agree with
-> any of the proposed solutions? Do you have a better suggestion?
-> =
-
-> Thanks,
-> Ricardo
+Ben.
+>
+>   -ilia
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
