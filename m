@@ -1,106 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8851CF581
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 15:19:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BC21CF593
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 15:22:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65FB86E917;
-	Tue, 12 May 2020 13:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489216E91C;
+	Tue, 12 May 2020 13:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B84C6E917
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 13:19:23 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200512131922euoutp0176e596eb61deaf1abd22b14167fa3103~OSm_-6mIT1481714817euoutp01t
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 13:19:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200512131922euoutp0176e596eb61deaf1abd22b14167fa3103~OSm_-6mIT1481714817euoutp01t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1589289562;
- bh=B/ciR2IpROe7ZVcb9QcrczNRLcFKZ9qwYAYyMFED23M=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=jn2uty/mX/bWxPPfLV248TzZvDItOv6iua5nMfJAI0icM5OvV60ItYHDx52eZyeUd
- uE0LnoigLMZlYgn/U0mgsOV5qC18TNVtcGURSG4Uz3RCDRC81jlTg5mpjebNPDVfXi
- HI+Rrh7GGmLapYd/WX6L/NB5JZHwcQaVlvy9Q/IA=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200512131921eucas1p18615f296ecd645f9f3ac1691776ceb10~OSm_iyyov0125301253eucas1p1Q;
- Tue, 12 May 2020 13:19:21 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 92.11.61286.952AABE5; Tue, 12
- May 2020 14:19:21 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200512131921eucas1p184bae0d7f1fada53e5360dd7e4619ea1~OSm_NY8b72876228762eucas1p1P;
- Tue, 12 May 2020 13:19:21 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200512131921eusmtrp2c9b40f9b50e1c7126477f67a29bba9b7~OSm_MuG1h0525705257eusmtrp2A;
- Tue, 12 May 2020 13:19:21 +0000 (GMT)
-X-AuditID: cbfec7f2-f0bff7000001ef66-29-5ebaa2595f43
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 44.2D.08375.952AABE5; Tue, 12
- May 2020 14:19:21 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200512131920eusmtip2d8cc7f17c653dac201ed916440f213ac~OSm9nZRz_2661726617eusmtip2b;
- Tue, 12 May 2020 13:19:20 +0000 (GMT)
-Subject: Re: [PATCH v4 01/38] dma-mapping: add generic helpers for mapping
- sgtable objects
-To: Christoph Hellwig <hch@lst.de>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <dc49c74d-d580-3659-9c93-f932b6d1124f@samsung.com>
-Date: Tue, 12 May 2020 15:19:20 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846FB6E91C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 13:22:17 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id z72so13651110wmc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 06:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+EnH0KWqC8dwxn54jn+UlKp1qHLV0xeQE4GDKe1+aoY=;
+ b=IJDgKyD+Re5mAyXKVTtPZ1TN5qOKdpTV7RbZnR/px2smOPqS0ugf6heO0YEMhT+HiG
+ 3MAKjlgol/bOVoZ+w6yilXS1oZZ2KxnTn8Iac6rHKCmLo7CURmM+uTWcfqWW4koArGgq
+ jR8ll0K8frGzlqj1D983L/SvQS3+Pqg+5B8x2TfkiBdzMqAK6hnxojELvyymv25iYTLc
+ 5hvETpasvRFGvya8oOzIZIhOTOK443TGz5C8/KGuA8Vo+HmGiVbHYBYbUUJ1T6YrGdE4
+ yuTlz7Fn444rAvfT9MLvjDPP5Z9HTGdlrsJ7dPWNuh50dzw+FC2t89xKd3vJ5sNNVKHX
+ 6ZCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+EnH0KWqC8dwxn54jn+UlKp1qHLV0xeQE4GDKe1+aoY=;
+ b=Wad/9DAmIH0jj61Jev4xFDmxoUjFZ7im/QbJt0/n9PNk4wIYPbtZicQ4CqXT9HNIqH
+ DaEktEKW0kBIkeqwOD5FJ44ZY38AQSfEv5UEbXsrvTEJMrLlNANnZVepCsqwdWvsGHSb
+ SijbooWNms0ha6me+Ap+46bjVylz1OBHDLxTBYLuv2u3pXd5XWIOekDil6+GM4TlSuzs
+ YavkXLJ8OAP776SGusg8+TPAjAEdfGSC4exBvIP//htbqO0rFF/VkkLcnQyLG/vsZF1b
+ 424d+ELSM8XKHcdlLGCz5HnmoA3sdJo6ncW9nEIL3hXOvZSMCcHlk619nlfAS5OJ3KGe
+ Q6zg==
+X-Gm-Message-State: AGi0PuZuXlS+IICv7g0WVeZHXurrjahZ1RRiAiaKG18uiAJXqOnnc4gY
+ DYWbL2eP61yoAC2+5aQ9v4LGCs02ymmu8pCXldYlcQ==
+X-Google-Smtp-Source: APiQypL3iC2BiMlySCWAPlOWSye+X6XQgW9Ch6hWxB3MXivgb0piU/pZBmM2hSQyuJuf+ck+m899TnaDa2SXCqR4+gY=
+X-Received: by 2002:a1c:1d41:: with SMTP id d62mr16930524wmd.79.1589289736063; 
+ Tue, 12 May 2020 06:22:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200512130936.GA24428@lst.de>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUgUYRjum9ljXFobV8UXy471SDOvLBjyoKWISQiCKNLSXHVQ0V1lV02F
- 8OpiTc0KskHzKswrz7TdUlGoTdY2USmzQMUjFETLg7LS3B0s/z3fc3zP+8JL4JJ+vj0Rq0xi
- VEp5vFQg4rW9+Wn0CK7QhXlrxrypPGMvRjUVNfCp9bZCnBpanhdQ1bWvMaqsy49aGhrHqOaJ
- D3xqUFcsoLoXJvnHRHTdozpEd6yU8ej2lTE+PZqrx+iWxxn057UJnL43XIXol58yBXR+aw2i
- F5t3nxGFiPyjmPjYFEblFRguiqnpnMEStXjqatcIlokGMA2yIIA8DPm/K/kaJCIk5FMEiwsF
- uEmQkEsImt7KOLy4IXx13wy05i3yOL4KgbYA48LzCH7k6wQmwZq8BH2vGs0f2ZBSmJp9h0wm
- nDRiwBYMmNMC0gc0cxpzQEwGQv+vaTPmkc5guN4tNGFbMhQMlS2I81hB78NJc9aCPAgVeZ1m
- P07ugfa5YpzDdjAyWWqeCMg5Icw0ZOHc2Cegr22Fz2FrmNW3Cjm8C9a1m4EcBOPGeiH3uI1g
- MLsIcS4/+GJc3agjNircoEHnxdEy0OknhSYaSEsYnrPihrCEu20PcI4Ww60bEs7tAqz+2b/a
- 7v4B/A6SsltWY7esw25Zh/3fW4Z4NciOSVYrohm1j5K54qmWK9TJymjPyARFM9q4M8Oa/vsL
- tDwQ0YNIAkm3i7dd1YVJ+PIUdZqiBwGBS23E12K1YRJxlDwtnVElXFYlxzPqHrST4EntxL4V
- M6ESMlqexMQxTCKj2lQxwsI+ExW6742cSVv2f+9RX2KgC09lXSiVjdY6KSMaq2eTOoLK2Ccl
- 2Tm0IHco6dDR+06Coro/funHnQNsXYdtZOzJXH3j1Lfym4WKj5WOjvv8y1McLBPkFqfP78iR
- OYTELdmd83NrsnW9GBvkmxE13lLjciR1Orw6Mjx5v5sN08yeDQh+LuWpY+Q+B3CVWv4XN2CJ
- sGMDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsVy+t/xe7qRi3bFGfxaLGXRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLlauPMlks2G9t8eXKQyaLTY+vsVpc3jWHzeLghyesDlwea+atYfTY+20B
- i8f2bw9YPe53H2fy2Lyk3uP2v8fMHpNvLGf02H2zgc2jb8sqRo/Pm+QCuKL0bIryS0tSFTLy
- i0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0Mlbte8lUsJO54tf+W0wN
- jJeYuhg5OSQETCS29H5m6WLk4hASWMoo8eLkfmaIhIzEyWkNrBC2sMSfa11sEEVvGSV+7z4B
- 1i0sECNxZs8GsAYRASWJp6/OMoIUMQtcYJK4sfMoM0THPiaJrXM3sIFUsQkYSnS97QKzeQXs
- JC78fgZmswioSpxuPcgOYosKxEqsvtbKCFEjKHFy5hMWEJtTQEdiUe8+sHpmATOJeZsfMkPY
- 8hLb386BssUlbj2ZzzSBUWgWkvZZSFpmIWmZhaRlASPLKkaR1NLi3PTcYkO94sTc4tK8dL3k
- /NxNjMAo3nbs5+YdjJc2Bh9iFOBgVOLhZajdFSfEmlhWXJl7iFGCg1lJhLclc2ecEG9KYmVV
- alF+fFFpTmrxIUZToOcmMkuJJucDE0xeSbyhqaG5haWhubG5sZmFkjhvh8DBGCGB9MSS1OzU
- 1ILUIpg+Jg5OqQbG/CdS6y0uK6U1OvnxXKk97nFaP3mDhE0B06cj7Fdt/y9Q4bz8VSpz1qOn
- 74us+K7u8WifouegVScxdeKqk44aK9kis1LEtItEN8x7fqs1yEm2YfHBzAuJE5VLr290evVi
- Vnr50bgj5ZyZ8f0mtTvVMxMzIw9tfybeOpvRl6exTMztiJXDvOlKLMUZiYZazEXFiQC/O/cU
- +AIAAA==
-X-CMS-MailID: 20200512131921eucas1p184bae0d7f1fada53e5360dd7e4619ea1
-X-Msg-Generator: CA
-X-RootMTR: 20200512090107eucas1p13a38ce5ce4c15cd0033acaea7b26c9b0
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200512090107eucas1p13a38ce5ce4c15cd0033acaea7b26c9b0
-References: <20200512085710.14688-1-m.szyprowski@samsung.com>
- <CGME20200512090107eucas1p13a38ce5ce4c15cd0033acaea7b26c9b0@eucas1p1.samsung.com>
- <20200512090058.14910-1-m.szyprowski@samsung.com>
- <20200512121808.GA20393@lst.de>
- <1a80255d-81de-2c5d-6d06-ea126fd7f994@samsung.com>
- <20200512130936.GA24428@lst.de>
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+ <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
+ <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
+ <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
+ <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
+ <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
+In-Reply-To: <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 12 May 2020 09:22:05 -0400
+Message-ID: <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: "Karoly Balogh (Charlie/SGR)" <charlie@scenergy.dfmk.hu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,34 +66,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Rui Salvaterra <rsalvaterra@gmail.com>,
+ "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
+On Tue, May 12, 2020 at 5:40 AM Karoly Balogh (Charlie/SGR)
+<charlie@scenergy.dfmk.hu> wrote:
+>
+> Hi,
+>
+> On Tue, 12 May 2020, Rui Salvaterra wrote:
+>
+> > > FWIW, on my last-generation PowerBook with RV350 (IIRC), there was a
+> > > big performance difference between AGP and PCI GART. The latter was
+> > > sort of usable for normal desktop operation, but not so much for
+> > > OpenGL apps (which were usable with AGP).
+> >
+> > I never really understood what were the issues with AGP on PowerPC
+> > (well, Apple, the only ones I've tested) machines. I mean, did OS X also
+> > disable AGP entirely, or did it have workarounds somewhere else on the
+> > stack nobody was able to figure out?
+>
+> I don't know about OS X, but I doubt there is a major/blocker hardware
+> issue, at least not one which affects every AGP machine.
+>
+> MorphOS' own Radeon driver uses the AGP facilities to some degree on all
+> AGP PowerPC Macs supported by that OS, which is from PMac AGP Graphics
+> (3,1) all the way up to the AGP G5 (7,3), including the various portables
+> and the Mac mini G4. For example it can utilize it to stream video data
+> directly from mainboard RAM, so you don't have to copy it with the CPU,
+> allowing reasonably good 720p h264 video playback on most systems above
+> the 1Ghz mark with the native MPlayer port. I'm sure the 3D part of the
+> driver also use it to some degree, given the performance improvement we
+> experienced when the AGP support was enabled (initially the system was
+> running without it), but to which extent I can't say.
 
-On 12.05.2020 15:09, Christoph Hellwig wrote:
-> On Tue, May 12, 2020 at 03:00:31PM +0200, Marek Szyprowski wrote:
->>> 	if (n <= 0)
->>> 		return -EINVAL;
->>> 	sgt->nents = n;
->>> 	return 0;
->>>
->> Indeed this version looks much better. I will resend it in a few minutes.
-> I could also just fix it up when applying the patch.
-Fine for me.
+The problem is AGP doesn't support CPU cache snooping.  Technically
+PCI must support coherent device access to system memory.  Unsnooped
+access is an optional feature and some platforms may not support it at
+all.  Unfortunately, AGP required unsnooped access.  x8t generally
+provides a way to do this, but other platforms, not so much.  I don't
+recall to what extent PowerPC supported this.  The Linux DMA API
+doesn't really have a way to get uncached memory for DMA so there is
+that too.  Windows and Mac may provide a way to do this depending on
+the platforms.  What probably should have been done on AGP boards was
+to use both the AGP GART and the device GART.  The former for uncached
+memory (if the platform supported it) and the latter for cached
+memory.  That never happened.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Alex
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
