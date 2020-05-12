@@ -1,55 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5101CF285
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 12:33:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 369021D0BA3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60946E897;
-	Tue, 12 May 2020 10:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE566E9CE;
+	Wed, 13 May 2020 09:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2B66E897
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:33:20 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id a5so7525427vsm.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 03:33:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tUlWQGWHJ+63U8ogE+txYPGgS/ppSz8pxJUGE/zc/f8=;
- b=Eh/FVVc9TZFg77xrLgCov2gSBuA+1bibEAlOMScM9jx8ZCnd5uHohpIL4lxBwOQPiS
- 4r9LeV155vrbFWFHXHLE44fAK2RJUG9aMKkaXnmebkGH+kfrI3AfIq328+0BaW8KpIEP
- oOEeyIw4v9O35Qt9svVXOf/dLU8VicnLA9fS7ENiGDgZVd93js+/XSLu6zfrKk/DfERe
- ATQugNkRHyTKUtQAj46HDabNqqpupg7ePBAK/hKqEE2q+FAG2mmDyBR5LHxqv0cXzP03
- j3peHIPttmbybzUMysN2UqiEEPd8p5P3j5mhoKdk5UgRi69G5R438pAb00xru8a2jSbG
- Hh9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tUlWQGWHJ+63U8ogE+txYPGgS/ppSz8pxJUGE/zc/f8=;
- b=dpDqPj556UzSQ2oNLcFp0KUlWQ+LdzCFSiNAm1rS72z7LAJCd8P5rSJhV/wmafLfUC
- J1l+rqvqQHe5cQe29qtsHATDax5jd5Lg8EAOjCwX2HZ4KGMvX5qCUaefCQR7ECVDm8OY
- SeckgRs5NKru5EnJD8P8FAlnRM//PLrhYPooJGaGn0lH2UXIGITTtgPoHtEKmesGTEN4
- mpRfxOVKbxXayt4E9yZX21wwEmYBpJnb0F3aek1PjyOjcArH2wBpeBg1y7tQRTja9XC0
- dv/tkJutdKirCGm/9yoRk1hwxoOYj/wrO17vg4nstac6O7KeEDn4oR0Q9L2pcyu8Ia5C
- sPhg==
-X-Gm-Message-State: AGi0PuYz7VXCjt8H0HeiYraPukDiqDdooJy5sDpXwgRU+0tIahmhirDp
- 2EqKSWx7lEAIlKrvwCFQi/IFPVm4dnu5ZvQjmhw=
-X-Google-Smtp-Source: APiQypIifXjXp/xQQ6PlB/MkawHXUyc2nuVqY9oPSJNRHB/AXUAHeb2KttZdjwRAu6WBYn4Weho8vK5jJ6mnJgbV11g=
-X-Received: by 2002:a67:b91a:: with SMTP id q26mr15612382vsn.118.1589279599693; 
- Tue, 12 May 2020 03:33:19 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C419889C68
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 11:11:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C9E0930E;
+ Tue, 12 May 2020 04:11:18 -0700 (PDT)
+Received: from [10.37.12.83] (unknown [10.37.12.83])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB2703F71E;
+ Tue, 12 May 2020 04:11:08 -0700 (PDT)
+Subject: Re: [PATCH v7 03/15] PM / EM: update callback structure and add
+ device pointer
+To: Quentin Perret <qperret@google.com>
+References: <20200511111912.3001-1-lukasz.luba@arm.com>
+ <20200511111912.3001-4-lukasz.luba@arm.com>
+ <20200511115722.GA13741@google.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <a2c20b82-58e3-a2ef-2d8d-edbaf05277ec@arm.com>
+Date: Tue, 12 May 2020 12:11:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200512084258.12673-1-tzimmermann@suse.de>
- <20200512084258.12673-16-tzimmermann@suse.de>
-In-Reply-To: <20200512084258.12673-16-tzimmermann@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 12 May 2020 11:30:41 +0100
-Message-ID: <CACvgo50wj8WGC2H4bb1mMsUDMS2MFXvS23FSvSba-swB5SHyXA@mail.gmail.com>
-Subject: Re: [PATCH v2 15/15] drm/mgag200: Replace VRAM helpers with SHMEM
- helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20200511115722.GA13741@google.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +45,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, sboyd@kernel.org, rdunlap@infradead.org,
+ rjw@rjwysocki.net, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 May 2020 at 09:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> The VRAM helpers managed the framebuffer memory for mgag200. This came
-> with several problems, as some MGA device require the scanout address
-> to be located at VRAM offset 0. It's incompatible with the page-flip
-> semantics of DRM's atomic modesettting. With atomic modesetting, old and
-> new framebuffers have to be located in VRAM at the same time. So at least
-> one of them has to reside at a non-0 offset.
->
-> This patch replaces VRAM helpers with SHMEM helpers. GEM SHMEM buffers
-> reside in system memory, and are shadow-copied into VRAM during page
-> flips. The shadow copy always starts at VRAM offset 0.
->
-I suspect MGAG200_FLAG_HW_BUG_NO_STARTADD is left around for
-documentation purposes?
+Hi Quentin,
 
-I've made a few small comments, but regardless the series is:
-Acked-by: Emil Velikov <emil.velikov@collabora.com>
+On 5/11/20 12:57 PM, Quentin Perret wrote:
+> On Monday 11 May 2020 at 12:19:00 (+0100), Lukasz Luba wrote:
+>> diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+>> index 61623e2ff149..11ee24e06d12 100644
+>> --- a/drivers/cpufreq/scmi-cpufreq.c
+>> +++ b/drivers/cpufreq/scmi-cpufreq.c
+>> @@ -103,17 +103,12 @@ scmi_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
+>>   }
+>>   
+>>   static int __maybe_unused
+>> -scmi_get_cpu_power(unsigned long *power, unsigned long *KHz, int cpu)
+>> +scmi_get_cpu_power(unsigned long *power, unsigned long *KHz,
+>> +		   struct device *cpu_dev)
+>>   {
+>> -	struct device *cpu_dev = get_cpu_device(cpu);
+>>   	unsigned long Hz;
+>>   	int ret, domain;
+>>   
+>> -	if (!cpu_dev) {
+>> -		pr_err("failed to get cpu%d device\n", cpu);
+>> -		return -ENODEV;
+>> -	}
+>> -
+>>   	domain = handle->perf_ops->device_domain_id(cpu_dev);
+>>   	if (domain < 0)
+>>   		return domain;
+>> @@ -200,7 +195,7 @@ static int scmi_cpufreq_init(struct cpufreq_policy *policy)
+>>   
+>>   	policy->fast_switch_possible = true;
+>>   
+>> -	em_register_perf_domain(policy->cpus, nr_opp, &em_cb);
+> 
+> So this one has no users after this patch right? I suppose you could
+> squash patch 05 in this one. But no big deal.
 
--Emil
+Yes, it was tricky to me to decide the splits suggested by Daniel and
+this is the example. I had to introduce the em_dev_register_perf_domain
+and make clients of it before I remove the old em_register_perf_domain
+completely. I agree it could also go with the patch 5, but it does not
+harm to be here.
+
+> 
+> Acked-by: Quentin Perret <qperret@google.com>
+
+Thank you for this ACKs and the earlier.
+
+Regards,
+Lukasz
+
+> 
+>> +	em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, policy->cpus);
+>>   
+>>   	return 0;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
