@@ -2,90 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307B41CF119
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 11:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0280D1CF11F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 11:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4BF6E04B;
-	Tue, 12 May 2020 09:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DDB36E09E;
+	Tue, 12 May 2020 09:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690059.outbound.protection.outlook.com [40.107.69.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB356E04B;
- Tue, 12 May 2020 09:08:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UYCRdzFVRtopzBVZVZqUjbsclpe/LSbOHopm4OS9gLz2YxdpSQsz57I69Rce1m/lRIsxH3I9dnKz55vpsYSI0FkZq+KKRHOPP7tgyBo8rIvJKv8Ry2HFbrfhsgsePAZrMDXwgdDTsJUpCV6Oq4IJ4ztnpvx4Vo30+d8UeVN9yoT+BvCRproI+xlv7s24mN5uhunDGuJUn9j2WrPLQn60IUbv7tcgsSa6rhwAGQnVLdQGyVWYfn/921gMBn1lZklUm5gFWVQ6YtybnhjM7fo+aHGPQdA7Q51/sGdSaJswgweeYfMgjnQGkCCNE98Ax4l1eJx7PMfqhqp1XwhVhMYk+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vRJzBspbsqWqd8tmxDuoxdpfF3o2o2eW7g/oHWMwmB0=;
- b=YV/eJVcY+Y8udUJsATIi0oLC+uW9C1DK8eVX8sTjW3E6KZ5ITw0wQilbXIXKOfWIZRMg6A1+uCpzcaGf6u6e1RfTid6cKyfumXUQxATp/1eAQWAmfivqb6BVUOR5I+Qrzq4bDJLk326ojH30B6fZBCy/Gz4sn51/zWdnDdjNvnZuHVL3/T3MhWZW382NTWoODkazPT99z6AnAEFrnJ5KAiUrpsR2EKqmZeUg/WOkFsoNgYfj6p/jd6mEXEZksSuFI2HAbvIztdRWKhNMddAk+0h5d4rWeCiE+rK1IQzBsJff4gnvpNek6DdJHte8CTwEYWIPVeTch8GODZXgYAB/uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vRJzBspbsqWqd8tmxDuoxdpfF3o2o2eW7g/oHWMwmB0=;
- b=Rpfj5jY2LqWL1Ng7UA9NxNt6pEb55tFXCVeRb8zq2f0WKzUM4d3BfJy04ERkNDWdfD0mZVE5lBQZz52Te1Ahp4iD/e5O1VGgbobDmA4SstdC6pe5Gv54LXi4Hi7LWpCxTkDpNvccc2gVhscybFbmJJWXG1EDpHwORbnH24cIkyM=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB3819.namprd12.prod.outlook.com (2603:10b6:5:1c6::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
- 2020 09:08:29 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 09:08:29 +0000
-Subject: Re: [RFC 01/17] dma-fence: add might_sleep annotation to _wait()
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7986E09E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 09:08:51 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id k12so20833532wmj.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 02:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=jzP01IXQ5eGzmClfzRrzEt9a5pXaL37GUGmE/8HDFqg=;
+ b=ZpO+oii6BJ0922ZWi/doBJJdNU8MgvEFRJGPPrgqvjItQyjxIAEt6nldriLjMMSi6E
+ cbddUHWC+jMAlDoWDHnFidnZzW7kAgZtRQn4SlOFf8XMusi/It2bVulVLr2VvFLt+29A
+ b6wKDwd90FXsjiUfeuJIVZ2kW6M1QNATTTUqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=jzP01IXQ5eGzmClfzRrzEt9a5pXaL37GUGmE/8HDFqg=;
+ b=uaml9mmSI/IZoUU90jaX+pAV9dUYTwuFBdw+MbxVNJB9m/PYvWgWMY+a5Wzrcngwta
+ WJSLqu3ZI/1LoLNJ5jXSO9ULRx/0SBWtBzTkdo3ambzYr9Mph9Ccg1MUpqNHngrQBRCE
+ u9EeXkOZHDGnFLqcEUoOZoRA7937BIFpG815IZDjwOywu+WPaW6we7H8VMxX+osTsgyn
+ RQn8ixuaSqie1E5BbV6NLhRxyJDPLNPPujqbwrcJUPST83eL+322LhL80wBrdSERNC1A
+ fcZHBkcoWpnwuoFzQ00GHn5w3qY0mtktDkaMDqqyBp0WlX5atnas1i4CdMZit0PkUqUB
+ h1Hg==
+X-Gm-Message-State: AGi0PuascBdU+JXE8lqakyYkC5CZsgohqmDRHglTs6sYXbtHN4+zXrwf
+ kbHI2tCYQi2detBdg7Y4nLSkkQ==
+X-Google-Smtp-Source: APiQypIhpsRgAW4Qev4lJv2wjqsih/+HjYzRewf0be+k5nEHYH6mVDG9QApT/mcRCdYD95LJWrPJxQ==
+X-Received: by 2002:a1c:b604:: with SMTP id g4mr12839616wmf.103.1589274530333; 
+ Tue, 12 May 2020 02:08:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z1sm30605053wmf.15.2020.05.12.02.08.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 02:08:49 -0700 (PDT)
+Date: Tue, 12 May 2020 11:08:47 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+Message-ID: <20200512090847.GF206103@phenom.ffwll.local>
+Mail-Followup-To: Chris Wilson <chris@chris-wilson.co.uk>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-2-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <0b1c65ec-adc2-9f02-da68-c398cf7ce80b@amd.com>
-Date: Tue, 12 May 2020 11:08:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200512085944.222637-2-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-X-ClientProxiedBy: FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::12) To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+ <158927426244.15653.14406159524439944950@build.alporthouse.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- FR2P281CA0025.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.27 via Frontend Transport; Tue, 12 May 2020 09:08:27 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 1704ee46-473a-47b4-b2ad-08d7f654096e
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3819:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB38198441851821F3C5B60FC283BE0@DM6PR12MB3819.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 81/+AqtiigMWRAnCIpd6dteXZpI7YoI7Ke0pbxm1T6qBeMbO+/7RfckJSVJOtJ4EgNUvUjraeNQyawECIkZHS8EgFV0UNvscfN/hjx7alry8Z1fb+tKJh1TmlUetgwwUPfszgY96ccbGDiRJiY0PhfAYcmCZjA6hCf1JUfQZV4EbO3k/s7JAMW6j3/8wDOwtUqC3DsJxAEZhBK/kJmXSlGvUmtODVzfoFQgwZWvcMmU9NbSu591YqKqToR25aXVvWC8Gkwiis8jDjtbKfx8ST4NFhX4Uu56tfqHVSjGaU8p4ILWbK5Jttg09T0TWm75cmkkao2fke8weQJxCxq3qY2FEwRQhhmHpJkEKg/cVbA8T+rSzG8swLFkpXt1BHt4M/QvSYfbk1nNSFTVZOvC5nGd+l2yvY4wYhWOQYjKGssfAqTC3pPeMGGtpO40lzLHvWydCfHuXN2jcmGSV0cXt1meN5ptRISR4+GnvcP4cmiZFUN2ys7Qemw7WsPdm10TVi03s14xBPwrsvLrWj8F42BoRSDliA1r5jqdbsr7i/WJvBuyISRw0/hJkj4nd3Psu
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(33430700001)(186003)(2616005)(8936002)(16526019)(52116002)(31696002)(6666004)(31686004)(7416002)(36756003)(5660300002)(6486002)(8676002)(33440700001)(2906002)(66556008)(4326008)(66476007)(316002)(66946007)(110136005)(478600001)(86362001)(54906003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: q1VqxBPinRKuXQgNIE269b5tRj/s59Ll8LnM+XOhHo8x8oyvjRogl+zzEns6GTz52it/Q/6IdJ2WEidVPWaomP46Ker1fjZk1vGG4jm574sotEi86jVVjUN2RfYPI6lAi4GcLOI+kdQdF4HwSfF6aL3oja8kzmP42+xiBvCbfRZJeuR1VrvCzrSD1iJIsrneuQu2H8BLDTVKWYTnlxQQLdVpOeOzgd73TLR/Gf+KNEJ1cxtl1x9rZX9MudvP1NgjOLDXxl34Tvot5XVhBFL5xKsmYDDLY4cZKraQ645cQmoFDXfO47cKTKXGKtFWqf6Tt4cq4BbLhiBe5sJY1IGzyIgpv7nc2d6kyAxI505Vran1DlqFbpXPl6BwJOw1qpmudzP4yMZ5NWjs9/eDeuh5D991v9X/t6N+4T8hU5LUL8Deyd06V+dRONShG2/VgJZIWwb0su1E2/orP6Rbj/yMHqpyDm0kGK1PCdsMZBKIHAydY93zbEtpzkuAJC+coYYyiSd6UxlVcgPLrmo41xkayu46Xw5T7PfWc1o0OnYEfyuzwe8TGo3cJVUDWFGJmqCJ
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1704ee46-473a-47b4-b2ad-08d7f654096e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 09:08:29.3474 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gn19H5yIa8/K0WXEQ4q0cW5Kf4/ytJd2Af+H83RS7dznJbeO2pi2ru9ADmAoetGH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3819
+Content-Disposition: inline
+In-Reply-To: <158927426244.15653.14406159524439944950@build.alporthouse.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,44 +75,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTIuMDUuMjAgdW0gMTA6NTkgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IEJ1dCBvbmx5IGZv
-ciBub24temVybyB0aW1lb3V0LCB0byBhdm9pZCBmYWxzZSBwb3NpdGl2ZXMuCj4KPiBPbmUgcXVl
-c3Rpb24gaGVyZSBpcyB3aGV0aGVyIHRoZSBtaWdodF9zbGVlcCBzaG91bGQgYmUgdW5jb25kaXRp
-b25hbCwKPiBvciBvbmx5IGZvciByZWFsIHRpbWVvdXRzLiBJJ20gbm90IHN1cmUsIHNvIHdlbnQg
-d2l0aCB0aGUgbW9yZQo+IGRlZmVuc2l2ZSBvcHRpb24uIEJ1dCBpbiB0aGUgaW50ZXJlc3Qgb2Yg
-bG9ja2luZyBkb3duIHRoZSBjcm9zcy1kcml2ZXIKPiBkbWFfZmVuY2UgcnVsZXMgd2UgbWlnaHQg
-d2FudCB0byBiZSBtb3JlIGFnZ3Jlc3NpdmUuCj4KPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJu
-ZWwub3JnCj4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IENjOiBsaW51eC1y
-ZG1hQHZnZXIua2VybmVsLm9yZwo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IENjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IENocmlzIFdpbHNvbiA8
-Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRl
-bi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJp
-c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsLnZldHRlckBpbnRlbC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
-LmMgfCAzICsrKwo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-ZmVuY2UuYwo+IGluZGV4IDA1MmE0MWUyNDUxYy4uNjgwMjEyNTM0OWZiIDEwMDY0NAo+IC0tLSBh
-L2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYwo+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-ZmVuY2UuYwo+IEBAIC0yMDgsNiArMjA4LDkgQEAgZG1hX2ZlbmNlX3dhaXRfdGltZW91dChzdHJ1
-Y3QgZG1hX2ZlbmNlICpmZW5jZSwgYm9vbCBpbnRyLCBzaWduZWQgbG9uZyB0aW1lb3V0KQo+ICAg
-CWlmIChXQVJOX09OKHRpbWVvdXQgPCAwKSkKPiAgIAkJcmV0dXJuIC1FSU5WQUw7Cj4gICAKPiAr
-CWlmICh0aW1lb3V0ID4gMCkKPiArCQltaWdodF9zbGVlcCgpOwo+ICsKCkkgd291bGQgcmF0aGVy
-IGxpa2UgdG8gc2VlIG1pZ2h0X3NsZWVwKCkgY2FsbGVkIGhlcmUgYWxsIHRoZSB0aW1lIGV2ZW4g
-CndpdGggdGltZW91dD09MC4KCklJUkMgSSByZW1vdmVkIHRoZSBjb2RlIGluIFRUTSBhYnVzaW5n
-IHRoaXMgaW4gYXRvbWljIGNvbnRleHQgcXVpdGUgYSAKd2hpbGUgYWdvLCBidXQgY291bGQgYmUg
-dGhhdCBzb21lIGxlYWtlZCBpbiBhZ2FpbiBvciBpdCBpcyBjYWxsZWQgaW4gCmF0b21pYyBjb250
-ZXh0IGVsc2V3aGVyZSBhcyB3ZWxsLgoKQ2hyaXN0aWFuLgoKPiAgIAl0cmFjZV9kbWFfZmVuY2Vf
-d2FpdF9zdGFydChmZW5jZSk7Cj4gICAJaWYgKGZlbmNlLT5vcHMtPndhaXQpCj4gICAJCXJldCA9
-IGZlbmNlLT5vcHMtPndhaXQoZmVuY2UsIGludHIsIHRpbWVvdXQpOwoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Tue, May 12, 2020 at 10:04:22AM +0100, Chris Wilson wrote:
+> Quoting Daniel Vetter (2020-05-12 09:59:29)
+> > Design is similar to the lockdep annotations for workers, but with
+> > some twists:
+> > =
+
+> > - We use a read-lock for the execution/worker/completion side, so that
+> >   this explicit annotation can be more liberally sprinkled around.
+> >   With read locks lockdep isn't going to complain if the read-side
+> >   isn't nested the same way under all circumstances, so ABBA deadlocks
+> >   are ok. Which they are, since this is an annotation only.
+> > =
+
+> > - We're using non-recursive lockdep read lock mode, since in recursive
+> >   read lock mode lockdep does not catch read side hazards. And we
+> >   _very_ much want read side hazards to be caught. For full details of
+> >   this limitation see
+> > =
+
+> >   commit e91498589746065e3ae95d9a00b068e525eec34f
+> >   Author: Peter Zijlstra <peterz@infradead.org>
+> >   Date:   Wed Aug 23 13:13:11 2017 +0200
+> > =
+
+> >       locking/lockdep/selftests: Add mixed read-write ABBA tests
+> > =
+
+> > - To allow nesting of the read-side explicit annotations we explicitly
+> >   keep track of the nesting. lock_is_held() allows us to do that.
+> > =
+
+> > - The wait-side annotation is a write lock, and entirely done within
+> >   dma_fence_wait() for everyone by default.
+> > =
+
+> > - To be able to freely annotate helper functions I want to make it ok
+> >   to call dma_fence_begin/end_signalling from soft/hardirq context.
+> >   First attempt was using the hardirq locking context for the write
+> >   side in lockdep, but this forces all normal spinlocks nested within
+> >   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+> > =
+
+> >   The approach now is to simple check in_atomic(), and for these cases
+> >   entirely rely on the might_sleep() check in dma_fence_wait(). That
+> >   will catch any wrong nesting against spinlocks from soft/hardirq
+> >   contexts.
+> > =
+
+> > The idea here is that every code path that's critical for eventually
+> > signalling a dma_fence should be annotated with
+> > dma_fence_begin/end_signalling. The annotation ideally starts right
+> > after a dma_fence is published (added to a dma_resv, exposed as a
+> > sync_file fd, attached to a drm_syncobj fd, or anything else that
+> > makes the dma_fence visible to other kernel threads), up to and
+> > including the dma_fence_wait(). Examples are irq handlers, the
+> > scheduler rt threads, the tail of execbuf (after the corresponding
+> > fences are visible), any workers that end up signalling dma_fences and
+> > really anything else. Not annotated should be code paths that only
+> > complete fences opportunistically as the gpu progresses, like e.g.
+> > shrinker/eviction code.
+> > =
+
+> > The main class of deadlocks this is supposed to catch are:
+> > =
+
+> > Thread A:
+> > =
+
+> >         mutex_lock(A);
+> >         mutex_unlock(A);
+> > =
+
+> >         dma_fence_signal();
+> > =
+
+> > Thread B:
+> > =
+
+> >         mutex_lock(A);
+> >         dma_fence_wait();
+> >         mutex_unlock(A);
+> > =
+
+> > Thread B is blocked on A signalling the fence, but A never gets around
+> > to that because it cannot acquire the lock A.
+> > =
+
+> > Note that dma_fence_wait() is allowed to be nested within
+> > dma_fence_begin/end_signalling sections. To allow this to happen the
+> > read lock needs to be upgraded to a write lock, which means that any
+> > other lock is acquired between the dma_fence_begin_signalling() call and
+> > the call to dma_fence_wait(), and still held, this will result in an
+> > immediate lockdep complaint. The only other option would be to not
+> > annotate such calls, defeating the point. Therefore these annotations
+> > cannot be sprinkled over the code entirely mindless to avoid false
+> > positives.
+> > =
+
+> > v2: handle soft/hardirq ctx better against write side and dont forget
+> > EXPORT_SYMBOL, drivers can't use this otherwise.
+> > =
+
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Christian K=F6nig <christian.koenig@amd.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++++++
+> >  include/linux/dma-fence.h   | 12 +++++++++
+> >  2 files changed, 65 insertions(+)
+> > =
+
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index 6802125349fb..d5c0fd2efc70 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
+> >  }
+> >  EXPORT_SYMBOL(dma_fence_context_alloc);
+> >  =
+
+> > +#ifdef CONFIG_LOCKDEP
+> > +struct lockdep_map     dma_fence_lockdep_map =3D {
+> > +       .name =3D "dma_fence_map"
+> > +};
+> =
+
+> Not another false global sharing lockmap.
+
+It's a global contract, it needs a global lockdep map. And yes a big
+reason for the motivation here is that i915-gem has a tremendous urge to
+just redefine all these global locks to fit to some local interpretation
+of what's going on.
+
+That doesn't make the resulting real&existing deadlocks go away.
+-Daniel
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
