@@ -2,58 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D1C1D0046
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 23:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A4E1D00E1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 23:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 306A36E9A1;
-	Tue, 12 May 2020 21:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7064B6E9BA;
+	Tue, 12 May 2020 21:30:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD906E99F;
- Tue, 12 May 2020 21:12:16 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g12so25518410wmh.3;
- Tue, 12 May 2020 14:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pLYCwLh/bjz54dBFKDYpXCCsMiFh7ugi78OcIyHdNMo=;
- b=lP/38E2f7hDc/lcxiazNY6iOfcDVgebacbmnahr0DCK5dsdqaRqI7ViKSsAxtsr3IU
- gqsGzO53JcgScCh5yusADIV5OlGOksYyB54R4PkzyiIUSMk6g5qNKQU2d4W+VFEUIrbr
- ZuUzhaV6bteInDfQGcADBl3vIo8S0gB6j36lyxSm4Z8cLl8dxnKuVTN/e29d2fAsIxoM
- TjnbrWaf/+kSawLGrhoEeTa7SWTH7RMLrv0YuPkwvckQ8R46/+UkAIt5UXY8HlYTeVtO
- m7mysjqQpc6A7nbcppFhFFLeVYYLd1n22KYUhBJxaWZaY8Q7aqGBKc1yCiwuF0wVcHvy
- aF6g==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5046E9BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 21:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589319019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s2GcklFKStNYTB0X3tq/jy/sL1G7okN2msxZqoCO4u0=;
+ b=FrJyQ8ULSgUqTnPKG3deWd7k2iJaRkgIxO8HGVyl8og4NcYphfnEEtQdA7A5Q2ZKEfgjBW
+ A0QDq2Yt2rRSHe587FI+R8Vt+Dq16sy7ks970Npd30CqN0FSlo3ijYbPNA0xk0z6ONzXeM
+ ppdITWzm+a/nd80Am5YKd3iNGp/0B8g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-Cd5wxUx4No2BT0i7g81G9Q-1; Tue, 12 May 2020 17:30:18 -0400
+X-MC-Unique: Cd5wxUx4No2BT0i7g81G9Q-1
+Received: by mail-wm1-f69.google.com with SMTP id 23so2398195wma.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 14:30:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pLYCwLh/bjz54dBFKDYpXCCsMiFh7ugi78OcIyHdNMo=;
- b=NH9YmICzZaro3YuTi2Isk4sATOqsSmQwzN/GDF0IUvrDsGTS0SaDsPdXvtvSw7Ay99
- cQwx0seGT+F8sOZkT0u9pNn/W6RRiKg1+F5CNeQwFuNNGcg1fg0Ck1rhO+5i4ukcQFHM
- h7mVW6C8aAcJCikNv4ILiuZlNR7ewtNXWtARUXGJ9/wwiDIb0y574zcCbYzOaXMzclfC
- poynGc5gFpBFG3E2RJg69k+cnhedolZQTqh5JZ5lJ5+9HCajOZ+u7fqR5fCFkO9BvZy9
- uxDcoZvg/2d5X7SaHTLz/teLJNAa44hmE3qS6v4XwR0Aa1PaCsosyAp0QHATRSV8gpMq
- rSGQ==
-X-Gm-Message-State: AGi0PuYgiDv7tvehw/BtlefD16APaguL8HM0Z/c6tCb8goptEdk8DW4O
- rrw2PGPWgp6hqhAFlS6DDhI33jWigxyidILtf8k=
-X-Google-Smtp-Source: APiQypL9vXFi7J6y9Ng/AqiS1iiuyIhSOzR1EI1V1+5nFZTZ3zrvoaPI1hMmjODwUWYfaHsoapPr3RkyX0QpzCbXwTM=
-X-Received: by 2002:a1c:1d41:: with SMTP id d62mr18919174wmd.79.1589317935386; 
- Tue, 12 May 2020 14:12:15 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s2GcklFKStNYTB0X3tq/jy/sL1G7okN2msxZqoCO4u0=;
+ b=KcQbCHeONAlPb7j/jd3xK5+Gh6I0c1JdSbSjatd0QvOwVBr5jDEFBXyUc5MDTOrY8T
+ KZrP3685L7RECau/XatZcWj3J7RbmxSv02BAwuDdOQAnGJt2MVbbZstaMVLrcjya7/iv
+ ijMLgFq99GPVlpncBNxMLanGm+muAEMR7ofDvy6oxXTpxSfH7rRZ3tIfBORquiFdeHcr
+ VDpeiltwAHCU+txGkLf/py0/evqJovo8N7oJt+99QLMpV6Ddm3cE7lphpiRAekqoN8av
+ t2iA7f2AM90o7Rhr+0NCEMVH3B3qs8WEZgXITiXBGHJV2z8gNHXFbJt47YujxzHfxEZa
+ 9z1A==
+X-Gm-Message-State: AGi0PuYWT43NPXJBUf5Wv308RZ7ht2l3jZTV5GfgCo5gydtWicHJRhfL
+ IMmo5eWYXtP5pze66Db8pZdjEfNwK0en65+nTSSUKU4wBtcO16nFHn2q+5rWdRJb7YvzRTGB5Fu
+ ivi8zNgHxVXlJCtybaPEp5pEuw2vy
+X-Received: by 2002:a5d:60c3:: with SMTP id x3mr8682408wrt.48.1589319016607;
+ Tue, 12 May 2020 14:30:16 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ11CRh/xnXuRW3jzZDJPEBLeEiUKTkxZ3lF0eMQZJ2bg+h27QkAWTuUl4Nu8Ck1j+hXCtlug==
+X-Received: by 2002:a5d:60c3:: with SMTP id x3mr8682387wrt.48.1589319016356;
+ Tue, 12 May 2020 14:30:16 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id v205sm15684600wmg.11.2020.05.12.14.30.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 May 2020 14:30:15 -0700 (PDT)
+Subject: Re: [RFC v2] drm/connector: Add support for privacy-screen properties
+ (v2)
+To: Mario.Limonciello@dell.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, daniel@ffwll.ch, airlied@linux.ie,
+ rajatja@google.com, jani.nikula@linux.intel.com
+References: <20200511174724.21512-1-hdegoede@redhat.com>
+ <20200511174724.21512-2-hdegoede@redhat.com>
+ <64cb58c2e5254b4c8f539cecd6953090@AUSX13MPC105.AMER.DELL.COM>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <36769872-16ac-4eb4-e383-11b175874ea2@redhat.com>
+Date: Tue, 12 May 2020 23:30:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200511171722.96576-1-christian.koenig@amd.com>
- <20200511171722.96576-2-christian.koenig@amd.com>
- <CADnq5_MyO_L+1w69qDLzhg34W6Qer-uSRR2tb7-2uXLC_6PXSg@mail.gmail.com>
- <ba0b1ab7-3078-a6f2-41cd-326ca21ee99f@daenzer.net>
- <CADnq5_MdbJUXs7wbG=HCOKj4Vp_NmLkcJng=EXynSXPe9gsyOQ@mail.gmail.com>
- <777c08d1-3ac3-16ca-0222-e2d62c281e50@spliet.org>
-In-Reply-To: <777c08d1-3ac3-16ca-0222-e2d62c281e50@spliet.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 12 May 2020 17:12:04 -0400
-Message-ID: <CADnq5_NK6ziShvkDug5xGHm7oZTf9qEu41gOxvNANQHFD2a-qQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH 1/3] drm/radeon: remove AGP support
-To: Roy Spliet <nouveau@spliet.org>
+In-Reply-To: <64cb58c2e5254b4c8f539cecd6953090@AUSX13MPC105.AMER.DELL.COM>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +85,324 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, Sonny.Quintanilla@dell.com,
+ jaredz@redhat.com, mpearson@lenovo.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMTIsIDIwMjAgYXQgNDo1MiBQTSBSb3kgU3BsaWV0IDxub3V2ZWF1QHNwbGll
-dC5vcmc+IHdyb3RlOgo+Cj4gT3AgMTItMDUtMjAyMCBvbSAxNDozNiBzY2hyZWVmIEFsZXggRGV1
-Y2hlcjoKPiA+IE9uIFR1ZSwgTWF5IDEyLCAyMDIwIGF0IDQ6MTYgQU0gTWljaGVsIETDpG56ZXIg
-PG1pY2hlbEBkYWVuemVyLm5ldD4gd3JvdGU6Cj4gPj4KPiA+PiBPbiAyMDIwLTA1LTExIDEwOjEy
-IHAubS4sIEFsZXggRGV1Y2hlciB3cm90ZToKPiA+Pj4gT24gTW9uLCBNYXkgMTEsIDIwMjAgYXQg
-MToxNyBQTSBDaHJpc3RpYW4gS8O2bmlnCj4gPj4+IDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdt
-YWlsLmNvbT4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4gQUdQIGlzIGRlcHJlY2F0ZWQgZm9yIDEwKyB5
-ZWFycyBub3cgYW5kIG5vdCB1c2VkIGFueSBtb3JlIG9uIG1vZGVybiBoYXJkd2FyZS4KPiA+Pj4+
-Cj4gPj4+PiBPbGQgaGFyZHdhcmUgc2hvdWxkIGNvbnRpbnVlIHRvIHdvcmsgaW4gUENJIG1vZGUu
-Cj4gPj4+Cj4gPj4+IE1pZ2h0IHdhbnQgdG8gY2xhcmlmeSB0aGF0IHRoZXJlIGlzIG5vIGxvc3Mg
-b2YgZnVuY3Rpb25hbGl0eSBoZXJlLgo+ID4+PiBTb21ldGhpbmcgbGlrZToKPiA+Pj4KPiA+Pj4g
-IlRoZXJlIGlzIG5vIGxvc3Mgb2YgZnVuY3Rpb25hbGl0eSBoZXJlLiAgR1BVcyB3aWxsIGNvbnRp
-bnVlIHRvCj4gPj4+IGZ1bmN0aW9uLiAgVGhpcyBqdXN0IGRyb3BzIHRoZSB1c2Ugb2YgdGhlIEFH
-UCBNTVUgaW4gdGhlIGNoaXBzZXQgaW4KPiA+Pj4gZmF2b3Igb2YgdGhlIE1NVSBvbiB0aGUgZGV2
-aWNlIHdoaWNoIGhhcyBwcm92ZW4gdG8gYmUgbXVjaCBtb3JlCj4gPj4+IHJlbGlhYmxlLiAgRHVl
-IHRvIGl0cyB1bnJlbGlhYmlsaXR5LCBBR1Agc3VwcG9ydCBoYXMgYmVlbiBkaXNhYmxlZCBvbgo+
-ID4+PiBQb3dlclBDIGZvciB5ZWFycyBhbHJlYWR5IHNvIHRoZXJlIGlzIG5vIGNoYW5nZSBvbiBQ
-b3dlclBDLiIKPiA+Pgo+ID4+IFRoZXJlJ3MgYSBkaWZmZXJlbmNlIGJldHdlZW4gc29tZXRoaW5n
-IGJlaW5nIGRpc2FibGVkIGJ5IGRlZmF1bHQgb3Igbm90Cj4gPj4gYmVpbmcgYXZhaWxhYmxlIGF0
-IGFsbC4gV2UgbWF5IGRlY2lkZSBpdCdzIHdvcnRoIGl0IGFueXdheSwgYnV0IGxldCdzIGRvCj4g
-Pj4gaXQgYmFzZWQgb24gZmFjdHMuCj4gPj4KPiA+Cj4gPiBJIGRpZG4ndCBtZWFuIHRvIGltcGx5
-IHRoYXQgQUdQIEdBUlQgc3VwcG9ydCB3YXMgYWxyZWFkeSByZW1vdmVkLiAgQnV0Cj4gPiBmb3Ig
-dGhlIHZhc3QgbWFqb3JpdHkgb2YgdXNlcnMgdGhlIGVuZCByZXN1bHQgaXMgdGhlIHNhbWUuICBJ
-ZiB5b3UKPiA+IGtuZXcgZW5vdWdoIHJlLWVuYWJsZSBBR1AgR0FSVCwgeW91IHByb2JhYmx5IHdv
-dWxkbid0IGhhdmUgYmVlbiBhcwo+ID4gY29uZnVzZWQgYWJvdXQgd2hhdCB0aGlzIHBhdGNoIHNl
-dCBkb2VzIGVpdGhlci4gIFRvIHJlaXRlcmF0ZSwgdGhpcwo+ID4gcGF0Y2ggc2V0IGRvZXMgbm90
-IHJlbW92ZSBzdXBwb3J0IGZvciBBR1AgY2FyZHMsIGl0IG9ubHkgcmVtb3ZlcyB0aGUKPiA+IHN1
-cHBvcnQgZm9yIEFHUCBHQVJULiAgVGhlIGNhcmRzIHdpbGwgc3RpbGwgYmUgZnVuY3Rpb25hbCB1
-c2luZyB0aGUKPiA+IGRldmljZSBHQVJULiAgVGhlcmUgbWF5IGJlIHBlcmZvcm1hbmNlIHRyYWRl
-b2ZmcyB0aGVyZSBpbiBzb21lIGNhc2VzLgo+Cj4gSSdsbCB2b2x1bnRlZXIgdG8gYmUgdGhlIG9u
-ZSBhc2tpbmc6IGhvdyBiaWcgaXMgdGhpcyBwZXJmb3JtYW5jZQo+IGRpZmZlcmVuY2U/IEhhdmUg
-YW55IGJlbmNobWFya3MgYmVlbiBydW4gYmVmb3JlIGFuZCBhZnRlciByZW1vdmFsIG9mIEFHUAo+
-IEdBUlQgY29kZSBvbiBhZmZlY3RlZCBub3V2ZWF1L3JhZGVvbiBzeXN0ZW1zPyBPciBpcyB0aGlz
-IGNvZGUgYmVpbmcKPiBkcm9wcGVkIF9qdXN0XyBiZWNhdXNlIGl0J3MgY3VtYmVyc29tZSwgd2l0
-aCBubyByZWdhcmQgZm9yIG1ldHJpY3MgdGhhdAo+IGRldGVybWluZSB0aGUgdmFsdWUgb2YgQUdQ
-IEdBUlQgc3VwcG9ydD8KPgoKSSBkb24ndCB0aGluayBhbnlvbmUgaGFzIGFueSBzb2xpZCBudW1i
-ZXJzLCBqdXN0IGFuZWNkb3RhbCBmcm9tCm1lbW9yeS4gIEkgY2VydGFpbmx5IGRvbid0IGhhdmUg
-YW55IGZ1bmN0aW9uYWwgQUdQIHN5c3RlbXMgYXQgdGhpcwpwb2ludC4gIEl0J3MgbW9zdGx5IGp1
-c3QgY3VtYmVyc29tZSBhbmQgd291bGQgYWxsb3cgdXMgdG8gY2xlYW4gdHRtCmFuZCBwcm9iYWJs
-eSBpbXByb3ZlIHN0YWJpbGl0eSBhdCB0aGUgc2FtZSB0aW1lLiAgQXQgbGVhc3Qgb24gdGhlCnJh
-ZGVvbiBzaWRlLCB0aGUgb25seSBuYXRpdmUgQUdQIGNhcmRzIHdlcmUgcjF4eCwgcjJ4eCwgYW5k
-IHNvbWUgb2YKdGhlIGVhcmx5IHIzeHggYm9hcmRzLiAgT25jZSB3ZSBzd2l0Y2hlZCB0byBwY2ll
-IG1pZC13YXkgdGhyb3VnaCByM3h4LApldmVyeXRoaW5nIHdhcyBuYXRpdmUgcGNpZSBhbmQgdGhl
-IEFHUCBjYXJkcyB1c2VkIGEgcGNpZSB0byBBR1AgYnJpZGdlCmNoaXAgc28gdGhleSBoYWQgYSBk
-ZWNlbnQgb24gY2hpcCBNTVUuICBUaG9zZSBvbGRlciBjYXJkcyB0b3BwZWQgb3V0CmF0IG1heWJl
-IDMyIG9yIDY0IE1CIG9mIHZyYW0sIHNvIHRoZXkgYXJlIGdvaW5nIHRvIGJlIGhhcmQgcHJlc3Nl
-ZCB0bwpkZWFsIHdpdGggbW9kZXJuIGRlc2t0b3BzIGFueXdheS4gIE5vIGlkZWEgd2hhdCBzb3J0
-IG9mIEdBUlQKY2FwYWJpbGl0aWVzIE5WIEFHUCBoYXJkd2FyZSBhdCB0aGlzIHRpbWUgaGFkLgoK
-QWxleAoKPiBSb3kKPgo+ID4KPiA+IEFsZXgKPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4gPiBOb3V2ZWF1IG1haWxpbmcgbGlzdAo+ID4gTm91dmVh
-dUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vbm91dmVhdQo+ID4KPgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+On 5/12/20 10:44 PM, Mario.Limonciello@dell.com wrote:
+>> -----Original Message-----
+>> From: Hans de Goede <hdegoede@redhat.com>
+>> Sent: Monday, May 11, 2020 12:47 PM
+>> To: Maarten Lankhorst; Maxime Ripard; Thomas Zimmermann; Daniel Vetter; David
+>> Airlie; Rajat Jain; Jani Nikula
+>> Cc: Hans de Goede; Pekka Paalanen; Limonciello, Mario; Quintanilla, Sonny;
+>> Jared Dominguez; Mark Pearson; dri-devel@lists.freedesktop.org
+>> Subject: [RFC v2] drm/connector: Add support for privacy-screen properties
+>> (v2)
+>>
+>>
+>> [EXTERNAL EMAIL]
+>>
+>> From: Rajat Jain <rajatja@google.com>
+>>
+>> Add support for generic electronic privacy screen properties, that
+>> can be added by systems that have an integrated EPS.
+>>
+>> Changes in v2 (Hans de Goede)
+>> - Create 2 properties, "privacy-screen sw-state" and
+>>    "privacy-screen hw-state", to deal with devices where the OS might be
+>>    locked out of making state changes
+>> - Write kerneldoc explaining how the 2 properties work together, what
+>>    happens when changes to the state are made outside of the DRM code's
+>>    control, etc.
+>>
+>> Signed-off-by: Rajat Jain <rajatja@google.com>
+>> Co-authored-by: Hans de Goede <hdegoede@redhat.com>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   Documentation/gpu/drm-kms.rst     |   2 +
+>>   drivers/gpu/drm/drm_atomic_uapi.c |   6 ++
+>>   drivers/gpu/drm/drm_connector.c   | 100 ++++++++++++++++++++++++++++++
+>>   include/drm/drm_connector.h       |  50 +++++++++++++++
+>>   4 files changed, 158 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+>> index 906771e03103..b72b1e0db343 100644
+>> --- a/Documentation/gpu/drm-kms.rst
+>> +++ b/Documentation/gpu/drm-kms.rst
+>> @@ -445,6 +445,8 @@ Property Types and Blob Property Support
+>>   .. kernel-doc:: drivers/gpu/drm/drm_property.c
+>>      :export:
+>>
+>> +.. _standard_connector_properties:
+>> +
+>>   Standard Connector Properties
+>>   -----------------------------
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+>> b/drivers/gpu/drm/drm_atomic_uapi.c
+>> index a1e5e262bae2..e56a11208515 100644
+>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>> @@ -766,6 +766,8 @@ static int drm_atomic_connector_set_property(struct
+>> drm_connector *connector,
+>>   						   fence_ptr);
+>>   	} else if (property == connector->max_bpc_property) {
+>>   		state->max_requested_bpc = val;
+>> +	} else if (property == connector->privacy_screen_sw_state_property) {
+>> +		state->privacy_screen_sw_state = val;
+>>   	} else if (connector->funcs->atomic_set_property) {
+>>   		return connector->funcs->atomic_set_property(connector,
+>>   				state, property, val);
+>> @@ -842,6 +844,10 @@ drm_atomic_connector_get_property(struct drm_connector
+>> *connector,
+>>   		*val = 0;
+>>   	} else if (property == connector->max_bpc_property) {
+>>   		*val = state->max_requested_bpc;
+>> +	} else if (property == connector->privacy_screen_sw_state_property) {
+>> +		*val = state->privacy_screen_sw_state;
+>> +	} else if (property == connector->privacy_screen_hw_state_property) {
+>> +		*val = state->privacy_screen_hw_state;
+>>   	} else if (connector->funcs->atomic_get_property) {
+>>   		return connector->funcs->atomic_get_property(connector,
+>>   				state, property, val);
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index 644f0ad10671..01360edc2376 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -1186,6 +1186,45 @@ static const struct drm_prop_enum_list dp_colorspaces[]
+>> = {
+>>    *	can also expose this property to external outputs, in which case they
+>>    *	must support "None", which should be the default (since external screens
+>>    *	have a built-in scaler).
+>> + *
+>> + * privacy-screen sw-state, privacy-screen hw-state:
+>> + *	These 2 optional properties can be used to query the state of the
+>> + *	electronic privacy screen that is available on some displays; and in
+>> + *	some cases also control the state. If a driver implements these
+>> + *	properties then both properties must be present.
+>> + *
+>> + *	"privacy-screen hw-state" is read-only and reflects the actual state
+>> + *	of the privacy-screen, possible values: "Enabled", "Disabled,
+>> + *	"Enabled, locked", "Disabled, locked". The locked states indicate
+>> + *	that the state cannot be changed through the DRM API. E.g. there
+>> + *	might be devices where the firmware-setup options, or a hardware
+>> + *	slider-switch, offer always on / off modes.
+>> + *
+>> + *	"privacy-screen sw-state" can be set to change the privacy-screen state
+>> + *	when not locked. In this case the driver must update the hw-state
+>> + *	property to reflect the new state on completion of the commit of the
+>> + *	sw-state property. Setting the sw-state property when the hw-state is
+>> + *	locked must be interpreted by the driver as a request to change the
+>> + *	state to the set state when the hw-state becomes unlocked. E.g. if
+>> + *	"privacy-screen hw-state" is "Enabled, locked" and the sw-state
+>> + *	gets set to "Disabled" followed by the user unlocking the state by
+>> + *	changing the slider-switch position, then the driver must set the
+>> + *	state to "Disabled" upon receiving the unlock event.
+>> + *
+>> + *	In some cases the privacy-screen state might change outside of control
+>> + *	of the DRM code. E.g. there might be a firmware handled hotkey which
+>> + *	toggles the state, or the state might be changed through another
+>> + *	userspace API such as writing /proc/acpi/ibm/lcdshadow. In this case
+>> + *	the driver must update both the hw-state and the sw-state to reflect
+>> + *	the new value, overwriting any pending state requests in the sw-state.
+>> + *
+>> + *	Note that the ability for the state to change outside of control of
+>> + *	the DRM master process means that userspace must not cache the value
+>> + *	of the sw-state. Ccaching the sw-state value and including it in later
+>> + *	atomic commits may lead to overriding a state change done through e.g.
+>> + *	a firmware handled hotkey. Therefor userspace must not include the
+>> + *	privacy-screen sw-state in an atomic commit unless it wants to change
+>> + *	its value.
+>>    */
+>>
+>>   int drm_connector_create_standard_properties(struct drm_device *dev)
+>> @@ -2152,6 +2191,67 @@ int drm_connector_set_panel_orientation_with_quirk(
+>>   }
+>>   EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
+>>
+>> +static const struct drm_prop_enum_list privacy_screen_enum[] = {
+>> +	{ PRIVACY_SCREEN_DISABLED,		"Disabled" },
+>> +	{ PRIVACY_SCREEN_ENABLED,		"Enabled" },
+>> +	{ PRIVACY_SCREEN_DISABLED_LOCKED,	"Disabled, locked" },
+>> +	{ PRIVACY_SCREEN_ENABLED_LOCKED,	"Enabled, locked" },
+>> +};
+>> +
+>> +/**
+>> + * drm_connector_create_privacy_screen_properties -
+>> + *     create the drm connecter's privacy-screen properties.
+>> + * @connector: connector for which to create the privacy-screen properties
+>> + *
+>> + * This function creates the "privacy-screen sw-state" and "privacy-screen
+>> + * hw-state" properties for the connector. They are not attached.
+>> + */
+>> +void
+>> +drm_connector_create_privacy_screen_properties(struct drm_connector
+>> *connector)
+>> +{
+>> +	if (connector->privacy_screen_sw_state_property)
+>> +		return;
+>> +
+>> +	/* Note sw-state only supports the first 2 values of the enum */
+>> +	connector->privacy_screen_sw_state_property =
+>> +		drm_property_create_enum(connector->dev, DRM_MODE_PROP_ENUM,
+>> +				"privacy-screen sw-state",
+>> +				privacy_screen_enum, 2);
+>> +
+>> +	connector->privacy_screen_hw_state_property =
+>> +		drm_property_create_enum(connector->dev,
+>> +				DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
+>> +				"privacy-screen hw-state",
+>> +				privacy_screen_enum,
+>> +				ARRAY_SIZE(privacy_screen_enum));
+>> +}
+>> +EXPORT_SYMBOL(drm_connector_create_privacy_screen_properties);
+>> +
+>> +/**
+>> + * drm_connector_attach_privacy_screen_properties -
+>> + *     attach the drm connecter's privacy-screen properties.
+>> + * @connector: connector on which to attach the privacy-screen properties
+>> + *
+>> + * This function attaches the "privacy-screen sw-state" and "privacy-screen
+>> + * hw-state" properties to the connector. The initial state of both is set
+>> + * to "Disabled".
+>> + */
+>> +void
+>> +drm_connector_attach_privacy_screen_properties(struct drm_connector
+>> *connector)
+>> +{
+>> +	if (!connector->privacy_screen_sw_state_property)
+>> +		return;
+>> +
+>> +	drm_object_attach_property(&connector->base,
+>> +				   connector->privacy_screen_sw_state_property,
+>> +				   PRIVACY_SCREEN_DISABLED);
+>> +
+>> +	drm_object_attach_property(&connector->base,
+>> +				   connector->privacy_screen_hw_state_property,
+>> +				   PRIVACY_SCREEN_DISABLED);
+>> +}
+>> +EXPORT_SYMBOL(drm_connector_attach_privacy_screen_properties);
+>> +
+>>   int drm_connector_set_obj_prop(struct drm_mode_object *obj,
+>>   				    struct drm_property *property,
+>>   				    uint64_t value)
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index 19ae6bb5c85b..a8844f4c6ae9 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -271,6 +271,30 @@ struct drm_monitor_range_info {
+>>   	u8 max_vfreq;
+>>   };
+>>
+>> +/**
+>> + * enum drm_privacy_screen_status - privacy screen status
+>> + *
+>> + * This enum is used to track and control the state of the integrated privacy
+>> + * screen present on some display panels, via the "privacy-screen sw-state"
+>> + * and "privacy-screen hw-state" properties. Note the _LOCKED enum values
+>> + * are only valid for the "privacy-screen hw-state" property.
+>> + *
+>> + * @PRIVACY_SCREEN_DISABLED:
+>> + *  The privacy-screen on the panel is disabled
+>> + * @PRIVACY_SCREEN_ENABLED:
+>> + *  The privacy-screen on the panel is enabled
+>> + * @PRIVACY_SCREEN_DISABLED_LOCKED:
+>> + *  The privacy-screen on the panel is disabled and locked (cannot be
+>> changed)
+>> + * @PRIVACY_SCREEN_ENABLED_LOCKED:
+>> + *  The privacy-screen on the panel is enabled and locked (cannot be changed)
+>> + */
+>> +enum drm_privacy_screen_status {
+>> +	PRIVACY_SCREEN_DISABLED = 0,
+>> +	PRIVACY_SCREEN_ENABLED,
+>> +	PRIVACY_SCREEN_DISABLED_LOCKED,
+>> +	PRIVACY_SCREEN_ENABLED_LOCKED,
+>> +};
+>> +
+>>   /*
+>>    * This is a consolidated colorimetry list supported by HDMI and
+>>    * DP protocol standard. The respective connectors will register
+>> @@ -686,6 +710,18 @@ struct drm_connector_state {
+>>   	 */
+>>   	u8 max_bpc;
+>>
+>> +	/**
+>> +	 * @privacy_screen_sw_state: See :ref:`Standard Connector
+>> +	 * Properties<standard_connector_properties>`
+>> +	 */
+>> +	enum drm_privacy_screen_status privacy_screen_sw_state;
+>> +
+>> +	/**
+>> +	 * @privacy_screen_hw_state: See :ref:`Standard Connector
+>> +	 * Properties<standard_connector_properties>`
+>> +	 */
+>> +	enum drm_privacy_screen_status privacy_screen_hw_state;
+>> +
+>>   	/**
+>>   	 * @hdr_output_metadata:
+>>   	 * DRM blob property for HDR output metadata
+>> @@ -1285,6 +1321,18 @@ struct drm_connector {
+>>   	 */
+>>   	struct drm_property *max_bpc_property;
+>>
+>> +	/**
+>> +	 * @privacy_screen_sw_state_property: Optional atomic property for the
+>> +	 * connector to control the integrated privacy screen.
+>> +	 */
+>> +	struct drm_property *privacy_screen_sw_state_property;
+>> +
+>> +	/**
+>> +	 * @privacy_screen_hw_state_property: Optional atomic property for the
+>> +	 * connector to report the actual integrated privacy screen state.
+>> +	 */
+>> +	struct drm_property *privacy_screen_hw_state_property;
+>> +
+>>   #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+>>   #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+>>   #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+>> @@ -1598,6 +1646,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+>>   	int width, int height);
+>>   int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+>>   					  int min, int max);
+>> +void drm_connector_create_privacy_screen_properties(struct drm_connector
+>> *conn);
+>> +void drm_connector_attach_privacy_screen_properties(struct drm_connector
+>> *conn);
+>>
+>>   /**
+>>    * struct drm_tile_group - Tile group metadata
+>> --
+>> 2.26.0
+> 
+> Hans,
+> 
+> Thanks for putting together this set of modifications.  I believe it does sufficiently
+> reflect the implementation of privacy screens present on Dell notebooks today containing
+> them: Latitude 7300 and Latitude 7400.
+> 
+> Those models only offer a HW controlled screen via a hotkey, but that hotkey control
+> can be removed permanently locking them in an enabled or disabled state.
+> 
+> I feel that your concept of HW state "Enabled, Locked" and "Disabled, Locked" sufficiently
+> reflects that.
+
+That is good to hear.
+
+> Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
+
+Thank you.
+
+Regards,
+
+Hans
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
