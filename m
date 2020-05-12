@@ -2,61 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC821D0B91
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111CC1D0B92
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D716E9C0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5099E6E9C6;
 	Wed, 13 May 2020 09:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
- [IPv6:2607:f8b0:4864:20::932])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E93AC6E946
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 17:02:45 +0000 (UTC)
-Received: by mail-ua1-x932.google.com with SMTP id u12so5005681uau.10
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:02:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rFhSs4bfKfAFjK1nVQ6lKw0rqUcFTAD/AwmJdoacwrs=;
- b=GFlR6tmvjLRR28xMJHKDjfI9uiwl9KFsG+1paPKm3TzuqoMACx62G0n+JAUwJQe0+f
- xF+jbkOKKZNNKmnt6pZzPVWPdxeWW4dvovaHb3pQ1r1NBUk3+26QGBXqbq1HjZdAI1FQ
- 5ByH2GjwCIA1/tUPpYVIzI+T82mb+zk8VaAVvpJUiEJuRuKV+ENv88Zkdulz/cxI7rJm
- kpFYqTN9B0iX6GIipbijyEWPjzA2KftENwsHflsfwUpb8jMU6XdtcCAesyddMP1ipZlH
- 4XsrbFglTaYAaxsr+e00YpMiopTmMedgbV+tykfsmd4hi96JQESy78IyXO/GdnR3r+4E
- GL+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rFhSs4bfKfAFjK1nVQ6lKw0rqUcFTAD/AwmJdoacwrs=;
- b=npnYj0YqpefL2/9W0P5wOMHDtsiHASOIs9R+vVX0eMQvcWEWngzOv+QYUFSr0tZOzC
- uhdKC8ex8/TOHylD3+6aM36qPvEJdW+FO9KAvD3CMI+8q983gl0iUKKFsals3zwXlfa9
- He2cvlzO5RvDem3Ub1nkBa1Bcnip7auH4pMaLQsmnFBN2CXlKFpsV+ArkYkmT1EwuDtx
- 6pPFaUzGFdBjAVjjgiDMTfrj7/xDD8RI/MGyRhcT9mdkcEIrbLrvuOcIU182/ZmIyQcb
- ML7Dx535dl36MSLVPeF7lct6deY2txoe9PjkHEGxF26s7Womuk6y2Jy+4j0T/L6QqE25
- VpQg==
-X-Gm-Message-State: AGi0Pubuo68BoPunMR65OCjQxdfpQvWYuI83KhcOPEZO2KsgtvRSPU+c
- nEuPaCmd82OjrZ4JF6EvWW4AkRVvICdIenwUJkkmKoE=
-X-Google-Smtp-Source: APiQypLGCmXoBur8Xl3AYDR3E0hXka4pm0npfUdqPNE4b+7f6MPYvcmhzDIpUFGWNVmacFdpApucB41CPWZfxk+M+W0=
-X-Received: by 2002:ab0:2917:: with SMTP id v23mr16993289uap.140.1589302964985; 
- Tue, 12 May 2020 10:02:44 -0700 (PDT)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54936E133
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 17:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=hV4BDdW+iFVPmUkxPoN7ZR0971mJPrSTzPY2RD+WQVs=; b=EcH7WTMK6MGNVVbLI8orxTjYLd
+ bOPL4TbPTU+kuyf05NAc+x0XosCEPquLD9Pb7P7srgyyZpAJXVkIgcrFtZUkMEPvqato+AiZwgTci
+ yhuynginxhTo9OhW18ZWGkkF2kYr/BZATQLN0fk6mIl3qW3s7hYf0yXHJdlJpCzjAqp11pwlLYXQf
+ SAuPzEocMTp4F93kOSGbmglOAya4nrq+uzNkwJMpQ8M1BEUlTIRzXTOk7lC2u5DX7ji/jb5C0GoNA
+ r6ONsm5c4eoLsa4zKirmpcGjvfmtxFIaOB/8LFPkin4PcGglJFjtLZjJFfHnlPzi5xN7YSKHz0c7C
+ ThRBaqXg==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jYYiZ-0001PE-OP; Tue, 12 May 2020 17:29:23 +0000
+Subject: Re: [PATCH] drm: vmwgfx: include linux/highmem.h
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>
+References: <20200508220150.649044-1-arnd@arndb.de>
+ <20200509131434.27ddccb9@canb.auug.org.au>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <9c694077-1a65-3883-d082-017586098aaf@infradead.org>
+Date: Tue, 12 May 2020 10:29:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
- <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
- <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
- <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
- <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
- <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
- <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
- <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
- <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
-In-Reply-To: <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
-From: Rui Salvaterra <rsalvaterra@gmail.com>
-Date: Tue, 12 May 2020 18:02:33 +0100
-Message-ID: <CALjTZvabx+-Hg3A1vZ=zt5=zrL8wuOLZ5=BZD6iio+-Oj7qBgQ@mail.gmail.com>
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <20200509131434.27ddccb9@canb.auug.org.au>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,38 +51,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Huang Rui <ray.huang@amd.com>,
+ Paul Mackerras <paulus@samba.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ Ira Weiny <ira.weiny@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Thomas Hellstrom <thellstrom@vmware.com>, Helge Deller <deller@gmx.de>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxMiBNYXkgMjAyMCBhdCAxNzozOCwgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
-LmNoPiB3cm90ZToKPgo+IE90aGVyd2lzZSBhbGwgYWdyZWUsIGFncCBpcyBhIG1pZ2h0eSBtZXNz
-IGFuZCBlc3NlbnRpYWxseSBqdXN0Cj4gY3JhcHNob3Qgb3V0c2lkZSBvZiB4ODYuIEl0IGtpbmRh
-IHdvcmtlZCBmb3IgdGhlIG11Y2ggbW9yZSBzdGF0aWMKPiBhbGxvY2F0aW9ucyBmb3IgZHJpMSwg
-YnV0IHdpdGggaW4ta2VybmVsIG1lbW9yeSBtYW5hZ2VycyBhbGwgdGhlIGNhY2hlCj4gZmx1c2hp
-bmcgaXNzdWVzIHNob3dlZCB1cCBiaWcgdGltZSBhbmQgaXQgYWxsIGZlbGwgdG8gcGllY2VzLiBQ
-bHVzIGEKPiBsb3Qgb2YgdGhlc2UgaG9zdCBjaGlwc2V0IGJhY2sgdGhlbiB3aGVyZSBkZXNpZ25l
-ZCBmb3IgdGhlIHJhdGhlcgo+IHN0YXRpYyB3aW5kb3dzIGdwdSBtYW5hZ2Vycywgc28gZXZlbiBv
-biB4ODYgdGhlIGNvaGVyZW5jeSBpc3N1ZXMgZm9yCj4gYWdwIG1vZGUgd2hlbiB1c2VkIHRvZ2V0
-aGVyIHdpdGggdHRtIG9yIHNvbWV0aGluZyBlbHNlIHJlYWxseSBkeW5hbWljCj4gaXMgcHJldHR5
-IGJhZCBiZWNhdXNlIHRoZSBodyBqdXN0IGRvZXNuJ3QgcmVhbGx5IGNvcGUgYW5kIGhhcyBhbGwK
-PiBraW5kcyBvZiBmbHVzaGluZyB0cm91YmxlcyBhbmQgcmFjZXMuIEkgdGhpbmsgdGhlIGxhdGVy
-IGFncCBjaGlwc2V0cwo+IHdlcmUgYmV0dGVyLgoKVGhhdCB3YXMgcmF0aGVyIGluc2lnaHRmdWws
-IHRoYW5rcy4gSSB3YXMgc3RhcnRpbmcgdG8gZG91YnQgbXkgb3duCm1lbW9yeSwgYXMgSSB3YXMg
-YWxtb3N0IHN1cmUgSSBuZXZlciBoYWQgYW55IGhhbmdzIHdpdGggQUdQIG9uIFBvd2VyUEMKYmVm
-b3JlIEtNUyB3YXMgYSB0aGluZy4gQnV0IGV2ZW4gb24geDg2LCBJIGRpc3RpbmN0bHkgcmVtZW1i
-ZXIgbmV2ZXIKYmVpbmcgYWJsZSB0byBnZXQgc2lkZWJhbmQgYWRkcmVzc2luZyB3b3JraW5nIHdp
-dGggYW55IEFHUCBjYXJkcywgbXkKc3lzdGVtIHdvdWxkIHJhbmRvbWx5IGhhbmcgdG9vLgpJJ20g
-c3RhcnRpbmcgdG8gYmVsaWV2ZSBBR1Agd2FzIHNob2Vob3JuZWQgaW50byBQQ0kgdGhlIHNhbWUg
-d2F5IFZMQgp3YXMgc2hvZWhvcm5lZCBpbnRvIElTQSAoYW5kIGZvciB0aGUgc2FtZSByZWFzb24p
-LiBIaXN0b3J5IHJlcGVhdHMKaXRzZWxm4oCmIDopCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 5/8/20 8:14 PM, Stephen Rothwell wrote:
+> Hi Arnd,
+> 
+> On Sat,  9 May 2020 00:01:31 +0200 Arnd Bergmann <arnd@arndb.de> wrote:
+>>
+>> In order to call kmap_atomic() etc, we need to include linux/highmem.h:
+>>
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c: In function 'vmw_bo_cpu_blit_line':
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:377:4: error: implicit declaration of function 'kunmap_atomic'; did you mean 'in_atomic'? [-Werror=implicit-function-declaration]
+>>   377 |    kunmap_atomic(d->src_addr);
+>>       |    ^~~~~~~~~~~~~
+>>       |    in_atomic
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:391:5: error: implicit declaration of function 'kmap_atomic_prot' [-Werror=implicit-function-declaration]
+>>   391 |     kmap_atomic_prot(d->dst_pages[dst_page],
+>>       |     ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:390:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>>   390 |    d->dst_addr =
+>>       |                ^
+>> drivers/gpu/drm/vmwgfx/vmwgfx_blit.c:403:16: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>>   403 |    d->src_addr =
+>>       |                ^
+>>
+>> Fixes: 46385a895322 ("drm: remove drm specific kmap_atomic code")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>>  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+>> index 94d456a1d1a9..1629427d5734 100644
+>> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+>> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
+>> @@ -27,6 +27,7 @@
+>>   **************************************************************************/
+>>  
+>>  #include "vmwgfx_drv.h"
+>> +#include <linux/highmem.h>
+>>  
+>>  /*
+>>   * Template that implements find_first_diff() for a generic
+>> -- 
+>> 2.26.0
+>>
+> 
+> Added to linux-next for Monday (in case Andrew doesn't get around to it).
+> 
+
+Hi,
+
+What happened with this patch?
+I am seeing the same build problems in linux-next of 20200512.
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+
+
+thanks.
+-- 
+~Randy
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
