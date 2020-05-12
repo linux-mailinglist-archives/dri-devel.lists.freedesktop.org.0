@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A2A1CF449
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 14:22:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CE11CF456
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 14:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D68C6E8C5;
-	Tue, 12 May 2020 12:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D8F6E0DE;
+	Tue, 12 May 2020 12:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A78FE6E8C5
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 12:22:12 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id u6so13361632ljl.6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 05:22:12 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB03F6E0DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 12:28:37 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id h26so10396412lfg.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 05:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6rE0fPu5jCjuTK0cRn6PVF83ctsvQUR9eqdpVEWEcp8=;
- b=fRMfmTqU/svnwd/DeHQpZqANKDRENpPQrFnFCdA6XrC7CAjuUBlWO5WlHhJX1VdFZx
- GMq8lToALBRe4c2J8T+QxKo9JnROag//KysTHoivaIxpklZerMhBClnLLRGkf6GTvxAZ
- HkmO3moxLpKmk6A6rO8oP7BDRG8DnImZgtRVlxbihuFkbxwz1Ua1Vkr2ST+iiVDtsiMz
- +M1+jQ3zq3lb0Xi3P6DDhvioJsSDIiVLJW6i37AU92QD1VUuBYzTzk/eg8zmrLXxDlHD
- ODaToJfeFvwuXa2LV7sZKRly/f9mFOUS9o9v8dILxoPCrjdsYLDHOnR6njLXYMKzYGwc
- 5uhA==
+ :cc; bh=ci9MuSNpgNkICVw/NtiMvuvEvN60deLYNaqZ7/dVyys=;
+ b=fSnUIdKavHP0yBG0luv9jQGqxwhngzmZBdsyY6LVXVPr3K8/ULmToG+A5ni5w2SWwA
+ AFP9qQQ7alGnTRkI0nZQAfagGJ54zHMv6MZcAnY//ILHl6LwRCm/sx0Fogibzb9hXIId
+ D1qSxnpSZTlI75ojfik+fif5BDf0v1y7XQTSffzyO6oulsDkHiwakKce14jRJzZS/ClD
+ cLuKIM2EN21uNPvtsk337DK+thEWDMzIoC9tagFNxBtkLhfZy2BOx8Qv8eXTuf91jiUt
+ JipY/au8ZMmpsC2sRCQuUid34LxXCcnRqinSbxwtSBQB9Q8b8apUyGAyfVgSY9aYh93F
+ F+Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6rE0fPu5jCjuTK0cRn6PVF83ctsvQUR9eqdpVEWEcp8=;
- b=I/T6O8oOejb3VVp/LKUHwWE9SRm+kq6iXmgMlP6OISZJSuFul8ep+D1kjEfvm3ZtRT
- +/irHl2oPbsyvrXfinsxM7GuwDxoikdeNpT/zLAnm3D05n4SRjC0Z1Hgk4SnZz5U46ir
- SLLcWe7+KDcs8jihNxYg6xf5XOv+S8sP7+jpDhudMTQXS+izKgulg7vcq6o/VIhU/gec
- tDSr0HIWLRgXxRa7pELg9dqhQxVC/45dsTv32gAYwWqvyRPRxB0ovHuKTkrR41q0jnnW
- FBG2flEGlzbBJFGnIsrziFAwh4YWFLE7vVhobneUaExF8qK7bHvQbi0IjKkPpl65Gygk
- biDQ==
-X-Gm-Message-State: AOAM533Q9CULyJgQn5gI5fud+CncbAkvPKHuuFRZg7FN7DHVwCi++BvJ
- zhbvkljpKhV+fdsaAxM2dr4CsuINc5Ge8UdNHRae6A==
-X-Google-Smtp-Source: ABdhPJwIPX2HNFOXh8yU8/OwdxhhRENdd70ug7z8dIHFgzX2fvXuP4+XvRAkuMUcWF3Sb2fH8n4awGxwbFbw77QNBx8=
-X-Received: by 2002:a2e:9c97:: with SMTP id x23mr1647314lji.39.1589286131013; 
- Tue, 12 May 2020 05:22:11 -0700 (PDT)
+ bh=ci9MuSNpgNkICVw/NtiMvuvEvN60deLYNaqZ7/dVyys=;
+ b=VDwrfQOWdzEUr90TpMepXBRAb7eiHWimWM76twpB73BiiSOV9TIjRQTieIJ/l3Gwts
+ 6njjLc5bxm9Er+/bzzyNzepGnV+BoMFOJeFDUZpoCEtfLkU5qaWNhqCcaDgpeEW01PsZ
+ AjNiA9wPNG2I51HB4DfRAWc9H9IjsKUOZ604KGhlV8lWUPIOFOUOMxZqMZJhg7GcOi4J
+ wkeu2Y1NFk6NIQw+Ed17UvmrA2IPEe36LOuobBxQSDjKe9O6IJjQHws1QTjf6Z2exwPu
+ 90tFaIsIkHu8Q3qtX5ByOR4lrDH2QzOMFRo5rDcSPWHsCm6Eli4/PyGe8jU+P1AL6A/8
+ YzLw==
+X-Gm-Message-State: AOAM533qg3lY80w9ncsNBShiX8hTeeFw2D7eNfpW/CWNq70LBnYvbo5v
+ im1zJJyc8UPcTxV3NbbnObOOM0IszsN7JtJq28bPRw==
+X-Google-Smtp-Source: ABdhPJyjUo62CQFHTMX+lQZOoVcS0GX/votkBwNQiN68NXhVyDaGDhxULLZNoY+A2+hq214L/cetCwyqHglHNLzAXt0=
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr14363688lfi.21.1589286516127; 
+ Tue, 12 May 2020 05:28:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200430194617.197510-1-dianders@chromium.org>
- <20200430124442.v4.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
- <CAD=FV=WHoxdr++f7Y_NO=VnrnEPkP=+WS5u3j_5ifEjekhBWcA@mail.gmail.com>
-In-Reply-To: <CAD=FV=WHoxdr++f7Y_NO=VnrnEPkP=+WS5u3j_5ifEjekhBWcA@mail.gmail.com>
+References: <20200507213500.241695-1-dianders@chromium.org>
+ <20200507143354.v5.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
+In-Reply-To: <20200507143354.v5.1.Ia50267a5549392af8b37e67092ca653a59c95886@changeid>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 12 May 2020 14:22:00 +0200
-Message-ID: <CACRpkdb22QrOcJXrR1je9Cf8S9LnKCcnQ92ML2xQhncraKC1Pw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] drm/bridge: ti-sn65dsi86: Export bridge GPIOs to
+Date: Tue, 12 May 2020 14:28:25 +0200
+Message-ID: <CACRpkdYedMY1Byrg4uyw-DkjLX0NVh5uFngUT+1F2tdfNMx29A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] drm/bridge: ti-sn65dsi86: Export bridge GPIOs to
  Linux
-To: Doug Anderson <dianders@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +65,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Rob Clark <robdclark@chromium.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Andrzej Hajda <a.hajda@samsung.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Dave Airlie <airlied@linux.ie>,
+ MSM <linux-arm-msm@vger.kernel.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Sandeep Panda <spanda@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonas Karlman <jonas@kwiboo.se>, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>
+ Stephen Boyd <swboyd@chromium.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 7, 2020 at 4:39 PM Doug Anderson <dianders@chromium.org> wrote:
+On Thu, May 7, 2020 at 11:35 PM Douglas Anderson <dianders@chromium.org> wrote:
 
-> One suggestion that came off-list is to change the code to make the
-> numbering match up better with the datasheet.  Right now if you want
-> GPIO 2 you have to refer to it like:
+> The ti-sn65dsi86 MIPI DSI to eDP bridge chip has 4 pins on it that can
+> be used as GPIOs in a system.  Each pin can be configured as input,
+> output, or a special function for the bridge chip.  These are:
+> - GPIO1: SUSPEND Input
+> - GPIO2: DSIA VSYNC
+> - GPIO3: DSIA HSYNC or VSYNC
+> - GPIO4: PWM
 >
-> hpd-gpios = <&sn65dsi86_bridge 1 GPIO_ACTIVE_HIGH>;
+> Let's expose these pins as GPIOs.  A few notes:
+> - Access to ti-sn65dsi86 is via i2c so we set "can_sleep".
+> - These pins can't be configured for IRQ.
+> - There are no programmable pulls or other fancy features.
+> - Keeping the bridge chip powered might be expensive.  The driver is
+>   setup such that if all used GPIOs are only inputs we'll power the
+>   bridge chip on just long enough to read the GPIO and then power it
+>   off again.  Setting a GPIO as output will keep the bridge powered.
+> - If someone releases a GPIO we'll implicitly switch it to an input so
+>   we no longer need to keep the bridge powered for it.
 >
-> That's because the code right now numbers things starting at 0 even if
-> the datasheet numbers things starting at 1.
+> Because of all of the above limitations we just need to implement a
+> bare-bones GPIO driver.  The device tree bindings already account for
+> this device being a GPIO controller so we only need the driver changes
+> for it.
+>
+> NOTE: Despite the fact that these pins are nominally muxable I don't
+> believe it makes sense to expose them through the pinctrl interface as
+> well as the GPIO interface.  The special functions are things that the
+> bridge chip driver itself would care about and it can just configure
+> the pins as needed.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-This is the hallmark of mixed-mode IC engineers at work.
-They are at heart analog IC designers so of course they
-enumerate everything starting at 1.
+Looks good mostly!
 
-Digital IC designers are like programmers and start on 0.
+> +       pdata->gchip.label = dev_name(pdata->dev);
+> +       pdata->gchip.parent = pdata->dev;
+> +       pdata->gchip.owner = THIS_MODULE;
+> +       pdata->gchip.of_xlate = tn_sn_bridge_of_xlate;
+> +       pdata->gchip.of_gpio_n_cells = 2;
+> +       pdata->gchip.free = ti_sn_bridge_gpio_free;
+> +       pdata->gchip.get_direction = ti_sn_bridge_gpio_get_direction;
+> +       pdata->gchip.direction_input = ti_sn_bridge_gpio_direction_input;
+> +       pdata->gchip.direction_output = ti_sn_bridge_gpio_direction_output;
+> +       pdata->gchip.get = ti_sn_bridge_gpio_get;
+> +       pdata->gchip.set = ti_sn_bridge_gpio_set;
+> +       pdata->gchip.can_sleep = true;
+> +       pdata->gchip.names = ti_sn_bridge_gpio_names;
+> +       pdata->gchip.ngpio = SN_NUM_GPIOS;
 
-Never the twain shall meet...
+Please add:
+pdata->gchip.base = -1;
+
+So it is clear that you use dynamically assigned GPIO numbers,
+with that:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
