@@ -2,77 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A4E1D00E1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 23:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D9F1D00F4
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 23:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7064B6E9BA;
-	Tue, 12 May 2020 21:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A871E6E9C2;
+	Tue, 12 May 2020 21:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5046E9BA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 21:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589319019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s2GcklFKStNYTB0X3tq/jy/sL1G7okN2msxZqoCO4u0=;
- b=FrJyQ8ULSgUqTnPKG3deWd7k2iJaRkgIxO8HGVyl8og4NcYphfnEEtQdA7A5Q2ZKEfgjBW
- A0QDq2Yt2rRSHe587FI+R8Vt+Dq16sy7ks970Npd30CqN0FSlo3ijYbPNA0xk0z6ONzXeM
- ppdITWzm+a/nd80Am5YKd3iNGp/0B8g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-Cd5wxUx4No2BT0i7g81G9Q-1; Tue, 12 May 2020 17:30:18 -0400
-X-MC-Unique: Cd5wxUx4No2BT0i7g81G9Q-1
-Received: by mail-wm1-f69.google.com with SMTP id 23so2398195wma.8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 14:30:17 -0700 (PDT)
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
+ [IPv6:2607:f8b0:4864:20::730])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E4726E9C1;
+ Tue, 12 May 2020 21:37:14 +0000 (UTC)
+Received: by mail-qk1-x730.google.com with SMTP id b6so14196855qkh.11;
+ Tue, 12 May 2020 14:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EFTN/pUaLqmNMHTpW0SvdOf+bjgQv7Lsz29BxkjR/G0=;
+ b=Igj2Be+ycnRvxHsTSyfII0qhjFT3TnFwDDR4NgzAErh1d5H42342ArTLXcPidDLBIn
+ Ox8fm//OTuuP5A3hoAwMoezTCfw5RplNaKeREizJn1Dd5J0NhEZ6WeYUVsb1AguM7wJ/
+ yEirASJOhIFxf/Lpq3djQxk9AAfKiUhrdKdSuQzJ5wHw60P1xpWaiVqq2zH8Ly6SS9L8
+ qVNsq28XGCGzLghA/WpmTA2xX3IywvB5c+dMJmnJ2atpxps+laoevvRB6lAQkJHrDMAG
+ IUBE/OaixjzkeUcwqpogNTUHq3hoqgXyrtFfMt17tODaC8uxs+e1jUzDK44+WwYCkll2
+ s3fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=s2GcklFKStNYTB0X3tq/jy/sL1G7okN2msxZqoCO4u0=;
- b=KcQbCHeONAlPb7j/jd3xK5+Gh6I0c1JdSbSjatd0QvOwVBr5jDEFBXyUc5MDTOrY8T
- KZrP3685L7RECau/XatZcWj3J7RbmxSv02BAwuDdOQAnGJt2MVbbZstaMVLrcjya7/iv
- ijMLgFq99GPVlpncBNxMLanGm+muAEMR7ofDvy6oxXTpxSfH7rRZ3tIfBORquiFdeHcr
- VDpeiltwAHCU+txGkLf/py0/evqJovo8N7oJt+99QLMpV6Ddm3cE7lphpiRAekqoN8av
- t2iA7f2AM90o7Rhr+0NCEMVH3B3qs8WEZgXITiXBGHJV2z8gNHXFbJt47YujxzHfxEZa
- 9z1A==
-X-Gm-Message-State: AGi0PuYWT43NPXJBUf5Wv308RZ7ht2l3jZTV5GfgCo5gydtWicHJRhfL
- IMmo5eWYXtP5pze66Db8pZdjEfNwK0en65+nTSSUKU4wBtcO16nFHn2q+5rWdRJb7YvzRTGB5Fu
- ivi8zNgHxVXlJCtybaPEp5pEuw2vy
-X-Received: by 2002:a5d:60c3:: with SMTP id x3mr8682408wrt.48.1589319016607;
- Tue, 12 May 2020 14:30:16 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ11CRh/xnXuRW3jzZDJPEBLeEiUKTkxZ3lF0eMQZJ2bg+h27QkAWTuUl4Nu8Ck1j+hXCtlug==
-X-Received: by 2002:a5d:60c3:: with SMTP id x3mr8682387wrt.48.1589319016356;
- Tue, 12 May 2020 14:30:16 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id v205sm15684600wmg.11.2020.05.12.14.30.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 May 2020 14:30:15 -0700 (PDT)
-Subject: Re: [RFC v2] drm/connector: Add support for privacy-screen properties
- (v2)
-To: Mario.Limonciello@dell.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, daniel@ffwll.ch, airlied@linux.ie,
- rajatja@google.com, jani.nikula@linux.intel.com
-References: <20200511174724.21512-1-hdegoede@redhat.com>
- <20200511174724.21512-2-hdegoede@redhat.com>
- <64cb58c2e5254b4c8f539cecd6953090@AUSX13MPC105.AMER.DELL.COM>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <36769872-16ac-4eb4-e383-11b175874ea2@redhat.com>
-Date: Tue, 12 May 2020 23:30:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=EFTN/pUaLqmNMHTpW0SvdOf+bjgQv7Lsz29BxkjR/G0=;
+ b=YkCuUvHl/u8dPWcOOa1B4y7kLi46si7BCyKIdLvxqux8BJaSxePcfJVNvUXIceHGul
+ yqDM0gGtI7Tl5/doAszBxnMwhtiMwrdWusEJ9v7VGssM77ryqXp9QYsy5V9LKiV+xjv7
+ 5vPgaAz+wv4J8zUSa4Zi2o1wOn+Uc31VIvKhu1jriqCzPfieOFTNQgokXzW29yiGC3e+
+ NfktzZWVYD8o/HleC6YHaavk6SQ9dj7IK0uENY3ZmpLqiRMUvNyMsZd2UP3BurYWW2DK
+ MYgSWLkUD6AVrOYGO/SLIAocrU7lzW44IomwKSnLjIkTSMDvffhQEy99XEZCCY/7avQR
+ 5RJg==
+X-Gm-Message-State: AGi0PuZavJQeJ3p3gdMW0ldgB6MYNnAsOLf1l7Bd1VRlEFXKeV8FzAii
+ QvURLkAN+i/fyHqT8RLIupaPazml
+X-Google-Smtp-Source: APiQypI4ZVWcMyE7cF4DKkim4NMbzi1g8ybxC0nUvPBAzskHn3vaMX80g2d/J3X3rVwXZIX4zeBtUQ==
+X-Received: by 2002:a05:620a:6d5:: with SMTP id
+ 21mr21860710qky.417.1589319433089; 
+ Tue, 12 May 2020 14:37:13 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.37.167])
+ by smtp.gmail.com with ESMTPSA id d50sm6651420qtb.13.2020.05.12.14.37.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 14:37:12 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: [pull] amdgpu, amdkfd drm-next-5.8
+Date: Tue, 12 May 2020 17:37:03 -0400
+Message-Id: <20200512213703.4039-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <64cb58c2e5254b4c8f539cecd6953090@AUSX13MPC105.AMER.DELL.COM>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,324 +67,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sonny.Quintanilla@dell.com,
- jaredz@redhat.com, mpearson@lenovo.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 5/12/20 10:44 PM, Mario.Limonciello@dell.com wrote:
->> -----Original Message-----
->> From: Hans de Goede <hdegoede@redhat.com>
->> Sent: Monday, May 11, 2020 12:47 PM
->> To: Maarten Lankhorst; Maxime Ripard; Thomas Zimmermann; Daniel Vetter; David
->> Airlie; Rajat Jain; Jani Nikula
->> Cc: Hans de Goede; Pekka Paalanen; Limonciello, Mario; Quintanilla, Sonny;
->> Jared Dominguez; Mark Pearson; dri-devel@lists.freedesktop.org
->> Subject: [RFC v2] drm/connector: Add support for privacy-screen properties
->> (v2)
->>
->>
->> [EXTERNAL EMAIL]
->>
->> From: Rajat Jain <rajatja@google.com>
->>
->> Add support for generic electronic privacy screen properties, that
->> can be added by systems that have an integrated EPS.
->>
->> Changes in v2 (Hans de Goede)
->> - Create 2 properties, "privacy-screen sw-state" and
->>    "privacy-screen hw-state", to deal with devices where the OS might be
->>    locked out of making state changes
->> - Write kerneldoc explaining how the 2 properties work together, what
->>    happens when changes to the state are made outside of the DRM code's
->>    control, etc.
->>
->> Signed-off-by: Rajat Jain <rajatja@google.com>
->> Co-authored-by: Hans de Goede <hdegoede@redhat.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   Documentation/gpu/drm-kms.rst     |   2 +
->>   drivers/gpu/drm/drm_atomic_uapi.c |   6 ++
->>   drivers/gpu/drm/drm_connector.c   | 100 ++++++++++++++++++++++++++++++
->>   include/drm/drm_connector.h       |  50 +++++++++++++++
->>   4 files changed, 158 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
->> index 906771e03103..b72b1e0db343 100644
->> --- a/Documentation/gpu/drm-kms.rst
->> +++ b/Documentation/gpu/drm-kms.rst
->> @@ -445,6 +445,8 @@ Property Types and Blob Property Support
->>   .. kernel-doc:: drivers/gpu/drm/drm_property.c
->>      :export:
->>
->> +.. _standard_connector_properties:
->> +
->>   Standard Connector Properties
->>   -----------------------------
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
->> b/drivers/gpu/drm/drm_atomic_uapi.c
->> index a1e5e262bae2..e56a11208515 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -766,6 +766,8 @@ static int drm_atomic_connector_set_property(struct
->> drm_connector *connector,
->>   						   fence_ptr);
->>   	} else if (property == connector->max_bpc_property) {
->>   		state->max_requested_bpc = val;
->> +	} else if (property == connector->privacy_screen_sw_state_property) {
->> +		state->privacy_screen_sw_state = val;
->>   	} else if (connector->funcs->atomic_set_property) {
->>   		return connector->funcs->atomic_set_property(connector,
->>   				state, property, val);
->> @@ -842,6 +844,10 @@ drm_atomic_connector_get_property(struct drm_connector
->> *connector,
->>   		*val = 0;
->>   	} else if (property == connector->max_bpc_property) {
->>   		*val = state->max_requested_bpc;
->> +	} else if (property == connector->privacy_screen_sw_state_property) {
->> +		*val = state->privacy_screen_sw_state;
->> +	} else if (property == connector->privacy_screen_hw_state_property) {
->> +		*val = state->privacy_screen_hw_state;
->>   	} else if (connector->funcs->atomic_get_property) {
->>   		return connector->funcs->atomic_get_property(connector,
->>   				state, property, val);
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 644f0ad10671..01360edc2376 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1186,6 +1186,45 @@ static const struct drm_prop_enum_list dp_colorspaces[]
->> = {
->>    *	can also expose this property to external outputs, in which case they
->>    *	must support "None", which should be the default (since external screens
->>    *	have a built-in scaler).
->> + *
->> + * privacy-screen sw-state, privacy-screen hw-state:
->> + *	These 2 optional properties can be used to query the state of the
->> + *	electronic privacy screen that is available on some displays; and in
->> + *	some cases also control the state. If a driver implements these
->> + *	properties then both properties must be present.
->> + *
->> + *	"privacy-screen hw-state" is read-only and reflects the actual state
->> + *	of the privacy-screen, possible values: "Enabled", "Disabled,
->> + *	"Enabled, locked", "Disabled, locked". The locked states indicate
->> + *	that the state cannot be changed through the DRM API. E.g. there
->> + *	might be devices where the firmware-setup options, or a hardware
->> + *	slider-switch, offer always on / off modes.
->> + *
->> + *	"privacy-screen sw-state" can be set to change the privacy-screen state
->> + *	when not locked. In this case the driver must update the hw-state
->> + *	property to reflect the new state on completion of the commit of the
->> + *	sw-state property. Setting the sw-state property when the hw-state is
->> + *	locked must be interpreted by the driver as a request to change the
->> + *	state to the set state when the hw-state becomes unlocked. E.g. if
->> + *	"privacy-screen hw-state" is "Enabled, locked" and the sw-state
->> + *	gets set to "Disabled" followed by the user unlocking the state by
->> + *	changing the slider-switch position, then the driver must set the
->> + *	state to "Disabled" upon receiving the unlock event.
->> + *
->> + *	In some cases the privacy-screen state might change outside of control
->> + *	of the DRM code. E.g. there might be a firmware handled hotkey which
->> + *	toggles the state, or the state might be changed through another
->> + *	userspace API such as writing /proc/acpi/ibm/lcdshadow. In this case
->> + *	the driver must update both the hw-state and the sw-state to reflect
->> + *	the new value, overwriting any pending state requests in the sw-state.
->> + *
->> + *	Note that the ability for the state to change outside of control of
->> + *	the DRM master process means that userspace must not cache the value
->> + *	of the sw-state. Ccaching the sw-state value and including it in later
->> + *	atomic commits may lead to overriding a state change done through e.g.
->> + *	a firmware handled hotkey. Therefor userspace must not include the
->> + *	privacy-screen sw-state in an atomic commit unless it wants to change
->> + *	its value.
->>    */
->>
->>   int drm_connector_create_standard_properties(struct drm_device *dev)
->> @@ -2152,6 +2191,67 @@ int drm_connector_set_panel_orientation_with_quirk(
->>   }
->>   EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
->>
->> +static const struct drm_prop_enum_list privacy_screen_enum[] = {
->> +	{ PRIVACY_SCREEN_DISABLED,		"Disabled" },
->> +	{ PRIVACY_SCREEN_ENABLED,		"Enabled" },
->> +	{ PRIVACY_SCREEN_DISABLED_LOCKED,	"Disabled, locked" },
->> +	{ PRIVACY_SCREEN_ENABLED_LOCKED,	"Enabled, locked" },
->> +};
->> +
->> +/**
->> + * drm_connector_create_privacy_screen_properties -
->> + *     create the drm connecter's privacy-screen properties.
->> + * @connector: connector for which to create the privacy-screen properties
->> + *
->> + * This function creates the "privacy-screen sw-state" and "privacy-screen
->> + * hw-state" properties for the connector. They are not attached.
->> + */
->> +void
->> +drm_connector_create_privacy_screen_properties(struct drm_connector
->> *connector)
->> +{
->> +	if (connector->privacy_screen_sw_state_property)
->> +		return;
->> +
->> +	/* Note sw-state only supports the first 2 values of the enum */
->> +	connector->privacy_screen_sw_state_property =
->> +		drm_property_create_enum(connector->dev, DRM_MODE_PROP_ENUM,
->> +				"privacy-screen sw-state",
->> +				privacy_screen_enum, 2);
->> +
->> +	connector->privacy_screen_hw_state_property =
->> +		drm_property_create_enum(connector->dev,
->> +				DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
->> +				"privacy-screen hw-state",
->> +				privacy_screen_enum,
->> +				ARRAY_SIZE(privacy_screen_enum));
->> +}
->> +EXPORT_SYMBOL(drm_connector_create_privacy_screen_properties);
->> +
->> +/**
->> + * drm_connector_attach_privacy_screen_properties -
->> + *     attach the drm connecter's privacy-screen properties.
->> + * @connector: connector on which to attach the privacy-screen properties
->> + *
->> + * This function attaches the "privacy-screen sw-state" and "privacy-screen
->> + * hw-state" properties to the connector. The initial state of both is set
->> + * to "Disabled".
->> + */
->> +void
->> +drm_connector_attach_privacy_screen_properties(struct drm_connector
->> *connector)
->> +{
->> +	if (!connector->privacy_screen_sw_state_property)
->> +		return;
->> +
->> +	drm_object_attach_property(&connector->base,
->> +				   connector->privacy_screen_sw_state_property,
->> +				   PRIVACY_SCREEN_DISABLED);
->> +
->> +	drm_object_attach_property(&connector->base,
->> +				   connector->privacy_screen_hw_state_property,
->> +				   PRIVACY_SCREEN_DISABLED);
->> +}
->> +EXPORT_SYMBOL(drm_connector_attach_privacy_screen_properties);
->> +
->>   int drm_connector_set_obj_prop(struct drm_mode_object *obj,
->>   				    struct drm_property *property,
->>   				    uint64_t value)
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 19ae6bb5c85b..a8844f4c6ae9 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -271,6 +271,30 @@ struct drm_monitor_range_info {
->>   	u8 max_vfreq;
->>   };
->>
->> +/**
->> + * enum drm_privacy_screen_status - privacy screen status
->> + *
->> + * This enum is used to track and control the state of the integrated privacy
->> + * screen present on some display panels, via the "privacy-screen sw-state"
->> + * and "privacy-screen hw-state" properties. Note the _LOCKED enum values
->> + * are only valid for the "privacy-screen hw-state" property.
->> + *
->> + * @PRIVACY_SCREEN_DISABLED:
->> + *  The privacy-screen on the panel is disabled
->> + * @PRIVACY_SCREEN_ENABLED:
->> + *  The privacy-screen on the panel is enabled
->> + * @PRIVACY_SCREEN_DISABLED_LOCKED:
->> + *  The privacy-screen on the panel is disabled and locked (cannot be
->> changed)
->> + * @PRIVACY_SCREEN_ENABLED_LOCKED:
->> + *  The privacy-screen on the panel is enabled and locked (cannot be changed)
->> + */
->> +enum drm_privacy_screen_status {
->> +	PRIVACY_SCREEN_DISABLED = 0,
->> +	PRIVACY_SCREEN_ENABLED,
->> +	PRIVACY_SCREEN_DISABLED_LOCKED,
->> +	PRIVACY_SCREEN_ENABLED_LOCKED,
->> +};
->> +
->>   /*
->>    * This is a consolidated colorimetry list supported by HDMI and
->>    * DP protocol standard. The respective connectors will register
->> @@ -686,6 +710,18 @@ struct drm_connector_state {
->>   	 */
->>   	u8 max_bpc;
->>
->> +	/**
->> +	 * @privacy_screen_sw_state: See :ref:`Standard Connector
->> +	 * Properties<standard_connector_properties>`
->> +	 */
->> +	enum drm_privacy_screen_status privacy_screen_sw_state;
->> +
->> +	/**
->> +	 * @privacy_screen_hw_state: See :ref:`Standard Connector
->> +	 * Properties<standard_connector_properties>`
->> +	 */
->> +	enum drm_privacy_screen_status privacy_screen_hw_state;
->> +
->>   	/**
->>   	 * @hdr_output_metadata:
->>   	 * DRM blob property for HDR output metadata
->> @@ -1285,6 +1321,18 @@ struct drm_connector {
->>   	 */
->>   	struct drm_property *max_bpc_property;
->>
->> +	/**
->> +	 * @privacy_screen_sw_state_property: Optional atomic property for the
->> +	 * connector to control the integrated privacy screen.
->> +	 */
->> +	struct drm_property *privacy_screen_sw_state_property;
->> +
->> +	/**
->> +	 * @privacy_screen_hw_state_property: Optional atomic property for the
->> +	 * connector to report the actual integrated privacy screen state.
->> +	 */
->> +	struct drm_property *privacy_screen_hw_state_property;
->> +
->>   #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->>   #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->>   #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
->> @@ -1598,6 +1646,8 @@ int drm_connector_set_panel_orientation_with_quirk(
->>   	int width, int height);
->>   int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
->>   					  int min, int max);
->> +void drm_connector_create_privacy_screen_properties(struct drm_connector
->> *conn);
->> +void drm_connector_attach_privacy_screen_properties(struct drm_connector
->> *conn);
->>
->>   /**
->>    * struct drm_tile_group - Tile group metadata
->> --
->> 2.26.0
-> 
-> Hans,
-> 
-> Thanks for putting together this set of modifications.  I believe it does sufficiently
-> reflect the implementation of privacy screens present on Dell notebooks today containing
-> them: Latitude 7300 and Latitude 7400.
-> 
-> Those models only offer a HW controlled screen via a hotkey, but that hotkey control
-> can be removed permanently locking them in an enabled or disabled state.
-> 
-> I feel that your concept of HW state "Enabled, Locked" and "Disabled, Locked" sufficiently
-> reflects that.
-
-That is good to hear.
-
-> Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
-
-Thank you.
-
-Regards,
-
-Hans
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGF2ZSwgRGFuaWVsLAoKTW9yZSBzdHVmZiBmb3IgNS44LgoKVGhlIGZvbGxvd2luZyBjaGFu
+Z2VzIHNpbmNlIGNvbW1pdCBiODAyMGIwMzA0YzhmNDRlNWUyOWYwYjFhMDRkMzFlMGJmNjhkMjZh
+OgoKICBkcm0vYW1ka2ZkOiBFbmFibGUgb3Zlci1zdWJzY3JpcHRpb24gd2l0aCA+MSBHV1MgcXVl
+dWUgKDIwMjAtMDQtMjggMTY6MjA6MzAgLTA0MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQg
+cmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGlu
+dXggdGFncy9hbWQtZHJtLW5leHQtNS44LTIwMjAtMDUtMTIKCmZvciB5b3UgdG8gZmV0Y2ggY2hh
+bmdlcyB1cCB0byAzN2U0ZjA1MmNjOTc0OWRiNjA4YWQ2M2U1M2FjYzQ5MzU0Yzk4MjAwOgoKICBk
+cm0vYW1kL2FtZGdwdTogcmVtb3ZlIGRlZmluZWQgYnV0IG5vdCB1c2VkICdjcnRjX29mZnNldHMn
+ICgyMDIwLTA1LTExIDE4OjA0OjA5IC0wNDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQphbWQtZHJtLW5leHQtNS44LTIw
+MjAtMDUtMTI6CgphbWRncHU6Ci0gTWlzYyBjbGVhbnVwcwotIFJBUyBmaXhlcwotIEV4cG9zZSBG
+UDE2IGZvciBtb2Rlc2V0dGluZwotIERQIDEuNCBjb21wbGlhbmNlIHRlc3QgZml4ZXMKLSBDbG9j
+a2dhdGluZyBmaXhlcwotIE1BSU5UQUlORVJTIHVwZGF0ZQotIFNvZnQgcmVjb3ZlcnkgZm9yIGdm
+eDEwCi0gUnVudGltZSBQTSBjbGVhbnVwcwotIFBTUCBjb2RlIGNsZWFudXBzCgphbWRrZmQ6Ci0g
+VHJhY2sgR1BVIG1lbW9yeSB1dGlsaXphdGlvbiBwZXIgcHJvY2VzcwotIFJlcG9ydCBQQ0kgZG9t
+YWluIGluIHRvcG9sb2d5CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkFsZXggRGV1Y2hlciAoNik6CiAgICAgIGRybS9hbWRn
+cHU6IGZvcmNlIGZiZGV2IGludG8gdnJhbQogICAgICBkcm0vYW1kZ3B1OiBpbXBsZW1lbnQgc29m
+dF9yZWNvdmVyeSBmb3IgZ2Z4MTAKICAgICAgZHJtL2FtZGdwdTogZHJvcCBwbV9ydW50aW1lX3Nl
+dF9hY3RpdmUKICAgICAgZHJtL2FtZGdwdTogZml4IHJ1bnBtIGxvZ2ljIGluIGFtZGdwdV9wbW9w
+c19yZXN1bWUKICAgICAgZHJtL2FtZGdwdTogZHJvcCBleHRyYSBydW50aW1lIHBtIGhhbmRsaW5n
+IGluIHJlc3VtZSBwbW9wCiAgICAgIGRybS9hbWRncHU6IG9ubHkgc2V0IERQTV9GTEFHX05FVkVS
+X1NLSVAgZm9yIGxlZ2FjeSBBVFBYIEJPQ08KCkFsdmluIExlZSAoMSk6CiAgICAgIGRybS9hbWQv
+ZGlzcGxheTogQWxsb3cgUFN0YXRlIHN3aXRjaCBpbiBWQkxBTksgb25lIGRpc3BsYXkgVkFDVElW
+RQoKQW5kcml5IEdhcG9uICgxKToKICAgICAgYW1kZ3B1X2FjcGk6IGFkZCBiYWNrbGlnaHQgY29u
+dHJvbCBmb3IgdGhlIERDIGNhc2UKCkFudGhvbnkgS29vICgzKToKICAgICAgZHJtL2FtZC9kaXNw
+bGF5OiBhZGQgYWRkaXRpb24gZGMgdHlwZSB0byB0cmFuc2xhdGUgdG8gZG11YiBmdyB0eXBlCiAg
+ICAgIGRybS9hbWQvZGlzcGxheTogbW92ZSBsb2NhdGlvbiBvZiBkbXViX3Nydi5oIGZpbGUKICAg
+ICAgZHJtL2FtZC9kaXNwbGF5OiBBZGQgc3RydWN0IGZpZWxkIGZvciBmdXR1cmUgdXNlCgpBcmlj
+IEN5ciAoMik6CiAgICAgIGRybS9hbWQvZGlzcGxheTogTW9kZSBjaGFuZ2Ugd2l0aCBzYW1lIHRp
+bWluZyBjYXVzaW5nIGxvbmcgZGlzcGxheSBibGFuawogICAgICBkcm0vYW1kL2Rpc3BsYXk6IDMu
+Mi44NAoKQXJuZCBCZXJnbWFubiAoMSk6CiAgICAgIGRybS9hbWRncHU6IGFsbG9jYXRlIGxhcmdl
+IHN0cnVjdHVyZXMgZHluYW1pY2FsbHkKCkF1cmFiaW5kbyBQaWxsYWkgKDIpOgogICAgICBkcm0v
+YW1kL2Rpc3BsYXk6IFByZXZlbnQgZHBjZCByZWFkcyB3aXRoIHBhc3NpdmUgZG9uZ2xlcwogICAg
+ICBkcm0vYW1kL2Rpc3BsYXk6IHJlbW92ZSB1bnVzZWQgbW9kdWxlL3N0YXRzCgpCZXJuYXJkIFpo
+YW8gKDIpOgogICAgICBkcm0vcmFkZW9uOiBjbGVhbnVwIGNvZGluZyBzdHlsZSBhIGJpdAogICAg
+ICBkcm0vYW1kL2FtZGdwdTogY2xlYW51cCBjb2Rpbmcgc3R5bGUgYSBiaXQKCkJveXVhbiBaaGFu
+ZyAoMSk6CiAgICAgIGRybS9hbWRncHU6IGNoYW5nZSBIV0lQIGZyb20gVVZEIHRvIFZDTiBmb3Ig
+VkNOMi41CgpDaGVuIFpob3UgKDEpOgogICAgICBkcm0vYW1kL2Rpc3BsYXk6IHJlbW92ZSBkdXBs
+aWNhdGUgaGVhZGVycwoKQ2hlblRhbyAoMik6CiAgICAgIGRybS9yYWRlb246IGZpeCB1bnNpZ25l
+ZCBjb21wYXJpc29uIHdpdGggMAogICAgICBkcm0vYW1kZ3B1L25hdmkxMDogZml4IHVuc2lnbmVk
+IGNvbXBhcmlzb24gd2l0aCAwCgpDaHJpc3RpYW4gS8O2bmlnICgxKToKICAgICAgZHJtL2FtZGdw
+dTogdXNlIHRoZSBCQVIgaWYgcG9zc2libGUgaW4gYW1kZ3B1X2RldmljZV92cmFtX2FjY2VzcyB2
+MgoKQ2h1bm1pbmcgWmhvdSAoMSk6CiAgICAgIE1BSU5UQUlORVJTOiBSZW1vdmUgbWUgZnJvbSBh
+bWRncHUgbWFpbnRhaW5lcnMKCkRhbmllbCBLb2xlc2EgKDEpOgogICAgICBkcm0vYW1kL2Rpc3Bs
+YXk6IHdvcmsgYXJvdW5kIGZwIGNvZGUgYmVpbmcgZW1pdHRlZCBvdXRzaWRlIG9mIERDX0ZQX1NU
+QVJUL0VORAoKRXZhbiBRdWFuICg1KToKICAgICAgZHJtL2FtZGdwdTogcHV0IHRoZSBhdWRpbyBj
+b2RlYyBpbnRvIHN1c3BlbmQgc3RhdGUgYmVmb3JlIGdwdSByZXNldCBWMwogICAgICBkcm0vYW1k
+Z3B1OiBkaXNhYmxlIE1HQ0cvTUdMUyBhbHNvIG9uIGdmeCBDRyB1bmdhdGUKICAgICAgZHJtL2Ft
+ZGdwdTogZHJvcCB1bm5lY2Vzc2FyeSBjYW5jZWxfZGVsYXllZF93b3JrX3N5bmMgb24gUEcgdW5n
+YXRlCiAgICAgIGRybS9hbWQvcG93ZXJwbGF5OiBwZXJmb3JtIFBHIHVuZ2F0ZSBwcmlvciB0byBD
+RyB1bmdhdGUKICAgICAgZHJtL2FtZGdwdTogZW5hYmxlIGhpYmVybmF0ZSBzdXBwb3J0IG9uIE5h
+dmkxWAoKRmVsaXggS3VlaGxpbmcgKDMpOgogICAgICBkcm0vYW1ka2ZkOiBGaXggY29tbWVudCBm
+b3JtYXR0aW5nCiAgICAgIGRybS9hbWRncHU6IEFkZCBtaXNzaW5nIHBhcmFtZXRlciBkZXNjcmlw
+dGlvbiBpbiBjb21tZW50cwogICAgICBkcm0vYW1kZ3B1OiBVc2UgR0VNIG9iaiByZWZlcmVuY2Ug
+Zm9yIEtGRCBCT3MKCkhhd2tpbmcgWmhhbmcgKDcpOgogICAgICBkcm0vYW1kZ3B1OiByZS1zdHJ1
+Y3R1ZSBtZW1iZXJzIGZvciBpcCBkaXNjb3ZlcnkKICAgICAgZHJtL2FtZGdwdTogc2tpcCByZXNl
+cnZhdGlvbiBvZiBkaXNjb3ZlcnkgdG1yIHJlZ2lvbiBpbiBwcmUtTmF2aQogICAgICBkcm0vYW1k
+Z3B1OiBzd2l0Y2ggdG8gY29tbW9uIHhnbWkgdGEgaGVscGVycwogICAgICBkcm0vYW1kZ3B1OiBz
+d2l0Y2ggdG8gY29tbW9uIHJhcyB0YSBoZWxwZXIKICAgICAgZHJtL2FtZGdwdTogZHJvcCB1bnVz
+ZWQgcmFzIHRhIGhlbHBlciBmdW5jdGlvbgogICAgICBkcm0vYW1kZ3B1OiBzd2l0Y2ggdG8gY29t
+bW9uIHJsY19hdXRvbG9hZCBoZWxwZXIKICAgICAgZHJtL2FtZGdwdTogdXNlIG5vZGVfaWQgYW5k
+IG5vZGVfc2l6ZSB0byBjYWxjdWFsdGUgZHJhbV9iYXNlX2FkZHJlc3MKCklzYWJlbCBaaGFuZyAo
+MSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTogQWRkIDQgdG8gMSBNUEMgc3BsaXQgc3VwcG9ydAoK
+SmFuZSBKaWFuICgxKToKICAgICAgZHJtL2FtZC9wb3dlcnBsYXk6IHNraXAganVkZ2luZyBpZiBi
+YWNvIHN1cHBvcnQgZm9yIEFyY3R1cnVzIHNyaW92CgpKYXNvbiBZYW4gKDUpOgogICAgICBkcm0v
+YW1kL2Rpc3BsYXk6IHJlbW92ZSBkdXBsaWNhdGUgYXNzaWdubWVudCBvZiBkY24yMV9mdW5jcyBt
+ZW1iZXJzCiAgICAgIGRybS9hbWRncHUvc211MTA6IHJlbW92ZSBkdXBsaWNhdGUgYXNzaWdubWVu
+dCBvZiBzbXUxMF9od21ncl9mdW5jcyBtZW1iZXJzCiAgICAgIGRybS9hbWQvZGlzcGxheTogcmVt
+b3ZlIHVudXNlZCB2YXJpYWJsZSAncmV0JyBpbiBkbV9zdXNwZW5kKCkKICAgICAgZHJtL2FtZC9k
+aXNwbGF5OiByZW1vdmUgdmFyaWFibGUgInJlc3VsdCIgaW4gZGNuMjBfcGF0Y2hfdW5rbm93bl9w
+bGFuZV9zdGF0ZSgpCiAgICAgIGRybS9hbWQvYW1kZ3B1OiByZW1vdmUgZGVmaW5lZCBidXQgbm90
+IHVzZWQgJ2NydGNfb2Zmc2V0cycKCkplcnJ5IChGYW5nemhpKSBadW8gKDIpOgogICAgICBkcm0v
+YW1kL2Rpc3BsYXk6IENoZWNrIERNQ1UgRXhpc3RzIEJlZm9yZSBMb2FkaW5nCiAgICAgIGRybS9h
+bWQvZGlzcGxheTogQWRkIGRtIHN1cHBvcnQgZm9yIERQIDEuNCBDb21wbGlhbmNlIGVkaWQgY29y
+cnVwdGlvbiB0ZXN0CgpKb2huIENsZW1lbnRzICg0KToKICAgICAgZHJtL2FtZGdwdTogdXBkYXRl
+IFJBUyBlcnJvciBoYW5kbGluZwogICAgICBkcm0vYW1kZ3B1OiB1cGRhdGUgUkFTIFRBIHRvIEhv
+c3QgaW50ZXJmYWNlCiAgICAgIGRybS9hbWRncHU6IHVwZGF0ZSBSQVMgc2VxdWVuY2UgdG8gcGFy
+c2UgVEEgZmxhZ3MKICAgICAgZHJtL2FtZGdwdTogRml4IGJ1ZyBpbiBSQVMgaW52b2tlCgpMZW8g
+KEhhbmdob25nKSBNYSAoMSk6CiAgICAgIGRybS9hbWQvYW1kZ3B1OiBVcGRhdGUgdXBkYXRlX2Nv
+bmZpZygpIGxvZ2ljCgpMZXdpcyBIdWFuZyAoMSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTogdGVt
+cG9yYXJ5IGNsYW1wIHRoZSB2cmF0aW8gdXNlZCB0byAxLjAKCkxpa3VuIEdhbyAoMik6CiAgICAg
+IGRybS9hbWRncHU6IGNoZWNrIFNNVSBOVUxMIHB0ciBvbiBnZnggaHcgaW5pdAogICAgICBkcm0v
+YW1kZ3B1OiB1cGRhdGUgdGhlIG1ldGhvZCB0byBzZXQga2NxIHF1ZXVlIG1hc2sKCk1pY2hlbCBE
+w6RuemVyICgxKToKICAgICAgZHJtL2FtZGdwdS9kYzogVXNlIFdBUk5fT05fT05DRSBmb3IgQVNT
+RVJUCgpNdWt1bCBKb3NoaSAoMSk6CiAgICAgIGRybS9hbWRrZmQ6IFRyYWNrIEdQVSBtZW1vcnkg
+dXRpbGl6YXRpb24gcGVyIHByb2Nlc3MKCk5hdGhhbiBDaGFuY2VsbG9yICgxKToKICAgICAgZHJt
+L2FtZGdwdTogQXZvaWQgaW50ZWdlciBvdmVyZmxvdyBpbiBhbWRncHVfZGV2aWNlX3N1c3BlbmRf
+ZGlzcGxheV9hdWRpbwoKTmljaG9sYXMgS2F6bGF1c2thcyAoMSk6CiAgICAgIGRybS9hbWQvZGlz
+cGxheTogRml4IHZibGFuayBhbmQgcGFnZWZsaXAgZXZlbnQgaGFuZGxpbmcgZm9yIEZyZWVTeW5j
+CgpOaXJtb3kgRGFzICgxKToKICAgICAgZHJtL2FtZGdwdTogY2xlYW51cCBzeXNmcyBmaWxlIGhh
+bmRsaW5nCgpPYWsgWmVuZyAoMSk6CiAgICAgIGRybS9hbWRncHU6IENoYW5nZWQgQ1UgcmVzZXJ2
+YXRpb24gZ29sZGVuIHNldHRpbmdzCgpPcmkgTWVzc2luZ2VyICgxKToKICAgICAgZHJtL2FtZGtm
+ZDogUmVwb3J0IGRvbWFpbiB3aXRoIHRvcG9sb2d5CgpSb21hbiBMaSAoMSk6CiAgICAgIGRybS9h
+bWQvZGlzcGxheTogZml4IGNvdW50ZXIgaW4gd2FpdF9mb3Jfbm9fcGlwZXNfcGVuZGluZwoKU2lt
+b24gU2VyICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBhZGQgYmFzaWMgYXRvbWljIGNoZWNr
+IGZvciBjdXJzb3IgcGxhbmUKClN0eWxvbiBXYW5nICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5
+OiBTdXBwb3J0IEZQMTYgcGl4ZWwgZm9ybWF0CgpTdW5nIExlZSAoMSk6CiAgICAgIGRybS9hbWQv
+ZGlzcGxheTogVXBkYXRlIERDTjIuMSBEViBDb2RlIFJldmlzaW9uCgpUb20gU3QgRGVuaXMgKDIp
+OgogICAgICBkcm0vYW1kL2FtZGdwdTogYWRkIHJhdmVuMSBwYXJ0IHRvIHRoZSBnZnhvZmYgcXVp
+cmsgbGlzdAogICAgICBkcm0vYW1kL2FtZGdwdTogQWRkIG1pc3NpbmcgR1JCTSBiaXRzIGZvciBH
+RlggMTAuMQoKWW9uZyBaaGFvICgyKToKICAgICAgZHJtL2FtZGdwdTogUmVuYW1lIGFtZGdwdV9n
+Znhfa2NxX3F1ZXVlX21hc2tfdHJhbnNmb3JtKCkKICAgICAgZHJtL2FtZGtmZDogVXNlIGEgc3lz
+dGVtYXRpYyBtZXRob2QgdG8gY2FsY3VsYXRlIHF1ZXVlIG1hc2sgYml0CgpZb25ncWlhbmcgU3Vu
+ICgxKToKICAgICAgZHJtL2FtZC9kaXNwbGF5OiBNb3ZlIHBhbmVsX2NudGwgc3BlY2lmaWMgcmVn
+aXN0ZXIgZnJvbSBhYm0gdG8gcGFuZWxfY250bC4KClpoZW5nIEJpbiAoNyk6CiAgICAgIGRybS9h
+bWRncHU6IHJlbW92ZSBzZXQgYnV0IG5vdCB1c2VkIHZhcmlhYmxlICdwcmlvcml0eScKICAgICAg
+ZHJtL2FtZGdwdTogcmVtb3ZlIHNldCBidXQgbm90IHVzZWQgdmFyaWFibGUgJ2RpcmVjdF9wb2xs
+JyBpbiB2Y25fdjJfMC5jCiAgICAgIGRybS9hbWRncHU6IHJlbW92ZSBzZXQgYnV0IG5vdCB1c2Vk
+IHZhcmlhYmxlICdkaXJlY3RfcG9sbCcgaW4gdmNuX3YyXzUuYwogICAgICBkcm0vYW1kL2Rpc3Bs
+YXk6IHJlbW92ZSBzZXQgYnV0IG5vdCB1c2VkIHZhcmlhYmxlICdkYycKICAgICAgZHJtL2FtZC9k
+aXNwbGF5OiByZW1vdmUgc2V0IGJ1dCBub3QgdXNlZCB2YXJpYWJsZSAncGl4ZWxfd2lkdGgnCiAg
+ICAgIGRybS9hbWQvZGlzcGxheTogcmVtb3ZlIHNldCBidXQgbm90IHVzZWQgdmFyaWFibGUgJ3Nw
+ZWFrZXJzJyBpbiBkY2Vfc3RyZWFtX2VuY29kZXIuYwogICAgICBkcm0vYW1kL2Rpc3BsYXk6IHJl
+bW92ZSBzZXQgYnV0IG5vdCB1c2VkIHZhcmlhYmxlICdzcGVha2VycycgaW4gZGNuMTBfc3RyZWFt
+X2VuY29kZXIuYwoKWm91IFdlaSAoMSk6CiAgICAgIGRybS9hbWQvZGlzcGxheTogRml4IHVuc2ln
+bmVkIGNvbXBhcmlzb24gdG8gemVybwoKc2hhb3l1bmwgKDEpOgogICAgICBhbWQvYW1kZ3B1OiBM
+aW1pdCBybGNnIHdyaXRlIHJlZ2lzdGVycyBvbmx5IGZvciBudjEyCgp5YW55YW4ga2FuZyAoMSk6
+CiAgICAgIGRybS9hbWQvZGlzcGxheTogVGhlIGV4dGVybmFsIG1vbml0b3Igd2lsbCBzaG93IGdy
+YXkgc2NyZWVuIGR1cmluZyBTVVQgcmVib290CgogTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1LmggICAgICAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9hY3BpLmMgICAgICAgICAgIHwgIDIyICstCiBkcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkLmggICAgICAgICB8ICAgNiArLQogZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jICAgfCAgMjEgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jICAgICAgICAgICAgIHwgICAyIC0KIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyAgICAgICAgIHwgMTM3ICsrKysr
+LS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZi5oICAgICAgICAgICAgIHwg
+ICAzIC0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNjb3ZlcnkuYyAgICAg
+IHwgIDU2ICstLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jICAgICAg
+ICAgICAgfCAgMTAgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mYi5jICAg
+ICAgICAgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2Z4
+LmMgICAgICAgICAgICB8ICAxOSArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2dmeC5oICAgICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9rbXMuYyAgICAgICAgICAgIHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfcHNwLmMgICAgICAgICAgICB8IDE3MyArKysrKysrLQogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X3BzcC5oICAgICAgICAgICAgfCAgNDAgKy0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yYXMuYyAgICAgICAgICAgIHwgIDcxICsrKy0KIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyAgICAgICAgICAgIHwgIDIwICstCiBk
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdnJhbV9tZ3IuYyAgICAgICB8ICA0MyAr
+LQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3hnbWkuYyAgICAgICAgICAgfCAg
+MjcgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RmX3YzXzYuYyAgICAgICAgICAgICAg
+IHwgIDU0IC0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmMgICAgICAg
+ICAgICAgfCAgNzAgKysrLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y5XzAuYyAg
+ICAgICAgICAgICAgfCAgMTggKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dtY192Nl8w
+LmMgICAgICAgICAgICAgIHwgIDExIC0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dtY192
+N18wLmMgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dt
+Y192OF8wLmMgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L3BzcF92MTFfMC5jICAgICAgICAgICAgIHwgMTgyIC0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvdGFfcmFzX2lmLmggICAgICAgICAgICAgfCAgNTkgKystCiBkcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS92Y25fdjJfMC5jICAgICAgICAgICAgICB8ICAgMyAtCiBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS92Y25fdjJfNS5jICAgICAgICAgICAgICB8IDM5NCArKysrKysr
+KystLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9jaGFyZGV2LmMgICAg
+ICAgICAgIHwgIDEzICstCiAuLi4vZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVldWVf
+bWFuYWdlci5jICB8ICAgNCArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3ByaXYu
+aCAgICAgICAgICAgICAgfCAgIDcgKwogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3By
+b2Nlc3MuYyAgICAgICAgICAgfCAgNjEgKystCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9r
+ZmRfdG9wb2xvZ3kuYyAgICAgICAgICB8ICAgMyArCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtm
+ZC9rZmRfdG9wb2xvZ3kuaCAgICAgICAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rp
+c3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jICB8IDIwOCArKysrKy0tLS0tCiAuLi4vZHJtL2Ft
+ZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1fZGVidWdmcy5jICB8ICAgMiArLQogLi4uL2dw
+dS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9oZGNwLmMgfCAgMTAgKy0KIC4u
+Li9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9oZWxwZXJzLmMgIHwgIDQwICst
+CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kYy5jICAgICAgICAgICB8ICAx
+MSArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2NvcmUvZGNfbGluay5jICAgICAg
+fCAgNjUgKystCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kY19saW5rX2Rw
+LmMgICB8ICAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvY29yZS9kY19yZXNv
+dXJjZS5jICB8ICA2NyAtLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kYy5oICAg
+ICAgICAgICAgICAgIHwgICA0ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNf
+ZG11Yl9zcnYuYyAgICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Rj
+L2RjX2RtdWJfc3J2LmggICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
+eS9kYy9kY19saW5rLmggICAgICAgICAgIHwgICA1ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rp
+c3BsYXkvZGMvZGNfdHlwZXMuaCAgICAgICAgICB8ICAgNSArCiBkcml2ZXJzL2dwdS9kcm0vYW1k
+L2Rpc3BsYXkvZGMvZGNlL2RjZV9hYm0uYyAgICAgICB8IDIxNSArLS0tLS0tLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9hYm0uaCAgICAgICB8ICAzMCArLQogLi4u
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9wYW5lbF9jbnRsLmMgICAgfCAyMDQgKysr
+KysrKysrLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RjZV9wYW5lbF9jbnRsLmgg
+ICAgfCAgNDggKystCiAuLi4vZHJtL2FtZC9kaXNwbGF5L2RjL2RjZS9kY2Vfc3RyZWFtX2VuY29k
+ZXIuYyAgICB8ICAgMiAtCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNlL2RtdWJf
+YWJtLmMgICAgICB8IDEyOSArLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9k
+Y2UvZG11Yl9wc3IuYyAgICAgIHwgIDE1ICstCiAuLi4vYW1kL2Rpc3BsYXkvZGMvZGNlMTEwL2Rj
+ZTExMF9od19zZXF1ZW5jZXIuYyAgICB8ICA0OSArKy0KIC4uLi9hbWQvZGlzcGxheS9kYy9kY2Ux
+MTAvZGNlMTEwX2h3X3NlcXVlbmNlci5oICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+ZGlzcGxheS9kYy9kY24xMC9kY24xMF9kcHAuYyAgIHwgICA3IC0KIC4uLi9kcm0vYW1kL2Rpc3Bs
+YXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyLmMgIHwgIDM1ICstCiBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfaW5pdC5jICB8ICAgMSArCiAuLi4vZ3B1L2Ry
+bS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9yZXNvdXJjZS5jICB8ICAxOCAtCiAuLi4vYW1k
+L2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfc3RyZWFtX2VuY29kZXIuYyAgICB8ICAgMiAtCiBkcml2
+ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfaHdzZXEuYyB8ICAgOCArLQog
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIwL2RjbjIwX2luaXQuYyAgfCAgIDEg
+KwogLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjAvZGNuMjBfcmVzb3VyY2UuYyAgfCAx
+NjIgKysrKystLS0KIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RjbjIwL2RjbjIwX3Jlc291
+cmNlLmggIHwgICA1ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjEvZGNu
+MjFfaW5pdC5jICB8ICAgNiArLQogLi4uL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMjEvZGNu
+MjFfcmVzb3VyY2UuYyAgfCAgIDMgKy0KIC4uLi9kaXNwbGF5L2RjL2RtbC9kY24yMC9kaXNwbGF5
+X21vZGVfdmJhXzIwdjIuYyAgIHwgIDI5ICstCiAuLi4vYW1kL2Rpc3BsYXkvZGMvZG1sL2RjbjIx
+L2Rpc3BsYXlfbW9kZV92YmFfMjEuYyB8ICAyNiArLQogLi4uL2Rpc3BsYXkvZGMvZG1sL2RjbjIx
+L2Rpc3BsYXlfcnFfZGxnX2NhbGNfMjEuYyAgfCAgIDggKy0KIC4uLi9kcm0vYW1kL2Rpc3BsYXkv
+ZGMvZG1sL2Rpc3BsYXlfbW9kZV9zdHJ1Y3RzLmggIHwgICAxICsKIC4uLi9ncHUvZHJtL2FtZC9k
+aXNwbGF5L2RjL2RtbC9kaXNwbGF5X21vZGVfdmJhLmMgIHwgICAxICsKIC4uLi9ncHUvZHJtL2Ft
+ZC9kaXNwbGF5L2RjL2RtbC9kaXNwbGF5X21vZGVfdmJhLmggIHwgICAxICsKIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvZGlzcGxheS9kYy9pbmMvaHcvYWJtLmggICAgICAgIHwgIDE1ICstCiBkcml2ZXJz
+L2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvaW5jL2h3L3BhbmVsX2NudGwuaCB8ICAxNiArLQogZHJp
+dmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2luYy9od19zZXF1ZW5jZXIuaCAgfCAgIDIgKwog
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2luYy9yZXNvdXJjZS5oICAgICAgfCAgIDMg
+LQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL29zX3R5cGVzLmggICAgICAgICAgfCAg
+IDIgKy0KIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIve2luYyA9PiB9L2RtdWJfc3J2Lmgg
+IHwgICA5ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZG11Yi9pbmMvZG11Yl9jbWQu
+aCAgICB8ICAgMSArCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZG11Yi9zcmMvZG11Yl9k
+Y24yMC5jICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RtdWIvc3JjL2Rt
+dWJfZGNuMjEuYyAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kbXViL3Ny
+Yy9kbXViX3JlZy5jICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZG11
+Yi9zcmMvZG11Yl9zcnYuYyAgICB8ICAgMiArLQogLi4uL2FtZC9kaXNwbGF5L21vZHVsZXMvaW5m
+b19wYWNrZXQvaW5mb19wYWNrZXQuYyAgfCAgIDMgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
+cGxheS9tb2R1bGVzL3N0YXRzL3N0YXRzLmMgIHwgNDQ4IC0tLS0tLS0tLS0tLS0tLS0tLS0tLQog
+Li4uL2FtZC9pbmNsdWRlL2FzaWNfcmVnL2djL2djXzEwXzFfMF9zaF9tYXNrLmggICAgfCAgIDQg
+KwogZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2F0b21maXJtd2FyZS5oICAgICAgICAgfCAg
+MTIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2FtZF9wb3dlcnBsYXkuYyAgICAg
+IHwgICA2ICstCiBkcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9hbWRncHVfc211LmMgICAg
+ICAgICB8ICAgOCArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvYXJjdHVydXNfcHB0
+LmMgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3Nt
+dTEwX2h3bWdyLmMgIHwgICAxIC0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L25hdmkx
+MF9wcHQuYyAgICAgICAgIHwgICAyIC0KIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vYXRvbS5jICAg
+ICAgICAgICAgICAgICAgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
+bl9rbXMuYyAgICAgICAgICAgICAgICB8ICAgNCArLQogaW5jbHVkZS91YXBpL2xpbnV4L2tmZF9p
+b2N0bC5oICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KIDk4IGZpbGVzIGNoYW5nZWQsIDE1
+NDkgaW5zZXJ0aW9ucygrKSwgMTk4MSBkZWxldGlvbnMoLSkKIHJlbmFtZSBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2Rpc3BsYXkvZG11Yi97aW5jID0+IH0vZG11Yl9zcnYuaCAoOTklKQogZGVsZXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9tb2R1bGVzL3N0YXRzL3N0YXRz
+LmMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
