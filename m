@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AFE1CEDAC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:09:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFD21CEDC6
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:10:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5C76E83C;
-	Tue, 12 May 2020 07:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2506E85C;
+	Tue, 12 May 2020 07:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26D906E02E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 06:51:16 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id w19so7195118wmc.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 23:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PzqUJAgwkfPwZqY9huLuJ57Jz2DxDsPXmmqSEmn6iEQ=;
- b=jYYn2rm9tXXBGEfdfNQxs0IaQPLDPbZSznuhX3K3+inFDcNXl0KqQtlWqLM9/BjpNP
- kVv7wd8np8uF/tWqF7LnPYZiT9kKEfwIdiBsKmde+aZznx/vHd5yLgXEiJ8u98GMTMm/
- Gsv4kEFmvrb1jC/i9LQB3C+LyUCfjfqEwgt12dDtMEOnNbO0QMLxQwIa2COQGzigJXAe
- 4CaHT90CiQBrTZ2ua2AHa+d8Mi+GHAtvKm9bHHumm3st3Gi8TwvFOWQJTogShROTWwN9
- OmVGoAxdexdjEQoAoQEigGrj3xKbHKGvBoDQU53JtJj2qNesFI9pkKokCm7CWUhcF4NW
- GQSQ==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F156E02E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 06:55:17 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id w16so6008872ilm.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 May 2020 23:55:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PzqUJAgwkfPwZqY9huLuJ57Jz2DxDsPXmmqSEmn6iEQ=;
- b=p/Lp6SNuFwsp6cQy3uXwtOsYeZBnZWE3LGX7G99XOLB9Xxx6xMULFOi3JUUccyp1fz
- 2YkNI4z2yc2xbsbRwF9rZXHGdg3hMzPDI0O4eVU9MYfK8Vt/28eqrNKu7EpSI0m9tcm+
- eUKA6b1bCL90YDOdAaCsfg+hCgHLK8PF2+4Y4Y25xfHPOMswHj9TC3Td3Rn3jxE/rHVC
- 6AOBkYRtocSwY1xDdTTuszD8hvVgiy9DarAR9IZB+gSN9Vz7qz8I8QILFxo0D+AA+CdU
- bhfFd0PBUKJCt1AB/m3wkwzYz7RIxSpiXtG+o86yVz8/6EqP2VW5VAbivJ5q/khbynaD
- 15+g==
-X-Gm-Message-State: AGi0PuY9MXucma7CZD7Nhftpc0aYdH1kdVKTUoCLrkiJavzyF762eYLH
- AOPmTH/LqhnzKz1lF3vK2e4=
-X-Google-Smtp-Source: APiQypJvYf4NALaAkFyguhqo82x6QEXVkcwJJetASyREMrQ2k+rzJEeg2imq5+2NaLIPszqT4KSHyA==
-X-Received: by 2002:a7b:cf23:: with SMTP id m3mr34648915wmg.36.1589266274574; 
- Mon, 11 May 2020 23:51:14 -0700 (PDT)
-Received: from skynet.lan (198.red-83-49-57.dynamicip.rima-tde.net.
- [83.49.57.198])
- by smtp.gmail.com with ESMTPSA id n25sm30740119wmk.9.2020.05.11.23.51.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 23:51:14 -0700 (PDT)
-From: =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>
-To: computersforpeace@gmail.com, kdasu.kdev@gmail.com,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v3] mtd: rawnand: brcmnand: correctly verify erased pages
-Date: Tue, 12 May 2020 08:51:11 +0200
-Message-Id: <20200512065111.716801-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200505082055.2843847-1-noltari@gmail.com>
-References: <20200505082055.2843847-1-noltari@gmail.com>
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=0utPJhl8u3dQnuupDpTMqPJeqZpeiR+EaJx9ihO75P0=;
+ b=RKySpBbtRM7lmMQ/aAEEQTtcANoeNpM8W/a6/vhT5iSEShYBo1FWeeimCEGxx53RFI
+ Wzk4vLMPO6GOMFw2/ORGY0u1ZGjzKL0sJRbt7KYbRNm2GvJFmRvknEq0Lr5jxStzcgS+
+ SwmYFu0sxyJ7De2GCxXoFnDdusuvxT+f/VF607x+Kdcs6fcoyqI7S5qjEl5BKt5jJOh9
+ QGBHLj9xePVWQpvcNI0LdMjjluTvcWvfN/vnm7/WFO6kA5GQsOR5ggQUoTUCrPP7xEUI
+ gz3OtdQvwQPOT0XZdY5SS7ZhTC/orMTY74mr5E3YmE4oh/vA3aI8Z+MaauNBXU8Yfr1F
+ kCFA==
+X-Gm-Message-State: AGi0PuYuB6LLS3yplTnb9jsp8xCG3SRPU6DD8qhcGSGTmjqTjqoScg0J
+ TIVyXd5QAi8tV+HGO5UJgbbF8lLjid4wRJaIPFBZB/qUVFKQ
+X-Google-Smtp-Source: APiQypKwCw/HVeBYlAIDKGK08rZj9zUSvpqZc6seXE0qHdOTdwDsdt0UCVGhbx/CgOyu5OpFdCQa9NkmKlPwkNqeQrBa6WUcwCoT
 MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:dc3:: with SMTP id
+ l3mr19189526ilj.149.1589266516388; 
+ Mon, 11 May 2020 23:55:16 -0700 (PDT)
+Date: Mon, 11 May 2020 23:55:16 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000029b38c05a56df2b0@google.com>
+Subject: BUG: unable to handle kernel paging request in bitfill_aligned
+From: syzbot <syzbot+00ed1cf405874e141432@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Tue, 12 May 2020 07:09:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,45 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGN1cnJlbnQgY29kZSBjaGVja3MgdGhhdCB0aGUgd2hvbGUgT09CIGFyZWEgaXMgZXJhc2Vk
-LgpUaGlzIGlzIGEgcHJvYmxlbSB3aGVuIEpGRlMyIGNsZWFubWFya2VycyBhcmUgYWRkZWQgdG8g
-dGhlIE9PQiwgc2luY2UgaXQgd2lsbApmYWlsIGR1ZSB0byB0aGUgdXNhYmxlIE9PQiBieXRlcyBu
-b3QgYmVpbmcgMHhmZi4KQ29ycmVjdCB0aGlzIGJ5IG9ubHkgY2hlY2tpbmcgdGhhdCBkYXRhIGFu
-ZCBFQ0MgYnl0ZXMgYXJlbid0IDB4ZmYuCgpGaXhlczogMDJiODhlZWE5ZjljICgibXRkOiBicmNt
-bmFuZDogQWRkIGNoZWNrIGZvciBlcmFzZWQgcGFnZSBiaXRmbGlwcyIpClNpZ25lZC1vZmYtYnk6
-IMOBbHZhcm8gRmVybsOhbmRleiBSb2phcyA8bm9sdGFyaUBnbWFpbC5jb20+Ci0tLQogdjM6IEZp
-eCBjb21taXQgbG9nIGFuZCBtZXJnZSBuYW5kX2NoZWNrX2VyYXNlZF9lY2NfY2h1bmsgY2FsbHMu
-CiB2MjogQWRkIEZpeGVzIHRhZwoKIGRyaXZlcnMvbXRkL25hbmQvcmF3L2JyY21uYW5kL2JyY21u
-YW5kLmMgfCAxOSArKysrKysrKysrKysrKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0
-aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL210ZC9uYW5kL3Jh
-dy9icmNtbmFuZC9icmNtbmFuZC5jIGIvZHJpdmVycy9tdGQvbmFuZC9yYXcvYnJjbW5hbmQvYnJj
-bW5hbmQuYwppbmRleCBlNGUzY2VlYWMzOGYuLjgwZmUwMWYwMzUxNiAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9tdGQvbmFuZC9yYXcvYnJjbW5hbmQvYnJjbW5hbmQuYworKysgYi9kcml2ZXJzL210ZC9u
-YW5kL3Jhdy9icmNtbmFuZC9icmNtbmFuZC5jCkBAIC0yMDE4LDggKzIwMTgsOSBAQCBzdGF0aWMg
-aW50IGJyY21uYW5kX3JlYWRfYnlfcGlvKHN0cnVjdCBtdGRfaW5mbyAqbXRkLCBzdHJ1Y3QgbmFu
-ZF9jaGlwICpjaGlwLAogc3RhdGljIGludCBicmNtc3RiX25hbmRfdmVyaWZ5X2VyYXNlZF9wYWdl
-KHN0cnVjdCBtdGRfaW5mbyAqbXRkLAogCQkgIHN0cnVjdCBuYW5kX2NoaXAgKmNoaXAsIHZvaWQg
-KmJ1ZiwgdTY0IGFkZHIpCiB7CisJc3RydWN0IG10ZF9vb2JfcmVnaW9uIG9vYmVjYzsKIAlpbnQg
-aSwgc2FzOwotCXZvaWQgKm9vYiA9IGNoaXAtPm9vYl9wb2k7CisJdm9pZCAqb29iOwogCWludCBi
-aXRmbGlwcyA9IDA7CiAJaW50IHBhZ2UgPSBhZGRyID4+IGNoaXAtPnBhZ2Vfc2hpZnQ7CiAJaW50
-IHJldDsKQEAgLTIwMzUsMTEgKzIwMzYsMTkgQEAgc3RhdGljIGludCBicmNtc3RiX25hbmRfdmVy
-aWZ5X2VyYXNlZF9wYWdlKHN0cnVjdCBtdGRfaW5mbyAqbXRkLAogCWlmIChyZXQpCiAJCXJldHVy
-biByZXQ7CiAKLQlmb3IgKGkgPSAwOyBpIDwgY2hpcC0+ZWNjLnN0ZXBzOyBpKyssIG9vYiArPSBz
-YXMpIHsKKwlmb3IgKGkgPSAwOyBpIDwgY2hpcC0+ZWNjLnN0ZXBzOyBpKyspIHsKIAkJZWNjX2No
-dW5rID0gYnVmICsgY2hpcC0+ZWNjLnNpemUgKiBpOwotCQlyZXQgPSBuYW5kX2NoZWNrX2VyYXNl
-ZF9lY2NfY2h1bmsoZWNjX2NodW5rLAotCQkJCQkJICBjaGlwLT5lY2Muc2l6ZSwKLQkJCQkJCSAg
-b29iLCBzYXMsIE5VTEwsIDAsCisKKwkJaWYgKG10ZC0+b29ibGF5b3V0LT5lY2MobXRkLCBpLCAm
-b29iZWNjKSkgeworCQkJb29iID0gTlVMTDsKKwkJCW9vYmVjYy5sZW5ndGggPSAwOworCQl9IGVs
-c2UgeworCQkJb29iID0gY2hpcC0+b29iX3BvaSArIG9vYmVjYy5vZmZzZXQ7CisJCX0KKworCQly
-ZXQgPSBuYW5kX2NoZWNrX2VyYXNlZF9lY2NfY2h1bmsoZWNjX2NodW5rLCBjaGlwLT5lY2Muc2l6
-ZSwKKwkJCQkJCSAgb29iLCBvb2JlY2MubGVuZ3RoLAorCQkJCQkJICBOVUxMLCAwLAogCQkJCQkJ
-ICBjaGlwLT5lY2Muc3RyZW5ndGgpOwogCQlpZiAocmV0IDwgMCkKIAkJCXJldHVybiByZXQ7Ci0t
-IAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    1d3962ae Merge tag 'io_uring-5.7-2020-05-08' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14874258100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b0212dbee046bc1f
+dashboard link: https://syzkaller.appspot.com/bug?extid=00ed1cf405874e141432
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+00ed1cf405874e141432@syzkaller.appspotmail.com
+
+BUG: unable to handle page fault for address: ffff888000cf5080
+#PF: supervisor write access in kernel mode
+#PF: error_code(0x0002) - not-present page
+PGD d401067 P4D d401067 PUD d402067 PMD cf4063 PTE 0
+Oops: 0002 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 30473 Comm: syz-executor.4 Not tainted 5.7.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__writeq arch/x86/include/asm/io.h:98 [inline]
+RIP: 0010:bitfill_aligned drivers/video/fbdev/core/cfbfillrect.c:64 [inline]
+RIP: 0010:bitfill_aligned+0xfc/0x200 drivers/video/fbdev/core/cfbfillrect.c:35
+Code: fd 44 89 e0 31 d2 bf 07 00 00 00 f7 f5 41 89 c4 89 c6 89 c5 e8 c5 ab b3 fd 41 83 fc 07 76 62 45 89 e7 4c 89 ed e8 44 aa b3 fd <48> 89 5d 00 48 89 5d 08 48 89 5d 10 48 89 5d 18 48 89 5d 20 48 89
+RSP: 0018:ffffc90001c474e0 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc90012324000
+RDX: 0000000000040000 RSI: ffffffff83bf846c RDI: 0000000000000005
+RBP: ffff888000cf5080 R08: ffff888056a6a340 R09: 0000000000000040
+R10: ffff888218d3331f R11: ffffed10431a6663 R12: 0000000000000030
+R13: ffff888000cf5080 R14: 0000000000000000 R15: 0000000000000030
+FS:  00007fe0d9986700(0000) GS:ffff8880ae600000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888000cf5080 CR3: 000000008ea77000 CR4: 00000000001426f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ cfb_fillrect+0x418/0x7a0 drivers/video/fbdev/core/cfbfillrect.c:327
+ vga16fb_fillrect+0x68f/0x1960 drivers/video/fbdev/vga16fb.c:951
+ bit_clear_margins+0x2d5/0x4a0 drivers/video/fbdev/core/bitblit.c:232
+ fbcon_clear_margins+0x1de/0x240 drivers/video/fbdev/core/fbcon.c:1381
+ fbcon_switch+0xcde/0x16f0 drivers/video/fbdev/core/fbcon.c:2363
+ redraw_screen+0x2ae/0x770 drivers/tty/vt/vt.c:1015
+ fbcon_modechanged+0x581/0x720 drivers/video/fbdev/core/fbcon.c:3000
+ fbcon_update_vcs+0x3a/0x50 drivers/video/fbdev/core/fbcon.c:3047
+ fb_set_var+0xad0/0xd40 drivers/video/fbdev/core/fbmem.c:1056
+ do_fb_ioctl+0x390/0x6e0 drivers/video/fbdev/core/fbmem.c:1109
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl+0x11a/0x180 fs/ioctl.c:771
+ __do_sys_ioctl fs/ioctl.c:780 [inline]
+ __se_sys_ioctl fs/ioctl.c:778 [inline]
+ __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:778
+ do_syscall_64+0xf6/0x7d0 arch/x86/entry/common.c:295
+ entry_SYSCALL_64_after_hwframe+0x49/0xb3
+RIP: 0033:0x45c829
+Code: 0d b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 db b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fe0d9985c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004e4860 RCX: 000000000045c829
+RDX: 0000000020000000 RSI: 0000000000004601 RDI: 0000000000000003
+RBP: 000000000078bf00 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000ffffffff
+R13: 00000000000002f2 R14: 00000000004c54c8 R15: 00007fe0d99866d4
+Modules linked in:
+CR2: ffff888000cf5080
+
+======================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
