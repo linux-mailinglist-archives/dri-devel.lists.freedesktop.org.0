@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4AF1CFE75
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 21:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669751CFEA8
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 21:47:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B00F89B98;
-	Tue, 12 May 2020 19:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 500D06E974;
+	Tue, 12 May 2020 19:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4.webfaction.com (mailrelay4.webfaction.com
- [185.20.51.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2EBF89B98
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 19:38:00 +0000 (UTC)
-Received: from mailrelay3.webfaction.com (mailrelay3.webfaction.com
- [207.38.93.110])
- by mailrelay4.webfaction.com (Postfix) with ESMTPS id 038ABA3761
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 19:37:56 +0000 (UTC)
-Received: from mailrelay2.webfaction.com (mailrelay2.webfaction.com
- [185.20.50.247])
- by mailrelay3.webfaction.com (Postfix) with ESMTPS id 884842A4C58
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 19:37:53 +0000 (UTC)
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
- by mailrelay2.webfaction.com (Postfix) with ESMTPS id 6339C101905
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 19:37:47 +0000 (UTC)
-Received: from jeremy.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp.webfaction.com (Postfix) with ESMTPSA id BAB4A600454A1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 19:37:52 +0000 (UTC)
-From: Paul Boddie <paul@boddie.org.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
-Date: Tue, 12 May 2020 21:37:35 +0200
-Message-ID: <1940005.XIBaf5lNV5@jeremy>
-User-Agent: KMail/4.14.1 (Linux/3.16.0-10-586; KDE/4.14.2; i686; ; )
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3B86E974;
+ Tue, 12 May 2020 19:47:42 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id s8so17294530wrt.9;
+ Tue, 12 May 2020 12:47:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dd0BoQQcVd3JAqASsVl46XVVHdqwDdYiTKGonzKkGOk=;
+ b=CAcM0vt2HFUKLub3JzJtkPMilAkvS9eq4aN+xvgC86MNF3vYcfANxquul1iCLidaZh
+ aEypTUzMN3+yYCrotIDPDlcV80LwRn305PBxZPgarwvpXmtEMiREMHK8sKLM+R23MNuQ
+ R2msLgtuoGxdJPC1zC6vKHxDgXBvEqq9LN42iwgzDHXk58J2qc2Cr89xXNDwdjJwU4JT
+ aUARkIRYcMmzDaQuEeuNSXnJVX+tGvP4H/kdnMiSpdq4ePMVRm45Sj+DltMsJkmWHO9M
+ cU/KO/RFwJ7kkI15vox5HaIlDfrcMjchChTegpp/S9LFLLPOsvmSjq/8wDTmM9vYB47Q
+ +kGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dd0BoQQcVd3JAqASsVl46XVVHdqwDdYiTKGonzKkGOk=;
+ b=SJe+6EuPqzK3RjYUgLlmpQnbr1j36QabXoRNJOGB1Pt5TH3pPuXGDLYIr62nxLO8Uk
+ NHDCXKfiOfoufEi3qYEdhCvSWAyK7iHv7KQGpZ4VJSMjcswwnpo1ZNQaNNJ9+h6MWG2g
+ uWQ0CYvnTz8MrLziyv9sOnDLp9oxTdSoH6itxt7REriAG896DkZ+8PoCnBya9c1Hf//2
+ WMYCrfHUpYGn8fWEHVlorJlKV+sPqNk2fdIu5ur8yVhPJMJzgFHn6B3HCAXRjzsNqduC
+ HyVUUcsEPk+JM2EyAm0twCDBII1iXpu1lbtoiuX/fBr7zu2H1bH7mwEJuJANn+Bk0RQF
+ dDCg==
+X-Gm-Message-State: AGi0PuacXRKFlaRRG8vlj3Xz86drisQ9HWZxyxxvFGmmV/KkGUiTmfuV
+ 6ova43AIPb/UeoPDWpqDZFIzOGbJoG2JKV+TKKg=
+X-Google-Smtp-Source: APiQypJnpJ6wxfDNaMTKVmQBb0Cll1FSnt1k5QvFF99QvOcXkCdQOx1oO+m6ND12UPeTHDUBg/EGIi+s/8LafwC0ljo=
+X-Received: by 2002:a5d:4389:: with SMTP id i9mr27527291wrq.374.1589312861325; 
+ Tue, 12 May 2020 12:47:41 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200511171722.96576-1-christian.koenig@amd.com>
+ <1f7b3774-8724-7653-3481-9429ae991acc@suse.de>
+ <CADnq5_OnoH3YhhEjD7eOrBPPqxQZ+S1cKWRBaUMVnA0V=E0i+Q@mail.gmail.com>
+ <1706b8de-bf4a-e9e1-2163-e782d1c2cc19@suse.de>
+In-Reply-To: <1706b8de-bf4a-e9e1-2163-e782d1c2cc19@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 12 May 2020 15:47:30 -0400
+Message-ID: <CADnq5_P6sWt=0zkRm6ySmOb1zr-7VTwLwx+ecEKg-ntJTRfY5A@mail.gmail.com>
+Subject: Re: [Nouveau] [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,147 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ nouveau <nouveau@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-
-On and off over the past few months, I have been looking at getting the 
-Synopsys DesignWare HDMI peripheral used in the Ingenic JZ4780 SoC working 
-with a recent kernel. Unfortunately, what probably should be a straightforward 
-task is proving more difficult than it seems, and I have been advised to ask 
-for advice on this list.
-
-== Background ==
-
-Previously, in the vendor kernels released by Imagination Technologies for the 
-MIPS Creator CI20, there were specialised HDMI drivers for the JZ4780:
-
-* One (based on Linux 3.0.8) which seems to use a Synopsys hardware
-  abstraction layer.
-
-* Another (based on Linux 3.18) where the driver incorporates code used to
-  support Freescale products and cooperates with a "CRTC" driver that has
-  since been replaced by the ingenic-drm.c driver.
-
-Since the Freescale-related code now seems to reside as a kind of generic 
-driver in drivers/gpu/drm/bridge/synopsys [1], with some other drivers 
-specialising this generic support, I thought that it might be straightforward 
-to specialise the code similarly for the JZ4780. Unfortunately, I have not 
-managed to achieve this so far, and I imagine that I must have overlooked 
-something.
-
-== Summary of Work ==
-
-What I have done so far is to add a new file to...
-
-drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c
-
-(See [2] for the full file.)
-
-This specialises the generic dw-hdmi.c driver and is heavily based on the 
-existing driver in...
-
-drivers/gpu/drm/imx/dw_hdmi-imx.c
-
-However, the probe and remove functions are defined in a similar way to...
-
-drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-
-It would appear, looking at the vendor kernel code, that the configuration of 
-the peripheral in the JZ4780 is most similar to that done in the i.MX 
-products, with various configuration operations that are done in their own 
-particular way in the vendor kernel code now being done in a more generic way 
-in the bridge driver code. So, I have a certain amount of confidence that the 
-PLL and current control tables are reasonable.
-
-== Observations ==
-
-When powering up the system with the driver built into the kernel, the driver 
-is able to obtain mode information over DDC using the Synopsys peripheral's 
-own I2C support (which is more reliable than using the JZ4780's I2C 
-peripherals), and a viable list of modes is obtained. However, the debugfs 
-state information in /sys/kernel/debug/dri/0/state is largely unpopulated:
-
-plane[31]: plane-0
-        crtc=(null)
-        fb=0
-        crtc-pos=0x0+0+0
-        src-pos=0.000000x0.000000+0.000000+0.000000
-        rotation=1
-        normalized-zpos=0
-        color-encoding=ITU-R BT.601 YCbCr
-        color-range=YCbCr limited range
-crtc[32]: crtc-0
-        enable=0
-        active=0
-        self_refresh_active=0
-        planes_changed=0
-        mode_changed=0
-        active_changed=0
-        connectors_changed=0
-        color_mgmt_changed=0
-        plane_mask=0
-        connector_mask=0
-        encoder_mask=0
-        mode: "": 0 0 0 0 0 0 0 0 0 0 0x0 0x0
-connector[34]: HDMI-A-1
-        crtc=(null)
-        self_refresh_aware=0
-
-At the moment, I and others who have tried to test this code have seen that 
-the peripheral is not enabled (as confirmed by inspecting the appropriate 
-entry under /sys/devices/platform). It appears that one obstacle is that the 
-"bus format" is not set for the connector. Here, I noticed (and was reminded 
-again recently) that in the bridge driver, there is no call to 
-drm_display_info_set_bus_formats unlike in other bridge drivers.
-
-If such a call is added with a plausible bus format, the peripheral will be 
-enabled, but the signal is not correct (monitors report things like "Input not 
-supported"). It also occurs to me that other aspects of the signal may need to 
-be defined. However, the debugfs state information will be populated with 
-plausible values and seems to indicate that initialisation has taken place.
-
-== Conclusions ==
-
-Without direct modifications to dw-hdmi.c, it seems like the initialisation of 
-the appropriate data structures is not being completed. Without the call to 
-drm_display_info_set_bus_formats in dw_hdmi_bridge_attach, the encoder does 
-not get set on the connector, and the chain of components is not fully 
-traversed for initialisation.
-
-One part of this situation is the dw_hdmi_setup function in the bridge driver. 
-Here, there is the following code:
-
-        /* TOFIX: Get input format from plat data or fallback to RGB888 */
-        if (hdmi->plat_data->input_bus_format)
-                hdmi->hdmi_data.enc_in_bus_format =
-                        hdmi->plat_data->input_bus_format;
-        else
-                hdmi->hdmi_data.enc_in_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-
-        /* TOFIX: Get input encoding from plat data or fallback to none */
-        if (hdmi->plat_data->input_bus_encoding)
-                hdmi->hdmi_data.enc_in_encoding =
-                        hdmi->plat_data->input_bus_encoding;
-        else
-                hdmi->hdmi_data.enc_in_encoding = V4L2_YCBCR_ENC_DEFAULT;
-
-What I seek guidance on is whether the unfixed nature of this code is having 
-an impact and what I should be doing to make this driver initialise correctly. 
-Given that there is no obvious documentation for the Synopsys peripheral, I 
-feel that it will be a long journey figuring this out by myself.
-
-Thanks for any advice that anyone might have!
-
-Paul
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2017-March/134666.html
-
-[2] http://git.goldelico.com/?p=letux-kernel.git;a=blob_plain;f=drivers/gpu/drm/ingenic/dw_hdmi-jz4780.c;hb=75c6904c2f198825f67172a0a5a98190fa54ae05
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBNYXkgMTIsIDIwMjAgYXQgMzoxMCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaSBBbGV4Cj4KPiBBbSAxMi4wNS4yMCB1bSAyMDoz
+MiBzY2hyaWViIEFsZXggRGV1Y2hlcjoKPiA+IE9uIFR1ZSwgTWF5IDEyLCAyMDIwIGF0IDI6Mjkg
+UE0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+ID4+Cj4g
+Pj4gSGkKPiA+Pgo+ID4+IEFtIDExLjA1LjIwIHVtIDE5OjE3IHNjaHJpZWIgQ2hyaXN0aWFuIEvD
+tm5pZzoKPiA+Pj4gSGkgZ3V5cywKPiA+Pj4KPiA+Pj4gV2VsbCBsZXQncyBmYWNlIGl0IEFHUCBp
+cyBhIHRvdGFsIGhlYWRhY2hlIHRvIG1haW50YWluIGFuZCBkZWFkIGZvciBhdCBsZWFzdCAxMCsg
+eWVhcnMuCj4gPj4+Cj4gPj4+IFdlIGhhdmUgYSBsb3Qgb2YgeDg2IHNwZWNpZmljIHN0dWZmIGlu
+IHRoZSBhcmNoaXRlY3R1cmUgaW5kZXBlbmRlbnQgZ3JhcGhpY3MgbWVtb3J5IG1hbmFnZW1lbnQg
+dG8gZ2V0IHRoZSBjYWNoaW5nIHJpZ2h0LCBhYnVzaW5nIHRoZSBETUEgQVBJIG9uIG11bHRpcGxl
+IG9jY2FzaW9ucywgbmVlZCB0byBkaXN0aW5jdCBiZXR3ZWVuIEFHUCBhbmQgZHJpdmVyIHNwZWNp
+ZmljIHBhZ2UgdGFibGVzIGV0YyBldGMuLi4KPiA+Pj4KPiA+Pj4gU28gdGhlIGlkZWEgaGVyZSBp
+cyB0byBqdXN0IGdvIGFoZWFkIGFuZCByZW1vdmUgdGhlIHN1cHBvcnQgZnJvbSBSYWRlb24gYW5k
+IE5vdXZlYXUgYW5kIHRoZW4gZHJvcCB0aGUgbmVjZXNzYXJ5IGNvZGUgZnJvbSBUVE0uCj4gPj4+
+Cj4gPj4+IEZvciBSYWRlb24gdGhpcyBtZWFucyB0aGF0IHdlIGp1c3Qgc3dpdGNoIG92ZXIgdG8g
+dGhlIGRyaXZlciBzcGVjaWZpYyBwYWdlIHRhYmxlcyBhbmQgZXZlcnl0aGluZyBzaG91bGQgbW9y
+ZSBvciBsZXNzIGNvbnRpbnVlIHRvIHdvcmsuCj4gPj4+Cj4gPj4+IEZvciBOb3V2ZWF1IEknbSBu
+b3QgMTAwJSBzdXJlLCBidXQgZnJvbSB0aGUgY29kZSBpdCBvZiBoYW5kIGxvb2tzIGxpa2Ugd2Ug
+Y2FuIGRvIGl0IHNpbWlsYXIgdG8gUmFkZW9uLgo+ID4+Pgo+ID4+PiBQbGVhc2UgY29tbWVudCB3
+aGF0IHlvdSB0aGluayBhYm91dCB0aGlzLgo+ID4+Cj4gPj4gVGhlcmUncyBzb21lIEFHUCBzdXBw
+b3J0IGNvZGUgaW4gdGhlIERSTSBjb3JlLiBDYW4gc29tZSBvZiB0aGF0IGRlY2xhcmVkCj4gPj4g
+YXMgbGVnYWN5Pwo+ID4+Cj4gPj4gU3BlY2lmaWNhbGx5LCB3aGF0IGFib3V0IHRoZXNlIEFHUC1y
+ZWxhdGVkIGlvY3RsIGNhbGxzPyBDYW4gdGhleSBiZQo+ID4+IGRlY2xhcmVkIGFzIGxlZ2FjeT8g
+SXQgd291bGQgYXBwZWFyIHRvIG1lIHRoYXQgS01TLWJhc2VkIGRyaXZlcnMgZG9uJ3QKPiA+PiBo
+YXZlIHRvIG1hbmFnZSBBR1AgYnkgdGhlbXNlbHZlcy4gKD8pCj4gPgo+ID4gVGhlIG9sZCBkcm0g
+Y29yZSBBR1AgY29kZSBpcyBtYWlubHkgKG9ubHk/KSBmb3IgdGhlIG5vbi1LTVMgZHJpdmVycy4K
+PiA+IEUuZy4sIG1hY2g2NCwgcjEyOCwgc2lzLCBzYXZhZ2UsIGV0Yy4KPgo+IEV4YWN0bHkgbXkg
+cG9pbnQuIFRoZXJlJ3Mgb25lIGRybV9hZ3BfaW5pdCgpIGNhbGwgbGVmdCBpbiByYWRlb24uIFRo
+ZQo+IHJlc3Qgb2YgdGhlIEFHUCBjb2RlIGlzIGFwcGFyZW50bHkgZm9yIGxlZ2FjeSBub24tS01T
+IGRyaXZlcnMuIFNob3VsZAo+IHRoZSByZWxhdGVkIGlvY3RsIGNhbGxzIGJlIGRlY2xhcmVkIGFz
+IGxlZ2FjeSAoaS5lLiwgbGlzdGVkIHdpdGgKPiBEUk1fTEVHQUNZX0lPQ1RMX0RFRiBpbnN0ZWFk
+IG9mIERSTV9JT0NUTF9ERUYpPyBJZiBzbywgbXVjaCBvZiB0aGUgQUdQCj4gY29yZSBjb2RlIGNv
+dWxkIHByb2JhYmx5IGJlIG1vdmVkIGJlaGluZCBDT05GSUdfRFJNX0xFR0FDWSBhcyB3ZWxsLgoK
+QWgsIEkgZm9yZ290IGFib3V0IGRybV9hZ3BfaW5pdCgpLiAgSSB3YXMganVzdCB0aGlua2luZyB0
+aGUgb3RoZXIgQUdQCnN0dWZmLiAgWWVhaCwgSSB0aGluayB3ZSBjb3VsZCBtYWtlIGl0IGxlZ2Fj
+eS4KCkFsZXgKCgo+Cj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4KPiA+Cj4gPiBBbGV4Cj4gPgo+
+ID4+Cj4gPj4gQmVzdCByZWdhcmRzCj4gPj4gVGhvbWFzCj4gPj4KPiA+Pj4KPiA+Pj4gUmVnYXJk
+cywKPiA+Pj4gQ2hyaXN0aWFuLgo+ID4+Pgo+ID4+Pgo+ID4+PiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4+PiBOb3V2ZWF1IG1haWxpbmcgbGlzdAo+
+ID4+PiBOb3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+PiBodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL25vdXZlYXUKPiA+Pj4KPiA+Pgo+ID4+IC0t
+Cj4gPj4gVGhvbWFzIFppbW1lcm1hbm4KPiA+PiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4g
+Pj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gPj4gTWF4ZmVsZHN0ci4g
+NSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gPj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJn
+KQo+ID4+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPiA+Pgo+ID4+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPj4gYW1kLWdm
+eCBtYWlsaW5nIGxpc3QKPiA+PiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+IGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeAo+Cj4g
+LS0KPiBUaG9tYXMgWmltbWVybWFubgo+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiBTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiBNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
+w7xybmJlcmcsIEdlcm1hbnkKPiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gR2VzY2jDpGZ0
+c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
