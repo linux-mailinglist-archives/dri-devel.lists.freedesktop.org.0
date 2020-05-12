@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548961CF230
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 12:16:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC70A1CF238
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 12:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781DC6E09A;
-	Tue, 12 May 2020 10:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7E56E0BE;
+	Tue, 12 May 2020 10:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB53B6E09A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:16:51 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id a7so4529741uak.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 03:16:51 -0700 (PDT)
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C3E6E0DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:19:04 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id 1so7491291vsl.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 03:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eD/fxPgbRazpPuKEYKmVFpAaQ+Lts7fC5ruqKYqtzWI=;
- b=gYoJQp8ortxiwAMQ8esa67zCWRtmd7zu2xfVy1BmH6T37/TDmhKRc/DJ+JEioF1pQL
- 4JNyGyOnbrwVezJscFsZRsYxMXUUsuqqJDB80JfmFvezyzWFlwq50uxV28acple1Xa+1
- ChEE4tnoYQdDgV6+6vBHGdOyEYL7ENzH3f9ZvHgSuVodt4rb3O65B0lB5InTUtTbIou0
- QcPA3Ye/SFL75zQIlZH4PTp4vNOKxp/53eKUgXJWKGmaLnXBQ7M1Qbx/YDwjBSi4NM4G
- I+3WqLZSB9Xfr34lsq+L14OgmmLGBGq6nneUWAbwUMuVEvH7N1NVCZf2KFKgKYQfjxqm
- F6Ig==
+ :cc; bh=/AsQa/OLIaC4mxgaTX9/zDMQgLH0nxvUygPCn0RQ8XI=;
+ b=M+gFov2imtvKiCEdbTCPcaG/7OsrHR6ZpqOfM2AohMyG1on8fBjm1QzzUeWj/WcL7t
+ c6TlPdCLIyN4m9A8DpBjwGAonHgud35j7rbEnabNcKx/D19dlM3Vwg9ozexGOJG6uaPq
+ V+fjpTiI0xHqxkw5r/u54JX94PXovBZaqXHiagxBRDLnUWZ5IlVrSYie5r4KevSigp6L
+ yXMatC09riqcjOHmTptEPv5EvmCPippcautanxo92u40FCnoVWpDBz0BElowaWvfKwlI
+ R71LjIYHl6gbqH3hFRucF5Kw8e3df7WVTpaUGjrQP+NtYdoNZVHy0IwBvo7UZrl49ipc
+ P14A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eD/fxPgbRazpPuKEYKmVFpAaQ+Lts7fC5ruqKYqtzWI=;
- b=haGJDHNZsPvNQhKgrW45rCvJ20VhGqT8d7fH4Qzb9etExDpYlNST6052mnHAFAVUwL
- nYdFLsGrthoLdCYWZ1vKm5j3GAxZNC7k8vSQp39KDqpwNPT57WOlxpW0MhYfS7uZJ5gB
- bvO+VUvsSLvIHpXGzDoDMpR9p8KYDUXUxfSUNKgxgZbO3Sy8MGTXrEqFhBDlSfRjxcU/
- BUit+Pa3yMbl/gfF3wSoE7Wzam5VMehKsnsatj37BI8H2jx4ofYo5C0/tBXpOW/uWSiL
- h54v0QOxqazyYumTqXsRdytBTLtxMKC9thxxXNK1K2hCMUJNwAT0hfdc3h0P+27DC2S3
- hjYg==
-X-Gm-Message-State: AGi0PuZVJuACID86oj99n6A/zhZeR3uoIvYVNPKwJDne3u/k49Eao2j5
- YSovLIRVcjoAVRDBp3y0bWTjdJ35ho8t6JQ75Zo=
-X-Google-Smtp-Source: APiQypLYVbnljZIPlnM/Y82nzMXIl5VAIA7Uxw/LVqrPpFEx/aYFLFiyOnPeFDTcZF677c0V6gEhXTuQQ3J+3L5E/Y4=
-X-Received: by 2002:a9f:2188:: with SMTP id 8mr16407801uac.46.1589278610824;
- Tue, 12 May 2020 03:16:50 -0700 (PDT)
+ bh=/AsQa/OLIaC4mxgaTX9/zDMQgLH0nxvUygPCn0RQ8XI=;
+ b=VeGYkt0ZQmlzW055apOkQVxU1KOqrpDct5xl3UMDlzSTCaT4wVMQy7reiQ6GQHnUsD
+ +mXK8eTKypvdFrIrkhymlzPS2uFD/F3yUx3zZQ4zB/KonQuUGrxp0g9BfzyTW++B860I
+ rGsK15IeMc+FOtjGrYS3bs3MtErfJt716k3KnIUMhTayQ156qWD1hZegrZ72NL439G9F
+ TkspxP2wZNj/brexmZYaYi0dcv/zXpXIAZRZ9oXwKA0NlfRJV2qSZ4mxM6ZSdMOEYngG
+ GeI35xCQgsSaVYLYpVtaSEnT5LNGJzjkceIgzuT2ctee+DvD1WaEuUzKqZxofcuy/Fqu
+ DgDQ==
+X-Gm-Message-State: AGi0PuYNx2lF21WkgVXsukVAhhh6bk/ZlAcoEv2YMMvGHvJ3UW5glMC7
+ VMtZ4gqls6+wcS1gxDEdba4ursJaGUyV3cE2XeU=
+X-Google-Smtp-Source: APiQypJKJOBuauTImMYjUNlRlo7VhllL5b2CANK1V2FYzDUyiId0Jx5jL+F0qj3DCWuirLyokJDIhhMs/4uyUuUUxXQ=
+X-Received: by 2002:a67:fe8c:: with SMTP id b12mr14828547vsr.186.1589278743229; 
+ Tue, 12 May 2020 03:19:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200512084258.12673-1-tzimmermann@suse.de>
- <20200512084258.12673-13-tzimmermann@suse.de>
-In-Reply-To: <20200512084258.12673-13-tzimmermann@suse.de>
+ <20200512084258.12673-14-tzimmermann@suse.de>
+In-Reply-To: <20200512084258.12673-14-tzimmermann@suse.de>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 12 May 2020 11:14:12 +0100
-Message-ID: <CACvgo522zu525bZX=s=h1AeTAFbbAVsWtFLwgt=i0uBORb-oVw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] drm/mgag200: Remove out-commented suspend/resume
- helpers
+Date: Tue, 12 May 2020 11:16:24 +0100
+Message-ID: <CACvgo52PubG0Qp+9GLYB1A5CfW7j86WmMwfwqbYqTZR186+oGg@mail.gmail.com>
+Subject: Re: [PATCH v2 13/15] drm/mgag200: Use simple-display data structures
 To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,14 +72,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Thomas,
 
 On Tue, 12 May 2020 at 09:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> The suspend/resume helpers are unused. Also remove associated state
-> from struct mga_device.
->
-Although DPMS in it's traditional sense is no longer a thing, would it
-make sense to keep this around for documentation purposes?
-In particular, the pci magic and associated PLL/DAC/pixel clock could
-be used for dynamic PM.
+
+>  static void mga_crtc_init(struct mga_device *mdev)
+>  {
+>         struct drm_device *dev = mdev->dev;
+> -       struct mga_crtc *mga_crtc;
+> -
+> -       mga_crtc = kzalloc(sizeof(struct mga_crtc) +
+> -                             (MGAG200FB_CONN_LIMIT * sizeof(struct drm_connector *)),
+
+The #define MGAG200FB_CONN_LIMIT in mgag200_drv.h is no longer used, correct?
 
 -Emil
 _______________________________________________
