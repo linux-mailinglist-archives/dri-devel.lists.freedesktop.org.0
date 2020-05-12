@@ -2,33 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD561CF169
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 11:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CC41CF166
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 11:20:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 144936E902;
-	Tue, 12 May 2020 09:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C6A6E0C8;
+	Tue, 12 May 2020 09:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6F76E0CC;
- Tue, 12 May 2020 09:20:35 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21170407-1500050 for multiple; Tue, 12 May 2020 10:19:57 +0100
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF09B6E0C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 09:20:31 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.93) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1jYR5S-001Pu4-67; Tue, 12 May 2020 11:20:30 +0200
+Received: from p57bd9b68.dip0.t-ipconnect.de ([87.189.155.104]
+ helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.93)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1jYR5R-003QsV-SZ; Tue, 12 May 2020 11:20:30 +0200
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: david.vantyghem@infolib.re,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <0cf734c8-aad4-3d8c-5a7f-af714d858907@infolib.re>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
+ 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
+ scOkTAZQGVpD/8AaLH4v1w==
+Message-ID: <fda549d6-a51a-2f73-28e5-d91752cd4278@physik.fu-berlin.de>
+Date: Tue, 12 May 2020 11:20:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200512090847.GF206103@phenom.ffwll.local>
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-3-daniel.vetter@ffwll.ch>
- <158927426244.15653.14406159524439944950@build.alporthouse.com>
- <20200512090847.GF206103@phenom.ffwll.local>
-Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <158927519651.15653.17392305363363808831@build.alporthouse.com>
-User-Agent: alot/0.8.1
-Date: Tue, 12 May 2020 10:19:56 +0100
+In-Reply-To: <0cf734c8-aad4-3d8c-5a7f-af714d858907@infolib.re>
+Content-Language: en-US
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.155.104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,116 +94,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, DRI Development <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>, Christian König <christian.koenig@amd.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDIwLTA1LTEyIDEwOjA4OjQ3KQo+IE9uIFR1ZSwgTWF5
-IDEyLCAyMDIwIGF0IDEwOjA0OjIyQU0gKzAxMDAsIENocmlzIFdpbHNvbiB3cm90ZToKPiA+IFF1
-b3RpbmcgRGFuaWVsIFZldHRlciAoMjAyMC0wNS0xMiAwOTo1OToyOSkKPiA+ID4gRGVzaWduIGlz
-IHNpbWlsYXIgdG8gdGhlIGxvY2tkZXAgYW5ub3RhdGlvbnMgZm9yIHdvcmtlcnMsIGJ1dCB3aXRo
-Cj4gPiA+IHNvbWUgdHdpc3RzOgo+ID4gPiAKPiA+ID4gLSBXZSB1c2UgYSByZWFkLWxvY2sgZm9y
-IHRoZSBleGVjdXRpb24vd29ya2VyL2NvbXBsZXRpb24gc2lkZSwgc28gdGhhdAo+ID4gPiAgIHRo
-aXMgZXhwbGljaXQgYW5ub3RhdGlvbiBjYW4gYmUgbW9yZSBsaWJlcmFsbHkgc3ByaW5rbGVkIGFy
-b3VuZC4KPiA+ID4gICBXaXRoIHJlYWQgbG9ja3MgbG9ja2RlcCBpc24ndCBnb2luZyB0byBjb21w
-bGFpbiBpZiB0aGUgcmVhZC1zaWRlCj4gPiA+ICAgaXNuJ3QgbmVzdGVkIHRoZSBzYW1lIHdheSB1
-bmRlciBhbGwgY2lyY3Vtc3RhbmNlcywgc28gQUJCQSBkZWFkbG9ja3MKPiA+ID4gICBhcmUgb2su
-IFdoaWNoIHRoZXkgYXJlLCBzaW5jZSB0aGlzIGlzIGFuIGFubm90YXRpb24gb25seS4KPiA+ID4g
-Cj4gPiA+IC0gV2UncmUgdXNpbmcgbm9uLXJlY3Vyc2l2ZSBsb2NrZGVwIHJlYWQgbG9jayBtb2Rl
-LCBzaW5jZSBpbiByZWN1cnNpdmUKPiA+ID4gICByZWFkIGxvY2sgbW9kZSBsb2NrZGVwIGRvZXMg
-bm90IGNhdGNoIHJlYWQgc2lkZSBoYXphcmRzLiBBbmQgd2UKPiA+ID4gICBfdmVyeV8gbXVjaCB3
-YW50IHJlYWQgc2lkZSBoYXphcmRzIHRvIGJlIGNhdWdodC4gRm9yIGZ1bGwgZGV0YWlscyBvZgo+
-ID4gPiAgIHRoaXMgbGltaXRhdGlvbiBzZWUKPiA+ID4gCj4gPiA+ICAgY29tbWl0IGU5MTQ5ODU4
-OTc0NjA2NWUzYWU5NWQ5YTAwYjA2OGU1MjVlZWMzNGYKPiA+ID4gICBBdXRob3I6IFBldGVyIFpp
-amxzdHJhIDxwZXRlcnpAaW5mcmFkZWFkLm9yZz4KPiA+ID4gICBEYXRlOiAgIFdlZCBBdWcgMjMg
-MTM6MTM6MTEgMjAxNyArMDIwMAo+ID4gPiAKPiA+ID4gICAgICAgbG9ja2luZy9sb2NrZGVwL3Nl
-bGZ0ZXN0czogQWRkIG1peGVkIHJlYWQtd3JpdGUgQUJCQSB0ZXN0cwo+ID4gPiAKPiA+ID4gLSBU
-byBhbGxvdyBuZXN0aW5nIG9mIHRoZSByZWFkLXNpZGUgZXhwbGljaXQgYW5ub3RhdGlvbnMgd2Ug
-ZXhwbGljaXRseQo+ID4gPiAgIGtlZXAgdHJhY2sgb2YgdGhlIG5lc3RpbmcuIGxvY2tfaXNfaGVs
-ZCgpIGFsbG93cyB1cyB0byBkbyB0aGF0Lgo+ID4gPiAKPiA+ID4gLSBUaGUgd2FpdC1zaWRlIGFu
-bm90YXRpb24gaXMgYSB3cml0ZSBsb2NrLCBhbmQgZW50aXJlbHkgZG9uZSB3aXRoaW4KPiA+ID4g
-ICBkbWFfZmVuY2Vfd2FpdCgpIGZvciBldmVyeW9uZSBieSBkZWZhdWx0Lgo+ID4gPiAKPiA+ID4g
-LSBUbyBiZSBhYmxlIHRvIGZyZWVseSBhbm5vdGF0ZSBoZWxwZXIgZnVuY3Rpb25zIEkgd2FudCB0
-byBtYWtlIGl0IG9rCj4gPiA+ICAgdG8gY2FsbCBkbWFfZmVuY2VfYmVnaW4vZW5kX3NpZ25hbGxp
-bmcgZnJvbSBzb2Z0L2hhcmRpcnEgY29udGV4dC4KPiA+ID4gICBGaXJzdCBhdHRlbXB0IHdhcyB1
-c2luZyB0aGUgaGFyZGlycSBsb2NraW5nIGNvbnRleHQgZm9yIHRoZSB3cml0ZQo+ID4gPiAgIHNp
-ZGUgaW4gbG9ja2RlcCwgYnV0IHRoaXMgZm9yY2VzIGFsbCBub3JtYWwgc3BpbmxvY2tzIG5lc3Rl
-ZCB3aXRoaW4KPiA+ID4gICBkbWFfZmVuY2VfYmVnaW4vZW5kX3NpZ25hbGxpbmcgdG8gYmUgc3Bp
-bmxvY2tzLiBUaGF0IGJvbGxvY2tzLgo+ID4gPiAKPiA+ID4gICBUaGUgYXBwcm9hY2ggbm93IGlz
-IHRvIHNpbXBsZSBjaGVjayBpbl9hdG9taWMoKSwgYW5kIGZvciB0aGVzZSBjYXNlcwo+ID4gPiAg
-IGVudGlyZWx5IHJlbHkgb24gdGhlIG1pZ2h0X3NsZWVwKCkgY2hlY2sgaW4gZG1hX2ZlbmNlX3dh
-aXQoKS4gVGhhdAo+ID4gPiAgIHdpbGwgY2F0Y2ggYW55IHdyb25nIG5lc3RpbmcgYWdhaW5zdCBz
-cGlubG9ja3MgZnJvbSBzb2Z0L2hhcmRpcnEKPiA+ID4gICBjb250ZXh0cy4KPiA+ID4gCj4gPiA+
-IFRoZSBpZGVhIGhlcmUgaXMgdGhhdCBldmVyeSBjb2RlIHBhdGggdGhhdCdzIGNyaXRpY2FsIGZv
-ciBldmVudHVhbGx5Cj4gPiA+IHNpZ25hbGxpbmcgYSBkbWFfZmVuY2Ugc2hvdWxkIGJlIGFubm90
-YXRlZCB3aXRoCj4gPiA+IGRtYV9mZW5jZV9iZWdpbi9lbmRfc2lnbmFsbGluZy4gVGhlIGFubm90
-YXRpb24gaWRlYWxseSBzdGFydHMgcmlnaHQKPiA+ID4gYWZ0ZXIgYSBkbWFfZmVuY2UgaXMgcHVi
-bGlzaGVkIChhZGRlZCB0byBhIGRtYV9yZXN2LCBleHBvc2VkIGFzIGEKPiA+ID4gc3luY19maWxl
-IGZkLCBhdHRhY2hlZCB0byBhIGRybV9zeW5jb2JqIGZkLCBvciBhbnl0aGluZyBlbHNlIHRoYXQK
-PiA+ID4gbWFrZXMgdGhlIGRtYV9mZW5jZSB2aXNpYmxlIHRvIG90aGVyIGtlcm5lbCB0aHJlYWRz
-KSwgdXAgdG8gYW5kCj4gPiA+IGluY2x1ZGluZyB0aGUgZG1hX2ZlbmNlX3dhaXQoKS4gRXhhbXBs
-ZXMgYXJlIGlycSBoYW5kbGVycywgdGhlCj4gPiA+IHNjaGVkdWxlciBydCB0aHJlYWRzLCB0aGUg
-dGFpbCBvZiBleGVjYnVmIChhZnRlciB0aGUgY29ycmVzcG9uZGluZwo+ID4gPiBmZW5jZXMgYXJl
-IHZpc2libGUpLCBhbnkgd29ya2VycyB0aGF0IGVuZCB1cCBzaWduYWxsaW5nIGRtYV9mZW5jZXMg
-YW5kCj4gPiA+IHJlYWxseSBhbnl0aGluZyBlbHNlLiBOb3QgYW5ub3RhdGVkIHNob3VsZCBiZSBj
-b2RlIHBhdGhzIHRoYXQgb25seQo+ID4gPiBjb21wbGV0ZSBmZW5jZXMgb3Bwb3J0dW5pc3RpY2Fs
-bHkgYXMgdGhlIGdwdSBwcm9ncmVzc2VzLCBsaWtlIGUuZy4KPiA+ID4gc2hyaW5rZXIvZXZpY3Rp
-b24gY29kZS4KPiA+ID4gCj4gPiA+IFRoZSBtYWluIGNsYXNzIG9mIGRlYWRsb2NrcyB0aGlzIGlz
-IHN1cHBvc2VkIHRvIGNhdGNoIGFyZToKPiA+ID4gCj4gPiA+IFRocmVhZCBBOgo+ID4gPiAKPiA+
-ID4gICAgICAgICBtdXRleF9sb2NrKEEpOwo+ID4gPiAgICAgICAgIG11dGV4X3VubG9jayhBKTsK
-PiA+ID4gCj4gPiA+ICAgICAgICAgZG1hX2ZlbmNlX3NpZ25hbCgpOwo+ID4gPiAKPiA+ID4gVGhy
-ZWFkIEI6Cj4gPiA+IAo+ID4gPiAgICAgICAgIG11dGV4X2xvY2soQSk7Cj4gPiA+ICAgICAgICAg
-ZG1hX2ZlbmNlX3dhaXQoKTsKPiA+ID4gICAgICAgICBtdXRleF91bmxvY2soQSk7Cj4gPiA+IAo+
-ID4gPiBUaHJlYWQgQiBpcyBibG9ja2VkIG9uIEEgc2lnbmFsbGluZyB0aGUgZmVuY2UsIGJ1dCBB
-IG5ldmVyIGdldHMgYXJvdW5kCj4gPiA+IHRvIHRoYXQgYmVjYXVzZSBpdCBjYW5ub3QgYWNxdWly
-ZSB0aGUgbG9jayBBLgo+ID4gPiAKPiA+ID4gTm90ZSB0aGF0IGRtYV9mZW5jZV93YWl0KCkgaXMg
-YWxsb3dlZCB0byBiZSBuZXN0ZWQgd2l0aGluCj4gPiA+IGRtYV9mZW5jZV9iZWdpbi9lbmRfc2ln
-bmFsbGluZyBzZWN0aW9ucy4gVG8gYWxsb3cgdGhpcyB0byBoYXBwZW4gdGhlCj4gPiA+IHJlYWQg
-bG9jayBuZWVkcyB0byBiZSB1cGdyYWRlZCB0byBhIHdyaXRlIGxvY2ssIHdoaWNoIG1lYW5zIHRo
-YXQgYW55Cj4gPiA+IG90aGVyIGxvY2sgaXMgYWNxdWlyZWQgYmV0d2VlbiB0aGUgZG1hX2ZlbmNl
-X2JlZ2luX3NpZ25hbGxpbmcoKSBjYWxsIGFuZAo+ID4gPiB0aGUgY2FsbCB0byBkbWFfZmVuY2Vf
-d2FpdCgpLCBhbmQgc3RpbGwgaGVsZCwgdGhpcyB3aWxsIHJlc3VsdCBpbiBhbgo+ID4gPiBpbW1l
-ZGlhdGUgbG9ja2RlcCBjb21wbGFpbnQuIFRoZSBvbmx5IG90aGVyIG9wdGlvbiB3b3VsZCBiZSB0
-byBub3QKPiA+ID4gYW5ub3RhdGUgc3VjaCBjYWxscywgZGVmZWF0aW5nIHRoZSBwb2ludC4gVGhl
-cmVmb3JlIHRoZXNlIGFubm90YXRpb25zCj4gPiA+IGNhbm5vdCBiZSBzcHJpbmtsZWQgb3ZlciB0
-aGUgY29kZSBlbnRpcmVseSBtaW5kbGVzcyB0byBhdm9pZCBmYWxzZQo+ID4gPiBwb3NpdGl2ZXMu
-Cj4gPiA+IAo+ID4gPiB2MjogaGFuZGxlIHNvZnQvaGFyZGlycSBjdHggYmV0dGVyIGFnYWluc3Qg
-d3JpdGUgc2lkZSBhbmQgZG9udCBmb3JnZXQKPiA+ID4gRVhQT1JUX1NZTUJPTCwgZHJpdmVycyBj
-YW4ndCB1c2UgdGhpcyBvdGhlcndpc2UuCj4gPiA+IAo+ID4gPiBDYzogbGludXgtbWVkaWFAdmdl
-ci5rZXJuZWwub3JnCj4gPiA+IENjOiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKPiA+
-ID4gQ2M6IGxpbnV4LXJkbWFAdmdlci5rZXJuZWwub3JnCj4gPiA+IENjOiBhbWQtZ2Z4QGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+ID4gPiBDYzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+ID4gPiBDYzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4gPiA+
-IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29t
-Pgo+ID4gPiBDYzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+
-ID4gPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNv
-bT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMgfCA1MyArKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiA+ICBpbmNsdWRlL2xpbnV4L2Rt
-YS1mZW5jZS5oICAgfCAxMiArKysrKysrKysKPiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNjUgaW5z
-ZXJ0aW9ucygrKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-ZmVuY2UuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYwo+ID4gPiBpbmRleCA2ODAyMTI1
-MzQ5ZmIuLmQ1YzBmZDJlZmM3MCAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9kbWEtYnVmL2Rt
-YS1mZW5jZS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UuYwo+ID4gPiBA
-QCAtMTEwLDYgKzExMCw1MiBAQCB1NjQgZG1hX2ZlbmNlX2NvbnRleHRfYWxsb2ModW5zaWduZWQg
-bnVtKQo+ID4gPiAgfQo+ID4gPiAgRVhQT1JUX1NZTUJPTChkbWFfZmVuY2VfY29udGV4dF9hbGxv
-Yyk7Cj4gPiA+ICAKPiA+ID4gKyNpZmRlZiBDT05GSUdfTE9DS0RFUAo+ID4gPiArc3RydWN0IGxv
-Y2tkZXBfbWFwICAgICBkbWFfZmVuY2VfbG9ja2RlcF9tYXAgPSB7Cj4gPiA+ICsgICAgICAgLm5h
-bWUgPSAiZG1hX2ZlbmNlX21hcCIKPiA+ID4gK307Cj4gPiAKPiA+IE5vdCBhbm90aGVyIGZhbHNl
-IGdsb2JhbCBzaGFyaW5nIGxvY2ttYXAuCj4gCj4gSXQncyBhIGdsb2JhbCBjb250cmFjdCwgaXQg
-bmVlZHMgYSBnbG9iYWwgbG9ja2RlcCBtYXAuIEFuZCB5ZXMgYSBiaWcKPiByZWFzb24gZm9yIHRo
-ZSBtb3RpdmF0aW9uIGhlcmUgaXMgdGhhdCBpOTE1LWdlbSBoYXMgYSB0cmVtZW5kb3VzIHVyZ2Ug
-dG8KPiBqdXN0IHJlZGVmaW5lIGFsbCB0aGVzZSBnbG9iYWwgbG9ja3MgdG8gZml0IHRvIHNvbWUg
-bG9jYWwgaW50ZXJwcmV0YXRpb24KPiBvZiB3aGF0J3MgZ29pbmcgb24uCgpObywgeW91IGNhbiBi
-dWlsZCB0aGUgZ2xvYmFsIGNvbnRyYWN0IG91dCBvZiB0aGUgYWN0dWFsIGNvbnRyYWN0cwpiZXR3
-ZWVuIGZlbmNlIGRyaXZlcnMuIElmIHlvdSBpbnRyb2R1Y2UgYSBzdHJ1Y3QgbG9ja2RlcF9tYXAg
-Km1hcCBpbnRvCnRoZSBmZW5jZV9vcHMgKHNvIHRoZSBmZW5jZV9vcHMgY2FuIHJlbWFpbiBjb25z
-dCksIHlvdSBnYWluIGNvcnJlY3RuZXNzCmF0IHRoZSBjb3N0IG9mIGhhdmluZyB0byBydW4gdGhy
-b3VnaCBhbGwgcG9zc2libGUgaW50ZXJhY3Rpb25zIG9uY2UuCllvdSBjYW4gYWxzbyB0aGVuIGRv
-IGlmIG9wcy0+bG9ja21hcCA/OiAmZ2xvYmFsX2ZlbmNlX2xvY2ttYXAgZm9yCnBpZWNlbWVhbCBj
-b252ZXJzaW9uIG9mIGRyaXZlcnMgdGhhdCBkbyBub3QgYWxyZWFkeSB1c2UgbG9ja21hcHMgZm9y
-CmNvbnRyYWN0IGVuZm9yY2VtZW50IG9mIHRoZWlyIGZlbmNlIHdhaXRzLgotQ2hyaXMKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi David!
+
+On 5/12/20 7:04 AM, David VANTYGHEM wrote:
+> Im happy now that after your work, Debian and GRUB install fine on my
+> iMac G3. But Xserver doesn't start, I've got an AMD Rage 128 Pro AGP 4x
+> (see joined screenshot).
+
+This is an unrelated problem as the reason why you don't have a working
+graphics driver at the moment is because Debian's X.org maintainers removed
+a couple of older drivers from the package archive - without knowing these
+drivers are still used by PowerPC users.
+
+I will take over package maintainership of these drivers soon and re-upload
+them to the Debian archive.
+
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
