@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7D01D0B8F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F451CFCA4
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 19:52:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F33E6E9CC;
-	Wed, 13 May 2020 09:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E38666E951;
+	Tue, 12 May 2020 17:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D19C890E5
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 17:38:50 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id d21so6951827ljg.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ebjOYMaJ7M7jwUsklPOZCI8Jw5RKKj0xTEHhhpqxFeY=;
- b=wL/JSsWvVethBa2RSUWzhxiibVY/AsKcKJw2HL8qE4PUubrt8MxgDn17BbbhCQfvKH
- sAsI9Pr3kafMWoL20GqgxMGTfVB4dqQcfYsafs0deVrHKMlO3ugjjJkus/G9W3bce+Cm
- enxanYzmfiyMG4g/TD6kCVt5f5KnSHVVVOf1X+TTl9b1qX67ec+wzL1QXiux5O1iu8PN
- ldCdOI1i85elav+vbl0/nFYfhOxFKd6rq1aRGnBdYpTumcdRJLNY3azN4v1/a1nEtCg0
- Y1B2JH3idXntk2tbmdxe1aogzPyYJaSSrdbrePvC/zuxzZjLGmkVZuCZLHVwSpZ/JQjf
- 7z5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ebjOYMaJ7M7jwUsklPOZCI8Jw5RKKj0xTEHhhpqxFeY=;
- b=dsxMby91C9fNHVtE14IJj3usqjENnqYy7AhbI+d6HxdaPrEZGL2GN+NxzJb4ZgTOUX
- JlqLYS1jQgh1oUJ5iP5YJB+ltlrl2Z9TcknCqkRhzuPeW7TrLxvhvno/hvcJBoIu7uYW
- HBkUTGTfIt+0R5zT64SU4Iu/c4vXOY72Rk3W/aX9hl2f1yBAHeWDiaWltD+L8uFluqjW
- KSpnnSlTp1LEUms0qC1g6DrCl/OtwQ6Z2OKBb2kIUngdQ8zrlerapSBRtCPrwDjpS4yk
- KiolpCf1IhntziM2P38V5D40Pk+DEVD7YmKPqqw/hCvSAwhKIMpZGW9H2aO3BBnrUjw8
- MS9w==
-X-Gm-Message-State: AOAM530mblM7OYGh5Q0TpdN4je1nWGy16lKKu6xHGIo++C80muH03ouz
- 4a3Hmox6c9/Fb9eomWnWzjg0FYByg3lbGh1WnNmyGA==
-X-Google-Smtp-Source: ABdhPJxrzkKUsHKMGkr84dn3JzuEhBp99bszeqe0BVKhGPv9mLow/lhTmZCD3pjfjA/e4Lz62OfEIkE6dHWai3ud7YE=
-X-Received: by 2002:a2e:8e8a:: with SMTP id z10mr13936569ljk.107.1589305128088; 
- Tue, 12 May 2020 10:38:48 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF72E6E951
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 17:52:41 +0000 (UTC)
+IronPort-SDR: T4cn4V+IiNFecM29mrkq2eRrEGkB9XLTuNWWqgfB43bStM7dwwN+DNB0x/VrX/X46vqlf/Si5B
+ osx5Xom/0hTw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2020 10:52:40 -0700
+IronPort-SDR: ZL/7MhQfCbgOFA+eAZA11RQiRbCYYyQOo2xUToXFTjAB6Dkyx/1RtNCsU3sz9r8EizRDByU+ja
+ eQqYQB5Qv/pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,384,1583222400"; d="scan'208";a="286736341"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by fmsmga004.fm.intel.com with ESMTP; 12 May 2020 10:52:40 -0700
+Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 12 May 2020 10:52:40 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.60]) by
+ FMSMSX112.amr.corp.intel.com ([169.254.5.239]) with mapi id 14.03.0439.000;
+ Tue, 12 May 2020 10:52:40 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist wrappers
+Thread-Topic: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist
+ wrappers
+Thread-Index: AQHWKDwP0fqa3BxGckm0EsGy+4sAaqikud8Q
+Date: Tue, 12 May 2020 17:52:39 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
+References: <20200512085710.14688-1-m.szyprowski@samsung.com>
+ <20200512090058.14910-1-m.szyprowski@samsung.com>
+ <CGME20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e@eucas1p2.samsung.com>
+ <20200512090058.14910-38-m.szyprowski@samsung.com>
+In-Reply-To: <20200512090058.14910-38-m.szyprowski@samsung.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.106]
 MIME-Version: 1.0
-References: <20200511174724.21512-1-hdegoede@redhat.com>
- <CACK8Z6HG3sM-4cBYurHCba1jopk_5SVBd7KULEvOR27eKfxpyg@mail.gmail.com>
- <8f273c2a-2544-10fa-02f3-832cb1f398ad@redhat.com>
- <20200512172032.185de3d7@eldfell.localdomain>
- <a415bd37-ae23-9cd9-dff3-702824685a60@redhat.com>
-In-Reply-To: <a415bd37-ae23-9cd9-dff3-702824685a60@redhat.com>
-From: Rajat Jain <rajatja@google.com>
-Date: Tue, 12 May 2020 10:38:11 -0700
-Message-ID: <CACK8Z6FAv-6f-eSKdM+poT7usGD4GgXSDEy3jpooOLs5=CH_BQ@mail.gmail.com>
-Subject: Re: [RFC v2 0/1] drm/connector: Add support for privacy-screen
- properties
-To: Hans de Goede <hdegoede@redhat.com>
-X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,112 +69,357 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sonny.Quintanilla@dell.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Mario Limonciello <mario.limonciello@dell.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Jared Dominguez <jaredz@redhat.com>, Mark Pearson <mpearson@lenovo.com>
+Cc: Pawel Osciak <pawel@osciak.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 12, 2020 at 9:09 AM Hans de Goede <hdegoede@redhat.com> wrote:
+
+
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Marek Szyprowski
+>Sent: Tuesday, May 12, 2020 5:01 AM
+>To: dri-devel@lists.freedesktop.org; iommu@lists.linux-foundation.org;
+>linaro-mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org
+>Cc: Pawel Osciak <pawel@osciak.com>; Bartlomiej Zolnierkiewicz
+><b.zolnierkie@samsung.com>; David Airlie <airlied@linux.ie>; linux-
+>media@vger.kernel.org; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Mauro
+>Carvalho Chehab <mchehab@kernel.org>; Robin Murphy
+><robin.murphy@arm.com>; Christoph Hellwig <hch@lst.de>; linux-arm-
+>kernel@lists.infradead.org; Marek Szyprowski
+><m.szyprowski@samsung.com>
+>Subject: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist wrappers
 >
-> Hi,
+>Use recently introduced common wrappers operating directly on the struct
+>sg_table objects and scatterlist page iterators to make the code a bit
+>more compact, robust, easier to follow and copy/paste safe.
 >
-> On 5/12/20 4:20 PM, Pekka Paalanen wrote:
-> > On Tue, 12 May 2020 10:18:31 +0200
-> > Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> >> Hi,
-> >>
-> >> On 5/11/20 9:55 PM, Rajat Jain wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On Mon, May 11, 2020 at 10:47 AM Hans de Goede <hdegoede@redhat.com <mailto:hdegoede@redhat.com>> wrote:
-> >>>
-> >>>      Hi All,
-> >>>
-> >>>      This RFC takes Rajat's earlier patch for adding privacy-screen properties
-> >>>      infra to drm_connector.c and then adds the results of the discussion from
-> >>>      the "RFC: Drm-connector properties managed by another driver / privacy
-> >>>      screen support" mail thread on top, hence the v2.
-> >>>
-> >>>
-> >>> Thank you so much for doing this. I was following the said discussion and eventually it became quite complex for me to understand and follow :-)
-> >>
-> >> I hope the new doc text makes things clear again?
+>No functional change, because the code already properly did all the
+>scaterlist related calls.
+>
+>Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>---
+>For more information, see '[PATCH v4 00/38] DRM: fix struct sg_table nents
+>vs. orig_nents misuse' thread:
+>https://lore.kernel.org/dri-devel/20200512085710.14688-1-
+>m.szyprowski@samsung.com/T/
+>---
+> .../media/common/videobuf2/videobuf2-dma-contig.c  | 41 ++++++++++----
+>--------
+> drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 32 +++++++--------
+>--
+> drivers/media/common/videobuf2/videobuf2-vmalloc.c | 12 +++----
+> 3 files changed, 34 insertions(+), 51 deletions(-)
+>
+>diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>index d3a3ee5..bf31a9d 100644
+>--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>@@ -48,16 +48,15 @@ struct vb2_dc_buf {
+>
+> static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+> {
+>-	struct scatterlist *s;
+> 	dma_addr_t expected = sg_dma_address(sgt->sgl);
+>-	unsigned int i;
+>+	struct sg_dma_page_iter dma_iter;
+> 	unsigned long size = 0;
+>
+>-	for_each_sg(sgt->sgl, s, sgt->nents, i) {
+>-		if (sg_dma_address(s) != expected)
+>+	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+>+		if (sg_page_iter_dma_address(&dma_iter) != expected)
+> 			break;
+>-		expected = sg_dma_address(s) + sg_dma_len(s);
+>-		size += sg_dma_len(s);
+>+		expected += PAGE_SIZE;
+>+		size += PAGE_SIZE;
 
-Yes it does.
+This code in drm_prime_t_contiguous_size and here.  I seem to remember seeing
+the same pattern in other drivers.
 
-> >>
-> >>
-> >>>      The most important thing here is big kernel-doc comment which gets added in
-> >>>      the first patch-chunk modifying drm_connector.c, this summarizes, or at
-> >>>      least tries to summarize, the conclusions of our previous discussion on
-> >>>      the userspace API and lays down the ground rules for how the 2 new
-> >>>      "privacy-screen sw-state" and  "privacy-screen hw-state" properties are
-> >>>      to be used both from the driver side as well as from the userspace side.
-> >>>
-> >>>      Other then that this modifies Rajat's patch to add 2 properties instead
-> >>>      of one, without much other changes.
-> >>>
-> >>>      Rajat, perhaps you can do a new version of your patch-set integration /
-> >>>      using this version of the properties and then if everyone is ok with
-> >>>      the proposed userspace API Jani can hopefully merge the whole set
-> >>>      through the i915 tree sometime during the 5.9 cycle.
-> >>>
-> >>>
-> >>> SGTM. I have actually moved to working on something else now, so I will most likely wait for this patch to get merged, before rebasing my other / remaining patches on top of that.
-> >>
-> >> We have the rule that code like this will not be merged until it has at least
-> >> one in kernel user. I plan to eventually use this too, but that is still
-> >> a while away as I first need to write a lcdshadow subsystem which the
-> >> thinkpad_acpi code can then use to register a lcdshadow device; and when
-> >> that all is in place, then I can hook it up on the drm code.
+Would it worthwhile to make this a helper as well?
 
-OK. In that case, sure, I will respin my patchset with this patch once
-we have some more comments from Jani et al, and thus a newer iteration
-of this patch.
+Also, isn't the sg_dma_len() the actual length of the chunk we are looking at?
 
-> >
-> > Hi,
-> >
-> > I believe this falls under "new UAPI" rules, because this is adding new
-> > KMS properties. Hence an in-kernel user is not enough:
-> >
-> > https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-userspace-requirements
-
-The chrome browser currently uses the API exposed by my (previous)
-patchset to control privacy screen.
-https://source.chromium.org/chromium/chromium/src/+/master:ui/ozone/platform/drm/common/drm_util.cc;l=180?q=%22privacy-screen%22%20-f:third_party%2Fkernel%2Fv&originalUrl=https:%2F%2Fcs.chromium.org%2F
-
-I know this doesn't help directly, but just to say that there are
-users waiting to use an API that we release. If these changes are
-accepted, I expect to see the change in browser again, to match the
-new API,  although that will be not until we decide to uprev our
-kernel again.
+If its I not PAGE_SIZE (ie. dma chunk is 4 * PAGE_SIZE?), does your loop/calculation still work?
 
 Thanks,
 
-Rajat
+Mike
 
+> 	}
+> 	return size;
+> }
+>@@ -99,8 +98,7 @@ static void vb2_dc_prepare(void *buf_priv)
+> 	if (!sgt || buf->db_attach)
+> 		return;
 >
-> Hmm, I believe that that mostly applies to new DRI (ioclt) interfaces for
-> submitting rendering commands to new GPUs and other complex new APIs and
-> not necessarily to introducing new properties.    Also note that all
-> properties are exported under X through Xrandr, at least reading them,
-> not sure about setting them.
+>-	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+>-			       buf->dma_dir);
+>+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> }
 >
-> Anyways I do plan to write some mutter code to test my lcdshadow subsys <->
-> DRM driver integration when that is all more then just vaporware. But I
-> would prefer for Rajat's series to land before that so that I can build
-> on top of it.
+> static void vb2_dc_finish(void *buf_priv)
+>@@ -112,7 +110,7 @@ static void vb2_dc_finish(void *buf_priv)
+> 	if (!sgt || buf->db_attach)
+> 		return;
 >
-> Regards,
+>-	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf-
+>>dma_dir);
+>+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> }
 >
-> Hans
+> /*********************************************/
+>@@ -273,8 +271,8 @@ static void vb2_dc_dmabuf_ops_detach(struct
+>dma_buf *dbuf,
+> 		 * memory locations do not require any explicit cache
+> 		 * maintenance prior or after being used by the device.
+> 		 */
+>-		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt-
+>>orig_nents,
+>-				   attach->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>+				  DMA_ATTR_SKIP_CPU_SYNC);
+> 	sg_free_table(sgt);
+> 	kfree(attach);
+> 	db_attach->priv = NULL;
+>@@ -299,8 +297,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
 >
+> 	/* release any previous cache */
+> 	if (attach->dma_dir != DMA_NONE) {
+>-		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt-
+>>orig_nents,
+>-				   attach->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>+				  DMA_ATTR_SKIP_CPU_SYNC);
+> 		attach->dma_dir = DMA_NONE;
+> 	}
+>
+>@@ -308,9 +306,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
+> 	 * mapping to the client with new direction, no cache sync
+> 	 * required see comment in vb2_dc_dmabuf_ops_detach()
+> 	 */
+>-	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt-
+>>orig_nents,
+>-				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>-	if (!sgt->nents) {
+>+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+>+			    DMA_ATTR_SKIP_CPU_SYNC)) {
+> 		pr_err("failed to map scatterlist\n");
+> 		mutex_unlock(lock);
+> 		return ERR_PTR(-EIO);
+>@@ -423,8 +420,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
+> 		 * No need to sync to CPU, it's already synced to the CPU
+> 		 * since the finish() memop will have been called before this.
+> 		 */
+>-		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-				   buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+>+				  DMA_ATTR_SKIP_CPU_SYNC);
+> 		pages = frame_vector_pages(buf->vec);
+> 		/* sgt should exist only if vector contains pages... */
+> 		BUG_ON(IS_ERR(pages));
+>@@ -521,9 +518,8 @@ static void *vb2_dc_get_userptr(struct device *dev,
+>unsigned long vaddr,
+> 	 * No need to sync to the device, this will happen later when the
+> 	 * prepare() memop is called.
+> 	 */
+>-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-				      buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>-	if (sgt->nents <= 0) {
+>+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+>+			    DMA_ATTR_SKIP_CPU_SYNC)) {
+> 		pr_err("failed to map scatterlist\n");
+> 		ret = -EIO;
+> 		goto fail_sgt_init;
+>@@ -545,8 +541,7 @@ static void *vb2_dc_get_userptr(struct device *dev,
+>unsigned long vaddr,
+> 	return buf;
+>
+> fail_map_sg:
+>-	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+>+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>
+> fail_sgt_init:
+> 	sg_free_table(sgt);
+>diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>index 92072a0..6ddf953 100644
+>--- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>@@ -142,9 +142,8 @@ static void *vb2_dma_sg_alloc(struct device *dev,
+>unsigned long dma_attrs,
+> 	 * No need to sync to the device, this will happen later when the
+> 	 * prepare() memop is called.
+> 	 */
+>-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-				      buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>-	if (!sgt->nents)
+>+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+>+			    DMA_ATTR_SKIP_CPU_SYNC)) {
+> 		goto fail_map;
+>
+> 	buf->handler.refcount = &buf->refcount;
+>@@ -180,8 +179,8 @@ static void vb2_dma_sg_put(void *buf_priv)
+> 	if (refcount_dec_and_test(&buf->refcount)) {
+> 		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+> 			buf->num_pages);
+>-		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-				   buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+>+				  DMA_ATTR_SKIP_CPU_SYNC);
+> 		if (buf->vaddr)
+> 			vm_unmap_ram(buf->vaddr, buf->num_pages);
+> 		sg_free_table(buf->dma_sgt);
+>@@ -202,8 +201,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
+> 	if (buf->db_attach)
+> 		return;
+>
+>-	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+>-			       buf->dma_dir);
+>+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> }
+>
+> static void vb2_dma_sg_finish(void *buf_priv)
+>@@ -215,7 +213,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
+> 	if (buf->db_attach)
+> 		return;
+>
+>-	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf-
+>>dma_dir);
+>+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> }
+>
+> static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long
+>vaddr,
+>@@ -258,9 +256,8 @@ static void *vb2_dma_sg_get_userptr(struct device
+>*dev, unsigned long vaddr,
+> 	 * No need to sync to the device, this will happen later when the
+> 	 * prepare() memop is called.
+> 	 */
+>-	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+>-				      buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+>-	if (!sgt->nents)
+>+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+>+			    DMA_ATTR_SKIP_CPU_SYNC)) {
+> 		goto userptr_fail_map;
+>
+> 	return buf;
+>@@ -286,8 +283,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+>
+> 	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
+> 	       __func__, buf->num_pages);
+>-	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf-
+>>dma_dir,
+>-			   DMA_ATTR_SKIP_CPU_SYNC);
+>+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+>DMA_ATTR_SKIP_CPU_SYNC);
+> 	if (buf->vaddr)
+> 		vm_unmap_ram(buf->vaddr, buf->num_pages);
+> 	sg_free_table(buf->dma_sgt);
+>@@ -410,8 +406,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct
+>dma_buf *dbuf,
+>
+> 	/* release the scatterlist cache */
+> 	if (attach->dma_dir != DMA_NONE)
+>-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-			attach->dma_dir);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir);
+> 	sg_free_table(sgt);
+> 	kfree(attach);
+> 	db_attach->priv = NULL;
+>@@ -436,15 +431,12 @@ static struct sg_table
+>*vb2_dma_sg_dmabuf_ops_map(
+>
+> 	/* release any previous cache */
+> 	if (attach->dma_dir != DMA_NONE) {
+>-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-			attach->dma_dir);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir);
+> 		attach->dma_dir = DMA_NONE;
+> 	}
+>
+> 	/* mapping to the client with new direction */
+>-	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-				dma_dir);
+>-	if (!sgt->nents) {
+>+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+> 		pr_err("failed to map scatterlist\n");
+> 		mutex_unlock(lock);
+> 		return ERR_PTR(-EIO);
+>diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+>b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+>index c66fda4..bf5ac63 100644
+>--- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+>+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+>@@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct
+>dma_buf *dbuf,
+> 		kfree(attach);
+> 		return ret;
+> 	}
+>-	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+>+	for_each_sgtable_sg(sgt, sg, i) {
+> 		struct page *page = vmalloc_to_page(vaddr);
+>
+> 		if (!page) {
+>@@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct
+>dma_buf *dbuf,
+>
+> 	/* release the scatterlist cache */
+> 	if (attach->dma_dir != DMA_NONE)
+>-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-			attach->dma_dir);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>0);
+> 	sg_free_table(sgt);
+> 	kfree(attach);
+> 	db_attach->priv = NULL;
+>@@ -285,15 +284,12 @@ static struct sg_table
+>*vb2_vmalloc_dmabuf_ops_map(
+>
+> 	/* release any previous cache */
+> 	if (attach->dma_dir != DMA_NONE) {
+>-		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-			attach->dma_dir);
+>+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+>0);
+> 		attach->dma_dir = DMA_NONE;
+> 	}
+>
+> 	/* mapping to the client with new direction */
+>-	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
+>-				dma_dir);
+>-	if (!sgt->nents) {
+>+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+> 		pr_err("failed to map scatterlist\n");
+> 		mutex_unlock(lock);
+> 		return ERR_PTR(-EIO);
+>--
+>1.9.1
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
