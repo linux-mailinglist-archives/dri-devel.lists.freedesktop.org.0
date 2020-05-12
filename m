@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAB31CF3A5
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 13:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03491CF3F7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 14:05:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE566E0E6;
-	Tue, 12 May 2020 11:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B1AC6E0EA;
+	Tue, 12 May 2020 12:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687BB6E0E6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 11:49:18 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id u6so13245103ljl.6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 04:49:18 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF496E0EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 12:04:58 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id l19so13343278lje.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 05:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LaN40dqXaRdgr+itxZUWzR4xWLlgoAEeZw85S/t/at0=;
- b=rwCA7Rt2qANtiQ1cyJisGlj52sRYBq7zbk5/4TT1kGGAX5i7eijZbUHqjB7XeMtVK6
- 0NCBd2NrzB8IHtgcaRVzKuFDU7c7SqP6t3hEj11m3Mn9ITaO6oTnc69X706rR8l7Q+ro
- n3TFb8q0OwfkqdJHauWFFZBXJczkJa/njkERdmIR+kVjmA4mvIwhXZRF1b88vCQ96wlr
- bn1JysDUZ9XSRKakRudo0R018IEw5XpdGscj9Fco0gWcygt/iuDEUNnspGFEsgNlxw5+
- MUwRO+9YK5h5tDbK/ekLGMO5rAO06IQlTANQWCdUYsDxktfNfn8/hLboScSCkyo0DLTb
- tBpw==
+ :cc; bh=5btP7gtbpjtG0BhO1UsxQRV4a7bUgE/wIxxtvB4r82k=;
+ b=zc2w2MLiS0a8rnKvBR7UNWYE0BbONekozXpNgUqpFZ5kVRg6+oI64tWi9lfGivgNeb
+ 0xSZwWlbpp/ikbEom6DC9FZDRsko9yRHoXbMTuo/u1I+b77ubHC6tJbNZNCr4PyKXwUi
+ gmbc+fu5UbWh1Bta2gBmK2Uit91iJEnEjIP+z41JS8IHO1tSoWXbs9pJm5we8/OsUBSk
+ wJG/1Y+j7+2mqdSALCXTh6BPXPi2GTgvWnvDHTRALQ1NkXHztiY+UaKX5G+XGnAkVxzm
+ DPKV2Wi8rW9BIu759OOt4uInwbttKSx65J3XY5GsVfHXBlSahmJuIO2atCuXwtGbg85G
+ EaUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LaN40dqXaRdgr+itxZUWzR4xWLlgoAEeZw85S/t/at0=;
- b=YDQTzXq7NEX/s1esJqRSBhnEYTritoSvmNwAjNaIIUS7IgNDQ3deXBN8HCyoKS5mAV
- g+dlDy9FTKf2UBS1j64S1w83pF2N6sGpDGWK4e9GY6QZn6w9WgE2Qm1QLt69nHy9sRGS
- 787qQeWZ5iJoU1KC+nih62jvQeiBgJwc+6Toj9gYWSM6aB76YgkZhFIlPI7zLTxdGyJD
- 7eQDWhpUdAfaabxhRsRuCjspW0Izn9Gn3KoTXvaKZCRUD/vDQv8TMwd044T+JMEPfdL0
- 8p1xLVbRIjgnx356pb9oyuGo4l/wR2+d0UueX9XPMi11xzlVZK+ClAeOrcFC5MaB05Md
- feqA==
-X-Gm-Message-State: AOAM530uyGgQQCWwRsrFaUSqr/Cx3kXh7nKsm1C1fcCMOXTMGeytqB+F
- 5UU6URS4pfdS1s/h+jD/Zr3M2ljy44ivXCj8IJOOmAod
-X-Google-Smtp-Source: ABdhPJzH0WBo+S41IQb7cfAxprmCk+6/byQtNll0cLlMLCB+prcvinTQdNVQlk9tigEy64l94Ilx3732NrcK0VCb74Q=
-X-Received: by 2002:a2e:8805:: with SMTP id x5mr13984293ljh.223.1589284156747; 
- Tue, 12 May 2020 04:49:16 -0700 (PDT)
+ bh=5btP7gtbpjtG0BhO1UsxQRV4a7bUgE/wIxxtvB4r82k=;
+ b=PErszAZIWlkpZzQ1+bS9VLewYnBCikiFNBes+eoyA75kY8gW2ltpZpZ3swZU2s/Fuq
+ fUhNau9A8MXHQkxp1kU4DJFLm/taSLEuxsfhxfCDMPmTupvCR5Oh5gRETBcPKCStVV9m
+ 5A05h7AsmWI7yVgeOg5Th0N4Bz5gE5MTx/XS0y/q+A6CrTKiuiDVTJe+Ljc9RW2i/4PJ
+ w3U6adkl/SeiEtNndQkD0FVDF9+aXf7nGnkQA83x9gNpnWSrjnob67wD8F6Krvco5zcN
+ A0Q4idCfuAgJtNDIpbWBQkwbk9L1m5jPv0fxmE4OIF8pD8TMTqyj+uXPDn/dQ3mery98
+ 4Y9Q==
+X-Gm-Message-State: AOAM5312a3hGXagTeXg+4A5I/17YFb3Dow6NeOzAB0qbrVqJ5FasYjHI
+ zhaJ10IoI47H7lOfFxDKGYykfMYnuppxElm868S7Vg==
+X-Google-Smtp-Source: ABdhPJwQSmzg18wDAiNLVctzzlRZrCjXxz1QtookN6JLhJ4bNY7gw2amRj0dviJQShJhEFaL/quWNpl+3GN1FMqhN7s=
+X-Received: by 2002:a05:651c:32e:: with SMTP id
+ b14mr13584425ljp.277.1589285096459; 
+ Tue, 12 May 2020 05:04:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200428141459.87624-1-weiyongjun1@huawei.com>
-In-Reply-To: <20200428141459.87624-1-weiyongjun1@huawei.com>
+ <20200430073145.52321-1-weiyongjun1@huawei.com>
+In-Reply-To: <20200430073145.52321-1-weiyongjun1@huawei.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 12 May 2020 13:49:05 +0200
-Message-ID: <CACRpkdZ++vYw8LAiNUv6AXQ0QTh+W9vSL0_w2AR-GNNd=GH7FA@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/mcde: dsi: Fix return value check in dev_err()
+Date: Tue, 12 May 2020 14:04:45 +0200
+Message-ID: <CACRpkda2-EHn3BrMtGoTV4uax6G0JJekEjnnLL1FT+2YQFawTQ@mail.gmail.com>
+Subject: Re: [PATCH -next v2] drm/mcde: dsi: Fix return value check in
+ mcde_dsi_bind()
 To: Wei Yongjun <weiyongjun1@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,15 +71,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 28, 2020 at 4:13 PM Wei Yongjun <weiyongjun1@huawei.com> wrote:
+On Thu, Apr 30, 2020 at 9:30 AM Wei Yongjun <weiyongjun1@huawei.com> wrote:
 
-> In case of error, the function of_drm_find_bridge() returns NULL pointer
-> not ERR_PTR(). The IS_ERR() test in the return value check should be
-> replaced with NULL test.
+> The of_drm_find_bridge() function returns NULL on error, it doesn't return
+> error pointers so this check doesn't work.
 >
+> Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
 > Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+> ---
+> v1 - > v2: add fixes and fix the subject
 
-Patch applied! Thanks Wei, sorry for the long delay.
+Already applied v1, no big deal anyways, its a nonurgent fix.
 
 Yours,
 Linus Walleij
