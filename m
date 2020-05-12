@@ -2,93 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72AD1CEFCC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 10:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D871CEFE9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 11:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECFF76E893;
-	Tue, 12 May 2020 08:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 282636E89D;
+	Tue, 12 May 2020 08:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D57A76E893
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 08:57:24 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200512085722euoutp011f71a0cccbd44bf6c6bdc58a40e81c3d~OPCPD38Bu2132121321euoutp01Y
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 08:57:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200512085722euoutp011f71a0cccbd44bf6c6bdc58a40e81c3d~OPCPD38Bu2132121321euoutp01Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1589273842;
- bh=MXURRBK33XuZuGQC15bomjU/50LbRX6sZzxnM4phfmw=;
- h=From:To:Cc:Subject:Date:References:From;
- b=rUNR4zlrEhWwEEmNCDOsZXgeKvJU4SsGKCA9vjHM7x8Or5MU5W2QVUYj4PImM6BAP
- yRIydbpzEv9z5SWgW49W/x7jaeQz2FXxrCAMlrMVGgmVyZfErXbhg8+JjbJ/WxA9vg
- pXdJx/GW1J53VRjBwivFhltJJhzSKK1ATwQUJyyM=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200512085722eucas1p118c81c2e907205932f8db1bc3de83ab6~OPCO0Od5U0929709297eucas1p1K;
- Tue, 12 May 2020 08:57:22 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id AD.AA.60698.2F46ABE5; Tue, 12
- May 2020 09:57:22 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200512085722eucas1p2fbaab30e49c9ddadc64b27db856e5921~OPCOXuBQ90706907069eucas1p2w;
- Tue, 12 May 2020 08:57:22 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200512085722eusmtrp2548ffcc6b97981fdcb35d23d84f48cea~OPCOW9hyI0207602076eusmtrp2I;
- Tue, 12 May 2020 08:57:22 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-86-5eba64f2d767
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id F1.32.07950.1F46ABE5; Tue, 12
- May 2020 09:57:22 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200512085721eusmtip2ef3392596a7ed9db78764520aa0ba461~OPCN5xrAT1441014410eusmtip2S;
- Tue, 12 May 2020 08:57:21 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 00/38] DRM: fix struct sg_table nents vs. orig_nents misuse
-Date: Tue, 12 May 2020 10:57:10 +0200
-Message-Id: <20200512085710.14688-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsWy7djPc7qfUnbFGexpl7foPXeSyWLjjPWs
- Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrH2yF12i4MfnrA6cHusmbeG
- 0WPvtwUsHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgiuKySUnN
- ySxLLdK3S+DK+LZzG1vBXt+KU6vuszUwHrbuYuTkkBAwkbgwaxVbFyMXh5DACkaJdxf+MkM4
- Xxgl3r+8wAThfGaUWNB8iBmm5fi0dYwQieWMEjMaW5ngWiZe6mUCqWITMJToetvFBmKLCLQy
- Spzo5QGxmQVmMEkcfV0KYgsLBEgs23iJpYuRg4NFQFViVi8HSJhXwFbiwO45TBDL5CVWbzgA
- dpKEwGR2iWVrZzNCJFwkLt/7wgZhC0u8Or6FHcKWkfi/cz4TREMzo8TDc2vZIZweRonLTTOg
- uq0l7pz7xQaymVlAU2L9Ln2IsKPE9wP7mUDCEgJ8EjfeCkLczCcxadt0Zogwr0RHmxBEtZrE
- rOPr4NYevHAJGkAeElvftoLZQgKxEnvPv2efwCg3C2HXAkbGVYziqaXFuempxcZ5qeV6xYm5
- xaV56XrJ+bmbGIEp5vS/4193MO77k3SIUYCDUYmHt8NoZ5wQa2JZcWXuIUYJDmYlEd6WTKAQ
- b0piZVVqUX58UWlOavEhRmkOFiVxXuNFL2OFBNITS1KzU1MLUotgskwcnFINjPX9X0vnWHlZ
- N+2wu/i+vlg2R+lnzIYH74JmrnhSvvbu0td3rm18zc6ZIfDmbHjxjRUOF1urYo79f+Ct2DfL
- Vaqj89u8z4ZdL1giuDrdQx7xOwre99RhUvzJuSjXtKCmcrqT5NLffgZ+Z89kWXWKP9GOeRnM
- Ka60pOevtEFp1dPkZsNji9IPK7EUZyQaajEXFScCADFnKEItAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsVy+t/xe7qfUnbFGVw5xmTRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLlauPMlks2G9t8eXKQyaLTY+vsVpc3jWHzWLtkbvsFgc/PGF14PZYM28N
- o8febwtYPLZ/e8Dqcb/7OJPH5iX1Hrf/PWb2mHxjOaPH7psNbB59W1YxenzeJBfAFaVnU5Rf
- WpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX8W3nNraCvb4V
- p1bdZ2tgPGzdxcjJISFgInF82jpGEFtIYCmjxN5mNoi4jMTJaQ2sELawxJ9rXUBxLqCaT4wS
- jxaeBkuwCRhKdL2FSIgIdDJKTOv+yA7iMAvMY5JY9PAQkMPBISzgJ7HsiBWIySKgKjGrlwOk
- l1fAVuLA7jlMEAvkJVZvOMA8gZFnASPDKkaR1NLi3PTcYiO94sTc4tK8dL3k/NxNjMDA3nbs
- 55YdjF3vgg8xCnAwKvHwdhjtjBNiTSwrrsw9xCjBwawkwtuSCRTiTUmsrEotyo8vKs1JLT7E
- aAq0eyKzlGhyPjDq8kriDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YWpBbB9DFxcEo1
- ME67I6ddHfPmeIlZ3GPhIvUXU9/9FasIe/zJqeXMPqft4R56tY9Tgm0+1+9YwT7Fyf6dqfny
- OoG5E4/rXDpa8fKo95OECfJ7i1yvXrv2mN3N9JSy1gbTfOXa6/whklk5Kr+LFsx/dXbtWtXF
- KgfWvl1S//qCpWX/k5Y7h59HW6w/21M54+eqM11KLMUZiYZazEXFiQD7wsNDggIAAA==
-X-CMS-MailID: 20200512085722eucas1p2fbaab30e49c9ddadc64b27db856e5921
-X-Msg-Generator: CA
-X-RootMTR: 20200512085722eucas1p2fbaab30e49c9ddadc64b27db856e5921
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200512085722eucas1p2fbaab30e49c9ddadc64b27db856e5921
-References: <CGME20200512085722eucas1p2fbaab30e49c9ddadc64b27db856e5921@eucas1p2.samsung.com>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0006E89A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 08:59:57 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id y3so14351061wrt.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 01:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5KglkhzKOknxegoh1rG3YIcHJTSInQ4UYexVPjKH+PE=;
+ b=Jfw/Q8OAuPLQhbinu2k0zHhh0xSeFKQ+ThNX/lWWS+g5EnktPdt71Fw1SPCOSwO1DT
+ I3yyprPxJEMCBedaNFOI15C4V0uzgHiDSLQJrIbB/b3hkg3kxfmRKfXkWgRlvRkrLTZN
+ b2clRwBLTEBEySfCkrQHDGAQCbz2YgFZxsQMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5KglkhzKOknxegoh1rG3YIcHJTSInQ4UYexVPjKH+PE=;
+ b=R2iCBYhBXQ4+msKnY1apL+urEEKOsLi7QfbCQaKuv1qIOgzUA38thiMoGee6Qb3Q86
+ rpy1XV61HntbKFqxT7Aa3dL6uFPyYbgrEG13vRSBrX+oRyDe7z8hyJaKq2e23JRobd+Z
+ iJe9nyts1arHf/Cz6JBpd2DktEuMJHDzro/6znBFeYcLIHSE+S3/Ks3RDaaHPotYJGb2
+ 9YgtRRqhASMQ0/d7up6wxlWXJ/gGmRbPWy/WK8YuIH0lLyCjX9RAKbYsyFAgL/qE4c8V
+ eDbEXQtUB16fB0C0Ybt6eYkgCoujfXU5H8gmEJ+eAlEZJwindfT3rBUp79GmnC+vC0vX
+ eZIQ==
+X-Gm-Message-State: AGi0Pua5xqJV6NQwShMgu00UBTuYqGbeU/7yGad4VxoZFe5NcR4RJghG
+ S1geJzrLmz+hCkxC0CQM5T0wlZ8YbU0=
+X-Google-Smtp-Source: APiQypLFrNQ+vP1/FoQClKLQ9dOM5ud5CMkP+EXrISMxOesIEptzvE+zOlFydX6AdELQrZnabHpwnA==
+X-Received: by 2002:adf:f4c4:: with SMTP id h4mr24357427wrp.142.1589273996049; 
+ Tue, 12 May 2020 01:59:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y10sm18845457wrd.95.2020.05.12.01.59.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 01:59:55 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [RFC 00/17] dma-fence lockdep annotations
+Date: Tue, 12 May 2020 10:59:27 +0200
+Message-Id: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,207 +61,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear All,
-
-During the Exynos DRM GEM rework and fixing the issues in the.
-drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
-drivers in DRM framework incorrectly use nents and orig_nents entries of
-the struct sg_table.
-
-In case of the most DMA-mapping implementations exchanging those two
-entries or using nents for all loops on the scatterlist is harmless,
-because they both have the same value. There exists however a DMA-mapping
-implementations, for which such incorrect usage breaks things. The nents
-returned by dma_map_sg() might be lower than the nents passed as its
-parameter and this is perfectly fine. DMA framework or IOMMU is allowed
-to join consecutive chunks while mapping if such operation is supported
-by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
-where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
-is described here [2]
-
-The DMA-mapping framework documentation [3] states that dma_map_sg()
-returns the numer of the created entries in the DMA address space.
-However the subsequent calls to dma_sync_sg_for_{device,cpu} and
-dma_unmap_sg must be called with the original number of entries passed to
-dma_map_sg. The common pattern in DRM drivers were to assign the
-dma_map_sg() return value to sg_table->nents and use that value for
-the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
-the code iterated over nents times to access the pages stored in the
-processed scatterlist, while it should use orig_nents as the numer of
-the page entries.
-
-I've tried to identify all such incorrect usage of sg_table->nents and
-this is a result of my research. It looks that the incorrect pattern has
-been copied over the many drivers mainly in the DRM subsystem. Too bad in
-most cases it even worked correctly if the system used a simple, linear
-DMA-mapping implementation, for which swapping nents and orig_nents
-doesn't make any difference. To avoid similar issues in the future, I've
-introduced a common wrappers for DMA-mapping calls, which operate directly
-on the sg_table objects. I've also added wrappers for iterating over the
-scatterlists stored in the sg_table objects and applied them where
-possible. This, together with some common DRM prime helpers, allowed me
-to almost get rid of all nents/orig_nents usage in the drivers. I hope
-that such change makes the code robust, easier to follow and copy/paste
-safe.
-
-The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
-it fully. The driver creatively uses sg_table->orig_nents to store the
-size of the allocate scatterlist and ignores the number of the entries
-returned by dma_map_sg function. In this patchset I only fixed the
-sg_table objects exported by dmabuf related functions. I hope that I
-didn't break anything there.
-
-Patches are based on top of Linux next-20200511.
-
-Best regards,
-Marek Szyprowski
-
-
-References:
-
-[1] https://lkml.org/lkml/2020/3/27/555.
-[2] https://lkml.org/lkml/2020/3/29/65
-[3] Documentation/DMA-API-HOWTO.txt
-
-
-Changelog:
-
-v4:
-- added for_each_sgtable_* wrappers and applied where possible
-- added drm_prime_get_contiguous_size() and applied where possible
-- applied drm_prime_sg_to_page_addr_arrays() where possible to remove page
-  extraction from sg_table objects
-- added documentation for the introduced wrappers
-- improved patches description a bit
-
-v3: https://lore.kernel.org/dri-devel/20200505083926.28503-1-m.szyprowski@samsung.com/
-- introduce dma_*_sgtable_* wrappers and use them in all patches
-
-v2: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
-- dropped most of the changes to drm/i915
-- added fixes for rcar-du, xen, media and ion
-- fixed a few issues pointed by kbuild test robot
-- added wide cc: list for each patch
-
-v1: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
-- initial version
-
-
-Patch summary:
-
-Marek Szyprowski (38):
-  dma-mapping: add generic helpers for mapping sgtable objects
-  scatterlist: add generic wrappers for iterating over sgtable objects
-  iommu: add generic helper for mapping sgtable objects
-  drm: prime: add common helper to check scatterlist contiguity
-  drm: prime: use sgtable iterators in
-    drm_prime_sg_to_page_addr_arrays()
-  drm: core: fix common struct sg_table related issues
-  drm: amdgpu: fix common struct sg_table related issues
-  drm: armada: fix common struct sg_table related issues
-  drm: etnaviv: fix common struct sg_table related issues
-  drm: exynos: use common helper for a scatterlist contiguity check
-  drm: exynos: fix common struct sg_table related issues
-  drm: i915: fix common struct sg_table related issues
-  drm: lima: fix common struct sg_table related issues
-  drm: mediatek: use common helper for a scatterlist contiguity check
-  drm: mediatek: use common helper for extracting pages array
-  drm: msm: fix common struct sg_table related issues
-  drm: omapdrm: use common helper for extracting pages array
-  drm: omapdrm: fix common struct sg_table related issues
-  drm: panfrost: fix common struct sg_table related issues
-  drm: radeon: fix common struct sg_table related issues
-  drm: rockchip: use common helper for a scatterlist contiguity check
-  drm: rockchip: fix common struct sg_table related issues
-  drm: tegra: fix common struct sg_table related issues
-  drm: v3d: fix common struct sg_table related issues
-  drm: virtio: fix common struct sg_table related issues
-  drm: vmwgfx: fix common struct sg_table related issues
-  xen: gntdev: fix common struct sg_table related issues
-  drm: host1x: fix common struct sg_table related issues
-  drm: rcar-du: fix common struct sg_table related issues
-  dmabuf: fix common struct sg_table related issues
-  staging: ion: remove dead code
-  staging: ion: fix common struct sg_table related issues
-  staging: tegra-vde: fix common struct sg_table related issues
-  misc: fastrpc: fix common struct sg_table related issues
-  rapidio: fix common struct sg_table related issues
-  samples: vfio-mdev/mbochs: fix common struct sg_table related issues
-  media: pci: fix common ALSA DMA-mapping related codes
-  videobuf2: use sgtable-based scatterlist wrappers
-
- drivers/dma-buf/heaps/heap-helpers.c               | 13 ++--
- drivers/dma-buf/udmabuf.c                          |  7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  9 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  8 +-
- drivers/gpu/drm/armada/armada_gem.c                | 12 +--
- drivers/gpu/drm/drm_cache.c                        |  2 +-
- drivers/gpu/drm/drm_gem_cma_helper.c               | 23 +-----
- drivers/gpu/drm/drm_gem_shmem_helper.c             | 14 ++--
- drivers/gpu/drm/drm_prime.c                        | 86 ++++++++++++----------
- drivers/gpu/drm/etnaviv/etnaviv_gem.c              | 12 ++-
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c              | 13 +---
- drivers/gpu/drm/exynos/exynos_drm_g2d.c            | 10 +--
- drivers/gpu/drm/exynos/exynos_drm_gem.c            | 23 +-----
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         | 11 +--
- drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   |  7 +-
- drivers/gpu/drm/lima/lima_gem.c                    | 11 ++-
- drivers/gpu/drm/lima/lima_vm.c                     |  5 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c             | 34 ++-------
- drivers/gpu/drm/msm/msm_gem.c                      | 13 ++--
- drivers/gpu/drm/msm/msm_gpummu.c                   | 14 ++--
- drivers/gpu/drm/msm/msm_iommu.c                    |  2 +-
- drivers/gpu/drm/omapdrm/omap_gem.c                 | 20 ++---
- drivers/gpu/drm/panfrost/panfrost_gem.c            |  4 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c            |  7 +-
- drivers/gpu/drm/radeon/radeon_ttm.c                | 11 ++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c              |  3 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c        | 42 +++--------
- drivers/gpu/drm/tegra/gem.c                        | 27 +++----
- drivers/gpu/drm/tegra/plane.c                      | 15 ++--
- drivers/gpu/drm/v3d/v3d_mmu.c                      | 17 ++---
- drivers/gpu/drm/virtio/virtgpu_object.c            | 36 +++++----
- drivers/gpu/drm/virtio/virtgpu_vq.c                | 12 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         | 17 +----
- drivers/gpu/host1x/job.c                           | 22 ++----
- .../media/common/videobuf2/videobuf2-dma-contig.c  | 41 +++++------
- drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 32 +++-----
- drivers/media/common/videobuf2/videobuf2-vmalloc.c | 12 +--
- drivers/media/pci/cx23885/cx23885-alsa.c           |  2 +-
- drivers/media/pci/cx25821/cx25821-alsa.c           |  2 +-
- drivers/media/pci/cx88/cx88-alsa.c                 |  2 +-
- drivers/media/pci/saa7134/saa7134-alsa.c           |  2 +-
- drivers/media/platform/vsp1/vsp1_drm.c             |  8 +-
- drivers/misc/fastrpc.c                             |  4 +-
- drivers/rapidio/devices/rio_mport_cdev.c           |  8 +-
- drivers/staging/android/ion/ion.c                  | 25 +++----
- drivers/staging/android/ion/ion.h                  |  1 -
- drivers/staging/android/ion/ion_heap.c             | 53 ++++---------
- drivers/staging/android/ion/ion_system_heap.c      |  2 +-
- drivers/staging/media/tegra-vde/iommu.c            |  4 +-
- drivers/xen/gntdev-dmabuf.c                        | 13 ++--
- include/drm/drm_prime.h                            |  2 +
- include/linux/dma-mapping.h                        | 79 ++++++++++++++++++++
- include/linux/iommu.h                              | 16 ++++
- include/linux/scatterlist.h                        | 50 ++++++++++++-
- samples/vfio-mdev/mbochs.c                         |  3 +-
- 56 files changed, 452 insertions(+), 477 deletions(-)
-
--- 
-1.9.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgYWxsLAoKSSd2ZSBkcmFnZ2VkIG15IGZlZXQgZm9yIHllYXJzIG9uIHRoaXMsIGhvcGluZyB0
+aGF0IGNyb3NzLXJlbGVhc2UgbG9ja2RlcAp3b3VsZCBkbyB0aGlzIGZvciB1cywgYnV0IHdlbGwg
+dGhhdCBuZXZlciByZWFsbHkgaGFwcGVuZWQgdW5mb3J0dW5hdGVseS4KU28gaGVyZSB3ZSBhcmUu
+CgpDYydlZCBxdWl0ZSBhIHBpbGUgb2YgcGVvcGxlIHNpbmNlIHRoaXMgaXMgYWJvdXQgdGhlIGNy
+b3NzLWRyaXZlciBjb250cmFjdAphcm91bmQgZG1hX2ZlbmNlcy4gV2hpY2ggaXMgaGVhdmlseSB1
+c2VkIGZvciBkbWFfYnVmLCBhbmQgSSdtIGhlYXJpbmcgbW9yZQpub2lzZXMgdGhhdCByZG1hIGZv
+bGtzIGFyZSBsb29raW5nIGludG8gdGhpcywgaGVuY2UgYWxzbyBvbiBjYy4KClRoZXJlJ3MgYSBi
+dW5jaCBvZiBkaWZmZXJlbnQgcGFydHMgdG8gdGhpcyBSRkM6CgotIFRoZSBhbm5vdGF0aW9ucyBp
+dHNlbGYsIGluIHRoZSAybmQgcGF0Y2ggYWZ0ZXIgdGhlIHByZXAgcGF0Y2ggdG8gYWRkCiAgbWln
+aHRfc2xlZXAgYW5ub3RhdGlvbnMuIENvbW1pdCBtZXNzYWdlIGhhcyBhbGwgdGhlIG1vdGl2YXRp
+b24gZm9yIHdoYXQKICBraW5kIG9mIGRlYWRsb2NrcyBJIHdhbnQgdG8gY2F0Y2gsIGJlc3QgeW91
+IGp1c3QgcmVhZCBpdC4KCiAgU2luY2UgbG9ja2RlcCBkb2Vzbid0IHVuZGVyc3RhbmQgY3Jvc3Mt
+cmVsZWFzZSBuYXRpdmVseSB3ZSBuZWVkIHRvCiAgY29iYmxlIHNvbWV0aGluZyB0b2dldGhlciB1
+c2luZyByd2xvY2tzIGFuZCBhIGZldyBtb3JlIHRyaWNrcywgYnV0IGZyb20KICB0aGUgdGVzdCBy
+b2xsb3V0IGluIGEgZmV3IHBsYWNlcyBpbiBkcm0vdmttcywgYW1kZ3B1ICYgaTkxNSBJIHRoaW5r
+IHdoYXQKICBJIGhhdmUgbm93IHNlZW1zIHRvIGFjdHVhbGx5IHdvcmsuIERvd25zaWRlIGlzIHRo
+YXQgd2UgaGF2ZSB0bwogIGV4cGxpY2l0bHkgYW5ub3RhdGUgYWxsIGNvZGUgaW52b2x2ZWQgaW4g
+ZXZlbnR1YWwgZG1hX2ZlbmNlIHNpZ25hbGxpbmcuCgotIFNlY29uZCBpbXBvcnRhbnQgcGFydCBp
+cyBsb2NraW5nIGRvd24gdGhlIGN1cnJlbnQgZG1hLWZlbmNlIGNyb3NzLWRyaXZlcgogIGNvbnRy
+YWN0LCB1c2luZyBsb2NrZGVwIHByaW1pbmcgbGlrZSB3ZSBhbHJlYWR5IGRvIGZvciBkbWFfcmVz
+dl9sb2NrLgogIEkndmUganVzdCBzdGFydGVkIHdpdGggbXkgb3duIHRha2Ugb24gd2hhdCB3ZSBw
+cm9iYWJseSBuZWVkIHRvIG1ha2UgdGhlCiAgY3VycmVudCBjb2RlIHdvcmsgKC1pc2gpLCBidXQg
+Ym90aCBhbWRncHUgYW5kIGk5MTUgaGF2ZSBpc3N1ZXMgd2l0aAogIHRoYXQuIFNvIHRoaXMgbmVl
+ZHMgc29tZSBjYXJlZnVsIGRpc2N1c3Npb25zLCBhbmQgYWxzbyBzb21lIHRob3VnaHQgb24KICBo
+b3cgd2UgbGFuZCBpdCBhbGwgZXZlbnR1YWxseSB0byBub3QgYnJlYWsgbG9ja2RlcCBjb21wbGV0
+ZWx5IGZvcgogIGV2ZXJ5b25lLgoKICBUaGUgaW1wb3J0YW50IHBhdGNoIGZvciB0aGF0IGlzICJk
+bWEtZmVuY2U6IHByaW1lIGxvY2tkZXAgYW5ub3RhdGlvbnMiCiAgcGx1cyBvZiBjb3Vyc2UgdGhl
+IHZhcmlvdXMgYW5ub3RhdGlvbnMgcGF0Y2hlcyBhbmQgZHJpdmVyIGhhY2tzIHRvCiAgaGlnaGxp
+Z2h0IHNvbWUgb2YgdGhlIGlzc3VlcyBjYXVnaHQuCgogIE5vdGUgdGhhdCBkZXBlbmRpbmcgdXBv
+biB3aGF0IGV4YWN0bHkgd2UgZW5kIHVwIGRlY2lkaW5nIHdlIG1pZ2h0IG5lZWQKICB0byBpbXBy
+b3ZlIHRoZSBhbm5vdGF0aW9ucyBmb3IgZnNfcmVjbGFpbV9hY3F1aXJlL3JlbGVhc2UgLSBmb3IK
+ICBkbWFfZmVuY2Vfd2FpdCBpbiBtbXUgbm90aWZpZXJzIHdlIGNhbiBvbmx5IGFsbG93IEdGUF9O
+T1dBSVQgKGFmYWl1aSksCiAgYW5kIGN1cnJlbnRseSBmc19yZWNsYWltX2FjcXVpcmUvcmVsZWFz
+ZSBvbmx5IGhhcyBhIGxvY2tkZXAgY2xhc3MgZm9yCiAgX19HRlBfRlMgb25seSwgd2UnZCBuZWVk
+IHRvIGFkZCBhbm90aGVyIG9uZSBmb3IgX19HRlBfRElSRUNUX1JFQ0xBSU0gaW4KICBnZW5lcmFs
+IG1heWJlLgoKLSBGaW5hbGx5IHRoZXJlJ3MgY2xlYXJseSBzb21lIGdhcHMgaW4gdGhlIGN1cnJl
+bnQgZG1hX2ZlbmNlIGRyaXZlcgogIGludGVyZmFjZXM6IEFtZGdwdSdzIGhhbmcgcmVjb3Zlcnkg
+aXMgZXNzZW50aWFsbHkgaW1wb3NzaWJsZSB0byBmaXgKICBhcy1pcyAtIGl0IG5lZWRzIHRvIHJl
+c2V0IHRoZSBkaXNwbGF5IHN0YXRlIGFuZCB5b3UgY2FuJ3QgZ2V0IGF0IG1vZGVzZXQKICBsb2Nr
+cyBmcm9tIHRkciB3aXRob3V0IGRlYWRsb2NrIHBvdGVudGlhbC4gaTkxNSBoYXMgYW4gaW50ZXJu
+YWwgdHJpY2sKICAoYnV0IGl0IHN0b3BzIHdvcmtpbmcgb25jZSB3ZSBpbnZvbHZlIHJlYWwgY3Jv
+c3MtZHJpdmVyIGZlbmNlcykgZm9yIHRoaXMKICBpc3N1ZXMsIGJ1dCB0aGVuIGZvciBpOTE1IG1v
+ZGVzZXQgcmVzZXQgaXMgb25seSBuZWVkZWQgb24gdmVyeSBhbmNpZW50CiAgZ2VuMi8zLiBNb2Rl
+cm4gaHcgaXMgYSBsb3QgbW9yZSByZWFzb25hYmxlLgoKICBJJ20ga2luZGEgaG9waW5nIHRoYXQg
+dGhlIGFubm90YXRpb25zIGFuZCBwcmltaW5nIGZvciBiYXNpYyBjb21tYW5kCiAgc3VibWlzc2lv
+biBhbmQgYXRvbWljIG1vZGVzZXQgcGF0aHMgY291bGQgYmUgbWVyZ2VkIHNvb25pc2gsIHdoaWxl
+IHdlCiAgdGhlIHRkciBzaWRlIGNsZWFybHkgbmVlZHMgYSBwaWxlIG1vcmUgd29yayB0byBnZXQg
+Z29pbmcuIEJ1dCBzaW5jZSB3ZQogIGhhdmUgdG8gZXhwbGljaXRseSBhbm5vdGF0ZSBhbGwgY29k
+ZSBwYXRocyBhbnl3YXkgd2UgY2FuIGhpZGUgYnVncyBpbgogIGUuZy4gdGRyIGNvZGUgYnkgc2lt
+cGx5IG5vdCB5ZXQgYW5ub3RhdGluZyB0aG9zZSBmdW5jdGlvbnMuCgogIEknbSB0cnlpbmcgdG8g
+bGF5IG91dCBhdCBsZWFzdCBvbmUgaWRlYSBmb3Igc29sdmluZyB0aGUgdGRyIGlzc3VlIGluIHRo
+ZQogIHBhdGNoIHRpdGxlZCAiZHJtL3NjaGVkdWxlcjogdXNlIGRtYS1mZW5jZSBhbm5vdGF0aW9u
+cyBpbiB0ZHIgd29yayIuCgpGaW5hbGx5LCBvbmNlIHdlIGhhdmUgc29tZSBhZ3JlZW1lbnQgb24g
+d2hlcmUgd2UncmUgZ29pbmcgd2l0aCBhbGwgdGhpcywKd2UgYWxzbyBuZWVkIHNvbWUgZG9jdW1l
+bnRhdGlvbi4gQ3VycmVudGx5IHRoYXQncyBtaXNzaW5nIGJlY2F1c2UgSSBkb24ndAp3YW50IHRv
+IHJlLWVkaXQgdGhlIHRleHQgYWxsIHRoZSB0aW1lIHdoaWxlIHdlIHN0aWxsIGZpZ3VyZSBvdXQg
+dGhlCmRldGFpbHMgb2YgdGhlIGV4YWN0IGNyb3NzLWRyaXZlciBzZW1hbnRpY3MuCgpNeSBnb2Fs
+IGhlcmUgaXMgdGhhdCB3aXRoIHRoaXMgd2UgY2FuIGxvY2sgZG93biB0aGUgY3Jvc3MtZHJpdmVy
+IGNvbnRyYWN0CmZvciB0aGUgbGFzdCBiaXQgb2YgdGhlIGRtYV9idWYvcmVzdi9mZW5jZSBzdG9y
+eSBhbmQgbWFrZSBzdXJlIHRoaXMgc3RvcHMKYmVpbmcgc3VjaCBhIHdvYmJseSB0aGluZyB3aGVy
+ZSBldmVyeW9uZSBqdXN0IGRvZXMgd2hhdGV2ZXIgdGhleSBmZWVsCmxpa2UuCgpJZGVhcywgdGhv
+dWdodHMsIHJldmlld3MsIHRlc3RpbmcgKHdpdGggc3BlY2lmaWMgYW5ub3RhdGlvbnMgZm9yIHRo
+YXQKZHJpdmVyKSBvbiBvdGhlciBkcml2ZXJzIHZlcnkgbXVjaCB3ZWxjb21lLgoKQ2hlZXJzLCBE
+YW5pZWwKCkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1zaWdA
+bGlzdHMubGluYXJvLm9yZwpDYzogbGludXgtcmRtYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGFtZC1n
+ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCkNjOiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KQ2M6IE1hYXJ0
+ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+CkNjOiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CgpEYW5pZWwgVmV0dGVyICgx
+Nyk6CiAgZG1hLWZlbmNlOiBhZGQgbWlnaHRfc2xlZXAgYW5ub3RhdGlvbiB0byBfd2FpdCgpCiAg
+ZG1hLWZlbmNlOiBiYXNpYyBsb2NrZGVwIGFubm90YXRpb25zCiAgZG1hLWZlbmNlOiBwcmltZSBs
+b2NrZGVwIGFubm90YXRpb25zCiAgZHJtL3ZrbXM6IEFubm90YXRlIHZibGFuayB0aW1lcgogIGRy
+bS92Ymxhbms6IEFubm90YXRlIHdpdGggZG1hLWZlbmNlIHNpZ25hbGxpbmcgc2VjdGlvbgogIGRy
+bS9hdG9taWMtaGVscGVyOiBBZGQgZG1hLWZlbmNlIGFubm90YXRpb25zCiAgZHJtL2FtZGdwdTog
+YWRkIGRtYS1mZW5jZSBhbm5vdGF0aW9ucyB0byBhdG9taWMgY29tbWl0IHBhdGgKICBkcm0vc2No
+ZWR1bGVyOiB1c2UgZG1hLWZlbmNlIGFubm90YXRpb25zIGluIG1haW4gdGhyZWFkCiAgZHJtL2Ft
+ZGdwdTogdXNlIGRtYS1mZW5jZSBhbm5vdGF0aW9ucyBpbiBjc19zdWJtaXQoKQogIGRybS9hbWRn
+cHU6IHMvR0ZQX0tFUk5FTC9HRlBfQVRPTUlDIGluIHNjaGVkdWxlciBjb2RlCiAgZHJtL2FtZGdw
+dTogREMgYWxzbyBsb3ZlcyB0byBhbGxvY2F0ZSBzdHVmZiB3aGVyZSBpdCBzaG91bGRuJ3QKICBk
+cm0vYW1kZ3B1L2RjOiBTdG9wIGRtYV9yZXN2X2xvY2sgaW52ZXJzaW9uIGluIGNvbW1pdF90YWls
+CiAgZHJtL3NjaGVkdWxlcjogdXNlIGRtYS1mZW5jZSBhbm5vdGF0aW9ucyBpbiB0ZHIgd29yawog
+IGRybS9hbWRncHU6IHVzZSBkbWEtZmVuY2UgYW5ub3RhdGlvbnMgZm9yIGdwdSByZXNldCBjb2Rl
+CiAgUmV2ZXJ0ICJkcm0vYW1kZ3B1OiBhZGQgZmJkZXYgc3VzcGVuZC9yZXN1bWUgb24gZ3B1IHJl
+c2V0IgogIGRybS9hbWRncHU6IGdwdSByZWNvdmVyeSBkb2VzIGZ1bGwgbW9kZXNldHMKICBkcm0v
+aTkxNTogQW5ub3RhdGUgZG1hX2ZlbmNlX3dvcmsKCiBkcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNl
+LmMgICAgICAgICAgICAgICAgICAgfCA1NiArKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2Rt
+YS1idWYvZG1hLXJlc3YuYyAgICAgICAgICAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYyAgICAgICAgfCAgNSArKwogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jICAgIHwgMjIgKysrKysrLS0KIGRyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mZW5jZS5jICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfaWRzLmMgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X3N5bmMuYyAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2F0b20uYyAgICAgICAgICAgICB8ICAyICstCiAuLi4vZ3B1L2RybS9hbWQvZGlz
+cGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgfCAxOCArKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvZGlzcGxheS9kYy9jb3JlL2RjLmMgICAgICB8ICA0ICstCiBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2F0b21pY19oZWxwZXIuYyAgICAgICAgICAgfCAxNiArKysrKysKIGRyaXZlcnMvZ3B1L2RybS9k
+cm1fdmJsYW5rLmMgICAgICAgICAgICAgICAgICB8ICA4ICsrLQogZHJpdmVycy9ncHUvZHJtL2k5
+MTUvaTkxNV9zd19mZW5jZV93b3JrLmMgICAgIHwgIDMgKwogZHJpdmVycy9ncHUvZHJtL3NjaGVk
+dWxlci9zY2hlZF9tYWluLmMgICAgICAgIHwgMTEgKysrKwogZHJpdmVycy9ncHUvZHJtL3ZrbXMv
+dmttc19jcnRjLmMgICAgICAgICAgICAgIHwgIDggKystCiBpbmNsdWRlL2xpbnV4L2RtYS1mZW5j
+ZS5oICAgICAgICAgICAgICAgICAgICAgfCAxMyArKysrKwogMTYgZmlsZXMgY2hhbmdlZCwgMTYw
+IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKLS0gCjIuMjYuMgoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
