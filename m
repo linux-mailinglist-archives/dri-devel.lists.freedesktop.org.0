@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB6E1CEDB2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB02A1CEDD1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 09:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619F36E845;
-	Tue, 12 May 2020 07:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5132A6E874;
+	Tue, 12 May 2020 07:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 144896E02E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 07:03:53 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id x15so5349760pfa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 00:03:53 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDFE6E041
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 07:04:02 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id f6so5744756pgm.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 00:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=o//dTfJVTpsa5Zo7nPNQBSOusaLkGD86FZMNihxJfus=;
- b=gHte5rVUD6y77Xe/TFwjDfYe9ap4bclJIR3xqi1I4zZijHaTmhe0Gim+Ke3EaFnJXe
- XJUjPVATgmdLPBcdDcR2qvWe2tRzSWZuFX3VmGuLTvYRJYbWD4+vqJebdZlZ0s+4uF/q
- EOsHEQv66zGagOhM3QAwtb5vCkNRPX9YPjRBJiOCej/P6J6Acyko6XtZNeWvFM1CbH2I
- VSToK4mNIq0e1Y1inpqYK+SmtdgxbaFKQe+EzRBulSqHa2pf3fwoMz5qa+5MZbIeK3uV
- YvPxu4ZQgWH6ZHmBADxC/MtYhY7NVcdmzOg40KLgnYVFrmHg+4htNhrzMAMfu+zc8Uei
- VoyA==
+ bh=KnWhTxSokldqb010DnL4ORytzuGapXn7Hq520J7Za+c=;
+ b=IjYwOS6yRJWzajwfxnyfRcGRgJufp90e2oizEGjmBih5am4Peqs//yI9PBpIboOzU2
+ CZO7EDNpWbHzsF18edURJPTllwO9BZ79aBFYNtwcsZc6DFIZn8+alqC2s201mzhMJIkp
+ 3TcZmcgqnP3O5Sm7JeURdw7TyVUFJLRHTd4KqVs/bfP71TM6mTago+ifRJxbMabCZ5RU
+ J7Rr93CevBl/XszLMpKAZXHFq488StrTbq+2a4M6QafQj1cDTCotx7X+cLzxoodu9eff
+ fQnABVAI8DBaYWFsxbNkWlX8fqB/s7u68B+d7DEwdHDMFVEM8vQPZzyRaKh7wm1EUakk
+ jn9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=o//dTfJVTpsa5Zo7nPNQBSOusaLkGD86FZMNihxJfus=;
- b=SF04NUULM2XMr0rtL6jyPZFzi7/jDMcn6Pgh+1MpAO+vcA8+Dow3O4TxtpBdwC2j3X
- 8107cEM2bxo3TTxcblCpJl72ySeVYVrLJkmJMDjuWpa2BvlU3QN1RCSavrbxLPgSieVU
- c5NE0OYFVO46ICC6xA0ow3x/o+k9FAIAtUMHVQL+QQYNRWUyF4q73OjFyJ2N2opxhPoY
- +wVzk+tlBcZC051q6WwtYtTus1Jp3GV2yDlX6jfwJixgR9Dr+f5Jz+qkWFby1CaC7+ZU
- jpLQYx6i9DKRJsTb9AwzH3KId349rYa9cIPNvipFJHXFefPQ35InA6J4Mhy+L0ChZHQe
- X6MA==
-X-Gm-Message-State: AOAM531sp0/9zdhs8wQJX0AKEjszN+PmaEg380uw4Wv31bWpoSIBqupN
- 5cQrdMRcEiFRC2MFUN8VEC0=
-X-Google-Smtp-Source: ABdhPJyvQqwVfnqNh+p34cdkk3VkqZVcQx818ZVzyde7cIL1JuJ8VM2Siydwch4p+f1lnq+Vtm0N7A==
-X-Received: by 2002:a63:3c19:: with SMTP id j25mr9279778pga.434.1589267032602; 
- Tue, 12 May 2020 00:03:52 -0700 (PDT)
+ bh=KnWhTxSokldqb010DnL4ORytzuGapXn7Hq520J7Za+c=;
+ b=GV4gRyVWwrXoD9fm24nbSEm47qWapJyeiBdS6XN4S+os4lAi2j2nBDEiKj2R9DiQQg
+ Wi1dLP7PDygSG0rmY6HaaojR9ObeRqtNcz7IqU5FH+Ooc+QnZVLLaWPpiWud926QYB5j
+ l1V3aKNWXEW2L827+rpq6f9lAnwojHlKxYNjq35qpASoDeuo1ykJGc40Ndmlq+PYtvFc
+ qo0ngQpqlFXWzA7ttq2MTjlvXQDZp4FwvQ7P3s2JIqYGwGrRez0rrGZWwpBVvI1/fCjE
+ yoqIAZ1S4p/j40NrVoTAeuHA6WLsYq/7+wbh3ICJzkIwu/cLdu1NRcmGn9fl0tiglKbp
+ YXzQ==
+X-Gm-Message-State: AGi0PuYFIWins4VXT+tvUwckNj4EE51fkTHgd3JNJjD/1HqfYAAC3znI
+ P+SdvTFcyKO/9HeFqL+Pq+4=
+X-Google-Smtp-Source: APiQypJgzsQrvrMxxxS1gIKRvHu2KK37xvZy80d20Mc2DmCk4cb+KwcWxqzPiseDTD0DXbnIzfEGlQ==
+X-Received: by 2002:a63:9801:: with SMTP id q1mr19050050pgd.447.1589267041774; 
+ Tue, 12 May 2020 00:04:01 -0700 (PDT)
 Received: from fmin-OptiPlex-7060.nreal.work ([103.206.190.146])
- by smtp.gmail.com with ESMTPSA id 62sm11016369pfu.181.2020.05.12.00.03.48
+ by smtp.gmail.com with ESMTPSA id 62sm11016369pfu.181.2020.05.12.00.03.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 12 May 2020 00:03:52 -0700 (PDT)
+ Tue, 12 May 2020 00:04:01 -0700 (PDT)
 From: dillon.minfei@gmail.com
 To: robh+dt@kernel.org, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch, mturquette@baylibre.com, sboyd@kernel.org
-Subject: [PATCH v3 2/5] dt-bindings: display: panel: Add ilitek ili9341 panel
- bindings
-Date: Tue, 12 May 2020 15:03:34 +0800
-Message-Id: <1589267017-17294-3-git-send-email-dillon.minfei@gmail.com>
+Subject: [PATCH v3 3/5] ARM: dts: stm32: enable ltdc binding with ili9341 on
+ stm32429-disco board
+Date: Tue, 12 May 2020 15:03:35 +0800
+Message-Id: <1589267017-17294-4-git-send-email-dillon.minfei@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
 References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
@@ -80,7 +80,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: dillon min <dillon.minfei@gmail.com>
 
-Add documentation for "ilitek,ili9341" panel.
+Enable the ltdc & ili9341 on stm32429-disco board.
 
 Signed-off-by: dillon min <dillon.minfei@gmail.com>
 ---
@@ -88,92 +88,71 @@ Signed-off-by: dillon min <dillon.minfei@gmail.com>
 Changes:
 
 V3:
-    change compatible to st,sf-tc240t-9370-t, match #vendor,#lcd_module style
+    change dts binding compatible to "st,sf-tc240t-9370-t"
 
 V2:
-    verifyied with make dt_binding_check
-
-V1:
     none
 
-.../bindings/display/panel/ilitek,ili9341.yaml     | 68 ++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+v1:
+    none
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-new file mode 100644
-index 0000000..9f694d8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
-@@ -0,0 +1,68 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/ilitek,ili9341.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+arch/arm/boot/dts/stm32f429-disco.dts | 39 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+diff --git a/arch/arm/boot/dts/stm32f429-disco.dts b/arch/arm/boot/dts/stm32f429-disco.dts
+index 30c0f67..4475e40 100644
+--- a/arch/arm/boot/dts/stm32f429-disco.dts
++++ b/arch/arm/boot/dts/stm32f429-disco.dts
+@@ -49,6 +49,8 @@
+ #include "stm32f429.dtsi"
+ #include "stm32f429-pinctrl.dtsi"
+ #include <dt-bindings/input/input.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/gpio/gpio.h>
+ 
+ / {
+ 	model = "STMicroelectronics STM32F429i-DISCO board";
+@@ -127,3 +129,40 @@
+ 	pinctrl-names = "default";
+ 	status = "okay";
+ };
 +
-+title: Ilitek-9341 Display Panel
++&ltdc {
++	status = "okay";
++	pinctrl-0 = <&ltdc_pins_f429_disco>;
++	pinctrl-names = "default";
 +
-+maintainers:
-+  - Dillon Min <dillon.minfei@gmail.com>
++	port {
++		ltdc_out_rgb: endpoint {
++			remote-endpoint = <&panel_in_rgb>;
++		};
++	};
++};
 +
-+description: |
-+  Ilitek ILI9341 TFT panel driver with SPI control bus
-+  This is a driver for 320x240 TFT panels, accepting a rgb input
-+  streams with 16 bits or 18 bits.
-+
-+allOf:
-+  - $ref: panel-common.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          # ili9341 240*320 Color on stm32f429-disco board
-+        - st,sf-tc240t-9370-t
-+      - const: ilitek,ili9341
-+
-+  reg: true
-+
-+  dc-gpios:
-+    maxItems: 1
-+    description: Display data/command selection (D/CX)
-+
-+  spi-3wire: true
-+
-+  spi-max-frequency:
-+    const: 10000000
-+
-+  port: true
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - dc-gpios
-+  - port
-+
-+examples:
-+  - |+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        panel: display@0 {
-+                 compatible = "st,sf-tc240t-9370-t", "ilitek,ili9341";
-+                 reg = <0>;
-+                 spi-3wire;
-+                 spi-max-frequency = <10000000>;
-+                 dc-gpios = <&gpiod 13 0>;
-+                 port {
-+                         panel_in: endpoint {
-+                           remote-endpoint = <&display_out>;
-+                      };
-+                 };
-+             };
-+        };
-+...
-+
++&spi5 {
++	status = "okay";
++	pinctrl-0 = <&spi5_pins>;
++	pinctrl-names = "default";
++	#address-cells = <1>;
++	#size-cells = <0>;
++	cs-gpios = <&gpioc 2 GPIO_ACTIVE_LOW>;
++	dmas = <&dma2 3 2 0x400 0x0>,
++	       <&dma2 4 2 0x400 0x0>;
++	dma-names = "rx", "tx";
++	display: display@0{
++		/* Connect panel-ilitek-9341 to stm32 via ltdc*/
++		compatible = "st,sf-tc240t-9370-t";
++		reg = <0>;
++		spi-3wire;
++		spi-max-frequency = <10000000>;
++		dc-gpios = <&gpiod 13 0>;
++		port {
++			panel_in_rgb: endpoint {
++			remote-endpoint = <&ltdc_out_rgb>;
++			};
++		};
++	};
++};
 -- 
 2.7.4
 
