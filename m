@@ -2,38 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A631D0B9E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548961CF230
+	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 12:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB016E9DA;
-	Wed, 13 May 2020 09:10:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 781DC6E09A;
+	Tue, 12 May 2020 10:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 325 seconds by postgrey-1.36 at gabe;
- Tue, 12 May 2020 09:46:20 UTC
-Received: from scenergy.dfmk.hu (scenergy.dfmk.hu [193.224.143.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC4C86E0CD
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 09:46:20 +0000 (UTC)
-Received: by scenergy.dfmk.hu (Postfix, from userid 1000)
- id EB83B80014D; Tue, 12 May 2020 11:40:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by scenergy.dfmk.hu (Postfix) with ESMTP id C35BC800139;
- Tue, 12 May 2020 11:40:51 +0200 (CEST)
-Date: Tue, 12 May 2020 11:40:51 +0200 (CEST)
-From: "Karoly Balogh (Charlie/SGR)" <charlie@scenergy.dfmk.hu>
-To: Rui Salvaterra <rsalvaterra@gmail.com>
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-In-Reply-To: <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
-References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
- <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
- <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
- <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
- <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
- <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
+ [IPv6:2607:f8b0:4864:20::943])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB53B6E09A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 10:16:51 +0000 (UTC)
+Received: by mail-ua1-x943.google.com with SMTP id a7so4529741uak.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 03:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eD/fxPgbRazpPuKEYKmVFpAaQ+Lts7fC5ruqKYqtzWI=;
+ b=gYoJQp8ortxiwAMQ8esa67zCWRtmd7zu2xfVy1BmH6T37/TDmhKRc/DJ+JEioF1pQL
+ 4JNyGyOnbrwVezJscFsZRsYxMXUUsuqqJDB80JfmFvezyzWFlwq50uxV28acple1Xa+1
+ ChEE4tnoYQdDgV6+6vBHGdOyEYL7ENzH3f9ZvHgSuVodt4rb3O65B0lB5InTUtTbIou0
+ QcPA3Ye/SFL75zQIlZH4PTp4vNOKxp/53eKUgXJWKGmaLnXBQ7M1Qbx/YDwjBSi4NM4G
+ I+3WqLZSB9Xfr34lsq+L14OgmmLGBGq6nneUWAbwUMuVEvH7N1NVCZf2KFKgKYQfjxqm
+ F6Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eD/fxPgbRazpPuKEYKmVFpAaQ+Lts7fC5ruqKYqtzWI=;
+ b=haGJDHNZsPvNQhKgrW45rCvJ20VhGqT8d7fH4Qzb9etExDpYlNST6052mnHAFAVUwL
+ nYdFLsGrthoLdCYWZ1vKm5j3GAxZNC7k8vSQp39KDqpwNPT57WOlxpW0MhYfS7uZJ5gB
+ bvO+VUvsSLvIHpXGzDoDMpR9p8KYDUXUxfSUNKgxgZbO3Sy8MGTXrEqFhBDlSfRjxcU/
+ BUit+Pa3yMbl/gfF3wSoE7Wzam5VMehKsnsatj37BI8H2jx4ofYo5C0/tBXpOW/uWSiL
+ h54v0QOxqazyYumTqXsRdytBTLtxMKC9thxxXNK1K2hCMUJNwAT0hfdc3h0P+27DC2S3
+ hjYg==
+X-Gm-Message-State: AGi0PuZVJuACID86oj99n6A/zhZeR3uoIvYVNPKwJDne3u/k49Eao2j5
+ YSovLIRVcjoAVRDBp3y0bWTjdJ35ho8t6JQ75Zo=
+X-Google-Smtp-Source: APiQypLYVbnljZIPlnM/Y82nzMXIl5VAIA7Uxw/LVqrPpFEx/aYFLFiyOnPeFDTcZF677c0V6gEhXTuQQ3J+3L5E/Y4=
+X-Received: by 2002:a9f:2188:: with SMTP id 8mr16407801uac.46.1589278610824;
+ Tue, 12 May 2020 03:16:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
+References: <20200512084258.12673-1-tzimmermann@suse.de>
+ <20200512084258.12673-13-tzimmermann@suse.de>
+In-Reply-To: <20200512084258.12673-13-tzimmermann@suse.de>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 12 May 2020 11:14:12 +0100
+Message-ID: <CACvgo522zu525bZX=s=h1AeTAFbbAVsWtFLwgt=i0uBORb-oVw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] drm/mgag200: Remove out-commented suspend/resume
+ helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,45 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?ISO-8859-15?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?ISO-8859-15?Q?Michel_D=E4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: john.p.donnelly@oracle.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Thomas,
 
-On Tue, 12 May 2020, Rui Salvaterra wrote:
-
-> > FWIW, on my last-generation PowerBook with RV350 (IIRC), there was a
-> > big performance difference between AGP and PCI GART. The latter was
-> > sort of usable for normal desktop operation, but not so much for
-> > OpenGL apps (which were usable with AGP).
+On Tue, 12 May 2020 at 09:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> I never really understood what were the issues with AGP on PowerPC
-> (well, Apple, the only ones I've tested) machines. I mean, did OS X also
-> disable AGP entirely, or did it have workarounds somewhere else on the
-> stack nobody was able to figure out?
+> The suspend/resume helpers are unused. Also remove associated state
+> from struct mga_device.
+>
+Although DPMS in it's traditional sense is no longer a thing, would it
+make sense to keep this around for documentation purposes?
+In particular, the pci magic and associated PLL/DAC/pixel clock could
+be used for dynamic PM.
 
-I don't know about OS X, but I doubt there is a major/blocker hardware
-issue, at least not one which affects every AGP machine.
-
-MorphOS' own Radeon driver uses the AGP facilities to some degree on all
-AGP PowerPC Macs supported by that OS, which is from PMac AGP Graphics
-(3,1) all the way up to the AGP G5 (7,3), including the various portables
-and the Mac mini G4. For example it can utilize it to stream video data
-directly from mainboard RAM, so you don't have to copy it with the CPU,
-allowing reasonably good 720p h264 video playback on most systems above
-the 1Ghz mark with the native MPlayer port. I'm sure the 3D part of the
-driver also use it to some degree, given the performance improvement we
-experienced when the AGP support was enabled (initially the system was
-running without it), but to which extent I can't say.
-
-Charlie
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
