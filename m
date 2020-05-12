@@ -2,107 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6261CFF4B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 May 2020 22:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682801D0BA0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578CE6E0AC;
-	Tue, 12 May 2020 20:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D28796E9CF;
+	Wed, 13 May 2020 09:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8E76E97A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 20:33:56 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200512203355euoutp021f600ca303b8ebfb793e9f14ece29d17~OYiZP7UDx2274122741euoutp02G
- for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 20:33:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200512203355euoutp021f600ca303b8ebfb793e9f14ece29d17~OYiZP7UDx2274122741euoutp02G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1589315635;
- bh=wnAc6t9J+MLeu4DXX/UMTG7FIxfuzBk4sujw+pbXYuI=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=vFcP7z7iNFqcPY/EoZ5ceEWyjH1xwGyPTsFs44xdrk9/usQK/cCqb6wNTikhe/cz3
- VRuU1QMd4IzJN8gNMfXAO/FSr7WAEwp3UEQA958LHOtJuBsPdJUyXn7cor0p/GkEeY
- qrecZ9OJZgAZ759EqpgSB1rwj676W+1IKU9G/b1E=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200512203354eucas1p1ccad241d082e172806147e8051ca5cd5~OYiY_s_Nd1765817658eucas1p1P;
- Tue, 12 May 2020 20:33:54 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 59.BC.60679.2380BBE5; Tue, 12
- May 2020 21:33:54 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200512203354eucas1p1ec0713551239b5437374232a3558db8e~OYiYXwwvs1766317663eucas1p1P;
- Tue, 12 May 2020 20:33:54 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200512203354eusmtrp29c5130625112f643794304998f69d654~OYiYXBRxv1599815998eusmtrp2e;
- Tue, 12 May 2020 20:33:54 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-4a-5ebb08320b1c
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id C1.CA.07950.2380BBE5; Tue, 12
- May 2020 21:33:54 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200512203353eusmtip24e27fc61e27b356e67372df3a9c99d61~OYiXny--L2981929819eusmtip2U;
- Tue, 12 May 2020 20:33:53 +0000 (GMT)
-Subject: Re: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist wrappers
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <f6242137-82a5-0e33-f1a2-9e73dc679aa9@samsung.com>
-Date: Tue, 12 May 2020 22:33:54 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
+X-Greylist: delayed 6914 seconds by postgrey-1.36 at gabe;
+ Tue, 12 May 2020 22:39:26 UTC
+Received: from mx0a-00154904.pphosted.com (mx0a-00154904.pphosted.com
+ [148.163.133.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 191466EA56
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 22:39:25 +0000 (UTC)
+Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04CKH7MC022072
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 16:44:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=DuO9+XzCs9Szkec9RCDi2yJoEzCU6NDkZ7chFDvuD+E=;
+ b=SkYIEvrjFz3NnI2JTXQwT4aC+MZJ1ZCmUjTWVxkIQY6ls/faYjKQRsUnH0XXvxUgNU5G
+ x5sem2GZ+HjiPYQmBpJ2QtnMZeVeqKrIuUK/04bxCcAlkpkL02y+dRX1kVYwOMZe6DjM
+ F0zvnZr1dnEAkyBgJcZBC/CEETjj8Zgvk0K1w5nD47fbPmU+QSXWy3ttDEZEv/5zsAqF
+ EZppV2JBXnZxUyD4Ld8DuxZ39HTLV45+hIicvIH19HxNz8U5D/Okgi6zS3UMZKwcMwte
+ otSDK1xYx4roSP/7BdGQhGfUjv8wV6koJRTDfgJxcaiuarCN9t8RkLX9+6JRO4mQp0jE EA== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com
+ [67.231.157.37])
+ by mx0a-00154904.pphosted.com with ESMTP id 3100y0gcsc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 16:44:11 -0400
+Received: from pps.filterd (m0144104.ppops.net [127.0.0.1])
+ by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04CKNQMS126713
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 16:44:10 -0400
+Received: from ausc60pc101.us.dell.com (ausc60pc101.us.dell.com
+ [143.166.85.206])
+ by mx0b-00154901.pphosted.com with ESMTP id 3101109ktd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 May 2020 16:44:09 -0400
+X-LoopCount0: from 10.166.132.190
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; d="scan'208";a="1555048327"
+From: <Mario.Limonciello@dell.com>
+To: <hdegoede@redhat.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <rajatja@google.com>, <jani.nikula@linux.intel.com>
+Subject: RE: [RFC v2] drm/connector: Add support for privacy-screen properties
+ (v2)
+Thread-Topic: [RFC v2] drm/connector: Add support for privacy-screen
+ properties (v2)
+Thread-Index: AQHWJ7xIktWUnlUipkKoS8r+15lJDKik61zw
+Date: Tue, 12 May 2020 20:44:08 +0000
+Message-ID: <64cb58c2e5254b4c8f539cecd6953090@AUSX13MPC105.AMER.DELL.COM>
+References: <20200511174724.21512-1-hdegoede@redhat.com>
+ <20200511174724.21512-2-hdegoede@redhat.com>
+In-Reply-To: <20200511174724.21512-2-hdegoede@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfyyUcRzu+773vveSs9fRfCax3cqWLUVt3k2MVdvbVqv80aaNOnmHdYfu
- TaoxJpOOykjpRpRWuejH3XGclu6K82NJkemHJP4hxjiWH5HzUv57nufzfPY8n+1D4dJpwoOK
- TzjHqRLkChnpKKptnu3YEUA1RO1qMQUw1zpaMeZF8TOC6Z4eJ5nKJ00Y8+FOn4gpbwxibN0D
- GKMb7CGYLlMJyeQ9ryGYh7oFjOk0+jI3x2bFjHliiAh1ZqvuViG24uUwxuq0V0nWOPODYPtz
- rRirf5DOfl0cxNnC3keIbficQbKDc8Mke92gReyUzottm54SH5WccNwbwyniz3OqnSGnHONs
- 83lYUrbnheq+ESwD9burkQMF9B54YnlLqJEjJaUfIzCPvhELxIbgxuRTkUCmEEzO3EZrK9nW
- biQMHiH4dGUeE8g4glaDHre7XOljMJKlwe0DN7oZg/HK+pUUnK7CYWEhR2x3kbQ/qMfUpB1L
- 6BBo1WZidiyit8FMftZK3iY6Etor9EjwuEDrnaHlUhTlQB+HUutWu4zT3mAcK8EF7A5fhspW
- GgF9j4Lq0pbV3vvhVV0lLmBXGLEaxAL2hKX6tYXLCAY6qsUCyUPQlVm8uh0E3zrmSHsyTm+H
- Z6adghwGXbYiZJeBdobeMRehhDMU1N7GBVkCOdlSwe0DGuvTf7Hmzo94PpJp1l2mWXeOZt05
- mv+55UikRe5cMq+M5fiABC7Fj5cr+eSEWL/TiUodWn7G9kWrrQ6ZFqItiKaQzEmyIc0UJSXk
- 5/mLSgsCCpe5SbLi66Okkhj5xUucKvGkKlnB8Ra0mRLJ3CW77w9HSulY+TnuDMclcaq1KUY5
- eGSgjepRW2TBUE9RRFqToiLcwdu7SrNvafBgdPCFI301KRNMRHpgoVvw218DE8bG6iUy8efI
- w67MTB8o2NSGDvncsp5Ujr82O2FlltCfWmNKcUiua07YaPiB1KQ5Zb8uderPluzD/LvK3zFG
- 17NcbmnScAthVrw/Thi8sgK/6zkvmYiPk/v74ipe/hdBiun/iAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnleLIzCtJLcpLzFFi42I5/e/4PV0jjt1xBrtmcFv0njvJZLFxxnpW
- iytf37NZrFx9lMni4sy7LBYL9ltbfLnykMli0+NrrBaXd81hs+jZsJXVYtmmP0wWF7ZrWUx5
- +5Pd4uCHJ6wOfB5r5q1h9Fi85yWTx6ZVnWwe2789YPW4332cyWPzknqP2/8eM3tMvrGc0WP3
- zQY2j8e/XrJ59G1ZxejxeZOcx6mvn9kDeKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUM
- jc1jrYxMlfTtbFJSczLLUov07RL0Mr787mEqaJOpWHv3FVMD433xLkZODgkBE4m241cYuxi5
- OIQEljJK3NyzmBkiISNxcloDK4QtLPHnWhcbRNFbRomvDZvBioQFAiVetcxiBkmICBxjktjR
- 9owJxGEWWMcs8b3xOTtEC1DmxfufjCAtbAKGEl1vQWZxcvAK2EmcXNXEBGKzCKhKfJvQAlYj
- KhArsfpaKyNEjaDEyZlPWLoYOTg4BcIk5h5XAQkzC5hJzNv8kBnClpfY/nYOlC0ucevJfKYJ
- jEKzkHTPQtIyC0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgQmgm3Hfm7Zwdj1
- LvgQowAHoxIPb0T9rjgh1sSy4srcQ4wSHMxKIrwtmTvjhHhTEiurUovy44tKc1KLDzGaAv02
- kVlKNDkfmKTySuINTQ3NLSwNzY3Njc0slMR5OwQOxggJpCeWpGanphakFsH0MXFwSjUwNm3l
- /NjmYWpvPWe3RtE5l5/PXaMSlHe8Phi5QIVHqIbh8jrPgDxGLr6C913Plnx3yQl9VauyYyHj
- D+bN7+Zt4F0qO1H1z4pGNb22+tTbRpzzV06dp7Zg+96NE668PJztt8Vc6/qyzusMWU97LRbc
- vf1BI87IPinqQOMTUfld7lxpaddntH+bocRSnJFoqMVcVJwIAH0Po9kaAwAA
-X-CMS-MailID: 20200512203354eucas1p1ec0713551239b5437374232a3558db8e
-X-Msg-Generator: CA
-X-RootMTR: 20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e
-References: <20200512085710.14688-1-m.szyprowski@samsung.com>
- <20200512090058.14910-1-m.szyprowski@samsung.com>
- <CGME20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e@eucas1p2.samsung.com>
- <20200512090058.14910-38-m.szyprowski@samsung.com>
- <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-05-12T20:43:56.8593322Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=e6908ad5-5236-40c1-b52a-324cd5489261;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.40]
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-12_07:2020-05-11,
+ 2020-05-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
+ cotscore=-2147483648 priorityscore=1501 mlxlogscore=999 clxscore=1011
+ impostorscore=0 mlxscore=0 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005120152
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 phishscore=0
+ clxscore=1011 cotscore=-2147483648 priorityscore=1501 impostorscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005120152
+X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,102 +105,311 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pawel Osciak <pawel@osciak.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Sonny.Quintanilla@dell.com,
+ jaredz@redhat.com, mpearson@lenovo.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+> -----Original Message-----
+> From: Hans de Goede <hdegoede@redhat.com>
+> Sent: Monday, May 11, 2020 12:47 PM
+> To: Maarten Lankhorst; Maxime Ripard; Thomas Zimmermann; Daniel Vetter; David
+> Airlie; Rajat Jain; Jani Nikula
+> Cc: Hans de Goede; Pekka Paalanen; Limonciello, Mario; Quintanilla, Sonny;
+> Jared Dominguez; Mark Pearson; dri-devel@lists.freedesktop.org
+> Subject: [RFC v2] drm/connector: Add support for privacy-screen properties
+> (v2)
+> 
+> 
+> [EXTERNAL EMAIL]
+> 
+> From: Rajat Jain <rajatja@google.com>
+> 
+> Add support for generic electronic privacy screen properties, that
+> can be added by systems that have an integrated EPS.
+> 
+> Changes in v2 (Hans de Goede)
+> - Create 2 properties, "privacy-screen sw-state" and
+>   "privacy-screen hw-state", to deal with devices where the OS might be
+>   locked out of making state changes
+> - Write kerneldoc explaining how the 2 properties work together, what
+>   happens when changes to the state are made outside of the DRM code's
+>   control, etc.
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
+> Co-authored-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  Documentation/gpu/drm-kms.rst     |   2 +
+>  drivers/gpu/drm/drm_atomic_uapi.c |   6 ++
+>  drivers/gpu/drm/drm_connector.c   | 100 ++++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h       |  50 +++++++++++++++
+>  4 files changed, 158 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 906771e03103..b72b1e0db343 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -445,6 +445,8 @@ Property Types and Blob Property Support
+>  .. kernel-doc:: drivers/gpu/drm/drm_property.c
+>     :export:
+> 
+> +.. _standard_connector_properties:
+> +
+>  Standard Connector Properties
+>  -----------------------------
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
+> b/drivers/gpu/drm/drm_atomic_uapi.c
+> index a1e5e262bae2..e56a11208515 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -766,6 +766,8 @@ static int drm_atomic_connector_set_property(struct
+> drm_connector *connector,
+>  						   fence_ptr);
+>  	} else if (property == connector->max_bpc_property) {
+>  		state->max_requested_bpc = val;
+> +	} else if (property == connector->privacy_screen_sw_state_property) {
+> +		state->privacy_screen_sw_state = val;
+>  	} else if (connector->funcs->atomic_set_property) {
+>  		return connector->funcs->atomic_set_property(connector,
+>  				state, property, val);
+> @@ -842,6 +844,10 @@ drm_atomic_connector_get_property(struct drm_connector
+> *connector,
+>  		*val = 0;
+>  	} else if (property == connector->max_bpc_property) {
+>  		*val = state->max_requested_bpc;
+> +	} else if (property == connector->privacy_screen_sw_state_property) {
+> +		*val = state->privacy_screen_sw_state;
+> +	} else if (property == connector->privacy_screen_hw_state_property) {
+> +		*val = state->privacy_screen_hw_state;
+>  	} else if (connector->funcs->atomic_get_property) {
+>  		return connector->funcs->atomic_get_property(connector,
+>  				state, property, val);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 644f0ad10671..01360edc2376 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1186,6 +1186,45 @@ static const struct drm_prop_enum_list dp_colorspaces[]
+> = {
+>   *	can also expose this property to external outputs, in which case they
+>   *	must support "None", which should be the default (since external screens
+>   *	have a built-in scaler).
+> + *
+> + * privacy-screen sw-state, privacy-screen hw-state:
+> + *	These 2 optional properties can be used to query the state of the
+> + *	electronic privacy screen that is available on some displays; and in
+> + *	some cases also control the state. If a driver implements these
+> + *	properties then both properties must be present.
+> + *
+> + *	"privacy-screen hw-state" is read-only and reflects the actual state
+> + *	of the privacy-screen, possible values: "Enabled", "Disabled,
+> + *	"Enabled, locked", "Disabled, locked". The locked states indicate
+> + *	that the state cannot be changed through the DRM API. E.g. there
+> + *	might be devices where the firmware-setup options, or a hardware
+> + *	slider-switch, offer always on / off modes.
+> + *
+> + *	"privacy-screen sw-state" can be set to change the privacy-screen state
+> + *	when not locked. In this case the driver must update the hw-state
+> + *	property to reflect the new state on completion of the commit of the
+> + *	sw-state property. Setting the sw-state property when the hw-state is
+> + *	locked must be interpreted by the driver as a request to change the
+> + *	state to the set state when the hw-state becomes unlocked. E.g. if
+> + *	"privacy-screen hw-state" is "Enabled, locked" and the sw-state
+> + *	gets set to "Disabled" followed by the user unlocking the state by
+> + *	changing the slider-switch position, then the driver must set the
+> + *	state to "Disabled" upon receiving the unlock event.
+> + *
+> + *	In some cases the privacy-screen state might change outside of control
+> + *	of the DRM code. E.g. there might be a firmware handled hotkey which
+> + *	toggles the state, or the state might be changed through another
+> + *	userspace API such as writing /proc/acpi/ibm/lcdshadow. In this case
+> + *	the driver must update both the hw-state and the sw-state to reflect
+> + *	the new value, overwriting any pending state requests in the sw-state.
+> + *
+> + *	Note that the ability for the state to change outside of control of
+> + *	the DRM master process means that userspace must not cache the value
+> + *	of the sw-state. Ccaching the sw-state value and including it in later
+> + *	atomic commits may lead to overriding a state change done through e.g.
+> + *	a firmware handled hotkey. Therefor userspace must not include the
+> + *	privacy-screen sw-state in an atomic commit unless it wants to change
+> + *	its value.
+>   */
+> 
+>  int drm_connector_create_standard_properties(struct drm_device *dev)
+> @@ -2152,6 +2191,67 @@ int drm_connector_set_panel_orientation_with_quirk(
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_panel_orientation_with_quirk);
+> 
+> +static const struct drm_prop_enum_list privacy_screen_enum[] = {
+> +	{ PRIVACY_SCREEN_DISABLED,		"Disabled" },
+> +	{ PRIVACY_SCREEN_ENABLED,		"Enabled" },
+> +	{ PRIVACY_SCREEN_DISABLED_LOCKED,	"Disabled, locked" },
+> +	{ PRIVACY_SCREEN_ENABLED_LOCKED,	"Enabled, locked" },
+> +};
+> +
+> +/**
+> + * drm_connector_create_privacy_screen_properties -
+> + *     create the drm connecter's privacy-screen properties.
+> + * @connector: connector for which to create the privacy-screen properties
+> + *
+> + * This function creates the "privacy-screen sw-state" and "privacy-screen
+> + * hw-state" properties for the connector. They are not attached.
+> + */
+> +void
+> +drm_connector_create_privacy_screen_properties(struct drm_connector
+> *connector)
+> +{
+> +	if (connector->privacy_screen_sw_state_property)
+> +		return;
+> +
+> +	/* Note sw-state only supports the first 2 values of the enum */
+> +	connector->privacy_screen_sw_state_property =
+> +		drm_property_create_enum(connector->dev, DRM_MODE_PROP_ENUM,
+> +				"privacy-screen sw-state",
+> +				privacy_screen_enum, 2);
+> +
+> +	connector->privacy_screen_hw_state_property =
+> +		drm_property_create_enum(connector->dev,
+> +				DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
+> +				"privacy-screen hw-state",
+> +				privacy_screen_enum,
+> +				ARRAY_SIZE(privacy_screen_enum));
+> +}
+> +EXPORT_SYMBOL(drm_connector_create_privacy_screen_properties);
+> +
+> +/**
+> + * drm_connector_attach_privacy_screen_properties -
+> + *     attach the drm connecter's privacy-screen properties.
+> + * @connector: connector on which to attach the privacy-screen properties
+> + *
+> + * This function attaches the "privacy-screen sw-state" and "privacy-screen
+> + * hw-state" properties to the connector. The initial state of both is set
+> + * to "Disabled".
+> + */
+> +void
+> +drm_connector_attach_privacy_screen_properties(struct drm_connector
+> *connector)
+> +{
+> +	if (!connector->privacy_screen_sw_state_property)
+> +		return;
+> +
+> +	drm_object_attach_property(&connector->base,
+> +				   connector->privacy_screen_sw_state_property,
+> +				   PRIVACY_SCREEN_DISABLED);
+> +
+> +	drm_object_attach_property(&connector->base,
+> +				   connector->privacy_screen_hw_state_property,
+> +				   PRIVACY_SCREEN_DISABLED);
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_privacy_screen_properties);
+> +
+>  int drm_connector_set_obj_prop(struct drm_mode_object *obj,
+>  				    struct drm_property *property,
+>  				    uint64_t value)
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 19ae6bb5c85b..a8844f4c6ae9 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -271,6 +271,30 @@ struct drm_monitor_range_info {
+>  	u8 max_vfreq;
+>  };
+> 
+> +/**
+> + * enum drm_privacy_screen_status - privacy screen status
+> + *
+> + * This enum is used to track and control the state of the integrated privacy
+> + * screen present on some display panels, via the "privacy-screen sw-state"
+> + * and "privacy-screen hw-state" properties. Note the _LOCKED enum values
+> + * are only valid for the "privacy-screen hw-state" property.
+> + *
+> + * @PRIVACY_SCREEN_DISABLED:
+> + *  The privacy-screen on the panel is disabled
+> + * @PRIVACY_SCREEN_ENABLED:
+> + *  The privacy-screen on the panel is enabled
+> + * @PRIVACY_SCREEN_DISABLED_LOCKED:
+> + *  The privacy-screen on the panel is disabled and locked (cannot be
+> changed)
+> + * @PRIVACY_SCREEN_ENABLED_LOCKED:
+> + *  The privacy-screen on the panel is enabled and locked (cannot be changed)
+> + */
+> +enum drm_privacy_screen_status {
+> +	PRIVACY_SCREEN_DISABLED = 0,
+> +	PRIVACY_SCREEN_ENABLED,
+> +	PRIVACY_SCREEN_DISABLED_LOCKED,
+> +	PRIVACY_SCREEN_ENABLED_LOCKED,
+> +};
+> +
+>  /*
+>   * This is a consolidated colorimetry list supported by HDMI and
+>   * DP protocol standard. The respective connectors will register
+> @@ -686,6 +710,18 @@ struct drm_connector_state {
+>  	 */
+>  	u8 max_bpc;
+> 
+> +	/**
+> +	 * @privacy_screen_sw_state: See :ref:`Standard Connector
+> +	 * Properties<standard_connector_properties>`
+> +	 */
+> +	enum drm_privacy_screen_status privacy_screen_sw_state;
+> +
+> +	/**
+> +	 * @privacy_screen_hw_state: See :ref:`Standard Connector
+> +	 * Properties<standard_connector_properties>`
+> +	 */
+> +	enum drm_privacy_screen_status privacy_screen_hw_state;
+> +
+>  	/**
+>  	 * @hdr_output_metadata:
+>  	 * DRM blob property for HDR output metadata
+> @@ -1285,6 +1321,18 @@ struct drm_connector {
+>  	 */
+>  	struct drm_property *max_bpc_property;
+> 
+> +	/**
+> +	 * @privacy_screen_sw_state_property: Optional atomic property for the
+> +	 * connector to control the integrated privacy screen.
+> +	 */
+> +	struct drm_property *privacy_screen_sw_state_property;
+> +
+> +	/**
+> +	 * @privacy_screen_hw_state_property: Optional atomic property for the
+> +	 * connector to report the actual integrated privacy screen state.
+> +	 */
+> +	struct drm_property *privacy_screen_hw_state_property;
+> +
+>  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
+>  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
+>  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
+> @@ -1598,6 +1646,8 @@ int drm_connector_set_panel_orientation_with_quirk(
+>  	int width, int height);
+>  int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
+>  					  int min, int max);
+> +void drm_connector_create_privacy_screen_properties(struct drm_connector
+> *conn);
+> +void drm_connector_attach_privacy_screen_properties(struct drm_connector
+> *conn);
+> 
+>  /**
+>   * struct drm_tile_group - Tile group metadata
+> --
+> 2.26.0
 
-On 12.05.2020 19:52, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->> Marek Szyprowski
->> Sent: Tuesday, May 12, 2020 5:01 AM
->> To: dri-devel@lists.freedesktop.org; iommu@lists.linux-foundation.org;
->> linaro-mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org
->> Cc: Pawel Osciak <pawel@osciak.com>; Bartlomiej Zolnierkiewicz
->> <b.zolnierkie@samsung.com>; David Airlie <airlied@linux.ie>; linux-
->> media@vger.kernel.org; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Mauro
->> Carvalho Chehab <mchehab@kernel.org>; Robin Murphy
->> <robin.murphy@arm.com>; Christoph Hellwig <hch@lst.de>; linux-arm-
->> kernel@lists.infradead.org; Marek Szyprowski
->> <m.szyprowski@samsung.com>
->> Subject: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist wrappers
->>
->> Use recently introduced common wrappers operating directly on the struct
->> sg_table objects and scatterlist page iterators to make the code a bit
->> more compact, robust, easier to follow and copy/paste safe.
->>
->> No functional change, because the code already properly did all the
->> scaterlist related calls.
->>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> ---
->> For more information, see '[PATCH v4 00/38] DRM: fix struct sg_table nents
->> vs. orig_nents misuse' thread:
->> https://lore.kernel.org/dri-devel/20200512085710.14688-1-
->> m.szyprowski@samsung.com/T/
->> ---
->> .../media/common/videobuf2/videobuf2-dma-contig.c  | 41 ++++++++++----
->> --------
->> drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 32 +++++++--------
->> --
->> drivers/media/common/videobuf2/videobuf2-vmalloc.c | 12 +++----
->> 3 files changed, 34 insertions(+), 51 deletions(-)
->>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> index d3a3ee5..bf31a9d 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> @@ -48,16 +48,15 @@ struct vb2_dc_buf {
->>
->> static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
->> {
->> -	struct scatterlist *s;
->> 	dma_addr_t expected = sg_dma_address(sgt->sgl);
->> -	unsigned int i;
->> +	struct sg_dma_page_iter dma_iter;
->> 	unsigned long size = 0;
->>
->> -	for_each_sg(sgt->sgl, s, sgt->nents, i) {
->> -		if (sg_dma_address(s) != expected)
->> +	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
->> +		if (sg_page_iter_dma_address(&dma_iter) != expected)
->> 			break;
->> -		expected = sg_dma_address(s) + sg_dma_len(s);
->> -		size += sg_dma_len(s);
->> +		expected += PAGE_SIZE;
->> +		size += PAGE_SIZE;
-> This code in drm_prime_t_contiguous_size and here.  I seem to remember seeing
-> the same pattern in other drivers.
->
-> Would it worthwhile to make this a helper as well?
-I think I've identified such patterns in all DRM drivers and replaced 
-with a common helper. So far I have no idea where to put such helper to 
-make it available for media/videobuf2, so those a few lines are indeed 
-duplicated here.
-> Also, isn't the sg_dma_len() the actual length of the chunk we are looking at?
->
-> If its I not PAGE_SIZE (ie. dma chunk is 4 * PAGE_SIZE?), does your loop/calculation still work?
+Hans,
 
-scaterlist page iterators (for_each_sg_page/for_each_sg_dma_page and 
-their sgtable variants) always operates on PAGE_SIZE units. They 
-correctly handle larger sg_dma_len().
+Thanks for putting together this set of modifications.  I believe it does sufficiently
+reflect the implementation of privacy screens present on Dell notebooks today containing
+them: Latitude 7300 and Latitude 7400.
 
+Those models only offer a HW controlled screen via a hotkey, but that hotkey control
+can be removed permanently locking them in an enabled or disabled state.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+I feel that your concept of HW state "Enabled, Locked" and "Disabled, Locked" sufficiently
+reflects that.
+
+Reviewed-by: Mario Limonciello <Mario.limonciello@dell.com>
 
 _______________________________________________
 dri-devel mailing list
