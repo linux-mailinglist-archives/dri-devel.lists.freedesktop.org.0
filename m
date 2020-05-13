@@ -1,59 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108721D12CC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 14:34:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A178B1D1319
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 14:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22816EA1F;
-	Wed, 13 May 2020 12:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88CE76E204;
+	Wed, 13 May 2020 12:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2536EA1D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 12:34:39 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l18so20663449wrn.6
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 05:34:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bEX+Dy76wk6MJ05sE+aY81SiTFw/uayHur8lf84+t6o=;
- b=SfG8FJJlHMf3v8XsRfWNfYt3BDsaM6CNEruWuFmK8Ykxbq6w/aNZ/qlH5VUhDYllv8
- YxZMy0gzplatGsVoZVH2lhpsoCnZm9yUCykfIEveZoDWQRGDX8OjeQEKPgLu+qoXApq9
- zKuxZ1ND3iGlvO7bo/LJ2Pcz5LPmt75ritTQg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bEX+Dy76wk6MJ05sE+aY81SiTFw/uayHur8lf84+t6o=;
- b=ft/zpNuYqxaUUDDLCITcrpcKZiQSnoIrnIXHxW0oiy7wgdwocUTGno9FVVc8xPQA1V
- UAb9vBRBACMJ6u6mUCOOVNW5GBzYz6n+OdmIfvev2OUsGJ+zmu1bC0dUNzSZIVsdXSqf
- 6JWzq8BmfGhFb6fHjdd4ViU7yTe00c8oNDEgeHCRRQus9j2vCoJL/H5i4qXfu3lw4wJX
- 8pYl4hn2OJf4KdMyXZAgkyamXlBWJT1Cajvw3NZsnA189GpTaxWWYH+ufcPpqlQKYo7v
- bENLkvKv6ZzpclTFbIKuHpXrAB9lT9nRLlsEH4oZnrkygZkpO6GI8k3JxqoliJ5UXhGq
- HKZw==
-X-Gm-Message-State: AGi0PuZMIrVl+St8NhQ9CaLOd36DT92BQvE6tkPOykD/bbVxVSm7ZFQc
- RG6FIJ98mM4tkJhPu2ZiCPdTAQ==
-X-Google-Smtp-Source: APiQypJg9PVNoAyzNeAU7ZIgLaEps3Qzrt2Gzg7xDthV08vUz5bjFUj4AP7mWHRz0bgW+tBkaOZtdw==
-X-Received: by 2002:a5d:5490:: with SMTP id h16mr30358270wrv.250.1589373278635; 
- Wed, 13 May 2020 05:34:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a13sm26803059wrv.67.2020.05.13.05.34.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 05:34:37 -0700 (PDT)
-Date: Wed, 13 May 2020 14:34:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/2] drm/ttm: deprecate AGP support
-Message-ID: <20200513123435.GJ206103@phenom.ffwll.local>
-References: <20200513110313.12979-1-christian.koenig@amd.com>
- <20200513110313.12979-3-christian.koenig@amd.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3FC6E121;
+ Wed, 13 May 2020 12:49:02 +0000 (UTC)
+IronPort-SDR: Ur3Aq3ECql6owvKDDK+UDHrTEokgRpH6HQ17oqiNXcRcgjBnbEvU4ozYmZVjjoAfaXHAgG8RVM
+ UnBX2mGzq1Kw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2020 05:49:01 -0700
+IronPort-SDR: 5dHtdCaNcfgRlQnMMii5wd2AlM7H1KdO6B1YU6W0akSALvxpFWEWaPePIreEAQw+FP2AyS25go
+ qXb0fOWAnSKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,387,1583222400"; d="scan'208";a="251759371"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga007.fm.intel.com with SMTP; 13 May 2020 05:48:58 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 13 May 2020 15:48:58 +0300
+Date: Wed, 13 May 2020 15:48:58 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/dp_mst: Fix timeout handling of MST down
+ messages
+Message-ID: <20200513124858.GD6112@intel.com>
+References: <20200513103155.12336-1-imre.deak@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200513110313.12979-3-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200513103155.12336-1-imre.deak@intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,261 +51,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, debian-powerpc@lists.debian.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 13, 2020 at 01:03:13PM +0200, Christian K=F6nig wrote:
-> Even when core AGP support is compiled in Radeon and
-> Nouveau can also work with the PCI GART.
+On Wed, May 13, 2020 at 01:31:55PM +0300, Imre Deak wrote:
+> This fixes the following use-after-free problem in case an MST down
+> message times out, while waiting for the response for it:
 > =
 
-> The AGP support was notorious unstable and hard to
-> maintain, so deprecate it for now and only enable it if
-> there is a good reason to do so.
+> [  449.022841] [drm:drm_dp_mst_wait_tx_reply.isra.26] timedout msg send 0=
+000000080ba7fa2 2 0
+> [  449.022898] ------------[ cut here ]------------
+> [  449.022903] list_add corruption. prev->next should be next (ffff88847d=
+ae32c0), but was 6b6b6b6b6b6b6b6b. (prev=3Dffff88847db1c140).
+> [  449.022931] WARNING: CPU: 2 PID: 22 at lib/list_debug.c:28 __list_add_=
+valid+0x4d/0x70
+> [  449.022935] Modules linked in: asix usbnet mii snd_hda_codec_hdmi mei_=
+hdcp i915 x86_pkg_temp_thermal coretemp crct10dif_pclmul crc32_pclmul ghash=
+_clmulni_intel snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hwdep e1000=
+e snd_hda_core ptp snd_pcm pps_core mei_me mei intel_lpss_pci prime_numbers
+> [  449.022966] CPU: 2 PID: 22 Comm: kworker/2:0 Not tainted 5.7.0-rc3-CI-=
+Patchwork_17536+ #1
+> [  449.022970] Hardware name: Intel Corporation Tiger Lake Client Platfor=
+m/TigerLake U DDR4 SODIMM RVP, BIOS TGLSFWI1.R00.2457.A16.1912270059 12/27/=
+2019
+> [  449.022976] Workqueue: events_long drm_dp_mst_link_probe_work
+> [  449.022982] RIP: 0010:__list_add_valid+0x4d/0x70
+> [  449.022987] Code: c3 48 89 d1 48 c7 c7 f0 e7 32 82 48 89 c2 e8 3a 49 b=
+7 ff 0f 0b 31 c0 c3 48 89 c1 4c 89 c6 48 c7 c7 40 e8 32 82 e8 23 49 b7 ff <=
+0f> 0b 31 c0 c3 48 89 f2 4c 89 c1 48 89 fe 48 c7 c7 90 e8 32 82 e8
+> [  449.022991] RSP: 0018:ffffc900001abcb0 EFLAGS: 00010286
+> [  449.022995] RAX: 0000000000000000 RBX: ffff88847dae2d58 RCX: 000000000=
+0000001
+> [  449.022999] RDX: 0000000080000001 RSI: ffff88849d914978 RDI: 00000000f=
+fffffff
+> [  449.023002] RBP: ffff88847dae32c0 R08: ffff88849d914978 R09: 000000000=
+0000000
+> [  449.023006] R10: ffffc900001abcb8 R11: 0000000000000000 R12: ffff88849=
+0d98400
+> [  449.023009] R13: ffff88847dae3230 R14: ffff88847db1c140 R15: ffff88849=
+0d98540
+> [  449.023013] FS:  0000000000000000(0000) GS:ffff88849ff00000(0000) knlG=
+S:0000000000000000
+> [  449.023017] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  449.023021] CR2: 00007fb96fafdc63 CR3: 0000000005610004 CR4: 000000000=
+0760ee0
+> [  449.023025] PKRU: 55555554
+> [  449.023028] Call Trace:
+> [  449.023034]  drm_dp_queue_down_tx+0x59/0x110
+> [  449.023041]  ? rcu_read_lock_sched_held+0x4d/0x80
+> [  449.023050]  ? kmem_cache_alloc_trace+0x2a6/0x2d0
+> [  449.023060]  drm_dp_send_link_address+0x74/0x870
+> [  449.023065]  ? __slab_free+0x3e1/0x5c0
+> [  449.023071]  ? lockdep_hardirqs_on+0xe0/0x1c0
+> [  449.023078]  ? lockdep_hardirqs_on+0xe0/0x1c0
+> [  449.023097]  drm_dp_check_and_send_link_address+0x9a/0xc0
+> [  449.023106]  drm_dp_mst_link_probe_work+0x9e/0x160
+> [  449.023117]  process_one_work+0x268/0x600
+> [  449.023124]  ? __schedule+0x307/0x8d0
+> [  449.023139]  worker_thread+0x37/0x380
+> [  449.023149]  ? process_one_work+0x600/0x600
+> [  449.023153]  kthread+0x140/0x160
+> [  449.023159]  ? kthread_park+0x80/0x80
+> [  449.023169]  ret_from_fork+0x24/0x50
 > =
 
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-
-So a lot more work, and more risk (but hey it's agp, how busted can it
-get) could be to demidlayer this. I.e. a small set of helpers to create a
-TTM_PL_TT manager, backed by agp. With zero agp code remaining in ttm
-itself, and all the ttm agp code moved out to a ttm-agp-helper.ko module
-that drivers would call.
-
-But again a lot of work, so really only an option if we can't sunset agp
-directly.
--Daniel
-
+> Fixes: d308a881a591 ("drm/dp_mst: Kill the second sideband tx slot, save =
+the world")
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: Wayne Lin <Wayne.Lin@amd.com>
+> Cc: <stable@vger.kernel.org> # v3.17+
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  drivers/gpu/drm/Kconfig                       |  8 ++++++++
->  drivers/gpu/drm/nouveau/nouveau_bo.c          |  8 ++++----
->  drivers/gpu/drm/nouveau/nvkm/subdev/pci/agp.h |  2 +-
->  drivers/gpu/drm/radeon/radeon_agp.c           |  8 ++++----
->  drivers/gpu/drm/radeon/radeon_ttm.c           | 10 +++++-----
->  drivers/gpu/drm/ttm/Makefile                  |  2 +-
->  6 files changed, 23 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > =
 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 4f4e7fa001c1..52d834303766 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -182,6 +182,14 @@ config DRM_TTM
->  	  GPU memory types. Will be enabled automatically if a device driver
->  	  uses it.
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index 2d4132e0a98f..70455e304a26 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1197,7 +1197,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_m=
+st_branch *mstb,
 >  =
 
-> +config DRM_TTM_AGP
-> +	bool "TTM AGP GART support (deprecated)"
-> +	depends on DRM_TTM && AGP
-> +	default n
-> +	help
-> +	  Enables deprecated AGP GART support in TTM.
-> +	  Less reliable than PCI GART, but faster in some cases.
-> +
->  config DRM_TTM_DMA_PAGE_POOL
->  	bool
->  	depends on DRM_TTM && (SWIOTLB || INTEL_IOMMU)
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouve=
-au/nouveau_bo.c
-> index c40f127de3d0..c73d4ae48f5c 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -635,7 +635,7 @@ nouveau_bo_wr32(struct nouveau_bo *nvbo, unsigned ind=
-ex, u32 val)
->  static struct ttm_tt *
->  nouveau_ttm_tt_create(struct ttm_buffer_object *bo, uint32_t page_flags)
->  {
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	struct nouveau_drm *drm =3D nouveau_bdev(bo->bdev);
->  =
+>  		/* remove from q */
+>  		if (txmsg->state =3D=3D DRM_DP_SIDEBAND_TX_QUEUED ||
+> -		    txmsg->state =3D=3D DRM_DP_SIDEBAND_TX_START_SEND)
+> +		    txmsg->state =3D=3D DRM_DP_SIDEBAND_TX_START_SEND ||
+> +		    txmsg->state =3D=3D DRM_DP_SIDEBAND_TX_SENT)
+>  			list_del(&txmsg->next);
 
->  	if (drm->agp.bridge) {
-> @@ -1448,7 +1448,7 @@ nouveau_ttm_io_mem_reserve(struct ttm_bo_device *bd=
-ev, struct ttm_mem_reg *reg)
->  		/* System memory */
->  		return 0;
->  	case TTM_PL_TT:
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  		if (drm->agp.bridge) {
->  			reg->bus.offset =3D reg->start << PAGE_SHIFT;
->  			reg->bus.base =3D drm->agp.base;
-> @@ -1603,7 +1603,7 @@ nouveau_ttm_tt_populate(struct ttm_tt *ttm, struct =
-ttm_operation_ctx *ctx)
->  	drm =3D nouveau_bdev(ttm->bdev);
->  	dev =3D drm->dev->dev;
->  =
+Looks correct. Pondering list_del_init() all over so we
+wouldn't even need the state check...
 
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (drm->agp.bridge) {
->  		return ttm_agp_tt_populate(ttm, ctx);
+Also the 'return 1' in process_single_tx_qlock() seems =
+
+to be a zombie of some sort. Should probably be nuked to not
+confused the next person to read the code.
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
 >  	}
-> @@ -1656,7 +1656,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_tt *ttm)
->  	drm =3D nouveau_bdev(ttm->bdev);
->  	dev =3D drm->dev->dev;
->  =
-
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (drm->agp.bridge) {
->  		ttm_agp_tt_unpopulate(ttm);
->  		return;
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pci/agp.h b/drivers/gpu/=
-drm/nouveau/nvkm/subdev/pci/agp.h
-> index ad4d3621d02b..d572528da852 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/pci/agp.h
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pci/agp.h
-> @@ -1,6 +1,6 @@
->  /* SPDX-License-Identifier: MIT */
->  #include "priv.h"
-> -#if defined(CONFIG_AGP) || (defined(CONFIG_AGP_MODULE) && defined(MODULE=
-))
-> +#if defined(CONFIG_DRM_TTM_AGP)
->  #ifndef __NVKM_PCI_AGP_H__
->  #define __NVKM_PCI_AGP_H__
->  =
-
-> diff --git a/drivers/gpu/drm/radeon/radeon_agp.c b/drivers/gpu/drm/radeon=
-/radeon_agp.c
-> index 0aca7bdf54c7..294d19301708 100644
-> --- a/drivers/gpu/drm/radeon/radeon_agp.c
-> +++ b/drivers/gpu/drm/radeon/radeon_agp.c
-> @@ -33,7 +33,7 @@
->  =
-
->  #include "radeon.h"
->  =
-
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  =
-
->  struct radeon_agpmode_quirk {
->  	u32 hostbridge_vendor;
-> @@ -131,7 +131,7 @@ static struct radeon_agpmode_quirk radeon_agpmode_qui=
-rk_list[] =3D {
->  =
-
->  int radeon_agp_init(struct radeon_device *rdev)
->  {
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	struct radeon_agpmode_quirk *p =3D radeon_agpmode_quirk_list;
->  	struct drm_agp_mode mode;
->  	struct drm_agp_info info;
-> @@ -265,7 +265,7 @@ int radeon_agp_init(struct radeon_device *rdev)
->  =
-
->  void radeon_agp_resume(struct radeon_device *rdev)
->  {
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	int r;
->  	if (rdev->flags & RADEON_IS_AGP) {
->  		r =3D radeon_agp_init(rdev);
-> @@ -277,7 +277,7 @@ void radeon_agp_resume(struct radeon_device *rdev)
->  =
-
->  void radeon_agp_fini(struct radeon_device *rdev)
->  {
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (rdev->ddev->agp && rdev->ddev->agp->acquired) {
->  		drm_agp_release(rdev->ddev);
->  	}
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon=
-/radeon_ttm.c
-> index 5d50c9edbe80..4f9c4e5f8263 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -86,7 +86,7 @@ static int radeon_init_mem_type(struct ttm_bo_device *b=
-dev, uint32_t type,
->  		man->available_caching =3D TTM_PL_MASK_CACHING;
->  		man->default_caching =3D TTM_PL_FLAG_CACHED;
->  		man->flags =3D TTM_MEMTYPE_FLAG_MAPPABLE | TTM_MEMTYPE_FLAG_CMA;
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  		if (rdev->flags & RADEON_IS_AGP) {
->  			if (!rdev->ddev->agp) {
->  				DRM_ERROR("AGP is not enabled for memory type %u\n",
-> @@ -411,7 +411,7 @@ static int radeon_ttm_io_mem_reserve(struct ttm_bo_de=
-vice *bdev, struct ttm_mem_
->  		/* system memory */
->  		return 0;
->  	case TTM_PL_TT:
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  		if (rdev->flags & RADEON_IS_AGP) {
->  			/* RADEON_IS_AGP is set only if AGP is active */
->  			mem->bus.offset =3D mem->start << PAGE_SHIFT;
-> @@ -631,7 +631,7 @@ static struct ttm_tt *radeon_ttm_tt_create(struct ttm=
-_buffer_object *bo,
->  	struct radeon_ttm_tt *gtt;
->  =
-
->  	rdev =3D radeon_get_rdev(bo->bdev);
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (rdev->flags & RADEON_IS_AGP) {
->  		return ttm_agp_tt_create(bo, rdev->ddev->agp->bridge,
->  					 page_flags);
-> @@ -683,7 +683,7 @@ static int radeon_ttm_tt_populate(struct ttm_tt *ttm,
->  	}
->  =
-
->  	rdev =3D radeon_get_rdev(ttm->bdev);
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (rdev->flags & RADEON_IS_AGP) {
->  		return ttm_agp_tt_populate(ttm, ctx);
->  	}
-> @@ -714,7 +714,7 @@ static void radeon_ttm_tt_unpopulate(struct ttm_tt *t=
-tm)
->  		return;
->  =
-
->  	rdev =3D radeon_get_rdev(ttm->bdev);
-> -#if IS_ENABLED(CONFIG_AGP)
-> +#if IS_ENABLED(CONFIG_DRM_TTM_AGP)
->  	if (rdev->flags & RADEON_IS_AGP) {
->  		ttm_agp_tt_unpopulate(ttm);
->  		return;
-> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
-> index caea2a099496..aa772b198012 100644
-> --- a/drivers/gpu/drm/ttm/Makefile
-> +++ b/drivers/gpu/drm/ttm/Makefile
-> @@ -5,7 +5,7 @@
->  ttm-y :=3D ttm_memory.o ttm_tt.o ttm_bo.o \
->  	ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
->  	ttm_execbuf_util.o ttm_page_alloc.o ttm_bo_manager.o
-> -ttm-$(CONFIG_AGP) +=3D ttm_agp_backend.o
-> +ttm-$(CONFIG_DRM_TTM_AGP) +=3D ttm_agp_backend.o
->  ttm-$(CONFIG_DRM_TTM_DMA_PAGE_POOL) +=3D ttm_page_alloc_dma.o
->  =
-
->  obj-$(CONFIG_DRM_TTM) +=3D ttm.o
+>  out:
 > -- =
 
-> 2.17.1
+> 2.23.1
 > =
 
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 
 -- =
 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
