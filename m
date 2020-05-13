@@ -1,43 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589191D09CA
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 09:20:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95BA81D09E4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 09:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA0E6E1D3;
-	Wed, 13 May 2020 07:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93FEA6E8AE;
+	Wed, 13 May 2020 07:26:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5E189FFD
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 07:19:55 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id o7so20616664oif.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 00:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ea3lp7y4GVFDsQIDLhjxLCkYMhe9Lb+H3bAbV4Y8GW8=;
- b=XSmucmSGJnDRdx/x+K6aSi1Oc55VcHMg/vLg78wMCF+L5SkFzogOQztQKNVZuJC7q9
- DLujZAmFvQp3ZBYh3kBA59fKIHc0cRKTrw5J1XSuDnasVzN7jj151XHQVDDuTvuFDDfz
- qxvrq+06kndGs3EGXkTHjKz84v2RFkfwdQovI=
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C346E480
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 07:26:11 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id e1so5556624wrt.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 00:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=aB9trSQ6vmIgP/qq1b+Z+lkBfNyDbZ4uKbTIaHNhsVg=;
+ b=uD9nRYsh8G8/9MTbtDXx6TXRyTvz8yGSmrGdB5fFerFcUkFvnd3AgyS7aOdYT4CSr7
+ 1S3QnaKie+gaMXZy+K+GxS5Cx1/LwPKl6CMKcbAJHvz7/0tb3F8QSL17ri4rnD8uYE7a
+ bxJuTJ2xCoSQ3CUXlWpaapq2AkV4wCOIViFcpU9CUzS0d/XSC6GW6zGGVpW4Hvs13vap
+ T+s/MiNP6BUE8Jt2TT9E+OmzBBSQt7XO5EeKO6Nm6qgfvh0IipAs0XPSRGpcSvN1Mi2T
+ sVAQWnjMcqfwa5mj9kdwsRSJp6zEJau+iXkdsVJOv13D7fi3Xyun3ZblAcJbifF3SMtb
+ 0TCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ea3lp7y4GVFDsQIDLhjxLCkYMhe9Lb+H3bAbV4Y8GW8=;
- b=qSxNzT+6n9bFr4zv5UN9lHG+mb5ZA0Wu0DyXEbOmlH/Mo+b0rCG+8twpF74QYd6whd
- KaP3wbxluX5yudQdiA88xjASJmY/cYE2od/Pqb4hORyRxzHKQKzzyD9khkpPGJgarrBa
- LXD2/dszJCNU0tPi81+TCo5hWw7w+DH1qUdPf5ha5n+OVMpFpk85R2anjIuF+CZWOECh
- rv5PIQiy61OPEKDJnjFLKNReM+kMYJW0pa0PJwR/+UBYFpySJzmrl3HzWbJqaRIazbOL
- 2rOwZnFm6Hm3jv67T29VnjWqBsmqyJPK/MeSfifa4kRWdiQw9H7TkjklRAI8z1VLAuGI
- FJkw==
-X-Gm-Message-State: AGi0PuaXiLmw4EOI60okkSa1kjbdkllAGMEEMrhV6SqhC2B4OV2VP6WF
- twhQjY7eoWw2qZUk3Lr/CejsvY5s0pxISPD8b5nKVA==
-X-Google-Smtp-Source: APiQypIfy8w9XiiOcexc6NsTyULN6llzBX6lqZfdcGa/QYOZJnL3HboIgkbrgzSeeJ47gLIjK4otlpnOnQpQs4VtO3A=
-X-Received: by 2002:aca:2113:: with SMTP id 19mr17621649oiz.128.1589354394494; 
- Wed, 13 May 2020 00:19:54 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=aB9trSQ6vmIgP/qq1b+Z+lkBfNyDbZ4uKbTIaHNhsVg=;
+ b=oCPO9d0la6ZAshS44Kh/VGtI6qloxPPH6AR757WopKvVlKZgMPBxrZvtXCyQjg7Q66
+ uqTg4EvyX/KWrO0nLDdRWyTg9WFifC+RihqVI3VgHGJXrj4RzMK1/mVG11rtiWpmBDyj
+ xTsQ0npi0+NOK5t7NdNERjSju2TYsqhZTpXaqSGVQaSaoQO89yJaMF8bBSZ3JdspQHH6
+ rbbhgaCAqThNrOu7wYcHaNnH7rr/vNgpbCsHRaOVWZaB7NTf1lXE1U0QrYrzr+yXbAu4
+ fZVC50lAi3LPNKtk7uIMdWls4Q5kDsIbfUQegEklnVy3WgQeCnhnHkU2izYIzEx+psUq
+ 96kA==
+X-Gm-Message-State: AGi0PuY3HS92n62V2OTo7gnrhJvr6/aV23+4NHK1tTM+Cu6dXhUIL/2Q
+ thuY+6FI5NTZ1+oGXUeROf8=
+X-Google-Smtp-Source: APiQypK/LaAyNs6zJ+yTLP2XRH+94bn8Fh/gg11Z2AJD9NmyqDcfZAskEH8XlcmXFZnRd7JzFH1xjw==
+X-Received: by 2002:a05:6000:4:: with SMTP id h4mr17573221wrx.36.1589354770357; 
+ Wed, 13 May 2020 00:26:10 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id b145sm12667246wme.41.2020.05.13.00.26.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 13 May 2020 00:26:09 -0700 (PDT)
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Dave Airlie <airlied@gmail.com>, Alex Deucher <alexdeucher@gmail.com>
 References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
  <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
  <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
@@ -47,13 +58,17 @@ References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
  <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
  <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
  <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
- <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
-In-Reply-To: <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 13 May 2020 09:19:43 +0200
-Message-ID: <CAKMK7uHv_Hj8BB8t_i=EXx1C4WXw1PnmxuTyNfrA=b5eQMaSLg@mail.gmail.com>
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: Alex Deucher <alexdeucher@gmail.com>
+ <CALjTZvabx+-Hg3A1vZ=zt5=zrL8wuOLZ5=BZD6iio+-Oj7qBgQ@mail.gmail.com>
+ <CADnq5_Otu2vVpXysmt7icsVgJ_OyR9VJBEdF0JxTcr8mwWN3TQ@mail.gmail.com>
+ <CAPM=9tw+Hw4Mkihtf9_+8T_OCbDpUmK07PeWvkf9aqGF9WQmNA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4e4a4274-e987-8959-d16a-9c8bea2c8c8d@gmail.com>
+Date: Wed, 13 May 2020 09:26:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAPM=9tw+Hw4Mkihtf9_+8T_OCbDpUmK07PeWvkf9aqGF9WQmNA@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,130 +81,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+Reply-To: christian.koenig@amd.com
+Cc: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
  Rui Salvaterra <rsalvaterra@gmail.com>,
  "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 12, 2020 at 8:22 PM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Tue, May 12, 2020 at 12:38 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, May 12, 2020 at 3:22 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> > >
-> > > On Tue, May 12, 2020 at 5:40 AM Karoly Balogh (Charlie/SGR)
-> > > <charlie@scenergy.dfmk.hu> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Tue, 12 May 2020, Rui Salvaterra wrote:
-> > > >
-> > > > > > FWIW, on my last-generation PowerBook with RV350 (IIRC), there was a
-> > > > > > big performance difference between AGP and PCI GART. The latter was
-> > > > > > sort of usable for normal desktop operation, but not so much for
-> > > > > > OpenGL apps (which were usable with AGP).
-> > > > >
-> > > > > I never really understood what were the issues with AGP on PowerPC
-> > > > > (well, Apple, the only ones I've tested) machines. I mean, did OS X also
-> > > > > disable AGP entirely, or did it have workarounds somewhere else on the
-> > > > > stack nobody was able to figure out?
-> > > >
-> > > > I don't know about OS X, but I doubt there is a major/blocker hardware
-> > > > issue, at least not one which affects every AGP machine.
-> > > >
-> > > > MorphOS' own Radeon driver uses the AGP facilities to some degree on all
-> > > > AGP PowerPC Macs supported by that OS, which is from PMac AGP Graphics
-> > > > (3,1) all the way up to the AGP G5 (7,3), including the various portables
-> > > > and the Mac mini G4. For example it can utilize it to stream video data
-> > > > directly from mainboard RAM, so you don't have to copy it with the CPU,
-> > > > allowing reasonably good 720p h264 video playback on most systems above
-> > > > the 1Ghz mark with the native MPlayer port. I'm sure the 3D part of the
-> > > > driver also use it to some degree, given the performance improvement we
-> > > > experienced when the AGP support was enabled (initially the system was
-> > > > running without it), but to which extent I can't say.
-> > >
-> > > The problem is AGP doesn't support CPU cache snooping.  Technically
-> > > PCI must support coherent device access to system memory.  Unsnooped
-> > > access is an optional feature and some platforms may not support it at
-> > > all.  Unfortunately, AGP required unsnooped access.  x8t generally
-> > > provides a way to do this, but other platforms, not so much.  I don't
-> > > recall to what extent PowerPC supported this.  The Linux DMA API
-> > > doesn't really have a way to get uncached memory for DMA so there is
-> > > that too.  Windows and Mac may provide a way to do this depending on
-> > > the platforms.  What probably should have been done on AGP boards was
-> > > to use both the AGP GART and the device GART.  The former for uncached
-> > > memory (if the platform supported it) and the latter for cached
-> > > memory.  That never happened.
-> >
-> > Slight correction on the dma-api side of things: The dma-api very much
-> > can give you uncached memory, but only on some platforms, and the
-> > dma-api is very opinionated about which those are. And it refuses to
-> > tell you whether your memory ends up being uncached or cached. That's
-> > all done in the name of platform portability, which is good for most
-> > drivers, but just too much pain for gpu drivers.
->
-> Out of curiosity how do you do that without manually messing around
-> with PAT or MTRRs?
-
-i915 is even worse, we manually mess around with clflush. In
-userspace. So really there's 2 axis for dma memory: coherent vs.
-non-coherent (which is something the dma-api somewhat exposed), i.e.
-do you need to clflush or not, and cached vs uncached, i.e. are the
-PAT entries wc or wb.
-
-But yeah if you dont have PAT real uncached isn't possible, can't frob
-MTTR for individual pages. That also, to my understanding, why the dma
-api doesn't want to expose this to driver, but abstract it all away:
-On many tiny soc platforms all you have for uncached is an mttr (well
-the equivalent on that platform), so you anything you get from
-dma_alloc_coherent needs to come from there.
-
-But then no one is ever going to plug in a big gpu into such a system
-and expect anything to work, so we really need an abstraction that
-works on a bit more than just x86 (so we don't dig around in platform
-stuff like updating PAT or issusing clflush anymore), but doesn't try
-to work everywhere linux runs, just on the few platforms people expect
-big gpus to work on. For all the kms-only drivers we have the dma api
-seems actually perfectly fine (essentially the cma helpes we have
-should be called dma helpers, since that's what they're using
-underneath for all buffer management).
-
-Cheers, Daniel
-
->
-> Alex
->
-> >
-> > Otherwise all agree, agp is a mighty mess and essentially just
-> > crapshot outside of x86. It kinda worked for the much more static
-> > allocations for dri1, but with in-kernel memory managers all the cache
-> > flushing issues showed up big time and it all fell to pieces. Plus a
-> > lot of these host chipset back then where designed for the rather
-> > static windows gpu managers, so even on x86 the coherency issues for
-> > agp mode when used together with ttm or something else really dynamic
-> > is pretty bad because the hw just doesn't really cope and has all
-> > kinds of flushing troubles and races. I think the later agp chipsets
-> > were better.
-> > -Daniel
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTIuMDUuMjAgdW0gMjI6MTIgc2NocmllYiBEYXZlIEFpcmxpZToKPiBPbiBXZWQsIDEzIE1h
+eSAyMDIwIGF0IDA0OjIxLCBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVyQGdtYWlsLmNvbT4gd3Jv
+dGU6Cj4+IE9uIFR1ZSwgTWF5IDEyLCAyMDIwIGF0IDE6MDIgUE0gUnVpIFNhbHZhdGVycmEgPHJz
+YWx2YXRlcnJhQGdtYWlsLmNvbT4gd3JvdGU6Cj4+PiBPbiBUdWUsIDEyIE1heSAyMDIwIGF0IDE3
+OjM4LCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyb3RlOgo+Pj4+IE90aGVyd2lz
+ZSBhbGwgYWdyZWUsIGFncCBpcyBhIG1pZ2h0eSBtZXNzIGFuZCBlc3NlbnRpYWxseSBqdXN0Cj4+
+Pj4gY3JhcHNob3Qgb3V0c2lkZSBvZiB4ODYuIEl0IGtpbmRhIHdvcmtlZCBmb3IgdGhlIG11Y2gg
+bW9yZSBzdGF0aWMKPj4+PiBhbGxvY2F0aW9ucyBmb3IgZHJpMSwgYnV0IHdpdGggaW4ta2VybmVs
+IG1lbW9yeSBtYW5hZ2VycyBhbGwgdGhlIGNhY2hlCj4+Pj4gZmx1c2hpbmcgaXNzdWVzIHNob3dl
+ZCB1cCBiaWcgdGltZSBhbmQgaXQgYWxsIGZlbGwgdG8gcGllY2VzLiBQbHVzIGEKPj4+PiBsb3Qg
+b2YgdGhlc2UgaG9zdCBjaGlwc2V0IGJhY2sgdGhlbiB3aGVyZSBkZXNpZ25lZCBmb3IgdGhlIHJh
+dGhlcgo+Pj4+IHN0YXRpYyB3aW5kb3dzIGdwdSBtYW5hZ2Vycywgc28gZXZlbiBvbiB4ODYgdGhl
+IGNvaGVyZW5jeSBpc3N1ZXMgZm9yCj4+Pj4gYWdwIG1vZGUgd2hlbiB1c2VkIHRvZ2V0aGVyIHdp
+dGggdHRtIG9yIHNvbWV0aGluZyBlbHNlIHJlYWxseSBkeW5hbWljCj4+Pj4gaXMgcHJldHR5IGJh
+ZCBiZWNhdXNlIHRoZSBodyBqdXN0IGRvZXNuJ3QgcmVhbGx5IGNvcGUgYW5kIGhhcyBhbGwKPj4+
+PiBraW5kcyBvZiBmbHVzaGluZyB0cm91YmxlcyBhbmQgcmFjZXMuIEkgdGhpbmsgdGhlIGxhdGVy
+IGFncCBjaGlwc2V0cwo+Pj4+IHdlcmUgYmV0dGVyLgo+Pj4gVGhhdCB3YXMgcmF0aGVyIGluc2ln
+aHRmdWwsIHRoYW5rcy4gSSB3YXMgc3RhcnRpbmcgdG8gZG91YnQgbXkgb3duCj4+PiBtZW1vcnks
+IGFzIEkgd2FzIGFsbW9zdCBzdXJlIEkgbmV2ZXIgaGFkIGFueSBoYW5ncyB3aXRoIEFHUCBvbiBQ
+b3dlclBDCj4+PiBiZWZvcmUgS01TIHdhcyBhIHRoaW5nLiBCdXQgZXZlbiBvbiB4ODYsIEkgZGlz
+dGluY3RseSByZW1lbWJlciBuZXZlcgo+Pj4gYmVpbmcgYWJsZSB0byBnZXQgc2lkZWJhbmQgYWRk
+cmVzc2luZyB3b3JraW5nIHdpdGggYW55IEFHUCBjYXJkcywgbXkKPj4+IHN5c3RlbSB3b3VsZCBy
+YW5kb21seSBoYW5nIHRvby4KPj4+IEknbSBzdGFydGluZyB0byBiZWxpZXZlIEFHUCB3YXMgc2hv
+ZWhvcm5lZCBpbnRvIFBDSSB0aGUgc2FtZSB3YXkgVkxCCj4+PiB3YXMgc2hvZWhvcm5lZCBpbnRv
+IElTQSAoYW5kIGZvciB0aGUgc2FtZSByZWFzb24pLiBIaXN0b3J5IHJlcGVhdHMKPj4+IGl0c2Vs
+ZuKApiA6KQo+PiBQcmUtS01TLCB0aGUga2VybmVsIGp1c3QgYWxsb2NhdGVkIGEgc3RhdGljIHJl
+bGF0aXZlbHkgc21hbGwgKGUuZy4sIDgKPj4gTUIpIEFHUCBidWZmZXIgd2hpY2ggbmV2ZXIgY2hh
+bmdlZC4gIEluIHRoYXQgY2FzZSwgdGhpbmdzIHdlcmUKPj4gc29tZXdoYXQgbW9yZSByZWxpYWJs
+ZS4KPiBUaGlzIGlzIHdoeSB0aGUgQUdQIGh3IG9uIE1hY3MgaGFzIGlzc3VlcyBJIGJlbGlldmUu
+IEl0IHdhcyBkZXNpZ25lZAo+IGFuZCBvbmx5IHRlc3RlZCBhcm91bmQgdGhlIG9uZSBzdGF0aWMg
+ZWFybHkgYWxsb2NhdGlvbiwgSSdtIG5vdCBzdXJlCj4gT1NYIGV2ZXIgZGlkIGR5bmFtaWMuCj4K
+PiBXaGVuIGl0IHdlbnQgZHluYW1pYyBJIHRoaW5rIHRoZSBBR1AgYml0cyBoYWQgc29tZSBwcm9i
+bGVtcyB3aXRoCj4gY29oZXJlbmN5IG9mIHRoZSBHQVJUIHRhYmxlcyB0aGF0IHdlIG5ldmVyIGZp
+Z3VyZWQgb3V0LgoKVG8gbWFrZSB0aGluZ3MgZXZlbiB3b3JzZSBBR1AgdXNlZCB0d28gZGlmZmVy
+ZW50IHZvbHRhZ2VzIGluIHRoZSAKc3RhbmRhcmQuIEJlZm9yZSAyMDAyIG9ubHkgMy4zViB3YXMg
+dXNlZCwgYWZ0ZXIgMjAwMiB0aGlzIGdvdCByZWR1Y2VkIHRvIAoxLjVWLgoKVG8gYXZvaWQgZnJ5
+aW5nIHRoZSBuZXcgY2FyZHMgaW4gdGhlIG9sZCBib2FyZHMgb3Igb3RoZXIgd2F5IGFyb3VuZCB5
+b3UgCmhhZCBhIG5vdGNoIGF0IGEgZGlmZmVyZW50IHBsYWNlIGRlcGVuZGluZyBvbiB0aGUgdm9s
+dGFnZS4gVW5mb3J0dW5hdGVseSAKcXVpdGUgYSBidW5jaCBvZiBtYW51ZmFjdHVyZXJzIGRpZG4n
+dCBnb3QgdGhhdCByaWdodC4KClNvIGl0IHdhc24ndCBqdXN0IHByb2JsZW1hdGljIG9uIHRoZSBz
+b2Z0d2FyZSBsZXZlbCwgYnV0IGhhZCBhIHJhdGhlciAKYmFkIGhhcmR3YXJlIHNwZWNpZmljYXRp
+b24gYXMgd2VsbC4KCkNocmlzdGlhbi4KCj4KPiBEYXZlLgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
