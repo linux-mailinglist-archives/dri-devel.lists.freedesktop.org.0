@@ -2,38 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA901D0F4A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086371D0FAC
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 461356E9F5;
-	Wed, 13 May 2020 10:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABAE6E127;
+	Wed, 13 May 2020 10:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 269856E9F5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:06:15 +0000 (UTC)
-Received: from localhost.localdomain (unknown [106.200.233.149])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CE438206B8;
- Wed, 13 May 2020 10:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589364375;
- bh=JnVRWc1OBaAcQaafuPR5RodkuhnLhvTsYfNLTRBeGLc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BYZLqemt+aNvjuyMUJpswPAApfUPSoXfK8sOaT2pV8deZWmvKsZYfrX7gtu1gN5+p
- bLMIvJ+pGU3vDaADccGEt03gNSgum5gPdQIwzQ1CreSNrHenUik1wUYqXAMDp31hMF
- Snsi6AVmxO9ykD5tvjb4cjd27kEfQN5oTHkfpGjA=
-From: Vinod Koul <vkoul@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 3/3] drm/bridge: Introduce LT9611 DSI to HDMI bridge
-Date: Wed, 13 May 2020 15:35:33 +0530
-Message-Id: <20200513100533.42996-4-vkoul@kernel.org>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20200513100533.42996-1-vkoul@kernel.org>
-References: <20200513100533.42996-1-vkoul@kernel.org>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A183D6E127
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:26:10 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id v128so4146744oia.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 03:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PmqkXAcbih/NI9RS9wM6GnvTeYHDLUvu3W2PMTqpV2w=;
+ b=JRnUBbC7i2CLaet9eU+ZsE3ie3OIy7WOwskF3D66U+rbhRxfjcqu/fjRsYbAhkgTUf
+ dM8MjeQQunriKyYffeE/2ILj84oxBlWKz5jYA1xMHcYMgYGO+Nayq0VkHOdQ8DTMBkAF
+ 5QdVOtOeKF4i/pQUc7qCSjOwwbFU2R+IqdyaQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PmqkXAcbih/NI9RS9wM6GnvTeYHDLUvu3W2PMTqpV2w=;
+ b=lssWnLzPUluDPhvgHXodHAf+ceUm6riHHfw3QbNO02Bd4ZaqbcBkYPH6lDmvZfTFWM
+ 3jQAI+2zgXM7hD1McCbGAkq664Lw3kbFR8Fdu7RwRO9Fr1dQbIctc+nC0+AhFAWY0UuO
+ naGgGcd16W4gu7ls1wTNO3Nej3RanoLmW7wTiSaY7PVuoMokVQbJldCLWcLK0Z94q2XE
+ EmJWshM0G/68sdbwv/VYySh7j8j9+hLDqYoilsN4ckWiTM88O7GU3SpyjvmBXqIL7fFQ
+ DL1XAZ6OF3oZwelnnNSZ4ONQmgGvJxJEHSEj6sEFQREstv4OGPVhN20ssmboDUH9HI71
+ eVuA==
+X-Gm-Message-State: AGi0PuZO/JiG/GMJ1vTcF5ae1dQue2S676pB6qWu+HTcJu3ne3uNVuBP
+ wJqIXP+OtFNjoDEAJv3d5maUUInEV4tFzrd3vPGuvA==
+X-Google-Smtp-Source: APiQypKI9WmH+jsESKTHlrOY5058NIAcb8aHyDkxQ80QP0rm2fKRiUF8qHe64iyhO+ReW/r57NVlvIijTvU8egLKfec=
+X-Received: by 2002:aca:2113:: with SMTP id 19mr18031259oiz.128.1589365569776; 
+ Wed, 13 May 2020 03:26:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+ <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
+ <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
+ <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
+ <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
+ <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
+ <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
+ <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
+ <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
+ <CAKMK7uHv_Hj8BB8t_i=EXx1C4WXw1PnmxuTyNfrA=b5eQMaSLg@mail.gmail.com>
+ <1b63d971-acb0-e365-14aa-03d61e9a23e9@gmail.com>
+In-Reply-To: <1b63d971-acb0-e365-14aa-03d61e9a23e9@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 13 May 2020 12:25:58 +0200
+Message-ID: <CAKMK7uGnurgtDaqiFcCdx0m32hMrCf1+zeJUtzbtrUD47tTagw@mail.gmail.com>
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,1190 +69,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Rui Salvaterra <rsalvaterra@gmail.com>,
+ "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Lontium Lt9611 is a DSI to HDMI bridge which supports two DSI ports and
-I2S port as an input and HDMI port as output
-
-Co-developed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/gpu/drm/bridge/Kconfig  |   13 +
- drivers/gpu/drm/bridge/Makefile |    1 +
- drivers/gpu/drm/bridge/lt9611.c | 1113 +++++++++++++++++++++++++++++++
- 3 files changed, 1127 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/lt9611.c
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index aaed2347ace9..5cac15ce2027 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -38,6 +38,19 @@ config DRM_DISPLAY_CONNECTOR
- 	  on ARM-based platforms. Saying Y here when this driver is not needed
- 	  will not cause any issue.
- 
-+config DRM_LONTIUM_LT9611
-+	tristate "Lontium LT9611 DSI/HDMI bridge"
-+	select SND_SOC_HDMI_CODEC if SND_SOC
-+	depends on OF
-+	select DRM_PANEL_BRIDGE
-+	select DRM_KMS_HELPER
-+	select REGMAP_I2C
-+	help
-+	  Driver for Lontium LT9611 DSI to HDMI bridge
-+	  chip driver that converts dual DSI and I2S to
-+	  HDMI signals
-+	  Please say Y if you have such hardware.
-+
- config DRM_LVDS_CODEC
- 	tristate "Transparent LVDS encoders and decoders support"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 6fb062b5b0f0..d2a696e8ca5d 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
-+obj-$(CONFIG_DRM_LONTIUM_LT9611) += lt9611.o
- obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
-diff --git a/drivers/gpu/drm/bridge/lt9611.c b/drivers/gpu/drm/bridge/lt9611.c
-new file mode 100644
-index 000000000000..e6e7ce43980d
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/lt9611.c
-@@ -0,0 +1,1113 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2019-2020. Linaro Limited.
-+ */
-+
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/interrupt.h>
-+#include <linux/of_graph.h>
-+#include <linux/regulator/consumer.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_print.h>
-+
-+#define EDID_SEG_SIZE 256
-+
-+#define LT9611_4LANES	0
-+
-+struct lt9611 {
-+	struct device *dev;
-+	struct drm_bridge bridge;
-+	struct drm_connector connector;
-+
-+	struct regmap *regmap;
-+
-+	struct device_node *dsi0_node;
-+	struct device_node *dsi1_node;
-+	struct mipi_dsi_device *dsi0;
-+	struct mipi_dsi_device *dsi1;
-+
-+	bool ac_mode;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *enable_gpio;
-+
-+	bool power_on;
-+	bool sleep;
-+
-+	struct regulator_bulk_data supplies[2];
-+
-+	struct i2c_client *client;
-+
-+	enum drm_connector_status status;
-+
-+	u8 edid_buf[EDID_SEG_SIZE];
-+	u32 vic;
-+};
-+
-+#define LT9611_PAGE_CONTROL	0xff
-+
-+static const struct regmap_range_cfg lt9611_ranges[] = {
-+	{
-+		.name = "register_range",
-+		.range_min =  0,
-+		.range_max = 0x85ff,
-+		.selector_reg = LT9611_PAGE_CONTROL,
-+		.selector_mask = 0xff,
-+		.selector_shift = 0,
-+		.window_start = 0,
-+		.window_len = 0x100,
-+	},
-+};
-+
-+static const struct regmap_config lt9611_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xffff,
-+	.ranges = lt9611_ranges,
-+	.num_ranges = ARRAY_SIZE(lt9611_ranges),
-+};
-+
-+struct lt9611_mode {
-+	u16 hdisplay;
-+	u16 vdisplay;
-+	u8 fps;
-+	u8 lanes;
-+	u8 intfs;
-+};
-+
-+static struct lt9611_mode lt9611_modes[] = {
-+	{ 3840, 2160, 30, 4, 2 }, /* 3840x2160 24bit 30Hz 4Lane 2ports */
-+	{ 1920, 1080, 60, 4, 1 }, /* 1080P 24bit 60Hz 4lane 1port */
-+	{ 1920, 1080, 30, 3, 1 }, /* 1080P 24bit 30Hz 3lane 1port */
-+	{ 1920, 1080, 24, 3, 1 },
-+	{ 720, 480, 60, 4, 1 },
-+	{ 720, 576, 50, 2, 1 },
-+	{ 640, 480, 60, 2, 1 },
-+};
-+
-+static struct lt9611 *bridge_to_lt9611(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct lt9611, bridge);
-+}
-+
-+static struct lt9611 *connector_to_lt9611(struct drm_connector *connector)
-+{
-+	return container_of(connector, struct lt9611, connector);
-+}
-+
-+static int lt9611_mipi_input_analog(struct lt9611 *lt9611)
-+{
-+	struct reg_sequence reg_cfg[] = {
-+		{ 0x8106, 0x40 }, /*port A rx current*/
-+		{ 0x810a, 0xfe }, /*port A ldo voltage set*/
-+		{ 0x810b, 0xbf }, /*enable port A lprx*/
-+		{ 0x8111, 0x40 }, /*port B rx current*/
-+		{ 0x8115, 0xfe }, /*port B ldo voltage set*/
-+		{ 0x8116, 0xbf }, /*enable port B lprx*/
-+
-+		{ 0x811c, 0x03 }, /*PortA clk lane no-LP mode*/
-+		{ 0x8120, 0x03 }, /*PortB clk lane with-LP mode*/
-+	};
-+
-+	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
-+
-+	return 0;
-+}
-+
-+static int lt9611_mipi_input_digital(struct lt9611 *lt9611,
-+				     const struct drm_display_mode *mode)
-+{
-+	regmap_write(lt9611->regmap, 0x8300, LT9611_4LANES);
-+
-+	if (mode->hdisplay == 3840)
-+		regmap_write(lt9611->regmap, 0x830a, 0x03);
-+	else
-+		regmap_write(lt9611->regmap, 0x830a, 0x00);
-+
-+	regmap_write(lt9611->regmap, 0x824f, 0x80);
-+	regmap_write(lt9611->regmap, 0x8250, 0x10);
-+	regmap_write(lt9611->regmap, 0x8302, 0x0a);
-+	regmap_write(lt9611->regmap, 0x8306, 0x0a);
-+
-+	return 0;
-+}
-+
-+static void lt9611_mipi_video_setup(struct lt9611 *lt9611,
-+				    const struct drm_display_mode *mode)
-+{
-+	u32 h_total, h_act, hpw, hfp, hss;
-+	u32 v_total, v_act, vpw, vfp, vss;
-+
-+	h_total = mode->htotal;
-+	v_total = mode->vtotal;
-+
-+	h_act = mode->hdisplay;
-+	hpw = mode->hsync_end - mode->hsync_start;
-+	hfp = mode->hsync_start - mode->hdisplay;
-+	hss = (mode->hsync_end - mode->hsync_start) +
-+	      (mode->htotal - mode->hsync_end);
-+
-+	v_act = mode->vdisplay;
-+	vpw = mode->vsync_end - mode->vsync_start;
-+	vfp = mode->vsync_start - mode->vdisplay;
-+	vss = (mode->vsync_end - mode->vsync_start) +
-+	      (mode->vtotal - mode->vsync_end);
-+
-+	regmap_write(lt9611->regmap, 0x830d, (u8)(v_total / 256));
-+	regmap_write(lt9611->regmap, 0x830e, (u8)(v_total % 256));
-+
-+	regmap_write(lt9611->regmap, 0x830f, (u8)(v_act / 256));
-+	regmap_write(lt9611->regmap, 0x8310, (u8)(v_act % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8311, (u8)(h_total / 256));
-+	regmap_write(lt9611->regmap, 0x8312, (u8)(h_total % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8313, (u8)(h_act / 256));
-+	regmap_write(lt9611->regmap, 0x8314, (u8)(h_act % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8315, (u8)(vpw % 256));
-+	regmap_write(lt9611->regmap, 0x8316, (u8)(hpw % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8317, (u8)(vfp % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8318, (u8)(vss % 256));
-+
-+	regmap_write(lt9611->regmap, 0x8319, (u8)(hfp % 256));
-+
-+	regmap_write(lt9611->regmap, 0x831a, (u8)(hss / 256));
-+	regmap_write(lt9611->regmap, 0x831b, (u8)(hss % 256));
-+}
-+
-+static int lt9611_pcr_setup(struct lt9611 *lt9611,
-+			    const struct drm_display_mode *mode)
-+{
-+	struct reg_sequence reg_cfg[] = {
-+		{ 0x830b, 0x01 },
-+		{ 0x830c, 0x10 },
-+		{ 0x8348, 0x00 },
-+		{ 0x8349, 0x81 },
-+
-+		/* stage 1 */
-+		{ 0x8321, 0x4a },
-+		{ 0x8324, 0x71 },
-+		{ 0x8325, 0x30 },
-+		{ 0x832a, 0x01 },
-+
-+		/* stage 2 */
-+		{ 0x834a, 0x40 },
-+		{ 0x831d, 0x10 },
-+
-+		/* MK limit */
-+		{ 0x832d, 0x38 },
-+		{ 0x8331, 0x08 },
-+	};
-+
-+	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
-+
-+	switch (mode->hdisplay) {
-+	case 640:
-+		regmap_write(lt9611->regmap, 0x8326, 0x14);
-+		break;
-+	case 1920:
-+		regmap_write(lt9611->regmap, 0x8326, 0x37);
-+		break;
-+	case 3840:
-+		regmap_write(lt9611->regmap, 0x830b, 0x03);
-+		regmap_write(lt9611->regmap, 0x830c, 0xd0);
-+		regmap_write(lt9611->regmap, 0x8348, 0x03);
-+		regmap_write(lt9611->regmap, 0x8349, 0xe0);
-+		regmap_write(lt9611->regmap, 0x8324, 0x72);
-+		regmap_write(lt9611->regmap, 0x8325, 0x00);
-+		regmap_write(lt9611->regmap, 0x832a, 0x01);
-+		regmap_write(lt9611->regmap, 0x834a, 0x10);
-+		regmap_write(lt9611->regmap, 0x831d, 0x10);
-+		regmap_write(lt9611->regmap, 0x8326, 0x37);
-+		break;
-+	}
-+
-+	/* pcr rst */
-+	regmap_write(lt9611->regmap, 0x8011, 0x5a);
-+	regmap_write(lt9611->regmap, 0x8011, 0xfa);
-+
-+	return 0;
-+}
-+
-+static int lt9611_pll_setup(struct lt9611 *lt9611,
-+			    const struct drm_display_mode *mode)
-+{
-+	unsigned int pclk = mode->clock;
-+	struct reg_sequence reg_cfg[] = {
-+		/* txpll init */
-+		{ 0x8123, 0x40 },
-+		{ 0x8124, 0x64 },
-+		{ 0x8125, 0x80 },
-+		{ 0x8126, 0x55 },
-+		{ 0x812c, 0x37 },
-+		{ 0x812f, 0x01 },
-+		{ 0x8126, 0x55 },
-+		{ 0x8127, 0x66 },
-+		{ 0x8128, 0x88 },
-+	};
-+
-+	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
-+
-+	if (pclk > 150000)
-+		regmap_write(lt9611->regmap, 0x812d, 0x88);
-+	else if (pclk > 70000)
-+		regmap_write(lt9611->regmap, 0x812d, 0x99);
-+	else
-+		regmap_write(lt9611->regmap, 0x812d, 0xaa);
-+
-+	regmap_write(lt9611->regmap, 0x82e3, pclk >> 17); /* pclk[19:16] */
-+	regmap_write(lt9611->regmap, 0x82e4, pclk >> 9);  /* pclk[15:8]  */
-+	regmap_write(lt9611->regmap, 0x82e5, pclk >> 1);  /* pclk[7:0]   */
-+
-+	regmap_write(lt9611->regmap, 0x82de, 0x20);
-+	regmap_write(lt9611->regmap, 0x82de, 0xe0);
-+
-+	regmap_write(lt9611->regmap, 0x8016, 0xf1);
-+	regmap_write(lt9611->regmap, 0x8016, 0xf3);
-+
-+	return 0;
-+}
-+
-+static int lt9611_video_check(struct lt9611 *lt9611)
-+{
-+	u32 v_total, v_act, h_act_a, h_act_b, h_total_sysclk;
-+	unsigned int temp;
-+	int ret;
-+
-+	/* top module video check */
-+
-+	/* v_act */
-+	ret = regmap_read(lt9611->regmap, 0x8282, &temp);
-+	if (ret)
-+		goto end;
-+
-+	v_act = temp << 8;
-+	ret = regmap_read(lt9611->regmap, 0x8283, &temp);
-+	if (ret)
-+		goto end;
-+	v_act = v_act + temp;
-+
-+	/* v_total */
-+	ret = regmap_read(lt9611->regmap, 0x826c, &temp);
-+	if (ret)
-+		goto end;
-+	v_total = temp << 8;
-+	ret = regmap_read(lt9611->regmap, 0x826d, &temp);
-+	if (ret)
-+		goto end;
-+	v_total = v_total + temp;
-+
-+	/* h_total_sysclk */
-+	ret = regmap_read(lt9611->regmap, 0x8286, &temp);
-+	if (ret)
-+		goto end;
-+	h_total_sysclk = temp << 8;
-+	ret = regmap_read(lt9611->regmap, 0x8287, &temp);
-+	if (ret)
-+		goto end;
-+	h_total_sysclk = h_total_sysclk + temp;
-+
-+	/* h_act_a */
-+	ret = regmap_read(lt9611->regmap, 0x8382, &temp);
-+	if (ret)
-+		goto end;
-+	h_act_a = temp << 8;
-+	ret = regmap_read(lt9611->regmap, 0x8383, &temp);
-+	if (ret)
-+		goto end;
-+	h_act_a = (h_act_a + temp) / 3;
-+
-+	/* h_act_b */
-+	ret = regmap_read(lt9611->regmap, 0x8386, &temp);
-+	if (ret)
-+		goto end;
-+	h_act_b = temp << 8;
-+	ret = regmap_read(lt9611->regmap, 0x8387, &temp);
-+	if (ret)
-+		goto end;
-+	h_act_b = (h_act_b + temp) / 3;
-+
-+	dev_info(lt9611->dev,
-+		 "video check: h_act_a=%d, h_act_b=%d, v_act=%d, v_total=%d, h_total_sysclk=%d\n",
-+		 h_act_a, h_act_b, v_act, v_total, h_total_sysclk);
-+
-+	return 0;
-+
-+end:
-+	dev_err(lt9611->dev, "read video check error\n");
-+	return ret;
-+}
-+
-+static void lt9611_hdmi_tx_digital(struct lt9611 *lt9611)
-+{
-+	regmap_write(lt9611->regmap, 0x8443, 0x46 - lt9611->vic);
-+	regmap_write(lt9611->regmap, 0x8447, lt9611->vic);
-+	regmap_write(lt9611->regmap, 0x843d, 0x0a); /* UD1 infoframe */
-+
-+	regmap_write(lt9611->regmap, 0x82d6, 0x8c);
-+	regmap_write(lt9611->regmap, 0x82d7, 0x04);
-+}
-+
-+static void lt9611_hdmi_tx_phy(struct lt9611 *lt9611)
-+{
-+	struct reg_sequence reg_cfg[] = {
-+		{ 0x8130, 0x6a },
-+		{ 0x8131, 0x44 }, /* HDMI DC mode */
-+		{ 0x8132, 0x4a },
-+		{ 0x8133, 0x0b },
-+		{ 0x8134, 0x00 },
-+		{ 0x8135, 0x00 },
-+		{ 0x8136, 0x00 },
-+		{ 0x8137, 0x44 },
-+		{ 0x813f, 0x0f },
-+		{ 0x8140, 0xa0 },
-+		{ 0x8141, 0xa0 },
-+		{ 0x8142, 0xa0 },
-+		{ 0x8143, 0xa0 },
-+		{ 0x8144, 0x0a },
-+	};
-+
-+	/* HDMI AC mode */
-+	if (lt9611->ac_mode)
-+		reg_cfg[2].def = 0x73;
-+
-+	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
-+}
-+
-+static irqreturn_t lt9611_irq_thread_handler(int irq, void *dev_id)
-+{
-+	struct lt9611 *lt9611 = dev_id;
-+	unsigned int irq_flag0 = 0;
-+	unsigned int irq_flag3 = 0;
-+
-+	regmap_read(lt9611->regmap, 0x820f, &irq_flag3);
-+	regmap_read(lt9611->regmap, 0x820c, &irq_flag0);
-+
-+	pr_debug("%s() irq_flag0: %#x irq_flag3: %#x\n",
-+		 __func__, irq_flag0, irq_flag3);
-+
-+	 /* hpd changed low */
-+	if (irq_flag3 & 0x80) {
-+		dev_info(lt9611->dev, "hdmi cable disconnected\n");
-+
-+		regmap_write(lt9611->regmap, 0x8207, 0xbf);
-+		regmap_write(lt9611->regmap, 0x8207, 0x3f);
-+	}
-+	 /* hpd changed high */
-+	if (irq_flag3 & 0x40) {
-+		dev_info(lt9611->dev, "hdmi cable connected\n");
-+
-+		regmap_write(lt9611->regmap, 0x8207, 0x7f);
-+		regmap_write(lt9611->regmap, 0x8207, 0x3f);
-+	}
-+
-+	if (irq_flag3 & 0xc0)
-+		drm_kms_helper_hotplug_event(lt9611->bridge.dev);
-+
-+	/* video input changed */
-+	if (irq_flag0 & 0x01) {
-+		dev_info(lt9611->dev, "video input changed\n");
-+		regmap_write(lt9611->regmap, 0x829e, 0xff);
-+		regmap_write(lt9611->regmap, 0x829e, 0xf7);
-+		regmap_write(lt9611->regmap, 0x8204, 0xff);
-+		regmap_write(lt9611->regmap, 0x8204, 0xfe);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static void lt9611_enable_hpd_interrupts(struct lt9611 *lt9611)
-+{
-+	unsigned int val;
-+
-+	dev_dbg(lt9611->dev, "enabling hpd interrupts\n");
-+
-+	regmap_read(lt9611->regmap, 0x8203, &val);
-+
-+	val &= ~0xc0;
-+	regmap_write(lt9611->regmap, 0x8203, val);
-+	regmap_write(lt9611->regmap, 0x8207, 0xff); //clear
-+	regmap_write(lt9611->regmap, 0x8207, 0x3f);
-+}
-+
-+static void lt9611_sleep_setup(struct lt9611 *lt9611)
-+{
-+	struct reg_sequence sleep_setup[] = {
-+		{ 0x8024, 0x76 },
-+		{ 0x8023, 0x01 },
-+		{ 0x8157, 0x03 }, //set addr pin as output
-+		{ 0x8149, 0x0b },
-+		{ 0x8151, 0x30 }, //disable IRQ
-+		{ 0x8102, 0x48 }, //MIPI Rx power down
-+		{ 0x8123, 0x80 },
-+		{ 0x8130, 0x00 },
-+		{ 0x8100, 0x01 }, //bandgap power down
-+		{ 0x8101, 0x00 }, //system clk power down
-+	};
-+
-+	dev_dbg(lt9611->dev, "sleep\n");
-+
-+	regmap_multi_reg_write(lt9611->regmap,
-+			       sleep_setup, ARRAY_SIZE(sleep_setup));
-+	lt9611->sleep = true;
-+}
-+
-+static int lt9611_power_on(struct lt9611 *lt9611)
-+{
-+	int ret;
-+	const struct reg_sequence seq[] = {
-+		/* LT9611_System_Init */
-+		{ 0x8101, 0x18 }, /* sel xtal clock */
-+
-+		/* timer for frequency meter */
-+		{ 0x821b, 0x69 }, /*timer 2*/
-+		{ 0x821c, 0x78 },
-+		{ 0x82cb, 0x69 }, /*timer 1 */
-+		{ 0x82cc, 0x78 },
-+
-+		/* irq init */
-+		{ 0x8251, 0x01 },
-+		{ 0x8258, 0x0a }, /* hpd irq */
-+		{ 0x8259, 0x80 }, /* hpd debounce width */
-+		{ 0x829e, 0xf7 }, /* video check irq */
-+
-+		/* power consumption for work */
-+		{ 0x8004, 0xf0 },
-+		{ 0x8006, 0xf0 },
-+		{ 0x800a, 0x80 },
-+		{ 0x800b, 0x40 },
-+		{ 0x800d, 0xef },
-+		{ 0x8011, 0xfa },
-+	};
-+
-+	if (lt9611->power_on)
-+		return 0;
-+
-+	dev_dbg(lt9611->dev, "power on\n");
-+
-+	ret = regmap_multi_reg_write(lt9611->regmap, seq, ARRAY_SIZE(seq));
-+	if (!ret)
-+		lt9611->power_on = true;
-+
-+	return ret;
-+}
-+
-+static int lt9611_power_off(struct lt9611 *lt9611)
-+{
-+	int ret;
-+
-+	dev_dbg(lt9611->dev, "power off\n");
-+
-+	ret = regmap_write(lt9611->regmap, 0x8130, 0x6a);
-+	if (!ret)
-+		lt9611->power_on = false;
-+
-+	return ret;
-+}
-+
-+static void lt9611_reset(struct lt9611 *lt9611)
-+{
-+	gpiod_set_value_cansleep(lt9611->reset_gpio, 1);
-+	msleep(20);
-+	gpiod_set_value_cansleep(lt9611->reset_gpio, 0);
-+	msleep(20);
-+	gpiod_set_value_cansleep(lt9611->reset_gpio, 1);
-+	msleep(100);
-+}
-+
-+static void lt9611_assert_5v(struct lt9611 *lt9611)
-+{
-+	if (!lt9611->enable_gpio)
-+		return;
-+
-+	gpiod_set_value_cansleep(lt9611->enable_gpio, 1);
-+	msleep(20);
-+}
-+
-+static int lt9611_regulator_init(struct lt9611 *lt9611)
-+{
-+	int ret;
-+
-+	lt9611->supplies[0].supply = "vdd";
-+	lt9611->supplies[1].supply = "vcc";
-+	ret = devm_regulator_bulk_get(lt9611->dev, 2, lt9611->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	return regulator_set_load(lt9611->supplies[0].consumer, 300000);
-+}
-+
-+static int lt9611_regulator_enable(struct lt9611 *lt9611)
-+{
-+	int ret;
-+
-+	ret = regulator_enable(lt9611->supplies[0].consumer);
-+	if (ret < 0)
-+		return ret;
-+
-+	usleep_range(1000, 10000);
-+
-+	ret = regulator_enable(lt9611->supplies[1].consumer);
-+	if (ret < 0) {
-+		regulator_disable(lt9611->supplies[0].consumer);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static struct lt9611_mode *lt9611_find_mode(const struct drm_display_mode *mode)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(lt9611_modes); i++) {
-+		if (lt9611_modes[i].hdisplay == mode->hdisplay &&
-+		    lt9611_modes[i].vdisplay == mode->vdisplay &&
-+		    lt9611_modes[i].fps == drm_mode_vrefresh(mode)) {
-+			return &lt9611_modes[i];
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+/* connector funcs */
-+static enum drm_connector_status
-+lt9611_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct lt9611 *lt9611 = connector_to_lt9611(connector);
-+	unsigned int reg_val = 0;
-+	int connected = 0;
-+
-+	regmap_read(lt9611->regmap, 0x825e, &reg_val);
-+	connected  = (reg_val & BIT(2));
-+	dev_dbg(lt9611->dev, "connected = %x\n", connected);
-+
-+	lt9611->status = connected ?  connector_status_connected :
-+				connector_status_disconnected;
-+
-+	return lt9611->status;
-+}
-+
-+static int lt9611_read_edid(struct lt9611 *lt9611)
-+{
-+	unsigned int temp;
-+	int ret = 0;
-+	int i, j;
-+
-+	memset(lt9611->edid_buf, 0, EDID_SEG_SIZE);
-+
-+	regmap_write(lt9611->regmap, 0x8503, 0xc9);
-+
-+	/* 0xA0 is EDID device address */
-+	regmap_write(lt9611->regmap, 0x8504, 0xa0);
-+	/* 0x00 is EDID offset address */
-+	regmap_write(lt9611->regmap, 0x8505, 0x00);
-+	/* length for read */
-+	regmap_write(lt9611->regmap, 0x8506, 0x20);
-+	regmap_write(lt9611->regmap, 0x8514, 0x7f);
-+
-+	for (i = 0 ; i < 8 ; i++) {
-+		/* offset address */
-+		regmap_write(lt9611->regmap, 0x8505, i * 32);
-+		regmap_write(lt9611->regmap, 0x8507, 0x36);
-+		regmap_write(lt9611->regmap, 0x8507, 0x31);
-+		regmap_write(lt9611->regmap, 0x8507, 0x37);
-+		usleep_range(5000, 10000);
-+
-+		regmap_read(lt9611->regmap, 0x8540, &temp);
-+
-+		if (temp & 0x02) {  /*KEY_DDC_ACCS_DONE=1*/
-+			for (j = 0; j < 32; j++) {
-+				regmap_read(lt9611->regmap, 0x8583, &temp);
-+				lt9611->edid_buf[i * 32 + j] = temp;
-+			}
-+		} else if (temp & 0x50) { /* DDC No Ack or Abitration lost */
-+			dev_err(lt9611->dev, "read edid failed: no ack\n");
-+			ret = -EIO;
-+			goto end;
-+		} else {
-+			dev_err(lt9611->dev,
-+				"read edid failed: access not done\n");
-+			ret = -EIO;
-+			goto end;
-+		}
-+	}
-+
-+	dev_dbg(lt9611->dev, "read edid succeeded, checksum = 0x%x\n",
-+		lt9611->edid_buf[255]);
-+
-+end:
-+	regmap_write(lt9611->regmap, 0x8507, 0x1f);
-+	return ret;
-+}
-+
-+/* TODO: add support for more extension blocks */
-+static int
-+lt9611_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
-+{
-+	struct lt9611 *lt9611 = data;
-+	int ret;
-+
-+	dev_dbg(lt9611->dev, "get edid block: block=%d, len=%d\n",
-+		block, (int)len);
-+
-+	if (len > 128)
-+		return -EINVAL;
-+
-+	/* support up to 1 extension block */
-+	if (block > 1)
-+		return -EINVAL;
-+
-+	if (block == 0) {
-+		/* always read 2 edid blocks once */
-+		ret = lt9611_read_edid(lt9611);
-+		if (ret) {
-+			dev_err(lt9611->dev, "edid read failed\n");
-+			return ret;
-+		}
-+	}
-+
-+	if (block % 2 == 0)
-+		memcpy(buf, lt9611->edid_buf, len);
-+	else
-+		memcpy(buf, lt9611->edid_buf + 128, len);
-+
-+	return 0;
-+}
-+
-+static int lt9611_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct lt9611 *lt9611 = connector_to_lt9611(connector);
-+	unsigned int count;
-+	struct edid *edid;
-+
-+	dev_dbg(lt9611->dev, "get modes\n");
-+
-+	lt9611_power_on(lt9611);
-+	edid = drm_do_get_edid(connector, lt9611_get_edid_block, lt9611);
-+	drm_connector_update_edid_property(connector, edid);
-+	count = drm_add_edid_modes(connector, edid);
-+	kfree(edid);
-+
-+	return count;
-+}
-+
-+static enum drm_mode_status
-+lt9611_connector_mode_valid(struct drm_connector *connector,
-+			    struct drm_display_mode *mode)
-+{
-+	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
-+
-+	return lt9611_mode ? MODE_OK : MODE_BAD;
-+}
-+
-+/* bridge funcs */
-+static void lt9611_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	dev_dbg(lt9611->dev, "bridge enable\n");
-+
-+	if (lt9611_power_on(lt9611)) {
-+		dev_err(lt9611->dev, "power on failed\n");
-+		return;
-+	}
-+
-+	dev_dbg(lt9611->dev, "video on\n");
-+
-+	lt9611_mipi_input_analog(lt9611);
-+	lt9611_hdmi_tx_digital(lt9611);
-+	lt9611_hdmi_tx_phy(lt9611);
-+
-+	msleep(500);
-+
-+	lt9611_video_check(lt9611);
-+
-+	/* Enable HDMI output */
-+	regmap_write(lt9611->regmap, 0x8130, 0xea);
-+}
-+
-+static void lt9611_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+	int ret;
-+
-+	dev_dbg(lt9611->dev, "bridge disable\n");
-+
-+	/* Disable HDMI output */
-+	ret = regmap_write(lt9611->regmap, 0x8130, 0x6a);
-+	if (ret) {
-+		dev_err(lt9611->dev, "video on failed\n");
-+		return;
-+	}
-+
-+	if (lt9611_power_off(lt9611)) {
-+		dev_err(lt9611->dev, "power on failed\n");
-+		return;
-+	}
-+}
-+
-+static struct
-+drm_connector_helper_funcs lt9611_bridge_connector_helper_funcs = {
-+	.get_modes = lt9611_connector_get_modes,
-+	.mode_valid = lt9611_connector_mode_valid,
-+};
-+
-+static const struct drm_connector_funcs lt9611_bridge_connector_funcs = {
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.detect = lt9611_connector_detect,
-+	.destroy = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
-+						 struct device_node *dsi_node)
-+{
-+	const struct mipi_dsi_device_info info = { "lt9611", 0, NULL };
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	int ret;
-+
-+	host = of_find_mipi_dsi_host_by_node(dsi_node);
-+	if (!host) {
-+		dev_err(lt9611->dev, "failed to find dsi host\n");
-+		return ERR_PTR(-EPROBE_DEFER);
-+	}
-+
-+	dsi = mipi_dsi_device_register_full(host, &info);
-+	if (IS_ERR(dsi)) {
-+		dev_err(lt9611->dev, "failed to create dsi device\n");
-+		return dsi;
-+	}
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+			  MIPI_DSI_MODE_VIDEO_HSE;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(lt9611->dev, "failed to attach dsi to host\n");
-+		mipi_dsi_device_unregister(dsi);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return dsi;
-+}
-+
-+static int lt9611_bridge_attach(struct drm_bridge *bridge,
-+				enum drm_bridge_attach_flags flags)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+	int ret;
-+
-+	dev_dbg(lt9611->dev, "bridge attach\n");
-+
-+	ret = drm_connector_init(bridge->dev, &lt9611->connector,
-+				 &lt9611_bridge_connector_funcs,
-+				 DRM_MODE_CONNECTOR_HDMIA);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize connector with drm\n");
-+		return ret;
-+	}
-+
-+	drm_connector_helper_add(&lt9611->connector,
-+				 &lt9611_bridge_connector_helper_funcs);
-+	drm_connector_attach_encoder(&lt9611->connector, bridge->encoder);
-+
-+	if (!bridge->encoder) {
-+		DRM_ERROR("Parent encoder object not found");
-+		return -ENODEV;
-+	}
-+
-+	/* Attach primary DSI */
-+	lt9611->dsi0 = lt9611_attach_dsi(lt9611, lt9611->dsi0_node);
-+	if (IS_ERR(lt9611->dsi0))
-+		return PTR_ERR(lt9611->dsi0);
-+
-+	/* Attach secondary DSI, if specified */
-+	if (lt9611->dsi1_node) {
-+		lt9611->dsi1 = lt9611_attach_dsi(lt9611, lt9611->dsi1_node);
-+		if (IS_ERR(lt9611->dsi1)) {
-+			ret = PTR_ERR(lt9611->dsi1);
-+			goto err_unregister_dsi0;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_unregister_dsi0:
-+	mipi_dsi_device_unregister(lt9611->dsi0);
-+
-+	return ret;
-+}
-+
-+static void lt9611_bridge_detach(struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	if (lt9611->dsi1) {
-+		mipi_dsi_detach(lt9611->dsi1);
-+		mipi_dsi_device_unregister(lt9611->dsi1);
-+	}
-+
-+	mipi_dsi_detach(lt9611->dsi0);
-+	mipi_dsi_device_unregister(lt9611->dsi0);
-+}
-+
-+static enum drm_mode_status
-+lt9611_bridge_mode_valid(struct drm_bridge *bridge,
-+			 const struct drm_display_mode *mode)
-+{
-+	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-+		return MODE_PANEL;
-+	else
-+		return MODE_OK;
-+}
-+
-+static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	dev_dbg(lt9611->dev, "bridge pre_enable\n");
-+
-+	if (!lt9611->sleep)
-+		return;
-+
-+	lt9611_reset(lt9611);
-+	regmap_write(lt9611->regmap, 0x80ee, 0x01);
-+
-+	lt9611->sleep = false;
-+}
-+
-+static void lt9611_bridge_post_disable(struct drm_bridge *bridge)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+
-+	dev_dbg(lt9611->dev, "bridge post_disable\n");
-+
-+	lt9611_sleep_setup(lt9611);
-+}
-+
-+static void lt9611_bridge_mode_set(struct drm_bridge *bridge,
-+				   const struct drm_display_mode *mode,
-+				   const struct drm_display_mode *adj_mode)
-+{
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
-+	struct hdmi_avi_infoframe avi_frame;
-+	int ret;
-+
-+	dev_dbg(lt9611->dev, "bridge mode_set: hdisplay=%d, vdisplay=%d, vrefresh=%d, clock=%d\n",
-+		adj_mode->hdisplay, adj_mode->vdisplay,
-+		adj_mode->vrefresh, adj_mode->clock);
-+
-+	lt9611_bridge_pre_enable(bridge);
-+
-+	lt9611_mipi_input_digital(lt9611, mode);
-+	lt9611_pll_setup(lt9611, mode);
-+	lt9611_mipi_video_setup(lt9611, mode);
-+	lt9611_pcr_setup(lt9611, mode);
-+
-+	ret = drm_hdmi_avi_infoframe_from_display_mode(&avi_frame,
-+						       &lt9611->connector,
-+						       mode);
-+	if (!ret)
-+		lt9611->vic = avi_frame.video_code;
-+}
-+
-+static const struct drm_bridge_funcs lt9611_bridge_funcs = {
-+	.attach = lt9611_bridge_attach,
-+	.detach = lt9611_bridge_detach,
-+	.mode_valid = lt9611_bridge_mode_valid,
-+	.enable = lt9611_bridge_enable,
-+	.disable = lt9611_bridge_disable,
-+	.post_disable = lt9611_bridge_post_disable,
-+	.mode_set = lt9611_bridge_mode_set,
-+};
-+
-+static int lt9611_parse_dt(struct device *dev,
-+			   struct lt9611 *lt9611)
-+{
-+	lt9611->dsi0_node = of_graph_get_remote_node(dev->of_node, 1, -1);
-+	if (!lt9611->dsi0_node) {
-+		DRM_DEV_ERROR(dev, "failed to get remote node for primary dsi\n");
-+		return -ENODEV;
-+	}
-+
-+	lt9611->dsi1_node = of_graph_get_remote_node(dev->of_node, 2, -1);
-+
-+	lt9611->ac_mode = of_property_read_bool(dev->of_node, "lt,ac-mode");
-+	dev_dbg(lt9611->dev, "ac_mode=%d\n", lt9611->ac_mode);
-+
-+	return 0;
-+}
-+
-+static int lt9611_gpio_init(struct lt9611 *lt9611)
-+{
-+	struct device *dev = lt9611->dev;
-+
-+	lt9611->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(lt9611->reset_gpio)) {
-+		dev_err(dev, "failed to acquire reset gpio\n");
-+		return PTR_ERR(lt9611->reset_gpio);
-+	}
-+
-+	lt9611->enable_gpio = devm_gpiod_get_optional(dev, "enable",
-+						      GPIOD_OUT_LOW);
-+	if (IS_ERR(lt9611->enable_gpio)) {
-+		dev_err(dev, "failed to acquire enable gpio\n");
-+		return PTR_ERR(lt9611->enable_gpio);
-+	}
-+
-+	return 0;
-+}
-+
-+static int lt9611_read_device_rev(struct lt9611 *lt9611)
-+{
-+	unsigned int rev;
-+	int ret;
-+
-+	regmap_write(lt9611->regmap, 0x80ee, 0x01);
-+	ret = regmap_read(lt9611->regmap, 0x8002, &rev);
-+	if (ret)
-+		dev_err(lt9611->dev, "failed to read revision: %d\n", ret);
-+
-+	dev_info(lt9611->dev, "LT9611 revision: 0x%x\n", rev);
-+
-+	return ret;
-+}
-+
-+static int lt9611_probe(struct i2c_client *client,
-+			const struct i2c_device_id *id)
-+{
-+	struct lt9611 *lt9611;
-+	struct device *dev = &client->dev;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "device doesn't support I2C\n");
-+		return -ENODEV;
-+	}
-+
-+	lt9611 = devm_kzalloc(dev, sizeof(*lt9611), GFP_KERNEL);
-+	if (!lt9611)
-+		return -ENOMEM;
-+
-+	lt9611->dev = &client->dev;
-+	lt9611->client = client;
-+	lt9611->sleep = false;
-+
-+	lt9611->regmap = devm_regmap_init_i2c(client, &lt9611_regmap_config);
-+	if (IS_ERR(lt9611->regmap)) {
-+		DRM_ERROR("regmap i2c init failed\n");
-+		return PTR_ERR(lt9611->regmap);
-+	}
-+
-+	ret = lt9611_parse_dt(&client->dev, lt9611);
-+	if (ret) {
-+		dev_err(dev, "failed to parse device tree\n");
-+		return ret;
-+	}
-+
-+	ret = lt9611_gpio_init(lt9611);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = lt9611_regulator_init(lt9611);
-+	if (ret < 0)
-+		return ret;
-+
-+	lt9611_assert_5v(lt9611);
-+
-+	ret = lt9611_regulator_enable(lt9611);
-+	if (ret)
-+		return ret;
-+
-+	lt9611_reset(lt9611);
-+
-+	ret = lt9611_read_device_rev(lt9611);
-+	if (ret) {
-+		dev_err(dev, "failed to read chip rev\n");
-+		goto err_disable_regulators;
-+	}
-+
-+	ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+					lt9611_irq_thread_handler,
-+					IRQF_ONESHOT, "lt9611", lt9611);
-+	if (ret) {
-+		dev_err(dev, "failed to request irq\n");
-+		goto err_disable_regulators;
-+	}
-+
-+	i2c_set_clientdata(client, lt9611);
-+
-+	lt9611->bridge.funcs = &lt9611_bridge_funcs;
-+	lt9611->bridge.of_node = client->dev.of_node;
-+
-+	drm_bridge_add(&lt9611->bridge);
-+
-+	lt9611_enable_hpd_interrupts(lt9611);
-+
-+	return 0;
-+
-+err_disable_regulators:
-+	regulator_bulk_disable(ARRAY_SIZE(lt9611->supplies), lt9611->supplies);
-+
-+	of_node_put(lt9611->dsi0_node);
-+	of_node_put(lt9611->dsi1_node);
-+
-+	return ret;
-+}
-+
-+static int lt9611_remove(struct i2c_client *client)
-+{
-+	struct lt9611 *lt9611 = i2c_get_clientdata(client);
-+
-+	disable_irq(client->irq);
-+	drm_bridge_remove(&lt9611->bridge);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(lt9611->supplies), lt9611->supplies);
-+
-+	of_node_put(lt9611->dsi0_node);
-+	of_node_put(lt9611->dsi1_node);
-+
-+	return 0;
-+}
-+
-+static struct i2c_device_id lt9611_id[] = {
-+	{ "lontium,lt9611", 0},
-+	{}
-+};
-+
-+static const struct of_device_id lt9611_match_table[] = {
-+	{.compatible = "lontium,lt9611"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, lt9611_match_table);
-+
-+static struct i2c_driver lt9611_driver = {
-+	.driver = {
-+		.name = "lt9611",
-+		.of_match_table = lt9611_match_table,
-+	},
-+	.probe = lt9611_probe,
-+	.remove = lt9611_remove,
-+	.id_table = lt9611_id,
-+};
-+module_i2c_driver(lt9611_driver);
-+
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBNYXkgMTMsIDIwMjAgYXQgOTo1NSBBTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAxMy4wNS4yMCB1bSAwOTox
+OSBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPiBPbiBUdWUsIE1heSAxMiwgMjAyMCBhdCA4OjIy
+IFBNIEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPiB3cm90ZToKPiA+PiBPbiBU
+dWUsIE1heSAxMiwgMjAyMCBhdCAxMjozOCBQTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwu
+Y2g+IHdyb3RlOgo+ID4+PiBPbiBUdWUsIE1heSAxMiwgMjAyMCBhdCAzOjIyIFBNIEFsZXggRGV1
+Y2hlciA8YWxleGRldWNoZXJAZ21haWwuY29tPiB3cm90ZToKPiA+Pj4+IE9uIFR1ZSwgTWF5IDEy
+LCAyMDIwIGF0IDU6NDAgQU0gS2Fyb2x5IEJhbG9naCAoQ2hhcmxpZS9TR1IpCj4gPj4+PiA8Y2hh
+cmxpZUBzY2VuZXJneS5kZm1rLmh1PiB3cm90ZToKPiA+Pj4+PiBIaSwKPiA+Pj4+Pgo+ID4+Pj4+
+IE9uIFR1ZSwgMTIgTWF5IDIwMjAsIFJ1aSBTYWx2YXRlcnJhIHdyb3RlOgo+ID4+Pj4+Cj4gPj4+
+Pj4+PiBGV0lXLCBvbiBteSBsYXN0LWdlbmVyYXRpb24gUG93ZXJCb29rIHdpdGggUlYzNTAgKElJ
+UkMpLCB0aGVyZSB3YXMgYQo+ID4+Pj4+Pj4gYmlnIHBlcmZvcm1hbmNlIGRpZmZlcmVuY2UgYmV0
+d2VlbiBBR1AgYW5kIFBDSSBHQVJULiBUaGUgbGF0dGVyIHdhcwo+ID4+Pj4+Pj4gc29ydCBvZiB1
+c2FibGUgZm9yIG5vcm1hbCBkZXNrdG9wIG9wZXJhdGlvbiwgYnV0IG5vdCBzbyBtdWNoIGZvcgo+
+ID4+Pj4+Pj4gT3BlbkdMIGFwcHMgKHdoaWNoIHdlcmUgdXNhYmxlIHdpdGggQUdQKS4KPiA+Pj4+
+Pj4gSSBuZXZlciByZWFsbHkgdW5kZXJzdG9vZCB3aGF0IHdlcmUgdGhlIGlzc3VlcyB3aXRoIEFH
+UCBvbiBQb3dlclBDCj4gPj4+Pj4+ICh3ZWxsLCBBcHBsZSwgdGhlIG9ubHkgb25lcyBJJ3ZlIHRl
+c3RlZCkgbWFjaGluZXMuIEkgbWVhbiwgZGlkIE9TIFggYWxzbwo+ID4+Pj4+PiBkaXNhYmxlIEFH
+UCBlbnRpcmVseSwgb3IgZGlkIGl0IGhhdmUgd29ya2Fyb3VuZHMgc29tZXdoZXJlIGVsc2Ugb24g
+dGhlCj4gPj4+Pj4+IHN0YWNrIG5vYm9keSB3YXMgYWJsZSB0byBmaWd1cmUgb3V0Pwo+ID4+Pj4+
+IEkgZG9uJ3Qga25vdyBhYm91dCBPUyBYLCBidXQgSSBkb3VidCB0aGVyZSBpcyBhIG1ham9yL2Js
+b2NrZXIgaGFyZHdhcmUKPiA+Pj4+PiBpc3N1ZSwgYXQgbGVhc3Qgbm90IG9uZSB3aGljaCBhZmZl
+Y3RzIGV2ZXJ5IEFHUCBtYWNoaW5lLgo+ID4+Pj4+Cj4gPj4+Pj4gTW9ycGhPUycgb3duIFJhZGVv
+biBkcml2ZXIgdXNlcyB0aGUgQUdQIGZhY2lsaXRpZXMgdG8gc29tZSBkZWdyZWUgb24gYWxsCj4g
+Pj4+Pj4gQUdQIFBvd2VyUEMgTWFjcyBzdXBwb3J0ZWQgYnkgdGhhdCBPUywgd2hpY2ggaXMgZnJv
+bSBQTWFjIEFHUCBHcmFwaGljcwo+ID4+Pj4+ICgzLDEpIGFsbCB0aGUgd2F5IHVwIHRvIHRoZSBB
+R1AgRzUgKDcsMyksIGluY2x1ZGluZyB0aGUgdmFyaW91cyBwb3J0YWJsZXMKPiA+Pj4+PiBhbmQg
+dGhlIE1hYyBtaW5pIEc0LiBGb3IgZXhhbXBsZSBpdCBjYW4gdXRpbGl6ZSBpdCB0byBzdHJlYW0g
+dmlkZW8gZGF0YQo+ID4+Pj4+IGRpcmVjdGx5IGZyb20gbWFpbmJvYXJkIFJBTSwgc28geW91IGRv
+bid0IGhhdmUgdG8gY29weSBpdCB3aXRoIHRoZSBDUFUsCj4gPj4+Pj4gYWxsb3dpbmcgcmVhc29u
+YWJseSBnb29kIDcyMHAgaDI2NCB2aWRlbyBwbGF5YmFjayBvbiBtb3N0IHN5c3RlbXMgYWJvdmUK
+PiA+Pj4+PiB0aGUgMUdoeiBtYXJrIHdpdGggdGhlIG5hdGl2ZSBNUGxheWVyIHBvcnQuIEknbSBz
+dXJlIHRoZSAzRCBwYXJ0IG9mIHRoZQo+ID4+Pj4+IGRyaXZlciBhbHNvIHVzZSBpdCB0byBzb21l
+IGRlZ3JlZSwgZ2l2ZW4gdGhlIHBlcmZvcm1hbmNlIGltcHJvdmVtZW50IHdlCj4gPj4+Pj4gZXhw
+ZXJpZW5jZWQgd2hlbiB0aGUgQUdQIHN1cHBvcnQgd2FzIGVuYWJsZWQgKGluaXRpYWxseSB0aGUg
+c3lzdGVtIHdhcwo+ID4+Pj4+IHJ1bm5pbmcgd2l0aG91dCBpdCksIGJ1dCB0byB3aGljaCBleHRl
+bnQgSSBjYW4ndCBzYXkuCj4gPj4+PiBUaGUgcHJvYmxlbSBpcyBBR1AgZG9lc24ndCBzdXBwb3J0
+IENQVSBjYWNoZSBzbm9vcGluZy4gIFRlY2huaWNhbGx5Cj4gPj4+PiBQQ0kgbXVzdCBzdXBwb3J0
+IGNvaGVyZW50IGRldmljZSBhY2Nlc3MgdG8gc3lzdGVtIG1lbW9yeS4gIFVuc25vb3BlZAo+ID4+
+Pj4gYWNjZXNzIGlzIGFuIG9wdGlvbmFsIGZlYXR1cmUgYW5kIHNvbWUgcGxhdGZvcm1zIG1heSBu
+b3Qgc3VwcG9ydCBpdCBhdAo+ID4+Pj4gYWxsLiAgVW5mb3J0dW5hdGVseSwgQUdQIHJlcXVpcmVk
+IHVuc25vb3BlZCBhY2Nlc3MuICB4OHQgZ2VuZXJhbGx5Cj4gPj4+PiBwcm92aWRlcyBhIHdheSB0
+byBkbyB0aGlzLCBidXQgb3RoZXIgcGxhdGZvcm1zLCBub3Qgc28gbXVjaC4gIEkgZG9uJ3QKPiA+
+Pj4+IHJlY2FsbCB0byB3aGF0IGV4dGVudCBQb3dlclBDIHN1cHBvcnRlZCB0aGlzLiAgVGhlIExp
+bnV4IERNQSBBUEkKPiA+Pj4+IGRvZXNuJ3QgcmVhbGx5IGhhdmUgYSB3YXkgdG8gZ2V0IHVuY2Fj
+aGVkIG1lbW9yeSBmb3IgRE1BIHNvIHRoZXJlIGlzCj4gPj4+PiB0aGF0IHRvby4gIFdpbmRvd3Mg
+YW5kIE1hYyBtYXkgcHJvdmlkZSBhIHdheSB0byBkbyB0aGlzIGRlcGVuZGluZyBvbgo+ID4+Pj4g
+dGhlIHBsYXRmb3Jtcy4gIFdoYXQgcHJvYmFibHkgc2hvdWxkIGhhdmUgYmVlbiBkb25lIG9uIEFH
+UCBib2FyZHMgd2FzCj4gPj4+PiB0byB1c2UgYm90aCB0aGUgQUdQIEdBUlQgYW5kIHRoZSBkZXZp
+Y2UgR0FSVC4gIFRoZSBmb3JtZXIgZm9yIHVuY2FjaGVkCj4gPj4+PiBtZW1vcnkgKGlmIHRoZSBw
+bGF0Zm9ybSBzdXBwb3J0ZWQgaXQpIGFuZCB0aGUgbGF0dGVyIGZvciBjYWNoZWQKPiA+Pj4+IG1l
+bW9yeS4gIFRoYXQgbmV2ZXIgaGFwcGVuZWQuCj4gPj4+IFNsaWdodCBjb3JyZWN0aW9uIG9uIHRo
+ZSBkbWEtYXBpIHNpZGUgb2YgdGhpbmdzOiBUaGUgZG1hLWFwaSB2ZXJ5IG11Y2gKPiA+Pj4gY2Fu
+IGdpdmUgeW91IHVuY2FjaGVkIG1lbW9yeSwgYnV0IG9ubHkgb24gc29tZSBwbGF0Zm9ybXMsIGFu
+ZCB0aGUKPiA+Pj4gZG1hLWFwaSBpcyB2ZXJ5IG9waW5pb25hdGVkIGFib3V0IHdoaWNoIHRob3Nl
+IGFyZS4gQW5kIGl0IHJlZnVzZXMgdG8KPiA+Pj4gdGVsbCB5b3Ugd2hldGhlciB5b3VyIG1lbW9y
+eSBlbmRzIHVwIGJlaW5nIHVuY2FjaGVkIG9yIGNhY2hlZC4gVGhhdCdzCj4gPj4+IGFsbCBkb25l
+IGluIHRoZSBuYW1lIG9mIHBsYXRmb3JtIHBvcnRhYmlsaXR5LCB3aGljaCBpcyBnb29kIGZvciBt
+b3N0Cj4gPj4+IGRyaXZlcnMsIGJ1dCBqdXN0IHRvbyBtdWNoIHBhaW4gZm9yIGdwdSBkcml2ZXJz
+Lgo+ID4+IE91dCBvZiBjdXJpb3NpdHkgaG93IGRvIHlvdSBkbyB0aGF0IHdpdGhvdXQgbWFudWFs
+bHkgbWVzc2luZyBhcm91bmQKPiA+PiB3aXRoIFBBVCBvciBNVFJScz8KPiA+IGk5MTUgaXMgZXZl
+biB3b3JzZSwgd2UgbWFudWFsbHkgbWVzcyBhcm91bmQgd2l0aCBjbGZsdXNoLiBJbgo+ID4gdXNl
+cnNwYWNlLiBTbyByZWFsbHkgdGhlcmUncyAyIGF4aXMgZm9yIGRtYSBtZW1vcnk6IGNvaGVyZW50
+IHZzLgo+ID4gbm9uLWNvaGVyZW50ICh3aGljaCBpcyBzb21ldGhpbmcgdGhlIGRtYS1hcGkgc29t
+ZXdoYXQgZXhwb3NlZCksIGkuZS4KPiA+IGRvIHlvdSBuZWVkIHRvIGNsZmx1c2ggb3Igbm90LCBh
+bmQgY2FjaGVkIHZzIHVuY2FjaGVkLCBpLmUuIGFyZSB0aGUKPiA+IFBBVCBlbnRyaWVzIHdjIG9y
+IHdiLgo+ID4KPiA+IEJ1dCB5ZWFoIGlmIHlvdSBkb250IGhhdmUgUEFUIHJlYWwgdW5jYWNoZWQg
+aXNuJ3QgcG9zc2libGUsIGNhbid0IGZyb2IKPiA+IE1UVFIgZm9yIGluZGl2aWR1YWwgcGFnZXMu
+IFRoYXQgYWxzbywgdG8gbXkgdW5kZXJzdGFuZGluZywgd2h5IHRoZSBkbWEKPiA+IGFwaSBkb2Vz
+bid0IHdhbnQgdG8gZXhwb3NlIHRoaXMgdG8gZHJpdmVyLCBidXQgYWJzdHJhY3QgaXQgYWxsIGF3
+YXk6Cj4gPiBPbiBtYW55IHRpbnkgc29jIHBsYXRmb3JtcyBhbGwgeW91IGhhdmUgZm9yIHVuY2Fj
+aGVkIGlzIGFuIG10dHIgKHdlbGwKPiA+IHRoZSBlcXVpdmFsZW50IG9uIHRoYXQgcGxhdGZvcm0p
+LCBzbyB5b3UgYW55dGhpbmcgeW91IGdldCBmcm9tCj4gPiBkbWFfYWxsb2NfY29oZXJlbnQgbmVl
+ZHMgdG8gY29tZSBmcm9tIHRoZXJlLgo+Cj4gSUlSQyBJIG9uY2UgZ290IGl0IGV4cGxhaW5lZCBs
+aWtlIHRoaXM6IE9uIHNvbWUgcGxhdGZvcm1zIGFsbCB5b3UgaGF2ZSBhCj4gcmVnaXN0ZXIgd2l0
+aCBhIHZhbHVlIGFuZCBpZiB5b3VyIGFkZHJlc3MgaXMgYWJvdmUgdGhhdCB2YWx1ZSBpdCBpcwo+
+IHVuY2FjaGVkIGFuZCB3YyBpZiBpdCBpcyBiZWxvdyBpdCBpcyBjYWNoZWQgYW5kIHdiLgo+Cj4g
+PiBCdXQgdGhlbiBubyBvbmUgaXMgZXZlciBnb2luZyB0byBwbHVnIGluIGEgYmlnIGdwdSBpbnRv
+IHN1Y2ggYSBzeXN0ZW0KPiA+IGFuZCBleHBlY3QgYW55dGhpbmcgdG8gd29yaywgc28gd2UgcmVh
+bGx5IG5lZWQgYW4gYWJzdHJhY3Rpb24gdGhhdAo+ID4gd29ya3Mgb24gYSBiaXQgbW9yZSB0aGFu
+IGp1c3QgeDg2IChzbyB3ZSBkb24ndCBkaWcgYXJvdW5kIGluIHBsYXRmb3JtCj4gPiBzdHVmZiBs
+aWtlIHVwZGF0aW5nIFBBVCBvciBpc3N1c2luZyBjbGZsdXNoIGFueW1vcmUpLCBidXQgZG9lc24n
+dCB0cnkKPiA+IHRvIHdvcmsgZXZlcnl3aGVyZSBsaW51eCBydW5zLCBqdXN0IG9uIHRoZSBmZXcg
+cGxhdGZvcm1zIHBlb3BsZSBleHBlY3QKPiA+IGJpZyBncHVzIHRvIHdvcmsgb24uIEZvciBhbGwg
+dGhlIGttcy1vbmx5IGRyaXZlcnMgd2UgaGF2ZSB0aGUgZG1hIGFwaQo+ID4gc2VlbXMgYWN0dWFs
+bHkgcGVyZmVjdGx5IGZpbmUgKGVzc2VudGlhbGx5IHRoZSBjbWEgaGVscGVzIHdlIGhhdmUKPiA+
+IHNob3VsZCBiZSBjYWxsZWQgZG1hIGhlbHBlcnMsIHNpbmNlIHRoYXQncyB3aGF0IHRoZXkncmUg
+dXNpbmcKPiA+IHVuZGVybmVhdGggZm9yIGFsbCBidWZmZXIgbWFuYWdlbWVudCkuCj4KPiBUaGF0
+IGlzIHVuZm9ydHVuYXRlbHkgbm90IHRydWUgZm9yIEFNRCBHUFVzLCBwZW9wbGUgdGVuZCB0byBw
+dXQgdGhlbQo+IGludG8gdGhvc2UgZW1iZWRkZWQgQVJNIG9yIFBvd2VyUEMgYm94ZXMgYW5kIGp1
+c3QgZXhwZWN0IHRoZW0gdG8gd29yay4KCkkgdGhvdWdodCBhcm02NCBoYWQgcHJvcGVyIFBBVC1z
+dHlsZSBwZXItcGFnZSBjYWNoaW5nIGF0dHJpYnV0ZXMsCmJlY2F1c2Ugc2VydmVycyBkb24ndCBs
+aWtlIHRoZSBoYXJkIHNwbGl0IHdpdGggdGhlIGFkZHJlc3MgbGltaXQgb3IKd2hhdGV2ZXIgb3Ro
+ZXIgdW5mbGV4aWJsZSB0cmlja2VyeS4gQnV0IG5vdCBzdXJlLgoKQW5kIHBwYyBJIHRob3VnaHQg
+d2FzIGRlZmFjdG8gYWx3YXlzIGNvaGVyZW50LCBhdCBsZWFzdCBvbiBtb2Rlcm4gbWFjaGluZXMu
+CgpCdXQgeWVhaCB0aGUgb2xkZXIgc3R1ZmYgaXMgcHVyZSBob3Jyb3JzLiBUaGUgcHJvYmxlbSBp
+cyBhbHNvIHRoYXQKYWZhaWsgYXJtIGRlZmF1bHRzIHRvIHVuY2FjaGVkIChhbmQgb24gc29tZSBh
+cm0gcGxhdGZvcm1zIGl0J3MKaW1wb3NzaWJsZSB0byBnZXQgYSB3Yy9jb2hlcmVudCBtYXBwaW5n
+IG9mIGEgcmFuZG9tIHN5c3RlbSBwYWdlKSBhbmQKcHBjIGRlZmF1bHRzIHRvIGNhY2hlZCZjb2hl
+cmVudC4gU28gd2UgY2FuJ3QgZXZlbiBoYXZlIGEgcmVhc29uYWJsZQpkZWZhdWx0IGZvciBub24t
+eDg2LgoKPiBPbiB0aGUgb3RoZXIgaGFuZCB3ZSBoYXZlIGhhcmR3YXJlL2Zpcm13YXJlIGVuZ2lu
+ZWVycyB3aGljaCBhc3N1bWVkIHlvdQo+IGFsd2F5cyBoYXZlIFVTV0MgYW5kIHdlIHdvbmRlciBm
+b3Igd2Vla3Mgd2h5IGZpcm13YXJlIGxvYWRlZCBkb2Vzbid0Cj4gd29yay4uLi4KCkZ1bi4KLURh
+bmllbAoKPgo+IFJlZ2FyZHMsCj4gQ2hyaXN0aWFuLgo+Cj4gPgo+ID4gQ2hlZXJzLCBEYW5pZWwK
+PiA+Cj4gPj4gQWxleAo+ID4+Cj4gPj4+IE90aGVyd2lzZSBhbGwgYWdyZWUsIGFncCBpcyBhIG1p
+Z2h0eSBtZXNzIGFuZCBlc3NlbnRpYWxseSBqdXN0Cj4gPj4+IGNyYXBzaG90IG91dHNpZGUgb2Yg
+eDg2LiBJdCBraW5kYSB3b3JrZWQgZm9yIHRoZSBtdWNoIG1vcmUgc3RhdGljCj4gPj4+IGFsbG9j
+YXRpb25zIGZvciBkcmkxLCBidXQgd2l0aCBpbi1rZXJuZWwgbWVtb3J5IG1hbmFnZXJzIGFsbCB0
+aGUgY2FjaGUKPiA+Pj4gZmx1c2hpbmcgaXNzdWVzIHNob3dlZCB1cCBiaWcgdGltZSBhbmQgaXQg
+YWxsIGZlbGwgdG8gcGllY2VzLiBQbHVzIGEKPiA+Pj4gbG90IG9mIHRoZXNlIGhvc3QgY2hpcHNl
+dCBiYWNrIHRoZW4gd2hlcmUgZGVzaWduZWQgZm9yIHRoZSByYXRoZXIKPiA+Pj4gc3RhdGljIHdp
+bmRvd3MgZ3B1IG1hbmFnZXJzLCBzbyBldmVuIG9uIHg4NiB0aGUgY29oZXJlbmN5IGlzc3VlcyBm
+b3IKPiA+Pj4gYWdwIG1vZGUgd2hlbiB1c2VkIHRvZ2V0aGVyIHdpdGggdHRtIG9yIHNvbWV0aGlu
+ZyBlbHNlIHJlYWxseSBkeW5hbWljCj4gPj4+IGlzIHByZXR0eSBiYWQgYmVjYXVzZSB0aGUgaHcg
+anVzdCBkb2Vzbid0IHJlYWxseSBjb3BlIGFuZCBoYXMgYWxsCj4gPj4+IGtpbmRzIG9mIGZsdXNo
+aW5nIHRyb3VibGVzIGFuZCByYWNlcy4gSSB0aGluayB0aGUgbGF0ZXIgYWdwIGNoaXBzZXRzCj4g
+Pj4+IHdlcmUgYmV0dGVyLgo+ID4+PiAtRGFuaWVsCj4gPj4+IC0tCj4gPj4+IERhbmllbCBWZXR0
+ZXIKPiA+Pj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCj4gPj4+ICs0MSAo
+MCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKPiA+Cj4gPgo+CgoKLS0gCkRh
+bmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkg
+NzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
