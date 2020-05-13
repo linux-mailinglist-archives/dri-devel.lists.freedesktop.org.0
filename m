@@ -2,35 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794251D0F3B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146D61D0F3C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AEF16E054;
-	Wed, 13 May 2020 10:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D70896E135;
+	Wed, 13 May 2020 10:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939DF6E054
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:05:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69AF06E135
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:06:04 +0000 (UTC)
 Received: from localhost.localdomain (unknown [106.200.233.149])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0045F20575;
- Wed, 13 May 2020 10:05:54 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E968C206B8;
+ Wed, 13 May 2020 10:05:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589364359;
- bh=WjRy4bGb2XBE4e+1YGSH0DDmJTpK19nx1tzKdrx5qeQ=;
- h=From:To:Cc:Subject:Date:From;
- b=xJ51Bv2swDWPGJNoHbrEJBLashQwC/Xq44TcCpIoBvgmvk+w/yhWKGLTIXXpWuwQW
- m2rhP13GblVTwezQLIRo4n+13HW669cQaegtfkBSq3CX7DQP1CtM9Ug7DSqG9wA5vP
- RLiGzalHteJJIN0xsTBcoVDLLgfRdecFoh5XDehw=
+ s=default; t=1589364364;
+ bh=f4a7jQYUGO+gefhtNwOgyxXu8SfY9ICLOZ0ZEWYfr1Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=B3R1wJ7GK/L3htlT9FId9pUaXL7vqHSMvbj3xYa212Rc5lvpxqzSEgX0J8tzVX+qx
+ y3EWZyr1iH3CcHGPbPlTOKIgxuJ+JhA1K7KHcw0H9ef7m0tDY8/PxA3eXnB00VkFla
+ iF5y4dxlR7eumQ9SUZhvVnGbXx9b99GSPwmhWw74=
 From: Vinod Koul <vkoul@kernel.org>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCH 0/3] Add LT9611 DSI to HDMI bridge
-Date: Wed, 13 May 2020 15:35:30 +0530
-Message-Id: <20200513100533.42996-1-vkoul@kernel.org>
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+Date: Wed, 13 May 2020 15:35:31 +0530
+Message-Id: <20200513100533.42996-2-vkoul@kernel.org>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20200513100533.42996-1-vkoul@kernel.org>
+References: <20200513100533.42996-1-vkoul@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,29 +58,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add prefix for Lontium Semiconductor Corporation
 
-This series adds driver and bindings for Lontium LT9611 bridge chip which
-takes MIPI DSI as input and HDMI as output.
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
-
-[1]: https://www.96boards.org/product/rb3-platform/
-
-Vinod Koul (3):
-  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
-  dt-bindings: display: bridge: Add documentation for LT9611
-  drm/bridge: Introduce LT9611 DSI to HDMI bridge
-
- .../display/bridge/lontium,lt9611.yaml        |  178 +++
- .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
- drivers/gpu/drm/bridge/Kconfig                |   13 +
- drivers/gpu/drm/bridge/Makefile               |    1 +
- drivers/gpu/drm/bridge/lt9611.c               | 1113 +++++++++++++++++
- 5 files changed, 1307 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
- create mode 100644 drivers/gpu/drm/bridge/lt9611.c
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index d3891386d671..7294852bc47b 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -579,6 +579,8 @@ patternProperties:
+     description: Logic Technologies Limited
+   "^longcheer,.*":
+     description: Longcheer Technology (Shanghai) Co., Ltd.
++  "^lontium,.*":
++    description: Lontium Semiconductor Corporation
+   "^loongson,.*":
+     description: Loongson Technology Corporation Limited
+   "^lsi,.*":
 -- 
 2.25.4
 
