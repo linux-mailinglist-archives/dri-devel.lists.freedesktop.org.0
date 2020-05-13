@@ -2,87 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536291D1BEB
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 19:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE7E1D1BE9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 19:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5202E6EA7E;
-	Wed, 13 May 2020 17:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 609FE89D6C;
+	Wed, 13 May 2020 17:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB396EA7E;
- Wed, 13 May 2020 17:08:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LBlHbuh9b9GZLzHFrfPZVNRYUkOP3yF815g2vbLzBEbuJISbz4HBtMzG0ijiLRcFB+Ek3ECAjvn1tNuW7vKoPnBwmXXaDk71LrkqohhwNhdHCq5vjU534fPLcWVseZjTU2JQHvEMfMAXmwz8BDK4jFCKZIba6AR/MnuL3yUmiiF8MEb5MS7hnaeDwir4gIeLlZXzwT5K1ZNv1shFlf3MAvkurcqwj2JbjYm4rdZlKaghEmlWiSiiY6IjQgW2kq+BRII4hSyxr8EM6MlK8w4ETZUtsdgX9UiqsxeddPYrRs3X4M+8wQKFQQ97TSJTjJcO6KJLxnZ2ayEH/hgxgcmsLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3mDzF84INkLzGBoMqqGPl8inMEBznIIn9ux4foP7EM8=;
- b=azUVBBtZX+hbtTOIvjIYx9gF+oaN6XW/8ikvBBlT6sAbW9F+/feyyVEnP9wQjHe02Pe2K7I8aHcY7Mo8a4p9DITxVW/ke1gYsAAaOrEeKKiEB6Af4NgZqqe16hm3xFHU9MuCcPWbe7n7Tx8TauvT57xB64J94N00qTXwMQQ+s03/AoBHsLc248ay1zvgK3gwZ1mVVknFsjw3E8siTbtVATaAKa75o2l4XLr0t2XCJfs0SARZOuqoki7O9iYjpfRQoYAp/QzrpC1vRaB0q+BDG5HP7+pewisyn4rvQe9MTI08QDVJCuLZdXnfRm3QyiftLeen5V6wgSm+8zF+DaSZ8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3mDzF84INkLzGBoMqqGPl8inMEBznIIn9ux4foP7EM8=;
- b=aD7TB2J4jXYqXAx/WdkXXKJqTySbQ12ysNT+ZLCKKzyGfZoAQRjwDz9iOAq+gxVujY0mhwOh6axO4Zg510PLdCSZBCVpuxLSmIQA/z36VTB3wID6L8Cq9nBsDZrDUJTPtTifc2Q32SFCNebzQe2rqicMrAxbAAIdtlbPuDkqbhc=
-Received: from MN2PR05MB6381.namprd05.prod.outlook.com (2603:10b6:208:d6::24)
- by MN2PR05MB6653.namprd05.prod.outlook.com (2603:10b6:208:dd::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.15; Wed, 13 May
- 2020 17:08:19 +0000
-Received: from MN2PR05MB6381.namprd05.prod.outlook.com
- ([fe80::7803:13e7:2e4d:58ff]) by MN2PR05MB6381.namprd05.prod.outlook.com
- ([fe80::7803:13e7:2e4d:58ff%3]) with mapi id 15.20.3000.016; Wed, 13 May 2020
- 17:08:19 +0000
-From: Ashwin H <ashwinh@vmware.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: RE: [PATCH v4.19.x] make 'user_access_begin()' do 'access_ok()'
-Thread-Topic: [PATCH v4.19.x] make 'user_access_begin()' do 'access_ok()'
-Thread-Index: AQHWKIdKPHhk+fo7OUe7+WKkK8SJkqilhT4AgABhFAD//6nZgIAAsMCg
-Date: Wed, 13 May 2020 17:08:19 +0000
-Message-ID: <MN2PR05MB63814CDAAF6828285929736ACDBF0@MN2PR05MB6381.namprd05.prod.outlook.com>
-References: <d29f87f3f3abb4e496866253bd170faad976f687.1589305630.git.ashwinh@vmware.com>
- <20200513055548.GA743118@kroah.com>
- <89DE19F6-4CB0-4324-A630-C8574C8D591C@vmware.com>
- <20200513063455.GA752913@kroah.com>
-In-Reply-To: <20200513063455.GA752913@kroah.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=vmware.com;
-x-originating-ip: [49.206.7.228]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e3d4df3c-d6e5-410a-efe5-08d7f7603c52
-x-ms-traffictypediagnostic: MN2PR05MB6653:
-x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR05MB6653AB30C7778494E5B6DC73CDBF0@MN2PR05MB6653.namprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2089;
-x-forefront-prvs: 0402872DA1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2Gb16DfpxVeX6lxIOH7XtA7VcpmMQ1WsW4NB3PKPRNHGFL0/giu/KmvS/2YsbFEdfk5nBE/ZFF14Hddz2kIsX+rPBZe/voBZIcmAiRWsQscW1kuS6YpfXfYf8v13OOh0cPO1Qon1H5HythxcuJkyQRHYnlJc5jD7DILmsJCAKGReeOOp3prUlIu15p14MYbsubbV5ap2tfvfm6S/KSL0ldYWjSVLIt3QNKL14hqu3JBX1RGpWqZ9PI+cDp4iBXZZwjBsmP+XVdIFFIXcZ8/oodwe0tIKT2EndIeIP6LQ0i6KMK3Fn7L9z4gMWuaLCr+IzvJxD0F/dXC8bwJ8+XKl+xDrtaMyw2vtE3WAFxbMxwmgDhuVfsy5kWdXwK0lSd8DTgTNoGycshN+eJB/nAVWI9rSLlYfEv+PUKrXo2pqFvqfqshvKcDZ2U3NuuRhu4VcKbBUodeRBdESIaWqa/C2DAkKNHoSVB2UNSpF2QmtS4BncA2BS3nUMOAIPMoiclDVgs9tbbBXzmK86cxHQ10YBg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR05MB6381.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(346002)(39860400002)(376002)(136003)(33430700001)(6506007)(316002)(55236004)(54906003)(66476007)(33440700001)(7696005)(76116006)(66946007)(64756008)(66556008)(66446008)(52536014)(86362001)(2906002)(55016002)(5660300002)(478600001)(9686003)(26005)(186003)(4326008)(71200400001)(8676002)(6916009)(33656002)(8936002)(4744005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: K8HSN7VVCnDxDnSR/qiPLQkGlTON2DeltziLp9hkNflU5fnqNEJRYSEZm3Jk1JY0A32EQZyLdA+KGYUuhUwKtLLDgIL/diMzUnff8JiZBij7ywCDyjsff3fQsyowiC5Jqqc5GU5sErC9GKsIpCe3Vie3QcK7bKz8mIPe9gXiUCv1XIGZbDxsGpmbQoqxsTBaiSgeDyuJjb03kMed6ouMBjcrMDlnslIXIMjtIERXZN0+DFBlsTI4QHky8TDvc66f/Xu+iB95NjUVV3r3n6OMKhBRVNNyq85rNyqRpFDClIidrF5LdINosJ2uZvAmgQ5qBFbjPMk5KFpy+nY7iBm642Qg7VQgPtYRnJeYQEyPWV6k+mFskiSyn+KdGkuKFdauLN4WXMQAz5St9hvBizaRjezx1EL6qhfQHGcjfQsQF/7CHnA1qh3zKR3tRl0Vh4Wc4rLDGuH9N/A7rYb5gkCDzSiwHvLII0OeYNzieLfX9zM=
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB38389D6C;
+ Wed, 13 May 2020 17:08:08 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id b6so441852ljj.1;
+ Wed, 13 May 2020 10:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ct92GoQxmjkrJFsjfbiJncWVHhbFDJqrFKHkKPJTo14=;
+ b=Tl5Rbiyng5LgHx5Gg6sJfh0nYM5fQaO5R9FbQ+FxIU77QOtG1peH+rYIp9YdGC0Ki+
+ WMXudb69z9CbqDUAkmJ3uZ+faKYl1Afni3nUwNKCKi/+a1HCy7m0BUJxuCLN/QaJaXC+
+ PdNYd1Dh5DYxj84YQrMpUC8Zm0+T5H/JPUxd1oW787D9a/0TLAHR9oDiFXTD7MWyUNo4
+ qRy6awADaPbdSVWfF+K7VbVR8QXWfuQEN6/5D1EnO0K1dC14g/EkK/vbB2U5oLD7vdWu
+ L4SEzlMjFeNtqCBrEZGIyJkYetgwgmZzYWL5R+Ve1HRbh+gpXwa2AYqY2ccWB6P+Aj9w
+ zADQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ct92GoQxmjkrJFsjfbiJncWVHhbFDJqrFKHkKPJTo14=;
+ b=crYtbN3hP4GYEb+Zmb04IhgepHiBoYYL6zbqeT2KrGU43Fh7tK8619qV07HgtIn9z2
+ tG4inPMuLB/s6WMtykd8DQxIssy1UOEr+1La7mUJkiXlei1OfOmgyKFmBMQdU1HJ8M5E
+ XL/szojJOXOan0UkVTKnGBFMq9h4FTOhuDm0NguuP+EiNh0Mi7p/mI2GKao579tFQt9C
+ KaYrRTDB8RMVUtoA3bZ7UyoELB3tayJn9Ohl6cSzgevflZceK9SlLK1gZc0cPv+ynmze
+ VY92f1eDKXxiHSM8nHbB0LLyxA+9F8oxSf387rDet9fe60VSDero3zNfupguERdF+DXY
+ ndDA==
+X-Gm-Message-State: AOAM5306U1QttZSH7xU8FYfNT4TAvel84IDfJMEmBu9ZKNPFFmi5tswz
+ 7gLNArCi2bUZaQNsSsiWchDJlWOiBdU8GhjAzdg=
+X-Google-Smtp-Source: ABdhPJztZOzynU5omXWIWITm6a2uO+5uiPsUQ2mpbi7pLnKEITDKvJ/cWebb6gPS7BsFK4UO0pNiyNMAI5b0QypN0sM=
+X-Received: by 2002:a2e:9b50:: with SMTP id o16mr75061ljj.164.1589389687029;
+ Wed, 13 May 2020 10:08:07 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3d4df3c-d6e5-410a-efe5-08d7f7603c52
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2020 17:08:19.6114 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Q5mFC8wLOAMenw1UXT6WW/zLPbO+NhiaeeoYK+nHYBA6hkuNOuz54re56hHIlLSOPgsiJh16CKVmGrOfUU2ULQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6653
+References: <20200513150007.1315395-1-lkundrak@v3.sk>
+ <20200513150007.1315395-3-lkundrak@v3.sk>
+In-Reply-To: <20200513150007.1315395-3-lkundrak@v3.sk>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 13 May 2020 14:09:21 -0300
+Message-ID: <CAOMZO5B582=tZ_YBCyVYFtGh=z5hZKFxP7XoUHEmH3jZsk2uYQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
+To: Lubomir Rintel <lkundrak@v3.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,32 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "x86@kernel.org" <x86@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "srivatsa@csail.mit.edu" <srivatsa@csail.mit.edu>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- Steven Rostedt <srostedt@vmware.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "stable@kernel.org" <stable@kernel.org>, Srivatsa Bhat <srivatsab@vmware.com>
+Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Ok, but what does that mean for us?
-> 
-> You need to say why you are sending a patch, otherwise we will guess wrong.
+On Wed, May 13, 2020 at 12:08 PM Lubomir Rintel <lkundrak@v3.sk> wrote:
+>
+> There might be good reasons why the getting a clock failed. To treat the
+> clocks as optional we're specifically only interested in ignoring -ENOENT,
+> and devm_clk_get_optional() does just that.
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index c6dacfe3d321..e7dbb924f576 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1786,26 +1786,26 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>         }
+>
+>         /* Get Clocks: */
+> -       gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
+> +       gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
+>         DBG("clk_reg: %p", gpu->clk_reg);
+>         if (IS_ERR(gpu->clk_reg))
+> -               gpu->clk_reg = NULL;
+> +               return err;
+>
+> -       gpu->clk_bus = devm_clk_get(&pdev->dev, "bus");
+> +       gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
 
-In drivers/gpu/drm/i915/i915_gem_execbuffer.c, ioctl functions does user_access_begin() without doing access_ok(Checks if a user space pointer is valid)  first.
-A local attacker can craft a malicious ioctl function call to overwrite arbitrary kernel memory, resulting in a Denial of Service or privilege escalation (CVE-2018-20669)
+The binding doc Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+says that only the 'reg' clock could be optional, the others are
+required.
 
-This patch makes sure that user_access_begin always does access_ok. 
-user_access_begin has been modified to do access_ok internally.
 
-Thanks,
-Ashwin
+>         DBG("clk_bus: %p", gpu->clk_bus);
+>         if (IS_ERR(gpu->clk_bus))
+> -               gpu->clk_bus = NULL;
+> +               return err;
+>
+> -       gpu->clk_core = devm_clk_get(&pdev->dev, "core");
+> +       gpu->clk_core = devm_clk_get_optional(&pdev->dev, "core");
+>         DBG("clk_core: %p", gpu->clk_core);
+>         if (IS_ERR(gpu->clk_core))
+> -               gpu->clk_core = NULL;
+> +               return err;
+>         gpu->base_rate_core = clk_get_rate(gpu->clk_core);
+>
+> -       gpu->clk_shader = devm_clk_get(&pdev->dev, "shader");
+> +       gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
+>         DBG("clk_shader: %p", gpu->clk_shader);
+>         if (IS_ERR(gpu->clk_shader))
+> -               gpu->clk_shader = NULL;
+> +               return err;
+>         gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+>
+>         /* TODO: figure out max mapped size */
+> --
+> 2.26.2
+>
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
