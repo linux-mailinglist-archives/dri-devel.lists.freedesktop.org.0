@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEAA1D0665
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 07:33:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34881D06E2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 08:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FDA6E169;
-	Wed, 13 May 2020 05:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262FC6E0A6;
+	Wed, 13 May 2020 06:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098436E0F8;
- Wed, 13 May 2020 05:33:34 +0000 (UTC)
-IronPort-SDR: WSBsQkcBN3zIGe7ZEcuTZo+0iAdSxdyn8FqrSn5aqqMIEB/gu8K4wcp2Oajpmxt/tOKsVeEp4a
- K/bF4JcQ36MQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2020 22:33:33 -0700
-IronPort-SDR: AF/aaoV+v2hQFpmc/1oeAc5aXBVjp5saIir8UOeQgHCz53Oq0ih6WZScKfaCUbSLVW0dUbvc7g
- rlH8G8JUOFFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,386,1583222400"; d="scan'208";a="251133034"
-Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
- by orsmga007.jf.intel.com with ESMTP; 12 May 2020 22:33:32 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 3/3] drm/i915/dp: Expose connector VRR info via debugfs
-Date: Tue, 12 May 2020 22:34:31 -0700
-Message-Id: <20200513053431.2138-3-manasi.d.navare@intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20200513053431.2138-1-manasi.d.navare@intel.com>
-References: <20200513053431.2138-1-manasi.d.navare@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1AE6E0A6;
+ Wed, 13 May 2020 06:06:58 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BCE1820718;
+ Wed, 13 May 2020 06:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589350015;
+ bh=6qZpYcXUD5MiwOqEO1ZY0mCSOUXAEishXLv58UbUkb4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PlsesW/IxxtIRgOd2lQP0dqWv9yKqYmK7I0Pdb0PncShDHGqXe38IMwt5hHuJ+kOf
+ dIxqCKtzwJuew0r94G4irCnmejKg94wHhnPbr+UD0EdFji1E6dp9EyMJNp0YL2HMWW
+ Y2dzCbQdg/J8zQuX2IzJRvUBD4JBDdopZsCztJog=
+Date: Wed, 13 May 2020 07:55:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: ashwin-h <ashwinh@vmware.com>
+Subject: Re: [PATCH v4.19.x] make 'user_access_begin()' do 'access_ok()'
+Message-ID: <20200513055548.GA743118@kroah.com>
+References: <d29f87f3f3abb4e496866253bd170faad976f687.1589305630.git.ashwinh@vmware.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d29f87f3f3abb4e496866253bd170faad976f687.1589305630.git.ashwinh@vmware.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,63 +46,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ srivatsa@csail.mit.edu, rostedt@goodmis.org, srostedt@vmware.com,
+ Linus Torvalds <torvalds@linux-foundation.org>, stable@kernel.org,
+ srivatsab@vmware.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQmhhbnVwcmFrYXNoIE1vZGVtIDxiaGFudXByYWthc2gubW9kZW1AaW50ZWwuY29tPgoK
-W1doeV0KSXQncyB1c2VmdWwgdG8ga25vdyB0aGUgbWluIGFuZCBtYXggdnJyIHJhbmdlIGZvciBJ
-R1QgdGVzdGluZy4KCltIb3ddCkV4cG9zZSB0aGUgbWluIGFuZCBtYXggdmZyZXEgZm9yIHRoZSBj
-b25uZWN0b3IgdmlhIGEgZGVidWdmcyBmaWxlCm9uIHRoZSBjb25uZWN0b3IsICJpOTE1X3Zycl9p
-bmZvIi4KCkV4YW1wbGUgdXNhZ2U6IGNhdCAvc3lzL2tlcm5lbC9kZWJ1Zy9kcmkvMC9EUC0xL2k5
-MTVfdnJyX2luZm8KCnY1OgoqIFJlbmFtZSB0byB2cnJfcmFuZ2UgdG8gbWF0Y2ggQU1EIGRlYnVn
-ZnMKdjQ6CiogUmViYXNlCnYzOgoqIFJlbW92ZSB0aGUgdW5uZWNlc3NhcnkgZGVidWcgcHJpbnQg
-KE1hbmFzaSkKdjI6CiogRml4IHRoZSB0eXBvIGluIG1heF92ZnJlcSAoTWFuYXNpKQoqIENoYW5n
-ZSB0aGUgbmFtZSBvZiBub2RlIHRvIGk5MTVfdnJyX2luZm8gc28gd2UgY2FuIGFkZApvdGhlciB2
-cnIgaW5mbyBmb3IgbW9yZSBkZWJ1ZyBpbmZvIChNYW5hc2kpCiogQ2hhbmdlIHRoZSBWUlIgY2Fw
-YWJsZSB0byBkaXNwbGF5IFllcyBvciBObyAoTWFuYXNpKQoqIEZpeCBpbmRlbnRhdGlvbiBjaGVj
-a3BhdGNoIGVycm9ycyAoTWFuYXNpKQoKU2lnbmVkLW9mZi1ieTogQmhhbnVwcmFrYXNoIE1vZGVt
-IDxiaGFudXByYWthc2gubW9kZW1AaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBNYW5hc2kgTmF2
-YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50ZWwuY29tPgpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlr
-dWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBs
-aW51eC5pbnRlbC5jb20+ClRlc3RlZC1ieTogTWFuYXNpIE5hdmFyZSA8bWFuYXNpLmQubmF2YXJl
-QGludGVsLmNvbT4KLS0tCiAuLi4vZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kaXNwbGF5X2RlYnVn
-ZnMuYyAgfCAyMiArKysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0
-aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2Rpc3BsYXlfZGVidWdmcy5jCmluZGV4IDcwNTI1NjIzYmNkZi4uYTBkNjgw
-YzEzZTBkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rp
-c3BsYXlfZGVidWdmcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxf
-ZGlzcGxheV9kZWJ1Z2ZzLmMKQEAgLTIxODUsNiArMjE4NSwyMSBAQCBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IGZpbGVfb3BlcmF0aW9ucyBpOTE1X2RzY19mZWNfc3VwcG9ydF9mb3BzID0gewogCS53cml0
-ZSA9IGk5MTVfZHNjX2ZlY19zdXBwb3J0X3dyaXRlCiB9OwogCitzdGF0aWMgaW50IHZycl9yYW5n
-ZV9zaG93KHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAqZGF0YSkKK3sKKwlzdHJ1Y3QgZHJtX2Nv
-bm5lY3RvciAqY29ubmVjdG9yID0gbS0+cHJpdmF0ZTsKKworCWlmIChjb25uZWN0b3ItPnN0YXR1
-cyAhPSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZCkKKwkJcmV0dXJuIC1FTk9ERVY7CisKKwlz
-ZXFfcHJpbnRmKG0sICJWcnJfY2FwYWJsZTogJXNcbiIsIHllc25vKGludGVsX2RwX2lzX3Zycl9j
-YXBhYmxlKGNvbm5lY3RvcikpKTsKKwlzZXFfcHJpbnRmKG0sICJNaW46ICV1XG4iLCAodTgpY29u
-bmVjdG9yLT5kaXNwbGF5X2luZm8ubW9uaXRvcl9yYW5nZS5taW5fdmZyZXEpOworCXNlcV9wcmlu
-dGYobSwgIk1heDogJXVcbiIsICh1OCljb25uZWN0b3ItPmRpc3BsYXlfaW5mby5tb25pdG9yX3Jh
-bmdlLm1heF92ZnJlcSk7CisKKwlyZXR1cm4gMDsKK30KK0RFRklORV9TSE9XX0FUVFJJQlVURSh2
-cnJfcmFuZ2UpOworCiAvKioKICAqIGludGVsX2Nvbm5lY3Rvcl9kZWJ1Z2ZzX2FkZCAtIGFkZCBp
-OTE1IHNwZWNpZmljIGNvbm5lY3RvciBkZWJ1Z2ZzIGZpbGVzCiAgKiBAY29ubmVjdG9yOiBwb2lu
-dGVyIHRvIGEgcmVnaXN0ZXJlZCBkcm1fY29ubmVjdG9yCkBAIC0yMjE5LDEwICsyMjM0LDE1IEBA
-IGludCBpbnRlbF9jb25uZWN0b3JfZGVidWdmc19hZGQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
-bm5lY3RvcikKIAogCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDEwICYmCiAJICAgIChjb25u
-ZWN0b3ItPmNvbm5lY3Rvcl90eXBlID09IERSTV9NT0RFX0NPTk5FQ1RPUl9EaXNwbGF5UG9ydCB8
-fAotCSAgICAgY29ubmVjdG9yLT5jb25uZWN0b3JfdHlwZSA9PSBEUk1fTU9ERV9DT05ORUNUT1Jf
-ZURQKSkKKwkgICAgIGNvbm5lY3Rvci0+Y29ubmVjdG9yX3R5cGUgPT0gRFJNX01PREVfQ09OTkVD
-VE9SX2VEUCkpIHsKIAkJZGVidWdmc19jcmVhdGVfZmlsZSgiaTkxNV9kc2NfZmVjX3N1cHBvcnQi
-LCBTX0lSVUdPLCByb290LAogCQkJCSAgICBjb25uZWN0b3IsICZpOTE1X2RzY19mZWNfc3VwcG9y
-dF9mb3BzKTsKIAorCQlpZiAoSU5URUxfR0VOKGRldl9wcml2KSA+PSAxMikKKwkJCWRlYnVnZnNf
-Y3JlYXRlX2ZpbGUoInZycl9yYW5nZSIsIFNfSVJVR08sCisJCQkJCSAgICByb290LCBjb25uZWN0
-b3IsICZ2cnJfcmFuZ2VfZm9wcyk7CisJfQorCiAJLyogTGVnYWN5IHBhbmVscyBkb2Vzbid0IGxw
-c3Agb24gYW55IHBsYXRmb3JtICovCiAJaWYgKChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDkgfHwg
-SVNfSEFTV0VMTChkZXZfcHJpdikgfHwKIAkgICAgIElTX0JST0FEV0VMTChkZXZfcHJpdikpICYm
-Ci0tIAoyLjE5LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+On Wed, May 13, 2020 at 07:19:21AM +0530, ashwin-h wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> commit 594cc251fdd0d231d342d88b2fdff4bc42fb0690 upstream.
+> 
+> Originally, the rule used to be that you'd have to do access_ok()
+> separately, and then user_access_begin() before actually doing the
+> direct (optimized) user access.
+> 
+> But experience has shown that people then decide not to do access_ok()
+> at all, and instead rely on it being implied by other operations or
+> similar.  Which makes it very hard to verify that the access has
+> actually been range-checked.
+> 
+> If you use the unsafe direct user accesses, hardware features (either
+> SMAP - Supervisor Mode Access Protection - on x86, or PAN - Privileged
+> Access Never - on ARM) do force you to use user_access_begin().  But
+> nothing really forces the range check.
+> 
+> By putting the range check into user_access_begin(), we actually force
+> people to do the right thing (tm), and the range check vill be visible
+> near the actual accesses.  We have way too long a history of people
+> trying to avoid them.
+> 
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Ashwin H <ashwinh@vmware.com>
+> ---
+>  arch/x86/include/asm/uaccess.h             | 11 ++++++++++-
+>  drivers/gpu/drm/i915/i915_gem_execbuffer.c | 15 +++++++++++++--
+>  include/linux/uaccess.h                    |  2 +-
+>  kernel/compat.c                            |  6 ++----
+>  kernel/exit.c                              |  6 ++----
+>  lib/strncpy_from_user.c                    |  9 +++++----
+>  lib/strnlen_user.c                         |  9 +++++----
+>  7 files changed, 38 insertions(+), 20 deletions(-)
+
+Are you wanting this merged to a specific stable kernel tree?  If so, why?
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
