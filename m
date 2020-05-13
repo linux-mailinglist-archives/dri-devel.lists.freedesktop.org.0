@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B6B1D1896
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 17:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C63151D1897
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 17:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BBB89D5B;
-	Wed, 13 May 2020 15:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6255F6E213;
+	Wed, 13 May 2020 15:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49C306E213
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 949446E213
  for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 15:03:16 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7BF7BAF43;
+ by mx2.suse.de (Postfix) with ESMTP id CC749AF49;
  Wed, 13 May 2020 15:03:17 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
  daniel@ffwll.ch, sean@poorly.run, kraxel@redhat.com,
  emil.l.velikov@gmail.com, sam@ravnborg.org
-Subject: [PATCH 1/2] drm/shmem: Use cached mappings by default
-Date: Wed, 13 May 2020 17:03:11 +0200
-Message-Id: <20200513150312.21421-2-tzimmermann@suse.de>
+Subject: [PATCH 2/2] drm/udl: Use GEM vmap/mmap function from SHMEM helpers
+Date: Wed, 13 May 2020 17:03:12 +0200
+Message-Id: <20200513150312.21421-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513150312.21421-1-tzimmermann@suse.de>
 References: <20200513150312.21421-1-tzimmermann@suse.de>
@@ -45,80 +45,172 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SHMEM-buffer backing storage is allocated from system memory; which is
-typically cachable. Currently, only virtio uses cachable mappings; udl
-uses its own vmap/mmap implementation for cachable mappings. Other
-drivers default to writecombine mappings.
+The udl driver contains an implementation of GEM vmap and mmap
+operations that is identical to the common SHMEM helper; except
+that udl's code does not support writecombine mappings.
 
-Use cached mappings by default. The exception is pages imported via
-dma-buf. DMA memory is usually not cached.
+Convert udl to regular SHMEM helper functions. There's no reason
+to have udl behave differently from all other SHMEM drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c  | 6 ++++--
- drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
- include/drm/drm_gem_shmem_helper.h      | 4 ++--
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/udl/Makefile  |   2 +-
+ drivers/gpu/drm/udl/udl_drv.c |   3 -
+ drivers/gpu/drm/udl/udl_drv.h |   3 -
+ drivers/gpu/drm/udl/udl_gem.c | 106 ----------------------------------
+ 4 files changed, 1 insertion(+), 113 deletions(-)
+ delete mode 100644 drivers/gpu/drm/udl/udl_gem.c
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index df31e5782eed1..1ce90325dfa31 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -259,7 +259,7 @@ static void *drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem)
- 	} else {
- 		pgprot_t prot = PAGE_KERNEL;
+diff --git a/drivers/gpu/drm/udl/Makefile b/drivers/gpu/drm/udl/Makefile
+index b50179bb4de06..24d61f61d7db2 100644
+--- a/drivers/gpu/drm/udl/Makefile
++++ b/drivers/gpu/drm/udl/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_main.o udl_transfer.o udl_gem.o
++udl-y := udl_drv.o udl_modeset.o udl_connector.o udl_main.o udl_transfer.o
  
--		if (!shmem->map_cached)
-+		if (shmem->map_wc)
- 			prot = pgprot_writecombine(prot);
- 		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
- 				    VM_MAP, prot);
-@@ -546,7 +546,7 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ obj-$(CONFIG_DRM_UDL) := udl.o
+diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+index d1aa50fd6d65a..cf5b679bf58bb 100644
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -37,9 +37,6 @@ DEFINE_DRM_GEM_FOPS(udl_driver_fops);
+ static struct drm_driver driver = {
+ 	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
  
- 	vma->vm_flags |= VM_MIXEDMAP | VM_DONTEXPAND;
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
--	if (!shmem->map_cached)
-+	if (shmem->map_wc)
- 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
- 	vma->vm_ops = &drm_gem_shmem_vm_ops;
+-	/* gem hooks */
+-	.gem_create_object = udl_driver_gem_create_object,
+-
+ 	.fops = &udl_driver_fops,
+ 	DRM_GEM_SHMEM_DRIVER_OPS,
  
-@@ -664,6 +664,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- 	if (IS_ERR(shmem))
- 		return ERR_CAST(shmem);
+diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+index 2642f94a63fc8..b1461f30780bc 100644
+--- a/drivers/gpu/drm/udl/udl_drv.h
++++ b/drivers/gpu/drm/udl/udl_drv.h
+@@ -81,9 +81,6 @@ int udl_render_hline(struct drm_device *dev, int log_bpp, struct urb **urb_ptr,
+ 		     const char *front, char **urb_buf_ptr,
+ 		     u32 byte_offset, u32 device_byte_offset, u32 byte_width);
  
-+	shmem->map_wc = false; /* dma-buf mappings use writecombine */
-+
- 	shmem->pages = kvmalloc_array(npages, sizeof(struct page *), GFP_KERNEL);
- 	if (!shmem->pages) {
- 		ret = -ENOMEM;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 6ccbd01cd888c..80ba6b2b61668 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -132,7 +132,6 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+-struct drm_gem_object *udl_driver_gem_create_object(struct drm_device *dev,
+-						    size_t size);
+-
+ int udl_drop_usb(struct drm_device *dev);
  
- 	dshmem = &shmem->base.base;
- 	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
--	dshmem->map_cached = true;
- 	return &dshmem->base;
- }
- 
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 294b2931c4cc0..a5bc082a77c48 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -98,9 +98,9 @@ struct drm_gem_shmem_object {
- 	unsigned int vmap_use_count;
- 
- 	/**
--	 * @map_cached: map object cached (instead of using writecombine).
-+	 * @map_wc: map object using writecombine (instead of cached).
- 	 */
--	bool map_cached;
-+	bool map_wc;
- };
- 
- #define to_drm_gem_shmem_obj(obj) \
+ #define CMD_WRITE_RAW8   "\xAF\x60" /**< 8 bit raw write command. */
+diff --git a/drivers/gpu/drm/udl/udl_gem.c b/drivers/gpu/drm/udl/udl_gem.c
+deleted file mode 100644
+index b6e26f98aa0af..0000000000000
+--- a/drivers/gpu/drm/udl/udl_gem.c
++++ /dev/null
+@@ -1,106 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (C) 2012 Red Hat
+- */
+-
+-#include <linux/dma-buf.h>
+-#include <linux/vmalloc.h>
+-
+-#include <drm/drm_drv.h>
+-#include <drm/drm_gem_shmem_helper.h>
+-#include <drm/drm_mode.h>
+-#include <drm/drm_prime.h>
+-
+-#include "udl_drv.h"
+-
+-/*
+- * GEM object funcs
+- */
+-
+-static int udl_gem_object_mmap(struct drm_gem_object *obj,
+-			       struct vm_area_struct *vma)
+-{
+-	int ret;
+-
+-	ret = drm_gem_shmem_mmap(obj, vma);
+-	if (ret)
+-		return ret;
+-
+-	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+-	if (obj->import_attach)
+-		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+-	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+-
+-	return 0;
+-}
+-
+-static void *udl_gem_object_vmap(struct drm_gem_object *obj)
+-{
+-	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+-	int ret;
+-
+-	ret = mutex_lock_interruptible(&shmem->vmap_lock);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+-	if (shmem->vmap_use_count++ > 0)
+-		goto out;
+-
+-	ret = drm_gem_shmem_get_pages(shmem);
+-	if (ret)
+-		goto err_zero_use;
+-
+-	if (obj->import_attach)
+-		shmem->vaddr = dma_buf_vmap(obj->import_attach->dmabuf);
+-	else
+-		shmem->vaddr = vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+-				    VM_MAP, PAGE_KERNEL);
+-
+-	if (!shmem->vaddr) {
+-		DRM_DEBUG_KMS("Failed to vmap pages\n");
+-		ret = -ENOMEM;
+-		goto err_put_pages;
+-	}
+-
+-out:
+-	mutex_unlock(&shmem->vmap_lock);
+-	return shmem->vaddr;
+-
+-err_put_pages:
+-	drm_gem_shmem_put_pages(shmem);
+-err_zero_use:
+-	shmem->vmap_use_count = 0;
+-	mutex_unlock(&shmem->vmap_lock);
+-	return ERR_PTR(ret);
+-}
+-
+-static const struct drm_gem_object_funcs udl_gem_object_funcs = {
+-	.free = drm_gem_shmem_free_object,
+-	.print_info = drm_gem_shmem_print_info,
+-	.pin = drm_gem_shmem_pin,
+-	.unpin = drm_gem_shmem_unpin,
+-	.get_sg_table = drm_gem_shmem_get_sg_table,
+-	.vmap = udl_gem_object_vmap,
+-	.vunmap = drm_gem_shmem_vunmap,
+-	.mmap = udl_gem_object_mmap,
+-};
+-
+-/*
+- * Helpers for struct drm_driver
+- */
+-
+-struct drm_gem_object *udl_driver_gem_create_object(struct drm_device *dev,
+-						    size_t size)
+-{
+-	struct drm_gem_shmem_object *shmem;
+-	struct drm_gem_object *obj;
+-
+-	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
+-	if (!shmem)
+-		return NULL;
+-
+-	obj = &shmem->base;
+-	obj->funcs = &udl_gem_object_funcs;
+-
+-	return obj;
+-}
 -- 
 2.26.2
 
