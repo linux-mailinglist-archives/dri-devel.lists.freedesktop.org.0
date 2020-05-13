@@ -2,41 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2209E1D2232
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 00:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BEE1D2280
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 00:58:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55BD6E157;
-	Wed, 13 May 2020 22:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EDB6EA9E;
+	Wed, 13 May 2020 22:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0CE6E157
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 22:41:53 +0000 (UTC)
-Received: from paulmck-ThinkPad-P72.home (unknown [50.39.105.78])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CC876204EF;
- Wed, 13 May 2020 22:41:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589409713;
- bh=TctJClh3bXeDVJJ2/6XxJRe2TCYoY13ybyBMQN9qnE0=;
- h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
- b=fl9UdENus+D7MZ+ZWOYQt3WzKVKDuSrjbfB4Tqf+0cOEyHqJ7neqle4od9Iph3oJL
- r0YVIBMrHAqBdl6hwWutkFUnF7ZMLBFD9T8mgmyIWkx2RW3Qx4ANbcK0ATB52j3Onw
- Ngo8UF84Ui+ooaMVUQQI6qpp3dpBS9PKD/3SQyvQ=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
- id 26799352352C; Wed, 13 May 2020 15:41:53 -0700 (PDT)
-Date: Wed, 13 May 2020 15:41:53 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 11/11] rcu: constify sysrq_key_op
-Message-ID: <20200513224153.GB2869@paulmck-ThinkPad-P72>
-References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
- <20200513214351.2138580-11-emil.l.velikov@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 173B06E293
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 22:58:47 +0000 (UTC)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B982351F;
+ Thu, 14 May 2020 00:58:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1589410724;
+ bh=4PSJXsh+nCdVM0pOVD+OgBXTM2FWlKlGMuuISrHkYZc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WH0dtuCR6oGLylf0qbMg0rZRa2ooiU4F0KSUfCi7kdOwfn/OQlCoN84jsUi3+Gaob
+ hEDs5uavmKIr7vCDj1x7RF0bpCOqRxz61hKnGzbMaJ9EHFYoTnyBlOSfaEXdoiSbjL
+ qW2JlGolRoS0Mmxvl9bmpgrfOv0lUTIsLOlLdbUw=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: plane: Verify that no or all planes have a zpos
+ property
+Date: Thu, 14 May 2020 01:58:35 +0300
+Message-Id: <20200513225835.19361-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200513214351.2138580-11-emil.l.velikov@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,56 +44,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: paulmck@kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Josh Triplett <josh@joshtriplett.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
- Jiri Slaby <jslaby@suse.com>
+Cc: linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 13, 2020 at 10:43:51PM +0100, Emil Velikov wrote:
-> With earlier commits, the API no longer discards the const-ness of the
-> sysrq_key_op. As such we can add the notation.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Josh Triplett <josh@joshtriplett.org>
-> Cc: rcu@vger.kernel.org
-> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
-> Please keep me in the CC list, as I'm not subscribed to the list.
-> 
-> IMHO it would be better if this gets merged this via the tty tree.
+The zpos property is used by userspace to sort the order of planes.
+While the property is not mandatory for drivers to implement, mixing
+planes with and without zpos confuses userspace, and shall not be
+allowed. Clarify this in the documentation and warn at runtime if the
+drivers mixes planes with and without zpos properties.
 
-Works for me:
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+Changes since v1:
 
-Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+- Fix verification when no planes have a zpos property
+---
+ drivers/gpu/drm/drm_blend.c | 10 ++++++----
+ drivers/gpu/drm/drm_plane.c |  9 +++++++++
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-> ---
->  kernel/rcu/tree_stall.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/rcu/tree_stall.h b/kernel/rcu/tree_stall.h
-> index 119ed6afd20f..4e6ed7b91f59 100644
-> --- a/kernel/rcu/tree_stall.h
-> +++ b/kernel/rcu/tree_stall.h
-> @@ -729,7 +729,7 @@ static void sysrq_show_rcu(int key)
->  	show_rcu_gp_kthreads();
->  }
->  
-> -static struct sysrq_key_op sysrq_rcudump_op = {
-> +static const struct sysrq_key_op sysrq_rcudump_op = {
->  	.handler = sysrq_show_rcu,
->  	.help_msg = "show-rcu(y)",
->  	.action_msg = "Show RCU tree",
-> -- 
-> 2.25.1
-> 
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index 88eedee018d3..f1dcad96f341 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -135,7 +135,9 @@
+  *	are underneath planes with higher Z position values. Two planes with the
+  *	same Z position value have undefined ordering. Note that the Z position
+  *	value can also be immutable, to inform userspace about the hard-coded
+- *	stacking of planes, see drm_plane_create_zpos_immutable_property().
++ *	stacking of planes, see drm_plane_create_zpos_immutable_property(). If
++ *	any plane has a zpos property (either mutable or immutable), then all
++ *	planes shall have a zpos property.
+  *
+  * pixel blend mode:
+  *	Pixel blend mode is set up with drm_plane_create_blend_mode_property().
+@@ -344,10 +346,10 @@ EXPORT_SYMBOL(drm_rotation_simplify);
+  * should be set to 0 and max to maximal number of planes for given crtc - 1.
+  *
+  * If zpos of some planes cannot be changed (like fixed background or
+- * cursor/topmost planes), driver should adjust min/max values and assign those
+- * planes immutable zpos property with lower or higher values (for more
++ * cursor/topmost planes), drivers shall adjust the min/max values and assign
++ * those planes immutable zpos properties with lower or higher values (for more
+  * information, see drm_plane_create_zpos_immutable_property() function). In such
+- * case driver should also assign proper initial zpos values for all planes in
++ * case drivers shall also assign proper initial zpos values for all planes in
+  * its plane_reset() callback, so the planes will be always sorted properly.
+  *
+  * See also drm_atomic_normalize_zpos().
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index d6ad60ab0d38..4af173ced327 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -289,6 +289,8 @@ EXPORT_SYMBOL(drm_universal_plane_init);
+ 
+ int drm_plane_register_all(struct drm_device *dev)
+ {
++	unsigned int num_planes = 0;
++	unsigned int num_zpos = 0;
+ 	struct drm_plane *plane;
+ 	int ret = 0;
+ 
+@@ -297,8 +299,15 @@ int drm_plane_register_all(struct drm_device *dev)
+ 			ret = plane->funcs->late_register(plane);
+ 		if (ret)
+ 			return ret;
++
++		if (plane->zpos_property)
++			num_zpos++;
++		num_planes++;
+ 	}
+ 
++	drm_WARN(dev, num_zpos && num_planes != num_zpos,
++		 "Mixing planes with and without zpos property is invalid\n");
++
+ 	return 0;
+ }
+ 
+-- 
+Regards,
+
+Laurent Pinchart
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
