@@ -2,72 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352601D0B82
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559AA1D0AD0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 10:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66AA06E116;
-	Wed, 13 May 2020 09:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3765D6E9AC;
+	Wed, 13 May 2020 08:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6736E141
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 08:16:16 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 82B9B580259;
- Wed, 13 May 2020 04:16:15 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 13 May 2020 04:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=0j46CBI/bHAD1UvanCxkve32qLl
- V511xJqDxBIoMMfU=; b=HTFl3Klp2QfojXXgRrErUJAxxal4UKbARLXv7sdH2kW
- 5Z6TVj+TXe0Dzotb9rvCgJ7qIFqDAM50LeL9vDigMJ+/hJIqiLhpnY6TwrmdA9zn
- wcIuONOdhRvzr0XnqxfzmU4Cgqt2obYMbFPYkA4rG7n9sY4DuGGY1QHtihcL9OUG
- 6KcpkECvWFW0vg2c3woq4k8U9vVXZBv4IpM2bMnzgAq7u0FsZOt4appHJQISonKm
- 37mJ2ws/KvvqGaaEoNlkwA9EcjNR+oSDshiAH+3NfaXS7QJxp0XvXqLOQeHyr+pK
- BZlmKfUu9zC+arM5xFxLzw8xGpHu0xrrawRP5EDSY2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0j46CB
- I/bHAD1UvanCxkve32qLlV511xJqDxBIoMMfU=; b=ME8JKV6mKukylAFSChUaYj
- U2qnpZbY8VKhb96F+cdAzDVoxRc7tMYOGgh5HI3He7gV4X6NCP/4BzKyTFVeFpaX
- b1ffAwY3vT8C3XXm7X8ukIyCPNXKKw9Wn3YuUah4EzkwpkOT+z1rdenqkGB3SIDC
- mbk5Mib8N1EAM+EgLtO7OTDZC42IrKZveCNtpzTsojGDKx7hoZKjxbGLD12Xd/Uc
- S3tVA+WAf8nTtQ8xxhqdiG/rufNA0lMMowDMpqobVaQnEnI+0I86mpCbDFOsnOjc
- tyxHn0UMGfv9XWlq1qreHMWhXU4bAefkHCcxpBL+H2WPKXYGJt49Uw4fVLIz2QFQ
- ==
-X-ME-Sender: <xms:zqy7Xoae7j8EJXZNl5ITxUEaEHN9KyUXts41mDFCudOneOnPlTZdsQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggddtvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeffteetveeijeetuefhffegkeetgffhieelheehtdduudethffhjedtvddtudel
- vdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:zqy7Xjb_gzqfaP5apaGEkZQP7B1_BAWupvdiUOGftcDIYbxDnZ2mZQ>
- <xmx:zqy7Xi-GppLH-jpxW4_wKRZ_cK_3RDfc29t0cqAQWlOWo8k80vdOPQ>
- <xmx:zqy7XirIrMfP-DBf7fwSPbqIuiv3WgKZ12YTpZJzGtvgifSiYkBHBg>
- <xmx:z6y7XndYTy7d3DOVWcCzjnYkUd2S4pRFNwlYKG6tiFFzfUZaHJ0q-w>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D76EC30662FE;
- Wed, 13 May 2020 04:16:13 -0400 (EDT)
-Date: Wed, 13 May 2020 10:16:12 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 90/91] dt-bindings: display: vc4: hdmi: Add BCM2711
- HDMI controllers bindings
-Message-ID: <20200513081612.qyc24hmodift4pru@gilmour.lan>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <9bdee4024b3f95bed9b55c642f0f9415c22fc506.1587742492.git-series.maxime@cerno.tech>
- <20200511215014.GA4800@bogus>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E556E9AC;
+ Wed, 13 May 2020 08:28:51 +0000 (UTC)
+IronPort-SDR: lwKk7Ogiw3kON2oLa3tEQ9a8PsQZHv1TJF/GcYyc5HveBH/nFJBRP3/T8PPd+apl1g1IoFceiE
+ sqxtMPPK2oiw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2020 01:28:51 -0700
+IronPort-SDR: j1q9eLmd8jt9KHE8CXPinF+8j3AN7mBQfpK+Y90OlCVPpTX39IpTqhzo3TTtHE25C6LmyS5TMX
+ ALIfSDalqaGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,387,1583222400"; d="scan'208";a="409609119"
+Received: from swatish2-mobl1.gar.corp.intel.com (HELO [10.213.75.17])
+ ([10.213.75.17])
+ by orsmga004.jf.intel.com with ESMTP; 13 May 2020 01:28:49 -0700
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/display: Set
+ TRANS_DDI_MODE_SELECT to default value when disabling TRANS_DDI
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ "Souza, Jose" <jose.souza@intel.com>
+References: <20200117015837.402239-1-jose.souza@intel.com>
+ <20200117015837.402239-4-jose.souza@intel.com>
+ <20200130172502.GH13686@intel.com>
+ <2c578720445cfb0a036502b7dba94f1ebd2e8ca0.camel@intel.com>
+ <20200131112054.GK13686@intel.com>
+From: "Sharma, Swati2" <swati2.sharma@intel.com>
+Organization: Intel
+Message-ID: <3efe08f0-4ba7-8702-d28b-827d118a6b34@intel.com>
+Date: Wed, 13 May 2020 13:58:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200511215014.GA4800@bogus>
-X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
+In-Reply-To: <20200131112054.GK13686@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,147 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0424226814=="
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0424226814==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="25uvvhz4ijwduufw"
-Content-Disposition: inline
-
-
---25uvvhz4ijwduufw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 11, 2020 at 04:50:14PM -0500, Rob Herring wrote:
-> On Fri, Apr 24, 2020 at 05:35:11PM +0200, Maxime Ripard wrote:
-> > The HDMI controllers found in the BCM2711 SoC need some adjustments to =
-the
-> > bindings, especially since the registers have been shuffled around in m=
-ore
-> > register ranges.
-> >=20
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml | 109=
- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 109 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2=
-711-hdmi.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
-i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > new file mode 100644
-> > index 000000000000..6091fe3d315b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > @@ -0,0 +1,109 @@
-> > +# SPDX-License-Identifier: GPL-2.0
->=20
-> Dual license
->=20
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Broadcom BCM2711 HDMI Controller Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Eric Anholt <eric@anholt.net>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - brcm,bcm2711-hdmi0
-> > +      - brcm,bcm2711-hdmi1
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: HDMI controller register range
-> > +      - description: DVP register range
-> > +      - description: HDMI PHY register range
-> > +      - description: Rate Manager register range
-> > +      - description: Packet RAM register range
-> > +      - description: Metadata RAM register range
-> > +      - description: CSC register range
-> > +      - description: CEC register range
-> > +      - description: HD register range
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: hdmi
-> > +      - const: dvp
-> > +      - const: phy
-> > +      - const: rm
-> > +      - const: packet
-> > +      - const: metadata
-> > +      - const: csc
-> > +      - const: cec
-> > +      - const: hd
-> > +
-> > +  clocks:
-> > +    description: The HDMI state machine clock
-> > +
-> > +  clock-names:
-> > +    const: hdmi
-> > +
-> > +  ddc:
-> > +    allOf:
-> > +      - $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: >
-> > +      Phandle of the I2C controller used for DDC EDID probing
->=20
-> This belongs in a connector node. (ddc-i2c-bus)
->=20
-> > +
-> > +  hpd-gpios:
-> > +    description: >
-> > +      The GPIO pin for the HDMI hotplug detect (if it doesn't appear
-> > +      as an interrupt/status bit in the HDMI controller itself)
->=20
-> This belongs in a connector node.
-
-If we were to create a new binding, sure, but we're merely reusing the old
-binding that is already there. The only reason it's in a separate file is
-because you said it would be clearer in a separate file.
-
-Maxime
-
---25uvvhz4ijwduufw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXruszAAKCRDj7w1vZxhR
-xZXGAPwI/P/64ae/RGoyiyvicUFL/8PZpskFHFYPNqgj1twd1QD9GJ81sy881K3d
-VLuJhfBzZzlO3Dkq6buOGLj+E1To/Qw=
-=ZkKk
------END PGP SIGNATURE-----
-
---25uvvhz4ijwduufw--
-
---===============0424226814==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0424226814==--
+CgpPbiAzMS1KYW4tMjAgNDo1MCBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIFRodSwg
+SmFuIDMwLCAyMDIwIGF0IDA4OjA3OjA3UE0gKzAwMDAsIFNvdXphLCBKb3NlIHdyb3RlOgo+PiBP
+biBUaHUsIDIwMjAtMDEtMzAgYXQgMTk6MjUgKzAyMDAsIFZpbGxlIFN5cmrDpGzDpCB3cm90ZToK
+Pj4+IE9uIFRodSwgSmFuIDE2LCAyMDIwIGF0IDA1OjU4OjM3UE0gLTA4MDAsIEpvc8OpIFJvYmVy
+dG8gZGUgU291emEKPj4+IHdyb3RlOgo+Pj4+IFRHTCB0aW1lb3V0cyB3aGVuIGRpc2FibGluZyBN
+U1QgdHJhbnNjb2RlciBhbmQgZmlmbyB1bmRlcnJ1bnMgb3Zlcgo+Pj4+IE1TVAo+Pj4+IHRyYW5z
+Y29kZXJzIGFyZSBmaXhlZCB3aGVuIHNldHRpbmcgVFJBTlNfRERJX01PREVfU0VMRUNUIHRvIDAo
+SERNSQo+Pj4+IG1vZGUpIGR1cmluZyB0aGUgZGlzYWJsZSBzZXF1ZW5jZS4KPj4+Pgo+Pj4+IEFs
+dGhvdWdoIEJTcGVjIGRpc2FibGUgc2VxdWVuY2UgZG9uJ3QgcmVxdWlyZSB0aGlzIHN0ZXAgaXQg
+aXMgYQo+Pj4+IGhhcm1sZXNzIGNoYW5nZSBhbmQgaXQgaXMgYWxzbyBkb25lIGJ5IFdpbmRvd3Mg
+ZHJpdmVyLgo+Pj4+IEFueWhvdyBIVyB0ZWFtIHdhcyBub3RpZmllZCBhYm91dCB0aGF0IGJ1dCBp
+dCBjYW4gdGFrZSBzb21lIHRpbWUgdG8KPj4+PiBkb2N1bWVudGF0aW9uIHRvIGJlIHVwZGF0ZWQu
+Cj4+Pj4KPj4+PiBBIGNhc2UgdGhhdCBhbHdheXMgbGVhZCB0byB0aG9zZSBpc3N1ZXMgaXM6Cj4+
+Pj4gLSBkbyBhIG1vZGVzZXQgZW5hYmxpbmcgcGlwZSBBIGFuZCBwaXBlIEIgaW4gdGhlIHNhbWUg
+TVNUIHN0cmVhbQo+Pj4+IGxlYXZpbmcgQSBhcyBtYXN0ZXIKPj4+PiAtIGRpc2FibGUgcGlwZSBB
+LCBwcm9tb3RlIEIgYXMgbWFzdGVyIGRvaW5nIGEgZnVsbCBtb2Rlc2V0IGluIEEKPj4+PiAtIGVu
+YWJsZSBwaXBlIEEsIGNoYW5naW5nIHRoZSBtYXN0ZXIgdHJhbnNjb2RlciBiYWNrIHRvIEEoZG9p
+bmcgYQo+Pj4+IGZ1bGwgbW9kZXNldCBpbiBCKQo+Pj4+IC0gUG93OiB1bmRlcnJ1bnMgYW5kIHRp
+bWVvdXRzCj4+Pj4KPj4+PiBUaGUgdHJhbnNjb2RlcnMgaW52b2x2ZWQgd2lsbCBvbmx5IHdvcmsg
+YWdhaW4gd2hlbiBjb21wbGV0ZQo+Pj4+IGRpc2FibGVkCj4+Pj4gYW5kIHRoZWlyIHBvd2VyIHdl
+bGxzIHR1cm5lZCBvZmYgY2F1c2luZyBhIHJlc2V0IGluIHRoZWlyCj4+Pj4gcmVnaXN0ZXJzLgo+
+Pj4+Cj4+Pj4gQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5j
+b20+Cj4+Pj4gQ2M6IE1hdHQgUm9wZXIgPG1hdHRoZXcuZC5yb3BlckBpbnRlbC5jb20+Cj4+Pj4g
+U2lnbmVkLW9mZi1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8am9zZS5zb3V6YUBpbnRlbC5j
+b20+Cj4+Pj4gLS0tCj4+Pj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rk
+aS5jIHwgMSArCj4+Pj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPj4+Pgo+Pj4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jCj4+
+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RkaS5jCj4+Pj4gaW5kZXgg
+MzJlYTNjN2U4YjYyLi44MmU5MGYyNzE5NzQgMTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYwo+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9p
+OTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMKPj4+PiBAQCAtMTk5Nyw2ICsxOTk3LDcgQEAgdm9pZCBp
+bnRlbF9kZGlfZGlzYWJsZV90cmFuc2NvZGVyX2Z1bmMoY29uc3QKPj4+PiBzdHJ1Y3QgaW50ZWxf
+Y3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZQo+Pj4+ICAgCj4+Pj4gICAJdmFsID0gSTkxNV9SRUFEKFRS
+QU5TX0RESV9GVU5DX0NUTChjcHVfdHJhbnNjb2RlcikpOwo+Pj4+ICAgCXZhbCAmPSB+VFJBTlNf
+RERJX0ZVTkNfRU5BQkxFOwo+Pj4+ICsJdmFsICY9IH5UUkFOU19ERElfTU9ERV9TRUxFQ1RfTUFT
+SzsKPj4+Cj4+PiBGZWVscyBhIGJpdCBlYXJseSBzaW5jZSBJSVJDIHdlIHN0aWxsIGxlYXZlIGEg
+YnVuY2ggb2Ygb3RoZXIgc3R1ZmYKPj4+IGVuYWJsZWQvc2VsZWN0ZWQgaGVyZS4gSW4gZmFjdCB3
+ZSBkb24ndCBzZWVtIHRvIGJlIGNsZWFyaW5nIHRoZSBEREkKPj4+IHNlbGVjdAo+Pj4gYW55d2hl
+cmUgYXQgYWxsPyBUaGF0IG9uZSBJIHdvdWxkIGJlIG1vcmUgc3VzcGljaW91cyBvZiB0aGFuIHRo
+ZQo+Pj4gbW9kZS4KPj4+IEJ1dCBtYXliZSB3ZSBzaG91bGQganVzdCBjbGVhciBib3RoIHNvbWV3
+aGVyZT8gSSB3b3VsZCBzdWdnZXN0IGl0Cj4+PiBzaG91bGQKPj4+IGJlIHdoZW4gd2UgY2xlYXIg
+dGhlIHBvcnQgc2VsZWN0IGZpbmFsbHkuCj4+Cj4+IFdlIGFyZSBjbGVhcmluZyBEREkgc2VsZWN0
+LCBpbiBvdXIgY29kZSBpdCBpcyBuYW1lZCBhcwo+PiBUR0xfVFJBTlNfRERJX1BPUlRfTUFTSy9U
+UkFOU19ERElfUE9SVF9NQVNLLgo+Pgo+PiBGb3IgVEdMIGluIE1TVCBtb2RlIHdlIGNsZWFyIERE
+SSBzZWxlY3QgaW4gdGhlIGJsb2NrIGJlbG93IGZvciBNU1QKPj4gc2xhdmVzIGFuZCB0aGVuIGlu
+IGludGVsX2RkaV9wb3N0X2Rpc2FibGVfZHAoKSBmb3IgTVNUIG1hc3RlciBhcwo+PiBpbnN0cnVj
+dGVkIGJ5IERpc3BsYXkgcG9ydCBzZXF1ZW5jZXMuCj4gCj4gQWguIEhtbSwgc28gdGhhdCBjYW4n
+dCBiZSBpdCB0aGVuLiBCdW1tZXIuIEkgZ3Vlc3MgSSB3b3VsZCBzdGlsbCBmZWVsCj4gYSBiaXQg
+c2FmZXIgaWYgd2UgY2xlYXIgdGhlIG1vZGUgc2VsZWN0IGFsb25nc2lkZSB0aGUgdGhlIERESSBz
+ZWxlY3QKPiBmb3IgdGhlIG1hc3Rlci4gU2luY2UgdGhlIHNwZWMgc2F5cyB0aGUgRERJIHNlbGVj
+dCBtdXN0IHJlbWFpbiBzZXQgZm9yCj4gdGhlIG1hc3RlciB0aGVyZSBtdXN0IGJlIHNvbWV0aGlu
+ZyBzdGlsbCBnb2luZyBvbiwgYW5kIHNvIEkgd29ycnkgdGhhdAo+IHNvbWV0aGluZyBtaWdodCBu
+b3Qgd29yayBxdWl0ZSByaWdodCBpZiB3ZSBjaGFuZ2UgdGhlIG1vZGUKPiBwcmVtYXR1cmVseS4K
+CkhpIFZpbGxlL0pvc2UsCgpXZSBhcmUgc3RpbGwgb2JzZXJ2aW5nCj0+KkVSUk9SKiBUaW1lZCBv
+dXQgd2FpdGluZyBmb3IgQUNUIHNlbnQgd2hlbiBkaXNhYmxpbmcKPT5GSUZPIHVuZGVycnVucwpE
+byB3ZSBuZWVkIGEgY2hhbmdlIGRpc2FibGUgc2VxdWVuY2U/Cgo+IAo+Pgo+Pj4KPj4+PiAgIAo+
+Pj4+ICAgCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDEyKSB7Cj4+Pj4gICAJCWlmICghaW50
+ZWxfZHBfbXN0X2lzX21hc3Rlcl90cmFucyhjcnRjX3N0YXRlKSkKPj4+PiAtLSAKPj4+PiAyLjI1
+LjAKPiAKCi0tIAp+U3dhdGkgU2hhcm1hCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
