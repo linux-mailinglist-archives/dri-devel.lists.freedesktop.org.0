@@ -2,32 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C0A1D0FB1
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBC01D0FB8
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 939166E14C;
-	Wed, 13 May 2020 10:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAD66E057;
+	Wed, 13 May 2020 10:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 865C56E14C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:26:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id B05312A6046;
- Wed, 13 May 2020 12:26:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 4C2yzV7Klx1O; Wed, 13 May 2020 12:26:54 +0200 (CEST)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
- [83.76.80.252])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 53DA42A6045;
- Wed, 13 May 2020 12:26:54 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
- (envelope-from <michel@daenzer.net>)
- id 1jYobF-000ruZ-P7; Wed, 13 May 2020 12:26:53 +0200
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: Rui Salvaterra <rsalvaterra@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29726E057
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:29:58 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id b18so20977613oic.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 03:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nlqVvSX1IwDoToribmvJoK6Qqfwdo65lg7byAyA3AZg=;
+ b=gJMdPqGLCdfpERpMk3LObKOtoL1zShZJ3ki3xLatxSQ4aXqYlgmvip948Yod1PsZBo
+ /dGQebBy3ylVrdmQaTRpUclKrTet4a38xsneFS00ybg84z76ddSldIEOkF7cErSr0qO8
+ Ja9LOlB4awYyxBMOHT6zXpx5lbXgcXYaB+RRY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nlqVvSX1IwDoToribmvJoK6Qqfwdo65lg7byAyA3AZg=;
+ b=OE/QMzLur9sLthzodlqg7d6yWiNdBwoIEiXr2QD+6jRrVMqyU97Pj4d0KbtqUsqDEE
+ zsNiTapE/DTM9CHgUJ0Sb6+Nw3RizMgfRw54l1E0+qgr2bl+wULVo/z34ieXDpzseo6u
+ r8gxz3M/vhPwlMxjZF7giwVauxyqM4alOm1fb1g3SgEEq6E3kdvPz04jMAVlJeiQEjg0
+ SXCalvjq/QZsM4/OvAWz8Bvtiq63RKcIraOhz37VMJsWf3ioR6pUKEsIIbbS5VWkFSsZ
+ eMZitd3RFKYcmziy1CEB2AiAfAN8g8Tc2Cz2S7nE7OFtdn72qUluLEt+amA4/eVRMZS1
+ GnbQ==
+X-Gm-Message-State: AGi0PubSOr+NT3lbK2/54Ed48Nh4m2MBT3ADEZ6xkweOl/bEMRWlTmMO
+ Wa/9nW9ZdWmWAkH5qeYamAI9UkN+cDjWnwctneafBQ==
+X-Google-Smtp-Source: APiQypJkrmct0pHUCMnZXMcm2TTYPnW85A5TKQcXmKzS9JhyW8X/YhsBJYJQX7FDwE1W/SRWTnxH1x4S/6F+xegxCPU=
+X-Received: by 2002:aca:2113:: with SMTP id 19mr18039574oiz.128.1589365798078; 
+ Wed, 13 May 2020 03:29:58 -0700 (PDT)
+MIME-Version: 1.0
 References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
  <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
  <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
@@ -40,14 +51,13 @@ References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
  <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
  <CAKMK7uHv_Hj8BB8t_i=EXx1C4WXw1PnmxuTyNfrA=b5eQMaSLg@mail.gmail.com>
  <CALjTZvZNb-KbdZwM3kLU4yK8zH+NSh35k=iBtfGJMF1xyjpSFg@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <69696543-7c0e-604d-ed29-721b1b99d44e@daenzer.net>
-Date: Wed, 13 May 2020 12:26:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CALjTZvZNb-KbdZwM3kLU4yK8zH+NSh35k=iBtfGJMF1xyjpSFg@mail.gmail.com>
-Content-Language: en-CA
+ <69696543-7c0e-604d-ed29-721b1b99d44e@daenzer.net>
+In-Reply-To: <69696543-7c0e-604d-ed29-721b1b99d44e@daenzer.net>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 13 May 2020 12:29:46 +0200
+Message-ID: <CAKMK7uGiFOcEdHUNxxRMr1urX7JDFtgSEnc2TzCWG1UJ=ygN2w@mail.gmail.com>
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,8 +70,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Rui Salvaterra <rsalvaterra@gmail.com>,
  "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
@@ -70,27 +81,34 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0wNS0xMyAxMToyOCBhLm0uLCBSdWkgU2FsdmF0ZXJyYSB3cm90ZToKPiBPbiBXZWQs
-IDEzIE1heSAyMDIwIGF0IDA4OjE5LCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdy
-b3RlOgo+Pgo+PiBpOTE1IGlzIGV2ZW4gd29yc2UsIHdlIG1hbnVhbGx5IG1lc3MgYXJvdW5kIHdp
-dGggY2xmbHVzaC4gSW4KPj4gdXNlcnNwYWNlLiBTbyByZWFsbHkgdGhlcmUncyAyIGF4aXMgZm9y
-IGRtYSBtZW1vcnk6IGNvaGVyZW50IHZzLgo+PiBub24tY29oZXJlbnQgKHdoaWNoIGlzIHNvbWV0
-aGluZyB0aGUgZG1hLWFwaSBzb21ld2hhdCBleHBvc2VkKSwgaS5lLgo+PiBkbyB5b3UgbmVlZCB0
-byBjbGZsdXNoIG9yIG5vdCwgYW5kIGNhY2hlZCB2cyB1bmNhY2hlZCwgaS5lLiBhcmUgdGhlCj4+
-IFBBVCBlbnRyaWVzIHdjIG9yIHdiLgo+IAo+IFNvLCB0aGUgUG93ZXJQQyBBR1AgR0FSVCBlbmRz
-IHVwIGJlaW5nIGNhY2hlZCBhbmQgbm9uLWNvaGVyZW50LCByaWdodAo+IChhc3N1bWluZyB0aGVy
-ZSdzIG5vIHdheSB0byBzZXQgdGhlIHBhZ2UgYXR0cmlidXRlcyBNVFJSL1BBVC1zdHlsZSk/CgpJ
-dCB3YXMgdW5jYWNoZWQgd2hlbiBJIHdhcyB1c2luZyBteSBsYXN0LWdlbiBQb3dlckJvb2sgKHVu
-dGlsIGEgZmV3CnllYXJzIGFnbyksIHRob3VnaCBpdCdzIHBvc3NpYmxlIHRoYXQgYnJva2Ugc2lu
-Y2UgdGhlbi4gSSBkb24ndCByZW1lbWJlcgp0aGUgZGV0YWlscyBob3cgaXQncyBkb25lIG9mZmhh
-bmQgdGhvdWdoLgoKVGhlIG9ubHkgdGhlb3JldGljYWwgcHJvYmxlbSB0aGVyZSB3YXMgdGhhdCB0
-aGUga2VybmVsIHN0aWxsIGhhZCBhCmNhY2hlYWJsZSBtYXBwaW5nIG9mIHRoZSBzYW1lIG1lbW9y
-eSwgYW5kIGFueSBhY2Nlc3MgdmlhIHRoYXQgKGUuZy4KcHJlZmV0Y2ggZHVlIHRvIGFjY2VzcyB0
-byBhIG5laWdoYm91cmluZyBwYWdlKSBjb3VsZCB0cmlnZ2VyIGEgbWFjaGluZQpjaGVjay4gQnV0
-IEkgZG9uJ3QgcmVtZW1iZXIgZXZlciBoaXR0aW5nIHRoYXQuIE1heWJlIEkgd2FzIGp1c3QgbHVj
-a3kKYWxsIHRob3NlIHllYXJzLgoKCi0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAg
-ICAgICAgICB8ICAgICAgICAgICAgICAgaHR0cHM6Ly9yZWRoYXQuY29tCkxpYnJlIHNvZnR3YXJl
-IGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3Bl
-cgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+T24gV2VkLCBNYXkgMTMsIDIwMjAgYXQgMTI6MjYgUE0gTWljaGVsIETDpG56ZXIgPG1pY2hlbEBk
+YWVuemVyLm5ldD4gd3JvdGU6Cj4KPiBPbiAyMDIwLTA1LTEzIDExOjI4IGEubS4sIFJ1aSBTYWx2
+YXRlcnJhIHdyb3RlOgo+ID4gT24gV2VkLCAxMyBNYXkgMjAyMCBhdCAwODoxOSwgRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+Pgo+ID4+IGk5MTUgaXMgZXZlbiB3b3Jz
+ZSwgd2UgbWFudWFsbHkgbWVzcyBhcm91bmQgd2l0aCBjbGZsdXNoLiBJbgo+ID4+IHVzZXJzcGFj
+ZS4gU28gcmVhbGx5IHRoZXJlJ3MgMiBheGlzIGZvciBkbWEgbWVtb3J5OiBjb2hlcmVudCB2cy4K
+PiA+PiBub24tY29oZXJlbnQgKHdoaWNoIGlzIHNvbWV0aGluZyB0aGUgZG1hLWFwaSBzb21ld2hh
+dCBleHBvc2VkKSwgaS5lLgo+ID4+IGRvIHlvdSBuZWVkIHRvIGNsZmx1c2ggb3Igbm90LCBhbmQg
+Y2FjaGVkIHZzIHVuY2FjaGVkLCBpLmUuIGFyZSB0aGUKPiA+PiBQQVQgZW50cmllcyB3YyBvciB3
+Yi4KPiA+Cj4gPiBTbywgdGhlIFBvd2VyUEMgQUdQIEdBUlQgZW5kcyB1cCBiZWluZyBjYWNoZWQg
+YW5kIG5vbi1jb2hlcmVudCwgcmlnaHQKPiA+IChhc3N1bWluZyB0aGVyZSdzIG5vIHdheSB0byBz
+ZXQgdGhlIHBhZ2UgYXR0cmlidXRlcyBNVFJSL1BBVC1zdHlsZSk/Cj4KPiBJdCB3YXMgdW5jYWNo
+ZWQgd2hlbiBJIHdhcyB1c2luZyBteSBsYXN0LWdlbiBQb3dlckJvb2sgKHVudGlsIGEgZmV3Cj4g
+eWVhcnMgYWdvKSwgdGhvdWdoIGl0J3MgcG9zc2libGUgdGhhdCBicm9rZSBzaW5jZSB0aGVuLiBJ
+IGRvbid0IHJlbWVtYmVyCj4gdGhlIGRldGFpbHMgaG93IGl0J3MgZG9uZSBvZmZoYW5kIHRob3Vn
+aC4KPgo+IFRoZSBvbmx5IHRoZW9yZXRpY2FsIHByb2JsZW0gdGhlcmUgd2FzIHRoYXQgdGhlIGtl
+cm5lbCBzdGlsbCBoYWQgYQo+IGNhY2hlYWJsZSBtYXBwaW5nIG9mIHRoZSBzYW1lIG1lbW9yeSwg
+YW5kIGFueSBhY2Nlc3MgdmlhIHRoYXQgKGUuZy4KPiBwcmVmZXRjaCBkdWUgdG8gYWNjZXNzIHRv
+IGEgbmVpZ2hib3VyaW5nIHBhZ2UpIGNvdWxkIHRyaWdnZXIgYSBtYWNoaW5lCj4gY2hlY2suIEJ1
+dCBJIGRvbid0IHJlbWVtYmVyIGV2ZXIgaGl0dGluZyB0aGF0LiBNYXliZSBJIHdhcyBqdXN0IGx1
+Y2t5Cj4gYWxsIHRob3NlIHllYXJzLgoKQXQgbGVhc3Qgb24gYXJtIHRoaXMgaGFzIGJlZW4gYSBi
+aWcgdG9waWMsIHNpbmNlIGl0IGluZGVlZCByYW5kb21seQpraWxscyBtYWNoaW5lcy4gVGhhdCdz
+IHdoeSB5b3UgY2FuJ3QgcmVtYXAgcmFuZG9tIHBhZ2VzIGFzIHdjLCB0aGV5CmhhdmUgdG8gYmUg
+aW4gaGlnaG1lbS4gSSB0aG91Z2h0IHBwYyBpcyBlcXVhbGx5IGVhc2lseSBhbmdlcmVkLiBBbmQK
+dGhlIHRyb3VibGUgaXMgdGhhdCBqdXN0IHRoZSBleGlzdGFuY2Ugb2YgdGhlIG1hcHBpbmcgaXMg
+ZW5vdWdoIHRvCmNhdXNlIGEgbWFjaGluZSBjaGVjayBleGNlcHRpb24gaWlyYy4gU28gZG93biB0
+byBwdXJlIGx1Y2suCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIs
+IEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3
+bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
