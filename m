@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC24E1D20C9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 23:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8F01D4661
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630F56EA81;
-	Wed, 13 May 2020 21:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B03676EBFE;
+	Fri, 15 May 2020 06:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 92472 seconds by postgrey-1.36 at gabe;
- Wed, 13 May 2020 21:18:59 UTC
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3CE6EA81
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 21:18:59 +0000 (UTC)
-Received: from jeremy.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp.webfaction.com (Postfix) with ESMTPSA id B3200600853CB;
- Wed, 13 May 2020 21:19:02 +0000 (UTC)
-From: Paul Boddie <paul@boddie.org.uk>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: drm/bridge: Synopsys DW-HDMI bridge driver for the Ingenic JZ4780
- (was Re: Specialising the Synopsys DW-HDMI bridge driver for the Ingenic
- JZ4780)
-Date: Wed, 13 May 2020 23:18:12 +0200
-Message-ID: <264902885.ydkeYsQTE4@jeremy>
-User-Agent: KMail/4.14.1 (Linux/3.16.0-10-586; KDE/4.14.2; i686; ; )
-In-Reply-To: <c34fe43b-51c4-0231-7a41-77d5c703e9ba@baylibre.com>
-References: <1940005.XIBaf5lNV5@jeremy>
- <c34fe43b-51c4-0231-7a41-77d5c703e9ba@baylibre.com>
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36DD16EA8C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 21:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1589405095; bh=vP1dm4GPwt9nOrSXUHYZrlnzV+QSD/t/nvTNldUmjRI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AGAtow/+Ns2CtpuJASys9AiJwXRyXtcsBjbwnwXu4bag20du1XxyFuFHDrpYchGlo
+ NiC7NU6/u9eN7M+v2qu6Bz1jd4pU4R44lCUgURa6vC8Vuzo0KD7k4xgwHXncLQOgGX
+ t4b4TbkM6HRmS9Jm72MKnKTw/OkLwGm9ILrmaHrE=
+From: Ondrej Jirman <megous@megous.com>
+To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH v3 0/5] Add support for PinePhone LCD panel
+Date: Wed, 13 May 2020 23:24:46 +0200
+Message-Id: <20200513212451.1919013-1-megous@megous.com>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,106 +41,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday 13. May 2020 09.37.49 Neil Armstrong wrote:
-> Hi Paul,
-> 
-> I'm one of the drm/bridge maintainer and, with Jernel & Jonas, we did most
-> of the changes on the dw-hdmi driver recently for the Amlogic, Rockchip &
-> Allwinner platforms.
+This patchset adds support for the LCD panel of PinePhone.
 
-Thanks for following up to my message!
+The first 3 patches are for the panel itself, and the last 2 patches are
+for enabling it on PinePhone.
 
-> On 12/05/2020 21:37, Paul Boddie wrote:
-> > 
-> > When powering up the system with the driver built into the kernel, the
-> > driver is able to obtain mode information over DDC using the Synopsys
-> > peripheral's own I2C support (which is more reliable than using the
-> > JZ4780's I2C peripherals), and a viable list of modes is obtained.
-> 
-> Can you run the kernel with drm debug enabled ? drm.debug=0x3f for example
-> you'll have all the modes checks & so on
+I've tested this on PinePhone 1.0 and 1.2.
 
-I'll try and do this.
+Please take a look.
 
-[...]
+thank you and regards,
+  Ondrej Jirman
 
-> Please use the "modetest" utility from the libdrm source package, it will
-> list all the available mode and permit testing other modes.
 
-I'll give this a try. The modetest program was suggested by someone else as 
-well, so it seems to be the way to go.
+Changes in v3:
+- Panel driver renamed to the name of the LCD controller
+- Re-organize the driver slightly to more easily support more panels
+  based on the same controller.
+- Add patch to enable the touchscreen to complete the LCD support
+  on PinePhone.
+- Dropped the "DSI fix" patch (the driver seems to work for me without it)
+- Improved brightness levels handling:
+  - PinePhone 1.0 uses default levels generated by the driver
+  - On PinePhone 1.1 duty cycles < 20% lead to black screen, so
+    default levels can't be used. Martijn Braam came up with a
+    list of duty cycle values that lead to perception of linear
+    brigtness level <-> light intensity on PinePhone 1.1
+- There was some feedback on v2 about this being similar to st7701.
+  It's only similar in name. Most of the "user commands" are different,
+  so I opted to keep this in a new driver instead of creating st770x.
+  
+  Anyone who likes to check the differences, here are datasheets:
 
-> > At the moment, I and others who have tried to test this code have seen
-> > that
-> > the peripheral is not enabled (as confirmed by inspecting the appropriate
-> > entry under /sys/devices/platform). It appears that one obstacle is that
-> > the "bus format" is not set for the connector. Here, I noticed (and was
-> > reminded again recently) that in the bridge driver, there is no call to
-> > drm_display_info_set_bus_formats unlike in other bridge drivers.
-> 
-> This call is optional, if your video pipeline outputs RGB for the dw-hdmi,
-> then you can leave the default for now and omit the bus format negotiation.
-> When you'll push the driver, you'll have to implement it correctly like I
-> did in the meson-dw-hdmi glue (and in RFC for rockchip driver).
+  - https://megous.com/dl/tmp/ST7703_DS_v01_20160128.pdf
+  - https://megous.com/dl/tmp/ST7701.pdf
 
-I'll have a look at the meson code. Frustratingly, I am familiar with the LCD 
-controller functionality on the SoC family concerned here, but how it 
-interacts with the DRI/DRM functionality isn't particularly clear.
+Changes in v2:
+- DT Example fix.
+- DT Format fix.
+- Raised copyright info to 2020.
+- Sort panel operation functions.
+- Sort inclusion.
 
-The Ingenic DRM driver seems to define support for a number of plane formats 
-(XRGB1555, RGB565, XRGB8888) which correspond to output modes for the LCD 
-controller set using its control register.
 
-The driver also supports a number of bus formats (RGB565_1X16, RGB666_1X18, 
-RGB888_1X24, RGB888_3X8) that correspond to panel configurations set using its 
-configuration register.
+-- For phone owners: --
 
-However, nothing in the driver sets the bus format (or plane format), meaning 
-that something else needs to do so. I see that the input bus format is set in 
-the bind function in meson_dw_hdmi.c, and seems to be set in the attach 
-function in other comparable drivers.
+There's an open question on how to set the backlight brightness values
+on post 1.0 revision phone, since lower duty cycles (< 10-20%) lead
+to backlight being black. It would be nice if more people can test
+the various backlight levels on 1.1 and 1.2 revision with this change
+in dts:
 
-This is why I wondered whether the generic Synopsys driver might be missing 
-such an operation, but it is also plausible that it could be performed in the 
-specialised JZ4780 driver, although I currently provide few functions in that 
-driver and maybe more customisation is needed.
+       brightness-levels = <0 1000>;
+       num-interpolated-steps = <1000>;
 
-[...]
+and report at what brightness level the backlight turns on. So far it
+seems this has a wide range. Lowest useable duty cycle for me is ~7%
+on 1.2 and for Martijn ~20% on 1.1.
 
-> "Input not supported" means the timings/clk are incorrect.
-> 
-> Of you had an format issue, you'll have incorrect colors/garbled output.
+Icenowy Zheng (4):
+  dt-bindings: vendor-prefixes: Add Xingbangda
+  dt-bindings: panel: Add binding for Xingbangda XBD599 panel
+  drm: panel: Add Xingbangda XBD599 panel (ST7703 controller)
+  arm64: dts: sun50i-a64-pinephone: Enable LCD support on PinePhone
 
-Note that this is with a modification to set drm_display_info_set_bus_formats. 
-Without it, initialisation fails to complete, as noted previously. With it, I 
-imagine that the timings are indeed wrong.
+Ondrej Jirman (1):
+  arm64: dts: sun50i-a64-pinephone: Add touchscreen support
 
-[...]
+ .../display/panel/sitronix,st7703.yaml        |  63 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ .../allwinner/sun50i-a64-pinephone-1.1.dts    |  19 +
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  54 +++
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 386 ++++++++++++++++++
+ 7 files changed, 535 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7703.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
 
-> Please enable the dw-hdmi debug prints and enable the DRM debug prints to
-> check if everything is negociated.
+-- 
+2.26.2
 
-I will try and generate debugging information.
-
-> But if you have "Input not supported" on your monitor, this means you have
-> TMDS going out on your hardware, which is good, this means all the
-> power/reset/system clocks are ok.
-> This could mean you have a timing/clock issue, please check if something is
-> not done on the pixel clock before going to the dw-hdmi block.
-
-I think I may have overlooked timing details, so this will also be a focus of 
-mine as I review what I have done so far.
-
-Thanks once again for the advice!
-
-Paul
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
