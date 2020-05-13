@@ -2,59 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146551D2195
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 23:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCAD1D4635
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B996EAA9;
-	Wed, 13 May 2020 21:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCE806EBD4;
+	Fri, 15 May 2020 06:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8566EAA7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 21:59:25 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id 9so350028pgr.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 14:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uWnq+06g1H9soD1qxhwQLI1N3tT7e79PiCY3gi5c9aM=;
- b=fe3R6CAU9akKfw4dtfUNsRdKf7Ag7zoIYxBqVogXiRrGwPU0QUp/9tNbaEemvZzD1L
- /T7Z5yqdRUT6l2ksQP+kuFuuu/B8IBMAdp9GYoKzOr+E1yoOhBqUT0eiCGWp5KMK0zvw
- Dc6KMgYU8E6iLb2l9O0cf5rGVtAkeLViaDji4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uWnq+06g1H9soD1qxhwQLI1N3tT7e79PiCY3gi5c9aM=;
- b=bepr3qWho6Qid+a4ZcFfr6DRNPy0F8PWe3GFwMhtQAg1QHPTXsptRn9AFAHX6o5Tr0
- xPirf9fv2UT17eCPnocgOU47eA2fB9l8mtbH7br/LdaMgoWo3CyJOTXyJj282Ev0Lg/+
- /Pi2rhmX37a1kknnYrpnwVQ9mn6GVBbkQEOPjLxm7rbNfsfxSLhAkR2aawFbr9E3Z9CN
- zvWR5SsLE4zno3dzLob5rbq4B+FHyLwom+6AOLJhXYo03P2oKxzrogZdg5ZOJ/Q99+UK
- Ip8yqxWv4AjkuNqiSJJHo1M+GXxjHMR2HnFMfQyD8qc5EMKPEqC92SFqEE3fGFOo6acB
- UpIQ==
-X-Gm-Message-State: AOAM532Itnod44Hsa4vJDiGay8NknxPFk9tzgj9dJQFnkOCphBml5Quq
- T0YO9AmNw8TBaLHXPvY+OS3G7A==
-X-Google-Smtp-Source: ABdhPJzkZax8TyAVILaCvSJkjfp8FipP70nrl3ZYFbtA5yfhvakjUWoYp2finzJP9lX++dBHXGJ1rg==
-X-Received: by 2002:a62:1d48:: with SMTP id d69mr1299026pfd.102.1589407165323; 
- Wed, 13 May 2020 14:59:25 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id k27sm547169pgb.30.2020.05.13.14.59.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 14:59:24 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: linus.walleij@linaro.org, bgolaszewski@baylibre.com, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, narmstrong@baylibre.com,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
- spanda@codeaurora.org
-Subject: [PATCH v6 3/3] dt-bindings: drm/bridge: ti-sn65dsi86: Document no-hpd
-Date: Wed, 13 May 2020 14:59:02 -0700
-Message-Id: <20200513145807.v6.3.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
-X-Mailer: git-send-email 2.26.2.645.ge9eca65c58-goog
-In-Reply-To: <20200513215902.261547-1-dianders@chromium.org>
-References: <20200513215902.261547-1-dianders@chromium.org>
+Received: from v6.sk (v6.sk [167.172.42.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF3A56EAA7;
+ Wed, 13 May 2020 22:02:16 +0000 (UTC)
+Received: from localhost (v6.sk [IPv6:::1])
+ by v6.sk (Postfix) with ESMTP id 66010610A5;
+ Wed, 13 May 2020 22:02:10 +0000 (UTC)
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: Fix the pm_domain lookup
+Date: Thu, 14 May 2020 00:02:04 +0200
+Message-Id: <20200513220204.1366296-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,99 +35,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- jeffrey.l.hugo@gmail.com, linux-arm-msm@vger.kernel.org, jonas@kwiboo.se,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, linux-gpio@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- bjorn.andersson@linaro.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ti-sn65dsi86 MIPI DSI to eDP bridge chip has a dedicated hardware
-HPD (Hot Plug Detect) pin on it, but it's mostly useless for eDP
-because of excessive debouncing in hardware.  Specifically there is no
-way to disable the debouncing and for eDP debouncing hurts you because
-HPD is just used for knowing when the panel is ready, not for
-detecting physical plug events.
+On a GC860 (both 3D and 2D capable) GPU, kmscube crashes:
 
-Currently the driver in Linux just assumes that nobody has HPD hooked
-up.  It relies on folks setting the "no-hpd" property in the panel
-node to specify that HPD isn't hooked up and then the panel driver
-using this to add some worst case delays when turning on the panel.
+  # strace -f ~lkundrak/src/kmscube/build/kmscube
+  ...
+  ioctl(6, DRM_IOCTL_ETNAVIV_PM_QUERY_DOM, 0xbe92b720) = 0
+  ioctl(6, DRM_IOCTL_ETNAVIV_PM_QUERY_SIG <unfinished ...>) = ?
+  +++ killed by SIGSEGV +++
+  Segmentation fault (core dumped)
 
-Apparently it's also useful to specify "no-hpd" in the bridge node so
-that the bridge driver can make sure it's doing the right thing
-without peeking into the panel [1].  This would be used if anyone ever
-found it useful to implement support for the HW HPD pin on the bridge.
-Let's add this property to the bindings.
+And triggers an oops:
 
-NOTES:
-- This is somewhat of a backward-incompatible change.  All current
-  known users of ti-sn65dsi86 didn't have "no-hpd" specified in the
-  bridge node yet none of them had HPD hooked up.  This worked because
-  the current Linux driver just assumed that HPD was never hooked up.
-  We could make it less incompatible by saying that for this bridge
-  it's assumed HPD isn't hooked up _unless_ a property is defined, but
-  "no-hpd" is much more standard and it's unlikely to matter unless
-  someone quickly goes and implements HPD in the driver.
-- It is sensible to specify "no-hpd" at the bridge chip level and
-  specify "hpd-gpios" at the panel level.  That would mean HPD is
-  hooked up to some other GPIO in the system, just not the hardware
-  HPD pin on the bridge chip.
+  8<--- cut here ---
+  Unable to handle kernel NULL pointer dereference at virtual address 00000000
+  pgd = 40e2c0f7
+  [00000000] *pgd=0df6d831, *pte=00000000, *ppte=00000000
+  Internal error: Oops: 17 [#1] PREEMPT SMP ARM
+  Modules linked in:
+  CPU: 0 PID: 346 Comm: kmscube Not tainted 5.7.0-rc4+ #792
+  Hardware name: Marvell MMP2 (Device Tree Support)
+  PC is at strncpy+0x14/0x30
+  LR is at etnaviv_pm_query_sig+0xd0/0x104
+  pc : [<c04f35f4>]    lr : [<c05dd878>]    psr: 20010013
+  sp : c85f5e00  ip : c85f5eb5  fp : beb58748
+  r10: 0000004c  r9 : ca6f9100  r8 : c85f5e6c
+  r7 : 00000050  r6 : c85f5e6c  r5 : 00000001  r4 : c0b69ae8
+  r3 : c85f5e75  r2 : 0000003f  r1 : 00000000  r0 : c85f5e76
+  Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+  Control: 10c5387d  Table: 0df70019  DAC: 00000051
+  Process kmscube (pid: 346, stack limit = 0x816fba31)
+  Stack: (0xc85f5e00 to 0xc85f6000)
+  5e00: 00000000 d90e6000 00000020 c05d5b2c c85f5e6c c059ce90 00000000 c1003f88
+  5e20: c04c644b 0000004c c0b69610 c04c644b c85f5e6c 0000004b ca6f9100 c059d0bc
+  5e40: 00000001 c0d53ee8 c85f5f18 00000001 c85f5f50 c85f5e6c 0000004c c8454240
+  5e60: c05d5b2c 00000051 00000000 00000000 00000001 00000000 00000000 00000000
+  5e80: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+  5ea0: 00000000 00000000 00000000 00000000 00000000 00000000 00000274 c011c3fc
+  5ec0: 00000100 c0290434 5ebc5632 30e03501 5ebc5632 c8526600 00000274 00100cca
+  5ee0: 00000831 b64c5000 cdf72d90 c1003f88 00000000 c04c644b c8454240 beb58748
+  5f00: c8454240 00000006 c85f4000 d90ecad8 001c01a0 c02d49ac b64c52cc 80000007
+  5f20: da9d6dc0 d9aa4000 d9aa4040 00000000 00000274 c011818c 00000005 0e200080
+  5f40: 00000000 000003e5 00000000 00000100 00000000 00000000 00000000 cc78ac40
+  5f60: 00000006 00000007 c1009a98 b64c52cc c85f5fb0 c0118080 00000080 c1003f88
+  5f80: 00000000 00000001 beb58748 c04c644b 00000036 c0100288 c85f4000 00000036
+  5fa0: 001c01a0 c0100060 00000001 beb58748 00000006 c04c644b beb58748 0000004c
+  5fc0: 00000001 beb58748 c04c644b 00000036 beb58748 001bd688 beb58700 001c01a0
+  5fe0: b6f41f08 beb586d4 b6f2784c b6e16cec 80010010 00000006 00000000 00000000
+  [<c04f35f4>] (strncpy) from [<c05dd878>] (etnaviv_pm_query_sig+0xd0/0x104)
+  [<c05dd878>] (etnaviv_pm_query_sig) from [<c059ce90>] (drm_ioctl_kernel+0xb4/0xf8)
+  [<c059ce90>] (drm_ioctl_kernel) from [<c059d0bc>] (drm_ioctl+0x1e8/0x3b8)
+  [<c059d0bc>] (drm_ioctl) from [<c02d49ac>] (ksys_ioctl+0xe0/0xaf0)
+  [<c02d49ac>] (ksys_ioctl) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
+  Exception stack(0xc85f5fa8 to 0xc85f5ff0)
+  5fa0:                   00000001 beb58748 00000006 c04c644b beb58748 0000004c
+  5fc0: 00000001 beb58748 c04c644b 00000036 beb58748 001bd688 beb58700 001c01a0
+  5fe0: b6f41f08 beb586d4 b6f2784c b6e16cec
+  Code: 012fff1e e2422001 e2403001 e080c002 (e5d12000)
+  ---[ end trace 387aad33cd9c15ea ]---
 
-[1] https://lore.kernel.org/r/20200417180819.GE5861@pendragon.ideasonboard.com
+Turns out that it's because pm_domain() returns a pointer outside any
+any of the etnaviv_pm_domains. Unless I'm mistaken, the algorithm in
+pm_domain() is entirely botched when GPU's features match more than one
+domain. This tries to remedy it.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tested with kmscube with mesa 20 on ome machine with GC860 and another
+with GC2000 + GC300 pair.
+
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Changes in v6: None
-Changes in v5: None
-Changes in v4:
-- Tacked on "or is otherwise unusable." to description.
-
-Changes in v3:
-- useful implement => useful to implement
-
-Changes in v2:
-- ("dt-bindings: drm/bridge: ti-sn65dsi86: Document no-hpd") new for v2.
-
- .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml  | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-index 07d26121afca..be10e8cf31e1 100644
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
-@@ -28,6 +28,12 @@ properties:
-     maxItems: 1
-     description: GPIO specifier for GPIO1 pin on bridge (active low).
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index e6795bafcbb9..9dc1bb4d4582 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -444,7 +444,6 @@ static unsigned int num_pm_domains(const struct etnaviv_gpu *gpu)
+ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+ 	unsigned int index)
+ {
+-	const struct etnaviv_pm_domain *domain = NULL;
+ 	unsigned int offset = 0, i;
  
-+  no-hpd:
-+    type: boolean
-+    description:
-+      Set if the HPD line on the bridge isn't hooked up to anything or is
-+      otherwise unusable.
-+
-   vccio-supply:
-     description: A 1.8V supply that powers the digital IOs.
+ 	for (i = 0; i < ARRAY_SIZE(doms_meta); i++) {
+@@ -453,15 +452,15 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+ 		if (!(gpu->identity.features & meta->feature))
+ 			continue;
  
-@@ -213,6 +219,8 @@ examples:
-         clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
-         clock-names = "refclk";
+-		if (meta->nr_domains < (index - offset)) {
++		if (meta->nr_domains <= (index - offset)) {
+ 			offset += meta->nr_domains;
+ 			continue;
+ 		}
  
-+        no-hpd;
-+
-         ports {
-           #address-cells = <1>;
-           #size-cells = <0>;
+-		domain = meta->domains + (index - offset);
++		return meta->domains + (index - offset);
+ 	}
+ 
+-	return domain;
++	return NULL;
+ }
+ 
+ int etnaviv_pm_query_dom(struct etnaviv_gpu *gpu,
 -- 
-2.26.2.645.ge9eca65c58-goog
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
