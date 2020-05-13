@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C581D148F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 15:23:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3501D149B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 15:24:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 238396E202;
-	Wed, 13 May 2020 13:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B7A6E20C;
+	Wed, 13 May 2020 13:24:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A355F6E202
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 13:23:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A7D7A6E20C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 13:24:31 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2877A30E;
- Wed, 13 May 2020 06:23:14 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D34C30E;
+ Wed, 13 May 2020 06:24:31 -0700 (PDT)
 Received: from [10.57.36.85] (unknown [10.57.36.85])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F5103F71E;
- Wed, 13 May 2020 06:23:12 -0700 (PDT)
-Subject: Re: [PATCH v4 01/38] dma-mapping: add generic helpers for mapping
- sgtable objects
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C35C3F71E;
+ Wed, 13 May 2020 06:24:27 -0700 (PDT)
+Subject: Re: [PATCH v4 02/38] scatterlist: add generic wrappers for iterating
+ over sgtable objects
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
 References: <20200512085710.14688-1-m.szyprowski@samsung.com>
- <CGME20200512090107eucas1p13a38ce5ce4c15cd0033acaea7b26c9b0@eucas1p1.samsung.com>
  <20200512090058.14910-1-m.szyprowski@samsung.com>
+ <CGME20200512090108eucas1p10a3571be3f60265daea3b3f1469b5e82@eucas1p1.samsung.com>
+ <20200512090058.14910-2-m.szyprowski@samsung.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <400501ec-c56b-edb7-7def-36ad43264123@arm.com>
-Date: Wed, 13 May 2020 14:23:10 +0100
+Message-ID: <4f9f747a-9bce-90f4-9ca7-ab851f29d758@arm.com>
+Date: Wed, 13 May 2020 14:24:25 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200512090058.14910-1-m.szyprowski@samsung.com>
+In-Reply-To: <20200512090058.14910-2-m.szyprowski@samsung.com>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,19 +62,15 @@ On 2020-05-12 10:00 am, Marek Szyprowski wrote:
 > (orig_nents entry) and DMA mapped pages (nents entry).
 > 
 > It turned out that it was a common mistake to misuse nents and orig_nents
-> entries, calling DMA-mapping functions with a wrong number of entries or
-> ignoring the number of mapped entries returned by the dma_map_sg
-> function.
+> entries, calling the scatterlist iterating functions with a wrong number
+> of the entries.
 > 
 > To avoid such issues, lets introduce a common wrappers operating directly
-
-Nit: "let's"
-
 > on the struct sg_table objects, which take care of the proper use of
 > the nents and orig_nents entries.
-
-A few more documentation nitpicks below, but either way the 
-implementation itself (modulo Christoph's fixup) looks good;
+> 
+> While touching this, lets clarify some ambiguities in the comments for
+> the existing for_each helpers.
 
 Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
@@ -83,140 +80,96 @@ Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 > vs. orig_nents misuse' thread:
 > https://lore.kernel.org/dri-devel/20200512085710.14688-1-m.szyprowski@samsung.com/T/
 > ---
->   include/linux/dma-mapping.h | 79 +++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 79 insertions(+)
+>   include/linux/scatterlist.h | 50 ++++++++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 47 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index b43116a..88f01cc 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -609,6 +609,85 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
->   	return dma_sync_single_for_device(dev, addr + offset, size, dir);
->   }
+> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+> index 6eec50f..4f922af 100644
+> --- a/include/linux/scatterlist.h
+> +++ b/include/linux/scatterlist.h
+> @@ -151,6 +151,20 @@ static inline void sg_set_buf(struct scatterlist *sg, const void *buf,
+>   #define for_each_sg(sglist, sg, nr, __i)	\
+>   	for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
+>   
+> +/*
+> + * Loop over each sg element in the given sg_table object.
+> + */
+> +#define for_each_sgtable_sg(sgt, sg, i)		\
+> +	for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
+> +
+> +/*
+> + * Loop over each sg element in the given *DMA mapped* sg_table object.
+> + * Please use sg_dma_address(sg) and sg_dma_len(sg) to extract DMA addresses
+> + * of the each element.
+> + */
+> +#define for_each_sgtable_dma_sg(sgt, sg, i)	\
+> +	for_each_sg(sgt->sgl, sg, sgt->nents, i)
+> +
+>   /**
+>    * sg_chain - Chain two sglists together
+>    * @prv:	First scatterlist
+> @@ -401,9 +415,10 @@ static inline struct page *sg_page_iter_page(struct sg_page_iter *piter)
+>    * @sglist:	sglist to iterate over
+>    * @piter:	page iterator to hold current page, sg, sg_pgoffset
+>    * @nents:	maximum number of sg entries to iterate over
+> - * @pgoffset:	starting page offset
+> + * @pgoffset:	starting page offset (in pages)
+>    *
+>    * Callers may use sg_page_iter_page() to get each page pointer.
+> + * In each loop it operates on PAGE_SIZE unit.
+>    */
+>   #define for_each_sg_page(sglist, piter, nents, pgoffset)		   \
+>   	for (__sg_page_iter_start((piter), (sglist), (nents), (pgoffset)); \
+> @@ -412,18 +427,47 @@ static inline struct page *sg_page_iter_page(struct sg_page_iter *piter)
+>   /**
+>    * for_each_sg_dma_page - iterate over the pages of the given sg list
+>    * @sglist:	sglist to iterate over
+> - * @dma_iter:	page iterator to hold current page
+> + * @dma_iter:	DMA page iterator to hold current page
+>    * @dma_nents:	maximum number of sg entries to iterate over, this is the value
+>    *              returned from dma_map_sg
+> - * @pgoffset:	starting page offset
+> + * @pgoffset:	starting page offset (in pages)
+>    *
+>    * Callers may use sg_page_iter_dma_address() to get each page's DMA address.
+> + * In each loop it operates on PAGE_SIZE unit.
+>    */
+>   #define for_each_sg_dma_page(sglist, dma_iter, dma_nents, pgoffset)            \
+>   	for (__sg_page_iter_start(&(dma_iter)->base, sglist, dma_nents,        \
+>   				  pgoffset);                                   \
+>   	     __sg_page_iter_dma_next(dma_iter);)
 >   
 > +/**
-> + * dma_map_sgtable - Map the given buffer for the DMA operations
-
-Either "for DMA operations", "for the DMA operation", or "for a DMA 
-operation", depending on the exact context. Or at that point, perhaps 
-just "for DMA".
-
-> + * @dev:	The device to perform a DMA operation
-
-That doesn't quite parse, maybe "the device performing the DMA 
-operation", or "the device for which to perform the DMA operation", 
-depending on whether "DMA operation" means the mapping or the actual 
-hardware access?
-
-> + * @sgt:	The sg_table object describing the buffer
-> + * @dir:	DMA direction
-> + * @attrs:	Optional DMA attributes for the map operation
+> + * for_each_sgtable_page - iterate over all pages in the sg_table object
+> + * @sgt:	sg_table object to iterate over
+> + * @piter:	page iterator to hold current page
+> + * @pgoffset:	starting page offset (in pages)
 > + *
-> + * Maps a buffer described by a scatterlist stored in the given sg_table
-> + * object for the @dir DMA operation by the @dev device. After success
-> + * the ownership for the buffer is transferred to the DMA domain. One has
-> + * to call dma_sync_sgtable_for_cpu() or dma_unmap_sgtable() to move the
-> + * ownership of the buffer back to the CPU domain before touching the
-> + * buffer by the CPU.
-> + * Returns 0 on success or -EINVAL on error during mapping the buffer.
-
-Maybe make that a proper "Return:" section?
-
+> + * Iterates over the all memory pages in the buffer described by
+> + * a scatterlist stored in the given sg_table object.
+> + * See also for_each_sg_page(). In each loop it operates on PAGE_SIZE unit.
 > + */
-> +static inline int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
-> +		enum dma_data_direction dir, unsigned long attrs)
-> +{
-> +	int n = dma_map_sg_attrs(dev, sgt->sgl, sgt->orig_nents, dir, attrs);
-> +
-> +	if (n > 0) {
-> +		sgt->nents = n;
-> +		return 0;
-> +	}
-> +	return -EINVAL;
-> +}
+> +#define for_each_sgtable_page(sgt, piter, pgoffset)	\
+> +	for_each_sg_page(sgt->sgl, piter, sgt->orig_nents, pgoffset)
 > +
 > +/**
-> + * dma_unmap_sgtable - Unmap the given buffer for the DMA operations
-> + * @dev:	The device to perform a DMA operation
-
-Same two points as before.
-
-> + * @sgt:	The sg_table object describing the buffer
-> + * @dir:	DMA direction
-> + * @attrs:	Optional DMA attributes for the map operation
-
-Presumably "the unmap operation", although it *is* true that some 
-attributes are expected to match those originally passed to 
-dma_map_sgtable()... not sure if kerneldoc can can stretch to that level 
-of detail concisely ;)
-
+> + * for_each_sgtable_dma_page - iterate over the DMA mapped sg_table object
+> + * @sgt:	sg_table object to iterate over
+> + * @dma_iter:	DMA page iterator to hold current page
+> + * @pgoffset:	starting page offset (in pages)
 > + *
-> + * Unmaps a buffer described by a scatterlist stored in the given sg_table
-> + * object for the @dir DMA operation by the @dev device. After this function
-> + * the ownership of the buffer is transferred back to the CPU domain.
+> + * Iterates over the all DMA mapped pages in the buffer described by
+> + * a scatterlist stored in the given sg_table object.
+> + * See also for_each_sg_dma_page(). In each loop it operates on PAGE_SIZE
+> + * unit.
 > + */
-> +static inline void dma_unmap_sgtable(struct device *dev, struct sg_table *sgt,
-> +		enum dma_data_direction dir, unsigned long attrs)
-> +{
-> +	dma_unmap_sg_attrs(dev, sgt->sgl, sgt->orig_nents, dir, attrs);
-> +}
+> +#define for_each_sgtable_dma_page(sgt, dma_iter, pgoffset)	\
+> +	for_each_sg_dma_page(sgt->sgl, dma_iter, sgt->nents, pgoffset)
 > +
-> +/**
-> + * dma_sync_sgtable_for_cpu - Synchronize the given buffer for the CPU access
-
-s/the CPU/CPU/
-
-> + * @dev:	The device to perform a DMA operation
-
-As before.
-
-> + * @sgt:	The sg_table object describing the buffer
-> + * @dir:	DMA direction
-> + *
-> + * Performs the needed cache synchronization and moves the ownership of the
-> + * buffer back to the CPU domain, so it is safe to perform any access to it
-> + * by the CPU. Before doing any further DMA operations, one has to transfer
-> + * the ownership of the buffer back to the DMA domain by calling the
-> + * dma_sync_sgtable_for_device().
-> + */
-> +static inline void dma_sync_sgtable_for_cpu(struct device *dev,
-> +		struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	dma_sync_sg_for_cpu(dev, sgt->sgl, sgt->orig_nents, dir);
-> +}
 > +
-> +/**
-> + * dma_sync_sgtable_for_device - Synchronize the given buffer for the DMA
-
-That one doesn't even
-
-> + * @dev:	The device to perform a DMA operation
-
-As before.
-
-But of course, many thanks for taking the effort to add such complete 
-documentation in the first place :)
-
-Cheers,
-Robin.
-
-> + * @sgt:	The sg_table object describing the buffer
-> + * @dir:	DMA direction
-> + *
-> + * Performs the needed cache synchronization and moves the ownership of the
-> + * buffer back to the DMA domain, so it is safe to perform the DMA operation.
-> + * Once finished, one has to call dma_sync_sgtable_for_cpu() or
-> + * dma_unmap_sgtable().
-> + */
-> +static inline void dma_sync_sgtable_for_device(struct device *dev,
-> +		struct sg_table *sgt, enum dma_data_direction dir)
-> +{
-> +	dma_sync_sg_for_device(dev, sgt->sgl, sgt->orig_nents, dir);
-> +}
-> +
->   #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
->   #define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
->   #define dma_map_sg(d, s, n, r) dma_map_sg_attrs(d, s, n, r, 0)
+>   /*
+>    * Mapping sg iterator
+>    *
 > 
 _______________________________________________
 dri-devel mailing list
