@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B951D4634
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF891D4643
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53F1F6EBD1;
-	Fri, 15 May 2020 06:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15EDE6EBDF;
+	Fri, 15 May 2020 06:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B52F6EA06
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 11:42:43 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id i15so20440339wrx.10
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 04:42:42 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 283DB6E155
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 11:42:50 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id g12so28104201wmh.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 04:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t15tjq6+BhxBQN0F/MuG55FDoBQH9+TEC4ypwZsHps0=;
- b=R3H0lXMUZlsGnXzQ/7L1r/QG6QMp8omk5uLolDDWM9VA8qtJwO/NnsHBfMYB/FrAR/
- Rr8cTd8hiimf0K0srZem2lk3gftiRN68qaGSBRX+ujnpsFx4tM7/NwpLEEG4f1WiDosP
- k5u/KFokB8aolIvvv6iyJ4Ich9kkOKT1PRSrbXoxS2PzfIHUxVXC4PEfagSUzUfIqkU8
- cMJ1GG+2wCNSLmOb3h11GD4htqKjhio6GoWEzsylf5aBrF25HxAjDwyD9weJDlHusZq8
- g15X+TIvXW6gLGjbgZpKjpCf3zyjGRPuwfGq33jWNPKZSqoJZMS2yJJwWTB4alUsAi/0
- XKIA==
+ bh=jxE409dH/4Upz04x81rZgDRqIGYrdN0NQ92McvYwahc=;
+ b=G26NjolYY71SSgYOvfQ9hFGOJjAVarSFQ5F+YvV+fDnbit1ULIMKeFVluFKNr1RFha
+ MDkl0esxdkvTkoMhf+sblaFcd3hyxXgsSrUnaOu7xjqRU3IcwHuzcOr8SxCtnx0JaA02
+ bL2GvGPHtY9UywWis73WzRirPpk5G45Q3bXxpJmxjeAPSFMXxW/6pDZ+HG90L5O/41wY
+ j9JAIirRI8CLT7dGWEcUcf2KqxnK/jpyop0dV0o2xeJGnYVqp/vysGEVQ/Sy+96jQL4o
+ 6xX7SvYi4gMRveypIMyvXIww2/YDUuy7edI5e/N6ixClHgra4ctF4Sb3M9LMuniN9UzX
+ Yj2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t15tjq6+BhxBQN0F/MuG55FDoBQH9+TEC4ypwZsHps0=;
- b=XcJcw8yrkoruQbikdkzBDzS6Lyl+8Vmtl49v2ekJBQj3WVfIB21/RgkHbzKy/HQpB4
- PVwC7YJfVtqVe2JDb9gCOneMz558cyGPzSFsqx9K0M3+Bj1BPJdW9qqOTzix67J23Fqi
- r3ZovH6s8LYaJ9dBqO21X+bV741ve2y7X2Yvf6bAi282J+eqQ7osANCIw7WfPmvCl8AW
- xqZmT/Jrd/Mcs4iRhBvCiLlfq/WVWX4ZZ/00G4j5PPPDaxgKxIuWJI1yS4KC27s+hsZr
- h3KSRNYD8ripwYSY5DHDGsClVjvLJImdsTrEMVrLGeEtyW3I9MdPLcDg63wXtbzAYnCP
- irtQ==
-X-Gm-Message-State: AGi0PuYdV3UQbMake7iyZL/Q5Cc/GJ4g+K594hYlHb66HH7H28X/wJAQ
- fNtqTEj/xDtfeh1hnuLh7+M=
-X-Google-Smtp-Source: APiQypKk4oe7T8k37TGyO1auKrxf7o46nnLqxrPAbyehTziduZJ8zjbkZl0KU2TkSBAuaW0rH/d8KQ==
-X-Received: by 2002:adf:e752:: with SMTP id c18mr13622679wrn.353.1589370161693; 
- Wed, 13 May 2020 04:42:41 -0700 (PDT)
+ bh=jxE409dH/4Upz04x81rZgDRqIGYrdN0NQ92McvYwahc=;
+ b=RZu6QxoN5kH7RUCXw9lnTh6ymzZfbJFY1sp5rrc033RgdaxSMDYAtf4UIJqri6fKOw
+ 1s8WuUo/UzffgoES+NSBhyzqwQBj3cAKTMvdTn4AH+kZM98XfsnKNs1rUju+uTu3zHRO
+ EQFcVAONMdjlTC3Xj72CyF110f6l0TQzyqxafpX7OlbQtsyU2embqbruORrAEhlUHdGa
+ Dar+sj6RQskAqCowwkujFc6w08Nsc46r8yMKdJYUYhDUVP/wsS05xrZCh4rT3jLhQgfR
+ SMo0+dOgbNotti3qxtRW6QpkPadCAKT/O8NVaMuYB8SrVusBEjaewuo0ym91oh+1QPS1
+ gAAA==
+X-Gm-Message-State: AOAM531rP9SdhnNrhFMsaBeD5GheJHZ5Fxu03/zxPajqCzmyi0frKnR5
+ Nm/n9Gdam29zzkqk8yf5alk=
+X-Google-Smtp-Source: ABdhPJy85//sZjpctOGBtlCkbXzipuZquXuYRBdMj4Fzb0yFmyb512H4LYYbhxROEgcGPJdTvWvf4w==
+X-Received: by 2002:a7b:cc92:: with SMTP id p18mr2082671wma.174.1589370168708; 
+ Wed, 13 May 2020 04:42:48 -0700 (PDT)
 Received: from wambui.zuku.co.ke ([197.237.182.195])
- by smtp.googlemail.com with ESMTPSA id j2sm27484540wrp.47.2020.05.13.04.42.37
+ by smtp.googlemail.com with ESMTPSA id j2sm27484540wrp.47.2020.05.13.04.42.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 04:42:41 -0700 (PDT)
+ Wed, 13 May 2020 04:42:48 -0700 (PDT)
 From: Wambui Karuga <wambui.karugax@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [RFC PATCH 2/3] drm/vc4: use new debugfs functions for file creation.
-Date: Wed, 13 May 2020 14:41:28 +0300
-Message-Id: <20200513114130.28641-3-wambui.karugax@gmail.com>
+Subject: [RFC PATCH 3/3] drm: use new debugfs functions for various files.
+Date: Wed, 13 May 2020 14:41:29 +0300
+Message-Id: <20200513114130.28641-4-wambui.karugax@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513114130.28641-1-wambui.karugax@gmail.com>
 References: <20200513114130.28641-1-wambui.karugax@gmail.com>
@@ -74,158 +74,118 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, vc4 delays adding of debugfs files until drm_dev_register()
-calls vc4_debugfs_init() on each registered minor.
+Replace the use of drm_debugfs_create_files with the new
+drm_debugfs_add_files() to create various drm core debugfs files.
 
-This change removes this infrastructure and uses the new
-drm_debugfs_add_file() function and drm_device->debugfs_list to track
-debugfs files which are added at drm_dev_register() time on each minor.
+DRM debugfs files are also represented using the new drm_simple_info
+struct for use with the new functions.
 
 Signed-off-by: Wambui Karuga <wambui.karugax@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c      |  4 ++--
- drivers/gpu/drm/vc4/vc4_debugfs.c | 38 +++++++------------------------
- drivers/gpu/drm/vc4/vc4_hdmi.c    |  4 ++--
- drivers/gpu/drm/vc4/vc4_hvs.c     |  4 ++--
- drivers/gpu/drm/vc4/vc4_v3d.c     |  4 ++--
- 5 files changed, 16 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/drm_atomic.c      | 11 +++++------
+ drivers/gpu/drm/drm_client.c      | 11 +++++------
+ drivers/gpu/drm/drm_framebuffer.c | 11 +++++------
+ 3 files changed, 15 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 72d30d90b856..ff332bac25d1 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -65,8 +65,8 @@ static void vc4_bo_stats_print(struct drm_printer *p, struct vc4_dev *vc4)
- 
- static int vc4_bo_stats_debugfs(struct seq_file *m, void *unused)
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 965173fd0ac2..1ec8d74955fd 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1627,8 +1627,8 @@ EXPORT_SYMBOL(drm_state_dump);
+ #ifdef CONFIG_DEBUG_FS
+ static int drm_state_info(struct seq_file *m, void *data)
  {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	struct drm_info_node *node = (struct drm_info_node *) m->private;
 -	struct drm_device *dev = node->minor->dev;
 +	struct drm_simple_info_entry *entry = m->private;
 +	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
  	struct drm_printer p = drm_seq_file_printer(m);
  
-diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-index 4fbbf980a299..e31e400c8cfc 100644
---- a/drivers/gpu/drm/vc4/vc4_debugfs.c
-+++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-@@ -11,10 +11,6 @@
- #include "vc4_drv.h"
- #include "vc4_regs.h"
- 
--struct vc4_debugfs_info_entry {
--	struct list_head link;
--	struct drm_info_list info;
--};
- 
- /**
-  * Called at drm_dev_register() time on each of the minors registered
-@@ -24,21 +20,15 @@ void
- vc4_debugfs_init(struct drm_minor *minor)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(minor->dev);
--	struct vc4_debugfs_info_entry *entry;
- 
- 	debugfs_create_bool("hvs_load_tracker", S_IRUGO | S_IWUSR,
- 			    minor->debugfs_root, &vc4->load_tracker_enabled);
--
--	list_for_each_entry(entry, &vc4->debugfs_list, link) {
--		drm_debugfs_create_files(&entry->info, 1,
--					 minor->debugfs_root, minor);
--	}
+ 	__drm_state_dump(dev, &p, true);
+@@ -1637,14 +1637,13 @@ static int drm_state_info(struct seq_file *m, void *data)
  }
  
- static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
- {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct debugfs_regset32 *regset = node->info_ent->data;
-+	struct drm_simple_info_entry *entry = m->private;
-+	struct debugfs_regset32 *regset = entry->file.data;
- 	struct drm_printer p = drm_seq_file_printer(m);
+ /* any use in debugfs files to dump individual planes/crtc/etc? */
+-static const struct drm_info_list drm_atomic_debugfs_list[] = {
++static const struct drm_simple_info drm_atomic_debugfs_list[] = {
+ 	{"state", drm_state_info, 0},
+ };
  
- 	drm_print_regset32(&p, regset);
-@@ -49,30 +39,18 @@ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
- /**
-  * Registers a debugfs file with a callback function for a vc4 component.
-  *
-- * This is like drm_debugfs_create_files(), but that can only be
-- * called a given DRM minor, while the various VC4 components want to
-- * register their debugfs files during the component bind process.  We
-- * track the request and delay it to be called on each minor during
-- * vc4_debugfs_init().
-+ * Various VC4 functions will register their debugfs files during the
-+ * component bind process using drm_debugfs_add_file().
-+ * These requests are tracked and delayed until their called on each
-+ * minor during drm_dev_register().
-+ *
-  */
- void vc4_debugfs_add_file(struct drm_device *dev,
- 			  const char *name,
- 			  int (*show)(struct seq_file*, void*),
- 			  void *data)
+ void drm_atomic_debugfs_init(struct drm_minor *minor)
  {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--
--	struct vc4_debugfs_info_entry *entry =
--		devm_kzalloc(dev->dev, sizeof(*entry), GFP_KERNEL);
--
--	if (!entry)
--		return;
--
--	entry->info.name = name;
--	entry->info.show = show;
--	entry->info.data = data;
--
--	list_add(&entry->link, &vc4->debugfs_list);
-+	drm_debugfs_add_file(dev, name, show, data);
+-	drm_debugfs_create_files(drm_atomic_debugfs_list,
+-				 ARRAY_SIZE(drm_atomic_debugfs_list),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(minor->dev, drm_atomic_debugfs_list,
++			      ARRAY_SIZE(drm_atomic_debugfs_list));
  }
- 
- void vc4_debugfs_add_regset32(struct drm_device *drm,
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 625bfcf52dc4..05b2a3161148 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -182,8 +182,8 @@ static const struct debugfs_reg32 hd_regs[] = {
- 
- static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
- {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct drm_device *dev = node->minor->dev;
-+	struct drm_simple_info_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_hdmi *hdmi = vc4->hdmi;
- 	struct drm_printer p = drm_seq_file_printer(m);
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 5a43659da319..4c254c027649 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -82,8 +82,8 @@ void vc4_hvs_dump_state(struct drm_device *dev)
- 
- static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
+ #endif
+diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
+index 8cb93f5209a4..e899683f752d 100644
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -440,8 +440,8 @@ EXPORT_SYMBOL(drm_client_framebuffer_delete);
+ #ifdef CONFIG_DEBUG_FS
+ static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
  {
 -	struct drm_info_node *node = m->private;
 -	struct drm_device *dev = node->minor->dev;
 +	struct drm_simple_info_entry *entry = m->private;
 +	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
  	struct drm_printer p = drm_seq_file_printer(m);
+ 	struct drm_client_dev *client;
  
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index cea77a21b205..cdef61666c42 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -98,8 +98,8 @@ static const struct debugfs_reg32 v3d_regs[] = {
+@@ -453,14 +453,13 @@ static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
+ 	return 0;
+ }
  
- static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
+-static const struct drm_info_list drm_client_debugfs_list[] = {
++static const struct drm_simple_info drm_client_debugfs_list[] = {
+ 	{ "internal_clients", drm_client_debugfs_internal_clients, 0 },
+ };
+ 
+ void drm_client_debugfs_init(struct drm_minor *minor)
  {
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
+-	drm_debugfs_create_files(drm_client_debugfs_list,
+-				 ARRAY_SIZE(drm_client_debugfs_list),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(minor->dev, drm_client_debugfs_list,
++			      ARRAY_SIZE(drm_client_debugfs_list));
+ }
+ #endif
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index 0375b3d7f8d0..8fd346279c01 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -1188,8 +1188,8 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
+ #ifdef CONFIG_DEBUG_FS
+ static int drm_framebuffer_info(struct seq_file *m, void *data)
+ {
+-	struct drm_info_node *node = m->private;
 -	struct drm_device *dev = node->minor->dev;
 +	struct drm_simple_info_entry *entry = m->private;
 +	struct drm_device *dev = entry->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret = vc4_v3d_pm_get(vc4);
+ 	struct drm_printer p = drm_seq_file_printer(m);
+ 	struct drm_framebuffer *fb;
  
+@@ -1203,14 +1203,13 @@ static int drm_framebuffer_info(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-static const struct drm_info_list drm_framebuffer_debugfs_list[] = {
++static const struct drm_simple_info drm_framebuffer_debugfs_list[] = {
+ 	{ "framebuffer", drm_framebuffer_info, 0 },
+ };
+ 
+ void drm_framebuffer_debugfs_init(struct drm_minor *minor)
+ {
+-	drm_debugfs_create_files(drm_framebuffer_debugfs_list,
+-				 ARRAY_SIZE(drm_framebuffer_debugfs_list),
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(minor->dev, drm_framebuffer_debugfs_list,
++			      ARRAY_SIZE(drm_framebuffer_debugfs_list));
+ }
+ #endif
 -- 
 2.26.2
 
