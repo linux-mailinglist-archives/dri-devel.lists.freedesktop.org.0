@@ -1,66 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0AB1D131C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 14:49:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423241D1327
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 14:51:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038556E210;
-	Wed, 13 May 2020 12:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6416EA23;
+	Wed, 13 May 2020 12:51:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A076E210;
- Wed, 13 May 2020 12:49:37 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id w19so13590075wmc.1;
- Wed, 13 May 2020 05:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=WRvGO10VzxkE6/A8WcBKdeysq7R+oPFgANxECtEr5pM=;
- b=DQx5MMOZcvR8qRh4/w+bWd4U2nz/NPsT43gSSGcfcnJRnyXHrnqmsfvmm+TkrnMQIG
- fmy1QpkxBiW13enEZ7mJJh2UAxqjxKVG4J3VfX22RzZddbbs5A9axOPP5n9ISmavH/qv
- +ajztuJgr0sz2ED24YKWJ8kUFsbm9O5iBNHndb8IkP5yLy8CRN/t9bwSYqJOZl1Q5iBg
- 2l+K3+w2d2Us+0leIWR6/CVk+O8FpX1gB+HICTv3Z0ttGGQa2e0rdaEGoG+nVUanSgfp
- pR8PalcJaZk8xjbw81UBGFOVxmDr3xHawmDKs9au6B0M3RGiPE5O1gTvPMU4bmmIWcAK
- zYkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=WRvGO10VzxkE6/A8WcBKdeysq7R+oPFgANxECtEr5pM=;
- b=NjkI9JOlS/kYygRAApLUsw3HhZlzE7pCpJxMiYjeNO6mQkTQc6amtVxq/kmVLbk2Bi
- nNoLvK+SG+lYzKQnd7y8dRHwIEGCVqkCZb03pXuUos4l+7fWC8I8OoJlDxCnc8vtNDhD
- CIihh8LtFK+XO2IfSSaMwaBMgjr3gA0XV5hJl54pKpdz/1Ae5rGmErOyQO7c1u2jLRVy
- T0sN3OR3dV++xKhrxP+MImTpCpyWwJgMCZ+l/WwGA47tzDkWAs5znoDTRrgRX0Tm9+QE
- dzar8CZfrvIBtQfSuVtgcRIU+HNM2bLZD6KQyaycrlMoF7JrK5H5fm9kVah1yF5x+x0z
- JNxg==
-X-Gm-Message-State: AGi0PubxsjMtukxEge8ZpSSjqe5CnqV92OWIEkufwvrk7sCVgsI8kM/R
- RKpRRysgjn7MVs9j8mYUl7+7LFBL
-X-Google-Smtp-Source: APiQypIOP3j+Oa0kU5JUlVprH/n9flIHYyVSnNhUwaVom0ATRSYD6+4mf2+oCY7D0ZXeAwIvmoQI4g==
-X-Received: by 2002:a1c:acc8:: with SMTP id
- v191mr37764480wme.128.1589374175818; 
- Wed, 13 May 2020 05:49:35 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id h137sm44707074wme.0.2020.05.13.05.49.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 May 2020 05:49:35 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm/ttm: deprecate AGP support
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200513110313.12979-1-christian.koenig@amd.com>
- <20200513110313.12979-3-christian.koenig@amd.com>
- <20200513123435.GJ206103@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <37263587-1389-0b00-27c3-2b08baad211d@gmail.com>
-Date: Wed, 13 May 2020 14:49:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D529A6EA23
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 12:51:18 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id D10997E3;
+ Wed, 13 May 2020 08:51:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 13 May 2020 08:51:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=aeqv2tw69Ou73Ks80LeYEsoBf/9
+ Sf5jfqw/n6jWNiu8=; b=SXLj0aP6PySWVLoEkMErwoCIBG+JjYjz58KGTwK1jYV
+ OAXUgL7/JgHQJoS5YT6tYDmeXt6Yah6LLk9d2rJljbTrxYBt/3kIn4miy5E9nbcH
+ C4CYx6MWJIiqMQLEAAgDhWFzEBNNNXts1t+WNOY3Z7Ygs4MFJdMUC3e+UbgZtMR9
+ vpeAffBK9MrrfNtonxB15jRfjOr+Cfc1n4a761+i4QeUUV0vo6FFDe/4MMhzoHI7
+ xILmvnZ/8aH3KSWA+nUMau4amQ6vZiiC3oVu+fppJLTKwjDXS4NTLBji+868lyUp
+ /z9trypv5BEZN1MFDyjzASHqCFlh9AXjdwCNoTY1mdQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=aeqv2t
+ w69Ou73Ks80LeYEsoBf/9Sf5jfqw/n6jWNiu8=; b=VxSOX7XO3Luoc6SGQ8yML1
+ wQm8wqEySAq7L37HSqmMGUUIhGcp2Lx94/389Q/Odx/q5EZao5rKNaAgvn4yIK74
+ pB1Egez1vLGUNTtHOqlG+wvYQs1momAIJ8B+sFhTanqxczznriMIBp6Qeo/oiUpA
+ 0KK4cJVk0srCT1zI4ngnr/hEgS4QX0OiRYoN5W50zdJ0W2vIiJhGy/1AQ7L6DdQ8
+ GWlTF6in56wR2dh8qnc7TNZpL+2k6gzaxP7zqMh/TpJmAJUcMLCO4GkjS9frleKK
+ 0i+mGRW3C7E3WaIFHSaRHZ22NSKIPpJ1nfLRpgJPGkrdvZw1jZJyJhmFjWs38Uzg
+ ==
+X-ME-Sender: <xms:Re27XuilwUPxPKx6DMenaG_3Vn6lN5yxWRuM9NPQ1AM2CzUMPpVbiA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggdehiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+ jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepueelledthe
+ ekleethfeludduvdfhffeuvdffudevgeehkeegieffveehgeeftefgnecuffhomhgrihhn
+ pehkvghrnhgvlhdrohhrghenucfkphepkeefrdekiedrkeelrddutdejnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghh
+ rdgtohhm
+X-ME-Proxy: <xmx:Re27XvAvWD7I2NeDu3pksH7bdl1q2JVCN1tTGXKCAF1HgQKmUmkRkA>
+ <xmx:Re27XmFhPg8X-I6bdXiE67fszAM5wOP79uk2EyfIY8mzyJWo7k1eOg>
+ <xmx:Re27XnQIXLEcTicx_crz3QqYk8YsFK0MSidNs1hUNM6pKNBm4t_4JA>
+ <xmx:Re27XilVBJDe2n5T5CpedX62uSXSDqJigAHQCLl3ryn9aKgYPMMC4Q>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ by mail.messagingengine.com (Postfix) with ESMTPA id CE6B83066309;
+ Wed, 13 May 2020 08:51:16 -0400 (EDT)
+Date: Wed, 13 May 2020 14:51:12 +0200
+From: Greg KH <greg@kroah.com>
+To: Charan Teja Kalla <charante@codeaurora.org>
+Subject: Re: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
+Message-ID: <20200513125112.GC1083139@kroah.com>
+References: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
+ <20200512085221.GB3557007@kroah.com>
+ <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20200513123435.GJ206103@phenom.ffwll.local>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,164 +79,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: nouveau@lists.freedesktop.org, debian-powerpc@lists.debian.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: fengc@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ vinmenon@codeaurora.org, ghackmann@google.com, stable@vger.kernel.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTMuMDUuMjAgdW0gMTQ6MzQgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgTWF5
-IDEzLCAyMDIwIGF0IDAxOjAzOjEzUE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IEV2ZW4gd2hlbiBjb3JlIEFHUCBzdXBwb3J0IGlzIGNvbXBpbGVkIGluIFJhZGVvbiBhbmQKPj4g
-Tm91dmVhdSBjYW4gYWxzbyB3b3JrIHdpdGggdGhlIFBDSSBHQVJULgo+Pgo+PiBUaGUgQUdQIHN1
-cHBvcnQgd2FzIG5vdG9yaW91cyB1bnN0YWJsZSBhbmQgaGFyZCB0bwo+PiBtYWludGFpbiwgc28g
-ZGVwcmVjYXRlIGl0IGZvciBub3cgYW5kIG9ubHkgZW5hYmxlIGl0IGlmCj4+IHRoZXJlIGlzIGEg
-Z29vZCByZWFzb24gdG8gZG8gc28uCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7Zu
-aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBTbyBhIGxvdCBtb3JlIHdvcmssIGFuZCBt
-b3JlIHJpc2sgKGJ1dCBoZXkgaXQncyBhZ3AsIGhvdyBidXN0ZWQgY2FuIGl0Cj4gZ2V0KSBjb3Vs
-ZCBiZSB0byBkZW1pZGxheWVyIHRoaXMuIEkuZS4gYSBzbWFsbCBzZXQgb2YgaGVscGVycyB0byBj
-cmVhdGUgYQo+IFRUTV9QTF9UVCBtYW5hZ2VyLCBiYWNrZWQgYnkgYWdwLiBXaXRoIHplcm8gYWdw
-IGNvZGUgcmVtYWluaW5nIGluIHR0bQo+IGl0c2VsZiwgYW5kIGFsbCB0aGUgdHRtIGFncCBjb2Rl
-IG1vdmVkIG91dCB0byBhIHR0bS1hZ3AtaGVscGVyLmtvIG1vZHVsZQo+IHRoYXQgZHJpdmVycyB3
-b3VsZCBjYWxsLgoKWWVzLCBleGFjdGx5IHRoYXQncyB0aGUgaWRlYSB3aGljaCBJIGhhdmUgaW4g
-bWluZCBmb3IgcXVpdGUgYSB3aGlsZSBhcyB3ZWxsLgoKUHJvYmxlbSBpcyBJIGhhdmUgZXhhY3Rs
-eSBvbmUgb2xkIHg4NiBNYWMgdG8gdGVzdCB0aGlzLiBDdXJyZW50bHkgdHJ5aW5nIAp0byBnZXQg
-YW5vdGhlciBvbGQgc3lzdGVtIHVwIGFuZCBydW5uaW5nIGFnYWluLgoKVGhhdCBpcyBub3QgZXZl
-biByZW1vdGVseSBzdWZmaWNpZW50IHRvIHRlc3QgYW55dGhpbmcgYXMgbGFyZ2UgYXMgdGhpcy4K
-ClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBCdXQgYWdhaW4gYSBsb3Qgb2Ygd29yaywgc28gcmVh
-bGx5IG9ubHkgYW4gb3B0aW9uIGlmIHdlIGNhbid0IHN1bnNldCBhZ3AKPiBkaXJlY3RseS4KPiAt
-RGFuaWVsCj4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL0tjb25maWcgICAgICAgICAgICAg
-ICAgICAgICAgIHwgIDggKysrKysrKysKPj4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
-ZWF1X2JvLmMgICAgICAgICAgfCAgOCArKysrLS0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L252a20vc3ViZGV2L3BjaS9hZ3AuaCB8ICAyICstCj4+ICAgZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9yYWRlb25fYWdwLmMgICAgICAgICAgIHwgIDggKysrKy0tLS0KPj4gICBkcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyAgICAgICAgICAgfCAxMCArKysrKy0tLS0tCj4+ICAg
-ZHJpdmVycy9ncHUvZHJtL3R0bS9NYWtlZmlsZSAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPj4g
-ICA2IGZpbGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQo+Pgo+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0v
-S2NvbmZpZwo+PiBpbmRleCA0ZjRlN2ZhMDAxYzEuLjUyZDgzNDMwMzc2NiAxMDA2NDQKPj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL0tjb25m
-aWcKPj4gQEAgLTE4Miw2ICsxODIsMTQgQEAgY29uZmlnIERSTV9UVE0KPj4gICAJICBHUFUgbWVt
-b3J5IHR5cGVzLiBXaWxsIGJlIGVuYWJsZWQgYXV0b21hdGljYWxseSBpZiBhIGRldmljZSBkcml2
-ZXIKPj4gICAJICB1c2VzIGl0Lgo+PiAgIAo+PiArY29uZmlnIERSTV9UVE1fQUdQCj4+ICsJYm9v
-bCAiVFRNIEFHUCBHQVJUIHN1cHBvcnQgKGRlcHJlY2F0ZWQpIgo+PiArCWRlcGVuZHMgb24gRFJN
-X1RUTSAmJiBBR1AKPj4gKwlkZWZhdWx0IG4KPj4gKwloZWxwCj4+ICsJICBFbmFibGVzIGRlcHJl
-Y2F0ZWQgQUdQIEdBUlQgc3VwcG9ydCBpbiBUVE0uCj4+ICsJICBMZXNzIHJlbGlhYmxlIHRoYW4g
-UENJIEdBUlQsIGJ1dCBmYXN0ZXIgaW4gc29tZSBjYXNlcy4KPj4gKwo+PiAgIGNvbmZpZyBEUk1f
-VFRNX0RNQV9QQUdFX1BPT0wKPj4gICAJYm9vbAo+PiAgIAlkZXBlbmRzIG9uIERSTV9UVE0gJiYg
-KFNXSU9UTEIgfHwgSU5URUxfSU9NTVUpCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jv
-LmMKPj4gaW5kZXggYzQwZjEyN2RlM2QwLi5jNzNkNGFlNDhmNWMgMTAwNjQ0Cj4+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4gQEAgLTYzNSw3ICs2MzUsNyBAQCBub3V2ZWF1X2Jv
-X3dyMzIoc3RydWN0IG5vdXZlYXVfYm8gKm52Ym8sIHVuc2lnbmVkIGluZGV4LCB1MzIgdmFsKQo+
-PiAgIHN0YXRpYyBzdHJ1Y3QgdHRtX3R0ICoKPj4gICBub3V2ZWF1X3R0bV90dF9jcmVhdGUoc3Ry
-dWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgdWludDMyX3QgcGFnZV9mbGFncykKPj4gICB7Cj4+
-IC0jaWYgSVNfRU5BQkxFRChDT05GSUdfQUdQKQo+PiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0RS
-TV9UVE1fQUdQKQo+PiAgIAlzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSA9IG5vdXZlYXVfYmRldihi
-by0+YmRldik7Cj4+ICAgCj4+ICAgCWlmIChkcm0tPmFncC5icmlkZ2UpIHsKPj4gQEAgLTE0NDgs
-NyArMTQ0OCw3IEBAIG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2
-aWNlICpiZGV2LCBzdHJ1Y3QgdHRtX21lbV9yZWcgKnJlZykKPj4gICAJCS8qIFN5c3RlbSBtZW1v
-cnkgKi8KPj4gICAJCXJldHVybiAwOwo+PiAgIAljYXNlIFRUTV9QTF9UVDoKPj4gLSNpZiBJU19F
-TkFCTEVEKENPTkZJR19BR1ApCj4+ICsjaWYgSVNfRU5BQkxFRChDT05GSUdfRFJNX1RUTV9BR1Ap
-Cj4+ICAgCQlpZiAoZHJtLT5hZ3AuYnJpZGdlKSB7Cj4+ICAgCQkJcmVnLT5idXMub2Zmc2V0ID0g
-cmVnLT5zdGFydCA8PCBQQUdFX1NISUZUOwo+PiAgIAkJCXJlZy0+YnVzLmJhc2UgPSBkcm0tPmFn
-cC5iYXNlOwo+PiBAQCAtMTYwMyw3ICsxNjAzLDcgQEAgbm91dmVhdV90dG1fdHRfcG9wdWxhdGUo
-c3RydWN0IHR0bV90dCAqdHRtLCBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCkKPj4gICAJ
-ZHJtID0gbm91dmVhdV9iZGV2KHR0bS0+YmRldik7Cj4+ICAgCWRldiA9IGRybS0+ZGV2LT5kZXY7
-Cj4+ICAgCj4+IC0jaWYgSVNfRU5BQkxFRChDT05GSUdfQUdQKQo+PiArI2lmIElTX0VOQUJMRUQo
-Q09ORklHX0RSTV9UVE1fQUdQKQo+PiAgIAlpZiAoZHJtLT5hZ3AuYnJpZGdlKSB7Cj4+ICAgCQly
-ZXR1cm4gdHRtX2FncF90dF9wb3B1bGF0ZSh0dG0sIGN0eCk7Cj4+ICAgCX0KPj4gQEAgLTE2NTYs
-NyArMTY1Niw3IEBAIG5vdXZlYXVfdHRtX3R0X3VucG9wdWxhdGUoc3RydWN0IHR0bV90dCAqdHRt
-KQo+PiAgIAlkcm0gPSBub3V2ZWF1X2JkZXYodHRtLT5iZGV2KTsKPj4gICAJZGV2ID0gZHJtLT5k
-ZXYtPmRldjsKPj4gICAKPj4gLSNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4+ICsjaWYgSVNf
-RU5BQkxFRChDT05GSUdfRFJNX1RUTV9BR1ApCj4+ICAgCWlmIChkcm0tPmFncC5icmlkZ2UpIHsK
-Pj4gICAJCXR0bV9hZ3BfdHRfdW5wb3B1bGF0ZSh0dG0pOwo+PiAgIAkJcmV0dXJuOwo+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5oIGIv
-ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5oCj4+IGluZGV4IGFk
-NGQzNjIxZDAyYi4uZDU3MjUyOGRhODUyIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9udmttL3N1YmRldi9wY2kvYWdwLmgKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbnZrbS9zdWJkZXYvcGNpL2FncC5oCj4+IEBAIC0xLDYgKzEsNiBAQAo+PiAgIC8qIFNQ
-RFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQgKi8KPj4gICAjaW5jbHVkZSAicHJpdi5oIgo+PiAt
-I2lmIGRlZmluZWQoQ09ORklHX0FHUCkgfHwgKGRlZmluZWQoQ09ORklHX0FHUF9NT0RVTEUpICYm
-IGRlZmluZWQoTU9EVUxFKSkKPj4gKyNpZiBkZWZpbmVkKENPTkZJR19EUk1fVFRNX0FHUCkKPj4g
-ICAjaWZuZGVmIF9fTlZLTV9QQ0lfQUdQX0hfXwo+PiAgICNkZWZpbmUgX19OVktNX1BDSV9BR1Bf
-SF9fCj4+ICAgCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9h
-Z3AuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2FncC5jCj4+IGluZGV4IDBhY2E3
-YmRmNTRjNy4uMjk0ZDE5MzAxNzA4IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFk
-ZW9uL3JhZGVvbl9hZ3AuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9h
-Z3AuYwo+PiBAQCAtMzMsNyArMzMsNyBAQAo+PiAgIAo+PiAgICNpbmNsdWRlICJyYWRlb24uaCIK
-Pj4gICAKPj4gLSNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4+ICsjaWYgSVNfRU5BQkxFRChD
-T05GSUdfRFJNX1RUTV9BR1ApCj4+ICAgCj4+ICAgc3RydWN0IHJhZGVvbl9hZ3Btb2RlX3F1aXJr
-IHsKPj4gICAJdTMyIGhvc3RicmlkZ2VfdmVuZG9yOwo+PiBAQCAtMTMxLDcgKzEzMSw3IEBAIHN0
-YXRpYyBzdHJ1Y3QgcmFkZW9uX2FncG1vZGVfcXVpcmsgcmFkZW9uX2FncG1vZGVfcXVpcmtfbGlz
-dFtdID0gewo+PiAgIAo+PiAgIGludCByYWRlb25fYWdwX2luaXQoc3RydWN0IHJhZGVvbl9kZXZp
-Y2UgKnJkZXYpCj4+ICAgewo+PiAtI2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkKPj4gKyNpZiBJ
-U19FTkFCTEVEKENPTkZJR19EUk1fVFRNX0FHUCkKPj4gICAJc3RydWN0IHJhZGVvbl9hZ3Btb2Rl
-X3F1aXJrICpwID0gcmFkZW9uX2FncG1vZGVfcXVpcmtfbGlzdDsKPj4gICAJc3RydWN0IGRybV9h
-Z3BfbW9kZSBtb2RlOwo+PiAgIAlzdHJ1Y3QgZHJtX2FncF9pbmZvIGluZm87Cj4+IEBAIC0yNjUs
-NyArMjY1LDcgQEAgaW50IHJhZGVvbl9hZ3BfaW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRl
-dikKPj4gICAKPj4gICB2b2lkIHJhZGVvbl9hZ3BfcmVzdW1lKHN0cnVjdCByYWRlb25fZGV2aWNl
-ICpyZGV2KQo+PiAgIHsKPj4gLSNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4+ICsjaWYgSVNf
-RU5BQkxFRChDT05GSUdfRFJNX1RUTV9BR1ApCj4+ICAgCWludCByOwo+PiAgIAlpZiAocmRldi0+
-ZmxhZ3MgJiBSQURFT05fSVNfQUdQKSB7Cj4+ICAgCQlyID0gcmFkZW9uX2FncF9pbml0KHJkZXYp
-Owo+PiBAQCAtMjc3LDcgKzI3Nyw3IEBAIHZvaWQgcmFkZW9uX2FncF9yZXN1bWUoc3RydWN0IHJh
-ZGVvbl9kZXZpY2UgKnJkZXYpCj4+ICAgCj4+ICAgdm9pZCByYWRlb25fYWdwX2Zpbmkoc3RydWN0
-IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4+ICAgewo+PiAtI2lmIElTX0VOQUJMRUQoQ09ORklHX0FH
-UCkKPj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fVFRNX0FHUCkKPj4gICAJaWYgKHJkZXYt
-PmRkZXYtPmFncCAmJiByZGV2LT5kZGV2LT5hZ3AtPmFjcXVpcmVkKSB7Cj4+ICAgCQlkcm1fYWdw
-X3JlbGVhc2UocmRldi0+ZGRldik7Cj4+ICAgCX0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25f
-dHRtLmMKPj4gaW5kZXggNWQ1MGM5ZWRiZTgwLi40ZjljNGU1ZjgyNjMgMTAwNjQ0Cj4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4+IEBAIC04Niw3ICs4Niw3IEBAIHN0YXRpYyBpbnQg
-cmFkZW9uX2luaXRfbWVtX3R5cGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsIHVpbnQzMl90
-IHR5cGUsCj4+ICAgCQltYW4tPmF2YWlsYWJsZV9jYWNoaW5nID0gVFRNX1BMX01BU0tfQ0FDSElO
-RzsKPj4gICAJCW1hbi0+ZGVmYXVsdF9jYWNoaW5nID0gVFRNX1BMX0ZMQUdfQ0FDSEVEOwo+PiAg
-IAkJbWFuLT5mbGFncyA9IFRUTV9NRU1UWVBFX0ZMQUdfTUFQUEFCTEUgfCBUVE1fTUVNVFlQRV9G
-TEFHX0NNQTsKPj4gLSNpZiBJU19FTkFCTEVEKENPTkZJR19BR1ApCj4+ICsjaWYgSVNfRU5BQkxF
-RChDT05GSUdfRFJNX1RUTV9BR1ApCj4+ICAgCQlpZiAocmRldi0+ZmxhZ3MgJiBSQURFT05fSVNf
-QUdQKSB7Cj4+ICAgCQkJaWYgKCFyZGV2LT5kZGV2LT5hZ3ApIHsKPj4gICAJCQkJRFJNX0VSUk9S
-KCJBR1AgaXMgbm90IGVuYWJsZWQgZm9yIG1lbW9yeSB0eXBlICV1XG4iLAo+PiBAQCAtNDExLDcg
-KzQxMSw3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRt
-X2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9tZW1fCj4+ICAgCQkvKiBzeXN0ZW0gbWVtb3J5
-ICovCj4+ICAgCQlyZXR1cm4gMDsKPj4gICAJY2FzZSBUVE1fUExfVFQ6Cj4+IC0jaWYgSVNfRU5B
-QkxFRChDT05GSUdfQUdQKQo+PiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0RSTV9UVE1fQUdQKQo+
-PiAgIAkJaWYgKHJkZXYtPmZsYWdzICYgUkFERU9OX0lTX0FHUCkgewo+PiAgIAkJCS8qIFJBREVP
-Tl9JU19BR1AgaXMgc2V0IG9ubHkgaWYgQUdQIGlzIGFjdGl2ZSAqLwo+PiAgIAkJCW1lbS0+YnVz
-Lm9mZnNldCA9IG1lbS0+c3RhcnQgPDwgUEFHRV9TSElGVDsKPj4gQEAgLTYzMSw3ICs2MzEsNyBA
-QCBzdGF0aWMgc3RydWN0IHR0bV90dCAqcmFkZW9uX3R0bV90dF9jcmVhdGUoc3RydWN0IHR0bV9i
-dWZmZXJfb2JqZWN0ICpibywKPj4gICAJc3RydWN0IHJhZGVvbl90dG1fdHQgKmd0dDsKPj4gICAK
-Pj4gICAJcmRldiA9IHJhZGVvbl9nZXRfcmRldihiby0+YmRldik7Cj4+IC0jaWYgSVNfRU5BQkxF
-RChDT05GSUdfQUdQKQo+PiArI2lmIElTX0VOQUJMRUQoQ09ORklHX0RSTV9UVE1fQUdQKQo+PiAg
-IAlpZiAocmRldi0+ZmxhZ3MgJiBSQURFT05fSVNfQUdQKSB7Cj4+ICAgCQlyZXR1cm4gdHRtX2Fn
-cF90dF9jcmVhdGUoYm8sIHJkZXYtPmRkZXYtPmFncC0+YnJpZGdlLAo+PiAgIAkJCQkJIHBhZ2Vf
-ZmxhZ3MpOwo+PiBAQCAtNjgzLDcgKzY4Myw3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX3R0bV90dF9w
-b3B1bGF0ZShzdHJ1Y3QgdHRtX3R0ICp0dG0sCj4+ICAgCX0KPj4gICAKPj4gICAJcmRldiA9IHJh
-ZGVvbl9nZXRfcmRldih0dG0tPmJkZXYpOwo+PiAtI2lmIElTX0VOQUJMRUQoQ09ORklHX0FHUCkK
-Pj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fVFRNX0FHUCkKPj4gICAJaWYgKHJkZXYtPmZs
-YWdzICYgUkFERU9OX0lTX0FHUCkgewo+PiAgIAkJcmV0dXJuIHR0bV9hZ3BfdHRfcG9wdWxhdGUo
-dHRtLCBjdHgpOwo+PiAgIAl9Cj4+IEBAIC03MTQsNyArNzE0LDcgQEAgc3RhdGljIHZvaWQgcmFk
-ZW9uX3R0bV90dF91bnBvcHVsYXRlKHN0cnVjdCB0dG1fdHQgKnR0bSkKPj4gICAJCXJldHVybjsK
-Pj4gICAKPj4gICAJcmRldiA9IHJhZGVvbl9nZXRfcmRldih0dG0tPmJkZXYpOwo+PiAtI2lmIElT
-X0VOQUJMRUQoQ09ORklHX0FHUCkKPj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fVFRNX0FH
-UCkKPj4gICAJaWYgKHJkZXYtPmZsYWdzICYgUkFERU9OX0lTX0FHUCkgewo+PiAgIAkJdHRtX2Fn
-cF90dF91bnBvcHVsYXRlKHR0bSk7Cj4+ICAgCQlyZXR1cm47Cj4+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vdHRtL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL3R0bS9NYWtlZmlsZQo+
-PiBpbmRleCBjYWVhMmEwOTk0OTYuLmFhNzcyYjE5ODAxMiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3R0bS9NYWtlZmlsZQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL01ha2Vm
-aWxlCj4+IEBAIC01LDcgKzUsNyBAQAo+PiAgIHR0bS15IDo9IHR0bV9tZW1vcnkubyB0dG1fdHQu
-byB0dG1fYm8ubyBcCj4+ICAgCXR0bV9ib191dGlsLm8gdHRtX2JvX3ZtLm8gdHRtX21vZHVsZS5v
-IFwKPj4gICAJdHRtX2V4ZWNidWZfdXRpbC5vIHR0bV9wYWdlX2FsbG9jLm8gdHRtX2JvX21hbmFn
-ZXIubwo+PiAtdHRtLSQoQ09ORklHX0FHUCkgKz0gdHRtX2FncF9iYWNrZW5kLm8KPj4gK3R0bS0k
-KENPTkZJR19EUk1fVFRNX0FHUCkgKz0gdHRtX2FncF9iYWNrZW5kLm8KPj4gICB0dG0tJChDT05G
-SUdfRFJNX1RUTV9ETUFfUEFHRV9QT09MKSArPSB0dG1fcGFnZV9hbGxvY19kbWEubwo+PiAgIAo+
-PiAgIG9iai0kKENPTkZJR19EUk1fVFRNKSArPSB0dG0ubwo+PiAtLSAKPj4gMi4xNy4xCj4+Cj4+
-IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, May 13, 2020 at 05:40:26PM +0530, Charan Teja Kalla wrote:
+> 
+> Thank you Greg for the comments.
+> On 5/12/2020 2:22 PM, Greg KH wrote:
+> > On Fri, May 08, 2020 at 12:11:03PM +0530, Charan Teja Reddy wrote:
+> >> The following race occurs while accessing the dmabuf object exported as
+> >> file:
+> >> P1				P2
+> >> dma_buf_release()          dmabuffs_dname()
+> >> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
+> >>
+> >> 			   read dmabuf stored in dentry->d_fsdata
+> >> Free the dmabuf object
+> >> 			   Start accessing the dmabuf structure
+> >>
+> >> In the above description, the dmabuf object freed in P1 is being
+> >> accessed from P2 which is resulting into the use-after-free. Below is
+> >> the dump stack reported.
+> >>
+> >> We are reading the dmabuf object stored in the dentry->d_fsdata but
+> >> there is no binding between the dentry and the dmabuf which means that
+> >> the dmabuf can be freed while it is being read from ->d_fsdata and
+> >> inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
+> >> with an extra refcount is not a viable solution as the exported dmabuf
+> >> is already under file's refcount and keeping the multiple refcounts on
+> >> the same object coordinated is not possible.
+> >>
+> >> As we are reading the dmabuf in ->d_fsdata just to get the user passed
+> >> name, we can directly store the name in d_fsdata thus can avoid the
+> >> reading of dmabuf altogether.
+> >>
+> >> Call Trace:
+> >>  kasan_report+0x12/0x20
+> >>  __asan_report_load8_noabort+0x14/0x20
+> >>  dmabuffs_dname+0x4f4/0x560
+> >>  tomoyo_realpath_from_path+0x165/0x660
+> >>  tomoyo_get_realpath
+> >>  tomoyo_check_open_permission+0x2a3/0x3e0
+> >>  tomoyo_file_open
+> >>  tomoyo_file_open+0xa9/0xd0
+> >>  security_file_open+0x71/0x300
+> >>  do_dentry_open+0x37a/0x1380
+> >>  vfs_open+0xa0/0xd0
+> >>  path_openat+0x12ee/0x3490
+> >>  do_filp_open+0x192/0x260
+> >>  do_sys_openat2+0x5eb/0x7e0
+> >>  do_sys_open+0xf2/0x180
+> >>
+> >> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> >> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+> >> Cc: <stable@vger.kernel.org> [5.3+]
+> >> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+> >> ---
+> >>
+> >> Changes in v2: 
+> >>
+> >> - Pass the user passed name in ->d_fsdata instead of dmabuf
+> >> - Improve the commit message
+> >>
+> >> Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
+> >>
+> >>  drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
+> >>  1 file changed, 10 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >> index 01ce125..0071f7d 100644
+> >> --- a/drivers/dma-buf/dma-buf.c
+> >> +++ b/drivers/dma-buf/dma-buf.c
+> >> @@ -25,6 +25,7 @@
+> >>  #include <linux/mm.h>
+> >>  #include <linux/mount.h>
+> >>  #include <linux/pseudo_fs.h>
+> >> +#include <linux/dcache.h>
+> >>  
+> >>  #include <uapi/linux/dma-buf.h>
+> >>  #include <uapi/linux/magic.h>
+> >> @@ -40,15 +41,13 @@ struct dma_buf_list {
+> >>  
+> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+> >>  {
+> >> -	struct dma_buf *dmabuf;
+> >>  	char name[DMA_BUF_NAME_LEN];
+> >>  	size_t ret = 0;
+> >>  
+> >> -	dmabuf = dentry->d_fsdata;
+> >> -	dma_resv_lock(dmabuf->resv, NULL);
+> >> -	if (dmabuf->name)
+> >> -		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> >> -	dma_resv_unlock(dmabuf->resv);
+> >> +	spin_lock(&dentry->d_lock);
+> > 
+> > Are you sure this lock always protects d_fsdata?
+> 
+> I think yes. In the dma-buf.c, I have to make sure that d_fsdata should
+> always be under d_lock thus it will be protected. (In this posted patch
+> there is one place(in dma_buf_set_name) that is missed, will update this
+> in V3).
+> 
+> > 
+> >> +	if (dentry->d_fsdata)
+> >> +		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
+> >> +	spin_unlock(&dentry->d_lock);
+> >>  
+> >>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+> >>  			     dentry->d_name.name, ret > 0 ? name : "");
+> > 
+> > If the above check fails the name will be what?  How could d_name.name
+> > be valid but d_fsdata not be valid?
+> 
+> In case of check fails, empty string "" is appended to the name by the
+> code, ret > 0 ? name : "", ret is initialized to zero. Thus the name
+> string will be like "/dmabuf:".
+
+So multiple objects can have the same "name" if this happens to multiple
+ones at once?
+
+> Regarding the validity of d_fsdata, we are setting the dmabuf's
+> dentry->d_fsdata to NULL in the dma_buf_release() thus can go invalid if
+> that dmabuf is in the free path.
+
+Why are we allowing the name to be set if the dmabuf is on the free path
+at all?  Shouldn't that be the real fix here?
+
+> >> @@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
+> >>  static int dma_buf_release(struct inode *inode, struct file *file)
+> >>  {
+> >>  	struct dma_buf *dmabuf;
+> >> +	struct dentry *dentry = file->f_path.dentry;
+> >>  
+> >>  	if (!is_dma_buf_file(file))
+> >>  		return -EINVAL;
+> >>  
+> >>  	dmabuf = file->private_data;
+> >>  
+> >> +	spin_lock(&dentry->d_lock);
+> >> +	dentry->d_fsdata = NULL;
+> >> +	spin_unlock(&dentry->d_lock);
+> >>  	BUG_ON(dmabuf->vmapping_counter);
+> >>  
+> >>  	/*
+> >> @@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >>  	}
+> >>  	kfree(dmabuf->name);
+> >>  	dmabuf->name = name;
+> >> +	dmabuf->file->f_path.dentry->d_fsdata = name;
+> > 
+> > You are just changing the use of d_fsdata from being a pointer to the
+> > dmabuf to being a pointer to the name string?  What's to keep that name
+> > string around and not have the same reference counting issues that the
+> > dmabuf structure itself has?  Who frees that string memory?
+> > 
+> 
+> Yes, I am just storing the name string in the d_fsdata in place of
+> dmabuf and this helps to get rid of any extra refcount requirement.
+> Because the user passed name carried in the d_fsdata is copied to the
+> local buffer in dmabuffs_dname under spin_lock(d_lock) and the same
+> d_fsdata is set to NULL(under the d_lock only) when that dmabuf is in
+> the release path. So, when d_fsdata is NULL, name string is not accessed
+> from the dmabuffs_dname thus extra count is not required.
+> 
+> String memory, stored in the dmabuf->name, is released from the
+> dma_buf_release(). Flow will be like, It fist sets d_fsdata=NULL and
+> then free the dmabuf->name.
+> 
+> However from your comments I have realized that there is a race in this
+> patch when using the name string between dma_buf_set_name() and
+> dmabuffs_dname(). But, If the idea of passing the name string inplace of
+> dmabuf in d_fsdata looks fine, I can update this next patch.
+
+I'll leave that to the dmabuf authors/maintainers, but it feels odd to
+me...
+
+thanks,
+
+greg k-h
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
