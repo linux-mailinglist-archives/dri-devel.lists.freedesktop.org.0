@@ -1,38 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD2A1D0FE3
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:32:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D901D0FE4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 12:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0D26E9A9;
-	Wed, 13 May 2020 10:32:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACB26E9AA;
+	Wed, 13 May 2020 10:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 521EB6E892;
- Wed, 13 May 2020 10:32:39 +0000 (UTC)
-IronPort-SDR: a0iQN0e+bmO9OYW/Guzs5voODajihQv9ZDCD6q04UxvSw7nadragUThEOn82cFHIJCUx57RH+F
- xOoYHcI8eFSA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2020 03:32:38 -0700
-IronPort-SDR: Hvv4InNJGc7fHnyB8SLK88DtnDdJpIDRTXFIvd/L4yRlczBHHJmc8srE4vV6AEx2BLRfvbzlry
- 2uaQo/yz9Kmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,387,1583222400"; d="scan'208";a="262438024"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga003.jf.intel.com with ESMTP; 13 May 2020 03:32:36 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/dp_mst: Fix timeout handling of MST down messages
-Date: Wed, 13 May 2020 13:31:55 +0300
-Message-Id: <20200513103155.12336-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.23.1
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 42CA86E9AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 10:32:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 9C9B92A6048;
+ Wed, 13 May 2020 12:32:53 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id uc2rehZeFuDv; Wed, 13 May 2020 12:32:53 +0200 (CEST)
+Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch
+ [83.76.80.252])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 0DA862A6045;
+ Wed, 13 May 2020 12:32:53 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.93)
+ (envelope-from <michel@daenzer.net>)
+ id 1jYoh2-000ryh-Iv; Wed, 13 May 2020 12:32:52 +0200
+Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
+ <CADnq5_NkD4+AMbNJceOJVSeBbJNQ3KDJq-kb7aHyF2jW8Y6dOA@mail.gmail.com>
+ <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
+ <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
+ <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
+ <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
+ <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
+ <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
+ <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
+ <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
+ <CAKMK7uHv_Hj8BB8t_i=EXx1C4WXw1PnmxuTyNfrA=b5eQMaSLg@mail.gmail.com>
+ <CALjTZvZNb-KbdZwM3kLU4yK8zH+NSh35k=iBtfGJMF1xyjpSFg@mail.gmail.com>
+ <69696543-7c0e-604d-ed29-721b1b99d44e@daenzer.net>
+ <CAKMK7uGiFOcEdHUNxxRMr1urX7JDFtgSEnc2TzCWG1UJ=ygN2w@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <6bdda31c-f1a4-558c-7f60-111c5e733fbd@daenzer.net>
+Date: Wed, 13 May 2020 12:32:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uGiFOcEdHUNxxRMr1urX7JDFtgSEnc2TzCWG1UJ=ygN2w@mail.gmail.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, stable@vger.kernel.org,
- Wayne Lin <Wayne.Lin@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Rui Salvaterra <rsalvaterra@gmail.com>,
+ "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes the following use-after-free problem in case an MST down
-message times out, while waiting for the response for it:
-
-[  449.022841] [drm:drm_dp_mst_wait_tx_reply.isra.26] timedout msg send 0000000080ba7fa2 2 0
-[  449.022898] ------------[ cut here ]------------
-[  449.022903] list_add corruption. prev->next should be next (ffff88847dae32c0), but was 6b6b6b6b6b6b6b6b. (prev=ffff88847db1c140).
-[  449.022931] WARNING: CPU: 2 PID: 22 at lib/list_debug.c:28 __list_add_valid+0x4d/0x70
-[  449.022935] Modules linked in: asix usbnet mii snd_hda_codec_hdmi mei_hdcp i915 x86_pkg_temp_thermal coretemp crct10dif_pclmul crc32_pclmul ghash_clmulni_intel snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hwdep e1000e snd_hda_core ptp snd_pcm pps_core mei_me mei intel_lpss_pci prime_numbers
-[  449.022966] CPU: 2 PID: 22 Comm: kworker/2:0 Not tainted 5.7.0-rc3-CI-Patchwork_17536+ #1
-[  449.022970] Hardware name: Intel Corporation Tiger Lake Client Platform/TigerLake U DDR4 SODIMM RVP, BIOS TGLSFWI1.R00.2457.A16.1912270059 12/27/2019
-[  449.022976] Workqueue: events_long drm_dp_mst_link_probe_work
-[  449.022982] RIP: 0010:__list_add_valid+0x4d/0x70
-[  449.022987] Code: c3 48 89 d1 48 c7 c7 f0 e7 32 82 48 89 c2 e8 3a 49 b7 ff 0f 0b 31 c0 c3 48 89 c1 4c 89 c6 48 c7 c7 40 e8 32 82 e8 23 49 b7 ff <0f> 0b 31 c0 c3 48 89 f2 4c 89 c1 48 89 fe 48 c7 c7 90 e8 32 82 e8
-[  449.022991] RSP: 0018:ffffc900001abcb0 EFLAGS: 00010286
-[  449.022995] RAX: 0000000000000000 RBX: ffff88847dae2d58 RCX: 0000000000000001
-[  449.022999] RDX: 0000000080000001 RSI: ffff88849d914978 RDI: 00000000ffffffff
-[  449.023002] RBP: ffff88847dae32c0 R08: ffff88849d914978 R09: 0000000000000000
-[  449.023006] R10: ffffc900001abcb8 R11: 0000000000000000 R12: ffff888490d98400
-[  449.023009] R13: ffff88847dae3230 R14: ffff88847db1c140 R15: ffff888490d98540
-[  449.023013] FS:  0000000000000000(0000) GS:ffff88849ff00000(0000) knlGS:0000000000000000
-[  449.023017] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  449.023021] CR2: 00007fb96fafdc63 CR3: 0000000005610004 CR4: 0000000000760ee0
-[  449.023025] PKRU: 55555554
-[  449.023028] Call Trace:
-[  449.023034]  drm_dp_queue_down_tx+0x59/0x110
-[  449.023041]  ? rcu_read_lock_sched_held+0x4d/0x80
-[  449.023050]  ? kmem_cache_alloc_trace+0x2a6/0x2d0
-[  449.023060]  drm_dp_send_link_address+0x74/0x870
-[  449.023065]  ? __slab_free+0x3e1/0x5c0
-[  449.023071]  ? lockdep_hardirqs_on+0xe0/0x1c0
-[  449.023078]  ? lockdep_hardirqs_on+0xe0/0x1c0
-[  449.023097]  drm_dp_check_and_send_link_address+0x9a/0xc0
-[  449.023106]  drm_dp_mst_link_probe_work+0x9e/0x160
-[  449.023117]  process_one_work+0x268/0x600
-[  449.023124]  ? __schedule+0x307/0x8d0
-[  449.023139]  worker_thread+0x37/0x380
-[  449.023149]  ? process_one_work+0x600/0x600
-[  449.023153]  kthread+0x140/0x160
-[  449.023159]  ? kthread_park+0x80/0x80
-[  449.023169]  ret_from_fork+0x24/0x50
-
-Fixes: d308a881a591 ("drm/dp_mst: Kill the second sideband tx slot, save the world")
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Wayne Lin <Wayne.Lin@amd.com>
-Cc: <stable@vger.kernel.org> # v3.17+
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 2d4132e0a98f..70455e304a26 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1197,7 +1197,8 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
- 
- 		/* remove from q */
- 		if (txmsg->state == DRM_DP_SIDEBAND_TX_QUEUED ||
--		    txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND)
-+		    txmsg->state == DRM_DP_SIDEBAND_TX_START_SEND ||
-+		    txmsg->state == DRM_DP_SIDEBAND_TX_SENT)
- 			list_del(&txmsg->next);
- 	}
- out:
--- 
-2.23.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0wNS0xMyAxMjoyOSBwLm0uLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IE9uIFdlZCwg
+TWF5IDEzLCAyMDIwIGF0IDEyOjI2IFBNIE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5u
+ZXQ+IHdyb3RlOgo+Pgo+PiBPbiAyMDIwLTA1LTEzIDExOjI4IGEubS4sIFJ1aSBTYWx2YXRlcnJh
+IHdyb3RlOgo+Pj4gT24gV2VkLCAxMyBNYXkgMjAyMCBhdCAwODoxOSwgRGFuaWVsIFZldHRlciA8
+ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPj4+Pgo+Pj4+IGk5MTUgaXMgZXZlbiB3b3JzZSwgd2Ug
+bWFudWFsbHkgbWVzcyBhcm91bmQgd2l0aCBjbGZsdXNoLiBJbgo+Pj4+IHVzZXJzcGFjZS4gU28g
+cmVhbGx5IHRoZXJlJ3MgMiBheGlzIGZvciBkbWEgbWVtb3J5OiBjb2hlcmVudCB2cy4KPj4+PiBu
+b24tY29oZXJlbnQgKHdoaWNoIGlzIHNvbWV0aGluZyB0aGUgZG1hLWFwaSBzb21ld2hhdCBleHBv
+c2VkKSwgaS5lLgo+Pj4+IGRvIHlvdSBuZWVkIHRvIGNsZmx1c2ggb3Igbm90LCBhbmQgY2FjaGVk
+IHZzIHVuY2FjaGVkLCBpLmUuIGFyZSB0aGUKPj4+PiBQQVQgZW50cmllcyB3YyBvciB3Yi4KPj4+
+Cj4+PiBTbywgdGhlIFBvd2VyUEMgQUdQIEdBUlQgZW5kcyB1cCBiZWluZyBjYWNoZWQgYW5kIG5v
+bi1jb2hlcmVudCwgcmlnaHQKPj4+IChhc3N1bWluZyB0aGVyZSdzIG5vIHdheSB0byBzZXQgdGhl
+IHBhZ2UgYXR0cmlidXRlcyBNVFJSL1BBVC1zdHlsZSk/Cj4+Cj4+IEl0IHdhcyB1bmNhY2hlZCB3
+aGVuIEkgd2FzIHVzaW5nIG15IGxhc3QtZ2VuIFBvd2VyQm9vayAodW50aWwgYSBmZXcKPj4geWVh
+cnMgYWdvKSwgdGhvdWdoIGl0J3MgcG9zc2libGUgdGhhdCBicm9rZSBzaW5jZSB0aGVuLiBJIGRv
+bid0IHJlbWVtYmVyCj4+IHRoZSBkZXRhaWxzIGhvdyBpdCdzIGRvbmUgb2ZmaGFuZCB0aG91Z2gu
+Cj4+Cj4+IFRoZSBvbmx5IHRoZW9yZXRpY2FsIHByb2JsZW0gdGhlcmUgd2FzIHRoYXQgdGhlIGtl
+cm5lbCBzdGlsbCBoYWQgYQo+PiBjYWNoZWFibGUgbWFwcGluZyBvZiB0aGUgc2FtZSBtZW1vcnks
+IGFuZCBhbnkgYWNjZXNzIHZpYSB0aGF0IChlLmcuCj4+IHByZWZldGNoIGR1ZSB0byBhY2Nlc3Mg
+dG8gYSBuZWlnaGJvdXJpbmcgcGFnZSkgY291bGQgdHJpZ2dlciBhIG1hY2hpbmUKPj4gY2hlY2su
+IEJ1dCBJIGRvbid0IHJlbWVtYmVyIGV2ZXIgaGl0dGluZyB0aGF0LiBNYXliZSBJIHdhcyBqdXN0
+IGx1Y2t5Cj4+IGFsbCB0aG9zZSB5ZWFycy4KPiAKPiBBdCBsZWFzdCBvbiBhcm0gdGhpcyBoYXMg
+YmVlbiBhIGJpZyB0b3BpYywgc2luY2UgaXQgaW5kZWVkIHJhbmRvbWx5Cj4ga2lsbHMgbWFjaGlu
+ZXMuIFRoYXQncyB3aHkgeW91IGNhbid0IHJlbWFwIHJhbmRvbSBwYWdlcyBhcyB3YywgdGhleQo+
+IGhhdmUgdG8gYmUgaW4gaGlnaG1lbS4gSSB0aG91Z2h0IHBwYyBpcyBlcXVhbGx5IGVhc2lseSBh
+bmdlcmVkLiBBbmQKPiB0aGUgdHJvdWJsZSBpcyB0aGF0IGp1c3QgdGhlIGV4aXN0YW5jZSBvZiB0
+aGUgbWFwcGluZyBpcyBlbm91Z2ggdG8KPiBjYXVzZSBhIG1hY2hpbmUgY2hlY2sgZXhjZXB0aW9u
+IGlpcmMuIFNvIGRvd24gdG8gcHVyZSBsdWNrLgoKRWl0aGVyIG15c2VsZiBhbmQgb3RoZXJzIHdl
+cmUgdmVyeSBsdWNreSB0aGVuIHdpdGggUG93ZXJNYWNzLCBvciBpdCdzCm5vdCBhY3R1YWxseSB0
+aGF0IGJhZC4KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAg
+ICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0
+ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
