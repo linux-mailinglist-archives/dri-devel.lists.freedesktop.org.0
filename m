@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE211D0BBD
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC0D1D0C17
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:30:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBC16E134;
-	Wed, 13 May 2020 09:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 750A66E9E8;
+	Wed, 13 May 2020 09:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5366E134
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 09:18:07 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id x136so9650973vsx.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 02:18:07 -0700 (PDT)
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E34B6E9E3;
+ Wed, 13 May 2020 09:30:12 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id m24so9653853vsq.10;
+ Wed, 13 May 2020 02:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7zl3A/MaxL7nCBUTZMcCY1t2cl4EkBQrlf8JzlzEFA8=;
- b=i+YQX40FXZGW/sO82YTRCLHcnqv20di0Bt2fRRzmFwqG2HTwwnECknlnmoZCRZlVH6
- zij/YYzOjDMMMyYud9eosetCeXEf77hIFyhDfeiAwR2NVK1s2CN9tgfvaQyAbbd1ZffT
- U2OSIasuhRxNvGcZvwlUmd0iPsUW+OcXUsNcvsUbTtprpA/0PK1NxaFWGaVVyKD4jsxK
- hX2oprQwc2RWRsQuLeK+xzgh26c/33ABGJzOXz0TYW1Mb3qV6cXT1JBuI73Y/CcvZru8
- dkbbIhrAjw5vESwlzrYbNlyD3xoXJ4d2g1kVAmjiBqmd0hTKs4Mi1jean4P0/D3jxiAX
- PMdg==
+ :cc; bh=t82H3vUX2i25ggjX822a43crgImwK1dH+c2aT6mGAQU=;
+ b=DDgow+wDcF5/Vs69XvBRmYFEvCjRGVPKOaN6U1Rck/NKDT1KFPHuhZnspxE6NFQTRX
+ 6j1hO9xJEoXpkCZebREO/eibHVmmHjyKFjaK4YStCCDK1zNM7Bea4RWRARXX9cvp3XYN
+ gsQjfLiyCs9RvaKmyeYQET7ZU2dQaXwWrlbbQDZ0HlgH1ZDJ1ySy9f1Pol4P6kxJGWsC
+ 6T5mvjSin9YfUJ431k2MyNkRUCGszwvkswEu9d+y1ixcKR2TpZjJV9GBWyr8elwEvXFa
+ 3dHFyGgCv5zZMD9QPolFw0G4qSvPBr5OkOs74jwd4XulbfZbLyAJrVNky5rIXUBi8/gu
+ psBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7zl3A/MaxL7nCBUTZMcCY1t2cl4EkBQrlf8JzlzEFA8=;
- b=C65crgeo7bD/TYjwE2fUpUbftZrDOGkwfTLIcCosHFZUKJUv6piR71r9Va3nWjpM/W
- 03AG2JmDqMsi5hkhNkfYRCIOU5NYqDOazY0C2uXfyppPXz6+SujYQtVzzPi7YvQVe+9T
- AvwmchUdyoZI3USUQI/f+FWpqbaZXOe7GYHmRo3TQnEE+jPUf9qrPXYCtTky0PpiKjtG
- GMJeHjV9EMK36spMxvCOQoywHgCwhukMh0pp/ORJZT9kv7116hRRcxBX5O5/k6Fic9le
- CtEo8jKZkXGx//dKzutbNA7BB/lPInlLdNdZC6LoBQ1ktNIPHwJjxbCQUfjqhQlscrB4
- dhcQ==
-X-Gm-Message-State: AGi0PuZEh/hlZ4z1SfSVsRqtBHOnxAl+apfL8LJlzCERWuWB5OrDRlD9
- rwiRkM3Gtt/Opz9JP2SrLwJzgJlkJeqS7XGuErw=
-X-Google-Smtp-Source: APiQypI2atMZjgtMXg6UWJiAd5Jvu3quup/vgFE4ujcx6TOh7EfhmdXsbOsMMQED8noVIMbECqlSUNwQJTHivPCa6MA=
-X-Received: by 2002:a67:de0a:: with SMTP id q10mr20875092vsk.138.1589361486356; 
- Wed, 13 May 2020 02:18:06 -0700 (PDT)
+ bh=t82H3vUX2i25ggjX822a43crgImwK1dH+c2aT6mGAQU=;
+ b=DAJvxHSjgVo8IASAYYQT25L5xHRpxtEPiQb9cPniGJnrS0TCZWRYH6d5oG1vLmL/9D
+ G3W3GnFuw9EnBA1Odw7sHK96QvRnTtORCVT5t7rdj8+MBU7J6349FWtw9YL7auYKr1Ns
+ 89cp9jRV6q87cCwA+vr7/hg4qNk0t8cOGwg7sOJaOPfk9AIJcAe3A4WctkEFHjZckhya
+ BNWSuOUZGPkB2B2Q03WLpgTdhncTDM+iuV7q3OBBgA7FX5aA/YEgV9F0KJFKwfJBQvUW
+ xXiJwIGmsi/AnBIR3JhNNm+lTu21CAGKGh94jryup5GtEjM3d+VRHDcahJ2OdQeHkzTQ
+ tEsw==
+X-Gm-Message-State: AGi0PuYxeI+OVQlY3GWnfTqinxrm8lL8knR58cnL2HR+nETP1HBlzDCa
+ R4uLXPmGyFtw+SUl4Ojg9wRwjK/nzHHq++PxB1E=
+X-Google-Smtp-Source: APiQypLq1oPGeFS3SoPpx5G/tGkP4WkRRjoA5eqEv+1Rsg9VY+t1D0jzvWiLhFC86s5lSjNdUtfzOSc3UDCw8VDG9i0=
+X-Received: by 2002:a67:c482:: with SMTP id d2mr20163077vsk.37.1589362211167; 
+ Wed, 13 May 2020 02:30:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200512084258.12673-1-tzimmermann@suse.de>
- <20200512084258.12673-13-tzimmermann@suse.de>
- <CACvgo522zu525bZX=s=h1AeTAFbbAVsWtFLwgt=i0uBORb-oVw@mail.gmail.com>
- <a2cc8ef0-f519-39ae-ea7f-52ff10e79d6a@suse.de>
-In-Reply-To: <a2cc8ef0-f519-39ae-ea7f-52ff10e79d6a@suse.de>
+References: <20200511171722.96576-1-christian.koenig@amd.com>
+ <1f7b3774-8724-7653-3481-9429ae991acc@suse.de>
+ <CADnq5_OnoH3YhhEjD7eOrBPPqxQZ+S1cKWRBaUMVnA0V=E0i+Q@mail.gmail.com>
+ <1706b8de-bf4a-e9e1-2163-e782d1c2cc19@suse.de>
+ <CADnq5_P6sWt=0zkRm6ySmOb1zr-7VTwLwx+ecEKg-ntJTRfY5A@mail.gmail.com>
+In-Reply-To: <CADnq5_P6sWt=0zkRm6ySmOb1zr-7VTwLwx+ecEKg-ntJTRfY5A@mail.gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Wed, 13 May 2020 10:15:25 +0100
-Message-ID: <CACvgo51iCz2d+P=CSvcAzD+DvygTVJkEfuB6-A=0uH5+9B5z_g@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] drm/mgag200: Remove out-commented suspend/resume
- helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 13 May 2020 10:27:30 +0100
+Message-ID: <CACvgo53k72T+-WUHr2XEwcgMFh-JonQME-He5Pc6hfOk3pr+7A@mail.gmail.com>
+Subject: Re: [Nouveau] [RFC] Remove AGP support from Radeon/Nouveau/TTM
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +64,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: john.p.donnelly@oracle.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ nouveau <nouveau@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 May 2020 at 19:47, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 12.05.20 um 12:14 schrieb Emil Velikov:
-> > Hi Thomas,
+On Tue, 12 May 2020 at 20:48, Alex Deucher <alexdeucher@gmail.com> wrote:
+
+> > >>
+> > >> There's some AGP support code in the DRM core. Can some of that declared
+> > >> as legacy?
+> > >>
+> > >> Specifically, what about these AGP-related ioctl calls? Can they be
+> > >> declared as legacy? It would appear to me that KMS-based drivers don't
+> > >> have to manage AGP by themselves. (?)
+> > >
+> > > The old drm core AGP code is mainly (only?) for the non-KMS drivers.
+> > > E.g., mach64, r128, sis, savage, etc.
 > >
-> > On Tue, 12 May 2020 at 09:43, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>
-> >> The suspend/resume helpers are unused. Also remove associated state
-> >> from struct mga_device.
-> >>
-> > Although DPMS in it's traditional sense is no longer a thing, would it
-> > make sense to keep this around for documentation purposes?
-> > In particular, the pci magic and associated PLL/DAC/pixel clock could
-> > be used for dynamic PM.
+> > Exactly my point. There's one drm_agp_init() call left in radeon. The
+> > rest of the AGP code is apparently for legacy non-KMS drivers. Should
+> > the related ioctl calls be declared as legacy (i.e., listed with
+> > DRM_LEGACY_IOCTL_DEF instead of DRM_IOCTL_DEF)? If so, much of the AGP
+> > core code could probably be moved behind CONFIG_DRM_LEGACY as well.
 >
-> That patch is not about DPMS. The DPMS code is still there. The
-> suspend/resume helpers were outcommented and I don't know if they ever
-> worked. Let's remove them.
+> Ah, I forgot about drm_agp_init().  I was just thinking the other AGP
+> stuff.  Yeah, I think we could make it legacy.
 >
-Seems like the idea is to suspend/resume the device on DPMS off/on. A
-rather moot point IMHO.
-As the DPMS semantics and the whole modeset, got more subtle with
-atomic modeset, the idea gets even more moot.
+Fwiw I've got local patches a) removing drm_agp_init() from radeon and
+b) making the core drm code legacy only.
+Will try to finish them over the weekend and send out.
 
-If the documentation has that process - sure nuke it. Although for
-dynPM, this code is essential.
-Considering a) one has interest in dynPM and b) the code is (close to) working.
-
-The last two are very big ifs so I'll leave it there.
+Even if AGP GART gets dropped the b) patches will be good ;-)
 
 -Emil
 _______________________________________________
