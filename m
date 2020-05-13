@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D6F1D464B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F741D465F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD1F6EBE7;
-	Fri, 15 May 2020 06:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106446EBEF;
+	Fri, 15 May 2020 06:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAB489BA3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 15:00:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A4489BA3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 15:00:18 +0000 (UTC)
 Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 3B67E610D5;
- Wed, 13 May 2020 15:00:15 +0000 (UTC)
+ by v6.sk (Postfix) with ESMTP id D41E6610D7;
+ Wed, 13 May 2020 15:00:16 +0000 (UTC)
 From: Lubomir Rintel <lkundrak@v3.sk>
 To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
-Date: Wed, 13 May 2020 17:00:06 +0200
-Message-Id: <20200513150007.1315395-3-lkundrak@v3.sk>
+Subject: [PATCH 3/3] drm/etnaviv: Simplify clock enable/disable
+Date: Wed, 13 May 2020 17:00:07 +0200
+Message-Id: <20200513150007.1315395-4-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513150007.1315395-1-lkundrak@v3.sk>
 References: <[PATCH 0/3] drm/etnaviv: Clock fixes>
@@ -46,54 +46,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There might be good reasons why the getting a clock failed. To treat the
-clocks as optional we're specifically only interested in ignoring -ENOENT,
-and devm_clk_get_optional() does just that.
+All the NULL checks are pointless, clk_*() routines already deal with NULL
+just fine.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 53 ++++++++++-----------------
+ 1 file changed, 19 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index c6dacfe3d321..e7dbb924f576 100644
+index e7dbb924f576..f5b95cb4f058 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1786,26 +1786,26 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	}
+@@ -1487,55 +1487,40 @@ static int etnaviv_gpu_clk_enable(struct etnaviv_gpu *gpu)
+ {
+ 	int ret;
  
- 	/* Get Clocks: */
--	gpu->clk_reg = devm_clk_get(&pdev->dev, "reg");
-+	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
- 	DBG("clk_reg: %p", gpu->clk_reg);
- 	if (IS_ERR(gpu->clk_reg))
--		gpu->clk_reg = NULL;
-+		return err;
+-	if (gpu->clk_reg) {
+-		ret = clk_prepare_enable(gpu->clk_reg);
+-		if (ret)
+-			return ret;
+-	}
++	ret = clk_prepare_enable(gpu->clk_reg);
++	if (ret)
++		return ret;
  
--	gpu->clk_bus = devm_clk_get(&pdev->dev, "bus");
-+	gpu->clk_bus = devm_clk_get_optional(&pdev->dev, "bus");
- 	DBG("clk_bus: %p", gpu->clk_bus);
- 	if (IS_ERR(gpu->clk_bus))
--		gpu->clk_bus = NULL;
-+		return err;
+-	if (gpu->clk_bus) {
+-		ret = clk_prepare_enable(gpu->clk_bus);
+-		if (ret)
+-			goto disable_clk_reg;
+-	}
++	ret = clk_prepare_enable(gpu->clk_bus);
++	if (ret)
++		goto disable_clk_reg;
  
--	gpu->clk_core = devm_clk_get(&pdev->dev, "core");
-+	gpu->clk_core = devm_clk_get_optional(&pdev->dev, "core");
- 	DBG("clk_core: %p", gpu->clk_core);
- 	if (IS_ERR(gpu->clk_core))
--		gpu->clk_core = NULL;
-+		return err;
- 	gpu->base_rate_core = clk_get_rate(gpu->clk_core);
+-	if (gpu->clk_core) {
+-		ret = clk_prepare_enable(gpu->clk_core);
+-		if (ret)
+-			goto disable_clk_bus;
+-	}
++	ret = clk_prepare_enable(gpu->clk_core);
++	if (ret)
++		goto disable_clk_bus;
  
--	gpu->clk_shader = devm_clk_get(&pdev->dev, "shader");
-+	gpu->clk_shader = devm_clk_get_optional(&pdev->dev, "shader");
- 	DBG("clk_shader: %p", gpu->clk_shader);
- 	if (IS_ERR(gpu->clk_shader))
--		gpu->clk_shader = NULL;
-+		return err;
- 	gpu->base_rate_shader = clk_get_rate(gpu->clk_shader);
+-	if (gpu->clk_shader) {
+-		ret = clk_prepare_enable(gpu->clk_shader);
+-		if (ret)
+-			goto disable_clk_core;
+-	}
++	ret = clk_prepare_enable(gpu->clk_shader);
++	if (ret)
++		goto disable_clk_core;
  
- 	/* TODO: figure out max mapped size */
+ 	return 0;
+ 
+ disable_clk_core:
+-	if (gpu->clk_core)
+-		clk_disable_unprepare(gpu->clk_core);
++	clk_disable_unprepare(gpu->clk_core);
+ disable_clk_bus:
+-	if (gpu->clk_bus)
+-		clk_disable_unprepare(gpu->clk_bus);
++	clk_disable_unprepare(gpu->clk_bus);
+ disable_clk_reg:
+-	if (gpu->clk_reg)
+-		clk_disable_unprepare(gpu->clk_reg);
++	clk_disable_unprepare(gpu->clk_reg);
+ 
+ 	return ret;
+ }
+ 
+ static int etnaviv_gpu_clk_disable(struct etnaviv_gpu *gpu)
+ {
+-	if (gpu->clk_shader)
+-		clk_disable_unprepare(gpu->clk_shader);
+-	if (gpu->clk_core)
+-		clk_disable_unprepare(gpu->clk_core);
+-	if (gpu->clk_bus)
+-		clk_disable_unprepare(gpu->clk_bus);
+-	if (gpu->clk_reg)
+-		clk_disable_unprepare(gpu->clk_reg);
++	clk_disable_unprepare(gpu->clk_shader);
++	clk_disable_unprepare(gpu->clk_core);
++	clk_disable_unprepare(gpu->clk_bus);
++	clk_disable_unprepare(gpu->clk_reg);
+ 
+ 	return 0;
+ }
 -- 
 2.26.2
 
