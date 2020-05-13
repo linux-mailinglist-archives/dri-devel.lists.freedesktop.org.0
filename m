@@ -2,68 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD47A1D464D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFC61D1719
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 16:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDED6EBE3;
-	Fri, 15 May 2020 06:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1C466E184;
+	Wed, 13 May 2020 14:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5B46EA43
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 14:01:46 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id b11so2075064vsa.13
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 07:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nXDn4QWCaIWKPTVQ+V9U2J2otyg+sxzenoKUS4npgT8=;
- b=icuwocrG4eY808Ue42+lzBwkJ9nJXDxAJKr7UkYnb5/u5K+1SB7Lapk4GxTJg6Bqij
- Y65sAAY/uQIEEKIiZfDsrPzRykXf5dAx2XZnSpJE/8KhYL1lgcj543oXuGwiAZsnOFR7
- F9G5E7mXtfaMUr0s5dxuwsyIEZxFXRAq+iGDW/gl8krLpTld62TNFCplZi9rKkYWCG0w
- S52+hh2G4gG5zUsrORIqD11wWFI39sxuJy65e/pVQSeUhZs0n6SZS9YM5lpWgX0NDiyz
- 9FC7uapADA8qyhuVgzJqGsOfIuEZCReeMblws2OgMV5deIYxlLbMQIfAT+TDuzX5pKyy
- oClA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nXDn4QWCaIWKPTVQ+V9U2J2otyg+sxzenoKUS4npgT8=;
- b=ufSWqo0DNY0mk8/W52mS7C9Ac2Dt6Zd+ZHad+Xwb+d0HNSj5ZemkcyL0RHcdTVG8fG
- R8NLGDyGrKuNQmjJ8gbLIzmcaiETiyeQAiGlaCXPneVLpVJFiuI8B4j1i0CIgX+uzcp7
- tPpjgFILwH2O9AILjv63jgVRH5W1Jre2pWwRx6zFEVZsCfJUYvfSXH1u4dw6OYoxQRV9
- 526HN/I9DQBenNVnrkxMILlHMkG9Awi8Wp9ZjKmDypIYTzbaENwY8m9h/62syaNM6Jqq
- ybmk/WR+r+BH72FhmAnu8TVj83iuPuiuiTrs5drjV/GCXshGpt7JqpNCskDgWDMdSk+H
- qiHA==
-X-Gm-Message-State: AGi0Pub6o9NROxDFIjO1Sq1MQmvphN8+8DYFO0UxlaICqS6a903GFWp1
- Ja01/zDGZ8gkxfaF5/5aTUvHcPw5uRqixn6J/A==
-X-Google-Smtp-Source: APiQypLGZRu7/Mgtc+qC5sBisKFm/NNy170UPO2OCaAfxlwXythgTL9/rurxkE6uygyLXZW0gFj2ilRBeqbiGPon2bY=
-X-Received: by 2002:a67:8d0a:: with SMTP id p10mr22142135vsd.45.1589378504886; 
- Wed, 13 May 2020 07:01:44 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4974E6E184
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 14:08:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A28E51F;
+ Wed, 13 May 2020 16:08:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1589378918;
+ bh=gh7vku4NSeMzv0KAbhmRoUNTTiQEMMmz2tOWPU+t3L0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DW8Ulm8GXyANsGVzvVAWzAOk5XS36pIHFFHuRpXd2XeugUiSohRQUz9TJb5l8Z0mK
+ 6VNGO4rVE3YJDcU6uAypWgeEcNmzFju/RrpWTCbtzUrqb8OVmdM35QuRXp5PoYS9O+
+ YIR48/JMbXv6oU+RM7cCqj8NLsdr7FFMhYC91WUA=
+Date: Wed, 13 May 2020 17:08:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+Subject: Re: [RFC PATCH] dt-bindings: display: ti,tfp410.txt: convert to yaml
+Message-ID: <20200513140832.GI5945@pendragon.ideasonboard.com>
+References: <20200428092048.14939-1-ricardo.canuelo@collabora.com>
+ <3e377c73-25a3-a7b3-0604-41c54d70039e@ti.com>
+ <20200506155320.GC15206@pendragon.ideasonboard.com>
+ <20200513110957.dgb3axle24pmqp3a@rcn-XPS-13-9360>
 MIME-Version: 1.0
-References: <d249c339-fa3f-4440-bbc8-c9cf08338174@physik.fu-berlin.de>
- <CALjTZvZcg60rgDux7+Kh3zaMBkd-OiqoJ7GyYrLxfvnwgc4Xng@mail.gmail.com>
- <CADnq5_M61r7CMtfMBx6Cf_N9SnJJn0PouiMjVg8wytEMF1YZfw@mail.gmail.com>
- <c5d29422-21bd-b786-c822-5643730ab8a6@daenzer.net>
- <CALjTZvZOHyEFVv-2RV94dFKDFQY4zxYEHt5uQ+1B48Npo4AwRw@mail.gmail.com>
- <alpine.DEB.2.02.2005121124110.28199@scenergy.dfmk.hu>
- <CADnq5_PwY5czTPepDwzc5qoMJ3cKc4Mui=uN=k1EOtmOD42Log@mail.gmail.com>
- <CAKMK7uG3R4uve41MkkcFSiDJ+p=MwW81gcFW7NFENjKbdDUZ+g@mail.gmail.com>
- <CADnq5_NFDjOzgnjHOHEcjacd2dX1kA1QEzHp8=NweZg_b-82-A@mail.gmail.com>
- <CAKMK7uHv_Hj8BB8t_i=EXx1C4WXw1PnmxuTyNfrA=b5eQMaSLg@mail.gmail.com>
- <CALjTZvZNb-KbdZwM3kLU4yK8zH+NSh35k=iBtfGJMF1xyjpSFg@mail.gmail.com>
- <69696543-7c0e-604d-ed29-721b1b99d44e@daenzer.net>
- <CALjTZvYsNsW9ytGpbUKv1uf9r6DJkAbQzyDbx7Ru+fCP34w4kQ@mail.gmail.com>
- <2612115a-eaa0-9bf9-1227-adbf7f75e1e7@daenzer.net>
- <CALjTZvbM=8h9g+T8+nx8mjuvv_etGAo7DJO5nCKAkg2bUNA+6g@mail.gmail.com>
- <ed0215b7-16f5-133d-70ab-96c4387ca14a@xenosoft.de>
-In-Reply-To: <ed0215b7-16f5-133d-70ab-96c4387ca14a@xenosoft.de>
-From: Rui Salvaterra <rsalvaterra@gmail.com>
-Date: Wed, 13 May 2020 15:01:33 +0100
-Message-ID: <CALjTZvZ++MHUQTTmCSvvcGacecBsKZm_QRvfTL5LV04Y-peR0w@mail.gmail.com>
-Subject: Re: [RFC] Remove AGP support from Radeon/Nouveau/TTM
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
+Content-Disposition: inline
+In-Reply-To: <20200513110957.dgb3axle24pmqp3a@rcn-XPS-13-9360>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,33 +48,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "debian-powerpc@lists.debian.org" <debian-powerpc@lists.debian.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- "Karoly Balogh \(Charlie/SGR\)" <charlie@scenergy.dfmk.hu>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, jason@lakedaemon.net,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 May 2020 at 14:44, Christian Zigotzky <chzigotzky@xenosoft.de> wrote:
->
-> OpenGL version string: 1.5 Mesa 7.6
-> OpenGL version string: 1.3 Mesa 7.2
->
-> Screenshots:
->
-> - http://www.supertuxkart.de/stk07ubuntu910ppc.png
-> - http://www.supertuxkart.de/opensuse111-stk073.jpg
-
-Those are *extremely old* (and I mean over ten years old) kernels and
-userspaces. Of course old UMS distros will work fine. Try installing
-the current Debian powerpc (on the G4) and ppc64 (on the G5) ports and
-force-enable AGP on the Radeon kernel driver (radeon.agpmode=0),
-you'll understand what we mean by "unstable". ;)
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUmljYXJkbywKCk9uIFdlZCwgTWF5IDEzLCAyMDIwIGF0IDAxOjA5OjU3UE0gKzAyMDAsIFJp
+Y2FyZG8gQ2HDsXVlbG8gd3JvdGU6Cj4gT24gbWnDqSAwNi0wNS0yMDIwIDE4OjUzOjIwLCBMYXVy
+ZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4gSSBkaWRuJ3QgaWYgSSByZW1lbWJlciBjb3JyZWN0bHks
+IEkganVzdCBtYXBwZWQgaXQgdG8gdGhlIGhhcmR3YXJlCj4gPiBmZWF0dXJlcy4gVGhlIGhhcmR3
+YXJlIHJlZ2lzdGVyIGluZGVlZCB0YWtlcyBhIHZhbHVlIGJldHdlZW4gMCBhbmQgNywKPiA+IGFu
+ZCB0aGF0IGlzIG1hcHBlZCB0byBbLTQsM10geCB0KFNURVApLiBJIGRvbid0IG1pbmQgZWl0aGVy
+IG9wdGlvbi4KPiAKPiBJIHdhcyB0YWtpbmcgYSBsb29rIGF0IHRoZSB0aS10ZnA0MTAuYyBkcml2
+ZXIgdG8gc2VlIGlmIGl0IG5lZWRzIGFueQo+IGNoYW5nZXMgdG8gc3VwcG9ydCB0aGUgdXBkYXRl
+ZCBkZXNrZXcgcHJvcGVydHkgcmFuZ2VzIFswLTddLCBidXQgSSBkb24ndAo+IGZ1bGx5IHVuZGVy
+c3RhbmQgd2hhdCB0aGlzIGRvZXMgKGxpbmUgMjc2KToKPiAKPiAJLyogR2V0IHRoZSBzZXR1cCBh
+bmQgaG9sZCB0aW1lIGZyb20gdmVuZG9yLXNwZWNpZmljIHByb3BlcnRpZXMuICovCj4gCW9mX3By
+b3BlcnR5X3JlYWRfdTMyKGR2aS0+ZGV2LT5vZl9ub2RlLCAidGksZGVza2V3IiwgKHUzMiAqKSZk
+ZXNrZXcpOwo+IAlpZiAoZGVza2V3IDwgLTQgfHwgZGVza2V3ID4gMykKPiAJCXJldHVybiAtRUlO
+VkFMOwo+IAo+IAl0aW1pbmdzLT5zZXR1cF90aW1lX3BzID0gbWluKDAsIDEyMDAgLSAzNTAgKiBk
+ZXNrZXcpOwo+IAl0aW1pbmdzLT5ob2xkX3RpbWVfcHMgPSBtaW4oMCwgMTMwMCArIDM1MCAqIGRl
+c2tldyk7Cj4gCj4gSXQgbG9va3MgbGlrZSB0aGF0IHRoZSBkcml2ZXIgZG9lc24ndCByZWFsbHkg
+YXBwbHkgdGhlIGRlc2tldyBzZXR0aW5ncwo+IHRvIHRoZSBkZXZpY2UgYW5kIHRoYXQgdGhpcyBo
+YXMgbm90IGJlZW4gcmVhbGx5IHRlc3RlZCwgc28gaXQncyBwcm9iYWJseQo+IG5vdCBhIGJpZyBk
+ZWFsLgoKVGhlIGRyaXZlciBkb2Vzbid0IGFwcGx5IGFueSBzZXR0aW5nIHRvIHRoZSBkZXZpY2Ug
+Oi0pIFRoZSB0aSxkZXNrZXcKcHJvcGVydHkgaXMgbWVhbnQgdG8gcmVwb3J0IHRoZSBkZXNrZXcg
+c2V0dGluZ3Mgc2VsZWN0ZWQgYnkgdGhlIGNoaXAncwpjb25maWd1cmF0aW9uIHBpbnMsIG5vdCB0
+byBzZXQgYSB2YWx1ZSB0byBiZSBwcm9ncmFtbWVkIHRvIHRoZSBkZXZpY2UuCgo+IEkgZ3Vlc3Mg
+d2hhdCB5b3Ugd2FudGVkIHRvIGRvIHdhcyB0byBhZGp1c3QgdGhlIHNldHVwIGFuZCBob2xkIHRp
+bWVzCj4gYXJvdW5kIDEyMDAgYW5kIDEzMDAgcHMgcmVzcGVjdGl2ZWx5IGluIGluY3JlbWVudHMv
+ZGVjcmVtZW50cyBvZiAzNTAgcHMKPiBkZXBlbmRpbmcgb24gdGhlIGRlc2tldyB2YWx1ZSwgYXMg
+dGhlIGRhdGFzaGVldCBkZXNjcmliZXMuIEJ1dCB0aGlzIGNvZGUKPiB3b3VsZCBzZXQgdGltaW5n
+cy0+c2V0dXBfdGltZV9wcyB0byAwIHJlZ2FyZGxlc3Mgb2YgdGhlIGRlc2tldyB2YWx1ZSwKPiBh
+bmQgdGltaW5ncy0+aG9sZF90aW1lX3BzIHdvdWxkIGJlIGVpdGhlciAwIG9yIGEgdmVyeSBiaWcg
+aW50ZWdlciB2YWx1ZQo+IGlmIGRlc2tldyBpcyAtNCAoYm90aCBzZXR1cF90aW1lX3BzIGFuZCBo
+b2xkX3RpbWVfcHMgYXJlIHUzMikuCj4gCj4gQW0gSSBtaXNzaW5nIHNvbWV0aGluZz8gV2FzIHRo
+aXMgaW50ZW50aW9uYWw/CgpPb3BzLiBUaGF0J3MgZW1iYXJhc3NpbmcuLi4gSXQgc2hvdWxkIGNs
+ZWFybHkgYmUgYSBtYXgoKSwgbm90IGEgbWluKCkuCkFuZCBvbmx5IGZvciBob2xkX3RpbWVfcHMg
+aXMgdGhpcyByZXF1aXJlZC4KCldvdWxkIHlvdSBsaWtlIHRvIHNlbmQgYSBwYXRjaCwgb3Igc2hv
+dWxkIEkgZG8gc28gPwoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
