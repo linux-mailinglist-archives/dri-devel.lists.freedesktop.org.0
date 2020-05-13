@@ -1,71 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DE31D0B99
-	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:10:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 352601D0B82
+	for <lists+dri-devel@lfdr.de>; Wed, 13 May 2020 11:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A411E6E9C7;
-	Wed, 13 May 2020 09:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AA06E116;
+	Wed, 13 May 2020 09:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF25F89D46
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 08:13:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6736E141
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 08:16:16 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2175F5801B1;
- Wed, 13 May 2020 04:13:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 13 May 2020 04:13:51 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 82B9B580259;
+ Wed, 13 May 2020 04:16:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 13 May 2020 04:16:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=IGYOtJGhA33KVDBJeTx7LYHUsdb
- eHZGIIUvV55V/pTo=; b=b8H3/C8IbYqfZrWAZDXls/QijycsCbs+xDvfu6K8u8W
- 5AQ/eTVHtwSbkcntqYZHPN0amfjE76nFi6IimdDSsxzMeNIxY1Pd+U7Zr5dLcyt6
- t6Ir/bGJB85Pf3Hx11oMIeZUrA+KGV75Wl68Xw8wS/xFwnVvzZxScynqNA/J8+n/
- f9jxDWit2CpPsBxbHw2M7EdwIXAhvfm4eLBO1Xb5PsLZhTgDdv5JfXAGKjnZT5+X
- 0YFziQghcrvVlgUyabEtY3eeay5znE1oM8nBlG0t67Y+sGviGpwd0I+7eQFMoICJ
- VWiBn+0Fc67m++efoWcJwFstzZFslbPKvOk0QeFAdXQ==
+ :content-type:in-reply-to; s=fm2; bh=0j46CBI/bHAD1UvanCxkve32qLl
+ V511xJqDxBIoMMfU=; b=HTFl3Klp2QfojXXgRrErUJAxxal4UKbARLXv7sdH2kW
+ 5Z6TVj+TXe0Dzotb9rvCgJ7qIFqDAM50LeL9vDigMJ+/hJIqiLhpnY6TwrmdA9zn
+ wcIuONOdhRvzr0XnqxfzmU4Cgqt2obYMbFPYkA4rG7n9sY4DuGGY1QHtihcL9OUG
+ 6KcpkECvWFW0vg2c3woq4k8U9vVXZBv4IpM2bMnzgAq7u0FsZOt4appHJQISonKm
+ 37mJ2ws/KvvqGaaEoNlkwA9EcjNR+oSDshiAH+3NfaXS7QJxp0XvXqLOQeHyr+pK
+ BZlmKfUu9zC+arM5xFxLzw8xGpHu0xrrawRP5EDSY2A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=IGYOtJ
- GhA33KVDBJeTx7LYHUsdbeHZGIIUvV55V/pTo=; b=RgT8M9sARsIBM7K0v2kxbW
- 3vdVUdBfWTY1uN/32ARoO7SEwTcqOU4ScxvSGS6339FCUqVQdI9IhOxDxattfrVT
- ADTWifW9FKJuSMCwJYPiiEMbL5dfrYfE0GcV80sv3L+cmoWREOzbPGdM1avQwIa/
- QZjvKn83IbWVv1OatKyyVpoYN2a2wrJI9+2AHtbsyUTDmj+DYZRYJwvwysnh0+SD
- 8p4jL5wUK7PHY/HMxxHH1Wzu4SRF9nFDIE6gDf5coSg2mLACDMz3mvctMmshZmtl
- ZiCban1pvxftHA3yCFUudXcTZy85RWa3s1xvrBM/pW2+wZ+uxB9ghUbzznfM1UUw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0j46CB
+ I/bHAD1UvanCxkve32qLlV511xJqDxBIoMMfU=; b=ME8JKV6mKukylAFSChUaYj
+ U2qnpZbY8VKhb96F+cdAzDVoxRc7tMYOGgh5HI3He7gV4X6NCP/4BzKyTFVeFpaX
+ b1ffAwY3vT8C3XXm7X8ukIyCPNXKKw9Wn3YuUah4EzkwpkOT+z1rdenqkGB3SIDC
+ mbk5Mib8N1EAM+EgLtO7OTDZC42IrKZveCNtpzTsojGDKx7hoZKjxbGLD12Xd/Uc
+ S3tVA+WAf8nTtQ8xxhqdiG/rufNA0lMMowDMpqobVaQnEnI+0I86mpCbDFOsnOjc
+ tyxHn0UMGfv9XWlq1qreHMWhXU4bAefkHCcxpBL+H2WPKXYGJt49Uw4fVLIz2QFQ
  ==
-X-ME-Sender: <xms:O6y7Xo1gWNRjX-uUeIA21csySJCs40dts9pgbWjr25yvCN92r9NJUA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggddtudcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:zqy7Xoae7j8EJXZNl5ITxUEaEHN9KyUXts41mDFCudOneOnPlTZdsQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:O6y7XjHmUWAg7jfXhBO8YZpU6LpxIbYSYV6vXLs5_3QGcI3MfhWnWQ>
- <xmx:O6y7Xg5hO0LEpGli15YGEIItHzmJ7b8BQZlFKWFPnjuKvFmmZW_m8g>
- <xmx:O6y7Xh1TRm5CCQl3T2_VeXBT9eT0JFpgeiPaZ-3ZI0JmNNOZ2PhIpg>
- <xmx:P6y7Xi-b_jpaSvZ34-DHJuWqeJEpw28r6AwybMhBBAQRdSR0SJ4www>
+ gvrhhnpeffteetveeijeetuefhffegkeetgffhieelheehtdduudethffhjedtvddtudel
+ vdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrd
+ eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:zqy7Xjb_gzqfaP5apaGEkZQP7B1_BAWupvdiUOGftcDIYbxDnZ2mZQ>
+ <xmx:zqy7Xi-GppLH-jpxW4_wKRZ_cK_3RDfc29t0cqAQWlOWo8k80vdOPQ>
+ <xmx:zqy7XirIrMfP-DBf7fwSPbqIuiv3WgKZ12YTpZJzGtvgifSiYkBHBg>
+ <xmx:z6y7XndYTy7d3DOVWcCzjnYkUd2S4pRFNwlYKG6tiFFzfUZaHJ0q-w>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0D151328005E;
- Wed, 13 May 2020 04:13:46 -0400 (EDT)
-Date: Wed, 13 May 2020 10:13:45 +0200
+ by mail.messagingengine.com (Postfix) with ESMTPA id D76EC30662FE;
+ Wed, 13 May 2020 04:16:13 -0400 (EDT)
+Date: Wed, 13 May 2020 10:16:12 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 03/91] dt-bindings: clock: Add a binding for the RPi
- Firmware clocks
-Message-ID: <20200513081345.zgey4k2ff4njtovm@gilmour.lan>
+Subject: Re: [PATCH v2 90/91] dt-bindings: display: vc4: hdmi: Add BCM2711
+ HDMI controllers bindings
+Message-ID: <20200513081612.qyc24hmodift4pru@gilmour.lan>
 References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <69e869b0a79ea17f2cdb79df986409963672495a.1587742492.git-series.maxime@cerno.tech>
- <20200511214727.GA20924@bogus>
+ <9bdee4024b3f95bed9b55c642f0f9415c22fc506.1587742492.git-series.maxime@cerno.tech>
+ <20200511215014.GA4800@bogus>
 MIME-Version: 1.0
-In-Reply-To: <20200511214727.GA20924@bogus>
+In-Reply-To: <20200511215014.GA4800@bogus>
 X-Mailman-Approved-At: Wed, 13 May 2020 09:09:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,102 +81,138 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
  linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1620264393=="
+Content-Type: multipart/mixed; boundary="===============0424226814=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1620264393==
+--===============0424226814==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4inkvqvn6iczrxel"
+	protocol="application/pgp-signature"; boundary="25uvvhz4ijwduufw"
 Content-Disposition: inline
 
 
---4inkvqvn6iczrxel
+--25uvvhz4ijwduufw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
-
-On Mon, May 11, 2020 at 04:47:27PM -0500, Rob Herring wrote:
-> On Fri, Apr 24, 2020 at 05:33:44PM +0200, Maxime Ripard wrote:
-> > The firmware running on the RPi VideoCore can be used to discover and
-> > change the various clocks running in the BCM2711. Since devices will
-> > need to use them through the DT, let's add a pretty simple binding.
+On Mon, May 11, 2020 at 04:50:14PM -0500, Rob Herring wrote:
+> On Fri, Apr 24, 2020 at 05:35:11PM +0200, Maxime Ripard wrote:
+> > The HDMI controllers found in the BCM2711 SoC need some adjustments to =
+the
+> > bindings, especially since the registers have been shuffled around in m=
+ore
+> > register ranges.
 > >=20
-> > Cc: Michael Turquette <mturquette@baylibre.com>
-> > Cc: Stephen Boyd <sboyd@kernel.org>
 > > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: linux-clk@vger.kernel.org
 > > Cc: devicetree@vger.kernel.org
 > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > > ---
-> >  Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-firmware=
-=2Eyaml | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
+> >  Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml | 109=
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 109 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2=
+711-hdmi.yaml
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2=
-835-firmware.yaml b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,b=
-cm2835-firmware.yaml
-> > index cec540c052b6..b48ed875eb8e 100644
-> > --- a/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-fir=
-mware.yaml
-> > +++ b/Documentation/devicetree/bindings/arm/bcm/raspberrypi,bcm2835-fir=
-mware.yaml
-> > @@ -22,6 +22,25 @@ properties:
-> >        Phandle to the firmware device's Mailbox.
-> >        (See: ../mailbox/mailbox.txt for more information)
-> > =20
-> > +  clocks:
-> > +    type: object
-> > +
-> > +    properties:
-> > +      compatible:
-> > +        const: raspberrypi,firmware-clocks
-> > +
-> > +      "#clock-cells":
-> > +        const: 1
-> > +        description: >
-> > +          The argument is the ID of the clocks contained by the
-> > +          firmware messages.
+> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
+i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > new file mode 100644
+> > index 000000000000..6091fe3d315b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> > @@ -0,0 +1,109 @@
+> > +# SPDX-License-Identifier: GPL-2.0
 >=20
-> Not really any reason to make this a child node. The parent can be a=20
-> clock provider.
+> Dual license
+>=20
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Broadcom BCM2711 HDMI Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Eric Anholt <eric@anholt.net>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - brcm,bcm2711-hdmi0
+> > +      - brcm,bcm2711-hdmi1
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: HDMI controller register range
+> > +      - description: DVP register range
+> > +      - description: HDMI PHY register range
+> > +      - description: Rate Manager register range
+> > +      - description: Packet RAM register range
+> > +      - description: Metadata RAM register range
+> > +      - description: CSC register range
+> > +      - description: CEC register range
+> > +      - description: HD register range
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: hdmi
+> > +      - const: dvp
+> > +      - const: phy
+> > +      - const: rm
+> > +      - const: packet
+> > +      - const: metadata
+> > +      - const: csc
+> > +      - const: cec
+> > +      - const: hd
+> > +
+> > +  clocks:
+> > +    description: The HDMI state machine clock
+> > +
+> > +  clock-names:
+> > +    const: hdmi
+> > +
+> > +  ddc:
+> > +    allOf:
+> > +      - $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: >
+> > +      Phandle of the I2C controller used for DDC EDID probing
+>=20
+> This belongs in a connector node. (ddc-i2c-bus)
+>=20
+> > +
+> > +  hpd-gpios:
+> > +    description: >
+> > +      The GPIO pin for the HDMI hotplug detect (if it doesn't appear
+> > +      as an interrupt/status bit in the HDMI controller itself)
+>=20
+> This belongs in a connector node.
 
-This was meant to provide some consistency for that driver. It already has =
-a nod
-for the GPIOs exposed through the firmware in the RPi where you could make =
-the
-exact same argument, so I guess that, while we shouldn't make the same choi=
-ces
-if we had to design it from scratch, it's more important to keep the same d=
-esign
-choices for a given binding?
+If we were to create a new binding, sure, but we're merely reusing the old
+binding that is already there. The only reason it's in a separate file is
+because you said it would be clearer in a separate file.
 
 Maxime
 
---4inkvqvn6iczrxel
+--25uvvhz4ijwduufw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXrusOQAKCRDj7w1vZxhR
-xeVJAQDmR19y9u8phgKYgLVg8JA98FXCMq4WNwsekwqGe+stqgD9FsYBv4DsAMVZ
-IsGpCnj5GT0yoXdBxhf+6rQUuVZMMA4=
-=cQQz
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXruszAAKCRDj7w1vZxhR
+xZXGAPwI/P/64ae/RGoyiyvicUFL/8PZpskFHFYPNqgj1twd1QD9GJ81sy881K3d
+VLuJhfBzZzlO3Dkq6buOGLj+E1To/Qw=
+=ZkKk
 -----END PGP SIGNATURE-----
 
---4inkvqvn6iczrxel--
+--25uvvhz4ijwduufw--
 
---===============1620264393==
+--===============0424226814==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -186,4 +223,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1620264393==--
+--===============0424226814==--
