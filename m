@@ -2,38 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE0A1D230E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 01:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 674F61D2319
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 01:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BD66E21D;
-	Wed, 13 May 2020 23:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8816E223;
+	Wed, 13 May 2020 23:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63BBE6E094
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 23:29:06 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3E5551F;
- Thu, 14 May 2020 01:29:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1589412545;
- bh=nWpjcsYek45HdhJIXEIPd/7XAW4GzgooyqKaba4rE+U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nUcUqOXlpnz0L+Ock4wdjH87+U1aOfOVEnPqJE1Tnw0ZIUKCVQRWs4Xg5B7RwTU8G
- BXfMx2pfXssoLQ6nwbKu8TQhNlQer7Ow9Fi4/xmRd14q7hjdIlMVneNF0hcXsaXmKz
- L2e9L48Fa1OpPPtQk/6+IVJBk0KxiJZtBUHR9QQw=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: devicetree@vger.kernel.org
-Subject: [PATCH v1.1 4/4] dt-bindings: display: bridge: renesas,
- lvds: Convert binding to YAML
-Date: Thu, 14 May 2020 02:28:40 +0300
-Message-Id: <20200513232840.22687-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2A16E223
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 23:33:58 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0A8DE20693
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 23:33:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589412838;
+ bh=FQuPkqpW++CMzJul/k9K8Nnk3Fs3wLzOZa3EDUaPXog=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Thj16xFwYv0atkm2x2IcXHD7uqQYMxLXqNE/UTSABTbapDxOcSWShu4VYx4hePhmx
+ M2h4p2eorE9Y6DPoVXOnihBMgKe3tu78/I2z+aeDKCDHVOjhkcKW11PpTpzA9uutBD
+ 2Fsrdztnd6LJqQqoBS28tIZXs6SQb6+PUTYowFlw=
+Received: by mail-ed1-f52.google.com with SMTP id d16so838176edq.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 16:33:57 -0700 (PDT)
+X-Gm-Message-State: AOAM530GPi3GMjgG0Jn9/DwCqXXxejueb601jcvQA/FPOpcSld12dlxq
+ il71OO4SQPUVsRZcwhJK1j4m6G4tYrj2Nznd/g==
+X-Google-Smtp-Source: ABdhPJyVQ+dsY7afdzjDkIWyXH9yX0zKdVoRpMYkusBkVhSHzVYUi19neBEjM3Nh8TM6YyY490G2hualHumhvwHD8Tk=
+X-Received: by 2002:a50:fe09:: with SMTP id f9mr1758763edt.47.1589412836070;
+ Wed, 13 May 2020 16:33:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAAOTY_8gJNpWXcMnHiZzg_sgyiJ6BDsBYRxaLX0OXWRuLF1NCg@mail.gmail.com>
+ <20200513194518.GN206103@phenom.ffwll.local>
+In-Reply-To: <20200513194518.GN206103@phenom.ffwll.local>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 14 May 2020 07:33:44 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-77au87rXwULY4Ki4rShO8Pz9FUaoVHZh0DCjRfGroBA@mail.gmail.com>
+Message-ID: <CAAOTY_-77au87rXwULY4Ki4rShO8Pz9FUaoVHZh0DCjRfGroBA@mail.gmail.com>
+Subject: Re: [GIT PULL] mediatek drm next for 5.8
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,380 +54,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ David Airlie <airlied@linux.ie>, Bernard Zhao <bernard@vivo.com>,
+ YueHaibing <yuehaibing@huawei.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Anand K Mistry <amistry@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Renesas R-Car LVDS encoder text binding to YAML.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
----
-Changes since v1:
-
-- Mention RZ/G1 and R2/G2 explicitly
-- Drop the part numbers in comments, only keep the SoC names
----
- .../bindings/display/bridge/renesas,lvds.txt  |  85 ------
- .../bindings/display/bridge/renesas,lvds.yaml | 248 ++++++++++++++++++
- 2 files changed, 248 insertions(+), 85 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-deleted file mode 100644
-index c62ce2494ed9..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-+++ /dev/null
-@@ -1,85 +0,0 @@
--Renesas R-Car LVDS Encoder
--==========================
--
--These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
--Gen2, R-Car Gen3 and RZ/G SoCs.
--
--Required properties:
--
--- compatible : Shall contain one of
--  - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
--  - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
--  - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
--  - "renesas,r8a774b1-lvds" for R8A774B1 (RZ/G2N) compatible LVDS encoders
--  - "renesas,r8a774c0-lvds" for R8A774C0 (RZ/G2E) compatible LVDS encoders
--  - "renesas,r8a7790-lvds" for R8A7790 (R-Car H2) compatible LVDS encoders
--  - "renesas,r8a7791-lvds" for R8A7791 (R-Car M2-W) compatible LVDS encoders
--  - "renesas,r8a7793-lvds" for R8A7793 (R-Car M2-N) compatible LVDS encoders
--  - "renesas,r8a7795-lvds" for R8A7795 (R-Car H3) compatible LVDS encoders
--  - "renesas,r8a7796-lvds" for R8A7796 (R-Car M3-W) compatible LVDS encoders
--  - "renesas,r8a77965-lvds" for R8A77965 (R-Car M3-N) compatible LVDS encoders
--  - "renesas,r8a77970-lvds" for R8A77970 (R-Car V3M) compatible LVDS encoders
--  - "renesas,r8a77980-lvds" for R8A77980 (R-Car V3H) compatible LVDS encoders
--  - "renesas,r8a77990-lvds" for R8A77990 (R-Car E3) compatible LVDS encoders
--  - "renesas,r8a77995-lvds" for R8A77995 (R-Car D3) compatible LVDS encoders
--
--- reg: Base address and length for the memory-mapped registers
--- clocks: A list of phandles + clock-specifier pairs, one for each entry in
--  the clock-names property.
--- clock-names: Name of the clocks. This property is model-dependent.
--  - The functional clock, which mandatory for all models, shall be listed
--    first, and shall be named "fck".
--  - On R8A77990, R8A77995 and R8A774C0, the LVDS encoder can use the EXTAL or
--    DU_DOTCLKINx clocks. Those clocks are optional. When supplied they must be
--    named "extal" and "dclkin.x" respectively, with "x" being the DU_DOTCLKIN
--    numerical index.
--  - When the clocks property only contains the functional clock, the
--    clock-names property may be omitted.
--- resets: A phandle + reset specifier for the module reset
--
--Required nodes:
--
--The LVDS encoder has two video ports. Their connections are modelled using the
--OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--- Video port 0 corresponds to the parallel RGB input
--- Video port 1 corresponds to the LVDS output
--
--Each port shall have a single endpoint.
--
--Optional properties:
--
--- renesas,companion : phandle to the companion LVDS encoder. This property is
--  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
--  the second encoder to be used as a companion in dual-link mode. It shall not
--  be set for any other LVDS encoder.
--
--
--Example:
--
--	lvds0: lvds@feb90000 {
--		compatible = "renesas,r8a77990-lvds";
--		reg = <0 0xfeb90000 0 0x20>;
--		clocks = <&cpg CPG_MOD 727>;
--		power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
--		resets = <&cpg 727>;
--
--		renesas,companion = <&lvds1>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				lvds0_in: endpoint {
--					remote-endpoint = <&du_out_lvds0>;
--				};
--			};
--			port@1 {
--				reg = <1>;
--				lvds0_out: endpoint {
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-new file mode 100644
-index 000000000000..33c06630a2dd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-@@ -0,0 +1,248 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car LVDS Encoder
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
-+  Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r8a7743-lvds # for RZ/G1M compatible LVDS encoders
-+      - renesas,r8a7744-lvds # for RZ/G1N compatible LVDS encoders
-+      - renesas,r8a774a1-lvds # for RZ/G2M compatible LVDS encoders
-+      - renesas,r8a774b1-lvds # for RZ/G2N compatible LVDS encoders
-+      - renesas,r8a774c0-lvds # for RZ/G2E compatible LVDS encoders
-+      - renesas,r8a7790-lvds # for R-Car H2 compatible LVDS encoders
-+      - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-+      - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-+      - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-+      - renesas,r8a7796-lvds # for R-Car M3-W compatible LVDS encoders
-+      - renesas,r8a77965-lvds # for R-Car M3-N compatible LVDS encoders
-+      - renesas,r8a77970-lvds # for R-Car V3M compatible LVDS encoders
-+      - renesas,r8a77980-lvds # for R-Car V3H compatible LVDS encoders
-+      - renesas,r8a77990-lvds # for R-Car E3 compatible LVDS encoders
-+      - renesas,r8a77995-lvds # for R-Car D3 compatible LVDS encoders
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 4
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 4
-+
-+  resets:
-+    maxItems: 1
-+
-+  ports:
-+    type: object
-+    description: |
-+      This device has two video ports. Their connections are modelled using the
-+      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-+      Each port shall have a single endpoint.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        description: Parallel RGB input port
-+
-+      port@1:
-+        type: object
-+        description: LVDS output port
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+    additionalProperties: false
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  renesas,companion:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to the companion LVDS encoder. This property is mandatory
-+      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-+      the second encoder to be used as a companion in dual-link mode. It
-+      shall not be set for any other LVDS encoder.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - resets
-+  - ports
-+
-+if:
-+  properties:
-+    compatible:
-+      enum:
-+        - renesas,r8a774c0-lvds
-+        - renesas,r8a77990-lvds
-+        - renesas,r8a77995-lvds
-+then:
-+  properties:
-+    clocks:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - description: Functional clock
-+        - description: EXTAL input clock
-+        - description: DU_DOTCLKIN0 input clock
-+        - description: DU_DOTCLKIN1 input clock
-+
-+    clock-names:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - const: fck
-+        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
-+        # These clocks are optional.
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+
-+  required:
-+    - clock-names
-+
-+else:
-+  properties:
-+    clocks:
-+      maxItems: 1
-+      items:
-+        - description: Functional clock
-+
-+    clock-names:
-+      maxItems: 1
-+      items:
-+        - const: fck
-+
-+    renesas,companion: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    lvds@feb90000 {
-+        compatible = "renesas,r8a7795-lvds";
-+        reg = <0 0xfeb90000 0 0x14>;
-+        clocks = <&cpg CPG_MOD 727>;
-+        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds_out: endpoint {
-+                    remote-endpoint = <&panel_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a77990-sysc.h>
-+
-+    lvds0: lvds@feb90000 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0 0xfeb90000 0 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        renesas,companion = <&lvds1>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds0_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds0_out: endpoint {
-+                    remote-endpoint = <&panel_in1>;
-+                };
-+            };
-+        };
-+    };
-+
-+    lvds1: lvds@feb90100 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0 0xfeb90100 0 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 726>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds1_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds1>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds1_out: endpoint {
-+                    remote-endpoint = <&panel_in2>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
--- 
-Regards,
-
-Laurent Pinchart
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIERhbmllbDoKCkRhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4g5pa8IDIwMjDlubQ1
+5pyIMTTml6Ug6YCx5ZubIOS4iuWNiDM6NDXlr6vpgZPvvJoKPgo+IE9uIFRodSwgTWF5IDE0LCAy
+MDIwIGF0IDEyOjE2OjU5QU0gKzA4MDAsIENodW4tS3VhbmcgSHUgd3JvdGU6Cj4gPiBIaSwgRGF2
+ZSAmIERhbmllbDoKPiA+Cj4gPiBUaGlzIGluY2x1ZGUgZHBpIHBpbiBtb2RlIHN3YXAsIGNvbmZp
+ZyBtaXBpX3R4IGN1cnJlbnQgYW5kIGltcGVkYW5jZSwKPiA+IGNvbnZlcnQgbXRrLWRwaSB0byBk
+cm1fYnJpZGdlIEFQSSwgYW5kIHNvbWUgZml4dXAuCj4gPgo+ID4gVGhlIGZvbGxvd2luZyBjaGFu
+Z2VzIHNpbmNlIGNvbW1pdCA4ZjNkOWYzNTQyODY3NDVjNzUxMzc0ZjVmMWZjYWZlZTZiM2YzMTM2
+Ogo+ID4gICBMaW51eCA1LjctcmMxICgyMDIwLTA0LTEyIDEyOjM1OjU1IC0wNzAwKQo+ID4gYXJl
+IGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cj4gPiAgIHNzaDovL2dpdEBnaXRv
+bGl0ZS5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9jaHVua3VhbmcuaHUvbGlu
+dXguZ2l0Cj4gPiB0YWdzL21lZGlhdGVrLWRybS1uZXh0LTUuOAo+Cj4gWW91ciBwdWxsIHJlcXVl
+c3QgaXMgYmFkbHkgbGluZSB3cmFwcGVkLCBhbmQgSSBkb24ndCBoYXZlIGFuIHNzaCBhY2NvdW50
+Cj4gb24gdGhhdCBtYWNoaW5lIC4uLiBNYXliZSBhaXJsaWVkIGhhcywgbm90IHN1cmUuIGh0dHA6
+Ly8gb3IgZ2l0Oi8vIHdvdWxkCj4gYmUgYSBidW5jaCBlYXNpZXIsIGFuZCB0aGVuIHNpZ25lZCB0
+aGF0LiBQbHVzIGlmIHlvdXIgcHVsbCBpc24ndAo+IGxpbmV3cmFwcGVkIHdlIGNhbiBzdHVmZiBp
+dCBkaXJlY3RseSBpbnRvIHNjcmlwdHMuCgpUaGlzIGlzIG15IGZpcnN0IHRpbWUgdG8gcmVxdWVz
+dC1wdWxsIG9uIHRoYXQgc2VydmVyLCBJIHdvdWxkIHRyeSB0bwptYWtlIHRoaW5ncyBlYXNpZXIg
+YW5kIHJlc2VuZCByZXF1ZXN0LgoKPgo+IEFsbCBJIHF1aWNrbHkgd2FudGVkIHRvIHF1aWNrbHkg
+Y2hlY2sgaXMgeW91ciBuZXcgYnJpZGdlIGRyaXZlci4KPiAtIHdhcyB0aGF0IHJldmlld2VkL2Fj
+a2VkIGJ5IGJyaWRnZSBtYWludGFpbmVycz8gVGhlcmUncyBhIGxvdCBvZiByZXdvcmsKPiAgIGdv
+aW5nIG9uIHJpZ2h0IG5vdywgbmVlZCB0byBtYWtlIHN1cmUgd2UncmUgbm90IGFkZGluZyBuZXcg
+YnJpZGdlCj4gICBkcml2ZXJzIHRoYXQgdXNlIG9sZCBzdHlsZQo+Cj4gLSB3aHkgaXMgdGhpcyBi
+cmlkZ2UgZHJpdmVyIG5vdCBpbiBkcm0vYnJpZGdlLyBkaXJlY3Rvcnk/CgpJIGRvZXMgbm90IG5v
+dGljZSB0aGF0IGRybSBicmlkZ2UgaGFzIG1haW50YWluZXIsIEkgd291bGQgZHJvcCBicmlkZ2UK
+c2VyaWVzIGZpcnN0LCBhbmQgd2FpdCBmb3IgYWNrIG9mIGJyaWRnZSBtYWludGFpbmVyLgptdGst
+ZHBpIGlzIGFsc28gYSBkcm0gZW5jb2RlciwgYW5kIEkgZ3JlcCAnZHJtX2JyaWRnZV9hZGQnIGFu
+ZCBmaW5kCm1hbnkgb3V0IHNpZGUgb2YgYnJpZGdlIGZvbGRlciwgc28gbWF5YmUgd2UgbmVlZCB0
+byBkaXNjdXNzIG1vcmUgYWJvdXQKdGhpcy4KClJlZ2FyZHMsCkNodW4tS3VhbmcuCgo+Cj4gQ2hl
+ZXJzLCBEYW5pZWwKPgo+ID4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDIzYjI5ZmY5
+ZjEzYThmYjVhMTJiZTlmZWRiOGI2MTRiOWRlZGU0NmE6Cj4gPiAgIGRybS9tZWRpYXRlazogRWxp
+bWluYXRlIHRoZSBtYWdpYyBudW1iZXIgaW4gYXJyYXkgc2l6ZSAoMjAyMC0wNS0xMAo+ID4gMDk6
+MDg6MzAgKzA4MDApCj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiBNZWRpYXRlayBEUk0gTmV4dCBmb3IgTGludXgg
+NS44Cj4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCj4gPiBBbmFuZCBLIE1pc3RyeSAoMSk6Cj4gPiAgICAgICBkcm0vbWVk
+aWF0ZWs6IFN0b3AgaXRlcmF0aW5nIGRtYSBhZGRyZXNzZXMgd2hlbiBzZ19kbWFfbGVuKCkgPT0g
+MAo+ID4gQmVybmFyZCBaaGFvICgyKToKPiA+ICAgICAgIGRybS9tZWRpYXRlazogQ2xlYW51cCBj
+b2Rpbmcgc3R5bGUgaW4gbWVkaWF0ZWsgYSBiaXQKPiA+ICAgICAgIGRybS9tZWRpYXRlazogRWxp
+bWluYXRlIHRoZSBtYWdpYyBudW1iZXIgaW4gYXJyYXkgc2l6ZQo+ID4gQ2h1bi1LdWFuZyBIdSAo
+MSk6Cj4gPiAgICAgICBNZXJnZSB0YWcgJ3Y1LjctbmV4dC1kcm0tc3RhYmxlJyBvZgo+ID4gc3No
+Oi8vZ2l0b2xpdGUua2VybmVsLm9yZy8uLi4vbWF0dGhpYXMuYmdnL2xpbnV4IGludG8KPiA+IG1l
+ZGlhdGVrLWRybS1uZXh0Cj4gPiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhICg3KToKPiA+ICAgICAg
+IGR0LWJpbmRpbmdzOiBtZWRpYXRlazogVXBkYXRlIG1tc3lzIGJpbmRpbmcgdG8gcmVmbGVjdCBp
+dCBpcyBhCj4gPiBzeXN0ZW0gY29udHJvbGxlcgo+ID4gICAgICAgc29jIC8gZHJtOiBtZWRpYXRl
+azogTW92ZSByb3V0aW5nIGNvbnRyb2wgdG8gbW1zeXMgZGV2aWNlCj4gPiAgICAgICBzb2MgLyBk
+cm06IG1lZGlhdGVrOiBGaXggbWVkaWF0ZWstZHJtIGRldmljZSBwcm9iaW5nCj4gPiAgICAgICBk
+cm0vbWVkaWF0ZWs6IFJlbW92ZSBkZWJ1ZyBtZXNzYWdlcyBmb3IgZnVuY3Rpb24gY2FsbHMKPiA+
+ICAgICAgIGRybS9tZWRpYXRlazogbXRrX2RwaTogUmVuYW1lIGJyaWRnZSB0byBuZXh0X2JyaWRn
+ZQo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBtdGtfZHBpOiBDb252ZXJ0IHRvIGJyaWRnZSBkcml2
+ZXIKPiA+ICAgICAgIGRybS9tZWRpYXRlazogbXRrX2RwaTogVXNlIHNpbXBsZSBlbmNvZGVyCj4g
+PiBIc2luLVlpIFdhbmcgKDEpOgo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBGaXggZGV2aWNlIHBh
+c3NlZCB0byBjbWRxCj4gPiBKaXRhbyBTaGkgKDYpOgo+ID4gICAgICAgZHQtYmluZGluZ3M6IGRp
+c3BsYXk6IG1lZGlhdGVrOiBjb250cm9sIGRwaSBwaW5zIG1vZGUgdG8gYXZvaWQgbGVha2FnZQo+
+ID4gICAgICAgZHJtL21lZGlhdGVrOiBzZXQgZHBpIHBpbiBtb2RlIHRvIGdwaW8gbG93IHRvIGF2
+b2lkIGxlYWthZ2UgY3VycmVudAo+ID4gICAgICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IG1lZGlh
+dGVrOiBhZGQgcHJvcGVydHkgdG8gY29udHJvbCBtaXBpIHR4Cj4gPiBkcml2ZSBjdXJyZW50Cj4g
+PiAgICAgICBkdC1iaW5kaW5nczogZGlzcGxheTogbWVkaWF0ZWs6IGdldCBtaXBpdHggY2FsaWJy
+YXRpb24gZGF0YSBmcm9tIG52bWVtCj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IGFkZCB0aGUgbWlw
+aXR4IGRyaXZpbmcgY29udHJvbAo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBjb25maWcgbWlwaXR4
+IGltcGVkYW5jZSB3aXRoIGNhbGlicmF0aW9uIGRhdGEKPiA+IE1hdHRoaWFzIEJydWdnZXIgKDIp
+Ogo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBPbWl0IHdhcm5pbmcgb24gcHJvYmUgZGVmZXJzCj4g
+PiAgICAgICBjbGsgLyBzb2M6IG1lZGlhdGVrOiBNb3ZlIG10ODE3MyBNTVNZUyB0byBwbGF0Zm9y
+bSBkcml2ZXIKPiA+IFl1ZUhhaWJpbmcgKDEpOgo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBGaXgg
+S2NvbmZpZyB3YXJuaW5nCj4gPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Fy
+bS9tZWRpYXRlay9tZWRpYXRlayxtbXN5cy50eHQgICB8ICAgNyArLQo+ID4gIERvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRwaS50eHQg
+fCAgIDYgKwo+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21l
+ZGlhdGVrL21lZGlhdGVrLGRzaS50eHQgfCAgMTAgKysKPiA+ICBkcml2ZXJzL2Nsay9tZWRpYXRl
+ay9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICsK
+PiA+ICBkcml2ZXJzL2Nsay9tZWRpYXRlay9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAxICsKPiA+ICBkcml2ZXJzL2Nsay9tZWRpYXRlay9jbGstbXQ4
+MTczLW1tLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiA+IDE0NiArKysrKysr
+KysrKysrKysrKysrCj4gPiAgZHJpdmVycy9jbGsvbWVkaWF0ZWsvY2xrLW10ODE3My5jICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiAxMDQgLS0tLS0tLS0tLS0tLS0KPiA+
+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAxICsKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rp
+c3BfY29sb3IuYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA1ICstCj4gPiAgZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ICAgNSArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1h
+LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKy0KPiA+ICBkcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX2RwaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwK
+PiA+IDEyNyArKysrKysrKysrLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfZHJtX2NydGMuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMjcgKystLQo+ID4g
+IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfAo+ID4gMjU5ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAuaCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICA3IC0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RybV9kcnYuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiA+ICA1MCArKystLS0t
+Cj4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmggICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB8ICAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
+dGtfZHJtX2dlbS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDMgKwo+ID4gIGRy
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAgIDggKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWku
+YyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIyICsrLQo+ID4gIGRyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfbWlwaV90eC5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfAo+ID4gIDU0ICsrKysrKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21p
+cGlfdHguaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA0ICsKPiA+ICBkcml2ZXJz
+L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX210ODE4M19taXBpX3R4LmMgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDI4ICsrKysKPiA+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9LY29uZmlnICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA4ICsrCj4gPiAgZHJpdmVycy9zb2Mv
+bWVkaWF0ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+ICAgMSArCj4gPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmMgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiAzMzcgKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysKPiA+ICBpbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGst
+bW1zeXMuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIwICsrKwo+ID4gIDI3IGZp
+bGVzIGNoYW5nZWQsIDc3OCBpbnNlcnRpb25zKCspLCA0NzYgZGVsZXRpb25zKC0pCj4gPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvY2xrL21lZGlhdGVrL2Nsay1tdDgxNzMtbW0uYwo+ID4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYwo+ID4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGstbW1zeXMu
+aAo+Cj4gLS0KPiBEYW5pZWwgVmV0dGVyCj4gU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
+cmF0aW9uCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
