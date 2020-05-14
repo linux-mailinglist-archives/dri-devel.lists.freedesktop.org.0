@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4191D2D8E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 12:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5342F1D2D9E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 12:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB936E13A;
-	Thu, 14 May 2020 10:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BFA6E321;
+	Thu, 14 May 2020 10:54:55 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
 Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
  [104.130.122.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B6B6E13A
- for <dri-devel@freedesktop.org>; Thu, 14 May 2020 10:54:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19FAD6EB27
+ for <dri-devel@freedesktop.org>; Thu, 14 May 2020 10:54:51 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1589453676; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1589453694; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=4pj2pSGmKEolcDAZl5r+t+wxWGg/AYuXOejKTDbWUcE=;
- b=jBzvtJcNM9dcgBmV953iVV5M8U+vSp/gNSk3kRScnpNs9W54TvdcFoVcdhfEoZVmzzz40OKY
- MObQfOdvQEzUXChaLtS/kc3YqDEgse1n4TdEt5SsJmNMjoC/W66Ex5SGmzyIUVZuRcs8W0sM
- B4wkhshAtunppamIVU9WOL2vExQ=
+ bh=a2TxXvMLOnzy/p6Es7kPbLs0G7YlAQN0tnzG1S0LZKs=;
+ b=TPS/rAqArPqr/G05E2OJK10TK198QwCiFAwlbXpoJ47Mnpi7Snu9xMST2OjZuVc96mDSpswj
+ KPjJbcIV5kuvdH9hnKHH+Q6bvxm84eBF410K/YyMC/6QHVsJPRy7BzLCTpdRlyEtSiOGBB5n
+ lURix0JdA81OLWNfTOAUo5KGcT4=
 X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ebd2369.7fb5dddf0688-smtp-out-n04;
- Thu, 14 May 2020 10:54:33 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5ebd236d.7ff102023d50-smtp-out-n01;
+ Thu, 14 May 2020 10:54:37 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id DB040C43637; Thu, 14 May 2020 10:54:33 +0000 (UTC)
+ id 77094C43636; Thu, 14 May 2020 10:54:37 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,9 +38,9 @@ Received: from hyd-lnxbld559.qualcomm.com
  (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: smasetty)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5464EC4478C;
- Thu, 14 May 2020 10:54:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5464EC4478C
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id EE696C433D2;
+ Thu, 14 May 2020 10:54:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EE696C433D2
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -48,10 +48,9 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: Sharat Masetty <smasetty@codeaurora.org>
 To: freedreno@lists.freedesktop.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH 1/6] arm64: dts: qcom: sc7180: Add interconnect bindings for
- GPU
-Date: Thu, 14 May 2020 16:24:14 +0530
-Message-Id: <1589453659-27581-2-git-send-email-smasetty@codeaurora.org>
+Subject: [PATCH 2/6] arm64: dts: qcom: sc7180: Add opp-peak-kBps to GPU opp
+Date: Thu, 14 May 2020 16:24:15 +0530
+Message-Id: <1589453659-27581-3-git-send-email-smasetty@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589453659-27581-1-git-send-email-smasetty@codeaurora.org>
 References: <1589453659-27581-1-git-send-email-smasetty@codeaurora.org>
@@ -76,27 +75,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds the interconnect bindings to the GPU node. This enables
-the GPU->DDR path bandwidth voting.
+Add opp-peak-kBps bindings to the GPU opp table, listing the peak
+GPU -> DDR bandwidth requirement for each opp level. This will be
+used to scale the DDR bandwidth along with the GPU frequency dynamically.
 
 Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 ---
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index b46ee78..0ce9921 100644
+index 0ce9921..89f7767 100644
 --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -1384,6 +1384,8 @@
- 			operating-points-v2 = <&gpu_opp_table>;
- 			qcom,gmu = <&gmu>;
+@@ -1392,36 +1392,43 @@
+ 				opp-800000000 {
+ 					opp-hz = /bits/ 64 <800000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++					opp-peak-kBps = <8532000>;
+ 				};
 
-+			interconnects = <&gem_noc MASTER_GFX3D &mc_virt SLAVE_EBI1>;
-+
- 			gpu_opp_table: opp-table {
- 				compatible = "operating-points-v2";
+ 				opp-650000000 {
+ 					opp-hz = /bits/ 64 <650000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
++					opp-peak-kBps = <7216000>;
+ 				};
 
+ 				opp-565000000 {
+ 					opp-hz = /bits/ 64 <565000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++					opp-peak-kBps = <5412000>;
+ 				};
+
+ 				opp-430000000 {
+ 					opp-hz = /bits/ 64 <430000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++					opp-peak-kBps = <5412000>;
+ 				};
+
+ 				opp-355000000 {
+ 					opp-hz = /bits/ 64 <355000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++					opp-peak-kBps = <3072000>;
+ 				};
+
+ 				opp-267000000 {
+ 					opp-hz = /bits/ 64 <267000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++					opp-peak-kBps = <3072000>;
+ 				};
+
+ 				opp-180000000 {
+ 					opp-hz = /bits/ 64 <180000000>;
+ 					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++					opp-peak-kBps = <1804000>;
+ 				};
+ 			};
+ 		};
 --
 2.7.4
 _______________________________________________
