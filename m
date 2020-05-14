@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF021D28FB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:44:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83261D28FE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E93E6EACF;
-	Thu, 14 May 2020 07:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4C816EAD2;
+	Thu, 14 May 2020 07:45:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E366EACF;
- Thu, 14 May 2020 07:44:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 665A56EAD2;
+ Thu, 14 May 2020 07:45:30 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4AF9DAF33;
- Thu, 14 May 2020 07:44:08 +0000 (UTC)
-Subject: Re: [PATCH 9/9] drm/shmem-helpers: Simplify dma-buf importing
+ by mx2.suse.de (Postfix) with ESMTP id C7B0CAB91;
+ Thu, 14 May 2020 07:45:31 +0000 (UTC)
+Subject: Re: [PATCH 2/9] drm/gem: WARN if drm_gem_get_pages is called on a
+ private obj
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-10-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-3-daniel.vetter@ffwll.ch>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -47,12 +48,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <732e30cc-9169-c409-4ddc-50508ef36efc@suse.de>
-Date: Thu, 14 May 2020 09:44:02 +0200
+Message-ID: <a8fb0cb4-86a6-af5c-ccbb-665f68e7758f@suse.de>
+Date: Thu, 14 May 2020 09:45:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200511093554.211493-10-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511093554.211493-3-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,197 +67,82 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0402331715=="
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1328478081=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0402331715==
+--===============1328478081==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="6rgMCpaXmIunx55bMTPYFSx6F16Fs7CxR"
+ boundary="WKxmUZd21uWuUpH5LCbegYIw1JA9mp85u"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6rgMCpaXmIunx55bMTPYFSx6F16Fs7CxR
-Content-Type: multipart/mixed; boundary="ohXrm0FeCzVQhhGK6wDwAx6MtGZp6UeEc";
+--WKxmUZd21uWuUpH5LCbegYIw1JA9mp85u
+Content-Type: multipart/mixed; boundary="B7acXOxbWu3SopmpWGR0CLHYAIgr1Z5dO";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <732e30cc-9169-c409-4ddc-50508ef36efc@suse.de>
-Subject: Re: [PATCH 9/9] drm/shmem-helpers: Simplify dma-buf importing
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <a8fb0cb4-86a6-af5c-ccbb-665f68e7758f@suse.de>
+Subject: Re: [PATCH 2/9] drm/gem: WARN if drm_gem_get_pages is called on a
+ private obj
 References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-10-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200511093554.211493-10-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-3-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511093554.211493-3-daniel.vetter@ffwll.ch>
 
---ohXrm0FeCzVQhhGK6wDwAx6MtGZp6UeEc
+--B7acXOxbWu3SopmpWGR0CLHYAIgr1Z5dO
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+
 
 Am 11.05.20 um 11:35 schrieb Daniel Vetter:
-> - Ditch the ->pages array
-> - Make it a private gem bo, which means no shmem object, which means
->   fireworks if anyone calls drm_gem_object_get_pages. But we've just
->   made sure that's all covered.
+> No real functional change, since this just converts an annoying Oops
+> into a more harmless WARNING backtrace. It's still a driver bug.
 >=20
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 59 ++++++++++----------------=
-
->  1 file changed, 23 insertions(+), 36 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> index f7011338813e..8c7d4f422b7b 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -35,22 +35,12 @@ static const struct drm_gem_object_funcs drm_gem_sh=
-mem_funcs =3D {
->  	.mmap =3D drm_gem_shmem_mmap,
->  };
-> =20
-> -/**
-> - * drm_gem_shmem_create - Allocate an object with the given size
-> - * @dev: DRM device
-> - * @size: Size of the object to allocate
-> - *
-> - * This function creates a shmem GEM object.
-> - *
-> - * Returns:
-> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded =
-negative
-> - * error code on failure.
-> - */
-> -struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *d=
-ev, size_t size)
-> +static struct drm_gem_shmem_object *
-> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool priva=
-te)
->  {
->  	struct drm_gem_shmem_object *shmem;
->  	struct drm_gem_object *obj;
-> -	int ret;
-> +	int ret =3D 0;
-> =20
->  	size =3D PAGE_ALIGN(size);
-> =20
-> @@ -64,7 +54,10 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(st=
-ruct drm_device *dev, size_t
->  	if (!obj->funcs)
->  		obj->funcs =3D &drm_gem_shmem_funcs;
-> =20
-> -	ret =3D drm_gem_object_init(dev, obj, size);
-> +	if (private)
-> +		drm_gem_private_object_init(dev, obj, size);
-> +	else
-> +		ret =3D drm_gem_object_init(dev, obj, size);
->  	if (ret)
->  		goto err_free;
-> =20
-> @@ -96,6 +89,21 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(st=
-ruct drm_device *dev, size_t
-> =20
->  	return ERR_PTR(ret);
->  }
-> +/**
-> + * drm_gem_shmem_create - Allocate an object with the given size
-> + * @dev: DRM device
-> + * @size: Size of the object to allocate
-> + *
-> + * This function creates a shmem GEM object.
-> + *
-> + * Returns:
-> + * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded =
-negative
-> + * error code on failure.
-> + */
-> +struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *d=
-ev, size_t size)
-> +{
-> +	return __drm_gem_shmem_create(dev, size, false);
-> +}
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
-> =20
->  /**
-> @@ -115,7 +123,6 @@ void drm_gem_shmem_free_object(struct drm_gem_objec=
-t *obj)
->  	if (obj->import_attach) {
->  		shmem->pages_use_count--;
->  		drm_prime_gem_destroy(obj, shmem->sgt);
-> -		kvfree(shmem->pages);
->  	} else {
->  		if (shmem->sgt) {
->  			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> @@ -371,7 +378,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *f=
-ile_priv,
->  	struct drm_gem_shmem_object *shmem;
->  	int ret;
-> =20
-> -	shmem =3D drm_gem_shmem_create(dev, size);
-> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
->  	if (IS_ERR(shmem))
->  		return shmem;
-> =20
-> @@ -695,36 +702,16 @@ drm_gem_shmem_prime_import_sg_table(struct drm_de=
-vice *dev,
->  				    struct sg_table *sgt)
->  {
->  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
-> -	size_t npages =3D size >> PAGE_SHIFT;
->  	struct drm_gem_shmem_object *shmem;
-> -	int ret;
-> =20
->  	shmem =3D drm_gem_shmem_create(dev, size);
->  	if (IS_ERR(shmem))
->  		return ERR_CAST(shmem);
-> =20
-> -	shmem->pages =3D kvmalloc_array(npages, sizeof(struct page *), GFP_KE=
-RNEL);
-> -	if (!shmem->pages) {
-> -		ret =3D -ENOMEM;
-> -		goto err_free_gem;
-> -	}
-> -
-> -	ret =3D drm_prime_sg_to_page_addr_arrays(sgt, shmem->pages, NULL, npa=
-ges);
-> -	if (ret < 0)
-> -		goto err_free_array;
-> -
->  	shmem->sgt =3D sgt;
-> -	shmem->pages_use_count =3D 1; /* Permanently pinned from our point of=
- view */
-
-This counter protected drm_gem_shmem_get_pages() from being executed on
-imported buffers. I guess that previous patches sorted out all the
-instances where this could occur. If so, the current patch looks
-correct. I'm not sure, if the overall code is really better than what we
-have ATM, but anyway
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+> ---
+>  drivers/gpu/drm/drm_gem.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 7bf628e13023..63bfd97e69d8 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -548,6 +548,10 @@ static void drm_gem_check_release_pagevec(struct p=
+agevec *pvec)
+>   * set during initialization. If you have special zone constraints, se=
+t them
+>   * after drm_gem_object_init() via mapping_set_gfp_mask(). shmem-core =
+takes care
+>   * to keep pages in the required zone during swap-in.
+> + *
+> + * This function is only valid on objects initialized with
+> + * drm_gem_object_init(), but not for those initialized with
+> + * drm_gem_private_object_init() only.
+>   */
+>  struct page **drm_gem_get_pages(struct drm_gem_object *obj)
+>  {
+> @@ -556,6 +560,10 @@ struct page **drm_gem_get_pages(struct drm_gem_obj=
+ect *obj)
+>  	struct pagevec pvec;
+>  	int i, npages;
 > =20
->  	DRM_DEBUG_PRIME("size =3D %zu\n", size);
+> +
+> +	if (WARN_ON(!obj->filp))
+> +		return ERR_PTR(-EINVAL);
+> +
+>  	/* This is the shared memory object that backs the GEM resource */
+>  	mapping =3D obj->filp->f_mapping;
 > =20
->  	return &shmem->base;
-> -
-> -err_free_array:
-> -	kvfree(shmem->pages);
-> -err_free_gem:
-> -	drm_gem_object_put_unlocked(&shmem->base);
-> -
-> -	return ERR_PTR(ret);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
 >=20
 
 --=20
@@ -268,28 +154,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---ohXrm0FeCzVQhhGK6wDwAx6MtGZp6UeEc--
+--B7acXOxbWu3SopmpWGR0CLHYAIgr1Z5dO--
 
---6rgMCpaXmIunx55bMTPYFSx6F16Fs7CxR
+--WKxmUZd21uWuUpH5LCbegYIw1JA9mp85u
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl689sIACgkQaA3BHVML
-eiP1egf/bY9j1pyn85NeZzXbH3TAXlYRy7ZpVC+aVzVpONJ2HftFiTztrzphsE4X
-mm8CDxHyotogZbTyFc336d4TCDhdJxTIV5b2JEWSgbXNvEzgaHgZ7HVjVbNpy842
-T/EfsRPX5i8uOIv07QgvgeFgRP7NSDJ3sWM3HHqWNqHGiF1L4UAMhobX09nS5Ags
-59B2ipAjRGeLX3neA3iYeMIWyaXaTaEFH4BxQTR7M9IcGV3zix5TmGBAtoa+W4+c
-1ZNgu43hhvl99FAHJBfdJDNTvRihbzCzJGPSIXTQLJE0XXtYKwzduX400Unj75zn
-gHqEERrvKN3fGzUT+8fUQFBxPjKrqg==
-=nCog
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl689xgACgkQaA3BHVML
+eiP/IwgAv0J4jbizDLEiEuBeuYdQUNCzrhie1uNdys5GKzPbEN0sgABgT7/lcmX4
+1xEaIvI0qaCFKl+QKkfrooxDCrt7KkqReq2gfLaBFpkesgR8CN9yaPyYkgDkqoTq
+5r/h6ZNGvQ7wyLQWC7mF61SjaeKRBAF75za5A++alr/bVqlXZ6wF0QiVC1wSC+Nk
+6I/Xvn1zdUeFxaQhXjEJyPb3+k5kTiODDXZ4IQNGfYvyOquzUsuHz32TkP3KXsI+
+SshU8JyGqyIZ3+eBU9+eC3sgJfrpjz70TbFhS53qffjvyarCGOFID31zCSWV4G7V
+OF2Ys8RXEd6KmCpaZdGYcofnUujdjA==
+=+B86
 -----END PGP SIGNATURE-----
 
---6rgMCpaXmIunx55bMTPYFSx6F16Fs7CxR--
+--WKxmUZd21uWuUpH5LCbegYIw1JA9mp85u--
 
---===============0402331715==
+--===============1328478081==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -300,4 +186,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0402331715==--
+--===============1328478081==--
