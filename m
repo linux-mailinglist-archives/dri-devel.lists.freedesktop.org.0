@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C4A1D29DE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:21:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 001771D29F7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35EFE6E2E9;
-	Thu, 14 May 2020 08:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5976E2F9;
+	Thu, 14 May 2020 08:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
  [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0E66E2E9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:21:22 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id g4so2539498ljl.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:21:22 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8296E2EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:24:41 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id f18so2478415lja.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:24:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ylNyjxPU0jW9A5cG6J8lYn77ZbNao4PuP4byNxuwb40=;
- b=pL+XB6xDy0cGnanxPxZeCoXI+0/bH/MJrC9FZHLbSFeABMiSHzmaFy/I+vlbadTqdg
- moVU55iWLxpm1nnhHrCGKzA2uK7DqkWVrHrypLWkQ77O98C65VIQg4eWTACmBhqQAvbe
- pHSqklAJtsA1BGN8aJrEPgAzkjuaIRy0vNfWRPOiZ0Gx9pkVb9qjr26pYd9MiqLjtOJr
- 54QU9Kl6XwBPNiecFaQ5Q2UN0C0xobJnHAsuUb9l4eWMcWJxS8krPxWVDver5JV680GH
- IzpZdlsYOHiSkmT8GBGTZ0VfuqV8Pk7Uv4HSe7NIk0lkUADLNFPO/dZ01aPB2TJo4RoU
- he7w==
+ :cc; bh=Jkb8BxKnl71QcTSlAQifB2QDBHTd1utKf7Tuku0XIK4=;
+ b=iIm3W3vxPyvQT8hBr8kR8u+6yVBH0h6bfGPXKdobARfet5qpx6e2NJwbGUoVD4BTiz
+ kvpn1tyKA+LwVUJc8z8fF1ZwXlCreaNrldq4vaEDBNH9cKFjh4tAUHQkvEkgZrv38eDN
+ o2gz3Js+ZsuW3daffpbxtnkSsvbVGjH/1ch+B53s3SDAzYlJpVIgVSGq9BIdUF43U3J3
+ PYEdm9THYdzNqhqnu0YtajA3OhEFK2moz2+zytOAdmmOqgbfZNV8YpRwBfYf+FcYfKP1
+ slXNCbKogiAPZuvMbATklfcba8DSvlZ/NhggKTK4KlzEC8fEhJbI/SNZCFcSB3u8yrD/
+ oIKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ylNyjxPU0jW9A5cG6J8lYn77ZbNao4PuP4byNxuwb40=;
- b=EabyBSP3LGf7wzOKhFp09vidhxV+7G6PPNLjn1vYDHAl9I2nL+HhF64eu71Xynm7EM
- YirnhWeNCiJJ6ZmS84VbIipsgGvQqdo0GXaUdiJZybF1tb4To0xFzBFhNtScqOqeTwiQ
- +A1mk7tAJ6dLCoTYsEBHNsRKZ3ZYG8WV6x/xM3Zah9Il20/JyUZbs5XEQBka7rtRVvb1
- n73SYz7+w3ckReAuN8veEHrD+kgBeGwZrzRGVr9pDxORWVHTUMI5uWC9AfebG4VzEvpQ
- MSdHiuh4k67AxiwP+keTyiKh3WmbxcONJJnYthTXRUzqvntb3JJRW34WXEQFiCuCQ5L3
- ZTyw==
-X-Gm-Message-State: AOAM531Zf5hkQBkJ4rE+v8SRDwC/mVcmRsz0w/e6wykENpTaafht1qlS
- rOL/Y+I8+VUA+CwJc8CBJA0+ADlXrMuaXEUBsRkjjg==
-X-Google-Smtp-Source: ABdhPJyRERMIh+MQZPItj7QatuGXtUx06mgJ88uloHfqTCykxSiONeYCm+tNHIHuv9MC+hs2Hr0mPlFfLP8XGnr3zRA=
-X-Received: by 2002:a2e:531e:: with SMTP id h30mr1125043ljb.168.1589444480845; 
- Thu, 14 May 2020 01:21:20 -0700 (PDT)
+ bh=Jkb8BxKnl71QcTSlAQifB2QDBHTd1utKf7Tuku0XIK4=;
+ b=EhDaVwuxEB5248EUPDVaLdD33n0x1dB8VqZ0KePlr3IePqcUWG9x0RO51wfxud2z92
+ 177wzJAVDyu1q6xaZc3dtyE5hHg8nPflGPeJ+Cs9omUNteXfdvoddMklmRY0/67AkxY5
+ gy9MSt4uAeucWATJTedhwl6N7M2MqEe2bw5qvQolmBt56pc9u9fa0vTGZfmrvFRaLDP9
+ WFA3CqdV1aSieEw/b07DLlRoTDlzmi0eCObTQubJq6QTy6a4B7+LgTdU/OJfv3BCF3cd
+ iuOSQzA7Sjzn7gt5R1DDEYrXdSxvjhhNTZCEr347laJ4bNMyICx0A5+Y649XfHC9aqdD
+ K26Q==
+X-Gm-Message-State: AOAM530TLIaVX0UxaSUGA11/ksTiX4hW5gObj4sNSL2zXZ/vVZahMuRj
+ SFNBuyxZaoVfKnzWfUe/qyghpppB5HG6mbD2AvbTWg==
+X-Google-Smtp-Source: ABdhPJzbR0lONsL+LHNQ562bI+zZx3vzCrNYamk5GJI5zjbv9WVScZ7rOiUe3C6sarzGNmAWB4jF6RMUNqx0dbXgSxU=
+X-Received: by 2002:a2e:8805:: with SMTP id x5mr2073815ljh.223.1589444679816; 
+ Thu, 14 May 2020 01:24:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
- <1589267017-17294-3-git-send-email-dillon.minfei@gmail.com>
-In-Reply-To: <1589267017-17294-3-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-4-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1589267017-17294-4-git-send-email-dillon.minfei@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 14 May 2020 10:21:09 +0200
-Message-ID: <CACRpkdZUyRh0KZzRxsdfFU_L-F=Ns0j1d3eR-ermhx2Gb0Zrgg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] dt-bindings: display: panel: Add ilitek ili9341
- panel bindings
+Date: Thu, 14 May 2020 10:24:28 +0200
+Message-ID: <CACRpkda5VjjBdbruXTi33QBNb=VU6vK2zDE8yyQXoWw7=NQFeg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] ARM: dts: stm32: enable ltdc binding with ili9341
+ on stm32429-disco board
 To: dillon.minfei@gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,16 +78,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 12, 2020 at 9:03 AM <dillon.minfei@gmail.com> wrote:
+On Tue, May 12, 2020 at 9:04 AM <dillon.minfei@gmail.com> wrote:
 
 > From: dillon min <dillon.minfei@gmail.com>
 >
-> Add documentation for "ilitek,ili9341" panel.
+> Enable the ltdc & ili9341 on stm32429-disco board.
 >
 > Signed-off-by: dillon min <dillon.minfei@gmail.com>
 
-This looks good to me.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+This mostly looks good but...
+
+> +&spi5 {
+> +       status = "okay";
+> +       pinctrl-0 = <&spi5_pins>;
+> +       pinctrl-names = "default";
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +       cs-gpios = <&gpioc 2 GPIO_ACTIVE_LOW>;
+> +       dmas = <&dma2 3 2 0x400 0x0>,
+> +              <&dma2 4 2 0x400 0x0>;
+> +       dma-names = "rx", "tx";
+
+These DMA assignments seem to be SoC things and should
+rather be in the DTS(I) file where &spi5 is defined, right?
+stm32f429.dtsi I suppose?
+
+It is likely the same no matter which device is using spi5.
 
 Yours,
 Linus Walleij
