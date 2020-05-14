@@ -2,27 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CC11D2884
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5978E1D2888
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB6F6E2DD;
-	Thu, 14 May 2020 07:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC926EABB;
+	Thu, 14 May 2020 07:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A566E2DD;
- Thu, 14 May 2020 07:08:24 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id DF15CAAD0;
- Thu, 14 May 2020 07:08:24 +0000 (UTC)
-Date: Thu, 14 May 2020 09:08:19 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <20200514070819.GA6930@linux-uq9g>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8566EAB9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 07:08:36 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id 19so23717770oiy.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 00:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=biA9r0T5Sv8YCx33FWjEpY/1dzcGIkDdNQS4u+MoouI=;
+ b=RagWkUEEVxT3M0/6JygfpeHFqxjNSK9bLGwanXl+yLlMcDld9yavXpnYjhC9HsYTyt
+ IpbbT6bHMaMd2f9vY6YNn+nUwDS2OMydKVzTrB2VzDs5z9m/uiV2W+qu69XkVhRE9U/D
+ JCKPy6/hBAHyVbbUSJo1VFF3mcNxHW3TBhsy4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=biA9r0T5Sv8YCx33FWjEpY/1dzcGIkDdNQS4u+MoouI=;
+ b=WOdOhoPTn/vNO0W27ajohzs7AARkjIdzTMbqs+eH1nW+NU6D//MisFYGjEcDoOb/d8
+ k8FtPvd/l74LHTHfOi4IYEL1csg9Yl4DsJoFlSSZWw3kqhJvGeRpseflFroupM3x+9Ze
+ 7tDTNHMt10E9FUWJOM2yDUPjdKWOYda0+OLjgPoc1Ps+CalF/VeCc5BzoXEsj+pvOx/V
+ c8rGifarTeTyzqc/eKVMlPfJe8W/8apelfkjhy3X2ZZ9EcoQBhwJUJu5DUYKx8vNX2U3
+ P/S6yOCGI/iMnTPUxwO7AOngYnVzBT/SQA8XM4kOfOG1hn4TE584P+GGfTg+UvPfM6NN
+ A1/g==
+X-Gm-Message-State: AGi0PuZykm8wnWQNGniAVBQ4Sns1QRMcUHj23+A9jqyOKv6uyd5YyGuK
+ slN/eiiFj9fjUZy/i4lamRWXp1jW4vyUNacWjTI6tw==
+X-Google-Smtp-Source: APiQypKJ6btuyR96uWgPEvWVBRFi5eTdiYG7q16E+P138IuV2y8xg7pd1Cxf/tBRYAklxwLz52LrYL47V81D1ObHYgU=
+X-Received: by 2002:aca:3b41:: with SMTP id i62mr11137374oia.101.1589440116176; 
+ Thu, 14 May 2020 00:08:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20200408162403.3616785-1-daniel.vetter@ffwll.ch>
+ <CAPj87rMJNwp0t4B0KxH7J_2__4eT7+ZJeG-=_juLSDhPc2hLHQ@mail.gmail.com>
+In-Reply-To: <CAPj87rMJNwp0t4B0KxH7J_2__4eT7+ZJeG-=_juLSDhPc2hLHQ@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Thu, 14 May 2020 09:08:24 +0200
+Message-ID: <CAKMK7uFU7ST9LWmpfhTuk1-_ES6VU-cUogMnPjA15BWFsEVacw@mail.gmail.com>
+Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
+ modesets
+To: Daniel Stone <daniel@fooishbar.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,146 +59,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Daniel Stone <daniels@collabora.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ stable <stable@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, May 14, 2020 at 8:42 AM Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> On Wed, 8 Apr 2020 at 17:24, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > Resending because last attempt failed CI and meanwhile the results are
+> > lost :-/
+>
+> Did anything happen with this?
 
-this is the forth pull request for drm-misc-next for what will become v5.8.
-It's fairly small number of patches without major changes. There's one fix
-to the UAPI headers, but it only affects comments.
+Nope. There's an igt now that fails with this, and I'm not sure
+whether changing the igt is the right idea or not.
 
-Best regards
-Thomsa
+I'm kinda now thinking about changing this to instead document under
+which exact situations you can get a spurious EBUSY, and enforcing
+that in the code with some checks. Essentially only possible if you do
+a ALLOW_MODESET | NONBLOCKING on the other crtc. And then tell
+userspace you get to eat that. We've been shipping with this for so
+long by now that's defacto the uapi anyway :-/
 
-drm-misc-next-2020-05-14:
-drm-misc-next for 5.8:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
- * dma-buf: use atomic64_fetch_add() for context id
- * Documentation: document bindings for ASUS ZOOT TM5P5, BOE NV133FHM-N62,
-                  hpd-gpios
-
-Core Changes:
-
-Driver Changes:
-
- * drm/ast: fix supend; cleanups
- * drm/i2c: cleanups
- * drm/panel: add MODULE_LICENSE to panel-visinox-rm69299; add support for
-              ASUS TM5P5i, BOE NV133FHM-N62i; fix size and bpp of BOE NV133FHM-N61
-	      add hpd-gpio to panel-simple
- * drm/mcde: fix return value check in mcde_dsi_bind()
- * drm/mgag200: use managed drmm_mode_config_init(); cleanups
- * fbdev/pxa168fb: cleanups
-
-The following changes since commit 0ea2ea42b31abc1141f2fd3911f952a97d401fcb:
-
-  drm/vkms: Hold gem object while still in-use (2020-05-06 21:51:46 -0400)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2020-05-14
-
-for you to fetch changes up to 1c530d431c698f156538b8954b07df95337beb34:
-
-  dma-buf: Use atomic_fetch_add() for the context id (2020-05-13 13:38:59 +0100)
-
-----------------------------------------------------------------
-drm-misc-next for 5.8:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
- * dma-buf: use atomic64_fetch_add() for context id
- * Documentation: document bindings for ASUS ZOOT TM5P5, BOE NV133FHM-N62,
-                  hpd-gpios
-
-Core Changes:
-
-Driver Changes:
-
- * drm/ast: fix supend; cleanups
- * drm/i2c: cleanups
- * drm/panel: add MODULE_LICENSE to panel-visinox-rm69299; add support for
-              ASUS TM5P5i, BOE NV133FHM-N62i; fix size and bpp of BOE NV133FHM-N61
-	      add hpd-gpio to panel-simple
- * drm/mcde: fix return value check in mcde_dsi_bind()
- * drm/mgag200: use managed drmm_mode_config_init(); cleanups
- * fbdev/pxa168fb: cleanups
-
-----------------------------------------------------------------
-Chris Wilson (1):
-      dma-buf: Use atomic_fetch_add() for the context id
-
-Douglas Anderson (5):
-      panel: simple: Fix size and bpp of BOE NV133FHM-N61
-      dt-bindings: display: simple: Add BOE NV133FHM-N62
-      panel: simple: Add BOE NV133FHM-N62
-      dt-bindings: display: Add hpd-gpios to panel-common bindings
-      drm/panel-simple: Support hpd-gpios for delaying prepare()
-
-Jason Yan (1):
-      video: fbdev: pxa168fb: make pxa168fb_init_mode() return void
-
-Konrad Dybcio (2):
-      dt-bindings: display: Document ASUS Z00T TM5P5 NT35596 panel compatible
-      drivers: drm: panel: Add ASUS TM5P5 NT35596 panel driver
-
-Mika Kahola (1):
-      uapi/drm/drm_fourcc.h: Note on platform specificity for format modifiers
-
-Randy Dunlap (1):
-      drm: panel: add MODULE_LICENSE to panel-visionox-rm69299.c
-
-Samuel Zou (2):
-      drm/ast: Make ast_primary_plane_helper_atomic_update static
-      drm/i2c/tda998x: Make tda998x_audio_digital_mute static
-
-Thomas Zimmermann (7):
-      drm/ast: Don't check new mode if CRTC is being disabled
-      drm/mgag200: Convert struct drm_device to struct mga_device with helper
-      drm/mgag200: Remove several references to struct mga_device.dev
-      drm/mgag200: Integrate init function into load function
-      drm/mgag200: Use managed mode-config initialization
-      drm/mgag200: Remove unused fields from struct mga_device
-      drm/mgag200: Embed connector instance in struct mga_device
-
-Wei Yongjun (1):
-      drm/mcde: dsi: Fix return value check in mcde_dsi_bind()
-
- .../display/panel/asus,z00t-tm5p5-nt35596.yaml     |  56 ++++
- .../bindings/display/panel/panel-common.yaml       |   6 +
- .../bindings/display/panel/panel-simple.yaml       |   2 +
- drivers/dma-buf/dma-fence.c                        |   2 +-
- drivers/gpu/drm/ast/ast_mode.c                     |   8 +-
- drivers/gpu/drm/i2c/tda998x_drv.c                  |   3 +-
- drivers/gpu/drm/mcde/mcde_dsi.c                    |   7 +-
- drivers/gpu/drm/mgag200/mgag200_cursor.c           |   4 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c              |   2 +-
- drivers/gpu/drm/mgag200/mgag200_drv.h              |  15 +-
- drivers/gpu/drm/mgag200/mgag200_i2c.c              |  10 +-
- drivers/gpu/drm/mgag200/mgag200_main.c             | 115 ++-----
- drivers/gpu/drm/mgag200/mgag200_mode.c             | 127 ++++---
- drivers/gpu/drm/panel/Kconfig                      |  10 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c   | 367 +++++++++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c               |  64 +++-
- drivers/gpu/drm/panel/panel-visionox-rm69299.c     |   1 +
- drivers/video/fbdev/pxa168fb.c                     |   5 +-
- include/uapi/drm/drm_fourcc.h                      |  18 +-
- 20 files changed, 654 insertions(+), 169 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/asus,z00t-tm5p5-nt35596.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
+Thoughts? Too horrible?
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
