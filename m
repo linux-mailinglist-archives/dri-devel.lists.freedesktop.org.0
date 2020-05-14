@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323581D465A
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B101D2E7F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 13:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B0E6EC09;
-	Fri, 15 May 2020 06:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265DC6E180;
+	Thu, 14 May 2020 11:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCF816E32A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 11:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis.com; l=6902; q=dns/txt; s=axis-central1;
- t=1589455859; x=1620991859;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=jBRBlj9gwionRJAP50TxCRzo3q1p1qtZOpygdfnnuFs=;
- b=b/ar+Sm/dQEtG6wfZOKdygxmbA+7ui7BA4JSQL2julNKBMWAy1FWpLOe
- NZ58npoHvEVHyvoVkzynWBEzo+phnwZxeDOumw53k/AToJdw8C0jaxfUT
- d/H9O7mM6ObVH+IAMcGz7I/sArNrPEY9K2ZiROuH7k+t928NZ8iqiYAGs
- dEhoWP9oVRS/oCLT8jhMOggNz23SRjAkjX/iHYzL69qFDZCRQ9FZlltZP
- y2jW+bXzbc452S7/UGGDiqa3RVZzQU9I2Ivd35bBixXsd9VN+15bFMnyu
- etILnedMJLl7nFoKDCe4Wu3BKixL8WB7puOGw02ub8GLmyNTxMi/tA1FU Q==;
-IronPort-SDR: rTUBpbR1MJFXUmoLJfCwSlqRvxoZ35ngwYbngjS9tpAaXndq8GGdLL7vIVVHkc1x9U/7k3TA5H
- jsDbHktw6pKhqAPD2+n0qcKboI4wdth9KbSDeOYzdSO58Ox1e0LQNMbElPbN8mXzfUcEA2vS/E
- w2Kz/aa9IJCsp8ZCrfvMitAOoWM/TJTfQmmHHpt+q4CnA2ZYkwq2jrwBl4at83tEDCGAK8llWM
- VX2xfKhrijCpYaLTcfmDdW1GYK0QkGULdJepZmAcABnPHs/I5Rn/sTh64mIb4l4TzWPKrF6Ezf
- XHE=
-X-IronPort-AV: E=Sophos;i="5.73,391,1583190000"; 
-   d="scan'208";a="8721302"
-From: Vincent Whitchurch <vincent.whitchurch@axis.com>
-To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
- <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3] drm/bridge: adv7511: Fix cec clock EPROBE_DEFER handling
-Date: Thu, 14 May 2020 13:30:51 +0200
-Message-ID: <20200514113051.3567-1-vincent.whitchurch@axis.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com
+ [IPv6:2607:f8b0:4864:20::c41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1776E180;
+ Thu, 14 May 2020 11:39:05 +0000 (UTC)
+Received: by mail-oo1-xc41.google.com with SMTP id z26so282306oog.8;
+ Thu, 14 May 2020 04:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZSwtCexk9nrc5wXHZb6xl7x3Ukus0pVklq+X0lXtP9M=;
+ b=q8byuDEV/HBaHutEfKPBCsOyJyKXLTe4fdppUu5YAyVeuJZ/cfy0kQWEcbAeRjIVy6
+ AZkToLQ6x/5AVr9U+gRwDb9fIvkuXhFu+VIWabcrx71puBIQSHn8hH7/T08WuZAGb2B7
+ Yn2cYkz3VxMdDJbOOAyk7jH906xTaQoGoFsaxjiRg+KFqP1wIS1AldxFzTqZs2TIC8F3
+ HdlclyNH5C5/2cRr3L16eW33oGDt2+ZZuwoot7brtKW68FMdUhy5Vm/2oO1mPQ2NKV8s
+ yuUbUGhQxHy2Dmp+DUlMBgnV8IwEZIzwfAfefoJkjWWveDDJSK548DuLRV7v6Pqr5Zw0
+ Rb2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZSwtCexk9nrc5wXHZb6xl7x3Ukus0pVklq+X0lXtP9M=;
+ b=Qj07GzRDmOLBPGO8r4Saf5UBrHkhEpO57pPNmWLkf/CO5tueYFR6VaXJtWXjDO/6yb
+ 5SaANoatNOWTHbjQG4V3WahPicGe6k669PbHvKliQsIe3Xj2b99xqTMTV7j25E5MvQXX
+ +XqJQQFLvG2FhxZabVhnrsoKksDBI6BM5jgLhWHJ93gvycz6BPZ9T5Fq5pUQ/yTc3aFF
+ xbGh5cexZmaDcqn8vfq+/706aKn9U28l6WoKtY6mIsTI2nOIDwqyJ//mIY1SyzCrNgzI
+ NG35azU99FzckG9Jxx3gVutw71NEZr2xXKmoZ+dyu/zxeej31yPKZxV94T/PO2yyXRzr
+ a+eg==
+X-Gm-Message-State: AOAM531Zn6v5ouruNaurBpPwZku01Xa6vNoPdOlW64Ro0oOV/zqTTcFh
+ zR7kH9s+BkBoMyq1uEHHlePmSuAU9z+DOVmKbM4=
+X-Google-Smtp-Source: ABdhPJzpF/j77VZ1mUAB6oImvLDs5y+yw8Ffqf9KnZIjayJc7xQ/fTQmYbxSeR6K0/KuM1T7We9orB4e+Fb4bfMi4ag=
+X-Received: by 2002:a4a:a50e:: with SMTP id v14mr3145833ook.27.1589456345130; 
+ Thu, 14 May 2020 04:39:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
+References: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
+ <20200511091142.208787-3-daniel.vetter@ffwll.ch>
+ <CAFCwf10m14ModSuRbQAsWf5CSJvTeP7YRzcokD=o+m2Pa0TqKg@mail.gmail.com>
+ <CAPM=9tyukFdDiM6-Mxd+ouXCt9Z4t6LRZwxq7DGoX9drrHnMdQ@mail.gmail.com>
+ <CAKMK7uF=SzeEBtZ9xH+jPzeML4V0QQuwBnPVw+OL+MUgTaaLzQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uF=SzeEBtZ9xH+jPzeML4V0QQuwBnPVw+OL+MUgTaaLzQ@mail.gmail.com>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Thu, 14 May 2020 14:38:38 +0300
+Message-ID: <CAFCwf110j5EDNH9nvrVX9fQ5JkEt5B217snyiTyfpFz8yAkxNg@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 3/3] misc/habalabs: don't set default
+ fence_ops->wait
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,188 +65,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se,
- Vincent Whitchurch <vincent.whitchurch@axis.com>,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl, kernel@axis.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If adv7511's devm_clk_get() for the cec clock returns -EPROBE_DEFER, we
-end up in an infinite probe loop.  This happens:
+On Tue, May 12, 2020 at 9:12 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Tue, May 12, 2020 at 4:14 AM Dave Airlie <airlied@gmail.com> wrote:
+> >
+> > On Mon, 11 May 2020 at 19:37, Oded Gabbay <oded.gabbay@gmail.com> wrote:
+> > >
+> > > On Mon, May 11, 2020 at 12:11 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > It's the default.
+> > > Thanks for catching that.
+> > >
+> > > >
+> > > > Also so much for "we're not going to tell the graphics people how to
+> > > > review their code", dma_fence is a pretty core piece of gpu driver
+> > > > infrastructure. And it's very much uapi relevant, including piles of
+> > > > corresponding userspace protocols and libraries for how to pass these
+> > > > around.
+> > > >
+> > > > Would be great if habanalabs would not use this (from a quick look
+> > > > it's not needed at all), since open source the userspace and playing
+> > > > by the usual rules isn't on the table. If that's not possible (because
+> > > > it's actually using the uapi part of dma_fence to interact with gpu
+> > > > drivers) then we have exactly what everyone promised we'd want to
+> > > > avoid.
+> > >
+> > > We don't use the uapi parts, we currently only using the fencing and
+> > > signaling ability of this module inside our kernel code. But maybe I
+> > > didn't understand what you request. You want us *not* to use this
+> > > well-written piece of kernel code because it is only used by graphics
+> > > drivers ?
+> > > I'm sorry but I don't get this argument, if this is indeed what you meant.
+> >
+> > We would rather drivers using a feature that has requirements on
+> > correct userspace implementations of the feature have a userspace that
+> > is open source and auditable.
+> >
+> > Fencing is tricky, cross-device fencing is really tricky, and having
+> > the ability for a closed userspace component to mess up other people's
+> > drivers, think i915 shared with closed habana userspace and shared
+> > fences, decreases ability to debug things.
+> >
+> > Ideally we wouldn't offer users known untested/broken scenarios, so
+> > yes we'd prefer that drivers that intend to expose a userspace fencing
+> > api around dma-fence would adhere to the rules of the gpu drivers.
+> >
+> > I'm not say you have to drop using dma-fence, but if you move towards
+> > cross-device stuff I believe other drivers would be correct in
+> > refusing to interact with fences from here.
+>
+> The flip side is if you only used dma-fence.c "because it's there",
+> and not because it comes with an uapi attached and a cross-driver
+> kernel internal contract for how to interact with gpu drivers, then
+> there's really not much point in using it. It's a custom-rolled
+> wait_queue/event thing, that's all. Without the gpu uapi and gpu
+> cross-driver contract it would be much cleaner to just use wait_queue
+> directly, and that's a construct all kernel developers understand, not
+> just gpu folks. From a quick look at least habanalabs doesn't use any
+> of these uapi/cross-driver/gpu bits.
+> -Daniel
 
- (1) adv7511's probe is called.
+Hi Daniel,
+I want to say explicitly that we don't use the dma-buf uapi parts, nor
+we intend to use them to communicate with any GPU device. We only use
+it as simple completion mechanism as it was convenient to use.
+I do understand I can exchange that mechanism with a simpler one, and
+I will add an internal task to do it (albeit not in a very high
+priority) and upstream it, its just that it is part of our data path
+so we need to thoroughly validate it first.
 
- (2) adv7511's probe adds some secondary i2c devices which bind to the
- dummy driver and thus call driver_deferred_probe_trigger() and
- increment deferred_trigger_count (see driver_bound()).
-
- (3) adv7511's probe returns -EPROBE_DEFER, and since the
- deferred_trigger_count has changed during the probe call,
- driver_deferred_probe_trigger() is called immediately (see
- really_probe()) and adv7511's probe is scheduled.
-
- (4) Goto step 1.
-
-[   61.972915] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
-[   61.992734] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003f
-[   61.993343] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003f'
-[   61.993626] really_probe: bus: 'i2c': really_probe: bound device 0-003f to driver dummy
-[   61.995604] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-0038
-[   61.996381] driver_bound: driver: 'dummy': driver_bound: bound to device '0-0038'
-[   61.996663] really_probe: bus: 'i2c': really_probe: bound device 0-0038 to driver dummy
-[   61.998651] really_probe: bus: 'i2c': really_probe: probing driver dummy with device 0-003c
-[   61.999222] driver_bound: driver: 'dummy': driver_bound: bound to device '0-003c'
-[   61.999496] really_probe: bus: 'i2c': really_probe: bound device 0-003c to driver dummy
-[   62.010050] really_probe: i2c 0-0039: Driver adv7511 requests probe deferral
-[   62.011380] really_probe: bus: 'platform': really_probe: probing driver pwm-clock with device clock-cec
-[   62.012812] really_probe: platform clock-cec: Driver pwm-clock requests probe deferral
-[   62.024679] really_probe: bus: 'i2c': really_probe: probing driver adv7511 with device 0-0039
-
-Fix this by calling devm_clk_get() before registering the secondary
-devices.
-
-Signed-off-by: Vincent Whitchurch <vincent.whitchurch@axis.com>
----
-v3: Make adv7511_cec_init() return void.
-v2: Add devm_clk_put() in error path.
-
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  5 ++-
- drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 34 ++++++++------------
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 15 ++++++---
- 3 files changed, 25 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index a9bb734366ae..05a66149b186 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -380,17 +380,16 @@ struct adv7511 {
- };
- 
- #ifdef CONFIG_DRM_I2C_ADV7511_CEC
--int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
-+void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511);
- void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
- #else
--static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
-+static inline void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- {
- 	unsigned int offset = adv7511->type == ADV7533 ?
- 						ADV7533_REG_CEC_OFFSET : 0;
- 
- 	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
- 		     ADV7511_CEC_CTRL_POWER_DOWN);
--	return 0;
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-index a20a45c0b353..ee0ed4fb67c1 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-@@ -286,28 +286,17 @@ static const struct cec_adap_ops adv7511_cec_adap_ops = {
- 	.adap_transmit = adv7511_cec_adap_transmit,
- };
- 
--static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
--{
--	adv7511->cec_clk = devm_clk_get(dev, "cec");
--	if (IS_ERR(adv7511->cec_clk)) {
--		int ret = PTR_ERR(adv7511->cec_clk);
--
--		adv7511->cec_clk = NULL;
--		return ret;
--	}
--	clk_prepare_enable(adv7511->cec_clk);
--	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
--	return 0;
--}
--
--int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
-+void adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- {
- 	unsigned int offset = adv7511->type == ADV7533 ?
- 						ADV7533_REG_CEC_OFFSET : 0;
--	int ret = adv7511_cec_parse_dt(dev, adv7511);
-+	int ret;
- 
--	if (ret)
--		goto err_cec_parse_dt;
-+	if (!adv7511->cec_clk)
-+		goto err_cec_no_clock;
-+
-+	clk_prepare_enable(adv7511->cec_clk);
-+	adv7511->cec_clk_freq = clk_get_rate(adv7511->cec_clk);
- 
- 	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
- 		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
-@@ -334,7 +323,7 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- 	ret = cec_register_adapter(adv7511->cec_adap, dev);
- 	if (ret)
- 		goto err_cec_register;
--	return 0;
-+	return;
- 
- err_cec_register:
- 	cec_delete_adapter(adv7511->cec_adap);
-@@ -342,8 +331,11 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- err_cec_alloc:
- 	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
- 		 ret);
--err_cec_parse_dt:
-+	clk_disable_unprepare(adv7511->cec_clk);
-+	devm_clk_put(dev, adv7511->cec_clk);
-+	/* Ensure that adv7511_remove() doesn't attempt to disable it again. */
-+	adv7511->cec_clk = NULL;
-+err_cec_no_clock:
- 	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
- 		     ADV7511_CEC_CTRL_POWER_DOWN);
--	return ret == -EPROBE_DEFER ? ret : 0;
- }
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 87b58c1acff4..8d8df6116082 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1128,6 +1128,15 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 	if (ret)
- 		return ret;
- 
-+	adv7511->cec_clk = devm_clk_get(dev, "cec");
-+	if (IS_ERR(adv7511->cec_clk)) {
-+		ret = PTR_ERR(adv7511->cec_clk);
-+		if (ret == -EPROBE_DEFER)
-+			return ret;
-+
-+		adv7511->cec_clk = NULL;
-+	}
-+
- 	ret = adv7511_init_regulators(adv7511);
- 	if (ret) {
- 		dev_err(dev, "failed to init regulators\n");
-@@ -1218,9 +1227,7 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 	if (adv7511->type == ADV7511)
- 		adv7511_set_link_config(adv7511, &link_config);
- 
--	ret = adv7511_cec_init(dev, adv7511);
--	if (ret)
--		goto err_unregister_cec;
-+	adv7511_cec_init(dev, adv7511);
- 
- 	adv7511->bridge.funcs = &adv7511_bridge_funcs;
- 	adv7511->bridge.of_node = dev->of_node;
-@@ -1232,8 +1239,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 
- err_unregister_cec:
- 	i2c_unregister_device(adv7511->i2c_cec);
--	if (adv7511->cec_clk)
--		clk_disable_unprepare(adv7511->cec_clk);
- err_i2c_unregister_packet:
- 	i2c_unregister_device(adv7511->i2c_packet);
- err_i2c_unregister_edid:
--- 
-2.25.1
-
+Thanks,
+Oded
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
