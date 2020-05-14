@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24ACD1D464E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C4A1D29DE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 017E86EBFB;
-	Fri, 15 May 2020 06:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35EFE6E2E9;
+	Thu, 14 May 2020 08:21:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3206EADF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:19:52 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id p12so2119166qtn.13
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0E66E2E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:21:22 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id g4so2539498ljl.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:21:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nV+pjnxNzhUaIVaL0d+Q+czgaVh94PJJNBtyQf89HuA=;
- b=bwqQu7dsz6fMq5SL+sSD61OzDG6vFt+sG+Dtmn2KHQEXyvruCjQJRVMO0rcUkWbR4U
- 3sBG2XIUE/tDcJxqlcxCKRZwVtTGXiqQqrz1W1j1VCo+pamFrLGrbNEVowY6fZeWz3dF
- lP8o4i0KqfUWhOHYFoa1pol4Wf7ScVyeR1jFc=
+ :cc; bh=ylNyjxPU0jW9A5cG6J8lYn77ZbNao4PuP4byNxuwb40=;
+ b=pL+XB6xDy0cGnanxPxZeCoXI+0/bH/MJrC9FZHLbSFeABMiSHzmaFy/I+vlbadTqdg
+ moVU55iWLxpm1nnhHrCGKzA2uK7DqkWVrHrypLWkQ77O98C65VIQg4eWTACmBhqQAvbe
+ pHSqklAJtsA1BGN8aJrEPgAzkjuaIRy0vNfWRPOiZ0Gx9pkVb9qjr26pYd9MiqLjtOJr
+ 54QU9Kl6XwBPNiecFaQ5Q2UN0C0xobJnHAsuUb9l4eWMcWJxS8krPxWVDver5JV680GH
+ IzpZdlsYOHiSkmT8GBGTZ0VfuqV8Pk7Uv4HSe7NIk0lkUADLNFPO/dZ01aPB2TJo4RoU
+ he7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nV+pjnxNzhUaIVaL0d+Q+czgaVh94PJJNBtyQf89HuA=;
- b=HMX/+YGXbvobkuAoX5Joox6iciSGVQvm455iqehgHwgmjOj5QteRn4QMCD9WW6Ul8m
- RXpFLiulqJ23I/+CVfTvMTy03AKjyLRpuMqcpx2UlntzOvgSLr8zDoAKqAHCtYq3Rccf
- VDTcOKtHqynRTWJFeaI+R+RIjwMZX06qFLxr80StHJS5kshDf9qrVrqKtPd8HuUFfLY9
- gDG/2srTxjE0TrogbtEMhPqhqfY/xF+/phD0DhJ2LfCZuanwrwt/HlIhfCdZ2O4pJFbt
- 9ErGiT1o4THItCV0N/dvuukBvqI8Lru+tiFF5YrQyl51/HWSXi3pKpoWLX091ZWMERF2
- 8AxQ==
-X-Gm-Message-State: AOAM533s7SJAj2XsBnLA8iHGoeCHFMEpLeAkmOF5WxvenSAxhA2+qP7s
- YUjO6iqTpx+xeq+WYC77gGTFwyqpD7n8OW9C10CyGQ==
-X-Google-Smtp-Source: ABdhPJy6BMxSQgw3762kK+QUyfrMZlOFJwduKjgq+7fX+Y9LnDP2guRYrUbaIterDx66ZYtt4hHEjjuKFL7NsBC5yw0=
-X-Received: by 2002:aed:24a6:: with SMTP id t35mr3208654qtc.72.1589444391477; 
- Thu, 14 May 2020 01:19:51 -0700 (PDT)
+ bh=ylNyjxPU0jW9A5cG6J8lYn77ZbNao4PuP4byNxuwb40=;
+ b=EabyBSP3LGf7wzOKhFp09vidhxV+7G6PPNLjn1vYDHAl9I2nL+HhF64eu71Xynm7EM
+ YirnhWeNCiJJ6ZmS84VbIipsgGvQqdo0GXaUdiJZybF1tb4To0xFzBFhNtScqOqeTwiQ
+ +A1mk7tAJ6dLCoTYsEBHNsRKZ3ZYG8WV6x/xM3Zah9Il20/JyUZbs5XEQBka7rtRVvb1
+ n73SYz7+w3ckReAuN8veEHrD+kgBeGwZrzRGVr9pDxORWVHTUMI5uWC9AfebG4VzEvpQ
+ MSdHiuh4k67AxiwP+keTyiKh3WmbxcONJJnYthTXRUzqvntb3JJRW34WXEQFiCuCQ5L3
+ ZTyw==
+X-Gm-Message-State: AOAM531Zf5hkQBkJ4rE+v8SRDwC/mVcmRsz0w/e6wykENpTaafht1qlS
+ rOL/Y+I8+VUA+CwJc8CBJA0+ADlXrMuaXEUBsRkjjg==
+X-Google-Smtp-Source: ABdhPJyRERMIh+MQZPItj7QatuGXtUx06mgJ88uloHfqTCykxSiONeYCm+tNHIHuv9MC+hs2Hr0mPlFfLP8XGnr3zRA=
+X-Received: by 2002:a2e:531e:: with SMTP id h30mr1125043ljb.168.1589444480845; 
+ Thu, 14 May 2020 01:21:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200311112004.47138-1-stevensd@chromium.org>
- <20200311112004.47138-2-stevensd@chromium.org>
- <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
-In-Reply-To: <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
-From: David Stevens <stevensd@chromium.org>
-Date: Thu, 14 May 2020 17:19:40 +0900
-Message-ID: <CAD=HUj6k-y1=64zY8ZFOQBZ7WSUWiQfvkiTpXXt10JB_CGqk1A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-3-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1589267017-17294-3-git-send-email-dillon.minfei@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 14 May 2020 10:21:09 +0200
+Message-ID: <CACRpkdZUyRh0KZzRxsdfFU_L-F=Ns0j1d3eR-ermhx2Gb0Zrgg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] dt-bindings: display: panel: Add ilitek ili9341
+ panel bindings
+To: dillon.minfei@gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +62,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- Jason Wang <jasowang@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tomasz Figa <tfiga@chromium.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Alexandre TORGUE <alexandre.torgue@st.com>,
+ Dave Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for the duplicate reply, didn't notice this until now.
+On Tue, May 12, 2020 at 9:03 AM <dillon.minfei@gmail.com> wrote:
 
-> Just storing
-> the uuid should be doable (assuming this doesn't change during the
-> lifetime of the buffer), so no need for a callback.
+> From: dillon min <dillon.minfei@gmail.com>
+>
+> Add documentation for "ilitek,ili9341" panel.
+>
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
 
-Directly storing the uuid doesn't work that well because of
-synchronization issues. The uuid needs to be shared between multiple
-virtio devices with independent command streams, so to prevent races
-between importing and exporting, the exporting driver can't share the
-uuid with other drivers until it knows that the device has finished
-registering the uuid. That requires a round trip to and then back from
-the device. Using a callback allows the latency from that round trip
-registration to be hidden.
+This looks good to me.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
--David
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
