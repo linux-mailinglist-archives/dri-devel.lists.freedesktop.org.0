@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD511D39FF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 20:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77291D3A03
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 20:54:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C446891C0;
-	Thu, 14 May 2020 18:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE39892D8;
+	Thu, 14 May 2020 18:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275E0891C0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 18:53:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 820B788D96;
+ Thu, 14 May 2020 18:53:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1C21920767;
- Thu, 14 May 2020 18:53:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5AF9120767;
+ Thu, 14 May 2020 18:53:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589482430;
- bh=sCPjoIJecCKKcl4sRs7D5KHmbz3FxC1giUdKL3F29A0=;
+ s=default; t=1589482437;
+ bh=DZ5qTTuGiQ8ince+iTyYGDPiQ52kRRQ7QbhT+igfATI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aMBU3NtQDPHgpwV1OOq3Xz7b/j9nA9d3jtwnDm26iouQYbEtDmrKebV2laNa6U+1V
- pslo46m05pwcbLIdG6omdq7Mc15XX/T4w0WKnQKPPJoy0wO9j3v63OAulcTyudEX6c
- vi2poaWusRprKQDuFU9BUAa7ktk1dYQRXrvUmizU=
+ b=LkajXWRpMQX7e39SsJxMzDoEBxT90h4qptYtW4WU4lFVnaYHlswFaF2dOgebB/qxW
+ 4ptlkcDEdRtdWINqqm/oWSu6+EJwTUusi/PeqlJdapKhOMGZBR35I9H3dSah/pdsdc
+ KzTujFDVBk1WlcDHDCVHY1HpmUrLRq1FNp0zKnSA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 31/49] sun6i: dsi: fix gcc-4.8
-Date: Thu, 14 May 2020 14:52:52 -0400
-Message-Id: <20200514185311.20294-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 37/49] drm/amd/display: Prevent dpcd reads with
+ passive dongles
+Date: Thu, 14 May 2020 14:52:58 -0400
+Message-Id: <20200514185311.20294-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514185311.20294-1-sashal@kernel.org>
 References: <20200514185311.20294-1-sashal@kernel.org>
@@ -49,53 +50,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit 3a3a71f97c30983f1627c2c550d43566e9b634d2 ]
+[ Upstream commit e6142dd511425cb827b5db869f489eb81f5f994d ]
 
-Older compilers warn about initializers with incorrect curly
-braces:
+[why]
+During hotplug, a DP port may be connected to the sink through
+passive adapter which does not support DPCD reads. Issuing reads
+without checking for this condition will result in errors
 
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c: In function 'sun6i_dsi_encoder_enable':
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: missing braces around initializer [-Werror=missing-braces]
-  union phy_configure_opts opts = { 0 };
-        ^
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: (near initialization for 'opts.mipi_dphy') [-Werror=missing-braces]
+[how]
+Ensure the link is in aux_mode before initiating operation that result
+in a DPCD read.
 
-Use the GNU empty initializer extension to avoid this.
-
-Fixes: bb3b6fcb6849 ("sun6i: dsi: Convert to generic phy handling")
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200428215105.3928459-1-arnd@arndb.de
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index f83522717488a..4f944ace665d5 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -718,7 +718,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
- 	struct mipi_dsi_device *device = dsi->device;
--	union phy_configure_opts opts = { 0 };
-+	union phy_configure_opts opts = { };
- 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
- 	u16 delay;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index be61ae1430ed9..c9c2984138263 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1422,17 +1422,22 @@ amdgpu_dm_update_connector_after_detect(struct amdgpu_dm_connector *aconnector)
+ 		dc_sink_retain(aconnector->dc_sink);
+ 		if (sink->dc_edid.length == 0) {
+ 			aconnector->edid = NULL;
+-			drm_dp_cec_unset_edid(&aconnector->dm_dp_aux.aux);
++			if (aconnector->dc_link->aux_mode) {
++				drm_dp_cec_unset_edid(
++					&aconnector->dm_dp_aux.aux);
++			}
+ 		} else {
+ 			aconnector->edid =
+-				(struct edid *) sink->dc_edid.raw_edid;
+-
++				(struct edid *)sink->dc_edid.raw_edid;
  
+ 			drm_connector_update_edid_property(connector,
+-					aconnector->edid);
+-			drm_dp_cec_set_edid(&aconnector->dm_dp_aux.aux,
+-					    aconnector->edid);
++							   aconnector->edid);
++
++			if (aconnector->dc_link->aux_mode)
++				drm_dp_cec_set_edid(&aconnector->dm_dp_aux.aux,
++						    aconnector->edid);
+ 		}
++
+ 		amdgpu_dm_update_freesync_caps(connector, aconnector->edid);
+ 
+ 	} else {
 -- 
 2.20.1
 
