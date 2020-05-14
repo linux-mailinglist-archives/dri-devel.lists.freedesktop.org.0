@@ -2,117 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2217D1D3720
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 18:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F2A1D4633
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 235716EB8D;
-	Thu, 14 May 2020 16:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A74AD6EBD0;
+	Fri, 15 May 2020 06:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DFCA6EB8D
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 16:56:57 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id e1so5192694wrt.5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 09:56:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kIHq7xVLLJxCbGB1Nn+uZSxvbyG8thJFHxbJEIE2dyU=;
- b=j5T+Ywi6Oa713BP5oEJIVmlzmnHezmdlOYJwOUiXR6OYLK40ehJ646byGdkink32jt
- Gqd4lX2YzBkH8gHnjnInqnA9pEYdkPCb6e0/X38ptXx2ta7a8zrJTxWXObWQJ4tgNSFV
- s9KHfC7aeHswgpaouPjYDr+LsUeVOB6QuJIreww3mE79MzxR4hWE1OOUiRxS3dMdlOAD
- nFyHQJK+Mu3UBi+oRh24qZ7COWC4Qxmu2e5HUNLaavZv5e8SRyNn6fMD4Hn/MhguAedo
- M06qFY2a2jpOVkI/lH2j28MLMwyWktGuezLrpvXKIWzdTeRPUSNfE9H3393KF3TA/Ly3
- 6plQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=kIHq7xVLLJxCbGB1Nn+uZSxvbyG8thJFHxbJEIE2dyU=;
- b=j8hVH0R75gaYaQ13gmivFOCI0OSdH9QLaJLEhl6WHcVP9yu366N8EYlJzsImXGfadY
- JL1bd85z6VKLcHlk/48KuOCgAXnnnCDkBGco9YO+8g4OrhBNwTWkhWgvyS3FGoTPen9/
- WfnLgVgvM13hDHT3+Ie2ZeKObJNwiGEtg7IYoMTqXvzT/AuwDgtl+4VwxfHjR8np8Jjk
- E4BcXB9WMwQYCGuWrLD6rmztLLncmyJOVP//H+Ed/JAOP78QbJ3mpJhZADib1EeHtLwx
- oEZrDWnpd1+c8bPZqWwLj+aWJGyV98P/FWmOt/4maAlSzQQahtDbMgkjo6bNmbiiX0XC
- hwtw==
-X-Gm-Message-State: AOAM531HlDQWYjtyIVQhjRB6ctcT6hETH3mtk8iDE0J754dlwytqz6Co
- sjoAFfMG5pc6vT+hoWEUporkVJZnFnBEBg==
-X-Google-Smtp-Source: ABdhPJxmxpICiUoc7f4VG7Y0z24J48kXysaaCW7t9uA09hj78dL5ecnPkSq4Anm5Bf2fYQ9l55BQDA==
-X-Received: by 2002:adf:f9c1:: with SMTP id w1mr6839173wrr.342.1589475415627; 
- Thu, 14 May 2020 09:56:55 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:4460:3fd3:382:4a71?
- ([2a01:e35:2ec0:82b0:4460:3fd3:382:4a71])
- by smtp.gmail.com with ESMTPSA id e5sm4967122wro.3.2020.05.14.09.56.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 May 2020 09:56:54 -0700 (PDT)
-Subject: Re: [PATCH 1/2] drm: bridge: dw-hdmi: Pass dw_hdmi pointer to
- .mode_valid() operation
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200514011707.6512-1-laurent.pinchart+renesas@ideasonboard.com>
- <8dd2e65a-804d-2764-5a0b-e9e0286afa68@baylibre.com>
- <20200514152809.GH5955@pendragon.ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <bff7efa2-c2cb-2652-623f-7d7b284c26b7@baylibre.com>
-Date: Thu, 14 May 2020 18:56:53 +0200
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7E889D3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 17:13:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id C4CCA2A2FB5
+Subject: Re: [PATCH v4 7/7] drm/mediatek: mtk_dsi: Create connector for bridges
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20200501152335.1805790-1-enric.balletbo@collabora.com>
+ <20200501152335.1805790-8-enric.balletbo@collabora.com>
+ <CAFqH_53h=3OXzwLnw1XT3rHYkMPOPNFBdQdPeFmNubN9qq_Twg@mail.gmail.com>
+ <CAAOTY_-pOUuM7LQ1jm6gqpg8acMqDWOHxGucY5XOjq0ctGUkzA@mail.gmail.com>
+ <53683f2d-23c7-57ab-2056-520c50795ffe@collabora.com>
+ <CAAOTY__b6V12fS2xTKGjB1fQTfRjX7AQyBqDPXzshfhkjjSkeQ@mail.gmail.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <37191700-5832-2931-5764-7f7fddd023b9@collabora.com>
+Date: Thu, 14 May 2020 19:12:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200514152809.GH5955@pendragon.ideasonboard.com>
+In-Reply-To: <CAAOTY__b6V12fS2xTKGjB1fQTfRjX7AQyBqDPXzshfhkjjSkeQ@mail.gmail.com>
 Content-Language: en-US
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,224 +44,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Sandy Huang <hjc@rock-chips.com>,
- linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Collabora Kernel ML <kernel@collabora.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/05/2020 17:28, Laurent Pinchart wrote:
-> Hi Neil,
-> 
-> On Thu, May 14, 2020 at 11:15:52AM +0200, Neil Armstrong wrote:
->> On 14/05/2020 03:17, Laurent Pinchart wrote:
->>> Platform glue drivers for dw_hdmi may need to access device-specific
->>> data from their .mode_valid() implementation. They currently have no
->>> clean way to do so, and one driver hacks around it by accessing the
->>> dev_private data of the drm_device retrieved from the connector.
->>>
->>> Pass the dw_hdmi pointer to .mode_valid() in order give context
->>> information to drivers, and add a dw_hdmi_device() to retrieve the
->>> struct device related to the context.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> ---
->>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 13 ++++++++++++-
->>>  drivers/gpu/drm/imx/dw_hdmi-imx.c           |  4 ++--
->>>  drivers/gpu/drm/meson/meson_dw_hdmi.c       |  3 ++-
->>>  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c      |  2 +-
->>>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  3 ++-
->>>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c       |  6 ++++--
->>>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h       |  3 ++-
->>>  include/drm/bridge/dw_hdmi.h                |  4 +++-
->>>  8 files changed, 28 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>> index 30681398cfb0..97c7a9a4983c 100644
->>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>> @@ -2778,7 +2778,8 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
->>>  		return MODE_BAD;
->>>  
->>>  	if (hdmi->plat_data->mode_valid)
->>> -		mode_status = hdmi->plat_data->mode_valid(connector, mode);
->>> +		mode_status = hdmi->plat_data->mode_valid(hdmi, connector,
->>> +							  mode);
->>
->> Can't it pass `struct dw_hdmi *hdmi, void *data` like the phy_ops ?
-> 
-> We could, if we had a void *data pointer :-) The PHY ops have a void
-> *phy_data in dw_hdmi_plat_data, but for .mode_valid() (and
-> .configure_phy()) we don't have a data field. Would you add one to
-> dw_hdmi_plat_data ? I wonder which of them should be passed to
-> .configure_phy() in that case, as it's a PHY-related function, but not
-> applicable to vendor PHYs. dw_hdmi_plat_data is quite messy :-S
-> 
-> I wonder if we could merge all private data. Or do you think the PHY ops
-> and the other ops would be handled by different pieces of code that
-> would each require their own private data ?
-
-
-No reason to be separated, I think I did a separation to prepare a switch
-to extract PHY handling out of dw-hdmi, but I'm not sure it's possible/viable
-for the currently handled PHYs.
-
-Neil
-
-> 
->>>  
->>>  	return mode_status;
->>>  }
->>> @@ -3395,6 +3396,16 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
->>>  		i2c_put_adapter(hdmi->ddc);
->>>  }
->>>  
->>> +/*
->>> + * Retrieve the device passed to the dw_hdmi_probe() or dw_hdmi_bind()
->>> + * functions.
->>> + */
->>> +struct device *dw_hdmi_device(struct dw_hdmi *hdmi)
->>> +{
->>> +	return hdmi->dev;
->>> +}
->>> +EXPORT_SYMBOL_GPL(dw_hdmi_device);
->>
->> This looks really hackish, passing data like the phy_ops looks cleaner.
->>
->>> +
->>>  /* -----------------------------------------------------------------------------
->>>   * Probe/remove API, used from platforms based on the DRM bridge API.
->>>   */
->>> diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
->>> index ba4ca17fd4d8..ff5b03a4a86a 100644
->>> --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
->>> +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
->>> @@ -145,7 +145,7 @@ static const struct drm_encoder_helper_funcs dw_hdmi_imx_encoder_helper_funcs =
->>>  };
->>>  
->>>  static enum drm_mode_status
->>> -imx6q_hdmi_mode_valid(struct drm_connector *con,
->>> +imx6q_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *con,
->>>  		      const struct drm_display_mode *mode)
->>>  {
->>>  	if (mode->clock < 13500)
->>> @@ -158,7 +158,7 @@ imx6q_hdmi_mode_valid(struct drm_connector *con,
->>>  }
->>>  
->>>  static enum drm_mode_status
->>> -imx6dl_hdmi_mode_valid(struct drm_connector *con,
->>> +imx6dl_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *con,
->>>  		       const struct drm_display_mode *mode)
->>>  {
->>>  	if (mode->clock < 13500)
->>> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
->>> index 5be963e9db05..174d45ecdeda 100644
->>> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
->>> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
->>> @@ -630,7 +630,8 @@ static irqreturn_t dw_hdmi_top_thread_irq(int irq, void *dev_id)
->>>  }
->>>  
->>>  static enum drm_mode_status
->>> -dw_hdmi_mode_valid(struct drm_connector *connector,
->>> +dw_hdmi_mode_valid(struct dw_hdmi *hdmi,
->>> +		   struct drm_connector *connector,
->>>  		   const struct drm_display_mode *mode)
->>>  {
->>>  	struct meson_drm *priv = connector->dev->dev_private;
->>> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
->>> index 452461dc96f2..3d2fdbeeb82d 100644
->>> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
->>> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
->>> @@ -38,7 +38,7 @@ static const struct rcar_hdmi_phy_params rcar_hdmi_phy_params[] = {
->>>  };
->>>  
->>>  static enum drm_mode_status
->>> -rcar_hdmi_mode_valid(struct drm_connector *connector,
->>> +rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *connector,
->>>  		     const struct drm_display_mode *mode)
->>>  {
->>>  	/*
->>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>> index 121aa8a63a76..32acfe2c3f58 100644
->>> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
->>> @@ -220,7 +220,8 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->>>  }
->>>  
->>>  static enum drm_mode_status
->>> -dw_hdmi_rockchip_mode_valid(struct drm_connector *connector,
->>> +dw_hdmi_rockchip_mode_valid(struct dw_hdmi *hdmi,
->>> +			    struct drm_connector *connector,
->>>  			    const struct drm_display_mode *mode)
->>>  {
->>>  	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
->>> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
->>> index 972682bb8000..055ffefd1b60 100644
->>> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
->>> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
->>> @@ -31,7 +31,8 @@ sun8i_dw_hdmi_encoder_helper_funcs = {
->>>  };
->>>  
->>>  static enum drm_mode_status
->>> -sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
->>> +sun8i_dw_hdmi_mode_valid_a83t(struct dw_hdmi *hdmi,
->>> +			      struct drm_connector *connector,
->>>  			      const struct drm_display_mode *mode)
->>>  {
->>>  	if (mode->clock > 297000)
->>> @@ -41,7 +42,8 @@ sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
->>>  }
->>>  
->>>  static enum drm_mode_status
->>> -sun8i_dw_hdmi_mode_valid_h6(struct drm_connector *connector,
->>> +sun8i_dw_hdmi_mode_valid_h6(struct dw_hdmi *hdmi,
->>> +			    struct drm_connector *connector,
->>>  			    const struct drm_display_mode *mode)
->>>  {
->>>  	/*
->>> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
->>> index 8e64945167e9..f831cb351d72 100644
->>> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
->>> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
->>> @@ -176,7 +176,8 @@ struct sun8i_hdmi_phy {
->>>  };
->>>  
->>>  struct sun8i_dw_hdmi_quirks {
->>> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
->>> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi,
->>> +					   struct drm_connector *connector,
->>>  					   const struct drm_display_mode *mode);
->>>  	unsigned int set_rate : 1;
->>>  	unsigned int use_drm_infoframe : 1;
->>> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
->>> index 0b34a12c4a1c..c98010a53683 100644
->>> --- a/include/drm/bridge/dw_hdmi.h
->>> +++ b/include/drm/bridge/dw_hdmi.h
->>> @@ -124,7 +124,8 @@ struct dw_hdmi_phy_ops {
->>>  
->>>  struct dw_hdmi_plat_data {
->>>  	struct regmap *regm;
->>> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
->>> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi,
->>> +					   struct drm_connector *connector,
->>>  					   const struct drm_display_mode *mode);
->>>  	unsigned long input_bus_format;
->>>  	unsigned long input_bus_encoding;
->>> @@ -153,6 +154,7 @@ void dw_hdmi_unbind(struct dw_hdmi *hdmi);
->>>  struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
->>>  			     struct drm_encoder *encoder,
->>>  			     const struct dw_hdmi_plat_data *plat_data);
->>> +struct device *dw_hdmi_device(struct dw_hdmi *hdmi);
->>>  
->>>  void dw_hdmi_resume(struct dw_hdmi *hdmi);
->>>  
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQ2h1bi1LdWFuZywKCk9uIDE0LzUvMjAgMTg6NDQsIENodW4tS3VhbmcgSHUgd3JvdGU6Cj4g
+SGksIEVucmljOgo+IAo+IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNv
+bGxhYm9yYS5jb20+IOaWvCAyMDIw5bm0NeaciDE05pelIOmAseWbmyDkuIvljYgxMTo0MuWvq+mB
+k++8mgo+Pgo+PiBIaSBDaHVuLUt1YW5nLAo+Pgo+PiBPbiAxNC81LzIwIDE2OjI4LCBDaHVuLUt1
+YW5nIEh1IHdyb3RlOgo+Pj4gSGksIEVucmljOgo+Pj4KPj4+IEVucmljIEJhbGxldGJvIFNlcnJh
+IDxlYmFsbGV0Ym9AZ21haWwuY29tPiDmlrwgMjAyMOW5tDXmnIgxNOaXpSDpgLHlm5sg5LiK5Y2I
+MTI6NDHlr6vpgZPvvJoKPj4+Pgo+Pj4+IEhpIENodW4tS3VhbmcsCj4+Pj4KPj4+PiBNaXNzYXRn
+ZSBkZSBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEuY29t
+PiBkZWwKPj4+PiBkaWEgZHYuLCAxIGRlIG1haWcgMjAyMCBhIGxlcyAxNzoyNToKPj4+Pj4KPj4+
+Pj4gVXNlIHRoZSBkcm1fYnJpZGdlX2Nvbm5lY3RvciBoZWxwZXIgdG8gY3JlYXRlIGEgY29ubmVj
+dG9yIGZvciBwaXBlbGluZXMKPj4+Pj4gdGhhdCB1c2UgZHJtX2JyaWRnZS4gVGhpcyBhbGxvd3Mg
+c3BsaXR0aW5nIGNvbm5lY3RvciBvcGVyYXRpb25zIGFjcm9zcwo+Pj4+PiBtdWx0aXBsZSBicmlk
+Z2VzIHdoZW4gbmVjZXNzYXJ5LCBpbnN0ZWFkIG9mIGhhdmluZyB0aGUgbGFzdCBicmlkZ2UgaW4K
+Pj4+Pj4gdGhlIGNoYWluIGNyZWF0aW5nIHRoZSBjb25uZWN0b3IgYW5kIGhhbmRsaW5nIGFsbCBj
+b25uZWN0b3Igb3BlcmF0aW9ucwo+Pj4+PiBpbnRlcm5hbGx5Lgo+Pj4+Pgo+Pj4+PiBTaWduZWQt
+b2ZmLWJ5OiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEu
+Y29tPgo+Pj4+PiBBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+Pj4+
+Cj4+Pj4gQSBnZW50bGUgcGluZyBvbiB0aGlzLCBJIHRoaW5rIHRoYXQgdGhpcyBvbmUgaXMgdGhl
+IG9ubHkgb25lIHRoYXQKPj4+PiBzdGlsbCBuZWVkcyBhIHJldmlldyBpbiB0aGUgc2VyaWVzLgo+
+Pj4KPj4+IFRoaXMgaXMgd2hhdCBJIHJlcGx5IGluIHBhdGNoIHYzOgo+Pj4KPj4KPj4gU29ycnkg
+Zm9yIG1pc3NpbmcgdGhpcy4KPj4KPj4+IEkgdGhpbmsgdGhlIHBhbmVsIGlzIHdyYXBwZWQgaW50
+byBuZXh0X2JyaWRnZSBoZXJlLAo+Pj4KPj4KPj4gWWVzLCB5b3UgY2FuIGhhdmUgZm9yIGV4YW1w
+bGU6Cj4+Cj4+IDEuIGRybV9icmlkZ2UgKG10a19kc2kpIC0+IGRybV9icmlkZ2UgKHBzODY0MCAt
+IGRzaS10by1lZHApIC0+IGRybV9wYW5lbF9icmlkZ2UKPj4gKGVkcCBwYW5lbCkKPj4KPj4gb3Ig
+YQo+Pgo+PiAyLiBkcm1fYnJpZGdlIChtdGtfZHNpKS0+IGRybV9wYW5lbF9icmlkZ2UgKGRzaSBw
+YW5lbCkKPj4KPj4gVGhlIF9maXJzdF8gb25lIGlzIG15IHVzZSBjYXNlCj4+Cj4+PiBpZiAocGFu
+ZWwpIHsKPj4KPj4gVGhpcyBoYW5kbGVzIHRoZSBzZWNvbmQgY2FzZSwgd2hlcmUgeW91IGF0dGFj
+aCBhIGRzaSBwYW5lbC4KPj4KPj4+ICAgICBkc2ktPm5leHRfYnJpZGdlID0gZGV2bV9kcm1fcGFu
+ZWxfYnJpZGdlX2FkZChkZXYsIHBhbmVsKTsKPj4+Cj4+PiBzbyB0aGUgbmV4dF9icmlkZ2UgaXMg
+YSBwYW5lbF9icmlkZ2UsIGluIGl0cyBhdHRhY2ggZnVuY3Rpb24KPj4+IHBhbmVsX2JyaWRnZV9h
+dHRhY2goKSwKPj4+IGFjY29yZGluZyB0byB0aGUgZmxhZyBEUk1fQlJJREdFX0FUVEFDSF9OT19D
+T05ORUNUT1IsIGlmIG5vdCBleGlzdCwKPj4+IGl0IHdvdWxkIGNyZWF0ZSBjb25uZWN0b3IgYW5k
+IGF0dGFjaCBjb25uZWN0b3IgdG8gcGFuZWwuCj4+Pgo+Pj4gSSdtIG5vdCBzdXJlIHRoaXMgZmxh
+ZyB3b3VsZCBleGlzdCBvciBub3QsIGJ1dCBmb3IgYm90aCBjYXNlLCBpdCdzIHN0cmFuZ2UuCj4+
+PiBJZiBleGlzdCwgeW91IGNyZWF0ZSBjb25uZWN0b3IgaW4gdGhpcyBwYXRjaCBidXQgbm8gd2hl
+cmUgdG8gYXR0YWNoCj4+PiBjb25uZWN0b3IgdG8gcGFuZWwuCj4+Cj4+IFllcywgaW4gZmFjdCwg
+dGhpcyBpcyB0cmFuc2l0aW9uYWwgcGF0Y2ggbmVlZGVkLCBhcyBvbmNlIEkgY29udmVydGVkIG10
+a19kcGksCj4+IG10a19kc2kgYW5kIG10a19oZG1pIHRvIHRoZSBuZXcgZHJtX2JyaWRnZSBBUEkg
+dGhlIGRybV9icmlkZ2VfY29ubmVjdG9yX2luaXQoKQo+PiB3aWxsIGJlIGRvbmUgaW4gbXRrX2Ry
+bV9kcnYuIFdlIHdpbGwgbmVlZCB0byBjYWxsIGRybV9icmlkZ2VfY29ubmVjdG9yX2luaXQgZm9y
+Cj4+IGRwaSBhbmQgZHNpIHBpcGVzIGFuZCByZW1vdmUgdGhhdCBjYWxsIGZyb20gbXRrX2RzaSBh
+bmQgbXRrX2RwaSBkcml2ZXJzLiBUaGUKPj4gZ3JhcGhpYyBjb250cm9sbGVyIGRyaXZlciBzaG91
+bGQgY3JlYXRlIGNvbm5lY3RvcnMgYW5kIENSVENzLCBhcyBleGFtcGxlIHlvdSBjYW4KPj4gdGFr
+ZSBhIGxvb2sgYXQgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuYwo+Pgo+IAo+IEkg
+aGF2ZSBzdWNoIHF1ZXN0aW9uIGJlY2F1c2UgSSd2ZSByZXZpZXdlZCBvbWFwJ3MgZHJpdmVyLiBJ
+biBvbWFwJ3MKPiBkcml2ZXIsIGFmdGVyIGl0IGNhbGwgZHJtX2JyaWRnZV9jb25uZWN0b3JfaW5p
+dCgpLCBpdCBkb2VzIHRoaXM6Cj4gCj4gaWYgKHBpcGUtPm91dHB1dC0+cGFuZWwpIHsKPiByZXQg
+PSBkcm1fcGFuZWxfYXR0YWNoKHBpcGUtPm91dHB1dC0+cGFuZWwsCj4gICAgICAgcGlwZS0+Y29u
+bmVjdG9yKTsKPiBpZiAocmV0IDwgMCkKPiByZXR1cm4gcmV0Owo+IH0KPiAKPiBJbiB0aGlzIHBh
+dGNoLCB5b3UgZG9lcyBub3QgZG8gdGhpcy4KPiAKCkkgc2VlLCBzbyB5ZXMsIEkgYW0gcHJvYmFi
+bHkgbWlzc2luZyBjYWxsIGRybV9wYW5lbF9hdHRhY2ggaW4gY2FzZSB0aGVyZSBpcyBhCmRpcmVj
+dCBwYW5lbCBhdHRhY2hlZC4gVGhhbmtzIGZvciBwb2ludGluZyBpdC4KCkknbGwgc2VuZCBhIG5l
+dyB2ZXJzaW9uIGFkZGluZyB0aGUgZHJtX3BhbmVsX2F0dGFjaCBjYWxsLgoKPj4+IElmIG5vdCBl
+eGlzdCwgdGhlIG5leHRfYnJpZ2Ugd291bGQgY3JlYXRlIG9uZSBjb25uZWN0b3IgYW5kIHRoaXMg
+YnJpZ2UKPj4+IHdvdWxkIGNyZWF0ZSBhbm90aGVyIGNvbm5lY3Rvci4KPj4+Cj4+PiBJIHRoaW5r
+IGluIHlvdXIgY2FzZSwgbXRrX2RzaSBkb2VzIG5vdCBkaXJlY3RseSBjb25uZWN0IHRvIGEgcGFu
+ZWwsIHNvCj4+Cj4+IEV4YWN0bHkKPj4KPj4+IEkgbmVlZCBhIGV4YWN0IGV4cGxhaW4uIE9yIHNv
+bWVvbmUgY291bGQgdGVzdCB0aGlzIG9uIGEKPj4+IGRpcmVjdGx5LWNvbm5lY3QtcGFuZWwgcGxh
+dGZvcm0uCj4+Cj4+IEkgZG9uJ3QgdGhpbmsgSSBhbSBicmVha2luZyB0aGlzIHVzZSBjYXNlIGJ1
+dCBBRkFJQ1MgdGhlcmUgaXMgbm8gdXNlcnMgaW4KPj4gbWFpbmxpbmUgdGhhdCBkaXJlY3RseSBj
+b25uZWN0IGEgcGFuZWwgdXNpbmcgdGhlIG1lZGlhdGVrIGRyaXZlci4gQXMgSSBzYWlkIG15Cj4+
+IHVzZSBjYXNlIGlzIHRoZSBvdGhlciBzbyBJIGNhbid0IHJlYWxseSB0ZXN0LiBEbyB5b3Uga25v
+dyBhbnlvbmUgdGhhdCBjYW4gdGVzdCB0aGlzPwo+IAo+IEknbSBub3Qgc3VyZSB3aG8gY2FuIHRl
+c3QgdGhpcywgYnV0IFsxXSwgd2hpY2ggaXMgc2VudCBieSBZVCBTaGVuIGluIGEKPiBzZXJpZXMs
+IGlzIGEgcGF0Y2ggdG8gc3VwcG9ydCBkc2kgY29tbWFuZCBtb2RlIHNvIGRzaSBjb3VsZCBkaXJl
+Y3RseQo+IGNvbm5lY3QgdG8gcGFuZWwuCj4gCj4gWzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcv
+cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC9jb21taXQvZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrP2g9djUuNy1yYzUmaWQ9MjE4OTg4MTY4MzFmYzYwYzkyZGQ2MzRh
+YjQzMTZhMjRkYTdlYjRhZgo+IAo+IEl0J3MgYmV0dGVyIHRoYXQgc29tZW9uZSBjb3VsZCB0ZXN0
+IHRoaXMgY2FzZSwgYnV0IGlmIG5vIG9uZSB3b3VsZAo+IHRlc3QgdGhpcywgSSBjb3VsZCBhbHNv
+IGFjY2VwdCBhIGdvb2QtbG9vayBwYXRjaC4KPiAKPiBSZWdhcmRzLAo+IENodW4tS3VhbmcuCj4g
+Cj4+Cj4+IFRoYW5rcywKPj4gIEVucmljCj4+Cj4+Pgo+Pj4gUmVnYXJkcywKPj4+IENodW4tS3Vh
+bmcuCj4+Pgo+Pj4+Cj4+Pj4gVGhhbmtzLAo+Pj4+ICBFbnJpYwo+Pj4+Cj4+Pj4+IC0tLQo+Pj4+
+Pgo+Pj4+PiBDaGFuZ2VzIGluIHY0OiBOb25lCj4+Pj4+IENoYW5nZXMgaW4gdjM6Cj4+Pj4+IC0g
+TW92ZSB0aGUgYnJpZGdlLnR5cGUgbGluZSB0byB0aGUgcGF0Y2ggdGhhdCBhZGRzIGRybV9icmlk
+Z2Ugc3VwcG9ydC4gKExhdXJlbnQgUGluY2hhcnQpCj4+Pj4+Cj4+Pj4+IENoYW5nZXMgaW4gdjI6
+IE5vbmUKPj4+Pj4KPj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgfCAx
+MyArKysrKysrKysrKystCj4+Pj4+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQo+Pj4+Pgo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPj4+
+Pj4gaW5kZXggNGYzYmQwOTVjMWVlLi40NzFmY2FmZGYzNDggMTAwNjQ0Cj4+Pj4+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL210a19kc2kuYwo+Pj4+PiBAQCAtMTcsNiArMTcsNyBAQAo+Pj4+Pgo+Pj4+
+PiAgI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX2hlbHBlci5oPgo+Pj4+PiAgI2luY2x1ZGUgPGRy
+bS9kcm1fYnJpZGdlLmg+Cj4+Pj4+ICsjaW5jbHVkZSA8ZHJtL2RybV9icmlkZ2VfY29ubmVjdG9y
+Lmg+Cj4+Pj4+ICAjaW5jbHVkZSA8ZHJtL2RybV9taXBpX2RzaS5oPgo+Pj4+PiAgI2luY2x1ZGUg
+PGRybS9kcm1fb2YuaD4KPj4+Pj4gICNpbmNsdWRlIDxkcm0vZHJtX3BhbmVsLmg+Cj4+Pj4+IEBA
+IC0xODMsNiArMTg0LDcgQEAgc3RydWN0IG10a19kc2kgewo+Pj4+PiAgICAgICAgIHN0cnVjdCBk
+cm1fZW5jb2RlciBlbmNvZGVyOwo+Pj4+PiAgICAgICAgIHN0cnVjdCBkcm1fYnJpZGdlIGJyaWRn
+ZTsKPj4+Pj4gICAgICAgICBzdHJ1Y3QgZHJtX2JyaWRnZSAqbmV4dF9icmlkZ2U7Cj4+Pj4+ICsg
+ICAgICAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKPj4+Pj4gICAgICAgICBzdHJ1
+Y3QgcGh5ICpwaHk7Cj4+Pj4+Cj4+Pj4+ICAgICAgICAgdm9pZCBfX2lvbWVtICpyZWdzOwo+Pj4+
+PiBAQCAtOTc3LDEwICs5NzksMTkgQEAgc3RhdGljIGludCBtdGtfZHNpX2VuY29kZXJfaW5pdChz
+dHJ1Y3QgZHJtX2RldmljZSAqZHJtLCBzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+Pj4+PiAgICAgICAg
+ICAqLwo+Pj4+PiAgICAgICAgIGRzaS0+ZW5jb2Rlci5wb3NzaWJsZV9jcnRjcyA9IDE7Cj4+Pj4+
+Cj4+Pj4+IC0gICAgICAgcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2goJmRzaS0+ZW5jb2RlciwgJmRz
+aS0+YnJpZGdlLCBOVUxMLCAwKTsKPj4+Pj4gKyAgICAgICByZXQgPSBkcm1fYnJpZGdlX2F0dGFj
+aCgmZHNpLT5lbmNvZGVyLCAmZHNpLT5icmlkZ2UsIE5VTEwsCj4+Pj4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SKTsKPj4+Pj4g
+ICAgICAgICBpZiAocmV0KQo+Pj4+PiAgICAgICAgICAgICAgICAgZ290byBlcnJfY2xlYW51cF9l
+bmNvZGVyOwo+Pj4+Pgo+Pj4+PiArICAgICAgIGRzaS0+Y29ubmVjdG9yID0gZHJtX2JyaWRnZV9j
+b25uZWN0b3JfaW5pdChkcm0sICZkc2ktPmVuY29kZXIpOwo+Pj4+PiArICAgICAgIGlmIChJU19F
+UlIoZHNpLT5jb25uZWN0b3IpKSB7Cj4+Pj4+ICsgICAgICAgICAgICAgICBEUk1fRVJST1IoIlVu
+YWJsZSB0byBjcmVhdGUgYnJpZGdlIGNvbm5lY3RvclxuIik7Cj4+Pj4+ICsgICAgICAgICAgICAg
+ICByZXQgPSBQVFJfRVJSKGRzaS0+Y29ubmVjdG9yKTsKPj4+Pj4gKyAgICAgICAgICAgICAgIGdv
+dG8gZXJyX2NsZWFudXBfZW5jb2RlcjsKPj4+Pj4gKyAgICAgICB9Cj4+Pj4+ICsgICAgICAgZHJt
+X2Nvbm5lY3Rvcl9hdHRhY2hfZW5jb2Rlcihkc2ktPmNvbm5lY3RvciwgJmRzaS0+ZW5jb2Rlcik7
+Cj4+Pj4+ICsKPj4+Pj4gICAgICAgICByZXR1cm4gMDsKPj4+Pj4KPj4+Pj4gIGVycl9jbGVhbnVw
+X2VuY29kZXI6Cj4+Pj4+IC0tCj4+Pj4+IDIuMjYuMgo+Pj4+Pgo+Pj4+Pgo+Pj4+PiBfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+Pj4+PiBMaW51eC1tZWRp
+YXRlayBtYWlsaW5nIGxpc3QKPj4+Pj4gTGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9y
+Zwo+Pj4+PiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4
+LW1lZGlhdGVrCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
