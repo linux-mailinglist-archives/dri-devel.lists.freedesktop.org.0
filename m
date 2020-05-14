@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAA71D3E5D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 22:03:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D361D3E6E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 22:06:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F82B6E043;
-	Thu, 14 May 2020 20:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF146EBBE;
+	Thu, 14 May 2020 20:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E566E043
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 20:03:54 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id m12so27182230wmc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 13:03:54 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875E46EBBE
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 20:06:03 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id s8so259700wrt.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 13:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0T9FZKzhaNIAyAMhurXfRjBv09XxUrY4eeMiZKg77EU=;
- b=VAIiWBZd2orVmWNlsBdww0kQaG/rvtc7vet7nyyZlSVy3XFuYBQVE80Glibbmi1Q/H
- P7xZZPm/sIwfTWY1GifVPJ6d0KCv5ZLDS22MX0SAdwHCH6ahi3ME03a3kF/lqQvAxdpl
- XDNuG1qZ6i5qtfURURGheV0H/P+nYP3ryGwSk=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=hu/RdgI33YXRJfDmSbHxeL7l4HXDUqJS/cFvL6dS94c=;
+ b=bAaEVxqMLrAmEI3zx17EA0Kr/End6iz7Bc5nSVpKn6cd/ZqrWs6Scy2Ohjg+zx1YR5
+ 3VQpZQWleDiTsn3tEysUKPVuPtnaPAPUoGg4BNE/prjw4IR8jVZOxtKDmem8kBpVCx6z
+ xpNeEkbnp87pc8fj4TzigrBzetDAtmYUazrS0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0T9FZKzhaNIAyAMhurXfRjBv09XxUrY4eeMiZKg77EU=;
- b=LYb60VbeDAABNusWPQz4qKqOzPdLA0Ljtgp+rwkqEhlYVM0q3bJtv8vtf4kUCVI9v3
- eZ5lDrzMgjzQtNPACUx2sOwYux4yqqXt0JKfaj0DaPE2pUprIReKqbjYdXKVBW1ZYhpl
- eUT70b6QKWFqZJ+CYWmjQHJBZbBXICI/83LwmppcCl9VLTdGazyAAEfu8WX9vGteicfn
- no52tv0Ufbf/y8cq6m/7Xx4+erzi8pc2TmI0G/vLIss50+VUncAa/xRVo2iDS9k1KEKa
- yZI5MrSiYElSMY5FqH9pi6zK+yMc74+VWtxytSi/6XghA7Bd2EERSXdyGEbq7ABne5dV
- 4bLQ==
-X-Gm-Message-State: AOAM530iS64pNAo3C+smN8fX+tdTGNS18u7tTaMUjO8P2HCdxNMv7x0R
- H/Oz5m4XgCtarNfNndFKTR9hmw==
-X-Google-Smtp-Source: ABdhPJyYd+AOcu5tx+w8CHn4dey+W+3+gPxvcA9FEiyAuntQNRmQiufc1W5mxesih8+QEvnI7mVCfQ==
-X-Received: by 2002:a1c:c309:: with SMTP id t9mr14300wmf.113.1589486633043;
- Thu, 14 May 2020 13:03:53 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hu/RdgI33YXRJfDmSbHxeL7l4HXDUqJS/cFvL6dS94c=;
+ b=atmCBhHIVJ90RDMx7ckV3Q3fAlhpK/5oxoDUegtqN4k1f8wHKESKHbN3qPvFw+cg7Q
+ /zhKL3RRZo7UbDoFzBwesLC/0nhQF/FBuInlmwDUA0Lm/Lr3BGPM6KRtiT1zQO5494Cn
+ Vv5f/1vvDfTS5F+fgJPOAIoWIGkt8tC2FTTRHrzcxFWWYpbEGGSz+Nt6AH9WhtC85INF
+ 7IkNpGcJ2PyGuOvSVw2Yatw75x3GVJrvJ+gwRy3PlQ+yNs2z14cbanEwXRBn33EwE5VJ
+ Cl6qv6/Q7t6ofY3OON+vtREooMjnP3oMXQtj25aw+xx4a8VueNEA6JV31eQWHFV2a7Ps
+ TF/A==
+X-Gm-Message-State: AOAM532u2N21MdRDyX9fR5Qp7PYy1SrEZBshfIdAUg0gsEhMZRxlBFU4
+ iL3pOS5IfNOYuCMCMBAIA5p2hqw4uzA=
+X-Google-Smtp-Source: ABdhPJxlBa7sCaUKwBgQyLPPqdwCXDgMuGBtRlQSEcjGZ4Viz4V1HUTTIvBlT5sDJIKiAfzaUzftJg==
+X-Received: by 2002:adf:ed82:: with SMTP id c2mr116614wro.255.1589486762103;
+ Thu, 14 May 2020 13:06:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q14sm18882wrc.66.2020.05.14.13.03.51
+ by smtp.gmail.com with ESMTPSA id r14sm17565044wmb.2.2020.05.14.13.06.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 13:03:52 -0700 (PDT)
-Date: Thu, 14 May 2020 22:03:49 +0200
+ Thu, 14 May 2020 13:06:01 -0700 (PDT)
+Date: Thu, 14 May 2020 22:05:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v1 08/18] backlight: add backlight_is_blank()
-Message-ID: <20200514200349.GD206103@phenom.ffwll.local>
-References: <20200514191001.457441-1-sam@ravnborg.org>
- <20200514191001.457441-9-sam@ravnborg.org>
- <20200514194116.GB206103@phenom.ffwll.local>
- <20200514194646.GA460099@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 3/9] drm/doc: Some polish for shmem helpers
+Message-ID: <20200514200559.GE206103@phenom.ffwll.local>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-4-daniel.vetter@ffwll.ch>
+ <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200514194646.GA460099@ravnborg.org>
+In-Reply-To: <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,131 +67,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- Douglas Anderson <dianders@chromium.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Uwe Kleine Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, Thomas Gleixner <tglx@linutronix.de>,
- Allison Randal <allison@lohutok.net>,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, Andy Gross <agross@kernel.org>,
- Zheng Bin <zhengbin13@huawei.com>, patches@opensource.cirrus.com,
- Enrico Weigelt <info@metux.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 09:46:46PM +0200, Sam Ravnborg wrote:
-> Hi Daniel.
-> 
-> On Thu, May 14, 2020 at 09:41:16PM +0200, Daniel Vetter wrote:
-> > On Thu, May 14, 2020 at 09:09:51PM +0200, Sam Ravnborg wrote:
-> > > The backlight support has two properties that express the state:
-> > > - power
-> > > - state
-> > > 
-> > > It is un-documented and easy to get wrong.
-> > > Add backlight_is_blank() helper to make it simpler for drivers
-> > > to get the check of the state correct.
-> > > 
-> > > A lot of drivers also includes checks for fb_blank.
-> > > This check is redundant when the state is checked
-> > > as thus not needed in this helper function.
-> > > Rolling out this helper to all relevant backlight drivers
-> > > will eliminate almost all accesses to fb_blank.
-> > > 
-> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: Lee Jones <lee.jones@linaro.org>
-> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > > ---
-> > >  include/linux/backlight.h | 17 +++++++++++++++++
-> > >  1 file changed, 17 insertions(+)
-> > > 
-> > > diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> > > index b7839ea9d00a..e67e926de1e2 100644
-> > > --- a/include/linux/backlight.h
-> > > +++ b/include/linux/backlight.h
-> > > @@ -165,6 +165,23 @@ static inline int backlight_disable(struct backlight_device *bd)
-> > >  	return backlight_update_status(bd);
-> > >  }
-> > >  
-> > > +/**
-> > > + * backlight_is_blank - Return true if display is expected to be blank
-> > > + * @bd: the backlight device
-> > > + *
-> > > + * Display is expected to be blank if any of these is true::
-> > > + *
-> > > + *   1) if power in not UNBLANK
-> > > + *   2) if state indicate BLANK or SUSPENDED
-> > > + *
-> > > + * Returns true if display is expected to be blank, false otherwise.
-> > > + */
-> > > +static inline bool backlight_is_blank(struct backlight_device *bd)
-> > > +{
-> > > +	return bd->props.power != FB_BLANK_UNBLANK ||
-> > > +	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
-> > 
-> > This definition here doesn't match backlight_enabled/disable() functions
-> > we added. I think to avoid lots of pondering and surprises we should try
-> > to make sure these are all matching, so that once we rolled them out
-> > everywhere, we can just replace the complicated state with one flag.
-> 
-> Will add it in v2. When all user of fb_blank is dropped we can
-> safely remove it then.
-> And as you said on irc, the risk of introducing regressions is lower
-> as we see some creative uses in the drivers today.
-> I already did some kind of audit - but I may have missed something.
+On Mon, May 11, 2020 at 01:12:49PM +0200, Thomas Zimmermann wrote:
+> =
 
-btw one pattern I've seen in a few places with a few greps I've just done
-is maybe worth putting into a helper too:
+> =
 
-backlight_force_enable(bl)
-{
-	if (bl->brightness == 0)
-		bl->brightness = bl->max_brightness;
-	backlight_enable(backlight);
-}
+> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> > - Move the shmem helper section to the drm-mm.rst file, next to the
+> >   vram helpers. Makes a lot more sense there with the now wider scope.
+> >   Also, that's where the all the other backing storage stuff resides.
+> >   It's just the framebuffer helpers that should be in the kms helper
+> >   section.
+> > =
 
-Just in case you run out of ideas anytime soon :-)
+> > - Try to clarify which functiosn are for implementing
+> >   drm_gem_object_funcs, and which for drivers to call directly. At
+> >   least one driver screwed that up a bit.
+> > =
 
-Cheers, Daniel
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> =
 
-> 
-> 	Sam
-> 
-> > 
-> > > +}
-> > > +
-> > >  extern struct backlight_device *backlight_device_register(const char *name,
-> > >  	struct device *dev, void *devdata, const struct backlight_ops *ops,
-> > >  	const struct backlight_properties *props);
-> > > -- 
-> > > 2.25.1
-> > > 
-> > 
-> > -- 
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> =
 
--- 
+> See below for a suggestion on the help text.
+> =
+
+> > ---
+> >  Documentation/gpu/drm-kms-helpers.rst  | 12 --------
+> >  Documentation/gpu/drm-mm.rst           | 12 ++++++++
+> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 39 +++++++++++++++++++++-----
+> >  3 files changed, 44 insertions(+), 19 deletions(-)
+> > =
+
+> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/=
+drm-kms-helpers.rst
+> > index ee730457bf4e..b89ddd06dabb 100644
+> > --- a/Documentation/gpu/drm-kms-helpers.rst
+> > +++ b/Documentation/gpu/drm-kms-helpers.rst
+> > @@ -411,15 +411,3 @@ Legacy CRTC/Modeset Helper Functions Reference
+> >  =
+
+> >  .. kernel-doc:: drivers/gpu/drm/drm_crtc_helper.c
+> >     :export:
+> > -
+> > -SHMEM GEM Helper Reference
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+> > -   :doc: overview
+> > -
+> > -.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
+> > -   :internal:
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+> > -   :export:
+> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> > index 1839762044be..c01757b0ac25 100644
+> > --- a/Documentation/gpu/drm-mm.rst
+> > +++ b/Documentation/gpu/drm-mm.rst
+> > @@ -373,6 +373,18 @@ GEM CMA Helper Functions Reference
+> >  .. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
+> >     :export:
+> >  =
+
+> > +GEM SHMEM Helper Function Reference
+> > +-----------------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +   :doc: overview
+> > +
+> > +.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +   :export:
+> > +
+> >  GEM VRAM Helper Functions Reference
+> >  -----------------------------------
+> >  =
+
+> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> > index df31e5782eed..2a70159d50ef 100644
+> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > @@ -103,7 +103,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+> >   * @obj: GEM object to free
+> >   *
+> >   * This function cleans up the GEM object state and frees the memory u=
+sed to
+> > - * store the object itself.
+> > + * store the object itself. It should be used to implement
+> > + * &drm_gem_object_funcs.free.
+> =
+
+> It should 'only' be used? Or maybe you can say that it should be used by
+> drivers that don't implement struct drm_driver.gem_create_object.
+
+Just looked at this, and I'm not clear what you're aiming for. There
+doesn't seem to be any misuse for this for other places than the free
+hook. And I can't really come up with ideas where that would even work.
+
+What kind of confusion are you trying to clarify with your suggestion?
+Maybe I can then reword that into something that also makes sense for me.
+
+Thanks, Daniel
+
+> =
+
+> >   */
+> >  void drm_gem_shmem_free_object(struct drm_gem_object *obj)
+> >  {
+> > @@ -214,7 +215,8 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+> >   * @obj: GEM object
+> >   *
+> >   * This function makes sure the backing pages are pinned in memory whi=
+le the
+> > - * buffer is exported.
+> > + * buffer is exported. It should only be used to implement
+> > + * &drm_gem_object_funcs.pin.
+> >   *
+> >   * Returns:
+> >   * 0 on success or a negative error code on failure.
+> > @@ -232,7 +234,7 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
+> >   * @obj: GEM object
+> >   *
+> >   * This function removes the requirement that the backing pages are pi=
+nned in
+> > - * memory.
+> > + * memory. It should only be used to implement &drm_gem_object_funcs.u=
+npin.
+> >   */
+> >  void drm_gem_shmem_unpin(struct drm_gem_object *obj)
+> >  {
+> > @@ -285,8 +287,14 @@ static void *drm_gem_shmem_vmap_locked(struct drm_=
+gem_shmem_object *shmem)
+> >   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+> >   * @shmem: shmem GEM object
+> >   *
+> > - * This function makes sure that a virtual address exists for the buff=
+er backing
+> > - * the shmem GEM object.
+> > + * This function makes sure that a contiguous kernel virtual address m=
+apping
+> > + * exists for the buffer backing the shmem GEM object.
+> > + *
+> > + * This function can be used to implement &drm_gem_object_funcs.vmap. =
+But it can
+> > + * also be called by drivers directly, in which case it will hide the
+> > + * differences between dma-buf imported and natively allocated objects.
+> > + *
+> > + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vun=
+map().
+> >   *
+> >   * Returns:
+> >   * 0 on success or a negative error code on failure.
+> > @@ -330,7 +338,13 @@ static void drm_gem_shmem_vunmap_locked(struct drm=
+_gem_shmem_object *shmem)
+> >   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
+> >   * @shmem: shmem GEM object
+> >   *
+> > - * This function removes the virtual address when use count drops to z=
+ero.
+> > + * This function cleans up a kernel virtual address mapping acquired by
+> > + * drm_gem_shmem_vmap(). The mapping is only removed when the use coun=
+t drops to
+> > + * zero.
+> > + *
+> > + * This function can be used to implement &drm_gem_object_funcs.vmap. =
+But it can
+> > + * also be called by drivers directly, in which case it will hide the
+> > + * differences between dma-buf imported and natively allocated objects.
+> >   */
+> >  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, void *vaddr)
+> >  {
+> > @@ -559,6 +573,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
+> >   * @p: DRM printer
+> >   * @indent: Tab indentation level
+> >   * @obj: GEM object
+> > + *
+> > + * This implements the &drm_gem_object_funcs.info callback.
+> >   */
+> >  void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int inde=
+nt,
+> >  			      const struct drm_gem_object *obj)
+> > @@ -577,7 +593,12 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+> >   * @obj: GEM object
+> >   *
+> >   * This function exports a scatter/gather table suitable for PRIME usa=
+ge by
+> > - * calling the standard DMA mapping API.
+> > + * calling the standard DMA mapping API. Drivers should not call this =
+function
+> > + * directly, instead it should only be used as an implementation for
+> > + * &drm_gem_object_funcs.get_sg_table.
+> > + *
+> > + * Drivers who need to acquire an scatter/gather table for objects nee=
+d to call
+> > + * drm_gem_shmem_get_pages_sgt() instead.
+> >   *
+> >   * Returns:
+> >   * A pointer to the scatter/gather table of pinned pages or NULL on fa=
+ilure.
+> > @@ -599,6 +620,10 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+> >   * the sg table doesn't exist, the pages are pinned, dma-mapped, and a=
+ sg
+> >   * table created.
+> >   *
+> > + * This is the main function for drivers to get at backing storage, an=
+d it hides
+> > + * and difference between dma-buf imported and natively allocated obje=
+cts.
+> > + * drm_gem_shmem_get_sg_table() should not be directly called by drive=
+rs.
+> > + *
+> >   * Returns:
+> >   * A pointer to the scatter/gather table of pinned pages or errno on f=
+ailure.
+> >   */
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
