@@ -1,27 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BDE1D350C
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 17:26:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F691D3510
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 17:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5863F6EB6D;
-	Thu, 14 May 2020 15:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172EC6EB72;
+	Thu, 14 May 2020 15:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF786EB6D;
- Thu, 14 May 2020 15:26:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2F06EB64
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 15:28:01 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 885BDAEF9;
- Thu, 14 May 2020 15:26:52 +0000 (UTC)
-Subject: Re: [PATCH 9/9] drm/shmem-helpers: Simplify dma-buf importing
+ by mx2.suse.de (Postfix) with ESMTP id 7B537AC24;
+ Thu, 14 May 2020 15:28:02 +0000 (UTC)
+Subject: Re: [PATCH 1/2] drm/shmem: Use cached mappings by default
 To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-10-daniel.vetter@ffwll.ch>
- <732e30cc-9169-c409-4ddc-50508ef36efc@suse.de>
- <20200514125528.GA206103@phenom.ffwll.local>
+References: <20200513150312.21421-1-tzimmermann@suse.de>
+ <20200513150312.21421-2-tzimmermann@suse.de>
+ <20200514124050.GV206103@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <a41fc6fc-05d9-dadd-07f4-1f34550da07b@suse.de>
-Date: Thu, 14 May 2020 17:26:45 +0200
+Message-ID: <e08f5784-109e-326a-1426-529ff7041e0e@suse.de>
+Date: Thu, 14 May 2020 17:27:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200514125528.GA206103@phenom.ffwll.local>
+In-Reply-To: <20200514124050.GV206103@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,263 +65,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============2032041687=="
+Cc: airlied@linux.ie, sam@ravnborg.org, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============0968950546=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2032041687==
+--===============0968950546==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="4Twgz8cXFyPJyeWCD36WTkEiD1FxTIoQA"
+ boundary="DMPzOU1gQcbJxCR27oI0RiGy4OIx9EYOh"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4Twgz8cXFyPJyeWCD36WTkEiD1FxTIoQA
-Content-Type: multipart/mixed; boundary="we20hdvbmb3tazoWXHhm1pRNGQIw5xDGP";
+--DMPzOU1gQcbJxCR27oI0RiGy4OIx9EYOh
+Content-Type: multipart/mixed; boundary="dv0w86oiplSFBWMG4z8dNRsQVt7SlgtRR";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <a41fc6fc-05d9-dadd-07f4-1f34550da07b@suse.de>
-Subject: Re: [PATCH 9/9] drm/shmem-helpers: Simplify dma-buf importing
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-10-daniel.vetter@ffwll.ch>
- <732e30cc-9169-c409-4ddc-50508ef36efc@suse.de>
- <20200514125528.GA206103@phenom.ffwll.local>
-In-Reply-To: <20200514125528.GA206103@phenom.ffwll.local>
+Cc: sam@ravnborg.org, airlied@linux.ie, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com, sean@poorly.run
+Message-ID: <e08f5784-109e-326a-1426-529ff7041e0e@suse.de>
+Subject: Re: [PATCH 1/2] drm/shmem: Use cached mappings by default
+References: <20200513150312.21421-1-tzimmermann@suse.de>
+ <20200513150312.21421-2-tzimmermann@suse.de>
+ <20200514124050.GV206103@phenom.ffwll.local>
+In-Reply-To: <20200514124050.GV206103@phenom.ffwll.local>
 
---we20hdvbmb3tazoWXHhm1pRNGQIw5xDGP
+--dv0w86oiplSFBWMG4z8dNRsQVt7SlgtRR
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 14.05.20 um 14:55 schrieb Daniel Vetter:
-> On Thu, May 14, 2020 at 09:44:02AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
->>> - Ditch the ->pages array
->>> - Make it a private gem bo, which means no shmem object, which means
->>>   fireworks if anyone calls drm_gem_object_get_pages. But we've just
->>>   made sure that's all covered.
->>>
->>> Cc: Gerd Hoffmann <kraxel@redhat.com>
->>> Cc: Rob Herring <robh@kernel.org>
->>> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
->>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>> ---
->>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 59 ++++++++++--------------=
---
->>>  1 file changed, 23 insertions(+), 36 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm=
-/drm_gem_shmem_helper.c
->>> index f7011338813e..8c7d4f422b7b 100644
->>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->>> @@ -35,22 +35,12 @@ static const struct drm_gem_object_funcs drm_gem_=
-shmem_funcs =3D {
->>>  	.mmap =3D drm_gem_shmem_mmap,
->>>  };
->>> =20
->>> -/**
->>> - * drm_gem_shmem_create - Allocate an object with the given size
->>> - * @dev: DRM device
->>> - * @size: Size of the object to allocate
->>> - *
->>> - * This function creates a shmem GEM object.
->>> - *
->>> - * Returns:
->>> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encode=
-d negative
->>> - * error code on failure.
->>> - */
->>> -struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device =
-*dev, size_t size)
->>> +static struct drm_gem_shmem_object *
->>> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool pri=
-vate)
->>>  {
->>>  	struct drm_gem_shmem_object *shmem;
->>>  	struct drm_gem_object *obj;
->>> -	int ret;
->>> +	int ret =3D 0;
->>> =20
->>>  	size =3D PAGE_ALIGN(size);
->>> =20
->>> @@ -64,7 +54,10 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(=
-struct drm_device *dev, size_t
->>>  	if (!obj->funcs)
->>>  		obj->funcs =3D &drm_gem_shmem_funcs;
->>> =20
->>> -	ret =3D drm_gem_object_init(dev, obj, size);
->>> +	if (private)
->>> +		drm_gem_private_object_init(dev, obj, size);
->>> +	else
->>> +		ret =3D drm_gem_object_init(dev, obj, size);
->>>  	if (ret)
->>>  		goto err_free;
->>> =20
->>> @@ -96,6 +89,21 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(=
-struct drm_device *dev, size_t
->>> =20
->>>  	return ERR_PTR(ret);
->>>  }
->>> +/**
->>> + * drm_gem_shmem_create - Allocate an object with the given size
->>> + * @dev: DRM device
->>> + * @size: Size of the object to allocate
->>> + *
->>> + * This function creates a shmem GEM object.
->>> + *
->>> + * Returns:
->>> + * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encode=
-d negative
->>> + * error code on failure.
->>> + */
->>> +struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device =
-*dev, size_t size)
->>> +{
->>> +	return __drm_gem_shmem_create(dev, size, false);
->>> +}
->>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
->>> =20
->>>  /**
->>> @@ -115,7 +123,6 @@ void drm_gem_shmem_free_object(struct drm_gem_obj=
-ect *obj)
->>>  	if (obj->import_attach) {
->>>  		shmem->pages_use_count--;
->>>  		drm_prime_gem_destroy(obj, shmem->sgt);
->>> -		kvfree(shmem->pages);
->>>  	} else {
->>>  		if (shmem->sgt) {
->>>  			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
->>> @@ -371,7 +378,7 @@ drm_gem_shmem_create_with_handle(struct drm_file =
-*file_priv,
->>>  	struct drm_gem_shmem_object *shmem;
->>>  	int ret;
->>> =20
->>> -	shmem =3D drm_gem_shmem_create(dev, size);
->>> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
->>>  	if (IS_ERR(shmem))
->>>  		return shmem;
->>> =20
->>> @@ -695,36 +702,16 @@ drm_gem_shmem_prime_import_sg_table(struct drm_=
-device *dev,
->>>  				    struct sg_table *sgt)
->>>  {
->>>  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
->>> -	size_t npages =3D size >> PAGE_SHIFT;
->>>  	struct drm_gem_shmem_object *shmem;
->>> -	int ret;
->>> =20
->>>  	shmem =3D drm_gem_shmem_create(dev, size);
->>>  	if (IS_ERR(shmem))
->>>  		return ERR_CAST(shmem);
->>> =20
->>> -	shmem->pages =3D kvmalloc_array(npages, sizeof(struct page *), GFP_=
-KERNEL);
->>> -	if (!shmem->pages) {
->>> -		ret =3D -ENOMEM;
->>> -		goto err_free_gem;
->>> -	}
->>> -
->>> -	ret =3D drm_prime_sg_to_page_addr_arrays(sgt, shmem->pages, NULL, n=
-pages);
->>> -	if (ret < 0)
->>> -		goto err_free_array;
->>> -
->>>  	shmem->sgt =3D sgt;
->>> -	shmem->pages_use_count =3D 1; /* Permanently pinned from our point =
-of view */
->>
->> This counter protected drm_gem_shmem_get_pages() from being executed o=
-n
->> imported buffers. I guess that previous patches sorted out all the
->> instances where this could occur. If so, the current patch looks
->> correct. I'm not sure, if the overall code is really better than what =
-we
->> have ATM, but anyway
->=20
-> The goal was to clearly sort these cases out, iirc we had callers of
-> get_pages doing the wrong thing, but I tried to review them all. Some g=
-ot
-> removed while this series was hanging around in my tree somewhere.
->=20
-> What I wanted to do in the end is replace all mutex_lock with
-> dma_resv_lock, which now should be doable. Except I need to audit all t=
-he
-> drivers, and some want _locked variant since they are already holding t=
-he
-> lock. That's roughly the point where I gave up on this eandeavour, at
-> least for now.
->=20
-> But if we'd get there then all the various helpers we have (cma, shmem,=
+Am 14.05.20 um 14:40 schrieb Daniel Vetter:
+> On Wed, May 13, 2020 at 05:03:11PM +0200, Thomas Zimmermann wrote:
+>> SHMEM-buffer backing storage is allocated from system memory; which is=
 
-> vram) would more or less properly use dma_resv_lock as their protection=
-g
-> concept. That's kinda neat since with the dynamic dma-buf stuff
-> dma_resv_lock really becomes _the_ buffer lock for drivers, so some
-> motivation to move towards that.
+>> typically cachable. Currently, only virtio uses cachable mappings; udl=
+
+>> uses its own vmap/mmap implementation for cachable mappings. Other
+>> drivers default to writecombine mappings.
 >=20
-> Anyway if you don't feel like this is all that useful without the
-> dma_resv_lock work on top, I guess I can merge up to the doc patch and
-> leave the others out. Not sure myself, thoughts?
+> I'm pretty sure this breaks all these drivers. quick grep on a few
+> functions says this is used by lima, panfrost, v3d. And they definitely=
 
-Don't get me wrong, it's useful. The dma-buf support is just always a
-bit special and bolted-on in all memory managers.
+> need uncached/wc stuff afaiui. Or I'm completely missing something?
 
-Please go ahead and merge it if you like. The clean separation of
-dma-buf calls is better than what I did in my shmem patches. I'll rebase
-my stuff on top of whatever you end up merging.
+OK, I better get some testing for this code. :D
 
-Best regards
-Thomas
-
->=20
-> Thanks for taking a look.
 > -Daniel
 >=20
 >>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Use cached mappings by default. The exception is pages imported via
+>> dma-buf. DMA memory is usually not cached.
 >>
->>> =20
->>>  	DRM_DEBUG_PRIME("size =3D %zu\n", size);
->>> =20
->>>  	return &shmem->base;
->>> -
->>> -err_free_array:
->>> -	kvfree(shmem->pages);
->>> -err_free_gem:
->>> -	drm_gem_object_put_unlocked(&shmem->base);
->>> -
->>> -	return ERR_PTR(ret);
->>>  }
->>>  EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_sg_table);
->>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 6 ++++--
+>>  drivers/gpu/drm/virtio/virtgpu_object.c | 1 -
+>>  include/drm/drm_gem_shmem_helper.h      | 4 ++--
+>>  3 files changed, 6 insertions(+), 5 deletions(-)
 >>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/=
+drm_gem_shmem_helper.c
+>> index df31e5782eed1..1ce90325dfa31 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -259,7 +259,7 @@ static void *drm_gem_shmem_vmap_locked(struct drm_=
+gem_shmem_object *shmem)
+>>  	} else {
+>>  		pgprot_t prot =3D PAGE_KERNEL;
+>> =20
+>> -		if (!shmem->map_cached)
+>> +		if (shmem->map_wc)
+>>  			prot =3D pgprot_writecombine(prot);
+>>  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+>>  				    VM_MAP, prot);
+>> @@ -546,7 +546,7 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj,=
+ struct vm_area_struct *vma)
+>> =20
+>>  	vma->vm_flags |=3D VM_MIXEDMAP | VM_DONTEXPAND;
+>>  	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
+>> -	if (!shmem->map_cached)
+>> +	if (shmem->map_wc)
+>>  		vma->vm_page_prot =3D pgprot_writecombine(vma->vm_page_prot);
+>>  	vma->vm_ops =3D &drm_gem_shmem_vm_ops;
+>> =20
+>> @@ -664,6 +664,8 @@ drm_gem_shmem_prime_import_sg_table(struct drm_dev=
+ice *dev,
+>>  	if (IS_ERR(shmem))
+>>  		return ERR_CAST(shmem);
+>> =20
+>> +	shmem->map_wc =3D false; /* dma-buf mappings use writecombine */
+>> +
+>>  	shmem->pages =3D kvmalloc_array(npages, sizeof(struct page *), GFP_K=
+ERNEL);
+>>  	if (!shmem->pages) {
+>>  		ret =3D -ENOMEM;
+>> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm=
+/virtio/virtgpu_object.c
+>> index 6ccbd01cd888c..80ba6b2b61668 100644
+>> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+>> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+>> @@ -132,7 +132,6 @@ struct drm_gem_object *virtio_gpu_create_object(st=
+ruct drm_device *dev,
+>> =20
+>>  	dshmem =3D &shmem->base.base;
+>>  	dshmem->base.funcs =3D &virtio_gpu_shmem_funcs;
+>> -	dshmem->map_cached =3D true;
+>>  	return &dshmem->base;
+>>  }
+>> =20
+>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_=
+shmem_helper.h
+>> index 294b2931c4cc0..a5bc082a77c48 100644
+>> --- a/include/drm/drm_gem_shmem_helper.h
+>> +++ b/include/drm/drm_gem_shmem_helper.h
+>> @@ -98,9 +98,9 @@ struct drm_gem_shmem_object {
+>>  	unsigned int vmap_use_count;
+>> =20
+>>  	/**
+>> -	 * @map_cached: map object cached (instead of using writecombine).
+>> +	 * @map_wc: map object using writecombine (instead of cached).
+>>  	 */
+>> -	bool map_cached;
+>> +	bool map_wc;
+>>  };
+>> =20
+>>  #define to_drm_gem_shmem_obj(obj) \
 >> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>> 2.26.2
 >>
->=20
->=20
->=20
 >=20
 
 --=20
@@ -334,28 +209,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---we20hdvbmb3tazoWXHhm1pRNGQIw5xDGP--
+--dv0w86oiplSFBWMG4z8dNRsQVt7SlgtRR--
 
---4Twgz8cXFyPJyeWCD36WTkEiD1FxTIoQA
+--DMPzOU1gQcbJxCR27oI0RiGy4OIx9EYOh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl69YzgACgkQaA3BHVML
-eiOxoQf/fqz7Unvcm6M08kEPEbrxWj9zm4RV1Cf8C5aE2xtzIy3BjSdNinAQvo+Y
-KyS/+QKCWn6Qt9zOm2r0px8UlRIYcbJFgQ3KtJYtXo4uFr+rKIARomrqbrhPHfC9
-yvGhYoTDj/TzqQ0Vu2bFgARvAsxI0k06jbaYIfwyxq/7Pl6ZPz5mrYa4haazAxkI
-IBb7gup51cEDWPaz0cykdVn67trIRPrYnqg/NHIvsu4SSlRDqYBDduRqUDnDA7ab
-w4t0GOI8DqZ+kIRy1ReaniPzgOZLKb3/+e03dSSrnUVAsue+EJRxr3jJMEgVThEw
-uzBm3Dp4qh1lcA1ng9eyL1cwZUuLTg==
-=HBz0
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl69Y34ACgkQaA3BHVML
+eiPVIggAtY96nRYU3YQmoxGp0GoukBPwGguxCXmJII4T5bZYD3WQ4tJx0C5eEOZu
+C6ubWzi6zoO+A34VVzRYBNn+1YqpKXxJhXDfOfHs6GE3Bdi2P+rfYYtV02JgGXcP
+VFFpJQdjp88Us1xQO1k86CCAYU97sg6nHgzrCZjwXLayUiqDMsMO0ELhjzbs8/Yt
+Slu6wgPESYFtVOlHsTkg1N5jp3JKthKsIbhxHZqlNWbRgA7Th0aXVHJZ5xEozygT
+q39xABEGYoWYOouTDXxe7vi8Hv78/w2RW4MOAKpbKKHfi6Ja6/3xBfg8b07FJJgG
+98BlDP5PwK1k+lca6HKCZC4Y71ho2Q==
+=hQj0
 -----END PGP SIGNATURE-----
 
---4Twgz8cXFyPJyeWCD36WTkEiD1FxTIoQA--
+--DMPzOU1gQcbJxCR27oI0RiGy4OIx9EYOh--
 
---===============2032041687==
+--===============0968950546==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -366,4 +241,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2032041687==--
+--===============0968950546==--
