@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3B31D3F83
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 23:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1931D4031
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 23:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA7A6E392;
-	Thu, 14 May 2020 21:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0656E32E;
+	Thu, 14 May 2020 21:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28D876E392
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 21:02:28 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E4298206F1;
- Thu, 14 May 2020 21:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589490148;
- bh=BpiNhcYdcKddO8cs3Vt8IZUscWTK1/Is8oqrDfZkC6w=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=hyfFgR+GL76NQf566ZtlB+WOryIov5DSxhUL5b5JUGfd+iX0ldBn3aeIuHEmGYr5F
- EJi9Wz7J28FNtt08VJYBztNyXwTQJ6uHS1pGhU4g7jeCKpOQ1WCr4QwXnoluVb/vcF
- CFUnP5fIMuLO3vUY90BKaBpUzqs5HHWHXbnfeD0k=
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 280A66E32E
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 21:37:52 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E16B626A;
+ Thu, 14 May 2020 23:37:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1589492270;
+ bh=r7w1seKk94lC635xvi8ddGdPNjZzV7G8rR6A8E6Nsaw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ax8svKia4yEKShB3qJmaCJybaNITWBYQC5Ogg3Bw0vlgSXWM2ZC8KEgvzYDH7s5gr
+ yQmt/IxAmMTHQZqAjxs1IhZDGyovMWc1L+EB+oyUrgvQGKtjBqJnbrWZCbAykJT2BJ
+ Dg8HueHTzqZ4v08G9ATowJ8Bj5QlpX4wuy9w9vKg=
+Date: Fri, 15 May 2020 00:37:42 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v1.1 4/4] dt-bindings: display: bridge: renesas,lvds:
+ Convert binding to YAML
+Message-ID: <20200514213742.GO5955@pendragon.ideasonboard.com>
+References: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200513232840.22687-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXRiP3topBOeLdLhJ9wMBAMFEnLYJPPpdmmdK7TKN4X6g@mail.gmail.com>
+ <20200514151721.GF5955@pendragon.ideasonboard.com>
+ <CAMuHMdVrO8WfKVdp2wONSYg=cbK=CWyXMyC+Hqv4tkiuCm5WAQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1589267017-17294-5-git-send-email-dillon.minfei@gmail.com>
-References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
- <1589267017-17294-5-git-send-email-dillon.minfei@gmail.com>
-Subject: Re: [PATCH v3 4/5] clk: stm32: Fix stm32f429 ltdc driver loading hang
- in clk set rate. keep ltdc clk running after kernel startup
-From: Stephen Boyd <sboyd@kernel.org>
-To: airlied@linux.ie, alexandre.torgue@st.com, daniel@ffwll.ch,
- dillon.minfei@gmail.com, mcoquelin.stm32@gmail.com, mturquette@baylibre.com,
- robh+dt@kernel.org, sam@ravnborg.org, thierry.reding@gmail.com
-Date: Thu, 14 May 2020 14:02:27 -0700
-Message-ID: <158949014721.215346.12197373767247910756@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVrO8WfKVdp2wONSYg=cbK=CWyXMyC+Hqv4tkiuCm5WAQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +50,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- dillon.minfei@gmail.com, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting dillon.minfei@gmail.com (2020-05-12 00:03:36)
-> From: dillon min <dillon.minfei@gmail.com>
+Hi Geert,
+
+On Thu, May 14, 2020 at 09:02:54PM +0200, Geert Uytterhoeven wrote:
+> On Thu, May 14, 2020 at 5:17 PM Laurent Pinchart wrote:
+> > On Thu, May 14, 2020 at 09:31:53AM +0200, Geert Uytterhoeven wrote:
+> > > On Thu, May 14, 2020 at 1:29 AM Laurent Pinchart wrote:
+> > > > Convert the Renesas R-Car LVDS encoder text binding to YAML.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > >
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> > >
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > > > +    #include <dt-bindings/power/r8a7795-sysc.h>
+> > > > +
+> > > > +    lvds@feb90000 {
+> > > > +        compatible = "renesas,r8a7795-lvds";
+> > > > +        reg = <0 0xfeb90000 0 0x14>;
+> > >
+> > > #{address,size}-cells = <1> for examples.
+> > > Applies to all nodes below, too.
+> >
+> > Why ?
 > 
-> as store stm32f4_rcc_register_pll return to the wrong offset of clks,
+> See "[PATCH 5/5] dt-bindings: Fix incorrect 'reg' property sizes"
+> https://lore.kernel.org/linux-devicetree/20200512204543.22090-5-robh@kernel.org/
 
-Use () on functions, i.e. stm32f4_rcc_register_pll().
+I don't like this much as it creates invalid examples, but until we have
+a better solution, I'll reduce the number of cells.
 
-> so ltdc gate clk is null. need change clks[PLL_VCO_SAI] to clks[PLL_SAI]
+-- 
+Regards,
 
-And quote variables like 'clks[PLL_VCO_SAI]'
-
-> 
-> add CLK_IGNORE_UNUSED for ltdc to make sure clk not be freed by
-> clk_disable_unused
-
-clk_disable_unused() doesn't free anything. Why does ltdc not need to be
-turned off if it isn't used? Is it critical to system operation? Should
-it be marked with the critical clk flag then? The CLK_IGNORE_UNUSED flag
-is almost always wrong to use.
-
-> 
-> Signed-off-by: dillon min <dillon.minfei@gmail.com>
-> ---
->  drivers/clk/clk-stm32f4.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
-> index 18117ce..0ba73de 100644
-> --- a/drivers/clk/clk-stm32f4.c
-> +++ b/drivers/clk/clk-stm32f4.c
-> @@ -129,7 +129,8 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
->         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
->         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
-> -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
-> +       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div",
-> +               CLK_IGNORE_UNUSED },
->  };
->  
->  static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
-> @@ -1757,7 +1758,7 @@ static void __init stm32f4_rcc_init(struct device_node *np)
->         clks[PLL_VCO_I2S] = stm32f4_rcc_register_pll("vco_in",
->                         &data->pll_data[1], &stm32f4_clk_lock);
->  
-> -       clks[PLL_VCO_SAI] = stm32f4_rcc_register_pll("vco_in",
-> +       clks[PLL_SAI] = stm32f4_rcc_register_pll("vco_in",
->                         &data->pll_data[2], &stm32f4_clk_lock);
->  
->         for (n = 0; n < MAX_POST_DIV; n++) {
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
