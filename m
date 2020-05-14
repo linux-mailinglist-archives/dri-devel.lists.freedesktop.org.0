@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FFB1D2E0F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 13:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144151D2E20
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 13:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1366E328;
-	Thu, 14 May 2020 11:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 467A26E326;
+	Thu, 14 May 2020 11:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 515AF6E323;
- Thu, 14 May 2020 11:19:29 +0000 (UTC)
-IronPort-SDR: HOvT2pzfbDeOR26Y7wjGAYBH789Unm9yg4VFb3P0x38nBMJVMy9lf7REK/jwSZbHUE+zXVdysl
- qjlEmNv66VYA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2020 04:19:28 -0700
-IronPort-SDR: T/9E/clvfkcfmrudsl3Ktg4mE8EfkEMb5IruAQHfs4jdk5Lcvbrkt5++8Mp0mC44m5cEcmUipl
- AtALqGTn8sjA==
-X-IronPort-AV: E=Sophos;i="5.73,391,1583222400"; d="scan'208";a="410036713"
-Received: from oalgaze-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.39.44])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2020 04:19:25 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v12 00/14] In order to readout DP SDPs,
- refactors the handling of DP SDPs
-In-Reply-To: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
-Date: Thu, 14 May 2020 14:19:23 +0300
-Message-ID: <87eerm4vd0.fsf@intel.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8BA6E326
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 11:21:03 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id 63so2023022oto.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 04:21:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mjaEhAMukt4Q737HPM6C7TaDlquG096H0lSzCeaiEoc=;
+ b=mOXBRYwJnKRNXGpLr1E6rMWnYCaRIEDjBCruqko+V0Q0OB0xHrlU/fJMuSD+M7k/1d
+ wSKA9T83yjHOIz9do4fPtC+wuD6K3kkIXH6/meq76g7xE41jGtRJVHl53Vsa5GzPe8rg
+ 15MQCwCH/d6sauRn5xtEH/cZhKfJVn+0bikBQ1PSWvVzopiX0ZiY1o4IIl1idq+syKwI
+ AvITZHAUsMi7xoVH5yV62eihovHNxe0F2LmMY6KKM8jM4GD8Cuuihq3NQ0g+Dd2G23VU
+ WdBEq/gtU4kWMZ7wkQtTXaRJq7ErHhLWMxqGoAJYpItNt6Qi9p36bAsw6j6VQZ3fZgRM
+ CUPw==
+X-Gm-Message-State: AOAM532CRkrE2Ou/AFYI0rjiEe18lU3DBc2oeqmvxPI63ZapiFGWdiNQ
+ cz6bTF0qsmzJOCA5GhJpcCi9mZsZbNVXqem7q9o=
+X-Google-Smtp-Source: ABdhPJyTpBVQvJyPeh8jlL2d0XL6Aye1NJbTU0L7nP/qUpDkvDYChurJ2m7cErQetQ0NI1Dhki2u1VhMPXPI4JktJ7I=
+X-Received: by 2002:a9d:6356:: with SMTP id y22mr2944323otk.167.1589455262888; 
+ Thu, 14 May 2020 04:21:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+ <20200513214351.2138580-10-emil.l.velikov@gmail.com>
+In-Reply-To: <20200513214351.2138580-10-emil.l.velikov@gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 14 May 2020 13:20:51 +0200
+Message-ID: <CAJZ5v0iM5H03=RTtk2sZtUzaW0XJ+AaX1M00C8QjvaNz0ZE3bQ@mail.gmail.com>
+Subject: Re: [PATCH 10/11] kernel/power: constify sysrq_key_op
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,37 +52,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
+Cc: Len Brown <len.brown@intel.com>, Linux PM <linux-pm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jslaby@suse.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 May 2020, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com> wrote:
-> In order to readout DP SDPs (Secondary Data Packet: DP HDR Metadata
-> Infoframe SDP, DP VSC SDP), it refactors handling DP SDPs codes.
-> It adds new compute routines for DP HDR Metadata Infoframe SDP
-> and DP VSC SDP. 
-> And new writing routines of DP SDPs (Secondary Data Packet) that uses
-> computed configs.
-> New reading routines of DP SDPs are added for readout.
-> It adds a logging function for DP VSC SDP.
-> When receiving video it is very useful to be able to log DP VSC SDP.
-> This greatly simplifies debugging.
-> In order to use a common VSC SDP Colorimetry calculating code on PSR,
-> it uses a new psr vsc sdp compute routine.
+On Wed, May 13, 2020 at 11:46 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> With earlier commits, the API no longer discards the const-ness of the
+> sysrq_key_op. As such we can add the notation.
+>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jslaby@suse.com>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> Cc: Len Brown <len.brown@intel.com>
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 
-Pushed the series to drm-intel-next-queued with Daniel's irc ack for
-merging the two non-i915 patches that route too.
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Thanks for the patches and review!
+and I'm assuming that this is going to be applied along with the rest
+of the series.
 
-BR,
-Jani.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> ---
+> Please keep me in the CC list, as I'm not subscribed to the list.
+>
+> IMHO it would be better if this gets merged this via the tty tree.
+> ---
+>  kernel/power/poweroff.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/kernel/power/poweroff.c b/kernel/power/poweroff.c
+> index 6d475281c730..562aa0e450ed 100644
+> --- a/kernel/power/poweroff.c
+> +++ b/kernel/power/poweroff.c
+> @@ -29,7 +29,7 @@ static void handle_poweroff(int key)
+>         schedule_work_on(cpumask_first(cpu_online_mask), &poweroff_work);
+>  }
+>
+> -static struct sysrq_key_op     sysrq_poweroff_op = {
+> +static const struct sysrq_key_op       sysrq_poweroff_op = {
+>         .handler        = handle_poweroff,
+>         .help_msg       = "poweroff(o)",
+>         .action_msg     = "Power Off",
+> --
+> 2.25.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
