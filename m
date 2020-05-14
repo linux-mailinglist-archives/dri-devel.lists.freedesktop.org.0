@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88CD1D465E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEDE1D29C0
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0B0F6EC00;
-	Fri, 15 May 2020 06:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F04E089E2C;
+	Thu, 14 May 2020 08:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D6666EB80
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 16:11:37 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id 4so1057487ilg.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 09:11:37 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF8889E2C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:11:35 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id j3so2468502ljg.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pWAwL4iY43kHKyzq6JgPam8fDxHVDDtXpG7mRg32aJE=;
- b=O18fRYkJuCVHLzSDHMiTV/YEvTTqeLQpSzk7AUAl1veaDpHB0AhDrBCf6pG6NOIJ69
- IVKsNZ3fA75gmbzuDAe9ruH9MEFZd4RjPd5l7XMXsa9JnQglfU6WlqT5lKEfreMB5mpa
- yLiuZhfm1eIS1G/957nwLkHVLS+MHbLeJ+wOrXDXNXNqjYGERRRjU4frvhsoaaEfctCs
- TOK4ipsoWjopZW/F3wg+NJ2uwwRe8hgMBHYVXkuqgOqby141+OUTgLvFgNbfg3CODLo9
- TdoiXHXOZy+3W9snj2LFBt6LX/eRdGwR20ISOpHddhvO3HEKQmYx8gnopiazWe6kaubv
- UEXg==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=daE/qp2lRyMqE5ox4rLUjWqF0gJXG1Hf2MSmE3P8zuE=;
+ b=d2OEFF/YGGFs2Z+rW4mwA8wfsXcr41dwbvYNA1D1ds/q+j4lV6m95EXY+HGIURC9OO
+ btnfiDMiH5MAhXuLMB0e/U667i1BgNrmze2CmzItPV9UN79jNCKr6egKzNDptOjBwrwr
+ pmze3ZKfUp0wF8DX9HFiYo4WF5+hqd9Svjihd9bXHbTktcItVB4CuP5zrOB/KAidS7IB
+ DBXQRl9t/4KT1jHo4Ky7gI7p1mrQVJFYTpTapfgRkypo4fw9btTN13dIiU6P77Fb7q2S
+ UrxVG89Cco5T9dWVgzcaJywOITcDlmZFYB0Nw/+m4/nIVw6LwgHp/n+pqo3a4Z4lmk1q
+ QKbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pWAwL4iY43kHKyzq6JgPam8fDxHVDDtXpG7mRg32aJE=;
- b=dFWEtEXugd5SejPuwVY589zDcs0zeFNUlTNRKBc7/sRrUQ7tyxszE1U7903voAQEmG
- Qubi4lxTJik4TOOQlvlSqzMozar+baP9smYEYtJ1kPmXZMeFt1QtrSB3Z/8ITVjGzF/c
- 9YUJAckxNBf8fN45sNLqWxFYXz4lUruOxTIIjblfP40maGklw7v6HBGP031mYTv0i/NG
- xPhkxi6oSMLO7goQzNq2hzPPlqRYTG0U7wu4HiPIJbW8swtArpNXVssXMMa++46BvugL
- 8PC5J1m/AfLOTDlJCvgNmZgqDZIxEvF25le+ch9E8h9I3lKOigoiKjzGMjKK+f+fwql9
- j2Kg==
-X-Gm-Message-State: AOAM531uHHpbqobUr3Zy0cg1/WOJbBmcKj1D2DvheZAqmlyihRXWdyma
- PGsmgUkLzcWKtAUkfXaOfb9n+xUAtNztJTDe+CI=
-X-Google-Smtp-Source: ABdhPJx6Rsp5ROFxXwYlYudzEUx9ly+h8b+Qj8M+Twx/mohFFLUuzJpw12Ch5e3R3mp3ipZq22gY7LfKaKb8NlNe79A=
-X-Received: by 2002:a05:6e02:68e:: with SMTP id
- o14mr1854794ils.184.1589472696421; 
- Thu, 14 May 2020 09:11:36 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=daE/qp2lRyMqE5ox4rLUjWqF0gJXG1Hf2MSmE3P8zuE=;
+ b=RIJ2I62t/zAzeUQtJha9qlD+K9cBqALjh7zTaCZ/OQNx+miOOuuutXZ3rAHZzqfKDN
+ 2Z4TbnWBws2fVUpoxWHwb+4InNywyoiCdenvTIX//Wy7VpC3Lg4mnivB1grw1Gd/Tyt9
+ E81hgzoLOa9gwq5nAUEanRmXCoidUWpKNElM8rwiJSAHiinKLPjs3L+eoE9EMWeQJQqi
+ uQvzFaGN3XCoxVsk0GWdf4npaVvmrFbd8yZqFDYHZhfUUpwLpqkN/RpLX0OwR2SYEn+9
+ i+hbmhW00aWobDUTLW7Wrn1XsAs32zen1Bj8cTMz5wfwgELBrdgmrdDtawkr8ltVz56p
+ KQIA==
+X-Gm-Message-State: AOAM530wKU4zfccIFSls1PblSpNPNtg+xMbk7cgnZ8Qh+Ujyleu7wJBz
+ O8+wSN3O0Ms5qgBb8ambTk4=
+X-Google-Smtp-Source: ABdhPJwCGU7JpJNr3yxx8+wJxAOcke6rA8L4v1AmqWENVtJ2WK1hBgztUH/KSVABglLMpttG2qPqbw==
+X-Received: by 2002:a2e:8e92:: with SMTP id z18mr1834840ljk.195.1589443893430; 
+ Thu, 14 May 2020 01:11:33 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id f2sm1016352ljg.98.2020.05.14.01.11.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 May 2020 01:11:31 -0700 (PDT)
+Date: Thu, 14 May 2020 11:11:21 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rajat Jain <rajatja@google.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC v2 0/1] drm/connector: Add support for privacy-screen
+ properties
+Message-ID: <20200514111121.758d2f89@eldfell.localdomain>
+In-Reply-To: <CACK8Z6FP-5BzhW6_wf=XrdN=9k9c4U9MaPBNSe7g5p5zCingWA@mail.gmail.com>
+References: <20200511174724.21512-1-hdegoede@redhat.com>
+ <CACK8Z6HG3sM-4cBYurHCba1jopk_5SVBd7KULEvOR27eKfxpyg@mail.gmail.com>
+ <8f273c2a-2544-10fa-02f3-832cb1f398ad@redhat.com>
+ <20200512172032.185de3d7@eldfell.localdomain>
+ <a415bd37-ae23-9cd9-dff3-702824685a60@redhat.com>
+ <20200513104943.34d92639@eldfell.localdomain>
+ <CACK8Z6FP-5BzhW6_wf=XrdN=9k9c4U9MaPBNSe7g5p5zCingWA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
- <1589267017-17294-6-git-send-email-dillon.minfei@gmail.com>
- <CACRpkdbZoMDC-D12CByKJUZbu4shqixC=QrKwJUd8x=nyK7seQ@mail.gmail.com>
- <CAL9mu0LVsePqifEC+-FR+NxvuZT3UGpU86KhzaTqb7w_Px0z2g@mail.gmail.com>
- <CACRpkdbcD7i+kNoJ9YP5XXTtLi12=yzW5OBNzet5oRdwPYz=dA@mail.gmail.com>
-In-Reply-To: <CACRpkdbcD7i+kNoJ9YP5XXTtLi12=yzW5OBNzet5oRdwPYz=dA@mail.gmail.com>
-From: dillon min <dillon.minfei@gmail.com>
-Date: Thu, 14 May 2020 16:11:00 +0800
-Message-ID: <CAL9mu0Kdc4TqcGB7JYDWkOJqwvxX1m_026aB0iprkHTzN4HXoQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] drm/panel: Add ilitek ili9341 driver
-To: Linus Walleij <linus.walleij@linaro.org>
-X-Mailman-Approved-At: Fri, 15 May 2020 06:52:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,93 +72,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Alexandre TORGUE <alexandre.torgue@st.com>,
- Dave Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sonny.Quintanilla@dell.com, Mario Limonciello <mario.limonciello@dell.com>,
+ David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Jared Dominguez <jaredz@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Mark Pearson <mpearson@lenovo.com>
+Content-Type: multipart/mixed; boundary="===============0038623060=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGludXMsCgpMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+IOS6jjIw
-MjDlubQ15pyIMTTml6Xlkajlm5sg5LiL5Y2IMTA6MDjlhpnpgZPvvJoKPgo+IE9uIFRodSwgTWF5
-IDE0LCAyMDIwIGF0IDEyOjIyIFBNIGRpbGxvbiBtaW4gPGRpbGxvbi5taW5mZWlAZ21haWwuY29t
-PiB3cm90ZToKPgo+ID4gPiA+ICsgICAgICAgLyogR2FtbWEgKi8KPiA+ID4gPiArICAgICAgIG1p
-cGlfZGJpX2NvbW1hbmQoZGJpLCBJTEk5MzQxXzNHQU1NQV9FTiwgMHgwMCk7Cj4gPiA+ID4gKyAg
-ICAgICBtaXBpX2RiaV9jb21tYW5kKGRiaSwgTUlQSV9EQ1NfU0VUX0dBTU1BX0NVUlZFLCAweDAx
-KTsKPiA+ID4gPiArICAgICAgIG1pcGlfZGJpX2NvbW1hbmQoZGJpLCBJTEk5MzQxX1BHQU1NQSwK
-PiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgMHgwZiwgMHgzMSwgMHgyYiwgMHgwYywg
-MHgwZSwgMHgwOCwgMHg0ZSwgMHhmMSwKPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
-MHgzNywgMHgwNywgMHgxMCwgMHgwMywgMHgwZSwgMHgwOSwgMHgwMCk7Cj4gPiA+ID4gKyAgICAg
-ICBtaXBpX2RiaV9jb21tYW5kKGRiaSwgSUxJOTM0MV9OR0FNTUEsCj4gPiA+ID4gKyAgICAgICAg
-ICAgICAgICAgICAgICAgIDB4MDAsIDB4MGUsIDB4MTQsIDB4MDMsIDB4MTEsIDB4MDcsIDB4MzEs
-IDB4YzEsCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIDB4NDgsIDB4MDgsIDB4MGYs
-IDB4MGMsIDB4MzEsIDB4MzYsIDB4MGYpOwo+ID4gPgo+ID4gPiBJdCBzZWVtcyB0byBiZSBjb3Bp
-ZXMgb2YgdGhlIHN0dWZmIGFib3ZlLCBidXQgd2h5IGlzIHRoZXJlIGEgZGlmZmVyZW50Cj4gPiA+
-IGdhbW1hIGlmIHlvdSB1c2UgREJJPwo+Cj4gPiBmb3IgZGJpIGludGVyZmFjZSwgY3VycmVudGx5
-IGkganVzdCBjb3B5IHRoZSBjb2RlIGZyb20gdGlueS9pbGk5MzQxLmMuCj4gPiBhcyBzbyBtYW55
-IGJvYXJkcyB1c2UgdGhpcyBkcml2ZXIgbm93LCBsaWtlIHJhc3BiZXJyeSBwaSwgZXRjCj4gPiBp
-J20gYWZyYWlkIGl0J3Mgd2lsbCBub3Qgd29yayBhZnRlciBtb2RpZmljYXRpb24uIHNvLCBqdXN0
-IGxlYXZlIHRoZQo+ID4gb3JpZ2luYWwgY29kZSB0aGVyZS4KPgo+IE9LIGlmIHlvdSBtb3ZlIGl0
-IHRvIGlsaTkzNDFfY29uZmlnIGl0IHdpbGwgYmUgY2xlYXIgd2hpY2ggcGFuZWxzCj4gbmVlZCB0
-aGlzIGdhbW1hIGFuZCB3aGljaCBwYW5lbHMgbmVlZCBhbm90aGVyIGdhbW1hLgo+Cj4gSSB0aGlu
-ayB0aGVyZSBzaG91bGQgYmUgb25lIGlsaTkzNDFfY29uZmlnIGZvciB0aGUgbmV3IHN0LCoKPiB2
-YXJpYW50IGFuZCBvbmUgZm9yIHRoZSBvbGQgREJJIHZhcmlhbnQuCj4KT2theSwgaXQncyBhIGdv
-b2QgaWRlYSB0byBzZXR1cCB0d28gZGlmZmVyZW50IGNvbmZpZ3MuICBpbGk5MzQxX2RiaV9jb25m
-aWcsCmlsaTkzNDFfZHBpX2NvbmZpZy4gZmlyc3QgZm9yIG9sZCBkYmkgdmFyaWFudCwgc2Vjb25k
-IGZvciBkcGkgdmFyaWFudC4KCj4gPiBhbnRoZXIgcXVlc3Rpb246Cj4gPiBpcyB0aGVyZSBhbnkg
-cGFuZWwgZHJpdmVyIGhhdmUgZGJpICYgZHBpIG9yIGRwaSAmIGRzaSBzdXBwb3J0ZWQ/IHdoaWNo
-Cj4gPiBpIG1lYW4gc3VwcG9ydAo+ID4gdHdvIGRpZmZlcmVudCBwYW5lbCBpbnRlcmZhY2UgaW4g
-b25lIGRyaXZlci4KPiA+IHRoYW5rcwo+Cj4gVXN1YWxseSB5b3Ugc3BsaXQgdGhlIGRyaXZlciBp
-biB0aHJlZSBmaWxlcyBiZWN1YXNlIGEgZHJpdmVyIGNhbgo+IG9ubHkgbGlzdCBvbmUgaW5pdGNh
-bGwsIGFuZCBhbHNvIGl0IG1ha2VzIGl0IG1vZHVsYXJpemVkLgo+Cj4gVGhlcmUgaXMgbm90aGlu
-ZyBpbi10cmVlIGJ1dCBsb29rIGF0IG15IGJyYW5jaCBoZXJlOgo+IGh0dHBzOi8vZ2l0Lmtlcm5l
-bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2xpbnVzdy9saW51eC1ub21hZGlrLmdpdC9s
-b2cvP2g9dXg1MDAtc2tvbWVyLXY1LjctcmMxCj4KPiBZb3Ugc2VlIGhvdyBJIHNwbGl0IHVwIHRo
-ZSBzNmU2M20wIGRyaXZlciBpbiBvbmUgU1BJIHBhcnQKPiBhbmQgb25lIERTSSBwYXJ0Ogo+IGh0
-dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2xpbnVzdy9saW51
-eC1ub21hZGlrLmdpdC9jb21taXQvP2g9dXg1MDAtc2tvbWVyLXY1LjctcmMxJmlkPTZjMGUxZmI1
-ZGY1ZmE4ZmE4NTdkZWU2NWY2YzBmNTRkMDZkMTU4YTcKPiBodHRwczovL2dpdC5rZXJuZWwub3Jn
-L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9saW51c3cvbGludXgtbm9tYWRpay5naXQvY29tbWl0
-Lz9oPXV4NTAwLXNrb21lci12NS43LXJjMSZpZD1jZmJmNTYyY2M3MDliNTNiNjJmNWZiYzdmZWRm
-MTc2ZmZhMTdiMDg4Cj4KPiBUaGUgb3ZlcmFsbCBpZGVhIHNob3VsZCB3b3JrIHRoZSBzYW1lIHdp
-dGggREJJLgo+Cj4gWW91cnMsCj4gTGludXMgV2FsbGVpago+Cj4gWW91cnMsCj4gTGludXMgV2Fs
-bGVpagoKVGhhbmtzIGZvciBzaGFyZSwgYnV0IGkgdGhpbmtzIGl0J3Mgbm90IHN1aXRhYmxlIHRv
-IG15IGNhc2UuIHRoZSBkaWZmZXJlbmNlIGlzCmZvciBwYW5lbCBzNmU2M20wCjEgc3BpIG9ubHkg
-Zm9yIHBhbmVsIHJlZ2lzdGVyIGNvbmZpZ3VyYXRpb24KMiBkcGkgZm9yIHJnYiB2aWRlbyBkYXRh
-IHRyYW5zZmVyIChkcm1fcGFuZWxfaW5pdCguLi4sIERSTV9NT0RFX0NPTk5FQ1RPUl9EUEkpOykK
-Cm15IGNhc2U6CjEgc3VwcG9ydCBpbGk5MzQxIGJ5IGRybSBtaXBpIGRiaSAob25seSBzcGkgYnVz
-LCAgIjMvNCBsaW5lIHNlcmlhbAppbnRlcmZhY2UiLCBwZGYgY2hhcCA3LjYuMSksIEllLCByYXNw
-YmVycnkgcGkgKyBpbGk5MzQxICsgc3BpCjIgc3VwcG9ydCBpbGk5MzQxIGJ5IHNwaSAmIGRwaSAo
-c3BpIGZvciByZWdpc3RlciBzZXQsIGRwaSBmb3IgcmdiCmRhdGEsICI2LzE2LzE4IGJpdCBwYXJh
-bGxlbCByZ2IgaW50ZXJmYWNlIiwgcGRmIGNoYXAgNy42LjgpCiAgIEllLCBzdG0zMmY0MjkraWxp
-OTM0MStsdGRjK3NwaQp0aGVzZSB0d28gY29tbXVuaWNhdGlvbiB0eXBlIGhhcyBubyBkZXBlbmRl
-bmN5IHdpdGggZWFjaCBvdGhlci4KCkRCSSBoYXMgbXVjaCBtb3JlIGRpZmZlcmVuY2UgdGhhbiBE
-UEkgJiBTUEksIG9yIERTSSAmIFNQSSBpbiBkcm0uCiAgIGRybV9taXBpX2RiaSBzdXBwb3J0IGJv
-dGggcGFuZWwgcmVnaXN0ZXIgY29uZmlndXJhdGlvbiBhbmQgdmlkZW8KZGF0YSB0cmFuc2ZlciB2
-aWEgc3BpCiAgIHdpdGggb3Igd2l0aG91dCBkYyBwaW5zLgogICBhbHNvIHRoZSByZWdpc3RyYXRp
-b24gdG8gZHJtIGlzIGRpZmZlcmVuY2UsIGZvciBkYmkgaXMKbWlwaV9kYmlfZGV2X2luaXQgYW5k
-IGRybV9mYmRldl9nZW5lcmljX3NldHVwCiAgIGZvciBwYW5lbCBkcml2ZXIgaXMgZHJtX3BhbmVs
-X2luaXQgYW5kIGRybV9wYW5lbF9hZGQKYXQgc29jJ3Mgdmlldywgd2UgY2FuIGRyaXZlIGlsaTkz
-NDEgdG8gd29yayBqdXN0IGJ5IGRybSBtaXBpIGRiaQooYWN0dWFsbHkgaXQncyBkYmkgLT4gc3Bp
-IGJ1cykgd2l0aG91dCBob3N0J3MgbGNkIG9yIGRzaSBjb250cm9sbGVyCmJ1dCBmb3Igc29tZSBw
-YW5lbCBjYW4ndCB0cmFuc2ZlciB2aWRlbyBkYXRhIGJ5IHNwaSwgYW5kIHdpdGggZHBpIG9yCmRz
-aSBpbnRlcmZhY2UsIG11c3QgY29ubmVjdCB0byBob3N0J3MgbGNkIG9yIGRzaSBjb250cm9sbGVy
-LgoKc28sIGZvciBpbGl0ZWstaWxpOTM0MSAsIGl0J3MgdXNlIGRpZmZlcmVudCBkdHMgYmluZGlu
-ZyBkcml2ZSB0bwpyZWdpc3RlciBkaWZmZXJlbnQgY2xpZW50IHR5cGUgKGRiaSwgb3IgZHBpICYg
-c3BpKSB0byBkcm0uCmFjdHVhbGx5LCB0aGVyZSBpcyBhIGRyaXZlciB0aW55L2lsaTkzNDEuYyBz
-dXBwb3J0IHRoaXMgcGFuZWwgYnkgc3BpCmJ1cyBvbmx5IGFscmVhZHkuIGJ1dCwgZnJvbSBTYW0n
-cyBzdWdnZXN0aW9uLCBzaG91bGQgZXh0ZW5kIHRoaXMKZHJpdmVyCnRvIHN1cHBvcnQgZHBpICYg
-c3BpIGludGVyZmFjZSwgdGhpcyBpcyB0aGUgYmFja2dyb3VuZCBvZiBwYW5lbC1pbGl0ZWstaWxp
-OTM0MS5jCgp0aGFua3MuCgpiZXN0IHJlZ2FyZHMuCgpkaWxsb24KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============0038623060==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/K3A5i7j4wHhPBnpc2pglQJu"; protocol="application/pgp-signature"
+
+--Sig_/K3A5i7j4wHhPBnpc2pglQJu
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 13 May 2020 11:28:38 -0700
+Rajat Jain <rajatja@google.com> wrote:
+
+> On Wed, May 13, 2020 at 12:49 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te:
+
+...
+
+> > On Tue, 12 May 2020 10:38:11 -0700
+> > Rajat Jain <rajatja@google.com> wrote:
+> > =20
+> > > The chrome browser currently uses the API exposed by my (previous)
+> > > patchset to control privacy screen.
+> > > https://source.chromium.org/chromium/chromium/src/+/master:ui/ozone/p=
+latform/drm/common/drm_util.cc;l=3D180?q=3D%22privacy-screen%22%20-f:third_=
+party%2Fkernel%2Fv&originalUrl=3Dhttps:%2F%2Fcs.chromium.org%2F
+> > >
+> > > I know this doesn't help directly, but just to say that there are
+> > > users waiting to use an API that we release. If these changes are
+> > > accepted, I expect to see the change in browser again, to match the
+> > > new API,  although that will be not until we decide to uprev our
+> > > kernel again. =20
+> >
+> > Chromium counts as userspace, I think many new features have landed
+> > with it as the userspace.
+> >
+> > Is that from some development branch, not actually merged or released
+> > yet? If yes, very good. =20
+>=20
+> No, it's released (in Chromium for chromeOS platforms).
+
+That is really, really bad.
+
+You are lucky that the upstream discussions ended up changing all the
+property names anyway, since now there is no way to ever use the
+original names you used. Changing their meaning would have broken your
+released userspace, and the kernel is simply not allowed to do that.
+
+So that's a door closed for the kernel. Thankfully we didn't want to go
+through that door in the end.
+
+> > When you submit kernel patches with new UAPI,
+> > it would be nice to point to the userspace review discussion where the
+> > userspace patches have been reviewed and accepted but not merged. =20
+>=20
+> I doubt if that would happen - because they won't do it unless a
+> feature is available in the kernel they are using. I can definitely
+> create a public bug about what they need to do though.
+
+Sorry, but that is the DRM development policy. Point your people to
+https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-usersp=
+ace-requirements
+
+I have the feeling that the doc in the link does not underline enough
+"fully reviewed but NOT merged to something that will release".
+
+
+Thanks,
+pq
+
+--Sig_/K3A5i7j4wHhPBnpc2pglQJu
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl68/SoACgkQI1/ltBGq
+qqfT0BAAmTCj9uAiwSM0kH/8wZxpkDFsTjjsSVwXsWyNiPZiZXknkonIBqlj4dHz
+r2LybRvAT2m5und5JncvPIrjQh6aMxXZrpaXIiTiW8+MFbVLh6QHyWV/Q+YhurNf
+qnB6yPXr9gmNIWT50Jda4HBulEBHHKwCQy8e8R2zmPf8TYUKzJvbjBgvhxY1pD8g
+r+UGtskHDMTqovkKWmawAeXa/l/dF4xVlee2uC0rvJrqC8mLkX3PDTEDVc4eH3Yb
+VOX2UU9estH6sHbk9mEiTpJiS4oyPRqKqX10NpfUo64X1apiIMIACYHxsBROMRwM
+GMWWPktYYwRuFUGIC5aIfXwaxbVhKGvtMQljs8CMeR7u5lkQDuwzaC6fUOuwRHD6
+SBJhrWj+YJmcWwNaPmB2RDBNDhFAtjZJvwYocK1YewlW7i6aCesIxkFEHmwAYEtr
+eRpA6QgFgfd8q4iBB+lC65ErF8VWTfoGsMyJ5xvC5fq7iWdpmV3YEAXhpmYybXG8
+9yacq+qaEL6CCsev3hDBLIFbi97bPom2VPYYlpSvfyW4SwYimWzWK6neckDDS2No
+IagCz68PgvfKYafvSdRKJl43kd5RrrXTyMYu0iBf+dnyMxLfsq6FoCozl3javoVY
+XEc+vymqZbTrDrXoR2G1JKyl3O16IU4sRb+85fT1coMijR9Oh5g=
+=i/Gg
+-----END PGP SIGNATURE-----
+
+--Sig_/K3A5i7j4wHhPBnpc2pglQJu--
+
+--===============0038623060==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0038623060==--
