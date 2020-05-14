@@ -1,26 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFCF1D2C43
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 12:13:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA311D464A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F079E6E2F2;
-	Thu, 14 May 2020 10:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB256EBF7;
+	Fri, 15 May 2020 06:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840E16E2F2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 10:13:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
- with ESMTPSA id E62C62A2C39
-From: =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To: devicetree@vger.kernel.org
-Subject: [PATCH v4] dt-bindings: display: anx7814.txt: convert to yaml
-Date: Thu, 14 May 2020 12:12:35 +0200
-Message-Id: <20200514101235.7290-1-ricardo.canuelo@collabora.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3640E6E30C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 10:22:42 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id 79so2429777iou.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 03:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xf8xZfCQkg2LX+UGX2pErkunT3kzFVgUMzef0Ov7X8U=;
+ b=Ggcu6svRnfvNn9Dsd8MwVKxUpU+EtC/sdV/wX64b84Wf/BolKHyXwvu1WcAgSycmo9
+ g6zPSumtiqkSeg/QcGT+3q4t78VLeVlwl6HKyh0KVqIqjLxX9yHiHiNON3YGciyWSWQd
+ 14IfBehKyCyDuRwAhd/VzyyI1AhdUMeVd71fprDrTnkKhlpptgiHQSzWV3FEOHDk8iYI
+ 6aYpNBaPF2de9HV+vW7A9rtyXE8KjxOjSMU8ayWbhT6HWBb+T/BQ+rVuMVAEJSEEhQG4
+ fVsFK/jFbOjhOS46sttdZAMR0QWUWFNTxnFd3SlWG7nPg6GPegi8f6EWzz78dCL2i21L
+ KGHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xf8xZfCQkg2LX+UGX2pErkunT3kzFVgUMzef0Ov7X8U=;
+ b=Tu/odWmC/AMn68AWbxh7gMuMNr27EzlB7cAWTA1ROy7EMR+N3LpPHBU9zCt4oYyl3w
+ 9ssiI/J9LQTCNpLvjE4KCsGB6IEgkUxtH7FtmQFLUJEUjfeqhZZgVPnWxVZgUKMEs+hg
+ ODM4eTf/n3hFnIEVMXNKQgfiQqo6TP8loyyEt5314wOvm+NhEYKBNqNoeuq13soe9dR/
+ bIIVcpaq7KMZi9XqTOewDULgQiboCt7RqoNf0nNwg2be1LX1yC3f7cT36NDQb6bAYmdf
+ Q++PwQ1BNOYrbIYOvCM+l3r01nvrWnRTftSkDp6tJzCcCOjIZYqQWPsY+a3wzQEceh4P
+ pUBw==
+X-Gm-Message-State: AOAM532raJllLt9GH+yft/4wR3Vp/fKEjbhAvnMMvdVuHG5b1DbSsL4S
+ yyIJWeTxUdRANYdZtvnEpicYCn+Qf2q4MoFrioQ=
+X-Google-Smtp-Source: ABdhPJzLEl/PjziUjet7dMbd/2CbLJOcw5zJWiYxYZkGfaovRzeKZG7aVXM98VUw+JMNfNfgJzzoNSJMrMDnaE2xHXw=
+X-Received: by 2002:a5e:a80e:: with SMTP id c14mr3426158ioa.3.1589451761445;
+ Thu, 14 May 2020 03:22:41 -0700 (PDT)
 MIME-Version: 1.0
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-6-git-send-email-dillon.minfei@gmail.com>
+ <CACRpkdbZoMDC-D12CByKJUZbu4shqixC=QrKwJUd8x=nyK7seQ@mail.gmail.com>
+In-Reply-To: <CACRpkdbZoMDC-D12CByKJUZbu4shqixC=QrKwJUd8x=nyK7seQ@mail.gmail.com>
+From: dillon min <dillon.minfei@gmail.com>
+Date: Thu, 14 May 2020 18:22:03 +0800
+Message-ID: <CAL9mu0LVsePqifEC+-FR+NxvuZT3UGpU86KhzaTqb7w_Px0z2g@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] drm/panel: Add ilitek ili9341 driver
+To: Linus Walleij <linus.walleij@linaro.org>
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -33,119 +63,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: enric.balletbo@collabora.com, robh+dt@kernel.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Alexandre TORGUE <alexandre.torgue@st.com>,
+ Dave Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBjb252ZXJ0cyB0aGUgQW5hbG9naXggQU5YNzgxNCBicmlkZ2UgRFQgYmluZGluZyB0byB5
-YW1sLiBQb3J0CmRlZmluaXRpb25zIGFuZCBkZXNjcmlwdGlvbnMgd2VyZSBleHBhbmRlZCwgYXBh
-cnQgZnJvbSB0aGF0IGl0J3MgYQpkaXJlY3QgdHJhbnNsYXRpb24gZnJvbSB0aGUgb3JpZ2luYWwg
-YmluZGluZy4KClNpZ25lZC1vZmYtYnk6IFJpY2FyZG8gQ2HDsXVlbG8gPHJpY2FyZG8uY2FudWVs
-b0Bjb2xsYWJvcmEuY29tPgpBY2tlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3Jn
-PgpSZXZpZXdlZC1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29s
-bGFib3JhLmNvbT4KLS0tCkNoYW5nZXMgaW4gdjQ6CiAgLSBNYWtlIGludGVycnVwdHMgYW5kIGdw
-aW9zIG9wdGlvbmFsIChFbnJpYyBCYWxsZXRibykKICAtIE1ha2UgaHBkLWdwaW9zIGRlcHJlY2F0
-ZWQgKFJvYiBIZXJyaW5nKQogIC0gUmVtb3ZlIG1heEl0ZW1zIGZyb20gZHZkZDEwLXN1cHBseQoK
-Q2hhbmdlcyBpbiB2MyAoc3VnZ2VzdGVkIGJ5IFNhbSBSYXZuYm9yZyk6CiAgLSBSZW5hbWUgZXhh
-bXBsZSBub2RlIGkyYzAgdG8gaTJjLgoKQ2hhbmdlcyBpbiB2MiAoc3VnZ2VzdGVkIGJ5IEVucmlj
-IEJhbGxldGJvKToKICAtIEZpbGUgbmFtZSBjaGFuZ2U6IHVzZSBmdWxsIGNvbXBhdGlibGUgc3Ry
-aW5nLgogIC0gQmluZGluZyBkZXNjcmlwdGlvbiByZW1vdmVkLgogIC0gI2FkZHJlc3MtY2VsbHMg
-YW5kICNzaXplLWNlbGxzIHByb3BlcnRpZXMgcmVtb3ZlZCBmcm9tIHBvcnRzIG5vZGUuCiAgLSBF
-eGFtcGxlIG5vZGUgcmVuYW1lZDogYW54NzgxNCAtPiBicmlkZ2UuCgpUZXN0ZWQgd2l0aDoKbWFr
-ZSBkdF9iaW5kaW5nX2NoZWNrIEFSQ0g9YXJtNjQgRFRfU0NIRU1BX0ZJTEVTPTwuLi4vYW5hbG9n
-aXgsYW54NzgxNC55YW1sPgptYWtlIGR0YnNfY2hlY2sgQVJDSD1hcm02NCBEVF9TQ0hFTUFfRklM
-RVM9PC4uLi9hbmFsb2dpeCxhbng3ODE0LnlhbWw+CgogLi4uL2Rpc3BsYXkvYnJpZGdlL2FuYWxv
-Z2l4LGFueDc4MTQueWFtbCAgICAgIHwgMTE5ICsrKysrKysrKysrKysrKysrKwogLi4uL2JpbmRp
-bmdzL2Rpc3BsYXkvYnJpZGdlL2FueDc4MTQudHh0ICAgICAgIHwgIDQyIC0tLS0tLS0KIDIgZmls
-ZXMgY2hhbmdlZCwgMTE5IGluc2VydGlvbnMoKyksIDQyIGRlbGV0aW9ucygtKQogY3JlYXRlIG1v
-ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRn
-ZS9hbmFsb2dpeCxhbng3ODE0LnlhbWwKIGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQKCmRpZmYgLS1n
-aXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW5h
-bG9naXgsYW54NzgxNC55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
-c3BsYXkvYnJpZGdlL2FuYWxvZ2l4LGFueDc4MTQueWFtbApuZXcgZmlsZSBtb2RlIDEwMDY0NApp
-bmRleCAwMDAwMDAwMDAwMDAuLjNiYTQ3N2FlZmRkNwotLS0gL2Rldi9udWxsCisrKyBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9hbmFsb2dpeCxhbng3
-ODE0LnlhbWwKQEAgLTAsMCArMSwxMTkgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChH
-UEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQorJVlBTUwgMS4yCistLS0KKyRpZDogaHR0cDov
-L2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9icmlkZ2UvYW5hbG9naXgsYW54NzgxNC55
-YW1sIworJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlh
-bWwjCisKK3RpdGxlOiBBbmFsb2dpeCBBTlg3ODE0IFNsaW1Qb3J0IChGdWxsLUhEIFRyYW5zbWl0
-dGVyKQorCittYWludGFpbmVyczoKKyAgLSBFbnJpYyBCYWxsZXRibyBpIFNlcnJhIDxlbnJpYy5i
-YWxsZXRib0Bjb2xsYWJvcmEuY29tPgorCitwcm9wZXJ0aWVzOgorICBjb21wYXRpYmxlOgorICAg
-IGVudW06CisgICAgICAtIGFuYWxvZ2l4LGFueDc4MDgKKyAgICAgIC0gYW5hbG9naXgsYW54Nzgx
-MgorICAgICAgLSBhbmFsb2dpeCxhbng3ODE0CisgICAgICAtIGFuYWxvZ2l4LGFueDc4MTgKKwor
-ICByZWc6CisgICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjogSTJDIGFkZHJlc3Mgb2Yg
-dGhlIGRldmljZS4KKworICBpbnRlcnJ1cHRzOgorICAgIG1heEl0ZW1zOiAxCisgICAgZGVzY3Jp
-cHRpb246IFNob3VsZCBjb250YWluIHRoZSBJTlRQIGludGVycnVwdC4KKworICBocGQtZ3Bpb3M6
-CisgICAgZGVwcmVjYXRlZDogdHJ1ZQorICAgIG1heEl0ZW1zOiAxCisgICAgZGVzY3JpcHRpb246
-IFdoaWNoIEdQSU8gdG8gdXNlIGZvciBocGQuCisKKyAgcGQtZ3Bpb3M6CisgICAgbWF4SXRlbXM6
-IDEKKyAgICBkZXNjcmlwdGlvbjogV2hpY2ggR1BJTyB0byB1c2UgZm9yIHBvd2VyIGRvd24uCisK
-KyAgcmVzZXQtZ3Bpb3M6CisgICAgbWF4SXRlbXM6IDEKKyAgICBkZXNjcmlwdGlvbjogV2hpY2gg
-R1BJTyB0byB1c2UgZm9yIHJlc2V0LgorCisgIGR2ZGQxMC1zdXBwbHk6CisgICAgZGVzY3JpcHRp
-b246IFJlZ3VsYXRvciBmb3IgMS4wViBkaWdpdGFsIGNvcmUgcG93ZXIuCisKKyAgcG9ydHM6Cisg
-ICAgdHlwZTogb2JqZWN0CisgICAgZGVzY3JpcHRpb246CisgICAgICBBIG5vZGUgY29udGFpbmlu
-ZyBpbnB1dCBhbmQgb3V0cHV0IHBvcnQgbm9kZXMgd2l0aCBlbmRwb2ludAorICAgICAgZGVmaW5p
-dGlvbnMgYXMgZG9jdW1lbnRlZCBpbgorICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL21lZGlhL3ZpZGVvLWludGVyZmFjZXMudHh0CisgICAgICBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZ3JhcGgudHh0CisKKyAgICBwcm9wZXJ0aWVzOgorICAgICAgcG9y
-dEAwOgorICAgICAgICB0eXBlOiBvYmplY3QKKyAgICAgICAgZGVzY3JpcHRpb246IFZpZGVvIHBv
-cnQgZm9yIEhETUkgaW5wdXQuCisKKyAgICAgICAgcHJvcGVydGllczoKKyAgICAgICAgICByZWc6
-CisgICAgICAgICAgICBjb25zdDogMAorCisgICAgICBwb3J0QDE6CisgICAgICAgIHR5cGU6IG9i
-amVjdAorICAgICAgICBkZXNjcmlwdGlvbjoKKyAgICAgICAgICBWaWRlbyBwb3J0IGZvciBTbGlt
-UG9ydCwgRGlzcGxheVBvcnQsIGVEUCBvciBNeURQIG91dHB1dC4KKworICAgICAgICBwcm9wZXJ0
-aWVzOgorICAgICAgICAgIHJlZzoKKyAgICAgICAgICAgIGNvbnN0OiAxCisKKyAgICByZXF1aXJl
-ZDoKKyAgICAgIC0gcG9ydEAwCisgICAgICAtIHBvcnRAMQorCityZXF1aXJlZDoKKyAgLSBjb21w
-YXRpYmxlCisgIC0gcmVnCisgIC0gcG9ydHMKKworYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNl
-CisKK2V4YW1wbGVzOgorICAtIHwKKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW50ZXJydXB0
-LWNvbnRyb2xsZXIvYXJtLWdpYy5oPgorICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9ncGlvL2dw
-aW8uaD4KKworICAgIGkyYyB7CisgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+OworICAgICAg
-ICAjc2l6ZS1jZWxscyA9IDwwPjsKKworICAgICAgICBhbng3ODE0OiBicmlkZ2VAMzggeworICAg
-ICAgICAgICAgY29tcGF0aWJsZSA9ICJhbmFsb2dpeCxhbng3ODE0IjsKKyAgICAgICAgICAgIHJl
-ZyA9IDwweDM4PjsKKyAgICAgICAgICAgIGludGVycnVwdC1wYXJlbnQgPSA8JmdwaW8wPjsKKyAg
-ICAgICAgICAgIGludGVycnVwdHMgPSA8OTkgSVJRX1RZUEVfTEVWRUxfTE9XPjsgICAvKiBJTlRQ
-ICovCisgICAgICAgICAgICBwZC1ncGlvcyA9IDwmcGlvIDMzIEdQSU9fQUNUSVZFX0hJR0g+Owor
-ICAgICAgICAgICAgcmVzZXQtZ3Bpb3MgPSA8JnBpbyA5OCBHUElPX0FDVElWRV9ISUdIPjsKKwor
-ICAgICAgICAgICAgcG9ydHMgeworICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+
-OworICAgICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+OworCisgICAgICAgICAgICAgICAg
-cG9ydEAwIHsKKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+OworICAgICAgICAgICAgICAg
-ICAgICBhbng3ODE0X2luOiBlbmRwb2ludCB7CisgICAgICAgICAgICAgICAgICAgICAgICByZW1v
-dGUtZW5kcG9pbnQgPSA8JmhkbWkwX291dD47CisgICAgICAgICAgICAgICAgICAgIH07CisgICAg
-ICAgICAgICAgICAgfTsKKworICAgICAgICAgICAgICAgIHBvcnRAMSB7CisgICAgICAgICAgICAg
-ICAgICAgIHJlZyA9IDwxPjsKKyAgICAgICAgICAgICAgICAgICAgYW54NzgxNF9vdXQ6IGVuZHBv
-aW50IHsKKyAgICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmZWRwX291
-dD47CisgICAgICAgICAgICAgICAgICAgIH07CisgICAgICAgICAgICAgICAgfTsKKyAgICAgICAg
-ICAgIH07CisgICAgICAgIH07CisgICAgfTsKKworLi4uCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQgYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvYW54NzgxNC50eHQK
-ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDE3MjU4NzQ3ZmZmNi4uMDAwMDAwMDAwMDAw
-Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9h
-bng3ODE0LnR4dAorKysgL2Rldi9udWxsCkBAIC0xLDQyICswLDAgQEAKLUFuYWxvZ2l4IEFOWDc4
-MTQgU2xpbVBvcnQgKEZ1bGwtSEQgVHJhbnNtaXR0ZXIpCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQotCi1UaGUgQU5YNzgxNCBpcyBhbiB1bHRyYS1sb3cg
-cG93ZXIgRnVsbC1IRCAoMTA4MHA2MCkgU2xpbVBvcnQgdHJhbnNtaXR0ZXIKLWRlc2lnbmVkIGZv
-ciBwb3J0YWJsZSBkZXZpY2VzLgotCi1SZXF1aXJlZCBwcm9wZXJ0aWVzOgotCi0gLSBjb21wYXRp
-YmxlCQk6IE11c3QgYmUgb25lIG9mOgotCQkJICAiYW5hbG9naXgsYW54NzgwOCIKLQkJCSAgImFu
-YWxvZ2l4LGFueDc4MTIiCi0JCQkgICJhbmFsb2dpeCxhbng3ODE0IgotCQkJICAiYW5hbG9naXgs
-YW54NzgxOCIKLSAtIHJlZwkJCTogSTJDIGFkZHJlc3Mgb2YgdGhlIGRldmljZQotIC0gaW50ZXJy
-dXB0cwkJOiBTaG91bGQgY29udGFpbiB0aGUgSU5UUCBpbnRlcnJ1cHQKLSAtIGhwZC1ncGlvcwkJ
-OiBXaGljaCBHUElPIHRvIHVzZSBmb3IgaHBkCi0gLSBwZC1ncGlvcwkJOiBXaGljaCBHUElPIHRv
-IHVzZSBmb3IgcG93ZXIgZG93bgotIC0gcmVzZXQtZ3Bpb3MJCTogV2hpY2ggR1BJTyB0byB1c2Ug
-Zm9yIHJlc2V0Ci0KLU9wdGlvbmFsIHByb3BlcnRpZXM6Ci0KLSAtIGR2ZGQxMC1zdXBwbHkJOiBS
-ZWd1bGF0b3IgZm9yIDEuMFYgZGlnaXRhbCBjb3JlIHBvd2VyLgotIC0gVmlkZW8gcG9ydCBmb3Ig
-SERNSSBpbnB1dCwgdXNpbmcgdGhlIERUIGJpbmRpbmdzIGRlZmluZWQgaW4gWzFdLgotCi1bMV06
-IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS92aWRlby1pbnRlcmZhY2Vz
-LnR4dAotCi1FeGFtcGxlOgotCi0JYW54NzgxNDogYW54NzgxNEAzOCB7Ci0JCWNvbXBhdGlibGUg
-PSAiYW5hbG9naXgsYW54NzgxNCI7Ci0JCXJlZyA9IDwweDM4PjsKLQkJaW50ZXJydXB0LXBhcmVu
-dCA9IDwmZ3BpbzA+OwotCQlpbnRlcnJ1cHRzID0gPDk5IElSUV9UWVBFX0xFVkVMX0xPVz47ICAg
-LyogSU5UUCAqLwotCQlocGQtZ3Bpb3MgPSA8JnBpbyAzNiBHUElPX0FDVElWRV9ISUdIPjsKLQkJ
-cGQtZ3Bpb3MgPSA8JnBpbyAzMyBHUElPX0FDVElWRV9ISUdIPjsKLQkJcmVzZXQtZ3Bpb3MgPSA8
-JnBpbyA5OCBHUElPX0FDVElWRV9ISUdIPjsKLQkJcG9ydCB7Ci0JCQlhbng3ODE0X2luOiBlbmRw
-b2ludCB7Ci0JCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZoZG1pMF9vdXQ+OwotCQkJfTsKLQkJfTsK
-LQl9OwotLSAKMi4xOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+Hi Linus,
+
+Thanks for reviewing.
+
+On Thu, May 14, 2020 at 4:14 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> Hi Dillon,
+>
+> thanks for your patch! Overall this looks like a good start.
+>
+> On Tue, May 12, 2020 at 9:04 AM <dillon.minfei@gmail.com> wrote:
+>
+> > #define ILI9341_SLEEP_OUT            0x11   /* Sleep out register */
+>
+> This is not a register, also just use MIPI_DCS_EXIT_SLEEP_MODE
+> in the code.
+>
+Yes, i will try to reuse MIPI_DCS_xxx.
+
+> > +#define ILI9341_DFC                  0xb6   /* Display Function Control
+> > +                                            * register
+> > +                                            */
+>
+> This commenting style doesn't work, either just put it after /* the define */
+> and don't care if the line gets a bit long and checkpatch complains,
+> or
+>
+> /*
+>  * Put it above the define like this
+>  */
+> #define FOO 0x00
+>
+Ok, will change this comments.
+
+> > +/**
+> > + * struct ili9341_config - the system specific ILI9341 configuration
+>
+> Nice with this per-system config, it makes the driver easy to maintain
+> for new users.
+>
+Yes, will try to move more system related configurations to this part,
+instead of hard code.
+
+> > +static int ili9341_dpi_init(struct ili9341 *ili)
+> > +{
+> > +       ili9341_command(ili, 0xca, 0xc3, 0x08, 0x50);
+>
+> This stuff is a bit hard to understand, don't you think?
+>
+> But given that register 0xCA seems undocumented I don't
+> know if there is anything more you can do, so it is OK
+> I suppose.
+>
+> > +       ili9341_command(ili, ILI9341_POWERB, 0x00, 0xc1, 0x30);
+>
+> This command is described in the manual  page 196.
+> Version: V1.11
+> Document No.: ILI9341_DS_V1.11.pdf
+> https://dflund.se/~triad/ILI9341_v1.11.pdf
+>
+Yes, "ili9341_command(ili, 0xca, 0xc3, 0x08, 0x50);" i ported from st's sdk.
+will use ILI9341_XXX to replace these magic numbers
+
+> And this goes for all the below commands. Please add some more defines
+> from the datasheet and have less magic numbers in the driver.
+>
+> > +       ili9341_command(ili, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
+> > +       ili9341_command(ili, ILI9341_DTCA, 0x85, 0x00, 0x78);
+> > +       ili9341_command(ili, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
+> > +       ili9341_command(ili, ILI9341_PRC, 0x20);
+> > +       ili9341_command(ili, ILI9341_DTCB, 0x00, 0x00);
+> > +       ili9341_command(ili, ILI9341_FRC, 0x00, 0x1b);
+> > +       ili9341_command(ili, ILI9341_DFC, 0x0a, 0xa2);
+> > +       ili9341_command(ili, ILI9341_POWER1, 0x10);
+> > +       ili9341_command(ili, ILI9341_POWER2, 0x10);
+> > +       ili9341_command(ili, ILI9341_VCOM1, 0x45, 0x15);
+> > +       ili9341_command(ili, ILI9341_VCOM2, 0x90);
+> > +       ili9341_command(ili, ILI9341_MAC, 0xc8);
+> > +       ili9341_command(ili, ILI9341_3GAMMA_EN, 0x00);
+> > +       ili9341_command(ili, ILI9341_RGB_INTERFACE, 0xc2);
+> > +       ili9341_command(ili, ILI9341_DFC, 0x0a, 0xa7, 0x27, 0x04);
+> > +       ili9341_command(ili, ILI9341_COLUMN_ADDR, 0x00, 0x00, 0x00, 0xef);
+> > +       ili9341_command(ili, ILI9341_PAGE_ADDR, 0x00, 0x00, 0x01, 0x3f);
+> > +       ili9341_command(ili, ILI9341_INTERFACE, 0x01, 0x00, 0x06);
+> > +       if (ili->input == ILI9341_INPUT_PRGB_18_BITS)
+> > +               ili9341_command(ili, ILI9341_PIXEL_FORMAT, 0x66);
+> > +       else
+> > +               ili9341_command(ili, ILI9341_PIXEL_FORMAT, 0x56);
+> > +       ili9341_command(ili, ILI9341_GRAM);
+> > +       msleep(200);
+>
+> I think some of the above should not be hard coded but should instead
+> be stored in fields in struct ili9341_config. I know it can be a bit
+> tedious but it makes things much more clear.
+>
+Ok, will go deeper to find out some register configuration move to
+system config like rgb bus 16/18 bits
+
+> > +       ili9341_command(ili, ILI9341_GAMMA, 0x01);
+> > +       ili9341_command(ili, ILI9341_PGAMMA, 0x0f, 0x29, 0x24, 0x0c, 0x0e,
+> > +                                               0x09, 0x4e, 0x78, 0x3c, 0x09,
+> > +                                               0x13, 0x05, 0x17, 0x11, 0x00);
+> > +       ili9341_command(ili, ILI9341_NGAMMA, 0x00, 0x16, 0x1b, 0x04, 0x11,
+> > +                                               0x07, 0x31, 0x33, 0x42, 0x05,
+> > +                                               0x0c, 0x0a, 0x28, 0x2f, 0x0f);
+>
+> This should definately be in ili9341_config, as it is a screen property.
+>
+> In the long run I would like these panels to support setting gamma
+> from userspace etc but it is a big tedious work to get that right
+> so hard-coding a default per-variant is fine.
+>
+ok, will refer to panel-ilitek-ili9322 and panel-novatek-nt35510 driver.
+
+> You can check in e.g. panel-novatek-nt35510.c how I encoded
+> such sequences in per-variant data.
+>
+> > +static int ili9341_dpi_power_off(struct ili9341 *ili)
+> > +{
+> > +       /* Disable power */
+> > +       if (!IS_ERR(ili->vcc))
+> > +               return regulator_disable(ili->vcc);
+> > +
+> > +       return 0;
+> > +}
+>
+> Usually you should also assert RESET when disabling
+> power.
+>
+ok
+
+> > +/* This is the only mode listed for parallel RGB in the datasheet */
+> > +static const struct drm_display_mode rgb_240x320_mode = {
+> > +       .clock = 6100,
+> > +       .hdisplay = 240,
+> > +       .hsync_start = 240 + 10,
+> > +       .hsync_end = 240 + 10 + 10,
+> > +       .htotal = 240 + 10 + 10 + 20,
+> > +       .vdisplay = 320,
+> > +       .vsync_start = 320 + 4,
+> > +       .vsync_end = 320 + 4 + 2,
+> > +       .vtotal = 320 + 4 + 2 + 2,
+> > +       .vrefresh = 60,
+> > +       .flags = 0,
+> > +       .width_mm = 65,
+> > +       .height_mm = 50,
+>
+> The width and height should certainly be om the ili9341_config
+> as it is a per-panel property. You can just fill in in in
+> the below .get_modes() function. Or assign the whole
+> mode as part of the ili9341_config if that is easier.
+>
+ok, lcd timing part will move to ili9341 config
+
+> > +       return drm_panel_add(&ili->panel);
+> > +}
+> > +
+> > +
+> > +
+>
+> Surplus whitespace here.
+ok, will delete it.
+
+>
+> > +       mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
+> > +
+> > +       mipi_dbi_command(dbi, ILI9341_POWERB, 0x00, 0xc1, 0x30);
+> > +       mipi_dbi_command(dbi, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
+>
+> Some of these are just copies of the above init sequence, so it makes
+> even more sense to just have these settings stored in
+> ili9341_config.
+ok.
+
+>
+> > +       mipi_dbi_command(dbi, ILI9341_DTCA, 0x85, 0x00, 0x78);
+> > +       mipi_dbi_command(dbi, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
+> > +       mipi_dbi_command(dbi, ILI9341_PRC, 0x20);
+> > +       mipi_dbi_command(dbi, ILI9341_DTCB, 0x00, 0x00);
+> > +
+> > +       /* Power Control */
+> > +       mipi_dbi_command(dbi, ILI9341_POWER1, 0x23);
+> > +       mipi_dbi_command(dbi, ILI9341_POWER2, 0x10);
+> > +       /* VCOM */
+> > +       mipi_dbi_command(dbi, ILI9341_VCOM1, 0x3e, 0x28);
+> > +       mipi_dbi_command(dbi, ILI9341_VCOM2, 0x86);
+> > +
+> > +       /* Memory Access Control */
+> > +       mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
+> > +                               MIPI_DCS_PIXEL_FMT_16BIT);
+> > +
+> > +       /* Frame Rate */
+> > +       mipi_dbi_command(dbi, ILI9341_FRC, 0x00, 0x1b);
+> > +
+> > +       /* Gamma */
+> > +       mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, 0x00);
+> > +       mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, 0x01);
+> > +       mipi_dbi_command(dbi, ILI9341_PGAMMA,
+> > +                        0x0f, 0x31, 0x2b, 0x0c, 0x0e, 0x08, 0x4e, 0xf1,
+> > +                        0x37, 0x07, 0x10, 0x03, 0x0e, 0x09, 0x00);
+> > +       mipi_dbi_command(dbi, ILI9341_NGAMMA,
+> > +                        0x00, 0x0e, 0x14, 0x03, 0x11, 0x07, 0x31, 0xc1,
+> > +                        0x48, 0x08, 0x0f, 0x0c, 0x31, 0x36, 0x0f);
+>
+> It seems to be copies of the stuff above, but why is there a different
+> gamma if you use DBI?
+for dbi interface, currently i just copy the code from tiny/ili9341.c.
+as so many boards use this driver now, like raspberry pi, etc
+i'm afraid it's will not work after modification. so, just leave the
+original code there.
+
+>
+> I suspect only one of them is really needed and it is not even
+> necessary to set if up in two places.
+>
+as i know, dbi interface use spi to transfer video data and register
+set to panel.
+but dpi use rgb bus transfer video data, spi set register, they are
+two different type for drm.
+i can't register two different interface into drm at the same time.
+so, i use two path.
+
+for code management, they have some common part, like register init.
+power on/off process. i will try to reuse most common functions. to make code
+easier to be understand.
+
+anther question:
+is there any panel driver have dbi & dpi or dpi & dsi supported? which
+i mean support
+two different panel interface in one driver.
+thanks
+
+> > +out_enable:
+> > +       switch (dbidev->rotation) {
+> > +       default:
+> > +               addr_mode = ILI9341_MADCTL_MX;
+> > +               break;> +out_enable:
+> > +       switch (dbidev->rotation) {
+> > +       default:
+> > +               addr_mode = ILI9341_MADCTL_MX;
+> > +               break;
+> > +       case 90:
+> > +               addr_mode = ILI9341_MADCTL_MV;
+> > +               break;
+> > +       case 180:
+> > +               addr_mode = ILI9341_MADCTL_MY;
+> > +               break;
+> > +       case 270:
+> > +               addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
+> > +                           ILI9341_MADCTL_MX;
+> > +               break;
+> > +       }
+> > +       addr_mode |= ILI9341_MADCTL_BGR;
+> > +       mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+> > +       mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
+> > +       DRM_DEBUG_KMS("initialized display serial interface\n");
+> > +out_exit:
+> > +       drm_dev_exit(idx);
+> > +}
+> > +
+>
+> > +       case 90:
+> > +               addr_mode = ILI9341_MADCTL_MV;
+> > +               break;
+> > +       case 180:
+> > +               addr_mode = ILI9341_MADCTL_MY;
+> > +               break;
+> > +       case 270:
+> > +               addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
+> > +                           ILI9341_MADCTL_MX;
+> > +               break;
+> > +       }
+> > +       addr_mode |= ILI9341_MADCTL_BGR;
+> > +       mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+>
+> Since you use MIPI_DCS_* define here, check if this applies
+> to more of the commands above so you don't need custom
+> defines for them. e.g.
+> ILI9341_SLEEP_OUT 0x11 = MIPI_DCS_EXIT_SLEEP_MODE
+> and that isn't even a register right, it is just a command?
+> (Noted in the beginning.)
+>
+ok, will try to reuse MIPI_DCS_xxx
+
+> Yours,
+> Linus Walleij
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
