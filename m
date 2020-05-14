@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FEAC1D3C15
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA21D3C16
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC91E6EBAC;
-	Thu, 14 May 2020 19:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C15B6EBAD;
+	Thu, 14 May 2020 19:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
  [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4865C6EBAC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:25 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id f18so4723758lja.13
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:25 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC2E46EBAC
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:26 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id u15so4786616ljd.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5PQMEcv1NfMXN6wgUUifwpupdvWgrHF4WujE2wy4cnE=;
- b=oj0oQMsctNEpY1Wsm80tWYK/q7dzRkAqb6HlnzXJUL19Cgmz4XskAKYFsBqvAuDqmR
- Tb6ANd9TbmRjHWu2Fi4ZgPck973cCMYCiI2gGKP2evVR8HKW0Uec8a1bSvCX4jMsBtp7
- v+PgVhXgn1CHe9CRVJDwFex4n1MFv0Fq9MPCLFjQ1soe26jMwinI6RRNQVOrtUJjKFQD
- zk95KlNJOtSxy/L3D0nlWAmJuotrWdD9Rl/dQMGD7QjXrO1VMCxoZCdCWKu+n0OHOQsC
- OLAwaYaIaM9+L8bl5EYgYapIbN4gS07Zp9eAIW7DiVadx9TmJKp0aam96POD0/0IpIcO
- 10fg==
+ bh=JXcb5fvumjPwkXBdjr17g9fCe8HBhpUDprGnSWssRKA=;
+ b=IDmHNpwe6d3mPVdhTHpjxh9kKdZR9F1sadb+SsnmpGwzd0wlt8H44GHCqgfXMvpDGx
+ 4fuyt72GdGn2OX5tNFsT5tkuNdTfT+7qSnfT08Udhz0dG52v0Gu7ixWZ2hqMj48BJbNA
+ Zo0HY0D/+VFd2Wl1LKiVLUUKLaQpXoVPbzvq0q9OXNu7osS99tmo6Q7LwamfmruYgYhv
+ YE+ugRnJJL/cC9iu86uwASoZS9tbauk0UqFGW9pCH5xgufkbi9Blb/r8s4Xt1z2TyPqZ
+ C2NbdYCdTQ5ded9Yqx0AVyeB024sJTrxK3n97kF4UV8ZJVx6kjq1DShfT4W3lYQQFeke
+ iDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5PQMEcv1NfMXN6wgUUifwpupdvWgrHF4WujE2wy4cnE=;
- b=iuYgrvI5uW1g5J3d3mdhGrQgs52CMvSVhc/dctt4eaEDU1Px4kxE6wS94EnKN4ptOy
- rwmE0AjJN8zKV/JLDmbSNJNnlAMtn3dvzNk1+2/QSXA4zIlbqTBAe+tiGc7rI0QXWxCL
- F28iaRwfmqSYwybVRY4af4CpsuJgOS4BjwmJi4BRMgPPz1J9V6qNUS23Yo3Vq9YEHdSo
- QGyXbiSPnxzdUoErlrt824iGXAHNtdUV4acQi8ykEhyOVD2cZvuH0CunL/ZgZ/69lBXD
- hsI5Xe/NR9Zk6yezhFq2rw5opgJRFoxj4ihegmtwbjCVBcKUUKb1bJD3t0I1rM+qD87T
- 70pg==
-X-Gm-Message-State: AOAM531aGQjWyQNGwP2epKHwOqquUiJk4NaF8PLZ9ksmEKeqT7h7b7g1
- 9cvmCu7gnCEEia4AxxVWdgGq6TktseWglg==
-X-Google-Smtp-Source: ABdhPJzQGH3odWJt1CgHuRerG8SSDuaUrK5vOO5PmO0Wr7eBmwauHxTg8DZWDE/ijgcS4S+dMFzoxg==
-X-Received: by 2002:a2e:9843:: with SMTP id e3mr3717492ljj.249.1589483422387; 
- Thu, 14 May 2020 12:10:22 -0700 (PDT)
+ bh=JXcb5fvumjPwkXBdjr17g9fCe8HBhpUDprGnSWssRKA=;
+ b=ekiyPRFoZ8jqNCV+gki2E2ftYiwXu1LtJOuQcnF713Xemyfj0Ds3yF2lOs61qfiumK
+ YYdbEzFt4JyoyXVZ9uNhJhYTL7LVyRUDdPQBEBPdozXuJbISeO0gNgNTTyLdNbDYmrpa
+ 1hibmGORcSQ7WJTfz3ZvADr342qoHCOYA7a49nysQAHcF2aeV+kNiYsggvioj0CQrMpk
+ nIhtWX0ZjrOYPPz8wQJqXpqWWclRk3qkheB8Bsa75LRo0nLKgUQOYD5GdGruxD3+47i3
+ pSl+HINhL2iRmlRq2GDqisXQvH5t8oCv1tiU7+/YLmZqJmnLcb42l53uTY4JDPRY10Mb
+ XFpw==
+X-Gm-Message-State: AOAM531ezDMbTL6ulP4NrCiVyle+trEbeyH1cgoC4k5w5Dt/hy4VMAtc
+ Shg2o+aDUVk/ntCgMp2uvdAHeDsSf1azyg==
+X-Google-Smtp-Source: ABdhPJwEfhzXKzDLCNWiv662wAHi0cNv35xPMR0eOeZHcYH2WYInKTWYkLQ0Ng5w3INxzAOG1XaPiQ==
+X-Received: by 2002:a05:651c:97:: with SMTP id 23mr3892365ljq.17.1589483424521; 
+ Thu, 14 May 2020 12:10:24 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:8d23:71d:e677:1c7c])
- by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.20
+ by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:10:21 -0700 (PDT)
+ Thu, 14 May 2020 12:10:23 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v1 04/18] backlight: make of_find_backlight static
-Date: Thu, 14 May 2020 21:09:47 +0200
-Message-Id: <20200514191001.457441-5-sam@ravnborg.org>
+Subject: [PATCH v1 05/18] backlight: drop backlight_put()
+Date: Thu, 14 May 2020 21:09:48 +0200
+Message-Id: <20200514191001.457441-6-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200514191001.457441-1-sam@ravnborg.org>
 References: <20200514191001.457441-1-sam@ravnborg.org>
@@ -92,94 +92,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no external users of of_find_backlight,
-as they have all changed to use the managed version.
-Make of_find_backlight static to prevent new external users.
+There are no external users of backlight_put().
+Drop it and open code the two users in backlight.c.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- drivers/video/backlight/backlight.c | 31 ++++++++++-------------------
- include/linux/backlight.h           |  6 ------
- 2 files changed, 11 insertions(+), 26 deletions(-)
+ drivers/video/backlight/backlight.c |  7 +++++--
+ include/linux/backlight.h           | 10 ----------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index cac3e35d7630..511bb382c584 100644
+index 511bb382c584..547aa3e1a03a 100644
 --- a/drivers/video/backlight/backlight.c
 +++ b/drivers/video/backlight/backlight.c
-@@ -600,22 +600,7 @@ struct backlight_device *of_find_backlight_by_node(struct device_node *node)
- EXPORT_SYMBOL(of_find_backlight_by_node);
- #endif
- 
--/**
-- * of_find_backlight - Get backlight device
-- * @dev: Device
-- *
-- * This function looks for a property named 'backlight' on the DT node
-- * connected to @dev and looks up the backlight device.
-- *
-- * Call backlight_put() to drop the reference on the backlight device.
-- *
-- * Returns:
-- * A pointer to the backlight device if found.
-- * Error pointer -EPROBE_DEFER if the DT property is set, but no backlight
-- * device is found.
-- * NULL if there's no backlight property.
-- */
--struct backlight_device *of_find_backlight(struct device *dev)
-+static struct backlight_device *of_find_backlight(struct device *dev)
- {
- 	struct backlight_device *bd = NULL;
- 	struct device_node *np;
-@@ -641,7 +626,6 @@ struct backlight_device *of_find_backlight(struct device *dev)
- 
- 	return bd;
- }
--EXPORT_SYMBOL(of_find_backlight);
+@@ -629,7 +629,10 @@ static struct backlight_device *of_find_backlight(struct device *dev)
  
  static void devm_backlight_release(void *data)
  {
-@@ -652,9 +636,16 @@ static void devm_backlight_release(void *data)
-  * devm_of_find_backlight - Resource-managed of_find_backlight()
-  * @dev: Device
-  *
-- * Device managed version of of_find_backlight().
-- * The reference on the backlight device is automatically
-- * dropped on driver detach.
-+ * This function looks for a property named 'backlight' on the DT node
-+ * connected to @dev and looks up the backlight device.
-+ * The lookup is device managed so the reference to the backlight device
-+ * is automatically dropped on driver detach.
-+ *
-+ * Returns:
-+ * A pointer to the backlight device if found.
-+ * Error pointer -EPROBE_DEFER if the DT property is set, but no backlight
-+ * device is found.
-+ * NULL if there's no backlight property.
-  */
- struct backlight_device *devm_of_find_backlight(struct device *dev)
- {
+-	backlight_put(data);
++	struct backlight_device *bd = data;
++
++	if (bd)
++		put_device(&bd->dev);
+ }
+ 
+ /**
+@@ -657,7 +660,7 @@ struct backlight_device *devm_of_find_backlight(struct device *dev)
+ 		return bd;
+ 	ret = devm_add_action(dev, devm_backlight_release, bd);
+ 	if (ret) {
+-		backlight_put(bd);
++		put_device(&bd->dev);
+ 		return ERR_PTR(ret);
+ 	}
+ 	return bd;
 diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index c7d6b2e8c3b5..a0f03bb322d7 100644
+index a0f03bb322d7..3d757a850b88 100644
 --- a/include/linux/backlight.h
 +++ b/include/linux/backlight.h
-@@ -219,14 +219,8 @@ of_find_backlight_by_node(struct device_node *node)
- #endif
+@@ -165,16 +165,6 @@ static inline int backlight_disable(struct backlight_device *bd)
+ 	return backlight_update_status(bd);
+ }
  
- #if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
--struct backlight_device *of_find_backlight(struct device *dev);
- struct backlight_device *devm_of_find_backlight(struct device *dev);
- #else
--static inline struct backlight_device *of_find_backlight(struct device *dev)
+-/**
+- * backlight_put - Drop backlight reference
+- * @bd: the backlight device to put
+- */
+-static inline void backlight_put(struct backlight_device *bd)
 -{
--	return NULL;
+-	if (bd)
+-		put_device(&bd->dev);
 -}
 -
- static inline struct backlight_device *
- devm_of_find_backlight(struct device *dev)
- {
+ extern struct backlight_device *backlight_device_register(const char *name,
+ 	struct device *dev, void *devdata, const struct backlight_ops *ops,
+ 	const struct backlight_properties *props);
 -- 
 2.25.1
 
