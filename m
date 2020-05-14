@@ -1,36 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B71B1D24AF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 03:28:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD3E1D462F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3B56E2CC;
-	Thu, 14 May 2020 01:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF88789D9B;
+	Fri, 15 May 2020 06:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9040E6E2CC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:28:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8D1651F;
- Thu, 14 May 2020 03:28:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1589419731;
- bh=jfys03yWEwLJJ3P/OjJZKGDo6dy0x4RffsqmE7n6klY=;
- h=Date:From:To:Cc:Subject:From;
- b=FRfZe/+p/nBX+FjA4b+4wb0nxwU/yiqBm3Y5zS+kIhwOtNwm912SszSm9EmDB8BA7
- t3FbmX+M00J9f/8JgEyqZxdbDYggtCVZRQQbNXFlVw/y0/vhQ18a0/H46niQQ2ub6k
- qLDKsWsQddnW0HDIefecZ8zFRQ0nuJ7qj8SBJ0/0=
-Date: Thu, 14 May 2020 04:28:44 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL FOR v5.8] Misc Renesas-related changes
-Message-ID: <20200514012844.GA7196@pendragon.ideasonboard.com>
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B1186E05A
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 02:09:04 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id z5so980386qvw.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 19:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iwY0Acbl9lzYaC/I7H5xpC4oYprSXfs6U4SArioBGuQ=;
+ b=P3DlHD88DQf0dE0yDif2sw8Rynd10kLlNJTPW+b9QzdH57TyxXfF5ZNS/0Fw6PFJCG
+ QW3kwdavSpCzJ1MTCu5QDGOqFbkR1lWztvohYFPSV6iT0JGQlY5iifKdUt621KTCAsGm
+ 9eeWjr+VlkkDTRsgo5ySgNBAgv+vYZS8h+BUs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iwY0Acbl9lzYaC/I7H5xpC4oYprSXfs6U4SArioBGuQ=;
+ b=KaNfOUGGbHxXQCB9q5YizYxe3CbcX2PxQl6TQ0Qco0ykpw9fTDgiSunab6wz0afcFk
+ 49gJXP67tyfDxWJF8PvKCHuQClqoAz8JGTUmkkJmnkM8Q7EkVIQ0hUqoQ3s+TfutPDx2
+ u6MMQ6xXiYv4qxxaVAz4AFRnUpZgIiWXUJA0copv0hEhoPirxolblGp0jzKV6ZXnKx5y
+ Df3LLaqzooE+ZsBhHcRpYruOpwU4/fvZxoSA3etPBtd6Esmi6NGg2GDFknlQ1sFStfDK
+ rhPatrqX7YdUAdkRmH1Rl/Mv4fWcTCGlsSOSyjJ+fxvlVA2yhy0pxDnd8F9dXrYxuwlb
+ iorg==
+X-Gm-Message-State: AOAM530sAm20GIf/p8GMY50i1NR8R42zE8TAkZ4kuIVjNvDtM2rpqJ6x
+ h9M+gxdYOAFn0KbHFEyr8s5ZusD38lOfH2u2TvWtRg==
+X-Google-Smtp-Source: ABdhPJx+twxQTtW8B+vhkz+0GPec5WaIV3J1v01kZlo95nTGu9ZPy4033fzgt5ebh+V0OgPHFEM+9syC1+lXQmTric4=
+X-Received: by 2002:a05:6214:506:: with SMTP id
+ v6mr2657680qvw.70.1589422143646; 
+ Wed, 13 May 2020 19:09:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-2-stevensd@chromium.org>
+ <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
+In-Reply-To: <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
+From: David Stevens <stevensd@chromium.org>
+Date: Thu, 14 May 2020 11:08:52 +0900
+Message-ID: <CAD=HUj6d9gdZegTGad6thKdHv5b+qOZnkCv5VcWo9AcHifR9uA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
+To: Daniel Vetter <daniel@ffwll.ch>
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,77 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: virtio-dev@lists.oasis-open.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Tomasz Figa <tfiga@chromium.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, May 14, 2020 at 12:45 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, Mar 11, 2020 at 12:20 PM David Stevens <stevensd@chromium.org> wrote:
+> >
+> > This change adds a new dma-buf operation that allows dma-bufs to be used
+> > by virtio drivers to share exported objects. The new operation allows
+> > the importing driver to query the exporting driver for the UUID which
+> > identifies the underlying exported object.
+> >
+> > Signed-off-by: David Stevens <stevensd@chromium.org>
+>
+> Adding Tomasz Figa, I've discussed this with him at elce last year I
+> think. Just to make sure.
+>
+> Bunch of things:
+> - obviously we need the users of this in a few drivers, can't really
+> review anything stand-alone
 
-Just a few misc changes related to Renesas R-Car DU and associated
-bridges.
+Here is a link to the usage of this feature by the currently under
+development virtio-video driver:
+https://markmail.org/thread/j4xlqaaim266qpks
 
-The following changes since commit 3fd911b69b3117e03181262fc19ae6c3ef6962ce:
+> - adding very specific ops to the generic interface is rather awkward,
+> eventually everyone wants that and we end up in a mess. I think the
+> best solution here would be if we create a struct virtio_dma_buf which
+> subclasses dma-buf, add a (hopefully safe) runtime upcasting
+> functions, and then a virtio_dma_buf_get_uuid() function. Just storing
+> the uuid should be doable (assuming this doesn't change during the
+> lifetime of the buffer), so no need for a callback.
 
-  Merge tag 'drm-misc-next-2020-05-07' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2020-05-08 15:17:08 +1000)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/pinchartl/media.git tags/du-next-20200514
-
-for you to fetch changes up to 7982471d01aac33994276bf567c8f1f3a137648a:
-
-  drm: rcar-du: Set primary plane zpos immutably at initializing (2020-05-14 02:10:52 +0300)
-
-----------------------------------------------------------------
-R-Car Display Unit & related changes:
-
-- DT bindings conversion to YAML
-- Planes zpos sanity check and fix
-- MAINTAINERS entry for LVDS panel driver
-
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      dt-bindings: display: renesas: du: Document optional reset properties
-
-Laurent Pinchart (5):
-      dt-bindings: display: bridge: Reject additional properties in ports node
-      dt-bindings: display: bridge: Convert simple-bridge bindings to YAML
-      dt-bindings: display: bridge: thc63lvd1024: Convert binding to YAML
-      drm: panels: Add MAINTAINERS entry for LVDS panel driver
-      drm: plane: Verify that no or all planes have a zpos property
-
-Tomohito Esaki (1):
-      drm: rcar-du: Set primary plane zpos immutably at initializing
-
- .../bindings/display/bridge/adi,adv7123.txt     |  50 --------
- .../bindings/display/bridge/anx6345.yaml        |   8 ++
- .../bindings/display/bridge/dumb-vga-dac.txt    |  50 --------
- .../bindings/display/bridge/lvds-codec.yaml     |   8 ++
- .../bindings/display/bridge/ps8640.yaml         |   8 ++
- .../bindings/display/bridge/simple-bridge.yaml  |  99 ++++++++++++++
- .../display/bridge/thine,thc63lvd1024.txt       |  66 ----------
- .../display/bridge/thine,thc63lvd1024.yaml      | 121 ++++++++++++++++++
- .../bindings/display/bridge/ti,ths813x.txt      |  51 --------
- .../devicetree/bindings/display/renesas,du.txt  |  10 ++
- MAINTAINERS                                     |   8 ++
- drivers/gpu/drm/drm_blend.c                     |  10 +-
- drivers/gpu/drm/drm_plane.c                     |   9 ++
- drivers/gpu/drm/rcar-du/rcar_du_plane.c         |  16 ++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c           |  14 +-
- 15 files changed, 294 insertions(+), 234 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/adi,adv7123.txt
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/dumb-vga-dac.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/ti,ths813x.txt
-
--- 
-Regards,
-
-Laurent Pinchart
+So you would prefer a solution similar to the original version of this
+patchset? https://markmail.org/message/z7if4u56q5fmaok4
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
