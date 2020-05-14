@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEDE1D29C0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68EC1D29CC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 10:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04E089E2C;
-	Thu, 14 May 2020 08:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1206E0D1;
+	Thu, 14 May 2020 08:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF8889E2C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:11:35 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id j3so2468502ljg.8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=daE/qp2lRyMqE5ox4rLUjWqF0gJXG1Hf2MSmE3P8zuE=;
- b=d2OEFF/YGGFs2Z+rW4mwA8wfsXcr41dwbvYNA1D1ds/q+j4lV6m95EXY+HGIURC9OO
- btnfiDMiH5MAhXuLMB0e/U667i1BgNrmze2CmzItPV9UN79jNCKr6egKzNDptOjBwrwr
- pmze3ZKfUp0wF8DX9HFiYo4WF5+hqd9Svjihd9bXHbTktcItVB4CuP5zrOB/KAidS7IB
- DBXQRl9t/4KT1jHo4Ky7gI7p1mrQVJFYTpTapfgRkypo4fw9btTN13dIiU6P77Fb7q2S
- UrxVG89Cco5T9dWVgzcaJywOITcDlmZFYB0Nw/+m4/nIVw6LwgHp/n+pqo3a4Z4lmk1q
- QKbA==
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 951626EAD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 08:14:44 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id g4so2519468ljl.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 01:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4Rzn7cq0RueHKImWKXM7yCKiShW9x1YZUKKs+w//dgo=;
+ b=KgIbBmPSAM5V057UJjswd00GWFSuplgpUczlwr2or1sTvcPJpkGdXn16zcqWrvB7Hq
+ g1nH9gMvbaCxnNdR6eAbMlJGQp7ty5d24X1TtmCjIxLOGZ+PB2n7vlNyzMOBaM/MXgE0
+ NBmeD1JsqKSaPhhcVERmvmVXqDft31wiEG024q05U0/+VnG3ZcG9BzR3fsRqQgnIJJTF
+ e61hISdePjkS9LFo0jJ2tac/wz8U4VbNHVTJxXEIC79E876IAR4nMn6dbFWSIyCMxtih
+ WosQ0N5myIn223ln+nv/RmPqjDaFD3JWqn1sBt5mEIna5hYyy3CgVofylAMRA+P18bee
+ u2hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=daE/qp2lRyMqE5ox4rLUjWqF0gJXG1Hf2MSmE3P8zuE=;
- b=RIJ2I62t/zAzeUQtJha9qlD+K9cBqALjh7zTaCZ/OQNx+miOOuuutXZ3rAHZzqfKDN
- 2Z4TbnWBws2fVUpoxWHwb+4InNywyoiCdenvTIX//Wy7VpC3Lg4mnivB1grw1Gd/Tyt9
- E81hgzoLOa9gwq5nAUEanRmXCoidUWpKNElM8rwiJSAHiinKLPjs3L+eoE9EMWeQJQqi
- uQvzFaGN3XCoxVsk0GWdf4npaVvmrFbd8yZqFDYHZhfUUpwLpqkN/RpLX0OwR2SYEn+9
- i+hbmhW00aWobDUTLW7Wrn1XsAs32zen1Bj8cTMz5wfwgELBrdgmrdDtawkr8ltVz56p
- KQIA==
-X-Gm-Message-State: AOAM530wKU4zfccIFSls1PblSpNPNtg+xMbk7cgnZ8Qh+Ujyleu7wJBz
- O8+wSN3O0Ms5qgBb8ambTk4=
-X-Google-Smtp-Source: ABdhPJwCGU7JpJNr3yxx8+wJxAOcke6rA8L4v1AmqWENVtJ2WK1hBgztUH/KSVABglLMpttG2qPqbw==
-X-Received: by 2002:a2e:8e92:: with SMTP id z18mr1834840ljk.195.1589443893430; 
- Thu, 14 May 2020 01:11:33 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id f2sm1016352ljg.98.2020.05.14.01.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 01:11:31 -0700 (PDT)
-Date: Thu, 14 May 2020 11:11:21 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rajat Jain <rajatja@google.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC v2 0/1] drm/connector: Add support for privacy-screen
- properties
-Message-ID: <20200514111121.758d2f89@eldfell.localdomain>
-In-Reply-To: <CACK8Z6FP-5BzhW6_wf=XrdN=9k9c4U9MaPBNSe7g5p5zCingWA@mail.gmail.com>
-References: <20200511174724.21512-1-hdegoede@redhat.com>
- <CACK8Z6HG3sM-4cBYurHCba1jopk_5SVBd7KULEvOR27eKfxpyg@mail.gmail.com>
- <8f273c2a-2544-10fa-02f3-832cb1f398ad@redhat.com>
- <20200512172032.185de3d7@eldfell.localdomain>
- <a415bd37-ae23-9cd9-dff3-702824685a60@redhat.com>
- <20200513104943.34d92639@eldfell.localdomain>
- <CACK8Z6FP-5BzhW6_wf=XrdN=9k9c4U9MaPBNSe7g5p5zCingWA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4Rzn7cq0RueHKImWKXM7yCKiShW9x1YZUKKs+w//dgo=;
+ b=pOx0EVcZx5NvXW/lhvD/L8X4u5QsMyDVdc9QuxWW4PTH8HtLjFvrA5Nh0wG8gMU33k
+ 219dv7/Ag2WojD63W61qvWp1sTTmbKAfaebxWQU62txRsLmYD2F1Td2EW2TLPc7xSTkv
+ zw2gOMe5pEVY0vWdr7gwOcHFiI9XuHBv/v0Gbdo0iZbmr+jdXe89jh9Fv+pYSfFUnviD
+ ybdilqlaLv3kTWEgjVAMx1pX95FbCnQdimV6TNRISwbFcivnfJYyYfvmSAXdf1Il0DaA
+ Wd1GPvGC4g8SoC3JRn9+cOG/cGcHa4zrNm4H4z31Lu/sVllFzk4EM6/rIZV12EXurEiu
+ uMiQ==
+X-Gm-Message-State: AOAM532Oyu+5bgusebv8WIuuXQyBG50/sflVhZvzugDSAJtkAZSIxk2C
+ z5QX7/dCXwrkXD7tskgaYkA7gNgLMu545WvUpbio+g==
+X-Google-Smtp-Source: ABdhPJxicGsmyw6HOfdUXo27l6k92d2nLg/bnWVSnOja2VnXH2wkCfinXIbqKftvHF03hVugro8AJtYkQ2nArGHEyAw=
+X-Received: by 2002:a05:651c:154:: with SMTP id
+ c20mr1842104ljd.99.1589444082846; 
+ Thu, 14 May 2020 01:14:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-6-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1589267017-17294-6-git-send-email-dillon.minfei@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 14 May 2020 10:14:31 +0200
+Message-ID: <CACRpkdbZoMDC-D12CByKJUZbu4shqixC=QrKwJUd8x=nyK7seQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] drm/panel: Add ilitek ili9341 driver
+To: dillon.minfei@gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,114 +62,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sonny.Quintanilla@dell.com, Mario Limonciello <mario.limonciello@dell.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Jared Dominguez <jaredz@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Mark Pearson <mpearson@lenovo.com>
-Content-Type: multipart/mixed; boundary="===============0038623060=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Alexandre TORGUE <alexandre.torgue@st.com>,
+ Dave Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0038623060==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/K3A5i7j4wHhPBnpc2pglQJu"; protocol="application/pgp-signature"
+Hi Dillon,
 
---Sig_/K3A5i7j4wHhPBnpc2pglQJu
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+thanks for your patch! Overall this looks like a good start.
 
-On Wed, 13 May 2020 11:28:38 -0700
-Rajat Jain <rajatja@google.com> wrote:
+On Tue, May 12, 2020 at 9:04 AM <dillon.minfei@gmail.com> wrote:
 
-> On Wed, May 13, 2020 at 12:49 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
-te:
+> #define ILI9341_SLEEP_OUT            0x11   /* Sleep out register */
 
-...
+This is not a register, also just use MIPI_DCS_EXIT_SLEEP_MODE
+in the code.
 
-> > On Tue, 12 May 2020 10:38:11 -0700
-> > Rajat Jain <rajatja@google.com> wrote:
-> > =20
-> > > The chrome browser currently uses the API exposed by my (previous)
-> > > patchset to control privacy screen.
-> > > https://source.chromium.org/chromium/chromium/src/+/master:ui/ozone/p=
-latform/drm/common/drm_util.cc;l=3D180?q=3D%22privacy-screen%22%20-f:third_=
-party%2Fkernel%2Fv&originalUrl=3Dhttps:%2F%2Fcs.chromium.org%2F
-> > >
-> > > I know this doesn't help directly, but just to say that there are
-> > > users waiting to use an API that we release. If these changes are
-> > > accepted, I expect to see the change in browser again, to match the
-> > > new API,  although that will be not until we decide to uprev our
-> > > kernel again. =20
-> >
-> > Chromium counts as userspace, I think many new features have landed
-> > with it as the userspace.
-> >
-> > Is that from some development branch, not actually merged or released
-> > yet? If yes, very good. =20
->=20
-> No, it's released (in Chromium for chromeOS platforms).
+> +#define ILI9341_DFC                  0xb6   /* Display Function Control
+> +                                            * register
+> +                                            */
 
-That is really, really bad.
+This commenting style doesn't work, either just put it after /* the define */
+and don't care if the line gets a bit long and checkpatch complains,
+or
 
-You are lucky that the upstream discussions ended up changing all the
-property names anyway, since now there is no way to ever use the
-original names you used. Changing their meaning would have broken your
-released userspace, and the kernel is simply not allowed to do that.
+/*
+ * Put it above the define like this
+ */
+#define FOO 0x00
 
-So that's a door closed for the kernel. Thankfully we didn't want to go
-through that door in the end.
+> +/**
+> + * struct ili9341_config - the system specific ILI9341 configuration
 
-> > When you submit kernel patches with new UAPI,
-> > it would be nice to point to the userspace review discussion where the
-> > userspace patches have been reviewed and accepted but not merged. =20
->=20
-> I doubt if that would happen - because they won't do it unless a
-> feature is available in the kernel they are using. I can definitely
-> create a public bug about what they need to do though.
+Nice with this per-system config, it makes the driver easy to maintain
+for new users.
 
-Sorry, but that is the DRM development policy. Point your people to
-https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#open-source-usersp=
-ace-requirements
+> +static int ili9341_dpi_init(struct ili9341 *ili)
+> +{
+> +       ili9341_command(ili, 0xca, 0xc3, 0x08, 0x50);
 
-I have the feeling that the doc in the link does not underline enough
-"fully reviewed but NOT merged to something that will release".
+This stuff is a bit hard to understand, don't you think?
 
+But given that register 0xCA seems undocumented I don't
+know if there is anything more you can do, so it is OK
+I suppose.
 
-Thanks,
-pq
+> +       ili9341_command(ili, ILI9341_POWERB, 0x00, 0xc1, 0x30);
 
---Sig_/K3A5i7j4wHhPBnpc2pglQJu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+This command is described in the manual  page 196.
+Version: V1.11
+Document No.: ILI9341_DS_V1.11.pdf
+https://dflund.se/~triad/ILI9341_v1.11.pdf
 
------BEGIN PGP SIGNATURE-----
+And this goes for all the below commands. Please add some more defines
+from the datasheet and have less magic numbers in the driver.
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl68/SoACgkQI1/ltBGq
-qqfT0BAAmTCj9uAiwSM0kH/8wZxpkDFsTjjsSVwXsWyNiPZiZXknkonIBqlj4dHz
-r2LybRvAT2m5und5JncvPIrjQh6aMxXZrpaXIiTiW8+MFbVLh6QHyWV/Q+YhurNf
-qnB6yPXr9gmNIWT50Jda4HBulEBHHKwCQy8e8R2zmPf8TYUKzJvbjBgvhxY1pD8g
-r+UGtskHDMTqovkKWmawAeXa/l/dF4xVlee2uC0rvJrqC8mLkX3PDTEDVc4eH3Yb
-VOX2UU9estH6sHbk9mEiTpJiS4oyPRqKqX10NpfUo64X1apiIMIACYHxsBROMRwM
-GMWWPktYYwRuFUGIC5aIfXwaxbVhKGvtMQljs8CMeR7u5lkQDuwzaC6fUOuwRHD6
-SBJhrWj+YJmcWwNaPmB2RDBNDhFAtjZJvwYocK1YewlW7i6aCesIxkFEHmwAYEtr
-eRpA6QgFgfd8q4iBB+lC65ErF8VWTfoGsMyJ5xvC5fq7iWdpmV3YEAXhpmYybXG8
-9yacq+qaEL6CCsev3hDBLIFbi97bPom2VPYYlpSvfyW4SwYimWzWK6neckDDS2No
-IagCz68PgvfKYafvSdRKJl43kd5RrrXTyMYu0iBf+dnyMxLfsq6FoCozl3javoVY
-XEc+vymqZbTrDrXoR2G1JKyl3O16IU4sRb+85fT1coMijR9Oh5g=
-=i/Gg
------END PGP SIGNATURE-----
+> +       ili9341_command(ili, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
+> +       ili9341_command(ili, ILI9341_DTCA, 0x85, 0x00, 0x78);
+> +       ili9341_command(ili, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
+> +       ili9341_command(ili, ILI9341_PRC, 0x20);
+> +       ili9341_command(ili, ILI9341_DTCB, 0x00, 0x00);
+> +       ili9341_command(ili, ILI9341_FRC, 0x00, 0x1b);
+> +       ili9341_command(ili, ILI9341_DFC, 0x0a, 0xa2);
+> +       ili9341_command(ili, ILI9341_POWER1, 0x10);
+> +       ili9341_command(ili, ILI9341_POWER2, 0x10);
+> +       ili9341_command(ili, ILI9341_VCOM1, 0x45, 0x15);
+> +       ili9341_command(ili, ILI9341_VCOM2, 0x90);
+> +       ili9341_command(ili, ILI9341_MAC, 0xc8);
+> +       ili9341_command(ili, ILI9341_3GAMMA_EN, 0x00);
+> +       ili9341_command(ili, ILI9341_RGB_INTERFACE, 0xc2);
+> +       ili9341_command(ili, ILI9341_DFC, 0x0a, 0xa7, 0x27, 0x04);
+> +       ili9341_command(ili, ILI9341_COLUMN_ADDR, 0x00, 0x00, 0x00, 0xef);
+> +       ili9341_command(ili, ILI9341_PAGE_ADDR, 0x00, 0x00, 0x01, 0x3f);
+> +       ili9341_command(ili, ILI9341_INTERFACE, 0x01, 0x00, 0x06);
+> +       if (ili->input == ILI9341_INPUT_PRGB_18_BITS)
+> +               ili9341_command(ili, ILI9341_PIXEL_FORMAT, 0x66);
+> +       else
+> +               ili9341_command(ili, ILI9341_PIXEL_FORMAT, 0x56);
+> +       ili9341_command(ili, ILI9341_GRAM);
+> +       msleep(200);
 
---Sig_/K3A5i7j4wHhPBnpc2pglQJu--
+I think some of the above should not be hardcoded but should instead
+be stored in fields in struct ili9341_config. I know it can be a bit
+tedious but it makes things much more clear.
 
---===============0038623060==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> +       ili9341_command(ili, ILI9341_GAMMA, 0x01);
+> +       ili9341_command(ili, ILI9341_PGAMMA, 0x0f, 0x29, 0x24, 0x0c, 0x0e,
+> +                                               0x09, 0x4e, 0x78, 0x3c, 0x09,
+> +                                               0x13, 0x05, 0x17, 0x11, 0x00);
+> +       ili9341_command(ili, ILI9341_NGAMMA, 0x00, 0x16, 0x1b, 0x04, 0x11,
+> +                                               0x07, 0x31, 0x33, 0x42, 0x05,
+> +                                               0x0c, 0x0a, 0x28, 0x2f, 0x0f);
 
+This should definately be in ili9341_config, as it is a screen property.
+
+In the long run I would like these panels to support setting gamma
+from userspace etc but it is a big tedious work to get that right
+so hard-coding a default per-variant is fine.
+
+You can check in e.g. panel-novatek-nt35510.c how I encoded
+such sequences in per-variant data.
+
+> +static int ili9341_dpi_power_off(struct ili9341 *ili)
+> +{
+> +       /* Disable power */
+> +       if (!IS_ERR(ili->vcc))
+> +               return regulator_disable(ili->vcc);
+> +
+> +       return 0;
+> +}
+
+Usually you should also assert RESET when disabling
+power.
+
+> +/* This is the only mode listed for parallel RGB in the datasheet */
+> +static const struct drm_display_mode rgb_240x320_mode = {
+> +       .clock = 6100,
+> +       .hdisplay = 240,
+> +       .hsync_start = 240 + 10,
+> +       .hsync_end = 240 + 10 + 10,
+> +       .htotal = 240 + 10 + 10 + 20,
+> +       .vdisplay = 320,
+> +       .vsync_start = 320 + 4,
+> +       .vsync_end = 320 + 4 + 2,
+> +       .vtotal = 320 + 4 + 2 + 2,
+> +       .vrefresh = 60,
+> +       .flags = 0,
+> +       .width_mm = 65,
+> +       .height_mm = 50,
+
+The width and height should certainly be om the ili9341_config
+as it is a per-panel property. You can just fill in in in
+the below .get_modes() function. Or assign the whole
+mode as part of the ili9341_config if that is easier.
+
+> +       return drm_panel_add(&ili->panel);
+> +}
+> +
+> +
+> +
+
+Surplus whitespace here.
+
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_OFF);
+> +
+> +       mipi_dbi_command(dbi, ILI9341_POWERB, 0x00, 0xc1, 0x30);
+> +       mipi_dbi_command(dbi, ILI9341_POWER_SEQ, 0x64, 0x03, 0x12, 0x81);
+
+Some of these are just copies of the above init sequence, so it makes
+even more sense to just have these settings stored in
+ili9341_config.
+
+> +       mipi_dbi_command(dbi, ILI9341_DTCA, 0x85, 0x00, 0x78);
+> +       mipi_dbi_command(dbi, ILI9341_POWERA, 0x39, 0x2c, 0x00, 0x34, 0x02);
+> +       mipi_dbi_command(dbi, ILI9341_PRC, 0x20);
+> +       mipi_dbi_command(dbi, ILI9341_DTCB, 0x00, 0x00);
+> +
+> +       /* Power Control */
+> +       mipi_dbi_command(dbi, ILI9341_POWER1, 0x23);
+> +       mipi_dbi_command(dbi, ILI9341_POWER2, 0x10);
+> +       /* VCOM */
+> +       mipi_dbi_command(dbi, ILI9341_VCOM1, 0x3e, 0x28);
+> +       mipi_dbi_command(dbi, ILI9341_VCOM2, 0x86);
+> +
+> +       /* Memory Access Control */
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
+> +                               MIPI_DCS_PIXEL_FMT_16BIT);
+> +
+> +       /* Frame Rate */
+> +       mipi_dbi_command(dbi, ILI9341_FRC, 0x00, 0x1b);
+> +
+> +       /* Gamma */
+> +       mipi_dbi_command(dbi, ILI9341_3GAMMA_EN, 0x00);
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_GAMMA_CURVE, 0x01);
+> +       mipi_dbi_command(dbi, ILI9341_PGAMMA,
+> +                        0x0f, 0x31, 0x2b, 0x0c, 0x0e, 0x08, 0x4e, 0xf1,
+> +                        0x37, 0x07, 0x10, 0x03, 0x0e, 0x09, 0x00);
+> +       mipi_dbi_command(dbi, ILI9341_NGAMMA,
+> +                        0x00, 0x0e, 0x14, 0x03, 0x11, 0x07, 0x31, 0xc1,
+> +                        0x48, 0x08, 0x0f, 0x0c, 0x31, 0x36, 0x0f);
+
+It seems to be copies of the stuff above, but why is there a different
+gamma if you use DBI?
+
+I suspect only one of them is really needed and it is not even
+necessary to set if up in two places.
+
+> +out_enable:
+> +       switch (dbidev->rotation) {
+> +       default:
+> +               addr_mode = ILI9341_MADCTL_MX;
+> +               break;> +out_enable:
+> +       switch (dbidev->rotation) {
+> +       default:
+> +               addr_mode = ILI9341_MADCTL_MX;
+> +               break;
+> +       case 90:
+> +               addr_mode = ILI9341_MADCTL_MV;
+> +               break;
+> +       case 180:
+> +               addr_mode = ILI9341_MADCTL_MY;
+> +               break;
+> +       case 270:
+> +               addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
+> +                           ILI9341_MADCTL_MX;
+> +               break;
+> +       }
+> +       addr_mode |= ILI9341_MADCTL_BGR;
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+> +       mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
+> +       DRM_DEBUG_KMS("initialized display serial interface\n");
+> +out_exit:
+> +       drm_dev_exit(idx);
+> +}
+> +
+
+> +       case 90:
+> +               addr_mode = ILI9341_MADCTL_MV;
+> +               break;
+> +       case 180:
+> +               addr_mode = ILI9341_MADCTL_MY;
+> +               break;
+> +       case 270:
+> +               addr_mode = ILI9341_MADCTL_MV | ILI9341_MADCTL_MY |
+> +                           ILI9341_MADCTL_MX;
+> +               break;
+> +       }
+> +       addr_mode |= ILI9341_MADCTL_BGR;
+> +       mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
+
+Since you use MIPI_DCS_* define here, check if this applies
+to more of the commands above so you don't need custom
+defines for them. e.g.
+ILI9341_SLEEP_OUT 0x11 = MIPI_DCS_EXIT_SLEEP_MODE
+and that isn't even a register right, it is just a command?
+(Noted in the beginning.)
+
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0038623060==--
