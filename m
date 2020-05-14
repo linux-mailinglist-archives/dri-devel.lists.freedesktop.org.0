@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAF81D3C13
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4031D3C14
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356C76EBAA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976666EBAB;
 	Thu, 14 May 2020 19:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8766EBAA
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:20 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id d22so3571773lfm.11
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:20 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F2E16EBAA
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:22 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id j3so4742258ljg.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iALLuERW1McwN1PgISrEqSKRl+DwcpATFhkrhtmrlJY=;
- b=OrqDrsx57GbIKMFC5gURmUlwlXbmOqs7a3uuD/o3zYSUdLnKOrLToMPE2u3vlFpT5V
- IeWIeABYAjFRkBDUmkWSD7Zo0BHCtMufMofSC4wm+JJX15TjGKcS3I3/DFmzqZ4/A838
- r8Xx7r7Fq+bAYTtUVfvDWLP0yqUSXEhYUytoyezBaSvjJ+EBiqNTid/xv2f3u0p10FLp
- 6guun3D6rhS65c3eG0fOvGkSRCLYI4XT0HjP6EclM79x2NS4ZsRjkFsTes6d35P7D3rC
- FN9FegLPZAjO9n9n2+a9YTTfdgJDRL127KOe/jD+CtixSxlf4DJ02r/tSSxLWw9SOppY
- 7ZXw==
+ bh=uvAqoIVnlBgyd68hnn1WiT3rXHhwfxcl0UeJKweLhko=;
+ b=OaZrLbTWdUNdE4LXccXwIoqLV+2ksJ4Yz7Tv7vBdYId/RUkl1J0RJkHGPtLE+qYQGD
+ A3lwKWbkJx/maHhmD8hyeQvedIL+YgJAm5IIMnc/f7FcnwTB+mkaVDOussWdSjd3TC95
+ S4SVAwpqeGMuoL4PsU0pdB46yS0P/3VYKCz04GBoWP+uMYBLflp74lTTunGciS/ZNmI2
+ AEWlRbgNES13Gr1h6jAp6FjKHLxqsvKiEeYOrZJwoKwadRo0GU8h5epYANQi32oo8O7i
+ QAF7LXsTMpCAxVGAamcGOH1pWHqo7ppeP4H5AKbRB2xrYCxVnfxd14kZBurnDchUwezT
+ QTjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iALLuERW1McwN1PgISrEqSKRl+DwcpATFhkrhtmrlJY=;
- b=e29SuwTp4HtcVHAItNggJwLLDsn53rI51XS7inks/g2NolpZk/1NKYZBhrco16E9AC
- QHp675FbmOLulOfgNe19D2WfWCYCzNGdV4AOnvUUEK/sxze1xzGfhjgMmRnh01dc0r2o
- +megPXJkFyNh/TyxgOmUZU0LpQ0EBUjZyuwUv+K3v9QohbaMFKDjggJLnwjnSSaRWl3r
- hCK30CGlNanAU7a5KAhaMKV+a8g0dYMWaT+RpAK1FvU4GAXr97cA9DJd945ZPyK4BMKm
- LiJwQVLkMOc6PKZIiD7fuNDKruEH2cHhwm2FijSVkSAnmabFnhwmQav1Be74Vcd8iQk8
- 7mNQ==
-X-Gm-Message-State: AOAM533bQtKa3dclZoQE+Gl3wF0mVDhxOb1TrsQzbqYGcwupfE5Vtsx1
- rE7oUSbuaAFdi4r6emCgV+M993DmoIpgaA==
-X-Google-Smtp-Source: ABdhPJxtOgNHrWlT1g6kVCkaO7bY7+x7AvNWUz2afNrA3i5zMlrlrAvEYJLlXd6AdF/rD1Dg4wHqew==
-X-Received: by 2002:ac2:4304:: with SMTP id l4mr4314956lfh.87.1589483418267;
- Thu, 14 May 2020 12:10:18 -0700 (PDT)
+ bh=uvAqoIVnlBgyd68hnn1WiT3rXHhwfxcl0UeJKweLhko=;
+ b=d+cjdF6GF5QR/5y/IjFAtL+Kmn0plwQvbLjuphIVU4MXrvBhzfG5LUtb/pQArL0KPC
+ 5PD/8eArL1DtrErpZtCQ81Np1yXjVax3DweogNhC8AiXTgdWTbv/gTE6iEty0RA2eqr6
+ zt+nl+Lc+79OJlyFyi5k5Xdqj0tZ6bkys8eQPDg7nIV04s3B8tbTru2CoiP/l1s4NpbT
+ HVuJhP/P7cCvNCf0XLWWKYmW93htoffKIsD4fgW3+cZC/uvYpAXdLDuDKmpBYa0Z9Tl8
+ ZtoWCeaOaBKa1Qlc0bZ9NnbHmDTDpzaH28ML+y8qEGunx3kat3U3ZzBpJLV8DNFm8ksL
+ FD3w==
+X-Gm-Message-State: AOAM532CdRY2UEV3sew1NuW7eBjveDD0KAsWfUKeBx87+2RgItqKZrU+
+ 0rDReyTaMtkLoLP2lKnXqmn1c+Hvwe5zQA==
+X-Google-Smtp-Source: ABdhPJz1wwUxhhbKyXbGPZbBiIEsG4KEM76cKxu9cIh2796pYawzu/mXE3iTzXyvDvGKAApNYB578A==
+X-Received: by 2002:a2e:8805:: with SMTP id x5mr3852963ljh.223.1589483420269; 
+ Thu, 14 May 2020 12:10:20 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:8d23:71d:e677:1c7c])
- by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.16
+ by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:10:17 -0700 (PDT)
+ Thu, 14 May 2020 12:10:19 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v1 02/18] drm/tilcdc: use devm_of_find_backlight
-Date: Thu, 14 May 2020 21:09:45 +0200
-Message-Id: <20200514191001.457441-3-sam@ravnborg.org>
+Subject: [PATCH v1 03/18] video: amba-clcd: use devm_of_find_backlight
+Date: Thu, 14 May 2020 21:09:46 +0200
+Message-Id: <20200514191001.457441-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200514191001.457441-1-sam@ravnborg.org>
 References: <20200514191001.457441-1-sam@ravnborg.org>
@@ -97,47 +97,58 @@ This simplifies the code and prevents us from hardcoding
 the node name in the driver.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jyri Sarha <jsarha@ti.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_panel.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/video/fbdev/amba-clcd.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-index 12823d60c4e8..b207b2f19d42 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-@@ -299,7 +299,8 @@ static struct tilcdc_panel_info *of_get_panel_info(struct device_node *np)
+diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
+index c3d55fc6c4e0..b7682de412d8 100644
+--- a/drivers/video/fbdev/amba-clcd.c
++++ b/drivers/video/fbdev/amba-clcd.c
+@@ -602,20 +602,17 @@ static int clcdfb_snprintf_mode(char *buf, int size, struct fb_videomode *mode)
+ 			mode->refresh);
+ }
  
- static int panel_probe(struct platform_device *pdev)
+-static int clcdfb_of_get_backlight(struct device_node *panel,
++static int clcdfb_of_get_backlight(struct device *dev,
+ 				   struct clcd_panel *clcd_panel)
  {
--	struct device_node *bl_node, *node = pdev->dev.of_node;
-+	struct device_node *node = pdev->dev.of_node;
+-	struct device_node *backlight;
 +	struct backlight_device *backlight;
- 	struct panel_module *panel_mod;
- 	struct tilcdc_module *mod;
- 	struct pinctrl *pinctrl;
-@@ -315,16 +316,10 @@ static int panel_probe(struct platform_device *pdev)
- 	if (!panel_mod)
- 		return -ENOMEM;
  
--	bl_node = of_parse_phandle(node, "backlight", 0);
--	if (bl_node) {
--		panel_mod->backlight = of_find_backlight_by_node(bl_node);
--		of_node_put(bl_node);
--
--		if (!panel_mod->backlight)
--			return -EPROBE_DEFER;
--
--		dev_info(&pdev->dev, "found backlight\n");
--	}
-+	backlight = devm_of_find_backlight(&pdev->dev);
+-	/* Look up the optional backlight phandle */
+-	backlight = of_parse_phandle(panel, "backlight", 0);
+-	if (backlight) {
+-		clcd_panel->backlight = of_find_backlight_by_node(backlight);
+-		of_node_put(backlight);
++	/* Look up the optional backlight device */
++	backlight = devm_of_find_backlight(dev);
 +	if (IS_ERR(backlight))
 +		return PTR_ERR(backlight);
-+	panel_mod->backlight = backlight;
  
- 	panel_mod->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
- 							 GPIOD_OUT_LOW);
+-		if (!clcd_panel->backlight)
+-			return -EPROBE_DEFER;
+-	}
++	clcd_panel->backlight = backlight;
+ 	return 0;
+ }
+ 
+@@ -717,7 +714,7 @@ static int clcdfb_of_init_display(struct clcd_fb *fb)
+ 	if (!panel)
+ 		return -ENODEV;
+ 
+-	err = clcdfb_of_get_backlight(panel, fb->panel);
++	err = clcdfb_of_get_backlight(&fb->dev->dev, fb->panel);
+ 	if (err)
+ 		return err;
+ 
 -- 
 2.25.1
 
