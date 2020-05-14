@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3DE1D26A5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 07:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE0F1D26CA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 07:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B746E2D8;
-	Thu, 14 May 2020 05:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D3D89CF4;
+	Thu, 14 May 2020 05:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 728606E2D8
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 05:25:23 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id i13so23559256oie.9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 May 2020 22:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OP9yhOZxolYUsqx1LXvQ+l5qPrgEPR7iHQBM+QOB1Jo=;
- b=AuYF5wIMz8CbXAq9j5Lf4SoG9FJM3OkMxLt6BY3OGrt183BV9KbFad0AlVeLXNNvM3
- fOzafkq+58I2EqLU6fgc/+YXsyx/mA+4Tz0ubmYt66LrYdwDnaPrELkphVosxpVv9+hG
- VJw7XCCu3b5BT/H4cZnHvCgiq8zhwkFuCgGpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OP9yhOZxolYUsqx1LXvQ+l5qPrgEPR7iHQBM+QOB1Jo=;
- b=ZRcoEop3G61H6avrVvTzMFgiVYwY54f6myoHErhZ3W69PpUtG+CARocdFpUHzhYu16
- cjgzi0PRoU/kB4ZoUAThg0u1zI58P4UTySeOK0yID11kLqKYlSMieXEYTubW5ZvNxf2k
- rr3Evf1FhXWmNHXMRT0BX+iQvtJwMi/V4Ap9XN+TR0dgicZB4ggj7RGJwCPI56m9XFF6
- 0YYCW/dhjK1DKbAoxMVUPzmVvhTSPYfa9/VQHid6bFh7OhZty6F5oeVhlwqrv3FkfcCP
- ZiIPGWReuE/+MsQk5mOeMnKPLYMx+3OGy0i+bI49xeQprfvUqhpU8bQZKR/++ebTy5jr
- IZgw==
-X-Gm-Message-State: AGi0PuabxhdsnMdyOJDZFTTXZtj7Vi4GBxrocFOTUjjiofjbocN198yS
- VDs6AVRA6XFhBcZVziYjECQKJEBUwbgTGYhZG6jOPA==
-X-Google-Smtp-Source: APiQypKZIz26ryJnbB21T0uyw7Wr9zuNDorYkE/Ber3B8SjwDp6qYxoAzif8OC75a027YI8XF/EEGsZU+py4jASvf8s=
-X-Received: by 2002:aca:2113:: with SMTP id 19mr20952957oiz.128.1589433922504; 
- Wed, 13 May 2020 22:25:22 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0316289CF4
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 05:47:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207667] power_dpm_force_performance_level set to "low" reduces
+ CPU performance (Vega 8 / Ryzen 2200G)
+Date: Thu, 14 May 2020 05:47:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: alekshs@hotmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-207667-2300-GINfFJRoSR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207667-2300@https.bugzilla.kernel.org/>
+References: <bug-207667-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <CAAOTY_8gJNpWXcMnHiZzg_sgyiJ6BDsBYRxaLX0OXWRuLF1NCg@mail.gmail.com>
- <20200513194518.GN206103@phenom.ffwll.local>
- <CAAOTY_-77au87rXwULY4Ki4rShO8Pz9FUaoVHZh0DCjRfGroBA@mail.gmail.com>
-In-Reply-To: <CAAOTY_-77au87rXwULY4Ki4rShO8Pz9FUaoVHZh0DCjRfGroBA@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 14 May 2020 07:25:10 +0200
-Message-ID: <CAKMK7uHOPGBDs0EGn=rvafwRN9xyD6CDJAMFpO5AjiUJZ+X8_w@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm next for 5.8
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,141 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
- Bernard Zhao <bernard@vivo.com>, YueHaibing <yuehaibing@huawei.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Anand K Mistry <amistry@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMTQsIDIwMjAgYXQgMTozMyBBTSBDaHVuLUt1YW5nIEh1IDxjaHVua3Vhbmcu
-aHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4KPiBIaSwgRGFuaWVsOgo+Cj4gRGFuaWVsIFZldHRlciA8
-ZGFuaWVsQGZmd2xsLmNoPiDmlrwgMjAyMOW5tDXmnIgxNOaXpSDpgLHlm5sg5LiK5Y2IMzo0NeWv
-q+mBk++8mgo+ID4KPiA+IE9uIFRodSwgTWF5IDE0LCAyMDIwIGF0IDEyOjE2OjU5QU0gKzA4MDAs
-IENodW4tS3VhbmcgSHUgd3JvdGU6Cj4gPiA+IEhpLCBEYXZlICYgRGFuaWVsOgo+ID4gPgo+ID4g
-PiBUaGlzIGluY2x1ZGUgZHBpIHBpbiBtb2RlIHN3YXAsIGNvbmZpZyBtaXBpX3R4IGN1cnJlbnQg
-YW5kIGltcGVkYW5jZSwKPiA+ID4gY29udmVydCBtdGstZHBpIHRvIGRybV9icmlkZ2UgQVBJLCBh
-bmQgc29tZSBmaXh1cC4KPiA+ID4KPiA+ID4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNv
-bW1pdCA4ZjNkOWYzNTQyODY3NDVjNzUxMzc0ZjVmMWZjYWZlZTZiM2YzMTM2Ogo+ID4gPiAgIExp
-bnV4IDUuNy1yYzEgKDIwMjAtMDQtMTIgMTI6MzU6NTUgLTA3MDApCj4gPiA+IGFyZSBhdmFpbGFi
-bGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Ogo+ID4gPiAgIHNzaDovL2dpdEBnaXRvbGl0ZS5r
-ZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9jaHVua3VhbmcuaHUvbGludXguZ2l0
-Cj4gPiA+IHRhZ3MvbWVkaWF0ZWstZHJtLW5leHQtNS44Cj4gPgo+ID4gWW91ciBwdWxsIHJlcXVl
-c3QgaXMgYmFkbHkgbGluZSB3cmFwcGVkLCBhbmQgSSBkb24ndCBoYXZlIGFuIHNzaCBhY2NvdW50
-Cj4gPiBvbiB0aGF0IG1hY2hpbmUgLi4uIE1heWJlIGFpcmxpZWQgaGFzLCBub3Qgc3VyZS4gaHR0
-cDovLyBvciBnaXQ6Ly8gd291bGQKPiA+IGJlIGEgYnVuY2ggZWFzaWVyLCBhbmQgdGhlbiBzaWdu
-ZWQgdGhhdC4gUGx1cyBpZiB5b3VyIHB1bGwgaXNuJ3QKPiA+IGxpbmV3cmFwcGVkIHdlIGNhbiBz
-dHVmZiBpdCBkaXJlY3RseSBpbnRvIHNjcmlwdHMuCj4KPiBUaGlzIGlzIG15IGZpcnN0IHRpbWUg
-dG8gcmVxdWVzdC1wdWxsIG9uIHRoYXQgc2VydmVyLCBJIHdvdWxkIHRyeSB0bwo+IG1ha2UgdGhp
-bmdzIGVhc2llciBhbmQgcmVzZW5kIHJlcXVlc3QuCj4KPiA+Cj4gPiBBbGwgSSBxdWlja2x5IHdh
-bnRlZCB0byBxdWlja2x5IGNoZWNrIGlzIHlvdXIgbmV3IGJyaWRnZSBkcml2ZXIuCj4gPiAtIHdh
-cyB0aGF0IHJldmlld2VkL2Fja2VkIGJ5IGJyaWRnZSBtYWludGFpbmVycz8gVGhlcmUncyBhIGxv
-dCBvZiByZXdvcmsKPiA+ICAgZ29pbmcgb24gcmlnaHQgbm93LCBuZWVkIHRvIG1ha2Ugc3VyZSB3
-ZSdyZSBub3QgYWRkaW5nIG5ldyBicmlkZ2UKPiA+ICAgZHJpdmVycyB0aGF0IHVzZSBvbGQgc3R5
-bGUKPiA+Cj4gPiAtIHdoeSBpcyB0aGlzIGJyaWRnZSBkcml2ZXIgbm90IGluIGRybS9icmlkZ2Uv
-IGRpcmVjdG9yeT8KPgo+IEkgZG9lcyBub3Qgbm90aWNlIHRoYXQgZHJtIGJyaWRnZSBoYXMgbWFp
-bnRhaW5lciwgSSB3b3VsZCBkcm9wIGJyaWRnZQo+IHNlcmllcyBmaXJzdCwgYW5kIHdhaXQgZm9y
-IGFjayBvZiBicmlkZ2UgbWFpbnRhaW5lci4KPiBtdGstZHBpIGlzIGFsc28gYSBkcm0gZW5jb2Rl
-ciwgYW5kIEkgZ3JlcCAnZHJtX2JyaWRnZV9hZGQnIGFuZCBmaW5kCj4gbWFueSBvdXQgc2lkZSBv
-ZiBicmlkZ2UgZm9sZGVyLCBzbyBtYXliZSB3ZSBuZWVkIHRvIGRpc2N1c3MgbW9yZSBhYm91dAo+
-IHRoaXMuCgpIbSBpbmRlZWQuIE1heWJlIHdlIG5lZWQgdG8gZXh0ZW5kIHRoZSBNQUlOVEFJTkVS
-UyBlbnRyeSBmb3IgYnJpZGdlcwpzbyB0aGF0IGl0IG1hdGNoZXMgYnJpZGdlIGRyaXZlcnMgb3V0
-c2lkZSBvZiBkcm0vYnJpZGdlLiBTb3VuZHMgbGlrZQp3ZSBoYXZlIHRvbnMgb2YgdGhvc2UgYWxy
-ZWFkeS4KCkFuZHJ6ZWosIE5laWwsIExhdXJlbnQsIFNhbSwgYW55IHRob3VnaHRzPwoKSSBndWVz
-cyBtZWFud2hpbGUgdGhpcyBzaG91bGQgYmUgb2suCi1EYW5pZWwKCj4KPiBSZWdhcmRzLAo+IENo
-dW4tS3VhbmcuCj4KPiA+Cj4gPiBDaGVlcnMsIERhbmllbAo+ID4KPiA+ID4gZm9yIHlvdSB0byBm
-ZXRjaCBjaGFuZ2VzIHVwIHRvIDIzYjI5ZmY5ZjEzYThmYjVhMTJiZTlmZWRiOGI2MTRiOWRlZGU0
-NmE6Cj4gPiA+ICAgZHJtL21lZGlhdGVrOiBFbGltaW5hdGUgdGhlIG1hZ2ljIG51bWJlciBpbiBh
-cnJheSBzaXplICgyMDIwLTA1LTEwCj4gPiA+IDA5OjA4OjMwICswODAwKQo+ID4gPiAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-Cj4gPiA+IE1lZGlhdGVrIERSTSBOZXh0IGZvciBMaW51eCA1LjgKPiA+ID4gLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4g
-PiBBbmFuZCBLIE1pc3RyeSAoMSk6Cj4gPiA+ICAgICAgIGRybS9tZWRpYXRlazogU3RvcCBpdGVy
-YXRpbmcgZG1hIGFkZHJlc3NlcyB3aGVuIHNnX2RtYV9sZW4oKSA9PSAwCj4gPiA+IEJlcm5hcmQg
-WmhhbyAoMik6Cj4gPiA+ICAgICAgIGRybS9tZWRpYXRlazogQ2xlYW51cCBjb2Rpbmcgc3R5bGUg
-aW4gbWVkaWF0ZWsgYSBiaXQKPiA+ID4gICAgICAgZHJtL21lZGlhdGVrOiBFbGltaW5hdGUgdGhl
-IG1hZ2ljIG51bWJlciBpbiBhcnJheSBzaXplCj4gPiA+IENodW4tS3VhbmcgSHUgKDEpOgo+ID4g
-PiAgICAgICBNZXJnZSB0YWcgJ3Y1LjctbmV4dC1kcm0tc3RhYmxlJyBvZgo+ID4gPiBzc2g6Ly9n
-aXRvbGl0ZS5rZXJuZWwub3JnLy4uLi9tYXR0aGlhcy5iZ2cvbGludXggaW50bwo+ID4gPiBtZWRp
-YXRlay1kcm0tbmV4dAo+ID4gPiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhICg3KToKPiA+ID4gICAg
-ICAgZHQtYmluZGluZ3M6IG1lZGlhdGVrOiBVcGRhdGUgbW1zeXMgYmluZGluZyB0byByZWZsZWN0
-IGl0IGlzIGEKPiA+ID4gc3lzdGVtIGNvbnRyb2xsZXIKPiA+ID4gICAgICAgc29jIC8gZHJtOiBt
-ZWRpYXRlazogTW92ZSByb3V0aW5nIGNvbnRyb2wgdG8gbW1zeXMgZGV2aWNlCj4gPiA+ICAgICAg
-IHNvYyAvIGRybTogbWVkaWF0ZWs6IEZpeCBtZWRpYXRlay1kcm0gZGV2aWNlIHByb2JpbmcKPiA+
-ID4gICAgICAgZHJtL21lZGlhdGVrOiBSZW1vdmUgZGVidWcgbWVzc2FnZXMgZm9yIGZ1bmN0aW9u
-IGNhbGxzCj4gPiA+ICAgICAgIGRybS9tZWRpYXRlazogbXRrX2RwaTogUmVuYW1lIGJyaWRnZSB0
-byBuZXh0X2JyaWRnZQo+ID4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IG10a19kcGk6IENvbnZlcnQg
-dG8gYnJpZGdlIGRyaXZlcgo+ID4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IG10a19kcGk6IFVzZSBz
-aW1wbGUgZW5jb2Rlcgo+ID4gPiBIc2luLVlpIFdhbmcgKDEpOgo+ID4gPiAgICAgICBkcm0vbWVk
-aWF0ZWs6IEZpeCBkZXZpY2UgcGFzc2VkIHRvIGNtZHEKPiA+ID4gSml0YW8gU2hpICg2KToKPiA+
-ID4gICAgICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IG1lZGlhdGVrOiBjb250cm9sIGRwaSBwaW5z
-IG1vZGUgdG8gYXZvaWQgbGVha2FnZQo+ID4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IHNldCBkcGkg
-cGluIG1vZGUgdG8gZ3BpbyBsb3cgdG8gYXZvaWQgbGVha2FnZSBjdXJyZW50Cj4gPiA+ICAgICAg
-IGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBtZWRpYXRlazogYWRkIHByb3BlcnR5IHRvIGNvbnRyb2wg
-bWlwaSB0eAo+ID4gPiBkcml2ZSBjdXJyZW50Cj4gPiA+ICAgICAgIGR0LWJpbmRpbmdzOiBkaXNw
-bGF5OiBtZWRpYXRlazogZ2V0IG1pcGl0eCBjYWxpYnJhdGlvbiBkYXRhIGZyb20gbnZtZW0KPiA+
-ID4gICAgICAgZHJtL21lZGlhdGVrOiBhZGQgdGhlIG1pcGl0eCBkcml2aW5nIGNvbnRyb2wKPiA+
-ID4gICAgICAgZHJtL21lZGlhdGVrOiBjb25maWcgbWlwaXR4IGltcGVkYW5jZSB3aXRoIGNhbGli
-cmF0aW9uIGRhdGEKPiA+ID4gTWF0dGhpYXMgQnJ1Z2dlciAoMik6Cj4gPiA+ICAgICAgIGRybS9t
-ZWRpYXRlazogT21pdCB3YXJuaW5nIG9uIHByb2JlIGRlZmVycwo+ID4gPiAgICAgICBjbGsgLyBz
-b2M6IG1lZGlhdGVrOiBNb3ZlIG10ODE3MyBNTVNZUyB0byBwbGF0Zm9ybSBkcml2ZXIKPiA+ID4g
-WXVlSGFpYmluZyAoMSk6Cj4gPiA+ICAgICAgIGRybS9tZWRpYXRlazogRml4IEtjb25maWcgd2Fy
-bmluZwo+ID4gPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9tZWRpYXRl
-ay9tZWRpYXRlayxtbXN5cy50eHQgICB8ICAgNyArLQo+ID4gPiAgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZHBpLnR4dCB8ICAgNiAr
-Cj4gPiA+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRl
-ay9tZWRpYXRlayxkc2kudHh0IHwgIDEwICsrCj4gPiA+ICBkcml2ZXJzL2Nsay9tZWRpYXRlay9L
-Y29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICsKPiA+
-ID4gIGRyaXZlcnMvY2xrL21lZGlhdGVrL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAgIDEgKwo+ID4gPiAgZHJpdmVycy9jbGsvbWVkaWF0ZWsvY2xrLW10
-ODE3My1tbS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiA+IDE0NiArKysr
-KysrKysrKysrKysrKysrCj4gPiA+ICBkcml2ZXJzL2Nsay9tZWRpYXRlay9jbGstbXQ4MTczLmMg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKPiA+ID4gMTA0IC0tLS0tLS0tLS0t
-LS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvS2NvbmZpZyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZGlzcF9jb2xvci5jICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKy0K
-PiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmwuYyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgIDUgKy0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
-ay9tdGtfZGlzcF9yZG1hLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKy0KPiA+
-ID4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfAo+ID4gPiAxMjcgKysrKysrKysrKy0tLS0tLS0KPiA+ID4gIGRyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgfCAgMjcgKystLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
-ZGRwLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiA+IDI1OSArLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2RybV9kZHAuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3IC0KPiA+ID4g
-IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfAo+ID4gPiAgNTAgKysrLS0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fZHJ2LmggICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMiAr
-LQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgMyArCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RzaS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA4ICstCj4g
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWkuYyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDIyICsrLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19taXBpX3R4LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiA+ICA1NCAr
-KysrKysrCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguaCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA0ICsKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfbXQ4MTgzX21pcGlfdHguYyAgICAgICAgICAgICAgICAgICAgICAgfCAgMjgg
-KysrKwo+ID4gPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvS2NvbmZpZyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8ICAgOCArKwo+ID4gPiAgZHJpdmVycy9zb2MvbWVkaWF0
-ZWsvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSAr
-Cj4gPiA+ICBkcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMuYyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwKPiA+ID4gMzM3ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrCj4gPiA+ICBpbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGst
-bW1zeXMuaCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIwICsrKwo+ID4gPiAgMjcg
-ZmlsZXMgY2hhbmdlZCwgNzc4IGluc2VydGlvbnMoKyksIDQ3NiBkZWxldGlvbnMoLSkKPiA+ID4g
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2Nsay9tZWRpYXRlay9jbGstbXQ4MTczLW1tLmMK
-PiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstbW1zeXMu
-Ywo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210
-ay1tbXN5cy5oCj4gPgo+ID4gLS0KPiA+IERhbmllbCBWZXR0ZXIKPiA+IFNvZnR3YXJlIEVuZ2lu
-ZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKCgoKLS0gCkRh
-bmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkg
-NzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+https://bugzilla.kernel.org/show_bug.cgi?id=207667
+
+alekshs@hotmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
+
+--- Comment #1 from alekshs@hotmail.com ---
+I think I discovered what's the issue by playing with a utility called
+RyzenAdj.
+
+With RyzenAdj when setting the igp freq to 200 from 400 it doesn't do much for
+power consumption. It's when I play with the CPU-GPU speed parameter (fabric
+speed?) that power consumption goes down significantly. 
+
+So apparently power_dpm_force_performance_level to low sets both MHz and fabric
+speed lower. The first wouldn't make sense to affect CPU performance, the
+second is known to affect it - so after thinking about it more, I don't think
+it's a bug.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
