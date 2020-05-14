@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9FF1D2733
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 08:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B561D2735
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 08:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01F089F35;
-	Thu, 14 May 2020 06:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3BCB6EAAD;
+	Thu, 14 May 2020 06:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0740A6EAA7;
- Thu, 14 May 2020 06:08:02 +0000 (UTC)
-IronPort-SDR: SToja2LHIOsblWfH0rpCqh6pgvlQKTSOue97a3cSsfCnfdqYs6Y0IfzNwXZ/VamNgP8PWDBOe9
- wUlhcb5IeDjg==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F406EAAC;
+ Thu, 14 May 2020 06:08:04 +0000 (UTC)
+IronPort-SDR: 2NdUuaZeDHcWszJ3IPKqIpFt1C6tjSjjhEsV6tkzTMmWEMovqQOndhZC5II59ASLr9V0u2eQAv
+ Iw/anb65jTVQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2020 23:08:01 -0700
-IronPort-SDR: N2FbQnU58cNmSW29bYWyrsAuNvejJ2Cu2B3A+STFGiO60u3MfL4Ivl1l3V2FMw/sfmMFZRiVJb
- RZ2II4LDLq2g==
+ 13 May 2020 23:08:04 -0700
+IronPort-SDR: rk3dKCZKQ1AprvKki0l+klBidhBSeLBhd4Ygg6+GhJURGfeU+jl3tAEzmwsUkO76MWkb3uOlS+
+ lq0d5y/UUUWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,390,1583222400"; d="scan'208";a="409957029"
+X-IronPort-AV: E=Sophos;i="5.73,390,1583222400"; d="scan'208";a="409957039"
 Received: from bgodonne-mobl.amr.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.252.18.167])
- by orsmga004.jf.intel.com with ESMTP; 13 May 2020 23:07:59 -0700
+ by orsmga004.jf.intel.com with ESMTP; 13 May 2020 23:08:01 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v12 11/14] drm/i915: Program DP SDPs on pipe updates
-Date: Thu, 14 May 2020 09:07:29 +0300
-Message-Id: <20200514060732.3378396-12-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v12 12/14] drm/i915: Stop sending DP SDPs on ddi disable
+Date: Thu, 14 May 2020 09:07:30 +0300
+Message-Id: <20200514060732.3378396-13-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
 References: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
@@ -54,28 +54,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call intel_dp_set_infoframes() function on pipe updates to make sure
-that we send VSC SDP and HDR Metadata Infoframe SDP (when applicable)
-on fastsets.
+Call intel_dp_set_infoframes(false) function on intel_ddi_post_disable_dp()
+to make sure not to send VSC SDP and HDR Metadata Infoframe SDP.
+
+v5: Polish commit message [Uma]
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/display/intel_ddi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 2b54ea47e822..e3f5db787343 100644
+index e3f5db787343..a5eb8b89946b 100644
 --- a/drivers/gpu/drm/i915/display/intel_ddi.c
 +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -3864,6 +3864,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
- 	intel_ddi_set_dp_msa(crtc_state, conn_state);
+@@ -3472,6 +3472,8 @@ static void intel_ddi_post_disable_dp(struct intel_atomic_state *state,
+ 					  INTEL_OUTPUT_DP_MST);
+ 	enum phy phy = intel_port_to_phy(dev_priv, encoder->port);
  
- 	intel_psr_update(intel_dp, crtc_state);
-+	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
- 	intel_edp_drrs_enable(intel_dp, crtc_state);
- 
- 	intel_panel_update_backlight(state, encoder, crtc_state, conn_state);
++	intel_dp_set_infoframes(encoder, false, old_crtc_state, old_conn_state);
++
+ 	/*
+ 	 * Power down sink before disabling the port, otherwise we end
+ 	 * up getting interrupts from the sink on detecting link loss.
 -- 
 2.25.0
 
