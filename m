@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B711D3C17
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97971D3C18
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 21:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3632D6EBAF;
-	Thu, 14 May 2020 19:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A7BB6EBB1;
+	Thu, 14 May 2020 19:10:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
  [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D246EBAD
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:28 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id z22so3634247lfd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:28 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 533606EBB0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 19:10:31 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id r17so3583716lff.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=es7L7BT5X1JhlaIi9tn96sUgeVkIuHpmkzZvtAwIcug=;
- b=CVItBRgQEjiAp4UKpopUfv37fyjDo1mY+XLZ8itHw+itr+e6Dc2W1Vwv+h7O94kTKO
- ojVnxcMI0XuVLhYbZThBf7xSndRQhUZSUZygweq503IdIl7oGa+TRkVU/DAqknpwVA6X
- 5bEKgfcjbRZqcFUz+Thpwnr7oStu1zNdb2ghP8iQ/wS46V6lMGfIv0ZJItty3by/0hQ4
- IQRDi7Kk0xZ39rzzeWMQM6XgJ+9P9vc5XpXlmbrKDKLDNbvetdJN+utHwluVYHA91VyE
- sn4qpE62jAztmy4V6sw51DHoW0Gb2YlPqpjmqYegPOojTKEuWN9eAiXcYRW6u0eIXkJU
- udHA==
+ bh=BQs36UgnZaPqNCAzoKYxz5KT6Lkm6yBS/09B/P3wXNw=;
+ b=KV/zGbtsbcJBxUhUrfp45Uhh9notrMrdzzIKpcIeNRZ/UIuQ/tcjKahpPEWXfvxjQb
+ fWQduc+4oFVyt7yP8uiuMgRZYrIvtzZIsyxgQIUbPgznA9JEDfpPvg6cIzkEXUjvLDZo
+ he3er8hWZZU0Y4FfDT/EexB/aBkbi9afI923EWgCYS5/odE77G00lIdQ9AeypaW6gdU6
+ llakEYcUjg33wxYGfyHigCcxeRFC/qukFHM3HxAM9cbekovP2VNIiu2OiHn5Hz9azwIG
+ IkzaQwXo3GYPH6OXim2AktQ+wWIk6d5QgDhExmYL8tbK7KhBCvtPQZ1w4CvKnxZEPGlV
+ 90Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=es7L7BT5X1JhlaIi9tn96sUgeVkIuHpmkzZvtAwIcug=;
- b=GGCXJgPEPWCubuoQRe/H5yl1KOLRQCjkntfPQKqdympK3nRpLidZHwFtZcwhSQbdFS
- L73RkRdostHOwX9EBlFuiXIS4rOayRUZ+KJ5gE6lBJL6YLp90Hd/wGUu3h+1CFHmTEeO
- 8pRfDvtz6cgShGYVyBFqy5ZqpIn+v+p0Lw35bK/06/MTvRfdP4nmP8qI8wCcTbX2gwFD
- 1lhKlLhyrwYoz8QKg/yYnZ8rOtgptnc8ag/kRsGyggmq8fb++0m7l0MjTySVHP1WZEEZ
- davXHrhbwoXyjDOo9W3/2M/HhSiMY+/XujT/2MyOksG9zGf3WvSxqoj9lORItAxdzs+Y
- xpBQ==
-X-Gm-Message-State: AOAM532yRkTrYC1PxX57qNcNHhSlr3vQKO+j7eUuGyrW8EdM0r4FuUbP
- HFWNqXh5vX3akNQKGNyBOCWrCk2toknE+g==
-X-Google-Smtp-Source: ABdhPJz8pGerusE9OOKAKVj0mi5K/KXSSEFkTv+0WU6pZ/84b7vD0iKdmma7g9JVVyDE/6Qynkos6Q==
-X-Received: by 2002:ac2:4436:: with SMTP id w22mr4268011lfl.55.1589483426792; 
- Thu, 14 May 2020 12:10:26 -0700 (PDT)
+ bh=BQs36UgnZaPqNCAzoKYxz5KT6Lkm6yBS/09B/P3wXNw=;
+ b=cSujn+CdBqjTx9UA2aTvYkQSfkfLhAlBOaNhPbhG4d9zuDMJVCrM4UGHAVRSvp2k2E
+ +mOHY8JFJD3/bVz5aQjtRr0bwdFst5hOFCjwgX567Gaw5cFWUe8PWTlelhKhCRkVAbov
+ tQNjOwW4Kj3gdkW9MaukWyjIJwLzYG67Misz3zx0HtnCbYJfalPytQja5d4C1GdmHXt8
+ 2TCnu7wmXqQ9Ii73yK2ZAWbnmPensT9Lzwv5eu7qskXvLe+dOZIdDnb0/fh9FhpsBTH0
+ hpc9GBptYFHpdKMj3y15KNUJBZFagLImP2hSoObNQorYVHhh3tf8UW8Sz4L3dSh+h3lh
+ 21NQ==
+X-Gm-Message-State: AOAM5306MoJodqhlIyqCKJ/Vqy3PtS7agolX27mh3oC05CwrKgRgFuxD
+ wYJkCuLaezS12y5W233P2j5fhexbbuGAqQ==
+X-Google-Smtp-Source: ABdhPJyaih7Y5ge2hEfQtSUZ8mgLT+i9VMogVKUGX/RzFXXlVNpwUIo3AxeVCYK+anlI7bCTNwaz4Q==
+X-Received: by 2002:ac2:44cd:: with SMTP id d13mr2565957lfm.2.1589483429230;
+ Thu, 14 May 2020 12:10:29 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:8d23:71d:e677:1c7c])
- by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.24
+ by smtp.gmail.com with ESMTPSA id q30sm2362958lfd.32.2020.05.14.12.10.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:10:26 -0700 (PDT)
+ Thu, 14 May 2020 12:10:28 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v1 06/18] backlight: make of_find_backlight_by_node() static
-Date: Thu, 14 May 2020 21:09:49 +0200
-Message-Id: <20200514191001.457441-7-sam@ravnborg.org>
+Subject: [PATCH v1 07/18] backlight: refactor fb_notifier_callback()
+Date: Thu, 14 May 2020 21:09:50 +0200
+Message-Id: <20200514191001.457441-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200514191001.457441-1-sam@ravnborg.org>
 References: <20200514191001.457441-1-sam@ravnborg.org>
@@ -92,79 +92,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no external users of of_find_backlight_by_node().
-Make it static so we keep it that way.
+Increase readability of fb_notifier_callback() by removing
+a few indent levels.
+No functional change.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- drivers/video/backlight/backlight.c | 22 +++++++++-------------
- include/linux/backlight.h           | 10 ----------
- 2 files changed, 9 insertions(+), 23 deletions(-)
+ drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index 547aa3e1a03a..91dfcf4a2087 100644
+index 91dfcf4a2087..5e08f4f1c99a 100644
 --- a/drivers/video/backlight/backlight.c
 +++ b/drivers/video/backlight/backlight.c
-@@ -577,19 +577,9 @@ static int of_parent_match(struct device *dev, const void *data)
- 	return dev->parent && dev->parent->of_node == data;
+@@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
+ 
+ 	bd = container_of(self, struct backlight_device, fb_notif);
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops)
+-		if (!bd->ops->check_fb ||
+-		    bd->ops->check_fb(bd, evdata->info)) {
+-			fb_blank = *(int *)evdata->data;
+-			if (fb_blank == FB_BLANK_UNBLANK &&
+-			    !bd->fb_bl_on[node]) {
+-				bd->fb_bl_on[node] = true;
+-				if (!bd->use_count++) {
+-					bd->props.state &= ~BL_CORE_FBBLANK;
+-					bd->props.fb_blank = FB_BLANK_UNBLANK;
+-					backlight_update_status(bd);
+-				}
+-			} else if (fb_blank != FB_BLANK_UNBLANK &&
+-				   bd->fb_bl_on[node]) {
+-				bd->fb_bl_on[node] = false;
+-				if (!(--bd->use_count)) {
+-					bd->props.state |= BL_CORE_FBBLANK;
+-					bd->props.fb_blank = fb_blank;
+-					backlight_update_status(bd);
+-				}
+-			}
++
++	if (!bd->ops)
++		goto out;
++	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
++		goto out;
++
++	fb_blank = *(int *)evdata->data;
++	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
++		bd->fb_bl_on[node] = true;
++		if (!bd->use_count++) {
++			bd->props.state &= ~BL_CORE_FBBLANK;
++			bd->props.fb_blank = FB_BLANK_UNBLANK;
++			backlight_update_status(bd);
++		}
++	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
++		bd->fb_bl_on[node] = false;
++		if (!(--bd->use_count)) {
++			bd->props.state |= BL_CORE_FBBLANK;
++			bd->props.fb_blank = fb_blank;
++			backlight_update_status(bd);
+ 		}
++	}
++out:
+ 	mutex_unlock(&bd->ops_lock);
+ 	return 0;
  }
- 
--/**
-- * of_find_backlight_by_node() - find backlight device by device-tree node
-- * @node: device-tree node of the backlight device
-- *
-- * Returns a pointer to the backlight device corresponding to the given DT
-- * node or NULL if no such backlight device exists or if the device hasn't
-- * been probed yet.
-- *
-- * This function obtains a reference on the backlight device and it is the
-- * caller's responsibility to drop the reference by calling put_device() on
-- * the backlight device's .dev field.
-- */
--struct backlight_device *of_find_backlight_by_node(struct device_node *node)
-+/* Find backlight device by device-tree node */
-+static struct backlight_device *
-+of_find_backlight_by_node(struct device_node *node)
- {
- 	struct device *dev;
- 
-@@ -598,6 +588,12 @@ struct backlight_device *of_find_backlight_by_node(struct device_node *node)
- 	return dev ? to_backlight_device(dev) : NULL;
- }
- EXPORT_SYMBOL(of_find_backlight_by_node);
-+#else
-+static struct backlight_device *
-+of_find_backlight_by_node(struct device_node *node)
-+{
-+	return NULL;
-+}
- #endif
- 
- static struct backlight_device *of_find_backlight(struct device *dev)
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 3d757a850b88..b7839ea9d00a 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -198,16 +198,6 @@ struct generic_bl_info {
- 	void (*kick_battery)(void);
- };
- 
--#ifdef CONFIG_OF
--struct backlight_device *of_find_backlight_by_node(struct device_node *node);
--#else
--static inline struct backlight_device *
--of_find_backlight_by_node(struct device_node *node)
--{
--	return NULL;
--}
--#endif
--
- #if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
- struct backlight_device *devm_of_find_backlight(struct device *dev);
- #else
 -- 
 2.25.1
 
