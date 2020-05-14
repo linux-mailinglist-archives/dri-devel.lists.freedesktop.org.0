@@ -2,35 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2951D28B9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0E41D28AC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 09:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF0D6EACB;
-	Thu, 14 May 2020 07:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269DD6EAC5;
+	Thu, 14 May 2020 07:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 836A16EACB
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 07:27:03 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id D74383A9CAC
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 07:15:42 +0000 (UTC)
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
- [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
- by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id A40FC2000F;
- Thu, 14 May 2020 07:15:18 +0000 (UTC)
-Date: Thu, 14 May 2020 09:18:35 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH 5/4] dt-bindings: display: bridge: thc63lvd1024: Document
- dual-output mode
-Message-ID: <20200514071835.ap4pusz3i52jhosc@uno.localdomain>
-References: <20200406111543.GC4757@pendragon.ideasonboard.com>
- <20200513232127.21798-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2CB26EAC3;
+ Thu, 14 May 2020 07:23:42 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 3638BAEDA;
+ Thu, 14 May 2020 07:23:44 +0000 (UTC)
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <0032ff1a-c2a3-23ec-79e1-342bacaf9b33@suse.de>
+Date: Thu, 14 May 2020 09:23:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200513232127.21798-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,63 +65,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0523749513=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0523749513==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="mOrrwgOyvElMAbDwpRdeT0zGpBjfaAZDL"
 
-On Thu, May 14, 2020 at 02:21:27AM +0300, Laurent Pinchart wrote:
-> The DT binding support both dual-input and dual-output mode, but only
-> dual-input is documented. Document dual-output mode.
->
-> Suggested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mOrrwgOyvElMAbDwpRdeT0zGpBjfaAZDL
+Content-Type: multipart/mixed; boundary="svvUWJmFIuf6Mlim4XRv1CJy5Ai1bypvd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <0032ff1a-c2a3-23ec-79e1-342bacaf9b33@suse.de>
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
 
-Thanks
-Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+--svvUWJmFIuf6Mlim4XRv1CJy5Ai1bypvd
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+Hi
 
+Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> Currently this seems to work by converting the sgt into a pages array,
+> and then treating it like a native object. Do the right thing and
+> redirect mmap to the exporter.
+>=20
+> With this nothing is calling get_pages anymore on imported dma-buf,
+> and we can start to remove the use of the ->pages array for that case.
+>=20
+> v2: Rebase
+>=20
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  .../display/bridge/thine,thc63lvd1024.yaml       | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> index 469ac4a34273..fedd3460d6f6 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> @@ -30,11 +30,17 @@ properties:
->        This device has four video ports. Their connections are modeled using the
->        OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
->
-> -      The device can operate in single-link mode or dual-link mode. In
-> -      single-link mode, all pixels are received on port@0, and port@1 shall not
-> -      contain any endpoint. In dual-link mode, even-numbered pixels are
-> -      received on port@0 and odd-numbered pixels on port@1, and both port@0 and
-> -      port@1 shall contain endpoints.
-> +      The device can operate in single or dual input and output modes.
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> index b9cba5cc61c3..117a7841e284 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -551,6 +551,9 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
+struct vm_area_struct *vma)
+>  	/* Remove the fake offset */
+>  	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
+> =20
+> +	if (obj->import_attach)
+> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
 > +
-> +      When operating in single input mode, all pixels are received on port@0,
-> +      and port@1 shall not contain any endpoint. In dual input mode,
-> +      even-numbered pixels are received on port@0 and odd-numbered pixels on
-> +      port@1, and both port@0 and port@1 shall contain endpoints.
-> +
-> +      When operating in single output mode all pixels are output from the first
-> +      CMOS/TTL port and port@3 shall not contain any endpoint. In dual output
-> +      mode pixels are output from both CMOS/TTL ports and both port@2 and
-> +      port@3 shall contain endpoints.
->
->      properties:
->        '#address-cells':
-> --
-> Regards,
->
-> Laurent Pinchart
->
+
+Just a question: how does it work with the fake value in vm_pgoffset?
+The offset is a DRM-specific thing and the dma-buf exporter expects the
+real offset?
+
+With this question clarified:
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+
+>  	shmem =3D to_drm_gem_shmem_obj(obj);
+> =20
+>  	ret =3D drm_gem_shmem_get_pages(shmem);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--svvUWJmFIuf6Mlim4XRv1CJy5Ai1bypvd--
+
+--mOrrwgOyvElMAbDwpRdeT0zGpBjfaAZDL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl688fkACgkQaA3BHVML
+eiPXHAf+KTJxDIlOGC/9IhGy+g7MWOVeCBqS8aMs/S4tOsihiiGEWdA/6nhOFcR7
+0nET7WO4jbwMGbTv74KYQ0732/qgMme+ZztZtx4rxg7JWEA4GiK8jFpDeQF3lFme
+fWhksc98je3ufS/unNtCjojCmQ5J4xVyRSVgBuz/QrFm/77w6V0AQfJuPd8YeBir
+IZWu9SgkV/3WoMWQuCwac5iEGY4IIvZEAuRkSnu9oLniPz3UDHXXsD3hdlj12IhI
+WyW0hVC3h53ecOmsP1sXk0KFvyrRaz+MOaKP28iQHyEwfX77kObkhm1QaLutF9/v
+uRi6x7NiHc8JKnvm2pvsxY2ghHO6fQ==
+=VyPm
+-----END PGP SIGNATURE-----
+
+--mOrrwgOyvElMAbDwpRdeT0zGpBjfaAZDL--
+
+--===============0523749513==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0523749513==--
