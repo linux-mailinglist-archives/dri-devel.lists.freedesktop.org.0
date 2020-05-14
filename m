@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B851D39C0
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 20:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009A31D39C4
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 20:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3276EB9E;
-	Thu, 14 May 2020 18:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C36D089130;
+	Thu, 14 May 2020 18:52:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C88F6EB9E
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 18:52:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A87C891FF;
+ Thu, 14 May 2020 18:52:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 356892065F;
- Thu, 14 May 2020 18:52:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E086F206D8;
+ Thu, 14 May 2020 18:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589482353;
- bh=SAfOCFHBexJBzEkBuz8E/9AxJgu9uGJhvz1+5p2MdQM=;
+ s=default; t=1589482364;
+ bh=AQ5Ja54zZPWJCzN1n8jzY96BFQlAAx9L0kU4hbgVYnU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dxwmraHy4rM5ddMCvR6DWzRjdn04ajGgoYCDmu66UuJjuKhfwK5GdiEzUgi+8dz7J
- XcAXBp2RPn73NTZ3TpdXE/jApzmeq1znviErXAJmjxrrP7r0+zDmLD+CuRVGLH3Oke
- 0V4XJvZKWB/in3scoc5oaYvjND3cxD0URpP61LuU=
+ b=lewh+dHyHa8kqsuku5Yn3eE4DCrl/jfsdFqs6g2wRmsgzQfRF7d8jIavG1aYTR1O0
+ FeGciNaBajurBTEsQdtgYQ6aNR1D9gqUQ7q8yN43rU50rR9gTJE1anQj7RUjHc4DfJ
+ xOraXTSdGvLT41Cnschg0YdVlvjoyorA/uxjwT3o=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 34/62] sun6i: dsi: fix gcc-4.8
-Date: Thu, 14 May 2020 14:51:19 -0400
-Message-Id: <20200514185147.19716-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 44/62] drm/amd/display: Update DCN2.1 DV Code
+ Revision
+Date: Thu, 14 May 2020 14:51:29 -0400
+Message-Id: <20200514185147.19716-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514185147.19716-1-sashal@kernel.org>
 References: <20200514185147.19716-1-sashal@kernel.org>
@@ -49,53 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Sung Lee <sung.lee@amd.com>
 
-[ Upstream commit 3a3a71f97c30983f1627c2c550d43566e9b634d2 ]
+[ Upstream commit b95e51eb9f2ee7b6d6c3203a2f75122349aa77be ]
 
-Older compilers warn about initializers with incorrect curly
-braces:
+[WHY & HOW]
+There is a problem in hscale_pixel_rate, the bug
+causes DCN to be more optimistic (more likely to underflow)
+in upscale cases during prefetch.
+This commit ports the fix from DV code to address these issues.
 
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c: In function 'sun6i_dsi_encoder_enable':
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: missing braces around initializer [-Werror=missing-braces]
-  union phy_configure_opts opts = { 0 };
-        ^
-drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c:720:8: error: (near initialization for 'opts.mipi_dphy') [-Werror=missing-braces]
-
-Use the GNU empty initializer extension to avoid this.
-
-Fixes: bb3b6fcb6849 ("sun6i: dsi: Convert to generic phy handling")
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200428215105.3928459-1-arnd@arndb.de
+Signed-off-by: Sung Lee <sung.lee@amd.com>
+Reviewed-by: Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index a75fcb1131724..2b6d77ca3dfc2 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -719,7 +719,7 @@ static void sun6i_dsi_encoder_enable(struct drm_encoder *encoder)
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
- 	struct mipi_dsi_device *device = dsi->device;
--	union phy_configure_opts opts = { 0 };
-+	union phy_configure_opts opts = { };
- 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
- 	u16 delay;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+index a38baa73d4841..b8ec08e3b7a36 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_rq_dlg_calc_21.c
+@@ -1200,7 +1200,7 @@ static void dml_rq_dlg_get_dlg_params(
+ 	min_hratio_fact_l = 1.0;
+ 	min_hratio_fact_c = 1.0;
  
+-	if (htaps_l <= 1)
++	if (hratio_l <= 1)
+ 		min_hratio_fact_l = 2.0;
+ 	else if (htaps_l <= 6) {
+ 		if ((hratio_l * 2.0) > 4.0)
+@@ -1216,7 +1216,7 @@ static void dml_rq_dlg_get_dlg_params(
+ 
+ 	hscale_pixel_rate_l = min_hratio_fact_l * dppclk_freq_in_mhz;
+ 
+-	if (htaps_c <= 1)
++	if (hratio_c <= 1)
+ 		min_hratio_fact_c = 2.0;
+ 	else if (htaps_c <= 6) {
+ 		if ((hratio_c * 2.0) > 4.0)
+@@ -1522,8 +1522,8 @@ static void dml_rq_dlg_get_dlg_params(
+ 
+ 	disp_dlg_regs->refcyc_per_vm_group_vblank   = get_refcyc_per_vm_group_vblank(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz;
+ 	disp_dlg_regs->refcyc_per_vm_group_flip     = get_refcyc_per_vm_group_flip(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz;
+-	disp_dlg_regs->refcyc_per_vm_req_vblank     = get_refcyc_per_vm_req_vblank(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz;
+-	disp_dlg_regs->refcyc_per_vm_req_flip       = get_refcyc_per_vm_req_flip(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz;
++	disp_dlg_regs->refcyc_per_vm_req_vblank     = get_refcyc_per_vm_req_vblank(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz * dml_pow(2, 10);
++	disp_dlg_regs->refcyc_per_vm_req_flip       = get_refcyc_per_vm_req_flip(mode_lib, e2e_pipe_param, num_pipes, pipe_idx) * refclk_freq_in_mhz * dml_pow(2, 10);
+ 
+ 	// Clamp to max for now
+ 	if (disp_dlg_regs->refcyc_per_vm_group_vblank >= (unsigned int)dml_pow(2, 23))
 -- 
 2.20.1
 
