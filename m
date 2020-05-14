@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27831D2FD7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 14:32:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3954D1D2FE3
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 14:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046256EB2C;
-	Thu, 14 May 2020 12:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106416EB2D;
+	Thu, 14 May 2020 12:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6886EB29
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:32:55 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id f13so1755571wmc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 05:32:55 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 146296EB2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:35:23 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id v12so3795856wrp.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 05:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Hs0b6CimQtwFi7aqQ0x2t0EfYjjIMEZ9m/N7F6YQDAY=;
- b=YgWHkQTYQPFppqYsLPN4O7w4lYivEAnsEzMA+LRaWDfv1qHjFZT7jJduso+EFh/hnh
- BmsjyF8UrLtntddw7ns7M8+fhWv+y4cDydxv3fKuQ73T16tDKeVw7qrfp+ced3x5ZpsD
- AkPmYBhTTcBPvfKZDxpbZ0iFajRNhq0rxkirk=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cMPqMUXRJ8HR36qud+AQIGafh+ptP/rX40+2ncxDmps=;
+ b=F6bo7NYBe8KlL8c5Ee5aZ3Fg6TDASmUyQ2bsdJYvKKA5SUkjt3AsX9lByXqMhuh+aC
+ 1ocMJpC31cdVZNrN3tOfvow84NlAHBcY8fxofiZ/7pZwacMzcJpi/7gkm2Emn4P37tS2
+ el5KCGCtum90arsPqhHV8s+udsUfg0+fmG6iU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Hs0b6CimQtwFi7aqQ0x2t0EfYjjIMEZ9m/N7F6YQDAY=;
- b=I8/hxI1Dk0myvuc9UVfm8V6ivzN8EwIH4FPo3tBM2vhGYNCpEIyOYX+k4Ws5eMIWoz
- THdBkADnN8SvqMBjSpugJMB1SJkfLWYG6rjvSB8Aqi0PYUFjgt6lwE6JHAu2fHBo/wWf
- Geb5z105tq9xWRvDOSMvDkeYCpkAoZJm0lC/j17piINIq/2Ob6G6mNBaeAK5yxHvdL9l
- WEPvwpUAnVXPHx8yHmv0DTZDv2yq4QNEF65789FLWf0v3F9ZkU9uvIUohp0sR5W1Gd9N
- D732C3dbMmwyl7+hH/i6jK3wNZ9TaDWCgsA7UJVCDSnaNJuWti4llqpfSeXq8UmyWmLh
- 6IHw==
-X-Gm-Message-State: AGi0PuZirQakHVkWsNjix8d28MTmAfitpLtLaPRw0n4Zhekd5brnr2ry
- 86b+9gNe+xY+up5VkspTj7ykPg==
-X-Google-Smtp-Source: APiQypLwlYFf18uBo+jfC26cvoH7AqKeY4MEhPzSMIyKaNwga5O97X2GrG0P30+6HD8/aszlGaAbDg==
-X-Received: by 2002:a1c:bbc5:: with SMTP id
- l188mr27784086wmf.163.1589459573864; 
- Thu, 14 May 2020 05:32:53 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=cMPqMUXRJ8HR36qud+AQIGafh+ptP/rX40+2ncxDmps=;
+ b=DgBHgww4Y0cbhNM8AjCzjNykIPLrX29/nvtUiFFiAMIN1IS8z5mRecx1Dq5bEX25Y0
+ mJYoDpz5YzzT5FrdMjiVAyIEoW1v/DGdQ84j30ozUS9sidZlouEjkk69UNbrw/T08LHp
+ fVujTpQx0TYWm0xjEF7MxxiWf5YPia5DT+uLq6KpK2M27UWgaBqUL0krvV5E1QCYTwON
+ c1z4nrUgWb3/OcnJxU9eErhXGCwKK6JL7uknVDl6qTCbkcsR3uvkXzXwsyONIyIrCZea
+ sGKFAoNL9nB10OeQAjICHmsj04+r14orc0hdTFgo2LPvBLqP1W3TtcEZi2QTrsrrayvq
+ 9l5A==
+X-Gm-Message-State: AOAM533TyvhD0pvQwa4n3eLGtfh2SkbHqdvT8UTmLm8HxINb4QknpBV8
+ bWTC6uECLrT2N/f2+cFs+IR/25DZclA=
+X-Google-Smtp-Source: ABdhPJwmonACH5Sm2rDdGYdlIeF/qAIci3tHAGRz7t2FPWQSo5MIFYNXGt6XqqtCZJDu4Hp1J6/jhA==
+X-Received: by 2002:adf:e5cd:: with SMTP id a13mr5369336wrn.266.1589459721770; 
+ Thu, 14 May 2020 05:35:21 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id x23sm38645260wmj.6.2020.05.14.05.32.52
+ by smtp.gmail.com with ESMTPSA id m3sm3804163wrn.96.2020.05.14.05.35.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 05:32:53 -0700 (PDT)
-Date: Thu, 14 May 2020 14:32:51 +0200
+ Thu, 14 May 2020 05:35:20 -0700 (PDT)
+Date: Thu, 14 May 2020 14:35:18 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Subject: Re: [PATCH] drm: avoid spurious EBUSY due to nonblocking atomic
- modesets
-Message-ID: <20200514123251.GR206103@phenom.ffwll.local>
-References: <20200408162403.3616785-1-daniel.vetter@ffwll.ch>
- <CAPj87rMJNwp0t4B0KxH7J_2__4eT7+ZJeG-=_juLSDhPc2hLHQ@mail.gmail.com>
- <CAKMK7uFU7ST9LWmpfhTuk1-_ES6VU-cUogMnPjA15BWFsEVacw@mail.gmail.com>
- <CAPj87rNRLsGJcGEM3dYnitYMwjh7iMNjo9KT=xcDZ0hebRC9iw@mail.gmail.com>
- <CAKMK7uG6krmntPW6Mud7aouvM=NRspYHoBdKeSwxS8wDwDZRkQ@mail.gmail.com>
- <CAPj87rO1oG00ipUA57a1kGu7K2=-ugTreM7QXy_tWjbZ+KzkFg@mail.gmail.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] drm/vblank: remove outdated and noisy output
+Message-ID: <20200514123518.GS206103@phenom.ffwll.local>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20200513201016.23047-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAPj87rO1oG00ipUA57a1kGu7K2=-ugTreM7QXy_tWjbZ+KzkFg@mail.gmail.com>
+In-Reply-To: <20200513201016.23047-1-wsa+renesas@sang-engineering.com>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,43 +72,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Stone <daniels@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- stable <stable@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 08:40:21AM +0100, Daniel Stone wrote:
-> On Thu, 14 May 2020 at 08:25, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > On Thu, May 14, 2020 at 9:18 AM Daniel Stone <daniel@fooishbar.org> wrote:
-> > > On Thu, 14 May 2020 at 08:08, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > I'd be very much in favour of putting the blocking down in the kernel
-> > > at least until the kernel can give us a clear indication to tell us
-> > > what's going on, and ideally which other resources need to be dragged
-> > > in, in a way which is distinguishable from your compositor having
-> > > broken synchronisation.
-> >
-> > We know, the patch already computes that ... So would be a matter of
-> > exporting that to userspace. We have a mask of all additional crtc
-> > that will get an event and will -EBUSY until that's done.
+On Wed, May 13, 2020 at 10:10:16PM +0200, Wolfram Sang wrote:
+> The R-Car DU driver calls drm_vblank_init via some helper functions in
+> probe(). From what I checked, most drivers do this as well. I have a
+> config now where DU always stays in deferred_probe state because of a
+> missing dependency. This means that every time I rebind another driver
+> like MMC, the vblank init message is displayed again when the DU driver
+> is retried. Because the message doesn't really carry a useful
+> information, I suggest to simply drop it.
 > 
-> Yep, but unless and until that happens, could we please get this in?
-> Given it would require uAPI changes, we'd need to modify all the
-> compositors to work with the old path (random EBUSY) and the new path
-> (predictable and obvious), so at least preserving the promise that
-> per-CRTC updates are really independent would be good.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I haven't found the time to look at the intel-gfx-ci fail in igt nor
-really think about that. Nor care enough to just hammer this ignoring ci,
-since I didn't even get around to understand why the igt now fails If
-someone else takes this over, happy to see it land.
+Makes sense, queued up in drm-misc-next.
 -Daniel
+
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index da7b0b0c1090..ce9bed24c2da 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -483,8 +483,6 @@ int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
+>  		seqlock_init(&vblank->seqlock);
+>  	}
+>  
+> -	DRM_INFO("Supports vblank timestamp caching Rev 2 (21.10.2013).\n");
+> -
+>  	return 0;
+>  
+>  err:
+> -- 
+> 2.20.1
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
