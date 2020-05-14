@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734AE1D304D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 14:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0BE1D465C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218AD6EB3F;
-	Thu, 14 May 2020 12:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906916EBEB;
+	Fri, 15 May 2020 06:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16F26E33C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:49:50 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id h4so30233276wmb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 05:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bloCnaq8kEhJLc92W8Ae9wynkl5ZdlQmtWQtta8YKP0=;
- b=Nm7GC19hczTQ+sai5rDvZ5MjdahgnlLMqXxcfnwSWJq7/NdjvEEUm2xgvz2qjQMvFn
- 46n6bcNilc4kZvv/8D57xcjgsH1X6X1pegC3bL+6n+LkrgLW5vN2V6FiMvCeB1rHvya1
- jVESko9ldfxz+Sx4h0LtHxOhnJYwNnAnGgR4U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bloCnaq8kEhJLc92W8Ae9wynkl5ZdlQmtWQtta8YKP0=;
- b=fqPGIsR5H5X1y9OXZ2E6N2pmRe34A0JHzi3gUb8tD82XJkEsccDxSoGKfK3c5ZxFc9
- 8lzGOm9ZD/6gd6CgcS2I8LYPxqxd+8Oc4g0vikMttcQZG5oka6t+ElCgZ/eQqSSmRoga
- 5nofCz8rODT/0fpEZz0xbFAVLcPfIHQ/LFFol0as3zPckBxVq9TgJ5Jl8udgsv1O5vYn
- 5sSyUeMwWrYiFREQ+eqsC+HvhtsNUl+AKkIbg0RZyU+98NEsAXMQXtWhapno8DdyViP1
- IeMN3fb29+PystJfhEkK6L66/CPDmASUZfq1PdlqB0FXwGkzLVSbnAs9EiQcJeAlFqp1
- fbIg==
-X-Gm-Message-State: AGi0Puao4hlwMnUvKqbCBsfAhyQbmbSv/sKGvt3urie9rsvQfw9F7uL+
- b8Wv+8alYDgkXHKEkfQqpqP/pw==
-X-Google-Smtp-Source: APiQypLD7L5rX6Xx06rYZCvSGbZD9MjGGaR8Q9/Aap4chpVVKC/y8vWKvppZBwwb8IZ6k+lyMI5XWQ==
-X-Received: by 2002:a05:600c:280b:: with SMTP id
- m11mr20202846wmb.115.1589460589505; 
- Thu, 14 May 2020 05:49:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q9sm15764296wmb.34.2020.05.14.05.49.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 05:49:48 -0700 (PDT)
-Date: Thu, 14 May 2020 14:49:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 6/9] drm/shmem-helpers: Don't call get/put_pages on
- imported dma-buf in vmap
-Message-ID: <20200514124947.GZ206103@phenom.ffwll.local>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-7-daniel.vetter@ffwll.ch>
- <6910cb3c-7169-fe1c-efc1-3acb8a218384@suse.de>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 631026EB41
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 12:53:22 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04ECqOfG012268; Thu, 14 May 2020 14:53:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=nHSWD3rAvd4p9vuLYKA3ZWiKVn+Vm2Lf+IPFO5a7YEk=;
+ b=aqMOulBAvl+8xoCgiDgMnbTqfEe79LvSFqONLc7j5PE6Hpuh1hW6OjVpaMaDDCalnUim
+ asRk0IBE6JIzsW0gKEpec3FgCSv+4gBMntCJHSqfdnBmCy5rXRn5/tgT0Debk3c5oZVg
+ ywFW1sS8IYwPOP1RK4gTQBxMzEoJh1T4kbeURsD6gyvIBPzugWOuT+NJL2j9OX5m1SME
+ zZZumUCD5bLXiTFkt0v+jhyyatlDh0HlK3Fu6fHTi5xeEXGr972vRrahzpV5PveXxKWX
+ 31xMuAnpAko1YAR9rsPFP0oh3/YyYzbjxVRINoHrOfZwEgFT8YHKIW0oAi8azE1Hor+A bg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3100vpkb2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 14:53:08 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 442B5100034;
+ Thu, 14 May 2020 14:53:05 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 18F0F2BAE4E;
+ Thu, 14 May 2020 14:53:05 +0200 (CEST)
+Received: from lmecxl0912.tpe.st.com (10.75.127.47) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 14 May
+ 2020 14:52:56 +0200
+Subject: Re: [PATCH v3 3/5] ARM: dts: stm32: enable ltdc binding with ili9341
+ on stm32429-disco board
+To: Linus Walleij <linus.walleij@linaro.org>, <dillon.minfei@gmail.com>
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-4-git-send-email-dillon.minfei@gmail.com>
+ <CACRpkda5VjjBdbruXTi33QBNb=VU6vK2zDE8yyQXoWw7=NQFeg@mail.gmail.com>
+From: Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <a4ebd7cd-5756-0683-135f-0f96be8a4a7b@st.com>
+Date: Thu, 14 May 2020 14:52:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6910cb3c-7169-fe1c-efc1-3acb8a218384@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <CACRpkda5VjjBdbruXTi33QBNb=VU6vK2zDE8yyQXoWw7=NQFeg@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG3NODE1.st.com (10.75.127.7) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-14_03:2020-05-14,
+ 2020-05-14 signatures=0
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,132 +72,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: "open list:OPEN
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Dave Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 09:16:54AM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
-
-> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
-> > There's no direct harm, because for the shmem helpers these are noops
-> > on imported buffers. The trouble is in the locks these take - I want
-> > to change dma_buf_vmap locking, and so need to make sure that we only
-> > ever take certain locks on one side of the dma-buf interface: Either
-> > for exporters, or for importers.
-> > =
-
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 17 +++++++++--------
-> >  1 file changed, 9 insertions(+), 8 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index 2a70159d50ef..b9cba5cc61c3 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -252,32 +252,33 @@ static void *drm_gem_shmem_vmap_locked(struct drm=
-_gem_shmem_object *shmem)
-> >  	if (shmem->vmap_use_count++ > 0)
-> >  		return shmem->vaddr;
-> >  =
-
-> > -	ret =3D drm_gem_shmem_get_pages(shmem);
-> > -	if (ret)
-> > -		goto err_zero_use;
-> > -
-> >  	if (obj->import_attach) {
-> >  		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
-> >  	} else {
-> >  		pgprot_t prot =3D PAGE_KERNEL;
-> >  =
-
-> > +		ret =3D drm_gem_shmem_get_pages(shmem);
-> > +		if (ret)
-> > +			goto err;
-> > +
-> >  		if (!shmem->map_cached)
-> >  			prot =3D pgprot_writecombine(prot);
-> >  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
-> >  				    VM_MAP, prot);
-> > +
-> > +		if (!shmem->vaddr)
-> > +			drm_gem_shmem_put_pages(shmem);
-> >  	}
-> >  =
-
-> >  	if (!shmem->vaddr) {
-> >  		DRM_DEBUG_KMS("Failed to vmap pages\n");
-> >  		ret =3D -ENOMEM;
-> > -		goto err_put_pages;
-> > +		goto err;
-> >  	}
-> >  =
-
-> >  	return shmem->vaddr;
-> >  =
-
-> > -err_put_pages:
-> > -	drm_gem_shmem_put_pages(shmem);
-> =
-
-> I found the new code to be less readable. Maybe keep the error rollback
-> as-is and protect _put_pages() with if (!import_attach).
-
-Hm yeah I guess I can leave this as-is mostly, makes at least the diff
-smaller. Imo it all looks a bit awkward, but what I've done isn't clearly
-better than just leaving stuff mostly where it was.
--Daniel
-
-> =
-
-> In any case
-> =
-
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> =
-
-> > -err_zero_use:
-> > +err:
-> >  	shmem->vmap_use_count =3D 0;
-> >  =
-
-> >  	return ERR_PTR(ret);
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
 
 
+On 5/14/20 10:24 AM, Linus Walleij wrote:
+> On Tue, May 12, 2020 at 9:04 AM <dillon.minfei@gmail.com> wrote:
+> 
+>> From: dillon min <dillon.minfei@gmail.com>
+>>
+>> Enable the ltdc & ili9341 on stm32429-disco board.
+>>
+>> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> 
+> This mostly looks good but...
+> 
+>> +&spi5 {
+>> +       status = "okay";
+>> +       pinctrl-0 = <&spi5_pins>;
+>> +       pinctrl-names = "default";
+>> +       #address-cells = <1>;
+>> +       #size-cells = <0>;
+>> +       cs-gpios = <&gpioc 2 GPIO_ACTIVE_LOW>;
+>> +       dmas = <&dma2 3 2 0x400 0x0>,
+>> +              <&dma2 4 2 0x400 0x0>;
+>> +       dma-names = "rx", "tx";
+> 
+> These DMA assignments seem to be SoC things and should
+> rather be in the DTS(I) file where &spi5 is defined, right?
+> stm32f429.dtsi I suppose?
 
+I agree with Linus, DMA have to be defined in SoC dtsi. And if a board 
+doesn't want to use it, we use the "delete-property".
 
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> 
+> It is likely the same no matter which device is using spi5.
+> 
+> Yours,
+> Linus Walleij
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
