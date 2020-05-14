@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9061D2736
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 08:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116D41D2737
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 08:08:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A376EAAE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715FD6EAAA;
 	Thu, 14 May 2020 06:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C374B88FA0;
- Thu, 14 May 2020 06:08:06 +0000 (UTC)
-IronPort-SDR: PgDuTez23w/DapqMjibQPforrwNYPRmjyGovwvv419e59AYQ588fXxvHy8elB7xo6+wTMjR2G2
- Ak71v03VG29Q==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D526EAAE;
+ Thu, 14 May 2020 06:08:08 +0000 (UTC)
+IronPort-SDR: INbGAw++F6yENo+9/PcSwi0eMUJqaoI4wAzeJJJG6LhTfxZ1N00ukPftzwvUWAdAORBJ75E3mb
+ Cecr6k0a1NAA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2020 23:08:06 -0700
-IronPort-SDR: okbFpPWxknPo2xcW/6WA0XulXXFos6mebmzeAZdQ+ILL4KZbXJBlMrxkt9DwIHo6o56IZF+k4m
- MhVM4SCBw7qA==
+ 13 May 2020 23:08:08 -0700
+IronPort-SDR: Z+iX1ZIu9m0JSNx3xXkRtmRV08kXmxdkNDswDo54jIufTuMm5LAqT8+y84l4wfCB2S2F94Jp7/
+ TdGGAdGT6vpg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,390,1583222400"; d="scan'208";a="409957048"
+X-IronPort-AV: E=Sophos;i="5.73,390,1583222400"; d="scan'208";a="409957055"
 Received: from bgodonne-mobl.amr.corp.intel.com (HELO
  helsinki.ger.corp.intel.com) ([10.252.18.167])
- by orsmga004.jf.intel.com with ESMTP; 13 May 2020 23:08:04 -0700
+ by orsmga004.jf.intel.com with ESMTP; 13 May 2020 23:08:06 -0700
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v12 13/14] drm/i915/dp: Add compute routine for DP PSR VSC SDP
-Date: Thu, 14 May 2020 09:07:31 +0300
-Message-Id: <20200514060732.3378396-14-gwan-gyeong.mun@intel.com>
+Subject: [PATCH v12 14/14] drm/i915/psr: Use new DP VSC SDP compute routine on
+ PSR
+Date: Thu, 14 May 2020 09:07:32 +0300
+Message-Id: <20200514060732.3378396-15-gwan-gyeong.mun@intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
 References: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
@@ -55,155 +56,234 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In order to use a common VSC SDP Colorimetry calculating code on PSR,
-it adds a compute routine for PSR VSC SDP.
-As PSR routine can not use infoframes.vsc of crtc state, it also adds new
-writing of DP SDPs (Secondary Data Packet) for PSR.
-PSR routine has its own scenario and timings of writing a VSC SDP.
+it uses a new psr vsc sdp compute routine.
+Because PSR routine has its own scenario and timings of writing a VSC SDP,
+the current PSR routine needs to have its own drm_dp_vsc_sdp structure
+member variable on struct i915_psr.
+
+In order to calculate colorimetry information, intel_psr_update()
+function and intel_psr_enable() function extend a drm_connector_state
+argument.
+
+There are no changes to PSR mechanism.
 
 v3: Replace a structure name to drm_dp_vsc_sdp from intel_dp_vsc_sdp
-v4: Use struct drm_device logging macros
-v10: 1) Fix packing of VSC SDP where Pixel Encoding/Colorimetry Format is
-        not supported.
-     2) Change a checking of PSR state.
+v4: Rebased
+v8: Rebased
+v10: When a PSR is enabled, it needs to add DP_SDP_VSC to
+     infoframes.enable.
+     It is needed for comparing between HW and pipe_state of VSC_SDP.
+v11: If PSR is disabled by flag, it don't enable psr on pipe compute.
+v12: Fix an inconsistent indenting
 
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+Reported-by: kbuild test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 66 ++++++++++++++++++++++++-
- drivers/gpu/drm/i915/display/intel_dp.h |  8 +++
- 2 files changed, 72 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_ddi.c |  4 +-
+ drivers/gpu/drm/i915/display/intel_psr.c | 58 ++++++++----------------
+ drivers/gpu/drm/i915/display/intel_psr.h |  6 ++-
+ drivers/gpu/drm/i915/i915_drv.h          |  1 +
+ 4 files changed, 26 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 4ccd6b7a3d83..408c3c1c5e81 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -2487,8 +2487,8 @@ static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
- {
- 	struct drm_dp_vsc_sdp *vsc = &crtc_state->infoframes.vsc;
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index a5eb8b89946b..aa22465bb56e 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3682,7 +3682,7 @@ static void intel_enable_ddi_dp(struct intel_atomic_state *state,
+ 		intel_dp_stop_link_train(intel_dp);
  
--	/* When PSR is enabled, VSC SDP is handled by PSR routine */
--	if (intel_psr_enabled(intel_dp))
-+	/* When a crtc state has PSR, VSC SDP will be handled by PSR routine */
-+	if (crtc_state->has_psr)
+ 	intel_edp_backlight_on(crtc_state, conn_state);
+-	intel_psr_enable(intel_dp, crtc_state);
++	intel_psr_enable(intel_dp, crtc_state, conn_state);
+ 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
+ 	intel_edp_drrs_enable(intel_dp, crtc_state);
+ 
+@@ -3865,7 +3865,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
+ 
+ 	intel_ddi_set_dp_msa(crtc_state, conn_state);
+ 
+-	intel_psr_update(intel_dp, crtc_state);
++	intel_psr_update(intel_dp, crtc_state, conn_state);
+ 	intel_dp_set_infoframes(encoder, true, crtc_state, conn_state);
+ 	intel_edp_drrs_enable(intel_dp, crtc_state);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index a0569fdfeb16..b7a2c102648a 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -30,6 +30,7 @@
+ #include "intel_display_types.h"
+ #include "intel_psr.h"
+ #include "intel_sprite.h"
++#include "intel_hdmi.h"
+ 
+ /**
+  * DOC: Panel Self Refresh (PSR/SRD)
+@@ -357,39 +358,6 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
+ 	}
+ }
+ 
+-static void intel_psr_setup_vsc(struct intel_dp *intel_dp,
+-				const struct intel_crtc_state *crtc_state)
+-{
+-	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
+-	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+-	struct dp_sdp psr_vsc;
+-
+-	if (dev_priv->psr.psr2_enabled) {
+-		/* Prepare VSC Header for SU as per EDP 1.4 spec, Table 6.11 */
+-		memset(&psr_vsc, 0, sizeof(psr_vsc));
+-		psr_vsc.sdp_header.HB0 = 0;
+-		psr_vsc.sdp_header.HB1 = 0x7;
+-		if (dev_priv->psr.colorimetry_support) {
+-			psr_vsc.sdp_header.HB2 = 0x5;
+-			psr_vsc.sdp_header.HB3 = 0x13;
+-		} else {
+-			psr_vsc.sdp_header.HB2 = 0x4;
+-			psr_vsc.sdp_header.HB3 = 0xe;
+-		}
+-	} else {
+-		/* Prepare VSC packet as per EDP 1.3 spec, Table 3.10 */
+-		memset(&psr_vsc, 0, sizeof(psr_vsc));
+-		psr_vsc.sdp_header.HB0 = 0;
+-		psr_vsc.sdp_header.HB1 = 0x7;
+-		psr_vsc.sdp_header.HB2 = 0x2;
+-		psr_vsc.sdp_header.HB3 = 0x8;
+-	}
+-
+-	intel_dig_port->write_infoframe(&intel_dig_port->base,
+-					crtc_state,
+-					DP_SDP_VSC, &psr_vsc, sizeof(psr_vsc));
+-}
+-
+ static void hsw_psr_setup_aux(struct intel_dp *intel_dp)
+ {
+ 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+@@ -756,6 +724,8 @@ void intel_psr_compute_config(struct intel_dp *intel_dp,
+ 	if (intel_dp != dev_priv->psr.dp)
  		return;
  
- 	if (!intel_dp_needs_vsc_sdp(crtc_state, conn_state))
-@@ -2500,6 +2500,42 @@ static void intel_dp_compute_vsc_sdp(struct intel_dp *intel_dp,
- 					 &crtc_state->infoframes.vsc);
- }
- 
-+void intel_dp_compute_psr_vsc_sdp(struct intel_dp *intel_dp,
-+				  const struct intel_crtc_state *crtc_state,
-+				  const struct drm_connector_state *conn_state,
-+				  struct drm_dp_vsc_sdp *vsc)
-+{
-+	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
-+
-+	vsc->sdp_type = DP_SDP_VSC;
-+
-+	if (dev_priv->psr.psr2_enabled) {
-+		if (dev_priv->psr.colorimetry_support &&
-+		    intel_dp_needs_vsc_sdp(crtc_state, conn_state)) {
-+			/* [PSR2, +Colorimetry] */
-+			intel_dp_compute_vsc_colorimetry(crtc_state, conn_state,
-+							 vsc);
-+		} else {
-+			/*
-+			 * [PSR2, -Colorimetry]
-+			 * Prepare VSC Header for SU as per eDP 1.4 spec, Table 6-11
-+			 * 3D stereo + PSR/PSR2 + Y-coordinate.
-+			 */
-+			vsc->revision = 0x4;
-+			vsc->length = 0xe;
-+		}
-+	} else {
-+		/*
-+		 * [PSR1]
-+		 * Prepare VSC Header for SU as per DP 1.4 spec, Table 2-118
-+		 * VSC SDP supporting 3D stereo + PSR (applies to eDP v1.3 or
-+		 * higher).
-+		 */
-+		vsc->revision = 0x2;
-+		vsc->length = 0x8;
-+	}
-+}
-+
- static void
- intel_dp_compute_hdr_metadata_infoframe_sdp(struct intel_dp *intel_dp,
- 					    struct intel_crtc_state *crtc_state,
-@@ -4791,6 +4827,13 @@ static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
- 	sdp->sdp_header.HB2 = vsc->revision; /* Revision Number */
- 	sdp->sdp_header.HB3 = vsc->length; /* Number of Valid Data Bytes */
- 
-+	/*
-+	 * Only revision 0x5 supports Pixel Encoding/Colorimetry Format as
-+	 * per DP 1.4a spec.
-+	 */
-+	if (vsc->revision != 0x5)
-+		goto out;
-+
- 	/* VSC SDP Payload for DB16 through DB18 */
- 	/* Pixel Encoding and Colorimetry Formats  */
- 	sdp->db[16] = (vsc->pixelformat & 0xf) << 4; /* DB16[7:4] */
-@@ -4823,6 +4866,7 @@ static ssize_t intel_dp_vsc_sdp_pack(const struct drm_dp_vsc_sdp *vsc,
- 	/* Content Type */
- 	sdp->db[18] = vsc->content_type & 0x7;
- 
-+out:
- 	return length;
- }
- 
-@@ -4935,6 +4979,24 @@ static void intel_write_dp_sdp(struct intel_encoder *encoder,
- 	intel_dig_port->write_infoframe(encoder, crtc_state, type, &sdp, len);
- }
- 
-+void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
-+			    const struct intel_crtc_state *crtc_state,
-+			    struct drm_dp_vsc_sdp *vsc)
-+{
-+	struct intel_digital_port *intel_dig_port = enc_to_dig_port(encoder);
-+	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
-+	struct dp_sdp sdp = {};
-+	ssize_t len;
-+
-+	len = intel_dp_vsc_sdp_pack(vsc, &sdp, sizeof(sdp));
-+
-+	if (drm_WARN_ON(&dev_priv->drm, len < 0))
++	if (!psr_global_enabled(dev_priv))
 +		return;
-+
-+	intel_dig_port->write_infoframe(encoder, crtc_state, DP_SDP_VSC,
-+					&sdp, len);
-+}
-+
- void intel_dp_set_infoframes(struct intel_encoder *encoder,
- 			     bool enable,
- 			     const struct intel_crtc_state *crtc_state,
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 0d2de15703c3..1702959ca079 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -16,6 +16,7 @@ struct drm_connector_state;
- struct drm_encoder;
- struct drm_i915_private;
- struct drm_modeset_acquire_ctx;
-+struct drm_dp_vsc_sdp;
- struct intel_connector;
- struct intel_crtc_state;
- struct intel_digital_port;
-@@ -108,6 +109,13 @@ int intel_dp_link_required(int pixel_clock, int bpp);
- int intel_dp_max_data_rate(int max_link_clock, int max_lanes);
- bool intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
- 			    const struct drm_connector_state *conn_state);
-+void intel_dp_compute_psr_vsc_sdp(struct intel_dp *intel_dp,
-+				  const struct intel_crtc_state *crtc_state,
-+				  const struct drm_connector_state *conn_state,
-+				  struct drm_dp_vsc_sdp *vsc);
-+void intel_write_dp_vsc_sdp(struct intel_encoder *encoder,
-+			    const struct intel_crtc_state *crtc_state,
-+			    struct drm_dp_vsc_sdp *vsc);
- void intel_dp_set_infoframes(struct intel_encoder *encoder, bool enable,
- 			     const struct intel_crtc_state *crtc_state,
- 			     const struct drm_connector_state *conn_state);
+ 	/*
+ 	 * HSW spec explicitly says PSR is tied to port A.
+ 	 * BDW+ platforms have a instance of PSR registers per transcoder but
+@@ -798,6 +768,7 @@ void intel_psr_compute_config(struct intel_dp *intel_dp,
+ 
+ 	crtc_state->has_psr = true;
+ 	crtc_state->has_psr2 = intel_psr2_config_valid(intel_dp, crtc_state);
++	crtc_state->infoframes.enable |= intel_hdmi_infoframe_enable(DP_SDP_VSC);
+ }
+ 
+ static void intel_psr_activate(struct intel_dp *intel_dp)
+@@ -880,9 +851,12 @@ static void intel_psr_enable_source(struct intel_dp *intel_dp,
+ }
+ 
+ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
+-				    const struct intel_crtc_state *crtc_state)
++				    const struct intel_crtc_state *crtc_state,
++				    const struct drm_connector_state *conn_state)
+ {
+ 	struct intel_dp *intel_dp = dev_priv->psr.dp;
++	struct intel_digital_port *intel_dig_port = dp_to_dig_port(intel_dp);
++	struct intel_encoder *encoder = &intel_dig_port->base;
+ 	u32 val;
+ 
+ 	drm_WARN_ON(&dev_priv->drm, dev_priv->psr.enabled);
+@@ -921,7 +895,9 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
+ 
+ 	drm_dbg_kms(&dev_priv->drm, "Enabling PSR%s\n",
+ 		    dev_priv->psr.psr2_enabled ? "2" : "1");
+-	intel_psr_setup_vsc(intel_dp, crtc_state);
++	intel_dp_compute_psr_vsc_sdp(intel_dp, crtc_state, conn_state,
++				     &dev_priv->psr.vsc);
++	intel_write_dp_vsc_sdp(encoder, crtc_state, &dev_priv->psr.vsc);
+ 	intel_psr_enable_sink(intel_dp);
+ 	intel_psr_enable_source(intel_dp, crtc_state);
+ 	dev_priv->psr.enabled = true;
+@@ -933,11 +909,13 @@ static void intel_psr_enable_locked(struct drm_i915_private *dev_priv,
+  * intel_psr_enable - Enable PSR
+  * @intel_dp: Intel DP
+  * @crtc_state: new CRTC state
++ * @conn_state: new CONNECTOR state
+  *
+  * This function can only be called after the pipe is fully trained and enabled.
+  */
+ void intel_psr_enable(struct intel_dp *intel_dp,
+-		      const struct intel_crtc_state *crtc_state)
++		      const struct intel_crtc_state *crtc_state,
++		      const struct drm_connector_state *conn_state)
+ {
+ 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+ 
+@@ -958,7 +936,7 @@ void intel_psr_enable(struct intel_dp *intel_dp,
+ 		goto unlock;
+ 	}
+ 
+-	intel_psr_enable_locked(dev_priv, crtc_state);
++	intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
+ 
+ unlock:
+ 	mutex_unlock(&dev_priv->psr.lock);
+@@ -1091,13 +1069,15 @@ static void psr_force_hw_tracking_exit(struct drm_i915_private *dev_priv)
+  * intel_psr_update - Update PSR state
+  * @intel_dp: Intel DP
+  * @crtc_state: new CRTC state
++ * @conn_state: new CONNECTOR state
+  *
+  * This functions will update PSR states, disabling, enabling or switching PSR
+  * version when executing fastsets. For full modeset, intel_psr_disable() and
+  * intel_psr_enable() should be called instead.
+  */
+ void intel_psr_update(struct intel_dp *intel_dp,
+-		      const struct intel_crtc_state *crtc_state)
++		      const struct intel_crtc_state *crtc_state,
++		      const struct drm_connector_state *conn_state)
+ {
+ 	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+ 	struct i915_psr *psr = &dev_priv->psr;
+@@ -1134,7 +1114,7 @@ void intel_psr_update(struct intel_dp *intel_dp,
+ 		intel_psr_disable_locked(intel_dp);
+ 
+ 	if (enable)
+-		intel_psr_enable_locked(dev_priv, crtc_state);
++		intel_psr_enable_locked(dev_priv, crtc_state, conn_state);
+ 
+ unlock:
+ 	mutex_unlock(&dev_priv->psr.lock);
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
+index 274fc6bb6221..b4515186d5f4 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.h
++++ b/drivers/gpu/drm/i915/display/intel_psr.h
+@@ -17,11 +17,13 @@ struct intel_dp;
+ #define CAN_PSR(dev_priv) (HAS_PSR(dev_priv) && dev_priv->psr.sink_support)
+ void intel_psr_init_dpcd(struct intel_dp *intel_dp);
+ void intel_psr_enable(struct intel_dp *intel_dp,
+-		      const struct intel_crtc_state *crtc_state);
++		      const struct intel_crtc_state *crtc_state,
++		      const struct drm_connector_state *conn_state);
+ void intel_psr_disable(struct intel_dp *intel_dp,
+ 		       const struct intel_crtc_state *old_crtc_state);
+ void intel_psr_update(struct intel_dp *intel_dp,
+-		      const struct intel_crtc_state *crtc_state);
++		      const struct intel_crtc_state *crtc_state,
++		      const struct drm_connector_state *conn_state);
+ int intel_psr_debug_set(struct drm_i915_private *dev_priv, u64 value);
+ void intel_psr_invalidate(struct drm_i915_private *dev_priv,
+ 			  unsigned frontbuffer_bits,
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 631d31bc2313..a378d52341e6 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -512,6 +512,7 @@ struct i915_psr {
+ 	u32 dc3co_exit_delay;
+ 	struct delayed_work dc3co_work;
+ 	bool force_mode_changed;
++	struct drm_dp_vsc_sdp vsc;
+ };
+ 
+ #define QUIRK_LVDS_SSC_DISABLE (1<<1)
 -- 
 2.25.0
 
