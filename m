@@ -2,59 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD5C1D2BEF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 11:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F001D2C2C
+	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 12:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6866EB1C;
-	Thu, 14 May 2020 09:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121BF6E1B2;
+	Thu, 14 May 2020 10:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29A066EB1C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 09:56:08 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id 36so896884uaf.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 02:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iy43TXlu/kla0baWIeJrAEC2zft4yT+Ol3lQzqlWcWw=;
- b=JjBTeITaoyPE7Kb7IqV7SGaxN6fqSP3iqOPgJIi5zp8J9f+GOUIvBB00dG1/TydBPD
- fumiqoIHUKp9GNCx0XGa3YteNWCwwK8ITe6rsnj3qrqy82LYbkd1+MHQJ/PepNB7a6Wr
- 0A01z1sNzxCLTiE2vYp1zHp/YlY1iMSHqodeg9G+pzFwXut3puv9oynuTUoZPgYaqSiV
- dqpE1jPw0H72U3ky90horlEVfORBSrgTYcEuJDj+x8qobdbskGJs+ALYCTX0Fr/XM1S4
- dHHBIkfVyzX0N5ywhaO1MXTwP2aoUjB9gkFkq5fy1WX3j8wXgjKnI9M5zhK2DngO95c0
- 6sew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iy43TXlu/kla0baWIeJrAEC2zft4yT+Ol3lQzqlWcWw=;
- b=MxSm49WXKA9gnAs4rR0avKyLV6TkFWDRcRvkJwGysrYvHeZCqxCNJC5wB/siIQxrf0
- vvAjRA0FM5K4Qu/uxt2QqtxK1U1OJo/rPJE/4FVDS3x1h/mOv9qtVOFVGM2zF1JaLGH7
- YoiHKrxoFVRB6PIv7hdvnfZwsZWp7z9s2Jaz7ngGvyq8KzFRkXgQz/8pcBtMNsG+swQy
- 6XSZe0eiNLXDvfj1cPFVVNyP8MvJ2mqAfwnms4tpjJIw0bAwI3cMiPEZf928PJQfFMkE
- ZrZp3ZKx7JOU8TLXnlTeFOEhbeRbzA9qAavgPpRNF5XIHzmuylz7m+VRJegvo0JLfMIq
- sHRw==
-X-Gm-Message-State: AOAM530FRxq+iC8qPu7M+iCzuZNbsljnKfCmIS7XjC2hQsQo0rUco2CU
- JdjAjoEcSLWA+f1GmWlZ2+LEYkQu+PRZINVCXZE=
-X-Google-Smtp-Source: ABdhPJwpZTwyM7Tv3eeDi2G29QV6cc+HnDBAB8WHLSBynKsjl1uoWJR0xppsGHZEOViThWFKKGMmHTAd0ZpYMFFE0pE=
-X-Received: by 2002:ab0:b93:: with SMTP id c19mr3269039uak.69.1589450167167;
- Thu, 14 May 2020 02:56:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200221173313.510235-1-hdegoede@redhat.com>
- <20200221173313.510235-2-hdegoede@redhat.com>
- <CACvgo51i8_Xyp4=RVfcft9FsasMh4G9ze1jrc0Mg8ObOZCHn5g@mail.gmail.com>
- <20200430145250.GX6112@intel.com>
- <a596b05a-a434-56c7-b3c6-ab070df2f00f@redhat.com>
-In-Reply-To: <a596b05a-a434-56c7-b3c6-ab070df2f00f@redhat.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 14 May 2020 10:53:23 +0100
-Message-ID: <CACvgo504dhBMO4fq9MEO8Et5AH0-+Hj00t92mjPEex6o8WRuwg@mail.gmail.com>
-Subject: Re: [PATCH resend] drm: Add DRM_MODE_TYPE_USERDEF flag to probed
- modes matching a video= argument
-To: Hans de Goede <hdegoede@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD32B89E5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 10:08:14 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200514100812euoutp029ebb131d573f29afb6ee7c75396ba552~O3SpyzB6B0832008320euoutp02F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 10:08:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200514100812euoutp029ebb131d573f29afb6ee7c75396ba552~O3SpyzB6B0832008320euoutp02F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1589450892;
+ bh=pyYr7Ewi8sGlBrwS6b6/m9DYGRvNNmkmK1alQSdWm+o=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=ZGcTyQwTG3eSIhs1Lbasehs3Ynx400YQ/m3vNZvYusLnf9FqMHENkX+OyK/E9iw2/
+ Qcl5WoTssbT7bsMbrXOctOkL1xSgFznFB79JKPnfdkCUkoQQiUL69x6R5RUNQKep9v
+ fT9t8n9N4RzGbUOqA/krnFDNNleTatDIuVaBCJbk=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200514100812eucas1p249b633ebc2422de71176126186eaec4b~O3Spa9AlR2384123841eucas1p2Y;
+ Thu, 14 May 2020 10:08:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 48.A9.60698.C881DBE5; Thu, 14
+ May 2020 11:08:12 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200514100812eucas1p1d42ad25e93858a4bc801049f93f58250~O3SpDWnyW2113921139eucas1p1u;
+ Thu, 14 May 2020 10:08:12 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200514100812eusmtrp1448896cd90fbb65b5040f8a57da9a553~O3SpCpHks2324223242eusmtrp1Z;
+ Thu, 14 May 2020 10:08:12 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-55-5ebd188c4a6f
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id C6.62.07950.C881DBE5; Thu, 14
+ May 2020 11:08:12 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200514100811eusmtip14ca3836435828a1f65de3288f87e479e~O3Sop6xwg1405014050eusmtip1p;
+ Thu, 14 May 2020 10:08:11 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH] drm/exynos: mixer: Fix enabling of the runtime power
+ management
+Date: Thu, 14 May 2020 12:08:12 +0200
+Message-Id: <20200514100812.17043-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7djP87o9EnvjDNZdl7G4te4cq8XGGetZ
+ La58fc9mMen+BBaLGef3MVmsPXKX3WLG5JdsDuwe97uPM3n0bVnF6PF5k1wAcxSXTUpqTmZZ
+ apG+XQJXxqYVKQX3OSquvnrO0sC4ib2LkZNDQsBEYvaXZSxdjFwcQgIrGCVuTrjICuF8YZTo
+ PPcCyvnMKHFg6zY2mJZJT9aygNhCAssZJZ5/TITrmLPtETNIgk3AUKLrbRdYg4iAm0TT4Zlg
+ k5gFrjNKfPuxCGy5sECQxKJlHWANLAKqEu9XnGXqYuTg4BWwlVj0LgRimbzE6g0HmCHsI2wS
+ sy/mQtguEs3vDjNC2MISr45vgfpHRuL05B6wfyQEmhklHp5byw7h9DBKXG6aAdVhLXHn3C82
+ kGXMApoS63fpQ4QdJdbPv8cIEpYQ4JO48VYQJMwMZE7aNp0ZIswr0dEmBFGtJjHr+Dq4tQcv
+ XII600PiesttVkj4xEq0dp1gmsAoNwth1wJGxlWM4qmlxbnpqcXGeanlesWJucWleel6yfm5
+ mxiBUX/63/GvOxj3/Uk6xCjAwajEw/vg+u44IdbEsuLK3EOMEhzMSiK8fuuBQrwpiZVVqUX5
+ 8UWlOanFhxilOViUxHmNF72MFRJITyxJzU5NLUgtgskycXBKNTDuFqhctCjxstmTGT8e71WM
+ PB8X9JPP0NdnwmHr5tPPbWsz/Sakre/v+LZu4YdW8b6+xjUPHde9d4z9ZfNnEZO46tNrabvO
+ X+o69N88nuHdZt5mMwsTYzWxyZ07K5N1D29Zo3u5If7xcknj/1naYVv8lUs+S0hYb3I7xFpY
+ L8QV5rWR2XyWyHclluKMREMt5qLiRABDt4S19gIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJLMWRmVeSWpSXmKPExsVy+t/xu7o9EnvjDJ5NZba4te4cq8XGGetZ
+ La58fc9mMen+BBaLGef3MVmsPXKX3WLG5JdsDuwe97uPM3n0bVnF6PF5k1wAc5SeTVF+aUmq
+ QkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexqYVKQX3OSquvnrO
+ 0sC4ib2LkZNDQsBEYtKTtSxdjFwcQgJLGSWaNs5khkjISJyc1sAKYQtL/LnWxQZiCwl8YpR4
+ MoEPxGYTMJToegsRFxHwkGj+dpwdZBCzwG1GiaUf5rGAJIQFAiQ+LTgBZrMIqEq8X3GWqYuR
+ g4NXwFZi0bsQiPnyEqs3HGCewMizgJFhFaNIamlxbnpusZFecWJucWleul5yfu4mRmCwbTv2
+ c8sOxq53wYcYBTgYlXh4LW7tjhNiTSwrrsw9xCjBwawkwuu3HijEm5JYWZValB9fVJqTWnyI
+ 0RRo90RmKdHkfGAk5JXEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnNTk0tSC2C6WPi4JRq
+ YJSU2pFySILvUpbhwZjon9bL/rXf38YoE9+UL3aB51fCsvc/KwMvTI+6dMTipZKamfudGBM5
+ jivft8/K7+T6eC77po1JUkZH0P57CdZ8Vt97a+UaDjs1KnwT/WFq5zvv4I+CaBNHjYd/JV23
+ R/hqpgUu4IgQ0+zsNmO8ubSzrqFIZYpzQF68EktxRqKhFnNRcSIAVtJokkwCAAA=
+X-CMS-MailID: 20200514100812eucas1p1d42ad25e93858a4bc801049f93f58250
+X-Msg-Generator: CA
+X-RootMTR: 20200514100812eucas1p1d42ad25e93858a4bc801049f93f58250
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200514100812eucas1p1d42ad25e93858a4bc801049f93f58250
+References: <CGME20200514100812eucas1p1d42ad25e93858a4bc801049f93f58250@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +99,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSGFucywKCk9uIFRodSwgMzAgQXByIDIwMjAgYXQgMTU6NTUsIEhhbnMgZGUgR29lZGUgPGhk
-ZWdvZWRlQHJlZGhhdC5jb20+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiA0LzMwLzIwIDQ6NTIgUE0s
-IFZpbGxlIFN5cmrDpGzDpCB3cm90ZToKPiA+IE9uIFRodSwgQXByIDMwLCAyMDIwIGF0IDAyOjQ3
-OjAwUE0gKzAxMDAsIEVtaWwgVmVsaWtvdiB3cm90ZToKPiA+PiBIaSBIYW5zLAo+ID4+Cj4gPj4g
-T24gRnJpLCAyMSBGZWIgMjAyMCBhdCAxNzozMywgSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVk
-aGF0LmNvbT4gd3JvdGU6Cj4gPj4+Cj4gPj4+IGRybV9oZWxwZXJfcHJvYmVfYWRkX2NtZGxpbmVf
-bW9kZSgpIHByZWZlcnMgdXNpbmcgYSBwcm9iZWQgbW9kZSBtYXRjaGluZwo+ID4+PiBhIHZpZGVv
-PSBhcmd1bWVudCBvdmVyIGNhbGN1bGF0aW5nIG91ciBvd24gdGltaW5ncyBmb3IgdGhlIHVzZXIg
-c3BlY2lmaWVkCj4gPj4+IG1vZGUgdXNpbmcgQ1ZUIG9yIEdURi4KPiA+Pj4KPiA+Pj4gQnV0IHVz
-ZXJzcGFjZSBjb2RlIHdoaWNoIGlzIGF1dG8tY29uZmlndXJpbmcgdGhlIG1vZGUgbWF5IHdhbnQg
-dG8ga25vdyB0aGF0Cj4gPj4+IHRoZSB1c2VyIGhhcyBzcGVjaWZpZWQgdGhhdCBtb2RlIG9uIHRo
-ZSBrZXJuZWwgY29tbWFuZGxpbmUgc28gdGhhdCBpdCBjYW4KPiA+Pj4gcGljayB0aGF0IG1vZGUg
-b3ZlciB0aGUgbW9kZSB3aGljaCBpcyBtYXJrZWQgYXMgRFJNX01PREVfVFlQRV9QUkVGRVJSRUQu
-Cj4gPj4+Cj4gPj4+IFRoaXMgY29tbWl0IHNldHMgdGhlIERSTV9NT0RFX1RZUEVfVVNFUkRFRiBm
-bGFnIG9uIHRoZSBtYXRjaGluZyBtb2RlLCBqdXN0Cj4gPj4+IGFzIHdlIHdvdWxkIGRvIG9uIHRo
-ZSB1c2VyLXNwZWNpZmllZCBtb2RlIHdoZW4gbm8gbWF0Y2hpbmcgcHJvYmVkIG1vZGUgaXMKPiA+
-Pj4gZm91bmQuCj4gPj4+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdv
-ZWRlQHJlZGhhdC5jb20+Cj4gPj4KPiA+PiBJIHdhcyBza2ltbWluZyBhcm91bmQgd3J0IFZpbGxl
-J3MgY29tcGFjdCBkcm1fZGlzcGxheV9tb2RlIHNlcmllcyBhbmQKPiA+PiBub3RpY2VkIHRoYXQg
-dGhpcyBuZXZlciBsYW5kZWQuCj4gPj4KPiA+PiBUaGUgY29tbWl0IGJyaW5ncyBleHRyYSBjb25z
-aXN0ZW5jeSB3aGVuIGRlYWxpbmcgd2l0aCB1c2VyIGRlZmluZWQKPiA+PiBtb2RlcywgYW5kIGlz
-Ogo+ID4+IFJldmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEu
-Y29tPgo+ID4+Cj4gPj4gVmlsbGUgdGhpcyBtYXkgdHJpdmlhbGx5IGNvbmZsaWN0IHdpdGggeW91
-ciB3b3JrLiBJIHN1c3BlY3QgeW91IGNhbiBkbwo+ID4+IHRoZSBob25vdXJzLCBhbmQgYXBwbHkg
-b24gdG9wIG9mIHlvdXIgc2VyaWVzPwo+ID4+IFRoYXQgaXMgaWYgeW91IGFncmVlIHdpdGggdGhl
-IHBhdGNoLgo+ID4KPiA+IFF1aWNrIGdsYW5jZSBhdCB0aGUgb3JpZ2luYWwgdGhyZWFkIHNheXMg
-bWF5YmUgdGhlcmUgd2VyZSBzdGlsbCBzb21lCj4gPiB1c2Vyc3BhY2UgaXNzdWVzIHVucmVzb2x2
-ZWQ/IE5vdCBzdXJlLgo+Cj4gSUlSQyB0aGUgdGhyZWFkIGVuZGVkIHdpdGggRGFuaWVsIGFncmVl
-aW5nIG9uIHRoZSB1c2Vyc3BhY2UgaW50ZXJmYWNlLAo+IGJ1dCBhc2tpbmcgZm9yIHNvbWUgZG9j
-cyBhbmQgbWUgcG9pbnRpbmcgb3V0IHRoYXQgdGhlIHBhdGNoIGFscmVhZHkKPiB1cGRhdGVkL2Ns
-YXJpZmllZCB0aGUgZXhpc3RpbmcgZG9jcy4gQWZ0ZXIgdGhhdCB0aGluZ3MgZ290IHF1aWV0Lgo+
-Cj4gU28gSSBiZWxpZXZlIHRoYXQgdGhpcyBpcyAoc3RpbGwpIHJlYWR5IHRvIGdvIHVwc3RyZWFt
-Lgo+CkhhdmluZyByZWFkIHRocm91Z2ggdGhlIGZ1bGwgZGlzY3Vzc2lvbiwgY291cGxlIG9mIHRp
-bWVzLCBJIGJlbGlldmUKeW91J3JlIHNwb3Qgb24uCgpEYW5pZWwgcmVxdWVzdGVkIGRvY3VtZW50
-YXRpb24sIHdoaWNoIHRoZSBwYXRjaCBwcm92aWRlcy4gSSdkIHNheQpsZXQncyBwb2tlIGhpbSBv
-biBJUkMgYSBmZXcgdGltZXMsIGlmIGhlIGRvZXNuJ3Qgb2JqZWN0IGxldCdzIHB1c2ggaXQ/Cgot
-RW1pbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Runtime power management is essential for the Exynos Mixer driver
+operation. It should be enabled before adding its DRM component, because
+in some cases (when deferred probe takes place due to the IOMMU
+availability) the DRM driver might be initialized directly from the
+Mixer's component_add() call, what results in starting the driver
+operation without enabling the runtime power management.
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/gpu/drm/exynos/exynos_mixer.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos/exynos_mixer.c
+index ffbf4a950f69..829d2ce7560d 100644
+--- a/drivers/gpu/drm/exynos/exynos_mixer.c
++++ b/drivers/gpu/drm/exynos/exynos_mixer.c
+@@ -1200,9 +1200,11 @@ static int mixer_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, ctx);
+ 
++	pm_runtime_enable(dev);
++
+ 	ret = component_add(&pdev->dev, &mixer_component_ops);
+-	if (!ret)
+-		pm_runtime_enable(dev);
++	if (ret)
++		pm_runtime_disable(dev);
+ 
+ 	return ret;
+ }
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
