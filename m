@@ -1,60 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D361D3E6E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 May 2020 22:06:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4261D4662
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:54:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF146EBBE;
-	Thu, 14 May 2020 20:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253026EC04;
+	Fri, 15 May 2020 06:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875E46EBBE
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 20:06:03 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s8so259700wrt.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 13:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=hu/RdgI33YXRJfDmSbHxeL7l4HXDUqJS/cFvL6dS94c=;
- b=bAaEVxqMLrAmEI3zx17EA0Kr/End6iz7Bc5nSVpKn6cd/ZqrWs6Scy2Ohjg+zx1YR5
- 3VQpZQWleDiTsn3tEysUKPVuPtnaPAPUoGg4BNE/prjw4IR8jVZOxtKDmem8kBpVCx6z
- xpNeEkbnp87pc8fj4TzigrBzetDAtmYUazrS0=
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6956EBBF
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 20:07:14 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id a4so3677123lfh.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 13:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WOuH1XOmPM4H+myJnWGIPlv/GSLKGvRLHlRm+1oHjes=;
+ b=OVYKlyo5tYXCFqG9R7Ge9W7iXoaap3TbWVuCOzDYbfkzO4yLw2nn4s/mPYZX39Ux8P
+ lFNGzLPtGV36ZU/XRsJ/b8wLh89m89ZNxrbWAfw7dhCB5DYaX437icl0syKPyPU9y6cv
+ GOf4OqlcxzxK2qxduTZnPEGkJ5gudwR+BI+K1XOIjCSsVc7zFtsRw42RJv+A0VxmVprF
+ Z/oR4RSUAo5dcE19PFCNWSPkwwFFSAckWWBLXv7yJ6KBOnbI5nIyFa0N2Dg1RhKKg6Km
+ HV3XTRJC/mYTvuXUcWKv37AvIXqwUY0V5fVE7ciEbqB1wBc6ySSDl+xWctJrTYCOgk/M
+ cdEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hu/RdgI33YXRJfDmSbHxeL7l4HXDUqJS/cFvL6dS94c=;
- b=atmCBhHIVJ90RDMx7ckV3Q3fAlhpK/5oxoDUegtqN4k1f8wHKESKHbN3qPvFw+cg7Q
- /zhKL3RRZo7UbDoFzBwesLC/0nhQF/FBuInlmwDUA0Lm/Lr3BGPM6KRtiT1zQO5494Cn
- Vv5f/1vvDfTS5F+fgJPOAIoWIGkt8tC2FTTRHrzcxFWWYpbEGGSz+Nt6AH9WhtC85INF
- 7IkNpGcJ2PyGuOvSVw2Yatw75x3GVJrvJ+gwRy3PlQ+yNs2z14cbanEwXRBn33EwE5VJ
- Cl6qv6/Q7t6ofY3OON+vtREooMjnP3oMXQtj25aw+xx4a8VueNEA6JV31eQWHFV2a7Ps
- TF/A==
-X-Gm-Message-State: AOAM532u2N21MdRDyX9fR5Qp7PYy1SrEZBshfIdAUg0gsEhMZRxlBFU4
- iL3pOS5IfNOYuCMCMBAIA5p2hqw4uzA=
-X-Google-Smtp-Source: ABdhPJxlBa7sCaUKwBgQyLPPqdwCXDgMuGBtRlQSEcjGZ4Viz4V1HUTTIvBlT5sDJIKiAfzaUzftJg==
-X-Received: by 2002:adf:ed82:: with SMTP id c2mr116614wro.255.1589486762103;
- Thu, 14 May 2020 13:06:02 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r14sm17565044wmb.2.2020.05.14.13.06.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 13:06:01 -0700 (PDT)
-Date: Thu, 14 May 2020 22:05:59 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/9] drm/doc: Some polish for shmem helpers
-Message-ID: <20200514200559.GE206103@phenom.ffwll.local>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-4-daniel.vetter@ffwll.ch>
- <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WOuH1XOmPM4H+myJnWGIPlv/GSLKGvRLHlRm+1oHjes=;
+ b=Hx6T4J/JcTfhbY/HknFRdRUsrNhPmP4/CpdOafgKoryKyOf38uDxczLsRnekvWWY1v
+ 7jdIcS/PC0tPjJQ/YZflU62jfujT6HsDrkGtYg+v1kYYxKr4lG+wi5P+pwHoUcNPKFNY
+ 7us0kzwI/bhRDB05655PjDIIWViRCLS0cdMZdL7U/ktD99rfcTLz8f8+R4uVApV/Vt+s
+ gL8UCkkCZIQabXvkeXSNmdW7jIGAGX3KB59ylctfOfOyji/7erUWxm+WM6d+6WYy7bD4
+ sifB0wk2rQ+MfrhcODZdydciMXwHeB1LLlNiUDAcTiQ6GIQRSn8pS7CjGAyYR8JLWYi0
+ St9g==
+X-Gm-Message-State: AOAM5309kzlXo37Ux46nAmq2XIJVccyT4YDaIKI8+fRlCvG6tzAp6hoi
+ WV9qsmLZHqH1k63OongCP9U=
+X-Google-Smtp-Source: ABdhPJwTHexR/oCXDgBD97x5phSocPsVO5cLCrpN3UyXH7i+q+PwOPK8LeMXp5gf2iMucRKwwCs9rg==
+X-Received: by 2002:a19:4f1b:: with SMTP id d27mr4462819lfb.81.1589486832616; 
+ Thu, 14 May 2020 13:07:12 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru.
+ [91.78.208.152])
+ by smtp.googlemail.com with ESMTPSA id v16sm2428150lfi.49.2020.05.14.13.07.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 May 2020 13:07:11 -0700 (PDT)
+Subject: Re: [PATCH v5 33/38] staging: tegra-vde: fix common struct sg_table
+ related issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <CGME20200513133321eucas1p13acea3aa6219ce5f7076c7677ef9eae3@eucas1p1.samsung.com>
+ <20200513133245.6408-33-m.szyprowski@samsung.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <43f9f3cc-2afa-cec3-0dd4-335746ec886e@gmail.com>
+Date: Thu, 14 May 2020 23:07:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200513133245.6408-33-m.szyprowski@samsung.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,264 +77,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devel@driverdev.osuosl.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 11, 2020 at 01:12:49PM +0200, Thomas Zimmermann wrote:
-> =
-
-> =
-
-> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
-> > - Move the shmem helper section to the drm-mm.rst file, next to the
-> >   vram helpers. Makes a lot more sense there with the now wider scope.
-> >   Also, that's where the all the other backing storage stuff resides.
-> >   It's just the framebuffer helpers that should be in the kms helper
-> >   section.
-> > =
-
-> > - Try to clarify which functiosn are for implementing
-> >   drm_gem_object_funcs, and which for drivers to call directly. At
-> >   least one driver screwed that up a bit.
-> > =
-
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> =
-
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> =
-
-> See below for a suggestion on the help text.
-> =
-
-> > ---
-> >  Documentation/gpu/drm-kms-helpers.rst  | 12 --------
-> >  Documentation/gpu/drm-mm.rst           | 12 ++++++++
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 39 +++++++++++++++++++++-----
-> >  3 files changed, 44 insertions(+), 19 deletions(-)
-> > =
-
-> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/=
-drm-kms-helpers.rst
-> > index ee730457bf4e..b89ddd06dabb 100644
-> > --- a/Documentation/gpu/drm-kms-helpers.rst
-> > +++ b/Documentation/gpu/drm-kms-helpers.rst
-> > @@ -411,15 +411,3 @@ Legacy CRTC/Modeset Helper Functions Reference
-> >  =
-
-> >  .. kernel-doc:: drivers/gpu/drm/drm_crtc_helper.c
-> >     :export:
-> > -
-> > -SHMEM GEM Helper Reference
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
-> > -   :doc: overview
-> > -
-> > -.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
-> > -   :internal:
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
-> > -   :export:
-> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > index 1839762044be..c01757b0ac25 100644
-> > --- a/Documentation/gpu/drm-mm.rst
-> > +++ b/Documentation/gpu/drm-mm.rst
-> > @@ -373,6 +373,18 @@ GEM CMA Helper Functions Reference
-> >  .. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
-> >     :export:
-> >  =
-
-> > +GEM SHMEM Helper Function Reference
-> > +-----------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +   :doc: overview
-> > +
-> > +.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
-> > +   :internal:
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +   :export:
-> > +
-> >  GEM VRAM Helper Functions Reference
-> >  -----------------------------------
-> >  =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index df31e5782eed..2a70159d50ef 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -103,7 +103,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
-> >   * @obj: GEM object to free
-> >   *
-> >   * This function cleans up the GEM object state and frees the memory u=
-sed to
-> > - * store the object itself.
-> > + * store the object itself. It should be used to implement
-> > + * &drm_gem_object_funcs.free.
-> =
-
-> It should 'only' be used? Or maybe you can say that it should be used by
-> drivers that don't implement struct drm_driver.gem_create_object.
-
-Just looked at this, and I'm not clear what you're aiming for. There
-doesn't seem to be any misuse for this for other places than the free
-hook. And I can't really come up with ideas where that would even work.
-
-What kind of confusion are you trying to clarify with your suggestion?
-Maybe I can then reword that into something that also makes sense for me.
-
-Thanks, Daniel
-
-> =
-
-> >   */
-> >  void drm_gem_shmem_free_object(struct drm_gem_object *obj)
-> >  {
-> > @@ -214,7 +215,8 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-> >   * @obj: GEM object
-> >   *
-> >   * This function makes sure the backing pages are pinned in memory whi=
-le the
-> > - * buffer is exported.
-> > + * buffer is exported. It should only be used to implement
-> > + * &drm_gem_object_funcs.pin.
-> >   *
-> >   * Returns:
-> >   * 0 on success or a negative error code on failure.
-> > @@ -232,7 +234,7 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
-> >   * @obj: GEM object
-> >   *
-> >   * This function removes the requirement that the backing pages are pi=
-nned in
-> > - * memory.
-> > + * memory. It should only be used to implement &drm_gem_object_funcs.u=
-npin.
-> >   */
-> >  void drm_gem_shmem_unpin(struct drm_gem_object *obj)
-> >  {
-> > @@ -285,8 +287,14 @@ static void *drm_gem_shmem_vmap_locked(struct drm_=
-gem_shmem_object *shmem)
-> >   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-> >   * @shmem: shmem GEM object
-> >   *
-> > - * This function makes sure that a virtual address exists for the buff=
-er backing
-> > - * the shmem GEM object.
-> > + * This function makes sure that a contiguous kernel virtual address m=
-apping
-> > + * exists for the buffer backing the shmem GEM object.
-> > + *
-> > + * This function can be used to implement &drm_gem_object_funcs.vmap. =
-But it can
-> > + * also be called by drivers directly, in which case it will hide the
-> > + * differences between dma-buf imported and natively allocated objects.
-> > + *
-> > + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vun=
-map().
-> >   *
-> >   * Returns:
-> >   * 0 on success or a negative error code on failure.
-> > @@ -330,7 +338,13 @@ static void drm_gem_shmem_vunmap_locked(struct drm=
-_gem_shmem_object *shmem)
-> >   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
-> >   * @shmem: shmem GEM object
-> >   *
-> > - * This function removes the virtual address when use count drops to z=
-ero.
-> > + * This function cleans up a kernel virtual address mapping acquired by
-> > + * drm_gem_shmem_vmap(). The mapping is only removed when the use coun=
-t drops to
-> > + * zero.
-> > + *
-> > + * This function can be used to implement &drm_gem_object_funcs.vmap. =
-But it can
-> > + * also be called by drivers directly, in which case it will hide the
-> > + * differences between dma-buf imported and natively allocated objects.
-> >   */
-> >  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, void *vaddr)
-> >  {
-> > @@ -559,6 +573,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
-> >   * @p: DRM printer
-> >   * @indent: Tab indentation level
-> >   * @obj: GEM object
-> > + *
-> > + * This implements the &drm_gem_object_funcs.info callback.
-> >   */
-> >  void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int inde=
-nt,
-> >  			      const struct drm_gem_object *obj)
-> > @@ -577,7 +593,12 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
-> >   * @obj: GEM object
-> >   *
-> >   * This function exports a scatter/gather table suitable for PRIME usa=
-ge by
-> > - * calling the standard DMA mapping API.
-> > + * calling the standard DMA mapping API. Drivers should not call this =
-function
-> > + * directly, instead it should only be used as an implementation for
-> > + * &drm_gem_object_funcs.get_sg_table.
-> > + *
-> > + * Drivers who need to acquire an scatter/gather table for objects nee=
-d to call
-> > + * drm_gem_shmem_get_pages_sgt() instead.
-> >   *
-> >   * Returns:
-> >   * A pointer to the scatter/gather table of pinned pages or NULL on fa=
-ilure.
-> > @@ -599,6 +620,10 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-> >   * the sg table doesn't exist, the pages are pinned, dma-mapped, and a=
- sg
-> >   * table created.
-> >   *
-> > + * This is the main function for drivers to get at backing storage, an=
-d it hides
-> > + * and difference between dma-buf imported and natively allocated obje=
-cts.
-> > + * drm_gem_shmem_get_sg_table() should not be directly called by drive=
-rs.
-> > + *
-> >   * Returns:
-> >   * A pointer to the scatter/gather table of pinned pages or errno on f=
-ailure.
-> >   */
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTMuMDUuMjAyMCAxNjozMiwgTWFyZWsgU3p5cHJvd3NraSDQv9C40YjQtdGCOgo+IFRoZSBEb2N1
+bWVudGF0aW9uL0RNQS1BUEktSE9XVE8udHh0IHN0YXRlcyB0aGF0IHRoZSBkbWFfbWFwX3NnKCkg
+ZnVuY3Rpb24KPiByZXR1cm5zIHRoZSBudW1iZXIgb2YgdGhlIGNyZWF0ZWQgZW50cmllcyBpbiB0
+aGUgRE1BIGFkZHJlc3Mgc3BhY2UuCj4gSG93ZXZlciB0aGUgc3Vic2VxdWVudCBjYWxscyB0byB0
+aGUgZG1hX3N5bmNfc2dfZm9yX3tkZXZpY2UsY3B1fSgpIGFuZAo+IGRtYV91bm1hcF9zZyBtdXN0
+IGJlIGNhbGxlZCB3aXRoIHRoZSBvcmlnaW5hbCBudW1iZXIgb2YgdGhlIGVudHJpZXMKPiBwYXNz
+ZWQgdG8gdGhlIGRtYV9tYXBfc2coKS4KPiAKPiBzdHJ1Y3Qgc2dfdGFibGUgaXMgYSBjb21tb24g
+c3RydWN0dXJlIHVzZWQgZm9yIGRlc2NyaWJpbmcgYSBub24tY29udGlndW91cwo+IG1lbW9yeSBi
+dWZmZXIsIHVzZWQgY29tbW9ubHkgaW4gdGhlIERSTSBhbmQgZ3JhcGhpY3Mgc3Vic3lzdGVtcy4g
+SXQKPiBjb25zaXN0cyBvZiBhIHNjYXR0ZXJsaXN0IHdpdGggbWVtb3J5IHBhZ2VzIGFuZCBETUEg
+YWRkcmVzc2VzIChzZ2wgZW50cnkpLAo+IGFzIHdlbGwgYXMgdGhlIG51bWJlciBvZiBzY2F0dGVy
+bGlzdCBlbnRyaWVzOiBDUFUgcGFnZXMgKG9yaWdfbmVudHMgZW50cnkpCj4gYW5kIERNQSBtYXBw
+ZWQgcGFnZXMgKG5lbnRzIGVudHJ5KS4KPiAKPiBJdCB0dXJuZWQgb3V0IHRoYXQgaXQgd2FzIGEg
+Y29tbW9uIG1pc3Rha2UgdG8gbWlzdXNlIG5lbnRzIGFuZCBvcmlnX25lbnRzCj4gZW50cmllcywg
+Y2FsbGluZyBETUEtbWFwcGluZyBmdW5jdGlvbnMgd2l0aCBhIHdyb25nIG51bWJlciBvZiBlbnRy
+aWVzIG9yCj4gaWdub3JpbmcgdGhlIG51bWJlciBvZiBtYXBwZWQgZW50cmllcyByZXR1cm5lZCBi
+eSB0aGUgZG1hX21hcF9zZygpCj4gZnVuY3Rpb24uCj4gCj4gVG8gYXZvaWQgc3VjaCBpc3N1ZXMs
+IGxldHMgdXNlIGEgY29tbW9uIGRtYS1tYXBwaW5nIHdyYXBwZXJzIG9wZXJhdGluZwo+IGRpcmVj
+dGx5IG9uIHRoZSBzdHJ1Y3Qgc2dfdGFibGUgb2JqZWN0cyBhbmQgdXNlIHNjYXR0ZXJsaXN0IHBh
+Z2UKPiBpdGVyYXRvcnMgd2hlcmUgcG9zc2libGUuIFRoaXMsIGFsbW9zdCBhbHdheXMsIGhpZGVz
+IHJlZmVyZW5jZXMgdG8gdGhlCj4gbmVudHMgYW5kIG9yaWdfbmVudHMgZW50cmllcywgbWFraW5n
+IHRoZSBjb2RlIHJvYnVzdCwgZWFzaWVyIHRvIGZvbGxvdwo+IGFuZCBjb3B5L3Bhc3RlIHNhZmUu
+Cj4gCj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1
+bmcuY29tPgo+IC0tLQo+IEZvciBtb3JlIGluZm9ybWF0aW9uLCBzZWUgJ1tQQVRDSCB2NSAwMC8z
+OF0gRFJNOiBmaXggc3RydWN0IHNnX3RhYmxlIG5lbnRzCj4gdnMuIG9yaWdfbmVudHMgbWlzdXNl
+JyB0aHJlYWQ6Cj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtaW9tbXUvMjAyMDA1MTMx
+MzIxMTQuNjA0Ni0xLW0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbS9ULwo+IC0tLQo+ICBkcml2ZXJz
+L3N0YWdpbmcvbWVkaWEvdGVncmEtdmRlL2lvbW11LmMgfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS9pb21tdS5jIGIvZHJpdmVycy9zdGFnaW5nL21l
+ZGlhL3RlZ3JhLXZkZS9pb21tdS5jCj4gaW5kZXggNmFmODYzZC4uYWRmOGRjNyAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvdGVncmEtdmRlL2lvbW11LmMKPiArKysgYi9kcml2
+ZXJzL3N0YWdpbmcvbWVkaWEvdGVncmEtdmRlL2lvbW11LmMKPiBAQCAtMzYsOCArMzYsOCBAQCBp
+bnQgdGVncmFfdmRlX2lvbW11X21hcChzdHJ1Y3QgdGVncmFfdmRlICp2ZGUsCj4gIAo+ICAJYWRk
+ciA9IGlvdmFfZG1hX2FkZHIoJnZkZS0+aW92YSwgaW92YSk7Cj4gIAo+IC0Jc2l6ZSA9IGlvbW11
+X21hcF9zZyh2ZGUtPmRvbWFpbiwgYWRkciwgc2d0LT5zZ2wsIHNndC0+bmVudHMsCj4gLQkJCSAg
+ICBJT01NVV9SRUFEIHwgSU9NTVVfV1JJVEUpOwo+ICsJc2l6ZSA9IGlvbW11X21hcF9zZ3RhYmxl
+KHZkZS0+ZG9tYWluLCBhZGRyLCBzZ3QsCj4gKwkJCQkgSU9NTVVfUkVBRCB8IElPTU1VX1dSSVRF
+KTsKPiAgCWlmICghc2l6ZSkgewo+ICAJCV9fZnJlZV9pb3ZhKCZ2ZGUtPmlvdmEsIGlvdmEpOwo+
+ICAJCXJldHVybiAtRU5YSU87Cj4gCgpSZXZpZXdlZC1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdl
+dHhAZ21haWwuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
