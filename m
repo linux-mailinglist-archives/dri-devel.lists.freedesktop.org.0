@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59951D4D99
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:24:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58ED61D4DA9
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5907B6EC89;
-	Fri, 15 May 2020 12:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157166EC8B;
+	Fri, 15 May 2020 12:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73BB6EC89
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:24:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CF16EC8B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:27:21 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 21197B12D;
- Fri, 15 May 2020 12:24:39 +0000 (UTC)
-Subject: Re: [PATCH v2 11/38] drm/gem: add _locked suffix to drm_object_put
+ by mx2.suse.de (Postfix) with ESMTP id AFC5EB13C;
+ Fri, 15 May 2020 12:27:22 +0000 (UTC)
+Subject: Re: [PATCH v2 00/38] Fareless gem_free_object
 To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
- <20200515095118.2743122-12-emil.l.velikov@gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -46,12 +45,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <e1853951-9179-89b1-2edd-fad2488db38f@suse.de>
-Date: Fri, 15 May 2020 14:24:32 +0200
+Message-ID: <088758a8-51bc-b978-a821-6bbfe2b7798d@suse.de>
+Date: Fri, 15 May 2020 14:27:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200515095118.2743122-12-emil.l.velikov@gmail.com>
+In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,234 +63,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1451127701=="
+Content-Type: multipart/mixed; boundary="===============2102174956=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1451127701==
+--===============2102174956==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="JAtGb8RBTqHrj6lLDdec8A1DvWXqb3nx9"
+ boundary="yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JAtGb8RBTqHrj6lLDdec8A1DvWXqb3nx9
-Content-Type: multipart/mixed; boundary="ORO6v91dQ17jS7kgcmZyndEKFqLgvzxfU";
+--yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg
+Content-Type: multipart/mixed; boundary="mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org
-Message-ID: <e1853951-9179-89b1-2edd-fad2488db38f@suse.de>
-Subject: Re: [PATCH v2 11/38] drm/gem: add _locked suffix to drm_object_put
+Message-ID: <088758a8-51bc-b978-a821-6bbfe2b7798d@suse.de>
+Subject: Re: [PATCH v2 00/38] Fareless gem_free_object
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
- <20200515095118.2743122-12-emil.l.velikov@gmail.com>
-In-Reply-To: <20200515095118.2743122-12-emil.l.velikov@gmail.com>
+In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 
---ORO6v91dQ17jS7kgcmZyndEKFqLgvzxfU
+--mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Emil
+Hi,
 
-Am 15.05.20 um 11:50 schrieb Emil Velikov:
-> From: Emil Velikov <emil.velikov@collabora.com>
->=20
-> Vast majority of DRM (core and drivers) are struct_mutex free.
->=20
-> As such we have only a handful of cases where the locked helper should
-> be used. Make that stand out a little bit better.
->=20
-> Done via the following script:
->=20
-> __from=3Ddrm_gem_object_put
-> __to=3Ddrm_gem_object_put_locked
->=20
-> for __file in $(git grep --name-only --word-regexp $__from); do
->   sed -i  "s/\<$__from\>/$__to/g" $__file;
-> done
->=20
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: linux-arm-msm@vger.kernel.org
-> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/drm_gem.c                 | 6 +++---
->  drivers/gpu/drm/msm/adreno/a5xx_debugfs.c | 4 ++--
->  drivers/gpu/drm/msm/msm_drv.c             | 2 +-
->  drivers/gpu/drm/msm/msm_gem.c             | 6 +++---
->  drivers/gpu/drm/msm/msm_gem_submit.c      | 2 +-
->  drivers/gpu/drm/msm/msm_gpu.c             | 2 +-
->  include/drm/drm_gem.h                     | 4 ++--
->  7 files changed, 13 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 599d5ff53b73..f21327ebc562 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -983,7 +983,7 @@ drm_gem_object_free(struct kref *kref)
->  EXPORT_SYMBOL(drm_gem_object_free);
-> =20
->  /**
-> - * drm_gem_object_put - release a GEM buffer object reference
-> + * drm_gem_object_put_locked - release a GEM buffer object reference
->   * @obj: GEM buffer object
->   *
->   * This releases a reference to @obj. Callers must hold the
-> @@ -994,7 +994,7 @@ EXPORT_SYMBOL(drm_gem_object_free);
->   * drm_gem_object_put_unlocked() instead.
->   */
->  void
-> -drm_gem_object_put(struct drm_gem_object *obj)
-> +drm_gem_object_put_locked(struct drm_gem_object *obj)
->  {
->  	if (obj) {
->  		WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
-> @@ -1002,7 +1002,7 @@ drm_gem_object_put(struct drm_gem_object *obj)
->  		kref_put(&obj->refcount, drm_gem_object_free);
->  	}
->  }
-> -EXPORT_SYMBOL(drm_gem_object_put);
-> +EXPORT_SYMBOL(drm_gem_object_put_locked);
-> =20
->  /**
->   * drm_gem_vm_open - vma->ops->open implementation for GEM
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c b/drivers/gpu/dr=
-m/msm/adreno/a5xx_debugfs.c
-> index 8cae2ca4af6b..68eddac7771c 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
-> @@ -124,13 +124,13 @@ reset_set(void *data, u64 val)
-> =20
->  	if (a5xx_gpu->pm4_bo) {
->  		msm_gem_unpin_iova(a5xx_gpu->pm4_bo, gpu->aspace);
-> -		drm_gem_object_put(a5xx_gpu->pm4_bo);
-> +		drm_gem_object_put_locked(a5xx_gpu->pm4_bo);
->  		a5xx_gpu->pm4_bo =3D NULL;
->  	}
-> =20
->  	if (a5xx_gpu->pfp_bo) {
->  		msm_gem_unpin_iova(a5xx_gpu->pfp_bo, gpu->aspace);
-> -		drm_gem_object_put(a5xx_gpu->pfp_bo);
-> +		drm_gem_object_put_locked(a5xx_gpu->pfp_bo);
->  		a5xx_gpu->pfp_bo =3D NULL;
->  	}
-> =20
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
-v.c
-> index 29295dee2a2e..6baed5b43ea3 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -932,7 +932,7 @@ static int msm_ioctl_gem_madvise(struct drm_device =
-*dev, void *data,
->  		ret =3D 0;
->  	}
-> =20
-> -	drm_gem_object_put(obj);
-> +	drm_gem_object_put_locked(obj);
-> =20
->  unlock:
->  	mutex_unlock(&dev->struct_mutex);
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_ge=
-m.c
-> index 5a6a79fbc9d6..8696c405f709 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -879,7 +879,7 @@ void msm_gem_describe_objects(struct list_head *lis=
-t, struct seq_file *m)
->  }
->  #endif
-> =20
-> -/* don't call directly!  Use drm_gem_object_put() and friends */
-> +/* don't call directly!  Use drm_gem_object_put_locked() and friends *=
-/
->  void msm_gem_free_object(struct drm_gem_object *obj)
->  {
->  	struct msm_gem_object *msm_obj =3D to_msm_bo(obj);
-> @@ -1183,7 +1183,7 @@ static void *_msm_gem_kernel_new(struct drm_devic=
-e *dev, uint32_t size,
->  	return vaddr;
->  err:
->  	if (locked)
-> -		drm_gem_object_put(obj);
-> +		drm_gem_object_put_locked(obj);
->  	else
->  		drm_gem_object_put_unlocked(obj);
-> =20
-> @@ -1215,7 +1215,7 @@ void msm_gem_kernel_put(struct drm_gem_object *bo=
-,
->  	msm_gem_unpin_iova(bo, aspace);
-> =20
->  	if (locked)
-> -		drm_gem_object_put(bo);
-> +		drm_gem_object_put_locked(bo);
->  	else
->  		drm_gem_object_put_unlocked(bo);
->  }
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm=
-/msm_gem_submit.c
-> index 385d4965a8d0..8f450a245cfb 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -387,7 +387,7 @@ static void submit_cleanup(struct msm_gem_submit *s=
-ubmit)
->  		struct msm_gem_object *msm_obj =3D submit->bos[i].obj;
->  		submit_unlock_unpin_bo(submit, i, false);
->  		list_del_init(&msm_obj->submit_entry);
-> -		drm_gem_object_put(&msm_obj->base);
-> +		drm_gem_object_put_locked(&msm_obj->base);
->  	}
->  }
-> =20
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
-u.c
-> index 615c5cda5389..86a68f96c48d 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -694,7 +694,7 @@ static void retire_submit(struct msm_gpu *gpu, stru=
-ct msm_ringbuffer *ring,
->  		/* move to inactive: */
->  		msm_gem_move_to_inactive(&msm_obj->base);
->  		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
-> -		drm_gem_object_put(&msm_obj->base);
-> +		drm_gem_object_put_locked(&msm_obj->base);
->  	}
-> =20
->  	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index c3bdade093ae..a231a2b3f5ac 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -187,7 +187,7 @@ struct drm_gem_object {
->  	 *
->  	 * Reference count of this object
->  	 *
-> -	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put(=
-)
-> +	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put_=
-locked()
->  	 * or drm_gem_object_put_unlocked() to release a reference to a GEM
+I have reviewed some of these patches. For the rest of the series you
+can add
 
-_put_unlocked() is going away. I think you have to update this line in
-patch 12. (?)
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Best regards
 Thomas
 
->  	 * buffer object.
->  	 */
-> @@ -375,7 +375,7 @@ drm_gem_object_put_unlocked(struct drm_gem_object *=
-obj)
->  	kref_put(&obj->refcount, drm_gem_object_free);
->  }
-> =20
-> -void drm_gem_object_put(struct drm_gem_object *obj);
-> +void drm_gem_object_put_locked(struct drm_gem_object *obj);
-> =20
->  int drm_gem_handle_create(struct drm_file *file_priv,
->  			  struct drm_gem_object *obj,
+Am 15.05.20 um 11:50 schrieb Emil Velikov:
+> Hi all,
+>=20
+> Here is v2 of the series, with the requested minor tweaks.
+>=20
+>  - Add new WARNING in the struct_mutex doc (Daniel)
+>  - Drop a few more struct_mutex references (Daniel)
+>  - Missing space in the drm_object_put doc (Jani)
+>  - Keep drm_object_put_unlocked removal as separate patch (Sam, Thomas)=
+
+>=20
+> Considering other have pending work, which may clash with this series
+> and the overall positive feedback (thanks everyone), I'm inclined to
+> merge the series to drm-misc-next on Monday evening.
+>=20
+> -Emil
+>=20
+> Emil Velikov (38):
+>   drm: remove unused drm_gem.h include
+>   drm/gem: use _unlocked reference in drm_gem_objects_lookup docs
+>   drm/todo: mention i915 in the struct_mutex section
+>   drm/doc: drop struct_mutex references
+>   drm/doc: add WARNING for drm_device::struct_mutex
+>   drm/doc: drop struct_mutex reference for drm_gem_object_free
+>   drm/amdgpu: use the unlocked drm_gem_object_put
+>   drm/gma500: Use lockless gem BO free callback
+>   drm: remove drm_driver::gem_free_object
+>   drm/gem: fold drm_gem_object_put_unlocked and __drm_gem_object_put()
+>   drm/gem: add _locked suffix to drm_object_put
+>   drm/gem: add drm_object_put helper
+>   drm: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/amd: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/arm: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/armada: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/etnaviv: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/exynos: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/gma500: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/i915: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/lima: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/mediatek: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/mgag200: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/msm: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/nouveau: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/omapdrm: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/panfrost: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/qxl: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/radeon: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/rockchip: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/tegra: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/v3d: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/vc4: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/vgem: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/virtio: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/vkms: remove _unlocked suffix in drm_object_put_unlocked
+>   drm/xen: remove _unlocked suffix in drm_object_put_unlocked
+>   drm: remove transient drm_object_put_unlocked()
+>=20
+>  Documentation/gpu/drm-mm.rst                  |  5 +-
+>  Documentation/gpu/todo.rst                    |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c   |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 20 +++---
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  6 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  6 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  6 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  6 +-
+>  .../arm/display/komeda/komeda_framebuffer.c   |  6 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
+>  drivers/gpu/drm/armada/armada_crtc.c          |  8 +--
+>  drivers/gpu/drm/armada/armada_fb.c            |  4 +-
+>  drivers/gpu/drm/armada/armada_fbdev.c         |  6 +-
+>  drivers/gpu/drm/armada/armada_gem.c           | 10 +--
+>  drivers/gpu/drm/drm_client.c                  |  2 +-
+>  drivers/gpu/drm/drm_gem.c                     | 70 +++++--------------=
+
+>  drivers/gpu/drm/drm_gem_cma_helper.c          |  8 +--
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  6 +-
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  4 +-
+>  drivers/gpu/drm/drm_gem_ttm_helper.c          |  2 +-
+>  drivers/gpu/drm/drm_gem_vram_helper.c         | 10 +--
+>  drivers/gpu/drm/drm_prime.c                   |  6 +-
+>  drivers/gpu/drm/drm_vm.c                      |  1 -
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  8 +--
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  6 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.c       |  4 +-
+>  drivers/gpu/drm/exynos/exynos_drm_gem.h       |  2 +-
+>  drivers/gpu/drm/gma500/framebuffer.c          |  2 +-
+>  drivers/gpu/drm/gma500/gem.c                  |  2 +-
+>  drivers/gpu/drm/gma500/gma_display.c          |  6 +-
+>  drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 +-
+>  drivers/gpu/drm/lima/lima_gem.c               | 10 +--
+>  drivers/gpu/drm/lima/lima_sched.c             |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |  2 +-
+>  drivers/gpu/drm/mgag200/mgag200_cursor.c      |  8 +--
+>  drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |  4 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  6 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  2 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |  4 +-
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  2 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  2 +-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c            |  2 +-
+>  drivers/gpu/drm/msm/msm_drv.c                 |  8 +--
+>  drivers/gpu/drm/msm/msm_fb.c                  |  4 +-
+>  drivers/gpu/drm/msm/msm_gem.c                 | 18 ++---
+>  drivers/gpu/drm/msm/msm_gem_submit.c          |  2 +-
+>  drivers/gpu/drm/msm/msm_gpu.c                 |  2 +-
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c       |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_abi16.c       |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_display.c     |  8 +--
+>  drivers/gpu/drm/nouveau/nouveau_gem.c         | 14 ++--
+>  drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
+>  drivers/gpu/drm/omapdrm/omap_fb.c             |  2 +-
+>  drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
+>  drivers/gpu/drm/omapdrm/omap_gem.c            |  4 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       | 10 +--
+>  drivers/gpu/drm/panfrost/panfrost_gem.c       |  4 +-
+>  drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  4 +-
+>  drivers/gpu/drm/qxl/qxl_cmd.c                 |  2 +-
+>  drivers/gpu/drm/qxl/qxl_display.c             |  6 +-
+>  drivers/gpu/drm/qxl/qxl_dumb.c                |  2 +-
+>  drivers/gpu/drm/qxl/qxl_gem.c                 |  2 +-
+>  drivers/gpu/drm/qxl/qxl_ioctl.c               |  4 +-
+>  drivers/gpu/drm/qxl/qxl_object.c              |  4 +-
+>  drivers/gpu/drm/radeon/radeon_cs.c            |  2 +-
+>  drivers/gpu/drm/radeon/radeon_cursor.c        |  6 +-
+>  drivers/gpu/drm/radeon/radeon_display.c       |  8 +--
+>  drivers/gpu/drm/radeon/radeon_fb.c            |  4 +-
+>  drivers/gpu/drm/radeon/radeon_gem.c           | 30 ++++----
+>  drivers/gpu/drm/radeon/radeon_object.c        |  2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |  2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  2 +-
+>  drivers/gpu/drm/tegra/drm.c                   | 12 ++--
+>  drivers/gpu/drm/tegra/fb.c                    |  6 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  4 +-
+>  drivers/gpu/drm/v3d/v3d_bo.c                  |  6 +-
+>  drivers/gpu/drm/v3d/v3d_gem.c                 |  4 +-
+>  drivers/gpu/drm/v3d/v3d_irq.c                 |  2 +-
+>  drivers/gpu/drm/vc4/vc4_bo.c                  | 14 ++--
+>  drivers/gpu/drm/vc4/vc4_gem.c                 | 14 ++--
+>  drivers/gpu/drm/vc4/vc4_kms.c                 |  2 +-
+>  drivers/gpu/drm/vc4/vc4_v3d.c                 |  4 +-
+>  drivers/gpu/drm/vgem/vgem_drv.c               |  6 +-
+>  drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_display.c      |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_gem.c          |  6 +-
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  6 +-
+>  drivers/gpu/drm/vkms/vkms_gem.c               |  2 +-
+>  drivers/gpu/drm/xen/xen_drm_front.c           |  4 +-
+>  include/drm/drm_device.h                      |  3 +
+>  include/drm/drm_drv.h                         | 10 ---
+>  include/drm/drm_gem.h                         | 27 +++----
+>  100 files changed, 271 insertions(+), 327 deletions(-)
 >=20
 
 --=20
@@ -303,28 +269,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---ORO6v91dQ17jS7kgcmZyndEKFqLgvzxfU--
+--mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q--
 
---JAtGb8RBTqHrj6lLDdec8A1DvWXqb3nx9
+--yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEyBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6+igAACgkQaA3BHVML
-eiMY+wfyAwyHWFTWHDVaul/1oWzxMz+HSOEUFB1DD6I+cRyBqmgsPWm0D0ex/4ou
-Djn1twVLtLaLQAW7ISmhv+LwirtQ7mdPE+fTc+oe+hkHVIEcIqnbDRf9JOW1wgen
-E9AxBh2dk/lU/GX/lzveegbT4S0VO37b89g7yecKp7ejMP8+LucAI9BpPudcFxcj
-9KiG9go1WdHwyGqtOcKV3291PL0Oj4ORlD7ToRda0ozZo6PGjQcUlmK8U8uk/gMc
-mbBXa93DyU/OvLVX+/311e5zEPIUACqAOukXilBUdzj2D8NzNwSUmS26ACexDa51
-JuLXbyqCOVgT2HeLD+/8MSA39Et5
-=UY0v
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6+iqcACgkQaA3BHVML
+eiMWMQf/fLIgqv4thrHeAThclRFjMRLE37pJyYHhyZxe8LS6NnQra1JkQ4eoXPvS
+QNSenkT62fUbCCVcnSV2ja4p8C3MFNbf6K9VJklrYVJRh1gxw7aNX40aocBBmtPx
+98/V9pqvC/e9g85y9g47I2k7lpR/KHYQmFveAaUKXv4gtjx6oR5F3YT26iIX2TKu
+xlf4sTRC+PrO9AKqx2HkLnGqKS8rVu8tjt5w+RioUFc7rnmG5bhAp2NUsr3KLWQL
+IZzVDCNkFUhx3TRHdspQI+Fr8vIeoGlvf5fq7ukPDQrxJQ3JbclV+4mkLfhwZ3Qy
+0T/GRH7ZOE27+YbT8QrKCtQVyZW+bA==
+=1sQ2
 -----END PGP SIGNATURE-----
 
---JAtGb8RBTqHrj6lLDdec8A1DvWXqb3nx9--
+--yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg--
 
---===============1451127701==
+--===============2102174956==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -335,4 +301,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1451127701==--
+--===============2102174956==--
