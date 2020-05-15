@@ -2,42 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAA01D4F8D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 15:52:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E391D4FD9
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 16:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9986ECA5;
-	Fri, 15 May 2020 13:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22E0E6ECA6;
+	Fri, 15 May 2020 14:03:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C7E6ECA6
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 13:51:58 +0000 (UTC)
-IronPort-SDR: 54zm8HGqVWpSCCQ/wOtORsVP6TxXYdFxQKFur5fHYAy88PFWlmlQ09yfdlW37mJw1Fr2D1XfjW
- lGEW5orr73Eg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 06:51:56 -0700
-IronPort-SDR: Pqnag+GLpsTSplStszfJiTTywO41PYk0+fwhCrQNILmWMY1rOGhobRHfizUtQ9qTMuYij90ia2
- cY8ntNDwtrow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="252038075"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 15 May 2020 06:51:54 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 15 May 2020 16:51:53 +0300
-Date: Fri, 15 May 2020 16:51:53 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: drm state readout helpers
-Message-ID: <20200515135153.GJ6112@intel.com>
-References: <CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20BF66ECA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 14:03:11 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g12so2792351wmh.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 07:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hfKkBsIEgs0vkAeFdo392aLMF7GnommANe2U1KeK9uI=;
+ b=b5d+I2ChU9zk48jsjVya/j0veq8tA45Z1eTGEqW25PFGpflpOB0ANQJMsC27YLELuK
+ XicoRGOzRMF/LBcAPpJOO34Vk5ZNPtNo0SYXz1CceDLR+75jgKMSr5Gq2Y4tegRs0IP+
+ Ups2PzNHV/VnPwJpVSpa0NFTYgmvPlT+Oi4U0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=hfKkBsIEgs0vkAeFdo392aLMF7GnommANe2U1KeK9uI=;
+ b=bkCdZvTVrViVoeBQ2L/5cgRG2/4Mm6O4AhPT9oLsZweyOOzbF4lgybe62VPjc/d48X
+ /UVtZWP30DMfIJmGHgAAC9tIjHb5LXCp0RXHtR8mrX38wI7FJmTScLOkDitACQXD7C3T
+ VLJ2LEuYFd0uZQ9B44g2noROTBcpwQpvj8xRHK/TBOkwaSpx6vAejgkF7qztNMZwdUdq
+ 009LVvOZ8do0EmIRrUQIvfcL/RFqiH9Y9NlcMhjRPVsghJQjnQaHR2NoMQ6yvTQXUmo0
+ UadEvTqm7e/WVT0XgOXCjWFA/GILu4dPWRDYGxgKKiefi3ksIEsTPN2IDPdnpS/r1S6j
+ P2XQ==
+X-Gm-Message-State: AOAM530hdEnkbb+cIzoXZXp4ZNIILU/92nCXRysUW8yUdCaFbAEI7NSU
+ ZTU9gKeIY8e2DDej9jxJL4KhOA==
+X-Google-Smtp-Source: ABdhPJzmhNqsxAdCi4n1OFQV3XDuSejh1CuLln2gJgFMW5yg1LElG7wBgKDi+Hw5Qcxt2Ktc6DQ43w==
+X-Received: by 2002:a1c:dc05:: with SMTP id t5mr4402679wmg.112.1589551389616; 
+ Fri, 15 May 2020 07:03:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x16sm3814048wrq.23.2020.05.15.07.03.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 May 2020 07:03:08 -0700 (PDT)
+Date: Fri, 15 May 2020 16:03:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
+Message-ID: <20200515140306.GF206103@phenom.ffwll.local>
+Mail-Followup-To: David Stevens <stevensd@chromium.org>,
+ Tomasz Figa <tfiga@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ David Airlie <airlied@linux.ie>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ virtio-dev@lists.oasis-open.org
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-2-stevensd@chromium.org>
+ <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
+ <CAD=HUj6k-y1=64zY8ZFOQBZ7WSUWiQfvkiTpXXt10JB_CGqk1A@mail.gmail.com>
+ <20200514123007.GP206103@phenom.ffwll.local>
+ <CAD=HUj7452eFfn9i=JWm54Mke3Lew-7AWYeoKZLAjCSg7eLO6A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAD=HUj7452eFfn9i=JWm54Mke3Lew-7AWYeoKZLAjCSg7eLO6A@mail.gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,126 +85,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: virtio-dev@lists.oasis-open.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Tomasz Figa <tfiga@chromium.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 03:36:13PM +0200, Daniel Vetter wrote:
-> Hi all,
-> =
+On Fri, May 15, 2020 at 02:07:06PM +0900, David Stevens wrote:
+> On Thu, May 14, 2020 at 9:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Thu, May 14, 2020 at 05:19:40PM +0900, David Stevens wrote:
+> > > Sorry for the duplicate reply, didn't notice this until now.
+> > >
+> > > > Just storing
+> > > > the uuid should be doable (assuming this doesn't change during the
+> > > > lifetime of the buffer), so no need for a callback.
+> > >
+> > > Directly storing the uuid doesn't work that well because of
+> > > synchronization issues. The uuid needs to be shared between multiple
+> > > virtio devices with independent command streams, so to prevent races
+> > > between importing and exporting, the exporting driver can't share the
+> > > uuid with other drivers until it knows that the device has finished
+> > > registering the uuid. That requires a round trip to and then back from
+> > > the device. Using a callback allows the latency from that round trip
+> > > registration to be hidden.
+> >
+> > Uh, that means you actually do something and there's locking involved.
+> > Makes stuff more complicated, invariant attributes are a lot easier
+> > generally. Registering that uuid just always doesn't work, and blocking
+> > when you're exporting?
+> 
+> Registering the id at creation and blocking in gem export is feasible,
+> but it doesn't work well for systems with a centralized buffer
+> allocator that doesn't support batch allocations (e.g. gralloc). In
+> such a system, the round trip latency would almost certainly be
+> included in the buffer allocation time. At least on the system I'm
+> working on, I suspect that would add 10s of milliseconds of startup
+> latency to video pipelines (although I haven't benchmarked the
+> difference). Doing the blocking as late as possible means most or all
+> of the latency can be hidden behind other pipeline setup work.
+> 
+> In terms of complexity, I think the synchronization would be basically
+> the same in either approach, just in different locations. All it would
+> do is alleviate the need for a callback to fetch the UUID.
 
-> Maxime seems to have a need for a bit more than what the current
-> drm_mode_config_reste can do, so here's a bunch of ideas inspired by
-> i915.
-> =
+Hm ok. I guess if we go with the older patch, where this all is a lot more
+just code in virtio, doing an extra function to allocate the uuid sounds
+fine. Then synchronization is entirely up to the virtio subsystem and not
+a dma-buf problem (and hence not mine). You can use dma_resv_lock or so,
+but no need to. But with callbacks potentially going both ways things
+always get a bit interesting wrt locking - this is what makes peer2peer
+dma-buf so painful right now. Hence I'd like to avoid that if needed, at
+least at the dma-buf level. virtio code I don't mind what you do there :-)
 
-> I think minimally what you need is a drm_atomic_state_helper_readout()
-> functions, which instead of resetting, allocates all the obj->state
-> pointers and fills them out. For that I think the simplest is to add
-> atomic_readout_state functions to crtc, connector and plane (if you
-> want to take over the firmware fb allocation too), which take as
-> parameter the object, and return the read-out state. Important, they
-> must _not_ touch anything persistent, otherwise the following stuff
-> here doesn't work.
-> =
-
-> Next up is the challenge of bridges and encoders. If the goal is to
-> properly shut down encoders/bridges, they also need their state. And
-> on most hw, they need a mix of the crtc and connector state, so best
-> to pass both of those (plus bridge state for bridges) to them. You can
-> do that if we assume that connector_helper_funcs->atomic_readout_state
-> sets the drm_connector_state->crtc pointer correctly. So the
-> drm_atomic_state_helper_readout function would first loop through
-> connectors and crtcs, and then loop through encoders and bridges to
-> fill in the gaps. Last you probably want to go through planes.
-> =
-
-> Now even more fun hw will have trouble and might need to look up
-> random other objects to set stuff, so we need a drm_atomic_state
-> structure to tie all these things together. For reasons that will
-> become obvious later on these read-out states should be stored in the
-> old_ state pointers.
-> =
-
-> Finally we need the actual helper which takes that read-out state and
-> smashes it into the real obj->state pointers, essentially a swap_state
-> but in reverse (since we need to write the old_ state pointers into
-> obj->state).
-> =
-
-> One thing i915 does, but I don't think is really needed: We read out
-> the connector->crtc routing as a first step, and once we have that, we
-> read out the connector/encoder/crtc steps. I think if you first read
-> out (and hence allocate) crtrc states, and then connector, and then
-> encoder/bridges that should work, and simplifies the flow a bit. So we
-> need another drm_atomic_state_helper_reset_to_readout or whatever,
-> which uses _readout and then does the reverse swap. Drivers call this
-> instead of drm_mode_config_reset.
-> =
-
-> Now the real issue: How do you make sure this actually works? Testing
-> with different fw configurations is usually impossible, you cant
-> easily tell the firmware to boot with different modes. Or at least
-> it's cumbersome since manual testing and lots of reboots. Waiting for
-> bug reports and then fixing them, while probably breaking something
-> else is a game of whack-a-mole.
-> =
-
-> So what i915 does is read out the hw state on every nonblocking
-> modeset (the additional time spent doesn't matter), but _only_ for the
-> objects touched in that modeset state. This is why you need to read
-> out into old_ state pointers, since after a blocking modeset those are
-> unused and available.
-
-I have a feeling this old vs. new thing is still going to bite
-someone. But atm don't really have any sane alternative ideas.
-
-Hmm, maybe we could at least tag the atomic_state as "readout only"
-for the duration of the actual readout and WARN/fail if anyone does
-drm_atomic_get_new_foo_state() and for_each_new/oldnew...() on it?
-
-> Next item is to add a  atomic_compare_state
-> function to crtc/connector&plane and maybe bridges (i.e. all objects
-> with state), which compares 2 state objects for equality. This needs
-> to be a driver callback since each driver will only read out the state
-> relevant from take-over from fw, not every possible feature, so
-> there's lots you need to ignore. If any of these functions note a
-> mismatch you splat with a warning and dump both the old and new states
-> with the atomic_print driver hooks. I915 uses some #define so that
-> these comparisons are one-liners (see PIPE_CONFIG_CHECK_X/I and so on,
-> maybe we should have a few default ones with proper atomic naming, the
-> names date back to the first somewhat-atomic modeset flow in i915).
-> =
-
-> So for validation we need a drm_atomic_state_helper_check which uses
-> _readout, and then the compare functions plus debug printouts if it
-> goes wrong. I'd wire that directly into the default
-> drm_atomic_helper_commit function.
-> =
-
-> With these pieces you should have a state readout code that actually
-> tends to work, and you can even test it (simply by doing a bunch of
-> modesets). In i915 we have the _check code running unconditionally,
-> blocking modesets are slow enough that it really doesn't matter.
-> =
-
-> One more thing on the implementation: Since this is all helpers all
-> the hooks should probably be in the respective helper function tables.
-> =
-
-> Cheers, Daniel
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
