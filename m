@@ -1,52 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DE51D45A3
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:13:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8491D45DA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:26:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88EA789DC5;
-	Fri, 15 May 2020 06:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C4076E3E3;
+	Fri, 15 May 2020 06:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54EE89DC5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 06:13:04 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id se13so1266290ejb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 23:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=WGpH8vzYA2O2asAL93/5EGlm3UBsxHh1y17bTCGAJjE=;
- b=l3L79/VsnlZ8sPU/zFdRtqgt2aYRl+HDoUU86XJvies49Zb9O3HO3or+T/pTlE4c69
- uqevseBJGdmHxg2HjDIgXrQLqK9pfcFB14ohQy1gzp60H+bXxAdyVD35vydshQYtJes3
- SkA2tKDHfXsI+C2uusfGi8Z8iPbA6VI2mctIJm7AwlECqDP5TkPbyEhb8i9+skP4stdH
- Nnod7r8CdPGOIMRyEAZsDXqLAeQUOZ7XrpIwChV5jCJr7olbzWI1lEs6tQNlkIoXHTff
- oDBu1ZwkFySKO/44c62dUDhJJ8qgrGbhdQ3iV+fslLnt5ZCDh2CtxAP+M1iSHtEcSe3d
- TmQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=WGpH8vzYA2O2asAL93/5EGlm3UBsxHh1y17bTCGAJjE=;
- b=mZ1uUVW6uFGyISYTciB/8I7zQLl3beef2884uK0NNB3aQPFeF/RXTpFoKfIelv9KHw
- oZ+OERrcTaDhcglCaFOjnjf29vdMFTq0u0ALXA069ii3omkJLfmeehvm64yXOiZdr4Wh
- AzqRpTsMGGfHZlXQsGWq3aRqSo7rRPqPx1OjgmCY9Z/2xW0NqqcppN2wnojYADa2J3/X
- vLIPzvRF5Sbym8sBzcLdtdczsBbi3dtV3q5argbRYw7LaGNBXRD5cyD+JpAClj7xwegb
- H+ReVsUbVBzfWe5O+Exe9YafGJzjdmnQGiqqgrvM0pqt4G2yu9Fr2MdCoLXbFvOV3KdC
- ipdg==
-X-Gm-Message-State: AOAM5324apTtdZuBQsWFS0KtVir2aQuB/AXhOabAoJduWdnXf0lwi1a8
- elBDmxEuDMKbCNSp8ugU+C84E1HAld01WrLdbA/crP/HLxo=
-X-Google-Smtp-Source: ABdhPJzGJTdI4zuEEvgmk1kXIUqd31ishDRWRj+/eoYTa1TlR5Qa46NQN5UWJoATVF/Y9rUTN/1ptG4ZaITCkWy7Lk8=
-X-Received: by 2002:a17:907:41dd:: with SMTP id
- og21mr1283292ejb.368.1589523183144; 
- Thu, 14 May 2020 23:13:03 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F310B6E119;
+ Fri, 15 May 2020 06:26:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id F35C7AA6F;
+ Fri, 15 May 2020 06:26:30 +0000 (UTC)
+Subject: Re: [PATCH 3/9] drm/doc: Some polish for shmem helpers
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-4-daniel.vetter@ffwll.ch>
+ <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
+ <20200514200559.GE206103@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <027cb88f-ff54-aa85-2d53-839399d33c44@suse.de>
+Date: Fri, 15 May 2020 08:26:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 15 May 2020 16:12:52 +1000
-Message-ID: <CAPM=9tx=si98hr3_MvAviRZ6LZMUFnFOJBFBk+Lpj3aLQz5M6A@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.7-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20200514200559.GE206103@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,222 +66,343 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1621735174=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1621735174==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XqqPw1zEO6klucqdXHcAJ1fGUO2ue5ZHP"
 
-As mentioned last week an i915 PR came in late, but I left it, so the
-i915 bits of this cover 2 weeks, which is why it's likely a bit larger
-than usual. Otherwise it's mostly amdgpu fixes, one tegra fix, one
-meson fix.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XqqPw1zEO6klucqdXHcAJ1fGUO2ue5ZHP
+Content-Type: multipart/mixed; boundary="CEeOuTjzCGCn5JRSBQWF9uRmgjOAqhcqf";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <027cb88f-ff54-aa85-2d53-839399d33c44@suse.de>
+Subject: Re: [PATCH 3/9] drm/doc: Some polish for shmem helpers
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-4-daniel.vetter@ffwll.ch>
+ <d4088d21-8351-6afb-ae90-cab3e30f83e8@suse.de>
+ <20200514200559.GE206103@phenom.ffwll.local>
+In-Reply-To: <20200514200559.GE206103@phenom.ffwll.local>
 
-Regards,
-Dave.
+--CEeOuTjzCGCn5JRSBQWF9uRmgjOAqhcqf
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-drm-fixes-2020-05-15:
-drm fixes for v5.7-rc6
+Hi
 
-i915 (two weeks):
-- Handle idling during i915_gem_evict_something busy loops (Chris)
-- Mark current submissions with a weak-dependency (Chris)
-- Propagate error from completed fences (Chris)
-- Fixes on execlist to avoid GPU hang situation (Chris)
-- Fixes couple deadlocks (Chris)
-- Timeslice preemption fixes (Chris)
-- Fix Display Port interrupt handling on Tiger Lake (Imre)
-- Reduce debug noise around Frame Buffer Compression (Peter)
-- Fix logic around IPC W/a for Coffee Lake and Kaby Lake (Sultan)
-- Avoid dereferencing a dead context (Chris)
+Am 14.05.20 um 22:05 schrieb Daniel Vetter:
+> On Mon, May 11, 2020 at 01:12:49PM +0200, Thomas Zimmermann wrote:
+>>
+>>
+>> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+>>> - Move the shmem helper section to the drm-mm.rst file, next to the
+>>>   vram helpers. Makes a lot more sense there with the now wider scope=
+=2E
+>>>   Also, that's where the all the other backing storage stuff resides.=
 
-tegra:
-- tegra120/4 smmu fixes
+>>>   It's just the framebuffer helpers that should be in the kms helper
+>>>   section.
+>>>
+>>> - Try to clarify which functiosn are for implementing
+>>>   drm_gem_object_funcs, and which for drivers to call directly. At
+>>>   least one driver screwed that up a bit.
+>>>
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Rob Herring <robh@kernel.org>
+>>> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>
+>> See below for a suggestion on the help text.
+>>
+>>> ---
+>>>  Documentation/gpu/drm-kms-helpers.rst  | 12 --------
+>>>  Documentation/gpu/drm-mm.rst           | 12 ++++++++
+>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 39 +++++++++++++++++++++---=
+--
+>>>  3 files changed, 44 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gp=
+u/drm-kms-helpers.rst
+>>> index ee730457bf4e..b89ddd06dabb 100644
+>>> --- a/Documentation/gpu/drm-kms-helpers.rst
+>>> +++ b/Documentation/gpu/drm-kms-helpers.rst
+>>> @@ -411,15 +411,3 @@ Legacy CRTC/Modeset Helper Functions Reference
+>>> =20
+>>>  .. kernel-doc:: drivers/gpu/drm/drm_crtc_helper.c
+>>>     :export:
+>>> -
+>>> -SHMEM GEM Helper Reference
+>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> -   :doc: overview
+>>> -
+>>> -.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
+>>> -   :internal:
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> -   :export:
+>>> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.=
+rst
+>>> index 1839762044be..c01757b0ac25 100644
+>>> --- a/Documentation/gpu/drm-mm.rst
+>>> +++ b/Documentation/gpu/drm-mm.rst
+>>> @@ -373,6 +373,18 @@ GEM CMA Helper Functions Reference
+>>>  .. kernel-doc:: drivers/gpu/drm/drm_gem_cma_helper.c
+>>>     :export:
+>>> =20
+>>> +GEM SHMEM Helper Function Reference
+>>> +-----------------------------------
+>>> +
+>>> +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +   :doc: overview
+>>> +
+>>> +.. kernel-doc:: include/drm/drm_gem_shmem_helper.h
+>>> +   :internal:
+>>> +
+>>> +.. kernel-doc:: drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +   :export:
+>>> +
+>>>  GEM VRAM Helper Functions Reference
+>>>  -----------------------------------
+>>> =20
+>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm=
+/drm_gem_shmem_helper.c
+>>> index df31e5782eed..2a70159d50ef 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -103,7 +103,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+>>>   * @obj: GEM object to free
+>>>   *
+>>>   * This function cleans up the GEM object state and frees the memory=
+ used to
+>>> - * store the object itself.
+>>> + * store the object itself. It should be used to implement
+>>> + * &drm_gem_object_funcs.free.
+>>
+>> It should 'only' be used? Or maybe you can say that it should be used =
+by
+>> drivers that don't implement struct drm_driver.gem_create_object.
+>=20
+> Just looked at this, and I'm not clear what you're aiming for. There
+> doesn't seem to be any misuse for this for other places than the free
+> hook. And I can't really come up with ideas where that would even work.=
 
- amdgpu:
-- Clockgating fixes
-- Fix fbdev with scatter/gather display
-- S4 fix for navi
-- Soft recovery for gfx10
-- Freesync fixes
-- Atomic check cursor fix
-- Add a gfxoff quirk
-- MST fix
+>=20
+> What kind of confusion are you trying to clarify with your suggestion?
+> Maybe I can then reword that into something that also makes sense for m=
+e.
 
-amdkfd:
-- Fix GEM reference counting
+It was just nit picking.
 
-meson:
-- error code propogation fix
-The following changes since commit 2ef96a5bb12be62ef75b5828c0aab838ebb29cb8:
+I just worried that drivers might try to call this function for cleaning
+up an embedded instance of the structure; although the function's name
+clearly indicates otherwise.
 
-  Linux 5.7-rc5 (2020-05-10 15:16:58 -0700)
+Kind of related, I think we should be more strict to use the abstract
+GEM interfaces. For example, several drivers call drm_gem_shmem_vmap()
+instead of drm_gem_vmap(). For this free function, we should require
+drivers to call  drm_gem_object_free() instead of the shmem function.
 
-are available in the Git repository at:
+Best regards
+Thomas
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-05-15
+>=20
+> Thanks, Daniel
+>=20
+>>
+>>>   */
+>>>  void drm_gem_shmem_free_object(struct drm_gem_object *obj)
+>>>  {
+>>> @@ -214,7 +215,8 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+>>>   * @obj: GEM object
+>>>   *
+>>>   * This function makes sure the backing pages are pinned in memory w=
+hile the
+>>> - * buffer is exported.
+>>> + * buffer is exported. It should only be used to implement
+>>> + * &drm_gem_object_funcs.pin.
+>>>   *
+>>>   * Returns:
+>>>   * 0 on success or a negative error code on failure.
+>>> @@ -232,7 +234,7 @@ EXPORT_SYMBOL(drm_gem_shmem_pin);
+>>>   * @obj: GEM object
+>>>   *
+>>>   * This function removes the requirement that the backing pages are =
+pinned in
+>>> - * memory.
+>>> + * memory. It should only be used to implement &drm_gem_object_funcs=
+=2Eunpin.
+>>>   */
+>>>  void drm_gem_shmem_unpin(struct drm_gem_object *obj)
+>>>  {
+>>> @@ -285,8 +287,14 @@ static void *drm_gem_shmem_vmap_locked(struct dr=
+m_gem_shmem_object *shmem)
+>>>   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM obj=
+ect
+>>>   * @shmem: shmem GEM object
+>>>   *
+>>> - * This function makes sure that a virtual address exists for the bu=
+ffer backing
+>>> - * the shmem GEM object.
+>>> + * This function makes sure that a contiguous kernel virtual address=
+ mapping
+>>> + * exists for the buffer backing the shmem GEM object.
+>>> + *
+>>> + * This function can be used to implement &drm_gem_object_funcs.vmap=
+=2E But it can
+>>> + * also be called by drivers directly, in which case it will hide th=
+e
+>>> + * differences between dma-buf imported and natively allocated objec=
+ts.
+>>> + *
+>>> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_v=
+unmap().
+>>>   *
+>>>   * Returns:
+>>>   * 0 on success or a negative error code on failure.
+>>> @@ -330,7 +338,13 @@ static void drm_gem_shmem_vunmap_locked(struct d=
+rm_gem_shmem_object *shmem)
+>>>   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM obj=
+ect
+>>>   * @shmem: shmem GEM object
+>>>   *
+>>> - * This function removes the virtual address when use count drops to=
+ zero.
+>>> + * This function cleans up a kernel virtual address mapping acquired=
+ by
+>>> + * drm_gem_shmem_vmap(). The mapping is only removed when the use co=
+unt drops to
+>>> + * zero.
+>>> + *
+>>> + * This function can be used to implement &drm_gem_object_funcs.vmap=
+=2E But it can
+>>> + * also be called by drivers directly, in which case it will hide th=
+e
+>>> + * differences between dma-buf imported and natively allocated objec=
+ts.
+>>>   */
+>>>  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, void *vaddr)
+>>>  {
+>>> @@ -559,6 +573,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_mmap);
+>>>   * @p: DRM printer
+>>>   * @indent: Tab indentation level
+>>>   * @obj: GEM object
+>>> + *
+>>> + * This implements the &drm_gem_object_funcs.info callback.
+>>>   */
+>>>  void drm_gem_shmem_print_info(struct drm_printer *p, unsigned int in=
+dent,
+>>>  			      const struct drm_gem_object *obj)
+>>> @@ -577,7 +593,12 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+>>>   * @obj: GEM object
+>>>   *
+>>>   * This function exports a scatter/gather table suitable for PRIME u=
+sage by
+>>> - * calling the standard DMA mapping API.
+>>> + * calling the standard DMA mapping API. Drivers should not call thi=
+s function
+>>> + * directly, instead it should only be used as an implementation for=
 
-for you to fetch changes up to 1d2a1eb13610a9c8ec95f6f1e02cef55000f28e3:
+>>> + * &drm_gem_object_funcs.get_sg_table.
+>>> + *
+>>> + * Drivers who need to acquire an scatter/gather table for objects n=
+eed to call
+>>> + * drm_gem_shmem_get_pages_sgt() instead.
+>>>   *
+>>>   * Returns:
+>>>   * A pointer to the scatter/gather table of pinned pages or NULL on =
+failure.
+>>> @@ -599,6 +620,10 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+>>>   * the sg table doesn't exist, the pages are pinned, dma-mapped, and=
+ a sg
+>>>   * table created.
+>>>   *
+>>> + * This is the main function for drivers to get at backing storage, =
+and it hides
+>>> + * and difference between dma-buf imported and natively allocated ob=
+jects.
+>>> + * drm_gem_shmem_get_sg_table() should not be directly called by dri=
+vers.
+>>> + *
+>>>   * Returns:
+>>>   * A pointer to the scatter/gather table of pinned pages or errno on=
+ failure.
+>>>   */
+>>>
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
+>=20
+>=20
+>=20
+>=20
 
-  Merge tag 'drm-misc-fixes-2020-05-14' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-05-15
-16:00:57 +1000)
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-----------------------------------------------------------------
-drm fixes for v5.7-rc6
 
-i915 (two weeks):
-- Handle idling during i915_gem_evict_something busy loops (Chris)
-- Mark current submissions with a weak-dependency (Chris)
-- Propagate error from completed fences (Chris)
-- Fixes on execlist to avoid GPU hang situation (Chris)
-- Fixes couple deadlocks (Chris)
-- Timeslice preemption fixes (Chris)
-- Fix Display Port interrupt handling on Tiger Lake (Imre)
-- Reduce debug noise around Frame Buffer Compression (Peter)
-- Fix logic around IPC W/a for Coffee Lake and Kaby Lake (Sultan)
-- Avoid dereferencing a dead context (Chris)
+--CEeOuTjzCGCn5JRSBQWF9uRmgjOAqhcqf--
 
-tegra:
-- tegra120/4 smmu fixes
+--XqqPw1zEO6klucqdXHcAJ1fGUO2ue5ZHP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
- amdgpu:
-- Clockgating fixes
-- Fix fbdev with scatter/gather display
-- S4 fix for navi
-- Soft recovery for gfx10
-- Freesync fixes
-- Atomic check cursor fix
-- Add a gfxoff quirk
-- MST fix
+-----BEGIN PGP SIGNATURE-----
 
-amdkfd:
-- Fix GEM reference counting
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6+NhMACgkQaA3BHVML
+eiNJ+QgAv/xOZ+SV+HfdpTslk9deJCJjgqXLP8c/blqihXOWjyHwLDM3G0OsRkZw
+o+YoSwL/5yXnDM2a0oSqKsTJHes0IgGrZnEj0IqG0SL7B+ZAzb/ZKd8EqAsxBhqL
+pwDLoG1T+lEU8o6OT/sABLh+JgvYqBtLxacXtdXH+50L8dzehCJFPdahdazvUIGr
+3NImy7KGs0fP2cEfCC3bxjeCB8fXTpq/RznEANFYRKFgXgadjaTJZzs6A+dbDqzM
+BvcVNlzjzQ/4jEspXkmlHGbQRyS+yU07rVm9LIcVVce7Q1QYx0jnBarI8p+MkX2A
+HBPS1WW2m2Wil2Glq07T49B76jIRlg==
+=LvWg
+-----END PGP SIGNATURE-----
 
-meson:
-- error code propogation fix
+--XqqPw1zEO6klucqdXHcAJ1fGUO2ue5ZHP--
 
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/amdgpu: force fbdev into vram
-      drm/amdgpu: implement soft_recovery for gfx10
+--===============1621735174==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Bernard Zhao (1):
-      drm/meson: pm resume add return errno branch
-
-Chris Wilson (10):
-      drm/i915: Avoid dereferencing a dead context
-      drm/i915/gt: Make timeslicing an explicit engine property
-      drm/i915: Check current i915_vma.pin_count status first on unbind
-      drm/i915/gt: Yield the timeslice if caught waiting on a user semaphore
-      drm/i915/gem: Remove object_is_locked assertion from
-unpin_from_display_plane
-      drm/i915/execlists: Avoid reusing the same logical CCID
-      drm/i915/execlists: Track inflight CCID
-      drm/i915: Propagate error from completed fences
-      drm/i915: Mark concurrent submissions with a weak-dependency
-      drm/i915: Handle idling during i915_gem_evict_something busy loops
-
-Colin Xu (1):
-      drm/i915/gvt: Init DPLL/DDI vreg for virtual display instead of
-inheritance.
-
-Dave Airlie (5):
-      Merge tag 'drm-intel-fixes-2020-05-07' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm/tegra/for-5.7-fixes' of
-git://anongit.freedesktop.org/tegra/linux into drm-fixes
-      Merge tag 'amd-drm-fixes-5.7-2020-05-13' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-05-13-1' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2020-05-14' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Evan Quan (4):
-      drm/amdgpu: disable MGCG/MGLS also on gfx CG ungate
-      drm/amdgpu: drop unnecessary cancel_delayed_work_sync on PG ungate
-      drm/amd/powerplay: perform PG ungate prior to CG ungate
-      drm/amdgpu: enable hibernate support on Navi1X
-
-Felix Kuehling (1):
-      drm/amdgpu: Use GEM obj reference for KFD BOs
-
-Imre Deak (1):
-      drm/i915/tgl+: Fix interrupt handling for DP AUX transactions
-
-Leo (Hanghong) Ma (1):
-      drm/amd/amdgpu: Update update_config() logic
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Fix vblank and pageflip event handling for FreeSync
-
-Peter Jones (1):
-      Make the "Reducing compressed framebufer size" message be DRM_INFO_ONCE()
-
-Rodrigo Vivi (1):
-      Merge tag 'gvt-fixes-2020-05-12' of
-https://github.com/intel/gvt-linux into drm-intel-fixes
-
-Simon Ser (1):
-      drm/amd/display: add basic atomic check for cursor plane
-
-Sultan Alsawaf (1):
-      drm/i915: Don't enable WaIncreaseLatencyIPCEnabled when IPC is disabled
-
-Thierry Reding (2):
-      drm/tegra: Fix SMMU support on Tegra124 and Tegra210
-      gpu: host1x: Use SMMU on Tegra124 and Tegra210
-
-Tom St Denis (1):
-      drm/amd/amdgpu: add raven1 part to the gfxoff quirk list
-
-Zhenyu Wang (1):
-      drm/i915/gvt: Fix kernel oops for 3-level ppgtt guest
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c             |   3 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  22 ++-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |  14 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 163 ++++++++++-----------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |  10 +-
- drivers/gpu/drm/amd/powerplay/amd_powerplay.c      |   6 +-
- drivers/gpu/drm/amd/powerplay/amdgpu_smu.c         |   8 +-
- drivers/gpu/drm/i915/display/intel_fbc.c           |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c         |   7 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |   8 +-
- drivers/gpu/drm/i915/gt/intel_engine.h             |   9 --
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   6 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |  35 ++++-
- drivers/gpu/drm/i915/gt/intel_gt_irq.c             |  15 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c                | 120 ++++++++++-----
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |  34 +++--
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |   2 +-
- drivers/gpu/drm/i915/gvt/display.c                 |  49 ++++++-
- drivers/gpu/drm/i915/gvt/scheduler.c               |  10 +-
- drivers/gpu/drm/i915/i915_gem_evict.c              |  26 ++--
- drivers/gpu/drm/i915/i915_gpu_error.c              |  12 +-
- drivers/gpu/drm/i915/i915_irq.c                    |  16 +-
- drivers/gpu/drm/i915/i915_perf.c                   |   6 +-
- drivers/gpu/drm/i915/i915_reg.h                    |   1 +
- drivers/gpu/drm/i915/i915_request.c                |  12 +-
- drivers/gpu/drm/i915/i915_scheduler.c              |   6 +-
- drivers/gpu/drm/i915/i915_scheduler.h              |   3 +-
- drivers/gpu/drm/i915/i915_scheduler_types.h        |   1 +
- drivers/gpu/drm/i915/i915_vma.c                    |  25 ++--
- drivers/gpu/drm/i915/intel_pm.c                    |   2 +-
- drivers/gpu/drm/i915/selftests/i915_vma.c          |   2 +-
- drivers/gpu/drm/meson/meson_drv.c                  |   4 +-
- drivers/gpu/drm/tegra/drm.c                        |   3 +-
- drivers/gpu/host1x/dev.c                           |  59 +++++++-
- include/linux/host1x.h                             |   3 +
- 38 files changed, 439 insertions(+), 274 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1621735174==--
