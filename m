@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A841D4AE5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 12:28:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364DA1D6024
+	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 11:59:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8CA6E139;
-	Fri, 15 May 2020 10:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95B906E128;
+	Sat, 16 May 2020 09:59:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D996E139;
- Fri, 15 May 2020 10:28:00 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id a7so611802uak.2;
- Fri, 15 May 2020 03:28:00 -0700 (PDT)
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88D4C6EC6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 10:32:29 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id h10so2074787iob.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 03:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3n9AM9nUet+cKV+6rKTLJ2mxhROsEpoAkrE2eV2F+EI=;
- b=GBd2GeA6ataobGDg4jQ4FXSHegGNPaQOmwt2GXy5yXDDA4iYjmYrAyuXfpcqPOa5YC
- SF9w+wnW3gVanphCuwC/a4oviMWmCoXQneufhGcsnrpK5Ad0ik3r1jHO8tUXr5h1LNTz
- 58e7y69b+tbJCwxalQ7E3P5ZZF80hxgfXQ6Pz+ouc8M8+xqhJyP5mL1aE/msDqlsnlNj
- 0H95XbJIIBUk+cC+t4q5msndpSKxlWiQmNeJ23MscOK28PbdH7u9kpaJRqF2V4m3xHZL
- m1zPrVnnHk8NJc221dc+9pBZrYE8pk2/kHML83MaIZRvBw27+h4eO9R5Y8xIEb13e1xY
- bZ9A==
+ :cc; bh=Mp1O72Xdq00O8JgDXWC/mDotxQHEbyc0hg/iAsVvAgY=;
+ b=vcmQAMrEzsV4FG1L5QpLXkqBOrQ5OWuYdGlR8+ygcxJg+F5fPgRqdFWYKvqJJgU4mT
+ zG2aAW2Aaxx8HmPIlfVGBlGU+Tu3x3HW3wNhOb0imgignadU5yAYy5edOXWWGXi/0Na4
+ 0SCSsnOjKh6NZ89GJ/Z1th6BYn3bZVjgPzwjCcYTGdFvmRZ+d8292zz6Fa+rLu1nDRVS
+ nqtULSE9iytN1Ux/XqwoX0F6IiuTkU6cBgvLoTaXjmrYNhB/2fbpLk/00zSQBHvVF91s
+ Hv+b2E+JxXaSCT1p0PXKvweG2iD7xl6BSOXRJs6N8uGBGhhsdZ7fLsuZ6pWRxwXozdGD
+ zlCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3n9AM9nUet+cKV+6rKTLJ2mxhROsEpoAkrE2eV2F+EI=;
- b=CKhUmDZwuh71TeqWCa/x+dXOQL3Cr81xBYGlZEzOP+1eiu8Jd0gTITacgp/XC1b0sW
- 1sJJy83hO4wxQWtp1PQelUAnlYwSLDwgGHFNbGGAJSZaz/G88jVzuDiTgq5js2Dfgofn
- 49kr2KdFDPJzOE9eJwXLlhNKMNi9To1EnuxQ6DSpCzTjJ0FhxAgTFAMWdr52Rt2wc51K
- VG4pe2vQ2cG8f8J9+Y3pS2etm/hdfiIIRIMCsX3Aq9kltkNTTdKejzOkY2EjcfKssIrj
- VXAUeZf9ycKvPCzKl8FYTa199+Zz/eiQDdMNOzhKLG3rXQe2w74eqDLDRl1VbVqVqMcw
- uIQw==
-X-Gm-Message-State: AOAM531PMq/MAEU3ARWLe2iwvLO+3ISr42BwOihcBJ764XKW645Byrb0
- /qjJ6SnpAHAfUbmPS7YIw7IMaNbZ29W+cKsSG3g=
-X-Google-Smtp-Source: ABdhPJwklJ5H1ic2J2YXfycgYALz3yo5uNGEUuzlAu3/5Yu2QHdMkr06dR+9Ff99k9fEmbwDkLDnmKHi4E+YFv57mes=
-X-Received: by 2002:ab0:662:: with SMTP id f89mr2162219uaf.118.1589538479980; 
- Fri, 15 May 2020 03:27:59 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Mp1O72Xdq00O8JgDXWC/mDotxQHEbyc0hg/iAsVvAgY=;
+ b=gImY5f2sQilAaW3WSZnGlBDVDOxsYwQ43Dn+HHOY5o76rh071zk1X08BuB78I1yuNj
+ AodbEPm/X/jVpBBDQJHAUINODJEcJFnx6Cwk7T9qKdTaIi83nEaYIwVxx2tYRTZdP/0o
+ +SVZn+pBjItNQsxXPcgqVHwUTCwQ8Ovp7YUaxNnWFzj00/aSxivVDRe2IRaJU9m6JFYs
+ MqJxV0nJuCasJxUSjPaqPldatAJHX1L6+F9aSJSA2K4qIDrnMRDU0nTGmdBxUHKnz/W9
+ 8yjLGd2KmyS7g1SBvm+l8T0YI9gt2ePEMSmVxV48aZfFt8XxLdZtBNCTjbPjTKkJqxWc
+ 2tBg==
+X-Gm-Message-State: AOAM533Wp7HcNe2rOBYhsYiQnJJq/yrt73SJL2eLntLhrZum8umaFPkm
+ OCZ1LCPG5uM/wB7iEuxxlhu+eev8NUvSMPQ0rzExllWGLjQ=
+X-Google-Smtp-Source: ABdhPJySFDwer7KjH89ACOdbQCrAFJYmz3PmcTnEmry2cPWkqSChoUu+TiNgN9tnSrdVOfv81ypAYcyv/WXFLRq7XEE=
+X-Received: by 2002:a02:ac1:: with SMTP id 184mr2566280jaw.137.1589538748835; 
+ Fri, 15 May 2020 03:32:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511123846.96594-1-christian.gmeiner@gmail.com>
- <CAH9NwWcJNhUVkzd0KAfJyxNZJ9a71KLzipW+qRwhgEWUmnnxmg@mail.gmail.com>
- <X0BDAQ.L99CTJZCDEJE3@crapouillou.net>
- <a51cb70623c4c2441bb8df8385f56c99392b8435.camel@pengutronix.de>
-In-Reply-To: <a51cb70623c4c2441bb8df8385f56c99392b8435.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 15 May 2020 12:27:48 +0200
-Message-ID: <CAH9NwWc6zUvoJ0xep9zO2Ocm8BzR7nRNx9=EQuwb5DXsX-J0Zw@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
-To: Lucas Stach <l.stach@pengutronix.de>
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-5-git-send-email-dillon.minfei@gmail.com>
+ <158949014721.215346.12197373767247910756@swboyd.mtv.corp.google.com>
+In-Reply-To: <158949014721.215346.12197373767247910756@swboyd.mtv.corp.google.com>
+From: dillon min <dillon.minfei@gmail.com>
+Date: Fri, 15 May 2020 18:31:52 +0800
+Message-ID: <CAL9mu0J7t5Qbe2VQexn8=ZDbcOiCzc0cSnfZRKTjeM5Uyi_x-A@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] clk: stm32: Fix stm32f429 ltdc driver loading hang
+ in clk set rate. keep ltdc clk running after kernel startup
+To: Stephen Boyd <sboyd@kernel.org>
+X-Mailman-Approved-At: Sat, 16 May 2020 09:58:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +64,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- stable@vger.kernel.org, The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Paul Cercueil <paul@crapouillou.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Alexandre Torgue <alexandre.torgue@st.com>,
+ Dave Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ thierry.reding@gmail.com, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gRnIuLCAxNS4gTWFpIDIwMjAgdW0gMTI6MjQgVWhyIHNjaHJpZWIgTHVjYXMgU3RhY2ggPGwu
-c3RhY2hAcGVuZ3V0cm9uaXguZGU+Ogo+Cj4gQW0gRnJlaXRhZywgZGVuIDE1LjA1LjIwMjAsIDEy
-OjEyICswMjAwIHNjaHJpZWIgUGF1bCBDZXJjdWVpbDoKPiA+IEhpIENocmlzdGlhbiwKPiA+Cj4g
-PiBMZSB2ZW4uIDE1IG1haSAyMDIwIMOgIDEyOjA5LCBDaHJpc3RpYW4gR21laW5lcgo+ID4gPGNo
-cmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4gYSDDqWNyaXQgOgo+ID4gPiBBbSBNby4sIDExLiBN
-YWkgMjAyMCB1bSAxNDozOCBVaHIgc2NocmllYiBDaHJpc3RpYW4gR21laW5lcgo+ID4gPiA8Y2hy
-aXN0aWFuLmdtZWluZXJAZ21haWwuY29tPjoKPiA+ID4gPiAgVGhlIEdDODYwIGhhcyBvbmUgR1BV
-IGRldmljZSB3aGljaCBoYXMgYSAyZCBhbmQgM2QgY29yZS4gSW4gdGhpcwo+ID4gPiA+IGNhc2UK
-PiA+ID4gPiAgd2Ugd2FudCB0byBleHBvc2UgcGVyZm1vbiBpbmZvcm1hdGlvbiBmb3IgYm90aCBj
-b3Jlcy4KPiA+ID4gPgo+ID4gPiA+ICBUaGUgZHJpdmVyIGhhcyBvbmUgYXJyYXkgd2hpY2ggY29u
-dGFpbnMgYWxsIHBvc3NpYmxlIHBlcmZtb24gZG9tYWlucwo+ID4gPiA+ICB3aXRoIHNvbWUgbWV0
-YSBkYXRhIC0gZG9tc19tZXRhLiBIZXJlIHdlIGNhbiBzZWUgdGhhdCBmb3IgdGhlIEdDODYwCj4g
-PiA+ID4gIHR3byBlbGVtZW50cyBvZiB0aGF0IGFycmF5IGFyZSByZWxldmFudDoKPiA+ID4gPgo+
-ID4gPiA+ICAgIGRvbXNfM2Q6IGlzIGF0IGluZGV4IDAgaW4gdGhlIGRvbXNfbWV0YSBhcnJheSB3
-aXRoIDggcGVyZm1vbgo+ID4gPiA+IGRvbWFpbnMKPiA+ID4gPiAgICBkb21zXzJkOiBpcyBhdCBp
-bmRleCAxIGluIHRoZSBkb21zX21ldGEgYXJyYXkgd2l0aCAxIHBlcmZtb24KPiA+ID4gPiBkb21h
-aW4KPiA+ID4gPgo+ID4gPiA+ICBUaGUgdXNlcnNwYWNlIGRyaXZlciB3YW50cyB0byBnZXQgYSBs
-aXN0IG9mIGFsbCBwZXJmbW9uIGRvbWFpbnMgYW5kCj4gPiA+ID4gIHRoZWlyIHBlcmZtb24gc2ln
-bmFscy4gVGhpcyBpcyBkb25lIGJ5IGl0ZXJhdGluZyBvdmVyIGFsbCBkb21haW5zCj4gPiA+ID4g
-YW5kCj4gPiA+ID4gIHRoZWlyIHNpZ25hbHMuIElmIHRoZSB1c2Vyc3BhY2UgZHJpdmVyIHdhbnRz
-IHRvIGFjY2VzcyB0aGUgZG9tYWluCj4gPiA+ID4gd2l0aAo+ID4gPiA+ICBpZCA4IHRoZSBrZXJu
-ZWwgZHJpdmVyIGZhaWxzIGFuZCByZXR1cm5zIGludmFsaWQgZGF0YSBmcm9tIGRvbXNfM2QKPiA+
-ID4gPiB3aXRoCj4gPiA+ID4gIGFuZCBpbnZhbGlkIG9mZnNldC4KPiA+ID4gPgo+ID4gPiA+ICBU
-aGlzIHJlc3VsdHMgaW46Cj4gPiA+ID4gICAgVW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwgcGFnaW5n
-IHJlcXVlc3QgYXQgdmlydHVhbCBhZGRyZXNzIDAwMDAwMDAwCj4gPiA+ID4KPiA+ID4gPiAgT24g
-c3VjaCBhIGRldmljZSBpdCBpcyBub3QgcG9zc2libGUgdG8gdXNlIHRoZSB1c2Vyc3BhY2UgZHJp
-dmVyIGF0Cj4gPiA+ID4gYWxsLgo+ID4gPiA+Cj4gPiA+ID4gIFRoZSBmaXggZm9yIHRoaXMgb2Zm
-LWJ5LW9uZSBlcnJvciBpcyBxdWl0ZSBzaW1wbGUuCj4gPiA+ID4KPiA+ID4gPiAgUmVwb3J0ZWQt
-Ynk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+ID4gPiA+ICBUZXN0ZWQt
-Ynk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+ID4gPiA+ICBGaXhlczog
-ZWQxZGQ4OTliYWEzICgiZHJtL2V0bmF2aXY6IHJld29yayBwZXJmbW9uIHF1ZXJ5Cj4gPiA+ID4g
-aW5mcmFzdHJ1Y3R1cmUiKQo+ID4gPiA+ICBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+ID4g
-PiA+ICBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0aWFuLmdtZWluZXJA
-Z21haWwuY29tPgo+ID4gPiA+ICAtLS0KPiA+ID4gPiAgIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfcGVyZm1vbi5jIHwgMiArLQo+ID4gPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gPiA+ID4KPiA+ID4gPiAgZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfcGVyZm1vbi5jCj4gPiA+ID4gYi9kcml2ZXJz
-L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X3BlcmZtb24uYwo+ID4gPiA+ICBpbmRleCBlNjc5NWJh
-ZmNiYjkuLjM1ZjcxNzFlNzc5YSAxMDA2NDQKPiA+ID4gPiAgLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMKPiA+ID4gPiAgKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMKPiA+ID4gPiAgQEAgLTQ1Myw3ICs0NTMsNyBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IGV0bmF2aXZfcG1fZG9tYWluCj4gPiA+ID4gKnBtX2RvbWFpbihj
-b25zdCBzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwKPiA+ID4gPiAgICAgICAgICAgICAgICAgIGlm
-ICghKGdwdS0+aWRlbnRpdHkuZmVhdHVyZXMgJiBtZXRhLT5mZWF0dXJlKSkKPiA+ID4gPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gPiA+ID4KPiA+ID4gPiAgLSAgICAgICAg
-ICAgICAgIGlmIChtZXRhLT5ucl9kb21haW5zIDwgKGluZGV4IC0gb2Zmc2V0KSkgewo+ID4gPiA+
-ICArICAgICAgICAgICAgICAgaWYgKChtZXRhLT5ucl9kb21haW5zIC0gMSkgPCAoaW5kZXggLSBv
-ZmZzZXQpKSB7Cj4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCArPSBtZXRh
-LT5ucl9kb21haW5zOwo+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsK
-PiA+ID4gPiAgICAgICAgICAgICAgICAgIH0KPiA+ID4gPiAgLS0KPiA+ID4gPiAgMi4yNi4yCj4g
-PiA+ID4KPiA+ID4KPiA+ID4gcGluZwo+ID4KPiA+IEknbGwgbWVyZ2UgaXQgdG9tb3Jyb3cgaWYg
-dGhlcmUncyBubyBmdXJ0aGVyIGZlZWRiYWNrLgo+Cj4gSHVoPyBFdG5hdml2IHBhdGNoZXMgYXJl
-IGdvaW5nIHRocm91Z2ggdGhlIGV0bmF2aXYgdHJlZS4KPgo+IFdlIG5vdyBoYXZlIHR3byBkaWZm
-ZXJlbnQgc29sdXRpb25zIHRvIHRoZSBzYW1lIGlzc3VlLiBJIGZpcnN0IHdhbnQgdG8KPiBkaWcg
-aW50byB0aGUgY29kZSB0byBzZWUgd2h5IHR3byBkZXZlbG9wZXJzIGNhbiBnZXQgY29uZnVzZWQg
-ZW5vdWdoIGJ5Cj4gdGhlIGNvZGUgdG8gY29tZSB1cCB3aXRoIHRvdGFsbHkgZGlmZmVyZW50IGZp
-eGVzLgo+CgpZb3Ugd2lsbCBzZWUgdGhhdCB0aGUgc29sdXRpb25zIGFyZSBub3QgdG90YWxseSBk
-aWZmZXJlbnQuIEkgcmVhbGx5IGhvcGVkIHRvCmdldCB0aGlzIGZpeGVkIGluIHRoZSA1LjcgcmVs
-ZWFzZS4uIGJ1dCBJIHRoaW5rIGl0cyBub3cgdG9vIGxhdGUuCgotLSAKZ3JlZXRzCi0tCkNocmlz
-dGlhbiBHbWVpbmVyLCBNU2MKCmh0dHBzOi8vY2hyaXN0aWFuLWdtZWluZXIuaW5mby9wcml2YWN5
-cG9saWN5Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Stephen,
+
+thanks for reviewing.
+
+On Fri, May 15, 2020 at 5:02 AM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting dillon.minfei@gmail.com (2020-05-12 00:03:36)
+> > From: dillon min <dillon.minfei@gmail.com>
+> >
+> > as store stm32f4_rcc_register_pll return to the wrong offset of clks,
+>
+> Use () on functions, i.e. stm32f4_rcc_register_pll().
+ok
+>
+> > so ltdc gate clk is null. need change clks[PLL_VCO_SAI] to clks[PLL_SAI]
+>
+> And quote variables like 'clks[PLL_VCO_SAI]'
+ok
+>
+> >
+> > add CLK_IGNORE_UNUSED for ltdc to make sure clk not be freed by
+> > clk_disable_unused
+>
+> clk_disable_unused() doesn't free anything. Why does ltdc not need to be
+> turned off if it isn't used? Is it critical to system operation? Should
+> it be marked with the critical clk flag then? The CLK_IGNORE_UNUSED flag
+> is almost always wrong to use.
+
+Yes, you are right. thanks. CLK_IGNORE_UNUSED just hide the root
+cause. after deeper debugging.
+i need to drop the last changes , they are not the root cause.
+
+post diff and analyse here first, i will resubmit clk's changes in
+next patchset with gyro and ili9341.
+
+--- a/drivers/clk/clk-stm32f4.c
++++ b/drivers/clk/clk-stm32f4.c
+@@ -129,8 +129,6 @@ static const struct stm32f4_gate_data
+stm32f429_gates[] __initconst = {
+        { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+        { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+        { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+-       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div",
+-               CLK_IGNORE_UNUSED },
+ };
+
+ static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+@@ -558,13 +556,13 @@ static const struct clk_div_table post_divr_table[] = {
+
+ #define MAX_POST_DIV 3
+ static const struct stm32f4_pll_post_div_data  post_div_data[MAX_POST_DIV] = {
+-       { CLK_I2SQ_PDIV, PLL_I2S, "plli2s-q-div", "plli2s-q",
++       { CLK_I2SQ_PDIV, PLL_VCO_I2S, "plli2s-q-div", "plli2s-q",
+                CLK_SET_RATE_PARENT, STM32F4_RCC_DCKCFGR, 0, 5, 0, NULL},
+
+-       { CLK_SAIQ_PDIV, PLL_SAI, "pllsai-q-div", "pllsai-q",
++       { CLK_SAIQ_PDIV, PLL_VCO_SAI, "pllsai-q-div", "pllsai-q",
+                CLK_SET_RATE_PARENT, STM32F4_RCC_DCKCFGR, 8, 5, 0, NULL },
+
+-       { NO_IDX, PLL_SAI, "pllsai-r-div", "pllsai-r", CLK_SET_RATE_PARENT,
++       { NO_IDX, PLL_VCO_SAI, "pllsai-r-div", "pllsai-r", CLK_SET_RATE_PARENT,
+                STM32F4_RCC_DCKCFGR, 16, 2, 0, post_divr_table },
+ };
+
+@@ -1758,7 +1756,7 @@ static void __init stm32f4_rcc_init(struct
+device_node *np)
+        clks[PLL_VCO_I2S] = stm32f4_rcc_register_pll("vco_in",
+                        &data->pll_data[1], &stm32f4_clk_lock);
+
+-       clks[PLL_SAI] = stm32f4_rcc_register_pll("vco_in",
++       clks[PLL_VCO_SAI] = stm32f4_rcc_register_pll("vco_in",
+                        &data->pll_data[2], &stm32f4_clk_lock);
+
+        for (n = 0; n < MAX_POST_DIV; n++) {
+
+issue 1: ili9341 hang in clk set rate, the root cause should be
+PLL_VCO_SAI, PLL_SAI mismatch
+for 'clks[]'
+
+1, first at stm32f4_rcc_init() ,
+    clks[PLL_VCO_SAI] = stm32f4_rcc_register_pll("vco_in",
+                        &data->pll_data[2], &stm32f4_clk_lock);
+   the clk_hw from stm32f4_rcc_register_pll() is store to 'clks[7]', defined in
+   'include/dt-bindings/clock/stm32fx-clock.h'
+
+2, next
+hw = clk_register_pll_div(post_div->name,
+                                post_div->parent,
+                                post_div->flag,
+                                base + post_div->offset,
+                                post_div->shift,
+                                post_div->width,
+                                post_div->flag_div,
+                                post_div->div_table,
+                                clks[post_div->pll_num],
+                                &stm32f4_clk_lock);
+the 'clks[post_div->pll_num]', the pll_num is PLL_SAI, the value is 2,
+defined at
+enum {
+        PLL,
+        PLL_I2S,
+        PLL_SAI,
+};
+'post_div_data[]'
+
+so 7 != 2 offset of 'clks[]', input the wrong 'clks[]' to
+clk_register_pll_div. cause to_clk_gate result is null,
+crashed in ltdc driver's loading.
+
+issue 2: clk_disable_unused() turn off ltdc clock.
+1, ltdc clk is defined in 'stm32f429_gates[]', register to clk core,
+but there is no user to use it.
+    ltdc driver use dts binding name "lcd", connect to CLK_LCD, then
+aux clk 'lcd-tft '
+2, as no one use 'stm32f429_gates[]' s ltdc clock , so the
+enable_count is zero, after kernel startup
+    it's been turn off by clk_disable_unused() is fine.
+
+my chages for this is remove the ltdc from 'stm32f429_gates[]'
+but this modification still need 'clk-stm32f4.c''s maintainer to check
+if there is side effect.
+
+>
+> >
+> > Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> > ---
+> >  drivers/clk/clk-stm32f4.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
+> > index 18117ce..0ba73de 100644
+> > --- a/drivers/clk/clk-stm32f4.c
+> > +++ b/drivers/clk/clk-stm32f4.c
+> > @@ -129,7 +129,8 @@ static const struct stm32f4_gate_data stm32f429_gates[] __initconst = {
+> >         { STM32F4_RCC_APB2ENR, 20,      "spi5",         "apb2_div" },
+> >         { STM32F4_RCC_APB2ENR, 21,      "spi6",         "apb2_div" },
+> >         { STM32F4_RCC_APB2ENR, 22,      "sai1",         "apb2_div" },
+> > -       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div" },
+> > +       { STM32F4_RCC_APB2ENR, 26,      "ltdc",         "apb2_div",
+> > +               CLK_IGNORE_UNUSED },
+> >  };
+> >
+> >  static const struct stm32f4_gate_data stm32f469_gates[] __initconst = {
+> > @@ -1757,7 +1758,7 @@ static void __init stm32f4_rcc_init(struct device_node *np)
+> >         clks[PLL_VCO_I2S] = stm32f4_rcc_register_pll("vco_in",
+> >                         &data->pll_data[1], &stm32f4_clk_lock);
+> >
+> > -       clks[PLL_VCO_SAI] = stm32f4_rcc_register_pll("vco_in",
+> > +       clks[PLL_SAI] = stm32f4_rcc_register_pll("vco_in",
+> >                         &data->pll_data[2], &stm32f4_clk_lock);
+> >
+> >         for (n = 0; n < MAX_POST_DIV; n++) {
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
