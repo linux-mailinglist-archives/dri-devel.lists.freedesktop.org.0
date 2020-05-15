@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB64E1D4A82
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 12:10:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BCF1D4AA2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 12:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67E816EC3F;
-	Fri, 15 May 2020 10:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638836EC56;
+	Fri, 15 May 2020 10:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
  [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B806EC56;
- Fri, 15 May 2020 10:10:09 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id o8so424591vkd.12;
- Fri, 15 May 2020 03:10:09 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B55D6EC56
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 10:14:44 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id z3so430381vka.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 03:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lhigMlxhzrJnKPEuZs499FlSgqJIMriFF+MKS12l+uA=;
- b=gp63hVTHYVuojW36b06JYhiTReOtH2+pg7/v0FgV+Ta6hcdtZGvwPDyvoqSOxSGDtN
- oP4ZHdDKFOvyHJR10A/6nYElof0kMVJDPAoNTgKZxEIGa+nCyCfwHCiI7lFXwc0qaMzA
- QAfKbSJ13sKqc8f+OXYJ9n35j/TnMdw1ZWoDyj9c/ixU0QS+YJHW8nSU546+3aSOA6Ux
- XF8IKhCQyLoOHK9JXy+j+yExcJ6wrEbHiSh9Z0DxkEif/uCZ5Z55ljyO0QHaypYZ3Us0
- 8oC9LXlPJzcj52ZMtS73p+KmzpCK5aGkyR/IadwzfCicaErtAohw9QYfP8bff+OpX50s
- iKyA==
+ :cc; bh=EZ6OfaKWMNYLsq/vPPXTECTxhgHBG6tG/ll2X5nosuY=;
+ b=CMChNp0FChPCbFs3F+MPjQ8mCacNZi+APaqwCEJMony0vvfP4fzBL/plYi1PTDsgjK
+ 3QT3ITHBA23ywLRg/M8uhZvZvgMqYwefgNad/vATXqp5pZCAy5KnBj2Lnm47dp+fm07g
+ luF6VNtLHrIuV7oxuc2jQ2uEQe2HUEvZOr72HWZhEgMhQVS6Bb+jTOtbmSis2Q9HU4km
+ Rw+76lFSY3QaXJQmOnNFPR7Ya4yfLqY9yugsS076acxRvt1+K6DjB6LbVYs0KpcOtdd8
+ k2Ke3achgeQ0U5rXPq3LNHZ6+oXMPBlKrgMuI0+qhdU3YD3/GsU9mbdxp1MmB+3gVpQz
+ 7Rbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lhigMlxhzrJnKPEuZs499FlSgqJIMriFF+MKS12l+uA=;
- b=PNnTNhJbgjKD4guvKep4RszXCOfu9dXjz9iqwkNjkpfSqchDn3nl5uUQQ3PeCMBHx7
- WVmFFxOKJoa5dXa72xFueBJBOKCU4wmUWrOve/ttZ5sXr2tiitVUn1H4j6kc1uMLmEYh
- 70pc7KxeqxsWG1GxuDggIZvwSKOzmzxNLYyFj+7LiXffGr4j4BWB3Z2vWoARVwJCKIBT
- S6blg94E+JZF01r/IMmD2OgjcCEV3qE3pr4UWzAyxwVP2sY0XcQSl3L6aWxutvlRB07O
- kW8qTuDgZh2oeCiUI+dzbW9ZIN9t5U5JXBgLfijW0jQWJJd3+wiLBctxXoeF4QJ4lBHT
- jl0A==
-X-Gm-Message-State: AOAM531aUvCJOAuByUvUlxVTVh+aKUA4FGjFuZ392YkUzhjJEVeoB7Dj
- PNoBqw+f08LeAMhq1YaxVICA1RBZAvpmRiYuKBM=
-X-Google-Smtp-Source: ABdhPJzaNbylRYStH6B+ZztSv24YNQNGSipyPFdD8gsTBnMBMP46eaL7d0io05RZRZvcuJ3Mg3DYYVRNdgElHQ0yNRE=
-X-Received: by 2002:a1f:cd06:: with SMTP id d6mr1918886vkg.94.1589537408919;
- Fri, 15 May 2020 03:10:08 -0700 (PDT)
+ bh=EZ6OfaKWMNYLsq/vPPXTECTxhgHBG6tG/ll2X5nosuY=;
+ b=oPcBC2NKceYf9LJ2XnFGKP2DX3tJ2fK1l/Z+oARdjlxwjEBP7DEIgv4tJLZ1wMvG6e
+ SBTspTX46U/Zq7alvNy3utGl2BT3qet3tEbjzBSMERAM/RPAXuGlkAG/b4eGdqb21+Zu
+ cHYPkHjM3wMsHY5VyF1+mjNwQB8Mmk5aMQbe+ChcToBWCQp9CIwGufUnVloFwR478t0Z
+ 3PzTpSvLfRbAXRDq9tWehuvjCBAEIiakJ1UFuZQHkl2qa/Z9zro6hUr2uNJNDx7OCMEz
+ plojQYzcBqogl1MSAxlTrcjpKS8zyKK+725OkFiSVy0QUh59Mo4KgU3n3JrZtruWAP7q
+ ecvA==
+X-Gm-Message-State: AOAM532QB8z1lESehTurgQ+AGLqB7OSV7KFYL1wsSC4AFc4DQ4t8e0bl
+ lHMVZEDz3licbpH/wVsMfWJkeCGa3QKwy0N7d0vv4w==
+X-Google-Smtp-Source: ABdhPJwySImY4STiLUyhyA0RYWBwnXcjZprr971z+NO8BgHmDKAA0Y4ycqtqtV/2t6BMdwfeII55n5dCjcYyTEMlNyk=
+X-Received: by 2002:a1f:2f91:: with SMTP id v139mr2005615vkv.22.1589537682435; 
+ Fri, 15 May 2020 03:14:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511123846.96594-1-christian.gmeiner@gmail.com>
-In-Reply-To: <20200511123846.96594-1-christian.gmeiner@gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 15 May 2020 12:09:57 +0200
-Message-ID: <CAH9NwWcJNhUVkzd0KAfJyxNZJ9a71KLzipW+qRwhgEWUmnnxmg@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
-To: LKML <linux-kernel@vger.kernel.org>
+References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+ <20200513214351.2138580-10-emil.l.velikov@gmail.com>
+ <CAJZ5v0iM5H03=RTtk2sZtUzaW0XJ+AaX1M00C8QjvaNz0ZE3bQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0iM5H03=RTtk2sZtUzaW0XJ+AaX1M00C8QjvaNz0ZE3bQ@mail.gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Fri, 15 May 2020 11:11:57 +0100
+Message-ID: <CACvgo52myKJ+3s8pYPnqNBxWqg6bCHQXqGJrLwmrSvocuqU=pg@mail.gmail.com>
+Subject: Re: [PATCH 10/11] kernel/power: constify sysrq_key_op
+To: "Rafael J. Wysocki" <rafael@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,76 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>, stable@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Len Brown <len.brown@intel.com>, Linux PM <linux-pm@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jiri Slaby <jslaby@suse.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mo., 11. Mai 2020 um 14:38 Uhr schrieb Christian Gmeiner
-<christian.gmeiner@gmail.com>:
+On Thu, 14 May 2020 at 12:21, Rafael J. Wysocki <rafael@kernel.org> wrote:
 >
-> The GC860 has one GPU device which has a 2d and 3d core. In this case
-> we want to expose perfmon information for both cores.
+> On Wed, May 13, 2020 at 11:46 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> >
+> > With earlier commits, the API no longer discards the const-ness of the
+> > sysrq_key_op. As such we can add the notation.
+> >
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Jiri Slaby <jslaby@suse.com>
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> > Cc: Len Brown <len.brown@intel.com>
+> > Cc: linux-pm@vger.kernel.org
+> > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 >
-> The driver has one array which contains all possible perfmon domains
-> with some meta data - doms_meta. Here we can see that for the GC860
-> two elements of that array are relevant:
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 >
->   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
->   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
->
-> The userspace driver wants to get a list of all perfmon domains and
-> their perfmon signals. This is done by iterating over all domains and
-> their signals. If the userspace driver wants to access the domain with
-> id 8 the kernel driver fails and returns invalid data from doms_3d with
-> and invalid offset.
->
-> This results in:
->   Unable to handle kernel paging request at virtual address 00000000
->
-> On such a device it is not possible to use the userspace driver at all.
->
-> The fix for this off-by-one error is quite simple.
->
-> Reported-by: Paul Cercueil <paul@crapouillou.net>
-> Tested-by: Paul Cercueil <paul@crapouillou.net>
-> Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> index e6795bafcbb9..35f7171e779a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
-> @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
->                 if (!(gpu->identity.features & meta->feature))
->                         continue;
->
-> -               if (meta->nr_domains < (index - offset)) {
-> +               if ((meta->nr_domains - 1) < (index - offset)) {
->                         offset += meta->nr_domains;
->                         continue;
->                 }
-> --
-> 2.26.2
->
+Thanks
 
-ping
+> and I'm assuming that this is going to be applied along with the rest
+> of the series.
+>
+I believe so, although I have not heard anything from the TTY maintainers yet.
 
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
