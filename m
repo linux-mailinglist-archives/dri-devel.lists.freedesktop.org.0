@@ -2,40 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CDE1D5261
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 16:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4601D53FB
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 17:15:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6C36ECCC;
-	Fri, 15 May 2020 14:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA176ECD3;
+	Fri, 15 May 2020 15:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4004D6ECCC;
- Fri, 15 May 2020 14:48:19 +0000 (UTC)
-IronPort-SDR: X1zQ65WihPOHohBEVCP4xmKQuOYTlStxAktVf9rVIwi8b5DQDY8MvwD9oLjyf/82tZ+6qGPNxH
- PfY9SWWIMuXg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 07:48:18 -0700
-IronPort-SDR: 4156NkPbKguXHUl/tTSYeDICywodZN3o+27s77ul80c2TBA/FRwR+8R9lx5aB6ThNAJ7a2rV82
- jEO6Hf4KbFow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="464923815"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga006.fm.intel.com with ESMTP; 15 May 2020 07:48:15 -0700
-Date: Fri, 15 May 2020 20:18:12 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v6 00/16] drm/i915: Add support for HDCP 1.4 over MST
- connectors
-Message-ID: <20200515144812.GB11877@intel.com>
-References: <20200429195502.39919-1-sean@poorly.run>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 301E16ECD3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 15:15:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DA6AF2F;
+ Fri, 15 May 2020 08:15:00 -0700 (PDT)
+Received: from [192.168.1.84] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7600D3F71E;
+ Fri, 15 May 2020 08:15:00 -0700 (PDT)
+Subject: Re: [PATCH v2 12/38] drm/gem: add drm_object_put helper
+To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
+ <20200515095118.2743122-13-emil.l.velikov@gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <daa165a6-f99e-5b8f-3f38-b474c98b1c9b@arm.com>
+Date: Fri, 15 May 2020 16:14:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200429195502.39919-1-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200515095118.2743122-13-emil.l.velikov@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,75 +42,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, seanpaul@chromium.org, juston.li@intel.com,
- rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-04-29 at 15:54:46 -0400, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On 15/05/2020 10:50, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
 > 
-> Changes in v6:
-> -Rebased on -tip
-> -Disabled HDCP over MST on GEN12
-> -Addressed Lyude's review comments in the QUERY_STREAM_ENCRYPTION_STATUS patch
+> Spelling out _unlocked for each and every driver is a annoying.
+> Especially if we consider how many drivers, do not know (or need to)
+> about the horror stories involving struct_mutex.
+> 
+> Add helper, which will allow us to transition the drivers one by one,
+> dropping the suffix.
+> 
+> v2: add missing space after function name (Jani)
+> 
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org> (v1)
 
-Sean,
+NIT: The subject is wrong: s/drm_object_put/drm_gem_object_put/
 
-What is the test setup you have used?
+With that fixed:
 
-I am afraid our CI dont have the coverage for MST capability yet to provide
-the functional status of the code.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
--Ram.
+Steve
+
+> ---
+>   include/drm/drm_gem.h | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> Sean Paul (16):
->   drm/i915: Fix sha_text population code
->   drm/i915: Clear the repeater bit on HDCP disable
->   drm/i915: WARN if HDCP signalling is enabled upon disable
->   drm/i915: Intercept Aksv writes in the aux hooks
->   drm/i915: Use the cpu_transcoder in intel_hdcp to toggle HDCP
->     signalling
->   drm/i915: Factor out hdcp->value assignments
->   drm/i915: Protect workers against disappearing connectors
->   drm/i915: Don't fully disable HDCP on a port if multiple pipes are
->     using it
->   drm/i915: Support DP MST in enc_to_dig_port() function
->   drm/i915: Use ddi_update_pipe in intel_dp_mst
->   drm/i915: Factor out HDCP shim functions from dp for use by dp_mst
->   drm/i915: Plumb port through hdcp init
->   drm/i915: Add connector to hdcp_shim->check_link()
->   drm/mst: Add support for QUERY_STREAM_ENCRYPTION_STATUS MST sideband
->     message
->   drm/i915: Print HDCP version info for all connectors
->   drm/i915: Add HDCP 1.4 support for MST connectors
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index a231a2b3f5ac..2f7b86c0649c 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -364,17 +364,19 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
+>   }
+>   
+>   /**
+> - * drm_gem_object_put_unlocked - drop a GEM buffer object reference
+> + * drm_gem_object_put - drop a GEM buffer object reference
+>    * @obj: GEM buffer object
+>    *
+>    * This releases a reference to @obj.
+>    */
+>   static inline void
+> -drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+> +drm_gem_object_put(struct drm_gem_object *obj)
+>   {
+>   	kref_put(&obj->refcount, drm_gem_object_free);
+>   }
+>   
+> +#define drm_gem_object_put_unlocked drm_gem_object_put
+> +
+>   void drm_gem_object_put_locked(struct drm_gem_object *obj);
+>   
+>   int drm_gem_handle_create(struct drm_file *file_priv,
 > 
->  drivers/gpu/drm/drm_dp_mst_topology.c         | 142 ++++
->  drivers/gpu/drm/i915/Makefile                 |   1 +
->  drivers/gpu/drm/i915/display/intel_ddi.c      |  29 +-
->  drivers/gpu/drm/i915/display/intel_ddi.h      |   2 +
->  .../drm/i915/display/intel_display_debugfs.c  |  21 +-
->  .../drm/i915/display/intel_display_types.h    |  30 +-
->  drivers/gpu/drm/i915/display/intel_dp.c       | 654 +--------------
->  drivers/gpu/drm/i915/display/intel_dp.h       |   9 +
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 743 ++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  19 +
->  drivers/gpu/drm/i915/display/intel_hdcp.c     | 217 +++--
->  drivers/gpu/drm/i915/display/intel_hdcp.h     |   2 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |  25 +-
->  .../drm/selftests/test-drm_dp_mst_helper.c    |  17 +
->  include/drm/drm_dp_helper.h                   |   3 +
->  include/drm/drm_dp_mst_helper.h               |  44 ++
->  include/drm/drm_hdcp.h                        |   3 +
->  17 files changed, 1235 insertions(+), 726 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> 
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
