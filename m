@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E706F1D4A0F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56151D4A1A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FCD6EC4D;
-	Fri, 15 May 2020 09:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492C76EC57;
+	Fri, 15 May 2020 09:55:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 395816EC42
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:38 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id w64so1948885wmg.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:38 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A42A6EC4B
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:39 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 50so2751905wrc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pNLF3OezzIDx+6Z3gzM02gmKo66FU8kqpI8uLC6WUCE=;
- b=K5no6ytI+zaq7ed6Ziz2Zp/Tn/2PiZFYGy7KOG3EHrDLYWx8r0ExgW8Vg6rZ0fcEsQ
- eKPdU/eW7ZA2AJUuIw6SYICzAh1+H84B6+Aa9lldM9xRQK9LnGBpCT54F1WY0+ImbQ2k
- muWhZEKwltqL91T771UtGHFhrBXWj21Qva7vUjcCi0GHCduzBANLd9cUGS3PQZpHjyjF
- y7+VGaU1eOHbEuNjWSDRonSM/43A4pvUXqeN1m2bqYR/ASw1yUDjWqJHj/CEs6UWSrZH
- alRmOwlGB7Wp5tu5YIa5K2cfxhkuESrqS7YOpUTcO38uElVfOUpXXxSjvre4/Or2AMd7
- TcTg==
+ bh=uXSokitOb4mqZMpIxKyK3nwkjsOeIwUipJwMxA5Ussc=;
+ b=pz0QUgq6QJTaV127c7f+athygQ03Zm2pA2WobwxMCLEuGonyl6xX0eMwsKZL2vNRTx
+ YXoQj2Flr3xsxBZu7hAhmpK08nA3B5bNcpl+I4LMi8nROhPzscYUtSO5JLFBHltuyCVm
+ j7l4lMtmJhn+w8YVdROhijg+n9KxIujt7MTiF/lCI6eSFiOc1cqaVJuJlS6fahy1RJaM
+ Uo9xswCSRfBhpIZ874VtZEK6ceg+GMRMIh0j2yrzjoNNq7ZD7lY5i1ikh8edPbk5Oz5D
+ 7IGT08Hz4RjNGN+8uCT3NVOx7wwhWFsQUok8GMuToDcJtbGWxo1S0wzsonwEH/rxW6Su
+ hR3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pNLF3OezzIDx+6Z3gzM02gmKo66FU8kqpI8uLC6WUCE=;
- b=iEwdRGYUtqzGUb0u5fztYiY5YdUutG431IaIRpz579JiexvPjdovga0GUlig/lKjp8
- uSTOkwFGI4Ob0oTe2yzL8Two5NfL+fZ3KT35rpbTzhxfbtRZ0JaEaa+khjSp0e3WVxGC
- nyVyDOAN9htle8K7R/UWbsGnWi9Jdh/MMzocyXQbtXdq6isCZqNLlbXRolotDd1GigDq
- X/8+VbTcZFCIr5E+r0D+34+mwrVWNw5BgAlXV4Fae1qtBKptpxmqqlNwBALs7EITSZHJ
- 4fK5bV62b4OtIuXU6ZjArkwcKpRllUpxGdrTgBIGHBSvIm3PU4vMU7ME6c7dr5AG/CJQ
- /7Eg==
-X-Gm-Message-State: AOAM5304bPh6ztV2g9tjagNyPlDAXBvn2vpQEcB9tJZl8R8rpYF/9TaR
- xnc0iSzXeHhnZocxlwNBJNkU1YPR
-X-Google-Smtp-Source: ABdhPJzeqijflI2tVTENtHMws/xjTVmY8yaUzbMFBT0wI74jlCYCx9MUFNaoqaaySXb7K6ib9jR6Ew==
-X-Received: by 2002:a7b:c7d5:: with SMTP id z21mr3024101wmk.112.1589536476602; 
- Fri, 15 May 2020 02:54:36 -0700 (PDT)
+ bh=uXSokitOb4mqZMpIxKyK3nwkjsOeIwUipJwMxA5Ussc=;
+ b=J2KapFR6GrGHw6bGL4oU5I7HmkgIayRGeZ6TDEO7A6nqcWDtDYtOE+Np+HVSg0CHi5
+ OoS/5IchYDZiIsNbER2uwMHsQz4A5+b8nOKAmmZhUWLInPDjucw2iCor9po/Dh5d+5iW
+ gGK0QkMqS62MLudCDI1eU9vVnKNgGTEBHMJzO3L/iAoz97sAmcrbd6faFO0uHgNi+C4W
+ J6rn85qOhCoqn4P7Pk2LXWtvOit4h74fFUk9gFN86fZEqa9TjG15hfgjBmsyOqO/PmsR
+ LjRM2Utzx3foIwpu9OXow7Y4wjsRM0c5fK+qwc5aYUXRZyaJ9c4ONLVvObAQFuB3njer
+ +gwg==
+X-Gm-Message-State: AOAM5339pT6piTsHou6gBIR2N4dUrWdmGwjzB2wH7oK/v5c8Lv3FWzyH
+ ldWvJFcij+zZ5kFPjTSQTWqa7eCL
+X-Google-Smtp-Source: ABdhPJzep3KID1Jfjb7oxQEimpWdmGaTLXti6Pg/ayobCAsFWorAO19jHhIgXeZv0MEzoqD5BNMabA==
+X-Received: by 2002:a5d:5706:: with SMTP id a6mr3201080wrv.141.1589536477779; 
+ Fri, 15 May 2020 02:54:37 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.35
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:36 -0700 (PDT)
+ Fri, 15 May 2020 02:54:37 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 30/38] drm/rockchip: remove _unlocked suffix in
+Subject: [PATCH v2 31/38] drm/tegra: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Fri, 15 May 2020 10:51:10 +0100
-Message-Id: <20200515095118.2743122-31-emil.l.velikov@gmail.com>
+Date: Fri, 15 May 2020 10:51:11 +0100
+Message-Id: <20200515095118.2743122-32-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -68,46 +68,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, emil.l.velikov@gmail.com,
- Sandy Huang <hjc@rock-chips.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
+ emil.l.velikov@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KClNwZWxsaW5n
-IG91dCBfdW5sb2NrZWQgZm9yIGVhY2ggYW5kIGV2ZXJ5IGRyaXZlciBpcyBhIGFubm95aW5nLgpF
-c3BlY2lhbGx5IGlmIHdlIGNvbnNpZGVyIGhvdyBtYW55IGRyaXZlcnMsIGRvIG5vdCBrbm93IChv
-ciBuZWVkIHRvKQphYm91dCB0aGUgaG9ycm9yIHN0b3JpZXMgaW52b2x2aW5nIHN0cnVjdF9tdXRl
-eC4KCkp1c3QgZHJvcCB0aGUgc3VmZml4LiBJdCBtYWtlcyB0aGUgQVBJIGNsZWFuZXIuCgpEb25l
-IHZpYSB0aGUgZm9sbG93aW5nIHNjcmlwdDoKCl9fZnJvbT1kcm1fZ2VtX29iamVjdF9wdXRfdW5s
-b2NrZWQKX190bz1kcm1fZ2VtX29iamVjdF9wdXQKZm9yIF9fZmlsZSBpbiAkKGdpdCBncmVwIC0t
-bmFtZS1vbmx5ICRfX2Zyb20pOyBkbwogIHNlZCAtaSAgInMvJF9fZnJvbS8kX190by9nIiAkX19m
-aWxlOwpkb25lCgpDYzogU2FuZHkgSHVhbmcgPGhqY0Byb2NrLWNoaXBzLmNvbT4KQ2M6ICJIZWlr
-byBTdMO8Ym5lciIgPGhlaWtvQHNudGVjaC5kZT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBs
-aW51eC5pZT4KU2lnbmVkLW9mZi1ieTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFi
-b3JhLmNvbT4KQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2ZiLmMgIHwgMiArLQogZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9nZW0uYyB8IDIgKy0KIDIgZmlsZXMgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZmIuYyBiL2RyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9yb2NrY2hpcF9kcm1fZmIuYwppbmRleCA5YjEzYzc4NGIzNDcuLjNhYTM3ZTE3NzY2
-NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYi5j
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fZmIuYwpAQCAtODgs
-NyArODgsNyBAQCByb2NrY2hpcF9mYl9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3Ry
-dWN0IGRybV9maWxlICpmaWxlLAogCQkJc3RydWN0IGRybV9nZW1fb2JqZWN0ICoqb2JqID0gYWZi
-Y19mYi0+YmFzZS5vYmo7CiAKIAkJCWZvciAoaSA9IDA7IGkgPCBpbmZvLT5udW1fcGxhbmVzOyAr
-K2kpCi0JCQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9ialtpXSk7CisJCQkJZHJtX2dl
-bV9vYmplY3RfcHV0KG9ialtpXSk7CiAKIAkJCWtmcmVlKGFmYmNfZmIpOwogCQkJcmV0dXJuIEVS
-Ul9QVFIocmV0KTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hp
-cF9kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5j
-CmluZGV4IDBkMTg4NDY4NGRjYi4uYjkyNzViYTdjNWE1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9yb2NrY2hpcF9kcm1fZ2VtLmMKQEAgLTM5Miw3ICszOTIsNyBAQCByb2NrY2hpcF9n
-ZW1fY3JlYXRlX3dpdGhfaGFuZGxlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LAogCQlnb3Rv
-IGVycl9oYW5kbGVfY3JlYXRlOwogCiAJLyogZHJvcCByZWZlcmVuY2UgZnJvbSBhbGxvY2F0ZSAt
-IGhhbmRsZSBob2xkcyBpdCBub3cuICovCi0JZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9i
-aik7CisJZHJtX2dlbV9vYmplY3RfcHV0KG9iaik7CiAKIAlyZXR1cm4gcmtfb2JqOwogCi0tIAoy
-LjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Emil Velikov <emil.velikov@collabora.com>
+
+Spelling out _unlocked for each and every driver is a annoying.
+Especially if we consider how many drivers, do not know (or need to)
+about the horror stories involving struct_mutex.
+
+Just drop the suffix. It makes the API cleaner.
+
+Done via the following script:
+
+__from=drm_gem_object_put_unlocked
+__to=drm_gem_object_put
+for __file in $(git grep --name-only $__from); do
+  sed -i  "s/$__from/$__to/g" $__file;
+done
+
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+---
+ drivers/gpu/drm/tegra/drm.c | 12 ++++++------
+ drivers/gpu/drm/tegra/fb.c  |  6 +++---
+ drivers/gpu/drm/tegra/gem.c |  4 ++--
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index d4f51b5c7ee5..09d71c94985c 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -328,7 +328,7 @@ int tegra_drm_submit(struct tegra_drm_context *context,
+ 
+ fail:
+ 	while (num_refs--)
+-		drm_gem_object_put_unlocked(refs[num_refs]);
++		drm_gem_object_put(refs[num_refs]);
+ 
+ 	kfree(refs);
+ 
+@@ -368,7 +368,7 @@ static int tegra_gem_mmap(struct drm_device *drm, void *data,
+ 
+ 	args->offset = drm_vma_node_offset_addr(&bo->gem.vma_node);
+ 
+-	drm_gem_object_put_unlocked(gem);
++	drm_gem_object_put(gem);
+ 
+ 	return 0;
+ }
+@@ -636,7 +636,7 @@ static int tegra_gem_set_tiling(struct drm_device *drm, void *data,
+ 	bo->tiling.mode = mode;
+ 	bo->tiling.value = value;
+ 
+-	drm_gem_object_put_unlocked(gem);
++	drm_gem_object_put(gem);
+ 
+ 	return 0;
+ }
+@@ -676,7 +676,7 @@ static int tegra_gem_get_tiling(struct drm_device *drm, void *data,
+ 		break;
+ 	}
+ 
+-	drm_gem_object_put_unlocked(gem);
++	drm_gem_object_put(gem);
+ 
+ 	return err;
+ }
+@@ -701,7 +701,7 @@ static int tegra_gem_set_flags(struct drm_device *drm, void *data,
+ 	if (args->flags & DRM_TEGRA_GEM_BOTTOM_UP)
+ 		bo->flags |= TEGRA_BO_BOTTOM_UP;
+ 
+-	drm_gem_object_put_unlocked(gem);
++	drm_gem_object_put(gem);
+ 
+ 	return 0;
+ }
+@@ -723,7 +723,7 @@ static int tegra_gem_get_flags(struct drm_device *drm, void *data,
+ 	if (bo->flags & TEGRA_BO_BOTTOM_UP)
+ 		args->flags |= DRM_TEGRA_GEM_BOTTOM_UP;
+ 
+-	drm_gem_object_put_unlocked(gem);
++	drm_gem_object_put(gem);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+index 2b0666ac681b..01939c57fc74 100644
+--- a/drivers/gpu/drm/tegra/fb.c
++++ b/drivers/gpu/drm/tegra/fb.c
+@@ -171,7 +171,7 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
+ 
+ unreference:
+ 	while (i--)
+-		drm_gem_object_put_unlocked(&planes[i]->gem);
++		drm_gem_object_put(&planes[i]->gem);
+ 
+ 	return ERR_PTR(err);
+ }
+@@ -235,7 +235,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 	info = drm_fb_helper_alloc_fbi(helper);
+ 	if (IS_ERR(info)) {
+ 		dev_err(drm->dev, "failed to allocate framebuffer info\n");
+-		drm_gem_object_put_unlocked(&bo->gem);
++		drm_gem_object_put(&bo->gem);
+ 		return PTR_ERR(info);
+ 	}
+ 
+@@ -244,7 +244,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 		err = PTR_ERR(fbdev->fb);
+ 		dev_err(drm->dev, "failed to allocate DRM framebuffer: %d\n",
+ 			err);
+-		drm_gem_object_put_unlocked(&bo->gem);
++		drm_gem_object_put(&bo->gem);
+ 		return PTR_ERR(fbdev->fb);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+index 623768100c6a..723df142a981 100644
+--- a/drivers/gpu/drm/tegra/gem.c
++++ b/drivers/gpu/drm/tegra/gem.c
+@@ -24,7 +24,7 @@ static void tegra_bo_put(struct host1x_bo *bo)
+ {
+ 	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+ 
+-	drm_gem_object_put_unlocked(&obj->gem);
++	drm_gem_object_put(&obj->gem);
+ }
+ 
+ /* XXX move this into lib/scatterlist.c? */
+@@ -385,7 +385,7 @@ struct tegra_bo *tegra_bo_create_with_handle(struct drm_file *file,
+ 		return ERR_PTR(err);
+ 	}
+ 
+-	drm_gem_object_put_unlocked(&bo->gem);
++	drm_gem_object_put(&bo->gem);
+ 
+ 	return bo;
+ }
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
