@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7831D47A0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 10:02:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56AB1D47A3
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 10:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66F906EC10;
-	Fri, 15 May 2020 08:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2EE589C96;
+	Fri, 15 May 2020 08:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE8C6EC10
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 08:02:37 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id s198so1471004oie.6
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 01:02:37 -0700 (PDT)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88ED789C96
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 08:03:20 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id a68so1215082otb.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 01:03:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZZ6vQ622AaV/0HEime7/TJpo5Nl9rILDzhMaaomGY/U=;
- b=uRLRn8ABPyy0MA8IjY6t0U/AEZMb+23hHPG7rI3++I8rtgcpH8DFW4eyw2bZHAE7wd
- k3wERqY8MBkHKNK9fvGUHB8W0ibFga6jVF8qs30QLnlwf7qxDGObiAaaIPaH1pfwkycV
- x/di7m+gYDziQkydhXuXOqxhTljWQRFJign7PAZaZYT6r7rZ7hbzMVMTER43Ib0blI2u
- /ihAHlc/atRtla7OJL2YFHr+P4XjSDaGeG4QpvKM0FE24vsTg/L4RamdiCEsreVPudvf
- O3vJEK7/YEZHpen4tdShgs1UoHtdtEQ4IMIMsDts2Vo4XXp2eW7NAhIeHzwDT1JSGwIH
- 9szg==
-X-Gm-Message-State: AOAM533fEveZHGa9LbETX6KnkierD9H6YW/MHfuEPeBpTuNoVCL5QPSd
- N6Pkuq2s5N+7IH04UjOi5Wsp5XbYCq4zvvF8Jls=
-X-Google-Smtp-Source: ABdhPJzN8vLde9ZUe9S+qS5BonElYeoTqoiGm2rI6IOYvfC6AUI+uzWHSOmSDDQBakSFOgcFTv+oQlC2M0atUYWMYEA=
-X-Received: by 2002:aca:d50f:: with SMTP id m15mr1265980oig.54.1589529756623; 
- Fri, 15 May 2020 01:02:36 -0700 (PDT)
+ bh=S6RqWFqDLnyhbogEEorXs2l4C9SQA7u1WfGxQI0hFs0=;
+ b=GneKYB/D9qL89M4c9fxMPMxQQAmQgQnlKczBflnxzZQXxBaBYMTpXRXeAf8KPzMwxK
+ SbHuo6e4lYyD8kCZu2WDnny/JvQDzDQxO/iIhanHOMWRZ1/MY9C8Ml002k6ji5DTzgAV
+ dit4Sv+MP5+s24i7e58job6+u52NWCQa9JlQs7IuELRP8OagC8KR2wKmmqlMJVrdg9vR
+ 2Z49Pd3WuUinkLVnAijSIYBA/Neh3cpqAUDZ0CEQ29pXAd271F4V8qTfPGUfmPDgUHt8
+ FHurOCUZk54uJlGn31S+oVNQCIQw6HOpN5ri66iyfvAV5sB8eVwhc74krYC84lI7XUw0
+ IXlw==
+X-Gm-Message-State: AOAM530Rv9NMAgeUBb6MRzli+GUhylrFcda6BtIHxMyIFajOEYcdjpTT
+ nDeCkzYqUjPfYc5Bn5ZXT3lTcCtqY05KrQTSnB0=
+X-Google-Smtp-Source: ABdhPJwqzxHWxFv6Mp1ECz3hTRpgWrZ2yzfCv2QUL/NdCvBf1nUgrqWXh9K7DZI4g+rUbxIxZPqwL20omKYmPmjS+Jw=
+X-Received: by 2002:a9d:63da:: with SMTP id e26mr1263475otl.107.1589529799904; 
+ Fri, 15 May 2020 01:03:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200515012432.31326-7-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20200515012432.31326-7-laurent.pinchart+renesas@ideasonboard.com>
+ <20200515012432.31326-9-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200515012432.31326-9-laurent.pinchart+renesas@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 15 May 2020 10:02:25 +0200
-Message-ID: <CAMuHMdWngTHUP=_kwTFsvjLt+7ciEfNhBYz8xXFOktt+gJg5Jg@mail.gmail.com>
-Subject: Re: [PATCH 6/8] dt-bindings: media: renesas, fdp1: Add resets property
+Date: Fri, 15 May 2020 10:03:08 +0200
+Message-ID: <CAMuHMdWU3y56HCJ8wFgjD2AXTdDcZjUxiLdrS-rqKjuTMvY6gw@mail.gmail.com>
+Subject: Re: [PATCH 8/8] dt-bindings: media: renesas,vsp1: Add power-domains
+ and resets
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,13 +62,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 3:42 AM Laurent Pinchart
+On Fri, May 15, 2020 at 3:43 AM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The resets property ise used in DT sources in the kernel tree. Document
-
-is
-
-> it and make it mandatory.
+> The power-domains and resets properties are used in all DT sources in
+> the kernel but are absent from the bindings. Document them and make them
+> mandatory.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
