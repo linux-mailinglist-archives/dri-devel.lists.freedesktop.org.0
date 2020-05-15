@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBE11D4A04
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5571D4A05
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A646EC40;
-	Fri, 15 May 2020 09:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78DC26EC41;
+	Fri, 15 May 2020 09:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A41656EC37
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:17 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id h17so2774366wrc.8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:17 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90CAB6EC37
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:19 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id l18so2794310wrn.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iP4HCCJA8AjIGmXzX15rGbOZS7T6ghNvHmXRpTbnWg0=;
- b=LPXkG9rOHYxlqP1E2ctzwa+/yE1lx87P4o7AmIRIk68+L/S1KVATl2ahAYtRbSprQr
- 7GsN+OJFHEXW+IwVN2CQrAzyrestL4uf2c3Puz09MknAn0QPJ2XrqJO5QhNKoGxkZAVR
- 1Y/HUm6rjvNrqEUo4OWRlsLoRElItUJCVLa8wp52PkDFSxocordBDDh8lh2iwIXgqY7P
- XzXNcfo+ZwvvSWkFpiR6jK/9FNKb4r0Ybf4wiieikZleWomDCPEaDeUikDRZs9jYMKH0
- lTGpPj3ZkvidJwE6eCSFaZAZo+8wwQAKLjEVTxlnu1/4YTtVkkDaG5gO5FtWOsxS7NgD
- 26ag==
+ bh=lqpj4NNdgUNumzCeY85kPOZ58nQ5tEaO/ei5PoeNh7w=;
+ b=NH3BKSKlT6nQ6dO2WYnfQxWnOxpTD4rnahdOxdHMx385hdUgO1/w1784RhWc/2Ou90
+ /I9BGISWkibUhVKn7v365r7ZaWyRE+hxVFWH4nleRNxvbaNk8eYnm+PQfV+SDZiuozyL
+ xqO3+5ci6d6jJmljOmygLwAB/oSV2QED5X02Ta/OWhlaVFp4sih+F0bNSvYZR3ChdXUp
+ XMnPr96v5J1wOjbw6DNQ/33MbYZrBKmV6QdBRUYZIA1h1kPBYVHHm+P/kUXAdvJatqkk
+ xvm1E3CRjpf7KyWdgtFqciK6A6YVb6JBj18AfNUh1dBUxQdUCHhSDweMPhtEDKNUaI+J
+ NmIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iP4HCCJA8AjIGmXzX15rGbOZS7T6ghNvHmXRpTbnWg0=;
- b=ZY99Wxq58tu/VDgSy6dxu8hYE0ECj+DazuksNfYe1ICqHhcwrNweE/mzblKU+1naSA
- SfQoy9zVjuKuyEueZ2yzbISEpbysDeqsbvxDVZptSgiLmA1obvHcQT5iNxOCKjUN4r+y
- 4PRzY0qUTS1DMYzgZ1ZzTlCBAT3Hj9PKYfXoKQgv98X96QVnAKfgTbI/ePG4YLM0bx+d
- xbfyf/iAkmA0o9DAoevgwKZO4ZoijdLXEfObbrc0R/MqdsGVAzYbB7NXAqiMhdeJhk6z
- zNsyL0wN3ScwKwwusrmDVkOJldrU4CU0xmVllNcTjlQMwPh4NkBVfp4daPZ8yuyGZ8O5
- cwnQ==
-X-Gm-Message-State: AOAM5305KhDgKr6JXF5rpbmHmzhPJEfoXNDuQTewOuqh5KbFATN9NFwc
- 8bDigC9ntC2XBaqR7CeuO/sPqkBH
-X-Google-Smtp-Source: ABdhPJxAdR2LXLXbZN1K6wNH52Ul4O2em3t1bCcdOlFIik+NEkH+E0CE1BTQnwo0IklefeHr9I+yAw==
-X-Received: by 2002:adf:f487:: with SMTP id l7mr3175226wro.381.1589536455703; 
- Fri, 15 May 2020 02:54:15 -0700 (PDT)
+ bh=lqpj4NNdgUNumzCeY85kPOZ58nQ5tEaO/ei5PoeNh7w=;
+ b=VGpA28O8AKSXV9YJqnDhkOd58xJsBXTSQ1Seg1/4/BsFzsNEEE4bwhrZeTmxb6xNPB
+ 6ptN6yTHLr+Azp6FnjXngn68QIj0N9y8bpkzTOQ3EzQUhEF2Nk20YqHmdXxEXBTnNtGo
+ mN/WcuqQ+bwSvEq9A0zvwYD7qlyDrBN0rnAr6WbJ+ewLQ/OCjhODgYKZkRjMd84JI/aI
+ Jz3KX3Y6g6OBl285syLVztWl6FKbG6CpqKYSks5TnDPOhqEZ1lpxfnviLkxCZDS0hNkY
+ TpgR7kIOdi1iAiz5F5/JcISiGw6mnDv6UAO8zkvllY7fvrnjJKwUWMC9r4iXTFOmOwH5
+ gyEw==
+X-Gm-Message-State: AOAM532xdYhBj7dpUakaU57GZgSDAIiw3KBYgJHXyRGJGvxTk+eOiysO
+ ov8jLQnFd/m9A1N4mDDzMY1OUFQe
+X-Google-Smtp-Source: ABdhPJzM5KbtL1Kaou05L/1y4/OvRvACAk0VmZbwJssxMVs/I5p/AMW64/bncRB1Gw5zTOuYoDnsNQ==
+X-Received: by 2002:a05:6000:1150:: with SMTP id
+ d16mr3344277wrx.197.1589536457867; 
+ Fri, 15 May 2020 02:54:17 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.14
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:15 -0700 (PDT)
+ Fri, 15 May 2020 02:54:16 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 13/38] drm: remove _unlocked suffix in
+Subject: [PATCH v2 14/38] drm/amd: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Fri, 15 May 2020 10:50:53 +0100
-Message-Id: <20200515095118.2743122-14-emil.l.velikov@gmail.com>
+Date: Fri, 15 May 2020 10:50:54 +0100
+Message-Id: <20200515095118.2743122-15-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -68,382 +69,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, emil.l.velikov@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alex Deucher <alexander.deucher@amd.com>, emil.l.velikov@gmail.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Emil Velikov <emil.velikov@collabora.com>
-
-Spelling out _unlocked for each and every driver is a annoying.
-Especially if we consider how many drivers, do not know (or need to)
-about the horror stories involving struct_mutex.
-
-Just drop the suffix. It makes the API cleaner.
-
-Done via the following script:
-
-__from=drm_gem_object_put_unlocked
-__to=drm_gem_object_put
-for __file in $(git grep --name-only $__from); do
-  sed -i  "s/$__from/$__to/g" $__file;
-done
-
-Pay special attention to the compat #define
-
-v2: keep sed and #define removal separate
-
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org> (v1)
----
- Documentation/gpu/drm-mm.rst                 |  2 +-
- drivers/gpu/drm/drm_client.c                 |  2 +-
- drivers/gpu/drm/drm_gem.c                    | 26 ++++++++++----------
- drivers/gpu/drm/drm_gem_cma_helper.c         |  8 +++---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |  6 ++---
- drivers/gpu/drm/drm_gem_shmem_helper.c       |  4 +--
- drivers/gpu/drm/drm_gem_ttm_helper.c         |  2 +-
- drivers/gpu/drm/drm_gem_vram_helper.c        | 10 ++++----
- drivers/gpu/drm/drm_prime.c                  |  6 ++---
- include/drm/drm_gem.h                        |  2 +-
- 10 files changed, 34 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 5ba2ead8f317..8c8540ee859c 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -178,7 +178,7 @@ GEM Objects Lifetime
- --------------------
- 
- All GEM objects are reference-counted by the GEM core. References can be
--acquired and release by calling drm_gem_object_get() and drm_gem_object_put_unlocked()
-+acquired and release by calling drm_gem_object_get() and drm_gem_object_put()
- respectively.
- 
- When the last reference to a GEM object is released the GEM core calls
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 8cb93f5209a4..536a22747b51 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -237,7 +237,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- 	drm_gem_vunmap(buffer->gem, buffer->vaddr);
- 
- 	if (buffer->gem)
--		drm_gem_object_put_unlocked(buffer->gem);
-+		drm_gem_object_put(buffer->gem);
- 
- 	if (buffer->handle)
- 		drm_mode_destroy_dumb(dev, buffer->handle, buffer->client->file);
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index f21327ebc562..ae02b3842c90 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -235,7 +235,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
- 	mutex_unlock(&dev->object_name_lock);
- 
- 	if (final)
--		drm_gem_object_put_unlocked(obj);
-+		drm_gem_object_put(obj);
- }
- 
- /*
-@@ -331,7 +331,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 
- 	*offset = drm_vma_node_offset_addr(&obj->vma_node);
- out:
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- 	return ret;
- }
-@@ -690,7 +690,7 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
-  * Returns:
-  *
-  * @objs filled in with GEM object pointers. Returned GEM objects need to be
-- * released with drm_gem_object_put_unlocked(). -ENOENT is returned on a lookup
-+ * released with drm_gem_object_put(). -ENOENT is returned on a lookup
-  * failure. 0 is returned on success.
-  *
-  */
-@@ -785,7 +785,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
- 	else if (ret > 0)
- 		ret = 0;
- 
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- 	return ret;
- }
-@@ -860,7 +860,7 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
- 
- err:
- 	mutex_unlock(&dev->object_name_lock);
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 	return ret;
- }
- 
-@@ -898,7 +898,7 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
- 
- 	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
- 	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 	if (ret)
- 		return ret;
- 
-@@ -991,7 +991,7 @@ EXPORT_SYMBOL(drm_gem_object_free);
-  * driver doesn't use &drm_device.struct_mutex for anything.
-  *
-  * For drivers not encumbered with legacy locking use
-- * drm_gem_object_put_unlocked() instead.
-+ * drm_gem_object_put() instead.
-  */
- void
- drm_gem_object_put_locked(struct drm_gem_object *obj)
-@@ -1030,7 +1030,7 @@ void drm_gem_vm_close(struct vm_area_struct *vma)
- {
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- }
- EXPORT_SYMBOL(drm_gem_vm_close);
- 
-@@ -1079,7 +1079,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 	if (obj->funcs && obj->funcs->mmap) {
- 		ret = obj->funcs->mmap(obj, vma);
- 		if (ret) {
--			drm_gem_object_put_unlocked(obj);
-+			drm_gem_object_put(obj);
- 			return ret;
- 		}
- 		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
-@@ -1089,7 +1089,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 		else if (dev->driver->gem_vm_ops)
- 			vma->vm_ops = dev->driver->gem_vm_ops;
- 		else {
--			drm_gem_object_put_unlocked(obj);
-+			drm_gem_object_put(obj);
- 			return -EINVAL;
- 		}
- 
-@@ -1155,13 +1155,13 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 		return -EINVAL;
- 
- 	if (!drm_vma_node_is_allowed(node, priv)) {
--		drm_gem_object_put_unlocked(obj);
-+		drm_gem_object_put(obj);
- 		return -EACCES;
- 	}
- 
- 	if (node->readonly) {
- 		if (vma->vm_flags & VM_WRITE) {
--			drm_gem_object_put_unlocked(obj);
-+			drm_gem_object_put(obj);
- 			return -EINVAL;
- 		}
- 
-@@ -1171,7 +1171,7 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	ret = drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
- 			       vma);
- 
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 12e98fb28229..b3db3ca7bd7a 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -114,7 +114,7 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 	return cma_obj;
- 
- error:
--	drm_gem_object_put_unlocked(&cma_obj->base);
-+	drm_gem_object_put(&cma_obj->base);
- 	return ERR_PTR(ret);
- }
- EXPORT_SYMBOL_GPL(drm_gem_cma_create);
-@@ -156,7 +156,7 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
- 	 */
- 	ret = drm_gem_handle_create(file_priv, gem_obj, handle);
- 	/* drop reference from allocate - handle holds it now. */
--	drm_gem_object_put_unlocked(gem_obj);
-+	drm_gem_object_put(gem_obj);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -380,13 +380,13 @@ unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
- 		return -EINVAL;
- 
- 	if (!drm_vma_node_is_allowed(node, priv)) {
--		drm_gem_object_put_unlocked(obj);
-+		drm_gem_object_put(obj);
- 		return -EACCES;
- 	}
- 
- 	cma_obj = to_drm_gem_cma_obj(obj);
- 
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- 	return cma_obj->vaddr ? (unsigned long)cma_obj->vaddr : -EINVAL;
- }
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index ccc2c71fa491..109d11fb4cd4 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -95,7 +95,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
- 	int i;
- 
- 	for (i = 0; i < 4; i++)
--		drm_gem_object_put_unlocked(fb->obj[i]);
-+		drm_gem_object_put(fb->obj[i]);
- 
- 	drm_framebuffer_cleanup(fb);
- 	kfree(fb);
-@@ -175,7 +175,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 			 + mode_cmd->offsets[i];
- 
- 		if (objs[i]->size < min_size) {
--			drm_gem_object_put_unlocked(objs[i]);
-+			drm_gem_object_put(objs[i]);
- 			ret = -EINVAL;
- 			goto err_gem_object_put;
- 		}
-@@ -189,7 +189,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 
- err_gem_object_put:
- 	for (i--; i >= 0; i--)
--		drm_gem_object_put_unlocked(objs[i]);
-+		drm_gem_object_put(objs[i]);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index df31e5782eed..339eee79ea52 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -360,7 +360,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
- 	 */
- 	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
- 	/* drop reference from allocate - handle holds it now. */
--	drm_gem_object_put_unlocked(&shmem->base);
-+	drm_gem_object_put(&shmem->base);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -684,7 +684,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- err_free_array:
- 	kvfree(shmem->pages);
- err_free_gem:
--	drm_gem_object_put_unlocked(&shmem->base);
-+	drm_gem_object_put(&shmem->base);
- 
- 	return ERR_PTR(ret);
- }
-diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-index 605a8a3da7f9..892b2288a104 100644
---- a/drivers/gpu/drm/drm_gem_ttm_helper.c
-+++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-@@ -74,7 +74,7 @@ int drm_gem_ttm_mmap(struct drm_gem_object *gem,
- 	 * ttm has its own object refcounting, so drop gem reference
- 	 * to avoid double accounting counting.
- 	 */
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 8b2d5c945c95..0023ce1d2cf7 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -618,9 +618,9 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
- 
- 	ret = drm_gem_handle_create(file, &gbo->bo.base, &handle);
- 	if (ret)
--		goto err_drm_gem_object_put_unlocked;
-+		goto err_drm_gem_object_put;
- 
--	drm_gem_object_put_unlocked(&gbo->bo.base);
-+	drm_gem_object_put(&gbo->bo.base);
- 
- 	args->pitch = pitch;
- 	args->size = size;
-@@ -628,8 +628,8 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
- 
- 	return 0;
- 
--err_drm_gem_object_put_unlocked:
--	drm_gem_object_put_unlocked(&gbo->bo.base);
-+err_drm_gem_object_put:
-+	drm_gem_object_put(&gbo->bo.base);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_gem_vram_fill_create_dumb);
-@@ -737,7 +737,7 @@ int drm_gem_vram_driver_dumb_mmap_offset(struct drm_file *file,
- 	gbo = drm_gem_vram_of_gem(gem);
- 	*offset = drm_gem_vram_mmap_offset(gbo);
- 
--	drm_gem_object_put_unlocked(gem);
-+	drm_gem_object_put(gem);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 282774e469ac..bbfc713bfdc3 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -270,7 +270,7 @@ void drm_gem_dmabuf_release(struct dma_buf *dma_buf)
- 	struct drm_device *dev = obj->dev;
- 
- 	/* drop the reference on the export fd holds */
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- 	drm_dev_put(dev);
- }
-@@ -329,7 +329,7 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
- 
- 	/* _handle_create_tail unconditionally unlocks dev->object_name_lock. */
- 	ret = drm_gem_handle_create_tail(file_priv, obj, handle);
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 	if (ret)
- 		goto out_put;
- 
-@@ -500,7 +500,7 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
- fail_put_dmabuf:
- 	dma_buf_put(dmabuf);
- out:
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- out_unlock:
- 	mutex_unlock(&file_priv->prime.lock);
- 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 2f7b86c0649c..10c5d561eb18 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -188,7 +188,7 @@ struct drm_gem_object {
- 	 * Reference count of this object
- 	 *
- 	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put_locked()
--	 * or drm_gem_object_put_unlocked() to release a reference to a GEM
-+	 * or drm_gem_object_put() to release a reference to a GEM
- 	 * buffer object.
- 	 */
- 	struct kref refcount;
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KClNwZWxsaW5n
+IG91dCBfdW5sb2NrZWQgZm9yIGVhY2ggYW5kIGV2ZXJ5IGRyaXZlciBpcyBhIGFubm95aW5nLgpF
+c3BlY2lhbGx5IGlmIHdlIGNvbnNpZGVyIGhvdyBtYW55IGRyaXZlcnMsIGRvIG5vdCBrbm93IChv
+ciBuZWVkIHRvKQphYm91dCB0aGUgaG9ycm9yIHN0b3JpZXMgaW52b2x2aW5nIHN0cnVjdF9tdXRl
+eC4KCkp1c3QgZHJvcCB0aGUgc3VmZml4LiBJdCBtYWtlcyB0aGUgQVBJIGNsZWFuZXIuCgpEb25l
+IHZpYSB0aGUgZm9sbG93aW5nIHNjcmlwdDoKCl9fZnJvbT1kcm1fZ2VtX29iamVjdF9wdXRfdW5s
+b2NrZWQKX190bz1kcm1fZ2VtX29iamVjdF9wdXQKZm9yIF9fZmlsZSBpbiAkKGdpdCBncmVwIC0t
+bmFtZS1vbmx5ICRfX2Zyb20pOyBkbwogIHNlZCAtaSAgInMvJF9fZnJvbS8kX190by9nIiAkX19m
+aWxlOwpkb25lCgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgpD
+YzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiAiRGF2
+aWQgKENodW5NaW5nKSBaaG91IiA8RGF2aWQxLlpob3VAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTog
+RW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KQWNrZWQtYnk6IFNhbSBS
+YXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfYm9fbGlzdC5jIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9jcy5jICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2Rpc3BsYXkuYyB8ICA0ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9k
+bWFfYnVmLmMgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ZiLmMg
+ICAgICB8ICA0ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYyAg
+ICAgfCAyMCArKysrKysrKysrLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+ZGNlX3YxMF8wLmMgICAgICB8ICA2ICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+ZGNlX3YxMV8wLmMgICAgICB8ICA2ICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+ZGNlX3Y2XzAuYyAgICAgICB8ICA2ICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+ZGNlX3Y4XzAuYyAgICAgICB8ICA2ICsrKy0tLQogMTAgZmlsZXMgY2hhbmdlZCwgMjkgaW5zZXJ0
+aW9ucygrKSwgMjkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2JvX2xpc3QuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9ib19saXN0LmMKaW5kZXggODViMDUxNWMwZmRjLi40MDUzNTk3YjNhZjIgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9ib19saXN0LmMKKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2JvX2xpc3QuYwpAQCAtMTAyLDcgKzEwMiw3
+IEBAIGludCBhbWRncHVfYm9fbGlzdF9jcmVhdGUoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYs
+IHN0cnVjdCBkcm1fZmlsZSAqZmlscCwKIAkJfQogCiAJCWJvID0gYW1kZ3B1X2JvX3JlZihnZW1f
+dG9fYW1kZ3B1X2JvKGdvYmopKTsKLQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKGdvYmop
+OworCQlkcm1fZ2VtX29iamVjdF9wdXQoZ29iaik7CiAKIAkJdXNlcm1tID0gYW1kZ3B1X3R0bV90
+dF9nZXRfdXNlcm1tKGJvLT50Ym8udHRtKTsKIAkJaWYgKHVzZXJtbSkgewpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfY3MuYwppbmRleCBhZjkxNjI3YjE5YjAuLjc2ZWEyNDVmMjEwNiAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMKQEAgLTU3LDcgKzU3LDcgQEAg
+c3RhdGljIGludCBhbWRncHVfY3NfdXNlcl9mZW5jZV9jaHVuayhzdHJ1Y3QgYW1kZ3B1X2NzX3Bh
+cnNlciAqcCwKIAkvKiBPbmUgZm9yIFRUTSBhbmQgb25lIGZvciB0aGUgQ1Mgam9iICovCiAJcC0+
+dWZfZW50cnkudHYubnVtX3NoYXJlZCA9IDI7CiAKLQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2Nr
+ZWQoZ29iaik7CisJZHJtX2dlbV9vYmplY3RfcHV0KGdvYmopOwogCiAJc2l6ZSA9IGFtZGdwdV9i
+b19zaXplKGJvKTsKIAlpZiAoc2l6ZSAhPSBQQUdFX1NJWkUgfHwgKGRhdGEtPm9mZnNldCArIDgp
+ID4gc2l6ZSkgewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNwbGF5LmMK
+aW5kZXggODRjZWUyN2NkN2VmLi5kZTliNjJlMjgwMGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNwbGF5LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXkuYwpAQCAtNTc1LDE0ICs1NzUsMTQgQEAgYW1kZ3B1X2Rp
+c3BsYXlfdXNlcl9mcmFtZWJ1ZmZlcl9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAog
+CWFtZGdwdV9mYiA9IGt6YWxsb2Moc2l6ZW9mKCphbWRncHVfZmIpLCBHRlBfS0VSTkVMKTsKIAlp
+ZiAoYW1kZ3B1X2ZiID09IE5VTEwpIHsKLQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9i
+aik7CisJCWRybV9nZW1fb2JqZWN0X3B1dChvYmopOwogCQlyZXR1cm4gRVJSX1BUUigtRU5PTUVN
+KTsKIAl9CiAKIAlyZXQgPSBhbWRncHVfZGlzcGxheV9mcmFtZWJ1ZmZlcl9pbml0KGRldiwgYW1k
+Z3B1X2ZiLCBtb2RlX2NtZCwgb2JqKTsKIAlpZiAocmV0KSB7CiAJCWtmcmVlKGFtZGdwdV9mYik7
+Ci0JCWRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29iamVjdF9w
+dXQob2JqKTsKIAkJcmV0dXJuIEVSUl9QVFIocmV0KTsKIAl9CiAKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jCmluZGV4IDY1MmM1N2EzYjg0Ny4uNDNkOGVkN2Ri
+ZDAwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1
+Zi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMKQEAg
+LTU4Nyw3ICs1ODcsNyBAQCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmFtZGdwdV9nZW1fcHJpbWVf
+aW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJYXR0YWNoID0gZG1hX2J1Zl9keW5hbWlj
+X2F0dGFjaChkbWFfYnVmLCBkZXYtPmRldiwKIAkJCQkJJmFtZGdwdV9kbWFfYnVmX2F0dGFjaF9v
+cHMsIG9iaik7CiAJaWYgKElTX0VSUihhdHRhY2gpKSB7Ci0JCWRybV9nZW1fb2JqZWN0X3B1dF91
+bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKIAkJcmV0dXJuIEVSUl9D
+QVNUKGF0dGFjaCk7CiAJfQogCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfZmIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9mYi5jCmlu
+ZGV4IDlhZTdiNjFmNjk2YS4uY2E1ZGRlNGVjNDdkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfZmIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfZmIuYwpAQCAtMTE0LDcgKzExNCw3IEBAIHN0YXRpYyB2b2lkIGFtZGdwdWZiX2Rl
+c3Ryb3lfcGlubmVkX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmdvYmopCiAJCWFtZGdw
+dV9ib191bnBpbihhYm8pOwogCQlhbWRncHVfYm9fdW5yZXNlcnZlKGFibyk7CiAJfQotCWRybV9n
+ZW1fb2JqZWN0X3B1dF91bmxvY2tlZChnb2JqKTsKKwlkcm1fZ2VtX29iamVjdF9wdXQoZ29iaik7
+CiB9CiAKIHN0YXRpYyBpbnQgYW1kZ3B1ZmJfY3JlYXRlX3Bpbm5lZF9vYmplY3Qoc3RydWN0IGFt
+ZGdwdV9mYmRldiAqcmZiZGV2LApAQCAtMjc5LDcgKzI3OSw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1
+ZmJfY3JlYXRlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpoZWxwZXIsCiAKIAl9CiAJaWYgKGZiICYm
+IHJldCkgewotCQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ29iaik7CisJCWRybV9nZW1f
+b2JqZWN0X3B1dChnb2JqKTsKIAkJZHJtX2ZyYW1lYnVmZmVyX3VucmVnaXN0ZXJfcHJpdmF0ZShm
+Yik7CiAJCWRybV9mcmFtZWJ1ZmZlcl9jbGVhbnVwKGZiKTsKIAkJa2ZyZWUoZmIpOwpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCmluZGV4IGU0MjYwODExNWM5OS4uOGMwNTk3
+ZjMwNmVjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2Vt
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCkBAIC0xMDYs
+NyArMTA2LDcgQEAgdm9pZCBhbWRncHVfZ2VtX2ZvcmNlX3JlbGVhc2Uoc3RydWN0IGFtZGdwdV9k
+ZXZpY2UgKmFkZXYpCiAJCXNwaW5fbG9jaygmZmlsZS0+dGFibGVfbG9jayk7CiAJCWlkcl9mb3Jf
+ZWFjaF9lbnRyeSgmZmlsZS0+b2JqZWN0X2lkciwgZ29iaiwgaGFuZGxlKSB7CiAJCQlXQVJOX09O
+Q0UoMSwgIkFuZCBhbHNvIGFjdGl2ZSBhbGxvY2F0aW9ucyFcbiIpOwotCQkJZHJtX2dlbV9vYmpl
+Y3RfcHV0X3VubG9ja2VkKGdvYmopOworCQkJZHJtX2dlbV9vYmplY3RfcHV0KGdvYmopOwogCQl9
+CiAJCWlkcl9kZXN0cm95KCZmaWxlLT5vYmplY3RfaWRyKTsKIAkJc3Bpbl91bmxvY2soJmZpbGUt
+PnRhYmxlX2xvY2spOwpAQCAtMjcyLDcgKzI3Miw3IEBAIGludCBhbWRncHVfZ2VtX2NyZWF0ZV9p
+b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCiAJciA9IGRybV9nZW1f
+aGFuZGxlX2NyZWF0ZShmaWxwLCBnb2JqLCAmaGFuZGxlKTsKIAkvKiBkcm9wIHJlZmVyZW5jZSBm
+cm9tIGFsbG9jYXRlIC0gaGFuZGxlIGhvbGRzIGl0IG5vdyAqLwotCWRybV9nZW1fb2JqZWN0X3B1
+dF91bmxvY2tlZChnb2JqKTsKKwlkcm1fZ2VtX29iamVjdF9wdXQoZ29iaik7CiAJaWYgKHIpCiAJ
+CXJldHVybiByOwogCkBAIC0zNTYsNyArMzU2LDcgQEAgaW50IGFtZGdwdV9nZW1fdXNlcnB0cl9p
+b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQlhbWRncHVfdHRtX3R0
+X2dldF91c2VyX3BhZ2VzX2RvbmUoYm8tPnRiby50dG0pOwogCiByZWxlYXNlX29iamVjdDoKLQlk
+cm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ29iaik7CisJZHJtX2dlbV9vYmplY3RfcHV0KGdv
+YmopOwogCiAJcmV0dXJuIHI7CiB9CkBAIC0zNzUsMTEgKzM3NSwxMSBAQCBpbnQgYW1kZ3B1X21v
+ZGVfZHVtYl9tbWFwKHN0cnVjdCBkcm1fZmlsZSAqZmlscCwKIAlyb2JqID0gZ2VtX3RvX2FtZGdw
+dV9ibyhnb2JqKTsKIAlpZiAoYW1kZ3B1X3R0bV90dF9nZXRfdXNlcm1tKHJvYmotPnRiby50dG0p
+IHx8CiAJICAgIChyb2JqLT5mbGFncyAmIEFNREdQVV9HRU1fQ1JFQVRFX05PX0NQVV9BQ0NFU1Mp
+KSB7Ci0JCWRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZChnb2JqKTsKKwkJZHJtX2dlbV9vYmpl
+Y3RfcHV0KGdvYmopOwogCQlyZXR1cm4gLUVQRVJNOwogCX0KIAkqb2Zmc2V0X3AgPSBhbWRncHVf
+Ym9fbW1hcF9vZmZzZXQocm9iaik7Ci0JZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKGdvYmop
+OworCWRybV9nZW1fb2JqZWN0X3B1dChnb2JqKTsKIAlyZXR1cm4gMDsKIH0KIApAQCAtNDQ5LDcg
+KzQ0OSw3IEBAIGludCBhbWRncHVfZ2VtX3dhaXRfaWRsZV9pb2N0bChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LCB2b2lkICpkYXRhLAogCX0gZWxzZQogCQlyID0gcmV0OwogCi0JZHJtX2dlbV9vYmpl
+Y3RfcHV0X3VubG9ja2VkKGdvYmopOworCWRybV9nZW1fb2JqZWN0X3B1dChnb2JqKTsKIAlyZXR1
+cm4gcjsKIH0KIApAQCAtNDkyLDcgKzQ5Miw3IEBAIGludCBhbWRncHVfZ2VtX21ldGFkYXRhX2lv
+Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiB1bnJlc2VydmU6CiAJYW1k
+Z3B1X2JvX3VucmVzZXJ2ZShyb2JqKTsKIG91dDoKLQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2Nr
+ZWQoZ29iaik7CisJZHJtX2dlbV9vYmplY3RfcHV0KGdvYmopOwogCXJldHVybiByOwogfQogCkBA
+IC02OTEsNyArNjkxLDcgQEAgaW50IGFtZGdwdV9nZW1fdmFfaW9jdGwoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiwgdm9pZCAqZGF0YSwKIAl0dG1fZXVfYmFja29mZl9yZXNlcnZhdGlvbigmdGlja2V0
+LCAmbGlzdCk7CiAKIGVycm9yX3VucmVmOgotCWRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZChn
+b2JqKTsKKwlkcm1fZ2VtX29iamVjdF9wdXQoZ29iaik7CiAJcmV0dXJuIHI7CiB9CiAKQEAgLTc2
+Nyw3ICs3NjcsNyBAQCBpbnQgYW1kZ3B1X2dlbV9vcF9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCB2b2lkICpkYXRhLAogCX0KIAogb3V0OgotCWRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tl
+ZChnb2JqKTsKKwlkcm1fZ2VtX29iamVjdF9wdXQoZ29iaik7CiAJcmV0dXJuIHI7CiB9CiAKQEAg
+LTgwNCw3ICs4MDQsNyBAQCBpbnQgYW1kZ3B1X21vZGVfZHVtYl9jcmVhdGUoc3RydWN0IGRybV9m
+aWxlICpmaWxlX3ByaXYsCiAKIAlyID0gZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVfcHJpdiwg
+Z29iaiwgJmhhbmRsZSk7CiAJLyogZHJvcCByZWZlcmVuY2UgZnJvbSBhbGxvY2F0ZSAtIGhhbmRs
+ZSBob2xkcyBpdCBub3cgKi8KLQlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ29iaik7CisJ
+ZHJtX2dlbV9vYmplY3RfcHV0KGdvYmopOwogCWlmIChyKSB7CiAJCXJldHVybiByOwogCX0KZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92MTBfMC5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvZGNlX3YxMF8wLmMKaW5kZXggMjUxMmU3ZWJmZWRmLi40N2E2
+ZTNkMGFhOTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92MTBf
+MC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92MTBfMC5jCkBAIC0yNDA0
+LDcgKzI0MDQsNyBAQCBzdGF0aWMgaW50IGRjZV92MTBfMF9jcnRjX2N1cnNvcl9zZXQyKHN0cnVj
+dCBkcm1fY3J0YyAqY3J0YywKIAlhb2JqID0gZ2VtX3RvX2FtZGdwdV9ibyhvYmopOwogCXJldCA9
+IGFtZGdwdV9ib19yZXNlcnZlKGFvYmosIGZhbHNlKTsKIAlpZiAocmV0ICE9IDApIHsKLQkJZHJt
+X2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9iaik7CisJCWRybV9nZW1fb2JqZWN0X3B1dChvYmop
+OwogCQlyZXR1cm4gcmV0OwogCX0KIApAQCAtMjQxMiw3ICsyNDEyLDcgQEAgc3RhdGljIGludCBk
+Y2VfdjEwXzBfY3J0Y19jdXJzb3Jfc2V0MihzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJYW1kZ3B1
+X2JvX3VucmVzZXJ2ZShhb2JqKTsKIAlpZiAocmV0KSB7CiAJCURSTV9FUlJPUigiRmFpbGVkIHRv
+IHBpbiBuZXcgY3Vyc29yIEJPICglZClcbiIsIHJldCk7Ci0JCWRybV9nZW1fb2JqZWN0X3B1dF91
+bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKIAkJcmV0dXJuIHJldDsK
+IAl9CiAJYW1kZ3B1X2NydGMtPmN1cnNvcl9hZGRyID0gYW1kZ3B1X2JvX2dwdV9vZmZzZXQoYW9i
+aik7CkBAIC0yNDQ3LDcgKzI0NDcsNyBAQCBzdGF0aWMgaW50IGRjZV92MTBfMF9jcnRjX2N1cnNv
+cl9zZXQyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCWFtZGdwdV9ib191bnBpbihhb2JqKTsK
+IAkJCWFtZGdwdV9ib191bnJlc2VydmUoYW9iaik7CiAJCX0KLQkJZHJtX2dlbV9vYmplY3RfcHV0
+X3VubG9ja2VkKGFtZGdwdV9jcnRjLT5jdXJzb3JfYm8pOworCQlkcm1fZ2VtX29iamVjdF9wdXQo
+YW1kZ3B1X2NydGMtPmN1cnNvcl9ibyk7CiAJfQogCiAJYW1kZ3B1X2NydGMtPmN1cnNvcl9ibyA9
+IG9iajsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92MTFfMC5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZGNlX3YxMV8wLmMKaW5kZXggMGRkZTIyZGI5
+ODQ4Li43ZDE2ZmI1YTk0ODIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L2RjZV92MTFfMC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92MTFfMC5j
+CkBAIC0yNDgzLDcgKzI0ODMsNyBAQCBzdGF0aWMgaW50IGRjZV92MTFfMF9jcnRjX2N1cnNvcl9z
+ZXQyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAlhb2JqID0gZ2VtX3RvX2FtZGdwdV9ibyhvYmop
+OwogCXJldCA9IGFtZGdwdV9ib19yZXNlcnZlKGFvYmosIGZhbHNlKTsKIAlpZiAocmV0ICE9IDAp
+IHsKLQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9iaik7CisJCWRybV9nZW1fb2JqZWN0
+X3B1dChvYmopOwogCQlyZXR1cm4gcmV0OwogCX0KIApAQCAtMjQ5MSw3ICsyNDkxLDcgQEAgc3Rh
+dGljIGludCBkY2VfdjExXzBfY3J0Y19jdXJzb3Jfc2V0MihzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
+CiAJYW1kZ3B1X2JvX3VucmVzZXJ2ZShhb2JqKTsKIAlpZiAocmV0KSB7CiAJCURSTV9FUlJPUigi
+RmFpbGVkIHRvIHBpbiBuZXcgY3Vyc29yIEJPICglZClcbiIsIHJldCk7Ci0JCWRybV9nZW1fb2Jq
+ZWN0X3B1dF91bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKIAkJcmV0
+dXJuIHJldDsKIAl9CiAJYW1kZ3B1X2NydGMtPmN1cnNvcl9hZGRyID0gYW1kZ3B1X2JvX2dwdV9v
+ZmZzZXQoYW9iaik7CkBAIC0yNTI2LDcgKzI1MjYsNyBAQCBzdGF0aWMgaW50IGRjZV92MTFfMF9j
+cnRjX2N1cnNvcl9zZXQyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAkJCWFtZGdwdV9ib191bnBp
+bihhb2JqKTsKIAkJCWFtZGdwdV9ib191bnJlc2VydmUoYW9iaik7CiAJCX0KLQkJZHJtX2dlbV9v
+YmplY3RfcHV0X3VubG9ja2VkKGFtZGdwdV9jcnRjLT5jdXJzb3JfYm8pOworCQlkcm1fZ2VtX29i
+amVjdF9wdXQoYW1kZ3B1X2NydGMtPmN1cnNvcl9ibyk7CiAJfQogCiAJYW1kZ3B1X2NydGMtPmN1
+cnNvcl9ibyA9IG9iajsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Rj
+ZV92Nl8wLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9kY2VfdjZfMC5jCmluZGV4IDg0
+MjE5NTM0YmQzOC4uMWFiMzNhYTM5ODBlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9kY2VfdjZfMC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92
+Nl8wLmMKQEAgLTIyOTksNyArMjI5OSw3IEBAIHN0YXRpYyBpbnQgZGNlX3Y2XzBfY3J0Y19jdXJz
+b3Jfc2V0MihzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJYW9iaiA9IGdlbV90b19hbWRncHVfYm8o
+b2JqKTsKIAlyZXQgPSBhbWRncHVfYm9fcmVzZXJ2ZShhb2JqLCBmYWxzZSk7CiAJaWYgKHJldCAh
+PSAwKSB7Ci0JCWRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29i
+amVjdF9wdXQob2JqKTsKIAkJcmV0dXJuIHJldDsKIAl9CiAKQEAgLTIzMDcsNyArMjMwNyw3IEBA
+IHN0YXRpYyBpbnQgZGNlX3Y2XzBfY3J0Y19jdXJzb3Jfc2V0MihzdHJ1Y3QgZHJtX2NydGMgKmNy
+dGMsCiAJYW1kZ3B1X2JvX3VucmVzZXJ2ZShhb2JqKTsKIAlpZiAocmV0KSB7CiAJCURSTV9FUlJP
+UigiRmFpbGVkIHRvIHBpbiBuZXcgY3Vyc29yIEJPICglZClcbiIsIHJldCk7Ci0JCWRybV9nZW1f
+b2JqZWN0X3B1dF91bmxvY2tlZChvYmopOworCQlkcm1fZ2VtX29iamVjdF9wdXQob2JqKTsKIAkJ
+cmV0dXJuIHJldDsKIAl9CiAJYW1kZ3B1X2NydGMtPmN1cnNvcl9hZGRyID0gYW1kZ3B1X2JvX2dw
+dV9vZmZzZXQoYW9iaik7CkBAIC0yMzQyLDcgKzIzNDIsNyBAQCBzdGF0aWMgaW50IGRjZV92Nl8w
+X2NydGNfY3Vyc29yX3NldDIoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCQkJYW1kZ3B1X2JvX3Vu
+cGluKGFvYmopOwogCQkJYW1kZ3B1X2JvX3VucmVzZXJ2ZShhb2JqKTsKIAkJfQotCQlkcm1fZ2Vt
+X29iamVjdF9wdXRfdW5sb2NrZWQoYW1kZ3B1X2NydGMtPmN1cnNvcl9ibyk7CisJCWRybV9nZW1f
+b2JqZWN0X3B1dChhbWRncHVfY3J0Yy0+Y3Vyc29yX2JvKTsKIAl9CiAKIAlhbWRncHVfY3J0Yy0+
+Y3Vyc29yX2JvID0gb2JqOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+ZGNlX3Y4XzAuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RjZV92OF8wLmMKaW5kZXgg
+M2E2NDA3MDJkN2QxLi44YThmMWFhNDkyMTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2RjZV92OF8wLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZGNl
+X3Y4XzAuYwpAQCAtMjMwNSw3ICsyMzA1LDcgQEAgc3RhdGljIGludCBkY2VfdjhfMF9jcnRjX2N1
+cnNvcl9zZXQyKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAlhb2JqID0gZ2VtX3RvX2FtZGdwdV9i
+byhvYmopOwogCXJldCA9IGFtZGdwdV9ib19yZXNlcnZlKGFvYmosIGZhbHNlKTsKIAlpZiAocmV0
+ICE9IDApIHsKLQkJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9iaik7CisJCWRybV9nZW1f
+b2JqZWN0X3B1dChvYmopOwogCQlyZXR1cm4gcmV0OwogCX0KIApAQCAtMjMxMyw3ICsyMzEzLDcg
+QEAgc3RhdGljIGludCBkY2VfdjhfMF9jcnRjX2N1cnNvcl9zZXQyKHN0cnVjdCBkcm1fY3J0YyAq
+Y3J0YywKIAlhbWRncHVfYm9fdW5yZXNlcnZlKGFvYmopOwogCWlmIChyZXQpIHsKIAkJRFJNX0VS
+Uk9SKCJGYWlsZWQgdG8gcGluIG5ldyBjdXJzb3IgQk8gKCVkKVxuIiwgcmV0KTsKLQkJZHJtX2dl
+bV9vYmplY3RfcHV0X3VubG9ja2VkKG9iaik7CisJCWRybV9nZW1fb2JqZWN0X3B1dChvYmopOwog
+CQlyZXR1cm4gcmV0OwogCX0KIAlhbWRncHVfY3J0Yy0+Y3Vyc29yX2FkZHIgPSBhbWRncHVfYm9f
+Z3B1X29mZnNldChhb2JqKTsKQEAgLTIzNDgsNyArMjM0OCw3IEBAIHN0YXRpYyBpbnQgZGNlX3Y4
+XzBfY3J0Y19jdXJzb3Jfc2V0MihzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJCQlhbWRncHVfYm9f
+dW5waW4oYW9iaik7CiAJCQlhbWRncHVfYm9fdW5yZXNlcnZlKGFvYmopOwogCQl9Ci0JCWRybV9n
+ZW1fb2JqZWN0X3B1dF91bmxvY2tlZChhbWRncHVfY3J0Yy0+Y3Vyc29yX2JvKTsKKwkJZHJtX2dl
+bV9vYmplY3RfcHV0KGFtZGdwdV9jcnRjLT5jdXJzb3JfYm8pOwogCX0KIAogCWFtZGdwdV9jcnRj
+LT5jdXJzb3JfYm8gPSBvYmo7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
