@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8042E1D4E0E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715A11D4E0F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D96B36EC8D;
-	Fri, 15 May 2020 12:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CABA76EC90;
+	Fri, 15 May 2020 12:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 577296EC8D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:49:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8C7E06EC91
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:49:30 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3FF31042;
- Fri, 15 May 2020 05:49:27 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40B731042;
+ Fri, 15 May 2020 05:49:30 -0700 (PDT)
 Received: from [192.168.1.84] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5924F3F305;
- Fri, 15 May 2020 05:49:27 -0700 (PDT)
-Subject: Re: [PATCH v2 13/38] drm: remove _unlocked suffix in
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81E243F305;
+ Fri, 15 May 2020 05:49:29 -0700 (PDT)
+Subject: Re: [PATCH v2 27/38] drm/panfrost: remove _unlocked suffix in
  drm_object_put_unlocked
 To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
- <20200515095118.2743122-14-emil.l.velikov@gmail.com>
+ <20200515095118.2743122-28-emil.l.velikov@gmail.com>
 From: Steven Price <steven.price@arm.com>
-Message-ID: <8bb860be-005e-10e0-5f4b-3405b490bb2b@arm.com>
+Message-ID: <871bb65a-28a1-9e86-7941-2b6d5b9fdad9@arm.com>
 Date: Fri, 15 May 2020 13:46:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515095118.2743122-14-emil.l.velikov@gmail.com>
+In-Reply-To: <20200515095118.2743122-28-emil.l.velikov@gmail.com>
 Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,13 +43,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/05/2020 10:50, Emil Velikov wrote:
+On 15/05/2020 10:51, Emil Velikov wrote:
 > From: Emil Velikov <emil.velikov@collabora.com>
 > 
 > Spelling out _unlocked for each and every driver is a annoying.
@@ -66,14 +66,11 @@ On 15/05/2020 10:50, Emil Velikov wrote:
 >    sed -i  "s/$__from/$__to/g" $__file;
 > done
 > 
-> Pay special attention to the compat #define
-> 
-> v2: keep sed and #define removal separate
-> 
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
 > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org> (v1)
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 NIT: The subject is wrong: s/drm_object_put/drm_gem_object_put/
 
@@ -84,237 +81,76 @@ Reviewed-by: Steven Price <steven.price@arm.com>
 Steve
 
 > ---
->   Documentation/gpu/drm-mm.rst                 |  2 +-
->   drivers/gpu/drm/drm_client.c                 |  2 +-
->   drivers/gpu/drm/drm_gem.c                    | 26 ++++++++++----------
->   drivers/gpu/drm/drm_gem_cma_helper.c         |  8 +++---
->   drivers/gpu/drm/drm_gem_framebuffer_helper.c |  6 ++---
->   drivers/gpu/drm/drm_gem_shmem_helper.c       |  4 +--
->   drivers/gpu/drm/drm_gem_ttm_helper.c         |  2 +-
->   drivers/gpu/drm/drm_gem_vram_helper.c        | 10 ++++----
->   drivers/gpu/drm/drm_prime.c                  |  6 ++---
->   include/drm/drm_gem.h                        |  2 +-
->   10 files changed, 34 insertions(+), 34 deletions(-)
+>   drivers/gpu/drm/panfrost/panfrost_drv.c     | 10 +++++-----
+>   drivers/gpu/drm/panfrost/panfrost_gem.c     |  4 ++--
+>   drivers/gpu/drm/panfrost/panfrost_job.c     |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_mmu.c     |  2 +-
+>   drivers/gpu/drm/panfrost/panfrost_perfcnt.c |  4 ++--
+>   5 files changed, 11 insertions(+), 11 deletions(-)
 > 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index 5ba2ead8f317..8c8540ee859c 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -178,7 +178,7 @@ GEM Objects Lifetime
->   --------------------
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 882fecc33fdb..ada51df9a7a3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -99,7 +99,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
 >   
->   All GEM objects are reference-counted by the GEM core. References can be
-> -acquired and release by calling drm_gem_object_get() and drm_gem_object_put_unlocked()
-> +acquired and release by calling drm_gem_object_get() and drm_gem_object_put()
->   respectively.
->   
->   When the last reference to a GEM object is released the GEM core calls
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 8cb93f5209a4..536a22747b51 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -237,7 +237,7 @@ static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
->   	drm_gem_vunmap(buffer->gem, buffer->vaddr);
->   
->   	if (buffer->gem)
-> -		drm_gem_object_put_unlocked(buffer->gem);
-> +		drm_gem_object_put(buffer->gem);
->   
->   	if (buffer->handle)
->   		drm_mode_destroy_dumb(dev, buffer->handle, buffer->client->file);
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index f21327ebc562..ae02b3842c90 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -235,7 +235,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
->   	mutex_unlock(&dev->object_name_lock);
->   
->   	if (final)
-> -		drm_gem_object_put_unlocked(obj);
-> +		drm_gem_object_put(obj);
->   }
->   
->   /*
-> @@ -331,7 +331,7 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
->   
->   	*offset = drm_vma_node_offset_addr(&obj->vma_node);
->   out:
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   
->   	return ret;
->   }
-> @@ -690,7 +690,7 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->    * Returns:
->    *
->    * @objs filled in with GEM object pointers. Returned GEM objects need to be
-> - * released with drm_gem_object_put_unlocked(). -ENOENT is returned on a lookup
-> + * released with drm_gem_object_put(). -ENOENT is returned on a lookup
->    * failure. 0 is returned on success.
->    *
->    */
-> @@ -785,7 +785,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->   	else if (ret > 0)
->   		ret = 0;
->   
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   
->   	return ret;
->   }
-> @@ -860,7 +860,7 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
->   
->   err:
->   	mutex_unlock(&dev->object_name_lock);
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   	return ret;
->   }
->   
-> @@ -898,7 +898,7 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
->   
->   	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
->   	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   	if (ret)
->   		return ret;
->   
-> @@ -991,7 +991,7 @@ EXPORT_SYMBOL(drm_gem_object_free);
->    * driver doesn't use &drm_device.struct_mutex for anything.
->    *
->    * For drivers not encumbered with legacy locking use
-> - * drm_gem_object_put_unlocked() instead.
-> + * drm_gem_object_put() instead.
->    */
->   void
->   drm_gem_object_put_locked(struct drm_gem_object *obj)
-> @@ -1030,7 +1030,7 @@ void drm_gem_vm_close(struct vm_area_struct *vma)
->   {
->   	struct drm_gem_object *obj = vma->vm_private_data;
->   
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   }
->   EXPORT_SYMBOL(drm_gem_vm_close);
->   
-> @@ -1079,7 +1079,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->   	if (obj->funcs && obj->funcs->mmap) {
->   		ret = obj->funcs->mmap(obj, vma);
->   		if (ret) {
-> -			drm_gem_object_put_unlocked(obj);
-> +			drm_gem_object_put(obj);
->   			return ret;
->   		}
->   		WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));
-> @@ -1089,7 +1089,7 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->   		else if (dev->driver->gem_vm_ops)
->   			vma->vm_ops = dev->driver->gem_vm_ops;
->   		else {
-> -			drm_gem_object_put_unlocked(obj);
-> +			drm_gem_object_put(obj);
->   			return -EINVAL;
->   		}
->   
-> @@ -1155,13 +1155,13 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+>   	mapping = panfrost_gem_mapping_get(bo, priv);
+>   	if (!mapping) {
+> -		drm_gem_object_put_unlocked(&bo->base.base);
+> +		drm_gem_object_put(&bo->base.base);
 >   		return -EINVAL;
->   
->   	if (!drm_vma_node_is_allowed(node, priv)) {
-> -		drm_gem_object_put_unlocked(obj);
-> +		drm_gem_object_put(obj);
->   		return -EACCES;
 >   	}
 >   
->   	if (node->readonly) {
->   		if (vma->vm_flags & VM_WRITE) {
-> -			drm_gem_object_put_unlocked(obj);
-> +			drm_gem_object_put(obj);
->   			return -EINVAL;
->   		}
+> @@ -317,7 +317,7 @@ panfrost_ioctl_wait_bo(struct drm_device *dev, void *data,
+>   	if (!ret)
+>   		ret = timeout ? -ETIMEDOUT : -EBUSY;
 >   
-> @@ -1171,7 +1171,7 @@ int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
->   	ret = drm_gem_mmap_obj(obj, drm_vma_node_size(node) << PAGE_SHIFT,
->   			       vma);
->   
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   
->   	return ret;
->   }
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 12e98fb28229..b3db3ca7bd7a 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -114,7 +114,7 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
->   	return cma_obj;
->   
->   error:
-> -	drm_gem_object_put_unlocked(&cma_obj->base);
-> +	drm_gem_object_put(&cma_obj->base);
->   	return ERR_PTR(ret);
->   }
->   EXPORT_SYMBOL_GPL(drm_gem_cma_create);
-> @@ -156,7 +156,7 @@ drm_gem_cma_create_with_handle(struct drm_file *file_priv,
->   	 */
->   	ret = drm_gem_handle_create(file_priv, gem_obj, handle);
->   	/* drop reference from allocate - handle holds it now. */
 > -	drm_gem_object_put_unlocked(gem_obj);
 > +	drm_gem_object_put(gem_obj);
->   	if (ret)
->   		return ERR_PTR(ret);
->   
-> @@ -380,13 +380,13 @@ unsigned long drm_gem_cma_get_unmapped_area(struct file *filp,
->   		return -EINVAL;
->   
->   	if (!drm_vma_node_is_allowed(node, priv)) {
-> -		drm_gem_object_put_unlocked(obj);
-> +		drm_gem_object_put(obj);
->   		return -EACCES;
->   	}
->   
->   	cma_obj = to_drm_gem_cma_obj(obj);
->   
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   
->   	return cma_obj->vaddr ? (unsigned long)cma_obj->vaddr : -EINVAL;
->   }
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index ccc2c71fa491..109d11fb4cd4 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -95,7 +95,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
->   	int i;
->   
->   	for (i = 0; i < 4; i++)
-> -		drm_gem_object_put_unlocked(fb->obj[i]);
-> +		drm_gem_object_put(fb->obj[i]);
->   
->   	drm_framebuffer_cleanup(fb);
->   	kfree(fb);
-> @@ -175,7 +175,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->   			 + mode_cmd->offsets[i];
->   
->   		if (objs[i]->size < min_size) {
-> -			drm_gem_object_put_unlocked(objs[i]);
-> +			drm_gem_object_put(objs[i]);
->   			ret = -EINVAL;
->   			goto err_gem_object_put;
->   		}
-> @@ -189,7 +189,7 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->   
->   err_gem_object_put:
->   	for (i--; i >= 0; i--)
-> -		drm_gem_object_put_unlocked(objs[i]);
-> +		drm_gem_object_put(objs[i]);
 >   
 >   	return ret;
 >   }
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index df31e5782eed..339eee79ea52 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -360,7 +360,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+> @@ -351,7 +351,7 @@ static int panfrost_ioctl_mmap_bo(struct drm_device *dev, void *data,
+>   		args->offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
+>   
+>   out:
+> -	drm_gem_object_put_unlocked(gem_obj);
+> +	drm_gem_object_put(gem_obj);
+>   	return ret;
+>   }
+>   
+> @@ -372,7 +372,7 @@ static int panfrost_ioctl_get_bo_offset(struct drm_device *dev, void *data,
+>   	bo = to_panfrost_bo(gem_obj);
+>   
+>   	mapping = panfrost_gem_mapping_get(bo, priv);
+> -	drm_gem_object_put_unlocked(gem_obj);
+> +	drm_gem_object_put(gem_obj);
+>   
+>   	if (!mapping)
+>   		return -EINVAL;
+> @@ -438,7 +438,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+>   	mutex_unlock(&bo->mappings.lock);
+>   	mutex_unlock(&pfdev->shrinker_lock);
+>   
+> -	drm_gem_object_put_unlocked(gem_obj);
+> +	drm_gem_object_put(gem_obj);
+>   	return ret;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index 17b654e1eb94..ac5d0aa80276 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -93,7 +93,7 @@ static void panfrost_gem_mapping_release(struct kref *kref)
+>   	mapping = container_of(kref, struct panfrost_gem_mapping, refcount);
+>   
+>   	panfrost_gem_teardown_mapping(mapping);
+> -	drm_gem_object_put_unlocked(&mapping->obj->base.base);
+> +	drm_gem_object_put(&mapping->obj->base.base);
+>   	kfree(mapping);
+>   }
+>   
+> @@ -261,7 +261,7 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
 >   	 */
 >   	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
 >   	/* drop reference from allocate - handle holds it now. */
@@ -323,108 +159,54 @@ Steve
 >   	if (ret)
 >   		return ERR_PTR(ret);
 >   
-> @@ -684,7 +684,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->   err_free_array:
->   	kvfree(shmem->pages);
->   err_free_gem:
-> -	drm_gem_object_put_unlocked(&shmem->base);
-> +	drm_gem_object_put(&shmem->base);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 7914b1570841..b2f09c038d35 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -281,7 +281,7 @@ static void panfrost_job_cleanup(struct kref *ref)
 >   
->   	return ERR_PTR(ret);
->   }
-> diff --git a/drivers/gpu/drm/drm_gem_ttm_helper.c b/drivers/gpu/drm/drm_gem_ttm_helper.c
-> index 605a8a3da7f9..892b2288a104 100644
-> --- a/drivers/gpu/drm/drm_gem_ttm_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_ttm_helper.c
-> @@ -74,7 +74,7 @@ int drm_gem_ttm_mmap(struct drm_gem_object *gem,
->   	 * ttm has its own object refcounting, so drop gem reference
->   	 * to avoid double accounting counting.
->   	 */
-> -	drm_gem_object_put_unlocked(gem);
-> +	drm_gem_object_put(gem);
+>   	if (job->bos) {
+>   		for (i = 0; i < job->bo_count; i++)
+> -			drm_gem_object_put_unlocked(job->bos[i]);
+> +			drm_gem_object_put(job->bos[i]);
 >   
->   	return 0;
->   }
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 8b2d5c945c95..0023ce1d2cf7 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -618,9 +618,9 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
->   
->   	ret = drm_gem_handle_create(file, &gbo->bo.base, &handle);
->   	if (ret)
-> -		goto err_drm_gem_object_put_unlocked;
-> +		goto err_drm_gem_object_put;
->   
-> -	drm_gem_object_put_unlocked(&gbo->bo.base);
-> +	drm_gem_object_put(&gbo->bo.base);
->   
->   	args->pitch = pitch;
->   	args->size = size;
-> @@ -628,8 +628,8 @@ int drm_gem_vram_fill_create_dumb(struct drm_file *file,
->   
->   	return 0;
->   
-> -err_drm_gem_object_put_unlocked:
-> -	drm_gem_object_put_unlocked(&gbo->bo.base);
-> +err_drm_gem_object_put:
-> +	drm_gem_object_put(&gbo->bo.base);
+>   		kvfree(job->bos);
+>   	}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index ed28aeba6d59..0a339c6fbfaa 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -538,7 +538,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>   err_pages:
+>   	drm_gem_shmem_put_pages(&bo->base);
+>   err_bo:
+> -	drm_gem_object_put_unlocked(&bo->base.base);
+> +	drm_gem_object_put(&bo->base.base);
 >   	return ret;
 >   }
->   EXPORT_SYMBOL(drm_gem_vram_fill_create_dumb);
-> @@ -737,7 +737,7 @@ int drm_gem_vram_driver_dumb_mmap_offset(struct drm_file *file,
->   	gbo = drm_gem_vram_of_gem(gem);
->   	*offset = drm_gem_vram_mmap_offset(gbo);
 >   
-> -	drm_gem_object_put_unlocked(gem);
-> +	drm_gem_object_put(gem);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> index 6913578d5aa7..ec4695cf3caf 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+> @@ -156,7 +156,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+>   		gpu_write(pfdev, GPU_PRFCNT_TILER_EN, 0xffffffff);
+>   
+>   	/* The BO ref is retained by the mapping. */
+> -	drm_gem_object_put_unlocked(&bo->base);
+> +	drm_gem_object_put(&bo->base);
 >   
 >   	return 0;
+>   
+> @@ -167,7 +167,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+>   err_close_bo:
+>   	panfrost_gem_close(&bo->base, file_priv);
+>   err_put_bo:
+> -	drm_gem_object_put_unlocked(&bo->base);
+> +	drm_gem_object_put(&bo->base);
+>   	return ret;
 >   }
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 282774e469ac..bbfc713bfdc3 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -270,7 +270,7 @@ void drm_gem_dmabuf_release(struct dma_buf *dma_buf)
->   	struct drm_device *dev = obj->dev;
 >   
->   	/* drop the reference on the export fd holds */
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   
->   	drm_dev_put(dev);
->   }
-> @@ -329,7 +329,7 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
->   
->   	/* _handle_create_tail unconditionally unlocks dev->object_name_lock. */
->   	ret = drm_gem_handle_create_tail(file_priv, obj, handle);
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   	if (ret)
->   		goto out_put;
->   
-> @@ -500,7 +500,7 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
->   fail_put_dmabuf:
->   	dma_buf_put(dmabuf);
->   out:
-> -	drm_gem_object_put_unlocked(obj);
-> +	drm_gem_object_put(obj);
->   out_unlock:
->   	mutex_unlock(&file_priv->prime.lock);
->   
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 2f7b86c0649c..10c5d561eb18 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -188,7 +188,7 @@ struct drm_gem_object {
->   	 * Reference count of this object
->   	 *
->   	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put_locked()
-> -	 * or drm_gem_object_put_unlocked() to release a reference to a GEM
-> +	 * or drm_gem_object_put() to release a reference to a GEM
->   	 * buffer object.
->   	 */
->   	struct kref refcount;
 > 
 
 _______________________________________________
