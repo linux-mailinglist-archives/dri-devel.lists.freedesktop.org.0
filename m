@@ -1,32 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B049B1D58B1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 20:10:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 984431D59A0
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 21:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF4E6ECED;
-	Fri, 15 May 2020 18:10:13 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC8716ECED
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 18:10:12 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id A0FC572D;
- Fri, 15 May 2020 18:10:09 +0000 (UTC)
-Date: Fri, 15 May 2020 12:10:08 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 11/14] docs: move other kAPI documents to core-api
-Message-ID: <20200515121008.4debe669@lwn.net>
-In-Reply-To: <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
-References: <cover.1588345503.git.mchehab+huawei@kernel.org>
- <70cca102282ccd36b107487c60346f414011c684.1588345503.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE596ECEA;
+	Fri, 15 May 2020 19:05:55 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4ABD6ECEA
+ for <dri-devel@freedesktop.org>; Fri, 15 May 2020 19:05:53 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id z1so1866595vsn.11
+ for <dri-devel@freedesktop.org>; Fri, 15 May 2020 12:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ILTNxRMhVaU1ppwKtb504YY35g+lEq0QuWy+iVUE2z8=;
+ b=bMZEoYevT52u61nJD5we/u1JaG8jzU7khHbEmIItRoRo9c67denAC2dZI5n/GtGcte
+ O6CuOaJk4AYaDQX4yq+aRjJIGv63nxepgB4RHH9gODQ+rlXq7MTS7sE4DkPKkJ4+uXL+
+ cADO8rOPfT+7ANv5baePtF9UpQd+3uCS40EDw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ILTNxRMhVaU1ppwKtb504YY35g+lEq0QuWy+iVUE2z8=;
+ b=qi8SH5eIImUz1KVIqT8lJ+fVXz+dte4pU8UhSIhbVnRh0+Dbf3UMv1koLV3rLoB6ld
+ i0QyVFWJ9ongn7P0THznO3RE+NACSmPt/eZn2YYlEf2efI94n9yURsTJHvbeLPrjsmro
+ y3oYvbAEySsifiCqeO6PFYsNeKa4PPTIssZDgSqy/2x2PrCILVC0wXWOVu7d5CWIF54I
+ y6QKGB9ghHVzrIK7EqOsp9Xd8E7K1YsAOupE3ZCQLjwjPgeU6y4gzefeDaH0WpkZl+iN
+ HIWNB7UrNwq1wiN5D9iKJ+7p9khP7NLaiqTE+gaehhCjpz4C+4u2KSFnxwmkrDO5Pr4q
+ gc8A==
+X-Gm-Message-State: AOAM533V6ZQNHg3SxVIcRWue2TDaR5kOoSzHxraj1fNTSbc3jp6sdMiD
+ dSigLqbiVPaeLYvz3AdDN0VF4lW5fq4=
+X-Google-Smtp-Source: ABdhPJwRoU4hCV39hJswlB/bKhhJJgPWhjNm2XKzVroT15Dfa0KYAEackQwebiSbODvzx5iy/hExSw==
+X-Received: by 2002:a67:df86:: with SMTP id x6mr3716031vsk.94.1589569552711;
+ Fri, 15 May 2020 12:05:52 -0700 (PDT)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
+ [209.85.217.54])
+ by smtp.gmail.com with ESMTPSA id k24sm630352uaq.20.2020.05.15.12.05.51
+ for <dri-devel@freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 May 2020 12:05:52 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id l15so1602vsr.3
+ for <dri-devel@freedesktop.org>; Fri, 15 May 2020 12:05:51 -0700 (PDT)
+X-Received: by 2002:a67:bd07:: with SMTP id y7mr3909984vsq.109.1589569551204; 
+ Fri, 15 May 2020 12:05:51 -0700 (PDT)
 MIME-Version: 1.0
+References: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
+ <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
+In-Reply-To: <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 15 May 2020 12:05:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WXv9DYf7LWoFBvro=7Bzeb1_0bXAvRH-suzxnrCu+V2A@mail.gmail.com>
+Message-ID: <CAD=FV=WXv9DYf7LWoFBvro=7Bzeb1_0bXAvRH-suzxnrCu+V2A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: arm-smmu: Add sc7180 compatible string
+To: Sharat Masetty <smasetty@codeaurora.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,69 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Peter Xu <peterx@redhat.com>, Masahiro Yamada <yamada.masahiro@socionext.com>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, Will Deacon <will@kernel.org>,
- Ingo Molnar <mingo@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
- "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mike Rapoport <rppt@linux.ibm.com>,
- David Airlie <airlied@linux.ie>, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>,
- "Eric W. Biederman" <ebiederm@xmission.com>, Arnd Bergmann <arnd@arndb.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>, Peter Collingbourne <pcc@google.com>,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Patrick Bellasi <patrick.bellasi@arm.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  1 May 2020 17:37:55 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Hi,
 
-> There are a number of random documents that seem to be
-> describing some aspects of the core-api. Move them to such
-> directory, adding them at the core-api/index.rst file.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Fri, May 1, 2020 at 3:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
+>
+> This patch simply adds a new compatible string for SC7180 platform.
+>
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 > ---
->  Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
->  Documentation/core-api/index.rst                            | 6 ++++++
->  Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
->  Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
->  .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
->  .../unaligned-memory-access.rst}                            | 0
->  Documentation/gpu/drm-mm.rst                                | 2 +-
->  arch/Kconfig                                                | 2 +-
->  init/Kconfig                                                | 2 +-
->  mm/Kconfig                                                  | 2 +-
->  mm/nommu.c                                                  | 2 +-
->  11 files changed, 12 insertions(+), 6 deletions(-)
->  rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
->  rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
->  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
->  rename Documentation/{unaligned-memory-access.txt => core-api/unaligned-memory-access.rst} (100%)
+>  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> index 6515dbe..986098b 100644
+> --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> @@ -28,6 +28,7 @@ properties:
+>            - enum:
+>                - qcom,msm8996-smmu-v2
+>                - qcom,msm8998-smmu-v2
+> +              - qcom,sc7180-smmu-v2
+>                - qcom,sdm845-smmu-v2
+>            - const: qcom,smmu-v2
 
-This one doesn't apply for me.  Beyond that, I'm not entirely convinced
-about a couple of the moves...
+Is anything blocking this patch from landing now?
 
- - mailbox.txt seems like driver-api stuff to me?
- - nommu-mmap.txt is mostly (though not completely) about the semantic of
-   mmap() options as seen by user space, so perhaps belongs in that
-   manual...?
-
-Thanks,
-
-jon
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
