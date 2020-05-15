@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FD51D4A1C
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:55:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E111D4A10
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3C26EC5D;
-	Fri, 15 May 2020 09:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5710D6EC50;
+	Fri, 15 May 2020 09:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5B76EC42
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:33 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id n5so1978385wmd.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:33 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2B1E6EC48
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:34 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id h17so2775417wrc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zo3GRMIgUgW0k33peBbf1+hk6O9D0vN3oHTJ7W8hmp8=;
- b=enGEsmtTrGzEWKERWmQ7KSv+1Yc+S+wfGYfKDdLmwAMP6QZmzQcQXW4PCsILrsRBc4
- zC3fmxMq2kGtkDgJsnmmkama2rEIPxZwum/uDjbGnBmCTk5ANnTxzUrV7eX0kAHc9eQ2
- vdG8yfY9+wWLfAev2UOOFB28KQnjXFb0a2i+lBdTLmuWgExpLb5rfAXY5lq/j2tr/Kys
- IN0zv81fSJ5tx2JT2nkMN7qF5ufCMpMaIyyRQKxRGvEX2sGYpzdCHmohsVVhhjaGiGE3
- YLoyL+EzKaTqC6uobMt1N2MB+6hI2e6WkiBjTz6VhjGAWJjH3uv6kBjkfiGENSkr3/e4
- 9dIw==
+ bh=NuyLRSf69UU50l4L98gC8To1wJQExKPi2eBLW+xIT7s=;
+ b=RTFVJyxxJxnBsntgxFy/oa5MBo28yn0LCcKEzEODESN6A9Lw9PWXdQ6iIlMQ5YV+NE
+ j2Bg+ptHdhvpFFfHnMe7t/SZFUGmd4Zb4le75Q8FpwXiNArFrSa23yIEqZ90tUxTP9Ym
+ VZ/cTbW8eA9Slr2GzuUGcpQTi/N/GLIn1/Rw2g5IBZDCFa2awoUlYYfh3CFRD1YdC+Pk
+ rOpkdplGqguJKMfUpMczNZk4GBmMaOPTKwAIbnIyCFUzcMwII2XDbnIYyiJPoBTPihxy
+ BTVtRqXN6K+xeCGMB5ciISnAsTJqFt/JEjsPNpAzHShahDZ9Ai6nnzCCCgjAwHUvtwJ6
+ V5tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zo3GRMIgUgW0k33peBbf1+hk6O9D0vN3oHTJ7W8hmp8=;
- b=mcSicFkEjtidqFLYqokHE6IfVkaubeLHDlyKfJztT6pCCEMjg4mF7XyYBJ6i1PjIMw
- TQupYHK2faWplEO09Sa28zao6eqSw1aj2egq4GCHjoNcpxL4E1a+HhNuTXZ/vcyP+u4K
- ARNxYGP02s7g4EktUOMgXNB6wG42oXvF4qCldzKFpje0a6gBgUZQTIbdfAnKE2pms/rX
- EJKnCqeQA+SrPzWEFzO2juP+s36KGQ/mnYDS9iql5KnGrA5beFFwhxmTB0eq1KmuLIGr
- tk8BBOlE3x3Ox3sK5mU62pFehnHREJiU9Mc1bRKNYQopcoVZsscIT4+wJ4/Oo6JWh8KC
- bDtQ==
-X-Gm-Message-State: AOAM533WUfxe7eSAOsRkc3C0VuhSpevyfmc8e7wpeN5KFi3PCrQpu1pr
- 8hZf3FFsTVz2fqVtt/snEc7u2C65
-X-Google-Smtp-Source: ABdhPJxkGyLYqUJb87cdbnuRbH2TZ6WDMH39nabrwM6O0m5T3XTFVYU7Qga1AntUJhCMcXKFzSdf9g==
-X-Received: by 2002:a7b:c62a:: with SMTP id p10mr2912768wmk.143.1589536471903; 
- Fri, 15 May 2020 02:54:31 -0700 (PDT)
+ bh=NuyLRSf69UU50l4L98gC8To1wJQExKPi2eBLW+xIT7s=;
+ b=M4iYp8CxjnOrEiZH2jfexIv7BF3pQ6fIvVssxoQePXaOtad0qd8CoBm82dyWrdEmgE
+ ltDSKyy2tacKrXyLLUx/iShRSYLcRMcosW9/81P16vzH0ap12BI5u+/xML4prCmjQO15
+ r2BkpXt4wo6tiqyhUnUtAdMofuCE3vF3vzk+LZnwm44i90P67r7/RDMmZQ3HWYI/XLuL
+ uEtic5cIREOAOLJYeFAgDjsfUIRI14Pe+U2n323hKpS11KPczjEbmV0yxK9+8uk7jqX3
+ 8EWpuo3LZuIpO/EMCzvLVtV5WZw+aKicHQM+pfL1n8HJ1fHLGih90YgVnCRkzs67Bwfj
+ zz+A==
+X-Gm-Message-State: AOAM5322fSlBcADhUR90X9RX9GSTRcsWTAm/nCOP+wcxe9mVZfH8wqUF
+ sjNPIx5x0mk7zg4271H8c2RSrSkt
+X-Google-Smtp-Source: ABdhPJyS0dmJKKbNtpVmKANzosmTZy5GMs+XmXVeUDB5m3fmVupuGCjTskEOOM3NMKiu9IwRQAulSQ==
+X-Received: by 2002:a5d:534e:: with SMTP id t14mr3293354wrv.15.1589536473102; 
+ Fri, 15 May 2020 02:54:33 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.30
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:31 -0700 (PDT)
+ Fri, 15 May 2020 02:54:32 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 26/38] drm/omapdrm: remove _unlocked suffix in
+Subject: [PATCH v2 27/38] drm/panfrost: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Fri, 15 May 2020 10:51:06 +0100
-Message-Id: <20200515095118.2743122-27-emil.l.velikov@gmail.com>
+Date: Fri, 15 May 2020 10:51:07 +0100
+Message-Id: <20200515095118.2743122-28-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -68,8 +68,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- emil.l.velikov@gmail.com
+Cc: emil.l.velikov@gmail.com, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -91,79 +91,138 @@ for __file in $(git grep --name-only $__from); do
   sed -i  "s/$__from/$__to/g" $__file;
 done
 
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/omapdrm/omap_drv.c   | 2 +-
- drivers/gpu/drm/omapdrm/omap_fb.c    | 2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 2 +-
- drivers/gpu/drm/omapdrm/omap_gem.c   | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c     | 10 +++++-----
+ drivers/gpu/drm/panfrost/panfrost_gem.c     |  4 ++--
+ drivers/gpu/drm/panfrost/panfrost_job.c     |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c     |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c |  4 ++--
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index cdafd7ef1c32..242d28281784 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -503,7 +503,7 @@ static int ioctl_gem_info(struct drm_device *dev, void *data,
- 	args->size = omap_gem_mmap_size(obj);
- 	args->offset = omap_gem_mmap_offset(obj);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 882fecc33fdb..ada51df9a7a3 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -99,7 +99,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
  
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
+ 	mapping = panfrost_gem_mapping_get(bo, priv);
+ 	if (!mapping) {
+-		drm_gem_object_put_unlocked(&bo->base.base);
++		drm_gem_object_put(&bo->base.base);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -317,7 +317,7 @@ panfrost_ioctl_wait_bo(struct drm_device *dev, void *data,
+ 	if (!ret)
+ 		ret = timeout ? -ETIMEDOUT : -EBUSY;
+ 
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
  
  	return ret;
  }
-diff --git a/drivers/gpu/drm/omapdrm/omap_fb.c b/drivers/gpu/drm/omapdrm/omap_fb.c
-index 9aeab81dfb90..05f30e2618c9 100644
---- a/drivers/gpu/drm/omapdrm/omap_fb.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fb.c
-@@ -326,7 +326,7 @@ struct drm_framebuffer *omap_framebuffer_create(struct drm_device *dev,
+@@ -351,7 +351,7 @@ static int panfrost_ioctl_mmap_bo(struct drm_device *dev, void *data,
+ 		args->offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
  
- error:
- 	while (--i >= 0)
--		drm_gem_object_put_unlocked(bos[i]);
-+		drm_gem_object_put(bos[i]);
- 
- 	return fb;
- }
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index 09a84919ef73..3f6cfc24fb64 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -140,7 +140,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 		/* note: if fb creation failed, we can't rely on fb destroy
- 		 * to unref the bo:
- 		 */
--		drm_gem_object_put_unlocked(fbdev->bo);
-+		drm_gem_object_put(fbdev->bo);
- 		ret = PTR_ERR(fb);
- 		goto fail;
- 	}
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-index d08ae95ecc0a..d0d12d5dd76c 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-@@ -629,7 +629,7 @@ int omap_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 
- 	*offset = omap_gem_mmap_offset(obj);
- 
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
- 
- fail:
+ out:
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
  	return ret;
-@@ -1348,7 +1348,7 @@ int omap_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	}
+ }
  
- 	/* drop reference from allocate - handle holds it now */
--	drm_gem_object_put_unlocked(obj);
-+	drm_gem_object_put(obj);
+@@ -372,7 +372,7 @@ static int panfrost_ioctl_get_bo_offset(struct drm_device *dev, void *data,
+ 	bo = to_panfrost_bo(gem_obj);
+ 
+ 	mapping = panfrost_gem_mapping_get(bo, priv);
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
+ 
+ 	if (!mapping)
+ 		return -EINVAL;
+@@ -438,7 +438,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ 	mutex_unlock(&bo->mappings.lock);
+ 	mutex_unlock(&pfdev->shrinker_lock);
+ 
+-	drm_gem_object_put_unlocked(gem_obj);
++	drm_gem_object_put(gem_obj);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 17b654e1eb94..ac5d0aa80276 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -93,7 +93,7 @@ static void panfrost_gem_mapping_release(struct kref *kref)
+ 	mapping = container_of(kref, struct panfrost_gem_mapping, refcount);
+ 
+ 	panfrost_gem_teardown_mapping(mapping);
+-	drm_gem_object_put_unlocked(&mapping->obj->base.base);
++	drm_gem_object_put(&mapping->obj->base.base);
+ 	kfree(mapping);
+ }
+ 
+@@ -261,7 +261,7 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
+ 	 */
+ 	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
+ 	/* drop reference from allocate - handle holds it now. */
+-	drm_gem_object_put_unlocked(&shmem->base);
++	drm_gem_object_put(&shmem->base);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 7914b1570841..b2f09c038d35 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -281,7 +281,7 @@ static void panfrost_job_cleanup(struct kref *ref)
+ 
+ 	if (job->bos) {
+ 		for (i = 0; i < job->bo_count; i++)
+-			drm_gem_object_put_unlocked(job->bos[i]);
++			drm_gem_object_put(job->bos[i]);
+ 
+ 		kvfree(job->bos);
+ 	}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index ed28aeba6d59..0a339c6fbfaa 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -538,7 +538,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ err_pages:
+ 	drm_gem_shmem_put_pages(&bo->base);
+ err_bo:
+-	drm_gem_object_put_unlocked(&bo->base.base);
++	drm_gem_object_put(&bo->base.base);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+index 6913578d5aa7..ec4695cf3caf 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
++++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+@@ -156,7 +156,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ 		gpu_write(pfdev, GPU_PRFCNT_TILER_EN, 0xffffffff);
+ 
+ 	/* The BO ref is retained by the mapping. */
+-	drm_gem_object_put_unlocked(&bo->base);
++	drm_gem_object_put(&bo->base);
  
  	return 0;
+ 
+@@ -167,7 +167,7 @@ static int panfrost_perfcnt_enable_locked(struct panfrost_device *pfdev,
+ err_close_bo:
+ 	panfrost_gem_close(&bo->base, file_priv);
+ err_put_bo:
+-	drm_gem_object_put_unlocked(&bo->base);
++	drm_gem_object_put(&bo->base);
+ 	return ret;
  }
+ 
 -- 
 2.25.1
 
