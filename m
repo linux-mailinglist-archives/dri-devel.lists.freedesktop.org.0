@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328F21D4812
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 10:26:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE611D4817
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 10:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AB66E1D7;
-	Fri, 15 May 2020 08:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CCF6E39C;
+	Fri, 15 May 2020 08:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1CF6E1D7
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 08:25:59 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04F8P1NG021893;
- Fri, 15 May 2020 03:25:01 -0500
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98AED6E3AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 08:26:44 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04F8PsoG018359;
+ Fri, 15 May 2020 03:25:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1589531101;
- bh=Px6iCJwnI8YajMcWG373WIy5UPHIryjVVh9cUJkFXx8=;
+ s=ti-com-17Q1; t=1589531154;
+ bh=wo1viBSz+UU+XEhVTlUn5Xt1kcyL3FUqz2ByY4yEDj0=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=WpN+3lkFY/ptLOdJKVpECcyKk3t5+KMRLMiysBBJWiWVNtxMvpy5WhCFTWmVYDe5U
- P2bW9FTVkKJHNN/zjQJwmNU1ZX8WecazeJBHtSZqYyZO5YhZR0MkoaKoULdn4Tn+TO
- xr8TVjqdd+/Fjjv2X1NFWCAPNB+A/9xi2x6JVmms=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04F8P1o6002790
+ b=fF1k2IGxGrOuos+bQoXmh+BExWfMIoCXLGLzSyjSI9R83lttfFDtFRvwACPnEySme
+ PH/wbUwkvzzDwyObKKDPTLJeHGuxKnbxq68ke8RZ9DfbSfosxoxJxYBNOOoV2XQ7uM
+ s63rJZAwhKOKyjRuGQuFJ/7HJPF2teMoSdYUUeTk=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04F8PsvU086517
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 15 May 2020 03:25:01 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 15 May 2020 03:25:54 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 15
- May 2020 03:25:00 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ May 2020 03:25:54 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 15 May 2020 03:25:00 -0500
+ Frontend Transport; Fri, 15 May 2020 03:25:54 -0500
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04F8Osi6105749;
- Fri, 15 May 2020 03:24:54 -0500
-Subject: Re: [PATCH v1 01/18] drm/omap: display: use devm_of_find_backlight
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04F8Pl1Z008089;
+ Fri, 15 May 2020 03:25:48 -0500
+Subject: Re: [PATCH v1 02/18] drm/tilcdc: use devm_of_find_backlight
 To: Sam Ravnborg <sam@ravnborg.org>, <dri-devel@lists.freedesktop.org>, Jingoo
  Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
 References: <20200514191001.457441-1-sam@ravnborg.org>
- <20200514191001.457441-2-sam@ravnborg.org>
+ <20200514191001.457441-3-sam@ravnborg.org>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <6d733332-35d9-7799-c0e5-9f012485d738@ti.com>
-Date: Fri, 15 May 2020 11:24:53 +0300
+Message-ID: <9e234824-3cf6-ead4-561b-70c1966ac5fd@ti.com>
+Date: Fri, 15 May 2020 11:25:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200514191001.457441-2-sam@ravnborg.org>
+In-Reply-To: <20200514191001.457441-3-sam@ravnborg.org>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,18 +93,11 @@ On 14/05/2020 22:09, Sam Ravnborg wrote:
 > the node name in the driver.
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jyri Sarha <jsarha@ti.com>
 > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Zheng Bin <zhengbin13@huawei.com>
-> Cc: Kate Stewart <kstewart@linuxfoundation.org>
-> Cc: Enrico Weigelt <info@metux.net>
-> Cc: Allison Randal <allison@lohutok.net>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Kefeng Wang <wangkefeng.wang@huawei.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->   .../gpu/drm/omapdrm/displays/panel-dsi-cm.c    | 18 ++++++++----------
->   1 file changed, 8 insertions(+), 10 deletions(-)
+>   drivers/gpu/drm/tilcdc/tilcdc_panel.c | 17 ++++++-----------
+>   1 file changed, 6 insertions(+), 11 deletions(-)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
