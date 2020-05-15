@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58ED61D4DA9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:27:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD56A1D4DDE
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 157166EC8B;
-	Fri, 15 May 2020 12:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 829906E15C;
+	Fri, 15 May 2020 12:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66CF16EC8B
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:27:21 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id AFC5EB13C;
- Fri, 15 May 2020 12:27:22 +0000 (UTC)
-Subject: Re: [PATCH v2 00/38] Fareless gem_free_object
-To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <088758a8-51bc-b978-a821-6bbfe2b7798d@suse.de>
-Date: Fri, 15 May 2020 14:27:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 408756E15C;
+ Fri, 15 May 2020 12:39:26 +0000 (UTC)
+IronPort-SDR: Sq+mNoNVzfAc30OzXBrL78p2S2S1It2Oiio+4S+gMX5fFk1CtgtK0BcCI4uRt9fO591/cYaPZ8
+ hQN1Z4lmTA/w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 May 2020 05:39:26 -0700
+IronPort-SDR: PIp8pVixVQjX1lUvT3VBWNK5QhoPBs0cazw5ng00anUhx4FB7XWhSpTPifV0ooB9rY6sejeBtR
+ Wxb6IH37p0uA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="438301667"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga005.jf.intel.com with ESMTP; 15 May 2020 05:39:23 -0700
+Date: Fri, 15 May 2020 18:09:19 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v6 08/16] drm/i915: Don't fully disable HDCP on a port if
+ multiple pipes are using it
+Message-ID: <20200515123919.GA10884@intel.com>
+References: <20200429195502.39919-1-sean@poorly.run>
+ <20200429195502.39919-9-sean@poorly.run>
 MIME-Version: 1.0
-In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200429195502.39919-9-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,242 +49,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2102174956=="
+Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, seanpaul@chromium.org, juston.li@intel.com,
+ rodrigo.vivi@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2102174956==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg
-Content-Type: multipart/mixed; boundary="mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Message-ID: <088758a8-51bc-b978-a821-6bbfe2b7798d@suse.de>
-Subject: Re: [PATCH v2 00/38] Fareless gem_free_object
-References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
-In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
-
---mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I have reviewed some of these patches. For the rest of the series you
-can add
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
-Am 15.05.20 um 11:50 schrieb Emil Velikov:
-> Hi all,
->=20
-> Here is v2 of the series, with the requested minor tweaks.
->=20
->  - Add new WARNING in the struct_mutex doc (Daniel)
->  - Drop a few more struct_mutex references (Daniel)
->  - Missing space in the drm_object_put doc (Jani)
->  - Keep drm_object_put_unlocked removal as separate patch (Sam, Thomas)=
-
->=20
-> Considering other have pending work, which may clash with this series
-> and the overall positive feedback (thanks everyone), I'm inclined to
-> merge the series to drm-misc-next on Monday evening.
->=20
-> -Emil
->=20
-> Emil Velikov (38):
->   drm: remove unused drm_gem.h include
->   drm/gem: use _unlocked reference in drm_gem_objects_lookup docs
->   drm/todo: mention i915 in the struct_mutex section
->   drm/doc: drop struct_mutex references
->   drm/doc: add WARNING for drm_device::struct_mutex
->   drm/doc: drop struct_mutex reference for drm_gem_object_free
->   drm/amdgpu: use the unlocked drm_gem_object_put
->   drm/gma500: Use lockless gem BO free callback
->   drm: remove drm_driver::gem_free_object
->   drm/gem: fold drm_gem_object_put_unlocked and __drm_gem_object_put()
->   drm/gem: add _locked suffix to drm_object_put
->   drm/gem: add drm_object_put helper
->   drm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/amd: remove _unlocked suffix in drm_object_put_unlocked
->   drm/arm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/armada: remove _unlocked suffix in drm_object_put_unlocked
->   drm/etnaviv: remove _unlocked suffix in drm_object_put_unlocked
->   drm/exynos: remove _unlocked suffix in drm_object_put_unlocked
->   drm/gma500: remove _unlocked suffix in drm_object_put_unlocked
->   drm/i915: remove _unlocked suffix in drm_object_put_unlocked
->   drm/lima: remove _unlocked suffix in drm_object_put_unlocked
->   drm/mediatek: remove _unlocked suffix in drm_object_put_unlocked
->   drm/mgag200: remove _unlocked suffix in drm_object_put_unlocked
->   drm/msm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/nouveau: remove _unlocked suffix in drm_object_put_unlocked
->   drm/omapdrm: remove _unlocked suffix in drm_object_put_unlocked
->   drm/panfrost: remove _unlocked suffix in drm_object_put_unlocked
->   drm/qxl: remove _unlocked suffix in drm_object_put_unlocked
->   drm/radeon: remove _unlocked suffix in drm_object_put_unlocked
->   drm/rockchip: remove _unlocked suffix in drm_object_put_unlocked
->   drm/tegra: remove _unlocked suffix in drm_object_put_unlocked
->   drm/v3d: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vc4: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vgem: remove _unlocked suffix in drm_object_put_unlocked
->   drm/virtio: remove _unlocked suffix in drm_object_put_unlocked
->   drm/vkms: remove _unlocked suffix in drm_object_put_unlocked
->   drm/xen: remove _unlocked suffix in drm_object_put_unlocked
->   drm: remove transient drm_object_put_unlocked()
->=20
->  Documentation/gpu/drm-mm.rst                  |  5 +-
->  Documentation/gpu/todo.rst                    |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c   |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  4 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 20 +++---
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  6 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  6 +-
->  .../arm/display/komeda/komeda_framebuffer.c   |  6 +-
->  drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
->  drivers/gpu/drm/armada/armada_crtc.c          |  8 +--
->  drivers/gpu/drm/armada/armada_fb.c            |  4 +-
->  drivers/gpu/drm/armada/armada_fbdev.c         |  6 +-
->  drivers/gpu/drm/armada/armada_gem.c           | 10 +--
->  drivers/gpu/drm/drm_client.c                  |  2 +-
->  drivers/gpu/drm/drm_gem.c                     | 70 +++++--------------=
-
->  drivers/gpu/drm/drm_gem_cma_helper.c          |  8 +--
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  6 +-
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |  4 +-
->  drivers/gpu/drm/drm_gem_ttm_helper.c          |  2 +-
->  drivers/gpu/drm/drm_gem_vram_helper.c         | 10 +--
->  drivers/gpu/drm/drm_prime.c                   |  6 +-
->  drivers/gpu/drm/drm_vm.c                      |  1 -
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  8 +--
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  6 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  2 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.c       |  4 +-
->  drivers/gpu/drm/exynos/exynos_drm_gem.h       |  2 +-
->  drivers/gpu/drm/gma500/framebuffer.c          |  2 +-
->  drivers/gpu/drm/gma500/gem.c                  |  2 +-
->  drivers/gpu/drm/gma500/gma_display.c          |  6 +-
->  drivers/gpu/drm/gma500/psb_drv.c              |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 +-
->  drivers/gpu/drm/lima/lima_gem.c               | 10 +--
->  drivers/gpu/drm/lima/lima_sched.c             |  2 +-
->  drivers/gpu/drm/mediatek/mtk_drm_gem.c        |  2 +-
->  drivers/gpu/drm/mgag200/mgag200_cursor.c      |  8 +--
->  drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |  4 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  6 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  2 +-
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |  4 +-
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  2 +-
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c            |  2 +-
->  drivers/gpu/drm/msm/msm_drv.c                 |  8 +--
->  drivers/gpu/drm/msm/msm_fb.c                  |  4 +-
->  drivers/gpu/drm/msm/msm_gem.c                 | 18 ++---
->  drivers/gpu/drm/msm/msm_gem_submit.c          |  2 +-
->  drivers/gpu/drm/msm/msm_gpu.c                 |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/crtc.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_abi16.c       |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_display.c     |  8 +--
->  drivers/gpu/drm/nouveau/nouveau_gem.c         | 14 ++--
->  drivers/gpu/drm/omapdrm/omap_drv.c            |  2 +-
->  drivers/gpu/drm/omapdrm/omap_fb.c             |  2 +-
->  drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
->  drivers/gpu/drm/omapdrm/omap_gem.c            |  4 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       | 10 +--
->  drivers/gpu/drm/panfrost/panfrost_gem.c       |  4 +-
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |  4 +-
->  drivers/gpu/drm/qxl/qxl_cmd.c                 |  2 +-
->  drivers/gpu/drm/qxl/qxl_display.c             |  6 +-
->  drivers/gpu/drm/qxl/qxl_dumb.c                |  2 +-
->  drivers/gpu/drm/qxl/qxl_gem.c                 |  2 +-
->  drivers/gpu/drm/qxl/qxl_ioctl.c               |  4 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |  4 +-
->  drivers/gpu/drm/radeon/radeon_cs.c            |  2 +-
->  drivers/gpu/drm/radeon/radeon_cursor.c        |  6 +-
->  drivers/gpu/drm/radeon/radeon_display.c       |  8 +--
->  drivers/gpu/drm/radeon/radeon_fb.c            |  4 +-
->  drivers/gpu/drm/radeon/radeon_gem.c           | 30 ++++----
->  drivers/gpu/drm/radeon/radeon_object.c        |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |  2 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  2 +-
->  drivers/gpu/drm/tegra/drm.c                   | 12 ++--
->  drivers/gpu/drm/tegra/fb.c                    |  6 +-
->  drivers/gpu/drm/tegra/gem.c                   |  4 +-
->  drivers/gpu/drm/v3d/v3d_bo.c                  |  6 +-
->  drivers/gpu/drm/v3d/v3d_gem.c                 |  4 +-
->  drivers/gpu/drm/v3d/v3d_irq.c                 |  2 +-
->  drivers/gpu/drm/vc4/vc4_bo.c                  | 14 ++--
->  drivers/gpu/drm/vc4/vc4_gem.c                 | 14 ++--
->  drivers/gpu/drm/vc4/vc4_kms.c                 |  2 +-
->  drivers/gpu/drm/vc4/vc4_v3d.c                 |  4 +-
->  drivers/gpu/drm/vgem/vgem_drv.c               |  6 +-
->  drivers/gpu/drm/vgem/vgem_fence.c             |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_display.c      |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_gem.c          |  6 +-
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  6 +-
->  drivers/gpu/drm/vkms/vkms_gem.c               |  2 +-
->  drivers/gpu/drm/xen/xen_drm_front.c           |  4 +-
->  include/drm/drm_device.h                      |  3 +
->  include/drm/drm_drv.h                         | 10 ---
->  include/drm/drm_gem.h                         | 27 +++----
->  100 files changed, 271 insertions(+), 327 deletions(-)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---mpuwfbY7z1jJwOi9wxoKAriIfL8BaQJ4Q--
-
---yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl6+iqcACgkQaA3BHVML
-eiMWMQf/fLIgqv4thrHeAThclRFjMRLE37pJyYHhyZxe8LS6NnQra1JkQ4eoXPvS
-QNSenkT62fUbCCVcnSV2ja4p8C3MFNbf6K9VJklrYVJRh1gxw7aNX40aocBBmtPx
-98/V9pqvC/e9g85y9g47I2k7lpR/KHYQmFveAaUKXv4gtjx6oR5F3YT26iIX2TKu
-xlf4sTRC+PrO9AKqx2HkLnGqKS8rVu8tjt5w+RioUFc7rnmG5bhAp2NUsr3KLWQL
-IZzVDCNkFUhx3TRHdspQI+Fr8vIeoGlvf5fq7ukPDQrxJQ3JbclV+4mkLfhwZ3Qy
-0T/GRH7ZOE27+YbT8QrKCtQVyZW+bA==
-=1sQ2
------END PGP SIGNATURE-----
-
---yNdX7e2BCAHkSQYfngaJUaL008xnTVGbg--
-
---===============2102174956==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On 2020-04-29 at 15:54:54 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> This patch is required for HDCP over MST. If a port is being used for
+> multiple HDCP streams, we don't want to fully disable HDCP on a port if
+> one of them is disabled. Instead, we just disable the HDCP signalling on
+> that particular pipe and exit early. The last pipe to disable HDCP will
+> also bring down HDCP on the port.
+> 
+> In order to achieve this, we need to keep a refcount in intel_digital_port
+> and protect it using a new hdcp_mutex.
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-8-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-9-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-9-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-9-sean@poorly.run #v4
+> Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-9-sean@poorly.run #v5
+> 
+> Changes in v2:
+> -Move the toggle_signalling call into _intel_hdcp_disable so it's called from check_work
+> Changes in v3:
+> -None
+> Changes in v4:
+> -None
+> Changes in v5:
+> -Change WARN_ON to drm_WARN_ON
+> Changes in v6:
+> -None
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |  3 ++
+>  .../drm/i915/display/intel_display_types.h    |  5 ++
+>  drivers/gpu/drm/i915/display/intel_dp.c       |  2 +
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 53 +++++++++++++++----
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |  2 +
+>  5 files changed, 56 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index dc5d39ae4743..11155a8a73c0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4801,6 +4801,9 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
+>  	drm_encoder_init(&dev_priv->drm, &encoder->base, &intel_ddi_funcs,
+>  			 DRM_MODE_ENCODER_TMDS, "DDI %c", port_name(port));
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +	intel_dig_port->num_hdcp_streams = 0;
+> +
+>  	encoder->hotplug = intel_ddi_hotplug;
+>  	encoder->compute_output_type = intel_ddi_compute_output_type;
+>  	encoder->compute_config = intel_ddi_compute_config;
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 383046050c37..69edfab4e266 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1411,6 +1411,11 @@ struct intel_digital_port {
+>  	enum phy_fia tc_phy_fia;
+>  	u8 tc_phy_fia_idx;
+>  
+> +	/* protects num_hdcp_streams reference count */
+> +	struct mutex hdcp_mutex;
+> +	/* the number of pipes using HDCP signalling out of this port */
+> +	unsigned int num_hdcp_streams;
+> +
+>  	void (*write_infoframe)(struct intel_encoder *encoder,
+>  				const struct intel_crtc_state *crtc_state,
+>  				unsigned int type,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 39c1304fe071..a33ee8f30d14 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -8450,6 +8450,8 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
+>  	intel_encoder = &intel_dig_port->base;
+>  	encoder = &intel_encoder->base;
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +
+>  	if (drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+>  			     &intel_dp_enc_funcs, DRM_MODE_ENCODER_TMDS,
+>  			     "DP %c", port_name(port)))
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index a4446d47ef27..0c00bbc3f66e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -801,6 +801,19 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
+>  	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
+>  		    connector->base.name, connector->base.base.id);
+>  
+> +	/*
+> +	 * If there are other connectors on this port using HDCP, don't disable
+> +	 * it. Instead, toggle the HDCP signalling off on that particular
+> +	 * connector/pipe and exit.
+> +	 */
+> +	if (intel_dig_port->num_hdcp_streams > 0) {
+> +		ret = hdcp->shim->toggle_signalling(intel_dig_port,
+> +						    cpu_transcoder, false);
+> +		if (ret)
+> +			DRM_ERROR("Failed to disable HDCP signalling\n");
+> +		return ret;
+> +	}
+> +
+>  	hdcp->hdcp_encrypted = false;
+>  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
+>  	if (intel_de_wait_for_clear(dev_priv,
+> @@ -880,6 +893,8 @@ static struct intel_connector *intel_hdcp_to_connector(struct intel_hdcp *hdcp)
+>  static void intel_hdcp_update_value(struct intel_connector *connector,
+>  				    u64 value, bool update_property)
+>  {
+> +	struct drm_device *dev = connector->base.dev;
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  
+>  	drm_WARN_ON(connector->base.dev, !mutex_is_locked(&hdcp->mutex));
+> @@ -887,6 +902,15 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
+>  	if (hdcp->value == value)
+>  		return;
+>  
+> +	drm_WARN_ON(dev, !mutex_is_locked(&intel_dig_port->hdcp_mutex));
+> +
+> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> +		if (!drm_WARN_ON(dev, intel_dig_port->num_hdcp_streams == 0))
+> +			intel_dig_port->num_hdcp_streams--;
+> +	} else if (value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> +		intel_dig_port->num_hdcp_streams++;
+> +	}
+> +
+>  	hdcp->value = value;
+>  	if (update_property) {
+>  		drm_connector_get(&connector->base);
+> @@ -905,6 +929,8 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+>  	int ret = 0;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+> +
+>  	cpu_transcoder = hdcp->cpu_transcoder;
+>  
+>  	/* Check_link valid only when HDCP1.4 is enabled */
+> @@ -958,6 +984,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
+>  	}
+>  
+>  out:
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+> @@ -2054,6 +2081,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  		      enum transcoder cpu_transcoder, u8 content_type)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	unsigned long check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
+>  	int ret = -EINVAL;
+> @@ -2062,6 +2090,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  		return -ENOENT;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+>  	drm_WARN_ON(&dev_priv->drm,
+>  		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
+>  	hdcp->content_type = content_type;
+> @@ -2096,12 +2125,14 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  					true);
+>  	}
+>  
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+>  
+>  int intel_hdcp_disable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret = 0;
+>  
+> @@ -2109,17 +2140,21 @@ int intel_hdcp_disable(struct intel_connector *connector)
+>  		return -ENOENT;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&intel_dig_port->hdcp_mutex);
+>  
+> -	if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> -		intel_hdcp_update_value(connector,
+> -					DRM_MODE_CONTENT_PROTECTION_UNDESIRED,
+> -					false);
+> -		if (hdcp->hdcp2_encrypted)
+> -			ret = _intel_hdcp2_disable(connector);
+> -		else if (hdcp->hdcp_encrypted)
+> -			ret = _intel_hdcp_disable(connector);
+> -	}
+nice clean up. But unrelated change for this patch, separate patch will
+be nice.
+> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
+> +		goto out;
+> +
+> +	intel_hdcp_update_value(connector,
+> +				DRM_MODE_CONTENT_PROTECTION_UNDESIRED, false);
+>  
+> +	if (hdcp->hdcp2_encrypted)
+> +		ret = _intel_hdcp2_disable(connector);
+> +	else if (hdcp->hdcp_encrypted)
+> +		ret = _intel_hdcp_disable(connector);
+> +
+> +out:
+> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	cancel_delayed_work_sync(&hdcp->check_work);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index 5820a6e94273..93cd8a2a4be1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -3311,6 +3311,8 @@ void intel_hdmi_init(struct drm_i915_private *dev_priv,
+>  
+>  	intel_encoder = &intel_dig_port->base;
+>  
+> +	mutex_init(&intel_dig_port->hdcp_mutex);
+> +
+>  	drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
+>  			 &intel_hdmi_enc_funcs, DRM_MODE_ENCODER_TMDS,
+>  			 "HDMI %c", port_name(port));
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2102174956==--
