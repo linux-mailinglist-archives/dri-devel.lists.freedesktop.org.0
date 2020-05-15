@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1791D4518
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 07:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568AC1D451A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 07:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70BF56EBCA;
-	Fri, 15 May 2020 05:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9156EBCD;
+	Fri, 15 May 2020 05:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
  [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8BF6EBCA;
- Fri, 15 May 2020 05:19:41 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id u16so1090214wmc.5;
- Thu, 14 May 2020 22:19:41 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B948C6EBCC;
+ Fri, 15 May 2020 05:19:43 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id n5so1126671wmd.0;
+ Thu, 14 May 2020 22:19:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i1dS+9A8wTU215IAbY7tCuDJIgwLJnZEKle46PzX1ew=;
- b=qXnayYLvSilGHD5WEQrJHgZ2hHwdnhFwBjg9dOrjAyaZhP/HKGy80SIFghWSpOBIGj
- rRM0n2D+m3qhbu9FZcM+IlA4zYTdYDPkERg2+Rhs6Mr7LEgy6Adeij5gwiU9jj4GNiMX
- GQC4F8b6E3n99LsyZo+BfsOIHaXUyejKY7PUMybEooLPGrI1BElSbh5pepINuLad2R+k
- SawG1RldvM5oiHRxFV1DUyZ6Mom7iajqGlb7MSJ9lnYleyOUMrGs7Sf6DYsBWqTOzMJQ
- s6q76GYTrD3s5RLzc8bVCMRGqzg9qjamsbtuiQnQXMI/wFcQupz0hzX5MXbBsWXX9chb
- wKyw==
+ bh=ZhJjRoQlrxeH31jU7r9OqB6c2UK7PY7P/7IIUIeP13o=;
+ b=XfO7EfIqgGavFdtsqgo4kjdnDkMBvLVQrgb5Sy8DAp1DxTyQ0eRTvTt2zGgSGs4egc
+ xw2zVl5jX9eP0IfNkXi5Nt0L0AZXtlTDrbbDQlJJgmUtwOg80ui7YhHjj+1FxQ56ZF9P
+ HHEnyuBlxppbmhw+pCB2m2o7ldmfCfFDGlSNg8wthFiVByuJs2WudTa7/lwPjXxtlm6R
+ 5IhuiTuAyRxpoXXIH3+/jkCKRf2YtpRU1GypcJB/aFWXU4FzOOrMxq95EeI7fRDr4uOk
+ K4E40bfmGRxOtyCbOIPIH2iPfSlkDYD0STwC+qGV+JMXwPgGnNk0da45imm9MVENVYLV
+ 64DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i1dS+9A8wTU215IAbY7tCuDJIgwLJnZEKle46PzX1ew=;
- b=Ynj99GcS9tkies7nx6upTmVn5YI0K+jgWEux+TLTM9CxIZD0zA4us2NZGazcxzhQ/U
- NA3hi/31abfpcLtwtgzdIyXAIA/ZPiViTf6JVfOsPhfxltNbx8fo4jP2eF9xlt9gpex+
- 1B9ASx857zGZ1Z/kK/aOvnceF87DoDJaWCi/7dMerk2Pd2IeKooXCju8PDDQwjeUzpeQ
- VuOPuUMQbqIEIOfIj2XhVdrQ1nlACLw4HqQjFnbz/ysufbr/23pGpic3TKvzff8OpjSn
- UwVriWDU8E4UT5wlCXj4OoEekCS7I72uKGcnF+3alCkvhL0Ah2rhNfrVVBqlKpSEBHdK
- Bc+g==
-X-Gm-Message-State: AOAM532AM7ZI9mzYXornG2w8o2Btz8wq5gCXfNJBZeHZ59RvlqEqGsbc
- VK+C+ooWuSOIzk8JmNnYtqyTiNDuL+U=
-X-Google-Smtp-Source: ABdhPJzl6/3NTXiDJYhi49H4wkDN1z0k+ZDjZtVIaqoqY0/hrcWUX22/3/qXj/17jM8mhkMoqvZZBQ==
-X-Received: by 2002:a7b:c651:: with SMTP id q17mr1838200wmk.167.1589519979923; 
- Thu, 14 May 2020 22:19:39 -0700 (PDT)
+ bh=ZhJjRoQlrxeH31jU7r9OqB6c2UK7PY7P/7IIUIeP13o=;
+ b=hQMIRnHwlFQfcH0epbq4GkfOR2qgH/SqM7KxHMFY7lTwukPPKd+M0ONIRMuqGg7EyY
+ 3qyzUb+NfbR0j+JmiQrHtos9cwsDXOXw8MoDfni5Xw+sqNB7Uc6yWjg2Jl59k1cSRO/3
+ rLfrwJ1v/wHFPB3sWg5/nYerzdg8pc7v212ZzbPn+ZKHSBZsNbmNx16vCnZUhjT1vd8q
+ V8QVg8pHRUceQ/vGEpcS+MN9MD3WzTHK2tX0YL3lLxMe0xwULyi3HZF2+R0Q9OM6O+yQ
+ sBTFo2QB7B7f3PhyTWyO8X89cAFcerRryf5rWr/ZjAw9qBfWTrwaFOa9bhM/5a4YB23Q
+ /76A==
+X-Gm-Message-State: AOAM532OIv0LuvWjHsnKPDwCfw96lUONGqh9ZCtcd+LEKSps11qfIBJl
+ K/knBclPhuj1eGA5CZqA1iYv9AGwKok=
+X-Google-Smtp-Source: ABdhPJyV78T+GkOaH0KrJvWVTOcs38rft5fVcDVnHF5+kfY9h11ztC37dXx7FCnqZVxdCZpr2jvdWA==
+X-Received: by 2002:a1c:9d17:: with SMTP id g23mr1902961wme.38.1589519982178; 
+ Thu, 14 May 2020 22:19:42 -0700 (PDT)
 Received: from twisty.localdomain
  (dynamic-2a01-0c22-c877-2100-f914-43b7-6b66-02cf.c22.pool.telefonica.de.
  [2a01:c22:c877:2100:f914:43b7:6b66:2cf])
- by smtp.gmail.com with ESMTPSA id s8sm1554631wrt.69.2020.05.14.22.19.39
+ by smtp.gmail.com with ESMTPSA id s8sm1554631wrt.69.2020.05.14.22.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 22:19:39 -0700 (PDT)
+ Thu, 14 May 2020 22:19:41 -0700 (PDT)
 From: Mario Kleiner <mario.kleiner.de@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/amd/display: Expose support for xBGR ordered fp16
- formats.
-Date: Fri, 15 May 2020 07:19:23 +0200
-Message-Id: <20200515051924.12331-2-mario.kleiner.de@gmail.com>
+Subject: [PATCH 2/2] drm/amd/display: Enable fp16 also on DCE-11.0 - DCE-12.
+Date: Fri, 15 May 2020 07:19:24 +0200
+Message-Id: <20200515051924.12331-3-mario.kleiner.de@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
 References: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
@@ -76,42 +75,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose support for DRM_FORMAT_ABGR16161616F and
-DRM_FORMAT_XBGR16161616F to the DRM core, complementing
-the already existing xRGB ordered fp16 formats.
-
-These are especially useful for creating presentable
-swapchains in Vulkan for VK_FORMAT_R16G16B16A16_SFLOAT.
+Testing on a Polaris11 gpu with DCE-11.2 suggests that it
+seems to work fine there, so optimistically enable it for
+DCE-11 and later.
 
 Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 48f2b3710e7c..bd0c9eda8f93 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3651,6 +3651,10 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
- 	case DRM_FORMAT_ARGB16161616F:
- 		plane_info->format = SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616F;
- 		break;
-+	case DRM_FORMAT_XBGR16161616F:
-+	case DRM_FORMAT_ABGR16161616F:
-+		plane_info->format = SURFACE_PIXEL_FORMAT_GRPH_ABGR16161616F;
-+		break;
- 	default:
- 		DRM_ERROR(
- 			"Unsupported screen format %s\n",
-@@ -5566,6 +5570,8 @@ static int get_plane_formats(const struct drm_plane *plane,
- 		if (plane_cap && plane_cap->pixel_format_support.fp16) {
- 			formats[num_formats++] = DRM_FORMAT_XRGB16161616F;
- 			formats[num_formats++] = DRM_FORMAT_ARGB16161616F;
-+			formats[num_formats++] = DRM_FORMAT_XBGR16161616F;
-+			formats[num_formats++] = DRM_FORMAT_ABGR16161616F;
- 		}
- 		break;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+index 9597fc79d7fa..a043ddae5149 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+@@ -410,7 +410,7 @@ static const struct dc_plane_cap plane_cap = {
+ 		.pixel_format_support = {
+ 				.argb8888 = true,
+ 				.nv12 = false,
+-				.fp16 = false
++				.fp16 = true
+ 		},
  
+ 		.max_upscale_factor = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+index 4a7796de2ff5..51b3fe502670 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+@@ -411,7 +411,7 @@ static const struct dc_plane_cap plane_cap = {
+ 	.pixel_format_support = {
+ 			.argb8888 = true,
+ 			.nv12 = false,
+-			.fp16 = false
++			.fp16 = true
+ 	},
+ 
+ 	.max_upscale_factor = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+index 9a9764cbd78d..8f362e8c1787 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+@@ -516,7 +516,7 @@ static const struct dc_plane_cap plane_cap = {
+ 	.pixel_format_support = {
+ 			.argb8888 = true,
+ 			.nv12 = false,
+-			.fp16 = false
++			.fp16 = true
+ 	},
+ 
+ 	.max_upscale_factor = {
 -- 
 2.20.1
 
