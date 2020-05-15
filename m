@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C511D42E9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 03:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733A71D42EA
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 03:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798146EBC5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7F56EBC6;
 	Fri, 15 May 2020 01:24:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E906E113
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 01:24:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4918B6E3D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 01:24:48 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A44FC9CE;
- Fri, 15 May 2020 03:24:45 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3978C9D3;
+ Fri, 15 May 2020 03:24:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1589505885;
- bh=E/UttokHMJtXKmGkzjS1kpEfYwhwJBXkyZMdMyuv+oc=;
+ s=mail; t=1589505886;
+ bh=68H8688PuZ554YOJAt+oXC0cWRE0EAHzcF1P96dMHlc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YFP6AhJs6hSKhQfic6c2VhiUOyIm68G0xrYxX/djDexs1QI/fHHzVKuIjY2/ZVAu/
- qK6PMTRPpUX9UGnSPiBfRejdCmiE3x6BsrtCTq9BpucYPc6X49HEUFrb6MKK4mRoYK
- 71mYxyUAqj8EYHnKEZ5b/0MyTvPd4G1hF1Ktw9t0=
+ b=QfokATFfjsutpu8tNVdg3Cw23EAZHVjnMOzDkoDMsBxXZrja4+mn+7lEQBIutGqJV
+ MHkabzfJLGxTAhB+UTmedCj4f8AoSM8cedeDOzj7fDnTHDQmxPjAnFa8SE8XEMKbA5
+ XJfV72dHVMq0uZZMRGb6ep8MFmlE/pSooeVmyik8=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/8] dt-bindings: media: renesas,
- fcp: Make power-domains mandatory
-Date: Fri, 15 May 2020 04:24:26 +0300
-Message-Id: <20200515012432.31326-3-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 3/8] dt-bindings: media: renesas,
+ fcp: Add resets and iommus properties
+Date: Fri, 15 May 2020 04:24:27 +0300
+Message-Id: <20200515012432.31326-4-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -53,26 +53,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All DT source files in the kernel tree specifyc the power-domains
-property. Make it mandatory.
+The resets and iommus properties are used in DT sources in the kernel
+tree. Document them, and make resets mandatory. The iommus property is
+optional as not all platforms wire the FCP to a functional IOMMU.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/media/renesas,fcp.yaml | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-index be085fb398fd..041c05467b46 100644
+index 041c05467b46..9f830bd95071 100644
 --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
 +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-@@ -38,6 +38,7 @@ required:
+@@ -31,14 +31,21 @@ properties:
+   clocks:
+     maxItems: 1
+ 
++  iommus:
++    maxItems: 1
++
+   power-domains:
+     maxItems: 1
+ 
++  resets:
++    maxItems: 1
++
+ required:
    - compatible
    - reg
    - clocks
-+  - power-domains
+   - power-domains
++  - resets
  
  additionalProperties: false
  
+@@ -53,5 +60,7 @@ examples:
+         reg = <0xfea2f000 0x200>;
+         clocks = <&cpg CPG_MOD 602>;
+         power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++        resets = <&cpg 602>;
++        iommus = <&ipmmu_vi0 9>;
+     };
+ ...
 -- 
 Regards,
 
