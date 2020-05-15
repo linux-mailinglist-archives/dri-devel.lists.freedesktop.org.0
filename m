@@ -2,43 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD371D5009
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 16:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93771D500D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 16:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250926ECAE;
-	Fri, 15 May 2020 14:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A656ECAC;
+	Fri, 15 May 2020 14:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1196E0D0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 14:10:21 +0000 (UTC)
-IronPort-SDR: LD6A12L562l+6wVrmPag0o+aoLwW/ooIfPllYF+Vvnpg95B/Z2XdGsQvqB4Ysne0UlEh/M8Ytw
- 4Oxs88HvfA8Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 07:10:21 -0700
-IronPort-SDR: rHo7kUkDP8xk9AQBTT7ATI+cBCR+DYASP8NPXlUjN/TtThJcm3rq+/cX8X7BiFeyOCa39dBjeQ
- B+PxuaNYgGJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="372701733"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 15 May 2020 07:10:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 15 May 2020 17:10:18 +0300
-Date: Fri, 15 May 2020 17:10:18 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: drm state readout helpers
-Message-ID: <20200515141018.GK6112@intel.com>
-References: <CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com>
- <20200515135153.GJ6112@intel.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F6E6ECAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 14:10:48 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id m12so2485937wmc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 07:10:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=30bGS6eEbT86bOm7q/Pff7E63+A8Ea8IBpRUjx6DIDM=;
+ b=gJSVBZI0QlhqGUW8UtzhRnoJ274kWv3HjMykc9bVeORarY1yl+TqTqiMd1h1RBNvIe
+ tQqmVwj1G5eJy+/HPwpj5NYss+lwBzI4k8imb3APpTs0kHKqfDJDUxZLAvZcpaINkUYD
+ 3eeim2T7m7OepSo/GpLBZyfSBF6yofhgTmD58=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=30bGS6eEbT86bOm7q/Pff7E63+A8Ea8IBpRUjx6DIDM=;
+ b=pa2qv9sxvUESa4Iyv9HsAxeCr+tUYZqhdAcZFTePa5vatiaazb98Ya3PqoyAjR/8Nm
+ A4xLiFjCZtzVgED6QMRkpZBOsASAwnlW317r1BiAVM2qP7jJPpnxKzBf76iz8H+UTMko
+ r3XSwHmhG5S1VF26j1Zf0ncgWmoEpJPRc8WHtLlFg5sTnSKkWEklCbIzNd07D1yuCJaC
+ 6zOQdRMJgaJ61ENbW9GgPDhggyIVn8cGGZRfvL7n9ZDI5uyQ+T3c51fATm/orVgWpW4U
+ IZYvxLIuxcHVZ199pU1aJ4mXhsqQZgRGP53fJsX6wNLXgeiJGNMkiUSwUM2SMN8nVOc3
+ otTA==
+X-Gm-Message-State: AOAM533n0P6ZDSP7M5hfqdn2odX8HwiPq99ALHSYZkmLbeUk0bS6OOUl
+ polnNUkXDfxw82L+wl9thNQpTA==
+X-Google-Smtp-Source: ABdhPJxWkWnxN4cVtYpfVZbc42YSRRr9A2AxYDW5FUuRl5TSSDC04Mj6L3TTTtEcYA4wun7JTrU6PQ==
+X-Received: by 2002:a1c:a947:: with SMTP id s68mr4299107wme.25.1589551847585; 
+ Fri, 15 May 2020 07:10:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c80sm4017827wme.15.2020.05.15.07.10.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 May 2020 07:10:46 -0700 (PDT)
+Date: Fri, 15 May 2020 16:10:44 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/2] drm/shmem: Use cached mappings by default
+Message-ID: <20200515141044.GH206103@phenom.ffwll.local>
+References: <20200513150312.21421-1-tzimmermann@suse.de>
+ <20200513150312.21421-2-tzimmermann@suse.de>
+ <20200514124050.GV206103@phenom.ffwll.local>
+ <CAL_JsqK5J78PS_miF8QmfcLJOiESV-f=hXB_CanFqK9yBgJ=6Q@mail.gmail.com>
+ <6cec8a8a-d642-cd93-906a-eafab49a12d7@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200515135153.GJ6112@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <6cec8a8a-d642-cd93-906a-eafab49a12d7@suse.de>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,110 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 04:51:53PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Fri, May 15, 2020 at 03:36:13PM +0200, Daniel Vetter wrote:
-> > Hi all,
-> > =
-
-> > Maxime seems to have a need for a bit more than what the current
-> > drm_mode_config_reste can do, so here's a bunch of ideas inspired by
-> > i915.
-> > =
-
-> > I think minimally what you need is a drm_atomic_state_helper_readout()
-> > functions, which instead of resetting, allocates all the obj->state
-> > pointers and fills them out. For that I think the simplest is to add
-> > atomic_readout_state functions to crtc, connector and plane (if you
-> > want to take over the firmware fb allocation too), which take as
-> > parameter the object, and return the read-out state. Important, they
-> > must _not_ touch anything persistent, otherwise the following stuff
-> > here doesn't work.
-> > =
-
-> > Next up is the challenge of bridges and encoders. If the goal is to
-> > properly shut down encoders/bridges, they also need their state. And
-> > on most hw, they need a mix of the crtc and connector state, so best
-> > to pass both of those (plus bridge state for bridges) to them. You can
-> > do that if we assume that connector_helper_funcs->atomic_readout_state
-> > sets the drm_connector_state->crtc pointer correctly. So the
-> > drm_atomic_state_helper_readout function would first loop through
-> > connectors and crtcs, and then loop through encoders and bridges to
-> > fill in the gaps. Last you probably want to go through planes.
-> > =
-
-> > Now even more fun hw will have trouble and might need to look up
-> > random other objects to set stuff, so we need a drm_atomic_state
-> > structure to tie all these things together. For reasons that will
-> > become obvious later on these read-out states should be stored in the
-> > old_ state pointers.
-> > =
-
-> > Finally we need the actual helper which takes that read-out state and
-> > smashes it into the real obj->state pointers, essentially a swap_state
-> > but in reverse (since we need to write the old_ state pointers into
-> > obj->state).
-> > =
-
-> > One thing i915 does, but I don't think is really needed: We read out
-> > the connector->crtc routing as a first step, and once we have that, we
-> > read out the connector/encoder/crtc steps. I think if you first read
-> > out (and hence allocate) crtrc states, and then connector, and then
-> > encoder/bridges that should work, and simplifies the flow a bit. So we
-> > need another drm_atomic_state_helper_reset_to_readout or whatever,
-> > which uses _readout and then does the reverse swap. Drivers call this
-> > instead of drm_mode_config_reset.
-> > =
-
-> > Now the real issue: How do you make sure this actually works? Testing
-> > with different fw configurations is usually impossible, you cant
-> > easily tell the firmware to boot with different modes. Or at least
-> > it's cumbersome since manual testing and lots of reboots. Waiting for
-> > bug reports and then fixing them, while probably breaking something
-> > else is a game of whack-a-mole.
-> > =
-
-> > So what i915 does is read out the hw state on every nonblocking
-> > modeset (the additional time spent doesn't matter), but _only_ for the
-> > objects touched in that modeset state. This is why you need to read
-> > out into old_ state pointers, since after a blocking modeset those are
-> > unused and available.
+On Fri, May 15, 2020 at 08:58:02AM +0200, Thomas Zimmermann wrote:
+> Hi
 > =
 
-> I have a feeling this old vs. new thing is still going to bite
-> someone. But atm don't really have any sane alternative ideas.
+> Am 14.05.20 um 22:36 schrieb Rob Herring:
+> > On Thu, May 14, 2020 at 7:40 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >>
+> >> On Wed, May 13, 2020 at 05:03:11PM +0200, Thomas Zimmermann wrote:
+> >>> SHMEM-buffer backing storage is allocated from system memory; which is
+> >>> typically cachable. Currently, only virtio uses cachable mappings; udl
+> >>> uses its own vmap/mmap implementation for cachable mappings. Other
+> >>> drivers default to writecombine mappings.
+> >>
+> >> I'm pretty sure this breaks all these drivers. quick grep on a few
+> >> functions says this is used by lima, panfrost, v3d. And they definitely
+> >> need uncached/wc stuff afaiui. Or I'm completely missing something?
+> > =
+
 > =
 
-> Hmm, maybe we could at least tag the atomic_state as "readout only"
-> for the duration of the actual readout and WARN/fail if anyone does
-> drm_atomic_get_new_foo_state() and for_each_new/oldnew...() on it?
+> OK. I think I'll just make a patch that adds a .gem_create_object helper
+> that sets the map_cached flag. So drivers can opt-in.
+> =
 
-Oh, and I also had some fun with the readout overwriting
-old_crtc_state->commit when I playing around with vblank workers.
-I'm not even sure why that doesn't blow up currently as well. =
+> > Yes, that would be my guess. DMA is usually non-coherent on Arm.
+> =
+
+> Can one of you give me some pointer to what you're looking at? For
+> example, I grepped for use of vmap within lima and only found [1].
+> That's a for memcpy with no DMA involved. There's got to be something
+> I'm missing.
+> =
+
+> Best regards
+> Thomas
+> =
+
+> [1]
+> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/lima/lima_s=
+ched.c#n391
+
+$ git grep drm_gem_shmem_mmap
+
+We also need correct access from userspace, otherwise the gpu is going to
+be sad.
+-Daniel
+> =
+
+> > =
+
+> > Rob
+> > =
+
+> =
+
+> -- =
+
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
 
 
-I think we should try to remove that confusing new_crtc_state->commit
-vs. old_crtc_state->commit switcheroo. But I have a feeling that is
-going to require quite a few changes since I guess it's the
-old_crtc_state that currently gets plumbed into various places.
 
-Another related annoyance is the old_foo_state->state vs.
-new_foo_state->state which routinely trips up people with null ptr
-derefs.
 
-I guess trying to type up some cocci to plumb drm_atomic_state
-everywhere might be a start...
 
 -- =
 
-Ville Syrj=E4l=E4
-Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
