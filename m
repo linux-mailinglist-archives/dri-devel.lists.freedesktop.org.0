@@ -2,41 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD7F1D4EA9
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 15:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35581D4F54
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 15:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E0C6EC9D;
-	Fri, 15 May 2020 13:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0BED6ECA4;
+	Fri, 15 May 2020 13:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6CEE6EC9D;
- Fri, 15 May 2020 13:13:25 +0000 (UTC)
-IronPort-SDR: w1cNG6wYROF9m6qqwEAluHgUawqKK74LXJK2h5rXxuOGZHecgYAiyp8NvmU2w7LIyHIqxQ7WNA
- u31zsaf9D1yA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 06:13:25 -0700
-IronPort-SDR: I3noqEnV+YIYkB3QjawC3C2JIr7n6n3r5abObJ4L3GPegRwzGg9hQiaMjTy0LQhZUvwb6KE8Yk
- 4z/X1t8p1T3g==
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="438310585"
-Received: from haberkro-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.53.110])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 06:13:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v12 00/14] In order to readout DP SDPs,
- refactors the handling of DP SDPs
-In-Reply-To: <20200515130612.GI6112@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200514060732.3378396-1-gwan-gyeong.mun@intel.com>
- <87eerm4vd0.fsf@intel.com> <20200515130612.GI6112@intel.com>
-Date: Fri, 15 May 2020 16:13:18 +0300
-Message-ID: <87zha92vf5.fsf@intel.com>
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9916ECA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 13:36:25 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id g11so391649ots.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 06:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=MVmNXheV4dO9h0UaurvafMMMx3sl54GH56RP13c49C8=;
+ b=fs21rLweP8vCovGdooxOB/JT8fiVIZUBysbX5JkBCY0vXy7b6NEOmZYJE3XRJ+5X6V
+ eTRVzu59bl4+6y7d7GtwseoKktzx3TMDXEFvf8KagQLeM2LeByTxxCchYOuWANdLebsD
+ bO7fEG0MO5q012gAYPgB66Q8JOdc9aQspzyyo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=MVmNXheV4dO9h0UaurvafMMMx3sl54GH56RP13c49C8=;
+ b=kq8ZMCdFT6ei9DAEylMV1n1A6RUPJniubCsNrf2eWx95nVwiqe//zdrX3PAsL0tSCG
+ BmzW9MLYlcndlC+Pkcgtb3nTDj/nUMuE+hGfW09qApn49spWfr3I5SwbBkGBWrmldn5Z
+ /TX3pqvM0if6QH5MKKY9kRr0HXHuHJPQZKEmoxzXiojww8a+0KZ/3fIKs6GIdXU9dl8c
+ gUCDkb4LG/x72zypdJIFPdYBfMF0Yy+RnqYPsEqXm5V8hqcLZRpadQfGD9DahfyRaj0K
+ XG0Ra2fBZFL7aAjf8Xi9cNHMeGjSkIBVPConvXmwedImyCtkug24X9S0dOelDR3p5j/Q
+ xvjw==
+X-Gm-Message-State: AOAM533s7JboO1zK35SiHR3IHbfKxFzGNgmNOqqQCEYnp7KWInbFzskY
+ fzoSTUMXiYUPlrnLREc+ad9HdOJVfIddzAcKSt/TuA==
+X-Google-Smtp-Source: ABdhPJzIKdJxK8GTOhyI0AlJoMRYs/ZCH4LQh2t8/cIxpBE8QlMn2XRElEJT/W7f7q1IPRMuvzI/LHPfnqkVcmsK1Mo=
+X-Received: by 2002:a9d:7c92:: with SMTP id q18mr2391133otn.281.1589549785008; 
+ Fri, 15 May 2020 06:36:25 -0700 (PDT)
 MIME-Version: 1.0
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 15 May 2020 15:36:13 +0200
+Message-ID: <CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5Ra8CxPvJ=9BwmvfU-O0gg@mail.gmail.com>
+Subject: drm state readout helpers
+To: Maxime Ripard <mripard@kernel.org>, "Syrjala,
+ Ville" <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,69 +55,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAxNSBNYXkgMjAyMCwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gT24gVGh1LCBNYXkgMTQsIDIwMjAgYXQgMDI6MTk6MjNQTSAr
-MDMwMCwgSmFuaSBOaWt1bGEgd3JvdGU6Cj4+IE9uIFRodSwgMTQgTWF5IDIwMjAsIEd3YW4tZ3ll
-b25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4gd3JvdGU6Cj4+ID4gSW4gb3JkZXIg
-dG8gcmVhZG91dCBEUCBTRFBzIChTZWNvbmRhcnkgRGF0YSBQYWNrZXQ6IERQIEhEUiBNZXRhZGF0
-YQo+PiA+IEluZm9mcmFtZSBTRFAsIERQIFZTQyBTRFApLCBpdCByZWZhY3RvcnMgaGFuZGxpbmcg
-RFAgU0RQcyBjb2Rlcy4KPj4gPiBJdCBhZGRzIG5ldyBjb21wdXRlIHJvdXRpbmVzIGZvciBEUCBI
-RFIgTWV0YWRhdGEgSW5mb2ZyYW1lIFNEUAo+PiA+IGFuZCBEUCBWU0MgU0RQLiAKPj4gPiBBbmQg
-bmV3IHdyaXRpbmcgcm91dGluZXMgb2YgRFAgU0RQcyAoU2Vjb25kYXJ5IERhdGEgUGFja2V0KSB0
-aGF0IHVzZXMKPj4gPiBjb21wdXRlZCBjb25maWdzLgo+PiA+IE5ldyByZWFkaW5nIHJvdXRpbmVz
-IG9mIERQIFNEUHMgYXJlIGFkZGVkIGZvciByZWFkb3V0Lgo+PiA+IEl0IGFkZHMgYSBsb2dnaW5n
-IGZ1bmN0aW9uIGZvciBEUCBWU0MgU0RQLgo+PiA+IFdoZW4gcmVjZWl2aW5nIHZpZGVvIGl0IGlz
-IHZlcnkgdXNlZnVsIHRvIGJlIGFibGUgdG8gbG9nIERQIFZTQyBTRFAuCj4+ID4gVGhpcyBncmVh
-dGx5IHNpbXBsaWZpZXMgZGVidWdnaW5nLgo+PiA+IEluIG9yZGVyIHRvIHVzZSBhIGNvbW1vbiBW
-U0MgU0RQIENvbG9yaW1ldHJ5IGNhbGN1bGF0aW5nIGNvZGUgb24gUFNSLAo+PiA+IGl0IHVzZXMg
-YSBuZXcgcHNyIHZzYyBzZHAgY29tcHV0ZSByb3V0aW5lLgo+PiAKPj4gUHVzaGVkIHRoZSBzZXJp
-ZXMgdG8gZHJtLWludGVsLW5leHQtcXVldWVkIHdpdGggRGFuaWVsJ3MgaXJjIGFjayBmb3IKPj4g
-bWVyZ2luZyB0aGUgdHdvIG5vbi1pOTE1IHBhdGNoZXMgdGhhdCByb3V0ZSB0b28uCj4KPiBmaS1o
-c3ctNDc3MCBub3cgb29wc2VzIGF0IGJvb3Q6Cgovb1wKCldoYXQgZGlkIEkgbWlzcz8gV2hhdCBw
-YXJ0IGFib3V0IHRoZSBDSSByZXBvcnQgZGlkIEkgb3Zlcmxvb2s/CgpCUiwKSmFuaS4KCgo+Cj4g
-PDE+WyAgICAzLjczNjkwM10gQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlLCBh
-ZGRyZXNzOiAwMDAwMDAwMDAwMDAwMDAwCj4gPDE+WyAgICAzLjczNjkxNl0gI1BGOiBzdXBlcnZp
-c29yIHJlYWQgYWNjZXNzIGluIGtlcm5lbCBtb2RlCj4gPDE+WyAgICAzLjczNjkxNl0gI1BGOiBl
-cnJvcl9jb2RlKDB4MDAwMCkgLSBub3QtcHJlc2VudCBwYWdlCj4gPDY+WyAgICAzLjczNjkxN10g
-UEdEIDAgUDREIDAgCj4gPDQ+WyAgICAzLjczNjkxOV0gT29wczogMDAwMCBbIzFdIFBSRUVNUFQg
-U01QIFBUSQo+IDw0PlsgICAgMy43MzY5MjFdIENQVTogMCBQSUQ6IDM2MyBDb21tOiBzeXN0ZW1k
-LXVkZXZkIE5vdCB0YWludGVkIDUuNy4wLXJjNS1DSS1DSV9EUk1fODQ4NSsgIzEKPiA8ND5bICAg
-IDMuNzM2OTIyXSBIYXJkd2FyZSBuYW1lOiBMRU5PVk8gMTBBR1MwMDYwMS9TSEFSS0JBWSwgQklP
-UyBGQktUMzRBVVMgMDQvMjQvMjAxMwo+IDw0PlsgICAgMy43MzY5ODZdIFJJUDogMDAxMDppbnRl
-bF9wc3JfZW5hYmxlZCsweDgvMHg3MCBbaTkxNV0KPiA8ND5bICAgIDMuNzM2OTg4XSBDb2RlOiAx
-OCA0OCBjNyBjNiA0MCAwOSA3OSBhMCBlOCBlMyBlMiAwNCBlMSAwZiBiNiA0NCAyNCAwMyBlOSBm
-NCBmZCBmZiBmZiA5MCA2NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCA0MSA1NCA1NSA1MyA0
-OCA4MyBlYyAwOCA8NDg+IDhiIDlmIGQ4IGZlIGZmIGZmIGY2IDgzIDVlIDBkIDAwIDAwIDIwIDc0
-IDA5IDgwIGJiIDZjIGI2IDAwIDAwCj4gPDQ+WyAgICAzLjczNzAzNl0gUlNQOiAwMDE4OmZmZmZj
-OTAwMDA0N2Y4YTAgRUZMQUdTOiAwMDAxMDI4Ngo+IDw0PlsgICAgMy43MzcwNDJdIFJBWDogMDAw
-MDAwMDAwMDAwMDAwMiBSQlg6IGZmZmY4ODgzZmZkMDQwMDAgUkNYOiAwMDAwMDAwMDAwMDAwMDAx
-Cj4gPDQ+WyAgICAzLjczNzA0OF0gUkRYOiAwMDAwMDAwMDAwMDAwMDA3IFJTSTogZmZmZjg4ODNm
-ZmQwNDAwMCBSREk6IDAwMDAwMDAwMDAwMDAxMjgKPiA8ND5bICAgIDMuNzM3MDU1XSBSQlA6IGZm
-ZmY4ODg0MDZhZmUyMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDBmIFIwOTogMDAwMDAwMDAwMDAwMDAw
-MQo+IDw0PlsgICAgMy43MzcwNjFdIFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IDAwMDAwMDAw
-MDAwMDAwMDAgUjEyOiAwMDAwMDAwMDAwMDAwMDAwCj4gPDQ+WyAgICAzLjczNzA2OF0gUjEzOiBm
-ZmZmODg4M2Y3NWQwMDAwIFIxNDogZmZmZjg4ODQwNmFmZTIwMCBSMTU6IGZmZmY4ODgzZjc1ZDA4
-NzAKPiA8ND5bICAgIDMuNzM3MDc1XSBGUzogIDAwMDA3ZjcxNjE4Zjk2ODAoMDAwMCkgR1M6ZmZm
-Zjg4ODQwZWMwMDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCj4gPDQ+WyAgICAzLjcz
-NzA4Ml0gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwo+
-IDw0PlsgICAgMy43MzcwODhdIENSMjogMDAwMDAwMDAwMDAwMDAwMCBDUjM6IDAwMDAwMDA0MDI1
-MTAwMDIgQ1I0OiAwMDAwMDAwMDAwMTYwNmYwCj4gPDQ+WyAgICAzLjczNzA5NF0gRFIwOiAwMDAw
-MDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAwMDAwMDAwMCBEUjI6IDAwMDAwMDAwMDAwMDAwMDAK
-PiA8ND5bICAgIDMuNzM3MTAxXSBEUjM6IDAwMDAwMDAwMDAwMDAwMDAgRFI2OiAwMDAwMDAwMGZm
-ZmUwZmYwIERSNzogMDAwMDAwMDAwMDAwMDQwMAo+IDw0PlsgICAgMy43MzcxMDddIENhbGwgVHJh
-Y2U6Cj4gPDQ+WyAgICAzLjczNzE3NV0gIGludGVsX3JlYWRfZHBfc2RwKzB4MWE0LzB4MzgwIFtp
-OTE1XQo+IDw0PlsgICAgMy43MzcyNDZdICBoc3dfY3J0X2dldF9jb25maWcrMHgxMi8weDQwIFtp
-OTE1XQo+IDw0PlsgICAgMy43MzczMTddICBpbnRlbF9tb2Rlc2V0X3NldHVwX2h3X3N0YXRlKzB4
-M2IzLzB4MTZhMCBbaTkxNV0KPiAuLi4KCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3Vy
-Y2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+Hi all,
+
+Maxime seems to have a need for a bit more than what the current
+drm_mode_config_reste can do, so here's a bunch of ideas inspired by
+i915.
+
+I think minimally what you need is a drm_atomic_state_helper_readout()
+functions, which instead of resetting, allocates all the obj->state
+pointers and fills them out. For that I think the simplest is to add
+atomic_readout_state functions to crtc, connector and plane (if you
+want to take over the firmware fb allocation too), which take as
+parameter the object, and return the read-out state. Important, they
+must _not_ touch anything persistent, otherwise the following stuff
+here doesn't work.
+
+Next up is the challenge of bridges and encoders. If the goal is to
+properly shut down encoders/bridges, they also need their state. And
+on most hw, they need a mix of the crtc and connector state, so best
+to pass both of those (plus bridge state for bridges) to them. You can
+do that if we assume that connector_helper_funcs->atomic_readout_state
+sets the drm_connector_state->crtc pointer correctly. So the
+drm_atomic_state_helper_readout function would first loop through
+connectors and crtcs, and then loop through encoders and bridges to
+fill in the gaps. Last you probably want to go through planes.
+
+Now even more fun hw will have trouble and might need to look up
+random other objects to set stuff, so we need a drm_atomic_state
+structure to tie all these things together. For reasons that will
+become obvious later on these read-out states should be stored in the
+old_ state pointers.
+
+Finally we need the actual helper which takes that read-out state and
+smashes it into the real obj->state pointers, essentially a swap_state
+but in reverse (since we need to write the old_ state pointers into
+obj->state).
+
+One thing i915 does, but I don't think is really needed: We read out
+the connector->crtc routing as a first step, and once we have that, we
+read out the connector/encoder/crtc steps. I think if you first read
+out (and hence allocate) crtrc states, and then connector, and then
+encoder/bridges that should work, and simplifies the flow a bit. So we
+need another drm_atomic_state_helper_reset_to_readout or whatever,
+which uses _readout and then does the reverse swap. Drivers call this
+instead of drm_mode_config_reset.
+
+Now the real issue: How do you make sure this actually works? Testing
+with different fw configurations is usually impossible, you cant
+easily tell the firmware to boot with different modes. Or at least
+it's cumbersome since manual testing and lots of reboots. Waiting for
+bug reports and then fixing them, while probably breaking something
+else is a game of whack-a-mole.
+
+So what i915 does is read out the hw state on every nonblocking
+modeset (the additional time spent doesn't matter), but _only_ for the
+objects touched in that modeset state. This is why you need to read
+out into old_ state pointers, since after a blocking modeset those are
+unused and available. Next item is to add a  atomic_compare_state
+function to crtc/connector&plane and maybe bridges (i.e. all objects
+with state), which compares 2 state objects for equality. This needs
+to be a driver callback since each driver will only read out the state
+relevant from take-over from fw, not every possible feature, so
+there's lots you need to ignore. If any of these functions note a
+mismatch you splat with a warning and dump both the old and new states
+with the atomic_print driver hooks. I915 uses some #define so that
+these comparisons are one-liners (see PIPE_CONFIG_CHECK_X/I and so on,
+maybe we should have a few default ones with proper atomic naming, the
+names date back to the first somewhat-atomic modeset flow in i915).
+
+So for validation we need a drm_atomic_state_helper_check which uses
+_readout, and then the compare functions plus debug printouts if it
+goes wrong. I'd wire that directly into the default
+drm_atomic_helper_commit function.
+
+With these pieces you should have a state readout code that actually
+tends to work, and you can even test it (simply by doing a bunch of
+modesets). In i915 we have the _check code running unconditionally,
+blocking modesets are slow enough that it really doesn't matter.
+
+One more thing on the implementation: Since this is all helpers all
+the hooks should probably be in the respective helper function tables.
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
