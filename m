@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FFFE1D49FB
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293ED1D49FE
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE036EC38;
-	Fri, 15 May 2020 09:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78ED36EC3C;
+	Fri, 15 May 2020 09:54:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6EF6E132
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:08 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id m12so1685121wmc.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:08 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10A0C6EC35
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:10 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id f134so1679001wmf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UgKCP0E66GrIssr4PSamPr7IwENtNcpBp6wlTsjszoo=;
- b=uO39bj4PKYS2NEzcyP6/0Y5vJSSSyAai9wN0X1f9+yrz5/f6mU9Ada2vk0gJuY9uNr
- INjNrRYFfW9/EA3dTJs6uS4bG43KyNbjkvU/BRvBl/Mw3v6ufZDq4VzRbATRY98I6MB4
- 3WwpgDlGwFI7abb/fP0sGJWQfRvKx67gBsvBa8fxoEh0bFQPU3tOBdTwvUrydT+f80mg
- xebHpVZtkoBbEDuFFUqyWLc/p8lNYD5p4jO+/7nAij4tnXKys3CZGqLpIUG/piaq9nV0
- vQpHj9D1Dv8F4r7YjFGROdW2G10JLQwATRo2RETKd4uDAcq+ReV1enSNT0KEIFdfTRYE
- 3lzw==
+ bh=L457CX6UVQaxlohMgQyzShKgxDOsXvqdnSjPGTeCXxU=;
+ b=cM9Uap9I7AVnVFSfXD7uUk3YFoBd1IOIVgb5T8cc4JDSF6ZqhEYGn7WyQoHGGD05LV
+ rLWIXwtRupRNBWkf9aYFvG8pLI+vQ+fLGdzzVMO4FpiiFeNGXV0nvEm2pwNBzuZfjvTx
+ DwnmZTKhd04NHpTVfwtmzMJXzwty5eV5fK/NPj3q2ybxqeLeS/cCYlvHqTwevalBiaug
+ BCBI3EFDFO/BwEoyGZUBBKp8+j7+Z/2SLRSfVwBoUNzbkhbnrS1c6Ace7nZmWyRMAhsD
+ FT9/RL0nduVomUqJzi3OxnE1qeSOroGHv2AKT+K+7fRlX6avbwJA6Nx/G+hIhJZvBd4t
+ Nktg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UgKCP0E66GrIssr4PSamPr7IwENtNcpBp6wlTsjszoo=;
- b=hW31l7zJy8++omErRRJ5FDdk4k/MJzddZx5xJn+PkgkizCHbVvLWVU+21z+vhP/Y5Z
- Z1qFg2xxaTinxuIGc0R2h64xY3hhpY6S3W0T6AE2kkkZGTWyNjO0CegjRESEL7aChklr
- 2Ncp3gwrmRfN/jShdHP1bf0kS9m56+hZrXYalJpixBtlNJx7CZIS4P3QHrapYWSLiPPD
- t9Kw1J/rTCgEyP8X1B65UCY+4KQBs8NDYi1u+WIV6hYAIx7I1Uy3lpXmR6RtEmrV0SWC
- zC91/vonxBI6Ma7wYPiz5u/aWByK23HpsXCvQ/barh+yeiuJk4qDitkoS1kAw+DEERzU
- NwRA==
-X-Gm-Message-State: AOAM533hs6Z1WvQcoEFXYvQq/se6wwk06h8VBZwrjLvN/AkFzSTPVt3Y
- 533P6o4l0Wcep2ft7TBglE+sedSw
-X-Google-Smtp-Source: ABdhPJwTFglqnCJfE2KMz60BQeTVykFZPBU/sf3S5ZJC2+Au++YjY/CwuxqdrQhuNWWHB4AJmZpZZQ==
-X-Received: by 2002:a7b:c84b:: with SMTP id c11mr3055049wml.19.1589536447238; 
- Fri, 15 May 2020 02:54:07 -0700 (PDT)
+ bh=L457CX6UVQaxlohMgQyzShKgxDOsXvqdnSjPGTeCXxU=;
+ b=GWMOM7BXSGNEFN3mSKx7zZdzQHprrBsXLSz1IkN+foVaR1e35B08d8OQ0WqifXrYEI
+ HbAu5s+uH2utnE+2jZO0iiuaGTQuZXLv6D5fcK08k6tpROjj0GryHqkj0E6dz5Q5TO1S
+ oxx17NNmjOU70vvpxmjF19kV5veUs5NEj4Zn/GLT3zikRR3917rKAQzvTFaS9SRhwIcn
+ rbyBQ3mE4szgFx3lhUwRzIib8IcR3s54VvkOwW1jEg9H+Xvh/5vfA/asoXOR02jgvNrc
+ TpkZ+/f+Cpv7Gmf4Rk5yOUPPgWq3+V6+VSBsOMPZ+4H0tNi+526WwTw/O4PDdGyKklz1
+ iQyg==
+X-Gm-Message-State: AOAM531XO+PPN85ewQsIesJkWvnhyVpwqdmxzNwzVFhtE1KE/5UShrvh
+ TBjGafNqgUxxdSPhsZHI5rtnFp/L
+X-Google-Smtp-Source: ABdhPJxcosVrxKMWJpr5ix4vf99opIgKEhHpBHvC1+4K3D2bukPTM9qkJIAfyLscRc6jTcHKGAcvJQ==
+X-Received: by 2002:a7b:c24b:: with SMTP id b11mr3087144wmj.101.1589536448449; 
+ Fri, 15 May 2020 02:54:08 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.06
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:06 -0700 (PDT)
+ Fri, 15 May 2020 02:54:07 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 05/38] drm/doc: add WARNING for drm_device::struct_mutex
-Date: Fri, 15 May 2020 10:50:45 +0100
-Message-Id: <20200515095118.2743122-6-emil.l.velikov@gmail.com>
+Subject: [PATCH v2 06/38] drm/doc: drop struct_mutex reference for
+ drm_gem_object_free
+Date: Fri, 15 May 2020 10:50:46 +0100
+Message-Id: <20200515095118.2743122-7-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -75,30 +76,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-The mutex should be used, only by legacy drivers. Add a big warning to
-deter people from using it.
+The comment that struct_mutex must be held is misleading. It is only
+required when .gem_free_object() is used.
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Since that one is going with the next patches, drop the reference.
+
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- include/drm/drm_device.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_gem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index a55874db9dd4..0988351d743c 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -146,6 +146,9 @@ struct drm_device {
- 	 * @struct_mutex:
- 	 *
- 	 * Lock for others (not &drm_minor.master and &drm_file.is_master)
-+	 *
-+	 * WARNING:
-+	 * Only drivers annotated with DRIVER_LEGACY should be using this.
- 	 */
- 	struct mutex struct_mutex;
- 
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 918d1ba25f63..12fa121d0966 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -965,7 +965,6 @@ EXPORT_SYMBOL(drm_gem_object_release);
+  * @kref: kref of the object to free
+  *
+  * Called after the last reference to the object has been lost.
+- * Must be called holding &drm_device.struct_mutex.
+  *
+  * Frees the object
+  */
 -- 
 2.25.1
 
