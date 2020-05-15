@@ -2,41 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD56A1D4DDE
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5F01D4E0D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 14:49:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 829906E15C;
-	Fri, 15 May 2020 12:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84D46EC8C;
+	Fri, 15 May 2020 12:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408756E15C;
- Fri, 15 May 2020 12:39:26 +0000 (UTC)
-IronPort-SDR: Sq+mNoNVzfAc30OzXBrL78p2S2S1It2Oiio+4S+gMX5fFk1CtgtK0BcCI4uRt9fO591/cYaPZ8
- hQN1Z4lmTA/w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 May 2020 05:39:26 -0700
-IronPort-SDR: PIp8pVixVQjX1lUvT3VBWNK5QhoPBs0cazw5ng00anUhx4FB7XWhSpTPifV0ooB9rY6sejeBtR
- Wxb6IH37p0uA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,395,1583222400"; d="scan'208";a="438301667"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga005.jf.intel.com with ESMTP; 15 May 2020 05:39:23 -0700
-Date: Fri, 15 May 2020 18:09:19 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v6 08/16] drm/i915: Don't fully disable HDCP on a port if
- multiple pipes are using it
-Message-ID: <20200515123919.GA10884@intel.com>
-References: <20200429195502.39919-1-sean@poorly.run>
- <20200429195502.39919-9-sean@poorly.run>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5311E6EC8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 12:49:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E94FE1042;
+ Fri, 15 May 2020 05:49:24 -0700 (PDT)
+Received: from [192.168.1.84] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D619B3F305;
+ Fri, 15 May 2020 05:49:23 -0700 (PDT)
+Subject: Re: [PATCH v2 11/38] drm/gem: add _locked suffix to drm_object_put
+To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
+ <20200515095118.2743122-12-emil.l.velikov@gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <7eb76d94-74ae-8a88-2841-259279b1b0d8@arm.com>
+Date: Fri, 15 May 2020 13:46:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200429195502.39919-9-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200515095118.2743122-12-emil.l.velikov@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,241 +42,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, seanpaul@chromium.org, juston.li@intel.com,
- rodrigo.vivi@intel.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-04-29 at 15:54:54 -0400, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On 15/05/2020 10:50, Emil Velikov wrote:
+> From: Emil Velikov <emil.velikov@collabora.com>
 > 
-> This patch is required for HDCP over MST. If a port is being used for
-> multiple HDCP streams, we don't want to fully disable HDCP on a port if
-> one of them is disabled. Instead, we just disable the HDCP signalling on
-> that particular pipe and exit early. The last pipe to disable HDCP will
-> also bring down HDCP on the port.
+> Vast majority of DRM (core and drivers) are struct_mutex free.
 > 
-> In order to achieve this, we need to keep a refcount in intel_digital_port
-> and protect it using a new hdcp_mutex.
+> As such we have only a handful of cases where the locked helper should
+> be used. Make that stand out a little bit better.
 > 
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-8-sean@poorly.run #v1
-> Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-9-sean@poorly.run #v2
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-9-sean@poorly.run #v3
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-9-sean@poorly.run #v4
-> Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-9-sean@poorly.run #v5
+> Done via the following script:
 > 
-> Changes in v2:
-> -Move the toggle_signalling call into _intel_hdcp_disable so it's called from check_work
-> Changes in v3:
-> -None
-> Changes in v4:
-> -None
-> Changes in v5:
-> -Change WARN_ON to drm_WARN_ON
-> Changes in v6:
-> -None
+> __from=drm_gem_object_put
+> __to=drm_gem_object_put_locked
+> 
+> for __file in $(git grep --name-only --word-regexp $__from); do
+>    sed -i  "s/\<$__from\>/$__to/g" $__file;
+> done
+> 
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: linux-arm-msm@vger.kernel.org
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+NIT: The subject is wrong: s/drm_object_put/drm_gem_object_put/
+
+Otherwise with that fixes LTGM:
+
+Reviewed-By: Steven Price <steven.price@arm.com>
+
+Steve
+
 > ---
->  drivers/gpu/drm/i915/display/intel_ddi.c      |  3 ++
->  .../drm/i915/display/intel_display_types.h    |  5 ++
->  drivers/gpu/drm/i915/display/intel_dp.c       |  2 +
->  drivers/gpu/drm/i915/display/intel_hdcp.c     | 53 +++++++++++++++----
->  drivers/gpu/drm/i915/display/intel_hdmi.c     |  2 +
->  5 files changed, 56 insertions(+), 9 deletions(-)
+>   drivers/gpu/drm/drm_gem.c                 | 6 +++---
+>   drivers/gpu/drm/msm/adreno/a5xx_debugfs.c | 4 ++--
+>   drivers/gpu/drm/msm/msm_drv.c             | 2 +-
+>   drivers/gpu/drm/msm/msm_gem.c             | 6 +++---
+>   drivers/gpu/drm/msm/msm_gem_submit.c      | 2 +-
+>   drivers/gpu/drm/msm/msm_gpu.c             | 2 +-
+>   include/drm/drm_gem.h                     | 4 ++--
+>   7 files changed, 13 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index dc5d39ae4743..11155a8a73c0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -4801,6 +4801,9 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
->  	drm_encoder_init(&dev_priv->drm, &encoder->base, &intel_ddi_funcs,
->  			 DRM_MODE_ENCODER_TMDS, "DDI %c", port_name(port));
->  
-> +	mutex_init(&intel_dig_port->hdcp_mutex);
-> +	intel_dig_port->num_hdcp_streams = 0;
-> +
->  	encoder->hotplug = intel_ddi_hotplug;
->  	encoder->compute_output_type = intel_ddi_compute_output_type;
->  	encoder->compute_config = intel_ddi_compute_config;
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 383046050c37..69edfab4e266 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1411,6 +1411,11 @@ struct intel_digital_port {
->  	enum phy_fia tc_phy_fia;
->  	u8 tc_phy_fia_idx;
->  
-> +	/* protects num_hdcp_streams reference count */
-> +	struct mutex hdcp_mutex;
-> +	/* the number of pipes using HDCP signalling out of this port */
-> +	unsigned int num_hdcp_streams;
-> +
->  	void (*write_infoframe)(struct intel_encoder *encoder,
->  				const struct intel_crtc_state *crtc_state,
->  				unsigned int type,
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 39c1304fe071..a33ee8f30d14 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -8450,6 +8450,8 @@ bool intel_dp_init(struct drm_i915_private *dev_priv,
->  	intel_encoder = &intel_dig_port->base;
->  	encoder = &intel_encoder->base;
->  
-> +	mutex_init(&intel_dig_port->hdcp_mutex);
-> +
->  	if (drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
->  			     &intel_dp_enc_funcs, DRM_MODE_ENCODER_TMDS,
->  			     "DP %c", port_name(port)))
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index a4446d47ef27..0c00bbc3f66e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -801,6 +801,19 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
->  	drm_dbg_kms(&dev_priv->drm, "[%s:%d] HDCP is being disabled...\n",
->  		    connector->base.name, connector->base.base.id);
->  
-> +	/*
-> +	 * If there are other connectors on this port using HDCP, don't disable
-> +	 * it. Instead, toggle the HDCP signalling off on that particular
-> +	 * connector/pipe and exit.
-> +	 */
-> +	if (intel_dig_port->num_hdcp_streams > 0) {
-> +		ret = hdcp->shim->toggle_signalling(intel_dig_port,
-> +						    cpu_transcoder, false);
-> +		if (ret)
-> +			DRM_ERROR("Failed to disable HDCP signalling\n");
-> +		return ret;
-> +	}
-> +
->  	hdcp->hdcp_encrypted = false;
->  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
->  	if (intel_de_wait_for_clear(dev_priv,
-> @@ -880,6 +893,8 @@ static struct intel_connector *intel_hdcp_to_connector(struct intel_hdcp *hdcp)
->  static void intel_hdcp_update_value(struct intel_connector *connector,
->  				    u64 value, bool update_property)
->  {
-> +	struct drm_device *dev = connector->base.dev;
-> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  
->  	drm_WARN_ON(connector->base.dev, !mutex_is_locked(&hdcp->mutex));
-> @@ -887,6 +902,15 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
->  	if (hdcp->value == value)
->  		return;
->  
-> +	drm_WARN_ON(dev, !mutex_is_locked(&intel_dig_port->hdcp_mutex));
-> +
-> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> +		if (!drm_WARN_ON(dev, intel_dig_port->num_hdcp_streams == 0))
-> +			intel_dig_port->num_hdcp_streams--;
-> +	} else if (value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> +		intel_dig_port->num_hdcp_streams++;
-> +	}
-> +
->  	hdcp->value = value;
->  	if (update_property) {
->  		drm_connector_get(&connector->base);
-> @@ -905,6 +929,8 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
->  	int ret = 0;
->  
->  	mutex_lock(&hdcp->mutex);
-> +	mutex_lock(&intel_dig_port->hdcp_mutex);
-> +
->  	cpu_transcoder = hdcp->cpu_transcoder;
->  
->  	/* Check_link valid only when HDCP1.4 is enabled */
-> @@ -958,6 +984,7 @@ static int intel_hdcp_check_link(struct intel_connector *connector)
->  	}
->  
->  out:
-> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
->  	mutex_unlock(&hdcp->mutex);
->  	return ret;
->  }
-> @@ -2054,6 +2081,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
->  		      enum transcoder cpu_transcoder, u8 content_type)
->  {
->  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  	unsigned long check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
->  	int ret = -EINVAL;
-> @@ -2062,6 +2090,7 @@ int intel_hdcp_enable(struct intel_connector *connector,
->  		return -ENOENT;
->  
->  	mutex_lock(&hdcp->mutex);
-> +	mutex_lock(&intel_dig_port->hdcp_mutex);
->  	drm_WARN_ON(&dev_priv->drm,
->  		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
->  	hdcp->content_type = content_type;
-> @@ -2096,12 +2125,14 @@ int intel_hdcp_enable(struct intel_connector *connector,
->  					true);
->  	}
->  
-> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
->  	mutex_unlock(&hdcp->mutex);
->  	return ret;
->  }
->  
->  int intel_hdcp_disable(struct intel_connector *connector)
->  {
-> +	struct intel_digital_port *intel_dig_port = intel_attached_dig_port(connector);
->  	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret = 0;
->  
-> @@ -2109,17 +2140,21 @@ int intel_hdcp_disable(struct intel_connector *connector)
->  		return -ENOENT;
->  
->  	mutex_lock(&hdcp->mutex);
-> +	mutex_lock(&intel_dig_port->hdcp_mutex);
->  
-> -	if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> -		intel_hdcp_update_value(connector,
-> -					DRM_MODE_CONTENT_PROTECTION_UNDESIRED,
-> -					false);
-> -		if (hdcp->hdcp2_encrypted)
-> -			ret = _intel_hdcp2_disable(connector);
-> -		else if (hdcp->hdcp_encrypted)
-> -			ret = _intel_hdcp_disable(connector);
-> -	}
-nice clean up. But unrelated change for this patch, separate patch will
-be nice.
-> +	if (hdcp->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
-> +		goto out;
-> +
-> +	intel_hdcp_update_value(connector,
-> +				DRM_MODE_CONTENT_PROTECTION_UNDESIRED, false);
->  
-> +	if (hdcp->hdcp2_encrypted)
-> +		ret = _intel_hdcp2_disable(connector);
-> +	else if (hdcp->hdcp_encrypted)
-> +		ret = _intel_hdcp_disable(connector);
-> +
-> +out:
-> +	mutex_unlock(&intel_dig_port->hdcp_mutex);
->  	mutex_unlock(&hdcp->mutex);
->  	cancel_delayed_work_sync(&hdcp->check_work);
->  	return ret;
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index 5820a6e94273..93cd8a2a4be1 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -3311,6 +3311,8 @@ void intel_hdmi_init(struct drm_i915_private *dev_priv,
->  
->  	intel_encoder = &intel_dig_port->base;
->  
-> +	mutex_init(&intel_dig_port->hdcp_mutex);
-> +
->  	drm_encoder_init(&dev_priv->drm, &intel_encoder->base,
->  			 &intel_hdmi_enc_funcs, DRM_MODE_ENCODER_TMDS,
->  			 "HDMI %c", port_name(port));
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 599d5ff53b73..f21327ebc562 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -983,7 +983,7 @@ drm_gem_object_free(struct kref *kref)
+>   EXPORT_SYMBOL(drm_gem_object_free);
+>   
+>   /**
+> - * drm_gem_object_put - release a GEM buffer object reference
+> + * drm_gem_object_put_locked - release a GEM buffer object reference
+>    * @obj: GEM buffer object
+>    *
+>    * This releases a reference to @obj. Callers must hold the
+> @@ -994,7 +994,7 @@ EXPORT_SYMBOL(drm_gem_object_free);
+>    * drm_gem_object_put_unlocked() instead.
+>    */
+>   void
+> -drm_gem_object_put(struct drm_gem_object *obj)
+> +drm_gem_object_put_locked(struct drm_gem_object *obj)
+>   {
+>   	if (obj) {
+>   		WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
+> @@ -1002,7 +1002,7 @@ drm_gem_object_put(struct drm_gem_object *obj)
+>   		kref_put(&obj->refcount, drm_gem_object_free);
+>   	}
+>   }
+> -EXPORT_SYMBOL(drm_gem_object_put);
+> +EXPORT_SYMBOL(drm_gem_object_put_locked);
+>   
+>   /**
+>    * drm_gem_vm_open - vma->ops->open implementation for GEM
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
+> index 8cae2ca4af6b..68eddac7771c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_debugfs.c
+> @@ -124,13 +124,13 @@ reset_set(void *data, u64 val)
+>   
+>   	if (a5xx_gpu->pm4_bo) {
+>   		msm_gem_unpin_iova(a5xx_gpu->pm4_bo, gpu->aspace);
+> -		drm_gem_object_put(a5xx_gpu->pm4_bo);
+> +		drm_gem_object_put_locked(a5xx_gpu->pm4_bo);
+>   		a5xx_gpu->pm4_bo = NULL;
+>   	}
+>   
+>   	if (a5xx_gpu->pfp_bo) {
+>   		msm_gem_unpin_iova(a5xx_gpu->pfp_bo, gpu->aspace);
+> -		drm_gem_object_put(a5xx_gpu->pfp_bo);
+> +		drm_gem_object_put_locked(a5xx_gpu->pfp_bo);
+>   		a5xx_gpu->pfp_bo = NULL;
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 29295dee2a2e..6baed5b43ea3 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -932,7 +932,7 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
+>   		ret = 0;
+>   	}
+>   
+> -	drm_gem_object_put(obj);
+> +	drm_gem_object_put_locked(obj);
+>   
+>   unlock:
+>   	mutex_unlock(&dev->struct_mutex);
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 5a6a79fbc9d6..8696c405f709 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -879,7 +879,7 @@ void msm_gem_describe_objects(struct list_head *list, struct seq_file *m)
+>   }
+>   #endif
+>   
+> -/* don't call directly!  Use drm_gem_object_put() and friends */
+> +/* don't call directly!  Use drm_gem_object_put_locked() and friends */
+>   void msm_gem_free_object(struct drm_gem_object *obj)
+>   {
+>   	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> @@ -1183,7 +1183,7 @@ static void *_msm_gem_kernel_new(struct drm_device *dev, uint32_t size,
+>   	return vaddr;
+>   err:
+>   	if (locked)
+> -		drm_gem_object_put(obj);
+> +		drm_gem_object_put_locked(obj);
+>   	else
+>   		drm_gem_object_put_unlocked(obj);
+>   
+> @@ -1215,7 +1215,7 @@ void msm_gem_kernel_put(struct drm_gem_object *bo,
+>   	msm_gem_unpin_iova(bo, aspace);
+>   
+>   	if (locked)
+> -		drm_gem_object_put(bo);
+> +		drm_gem_object_put_locked(bo);
+>   	else
+>   		drm_gem_object_put_unlocked(bo);
+>   }
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index 385d4965a8d0..8f450a245cfb 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -387,7 +387,7 @@ static void submit_cleanup(struct msm_gem_submit *submit)
+>   		struct msm_gem_object *msm_obj = submit->bos[i].obj;
+>   		submit_unlock_unpin_bo(submit, i, false);
+>   		list_del_init(&msm_obj->submit_entry);
+> -		drm_gem_object_put(&msm_obj->base);
+> +		drm_gem_object_put_locked(&msm_obj->base);
+>   	}
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index 615c5cda5389..86a68f96c48d 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -694,7 +694,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   		/* move to inactive: */
+>   		msm_gem_move_to_inactive(&msm_obj->base);
+>   		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
+> -		drm_gem_object_put(&msm_obj->base);
+> +		drm_gem_object_put_locked(&msm_obj->base);
+>   	}
+>   
+>   	pm_runtime_mark_last_busy(&gpu->pdev->dev);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index c3bdade093ae..a231a2b3f5ac 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -187,7 +187,7 @@ struct drm_gem_object {
+>   	 *
+>   	 * Reference count of this object
+>   	 *
+> -	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put()
+> +	 * Please use drm_gem_object_get() to acquire and drm_gem_object_put_locked()
+>   	 * or drm_gem_object_put_unlocked() to release a reference to a GEM
+>   	 * buffer object.
+>   	 */
+> @@ -375,7 +375,7 @@ drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+>   	kref_put(&obj->refcount, drm_gem_object_free);
+>   }
+>   
+> -void drm_gem_object_put(struct drm_gem_object *obj);
+> +void drm_gem_object_put_locked(struct drm_gem_object *obj);
+>   
+>   int drm_gem_handle_create(struct drm_file *file_priv,
+>   			  struct drm_gem_object *obj,
 > 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
