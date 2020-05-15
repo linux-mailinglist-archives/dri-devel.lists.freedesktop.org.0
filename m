@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4761D4516
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 07:19:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1791D4518
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 07:19:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D44D36EBC7;
-	Fri, 15 May 2020 05:19:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BF56EBCA;
+	Fri, 15 May 2020 05:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF436E115;
- Fri, 15 May 2020 05:19:36 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id l17so1925944wrr.4;
- Thu, 14 May 2020 22:19:36 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8BF6EBCA;
+ Fri, 15 May 2020 05:19:41 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id u16so1090214wmc.5;
+ Thu, 14 May 2020 22:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p+Mc6Bj80WK0H9pdKOC9OmOjNwdh1IR7a/pcEnxhdps=;
- b=srx+ksMo2QU9B5B1tPddJiAsRa9nYbEAyI64NAJN7HdmCSIi5QWJbfuWik4hOECKx9
- kDCZtWjKyrsTDa9xmWyGUsLUDoWO1SgeN+r/bjI2/oOVzJn37a7VMoV7gDGz23aAT9g0
- tmlW6qJpxibOLxIuTF+34oxXRlzjXLnQaddD7dBTjNTVF7xUqwgjuLkZ41ARjXpE67Bn
- tgXUBVZ9mVvYeq2jCqGov7qTUEO1dfZTwBxeb0fNH9BxlFwOC/MTCyMELnJlEN4NU3sy
- 0hRnRiX7l3PG7d/qMSjGRPAb2ZTqjoCOjHLRHqZVs9Rj2eGPoeITWh+S285pu+6bGZwi
- XX+A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=i1dS+9A8wTU215IAbY7tCuDJIgwLJnZEKle46PzX1ew=;
+ b=qXnayYLvSilGHD5WEQrJHgZ2hHwdnhFwBjg9dOrjAyaZhP/HKGy80SIFghWSpOBIGj
+ rRM0n2D+m3qhbu9FZcM+IlA4zYTdYDPkERg2+Rhs6Mr7LEgy6Adeij5gwiU9jj4GNiMX
+ GQC4F8b6E3n99LsyZo+BfsOIHaXUyejKY7PUMybEooLPGrI1BElSbh5pepINuLad2R+k
+ SawG1RldvM5oiHRxFV1DUyZ6Mom7iajqGlb7MSJ9lnYleyOUMrGs7Sf6DYsBWqTOzMJQ
+ s6q76GYTrD3s5RLzc8bVCMRGqzg9qjamsbtuiQnQXMI/wFcQupz0hzX5MXbBsWXX9chb
+ wKyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p+Mc6Bj80WK0H9pdKOC9OmOjNwdh1IR7a/pcEnxhdps=;
- b=lGeERNFurJZb/MJ2wVLKyUTfiYf3dncPMkySUEnGkKAFeADV7esGacibnDb/c/Rg1r
- d+hGhS+XyePWDO0abeJ8evaMsgplabVvCp6qe52nVKFIhUe69gkh4yVV30un9+ydkClB
- lzFDflezvmvsol4OT9Bv71klfOXKbAPMskiwJcb6aJRPrakpHXLgQ+QJ6cFBJrClSGyb
- eShLJbBw5K+GUQacexxoV1vg9amS1QYXekCbpDaIofqoz6HO93Wfk1OGeMTdOpKP+Xkg
- 8NMwnNxOA31DoeqtPRYoa4syw0rgeLSQCLFbBwGc8UfqihmJ5duDeB1LoWsCPEiswDeY
- dVWQ==
-X-Gm-Message-State: AOAM5327Def5yXO5eXfD6goP8CMyjJxKXOnivjUHizMQbdzhwxWP+ahr
- NydfvIJcLJ482WsQUoKQ6W4rJqY7FZ8=
-X-Google-Smtp-Source: ABdhPJzqJuDbviQbnT4QK+HvhUf7RPJXKJH51YaBQpNHALGj4MJ4yTMIfYUZvwvgs0jNpYoPASSt2g==
-X-Received: by 2002:adf:f907:: with SMTP id b7mr2156397wrr.203.1589519975297; 
- Thu, 14 May 2020 22:19:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=i1dS+9A8wTU215IAbY7tCuDJIgwLJnZEKle46PzX1ew=;
+ b=Ynj99GcS9tkies7nx6upTmVn5YI0K+jgWEux+TLTM9CxIZD0zA4us2NZGazcxzhQ/U
+ NA3hi/31abfpcLtwtgzdIyXAIA/ZPiViTf6JVfOsPhfxltNbx8fo4jP2eF9xlt9gpex+
+ 1B9ASx857zGZ1Z/kK/aOvnceF87DoDJaWCi/7dMerk2Pd2IeKooXCju8PDDQwjeUzpeQ
+ VuOPuUMQbqIEIOfIj2XhVdrQ1nlACLw4HqQjFnbz/ysufbr/23pGpic3TKvzff8OpjSn
+ UwVriWDU8E4UT5wlCXj4OoEekCS7I72uKGcnF+3alCkvhL0Ah2rhNfrVVBqlKpSEBHdK
+ Bc+g==
+X-Gm-Message-State: AOAM532AM7ZI9mzYXornG2w8o2Btz8wq5gCXfNJBZeHZ59RvlqEqGsbc
+ VK+C+ooWuSOIzk8JmNnYtqyTiNDuL+U=
+X-Google-Smtp-Source: ABdhPJzl6/3NTXiDJYhi49H4wkDN1z0k+ZDjZtVIaqoqY0/hrcWUX22/3/qXj/17jM8mhkMoqvZZBQ==
+X-Received: by 2002:a7b:c651:: with SMTP id q17mr1838200wmk.167.1589519979923; 
+ Thu, 14 May 2020 22:19:39 -0700 (PDT)
 Received: from twisty.localdomain
  (dynamic-2a01-0c22-c877-2100-f914-43b7-6b66-02cf.c22.pool.telefonica.de.
  [2a01:c22:c877:2100:f914:43b7:6b66:2cf])
- by smtp.gmail.com with ESMTPSA id s8sm1554631wrt.69.2020.05.14.22.19.34
+ by smtp.gmail.com with ESMTPSA id s8sm1554631wrt.69.2020.05.14.22.19.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 22:19:34 -0700 (PDT)
+ Thu, 14 May 2020 22:19:39 -0700 (PDT)
 From: Mario Kleiner <mario.kleiner.de@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: fp16 support in xBGR order, and for DCE-11+
-Date: Fri, 15 May 2020 07:19:22 +0200
-Message-Id: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
+Subject: [PATCH 1/2] drm/amd/display: Expose support for xBGR ordered fp16
+ formats.
+Date: Fri, 15 May 2020 07:19:23 +0200
+Message-Id: <20200515051924.12331-2-mario.kleiner.de@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
+References: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,33 +76,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Expose support for DRM_FORMAT_ABGR16161616F and
+DRM_FORMAT_XBGR16161616F to the DRM core, complementing
+the already existing xRGB ordered fp16 formats.
 
-two patches. The first one adds the xBGR ordered variants of fp16
-in addition to the xRGB ordered variants that were merged just
-very recently.
+These are especially useful for creating presentable
+swapchains in Vulkan for VK_FORMAT_R16G16B16A16_SFLOAT.
 
-These variants are required for direct scanout of OpenGL and Vulkan
-rendered content, as both OpenGL (GL_RGBA16F) and Vulkan
-(VK_FORMAT_R16G16B16A16_SFLOAT) expect RGBA channel order for fp16,
-instead of the previously exposed BGRA fp16 ordering.
+Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I have a proof of concept patch against the amdvlk Vulkan driver
-that allows fp16 rendering and presentation with this format, but
-not with the xRGB format. Nicholas already has the test patch in
-his inbox. Results look visually correct, also when used on a HDR
-monitor.
-
-I also tested with Patch 2/2 on top on a Polaris11 gpu with DCE-11.2
-display engine, and also got correct results, so maybe it makes sense
-to enable fp16 scanout support also for DCE and not only DCN?
-Patch 2/2 does not enable fp16 on DCE 10 or DCE 8, because i don't
-have hardware to test it. But it would be nice to expose fp16 on all
-supported display engines.
-
-Thanks,
--mario
-
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 48f2b3710e7c..bd0c9eda8f93 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3651,6 +3651,10 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+ 	case DRM_FORMAT_ARGB16161616F:
+ 		plane_info->format = SURFACE_PIXEL_FORMAT_GRPH_ARGB16161616F;
+ 		break;
++	case DRM_FORMAT_XBGR16161616F:
++	case DRM_FORMAT_ABGR16161616F:
++		plane_info->format = SURFACE_PIXEL_FORMAT_GRPH_ABGR16161616F;
++		break;
+ 	default:
+ 		DRM_ERROR(
+ 			"Unsupported screen format %s\n",
+@@ -5566,6 +5570,8 @@ static int get_plane_formats(const struct drm_plane *plane,
+ 		if (plane_cap && plane_cap->pixel_format_support.fp16) {
+ 			formats[num_formats++] = DRM_FORMAT_XRGB16161616F;
+ 			formats[num_formats++] = DRM_FORMAT_ARGB16161616F;
++			formats[num_formats++] = DRM_FORMAT_XBGR16161616F;
++			formats[num_formats++] = DRM_FORMAT_ABGR16161616F;
+ 		}
+ 		break;
+ 
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
