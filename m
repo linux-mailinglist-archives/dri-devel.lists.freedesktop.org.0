@@ -2,40 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B151D4439
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 05:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7929A1D463B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 08:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1D96E3DF;
-	Fri, 15 May 2020 03:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799886EBD9;
+	Fri, 15 May 2020 06:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6636E3DF
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 03:57:31 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49NZP230Cjz9sTc;
- Fri, 15 May 2020 13:57:26 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1589515048;
- bh=12E0Ox0MyQw9cxT/z4meYK73nLWFlNO8zC70oLHAhUc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FNKSQ+ZYBLfP3AA2TdZRkgqeKFKxwncnhQrn2lM7Gr6UznLLjnZPkUnKy6yAiu1Fg
- r7yVyZYABvlb5WAXTxpA3u3HaoOO49sFjRnJZs7lTj3BnxeOgTnZT+wMjnE0oCHGmy
- PrkINelclN1Qvfe8PfYEeJP8kz6SLb/DV+lYqtFyE6MRuvRdFJF9iUnFRbho2U3jXl
- xlRdElKXB25T2UxyOVqwlO1qCgO+wp+oDAlFe7FdFz7ao94cTOXMwxw5jM7QKk5tQy
- +QagFh6LLigEdF/uzZDEIHZS4l/l8J5S4Ve81TA6rIDE9yaZz4NQHMnr/AVbI60FHn
- Ue8svm0QE4FQQ==
-Date: Fri, 15 May 2020 13:57:25 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: linux-next: manual merge of the amdgpu tree with the pm tree
-Message-ID: <20200515135725.0b1c86f4@canb.auug.org.au>
-In-Reply-To: <20200508143457.14acfc46@canb.auug.org.au>
-References: <20200508143457.14acfc46@canb.auug.org.au>
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D536E0F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 05:07:20 +0000 (UTC)
+Received: by mail-qk1-x743.google.com with SMTP id z80so1399693qka.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 May 2020 22:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NfF55UVZjZM13JJTcnu7JHGlCcIWGQ0KC6+T1Qa4Oq4=;
+ b=AUvyL4TrY/k0uZRpPONkWX0+DRa3JypYhUj9VUTVReBzRNCwB1qGlwB9+xMr/5qKUx
+ 662uoI0vmPYDQnkLnnoPeZk/8z5J82Bqaw2vZ2igGOXzasFB4XeQNy5SnPAM3aL8d+dm
+ HgPH9ubkVbJpPFnpDTFwU2IAAxWbjm6erdork=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NfF55UVZjZM13JJTcnu7JHGlCcIWGQ0KC6+T1Qa4Oq4=;
+ b=M6wKcUzwsXYzimcVZnqMXv71S5Xji5xchZHNnfDWaqlb8Y91oBhz5mYsL08Ngqi2dq
+ ZoAxhAFfEZhN3IbXj78IXXqYztCMGDwWxdcTDnTYFuuNLTDjHDUUJdH2Z6THurYR7KE4
+ V4aoClN0sbphdvDBLW3SlDYTXJNFno15JUOwb+bNW8+xBYYLpgayz+fLMlyEagRavJbb
+ 93wYw1z7ry3bwTVtnGWx6W2I26vRTtfLapXr2rH6Bl9+qogxQKG4lcjZovoq3y3WoTXr
+ Tz10fH8oRvFMvHTBWYdS55W5PiuvvBmrL+7NZAxmatSL05MK+k0iW/DQImfdIFIBgSed
+ JD0A==
+X-Gm-Message-State: AOAM530Y6PITr78e6JAPKuO7y+paqEZNx69QB+yCfNoYxDgSMfDLfwR5
+ 2Tjp9n0GSLDDWPkOB6L17W1YWYfBsO92+RAyydCdLQ==
+X-Google-Smtp-Source: ABdhPJyqOHTg5AoTGt1Wmzq0ZYIgGB8E4GOtO/n0hCoWBO8WJJlXQqAIbxufbFlLVFtiOfb9I3n6izakdsqzpPkbIcE=
+X-Received: by 2002:a37:a3d6:: with SMTP id m205mr1607571qke.241.1589519239498; 
+ Thu, 14 May 2020 22:07:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-2-stevensd@chromium.org>
+ <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
+ <CAD=HUj6k-y1=64zY8ZFOQBZ7WSUWiQfvkiTpXXt10JB_CGqk1A@mail.gmail.com>
+ <20200514123007.GP206103@phenom.ffwll.local>
+In-Reply-To: <20200514123007.GP206103@phenom.ffwll.local>
+From: David Stevens <stevensd@chromium.org>
+Date: Fri, 15 May 2020 14:07:06 +0900
+Message-ID: <CAD=HUj7452eFfn9i=JWm54Mke3Lew-7AWYeoKZLAjCSg7eLO6A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
+To: David Stevens <stevensd@chromium.org>, Tomasz Figa <tfiga@chromium.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>, 
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ virtio-dev@lists.oasis-open.org
+X-Mailman-Approved-At: Fri, 15 May 2020 06:52:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,103 +74,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0882193676=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0882193676==
-Content-Type: multipart/signed; boundary="Sig_/.UUGG4uWAFbeatE5ZxxWGWU";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/.UUGG4uWAFbeatE5ZxxWGWU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Fri, 8 May 2020 14:34:57 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
+On Thu, May 14, 2020 at 9:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, May 14, 2020 at 05:19:40PM +0900, David Stevens wrote:
+> > Sorry for the duplicate reply, didn't notice this until now.
+> >
+> > > Just storing
+> > > the uuid should be doable (assuming this doesn't change during the
+> > > lifetime of the buffer), so no need for a callback.
+> >
+> > Directly storing the uuid doesn't work that well because of
+> > synchronization issues. The uuid needs to be shared between multiple
+> > virtio devices with independent command streams, so to prevent races
+> > between importing and exporting, the exporting driver can't share the
+> > uuid with other drivers until it knows that the device has finished
+> > registering the uuid. That requires a round trip to and then back from
+> > the device. Using a callback allows the latency from that round trip
+> > registration to be hidden.
 >
-> Today's linux-next merge of the amdgpu tree got a conflict in:
->=20
->   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->=20
-> between commit:
->=20
->   e07515563d01 ("PM: sleep: core: Rename DPM_FLAG_NEVER_SKIP")
->=20
-> from the pm tree and commit:
->=20
->   500bd19a7e5d ("drm/amdgpu: only set DPM_FLAG_NEVER_SKIP for legacy ATPX=
- BOCO")
->=20
-> from the amdgpu tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> index c201bc827389,4e4c9550dcf8..000000000000
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@@ -189,10 -188,12 +188,12 @@@ int amdgpu_driver_load_kms(struct drm_d
->   		dev_dbg(&dev->pdev->dev, "Error during ACPI methods call\n");
->  =20
->   	if (adev->runpm) {
-> - 		dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
-> + 		/* only need to skip on ATPX */
-> + 		if (amdgpu_device_supports_boco(dev) &&
-> + 		    !amdgpu_is_atpx_hybrid())
->  -			dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NEVER_SKIP);
-> ++			dev_pm_set_driver_flags(dev->dev, DPM_FLAG_NO_DIRECT_COMPLETE);
->   		pm_runtime_use_autosuspend(dev->dev);
->   		pm_runtime_set_autosuspend_delay(dev->dev, 5000);
-> - 		pm_runtime_set_active(dev->dev);
->   		pm_runtime_allow(dev->dev);
->   		pm_runtime_mark_last_busy(dev->dev);
->   		pm_runtime_put_autosuspend(dev->dev);
+> Uh, that means you actually do something and there's locking involved.
+> Makes stuff more complicated, invariant attributes are a lot easier
+> generally. Registering that uuid just always doesn't work, and blocking
+> when you're exporting?
 
-This is now a conflict between the drm tree and the pm tree.
+Registering the id at creation and blocking in gem export is feasible,
+but it doesn't work well for systems with a centralized buffer
+allocator that doesn't support batch allocations (e.g. gralloc). In
+such a system, the round trip latency would almost certainly be
+included in the buffer allocation time. At least on the system I'm
+working on, I suspect that would add 10s of milliseconds of startup
+latency to video pipelines (although I haven't benchmarked the
+difference). Doing the blocking as late as possible means most or all
+of the latency can be hidden behind other pipeline setup work.
 
---=20
-Cheers,
-Stephen Rothwell
+In terms of complexity, I think the synchronization would be basically
+the same in either approach, just in different locations. All it would
+do is alleviate the need for a callback to fetch the UUID.
 
---Sig_/.UUGG4uWAFbeatE5ZxxWGWU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl6+EyUACgkQAVBC80lX
-0Gxtpwf5ARnjH24OgC6q7HQG4R4ArdGvSQZUTc/rpSUhV2tsRhmTUXBGXkWd8+ve
-1c+x2BP2fhwSdQSAjSHsae1b1dP96CbEulGcsIlprKWaU8+7qgXE3cW9gXCNrSXd
-r78YrIzv45HjYDnXeGxSD++AIiT7MLEh+gNcZ5cNROZNxeBGxW5jaAfITZE4SdF0
-oaDkwt4/pA+u9RQaLzi/Kp9QI2LnMZovp+/yw5PRJaPL85b3oWJbE3uzHdqC6R3e
-lN7V7KQvbJOtx0QydK+KMSUOBwJbqbLcbj7d7YxbDwc6OGo2IPEOVyYqqf2zaWpC
-KRWZTUJObUzwHHU3wbhEJU949df/yA==
-=N9JX
------END PGP SIGNATURE-----
-
---Sig_/.UUGG4uWAFbeatE5ZxxWGWU--
-
---===============0882193676==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-David
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0882193676==--
