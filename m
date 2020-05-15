@@ -2,30 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156AB1D4841
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 10:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647BA1D602A
+	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 11:59:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAE7D6EC19;
-	Fri, 15 May 2020 08:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BB16E1BB;
+	Sat, 16 May 2020 09:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD256EC20
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 08:32:42 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B9275B00D;
- Fri, 15 May 2020 08:32:43 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com, noralf@tronnes.org,
- sam@ravnborg.org, emil.velikov@collabora.com, john.p.donnelly@oracle.com
-Subject: [PATCH v3 15/15] drm/mgag200: Replace VRAM helpers with SHMEM helpers
-Date: Fri, 15 May 2020 10:32:33 +0200
-Message-Id: <20200515083233.32036-16-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200515083233.32036-1-tzimmermann@suse.de>
-References: <20200515083233.32036-1-tzimmermann@suse.de>
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4BB6EC2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:25:07 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id j8so1826457iog.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Cc4MG6c747g2GpEAJm056wqMJo63ltnWhdsdBk/YjvU=;
+ b=ScyKUI9YtsU9p9A901j1O1w7H7TdnTlwcnuWzKYRo3T+bqoIZc8vOQ9X95sdz82tnm
+ urIdlt/GUp9Yfq/9xFWZj8mjEJR05XCX47NoY/P6Qt0R26F6a4+luq3nyePE1nmFInMi
+ 6BAfAKoBoWEhG6za8fIQD/VCbuJv1yUxDeWf/yoarFgULSJjRsGjQawtvMMXahIIItR+
+ KspUduc8eOvKKZ1LH2ZaKUn870ew37S9JgdauJkgRN1oLquW5K4IJPZ6HqXyZzq+NGxx
+ sE/WbC8Y9Ybw+RAytAcJEnTXxxp56g590pE4tr+7ttn7UIBYdlYCf8fDbzQ8qu7KV+M1
+ 0QRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Cc4MG6c747g2GpEAJm056wqMJo63ltnWhdsdBk/YjvU=;
+ b=fGbAsBSIcaaDFmBDRr9wLpp5wwPAyWslFvhuE/q/rcTeSM65tPuoeU4Nu2VIFRqJjq
+ WjeDbHagqsCIxK9bnTN6hOcJe8xOglbVVm1phHm27mrKYs3AXZfl/EhHQ7fLPMULxDJD
+ 4DdYeMSyyd7pRLSgnsTuea55OF2WtgnX77z7AuKpf0gkblpuZSBFbw2trVnVfnJzqF1B
+ fdFwrla7c94+Xw2VT3knOUYfqpjkHbscvY0DycMq4+AhqIykgtPPXexpjwrs1leWilAK
+ ut/3awRR3dbifYt91vIke0JrMea85c0uQScdp3vTJVS/55xEU+NA7vF5rxMPGtNLHYJP
+ Qq0w==
+X-Gm-Message-State: AOAM532XOg2HoowpTfK0iKAck/3p4MMCWh9ML30gffYILJydQt+DblzP
+ fwMbUP2DUgPKXIUuYRw9JxtKfXlIl1BcN+uhG0I=
+X-Google-Smtp-Source: ABdhPJyr7Q+WoA1oeyUp1TGmDyNR7js+O5d1aEorqbluWDehBMJqofjEnccsNnqBusTGHRHYyHOE+n76LGnfJ7BM2as=
+X-Received: by 2002:a05:6638:1121:: with SMTP id
+ f1mr2281062jar.62.1589534706577; 
+ Fri, 15 May 2020 02:25:06 -0700 (PDT)
 MIME-Version: 1.0
+References: <1589267017-17294-1-git-send-email-dillon.minfei@gmail.com>
+ <1589267017-17294-4-git-send-email-dillon.minfei@gmail.com>
+ <CACRpkda5VjjBdbruXTi33QBNb=VU6vK2zDE8yyQXoWw7=NQFeg@mail.gmail.com>
+ <a4ebd7cd-5756-0683-135f-0f96be8a4a7b@st.com>
+ <CAL9mu0Jt_xwo5pJfcx6G3grBuOaxLXvakpEjiB4gV3=bkiq2fg@mail.gmail.com>
+ <818b93b4-4431-8338-cd90-ed125ecac615@st.com>
+In-Reply-To: <818b93b4-4431-8338-cd90-ed125ecac615@st.com>
+From: dillon min <dillon.minfei@gmail.com>
+Date: Fri, 15 May 2020 17:24:29 +0800
+Message-ID: <CAL9mu0L6d2V5qypPfOSeMdhc=DdHkcsaF4GysNG-vfDe5npkhw@mail.gmail.com>
+Subject: Re: [Linux-stm32] [PATCH v3 3/5] ARM: dts: stm32: enable ltdc binding
+ with ili9341 on stm32429-disco board
+To: Benjamin GAIGNARD <benjamin.gaignard@st.com>
+X-Mailman-Approved-At: Sat, 16 May 2020 09:58:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,337 +68,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Donnelly <John.p.donnelly@oracle.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Alexandre TORGUE <alexandre.torgue@st.com>,
+ Michael Turquette <mturquette@baylibre.com>, Dave Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VRAM helpers managed the framebuffer memory for mgag200. This came
-with several problems, as some MGA device require the scanout address
-to be located at VRAM offset 0. It's incompatible with the page-flip
-semantics of DRM's atomic modesettting. With atomic modesetting, old and
-new framebuffers have to be located in VRAM at the same time. So at least
-one of them has to reside at a non-0 offset.
+Hi Benjamin,
 
-This patch replaces VRAM helpers with SHMEM helpers. GEM SHMEM buffers
-reside in system memory, and are shadow-copied into VRAM during page
-flips. The shadow copy always starts at VRAM offset 0.
+thanks for reply.
 
-v2:
-	* revert dev->pdev changes
+On Fri, May 15, 2020 at 4:31 PM Benjamin GAIGNARD
+<benjamin.gaignard@st.com> wrote:
+>
+>
+>
+> On 5/14/20 3:07 PM, dillon min wrote:
+> > Hi Alexandre,
+> >
+> > On Thu, May 14, 2020 at 8:53 PM Alexandre Torgue
+> > <alexandre.torgue@st.com> wrote:
+> >>
+> >>
+> >> On 5/14/20 10:24 AM, Linus Walleij wrote:
+> >>> On Tue, May 12, 2020 at 9:04 AM <dillon.minfei@gmail.com> wrote:
+> >>>
+> >>>> From: dillon min <dillon.minfei@gmail.com>
+> >>>>
+> >>>> Enable the ltdc & ili9341 on stm32429-disco board.
+> >>>>
+> >>>> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> >>> This mostly looks good but...
+> >>>
+> >>>> +&spi5 {
+> >>>> +       status = "okay";
+> >>>> +       pinctrl-0 = <&spi5_pins>;
+> >>>> +       pinctrl-names = "default";
+> >>>> +       #address-cells = <1>;
+> >>>> +       #size-cells = <0>;
+> >>>> +       cs-gpios = <&gpioc 2 GPIO_ACTIVE_LOW>;
+> >>>> +       dmas = <&dma2 3 2 0x400 0x0>,
+> >>>> +              <&dma2 4 2 0x400 0x0>;
+> >>>> +       dma-names = "rx", "tx";
+> >>> These DMA assignments seem to be SoC things and should
+> >>> rather be in the DTS(I) file where &spi5 is defined, right?
+> >>> stm32f429.dtsi I suppose?
+> >> I agree with Linus, DMA have to be defined in SoC dtsi. And if a board
+> >> doesn't want to use it, we use the "delete-property".
+> > Yes, will move to Soc dtsi in next submits.
+> >
+> > i'm working on write a v4l2-m2m driver for dma2d of stm32 to support
+> > pixel conversion
+> > alpha blending between foreground and background graphics.
+> >
+> > as you know, some soc's engineer trying to add this function to drm system.
+> >
+> > do you know st's planning about soc's hardware accelerator driver on stm32mp?
+> > such as chrom-art, will add to drm subsystem via ioctl to access, or to v4l2,
+> On stm32mp we do not plan to use chrom-art in drm or v4l2 because it
+> does fit
+> with userland way of working. We use the GPU to do conversion, scaling,
+> blending
+> and composition in only one go.
+> As explain here [1] DRM subsytem it isn't a solution and v4l2-m2m isn't
+> used in any
+> mainline compositors like Weston or android surfaceflinger.
+>
+> Benjamin
+>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-Acked-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/mgag200/Kconfig        |  4 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c  | 49 +---------------------
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  5 ++-
- drivers/gpu/drm/mgag200/mgag200_mode.c | 58 ++++++++++++++++----------
- drivers/gpu/drm/mgag200/mgag200_ttm.c  | 28 +++++++------
- 5 files changed, 56 insertions(+), 88 deletions(-)
+After check stm32mp's datasheets, they don't have chrom-art ip inside. sorry for
+didn't check it yet.
 
-diff --git a/drivers/gpu/drm/mgag200/Kconfig b/drivers/gpu/drm/mgag200/Kconfig
-index d60aa4b9ccd47..93be766715c9b 100644
---- a/drivers/gpu/drm/mgag200/Kconfig
-+++ b/drivers/gpu/drm/mgag200/Kconfig
-@@ -2,10 +2,8 @@
- config DRM_MGAG200
- 	tristate "Kernel modesetting driver for MGA G200 server engines"
- 	depends on DRM && PCI && MMU
-+	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
--	select DRM_VRAM_HELPER
--	select DRM_TTM
--	select DRM_TTM_HELPER
- 	help
- 	 This is a KMS driver for the MGA G200 server chips, it
- 	 does not support the original MGA G200 or any of the desktop
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index a06ce4198adea..00ddea7d7d270 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -22,15 +22,11 @@
-  * which then performs further device association and calls our graphics init
-  * functions
-  */
--int mgag200_modeset = -1;
- 
-+int mgag200_modeset = -1;
- MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
- module_param_named(modeset, mgag200_modeset, int, 0400);
- 
--int mgag200_hw_bug_no_startadd = -1;
--MODULE_PARM_DESC(modeset, "HW does not interpret scanout-buffer start address correctly");
--module_param_named(hw_bug_no_startadd, mgag200_hw_bug_no_startadd, int, 0400);
--
- static struct drm_driver driver;
- 
- static const struct pci_device_id pciidlist[] = {
-@@ -101,44 +97,6 @@ static void mga_pci_remove(struct pci_dev *pdev)
- 
- DEFINE_DRM_GEM_FOPS(mgag200_driver_fops);
- 
--static bool mgag200_pin_bo_at_0(const struct mga_device *mdev)
--{
--	if (mgag200_hw_bug_no_startadd > 0) {
--		DRM_WARN_ONCE("Option hw_bug_no_startradd is enabled. Please "
--			      "report the output of 'lspci -vvnn' to "
--			      "<dri-devel@lists.freedesktop.org> if this "
--			      "option is required to make mgag200 work "
--			      "correctly on your system.\n");
--		return true;
--	} else if (!mgag200_hw_bug_no_startadd) {
--		return false;
--	}
--	return mdev->flags & MGAG200_FLAG_HW_BUG_NO_STARTADD;
--}
--
--int mgag200_driver_dumb_create(struct drm_file *file,
--			       struct drm_device *dev,
--			       struct drm_mode_create_dumb *args)
--{
--	struct mga_device *mdev = to_mga_device(dev);
--	unsigned long pg_align;
--
--	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
--		return -EINVAL;
--
--	pg_align = 0ul;
--
--	/*
--	 * Aligning scanout buffers to the size of the video ram forces
--	 * placement at offset 0. Works around a bug where HW does not
--	 * respect 'startadd' field.
--	 */
--	if (mgag200_pin_bo_at_0(mdev))
--		pg_align = PFN_UP(mdev->mc.vram_size);
--
--	return drm_gem_vram_fill_create_dumb(file, dev, pg_align, 0, args);
--}
--
- static struct drm_driver driver = {
- 	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
- 	.fops = &mgag200_driver_fops,
-@@ -148,10 +106,7 @@ static struct drm_driver driver = {
- 	.major = DRIVER_MAJOR,
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
--	.debugfs_init = drm_vram_mm_debugfs_init,
--	.dumb_create = mgag200_driver_dumb_create,
--	.dumb_map_offset = drm_gem_vram_driver_dumb_mmap_offset,
--	.gem_prime_mmap = drm_gem_prime_mmap,
-+	DRM_GEM_SHMEM_DRIVER_OPS,
- };
- 
- static struct pci_driver mgag200_pci_driver = {
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index d929ca3a767a3..47df62b1ad290 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -18,7 +18,7 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
--#include <drm/drm_gem_vram_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "mgag200_reg.h"
-@@ -151,7 +151,8 @@ struct mga_device {
- 
- 	struct mga_mc			mc;
- 
--	size_t vram_fb_available;
-+	void __iomem			*vram;
-+	size_t				vram_fb_available;
- 
- 	enum mga_type			type;
- 	int				has_sdram;
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index b50c1beb7b7b9..0155d4eb5fa6b 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -14,6 +14,8 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
-@@ -1573,6 +1575,26 @@ mgag200_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
- 	return MODE_OK;
- }
- 
-+static void
-+mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
-+		      struct drm_rect *clip)
-+{
-+	struct drm_device *dev = mdev->dev;
-+	void *vmap;
-+
-+	vmap = drm_gem_shmem_vmap(fb->obj[0]);
-+	if (drm_WARN_ON(dev, !vmap))
-+		return; /* BUG: SHMEM BO should always be vmapped */
-+
-+	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
-+
-+	drm_gem_shmem_vunmap(fb->obj[0], vmap);
-+
-+	/* Always scanout image at VRAM offset 0 */
-+	mgag200_set_startadd(mdev, (u32)0);
-+	mgag200_set_offset(mdev, fb);
-+}
-+
- static void
- mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 				   struct drm_crtc_state *crtc_state,
-@@ -1583,14 +1605,12 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 	struct drm_framebuffer *fb = plane_state->fb;
--	struct drm_gem_vram_object *gbo;
--	s64 gpu_addr;
--
--	gbo = drm_gem_vram_of_gem(fb->obj[0]);
--
--	gpu_addr = drm_gem_vram_offset(gbo);
--	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
--		return; /* BUG: BO should have been pinned to VRAM. */
-+	struct drm_rect fullscreen = {
-+		.x1 = 0,
-+		.x2 = fb->width,
-+		.y1 = 0,
-+		.y2 = fb->height,
-+	};
- 
- 	mga_crtc_prepare(crtc);
- 
-@@ -1606,6 +1626,8 @@ mgag200_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 		mgag200_g200ev_set_hiprilvl(mdev);
- 
- 	mga_crtc_commit(crtc);
-+
-+	mgag200_handle_damage(mdev, fb, &fullscreen);
- }
- 
- static void
-@@ -1646,20 +1668,13 @@ mgag200_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct mga_device *mdev = to_mga_device(dev);
- 	struct drm_plane_state *state = plane->state;
- 	struct drm_framebuffer *fb = state->fb;
--	struct drm_gem_vram_object *gbo;
--	s64 gpu_addr;
-+	struct drm_rect damage;
- 
- 	if (!fb)
- 		return;
- 
--	gbo = drm_gem_vram_of_gem(fb->obj[0]);
--
--	gpu_addr = drm_gem_vram_offset(gbo);
--	if (drm_WARN_ON_ONCE(dev, gpu_addr < 0))
--		return; /* BUG: BO should have been pinned to VRAM. */
--
--	mgag200_set_startadd(mdev, (unsigned long)gpu_addr);
--	mgag200_set_offset(mdev, fb);
-+	if (drm_atomic_helper_damage_merged(old_state, state, &damage))
-+		mgag200_handle_damage(mdev, fb, &damage);
- }
- 
- static const struct drm_simple_display_pipe_funcs
-@@ -1669,8 +1684,7 @@ mgag200_simple_display_pipe_funcs = {
- 	.disable    = mgag200_simple_display_pipe_disable,
- 	.check	    = mgag200_simple_display_pipe_check,
- 	.update	    = mgag200_simple_display_pipe_update,
--	.prepare_fb = drm_gem_vram_simple_display_pipe_prepare_fb,
--	.cleanup_fb = drm_gem_vram_simple_display_pipe_cleanup_fb,
-+	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
- };
- 
- static const uint32_t mgag200_simple_display_pipe_formats[] = {
-@@ -1689,8 +1703,7 @@ static const uint64_t mgag200_simple_display_pipe_fmtmods[] = {
-  */
- 
- static const struct drm_mode_config_funcs mgag200_mode_config_funcs = {
--	.fb_create     = drm_gem_fb_create,
--	.mode_valid    = drm_vram_helper_mode_valid,
-+	.fb_create     = drm_gem_fb_create_with_dirty,
- 	.atomic_check  = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
-@@ -1729,7 +1742,6 @@ int mgag200_modeset_init(struct mga_device *mdev)
- 	dev->mode_config.max_height = MGAG200_MAX_FB_HEIGHT;
- 
- 	dev->mode_config.preferred_depth = mgag200_preferred_depth(mdev);
--	dev->mode_config.prefer_shadow = 1;
- 
- 	dev->mode_config.fb_base = mdev->mc.vram_base;
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_ttm.c b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-index e89657630ea71..a683642fe4682 100644
---- a/drivers/gpu/drm/mgag200/mgag200_ttm.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_ttm.c
-@@ -32,17 +32,8 @@
- 
- int mgag200_mm_init(struct mga_device *mdev)
- {
--	struct drm_vram_mm *vmm;
--	int ret;
- 	struct drm_device *dev = mdev->dev;
--
--	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
--				       mdev->mc.vram_size);
--	if (IS_ERR(vmm)) {
--		ret = PTR_ERR(vmm);
--		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
--		return ret;
--	}
-+	int ret;
- 
- 	arch_io_reserve_memtype_wc(pci_resource_start(dev->pdev, 0),
- 				   pci_resource_len(dev->pdev, 0));
-@@ -50,9 +41,22 @@ int mgag200_mm_init(struct mga_device *mdev)
- 	mdev->fb_mtrr = arch_phys_wc_add(pci_resource_start(dev->pdev, 0),
- 					 pci_resource_len(dev->pdev, 0));
- 
-+	mdev->vram = ioremap(pci_resource_start(dev->pdev, 0),
-+			     pci_resource_len(dev->pdev, 0));
-+	if (!mdev->vram) {
-+		ret = -ENOMEM;
-+		goto err_arch_phys_wc_del;
-+	}
-+
- 	mdev->vram_fb_available = mdev->mc.vram_size;
- 
- 	return 0;
-+
-+err_arch_phys_wc_del:
-+	arch_phys_wc_del(mdev->fb_mtrr);
-+	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
-+				pci_resource_len(dev->pdev, 0));
-+	return ret;
- }
- 
- void mgag200_mm_fini(struct mga_device *mdev)
-@@ -60,9 +64,7 @@ void mgag200_mm_fini(struct mga_device *mdev)
- 	struct drm_device *dev = mdev->dev;
- 
- 	mdev->vram_fb_available = 0;
--
--	drm_vram_helper_release_mm(dev);
--
-+	iounmap(mdev->vram);
- 	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
- 				pci_resource_len(dev->pdev, 0));
- 	arch_phys_wc_del(mdev->fb_mtrr);
--- 
-2.26.2
+for stm32h7 series with chrom-art, jpeg hardware accelerator inside.
+does st has plan to
+setup a driver to support it ? i prefer v4l2-m2m should be easier to
+implement it.
+co work with dcmi, fbdev.
 
+thanks.
+
+best regards.
+
+Dillon
+> [1]
+> https://www.phoronix.com/scan.php?page=news_item&px=Linux-DRM-No-2D-Accel-API
+> >
+> > thanks.
+> >
+> >>> It is likely the same no matter which device is using spi5.
+> >>>
+> >>> Yours,
+> >>> Linus Walleij
+> >>>
+> > _______________________________________________
+> > Linux-stm32 mailing list
+> > Linux-stm32@st-md-mailman.stormreply.com
+> > https://st-md-mailman.stormreply.com/mailman/listinfo/linux-stm32
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
