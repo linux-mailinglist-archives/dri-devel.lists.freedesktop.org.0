@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764141D4A01
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2016B1D4A0A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09EA56EC3D;
-	Fri, 15 May 2020 09:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB816EC47;
+	Fri, 15 May 2020 09:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4E6EC37
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:21 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id d207so13467063wmd.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:21 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA8F06EC37
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:22 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id i15so2753127wrx.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tbvgcgkzORSo0eJN5X1CBpl4ptTJHT4taFqxeXu2zWg=;
- b=dlxaXdIZYgsKFuoob89jMzOspwGGWf0T5XGgk5Z+wv7QmAAifmDwqmVhdDxr4iI3Hp
- 4zq4/etSiZgG9U4UWLe0WamGLFWhenSVYcu4riUoG40LAVPusgdoskZSTdM8FvPayRXk
- /1UtcByNH751r0NBWUFLqW4CHcDtb35LkcEoyO+5D9HQryIAHoWW/hiL+otzGNsR7u71
- HkzQKfv/mloyjefMPrMpw67V5+5vbbSWvQbALoSxvU0i7NXwsgt9iRFS6QegGJaejE60
- G/4I/qslWztff6w2P6q6RlSYjMAyC6x5NmlrmSpnq/UOAWgIy2mO8CmxqcLlPageqGtN
- 8wtQ==
+ bh=Lx4fAyASncse6GRQGzx5wh1kAFnQoIwQ5biN6ma9HAg=;
+ b=s573uDUlkzT/1Ip0w5FxR+Nor4wOufYmfvCCNk+kZeAxeSyNURmm+X9qiPYb4xJ5Wq
+ UvvAmSHN4YYzgW3pXGlSIaf6XGc0N6yhnr741KcmLeeKNcwkqzP1Gv52QZJVDwntfite
+ 5t3jZI6DqBcocNPmWyjGk4qClrtyRHNPRv1zG03XiYzVir+pWWFSoBXOPKiT2fg4Gg4p
+ DZ4ipaM5susb/zQz4ANKPkC9mBsIgetVQolDub5j5wmwUbaojxKaSBk4wB/VDTulWYTA
+ g5s7/xPzI9LcvA6JfAj9drDpEmizkG2SCGwXA1h1m4RhlwwbuNrFAG9nFYMSP4gvGFmM
+ fYdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tbvgcgkzORSo0eJN5X1CBpl4ptTJHT4taFqxeXu2zWg=;
- b=Zlujp21IwsXZtCv7fWNG1YLUtRAZWtWRiZNkF36t5g331kf9gWIfTsJeEkz2LCTQuV
- P69Jse/PcedzBh2E19aruO2nxOxmYXVcy0eWqR5n1M/A5X7Qpn3Uf2BM7Zdx/Vuwsoww
- 6OVnNhWLezltYo8HT3+FYI+/w+uOvZcappnsfd2Ku9LA3KIX0Ervb9jfuzzO16SWZv2M
- a9qiXMM8oO69e9+MODpmb0FtBjcqzWtyAOur78CqPFbd+9tJiO8o7IejA9JijepbLHzk
- 5yrMKCWSCVxy0uhGrvxKzaYBQAtzy9WzdTUXiKfQqRu5zsTNS6IzHHmJbQ6wICLWjaZS
- MsMA==
-X-Gm-Message-State: AOAM532ABPSzJmRc71MnHq/dOdO23cuo5H/sC/QUxitt2eczg54m6eTi
- 98jK4VKZh+8H/+vFVvMU5MqMviRr
-X-Google-Smtp-Source: ABdhPJyuJIhqxRIizGivbu09ouNf1vnXXPVLuGO724EUPW6Np14pd+iKmEzo5Cb8GVq0bnsLNXmJDA==
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr3098019wmk.168.1589536460094; 
- Fri, 15 May 2020 02:54:20 -0700 (PDT)
+ bh=Lx4fAyASncse6GRQGzx5wh1kAFnQoIwQ5biN6ma9HAg=;
+ b=Xj9ZWGqjSYMn+eHaQb27Qm/zbLoGaBwRv3nn5XKzbJ7XvZYhh5ropy9/ViUEU7XmUw
+ /wXpXKs0y5ErEbmTEhu4CRf9L4QUw9g6gifTduZzCe2SpMr3okavCrsg7Kb5cwV9Q+Dn
+ Z51hnem2lLPckh9dPbk5lE9RQ/veVD2OClFRRZSFiSYDxu5iLJQTv2mJZ66j/3wRNhZM
+ 781FNynVij1C2DqJBtCsIHwYetuuz8hSWBPlvEIWNwXT9zcjaHRoVQUV0TU7ya848iZ4
+ xjHkaXlSfTqPOD+cGmlUqs59zj6Hh+jxoDElq77lDl2cwclJY5W7lOLhe7ovPSiBES74
+ 4S3g==
+X-Gm-Message-State: AOAM532CtA+n164q9u7b1EQ2axL6lMUdG26VLeZYuXKax7/zK6t3/2bl
+ pt/h6rTX5WAs0QpN3Ay+iSGL9rFA
+X-Google-Smtp-Source: ABdhPJzbLxd+Gg/5qbYT6eVu2A1cBhNjjE6XZ3t+uPzricqJDhgO9oClSFjCUo8W4uQbsjMUOX5fHw==
+X-Received: by 2002:a5d:560c:: with SMTP id l12mr3268610wrv.309.1589536461156; 
+ Fri, 15 May 2020 02:54:21 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.19
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:19 -0700 (PDT)
+ Fri, 15 May 2020 02:54:20 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 16/38] drm/armada: remove _unlocked suffix in
+Subject: [PATCH v2 17/38] drm/etnaviv: remove _unlocked suffix in
  drm_object_put_unlocked
-Date: Fri, 15 May 2020 10:50:56 +0100
-Message-Id: <20200515095118.2743122-17-emil.l.velikov@gmail.com>
+Date: Fri, 15 May 2020 10:50:57 +0100
+Message-Id: <20200515095118.2743122-18-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -68,8 +68,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, emil.l.velikov@gmail.com,
- Russell King <linux@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>, emil.l.velikov@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -91,151 +90,114 @@ for __file in $(git grep --name-only $__from); do
   sed -i  "s/$__from/$__to/g" $__file;
 done
 
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/armada/armada_crtc.c  |  8 ++++----
- drivers/gpu/drm/armada/armada_fb.c    |  4 ++--
- drivers/gpu/drm/armada/armada_fbdev.c |  6 +++---
- drivers/gpu/drm/armada/armada_gem.c   | 10 +++++-----
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c        | 8 ++++----
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c        | 6 +++---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
-index c2b92acd1e9a..38dfaa46d306 100644
---- a/drivers/gpu/drm/armada/armada_crtc.c
-+++ b/drivers/gpu/drm/armada/armada_crtc.c
-@@ -710,13 +710,13 @@ static int armada_drm_crtc_cursor_set(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 27c948f5dfeb..a2b649a8248e 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -289,7 +289,7 @@ static int etnaviv_ioctl_gem_cpu_prep(struct drm_device *dev, void *data,
  
- 		/* Must be a kernel-mapped object */
- 		if (!obj->addr) {
--			drm_gem_object_put_unlocked(&obj->obj);
-+			drm_gem_object_put(&obj->obj);
- 			return -EINVAL;
- 		}
+ 	ret = etnaviv_gem_cpu_prep(obj, args->op, &args->timeout);
  
- 		if (obj->obj.size < w * h * 4) {
- 			DRM_ERROR("buffer is too small\n");
--			drm_gem_object_put_unlocked(&obj->obj);
-+			drm_gem_object_put(&obj->obj);
- 			return -ENOMEM;
- 		}
- 	}
-@@ -724,7 +724,7 @@ static int armada_drm_crtc_cursor_set(struct drm_crtc *crtc,
- 	if (dcrtc->cursor_obj) {
- 		dcrtc->cursor_obj->update = NULL;
- 		dcrtc->cursor_obj->update_data = NULL;
--		drm_gem_object_put_unlocked(&dcrtc->cursor_obj->obj);
-+		drm_gem_object_put(&dcrtc->cursor_obj->obj);
- 	}
- 	dcrtc->cursor_obj = obj;
- 	dcrtc->cursor_w = w;
-@@ -760,7 +760,7 @@ static void armada_drm_crtc_destroy(struct drm_crtc *crtc)
- 	struct armada_private *priv = crtc->dev->dev_private;
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
  
- 	if (dcrtc->cursor_obj)
--		drm_gem_object_put_unlocked(&dcrtc->cursor_obj->obj);
-+		drm_gem_object_put(&dcrtc->cursor_obj->obj);
- 
- 	priv->dcrtc[dcrtc->num] = NULL;
- 	drm_crtc_cleanup(&dcrtc->crtc);
-diff --git a/drivers/gpu/drm/armada/armada_fb.c b/drivers/gpu/drm/armada/armada_fb.c
-index 426ca383d696..b87c71703c85 100644
---- a/drivers/gpu/drm/armada/armada_fb.c
-+++ b/drivers/gpu/drm/armada/armada_fb.c
-@@ -129,12 +129,12 @@ struct drm_framebuffer *armada_fb_create(struct drm_device *dev,
- 		goto err;
- 	}
- 
--	drm_gem_object_put_unlocked(&obj->obj);
-+	drm_gem_object_put(&obj->obj);
- 
- 	return &dfb->fb;
- 
-  err_unref:
--	drm_gem_object_put_unlocked(&obj->obj);
-+	drm_gem_object_put(&obj->obj);
-  err:
- 	DRM_ERROR("failed to initialize framebuffer: %d\n", ret);
- 	return ERR_PTR(ret);
-diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-index f2dc371bd8e5..0c4601275507 100644
---- a/drivers/gpu/drm/armada/armada_fbdev.c
-+++ b/drivers/gpu/drm/armada/armada_fbdev.c
-@@ -51,13 +51,13 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
- 
- 	ret = armada_gem_linear_back(dev, obj);
- 	if (ret) {
--		drm_gem_object_put_unlocked(&obj->obj);
-+		drm_gem_object_put(&obj->obj);
- 		return ret;
- 	}
- 
- 	ptr = armada_gem_map_object(dev, obj);
- 	if (!ptr) {
--		drm_gem_object_put_unlocked(&obj->obj);
-+		drm_gem_object_put(&obj->obj);
- 		return -ENOMEM;
- 	}
- 
-@@ -67,7 +67,7 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
- 	 * A reference is now held by the framebuffer object if
- 	 * successful, otherwise this drops the ref for the error path.
- 	 */
--	drm_gem_object_put_unlocked(&obj->obj);
-+	drm_gem_object_put(&obj->obj);
- 
- 	if (IS_ERR(dfb))
- 		return PTR_ERR(dfb);
-diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
-index 976685f2939e..8005614d2e6b 100644
---- a/drivers/gpu/drm/armada/armada_gem.c
-+++ b/drivers/gpu/drm/armada/armada_gem.c
-@@ -256,7 +256,7 @@ int armada_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 	/* drop reference from allocate - handle holds it now */
- 	DRM_DEBUG_DRIVER("obj %p size %zu handle %#x\n", dobj, size, handle);
-  err:
--	drm_gem_object_put_unlocked(&dobj->obj);
-+	drm_gem_object_put(&dobj->obj);
  	return ret;
  }
+@@ -310,7 +310,7 @@ static int etnaviv_ioctl_gem_cpu_fini(struct drm_device *dev, void *data,
  
-@@ -288,7 +288,7 @@ int armada_gem_create_ioctl(struct drm_device *dev, void *data,
- 	/* drop reference from allocate - handle holds it now */
- 	DRM_DEBUG_DRIVER("obj %p size %zu handle %#x\n", dobj, size, handle);
-  err:
--	drm_gem_object_put_unlocked(&dobj->obj);
-+	drm_gem_object_put(&dobj->obj);
+ 	ret = etnaviv_gem_cpu_fini(obj);
+ 
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
+ 
  	return ret;
  }
- 
-@@ -305,13 +305,13 @@ int armada_gem_mmap_ioctl(struct drm_device *dev, void *data,
+@@ -330,7 +330,7 @@ static int etnaviv_ioctl_gem_info(struct drm_device *dev, void *data,
  		return -ENOENT;
  
- 	if (!dobj->obj.filp) {
--		drm_gem_object_put_unlocked(&dobj->obj);
-+		drm_gem_object_put(&dobj->obj);
- 		return -EINVAL;
- 	}
+ 	ret = etnaviv_gem_mmap_offset(obj, &args->offset);
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
  
- 	addr = vm_mmap(dobj->obj.filp, 0, args->size, PROT_READ | PROT_WRITE,
- 		       MAP_SHARED, args->offset);
--	drm_gem_object_put_unlocked(&dobj->obj);
-+	drm_gem_object_put(&dobj->obj);
- 	if (IS_ERR_VALUE(addr))
- 		return addr;
- 
-@@ -366,7 +366,7 @@ int armada_gem_pwrite_ioctl(struct drm_device *dev, void *data,
- 	}
- 
-  unref:
--	drm_gem_object_put_unlocked(&dobj->obj);
-+	drm_gem_object_put(&dobj->obj);
  	return ret;
  }
+@@ -413,7 +413,7 @@ static int etnaviv_ioctl_gem_wait(struct drm_device *dev, void *data,
  
+ 	ret = etnaviv_gem_wait_bo(gpu, obj, timeout);
+ 
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index dc9ef302f517..b9bfb50ce7ee 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -244,7 +244,7 @@ void etnaviv_gem_mapping_unreference(struct etnaviv_vram_mapping *mapping)
+ 	mapping->use -= 1;
+ 	mutex_unlock(&etnaviv_obj->lock);
+ 
+-	drm_gem_object_put_unlocked(&etnaviv_obj->base);
++	drm_gem_object_put(&etnaviv_obj->base);
+ }
+ 
+ struct etnaviv_vram_mapping *etnaviv_gem_mapping_get(
+@@ -633,7 +633,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 
+ 	/* drop reference from allocate - handle holds it now */
+ fail:
+-	drm_gem_object_put_unlocked(obj);
++	drm_gem_object_put(obj);
+ 
+ 	return ret;
+ }
+@@ -742,6 +742,6 @@ int etnaviv_gem_new_userptr(struct drm_device *dev, struct drm_file *file,
+ 	ret = drm_gem_handle_create(file, &etnaviv_obj->base, handle);
+ 
+ 	/* drop reference from allocate - handle holds it now */
+-	drm_gem_object_put_unlocked(&etnaviv_obj->base);
++	drm_gem_object_put(&etnaviv_obj->base);
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index f24dd21c2363..6d9e5c3c4dd5 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -136,7 +136,7 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+ 	return &etnaviv_obj->base;
+ 
+ fail:
+-	drm_gem_object_put_unlocked(&etnaviv_obj->base);
++	drm_gem_object_put(&etnaviv_obj->base);
+ 
+ 	return ERR_PTR(ret);
+ }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 3b0afa156d92..1b12b57d2406 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -396,7 +396,7 @@ static void submit_cleanup(struct kref *kref)
+ 
+ 		/* if the GPU submit failed, objects might still be locked */
+ 		submit_unlock_object(submit, i);
+-		drm_gem_object_put_unlocked(&etnaviv_obj->base);
++		drm_gem_object_put(&etnaviv_obj->base);
+ 	}
+ 
+ 	wake_up_all(&submit->gpu->fence_event);
 -- 
 2.25.1
 
