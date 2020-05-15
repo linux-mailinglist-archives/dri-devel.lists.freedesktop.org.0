@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEA51D4A08
-	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D213D1D4A07
+	for <lists+dri-devel@lfdr.de>; Fri, 15 May 2020 11:54:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03ACA6EC49;
-	Fri, 15 May 2020 09:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F916EC44;
+	Fri, 15 May 2020 09:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
  [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E456EC37
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:13 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id w64so1947481wmg.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:13 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F906EC3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 09:54:14 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id h4so1665510wmb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 02:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C72pARwKzjXLQykIC6Vzm26mksDc4097B9kvNeRj2lQ=;
- b=bWcM5CsDk794wqVx0bpSBzlfNFSUDUV61J7u5+/ewaXeC3gvaqF8isnld4kjSB/Z5y
- +nhEbrdoSf6NIyTFUUNYTf/Gfl6VK5ZeZB6R4+s1Pd9U3k+7ApEojDoDAoWtvQZ2L7g0
- x+qGmBDhSovCD7TOYFT3xuceghhUhcDzgpeuaKSotEKcot7IweD/bVh/LoDcSDgIaZk+
- JIQQybxU4pUxVcBiqzXPcHHQyLlnkeigsC1nQ7SJpFYw3SzGNQh6XGnEV8Tt5oILK4SA
- ML1Ii/yUQKAKYyyXNbZpWayUx8BAMRo9DvZJHGzVYnzrFfGoubBUi0KeUMKWay9JwKkM
- Rq7g==
+ bh=64gLYirqv0dQ+6oXmKSs0A/wPzHi1OC+l9qUxVLvJNM=;
+ b=KsrryXrm8AmMnHijI7MZT3+FevQXhSFlIUeGqmAAIma9dNQ6s3+wLeTojlvEc5+g93
+ UB9k17LaQSc0/3TJVh4NU9nJ3DDhwJKlICZTe04boNrEoZJkwbD8mJYikJFbeajreGBd
+ OEgu2JLW+q3SCqcrXjdIKUxi+6Xy4IgWksnk+JLRlnSAU/aSQBnG/ynv8HPumCeMK+eg
+ kqFYqSKUUCY6jOpkHO/SO8hznsYbGRV+RYl0sdmPR721wJgQZhHOOFiBDILVa/pa346M
+ 6RDqKpDBa/bVhkpJovuYndJRwKAGo8zWuegz/2f59C8G8usASA9oVnbg5TO4p4Qj66Ac
+ +7Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C72pARwKzjXLQykIC6Vzm26mksDc4097B9kvNeRj2lQ=;
- b=Ls+PN4roTcilDuAv8y++z9olhi7PzLqQhkxZJMrEu7v3yvoloFKUiVCp1HOcmbHr4E
- FdPvsvrgl2QA+UKlQYw8Uw+rbLSmj7EM+aUz5KXysxupE6NW6kPwG/Kl+slV0WHDDN07
- XCJEzddcbnREzNPqq7E7omEf7mtG/MeKY28Axx94nhZ0eIPsQbxz4l7NsABJ2kZmLMXs
- sVCeavDT7WlbKjxzm4KbiP7FQA5RXAtAhjKt0WJzRlbad/jKgPdpZaoaI/eeyVnf8kPM
- JaOAzt5EX/i+TC+Up5DquUfeaCmNkbpM0ICwjtMtALtWKK6yh4aI1em3txwivA7u4q3e
- t6Hg==
-X-Gm-Message-State: AOAM531uwZdaN0cqMqnFhUDrvOJN32zhLL637C/dAWRcV0MRdI0sMk5q
- tfuaMBcBWl8ftroI6cwNC7dGw74v
-X-Google-Smtp-Source: ABdhPJz+k4vP2BdAa6279uhlUEjN/D0s8KFoxLAA/P6ttFzNdaaAo2Yn1TyKWS2LMTi4NLPGyTUlEQ==
-X-Received: by 2002:a7b:cb96:: with SMTP id m22mr3032944wmi.164.1589536451853; 
- Fri, 15 May 2020 02:54:11 -0700 (PDT)
+ bh=64gLYirqv0dQ+6oXmKSs0A/wPzHi1OC+l9qUxVLvJNM=;
+ b=hNqoOpsV0F/HwA/h9szz956261VhIgxeZk4M5IPDbtaI3GxlPxBPOR5lcLLeZehcnH
+ 99ALSQuJ6dt7DyFLl5b6DMVH0jElraz+1c/vo7g0bY6CBwrvfvk4UHYyEogYrTTi31fL
+ vYTFzbiBPOj/riyxsiPd+bbnopUmmCMOUp95H9Ya2pOUL7Ip6diQ7E+2/p49XeIy4PGQ
+ kN5ycVLuVseDs5Nv6V7wS3uo7KTQtAqyVJbfkx/Z+MIlyB7WnU51ScrxWZpy9ilMlawg
+ Ea1y5xdUMWF9QDSJ7K7hx1hgiC42EbPxIPwBLadb+1yNhv7jxtg/SeCEzIM0yWTfyewJ
+ YlHA==
+X-Gm-Message-State: AOAM5330P45xpw8kANo9uHOeEAcF+qxMsYLOc4GgBc+HVQMMRaDgKhDE
+ kJNs5bC8NNp1CHu5K88owMVz7uum
+X-Google-Smtp-Source: ABdhPJxP7abb4ZvANeEw/bPXg/CS2FYYD7xbfzXezytHqY7rOgAWPVAgiSi4cgnEBQn9CcGW7bhfug==
+X-Received: by 2002:a7b:c3da:: with SMTP id t26mr2966451wmj.146.1589536452626; 
+ Fri, 15 May 2020 02:54:12 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.10
+ by smtp.gmail.com with ESMTPSA id s12sm2705817wmc.7.2020.05.15.02.54.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:54:11 -0700 (PDT)
+ Fri, 15 May 2020 02:54:12 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 09/38] drm: remove drm_driver::gem_free_object
-Date: Fri, 15 May 2020 10:50:49 +0100
-Message-Id: <20200515095118.2743122-10-emil.l.velikov@gmail.com>
+Subject: [PATCH v2 10/38] drm/gem: fold drm_gem_object_put_unlocked and
+ __drm_gem_object_put()
+Date: Fri, 15 May 2020 10:50:50 +0100
+Message-Id: <20200515095118.2743122-11-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
 References: <20200515095118.2743122-1-emil.l.velikov@gmail.com>
@@ -75,97 +76,112 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Emil Velikov <emil.velikov@collabora.com>
 
-No drivers set the callback, so remove it all together.
+With earlier patch we removed the overhead so now we can lift the helper
+into the header effectively folding it with __drm_object_put.
+
+v2: drop struct_mutex references (Daniel)
 
 Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org> (v1)
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/drm_gem.c | 22 +++-------------------
- include/drm/drm_drv.h     |  8 --------
- include/drm/drm_gem.h     |  5 +++--
- 3 files changed, 6 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/drm_gem.c                  | 19 -------------------
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  2 +-
+ include/drm/drm_drv.h                      |  2 --
+ include/drm/drm_gem.h                      | 16 +++-------------
+ 4 files changed, 4 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 12fa121d0966..dab8763b2e73 100644
+index dab8763b2e73..599d5ff53b73 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -975,15 +975,10 @@ drm_gem_object_free(struct kref *kref)
- 		container_of(kref, struct drm_gem_object, refcount);
- 	struct drm_device *dev = obj->dev;
- 
--	if (obj->funcs) {
-+	if (obj->funcs)
- 		obj->funcs->free(obj);
--	} else if (dev->driver->gem_free_object_unlocked) {
-+	else if (dev->driver->gem_free_object_unlocked)
- 		dev->driver->gem_free_object_unlocked(obj);
--	} else if (dev->driver->gem_free_object) {
--		WARN_ON(!mutex_is_locked(&dev->struct_mutex));
--
--		dev->driver->gem_free_object(obj);
--	}
+@@ -982,25 +982,6 @@ drm_gem_object_free(struct kref *kref)
  }
  EXPORT_SYMBOL(drm_gem_object_free);
  
-@@ -999,21 +994,10 @@ EXPORT_SYMBOL(drm_gem_object_free);
- void
- drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+-/**
+- * drm_gem_object_put_unlocked - drop a GEM buffer object reference
+- * @obj: GEM buffer object
+- *
+- * This releases a reference to @obj. Callers must not hold the
+- * &drm_device.struct_mutex lock when calling this function.
+- *
+- * See also __drm_gem_object_put().
+- */
+-void
+-drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+-{
+-	if (!obj)
+-		return;
+-
+-	kref_put(&obj->refcount, drm_gem_object_free);
+-}
+-EXPORT_SYMBOL(drm_gem_object_put_unlocked);
+-
+ /**
+  * drm_gem_object_put - release a GEM buffer object reference
+  * @obj: GEM buffer object
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 2faa481cc18f..41351cbf31b5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -105,7 +105,7 @@ __attribute__((nonnull))
+ static inline void
+ i915_gem_object_put(struct drm_i915_gem_object *obj)
  {
--	struct drm_device *dev;
--
- 	if (!obj)
- 		return;
- 
--	dev = obj->dev;
--
--	if (dev->driver->gem_free_object) {
--		might_lock(&dev->struct_mutex);
--		if (kref_put_mutex(&obj->refcount, drm_gem_object_free,
--				&dev->struct_mutex))
--			mutex_unlock(&dev->struct_mutex);
--	} else {
--		kref_put(&obj->refcount, drm_gem_object_free);
--	}
-+	kref_put(&obj->refcount, drm_gem_object_free);
+-	__drm_gem_object_put(&obj->base);
++	drm_gem_object_put_unlocked(&obj->base);
  }
- EXPORT_SYMBOL(drm_gem_object_put_unlocked);
  
+ #define assert_object_held(obj) dma_resv_assert_held((obj)->base.resv)
 diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 6d457652f199..e6eff508f687 100644
+index e6eff508f687..bb924cddc09c 100644
 --- a/include/drm/drm_drv.h
 +++ b/include/drm/drm_drv.h
-@@ -327,14 +327,6 @@ struct drm_driver {
- 	 */
- 	void (*debugfs_init)(struct drm_minor *minor);
- 
--	/**
--	 * @gem_free_object: deconstructor for drm_gem_objects
--	 *
--	 * This is deprecated and should not be used by new drivers. Use
--	 * &drm_gem_object_funcs.free instead.
--	 */
--	void (*gem_free_object) (struct drm_gem_object *obj);
--
- 	/**
- 	 * @gem_free_object_unlocked: deconstructor for drm_gem_objects
+@@ -332,8 +332,6 @@ struct drm_driver {
  	 *
+ 	 * This is deprecated and should not be used by new drivers. Use
+ 	 * &drm_gem_object_funcs.free instead.
+-	 * Compared to @gem_free_object this is not encumbered with
+-	 * &drm_device.struct_mutex legacy locking schemes.
+ 	 */
+ 	void (*gem_free_object_unlocked) (struct drm_gem_object *obj);
+ 
 diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 0b375069cd48..ec2d24a60a76 100644
+index ec2d24a60a76..c3bdade093ae 100644
 --- a/include/drm/drm_gem.h
 +++ b/include/drm/drm_gem.h
-@@ -272,8 +272,9 @@ struct drm_gem_object {
- 	 * attachment point for the device. This is invariant over the lifetime
- 	 * of a gem object.
- 	 *
--	 * The &drm_driver.gem_free_object callback is responsible for cleaning
--	 * up the dma_buf attachment and references acquired at import time.
-+	 * The &drm_driver.gem_free_object_unlocked callback is responsible for
-+	 * cleaning up the dma_buf attachment and references acquired at import
-+	 * time.
- 	 *
- 	 * Note that the drm gem/prime core does not depend upon drivers setting
- 	 * this field any more. So for drivers where this doesn't make sense
+@@ -364,27 +364,17 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
+ }
+ 
+ /**
+- * __drm_gem_object_put - raw function to release a GEM buffer object reference
++ * drm_gem_object_put_unlocked - drop a GEM buffer object reference
+  * @obj: GEM buffer object
+  *
+- * This function is meant to be used by drivers which are not encumbered with
+- * &drm_device.struct_mutex legacy locking and which are using the
+- * gem_free_object_unlocked callback. It avoids all the locking checks and
+- * locking overhead of drm_gem_object_put() and drm_gem_object_put_unlocked().
+- *
+- * Drivers should never call this directly in their code. Instead they should
+- * wrap it up into a ``driver_gem_object_put(struct driver_gem_object *obj)``
+- * wrapper function, and use that. Shared code should never call this, to
+- * avoid breaking drivers by accident which still depend upon
+- * &drm_device.struct_mutex locking.
++ * This releases a reference to @obj.
+  */
+ static inline void
+-__drm_gem_object_put(struct drm_gem_object *obj)
++drm_gem_object_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	kref_put(&obj->refcount, drm_gem_object_free);
+ }
+ 
+-void drm_gem_object_put_unlocked(struct drm_gem_object *obj);
+ void drm_gem_object_put(struct drm_gem_object *obj);
+ 
+ int drm_gem_handle_create(struct drm_file *file_priv,
 -- 
 2.25.1
 
