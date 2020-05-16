@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35B21D634D
-	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 19:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13CA1D635D
+	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 19:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75376E22D;
-	Sat, 16 May 2020 17:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7726C6E22E;
+	Sat, 16 May 2020 17:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC3C6E22D
- for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 17:56:38 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id u188so5912901wmu.1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 10:56:38 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B91976E22E
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 17:59:09 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id w7so7038270wre.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 10:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Pom02/fGs5VaPt8D5UA72ZK95oq4fYr5JRTo4iyrMcM=;
- b=hy2yo9hdSE9qQRnPsdnsTVDfTDoA0ZwHD88xB+FYxBNxJoY+HedEJ760z6n19J5FGk
- zS9lGMPUhYmLNEKuN2ABpelK343XHDzUI4w0LiPLkLGEen0Qeve7w++gAnROb+7RG99Z
- NvxRgZMameFddprLT+MMYzxM+oSj7/eGFI0JU56fkd476kwuyyNxot25uq3t2w0x2PeR
- El0T1ma3K2Ve752qK9EiPniOGnqe+xiSaA87bxpZG5jF+2sASj7v7CCuGwnw/f/IBdes
- Sp+exbhfD1bLff0Ecxwq3pxwyumkbEchetyq0OmotmAFmTfqxK8bdFPn0uDr2pKj5clh
- M9zw==
+ bh=dlj6c6JqqLkHBCy1FwFoUYXsdQgsvmHxTexVOwWMm7E=;
+ b=K5b4M+OmK6W13LI+QDe9xewjl4wmW6ibWzSRHkhnMhaSYSlxjZY7lO295aq6JFVPdZ
+ aAsqNK+tFKNNQCjS0V8QrTWhUzRTrVx+EbF/nXhJa+PrNfEURsJjaNVAkloDlW0qi58a
+ dS4ZubVWyPP4zxf/rnQtdwsUAKlrCfl2RWO/iN7+20CzDz2fMijKfTu3x//WJ37ZqVHN
+ CXD9Hn6/1DmL7UfKbEnW4xYoNuNH12lvPQqrZt5AtnLAToGpQlHuEV56b5B5BrLv0Lsq
+ /xnQmFXM8erdeDx46feJ38CVCcaEvwrvWsdwysNt8y3iYMepKYpaZhDLXtyIXnVNyYpJ
+ b3vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Pom02/fGs5VaPt8D5UA72ZK95oq4fYr5JRTo4iyrMcM=;
- b=RWZFf0Ut3/KNDc8h7tirJaHmcWbisEV6ot729ZsYbZczooMqN9Tia+J22wj+iv9o++
- QVcByFOQnrOmh2h2f4iUTJHjkPNzzTaJdCeccIot15x1F8yIfOJ+Kd89wa0watsOvnW+
- aONIos1pQl5pH57ZoroHjo9McX0W+o4dErbocdJBYcHkPJTd/oC+f4f6n4EzUJzk4jhQ
- psMMd8+s6Ly1FuPL+5M8w3NviTfl14sq5X3/KRfwMysanEabvUCKDxmeI6klDgFqJaHk
- tVMw2ktP3YF2zhX+e9+m+okKJN0RtBCOac2s/OkBoNL32rD8QpnMeBLS3TbCbSsxEbb7
- PeAg==
-X-Gm-Message-State: AOAM531DMescq2Fz6gFtQFR51oU0pIB/NCBxNCErWo+NfPxuD33TmzA2
- OjJpTwywNr+817+ampRutys=
-X-Google-Smtp-Source: ABdhPJzyeP/OxS4CcvSxvVea/pgSVvWrcTtunm3Nk3uPICc4JnAi3jH/wFEa/bYJxGqfCrysE5Wnbg==
-X-Received: by 2002:a7b:c205:: with SMTP id x5mr10629124wmi.135.1589651797250; 
- Sat, 16 May 2020 10:56:37 -0700 (PDT)
+ bh=dlj6c6JqqLkHBCy1FwFoUYXsdQgsvmHxTexVOwWMm7E=;
+ b=IAxQrdCjfPFG+uML+csFHKaPTPZ3iNA6Fe+JGqjoH/qjahsGcf3GpYuB5TtHAK42OP
+ 35YMAwdZB3/vxjAHjkOFO28UiOd4UzwhE5nkCBGtwNltJkbhB8fy0mc8C1RMCl3KoV4G
+ KQ/hGgRT1Xr0zQbEg1TGzZ6U+BeSrxRUul95kAjSAU522l4S5gMz8bpcJfRmt9Is5y4p
+ zlZwXivSMsEKJg+hIXlDHBN7SxCgLvZwnQueZS3DgRaUTmM0cQ5HoFm0hoQKIa9VnHhL
+ IQSSYcqeZtW4bA6TxbvoS0vDB/8RRsYnCCD42WnBxybwSQLrbMV3bW9kvf1786B2f5dl
+ Yf5Q==
+X-Gm-Message-State: AOAM531BfgvkjgY9o4phIU/IANhxEeYfCLIT+YAb7oJ0LRtQKo3zusFn
+ /hg4HDcaysHnCsQjan3FIoo=
+X-Google-Smtp-Source: ABdhPJz4RCC+7xPENymR+kuAm6Vp4LM1OVt5aqeyXqvBVlrdhXBCyCv/TQ+ZWEUAwNBTKMOjZDfBBA==
+X-Received: by 2002:adf:face:: with SMTP id a14mr10455762wrs.397.1589651948260; 
+ Sat, 16 May 2020 10:59:08 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.243])
- by smtp.gmail.com with ESMTPSA id a184sm8918949wmh.24.2020.05.16.10.56.35
+ by smtp.gmail.com with ESMTPSA id b14sm8529704wmb.18.2020.05.16.10.59.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 May 2020 10:56:36 -0700 (PDT)
-Subject: Re: [PATCH v5 05/13] soc: mediatek: cmdq: return send msg error code
+ Sat, 16 May 2020 10:59:07 -0700 (PDT)
+Subject: Re: [PATCH v5 06/13] soc: mediatek: cmdq: add assign function
 To: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Jassi Brar <jassisinghbrar@gmail.com>, Philipp Zabel
  <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
 References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583664775-19382-6-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1583664775-19382-7-git-send-email-dennis-yc.hsieh@mediatek.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -129,12 +129,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <a32545e3-ec65-e813-871a-7c0c6320373b@gmail.com>
-Date: Sat, 16 May 2020 19:56:35 +0200
+Message-ID: <c671ea8a-07fa-a050-4679-c7aa15d19a9d@gmail.com>
+Date: Sat, 16 May 2020 19:59:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1583664775-19382-6-git-send-email-dennis-yc.hsieh@mediatek.com>
+In-Reply-To: <1583664775-19382-7-git-send-email-dennis-yc.hsieh@mediatek.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -160,34 +160,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 08/03/2020 11:52, Dennis YC Hsieh wrote:
-> Return error code to client if send message fail,
-> so that client has chance to error handling.
+> Add assign function in cmdq helper which assign constant value into
+> internal register by index.
 > 
 > Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> Fixes: 576f1b4bc802 ("soc: mediatek: Add Mediatek CMDQ helper")
 > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
-Queued for v5.7-fixes
-
 > ---
->  drivers/soc/mediatek/mtk-cmdq-helper.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/soc/mediatek/mtk-cmdq-helper.c   | 24 +++++++++++++++++++++++-
+>  include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
+>  include/linux/soc/mediatek/mtk-cmdq.h    | 14 ++++++++++++++
+>  3 files changed, 38 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> index 2e1bc513569b..98f23ba3ba47 100644
+> index 98f23ba3ba47..33153d17c9d9 100644
 > --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 > +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> @@ -351,7 +351,9 @@ int cmdq_pkt_flush_async(struct cmdq_pkt *pkt, cmdq_async_flush_cb cb,
->  		spin_unlock_irqrestore(&client->lock, flags);
->  	}
+> @@ -12,6 +12,7 @@
+>  #define CMDQ_WRITE_ENABLE_MASK	BIT(0)
+>  #define CMDQ_POLL_ENABLE_MASK	BIT(0)
+>  #define CMDQ_EOC_IRQ_EN		BIT(0)
+> +#define CMDQ_REG_TYPE		1
 >  
-> -	mbox_send_message(client->chan, pkt);
-> +	err = mbox_send_message(client->chan, pkt);
-> +	if (err < 0)
-> +		return err;
->  	/* We can send next packet immediately, so just call txdone. */
->  	mbox_client_txdone(client->chan, 0);
+>  struct cmdq_instruction {
+>  	union {
+> @@ -21,8 +22,17 @@ struct cmdq_instruction {
+>  	union {
+>  		u16 offset;
+>  		u16 event;
+> +		u16 reg_dst;
+> +	};
+> +	union {
+> +		u8 subsys;
+> +		struct {
+> +			u8 sop:5;
+> +			u8 arg_c_t:1;
+> +			u8 arg_b_t:1;
+> +			u8 dst_t:1;
+> +		};
+
+This union seems without context in this patch. Please drop.
+
+Regards,
+Matthias
+
+>  	};
+> -	u8 subsys;
+>  	u8 op;
+>  };
 >  
+> @@ -277,6 +287,18 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+>  }
+>  EXPORT_SYMBOL(cmdq_pkt_poll_mask);
+>  
+> +int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
+> +{
+> +	struct cmdq_instruction inst = { {0} };
+> +
+> +	inst.op = CMDQ_CODE_LOGIC;
+> +	inst.dst_t = CMDQ_REG_TYPE;
+> +	inst.reg_dst = reg_idx;
+> +	inst.value = value;
+> +	return cmdq_pkt_append_command(pkt, inst);
+> +}
+> +EXPORT_SYMBOL(cmdq_pkt_assign);
+> +
+>  static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+>  {
+>  	struct cmdq_instruction inst = { {0} };
+> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> index dfe5b2eb85cc..121c3bb6d3de 100644
+> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
+> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> @@ -59,6 +59,7 @@ enum cmdq_code {
+>  	CMDQ_CODE_JUMP = 0x10,
+>  	CMDQ_CODE_WFE = 0x20,
+>  	CMDQ_CODE_EOC = 0x40,
+> +	CMDQ_CODE_LOGIC = 0xa0,
+>  };
+>  
+>  enum cmdq_cb_status {
+> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+> index a74c1d5acdf3..83340211e1d3 100644
+> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> @@ -152,6 +152,20 @@ int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
+>   */
+>  int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+>  		       u16 offset, u32 value, u32 mask);
+> +
+> +/**
+> + * cmdq_pkt_assign() - Append logic assign command to the CMDQ packet, ask GCE
+> + *		       to execute an instruction that set a constant value into
+> + *		       internal register and use as value, mask or address in
+> + *		       read/write instruction.
+> + * @pkt:	the CMDQ packet
+> + * @reg_idx:	the CMDQ internal register ID
+> + * @value:	the specified value
+> + *
+> + * Return: 0 for success; else the error code is returned
+> + */
+> +int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
+> +
+>  /**
+>   * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
+>   *                          packet and call back at the end of done packet
 > 
 _______________________________________________
 dri-devel mailing list
