@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CD41D5ECC
-	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 06:36:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F9A1D5ED6
+	for <lists+dri-devel@lfdr.de>; Sat, 16 May 2020 07:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB93D6E10A;
-	Sat, 16 May 2020 04:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F140C6E105;
+	Sat, 16 May 2020 05:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
  [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C846E10A
- for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 04:36:30 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id b6so4387517ljj.1
- for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 21:36:30 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 237336E105
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 May 2020 05:05:18 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id u15so4408308ljd.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 May 2020 22:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=Rs/psRUa9K+e0U7L81m0wruRrvfZrFES+uF0b2/Nbs4=;
- b=PmVkwyyJo4h/MbY/bWfnpXdEU6P/LUz3y9dFc6LbJP7yLjR1CMVau2zOK/he887ORn
- mXgM3OHR9FWjby7Jw2pR56vWCgdpzXqP5rJCwpEO3RuycPM1Q3mOer3z1Cv9bdQV8z1Z
- g+jLLomcNew+HcRq2ZrEuFr2Uq3Vd2SQTaPhA0K71il1tgkl6eyVPw/hDyabOPsoYHLN
- y9OgEmP+L08gTMrEvJ/x0s9ljpKJeDqZobgZ9K3ZKd+W2BjuoXMGEG5ZnfA/Rihv+swG
- zhKQG7WEPN1ZPYdu3tTQDPEQ6MRzeTdCs3Ym++Nu/FLfEQowhytHIXUEvjjTqdv65KHf
- VXhw==
+ bh=m1ntg/WdcMv3hynbF2RbuDdE5Y3GzsNBRBim4e23ILY=;
+ b=qBQg5VJfrhfYNnJ9EmFh4nXk0HCkhn5lo1uWdMBMu44YzvGlNTKPGIxi76XTXrE8i0
+ k2dzrm5zkwnSw1To1Ol0Jyo7F3cXkTQrwOhKQcBM9nK5pV9kVxWiblk46d2FqbhVFSA/
+ 869Tv5iIH5rZvb1yrs82FZ/8DaDL+jKBQ04FyCIXEFvbqRMVQH7xZzms/7Rdo1prBw7Q
+ ZpK3XgueOHdA9LdMXnlA90ghZjFAhBjiT8Z31GQHxFanyv0dGiDwU9xc2T8uZRAywmG9
+ yQyzbaGBZ039TjQkd+5vrKNKUdNsyo69EaoQ+jHrRtz6lkYS9m91jO7U/faSWjgpxStN
+ YVEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Rs/psRUa9K+e0U7L81m0wruRrvfZrFES+uF0b2/Nbs4=;
- b=f9aYTZ98yxSI+8krcPOiTm5spLseY9/w28Jhn5AGMP+urwGZxUOHXRRFk38jvOBZCS
- K5sBmvHuGBzWE7fb1B2ZMt38W8UCFZ0SOZrb+qlMWxCl/UYSbfjPtQvXApdo6rF01pBC
- RkcxE9fE1sEol6Vu539gnkUON67hKT6D5rDveSfYEqTl0NhJI+SDtoPt3YjUnbCf6zyQ
- 7CfGXCjlFzz+9AHXvA8ROnSRiKvbiBNqzkbouiXQ6JOa/TICz7zufD8UznSugnW6qGfb
- GUbkboXkzJndNKIh3vHUrfvUfnIJPIUmADC0WRSNHYEWCiRfAt81GWVbxja86LJ/vgOT
- D1Dg==
-X-Gm-Message-State: AOAM531850eAXvSgyXmjNzGRncV52OLRvPXVb7h0untPeb6ASVhDbEVf
- K/ElMwkyUJQxRJnp2JK5CeiIyCEZ
-X-Google-Smtp-Source: ABdhPJzb5wdgoYZnfJYTcSOrMArboBMT4R31iAe9F09a+l/lssCNG1P9Q8uhwG/Sj5TdoAHc0pH71Q==
-X-Received: by 2002:a2e:9948:: with SMTP id r8mr4334946ljj.1.1589603788605;
- Fri, 15 May 2020 21:36:28 -0700 (PDT)
+ bh=m1ntg/WdcMv3hynbF2RbuDdE5Y3GzsNBRBim4e23ILY=;
+ b=FCZxMOTgd+TXD8K8JJSaTzXCtkLu+o3NQcikkKns91NjCGvwsYmVEgMVB07j/JqDCj
+ Og1FTwPlUSst88ErGnVyoq5fGYn43lgUNwZ6JZFEOE+K01pniy1U/qJU4uPzQZMSjlPw
+ ejMExoulLUNJzSJCsBfEZhX/J5gdIkMk1hwNIKh6itKhM9IrCAbcXurjv4UbRozpgI0m
+ T+njob8Df8dU2iykQmztDa9UWciX+TOYHLk+KZUnqSMBfzFlFkFd5zp9C5G9Pi7hup44
+ WGZuZh9VDv7KqEH40sAlnYeuI+EJhSNrbZEClcfllsAT07OQdLkjwFj0hBR9fsGc1NlF
+ oQFA==
+X-Gm-Message-State: AOAM532UAPPV2BESJPPzESPYKuHLkAV0NqRJFtdntgP8MmyFYGSjyyPJ
+ +tgNg6l+VhT1NwcKDfyXBqNXDCNo
+X-Google-Smtp-Source: ABdhPJwLk88zwZq/x8+Vm2/Koc8Sh5V4/ofI0loERbSnbwo+ob9+cq0mWIFxNEP7NTNH8tuXHr/YwA==
+X-Received: by 2002:a2e:9099:: with SMTP id l25mr227192ljg.82.1589605516168;
+ Fri, 15 May 2020 22:05:16 -0700 (PDT)
 Received: from sroland-t5810.vmware.com (46-126-183-173.dynamic.hispeed.ch.
  [46.126.183.173])
- by smtp.gmail.com with ESMTPSA id l5sm2414407lfk.16.2020.05.15.21.36.27
+ by smtp.gmail.com with ESMTPSA id j29sm2816737lfp.90.2020.05.15.22.05.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 21:36:28 -0700 (PDT)
-From: Roland Scheidegger <rscheidegger.oss@gmail.com>
+ Fri, 15 May 2020 22:05:15 -0700 (PDT)
+From: "Roland Scheidegger (VMware)" <rscheidegger.oss@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	airlied@redhat.com,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/vmwgfx: update MAINTAINERS entry
-Date: Sat, 16 May 2020 06:36:22 +0200
-Message-Id: <20200516043622.6432-1-rscheidegger.oss@gmail.com>
+Subject: [git pull] vmwgfx-fixes-5.7
+Date: Sat, 16 May 2020 07:04:33 +0200
+Message-Id: <20200516050433.7298-1-rscheidegger.oss@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,46 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roland Scheidegger <sroland@vmware.com>,
- linux-graphics-maintainer@vmware.com
+Cc: linux-graphics-maintainer@vmware.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Roland Scheidegger <sroland@vmware.com>
+Dave, Daniel
 
-Maintainer switch from Thomas Hellstrom to Roland Scheidegger
+Some minor fixes and a maintainer change.
 
-Reviewed-by: Charmaine Lee <charmainel@vmware.com>
-Reviewed-by: Neha Bhende <bhenden@vmware.com>
-Acked-by: Thomas Hellstrom <thellstrom@vmware.com>
-Signed-off-by: Roland Scheidegger <sroland@vmware.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit 24085f70a6e1b0cb647ec92623284641d8270637:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 24d0226abc8e..1e08e5bc5c8a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5511,10 +5511,10 @@ F:	drivers/gpu/drm/vboxvideo/
- 
- DRM DRIVER FOR VMWARE VIRTUAL GPU
- M:	"VMware Graphics" <linux-graphics-maintainer@vmware.com>
--M:	Thomas Hellstrom <thellstrom@vmware.com>
-+M:	Roland Scheidegger <sroland@vmware.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
--T:	git git://people.freedesktop.org/~thomash/linux
-+T:	git git://people.freedesktop.org/~sroland/linux
- F:	drivers/gpu/drm/vmwgfx/
- F:	include/uapi/drm/vmwgfx_drm.h
- 
--- 
-2.17.1
+  Merge tag 'trace-v5.7-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace (2020-05-12 11:06:26 -0700)
 
+are available in the Git repository at:
+
+  git+ssh://sroland@people.freedesktop.org/~sroland/linux vmwgfx-fixes-5.7
+
+for you to fetch changes up to 80542002ccd41f3703a9ae9e8e95cfbaad370db6:
+
+  drm/vmwgfx: Return true in function vmw_fence_obj_signaled() (2020-05-16 06:50:37 +0200)
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      drm/vmwgfx: remove redundant assignment to variable ret
+
+Guixiong Wei (1):
+      drm/vmwgfx: Fix parameter name in vmw_bo_init
+
+Jason Yan (1):
+      drm/vmwgfx: Return true in function vmw_fence_obj_signaled()
+
+Roland Scheidegger (1):
+      drm/vmwgfx: update MAINTAINERS entry
+
+ MAINTAINERS                             | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c   | 2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
