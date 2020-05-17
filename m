@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2471D6BED
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6D21D6BF0
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935176E0EA;
-	Sun, 17 May 2020 19:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4776E0F0;
+	Sun, 17 May 2020 19:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8D26E0EA
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:01:54 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id e125so5330016lfd.1
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:01:54 -0700 (PDT)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4116E0F0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:01:57 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id a4so6085036lfh.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zjJ5TugtFafrUz9tMvPPgVQeP2vZZBra/hz3unCyA74=;
- b=MBqCIzMBzSoOolD7CgrY2zj0/KHIoG36rEIfx7ECTna0EC3p5iLR4b/hOYxmvMtbrF
- r3fgL0Dh3VOuQpLUF+rJRTN6sHztUxB/HIlATnfHC/lrsakMSQAI+Hjb6567eMQbnaFy
- SQWkFUg/MZ0CoirDiSQw8YfLT82cn4bNLYwLNVSJHLAlvMdRCDWHCWw/pMbbljMYXQLr
- oDe+T7l9Y7hAi43iNeWCi8BIY5i1vgm/Ky7y6n8g3uf18f6U0XizJMLnpMXcl0ACK1k9
- dU7G3vbOsfyCmjFk5qfgkpisuxuEvwI8+Aa2PddgaTsYAQM9xX6pLNIRqH0FSOIERZqM
- BTlw==
+ bh=qdUWGmoPechd3oTgEgd4ji1RiSP4wLSttPnRYm7mOf8=;
+ b=AQIZP9wNKtpqZPp7o5/1bx3Ejx43EMIA5uNG1cn8dcJJ0TuVkpZukGXTQEvZbQblmN
+ weJ/ls2F+p+y8NzKtQz8TsHmQivN+m+c1ENLCa2O9Xp0tR2p16VJR8nHAEO1ZgP/fRhS
+ /UNLEvYKhBbvLHGJFMG3XrQHQB8qGXlEBaDDj5UQkDDsp6bdejtJjWTUfjV3YG3xJFWU
+ 12qbZfuyHyRcOWTDYO025WVy+Pw1pyniZsxO1g/fSJs50ufsybpHysu8WMQ/f4NhxGTd
+ exZN2AV7T7Gx2qmSfUeWmfUik/3It4XUoHoYhyA4jAwtD0tWxEIqlXBt1vf13Rimod+a
+ tiOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zjJ5TugtFafrUz9tMvPPgVQeP2vZZBra/hz3unCyA74=;
- b=O2BCa9qjkutD0fxBUlKWU0W3ThaqjA0VCMIKkTeW3P6ljxDJM5lkFyyU7Knw6r7OwW
- q204ccLH+7n7rN+q235qoOHVT9RTikE6sPOv/UqGPwtAAqgVEHADDmOO253pipWtDCGK
- zWngN8OvKCcBLR30Xi8tfK8/y6j8sPnoQeQGat0EKKeECouW891e+39WhZgmoR50ixqy
- nnww1Aap++suo3Kk7IFOC6PUkH+el4INK1t/KMAXvu98Dw1rCZYIisQ0/W5gmpmfACTm
- w/BvEOowxwXBO/nf9dIQUylkQl7xFccydFKXb8toqqyOc07fyMgTs+5Te+ENTUKWgrDN
- tnmQ==
-X-Gm-Message-State: AOAM533EgBOlU/BiZa/9KzxGtxrMYTqRRV2Zj3Dss3lVP6dnEXS1OJv8
- 4oZVuKxjOrg7dzgVEC10I0vTwolN+ug=
-X-Google-Smtp-Source: ABdhPJyNQwf2WU45rn3WQtz7QrQncxMhX+3U6IFhIvsSFjKrU8q+k0a/Ycqya6mgzGXcxDkRhBNa9A==
-X-Received: by 2002:ac2:44bb:: with SMTP id c27mr9295868lfm.40.1589742112363; 
- Sun, 17 May 2020 12:01:52 -0700 (PDT)
+ bh=qdUWGmoPechd3oTgEgd4ji1RiSP4wLSttPnRYm7mOf8=;
+ b=sxRFMH/uMK3VV03l+gOU/0oiOk3ySqptdZT6UCqmFHKjGTKsbeEUoYdPiOHOfM02/R
+ Kw3urC2zK372xDHgfnpKWYgfQmLo9Rewxl9yyEKN55AmxZzvn5PQCPyovmf6rjX/DdLl
+ 3Sql1MHfamnIJ1Rgjdp5YbSUykRProRsfUyN2DCidQ9W01+JLfeBAmZZuey7W7OG36FF
+ ++Pp2oIgIdvm6B5ujDDUSSyEsG6Xj+dxUgisRpKbZ7ku6Lyw6qQU6XpvBA7Hto7iYEEa
+ J9H8J+Jk/edRxhj9rMYppidmmiIxwN8mkLA1n0K6VimVYnZbJ4VZM6TEimw2sqcKEAIw
+ 68RQ==
+X-Gm-Message-State: AOAM531UAi8lZb8vHrIzoId6DWJ3wcUlvVEGshiFhFe2oXGNXNO4Jjwm
+ K4mXn3VdAlKYblq8WutXm9hyfWHP/wk=
+X-Google-Smtp-Source: ABdhPJwgFShcA04YlNT67vxlMevlvo9ORmiZZnKO32yhlGqrtbcAipVRWTl5RVfOmkpzs7i/B6hHsA==
+X-Received: by 2002:ac2:5de6:: with SMTP id z6mr8903150lfq.18.1589742115122;
+ Sun, 17 May 2020 12:01:55 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:5d55:b3eb:397b:9086])
- by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.01.49
+ by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.01.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 12:01:51 -0700 (PDT)
+ Sun, 17 May 2020 12:01:54 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Peter Ujfalusi <peter.ujfalusi@ti.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 02/16] backlight: refactor fb_notifier_callback()
-Date: Sun, 17 May 2020 21:01:25 +0200
-Message-Id: <20200517190139.740249-3-sam@ravnborg.org>
+Subject: [PATCH v2 03/16] backlight: add backlight_is_blank()
+Date: Sun, 17 May 2020 21:01:26 +0200
+Message-Id: <20200517190139.740249-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200517190139.740249-1-sam@ravnborg.org>
 References: <20200517190139.740249-1-sam@ravnborg.org>
@@ -88,73 +88,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Increase readability of fb_notifier_callback() by removing
-a few indent levels.
-No functional change.
+The backlight support has two properties that express the state:
+- power
+- state
+
+It is un-documented and easy to get wrong.
+Add backlight_is_blank() helper to make it simpler for drivers
+to get the check of the state correct.
+
+A lot of drivers also includes checks for fb_blank.
+This check is redundant when the state is checked
+and thus not needed in this helper function.
+But added anyway to avoid introducing subtle bug
+due to the creative use in some drivers.
+
+Rolling out this helper to all relevant backlight drivers
+will eliminate almost all accesses to fb_blank.
+
+v2:
+  - Added fb_blank condition (Daniel)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ include/linux/backlight.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index cac3e35d7630..17f04cff50ab 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
- 
- 	bd = container_of(self, struct backlight_device, fb_notif);
- 	mutex_lock(&bd->ops_lock);
--	if (bd->ops)
--		if (!bd->ops->check_fb ||
--		    bd->ops->check_fb(bd, evdata->info)) {
--			fb_blank = *(int *)evdata->data;
--			if (fb_blank == FB_BLANK_UNBLANK &&
--			    !bd->fb_bl_on[node]) {
--				bd->fb_bl_on[node] = true;
--				if (!bd->use_count++) {
--					bd->props.state &= ~BL_CORE_FBBLANK;
--					bd->props.fb_blank = FB_BLANK_UNBLANK;
--					backlight_update_status(bd);
--				}
--			} else if (fb_blank != FB_BLANK_UNBLANK &&
--				   bd->fb_bl_on[node]) {
--				bd->fb_bl_on[node] = false;
--				if (!(--bd->use_count)) {
--					bd->props.state |= BL_CORE_FBBLANK;
--					bd->props.fb_blank = fb_blank;
--					backlight_update_status(bd);
--				}
--			}
-+
-+	if (!bd->ops)
-+		goto out;
-+	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
-+		goto out;
-+
-+	fb_blank = *(int *)evdata->data;
-+	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
-+		bd->fb_bl_on[node] = true;
-+		if (!bd->use_count++) {
-+			bd->props.state &= ~BL_CORE_FBBLANK;
-+			bd->props.fb_blank = FB_BLANK_UNBLANK;
-+			backlight_update_status(bd);
-+		}
-+	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
-+		bd->fb_bl_on[node] = false;
-+		if (!(--bd->use_count)) {
-+			bd->props.state |= BL_CORE_FBBLANK;
-+			bd->props.fb_blank = fb_blank;
-+			backlight_update_status(bd);
- 		}
-+	}
-+out:
- 	mutex_unlock(&bd->ops_lock);
- 	return 0;
+diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+index c7d6b2e8c3b5..a0a083b35c47 100644
+--- a/include/linux/backlight.h
++++ b/include/linux/backlight.h
+@@ -175,6 +175,25 @@ static inline void backlight_put(struct backlight_device *bd)
+ 		put_device(&bd->dev);
  }
+ 
++/**
++ * backlight_is_blank - Return true if display is expected to be blank
++ * @bd: the backlight device
++ *
++ * Display is expected to be blank if any of these is true::
++ *
++ *   1) if power in not UNBLANK
++ *   2) if fb_blank is not UNBLANK
++ *   3) if state indicate BLANK or SUSPENDED
++ *
++ * Returns true if display is expected to be blank, false otherwise.
++ */
++static inline bool backlight_is_blank(struct backlight_device *bd)
++{
++	return bd->props.power != FB_BLANK_UNBLANK ||
++	       bd->props.fb_blank != FB_BLANK_UNBLANK ||
++	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
++}
++
+ extern struct backlight_device *backlight_device_register(const char *name,
+ 	struct device *dev, void *devdata, const struct backlight_ops *ops,
+ 	const struct backlight_properties *props);
 -- 
 2.25.1
 
