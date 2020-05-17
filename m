@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8553A1D680E
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 14:58:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A7F1D68DF
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 18:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D046E0CD;
-	Sun, 17 May 2020 12:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27F778999E;
+	Sun, 17 May 2020 16:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E956E0CD
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:58:32 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id E5C302004D;
- Sun, 17 May 2020 14:58:29 +0200 (CEST)
-Date: Sun, 17 May 2020 14:58:28 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 02/18] drm/tilcdc: use devm_of_find_backlight
-Message-ID: <20200517125828.GB620358@ravnborg.org>
-References: <20200514191001.457441-1-sam@ravnborg.org>
- <20200514191001.457441-3-sam@ravnborg.org>
- <9e234824-3cf6-ead4-561b-70c1966ac5fd@ti.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9630B897EB
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 16:42:48 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207763] Noisy Screen in Linux with kernel 5
+Date: Sun, 17 May 2020 16:42:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-207763-2300-eeqUbRfNPa@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207763-2300@https.bugzilla.kernel.org/>
+References: <bug-207763-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9e234824-3cf6-ead4-561b-70c1966ac5fd@ti.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=sozttTNsAAAA:8 a=e5mUnYsNAAAA:8
- a=j9Ekg0ZhKnyfv64AlhwA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=aeg5Gbbo78KNqacMgKqU:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>,
- Andy Gross <agross@kernel.org>,
- Uwe Kleine Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, Thomas Gleixner <tglx@linutronix.de>,
- Allison Randal <allison@lohutok.net>,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Zheng Bin <zhengbin13@huawei.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- patches@opensource.cirrus.com, Enrico Weigelt <info@metux.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 11:25:47AM +0300, Tomi Valkeinen wrote:
-> On 14/05/2020 22:09, Sam Ravnborg wrote:
-> > Look up backlight device using devm_of_find_backlight().
-> > This simplifies the code and prevents us from hardcoding
-> > the node name in the driver.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Jyri Sarha <jsarha@ti.com>
-> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > ---
-> >   drivers/gpu/drm/tilcdc/tilcdc_panel.c | 17 ++++++-----------
-> >   1 file changed, 6 insertions(+), 11 deletions(-)
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Thanks, pushed to drm-misc-next.
-
-        Sam
-
-> 
->  Tomi
-> 
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDc3NjMKCkFsZXgg
+RGV1Y2hlciAoYWxleGRldWNoZXJAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAgICAgICBXaGF0
+ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAgICAgfGFsZXhk
+ZXVjaGVyQGdtYWlsLmNvbQoKLS0tIENvbW1lbnQgIzEgZnJvbSBBbGV4IERldWNoZXIgKGFsZXhk
+ZXVjaGVyQGdtYWlsLmNvbSkgLS0tCkRvZXMgcmV2ZXJ0aW5nOgoKY29tbWl0IDMzYjNhZDM3ODhh
+YmE4NDZmYzhiOWEwNjVmZTI2ODVhMGI2NGY3MTMKQXV0aG9yOiBDaHJpc3RvcGggSGVsbHdpZyA8
+aGNoQGxzdC5kZT4KRGF0ZTogICBUaHUgQXVnIDE1IDA5OjI3OjAwIDIwMTkgKzAyMDAKCiAgICBk
+cm0vcmFkZW9uOiBoYW5kbGUgUENJZSByb290IHBvcnRzIHdpdGggYWRkcmVzc2luZyBsaW1pdGF0
+aW9ucwoKICAgIHJhZGVvbiB1c2VzIGEgbmVlZF9kbWEzMiBmbGFnIHRvIGluZGljYXRlIHRvIHRo
+ZSBkcm0gY29yZSB0aGF0IHNvbWUKICAgIGFsbG9jYXRpb25zIG5lZWQgdG8gYmUgZG9uZSB1c2lu
+ZyBHRlBfRE1BMzIsIGJ1dCBpdCBvbmx5IGNoZWNrcyB0aGUKICAgIGRldmljZSBhZGRyZXNzaW5n
+IGNhcGFiaWxpdGllcyB0byBtYWtlIHRoYXQgZGVjaXNpb24uICBVbmZvcnR1bmF0ZWx5CiAgICBQ
+Q0llIHJvb3QgcG9ydHMgdGhhdCBoYXZlIGxpbWl0ZWQgYWRkcmVzc2luZyBleGlzdCBhcyB3ZWxs
+LiAgVXNlIHRoZQogICAgZG1hX2FkZHJlc3NpbmdfbGltaXRlZCBpbnN0ZWFkIHRvIGFsc28gdGFr
+ZSB0aG9zZSBpbnRvIGFjY291bnQuCgogICAgUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcg
+PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KICAgIFJlcG9ydGVkLWJ5OiBBdGlzaCBQYXRyYSA8
+QXRpc2guUGF0cmFAd2RjLmNvbT4KICAgIFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2ln
+IDxoY2hAbHN0LmRlPgogICAgU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgoKCkZpeCB0aGUgaXNzdWU/CgotLSAKWW91IGFyZSByZWNlaXZpbmcg
+dGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBi
+dWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
