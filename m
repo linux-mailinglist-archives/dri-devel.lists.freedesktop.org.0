@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2D61D6BF4
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468151D6BF7
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5086E0F5;
-	Sun, 17 May 2020 19:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D526E0FA;
+	Sun, 17 May 2020 19:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A866E0F5
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:02:02 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id h26so6112859lfg.6
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:02:02 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11DE36E0FB
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:02:05 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id u15so7540235ljd.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2OyaYsRmUmiUCUJvfITROQWLR97jO+0C0lYl9AH4WQU=;
- b=sd5HbQvPYXGthPeXNT11+XC5IhL8tbrEv/tlpWGQWuboEtz8ooQZ/w/i2X1nXpuJ/w
- r3uus8JDr37mS9l1TO2Tzf/YwFvPIJuZFBnCr3y3xtQjnPHuhEZ7vrX4TYRV5L4uJKqW
- 14kVX8mzHfgNDFkFSlhM8tG1sadfn0FZkdsWfhVVoMkXz2A8OtsVK7e92kP7sVxcnUEj
- KpnUYTqobTSk1CHA4yhFpmRk9IdPJyrHJVd+pm2rLfAKtmS/wJ1fN1Bz0RXPOeoxz8F9
- LY42Vc24W2BShHMZV9aiWEB0yYP1dwTphg+nrJYvhe7DwG0YkWeylaLBD3ZCqJ87Ow0G
- JC9g==
+ bh=YRf5WUBfqQs/V8w51zkp9QQ7Mmu72mV/gJplPplr/Sc=;
+ b=BeOEi5gGXeqqP0dDmjdY/mDJKm9g0mPHZC+M9GxAoPMbaL7Yq56NK1aocMUBf7b2rL
+ 1upO9us9O8BOMbRKMGxzyXLQTLgpAiuplXHz7fhnpimpttBs5DJPdCJGj5d5ByWkqKib
+ Vtufpl54zTg7Hr9bkBYlDU7xVwJ7vsKhlBeh5mCeurlKhWEAH8DH5Rx7giO3xmB3Pauf
+ w9olTIj72VTIOvhQBChvTprkHURaqzCMORQUHSk3VHKuefvhCt1nD4ZPfVNmhqHjONPE
+ bqaYkH3eRdVdMObRLuAWAHhstNIFWuMlQp17A62KrzNV611vf6grAnGhvYgKj8MSGbzZ
+ M2OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2OyaYsRmUmiUCUJvfITROQWLR97jO+0C0lYl9AH4WQU=;
- b=imB7yi2JcGOQTj2qgmBez3Qpuk2tqtZmndYndMqbIckhb4GvhoWcmOttHi0W1Zpbd9
- rvGjPj0hIrLHcNZ+Ai3XOJJ0y701NBZXyfQo76507ppvkwK8R3Wwkf6pqpG6tzXbEmyx
- 4aMyzIdTPmwMLiB28Ke0x6cUpYRJ+D93/r4kqwQnM07oN+X1AQQHljTRUjYlMd3HLJvl
- 5MzQI3T92bJXtywGuZEFA+Y5RWZKwgMC8oXEvGVMwdf/4VAi4X1v3qs/roDNd6zI0/hx
- /3n7iOxkb1eMYmQm+OLdRZwXdBNHsMBV+hvg60nmrfFSpBIG7usWdo1cfhtsVddH+LO2
- +iuQ==
-X-Gm-Message-State: AOAM530l/T2dD0qvaOzUX4yNE86BxIRhR1dz/vYyIVVx7CF4N8UF+lX7
- OW7aC6QRj+GEJHI9Uu801MgG4VbjgPc=
-X-Google-Smtp-Source: ABdhPJwtH/nrY4fYZN9bngE/KOq8tn+zlHFgPBjISYbmUybw4qvIbTRjRsnxPXL0IdqN9jk3hvN7iw==
-X-Received: by 2002:a05:6512:3082:: with SMTP id
- z2mr9189578lfd.32.1589742120583; 
- Sun, 17 May 2020 12:02:00 -0700 (PDT)
+ bh=YRf5WUBfqQs/V8w51zkp9QQ7Mmu72mV/gJplPplr/Sc=;
+ b=jq/mPbc8OWekbxpzH7dL06zRbMJehQVd8pZAjzWL89BG731lOcIincIhLnYeVSRIAR
+ F2SQSgwMjvXyAHAXiqo0aKX3iV7zCY0A02rNptROMioDfI8zlidIe0qNEUlt4hXmppJ4
+ QhKvX7E55H/nCPEM8CzR0dTMj7+JTLf6tu8ht55PaI2Tp3ebsfHWZg81q53ddkZhs0BW
+ zORQfXEmZAutDSRV/N414gpkWMzyTKaMhO+dAT5F8Oi67uRU4JBeql3vcBgtF54FgMjU
+ KIdYwFyeoFmx02oLfar7pxwEa17fIrvQhTq1Fi/5TX5BSWlCTfZZQw/2bsAYtuYT5NFd
+ vkeA==
+X-Gm-Message-State: AOAM5325LYQNJsM3cHI23rhy7i9ust+jyV6aw1dE063ZinAbq6xeffjw
+ 9X/Z26UHVkwmr0OKa1IUEOkIq8biRKI=
+X-Google-Smtp-Source: ABdhPJx6pGHL6HHZkTI0jH6tl6NalUG9TNmcHIJNTUkjdiFjEiQZTVGygZjvLWcOL9MU24LoRlwZnQ==
+X-Received: by 2002:a2e:8549:: with SMTP id u9mr7758313ljj.24.1589742123210;
+ Sun, 17 May 2020 12:02:03 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:5d55:b3eb:397b:9086])
- by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.01.58
+ by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.02.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 12:02:00 -0700 (PDT)
+ Sun, 17 May 2020 12:02:02 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Peter Ujfalusi <peter.ujfalusi@ti.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 05/16] backlight: improve backlight_properties documentation
-Date: Sun, 17 May 2020 21:01:28 +0200
-Message-Id: <20200517190139.740249-6-sam@ravnborg.org>
+Subject: [PATCH v2 06/16] backlight: improve backlight_device documentation
+Date: Sun, 17 May 2020 21:01:29 +0200
+Message-Id: <20200517190139.740249-7-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200517190139.740249-1-sam@ravnborg.org>
 References: <20200517190139.740249-1-sam@ravnborg.org>
@@ -89,7 +88,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Improve the documentation for backlight_properties and
+Improve the documentation for backlight_device and
 adapt it to kernel-doc style.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
@@ -97,132 +96,124 @@ Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- include/linux/backlight.h | 101 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 90 insertions(+), 11 deletions(-)
+ include/linux/backlight.h | 81 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 58 insertions(+), 23 deletions(-)
 
 diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 519dc61ce7e4..7f9cef299d6e 100644
+index 7f9cef299d6e..e2d72936bf05 100644
 --- a/include/linux/backlight.h
 +++ b/include/linux/backlight.h
-@@ -118,28 +118,107 @@ struct backlight_ops {
- 	int (*check_fb)(struct backlight_device *bd, struct fb_info *info);
+@@ -14,21 +14,6 @@
+ #include <linux/mutex.h>
+ #include <linux/notifier.h>
+ 
+-/* Notes on locking:
+- *
+- * backlight_device->ops_lock is an internal backlight lock protecting the
+- * ops pointer and no code outside the core should need to touch it.
+- *
+- * Access to update_status() is serialised by the update_lock mutex since
+- * most drivers seem to need this and historically get it wrong.
+- *
+- * Most drivers don't need locking on their get_brightness() method.
+- * If yours does, you need to implement it in the driver. You can use the
+- * update_lock mutex if appropriate.
+- *
+- * Any other use of the locks below is probably wrong.
+- */
+-
+ enum backlight_update_reason {
+ 	BACKLIGHT_UPDATE_HOTKEY,
+ 	BACKLIGHT_UPDATE_SYSFS,
+@@ -221,30 +206,80 @@ struct backlight_properties {
+ 	enum backlight_scale scale;
  };
  
--/* This structure defines all the properties of a backlight */
 +/**
-+ * struct backlight_properties - backlight properties
++ * struct backlight_device - backlight device data
 + *
-+ * This structure defines all the properties of a backlight.
++ * This structure holds all data required by a backlight device.
 + */
- struct backlight_properties {
--	/* Current User requested brightness (0 - max_brightness) */
+ struct backlight_device {
+-	/* Backlight properties */
 +	/**
-+	 * @brightness:
++	 * @props:
 +	 *
-+	 * The current requested brightness by the user.
-+	 * The backlight core makes sure the range is (0 - max_brightness)
-+	 * when the brightness is set via the sysfs attribute:
-+	 * /sys/class/backlight/<backlight>/brightness.
-+	 *
-+	 * This value can be set in the backlight_properties passed
-+	 * to devm_backlight_device_register() to set a default brightness
-+	 * value.
++	 * Backlight properties
 +	 */
- 	int brightness;
--	/* Maximal value for brightness (read-only) */
-+
-+	/**
-+	 * @max_brightness:
-+	 *
-+	 * The maximum brightness value.
-+	 *
-+	 * This value must be set in the backlight_properties passed
-+	 * to devm_backlight_device_register().
-+	 *
-+	 * This property must not be modified by a driver except
-+	 * before registering the backlight device as explained above.
-+	 */
- 	int max_brightness;
--	/* Current FB Power mode (0: full on, 1..3: power saving
--	   modes; 4: full off), see FB_BLANK_XXX */
-+
-+	/**
-+	 * @power:
-+	 *
-+	 * The current power mode. User space configure the power mode using
-+	 * the sysfs attribute: /sys/class/backlight/<backlight>/bl_power
-+	 * When the power property is updated update_status() is called.
-+	 *
-+	 * The possible values are: (0: full on, 1..3: power saving
-+	 * modes; 4: full off), see FB_BLANK_XXX.
-+	 *
-+	 * When the backlight device is enabled @power is set
-+	 * to FB_BLANK_UNBLANK. When the backlight device is disabled
-+	 * @power is set to FB_BLANK_POWERDOWN.
-+	 */
- 	int power;
--	/* FB Blanking active? (values as for power) */
--	/* Due to be removed, please use (state & BL_CORE_FBBLANK) */
-+
-+	/**
-+	 * @fb_blank:
-+	 *
-+	 * When the FBIOBLANK ioctl is called fb_blank is set to the
-+	 * blank parameter and the update_status() operation is called.
-+	 *
-+	 * When the backlight device is enabled @fb_blank is set
-+	 * to FB_BLANK_UNBLANK. When the backlight device is disabled
-+	 * @fb_blank is set to FB_BLANK_POWERDOWN.
-+	 *
-+	 * This property must not be modified by a driver.
-+	 * The backlight driver shall never read this variable,
-+	 * as the necessary info is avaialble via the state.
-+	 *
-+	 * fb_blank is deprecated and will be removed.
-+	 */
- 	int fb_blank;
--	/* Backlight type */
-+
-+	/**
-+	 * @type:
-+	 *
-+	 * The type of backlight supported.
-+	 * The backlight type allows userspace to make appropriate
-+	 * policy desicions based on the backlight type.
-+	 *
-+	 * This value must be set in the backlight_properties
-+	 * passed to devm_backlight_device_register().
-+	 */
- 	enum backlight_type type;
--	/* Flags used to signal drivers of state changes */
-+
-+	/**
-+	 * @state:
-+	 *
-+	 * The state property is used to inform drivers of state changes
-+	 * when the update_status() operation is called.
-+	 * The state is a bitmask. BL_CORE_FBBLANK is set when the display
-+	 * is expected to be blank. BL_CORE_SUSPENDED is set when the
-+	 * driver is suspended.
-+	 *
-+	 * This property must not be modified by a driver.
-+	 */
- 	unsigned int state;
--	/* Type of the brightness scale (linear, non-linear, ...) */
--	enum backlight_scale scale;
+ 	struct backlight_properties props;
  
- #define BL_CORE_SUSPENDED	(1 << 0)	/* backlight is suspended */
- #define BL_CORE_FBBLANK		(1 << 1)	/* backlight is under an fb blank event */
+-	/* Serialise access to update_status method */
++	/**
++	 * @update_lock:
++	 *
++	 * update_lock is an internal backlight lock that serialise access
++	 * to the update_status() method. The iupdate_lock mutex shall not be used
++	 * by backlight drivers.
++	 */
+ 	struct mutex update_lock;
+ 
+-	/* This protects the 'ops' field. If 'ops' is NULL, the driver that
+-	   registered this device has been unloaded, and if class_get_devdata()
+-	   points to something in the body of that driver, it is also invalid. */
++	/**
++	 * @ops_lock:
++	 *
++	 * ops_lock is an internal backlight lock that protects the ops pointer
++	 * and is used around all accesses to ops and when the operations are
++	 * invoked. The mutex shall not be used by backlight drivers.
++	 */
+ 	struct mutex ops_lock;
++
++	/**
++	 * @ops:
++	 *
++	 * Pointer to the backlight operations. If ops is NULL, the driver that
++	 * registered this device has been unloaded, and if class_get_devdata()
++	 * points to something in the body of that driver, it is also invalid.
++	 */
+ 	const struct backlight_ops *ops;
+ 
+-	/* The framebuffer notifier block */
++	/**
++	 * @fb_notif:
++	 *
++	 * The framebuffer notifier block
++	 */
+ 	struct notifier_block fb_notif;
+ 
+-	/* list entry of all registered backlight devices */
++	/**
++	 * @entry:
++	 *
++	 * List entry of all registered backlight devices
++	 */
+ 	struct list_head entry;
  
 +	/**
-+	 * @scale:
++	 * @dev:
 +	 *
-+	 * The type of the brightness scale (linear, non-linear, ...)
++	 * Parent device.
 +	 */
-+	enum backlight_scale scale;
+ 	struct device dev;
+ 
+-	/* Multiple framebuffers may share one backlight device */
++	/**
++	 * @fb_bl_on:
++	 *
++	 * Multiple fbdev's may share one backlight device. The fb_bl_on
++	 * records the state of the individual fbdev.
++	 */
+ 	bool fb_bl_on[FB_MAX];
+ 
++	/**
++	 * @use_count:
++	 *
++	 * The number of uses of fb_bl_on.
++	 */
+ 	int use_count;
  };
  
- struct backlight_device {
 -- 
 2.25.1
 
