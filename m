@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A405B1D6CF5
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 22:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19F41D6CF8
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 22:51:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD8076E12D;
-	Sun, 17 May 2020 20:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A50126E133;
+	Sun, 17 May 2020 20:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA0E6E12D
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 20:50:57 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id 62so4388590vsi.2
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 13:50:57 -0700 (PDT)
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 234AB6E133
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 20:51:54 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id v192so1916576vkd.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 13:51:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+opHELFn+vfx8V02zWeG3vM5gyR2OnHH3uBql5RxzSI=;
- b=MGWvQRvrBwsvLpJHVnfw+r3MKWLQtaT+DT5NHLZnjGdVooeXac2QO5pdHCAbf/DPX8
- gL0FJM2ZtBIPwFnYNCuY13hmGcUQYgnhcwS/bD8Tr8kIhU98uvTmIqDlCjMG2R8bE7O3
- /TJuVrMU78Sg5yF3WewUqNv9PS+vj2iTw1AfkU9t7DcTbqnK/PrNlNdHySASoamRa8qh
- 0OlRSd98opmtKy7ciFX63n+tn33S8kOxL3c8V7oTD7KnQfe8YOkUh0byiVhHrF93ob6T
- pkKJ/zBR5+OW6nrax/OdDv2fqVhK436pj1Ml3sj6gg6z/UXbDpG5IH3PU+82FCAvtrl9
- nAQQ==
+ :cc; bh=HuJ2WLYv0zRF8B+JPGkCpiPdwwFOt5uR5j693RaNj3Y=;
+ b=JipvGWULyStoofw+6xu8c14wXP3TOgoQCoBBKvc2UZLUZeXHa18E/tYOUXXGhW9RHW
+ DK/AbH4jnyPiA3mT/zpWhR8ceUTHvZD1Mw+qZf71v1Awc6HYtH43SHMFDGmTHALdCUZs
+ QZ5EdaM5SZHqsDAKk265QPpwvo46j7SdYEwCnrY7AdOFHv92Ur6QNrAlx3KZmG0EGdeO
+ VQkhxc6MuAp3FUak1aZIIfZbI5TVVZrC2g46ER4djFYLT88Ehg7mZO2nlfQp7L1Lrjdn
+ G9cpx4hnc5G5xtOodSF4Be1Hhfgy/Tz0W02x9RbPPRJ+7LdS2v47Ll6E+wiz2VLDg/89
+ 6K3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+opHELFn+vfx8V02zWeG3vM5gyR2OnHH3uBql5RxzSI=;
- b=AzqJgkMOPoNmDP9Ogn/5AlJ4uIrsEwdCxyo2Lxpo1juD2ljdjmSEA2T+kaz7/cIcRB
- 76d+dWCAYyTpy3ui2qTz4hJ5cvu+aZg+6Ao+ppIb3oyYRJrsBPAM20ErQh//+WcyUOz7
- S6Aqd7W6Ef9mhfzc2pQu+SZpu/ug2RSacdYRlAOTeyCTjPT6WlCjZ0WRnu5oDJ71BZSS
- R2a1seHxTZc+XSjoVJgyVBGj0d7pksKJPcGMyuWhHPwl9pZpFUioSm14mF1NVOeYqNUM
- yMI/faGrHeKWdSBOCWdT+hPzyfWmqpEp/YUGhVedKPcxjryWOlYsVjQmoe/N4xz39WOH
- 0eoA==
-X-Gm-Message-State: AOAM533gcZpSl00GKA0CklrOeiJx87T2otgyvzJxlSDmlwmcUGsUtJML
- 2HO5iEuKSxeBbj36OxKrF8X5OvzaRHTjvuuPRqs=
-X-Google-Smtp-Source: ABdhPJxLljBrW3SPkAM7Dzl/UVINzVBj3BJ+iqyiI4+cpRbNsuLsJwrFLCN3/hSzrEQlkbmAsqXefvxQE50haM1QaOQ=
-X-Received: by 2002:a67:ecc2:: with SMTP id i2mr8459795vsp.85.1589748657109;
- Sun, 17 May 2020 13:50:57 -0700 (PDT)
+ bh=HuJ2WLYv0zRF8B+JPGkCpiPdwwFOt5uR5j693RaNj3Y=;
+ b=UNvYgvpR45aCtw+L053mk80n3nPxrJmNsI/H7AtcJVPOOX3jTJmNYOyqzkjdFt7fTo
+ xzJGzB38M/1/u5NlU5e6Csnkl7bxv+dHw7mi7KnUUIO9ygL0/FrZck/moOv6OMC85IEE
+ A7mMCOSebP/+IxFcH9wzbtzdjU6Ujt5fBbfxoufSg4Epd8U854n2Hr2C4sCrhZOwlpwI
+ VqVVEHxfNaPQQDQ0YQpRpplD6d3pgSyen87cCrw2qGQpiLyxFjQ7CPn9D09YyBC8wuHk
+ xCsV7Vss02yFvHhwM6WHwEwPQb3CApafkYARAu+cG9CW9CMBKnmoUd0GbHWIkbn6+XL6
+ b6Yg==
+X-Gm-Message-State: AOAM531IvYfhiIu+UMduSBnVr9NQJ9fxRVyZxv2WzKtBG4F9I/2/N7vT
+ jGs48v7BNvLMW4R1aZeqf6JH9FNgvYvixi5aaqI=
+X-Google-Smtp-Source: ABdhPJyroSesHyhfefpRkqqmdlF3nopOpEIHN5Rcry0Zx6awK9qbE7fm6K9HDpVvKmYR2ffCB5bU9JvxCqr774k0cyQ=
+X-Received: by 2002:a1f:908b:: with SMTP id s133mr9150573vkd.38.1589748713323; 
+ Sun, 17 May 2020 13:51:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200320132334.GC95012@mwanda>
- <CACvgo51xwgF2hJPOESWGpJ16WittQSVixdd+62KwFsZaHO-Dpg@mail.gmail.com>
- <20200323121333.GF26299@kadam>
-In-Reply-To: <20200323121333.GF26299@kadam>
+References: <87shgq8qh9.fsf@nikula.org>
+ <20170817104307.17124-1-m.tretter@pengutronix.de>
+ <87mv6y8lup.fsf@nikula.org>
+In-Reply-To: <87mv6y8lup.fsf@nikula.org>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sun, 17 May 2020 21:48:08 +0100
-Message-ID: <CACvgo53Xbc7prbQrcSXwQtTffFo2gYO7O=yK=zaWA6dj-_bEzQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/gem: Fix a leak in drm_gem_objects_lookup()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Sun, 17 May 2020 21:49:04 +0100
+Message-ID: <CACvgo52u6pVjA5SjSf6E6aXWuvhb5t=VDcndd+P7Oyup676Obw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/debugfs: fix plain echo to connector "force"
+ attribute
+To: Jani Nikula <jani.nikula@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +63,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sascha Hauer <kernel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 23 Mar 2020 at 12:13, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Thu, 17 Aug 2017 at 12:34, Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> On Mon, Mar 23, 2020 at 11:13:22AM +0000, Emil Velikov wrote:
-> > Hi Dan,
+> On Thu, 17 Aug 2017, Michael Tretter <m.tretter@pengutronix.de> wrote:
+> > Using plain echo to set the "force" connector attribute fails with
+> > -EINVAL, because echo appends a newline to the output.
 > >
-> > On Fri, 20 Mar 2020 at 13:23, Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > >
-> > > If the "handles" allocation or the copy_from_user() fails then we leak
-> > > "objs".  It's supposed to be freed in panfrost_job_cleanup().
-> > >
-> > > Fixes: c117aa4d8701 ("drm: Add a drm_gem_objects_lookup helper")
-> > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_gem.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> > > index a9e4a610445a..f28724f2eb69 100644
-> > > --- a/drivers/gpu/drm/drm_gem.c
-> > > +++ b/drivers/gpu/drm/drm_gem.c
-> > > @@ -710,6 +710,8 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> > >         if (!objs)
-> > >                 return -ENOMEM;
-> > >
-> > > +       *objs_out = objs;
-> > > +
-> > >         handles = kvmalloc_array(count, sizeof(u32), GFP_KERNEL);
-> > >         if (!handles) {
-> > >                 ret = -ENOMEM;
-> > > @@ -723,8 +725,6 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> > >         }
-> > >
-> > >         ret = objects_lookup(filp, handles, count, objs);
-> > > -       *objs_out = objs;
-> > > -
-> > >  out:
-> > >         kvfree(handles);
-> > >         return ret;
+> > Replace strcmp with sysfs_streq to also accept strings that end with a
+> > newline.
 > >
-> > It seems that this will return error to the caller, mangle the output
-> > pointer and effectively still leak the objs.
+> > v2: use sysfs_streq instead of stripping trailing whitespace
+> >
+> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 >
-> The patch works.
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 >
-> This is "one function frees everything" style error handling.  It gets
-> passed back to panfrost_ioctl_submit() which calls panfrost_job_put()
-> which calls panfrost_job_cleanup() which frees it.
->
-> It's a horrible way to do error handling but this was the only actual
-> bug I could see with the approach.
->
-> > Better option IMHO is to:
-> > - move the __user/copy_from_user into the caller
-> > Removes a silly kvmalloc_array(1,...) in ~90+ users and drops the "out" label.
-> > Extra bonus, this is the only instance in drm_gem with __user -
-> > consistency is nice.
-> > - add "err" or similar label, where the objs is freed before returning an error.
->
-> Those sound like good ideas.  Also we could use kvcalloc() instead of
-> kvmalloc_array() with __GFP_ZERO.  But it's too much for me to do...
-> I'm mostly focused on static analysis warnings.
->
-Your patch addresses the issue with the smallest diffstat, so I've
-pushed it to drm-misc-next.
+Seems like this fell through the cracks. Pushed to drm-misc-next.
 
 Thanks
 Emil
