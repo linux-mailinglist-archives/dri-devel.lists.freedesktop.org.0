@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C2F1D6D6D
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 23:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487481D6DC3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 00:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C97C6E0AC;
-	Sun, 17 May 2020 21:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B1F89D67;
+	Sun, 17 May 2020 22:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
- [IPv6:2607:f8b0:4864:20::e41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE036E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 21:11:33 +0000 (UTC)
-Received: by mail-vs1-xe41.google.com with SMTP id e7so2371565vsm.6
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 14:11:33 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD20389D67
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 22:08:14 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id k12so7410997wmj.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 15:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pS6rsKOx2NlgRMIkpuNZy1aWSRLDNax4OfYSZRKfBK4=;
- b=sRI2awQU1CCgH2QZGeVWlqfdWUktkqScKv3xetm+Xi3bETiLKZl/gRqnqgrANiHZ8o
- kYQeEV6tyEKSwqoBudxg21WBawsQO5Mjpe7Bv++v0FPDa/gg7dvIE8pR/Be9NqI/s/38
- o5PPzB7gGJpZZuwI03d4T8lNI0CwuTrwwrRbUx/UaTVTjeotO0VjVMjIn8P4TPhKhpN/
- unE4RY0viEJFRgLCT7DLwW+vUiKFvqVO4L6791+wgFCO2qh3z4kTr/TTWGw8tU1tfqEl
- 3BxCZntyMjc+gdh5ieYUTgVMeSuIFXFhBetYhCwx2J1OtSIS3NB+Os+BnV6MMoJuNsf9
- LeNw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L84eJGx9nrBqB4ScS+pZZVQbMN8D1zpwWqD1mcXWMRo=;
+ b=lsbMd8LBESCC1CS6XdcoNp4FHO5Q5lU3uDTrLk0cjtrsZtBbeCdHxhlcUN1grz70JG
+ EEA74kNc+KkGSvydt2S9Iywv6XhQ7uzLOwXewMgMe50Hvrgum/zMbn/H/tBY+xxR1e4O
+ sMagNsYN8Kkx+cN/dwQQv2BdG81I/FZMtGH1XpYLYYUbu9kJ2TV+6TyoLuL/Z+VV3//I
+ 9pgHTvwwtDP91oZmNttEepYzgxlj1z2sQO/jwj9BOxC31xfZ37xhcw/EGiVtkMCXNf12
+ pMUxQxvtyuPqBQm6QRYzD0+Fempd8rbJJFMyZFDceUEDUWs1g0fwhJlxeP/ogxTW4Mfd
+ ldXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pS6rsKOx2NlgRMIkpuNZy1aWSRLDNax4OfYSZRKfBK4=;
- b=OHssNMeLXYdwacOd0F1qDaoLcdE7ZjcRa42w6R+l+ZPVk7m6BDpBSOXPGVK5YF6pmJ
- fJegI6V1U0lFU/1rk00RC8P0T1jlxbfw0qM02PvmtfCAdIq/riEk7QaWoFRw87CfL21k
- t5QqwMHsAuNk5uuvCCTgalsS2fm56XQe4Lq2InKXO6ogeGquSMgpc5e1W/Ct2UNLVhed
- fndI9bdFV+nEvtJi3eCrU6CsYXMjS5pv8TjotzOC6WFoKKalaVGhGKpykI2G2UJPRN1C
- XxhaKNj1X7p4g0xeNmJksVxLi+i+iHU32t1O4kRREk1MoyafcKbzSaDtlSiQZd5pMP+T
- TIGg==
-X-Gm-Message-State: AOAM530CLKX/7tq+O2Pk05LIzjD5lPL4xdLuoUQEH24/jLmGPj4CG2Pf
- 28vdeKuv9BxQfT7xKNQzoRgDMmrX1MupSOElB8k=
-X-Google-Smtp-Source: ABdhPJxsotUSshgEqdsswCJgkh3hTeWWx0kLTasnyOGe6CvxTYAxGOIceX0CTXUHGLxmhfSj2EfI8mB4Yp99bcNUO+w=
-X-Received: by 2002:a67:ecc2:: with SMTP id i2mr8496841vsp.85.1589749892414;
- Sun, 17 May 2020 14:11:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20200513215627eucas1p1c919a6175b210c13fe7b920c455ebb62@eucas1p1.samsung.com>
- <20200513215342.2145495-1-emil.l.velikov@gmail.com>
- <178a203a-fc3e-0027-60c9-786c3e907407@samsung.com>
-In-Reply-To: <178a203a-fc3e-0027-60c9-786c3e907407@samsung.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L84eJGx9nrBqB4ScS+pZZVQbMN8D1zpwWqD1mcXWMRo=;
+ b=c9mHYNo7CRtZtSSesmX6qenFmYV4hZ/p3OOXGd1e4nLrihMia3/f182Z+MOVkPrtDJ
+ 5PD1kjfuQRh7dAraGOZrvyeuXaAbQt5petAWj4IJnNzw4jihbTk4obxtcQsnOz7pY48P
+ Koe3W8NRzAQzeZpVUq3hcIXWsGnHLGmsxiGBnRos0G1WQqtKKBBjg35cPC5Wf0WnZs6D
+ IhqeuKQ+94qHh5nZ4RzZvphKmiKGTlKzQV2UZOfZPNKoQPi9lmrIUIOPrPMIWRM4ec1X
+ s9dcDR1PYPJsvKJMrPu1EJRSxvhaGRl1U7uNo0d0W9u4F7Z4BJg6/F2GOkJl4rkj4SAI
+ XJOw==
+X-Gm-Message-State: AOAM530o7E6CWx55zpbJJ98JeCh/xxBN08J+jWv2hGy+bjNjOrdLObCJ
+ LiVgmb7zoZV5qsb6LeR18oUMYSUc
+X-Google-Smtp-Source: ABdhPJxFmsVmzuCAAXDb7Ie+EhKSRU9KNaJEROz6onOoR7FWnj3tr2kR/+uAq5xSOpNHJJEVlyyrPw==
+X-Received: by 2002:a1c:2943:: with SMTP id p64mr172717wmp.42.1589753293111;
+ Sun, 17 May 2020 15:08:13 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
+ by smtp.gmail.com with ESMTPSA id d9sm13805482wmd.10.2020.05.17.15.08.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 May 2020 15:08:12 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sun, 17 May 2020 22:08:43 +0100
-Message-ID: <CACvgo53YRogMB_Xh+=+gNLQ28beNJdhyECR0550hVqqtD0J8Bg@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: annotate rivafb/nvidiafb as obsolete
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] fbdev: annotate rivafb/nvidiafb as obsolete
+Date: Sun, 17 May 2020 23:05:23 +0100
+Message-Id: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +65,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev <linux-fbdev@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, emil.l.velikov@gmail.com,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 May 2020 at 14:28, Bartlomiej Zolnierkiewicz
-<b.zolnierkie@samsung.com> wrote:
+Drivers have not seen any love for years.
 
-> > diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> > index 1b2f5f31fb6f..cad3e4bc5e52 100644
-> > --- a/drivers/video/fbdev/Kconfig
-> > +++ b/drivers/video/fbdev/Kconfig
-> > @@ -868,6 +868,7 @@ config FB_ATMEL
-> >
-> >  config FB_NVIDIA
-> >       tristate "nVidia Framebuffer Support"
-> > +     depends on BROKEN
->
-> Please don't add new users of BROKEN config option.
->
-> Either it is broken and should be removed right now (BROKEN config option
-> predates git and with git nothing is ever lost), or it still works and
-> should be left alone.
->
-Seems like not everyone got that memo. BROKEN is still in use, with
-dozen or so cases for last year.
-See for example:
+Be that fixes or improvements, or cosmetics like introducing symbolic
+names, style and code-flow polish.
 
-commit 9d60d93198c62ac3b3e59e8bba7079646c972a4c
-Author: J. Bruce Fields <bfields@redhat.com>
-Date:   Mon Aug 26 10:28:58 2019 -0400
+Seemingly the maintainer has also disappeared years ago :-\
 
-    Deprecate nfsd fault injection
+Considering nouveau supports all that hardware (modulo nv03) just mark
+these as obsolete/broken, referring to nouveau in the help text.
 
+v2 (Bartlomiej):
+ - split config changes into separate patch
+ - spell out nouveau DRM driver
+ - don't use BROKEN
+ - add runtime warning
 
-That said, your suggestions are pretty good. v2 coming in a moment.
+Cc: Antonino Daplas <adaplas@gmail.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
+---
+ MAINTAINERS                         | 3 +--
+ drivers/video/fbdev/Kconfig         | 4 ++++
+ drivers/video/fbdev/nvidia/nvidia.c | 3 +++
+ drivers/video/fbdev/riva/fbdev.c    | 3 +++
+ 4 files changed, 11 insertions(+), 2 deletions(-)
 
--Emil
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 938316092634..c9498dd15e4a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12055,9 +12055,8 @@ F:	include/linux/nubus.h
+ F:	include/uapi/linux/nubus.h
+ 
+ NVIDIA (rivafb and nvidiafb) FRAMEBUFFER DRIVER
+-M:	Antonino Daplas <adaplas@gmail.com>
+ L:	linux-fbdev@vger.kernel.org
+-S:	Maintained
++S:	Obsolete
+ F:	drivers/video/fbdev/nvidia/
+ F:	drivers/video/fbdev/riva/
+ 
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index fa88e8b9a83d..ccddd06ab430 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -881,6 +881,8 @@ config FB_NVIDIA
+ 	select BITREVERSE
+ 	select VGASTATE
+ 	help
++	  Obsolete, use the nouveau DRM driver instead.
++
+ 	  This driver supports graphics boards with the nVidia chips, TNT
+ 	  and newer. For very old chipsets, such as the RIVA128, then use
+ 	  the rivafb.
+@@ -928,6 +930,8 @@ config FB_RIVA
+ 	select BITREVERSE
+ 	select VGASTATE
+ 	help
++	  Obsolete, use the nouveau DRM driver instead.
++
+ 	  This driver supports graphics boards with the nVidia Riva/Geforce
+ 	  chips.
+ 	  Say Y if you have such a graphics board.
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index c24de9107958..a958612ef75b 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -1512,6 +1512,9 @@ static struct pci_driver nvidiafb_driver = {
+ 
+ static int nvidiafb_init(void)
+ {
++	pr_warn("Legacy nvidiafb framebuffer driver will be removed in 2022\n"
++		"Please switch to nouveau DRM driver\n");
++
+ #ifndef MODULE
+ 	char *option = NULL;
+ 
+diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
+index 764ec3285e62..c2788e22f5c1 100644
+--- a/drivers/video/fbdev/riva/fbdev.c
++++ b/drivers/video/fbdev/riva/fbdev.c
+@@ -2160,6 +2160,9 @@ static struct pci_driver rivafb_driver = {
+ 
+ static int rivafb_init(void)
+ {
++	pr_warn("Legacy rivafb framebuffer driver will be removed in 2022\n"
++		"Please switch to nouveau DRM driver\n");
++
+ #ifndef MODULE
+ 	char *option = NULL;
+ 
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
