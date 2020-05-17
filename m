@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487481D6DC3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 00:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846F01D6DC4
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 00:08:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8B1F89D67;
-	Sun, 17 May 2020 22:08:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6318789DA9;
+	Sun, 17 May 2020 22:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD20389D67
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 22:08:14 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id k12so7410997wmj.3
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 15:08:14 -0700 (PDT)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55E089D67
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 22:08:15 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id l11so9678393wru.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 15:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L84eJGx9nrBqB4ScS+pZZVQbMN8D1zpwWqD1mcXWMRo=;
- b=lsbMd8LBESCC1CS6XdcoNp4FHO5Q5lU3uDTrLk0cjtrsZtBbeCdHxhlcUN1grz70JG
- EEA74kNc+KkGSvydt2S9Iywv6XhQ7uzLOwXewMgMe50Hvrgum/zMbn/H/tBY+xxR1e4O
- sMagNsYN8Kkx+cN/dwQQv2BdG81I/FZMtGH1XpYLYYUbu9kJ2TV+6TyoLuL/Z+VV3//I
- 9pgHTvwwtDP91oZmNttEepYzgxlj1z2sQO/jwj9BOxC31xfZ37xhcw/EGiVtkMCXNf12
- pMUxQxvtyuPqBQm6QRYzD0+Fempd8rbJJFMyZFDceUEDUWs1g0fwhJlxeP/ogxTW4Mfd
- ldXQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vlQG2udc7GDr5JGXbF/q4vF+mhIn8QekfFy1X7bhtvY=;
+ b=DHyJsjBBHryBZH7glNoiQGUO7uk4uXwkkHGzn8Cp6rxZHsbFV6vGvDfTQ53aaDGZ1K
+ BkIGkLCUuk4pweI4DpTcgK2Nekp2Jq9HOswvUsft68N7L0r5jtEmBlOGMEj9eYFiXcwE
+ XeFzHic8KOMsH+dxliASyngPvtqSJNN+JTNeqjBC+SYBVlZ+qNNuWtBCqyObScliTop8
+ 1UtCt2TsKtCsj/WFVaAGVhvIkuZw1UGmMl8FMm2n/niXQZG1nALiJacRLQ5caPoGIlrD
+ lKA6LUxr9oHYV73oshAeez7/epvHrZ4pRTHY0mg0nkQvwAdo2IbzrHMGitB10DmOzbti
+ mAig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L84eJGx9nrBqB4ScS+pZZVQbMN8D1zpwWqD1mcXWMRo=;
- b=c9mHYNo7CRtZtSSesmX6qenFmYV4hZ/p3OOXGd1e4nLrihMia3/f182Z+MOVkPrtDJ
- 5PD1kjfuQRh7dAraGOZrvyeuXaAbQt5petAWj4IJnNzw4jihbTk4obxtcQsnOz7pY48P
- Koe3W8NRzAQzeZpVUq3hcIXWsGnHLGmsxiGBnRos0G1WQqtKKBBjg35cPC5Wf0WnZs6D
- IhqeuKQ+94qHh5nZ4RzZvphKmiKGTlKzQV2UZOfZPNKoQPi9lmrIUIOPrPMIWRM4ec1X
- s9dcDR1PYPJsvKJMrPu1EJRSxvhaGRl1U7uNo0d0W9u4F7Z4BJg6/F2GOkJl4rkj4SAI
- XJOw==
-X-Gm-Message-State: AOAM530o7E6CWx55zpbJJ98JeCh/xxBN08J+jWv2hGy+bjNjOrdLObCJ
- LiVgmb7zoZV5qsb6LeR18oUMYSUc
-X-Google-Smtp-Source: ABdhPJxFmsVmzuCAAXDb7Ie+EhKSRU9KNaJEROz6onOoR7FWnj3tr2kR/+uAq5xSOpNHJJEVlyyrPw==
-X-Received: by 2002:a1c:2943:: with SMTP id p64mr172717wmp.42.1589753293111;
- Sun, 17 May 2020 15:08:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vlQG2udc7GDr5JGXbF/q4vF+mhIn8QekfFy1X7bhtvY=;
+ b=QyYn4nAeBb2rXLlFGwo1Auku7gjBLT72GlFSZjUS4M4ZkUluEQ4wrMd6EobaxVJhL0
+ zb2ovNalfkiPQ3Fo+fKNrz7GUFwRIH1KaU3IMhaL0Q8Uns5VMqYtOmQDYlBaYDxSgMLo
+ sZoMfm1ud2djHbpJJ7E54CK6JX27MM9JWp6oNtZfZ1Ri/j0ULcn+SQIxRAfh9OMzVGiP
+ BJtFgEnEWgVBfYlRlLQytq474+SI03w3Vj6BdgnieWSYKZMMqr7SFxGlVo8gEgE3GeXb
+ NgZS1IOVPuIq5R+gnSj672eB0CEE5cilBKxbFSn3xmyJqldKc6nAAVp5MZT16znQakIG
+ 8DNg==
+X-Gm-Message-State: AOAM532xgZirPsrtwu5N+KVfBmGxEyoEsskzyH8mgtJpz+ryk3NOzDm6
+ xiNDsr48lsWriUf2rjem+P6GHW2+
+X-Google-Smtp-Source: ABdhPJztZqF86REgFZUlLolQDOtb+TvD9sDFoqDx5vwO0wz5kqneUY3+1a0p10+sjgxN4zO6IVtQkg==
+X-Received: by 2002:adf:e5c8:: with SMTP id a8mr15611191wrn.335.1589753294182; 
+ Sun, 17 May 2020 15:08:14 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id d9sm13805482wmd.10.2020.05.17.15.08.11
+ by smtp.gmail.com with ESMTPSA id d9sm13805482wmd.10.2020.05.17.15.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 15:08:12 -0700 (PDT)
+ Sun, 17 May 2020 15:08:13 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] fbdev: annotate rivafb/nvidiafb as obsolete
-Date: Sun, 17 May 2020 23:05:23 +0100
-Message-Id: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
+Subject: [PATCH v2 2/2] powerpc/configs: replace deprecated riva/nvidia with
+ nouveau
+Date: Sun, 17 May 2020 23:05:24 +0100
+Message-Id: <20200517220524.4036334-2-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
+References: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,107 +68,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, emil.l.velikov@gmail.com,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, emil.l.velikov@gmail.com,
+ Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers have not seen any love for years.
+As mentioned in earlier commit, the riva and nvidia fbdev drivers have
+seen no love over the years, are short on features and overall below par
 
-Be that fixes or improvements, or cosmetics like introducing symbolic
-names, style and code-flow polish.
+Users are encouraged to switch to the nouveau drm driver instead.
 
-Seemingly the maintainer has also disappeared years ago :-\
-
-Considering nouveau supports all that hardware (modulo nv03) just mark
-these as obsolete/broken, referring to nouveau in the help text.
-
-v2 (Bartlomiej):
- - split config changes into separate patch
- - spell out nouveau DRM driver
- - don't use BROKEN
- - add runtime warning
+v2: Split configs to separate patch, enable nouveau (Bartlomiej)
 
 Cc: Antonino Daplas <adaplas@gmail.com>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
 ---
- MAINTAINERS                         | 3 +--
- drivers/video/fbdev/Kconfig         | 4 ++++
- drivers/video/fbdev/nvidia/nvidia.c | 3 +++
- drivers/video/fbdev/riva/fbdev.c    | 3 +++
- 4 files changed, 11 insertions(+), 2 deletions(-)
+Hi all unless, there are objections I would prefer to merge this via
+the drm tree.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 938316092634..c9498dd15e4a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12055,9 +12055,8 @@ F:	include/linux/nubus.h
- F:	include/uapi/linux/nubus.h
- 
- NVIDIA (rivafb and nvidiafb) FRAMEBUFFER DRIVER
--M:	Antonino Daplas <adaplas@gmail.com>
- L:	linux-fbdev@vger.kernel.org
--S:	Maintained
-+S:	Obsolete
- F:	drivers/video/fbdev/nvidia/
- F:	drivers/video/fbdev/riva/
- 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index fa88e8b9a83d..ccddd06ab430 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -881,6 +881,8 @@ config FB_NVIDIA
- 	select BITREVERSE
- 	select VGASTATE
- 	help
-+	  Obsolete, use the nouveau DRM driver instead.
-+
- 	  This driver supports graphics boards with the nVidia chips, TNT
- 	  and newer. For very old chipsets, such as the RIVA128, then use
- 	  the rivafb.
-@@ -928,6 +930,8 @@ config FB_RIVA
- 	select BITREVERSE
- 	select VGASTATE
- 	help
-+	  Obsolete, use the nouveau DRM driver instead.
-+
- 	  This driver supports graphics boards with the nVidia Riva/Geforce
- 	  chips.
- 	  Say Y if you have such a graphics board.
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index c24de9107958..a958612ef75b 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -1512,6 +1512,9 @@ static struct pci_driver nvidiafb_driver = {
- 
- static int nvidiafb_init(void)
- {
-+	pr_warn("Legacy nvidiafb framebuffer driver will be removed in 2022\n"
-+		"Please switch to nouveau DRM driver\n");
-+
- #ifndef MODULE
- 	char *option = NULL;
- 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 764ec3285e62..c2788e22f5c1 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -2160,6 +2160,9 @@ static struct pci_driver rivafb_driver = {
- 
- static int rivafb_init(void)
- {
-+	pr_warn("Legacy rivafb framebuffer driver will be removed in 2022\n"
-+		"Please switch to nouveau DRM driver\n");
-+
- #ifndef MODULE
- 	char *option = NULL;
- 
+Thanks
+Emil
+---
+ arch/powerpc/configs/g5_defconfig     | 10 ++++++++--
+ arch/powerpc/configs/pasemi_defconfig |  9 +++++++--
+ arch/powerpc/configs/pmac32_defconfig |  9 +++++++--
+ arch/powerpc/configs/ppc6xx_defconfig | 10 +++++++---
+ 4 files changed, 29 insertions(+), 9 deletions(-)
+
+diff --git a/arch/powerpc/configs/g5_defconfig b/arch/powerpc/configs/g5_defconfig
+index a68c7f3af10e..213472f373b3 100644
+--- a/arch/powerpc/configs/g5_defconfig
++++ b/arch/powerpc/configs/g5_defconfig
+@@ -124,12 +124,18 @@ CONFIG_RAW_DRIVER=y
+ CONFIG_I2C_CHARDEV=y
+ CONFIG_AGP=m
+ CONFIG_AGP_UNINORTH=m
++CONFIG_DRM=y
++CONFIG_DRM_NOUVEAU=m
++# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
++CONFIG_NOUVEAU_DEBUG=5
++CONFIG_NOUVEAU_DEBUG_DEFAULT=3
++# CONFIG_NOUVEAU_DEBUG_MMU is not set
++CONFIG_DRM_NOUVEAU_BACKLIGHT=y
++# CONFIG_DRM_NOUVEAU_SVM is not set
+ CONFIG_FB=y
+ CONFIG_FIRMWARE_EDID=y
+ CONFIG_FB_TILEBLITTING=y
+ CONFIG_FB_OF=y
+-CONFIG_FB_NVIDIA=y
+-CONFIG_FB_NVIDIA_I2C=y
+ CONFIG_FB_RADEON=y
+ # CONFIG_VGA_CONSOLE is not set
+ CONFIG_FRAMEBUFFER_CONSOLE=y
+diff --git a/arch/powerpc/configs/pasemi_defconfig b/arch/powerpc/configs/pasemi_defconfig
+index 08b7f4cef243..ccb3ab5e01da 100644
+--- a/arch/powerpc/configs/pasemi_defconfig
++++ b/arch/powerpc/configs/pasemi_defconfig
+@@ -102,11 +102,16 @@ CONFIG_SENSORS_LM85=y
+ CONFIG_SENSORS_LM90=y
+ CONFIG_DRM=y
+ CONFIG_DRM_RADEON=y
++CONFIG_DRM_NOUVEAU=m
++# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
++CONFIG_NOUVEAU_DEBUG=5
++CONFIG_NOUVEAU_DEBUG_DEFAULT=3
++# CONFIG_NOUVEAU_DEBUG_MMU is not set
++CONFIG_DRM_NOUVEAU_BACKLIGHT=y
++# CONFIG_DRM_NOUVEAU_SVM is not set
+ CONFIG_FIRMWARE_EDID=y
+ CONFIG_FB_TILEBLITTING=y
+ CONFIG_FB_VGA16=y
+-CONFIG_FB_NVIDIA=y
+-CONFIG_FB_NVIDIA_I2C=y
+ CONFIG_FB_RADEON=y
+ # CONFIG_LCD_CLASS_DEVICE is not set
+ CONFIG_VGACON_SOFT_SCROLLBACK=y
+diff --git a/arch/powerpc/configs/pmac32_defconfig b/arch/powerpc/configs/pmac32_defconfig
+index 05e325ca3fbd..f858627385c8 100644
+--- a/arch/powerpc/configs/pmac32_defconfig
++++ b/arch/powerpc/configs/pmac32_defconfig
+@@ -199,6 +199,13 @@ CONFIG_DRM=m
+ CONFIG_DRM_RADEON=m
+ CONFIG_DRM_LEGACY=y
+ CONFIG_DRM_R128=m
++CONFIG_DRM_NOUVEAU=m
++# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
++CONFIG_NOUVEAU_DEBUG=5
++CONFIG_NOUVEAU_DEBUG_DEFAULT=3
++# CONFIG_NOUVEAU_DEBUG_MMU is not set
++CONFIG_DRM_NOUVEAU_BACKLIGHT=y
++# CONFIG_DRM_NOUVEAU_SVM is not set
+ CONFIG_FB=y
+ CONFIG_FB_OF=y
+ CONFIG_FB_CONTROL=y
+@@ -206,8 +213,6 @@ CONFIG_FB_PLATINUM=y
+ CONFIG_FB_VALKYRIE=y
+ CONFIG_FB_CT65550=y
+ CONFIG_FB_IMSTT=y
+-CONFIG_FB_NVIDIA=y
+-CONFIG_FB_NVIDIA_I2C=y
+ CONFIG_FB_MATROX=y
+ CONFIG_FB_MATROX_MILLENIUM=y
+ CONFIG_FB_MATROX_MYSTIQUE=y
+diff --git a/arch/powerpc/configs/ppc6xx_defconfig b/arch/powerpc/configs/ppc6xx_defconfig
+index feb5d47d8d1e..48421f5007ed 100644
+--- a/arch/powerpc/configs/ppc6xx_defconfig
++++ b/arch/powerpc/configs/ppc6xx_defconfig
+@@ -738,15 +738,19 @@ CONFIG_DRM_MGA=m
+ CONFIG_DRM_SIS=m
+ CONFIG_DRM_VIA=m
+ CONFIG_DRM_SAVAGE=m
++CONFIG_DRM_NOUVEAU=m
++# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
++CONFIG_NOUVEAU_DEBUG=5
++CONFIG_NOUVEAU_DEBUG_DEFAULT=3
++# CONFIG_NOUVEAU_DEBUG_MMU is not set
++CONFIG_DRM_NOUVEAU_BACKLIGHT=y
++# CONFIG_DRM_NOUVEAU_SVM is not set
+ CONFIG_FB=y
+ CONFIG_FB_CIRRUS=m
+ CONFIG_FB_OF=y
+ CONFIG_FB_PLATINUM=y
+ CONFIG_FB_VALKYRIE=y
+ CONFIG_FB_CT65550=y
+-CONFIG_FB_NVIDIA=y
+-CONFIG_FB_NVIDIA_I2C=y
+-CONFIG_FB_RIVA=m
+ CONFIG_FB_MATROX=y
+ CONFIG_FB_MATROX_MILLENIUM=y
+ CONFIG_FB_MATROX_MYSTIQUE=y
 -- 
 2.25.1
 
