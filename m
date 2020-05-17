@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030D51D6D49
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 23:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C2F1D6D6D
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 23:11:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15E16E03A;
-	Sun, 17 May 2020 21:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C97C6E0AC;
+	Sun, 17 May 2020 21:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCC876E03A
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 21:02:09 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id z12so662609uap.6
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 14:02:09 -0700 (PDT)
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE036E0AC
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 21:11:33 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id e7so2371565vsm.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 14:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yPSBAPpeLeIGmtNXSUpA1NEKiPjKNISM7fkWGp9Fn7A=;
- b=FMDlgSFS3jqpLsKMsNfMWU0w14EHVjkH1QPQxb/82GCrJ++zQ6VND2qErMU53hS/XA
- QaH6Pdc1kujl/YnV+MCEktVvtMUT+DaPKe9E9+J1/0Zmuub/3NaZT5d1aNiGAjJefXKc
- u0j+UeYLEdjIiwMLcbHyD4pjEe2HOy5qp5VlHgf7NvQ1lHJ+r3AOSliUZkY9t3WkrG2R
- tDFBQaeyKU+ICotlCxkus7NeVp3ZGbcQY2uunxhQgSQ/lMwfQ5+cjMv0bo96xu3XGeR6
- YWLKtP/6UN200ZUY2n+spjzVPLmSncBWdVMkKtAN27x2Z7JYd1dsHy0vFAZbDQkIFJrI
- c7Dg==
+ :cc; bh=pS6rsKOx2NlgRMIkpuNZy1aWSRLDNax4OfYSZRKfBK4=;
+ b=sRI2awQU1CCgH2QZGeVWlqfdWUktkqScKv3xetm+Xi3bETiLKZl/gRqnqgrANiHZ8o
+ kYQeEV6tyEKSwqoBudxg21WBawsQO5Mjpe7Bv++v0FPDa/gg7dvIE8pR/Be9NqI/s/38
+ o5PPzB7gGJpZZuwI03d4T8lNI0CwuTrwwrRbUx/UaTVTjeotO0VjVMjIn8P4TPhKhpN/
+ unE4RY0viEJFRgLCT7DLwW+vUiKFvqVO4L6791+wgFCO2qh3z4kTr/TTWGw8tU1tfqEl
+ 3BxCZntyMjc+gdh5ieYUTgVMeSuIFXFhBetYhCwx2J1OtSIS3NB+Os+BnV6MMoJuNsf9
+ LeNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yPSBAPpeLeIGmtNXSUpA1NEKiPjKNISM7fkWGp9Fn7A=;
- b=lKHv3V0/S3Xicf4irYTn8S8gINwX4OpqOUPvnRkv+nDzoGEdevSOIs24XjWJwNBy0z
- vqpw9UXOA934qf/AvJCV6WMe1oHm1RCPn+1TtE47e9q0Q3kHqtdp+LSeD2PsF3bmQDMg
- WhXpWJYOSgmkS3wCsPUEO03yPDEQQX3aAEwRpVJNM49pEtiayG2JXuEMpL4u5H+PmqXp
- 4VIbJbGui48IjFh24CecEh1BaruDNLMfnES5SQOfDv6Cdt5n/OdAizScVkePXzV6TZPB
- n6EH4Vl69AbiojGgw6zOuJtpGwhsZl5YiT1PEzqCdVM5KGnoIRnfZgvXg1cF97xSGIG/
- AxIA==
-X-Gm-Message-State: AOAM532Z/UDdxGBubstALfnKDSpy0yFqy7bqfYUr6RVAWPv/BszM/l+8
- SjBM/tV3+PUeD+FHJJ2+vhHiFXubhmkoG+0DjGk=
-X-Google-Smtp-Source: ABdhPJz9O5eViAWyo9bXTrOydMcV99wZMRPir+WQmO9zW/MydwB1SOr4TnLGwUt64YD+fk/L9WZUlhW58c4w5hCvNDM=
-X-Received: by 2002:ab0:4e0d:: with SMTP id g13mr1595057uah.64.1589749328921; 
- Sun, 17 May 2020 14:02:08 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=pS6rsKOx2NlgRMIkpuNZy1aWSRLDNax4OfYSZRKfBK4=;
+ b=OHssNMeLXYdwacOd0F1qDaoLcdE7ZjcRa42w6R+l+ZPVk7m6BDpBSOXPGVK5YF6pmJ
+ fJegI6V1U0lFU/1rk00RC8P0T1jlxbfw0qM02PvmtfCAdIq/riEk7QaWoFRw87CfL21k
+ t5QqwMHsAuNk5uuvCCTgalsS2fm56XQe4Lq2InKXO6ogeGquSMgpc5e1W/Ct2UNLVhed
+ fndI9bdFV+nEvtJi3eCrU6CsYXMjS5pv8TjotzOC6WFoKKalaVGhGKpykI2G2UJPRN1C
+ XxhaKNj1X7p4g0xeNmJksVxLi+i+iHU32t1O4kRREk1MoyafcKbzSaDtlSiQZd5pMP+T
+ TIGg==
+X-Gm-Message-State: AOAM530CLKX/7tq+O2Pk05LIzjD5lPL4xdLuoUQEH24/jLmGPj4CG2Pf
+ 28vdeKuv9BxQfT7xKNQzoRgDMmrX1MupSOElB8k=
+X-Google-Smtp-Source: ABdhPJxsotUSshgEqdsswCJgkh3hTeWWx0kLTasnyOGe6CvxTYAxGOIceX0CTXUHGLxmhfSj2EfI8mB4Yp99bcNUO+w=
+X-Received: by 2002:a67:ecc2:: with SMTP id i2mr8496841vsp.85.1589749892414;
+ Sun, 17 May 2020 14:11:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200221173313.510235-1-hdegoede@redhat.com>
- <20200221173313.510235-2-hdegoede@redhat.com>
- <CACvgo51i8_Xyp4=RVfcft9FsasMh4G9ze1jrc0Mg8ObOZCHn5g@mail.gmail.com>
- <20200430145250.GX6112@intel.com>
- <a596b05a-a434-56c7-b3c6-ab070df2f00f@redhat.com>
- <CACvgo504dhBMO4fq9MEO8Et5AH0-+Hj00t92mjPEex6o8WRuwg@mail.gmail.com>
- <951ca845-8f0c-41f4-b5f0-afca40123940@redhat.com>
-In-Reply-To: <951ca845-8f0c-41f4-b5f0-afca40123940@redhat.com>
+References: <CGME20200513215627eucas1p1c919a6175b210c13fe7b920c455ebb62@eucas1p1.samsung.com>
+ <20200513215342.2145495-1-emil.l.velikov@gmail.com>
+ <178a203a-fc3e-0027-60c9-786c3e907407@samsung.com>
+In-Reply-To: <178a203a-fc3e-0027-60c9-786c3e907407@samsung.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sun, 17 May 2020 21:59:19 +0100
-Message-ID: <CACvgo51kY5TsoK_1szXg72wwgEoDRerpL+4vun1H=bN6Whx=SA@mail.gmail.com>
-Subject: Re: [PATCH resend] drm: Add DRM_MODE_TYPE_USERDEF flag to probed
- modes matching a video= argument
-To: Hans de Goede <hdegoede@redhat.com>
+Date: Sun, 17 May 2020 22:08:43 +0100
+Message-ID: <CACvgo53YRogMB_Xh+=+gNLQ28beNJdhyECR0550hVqqtD0J8Bg@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: annotate rivafb/nvidiafb as obsolete
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,61 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev <linux-fbdev@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxNCBNYXkgMjAyMCBhdCAxNTozNSwgSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVk
-aGF0LmNvbT4gd3JvdGU6Cj4KPiBIaSwKPgo+IE9uIDUvMTQvMjAgMTE6NTMgQU0sIEVtaWwgVmVs
-aWtvdiB3cm90ZToKPiA+IEhpIEhhbnMsCj4gPgo+ID4gT24gVGh1LCAzMCBBcHIgMjAyMCBhdCAx
-NTo1NSwgSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPj4KPiA+
-PiBIaSwKPiA+Pgo+ID4+IE9uIDQvMzAvMjAgNDo1MiBQTSwgVmlsbGUgU3lyasOkbMOkIHdyb3Rl
-Ogo+ID4+PiBPbiBUaHUsIEFwciAzMCwgMjAyMCBhdCAwMjo0NzowMFBNICswMTAwLCBFbWlsIFZl
-bGlrb3Ygd3JvdGU6Cj4gPj4+PiBIaSBIYW5zLAo+ID4+Pj4KPiA+Pj4+IE9uIEZyaSwgMjEgRmVi
-IDIwMjAgYXQgMTc6MzMsIEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+IHdyb3Rl
-Ogo+ID4+Pj4+Cj4gPj4+Pj4gZHJtX2hlbHBlcl9wcm9iZV9hZGRfY21kbGluZV9tb2RlKCkgcHJl
-ZmVycyB1c2luZyBhIHByb2JlZCBtb2RlIG1hdGNoaW5nCj4gPj4+Pj4gYSB2aWRlbz0gYXJndW1l
-bnQgb3ZlciBjYWxjdWxhdGluZyBvdXIgb3duIHRpbWluZ3MgZm9yIHRoZSB1c2VyIHNwZWNpZmll
-ZAo+ID4+Pj4+IG1vZGUgdXNpbmcgQ1ZUIG9yIEdURi4KPiA+Pj4+Pgo+ID4+Pj4+IEJ1dCB1c2Vy
-c3BhY2UgY29kZSB3aGljaCBpcyBhdXRvLWNvbmZpZ3VyaW5nIHRoZSBtb2RlIG1heSB3YW50IHRv
-IGtub3cgdGhhdAo+ID4+Pj4+IHRoZSB1c2VyIGhhcyBzcGVjaWZpZWQgdGhhdCBtb2RlIG9uIHRo
-ZSBrZXJuZWwgY29tbWFuZGxpbmUgc28gdGhhdCBpdCBjYW4KPiA+Pj4+PiBwaWNrIHRoYXQgbW9k
-ZSBvdmVyIHRoZSBtb2RlIHdoaWNoIGlzIG1hcmtlZCBhcyBEUk1fTU9ERV9UWVBFX1BSRUZFUlJF
-RC4KPiA+Pj4+Pgo+ID4+Pj4+IFRoaXMgY29tbWl0IHNldHMgdGhlIERSTV9NT0RFX1RZUEVfVVNF
-UkRFRiBmbGFnIG9uIHRoZSBtYXRjaGluZyBtb2RlLCBqdXN0Cj4gPj4+Pj4gYXMgd2Ugd291bGQg
-ZG8gb24gdGhlIHVzZXItc3BlY2lmaWVkIG1vZGUgd2hlbiBubyBtYXRjaGluZyBwcm9iZWQgbW9k
-ZSBpcwo+ID4+Pj4+IGZvdW5kLgo+ID4+Pj4+Cj4gPj4+Pj4gU2lnbmVkLW9mZi1ieTogSGFucyBk
-ZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KPiA+Pj4+Cj4gPj4+PiBJIHdhcyBza2ltbWlu
-ZyBhcm91bmQgd3J0IFZpbGxlJ3MgY29tcGFjdCBkcm1fZGlzcGxheV9tb2RlIHNlcmllcyBhbmQK
-PiA+Pj4+IG5vdGljZWQgdGhhdCB0aGlzIG5ldmVyIGxhbmRlZC4KPiA+Pj4+Cj4gPj4+PiBUaGUg
-Y29tbWl0IGJyaW5ncyBleHRyYSBjb25zaXN0ZW5jeSB3aGVuIGRlYWxpbmcgd2l0aCB1c2VyIGRl
-ZmluZWQKPiA+Pj4+IG1vZGVzLCBhbmQgaXM6Cj4gPj4+PiBSZXZpZXdlZC1ieTogRW1pbCBWZWxp
-a292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiA+Pj4+Cj4gPj4+PiBWaWxsZSB0aGlz
-IG1heSB0cml2aWFsbHkgY29uZmxpY3Qgd2l0aCB5b3VyIHdvcmsuIEkgc3VzcGVjdCB5b3UgY2Fu
-IGRvCj4gPj4+PiB0aGUgaG9ub3VycywgYW5kIGFwcGx5IG9uIHRvcCBvZiB5b3VyIHNlcmllcz8K
-PiA+Pj4+IFRoYXQgaXMgaWYgeW91IGFncmVlIHdpdGggdGhlIHBhdGNoLgo+ID4+Pgo+ID4+PiBR
-dWljayBnbGFuY2UgYXQgdGhlIG9yaWdpbmFsIHRocmVhZCBzYXlzIG1heWJlIHRoZXJlIHdlcmUg
-c3RpbGwgc29tZQo+ID4+PiB1c2Vyc3BhY2UgaXNzdWVzIHVucmVzb2x2ZWQ/IE5vdCBzdXJlLgo+
-ID4+Cj4gPj4gSUlSQyB0aGUgdGhyZWFkIGVuZGVkIHdpdGggRGFuaWVsIGFncmVlaW5nIG9uIHRo
-ZSB1c2Vyc3BhY2UgaW50ZXJmYWNlLAo+ID4+IGJ1dCBhc2tpbmcgZm9yIHNvbWUgZG9jcyBhbmQg
-bWUgcG9pbnRpbmcgb3V0IHRoYXQgdGhlIHBhdGNoIGFscmVhZHkKPiA+PiB1cGRhdGVkL2NsYXJp
-ZmllZCB0aGUgZXhpc3RpbmcgZG9jcy4gQWZ0ZXIgdGhhdCB0aGluZ3MgZ290IHF1aWV0Lgo+ID4+
-Cj4gPj4gU28gSSBiZWxpZXZlIHRoYXQgdGhpcyBpcyAoc3RpbGwpIHJlYWR5IHRvIGdvIHVwc3Ry
-ZWFtLgo+ID4+Cj4gPiBIYXZpbmcgcmVhZCB0aHJvdWdoIHRoZSBmdWxsIGRpc2N1c3Npb24sIGNv
-dXBsZSBvZiB0aW1lcywgSSBiZWxpZXZlCj4gPiB5b3UncmUgc3BvdCBvbi4KPiA+Cj4gPiBEYW5p
-ZWwgcmVxdWVzdGVkIGRvY3VtZW50YXRpb24sIHdoaWNoIHRoZSBwYXRjaCBwcm92aWRlcy4gSSdk
-IHNheQo+ID4gbGV0J3MgcG9rZSBoaW0gb24gSVJDIGEgZmV3IHRpbWVzLCBpZiBoZSBkb2Vzbid0
-IG9iamVjdCBsZXQncyBwdXNoIGl0Pwo+Cj4gU291bmRzIGdvb2QgdG8gbWUsIEknbSB1c3VhbGx5
-IG5vdCBvbiBJUkMgKHRvbyBkaXN0cmFjdGluZyBmb3IgbWUpLCBjYW55b3UKPiBwaW5nIERhbmll
-bCBhYm91dCB0aGlzIG9uIElSQz8KPgpJIGRpZCBhIGZldyBtaW51dGVzIGFmdGVyIHBvc3Rpbmcg
-bXkgcmVwbHkgLSAxMTo0NS4gRmV3IG1pbnV0ZXMgbGF0ZXIKKDEyOjA5KSBoZSBzZWVtZWQgT0sg
-d2l0aCBpdCBbMV0uCk1lcmdlZCB0byBkcm0tbWlzYy1uZXh0LgoKVGhhbmtzCkVtaWwKWzFdIGh0
-dHBzOi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+Y2JyaWxsL2RyaS1sb2cvP2NoYW5uZWw9ZHJp
-LWRldmVsJmRhdGU9MjAyMC0wNS0xNApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+On Thu, 14 May 2020 at 14:28, Bartlomiej Zolnierkiewicz
+<b.zolnierkie@samsung.com> wrote:
+
+> > diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> > index 1b2f5f31fb6f..cad3e4bc5e52 100644
+> > --- a/drivers/video/fbdev/Kconfig
+> > +++ b/drivers/video/fbdev/Kconfig
+> > @@ -868,6 +868,7 @@ config FB_ATMEL
+> >
+> >  config FB_NVIDIA
+> >       tristate "nVidia Framebuffer Support"
+> > +     depends on BROKEN
+>
+> Please don't add new users of BROKEN config option.
+>
+> Either it is broken and should be removed right now (BROKEN config option
+> predates git and with git nothing is ever lost), or it still works and
+> should be left alone.
+>
+Seems like not everyone got that memo. BROKEN is still in use, with
+dozen or so cases for last year.
+See for example:
+
+commit 9d60d93198c62ac3b3e59e8bba7079646c972a4c
+Author: J. Bruce Fields <bfields@redhat.com>
+Date:   Mon Aug 26 10:28:58 2019 -0400
+
+    Deprecate nfsd fault injection
+
+
+That said, your suggestions are pretty good. v2 coming in a moment.
+
+-Emil
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
