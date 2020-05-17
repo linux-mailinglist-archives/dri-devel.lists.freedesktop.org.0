@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391121D74EF
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 12:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E5D1D6BE6
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047B76E2FF;
-	Mon, 18 May 2020 10:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3E66E0B9;
+	Sun, 17 May 2020 19:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8D26E0E6
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 17:37:25 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id r22so3620601pga.12
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 10:37:25 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 236956E0B9
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:01:49 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id l19so7523246lje.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=N6CjXhfKgzMdjTkMsOSfHSCzekjDsrkPUllIpjZMEsA=;
- b=VezDvIKHA27OHO31ugrUdXUqKKpBquo57afxIcuQr/vuEw1cOmotnihHkp50L3q14s
- 5TjDd+FjgxpZuRCtBUDrUCrkRLecTz654w/Mb+hGbxnR6wxHlLj3EYSmO4PSXLmGCylP
- cMOC9Wtm8IqfPoKDE+COAOGxJ5av26/bQAWwxHPwytnYUxfoCLrBKWeMkMCpNnHVAcjI
- dkHq/Jygw2IqTs7Q1Cil1G4pjRZZ8uskuvP+l91wuW3DxrP2ZLY9zVwCd+9qqRmBzdm1
- zNwvn2jaDlW0Ifxvq0iBwK2cZ/z4GhkmG0DzjtVDFpiAX9hLHnN45lFnjX+ZWovn9xub
- wVrA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+vWFegYYLZQwCEOaLXtrEOXjzYIe1aYsXrabMwiuRn8=;
+ b=SyPwK9wjsty7a+yolMNcUlz/fyBtkp6kYIO/DY626WHRKcSEHm1CWooE563AfyccvY
+ eYgQj9HBx6SSxE6az5TtZb6as24wi3zqIKTmVlR8QDWn+ZTricaiHUUggjfiNytSqA3s
+ qW8307TF58lrfmfAQwEse5dAfpSq+RC0guP11lsbK5mhXOvY3Gs+O4cp/7zoB9shCU/b
+ 6yGX34tFmairsC7E/m7gxyccSZV0Rfe5FVWKXA8CKFYUiV8D8hygu5muTXsosXKg2xKQ
+ 7Bqy4S8feujVHpBD+Vpn+hXi7L+3kyDqRZgKgQ0efSFsTft3QPdJ0cooYV7J3LrhJToJ
+ OYvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=N6CjXhfKgzMdjTkMsOSfHSCzekjDsrkPUllIpjZMEsA=;
- b=Z1VVs7De75uyNYyWBbluUpwqAJgWGUoyjonCBu8CjVuwZV3RFqAuDlpjdWuK8cF1F/
- rzy4Ww0Yyo/dYe+MzpZpnnym/ccyyA/AGgx6pyzvcY0ON4P50+higNzA/oBgKmOIDbJO
- ahjAeF7cyja+JNoB9dgBaxxqL5G9AR2TNNFwhx0jlwqPAZp09e7KbTNfYQqsoZmeC5vT
- kswJEDqVRHUBlWDXKAUzzoh7ahCrcN6s3qbBkwjp8UyID80pdqpSG2fkeKRqvBq/xWXK
- QH92uLuBp6ynsSIC6dHxjeYviWCBC+4P7dVzOIt62LPndSEw8ZxDKTu3ihefRIZdSA8K
- rzEQ==
-X-Gm-Message-State: AOAM533eLYlZB0H/bLm1vQxIp5ASZLJjPX+k0H4gYMjIP0SZvt4Zulg3
- UhJG2WeTQwp2/1ATHRZykxU=
-X-Google-Smtp-Source: ABdhPJz9I8n19ybGJ4kPrlWY6HmksOOo4etCMGfETIO+p1RAzLZs3vA8L4OUDwjwk0dol2fzq4kKYQ==
-X-Received: by 2002:a63:7a12:: with SMTP id v18mr10682540pgc.131.1589737044720; 
- Sun, 17 May 2020 10:37:24 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id d203sm6684666pfd.79.2020.05.17.10.37.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 17 May 2020 10:37:23 -0700 (PDT)
-Date: Sun, 17 May 2020 10:37:22 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: ira.weiny@intel.com
-Subject: Re: [PATCH V3 10/15] arch/kmap: Define kmap_atomic_prot() for all
- arch's
-Message-ID: <20200517173722.GA33341@roeck-us.net>
-References: <20200507150004.1423069-1-ira.weiny@intel.com>
- <20200507150004.1423069-11-ira.weiny@intel.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=+vWFegYYLZQwCEOaLXtrEOXjzYIe1aYsXrabMwiuRn8=;
+ b=WYknN9+8Z5uyQcn1HNGBbihCnKz3DtBIPXi4dt1YKQr+I2YBqUsfuL+7Y0PLNP6vXd
+ cMfRnF0HYjvNpdDpOlVVhm0cI3ywRy9Ys4gGq9Y1B+cyDh56b/BL15PQeDuFNQFXLmck
+ 5my4xYBA+WqK7538t/vIQv5+c5E4R8wBnUvbRzT4gYH/yXMDnhLsRaczKVV/BYxgfzoI
+ 4xFfx+S1fAw1yEu89GhCtxSCLbh/nCIG1mJYHtVFjODRTz9AYOe2Wm0TDM+XL4hvf4dO
+ ba1/f6xPq5mpKuPOFYD3/izXz2nfyCMpMf6GGY4bjMuOQRLkwWHRBwksAQGqL4u7HHUu
+ PsEg==
+X-Gm-Message-State: AOAM5325w5JPUOpUnjZ/rTi36qQOzlJMgskkQNZapgQyz0hjD4f7ugiB
+ ZJnrBPwUh1UEljI2cz5Mwer4sHFh5BM=
+X-Google-Smtp-Source: ABdhPJzcTXFuU0suV+4pnM5YfobMc0J5sej97g1AnOHfjJxoY0fPxI5WyNS2BgDLet6YtDr6pB+e7w==
+X-Received: by 2002:a2e:97d3:: with SMTP id m19mr7889928ljj.136.1589742107096; 
+ Sun, 17 May 2020 12:01:47 -0700 (PDT)
+Received: from saturn.lan ([2a00:fd00:805f:db00:5d55:b3eb:397b:9086])
+ by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.01.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 May 2020 12:01:46 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH v2 0/16] backlight updates
+Date: Sun, 17 May 2020 21:01:23 +0200
+Message-Id: <20200517190139.740249-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200507150004.1423069-11-ira.weiny@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Approved-At: Mon, 18 May 2020 10:14:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,147 +68,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-pwm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>, Andy Gross <agross@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, Sam Ravnborg <sam@ravnborg.org>,
+ patches@opensource.cirrus.com,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+v2:
+  - Dropped drm patches that was reviewed and thus applied (Thanks Tomi)
+  - Updated backlight_is_blank() based on Daniel's feedback
+  - Dropped EXPORT_SYMBOL that was no longer relevant
+  - Reordered patches, so patches with no external
+    dependencies comes first
+  - Updated the description that follows.
 
-On Thu, May 07, 2020 at 07:59:58AM -0700, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> To support kmap_atomic_prot(), all architectures need to support
-> protections passed to their kmap_atomic_high() function.  Pass
-> protections into kmap_atomic_high() and change the name to
-> kmap_atomic_high_prot() to match.
-> 
-> Then define kmap_atomic_prot() as a core function which calls
-> kmap_atomic_high_prot() when needed.
-> 
-> Finally, redefine kmap_atomic() as a wrapper of kmap_atomic_prot() with
-> the default kmap_prot exported by the architectures.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+This following series touches a lot of backlight things.
 
-This patch causes a variety of crashes whem booting powerpc images in qemu.
+It starts by migrating the last user of of_find_backlight_by_node()
+over to devm_of_find_backlight().
+*Tomi*/*Peter* review feedback would be great - as this allows a smooth
+removal of the export of of_find_backlight_by_node().
 
-There are lots of warnings such as:
+Then a small refactoring in backligth.c to remove some indents.
+This increases the readability and no functional changes.
 
-WARNING: CPU: 0 PID: 0 at lib/locking-selftest.c:743 irqsafe1_hard_spin_12+0x50/0xb0
-Modules linked in:
-CPU: 0 PID: 0 Comm: swapper Tainted: G        W         5.7.0-rc5-next-20200515 #1
-NIP:  c0660c7c LR: c0660c44 CTR: c0660c2c
-REGS: c1223e68 TRAP: 0700   Tainted: G        W          (5.7.0-rc5-next-20200515)
-MSR:  00021000 <CE,ME>  CR: 28000224  XER: 20000000
+Then a new helper backlight_is_blank() is added.
+This helper will simplify the implementation of update_status()
+in almost all backlight drivers.
 
-GPR00: c0669c78 c1223f20 c113d560 c0660c44 00000000 00000001 c1223ea8 00000001
-GPR08: 00000000 00000001 0000fffc ffffffff 88000222 00000000 00000000 00000000
-GPR16: 00000000 00000000 00000000 00000000 c0000000 00000000 00000000 c1125084
-GPR24: c1125084 c1230000 c1879538 fffffffc 00000001 00000000 c1011afc c1230000
-NIP [c0660c7c] irqsafe1_hard_spin_12+0x50/0xb0
-LR [c0660c44] irqsafe1_hard_spin_12+0x18/0xb0
-Call Trace:
-[c1223f20] [c1880000] megasas_mgmt_info+0xee4/0x1008 (unreliable)
-[c1223f40] [c0669c78] dotest+0x38/0x550
-[c1223f70] [c066aa4c] locking_selftest+0x8bc/0x1d54
-[c1223fa0] [c10e0bc8] start_kernel+0x3ec/0x510
-[c1223ff0] [c00003a0] set_ivor+0x118/0x154
-Instruction dump:
-81420000 38e80001 3d4a0001 2c080000 91420000 90e20488 40820008 91020470
-81290000 5529031e 7d290034 5529d97e <0f090000> 3fe0c11c 3bff3964 3bff00ac
-irq event stamp: 588
-hardirqs last  enabled at (587): [<c00b9fe4>] vprintk_emit+0x1b4/0x33c
-hardirqs last disabled at (588): [<c0660c44>] irqsafe1_hard_spin_12+0x18/0xb0
-softirqs last  enabled at (0): [<00000000>] 0x0
-softirqs last disabled at (0): [<00000000>] 0x0
----[ end trace b18fe9e172f99d03 ]---
+Then while surfing the code I missed some documentation.
+So I got a bit carried away and updated the documentation
+for the backlight core and added it to kernel-doc.
+The documentation express my current understanding.
+Everything from spelling errors to outright wrong content
+shall be anticipated - so please review!
+We are all best helped if the documentation is correct
+and up-to-date and it is readable.
 
-This is followed by:
+In this process I identified that the backlight_bl was no
+longer is use - so drop it.
 
-BUG: sleeping function called from invalid context at lib/mpi/mpi-pow.c:245
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 14, name: cryptomgr_test
-INFO: lockdep is turned off.
-CPU: 0 PID: 14 Comm: cryptomgr_test Tainted: G        W         5.7.0-rc5-next-20200515 #1
-Call Trace:
-[ce221b58] [c008755c] ___might_sleep+0x280/0x2a8 (unreliable)
-[ce221b78] [c06bc524] mpi_powm+0x634/0xc50
-[ce221c38] [c05eafdc] rsa_dec+0x88/0x134
-[ce221c78] [c05f3b40] test_akcipher_one+0x678/0x804
-[ce221dc8] [c05f3d7c] alg_test_akcipher+0xb0/0x130
-[ce221df8] [c05ee674] alg_test.part.0+0xb4/0x458
-[ce221ed8] [c05ed2b0] cryptomgr_test+0x30/0x50
-[ce221ef8] [c007cd74] kthread+0x134/0x170
-[ce221f38] [c001433c] ret_from_kernel_thread+0x14/0x1c
-Kernel panic - not syncing: Aiee, killing interrupt handler!
-CPU: 0 PID: 14 Comm: cryptomgr_test Tainted: G        W         5.7.0-rc5-next-20200515 #1
-Call Trace:
-[ce221e08] [c00530fc] panic+0x148/0x34c (unreliable)
-[ce221e68] [c0056460] do_exit+0xac0/0xb40
-[ce221eb8] [c00f5be8] find_kallsyms_symbol_value+0x0/0x128
-[ce221ed8] [c05ed2d0] crypto_alg_put+0x0/0x70
-[ce221ef8] [c007cd74] kthread+0x134/0x170
-[ce221f38] [c001433c] ret_from_kernel_thread+0x14/0x1c
+All the functions that is no longer used by any drivers
+are then marked static to avoid adding new users.
+There are dependencies to the omap patch in drivers/video/fbdev/
+so these patches needs to wait until that one is applied.
 
-Bisect log is attached. The patch can not easily be reverted since
-it results in compile errors.
+The last patch is for now just an RFC patch that shows
+the potential simplifications by introducing the
+use of the backlight_is_blank() helper.
 
-Note that similar failures are seen with sparc32 images. Those bisect
-to a different patch, but reverting that patch doesn't fix the problem.
-The failure pattern (warnings followed by a crash in cryptomgr_test)
-is the same.
+I have local patches to introduce backlight_is_blank()
+in the remaining backlight drivers.
+But they will await that this patch set matures a bit.
 
-Guenter
+Everything builds, but so far no run-time testing.
 
----
-# bad: [bdecf38f228bcca73b31ada98b5b7ba1215eb9c9] Add linux-next specific files for 20200515
-# good: [2ef96a5bb12be62ef75b5828c0aab838ebb29cb8] Linux 5.7-rc5
-git bisect start 'HEAD' 'v5.7-rc5'
-# good: [3674d7aa7a8e61d993886c2fb7c896c5ef85e988] Merge remote-tracking branch 'crypto/master'
-git bisect good 3674d7aa7a8e61d993886c2fb7c896c5ef85e988
-# good: [87f6f21783522e6d62127cf33ae5e95f50874beb] Merge remote-tracking branch 'spi/for-next'
-git bisect good 87f6f21783522e6d62127cf33ae5e95f50874beb
-# good: [5c428e8277d5d97c85126387d4e00aa5adde4400] Merge remote-tracking branch 'staging/staging-next'
-git bisect good 5c428e8277d5d97c85126387d4e00aa5adde4400
-# good: [f68de67ed934e7bdef4799fd7777c86f33f14982] Merge remote-tracking branch 'hyperv/hyperv-next'
-git bisect good f68de67ed934e7bdef4799fd7777c86f33f14982
-# bad: [54acd2dc52b069da59639eea0d0c92726f32fb01] mm/memblock: fix a typo in comment "implict"->"implicit"
-git bisect bad 54acd2dc52b069da59639eea0d0c92726f32fb01
-# good: [784a17aa58a529b84f7cc50f351ed4acf3bd11f3] mm: remove the pgprot argument to __vmalloc
-git bisect good 784a17aa58a529b84f7cc50f351ed4acf3bd11f3
-# good: [6cd8137ff37e9a37aee2d2a8889c8beb8eab192f] khugepaged: replace the usage of system(3) in the test
-git bisect good 6cd8137ff37e9a37aee2d2a8889c8beb8eab192f
-# bad: [6987da379826ed01b8a1cf046b67cc8cc10117cc] sparc: remove unnecessary includes
-git bisect bad 6987da379826ed01b8a1cf046b67cc8cc10117cc
-# good: [bc17b545388f64c09e83e367898e28f60277c584] mm/hugetlb: define a generic fallback for is_hugepage_only_range()
-git bisect good bc17b545388f64c09e83e367898e28f60277c584
-# good: [9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011] arch-kmap_atomic-consolidate-duplicate-code-checkpatch-fixes
-git bisect good 9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011
-# bad: [89194ba5ee31567eeee9c81101b334c8e3248198] arch/kmap: define kmap_atomic_prot() for all arch's
-git bisect bad 89194ba5ee31567eeee9c81101b334c8e3248198
-# good: [022785d2bea99f8bc2a37b7b6c525eea26f6ac59] arch-kunmap_atomic-consolidate-duplicate-code-checkpatch-fixes
-git bisect good 022785d2bea99f8bc2a37b7b6c525eea26f6ac59
-# good: [a13c2f39e3f0519ddee57d26cc66ec70e3546106] arch/kmap: don't hard code kmap_prot values
-git bisect good a13c2f39e3f0519ddee57d26cc66ec70e3546106
-# first bad commit: [89194ba5ee31567eeee9c81101b334c8e3248198] arch/kmap: define kmap_atomic_prot() for all arch's
+	Sam
+
+Sam Ravnborg (16):
+      video: amba-clcd: use devm_of_find_backlight
+      backlight: refactor fb_notifier_callback()
+      backlight: add backlight_is_blank()
+      backlight: improve backlight_ops documentation
+      backlight: improve backlight_properties documentation
+      backlight: improve backlight_device documentation
+      backlight: document inline functions in backlight.h
+      backlight: document enums in backlight.h
+      backlight: remove the unused backlight_bl driver
+      backlight: drop extern from prototypes
+      backlight: add overview and update existing doc
+      backlight: wire up kernel-doc documentation
+      backlight: make of_find_backlight static
+      backlight: drop backlight_put()
+      backlight: make of_find_backlight_by_node() static
+      backlight: use backlight_is_blank() in all backlight drivers
+
+ Documentation/gpu/backlight.rst          |  12 +
+ Documentation/gpu/index.rst              |   1 +
+ drivers/video/backlight/88pm860x_bl.c    |   8 +-
+ drivers/video/backlight/Kconfig          |   8 -
+ drivers/video/backlight/Makefile         |   1 -
+ drivers/video/backlight/adp5520_bl.c     |   5 +-
+ drivers/video/backlight/adp8860_bl.c     |   5 +-
+ drivers/video/backlight/adp8870_bl.c     |   5 +-
+ drivers/video/backlight/as3711_bl.c      |   8 +-
+ drivers/video/backlight/backlight.c      | 235 +++++++++--------
+ drivers/video/backlight/bd6107.c         |   4 +-
+ drivers/video/backlight/corgi_lcd.c      |   5 +-
+ drivers/video/backlight/cr_bllcd.c       |  22 +-
+ drivers/video/backlight/da903x_bl.c      |   8 +-
+ drivers/video/backlight/ep93xx_bl.c      |   3 +-
+ drivers/video/backlight/generic_bl.c     | 110 --------
+ drivers/video/backlight/gpio_backlight.c |   4 +-
+ drivers/video/backlight/hp680_bl.c       |   4 +-
+ drivers/video/backlight/jornada720_bl.c  |   2 +-
+ drivers/video/backlight/kb3886_bl.c      |   4 +-
+ drivers/video/backlight/led_bl.c         |   4 +-
+ drivers/video/backlight/lm3533_bl.c      |   4 +-
+ drivers/video/backlight/locomolcd.c      |   4 +-
+ drivers/video/backlight/lv5207lp.c       |   4 +-
+ drivers/video/backlight/max8925_bl.c     |   8 +-
+ drivers/video/backlight/pwm_bl.c         |   4 +-
+ drivers/video/backlight/qcom-wled.c      |   4 +-
+ drivers/video/backlight/tps65217_bl.c    |   4 +-
+ drivers/video/backlight/wm831x_bl.c      |   8 +-
+ drivers/video/fbdev/amba-clcd.c          |  19 +-
+ include/linux/backlight.h                | 417 ++++++++++++++++++++++++-------
+ 31 files changed, 522 insertions(+), 412 deletions(-)
 
 
 _______________________________________________
