@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A051D6BFC
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38EE1D6BFE
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16BA86E0FF;
-	Sun, 17 May 2020 19:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4E56E101;
+	Sun, 17 May 2020 19:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A086E0FF
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:02:11 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id u15so7540470ljd.3
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:02:11 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF5F6E102
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:02:13 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id x22so3191500lfd.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:02:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lyTJITcxbDoToUmt6gTU2FHs3keUF4hOsb+KMKr7qJs=;
- b=eoE0PhsisEt28HtrVh4X5nCR+AoiL+Q5jLEietNjDvIwlyfUxLXxquwSalpfjJwZ6d
- vKQKIODKuFRZSzXB/NFYX/KoYgJBig42V06iPjcF08/ET9ZrNp1WlTn02taDvrIZ/RH7
- THp9ytiS8zEgaZoUlJsAWkrQb+qQKXMrpGTU36T8GhWL75qeh1wv8/JPtwSrBF/P2YDL
- QcGWvNBNsmM+Tr7wG+aeEUtYvG9j84izjTIJQlCNaeVMRq6eZJP+iIu5Zw8lInLDZ2H3
- IKbX7GLwh9SvtRSkh1nMVAv4Otu1xAbueGQ4ahWgfps7A7oa4TJh4sjohZyLX+wOP/+4
- oh0g==
+ bh=OQZMMaGfqoi+nADi25Ypq2G/dZHLYYCICAgFTmP8RIc=;
+ b=HweipH6xBglnREByvV2nwMRID1YgCAcZyMc5G74M6ZgVg0fZq3Z34blvDim3Ei6jFV
+ BB8SfoboS6DVONa+DpoguoLa07X5hA07mT6phWTw9jdkv+xYO8rwRs0zziPvka0UYfvV
+ CTZoml5v/lV79dhSyT6ZnO/zNtjRkKSkfemh09I29vNB2nOc/e0plrUzM0P4O07escm0
+ +TjJuOXkfEVTF6M8pVNTs97MSdP6g5viVQR4gvFZpTBRubN2zFjZjWAvCU43bpeX9BmH
+ ryfy9oM6ptSvJcu2W+Qy586FJuWzOO+OXGmEo139Q7DwlYZgcDVi+Aqq2Q+7jmX+d+qJ
+ DDqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lyTJITcxbDoToUmt6gTU2FHs3keUF4hOsb+KMKr7qJs=;
- b=Gvr7l0nHUmch3o5t0siFzPr4PEDuxWTNe0YGMj+RTMDNItpPdTUe9V+zF8RAekuIF0
- VyaYGLL7nJ9TplLajj0ZTcId5uVoMSkeb6XoUuWuwv1b+4SI5Mu8tpGwCsIHQj4VRHdY
- Yj/Wgm7iMN/gEsTZ0XXWfwnJy0ZYy5vtxoGWVyptYLa/kUrNoyE7gbW279v9/w7qr2pa
- OZDwRNH7nieEJWca+R9KSXn54gITGrQWFQ1O8cSYL9242vSWaSRbsHeC2DH6bY4aL/5I
- GPyK8NiZjubOYZw7iashSzImNF4zhbm8Wfi/QjE5nlQMPkD7cC0OWbc0tKWWMTpZG3wy
- EPfw==
-X-Gm-Message-State: AOAM5312GYNriFlA1YonpeWKuIAjOHzzmGbtItEwYTNwHYoWOf6NfpuB
- UrNgOleLzx0C7ikHve5JjGNGa2085LA=
-X-Google-Smtp-Source: ABdhPJwbi9nqxI/Wfee0MxLKNIZNWnQzw01xW5En90ZvR4pUn1myrePBdXE5gGFsHcaY0A3tC6IW4A==
-X-Received: by 2002:a2e:9641:: with SMTP id z1mr8313148ljh.201.1589742128521; 
- Sun, 17 May 2020 12:02:08 -0700 (PDT)
+ bh=OQZMMaGfqoi+nADi25Ypq2G/dZHLYYCICAgFTmP8RIc=;
+ b=ci9LMpcVVRNWh1sFMAovTOlvW+eyIoIbJvnWJvGPqzIhJ5V5DO2S3sN8iJsqpjYIJl
+ 6huMkJvSCSniswP/9z5/MVxcesXrE9CjCN/RLtsm7wxAej8kVouYNGB3yshDAUkbESnS
+ 2tI/6DmnuA15+Gh7TaPRlcNtUziN9UVmfRAAYmT2eYicFx4iP2jXMuPV8+K8zbVKn7IN
+ fVxXGYl0+EwjGYMg3sSBvES880uKP+nes+CKRbisxwOTBqhyVmMu6ZlVXO+RlUAzshJf
+ HLgiwo0o9p4X7+gJfESG2Bmv6HslXxqoh23DkVarIewaRLj12OW2EBZC6siBTv4cjKvu
+ d4zw==
+X-Gm-Message-State: AOAM532cGIaoSP9gG9hs/Jq7P/utH7qEjFfDadUeJR1Ho6z7P5MvilLe
+ jq6CwJUBVZVafR+slZsDEhbmUXNueqw=
+X-Google-Smtp-Source: ABdhPJwCSnCN/yeFIkM0E+0+3bg1RzFwItQXVzoLrUv6t99Ftn9GL48DZbBRvzABkvv/g49vMdpTYg==
+X-Received: by 2002:ac2:4304:: with SMTP id l4mr9059863lfh.87.1589742131174;
+ Sun, 17 May 2020 12:02:11 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:5d55:b3eb:397b:9086])
- by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.02.05
+ by smtp.gmail.com with ESMTPSA id t20sm3282535lfl.17.2020.05.17.12.02.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 12:02:07 -0700 (PDT)
+ Sun, 17 May 2020 12:02:10 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>,
  Peter Ujfalusi <peter.ujfalusi@ti.com>,
  Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 08/16] backlight: document enums in backlight.h
-Date: Sun, 17 May 2020 21:01:31 +0200
-Message-Id: <20200517190139.740249-9-sam@ravnborg.org>
+Subject: [PATCH v2 09/16] backlight: remove the unused backlight_bl driver
+Date: Sun, 17 May 2020 21:01:32 +0200
+Message-Id: <20200517190139.740249-10-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200517190139.740249-1-sam@ravnborg.org>
 References: <20200517190139.740249-1-sam@ravnborg.org>
@@ -88,131 +88,189 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add kernel-doc documentation for the backlight enums
+The driver required initialization using struct generic_bl_info.
+As there are no more references to this struct there is no users left.
+So it is safe to delete the driver.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>
 Cc: Jingoo Han <jingoohan1@gmail.com>
 ---
- include/linux/backlight.h | 84 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
+ drivers/video/backlight/Kconfig      |   8 --
+ drivers/video/backlight/Makefile     |   1 -
+ drivers/video/backlight/generic_bl.c | 110 ---------------------------
+ include/linux/backlight.h            |   9 ---
+ 4 files changed, 128 deletions(-)
+ delete mode 100644 drivers/video/backlight/generic_bl.c
 
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 7d22d7377606..14abfeee8868 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -173,14 +173,6 @@ config BACKLIGHT_EP93XX
+ 	  To compile this driver as a module, choose M here: the module will
+ 	  be called ep93xx_bl.
+ 
+-config BACKLIGHT_GENERIC
+-	tristate "Generic (aka Sharp Corgi) Backlight Driver"
+-	default y
+-	help
+-	  Say y to enable the generic platform backlight driver previously
+-	  known as the Corgi backlight driver. If you have a Sharp Zaurus
+-	  SL-C7xx, SL-Cxx00 or SL-6000x say y.
+-
+ config BACKLIGHT_IPAQ_MICRO
+ 	tristate "iPAQ microcontroller backlight driver"
+ 	depends on MFD_IPAQ_MICRO
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 0c1a1524627a..9b998cfdc56d 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -31,7 +31,6 @@ obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
+ obj-$(CONFIG_BACKLIGHT_DA903X)		+= da903x_bl.o
+ obj-$(CONFIG_BACKLIGHT_DA9052)		+= da9052_bl.o
+ obj-$(CONFIG_BACKLIGHT_EP93XX)		+= ep93xx_bl.o
+-obj-$(CONFIG_BACKLIGHT_GENERIC)		+= generic_bl.o
+ obj-$(CONFIG_BACKLIGHT_GPIO)		+= gpio_backlight.o
+ obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
+ obj-$(CONFIG_BACKLIGHT_HP700)		+= jornada720_bl.o
+diff --git a/drivers/video/backlight/generic_bl.c b/drivers/video/backlight/generic_bl.c
+deleted file mode 100644
+index 8fe63dbc8590..000000000000
+--- a/drivers/video/backlight/generic_bl.c
++++ /dev/null
+@@ -1,110 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- *  Generic Backlight Driver
+- *
+- *  Copyright (c) 2004-2008 Richard Purdie
+- */
+-
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/platform_device.h>
+-#include <linux/mutex.h>
+-#include <linux/fb.h>
+-#include <linux/backlight.h>
+-
+-static int genericbl_intensity;
+-static struct backlight_device *generic_backlight_device;
+-static struct generic_bl_info *bl_machinfo;
+-
+-static int genericbl_send_intensity(struct backlight_device *bd)
+-{
+-	int intensity = bd->props.brightness;
+-
+-	if (bd->props.power != FB_BLANK_UNBLANK)
+-		intensity = 0;
+-	if (bd->props.state & BL_CORE_FBBLANK)
+-		intensity = 0;
+-	if (bd->props.state & BL_CORE_SUSPENDED)
+-		intensity = 0;
+-
+-	bl_machinfo->set_bl_intensity(intensity);
+-
+-	genericbl_intensity = intensity;
+-
+-	if (bl_machinfo->kick_battery)
+-		bl_machinfo->kick_battery();
+-
+-	return 0;
+-}
+-
+-static int genericbl_get_intensity(struct backlight_device *bd)
+-{
+-	return genericbl_intensity;
+-}
+-
+-static const struct backlight_ops genericbl_ops = {
+-	.options = BL_CORE_SUSPENDRESUME,
+-	.get_brightness = genericbl_get_intensity,
+-	.update_status  = genericbl_send_intensity,
+-};
+-
+-static int genericbl_probe(struct platform_device *pdev)
+-{
+-	struct backlight_properties props;
+-	struct generic_bl_info *machinfo = dev_get_platdata(&pdev->dev);
+-	const char *name = "generic-bl";
+-	struct backlight_device *bd;
+-
+-	bl_machinfo = machinfo;
+-	if (!machinfo->limit_mask)
+-		machinfo->limit_mask = -1;
+-
+-	if (machinfo->name)
+-		name = machinfo->name;
+-
+-	memset(&props, 0, sizeof(struct backlight_properties));
+-	props.type = BACKLIGHT_RAW;
+-	props.max_brightness = machinfo->max_intensity;
+-	bd = devm_backlight_device_register(&pdev->dev, name, &pdev->dev,
+-					NULL, &genericbl_ops, &props);
+-	if (IS_ERR(bd))
+-		return PTR_ERR(bd);
+-
+-	platform_set_drvdata(pdev, bd);
+-
+-	bd->props.power = FB_BLANK_UNBLANK;
+-	bd->props.brightness = machinfo->default_intensity;
+-	backlight_update_status(bd);
+-
+-	generic_backlight_device = bd;
+-
+-	dev_info(&pdev->dev, "Generic Backlight Driver Initialized.\n");
+-	return 0;
+-}
+-
+-static int genericbl_remove(struct platform_device *pdev)
+-{
+-	struct backlight_device *bd = platform_get_drvdata(pdev);
+-
+-	bd->props.power = 0;
+-	bd->props.brightness = 0;
+-	backlight_update_status(bd);
+-
+-	dev_info(&pdev->dev, "Generic Backlight Driver Unloaded\n");
+-	return 0;
+-}
+-
+-static struct platform_driver genericbl_driver = {
+-	.probe		= genericbl_probe,
+-	.remove		= genericbl_remove,
+-	.driver		= {
+-		.name	= "generic-bl",
+-	},
+-};
+-
+-module_platform_driver(genericbl_driver);
+-
+-MODULE_AUTHOR("Richard Purdie <rpurdie@rpsys.net>");
+-MODULE_DESCRIPTION("Generic Backlight Driver");
+-MODULE_LICENSE("GPL");
 diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 98349a2984dc..b779c29142fd 100644
+index b779c29142fd..eae7a5e66248 100644
 --- a/include/linux/backlight.h
 +++ b/include/linux/backlight.h
-@@ -14,26 +14,110 @@
- #include <linux/mutex.h>
- #include <linux/notifier.h>
+@@ -480,15 +480,6 @@ static inline void * bl_get_data(struct backlight_device *bl_dev)
+ 	return dev_get_drvdata(&bl_dev->dev);
+ }
  
-+/**
-+ * enum backlight_update_reason - what method was used to update backlight
-+ *
-+ * A driver indicates the method (reason) used for updating the backlight
-+ * when calling backlight_force_update().
-+ */
- enum backlight_update_reason {
-+	/**
-+	 * @BACKLIGHT_UPDATE_HOTKEY:
-+	 *
-+	 * The backlight was updated using a hot-key.
-+	 */
- 	BACKLIGHT_UPDATE_HOTKEY,
-+
-+	/**
-+	 * @BACKLIGHT_UPDATE_SYSFS:
-+	 *
-+	 * The backlight was updated using sysfs.
-+	 */
- 	BACKLIGHT_UPDATE_SYSFS,
- };
- 
-+/**
-+ * enum backlight_type - the type of backlight control
-+ *
-+ * The type of interface used to control the backlight.
-+ */
- enum backlight_type {
-+	/**
-+	 * @BACKLIGHT_RAW:
-+	 *
-+	 * The backlight is controlled using hardware registers directly.
-+	 */
- 	BACKLIGHT_RAW = 1,
-+
-+	/**
-+	 * @BACKLIGHT_PLATFORM:
-+	 *
-+	 * The backlight is controller using a platform-specific interface.
-+	 */
- 	BACKLIGHT_PLATFORM,
-+
-+	/**
-+	 * @BACKLIGHT_FIRMWARE:
-+	 *
-+	 * The backlight is controlled using a standard firmware interface.
-+	 */
- 	BACKLIGHT_FIRMWARE,
-+
-+	/**
-+	 * @BACKLIGHT_TYPE_MAX: Number of entries.
-+	 */
- 	BACKLIGHT_TYPE_MAX,
- };
- 
-+/**
-+ * enum backlight_notification - the type of notification
-+ *
-+ * The notifications that is used for notification sent to the receiver
-+ * that registered notifications using backlight_register_notifier().
-+ */
- enum backlight_notification {
-+	/**
-+	 * @BACKLIGHT_REGISTERED:
-+	 *
-+	 * The backlight device is registered.
-+	 */
- 	BACKLIGHT_REGISTERED,
-+
-+	/**
-+	 * @BACKLIGHT_UNREGISTERED:
-+	 *
-+	 * The backlight revice is unregistered.
-+	 */
- 	BACKLIGHT_UNREGISTERED,
- };
- 
-+/** enum backlight_scale - the type of scale used for brightness values
-+ *
-+ * The type of scale used for brightness values.
-+ */
- enum backlight_scale {
-+	/**
-+	 * @BACKLIGHT_SCALE_UNKNOWN:
-+	 *
-+	 * The scale is unknown.
-+	 */
- 	BACKLIGHT_SCALE_UNKNOWN = 0,
-+
-+	/**
-+	 * @BACKLIGHT_SCALE_LINEAR:
-+	 *
-+	 * The scale is linear, so the brigness increase is the same
-+	 * when increasing with the same steps (more or less).
-+	 */
- 	BACKLIGHT_SCALE_LINEAR,
-+
-+	/**
-+	 * @BACKLIGHT_SCALE_NON_LINEAR:
-+	 *
-+	 * The scale is not linear. This is often used when the brightness
-+	 * values tries to adjust to the relative perception of the eye
-+	 * demanding a non-linear scale.
-+	 */
- 	BACKLIGHT_SCALE_NON_LINEAR,
- };
- 
+-struct generic_bl_info {
+-	const char *name;
+-	int max_intensity;
+-	int default_intensity;
+-	int limit_mask;
+-	void (*set_bl_intensity)(int intensity);
+-	void (*kick_battery)(void);
+-};
+-
+ #ifdef CONFIG_OF
+ struct backlight_device *of_find_backlight_by_node(struct device_node *node);
+ #else
 -- 
 2.25.1
 
