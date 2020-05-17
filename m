@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4F51D6C73
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:39:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC5C1D6C74
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 21:39:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF08C6E10D;
-	Sun, 17 May 2020 19:39:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475A66E104;
+	Sun, 17 May 2020 19:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C93A6E0EC
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:39:46 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l11so9432796wru.0
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:39:46 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D2F96E0F9
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 19:39:47 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id k13so7274242wrx.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=78Ql/A+/40FuhQeFxdMB/7R+c308m82Cc+zcYdE210Q=;
- b=BFxVAb0blYJqX2Isk8ugYI0/40/CgYqqtv+Ckm3wUKh7SONtgKQ8QUREztd8RerQ05
- G4faqkC7UZsZTHt/QrsQKJ6N5euwoJAkZ1vq41/dprZj8yp0kziAJCnaGUKycZJZuoYr
- DviI561ZKvxOwg8xbH5ra2c9nsuDUI59LRyQE5gun6kN/AO1JLxQDMeJRXZsTPdxC6Mq
- kYepmpqhN6oRWmc3iTT863mmPuouMH7kgfx6gPD3GfVNiWYVLSWRjLBgkM/k0f6vp336
- waNzOySNWC00308Z8LBt22FLmzN+D5ThyT2qtNiPW0yjwYOmj0ih/ceI9U2fSK2SWPE3
- SfCw==
+ bh=nbRokrSrVR0v/K6xw2WDQQHre/7eWiBASSH5E9b9KBA=;
+ b=PDtJZOJiAXIEQfW+XQacENA0ShgkfZIaBCTOFz2r0KCd0GJwXPpo75mWA/ieBFWYyg
+ DuwLJV816FGu4+l4kA9BG4JEvw8y9NDmF+Ps5zzUYZ20Ex6u8NHFIUWzOe8tMsQafIZU
+ Uwna8rQhsSqkn20xMGHM6t2CmAHgBlMcFd6LzE4/QhkaAGm8KQr2aU+JvVQC1qnpcPGX
+ WFYrgQMo90/khUujgyqV9455XbEs4HH5AbnfrSmEyTA4Y6VBn3Qd995nkOjRY3zT8HCU
+ TGOa9t8V9X5iNihsAuWtFqimlsAwcoFIu9Qs2ZGcUytqxwLHb+FYRkFjyIYqEad6wScK
+ niSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=78Ql/A+/40FuhQeFxdMB/7R+c308m82Cc+zcYdE210Q=;
- b=akmn01VHK9lpOOpdqMCwCKbRz2tBNWJFPtiFTDkiaXC8yvGSuNkdozy7fEQspQL9Yy
- 9T5d01PyKtc/k96+Cu9nO3BQSfbrVNW0PKPZOH7SZLJDaAg9S0x5yniX00kRq3bKPrWH
- gNhLxupqNa/y9RMCQjibbOnyp+Ak1igAXoNI+ygjPaQKkXoVfJRbOBSE28T4mU0O5e98
- TUOsfduhacT7uDLoWO7du32+nXZqvpGZybNEnFS4h8EigFWCDJ3u6lGiVP87xhPVO7O9
- 3WcgPDirhbLczN9hibxt21zm0jK+N8P3lb+eLSxGKEvo/dVgy+7ZGf+ELFjwdtSH2zXf
- 9oOQ==
-X-Gm-Message-State: AOAM531SoIr0wzvHImDd7JXWhp1kab/rtXb+kcwUHe9/KPPik08Vhe+7
- +lbRILTqdi47Kv073L8r3RaFeouB
-X-Google-Smtp-Source: ABdhPJxmUWX5DHfR0h++C32HpeELiuKq8m8qiTrW75lBMadKB/BGjnk3rGRNCidnS+69LZFPMpgkDQ==
-X-Received: by 2002:a5d:614b:: with SMTP id y11mr16620471wrt.77.1589744385085; 
- Sun, 17 May 2020 12:39:45 -0700 (PDT)
+ bh=nbRokrSrVR0v/K6xw2WDQQHre/7eWiBASSH5E9b9KBA=;
+ b=LJ1ucVckl/aS9XYPan2aRNglmcc/qbs/bdsZW3J749Y6NF3D+VR/K31zSJ5Qjy11xk
+ jEnVf0KojvCj6auCA0XgyCUMRJ/RhHp9GG0NPflB7bvlKyD8POxH1uGOIHo98K0dVlgR
+ UHspzXThbHC0y4tfjZE+L9e7+yRdrY1hzOi0ANFKaAM8SurgavI/yy7AryNLmaq54E+B
+ a1xnk86Q5Qf/AZ23ackjAjYxFD7p5gQtu7tsVkFDLeWHvMrW5UYOEiNJqy4ywV9wEreT
+ BkaA32LPpHNWx5Yq21A+387PkOnO1J8EKlRIi4HZ9CLL060pFIgrM4A4ltZ5WOMXP2OJ
+ KYqw==
+X-Gm-Message-State: AOAM532F9a7CeAtz9yuuZIqmjPIU6VNrpPP0KPXMc3TtUOY7yyJmLkXs
+ WVmwMIdC8q3/5HLRVYda8MG26tln
+X-Google-Smtp-Source: ABdhPJyVoY4/mcYkR+vMN4BsFWvE4vWtLeSWLYuByLNVIp/jv5sFfmBgCFsqEugv88/TvzdIkJl5gg==
+X-Received: by 2002:a05:6000:110b:: with SMTP id
+ z11mr16510577wrw.16.1589744386034; 
+ Sun, 17 May 2020 12:39:46 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id g24sm13882339wrb.35.2020.05.17.12.39.44
+ by smtp.gmail.com with ESMTPSA id g24sm13882339wrb.35.2020.05.17.12.39.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 12:39:44 -0700 (PDT)
+ Sun, 17 May 2020 12:39:45 -0700 (PDT)
 From: Emil Velikov <emil.l.velikov@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/malidp: convert platform driver to use dev_groups
-Date: Sun, 17 May 2020 20:36:54 +0100
-Message-Id: <20200517193655.3895087-2-emil.l.velikov@gmail.com>
+Subject: [PATCH 3/3] drm/exynos-vidi: convert platform driver to use dev_groups
+Date: Sun, 17 May 2020 20:36:55 +0100
+Message-Id: <20200517193655.3895087-3-emil.l.velikov@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200517193655.3895087-1-emil.l.velikov@gmail.com>
 References: <20200517193655.3895087-1-emil.l.velikov@gmail.com>
@@ -67,8 +68,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, emil.l.velikov@gmail.com,
- Mali DP Maintainers <malidp@foss.arm.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, emil.l.velikov@gmail.com,
+ Joonyoung Shim <jy0922.shim@samsung.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,83 +80,75 @@ Platform drivers now have the option to have the platform core create
 and remove any needed sysfs attribute files.  So take advantage of that
 and do not register "by hand" a sysfs file.
 
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Brian Starkey <brian.starkey@arm.com>
-Cc: Mali DP Maintainers <malidp@foss.arm.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
 Compile tested only. Please test locally and merge through your tree.
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 27 ++++++---------------------
- 1 file changed, 6 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 26 ++++++++----------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index def8c9ffafca..dafdb6e95d73 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -666,20 +666,11 @@ static ssize_t core_id_show(struct device *dev, struct device_attribute *attr,
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index 282467121699..e5662bdcbbde 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -214,6 +214,12 @@ static ssize_t vidi_store_connection(struct device *dev,
+ static DEVICE_ATTR(connection, 0644, vidi_show_connection,
+ 			vidi_store_connection);
  
- static DEVICE_ATTR_RO(core_id);
- 
--static int malidp_init_sysfs(struct device *dev)
--{
--	int ret = device_create_file(dev, &dev_attr_core_id);
--
--	if (ret)
--		DRM_ERROR("failed to create device file for core_id\n");
--
--	return ret;
--}
--
--static void malidp_fini_sysfs(struct device *dev)
--{
--	device_remove_file(dev, &dev_attr_core_id);
--}
-+static struct attribute *mali_dp_attrs[] = {
-+	&dev_attr_core_id.attr,
++static struct attribute *vidi_attrs[] = {
++	&dev_attr_connection.attr,
 +	NULL,
 +};
-+ATTRIBUTE_GROUPS(mali_dp);
++ATTRIBUTE_GROUPS(vidi);
++
+ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
+ 				struct drm_file *file_priv)
+ {
+@@ -439,7 +445,6 @@ static int vidi_probe(struct platform_device *pdev)
+ {
+ 	struct vidi_context *ctx;
+ 	struct device *dev = &pdev->dev;
+-	int ret;
  
- #define MAX_OUTPUT_CHANNELS	3
+ 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+@@ -453,23 +458,7 @@ static int vidi_probe(struct platform_device *pdev)
  
-@@ -841,10 +832,6 @@ static int malidp_bind(struct device *dev)
- 	if (ret < 0)
- 		goto query_hw_fail;
+ 	platform_set_drvdata(pdev, ctx);
  
--	ret = malidp_init_sysfs(dev);
--	if (ret)
--		goto init_fail;
+-	ret = device_create_file(dev, &dev_attr_connection);
+-	if (ret < 0) {
+-		DRM_DEV_ERROR(dev,
+-			      "failed to create connection sysfs.\n");
+-		return ret;
+-	}
 -
- 	/* Set the CRTC's port so that the encoder component can find it */
- 	malidp->crtc.port = of_graph_get_port_by_id(dev->of_node, 0);
+-	ret = component_add(dev, &vidi_component_ops);
+-	if (ret)
+-		goto err_remove_file;
+-
+-	return ret;
+-
+-err_remove_file:
+-	device_remove_file(dev, &dev_attr_connection);
+-
+-	return ret;
++	return component_add(dev, &vidi_component_ops);
+ }
  
-@@ -902,8 +889,6 @@ static int malidp_bind(struct device *dev)
- bind_fail:
- 	of_node_put(malidp->crtc.port);
- 	malidp->crtc.port = NULL;
--init_fail:
--	malidp_fini_sysfs(dev);
- 	malidp_fini(drm);
- query_hw_fail:
- 	pm_runtime_put(dev);
-@@ -937,7 +922,6 @@ static void malidp_unbind(struct device *dev)
- 	component_unbind_all(dev, drm);
- 	of_node_put(malidp->crtc.port);
- 	malidp->crtc.port = NULL;
--	malidp_fini_sysfs(dev);
- 	malidp_fini(drm);
- 	pm_runtime_put(dev);
- 	if (pm_runtime_enabled(dev))
-@@ -1033,6 +1017,7 @@ static struct platform_driver malidp_platform_driver = {
- 		.name = "mali-dp",
- 		.pm = &malidp_pm_ops,
- 		.of_match_table	= malidp_drm_of_match,
-+		.dev_groups = mali_dp_groups,
+ static int vidi_remove(struct platform_device *pdev)
+@@ -494,5 +483,6 @@ struct platform_driver vidi_driver = {
+ 	.driver		= {
+ 		.name	= "exynos-drm-vidi",
+ 		.owner	= THIS_MODULE,
++		.dev_groups = vidi_groups,
  	},
  };
- 
 -- 
 2.25.1
 
