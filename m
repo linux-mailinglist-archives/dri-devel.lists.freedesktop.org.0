@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7647A1D6653
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 08:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32AE1D6690
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 10:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4A26E3CB;
-	Sun, 17 May 2020 06:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A466E027;
+	Sun, 17 May 2020 08:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE2E6E3CB
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 06:21:09 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 28BB5804B9;
- Sun, 17 May 2020 08:21:07 +0200 (CEST)
-Date: Sun, 17 May 2020 08:21:05 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 05/12] gpu/drm: Ingenic: Fix opaque pointer casted to
- wrong type
-Message-ID: <20200517062105.GD609600@ravnborg.org>
-References: <20200516215057.392609-1-paul@crapouillou.net>
- <20200516215057.392609-5-paul@crapouillou.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EF26E027
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 08:29:41 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207763] New: Noisy Screen in Linux with kernel 5
+Date: Sun, 17 May 2020 08:29:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: xunilarium@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-207763-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200516215057.392609-5-paul@crapouillou.net>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=ER_8r6IbAAAA:8 a=7gkXJVJtAAAA:8
- a=e5mUnYsNAAAA:8 a=qQq3a1_-SCO9fxz2cd8A:9 a=CjuIK1q_8ugA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=9LHmKk7ezEChjTCyhBa9:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,52 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 16, 2020 at 11:50:50PM +0200, Paul Cercueil wrote:
-> The opaque pointer passed to the IRQ handler is a pointer to the
-> drm_device, not a pointer to our ingenic_drm structure.
-> 
-> It still worked, because our ingenic_drm structure contains the
-> drm_device as its first field, so the pointer received had the same
-> value, but this was not semantically correct.
-> 
-> Cc: stable@vger.kernel.org # v5.3
-> Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx SoCs")
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/ingenic/ingenic-drm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-> index 0c472382a08b..97244462599b 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-> @@ -476,7 +476,7 @@ static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
->  
->  static irqreturn_t ingenic_drm_irq_handler(int irq, void *arg)
->  {
-> -	struct ingenic_drm *priv = arg;
-> +	struct ingenic_drm *priv = drm_device_get_priv(arg);
->  	unsigned int state;
->  
->  	regmap_read(priv->map, JZ_REG_LCD_STATE, &state);
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+https://bugzilla.kernel.org/show_bug.cgi?id=207763
+
+            Bug ID: 207763
+           Summary: Noisy Screen in Linux with kernel 5
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.0.0-23-generic
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: xunilarium@gmail.com
+        Regression: No
+
+Created attachment 289165
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289165&action=edit
+My Noisy Screen
+
+As linux kernel was updated to version 5 my laptop screen become noisy, I have
+same problem with all linux distros with kernel 5 and above. The problem is
+available both in graphic and text mode. windows works fine so my graphic card
+is OK.
+
+Ubunut 18.04.02:
+--------------------------------------------------------------------------------
+
+Kernel Ver: 4.18.0-15-generic
+
+VGA Driver: 01:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
+[AMD/ATI] RV620/M82 [Mobility Radeon HD 3450/3470]
+
+Subsystem: Sony Corporation RV620/M82 [Mobility Radeon HD 3450/3470]
+
+Kernel driver in use: radeon
+
+Kernel modules: radeon
+
+Screen Status: OK
+
+________________________________________________________________________________
+
+Ubuntu 18.04.03:
+--------------------------------------------------------------------------------
+
+Kernel Ver: 5.0.0-23-generic
+
+VGA Driver: 01:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
+[AMD/ATI] RV620/M82 [Mobility Radeon HD 3450/3470]
+
+Subsystem: Sony Corporation RV620/M82 [Mobility Radeon HD 3450/3470]
+
+Kernel driver in use: radeon
+
+Kernel modules: radeon
+
+Screen Status: Noisy
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
