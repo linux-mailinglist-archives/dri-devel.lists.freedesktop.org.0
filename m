@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB7D1D74EC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 12:14:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD8F1D67E1
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 14:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9276E225;
-	Mon, 18 May 2020 10:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A83A6E09E;
+	Sun, 17 May 2020 12:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 229A76E04B
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 11:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1589713609; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a+8uUs3KZErtQFYLwRFcI4Y9Qu/GahR4WBEx76kMicU=;
- b=JcNP/sXXR5LlAQyGgIDVT84jR1N8QUsQZViSBBi4neVMfuz8zSKI3xrAbm6Kt4hZTkGpY8
- oANNPgIIs9BhTuh23iqoxGTXZyOnEhbUrzyq5kOrxlI15KXhg6XigZB2qW1jydrd/+UJ55
- TLLg3EO0buSMfIKZ5hHd8H+D4AJM7O8=
-Date: Sun, 17 May 2020 13:06:38 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 02/12] dt-bindings: display: Add ingenic,ipu.yaml
-To: Sam Ravnborg <sam@ravnborg.org>
-Message-Id: <2V2HAQ.FED0YBJJAZ7D2@crapouillou.net>
-In-Reply-To: <20200517061710.GB609600@ravnborg.org>
-References: <20200516215057.392609-1-paul@crapouillou.net>
- <20200516215057.392609-2-paul@crapouillou.net>
- <20200517061710.GB609600@ravnborg.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9151E6E09A
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 12:03:55 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jaI1D-0006Nw-6U; Sun, 17 May 2020 14:03:47 +0200
+Message-ID: <79f9e841042bf1c0fca39366d95cfb6f74da07bd.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: fix perfmon domain interation
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Sun, 17 May 2020 14:03:44 +0200
+In-Reply-To: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+References: <20200511123744.96246-1-christian.gmeiner@gmail.com>
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 18 May 2020 10:14:39 +0000
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,173 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hi Christian,
 
-Le dim. 17 mai 2020 =E0 8:17, Sam Ravnborg <sam@ravnborg.org> a =E9crit :
-> Hi Paul.
-> On Sat, May 16, 2020 at 11:50:47PM +0200, Paul Cercueil wrote:
->>  Add documentation of the Device Tree bindings for the Image =
+Am Montag, den 11.05.2020, 14:37 +0200 schrieb Christian Gmeiner:
+> The GC860 has one GPU device which has a 2d and 3d core. In this case
+> we want to expose perfmon information for both cores.
+> 
+> The driver has one array which contains all possible perfmon domains
+> with some meta data - doms_meta. Here we can see that for the GC860
+> two elements of that array are relevant:
+> 
+>   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+>   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+> 
+> The userspace driver wants to get a list of all perfmon domains and
+> their perfmon signals. This is done by iterating over all domains and
+> their signals. If the userspace driver wants to access the domain with
+> id 8 the kernel driver fails and returns invalid data from doms_3d with
+> and invalid offset.
+> 
+> This results in:
+>   Unable to handle kernel paging request at virtual address 00000000
+> 
+> On such a device it is not possible to use the userspace driver at all.
+> 
+> The fix for this off-by-one error is quite simple.
+> 
+> Reported-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+> Cc: stable@vger.kernel.or
 
->> Processing
->>  Unit (IPU) found in most Ingenic SoCs.
->> =
+Missing last letter of the TLD.
 
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> =
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index e6795bafcbb9..35f7171e779a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+>  		if (!(gpu->identity.features & meta->feature))
+>  			continue;
+>  
+> -		if (meta->nr_domains < (index - offset)) {
+> +		if ((meta->nr_domains - 1) < (index - offset)) {
 
-> For me it fails like this:
+While the logic is correct, I find this quite hard to read. A more
+idiomatic way to write this (which is much easier to grok when reading
+the code IMHO) would be:
 
-Oops. I missed the 'const:' in the item list. Will fix when I send a =
+if (index - offset >= meta->nr_domains)
 
-V2, and verify it this time.
+If you agree, please send a v2 of this patch.
 
-Cheers,
--Paul
-
-> /Documentation/devicetree/bindings/display/ingenic,ipu.yaml: =
-
-> ignoring, error in schema: properties: compatible: oneOf: 1: items
-> warning: no schema found in file: =
-
-> Documentation/devicetree/bindings/display/ingenic,ipu.yaml
-> make[2]: *** [Documentation/devicetree/bindings/Makefile:42: =
-
-> Documentation/devicetree/bindings/processed-schema.yaml] Error 255
-> make[2]: *** Waiting for unfinished jobs....
-> Documentation/devicetree/bindings/display/ingenic,ipu.yaml: =
-
-> properties:compatible:oneOf:1:items: ['ingenic,jz4770-ipu', =
-
-> 'ingenic,jz4760-ipu'] is not valid under any of the given schemas =
-
-> (Possible causes of the failure):
-> 	Documentation/devicetree/bindings/display/ingenic,ipu.yaml: =
-
-> properties:compatible:oneOf:1:items: ['ingenic,jz4770-ipu', =
-
-> 'ingenic,jz4760-ipu'] is not of type 'object', 'boolean'
-> 	Documentation/devicetree/bindings/display/ingenic,ipu.yaml: =
-
-> properties:compatible:oneOf:1:items:0: 'ingenic,jz4770-ipu' is not of =
-
-> type 'object', 'boolean'
-> 	Documentation/devicetree/bindings/display/ingenic,ipu.yaml: =
-
-> properties:compatible:oneOf:1:items:1: 'ingenic,jz4760-ipu' is not of =
-
-> type 'object', 'boolean'
-> =
-
-> =
-
-> 	Sam
-> =
-
->>  ---
->>   .../bindings/display/ingenic,ipu.yaml         | 65 =
-
->> +++++++++++++++++++
->>   1 file changed, 65 insertions(+)
->>   create mode 100644 =
-
->> Documentation/devicetree/bindings/display/ingenic,ipu.yaml
->> =
-
->>  diff --git =
-
->> a/Documentation/devicetree/bindings/display/ingenic,ipu.yaml =
-
->> b/Documentation/devicetree/bindings/display/ingenic,ipu.yaml
->>  new file mode 100644
->>  index 000000000000..22fe02ca866d
->>  --- /dev/null
->>  +++ b/Documentation/devicetree/bindings/display/ingenic,ipu.yaml
->>  @@ -0,0 +1,65 @@
->>  +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>  +%YAML 1.2
->>  +---
->>  +$id: http://devicetree.org/schemas/display/ingenic,ipu.yaml#
->>  +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>  +
->>  +title: Ingenic SoCs Image Processing Unit (IPU) devicetree bindings
->>  +
->>  +maintainers:
->>  +  - Paul Cercueil <paul@crapouillou.net>
->>  +
->>  +properties:
->>  +  compatible:
->>  +    oneOf:
->>  +      - enum:
->>  +        - ingenic,jz4725b-ipu
->>  +        - ingenic,jz4760-ipu
->>  +      - items:
->>  +        - ingenic,jz4770-ipu
->>  +        - ingenic,jz4760-ipu
->>  +
->>  +  reg:
->>  +    maxItems: 1
->>  +
->>  +  interrupts:
->>  +    maxItems: 1
->>  +
->>  +  clocks:
->>  +    maxItems: 1
->>  +
->>  +  clock-names:
->>  +    const: ipu
->>  +
->>  +patternProperties:
->>  +  "^ports?$":
->>  +    description: OF graph bindings (specified in =
-
->> bindings/graph.txt).
->>  +
->>  +required:
->>  +  - compatible
->>  +  - reg
->>  +  - interrupts
->>  +  - clocks
->>  +  - clock-names
->>  +
->>  +additionalProperties: false
->>  +
->>  +examples:
->>  +  - |
->>  +    #include <dt-bindings/clock/jz4770-cgu.h>
->>  +    ipu@13080000 {
->>  +      compatible =3D "ingenic,jz4770-ipu", "ingenic,jz4760-ipu";
->>  +      reg =3D <0x13080000 0x800>;
->>  +
->>  +      interrupt-parent =3D <&intc>;
->>  +      interrupts =3D <29>;
->>  +
->>  +      clocks =3D <&cgu JZ4770_CLK_IPU>;
->>  +      clock-names =3D "ipu";
->>  +
->>  +      port {
->>  +        ipu_ep: endpoint {
->>  +          remote-endpoint =3D <&lcdc_ep>;
->>  +        };
->>  +      };
->>  +    };
->>  --
->>  2.26.2
->> =
-
->>  _______________________________________________
->>  dri-devel mailing list
->>  dri-devel@lists.freedesktop.org
->>  https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+Regards,
+Lucas
+>  			offset += meta->nr_domains;
+>  			continue;
+>  		}
 
 _______________________________________________
 dri-devel mailing list
