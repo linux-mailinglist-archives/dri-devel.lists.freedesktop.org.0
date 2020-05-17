@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19F41D6CF8
-	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 22:51:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C7C1D6CFA
+	for <lists+dri-devel@lfdr.de>; Sun, 17 May 2020 22:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A50126E133;
-	Sun, 17 May 2020 20:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18B489CF3;
+	Sun, 17 May 2020 20:52:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234AB6E133
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 20:51:54 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id v192so1916576vkd.3
- for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 13:51:54 -0700 (PDT)
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
+ [IPv6:2607:f8b0:4864:20::a43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A74E89CF3
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 20:52:53 +0000 (UTC)
+Received: by mail-vk1-xa43.google.com with SMTP id z3so1908994vka.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 May 2020 13:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HuJ2WLYv0zRF8B+JPGkCpiPdwwFOt5uR5j693RaNj3Y=;
- b=JipvGWULyStoofw+6xu8c14wXP3TOgoQCoBBKvc2UZLUZeXHa18E/tYOUXXGhW9RHW
- DK/AbH4jnyPiA3mT/zpWhR8ceUTHvZD1Mw+qZf71v1Awc6HYtH43SHMFDGmTHALdCUZs
- QZ5EdaM5SZHqsDAKk265QPpwvo46j7SdYEwCnrY7AdOFHv92Ur6QNrAlx3KZmG0EGdeO
- VQkhxc6MuAp3FUak1aZIIfZbI5TVVZrC2g46ER4djFYLT88Ehg7mZO2nlfQp7L1Lrjdn
- G9cpx4hnc5G5xtOodSF4Be1Hhfgy/Tz0W02x9RbPPRJ+7LdS2v47Ll6E+wiz2VLDg/89
- 6K3A==
+ :cc; bh=kRpHuRKc3Bl5TABsYSL7dPRXInYL17v1wVRbBgtX7NU=;
+ b=BHa30mzp37Lx79gKYaUpW35MfR/+nyf53/vZfb5HUDKCP+7TubeNHZQ1DYE/8kYYbn
+ jEzI8UdvK58BUbyWQOKQEf/UJOkvX2dQA3eOITt4CKH8Z5cJ7UILc9Vvj3fO0yh4vWEg
+ 3x97oavd04iRx/wYwoNap1FdYnqdKNsI6C0xtr8QjajzLqGzEb793iL99VwfdWu6XTEa
+ qstMMN+z9D5pwTONtStgS/sHYzMx0w0zv1ToEKy7mZjWuNtHD1YKBt+qgegXJ1GKq3Rd
+ ZxFAw376tZwcO24fv/PuyU/MiOMGhFcrkZUJmJOMjBs3noHZ/tFm0BH4Trz0THJHhNRb
+ PPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HuJ2WLYv0zRF8B+JPGkCpiPdwwFOt5uR5j693RaNj3Y=;
- b=UNvYgvpR45aCtw+L053mk80n3nPxrJmNsI/H7AtcJVPOOX3jTJmNYOyqzkjdFt7fTo
- xzJGzB38M/1/u5NlU5e6Csnkl7bxv+dHw7mi7KnUUIO9ygL0/FrZck/moOv6OMC85IEE
- A7mMCOSebP/+IxFcH9wzbtzdjU6Ujt5fBbfxoufSg4Epd8U854n2Hr2C4sCrhZOwlpwI
- VqVVEHxfNaPQQDQ0YQpRpplD6d3pgSyen87cCrw2qGQpiLyxFjQ7CPn9D09YyBC8wuHk
- xCsV7Vss02yFvHhwM6WHwEwPQb3CApafkYARAu+cG9CW9CMBKnmoUd0GbHWIkbn6+XL6
- b6Yg==
-X-Gm-Message-State: AOAM531IvYfhiIu+UMduSBnVr9NQJ9fxRVyZxv2WzKtBG4F9I/2/N7vT
- jGs48v7BNvLMW4R1aZeqf6JH9FNgvYvixi5aaqI=
-X-Google-Smtp-Source: ABdhPJyroSesHyhfefpRkqqmdlF3nopOpEIHN5Rcry0Zx6awK9qbE7fm6K9HDpVvKmYR2ffCB5bU9JvxCqr774k0cyQ=
-X-Received: by 2002:a1f:908b:: with SMTP id s133mr9150573vkd.38.1589748713323; 
- Sun, 17 May 2020 13:51:53 -0700 (PDT)
+ bh=kRpHuRKc3Bl5TABsYSL7dPRXInYL17v1wVRbBgtX7NU=;
+ b=oChe0UpHKgzA6cTWjxV0PFm/b7b+StD7q9tupe/ToqN8CfqBGu+xLBexk/SOQtogVs
+ IBnU2cRZJPVa8DSjwkopOBP4TN+fhjhI5igh10XRIbdCFj4PoderJd0r1Lf+wpijmE6W
+ aUxzE/DIszpUYBW38AXvGlp0gWJnfL1WCP9OyzHRtUbNNxPNCpjce2jTUrE9z+WnwN0s
+ TuWr6BrkDXtyyzycXXZSB9HwQrbgfq7b47sVVJFsXgbG8/pXAfqudoLYRBcb+PLzMFuD
+ wavBu5M1xHRw2nNUW3EHYnlZVkwNhyW5xo3rmWJrwDcc0giKW2TxGHLBNnzuR14GkY3A
+ 30xA==
+X-Gm-Message-State: AOAM531HvnvlcGihhiF5KAe4Du65Ljgr9r1/jEiJbeQyWvOEtVdTFnFY
+ ZEmJemwYrIWmyp3kzzNxa2MwVk9sRNiNShneRWw=
+X-Google-Smtp-Source: ABdhPJxxoulbFHKkk5sAmi3frB7/d9hBxGQD8EXWebg6haLP3CNxcYOexxdkVTIOKDudrgSrCIxG+52osvlzN3ensV0=
+X-Received: by 2002:a1f:ac0e:: with SMTP id v14mr9168388vke.28.1589748772323; 
+ Sun, 17 May 2020 13:52:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <87shgq8qh9.fsf@nikula.org>
- <20170817104307.17124-1-m.tretter@pengutronix.de>
- <87mv6y8lup.fsf@nikula.org>
-In-Reply-To: <87mv6y8lup.fsf@nikula.org>
+References: <20200316163907.13709-1-wsa+renesas@sang-engineering.com>
+ <20200512162837.GJ13516@ninjato>
+ <CACvgo526Ut+rpi9TXP4jZKPZmRUbnh8U-ETj7VTAz9ykut5Uig@mail.gmail.com>
+In-Reply-To: <CACvgo526Ut+rpi9TXP4jZKPZmRUbnh8U-ETj7VTAz9ykut5Uig@mail.gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Sun, 17 May 2020 21:49:04 +0100
-Message-ID: <CACvgo52u6pVjA5SjSf6E6aXWuvhb5t=VDcndd+P7Oyup676Obw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/debugfs: fix plain echo to connector "force"
- attribute
-To: Jani Nikula <jani.nikula@linux.intel.com>
+Date: Sun, 17 May 2020 21:50:03 +0100
+Message-ID: <CACvgo51TTsggO4r3C5rsmgJP6w41twD4ngX6M5QxhyH7Jj4v0Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm: encoder_slave: some updates
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,34 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <kernel@pengutronix.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Michael Tretter <m.tretter@pengutronix.de>,
+Cc: linux-renesas-soc@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
  ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Aug 2017 at 12:34, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Wed, 13 May 2020 at 10:35, Emil Velikov <emil.l.velikov@gmail.com> wrote:
 >
-> On Thu, 17 Aug 2017, Michael Tretter <m.tretter@pengutronix.de> wrote:
-> > Using plain echo to set the "force" connector attribute fails with
-> > -EINVAL, because echo appends a newline to the output.
-> >
-> > Replace strcmp with sysfs_streq to also accept strings that end with a
-> > newline.
-> >
-> > v2: use sysfs_streq instead of stripping trailing whitespace
-> >
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> Hi Wolfram,
 >
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> On Wed, 13 May 2020 at 10:10, Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >
+> > On Mon, Mar 16, 2020 at 05:39:05PM +0100, Wolfram Sang wrote:
+> > > While converting I2C users to new APIs, I found a refcounting problem in
+> > > the encoder_slave implementation. This series fixes it and converts to
+> > > the new API.
+> > >
+> > > Based on linux-next and only build tested.
+> > >
+> > > Wolfram Sang (2):
+> > >   drm: encoder_slave: fix refcouting error for modules
+> > >   drm: encoder_slave: use new I2C API
+> > >
+> > >  drivers/gpu/drm/drm_encoder_slave.c | 15 +++++----------
+> > >  1 file changed, 5 insertions(+), 10 deletions(-)
+> >
+> > Is there someone I should add to the CC list maybe?
+> >
+> The series is:
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 >
-Seems like this fell through the cracks. Pushed to drm-misc-next.
+> Unless someone beats me to it, I'll commit them to drm-misc later today.
+>
+And after a short delay, pushed to drm-misc-next.
+Thanks for the patches Wolfram.
 
-Thanks
-Emil
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
