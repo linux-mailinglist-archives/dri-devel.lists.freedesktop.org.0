@@ -2,33 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28ED1D7B0E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADB71D7B24
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE3789BAF;
-	Mon, 18 May 2020 14:22:56 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0770489BAF
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:22:55 +0000 (UTC)
-Date: Mon, 18 May 2020 14:22:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1589811772;
- bh=wroxRdOoBf+KXBVDm3osHFbt94BI6EVmqm1w7k7e6hI=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=k8Ob7LZ/8fvPz9qkBnq0Jpx1IBa7ktKGCDyMyIoCaVKcZ712ERDqG/qbdTDXgh/FN
- XKkmqOOBFqlFF1tUpLOY4fDv3gcwlGgh6eT1vWXSN0PxphVhwJVeL1vujReRFJQhxM
- fiEC589hJkiAjfkhPDZD2WWh49adpXLQ0yoQ0DU4=
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 2/2] drm: add docs for standard CRTC properties
-Message-ID: <FFaYYfloz0zbXJxx2uxoPluNTicf8VUdrLHL7DBuruShcow3aqIQUZui6VL3RNhFu6HlXvm-1jxmw1N3mKX-K9dr73osz_XQ77CaJ9W5zKI=@emersion.fr>
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5AA89DBA;
+	Mon, 18 May 2020 14:23:51 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5176A89C21
+ for <dri-devel@freedesktop.org>; Mon, 18 May 2020 14:23:46 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1589811830; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=XnR/IfU/T1PqN5i2mz+2EYG87NYU7KY5NbZ546eRMTY=;
+ b=Tse4DshoOvkvXMbSGwWr38L6QAaPvVeyY/EhGbJoNxzyRJHqHQ0XRjEFJoTkVk3u5wZ3Cq23
+ 0ZMwXRs+gXAP9Ja6shE14qQ5xIzf10Q6huMfQi3Ao8iF2+kLa6W65uhtWcF+zfDzKUxvwC1j
+ GB44PxhT2HF3dSC+jdQBaerq8JY=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ec29a6a.7f371ed35458-smtp-out-n02;
+ Mon, 18 May 2020 14:23:38 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6791CC432C2; Mon, 18 May 2020 14:23:37 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D63DCC44791;
+ Mon, 18 May 2020 14:23:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D63DCC44791
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 18 May 2020 08:23:34 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Sharat Masetty <smasetty@codeaurora.org>
+Subject: Re: [PATCH 5/6] drm: msm: a6xx: use dev_pm_opp_set_bw to set DDR
+ bandwidth
+Message-ID: <20200518142333.GA10796@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Sharat Masetty <smasetty@codeaurora.org>,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ dri-devel@freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, georgi.djakov@linaro.org,
+ mka@chromium.org
+References: <1589453659-27581-1-git-send-email-smasetty@codeaurora.org>
+ <1589453659-27581-6-git-send-email-smasetty@codeaurora.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <1589453659-27581-6-git-send-email-smasetty@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,51 +74,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mka@chromium.org, dri-devel@freedesktop.org,
+ freedreno@lists.freedesktop.org, georgi.djakov@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBhZGRzIGRvY3MgZm9yIHRoZSBBQ1RJVkUgYW5kIE1PREVfSUQgQ1JUQyBwcm9w
-ZXJ0aWVzLgoKU2lnbmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpD
-YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJq
-YWxhIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFBla2thIFBhYWxhbmVuIDxw
-ZWtrYS5wYWFsYW5lbkBjb2xsYWJvcmEuY28udWs+CkNjOiBNaWNoZWwgRMOkbnplciA8bWljaGVs
-QGRhZW56ZXIubmV0PgotLS0KCkxldCBtZSBrbm93IGlmIHlvdSB0aGluayBvZiBvdGhlciB0aGlu
-Z3MgdG8gYWRkLgoKU2hvdWxkIHdlIHJlZmVyIHRvIEFMTE9XX01PREVTRVQgaW4gdGhlIE1PREVf
-SUQgZG9jcz8KCiBEb2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLnJzdCB8ICA1ICsrKysrCiBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2NydGMuYyAgICB8IDE2ICsrKysrKysrKysrKysrKysKIDIgZmlsZXMg
-Y2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1
-L2RybS1rbXMucnN0IGIvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLWttcy5yc3QKaW5kZXggMzk3MzE0
-ZDA4Zjc3Li40Mjg5YjcyMDU2OTYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZ3B1L2RybS1r
-bXMucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZ3B1L2RybS1rbXMucnN0CkBAIC00NjAsNiArNDYw
-LDExIEBAIEhETUkgU3BlY2lmaWMgQ29ubmVjdG9yIFByb3BlcnRpZXMKIC4uIGtlcm5lbC1kb2M6
-OiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCiAgICA6ZG9jOiBIRE1JIGNvbm5lY3Rv
-ciBwcm9wZXJ0aWVzCiAKK1N0YW5kYXJkIENSVEMgUHJvcGVydGllcworCisuLiBrZXJuZWwtZG9j
-OjogZHJpdmVycy9ncHUvZHJtL2RybV9jcnRjLmMKKyAgIDpkb2M6IHN0YW5kYXJkIENSVEMgcHJv
-cGVydGllcworCiBQbGFuZSBDb21wb3NpdGlvbiBQcm9wZXJ0aWVzCiAtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Yy5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9jcnRjLmMKaW5kZXggNDkzNmUxMDgwZTQxLi5jMjhlNjYyYzFl
-OTMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Yy5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fY3J0Yy5jCkBAIC0yMDQsNiArMjA0LDIyIEBAIHN0cnVjdCBkbWFfZmVuY2Ug
-KmRybV9jcnRjX2NyZWF0ZV9mZW5jZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiAJcmV0dXJuIGZl
-bmNlOwogfQogCisvKioKKyAqIERPQzogc3RhbmRhcmQgQ1JUQyBwcm9wZXJ0aWVzCisgKgorICog
-RFJNIENSVENzIGhhdmUgYSBmZXcgc3RhbmRhcmRpemVkIHByb3BlcnRpZXM6CisgKgorICogQUNU
-SVZFOgorICogCUF0b21pYyBwcm9wZXJ0eSBmb3Igc2V0dGluZyB0aGUgcG93ZXIgc3RhdGUgb2Yg
-dGhlIENSVEMuIFdoZW4gc2V0IHRvIDEgdGhlCisgKiAJQ1JUQyB3aWxsIGFjdGl2ZWx5IGRpc3Bs
-YXkgY29udGVudC4gV2hlbiBzZXQgdG8gMCB0aGUgQ1JUQyB3aWxsIGJlIHBvd2VyZWQKKyAqIAlv
-ZmYuIFRoZXJlIGlzIG5vIGV4cGVjdGF0aW9uIHRoYXQgdXNlci1zcGFjZSB3aWxsIHJlc2V0IENS
-VEMgcmVzb3VyY2VzIGxpa2UKKyAqIAl0aGUgbW9kZSBhbmQgcGxhbmVzIHdoZW4gc2V0dGluZyBB
-Q1RJVkUgdG8gMC4KKyAqIE1PREVfSUQ6CisgKiAJQXRvbWljIHByb3BlcnR5IGZvciBzZXR0aW5n
-IHRoZSBDUlRDIGRpc3BsYXkgdGltaW5ncy4gVGhlIHZhbHVlIGlzIHRoZSBJRAorICogCW9mIGEg
-YmxvYiBjb250YWluaW5nIHRoZSBEUk0gbW9kZSBpbmZvLiBUbyBkaXNhYmxlIHRoZSBDUlRDLCB1
-c2VyLXNwYWNlCisgKiAJbXVzdCBzZXQgdGhpcyBwcm9wZXJ0eSB0byAwLgorICovCisKIC8qKgog
-ICogZHJtX2NydGNfaW5pdF93aXRoX3BsYW5lcyAtIEluaXRpYWxpc2UgYSBuZXcgQ1JUQyBvYmpl
-Y3Qgd2l0aAogICogICAgc3BlY2lmaWVkIHByaW1hcnkgYW5kIGN1cnNvciBwbGFuZXMuCi0tIAoy
-LjI2LjIKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, May 14, 2020 at 04:24:18PM +0530, Sharat Masetty wrote:
+> This patches replaces the previously used static DDR vote and uses
+> dev_pm_opp_set_bw() to scale GPU->DDR bandwidth along with scaling
+> GPU frequency.
+> 
+> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 2d8124b..79433d3 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -141,11 +141,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> 
+>  	gmu->freq = gmu->gpu_freqs[perf_index];
+> 
+> -	/*
+> -	 * Eventually we will want to scale the path vote with the frequency but
+> -	 * for now leave it at max so that the performance is nominal.
+> -	 */
+> -	icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
+> +	dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
+>  }
+
+This adds an implicit requirement that all targets need bandwidth settings
+defined in the OPP or they won't get a bus vote at all. I would prefer that
+there be an default escape valve but if not you'll need to add
+bandwidth values for the sdm845 OPP that target doesn't regress.
+
+Jordan
+
+>  unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> --
+> 2.7.4
+> 
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
