@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A511D7B76
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763A11D7B84
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 377BE6E212;
-	Mon, 18 May 2020 14:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6846E214;
+	Mon, 18 May 2020 14:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03F06E212
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:40:38 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id h17so12139272wrc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 07:40:38 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 521666E214
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:42:25 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id u188so10755015wmu.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 07:42:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=upylutkiKti3lDLmYcIR/RPiLHE1kV4VVOWxpoqQSFQ=;
- b=hHxwVq8DfIKZnvjC6oO+KgVGc3HeE8WmpDa+4Gu+WPtlkzGN2HvNxtXhomgzYKGCEO
- 6pyCaJK7gH+6yCB2Dxyut7thurRgR/8KVjYpxtyT3yythnQBhiOKe+NVLLNWax/8q1bZ
- 5qQiqiw35PlJmFu91d2SMeUTZIdM08gvWDhRM=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=sqbm1kuBp8qAnZYYbL2asSt0x164XkBGqkOlCuOxgEk=;
+ b=hJ6eo7yd1j5JjkVFBKAlBVTLIY/Hdg9+5+nZzZAuiZ+Aij5TkbYIGTSmODxocGqXbD
+ 5v9eTAq8dYX7BHnIr2BZh4+KVEXr86ywt3SWFCFtKuR6CHuznekiVdvuxA/L2/XRe/de
+ O1wNf5JWO30BijpFUqCHA+rk11aeJojumQu6I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=upylutkiKti3lDLmYcIR/RPiLHE1kV4VVOWxpoqQSFQ=;
- b=m4Bo1Egqccu+g+GlNTJBVQrLOdntwA7J/DHT0OHwdBDluZ0MPIRrdM5diKJ8qoQx5b
- dnVLQH7OQCcOVTkkTSq9a6zd9P5C27H59YUnIB5aQvDT5Zo1TdErVL6ULUmQrzPvq0CV
- AEw+HbGjZuPHgBTe6C7IEA9F0FbLhgBOoxHTRX2BoaHvwvXqfmI9LqTYFva/FTx7H+rl
- t0GFAqEDEv/rvZfT/WJnkiz6t6Zj8RIcbPi3w0SfWF69lT7AwCCOTsgvdo1NO8iclfRP
- CzzNwknXrhnBSQBeqFAT8RPk8did8oawtTyoQUrpjrAYq9PEHjSJe50lWqVh0qj9Mmmx
- zyCA==
-X-Gm-Message-State: AOAM533roYx9leejfxL2GavIncn7Ygk+Xqrl0wS/EdXWr6XuL6Wt3YM+
- obT+ottNPlmz2F2amwwiMBrj+Q==
-X-Google-Smtp-Source: ABdhPJwxwzMCX9ZRalWpp6YbR4lf/bqklrUVpTwkhmVC8QicZZePXHar2e0mJ+rP7k2DwKKzYrXOJQ==
-X-Received: by 2002:a05:6000:8:: with SMTP id
- h8mr21328512wrx.372.1589812837672; 
- Mon, 18 May 2020 07:40:37 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=sqbm1kuBp8qAnZYYbL2asSt0x164XkBGqkOlCuOxgEk=;
+ b=Suijxkm1CGHcs5Smuk8aAHEn7YWp8wzCQ1wq1c5opaE1+rfeBebLV18fehKyxSJUsM
+ qX0+/ltpOGI5PLene70Q6QDcVpn7OiJso3ALcOlA11jIydg49tFFggD0W/2eqpNwbGfz
+ StS+dNOX9Bsw6HQ5bU5QkY1hlZ63RSy4QhmGm5UoUHSg0bxtW3qKvrz4a05824fJ9Jpf
+ KUGHbWpNR3HvVK7FLLfI5rRS8NL/SnBMZDmPfYme7SFTEfkND3Rm+SfKKiRdvNH3eAyn
+ IuJ6kgQafBYoh/syNGo4HlOHIrWOSRH0p9/HokWVUDBBKUiaJlZJdYlVnkmoYDPy0Ck7
+ DWBA==
+X-Gm-Message-State: AOAM533wQcqLNnF9yBv1OVGol+4XLmJocGq4koudcIafIi2qSl813RgW
+ dRDfH3B6wu2t6L3NqBFlMDSbZOz6CEE=
+X-Google-Smtp-Source: ABdhPJxrFViaghWvZDcabFL5A94ThlCB83h+St99wWF5qwGyuttLYaqp+V0pwhm9fhRJFODgT58b0w==
+X-Received: by 2002:a05:600c:2104:: with SMTP id
+ u4mr6824768wml.121.1589812943981; 
+ Mon, 18 May 2020 07:42:23 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l1sm17146590wrc.24.2020.05.18.07.40.35
+ by smtp.gmail.com with ESMTPSA id f5sm16975124wrp.70.2020.05.18.07.42.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 07:40:36 -0700 (PDT)
-Date: Mon, 18 May 2020 16:40:34 +0200
+ Mon, 18 May 2020 07:42:23 -0700 (PDT)
+Date: Mon, 18 May 2020 16:42:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/2] drm/shmem: Use cached mappings by default
-Message-ID: <20200518144034.GN206103@phenom.ffwll.local>
-References: <20200513150312.21421-1-tzimmermann@suse.de>
- <20200513150312.21421-2-tzimmermann@suse.de>
- <20200514124050.GV206103@phenom.ffwll.local>
- <CAL_JsqK5J78PS_miF8QmfcLJOiESV-f=hXB_CanFqK9yBgJ=6Q@mail.gmail.com>
- <6cec8a8a-d642-cd93-906a-eafab49a12d7@suse.de>
- <20200515141044.GH206103@phenom.ffwll.local>
- <3e09cc7d-c609-e10a-3fe9-f40f3bbfaeaf@suse.de>
- <20200518082354.jeuyt7uzek73pjkp@sirius.home.kraxel.org>
- <3bc1a032-2e7a-d7a8-e5e6-8d53a9e9bd3a@suse.de>
- <20200518101132.ves2qswskaiajh2y@sirius.home.kraxel.org>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 1/4] drm: Include internal header for managed function
+ declarations
+Message-ID: <20200518144221.GO206103@phenom.ffwll.local>
+References: <20200516212330.13633-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200518101132.ves2qswskaiajh2y@sirius.home.kraxel.org>
+In-Reply-To: <20200516212330.13633-1-chris@chris-wilson.co.uk>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,62 +67,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 18, 2020 at 12:11:32PM +0200, Gerd Hoffmann wrote:
-> On Mon, May 18, 2020 at 10:50:15AM +0200, Thomas Zimmermann wrote:
-> > Hi Gerd
-> > 
-> > Am 18.05.20 um 10:23 schrieb Gerd Hoffmann:
-> > >>> $ git grep drm_gem_shmem_mmap
-> > >>>
-> > >>> We also need correct access from userspace, otherwise the gpu is going to
-> > >>> be sad.
-> > >>
-> > >> I've been thinking about this, and I think it means that we can never
-> > >> have cached mappings anywhere. Even if shmem supports it internally for
-> > >> most drivers, as soon as the page are exported, the importer could
-> > >> expect uncached memory.
-> > > 
-> > > The importer should not expect anything but call dma-buf ops so the
-> > > exporter has a chance to handle this correctly.
-> > 
-> > I have the following case in mind: Suppose the exporter maps cached
-> > pages and the importer expects uncached pages for DMA. There is
-> > map_dma_buf/unmap_dma_buf, which can implement a cache flush for the
-> > cached pages. Is it guaranteed that the importer calls this around each
-> > DMA operation?
-> 
-> I think the importer is supposed to do that, but I wouldn't surprised if
-> there are cases in tree where this isn't implemented correctly ...
-
-Yup, this is very much a case of "supposed to" but "in practice, many
-actually dont". The reason is that setting up mappings is expensive, so
-best avoid.
-
-We filled that gap a few years after dma-buf landed with the
-begin/end_cpu_access hooks, which allow the exporter to do cache flushing
-(using something like dma_sync_sg_for_device/cpu) and for this to all work
-properly. We even added ioctl so that the mmap on the dma-buf works
-correctly.
-
-But most importers still ignore this, so it's all fail :-/ But in theory
-the pieces to make cached mappings work over dma-buf, even for importers
-that need uncached, are all there.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCBNYXkgMTYsIDIwMjAgYXQgMTA6MjM6MjdQTSArMDEwMCwgQ2hyaXMgV2lsc29uIHdy
+b3RlOgo+IGRyaXZlcnMvZ3B1L2RybS9kcm1fbWFuYWdlZC5jOjYxOjY6IHdhcm5pbmc6IHN5bWJv
+bCAnZHJtX21hbmFnZWRfcmVsZWFzZScgd2FzIG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0
+YXRpYz8KPiAgIENDICAgICAgZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2VkLm8KPiBkcml2ZXJz
+L2dwdS9kcm0vZHJtX21hbmFnZWQuYzo2MTo2OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5
+cGUgZm9yIOKAmGRybV9tYW5hZ2VkX3JlbGVhc2XigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+
+ICB2b2lkIGRybV9tYW5hZ2VkX3JlbGVhc2Uoc3RydWN0IGRybV9kZXZpY2UgKmRldikKCkRyYXQh
+IFRoYW5rcyBmb3IgZml4aW5nLgoKUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52
+ZXR0ZXJAZmZ3bGwuY2g+Cgo+IAo+IEZpeGVzOiBjNjYwM2M3NDBlMGUgKCJkcm06IGFkZCBtYW5h
+Z2VkIHJlc291cmNlcyB0aWVkIHRvIGRybV9kZXZpY2UiKQo+IFNpZ25lZC1vZmYtYnk6IENocmlz
+IFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNh
+bUByYXZuYm9yZy5vcmc+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiAt
+LS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2VkLmMgfCAyICsrCj4gIDEgZmlsZSBjaGFu
+Z2VkLCAyIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9tYW5hZ2VkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21hbmFnZWQuYwo+IGluZGV4IDljZWJm
+ZTM3MGE2NS4uMWUxMzU2NTYwYzJlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+bWFuYWdlZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tYW5hZ2VkLmMKPiBAQCAtMTQs
+NiArMTQsOCBAQAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9kZXZpY2UuaD4KPiAgI2luY2x1ZGUgPGRy
+bS9kcm1fcHJpbnQuaD4KPiAgCj4gKyNpbmNsdWRlICJkcm1faW50ZXJuYWwuaCIKPiArCj4gIC8q
+Kgo+ICAgKiBET0M6IG1hbmFnZWQgcmVzb3VyY2VzCj4gICAqCj4gLS0gCj4gMi4yMC4xCj4gCgot
+LSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0
+cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
