@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157C01D70DA
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 08:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A871D74F2
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 12:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53CAE6E123;
-	Mon, 18 May 2020 06:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C97F6E40A;
+	Mon, 18 May 2020 10:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1EF6E0A6;
- Mon, 18 May 2020 06:24:29 +0000 (UTC)
-IronPort-SDR: 9FyZldtlLavcdwkg6RAfmnwuvEXEsMzWah8twtUCsxQsO7ephTWo7YxIH/ffSjTn7mf/FEt6xW
- GQI7hWEJwXaA==
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2020 23:24:28 -0700
-IronPort-SDR: i/Efo5wE8sji1KgHmHKQOoWISCOrfbaG9dNAnzdGRzbN+bl1tSNbeTVj+LVpGkktlgEAS0whlt
- u7ComdAa8dGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,406,1583222400"; 
- d="asc'?scan'208";a="299674577"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
- by orsmga008.jf.intel.com with ESMTP; 17 May 2020 23:24:25 -0700
-Date: Mon, 18 May 2020 14:09:29 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Nathan Chancellor <natechancellor@gmail.com>
-Subject: Re: [PATCH] drm/i915: Mark check_shadow_context_ppgtt as maybe unused
-Message-ID: <20200518060929.GS18545@zhen-hp.sh.intel.com>
-References: <20200516023545.3332334-1-natechancellor@gmail.com>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7236E03F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 07:30:41 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49QVzb1NrSz9sTC;
+ Mon, 18 May 2020 17:30:35 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+ s=201909; t=1589787036;
+ bh=MDlXD/dXZ4SIz/zEFqjB97s8wYmIXZm8GHRLFeTWLX8=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=L+l/iVU2gWPCIGALPHaECZGRU2y04a2OR6TKjipLsWcUM7Lbv+jnsNiC6OWf2/yyM
+ 6P95PMDpVoO/jcc53b3ysZ6L0PjqgrnldQwNWD6zEiPzaHTpQCgRYmmAfBEitEFx8u
+ 6AFGOR/UDa7EiHPHNLpWXCBh0VPywjQi8hZQl9JbPs2iV/IuoAY6yQcxBk2Wcz6USx
+ 6dVX4u0CJG0lB/uZNGTrziAn2+5PZi//WwVSZwK9WqklikDa3XDa8zkOlgvCWf29pu
+ kGnBIhjZwVUSh5GE6+6oJMMxzI3q+faER2cErx/SWGYqXg0R7sM3AeNmxZkyiIJOi+
+ 2I15aoQJANd0g==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] powerpc/configs: replace deprecated riva/nvidia
+ with nouveau
+In-Reply-To: <20200517220524.4036334-2-emil.l.velikov@gmail.com>
+References: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
+ <20200517220524.4036334-2-emil.l.velikov@gmail.com>
+Date: Mon, 18 May 2020 17:30:53 +1000
+Message-ID: <87d071aedu.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-In-Reply-To: <20200516023545.3332334-1-natechancellor@gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Mailman-Approved-At: Mon, 18 May 2020 10:14:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,108 +51,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>
-Content-Type: multipart/mixed; boundary="===============1415837119=="
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, emil.l.velikov@gmail.com,
+ Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1415837119==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="t54s24TTWYm6oOX+"
-Content-Disposition: inline
-
-
---t54s24TTWYm6oOX+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.05.15 19:35:45 -0700, Nathan Chancellor wrote:
-> When CONFIG_DRM_I915_DEBUG_GEM is not set, clang warns:
->=20
-> drivers/gpu/drm/i915/gvt/scheduler.c:884:1: warning: function
-> 'check_shadow_context_ppgtt' is not needed and will not be emitted
-> [-Wunneeded-internal-declaration]
-> check_shadow_context_ppgtt(struct execlist_ring_context *c, struct
-> intel_vgpu_mm *m)
-> ^
-> 1 warning generated.
->=20
-> This warning is similar to -Wunused-function but rather than warning
-> that the function is completely unused, it warns that it is used in some
-> expression within the file but that expression will be evaluated to a
-> constant or be optimized away in the final assembly, essentially making
-> it appeared used but really isn't. Usually, this happens when a function
-> or variable is only used in sizeof, where it will appear to be used but
-> will be evaluated at compile time and not be required to be emitted.
->=20
-> In this case, the function is only used in GEM_BUG_ON, which is defined
-> as BUILD_BUG_ON_INVALID, which intentionally follows this pattern. To
-> fix this warning, add __maybe_unused to make it clear that this is
-> intentional depending on the configuration.
->=20
-> Fixes: bec3df930fbd ("drm/i915/gvt: Support PPGTT table load command")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1027
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+Emil Velikov <emil.l.velikov@gmail.com> writes:
+> As mentioned in earlier commit, the riva and nvidia fbdev drivers have
+> seen no love over the years, are short on features and overall below par
+>
+> Users are encouraged to switch to the nouveau drm driver instead.
+>
+> v2: Split configs to separate patch, enable nouveau (Bartlomiej)
+>
+> Cc: Antonino Daplas <adaplas@gmail.com>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
 > ---
->  drivers/gpu/drm/i915/gvt/scheduler.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/=
-gvt/scheduler.c
-> index f776c92de8d7..0fb1df71c637 100644
-> --- a/drivers/gpu/drm/i915/gvt/scheduler.c
-> +++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-> @@ -880,7 +880,7 @@ static void update_guest_pdps(struct intel_vgpu *vgpu,
->  				gpa + i * 8, &pdp[7 - i], 4);
->  }
-> =20
-> -static bool
-> +static __maybe_unused bool
->  check_shadow_context_ppgtt(struct execlist_ring_context *c, struct intel=
-_vgpu_mm *m)
->  {
->  	if (m->ppgtt_mm.root_entry_type =3D=3D GTT_TYPE_PPGTT_ROOT_L4_ENTRY) {
->=20
-> base-commit: bdecf38f228bcca73b31ada98b5b7ba1215eb9c9
+> Hi all unless, there are objections I would prefer to merge this via
+> the drm tree.
 
-Thanks for the fix!
+Have you tested that the resulting kernels work on the relevant
+hardware?
 
-Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+The old drivers may be crufty but they presumably have been tested by
+people and at least somewhat work.
 
-I'll pick up for gvt-next-fixes pull.
+So I'd be inclined to leave the defconfigs alone until someone can test
+that the new driver works at all.
 
---=20
-Open Source Technology Center, Intel ltd.
+I gave it a quick spin on a G5 I have access to and dmesg has a bunch of
+errors in it (see below). I can't actually tell if the display is
+working because the machine is remote, and I can't go and check it at
+the moment because the office is closed.
 
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+cheers
 
---t54s24TTWYm6oOX+
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXsImmQAKCRCxBBozTXgY
-JxfOAJ94e1oxLhfjkCYgNWLtG0s7S2z1fACggFwQWbFs3UxsTHtWE9Ln1GA6M2A=
-=gdfP
------END PGP SIGNATURE-----
-
---t54s24TTWYm6oOX+--
-
---===============1415837119==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+[  128.563251] nouveau 0000:f0:10.0: NVIDIA NV34 (034900b1)
+[  128.565720] nouveau 0000:f0:10.0: bios: version 04.34.20.18.00
+[  128.570994] nouveau 0000:f0:10.0: bios: OOB 1 00000cdd 00000cdd
+[  128.571702] nouveau 0000:f0:10.0: bios: OOB 1 00000ce1 00000ce1
+[  128.571723] nouveau 0000:f0:10.0: bios: OOB 1 00000cde 00000cde
+[  128.571731] nouveau 0000:f0:10.0: bios: OOB 1 00000cdf 00000cdf
+[  128.572438] nouveau 0000:f0:10.0: bios: OOB 1 00000ce5 00000ce5
+[  128.572459] nouveau 0000:f0:10.0: bios: OOB 1 00000ce2 00000ce2
+[  128.572468] nouveau 0000:f0:10.0: bios: OOB 1 00000ce3 00000ce3
+[  128.579187] nouveau 0000:f0:10.0: bios: OOB 1 00000ce9 00000ce9
+[  128.579210] nouveau 0000:f0:10.0: bios: OOB 1 00000ce6 00000ce6
+[  128.579219] nouveau 0000:f0:10.0: bios: OOB 1 00000ce7 00000ce7
+[  128.580230] nouveau 0000:f0:10.0: bios: OOB 1 00000ced 00000ced
+[  128.580252] nouveau 0000:f0:10.0: bios: OOB 1 00000cea 00000cea
+[  128.580261] nouveau 0000:f0:10.0: bios: OOB 1 00000ceb 00000ceb
+[  128.581543] nouveau 0000:f0:10.0: bios: OOB 1 00000cf1 00000cf1
+[  128.581567] nouveau 0000:f0:10.0: bios: OOB 1 00000cee 00000cee
+[  128.581576] nouveau 0000:f0:10.0: bios: OOB 1 00000cef 00000cef
+[  128.582456] nouveau 0000:f0:10.0: bios: OOB 1 00000cf5 00000cf5
+[  128.582479] nouveau 0000:f0:10.0: bios: OOB 1 00000cf2 00000cf2
+[  128.582487] nouveau 0000:f0:10.0: bios: OOB 1 00000cf3 00000cf3
+[  128.583314] nouveau 0000:f0:10.0: bios: OOB 1 00000cf9 00000cf9
+[  128.583336] nouveau 0000:f0:10.0: bios: OOB 1 00000cf6 00000cf6
+[  128.583344] nouveau 0000:f0:10.0: bios: OOB 1 00000cf7 00000cf7
+[  128.584186] nouveau 0000:f0:10.0: bios: OOB 1 00000cfd 00000cfd
+[  128.584208] nouveau 0000:f0:10.0: bios: OOB 1 00000cfa 00000cfa
+[  128.584217] nouveau 0000:f0:10.0: bios: OOB 1 00000cfb 00000cfb
+[  128.585635] nouveau 0000:f0:10.0: bios: OOB 1 00000d01 00000d01
+[  128.585658] nouveau 0000:f0:10.0: bios: OOB 1 00000cfe 00000cfe
+[  128.585666] nouveau 0000:f0:10.0: bios: OOB 1 00000cff 00000cff
+[  128.589405] nouveau 0000:f0:10.0: bios: OOB 1 00000d05 00000d05
+[  128.589428] nouveau 0000:f0:10.0: bios: OOB 1 00000d02 00000d02
+[  128.589436] nouveau 0000:f0:10.0: bios: OOB 1 00000d03 00000d03
+[  128.590316] nouveau 0000:f0:10.0: bios: OOB 1 00000d09 00000d09
+[  128.590338] nouveau 0000:f0:10.0: bios: OOB 1 00000d06 00000d06
+[  128.590346] nouveau 0000:f0:10.0: bios: OOB 1 00000d07 00000d07
+[  128.591173] nouveau 0000:f0:10.0: bios: OOB 1 00000d0d 00000d0d
+[  128.591196] nouveau 0000:f0:10.0: bios: OOB 1 00000d0a 00000d0a
+[  128.591205] nouveau 0000:f0:10.0: bios: OOB 1 00000d0b 00000d0b
+[  128.593513] nouveau 0000:f0:10.0: tmr: unknown input clock freq
+[  128.595886] nouveau 0000:f0:10.0: fb: 64 MiB DDR1
+[  128.609034] [TTM] Zone  kernel: Available graphics memory: 500010 KiB
+[  128.609058] [TTM] Initializing pool allocator
+[  128.609106] nouveau 0000:f0:10.0: DRM: VRAM: 63 MiB
+[  128.609115] nouveau 0000:f0:10.0: DRM: GART: 128 MiB
+[  128.609134] nouveau 0000:f0:10.0: DRM: BMP version 5.38
+[  128.609144] nouveau 0000:f0:10.0: DRM: DCB version 2.2
+[  128.609155] nouveau 0000:f0:10.0: DRM: DCB outp 00: 01000122 00000004
+[  128.609168] nouveau 0000:f0:10.0: DRM: DCB outp 01: 02010200 11b088b8
+[  128.609177] nouveau 0000:f0:10.0: DRM: DCB outp 02: 02010201 11b00703
+[  128.609222] nouveau 0000:f0:10.0: DRM: Loading NV17 power sequencing microcode
+[  128.610947] nouveau 0000:f0:10.0: DRM: MM: using M2MF for buffer copies
+[  128.613371] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[  128.615065] nouveau 0000:f0:10.0: DRM: Setting dpms mode 3 on TV encoder (output 2)
+[  128.707050] nouveau 0000:f0:10.0: TV-1: EDID is invalid:
+[  128.707075]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707083]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707091]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707099]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707106]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707114]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707121]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707129]  [00] ZERO 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+[  128.707144] nouveau 0000:f0:10.0: DRM: DDC responded, but no EDID for TV-1
+[  128.750558] nouveau 0000:f0:10.0: DRM: allocated 1440x900 fb: 0x9000, bo 000000002677d038
+[  128.825341] nouveau 0000:f0:10.0: DRM: DDC responded, but no EDID for TV-1
+[  128.885351] nouveau 0000:f0:10.0: DRM: Pixel clock comparison table not found
+[  128.905884] Console: switching to colour frame buffer device 180x56
+[  128.907251] nouveau 0000:f0:10.0: fb0: nouveaudrmfb frame buffer device
+[  128.911832] [drm] Initialized nouveau 1.3.1 20120801 for 0000:f0:10.0 on minor 0
+[  129.168778] nouveau 0000:f0:10.0: DRM: DDC responded, but no EDID for TV-1
+[  131.014692] Adding 2947556k swap on /dev/sda4.  Priority:-2 extents:1 across:2947556k 
+[  133.501059] sungem_phy: PHY ID: 4061e4, addr: 0
+[  133.502214] gem 0001:03:0f.0 eth0: Found BCM5221 PHY
+[  135.940863] gem 0001:03:0f.0 eth0: Link is up at 100 Mbps, full-duplex
+[  135.941181] gem 0001:03:0f.0 eth0: Pause is disabled
+[  136.224079] nouveau 0000:f0:10.0: DRM: DDC responded, but no EDID for TV-1
+[  136.297015] nouveau 0000:f0:10.0: DRM: DDC responded, but no EDID for TV-1
+[  139.465278] nouveau 0000:f0:10.0: DRM: Pixel clock comparison table not found
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1415837119==--
