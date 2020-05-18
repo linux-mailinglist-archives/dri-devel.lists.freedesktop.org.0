@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A871D7B50
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:32:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7191D7B6B
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2EC289EAE;
-	Mon, 18 May 2020 14:32:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7076E202;
+	Mon, 18 May 2020 14:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C51A989E5F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:32:45 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id s10so10782472iog.7
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 07:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6WNODVGJlCT9KIhfyYXKtkIcMa8bGEmJKBTeDTvbiiA=;
- b=d8AQJaB71gSQ1WiAu4ygEu5Ahy5NEVWLwuTIhUd13IroxmFO/NB8AfvtLdnglxJPLu
- CBXV6GhKK5Zltor1yUNAQfLmKmx2ma1Z/PpZE5ducP6oYoZJP2GpaLL5OOtiu4UFrGog
- /RdrzQxrc0dnhvEqlvmCwbaG2xvYzbFxw016YDN+FZ8rUTReyBoRg6XOafW9gj7hBOXz
- CJiKM5oN9NSdwywSVt/lAe7VqKKiPiClrlmpFkiMLs+KgB1rjU+nKBDOhz3Faj9eN85Q
- 9YRFWtFAo7FHGwZMRk6h6IT9nnIvabMI2MH3tP0uRLCbLR0qDOhYC94YDjPJjAHOJ88f
- aQJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6WNODVGJlCT9KIhfyYXKtkIcMa8bGEmJKBTeDTvbiiA=;
- b=WjwhGHsfeteD6w7jJKK4qek2Gg/ctxSXT2aMWAjLcJypPo5XwugzATZq4kC8lxF1L+
- z2N6cDZOp9ul8rx4HjjLwtAee0IEBZYgbTNEXyMd5n+scJZEfPKWYgGPD6Cqr7abnIg3
- CP2WxkI4cMMuR+eXYrO9ZI8wkgWTjOZODoRi3yCck3BASVu5d/GcL/a8FoNPyaUJgSMA
- ZIirM1t94DBEFyOmu8CURfIyXbtF2wyZnNgI244kmdfoGbEqLjtFgctLG2rwNwvHsdIA
- 5/lbwOROvgSofGUwZsILu8EdH7sAmmWRQDZVtdGzwqll3kTfNUL5ekCZVLuq2sD8H+Zw
- CM3Q==
-X-Gm-Message-State: AOAM5320X3Nm+TYbro9pGckDTGI7IMOJYr+8oexTG07yIGjYhGfGtIXx
- GBHXVAU6sF6Ehr8FbinSbhOSsFxOLb0e7whKXaKV1w==
-X-Google-Smtp-Source: ABdhPJyUdQmBTLIRfCA+he3L0SV8nixaRz3Mj+dj6wAh1R7ZFK6xy462cE+Iiuz2EOYUSI61rDoRUvCB0I+bXLyi/ng=
-X-Received: by 2002:a02:5807:: with SMTP id f7mr15966599jab.118.1589812365033; 
- Mon, 18 May 2020 07:32:45 -0700 (PDT)
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCEC6E1F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:39:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1589812756; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=3jVQXLzS5PJPwz3uBBdwOaWCIbfx2OWYegKT20Bvp3w=;
+ b=hPULWhOvlfA8iId5XlzR6fPzDYplQemcSlm2P6uhcEgnczftZJBQHyWgbQgUnwuu9XXBuqbi
+ Y6Lj31NIWTXiT7Vd+8f5W+1KicuaxectXAbbGEiygzhy1xJHzecPR0lfViOfQ2TUSwaVjbsa
+ vkZAcRdHyJ5PNGAGU4u81EPH3+o=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ec29df5.7f85b62498b8-smtp-out-n04;
+ Mon, 18 May 2020 14:38:45 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 0E5B4C44788; Mon, 18 May 2020 14:38:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 59E58C433F2;
+ Mon, 18 May 2020 14:38:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 59E58C433F2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 18 May 2020 08:38:40 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Shawn Guo <shawn.guo@linaro.org>
+Subject: Re: [PATCH 1/2] drm/msm/a4xx: add adreno a405 support
+Message-ID: <20200518143840.GA3915@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Shawn Guo <shawn.guo@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org,
+ Brian Masney <masneyb@onstation.org>,
+ Konrad Dybcio <konradybcio@gmail.com>
+References: <20200509123846.27932-1-shawn.guo@linaro.org>
+ <20200509123846.27932-2-shawn.guo@linaro.org>
 MIME-Version: 1.0
-References: <20200429195502.39919-1-sean@poorly.run>
- <20200515144812.GB11877@intel.com>
-In-Reply-To: <20200515144812.GB11877@intel.com>
-From: Sean Paul <sean@poorly.run>
-Date: Mon, 18 May 2020 10:32:09 -0400
-Message-ID: <CAMavQKKv-3Wh=9QP=2Bf_FsSVcp4eXxPB9c80nDZwz-Wmvmz=w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/16] drm/i915: Add support for HDCP 1.4 over MST
- connectors
-To: Ramalingam C <ramalingam.c@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20200509123846.27932-2-shawn.guo@linaro.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,96 +74,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Juston Li <juston.li@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konradybcio@gmail.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 10:48 AM Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> On 2020-04-29 at 15:54:46 -0400, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > Changes in v6:
-> > -Rebased on -tip
-> > -Disabled HDCP over MST on GEN12
-> > -Addressed Lyude's review comments in the QUERY_STREAM_ENCRYPTION_STATUS patch
->
-> Sean,
->
-> What is the test setup you have used?
->
+On Sat, May 09, 2020 at 08:38:45PM +0800, Shawn Guo wrote:
+> It adds support for adreno a405 found on MSM8939.  The adreno_is_a430()
+> check in adreno_submit() needs an extension to cover a405.  The
+> downstream driver suggests it should cover the whole a4xx generation.
+> That's why it gets changed to adreno_is_a4xx(), while a420 is not
+> tested though.
 
-Hi Ram,
-Thanks for the feedback. To be completely honest it's really
-frustrating that I'm just now getting questions and review feedback
-(which I've been begging for on IRC) on this review that could have
-been addressed ~5 months ago. It's super disruptive to have to keep
-switching back to this after a long hiatus and many i915 refactors
-complicating my rebases.
+This looks good to me and if it boots then that's the best test of all.
 
-If no one wants this patchset, that's fine, please just let me know so
-I don't waste any more time. If Intel is interested, could we please
-stop the review trickle and lay out exactly what needs to be done to
-get this landed?
+Reviewed-by: Jordan Crouse <jcrouse@codeaurora.org>
 
-Sean
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c      | 29 +++++++++++++---------
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 11 ++++++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  2 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 ++++
+>  4 files changed, 34 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> index 253d8d85daad..70de59751188 100644
+> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+> @@ -66,19 +66,22 @@ static void a4xx_enable_hwcg(struct msm_gpu *gpu)
+>  		}
+>  	}
+>  
+> -	for (i = 0; i < 4; i++) {
+> -		gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL_MARB_CCU(i),
+> -				0x00000922);
+> -	}
+> +	/* No CCU for A405 */
+> +	if (!adreno_is_a405(adreno_gpu)) {
+> +		for (i = 0; i < 4; i++) {
+> +			gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL_MARB_CCU(i),
+> +					0x00000922);
+> +		}
+>  
+> -	for (i = 0; i < 4; i++) {
+> -		gpu_write(gpu, REG_A4XX_RBBM_CLOCK_HYST_RB_MARB_CCU(i),
+> -				0x00000000);
+> -	}
+> +		for (i = 0; i < 4; i++) {
+> +			gpu_write(gpu, REG_A4XX_RBBM_CLOCK_HYST_RB_MARB_CCU(i),
+> +					0x00000000);
+> +		}
+>  
+> -	for (i = 0; i < 4; i++) {
+> -		gpu_write(gpu, REG_A4XX_RBBM_CLOCK_DELAY_RB_MARB_CCU_L1(i),
+> -				0x00000001);
+> +		for (i = 0; i < 4; i++) {
+> +			gpu_write(gpu, REG_A4XX_RBBM_CLOCK_DELAY_RB_MARB_CCU_L1(i),
+> +					0x00000001);
+> +		}
+>  	}
+>  
+>  	gpu_write(gpu, REG_A4XX_RBBM_CLOCK_MODE_GPC, 0x02222222);
+> @@ -137,7 +140,9 @@ static int a4xx_hw_init(struct msm_gpu *gpu)
+>  	uint32_t *ptr, len;
+>  	int i, ret;
+>  
+> -	if (adreno_is_a420(adreno_gpu)) {
+> +	if (adreno_is_a405(adreno_gpu)) {
+> +		gpu_write(gpu, REG_A4XX_VBIF_ROUND_ROBIN_QOS_ARB, 0x00000003);
+> +	} else if (adreno_is_a420(adreno_gpu)) {
+>  		gpu_write(gpu, REG_A4XX_VBIF_ABIT_SORT, 0x0001001F);
+>  		gpu_write(gpu, REG_A4XX_VBIF_ABIT_SORT_CONF, 0x000000A4);
+>  		gpu_write(gpu, REG_A4XX_VBIF_GATE_OFF_WRREQ_EN, 0x00000001);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index cb3a6e597d76..b69757383965 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -92,6 +92,17 @@ static const struct adreno_info gpulist[] = {
+>  		.gmem  = SZ_1M,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>  		.init  = a3xx_gpu_init,
+> +	}, {
+> +		.rev   = ADRENO_REV(4, 0, 5, ANY_ID),
+> +		.revn  = 405,
+> +		.name  = "A405",
+> +		.fw = {
+> +			[ADRENO_FW_PM4] = "a420_pm4.fw",
+> +			[ADRENO_FW_PFP] = "a420_pfp.fw",
+> +		},
+> +		.gmem  = SZ_256K,
+> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.init  = a4xx_gpu_init,
+>  	}, {
+>  		.rev   = ADRENO_REV(4, 2, 0, ANY_ID),
+>  		.revn  = 420,
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 1d5c43c22269..3ddbf507941c 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -459,7 +459,7 @@ void adreno_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
+>  				break;
+>  			/* fall-thru */
+>  		case MSM_SUBMIT_CMD_BUF:
+> -			OUT_PKT3(ring, adreno_is_a430(adreno_gpu) ?
+> +			OUT_PKT3(ring, adreno_is_a4xx(adreno_gpu) ?
+>  				CP_INDIRECT_BUFFER_PFE : CP_INDIRECT_BUFFER_PFD, 2);
+>  			OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
+>  			OUT_RING(ring, submit->cmd[i].size);
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 9ff4e550e7bd..35f744834ea9 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -202,6 +202,11 @@ static inline bool adreno_is_a4xx(struct adreno_gpu *gpu)
+>  	return (gpu->revn >= 400) && (gpu->revn < 500);
+>  }
+>  
+> +static inline int adreno_is_a405(struct adreno_gpu *gpu)
+> +{
+> +	return gpu->revn == 405;
+> +}
+> +
+>  static inline int adreno_is_a420(struct adreno_gpu *gpu)
+>  {
+>  	return gpu->revn == 420;
+> -- 
+> 2.17.1
+> 
 
-
-> I am afraid our CI dont have the coverage for MST capability yet to provide
-> the functional status of the code.
->
-> -Ram.
-> >
-> > Sean Paul (16):
-> >   drm/i915: Fix sha_text population code
-> >   drm/i915: Clear the repeater bit on HDCP disable
-> >   drm/i915: WARN if HDCP signalling is enabled upon disable
-> >   drm/i915: Intercept Aksv writes in the aux hooks
-> >   drm/i915: Use the cpu_transcoder in intel_hdcp to toggle HDCP
-> >     signalling
-> >   drm/i915: Factor out hdcp->value assignments
-> >   drm/i915: Protect workers against disappearing connectors
-> >   drm/i915: Don't fully disable HDCP on a port if multiple pipes are
-> >     using it
-> >   drm/i915: Support DP MST in enc_to_dig_port() function
-> >   drm/i915: Use ddi_update_pipe in intel_dp_mst
-> >   drm/i915: Factor out HDCP shim functions from dp for use by dp_mst
-> >   drm/i915: Plumb port through hdcp init
-> >   drm/i915: Add connector to hdcp_shim->check_link()
-> >   drm/mst: Add support for QUERY_STREAM_ENCRYPTION_STATUS MST sideband
-> >     message
-> >   drm/i915: Print HDCP version info for all connectors
-> >   drm/i915: Add HDCP 1.4 support for MST connectors
-> >
-> >  drivers/gpu/drm/drm_dp_mst_topology.c         | 142 ++++
-> >  drivers/gpu/drm/i915/Makefile                 |   1 +
-> >  drivers/gpu/drm/i915/display/intel_ddi.c      |  29 +-
-> >  drivers/gpu/drm/i915/display/intel_ddi.h      |   2 +
-> >  .../drm/i915/display/intel_display_debugfs.c  |  21 +-
-> >  .../drm/i915/display/intel_display_types.h    |  30 +-
-> >  drivers/gpu/drm/i915/display/intel_dp.c       | 654 +--------------
-> >  drivers/gpu/drm/i915/display/intel_dp.h       |   9 +
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 743 ++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  19 +
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c     | 217 +++--
-> >  drivers/gpu/drm/i915/display/intel_hdcp.h     |   2 +-
-> >  drivers/gpu/drm/i915/display/intel_hdmi.c     |  25 +-
-> >  .../drm/selftests/test-drm_dp_mst_helper.c    |  17 +
-> >  include/drm/drm_dp_helper.h                   |   3 +
-> >  include/drm/drm_dp_mst_helper.h               |  44 ++
-> >  include/drm/drm_hdcp.h                        |   3 +
-> >  17 files changed, 1235 insertions(+), 726 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> >
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
