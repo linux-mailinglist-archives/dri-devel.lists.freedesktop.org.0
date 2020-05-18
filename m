@@ -1,44 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230BC1D841E
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 20:11:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7121D8465
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 20:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5C96E461;
-	Mon, 18 May 2020 18:11:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C51E46E462;
+	Mon, 18 May 2020 18:12:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E8B6E461
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 18:11:09 +0000 (UTC)
-IronPort-SDR: ddgsGq4VAnR+WBiZDhVJkCjBAqI4dP8KL9SgMxZH9JUe5oja4CGStJx9vYJrO+OFprZja+0g7L
- xFPLWJ0ZyQAw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 May 2020 11:11:08 -0700
-IronPort-SDR: 4PTj0JCNuHA2KBITWxMsHBG0lvanYZRK6CkXelcZuJd9rLLbOv9o5Xe4vuYLc2cXwOltPBKNMq
- LeWae4iARKuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; d="scan'208";a="308177709"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by FMSMGA003.fm.intel.com with ESMTP; 18 May 2020 11:11:08 -0700
-Date: Mon, 18 May 2020 11:11:08 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
-Message-ID: <20200518181107.GC3025231@iweiny-DESK2.sc.intel.com>
-References: <20200507150004.1423069-1-ira.weiny@intel.com>
- <20200507150004.1423069-8-ira.weiny@intel.com>
- <20200516223306.GA161252@roeck-us.net>
- <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
- <20200518042932.GA59205@roeck-us.net>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 728816E462
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 18:12:33 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id CFD6C80629;
+ Mon, 18 May 2020 20:12:28 +0200 (CEST)
+Date: Mon, 18 May 2020 20:12:27 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH v2 15/16] backlight: make of_find_backlight_by_node()
+ static
+Message-ID: <20200518181227.GC770425@ravnborg.org>
+References: <20200517190139.740249-1-sam@ravnborg.org>
+ <20200517190139.740249-16-sam@ravnborg.org>
+ <20200518165648.ltgtofjsteyyse4j@holly.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200518042932.GA59205@roeck-us.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200518165648.ltgtofjsteyyse4j@holly.lan>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8
+ a=5yQEYNe8RFLK8MwGuM4A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,100 +47,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Andy Gross <agross@kernel.org>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, patches@opensource.cirrus.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 17, 2020 at 09:29:32PM -0700, Guenter Roeck wrote:
-> On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
-> > On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
-> > > On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
-> > > > From: Ira Weiny <ira.weiny@intel.com>
-> > > > 
-> > > > Every single architecture (including !CONFIG_HIGHMEM) calls...
-> > > > 
-> > > > 	pagefault_enable();
-> > > > 	preempt_enable();
-> > > > 
-> > > > ... before returning from __kunmap_atomic().  Lift this code into the
-> > > > kunmap_atomic() macro.
-> > > > 
-> > > > While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
-> > > > be consistent.
-> > > > 
-> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > This patch results in:
-> > > 
-> > > Starting init: /bin/sh exists but couldn't execute it (error -14)
-> > > 
-> > > when trying to boot microblazeel:petalogix-ml605 in qemu.
+On Mon, May 18, 2020 at 05:56:48PM +0100, Daniel Thompson wrote:
+> On Sun, May 17, 2020 at 09:01:38PM +0200, Sam Ravnborg wrote:
+> > There are no external users of of_find_backlight_by_node().
+> > Make it static so we keep it that way.
 > > 
-> > Thanks for the report.  I'm not readily seeing the issue.
+> > v2:
+> >   - drop EXPORT of of_find_backlight_by_node
 > > 
-> > Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
-> > 
-> See below. Yes, CONFIG_HIGHMEM is set.
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Lee Jones <lee.jones@linaro.org>
+> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > Cc: Jingoo Han <jingoohan1@gmail.com>
 > 
-> The scripts used to build and boot the image are at:
-> 
-> https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
-> 
-> Hope this helps,
+> Assuming the 0day-ci comments are because some of the patches have
+> already been sucked up in a different tree then:
+Correct. For now only drm-misc-next have no users of
+of_find_backlight_by_node() which is why the other trees failed.
 
-Thank you ...
-
-Could you try the following patch?
-
-
-commit 82c284b2bb74ca195dfcd35b70a175f010b9fd46 (HEAD -> lm-kmap17)
-Author: Ira Weiny <ira.weiny@intel.com>
-Date:   Mon May 18 11:01:10 2020 -0700
-
-    microblaze/kmap: Don't enable pagefault/preempt twice
-    
-    The kunmap_atomic clean up failed to remove the pagefault/preempt
-    enables on this path.
-    
-    Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
-    Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
-diff --git a/arch/microblaze/mm/highmem.c b/arch/microblaze/mm/highmem.c
-index ee8a422b2b76..92e0890416c9 100644
---- a/arch/microblaze/mm/highmem.c
-+++ b/arch/microblaze/mm/highmem.c
-@@ -57,11 +57,8 @@ void kunmap_atomic_high(void *kvaddr)
-        int type;
-        unsigned int idx;
  
--       if (vaddr < __fix_to_virt(FIX_KMAP_END)) {
--               pagefault_enable();
--               preempt_enable();
-+       if (vaddr < __fix_to_virt(FIX_KMAP_END))
-                return;
--       }
- 
-        type = kmap_atomic_idx();
- 
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Thanks for all your reviews!
+I will shortly (within a few days) address the comments and send out a v3.
+
+Is is correct that I assume you or Lee or Jingoo will apply the patches
+to a backlight tree somewhere when they are ready?
+If you have a tree you use for backlight patches I can base v3 on that,
+given that I get a link and have access to pull from it.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
