@@ -1,54 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F491D7A7F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 15:56:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA69F1D7B09
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 187EB6E1A8;
-	Mon, 18 May 2020 13:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100D089C55;
+	Mon, 18 May 2020 14:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 465 seconds by postgrey-1.36 at gabe;
- Mon, 18 May 2020 13:56:38 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2526E1A8
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 13:56:38 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 49QgN3135Xz1qrfP;
- Mon, 18 May 2020 15:48:50 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 49QgN24CMyz1qrKn;
- Mon, 18 May 2020 15:48:50 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id WKU9go5JRdju; Mon, 18 May 2020 15:48:49 +0200 (CEST)
-X-Auth-Info: RDtpFOykrL7UDpceuQwibcIgc/loAzBysowiqqJYR50I8OZbFVZPVaKHWRSWo7jT
-Received: from igel.home (ppp-46-244-178-90.dynamic.mnet-online.de
- [46.244.178.90])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Mon, 18 May 2020 15:48:49 +0200 (CEST)
-Received: by igel.home (Postfix, from userid 1000)
- id DACB62C01E5; Mon, 18 May 2020 15:48:48 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH v2 2/2] powerpc/configs: replace deprecated riva/nvidia
- with nouveau
-References: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
- <20200517220524.4036334-2-emil.l.velikov@gmail.com>
- <87d071aedu.fsf@mpe.ellerman.id.au>
-X-Yow: Has everybody got HALVAH spread all over their ANKLES??...
- Now, it's time to ``HAVE A NAGEELA''!!
-Date: Mon, 18 May 2020 15:48:48 +0200
-In-Reply-To: <87d071aedu.fsf@mpe.ellerman.id.au> (Michael Ellerman's message
- of "Mon, 18 May 2020 17:30:53 +1000")
-Message-ID: <87v9ktpd4v.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.0.91 (gnu/linux)
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E451F89C21
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:22:37 +0000 (UTC)
+Date: Mon, 18 May 2020 14:22:28 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1589811754;
+ bh=3E2hv7XkQV9OwtTqNeduXHbnXB8vfeIJ/7T9iSRmOYQ=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=RxxHvkShbSN8hYbI2poZsf589KacJGyPPDKOodpPHknuHr3juaCx3rPV060aMpP9P
+ k2Lc/E7v7sjAOeI908rRLg46XBZZcI4tkEs0GGRETv727FFrrOdiMil8T+CmSOXlJn
+ rZZ4lBhVC0ABB2zoqYS14k3jxF8k9bI9s9QDnLqA=
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH 1/2] drm: DPMS is no longer the only mutable connector prop
+Message-ID: <vrfq3PQ_YaPv75xE6-4QeyyLkevKNLpQo8JgnX6EnEcYaFRXxSg98QECUOmHe_eMirwPB0qNRXHE_jzEkXDb3J3YS2OuZXAZgJFnNMLm6W4=@emersion.fr>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,82 +41,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mai 18 2020, Michael Ellerman wrote:
-
-> The old drivers may be crufty but they presumably have been tested by
-> people and at least somewhat work.
-
-I can confirm that the nvidia fbdev driver is working perfectly fine.
-
-> I gave it a quick spin on a G5 I have access to and dmesg has a bunch of
-> errors in it (see below). I can't actually tell if the display is
-> working because the machine is remote, and I can't go and check it at
-> the moment because the office is closed.
-
-The nouveau driver is completely borked.
-
-[    2.299204] nouveau 0000:f0:10.0: NVIDIA NV34 (034100a2)
-[    2.363100] nouveau 0000:f0:10.0: bios: version 04.34.20.19.00
-[    2.363273] nouveau 0000:f0:10.0: bios: OOB 1 00000962 00000962
-[    2.363323] nouveau 0000:f0:10.0: bios: OOB 1 00000966 00000966
-[    2.363332] nouveau 0000:f0:10.0: bios: OOB 1 00000963 00000963
-[    2.363341] nouveau 0000:f0:10.0: bios: OOB 1 00000964 00000964
-[    2.363387] nouveau 0000:f0:10.0: bios: OOB 1 0000096a 0000096a
-[    2.363396] nouveau 0000:f0:10.0: bios: OOB 1 00000967 00000967
-[    2.363405] nouveau 0000:f0:10.0: bios: OOB 1 00000968 00000968
-[    2.363453] nouveau 0000:f0:10.0: bios: OOB 1 0000096e 0000096e
-[    2.363462] nouveau 0000:f0:10.0: bios: OOB 1 0000096b 0000096b
-[    2.363471] nouveau 0000:f0:10.0: bios: OOB 1 0000096c 0000096c
-[    2.363516] nouveau 0000:f0:10.0: bios: OOB 1 00000972 00000972
-[    2.363526] nouveau 0000:f0:10.0: bios: OOB 1 0000096f 0000096f
-[    2.363534] nouveau 0000:f0:10.0: bios: OOB 1 00000970 00000970
-[    2.363580] nouveau 0000:f0:10.0: bios: OOB 1 00000976 00000976
-[    2.363589] nouveau 0000:f0:10.0: bios: OOB 1 00000973 00000973
-[    2.363597] nouveau 0000:f0:10.0: bios: OOB 1 00000974 00000974
-[    2.363643] nouveau 0000:f0:10.0: bios: OOB 1 0000097a 0000097a
-[    2.363652] nouveau 0000:f0:10.0: bios: OOB 1 00000977 00000977
-[    2.363661] nouveau 0000:f0:10.0: bios: OOB 1 00000978 00000978
-[    2.363709] nouveau 0000:f0:10.0: bios: OOB 1 0000097e 0000097e
-[    2.363718] nouveau 0000:f0:10.0: bios: OOB 1 0000097b 0000097b
-[    2.363727] nouveau 0000:f0:10.0: bios: OOB 1 0000097c 0000097c
-[    2.363772] nouveau 0000:f0:10.0: bios: OOB 1 00000982 00000982
-[    2.363781] nouveau 0000:f0:10.0: bios: OOB 1 0000097f 0000097f
-[    2.363790] nouveau 0000:f0:10.0: bios: OOB 1 00000980 00000980
-[    2.363836] nouveau 0000:f0:10.0: bios: OOB 1 00000986 00000986
-[    2.363845] nouveau 0000:f0:10.0: bios: OOB 1 00000983 00000983
-[    2.363854] nouveau 0000:f0:10.0: bios: OOB 1 00000984 00000984
-[    2.363900] nouveau 0000:f0:10.0: bios: OOB 1 0000098a 0000098a
-[    2.363909] nouveau 0000:f0:10.0: bios: OOB 1 00000987 00000987
-[    2.363918] nouveau 0000:f0:10.0: bios: OOB 1 00000988 00000988
-[    2.363965] nouveau 0000:f0:10.0: bios: OOB 1 0000098e 0000098e
-[    2.363974] nouveau 0000:f0:10.0: bios: OOB 1 0000098b 0000098b
-[    2.363983] nouveau 0000:f0:10.0: bios: OOB 1 0000098c 0000098c
-[    2.364029] nouveau 0000:f0:10.0: bios: OOB 1 00000992 00000992
-[    2.364038] nouveau 0000:f0:10.0: bios: OOB 1 0000098f 0000098f
-[    2.364047] nouveau 0000:f0:10.0: bios: OOB 1 00000990 00000990
-[    2.364383] nouveau 0000:f0:10.0: gpio: GPU is missing power, check its power cables.  Boot with nouveau.config=NvPowerChecks=0 to disable.
-[    2.364402] nouveau 0000:f0:10.0: gpio: init failed, -22
-[    2.364431] nouveau 0000:f0:10.0: init failed with -22
-[    2.364438] nouveau: DRM-master:00000000:00000080: init failed with -22
-[    2.364450] nouveau 0000:f0:10.0: DRM-master: Device allocation failed: -22
-[    2.365268] nouveau: probe of 0000:f0:10.0 failed with error -22
-
-Andreas.
-
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgYXJlIGEgYnVuY2ggb2Ygb3RoZXIgd3JpdGFibGUgY29ubmVjdG9yIHByb3BlcnRpZXMg
+bm93LgoKU2lnbmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpDYzog
+RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+CkNjOiBWaWxsZSBTeXJqYWxh
+IDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFBla2thIFBhYWxhbmVuIDxwZWtr
+YS5wYWFsYW5lbkBjb2xsYWJvcmEuY28udWs+CkNjOiBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
+ZW56ZXIubmV0PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgfCAzICstLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2Nvbm5lY3Rvci5jCmluZGV4IGIxMDk5ZTEyNTFhMi4uZjJiMjBmZDY2MzE5IDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fY29ubmVjdG9yLmMKQEAgLTk0OCw4ICs5NDgsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRy
+bV9wcm9wX2VudW1fbGlzdCBkcF9jb2xvcnNwYWNlc1tdID0gewogICogCWNvbm5lY3RvciBpcyBs
+aW5rZWQgdG8uIERyaXZlcnMgc2hvdWxkIG5ldmVyIHNldCB0aGlzIHByb3BlcnR5IGRpcmVjdGx5
+LAogICogCWl0IGlzIGhhbmRsZWQgYnkgdGhlIERSTSBjb3JlIGJ5IGNhbGxpbmcgdGhlICZkcm1f
+Y29ubmVjdG9yX2Z1bmNzLmRwbXMKICAqIAljYWxsYmFjay4gRm9yIGF0b21pYyBkcml2ZXJzIHRo
+ZSByZW1hcHBpbmcgdG8gdGhlICJBQ1RJVkUiIHByb3BlcnR5IGlzCi0gKiAJaW1wbGVtZW50ZWQg
+aW4gdGhlIERSTSBjb3JlLiAgVGhpcyBpcyB0aGUgb25seSBzdGFuZGFyZCBjb25uZWN0b3IKLSAq
+IAlwcm9wZXJ0eSB0aGF0IHVzZXJzcGFjZSBjYW4gY2hhbmdlLgorICogCWltcGxlbWVudGVkIGlu
+IHRoZSBEUk0gY29yZS4KICAqCiAgKiAJTm90ZSB0aGF0IHRoaXMgcHJvcGVydHkgY2Fubm90IGJl
+IHNldCB0aHJvdWdoIHRoZSBNT0RFX0FUT01JQyBpb2N0bCwKICAqIAl1c2Vyc3BhY2UgbXVzdCB1
+c2UgIkFDVElWRSIgb24gdGhlIENSVEMgaW5zdGVhZC4KLS0gCjIuMjYuMgoKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
