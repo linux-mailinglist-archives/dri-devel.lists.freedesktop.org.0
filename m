@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702301D759A
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 12:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5843A1D75CE
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 13:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96AD6E127;
-	Mon, 18 May 2020 10:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FE189C80;
+	Mon, 18 May 2020 11:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506486E127
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 10:51:52 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id w188so2289106vkf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 03:51:52 -0700 (PDT)
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C081389C80
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 11:02:53 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id w188so2296284vkf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 04:02:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MpjSkkn7ApK5Yq+n7OuT8kXvOD7uu7gT865+wNXuHVM=;
- b=TIdzmN5Zyod2KpKoraBArfu7HJ/dEL5tffIucTv8YuRzLkeoU8FiBg7P7XovUQxL/D
- PNj0R8Ys14RDTqKJWOpbotZAsy2DF9HvMohwoUIcrtsRtdZ1KhYQRu5S1a3jtL2keuQ9
- n01+J9BhdUvlIGWd3QV7N8Ct+r8CCv5twPyzFL9jzrRF8UIlaU90fZAB11X4PCvWuvCs
- HuJ3DiC7taPGk51xKRGbeKVrv1LRbWsxwT5zP8w20Oqj/OPmx8/wp4OrKUkO3aBtzmtG
- dByNMjEIU75bxzxx5lR95RTEk8A9XIQ80QnpUDh4BaEbvqGlAoOTnd8U+zSTQZ6gIxx4
- fkHw==
+ :cc; bh=TnOYIJ1nfLcoOoATov1dQrgNfdtrmD6iK7NVPcue8aw=;
+ b=gI8KKb5wg5v2qHES5+bGI2/rAEVGlQyfyhgnrzFvpj0QTqUU0jjur8KfbXqQxC3X0f
+ Oj/NDuXfzLcdQd/Ky7f0T/JOKAJ8Vdp4Jp+v5J4MFuikS8hxIRQeSa6WLZPdXf/IvZvo
+ aJax/8xpfJCVDt0reyd6pXnSQWAPWO4vhodo/7GrUhA3Wj1q4r9ICNUzfzr9dQ/9X5U8
+ BGVDET7wIUJFycZ9kLSGcyKN/B78T3+YBK3P6gqxigN/jDwltMSv58jZGaYPu29V54Cq
+ +HblOF0A+hSQXgwsedFi9JHkeOG9e2wBiDvPtaxeU9LaOfh/+XUHNKLwDfRtrMb23t6n
+ oUzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MpjSkkn7ApK5Yq+n7OuT8kXvOD7uu7gT865+wNXuHVM=;
- b=ad/jgqOKVKgAMd9ANBv3fCWPja9xhf0ULExpw6j4rwqB7Mj/a+rjbGg0KQ9zMemLby
- I4tQdQ7/4dAKMjnDSIw5lnvRJWH7D8SK7dTOYNsWEI+IZ9n68hoIYYSZmPgjZtZAhCDH
- PDqBSG3JSQWycACMiAAQa0MnK+Dxhv+Wcu0KWLvEp0po9LjZhDWmcIAyfFK7lrBm4vxE
- jiyulOhlvYWijgaENvQnf7kpZ28EYmeH27UHuXtldI+H5PydA0tgdeWu1gJW9rj64WKm
- tMmECPWiEn01xe/3b8bU25BtPJvl4i6P6FTzdRn64Jw3FSQ89Tf+TNdnvaQqBr6u6AJb
- RXYg==
-X-Gm-Message-State: AOAM532kyVe4RzjIBnUGHq0px6NFB9UWYVpo9NqQn/RqtwAG63oHodRa
- K5d5hNAdOjXJA85scqq26FvCwMfLzmdcFmBZcw36jQ==
-X-Google-Smtp-Source: ABdhPJyJoE3DeUp5mRCR4/NwPKcB+0c9bpy1Jfu2Pe+bafT+c8kQlQDsW0FnkxaYd3hr8PrATmPVX23jWINoG1EwtPc=
-X-Received: by 2002:a1f:2bd7:: with SMTP id r206mr790067vkr.28.1589799110526; 
- Mon, 18 May 2020 03:51:50 -0700 (PDT)
+ bh=TnOYIJ1nfLcoOoATov1dQrgNfdtrmD6iK7NVPcue8aw=;
+ b=WeR5Tou3Nys1YI9+qEiKTzcGbOT0QmtvfycPGHdfPvbYRcho37XTmEhf3c+FR15+Ix
+ r/3oBu0vAcRUm+JJ3v7RKnGJTHoRT1hGvljGLDGNPav25tkd+iOEnLktZY9LEFfUbmHZ
+ XRr7XuJYSn8Bkd6ZcyC4dRdkKEEtkpHWHDFtUq448G1dQvqAD4DWzqJbXxFh0+M5IQji
+ Q+xB16DDayw4K6Ki9Yt2T8SkHsll8qyZHH3UPeY5mtRWo8I9WCOEr1MNy9tO5G6sYg3u
+ bxBihrOtR0NVpsiXw4QuLXpjJPydaBXVzVhwhJ/cK1Nt1t4QUYIglY63nT7Q2A7/gUam
+ VLYg==
+X-Gm-Message-State: AOAM532Xpr4jN3+EkO1ZiSbXfWjIILTYQQ9eCxapDzm7+IWgCGWPWzlt
+ t27hQc75zV1AsXOq4RW4ezS+8CP/QlFZjaY/8RLZGR3w
+X-Google-Smtp-Source: ABdhPJwl3t0P8UBkzkdQpBdqsy7c2RThfeVs2tmdfCsbYsQ/Ug1eIUBiEG7XSaPXWJV0OnBR5xJ5kOPd74G5rKrixjc=
+X-Received: by 2002:a1f:2bd7:: with SMTP id r206mr818859vkr.28.1589799772920; 
+ Mon, 18 May 2020 04:02:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200516215057.392609-1-paul@crapouillou.net>
- <20200516215057.392609-11-paul@crapouillou.net>
-In-Reply-To: <20200516215057.392609-11-paul@crapouillou.net>
+References: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
+ <20200517220524.4036334-2-emil.l.velikov@gmail.com>
+ <9b0db95949b973c682b449906573e7b28c6113ef.camel@kernel.crashing.org>
+In-Reply-To: <9b0db95949b973c682b449906573e7b28c6113ef.camel@kernel.crashing.org>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 18 May 2020 11:48:59 +0100
-Message-ID: <CACvgo50q=qJXk3nFSCm+S6JHBMxpY0C_HwH8KGB2EAcKwgL0oQ@mail.gmail.com>
-Subject: Re: [PATCH 11/12] gpu/drm: Ingenic: Add support for the IPU
-To: Paul Cercueil <paul@crapouillou.net>
+Date: Mon, 18 May 2020 12:00:01 +0100
+Message-ID: <CACvgo52Qws2VF0Bui-V3VdL5CFLsean9H=shLBi5H2S2fvjFSA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] powerpc/configs: replace deprecated riva/nvidia
+ with nouveau
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +63,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, od@zcrc.me,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+Cc: linux-fbdev <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
  ML dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>
+ Paul Mackerras <paulus@samba.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+Hi Benjamin,
 
-Disclaimer: I don't know much about the hardware :-P
+On Mon, 18 May 2020 at 01:45, Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> On Sun, 2020-05-17 at 23:05 +0100, Emil Velikov wrote:
+> > As mentioned in earlier commit, the riva and nvidia fbdev drivers
+> > have
+> > seen no love over the years, are short on features and overall below
+> > par
+> >
+> > Users are encouraged to switch to the nouveau drm driver instead.
+> >
+> > v2: Split configs to separate patch, enable nouveau (Bartlomiej)
+>
+> Back when I still had these things to play with (years ago) nouveau
+> didn't work properly on these ancient machines.
+>
+I believe you reported issues due to different page size for the CPU/GPU.
+Have you tried nouveau recently, there has been a handful of patches
+on the topic since your report.
 
-On Sun, 17 May 2020 at 00:31, Paul Cercueil <paul@crapouillou.net> wrote:
->
-> Add support for the Image Processing Unit (IPU) found in all Ingenic
-> SoCs.
->
-Since the IPU is present on all devices supported, does it make sense
-to have it as separate module?
-Didn't check closely although I suspect doing that will remove the
-need for the component patch.
-
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-> @@ -50,7 +50,7 @@ struct jz_soc_info {
->
->  struct ingenic_drm {
->         struct drm_device drm;
-> -       struct drm_plane f0, f1;
-> +       struct drm_plane f0, f1, *ipu_plane;
->         struct drm_crtc crtc;
->         struct drm_encoder encoder;
->
-> @@ -186,13 +186,16 @@ static void ingenic_drm_crtc_update_timings(struct ingenic_drm *priv,
->         regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
->                            JZ_LCD_CTRL_OFUP | JZ_LCD_CTRL_BURST_16,
->                            JZ_LCD_CTRL_OFUP | JZ_LCD_CTRL_BURST_16);
-> +
-> +       regmap_write(priv->map, JZ_REG_LCD_IPUR, JZ_LCD_IPUR_IPUREN |
-> +                    (ht * vpe / 3) << JZ_LCD_IPUR_IPUR_LSB);
-
-This hunk also indicates that it may be better to merge the IPU within
-the existing driver.
+Alternatively, it would make sense you rebase, cleanup and merge your patch.
 
 -Emil
 _______________________________________________
