@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C268D1D6F6A
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 05:49:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B811D74F1
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 12:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A5016E19C;
-	Mon, 18 May 2020 03:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C26E6E2E6;
+	Mon, 18 May 2020 10:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA596E19C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 03:49:40 +0000 (UTC)
-IronPort-SDR: nzLYq4nx0Q6YIZE5tKtDJFoGev6/yBc3Aaux8xW+esR/gjXpf3PMvABni4zX4M1D94OYq1+lCt
- rvr9LHrky2nA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2020 20:49:40 -0700
-IronPort-SDR: QZjHgmmyJD5wcejwNXYudRxBmBXktkRK66clSGT09vVfYOCh2mQO0TRV8oDbLvZwqQC7nEa8om
- xW1Fi6/1MBPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,405,1583222400"; d="scan'208";a="263820256"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga003.jf.intel.com with ESMTP; 17 May 2020 20:49:39 -0700
-Date: Sun, 17 May 2020 20:49:39 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
-Message-ID: <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
-References: <20200507150004.1423069-1-ira.weiny@intel.com>
- <20200507150004.1423069-8-ira.weiny@intel.com>
- <20200516223306.GA161252@roeck-us.net>
+Received: from m177129.mail.qiye.163.com (m177129.mail.qiye.163.com
+ [123.58.177.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364926E1A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 04:07:08 +0000 (UTC)
+Received: from vivo.com (wm-2.qy.internal [127.0.0.1])
+ by m177129.mail.qiye.163.com (Hmail) with ESMTP id BE7D05C3350;
+ Mon, 18 May 2020 12:06:30 +0800 (CST)
+Message-ID: <AEwAGwAICJTOkB61jcDtw4oE.3.1589774790763.Hmail.bernard@vivo.com>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Subject: =?UTF-8?B?UmU6UmU6IFJlOlJlOiBbUEFUQ0ggdjJdIGRybS9hcm06IGZpeGVzIHBpeGVsIGNsb2NrIGVuYWJsZWQgd2l0aCB3cm9uZyBmb3JtYXQ=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 218.104.188.164
+In-Reply-To: <20200515144149.GN159988@e110455-lin.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200516223306.GA161252@roeck-us.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Received: from bernard@vivo.com( [218.104.188.164) ] by ajax-webmail (
+ [127.0.0.1] ) ; Mon, 18 May 2020 12:06:30 +0800 (GMT+08:00)
+From: Bernard <bernard@vivo.com>
+Date: Mon, 18 May 2020 12:06:30 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZSFVNTUNLS0tJSUpJTklPT1lXWShZQU
+ hPN1dZLVlBSVdZCQ4XHghZQVk1NCk2OjckKS43PlkG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUhMTENCSkJOQ0JMN1dZDB4ZWUEPCQ4eV1kSHx4VD1lB
+ WUc6Pgw6PAw6MjgxLzQQOU1KERg*DwxPFD5VSFVKTkNCTExPTEJIQ0xCVTMWGhIXVRkeCRUaCR87
+ DRINFFUYFBZFWVdZEgtZQVlJSkNVSktPVUpDQ1VKTU9ZV1kIAVlBQk1MTDcG
+X-HM-Tid: 0a7225f630846447kursbe7d05c3350
+X-Mailman-Approved-At: Mon, 18 May 2020 10:14:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,239 +47,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
-> On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> > =
-
-> > Every single architecture (including !CONFIG_HIGHMEM) calls...
-> > =
-
-> > 	pagefault_enable();
-> > 	preempt_enable();
-> > =
-
-> > ... before returning from __kunmap_atomic().  Lift this code into the
-> > kunmap_atomic() macro.
-> > =
-
-> > While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
-> > be consistent.
-> > =
-
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> =
-
-> This patch results in:
-> =
-
-> Starting init: /bin/sh exists but couldn't execute it (error -14)
-> =
-
-> when trying to boot microblazeel:petalogix-ml605 in qemu.
-
-Thanks for the report.  I'm not readily seeing the issue.
-
-Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
-
-> =
-
-> Bisect log attached.
-> =
-
-> Guenter
-> =
-
-> ---
-> # bad: [bdecf38f228bcca73b31ada98b5b7ba1215eb9c9] Add linux-next specific=
- files for 20200515
-> # good: [2ef96a5bb12be62ef75b5828c0aab838ebb29cb8] Linux 5.7-rc5
-> git bisect start 'HEAD' 'v5.7-rc5'
-> # good: [3674d7aa7a8e61d993886c2fb7c896c5ef85e988] Merge remote-tracking =
-branch 'crypto/master'
-> git bisect good 3674d7aa7a8e61d993886c2fb7c896c5ef85e988
-> # good: [87f6f21783522e6d62127cf33ae5e95f50874beb] Merge remote-tracking =
-branch 'spi/for-next'
-> git bisect good 87f6f21783522e6d62127cf33ae5e95f50874beb
-> # good: [5c428e8277d5d97c85126387d4e00aa5adde4400] Merge remote-tracking =
-branch 'staging/staging-next'
-> git bisect good 5c428e8277d5d97c85126387d4e00aa5adde4400
-> # good: [f68de67ed934e7bdef4799fd7777c86f33f14982] Merge remote-tracking =
-branch 'hyperv/hyperv-next'
-> git bisect good f68de67ed934e7bdef4799fd7777c86f33f14982
-> # bad: [54acd2dc52b069da59639eea0d0c92726f32fb01] mm/memblock: fix a typo=
- in comment "implict"->"implicit"
-> git bisect bad 54acd2dc52b069da59639eea0d0c92726f32fb01
-> # good: [784a17aa58a529b84f7cc50f351ed4acf3bd11f3] mm: remove the pgprot =
-argument to __vmalloc
-> git bisect good 784a17aa58a529b84f7cc50f351ed4acf3bd11f3
-> # good: [6cd8137ff37e9a37aee2d2a8889c8beb8eab192f] khugepaged: replace th=
-e usage of system(3) in the test
-> git bisect good 6cd8137ff37e9a37aee2d2a8889c8beb8eab192f
-> # bad: [6987da379826ed01b8a1cf046b67cc8cc10117cc] sparc: remove unnecessa=
-ry includes
-> git bisect bad 6987da379826ed01b8a1cf046b67cc8cc10117cc
-> # good: [bc17b545388f64c09e83e367898e28f60277c584] mm/hugetlb: define a g=
-eneric fallback for is_hugepage_only_range()
-> git bisect good bc17b545388f64c09e83e367898e28f60277c584
-> # bad: [9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011] arch-kmap_atomic-consol=
-idate-duplicate-code-checkpatch-fixes
-> git bisect bad 9b5aa5b43f957f03a1f4a9aff5f7924e2ebbc011
-> # good: [0941a38ff0790c1004270f952067a5918a4ba32d] arch/kmap: remove redu=
-ndant arch specific kmaps
-> git bisect good 0941a38ff0790c1004270f952067a5918a4ba32d
-> # good: [56e635a64c2cbfa815c851af10e0f811e809977b] arch-kunmap-remove-dup=
-licate-kunmap-implementations-fix
-> git bisect good 56e635a64c2cbfa815c851af10e0f811e809977b
-> # bad: [60f96b2233c790d4f1c49317643051f1670bcb29] arch/kmap_atomic: conso=
-lidate duplicate code
-> git bisect bad 60f96b2233c790d4f1c49317643051f1670bcb29
-> # good: [7b3708dc3bf72a647243064fe7ddf9a76248ddfd] {x86,powerpc,microblaz=
-e}/kmap: move preempt disable
-> git bisect good 7b3708dc3bf72a647243064fe7ddf9a76248ddfd
-> # first bad commit: [60f96b2233c790d4f1c49317643051f1670bcb29] arch/kmap_=
-atomic: consolidate duplicate code
-
-I'm confused by this.  This points to an earlier commit being bad?
-
-commit 60f96b2233c790d4f1c49317643051f1670bcb29                            =
-     =
-
-Author: Ira Weiny <ira.weiny@intel.com>                                    =
-     =
-
-Date:   Thu May 14 13:39:54 2020 +1000                                     =
-     =
-
-                                                                           =
-     =
-
-    arch/kmap_atomic: consolidate duplicate code                           =
-     =
-
-                                                                           =
-     =
-
-    Every arch has the same code to ensure atomic operations and a check fo=
-r    =
-
-    !HIGHMEM page.                                                         =
-     =
-
-                                                                           =
-     =
-
-    Remove the duplicate code by defining a core kmap_atomic() which only  =
-     =
-
-    calls the arch specific kmap_atomic_high() when the page is high memory=
-.    =
-
-                                                                           =
-     =
-
-    Link: http://lkml.kernel.org/r/20200507150004.1423069-7-ira.weiny@intel=
-.com =
-
-    Signed-off-by: Ira Weiny <ira.weiny@intel.com>                         =
-     =
-
-    Reviewed-by: Christoph Hellwig <hch@lst.de>                            =
-     =
-
-    Cc: Al Viro <viro@zeniv.linux.org.uk>                                  =
-     =
-
-    Cc: Andy Lutomirski <luto@kernel.org>                                  =
-     =
-
-    Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>                  =
-     =
-
-    Cc: Borislav Petkov <bp@alien8.de>                                     =
-     =
-
-    Cc: Christian K=F6nig <christian.koenig@amd.com>                       =
-       =
-
-    Cc: Chris Zankel <chris@zankel.net>                                    =
-     =
-
-    Cc: Daniel Vetter <daniel.vetter@ffwll.ch>                             =
-     =
-
-    Cc: Dan Williams <dan.j.williams@intel.com>                            =
-     =
-
-    Cc: Dave Hansen <dave.hansen@linux.intel.com>                          =
-     =
-
-    Cc: "David S. Miller" <davem@davemloft.net>                            =
-     =
-
-    Cc: Helge Deller <deller@gmx.de>                                       =
-     =
-
-    Cc: "H. Peter Anvin" <hpa@zytor.com>                                   =
-     =
-
-    Cc: Ingo Molnar <mingo@redhat.com>                                     =
-     =
-
-    Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>     =
-     =
-
-    Cc: Max Filippov <jcmvbkbc@gmail.com>                                  =
-     =
-
-    Cc: Paul Mackerras <paulus@samba.org>                                  =
-     =
-
-    Cc: Peter Zijlstra <peterz@infradead.org>                              =
-     =
-
-    Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>                    =
-     =
-
-    Cc: Thomas Gleixner <tglx@linutronix.de>                               =
-              =
-
-    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>               =
-     =
-
-    Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>                 =
-     =
-
-
-
-Any idea which one it is?
-
-Ira
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CuWPkeS7tuS6uu+8mkxpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgrlj5HpgIHml6Xm
+nJ/vvJoyMDIwLTA1LTE1IDIyOjQxOjQ5CuaUtuS7tuS6uu+8mkJlcm5hcmQgPGJlcm5hcmRAdml2
+by5jb20+CuaKhOmAgeS6uu+8mkJyaWFuIFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4s
+RGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPixEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+LGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZyxvcGVuc291cmNlLmtlcm5lbEB2aXZvLmNvbQrkuLvpopjvvJpSZTogUmU6UmU6
+IFtQQVRDSCB2Ml0gZHJtL2FybTogZml4ZXMgcGl4ZWwgY2xvY2sgZW5hYmxlZCB3aXRoIHdyb25n
+IGZvcm1hdD5IaSBCZXJuYXJkLAo+Cj5PbiBGcmksIE1heSAwOCwgMjAyMCBhdCAwNDo0NzoxN1BN
+ICswODAwLCBCZXJuYXJkIHdyb3RlOgo+PiBGcm9tOiAi6LW15Yab5aWOIiA8YmVybmFyZEB2aXZv
+LmNvbT4KPj4gRGF0ZTogMjAyMC0wNC0yNCAxOTozNzozNgo+PiBUbzogIExpdml1IER1ZGF1IDxs
+aXZpdS5kdWRhdUBhcm0uY29tPgo+PiBDYzogIEJyaWFuIFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlA
+YXJtLmNvbT4sRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPixEYW5pZWwgVmV0dGVyIDxk
+YW5pZWxAZmZ3bGwuY2g+LGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsbGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZyxvcGVuc291cmNlLmtlcm5lbEB2aXZvLmNvbQo+PiBTdWJqZWN0
+OiBSZTpSZTogW1BBVENIIHYyXSBkcm0vYXJtOiBmaXhlcyBwaXhlbCBjbG9jayBlbmFibGVkIHdp
+dGggd3JvbmcgZm9ybWF0Cj4+IAo+PiAKPj4gCj4+IAo+PiBGcm9tOiBMaXZpdSBEdWRhdSA8bGl2
+aXUuZHVkYXVAYXJtLmNvbT4KPj4gRGF0ZTogMjAyMC0wNC0yNCAxOTowOTo1MAo+PiBUbzogIEJl
+cm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4KPj4gQ2M6ICBCcmlhbiBTdGFya2V5IDxicmlh
+bi5zdGFya2V5QGFybS5jb20+LERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4sRGFuaWVs
+IFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPixkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+LGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsb3BlbnNvdXJjZS5rZXJuZWxAdml2by5jb20K
+Pj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gZHJtL2FybTogZml4ZXMgcGl4ZWwgY2xvY2sgZW5h
+YmxlZCB3aXRoIHdyb25nIGZvcm1hdD5IaSBCZXJuYW5kLAo+PiA+Cj4+ID5PbiBUaHUsIEFwciAy
+MywgMjAyMCBhdCAxMTozNTo1MVBNIC0wNzAwLCBCZXJuYXJkIFpoYW8gd3JvdGU6Cj4+ID4+IFRo
+ZSBwaXhlbCBjbG9jayBpcyBzdGlsbCBlbmFibGVkIHdoZW4gdGhlIGZvcm1hdCBpcyB3cm9uZy4K
+Pj4gPj4gbm8gZXJyb3IgYnJhbmNoIGhhbmRsZSwgYW5kIGFsc28gc29tZSByZWdpc3RlciBpcyBu
+b3Qgc2V0Cj4+ID4+IGluIHRoaXMgY2FzZSwgZS5nOiBIRExDRF9SRUdfPGNvbG9yPl9TRUxFQ1Qu
+IE1heWJlIHdlCj4+ID4+IHNob3VsZCBkaXNhYmxlIHRoaXMgY2xvY2sgYW5kIHRocm93IGFuIHdh
+cm4gbWVzc2FnZSB3aGVuCj4+ID4+IHRoaXMgaGFwcGVuZWQuCj4+ID4+IFdpdGggdGhpcyBjaGFu
+Z2UsIHRoZSBjb2RlIG1heWJlIGEgYml0IG1vcmUgcmVhZGFibGUuCj4+ID4+IAo+PiA+PiBTaWdu
+ZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4+ID4+IAo+PiA+PiBD
+aGFuZ2VzIHNpbmNlIFYxOgo+PiA+PiAqYWRkIGZvcm1hdCBlcnJvciBoYW5kbGUsIGlmIGZvcm1h
+dCBpcyBub3QgY29ycmVjdCwgdGhyb3cKPj4gPj4gYW4gd2FybmluZyBtZXNzYWdlIGFuZCBkaXNh
+YmxlIHRoaXMgY2xvY2suCj4+ID4+IAo+PiA+PiBMaW5rIGZvciBWMToKPj4gPj4gKmh0dHBzOi8v
+bG9yZS5rZXJuZWwub3JnL3BhdGNod29yay9wYXRjaC8xMjI4NTAxLwo+PiA+PiAtLS0KPj4gPj4g
+IGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jIHwgMTMgKysrKysrKysrLS0tLQo+PiA+
+PiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPj4gPj4g
+Cj4+ID4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfY3J0Yy5jCj4+ID4+IGluZGV4IGFmNjdmZWZlZDM4ZC4u
+ZjM5NDVkZWUyYjdkIDEwMDY0NAo+PiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNk
+X2NydGMuYwo+PiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2NydGMuYwo+PiA+
+PiBAQCAtOTYsNyArOTYsNyBAQCBzdGF0aWMgaW50IGhkbGNkX3NldF9weGxfZm10KHN0cnVjdCBk
+cm1fY3J0YyAqY3J0YykKPj4gPj4gIAl9Cj4+ID4+ICAKPj4gPj4gIAlpZiAoV0FSTl9PTighZm9y
+bWF0KSkKPj4gPj4gLQkJcmV0dXJuIDA7Cj4+ID4+ICsJCXJldHVybiAtRUlOVkFMOwo+PiA+Cj4+
+ID5UaGF0IGlzIHRoZSByaWdodCBmaXghCj4+ID4KPj4gPj4gIAo+PiA+PiAgCS8qIEhETENEIHVz
+ZXMgJ2J5dGVzIHBlciBwaXhlbCcsIHplcm8gbWVhbnMgMSBieXRlICovCj4+ID4+ICAJYnRwcCA9
+IChmb3JtYXQtPmJpdHNfcGVyX3BpeGVsICsgNykgLyA4Owo+PiA+PiBAQCAtMTI1LDcgKzEyNSw3
+IEBAIHN0YXRpYyBpbnQgaGRsY2Rfc2V0X3B4bF9mbXQoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+
+PiA+PiAgCXJldHVybiAwOwo+PiA+PiAgfQo+PiA+PiAgCj4+ID4+IC1zdGF0aWMgdm9pZCBoZGxj
+ZF9jcnRjX21vZGVfc2V0X25vZmIoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+PiA+PiArc3RhdGlj
+IGludCBoZGxjZF9jcnRjX21vZGVfc2V0X25vZmIoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+PiA+
+Cj4+ID5CdXQgdGhpcyBpcyBub3QuIFdlIGRvbid0IG5lZWQgdG8gcHJvcGFnYXRlIHRoZSBlcnJv
+ciBmdXJ0aGVyLCBqdXN0IC4uLi4KPj4gPgo+PiA+PiAgewo+PiA+PiAgCXN0cnVjdCBoZGxjZF9k
+cm1fcHJpdmF0ZSAqaGRsY2QgPSBjcnRjX3RvX2hkbGNkX3ByaXYoY3J0Yyk7Cj4+ID4+ICAJc3Ry
+dWN0IGRybV9kaXNwbGF5X21vZGUgKm0gPSAmY3J0Yy0+c3RhdGUtPmFkanVzdGVkX21vZGU7Cj4+
+ID4+IEBAIC0xNjIsOSArMTYyLDEwIEBAIHN0YXRpYyB2b2lkIGhkbGNkX2NydGNfbW9kZV9zZXRf
+bm9mYihzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCj4+ID4+ICAKPj4gPj4gIAllcnIgPSBoZGxjZF9z
+ZXRfcHhsX2ZtdChjcnRjKTsKPj4gPj4gIAlpZiAoZXJyKQo+PiA+PiAtCQlyZXR1cm47Cj4+ID4K
+Pj4gCj4+IE15IHByZXZpb3VzIHVuZGVyc3RhbmRpbmcgd2FzIHRoYXQgd2hlbiBzdWNoIGFuIGV4
+Y2VwdGlvbiBvY2N1cnJlZCwgaXQgd2FzIGNhdWdodAo+PiBpbiB0aGUgYXRvbWljX2VuYWJsZSBp
+bnRlcmZhY2UsIGFuZCB0aGVuIGRpc2FibGUgcGl4ZWwgY2xvY2suIEkgYW0gbm90IHN1cmUgaXMg
+dGhpcyBvayBvcgo+PiBpIGhhdmUgdG8gZG8gbW9yZSByZWdpc3RlciBjbGVhbiBvcGVyYWN0aW9u
+Lgo+PiAKPj4gPi4uLiByZXR1cm4gaGVyZSBzbyB0aGF0IHdlIGRvbid0IGNhbGwgY2xrX3NldF9y
+YXRlKCk7Cj4+IEFuZCBmb3IgdGhpcyBwYXJ0LCBpIGFtIGEgbGl0dGxlIGNvbmZ1c2VkIDoKPj4g
+MSBjbGtfc2V0X3JhdGUgbXVzdCBiZSBzZXQgZXZlbiBpZiBmb3JtYXQgaXMgd3Jvbmc/Cj4+IDIg
+VGhlIG9yaWdpbmFsIGNvZGUgbG9naWMgc2hvd3MgdGhhdCBJZiBmb3JtYXQgaXMgbm90IGNvcnJl
+Y3QsIHdlIHdpbGwgbm90IHNldCByZWdpc3RlcnMgCj4+IEhETENEX1JFR19QSVhFTF9GT1JNQVQg
+JiBIRExDRF9SRUdfPGNvbG9yPl9TRUxFQ1QsIHdpbGwgdGhpcyBicmluZyBpbgo+PiBhbnkgcHJv
+YmxlbXM/Cj4+IDMgaWYgMSB0aGUgcmF0ZSBtdXN0IHNldCAmIDIgcmVnaXN0ZXJzIGFib3ZlIGRv
+ZXNuYHQgbWF0dGVyLCB0aGVuIG1heWJlIHRoZXJlIGlzIG5vCj4+IG5lZWQgdG8gZGlzYWJsZSBw
+aXhlbCBjbG9jay4KPj4gQW0gaSBtaXN1bmRlcnN0YW5kaW5nCj4KPllvdSBhcmUgcmlnaHQsIHRo
+ZSBwaXhlbCBmb3JtYXQgY2hlY2sgc2hvdWxkIG5vdCBoYXBwZW4gaW5zaWRlIGhkbGNkX2NydGNf
+YXRvbWljX2VuYWJsZSgpCj5ob29rLCBpdCBzaG91bGQgYmUgbW92ZWQgaW50byBhIHNlcGFyYXRl
+IGZ1bmN0aW9uIGhkbGNkX2NydGNfYXRvbWljX2NoZWNrKCkgYW5kIHRoYXQgbmVlZHMKPnRvIGJl
+IGhvb2tlZCBpbnRvIC5hdG9taWNfY2hlY2soKSBmb3IgaGRsY2RfY3J0Y19oZWxwZXJfZnVuY3Mo
+KS4KPgo+SWYgeW91IHdhbnQgdG8gaGF2ZSBhbm90aGVyIGdvIEknbGwgYmUgaGFwcHkgdG8gcmV2
+aWV3IGFuZCBBY2sgeW91ciBwYXRjaC4KPgo+QmVzdCByZWdhcmRzLAo+TGl2aXUgCj4KCkhpCgpT
+dXJlLCBpIHdpbGwgY2hlY2sgdGhpcyBhbmQgcmUtc3ViYm1pdCBvbmUgcGF0Y2guCgpSZWdhcmRz
+LApCZXJuYXJkCgo+PiAKPj4gUmVnYXJkcywKPj4gQmVybmFyZAo+PiAKPj4gPj4gKwkJcmV0dXJu
+IGVycjsKPj4gPj4gIAo+PiA+PiAgCWNsa19zZXRfcmF0ZShoZGxjZC0+Y2xrLCBtLT5jcnRjX2Ns
+b2NrICogMTAwMCk7Cj4+ID4+ICsJcmV0dXJuIDA7Cj4+ID4+ICB9Cj4+ID4+ICAKPj4gPj4gIHN0
+YXRpYyB2b2lkIGhkbGNkX2NydGNfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
+Cj4+ID4+IEBAIC0xNzMsNyArMTc0LDExIEBAIHN0YXRpYyB2b2lkIGhkbGNkX2NydGNfYXRvbWlj
+X2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+ID4+ICAJc3RydWN0IGhkbGNkX2RybV9w
+cml2YXRlICpoZGxjZCA9IGNydGNfdG9faGRsY2RfcHJpdihjcnRjKTsKPj4gPj4gIAo+PiA+PiAg
+CWNsa19wcmVwYXJlX2VuYWJsZShoZGxjZC0+Y2xrKTsKPj4gPj4gLQloZGxjZF9jcnRjX21vZGVf
+c2V0X25vZmIoY3J0Yyk7Cj4+ID4+ICsJaWYgKGhkbGNkX2NydGNfbW9kZV9zZXRfbm9mYihjcnRj
+KSkgewo+PiA+PiArCQlEUk1fREVCVUdfS01TKCJJbnZhbGlkIGZvcm1hdCwgcGl4ZWwgY2xvY2sg
+ZW5hYmxlIGZhaWxlZCFcbiIpOwo+PiA+PiArCQljbGtfZGlzYWJsZV91bnByZXBhcmUoaGRsY2Qt
+PmNsayk7Cj4+ID4+ICsJCXJldHVybjsKPj4gPj4gKwl9Cj4+ID4+ICAJaGRsY2Rfd3JpdGUoaGRs
+Y2QsIEhETENEX1JFR19DT01NQU5ELCAxKTsKPj4gPj4gIAlkcm1fY3J0Y192Ymxhbmtfb24oY3J0
+Yyk7Cj4+ID4+ICB9Cj4+ID4+IC0tIAo+PiA+PiAyLjI2LjIKPj4gPj4gCj4+ID4KPj4gPi0tIAo+
+PiA+PT09PT09PT09PT09PT09PT09PT0KPj4gPnwgSSB3b3VsZCBsaWtlIHRvIHwKPj4gPnwgZml4
+IHRoZSB3b3JsZCwgIHwKPj4gPnwgYnV0IHRoZXkncmUgbm90IHwKPj4gPnwgZ2l2aW5nIG1lIHRo
+ZSAgIHwKPj4gPiBcIHNvdXJjZSBjb2RlISAgLwo+PiA+ICAtLS0tLS0tLS0tLS0tLS0KPj4gPiAg
+ICDCr1xfKOODhClfL8KvCj4+IAo+PiAKPj4gCj4KPi0tIAo+PT09PT09PT09PT09PT09PT09PT0K
+PnwgSSB3b3VsZCBsaWtlIHRvIHwKPnwgZml4IHRoZSB3b3JsZCwgIHwKPnwgYnV0IHRoZXkncmUg
+bm90IHwKPnwgZ2l2aW5nIG1lIHRoZSAgIHwKPiBcIHNvdXJjZSBjb2RlISAgLwo+ICAtLS0tLS0t
+LS0tLS0tLS0KPiAgICDCr1xfKOODhClfL8KvCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
