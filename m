@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46D21D9081
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 09:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F1F1D7E53
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 18:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA0E89FEC;
-	Tue, 19 May 2020 07:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792A76E430;
+	Mon, 18 May 2020 16:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 656246E42F;
- Mon, 18 May 2020 16:23:23 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id q9so48550pjm.2;
- Mon, 18 May 2020 09:23:23 -0700 (PDT)
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
+ [IPv6:2607:f8b0:4864:20::941])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 911E26E431
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 16:23:34 +0000 (UTC)
+Received: by mail-ua1-x941.google.com with SMTP id i89so753346uad.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 09:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=K211i4h2u/TxQcxsieD51LxexrJexjO9Rx1FtdNootg=;
- b=ZCxeUuuaf+obk5I3yVMAoO21FuFn9ZnaajU4+BOQ99SaS5pj2jagOJ/JOGl+8RsUII
- rvwLVEZZIkzXNr6+b5GK8kBK5CwmCLz1LU0DPBurnFBaDT4RSxCswhVllgphaQG+aZjj
- p/NUv/ujcSx2sF8dexJN5AdeFuomxgou0IRwg3hXoLKBdK/NS2+wU/KFY8//Q1WbOVzx
- zSuZB4Bs5Z+jwykwSB4wAhMcLrvVt6iGZlNfPN/l6Rb1XTrVmBKIOUjCY/D2PWfPmFXt
- /PzfwEXc5tl2MfRF3y+kOyECmkL7fRukDwcF+Ii3mXydS4jRBqnvfcTtirZxzQWmQRCT
- 0uRg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=k4vcnXjI8RyihlZWriXT7skpQdkFXM1bMLhUE8HEess=;
+ b=YggyP6ySOLsDqRAsg/hIk2+pXlEaZoBG/IECpSLbpbov1qrK1RVJUDub83tR+dM2yh
+ 85oOElBR799cD8+ufFXLzcZ1qwO8XIBTOVQ/zlbVXl+IaloOIj+ppxbXqloZThC2nLYs
+ hUxounYmhUIoKy8vbUvQw3nTiQKxTr6deCZWN2nRaJ7vUShOYpREfQ0+d0/1yV5t4xEM
+ YZi9EBA0PGTUzKJ3ETEC4Ut1lcvyPHATgdRMb7Z2RemRR55YYUmVAe7Q4U03GG2XCRko
+ A4FAlo75RtpjTSD141LqoAK/H67dpKG5MhZAOIdfflcNc0V29iGmA6sXS7EfrG2AnsrO
+ dcag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=K211i4h2u/TxQcxsieD51LxexrJexjO9Rx1FtdNootg=;
- b=M1AUoLLuFS9SogKsVUA+11udAK0WFEsQtsy+hAiFlyRxEHGie9bbSftzlM9Rx0TedZ
- d8fnHtYmUKLkFRFQjmR9cZPDPePBRhT2Pv9LlmBxlmCLZ18lbFa5yRULxVKV3yTVomAF
- a0JEy0D9giWPbSqqA0QHcB9OUS6kWZqXbTPD9+DCyqbV4mTZwJaNyAKy7NyTk2v38S0v
- E8zF5SwRvsR/fRsLDdRZzn7Euwez9WicjXkYMLtrLCPCl53As+LCJj+vSgxaHrBIFhiu
- xsn5HuuL5GsKoOKs6RrrRF3AXvcCDu2FHaC/5etQp0XCvWXz/k+4MxzckP85aClO/zCR
- Gcfw==
-X-Gm-Message-State: AOAM532l+pCbh+gdR7572Wf6gz14tAZbtHzWZHMk3Km1t3Azdkkjrk8f
- 8jdXB/U5O+18ghNLAmfxE7s=
-X-Google-Smtp-Source: ABdhPJwGk4vPSvK7vas58uw/Mle4Y1AUjToQolSEGddq1AGgxZx/L/rMqSj8a28neGfe3Hv0XNqxVw==
-X-Received: by 2002:a17:902:7587:: with SMTP id
- j7mr17207481pll.81.1589819002963; 
- Mon, 18 May 2020 09:23:22 -0700 (PDT)
-Received: from localhost.localdomain ([2409:4072:418:e389:7149:74ab:b584:ecf8])
- by smtp.gmail.com with ESMTPSA id s63sm44882pjj.16.2020.05.18.09.23.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:23:22 -0700 (PDT)
-From: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdkfd: Fix boolreturn.cocci warnings
-Date: Mon, 18 May 2020 21:53:12 +0530
-Message-Id: <20200518162312.18059-1-aishwaryarj100@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Tue, 19 May 2020 07:00:27 +0000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=k4vcnXjI8RyihlZWriXT7skpQdkFXM1bMLhUE8HEess=;
+ b=C8DrYG2ysyjoqv4i15iUFDo1GGOGVDIc/kMipfv1e4A+RpJ+yAtMIYYl8WTab1Y/uy
+ 4aWDkbU5aiNlxNTY5vP3t2b+VIqD8nWRjzkBFy2XKJ9F7HerhsUBd457jx0UmrNmcazw
+ v8nRQ13xfo8N6b42qftbH4/CMmXAqSZIc2TZunM3JKt0nasqo6l8m7EGmd/JoqchBtnn
+ aSsxMvNU0a952W5Otzo+nTmrgS/0LQNm7TT4fmPUCASaahr3HsqHIlJ4VRlK5lXS4qtR
+ 2YWdASD8AwuqfezijNcTVhPItlvHXjGcjZXRtA1iy1Qsjvwb66gR3SXs5vVcqG2OJaHx
+ 9z4w==
+X-Gm-Message-State: AOAM530y15Cwqp8GmDR9D5f73nC0yTbM9vMjfAHdPmtBZj27FrTBy76M
+ GdTjb+w9kUrDT4ZEigUfJgbh2ExZrx5R7dYLaDdo9dQ4
+X-Google-Smtp-Source: ABdhPJxj/ILRWGg+g0p0f6Tiild3EVoJh/eWr4w3mq2rqaHi8Q81anneUGkROS4v7wGlzDuPcv3TyrxRtC+aJ+KPXng=
+X-Received: by 2002:ab0:4e0d:: with SMTP id g13mr4414099uah.64.1589819013595; 
+ Mon, 18 May 2020 09:23:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200516212330.13633-1-chris@chris-wilson.co.uk>
+ <20200516212330.13633-2-chris@chris-wilson.co.uk>
+In-Reply-To: <20200516212330.13633-2-chris@chris-wilson.co.uk>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Mon, 18 May 2020 17:23:21 +0100
+Message-ID: <CACvgo535juMCoP3Lkg3L6UM8WYsYKP_pkAiO480Z8eouqnPhtA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm: Help unconfuse gcc, avoid accidental impossible
+ unsigned comparisons
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,52 +63,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: aishwaryarj100@gmail.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Return statements in functions returning bool should use
-true/false instead of 1/0.
-
-drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c:40:9-10:
-WARNING: return of 0/1 in function 'event_interrupt_isr_v9' with return type bool
-
-Generated by: scripts/coccinelle/misc/boolreturn.cocci
-
-Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-index e05d75ecda21..fce6ccabe38b 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-@@ -37,7 +37,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
- 	vmid = SOC15_VMID_FROM_IH_ENTRY(ih_ring_entry);
- 	if (vmid < dev->vm_info.first_vmid_kfd ||
- 	    vmid > dev->vm_info.last_vmid_kfd)
--		return 0;
-+		return false;
- 
- 	source_id = SOC15_SOURCE_ID_FROM_IH_ENTRY(ih_ring_entry);
- 	client_id = SOC15_CLIENT_ID_FROM_IH_ENTRY(ih_ring_entry);
-@@ -69,7 +69,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
- 
- 	/* If there is no valid PASID, it's likely a bug */
- 	if (WARN_ONCE(pasid == 0, "Bug: No PASID in KFD interrupt"))
--		return 0;
-+		return false;
- 
- 	/* Interrupt types we care about: various signals and faults.
- 	 * They will be forwarded to a work queue (see below).
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU2F0LCAxNiBNYXkgMjAyMCBhdCAyMjoyMywgQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13
+aWxzb24uY28udWs+IHdyb3RlOgo+Cj4gZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9kZXNl
+dC5jOiBJbiBmdW5jdGlvbiDigJhkcm1fY2xpZW50X2Zpcm13YXJlX2NvbmZpZ+KAmToKPiAuL2lu
+Y2x1ZGUvbGludXgvYml0cy5oOjI2OjI4OiB3YXJuaW5nOiBjb21wYXJpc29uIG9mIHVuc2lnbmVk
+IGV4cHJlc3Npb24gPCAwIGlzIGFsd2F5cyBmYWxzZSBbLVd0eXBlLWxpbWl0c10KPiAgICBfX2J1
+aWx0aW5fY29uc3RhbnRfcCgobCkgPiAoaCkpLCAobCkgPiAoaCksIDApKSkKPgpIbW0gdGhpcyBz
+ZWVtcyBsaWtlIGEgaGFjayBhcm91bmQgYSBtYWNybyBidWcuIEknbGwgc2VuZCBhIGZpeCBmb3Ig
+dGhlCm1hY3JvIGluIGEgZmV3IG1pbnV0ZXMuCldpdGggdGhhdCB5b3UgZG9uJ3QgaGF2ZSB0byB0
+aW5rZXIgdG8gbWFrZSBpdCB1bnNpZ25lZCwgYWx0aG91Z2ggY29uc3QKd2lsbCBiZSBhcHByZWNp
+YXRlZC4KCi1FbWlsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
