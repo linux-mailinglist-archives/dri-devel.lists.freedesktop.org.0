@@ -2,55 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A1E1D8B05
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 00:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A111D8B2B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 00:44:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED316E49F;
-	Mon, 18 May 2020 22:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2775B6E109;
+	Mon, 18 May 2020 22:44:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0909A6E49F;
- Mon, 18 May 2020 22:35:58 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id m7so4817307plt.5;
- Mon, 18 May 2020 15:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mfAW18+azOaRLKQwdw2OH359zGyKgAyGJxrSb3RPujM=;
- b=MG1ZfaHSeaRymkrPQU62cgmxH/2uylYLvmmO9og6TbMelX4G53rCvY/UKtSLRK3PmE
- 26Xg4KABmqt+zGydOShoZX0fWklL09/4yk4oohvFz3ed8FWEWc0U6N/mhM/SX7sNyWql
- 2TLlZJqhFlnbF2ua+dQ3efRFwY7MXPkIIQ9+JHJaBWjd88EWVzSWnFx6zunfrI3cNavU
- 0Nj9K4iMquF7lzVloaI5il2pMw7y+Gt5j6C7kDNyk3dOiKmprKSwNhswo8rYnW7bNTSX
- tGjxa7Gr2DxenrOtCqGzmgf8qW+2wNK2V0iOshzf7iAfc/bbYFyS9SDd1CxBEbqZc61l
- kcQg==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 756F36E109
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 22:43:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589841836;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fPJtTaxx/J3TNGtNDl0JEepte/rdyFM9JlRng7crbx4=;
+ b=SNslIcBCZk5JMvO6NNvwcL20MboUhHy4iYQQRKhGOLMdTDp3v6g9m8dvjDWCBHHzfD4KeF
+ BGQhPZCsGY/I0CxDsZwV6Pr1OKTbcbobm6x1+NPl+0h12PfQnPA+7GlfpzuXM6FrUYIMj8
+ yBIaxeOTZDMpZdoFEgF77mNcU52pDso=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-M3yGM9ogMamZTUv9lLm32w-1; Mon, 18 May 2020 18:43:55 -0400
+X-MC-Unique: M3yGM9ogMamZTUv9lLm32w-1
+Received: by mail-qk1-f198.google.com with SMTP id j83so10200363qke.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 15:43:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mfAW18+azOaRLKQwdw2OH359zGyKgAyGJxrSb3RPujM=;
- b=M9mX20D7Peq+VWif+rsPxBBXhPu/icQ5wjf8+fqYo6M6SRXM1NAl06cQAsH9iYJz98
- Dq1NOh4RYqSoeYdaVxA4xbiQPzxYP3DjEZ3jyEI5d+eZ8xEIlNCjOycyLc8ftVnIpvcC
- DW8L+8JJ7IHmgXkkoHOsRFxquNUoVCVhsUkSwTit/VfH4V2t6aHXX64A+y2L5OyCzE7M
- kniHWPRBmYzZLe4B+YWEvTTcwKryUqE6PO7qFe4pX78uQbgsS3t8G4ENVEoCC1ZLQuKq
- 5MZ8ylMa4xgJmjXSSA1zH7BitxT3kX/R7TMAS5lv8qn88sTGWqVBt+wm9k+fs+pygCNx
- whag==
-X-Gm-Message-State: AOAM5335Yq0l6zCgB0YCfPRpaWc3QGCJIvrLMYTrqRA8a4Ok/MeVtcXX
- 1xOtfCT4i7KV+XGSpfMDBKKQgDjV6jC7vXIhta0=
-X-Google-Smtp-Source: ABdhPJznGTRKT9ufZQjwegFQghrNIqUvaywioi4WTB0wEbibjK24jj0RZ5kf1R/BD5jxlgQVC+bJ3LOXFbMvnpxwubU=
-X-Received: by 2002:a17:902:bb8f:: with SMTP id
- m15mr18754385pls.5.1589841357598; 
- Mon, 18 May 2020 15:35:57 -0700 (PDT)
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=fPJtTaxx/J3TNGtNDl0JEepte/rdyFM9JlRng7crbx4=;
+ b=d+m7NpQnbwiqblbwloXZ9Eglq/7zHQ0djFVeAUo9vMraBCaMlb2auKsx8MFPzLMBBR
+ oDdp2PzSjuL/Q8NIiM5xisMg5paCCSqK/ogvCS39AiKhy3wgPaAaM1NBX7GPvbfBMsHI
+ UJKtzPCtizFvXzKGTsTbV+Aem1vURIgTDzW3UemXYT25g33RHRxsUDV5mnUv3/P6cM+I
+ dy+TxsD+tfqDRc4bW6r4HHy+Fw2OUrZRGZL3bqRud+baeSIv7yors+S3GMG36NTc5tH2
+ XoMBC3tTMWLzXkLASJI1r/JQLNCTvSxrqF8smrvaymc6PXlVE39K7dAMP2QD9zllmxbv
+ OjKg==
+X-Gm-Message-State: AOAM531gaXbWCNVwaE9q3C3Ytt3NH18/p9nTLEFGwmbVR/nIlWxsHjtY
+ sbh44r0Xe/y0leUrb+tg2tlrSX/EtMtEO6TReRIkaS7xwb95FmUxaJnN/6F0rlC4E2zOWQh50PH
+ RRB1ok8SSpklqWpwqdteGywacbvzk
+X-Received: by 2002:a0c:eb49:: with SMTP id c9mr18727260qvq.123.1589841834548; 
+ Mon, 18 May 2020 15:43:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBoZ/T3Cm040vrb4KlmqUVzFLG5UiARWXcuA8Tambx0yscTdBHZmOgxeeMcIeK3FusURtvNw==
+X-Received: by 2002:a0c:eb49:: with SMTP id c9mr18727246qvq.123.1589841834295; 
+ Mon, 18 May 2020 15:43:54 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id r128sm9375316qke.109.2020.05.18.15.43.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 May 2020 15:43:53 -0700 (PDT)
+Message-ID: <720829f7946b42fb50ca071b0321cf89650affa7.camel@redhat.com>
+Subject: Re: [PATCH] Lenovo X13 Yoga OLED panel brightness fix
+From: Lyude Paul <lyude@redhat.com>
+To: Mark Pearson <mpearson@lenovo.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Date: Mon, 18 May 2020 18:43:52 -0400
+In-Reply-To: <SG2PR03MB3324FE6FB77A226167E9BC31BDB80@SG2PR03MB3324.apcprd03.prod.outlook.com>
+References: <SG2PR03MB3324FE6FB77A226167E9BC31BDB80@SG2PR03MB3324.apcprd03.prod.outlook.com>
+Organization: Red Hat
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32)
 MIME-Version: 1.0
-References: <20200507142726.25751-1-sashal@kernel.org>
- <20200507142726.25751-33-sashal@kernel.org>
-In-Reply-To: <20200507142726.25751-33-sashal@kernel.org>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Mon, 18 May 2020 18:35:19 -0400
-Message-ID: <CAAxE2A4cWMctuCzm-ftdzDT=p9d5973XSZAstC0-OuJ0WE9ASQ@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.6 33/50] drm/amdgpu: bump version for invalidate
- L2 before SDMA IBs
-To: Sasha Levin <sashal@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,162 +80,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, stable@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0240792463=="
+Reply-To: lyude@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0240792463==
-Content-Type: multipart/alternative; boundary="0000000000005e774a05a5f3c99b"
+Yeah, git send-email is kinda :(, but unfortunately the entire kernel uses this
+workflow. Hopefully freedesktop's gitlab efforts will change this someday...
 
---0000000000005e774a05a5f3c99b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+also - in the future, if you don't want comments to appear in the patch when
+they're applied put them below the ---, e.g. the one before the Reviewed-by:
+tag.
 
-Hi Sasha,
+Anyway-I'll go ahead and push this, thanks for keeping this list up to date!
 
-I disagree with this. Bumping the driver version will have implications on
-other new features, because it's like an ABI barrier exposing new
-functionality.
-
-Marek
-
-On Thu, May 7, 2020 at 10:28 AM Sasha Levin <sashal@kernel.org> wrote:
-
-> From: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
->
-> [ Upstream commit 9017a4897a20658f010bebea825262963c10afa6 ]
->
-> This fixes GPU hangs due to cache coherency issues.
-> Bump the driver version. Split out from the original patch.
->
-> Signed-off-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Tested-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com=
->
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+On Mon, 2020-05-18 at 00:06 +0000, Mark Pearson wrote:
+> Hi,
+> 
+> Patch to fix an issue controlling the brightness of the OLED panel on the
+> Lenovo X13 Yoga 
+> Please let me know any feedback or questions.
+> Note - apologies if this message has shown up before - I had some mail client
+> issues.
+> 
+> Mark Pearson
+> ---------------------------------
+> 
+> Add another panel that needs the edid quirk to the list so that brightness 
+> control works correctly. Fixes issue seen on Lenovo X13 Yoga with OLED panel
+> 
+> Co-developed-by: jendrina@lenovo.com
+> Signed-off-by: jendrina@lenovo.com
+> Signed-off-by: Mark Pearson <mpearson@lenovo.com>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 42f4febe24c6d..8d45a2b662aeb 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -85,9 +85,10 @@
->   * - 3.34.0 - Non-DC can flip correctly between buffers with different
-> pitches
->   * - 3.35.0 - Add drm_amdgpu_info_device::tcc_disabled_mask
->   * - 3.36.0 - Allow reading more status registers on si/cik
-> + * - 3.37.0 - L2 is invalidated before SDMA IBs, needed for correctness
->   */
->  #define KMS_DRIVER_MAJOR       3
-> -#define KMS_DRIVER_MINOR       36
-> +#define KMS_DRIVER_MINOR       37
->  #define KMS_DRIVER_PATCHLEVEL  0
->
->  int amdgpu_vram_limit =3D 0;
-> --
-> 2.20.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
->
-
---0000000000005e774a05a5f3c99b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div style=3D"font-family:Calibri,Arial,Helvetica,sans-ser=
-if;font-size:12pt;color:rgb(0,0,0)">Hi Sasha,</div><div style=3D"font-famil=
-y:Calibri,Arial,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)"><br><=
-/div><div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size=
-:12pt;color:rgb(0,0,0)">I
- disagree with this. Bumping the driver version will have implications=20
-on other new features, because it&#39;s like an ABI barrier exposing new=20
-functionality.</div><div style=3D"font-family:Calibri,Arial,Helvetica,sans-=
-serif;font-size:12pt;color:rgb(0,0,0)"><br></div><div style=3D"font-family:=
-Calibri,Arial,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">Marek<b=
-r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Thu, May 7, 2020 at 10:28 AM Sasha Levin &lt;<a href=3D"mailto:s=
-ashal@kernel.org">sashal@kernel.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">From: Marek Ol=C5=A1=C3=A1k &lt;<a href=
-=3D"mailto:marek.olsak@amd.com" target=3D"_blank">marek.olsak@amd.com</a>&g=
-t;<br>
-<br>
-[ Upstream commit 9017a4897a20658f010bebea825262963c10afa6 ]<br>
-<br>
-This fixes GPU hangs due to cache coherency issues.<br>
-Bump the driver version. Split out from the original patch.<br>
-<br>
-Signed-off-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak@amd.=
-com" target=3D"_blank">marek.olsak@amd.com</a>&gt;<br>
-Reviewed-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@am=
-d.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
-Tested-by: Pierre-Eric Pelloux-Prayer &lt;<a href=3D"mailto:pierre-eric.pel=
-loux-prayer@amd.com" target=3D"_blank">pierre-eric.pelloux-prayer@amd.com</=
-a>&gt;<br>
-Signed-off-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher@amd.com=
-" target=3D"_blank">alexander.deucher@amd.com</a>&gt;<br>
-Signed-off-by: Sasha Levin &lt;<a href=3D"mailto:sashal@kernel.org" target=
-=3D"_blank">sashal@kernel.org</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/=
-amdgpu/amdgpu_drv.c<br>
-index 42f4febe24c6d..8d45a2b662aeb 100644<br>
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c<br>
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c<br>
-@@ -85,9 +85,10 @@<br>
-=C2=A0 * - 3.34.0 - Non-DC can flip correctly between buffers with differen=
-t pitches<br>
-=C2=A0 * - 3.35.0 - Add drm_amdgpu_info_device::tcc_disabled_mask<br>
-=C2=A0 * - 3.36.0 - Allow reading more status registers on si/cik<br>
-+ * - 3.37.0 - L2 is invalidated before SDMA IBs, needed for correctness<br=
->
-=C2=A0 */<br>
-=C2=A0#define KMS_DRIVER_MAJOR=C2=A0 =C2=A0 =C2=A0 =C2=A03<br>
--#define KMS_DRIVER_MINOR=C2=A0 =C2=A0 =C2=A0 =C2=A036<br>
-+#define KMS_DRIVER_MINOR=C2=A0 =C2=A0 =C2=A0 =C2=A037<br>
-=C2=A0#define KMS_DRIVER_PATCHLEVEL=C2=A0 0<br>
-<br>
-=C2=A0int amdgpu_vram_limit =3D 0;<br>
--- <br>
-2.20.1<br>
-<br>
-_______________________________________________<br>
-amd-gfx mailing list<br>
-<a href=3D"mailto:amd-gfx@lists.freedesktop.org" target=3D"_blank">amd-gfx@=
-lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx" rel=3D"n=
-oreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listinfo=
-/amd-gfx</a><br>
-</blockquote></div>
-
---0000000000005e774a05a5f3c99b--
-
---===============0240792463==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> drivers/gpu/drm/drm_dp_helper.c | 1 +
+> 1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> index c6fbe6e6bc9d..41f0e797ce8c 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -1313,6 +1313,7 @@ static const struct edid_quirk edid_quirk_list[] = {
+>                { MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>                { MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+>                { MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+> +             { MFG(0x4c, 0x83), PROD_ID(0x47, 0x41),
+> BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
+> };
+> 
+>  #undef MFG
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0240792463==--
