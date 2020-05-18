@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BEED1D7E4B
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 18:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46D21D9081
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 09:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 196C06E42D;
-	Mon, 18 May 2020 16:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA0E89FEC;
+	Tue, 19 May 2020 07:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506926E42D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 16:22:39 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id m12so135745wmc.0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 09:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=h21pn6leaS0udA+6sZ78ZisTbB55GhG4Y4hXmjrbCNk=;
- b=jtq+ZxtjGw+wtB+PoQzf2Zy8k44Nvyst4cTaGBxSsLBiGNiFcdcwYCggaUNSXBTHbP
- C6xsjI4bHaWGTLU7uc45ahTni5fXJFj9fncUXM8sIJwXflk6HJO3GUczzmfXouSR+Q+A
- +BIYwtjcvefIcztkcvZfFJsPGXItC1IEoOL/Yz5oK8angtsjM1jVg+6nOPwtcb/0Ss/c
- ngKNRig/r38qSKmbIBBoMCzWvMayHMJ/cu/eDzQhPltuwHLrGHouCWx8Ge+U2NnNouo3
- Tv6KjvptIZ2Sd4TOC91xAkTRpKVAj+cHXvrhpvgkpOQLuzFhoRRngdKp30A2z0kRd5cE
- w3bw==
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656246E42F;
+ Mon, 18 May 2020 16:23:23 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id q9so48550pjm.2;
+ Mon, 18 May 2020 09:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=K211i4h2u/TxQcxsieD51LxexrJexjO9Rx1FtdNootg=;
+ b=ZCxeUuuaf+obk5I3yVMAoO21FuFn9ZnaajU4+BOQ99SaS5pj2jagOJ/JOGl+8RsUII
+ rvwLVEZZIkzXNr6+b5GK8kBK5CwmCLz1LU0DPBurnFBaDT4RSxCswhVllgphaQG+aZjj
+ p/NUv/ujcSx2sF8dexJN5AdeFuomxgou0IRwg3hXoLKBdK/NS2+wU/KFY8//Q1WbOVzx
+ zSuZB4Bs5Z+jwykwSB4wAhMcLrvVt6iGZlNfPN/l6Rb1XTrVmBKIOUjCY/D2PWfPmFXt
+ /PzfwEXc5tl2MfRF3y+kOyECmkL7fRukDwcF+Ii3mXydS4jRBqnvfcTtirZxzQWmQRCT
+ 0uRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=h21pn6leaS0udA+6sZ78ZisTbB55GhG4Y4hXmjrbCNk=;
- b=Odh9SINe5QWKqoLkYXnLsCLTjRVp/77KaBn0tDfqzsEmNvArRQEzFVNhDlWCOuXFHC
- v7+PcK3oCE9KKWkvxsEFVDoTjP4fW004e0GPuIpZanvuGKhHL2hmF2crD19TP8RpvF3N
- gm49cKR5VtpohRAtYIn9tW1RNfMVa1pxW/cAg87ouLLkS4QIu+jlqICHkBHiYTFBDFJk
- OLcIo8cBmLt3Z3sQoQ87zBgI38J4AhQhuTpY/6GFPSbza+KBvwEpPrt3ptBC4oNxQYS5
- yu2lDQo10NShzm+H/cEoLAVNzBUoEQq/Jy0oLznKyvZAgN5rxlY4mSiUJAGQrykmDACW
- veyQ==
-X-Gm-Message-State: AOAM531C6ehgp5xRs5qPnFWhn+UTskhStq03r4Cl21xP6+zYxLLoIfCF
- E8OTSFDrP8lsOFFldAEUR/f2Dw==
-X-Google-Smtp-Source: ABdhPJxo15H/x7EEu/9WMN/iuxjvzEmsBbPIXj17etTJA8QzpdJAzwsllFGjEWc6leX17MJxQrFDtw==
-X-Received: by 2002:a1c:9989:: with SMTP id b131mr164743wme.176.1589818957967; 
- Mon, 18 May 2020 09:22:37 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id w13sm16554687wrm.28.2020.05.18.09.22.36
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=K211i4h2u/TxQcxsieD51LxexrJexjO9Rx1FtdNootg=;
+ b=M1AUoLLuFS9SogKsVUA+11udAK0WFEsQtsy+hAiFlyRxEHGie9bbSftzlM9Rx0TedZ
+ d8fnHtYmUKLkFRFQjmR9cZPDPePBRhT2Pv9LlmBxlmCLZ18lbFa5yRULxVKV3yTVomAF
+ a0JEy0D9giWPbSqqA0QHcB9OUS6kWZqXbTPD9+DCyqbV4mTZwJaNyAKy7NyTk2v38S0v
+ E8zF5SwRvsR/fRsLDdRZzn7Euwez9WicjXkYMLtrLCPCl53As+LCJj+vSgxaHrBIFhiu
+ xsn5HuuL5GsKoOKs6RrrRF3AXvcCDu2FHaC/5etQp0XCvWXz/k+4MxzckP85aClO/zCR
+ Gcfw==
+X-Gm-Message-State: AOAM532l+pCbh+gdR7572Wf6gz14tAZbtHzWZHMk3Km1t3Azdkkjrk8f
+ 8jdXB/U5O+18ghNLAmfxE7s=
+X-Google-Smtp-Source: ABdhPJwGk4vPSvK7vas58uw/Mle4Y1AUjToQolSEGddq1AGgxZx/L/rMqSj8a28neGfe3Hv0XNqxVw==
+X-Received: by 2002:a17:902:7587:: with SMTP id
+ j7mr17207481pll.81.1589819002963; 
+ Mon, 18 May 2020 09:23:22 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4072:418:e389:7149:74ab:b584:ecf8])
+ by smtp.gmail.com with ESMTPSA id s63sm44882pjj.16.2020.05.18.09.23.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:22:37 -0700 (PDT)
-Date: Mon, 18 May 2020 17:22:35 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 10/16] backlight: drop extern from prototypes
-Message-ID: <20200518162235.nn4zuv3uuteaq36k@holly.lan>
-References: <20200517190139.740249-1-sam@ravnborg.org>
- <20200517190139.740249-11-sam@ravnborg.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200517190139.740249-11-sam@ravnborg.org>
+ Mon, 18 May 2020 09:23:22 -0700 (PDT)
+From: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdkfd: Fix boolreturn.cocci warnings
+Date: Mon, 18 May 2020 21:53:12 +0530
+Message-Id: <20200518162312.18059-1-aishwaryarj100@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Tue, 19 May 2020 07:00:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +69,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>,
- Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, patches@opensource.cirrus.com
+Cc: aishwaryarj100@gmail.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 17, 2020 at 09:01:33PM +0200, Sam Ravnborg wrote:
-> No need to put "extern" in front of prototypes.
-> While touching the prototypes adjust indent to follow
-> the kernel style.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
+Return statements in functions returning bool should use
+true/false instead of 1/0.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c:40:9-10:
+WARNING: return of 0/1 in function 'event_interrupt_isr_v9' with return type bool
 
+Generated by: scripts/coccinelle/misc/boolreturn.cocci
 
+Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  include/linux/backlight.h | 35 +++++++++++++++++++----------------
->  1 file changed, 19 insertions(+), 16 deletions(-)
-> 
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index eae7a5e66248..308aec67fa4f 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -444,22 +444,25 @@ static inline bool backlight_is_blank(struct backlight_device *bd)
->  	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
->  }
->  
-> -extern struct backlight_device *backlight_device_register(const char *name,
-> -	struct device *dev, void *devdata, const struct backlight_ops *ops,
-> -	const struct backlight_properties *props);
-> -extern struct backlight_device *devm_backlight_device_register(
-> -	struct device *dev, const char *name, struct device *parent,
-> -	void *devdata, const struct backlight_ops *ops,
-> -	const struct backlight_properties *props);
-> -extern void backlight_device_unregister(struct backlight_device *bd);
-> -extern void devm_backlight_device_unregister(struct device *dev,
-> -					struct backlight_device *bd);
-> -extern void backlight_force_update(struct backlight_device *bd,
-> -				   enum backlight_update_reason reason);
-> -extern int backlight_register_notifier(struct notifier_block *nb);
-> -extern int backlight_unregister_notifier(struct notifier_block *nb);
-> -extern struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
-> -extern int backlight_device_set_brightness(struct backlight_device *bd, unsigned long brightness);
-> +struct backlight_device *
-> +backlight_device_register(const char *name, struct device *dev, void *devdata,
-> +			  const struct backlight_ops *ops,
-> +			  const struct backlight_properties *props);
-> +struct backlight_device *
-> +devm_backlight_device_register(struct device *dev, const char *name,
-> +			       struct device *parent, void *devdata,
-> +			       const struct backlight_ops *ops,
-> +			       const struct backlight_properties *props);
-> +void backlight_device_unregister(struct backlight_device *bd);
-> +void devm_backlight_device_unregister(struct device *dev,
-> +				      struct backlight_device *bd);
-> +void backlight_force_update(struct backlight_device *bd,
-> +			    enum backlight_update_reason reason);
-> +int backlight_register_notifier(struct notifier_block *nb);
-> +int backlight_unregister_notifier(struct notifier_block *nb);
-> +struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
-> +int backlight_device_set_brightness(struct backlight_device *bd,
-> +				    unsigned long brightness);
->  
->  #define to_backlight_device(obj) container_of(obj, struct backlight_device, dev)
->  
-> -- 
-> 2.25.1
-> 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
+index e05d75ecda21..fce6ccabe38b 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
+@@ -37,7 +37,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
+ 	vmid = SOC15_VMID_FROM_IH_ENTRY(ih_ring_entry);
+ 	if (vmid < dev->vm_info.first_vmid_kfd ||
+ 	    vmid > dev->vm_info.last_vmid_kfd)
+-		return 0;
++		return false;
+ 
+ 	source_id = SOC15_SOURCE_ID_FROM_IH_ENTRY(ih_ring_entry);
+ 	client_id = SOC15_CLIENT_ID_FROM_IH_ENTRY(ih_ring_entry);
+@@ -69,7 +69,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
+ 
+ 	/* If there is no valid PASID, it's likely a bug */
+ 	if (WARN_ONCE(pasid == 0, "Bug: No PASID in KFD interrupt"))
+-		return 0;
++		return false;
+ 
+ 	/* Interrupt types we care about: various signals and faults.
+ 	 * They will be forwarded to a work queue (see below).
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
