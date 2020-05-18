@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610791D7BE7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 16:55:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7156A1D7C27
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 17:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346E26E340;
-	Mon, 18 May 2020 14:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37AD76E420;
+	Mon, 18 May 2020 15:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2216E340
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 14:55:01 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j5so12273597wrq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 07:55:01 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6636E41F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 15:01:00 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id g14so205262wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 08:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=sc8LZw1aFYMl/7VH0/CKYrILiudqiq2KGCatolX/Vlo=;
- b=xb+BHHLf1Tatfi2MNt/KTxXmOAgaTICpK/MatIHpslOb28JgiBQOS8/48GvZygyiOj
- gG4DOvymcf097FXDlRqK6LcZXodUXX202ht8WWJpqSJdUywvnzW9UwTh2L1SoER+d5KK
- qgIklbC6gwPC/eR3BYYS/F+cSbuMupDwpIbJlKBIPXhP9Apy+ZDZug4OQdT9y2e+alpN
- eyoR0GEuTULmbFUpZFsmvKYomsAxk7DRB1E2VMEVtq1HHKIJSNnIeWxaQr3W6J3QBILv
- jgnE4DBHlxfJNHfC/nZIeMCL3qAOnBpAVy9f2neAj3jFAvnfuzjCy4AbWAg72r/DdUG/
- k2cg==
+ bh=8++mCf4jSObKvczsPrCihMEuKhSX0mbSobsPe+OlqoE=;
+ b=b1KoRPzh9KeASUfJshq63jbOp9jg3g/1rpHNd1w/o+KQuz4BhUdHMX05yfqVsWYET4
+ HWW1Mpp4YrWFk67arh4A2bp+D+x9YrUAJr/tgsIAjZJUb6vepsGF6L3fMH55zsUrFIJJ
+ 0mSRpAxHlAsHOcYM7awxP5nAJX3vNXuaewFgbEE/Hvb/P6FI263krXKqG4gsb/p58602
+ 4K8Vm/tZRVERoDDdHDD4wyRS1FQHHf2xLhg532Qj8v0QFQpgmlSBqNl6gRqp2Yf+6yyv
+ 4yJ79yABAK+WKH83YZfPZ9vmS3WqBCP17g2A7bVa+J/erzwnI8YSkmsnjUUgCuiCKS2S
+ jqLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=sc8LZw1aFYMl/7VH0/CKYrILiudqiq2KGCatolX/Vlo=;
- b=FnUbZMYYdEgcGEHQGYBX4i7sxhklWo5I6MqdKRPVJCV8NZXW1b/v5DDZXewLD9NlwI
- M8H+Eu5OyXNokiV3WK9e0fbJet7Xf+UpqAzvZcPaF5MgM9moh1Sqy5evg3+QLB6JjrvV
- rUvftNIKliqsUtTFpwHiMqm22BWfBxVK1rP9guNdsbWUCU3aqRnyYcigFs9664JpHRvK
- nOO52GpCG58RdkGAYxh6aSUV9ZS/3c8aZpk2ccxS/34kf60T+hxgMkNZremnbqxSj4Sr
- Rw5Obs8WQat9z0+C/kNlliNTVgXxQAC5AL6pGFgeUdUVaZxNosJE4CRkcSSVPDuEn9oc
- oLNg==
-X-Gm-Message-State: AOAM532HtF/Jc0PIK7KeD22tC9weFI/wj6wkDUOh63mTAG3fMCeCWHBK
- YExhdOGYP8WJewWXkcve3WEslg==
-X-Google-Smtp-Source: ABdhPJyQ+pvcK3hqQHdj+Yb7Twm2o3yI6kGnwEAvQE9nHPKDkHS5qu1gqYNSErT5DehDyzyl1UAQCA==
-X-Received: by 2002:a5d:5607:: with SMTP id l7mr20630988wrv.370.1589813700229; 
- Mon, 18 May 2020 07:55:00 -0700 (PDT)
+ bh=8++mCf4jSObKvczsPrCihMEuKhSX0mbSobsPe+OlqoE=;
+ b=a1DqQYsmScbxr5118/1j8vwV6u9th1UT1mqrwRKYe6BCUyY5+Fn3QboR7GRDl+AOfm
+ 2lJM/+uEh3dZAXY/bLYQo2MinIUnucVgh1nCnch92gq95L83sE+h5FITrhiO2Z49Kp9U
+ 6StpZ+p8cg5di81sxxx//QaWzNuykiQq7/MhwIonOXiIJuxzv1g+yM61Q3Iiq7EDuSNM
+ G/P43+1GFJr/c9yApT+ptiTwkRoakvKaKCfU24Z1NUUEhI6/TE6WW4yiXzJV7QYvsxbL
+ +7RkAch1YQ5e5lwpB4dv2+vlsGmn0fjm2Fn7qnYZrAt3GQTsinUchD8EZmOY3qXuZpsf
+ fAlQ==
+X-Gm-Message-State: AOAM533xX8+fPCk0R2E4TqmaCzMePX5SvFDYoeg4T3zRpciN9GGj6UaA
+ yGYpkddMWSYsOy0f8Igqdf68oA==
+X-Google-Smtp-Source: ABdhPJwVYyW+g2DU5vF2SFs8kROpaXsS+0st9Moezr7mqbpA2jZeUyxRLI/bkAyeZ7mLDzH+DnX7+w==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr20423003wmi.86.1589814058651; 
+ Mon, 18 May 2020 08:00:58 -0700 (PDT)
 Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
  [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id l19sm17377481wmj.14.2020.05.18.07.54.58
+ by smtp.gmail.com with ESMTPSA id j2sm16678993wrp.47.2020.05.18.08.00.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 07:54:59 -0700 (PDT)
-Date: Mon, 18 May 2020 15:54:57 +0100
+ Mon, 18 May 2020 08:00:57 -0700 (PDT)
+Date: Mon, 18 May 2020 16:00:55 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 02/16] backlight: refactor fb_notifier_callback()
-Message-ID: <20200518145457.zonqhzkeybxdrq6b@holly.lan>
+Subject: Re: [PATCH v2 03/16] backlight: add backlight_is_blank()
+Message-ID: <20200518150055.2vaaoucf4nodwoz5@holly.lan>
 References: <20200517190139.740249-1-sam@ravnborg.org>
- <20200517190139.740249-3-sam@ravnborg.org>
+ <20200517190139.740249-4-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200517190139.740249-3-sam@ravnborg.org>
+In-Reply-To: <20200517190139.740249-4-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,12 +86,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 17, 2020 at 09:01:25PM +0200, Sam Ravnborg wrote:
-> Increase readability of fb_notifier_callback() by removing
-> a few indent levels.
-> No functional change.
+On Sun, May 17, 2020 at 09:01:26PM +0200, Sam Ravnborg wrote:
+> The backlight support has two properties that express the state:
+> - power
+> - state
+> 
+> It is un-documented and easy to get wrong.
+> Add backlight_is_blank() helper to make it simpler for drivers
+> to get the check of the state correct.
+> 
+> A lot of drivers also includes checks for fb_blank.
+> This check is redundant when the state is checked
+> and thus not needed in this helper function.
+> But added anyway to avoid introducing subtle bug
+> due to the creative use in some drivers.
+> 
+> Rolling out this helper to all relevant backlight drivers
+> will eliminate almost all accesses to fb_blank.
+> 
+> v2:
+>   - Added fb_blank condition (Daniel)
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Cc: Lee Jones <lee.jones@linaro.org>
 > Cc: Daniel Thompson <daniel.thompson@linaro.org>
 > Cc: Jingoo Han <jingoohan1@gmail.com>
@@ -100,64 +117,39 @@ Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
 > ---
->  drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
->  1 file changed, 22 insertions(+), 21 deletions(-)
+>  include/linux/backlight.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-> index cac3e35d7630..17f04cff50ab 100644
-> --- a/drivers/video/backlight/backlight.c
-> +++ b/drivers/video/backlight/backlight.c
-> @@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
->  
->  	bd = container_of(self, struct backlight_device, fb_notif);
->  	mutex_lock(&bd->ops_lock);
-> -	if (bd->ops)
-> -		if (!bd->ops->check_fb ||
-> -		    bd->ops->check_fb(bd, evdata->info)) {
-> -			fb_blank = *(int *)evdata->data;
-> -			if (fb_blank == FB_BLANK_UNBLANK &&
-> -			    !bd->fb_bl_on[node]) {
-> -				bd->fb_bl_on[node] = true;
-> -				if (!bd->use_count++) {
-> -					bd->props.state &= ~BL_CORE_FBBLANK;
-> -					bd->props.fb_blank = FB_BLANK_UNBLANK;
-> -					backlight_update_status(bd);
-> -				}
-> -			} else if (fb_blank != FB_BLANK_UNBLANK &&
-> -				   bd->fb_bl_on[node]) {
-> -				bd->fb_bl_on[node] = false;
-> -				if (!(--bd->use_count)) {
-> -					bd->props.state |= BL_CORE_FBBLANK;
-> -					bd->props.fb_blank = fb_blank;
-> -					backlight_update_status(bd);
-> -				}
-> -			}
-> +
-> +	if (!bd->ops)
-> +		goto out;
-> +	if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
-> +		goto out;
-> +
-> +	fb_blank = *(int *)evdata->data;
-> +	if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
-> +		bd->fb_bl_on[node] = true;
-> +		if (!bd->use_count++) {
-> +			bd->props.state &= ~BL_CORE_FBBLANK;
-> +			bd->props.fb_blank = FB_BLANK_UNBLANK;
-> +			backlight_update_status(bd);
-> +		}
-> +	} else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
-> +		bd->fb_bl_on[node] = false;
-> +		if (!(--bd->use_count)) {
-> +			bd->props.state |= BL_CORE_FBBLANK;
-> +			bd->props.fb_blank = fb_blank;
-> +			backlight_update_status(bd);
->  		}
-> +	}
-> +out:
->  	mutex_unlock(&bd->ops_lock);
->  	return 0;
+> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+> index c7d6b2e8c3b5..a0a083b35c47 100644
+> --- a/include/linux/backlight.h
+> +++ b/include/linux/backlight.h
+> @@ -175,6 +175,25 @@ static inline void backlight_put(struct backlight_device *bd)
+>  		put_device(&bd->dev);
 >  }
+>  
+> +/**
+> + * backlight_is_blank - Return true if display is expected to be blank
+> + * @bd: the backlight device
+> + *
+> + * Display is expected to be blank if any of these is true::
+> + *
+> + *   1) if power in not UNBLANK
+> + *   2) if fb_blank is not UNBLANK
+> + *   3) if state indicate BLANK or SUSPENDED
+> + *
+> + * Returns true if display is expected to be blank, false otherwise.
+> + */
+> +static inline bool backlight_is_blank(struct backlight_device *bd)
+> +{
+> +	return bd->props.power != FB_BLANK_UNBLANK ||
+> +	       bd->props.fb_blank != FB_BLANK_UNBLANK ||
+> +	       bd->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK);
+> +}
+> +
+>  extern struct backlight_device *backlight_device_register(const char *name,
+>  	struct device *dev, void *devdata, const struct backlight_ops *ops,
+>  	const struct backlight_properties *props);
 > -- 
 > 2.25.1
 > 
