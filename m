@@ -2,37 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7C11D8851
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 21:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD411D888D
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 21:57:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3676E264;
-	Mon, 18 May 2020 19:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4A06E47E;
+	Mon, 18 May 2020 19:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423266E264
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 19:40:03 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 754DB20053;
- Mon, 18 May 2020 21:39:59 +0200 (CEST)
-Date: Mon, 18 May 2020 21:39:58 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [REPOST PATCH v2] drm/bridge: ti-sn65dsi86: Implement lane
- reordering + polarity
-Message-ID: <20200518193958.GA888662@ravnborg.org>
-References: <20200518114656.REPOST.v2.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6467C6E47E
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 19:57:01 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id f134so735741wmf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 12:57:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PbdRyg5kcd//DX8aThqSi8QmNWbORlgHp5rh1J6SqIY=;
+ b=kA7beYhILj0prjYk3znsZ8vtZ7ZDrlQiKMA8sojxIRQXdGFCC8xIgp5oYZcsv/epOa
+ z+WwumTl1Z5l7ZX9B/eSRrqY5mx549cQYP//s64DW4RKuMRcjPBWW5fQi5fAZlenSkZJ
+ Nt1WvnhlH1BgUXRpg/hIsSY/DfNuQGXGDvjHA4ulU45A3PQ10l2Ii7oIjU1ZrqUblkDo
+ NA0ch0kHTUl/VyMp6QdehDNFFaESotNNxJsywuZFaJQrnp3f1uIg+jX+nk1vK3Ecm+b4
+ P6xmu/BErHxodXVZt88F3zAeY0oXRqfODvYoE6KNDpKet9iKSLYq8FddTeCPBpnQTVNX
+ KOyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PbdRyg5kcd//DX8aThqSi8QmNWbORlgHp5rh1J6SqIY=;
+ b=rY4HtlukrKnJ4XhH43d4ylH1gv6sokUg5IlsoZEA/YQTbgCX0Zwj8NP+3z14KHqG6U
+ YMOZeamREljIDcTcss28I47ttPHh2QHOb+3SpR6Vll9Dasi4cEVb5yMP+OR3cCQAEvr2
+ RsQ7/mOWbkMWu8FVbYU2DLw9u3tKvMvBCtDsRLqaUIqn3L7S+J+CfGfMdSZdgvPMO5i/
+ meaC97JzSA3hJSXUci+4yxQb1LZqBfq7Tj56wHV22686eX81TG4HghDQ79+Y7ASoWsxe
+ YCHtaZuhSKzGQoU7yj0EEyNdbVaPp7Ji0UCgC+N/DwvSNqhy4VZRgXkB1jjvF2GYUCFm
+ aW4Q==
+X-Gm-Message-State: AOAM532Ia1CJWyWHTqrHvaTOYLrNEg8YdubNJgA7Rh2EZvIGsS5oL0Qq
+ Zlo2E3Zp6KscOAwKhC8T+9i25Q==
+X-Google-Smtp-Source: ABdhPJzoU8qbbvxxC3cizf6NI6NFIEqaKyHByjJ4SgRZLqqZ0f2ZQseTGjC1Xa9OdZep5QtoO5pCtw==
+X-Received: by 2002:a1c:3b87:: with SMTP id i129mr1150807wma.38.1589831819961; 
+ Mon, 18 May 2020 12:56:59 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id u10sm769695wmc.31.2020.05.18.12.56.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 May 2020 12:56:59 -0700 (PDT)
+Date: Mon, 18 May 2020 20:56:56 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 15/16] backlight: make of_find_backlight_by_node()
+ static
+Message-ID: <20200518195656.z2wag34mbr3e2hip@holly.lan>
+References: <20200517190139.740249-1-sam@ravnborg.org>
+ <20200517190139.740249-16-sam@ravnborg.org>
+ <20200518165648.ltgtofjsteyyse4j@holly.lan>
+ <20200518181227.GC770425@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200518114656.REPOST.v2.1.Ibc8eeddcee94984a608d6900b46f9ffde4045da4@changeid>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=pGLkceISAAAA:8
- a=8XhiRY50PI37qDso4jsA:9 a=6bwV8OXODjhHDt9b:21 a=zV5TzvQiLlDj4gTl:21
- a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22
+In-Reply-To: <20200518181227.GC770425@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,198 +71,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, Andrzej Hajda <a.hajda@samsung.com>,
- seanpaul@chromium.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Andy Gross <agross@kernel.org>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, patches@opensource.cirrus.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas.
+On Mon, May 18, 2020 at 08:12:27PM +0200, Sam Ravnborg wrote:
+> On Mon, May 18, 2020 at 05:56:48PM +0100, Daniel Thompson wrote:
+> > On Sun, May 17, 2020 at 09:01:38PM +0200, Sam Ravnborg wrote:
+> > > There are no external users of of_find_backlight_by_node().
+> > > Make it static so we keep it that way.
+> > > 
+> > > v2:
+> > >   - drop EXPORT of of_find_backlight_by_node
+> > > 
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Lee Jones <lee.jones@linaro.org>
+> > > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > 
+> > Assuming the 0day-ci comments are because some of the patches have
+> > already been sucked up in a different tree then:
+> Correct. For now only drm-misc-next have no users of
+> of_find_backlight_by_node() which is why the other trees failed.
+> 
+>  
+> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Thanks for all your reviews!
+> I will shortly (within a few days) address the comments and send out a v3.
+> 
+> Is is correct that I assume you or Lee or Jingoo will apply the patches
+> to a backlight tree somewhere when they are ready?
+> If you have a tree you use for backlight patches I can base v3 on that,
+> given that I get a link and have access to pull from it.
 
-On Mon, May 18, 2020 at 11:47:17AM -0700, Douglas Anderson wrote:
-> The ti-sn65dsi86 MIPI DSI to eDP bridge chip supports arbitrary
-> remapping of eDP lanes and also polarity inversion.  Both of these
-> features have been described in the device tree bindings for the
-> device since the beginning but were never implemented in the driver.
-> Implement both of them.
-> 
-> Part of this change also allows you to (via the same device tree
-> bindings) specify to use fewer than the max number of DP lanes that
-> the panel reports.  This could be useful if your display supports more
-> lanes but only a few are hooked up on your board.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
-> ---
-> Re-posting patch v2, patch #1.  I added tags and put Sam in the "To"
-> list.  Patch #2 was dropped since it was squashed elsewhere.  This now
-> applies to the top of drm-misc-next.
-> 
-> Changes in v2:
-> - Use SN_MAX_DP_LANES instead of 4 in one place.
-> - Comment that we aren't doing full validation of dts params.
-> - Check dp_lanes <= SN_MAX_DP_LANES to avoid buffer overrun.
-> - Add missing of_node_put()
+Absent holidays and the like, Lee usually does that actual patch
+hoovering.
 
-Applied to drm-misc-next.
 
-	Sam
-
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 82 ++++++++++++++++++++++-----
->  1 file changed, 68 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 1855fb9f09f2..2240e9973178 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -50,8 +50,12 @@
->  #define SN_CHA_VERTICAL_BACK_PORCH_REG		0x36
->  #define SN_CHA_HORIZONTAL_FRONT_PORCH_REG	0x38
->  #define SN_CHA_VERTICAL_FRONT_PORCH_REG		0x3A
-> +#define SN_LN_ASSIGN_REG			0x59
-> +#define  LN_ASSIGN_WIDTH			2
->  #define SN_ENH_FRAME_REG			0x5A
->  #define  VSTREAM_ENABLE				BIT(3)
-> +#define  LN_POLRS_OFFSET			4
-> +#define  LN_POLRS_MASK				0xf0
->  #define SN_DATA_FORMAT_REG			0x5B
->  #define  BPP_18_RGB				BIT(0)
->  #define SN_HPD_DISABLE_REG			0x5C
-> @@ -98,6 +102,7 @@
->  
->  #define SN_REGULATOR_SUPPLY_NUM		4
->  
-> +#define SN_MAX_DP_LANES			4
->  #define SN_NUM_GPIOS			4
->  #define SN_GPIO_PHYSICAL_OFFSET		1
->  
-> @@ -116,6 +121,8 @@
->   * @enable_gpio:  The GPIO we toggle to enable the bridge.
->   * @supplies:     Data for bulk enabling/disabling our regulators.
->   * @dp_lanes:     Count of dp_lanes we're using.
-> + * @ln_assign:    Value to program to the LN_ASSIGN register.
-> + * @ln_polr:      Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
->   *
->   * @gchip:        If we expose our GPIOs, this is used.
->   * @gchip_output: A cache of whether we've set GPIOs to output.  This
-> @@ -141,6 +148,8 @@ struct ti_sn_bridge {
->  	struct gpio_desc		*enable_gpio;
->  	struct regulator_bulk_data	supplies[SN_REGULATOR_SUPPLY_NUM];
->  	int				dp_lanes;
-> +	u8				ln_assign;
-> +	u8				ln_polrs;
->  
->  	struct gpio_chip		gchip;
->  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
-> @@ -708,26 +717,20 @@ static void ti_sn_bridge_enable(struct drm_bridge *bridge)
->  	int dp_rate_idx;
->  	unsigned int val;
->  	int ret = -EINVAL;
-> +	int max_dp_lanes;
->  
-> -	/*
-> -	 * Run with the maximum number of lanes that the DP sink supports.
-> -	 *
-> -	 * Depending use cases, we might want to revisit this later because:
-> -	 * - It's plausible that someone may have run fewer lines to the
-> -	 *   sink than the sink actually supports, assuming that the lines
-> -	 *   will just be driven at a higher rate.
-> -	 * - The DP spec seems to indicate that it's more important to minimize
-> -	 *   the number of lanes than the link rate.
-> -	 *
-> -	 * If we do revisit, it would be important to measure the power impact.
-> -	 */
-> -	pdata->dp_lanes = ti_sn_get_max_lanes(pdata);
-> +	max_dp_lanes = ti_sn_get_max_lanes(pdata);
-> +	pdata->dp_lanes = min(pdata->dp_lanes, max_dp_lanes);
->  
->  	/* DSI_A lane config */
-> -	val = CHA_DSI_LANES(4 - pdata->dsi->lanes);
-> +	val = CHA_DSI_LANES(SN_MAX_DP_LANES - pdata->dsi->lanes);
->  	regmap_update_bits(pdata->regmap, SN_DSI_LANES_REG,
->  			   CHA_DSI_LANES_MASK, val);
->  
-> +	regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
-> +	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
-> +			   pdata->ln_polrs << LN_POLRS_OFFSET);
-> +
->  	/* set dsi clk frequency value */
->  	ti_sn_bridge_set_dsi_rate(pdata);
->  
-> @@ -1089,6 +1092,55 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
->  	return ret;
->  }
->  
-> +static void ti_sn_bridge_parse_lanes(struct ti_sn_bridge *pdata,
-> +				     struct device_node *np)
-> +{
-> +	u32 lane_assignments[SN_MAX_DP_LANES] = { 0, 1, 2, 3 };
-> +	u32 lane_polarities[SN_MAX_DP_LANES] = { };
-> +	struct device_node *endpoint;
-> +	u8 ln_assign = 0;
-> +	u8 ln_polrs = 0;
-> +	int dp_lanes;
-> +	int i;
-> +
-> +	/*
-> +	 * Read config from the device tree about lane remapping and lane
-> +	 * polarities.  These are optional and we assume identity map and
-> +	 * normal polarity if nothing is specified.  It's OK to specify just
-> +	 * data-lanes but not lane-polarities but not vice versa.
-> +	 *
-> +	 * Error checking is light (we just make sure we don't crash or
-> +	 * buffer overrun) and we assume dts is well formed and specifying
-> +	 * mappings that the hardware supports.
-> +	 */
-> +	endpoint = of_graph_get_endpoint_by_regs(np, 1, -1);
-> +	dp_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-> +	if (dp_lanes > 0 && dp_lanes <= SN_MAX_DP_LANES) {
-> +		of_property_read_u32_array(endpoint, "data-lanes",
-> +					   lane_assignments, dp_lanes);
-> +		of_property_read_u32_array(endpoint, "lane-polarities",
-> +					   lane_polarities, dp_lanes);
-> +	} else {
-> +		dp_lanes = SN_MAX_DP_LANES;
-> +	}
-> +	of_node_put(endpoint);
-> +
-> +	/*
-> +	 * Convert into register format.  Loop over all lanes even if
-> +	 * data-lanes had fewer elements so that we nicely initialize
-> +	 * the LN_ASSIGN register.
-> +	 */
-> +	for (i = SN_MAX_DP_LANES - 1; i >= 0; i--) {
-> +		ln_assign = ln_assign << LN_ASSIGN_WIDTH | lane_assignments[i];
-> +		ln_polrs = ln_polrs << 1 | lane_polarities[i];
-> +	}
-> +
-> +	/* Stash in our struct for when we power on */
-> +	pdata->dp_lanes = dp_lanes;
-> +	pdata->ln_assign = ln_assign;
-> +	pdata->ln_polrs = ln_polrs;
-> +}
-> +
->  static int ti_sn_bridge_probe(struct i2c_client *client,
->  			      const struct i2c_device_id *id)
->  {
-> @@ -1131,6 +1183,8 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->  		return ret;
->  	}
->  
-> +	ti_sn_bridge_parse_lanes(pdata, client->dev.of_node);
-> +
->  	ret = ti_sn_bridge_parse_regulators(pdata);
->  	if (ret) {
->  		DRM_ERROR("failed to parse regulators\n");
-> -- 
-> 2.26.2.761.g0e0b3e54be-goog
+Daniel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
