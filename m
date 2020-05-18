@@ -1,35 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4811D6E5D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 02:58:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8A61D6E98
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 03:27:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D026E174;
-	Mon, 18 May 2020 00:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B4C6E18F;
+	Mon, 18 May 2020 01:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 769 seconds by postgrey-1.36 at gabe;
- Mon, 18 May 2020 00:58:36 UTC
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4EAF6E174
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 00:58:36 +0000 (UTC)
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04I0j9bS010371
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Sun, 17 May 2020 19:45:13 -0500
-Message-ID: <9b0db95949b973c682b449906573e7b28c6113ef.camel@kernel.crashing.org>
-Subject: Re: [PATCH v2 2/2] powerpc/configs: replace deprecated riva/nvidia
- with nouveau
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Date: Mon, 18 May 2020 10:44:51 +1000
-In-Reply-To: <20200517220524.4036334-2-emil.l.velikov@gmail.com>
-References: <20200517220524.4036334-1-emil.l.velikov@gmail.com>
- <20200517220524.4036334-2-emil.l.velikov@gmail.com>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6371D6E18F;
+ Mon, 18 May 2020 01:27:24 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id k12so7622058wmj.3;
+ Sun, 17 May 2020 18:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uZfH/yW2EkwOl9gEcet4jN7ZXi9BLKHqqQrfr1sC6ac=;
+ b=vDcWgigWf+8ZKsquN2u4JqfQ8umHJX5fe46rUTGhJECREweESiSfWnUn0R+kFnVYzL
+ Po+JjR2lydKpGPNuAuKUfwyrCt05L9FE2SiboNT/Di3jcIyohybAZ7DEy0Rfme5FXmov
+ hLdWtACwrYRBlLG0QN8oUbUrydmDczxFu2izF8ScEASNprtdB5wc/pnUdJmba6hRwV9n
+ aHCMGNU+KjzWjQTSpCRhc4bWnVvgd0rJg1YDnGNoSnyOoDtovxLu56C1biuKkr+dRjvW
+ tJZ3MvsoObtcyH+Pvwi+VeXvwxYehRqFZ5a/TM/TAH2YVIfFH9U6+mtgTNk5l3SnaaaD
+ oGZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uZfH/yW2EkwOl9gEcet4jN7ZXi9BLKHqqQrfr1sC6ac=;
+ b=bAG04CbW5TYlW+Gg4fEBEhPkG61ydPl7YWZwW8f9mgCEm5tmaWPQkjtvPQLn/g3ISh
+ 2hwu99aPYgIGZ8XscJWc4UXBaOLMr9LrdAc3wieMX15NPuYnDSZ8GI9TKlW/FRRYXUZH
+ lbHd2atbhbyvHImybTsZLUuCYB+GtC2eFTfCBmVluIRpTZgO4Yoqjjsvw4CYuBUv3aRz
+ kXlQ4eQZbgO1d64/uQ/Ade993NY1wxVr9pPbYPGh7SvO+2RO1vggmpW2ZErMet6c5ElA
+ vef+2GLJiX24kMY1oqizrm78PQ6Zm81XUmsRcpjynFBla9QAsuT51dNAFak+Zzq76CwQ
+ P88Q==
+X-Gm-Message-State: AOAM532EokRbRnOFsyWAdyIUEn16nORSJteFQ9sQqbBpCoAryE2ufOtf
+ bfwk0bYuYFb6AwXmQU3celb5aX4EvjOQdp4b3uE=
+X-Google-Smtp-Source: ABdhPJwYXjut1W+agJe7qHIAazerG/VY4Qh5rG0NKf6TSwEA+kmhHmC2ZVellCufA3F7oGA23ea+FfJqOJUfr5uzS0A=
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+ a21mr17035637wmm.67.1589765242888; 
+ Sun, 17 May 2020 18:27:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <CGME20200513133305eucas1p15187ed8fa1e4af181cafa5c65ddab4cd@eucas1p1.samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-13-m.szyprowski@samsung.com>
+In-Reply-To: <20200513133245.6408-13-m.szyprowski@samsung.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Mon, 18 May 2020 09:27:11 +0800
+Message-ID: <CAKGbVbsSPhQY5zEBGPQtyhLu38w=Hw73OQr6UiV_dHC46DescQ@mail.gmail.com>
+Subject: Re: [PATCH v5 13/38] drm: lima: fix common struct sg_table related
+ issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,161 +65,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
+Cc: lima@lists.freedesktop.org,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Paul Mackerras <paulus@samba.org>,
- linuxppc-dev@lists.ozlabs.org
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2020-05-17 at 23:05 +0100, Emil Velikov wrote:
-> As mentioned in earlier commit, the riva and nvidia fbdev drivers
-> have
-> seen no love over the years, are short on features and overall below
-> par
-> 
-> Users are encouraged to switch to the nouveau drm driver instead.
-> 
-> v2: Split configs to separate patch, enable nouveau (Bartlomiej)
+Looks good for me, patch is:
+Reviewed-by: Qiang Yu <yuq825@gmail.com>
 
-Back when I still had these things to play with (years ago) nouveau
-didn't work properly on these ancient machines.
+Regards,
+Qiang
 
-Cheers,
-Ben.
-
-> Cc: Antonino Daplas <adaplas@gmail.com>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch> (v1)
+On Wed, May 13, 2020 at 9:33 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> returns the number of the created entries in the DMA address space.
+> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> dma_unmap_sg must be called with the original number of the entries
+> passed to the dma_map_sg().
+>
+> struct sg_table is a common structure used for describing a non-contiguous
+> memory buffer, used commonly in the DRM and graphics subsystems. It
+> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> and DMA mapped pages (nents entry).
+>
+> It turned out that it was a common mistake to misuse nents and orig_nents
+> entries, calling DMA-mapping functions with a wrong number of entries or
+> ignoring the number of mapped entries returned by the dma_map_sg()
+> function.
+>
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
-> Hi all unless, there are objections I would prefer to merge this via
-> the drm tree.
-> 
-> Thanks
-> Emil
+> For more information, see '[PATCH v5 00/38] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread:
+> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
 > ---
->  arch/powerpc/configs/g5_defconfig     | 10 ++++++++--
->  arch/powerpc/configs/pasemi_defconfig |  9 +++++++--
->  arch/powerpc/configs/pmac32_defconfig |  9 +++++++--
->  arch/powerpc/configs/ppc6xx_defconfig | 10 +++++++---
->  4 files changed, 29 insertions(+), 9 deletions(-)
-> 
-> diff --git a/arch/powerpc/configs/g5_defconfig
-> b/arch/powerpc/configs/g5_defconfig
-> index a68c7f3af10e..213472f373b3 100644
-> --- a/arch/powerpc/configs/g5_defconfig
-> +++ b/arch/powerpc/configs/g5_defconfig
-> @@ -124,12 +124,18 @@ CONFIG_RAW_DRIVER=y
->  CONFIG_I2C_CHARDEV=y
->  CONFIG_AGP=m
->  CONFIG_AGP_UNINORTH=m
-> +CONFIG_DRM=y
-> +CONFIG_DRM_NOUVEAU=m
-> +# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
-> +CONFIG_NOUVEAU_DEBUG=5
-> +CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-> +# CONFIG_NOUVEAU_DEBUG_MMU is not set
-> +CONFIG_DRM_NOUVEAU_BACKLIGHT=y
-> +# CONFIG_DRM_NOUVEAU_SVM is not set
->  CONFIG_FB=y
->  CONFIG_FIRMWARE_EDID=y
->  CONFIG_FB_TILEBLITTING=y
->  CONFIG_FB_OF=y
-> -CONFIG_FB_NVIDIA=y
-> -CONFIG_FB_NVIDIA_I2C=y
->  CONFIG_FB_RADEON=y
->  # CONFIG_VGA_CONSOLE is not set
->  CONFIG_FRAMEBUFFER_CONSOLE=y
-> diff --git a/arch/powerpc/configs/pasemi_defconfig
-> b/arch/powerpc/configs/pasemi_defconfig
-> index 08b7f4cef243..ccb3ab5e01da 100644
-> --- a/arch/powerpc/configs/pasemi_defconfig
-> +++ b/arch/powerpc/configs/pasemi_defconfig
-> @@ -102,11 +102,16 @@ CONFIG_SENSORS_LM85=y
->  CONFIG_SENSORS_LM90=y
->  CONFIG_DRM=y
->  CONFIG_DRM_RADEON=y
-> +CONFIG_DRM_NOUVEAU=m
-> +# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
-> +CONFIG_NOUVEAU_DEBUG=5
-> +CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-> +# CONFIG_NOUVEAU_DEBUG_MMU is not set
-> +CONFIG_DRM_NOUVEAU_BACKLIGHT=y
-> +# CONFIG_DRM_NOUVEAU_SVM is not set
->  CONFIG_FIRMWARE_EDID=y
->  CONFIG_FB_TILEBLITTING=y
->  CONFIG_FB_VGA16=y
-> -CONFIG_FB_NVIDIA=y
-> -CONFIG_FB_NVIDIA_I2C=y
->  CONFIG_FB_RADEON=y
->  # CONFIG_LCD_CLASS_DEVICE is not set
->  CONFIG_VGACON_SOFT_SCROLLBACK=y
-> diff --git a/arch/powerpc/configs/pmac32_defconfig
-> b/arch/powerpc/configs/pmac32_defconfig
-> index 05e325ca3fbd..f858627385c8 100644
-> --- a/arch/powerpc/configs/pmac32_defconfig
-> +++ b/arch/powerpc/configs/pmac32_defconfig
-> @@ -199,6 +199,13 @@ CONFIG_DRM=m
->  CONFIG_DRM_RADEON=m
->  CONFIG_DRM_LEGACY=y
->  CONFIG_DRM_R128=m
-> +CONFIG_DRM_NOUVEAU=m
-> +# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
-> +CONFIG_NOUVEAU_DEBUG=5
-> +CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-> +# CONFIG_NOUVEAU_DEBUG_MMU is not set
-> +CONFIG_DRM_NOUVEAU_BACKLIGHT=y
-> +# CONFIG_DRM_NOUVEAU_SVM is not set
->  CONFIG_FB=y
->  CONFIG_FB_OF=y
->  CONFIG_FB_CONTROL=y
-> @@ -206,8 +213,6 @@ CONFIG_FB_PLATINUM=y
->  CONFIG_FB_VALKYRIE=y
->  CONFIG_FB_CT65550=y
->  CONFIG_FB_IMSTT=y
-> -CONFIG_FB_NVIDIA=y
-> -CONFIG_FB_NVIDIA_I2C=y
->  CONFIG_FB_MATROX=y
->  CONFIG_FB_MATROX_MILLENIUM=y
->  CONFIG_FB_MATROX_MYSTIQUE=y
-> diff --git a/arch/powerpc/configs/ppc6xx_defconfig
-> b/arch/powerpc/configs/ppc6xx_defconfig
-> index feb5d47d8d1e..48421f5007ed 100644
-> --- a/arch/powerpc/configs/ppc6xx_defconfig
-> +++ b/arch/powerpc/configs/ppc6xx_defconfig
-> @@ -738,15 +738,19 @@ CONFIG_DRM_MGA=m
->  CONFIG_DRM_SIS=m
->  CONFIG_DRM_VIA=m
->  CONFIG_DRM_SAVAGE=m
-> +CONFIG_DRM_NOUVEAU=m
-> +# CONFIG_NOUVEAU_LEGACY_CTX_SUPPORT is not set
-> +CONFIG_NOUVEAU_DEBUG=5
-> +CONFIG_NOUVEAU_DEBUG_DEFAULT=3
-> +# CONFIG_NOUVEAU_DEBUG_MMU is not set
-> +CONFIG_DRM_NOUVEAU_BACKLIGHT=y
-> +# CONFIG_DRM_NOUVEAU_SVM is not set
->  CONFIG_FB=y
->  CONFIG_FB_CIRRUS=m
->  CONFIG_FB_OF=y
->  CONFIG_FB_PLATINUM=y
->  CONFIG_FB_VALKYRIE=y
->  CONFIG_FB_CT65550=y
-> -CONFIG_FB_NVIDIA=y
-> -CONFIG_FB_NVIDIA_I2C=y
-> -CONFIG_FB_RIVA=m
->  CONFIG_FB_MATROX=y
->  CONFIG_FB_MATROX_MILLENIUM=y
->  CONFIG_FB_MATROX_MYSTIQUE=y
-
+>  drivers/gpu/drm/lima/lima_gem.c | 11 ++++++++---
+>  drivers/gpu/drm/lima/lima_vm.c  |  5 ++---
+>  2 files changed, 10 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 5404e0d..cda43f6 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -69,8 +69,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>                 return ret;
+>
+>         if (bo->base.sgt) {
+> -               dma_unmap_sg(dev, bo->base.sgt->sgl,
+> -                            bo->base.sgt->nents, DMA_BIDIRECTIONAL);
+> +               dma_unmap_sgtable(dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
+>                 sg_free_table(bo->base.sgt);
+>         } else {
+>                 bo->base.sgt = kmalloc(sizeof(*bo->base.sgt), GFP_KERNEL);
+> @@ -80,7 +79,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>                 }
+>         }
+>
+> -       dma_map_sg(dev, sgt.sgl, sgt.nents, DMA_BIDIRECTIONAL);
+> +       ret = dma_map_sgtable(dev, &sgt, DMA_BIDIRECTIONAL, 0);
+> +       if (ret) {
+> +               sg_free_table(&sgt);
+> +               kfree(bo->base.sgt);
+> +               bo->base.sgt = NULL;
+> +               return ret;
+> +       }
+>
+>         *bo->base.sgt = sgt;
+>
+> diff --git a/drivers/gpu/drm/lima/lima_vm.c b/drivers/gpu/drm/lima/lima_vm.c
+> index 5b92fb8..2b2739a 100644
+> --- a/drivers/gpu/drm/lima/lima_vm.c
+> +++ b/drivers/gpu/drm/lima/lima_vm.c
+> @@ -124,7 +124,7 @@ int lima_vm_bo_add(struct lima_vm *vm, struct lima_bo *bo, bool create)
+>         if (err)
+>                 goto err_out1;
+>
+> -       for_each_sg_dma_page(bo->base.sgt->sgl, &sg_iter, bo->base.sgt->nents, 0) {
+> +       for_each_sgtable_dma_page(bo->base.sgt, &sg_iter, 0) {
+>                 err = lima_vm_map_page(vm, sg_page_iter_dma_address(&sg_iter),
+>                                        bo_va->node.start + offset);
+>                 if (err)
+> @@ -298,8 +298,7 @@ int lima_vm_map_bo(struct lima_vm *vm, struct lima_bo *bo, int pageoff)
+>         mutex_lock(&vm->lock);
+>
+>         base = bo_va->node.start + (pageoff << PAGE_SHIFT);
+> -       for_each_sg_dma_page(bo->base.sgt->sgl, &sg_iter,
+> -                            bo->base.sgt->nents, pageoff) {
+> +       for_each_sgtable_dma_page(bo->base.sgt, &sg_iter, pageoff) {
+>                 err = lima_vm_map_page(vm, sg_page_iter_dma_address(&sg_iter),
+>                                        base + offset);
+>                 if (err)
+> --
+> 1.9.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
