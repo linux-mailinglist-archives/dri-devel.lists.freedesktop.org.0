@@ -1,38 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400CB1D82EF
-	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 20:01:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D5F1D8322
+	for <lists+dri-devel@lfdr.de>; Mon, 18 May 2020 20:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343786E459;
-	Mon, 18 May 2020 18:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF80089E38;
+	Mon, 18 May 2020 18:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89ABB6E459
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 18:01:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 6821980501;
- Mon, 18 May 2020 20:01:49 +0200 (CEST)
-Date: Mon, 18 May 2020 20:01:48 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Clear old error bits before
- AUX transfers
-Message-ID: <20200518180148.GB770425@ravnborg.org>
-References: <20200508163314.1.Idfa69d5d3fc9623083c0ff78572fea87dccb199c@changeid>
+Received: from smtprelay.hostedemail.com (smtprelay0164.hostedemail.com
+ [216.40.44.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E3889C6A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 18:03:16 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay03.hostedemail.com (Postfix) with ESMTP id BA469837F24C;
+ Mon, 18 May 2020 18:03:15 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:960:968:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2828:2899:3138:3139:3140:3141:3142:3352:3622:3865:3867:3871:3873:4321:5007:7903:7974:8660:10004:10400:10848:11026:11232:11657:11658:11914:12043:12048:12296:12297:12740:12760:12895:13069:13148:13230:13311:13357:13439:14659:14721:21080:21627:21990:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: help47_9096ad8ae3547
+X-Filterd-Recvd-Size: 2150
+Received: from XPS-9350.home (unknown [47.151.136.130])
+ (Authenticated sender: joe@perches.com)
+ by omf16.hostedemail.com (Postfix) with ESMTPA;
+ Mon, 18 May 2020 18:03:13 +0000 (UTC)
+Message-ID: <8007a07f354b9f5ff714914f3696e185078c27c3.camel@perches.com>
+Subject: Re: [PATCH] drm/exynos: Remove dev_err() on platform_get_irq() failure
+From: Joe Perches <joe@perches.com>
+To: Tamseel Shams <m.shams@samsung.com>, inki.dae@samsung.com, 
+ jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Date: Mon, 18 May 2020 11:03:12 -0700
+In-Reply-To: <20200518172708.48600-1-m.shams@samsung.com>
+References: <CGME20200518174120epcas5p1fb5f832c7874a9d367eb9c9ea4e69d53@epcas5p1.samsung.com>
+ <20200518172708.48600-1-m.shams@samsung.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200508163314.1.Idfa69d5d3fc9623083c0ff78572fea87dccb199c@changeid>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=e5mUnYsNAAAA:8
- a=lGb0x8MMmitNw6wfqhgA:9 a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,61 +53,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Sandeep Panda <spanda@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- seanpaul@chromium.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-samsung-soc@vger.kernel.org, shaik.ameer@samsung.com,
+ linux-kernel@vger.kernel.org, krzk@kernel.org, dri-devel@lists.freedesktop.org,
+ alim.akhtar@samsung.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 08, 2020 at 04:33:29PM -0700, Douglas Anderson wrote:
-> The AUX channel transfer error bits in the status register are latched
-> and need to be cleared.  Clear them before doing our transfer so we
-> don't see old bits and get confused.
-> 
-> Without this patch having a single failure would mean that all future
-> transfers would look like they failed.
-> 
-> Fixes: b814ec6d4535 ("drm/bridge: ti-sn65dsi86: Implement AUX channel")
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+On Mon, 2020-05-18 at 22:57 +0530, Tamseel Shams wrote:
+> platform_get_irq() will call dev_err() itself on failure,
+> so there is no need for the driver to also do this.
+> This is detected by coccinelle.
 
-Applied.
+trivia:
 
-	Sam
-
-> ---
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 6ad688b320ae..d865cc2565bc 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -827,6 +827,12 @@ static ssize_t ti_sn_aux_transfer(struct drm_dp_aux *aux,
->  				     buf[i]);
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+[]
+> @@ -1810,7 +1810,6 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+>  
+>  	dsi->irq = platform_get_irq(pdev, 0);
+>  	if (dsi->irq < 0) {
+> -		dev_err(dev, "failed to request dsi irq resource\n");
+>  		return dsi->irq;
 >  	}
+
+You could also remove the now atypical braces
+
+	if (dsi->irq < 0)
+		return dsi->irq;
+
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+[]
+> @@ -294,7 +294,6 @@ static int rotator_probe(struct platform_device *pdev)
 >  
-> +	/* Clear old status bits before start so we don't get confused */
-> +	regmap_write(pdata->regmap, SN_AUX_CMD_STATUS_REG,
-> +		     AUX_IRQ_STATUS_NAT_I2C_FAIL |
-> +		     AUX_IRQ_STATUS_AUX_RPLY_TOUT |
-> +		     AUX_IRQ_STATUS_AUX_SHORT);
-> +
->  	regmap_write(pdata->regmap, SN_AUX_CMD_REG, request_val | AUX_CMD_SEND);
->  
->  	ret = regmap_read_poll_timeout(pdata->regmap, SN_AUX_CMD_REG, val,
-> -- 
-> 2.26.2.645.ge9eca65c58-goog
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0) {
+> -		dev_err(dev, "failed to get irq\n");
+>  		return irq;
+>  	}
+
+etc...
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
