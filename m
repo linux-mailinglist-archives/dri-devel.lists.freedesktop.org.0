@@ -2,50 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A0E1DA0EF
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 21:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DE51DAC55
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 09:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356BF6E384;
-	Tue, 19 May 2020 19:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB3D6E5B0;
+	Wed, 20 May 2020 07:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6F3E6E384
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:21:27 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id d7so465217ote.6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 12:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SbaEch3BY3ODcnVgLC0hRHtedgFalkSFoQATtp1WcHk=;
- b=Y/RMDymDON0bwyyZ29+IvRuIAUnJO414fQ9LYamwaJ5kt61JBCF0rFdIU3yuQwDPk2
- iYNGRk3B2gmUPXaK2kKvabsYjeHTV94ujVw90CdK9WQ2VBtuYvhgSPyeEHQzm6hpO7nS
- ccnTCje2hk0umRkhgMHpXOY8sRihZT2qnrJ5Q=
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFA926E0D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:42:17 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id a5so132134pjh.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 12:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=1PbPu9MDpsX7CWlzIANvDidpxlS/QMPqApRlwiiHNw8=;
+ b=Azzo19mxTglIY2DWsdeqvJCJvbRFWfMvCqe910K+bLoZcz9A0rEclUKyMtzUQpeHzC
+ onlWdkJh3IcWILK4c2hRtOtl7mRzAbiyLlEcJdxmOebPU1v944BfCUyeskdH4MaSANGB
+ mG1De8kuL8xqrOY6I9z2/irGnDdt+dXuW+nblD5+Bi7nB5W52s0/6ICGfZDepT9Noian
+ auesxCt7/j2cCzmSLOIHL82Wa50HphpyDMpe82o3c9PeVBitNH+3VinlNYT9yXfWiYMK
+ CoPZr98AYh6qGXAhrwf3fwANeJXKXy93GRy48lcmGQT0TIdmPLv0mxuhYKT+dVSO6mfx
+ T51Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SbaEch3BY3ODcnVgLC0hRHtedgFalkSFoQATtp1WcHk=;
- b=H9a2WmDAl2QPlgRSPylf3Skzak/IzbYRBLNuPW/bkGa6+FQBB3S7yFLwSsIsD4BblC
- fHRn3/Qih/cjzje7O/tFIsxBEswfCjAtcFf+PZ4tvN3VYJKKJbL5uOfvfKuu2bXOHLiA
- f9UIbgc3K/C88AHVBBeiLdUzCD9TJ9RavYPNtAWAyeXv7Dd95P0omwqUZrwjRVHzl+y+
- 45V+XatQ0uQ9ZrE8z2zx/IR83t2XPQ93plYj+6dsBsHjIesZmCy58qtlGBFKZ5E6ISTE
- bIy+0AMd4l7mzdWC5xLL4Bq+PLij/5DyMErUAlJGtdl4fc7sguT592DY+uFPLODwJY0i
- /Q4Q==
-X-Gm-Message-State: AOAM532c2qSIzsfKPUXrbf3H+RWQo3i2Slf+KSM1xHxMSpINK8gBYP8f
- fw6RwvKluynzse3DsY5Qc0NilfYtYACBaPcCa9eSJA==
-X-Google-Smtp-Source: ABdhPJxqdRYzfXDfRYY9zzactC2h4TzlGjsY6K4bWoLgaI8ZY86K9YOQ8yYAu8QtONdcCDKSXu91+/CrZjJN/6Oed1M=
-X-Received: by 2002:a9d:600e:: with SMTP id h14mr470787otj.281.1589916086888; 
- Tue, 19 May 2020 12:21:26 -0700 (PDT)
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1PbPu9MDpsX7CWlzIANvDidpxlS/QMPqApRlwiiHNw8=;
+ b=FLrdUifqVIBxjM9sLBy/OGKAekWs2GwCJp2iQVPdGO9eYJ6WPgokVz7cz8YnXxQPws
+ D7q/jH7TOUcalpr//lxlhuLzWQsyA7K7VdplOqYmrU7RCk+ePCaKbCDiEJAfwloEhmrD
+ jMBn+qMN+VqNpW1Nab1BOFH3JcS1hsbKn5/GpVw9TQZM9b0HDPZb6tTK5hy1SUGLj8HA
+ M8H8jijdWxbdFYPGBnxPScD74tYqcHpQSO3IqOeYXIIxCj7fHa1KcLIwX17Fsu0+AcVs
+ whrnjbJeYwr268Ehxn5RL7imAy7rpTulLlvwsxsFZzThVAnCTWA3+XvoI6kykVRCTtA2
+ vvlw==
+X-Gm-Message-State: AOAM531ErcolqVhrV6sFGqOWWlOkS/5y4/C6HreddcEjvoJRMegvSn+x
+ ysFe1n5nleJW7D4yVMQZHWw=
+X-Google-Smtp-Source: ABdhPJyHaPx1l/c1P1VXN2zRGyOacWb0vDLgVVmiFhoO/p9Se1Yt0uzr0GEQ80rPSqJdr43xSsWcZA==
+X-Received: by 2002:a17:90a:4811:: with SMTP id
+ a17mr1198137pjh.130.1589917337613; 
+ Tue, 19 May 2020 12:42:17 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id x5sm234038pfq.196.2020.05.19.12.42.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 19 May 2020 12:42:16 -0700 (PDT)
+Date: Tue, 19 May 2020 12:42:15 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
+ pagefault/preempt twice
+Message-ID: <20200519194215.GA71941@roeck-us.net>
+References: <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200518184843.3029640-1-ira.weiny@intel.com>
+ <20200519165422.GA5838@roeck-us.net>
+ <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
 MIME-Version: 1.0
-References: <20200519163234.226513-1-sashal@kernel.org>
-In-Reply-To: <20200519163234.226513-1-sashal@kernel.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 19 May 2020 21:21:15 +0200
-Message-ID: <CAKMK7uGnSDHdZha-=dZN5ns0sJ2CEnK2693uix4tzqyZb9MXCQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] DirectX on Linux
-To: Sasha Levin <sashal@kernel.org>, Olof Johansson <olof.johansson@gmail.com>,
- Jerome Glisse <jglisse@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+Content-Disposition: inline
+In-Reply-To: <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 20 May 2020 07:34:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,298 +73,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, Stephen Hemminger <sthemmin@microsoft.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
- Chris" <chris@chris-wilson.co.uk>, spronovo@microsoft.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- iourit@microsoft.com, Alex Deucher <alexander.deucher@amd.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sasha
+On Tue, May 19, 2020 at 11:40:32AM -0700, Ira Weiny wrote:
+> On Tue, May 19, 2020 at 09:54:22AM -0700, Guenter Roeck wrote:
+> > On Mon, May 18, 2020 at 11:48:43AM -0700, ira.weiny@intel.com wrote:
+> > > From: Ira Weiny <ira.weiny@intel.com>
+> > > 
+> > > The kunmap_atomic clean up failed to remove one set of pagefault/preempt
+> > > enables when vaddr is not in the fixmap.
+> > > 
+> > > Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
+> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > microblazeel works with this patch,
+> 
+> Awesome...  Andrew in my rush yesterday I should have put a reported by on the
+> patch for Guenter as well.
+> 
+> Sorry about that Guenter,
 
-So obviously great that Microsoft is trying to upstream all this, and
-very much welcome and all that.
+No worries.
 
-But I guess there's a bunch of rather fundamental issues before we
-look into any kind of code details. And that might make this quite a
-hard sell for upstream to drivers/gpu subsystem:
+> Ira
+> 
+> > as do the nosmp sparc32 boot tests,
+> > but sparc32 boot tests with SMP enabled still fail with lots of messages
+> > such as:
+> > 
+> > BUG: Bad page state in process swapper/0  pfn:006a1
+> > page:f0933420 refcount:0 mapcount:1 mapping:(ptrval) index:0x1
+> > flags: 0x0()
+> > raw: 00000000 00000100 00000122 00000000 00000001 00000000 00000000 00000000
+> > page dumped because: nonzero mapcount
+> > Modules linked in:
+> > CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B             5.7.0-rc6-next-20200518-00002-gb178d2d56f29 #1
+> > [f00e7ab8 :
+> > bad_page+0xa8/0x108 ]
+> > [f00e8b54 :
+> > free_pcppages_bulk+0x154/0x52c ]
+> > [f00ea024 :
+> > free_unref_page+0x54/0x6c ]
+> > [f00ed864 :
+> > free_reserved_area+0x58/0xec ]
+> > [f0527104 :
+> > kernel_init+0x14/0x110 ]
+> > [f000b77c :
+> > ret_from_kernel_thread+0xc/0x38 ]
+> > [00000000 :
+> > 0x0 ]
+> > 
+> > Code path leading to that message is different but always the same
+> > from free_unref_page().
+> > 
+> > Still testing ppc images.
+> > 
 
-- From the blog it sounds like the userspace is all closed. That
-includes the hw specific part and compiler chunks, all stuff we've
-generally expected to be able to look in the past for any kind of
-other driver. It's event documented here:
+ppc image tests are passing with this patch.
 
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
-
-What's your plan here?
-
-btw since the main goal here (at least at first) seems to be get
-compute and ML going the official work-around here is to relabel your
-driver as an accelerator driver (just sed -e s/vGPU/vaccel/ over the
-entire thing or so) and then Olof and Greg will take it into
-drivers/accel ...
-
-- Next up (but that's not really a surprise for a fresh vendor driver)
-at a more technical level, this seems to reinvent the world, from
-device enumeration (why is this not exposed as /dev/dri/card0 so it
-better integrates with existing linux desktop stuff, in case that
-becomes a goal ever) down to reinvented kref_put_mutex (and please
-look at drm_device->struct_mutex for an example of how bad of a
-nightmare that locking pattern is and how many years it took us to
-untangle that one.
-
-- Why DX12 on linux? Looking at this feels like classic divide and
-conquer (or well triple E from the 90s), we have vk, we have
-drm_syncobj, we have an entire ecosystem of winsys layers that work
-across vendors. Is the plan here that we get a dx12 driver for other
-hw mesa drivers from you guys, so this is all consistent and we have a
-nice linux platform? How does this integrate everywhere else with
-linux winsys standards, like dma-buf for passing stuff around,
-dma-fence/sync_file/drm_syncobj for syncing, drm_fourcc/modifiers for
-some idea how it all meshes together?
-
-- There's been a pile of hallway track/private discussions about
-moving on from the buffer-based memory managed model to something more
-modern. That relates to your DXLOCK2 question, but there's a lot more
-to userspace managed gpu memory residency than just that. monitored
-fences are another part. Also, to avoid a platform split we need to
-figure out how to tie this back into the dma-buf and dma-fence
-(including various uapi flavours) or it'll be made of fail. dx12 has
-all that in some form, except 0 integration with the linux stuff we
-have (no surprise, since linux isn't windows). Finally if we go to the
-trouble of a completely revamped I think ioctls aren't a great idea,
-something like iouring (the gossip name is drm_uring) would be a lot
-better. Also for easier paravirt we'd need 0 cpu pointers in any such
-new interface. Adding a few people who've been involved in these
-discussions thus far, mostly under a drm/hmm.ko heading iirc.
-
-I think the above are the really big ticket items around what's the
-plan here and are we solving even the right problem.
-
-Cheers, Daniel
-
-
-On Tue, May 19, 2020 at 6:33 PM Sasha Levin <sashal@kernel.org> wrote:
->
-> There is a blog post that goes into more detail about the bigger
-> picture, and walks through all the required pieces to make this work. It
-> is available here:
-> https://devblogs.microsoft.com/directx/directx-heart-linux . The rest of
-> this cover letter will focus on the Linux Kernel bits.
->
-> Overview
-> ========
->
-> This is the first draft of the Microsoft Virtual GPU (vGPU) driver. The
-> driver exposes a paravirtualized GPU to user mode applications running
-> in a virtual machine on a Windows host. This enables hardware
-> acceleration in environment such as WSL (Windows Subsystem for Linux)
-> where the Linux virtual machine is able to share the GPU with the
-> Windows host.
->
-> The projection is accomplished by exposing the WDDM (Windows Display
-> Driver Model) interface as a set of IOCTL. This allows APIs and user
-> mode driver written against the WDDM GPU abstraction on Windows to be
-> ported to run within a Linux environment. This enables the port of the
-> D3D12 and DirectML APIs as well as their associated user mode driver to
-> Linux. This also enables third party APIs, such as the popular NVIDIA
-> Cuda compute API, to be hardware accelerated within a WSL environment.
->
-> Only the rendering/compute aspect of the GPU are projected to the
-> virtual machine, no display functionality is exposed. Further, at this
-> time there are no presentation integration. So although the D3D12 API
-> can be use to render graphics offscreen, there is no path (yet) for
-> pixel to flow from the Linux environment back onto the Windows host
-> desktop. This GPU stack is effectively side-by-side with the native
-> Linux graphics stack.
->
-> The driver creates the /dev/dxg device, which can be opened by user mode
-> application and handles their ioctls. The IOCTL interface to the driver
-> is defined in dxgkmthk.h (Dxgkrnl Graphics Port Driver ioctl
-> definitions). The interface matches the D3DKMT interface on Windows.
-> Ioctls are implemented in ioctl.c.
->
-> When a VM starts, hyper-v on the host adds virtual GPU devices to the VM
-> via the hyper-v driver. The host offers several VM bus channels to the
-> VM: the global channel and one channel per virtual GPU, assigned to the
-> VM.
->
-> The driver registers with the hyper-v driver (hv_driver) for the arrival
-> of VM bus channels. dxg_probe_device recognizes the vGPU channels and
-> creates the corresponding objects (dxgadapter for vGPUs and dxgglobal
-> for the global channel).
->
-> The driver uses the hyper-V VM bus interface to communicate with the
-> host. dxgvmbus.c implements the communication interface.
->
-> The global channel has 8GB of IO space assigned by the host. This space
-> is managed by the host and used to give the guest direct CPU access to
-> some allocations. Video memory is allocated on the host except in the
-> case of existing_sysmem allocations. The Windows host allocates memory
-> for the GPU on behalf of the guest. The Linux guest can access that
-> memory by mapping GPU virtual address to allocations and then
-> referencing those GPU virtual address from within GPU command buffers
-> submitted to the GPU. For allocations which require CPU access, the
-> allocation is mapped by the host into a location in the 8GB of IO space
-> reserved in the guest for that purpose. The Windows host uses the nested
-> CPU page table to ensure that this guest IO space always map to the
-> correct location for the allocation as it may migrate between dedicated
-> GPU memory (e.g. VRAM, firmware reserved DDR) and shared system memory
-> (regular DDR) over its lifetime. The Linux guest maps a user mode CPU
-> virtual address to an allocation IO space range for direct access by
-> user mode APIs and drivers.
->
->
->
-> Implementation of LX_DXLOCK2 ioctl
-> ==================================
->
-> We would appreciate your feedback on the implementation of the
-> LX_DXLOCK2 ioctl.
->
-> This ioctl is used to get a CPU address to an allocation, which is
-> resident in video/system memory on the host. The way it works:
->
-> 1. The driver sends the Lock message to the host
->
-> 2. The host allocates space in the VM IO space and maps it to the
-> allocation memory
->
-> 3. The host returns the address in IO space for the mapped allocation
->
-> 4. The driver (in dxg_map_iospace) allocates a user mode virtual address
-> range using vm_mmap and maps it to the IO space using
-> io_remap_ofn_range)
->
-> 5. The VA is returned to the application
->
->
->
-> Internal objects
-> ================
->
-> The following objects are created by the driver (defined in dxgkrnl.h):
->
-> - dxgadapter - represents a virtual GPU
->
-> - dxgprocess - tracks per process state (handle table of created
->   objects, list of objects, etc.)
->
-> - dxgdevice - a container for other objects (contexts, paging queues,
->   allocations, GPU synchronization objects)
->
-> - dxgcontext - represents thread of GPU execution for packet
->   scheduling.
->
-> - dxghwqueue - represents thread of GPU execution of hardware scheduling
->
-> - dxgallocation - represents a GPU accessible allocation
->
-> - dxgsyncobject - represents a GPU synchronization object
->
-> - dxgresource - collection of dxgalloction objects
->
-> - dxgsharedresource, dxgsharedsyncobj - helper objects to share objects
->   between different dxgdevice objects, which can belong to different
-> processes
->
->
->
-> Object handles
-> ==============
->
-> All GPU objects, created by the driver, are accessible by a handle
-> (d3dkmt_handle). Each process has its own handle table, which is
-> implemented in hmgr.c. For each API visible object, created by the
-> driver, there is an object, created on the host. For example, the is a
-> dxgprocess object on the host for each dxgprocess object in the VM, etc.
-> The object handles have the same value in the host and the VM, which is
-> done to avoid translation from the guest handles to the host handles.
->
->
->
-> Signaling CPU events by the host
-> ================================
->
-> The WDDM interface provides a way to signal CPU event objects when
-> execution of a context reached certain point. The way it is implemented:
->
-> - application sends an event_fd via ioctl to the driver
->
-> - eventfd_ctx_get is used to get a pointer to the file object
->   (eventfd_ctx)
->
-> - the pointer to sent the host via a VM bus message
->
-> - when GPU execution reaches a certain point, the host sends a message
->   to the VM with the event pointer
->
-> - signal_guest_event() handles the messages and eventually
->   eventfd_signal() is called.
->
->
-> Sasha Levin (4):
->   gpu: dxgkrnl: core code
->   gpu: dxgkrnl: hook up dxgkrnl
->   Drivers: hv: vmbus: hook up dxgkrnl
->   gpu: dxgkrnl: create a MAINTAINERS entry
->
->  MAINTAINERS                      |    7 +
->  drivers/gpu/Makefile             |    2 +-
->  drivers/gpu/dxgkrnl/Kconfig      |   10 +
->  drivers/gpu/dxgkrnl/Makefile     |   12 +
->  drivers/gpu/dxgkrnl/d3dkmthk.h   | 1635 +++++++++
->  drivers/gpu/dxgkrnl/dxgadapter.c | 1399 ++++++++
->  drivers/gpu/dxgkrnl/dxgkrnl.h    |  913 ++++++
->  drivers/gpu/dxgkrnl/dxgmodule.c  |  692 ++++
->  drivers/gpu/dxgkrnl/dxgprocess.c |  355 ++
->  drivers/gpu/dxgkrnl/dxgvmbus.c   | 2955 +++++++++++++++++
->  drivers/gpu/dxgkrnl/dxgvmbus.h   |  859 +++++
->  drivers/gpu/dxgkrnl/hmgr.c       |  593 ++++
->  drivers/gpu/dxgkrnl/hmgr.h       |  107 +
->  drivers/gpu/dxgkrnl/ioctl.c      | 5269 ++++++++++++++++++++++++++++++
->  drivers/gpu/dxgkrnl/misc.c       |  280 ++
->  drivers/gpu/dxgkrnl/misc.h       |  288 ++
->  drivers/video/Kconfig            |    2 +
->  include/linux/hyperv.h           |   16 +
->  18 files changed, 15393 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/dxgkrnl/Kconfig
->  create mode 100644 drivers/gpu/dxgkrnl/Makefile
->  create mode 100644 drivers/gpu/dxgkrnl/d3dkmthk.h
->  create mode 100644 drivers/gpu/dxgkrnl/dxgadapter.c
->  create mode 100644 drivers/gpu/dxgkrnl/dxgkrnl.h
->  create mode 100644 drivers/gpu/dxgkrnl/dxgmodule.c
->  create mode 100644 drivers/gpu/dxgkrnl/dxgprocess.c
->  create mode 100644 drivers/gpu/dxgkrnl/dxgvmbus.c
->  create mode 100644 drivers/gpu/dxgkrnl/dxgvmbus.h
->  create mode 100644 drivers/gpu/dxgkrnl/hmgr.c
->  create mode 100644 drivers/gpu/dxgkrnl/hmgr.h
->  create mode 100644 drivers/gpu/dxgkrnl/ioctl.c
->  create mode 100644 drivers/gpu/dxgkrnl/misc.c
->  create mode 100644 drivers/gpu/dxgkrnl/misc.h
->
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
-
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Guenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
