@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18BE1D8FBC
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 08:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066171D8FC3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 08:07:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07B916E2D5;
-	Tue, 19 May 2020 06:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BBBA6E2D7;
+	Tue, 19 May 2020 06:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523E06E2D5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 06:06:51 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04J66nSM079754
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:49 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569D56E2D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 06:07:03 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04J672hJ079787
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:07:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1589868409;
- bh=e4MplyhIQ/4B+rchzH8/zn4xt3f62tgosWEMxT2wcE0=;
+ s=ti-com-17Q1; t=1589868422;
+ bh=luQW3KT5K8hD7Re7v/j4iQuCKLHzOw4/ihYbgfmtsyQ=;
  h=Subject:To:References:From:Date:In-Reply-To;
- b=cl8AhgbrtltAIPbMIQXX+sWj0xi2ngEimq2VDDgkMFHVpkR7GDn1LKaEYr6M9dWZ6
- L6i/hOJXUij8FEk8WsAOwga9/vj6p9kFhSHalvvZ94PBpnw6YBftqv8LhtRQ7Xrbst
- iNPozHAJEEjDui2fvFy7x2IoUqqtXK3YviZce3GI=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04J66nG1021411
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:49 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ b=ZhEanML1LXtVYEmPQCRQEa7tYB5kSU6TX7otpRJ+4byXOX4XTLIz/bRL0eiM7mxvW
+ NAvV306ahKiSQw4ilYdYdrjUtQm3qEeY/hcSPWK8LSYNDi4KTeJS2+pl+eMkeAwgxN
+ vtAjkiS6b5MepNmzOiVWmMQmCHDFZ+lQEUFao+sk=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04J6727u119780
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:07:02 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 19
- May 2020 01:06:49 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ May 2020 01:07:01 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 19 May 2020 01:06:49 -0500
+ Frontend Transport; Tue, 19 May 2020 01:07:01 -0500
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04J66m5Y046394;
- Tue, 19 May 2020 01:06:48 -0500
-Subject: Re: [PATCH 2/3] drm/tilcdc: remove unnecessary state->fb check
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04J6704K049593;
+ Tue, 19 May 2020 01:07:01 -0500
+Subject: Re: [PATCH 3/3] drm/tilcdc: add missing static for panel_driver
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>
 References: <20200429104234.18910-1-tomi.valkeinen@ti.com>
- <20200429104234.18910-2-tomi.valkeinen@ti.com>
+ <20200429104234.18910-3-tomi.valkeinen@ti.com>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -84,12 +83,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <c0ac4dd3-adc9-c5d1-131a-8ce89b5c3e66@ti.com>
-Date: Tue, 19 May 2020 09:06:48 +0300
+Message-ID: <8a38a5f3-b629-bc9f-022d-083a7605711c@ti.com>
+Date: Tue, 19 May 2020 09:07:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200429104234.18910-2-tomi.valkeinen@ti.com>
+In-Reply-To: <20200429104234.18910-3-tomi.valkeinen@ti.com>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,31 +109,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/04/2020 13:42, Tomi Valkeinen wrote:
-> tilcdc_plane_atomic_check() exits if state->fb == NULL, so no need to
-> check it again later.
+> struct platform_driver panel_driver is only used from tilcdc_panel.c, so
+> it can be static.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 Reviewed-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/gpu/drm/tilcdc/tilcdc_plane.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/tilcdc/tilcdc_panel.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-> index e2090020b3a0..0d09b31ae759 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-> @@ -62,8 +62,7 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
->  		return -EINVAL;
->  	}
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> index f66e2f2a1a35..cdc93a81b552 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
+> @@ -404,7 +404,7 @@ static const struct of_device_id panel_of_match[] = {
+>  		{ },
+>  };
 >  
-> -	if (state->fb && old_state->fb &&
-> -	    state->fb->format != old_state->fb->format) {
-> +	if (old_state->fb && state->fb->format != old_state->fb->format) {
->  		dev_dbg(plane->dev->dev,
->  			"%s(): pixel format change requires mode_change\n",
->  			__func__);
+> -struct platform_driver panel_driver = {
+> +static struct platform_driver panel_driver = {
+>  	.probe = panel_probe,
+>  	.remove = panel_remove,
+>  	.driver = {
 > 
 
 
