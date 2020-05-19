@@ -2,73 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC5A1D8B80
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 01:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321341D8BF8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 02:04:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 053BA6E247;
-	Mon, 18 May 2020 23:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13106E094;
+	Tue, 19 May 2020 00:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 417AC6E247
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 23:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589843644;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dygxhyFAcoL/md7oaLSs9lle6s1MOyXv/O7rvTlhaVI=;
- b=fFNwueczJyJst9MjmMLFluNQQdcN9K764Y1arwE/+YZos87Pa1LbCIOP6ZLXiMDf55SOUu
- undV1yMmPc46FJmhTlSgPBTurQWmKjXX355i8MfQG699dujHAszvS6blBYYOO47SytHnRy
- 7MyJGOh8sVJpPvVqnW6CoIg27LqrVXE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-9LmHRidoN82NjWhDYVmetA-1; Mon, 18 May 2020 19:14:00 -0400
-X-MC-Unique: 9LmHRidoN82NjWhDYVmetA-1
-Received: by mail-qv1-f71.google.com with SMTP id w6so12982238qvj.4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 May 2020 16:14:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=dygxhyFAcoL/md7oaLSs9lle6s1MOyXv/O7rvTlhaVI=;
- b=DgweEJOtpqX/+Tm035GGPZGMVemFn/eaegDOV1BY8QYGNshDEDpcXlu39QKcIFKGhH
- xKDiJatPW1eToZiXgu5+yTSjiUs5vQTYTsGya/kJh8/jFS8tDUheDIFWcNZw6BSrU2Ep
- iuV9k4mKmQDm6R/nwuxBRurbizF0mR6swFY+jpd/YJ4IEB7VlJXYGTSb+lfjTsE0Yo2i
- xfQhszekD6t5yeYHpqTRiKCUq6QFltc6gZCZ8F1IUno3gfw1He7hZl7vUFiEBCEOoysq
- lkjfEZLxME9MCLVNCEPdEWBPtbUoXat5caqZqoSrY1icCWmONe0NCCzlKRwv9o5wHmID
- 2Iqw==
-X-Gm-Message-State: AOAM533t+AGng1OQjOQ7R1js4OgsIZvxJs0gUEjf5piFzSs0jakF9YZz
- JYbPFB8O799gr/IeDv526qY+NidtXfze7ZQ6TMsR0nH061rRcyCCF/vgtIGhg2mcLi+uWxGn9Aa
- SumtHjoQjdD7/a9xMQd/Bkr+8kkR3
-X-Received: by 2002:ae9:e712:: with SMTP id m18mr19288065qka.11.1589843640094; 
- Mon, 18 May 2020 16:14:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLinZ9CIuw/9MJ03jMyuOXIkeEtcwsL+ulsziQFIXCmi2mQynhx55cWE1Zd//fESIL8/dsHw==
-X-Received: by 2002:ae9:e712:: with SMTP id m18mr19288035qka.11.1589843639770; 
- Mon, 18 May 2020 16:13:59 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id q17sm9398906qkq.111.2020.05.18.16.13.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 16:13:59 -0700 (PDT)
-Message-ID: <afc19ae508137f18996f2cb11312d232e89eaf59.camel@redhat.com>
-Subject: Re: [PATCH] Lenovo X13 Yoga OLED panel brightness fix
-From: Lyude Paul <lyude@redhat.com>
-To: Mark Pearson <mpearson@lenovo.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Date: Mon, 18 May 2020 19:13:58 -0400
-In-Reply-To: <720829f7946b42fb50ca071b0321cf89650affa7.camel@redhat.com>
-References: <SG2PR03MB3324FE6FB77A226167E9BC31BDB80@SG2PR03MB3324.apcprd03.prod.outlook.com>
- <720829f7946b42fb50ca071b0321cf89650affa7.camel@redhat.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6066E094
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 00:04:00 +0000 (UTC)
+IronPort-SDR: VsMuAzJCiffLii2jvoZC2E5cSs1npbHFHBATK1shCGIoKrRWWwvB0zhUDtPehU0pEf8d0kvJOk
+ K39k1K/1pdDA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 May 2020 17:03:54 -0700
+IronPort-SDR: CQuTQnTz1+JwZWX2d1WkK2LuNRFRtRrXIRjWbZwMShXh3iry4az0PRxvklanrFBM1Vj0az/yVj
+ 2Cp/II0Msphg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,408,1583222400"; d="scan'208";a="439413806"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga005.jf.intel.com with ESMTP; 18 May 2020 17:03:52 -0700
+Date: Mon, 18 May 2020 17:03:52 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
+Message-ID: <20200519000352.GF3025231@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200516223306.GA161252@roeck-us.net>
+ <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
+ <20200518042932.GA59205@roeck-us.net>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <20200518042932.GA59205@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +51,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ok-actually, I'm not sure dim will actually allow me to push this because this
-never hit dri-devel as a properly formatted patch (because of the --------------
----------- you put at the top of the branch confusing things)
-
-Can you try again without adding any comments, and ideally see if lenovo can
-make it so you can just use git send-email? (unfortunately you're really not
-going to be able to work around this if you'll need to be submitting patches
-more regularly in the future I'm afraid)
-
-On Mon, 2020-05-18 at 18:43 -0400, Lyude Paul wrote:
-> Yeah, git send-email is kinda :(, but unfortunately the entire kernel uses
-> this
-> workflow. Hopefully freedesktop's gitlab efforts will change this someday...
+On Sun, May 17, 2020 at 09:29:32PM -0700, Guenter Roeck wrote:
+> On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
+> > On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
+> > > On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
+> > > > From: Ira Weiny <ira.weiny@intel.com>
+> > > > 
+> > > > Every single architecture (including !CONFIG_HIGHMEM) calls...
+> > > > 
+> > > > 	pagefault_enable();
+> > > > 	preempt_enable();
+> > > > 
+> > > > ... before returning from __kunmap_atomic().  Lift this code into the
+> > > > kunmap_atomic() macro.
+> > > > 
+> > > > While we are at it rename __kunmap_atomic() to kunmap_atomic_high() to
+> > > > be consistent.
+> > > > 
+> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > > 
+> > > This patch results in:
+> > > 
+> > > Starting init: /bin/sh exists but couldn't execute it (error -14)
+> > > 
+> > > when trying to boot microblazeel:petalogix-ml605 in qemu.
+> > 
+> > Thanks for the report.  I'm not readily seeing the issue.
+> > 
+> > Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
+> > 
+> See below. Yes, CONFIG_HIGHMEM is set.
 > 
-> also - in the future, if you don't want comments to appear in the patch when
-> they're applied put them below the ---, e.g. the one before the Reviewed-by:
-> tag.
+> The scripts used to build and boot the image are at:
 > 
-> Anyway-I'll go ahead and push this, thanks for keeping this list up to date!
-> 
-> On Mon, 2020-05-18 at 00:06 +0000, Mark Pearson wrote:
-> > Hi,
-> > 
-> > Patch to fix an issue controlling the brightness of the OLED panel on the
-> > Lenovo X13 Yoga 
-> > Please let me know any feedback or questions.
-> > Note - apologies if this message has shown up before - I had some mail
-> > client
-> > issues.
-> > 
-> > Mark Pearson
-> > ---------------------------------
-> > 
-> > Add another panel that needs the edid quirk to the list so that brightness 
-> > control works correctly. Fixes issue seen on Lenovo X13 Yoga with OLED panel
-> > 
-> > Co-developed-by: jendrina@lenovo.com
-> > Signed-off-by: jendrina@lenovo.com
-> > Signed-off-by: Mark Pearson <mpearson@lenovo.com>
-> > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > ---
-> > drivers/gpu/drm/drm_dp_helper.c | 1 +
-> > 1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_dp_helper.c
-> > b/drivers/gpu/drm/drm_dp_helper.c
-> > index c6fbe6e6bc9d..41f0e797ce8c 100644
-> > --- a/drivers/gpu/drm/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/drm_dp_helper.c
-> > @@ -1313,6 +1313,7 @@ static const struct edid_quirk edid_quirk_list[] = {
-> >                { MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41),
-> > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> >                { MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14),
-> > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> >                { MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14),
-> > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > +             { MFG(0x4c, 0x83), PROD_ID(0x47, 0x41),
-> > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > };
-> > 
-> >  #undef MFG
+> https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
 
+Despite finding the obvious error earlier today I've still been trying to get
+this to work.
+
+I had to make some slight modifications to use the 0-day cross compile build
+and my local qemu build.  But those were pretty minor modifications.  I'm
+running on x86_64 host.
+
+With those slight mods to the scripts I get the following error even without my
+patch set on 5.7-rc4.  I have 1 cpu pegged at 100% while it is running...  Is
+there anything I can do to get more debug output?  Perhaps I just need to let
+it run longer?
+
+Thanks,
+Ira
+
+16:46:54 > ../linux-build-test/rootfs/microblazeel/run-qemu-microblazeel.sh 
+Build reference: v5.7-rc4-2-g7c2411d7fb6a
+
+Building microblaze:petalogix-s3adsp1800:qemu_microblazeel_defconfig ...
+running ................ failed (silent)
+------------
+qemu log:
+qemu-system-microblazeel: terminating on signal 15 from pid 3277686 (/bin/bash)
+------------
+Building microblaze:petalogix-ml605:qemu_microblazeel_ml605_defconfig ...
+running ................ failed (silent)
+------------
+qemu log:
+qemu-system-microblazeel: terminating on signal 15 from pid 3277686 (/bin/bash)
+------------
+
+<env changes>
+16:47:23 > git di
+diff --git a/rootfs/microblazeel/run-qemu-microblazeel.sh b/rootfs/microblazeel/run-qemu-microblazeel.sh
+index 68d4de39ab50..0d6a4f85308f 100755
+--- a/rootfs/microblazeel/run-qemu-microblazeel.sh
++++ b/rootfs/microblazeel/run-qemu-microblazeel.sh
+@@ -3,7 +3,8 @@
+ dir=$(cd $(dirname $0); pwd)
+ . ${dir}/../scripts/common.sh
+ 
+-QEMU=${QEMU:-${QEMU_BIN}/qemu-system-microblazeel}
++#QEMU=${QEMU:-${QEMU_BIN}/qemu-system-microblazeel}
++QEMU=/home/iweiny/dev/qemu/microblazeel-softmmu/qemu-system-microblazeel
+ PREFIX=microblazeel-linux-
+ ARCH=microblaze
+ PATH_MICROBLAZE=/opt/kernel/microblazeel/gcc-4.9.1/usr/bin
+diff --git a/rootfs/scripts/common.sh b/rootfs/scripts/common.sh
+index 8fa6a9be2b2f..c4550a27beaa 100644
+--- a/rootfs/scripts/common.sh
++++ b/rootfs/scripts/common.sh
+@@ -1,5 +1,9 @@
+ #!/bin/bash
+ 
++# Set up make.cross
++export COMPILER_INSTALL_PATH=$HOME/0day
++export GCC_VERSION=6.5.0
++
+ # Set the following variable to true to skip DC395/AM53C97 build tests
+ __skip_dc395=0
+ 
+@@ -569,7 +573,7 @@ doclean()
+        then
+                git clean -x -d -f -q
+        else
+-               make ARCH=${ARCH} mrproper >/dev/null 2>&1
++               make.cross ARCH=${ARCH} mrproper >/dev/null 2>&1
+        fi
+ }
+ 
+@@ -669,7 +673,7 @@ __setup_config()
+        cp ${__progdir}/${defconfig} arch/${arch}/configs
+     fi
+ 
+-    if ! make ARCH=${ARCH} CROSS_COMPILE=${PREFIX} ${defconfig} >/dev/null 2>&1 </dev/null; then
++    if ! make.cross ARCH=${ARCH} ${defconfig} >/dev/null 2>&1 </dev/null; then
+        return 2
+     fi
+ 
+@@ -687,7 +691,7 @@ __setup_config()
+        if [[ "${rel}" = "v3.16" ]]; then
+            target="oldconfig"
+        fi
+-       if ! make ARCH=${ARCH} CROSS_COMPILE=${PREFIX} ${target} >/dev/null 2>&1 </dev/null; then
++       if ! make.cross ARCH=${ARCH} ${target} >/dev/null 2>&1 </dev/null; then
+            return 1
+        fi
+     fi
+@@ -1038,7 +1042,7 @@ dosetup()
+     rootfs="$(setup_rootfs ${dynamic} ${rootfs})"
+     __common_fixups "${fixups}" "${rootfs}"
+ 
+-    make -j${maxload} ARCH=${ARCH} CROSS_COMPILE=${PREFIX} ${EXTRAS} </dev/null >/dev/null 2>${logfile}
++    make.cross -j${maxload} ARCH=${ARCH} ${EXTRAS} </dev/null >/dev/null 2>${logfile}
+     rv=$?
+     if [ ${rv} -ne 0 ]
+     then
+
+</env changes>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
