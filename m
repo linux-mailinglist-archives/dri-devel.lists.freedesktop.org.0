@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169861D9BF0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 18:06:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DF31D9CA0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 18:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C036E35F;
-	Tue, 19 May 2020 16:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537D86E356;
+	Tue, 19 May 2020 16:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4E889D6C;
- Tue, 19 May 2020 16:06:19 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id f13so3615171wmc.5;
- Tue, 19 May 2020 09:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=guiQOg83wk8Re5uEuJo1BoPo7XFCPazuk/VvCpyeK1M=;
- b=mXPf5Ms8ET6YablA99JN6u4VA/YVAadQQ7qlTUqWiZa4Yy/4v1W/A6Hv8uDOCqKDBt
- wHLXvP92KiOdRfjd4mtpEoNpOKuApoZeyI4+FEWwTxp8Y1Rv+kYjTTfYUyOeMGkNmxz/
- sSk1e675A9gKKswjNZfpBOf2SylUC6w60t6FM6t2Sd7OYy+S6MV3GLkFeUUBuzZ8Xrww
- mEBRF42H5WAodaO+zprmH8O6EfTarkUc7fySKqO5yt6mNJypof+qVkczsBHnxAUpzdMQ
- toDM2XnrMZeD/g1mLak/DlAd8BCI0ibMIWMHKRtvuMW4JJ0QFKXx0dJc7QcfM0ga4yH5
- Wt9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=guiQOg83wk8Re5uEuJo1BoPo7XFCPazuk/VvCpyeK1M=;
- b=R3MY1OwHNAeYCuKfsKAAnmflIR8qt9J8FPkfsIrzJRQtrkJXFrUIL4fxA0W8THsQRl
- B9l2ErC42xAaw55TDyD4Wi7RODvowuTZQvs6/548SFhHdkFIbMvT+nnn5yhNFX1g8V6A
- BL/hUrSuuRk3SrAZmCymG4QxEtG68h/GZ4HOonxuhnfjGbckAgMSwICz3XgK6xGHEvUt
- Vi7kun6e++SI+XXx3edRYqcpIlhAJ6xadc5ynOharNZZJ0W9wAjEaAkauDgcsU7mYLLM
- HxTF/gXUEM5vqNpAhJYWgub9nB+d/8gycvOgFY+wTwjxWouEmyYhs1NKsup0+X7cbMV3
- igGw==
-X-Gm-Message-State: AOAM530F/YikLMj5ptc+qpJ5caT33LK3gZwrNURU12WnApo4SouOCVi7
- MiVa5dRhLRwxQINWtGP5Twfo7mFg39i3dkfo/fw=
-X-Google-Smtp-Source: ABdhPJzL5f1OBDcocPrtJ6fbylZ/xk9NChZVvHdXkRF7kKd7yOgiz/X65De/UPsERoG9SUFs6bKzwUqLMWaPLIl68ac=
-X-Received: by 2002:a1c:29c4:: with SMTP id p187mr94893wmp.73.1589904378124;
- Tue, 19 May 2020 09:06:18 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA866E356
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 16:29:09 +0000 (UTC)
+IronPort-SDR: bCoOQqjgqS3VXisvf2n4BgAySKw5U5lPHODIyI5rhsUPP97jkwQo0EliiHJ4hDzDYgMotfv0gD
+ f6pOrO4I+bgg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 09:29:06 -0700
+IronPort-SDR: wMgiwHen2OPFlYyzOEz7g2rJdzh5JJtN4dIY2VFB92QqQMm8kp4VvGIH/smvNQpDVMcoLkKqX3
+ R44n5eaK0YwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343188490"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga001.jf.intel.com with ESMTP; 19 May 2020 09:29:05 -0700
+Date: Tue, 19 May 2020 09:29:05 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH V3 07/15] arch/kunmap_atomic: Consolidate duplicate code
+Message-ID: <20200519162904.GA3356843@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-1-ira.weiny@intel.com>
+ <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200516223306.GA161252@roeck-us.net>
+ <20200518034938.GA3023182@iweiny-DESK2.sc.intel.com>
+ <20200518042932.GA59205@roeck-us.net>
+ <20200519000352.GF3025231@iweiny-DESK2.sc.intel.com>
+ <47757f51-15f2-3abe-9035-abdb3ba5816e@roeck-us.net>
 MIME-Version: 1.0
-References: <20200518162312.18059-1-aishwaryarj100@gmail.com>
-In-Reply-To: <20200518162312.18059-1-aishwaryarj100@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 19 May 2020 12:06:06 -0400
-Message-ID: <CADnq5_N4u5GD+j=RSsTzpdOmZjAKV45aAtN2ffb+cizMcB9ygg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: Fix boolreturn.cocci warnings
-To: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <47757f51-15f2-3abe-9035-abdb3ba5816e@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,67 +53,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 18, 2020 at 12:37 PM Aishwarya Ramakrishnan
-<aishwaryarj100@gmail.com> wrote:
->
-> Return statements in functions returning bool should use
-> true/false instead of 1/0.
->
-> drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c:40:9-10:
-> WARNING: return of 0/1 in function 'event_interrupt_isr_v9' with return type bool
->
-> Generated by: scripts/coccinelle/misc/boolreturn.cocci
->
-> Signed-off-by: Aishwarya Ramakrishnan <aishwaryarj100@gmail.com>
+On Mon, May 18, 2020 at 07:50:36PM -0700, Guenter Roeck wrote:
+> Hi Ira,
+> 
+> On 5/18/20 5:03 PM, Ira Weiny wrote:
+> > On Sun, May 17, 2020 at 09:29:32PM -0700, Guenter Roeck wrote:
+> >> On Sun, May 17, 2020 at 08:49:39PM -0700, Ira Weiny wrote:
+> >>> On Sat, May 16, 2020 at 03:33:06PM -0700, Guenter Roeck wrote:
+> >>>> On Thu, May 07, 2020 at 07:59:55AM -0700, ira.weiny@intel.com wrote:
+> >>>>> From: Ira Weiny <ira.weiny@intel.com>
+> >>>>>
+> >>>
 
-Applied.  Thanks!
+Sorry for the delay I missed this email last night...  I blame outlook...  ;-)
 
-Alex
+...
 
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-> index e05d75ecda21..fce6ccabe38b 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-> @@ -37,7 +37,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
->         vmid = SOC15_VMID_FROM_IH_ENTRY(ih_ring_entry);
->         if (vmid < dev->vm_info.first_vmid_kfd ||
->             vmid > dev->vm_info.last_vmid_kfd)
-> -               return 0;
-> +               return false;
->
->         source_id = SOC15_SOURCE_ID_FROM_IH_ENTRY(ih_ring_entry);
->         client_id = SOC15_CLIENT_ID_FROM_IH_ENTRY(ih_ring_entry);
-> @@ -69,7 +69,7 @@ static bool event_interrupt_isr_v9(struct kfd_dev *dev,
->
->         /* If there is no valid PASID, it's likely a bug */
->         if (WARN_ONCE(pasid == 0, "Bug: No PASID in KFD interrupt"))
-> -               return 0;
-> +               return false;
->
->         /* Interrupt types we care about: various signals and faults.
->          * They will be forwarded to a work queue (see below).
-> --
-> 2.17.1
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> >>> Do you have a kernel config?  Specifically is CONFIG_HIGHMEM set?
+> >>>
+> >> See below. Yes, CONFIG_HIGHMEM is set.
+> >>
+> >> The scripts used to build and boot the image are at:
+> >>
+> >> https://github.com/groeck/linux-build-test/tree/master/rootfs/microblazeel
+> > 
+> > Despite finding the obvious error earlier today I've still been trying to get
+> > this to work.
+> > 
+> > I had to make some slight modifications to use the 0-day cross compile build
+> > and my local qemu build.  But those were pretty minor modifications.  I'm
+> > running on x86_64 host.
+> > 
+> > With those slight mods to the scripts I get the following error even without my
+> > patch set on 5.7-rc4.  I have 1 cpu pegged at 100% while it is running...  Is
+> > there anything I can do to get more debug output?  Perhaps I just need to let
+> > it run longer?
+> > 
+> 
+> I don't think so. Try running it with "-d" parameter (run-qemu-microblazeel.sh
+> -d petalogix-s3adsp1800); that gives you the qemu command line. Once it says
+> "running", abort the script and execute qemu directly.
+
+FYI Minor nit...  a simple copy/paste failed...  that print of the cmd line
+did not include quotes around the -append text:
+
+09:06:03 > /home/iweiny/dev/qemu/microblazeel-softmmu/qemu-system-microblazeel
+   -M petalogix-s3adsp1800 -m 256 -kernel arch/microblaze/boot/linux.bin
+   -no-reboot -initrd /tmp/buildbot-cache/microblazeel/rootfs.cpio -append
+   panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyUL0,115200 -monitor
+   none -serial stdio -nographic
+
+qemu-system-microblazeel: slub_debug=FZPUA: Could not open 'slub_debug=FZPUA': No such file or directory
+
+> Oh, and please update
+> the repository; turns out I didn't push for a while and made a number of
+> changes.
+
+Cool beans...  I've updated.
+
+> 
+> My compiler was compiled with buildroot (a long time ago). I don't recall if
+> it needed something special in the configuration, unfortunately.
+
+AFAICT the compile is working...  It is running from the command line now...  I
+expected it to be slow so I have also increased the timeouts last night.  So
+far it still fails.  I did notice that there is a new 'R' in the wait output.
+
+<quote>
+.........................R......................... failed (silent)
+------------
+qemu log:
+qemu-system-microblazeel: terminating on signal 15 from pid 3357146 (/bin/bash)
+</quote>
+
+I was hoping that meant it found qemu 'running' but looks like that was just a
+retry...  :-(
+
+Last night I increased some of the timeouts I could find.
+
+<quote>
+ LOOPTIME=5     # Wait time before checking status
+ -MAXTIME=150    # Maximum wait time for qemu session to complete
+ -MAXSTIME=60    # Maximum wait time for qemu session to generate output
+ +#MAXTIME=150   # Maximum wait time for qemu session to complete
+ +#MAXSTIME=60   # Maximum wait time for qemu session to generate output
+ +MAXTIME=300    # Maximum wait time for qemu session to complete
+ +MAXSTIME=120   # Maximum wait time for qemu session to generate output
+</quote>
+
+But thanks to the qemu command line hint I can see these were not nearly
+enough...  (It has been running for > 20 minutes...  and I'm not getting
+output...)  Or I've done something really wrong.  Shouldn't qemu be at least
+showing something on the terminal by now?  I normally run qemu with different
+display options (and my qemu foo is weak) so I'm not sure what I should be
+seeing with this command line.
+
+09:06:28 > /home/iweiny/dev/qemu/microblazeel-softmmu/qemu-system-microblazeel
+  -M petalogix-s3adsp1800 -m 256 -kernel arch/microblaze/boot/linux.bin
+  -no-reboot -initrd /tmp/buildbot-cache/microblazeel/rootfs.cpio -append
+  "panic=-1 slub_debug=FZPUA rdinit=/sbin/init console=ttyUL0,115200" -monitor
+  none -serial stdio -nographic
+
+Maybe I just have too slow of a machine...  :-/
+
+My qemu was built back in March.  I'm updating that now...
+
+Sorry for being so dense...
+Ira
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
