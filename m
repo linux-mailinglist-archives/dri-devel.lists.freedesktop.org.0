@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707BE1DA079
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 21:06:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD051DA07F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 21:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 514CF6E0CA;
-	Tue, 19 May 2020 19:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75B56E37C;
+	Tue, 19 May 2020 19:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7665D6E0CA
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:06:52 +0000 (UTC)
-IronPort-SDR: PAAZRm104L+mAZtI7BsTAQry6afA/w+25q8lCeGHWDXVbPYAU3avGuABciBKIBMH81o5QHSOOs
- h1z+acOE3kEA==
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5486E37C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:07:10 +0000 (UTC)
+IronPort-SDR: wE48zOcmyP/Vr90PwxexwT379dPDms5aDfe8Ka8DNmV4hcUgoZWvGRk7QraSnMTjoVESBYbF13
+ 8t33Wv9yk8xQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 12:06:52 -0700
-IronPort-SDR: FXx8Xq/+yZzl+zsl3W2Xxb5xez/DSJ/i3pNAc/f8lku8nSOk2XElF9WBN/P/WuHhXTYnSuKrko
- aEpQqiIGJ4Kw==
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 12:07:10 -0700
+IronPort-SDR: 50RK9AIVUPrXPCXs4JJ18QIZe42FXHCUemhjsFQjp++n+ZjHsYMQ7Ai1Uz+63L0DGOmf1yhMxm
+ AiuHoksWkG5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343235706"
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343235784"
 Received: from miryad.jf.intel.com ([10.54.74.46])
- by orsmga001.jf.intel.com with ESMTP; 19 May 2020 12:06:51 -0700
+ by orsmga001.jf.intel.com with ESMTP; 19 May 2020 12:07:06 -0700
 From: Carlos Santa <carlos.santa@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] libdrm: enclose __FreeBSD__ behind a define
-Date: Tue, 19 May 2020 12:04:57 -0700
-Message-Id: <20200519190458.15260-1-carlos.santa@intel.com>
+Subject: [PATCH libdrm] libdrm: enclose __FreeBSD__ behind a define
+Date: Tue, 19 May 2020 12:04:58 -0700
+Message-Id: <20200519190458.15260-2-carlos.santa@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200519190458.15260-1-carlos.santa@intel.com>
+References: <20200519190458.15260-1-carlos.santa@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,7 +131,7 @@ index b49d42f70dbe..3965b4be366d 100644
  #else
      struct stat      sbuf;
 -- 
-2.26.2
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
