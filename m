@@ -2,38 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AF81DA2C9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 22:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA86E1DA2EE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 22:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63C089AB6;
-	Tue, 19 May 2020 20:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D944789DB5;
+	Tue, 19 May 2020 20:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE8089AB6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 20:36:10 +0000 (UTC)
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A288A2072C;
- Tue, 19 May 2020 20:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589920569;
- bh=BLUycVs4uy2gq9SvV18LOkcki98gdsniYEsuiEbHhRM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sI+8DSdU6A/6DbMheBNPfOjeSHhlQ6GCVXC1LS6tq9WmyG0oSK7GCMyuyGYGN3MBN
- /awAzEd4rACJNVuWjlm/w1COcEZEP+7z5TVDpqkGpCViuPiDqDGsceE2YRBOdzRlgy
- 8ChGcC4v9NbXSmu6/tgArVegHgjhiO6mJRW4tf7w=
-Date: Tue, 19 May 2020 16:36:08 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC PATCH 0/4] DirectX on Linux
-Message-ID: <20200519203608.GG33628@sasha-vm>
-References: <20200519163234.226513-1-sashal@kernel.org>
- <CAKMK7uGnSDHdZha-=dZN5ns0sJ2CEnK2693uix4tzqyZb9MXCQ@mail.gmail.com>
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8EE89D9A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 20:41:26 +0000 (UTC)
+Received: by mail-oo1-xc43.google.com with SMTP id p123so253426oop.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 13:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=KqlY0HTT+IOHyYqsNVke69dYQGA7KHepidrczDemEV0=;
+ b=QGdyhJkp1DdKBLPoQNQnIKYhC6fJq0diB6e3HUnQosmcbIHkLgsPCnpZZi9nhFUBFR
+ ufALg9+CDJQTkIQruWIWbMiIcF8x8D/WIXcptC6CfuaVQF9VEhxW1ob6ud8UhpSGeqgZ
+ 0jEzm47h0mp5kRVqaZC50bC3SLA3QwhfruNp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=KqlY0HTT+IOHyYqsNVke69dYQGA7KHepidrczDemEV0=;
+ b=UahpbyY4oKq8XG/udWQFs52eEeslmSKGDgDi0/vWwRiHafCEbK+3REw1NVun+DWEqh
+ auRtECUYgbVVEPIW9Bm02Bmy0KJzVIDm2l5yc4vPKodAryinnUz7cUYI5BryFbQX/yx6
+ 0KEoVI9Uz1YzGs1myQzJOHC4lkZCtpGZ9Y3t4SsMipCuVRum/33JqczlnQ7/xAUx97SX
+ k1aMhEd2cd65HH3f7OPc0ukJAk2BauB6BeRs7TWO5GkLALOlPR+LKnlmEnrUq3/Q1WaH
+ wWAjP04VKWBP+DoRe5jQaZNCdgj4ySLbixbHFgaXHCPv8q85U3bl8ZSseJT17WZay7UB
+ SGug==
+X-Gm-Message-State: AOAM531QsllOno8+LUk0WqEGHmDYexT09e7VZkoPxTdoEESggYU68pmd
+ fSBaDMItVdhhYkONkk8SEGay6DlB0FbSt7ZsHTLPTw==
+X-Google-Smtp-Source: ABdhPJy+sQPtCXPvRCO/dG83ZBie1tD9S+4htYq0udq/GYRMDdPlJYAdylJ2iilHdgbiPgeFjf/3wmKXl3/gjVPYxwo=
+X-Received: by 2002:a4a:d136:: with SMTP id n22mr785994oor.85.1589920886046;
+ Tue, 19 May 2020 13:41:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGnSDHdZha-=dZN5ns0sJ2CEnK2693uix4tzqyZb9MXCQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 19 May 2020 22:41:15 +0200
+Message-ID: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Olof Johansson <olof.johansson@gmail.com>, Jason Gunthorpe <jgg@mellanox.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,149 +56,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, Olof Johansson <olof.johansson@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
- Chris" <chris@chris-wilson.co.uk>, Jerome Glisse <jglisse@redhat.com>,
- spronovo@microsoft.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jason Ekstrand <jason@jlekstrand.net>, iourit@microsoft.com,
- Alex Deucher <alexander.deucher@amd.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, wufan@codeaurora.org,
+ Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Tue, May 19, 2020 at 09:21:15PM +0200, Daniel Vetter wrote:
->Hi Sasha
+On Tue, May 19, 2020 at 07:41:20PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, May 19, 2020 at 08:57:38AM -0600, Jeffrey Hugo wrote:
+> > On 5/18/2020 11:08 PM, Dave Airlie wrote:
+> > > On Fri, 15 May 2020 at 00:12, Jeffrey Hugo <jhugo@codeaurora.org> wrote:
+> > > >
+> > > > Introduction:
+> > > > Qualcomm Cloud AI 100 is a PCIe adapter card which contains a dedicated
+> > > > SoC ASIC for the purpose of efficently running Deep Learning inference
+> > > > workloads in a data center environment.
+> > > >
+> > > > The offical press release can be found at -
+> > > > https://www.qualcomm.com/news/releases/2019/04/09/qualcomm-brings-power-efficient-artificial-intelligence-inference
+> > > >
+> > > > The offical product website is -
+> > > > https://www.qualcomm.com/products/datacenter-artificial-intelligence
+> > > >
+> > > > At the time of the offical press release, numerious technology news sites
+> > > > also covered the product.  Doing a search of your favorite site is likely
+> > > > to find their coverage of it.
+> > > >
+> > > > It is our goal to have the kernel driver for the product fully upstream.
+> > > > The purpose of this RFC is to start that process.  We are still doing
+> > > > development (see below), and thus not quite looking to gain acceptance quite
+> > > > yet, but now that we have a working driver we beleive we are at the stage
+> > > > where meaningful conversation with the community can occur.
+> > >
+> > >
+> > > Hi Jeffery,
+> > >
+> > > Just wondering what the userspace/testing plans for this driver.
+> > >
+> > > This introduces a new user facing API for a device without pointers to
+> > > users or tests for that API.
+> >
+> > We have daily internal testing, although I don't expect you to take my word
+> > for that.
+> >
+> > I would like to get one of these devices into the hands of Linaro, so that
+> > it can be put into KernelCI.  Similar to other Qualcomm products. I'm trying
+> > to convince the powers that be to make this happen.
+> >
+> > Regarding what the community could do on its own, everything but the Linux
+> > driver is considered proprietary - that includes the on device firmware and
+> > the entire userspace stack.  This is a decision above my pay grade.
 >
->So obviously great that Microsoft is trying to upstream all this, and
->very much welcome and all that.
+> Ok, that's a decision you are going to have to push upward on, as we
+> really can't take this without a working, open, userspace.
+
+Uh wut.
+
+So the merge criteria for drivers/accel (atm still drivers/misc but I
+thought that was interim until more drivers showed up) isn't actually
+"totally-not-a-gpu accel driver without open source userspace".
+
+Instead it's "totally-not-a-gpu accel driver without open source
+userspace" _and_ you have to be best buddies with Greg. Or at least
+not be on the naughty company list. Since for habanalabs all you
+wanted is a few test cases to exercise the ioctls. Not the entire
+userspace.
+
+The most bonkers part here is that drivers/gpu actually does have a bunch
+of active contributors from codeaurora ...
+
+> Especially given the copyright owner of this code, that would be just
+> crazy and foolish to not have open userspace code as well.  Firmware
+> would also be wonderful as well, go poke your lawyers about derivative
+> work issues and the like for fun conversations :)
 >
->But I guess there's a bunch of rather fundamental issues before we
->look into any kind of code details. And that might make this quite a
->hard sell for upstream to drivers/gpu subsystem:
-
-Let me preface my answers by saying that speaking personally I very much
-dislike that the userspace is closed and wish I could do something about
-it.
-
->- From the blog it sounds like the userspace is all closed. That
->includes the hw specific part and compiler chunks, all stuff we've
->generally expected to be able to look in the past for any kind of
->other driver. It's event documented here:
+> So without that changed, I'm not going to take this, and push to object
+> that anyone else take this.
 >
->https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
->
->What's your plan here?
+> I'm not going to be able to review any of this code anymore until that
+> changes, sorry.
 
-Let me answer with a (genuine) question: does this driver have anything
-to do with DRM even after we enable graphics on it? I'm still trying to
-figure it out.
+So you couldn't review the habanalabs driver either?
 
-There is an open source DX12 Galluim driver (that lives here:
-https://gitlab.freedesktop.org/kusma/mesa/-/tree/msclc-d3d12) with open
-source compiler and so on.
+Get some consistency into your decision making as maintainer. And don't
+tell me or anyone else that this is complicated, gpu and rdma driver folks
+very much told you and Olof last year that this is what you're getting
+yourself into.
 
-The plan is for Microsoft to provide shims to allow the existing Linux
-userspace interact with DX12; I'll explain below why we had to pipe DX12
-all the way into the Linux guest, but this is *not* to introduce DX12
-into the Linux world as competition. There is no intent for anyone in
-the Linux world to start coding for the DX12 API.
+Cheers, Daniel
 
-This is why I'm not sure whether this touches DRM on the Linux side of
-things. Nothing is actually rendered on Linux but rather piped to
-Windows to be done there.
-
->btw since the main goal here (at least at first) seems to be get
->compute and ML going the official work-around here is to relabel your
->driver as an accelerator driver (just sed -e s/vGPU/vaccel/ over the
->entire thing or so) and then Olof and Greg will take it into
->drivers/accel ...
-
-This submission is not a case of "we want it upstream NOW" but rather
-"let's work together to figure out how to do it right" :)
-
-I thought about placing this driver in drivers/hyper-v/ given that it's
-basically just a pipe between the host and the guest. There is no fancy
-logic in this drivers. Maybe the right place is indeed drivers/accel or
-drivers/hyper-v but I'd love if we agree on that rather than doing that
-as a workaround and 6 months down the road enabling graphics.
-
->- Next up (but that's not really a surprise for a fresh vendor driver)
->at a more technical level, this seems to reinvent the world, from
->device enumeration (why is this not exposed as /dev/dri/card0 so it
->better integrates with existing linux desktop stuff, in case that
->becomes a goal ever) down to reinvented kref_put_mutex (and please
->look at drm_device->struct_mutex for an example of how bad of a
->nightmare that locking pattern is and how many years it took us to
->untangle that one.
-
-I'd maybe note that neither of us here at Microsoft is an expert in the
-Linux DRM world. Stuff might have been done in a certain way because we
-didn't know better.
-
->- Why DX12 on linux? Looking at this feels like classic divide and
-
-There is a single usecase for this: WSL2 developer who wants to run
-machine learning on his GPU. The developer is working on his laptop,
-which is running Windows and that laptop has a single GPU that Windows
-is using.
-
-Since the GPU is being used by Windows, we can't assign it directly to
-the Linux guest, but instead we can use GPU Partitioning to give the
-guest access to the GPU. This means that the guest needs to be able to
-"speak" DX12, which is why we pulled DX12 into Linux.
-
->conquer (or well triple E from the 90s), we have vk, we have
->drm_syncobj, we have an entire ecosystem of winsys layers that work
->across vendors. Is the plan here that we get a dx12 driver for other
->hw mesa drivers from you guys, so this is all consistent and we have a
->nice linux platform? How does this integrate everywhere else with
->linux winsys standards, like dma-buf for passing stuff around,
->dma-fence/sync_file/drm_syncobj for syncing, drm_fourcc/modifiers for
->some idea how it all meshes together?
-
-Let me point you to this blog post that has more information about the
-graphics side of things:
-https://www.collabora.com/news-and-blog/news-and-events/introducing-opencl-and-opengl-on-directx.html
-.
-
-The intent is to wrap DX12 with shims to work with the existing
-ecosystem; DX12 isn't a new player on it's own and thus isn't trying to
-divide/conquer anything.
-
->- There's been a pile of hallway track/private discussions about
->moving on from the buffer-based memory managed model to something more
->modern. That relates to your DXLOCK2 question, but there's a lot more
->to userspace managed gpu memory residency than just that. monitored
->fences are another part. Also, to avoid a platform split we need to
->figure out how to tie this back into the dma-buf and dma-fence
->(including various uapi flavours) or it'll be made of fail. dx12 has
->all that in some form, except 0 integration with the linux stuff we
->have (no surprise, since linux isn't windows). Finally if we go to the
->trouble of a completely revamped I think ioctls aren't a great idea,
->something like iouring (the gossip name is drm_uring) would be a lot
->better. Also for easier paravirt we'd need 0 cpu pointers in any such
->new interface. Adding a few people who've been involved in these
->discussions thus far, mostly under a drm/hmm.ko heading iirc.
->
->I think the above are the really big ticket items around what's the
->plan here and are we solving even the right problem.
-
-Part of the reason behind this implementation is simplicity. Again, no
-objections around moving to uring and doing other improvements.
-
--- 
-Thanks,
-Sasha
+PS: I guess congrats for figuring out you can't write a totally-not-a-gpu
+accel driver without making kernel and userspace parts derivatives works
+of each another. We told you that last year.
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
