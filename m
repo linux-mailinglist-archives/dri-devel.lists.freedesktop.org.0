@@ -2,57 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897E61D9418
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 12:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142AD1D94B5
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 12:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 638136E526;
-	Tue, 19 May 2020 10:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BADC6E1B2;
+	Tue, 19 May 2020 10:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4496E526
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 10:13:32 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id z72so2839788wmc.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 03:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X6K+Z1CSvGtqQsqD8CriMcqf56uYOKJc39Ks8CDjqTM=;
- b=iopwi7CtVMI5ilc5zJkrxjVUGyGQTPVNcF1NkiHM449g8v0Z3Y+63YpONo83q9JRLL
- al8jxtbCSnVmlGX0rHOJ+fde1+BzGFgtu9CzuFu1rUi3I7pAlwxkTmfxDQeWo0BonxAU
- UYmuuR/1in26LevtxEOKLCIxPj05ZwEEeXCpS1n/UA+SOJDX9g26dSJN4nMMLDcrkKfc
- oo/M1VJgdWnrWPEVpO4BT8pEABRHkoamvELIH3CwDE0fvRuIA0oQX7xBYBbzRFpVH7Wu
- zDBrI5uqQ3H2JZTiB8SmeuDQu3WpXFiBWpLKd8g+x6Yz6A4aOg3pQ7OJd5SjibHcH2jr
- i3qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X6K+Z1CSvGtqQsqD8CriMcqf56uYOKJc39Ks8CDjqTM=;
- b=QGka0YyQprhqFLz82GAcucz97MLrZDMoQ0mj721m4t5Tu2y9+zvo1Kt1SwuimjCRqR
- IhG3G7C9ouqc8tRbGD0yVW3R+Pb1K+DTECWZVK8Yyy/XUuzN4RRchLbW2jRKRmQgnCdP
- mKqhGC2vmpFG+iW5E/9mHmCSv2pkd7ycNUfQe63jebwVIL0F4IWdUoM74lI+u6BgR6QX
- IRa5Iu4lEK2r7hWTqkPwm7X6DMBTr3+JkdbvNETYATuVk+n8JUkwh1uVFdXJyNDV/rDK
- dMraFg8PIV+RgiPqzq3QJhhNHwx6X4J7ipFfp0qwYBCcwesxXWpynNQrGmYmQZXGOPJI
- INxA==
-X-Gm-Message-State: AOAM532ypYFxQKHw/sMdm3Ur8DmRKG7Qfj3HX15Oos1uDXSsnpxJRB33
- WykOVrNUrD79jb6fYCVhN5XYAJZH
-X-Google-Smtp-Source: ABdhPJxJZzBMGYT1evxpLrM3NICH3JOpg0hGlRJvCdXKUsRsJ0MrmxCDY86Mj+n2Rri0BschUhh4uA==
-X-Received: by 2002:a7b:c41a:: with SMTP id k26mr4702169wmi.85.1589883210597; 
- Tue, 19 May 2020 03:13:30 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
- by smtp.gmail.com with ESMTPSA id 81sm3555065wme.16.2020.05.19.03.13.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 03:13:30 -0700 (PDT)
-From: Emil Velikov <emil.l.velikov@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] linux/bits.h: adjust GENMASK_INPUT_CHECK() check
-Date: Tue, 19 May 2020 11:13:20 +0100
-Message-Id: <20200519101320.33495-1-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A386E1B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 10:48:44 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jaznZ-00060D-Ht; Tue, 19 May 2020 12:48:37 +0200
+Message-ID: <074a3a7c83c87f5265eec69c150f8f993bd787da.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: fix perfmon domain interation
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 19 May 2020 12:48:35 +0200
+In-Reply-To: <20200519053019.48376-1-christian.gmeiner@gmail.com>
+References: <20200519053019.48376-1-christian.gmeiner@gmail.com>
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,72 +46,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, emil.l.velikov@gmail.com,
- Rikard Falkeborn <rikard.falkeborn@gmail.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
+ stable@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently the GENMASK_INPUT_CHECK() was added, aiming to catch cases
-where there GENMASK arguments are flipped.
+Am Dienstag, den 19.05.2020, 07:30 +0200 schrieb Christian Gmeiner:
+> The GC860 has one GPU device which has a 2d and 3d core. In this case
+> we want to expose perfmon information for both cores.
+> 
+> The driver has one array which contains all possible perfmon domains
+> with some meta data - doms_meta. Here we can see that for the GC860
+> two elements of that array are relevant:
+> 
+>   doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+>   doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
+> 
+> The userspace driver wants to get a list of all perfmon domains and
+> their perfmon signals. This is done by iterating over all domains and
+> their signals. If the userspace driver wants to access the domain with
+> id 8 the kernel driver fails and returns invalid data from doms_3d with
+> and invalid offset.
+> 
+> This results in:
+>   Unable to handle kernel paging request at virtual address 00000000
+> 
+> On such a device it is not possible to use the userspace driver at all.
+> 
+> The fix for this off-by-one error is quite simple.
+> 
+> Reported-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Paul Cercueil <paul@crapouillou.net>
+> Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-Although it seems to be triggering -Wtype-limits in the following cases:
+Thanks, applied to etnaviv/fixes.
 
-   unsigned foo = (10 + x);
-   unsigned bar = GENMASK(foo, 0);
+Regards,
+Lucas
 
-   const unsigned foo = (10 + x);
-   unsigned bar = GENMASK(foo, 0);
-
-Here are the warnings, from my GCC 9.2 box.
-
-warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
-   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
-                            ^
-warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
-   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
-                                        ^
-
-This results in people disabling the warning all together or promoting
-foo to signed. Either of which being a sub par option IMHO.
-
-Add a trivial "+ 1" to each h and l in the constant expression.
-
-Fixes: 295bcca84916 ("linux/bits.h: add compile time sanity check of
-GENMASK inputs")
-Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
----
-From some quick testing, this works as expected although I could be
-wrong.
-
--Emil
----
- include/linux/bits.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/bits.h b/include/linux/bits.h
-index 4671fbf28842..5e3ca57adc20 100644
---- a/include/linux/bits.h
-+++ b/include/linux/bits.h
-@@ -22,8 +22,8 @@
- 	(!defined(CONFIG_CC_IS_GCC) || CONFIG_GCC_VERSION >= 49000)
- #include <linux/build_bug.h>
- #define GENMASK_INPUT_CHECK(h, l) \
--	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
--		__builtin_constant_p((l) > (h)), (l) > (h), 0)))
-+	(BUILD_BUG_ON_ZERO(!__builtin_choose_expr( \
-+		__builtin_constant_p((l + 1) > (h + 1)), (l + 1) > (h + 1), 0)))
- #else
- /*
-  * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
--- 
-2.23.0
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> index e6795bafcbb9..75f9db8f7bec 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+> @@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+>  		if (!(gpu->identity.features & meta->feature))
+>  			continue;
+>  
+> -		if (meta->nr_domains < (index - offset)) {
+> +		if (index - offset >= meta->nr_domains) {
+>  			offset += meta->nr_domains;
+>  			continue;
+>  		}
 
 _______________________________________________
 dri-devel mailing list
