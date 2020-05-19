@@ -2,30 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413FA1D9D90
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 19:11:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7581D9DB0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 19:19:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4171D6E255;
-	Tue, 19 May 2020 17:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F216E11A;
+	Tue, 19 May 2020 17:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF5B26E255
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 17:10:54 +0000 (UTC)
-Received: from jeremy.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp.webfaction.com (Postfix) with ESMTPSA id 810DA60038E8E;
- Tue, 19 May 2020 17:11:01 +0000 (UTC)
-From: Paul Boddie <paul@boddie.org.uk>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 11/12] gpu/drm: Ingenic: Add support for the IPU
-Date: Tue, 19 May 2020 19:10:32 +0200
-Message-ID: <3220152.ycyENPvHUQ@jeremy>
-User-Agent: KMail/4.14.1 (Linux/3.16.0-10-586; KDE/4.14.2; i686; ; )
-In-Reply-To: <YGYIAQ.7N9YGTBML0143@crapouillou.net>
-References: <20200516215057.392609-1-paul@crapouillou.net>
- <CACvgo50q=qJXk3nFSCm+S6JHBMxpY0C_HwH8KGB2EAcKwgL0oQ@mail.gmail.com>
- <YGYIAQ.7N9YGTBML0143@crapouillou.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE976E11A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 17:19:08 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CA80B20709;
+ Tue, 19 May 2020 17:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589908748;
+ bh=XTf3GXvvKPis3qS60syTZxccwFz7ZD9sbAXlJXifamY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=chicMmrTiHVMnEkCiI/ijQjxwAyxygx1vrTAchl8JGL98z30Y6KgeXCPEr17gcM1A
+ 9A4Qt1W2gZTbAgbRLtlDdrZtL6HsbsnoJ+uVUQmcG6rf7elaJ5smVFOwjQudXNDecd
+ iG80B2sOSKcYwgBCE8R9y6ZInrU7uBSuZTNRGhLM=
+Date: Tue, 19 May 2020 19:19:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Subject: Re: [RFC PATCH 1/4] gpu: dxgkrnl: core code
+Message-ID: <20200519171906.GA1101627@kroah.com>
+References: <20200519163234.226513-1-sashal@kernel.org>
+ <20200519163234.226513-2-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200519163234.226513-2-sashal@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,45 +47,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- od@zcrc.me
+Cc: linux-hyperv@vger.kernel.org, sthemmin@microsoft.com,
+ tvrtko.ursulin@intel.com, haiyangz@microsoft.com, spronovo@microsoft.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, wei.liu@kernel.org, linux-fbdev@vger.kernel.org,
+ iourit@microsoft.com, alexander.deucher@amd.com, kys@microsoft.com,
+ Hawking.Zhang@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday 18. May 2020 13.26.58 Paul Cercueil wrote:
-> >>  
-> >>  @@ -186,13 +186,16 @@ static void
-> >> 
-> >> ingenic_drm_crtc_update_timings(struct ingenic_drm *priv,
-> >> 
-> >>          regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
-> >>                             JZ_LCD_CTRL_OFUP | JZ_LCD_CTRL_BURST_16,
-> >>                             JZ_LCD_CTRL_OFUP | JZ_LCD_CTRL_BURST_16);
-> >>  
-> >>  +
-> >>  +       regmap_write(priv->map, JZ_REG_LCD_IPUR, JZ_LCD_IPUR_IPUREN
-> >>  +                    (ht * vpe / 3) << JZ_LCD_IPUR_IPUR_LSB);
-> > 
-> > This hunk also indicates that it may be better to merge the IPU within
-> > the existing driver.
-> 
-> This writes the IPUR register of the CRTC, nothing wrong here.
+On Tue, May 19, 2020 at 12:32:31PM -0400, Sasha Levin wrote:
+> +/*
+> + * Dxgkrnl Graphics Port Driver ioctl definitions
+> + *
+> + */
+> +
+> +#define LX_IOCTL_DIR_WRITE 0x1
+> +#define LX_IOCTL_DIR_READ  0x2
+> +
+> +#define LX_IOCTL_DIR(_ioctl)	(((_ioctl) >> 30) & 0x3)
+> +#define LX_IOCTL_SIZE(_ioctl)	(((_ioctl) >> 16) & 0x3FFF)
+> +#define LX_IOCTL_TYPE(_ioctl)	(((_ioctl) >> 8) & 0xFF)
+> +#define LX_IOCTL_CODE(_ioctl)	(((_ioctl) >> 0) & 0xFF)
 
-Since I noticed it in the above patch details, I think the mask when updating 
-the burst setting in the LCD_CTRL register should - in general - involve 
-multiple bits, since the BST field is 3 bits wide on the JZ4780 and 2 bits 
-wide on earlier products. Just setting BURST_16 (0b10) could potentially 
-enable BURST_32 (0b11) or other field values that are not explicitly defined.
+Why create new ioctl macros, can't the "normal" kernel macros work
+properly?
 
-Hope this is useful!
+> +#define LX_IOCTL(_dir, _size, _type, _code) (	\
+> +	(((uint)(_dir) & 0x3) << 30) |		\
+> +	(((uint)(_size) & 0x3FFF) << 16) |	\
+> +	(((uint)(_type) & 0xFF) << 8) |		\
+> +	(((uint)(_code) & 0xFF) << 0))
+> +
+> +#define LX_IO(_type, _code) LX_IOCTL(0, 0, (_type), (_code))
+> +#define LX_IOR(_type, _code, _size)	\
+> +	LX_IOCTL(LX_IOCTL_DIR_READ, (_size), (_type), (_code))
+> +#define LX_IOW(_type, _code, _size)	\
+> +	LX_IOCTL(LX_IOCTL_DIR_WRITE, (_size), (_type), (_code))
+> +#define LX_IOWR(_type, _code, _size)	\
+> +	LX_IOCTL(LX_IOCTL_DIR_WRITE |	\
+> +	LX_IOCTL_DIR_READ, (_size), (_type), (_code))
+> +
+> +#define LX_DXOPENADAPTERFROMLUID	\
+> +	LX_IOWR(0x47, 0x01, sizeof(struct d3dkmt_openadapterfromluid))
 
-Paul
+<snip>
+
+These structures do not seem to be all using the correct types for a
+"real" ioctl in the kernel, so you will have to fix them all up before
+this will work properly.
+
+> +void ioctl_desc_init(void);
+
+Very odd global name you are using here :)
+
+Anyway, neat stuff, glad to see it posted, great work!
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
