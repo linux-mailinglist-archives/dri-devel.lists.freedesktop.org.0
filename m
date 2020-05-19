@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01A71D8FBB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 08:06:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D18BE1D8FBC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 08:06:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FECE6E2D3;
-	Tue, 19 May 2020 06:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B916E2D5;
+	Tue, 19 May 2020 06:06:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 542F66E2D3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 06:06:38 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04J66a9j009474
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:36 -0500
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 523E06E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 06:06:51 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04J66nSM079754
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1589868396;
- bh=HbbY97rSc3v2E+uSqSwXDpZICZhGVIke3W/S0N8x0RA=;
+ s=ti-com-17Q1; t=1589868409;
+ bh=e4MplyhIQ/4B+rchzH8/zn4xt3f62tgosWEMxT2wcE0=;
  h=Subject:To:References:From:Date:In-Reply-To;
- b=JeyrT9laozOzRrxnp2Bdaxp97EZYl8Won6yqNnkpv+rMdmCZ+Sv6BBtokew1h8h96
- 8ckGvp+N39ntYdoQ8HbS77TCVgFRwZkmnlz0jwJBW6/0uSOP2CJlqHv0Yry0WsVEcV
- +gBQ+TnjYXVGGyRwXISWSFTNdcetsnmnh7/nI8ek=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04J66am5111003
+ b=cl8AhgbrtltAIPbMIQXX+sWj0xi2ngEimq2VDDgkMFHVpkR7GDn1LKaEYr6M9dWZ6
+ L6i/hOJXUij8FEk8WsAOwga9/vj6p9kFhSHalvvZ94PBpnw6YBftqv8LhtRQ7Xrbst
+ iNPozHAJEEjDui2fvFy7x2IoUqqtXK3YviZce3GI=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04J66nG1021411
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:36 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 01:06:49 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 19
- May 2020 01:06:36 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ May 2020 01:06:49 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 19 May 2020 01:06:36 -0500
+ Frontend Transport; Tue, 19 May 2020 01:06:49 -0500
 Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04J66ZTZ049226;
- Tue, 19 May 2020 01:06:35 -0500
-Subject: Re: [PATCH 1/3] drm/tilcdc: fix leak & null ref in
- panel_connector_get_modes
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04J66m5Y046394;
+ Tue, 19 May 2020 01:06:48 -0500
+Subject: Re: [PATCH 2/3] drm/tilcdc: remove unnecessary state->fb check
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>
 References: <20200429104234.18910-1-tomi.valkeinen@ti.com>
+ <20200429104234.18910-2-tomi.valkeinen@ti.com>
 From: Jyri Sarha <jsarha@ti.com>
 Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  xsFNBFbdWt8BEADnCIkQrHIvAmuDcDzp1h2pO9s22nacEffl0ZyzIS//ruiwjMfSnuzhhB33
@@ -84,12 +84,12 @@ Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
  uBrUXDDhCoiZnjQaNz/J+o9iYjuMTpY1Wp+igjIretYr9+kLvGsoPo/kTPWyiuh/WiFU2d6J
  PMCGFGhodTS5qmQA6IOuazek1qSZIl475u3E2uG98AEX/kRhSzgpsbvADPEUPaz75uvlmOCX
  tv+Sye9QT4Z1QCh3lV/Zh4GlY5lt4MwYnqFCxroK/1LpkLgdyQ4rRVw=
-Message-ID: <d5d7250b-5b53-66c0-a49e-4f0f92d3ba65@ti.com>
-Date: Tue, 19 May 2020 09:06:34 +0300
+Message-ID: <c0ac4dd3-adc9-c5d1-131a-8ce89b5c3e66@ti.com>
+Date: Tue, 19 May 2020 09:06:48 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200429104234.18910-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20200429104234.18910-2-tomi.valkeinen@ti.com>
 Content-Language: en-GB
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,44 +110,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/04/2020 13:42, Tomi Valkeinen wrote:
-> If videomode_from_timings() returns true, the mode allocated with
-> drm_mode_create will be leaked.
-> 
-> Also, the return value of drm_mode_create() is never checked, and thus
-> could cause NULL deref.
-> 
-> Fix these two issues.
+> tilcdc_plane_atomic_check() exits if state->fb == NULL, so no need to
+> check it again later.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 Reviewed-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/gpu/drm/tilcdc/tilcdc_panel.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/tilcdc/tilcdc_plane.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> index 5584e656b857..f66e2f2a1a35 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-> @@ -143,12 +143,16 @@ static int panel_connector_get_modes(struct drm_connector *connector)
->  	int i;
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
+> index e2090020b3a0..0d09b31ae759 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
+> @@ -62,8 +62,7 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
+>  		return -EINVAL;
+>  	}
 >  
->  	for (i = 0; i < timings->num_timings; i++) {
-> -		struct drm_display_mode *mode = drm_mode_create(dev);
-> +		struct drm_display_mode *mode;
->  		struct videomode vm;
->  
->  		if (videomode_from_timings(timings, &vm, i))
->  			break;
->  
-> +		mode =  drm_mode_create(dev);
-> +		if (!mode)
-> +			break;
-> +
->  		drm_display_mode_from_videomode(&vm, mode);
->  
->  		mode->type = DRM_MODE_TYPE_DRIVER;
+> -	if (state->fb && old_state->fb &&
+> -	    state->fb->format != old_state->fb->format) {
+> +	if (old_state->fb && state->fb->format != old_state->fb->format) {
+>  		dev_dbg(plane->dev->dev,
+>  			"%s(): pixel format change requires mode_change\n",
+>  			__func__);
 > 
 
 
