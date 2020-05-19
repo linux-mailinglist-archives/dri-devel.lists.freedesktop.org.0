@@ -2,37 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD051DA07F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 21:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B941DA078
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 21:06:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75B56E37C;
-	Tue, 19 May 2020 19:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C2F6E06E;
+	Tue, 19 May 2020 19:06:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF5486E37C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:07:10 +0000 (UTC)
-IronPort-SDR: wE48zOcmyP/Vr90PwxexwT379dPDms5aDfe8Ka8DNmV4hcUgoZWvGRk7QraSnMTjoVESBYbF13
- 8t33Wv9yk8xQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 12:07:10 -0700
-IronPort-SDR: 50RK9AIVUPrXPCXs4JJ18QIZe42FXHCUemhjsFQjp++n+ZjHsYMQ7Ai1Uz+63L0DGOmf1yhMxm
- AiuHoksWkG5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="343235784"
-Received: from miryad.jf.intel.com ([10.54.74.46])
- by orsmga001.jf.intel.com with ESMTP; 19 May 2020 12:07:06 -0700
-From: Carlos Santa <carlos.santa@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] libdrm: enclose __FreeBSD__ behind a define
-Date: Tue, 19 May 2020 12:04:58 -0700
-Message-Id: <20200519190458.15260-2-carlos.santa@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200519190458.15260-1-carlos.santa@intel.com>
-References: <20200519190458.15260-1-carlos.santa@intel.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E13A6E06E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 19:06:40 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1jb7ZS-0005bQ-Mf; Tue, 19 May 2020 21:06:34 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Johan Jonker <jbx6244@gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpu: arm,
+ mali-utgard: add additional properties
+Date: Tue, 19 May 2020 21:06:33 +0200
+Message-ID: <1740173.3xtLDEJ6Vg@diego>
+In-Reply-To: <20200519164425.9729-1-jbx6244@gmail.com>
+References: <20200519164425.9729-1-jbx6244@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,92 +38,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Carlos Santa <carlos.santa@intel.com>
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, maxime.ripard@free-electrons.com,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not doing the above can cause compilation errors on
-platforms that don't define it.
+Hi,
 
-[1/25] Compiling C object 'drm@sha/xf86drm.c.o.
-FAILED: drm@sha/xf86drm.c.o
-../xf86drm.c: In function 'drmGetMinorNameForFD':
-../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
- #elif __FreeBSD__
-       ^
-../xf86drm.c: In function 'drmParsePciBusInfo':
-../xf86drm.c:3258:7 error: "__FreeBSD__" is not defined [-Werror=undef]
- #elif __FreeBSD__
-       ^
-../x86drm.c: In function 'drmParsePciDeviceInfo':
-../x86drm.c:3427:7 error: "__FreeBSD__" is not defined [-Werror=undef]
- #elif __FreeBSD__
+Am Dienstag, 19. Mai 2020, 18:44:25 CEST schrieb Johan Jonker:
+> In the old txt situation we add/describe only properties that are used
+> by the driver/hardware itself. With yaml it also filters things in a
+> node that are used by other drivers like 'assigned-clocks' and
+> 'assigned-clock-rates' for some older Rockchip SoCs in 'gpu' nodes,
+> so add them to 'arm,mali-utgard.yaml'.
 
-../x86drm.c: In function 'drmGetDeviceNameFromFd2':
-../xf86drm.c:4305:7 error: "__FreeBSD__" is not defined [-Werror=undef]
- #elif __FreeBSD__
-       ^
-cc1: some warnigns being treated as errors
-ninja: build stopped: subcommand failed.
+though the other option would be to just get rid assigned-clocks
+in dt-node for utgard malis ;-)
 
-Signed-off-by: Carlos Santa <carlos.santa@intel.com>
----
- xf86drm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Like any good gpu, lima should just use frequency scaling to achieve
+suitable (fast <-> powersaving) frequencies and it looks like a set
+of patches for this was posted in december already [0].
 
-diff --git a/xf86drm.c b/xf86drm.c
-index b49d42f70dbe..3965b4be366d 100644
---- a/xf86drm.c
-+++ b/xf86drm.c
-@@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
-     snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
-              maj, min);
-     return stat(path, &sbuf) == 0;
--#elif __FreeBSD__
-+#elif defined(__FreeBSD__)
-     char name[SPECNAMELEN];
- 
-     if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
-@@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
- 
-     closedir(sysdir);
-     return NULL;
--#elif __FreeBSD__
-+#elif defined(__FreeBSD__)
-     struct stat sbuf;
-     char dname[SPECNAMELEN];
-     const char *mname;
-@@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
-     info->func = pinfo.func;
- 
-     return 0;
--#elif __FreeBSD__
-+#elif defined(__FreeBSD__)
-     return get_sysctl_pci_bus_info(maj, min, info);
- #else
- #warning "Missing implementation of drmParsePciBusInfo"
-@@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
-     device->subdevice_id = pinfo.subdevice_id;
- 
-     return 0;
--#elif __FreeBSD__
-+#elif defined(__FreeBSD__)
-     drmPciBusInfo info;
-     struct pci_conf_io pc;
-     struct pci_match_conf patterns[1];
-@@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
-     free(value);
- 
-     return strdup(path);
--#elif __FreeBSD__
-+#elif defined(__FreeBSD__)
-     return drmGetDeviceNameFromFd(fd);
- #else
-     struct stat      sbuf;
--- 
-2.20.1
+So I guess one could expect opp-based scaling to land at some point.
+
+Heiko
+
+[0] https://lwn.net/Articles/807444/
+
 
 _______________________________________________
 dri-devel mailing list
