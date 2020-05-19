@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EAD21D9E22
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 19:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7959C1D9FAD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 20:40:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206CF6E0C6;
-	Tue, 19 May 2020 17:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08C26E379;
+	Tue, 19 May 2020 18:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36D956E0C6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 17:45:55 +0000 (UTC)
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C369520708;
- Tue, 19 May 2020 17:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589910355;
- bh=cHlc8fE1J62ViyaQ+0PZQXd4ySJzfbVUiBcqPeFMo6c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E8lJ59iYq5qN9g5SNw929Bk2LZarSUCjLpKOR+STiiUp8RF00nDK7Y5Ewf8aKQAIp
- Qltp2vtjGOsydiVEmPGVYu+17orYXbehXtf6ah6q/pKagaGJXz7Bh8aU4UExvnuRzx
- hb/Blb8y4lfO7fm8oSFjaH2IsJMRqjF1Yj9bEudw=
-Date: Tue, 19 May 2020 13:45:53 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [RFC PATCH 1/4] gpu: dxgkrnl: core code
-Message-ID: <20200519174553.GF33628@sasha-vm>
-References: <20200519163234.226513-1-sashal@kernel.org>
- <20200519163234.226513-2-sashal@kernel.org>
- <20200519172105.GB1101627@kroah.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A78F46E379
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 18:40:33 +0000 (UTC)
+IronPort-SDR: SLknmig7lhkHyp+THR1gVCTR8sk42dIGJymKyWWbbsLygtAl5yiSSxOvAOL/hQen0kTcQIE5iq
+ 1ZDFNiFncR7w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 11:40:32 -0700
+IronPort-SDR: D+jm1xpsdiPApGucH8RonxhW2osAHv0gYp6yWvUx7peRxHsoQ0vFEHwV7Czh/gp76Png2rfKJj
+ 4SSgNhc/QOEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="264403264"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by orsmga003.jf.intel.com with ESMTP; 19 May 2020 11:40:32 -0700
+Date: Tue, 19 May 2020 11:40:32 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
+ pagefault/preempt twice
+Message-ID: <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200518184843.3029640-1-ira.weiny@intel.com>
+ <20200519165422.GA5838@roeck-us.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519172105.GB1101627@kroah.com>
+In-Reply-To: <20200519165422.GA5838@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,60 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, sthemmin@microsoft.com,
- tvrtko.ursulin@intel.com, haiyangz@microsoft.com, spronovo@microsoft.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris@chris-wilson.co.uk, wei.liu@kernel.org, linux-fbdev@vger.kernel.org,
- iourit@microsoft.com, alexander.deucher@amd.com, kys@microsoft.com,
- Hawking.Zhang@amd.com
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 19, 2020 at 07:21:05PM +0200, Greg KH wrote:
->On Tue, May 19, 2020 at 12:32:31PM -0400, Sasha Levin wrote:
->> +
->> +#define DXGK_MAX_LOCK_DEPTH	64
->> +#define W_MAX_PATH		260
->
->We already have a max path number, why use a different one?
+On Tue, May 19, 2020 at 09:54:22AM -0700, Guenter Roeck wrote:
+> On Mon, May 18, 2020 at 11:48:43AM -0700, ira.weiny@intel.com wrote:
+> > From: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > The kunmap_atomic clean up failed to remove one set of pagefault/preempt
+> > enables when vaddr is not in the fixmap.
+> > 
+> > Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> microblazeel works with this patch,
 
-It's max path for Windows, not Linux (thus the "W_" prefix) :)
+Awesome...  Andrew in my rush yesterday I should have put a reported by on the
+patch for Guenter as well.
 
-Maybe changing it to WIN_MAX_PATH or such will make it better?
+Sorry about that Guenter,
+Ira
 
->> +#define d3dkmt_handle		u32
->> +#define d3dgpu_virtual_address	u64
->> +#define winwchar		u16
->> +#define winhandle		u64
->> +#define ntstatus		int
->> +#define winbool			u32
->> +#define d3dgpu_size_t		u64
->
->These are all ripe for a simple search/replace in your editor before you
->do your next version :)
-
-I've actually attempted that, and reverted that change, mostly because
-the whole 'handle' thing became very confusing.
-
-Note that we have a few 'handles', each with a different size, and thus
-calling get_something_something_handle() type of functions becase very
-confusing since it's not clear what handle we're working with in that
-case.
-
-With regards to the rest, I wanted to leave stuff like 'winbool' to
-document the expected ABI between the Windows and Linux side of things.
-Ideally it would be 'bool' or 'u8', but as you see we had to use 'u32'
-here which I feel lessens our ability to have the code document itself.
-
-I don't feel too strongly against doing the conversion, and I won't
-object to doing it if you do, but just be aware that I've tried it and
-preferred to go back (even though our coding style doesn't like this) :)
-
--- 
-Thanks,
-Sasha
+> as do the nosmp sparc32 boot tests,
+> but sparc32 boot tests with SMP enabled still fail with lots of messages
+> such as:
+> 
+> BUG: Bad page state in process swapper/0  pfn:006a1
+> page:f0933420 refcount:0 mapcount:1 mapping:(ptrval) index:0x1
+> flags: 0x0()
+> raw: 00000000 00000100 00000122 00000000 00000001 00000000 00000000 00000000
+> page dumped because: nonzero mapcount
+> Modules linked in:
+> CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B             5.7.0-rc6-next-20200518-00002-gb178d2d56f29 #1
+> [f00e7ab8 :
+> bad_page+0xa8/0x108 ]
+> [f00e8b54 :
+> free_pcppages_bulk+0x154/0x52c ]
+> [f00ea024 :
+> free_unref_page+0x54/0x6c ]
+> [f00ed864 :
+> free_reserved_area+0x58/0xec ]
+> [f0527104 :
+> kernel_init+0x14/0x110 ]
+> [f000b77c :
+> ret_from_kernel_thread+0xc/0x38 ]
+> [00000000 :
+> 0x0 ]
+> 
+> Code path leading to that message is different but always the same
+> from free_unref_page().
+> 
+> Still testing ppc images.
+> 
+> Guenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
