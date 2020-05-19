@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA86E1DA2EE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 22:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71B31DA363
+	for <lists+dri-devel@lfdr.de>; Tue, 19 May 2020 23:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D944789DB5;
-	Tue, 19 May 2020 20:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBA16E091;
+	Tue, 19 May 2020 21:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8EE89D9A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 20:41:26 +0000 (UTC)
-Received: by mail-oo1-xc43.google.com with SMTP id p123so253426oop.12
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 13:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=KqlY0HTT+IOHyYqsNVke69dYQGA7KHepidrczDemEV0=;
- b=QGdyhJkp1DdKBLPoQNQnIKYhC6fJq0diB6e3HUnQosmcbIHkLgsPCnpZZi9nhFUBFR
- ufALg9+CDJQTkIQruWIWbMiIcF8x8D/WIXcptC6CfuaVQF9VEhxW1ob6ud8UhpSGeqgZ
- 0jEzm47h0mp5kRVqaZC50bC3SLA3QwhfruNp0=
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625256E091
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 21:17:45 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id n18so751329wmj.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 14:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UrBghAL5CPtw/Nggrgh37CwRoMhdgtGcnzOBXGkN41E=;
+ b=TgjdqjgkUPa75MEFE4xAFZFGv1E1DgFAC1F82WUpDVPTO7iKyR5qdX/dQ3dxhgXBZj
+ LCrQzmmhWU+8qSfEzR3npbQM/arN2gLGFLlhLFRau8KjsmGrQxFizIthZys91trAvB52
+ ssnpc5dPKoJeMGh+KRsxIFBQ/M+r5tFmF6qTpqtG/tO0kWjQP/tKTgzHOncPEWuuA4+D
+ ggHEXQzDebpEh8Z9pXVmJFK+ez59x0jBI8hwGsrEi1CMkdNaGgC8uhJOh3BkStUqPitK
+ DJfRa7Rk0qlN7hhfhTf0hRhsT2h3FFMyzVNMgMDQH3aMtlDgaPTjpGOdo9XnIKLhh1dN
+ wA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=KqlY0HTT+IOHyYqsNVke69dYQGA7KHepidrczDemEV0=;
- b=UahpbyY4oKq8XG/udWQFs52eEeslmSKGDgDi0/vWwRiHafCEbK+3REw1NVun+DWEqh
- auRtECUYgbVVEPIW9Bm02Bmy0KJzVIDm2l5yc4vPKodAryinnUz7cUYI5BryFbQX/yx6
- 0KEoVI9Uz1YzGs1myQzJOHC4lkZCtpGZ9Y3t4SsMipCuVRum/33JqczlnQ7/xAUx97SX
- k1aMhEd2cd65HH3f7OPc0ukJAk2BauB6BeRs7TWO5GkLALOlPR+LKnlmEnrUq3/Q1WaH
- wWAjP04VKWBP+DoRe5jQaZNCdgj4ySLbixbHFgaXHCPv8q85U3bl8ZSseJT17WZay7UB
- SGug==
-X-Gm-Message-State: AOAM531QsllOno8+LUk0WqEGHmDYexT09e7VZkoPxTdoEESggYU68pmd
- fSBaDMItVdhhYkONkk8SEGay6DlB0FbSt7ZsHTLPTw==
-X-Google-Smtp-Source: ABdhPJy+sQPtCXPvRCO/dG83ZBie1tD9S+4htYq0udq/GYRMDdPlJYAdylJ2iilHdgbiPgeFjf/3wmKXl3/gjVPYxwo=
-X-Received: by 2002:a4a:d136:: with SMTP id n22mr785994oor.85.1589920886046;
- Tue, 19 May 2020 13:41:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UrBghAL5CPtw/Nggrgh37CwRoMhdgtGcnzOBXGkN41E=;
+ b=mNQfsbwqRefS2XGoNYBFyvzYa0WohWyj7SzkxzP4M1lVe1ItjcrLbmlxG5pIqZHSVD
+ VRAh5pz2lCPPMjQQjtxpN1UjYj1RAo5A695cCq3fR5QPjOz+RME1aB/u0WeYtIbbjrdU
+ iddeUbnlNQhLmQxRbIlSqO/Vwa4KR/wabY8d31IdMtlDNezAD/D5EqUNnJK73x0koiG6
+ 2LTyQ4ItBNdh3ghJZM8SzqcX6uU8BeemP34maZoeC6sdiNKDp9HCiYKf9jWJQiYq8rS2
+ j8eNS5QE8WO5d+zSvkPQEY2g2dJeb1jKmabLPgh47pUG5nn3wehda+QV/BNjbsVkx2pB
+ OtNg==
+X-Gm-Message-State: AOAM533TCyVPBD2jqvsvVgkfVv6FfMAN84TEA1FM9m4qxjHhVCWpxRG8
+ jqsOrtwDVxacAAxU6OqkzTjQ/RU6
+X-Google-Smtp-Source: ABdhPJzNoq+nTV4mzeUKHdB6/aKVEe21pblSTqDQWAVzZ699ciNkqr7KBNv5A61nhuwdTK5d80UkiQ==
+X-Received: by 2002:a1c:2bc1:: with SMTP id r184mr1360259wmr.58.1589923063698; 
+ Tue, 19 May 2020 14:17:43 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc91192-cmbg18-2-0-cust374.5-4.cable.virginm.net. [80.6.113.119])
+ by smtp.gmail.com with ESMTPSA id z9sm710425wrp.66.2020.05.19.14.17.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 14:17:42 -0700 (PDT)
+From: Emil Velikov <emil.l.velikov@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] linux/bits.h: adjust GENMASK_INPUT_CHECK() check
+Date: Tue, 19 May 2020 22:14:52 +0100
+Message-Id: <20200519211452.422179-1-emil.l.velikov@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200519101320.33495-1-emil.l.velikov@gmail.com>
+References: <20200519101320.33495-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 19 May 2020 22:41:15 +0200
-Message-ID: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Olof Johansson <olof.johansson@gmail.com>, Jason Gunthorpe <jgg@mellanox.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,107 +67,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, wufan@codeaurora.org,
- Jeffrey Hugo <jhugo@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
- LKML <linux-kernel@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, emil.l.velikov@gmail.com,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 19, 2020 at 07:41:20PM +0200, Greg Kroah-Hartman wrote:
-> On Tue, May 19, 2020 at 08:57:38AM -0600, Jeffrey Hugo wrote:
-> > On 5/18/2020 11:08 PM, Dave Airlie wrote:
-> > > On Fri, 15 May 2020 at 00:12, Jeffrey Hugo <jhugo@codeaurora.org> wrote:
-> > > >
-> > > > Introduction:
-> > > > Qualcomm Cloud AI 100 is a PCIe adapter card which contains a dedicated
-> > > > SoC ASIC for the purpose of efficently running Deep Learning inference
-> > > > workloads in a data center environment.
-> > > >
-> > > > The offical press release can be found at -
-> > > > https://www.qualcomm.com/news/releases/2019/04/09/qualcomm-brings-power-efficient-artificial-intelligence-inference
-> > > >
-> > > > The offical product website is -
-> > > > https://www.qualcomm.com/products/datacenter-artificial-intelligence
-> > > >
-> > > > At the time of the offical press release, numerious technology news sites
-> > > > also covered the product.  Doing a search of your favorite site is likely
-> > > > to find their coverage of it.
-> > > >
-> > > > It is our goal to have the kernel driver for the product fully upstream.
-> > > > The purpose of this RFC is to start that process.  We are still doing
-> > > > development (see below), and thus not quite looking to gain acceptance quite
-> > > > yet, but now that we have a working driver we beleive we are at the stage
-> > > > where meaningful conversation with the community can occur.
-> > >
-> > >
-> > > Hi Jeffery,
-> > >
-> > > Just wondering what the userspace/testing plans for this driver.
-> > >
-> > > This introduces a new user facing API for a device without pointers to
-> > > users or tests for that API.
-> >
-> > We have daily internal testing, although I don't expect you to take my word
-> > for that.
-> >
-> > I would like to get one of these devices into the hands of Linaro, so that
-> > it can be put into KernelCI.  Similar to other Qualcomm products. I'm trying
-> > to convince the powers that be to make this happen.
-> >
-> > Regarding what the community could do on its own, everything but the Linux
-> > driver is considered proprietary - that includes the on device firmware and
-> > the entire userspace stack.  This is a decision above my pay grade.
->
-> Ok, that's a decision you are going to have to push upward on, as we
-> really can't take this without a working, open, userspace.
+Recently the GENMASK_INPUT_CHECK() was added, aiming to catch cases
+where there GENMASK arguments are flipped.
 
-Uh wut.
+Although it seems to be triggering -Wtype-limits in the following cases:
 
-So the merge criteria for drivers/accel (atm still drivers/misc but I
-thought that was interim until more drivers showed up) isn't actually
-"totally-not-a-gpu accel driver without open source userspace".
+   unsigned foo = (10 + x);
+   unsigned bar = GENMASK(foo, 0);
 
-Instead it's "totally-not-a-gpu accel driver without open source
-userspace" _and_ you have to be best buddies with Greg. Or at least
-not be on the naughty company list. Since for habanalabs all you
-wanted is a few test cases to exercise the ioctls. Not the entire
-userspace.
+   const unsigned foo = (10 + x);
+   unsigned bar = GENMASK(foo, 0);
 
-The most bonkers part here is that drivers/gpu actually does have a bunch
-of active contributors from codeaurora ...
+Here are the warnings, from my GCC 9.2 box.
 
-> Especially given the copyright owner of this code, that would be just
-> crazy and foolish to not have open userspace code as well.  Firmware
-> would also be wonderful as well, go poke your lawyers about derivative
-> work issues and the like for fun conversations :)
->
-> So without that changed, I'm not going to take this, and push to object
-> that anyone else take this.
->
-> I'm not going to be able to review any of this code anymore until that
-> changes, sorry.
+warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
+                            ^
+warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   __builtin_constant_p((l) > (h)), (l) > (h), 0)))
+                                        ^
 
-So you couldn't review the habanalabs driver either?
+This results in people disabling the warning all together or promoting
+foo to signed. Either of which being a sub par option IMHO.
 
-Get some consistency into your decision making as maintainer. And don't
-tell me or anyone else that this is complicated, gpu and rdma driver folks
-very much told you and Olof last year that this is what you're getting
-yourself into.
+Add a trivial "+ 1" to each h and l in the constant expression.
 
-Cheers, Daniel
+v2: drop accidental !
 
-PS: I guess congrats for figuring out you can't write a totally-not-a-gpu
-accel driver without making kernel and userspace parts derivatives works
-of each another. We told you that last year.
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Fixes: 295bcca84916 ("linux/bits.h: add compile time sanity check of
+GENMASK inputs")
+Cc: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+---
+ include/linux/bits.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/bits.h b/include/linux/bits.h
+index 4671fbf28842..02a42866d198 100644
+--- a/include/linux/bits.h
++++ b/include/linux/bits.h
+@@ -23,7 +23,7 @@
+ #include <linux/build_bug.h>
+ #define GENMASK_INPUT_CHECK(h, l) \
+ 	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
+-		__builtin_constant_p((l) > (h)), (l) > (h), 0)))
++		__builtin_constant_p((l + 1) > (h + 1)), (l + 1) > (h + 1), 0)))
+ #else
+ /*
+  * BUILD_BUG_ON_ZERO is not available in h files included from asm files,
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
