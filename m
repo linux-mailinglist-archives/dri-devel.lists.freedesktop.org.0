@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA291DBCAE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F891DBCC6
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC676E884;
-	Wed, 20 May 2020 18:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC53E6E882;
+	Wed, 20 May 2020 18:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF1B589D2F;
- Wed, 20 May 2020 18:21:21 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id u188so3917210wmu.1;
- Wed, 20 May 2020 11:21:21 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8B476E881;
+ Wed, 20 May 2020 18:25:28 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id j5so4201309wrq.2;
+ Wed, 20 May 2020 11:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RW8P2ENxQMCRzJDvhD6yay/4wTNgEveKbVybNJiHgVo=;
- b=IJeSS+krA8BtcjjkI47iWUeYnFuBSbFDXEP2RNUnOMWW5cZeNSgk+DVsm4/yZxPNAz
- 4ezHVkCWd2qDdZ8SjSzgAAt0DjfVbkWimRZVm+WR9wT0/SKcLMYkWBvnUZ7pj9sAWUsL
- ZgmPy2iZ28uJqlh+QSHst7qpORZOUvAzMfF1b52kEFMzglrR+Fh8cVq2LKtQ3qvCG5gV
- IWdqLYAOdCwkkYSx5UZFd9b5vYHO8lsF+rCypmOHyJDAuAhuz9QemgjE44UNIRa2iZQ3
- 44WhDBjFLLW/HYFqWjH6BkzwJNaN3y/oZMO9bVJjv37evfX8IEKmg7CSxANYY+MQCBe8
- LIuA==
+ :cc; bh=eo5b5Se1PSc+moZJJbYXSgJ+J/ZLwfHiAKwCJ3IRv2g=;
+ b=lUIyRGqQJwAX5lPMNTKe5zE7DSioAUBS7Qoev22rUtbOYnnd5+tPPa1nfpRe2cBkGS
+ GibQkb+MaIhZ+EmzDyXJe254ILbfOLz/Yq+eGpTaOD7nmhLc+SJQgfu/Np2ZM6HSlzBL
+ 0W9RYG+He6jQOoGe1TTpdWbE+soWCcQuiWP1HcROjbcqjI5o+5jmtrSjcAo2Y9UxFXJp
+ N+kCPLdYqKUmdkTECOz4C1S7xjeQhEKu/49AMU1Tt96w1A/GcuppAHSy+ED/Km1kT+Ku
+ GRSKMem2OcIPhJU2KypAUXpEX9InYCLm5jVBFf3SDe96tERhV6gwk1d0KCcaL/Lzc0sZ
+ GhQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RW8P2ENxQMCRzJDvhD6yay/4wTNgEveKbVybNJiHgVo=;
- b=IZTxTwpi0y2F6TF21jafPHXxL0ZozuYy7SXOqONJt+lOVghcwezr7+wipZTjb2EnJR
- lZk/jO3VpEfX2sMc8DXsFK+5NP3L09ol1GvAZrT0GJREPNtV3aPCA5VNw/sf+4c6YnET
- kCuYPFTP/J2dRzM0W9ebehQpjZ7sXce9OSn6YcuxrACF4FJ7eJs+sQB9pf+9VndjUYAF
- mdkCF8AGcS2oPYjO7jwZRX4nd1iJ/aSkocM2oA17yHk8r60Rt8PeKU7CmN9uGFGk3Cfc
- l+0yPdz9wDd1VSxnV4FithZnLjTR54QbgaZMl2DI6/ijTPhor5O7bkd1yGsWtoTKZGb5
- pwwg==
-X-Gm-Message-State: AOAM530hZog02qXzyyhS2zLf+RzFYUdiypOthCT+3AZq+13ij4lG28qm
- e53FqKLQ3vLOiie9riuIuetEMVpLIktG0mQxrewJew==
-X-Google-Smtp-Source: ABdhPJxCW5X0NOlDHehi0pwlVrhAXnzeTfYJOtmzMEsCtQvgrfQ3aAfUCod8O8QieU4Qp1Bg6CBcbd7ODrrsnDAhjMA=
-X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr5643658wmh.39.1589998880315; 
- Wed, 20 May 2020 11:21:20 -0700 (PDT)
+ bh=eo5b5Se1PSc+moZJJbYXSgJ+J/ZLwfHiAKwCJ3IRv2g=;
+ b=NfdDVT32nVsEy3Q8f21xWTEDkpV6o/akm7GXbyvU/lgb8taVdUkLtiMKDjaaXZqTyF
+ yQxZhImEfcz/NBHDjgt5/KUuT3pP+vWybNIpiPS7xZB4NC18bjT+/HfQPYLl4sNIrHdc
+ ZLEf/oo/GKYP+gA/zwI+Zx5zkSEHFzxMiUIKU7zP/JE23Ao1WFpIFBldsLz0LTIt3FM6
+ 7yOZVywZD6Am3hjfZHDAuRSAAfpCGOuh7Cqs0oHyyCjxfhaxgOUGQo1QjZ88Wj2f/mb8
+ JCoDfltIZLZfAA/JTFW0hYJCDfrn1+xQ4PlmCQmLVrRuOsEFWLraWvav4WNxU0CkDIIW
+ f/YA==
+X-Gm-Message-State: AOAM530V0HX0T51rsHE9ABKl3PbVMni83gk7g9XSkrKH6W3QIk7XIyxg
+ V3TpkrRAMqJSaVLYj4oG6gZwVbKaosESsvAxVck=
+X-Google-Smtp-Source: ABdhPJwwNH9GyngZ86V++iCPkPEabkBknCVgBVrDATleJ7ReCJbvrjjWRUOeftgiuvN1mLs1JOGgy3eznBMpVtsNVSk=
+X-Received: by 2002:a05:6000:14b:: with SMTP id
+ r11mr5592972wrx.124.1589999127661; 
+ Wed, 20 May 2020 11:25:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200520135306.11221-1-aurabindo.pillai@amd.com>
-In-Reply-To: <20200520135306.11221-1-aurabindo.pillai@amd.com>
+References: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
+ <20200515051924.12331-3-mario.kleiner.de@gmail.com>
+ <7ab95258-02a9-fd39-6806-e6e81ddc295c@amd.com>
+In-Reply-To: <7ab95258-02a9-fd39-6806-e6e81ddc295c@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 20 May 2020 14:21:08 -0400
-Message-ID: <CADnq5_MBME9=yu=fdK-NWgEEZYUwBH-c7Ra7Mg-NrSru9zBS9g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/amdkfd: Fix large framesize for kfd_smi_ev_read()
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Date: Wed, 20 May 2020 14:25:16 -0400
+Message-ID: <CADnq5_MJzLC4q8MU9GTmVLzN1kHxy9m15nm3WwsCoPUb-0d2WA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amd/display: Enable fp16 also on DCE-11.0 -
+ DCE-12.
+To: Harry Wentland <hwentlan@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,94 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Amber Lin <Amber.Lin@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 20, 2020 at 9:53 AM Aurabindo Pillai
-<aurabindo.pillai@amd.com> wrote:
+On Wed, May 20, 2020 at 12:39 PM Harry Wentland <hwentlan@amd.com> wrote:
 >
-> The buffer allocated is of 1024 bytes. Allocate this from
-> heap instead of stack.
+> On 2020-05-15 1:19 a.m., Mario Kleiner wrote:
+> > Testing on a Polaris11 gpu with DCE-11.2 suggests that it
+> > seems to work fine there, so optimistically enable it for
+> > DCE-11 and later.
+> >
+> > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 2 +-
+> >  drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c | 2 +-
+> >  drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c | 2 +-
+> >  3 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > index 9597fc79d7fa..a043ddae5149 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > @@ -410,7 +410,7 @@ static const struct dc_plane_cap plane_cap = {
+> >               .pixel_format_support = {
+> >                               .argb8888 = true,
+> >                               .nv12 = false,
+> > -                             .fp16 = false
+> > +                             .fp16 = true
 >
-> Also remove check for stack size since we're allocating from heap
->
-> Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-> Tested-by: Amber Lin <Amber.Lin@amd.com>
+> Carrizo (DCE 11.0) has a HW bug where FP16 scaling doesn't work. I
+> recommend we leave it off here.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+I'll drop this hunk for upstream.
 
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 26 +++++++++++++++------
->  1 file changed, 19 insertions(+), 7 deletions(-)
+Alex
+
 >
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> index f5fd18eacf0d..5aebe169f8c6 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-> @@ -77,9 +77,11 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
->         int ret;
->         size_t to_copy;
->         struct kfd_smi_client *client = filep->private_data;
-> -       unsigned char buf[MAX_KFIFO_SIZE];
-> +       unsigned char *buf;
+> Harry
 >
-> -       BUILD_BUG_ON(MAX_KFIFO_SIZE > 1024);
-> +       buf = kzalloc(MAX_KFIFO_SIZE * sizeof(*buf), GFP_KERNEL);
-> +       if (!buf)
-> +               return -ENOMEM;
->
->         /* kfifo_to_user can sleep so we can't use spinlock protection around
->          * it. Instead, we kfifo out as spinlocked then copy them to the user.
-> @@ -88,19 +90,29 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
->         to_copy = kfifo_len(&client->fifo);
->         if (!to_copy) {
->                 spin_unlock(&client->lock);
-> -               return -EAGAIN;
-> +               ret = -EAGAIN;
-> +               goto ret_err;
->         }
->         to_copy = min3(size, sizeof(buf), to_copy);
->         ret = kfifo_out(&client->fifo, buf, to_copy);
->         spin_unlock(&client->lock);
-> -       if (ret <= 0)
-> -               return -EAGAIN;
-> +       if (ret <= 0) {
-> +               ret = -EAGAIN;
-> +               goto ret_err;
-> +       }
->
->         ret = copy_to_user(user, buf, to_copy);
-> -       if (ret)
-> -               return -EFAULT;
-> +       if (ret) {
-> +               ret = -EFAULT;
-> +               goto ret_err;
-> +       }
->
-> +       kfree(buf);
->         return to_copy;
-> +
-> +ret_err:
-> +       kfree(buf);
-> +       return ret;
->  }
->
->  static ssize_t kfd_smi_ev_write(struct file *filep, const char __user *user,
-> --
-> 2.25.1
->
+> >               },
+> >
+> >               .max_upscale_factor = {
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > index 4a7796de2ff5..51b3fe502670 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > @@ -411,7 +411,7 @@ static const struct dc_plane_cap plane_cap = {
+> >       .pixel_format_support = {
+> >                       .argb8888 = true,
+> >                       .nv12 = false,
+> > -                     .fp16 = false
+> > +                     .fp16 = true
+> >       },
+> >
+> >       .max_upscale_factor = {
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > index 9a9764cbd78d..8f362e8c1787 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > @@ -516,7 +516,7 @@ static const struct dc_plane_cap plane_cap = {
+> >       .pixel_format_support = {
+> >                       .argb8888 = true,
+> >                       .nv12 = false,
+> > -                     .fp16 = false
+> > +                     .fp16 = true
+> >       },
+> >
+> >       .max_upscale_factor = {
+> >
 > _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
