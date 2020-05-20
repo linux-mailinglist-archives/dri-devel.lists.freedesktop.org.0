@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB561DB34B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 14:32:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FB61DE040
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B70DA89107;
-	Wed, 20 May 2020 12:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BC36E3C4;
+	Fri, 22 May 2020 06:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54566E83E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 12:32:45 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f134so2386762wmf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/deUJnTldSvb/fI/BuOywc8/Or2D1dLy+43R64sSykQ=;
- b=KTzb8QOjD+49px1rebn6enlaJ8SuaiylzhRLQ9b6WNwYgko/Dk+4fOm/W+FhtxmhmB
- 68bXxxrNWntFGbIrXVQn4Fn5NI81lChPnv/5cJLb43pcnskSbLneibnlbdwroi9m02V1
- CDMdWoKt/PNKJMftm12ZTg0rmulUbVaS4X8IQ=
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAFE06E15A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 12:33:19 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id n24so3615774ejd.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:33:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:reply-to:mime-version
+ :content-transfer-encoding;
+ bh=ehjzIXJVfsowwKW5tw7J90PSE9awheuDdbtm+lGfy+0=;
+ b=BqWz+Mjkdf25ceZl5lM/8TkPSm4mOKkEmmBbB3aA90LBphd4FCgSN6lu9CLOnLtvGM
+ YJXawJ3D5azc9laESl9RhS58KSyP9nNMCJTXgRupguj4+3odu6RY4QO5VHZKWsp0Ybwa
+ FOuj7T9a5DSnOcyYnDlB3w5P/YLr/y/l1h5e0JDm0X4j013sOycht6IaMKacwpGAOxmb
+ FcA1PyyizzplaJ63zJePreJXyuYA2kRXc56lvy+seFoPUpmtnOmN1ZMl5RwAANWBLKFO
+ MXOeU09ocwmACLUaSc4bmt8XqaiGlpr7O5qJtP8+GNFbOiWJZr0duWuVrR9YQIsDEVK4
+ AJpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/deUJnTldSvb/fI/BuOywc8/Or2D1dLy+43R64sSykQ=;
- b=IHazlulBINekFyJHLoOvZz3v92zIz5TuN0VNMpyzWlHull4J+FSzR3uhTm+HdrkdP/
- wRfCcvesiIkR4RHQQv+kbXGWPeGrpkVprZ7GAsH4pqUaptqNQcUqIJXl15VMGIqqNuhk
- eSnnO6lL77RNvX/hofsJehppql5WlYIZeTSFJrxwOOuXpdoVFgjxnPd/cCpEj7rSfhzB
- yxIMMhwtyFcPmVoejs7Rgan0660wBXC7wNuQcb1ypdQRRzAoI9ipP/L57maxgaccH8wl
- yl9mcyPHcnYYFr/ICAxPORB5MsxhytuxEd76ROeBUEeuzPT9TRtb3LKf3oKSCB7GGlSU
- zQZg==
-X-Gm-Message-State: AOAM532+7O7CegMY+BQugRBSAK6kEvsZIJ1MrkmvdKCvcQp526qqrXSt
- Wre3Xhp3O1DZjtRQo5dBXlTnIg==
-X-Google-Smtp-Source: ABdhPJxJ0tqiZ7hvCYPBf3Hnry7UOh7Ankb5afwSlyf3TqILvQUkeyPTDev3pouMYQMN6Zzg6FbOxQ==
-X-Received: by 2002:a05:600c:2dd7:: with SMTP id
- e23mr4398854wmh.96.1589977964372; 
- Wed, 20 May 2020 05:32:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l12sm3071803wrh.20.2020.05.20.05.32.43
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+ :mime-version:content-transfer-encoding;
+ bh=ehjzIXJVfsowwKW5tw7J90PSE9awheuDdbtm+lGfy+0=;
+ b=lAq0j2JU6SXQO5F6l5tf+jxiTehb8eyPf162oohUvwGERmUVulIL1uMyh6xmUPfgop
+ pAon8guTpEKodA+pb51U22arY4lQRHsqdn6yblNgcZGIOmTdSa1C59wBM4q4gHv1a5/V
+ x5qlwJvgE3/+RgLPYOaNUS8JyKbT8ep2ne9gILX2ssGbSVG6efLp0bY++7OaQwbRuhBk
+ HRYloHhz7ongSiO51kNnjDWqjTnGFYEikKoJWylwnAGc+9RGMvQrXoDt/EjePYIzFxES
+ I95uzW2QMoYZ4D03krN1VvMQ3tsZRxHCI/Z0roadi86KyjMEryfdOlcMDTjpH8AAo+yU
+ PwWw==
+X-Gm-Message-State: AOAM532KtWHRk2NmE7V4Zq8nv2ANZYhNu5ImVb5hnLB5C6cLyKqZbhVk
+ 0HUksQcfA4mgSPYuD2UlyB24LdfIP4g=
+X-Google-Smtp-Source: ABdhPJxgjs2yn44rYaccct8jkxe50KpOY/oVVEhDMva6TEQv1F6iwZdeaWjxN0qyKVzlZwvoRi1dAg==
+X-Received: by 2002:a17:906:dd8:: with SMTP id
+ p24mr3357070eji.93.1589977997979; 
+ Wed, 20 May 2020 05:33:17 -0700 (PDT)
+Received: from localhost.localdomain
+ (p200300c58f225e00cb12a21916b827a8.dip0.t-ipconnect.de.
+ [2003:c5:8f22:5e00:cb12:a219:16b8:27a8])
+ by smtp.gmail.com with ESMTPSA id s17sm1788637edr.84.2020.05.20.05.33.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 05:32:43 -0700 (PDT)
-Date: Wed, 20 May 2020 14:32:41 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH] Lenovo X13 Yoga OLED panel brightness fix
-Message-ID: <20200520123241.GU206103@phenom.ffwll.local>
-References: <SG2PR03MB3324FE6FB77A226167E9BC31BDB80@SG2PR03MB3324.apcprd03.prod.outlook.com>
- <720829f7946b42fb50ca071b0321cf89650affa7.camel@redhat.com>
- <afc19ae508137f18996f2cb11312d232e89eaf59.camel@redhat.com>
+ Wed, 20 May 2020 05:33:17 -0700 (PDT)
+From: Nirmoy Das <nirmoy.aiemd@gmail.com>
+X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/1] drm: check for NULL pointer in drm_gem_object_put
+Date: Wed, 20 May 2020 14:33:27 +0200
+Message-Id: <20200520123327.87476-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <afc19ae508137f18996f2cb11312d232e89eaf59.camel@redhat.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +69,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Mark Pearson <mpearson@lenovo.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: 20200520123118.85706-1-nirmoy.das@amd.com
+Cc: Nirmoy Das <nirmoy.das@amd.com>, emil.l.velikov@gmail.com,
+ christian.koenig@amd.com, nirmoy.aiemd@gmail.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 18, 2020 at 07:13:58PM -0400, Lyude Paul wrote:
-> ok-actually, I'm not sure dim will actually allow me to push this because this
-> never hit dri-devel as a properly formatted patch (because of the --------------
-> ---------- you put at the top of the branch confusing things)
-> 
-> Can you try again without adding any comments, and ideally see if lenovo can
-> make it so you can just use git send-email? (unfortunately you're really not
-> going to be able to work around this if you'll need to be submitting patches
-> more regularly in the future I'm afraid)
-
-Other option is hand-edit the patch and then manually add the msg-id
-reference with dim add-links (or whatever it was) so the archive links are
-too much off. That should work all somehow.
-
-Still yeah gitlab mr would be neater.
--Daniel
-
-> 
-> On Mon, 2020-05-18 at 18:43 -0400, Lyude Paul wrote:
-> > Yeah, git send-email is kinda :(, but unfortunately the entire kernel uses
-> > this
-> > workflow. Hopefully freedesktop's gitlab efforts will change this someday...
-> > 
-> > also - in the future, if you don't want comments to appear in the patch when
-> > they're applied put them below the ---, e.g. the one before the Reviewed-by:
-> > tag.
-> > 
-> > Anyway-I'll go ahead and push this, thanks for keeping this list up to date!
-> > 
-> > On Mon, 2020-05-18 at 00:06 +0000, Mark Pearson wrote:
-> > > Hi,
-> > > 
-> > > Patch to fix an issue controlling the brightness of the OLED panel on the
-> > > Lenovo X13 Yoga 
-> > > Please let me know any feedback or questions.
-> > > Note - apologies if this message has shown up before - I had some mail
-> > > client
-> > > issues.
-> > > 
-> > > Mark Pearson
-> > > ---------------------------------
-> > > 
-> > > Add another panel that needs the edid quirk to the list so that brightness 
-> > > control works correctly. Fixes issue seen on Lenovo X13 Yoga with OLED panel
-> > > 
-> > > Co-developed-by: jendrina@lenovo.com
-> > > Signed-off-by: jendrina@lenovo.com
-> > > Signed-off-by: Mark Pearson <mpearson@lenovo.com>
-> > > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > > ---
-> > > drivers/gpu/drm/drm_dp_helper.c | 1 +
-> > > 1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_dp_helper.c
-> > > b/drivers/gpu/drm/drm_dp_helper.c
-> > > index c6fbe6e6bc9d..41f0e797ce8c 100644
-> > > --- a/drivers/gpu/drm/drm_dp_helper.c
-> > > +++ b/drivers/gpu/drm/drm_dp_helper.c
-> > > @@ -1313,6 +1313,7 @@ static const struct edid_quirk edid_quirk_list[] = {
-> > >                { MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41),
-> > > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > >                { MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14),
-> > > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > >                { MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14),
-> > > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > > +             { MFG(0x4c, 0x83), PROD_ID(0x47, 0x41),
-> > > BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
-> > > };
-> > > 
-> > >  #undef MFG
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ZHJtX2dlbV9mYl9kZXN0cm95KCkgY2FsbHMgZHJtX2dlbV9vYmplY3RfcHV0KCkgd2l0aCBOVUxM
+IG9iaiBjYXVzaW5nOgoKWyAgIDExLjU4NDIwOV0gQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRl
+cmVmZXJlbmNlLCBhZGRyZXNzOiAwMDAwMDAwMDAwMDAwMDAwClsgICAxMS41ODQyMTNdICNQRjog
+c3VwZXJ2aXNvciB3cml0ZSBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKWyAgIDExLjU4NDIxNV0gI1BG
+OiBlcnJvcl9jb2RlKDB4MDAwMikgLSBub3QtcHJlc2VudCBwYWdlClsgICAxMS41ODQyMTZdIFBH
+RCAwIFA0RCAwClsgICAxMS41ODQyMjBdIE9vcHM6IDAwMDIgWyMxXSBTTVAgTk9QVEkKWyAgIDEx
+LjU4NDIyM10gQ1BVOiA3IFBJRDogMTU3MSBDb21tOiBnbm9tZS1zaGVsbCBUYWludGVkOiBHICAg
+ICAgICAgICAgRSAgICAgNS43LjAtcmMxLTEtZGVmYXVsdCsgIzI3ClsgICAxMS41ODQyMjVdIEhh
+cmR3YXJlIG5hbWU6IE1pY3JvLVN0YXIgSW50ZXJuYXRpb25hbCBDby4sIEx0ZC4gTVMtN0EzMS9Y
+MzcwIFhQT1dFUiBHQU1JTkcgVElUQU5JVU0gKE1TLTdBMzEpLCBCSU9TIDEuTVIgMTIvMDMvMjAx
+OQpbICAgMTEuNTg0MjM3XSBSSVA6IDAwMTA6ZHJtX2dlbV9mYl9kZXN0cm95KzB4MjgvMHg3MCBb
+ZHJtX2ttc19oZWxwZXJdCjxzbmlwPgpbICAgMTEuNTg0MjU2XSBDYWxsIFRyYWNlOgpbICAgMTEu
+NTg0Mjc5XSAgZHJtX21vZGVfcm1mYisweDE4OS8weDFjMCBbZHJtXQpbICAgMTEuNTg0Mjk5XSAg
+PyBkcm1fbW9kZV9ybWZiKzB4MWMwLzB4MWMwIFtkcm1dClsgICAxMS41ODQzMTRdICBkcm1faW9j
+dGxfa2VybmVsKzB4YWEvMHhmMCBbZHJtXQpbICAgMTEuNTg0MzI5XSAgZHJtX2lvY3RsKzB4MWZm
+LzB4M2IwIFtkcm1dClsgICAxMS41ODQzNDddICA/IGRybV9tb2RlX3JtZmIrMHgxYzAvMHgxYzAg
+W2RybV0KWyAgIDExLjU4NDQyMV0gIGFtZGdwdV9kcm1faW9jdGwrMHg0OS8weDgwIFthbWRncHVd
+ClsgICAxMS41ODQ0MjddICBrc3lzX2lvY3RsKzB4ODcvMHhjMApbICAgMTEuNTg0NDMwXSAgX194
+NjRfc3lzX2lvY3RsKzB4MTYvMHgyMApbICAgMTEuNTg0NDM0XSAgZG9fc3lzY2FsbF82NCsweDVm
+LzB4MjQwClsgICAxMS41ODQ0MzhdICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0
+NC8weGE5ClsgICAxMS41ODQ0NDBdIFJJUDogMDAzMzoweDdmMGVmODBmNzIyNwoKRml4ZXM6IGI1
+ZDI1MDc0NGNjY2ZiNDAwICgiZHJtL2dlbTogZm9sZCBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2Nr
+ZWQgYW5kIF9fZHJtX2dlbV9vYmplY3RfcHV0KCkiKQoKU2lnbmVkLW9mZi1ieTogTmlybW95IERh
+cyA8bmlybW95LmRhc0BhbWQuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hy
+aXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGluY2x1ZGUvZHJtL2RybV9nZW0uaCB8IDMgKysr
+CiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
+cm0vZHJtX2dlbS5oIGIvaW5jbHVkZS9kcm0vZHJtX2dlbS5oCmluZGV4IDUyMTczYWJkZjUwMC4u
+YTEzNTEwMzQ2YTliIDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZ2VtLmgKKysrIGIvaW5j
+bHVkZS9kcm0vZHJtX2dlbS5oCkBAIC0zNzIsNiArMzcyLDkgQEAgc3RhdGljIGlubGluZSB2b2lk
+IGRybV9nZW1fb2JqZWN0X2dldChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKIHN0YXRpYyBp
+bmxpbmUgdm9pZAogZHJtX2dlbV9vYmplY3RfcHV0KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2Jq
+KQogeworCWlmICghb2JqKQorCQlyZXR1cm47CisKIAlrcmVmX3B1dCgmb2JqLT5yZWZjb3VudCwg
+ZHJtX2dlbV9vYmplY3RfZnJlZSk7CiB9CiAKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
