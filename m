@@ -1,37 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0154A1DE076
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:58:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A60F21DE067
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:57:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 731E26E98F;
-	Fri, 22 May 2020 06:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985D46E997;
+	Fri, 22 May 2020 06:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from v6.sk (v6.sk [167.172.42.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519A56E850;
- Wed, 20 May 2020 13:39:00 +0000 (UTC)
-Received: from localhost (v6.sk [IPv6:::1])
- by v6.sk (Postfix) with ESMTP id 0F6AC61300;
- Wed, 20 May 2020 13:38:28 +0000 (UTC)
-Date: Wed, 20 May 2020 15:38:24 +0200
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
-Message-ID: <20200520133824.GK1695525@furthur.local>
-References: <20200513150007.1315395-1-lkundrak@v3.sk>
- <20200513150007.1315395-3-lkundrak@v3.sk>
- <CAOMZO5B582=tZ_YBCyVYFtGh=z5hZKFxP7XoUHEmH3jZsk2uYQ@mail.gmail.com>
- <CAOMZO5BdiXCVXs+8jP7PoRvgKd1sxCu4KhjvJBvL=Qig2WOs4g@mail.gmail.com>
- <1e15be39906034a95b86c026e060ed9866586d94.camel@pengutronix.de>
- <20200514082755.GN1551@shell.armlinux.org.uk>
- <ab384507b90474b0030d8ce64fdcfe868b52c3cb.camel@pengutronix.de>
- <20200514085307.GO1551@shell.armlinux.org.uk>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F718989C
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 13:39:49 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04KDZU1M013236; Wed, 20 May 2020 15:39:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=ArUV+HFn/C8Z3UZZJNpc9RKgx2vqaUmmaj6fhlTfivg=;
+ b=rwnlnI1GXtCJVbfrq5wfodJRg2QzJ/tkJ60vGTW98FkJKUFXPl/Lrm0mWdeW8O9/JP6u
+ nO+Jq/QZERPXnmPQMOwxNp6pPzCi6vtnROWzsN5o0xKmAwEEXprf+M1SVscv4jkpEEGw
+ KHCb9FWDyHOtdjKQQPdrMnkHM0GGvFTN0/Z547EjsctIhwAayY/dBm4bs7W2JNr8KAKg
+ SI1HD/aEADQE7GXk7Grq5DJXZkM3VGfPNGgX4sUfkqxMaT8FTqHSmjriCiNoaxfUrvx/
+ ast7T1HhJKpfwOxqDTP0flKL8sgJk2TKhH97dhBx6N7NVmcB6+eFnOunGxxgmhxj4IyP UQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3125xy0jf8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 May 2020 15:39:38 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8029210002A;
+ Wed, 20 May 2020 15:39:37 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 667EA2C38A9;
+ Wed, 20 May 2020 15:39:37 +0200 (CEST)
+Received: from localhost (10.75.127.46) by SFHDAG3NODE1.st.com (10.75.127.7)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May 2020 15:39:36
+ +0200
+From: Erwan Le Ray <erwan.leray@st.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+ <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@st.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH 0/2] add generic DT binding for RTS/CTS
+Date: Wed, 20 May 2020 15:39:30 +0200
+Message-ID: <20200520133932.30441-1-erwan.leray@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200514085307.GO1551@shell.armlinux.org.uk>
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:06 +0000
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG3NODE1.st.com (10.75.127.7) To SFHDAG3NODE1.st.com
+ (10.75.127.7)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-20_09:2020-05-20,
+ 2020-05-20 signatures=0
+X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,92 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Erwan Le Ray <erwan.leray@st.com>,
+ linux-serial@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 09:53:08AM +0100, Russell King - ARM Linux admin wrote:
-> On Thu, May 14, 2020 at 10:40:58AM +0200, Lucas Stach wrote:
-> > Am Donnerstag, den 14.05.2020, 09:27 +0100 schrieb Russell King - ARM Linux admin:
-> > > On Thu, May 14, 2020 at 10:18:02AM +0200, Lucas Stach wrote:
-> > > > Am Mittwoch, den 13.05.2020, 23:41 -0300 schrieb Fabio Estevam:
-> > > > > On Wed, May 13, 2020 at 2:09 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > > > > 
-> > > > > > The binding doc Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-> > > > > > says that only the 'reg' clock could be optional, the others are
-> > > > > > required.
-> > > > > 
-> > > > > arch/arm/boot/dts/dove.dtsi only uses the 'core' clock.
-> > > > > arch/arm/boot/dts/stm32mp157.dtsi uses 'bus' and 'core'
-> > > > > 
-> > > > > Maybe the binding needs to be updated and it seems that using
-> > > > > devm_clk_get_optional() like you propose is safe.
-> > > > 
-> > > > The binding is correct as-is. We want to require those clocks to be
-> > > > present, but the dove DT was added before the binding was finalized, so
-> > > > the driver still treats the clocks as optional to not break
-> > > > compatibility with old DTs. Maybe this warrants a comment in the
-> > > > code...
-> > > 
-> > > The binding doc in mainline says:
-> > > 
-> > >   clocks:
-> > >     items:
-> > >       - description: AXI/master interface clock
-> > >       - description: GPU core clock
-> > >       - description: Shader clock (only required if GPU has feature PIPE_3D)
-> > >       - description: AHB/slave interface clock (only required if GPU can gate slave interface independently)
-> > >     minItems: 1
-> > >     maxItems: 4
-> > > 
-> > >   clock-names:
-> > >     items:
-> > >       enum: [ bus, core, shader, reg ]
-> > >     minItems: 1
-> > >     maxItems: 4
-> > > 
-> > > which looks correct to me - and means that Dove is compliant with that.
-> > 
-> > The YAML binding actually did loose something in translation here,
-> > which I didn't notice. Previously all those clocks were listed under
-> > "Required properties", with the exceptions listed in parenthesis. So
-> > the Dove GPU, which is a combined 2D/3D core should have axi, core and
-> > shader clocks specified.
-> 
-> That may be your desire, but that is impossible without knowing that
-> (a) it has the clocks
-> (b) what those clocks are connected to
-> 
-> I guess we could "make something up" but as DT is supposed to describe
-> hardware, I don't see how we can satisfy that and your requirement.
-> 
-> The only thing that is known from the documentation is that there is
-> one clock for the GPU on Dove.
+Add support of generic DT binding for annoucing RTS/CTS lines. The initial
+binding 'st,hw-flow-control' is not needed anymore since generic binding
+is available, but is kept for backward compatibility.
 
-Yes. This means that in fact "core" is the only required clock for all
-implementations of vivante,gc and the common binding needs to be updated
-to reflect that. I'll follow with a patch that does that, unless there
-are strong objections.
+Erwan Le Ray (2):
+  dt-bindings: serial: add generic DT binding for announcing RTS/CTS
+    lines
+  serial: stm32: Use generic DT binding for announcing RTS/CTS lines
 
-If there are implementations that require different clock inputs, then they
-need to use additional compatible string for the particular flavor and the
-binding should have conditionals for them. Something like this:
+ Documentation/devicetree/bindings/serial/st,stm32-uart.yaml | 4 +++-
+ drivers/tty/serial/stm32-usart.c                            | 5 +++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-  if:
-    properties:
-      compatible:
-        contains:
-          const: fsl,imx6sx-gpu
-  then:
-    properties:
-      clocks:
-        minItems: 4
+-- 
+2.17.1
 
-Lubo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
