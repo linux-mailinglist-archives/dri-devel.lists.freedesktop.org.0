@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7B81DAA13
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 07:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6E81DAA24
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 07:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E36E6E111;
-	Wed, 20 May 2020 05:47:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1617D6E550;
+	Wed, 20 May 2020 05:54:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BBE6E111
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:47:10 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id l21so1841252eji.4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 22:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q4D1mAShAC4l59B3K6Oolb/s/eKcWB+SWLNcnrtynW0=;
- b=ruhr6k9z4APz6IBGe7+e3gmK730Pz8G8TfI+wb+oKMRKT+nBmimz4oeB9NYv1JVPKQ
- QtLODp2tkygpCo6jVgHgfmpZqGfMnJYyb/jEjFInlm2OhEujZlRbJHJtaIsXAHERN18p
- aXvkdkT7t5/7IxlNjiKBy0Qbs/ftzhiy4cgwaSpJQXFHTne939SL9awDZOAPjA1+ky1l
- GUtnSLsET02/tSJsjZ3a6sWiEyKXAyPCpkpC2hSVug4CMfxjepaXIg2kBJ49cJw0E9Dq
- J4RNAzH/xeOrNNYFPWZBKYQFcemsovC1GPZ6YOXTQ6T/uGq8cPqXV2AsmPUy2cCRdN3Z
- 6JAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q4D1mAShAC4l59B3K6Oolb/s/eKcWB+SWLNcnrtynW0=;
- b=etdROaTej9WvnbhG+crZ729NeUFo+m9gY1Pmvr6RcDMQS6Jmq7FhTKe6LC40C+3GPH
- v/osglX+qG9xklcc98MDlsfXIM1xpOxjlfaYeuDt0LspovjN1En44sUUrUZm3jSp47HW
- Gxichapyfrv2ShFHuOF0q9CSBogkQ9MZFAIQ8tSoOMH9Rx7f/x21OQ90BwgxsWPlfb2F
- XM4wQnB6/00pE7UTwCX6okGR01tUY2SbXcFPzAu+j8CobVyuTB88lYcV0KI/9zs/lp90
- TPhOlyZ2qvJBAPNTvu/y0kjPdePV2oxixbNXf8n10IN8HenQg8/waXY3V2g/pEcBi55a
- +SWg==
-X-Gm-Message-State: AOAM5315DK3g9BCU1vbQxXB8ntUzoEZIgdvIYYDBqVmJ+Ep3A38Zmx/e
- +On9yv8ffCWMzskFlYvoEJr4a6RzEdUDqApgCpY=
-X-Google-Smtp-Source: ABdhPJwOXJy6qXi34NYqjCgJGLajatJD/bp8vNU2KMWdyX4sCwMVHRzIiezVzgqnAaVmKZ0bfKUtt8I9oVrETSTnMPE=
-X-Received: by 2002:a17:906:b843:: with SMTP id
- ga3mr2272412ejb.340.1589953629054; 
- Tue, 19 May 2020 22:47:09 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77C026E550
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:54:41 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D7BCE206BE;
+ Wed, 20 May 2020 05:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589954081;
+ bh=O1pxQ7INrnCuQd9hdPVcKnLdagTuvEY7W8FKjx0XYjk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VaohILpBk5Xp5pUB5JwSmDjhNqhA1R0IS1WQ46OuiSvgRrJAohcZeNHS3U8w/yGZg
+ jvEagtePlwuZDA1FcquzPzAs+PYNS6VAaWdtGAzwkgZ7Qrx/oGoS9a6JVra+mSTWq8
+ /OsRI2R3+ULWqk8LhQfItfv4wJx7c2FyhnPB/NYk=
+Date: Wed, 20 May 2020 07:54:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
+Message-ID: <20200520055438.GA2236242@kroah.com>
+References: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
+ <20200520045900.GA2105777@kroah.com> <20200520051135.GA11847@yoga>
 MIME-Version: 1.0
-References: <CAAOTY_8tz9nNbCHFJhk9xX8fm9Jd8ETcdNCQfE31AOjZLpNKog@mail.gmail.com>
- <CAPM=9txm_fdy_+Kg=cdXe5SosbYBoXHtsDWYMFm2WQh1QtC_YQ@mail.gmail.com>
-In-Reply-To: <CAPM=9txm_fdy_+Kg=cdXe5SosbYBoXHtsDWYMFm2WQh1QtC_YQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 20 May 2020 15:46:57 +1000
-Message-ID: <CAPM=9tzqQ5G82mSACX5speUF2j-8vz7SrOcj7XLsKCjhe3GT6A@mail.gmail.com>
-Subject: Re: [GIT PULL v2] mediatek drm next for 5.8
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20200520051135.GA11847@yoga>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,50 +47,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
- Bernard Zhao <bernard@vivo.com>, YueHaibing <yuehaibing@huawei.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Anand K Mistry <amistry@chromium.org>
+Cc: Olof Johansson <olof.johansson@gmail.com>, wufan@codeaurora.org,
+ Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 May 2020 at 15:44, Dave Airlie <airlied@gmail.com> wrote:
->
-> On Mon, 18 May 2020 at 10:06, Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
-> >
-> > Hi, Dave & Daniel:
-> >
-> > This include dpi pin mode swap, config mipi_tx current and impedance,
-> > and some fixup. I drop drm_bridge patches in this version.
-> >
-> > The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
-> >   Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
-> > are available in the Git repository at:
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git
-> > tags/mediatek-drm-next-5.8
-> > for you to fetch changes up to 007d274a017bb4e2ef7b922c2f54f40cf2073664:
->
-> Did you edit this by hand or pass it through some mailserver that
-> chewed it up, I had to reconstruct this pull from the above bits, I've
-> no idea why it's so messed up in the first place.
+On Tue, May 19, 2020 at 10:11:35PM -0700, Bjorn Andersson wrote:
+> On Tue 19 May 21:59 PDT 2020, Greg Kroah-Hartman wrote:
+> 
+> > On Tue, May 19, 2020 at 10:41:15PM +0200, Daniel Vetter wrote:
+> > > > Ok, that's a decision you are going to have to push upward on, as we
+> > > > really can't take this without a working, open, userspace.
+> > > 
+> > > Uh wut.
+> > > 
+> > > So the merge criteria for drivers/accel (atm still drivers/misc but I
+> > > thought that was interim until more drivers showed up) isn't actually
+> > > "totally-not-a-gpu accel driver without open source userspace".
+> > > 
+> > > Instead it's "totally-not-a-gpu accel driver without open source
+> > > userspace" _and_ you have to be best buddies with Greg. Or at least
+> > > not be on the naughty company list. Since for habanalabs all you
+> > > wanted is a few test cases to exercise the ioctls. Not the entire
+> > > userspace.
+> > 
+> > Habanalabs now has their full library opensourced that their tools use
+> > directly, so that's not an argument anymore.
+> > 
+> > My primary point here is the copyright owner of this code, because of
+> > that, I'm not going to objet to allowing this to be merged without open
+> > userspace code.
+> > 
+> 
+> So because it's copyright Linux Foundation you are going to accept it
+> without user space, after all?
 
-and why does it contain an unexplained backmerge?
+Huh, no, the exact opposite, sorry, drop the "not" in that above
+sentence.  My bad.
 
- Merge tag 'v5.7-next-drm-stable' of
-ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux
-into mediatek-drm-next
-
-Please don't ever backmerge fixes into next pull, without a long
-explaination or if you really need it ask us first,
-
-Please resend this again cleaned up.
-
-Dave.
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
