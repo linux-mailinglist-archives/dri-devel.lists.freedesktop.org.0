@@ -2,63 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFBA1DE037
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B021DB5A5
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 15:53:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0446E348;
-	Fri, 22 May 2020 06:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B2E890F0;
+	Wed, 20 May 2020 13:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D56C6E850
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 13:39:49 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04KDZUki013233; Wed, 20 May 2020 15:39:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=Ra6W9fZReLRTQrx+lu7bVII6kYd76LIwYkwWDAY0Cqo=;
- b=L3lFrasvXkvpYdrWyPK63OLsSj360TP3KX1jqMA1OYkfPfFg5x7bT4/Ad0J+1XuhTBY9
- 6WvSEt9LMyK06Yt1nEwXV6AOFuk/fTCRZBgSqdRmC03uPiw2ADxAPEYEQ6njiJAv1fhJ
- V9yBftCK6A1UFE2Pdx5tgFvQTmR9kE0p/nMArswPm2lF6SsF3Bo6/GpffqLXvinxOAfX
- eKIEpVbyAIlCgV1i7CcJMl3KuODXi0sTIeVlCFMVsjfUK367TvdNmWbjKZXvwp/qWHSM
- toBRKt6rM74mhhV51wulH22H22wVznKZyjFqIxjPdOiyOyidIvI7mzmfbKGA3/gKTYbQ WA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 3125xy0jfg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 May 2020 15:39:42 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 72FE310002A;
- Wed, 20 May 2020 15:39:42 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B0B32C38AA;
- Wed, 20 May 2020 15:39:42 +0200 (CEST)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE1.st.com (10.75.127.7)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May 2020 15:39:41
- +0200
-From: Erwan Le Ray <erwan.leray@st.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
- <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@st.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH 2/2] serial: stm32: Use generic DT binding for announcing
- RTS/CTS lines
-Date: Wed, 20 May 2020 15:39:32 +0200
-Message-ID: <20200520133932.30441-3-erwan.leray@st.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200520133932.30441-1-erwan.leray@st.com>
-References: <20200520133932.30441-1-erwan.leray@st.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2074.outbound.protection.outlook.com [40.107.237.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E544890F0;
+ Wed, 20 May 2020 13:53:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nQc/uUgfYV+4e/K6WKc62MhQwDZgZeCMci3bEJJ6f/0O7NwRTN1rTqcvQ820OraJb4raEW6YXW7LJKz8AzjrgJDOsTVHa2sPQlJ8Q0i/+/CxK45YBitcClZ82bDaGkjqJM5bfUbmhY8/Wb7Oje6CxLd+SEvvfvzrIzDpv2o+qBKD3CsrRLptQg8Te7NVMVP06j5u0JEvA3T+8Os0GPXL/KOodeTpNic8CgYRw+2j0kpbi+q31RGB6tAPnfumKGsu5gshDWANJd5EHU4GMxl7zUbfbJDt0zUOmR6zKXgNMBrQw6fM4WJwO0Ef3NIzzJuOAlWWef1RWclm1OQdowrEEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xz9rwR0eUPKuVj4fJQdvsNxw6BeDwm1RNlON+6WNOFI=;
+ b=ajQJWTCUBAPB3yEJOjKwrWyIVPEpD3aA6CRWpgo7xSDUwnDcJ2hHnNinLbuRewbCSMuNVwFNvsBslkAOsg4e9UgmTTCO6BEOByCk3G1WXJ86SmFCpFxM9gYGIQDv9AE+TxZYrPbtv6951CbohusqREfmzGgJ0A8CRBnJXTIiX3Cp8q7k1R0YorS7lhx9znZzgf0a4GPjsaCTnHPFvww0+CmpyXk4SmKlooeho8gWsn1WL0YokKsfwFwFTAPXsxbxRaMwjGXJchHQyDiPibwLyt/EcfeoqeqFyrYbopsNeIjSZHncGOgkuUOXmBUQlpqLk4OjG0z2AHvUrVyB6A6kGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com;
+ dmarc=permerror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xz9rwR0eUPKuVj4fJQdvsNxw6BeDwm1RNlON+6WNOFI=;
+ b=aL557VXwW+i6iDFCJuPF9arTyaUKl4GuxtqhaCxA/dIMpURPU8S4qwgcYQlg0MikTLYWOGM2PSyeFIKLqHIre75Cbf6+Iqmj6gbUFGrSFF5HT47QxnHNEeTISw5DuqFMmvRNpmth1yUpZrH3QwZkjjX4P4K6NgnTHYR1jUGMVng=
+Received: from DM5PR22CA0003.namprd22.prod.outlook.com (2603:10b6:3:101::13)
+ by DM6PR12MB2907.namprd12.prod.outlook.com (2603:10b6:5:183::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Wed, 20 May
+ 2020 13:53:08 +0000
+Received: from DM6NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:101:cafe::45) by DM5PR22CA0003.outlook.office365.com
+ (2603:10b6:3:101::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
+ Transport; Wed, 20 May 2020 13:53:08 +0000
+X-MS-Exchange-Authentication-Results: spf=none (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; linux.ie; dkim=none (message not signed)
+ header.d=none;linux.ie; dmarc=permerror action=none header.from=amd.com;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+Received: from SATLEXMB02.amd.com (165.204.84.17) by
+ DM6NAM11FT003.mail.protection.outlook.com (10.13.173.162) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3021.23 via Frontend Transport; Wed, 20 May 2020 13:53:07 +0000
+Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 20 May
+ 2020 08:53:07 -0500
+Received: from sudo.amd.com (10.180.168.240) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
+ Transport; Wed, 20 May 2020 08:53:06 -0500
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+To: <Felix.Kuehling@amd.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>
+Subject: [PATCH] drm/amd/amdkfd: Fix large framesize for kfd_smi_ev_read()
+Date: Wed, 20 May 2020 09:53:06 -0400
+Message-ID: <20200520135306.11221-1-aurabindo.pillai@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG6NODE2.st.com (10.75.127.17) To SFHDAG3NODE1.st.com
- (10.75.127.7)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-20_09:2020-05-20,
- 2020-05-20 signatures=0
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB02.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(346002)(39860400002)(376002)(396003)(46966005)(82310400002)(82740400003)(8936002)(478600001)(7696005)(36756003)(336012)(426003)(44832011)(356005)(186003)(4326008)(6636002)(81166007)(26005)(8676002)(5660300002)(316002)(70586007)(70206006)(1076003)(86362001)(54906003)(2616005)(110136005)(2906002)(47076004);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8cd0635e-a73a-433a-d741-08d7fcc52061
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2907:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2907E5BEEEAEF8FEDFB6943F8BB60@DM6PR12MB2907.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 04097B7F7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HKg2Le69gBYBUtgWXH+CiAOH/hLKk2jV2WVrHAPPl+DKUJLMjmO7NgwG7hCyvKbPdlMdMvsfNF7zBYxzmEjw5S29sosveLp/fFCQ8LYo5gJsAP2TSVuDUK6lleom19SkV25HKCi0nV1JLXu9t/tH2ACWiCk4nJZJinJ1Z/2aYZ5M1/K7/oghIMhk2AjdsKhtJphLl7kIPC6DqPnoSoFC59amnh0R098khoMnkKB2VLy6zS3Kz380iUCHMhJLS/yX8lcAcgRAI11yCfPBwKOrqBJVXAVTR2CGp128aGo1EpZMzdcS3PiziAlJcDGowhOTFpR3VKG7aEJpJWD7Ese64eNg2mSQLJVEICfQBHdpyvr8b1WCg93ANe0Rrf3aoz2SnJXi6YrGlSxBiNm+eiFDTKn1kdi03i7qt7qR1zOyTwwREMWCmimAASBFfEzcPcB4paFltWz4RECLRNVrsOUk1pk+egCw2kbe6FSkLc0j0MARTqQZzWiJq+Ou9bxD0mwMv9bIV3XzfoKJmYD9YiENXQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2020 13:53:07.7344 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cd0635e-a73a-433a-d741-08d7fcc52061
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB02.amd.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2907
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,40 +99,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Erwan Le Ray <erwan.leray@st.com>,
- linux-serial@vger.kernel.org, Fabrice Gasnier <fabrice.gasnier@st.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Amber Lin <Amber.Lin@amd.com>,
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support of generic DT binding for annoucing RTS/CTS lines. The initial
-binding 'st,hw-flow-control' is not needed anymore since generic binding
-is available, but is kept for backward compatibility.
+The buffer allocated is of 1024 bytes. Allocate this from
+heap instead of stack.
 
-Signed-off-by: Erwan Le Ray <erwan.leray@st.com>
+Also remove check for stack size since we're allocating from heap
 
-diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
-index 17c2f3276888..9cfcf355567a 100644
---- a/drivers/tty/serial/stm32-usart.c
-+++ b/drivers/tty/serial/stm32-usart.c
-@@ -1033,8 +1033,9 @@ static struct stm32_port *stm32_of_get_stm32_port(struct platform_device *pdev)
- 	if (WARN_ON(id >= STM32_MAX_PORTS))
- 		return NULL;
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Tested-by: Amber Lin <Amber.Lin@amd.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 26 +++++++++++++++------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+index f5fd18eacf0d..5aebe169f8c6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+@@ -77,9 +77,11 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
+ 	int ret;
+ 	size_t to_copy;
+ 	struct kfd_smi_client *client = filep->private_data;
+-	unsigned char buf[MAX_KFIFO_SIZE];
++	unsigned char *buf;
  
--	stm32_ports[id].hw_flow_control = of_property_read_bool(np,
--							"st,hw-flow-ctrl");
-+	stm32_ports[id].hw_flow_control =
-+		of_property_read_bool (np, "st,hw-flow-ctrl") /*deprecated*/ ||
-+		of_property_read_bool (np, "uart-has-rtscts");
- 	stm32_ports[id].port.line = id;
- 	stm32_ports[id].cr1_irq = USART_CR1_RXNEIE;
- 	stm32_ports[id].cr3_irq = 0;
+-	BUILD_BUG_ON(MAX_KFIFO_SIZE > 1024);
++	buf = kzalloc(MAX_KFIFO_SIZE * sizeof(*buf), GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
+ 
+ 	/* kfifo_to_user can sleep so we can't use spinlock protection around
+ 	 * it. Instead, we kfifo out as spinlocked then copy them to the user.
+@@ -88,19 +90,29 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
+ 	to_copy = kfifo_len(&client->fifo);
+ 	if (!to_copy) {
+ 		spin_unlock(&client->lock);
+-		return -EAGAIN;
++		ret = -EAGAIN;
++		goto ret_err;
+ 	}
+ 	to_copy = min3(size, sizeof(buf), to_copy);
+ 	ret = kfifo_out(&client->fifo, buf, to_copy);
+ 	spin_unlock(&client->lock);
+-	if (ret <= 0)
+-		return -EAGAIN;
++	if (ret <= 0) {
++		ret = -EAGAIN;
++		goto ret_err;
++	}
+ 
+ 	ret = copy_to_user(user, buf, to_copy);
+-	if (ret)
+-		return -EFAULT;
++	if (ret) {
++		ret = -EFAULT;
++		goto ret_err;
++	}
+ 
++	kfree(buf);
+ 	return to_copy;
++
++ret_err:
++	kfree(buf);
++	return ret;
+ }
+ 
+ static ssize_t kfd_smi_ev_write(struct file *filep, const char __user *user,
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
