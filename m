@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBFC1DE059
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB58D1DAD91
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 10:34:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B82AB6E990;
-	Fri, 22 May 2020 06:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 182B48945B;
+	Wed, 20 May 2020 08:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66FE16E125
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 08:21:20 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id s1so2700513qkf.9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 01:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CAB88945B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 08:34:31 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id 23so1013787oiq.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 01:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GeohJKPS7M9KB2Z0UOMQZ+VWn+6x4apfiV2ZaqWSAWU=;
- b=aP5ju1bhRU9QWpsnVmHodgx/YH9viaoIrlq53IbD2Oo8bVgsZcgqSFu0+VkLaB+mu6
- XjIcAbcBDX3+4rgxSNwaI66rluDudwmhw23fcrx0iFCLDrn4INeGj5xt4W69uC22LT+z
- zshvuydRZkPnBqKzWH9AppzFimSHJKYcILP/R9Ar7C8BsDmhca6LyPhw/XShvC8eCyNE
- fRjr7auJGGf8NS0NI+0+gkFEZ224Yu3baS1r4nHx6g9W2qIWHGlVELDtT0k5CU6YKHWl
- gW7UwZqZVA8gDwrk4E6ZkocUMzlJKBJxzKhClLHIdY4LDe8mRLoSVBaAWSZDNUznsZJ/
- FNbg==
+ :cc; bh=1L1JOS2/7OGTnjyzE28TzRr49jWHnoSPZa2y83NoajY=;
+ b=Qn5uiJsI1CiTUY1rMY/hdjYr4HiyDhfSz/K8IUT9Ct0Li9bZDcjTdmeeXfA+hvr4ye
+ La4sGIwutRbBBmkURH52DondGQmalrdmlRIin7Ill0HhbtbF6vFYpxeVZtTbZ9uc0pM2
+ QzWq0FNBS5CUP5cJj0ELZ9iBqOymG/dGQAeYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GeohJKPS7M9KB2Z0UOMQZ+VWn+6x4apfiV2ZaqWSAWU=;
- b=Fsi1P6ti2GbqoMFzbVA/AZ1xGM+dcnbmv9eQDgknsDUjT0xLZJ89pwuJ6YKy8/n0CK
- iiuZGphq8wIGhuX+ZqFBavBDRfDnSeBrTjJ4ZG9kFN+Sp51kwry35TyY32QA1LhYoaub
- CtdNWYagF0FzAh3fYsOW2VqQsnkvv1pGf4VeN2G1OqbQNz8L0+jkX4hht7DNRlAdTtLf
- 867MQ7ifVP+aoQ5D9Oh1hEBHXOYtiHbBZVoDhkvCR9ftpRsqJvzFwFm+2KCPxJhMKBSS
- 6AD77i0loEZjj1Hue8a/tvGdEpXrpvRS3EBVER5UtLET32LE8XIi17TnSJp1Y/EZ+57u
- SZXA==
-X-Gm-Message-State: AOAM531y32CE3a5KrTy989U6ZeJNtOleE/A4sZRxLs6F6D7zkHktm0Mh
- 9ENVdmUHhsdkpGzh9PoHa8DocN/8f3PFeBCvYf4=
-X-Google-Smtp-Source: ABdhPJzYY7WX5SvpZjR2Le4eqs31NSOpqqDD+AIItDcDtsc4sttLE1mqOlXDIimV9KUzSfqtbLesZ/hM8pwJaCmVgpM=
-X-Received: by 2002:a37:a50d:: with SMTP id o13mr3477552qke.121.1589962879446; 
- Wed, 20 May 2020 01:21:19 -0700 (PDT)
+ bh=1L1JOS2/7OGTnjyzE28TzRr49jWHnoSPZa2y83NoajY=;
+ b=DcqHgjYnWRToRytslUFb90LsTuXK3FFx1HmjFcNzGL3vGYwZIbx8B/J2pyhaHyJUSm
+ EnSRJDQRkV3egIWAgp3/DHLEtBs2ZDZkHI93DZPl+5bnTV9/GFVFUVIN5SBcvR7ArPjM
+ qM10wjczi+Cu4VDCCdKj7ZCZ0NlNmVHLpu8nicy8gu2PozwJpZLLonMvapcWachs6/Bm
+ XM50aeD1LlOPB/6VAztAJ/zewt7ZE7uuC86dJ06fCXE0hHrqP5PvjUiey6SGKqUCb58R
+ +3NNWwOpJNYI9Fr8RyJ0C87RlOt+EoeNG5HzYP2fPhM33RvERBBjkROzTmX23Bjwf8RI
+ rCXA==
+X-Gm-Message-State: AOAM532MugT4F+TdIp5suxs0YUkG0cviz58/ugGCK79xs8LcfJTs+siz
+ L+kL9dLjPkD/cgdCOWWNSet5oCgrDRUZ3WGEFqAZhKX9
+X-Google-Smtp-Source: ABdhPJzRbDLGTxxiGJOBqDYbay1jUZRZiOz0ftQQbB6lk0Qs5tbLJUocvqI+dvatbwDgQkZMRCmeij1RrgUlJ6saFTg=
+X-Received: by 2002:a05:6808:282:: with SMTP id
+ z2mr2215511oic.101.1589963670477; 
+ Wed, 20 May 2020 01:34:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
- <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-In-Reply-To: <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 20 May 2020 16:20:58 +0800
-Message-ID: <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
-To: Lucas Stach <l.stach@pengutronix.de>
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+References: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
+ <20200520051536.GA2141566@kroah.com>
+In-Reply-To: <20200520051536.GA2141566@kroah.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 20 May 2020 10:34:19 +0200
+Message-ID: <CAKMK7uEbwTK68sxhf452fPHzAreQqRbRc7=RLGX-9SesXnJnLQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,292 +59,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Linux-ALSA <alsa-devel@alsa-project.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel <linux-kernel@vger.kernel.org>,
- Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- shawnguo@kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, perex@perex.cz,
- Nicolin Chen <nicoleotsuka@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-imx@nxp.com, kernel@pengutronix.de, s.hauer@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Olof Johansson <olof.johansson@gmail.com>, wufan@codeaurora.org,
+ Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Wed, May 20, 2020 at 7:15 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, May 19, 2020 at 10:41:15PM +0200, Daniel Vetter wrote:
+> > On Tue, May 19, 2020 at 07:41:20PM +0200, Greg Kroah-Hartman wrote:
+> > > On Tue, May 19, 2020 at 08:57:38AM -0600, Jeffrey Hugo wrote:
+> > > > On 5/18/2020 11:08 PM, Dave Airlie wrote:
+> > > > > On Fri, 15 May 2020 at 00:12, Jeffrey Hugo <jhugo@codeaurora.org> wrote:
+> > > > > >
+> > > > > > Introduction:
+> > > > > > Qualcomm Cloud AI 100 is a PCIe adapter card which contains a dedicated
+> > > > > > SoC ASIC for the purpose of efficently running Deep Learning inference
+> > > > > > workloads in a data center environment.
+> > > > > >
+> > > > > > The offical press release can be found at -
+> > > > > > https://www.qualcomm.com/news/releases/2019/04/09/qualcomm-brings-power-efficient-artificial-intelligence-inference
+> > > > > >
+> > > > > > The offical product website is -
+> > > > > > https://www.qualcomm.com/products/datacenter-artificial-intelligence
+> > > > > >
+> > > > > > At the time of the offical press release, numerious technology news sites
+> > > > > > also covered the product.  Doing a search of your favorite site is likely
+> > > > > > to find their coverage of it.
+> > > > > >
+> > > > > > It is our goal to have the kernel driver for the product fully upstream.
+> > > > > > The purpose of this RFC is to start that process.  We are still doing
+> > > > > > development (see below), and thus not quite looking to gain acceptance quite
+> > > > > > yet, but now that we have a working driver we beleive we are at the stage
+> > > > > > where meaningful conversation with the community can occur.
+> > > > >
+> > > > >
+> > > > > Hi Jeffery,
+> > > > >
+> > > > > Just wondering what the userspace/testing plans for this driver.
+> > > > >
+> > > > > This introduces a new user facing API for a device without pointers to
+> > > > > users or tests for that API.
+> > > >
+> > > > We have daily internal testing, although I don't expect you to take my word
+> > > > for that.
+> > > >
+> > > > I would like to get one of these devices into the hands of Linaro, so that
+> > > > it can be put into KernelCI.  Similar to other Qualcomm products. I'm trying
+> > > > to convince the powers that be to make this happen.
+> > > >
+> > > > Regarding what the community could do on its own, everything but the Linux
+> > > > driver is considered proprietary - that includes the on device firmware and
+> > > > the entire userspace stack.  This is a decision above my pay grade.
+> > >
+> > > Ok, that's a decision you are going to have to push upward on, as we
+> > > really can't take this without a working, open, userspace.
+> >
+> > Uh wut.
+> >
+> > So the merge criteria for drivers/accel (atm still drivers/misc but I
+> > thought that was interim until more drivers showed up) isn't actually
+> > "totally-not-a-gpu accel driver without open source userspace".
+> >
+> > Instead it's "totally-not-a-gpu accel driver without open source
+> > userspace" _and_ you have to be best buddies with Greg. Or at least
+> > not be on the naughty company list. Since for habanalabs all you
+> > wanted is a few test cases to exercise the ioctls. Not the entire
+> > userspace.
+>
+> Also, to be fair, I have changed my mind after seeing the mess of
+> complexity that these "ioctls for everyone!" type of pass-through
+> these kinds of drivers are creating.  You were right, we need open
+> userspace code in order to be able to properly evaluate and figure out
+> what they are doing is right or not and be able to maintain things over
+> time correctly.
+>
+> So I was wrong, and you were right, my apologies for my previous
+> stubbornness.
 
-On Tue, May 19, 2020 at 6:04 PM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
-> > There are two requirements that we need to move the request
-> > of dma channel from probe to open.
->
-> How do you handle -EPROBE_DEFER return code from the channel request if
-> you don't do it in probe?
+Awesome and don't worry, I'm pretty sure we've all been stubborn
+occasionally :-)
 
-I use the dma_request_slave_channel or dma_request_channel instead
-of dmaengine_pcm_request_chan_of. so there should be not -EPROBE_DEFER
-return code.
+From a drivers/gpu pov I think still not quite there since we also
+want to see the compiler for these programmable accelerator thingies.
+But just having a fairly good consensus that "userspace library with
+all the runtime stuff excluding compiler must be open" is a huge step
+forward. Next step may be that we (kernel overall, drivers/gpu will
+still ask for the full thing) have ISA docs for these programmable
+things, so that we can also evaluate that aspect and gauge how many
+security issues there might be. Plus have a fighting chance to fix up
+the security leaks when (post smeltdown I don't really want to
+consider this an if) someone finds a hole in the hw security wall. At
+least in drivers/gpu we historically have a ton of drivers with
+command checkers to validate what userspace wants to run on the
+accelerator thingie. Both in cases where the hw was accidentally too
+strict, and not strict enough.
 
->
-> > - When dma device binds with power-domains, the power will
-> > be enabled when we request dma channel. If the request of dma
-> > channel happen on probe, then the power-domains will be always
-> > enabled after kernel boot up,  which is not good for power
-> > saving,  so we need to move the request of dma channel to .open();
->
-> This is certainly something which could be fixed in the dmaengine
-> driver.
-
-Dma driver always call the pm_runtime_get_sync in
-device_alloc_chan_resources, the device_alloc_chan_resources is
-called when channel is requested. so power is enabled on channel
-request.
-
->
-> > - With FE-BE case, if the dma channel is requested in probe,
-> > then there will be below issue, which is caused by that the
-> > dma channel will be requested duplicately
->
-> Why is this requested a second time? Is this just some missing cleanup
-> on a deferred probe path?
-
-Not relate with deferred probe.  With DMA1->ASRC->DMA2->ESAI case,
-the DMA1->ASRC->DMA2 is in FE,  ESAI is in BE.  When ESAI drvier
-probe,  DMA3 channel is created with ESAI's "dma:tx" (DMA3 channel
-is not used in this FE-BE case).    When FE-BE startup, DMA2
-channel is created, it needs the ESAI's "dma:tx", so below warning
-comes out.
-
->
-> Regards,
-> Lucas
->
-> > [  638.906268] sysfs: cannot create duplicate filename '/devices/soc0/soc/2000000.bus/2000000.spba-bus/2024000.esai/dma:tx'
-> > [  638.919061] CPU: 1 PID: 673 Comm: aplay Not tainted 5.7.0-rc1-12956-gfc64b2585593 #287
-> > [  638.927113] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> > [  638.933690] [<c0110dd8>] (unwind_backtrace) from [<c010b8ec>] (show_stack+0x10/0x14)
-> > [  638.941464] [<c010b8ec>] (show_stack) from [<c0557fc0>] (dump_stack+0xe4/0x118)
-> > [  638.948808] [<c0557fc0>] (dump_stack) from [<c032aeb4>] (sysfs_warn_dup+0x50/0x64)
-> > [  638.956406] [<c032aeb4>] (sysfs_warn_dup) from [<c032b1a8>] (sysfs_do_create_link_sd+0xc8/0xd4)
-> > [  638.965134] [<c032b1a8>] (sysfs_do_create_link_sd) from [<c05dc668>] (dma_request_chan+0xb0/0x210)
-> > [  638.974120] [<c05dc668>] (dma_request_chan) from [<c05dc7d0>] (dma_request_slave_channel+0x8/0x14)
-> > [  638.983111] [<c05dc7d0>] (dma_request_slave_channel) from [<c09d5548>] (fsl_asrc_dma_hw_params+0x1e0/0x438)
-> > [  638.992881] [<c09d5548>] (fsl_asrc_dma_hw_params) from [<c09c1654>] (soc_pcm_hw_params+0x4a0/0x6a8)
-> > [  639.001952] [<c09c1654>] (soc_pcm_hw_params) from [<c09c39d4>] (dpcm_fe_dai_hw_params+0x70/0xe4)
-> > [  639.010765] [<c09c39d4>] (dpcm_fe_dai_hw_params) from [<c099b274>] (snd_pcm_hw_params+0x158/0x418)
-> > [  639.019750] [<c099b274>] (snd_pcm_hw_params) from [<c099c5a0>] (snd_pcm_ioctl+0x734/0x183c)
-> > [  639.028129] [<c099c5a0>] (snd_pcm_ioctl) from [<c029ff94>] (ksys_ioctl+0x2ac/0xb98)
-> > [  639.035812] [<c029ff94>] (ksys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28)
-> > [  639.043490] Exception stack(0xec529fa8 to 0xec529ff0)
-> > [  639.048565] 9fa0:                   bee84650 01321870 00000004 c25c4111 bee84650 0002000f
-> > [  639.056766] 9fc0: bee84650 01321870 01321820 00000036 00001f40 00000000 0002c2f8 00000003
-> > [  639.064964] 9fe0: b6f483fc bee8451c b6ee2655 b6e1dcf8
-> > [  639.070339] fsl-esai-dai 2024000.esai: Cannot create DMA dma:tx symlink
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  sound/soc/fsl/imx-pcm-dma.c | 173 +++++++++++++++++++++++++++++++++---
-> >  1 file changed, 159 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/sound/soc/fsl/imx-pcm-dma.c b/sound/soc/fsl/imx-pcm-dma.c
-> > index 04a9bc749016..dae53b384df4 100644
-> > --- a/sound/soc/fsl/imx-pcm-dma.c
-> > +++ b/sound/soc/fsl/imx-pcm-dma.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/dmaengine.h>
-> >  #include <linux/types.h>
-> >  #include <linux/module.h>
-> > +#include <linux/dma-mapping.h>
-> >
-> >  #include <sound/core.h>
-> >  #include <sound/pcm.h>
-> > @@ -29,24 +30,168 @@ static bool filter(struct dma_chan *chan, void *param)
-> >       return true;
-> >  }
-> >
-> > -static const struct snd_dmaengine_pcm_config imx_dmaengine_pcm_config = {
-> > -     .prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-> > -     .compat_filter_fn = filter,
-> > -};
-> > +static int imx_pcm_hw_params(struct snd_soc_component *component,
-> > +                          struct snd_pcm_substream *substream,
-> > +                          struct snd_pcm_hw_params *params)
-> > +{
-> > +     struct snd_pcm_runtime *runtime = substream->runtime;
-> > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> > +     struct snd_dmaengine_dai_dma_data *dma_data;
-> > +     struct dma_slave_config config;
-> > +     struct dma_chan *chan;
-> > +     int ret = 0;
-> >
-> > -int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> > +     snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
-> > +     runtime->dma_bytes = params_buffer_bytes(params);
-> > +
-> > +     chan = snd_dmaengine_pcm_get_chan(substream);
-> > +     if (!chan)
-> > +             return -EINVAL;
-> > +
-> > +     ret = snd_hwparams_to_dma_slave_config(substream, params, &config);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> > +     if (!dma_data)
-> > +             return -EINVAL;
-> > +
-> > +     snd_dmaengine_pcm_set_config_from_dai_data(substream,
-> > +                                                dma_data,
-> > +                                                &config);
-> > +     return dmaengine_slave_config(chan, &config);
-> > +}
-> > +
-> > +static int imx_pcm_hw_free(struct snd_soc_component *component,
-> > +                        struct snd_pcm_substream *substream)
-> >  {
-> > -     struct snd_dmaengine_pcm_config *config;
-> > +     snd_pcm_set_runtime_buffer(substream, NULL);
-> > +     return 0;
-> > +}
-> > +
-> > +static snd_pcm_uframes_t imx_pcm_pointer(struct snd_soc_component *component,
-> > +                                      struct snd_pcm_substream *substream)
-> > +{
-> > +     return snd_dmaengine_pcm_pointer(substream);
-> > +}
-> > +
-> > +static int imx_pcm_trigger(struct snd_soc_component *component,
-> > +                        struct snd_pcm_substream *substream, int cmd)
-> > +{
-> > +     return snd_dmaengine_pcm_trigger(substream, cmd);
-> > +}
-> > +
-> > +static int imx_pcm_open(struct snd_soc_component *component,
-> > +                     struct snd_pcm_substream *substream)
-> > +{
-> > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> > +     bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-> > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> > +     struct snd_dmaengine_dai_dma_data *dma_data;
-> > +     struct device *dev = component->dev;
-> > +     struct snd_pcm_hardware hw;
-> > +     struct dma_chan *chan;
-> > +     int ret;
-> > +
-> > +     ret = snd_pcm_hw_constraint_integer(substream->runtime,
-> > +                                         SNDRV_PCM_HW_PARAM_PERIODS);
-> > +     if (ret < 0) {
-> > +             dev_err(dev, "failed to set pcm hw params periods\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> > +     if (!dma_data)
-> > +             return -EINVAL;
-> > +
-> > +     chan = dma_request_slave_channel(cpu_dai->dev, tx ? "tx" : "rx");
-> > +     if (!chan) {
-> > +             /* Try to request channel using compat_filter_fn */
-> > +             chan = snd_dmaengine_pcm_request_channel(filter,
-> > +                                                      dma_data->filter_data);
-> > +             if (!chan)
-> > +                     return -ENXIO;
-> > +     }
-> >
-> > -     config = devm_kzalloc(&pdev->dev,
-> > -                     sizeof(struct snd_dmaengine_pcm_config), GFP_KERNEL);
-> > -     if (!config)
-> > -             return -ENOMEM;
-> > -     *config = imx_dmaengine_pcm_config;
-> > +     ret = snd_dmaengine_pcm_open(substream, chan);
-> > +     if (ret)
-> > +             goto pcm_open_fail;
-> >
-> > -     return devm_snd_dmaengine_pcm_register(&pdev->dev,
-> > -             config,
-> > -             SND_DMAENGINE_PCM_FLAG_COMPAT);
-> > +     memset(&hw, 0, sizeof(hw));
-> > +     hw.info = SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_MMAP_VALID |
-> > +                     SNDRV_PCM_INFO_INTERLEAVED;
-> > +     hw.periods_min = 2;
-> > +     hw.periods_max = UINT_MAX;
-> > +     hw.period_bytes_min = 256;
-> > +     hw.period_bytes_max = dma_get_max_seg_size(chan->device->dev);
-> > +     hw.buffer_bytes_max = IMX_DEFAULT_DMABUF_SIZE;
-> > +     hw.fifo_size = dma_data->fifo_size;
-> > +
-> > +     /* Refine the hw according to caps of DMA. */
-> > +     ret = snd_dmaengine_pcm_refine_runtime_hwparams(substream,
-> > +                                                     dma_data,
-> > +                                                     &hw,
-> > +                                                     chan);
-> > +     if (ret < 0)
-> > +             goto refine_runtime_hwparams_fail;
-> > +
-> > +     snd_soc_set_runtime_hwparams(substream, &hw);
-> > +
-> > +     /* Support allocate memory from IRAM */
-> > +     ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_IRAM,
-> > +                               chan->device->dev,
-> > +                               hw.buffer_bytes_max,
-> > +                               &substream->dma_buffer);
-> > +     if (ret < 0)
-> > +             goto alloc_pagas_fail;
-> > +
-> > +     return 0;
-> > +
-> > +alloc_pagas_fail:
-> > +refine_runtime_hwparams_fail:
-> > +     snd_dmaengine_pcm_close(substream);
-> > +pcm_open_fail:
-> > +     dma_release_channel(chan);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int imx_pcm_close(struct snd_soc_component *component,
-> > +                      struct snd_pcm_substream *substream)
-> > +{
-> > +     if (substream) {
-> > +             snd_dma_free_pages(&substream->dma_buffer);
-> > +             substream->dma_buffer.area = NULL;
-> > +             substream->dma_buffer.addr = 0;
-> > +     }
-> > +
-> > +     return snd_dmaengine_pcm_close_release_chan(substream);
-> > +}
-> > +
-> > +static int imx_pcm_new(struct snd_soc_component *component,
-> > +                    struct snd_soc_pcm_runtime *rtd)
-> > +{
-> > +     struct snd_card *card = rtd->card->snd_card;
-> > +
-> > +     return dma_coerce_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
-> > +}
-> > +
-> > +static const struct snd_soc_component_driver imx_pcm_component = {
-> > +     .name           = "imx-pcm-dma",
-> > +     .pcm_construct  = imx_pcm_new,
-> > +     .open           = imx_pcm_open,
-> > +     .close          = imx_pcm_close,
-> > +     .hw_params      = imx_pcm_hw_params,
-> > +     .hw_free        = imx_pcm_hw_free,
-> > +     .trigger        = imx_pcm_trigger,
-> > +     .pointer        = imx_pcm_pointer,
-> > +};
-> > +
-> > +int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> > +{
-> > +     return devm_snd_soc_register_component(&pdev->dev,
-> > +                                            &imx_pcm_component, NULL, 0);
-> >  }
-> >  EXPORT_SYMBOL_GPL(imx_pcm_dma_init);
-> >
->
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
