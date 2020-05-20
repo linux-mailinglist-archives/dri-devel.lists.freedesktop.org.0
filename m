@@ -1,47 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645561DB5E3
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 16:04:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0C1DB619
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 16:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE3086E850;
-	Wed, 20 May 2020 14:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A330889E65;
+	Wed, 20 May 2020 14:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAA356E852
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 14:04:49 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1jbPKq-0006ID-Kl; Wed, 20 May 2020 16:04:40 +0200
-Message-ID: <ebcfc9843b57c5611b2106a3fe3553efb48734f0.camel@pengutronix.de>
-Subject: Re: [PATCH 2/3] drm/etnaviv: Don't ignore errors on getting clocks
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Lubomir Rintel <lkundrak@v3.sk>, Russell King - ARM Linux admin
- <linux@armlinux.org.uk>
-Date: Wed, 20 May 2020 16:04:39 +0200
-In-Reply-To: <20200520133824.GK1695525@furthur.local>
-References: <20200513150007.1315395-1-lkundrak@v3.sk>
- <20200513150007.1315395-3-lkundrak@v3.sk>
- <CAOMZO5B582=tZ_YBCyVYFtGh=z5hZKFxP7XoUHEmH3jZsk2uYQ@mail.gmail.com>
- <CAOMZO5BdiXCVXs+8jP7PoRvgKd1sxCu4KhjvJBvL=Qig2WOs4g@mail.gmail.com>
- <1e15be39906034a95b86c026e060ed9866586d94.camel@pengutronix.de>
- <20200514082755.GN1551@shell.armlinux.org.uk>
- <ab384507b90474b0030d8ce64fdcfe868b52c3cb.camel@pengutronix.de>
- <20200514085307.GO1551@shell.armlinux.org.uk>
- <20200520133824.GK1695525@furthur.local>
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EFC289E65
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 14:19:12 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id c3so2535301otr.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 07:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sjoxFxfLtclPDSr6o8yqjRaqVkyg716LkbOcsM9wj6I=;
+ b=LyfaSMZcasMyis1bX4fsTjdrcifHQYzE1cgpNTTLJEeDGa1n4K2bK+jgJDD8jTJTHg
+ FMSR/R+OOYOb/zhnoUtJG0sng3uHTVbIlP80xIuNBSIV2Ms4a7EE/z1um4y2gpPn4jTh
+ 4w6+AzLnBhQbl8vBk33rvyv10Wb4WMS1ZYrmI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sjoxFxfLtclPDSr6o8yqjRaqVkyg716LkbOcsM9wj6I=;
+ b=lhrarAthzG49THOqA/vwiF7vWlHKoKaTmYc9xMJexvoqn4m7P+Y5cNU1PCBL+lR5XI
+ VH3qKXyH1LdnrFEdX6Q3HkQQyHEV59SpW5nbcaLUrNKGqbtPahVz9f9KBT/l957RQPBX
+ 8Gs1yxd1Avy0pWWezkSjO1tXHTFtsihMAIa0Sxpe+Jgg6qHo5p8PXsDZJL0Y7p+rddcK
+ ADFqd057sLndo9Jt8jK61vdKtJ+5urPEEbwJVm2c17SjjOrqAU38h0yvkc0XakeyE5hW
+ VHObkBQxhZPo6hg+9DMcNAbyc0Q6Q0QAcrjJxebmVAsqkucRQz8t8AzEPiXTsbqg3TYt
+ mu7Q==
+X-Gm-Message-State: AOAM533kbYjYI2dYlXwFLVJM0DBflLnqAL5rWB5JWcCVmW9OXYMh6uei
+ cyHfn/iZb+mjnXnwc2PpQGrT2cSHWfoHid65dWw+Ww==
+X-Google-Smtp-Source: ABdhPJyE5KNSmZqOtmd8kjbRnu/8DFYuBMMCJftHFwM+h5k7NgfLsaPgUL7li3lWskKIyvVp7OgrZPGgwo9a7Ztgtao=
+X-Received: by 2002:a9d:600e:: with SMTP id h14mr3480769otj.281.1589984351700; 
+ Wed, 20 May 2020 07:19:11 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20200519100649.12053-1-ppaalanen@gmail.com>
+ <20200520125556.GY206103@phenom.ffwll.local>
+ <4Qkv4p0V0uG4sZ8LjizVLq6bLbZ8U1xAwQ0riB72aHH3sT_ZJYz9QzDFPWCko8PfcA-VGBFkGtCn1n9YfKYqo_vwzvE3BVQUlxyBq61GZ08=@emersion.fr>
+In-Reply-To: <4Qkv4p0V0uG4sZ8LjizVLq6bLbZ8U1xAwQ0riB72aHH3sT_ZJYz9QzDFPWCko8PfcA-VGBFkGtCn1n9YfKYqo_vwzvE3BVQUlxyBq61GZ08=@emersion.fr>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 20 May 2020 16:19:00 +0200
+Message-ID: <CAKMK7uFzk7UW7k8WTMSzKynGOypQeTzhf9Gqxb4maimG+QEdiQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/doc: device hot-unplug for userspace
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,116 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: Sean Paul <sean@poorly.run>, Dave Airlie <airlied@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, den 20.05.2020, 15:38 +0200 schrieb Lubomir Rintel:
-> On Thu, May 14, 2020 at 09:53:08AM +0100, Russell King - ARM Linux admin wrote:
-> > On Thu, May 14, 2020 at 10:40:58AM +0200, Lucas Stach wrote:
-> > > Am Donnerstag, den 14.05.2020, 09:27 +0100 schrieb Russell King - ARM Linux admin:
-> > > > On Thu, May 14, 2020 at 10:18:02AM +0200, Lucas Stach wrote:
-> > > > > Am Mittwoch, den 13.05.2020, 23:41 -0300 schrieb Fabio Estevam:
-> > > > > > On Wed, May 13, 2020 at 2:09 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > > > > > 
-> > > > > > > The binding doc Documentation/devicetree/bindings/gpu/vivante,gc.yaml
-> > > > > > > says that only the 'reg' clock could be optional, the others are
-> > > > > > > required.
-> > > > > > 
-> > > > > > arch/arm/boot/dts/dove.dtsi only uses the 'core' clock.
-> > > > > > arch/arm/boot/dts/stm32mp157.dtsi uses 'bus' and 'core'
-> > > > > > 
-> > > > > > Maybe the binding needs to be updated and it seems that using
-> > > > > > devm_clk_get_optional() like you propose is safe.
-> > > > > 
-> > > > > The binding is correct as-is. We want to require those clocks to be
-> > > > > present, but the dove DT was added before the binding was finalized, so
-> > > > > the driver still treats the clocks as optional to not break
-> > > > > compatibility with old DTs. Maybe this warrants a comment in the
-> > > > > code...
-> > > > 
-> > > > The binding doc in mainline says:
-> > > > 
-> > > >   clocks:
-> > > >     items:
-> > > >       - description: AXI/master interface clock
-> > > >       - description: GPU core clock
-> > > >       - description: Shader clock (only required if GPU has feature PIPE_3D)
-> > > >       - description: AHB/slave interface clock (only required if GPU can gate slave interface independently)
-> > > >     minItems: 1
-> > > >     maxItems: 4
-> > > > 
-> > > >   clock-names:
-> > > >     items:
-> > > >       enum: [ bus, core, shader, reg ]
-> > > >     minItems: 1
-> > > >     maxItems: 4
-> > > > 
-> > > > which looks correct to me - and means that Dove is compliant with that.
-> > > 
-> > > The YAML binding actually did loose something in translation here,
-> > > which I didn't notice. Previously all those clocks were listed under
-> > > "Required properties", with the exceptions listed in parenthesis. So
-> > > the Dove GPU, which is a combined 2D/3D core should have axi, core and
-> > > shader clocks specified.
-> > 
-> > That may be your desire, but that is impossible without knowing that
-> > (a) it has the clocks
-> > (b) what those clocks are connected to
-> > 
-> > I guess we could "make something up" but as DT is supposed to describe
-> > hardware, I don't see how we can satisfy that and your requirement.
-> > 
-> > The only thing that is known from the documentation is that there is
-> > one clock for the GPU on Dove.
-> 
-> Yes. This means that in fact "core" is the only required clock for all
-> implementations of vivante,gc and the common binding needs to be updated
-> to reflect that. I'll follow with a patch that does that, unless there
-> are strong objections.
-> 
-> If there are implementations that require different clock inputs, then they
-> need to use additional compatible string for the particular flavor and the
-> binding should have conditionals for them. Something like this:
-> 
->   if:
->     properties:
->       compatible:
->         contains:
->           const: fsl,imx6sx-gpu
->   then:
->     properties:
->       clocks:
->         minItems: 4
+On Wed, May 20, 2020 at 3:20 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Wednesday, May 20, 2020 2:55 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> > Maybe we should add an explicit note that there's no guarantee about the
+> > new chardev minor this new device will get, it could both inherit the
+> > existing one (you can't open the old one anymore anyway) or get a new one?
+> >
+> > Or does userspace want a guarantee, i.e. as long as there's still a handle
+> > open kernel guarantees to not recycle the chardev minor (which is what we
+> > currently do). In that case better to add that to your list of guarantees
+> > above.
+>
+> The are race conditions to consider too, e.g.
+>
+> - Compositor sends /dev/dri/card0 to a client
+> - card0 goes away
+> - Another device takes card0
+> - Client receives /dev/dri/card0 and then starts using it, but it's the
+>   wrong device
 
-The DT binding of a device should describe the hardware of the device,
-not the specific integration into a SoC. Now it's a bit hard to make
-any definite statements about the Vivante GC GPU module itself, as most
-of the information we have is from reverse engineering. It's pretty
-clear though that the GPU module has at least 2 clock inputs: axi and
-core, as there is a feature bit that tells us if it's okay to gate the
-axi clock independently from core. 
+Oh reminds me, what should we do about open() - that one will fail,
+the chardev is going away after all, not failing kinda doesn't make
+sense. And more tricky, about creating new leases?
 
-I'm not 100% sure about the older cores as found in Dove, but all the
-more recent cores allow to clock the shader partition independently of
-the core partition, so that's another clock input.
+I think reasonable semantics here would be that both of these "create
+a new open drm fd" operations can fail as soon as the device is
+unplugged. Userspace needs to be able to deal with that.
+-Daniel
 
-Now when it comes to a SoC integration, it's totally fine to have all
-those GPU module clock inputs fed from the same clock source and behind
-a shared gate maybe. But that doesn't change the clock inputs from the
-device perspective, it's still 3 independent clock inputs, which then
-just point to the same clock source in the DT.
+>
+> At first glance these seem like edge-cases that almost never happen.
+> However I've seen these happen in practice with connectors, especially
+> with docks.
+>
+> One solution would be to number minor numbers like PIDs: don't recycle
+> card0 before we've reached the upper minor number limit.
 
-imx6sx.dtsi is even a precedent of such a setup: all module clock
-inputs are fed by a common clock and share a single gate.
 
-Regards,
-Lucas
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
