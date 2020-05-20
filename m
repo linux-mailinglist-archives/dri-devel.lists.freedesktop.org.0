@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E081DB497
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 15:08:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D16F1DB49E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 15:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA4F6E836;
-	Wed, 20 May 2020 13:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F97D6E83A;
+	Wed, 20 May 2020 13:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357226E836
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 13:08:19 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id o19so2389440qtr.10
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 06:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=zyqcQ/985qEMsE4i4WgHCoxf63qwfEa8tM8Gdg9yWKc=;
- b=aMMn5Fr6I2G2NwwrbhVXZsfgmpxk8/uQsEMY0uKFdh2OP/S/e+R6Ou0wCmVrrBl8tw
- SAR55Asq3HQq4/YgBbX9oB7bFhu2Tstrt92pxb9WYMECYSqrqoiRCt/DWWdwMm9TISVN
- ycMX3HSlUQYhGeTzbzi3OoJh9ZouG7+X+4pQmUhISp8U7TbylBJeTGW/+JInmBOzkFhn
- AqLPIdl4U+q8rvPDzFRPBeKwEvO9jneANdR/eULmcXSZbDIdHY/WSEdymPg4eiLZFb7q
- JZgtWYkOXj7tXGSIiweJz7sBoyhOvgDxmXR3q+A5nEBJaM2M3ce2nSAZxa9efC/ozKpz
- A3+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=zyqcQ/985qEMsE4i4WgHCoxf63qwfEa8tM8Gdg9yWKc=;
- b=Q38wTbk8sglSrLyvilEe/ZISsf/iHcambIczunInlV9vDX9b99ir/N2Q5I/vqXsc8y
- 5lw/RG0ThEJNtx2OeEswVrLgULH7z1S7DSXDfbXimvR9PaXs1GhZm1MWT5S3SamAnonn
- XntW6ZwY+Xwk/ro4N3GvxgqP/w6SzYWlLqNXQFhE6wC0/c3lb+0MwgrT5h9yEz9RHFXj
- CtHzDb3F3lB36dpN9QtAcLzO1jJGunGma5LpkyRIfeDD0aNIHrmqJbYMGYUjau3PQ/YE
- HbfYjjVu8NDli8g8B/3Jsk3prBx/1UEJX5iYqUTOx96iEXNXHB22tdfvApUIX/tDkyik
- /r0Q==
-X-Gm-Message-State: AOAM533U65IXrHZYM6M6H8IX4zs5hcBfSiPge12gKHx+unZH6x/zEsJS
- JR2mJAaY4ANEcyvJ2nhuLtDStaq2CpY=
-X-Google-Smtp-Source: ABdhPJxvh4OP5pjq04vaOPim2zzXIIX4UpruAJhlV1I/z9fH4m9YJtL+/uprf1HjPRMt5IVI7njleg==
-X-Received: by 2002:aed:3949:: with SMTP id l67mr4889540qte.313.1589980098047; 
- Wed, 20 May 2020 06:08:18 -0700 (PDT)
-Received: from localhost (mobile-166-177-187-115.mycingular.net.
- [166.177.187.115])
- by smtp.gmail.com with ESMTPSA id m33sm2406360qtb.88.2020.05.20.06.08.16
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 20 May 2020 06:08:17 -0700 (PDT)
-From: Sean Paul <sean@poorly.run>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/hdcp: Add additional R0' wait
-Date: Wed, 20 May 2020 09:08:08 -0400
-Message-Id: <20200520130808.44095-1-sean@poorly.run>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200520064602.GA20133@intel.com>
-References: <20200520064602.GA20133@intel.com>
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7A266E83A;
+ Wed, 20 May 2020 13:10:35 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KD8JFi064189;
+ Wed, 20 May 2020 13:10:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2020-01-29; bh=R7gtf0kiWbCNJ0UhI5MwvQ47qSSl1HmSUaTx5bHu6G0=;
+ b=o4m1NTL434XJQbAkIuOB//h3s4FworvA3R42ve4vzv2KBNyiMoH/EbmcxuhOlXbZd+A9
+ vJW4rNRvhlnDIx2czecGKoM7wSEB7Cm4Lt0EGB05DA1cOixhUrZ2Uk434gcFJoJr4h30
+ EvBTF06GCH/PagknjE+aV2ROHM1ySQqhjKRMgDwfwkqEXlYbNtDw4UfSzcqXBnc626oh
+ rQYKowjZKekgM+ykGLa/pW7YGTtZdX3t4A6hKcwuW799AcWvhQafXS7J6Ej6Nl/+rxAb
+ sKyP2sKE+2DnK+TCtqHM1Hz9D1ld0gFjEnAevWLNbstcYQpLpg0tNinE6yVGMpu3/Tst GQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 3127krb14d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 20 May 2020 13:10:32 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KD8SBh188047;
+ Wed, 20 May 2020 13:08:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 314gm724eb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 May 2020 13:08:30 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04KD8Lud010719;
+ Wed, 20 May 2020 13:08:21 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 20 May 2020 06:08:20 -0700
+Date: Wed, 20 May 2020 16:08:12 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Alex Deucher <alexander.deucher@amd.com>, Kevin Wang <kevin1.wang@amd.com>
+Subject: [PATCH v2] drm/amdgpu: off by on in
+ amdgpu_device_attr_create_groups() error handling
+Message-ID: <20200520130812.GA177222@mwanda>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200520125209.GP3041@kadam>
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=999
+ adultscore=0 phishscore=0 mlxscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005200113
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 impostorscore=0
+ suspectscore=0 mlxlogscore=999 malwarescore=0 cotscore=-2147483648
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005200113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +77,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: seanpaul@chromium.org, rodrigo.vivi@intel.com
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Rui Huang <ray.huang@amd.com>,
+ dri-devel@lists.freedesktop.org, Evan Quan <evan.quan@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Yintian Tao <yttao@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
+This loop in the error handling code should start a "i - 1" and end at
+"i == 0".  Currently it starts a "i" and ends at "i == 1".  The result
+is that it removes one attribute that wasn't created yet, and leaks the
+zeroeth attribute.
 
-We're seeing some R0' mismatches in the field, particularly with
-repeaters. I'm guessing the (already lenient) 300ms wait time isn't
-enough for some setups. So add an additional wait when R0' is
-mismatched.
-
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-
-Changes in v2:
-- Actually add the delay in R0` wait (Ram)
+Fixes: 4e01847c38f7 ("drm/amdgpu: optimize amdgpu device attribute code")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
+v2: style change
 
-Apologies, v1 was generated from a forward port from the CrOS kernel and
-patch got confused and put the diff in V' wait instead of R0' wait.
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c           | 3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-Pay closer attention, Sean.
-
- drivers/gpu/drm/i915/display/intel_hdcp.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 2cbc4619b4ce..3c2d8c0a6da6 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -743,6 +743,9 @@ static int intel_hdcp_auth(struct intel_connector *connector)
- 		if (!wait_for(intel_de_read(dev_priv, HDCP_STATUS(dev_priv, cpu_transcoder, port)) &
- 			      (HDCP_STATUS_RI_MATCH | HDCP_STATUS_ENC), 1))
- 			break;
-+
-+		/* Maybe the sink is lazy, give it some more time */
-+		usleep_range(10000, 50000);
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+index b75362bf0742..e809534fabd4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+@@ -1942,9 +1942,8 @@ static int amdgpu_device_attr_create_groups(struct amdgpu_device *adev,
+ 	return 0;
  
- 	if (i == tries) {
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
-
+ failed:
+-	for (; i > 0; i--) {
++	while (i--)
+ 		amdgpu_device_attr_remove(adev, &attrs[i]);
+-	}
+ 
+ 	return ret;
+ }
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
