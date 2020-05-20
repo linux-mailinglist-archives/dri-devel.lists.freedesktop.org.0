@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430701DB068
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 12:40:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5B21DB074
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 12:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B96C489CF2;
-	Wed, 20 May 2020 10:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2895389D8D;
+	Wed, 20 May 2020 10:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.blih.net (mx.blih.net [212.83.155.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5DAE89CF2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 10:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bidouilliste.com;
- s=mx; t=1589971236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J+IOjI/wMmRJBN+FVFdSw+vaC8WIT6zo36OAiA67Xq4=;
- b=MjNnpLmhaWz0C5rX2vuc0KKb6PpIPWan089qriAwrgel0nPnaV+56fg6oXG6HkPnfulq6l
- qFoIhBK7DGFIwSPOs1C8MBz8jeRSZRS+i5XQpH1fRqu+258+X1twK4X32LMpeAnMjopqrl
- wj2KJbyAPjeacDhGmrb6O46unYdb5F0=
-Received: from skull.home.blih.net (lfbn-idf2-1-900-181.w86-238.abo.wanadoo.fr
- [86.238.131.181]) by mx.blih.net (OpenSMTPD) with ESMTPSA id fa30da27
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 20 May 2020 10:40:36 +0000 (UTC)
-Date: Wed, 20 May 2020 12:40:33 +0200
-From: Emmanuel Vadot <manu@bidouilliste.com>
-To: Carlos Santa <carlos.santa@intel.com>
-Subject: Re: [PATCH libdrm] libdrm: enclose __FreeBSD__ behind a define
-Message-Id: <20200520124033.540b0116be6d3b6d95cf4690@bidouilliste.com>
-In-Reply-To: <20200519190458.15260-2-carlos.santa@intel.com>
-References: <20200519190458.15260-1-carlos.santa@intel.com>
- <20200519190458.15260-2-carlos.santa@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; amd64-portbld-freebsd13.0)
-Mime-Version: 1.0
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F192589D8D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 10:44:42 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id u79so1542383vsu.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 03:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z8Ed4esVyLwxGK/ed6iQzqE+rcqzfGB1NnWxeSSQtK0=;
+ b=LMo7BXsekhXmrXHuaiP1G2MkQ1j914Wla5i0ywG6W9XT0iquGvIPV3BliE8K0E5xc7
+ NObMTM0aP22cwtd5HNWPz44lIo1j0IKbRsKmQqMAAiBhyugOEVfLTeZriyknUuhst1Ib
+ fx9nFEbo1NA1tz0ATqqVuLzPfI2ztMG3B0zGQgLtsW1xw+goXzOjiE4TPiP88S/wPoi9
+ gRb+vlVisdLUGuRyE3URXw+fgu0YrgTPd0KSBTSmjBbpy1M8ii1Shg86dpUc2T3qAL4F
+ upyAOzqhccKkVDERI8W7zS4G9haYdfwLAPfz0WvsIT2UJbhwrfv4Zl3Y5PB6Iobxa2OM
+ B/PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z8Ed4esVyLwxGK/ed6iQzqE+rcqzfGB1NnWxeSSQtK0=;
+ b=IusIR8xQ9b1tEGmYRiNWC49sZWO3uyR2WJW3f6NAqSMGr9GTa8PsFA1Et4F7Sbpitf
+ 18NJBYaPVdTbAY+WA7GgYJx8ibbkKAGxGSTFWUR5iQHk3YT1UO+i75rwJInky08TFRle
+ HSaua7tTsHMkcFgeMyfi1vpzXs8DZ+pZ+smuAVKaPsr9M/lrrhSfgxuPx8DVHF8ZdCMM
+ rpBVUq4Yi27lOBDeZRre3p8tYVPUmJ0JgvViTcxzcu0HQNFhdSEWlHkfKXLAcLJ82Lv/
+ NMWqUqQwV9pHvOlBUp09sQjIlCApGkKcEddMEEUPHk91DM2L1o1DZm8cl8V+5c/3SOWo
+ Ne6w==
+X-Gm-Message-State: AOAM531hfJnWg9HSyXW9ctLG4CRW0XRQR41z9b9MgBGzVAUFOh6iHJo2
+ K84/yjE/5tYYqzyA8I1J4PKDPCf4x+T3WBhbJ9Y=
+X-Google-Smtp-Source: ABdhPJyuWRsi6C3bfq5M4MOyQ9byWY9bxWsctP/KplOAKui4DADof0x9My3MNA1jStEseX1SLxjQp7LPJ3e6/IGtfGI=
+X-Received: by 2002:a67:ff14:: with SMTP id v20mr2696940vsp.118.1589971481760; 
+ Wed, 20 May 2020 03:44:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200517190139.740249-1-sam@ravnborg.org>
+ <20200517190139.740249-3-sam@ravnborg.org>
+In-Reply-To: <20200517190139.740249-3-sam@ravnborg.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Wed, 20 May 2020 11:41:46 +0100
+Message-ID: <CACvgo50p6M59C-cdwCUFYNE7pWBA-oTwa9EN90yrkOkW2S-BKA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/16] backlight: refactor fb_notifier_callback()
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,107 +61,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Andy Gross <agross@kernel.org>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, patches@opensource.cirrus.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 May 2020 12:04:58 -0700
-Carlos Santa <carlos.santa@intel.com> wrote:
+Hi Sam,
 
-> Not doing the above can cause compilation errors on
-> platforms that don't define it.
-> 
-> [1/25] Compiling C object 'drm@sha/xf86drm.c.o.
-> FAILED: drm@sha/xf86drm.c.o
-> ../xf86drm.c: In function 'drmGetMinorNameForFD':
-> ../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
->  #elif __FreeBSD__
->        ^
-> ../xf86drm.c: In function 'drmParsePciBusInfo':
-> ../xf86drm.c:3258:7 error: "__FreeBSD__" is not defined [-Werror=undef]
->  #elif __FreeBSD__
->        ^
-> ../x86drm.c: In function 'drmParsePciDeviceInfo':
-> ../x86drm.c:3427:7 error: "__FreeBSD__" is not defined [-Werror=undef]
->  #elif __FreeBSD__
-> 
-> ../x86drm.c: In function 'drmGetDeviceNameFromFd2':
-> ../xf86drm.c:4305:7 error: "__FreeBSD__" is not defined [-Werror=undef]
->  #elif __FreeBSD__
->        ^
-> cc1: some warnigns being treated as errors
-> ninja: build stopped: subcommand failed.
-> 
-> Signed-off-by: Carlos Santa <carlos.santa@intel.com>
+On Sun, 17 May 2020 at 20:02, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Increase readability of fb_notifier_callback() by removing
+> a few indent levels.
+> No functional change.
+>
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> Cc: Jingoo Han <jingoohan1@gmail.com>
 > ---
->  xf86drm.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/xf86drm.c b/xf86drm.c
-> index b49d42f70dbe..3965b4be366d 100644
-> --- a/xf86drm.c
-> +++ b/xf86drm.c
-> @@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
->      snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
->               maj, min);
->      return stat(path, &sbuf) == 0;
-> -#elif __FreeBSD__
-> +#elif defined(__FreeBSD__)
->      char name[SPECNAMELEN];
->  
->      if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
-> @@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
->  
->      closedir(sysdir);
->      return NULL;
-> -#elif __FreeBSD__
-> +#elif defined(__FreeBSD__)
->      struct stat sbuf;
->      char dname[SPECNAMELEN];
->      const char *mname;
-> @@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
->      info->func = pinfo.func;
->  
->      return 0;
-> -#elif __FreeBSD__
-> +#elif defined(__FreeBSD__)
->      return get_sysctl_pci_bus_info(maj, min, info);
->  #else
->  #warning "Missing implementation of drmParsePciBusInfo"
-> @@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
->      device->subdevice_id = pinfo.subdevice_id;
->  
->      return 0;
-> -#elif __FreeBSD__
-> +#elif defined(__FreeBSD__)
->      drmPciBusInfo info;
->      struct pci_conf_io pc;
->      struct pci_match_conf patterns[1];
-> @@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
->      free(value);
->  
->      return strdup(path);
-> -#elif __FreeBSD__
-> +#elif defined(__FreeBSD__)
->      return drmGetDeviceNameFromFd(fd);
->  #else
->      struct stat      sbuf;
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/video/backlight/backlight.c | 43 +++++++++++++++--------------
+>  1 file changed, 22 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index cac3e35d7630..17f04cff50ab 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -58,28 +58,29 @@ static int fb_notifier_callback(struct notifier_block *self,
+>
+>         bd = container_of(self, struct backlight_device, fb_notif);
+>         mutex_lock(&bd->ops_lock);
+> -       if (bd->ops)
+> -               if (!bd->ops->check_fb ||
+> -                   bd->ops->check_fb(bd, evdata->info)) {
+> -                       fb_blank = *(int *)evdata->data;
+> -                       if (fb_blank == FB_BLANK_UNBLANK &&
+> -                           !bd->fb_bl_on[node]) {
+> -                               bd->fb_bl_on[node] = true;
+> -                               if (!bd->use_count++) {
+> -                                       bd->props.state &= ~BL_CORE_FBBLANK;
+> -                                       bd->props.fb_blank = FB_BLANK_UNBLANK;
+> -                                       backlight_update_status(bd);
+> -                               }
+> -                       } else if (fb_blank != FB_BLANK_UNBLANK &&
+> -                                  bd->fb_bl_on[node]) {
+> -                               bd->fb_bl_on[node] = false;
+> -                               if (!(--bd->use_count)) {
+> -                                       bd->props.state |= BL_CORE_FBBLANK;
+> -                                       bd->props.fb_blank = fb_blank;
+> -                                       backlight_update_status(bd);
+> -                               }
+> -                       }
+> +
+> +       if (!bd->ops)
+> +               goto out;
+> +       if (bd->ops->check_fb && !bd->ops->check_fb(bd, evdata->info))
+Mildly related: Would be a nice to define which ops are mandatory and
+which aren't.
+That plus enforcement in backlight_device_register.
 
- Ouch, sorry.
+But that's for another patchset.
 
- Reviewed-by: Emmanuel Vadot <manu@FreeBSD.org>
+> +               goto out;
+> +
+> +       fb_blank = *(int *)evdata->data;
+> +       if (fb_blank == FB_BLANK_UNBLANK && !bd->fb_bl_on[node]) {
+> +               bd->fb_bl_on[node] = true;
+> +               if (!bd->use_count++) {
+> +                       bd->props.state &= ~BL_CORE_FBBLANK;
+> +                       bd->props.fb_blank = FB_BLANK_UNBLANK;
+> +                       backlight_update_status(bd);
+> +               }
+> +       } else if (fb_blank != FB_BLANK_UNBLANK && bd->fb_bl_on[node]) {
+> +               bd->fb_bl_on[node] = false;
+> +               if (!(--bd->use_count)) {
+> +                       bd->props.state |= BL_CORE_FBBLANK;
+> +                       bd->props.fb_blank = fb_blank;
+> +                       backlight_update_status(bd);
+>                 }
+Something like the following reads better, plus one could simplify it
+with follow-on patch.
 
--- 
-Emmanuel Vadot <manu@bidouilliste.com> <manu@freebsd.org>
+if (fb_blank == FB_BLANK_UNBLANK)
+    if (!bd->fb_bl_on[node] && !bd->use_count++) {
+        bd->props.state &= ~BL_CORE_FBBLANK;
+        bd->props.fb_blank = FB_BLANK_UNBLANK;
+        backlight_update_status(bd);
+        // above is backlight_enable()
+    }
+    bd->fb_bl_on[node] = true;
+} else {
+    if (bd->fb_bl_on[node] && !(--bd->use_count)) {
+        bd->props.state |= BL_CORE_FBBLANK;
+        bd->props.fb_blank = fb_blank;
+        backlight_update_status(bd);
+        // above is backlight_disable()
+   }
+    bd->fb_bl_on[node] = false;
+}
+
+As-is, one cannot use the backlight helpers indicated, since it
+touches .power. First one should ensure the drivers honour .power - by
+using the helper introduced later.
+
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
