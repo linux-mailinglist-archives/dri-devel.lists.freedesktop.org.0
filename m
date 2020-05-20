@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56FF1DA9B4
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 07:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B5B1DA9BB
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 07:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DE16E0F1;
-	Wed, 20 May 2020 05:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2761C6E3DF;
+	Wed, 20 May 2020 05:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B885C6E0F1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:13:17 +0000 (UTC)
-IronPort-SDR: +vmJ7sOGyL+n3LEYH3wwvirXYAaAamTkpVcSRtfntRVefRwDgEsYEDReMJD0dew6aOJkBWbq0c
- Eglu892aIcyQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 22:13:16 -0700
-IronPort-SDR: WmoC4hUYiR7JNn8619hAjjYz7TWT9psqQxnwh045tX7/jT/bvy1RfqxhT5OjjfSF9i1OiaMvS+
- nDNlwL0DIiCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,412,1583222400"; d="scan'208";a="264557290"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga003.jf.intel.com with ESMTP; 19 May 2020 22:13:16 -0700
-Date: Tue, 19 May 2020 22:13:16 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-Message-ID: <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
-References: <20200507150004.1423069-8-ira.weiny@intel.com>
- <20200518184843.3029640-1-ira.weiny@intel.com>
- <20200519165422.GA5838@roeck-us.net>
- <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC626E48D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:15:39 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 87D5420709;
+ Wed, 20 May 2020 05:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589951739;
+ bh=KPQMGRpN/8pksdTK+mITk4uG/KU+mOKwSHzD2e/jfd0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=r22Tpllut6JmcXCyRGqQGTHKkf+22MD5eYE7TFPAMk7X78m31KDGDFuD+uNPcCiTl
+ g4uT+VmG793nPL1sLrtCYYfoXMcQ2Ky12cmbiU+7S/dNdTfSNFVXsCgl+BlbHCQGlZ
+ BV+7JbQGliTmhHd9MijjWRkFp9hBHgEtqUq1BjfQ=
+Date: Wed, 20 May 2020 07:15:36 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
+Message-ID: <20200520051536.GA2141566@kroah.com>
+References: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519194215.GA71941@roeck-us.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,100 +46,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Olof Johansson <olof.johansson@gmail.com>, wufan@codeaurora.org,
+ Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 19, 2020 at 12:42:15PM -0700, Guenter Roeck wrote:
-> On Tue, May 19, 2020 at 11:40:32AM -0700, Ira Weiny wrote:
-> > On Tue, May 19, 2020 at 09:54:22AM -0700, Guenter Roeck wrote:
-> > > On Mon, May 18, 2020 at 11:48:43AM -0700, ira.weiny@intel.com wrote:
-> > > > From: Ira Weiny <ira.weiny@intel.com>
-> > > > 
-> > > > The kunmap_atomic clean up failed to remove one set of pagefault/preempt
-> > > > enables when vaddr is not in the fixmap.
-> > > > 
-> > > > Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
-> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > microblazeel works with this patch,
-> > 
-> > Awesome...  Andrew in my rush yesterday I should have put a reported by on the
-> > patch for Guenter as well.
-> > 
-> > Sorry about that Guenter,
+On Tue, May 19, 2020 at 10:41:15PM +0200, Daniel Vetter wrote:
+> On Tue, May 19, 2020 at 07:41:20PM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, May 19, 2020 at 08:57:38AM -0600, Jeffrey Hugo wrote:
+> > > On 5/18/2020 11:08 PM, Dave Airlie wrote:
+> > > > On Fri, 15 May 2020 at 00:12, Jeffrey Hugo <jhugo@codeaurora.org> wrote:
+> > > > >
+> > > > > Introduction:
+> > > > > Qualcomm Cloud AI 100 is a PCIe adapter card which contains a dedicated
+> > > > > SoC ASIC for the purpose of efficently running Deep Learning inference
+> > > > > workloads in a data center environment.
+> > > > >
+> > > > > The offical press release can be found at -
+> > > > > https://www.qualcomm.com/news/releases/2019/04/09/qualcomm-brings-power-efficient-artificial-intelligence-inference
+> > > > >
+> > > > > The offical product website is -
+> > > > > https://www.qualcomm.com/products/datacenter-artificial-intelligence
+> > > > >
+> > > > > At the time of the offical press release, numerious technology news sites
+> > > > > also covered the product.  Doing a search of your favorite site is likely
+> > > > > to find their coverage of it.
+> > > > >
+> > > > > It is our goal to have the kernel driver for the product fully upstream.
+> > > > > The purpose of this RFC is to start that process.  We are still doing
+> > > > > development (see below), and thus not quite looking to gain acceptance quite
+> > > > > yet, but now that we have a working driver we beleive we are at the stage
+> > > > > where meaningful conversation with the community can occur.
+> > > >
+> > > >
+> > > > Hi Jeffery,
+> > > >
+> > > > Just wondering what the userspace/testing plans for this driver.
+> > > >
+> > > > This introduces a new user facing API for a device without pointers to
+> > > > users or tests for that API.
+> > >
+> > > We have daily internal testing, although I don't expect you to take my word
+> > > for that.
+> > >
+> > > I would like to get one of these devices into the hands of Linaro, so that
+> > > it can be put into KernelCI.  Similar to other Qualcomm products. I'm trying
+> > > to convince the powers that be to make this happen.
+> > >
+> > > Regarding what the community could do on its own, everything but the Linux
+> > > driver is considered proprietary - that includes the on device firmware and
+> > > the entire userspace stack.  This is a decision above my pay grade.
+> >
+> > Ok, that's a decision you are going to have to push upward on, as we
+> > really can't take this without a working, open, userspace.
 > 
-> No worries.
+> Uh wut.
 > 
-> > Ira
-> > 
-> > > as do the nosmp sparc32 boot tests,
-> > > but sparc32 boot tests with SMP enabled still fail with lots of messages
-> > > such as:
-> > > 
-> > > BUG: Bad page state in process swapper/0  pfn:006a1
-> > > page:f0933420 refcount:0 mapcount:1 mapping:(ptrval) index:0x1
-> > > flags: 0x0()
-> > > raw: 00000000 00000100 00000122 00000000 00000001 00000000 00000000 00000000
-> > > page dumped because: nonzero mapcount
-> > > Modules linked in:
-> > > CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B             5.7.0-rc6-next-20200518-00002-gb178d2d56f29 #1
-> > > [f00e7ab8 :
-> > > bad_page+0xa8/0x108 ]
-> > > [f00e8b54 :
-> > > free_pcppages_bulk+0x154/0x52c ]
-> > > [f00ea024 :
-> > > free_unref_page+0x54/0x6c ]
-> > > [f00ed864 :
-> > > free_reserved_area+0x58/0xec ]
-> > > [f0527104 :
-> > > kernel_init+0x14/0x110 ]
-> > > [f000b77c :
-> > > ret_from_kernel_thread+0xc/0x38 ]
-> > > [00000000 :
-> > > 0x0 ]
-> > > 
-> > > Code path leading to that message is different but always the same
-> > > from free_unref_page().
-
-Actually it occurs to me that the patch consolidating kmap_prot is odd for
-sparc 32 bit...
-
-Its a long shot but could you try reverting this patch?
-
-4ea7d2419e3f kmap: consolidate kmap_prot definitions
-
-Alternately I will need to figure out how to run the sparc on qemu here...
-
-Thanks very much for all the testing though!  :-D
-
-Ira
-
-> > > 
-> > > Still testing ppc images.
-> > > 
+> So the merge criteria for drivers/accel (atm still drivers/misc but I
+> thought that was interim until more drivers showed up) isn't actually
+> "totally-not-a-gpu accel driver without open source userspace".
 > 
-> ppc image tests are passing with this patch.
-> 
-> Guenter
+> Instead it's "totally-not-a-gpu accel driver without open source
+> userspace" _and_ you have to be best buddies with Greg. Or at least
+> not be on the naughty company list. Since for habanalabs all you
+> wanted is a few test cases to exercise the ioctls. Not the entire
+> userspace.
+
+Also, to be fair, I have changed my mind after seeing the mess of
+complexity that these "ioctls for everyone!" type of pass-through
+these kinds of drivers are creating.  You were right, we need open
+userspace code in order to be able to properly evaluate and figure out
+what they are doing is right or not and be able to maintain things over
+time correctly.
+
+So I was wrong, and you were right, my apologies for my previous
+stubbornness.
+
+thanks,
+
+greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
