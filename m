@@ -2,45 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D653A1DE058
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A0E1DB08A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 12:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1E386E999;
-	Fri, 22 May 2020 06:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94BD589D9A;
+	Wed, 20 May 2020 10:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
- by gabe.freedesktop.org (Postfix) with ESMTP id F1F2789F97;
- Wed, 20 May 2020 10:48:31 +0000 (UTC)
-Received: from localhost.localdomain (unknown [222.205.77.158])
- by mail-app3 (Coremail) with SMTP id cC_KCgCXOQTYCsVeqwPgAA--.5693S4;
- Wed, 20 May 2020 18:47:56 +0800 (CST)
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
-To: dinghao.liu@zju.edu.cn,
-	kjlu@umn.edu
-Subject: [PATCH] drm/nouveau/dispnv50: fix runtime pm imbalance on error
-Date: Wed, 20 May 2020 18:47:48 +0800
-Message-Id: <20200520104750.21335-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgCXOQTYCsVeqwPgAA--.5693S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrWrZF15CFyUGr4xXF1UKFg_yoWDurXE9r
- 4kua12gr4YkrZ2qw47Cw4rZryI9ws8u3WxXr10qrySy3y7Awn8WryUGwn5Zr43Wa4xXryq
- yFZ8WFyUArWI9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbT8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
- JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
- 67AK6r4DMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
- CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
- 6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
- WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
- 6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUOlkVUUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F85989D8E;
+ Wed, 20 May 2020 10:48:15 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id e2so3134260eje.13;
+ Wed, 20 May 2020 03:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=BJ/UCzsi6VWkG3ZZDu+33O2d2bF1wj81EEaZB1Z7K30=;
+ b=WEPQ8MJrWaSjujdfKushADVupApSDARb7vrKJ/fPzUsc3mC/ujYkoHlzhlGNkA308s
+ 8QlM2py1RTW3ThJuqL16Dpm1nPcK2exZHYTewSxgEmvnBX8O73WjrhSWRPP0hp7qqKfW
+ NbQHSbLaGDcilmMiDH6e6NwoD7qWS80mADr92pxpSZYaDKfCSgT0euPlX2HhzHki488r
+ g5uQmhh21dl5sC0qN5bsGNktaK5rHkVXszDrtbSsBuxkKRcSA+thic04zS4eH6+Xbrwq
+ PTAE7Nk0wBp+2n35cDhBohVR1UyNtmIR8pSjt57EXmTRH7q+SThhRTT0BzCiW4he0NaY
+ g5MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=BJ/UCzsi6VWkG3ZZDu+33O2d2bF1wj81EEaZB1Z7K30=;
+ b=V3aA8Bek4qU6FVc4mi90YCpHefwasN01spqmYY61YUSgcyfLji+SXtWsvs8yq3A4jP
+ T3NnAz/BSzWbQtDog3hwIalc37Mk4NV7hHQ9wI1cqxUCoPyi94BIJDfRnv2rpg8NF+Gc
+ 9xWHxbdnJvk3OFlJ3+DfkcNMkEwfIPf/PT38uI0E0mpv6zvE83koIErkWtAyVbEe8RIX
+ cJDCSmM8qCPgBetM2wkJE5Vh0g5xoKqzQYlZMaalDu0G8ESD2J7KzVat3I16TO3umHGy
+ IyXkwyfAlHKvRro4nYOrvJQmxVGaUX4MRSNPFc2Ru3dTITdFTVfshAtfIRVzwLvj0oIW
+ rMNw==
+X-Gm-Message-State: AOAM531eFSdF1p6gWYg8pg0eLCvxDgX3BwDFVqMVXtx37J6O5jbf1mgf
+ 8Ex3DaGtaDos8dlP2q2p0m8=
+X-Google-Smtp-Source: ABdhPJwl6ENc60zjPf1yS0B2rvn9LuXNOLk4I5UDfSAupLCD7BKpxI1kC22/RvD9+6+rp/IyTh2rFg==
+X-Received: by 2002:a17:906:8514:: with SMTP id
+ i20mr3004443ejx.298.1589971693861; 
+ Wed, 20 May 2020 03:48:13 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id m3sm1558631ede.58.2020.05.20.03.48.12
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 20 May 2020 03:48:13 -0700 (PDT)
+Subject: Re: [PATCH v1 13/25] dma-buf: Use sequence counter with associated
+ wound/wait mutex
+To: "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200519214547.352050-14-a.darwish@linutronix.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e28c251e-5771-598c-37dd-c6be2de4b9e1@gmail.com>
+Date: Wed, 20 May 2020 12:48:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200519214547.352050-14-a.darwish@linutronix.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +75,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Ben Skeggs <bskeggs@redhat.com>,
- nouveau@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org, "Paul E. McKenney" <paulmck@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
+ Steven Rostedt <rostedt@goodmis.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-the call returns an error code. Thus a pairing decrement is needed
-on the error handling path to keep the counter balanced.
+Am 19.05.20 um 23:45 schrieb Ahmed S. Darwish:
+> A sequence counter write side critical section must be protected by some
+> form of locking to serialize writers. If the serialization primitive is
+> not disabling preemption implicitly, preemption has to be explicitly
+> disabled before entering the sequence counter write side critical
+> section.
+>
+> The dma-buf reservation subsystem uses plain sequence counters to manage
+> updates to reservations. Writer serialization is accomplished through a
+> wound/wait mutex.
+>
+> Acquiring a wound/wait mutex does not disable preemption, so this needs
+> to be done manually before and after the write side critical section.
+>
+> Use the newly-added seqcount_ww_mutex_t instead:
+>
+>    - It associates the ww_mutex with the sequence count, which enables
+>      lockdep to validate that the write side critical section is properly
+>      serialized.
+>
+>    - It removes the need to explicitly add preempt_disable/enable()
+>      around the write side critical section because the write_begin/end()
+>      functions for this new data type automatically do this.
+>
+> If lockdep is disabled this ww_mutex lock association is compiled out
+> and has neither storage size nor runtime overhead.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Mhm, is the dma_resv object the only user of this new seqcount_ww_mutex 
+variant ?
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 6be9df1820c5..e670756664ff 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -1123,8 +1123,10 @@ nv50_mstc_detect(struct drm_connector *connector,
- 		return connector_status_disconnected;
- 
- 	ret = pm_runtime_get_sync(connector->dev->dev);
--	if (ret < 0 && ret != -EACCES)
-+	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put_autosuspend(connector->dev->dev);
- 		return connector_status_disconnected;
-+	}
- 
- 	ret = drm_dp_mst_detect_port(connector, ctx, mstc->port->mgr,
- 				     mstc->port);
--- 
-2.17.1
+If yes we are trying to get rid of this sequence counter for quite some 
+time, so I would rather invest the additional time to finish this.
+
+Regards,
+Christian.
+
+>
+> Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
+> ---
+>   drivers/dma-buf/dma-resv.c                       | 8 +-------
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 --
+>   include/linux/dma-resv.h                         | 2 +-
+>   3 files changed, 2 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 590ce7ad60a0..3aba2b2bfc48 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -128,7 +128,7 @@ subsys_initcall(dma_resv_lockdep);
+>   void dma_resv_init(struct dma_resv *obj)
+>   {
+>   	ww_mutex_init(&obj->lock, &reservation_ww_class);
+> -	seqcount_init(&obj->seq);
+> +	seqcount_ww_mutex_init(&obj->seq, &obj->lock);
+>   
+>   	RCU_INIT_POINTER(obj->fence, NULL);
+>   	RCU_INIT_POINTER(obj->fence_excl, NULL);
+> @@ -259,7 +259,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+>   	fobj = dma_resv_get_list(obj);
+>   	count = fobj->shared_count;
+>   
+> -	preempt_disable();
+>   	write_seqcount_begin(&obj->seq);
+>   
+>   	for (i = 0; i < count; ++i) {
+> @@ -281,7 +280,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
+>   	smp_store_mb(fobj->shared_count, count);
+>   
+>   	write_seqcount_end(&obj->seq);
+> -	preempt_enable();
+>   	dma_fence_put(old);
+>   }
+>   EXPORT_SYMBOL(dma_resv_add_shared_fence);
+> @@ -308,14 +306,12 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>   	if (fence)
+>   		dma_fence_get(fence);
+>   
+> -	preempt_disable();
+>   	write_seqcount_begin(&obj->seq);
+>   	/* write_seqcount_begin provides the necessary memory barrier */
+>   	RCU_INIT_POINTER(obj->fence_excl, fence);
+>   	if (old)
+>   		old->shared_count = 0;
+>   	write_seqcount_end(&obj->seq);
+> -	preempt_enable();
+>   
+>   	/* inplace update, no shared fences */
+>   	while (i--)
+> @@ -393,13 +389,11 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+>   	src_list = dma_resv_get_list(dst);
+>   	old = dma_resv_get_excl(dst);
+>   
+> -	preempt_disable();
+>   	write_seqcount_begin(&dst->seq);
+>   	/* write_seqcount_begin provides the necessary memory barrier */
+>   	RCU_INIT_POINTER(dst->fence_excl, new);
+>   	RCU_INIT_POINTER(dst->fence, dst_list);
+>   	write_seqcount_end(&dst->seq);
+> -	preempt_enable();
+>   
+>   	dma_resv_list_free(src_list);
+>   	dma_fence_put(old);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index 9dff792c9290..87fd32aae8f9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -258,11 +258,9 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
+>   	new->shared_count = k;
+>   
+>   	/* Install the new fence list, seqcount provides the barriers */
+> -	preempt_disable();
+>   	write_seqcount_begin(&resv->seq);
+>   	RCU_INIT_POINTER(resv->fence, new);
+>   	write_seqcount_end(&resv->seq);
+> -	preempt_enable();
+>   
+>   	/* Drop the references to the removed fences or move them to ef_list */
+>   	for (i = j, k = 0; i < old->shared_count; ++i) {
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index a6538ae7d93f..d44a77e8a7e3 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -69,7 +69,7 @@ struct dma_resv_list {
+>    */
+>   struct dma_resv {
+>   	struct ww_mutex lock;
+> -	seqcount_t seq;
+> +	seqcount_ww_mutex_t seq;
+>   
+>   	struct dma_fence __rcu *fence_excl;
+>   	struct dma_resv_list __rcu *fence;
 
 _______________________________________________
 dri-devel mailing list
