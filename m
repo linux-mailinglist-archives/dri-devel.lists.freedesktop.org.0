@@ -1,36 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2A81DE057
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 430701DB068
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 12:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E151F6E988;
-	Fri, 22 May 2020 06:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96C489CF2;
+	Wed, 20 May 2020 10:40:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 397 seconds by postgrey-1.36 at gabe;
- Wed, 20 May 2020 10:44:05 UTC
-Received: from a3.inai.de (a3.inai.de [IPv6:2a01:4f8:10b:45d8::f5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C04CB89D8D
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 10:44:05 +0000 (UTC)
-Received: by a3.inai.de (Postfix, from userid 25121)
- id 76BFF593C1A70; Wed, 20 May 2020 12:37:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by a3.inai.de (Postfix) with ESMTP id 72BB36259D2B5;
- Wed, 20 May 2020 12:37:25 +0200 (CEST)
-Date: Wed, 20 May 2020 12:37:25 +0200 (CEST)
-From: Jan Engelhardt <jengelh@inai.de>
-To: Sasha Levin <sashal@kernel.org>
-Subject: Re: [RFC PATCH 0/4] DirectX on Linux
-In-Reply-To: <20200519203608.GG33628@sasha-vm>
-Message-ID: <nycvar.YFH.7.77.849.2005201222370.19642@n3.vanv.qr>
-References: <20200519163234.226513-1-sashal@kernel.org>
- <CAKMK7uGnSDHdZha-=dZN5ns0sJ2CEnK2693uix4tzqyZb9MXCQ@mail.gmail.com>
- <20200519203608.GG33628@sasha-vm>
-User-Agent: Alpine 2.22 (LSU 394 2020-01-19)
-MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+Received: from mx.blih.net (mx.blih.net [212.83.155.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5DAE89CF2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 10:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bidouilliste.com;
+ s=mx; t=1589971236;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J+IOjI/wMmRJBN+FVFdSw+vaC8WIT6zo36OAiA67Xq4=;
+ b=MjNnpLmhaWz0C5rX2vuc0KKb6PpIPWan089qriAwrgel0nPnaV+56fg6oXG6HkPnfulq6l
+ qFoIhBK7DGFIwSPOs1C8MBz8jeRSZRS+i5XQpH1fRqu+258+X1twK4X32LMpeAnMjopqrl
+ wj2KJbyAPjeacDhGmrb6O46unYdb5F0=
+Received: from skull.home.blih.net (lfbn-idf2-1-900-181.w86-238.abo.wanadoo.fr
+ [86.238.131.181]) by mx.blih.net (OpenSMTPD) with ESMTPSA id fa30da27
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 20 May 2020 10:40:36 +0000 (UTC)
+Date: Wed, 20 May 2020 12:40:33 +0200
+From: Emmanuel Vadot <manu@bidouilliste.com>
+To: Carlos Santa <carlos.santa@intel.com>
+Subject: Re: [PATCH libdrm] libdrm: enclose __FreeBSD__ behind a define
+Message-Id: <20200520124033.540b0116be6d3b6d95cf4690@bidouilliste.com>
+In-Reply-To: <20200519190458.15260-2-carlos.santa@intel.com>
+References: <20200519190458.15260-1-carlos.santa@intel.com>
+ <20200519190458.15260-2-carlos.santa@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; amd64-portbld-freebsd13.0)
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,37 +48,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, Olof Johansson <olof.johansson@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Greg KH <gregkh@linuxfoundation.org>, Haiyang Zhang <haiyangz@microsoft.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Wilson,
- Chris" <chris@chris-wilson.co.uk>, Jerome Glisse <jglisse@redhat.com>,
- spronovo@microsoft.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jason Ekstrand <jason@jlekstrand.net>, iourit@microsoft.com,
- Alex Deucher <alexander.deucher@amd.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 19 May 2020 12:04:58 -0700
+Carlos Santa <carlos.santa@intel.com> wrote:
 
-On Tuesday 2020-05-19 22:36, Sasha Levin wrote:
->
->> - Why DX12 on linux? Looking at this feels like classic divide and
->
-> There is a single usecase for this: WSL2 developer who wants to run
-> machine learning on his GPU. The developer is working on his laptop,
-> which is running Windows and that laptop has a single GPU that Windows
-> is using.
+> Not doing the above can cause compilation errors on
+> platforms that don't define it.
+> 
+> [1/25] Compiling C object 'drm@sha/xf86drm.c.o.
+> FAILED: drm@sha/xf86drm.c.o
+> ../xf86drm.c: In function 'drmGetMinorNameForFD':
+> ../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+>  #elif __FreeBSD__
+>        ^
+> ../xf86drm.c: In function 'drmParsePciBusInfo':
+> ../xf86drm.c:3258:7 error: "__FreeBSD__" is not defined [-Werror=undef]
+>  #elif __FreeBSD__
+>        ^
+> ../x86drm.c: In function 'drmParsePciDeviceInfo':
+> ../x86drm.c:3427:7 error: "__FreeBSD__" is not defined [-Werror=undef]
+>  #elif __FreeBSD__
+> 
+> ../x86drm.c: In function 'drmGetDeviceNameFromFd2':
+> ../xf86drm.c:4305:7 error: "__FreeBSD__" is not defined [-Werror=undef]
+>  #elif __FreeBSD__
+>        ^
+> cc1: some warnigns being treated as errors
+> ninja: build stopped: subcommand failed.
+> 
+> Signed-off-by: Carlos Santa <carlos.santa@intel.com>
+> ---
+>  xf86drm.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/xf86drm.c b/xf86drm.c
+> index b49d42f70dbe..3965b4be366d 100644
+> --- a/xf86drm.c
+> +++ b/xf86drm.c
+> @@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
+>      snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
+>               maj, min);
+>      return stat(path, &sbuf) == 0;
+> -#elif __FreeBSD__
+> +#elif defined(__FreeBSD__)
+>      char name[SPECNAMELEN];
+>  
+>      if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
+> @@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
+>  
+>      closedir(sysdir);
+>      return NULL;
+> -#elif __FreeBSD__
+> +#elif defined(__FreeBSD__)
+>      struct stat sbuf;
+>      char dname[SPECNAMELEN];
+>      const char *mname;
+> @@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
+>      info->func = pinfo.func;
+>  
+>      return 0;
+> -#elif __FreeBSD__
+> +#elif defined(__FreeBSD__)
+>      return get_sysctl_pci_bus_info(maj, min, info);
+>  #else
+>  #warning "Missing implementation of drmParsePciBusInfo"
+> @@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
+>      device->subdevice_id = pinfo.subdevice_id;
+>  
+>      return 0;
+> -#elif __FreeBSD__
+> +#elif defined(__FreeBSD__)
+>      drmPciBusInfo info;
+>      struct pci_conf_io pc;
+>      struct pci_match_conf patterns[1];
+> @@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
+>      free(value);
+>  
+>      return strdup(path);
+> -#elif __FreeBSD__
+> +#elif defined(__FreeBSD__)
+>      return drmGetDeviceNameFromFd(fd);
+>  #else
+>      struct stat      sbuf;
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-It does not feel right conceptually. If the target is a Windows API
-(DX12/ML), why bother with Linux environments? Make it a Windows executable,
-thereby skipping the WSL translation layer and passthrough.
+ Ouch, sorry.
+
+ Reviewed-by: Emmanuel Vadot <manu@FreeBSD.org>
+
+-- 
+Emmanuel Vadot <manu@bidouilliste.com> <manu@freebsd.org>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
