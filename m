@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BEB01DBD02
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5828B1DBD30
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC2846E881;
-	Wed, 20 May 2020 18:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8976E887;
+	Wed, 20 May 2020 18:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E57A56E881;
- Wed, 20 May 2020 18:39:17 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id k13so4231808wrx.3;
- Wed, 20 May 2020 11:39:17 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1E376E887;
+ Wed, 20 May 2020 18:45:11 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id h17so4199774wrc.8;
+ Wed, 20 May 2020 11:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZwIuzGd2VX1FSb5QhuGSYUs3g1lNhtaIqItKH1fDEjI=;
- b=mGZn3LCwrh1er7h+5mKGAGnnUY2Ks67cnyDOnBxr6ppvmQaNF1P4xZD9PG77BNsHmu
- S5/qN42Uc+eswztsLOtgjGyQQYst2CUxZrUCtpWPxOMizZJKCYiPAfbj91UdefSTXdX8
- t/iETTcwZJx7h/ZNkrfZ7Q9udJvEv2w1wni0GhEvDnVTexG7fBXG2KZpoz2eVZ9nMB5P
- gkFdi1QuziNNU3q6MbXQcSiGtmT86Rd3RclN9fba4MXBjWX0KWPBUcxVtoB5rax9Dz6+
- 5/Pawel55bQUCYz8RQkmqxbeM4XjJhRAd6qP17sLiHymK93zWK/q10L2I0ckj93RC4oY
- JSdQ==
+ :cc; bh=bs04m1crtOZw2SHApC8+8Cn8PYwOytxRMsUefRMQ6/8=;
+ b=PPdh6/FcbTsKd+BOnlKIfzOImeVTfJwxySvatugkQOuEBDR8t5I4NcPIOLh8vS/bYc
+ 1onYvanG1gBTv6JOY+jw0AGIscSNW+YgsJsaMs7r8QaY1xdJobN5LlO0oEudEAwn5ewe
+ myguJ9IAIAQXQjVGtYtL6NiuTX2Q1UhkTIV0N/8j450S/acFaZyJfoxrbz9iEtNJzZ5/
+ fFmYOy+TRPTgp+19zg10SqSp4b46xYXh0F6E5UTFmoyQ2ZDZQ7W2yeR3UEBbES5PMk5K
+ M5eSZy//JlYBJfpPKU+Upi1ORoMxEI3BMOpe7J9sy8GG0Udyu8/cpj+a2Dro2SNrJ+4y
+ 3dMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZwIuzGd2VX1FSb5QhuGSYUs3g1lNhtaIqItKH1fDEjI=;
- b=BXtuh8+lGEL/tno58PawNw6QIMBRDVCYC6+PLwgSfeCz5ASoiqBHrQJog6ECLIkwNG
- CS/k1NgqBx0vYYdIXlltAx+AmoeyrDN+8SzHTXOpFyL2cmM3tZ8AAu2u2KZ9KMdqYTsj
- kGPHiCWo42II3PtydQe+7W28Fd8HydqyHx/xcbujd2RKNqmNq+RuPgy49abUb/vUAXFw
- uwFlqdMMSUp3X1fidwZBvNSyooFXusZrK70zxlUR3/9eKoGWRtCxuoy+vtyR1GsqDSL7
- 8Iq3cDyF7Qenn3hREP7ALIyGLssDYLVleZFLKKFGl5iQbWaCHVehI6wca2GH4ZpO2RHk
- oeWA==
-X-Gm-Message-State: AOAM532AMOuugyIAyBST2bFl7Wd2y+Lk9R2/OpYwt+wnmvbKowCIB6Gv
- gH4uiFAyTcbQAl5gixNcvRce4XVSeub01gNMdQ0=
-X-Google-Smtp-Source: ABdhPJz0f3WzpHZv2xwvWJxbBl9OkgDh76FfraQ17OtQuyrtc4H+ZBzelteOn/XG3GWz2fma8XDzx+fOhclYlv51KeM=
-X-Received: by 2002:a05:6000:14b:: with SMTP id
- r11mr5639767wrx.124.1589999956571; 
- Wed, 20 May 2020 11:39:16 -0700 (PDT)
+ bh=bs04m1crtOZw2SHApC8+8Cn8PYwOytxRMsUefRMQ6/8=;
+ b=q+uEAbZPCUcQzJd7mw54VkhaN4Lys8SlGLIr0yu8dqicKox2YXJiRCE0sMUWIhsNR2
+ tST/NNNPKIFEKDMnrXy04Dw7WzRnHGIhQuJQ7Tm8d/jijx5BqpboC3gcsDnwxIUSqbuk
+ DrpgPpfBIZ8MxWkFb+Y7ewGX+fz+Luen1YbL0DE8zFNnQZrg7Jq3qX26+6CCJ+8r1W+0
+ AVmwxolU/oUuEefGDX+CnvhzrxkTe2OGRntL1EOQWomJQPrsJ3MQ0jIC82GdDUYL2NCN
+ SyTGonXjdqV4YECABCQvsyGPOerWHzAVXiF/OJPwjelD8jJuyx5PRQ90DObb0P7dyLgI
+ lRNg==
+X-Gm-Message-State: AOAM533GQkdAHJKpsYPcQhOdX8oC/Q4kh+1kLu8q0duZsHEcBOH1qta6
+ X4mnXTRFa4rmzIrgQO/OHSZUcuORWvb9ogWPdbk=
+X-Google-Smtp-Source: ABdhPJxI908cXuZsz1FW1XrSA4D/eB2vUFx1mG7IyI43TN8Kn8jkxyyILz83jhiux0G9zPsa4PPAkmSddy3b/gzcYvU=
+X-Received: by 2002:adf:9166:: with SMTP id j93mr4941230wrj.289.1590000310488; 
+ Wed, 20 May 2020 11:45:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <14063C7AD467DE4B82DEDB5C278E8663010E2302FA@FMSMSX108.amr.corp.intel.com>
- <20200520152556.GQ3041@kadam>
- <14063C7AD467DE4B82DEDB5C278E8663010E230378@FMSMSX108.amr.corp.intel.com>
- <d8b26176-b3f7-500a-50f8-9282f615ec74@amd.com>
-In-Reply-To: <d8b26176-b3f7-500a-50f8-9282f615ec74@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 20 May 2020 14:39:04 -0400
-Message-ID: <CADnq5_PqSNzKOg_VVmZ_b9z6dqJiLGv-TNyv4Jpez=cUGKq+6g@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/amdgpu: off by one in
- amdgpu_device_attr_create_groups() error handling
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20200515051924.12331-1-mario.kleiner.de@gmail.com>
+ <20200515051924.12331-3-mario.kleiner.de@gmail.com>
+ <7ab95258-02a9-fd39-6806-e6e81ddc295c@amd.com>
+ <CADnq5_MJzLC4q8MU9GTmVLzN1kHxy9m15nm3WwsCoPUb-0d2WA@mail.gmail.com>
+In-Reply-To: <CADnq5_MJzLC4q8MU9GTmVLzN1kHxy9m15nm3WwsCoPUb-0d2WA@mail.gmail.com>
+From: Mario Kleiner <mario.kleiner.de@gmail.com>
+Date: Wed, 20 May 2020 20:44:58 +0200
+Message-ID: <CAEsyxyjCbRvo-o-pUeYiuBbLX9SRNtZjaOLBr6CXDTdKRnMiNg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amd/display: Enable fp16 also on DCE-11.0 -
+ DCE-12.
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,203 +64,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Ruhl,
- Michael J" <michael.j.ruhl@intel.com>, Rui Huang <ray.huang@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Yintian Tao <yttao@amd.com>,
- Evan Quan <evan.quan@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: multipart/mixed; boundary="===============1130259701=="
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Harry Wentland <hwentlan@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
+Content-Type: multipart/mixed; boundary="===============0715945121=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1130259701==
-Content-Type: multipart/alternative; boundary="0000000000009ab89e05a618b642"
+--===============0715945121==
+Content-Type: multipart/alternative; boundary="000000000000b312f905a618cbe7"
 
---0000000000009ab89e05a618b642
+--000000000000b312f905a618cbe7
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Applied.  Thanks!
+On Wed, May 20, 2020 at 8:25 PM Alex Deucher <alexdeucher@gmail.com> wrote:
 
-Alex
-
-On Wed, May 20, 2020 at 11:33 AM Christian K=C3=B6nig <christian.koenig@amd=
-.com>
-wrote:
-
-> Am 20.05.20 um 17:31 schrieb Ruhl, Michael J:
-> >> -----Original Message-----
-> >> From: Dan Carpenter <dan.carpenter@oracle.com>
-> >> Sent: Wednesday, May 20, 2020 11:26 AM
-> >> To: Alex Deucher <alexander.deucher@amd.com>; Kevin Wang
-> >> <kevin1.wang@amd.com>; Ruhl, Michael J <michael.j.ruhl@intel.com>
-> >> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>; David Airlie
-> >> <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Evan Quan
-> >> <evan.quan@amd.com>; Rui Huang <ray.huang@amd.com>; Kenneth Feng
-> >> <kenneth.feng@amd.com>; Yintian Tao <yttao@amd.com>; Hawking Zhang
-> >> <Hawking.Zhang@amd.com>; amd-gfx@lists.freedesktop.org; dri-
-> >> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; kernel-
-> >> janitors@vger.kernel.org
-> >> Subject: [PATCH v3] drm/amdgpu: off by one in
-> >> amdgpu_device_attr_create_groups() error handling
-> >>
-> >> This loop in the error handling code should start a "i - 1" and end at
-> >> "i =3D=3D 0".  Currently it starts a "i" and ends at "i =3D=3D 1".  Th=
-e result
-> >> is that it removes one attribute that wasn't created yet, and leaks th=
-e
-> >> zeroeth attribute.
-> >>
-> >> Fixes: 4e01847c38f7 ("drm/amdgpu: optimize amdgpu device attribute
-> code")
-> >> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> >> ---
-> >> v2: style change
-> >> v3: Fix embarrassing typo in the subject
-> > =F0=9F=98=8A
+> On Wed, May 20, 2020 at 12:39 PM Harry Wentland <hwentlan@amd.com> wrote:
 > >
-> > Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
+> > On 2020-05-15 1:19 a.m., Mario Kleiner wrote:
+> > > Testing on a Polaris11 gpu with DCE-11.2 suggests that it
+> > > seems to work fine there, so optimistically enable it for
+> > > DCE-11 and later.
+> > >
+> > > Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 2 +-
+> > >  drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c | 2 +-
+> > >  drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c | 2 +-
+> > >  3 files changed, 3 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > > index 9597fc79d7fa..a043ddae5149 100644
+> > > --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > > +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+> > > @@ -410,7 +410,7 @@ static const struct dc_plane_cap plane_cap = {
+> > >               .pixel_format_support = {
+> > >                               .argb8888 = true,
+> > >                               .nv12 = false,
+> > > -                             .fp16 = false
+> > > +                             .fp16 = true
 > >
-> > m
-> >> drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c           | 3 +--
-> >> 1 files changed, 1 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-> >> b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-> >> index b75362bf0742..e809534fabd4 100644
-> >> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-> >> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
-> >> @@ -1942,9 +1942,8 @@ static int amdgpu_device_attr_create_groups(stru=
-ct
-> >> amdgpu_device *adev,
-> >>      return 0;
-> >>
-> >> failed:
-> >> -    for (; i > 0; i--) {
-> >> +    while (i--)
-> >>              amdgpu_device_attr_remove(adev, &attrs[i]);
-> >> -    }
-> >>
-> >>      return ret;
-> >> }
+> > Carrizo (DCE 11.0) has a HW bug where FP16 scaling doesn't work. I
+> > recommend we leave it off here.
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> I'll drop this hunk for upstream.
+>
+> Alex
+>
+>
+Ok, no fixup patch needed from myself, thanks Alex. Does the scaling bug
+refer to scaling the planes (those max_downscale_factor /
+max_upscale_factor definitions seem to be unused) or the fp16 values itself?
+
+What about DCE 8 and DCE 10 hw capabilities wrt. fp16? Should i send fp16
+enable patches for those as well?
+
+-mario
+
+>
+> > Harry
+> >
+> > >               },
+> > >
+> > >               .max_upscale_factor = {
+> > > diff --git a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > > index 4a7796de2ff5..51b3fe502670 100644
+> > > --- a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > > +++ b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c
+> > > @@ -411,7 +411,7 @@ static const struct dc_plane_cap plane_cap = {
+> > >       .pixel_format_support = {
+> > >                       .argb8888 = true,
+> > >                       .nv12 = false,
+> > > -                     .fp16 = false
+> > > +                     .fp16 = true
+> > >       },
+> > >
+> > >       .max_upscale_factor = {
+> > > diff --git a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > > index 9a9764cbd78d..8f362e8c1787 100644
+> > > --- a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > > +++ b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c
+> > > @@ -516,7 +516,7 @@ static const struct dc_plane_cap plane_cap = {
+> > >       .pixel_format_support = {
+> > >                       .argb8888 = true,
+> > >                       .nv12 = false,
+> > > -                     .fp16 = false
+> > > +                     .fp16 = true
+> > >       },
+> > >
+> > >       .max_upscale_factor = {
+> > >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >
 
---0000000000009ab89e05a618b642
+--000000000000b312f905a618cbe7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Applied.=C2=A0 Thanks!</div><div><br></div><div>Alex<=
-br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">On Wed, May 20, 2020 at 11:33 AM Christian K=C3=B6nig &lt;<a href=
-=3D"mailto:christian.koenig@amd.com">christian.koenig@amd.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 20.05.20 um=
- 17:31 schrieb Ruhl, Michael J:<br>
-&gt;&gt; -----Original Message-----<br>
-&gt;&gt; From: Dan Carpenter &lt;<a href=3D"mailto:dan.carpenter@oracle.com=
-" target=3D"_blank">dan.carpenter@oracle.com</a>&gt;<br>
-&gt;&gt; Sent: Wednesday, May 20, 2020 11:26 AM<br>
-&gt;&gt; To: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher@amd.com" =
-target=3D"_blank">alexander.deucher@amd.com</a>&gt;; Kevin Wang<br>
-&gt;&gt; &lt;<a href=3D"mailto:kevin1.wang@amd.com" target=3D"_blank">kevin=
-1.wang@amd.com</a>&gt;; Ruhl, Michael J &lt;<a href=3D"mailto:michael.j.ruh=
-l@intel.com" target=3D"_blank">michael.j.ruhl@intel.com</a>&gt;<br>
-&gt;&gt; Cc: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@am=
-d.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;; David Airlie<br>
-&gt;&gt; &lt;<a href=3D"mailto:airlied@linux.ie" target=3D"_blank">airlied@=
-linux.ie</a>&gt;; Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch" targ=
-et=3D"_blank">daniel@ffwll.ch</a>&gt;; Evan Quan<br>
-&gt;&gt; &lt;<a href=3D"mailto:evan.quan@amd.com" target=3D"_blank">evan.qu=
-an@amd.com</a>&gt;; Rui Huang &lt;<a href=3D"mailto:ray.huang@amd.com" targ=
-et=3D"_blank">ray.huang@amd.com</a>&gt;; Kenneth Feng<br>
-&gt;&gt; &lt;<a href=3D"mailto:kenneth.feng@amd.com" target=3D"_blank">kenn=
-eth.feng@amd.com</a>&gt;; Yintian Tao &lt;<a href=3D"mailto:yttao@amd.com" =
-target=3D"_blank">yttao@amd.com</a>&gt;; Hawking Zhang<br>
-&gt;&gt; &lt;<a href=3D"mailto:Hawking.Zhang@amd.com" target=3D"_blank">Haw=
-king.Zhang@amd.com</a>&gt;; <a href=3D"mailto:amd-gfx@lists.freedesktop.org=
-" target=3D"_blank">amd-gfx@lists.freedesktop.org</a>; dri-<br>
-&gt;&gt; <a href=3D"mailto:devel@lists.freedesktop.org" target=3D"_blank">d=
-evel@lists.freedesktop.org</a>; <a href=3D"mailto:linux-kernel@vger.kernel.=
-org" target=3D"_blank">linux-kernel@vger.kernel.org</a>; kernel-<br>
-&gt;&gt; <a href=3D"mailto:janitors@vger.kernel.org" target=3D"_blank">jani=
-tors@vger.kernel.org</a><br>
-&gt;&gt; Subject: [PATCH v3] drm/amdgpu: off by one in<br>
-&gt;&gt; amdgpu_device_attr_create_groups() error handling<br>
-&gt;&gt;<br>
-&gt;&gt; This loop in the error handling code should start a &quot;i - 1&qu=
-ot; and end at<br>
-&gt;&gt; &quot;i =3D=3D 0&quot;.=C2=A0 Currently it starts a &quot;i&quot; =
-and ends at &quot;i =3D=3D 1&quot;.=C2=A0 The result<br>
-&gt;&gt; is that it removes one attribute that wasn&#39;t created yet, and =
-leaks the<br>
-&gt;&gt; zeroeth attribute.<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes: 4e01847c38f7 (&quot;drm/amdgpu: optimize amdgpu device attr=
-ibute code&quot;)<br>
-&gt;&gt; Signed-off-by: Dan Carpenter &lt;<a href=3D"mailto:dan.carpenter@o=
-racle.com" target=3D"_blank">dan.carpenter@oracle.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; v2: style change<br>
-&gt;&gt; v3: Fix embarrassing typo in the subject<br>
-&gt; =F0=9F=98=8A<br>
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, May 20, 2020 at 8:25 PM Alex Deuc=
+her &lt;<a href=3D"mailto:alexdeucher@gmail.com">alexdeucher@gmail.com</a>&=
+gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Wed, May 20, 2020 at 12:39 PM Harry Wentland &lt;<=
+a href=3D"mailto:hwentlan@amd.com" target=3D"_blank">hwentlan@amd.com</a>&g=
+t; wrote:<br>
 &gt;<br>
-&gt; Acked-by: Michael J. Ruhl &lt;<a href=3D"mailto:michael.j.ruhl@intel.c=
-om" target=3D"_blank">michael.j.ruhl@intel.com</a>&gt;<br>
-<br>
-Reviewed-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@am=
-d.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
-<br>
+&gt; On 2020-05-15 1:19 a.m., Mario Kleiner wrote:<br>
+&gt; &gt; Testing on a Polaris11 gpu with DCE-11.2 suggests that it<br>
+&gt; &gt; seems to work fine there, so optimistically enable it for<br>
+&gt; &gt; DCE-11 and later.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Mario Kleiner &lt;<a href=3D"mailto:mario.kleiner.=
+de@gmail.com" target=3D"_blank">mario.kleiner.de@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 2=
+ +-<br>
+&gt; &gt;=C2=A0 drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c | 2=
+ +-<br>
+&gt; &gt;=C2=A0 drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c | 2=
+ +-<br>
+&gt; &gt;=C2=A0 3 files changed, 3 insertions(+), 3 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resourc=
+e.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c<br>
+&gt; &gt; index 9597fc79d7fa..a043ddae5149 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c<br>
+&gt; &gt; @@ -410,7 +410,7 @@ static const struct dc_plane_cap plane_cap =
+=3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.pixel_form=
+at_support =3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.argb8888 =3D true,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.nv12 =3D false,<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.fp16 =3D false<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.fp16 =3D true<br>
 &gt;<br>
-&gt; m<br>
-&gt;&gt; drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 3 +--<br>
-&gt;&gt; 1 files changed, 1 insertions(+), 2 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c<br>
-&gt;&gt; b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c<br>
-&gt;&gt; index b75362bf0742..e809534fabd4 100644<br>
-&gt;&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c<br>
-&gt;&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c<br>
-&gt;&gt; @@ -1942,9 +1942,8 @@ static int amdgpu_device_attr_create_groups(=
-struct<br>
-&gt;&gt; amdgpu_device *adev,<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;&gt;<br>
-&gt;&gt; failed:<br>
-&gt;&gt; -=C2=A0 =C2=A0 for (; i &gt; 0; i--) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 while (i--)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 amdgpu_device_attr=
-_remove(adev, &amp;attrs[i]);<br>
-&gt;&gt; -=C2=A0 =C2=A0 }<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 return ret;<br>
-&gt;&gt; }<br>
+&gt; Carrizo (DCE 11.0) has a HW bug where FP16 scaling doesn&#39;t work. I=
 <br>
-_______________________________________________<br>
-dri-devel mailing list<br>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dri-de=
-vel@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
-"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
-fo/dri-devel</a><br>
-</blockquote></div>
+&gt; recommend we leave it off here.<br>
+<br>
+I&#39;ll drop this hunk for upstream.<br>
+<br>
+Alex<br>
+<br></blockquote><div><br></div><div>Ok, no fixup patch needed from myself,=
+ thanks Alex. Does the scaling bug refer to scaling the planes (those max_d=
+ownscale_factor / max_upscale_factor definitions seem to be unused) or the =
+fp16 values itself?</div><div><br></div><div>What about DCE 8 and DCE 10 hw=
+ capabilities wrt. fp16? Should i send fp16 enable patches for those as wel=
+l?</div><div><br></div><div>-mario</div><div><br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+&gt;<br>
+&gt; Harry<br>
+&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.max_upscal=
+e_factor =3D {<br>
+&gt; &gt; diff --git a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resourc=
+e.c b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c<br>
+&gt; &gt; index 4a7796de2ff5..51b3fe502670 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/amd/display/dc/dce112/dce112_resource.c<br>
+&gt; &gt; @@ -411,7 +411,7 @@ static const struct dc_plane_cap plane_cap =
+=3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0.pixel_format_support =3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.argb8888 =3D true,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.nv12 =3D false,<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0.fp16 =3D false<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0.fp16 =3D true<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0.max_upscale_factor =3D {<br>
+&gt; &gt; diff --git a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resourc=
+e.c b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c<br>
+&gt; &gt; index 9a9764cbd78d..8f362e8c1787 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/amd/display/dc/dce120/dce120_resource.c<br>
+&gt; &gt; @@ -516,7 +516,7 @@ static const struct dc_plane_cap plane_cap =
+=3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0.pixel_format_support =3D {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.argb8888 =3D true,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.nv12 =3D false,<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0.fp16 =3D false<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0.fp16 =3D true<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0.max_upscale_factor =3D {<br>
+&gt; &gt;<br>
+&gt; _______________________________________________<br>
+&gt; dri-devel mailing list<br>
+&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">d=
+ri-devel@lists.freedesktop.org</a><br>
+&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" r=
+el=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/l=
+istinfo/dri-devel</a><br>
+</blockquote></div></div>
 
---0000000000009ab89e05a618b642--
+--000000000000b312f905a618cbe7--
 
---===============1130259701==
+--===============0715945121==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -272,4 +294,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1130259701==--
+--===============0715945121==--
