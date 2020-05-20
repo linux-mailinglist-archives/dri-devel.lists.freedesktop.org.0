@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34C21DBC84
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:17:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA291DBCAE
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 20:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D754D89DA6;
-	Wed, 20 May 2020 18:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC676E884;
+	Wed, 20 May 2020 18:21:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDF8A89D2F;
- Wed, 20 May 2020 18:17:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l18so4146622wrn.6;
- Wed, 20 May 2020 11:17:52 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1B589D2F;
+ Wed, 20 May 2020 18:21:21 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id u188so3917210wmu.1;
+ Wed, 20 May 2020 11:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Libttd99iUbokL4eNXNIr0x2nDmN388HD4Hj/6QN9+4=;
- b=qi/PWOKJaIsV+WRD8SAXbG8aQ8LQoyalUhA7Olpw/yRxHn4SbftcXoU4fr2OMo7zJA
- vrkYL2XHObkcLrY85WkFDgXIk1nh5qDkv7ZamU+QJu90n6pEs1hVHKT1gQi3FFRvdKfW
- 67XN+uDYqJc05j3k7p8Gg16XxAbTxxWAXKCKQ/6QY2Tmictw9rYlyH3CGFpBhwHuKgW+
- b26KpDvM2qw7+UIcSnngaB+9p/xHHIXZLsprK/c5LPACHlsU3f+keWjSWa3Mv75+g6PQ
- 4ehaxW9Cr+XaVRxc2LPIJ2GDjfcj3Icfnml4Q0+TtM2+C0Y6IpP/L3HQOeRjJSDRhiVJ
- qB2Q==
+ :cc; bh=RW8P2ENxQMCRzJDvhD6yay/4wTNgEveKbVybNJiHgVo=;
+ b=IJeSS+krA8BtcjjkI47iWUeYnFuBSbFDXEP2RNUnOMWW5cZeNSgk+DVsm4/yZxPNAz
+ 4ezHVkCWd2qDdZ8SjSzgAAt0DjfVbkWimRZVm+WR9wT0/SKcLMYkWBvnUZ7pj9sAWUsL
+ ZgmPy2iZ28uJqlh+QSHst7qpORZOUvAzMfF1b52kEFMzglrR+Fh8cVq2LKtQ3qvCG5gV
+ IWdqLYAOdCwkkYSx5UZFd9b5vYHO8lsF+rCypmOHyJDAuAhuz9QemgjE44UNIRa2iZQ3
+ 44WhDBjFLLW/HYFqWjH6BkzwJNaN3y/oZMO9bVJjv37evfX8IEKmg7CSxANYY+MQCBe8
+ LIuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Libttd99iUbokL4eNXNIr0x2nDmN388HD4Hj/6QN9+4=;
- b=FA7xt1IYRd28Q/4jzhDtBPrT/oEToyhAsLuAsY6brCkfXlCWb3WaiejrI4Usq1zTaZ
- iFXaOI61n3MpQxSyEi0ECsfh3qlWiCwk4UAQ5+kYTuQuoRlRvRnayg80rMYqASazyVeS
- ZwU7dFepyV8KwNTQrc5wNtuyGHrTwTYlr24Tdh6lhKKKrPdi7xkPXmYNCevHFw1jAcQS
- HLs9TxNmh317lcKmdhvl/jzJaf0xRM0D438xw7Sq9DvyJgGgQCn7btHOtclfps+56NqW
- QcycCq/LAxjpFsu983ML/w0awcp0Ragz6MhNz/Vj/bqlHeNOyZL0+UAQuY8jJRDof2Ml
- nZgA==
-X-Gm-Message-State: AOAM532dbLUHRHROretdnwODy0aDtsvxYseFK+U4h01kmF2PxXaZdc3N
- GlcLkN78+So7WkUmkVp/rUemVAvfkkOGi5kV0KE=
-X-Google-Smtp-Source: ABdhPJyoS1RFthA0f7b37gtjz2j4Mj2ZP62ahHIpEt7wQO2Vtigm5C5y3TshlxfB86MYYsKGW7XjW3KeZDyTg0zud0w=
-X-Received: by 2002:adf:fa91:: with SMTP id h17mr5086725wrr.111.1589998671412; 
- Wed, 20 May 2020 11:17:51 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=RW8P2ENxQMCRzJDvhD6yay/4wTNgEveKbVybNJiHgVo=;
+ b=IZTxTwpi0y2F6TF21jafPHXxL0ZozuYy7SXOqONJt+lOVghcwezr7+wipZTjb2EnJR
+ lZk/jO3VpEfX2sMc8DXsFK+5NP3L09ol1GvAZrT0GJREPNtV3aPCA5VNw/sf+4c6YnET
+ kCuYPFTP/J2dRzM0W9ebehQpjZ7sXce9OSn6YcuxrACF4FJ7eJs+sQB9pf+9VndjUYAF
+ mdkCF8AGcS2oPYjO7jwZRX4nd1iJ/aSkocM2oA17yHk8r60Rt8PeKU7CmN9uGFGk3Cfc
+ l+0yPdz9wDd1VSxnV4FithZnLjTR54QbgaZMl2DI6/ijTPhor5O7bkd1yGsWtoTKZGb5
+ pwwg==
+X-Gm-Message-State: AOAM530hZog02qXzyyhS2zLf+RzFYUdiypOthCT+3AZq+13ij4lG28qm
+ e53FqKLQ3vLOiie9riuIuetEMVpLIktG0mQxrewJew==
+X-Google-Smtp-Source: ABdhPJxCW5X0NOlDHehi0pwlVrhAXnzeTfYJOtmzMEsCtQvgrfQ3aAfUCod8O8QieU4Qp1Bg6CBcbd7ODrrsnDAhjMA=
+X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr5643658wmh.39.1589998880315; 
+ Wed, 20 May 2020 11:21:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200519225545.GA2066@embeddedor>
- <1065d63e-7959-e4b4-af4e-70607ba92296@amd.com>
-In-Reply-To: <1065d63e-7959-e4b4-af4e-70607ba92296@amd.com>
+References: <20200520135306.11221-1-aurabindo.pillai@amd.com>
+In-Reply-To: <20200520135306.11221-1-aurabindo.pillai@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 20 May 2020 14:17:40 -0400
-Message-ID: <CADnq5_MNhmTS_1R+jcngCeDsp1x6U=eVPAGNyE8bEQTg2uzf9w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/smu10: Replace one-element array and use
- struct_size() helper
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Date: Wed, 20 May 2020 14:21:08 -0400
+Message-ID: <CADnq5_MBME9=yu=fdK-NWgEEZYUwBH-c7Ra7Mg-NrSru9zBS9g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/amdkfd: Fix large framesize for kfd_smi_ev_read()
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,95 +60,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- David Airlie <airlied@linux.ie>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+Cc: Dave Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Amber Lin <Amber.Lin@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXBwbGllZC4gIHRoYW5rcyEKCkFsZXgKCk9uIFdlZCwgTWF5IDIwLCAyMDIwIGF0IDM6NDIgQU0g
-Q2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFt
-IDIwLjA1LjIwIHVtIDAwOjU1IHNjaHJpZWIgR3VzdGF2byBBLiBSLiBTaWx2YToKPiA+IFRoZSBj
-dXJyZW50IGNvZGViYXNlIG1ha2VzIHVzZSBvZiBvbmUtZWxlbWVudCBhcnJheXMgaW4gdGhlIGZv
-bGxvd2luZwo+ID4gZm9ybToKPiA+Cj4gPiBzdHJ1Y3Qgc29tZXRoaW5nIHsKPiA+ICAgICAgaW50
-IGxlbmd0aDsKPiA+ICAgICAgdTggZGF0YVsxXTsKPiA+IH07Cj4gPgo+ID4gc3RydWN0IHNvbWV0
-aGluZyAqaW5zdGFuY2U7Cj4gPgo+ID4gaW5zdGFuY2UgPSBrbWFsbG9jKHNpemVvZigqaW5zdGFu
-Y2UpICsgc2l6ZSwgR0ZQX0tFUk5FTCk7Cj4gPiBpbnN0YW5jZS0+bGVuZ3RoID0gc2l6ZTsKPiA+
-IG1lbWNweShpbnN0YW5jZS0+ZGF0YSwgc291cmNlLCBzaXplKTsKPiA+Cj4gPiBidXQgdGhlIHBy
-ZWZlcnJlZCBtZWNoYW5pc20gdG8gZGVjbGFyZSB2YXJpYWJsZS1sZW5ndGggdHlwZXMgc3VjaCBh
-cwo+ID4gdGhlc2Ugb25lcyBpcyBhIGZsZXhpYmxlIGFycmF5IG1lbWJlclsxXVsyXSwgaW50cm9k
-dWNlZCBpbiBDOTk6Cj4gPgo+ID4gc3RydWN0IGZvbyB7Cj4gPiAgICAgICAgICBpbnQgc3R1ZmY7
-Cj4gPiAgICAgICAgICBzdHJ1Y3QgYm9vIGFycmF5W107Cj4gPiB9Owo+ID4KPiA+IEJ5IG1ha2lu
-ZyB1c2Ugb2YgdGhlIG1lY2hhbmlzbSBhYm92ZSwgd2Ugd2lsbCBnZXQgYSBjb21waWxlciB3YXJu
-aW5nCj4gPiBpbiBjYXNlIHRoZSBmbGV4aWJsZSBhcnJheSBkb2VzIG5vdCBvY2N1ciBsYXN0IGlu
-IHRoZSBzdHJ1Y3R1cmUsIHdoaWNoCj4gPiB3aWxsIGhlbHAgdXMgcHJldmVudCBzb21lIGtpbmQg
-b2YgdW5kZWZpbmVkIGJlaGF2aW9yIGJ1Z3MgZnJvbSBiZWluZwo+ID4gaW5hZHZlcnRlbnRseSBp
-bnRyb2R1Y2VkWzNdIHRvIHRoZSBjb2RlYmFzZSBmcm9tIG5vdyBvbi4gU28sIHJlcGxhY2UKPiA+
-IHRoZSBvbmUtZWxlbWVudCBhcnJheSB3aXRoIGEgZmxleGlibGUtYXJyYXkgbWVtYmVyLgo+ID4K
-PiA+IEFsc28sIG1ha2UgdXNlIG9mIHRoZSBuZXcgc3RydWN0X3NpemUoKSBoZWxwZXIgdG8gcHJv
-cGVybHkgY2FsY3VsYXRlIHRoZQo+ID4gc2l6ZSBvZiBzdHJ1Y3Qgc211MTBfdm9sdGFnZV9kZXBl
-bmRlbmN5X3RhYmxlLgo+ID4KPiA+IFRoaXMgaXNzdWUgd2FzIGZvdW5kIHdpdGggdGhlIGhlbHAg
-b2YgQ29jY2luZWxsZSBhbmQsIGF1ZGl0ZWQgYW5kIGZpeGVkCj4gPiBfbWFudWFsbHlfLgo+ID4K
-PiA+IFsxXSBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91
-cmw9aHR0cHMlM0ElMkYlMkZnY2MuZ251Lm9yZyUyRm9ubGluZWRvY3MlMkZnY2MlMkZaZXJvLUxl
-bmd0aC5odG1sJmFtcDtkYXRhPTAyJTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3
-QzhhNDAwYmRiODg5MjRhMWQ5NTE1MDhkN2ZjNDcxOTY2JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFh
-ODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzI1NTI1NDYyMjAzOTI2OCZhbXA7c2RhdGE9SUxPUFBu
-MTdjJTJCM295TExkaCUyQmdIMmIlMkI4UmRoV3VURkd4cnVSRDdHVUhPbyUzRCZhbXA7cmVzZXJ2
-ZWQ9MAo+ID4gWzJdIGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5j
-b20vP3VybD1odHRwcyUzQSUyRiUyRmdpdGh1Yi5jb20lMkZLU1BQJTJGbGludXglMkZpc3N1ZXMl
-MkYyMSZhbXA7ZGF0YT0wMiU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M4YTQw
-MGJkYjg4OTI0YTFkOTUxNTA4ZDdmYzQ3MTk2NiU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5
-NGUxODNkJTdDMCU3QzAlN0M2MzcyNTUyNTQ2MjIwMzkyNjgmYW1wO3NkYXRhPWxDcjVPdGlqNTVT
-bnEyN0JEcDRSbXRXNGhOaE9TJTJCbTR2U1VPT0F6MDdYQSUzRCZhbXA7cmVzZXJ2ZWQ9MAo+ID4g
-WzNdIGNvbW1pdCA3NjQ5NzczMjkzMmYgKCJjeGdiMy9sMnQ6IEZpeCB1bmRlZmluZWQgYmVoYXZp
-b3VyIikKPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZv
-YXJzQGtlcm5lbC5vcmc+Cj4KPiBBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPgo+Cj4gTWF5IEkgc3VnZ2VzdCB0aGF0IHdlIGFkZCBhIHNlY3Rpb24g
-aG93IHRvIGNvcnJlY3RseSBkbyB0aGlzIHRvCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NvZGlu
-Zy1zdHlsZS5yc3Qgb3Igc2ltaWxhciBkb2N1bWVudD8KPgo+IEkndmUgc2VlbiBhIGJ1bmNoIG9m
-IGRpZmZlcmVudCBhcHByb2FjaGVzIGFuZCBzb21lIGV2ZW4gZG9lc24ndCB3b3JrCj4gd2l0aCBz
-b21lIGdjYyB2ZXJzaW9ucyBhbmQgcmVzdWx0IGluIGEgYnJva2VuIGJpbmFyeS4KPgo+IFRoYW5r
-cywKPiBDaHJpc3RpYW4uCj4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2Vy
-cGxheS9od21nci9zbXUxMF9od21nci5jIHwgNiArKy0tLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJt
-L2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211MTBfaHdtZ3IuaCB8IDIgKy0KPiA+ICAgMiBmaWxlcyBj
-aGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci9zbXUxMF9od21nci5jCj4gPiBpbmRl
-eCAyNDZiYjlhYzU1N2Q4Li5jOWNmZTkwYTI5NDcxIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211MTBfaHdtZ3IuYwo+ID4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211MTBfaHdtZ3IuYwo+ID4gQEAgLTQxMCwx
-MiArNDEwLDEwIEBAIHN0YXRpYyBpbnQgc211MTBfZ2V0X2Nsb2NrX3ZvbHRhZ2VfZGVwZW5kZW5j
-eV90YWJsZShzdHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLAo+ID4gICAgICAgICAgICAgICAgICAgICAg
-IHN0cnVjdCBzbXUxMF92b2x0YWdlX2RlcGVuZGVuY3lfdGFibGUgKipwcHRhYmxlLAo+ID4gICAg
-ICAgICAgICAgICAgICAgICAgIHVpbnQzMl90IG51bV9lbnRyeSwgY29uc3QgRHBtQ2xvY2tfdCAq
-cGNsa19kZXBlbmRlbmN5X3RhYmxlKQo+ID4gICB7Cj4gPiAtICAgICB1aW50MzJfdCB0YWJsZV9z
-aXplLCBpOwo+ID4gKyAgICAgdWludDMyX3QgaTsKPiA+ICAgICAgIHN0cnVjdCBzbXUxMF92b2x0
-YWdlX2RlcGVuZGVuY3lfdGFibGUgKnB0YWJsZTsKPiA+Cj4gPiAtICAgICB0YWJsZV9zaXplID0g
-c2l6ZW9mKHVpbnQzMl90KSArIHNpemVvZihzdHJ1Y3Qgc211MTBfdm9sdGFnZV9kZXBlbmRlbmN5
-X3RhYmxlKSAqIG51bV9lbnRyeTsKPiA+IC0gICAgIHB0YWJsZSA9IGt6YWxsb2ModGFibGVfc2l6
-ZSwgR0ZQX0tFUk5FTCk7Cj4gPiAtCj4gPiArICAgICBwdGFibGUgPSBremFsbG9jKHN0cnVjdF9z
-aXplKHB0YWJsZSwgZW50cmllcywgbnVtX2VudHJ5KSwgR0ZQX0tFUk5FTCk7Cj4gPiAgICAgICBp
-ZiAoTlVMTCA9PSBwdGFibGUpCj4gPiAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+ID4K
-PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxheS9od21nci9zbXUx
-MF9od21nci5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211MTBfaHdt
-Z3IuaAo+ID4gaW5kZXggMWZiMjk2YTk5NmYzYS4uMGY5NjlkZTEwZmFiYyAxMDA2NDQKPiA+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmgKPiA+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTEwX2h3bWdyLmgK
-PiA+IEBAIC0xOTIsNyArMTkyLDcgQEAgc3RydWN0IHNtdTEwX2Nsb2NrX3ZvbHRhZ2VfZGVwZW5k
-ZW5jeV9yZWNvcmQgewo+ID4KPiA+ICAgc3RydWN0IHNtdTEwX3ZvbHRhZ2VfZGVwZW5kZW5jeV90
-YWJsZSB7Cj4gPiAgICAgICB1aW50MzJfdCBjb3VudDsKPiA+IC0gICAgIHN0cnVjdCBzbXUxMF9j
-bG9ja192b2x0YWdlX2RlcGVuZGVuY3lfcmVjb3JkIGVudHJpZXNbMV07Cj4gPiArICAgICBzdHJ1
-Y3Qgc211MTBfY2xvY2tfdm9sdGFnZV9kZXBlbmRlbmN5X3JlY29yZCBlbnRyaWVzW107Cj4gPiAg
-IH07Cj4gPgo+ID4gICBzdHJ1Y3Qgc211MTBfY2xvY2tfdm9sdGFnZV9pbmZvcm1hdGlvbiB7Cj4K
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1n
-ZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Wed, May 20, 2020 at 9:53 AM Aurabindo Pillai
+<aurabindo.pillai@amd.com> wrote:
+>
+> The buffer allocated is of 1024 bytes. Allocate this from
+> heap instead of stack.
+>
+> Also remove check for stack size since we're allocating from heap
+>
+> Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+> Tested-by: Amber Lin <Amber.Lin@amd.com>
+
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 26 +++++++++++++++------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> index f5fd18eacf0d..5aebe169f8c6 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> @@ -77,9 +77,11 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
+>         int ret;
+>         size_t to_copy;
+>         struct kfd_smi_client *client = filep->private_data;
+> -       unsigned char buf[MAX_KFIFO_SIZE];
+> +       unsigned char *buf;
+>
+> -       BUILD_BUG_ON(MAX_KFIFO_SIZE > 1024);
+> +       buf = kzalloc(MAX_KFIFO_SIZE * sizeof(*buf), GFP_KERNEL);
+> +       if (!buf)
+> +               return -ENOMEM;
+>
+>         /* kfifo_to_user can sleep so we can't use spinlock protection around
+>          * it. Instead, we kfifo out as spinlocked then copy them to the user.
+> @@ -88,19 +90,29 @@ static ssize_t kfd_smi_ev_read(struct file *filep, char __user *user,
+>         to_copy = kfifo_len(&client->fifo);
+>         if (!to_copy) {
+>                 spin_unlock(&client->lock);
+> -               return -EAGAIN;
+> +               ret = -EAGAIN;
+> +               goto ret_err;
+>         }
+>         to_copy = min3(size, sizeof(buf), to_copy);
+>         ret = kfifo_out(&client->fifo, buf, to_copy);
+>         spin_unlock(&client->lock);
+> -       if (ret <= 0)
+> -               return -EAGAIN;
+> +       if (ret <= 0) {
+> +               ret = -EAGAIN;
+> +               goto ret_err;
+> +       }
+>
+>         ret = copy_to_user(user, buf, to_copy);
+> -       if (ret)
+> -               return -EFAULT;
+> +       if (ret) {
+> +               ret = -EFAULT;
+> +               goto ret_err;
+> +       }
+>
+> +       kfree(buf);
+>         return to_copy;
+> +
+> +ret_err:
+> +       kfree(buf);
+> +       return ret;
+>  }
+>
+>  static ssize_t kfd_smi_ev_write(struct file *filep, const char __user *user,
+> --
+> 2.25.1
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
