@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CDE1DA99C
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 07:02:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EF11DAC51
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 09:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2DB56E47A;
-	Wed, 20 May 2020 05:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD176E5A3;
+	Wed, 20 May 2020 07:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0A96E0F1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:02:36 +0000 (UTC)
-IronPort-SDR: 8N7PSIdhU1fK+5c6rr+SsQ+MdF9Tidpi4OVP0NSikIvSwSkWfAUGRQZ+1Y17G1OMtO13ZdXJKP
- jOUcS02CMv9A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 22:02:35 -0700
-IronPort-SDR: 5mdOya4YqlgSTKO3c+IE0Bjj3/zITTGmWtyJGGPQcID/7L0ymDI6FfjftlmZFv5htpsyDfUzlC
- eVvrVdKIk9ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,412,1583222400"; d="scan'208";a="439885922"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga005.jf.intel.com with ESMTP; 19 May 2020 22:02:34 -0700
-Date: Tue, 19 May 2020 22:02:34 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-Message-ID: <20200520050233.GB3470571@iweiny-DESK2.sc.intel.com>
-References: <20200507150004.1423069-8-ira.weiny@intel.com>
- <20200518184843.3029640-1-ira.weiny@intel.com>
- <20200519165422.GA5838@roeck-us.net>
- <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D70086E0F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 05:11:39 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id w19so835725ply.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 May 2020 22:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/m6niOd1NL5NVGvyIcf8eZtiO7xInyuSa2CKuSwQQVE=;
+ b=rIL2Lv/gm1aCjMYo+nB9G6CfhwFNR1U0F9OWcdjoQyTACOP0cRfWiEDLIB/9cT+Qf1
+ RTJcfULUTufKreOyLZC58J7W9ze0mUIkJWeR/qle61XTP8ryw8uAiFmQV4QRgbtYSEBZ
+ sCYpbT1gb5pHIUSLdbWKD2KT6t6ugXMjfASiGDzzlmKudPekPRTkt/D0kcpcO59zc2LH
+ t4pX1x7GByUbosJWsQiEdUmKvFpsvedHoKC1Ym98Zu0MzlbQkH62pGcNqKA9N90lNB8G
+ cB96zR9Bvg/gLL8ntuCXNhgx5U1gViyyuJGOMDAmu1qFWAf6GZoSPh/SH5+wBpNE85pw
+ XMhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/m6niOd1NL5NVGvyIcf8eZtiO7xInyuSa2CKuSwQQVE=;
+ b=UNeDAJAl4V5WlbSDIZ93UwarROyHBAoPSEGtq7/Lsk5Da+D/A8wgJLVxC9un5/0pPr
+ yriURyCdBhCQ3xLD98PNSDzOaIz2BYcgoMau+QrsPxlbVTzN8Fu3qjIeIx8KG6aTBQT4
+ vaeKm87OXicO61RstxWlMlvaBhjuyMhBn2KSB1utFrESfeGIpEBOHdhuhnt0xXZs6hw7
+ 54JKpnX7bFS0PsKhIdMyHvhfkgg86d6M5JMFBG1ZosGSH9Et1Utm4/Pf7+gKJQ+3emED
+ sRYfTh6UYmMT73AxbbOKXK64jtopSUH33au8dbYHndNQmvPmtwmJRL9QA/pW8jOlvNNV
+ PLeA==
+X-Gm-Message-State: AOAM532XI2LSevuBrxGUb0SsEnp/ExV/Ag9vfutziC7OHJVZj2DClf3A
+ ERnbfvalAIt1XfoIGPSoovoedQ==
+X-Google-Smtp-Source: ABdhPJxRIht5NenwbR7QLDBX/oTQxZ44KG81mQ0A140ugddejatOzrcwLqInWuhbQgy11IV/YtgYtg==
+X-Received: by 2002:a17:902:ac97:: with SMTP id
+ h23mr2858616plr.89.1589951499124; 
+ Tue, 19 May 2020 22:11:39 -0700 (PDT)
+Received: from yoga (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id k65sm966516pfd.156.2020.05.19.22.11.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 22:11:38 -0700 (PDT)
+Date: Tue, 19 May 2020 22:11:35 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [RFC PATCH 0/8] Qualcomm Cloud AI 100 driver
+Message-ID: <20200520051135.GA11847@yoga>
+References: <CAKMK7uG-oP-tcOcNz-ZzTmGondEo-17BCN1kpFBPwb7F8QcM5w@mail.gmail.com>
+ <20200520045900.GA2105777@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519194215.GA71941@roeck-us.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20200520045900.GA2105777@kroah.com>
+X-Mailman-Approved-At: Wed, 20 May 2020 07:34:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,96 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Olof Johansson <olof.johansson@gmail.com>, wufan@codeaurora.org,
+ Arnd Bergmann <arnd@arndb.de>, Jeffrey Hugo <jhugo@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, pratanan@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@mellanox.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 19, 2020 at 12:42:15PM -0700, Guenter Roeck wrote:
-> On Tue, May 19, 2020 at 11:40:32AM -0700, Ira Weiny wrote:
-> > On Tue, May 19, 2020 at 09:54:22AM -0700, Guenter Roeck wrote:
-> > > On Mon, May 18, 2020 at 11:48:43AM -0700, ira.weiny@intel.com wrote:
-> > > > From: Ira Weiny <ira.weiny@intel.com>
-> > > > 
-> > > > The kunmap_atomic clean up failed to remove one set of pagefault/preempt
-> > > > enables when vaddr is not in the fixmap.
-> > > > 
-> > > > Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
-> > > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > microblazeel works with this patch,
+On Tue 19 May 21:59 PDT 2020, Greg Kroah-Hartman wrote:
+
+> On Tue, May 19, 2020 at 10:41:15PM +0200, Daniel Vetter wrote:
+> > > Ok, that's a decision you are going to have to push upward on, as we
+> > > really can't take this without a working, open, userspace.
 > > 
-> > Awesome...  Andrew in my rush yesterday I should have put a reported by on the
-> > patch for Guenter as well.
+> > Uh wut.
 > > 
-> > Sorry about that Guenter,
-> 
-> No worries.
-> 
-> > Ira
+> > So the merge criteria for drivers/accel (atm still drivers/misc but I
+> > thought that was interim until more drivers showed up) isn't actually
+> > "totally-not-a-gpu accel driver without open source userspace".
 > > 
-> > > as do the nosmp sparc32 boot tests,
-> > > but sparc32 boot tests with SMP enabled still fail with lots of messages
-> > > such as:
-> > > 
-> > > BUG: Bad page state in process swapper/0  pfn:006a1
-> > > page:f0933420 refcount:0 mapcount:1 mapping:(ptrval) index:0x1
-> > > flags: 0x0()
-> > > raw: 00000000 00000100 00000122 00000000 00000001 00000000 00000000 00000000
-> > > page dumped because: nonzero mapcount
-> > > Modules linked in:
-> > > CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B             5.7.0-rc6-next-20200518-00002-gb178d2d56f29 #1
-> > > [f00e7ab8 :
-> > > bad_page+0xa8/0x108 ]
-> > > [f00e8b54 :
-> > > free_pcppages_bulk+0x154/0x52c ]
-> > > [f00ea024 :
-> > > free_unref_page+0x54/0x6c ]
-> > > [f00ed864 :
-> > > free_reserved_area+0x58/0xec ]
-> > > [f0527104 :
-> > > kernel_init+0x14/0x110 ]
-> > > [f000b77c :
-> > > ret_from_kernel_thread+0xc/0x38 ]
-> > > [00000000 :
-> > > 0x0 ]
-
-I'm really not seeing how this is related to the kmap clean up.
-
-But just to make sure I'm trying to run your environment for sparc and having
-less luck than with microblaze.
-
-Could you give me the command which is failing above?
-
-Ira
-
-> > > 
-> > > Code path leading to that message is different but always the same
-> > > from free_unref_page().
-> > > 
-> > > Still testing ppc images.
-> > > 
+> > Instead it's "totally-not-a-gpu accel driver without open source
+> > userspace" _and_ you have to be best buddies with Greg. Or at least
+> > not be on the naughty company list. Since for habanalabs all you
+> > wanted is a few test cases to exercise the ioctls. Not the entire
+> > userspace.
 > 
-> ppc image tests are passing with this patch.
+> Habanalabs now has their full library opensourced that their tools use
+> directly, so that's not an argument anymore.
 > 
-> Guenter
+> My primary point here is the copyright owner of this code, because of
+> that, I'm not going to objet to allowing this to be merged without open
+> userspace code.
+> 
+
+So because it's copyright Linux Foundation you are going to accept it
+without user space, after all?
+
+Regards,
+Bjorn
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
