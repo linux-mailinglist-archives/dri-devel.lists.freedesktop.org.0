@@ -2,31 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448821DB41C
-	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 14:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A870A1DB430
+	for <lists+dri-devel@lfdr.de>; Wed, 20 May 2020 14:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8F86E14E;
-	Wed, 20 May 2020 12:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC666E1A5;
+	Wed, 20 May 2020 12:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB6D6E14E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 12:49:27 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21240706-1500050 for multiple; Wed, 20 May 2020 13:49:18 +0100
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7559A89E4C;
+ Wed, 20 May 2020 12:54:26 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KCrF3r040394;
+ Wed, 20 May 2020 12:54:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=j3qY+AimdnUvnxFvl+25yJx20/yrC+woZBSTpFQ9VfY=;
+ b=VhF9Q366W2dpeQzzwA6sxglfaiUhtsndVFTY7kQD6Q5FKMHMiVGHgnM+M46HIlvi7kky
+ dPIxOgCRik2CD0GruE+jtY+7Iz42Wd+8i65qyHzChwVuiL230UAEECh5v7fK0ktNHPkO
+ xgJ8KrRd2pxOhjI3uDuzY92RMZY1jVcxhcZVUKZVQRqJGOseelXbV9DlWA2UWb1x4R12
+ TsjcvsG9Y5hTlHl0OuXHKoflhAFxBTKeJbF1aDuSf58sWAPBn0samw6HIB86fYN+23xI
+ X2BlgISO0aif6TQRWzgenMwLHFXPTcGj+wJM8lzKxhydu+usAzbfy9ZGOzPkDCtN+Clj +g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 3127kraxey-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 20 May 2020 12:54:21 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KCnDV3074147;
+ Wed, 20 May 2020 12:52:21 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 3150208722-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 May 2020 12:52:21 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04KCqIYg021917;
+ Wed, 20 May 2020 12:52:18 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 20 May 2020 05:52:17 -0700
+Date: Wed, 20 May 2020 15:52:09 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: christian.koenig@amd.com
+Subject: Re: [PATCH] drm/amdgpu: off by on in
+ amdgpu_device_attr_create_groups() error handling
+Message-ID: <20200520125209.GP3041@kadam>
+References: <20200520120054.GB172354@mwanda>
+ <62d9d539-8401-233a-3f20-984042489987@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <96a01388-7d91-56b5-4cd4-16052aba7a60@amd.com>
-References: <20200520121450.79340-1-nirmoy.das@amd.com>
- <96a01388-7d91-56b5-4cd4-16052aba7a60@amd.com>
-Subject: Re: [PATCH 1/1] drm: check for NULL pointer in drm_gem_object_put
-To: Christian König <christian.koenig@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-Message-ID: <158997895740.8153.16875812670855148581@build.alporthouse.com>
-User-Agent: alot/0.8.1
-Date: Wed, 20 May 2020 13:49:17 +0100
+Content-Disposition: inline
+In-Reply-To: <62d9d539-8401-233a-3f20-984042489987@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 mlxlogscore=999
+ adultscore=0 bulkscore=0 suspectscore=1 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005200110
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 impostorscore=0
+ suspectscore=1 mlxlogscore=999 malwarescore=0 cotscore=-2147483648
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005200111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,54 +80,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nirmoy Das <nirmoy.das@amd.com>, Emil Velikov <emil.l.velikov@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Kevin Wang <kevin1.wang@amd.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Rui Huang <ray.huang@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Yintian Tao <yttao@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBDaHJpc3RpYW4gS8O2bmlnICgyMDIwLTA1LTIwIDEzOjE5OjQyKQo+IEFtIDIwLjA1
-LjIwIHVtIDE0OjE0IHNjaHJpZWIgTmlybW95IERhczoKPiA+IGRybV9nZW1fZmJfZGVzdHJveSgp
-IGNhbGxzIGRybV9nZW1fb2JqZWN0X3B1dCgpIHdpdGggTlVMTCBvYmogY2F1c2luZzoKPiA+IFsg
-ICAxMS41ODQyMDldIEJVRzoga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSwgYWRkcmVz
-czogMDAwMDAwMDAwMDAwMDAwMAo+ID4gWyAgIDExLjU4NDIxM10gI1BGOiBzdXBlcnZpc29yIHdy
-aXRlIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQo+ID4gWyAgIDExLjU4NDIxNV0gI1BGOiBlcnJvcl9j
-b2RlKDB4MDAwMikgLSBub3QtcHJlc2VudCBwYWdlCj4gPiBbICAgMTEuNTg0MjE2XSBQR0QgMCBQ
-NEQgMAo+ID4gWyAgIDExLjU4NDIyMF0gT29wczogMDAwMiBbIzFdIFNNUCBOT1BUSQo+ID4gWyAg
-IDExLjU4NDIyM10gQ1BVOiA3IFBJRDogMTU3MSBDb21tOiBnbm9tZS1zaGVsbCBUYWludGVkOiBH
-ICAgICAgICAgICAgRSAgICAgNS43LjAtcmMxLTEtZGVmYXVsdCsgIzI3Cj4gPiBbICAgMTEuNTg0
-MjI1XSBIYXJkd2FyZSBuYW1lOiBNaWNyby1TdGFyIEludGVybmF0aW9uYWwgQ28uLCBMdGQuIE1T
-LTdBMzEvWDM3MCBYUE9XRVIgR0FNSU5HIFRJVEFOSVVNIChNUy03QTMxKSwgQklPUyAxLk1SIDEy
-LzAzLzIwMTkKPiA+IFsgICAxMS41ODQyMzddIFJJUDogMDAxMDpkcm1fZ2VtX2ZiX2Rlc3Ryb3kr
-MHgyOC8weDcwIFtkcm1fa21zX2hlbHBlcl0KPiA+IDxzbmlwPgo+ID4gWyAgIDExLjU4NDI1Nl0g
-Q2FsbCBUcmFjZToKPiA+IFsgICAxMS41ODQyNzldICBkcm1fbW9kZV9ybWZiKzB4MTg5LzB4MWMw
-IFtkcm1dCj4gPiBbICAgMTEuNTg0Mjk5XSAgPyBkcm1fbW9kZV9ybWZiKzB4MWMwLzB4MWMwIFtk
-cm1dCj4gPiBbICAgMTEuNTg0MzE0XSAgZHJtX2lvY3RsX2tlcm5lbCsweGFhLzB4ZjAgW2RybV0K
-PiA+IFsgICAxMS41ODQzMjldICBkcm1faW9jdGwrMHgxZmYvMHgzYjAgW2RybV0KPiA+IFsgICAx
-MS41ODQzNDddICA/IGRybV9tb2RlX3JtZmIrMHgxYzAvMHgxYzAgW2RybV0KPiA+IFsgICAxMS41
-ODQ0MjFdICBhbWRncHVfZHJtX2lvY3RsKzB4NDkvMHg4MCBbYW1kZ3B1XQo+ID4gWyAgIDExLjU4
-NDQyN10gIGtzeXNfaW9jdGwrMHg4Ny8weGMwCj4gPiBbICAgMTEuNTg0NDMwXSAgX194NjRfc3lz
-X2lvY3RsKzB4MTYvMHgyMAo+ID4gWyAgIDExLjU4NDQzNF0gIGRvX3N5c2NhbGxfNjQrMHg1Zi8w
-eDI0MAo+ID4gWyAgIDExLjU4NDQzOF0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsw
-eDQ0LzB4YTkKPiA+IFsgICAxMS41ODQ0NDBdIFJJUDogMDAzMzoweDdmMGVmODBmNzIyNwo+ID4K
-PiA+IFNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1kLmNvbT4KPiAKPiBG
-aXhlczogLi4uLiBtaXNzaW5nIGhlcmUuIEFwYXJ0IGZyb20gdGhhdCBSZXZpZXdlZC1ieTogQ2hy
-aXN0aWFuIEvDtm5pZyAKPiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPi4KPiAKPiBQbGVhc2Ug
-cmVzZW5kIHdpdGggdGhlIHRhZyBhZGRlZCwgdGhlbiBJJ20gZ29pbmcgdG8gcHVzaCB0aGlzIHRv
-IAo+IGRybS1taXNjLW5leHQgYXNhcC4KPiAKPiBDaHJpc3RpYW4uCj4gCj4gPiAtLS0KPiA+ICAg
-aW5jbHVkZS9kcm0vZHJtX2dlbS5oIHwgMyArKysKPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5z
-ZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZ2VtLmggYi9p
-bmNsdWRlL2RybS9kcm1fZ2VtLmgKPiA+IGluZGV4IDUyMTczYWJkZjUwMC4uYTEzNTEwMzQ2YTli
-IDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2dlbS5oCj4gPiArKysgYi9pbmNsdWRl
-L2RybS9kcm1fZ2VtLmgKPiA+IEBAIC0zNzIsNiArMzcyLDkgQEAgc3RhdGljIGlubGluZSB2b2lk
-IGRybV9nZW1fb2JqZWN0X2dldChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiA+ICAgc3Rh
-dGljIGlubGluZSB2b2lkCj4gPiAgIGRybV9nZW1fb2JqZWN0X3B1dChzdHJ1Y3QgZHJtX2dlbV9v
-YmplY3QgKm9iaikKPiA+ICAgewo+ID4gKyAgICAgaWYgKCFvYmopCj4gPiArICAgICAgICAgICAg
-IHJldHVybjsKPiA+ICsKClRoaXMgYWRkcyBzZXZlcmFsIHRob3VzYW5kIE5VTEwgY2hlY2tzIHdo
-ZXJlIHRoZXJlIHdlcmUgcHJldmlvdXNseSBub25lLgpJIGRvdWJ0IHRoZSBjb21waWxlciBlbGlt
-aW5hdGVzIHRoZW0gYWxsLgoKSSdkIHN1Z2dlc3QgcmV2ZXJ0aW5nCmI1ZDI1MDc0NGNjYyAoImRy
-bS9nZW06IGZvbGQgZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkIGFuZCBfX2RybV9nZW1fb2Jq
-ZWN0X3B1dCgpIikKLUNocmlzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On Wed, May 20, 2020 at 02:05:19PM +0200, Christian K=F6nig wrote:
+> Am 20.05.20 um 14:00 schrieb Dan Carpenter:
+> > This loop in the error handling code should start a "i - 1" and end at
+> > "i =3D=3D 0".  Currently it starts a "i" and ends at "i =3D=3D 1".  The=
+ result
+> > is that it removes one attribute that wasn't created yet, and leaks the
+> > zeroeth attribute.
+> > =
+
+> > Fixes: 4e01847c38f7 ("drm/amdgpu: optimize amdgpu device attribute code=
+")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_pm.c
+> > index b75362bf0742..ee4a8e44fbeb 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+> > @@ -1931,7 +1931,7 @@ static int amdgpu_device_attr_create_groups(struc=
+t amdgpu_device *adev,
+> >   					    uint32_t mask)
+> >   {
+> >   	int ret =3D 0;
+> > -	uint32_t i =3D 0;
+> > +	int i;
+> >   	for (i =3D 0; i < counts; i++) {
+> >   		ret =3D amdgpu_device_attr_create(adev, &attrs[i], mask);
+> > @@ -1942,9 +1942,8 @@ static int amdgpu_device_attr_create_groups(struc=
+t amdgpu_device *adev,
+> >   	return 0;
+> >   failed:
+> > -	for (; i > 0; i--) {
+> > +	while (--i >=3D 0)
+> =
+
+> As far as I know the common idiom for this is while (i--) which even works
+> without changing the type of i to signed.
+
+It's about 50/50, one way or the other.  To me --i >=3D 0 seems far more
+readable.
+
+I've been trying to figure out which tool tells people to make iterators
+unsigned so I can help them avoid it.  :/  I understand how in theory
+iterators could go above INT_MAX but if we're going above INT_MAX then
+probably we should use a 64 bit type.  There are very few times where 2
+billion iterations is not enough but in those situations probably 4
+billion is not enough either.  So unsigned int iterators never or seldom
+solve real life bugs but they regularly cause them.
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
