@@ -1,55 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467241DE056
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A739F1DC763
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 09:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A69F6E983;
-	Fri, 22 May 2020 06:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7496E907;
+	Thu, 21 May 2020 07:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0BD88503
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 07:02:39 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49SLCg2tyJz9sTN;
- Thu, 21 May 2020 17:02:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
- s=201909; t=1590044554;
- bh=BHxpUFasFVM+li5hBT+wKHpCR4yFZM+cogcUsaWCBRA=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=fslt6SlGf8urath89Gd6N929hU/f2/O4x7oJ5y5g0pGJSSX5Rf9enUHGT3shus9HA
- uQQ3mzIEmSCX6U6RWpr6pxrmPN974ch6TJDYX5CmlNbXQF8p56YW6BqgOa/8IPFmBV
- oTX6R/meAfXn5VzuemWWk+hchGgGhh4qQeovG8rMQFZPdvClf1WIq5MVSYGQ1t1PR/
- cZIqaD/4rWzqZNY0rK3DhFwwWnR61RFT9QgDDey0KZyY+/fLs2QNyduZEzLaZ6fBSs
- v5rkjYA5x3Ql8icu0AOoDIx7Sux5LU33BVp9saoXRBLBG5/dXitV2LJDbHyU5B01R0
- kUfMdzlrig9sw==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/2] powerpc: Remove support for ppc405/440 Xilinx
- platforms
-In-Reply-To: <CAK8P3a1XmeeP7FKfNwXZO8cXyJ_U_Jr0kjOaGZ6F=7OcoZ+0nw@mail.gmail.com>
-References: <cover.1585311091.git.michal.simek@xilinx.com>
- <CAK8P3a2mKPRFbRE3MWScr9GSiL4cpLg0wqv1Q28XDCZVPWgHfg@mail.gmail.com>
- <20200327131026.GT1922688@smile.fi.intel.com>
- <20200327131531.GU1922688@smile.fi.intel.com>
- <CAK8P3a1Z+ZPTDzgAjdz0a7d85R62BhUqkdEWgrwXh-OnYe6rog@mail.gmail.com>
- <20200327141434.GA1922688@smile.fi.intel.com>
- <b5adcc7a-9d10-d75f-50e3-9c150a7b4989@c-s.fr>
- <87mu7xum41.fsf@mpe.ellerman.id.au>
- <bac9af641140cf6df04e3532589a11c2f3bccd2f.camel@kernel.crashing.org>
- <87pncprwp9.fsf@mpe.ellerman.id.au>
- <5782f9a42ad8acd8b234fa9c15a09db93552dc6b.camel@kernel.crashing.org>
- <871roykwu6.fsf@mpe.ellerman.id.au>
- <CAK8P3a1XmeeP7FKfNwXZO8cXyJ_U_Jr0kjOaGZ6F=7OcoZ+0nw@mail.gmail.com>
-Date: Thu, 21 May 2020 17:02:46 +1000
-Message-ID: <87zha17otl.fsf@mpe.ellerman.id.au>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE606E907;
+ Thu, 21 May 2020 07:11:53 +0000 (UTC)
+IronPort-SDR: XuUQMDhlt3g0AgdJH2DIgbOL7KtoR/nC++FgeMzWezEQ56ojJ2LrzcUL4kvGhQWZGTLLdaPAhr
+ NBnowl77vKCQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2020 00:11:53 -0700
+IronPort-SDR: z7c0s6E/XsKg6S11eV0hFFqcwljSpul7VUxWd+FplJFBN88A21CKiBuf6ns6T90R9x0GcCoDe/
+ ZgBKGsJO3syg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,417,1583222400"; d="scan'208";a="412297601"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 21 May 2020 00:11:50 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1jbfMp-0003QD-8G; Thu, 21 May 2020 15:11:47 +0800
+Date: Thu, 21 May 2020 15:11:13 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Kalyan Thota <kalyan_t@codeaurora.org>
+Subject: [RFC PATCH linux-next] drm/msm/dpu: dpu_setup_dspp_pcc() can be static
+Message-ID: <20200521071112.GA92825@f61f8b3f25ca>
+References: <202005211507.nm5LmztD%lkp@intel.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+Content-Disposition: inline
+In-Reply-To: <202005211507.nm5LmztD%lkp@intel.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,64 +51,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
- Mark Rutland <mark.rutland@arm.com>,
- "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
- Richard Fontana <rfontana@redhat.com>, Paul Mackerras <paulus@samba.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Sasha Levin <sashal@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
- Takashi Iwai <tiwai@suse.com>, YueHaibing <yuehaibing@huawei.com>,
- Michal Simek <michal.simek@xilinx.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Leonardo Bras <leonardo@linux.ibm.com>,
- Matt Porter <mporter@kernel.crashing.org>, DTML <devicetree@vger.kernel.org>,
- Andrew Donnellan <ajd@linux.ibm.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Marc Zyngier <marc.zyngier@arm.com>, Alistair Popple <alistair@popple.id.au>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
- Mark Brown <broonie@kernel.org>, git@xilinx.com,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Allison Randal <allison@lohutok.net>,
- Christophe Leroy <christophe.leroy@c-s.fr>, Michal Simek <monstr@monstr.eu>,
- Wei Hu <weh@microsoft.com>, Christian Lamparter <chunkeey@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Armijn Hemel <armijn@tjaldur.nl>, Rob Herring <robh+dt@kernel.org>,
- Enrico Weigelt <info@metux.net>, "David S. Miller" <davem@davemloft.net>,
- Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@arndb.de> writes:
-> +On Wed, Apr 8, 2020 at 2:04 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
->> Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
->> > On Fri, 2020-04-03 at 15:59 +1100, Michael Ellerman wrote:
->> >> Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
->> > IBM still put 40x cores inside POWER chips no ?
->>
->> Oh yeah that's true. I guess most folks don't know that, or that they
->> run RHEL on them.
->
-> Is there a reason for not having those dts files in mainline then?
-> If nothing else, it would document what machines are still being
-> used with future kernels.
 
-Sorry that part was a joke :D  Those chips don't run Linux.
+Fixes: 4259ff7ae509 ("drm/msm/dpu: add support for pcc color block in dpu driver")
+Signed-off-by: kbuild test robot <lkp@intel.com>
+---
+ dpu_hw_dspp.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-cheers
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+index b5189cece3c66..a7a24539921f3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+@@ -22,7 +22,7 @@
+ #define PCC_BLUE_G_OFF 0x24
+ #define PCC_BLUE_B_OFF 0x30
+ 
+-void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
++static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+ 		struct dpu_hw_pcc_cfg *cfg)
+ {
+ 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
