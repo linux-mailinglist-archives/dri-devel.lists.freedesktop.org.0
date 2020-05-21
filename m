@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE611DD4AA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 19:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7301DD4B5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 19:46:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF37C6E951;
-	Thu, 21 May 2020 17:42:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDFDC6E952;
+	Thu, 21 May 2020 17:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36FF26E951
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 17:42:52 +0000 (UTC)
-IronPort-SDR: MqrrEU6sodyy/0oj5C0Eq3uCXAVvCDsVFjmRO4q+JOhDLU01mYSbOwtXATEKQqPonH5RFeASUU
- DVGV2gIa4R5g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2020 10:42:51 -0700
-IronPort-SDR: s5ulawStg94Cu9y3YOCakFhS9iVyiQrqWbqZMNZIpr4rCQpdet6Bu4hecbYJ8KDWYPUF1KKYgT
- 4/nzZR2X+tUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,418,1583222400"; d="scan'208";a="265129438"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga003.jf.intel.com with ESMTP; 21 May 2020 10:42:50 -0700
-Date: Thu, 21 May 2020 10:42:50 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-Message-ID: <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
-References: <20200507150004.1423069-8-ira.weiny@intel.com>
- <20200518184843.3029640-1-ira.weiny@intel.com>
- <20200519165422.GA5838@roeck-us.net>
- <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
- <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
- <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A66C6E952
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 17:46:39 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 207833] New: Brightness control not working on ASUS TUF FA506IU
+ (AMD Ryzen 7 4800H / Nvidia GTX 1660 Ti)
+Date: Thu, 21 May 2020 17:46:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: julen.pardo@outlook.es
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-207833-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
-User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,135 +52,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 21, 2020 at 09:05:41AM -0700, Guenter Roeck wrote:
-> On 5/19/20 10:13 PM, Ira Weiny wrote:
-> > On Tue, May 19, 2020 at 12:42:15PM -0700, Guenter Roeck wrote:
-> >> On Tue, May 19, 2020 at 11:40:32AM -0700, Ira Weiny wrote:
-> >>> On Tue, May 19, 2020 at 09:54:22AM -0700, Guenter Roeck wrote:
-> >>>> On Mon, May 18, 2020 at 11:48:43AM -0700, ira.weiny@intel.com wrote:
-> >>>>> From: Ira Weiny <ira.weiny@intel.com>
-> >>>>>
-> >>>>> The kunmap_atomic clean up failed to remove one set of pagefault/preempt
-> >>>>> enables when vaddr is not in the fixmap.
-> >>>>>
-> >>>>> Fixes: bee2128a09e6 ("arch/kunmap_atomic: consolidate duplicate code")
-> >>>>> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> >>>>
-> >>>> microblazeel works with this patch,
-> >>>
-> >>> Awesome...  Andrew in my rush yesterday I should have put a reported by on the
-> >>> patch for Guenter as well.
-> >>>
-> >>> Sorry about that Guenter,
-> >>
-> >> No worries.
-> >>
-> >>> Ira
-> >>>
-> >>>> as do the nosmp sparc32 boot tests,
-> >>>> but sparc32 boot tests with SMP enabled still fail with lots of messages
-> >>>> such as:
-> >>>>
-> >>>> BUG: Bad page state in process swapper/0  pfn:006a1
-> >>>> page:f0933420 refcount:0 mapcount:1 mapping:(ptrval) index:0x1
-> >>>> flags: 0x0()
-> >>>> raw: 00000000 00000100 00000122 00000000 00000001 00000000 00000000 00000000
-> >>>> page dumped because: nonzero mapcount
-> >>>> Modules linked in:
-> >>>> CPU: 0 PID: 1 Comm: swapper/0 Tainted: G    B             5.7.0-rc6-next-20200518-00002-gb178d2d56f29 #1
-> >>>> [f00e7ab8 :
-> >>>> bad_page+0xa8/0x108 ]
-> >>>> [f00e8b54 :
-> >>>> free_pcppages_bulk+0x154/0x52c ]
-> >>>> [f00ea024 :
-> >>>> free_unref_page+0x54/0x6c ]
-> >>>> [f00ed864 :
-> >>>> free_reserved_area+0x58/0xec ]
-> >>>> [f0527104 :
-> >>>> kernel_init+0x14/0x110 ]
-> >>>> [f000b77c :
-> >>>> ret_from_kernel_thread+0xc/0x38 ]
-> >>>> [00000000 :
-> >>>> 0x0 ]
-> >>>>
-> >>>> Code path leading to that message is different but always the same
-> >>>> from free_unref_page().
-> > 
-> > Actually it occurs to me that the patch consolidating kmap_prot is odd for
-> > sparc 32 bit...
-> > 
-> > Its a long shot but could you try reverting this patch?
-> > 
-> > 4ea7d2419e3f kmap: consolidate kmap_prot definitions
-> > 
-> 
-> That is not easy to revert, unfortunately, due to several follow-up patches.
+https://bugzilla.kernel.org/show_bug.cgi?id=207833
 
-I have gotten your sparc tests to run and they all pass...
+            Bug ID: 207833
+           Summary: Brightness control not working on ASUS TUF FA506IU
+                    (AMD Ryzen 7 4800H / Nvidia GTX 1660 Ti)
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.6.12-1
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: julen.pardo@outlook.es
+        Regression: No
 
-08:10:34 > ../linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
-Build reference: v5.7-rc4-17-g852b6f2edc0f
+Hello,
 
-Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
-Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
-Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
-Building sparc32:SS-4:nosmp:initrd ... running ......... passed
-Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
-Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
-Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
-Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
-Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
-Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
-Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
-Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
-Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
-Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
-Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+I've just bought an ASUS TUF FA506IU with and AMD Ryzen 7 4800H / Nvidia GTX
+1660 Ti setup. Even if this is quite new hardware, I'd say that the only thing
+that is not working at all is the brightness control. It's not working with the
+function keys, nor from the energy settings, nor with xbacklight.
 
-Is there another test I need to run?
+Actually, it's working a little; I can find a subtle difference between the max
+value and the last 5 values, but that's it. Setting it to the minimum still
+makes it way too bright.
 
-Ira
+I've noticed that this could be a range mismatch between "brightness" and
+"max_brightness", and "actual_brightness". First are in 8 bit ranges, whereas
+the actual brightness is in 16 bit range. I've tried some luck patching the
+kernel to return an 8-bit value
+(https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/amd/display/dc/dce/dce_abm.c#L299),
+but doing just that doesn't work (even if the "actual_brightness" was showing
+an 8 bit value). In my case, the full path is
+"/sys/class/backlight/amdgpu_bl1/".
+
+I've also tried different acpi_backlight parameters with no luck.
+
+I leave the output of lsmod | grep asus:
 
 
-> 
-> Guenter
-> 
-> > Alternately I will need to figure out how to run the sparc on qemu here...
-> > 
-> > Thanks very much for all the testing though!  :-D
-> > 
-> > Ira
-> > 
-> >>>>
-> >>>> Still testing ppc images.
-> >>>>
-> >>
-> >> ppc image tests are passing with this patch.
-> >>
-> >> Guenter
-> 
+asus_wmi               40960  0
+sparse_keymap          16384  1 asus_wmi
+rfkill                 28672  9 asus_wmi,bluetooth,cfg80211
+battery                24576  1 asus_wmi
+wmi                    36864  2 asus_wmi,wmi_bmof
+asus_wireless          20480  0
+
+
+inxi -F:
+
+System:    Host: TUF-FA506IU Kernel: 5.6.12-1-MANJARO x86_64 bits: 64 Desktop:
+KDE Plasma 5.18.5 Distro: Manjaro Linux 
+Machine:   Type: Laptop System: ASUSTeK product: TUF Gaming FA506IU_FA506IU v:
+1.0 serial: <root required> 
+           Mobo: ASUSTeK model: FA506IU v: 1.0 serial: <root required> UEFI:
+American Megatrends v: FA506IU.302 
+           date: 03/04/2020 
+Battery:   ID-1: BAT1 charge: 47.9 Wh condition: 47.9/48.1 Wh (100%) 
+CPU:       Topology: 8-Core model: AMD Ryzen 7 4800H with Radeon Graphics bits:
+64 type: MT MCP L2 cache: 4096 KiB 
+           Speed: 2405 MHz min/max: 1400/2900 MHz Core speeds (MHz): 1: 1875 2:
+2497 3: 1397 4: 1397 5: 1397 6: 1397 7: 1397 
+           8: 1397 9: 1397 10: 1396 11: 2963 12: 1673 13: 1800 14: 1548 15:
+1397 16: 1396 
+Graphics:  Device-1: NVIDIA TU116M [GeForce GTX 1660 Ti Mobile] driver: nvidia
+v: 440.82 
+           Device-2: Advanced Micro Devices [AMD/ATI] Renoir driver: amdgpu v:
+kernel 
+           Display: x11 server: X.Org 1.20.8 driver: amdgpu,nvidia resolution:
+1920x1080~144Hz, 2560x1440~60Hz 
+           OpenGL: renderer: AMD RENOIR (DRM 3.36.0 5.6.12-1-MANJARO LLVM
+10.0.0) v: 4.6 Mesa 20.0.6 
+Audio:     Device-1: NVIDIA TU116 High Definition Audio driver: snd_hda_intel 
+           Device-2: Advanced Micro Devices [AMD/ATI] driver: snd_hda_intel 
+           Device-3: Advanced Micro Devices [AMD]
+Raven/Raven2/FireFlight/Renoir Audio Processor driver: N/A 
+           Device-4: Advanced Micro Devices [AMD] Family 17h HD Audio driver:
+snd_hda_intel 
+           Sound Server: ALSA v: k5.6.12-1-MANJARO 
+Network:   Device-1: Realtek RTL8111/8168/8411 PCI Express Gigabit Ethernet
+driver: r8169 
+           IF: enp2s0 state: down mac: a8:5e:45:36:94:32 
+           Device-2: Realtek RTL8822CE 802.11ac PCIe Wireless Network Adapter
+driver: rtw_pci 
+           IF: wlp3s0 state: up mac: 70:66:55:09:8c:e3 
+Drives:    Local Storage: total: 476.94 GiB used: 32.41 GiB (6.8%) 
+           ID-1: /dev/nvme0n1 vendor: Kingston model: OM8PCP3512F-AB size:
+476.94 GiB 
+Partition: ID-1: / size: 48.97 GiB used: 25.95 GiB (53.0%) fs: ext4 dev:
+/dev/nvme0n1p5 
+           ID-2: /home size: 108.67 GiB used: 6.46 GiB (5.9%) fs: ext4 dev:
+/dev/nvme0n1p7 
+           ID-3: swap-1 size: 3.03 GiB used: 0 KiB (0.0%) fs: swap dev:
+/dev/nvme0n1p8 
+Sensors:   Message: No sensors data was found. Is sensors configured? 
+Info:      Processes: 349 Uptime: 27m Memory: 7.20 GiB used: 3.04 GiB (42.2%)
+Shell: zsh inxi: 3.0.37
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
