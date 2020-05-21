@@ -1,105 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD50A1DE04C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEB61DE04D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2A756E97C;
-	Fri, 22 May 2020 06:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A631B6E3CE;
+	Fri, 22 May 2020 06:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00C7B6E24D
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 14:17:35 +0000 (UTC)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20200521141733epoutp011e338e69aa54559a3e8d1b4e297e5056~RENWsxQrY0683806838epoutp01i
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 14:17:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20200521141733epoutp011e338e69aa54559a3e8d1b4e297e5056~RENWsxQrY0683806838epoutp01i
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A4B6E937
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 14:36:50 +0000 (UTC)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20200521143648epoutp03706d200bc041348070b649eae36deeca~REeKNFt1z1978419784epoutp03y
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 14:36:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20200521143648epoutp03706d200bc041348070b649eae36deeca~REeKNFt1z1978419784epoutp03y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1590070653;
- bh=yaoOLNL/YwnMgUGKxYrh4eIUsX8d53qGNJ5vpxP3jDg=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=laAjjfYjT+Fl7JL9KEbQGkSuVgsDBtfsW3TjofdC8xxuHghczHhVhHEC3lF9xg2iL
- bhBQFrdleGbJXNchbhwaPOLDnOEVBd5t+/7UfTjugChEpzBT/i8aqOIMF0uTX5YOXm
- jw3VFfGKm2X5K7cbWjuLFG6xPNtCCL1KclPUVLeM=
+ s=mail20170921; t=1590071808;
+ bh=xF+b0Q9OMHJN8J5YqAXOUh1uQxPqhs+cqtAaCEwzaRA=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=Y0EGKAAhXBwae7akngNyzrfTzQagRkDSKO5g2tDgUEBK6F6tQtpX1iu12SSIfJOTN
+ Qm1uEV/uf20fOUijIzoYbeOlvIVpfT/SWTWhfpAPoCPuQDzxXsqxZQm7pDj/lygw/F
+ YGtpZ/C4o0g2CDOWKrfT2s+iIVFMBucIlOsM9xEc=
 Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20200521141733epcas5p29db77a3345a33b9bfef5a9b128af6022~RENWbjCbd3018830188epcas5p2q;
- Thu, 21 May 2020 14:17:33 +0000 (GMT)
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200521143647epcas5p1905faffe86d0d97be6a2bb7aa64dd02f~REeJ1dgdP3248732487epcas5p1X;
+ Thu, 21 May 2020 14:36:47 +0000 (GMT)
 Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
  epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- C4.80.23389.C7D86CE5; Thu, 21 May 2020 23:17:32 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200521141731epcas5p3970e37a1b1b1986b75814de104e4a857~RENVbBznh1164911649epcas5p38;
- Thu, 21 May 2020 14:17:31 +0000 (GMT)
+ BB.F1.23389.FF196CE5; Thu, 21 May 2020 23:36:47 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200521143647epcas5p279d486b29125419c67ff96e0b5b1454e~REeJYPdfH1493014930epcas5p2V;
+ Thu, 21 May 2020 14:36:47 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200521141731epsmtrp1b904e2decbc2efb1412f81159a003615~RENVZ1AuM1587215872epsmtrp1b;
- Thu, 21 May 2020 14:17:31 +0000 (GMT)
-X-AuditID: b6c32a4b-797ff70000005b5d-6a-5ec68d7c6ce6
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200521143647epsmtrp27af6207874b567e48745a5dacd522cda~REeJXYG5E1594915949epsmtrp2h;
+ Thu, 21 May 2020 14:36:47 +0000 (GMT)
+X-AuditID: b6c32a4b-797ff70000005b5d-ce-5ec691ffd8d4
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
  epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- E8.BB.18461.B7D86CE5; Thu, 21 May 2020 23:17:31 +0900 (KST)
-Received: from mshams01 (unknown [107.122.43.244]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20200521141728epsmtip2175afe050debcb26c6df5c9eee7767df~RENR51xpw0089300893epsmtip2d;
- Thu, 21 May 2020 14:17:27 +0000 (GMT)
-From: "M Tamseel Shams" <m.shams@samsung.com>
-To: "'Inki Dae'" <inki.dae@samsung.com>, <jy0922.shim@samsung.com>,
- <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-In-Reply-To: <fa372f07-abba-a296-c315-e9769fb43623@samsung.com>
-Subject: RE: [PATCH v2] drm/exynos: Remove dev_err() on platform_get_irq()
- failure
-Date: Thu, 21 May 2020 19:47:25 +0530
-Message-ID: <000001d62f7a$90a004d0$b1e00e70$@samsung.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQH7RT4aJkRNX9fY1F1/HBHlZPyRGwGjzbRFAXV3RIKoT5+4wA==
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGKsWRmVeSWpSXmKPExsWy7bCmlm5t77E4g09iFr3nTjJZPJi3jc3i
- /7aJzBZXvr5ns5h0fwKLxYt7F1kszp/fwG5xtukNu8Wmx9dYLS7vmsNmMeP8PiaLIw93s1vM
- mPySzYHXY++3BSwem1Z1snls//aA1eN+93Emj81L6j36tqxi9Pi8SS6APYrLJiU1J7MstUjf
- LoErY8XhXsaC7ewVG5YvZmlgXMLWxcjBISFgInF+p1wXIxeHkMBuRonbM9+yQzifGCWm971h
- hXC+MUo8mvKYuYuRE6zj25lfbBCJvYwSTZ82QFU9Z5S4sPYrC0gVm4CuxKSDbcwgCRGBJYwS
- f9f+YAJxmAUeMkp0rJwLNotTwF7i0v57rCC2sECIRMu3D2BxFgFViavXF4FdyCtgKXGvIQYk
- zCsgKHFy5hOwBcwC2hLLFr6GOklB4ufTZWBjRAScJG49fM8MUSMu8fLoEbCHJASucEhMn/mB
- FaLBRWL+rD4WCFtY4tXxLewQtpTEy/42KDtfYv68VVALKiRWXngDZdtLHLgyhwXkNmYBTYn1
- u/QhdvFJ9P5+wgQJVF6JjjYhiGpFif+7+6Emiku8WzEF6gIPia+3l7FNYFScheSzWUg+m4Xk
- g1kIyxYwsqxilEwtKM5NTy02LTDOSy3XK07MLS7NS9dLzs/dxAhOalreOxgfPfigd4iRiYPx
- EKMEB7OSCO9C/qNxQrwpiZVVqUX58UWlOanFhxilOViUxHkfN26JExJITyxJzU5NLUgtgsky
- cXBKNTBtVVlo80OHYYrT1+gpbc9frP6kldQgIaRddzg+eeefg72VLxdWxQZr8dlx6zwXv6r0
- +cqLmEJbm0Va017UhHiyXOZV7e9o8i3gTS6exfHk3iXnn79lPkj5TQx8fUNwx5qK93HzXnQG
- zU848/GPyMEC25QO1p/B6/dE2VWfyufWKTrgf+RSm/Gt8zPuOBdb2tuXegTUbGEvkilcPTti
- zW1Jgd23Ik7lbGn8qtV7mZmV59wtV+63G1YEakx4xvS17Xpm84aCRQ5sL6oD0v1cNjZpmet+
- 2KVy+k+UZlLzlr0zNe7uCZM3d2Uwc7tzS6uoQJ412f3pxZQ53Tf+b2M1OC9+uvtYqv21aees
- E5QmByqxFGckGmoxFxUnAgCSFEUL2QMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsWy7bCSvG5177E4g+cTjS16z51ksngwbxub
- xf9tE5ktrnx9z2Yx6f4EFosX9y6yWJw/v4Hd4mzTG3aLTY+vsVpc3jWHzWLG+X1MFkce7ma3
- mDH5JZsDr8febwtYPDat6mTz2P7tAavH/e7jTB6bl9R79G1ZxejxeZNcAHsUl01Kak5mWWqR
- vl0CV8a3G8+YCiawV3w7sIGpgfE/axcjJ4eEgInEtzO/2LoYuTiEBHYzSuz5epodIiEuMe3X
- fkYIW1hi5b/n7BBFTxkl7i7bzAySYBPQlZh0sI0ZJCEisIpR4mznfTCHWeA5o0T/jnksEC17
- GSV6Xh9kA2nhFLCXuLT/HthyYYEgiWVP5jCB2CwCqhJXry8CquHg4BWwlLjXEAMS5hUQlDg5
- 8wkLiM0soC3x9OZTOHvZwtfMEOcpSPx8ugxspIiAk8Sth++ZIWrEJV4ePcI+gVF4FpJRs5CM
- moVk1CwkLQsYWVYxSqYWFOem5xYbFhjmpZbrFSfmFpfmpesl5+duYgRHqJbmDsbtqz7oHWJk
- 4mA8xCjBwawkwruQ/2icEG9KYmVValF+fFFpTmrxIUZpDhYlcd4bhQvjhATSE0tSs1NTC1KL
- YLJMHJxSDUz5enWazDe0vookt/+JKVec/rMxReXYVFl2/qri9y0C1asNGe42ZkyIe7Ho5ASr
- VdMvuqsLhL2V2h/7VOOH/Llme5M/D2PrjX1vlwk68N/p+lyzIqD6ok3C/6glOdI7L7zmLCvb
- KH/3mt+DmrpmIb8f37Rz79+3L26I1Z1fkuZx6YPQndwYBv1PU5O2bdky+WyIOAfvj9TAaZKz
- tJ5lylVJfPjlGbfZT++Vm9nURfcYhW2amRgk7sutVSit0Z7ou+hfh4J7QeokpQuL5nzlaJnw
- XcHP3XdHTV33kwe7Hx8+Z+H32Me5fk62b3iF6P/J62ZfEJ0ULH6ghWOhUaIi3w2fxi/+060X
- e06++10tTomlOCPRUIu5qDgRANdX/eI/AwAA
-X-CMS-MailID: 20200521141731epcas5p3970e37a1b1b1986b75814de104e4a857
+ 37.1C.18461.FF196CE5; Thu, 21 May 2020 23:36:47 +0900 (KST)
+Received: from Jaguar.sa.corp.samsungelectronics.net (unknown
+ [107.108.73.139]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200521143645epsmtip2f028ad4f8c727d782dd748ff901b59c6~REeHZmDZa1174611746epsmtip2M;
+ Thu, 21 May 2020 14:36:45 +0000 (GMT)
+From: Tamseel Shams <m.shams@samsung.com>
+To: inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v3] drm/exynos: Remove dev_err() on platform_get_irq() failure
+Date: Thu, 21 May 2020 19:52:10 +0530
+Message-Id: <20200521142210.17400-1-m.shams@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrGIsWRmVeSWpSXmKPExsWy7bCmlu7/icfiDC43a1n0njvJZPFg3jY2
+ i//bJjJbXPn6ns1i0v0JLBYv7l1ksTh/fgO7xdmmN+wWmx5fY7W4vGsOm8WM8/uYLO62Lma3
+ OPJwN7vFjMkv2Rz4PPZ+W8DisWlVJ5vH9m8PWD3udx9n8ti8pN6jb8sqRo/Pm+QC2KO4bFJS
+ czLLUov07RK4Mra94ipYz1Yx6fZU1gbGJaxdjJwcEgImEjsmHgKyuTiEBHYzSvyfs4MJwvnE
+ KHHy0H8o5xujxMXHH1hgWiY8WMMOkdjLKHG0fRUbSEJIoIVJYsUWoAQHB5uApsTx89wgNSIC
+ nYwSPbd/g+1gFvjBKPFm5TpmkAZhgQCJ922vwGwWAVWJk/uus4PYvAIWElf3wxwoL7F6wwFm
+ kGYJgY/sEkvvT4Y6w0XiwaVDUEXCEq+Ob2GHsKUkPr/bywZh50vMn7eKGcKukFh54Q2UbS9x
+ 4MocFpBLmYEuXb9LHyTMLMAn0fv7CRNIWEKAV6KjTQiiWlHi/+5+qOniEu9WTIHa6iHx68NG
+ RpByIYFYiQlTUicwysxCmLmAkXEVo2RqQXFuemqxaYFxXmq5XnFibnFpXrpecn7uJkZw0tDy
+ 3sH46MEHvUOMTByMhxglOJiVRHgX8h+NE+JNSaysSi3Kjy8qzUktPsQozcGiJM77uHFLnJBA
+ emJJanZqakFqEUyWiYNTqoGpl7V56aQp/3yn6Gjf9Nn+2UI5NV3keVnfO31TK9m6Yyxhd75P
+ dMt42HZrTUbXMr9yrst93wIc/D7vlLPvF4sXzBL7wcfw8PQH+8/5daYGr67qntmXkh5zQd3L
+ vP9e3Y+5q5pbNtUmHWBdZDXTNdJH/raUjGjwCrbP5UlJB1ds2v94nbC66d3CC7lJp97bM+nn
+ zYtxu7It/8bNaqPDRx9qWRgdebZA9qMU175/wVO/Rvi+N7vkIVikfGqnw+L/1+5bPHvaEmT0
+ 9lSlhnfPZNvN3CrbrG5PXCKoN+vajkzZGWur2JgrnRndv+8Sbed6sqnqxymJH70TFtot9nS9
+ x+TMuvzkW69J25V3GrZv+PNViaU4I9FQi7moOBEAgwbALYkDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFLMWRmVeSWpSXmKPExsWy7bCSvO7/icfiDC7e5bLoPXeSyeLBvG1s
+ Fv+3TWS2uPL1PZvFpPsTWCxe3LvIYnH+/AZ2i7NNb9gtNj2+xmpxedccNosZ5/cxWdxtXcxu
+ ceThbnaLGZNfsjnweez9toDFY9OqTjaP7d8esHrc7z7O5LF5Sb1H35ZVjB6fN8kFsEdx2aSk
+ 5mSWpRbp2yVwZWx7xVWwnq1i0u2prA2MS1i7GDk5JARMJCY8WMPexcjFISSwm1GieUYHE0RC
+ XGLar/2MELawxMp/z6GKmpgk2vvPs3UxcnCwCWhKHD/PDRIXEZjIKDGnfRULiMMs0MAksWLl
+ b0aQImEBP4mWJXUgg1gEVCVO7rvODmLzClhIXN0Pc4W8xOoNB5gnMPIsYGRYxSiZWlCcm55b
+ bFhgmJdarlecmFtcmpeul5yfu4kRHJxamjsYt6/6oHeIkYmD8RCjBAezkgjvQv6jcUK8KYmV
+ ValF+fFFpTmpxYcYpTlYlMR5bxQujBMSSE8sSc1OTS1ILYLJMnFwSgGdWnaWk/mLvbRoAUe4
+ ruK5sNanB8JP/jN5vUDg1FQd5/WfHx6+vH+Wn6si9+u9Fs/77rttVDjSefuqdFPDrsycja/F
+ 9hbLn05hdf8dECL/00W+j9vNakHHwkmaSyVKlSLKb3bLuJie90h+8GHBz59rX/6Q61uW9a94
+ VcnUy92NGV2Mz0u2nms7P0tfbpZUZPjLdfyr9njw3r3/ab1vwZRv1n+2HFA5eL7oQU7fdPVS
+ juPr6w7lMXTNWJhZ8iMsgndt7q8frr8f3uN8+7/q6eO5fXvsgsNvaoTef2Ocplf2LOqc8VxB
+ jXOb3r6e53Zsw9WCplAzJ7NVy7QjP1ddymvJsrwc/3R1sMpW3jWe9xVYlFiKMxINtZiLihMB
+ HT7Y570CAAA=
+X-CMS-MailID: 20200521143647epcas5p279d486b29125419c67ff96e0b5b1454e
 X-Msg-Generator: CA
 CMS-TYPE: 105P
-X-CMS-RootMailID: 20200519110323epcas5p23b9472d505f5ba58d033fa468cb9969d
-References: <CGME20200519110323epcas5p23b9472d505f5ba58d033fa468cb9969d@epcas5p2.samsung.com>
- <20200519104904.59246-1-m.shams@samsung.com>
- <fa372f07-abba-a296-c315-e9769fb43623@samsung.com>
+X-CMS-RootMailID: 20200521143647epcas5p279d486b29125419c67ff96e0b5b1454e
+References: <CGME20200521143647epcas5p279d486b29125419c67ff96e0b5b1454e@epcas5p2.samsung.com>
 X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,39 +105,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-samsung-soc@vger.kernel.org, shaik.ameer@samsung.com,
  linux-kernel@vger.kernel.org, krzk@kernel.org, dri-devel@lists.freedesktop.org,
- alim.akhtar@samsung.com, linux-arm-kernel@lists.infradead.org
+ alim.akhtar@samsung.com, Tamseel Shams <m.shams@samsung.com>,
+ linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+platform_get_irq() will call dev_err() itself on failure,
+so there is no need for the driver to also do this.
+This is detected by coccinelle.
 
+Signed-off-by: Tamseel Shams <m.shams@samsung.com>
+---
+- Changes since v2:
+* Addressed Inki Dae comments
 
-> -----Original Message-----
-> From: Inki Dae <inki.dae@samsung.com>
-> Sent: Wednesday, May 20, 2020 11:08 AM
-> To: Tamseel Shams <m.shams@samsung.com>; jy0922.shim@samsung.com;
-> sw0312.kim@samsung.com; kyungmin.park@samsung.com; airlied@linux.ie;
-> daniel@ffwll.ch
-> Cc: dri-devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org; linux-
-> samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> shaik.ameer@samsung.com; krzk@kernel.org; alim.akhtar@samsung.com
-> Subject: Re: [PATCH v2] drm/exynos: Remove dev_err() on platform_get_irq()
-> failure
-> 
-> Hi Tamseel,
-> 
-> Same patch[1] has been merged. So could you re-post this patch after rebasing
-> it on top of exynos-drm-next branch?
-> After rebase, only g2d part would be valid.
-> 
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Hi Inki Dae,
-Thanks for letting me know, I will send updated patch for G2D file.
-
-Thanks & Regards
-Tamseel Shams
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+index fcee33a43aca..03be31427181 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+@@ -1498,7 +1498,6 @@ static int g2d_probe(struct platform_device *pdev)
+ 
+ 	g2d->irq = platform_get_irq(pdev, 0);
+ 	if (g2d->irq < 0) {
+-		dev_err(dev, "failed to get irq\n");
+ 		ret = g2d->irq;
+ 		goto err_put_clk;
+ 	}
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
