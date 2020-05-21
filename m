@@ -2,30 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B454D1DC352
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 02:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBEF1DE06E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2C826E8C5;
-	Thu, 21 May 2020 00:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B226E98A;
+	Fri, 22 May 2020 06:56:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 285F76E8C5
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 00:07:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: shadeslayer) with ESMTPSA id AAA0A27FDB8
-From: Rohan Garg <rohan.garg@collabora.com>
-To: dri-devel@lists.freedesktop.org, Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH v5 1/2] drm/ioctl: Add a ioctl to set and get a label on
- GEM objects
-Date: Thu, 21 May 2020 02:07:09 +0200
-Message-ID: <7761830.T7Z3S40VBb@solembum>
-Organization: Collabora Ltd.
-In-Reply-To: <CACvgo52mso5kEWtjBQKM9RF51P=KnERRoWGai-emo2ofzJWLXA@mail.gmail.com>
-References: <cover.1589468282.git.rohan.garg@collabora.com>
- <a0806974b5c0203ed824500dc2e780eb7af02837.1589468282.git.rohan.garg@collabora.com>
- <CACvgo52mso5kEWtjBQKM9RF51P=KnERRoWGai-emo2ofzJWLXA@mail.gmail.com>
+Received: from Galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40A866E8BD;
+ Thu, 21 May 2020 00:10:13 +0000 (UTC)
+Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de)
+ by Galois.linutronix.de with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.80) (envelope-from <a.darwish@linutronix.de>)
+ id 1jbYmC-0006mO-Af; Thu, 21 May 2020 02:09:32 +0200
+Date: Thu, 21 May 2020 02:09:30 +0200
+From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH v1 13/25] dma-buf: Use sequence counter with associated
+ wound/wait mutex
+Message-ID: <20200521000930.GA359643@debian-buster-darwi.lab.linutronix.de>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
+ <20200519214547.352050-14-a.darwish@linutronix.de>
+ <e28c251e-5771-598c-37dd-c6be2de4b9e1@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e28c251e-5771-598c-37dd-c6be2de4b9e1@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
+ SHORTCIRCUIT=-0.0001
+X-Mailman-Approved-At: Fri, 22 May 2020 06:56:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,164 +47,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com
-Content-Type: multipart/mixed; boundary="===============0004000194=="
+Cc: dri-devel@lists.freedesktop.org, "Paul E. McKenney" <paulmck@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Ingo Molnar <mingo@redhat.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0004000194==
-Content-Type: multipart/signed; boundary="nextPart9700878.nUPlyArG6x"; micalg="pgp-sha512"; protocol="application/pgp-signature"
+On Wed, May 20, 2020, Christian K=F6nig wrote:
+> Am 19.05.20 um 23:45 schrieb Ahmed S. Darwish:
+> > A sequence counter write side critical section must be protected by some
+> > form of locking to serialize writers. If the serialization primitive is
+> > not disabling preemption implicitly, preemption has to be explicitly
+> > disabled before entering the sequence counter write side critical
+> > section.
+> >
+> > The dma-buf reservation subsystem uses plain sequence counters to manage
+> > updates to reservations. Writer serialization is accomplished through a
+> > wound/wait mutex.
+> >
+> > Acquiring a wound/wait mutex does not disable preemption, so this needs
+> > to be done manually before and after the write side critical section.
+> >
+> > Use the newly-added seqcount_ww_mutex_t instead:
+> >
+> >    - It associates the ww_mutex with the sequence count, which enables
+> >      lockdep to validate that the write side critical section is proper=
+ly
+> >      serialized.
+> >
+> >    - It removes the need to explicitly add preempt_disable/enable()
+> >      around the write side critical section because the write_begin/end=
+()
+> >      functions for this new data type automatically do this.
+> >
+> > If lockdep is disabled this ww_mutex lock association is compiled out
+> > and has neither storage size nor runtime overhead.
+>
+> Mhm, is the dma_resv object the only user of this new seqcount_ww_mutex
+> variant ?
+>
+> If yes we are trying to get rid of this sequence counter for quite some
+> time, so I would rather invest the additional time to finish this.
+>
 
---nextPart9700878.nUPlyArG6x
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In this patch series, each extra "seqcount with associated lock" data
+type costs us, exactly:
 
-Hey Emil
-I've applied all the suggestions except the ones I discuss below.
+  - 1 typedef definition, seqcount_ww_mutex_t
+  - 1 static initializer, SEQCNT_WW_MUTEX_ZERO()
+  - 1 runtime initializer, seqcount_ww_mutex_init()
 
-> 
-> As a high-level question: how does this compare to VC4_LABEL_BO?
-> Is it possible to implement to replace or partially implement the vc4
-> one with this infra?
-> 
-> IMHO this is something to aim for.
-> 
+Definitions for the typedef and the 2 initializers above are
+template-code one liners.
 
-Yep, the intention is to replace the VC4 specific labeling with a more generic 
-framework that all drivers can use.
+The logic which automatically disables preemption upon entering a
+seqcount_ww_mutex_t write side critical section is also already shared
+with seqcount_mutex_t and any future, preemptible, associated lock.
 
-> A handful of ideas and suggestions below:
-> 
-> On Thu, 14 May 2020 at 16:05, Rohan Garg <rohan.garg@collabora.com> wrote:
-> > Signed-off-by: Rohan Garg <rohan.garg@collabora.com>
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> New functionality usually has suggested-by tags. Reported-by tags are
-> used when the feature isn't behaving as expected.
-> 
+So, yes, dma-resv is the only user of seqcount_ww_mutex.
 
-This was suggested as part of the previous review process [1].
+But even in that case, given the one liner template code nature of
+seqcount_ww_mutex_t logic, it does not make sense to block the dma_resv
+and amdgpu change until at some point in the future the sequence counter
+is completely removed.
 
-> > +
-> > +       kfree(gem_obj->label);
-> > +
-> > +       gem_obj->label = adopted_label;
-> 
-> Do we have any protection of ->label wrt concurrent access? Say two
-> writers, attempting to both set the label.
-> 
+**If and when** the sequence counter gets removed, please just remove
+the seqcount_ww_mutex_t data type with it. It will be extremely simple.
 
-Great catch. I'll protect this from concurrent access.
+> Regards,
+> Christian.
+>
 
-> 
-> > +
-> > +       if (!dev->driver->set_label || args->len > PAGE_SIZE)
-> 
-> AFAICT the PAGE_SIZE check should be a EINVAL.
-> 
-> Additionally, It would be better, to use the default implementation
-> when the function pointer is not explicitly set.
-> That should allow for more consistent and easier use.
-> 
-> Think about the time gap (esp. for some distributions) between the
-> kernel feature landing and being generally accessible to userspace.
-> 
+Thanks,
 
-This is intentional since vmgfx uses TTM and the DRM helpers would not work.
-Sure, we could simply add a patch to the series that hooks up the relevant 
-code to vmgfx and then calls the DRM label helper for all other drivers, but 
-I'd rather have driver developers explicitly opt into this functionality.
-
-> > +               return -EOPNOTSUPP;
-> > +
-> > +       if (!args->len)
-> > +               label = NULL;
-> > +       else if (args->len && args->label)
-> > +               label = strndup_user(u64_to_user_ptr(args->label),
-> > args->len); +       else
-> 
-> Might be worth throwing EINVAL for !len && label... or perhaps not. In
-> either case please document it.
-> 
-
-Hm, I'm not entirely sure what documentation I should add here since we 
-already document the drm_handle_label struct in the relevant header.
-
-> 
-> > +
-> > +       if (args->label)
-> > +               ret = copy_to_user(u64_to_user_ptr(args->label),
-> > +                                  label,
-> > +                                  args->len);
-> > +
-> 
-> Consider the following - userspace allocates less memory than needed
-> for the whole string.
-> Be that size concerns or simply because it's interested only in the
-> first X bytes.
-> 
-> If we're interested in supporting that, a simple min(args->len, len)
-> could be used.
-> 
-
-I wouldn't be opposed to this if such a need arises in the future.
-
-> s/int/__u32/ + comment, currently no flags are defined.
-> > +#define DRM_IOCTL_HANDLE_SET_LABEL      DRM_IOWR(0xCF, struct
-> > drm_handle_label)
-> Pretty sure that WR is wrong here, although I don't recall we should
-> be using read or write only.
-> Unfortunately many drivers/ioctls get this wrong :-\
-> 
-
-From a quick read of the IO{W,R} documentation, I suppose we should be marking 
-SET_LABEL as DRM_IOW and GET_LABEL as DRM_IOR.
-
-Thanks!
-Rohan Garg
-
-[1] https://patchwork.freedesktop.org/patch/335508/?
-series=66752&rev=4#comment_621167
---nextPart9700878.nUPlyArG6x
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEYitc3NselT9dMmhSpwS9TvJnIJQFAl7Fxi0ACgkQpwS9TvJn
-IJRLfw/+N8Cul68GS20ICVV9rEhhkmNEBGw12+Ao2rL/LDp8S/qbEVrjrcwg19hQ
-yI/Ccf7GSeM3TxDmPNZ80L484Cfl2/nb+7VIFGsb2ScqnmW0FD6wfrCRRZU3sx0e
-GTeCZ/knwXmjC4rbvr4kOB6qg2B6YIbiJy4QdxPIDLe0fhfISw+DymEoMajlEapL
-mET/SoPtYGrDNN1rjuHLmqpPm5nqaDKVidXwziNiBf+GyGI3THb+hd3XDt6574L5
-QVdAF7l3nUBxRpeyxeIQkBj1CNeG5a5sZYBOXhfiKbfDSWtqgFdR/5QkqnhVz3at
-Uhb/69ZqVo/BcKrtBDbFQBdUZIWX2Mw6qGKvGcUsxIwd0uWtv+4CVlkLOKumrqP/
-FEYiLsJbXN9ad4DyXku4CGK0FqJAVA77fDLLCaJE9WyY4r8iuTt8hAGqXMi7GUzr
-gePArEMd9yixuisJsp5B+JVYF13o8yQm0MADseK3f+yI2FBtIq2wwPhl9avt23tN
-FB07ZWv2OvYaUsMXuMUii4lcmmqf4NuHF00vp+/6SS6PTtoQDWtSQtSKh3Tocvpm
-195iCmyGDgO4tg17KAnwp+mnLnr80RI7fowzwxXFfJOIfOQTC0RLBUPDaEo1sUoK
-v46Fq9+0DXYbM/o/tvzYe873cqFnGo+mcKqQVREEn+i+MF8OemQ=
-=kJpt
------END PGP SIGNATURE-----
-
---nextPart9700878.nUPlyArG6x--
-
-
-
-
---===============0004000194==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+--
+Ahmed S. Darwish
+Linutronix GmbH
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0004000194==--
-
-
-
