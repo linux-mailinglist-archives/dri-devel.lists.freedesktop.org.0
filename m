@@ -1,43 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520471DD4BC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 19:47:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8231C1DD669
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 20:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 300546E953;
-	Thu, 21 May 2020 17:47:32 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EB06E954
- for <dri-devel@freedesktop.org>; Thu, 21 May 2020 17:47:30 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 77212207F7;
- Thu, 21 May 2020 17:47:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590083250;
- bh=gjOFDQGCVbKuhm8jhPpiRW9Wyk9jKG5kSGeV52TDf6g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=njcyq1HmKA1I0mjxEii+de1ZOsOH/zUwzOlJFe3Bw1j64/DG0+ouCdPRr1i96R3Eg
- AfkJIeTsVvQ3zL9RHwQDZyxn0fY8cfUUAPdFN5hud8Dkx9MBwT28kABc1OUyE2cB2K
- 5B+S74zVYHuTR5Sh+5h63bFEb+f76IdI0yaPZZWU=
-Date: Thu, 21 May 2020 18:47:25 +0100
-From: Will Deacon <will@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 2/2] dt-bindings: arm-smmu: Add sc7180 compatible string
-Message-ID: <20200521174724.GA9223@willie-the-truck>
-References: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
- <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
- <CAD=FV=WXv9DYf7LWoFBvro=7Bzeb1_0bXAvRH-suzxnrCu+V2A@mail.gmail.com>
- <20200518143920.GJ32394@willie-the-truck>
- <CAD=FV=We2+5QHimzr+ukit9qkDKQaaTHYEZGkVbOwsNuy11k9A@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E602898BF;
+	Thu, 21 May 2020 18:57:57 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E6A89930;
+ Thu, 21 May 2020 18:57:55 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21252267-1500050 for multiple; Thu, 21 May 2020 19:57:36 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=We2+5QHimzr+ukit9qkDKQaaTHYEZGkVbOwsNuy11k9A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200519002124.2025955-1-jhubbard@nvidia.com>
+References: <20200519002124.2025955-1-jhubbard@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+ John Hubbard <jhubbard@nvidia.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 0/4] mm/gup, drm/i915: refactor gup_fast,
+ convert to pin_user_pages()
+Message-ID: <159008745422.32320.5724805750977048669@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Thu, 21 May 2020 19:57:34 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,69 +40,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Robin Murphy <robin.murphy@arm.com>, Sharat Masetty <smasetty@codeaurora.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Matthew Wilcox <willy@infradead.org>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ John Hubbard <jhubbard@nvidia.com>, intel-gfx@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+ Souptick Joarder <jrdr.linux@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 18, 2020 at 01:59:49PM -0700, Doug Anderson wrote:
-> On Mon, May 18, 2020 at 7:39 AM Will Deacon <will@kernel.org> wrote:
-> > On Fri, May 15, 2020 at 12:05:39PM -0700, Doug Anderson wrote:
-> > > On Fri, May 1, 2020 at 3:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
-> > > >
-> > > > This patch simply adds a new compatible string for SC7180 platform.
-> > > >
-> > > > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > > > index 6515dbe..986098b 100644
-> > > > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > > > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > > > @@ -28,6 +28,7 @@ properties:
-> > > >            - enum:
-> > > >                - qcom,msm8996-smmu-v2
-> > > >                - qcom,msm8998-smmu-v2
-> > > > +              - qcom,sc7180-smmu-v2
-> > > >                - qcom,sdm845-smmu-v2
-> > > >            - const: qcom,smmu-v2
-> > >
-> > > Is anything blocking this patch from landing now?
-> >
-> > I thought updates to the bindings usually went via Rob and the device-tree
-> > tree, but neither of those are on cc.
-> >
-> > Perhaps resend with that fixed?
-> 
-> Ah, I guess I wasn't familiar with how things worked for this file, or
-> maybe things have changed recently?  I'm used to most bindings going
-> through the same tree as the drivers that use them.  Usually if things
-> are at all complicated maintainers wait for an Ack from Rob (so he
-> should have been CCed for sure) and then land.
+Quoting John Hubbard (2020-05-19 01:21:20)
+> This needs to go through Andrew's -mm tree, due to adding a new gup.c
+> routine. However, I would really love to have some testing from the
+> drm/i915 folks, because I haven't been able to run-time test that part
+> of it.
 
-Just to clear this up: I'm happy to take DT stuff like this, but preferably
-with Rob's ack so that I know that (a) it's not a load of rubbish and (b) it
-probably won't conflict with his tree. So having the DT folks omitted from
-the CC list just rings alarm bells for me.
+CI hit
 
-> In this case it actually looks like Bjorn landed it in the Qualcomm
-> and I just didn't realize it.  That seems like it should be fine since
-> it's in the middle of a clause that's all Qualcomm and the change
-> shouldn't be controversial in any way.  :-)
+<4> [185.667750] WARNING: CPU: 0 PID: 1387 at mm/gup.c:2699 internal_get_user_pages_fast+0x63a/0xac0
+<4> [185.667752] Modules linked in: vgem snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic i915 mei_hdcp x86_pkg_temp_thermal coretemp snd_hda_intel snd_intel_dspcfg crct10dif_pclmul snd_hda_codec crc32_pclmul snd_hwdep snd_hda_core ghash_clmulni_intel cdc_ether usbnet mii snd_pcm e1000e mei_me ptp pps_core mei intel_lpss_pci prime_numbers
+<4> [185.667774] CPU: 0 PID: 1387 Comm: gem_userptr_bli Tainted: G     U            5.7.0-rc5-CI-Patchwork_17704+ #1
+<4> [185.667777] Hardware name: Intel Corporation Ice Lake Client Platform/IceLake U DDR4 SODIMM PD RVP, BIOS ICLSFWR1.R00.3234.A01.1906141750 06/14/2019
+<4> [185.667782] RIP: 0010:internal_get_user_pages_fast+0x63a/0xac0
+<4> [185.667785] Code: 24 40 08 48 39 5c 24 38 49 89 df 0f 85 74 fc ff ff 48 83 44 24 50 08 48 39 5c 24 58 49 89 dc 0f 85 e0 fb ff ff e9 14 fe ff ff <0f> 0b b8 ea ff ff ff e9 36 fb ff ff 4c 89 e8 48 21 e8 48 39 e8 0f
+<4> [185.667789] RSP: 0018:ffffc90001133c38 EFLAGS: 00010206
+<4> [185.667792] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff8884999ee800
+<4> [185.667795] RDX: 00000000000c0001 RSI: 0000000000000100 RDI: 00007f419e774000
+<4> [185.667798] RBP: ffff888453dbf040 R08: 0000000000000000 R09: 0000000000000001
+<4> [185.667800] R10: 0000000000000000 R11: 0000000000000000 R12: ffff888453dbf380
+<4> [185.667803] R13: ffff8884999ee800 R14: ffff888453dbf3e8 R15: 0000000000000040
+<4> [185.667806] FS:  00007f419e875e40(0000) GS:ffff88849fe00000(0000) knlGS:0000000000000000
+<4> [185.667808] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [185.667811] CR2: 00007f419e873000 CR3: 0000000458bd2004 CR4: 0000000000760ef0
+<4> [185.667814] PKRU: 55555554
+<4> [185.667816] Call Trace:
+<4> [185.667912]  ? i915_gem_userptr_get_pages+0x1c6/0x290 [i915]
+<4> [185.667918]  ? mark_held_locks+0x49/0x70
+<4> [185.667998]  ? i915_gem_userptr_get_pages+0x1c6/0x290 [i915]
+<4> [185.668073]  ? i915_gem_userptr_get_pages+0x1c6/0x290 [i915]
 
-Ok!
-
-Will
+and then panicked, across a range of systems.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
