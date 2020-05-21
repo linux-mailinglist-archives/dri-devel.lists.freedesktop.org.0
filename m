@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A739F1DC763
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 09:11:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783D11DC897
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 10:30:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7496E907;
-	Thu, 21 May 2020 07:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABBA36E917;
+	Thu, 21 May 2020 08:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE606E907;
- Thu, 21 May 2020 07:11:53 +0000 (UTC)
-IronPort-SDR: XuUQMDhlt3g0AgdJH2DIgbOL7KtoR/nC++FgeMzWezEQ56ojJ2LrzcUL4kvGhQWZGTLLdaPAhr
- NBnowl77vKCQ==
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C0D6E915;
+ Thu, 21 May 2020 08:30:36 +0000 (UTC)
+IronPort-SDR: QjIuQuPpRsrZXNdoDodY5nrdYaj407VuwHfPKhZCxXOL6hSs8HS6o+IZlHpBySLt4b7pDlQbO1
+ eJVnTK5G3+sw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 May 2020 00:11:53 -0700
-IronPort-SDR: z7c0s6E/XsKg6S11eV0hFFqcwljSpul7VUxWd+FplJFBN88A21CKiBuf6ns6T90R9x0GcCoDe/
- ZgBKGsJO3syg==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2020 01:30:30 -0700
+IronPort-SDR: GCA3JlLqCpnDWJqg9EI44GP6FD27GV4TN6LHYrrbLQXYUxfD+K4VycbwLzwLTQtPZqMR++lasG
+ BrGQSmEHJ0YA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,417,1583222400"; d="scan'208";a="412297601"
+X-IronPort-AV: E=Sophos;i="5.73,417,1583222400"; d="scan'208";a="268560572"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 21 May 2020 00:11:50 -0700
+ by orsmga006.jf.intel.com with ESMTP; 21 May 2020 01:30:28 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
  (envelope-from <lkp@intel.com>)
- id 1jbfMp-0003QD-8G; Thu, 21 May 2020 15:11:47 +0800
-Date: Thu, 21 May 2020 15:11:13 +0800
+ id 1jbgax-000D7Q-FC; Thu, 21 May 2020 16:30:27 +0800
+Date: Thu, 21 May 2020 16:30:19 +0800
 From: kbuild test robot <lkp@intel.com>
-To: Kalyan Thota <kalyan_t@codeaurora.org>
-Subject: [RFC PATCH linux-next] drm/msm/dpu: dpu_setup_dspp_pcc() can be static
-Message-ID: <20200521071112.GA92825@f61f8b3f25ca>
-References: <202005211507.nm5LmztD%lkp@intel.com>
+To: Jonathan Marek <jonathan@marek.ca>
+Subject: [RFC PATCH linux-next] drm/msm/a6xx: a6xx_hfi_send_start() can be
+ static
+Message-ID: <20200521083019.GA66267@f61f8b3f25ca>
+References: <202005211627.xf4dxc5b%lkp@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <202005211507.nm5LmztD%lkp@intel.com>
+In-Reply-To: <202005211627.xf4dxc5b%lkp@intel.com>
 X-Patchwork-Hint: ignore
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,24 +62,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Fixes: 4259ff7ae509 ("drm/msm/dpu: add support for pcc color block in dpu driver")
+Fixes: 8167e6fa76c8 ("drm/msm/a6xx: HFI v2 for A640 and A650")
 Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
- dpu_hw_dspp.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ a6xx_hfi.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index b5189cece3c66..a7a24539921f3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -22,7 +22,7 @@
- #define PCC_BLUE_G_OFF 0x24
- #define PCC_BLUE_B_OFF 0x30
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+index f9db69e771214..9921e632f1ca2 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+@@ -342,7 +342,7 @@ static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
+ 		NULL, 0);
+ }
  
--void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
-+static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
- 		struct dpu_hw_pcc_cfg *cfg)
+-int a6xx_hfi_send_start(struct a6xx_gmu *gmu)
++static int a6xx_hfi_send_start(struct a6xx_gmu *gmu)
  {
+ 	struct a6xx_hfi_msg_start msg = { 0 };
+ 
+@@ -350,7 +350,7 @@ int a6xx_hfi_send_start(struct a6xx_gmu *gmu)
+ 		NULL, 0);
+ }
+ 
+-int a6xx_hfi_send_core_fw_start(struct a6xx_gmu *gmu)
++static int a6xx_hfi_send_core_fw_start(struct a6xx_gmu *gmu)
+ {
+ 	struct a6xx_hfi_msg_core_fw_start msg = { 0 };
  
 _______________________________________________
 dri-devel mailing list
