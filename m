@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930C11DC4E1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 03:46:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A5B1DC66D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 06:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B6C6E8F3;
-	Thu, 21 May 2020 01:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54D9D6E8FA;
+	Thu, 21 May 2020 04:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7006D6E8F3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 01:46:17 +0000 (UTC)
-Received: from DESKTOP-GFFITBK.localdomain (218-161-90-76.HINET-IP.hinet.net
- [218.161.90.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D7BC7206D4;
- Thu, 21 May 2020 01:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590025577;
- bh=ShWR05J+GX0ojhK27/EOzzCcTQLksxCASTY1PQgf/mo=;
- h=From:To:Cc:Subject:Date:From;
- b=zaB2mc7Bz/LDeMvhd14Fm+OKQB/TTuToxd3yF8B5RIJen0phXH91cXj0JfnricUVq
- p1I4B4m5DioI2vkKJG1uCN0YbsJhjt3HUDRf5B2bik49y5aKMM9VCDzyJkamrRkRpW
- QGHJwAH4Xrw+/aeJZjNFbQ1JrP8Twx2lgdsapqqk=
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
-Subject: [GIT PULL v3] mediatek drm next for 5.8
-Date: Thu, 21 May 2020 09:46:12 +0800
-Message-Id: <20200521014612.17175-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EACA6E10A;
+ Thu, 21 May 2020 04:57:25 +0000 (UTC)
+IronPort-SDR: CXwIyJpo7lGT89yoF4dHPSpkeDzL+ogOHPuAgV9i2fOYhu1kxn4g1bzb5tapZSQnKO21P3Eok7
+ M134/ohkLgGA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2020 21:57:24 -0700
+IronPort-SDR: aCWUuRHpZvEwU3E3PUlP/m9OBh3OoIWzy9uzZamFUGxoodjG9GC4TqxFUiaYrtgYWQN2KElR2o
+ 6ERc3imGdEcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,416,1583222400"; d="scan'208";a="466641071"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by fmsmga005.fm.intel.com with ESMTP; 20 May 2020 21:57:22 -0700
+Date: Thu, 21 May 2020 10:27:21 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH] drm/i915/hdcp: Avoid duplicate HDCP enables
+Message-ID: <20200521045720.GA8571@intel.com>
+References: <20200520194744.48936-1-sean@poorly.run>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200520194744.48936-1-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,59 +47,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bernard Zhao <bernard@vivo.com>, Jitao Shi <jitao.shi@mediatek.com>,
- Anand K Mistry <amistry@chromium.org>
-MIME-Version: 1.0
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
+ seanpaul@chromium.org, dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+On 2020-05-20 at 15:47:44 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> If userspace sets the CP property to DESIRED while it's already ENABLED,
+> the driver will try to re-enable HDCP. On some displays, this will
+> result in R0' mismatches. I'm guessing this is because the display is
+> still sending back Ri instead of re-authenticating.
+> 
+> At any rate, we can fix this inefficiency easily enough by just nooping
+> the DESIRED property set if HDCP is already ENABLED.
+Sean,
 
-This include dpi pin mode swap, config mipi_tx current and impedance,
-and some fixup. I drop backmerge patches and related fixup in this version.
+This will skip the hdcp enable.
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+But at present too we will be getting below WARN_ON from intel_hdcp_enable,
+to indicate userspace is going wrong with request.
+        drm_WARN_ON(&dev_priv->drm,
+                    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+And if we need to filter this out, could we validate the incoming hdcp request at
+drm_atomic_connector_set_property() itself? No point in going into the
+atomic commit without a valid request. something like
 
-are available in the Git repository at:
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index a1e5e262bae2..d98b2eeae78d 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -746,6 +746,12 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+                        DRM_DEBUG_KMS("only drivers can set CP Enabled\n");
+                        return -EINVAL;
+                }
++               if (config->content_protection_property ==
++                   DRM_MODE_CONTENT_PROTECTION_ENABLED &&
++                   val == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
++                       DRM_DEBUG_KMS("Redundant req for content protection\n");
++                       return -EINVAL;
++               }
+                state->content_protection = val;
+        } else if (property == config->hdcp_content_type_property) {
+                state->hdcp_content_type = val;
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-5.8
+-Ram
 
-for you to fetch changes up to 3852489c79abe31101f07e395c63cce64de0c6d6:
-
-  drm/mediatek: Eliminate the magic number in array size (2020-05-21 00:10:08 +0800)
-
-----------------------------------------------------------------
-Mediatek DRM Next for Linux 5.8
-
-----------------------------------------------------------------
-Anand K Mistry (1):
-      drm/mediatek: Stop iterating dma addresses when sg_dma_len() == 0
-
-Bernard Zhao (2):
-      drm/mediatek: Cleanup coding style in mediatek a bit
-      drm/mediatek: Eliminate the magic number in array size
-
-Jitao Shi (6):
-      dt-bindings: display: mediatek: control dpi pins mode to avoid leakage
-      drm/mediatek: set dpi pin mode to gpio low to avoid leakage current
-      dt-bindings: display: mediatek: add property to control mipi tx drive current
-      dt-bindings: display: mediatek: get mipitx calibration data from nvmem
-      drm/mediatek: add the mipitx driving control
-      drm/mediatek: config mipitx impedance with calibration data
-
- .../bindings/display/mediatek/mediatek,dpi.txt     |  6 +++
- .../bindings/display/mediatek/mediatek,dsi.txt     | 10 ++++
- drivers/gpu/drm/mediatek/mtk_dpi.c                 | 31 +++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_gem.c             |  3 ++
- drivers/gpu/drm/mediatek/mtk_hdmi.c                | 18 +++-----
- drivers/gpu/drm/mediatek/mtk_mipi_tx.c             | 54 ++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_mipi_tx.h             |  4 ++
- drivers/gpu/drm/mediatek/mtk_mt8183_mipi_tx.c      | 28 +++++++++++
- 8 files changed, 143 insertions(+), 11 deletions(-)
+> 
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> ---
+> 
+> I suspect this is the actual root cause I was chasing with
+> "drm/i915/hdcp: Add additional R0' wait". I was able to reproduce the
+> R0` messages by marking HDCP desired while it was already enabled. This
+> _should_ work, but it seems like some displays handle it more graciously
+> than others.
+> 
+> 
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 2cbc4619b4ce..f770fe0c5595 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2156,12 +2156,16 @@ void intel_hdcp_atomic_check(struct drm_connector *connector,
+>  	}
+>  
+>  	/*
+> -	 * Nothing to do if the state didn't change, or HDCP was activated since
+> -	 * the last commit. And also no change in hdcp content type.
+> +	 * Nothing to do if content type is unchanged and one of:
+> +	 *  - state didn't change
+> +	 *  - HDCP was activated since the last commit
+> +	 *  - attempting to set to desired while already enabled
+>  	 */
+>  	if (old_cp == new_cp ||
+>  	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
+> -	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)) {
+> +	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED) ||
+> +	    (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
+> +	     new_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED)) {
+>  		if (old_state->hdcp_content_type ==
+>  				new_state->hdcp_content_type)
+>  			return;
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
