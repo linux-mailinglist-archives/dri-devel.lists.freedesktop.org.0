@@ -2,85 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8B91DE044
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AFD1DC48B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 03:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E12C56E97D;
-	Fri, 22 May 2020 06:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B2106E8EB;
+	Thu, 21 May 2020 01:22:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700124.outbound.protection.outlook.com [40.107.70.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4152489D9B
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 01:15:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O06mzBfwn9icuCEq7yn9Nq7ZR12odpMf5dxOVlTvrOwli5T2D3r8f3kjLTLqBAtEob5R6r38w7lmD62brBqbLkIKTiqC1pExyDyudGDDEJ9roeiRNa7pbHaPtO3AyIGjjLBzj+MYhOyK284wfXNP0uNCVILcq/6cXtxiHsoby54k37bbjBeD7jCCZBZein5n/xta5iNUDtdq9TYufYiDkd1lPMOoPWnMxyk4Q0GeqLy+IK4rLQqjIbHKniroMGwWjJDQ7yOdyfGKzZU23oQ26MHflfMYqzuou1DaAqugFue5Q5CEOUF9eqiReeV9hgmz0X0RiWtfz3Q9ah5Srvs4PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xGR4zBIDWvyuHGFYrA/5o39w86xX0T+rV/chNdvKNAY=;
- b=Nqn4vSnvZLW6EMm8ru8iNmWkN3ZW2Q8ufFotkDhVkQYa+uRJlvny2clHFz9Ab17f/uvaibke3rneJQQYJfutl2XlZNCXNXGi/xzBzVRUgNqitDTsck8GqeIcDh+Wo1F1IVV4Kiu009/TyLIUSb4m8mZIFyCkH31PftL/lNvzxjKwZ8ju2OvrbNcDxi/PlkqUjZ+WpeNudMW/YXbStEQ0og5NSToyvrbvpaWNV6GMHGYN2loBj9SytAvI1hca6aqltut4PZKE8JA8rXZ1lt/z/nyWyofl8OO6v1lJWnXksQihHyekJa6/MMNoflNIZhiFRzJjoHre/46AGL/x25T7TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=northeastern.edu; dmarc=pass action=none
- header.from=northeastern.edu; dkim=pass header.d=northeastern.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=northeastern.edu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xGR4zBIDWvyuHGFYrA/5o39w86xX0T+rV/chNdvKNAY=;
- b=AWxSM3aZDovUtgPac9etFSV8u4SBdOR0RXaPiOTVIE25pStAp6Sj2n4s3SaBPqdmi54/nVKcoxtkxvQR+nJ83SDLy6yqukgUHTHM0K/qo+2PTC7Z9Ea2jLHhKBEOEF+qQc5yBvw9ek3cI9h4OCzNuN2aa2f/rXOsTXAL+D4vEc4=
-Received: from BL0PR06MB4548.namprd06.prod.outlook.com (2603:10b6:208:56::26)
- by BL0PR06MB4867.namprd06.prod.outlook.com (2603:10b6:208:63::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Thu, 21 May
- 2020 01:15:01 +0000
-Received: from BL0PR06MB4548.namprd06.prod.outlook.com
- ([fe80::fd87:3891:70a2:bc5d]) by BL0PR06MB4548.namprd06.prod.outlook.com
- ([fe80::fd87:3891:70a2:bc5d%3]) with mapi id 15.20.3021.024; Thu, 21 May 2020
- 01:15:01 +0000
-From: Changming Liu <liu.changm@northeastern.edu>
-To: "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>
-Subject: [Bug Report] drivers/video/fbdev/kyro/fbdev.c: unsigned integer
- wrap-around might cause unexpected behavior
-Thread-Topic: [Bug Report] drivers/video/fbdev/kyro/fbdev.c: unsigned integer
- wrap-around might cause unexpected behavior
-Thread-Index: AdYvDPkmGOphWO3cRE+TFVL2OMV8xg==
-Date: Thu, 21 May 2020 01:15:00 +0000
-Message-ID: <BL0PR06MB45489A53C61DF15BF2F95B9CE5B70@BL0PR06MB4548.namprd06.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: samsung.com; dkim=none (message not signed)
- header.d=none;samsung.com; dmarc=none action=none
- header.from=northeastern.edu;
-x-originating-ip: [128.227.216.118]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 44ec53ae-e3cf-4837-6aa2-08d7fd24629c
-x-ms-traffictypediagnostic: BL0PR06MB4867:
-x-ld-processed: a8eec281-aaa3-4dae-ac9b-9a398b9215e7,ExtFwd
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR06MB48675D7F7CCDD29BB0705F71E5B70@BL0PR06MB4867.namprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 041032FF37
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: A5WlayApdPKivryFF4l3iA0+sJZEdXekefrkSsnzqGk4WMnPMfZhnLIpjU3mKkyoACznlHfgxnRhckxyGO/j6l72UmX0LMlnu9MpBVNrw1z+DTMkuW+1Vwfzta12L3jYiIVXpMJYTgXlAadkZlGxaMzDRoTMGkpOpI5v1kFnxpwZFxYI47UxFeIdlbVUuzAHeeCryObfQR/DRsbCRgbfVYHg2GEnyOJkXEX2l6Jg/ik4O+GtqjNbSkQqpR8stvB6wJMNPRyduhqNtAJPZ1dBErSQFpoTtrhcImARxGEWYU73zR35KN5GHCkfWrZT5W7sEUVKiOz0FxI1Gbalf+BFeNcQTX0SpohrugdzrpxH1t8BPJ+tfjNMV8xVwJKr/sTTgKkaflJv8AlJgvjW+aBkmOrltlb/TjQ1ixMVXDKScO1Vfm+I5o5nQG1+EoxNULS/
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR06MB4548.namprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(366004)(39860400002)(396003)(376002)(4326008)(33656002)(55016002)(66476007)(6916009)(8676002)(86362001)(316002)(786003)(2906002)(8936002)(76116006)(75432002)(54906003)(5660300002)(7696005)(52536014)(66446008)(66556008)(66946007)(6506007)(9686003)(478600001)(64756008)(71200400001)(186003)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: Tm7qhiMvTEirtkV83q0ftiqAyVJ8PTYyypIiC0/HYZmjmo3fVSlCdR1wVJkvUL0DuA7QbrB317tsIGu4Hsk9FlZgf59IB3HYevgFRCcjwl3GYc7XRPNl/h8dMg6/PS4jc3hlccWLr5PKRkSU26PYp5qw7u7dhBSPS/WoALG4q7LoJwJkZOca7777zfIzc0nAJ8fMi1xCVxj+BlS/nJUeCXGj7RgViDRqU1dz76N6guabm/rxhpzpQstIHzqTzaEIToEvhxL7IA3v6r2QcH6rLyEkC9kLockTrsAxrzB1BWyo7tUTb3yLYXHWA7cmvUcU4ohJZ1IBDgO0WJP+nqZGaiRqOZLO9MkN3YQ9N8zXKb7zYI/wg2akNArwtwdslORfEgqv9jf2T71TVGtSHy0IOUVhY5i8aiyfdbwGuHHvb8fmBmFBp9+ZMtkRQmejMtPEi4/VcqPt6VoJxgJqgD894o3fbzLd+pUBapT4o35lo7Rvm+2qV4SJpgI9mDwFx7ls
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13FCA6E8EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 01:22:33 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id e7so3062828vsm.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 May 2020 18:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RLjkbZhkdv9OtVqYLbNARIBz7F5GAk3mMrTWOesXLrw=;
+ b=Fiiq4pEJRtmA6I1UoBGS6BnfGReX+m4+LJ1pdCXKFXoe1PjOExV1FMolfQbKyr1rhP
+ nrHSbbfsK2K9/vgOXal/aK4mdZnqev2YvwKE6RrtG+pvFEVEgJyEAle4Ro34uIgZTyY7
+ d+1p9o0i+PWxSyHSHtTn8hnTJo51dmw5V8LnmuLleQeuRCpO876jUZyViHlHE6grZu/E
+ cJ+CmUKSem+6q1ySp4fmeP8akBn36tZ0l4n+lAZYzjFVpYL/nbARLDJodLIpdCSOArMP
+ qmgxy5EAT0askr5lilAGvdMbmySPTCnUbo0zMnaFmwKcEqM8Lj//fZ5GMrqGfSOxCvpf
+ 8Luw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RLjkbZhkdv9OtVqYLbNARIBz7F5GAk3mMrTWOesXLrw=;
+ b=LkgOIkd7q/5nhng0tyk3bCVi2ND+H9XSluMhTxzQySiUozIjkmhgax/1UAcPFx4yyz
+ QjsWwSvl7OnOKF1mxYPJpDtNw5vxzxwrRQwTTW842il6HV1t9+Tog9NvLeE2o2JQaBLC
+ lEe/D9i0DKF/B1j2Ox4jKhu7jkBqlSQK/Qz3JnaH7dadpaoa2krMf/etKJhAie/yFam3
+ oD1OooYPMK1cuA7pHFpUN4QIi6BZJg7cc3vbAg8qWOPAiLS8LCyIKwX7T0Sb4cbiIZaT
+ 12M8EUh0R2otrmkj7KBXW5nrQvUYOowGzH1MqGxJO9R8uyD2qRsIlchszhWD5vBbA2SD
+ X+Jg==
+X-Gm-Message-State: AOAM533IISBntU5TAek+gFa9t6rGwKRUNxiMiO3arK88klCFOMfJtVup
+ TsiipRiFMnKbVgxdo3Yj6W3P3XPb5+vQ8IiBbYI=
+X-Google-Smtp-Source: ABdhPJyBzSya03mTMj5+S6kHzxXy7FL+QTULDIjhAN/KKnekQCAKmYByyB8h5x4w7jsMCtwb9wBny9+bWhbj8+3I+Qk=
+X-Received: by 2002:a67:ff14:: with SMTP id v20mr5540175vsp.118.1590024152028; 
+ Wed, 20 May 2020 18:22:32 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: northeastern.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44ec53ae-e3cf-4837-6aa2-08d7fd24629c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2020 01:15:00.9963 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a8eec281-aaa3-4dae-ac9b-9a398b9215e7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Wg9Z8XZTmQxJNUhF64ekDJB4oJ14AVLb0vKo6nFZhIgigCLU3hZHfkWtMEMGcToEgeEwan08QI+D+GluxKl6SBCR8aJV0LUchvwHjmvdyD8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR06MB4867
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+References: <cover.1589468282.git.rohan.garg@collabora.com>
+ <a0806974b5c0203ed824500dc2e780eb7af02837.1589468282.git.rohan.garg@collabora.com>
+ <CACvgo52mso5kEWtjBQKM9RF51P=KnERRoWGai-emo2ofzJWLXA@mail.gmail.com>
+ <7761830.T7Z3S40VBb@solembum>
+In-Reply-To: <7761830.T7Z3S40VBb@solembum>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Thu, 21 May 2020 02:19:34 +0100
+Message-ID: <CACvgo51HrtaMG7ZCWXTNog_tJw+0pUTuVy9tEo9FpDiX5g7q0A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] drm/ioctl: Add a ioctl to set and get a label on
+ GEM objects
+To: Rohan Garg <rohan.garg@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,34 +64,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, "Lu,
- Long" <l.lu@northeastern.edu>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "yaohway@gmail.com" <yaohway@gmail.com>
+Cc: kernel@collabora.com, ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bartlomiej,
-Greetings, I'm a first-year PhD student who is interested in the usage of UBSan for linux. 
-And after some experiments, I found that in drivers/video/fbdev/kyro/fbdev.c
-function kyro_dev_overlay_viewport_set, there is an unsigned integer overflow that might cause unexpected behavior.
+On Thu, 21 May 2020 at 01:07, Rohan Garg <rohan.garg@collabora.com> wrote:
+>
+> Hey Emil
+> I've applied all the suggestions except the ones I discuss below.
+>
+> >
+> > As a high-level question: how does this compare to VC4_LABEL_BO?
+> > Is it possible to implement to replace or partially implement the vc4
+> > one with this infra?
+> >
+> > IMHO this is something to aim for.
+> >
+>
+> Yep, the intention is to replace the VC4 specific labeling with a more generic
+> framework that all drivers can use.
+>
+From a quick look the VC4 labeling combines user-space labels + in-kernel ones.
+Seems like msm also has labeling - although in-kernel only.
 
-More specifically, first at its caller, kyrofb_ioctl, after execution of copy_from_user at line 599, struct ol_viewport_set is filled with data from user space. 
-And the 4 32bit unsigned integers from it are passed into kyro_dev_overlay_viewport_set. In function kyro_dev_overlay_viewport_set, 
-x is added with ulWidth, y is added with ulHeight to transfer the length to the coordinate. 
-And the result coordinate might overflow and wrap around. And it is passed into function SetOverlayViewPort.
+So this series will help quite a bit, but in-kernel bits will remain.
+Pretty sure we can live with that.
 
-It appears that in function SetOverlayViewPort, these values are treated as the coordinate of the bottom-right point and the wrap-around is not checked.(I might miss something).
+> > A handful of ideas and suggestions below:
+> >
+> > On Thu, 14 May 2020 at 16:05, Rohan Garg <rohan.garg@collabora.com> wrote:
+> > > Signed-off-by: Rohan Garg <rohan.garg@collabora.com>
+> > > Reported-by: kbuild test robot <lkp@intel.com>
+> > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >
+> > New functionality usually has suggested-by tags. Reported-by tags are
+> > used when the feature isn't behaving as expected.
+> >
+>
+> This was suggested as part of the previous review process [1].
+>
+The tag is used for bugfixes, not new features.
+See the relevant section in Documentation/process/5.Posting.rst
 
-Due to the lack of knowledge of the interaction between this module and the user space, I'm not able to assess if this is a benign wrap-around or whether the wrap-around could happen at all. 
-I'd appreciate for you comment on this issue, this could help me understand linux and unsigned wrap around a lot.
 
-Looking forward to your valuable response!
+> > > +
+> > > +       kfree(gem_obj->label);
+> > > +
+> > > +       gem_obj->label = adopted_label;
+> >
+> > Do we have any protection of ->label wrt concurrent access? Say two
+> > writers, attempting to both set the label.
+> >
+>
+> Great catch. I'll protect this from concurrent access.
+>
+> >
+> > > +
+> > > +       if (!dev->driver->set_label || args->len > PAGE_SIZE)
+> >
+> > AFAICT the PAGE_SIZE check should be a EINVAL.
+> >
+> > Additionally, It would be better, to use the default implementation
+> > when the function pointer is not explicitly set.
+> > That should allow for more consistent and easier use.
+> >
+> > Think about the time gap (esp. for some distributions) between the
+> > kernel feature landing and being generally accessible to userspace.
+> >
+>
+> This is intentional since vmgfx uses TTM and the DRM helpers would not work.
+> Sure, we could simply add a patch to the series that hooks up the relevant
+> code to vmgfx and then calls the DRM label helper for all other drivers, but
+> I'd rather have driver developers explicitly opt into this functionality.
+>
+How about we add a simple drm_core_check_feature(dev, DRIVER_GEM)
+check + return appropriate errno.
+Grep ^^ for examples.
 
-Best,
-Changming Liu
+The check will trigger on vmwgfx and some UMS drivers.
+
+> > > +               return -EOPNOTSUPP;
+> > > +
+> > > +       if (!args->len)
+> > > +               label = NULL;
+> > > +       else if (args->len && args->label)
+> > > +               label = strndup_user(u64_to_user_ptr(args->label),
+> > > args->len); +       else
+> >
+> > Might be worth throwing EINVAL for !len && label... or perhaps not. In
+> > either case please document it.
+> >
+>
+> Hm, I'm not entirely sure what documentation I should add here since we
+> already document the drm_handle_label struct in the relevant header.
+>
+Hmm brain fart - the comment should be for the getter. Will elaborate below.
+
+> >
+> > > +
+> > > +       if (args->label)
+> > > +               ret = copy_to_user(u64_to_user_ptr(args->label),
+> > > +                                  label,
+> > > +                                  args->len);
+> > > +
+> >
+> > Consider the following - userspace allocates less memory than needed
+> > for the whole string.
+> > Be that size concerns or simply because it's interested only in the
+> > first X bytes.
+> >
+> > If we're interested in supporting that, a simple min(args->len, len)
+> > could be used.
+> >
+>
+> I wouldn't be opposed to this if such a need arises in the future.
+>
+This cannot be changed in the future I'm afraid. The change is pretty
+trivial although I haven't seen many ioctls do this.
+Perhaps it's not worth it. Here's a quick example, esp for the
+DRIVER_GEM thingy.
+
+{
+  ...
+
+  if (dev->driver->get_label)
+    label = dev->driver->get_label(...);
+  else if (drm_core_check_feature(dev, DRIVER_GEM)
+    label = generic_gem_impl(...);
+  else
+    return -EOPNOTSUPP;
+
+  if (!label)
+    return -EFAULT;
+
+  args->len = strlen(label) + 1;
+
+  if (args->label)
+    return copy_to_user(u64_to_user_ptr(args->label), label, args->len);
+
+  return 0;
+}
+
+> > s/int/__u32/ + comment, currently no flags are defined.
+> > > +#define DRM_IOCTL_HANDLE_SET_LABEL      DRM_IOWR(0xCF, struct
+> > > drm_handle_label)
+> > Pretty sure that WR is wrong here, although I don't recall we should
+> > be using read or write only.
+> > Unfortunately many drivers/ioctls get this wrong :-\
+> >
+>
+> From a quick read of the IO{W,R} documentation, I suppose we should be marking
+> SET_LABEL as DRM_IOW and GET_LABEL as DRM_IOR.
+>
+Are you sure GET_LABEL is unidirectional? The ioctl reads data from
+userspace _and_ writes the string length back to userspace.
+
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
