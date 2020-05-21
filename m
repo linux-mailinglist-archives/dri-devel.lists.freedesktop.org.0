@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5001DE06B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BA31DCCB2
+	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 14:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26DBB6E993;
-	Fri, 22 May 2020 06:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C696E931;
+	Thu, 21 May 2020 12:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E516E92C
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 11:30:26 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id y22so6831877qki.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 04:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
- b=MqYN+vMiHTEaW4UwLRy16WRoYfu+LJ4pOncpItD4O1GRnxH8TmktN6T6b2PcHxyEwB
- /Ls2IApWVfXgN0RNquNulhQ49MIzfMO2KbQlpew/gmesTLhSAFACIhd9NN5hvF8aTXrJ
- 9dGZyhMELfyMK2fbiMTxbSKpZ8EVlDN75FSZjN4lYOI29EfHTi0l6te+3DGNqlishUcI
- ufFCYzDFtCRCTDhyOG4tSbItgT3oIdpuWbG9YF8aGWnFAtPl3K8qizsCVOk3/weuXndt
- nd8yUP/5mHGC7HDR1cjV9fJCWbl4EUH4bqfDeIq+Fhmmrdj99nMfB4lAH2i7rVf5TT9v
- sLsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
- b=B9mdQPKn8rB6WObX6WV1aDbPXpKnXS/XZIvIkm4yO1bozBA63XQM9vDLsiLwMWji7U
- Um0GL7KErTS7ueKK5PtAk+7HUgzzPXwa/GDIKMYn8DRqeGiI51l7gKweEU457KuetguF
- K5Fhu7obaSZA5L/Ri3Ontx3+DAKROWVh14yRqjTh4n63j3Xtws4oIAiVi+73PuVsHzhe
- kzdlG6dbWB+/PJXtf6ttYYCuVp6JCiYLG5ooPOHZabtV7InK9KwyX6jHbk3bgHFh8uOz
- OzewKSSFbeM/jgauty3QnWrv9973hNJdIULXvSvuPmU/8PQLjITo/uFfTPVbMx/c6UaF
- YBmw==
-X-Gm-Message-State: AOAM531xj9B4pstNdfCqtw0I9AKWrLpR86GBU9CnSTUrAkEWIrxzNitT
- zzWG64QAEe2Y6VR0PH5V1orNlv4cu/c1TXIf66Q=
-X-Google-Smtp-Source: ABdhPJyt/PrPu0HyLCBNIAlcBPVwQP3EdSaZpX3l0+ThMZQ3Nc11G0djVdAg3aM+jm8BukBsG/8Iq0VgME50WXdM3Aw=
-X-Received: by 2002:a37:a50d:: with SMTP id o13mr9327701qke.121.1590060626064; 
- Thu, 21 May 2020 04:30:26 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3016E931
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 12:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gvJWdKaj3S05W2yN3BJbNwWxtQau3b26iVcMFuLyF38=; b=nxhB+g00QYbOy9OIaJrHkvUH2+
+ 8mmKFmVya9fOsa4xkQCdKwrhqCVpsFMILq3AAQ0P4El9KNxIicoHSa7mF+6JH63lr+wkVPIPaqGPq
+ C0xTjKTthlLV4uF3qUbWOsjuyaqdqCPnzGlA84pEEKWqWISVo+o9fXdh3cd3Sk93rjeBMWaL16/L9
+ 3Sf+VK1ec66B2XHP3cd8lNIEkWRps/emqwnJuOQg2XMYnA6XuIgXPr4+Y4xizDdXKdWeobK16KWLi
+ GO7piOFXYN1b4f7OSpvfYtq+GZAm3YGYb+az9p3tnqyWzFmc/frwHlWmgBZOkP6/0rSSQ4E1Z2onB
+ 57AP8PZw==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51195
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jbk8K-0003BJ-3a; Thu, 21 May 2020 14:17:08 +0200
+Subject: Re: [PATCH v2 2/2] drm/udl: Use GEM vmap/mmap function from SHMEM
+ helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, sean@poorly.run, kraxel@redhat.com,
+ emil.l.velikov@gmail.com, sam@ravnborg.org
+References: <20200519080423.21695-1-tzimmermann@suse.de>
+ <20200519080423.21695-3-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <f38af8ba-e9fc-368b-4650-0feb4c7acb08@tronnes.org>
+Date: Thu, 21 May 2020 14:17:04 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
- <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
- <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
- <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
- <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com>
- <20200520123850.GE4823@sirena.org.uk>
-In-Reply-To: <20200520123850.GE4823@sirena.org.uk>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 21 May 2020 19:30:04 +0800
-Message-ID: <CAA+D8AOiVVi3B4dzU8r=rCMz=6w9R=wxBkzAQ=0=RAQLKCWy8Q@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
-To: Mark Brown <broonie@kernel.org>
-X-Mailman-Approved-At: Fri, 22 May 2020 06:56:07 +0000
+In-Reply-To: <20200519080423.21695-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,37 +57,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Linux-ALSA <alsa-devel@alsa-project.org>,
- linuxppc-dev@lists.ozlabs.org, linux-kernel <linux-kernel@vger.kernel.org>,
- Timur Tabi <timur@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- shawnguo@kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, perex@perex.cz,
- Nicolin Chen <nicoleotsuka@gmail.com>, linux-imx@nxp.com,
- kernel@pengutronix.de, linux-media@vger.kernel.org, s.hauer@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXkgMjAsIDIwMjAgYXQgODozOCBQTSBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5l
-bC5vcmc+IHdyb3RlOgo+Cj4gT24gV2VkLCBNYXkgMjAsIDIwMjAgYXQgMDc6MjI6MTlQTSArMDgw
-MCwgU2hlbmdqaXUgV2FuZyB3cm90ZToKPgo+ID4gSSBzZWUgc29tZSBkcml2ZXIgYWxzbyByZXF1
-ZXN0IGRtYSBjaGFubmVsIGluIG9wZW4oKSBvciBod19wYXJhbXMoKS4KPiA+IGhvdyBjYW4gdGhl
-eSBhdm9pZCB0aGUgZGVmZXIgcHJvYmUgaXNzdWU/Cj4gPiBmb3IgZXhhbXBsZe+8mgo+ID4gc291
-bmQvYXJtL3B4YTJ4eC1wY20tbGliLmMKPiA+IHNvdW5kL3NvYy9zcHJkL3NwcmQtcGNtLWRtYS5j
-Cj4KPiBPdGhlciBkcml2ZXJzIGhhdmluZyBwcm9ibGVtcyBtZWFucyB0aG9zZSBkcml2ZXJzIHNo
-b3VsZCBiZSBmaXhlZCwgbm90Cj4gdGhhdCB3ZSBzaG91bGQgY29weSB0aGUgcHJvYmxlbXMuICBJ
-biB0aGUgY2FzZSBvZiB0aGUgUFhBIGRyaXZlciB0aGF0J3MKPiB2ZXJ5IG9sZCBjb2RlIHdoaWNo
-IHByZWRhdGVzIGRlZmVycmVkIHByb2JlIGJ5IEknZCBndWVzcyBhIGRlY2FkZS4KClRoYW5rcy4K
-CkZvciB0aGUgRkUtQkUgY2FzZSwgZG8geW91IGhhdmUgYW55IHN1Z2dlc3Rpb24gZm9yIGhvdyBm
-aXggaXQ/CgpXaXRoIERNQTEtPkFTUkMtPkRNQTItPkVTQUkgY2FzZSwgdGhlIERNQTEtPkFTUkMt
-PkRNQTIKaXMgaW4gRkUsICBFU0FJIGlzIGluIEJFLiAgV2hlbiBFU0FJIGRydmllciBwcm9iZSwg
-IERNQTMgY2hhbm5lbCBpcwpjcmVhdGVkIHdpdGggRVNBSSdzICJkbWE6dHgiIChETUEzIGNoYW5u
-ZWwKaXMgbm90IHVzZWQgaW4gdGhpcyBGRS1CRSBjYXNlKS4gICAgV2hlbiBGRS1CRSBzdGFydHVw
-LCBETUEyCmNoYW5uZWwgaXMgY3JlYXRlZCwgaXQgbmVlZHMgdGhlIEVTQUkncyAiZG1hOnR4Iiwg
-c28gdGhlIHdhcm5pbmcKY29tZXMgb3V0LgoKYmVzdCByZWdhcmRzCndhbmcgc2hlbmdqaXUKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+
+Den 19.05.2020 10.04, skrev Thomas Zimmermann:
+> The udl driver contains an implementation of GEM vmap and mmap
+> operations that is identical to the common SHMEM helper; except
+> that udl's code uses cached pages by default.
+> 
+> Convert udl to regular SHMEM helper functions. There's no reason
+> to have udl behave differently from all other SHMEM drivers. The
+> udl driver uses the SHMEM helper to enable caching.
+> 
+> v2:
+> 	* implement .gem_create_object with SHMEM helper
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index d1aa50fd6d65a..96d4317a2c1bd 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -37,8 +37,8 @@ DEFINE_DRM_GEM_FOPS(udl_driver_fops);
+>  static struct drm_driver driver = {
+>  	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
+>  
+> -	/* gem hooks */
+> -	.gem_create_object = udl_driver_gem_create_object,
+> +	/* GEM hooks */
+> +	.gem_create_object = drm_gem_shmem_create_object_cached,
+>  
+>  	.fops = &udl_driver_fops,
+>  	DRM_GEM_SHMEM_DRIVER_OPS,
+
+You could add a DRM_GEM_SHMEM_CACHED_DRIVER_OPS macro and use that instead.
+
+Noralf.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
