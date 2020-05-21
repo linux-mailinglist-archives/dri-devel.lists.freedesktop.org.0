@@ -2,41 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3441DC682
-	for <lists+dri-devel@lfdr.de>; Thu, 21 May 2020 07:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEF61DE04E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 08:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20AF889D5B;
-	Thu, 21 May 2020 05:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641806E31A;
+	Fri, 22 May 2020 06:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3526089D5B;
- Thu, 21 May 2020 05:12:50 +0000 (UTC)
-IronPort-SDR: V/+khkqMhXdEa3AgZXVAAhljrHFoFZN+YBC9Fr81dVV2ZcdFPo6VMJcpOx1j1Lx3WD6p4RHzAj
- bcSKYZcAdeTg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2020 22:12:49 -0700
-IronPort-SDR: 1+aeESCg0A8D9JqPL0qTtJDd4Ad+TXzKQeUY9P5kWnku0vEbSjY63Ri7xq87wAvB2KCvfBs8e0
- teGd/3lzNneg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,416,1583222400"; d="scan'208";a="289599519"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga004.fm.intel.com with ESMTP; 20 May 2020 22:12:47 -0700
-Date: Thu, 21 May 2020 10:42:46 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v2] drm/i915/hdcp: Add additional R0' wait
-Message-ID: <20200521051246.GB8571@intel.com>
-References: <20200520064602.GA20133@intel.com>
- <20200520130808.44095-1-sean@poorly.run>
- <CAMavQK+1f1DUJmCeUa5GvOLUBKiXtXH04VZtStqWmhXGazQD-g@mail.gmail.com>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D9C0688503
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 May 2020 07:00:31 +0000 (UTC)
+Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 15:00:14
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.77.158]
+Date: Thu, 21 May 2020 15:00:14 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: dinghao.liu@zju.edu.cn
+To: "Steven Price" <steven.price@arm.com>
+Subject: Re: Re: [PATCH] drm/panfrost: fix runtime pm imbalance on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <73a1dc37-f862-f908-4c9f-64e256283857@arm.com>
+References: <20200520110504.24388-1-dinghao.liu@zju.edu.cn>
+ <73a1dc37-f862-f908-4c9f-64e256283857@arm.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMavQK+1f1DUJmCeUa5GvOLUBKiXtXH04VZtStqWmhXGazQD-g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Message-ID: <1986c141.ba6f5.172360851d6.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgCXPxz+JsZex6XoAQ--.30247W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgMHBlZdtOPIGAABsN
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbXvS07vEb7Iv0x
+ C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+ bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+ CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+ z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
+ CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
+ j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
+ AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r4j6F4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
+ Gr1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6r4xMIAIbVCY0x0Ix7I2Y4AK64vIr41lV2
+ xY6xAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCS07vE4x8a6x804xWlV2xY6xC20s026xCa
+ FVCjc4AY6r1j6r4UMIAIbVC20s026c02F40E14v26r1j6r18MIAIbVC20s026x8GjcxK67
+ AKxVWUGVWUWwCS07vEx4CE17CEb7AF67AKxVWUtVW8ZwCS07vEIxAIcVC0I7IYx2IY67AK
+ xVWUJVWUCwCS07vEIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIAIbVCI42IY6xAIw2
+ 0EY4v20xvaj40_Wr1j6rW3Jr1lV2xY6IIF0xvEx4A2jsIE14v26r4j6F4UMIAIbVCI42IY
+ 6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUU==
+X-Mailman-Approved-At: Fri, 22 May 2020 06:56:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,74 +59,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ kjlu@umn.edu, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-05-20 at 15:50:15 -0400, Sean Paul wrote:
-> On Wed, May 20, 2020 at 9:08 AM Sean Paul <sean@poorly.run> wrote:
-> >
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > We're seeing some R0' mismatches in the field, particularly with
-> > repeaters. I'm guessing the (already lenient) 300ms wait time isn't
-> > enough for some setups. So add an additional wait when R0' is
-> > mismatched.
-> >
-> 
-> I think my guess was wrong and now suspect this issue is fixed with
-> "drm/i915/hdcp: Avoid duplicate HDCP enables".
-> 
-> While this patch probably still has some value in cases where R0' is
-> slow to update, I don't have any concrete examples where it helps.
-Sean, completely agree it will help to authenticate the slower hdcp sink,
-as this is not breaking the spec too. But could we please introduce extra
-delays when we encounter such needs?
+Hi Steve,
 
-As you mentioned, We already have a 3 * 100 mSec,
-where spec says HDCP sink should keep the R0' ready after the 100mSec
-from aksv write.
+There are two bailing out points in panfrost_job_hw_submit(): one is 
+the error path beginning from pm_runtime_get_sync(), the other one is 
+the error path beginning from WARN_ON() in the if statement. The pm 
+imbalance fixed in this patch is between these two paths. I think the 
+caller of panfrost_job_hw_submit() cannot distinguish this imbalance 
+outside this function. 
 
--Ram
+panfrost_job_timedout() calls pm_runtime_put_noidle() for every job it 
+finds, but all jobs are added to the pfdev->jobs just before calling
+panfrost_job_hw_submit(). Therefore I think the imbalance still exists.
+But I'm not very sure if we should add pm_runtime_put on the error path
+after pm_runtime_get_sync(), or remove pm_runtime_put one the error path
+after WARN_ON(). 
+
+As for the problem about panfrost_devfreq_record_busy(), this may be a 
+new bug and requires independent patch to fix it.
+
+Regards,
+Dinghao
+
+
+> On 20/05/2020 12:05, Dinghao Liu wrote:
+> > pm_runtime_get_sync() increments the runtime PM usage counter even
+> > the call returns an error code. Thus a pairing decrement is needed
+> > on the error handling path to keep the counter balanced.
+> > 
+> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 > 
-> Sean
+> Actually I think we have the opposite problem. To be honest we don't 
+> handle this situation very well. By the time panfrost_job_hw_submit() is 
+> called the job has already been added to the pfdev->jobs array, so it's 
+> considered submitted even if it never actually lands on the hardware. So 
+> in the case of this function bailing out early we will then (eventually) 
+> hit a timeout and trigger a GPU reset.
 > 
+> panfrost_job_timedout() iterates through the pfdev->jobs array and calls 
+> pm_runtime_put_noidle() for each job it finds. So there's no inbalance 
+> here that I can see.
 > 
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> >
-> > Changes in v2:
-> > - Actually add the delay in R0` wait (Ram)
-> > ---
-> >
-> > Apologies, v1 was generated from a forward port from the CrOS kernel and
-> > patch got confused and put the diff in V' wait instead of R0' wait.
-> >
-> > Pay closer attention, Sean.
-> >
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index 2cbc4619b4ce..3c2d8c0a6da6 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -743,6 +743,9 @@ static int intel_hdcp_auth(struct intel_connector *connector)
-> >                 if (!wait_for(intel_de_read(dev_priv, HDCP_STATUS(dev_priv, cpu_transcoder, port)) &
-> >                               (HDCP_STATUS_RI_MATCH | HDCP_STATUS_ENC), 1))
-> >                         break;
-> > +
-> > +               /* Maybe the sink is lazy, give it some more time */
-> > +               usleep_range(10000, 50000);
-> >         }
-> >
-> >         if (i == tries) {
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
+> Have you actually observed the situation where pm_runtime_get_sync() 
+> returns a failure?
+> 
+> HOWEVER, it appears that by bailing out early the call to 
+> panfrost_devfreq_record_busy() is never made, which as far as I can see 
+> means that there may be an extra call to panfrost_devfreq_record_idle() 
+> when the jobs have timed out. Which could underflow the counter.
+> 
+> But equally looking at panfrost_job_timedout(), we only call 
+> panfrost_devfreq_record_idle() *once* even though multiple jobs might be 
+> processed.
+> 
+> There's a completely untested patch below which in theory should fix that...
+> 
+> Steve
+> 
+> ----8<---
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c 
+> b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 7914b1570841..f9519afca29d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -145,6 +145,8 @@ static void panfrost_job_hw_submit(struct 
+> panfrost_job *job, int js)
+>   	u64 jc_head = job->jc;
+>   	int ret;
+> 
+> +	panfrost_devfreq_record_busy(pfdev);
+> +
+>   	ret = pm_runtime_get_sync(pfdev->dev);
+>   	if (ret < 0)
+>   		return;
+> @@ -155,7 +157,6 @@ static void panfrost_job_hw_submit(struct 
+> panfrost_job *job, int js)
+>   	}
+> 
+>   	cfg = panfrost_mmu_as_get(pfdev, &job->file_priv->mmu);
+> -	panfrost_devfreq_record_busy(pfdev);
+> 
+>   	job_write(pfdev, JS_HEAD_NEXT_LO(js), jc_head & 0xFFFFFFFF);
+>   	job_write(pfdev, JS_HEAD_NEXT_HI(js), jc_head >> 32);
+> @@ -410,12 +411,12 @@ static void panfrost_job_timedout(struct 
+> drm_sched_job *sched_job)
+>   	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+>   		if (pfdev->jobs[i]) {
+>   			pm_runtime_put_noidle(pfdev->dev);
+> +			panfrost_devfreq_record_idle(pfdev);
+>   			pfdev->jobs[i] = NULL;
+>   		}
+>   	}
+>   	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+> 
+> -	panfrost_devfreq_record_idle(pfdev);
+>   	panfrost_device_reset(pfdev);
+> 
+>   	for (i = 0; i < NUM_JOB_SLOTS; i++)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
