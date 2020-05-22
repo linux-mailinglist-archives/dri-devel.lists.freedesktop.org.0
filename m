@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C13C1DEFA4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 21:03:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 999281DEFF4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 21:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDBA6EA33;
-	Fri, 22 May 2020 19:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350FD6E0B9;
+	Fri, 22 May 2020 19:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 693EE6EA2F
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 19:03:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D4C6E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 19:25:53 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 479FB2003F;
- Fri, 22 May 2020 21:03:21 +0200 (CEST)
-Date: Fri, 22 May 2020 21:03:19 +0200
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 2B45F2003A;
+ Fri, 22 May 2020 21:25:48 +0200 (CEST)
+Date: Fri, 22 May 2020 21:25:46 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 21/21] drm/zte: Use GEM CMA object functions
-Message-ID: <20200522190319.GA1516455@ravnborg.org>
+Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
+Message-ID: <20200522192546.GA1516695@ravnborg.org>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-22-tzimmermann@suse.de>
+ <20200522135246.10134-6-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200522135246.10134-22-tzimmermann@suse.de>
+In-Reply-To: <20200522135246.10134-6-tzimmermann@suse.de>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=psi0o7j7SJAdWKNW5w4A:9 a=CjuIK1q_8ugA:10
+ a=kj9zAlcOel0A:10 a=FwMd7o-mYmgrgSnqdGMA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +64,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas.
 
-On Fri, May 22, 2020 at 03:52:46PM +0200, Thomas Zimmermann wrote:
-> The zte driver uses the default implementation for CMA functions. The
+On Fri, May 22, 2020 at 03:52:30PM +0200, Thomas Zimmermann wrote:
+> The atmel-hlcdc driver uses the default implementation for CMA functions. The
 > DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
 > All remaining operations are provided by CMA GEM object functions.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/zte/zx_drm_drv.c | 11 +----------
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 11 +----------
 >  1 file changed, 1 insertion(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/zte/zx_drm_drv.c b/drivers/gpu/drm/zte/zx_drm_drv.c
-> index 1141c1ed1ed04..42c59eae0ea03 100644
-> --- a/drivers/gpu/drm/zte/zx_drm_drv.c
-> +++ b/drivers/gpu/drm/zte/zx_drm_drv.c
-> @@ -36,16 +36,7 @@ DEFINE_DRM_GEM_CMA_FOPS(zx_drm_fops);
->  
->  static struct drm_driver zx_drm_driver = {
->  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> index 112aa5066ceed..871293d1aeeba 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+> @@ -821,16 +821,7 @@ static struct drm_driver atmel_hlcdc_dc_driver = {
+>  	.irq_preinstall = atmel_hlcdc_dc_irq_uninstall,
+>  	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
+>  	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
 > -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 > -	.gem_vm_ops = &drm_gem_cma_vm_ops,
-> -	.dumb_create = drm_gem_cma_dumb_create,
 > -	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
 > -	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
 > -	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
 > -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
 > -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
 > -	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
+
 > -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-> +	DRM_GEM_CMA_VMAP_DRIVER_OPS,
-s/_VMAP// as pointed out by Emil.
+When using DRM_GEM_CMA_DRIVER_OPS gem_prime_mmap is set to
+drm_gem_prime_mmap.
+Why is this the same as drm_gem_cma_prime_mmap?
+
+Maybe this is all obvious when you know all the CMA stuff,
+but this puzzeled me.
 
 	Sam
 
->  	.fops = &zx_drm_fops,
->  	.name = "zx-vou",
->  	.desc = "ZTE VOU Controller DRM",
+
+> -	.dumb_create = drm_gem_cma_dumb_create,
+> +	DRM_GEM_CMA_DRIVER_OPS,
+>  	.fops = &fops,
+>  	.name = "atmel-hlcdc",
+>  	.desc = "Atmel HLCD Controller DRM",
 > -- 
 > 2.26.2
 _______________________________________________
