@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D30E1DE857
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 15:53:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF061DE859
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 15:53:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E027A6E9E5;
-	Fri, 22 May 2020 13:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31A6B6E9E0;
+	Fri, 22 May 2020 13:53:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF8B6E9D9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:52:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424826E9DD
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:52:58 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 54DA7B020;
+ by mx2.suse.de (Postfix) with ESMTP id 5B26BB052;
  Fri, 22 May 2020 13:52:57 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -33,9 +33,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 08/21] drm/imx: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:33 +0200
-Message-Id: <20200522135246.10134-9-tzimmermann@suse.de>
+Subject: [PATCH 09/21] drm/ingenic: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:34 +0200
+Message-Id: <20200522135246.10134-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -60,26 +60,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The imx driver uses the default implementation for CMA functions. The
+The ingenic driver uses the default implementation for CMA functions. The
 DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
 All remaining operations are provided by CMA GEM object functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/imx/imx-drm-core.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
-index 2e38f1a5cf8da..36037b2e65647 100644
---- a/drivers/gpu/drm/imx/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/imx-drm-core.c
-@@ -146,17 +146,7 @@ static const struct drm_ioctl_desc imx_drm_ioctls[] = {
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
+index eff57a1f70fb0..1c1cee367b752 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+@@ -519,18 +519,7 @@ static struct drm_driver ingenic_drm_driver_data = {
+ 	.patchlevel		= 0,
  
- static struct drm_driver imx_drm_driver = {
- 	.driver_features	= DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+ 	.fops			= &ingenic_drm_fops,
+-
+-	.dumb_create		= drm_gem_cma_dumb_create,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
--	.dumb_create		= drm_gem_cma_dumb_create,
 -
 -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
 -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
@@ -89,9 +90,9 @@ index 2e38f1a5cf8da..36037b2e65647 100644
 -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
 -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
 +	DRM_GEM_CMA_DRIVER_OPS,
- 	.ioctls			= imx_drm_ioctls,
- 	.num_ioctls		= ARRAY_SIZE(imx_drm_ioctls),
- 	.fops			= &imx_drm_driver_fops,
+ 
+ 	.irq_handler		= ingenic_drm_irq_handler,
+ };
 -- 
 2.26.2
 
