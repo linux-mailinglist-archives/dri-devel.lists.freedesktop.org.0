@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543AB1DEEDE
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 20:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BF61DEEE1
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 20:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA8536EA23;
-	Fri, 22 May 2020 18:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3746EA1D;
+	Fri, 22 May 2020 18:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
  [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AED86E0E4;
- Fri, 22 May 2020 18:05:33 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id x14so5637998wrp.2;
- Fri, 22 May 2020 11:05:32 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09C66EA1A;
+ Fri, 22 May 2020 18:07:20 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id l11so11065296wru.0;
+ Fri, 22 May 2020 11:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HnUAvj8/hcOeu5wap80XKbA2U7OiBYgIef/CmYB0LcE=;
- b=n8Hn3cSXEhsGcYzPiRk9a13J/yYmoVNORbpdvW9NQCNH6z9492FBfQQulIHSIDwPg5
- /RuLl/aQv0LTnd1zyykYtcH3rsySaVW0dGkgmb66yMgVL9VjWhT29Sg9eR6QL9CHihc3
- ZC6ZPAMFqucNMcTvYl3Wasaa3dnmthhWqCOzPvUdBhFd0OUoc6e9znj0JNkb4F9LrYHb
- LeIN9HXGpwGZBuhEJiunQleQS18juPyCWrOZh50rzawJTiikOa/HHwFdPhIuapqPyUKj
- 9oXhth3/2P682nA1JUyPhYoEQpSHewlsrd5tU4WhiNJKfAcIwxe72HMlBzqvjc5j9AFx
- er/Q==
+ :cc; bh=93lHuKjSOpUJm9qcBgsEQEeev3s+aLgQZS3xLE3PBVc=;
+ b=NBVHe+gPt5+hwmNSzqlQpXMGvkD6RmLKIwg06tb+MU5Rw/pWZBSt0hO6RbFdOw+0o9
+ GQshyiWpyQD1vL+wXLRCvzo7o7iw0+Zqy85PslvQB8/dQ85zgwGz3hN5tBHoPAMTl+jw
+ 0BKSELtB77IkBlLFgjsBl+NyDAPLkYoJ/oM+4/HdZu6FhlwJgVbSr52EfD9EMqb0W919
+ obpgdiML5afToGsMG0AvBHNeH6Ue4SrORP3IJoVOeq55YI2/73fX9sV67CeG5P5Wnqcf
+ 4fk4r+ZueA8/Ao7DslGJDfFOyN682Xq7UZCZBGWcSYh2IzNYcrG/Nsn4k9ry1i0g+1me
+ a0fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HnUAvj8/hcOeu5wap80XKbA2U7OiBYgIef/CmYB0LcE=;
- b=hr8Uksp8JzQ9iHzF8cqDwBPX4q8fKbZ8ZAUvk/KxhbQZcktC/oTituGEOHz81NUY8v
- YmB9uXhJ93O1O1c/3rPnw/qeOC3FulVmNxy8bRS0Iy9J4py+0cbhjN7JtWk54sLoHFNn
- JwAtv1fpAM9pD/aTtVxEBoAOAWPEfxK4P5ZGdERKlUCtAnoMvCd+ACtOp3kvGXtQQKoH
- wAJoJxPSdp/QVIlvytAO5stYSOX8cDMuz1OY0ctxCY68ElbcRWpSfZgO7unQvui0j270
- kcpcWNOjrFLFRYxg7D2bfItxGPw4s0JuwzL+BYfkhwecH9y/WxP2UXDIPrPg8mrb73ZJ
- KLXw==
-X-Gm-Message-State: AOAM532Q/lj2DSAUhhgtHu+UjPP5c1tSC7Z1ToUK64eGESl0ZC5wj7/W
- 7OrZBdKN3VwLmZD9oUGxgHd3W0UgQ1W49ds9wAY=
-X-Google-Smtp-Source: ABdhPJzVEjF74Bvg+XdgYHXOPimWqs5bnL8Tj6Gf7h9YyFb5zQutmPwsVRo8Is5UeRZFmtUyDVFernc7M55zUnleyvY=
-X-Received: by 2002:a5d:400f:: with SMTP id n15mr4569405wrp.419.1590170731715; 
- Fri, 22 May 2020 11:05:31 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=93lHuKjSOpUJm9qcBgsEQEeev3s+aLgQZS3xLE3PBVc=;
+ b=k4Hvujenx6xH/zFhQxiTC2UAiRPpz7e+wXmK1XOcBpJnzyWtvHiNrUna/tVXXyDuxM
+ X0/QFlT2/gjcf+lFZTvUssa17qYuu0ZPoLTfPmO7djqOW1bWRiPhXCL4EaWIHClypLI7
+ XuCDaPcHUWi8rPrqq5ql5MdGAZl640KfYs7/LF8VzaQK0KVFU5Flsh/4m7yb1V6QvPds
+ dQ6Y3mvmZEoKhIbl77w/BHDQe9bBZD7ZKGNkJnUgCtSnkC5M5FqkLt0VfLmxya4dpnkC
+ wyDOLH4nlBRo7U+jla/usQ5BtMk5VAB2bcQNGq/961hXYmS6iucz9K3EPQYVoakNY8oZ
+ ugIA==
+X-Gm-Message-State: AOAM530TWek+bQs/0iU858KCgBmniZDN5kyd20Lz3T0DbHZZjahJWXpt
+ tyH1lgnfUkyCDirtQpJdEpsck04eSzr5ZSicULQ=
+X-Google-Smtp-Source: ABdhPJwIhvF9Fis6pbQ0FJq61OaaurC/QA/KpTpRunMMZ7744HdxYgsYvG6/+mTVj0z6X9bbMCKQnhv3R3Ob7cI0XBA=
+X-Received: by 2002:a5d:4389:: with SMTP id i9mr4481054wrq.374.1590170839532; 
+ Fri, 22 May 2020 11:07:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200522173419.GA2297@embeddedor>
-In-Reply-To: <20200522173419.GA2297@embeddedor>
+References: <20200522174355.GA4406@embeddedor>
+In-Reply-To: <20200522174355.GA4406@embeddedor>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 22 May 2020 14:05:20 -0400
-Message-ID: <CADnq5_Ncx8sa5Z_qykbiXVGPJ0WfwHLsCm45mZFYg=-ciBMxdA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/radeon/dpm: Replace one-element array and use
+Date: Fri, 22 May 2020 14:07:08 -0400
+Message-ID: <CADnq5_NuDA9tT05B0bDqfCi0v=j3emjxLGxKA6hTTuAjRoM4xA@mail.gmail.com>
+Subject: Re: [PATCH] drm/[radeon|amdgpu]: Replace one-element array and use
  struct_size() helper
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,73 +67,119 @@ Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjIsIDIwMjAgYXQgMToyOSBQTSBHdXN0YXZvIEEuIFIuIFNpbHZhCjxndXN0
-YXZvYXJzQGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gVGhlIGN1cnJlbnQgY29kZWJhc2UgbWFrZXMg
-dXNlIG9mIG9uZS1lbGVtZW50IGFycmF5cyBpbiB0aGUgZm9sbG93aW5nCj4gZm9ybToKPgo+IHN0
-cnVjdCBzb21ldGhpbmcgewo+ICAgICBpbnQgbGVuZ3RoOwo+ICAgICB1OCBkYXRhWzFdOwo+IH07
-Cj4KPiBzdHJ1Y3Qgc29tZXRoaW5nICppbnN0YW5jZTsKPgo+IGluc3RhbmNlID0ga21hbGxvYyhz
-aXplb2YoKmluc3RhbmNlKSArIHNpemUsIEdGUF9LRVJORUwpOwo+IGluc3RhbmNlLT5sZW5ndGgg
-PSBzaXplOwo+IG1lbWNweShpbnN0YW5jZS0+ZGF0YSwgc291cmNlLCBzaXplKTsKPgo+IGJ1dCB0
-aGUgcHJlZmVycmVkIG1lY2hhbmlzbSB0byBkZWNsYXJlIHZhcmlhYmxlLWxlbmd0aCB0eXBlcyBz
-dWNoIGFzCj4gdGhlc2Ugb25lcyBpcyBhIGZsZXhpYmxlIGFycmF5IG1lbWJlclsxXVsyXSwgaW50
-cm9kdWNlZCBpbiBDOTk6Cj4KPiBzdHJ1Y3QgZm9vIHsKPiAgICAgICAgIGludCBzdHVmZjsKPiAg
-ICAgICAgIHN0cnVjdCBib28gYXJyYXlbXTsKPiB9Owo+Cj4gQnkgbWFraW5nIHVzZSBvZiB0aGUg
-bWVjaGFuaXNtIGFib3ZlLCB3ZSB3aWxsIGdldCBhIGNvbXBpbGVyIHdhcm5pbmcKPiBpbiBjYXNl
-IHRoZSBmbGV4aWJsZSBhcnJheSBkb2VzIG5vdCBvY2N1ciBsYXN0IGluIHRoZSBzdHJ1Y3R1cmUs
-IHdoaWNoCj4gd2lsbCBoZWxwIHVzIHByZXZlbnQgc29tZSBraW5kIG9mIHVuZGVmaW5lZCBiZWhh
-dmlvciBidWdzIGZyb20gYmVpbmcKPiBpbmFkdmVydGVudGx5IGludHJvZHVjZWRbM10gdG8gdGhl
-IGNvZGViYXNlIGZyb20gbm93IG9uLiBTbywgcmVwbGFjZQo+IHRoZSBvbmUtZWxlbWVudCBhcnJh
-eSB3aXRoIGEgZmxleGlibGUtYXJyYXkgbWVtYmVyLgo+Cj4gQWxzbywgbWFrZSB1c2Ugb2YgdGhl
-IG5ldyBzdHJ1Y3Rfc2l6ZSgpIGhlbHBlciB0byBwcm9wZXJseSBjYWxjdWxhdGUgdGhlCj4gc2l6
-ZSBvZiBzdHJ1Y3QgTklTTEFORFNfU01DX1NXU1RBVEUuCj4KPiBUaGlzIGlzc3VlIHdhcyBmb3Vu
-ZCB3aXRoIHRoZSBoZWxwIG9mIENvY2NpbmVsbGUgYW5kLCBhdWRpdGVkIGFuZCBmaXhlZAo+IF9t
-YW51YWxseV8uCj4KPiBbMV0gaHR0cHM6Ly9nY2MuZ251Lm9yZy9vbmxpbmVkb2NzL2djYy9aZXJv
-LUxlbmd0aC5odG1sCj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9LU1BQL2xpbnV4L2lzc3Vlcy8y
-MQo+IFszXSBjb21taXQgNzY0OTc3MzI5MzJmICgiY3hnYjMvbDJ0OiBGaXggdW5kZWZpbmVkIGJl
-aGF2aW91ciIpCj4KPiBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtv
-ZW5pZ0BhbWQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rh
-dm9hcnNAa2VybmVsLm9yZz4KCkFwcGxpZWQuICBUaGFua3MhCgpBbGV4Cgo+IC0tLQo+IENoYW5n
-ZXMgaW4gdjI6Cj4gIC0gVXNlIHR5cGUgc2l6ZV90IGluc3RlYWQgb2YgdTE2IGZvciBzdGF0ZV9z
-aXplIHZhcmlhYmxlLgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpX2RwbS5oIHwg
-MiArLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5jICAgICB8IDcgKysrKy0tLQo+
-ICAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPgo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zaV9kcG0uaCBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L3NpX2RwbS5oCj4gaW5kZXggNmI3ZDI5MmI5MTlmMy4uYmMwYmU2
-ODE4ZTIxOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9zaV9kcG0u
-aAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L3NpX2RwbS5oCj4gQEAgLTc4MSw3
-ICs3ODEsNyBAQCBzdHJ1Y3QgTklTTEFORFNfU01DX1NXU1RBVEUKPiAgICAgIHVpbnQ4X3QgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGxldmVsQ291bnQ7Cj4gICAgICB1aW50OF90ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBwYWRkaW5nMjsKPiAgICAgIHVpbnQ4X3QgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBhZGRpbmczOwo+IC0gICAgTklTTEFORFNfU01DX0hXX1BFUkZP
-Uk1BTkNFX0xFVkVMICAgbGV2ZWxzWzFdOwo+ICsgICAgTklTTEFORFNfU01DX0hXX1BFUkZPUk1B
-TkNFX0xFVkVMICAgbGV2ZWxzW107Cj4gIH07Cj4KPiAgdHlwZWRlZiBzdHJ1Y3QgTklTTEFORFNf
-U01DX1NXU1RBVEUgTklTTEFORFNfU01DX1NXU1RBVEU7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9yYWRlb24vbmlfZHBtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5j
-Cj4gaW5kZXggYjU3YzM3ZGRkMTY0Yy4uYWJiNjM0NWJmYWUzMiAxMDA2NDQKPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vcmFkZW9uL25pX2RwbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9uaV9kcG0uYwo+IEBAIC0yNjg1LDExICsyNjg1LDEyIEBAIHN0YXRpYyBpbnQgbmlfdXBsb2Fk
-X3N3X3N0YXRlKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2LAo+ICAgICAgICAgc3RydWN0IHJ2
-N3h4X3Bvd2VyX2luZm8gKnBpID0gcnY3NzBfZ2V0X3BpKHJkZXYpOwo+ICAgICAgICAgdTE2IGFk
-ZHJlc3MgPSBwaS0+c3RhdGVfdGFibGVfc3RhcnQgKwo+ICAgICAgICAgICAgICAgICBvZmZzZXRv
-ZihOSVNMQU5EU19TTUNfU1RBVEVUQUJMRSwgZHJpdmVyU3RhdGUpOwo+IC0gICAgICAgdTE2IHN0
-YXRlX3NpemUgPSBzaXplb2YoTklTTEFORFNfU01DX1NXU1RBVEUpICsKPiAtICAgICAgICAgICAg
-ICAgKChOSVNMQU5EU19NQVhfU01DX1BFUkZPUk1BTkNFX0xFVkVMU19QRVJfU1dTVEFURSAtIDEp
-ICogc2l6ZW9mKE5JU0xBTkRTX1NNQ19IV19QRVJGT1JNQU5DRV9MRVZFTCkpOwo+ICsgICAgICAg
-TklTTEFORFNfU01DX1NXU1RBVEUgKnNtY19zdGF0ZTsKPiArICAgICAgIHNpemVfdCBzdGF0ZV9z
-aXplID0gc3RydWN0X3NpemUoc21jX3N0YXRlLCBsZXZlbHMsCj4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgTklTTEFORFNfTUFYX1NNQ19QRVJGT1JNQU5DRV9MRVZFTFNfUEVSX1NXU1RBVEUpOwo+
-ICAgICAgICAgaW50IHJldDsKPiAtICAgICAgIE5JU0xBTkRTX1NNQ19TV1NUQVRFICpzbWNfc3Rh
-dGUgPSBremFsbG9jKHN0YXRlX3NpemUsIEdGUF9LRVJORUwpOwo+Cj4gKyAgICAgICBzbWNfc3Rh
-dGUgPSBremFsbG9jKHN0YXRlX3NpemUsIEdGUF9LRVJORUwpOwo+ICAgICAgICAgaWYgKHNtY19z
-dGF0ZSA9PSBOVUxMKQo+ICAgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPgo+IC0tCj4g
-Mi4yNi4yCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, May 22, 2020 at 1:39 PM Gustavo A. R. Silva
+<gustavoars@kernel.org> wrote:
+>
+> The current codebase makes use of one-element arrays in the following
+> form:
+>
+> struct something {
+>     int length;
+>     u8 data[1];
+> };
+>
+> struct something *instance;
+>
+> instance = kmalloc(sizeof(*instance) + size, GFP_KERNEL);
+> instance->length = size;
+> memcpy(instance->data, source, size);
+>
+> but the preferred mechanism to declare variable-length types such as
+> these ones is a flexible array member[1][2], introduced in C99:
+>
+> struct foo {
+>         int stuff;
+>         struct boo array[];
+> };
+>
+> By making use of the mechanism above, we will get a compiler warning
+> in case the flexible array does not occur last in the structure, which
+> will help us prevent some kind of undefined behavior bugs from being
+> inadvertently introduced[3] to the codebase from now on. So, replace
+> the one-element array with a flexible-array member.
+>
+> Also, make use of the new struct_size() helper to properly calculate the
+> size of struct SISLANDS_SMC_SWSTATE.
+>
+> This issue was found with the help of Coccinelle and, audited and fixed
+> _manually_.
+>
+> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> [2] https://github.com/KSPP/linux/issues/21
+> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Applied.  Thanks!
+
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/si_dpm.c       | 5 ++---
+>  drivers/gpu/drm/amd/amdgpu/sislands_smc.h | 2 +-
+>  drivers/gpu/drm/radeon/si_dpm.c           | 5 ++---
+>  3 files changed, 5 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> index c00ba4b23c9a6..0fc56c5bac080 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+> @@ -5715,10 +5715,9 @@ static int si_upload_sw_state(struct amdgpu_device *adev,
+>         int ret;
+>         u32 address = si_pi->state_table_start +
+>                 offsetof(SISLANDS_SMC_STATETABLE, driverState);
+> -       u32 state_size = sizeof(SISLANDS_SMC_SWSTATE) +
+> -               ((new_state->performance_level_count - 1) *
+> -                sizeof(SISLANDS_SMC_HW_PERFORMANCE_LEVEL));
+>         SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
+> +       size_t state_size = struct_size(smc_state, levels,
+> +                                       new_state->performance_level_count);
+>
+>         memset(smc_state, 0, state_size);
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sislands_smc.h b/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
+> index d2930eceaf3c8..a089dbf8f7a93 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
+> @@ -186,7 +186,7 @@ struct SISLANDS_SMC_SWSTATE
+>      uint8_t                             levelCount;
+>      uint8_t                             padding2;
+>      uint8_t                             padding3;
+> -    SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[1];
+> +    SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+>  };
+>
+>  typedef struct SISLANDS_SMC_SWSTATE SISLANDS_SMC_SWSTATE;
+> diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+> index a167e1c36d243..bab01ca864c63 100644
+> --- a/drivers/gpu/drm/radeon/si_dpm.c
+> +++ b/drivers/gpu/drm/radeon/si_dpm.c
+> @@ -5253,10 +5253,9 @@ static int si_upload_sw_state(struct radeon_device *rdev,
+>         int ret;
+>         u32 address = si_pi->state_table_start +
+>                 offsetof(SISLANDS_SMC_STATETABLE, driverState);
+> -       u32 state_size = sizeof(SISLANDS_SMC_SWSTATE) +
+> -               ((new_state->performance_level_count - 1) *
+> -                sizeof(SISLANDS_SMC_HW_PERFORMANCE_LEVEL));
+>         SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
+> +       size_t state_size = struct_size(smc_state, levels,
+> +                                       new_state->performance_level_count);
+>
+>         memset(smc_state, 0, state_size);
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
