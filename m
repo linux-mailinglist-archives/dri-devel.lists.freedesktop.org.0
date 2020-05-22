@@ -1,57 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10241DEF0B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 20:18:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 409B31DEF0E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 20:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656756EA20;
-	Fri, 22 May 2020 18:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B26D6EA25;
+	Fri, 22 May 2020 18:18:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
- [IPv6:2607:f8b0:4864:20::e41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E156EA20
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 18:18:09 +0000 (UTC)
-Received: by mail-vs1-xe41.google.com with SMTP id t4so4657588vsq.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 11:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PwXQ16I6Cp2tgFwIySqzt/G64hlPbh8xuNdm4rchjh4=;
- b=t/xBBcZ6O5/2xUet4xFV+IUG27uwEk7PUYFcckf192Tp2MyuY8B0DXdr96rOA13B0j
- /U0mcz2QsJq6wEyD+jG/VLOxi1JxIAjvbLaLGK3hfLWFMtNaGFdEnyhbRN5Yewnf7qHy
- maVP/Xh2HPoAegbriQFlRSP4oSIY4+Z01Hsoq3UPyKO9nSsuQT2/14nHEUAOqqUNglGu
- TQqf3dJf+wgdtg7oGqztDuNqFoXnub8XqcMVClftHonMR76pAFMJY2OI/kOnQFeLQvSZ
- UKIqM8eDIePrh+GAK4WtRGHgFV+7/ChPCy05Mz5s1SjfdyrKdgQzYx9n66CVjZzlduCW
- kRlw==
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AB06EA25
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 18:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590171512;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m/geKcYtEm6APQ5LEp/KOQcykz/wDN18PTkCVCHlSm8=;
+ b=CEk6fnWtfYL+cOJr6EwVcBuVVSczIjZ5mg4MedKjq+n1S1SuFK7mAwNXpqw4B+pn+F5B5h
+ jMNZo27L0JjYLGbkDcy1zQHzWWTa+aiHtUQ4NbLNX+R3M58/aS9wVni+1z5bOJE6OMWj0s
+ t2q3FZSE2cu/Ms0TbmuZ/HXGREWZpoA=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-NLFHiCaGM3CXgwpIt8VGug-1; Fri, 22 May 2020 14:18:24 -0400
+X-MC-Unique: NLFHiCaGM3CXgwpIt8VGug-1
+Received: by mail-qk1-f197.google.com with SMTP id d145so3343007qkg.22
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 11:18:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PwXQ16I6Cp2tgFwIySqzt/G64hlPbh8xuNdm4rchjh4=;
- b=p8uaAxx0x7wUJh6BnCYjyvBf8avIqdE/epYJFqqtopNBCnp606EXqbcmf9VgZfnQRb
- qNTeIxNvXyP5bA6ni3H2Nx640hl8VUWeCd9/ehgZGuUjHXOeXzdhyMWSIE7FFc8W9p7N
- jDT6gU9OsuIC77FNZqnwMxrJRIgrl2NiypuOFTXNMTuLpJbWFCyHzAj+wLXVSlQ1Z2CZ
- H1Wt/mcCxp8RpELAWhwRSDh2SqTwwogFWOFJjcrTLSfBPq7rPrTHJ70SYQ+oMhJrhpMv
- 76jFfIe5kvN/O6s5bIdyRrJwivN8xXje7psI/dmeWyq8OztLyW6fbkphZUwOV89ZTSys
- IpTg==
-X-Gm-Message-State: AOAM532hW8uG7p8IeEdBw4DGIOE9vqqzrvA1j8jxQGDkdW3zUir2Zle4
- c5/ScC7Qrz/A3PICXEKvWtqtgZomlDZSQkQL4OU=
-X-Google-Smtp-Source: ABdhPJwVcoOuyG4xj6v7doBPjWJI5CgDAYK+frvnQUSyH9g309h6bcUom+gOtv4klrPgAnir7w1wtRTnZaAYYLLrXeE=
-X-Received: by 2002:a67:71c2:: with SMTP id
- m185mr12122722vsc.186.1590171488867; 
- Fri, 22 May 2020 11:18:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-2-tzimmermann@suse.de>
- <20200522174835.GA1087580@ravnborg.org>
-In-Reply-To: <20200522174835.GA1087580@ravnborg.org>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 22 May 2020 19:15:10 +0100
-Message-ID: <CACvgo53YDOD1t4KYOWKiO-q8T639jNbMrZuyTXcbe1FBAfxP+Q@mail.gmail.com>
-Subject: Re: [PATCH 01/21] drm/cma-helper: Rework DRM_GEM_CMA_VMAP_DRIVER_OPS
- macro
+ h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+ :in-reply-to:references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=m/geKcYtEm6APQ5LEp/KOQcykz/wDN18PTkCVCHlSm8=;
+ b=MsXV0xtkYpvukciUvTanFll4phGGE4K5G5t8S+EgrY8y1J4+yP3G+jSzqB59g1ifBW
+ szoGQrjlqTefheju3gM1k1AyP/oTyXrqCjXpDSHzdb9llSz6cWPn93cns71aGX5PQo4j
+ yJSVLWxMbyu+JlPJxasMfkAkLwHL9lx7Qe5Oi1D3VkiP8Je/ACrY3I1wXGmGRhPqbt//
+ dnz3Ck+GlwWhhfjtgULBay9WPJvxZ20HsDkpM38soPf77Du8cAR4xw5ROiuead+G86V/
+ bVjf4Q7n2Wvd03pkfYFAuDkIDO69BEETYx/E4NrTOBbBIMyh9m0Ew0a3T3pNEwxzEPJM
+ Tyjw==
+X-Gm-Message-State: AOAM530eFdsbfDS7LXh97LaFrlVwh8wOXx6ScNgDZAYp8A/nj4OuimIL
+ v3QyhmHFAPfcThy4ycSBpn8AOLFsK6OEtwwDOcfDVkYCF9YYanX+FORvCwnW0cfEj7bKNPCY3if
+ cVL9DpEEW0TKKh4ynlE2y3Fg+Rbdq
+X-Received: by 2002:a37:8705:: with SMTP id j5mr14768898qkd.233.1590171503900; 
+ Fri, 22 May 2020 11:18:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHR3ERTZmvM/CSJPNLHMaIrwwjp4k68hXtLxCPVvFuYCfjYWDQPH4SgEGssR0Gdrz1RwJcHQ==
+X-Received: by 2002:a37:8705:: with SMTP id j5mr14768875qkd.233.1590171503633; 
+ Fri, 22 May 2020 11:18:23 -0700 (PDT)
+Received: from Whitewolf.lyude.net
+ (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id x144sm8508643qka.53.2020.05.22.11.18.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 May 2020 11:18:22 -0700 (PDT)
+Message-ID: <7db8ff3ee32bddfb6f82760468caa86388bee9bd.camel@redhat.com>
+Subject: Re: [PATCH] drm/vblank: Fix -Wformat compile warnings on some arches
+From: Lyude Paul <lyude@redhat.com>
 To: Sam Ravnborg <sam@ravnborg.org>
+Date: Fri, 22 May 2020 14:18:21 -0400
+In-Reply-To: <20200521210924.GA1056842@ravnborg.org>
+References: <20200521204647.2578479-1-lyude@redhat.com>
+ <20200521210924.GA1056842@ravnborg.org>
+Organization: Red Hat
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32)
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,81 +80,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>, khilman@baylibre.com,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, ludovic.desroches@microchip.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, joel@jms.id.au,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
- Sascha Hauer <kernel@pengutronix.de>,
- LAKML <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
- andrew@aj.id.au, Philippe Cornu <philippe.cornu@st.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+Reply-To: lyude@redhat.com
+Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 May 2020 at 18:48, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Thomas.
->
-> On Fri, May 22, 2020 at 03:52:26PM +0200, Thomas Zimmermann wrote:
-> > Rename the macro to DRM_GEM_CMA_DRIVER_OPS to align with SHMEM
-> > helpers.
-> This part is fine, I like that the naming is somehow consistent.
->
-> > An internal version is provided for drivers that override
-> > the default .dumb_create callback. Adapt drivers to the changes.
-> I loathe anything named __foo or __FOO. This __ signals to me
-> that the author was clueless in naming - or some sort.
-> I know that __ is used in some lib headers - but thats not the case
-> here.
->
-> But I love that we have a variant that takes a create function.
-> So we do not have to escape from the nice macro.
-> The macro is another way to tell me as rewiewer that this
-> drivers uses all the default helpers for this.
->
-Fwiw I share the sentiment, although I fear we're a little late. __
-prefixed functions are widely common in core drm and it's helpers.
+On Thu, 2020-05-21 at 23:09 +0200, Sam Ravnborg wrote:
+> On Thu, May 21, 2020 at 04:46:47PM -0400, Lyude Paul wrote:
+> > On some architectures like ppc64le and aarch64, compiling with
+> > -Wformat=1 will throw the following warnings:
+> > 
+> >   In file included from drivers/gpu/drm/drm_vblank.c:33:
+> >   drivers/gpu/drm/drm_vblank.c: In function 'drm_update_vblank_count':
+> >   drivers/gpu/drm/drm_vblank.c:273:16: warning: format '%llu' expects
+> >   argument of type 'long long unsigned int', but argument 4 has type
+> >   'long int' [-Wformat=]
+> >     DRM_DEBUG_VBL("updating vblank count on crtc %u:"
+> >                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >   ./include/drm/drm_print.h:407:22: note: in definition of macro
+> >   'DRM_DEBUG_VBL'
+> >     drm_dbg(DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> >                         ^~~
+> >   drivers/gpu/drm/drm_vblank.c:274:22: note: format string is defined here
+> >            " current=%llu, diff=%u, hw=%u hw_last=%u\n",
+> >                      ~~~^
+> >                      %lu
+> > 
+> > So, fix that with a typecast.
+> > 
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > Co-developed-by: Dave Airlie <airlied@redhat.com>
+> > ---
+> >  drivers/gpu/drm/drm_vblank.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > index acb3c3f65b579..1a96db2dd16fa 100644
+> > --- a/drivers/gpu/drm/drm_vblank.c
+> > +++ b/drivers/gpu/drm/drm_vblank.c
+> > @@ -342,7 +342,7 @@ static void drm_update_vblank_count(struct drm_device
+> > *dev, unsigned int pipe,
+> >  
+> >  	DRM_DEBUG_VBL("updating vblank count on crtc %u:"
+> >  		      " current=%llu, diff=%u, hw=%u hw_last=%u\n",
+> > -		      pipe, atomic64_read(&vblank->count), diff,
+> > +		      pipe, (unsigned long long)atomic64_read(&vblank->count),
+> > diff,
+> >  		      cur_vblank, vblank->last);
+> 
+> While touching this you could consider introducing drm_dbg_vbl().
+> An maybe as a follow-up patch replace all logging in this file with the drm_*
+> variants.
 
->
-> So critizising the name I better suggest something that
-> I personally like better:
->
-> DRM_GEM_CMA_DRIVER_OPS_CREATE()
->
-> It would look like this:
->         /* GEM Operations */
-> -       DRM_GEM_CMA_VMAP_DRIVER_OPS,
-> -       .dumb_create            = drm_sun4i_gem_dumb_create,
-> +       DRM_GEM_CMA_DRIVER_OPS_CREATE(drm_sun4i_gem_dumb_create),
->
->
->
-> Please fix zte/zx_drm_drv.c which also uses DRM_GEM_CMA_VMAP_DRIVER_OPS.
->
-Isn't DRM_GEM_CMA_VMAP_DRIVER_OPS introduced to zte with the last
-patch in the series?
+ok - no promises when I can actually get to this though, I've got a lot on my
+plate ATM
+> 
+> 	Sam
+> 
+> >  
+> >  	if (diff == 0) {
+> > -- 
+> > 2.26.2
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
--Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
