@@ -2,43 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9751DED42
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 18:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FDB1DF655
+	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728076E918;
-	Fri, 22 May 2020 16:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D884C6E219;
+	Sat, 23 May 2020 09:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A254D6E918
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 16:29:05 +0000 (UTC)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id ADB3720723;
- Fri, 22 May 2020 16:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590164944;
- bh=AZ6aR48aUG//ESbctyBmG+YOjGowh1YxgZdIw6aq6bI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s4FsV2uAqu/tX3pg7NewFoApyD7oEoZMnhAmmnKcl+3LRNhjjTs3275VGylctu3f1
- VIIKKiPn2SeIxaQfZeSKskq4enff164K3HACIxgju7ARsCEVTOOkAQ6sTcTGMSy5FX
- F6WMIvtZwCuLj5fXUKnSYt3O04BwosCqqhf4twPs=
-Date: Fri, 22 May 2020 17:29:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: dillon min <dillon.minfei@gmail.com>
-Subject: Re: [PATCH v4 3/8] spi: stm32: Add 'SPI_SIMPLEX_RX', 'SPI_3WIRE_RX'
- support for stm32f4
-Message-ID: <20200522162901.GP5801@sirena.org.uk>
-References: <1589800165-3271-1-git-send-email-dillon.minfei@gmail.com>
- <1589800165-3271-4-git-send-email-dillon.minfei@gmail.com>
- <20200522113634.GE5801@sirena.org.uk>
- <CAL9mu0LAnT+AfjpGs0O-MD2HYrpnQRmrj6qXtJQrJi9kbQLPUw@mail.gmail.com>
- <CAL9mu0JZ4Qy+m2oF9TSTRqA_mM0J89huCt3t_Gs7qHa=3LxhBw@mail.gmail.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE3C6E191
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 17:13:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 42B4F2A3A73
+Date: Fri, 22 May 2020 13:13:19 -0400
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/panfrost: Fix inbalance of devfreq record_busy/idle()
+Message-ID: <20200522171319.GA1836@kevin>
+References: <20200522153653.40754-1-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL9mu0JZ4Qy+m2oF9TSTRqA_mM0J89huCt3t_Gs7qHa=3LxhBw@mail.gmail.com>
-X-Cookie: C for yourself.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Disposition: inline
+In-Reply-To: <20200522153653.40754-1-steven.price@arm.com>
+X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,70 +37,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
- Michael Turquette <mturquette@baylibre.com>,
- linux-clk <linux-clk@vger.kernel.org>, linux-kernel@vger.kernel.org,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-spi@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Alexandre Torgue <alexandre.torgue@st.com>
-Content-Type: multipart/mixed; boundary="===============1394908231=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+A-b
 
---===============1394908231==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WZLuFERxa6Y0cbOt"
-Content-Disposition: inline
-
-
---WZLuFERxa6Y0cbOt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, May 22, 2020 at 11:59:25PM +0800, dillon min wrote:
-
-> but, after spi-core create a dummy tx_buf or rx_buf, then i can't get
-> the correct spi_3wire direction.
-> actually, this dummy tx_buf is useless for SPI_3WIRE. it's has meaning
-> for SPI_SIMPLE_RX mode,
-> simulate SPI_FULL_DUMPLEX
-
-Oh, that's annoying.  I think the fix here is in the core, it should
-ignore MUST_TX and MUST_RX in 3WIRE mode since they clearly make no
-sense there.
-
---WZLuFERxa6Y0cbOt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7H/c0ACgkQJNaLcl1U
-h9Cejgf9HdcJ4wfZ4TAHuSVLhSZ1f3OnJd4SsU3i35KhZ712W6yrHngXy+nbYV4N
-NhjTvvpDmzBo349gEEKpFG3dhTYbtS1kgzaVDbDeHh2B9M5YrRLkIYAjflSzwLeg
-Yti6Jgi8Lx7rwmbBx7ACHi/MwbFhTgRxmebmW/EprvqsF+Q1LPKwoqZzgewibxLc
-PHCGuWASzrD+VUARI8yApx4c0VvYevsCX3SqhAgEVABuyv5unCyrdK6feQ4pOe6j
-AWVdgGrscUVgis28iFGnfmjKc72Ilct0g+jn6CcMAxcNH75lYFazRIihBrGTjh2j
-TLYng7hGWV16ZT1d0tdphETvEKKG5A==
-=R/O9
------END PGP SIGNATURE-----
-
---WZLuFERxa6Y0cbOt--
-
---===============1394908231==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+On Fri, May 22, 2020 at 04:36:53PM +0100, Steven Price wrote:
+> The calls to panfrost_devfreq_record_busy() and
+> panfrost_devfreq_record_idle() must be balanced to ensure that the
+> devfreq utilisation is correctly reported. But there are two cases where
+> this doesn't work correctly.
+> 
+> In panfrost_job_hw_submit() if pm_runtime_get_sync() fails or the
+> WARN_ON() fires then no call to panfrost_devfreq_record_busy() is made,
+> but when the job times out the corresponding _record_idle() call is
+> still made in panfrost_job_timedout(). Move the call up to ensure that
+> it always happens.
+> 
+> Secondly panfrost_job_timedout() only makes a single call to
+> panfrost_devfreq_record_idle() even if it is cleaning up multiple jobs.
+> Move the call inside the loop to ensure that the number of
+> _record_idle() calls matches the number of _record_busy() calls.
+> 
+> Fixes: 9e62b885f715 ("drm/panfrost: Simplify devfreq utilisation tracking")
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index b2f09c038d35..ac87ef675e8a 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -145,6 +145,8 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>  	u64 jc_head = job->jc;
+>  	int ret;
+>  
+> +	panfrost_devfreq_record_busy(pfdev);
+> +
+>  	ret = pm_runtime_get_sync(pfdev->dev);
+>  	if (ret < 0)
+>  		return;
+> @@ -155,7 +157,6 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>  	}
+>  
+>  	cfg = panfrost_mmu_as_get(pfdev, &job->file_priv->mmu);
+> -	panfrost_devfreq_record_busy(pfdev);
+>  
+>  	job_write(pfdev, JS_HEAD_NEXT_LO(js), jc_head & 0xFFFFFFFF);
+>  	job_write(pfdev, JS_HEAD_NEXT_HI(js), jc_head >> 32);
+> @@ -410,12 +411,12 @@ static void panfrost_job_timedout(struct drm_sched_job *sched_job)
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+>  		if (pfdev->jobs[i]) {
+>  			pm_runtime_put_noidle(pfdev->dev);
+> +			panfrost_devfreq_record_idle(pfdev);
+>  			pfdev->jobs[i] = NULL;
+>  		}
+>  	}
+>  	spin_unlock_irqrestore(&pfdev->js->job_lock, flags);
+>  
+> -	panfrost_devfreq_record_idle(pfdev);
+>  	panfrost_device_reset(pfdev);
+>  
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> -- 
+> 2.20.1
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1394908231==--
