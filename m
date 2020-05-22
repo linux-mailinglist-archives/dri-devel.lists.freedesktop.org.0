@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5301DE40D
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 12:17:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C571DF668
+	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:35:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14E536E9B9;
-	Fri, 22 May 2020 10:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF1626EA4E;
+	Sat, 23 May 2020 09:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Fri, 22 May 2020 10:17:35 UTC
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id D24416E9B9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 10:17:35 +0000 (UTC)
-X-UUID: aa7538676fed4a19805128da08b1b442-20200522
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=6VbmeS/yrB1shYHBD+b0ArTurRXYrmNDPa81/IwQ/tI=; 
- b=rORpKnmyumfflCfytKRhmTVJuOy37KS2lD8cDOBpUqY+wnPY2vyfA2ykKfT5mf2A+X1gqZnpTFpVToJy2FBBiKVq2Zo71jMj/70kcdFcwmol6zDWei2libtTVIoeHsKl3/oiu96t94bSBQVHcgHCQU2Xcm9n3I3Tzx7Ep5jP0lw=;
-X-UUID: aa7538676fed4a19805128da08b1b442-20200522
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <jitao.shi@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1393466909; Fri, 22 May 2020 18:12:27 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33DR.mediatek.inc
- (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 22 May 2020 18:12:25 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (10.16.6.18) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 22 May 2020 18:12:24 +0800
-From: Jitao Shi <jitao.shi@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/mediatek: dsi: fix scrolling of panel with small hfp or
- hbp
-Date: Fri, 22 May 2020 18:12:25 +0800
-Message-ID: <20200522101225.62571-1-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C7F6E9BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 10:36:55 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id 18so10245359iln.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 03:36:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S9mNXQGxYRI6qULQw9Ylvem2CGTTDqLbr/fEXVEpF4U=;
+ b=vd4VYINYuEVdmUQvHlTA9KXdDm9DE/zeNAYpOQv75fwt4OmH/SIAObjGaEBV4RxvZz
+ q6i66VQgCbwB2DJnpkEs3CNS44zpx0/PzCDxw+TMIy0QqPe/1Vb9Qtz+UKk3APYhG57W
+ 0iTd/hJBqukptHPRhJKJwFSc7T8wM0FpEmbg6I6kTzq+aeXPRSzbG/9VmyhLf821lJYv
+ r3xmT/IG4xyoBXd8AFUfyLhmGkOuqCvdk90pwWNRlm08GL4a15VsChynvxCw55pjfyQo
+ wbiCGX/jvpdtkVcZHfD2F6GQ+KJBLXyqJ7b3XSsKGprTz+kBwt26Bme5bvOjKtZPhW2q
+ gqZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S9mNXQGxYRI6qULQw9Ylvem2CGTTDqLbr/fEXVEpF4U=;
+ b=gs9MX7L8U6d5I3qusIOsOjg7rygfqycJ6d2TaUUTxRl/ap4YAxAjP6EiiIX5bn3fW3
+ WmNZUJgKW5443Nu33PNIuhKb5Pl/2KU+bTryk8V+gQdDZUKBBz9DOSNmFPxjN8i6CSox
+ /hNGtd2J0Ho78qmPM2z9UF+OmqbsBO5MfNMt3dpcnSUIjufD+WNBvZuvhwAGz2s39HmI
+ tPyoC5X2lqFSD9zK5PT5TqfRjChchhSsQJOmhFHB8lv1GJDStZw/wNUblNQz2qXLzTbH
+ bxtxSS+YnxvD5QHQOdSJ0sWsQssTSC610ZO9glYOFccjV7ECnbdO7jDA/EOvT1ZNiQu4
+ 3fHQ==
+X-Gm-Message-State: AOAM533BcPPWFUlYVf8PV+1MaLTGVG0wpLV/oZY/4LCd6/umxj+S1T4g
+ a3KUrG+twqNu0FsQszSP5CVMHLZ5fXeMSsjMY1o=
+X-Google-Smtp-Source: ABdhPJx0XAiW7gALipTyOEYHcUb8snFaOYG31JH89mxDkIvzBtiW7XAO+lC0bUVICWp15csuijP3fwq29n6skZcb3/g=
+X-Received: by 2002:a92:ca84:: with SMTP id t4mr10176899ilo.276.1590143815240; 
+ Fri, 22 May 2020 03:36:55 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 9EFD99E22082E0674480556A643F1BD34B12751A45F5F49297FAC1342418AC822000:8
-X-MTK: N
+References: <20200518201646.48312-1-dagmcr@gmail.com>
+ <73d98905-930d-3549-1a85-293f4d213716@ideasonboard.com>
+In-Reply-To: <73d98905-930d-3549-1a85-293f4d213716@ideasonboard.com>
+From: Daniel G <dagmcr@gmail.com>
+Date: Fri, 22 May 2020 12:36:44 +0200
+Message-ID: <CAPsT6hk=3Z2nwGW=WdxB7UVwvOVMdiZ1oVdR_Xb4kqXpQ8jC5w@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Fix build error
+To: kieran.bingham+renesas@ideasonboard.com
+X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,71 +62,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
- srv_heupstream@mediatek.com, huijuan.xie@mediatek.com, stonea168@163.com,
- cawa.cheng@mediatek.com, linux-mediatek@lists.infradead.org,
- yingjoe.chen@mediatek.com, eddie.huang@mediatek.com,
- linux-arm-kernel@lists.infradead.org
+Cc: airlied@linux.ie, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If panel has too small hfp or hbp, horizontal_frontporch_byte or
-horizontal_backporch_byte may become very small value or negative
-value. This patch adjusts their values so that they are greater
-than minimum value and keep total of them unchanged.
+Hi Kieran and Emil,
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+On Fri, 22 May 2020 at 11:43, Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+>
+> Hi Daniel,
+>
+> On 18/05/2020 21:16, Daniel Gomez wrote:
+> > Select DRM_KMS_HELPER dependency.
+> >
+> > Build error when DRM_KMS_HELPER is not selected:
+> >
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd48): undefined reference to `drm_atomic_helper_bridge_duplicate_state'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd50): undefined reference to `drm_atomic_helper_bridge_destroy_state'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd70): undefined reference to `drm_atomic_helper_bridge_reset'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xdc8): undefined reference to `drm_atomic_helper_connector_reset'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xde0): undefined reference to `drm_helper_probe_single_connector_modes'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe08): undefined reference to `drm_atomic_helper_connector_duplicate_state'
+> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe10): undefined reference to `drm_atomic_helper_connector_destroy_state'
+> >
+>
+> Looking at the files in rcar_du that utilise drm_atomic_helpers...
+>
+> git grep -l drm_atomic_helper_ drivers/gpu/drm/rcar-du/
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c
+>
+> of those, these are configurable:
+>
+>  rcar_du_vsp.c          # DRM_RCAR_VSP
+>  rcar_du_writeback.c    # DRM_RCAR_WRITEBACK
+>  rcar_lvds.c            # DRM_RCAR_LVDS
+>
+> But VSP and WRITEBACK are already implicitly dependant upon DRM_RCAR_DU
+> because they get built into the DU module.
+>
+> So indeed, only the RCAR_LVDS is a separate module, using those helpers,
+> so I think a select is a reasonable fix.
+>
+> I would also ask whether DRM_RCAR_LVDS should depend upon DRM_RCAR_DU
+> though as well.
+>
+> There is no linkage requirement, as it's a standalone bridge driver from
+> what I can see, but I don't think it serves much purpose without the DU?
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 0ede69830a9d..aebaafd90ceb 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -148,6 +148,9 @@
- 	(type == MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM) || \
- 	(type == MIPI_DSI_DCS_READ))
- 
-+#define MIN_HFP_BYTE		0x02
-+#define MIN_HBP_BYTE		0x02
-+
- struct mtk_phy_timing {
- 	u32 lpx;
- 	u32 da_hs_prepare;
-@@ -450,6 +453,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 	u32 horizontal_sync_active_byte;
- 	u32 horizontal_backporch_byte;
- 	u32 horizontal_frontporch_byte;
-+	s32 signed_hfp_byte, signed_hbp_byte;
- 	u32 dsi_tmp_buf_bpp, data_phy_cycles;
- 	struct mtk_phy_timing *timing = &dsi->phy_timing;
- 
-@@ -519,6 +523,20 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
- 		}
- 	}
- 
-+	signed_hfp_byte = (s32)horizontal_frontporch_byte;
-+	signed_hbp_byte = (s32)horizontal_backporch_byte;
-+
-+	if (signed_hfp_byte + signed_hbp_byte < MIN_HFP_BYTE + MIN_HBP_BYTE) {
-+		DRM_WARN("Calculated hfp_byte and hbp_byte are too small, "
-+			 "panel may not work properly.\n");
-+	} else if (signed_hfp_byte < MIN_HFP_BYTE) {
-+		horizontal_frontporch_byte = MIN_HFP_BYTE;
-+		horizontal_backporch_byte -= MIN_HFP_BYTE - signed_hfp_byte;
-+	} else if (signed_hbp_byte < MIN_HBP_BYTE) {
-+		horizontal_frontporch_byte -= MIN_HBP_BYTE - signed_hbp_byte;
-+		horizontal_backporch_byte = MIN_HBP_BYTE;
-+	}
-+
- 	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
- 	writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
- 	writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
--- 
-2.25.1
+I have actually spotted when using arch/arm/configs/multi_v7_defconfig where
+DRM_RCAR_DU is built as module. But when I was reviewing it I was able to
+compile RCAR_LVDS=y with DRM_RCAR_DU=n. Also, according to
+https://patchwork.kernel.org/patch/10159063/, the LVDS encoders used to be
+described as part of the DU but not after the patch. So, I assume it can
+be used without the DU but not completely sure.
+
+>
+> Anyway, even if it's just for compile testing maybe, the select here
+> should be fine.
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> > Signed-off-by: Daniel Gomez <dagmcr@gmail.com>
+> > ---
+> >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> > index 0919f1f159a4..f65d1489dc50 100644
+> > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > @@ -31,6 +31,7 @@ config DRM_RCAR_DW_HDMI
+> >  config DRM_RCAR_LVDS
+> >       tristate "R-Car DU LVDS Encoder Support"
+> >       depends on DRM && DRM_BRIDGE && OF
+> > +     select DRM_KMS_HELPER
+> >       select DRM_PANEL
+> >       select OF_FLATTREE
+> >       select OF_OVERLAY
+> >
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
