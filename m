@@ -2,41 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F351DE36B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 11:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975BD1DE38B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 11:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 354146E3EB;
-	Fri, 22 May 2020 09:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 087AB6E3EF;
+	Fri, 22 May 2020 09:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366F46E3EB
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 09:43:46 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90B6824D;
- Fri, 22 May 2020 11:43:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590140622;
- bh=EkHjxtlh1KP3U50OHeGsUjNHBBOhkFleoo6/23Q62n8=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=gmp/auXve1lV5ElNd608Z05rQUVyqOlwtkILQzd29qG+vgUbdIWz3Bw0TFW085w29
- +HO7h1JxsOnfhMDd00y+mW8pFj2SSZIeFlvbcVXJBj1qfs0h03ZbnSN+Yjj8LICXqj
- dBn7ckx6I3sPkGR/STzPEU8XeYmgvYc85YYRjLaI=
-Subject: Re: [PATCH] drm: rcar-du: Fix build error
-To: Daniel Gomez <dagmcr@gmail.com>, daniel@ffwll.ch, airlied@linux.ie,
- laurent.pinchart@ideasonboard.com
-References: <20200518201646.48312-1-dagmcr@gmail.com>
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <73d98905-930d-3549-1a85-293f4d213716@ideasonboard.com>
-Date: Fri, 22 May 2020 10:43:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF966E3EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 09:54:43 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id z206so2535299lfc.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 02:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=bxoZcJwd6Y00gtBECZ2i1wvljDs7+HmLkIfmenSN9WE=;
+ b=XEy4NhXv+uM/flIlKz0ok0IDO2RR/+DJuZeouPJwhcoaGG9wgsxPcN/J2qvkHMRMTt
+ e2X597iIADFhkv5eBybHz3H6bKHKU7QrvY6AKJZ8kKOzmf4Sri6Ai4JxiELZEvi0Be+L
+ DIfigqRvZGPJhCQCDaszmWU+4h2Sn+6TRVCPl1RwcMvJCNHj8omtT5oFrTScZC3WGSlg
+ ExcaCSn3SL6igncQKmB71oz0fxvGvrTuErQ2FEZGhiOHzkzuzElhf0LL1WcAJvOhoBuJ
+ nWsQ5thv7w1quFBNjLnQ0HX7csDqkVqWgzGPo3ozIm/NT4bGll9DkUg0JfZ9zv6tnps3
+ uqdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=bxoZcJwd6Y00gtBECZ2i1wvljDs7+HmLkIfmenSN9WE=;
+ b=KO7O1EPR4b6cqm9iI3vrPmnNnVYZfyFwUjXkMDG6aEByfoSvk7Jeut9Oz1wMlIlxKN
+ RzhGTO7wm3LoGBruf5DwfqGGnrrE2z0GRFel7QtIiDymIdGeZmSqq9Z37KVCdizn0BRz
+ sXdhRdWoSaXcrzlastxPgWWgY0QD3K+16RjobjxNi+1GBL3TjUtGOZVxdPPZXdK/Ko6V
+ iMGshw61IL0ZMC0AKeqX0AlAWZ2ZmJB5KDf2EpUMHCIzIR/yu6a3xY209I08tRRE9LdS
+ 1CsTQ2V1FwQrAm5DBcNP9EpsYS+1cz38yPbKay6uBefySwoOOkqilKlOYI6SYjUEn+eK
+ 4EIQ==
+X-Gm-Message-State: AOAM532u5H0CP88rYlnNPE6HyY/huxBWIeQtWPdK0P6aTc5BXEw+j10t
+ X9Evmdifyg3PFNd32KTWd6Q=
+X-Google-Smtp-Source: ABdhPJxb+HW0ppytReJA/QeFQu+GcQNdr3ElBlvFc/ZDKmpnRc3vDEBu+n6p0P/1VxXMMqNQen0Dng==
+X-Received: by 2002:a19:7909:: with SMTP id u9mr7121316lfc.130.1590141282016; 
+ Fri, 22 May 2020 02:54:42 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id m13sm2329221lfk.12.2020.05.22.02.54.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 May 2020 02:54:41 -0700 (PDT)
+Date: Fri, 22 May 2020 12:54:32 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/doc: device hot-unplug for userspace
+Message-ID: <20200522125432.0b49ea1a@eldfell.localdomain>
+In-Reply-To: <CAKMK7uFzk7UW7k8WTMSzKynGOypQeTzhf9Gqxb4maimG+QEdiQ@mail.gmail.com>
+References: <20200519100649.12053-1-ppaalanen@gmail.com>
+ <20200520125556.GY206103@phenom.ffwll.local>
+ <4Qkv4p0V0uG4sZ8LjizVLq6bLbZ8U1xAwQ0riB72aHH3sT_ZJYz9QzDFPWCko8PfcA-VGBFkGtCn1n9YfKYqo_vwzvE3BVQUlxyBq61GZ08=@emersion.fr>
+ <CAKMK7uFzk7UW7k8WTMSzKynGOypQeTzhf9Gqxb4maimG+QEdiQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200518201646.48312-1-dagmcr@gmail.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,83 +68,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0371635643=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+--===============0371635643==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/kQvXjS=wrJ667n5/8x.oDPG"; protocol="application/pgp-signature"
 
-On 18/05/2020 21:16, Daniel Gomez wrote:
-> Select DRM_KMS_HELPER dependency.
-> 
-> Build error when DRM_KMS_HELPER is not selected:
-> 
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd48): undefined reference to `drm_atomic_helper_bridge_duplicate_state'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd50): undefined reference to `drm_atomic_helper_bridge_destroy_state'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd70): undefined reference to `drm_atomic_helper_bridge_reset'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xdc8): undefined reference to `drm_atomic_helper_connector_reset'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xde0): undefined reference to `drm_helper_probe_single_connector_modes'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe08): undefined reference to `drm_atomic_helper_connector_duplicate_state'
-> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe10): undefined reference to `drm_atomic_helper_connector_destroy_state'
-> 
+--Sig_/kQvXjS=wrJ667n5/8x.oDPG
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Looking at the files in rcar_du that utilise drm_atomic_helpers...
+On Wed, 20 May 2020 16:19:00 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
 
-git grep -l drm_atomic_helper_ drivers/gpu/drm/rcar-du/
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c
- drivers/gpu/drm/rcar-du/rcar_du_kms.c
- drivers/gpu/drm/rcar-du/rcar_du_plane.c
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c
- drivers/gpu/drm/rcar-du/rcar_du_writeback.c
- drivers/gpu/drm/rcar-du/rcar_lvds.c
+> On Wed, May 20, 2020 at 3:20 PM Simon Ser <contact@emersion.fr> wrote:
+> >
+> > On Wednesday, May 20, 2020 2:55 PM, Daniel Vetter <daniel@ffwll.ch> wro=
+te:
+> > =20
+> > > Maybe we should add an explicit note that there's no guarantee about =
+the
+> > > new chardev minor this new device will get, it could both inherit the
+> > > existing one (you can't open the old one anymore anyway) or get a new=
+ one?
+> > >
+> > > Or does userspace want a guarantee, i.e. as long as there's still a h=
+andle
+> > > open kernel guarantees to not recycle the chardev minor (which is wha=
+t we
+> > > currently do). In that case better to add that to your list of guaran=
+tees
+> > > above. =20
+> >
+> > The are race conditions to consider too, e.g.
+> >
+> > - Compositor sends /dev/dri/card0 to a client
+> > - card0 goes away
+> > - Another device takes card0
+> > - Client receives /dev/dri/card0 and then starts using it, but it's the
+> >   wrong device =20
+>=20
+> Oh reminds me, what should we do about open() - that one will fail,
+> the chardev is going away after all, not failing kinda doesn't make
+> sense. And more tricky, about creating new leases?
+>=20
+> I think reasonable semantics here would be that both of these "create
+> a new open drm fd" operations can fail as soon as the device is
+> unplugged. Userspace needs to be able to deal with that.
 
-of those, these are configurable:
+Hi,
 
- rcar_du_vsp.c		# DRM_RCAR_VSP
- rcar_du_writeback.c	# DRM_RCAR_WRITEBACK
- rcar_lvds.c		# DRM_RCAR_LVDS
+yeah, we can make mmap read/write end result undefined, recycle char
+minors like pids, and let new open()s and new leases fail. Pretty much
+everything Daniel and Simon said make sense to me.
 
-But VSP and WRITEBACK are already implicitly dependant upon DRM_RCAR_DU
-because they get built into the DU module.
+I'll spin a v2, but maybe next week.
 
-So indeed, only the RCAR_LVDS is a separate module, using those helpers,
-so I think a select is a reasonable fix.
+What about the drm_ioctl() issue Andrey pointed out?
 
-I would also ask whether DRM_RCAR_LVDS should depend upon DRM_RCAR_DU
-though as well.
 
-There is no linkage requirement, as it's a standalone bridge driver from
-what I can see, but I don't think it serves much purpose without the DU?
+Thanks,
+pq
 
-Anyway, even if it's just for compile testing maybe, the select here
-should be fine.
+--Sig_/kQvXjS=wrJ667n5/8x.oDPG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+-----BEGIN PGP SIGNATURE-----
 
-> Signed-off-by: Daniel Gomez <dagmcr@gmail.com>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> index 0919f1f159a4..f65d1489dc50 100644
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -31,6 +31,7 @@ config DRM_RCAR_DW_HDMI
->  config DRM_RCAR_LVDS
->  	tristate "R-Car DU LVDS Encoder Support"
->  	depends on DRM && DRM_BRIDGE && OF
-> +	select DRM_KMS_HELPER
->  	select DRM_PANEL
->  	select OF_FLATTREE
->  	select OF_OVERLAY
-> 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7HoVgACgkQI1/ltBGq
+qqdVjRAAk+C/DJ1KUygYQlKx56orIy8l1wmZMEG35IKBiX8IMNiu2Pzr4zR/l9Ur
+xaDziL32pnhw2hdIibpBTTxOhDn5z0t+/2wdK45coOBzVOMZo2DpFO559RT2PTfM
+5tKKLdkiEnzGqHvjm2HyGflbAXZIlL/5b4NbOLQkxKD7Vb/PfOGgMGdkbXJVRiNZ
+iTCZ5xMqnxx+LL0TcErJ2VP2XOSzgPeHh2g9cZlxHz0GD7eo+06eDiCdx8+DxlBX
+g6PwAUru7ObsZFgk19SWYBuwWecPnd1cpa9m8Pmu7TpktJ14s7+PC0ZiNM8ohDoW
+UHOA3Up0mpS5Ts2GrE1eEdBwXt4uhRk6PEMVQz6RvhcPlRe0SdsFONoaoujRavfe
+fcQrxJOU/NdeaP3An6hxudlp39mi1PVpKImMUNTSUt7bnE750Qu3bSQ8kiixQ0c4
+zRRzv0H30r6/sTwjc9PrScotbiYHCqml4w/W9GjuWMp6LTZnbD60sT+RFGXTxBRV
+QnwA3k3+cXcjsAav7eWaKGPmk29oBgrT42WVYKSui0tynwlY/j88Nx4LD2C62z7E
+hcVgCPv0Bnf8gHgZgj8jUP9quEs/QIQyeyIvd34GMB8IIImUvQXrWYlC8guZRunQ
+PLEqvClalQZfHELO61EAjQSKGbSALOL0UHDUVPm8fezX6CZs3vI=
+=MjR/
+-----END PGP SIGNATURE-----
+
+--Sig_/kQvXjS=wrJ667n5/8x.oDPG--
+
+--===============0371635643==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0371635643==--
