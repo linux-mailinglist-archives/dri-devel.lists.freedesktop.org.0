@@ -1,58 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20581DF19B
-	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 00:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A89AC1DF1AC
+	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 00:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA596EA4B;
-	Fri, 22 May 2020 22:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D176B6E13B;
+	Fri, 22 May 2020 22:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
  [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1A66E13B
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 22:03:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDAB6E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 22:12:05 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1590185016; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=Qp38DuAR0RZQl1vysCG2SkE6AAVIOtnZRMm4cw+P1jk=;
- b=UQH6e2l2Lb0V7VpdC2XJhAJtvs65g5RJGZLTCr1ksgCwOG2SatGZPObaKg3wvfi8C3eecpR8
- LDhm1ryDSfgc1VYpftIf+6bMRqXtOBh1pyB2aPHE8dERZgjhoxOQxwVSDFcHkaOwqwyKSV5W
- 2OB2UrX/tMsxsf5tIqmjWvpzIvY=
+ s=smtp; t=1590185525; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=BMLKs2JomZd3TZEWwn5R98bMIQZhgMt6bzYovepD0FU=;
+ b=eFEToHoz8RS4EWnra65YvuPirBkq66OPoVkkIJVWQt/TqCuA/RWwIAarF5K6wXCq5VKC4Kxr
+ KVAJmZpYnbcjtFHLWp2cQe0oAX1F/t5s7jq8tCUKQr5nxYUYNQ21gwHSunt2ZdlzyiVdx/xR
+ FLCxH6MbD4aZbrFcP4TL21KaBKg=
 X-Mailgun-Sending-Ip: 104.130.122.27
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ec84c37.7f999290c228-smtp-out-n01;
- Fri, 22 May 2020 22:03:35 -0000 (UTC)
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5ec84e3482c96b5d3bd70c47 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 22 May 2020 22:12:04
+ GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 68917C433A1; Fri, 22 May 2020 22:03:35 +0000 (UTC)
+ id 61CE5C433C8; Fri, 22 May 2020 22:12:04 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
  URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7BDE8C433CB;
- Fri, 22 May 2020 22:03:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7BDE8C433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 65FB0C433C6;
+ Fri, 22 May 2020 22:12:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 65FB0C433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Fri, 22 May 2020 16:11:59 -0600
 From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v1 3/3] drm/msm: Update the MMU helper function APIs
-Date: Fri, 22 May 2020 16:03:16 -0600
-Message-Id: <20200522220316.23772-4-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200522220316.23772-1-jcrouse@codeaurora.org>
-References: <20200522220316.23772-1-jcrouse@codeaurora.org>
+To: Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH] drm/msm/a6xx: don't try to set GPU frequency when GMU is
+ suspended
+Message-ID: <20200522221159.GA20960@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Jonathan Marek <jonathan@marek.ca>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20200519030735.24713-1-jonathan@marek.ca>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200519030735.24713-1-jonathan@marek.ca>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +79,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of using a bare unsigned type for the length value for map/unmap
-functions pass in a size_t to more correctly match up with the underlying
-APIs.
+On Mon, May 18, 2020 at 11:07:33PM -0400, Jonathan Marek wrote:
+> This fixes changing the frequency in sysfs while suspended, for example
+> when doing something like this:
+> 
+> cat devfreq/3d00000.gpu/max_freq > devfreq/3d00000.gpu/min_freq
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+A patch landed to fix this [1] but it crossed paths in the night with the
+a640/a650 support. Can you respin this to move the pm_runtime_get_if_in_use()
+check in _a6xx_gmu_set_freq() to the higher level function and then we should
+be covered.
 
- drivers/gpu/drm/msm/msm_gpummu.c | 4 ++--
- drivers/gpu/drm/msm/msm_iommu.c  | 4 ++--
- drivers/gpu/drm/msm/msm_mmu.h    | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+Thanks,
+Jordan
 
-diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-index 0ad0f848560a..310a31b05faa 100644
---- a/drivers/gpu/drm/msm/msm_gpummu.c
-+++ b/drivers/gpu/drm/msm/msm_gpummu.c
-@@ -26,7 +26,7 @@ static void msm_gpummu_detach(struct msm_mmu *mmu)
- }
- 
- static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
--		struct sg_table *sgt, unsigned len, int prot)
-+		struct sg_table *sgt, size_t len, int prot)
- {
- 	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
- 	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
-@@ -54,7 +54,7 @@ static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
- 	return 0;
- }
- 
--static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, unsigned len)
-+static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
- {
- 	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
- 	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 627e1187d8aa..f8d5a294e1be 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -38,7 +38,7 @@ static void msm_iommu_detach(struct msm_mmu *mmu)
- }
- 
- static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
--		struct sg_table *sgt, unsigned len, int prot)
-+		struct sg_table *sgt, size_t len, int prot)
- {
- 	struct msm_iommu *iommu = to_msm_iommu(mmu);
- 	size_t ret;
-@@ -49,7 +49,7 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
- 	return (ret == len) ? 0 : -EINVAL;
- }
- 
--static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, unsigned len)
-+static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
- {
- 	struct msm_iommu *iommu = to_msm_iommu(mmu);
- 
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index bae9e8e67ec1..3a534ee59bf6 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -12,8 +12,8 @@
- struct msm_mmu_funcs {
- 	void (*detach)(struct msm_mmu *mmu);
- 	int (*map)(struct msm_mmu *mmu, uint64_t iova, struct sg_table *sgt,
--			unsigned len, int prot);
--	int (*unmap)(struct msm_mmu *mmu, uint64_t iova, unsigned len);
-+			size_t len, int prot);
-+	int (*unmap)(struct msm_mmu *mmu, uint64_t iova, size_t len);
- 	void (*destroy)(struct msm_mmu *mmu);
- };
- 
+[1] https://patchwork.freedesktop.org/patch/364089/?series=76829&rev=3
+
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index aec54cde8534..9498803dcad9 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -151,13 +151,20 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, unsigned long freq)
+>  			break;
+>  
+>  	gmu->current_perf_index = perf_index;
+> +	gmu->freq = gmu->gpu_freqs[perf_index];
+> +
+> +	/*
+> +	 * devfreq may try to change frequency target even when suspended
+> +	 * this can happen when changing frequency through sysfs
+> +	 * don't try to set freq when suspended, it will be set on resume
+> +	 */
+> +	if (!pm_runtime_active(gmu->dev))
+> +		return;
+>  
+>  	if (gmu->legacy)
+>  		__a6xx_gmu_set_freq(gmu, perf_index);
+>  	else
+>  		a6xx_hfi_set_freq(gmu, perf_index);
+> -
+> -	gmu->freq = gmu->gpu_freqs[perf_index];
+>  }
+>  
+>  unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> -- 
+> 2.26.1
+> 
+
 -- 
-2.17.1
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
