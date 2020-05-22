@@ -1,54 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D811DF65A
-	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:34:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 160211DF667
+	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E9F6E42C;
-	Sat, 23 May 2020 09:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1615B6EA52;
+	Sat, 23 May 2020 09:34:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 509786E04B;
- Fri, 22 May 2020 11:40:45 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id z206so2692950lfc.6;
- Fri, 22 May 2020 04:40:45 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054CE6E9A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 12:09:45 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id u1so8435438wmn.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 05:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Hj2fTCjbxOKsyZP7M3oTIyRA9mJ2Bc+fUg1m8uH2yYk=;
- b=Fctbeo2rUCXQwGpTpFGVse8+WCb+g1DgkimSxd0aywjWQzd7bhxHHSHfy1FP+QqJ5E
- HQGcAIndvBPaVq+mvvXrYxa60iZ270cp/hL7v335T389bW5HYMkEi/Mut44zha6NDaG4
- UCrNm9pJDDi2UNXl+PlD6bv/w4smxNEG9g8AyCyft6tAOApW/apnSn16+WYKI0WwO/LX
- QygL+8MKePZCy7xTU8Q+o6DXxVRskTBMwRQQsFJ+VR7QHRA9Pic1hmOdE0dfFierlTBM
- XmumN0HJD7IHx+R0ZAzFlmPROpUU2YmKdDsZd/Q7eTLT58JceLPdRakROdwY5S4uTJxp
- Cehw==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=0aJqkYrdM+sgbvUusxT8hDNKtBoLOQG92w0wNo7M1w4=;
+ b=r+FNl2KwIQ7JgjPzvrnUaW17rVNutC2CTeAMUaRHvvsnpUtCkm2JjIRnFLtESPgc98
+ bWET8r1VtyWvDebFioaQQdSqQywAIbHbtgWvJCboIHty4zcCRsHDLPEUVn206M/Y/lnC
+ L1XGN0wmoFwCyTs5yYSag1A0IG431c3PHrdm9Qz2iQLbemMw7CkeUtG8zXO3x+wt6Saa
+ rYi/yzSDTQervbLrgj2+Xr4TS4PITujdbP4xgZ1QXafnuii+JTLb/S1JAhpKwiQbq7ir
+ s3qXFCpg/IzTKu9btruMwy1c9ljrzeWgvJHZnKXBTE4hZJk2EWBzK3bIV5Wpg1ZyxbLe
+ jFIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hj2fTCjbxOKsyZP7M3oTIyRA9mJ2Bc+fUg1m8uH2yYk=;
- b=JqbN1yforlZRw2ykbuNW78en4n6UBzcDaXgimXHgVpqL17L8nSonQLgT9xDPfBDeM6
- ++7x6csNRI4thQZ87pcqjhn2xRmZ6WP2FHhvI9OSwCQUAGZQxPb4hc3OUyCyRX1FoZ+g
- DIniuDpLm5XI8z/1LYn1IjgCHPPYXIwGg5YI+OSp/22OAqCswS1NrIHRphTabFHzPkel
- 2yHxhQMtPzdxyJTV/DrmeqMrdXBuZRjsuZNlk6Z73CeW3vbZ/jDFCWq7Z6K17KsckfX4
- WCld5OnF7qX3lf4CnImOnzGFpySiOy1MkI/LEw4/le82pwHaENpKC4kqt12++oBu9NnI
- 192w==
-X-Gm-Message-State: AOAM531xTm1tUjVdJnLobZRcZurv9aCPMkS2TJznfzQr5ZSTDnYbSPnE
- 8kCynyi8NEMX0fvQz1VkjreEiJ9Xyr52qSCFihU=
-X-Google-Smtp-Source: ABdhPJyCH6J7CaJtTe9PzunF+afSux/PTZRtv8MDXaAqacG2ZKbC4Y+MdKt3boWpmeIuz1KBImEFTAKzX+qejKOKM8k=
-X-Received: by 2002:ac2:53a2:: with SMTP id j2mr7071822lfh.139.1590147643673; 
- Fri, 22 May 2020 04:40:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200519002124.2025955-1-jhubbard@nvidia.com>
-In-Reply-To: <20200519002124.2025955-1-jhubbard@nvidia.com>
-From: Souptick Joarder <jrdr.linux@gmail.com>
-Date: Fri, 22 May 2020 17:10:32 +0530
-Message-ID: <CAFqt6zZTZrB=LiGQpcOtZfnr7-CL4tkLHz8eXFvxwCTcfKy4sQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] mm/gup, drm/i915: refactor gup_fast,
- convert to pin_user_pages()
-To: John Hubbard <jhubbard@nvidia.com>
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=0aJqkYrdM+sgbvUusxT8hDNKtBoLOQG92w0wNo7M1w4=;
+ b=SGPYLI1rm9t5L467Ups6jnsgeKCVmBJl/om6NYnB3j1jTGddJoEiHoA+rf9TJplVJ+
+ nhiLgFEpDdxmbHKTEqgX0hl/h74FwaCkcURyRd6W00lwk8Y1KJkMgUffxBZz9sgfWsRw
+ jFfi4+OMAOVJ+vOz0blbDHcFYJdLSk9U3hUMf8kuz9zz8gFLdSLXlbDDlrlqU9hjfnpC
+ exqLh1yxhBqp6aF0MXqIZlsPecPkTR056SOvxCQ1cvk5gECtaLs5XFBZjrFIb8BFLqJF
+ Wdw8f8ne8S9cYLyKwe2ANmExS0FulAZPLJ3sBbZBgm+bn3hTVBZI1SiRTyMHE7x/nzGI
+ Yyzw==
+X-Gm-Message-State: AOAM533l+uUFRDTWBc6TsBkZzum8Pd1AvEICgsnO1CQ2WxTfNDKw0nsd
+ V4z9O7X8S12ImpAc6efMtDI=
+X-Google-Smtp-Source: ABdhPJwcDofe/8iI1LchV/4xbq+fLSJ7DSsUdZR+A9tox/LGZa0X/bncsOu4qrCpcFWpKdta9zQA7Q==
+X-Received: by 2002:a1c:2013:: with SMTP id g19mr3470829wmg.143.1590149383522; 
+ Fri, 22 May 2020 05:09:43 -0700 (PDT)
+Received: from macbook-pro-alvaro-eth.lan
+ (159.red-83-44-12.dynamicip.rima-tde.net. [83.44.12.159])
+ by smtp.gmail.com with ESMTPSA id x17sm9259500wrp.71.2020.05.22.05.09.42
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 22 May 2020 05:09:42 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH v3 5/5] nand: brcmnand: support v2.1-v2.2 controllers
+From: =?utf-8?Q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>
+In-Reply-To: <20200522132211.16c657aa@xps13>
+Date: Fri, 22 May 2020 14:09:42 +0200
+Message-Id: <4153A581-0894-4A4F-AE8D-22E5A976FE06@gmail.com>
+References: <20200512073329.742893-1-noltari@gmail.com>
+ <20200522072525.3919332-1-noltari@gmail.com>
+ <20200522072525.3919332-6-noltari@gmail.com> <20200522132211.16c657aa@xps13>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,74 +70,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Linux-MM <linux-mm@kvack.org>,
- Matthew Wilcox <willy@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: vigneshr@ti.com, kdasu.kdev@gmail.com, richard@nod.at,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mtd@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, computersforpeace@gmail.com,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
-
-
-On Tue, May 19, 2020 at 5:51 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> This needs to go through Andrew's -mm tree, due to adding a new gup.c
-> routine. However, I would really love to have some testing from the
-> drm/i915 folks, because I haven't been able to run-time test that part
-> of it.
->
-> Otherwise, though, the series has passed my basic run time testing:
-> some LTP tests, some xfs and etx4 non-destructive xfstests, and an
-> assortment of other smaller ones: vm selftests, io_uring_register, a
-> few more. But that's only on one particular machine. Also, cross-compile
-> tests for half a dozen arches all pass.
->
-> Details:
->
-> In order to convert the drm/i915 driver from get_user_pages() to
-> pin_user_pages(), a FOLL_PIN equivalent of __get_user_pages_fast() was
-> required. That led to refactoring __get_user_pages_fast(), with the
-> following goals:
->
-> 1) As above: provide a pin_user_pages*() routine for drm/i915 to call,
->    in place of __get_user_pages_fast(),
->
-> 2) Get rid of the gup.c duplicate code for walking page tables with
->    interrupts disabled. This duplicate code is a minor maintenance
->    problem anyway.
->
-> 3) Make it easy for an upcoming patch from Souptick, which aims to
->    convert __get_user_pages_fast() to use a gup_flags argument, instead
->    of a bool writeable arg.  Also, if this series looks good, we can
->    ask Souptick to change the name as well, to whatever the consensus
->    is. My initial recommendation is: get_user_pages_fast_only(), to
->    match the new pin_user_pages_only().
-
-Shall I hold my changes till 5.8-rc1 , when this series will appear upstream ?
->
-> John Hubbard (4):
->   mm/gup: move __get_user_pages_fast() down a few lines in gup.c
->   mm/gup: refactor and de-duplicate gup_fast() code
->   mm/gup: introduce pin_user_pages_fast_only()
->   drm/i915: convert get_user_pages() --> pin_user_pages()
->
->  drivers/gpu/drm/i915/gem/i915_gem_userptr.c |  22 +--
->  include/linux/mm.h                          |   3 +
->  mm/gup.c                                    | 150 ++++++++++++--------
->  3 files changed, 107 insertions(+), 68 deletions(-)
->
->
-> base-commit: 642b151f45dd54809ea00ecd3976a56c1ec9b53d
-> --
-> 2.26.2
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gTWlxdWVsLAoKTm8sIG5vdGhpbmcgZWxzZSBjaGFuZ2VkLgpJIHdpbGwgY2hhbmdlIGl0
+IGFnYWluIHdpdGggdGhlIHByb3BlciBzdWJqZWN0LCBzb3JyeSBmb3IgdGhhdC4KCkJlc3QgcmVn
+YXJkcywKw4FsdmFyby4KCj4gRWwgMjIgbWF5IDIwMjAsIGEgbGFzIDEzOjIyLCBNaXF1ZWwgUmF5
+bmFsIDxtaXF1ZWwucmF5bmFsQGJvb3RsaW4uY29tPiBlc2NyaWJpw7M6Cj4gCj4+IHYyLjE6IHRl
+c3RlZCBvbiBOZXRnZWFyIERHTkQzNzAwdjEgKEJDTTYzNjgpCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
