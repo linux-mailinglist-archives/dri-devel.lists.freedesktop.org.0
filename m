@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A171DE9BC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 16:50:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370C71DE9CE
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 16:51:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 347476E9FE;
-	Fri, 22 May 2020 14:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424E26E9FD;
+	Fri, 22 May 2020 14:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F8A6E9FE
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 14:50:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 078296E9FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 14:51:00 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5E25E22228;
- Fri, 22 May 2020 14:50:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4310422249;
+ Fri, 22 May 2020 14:50:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590159038;
- bh=g3sscGhPq9hLVmx658tAsrUj80UrMHlDSMwYPWU6Ecw=;
+ s=default; t=1590159059;
+ bh=vbnUU0idxcT+ABC4e6dGNm6I028AtsCuHcXNWWXjmZY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hn7/42dZz3E8n/HI7ExYkgoOgqeUm8FwLXALMgeieFw8QGEAviNwZ8TzMMA/WtPkq
- 53XX1yd7cs7KfNUeFZOaSQmYzhaGPulowyQV7eMJklTUabvQ1gO1r2qWS2L66JlyDA
- fzzkwHSB7pS3lOnKv+PHBX2C4KIsHdPv4TwJdmPQ=
+ b=KWXuq03xbq+pL70BqIBW3cgE8C3+k4iuakYfSg89SKAu8c2jmAvLq2q6tk2xlQzle
+ BpeJGnXDJzNAqg8WRGeXaBxuAX/3vKOYaPw38DWY8o3LjEM2E6ekai+7c32zi0LZE4
+ lY704kRZtCs8PiKTU31lzT0PpudwMu1myxT2QPqQ=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 35/41] drm/meson: pm resume add return errno branch
-Date: Fri, 22 May 2020 10:49:52 -0400
-Message-Id: <20200522144959.434379-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 13/32] drm/amdgpu: drop unnecessary
+ cancel_delayed_work_sync on PG ungate
+Date: Fri, 22 May 2020 10:50:25 -0400
+Message-Id: <20200522145044.434677-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200522144959.434379-1-sashal@kernel.org>
-References: <20200522144959.434379-1-sashal@kernel.org>
+In-Reply-To: <20200522145044.434677-1-sashal@kernel.org>
+References: <20200522145044.434677-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -49,45 +50,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Bernard Zhao <bernard@vivo.com>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Evan Quan <evan.quan@amd.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bernard Zhao <bernard@vivo.com>
+From: Evan Quan <evan.quan@amd.com>
 
-[ Upstream commit c54a8f1f329197d83d941ad84c4aa38bf282cbbd ]
+[ Upstream commit 1fe48ec08d9f2e26d893a6c05bd6c99a3490f9ef ]
 
-pm_resump api did not handle drm_mode_config_helper_resume error.
-This change add handle to return drm_mode_config_helper_resume`s
-error number. This code logic is aligned with api pm_suspend.
-After this change, the code maybe a bit readable.
+As this is already properly handled in amdgpu_gfx_off_ctrl(). In fact,
+this unnecessary cancel_delayed_work_sync may leave a small time window
+for race condition and is dangerous.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200428131747.2099-1-bernard@vivo.com
+Signed-off-by: Evan Quan <evan.quan@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c |  6 +-----
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c  | 12 +++---------
+ 2 files changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index b5f5eb7b4bb9..8c2e1b47e81a 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -412,9 +412,7 @@ static int __maybe_unused meson_drv_pm_resume(struct device *dev)
- 	if (priv->afbcd.ops)
- 		priv->afbcd.ops->init(priv);
- 
--	drm_mode_config_helper_resume(priv->drm);
--
--	return 0;
-+	return drm_mode_config_helper_resume(priv->drm);
- }
- 
- static int compare_of(struct device *dev, void *data)
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index 14417cebe38b..6f118292e40f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -4290,11 +4290,7 @@ static int gfx_v10_0_set_powergating_state(void *handle,
+ 	switch (adev->asic_type) {
+ 	case CHIP_NAVI10:
+ 	case CHIP_NAVI14:
+-		if (!enable) {
+-			amdgpu_gfx_off_ctrl(adev, false);
+-			cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+-		} else
+-			amdgpu_gfx_off_ctrl(adev, true);
++		amdgpu_gfx_off_ctrl(adev, enable);
+ 		break;
+ 	default:
+ 		break;
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index c34ddaa65324..6004fdacc866 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -4839,10 +4839,9 @@ static int gfx_v9_0_set_powergating_state(void *handle,
+ 	switch (adev->asic_type) {
+ 	case CHIP_RAVEN:
+ 	case CHIP_RENOIR:
+-		if (!enable) {
++		if (!enable)
+ 			amdgpu_gfx_off_ctrl(adev, false);
+-			cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+-		}
++
+ 		if (adev->pg_flags & AMD_PG_SUPPORT_RLC_SMU_HS) {
+ 			gfx_v9_0_enable_sck_slow_down_on_power_up(adev, true);
+ 			gfx_v9_0_enable_sck_slow_down_on_power_down(adev, true);
+@@ -4868,12 +4867,7 @@ static int gfx_v9_0_set_powergating_state(void *handle,
+ 			amdgpu_gfx_off_ctrl(adev, true);
+ 		break;
+ 	case CHIP_VEGA12:
+-		if (!enable) {
+-			amdgpu_gfx_off_ctrl(adev, false);
+-			cancel_delayed_work_sync(&adev->gfx.gfx_off_delay_work);
+-		} else {
+-			amdgpu_gfx_off_ctrl(adev, true);
+-		}
++		amdgpu_gfx_off_ctrl(adev, enable);
+ 		break;
+ 	default:
+ 		break;
 -- 
 2.25.1
 
