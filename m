@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4E51DF652
-	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D594F1DE84F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 15:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823496E1D3;
-	Sat, 23 May 2020 09:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E8D6E9DB;
+	Fri, 22 May 2020 13:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
- by gabe.freedesktop.org (Postfix) with ESMTP id 52DE76E9D7
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:41:27 +0000 (UTC)
-Received: from localhost.localdomain (unknown [222.205.77.158])
- by mail-app2 (Coremail) with SMTP id by_KCgCnHr521sdefxCvAQ--.52070S4;
- Fri, 22 May 2020 21:41:14 +0800 (CST)
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
-To: dinghao.liu@zju.edu.cn,
-	kjlu@umn.edu
-Subject: [PATCH] [v2] drm/panfrost: Fix runtime PM imbalance on error
-Date: Fri, 22 May 2020 21:41:09 +0800
-Message-Id: <20200522134109.27204-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgCnHr521sdefxCvAQ--.52070S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xr4fWrWfWw4fGFy8KFWDtwb_yoWDXFX_Wr
- 17Zry3uw4ayw1qgw4vva13uFya9a45Wayxu34Ig343CayDA34UC34IvF4DZr18u3W3Zr1D
- tanYqFyayr4DGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbTxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
- vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxE
- wVAFwVW5GwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I
- 0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
- GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
- 0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
- rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbIPfJUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg4IBlZdtOQvSwABs8
-X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E26F6E0CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:52:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 6C822B018;
+ Fri, 22 May 2020 13:52:55 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
+ james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
+ brian.starkey@arm.com, joel@jms.id.au, andrew@aj.id.au, sam@ravnborg.org,
+ bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, xinliang.liu@linaro.org, zourongrong@gmail.com,
+ john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
+ puck.chen@hisilicon.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, paul@crapouillou.net, linus.walleij@linaro.org,
+ narmstrong@baylibre.com, khilman@baylibre.com, marex@denx.de,
+ laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
+ benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
+ philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+ wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
+Subject: [PATCH 00/21] drm: Convert most CMA-based drivers to GEM object
+ functions
+Date: Fri, 22 May 2020 15:52:25 +0200
+Message-Id: <20200522135246.10134-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,47 +51,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-MIME-Version: 1.0
+Cc: linux-arm-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-aspeed@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The caller expects panfrost_job_hw_submit() to increase
-runtime PM usage counter. The refcount decrement on the
-error branch of WARN_ON() will break the counter balance
-and needs to be removed.
+Most of the CMA-based drivers use the default implementation for the
+callbacks in struct drm_driver. With this patch, these interfaces are
+initialized with a common helper macro and GEM object functions replace
+several deprecated interfaces.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+The first patch updates the existing macro to similar naming as with
+SHMEM and adds a helper for drivers that override the default implementation
+for .dumb_create(). The remaining patches convert the drivers. The aspeed
+driver already uses GEM object functions and only changes to the initializer
+macro.
 
-Changelog:
+I don't have much of the hardware, so compile-tested on aarch64, arm and
+x86-64 only.
 
-v2: - Remove refcount decrement on the error path of
-      WARN_ON() rather than add refcount decrement
-      on the error path of pm_runtime_get_sync().
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 1 -
- 1 file changed, 1 deletion(-)
+Thomas Zimmermann (21):
+  drm/cma-helper: Rework DRM_GEM_CMA_VMAP_DRIVER_OPS macro
+  drm/arc: Use GEM CMA object functions
+  drm/arm: Use GEM CMA object functions
+  drm/aspeed: Set driver CMA functions with DRM_GEM_CMA_DRIVER_OPS
+  drm/atmel-hlcdc: Use GEM CMA object functions
+  drm/fsl-dcu: Use GEM CMA object functions
+  drm/hisilicon/kirin: Use GEM CMA object functions
+  drm/imx: Use GEM CMA object functions
+  drm/ingenic: Use GEM CMA object functions
+  drm/komeda: Use GEM CMA object functions
+  drm/malidp: Use GEM CMA object functions
+  drm/mcde: Use GEM CMA object functions
+  drm/meson: Use GEM CMA object functions
+  drm/mxsfb: Use GEM CMA object functions
+  drm/rcar-du: Use GEM CMA object functions
+  drm/shmobile: Use GEM CMA object functions
+  drm/stm: Use GEM CMA object functions
+  drm/sti: Use GEM CMA object functions
+  drm/tilcdc: Use GEM CMA object functions
+  drm/tv200: Use GEM CMA object functions
+  drm/zte: Use GEM CMA object functions
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 7914b1570841..1092d9754f0f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -150,7 +150,6 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 		return;
- 
- 	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
--		pm_runtime_put_sync_autosuspend(pfdev->dev);
- 		return;
- 	}
- 
--- 
-2.17.1
+ drivers/gpu/drm/arc/arcpgu_drv.c              | 12 +---------
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   | 11 +--------
+ drivers/gpu/drm/arm/hdlcd_drv.c               | 12 +---------
+ drivers/gpu/drm/arm/malidp_drv.c              | 11 +--------
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  7 +-----
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 11 +--------
+ drivers/gpu/drm/drm_gem_cma_helper.c          |  2 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     | 11 +--------
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   | 12 +---------
+ drivers/gpu/drm/imx/imx-drm-core.c            | 12 +---------
+ drivers/gpu/drm/ingenic/ingenic-drm.c         | 13 +---------
+ drivers/gpu/drm/mcde/mcde_drv.c               | 12 +---------
+ drivers/gpu/drm/meson/meson_drv.c             | 15 ++----------
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             | 11 +--------
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 11 +--------
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      | 11 +--------
+ drivers/gpu/drm/sti/sti_drv.c                 | 12 +---------
+ drivers/gpu/drm/stm/drv.c                     | 11 +--------
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +--
+ drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           | 13 +---------
+ drivers/gpu/drm/tiny/hx8357d.c                |  2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |  2 +-
+ drivers/gpu/drm/tiny/ili9341.c                |  2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |  2 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |  2 +-
+ drivers/gpu/drm/tiny/repaper.c                |  2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |  2 +-
+ drivers/gpu/drm/tiny/st7735r.c                |  2 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           | 12 +---------
+ drivers/gpu/drm/zte/zx_drm_drv.c              | 11 +--------
+ include/drm/drm_gem_cma_helper.h              | 24 +++++++++++++++----
+ 32 files changed, 52 insertions(+), 226 deletions(-)
+
+--
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
