@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B951DEE38
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 19:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443E61DEE67
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 19:39:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE46B6EA10;
-	Fri, 22 May 2020 17:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28BAB6E0E0;
+	Fri, 22 May 2020 17:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1746EA10;
- Fri, 22 May 2020 17:29:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627E46E0E0;
+ Fri, 22 May 2020 17:39:05 +0000 (UTC)
 Received: from embeddedor (unknown [189.207.59.248])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B7338206C3;
- Fri, 22 May 2020 17:29:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 89F0F20723;
+ Fri, 22 May 2020 17:39:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590168569;
- bh=noVq5vIzK2zOX8f731NA23cZdVRrWDncOL4AESsRsPg=;
+ s=default; t=1590169145;
+ bh=uZktogMIldBXs3EnkclH2OcbwF2xvrt9qAcFBj9JxyA=;
  h=Date:From:To:Cc:Subject:From;
- b=sw+5iUX6i1Ax9MaJRERLYh2ki2CKYhNykMEqas7Ctlfz6msB9sN4MXsg7L1VIWqjx
- 3RcjOaMXlp6CL6yNlzef+jlOxjnKn6W9NQqhAcMSd5NVEDKs+f70fdKlcVBFj0c8lv
- XUzwUNpJixMJWyEAI62JI9PKfm3YskgKeQkPkqqM=
-Date: Fri, 22 May 2020 12:34:19 -0500
+ b=CVlVu6Tl94Ujfw9k+IunjftvcjK9C0E5co+apqaj98AFWqlF1k/xFfB1D4Tn8Mz1R
+ b+mYAeybR5/5Tk1oGForFgLQgPWPhUFM3BCr3kFzjllepPyv3cM4eHTOVMa1j5ZaDr
+ DGq2QtamnmFGWx9kw7NSfnWlTcOVm1PJBa3r43Jg=
+Date: Fri, 22 May 2020 12:43:55 -0500
 From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/radeon/dpm: Replace one-element array and use
+Subject: [PATCH] drm/[radeon|amdgpu]: Replace one-element array and use
  struct_size() helper
-Message-ID: <20200522173419.GA2297@embeddedor>
+Message-ID: <20200522174355.GA4406@embeddedor>
 MIME-Version: 1.0
 Content-Disposition: inline
 User-Agent: Mutt/1.9.4 (2018-02-28)
@@ -50,8 +50,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -65,8 +65,8 @@ struct something {
 
 struct something *instance;
 
-instance =3D kmalloc(sizeof(*instance) + size, GFP_KERNEL);
-instance->length =3D size;
+instance = kmalloc(sizeof(*instance) + size, GFP_KERNEL);
+instance->length = size;
 memcpy(instance->data, source, size);
 
 but the preferred mechanism to declare variable-length types such as
@@ -84,7 +84,7 @@ inadvertently introduced[3] to the codebase from now on. So, replace
 the one-element array with a flexible-array member.
 
 Also, make use of the new struct_size() helper to properly calculate the
-size of struct NISLANDS_SMC_SWSTATE.
+size of struct SISLANDS_SMC_SWSTATE.
 
 This issue was found with the help of Coccinelle and, audited and fixed
 _manually_.
@@ -93,58 +93,61 @@ _manually_.
 [2] https://github.com/KSPP/linux/issues/21
 [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
 
-Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
-Changes in v2:
- - Use type size_t instead of u16 for state_size variable.
+ drivers/gpu/drm/amd/amdgpu/si_dpm.c       | 5 ++---
+ drivers/gpu/drm/amd/amdgpu/sislands_smc.h | 2 +-
+ drivers/gpu/drm/radeon/si_dpm.c           | 5 ++---
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
- drivers/gpu/drm/amd/amdgpu/si_dpm.h | 2 +-
- drivers/gpu/drm/radeon/ni_dpm.c     | 7 ++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.h b/drivers/gpu/drm/amd/amdg=
-pu/si_dpm.h
-index 6b7d292b919f3..bc0be6818e218 100644
---- a/drivers/gpu/drm/amd/amdgpu/si_dpm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.h
-@@ -781,7 +781,7 @@ struct NISLANDS_SMC_SWSTATE
+diff --git a/drivers/gpu/drm/amd/amdgpu/si_dpm.c b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+index c00ba4b23c9a6..0fc56c5bac080 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si_dpm.c
++++ b/drivers/gpu/drm/amd/amdgpu/si_dpm.c
+@@ -5715,10 +5715,9 @@ static int si_upload_sw_state(struct amdgpu_device *adev,
+ 	int ret;
+ 	u32 address = si_pi->state_table_start +
+ 		offsetof(SISLANDS_SMC_STATETABLE, driverState);
+-	u32 state_size = sizeof(SISLANDS_SMC_SWSTATE) +
+-		((new_state->performance_level_count - 1) *
+-		 sizeof(SISLANDS_SMC_HW_PERFORMANCE_LEVEL));
+ 	SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
++	size_t state_size = struct_size(smc_state, levels,
++					new_state->performance_level_count);
+ 
+ 	memset(smc_state, 0, state_size);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/sislands_smc.h b/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
+index d2930eceaf3c8..a089dbf8f7a93 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
++++ b/drivers/gpu/drm/amd/amdgpu/sislands_smc.h
+@@ -186,7 +186,7 @@ struct SISLANDS_SMC_SWSTATE
      uint8_t                             levelCount;
      uint8_t                             padding2;
      uint8_t                             padding3;
--    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[1];
-+    NISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
+-    SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[1];
++    SISLANDS_SMC_HW_PERFORMANCE_LEVEL   levels[];
  };
- =
-
- typedef struct NISLANDS_SMC_SWSTATE NISLANDS_SMC_SWSTATE;
-diff --git a/drivers/gpu/drm/radeon/ni_dpm.c b/drivers/gpu/drm/radeon/ni_dp=
-m.c
-index b57c37ddd164c..abb6345bfae32 100644
---- a/drivers/gpu/drm/radeon/ni_dpm.c
-+++ b/drivers/gpu/drm/radeon/ni_dpm.c
-@@ -2685,11 +2685,12 @@ static int ni_upload_sw_state(struct radeon_device =
-*rdev,
- 	struct rv7xx_power_info *pi =3D rv770_get_pi(rdev);
- 	u16 address =3D pi->state_table_start +
- 		offsetof(NISLANDS_SMC_STATETABLE, driverState);
--	u16 state_size =3D sizeof(NISLANDS_SMC_SWSTATE) +
--		((NISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE - 1) * sizeof(NISLANDS=
-_SMC_HW_PERFORMANCE_LEVEL));
-+	NISLANDS_SMC_SWSTATE *smc_state;
-+	size_t state_size =3D struct_size(smc_state, levels,
-+			NISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE);
+ 
+ typedef struct SISLANDS_SMC_SWSTATE SISLANDS_SMC_SWSTATE;
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
+index a167e1c36d243..bab01ca864c63 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -5253,10 +5253,9 @@ static int si_upload_sw_state(struct radeon_device *rdev,
  	int ret;
--	NISLANDS_SMC_SWSTATE *smc_state =3D kzalloc(state_size, GFP_KERNEL);
- =
-
-+	smc_state =3D kzalloc(state_size, GFP_KERNEL);
- 	if (smc_state =3D=3D NULL)
- 		return -ENOMEM;
- =
-
--- =
-
+ 	u32 address = si_pi->state_table_start +
+ 		offsetof(SISLANDS_SMC_STATETABLE, driverState);
+-	u32 state_size = sizeof(SISLANDS_SMC_SWSTATE) +
+-		((new_state->performance_level_count - 1) *
+-		 sizeof(SISLANDS_SMC_HW_PERFORMANCE_LEVEL));
+ 	SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
++	size_t state_size = struct_size(smc_state, levels,
++					new_state->performance_level_count);
+ 
+ 	memset(smc_state, 0, state_size);
+ 
+-- 
 2.26.2
 
 _______________________________________________
