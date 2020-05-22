@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0156D1DDE9F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 06:15:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD521DDEA7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 06:15:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3652D6E976;
-	Fri, 22 May 2020 04:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 345D76E975;
+	Fri, 22 May 2020 04:15:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA1F6E08E
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0BD6E08E
  for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 04:15:09 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec7517c0000>; Thu, 21 May 2020 21:13:49 -0700
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ec7513c0001>; Thu, 21 May 2020 21:12:44 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
+ by hqpgpgate102.nvidia.com (PGP Universal service);
  Thu, 21 May 2020 21:15:09 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 21 May 2020 21:15:09 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 May
- 2020 04:15:08 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ by hqpgpgate102.nvidia.com on Thu, 21 May 2020 21:15:09 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 May
+ 2020 04:15:09 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
  Frontend Transport; Fri, 22 May 2020 04:15:08 +0000
 Received: from sandstorm.nvidia.com (Not Verified[10.2.48.182]) by
  rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ec751cb0005>; Thu, 21 May 2020 21:15:08 -0700
+ id <B5ec751cc0001>; Thu, 21 May 2020 21:15:08 -0700
 From: John Hubbard <jhubbard@nvidia.com>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 0/2] video: fbdev: fix error handling,
- convert to pin_user_pages*()
-Date: Thu, 21 May 2020 21:15:04 -0700
-Message-ID: <20200522041506.39638-1-jhubbard@nvidia.com>
+Subject: [PATCH 1/2] video: fbdev: fix error handling for get_user_pages_fast()
+Date: Thu, 21 May 2020 21:15:05 -0700
+Message-ID: <20200522041506.39638-2-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200522041506.39638-1-jhubbard@nvidia.com>
+References: <20200522041506.39638-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590120829; bh=4CvomaKzVwHB+77SfF7gRmZ5Wb1M+7zo/2BM1L60cTk=;
+ t=1590120764; bh=lgtvms+evwCjD3x/lZ3Ysebw94Ksle/umtDMCsm3L+c=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
- Content-Type;
- b=IHgj/s0tM22z621m0z8ePs8Uvb1f01gFZTsmrfC4NWm58+BHqupDe1z8HyohCtUPD
- xFZERRuzJgbzy3FpFiRVVklOb8j7ry1m6NCgtQd4zmeFQV6RpUQBJyT0rN03kvEEfM
- PC+lmZGzXxeY00Fn64STilbZm1LqHwjoh7FUXCYSQI899vTRsFTNz6Eo1is8ej5bcu
- qkMjXjiStDYm7zjLYU02pC3HaWWGRZDsHu9y8zUYxCOsIXERPr2TeQVqpLC17sKoEx
- cWqserHfltRNnMKtT8v6yZAfBKU9VisFjyQtFj35L4pBOgNVGWdVMgdDdpeq/ohEfM
- E9o5kJXdzF3XA==
+ In-Reply-To:References:MIME-Version:X-NVConfidentiality:
+ Content-Transfer-Encoding:Content-Type;
+ b=Z4x5Qx/GuV0Tog+KoMSLIucx2GzopLPT8awTgV0oqpYYTz5l7IXS8Dayvgwys0vkK
+ WJ1Tp/Vgx19mTdabiGSlUgiJK8HYhoFk0NrUI6B6YBFK8/UahHC/HGCNGKUcGHNlzw
+ xCgpmeNtJOD4zXoTeW0ZMCXbdRQQADn2c2+eZ7ITFgOttpe4KUCrExBiKlZGcqOXy6
+ m7GU/PkAC17Ymq5o4LbX4haeiPBJ/FZOG9B8qgeoCClFq3e4jimzfv/Etn6myKy3jh
+ YdscZLVAGMAQt16da8HdU6N/r8QrZtHRjbc3UjbIzcG0+5Ol62LxmUIExoSe9bYKKm
+ yuPbNSfgmaIpw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,17 +73,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Dealing with the return value of get_user_pages*() variants has a few
+classic pitfalls, and this driver found one of them: the return value
+might be zero, positive, or -errno. And if positive, it might be fewer
+pages than were requested. And if fewer pages than requested, then
+the caller should return (via put_page()) the pages that *were*
+pinned.
 
-Note that I have only compile-tested this series, although that does
-also include cross-compiling for a few other arches. I'm hoping that
-this posting will lead to some run-time testing.
+This driver was doing that *except* that it had a problem with the
+-errno case, which was being stored in an unsigned int, and which
+would case an interesting mess if it ever happened: nr_pages would be
+interpreted as a spectacularly huge unsigned value, rather than a
+small negative value. Also, it was unnecessarily overriding a
+potentially informative -errno, with -EINVAL, in some cases.
 
-Also: the proposed fix does not have a "Fixes:" tag, nor does it
-Cc stable. That's because the issue has been there since the dawn of
-git history for the kernel. If it's gone unnoticed this long, then
-there is clearly no need for the relatively fast track of putting it
-into stable, IMHO. But please correct me if that's wrong.
+Instead: clamp the nr_pages to zero or positive, so that the error
+handling works. And return the -errno value from get_user_pages*(),
+unchanged, if we get one. And explain this with comments, seeing as
+how it is error-prone.
 
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Cc: Arnd Bergmann <arnd@arndb.de>
@@ -91,16 +99,40 @@ Cc: Gustavo A. R. Silva <gustavo@embeddedor.com>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-fbdev@vger.kernel.org
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+ drivers/video/fbdev/pvr2fb.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-John Hubbard (2):
-  video: fbdev: fix error handling for get_user_pages_fast()
-  video: fbdev: convert get_user_pages() --> pin_user_pages()
-
- drivers/video/fbdev/pvr2fb.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-
-base-commit: 051143e1602d90ea71887d92363edd539d411de5
+diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
+index f18d457175d9..ceb6ef590597 100644
+--- a/drivers/video/fbdev/pvr2fb.c
++++ b/drivers/video/fbdev/pvr2fb.c
+@@ -654,8 +654,22 @@ static ssize_t pvr2fb_write(struct fb_info *info, const char *buf,
+ 
+ 	ret = get_user_pages_fast((unsigned long)buf, nr_pages, FOLL_WRITE, pages);
+ 	if (ret < nr_pages) {
+-		nr_pages = ret;
+-		ret = -EINVAL;
++		if (ret < 0) {
++			/*
++			 *  Clamp the unsigned nr_pages to zero so that the
++			 *  error handling works. And leave ret at whatever
++			 *  -errno value was returned from GUP.
++			 */
++			nr_pages = 0;
++		} else {
++			nr_pages = ret;
++			/*
++			 * Use -EINVAL to represent a mildly desperate guess at
++			 * why we got fewer pages (maybe even zero pages) than
++			 * requested.
++			 */
++			ret = -EINVAL;
++		}
+ 		goto out_unmap;
+ 	}
+ 
 -- 
 2.26.2
 
