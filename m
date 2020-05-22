@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A341DE850
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 15:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF921DE85D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 15:53:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1276E9D9;
-	Fri, 22 May 2020 13:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DD26E9E2;
+	Fri, 22 May 2020 13:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C866E0CC
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:52:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEE76E0CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 13:52:57 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 68B6AB012;
+ by mx2.suse.de (Postfix) with ESMTP id 6CE8BB01C;
  Fri, 22 May 2020 13:52:55 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -33,9 +33,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 02/21] drm/arc: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:27 +0200
-Message-Id: <20200522135246.10134-3-tzimmermann@suse.de>
+Subject: [PATCH 03/21] drm/arm: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:28 +0200
+Message-Id: <20200522135246.10134-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -60,29 +60,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The arc driver uses the default implementation for CMA functions. The
+The arm driver uses the default implementation for CMA functions. The
 DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
 All remaining operations are provided by CMA GEM object functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/arc/arcpgu_drv.c | 12 +-----------
+ drivers/gpu/drm/arm/hdlcd_drv.c | 12 +-----------
  1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
-index c05d001163e0e..f164818ec477a 100644
---- a/drivers/gpu/drm/arc/arcpgu_drv.c
-+++ b/drivers/gpu/drm/arc/arcpgu_drv.c
-@@ -154,17 +154,7 @@ static struct drm_driver arcpgu_drm_driver = {
- 	.minor = 0,
- 	.patchlevel = 0,
- 	.fops = &arcpgu_drm_ops,
--	.dumb_create = drm_gem_cma_dumb_create,
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
+index 194419f47c5e5..c83b81a3a582a 100644
+--- a/drivers/gpu/drm/arm/hdlcd_drv.c
++++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+@@ -240,17 +240,7 @@ static struct drm_driver hdlcd_driver = {
+ 	.irq_preinstall = hdlcd_irq_preinstall,
+ 	.irq_postinstall = hdlcd_irq_postinstall,
+ 	.irq_uninstall = hdlcd_irq_uninstall,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 -	.gem_print_info = drm_gem_cma_print_info,
 -	.gem_vm_ops = &drm_gem_cma_vm_ops,
+-	.dumb_create = drm_gem_cma_dumb_create,
+-	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
 -	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
 -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
 -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
@@ -90,7 +90,7 @@ index c05d001163e0e..f164818ec477a 100644
 -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
 +	DRM_GEM_CMA_DRIVER_OPS,
  #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = arcpgu_debugfs_init,
+ 	.debugfs_init = hdlcd_debugfs_init,
  #endif
 -- 
 2.26.2
