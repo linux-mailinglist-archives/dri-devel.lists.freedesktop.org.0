@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA331DE9D5
-	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 16:51:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D5E1DF660
+	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A263C6EA00;
-	Fri, 22 May 2020 14:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834DC6E3FB;
+	Sat, 23 May 2020 09:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9476EA00
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 14:51:02 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4A62022254;
- Fri, 22 May 2020 14:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590159062;
- bh=iGPnBlo8kyfDPRdtZjoXDIN1J6IGdWFa/3J4cMiOiuY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xXu952wxgGcvxLtO1xvp1GziSDCDaIKTp+u0guNOyHs2b8t7AQ99rqq7M4yPTNEpG
- dmWuvFay4563ZVYU4IlLIOjE0WNgHQI2J1z83i7cytlNdekWZgaEaNCNqXqa1juOnY
- dqF/KXjjmQom2RS416/+a7Zo2I8L5lMKGLV9AMGA=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 15/32] drm/amdgpu: Use GEM obj reference for KFD
- BOs
-Date: Fri, 22 May 2020 10:50:27 -0400
-Message-Id: <20200522145044.434677-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200522145044.434677-1-sashal@kernel.org>
-References: <20200522145044.434677-1-sashal@kernel.org>
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576F06EA04
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 14:57:47 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id f4so11578596iov.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 07:57:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4E93R1F4OMg9K2XLuc0UwI5BfmV/kB8DZ8DcAqlj91Q=;
+ b=RJh8B/6rHjjbkuji4u+fJ26zGQ2weYdBP8O87V6gBC0R3uO3Cxuxwia4xEC5fiQpVd
+ BVao3bcj3EENB6cqKTKGBQu174xQRasXIfU4q+TkCRor9QpUGn/bNvOhtPgxnpksjF4z
+ 3fsMvYjJfJTHISaJ3cUFiRzeDfD7i3e9PZi6fj0SkJEmzk7TEWtsxWUY/iwJxQpOJ2R4
+ T9SYcuC5mIwu3BPDv9d/KbkENTdJY9raVR0/065zsK9r46jPvzUkAxudp8zmyxpkPzW8
+ Mh3IcqqBDWoU5MuQNyfGmuqSaUQzuiK4qAbocc1kDDt5QghsG+0LEtcX/A9knBg3T5Ef
+ pvLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4E93R1F4OMg9K2XLuc0UwI5BfmV/kB8DZ8DcAqlj91Q=;
+ b=dfNw8nMImeDeV5eLChpKoFOblo1KQUK1AYKoiVwgaDEzj4mJ8/7iUVkztl0pNe4AeT
+ 6/gJbUeNkR+eRieN2InramyKo4rQzwj93ISFDmJK8ynwcpHQjnDii8E/x8FNQP+m4lCK
+ JgtN55rzfej4B7KO810a5f39lVj+8DQfKa32maQ+uhs1GDpBlvtueWeGdcWzMfUhCCCS
+ cagU6B07wznMsAhwxrdYWuGUHWpvOE7cD/wyE2q3oDb6Dntgpi0FmdwyRY/bHeCFwadp
+ 2KbxWre/oDXZJL0lNSwQgmD7mkCrbhh8exh+ZMUk4suNgXZ8swL+BcZ6hdYFJthtGtBf
+ mtnw==
+X-Gm-Message-State: AOAM532I7jDaO8E1QzszVt+RMpnvJhNXG2wFmxAdO0RtKLRPKG/SOwf9
+ kc8aawvN8OEovxylvZ+JQhIC4MrFaHT1V98wGW0=
+X-Google-Smtp-Source: ABdhPJzIBFSsXPwSSCGw73KtvrqDIXMGD/+GjvxVG0mSEkFCp7BWwg4nqAvzm+UoIsx0S8/uDt84GiJO2N2vFmJg7HM=
+X-Received: by 2002:a05:6602:2ac9:: with SMTP id
+ m9mr3461002iov.68.1590159466755; 
+ Fri, 22 May 2020 07:57:46 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+References: <1589800165-3271-1-git-send-email-dillon.minfei@gmail.com>
+ <1589800165-3271-4-git-send-email-dillon.minfei@gmail.com>
+ <20200522113634.GE5801@sirena.org.uk>
+In-Reply-To: <20200522113634.GE5801@sirena.org.uk>
+From: dillon min <dillon.minfei@gmail.com>
+Date: Fri, 22 May 2020 22:57:10 +0800
+Message-ID: <CAL9mu0LAnT+AfjpGs0O-MD2HYrpnQRmrj6qXtJQrJi9kbQLPUw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/8] spi: stm32: Add 'SPI_SIMPLEX_RX', 'SPI_3WIRE_RX'
+ support for stm32f4
+To: Mark Brown <broonie@kernel.org>
+X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,46 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, Sasha Levin <sashal@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-spi@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alexandre Torgue <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+CgpbIFVwc3RyZWFt
-IGNvbW1pdCAzOWIzMTI4ZDdmZmQ0NGU0MDBlNTgxZTZmNDllODhjYjQyYmVmOWExIF0KClJlbGVh
-c2luZyB0aGUgQU1ER1BVIEJPIHJlZiBkaXJlY3RseSBsZWFkcyB0byBwcm9ibGVtcyB3aGVuIEJP
-cyB3ZXJlCmV4cG9ydGVkIGFzIERNQSBidWZzLiBSZWxlYXNpbmcgdGhlIEdFTSByZWZlcmVuY2Ug
-bWFrZXMgc3VyZSB0aGF0IHRoZQpBTURHUFUvVFRNIEJPIGlzIG5vdCBmcmVlZCB0b28gZWFybHku
-CgpBbHNvIHRha2UgYSBHRU0gcmVmZXJlbmNlIHdoZW4gaW1wb3J0aW5nIEJPcyBmcm9tIERNQUJ1
-ZnMgdG8ga2VlcApyZWZlcmVuY2VzIHRvIGltcG9ydGVkIEJPcyBiYWxhbmNlcyBwcm9wZXJseS4K
-ClNpZ25lZC1vZmYtYnk6IEZlbGl4IEt1ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPgpU
-ZXN0ZWQtYnk6IEFsZXggU2llcnJhIDxhbGV4LnNpZXJyYUBhbWQuY29tPgpBY2tlZC1ieTogQ2hy
-aXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpSZXZpZXdlZC1ieTogQWxl
-eCBTaWVycmEgPGFsZXguc2llcnJhQGFtZC5jb20+ClNpZ25lZC1vZmYtYnk6IEFsZXggRGV1Y2hl
-ciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4g
-PHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9hbWRrZmRfZ3B1dm0uYyB8IDUgKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
-KyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X2FtZGtmZF9ncHV2bS5jCmluZGV4IDZkMDIxZWNjOGQ1OS4uZWRiNTYxYmFmOGI5IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2dwdXZtLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jCkBA
-IC0xMjg4LDcgKzEyODgsNyBAQCBpbnQgYW1kZ3B1X2FtZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9v
-Zl9ncHUoCiAJfQogCiAJLyogRnJlZSB0aGUgQk8qLwotCWFtZGdwdV9ib191bnJlZigmbWVtLT5i
-byk7CisJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKCZtZW0tPmJvLT50Ym8uYmFzZSk7CiAJ
-bXV0ZXhfZGVzdHJveSgmbWVtLT5sb2NrKTsKIAlrZnJlZShtZW0pOwogCkBAIC0xNjMwLDcgKzE2
-MzAsOCBAQCBpbnQgYW1kZ3B1X2FtZGtmZF9ncHV2bV9pbXBvcnRfZG1hYnVmKHN0cnVjdCBrZ2Rf
-ZGV2ICprZ2QsCiAJCUFNREdQVV9WTV9QQUdFX1JFQURBQkxFIHwgQU1ER1BVX1ZNX1BBR0VfV1JJ
-VEVBQkxFIHwKIAkJQU1ER1BVX1ZNX1BBR0VfRVhFQ1VUQUJMRSB8IEFNREdQVV9WTV9NVFlQRV9O
-QzsKIAotCSgqbWVtKS0+Ym8gPSBhbWRncHVfYm9fcmVmKGJvKTsKKwlkcm1fZ2VtX29iamVjdF9n
-ZXQoJmJvLT50Ym8uYmFzZSk7CisJKCptZW0pLT5ibyA9IGJvOwogCSgqbWVtKS0+dmEgPSB2YTsK
-IAkoKm1lbSktPmRvbWFpbiA9IChiby0+cHJlZmVycmVkX2RvbWFpbnMgJiBBTURHUFVfR0VNX0RP
-TUFJTl9WUkFNKSA/CiAJCUFNREdQVV9HRU1fRE9NQUlOX1ZSQU0gOiBBTURHUFVfR0VNX0RPTUFJ
-Tl9HVFQ7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+hi Mark,
+
+Thanks for reviewing.
+
+On Fri, May 22, 2020 at 7:36 PM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Mon, May 18, 2020 at 07:09:20PM +0800, dillon.minfei@gmail.com wrote:
+>
+> > 2, use stm32 spi's "In full-duplex (BIDIMODE=0 and RXONLY=0)", as tx_buf is
+> > null, we must add dummy data sent out before read data.
+> > so, add stm32f4_spi_tx_dummy() to handle this situation.
+>
+> There are flags SPI_CONTROLLER_MUST_TX and SPI_CONTROLLER_MUST_RX flags
+> that the driver can set if it needs to, no need to open code this in the
+> driver.
+
+Yes, after check SPI_CONTROLLER_MUST_TX in drivers/spi/spi.c , it's
+indeed to meet
+this situation,  i will try it and sumbmit a new patch.
+
+thanks.
+
+best regards
+
+Dillon
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
