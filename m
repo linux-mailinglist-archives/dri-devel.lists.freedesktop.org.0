@@ -1,67 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559EC1DF657
-	for <lists+dri-devel@lfdr.de>; Sat, 23 May 2020 11:34:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F351DE36B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 May 2020 11:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E556E1BD;
-	Sat, 23 May 2020 09:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354146E3EB;
+	Fri, 22 May 2020 09:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F16A6E99D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 07:25:35 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id w7so9088208wre.13
- for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 00:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Eb0Vvf67rVnazNcMPHX6Y7dfwQbwJ0jDZhP20gwkoLk=;
- b=De7wwE5fF3blXyTuC4cSp42NJzC6yaCj0CKN8qQCbbuP2gBYuQq5StBCdCkAnCeenW
- yF4KFHvpiO6QWroo2Gnj+wW+jSlzyTaIfcBXEIE8Etf6NoAsD8s/Z2Q02gHLWNrCxtDx
- IhMDc1SEpGGvTWA8rQLU3ebrP6CpP1aHUEFdDv5pWXoSTdJUlMsFYhmQzPC3+vzCAB0a
- e8LJeNpfno01shi8glSUbGVAi8PLGrkavaNDBy0mkkvXPdYrDyur9xqmM9ZC1LodglG0
- 9v2p/oo19igMvpvqcvUP4Lstfhnemd02fdzdTOTqttLa+hkuzU5oxbhGHkpCGI11opeT
- fL8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Eb0Vvf67rVnazNcMPHX6Y7dfwQbwJ0jDZhP20gwkoLk=;
- b=HV9wZGOcDBk7JP3HjKOCjlwY2Fukh+6Ocn1em753tRmf0Vn24omFM3GEwEwtJwKGkR
- o8ee48y1jl8UqseHE04eYFyyzjI7Yab96/k/N9lEsLI+LupNcoBieOna59MkqoWCa8Wl
- 0hnphY9HIcyaoka/dZjTOcjDBDNpiiV6XHMs5c3r5YdmTKD/xlnw4ov/Q0x7eLY+5NW8
- IPpIY4DF2Xf+bY69iSkTUVDxq3hNehO/uibAFstY1FOxxOUGyZC8KlZy3+xrSYoTE564
- RtBoQ3J/RxRuD45ZBIpp8a1ULcIshcG45x2ChVExsZo35p00zO0DgN78INbCcmnJreTG
- HUQQ==
-X-Gm-Message-State: AOAM531/FII43MTjECHbFXPBodUPkdzaknnss3CSShcG09AXjGggGQeR
- 8NKSNA4AY47/apr3LHBkzFM=
-X-Google-Smtp-Source: ABdhPJwr2iUwrOYo5UFxFKNzSAHgDmpzK4R2WJ2xeTruftnuJH1G+oIOnRpZkHlFx8+bGdpZRNCDDw==
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr2372820wrp.57.1590132333608;
- Fri, 22 May 2020 00:25:33 -0700 (PDT)
-Received: from skynet.lan (159.red-83-44-12.dynamicip.rima-tde.net.
- [83.44.12.159])
- by smtp.gmail.com with ESMTPSA id f128sm9299898wme.1.2020.05.22.00.25.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 00:25:33 -0700 (PDT)
-From: =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>
-To: computersforpeace@gmail.com, kdasu.kdev@gmail.com,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v3 5/5] nand: brcmnand: support v2.1-v2.2 controllers
-Date: Fri, 22 May 2020 09:25:25 +0200
-Message-Id: <20200522072525.3919332-6-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200522072525.3919332-1-noltari@gmail.com>
-References: <20200512073329.742893-1-noltari@gmail.com>
- <20200522072525.3919332-1-noltari@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 366F46E3EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 May 2020 09:43:46 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90B6824D;
+ Fri, 22 May 2020 11:43:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1590140622;
+ bh=EkHjxtlh1KP3U50OHeGsUjNHBBOhkFleoo6/23Q62n8=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=gmp/auXve1lV5ElNd608Z05rQUVyqOlwtkILQzd29qG+vgUbdIWz3Bw0TFW085w29
+ +HO7h1JxsOnfhMDd00y+mW8pFj2SSZIeFlvbcVXJBj1qfs0h03ZbnSN+Yjj8LICXqj
+ dBn7ckx6I3sPkGR/STzPEU8XeYmgvYc85YYRjLaI=
+Subject: Re: [PATCH] drm: rcar-du: Fix build error
+To: Daniel Gomez <dagmcr@gmail.com>, daniel@ffwll.ch, airlied@linux.ie,
+ laurent.pinchart@ideasonboard.com
+References: <20200518201646.48312-1-dagmcr@gmail.com>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <73d98905-930d-3549-1a85-293f4d213716@ideasonboard.com>
+Date: Fri, 22 May 2020 10:43:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 23 May 2020 09:33:36 +0000
+In-Reply-To: <20200518201646.48312-1-dagmcr@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,129 +49,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-djIuMTogdGVzdGVkIG9uIE5ldGdlYXIgREdORDM3MDB2MSAoQkNNNjM2OCkKdjIuMjogdGVzdGVk
-IG9uIE5ldGdlYXIgREdORDM3MDB2MiAoQkNNNjM2MikKClNpZ25lZC1vZmYtYnk6IMOBbHZhcm8g
-RmVybsOhbmRleiBSb2phcyA8bm9sdGFyaUBnbWFpbC5jb20+Ci0tLQogdjM6IGZpeCBwYWdlIHNp
-emUgc2hpZnQgZm9yIHYyLjEgY29udHJvbGxlcnMuCiB2Mjogc3BsaXQgcGFnZSBzaXplcyByZW5h
-bWUgaW50byBhIGRpZmZlcmVudCBwYXRjaC4KICAgICBuYW1lIGFsbCBibG9jayBhbmQgcGFnZSBz
-aXplcyB2ZXJzaW9ucy4KCiBkcml2ZXJzL210ZC9uYW5kL3Jhdy9icmNtbmFuZC9icmNtbmFuZC5j
-IHwgODUgKysrKysrKysrKysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hhbmdlZCwgNzYgaW5zZXJ0
-aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL210ZC9uYW5kL3Jh
-dy9icmNtbmFuZC9icmNtbmFuZC5jIGIvZHJpdmVycy9tdGQvbmFuZC9yYXcvYnJjbW5hbmQvYnJj
-bW5hbmQuYwppbmRleCBlZjYwZGJiZWFjMmIuLjJjOGE0NjhjMmUzOCAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9tdGQvbmFuZC9yYXcvYnJjbW5hbmQvYnJjbW5hbmQuYworKysgYi9kcml2ZXJzL210ZC9u
-YW5kL3Jhdy9icmNtbmFuZC9icmNtbmFuZC5jCkBAIC0yNjQsNiArMjY0LDcgQEAgc3RydWN0IGJy
-Y21uYW5kX2NvbnRyb2xsZXIgewogCWNvbnN0IHVuc2lnbmVkIGludAkqYmxvY2tfc2l6ZXM7CiAJ
-dW5zaWduZWQgaW50CQltYXhfcGFnZV9zaXplOwogCWNvbnN0IHVuc2lnbmVkIGludAkqcGFnZV9z
-aXplczsKKwl1bnNpZ25lZCBpbnQJCXBhZ2Vfc2l6ZV9zaGlmdDsKIAl1bnNpZ25lZCBpbnQJCW1h
-eF9vb2I7CiAJdTMyCQkJZmVhdHVyZXM7CiAKQEAgLTMzOCw2ICszMzksMzYgQEAgZW51bSBicmNt
-bmFuZF9yZWcgewogCUJSQ01OQU5EX0ZDX0JBU0UsCiB9OwogCisvKiBCUkNNTkFORCB2Mi4xLXYy
-LjIgKi8KK3N0YXRpYyBjb25zdCB1MTYgYnJjbW5hbmRfcmVnc192MjFbXSA9IHsKKwlbQlJDTU5B
-TkRfQ01EX1NUQVJUXQkJPSAgMHgwNCwKKwlbQlJDTU5BTkRfQ01EX0VYVF9BRERSRVNTXQk9ICAw
-eDA4LAorCVtCUkNNTkFORF9DTURfQUREUkVTU10JCT0gIDB4MGMsCisJW0JSQ01OQU5EX0lOVEZD
-X1NUQVRVU10JCT0gIDB4NWMsCisJW0JSQ01OQU5EX0NTX1NFTEVDVF0JCT0gIDB4MTQsCisJW0JS
-Q01OQU5EX0NTX1hPUl0JCT0gIDB4MTgsCisJW0JSQ01OQU5EX0xMX09QXQkJPSAgICAgMCwKKwlb
-QlJDTU5BTkRfQ1MwX0JBU0VdCQk9ICAweDQwLAorCVtCUkNNTkFORF9DUzFfQkFTRV0JCT0gICAg
-IDAsCisJW0JSQ01OQU5EX0NPUlJfVEhSRVNIT0xEXQk9ICAgICAwLAorCVtCUkNNTkFORF9DT1JS
-X1RIUkVTSE9MRF9FWFRdCT0gICAgIDAsCisJW0JSQ01OQU5EX1VOQ09SUl9DT1VOVF0JCT0gICAg
-IDAsCisJW0JSQ01OQU5EX0NPUlJfQ09VTlRdCQk9ICAgICAwLAorCVtCUkNNTkFORF9DT1JSX0VY
-VF9BRERSXQk9ICAweDYwLAorCVtCUkNNTkFORF9DT1JSX0FERFJdCQk9ICAweDY0LAorCVtCUkNN
-TkFORF9VTkNPUlJfRVhUX0FERFJdCT0gIDB4NjgsCisJW0JSQ01OQU5EX1VOQ09SUl9BRERSXQkJ
-PSAgMHg2YywKKwlbQlJDTU5BTkRfU0VNQVBIT1JFXQkJPSAgMHg1MCwKKwlbQlJDTU5BTkRfSURd
-CQkJPSAgMHg1NCwKKwlbQlJDTU5BTkRfSURfRVhUXQkJPSAgICAgMCwKKwlbQlJDTU5BTkRfTExf
-UkRBVEFdCQk9ICAgICAwLAorCVtCUkNNTkFORF9PT0JfUkVBRF9CQVNFXQk9ICAweDIwLAorCVtC
-UkNNTkFORF9PT0JfUkVBRF8xMF9CQVNFXQk9ICAgICAwLAorCVtCUkNNTkFORF9PT0JfV1JJVEVf
-QkFTRV0JPSAgMHgzMCwKKwlbQlJDTU5BTkRfT09CX1dSSVRFXzEwX0JBU0VdCT0gICAgIDAsCisJ
-W0JSQ01OQU5EX0ZDX0JBU0VdCQk9IDB4MjAwLAorfTsKKwogLyogQlJDTU5BTkQgdjMuMy12NC4w
-ICovCiBzdGF0aWMgY29uc3QgdTE2IGJyY21uYW5kX3JlZ3NfdjMzW10gPSB7CiAJW0JSQ01OQU5E
-X0NNRF9TVEFSVF0JCT0gIDB4MDQsCkBAIC01MzYsNiArNTY3LDkgQEAgZW51bSB7CiAJQ0ZHX0JV
-U19XSURUSAkJCT0gQklUKENGR19CVVNfV0lEVEhfU0hJRlQpLAogCUNGR19ERVZJQ0VfU0laRV9T
-SElGVAkJPSAyNCwKIAorCS8qIE9ubHkgZm9yIHYyLjEgKi8KKwlDRkdfUEFHRV9TSVpFX1NISUZU
-X3YyXzEJPSAzMCwKKwogCS8qIE9ubHkgZm9yIHByZS12Ny4xICh3aXRoIG5vIENGR19FWFQgcmVn
-aXN0ZXIpICovCiAJQ0ZHX1BBR0VfU0laRV9TSElGVAkJPSAyMCwKIAlDRkdfQkxLX1NJWkVfU0hJ
-RlQJCT0gMjgsCkBAIC01NzEsMTIgKzYwNSwxNiBAQCBzdGF0aWMgaW50IGJyY21uYW5kX3Jldmlz
-aW9uX2luaXQoc3RydWN0IGJyY21uYW5kX2NvbnRyb2xsZXIgKmN0cmwpCiB7CiAJc3RhdGljIGNv
-bnN0IHVuc2lnbmVkIGludCBibG9ja19zaXplc192NltdID0geyA4LCAxNiwgMTI4LCAyNTYsIDUx
-MiwgMTAyNCwgMjA0OCwgMCB9OwogCXN0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgYmxvY2tfc2l6
-ZXNfdjRbXSA9IHsgMTYsIDEyOCwgOCwgNTEyLCAyNTYsIDEwMjQsIDIwNDgsIDAgfTsKKwlzdGF0
-aWMgY29uc3QgdW5zaWduZWQgaW50IGJsb2NrX3NpemVzX3YyXzJbXSA9IHsgMTYsIDEyOCwgOCwg
-NTEyLCAyNTYsIDAgfTsKKwlzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50IGJsb2NrX3NpemVzX3Yy
-XzFbXSA9IHsgMTYsIDEyOCwgOCwgNTEyLCAwIH07CiAJc3RhdGljIGNvbnN0IHVuc2lnbmVkIGlu
-dCBwYWdlX3NpemVzX3YzXzRbXSA9IHsgNTEyLCAyMDQ4LCA0MDk2LCA4MTkyLCAwIH07CisJc3Rh
-dGljIGNvbnN0IHVuc2lnbmVkIGludCBwYWdlX3NpemVzX3YyXzJbXSA9IHsgNTEyLCAyMDQ4LCA0
-MDk2LCAwIH07CisJc3RhdGljIGNvbnN0IHVuc2lnbmVkIGludCBwYWdlX3NpemVzX3YyXzFbXSA9
-IHsgNTEyLCAyMDQ4LCAwIH07CiAKIAljdHJsLT5uYW5kX3ZlcnNpb24gPSBuYW5kX3JlYWRyZWco
-Y3RybCwgMCkgJiAweGZmZmY7CiAKLQkvKiBPbmx5IHN1cHBvcnQgdjQuMCs/ICovCi0JaWYgKGN0
-cmwtPm5hbmRfdmVyc2lvbiA8IDB4MDQwMCkgeworCS8qIE9ubHkgc3VwcG9ydCB2Mi4xKyAqLwor
-CWlmIChjdHJsLT5uYW5kX3ZlcnNpb24gPCAweDAyMDEpIHsKIAkJZGV2X2VycihjdHJsLT5kZXYs
-ICJ2ZXJzaW9uICUjeCBub3Qgc3VwcG9ydGVkXG4iLAogCQkJY3RybC0+bmFuZF92ZXJzaW9uKTsK
-IAkJcmV0dXJuIC1FTk9ERVY7CkBAIC01OTMsNiArNjMxLDggQEAgc3RhdGljIGludCBicmNtbmFu
-ZF9yZXZpc2lvbl9pbml0KHN0cnVjdCBicmNtbmFuZF9jb250cm9sbGVyICpjdHJsKQogCQljdHJs
-LT5yZWdfb2Zmc2V0cyA9IGJyY21uYW5kX3JlZ3NfdjUwOwogCWVsc2UgaWYgKGN0cmwtPm5hbmRf
-dmVyc2lvbiA+PSAweDAzMDMpCiAJCWN0cmwtPnJlZ19vZmZzZXRzID0gYnJjbW5hbmRfcmVnc192
-MzM7CisJZWxzZSBpZiAoY3RybC0+bmFuZF92ZXJzaW9uID49IDB4MDIwMSkKKwkJY3RybC0+cmVn
-X29mZnNldHMgPSBicmNtbmFuZF9yZWdzX3YyMTsKIAogCS8qIENoaXAtc2VsZWN0IHN0cmlkZSAq
-LwogCWlmIChjdHJsLT5uYW5kX3ZlcnNpb24gPj0gMHgwNzAxKQpAQCAtNjE4LDE0ICs2NTgsMzIg
-QEAgc3RhdGljIGludCBicmNtbmFuZF9yZXZpc2lvbl9pbml0KHN0cnVjdCBicmNtbmFuZF9jb250
-cm9sbGVyICpjdHJsKQogCQljdHJsLT5tYXhfcGFnZV9zaXplID0gMTYgKiAxMDI0OwogCQljdHJs
-LT5tYXhfYmxvY2tfc2l6ZSA9IDIgKiAxMDI0ICogMTAyNDsKIAl9IGVsc2UgewotCQljdHJsLT5w
-YWdlX3NpemVzID0gcGFnZV9zaXplc192M180OworCQlpZiAoY3RybC0+bmFuZF92ZXJzaW9uID49
-IDB4MDMwNCkKKwkJCWN0cmwtPnBhZ2Vfc2l6ZXMgPSBwYWdlX3NpemVzX3YzXzQ7CisJCWVsc2Ug
-aWYgKGN0cmwtPm5hbmRfdmVyc2lvbiA+PSAweDAyMDIpCisJCQljdHJsLT5wYWdlX3NpemVzID0g
-cGFnZV9zaXplc192Ml8yOworCQllbHNlCisJCQljdHJsLT5wYWdlX3NpemVzID0gcGFnZV9zaXpl
-c192Ml8xOworCisJCWlmIChjdHJsLT5uYW5kX3ZlcnNpb24gPj0gMHgwMjAyKQorCQkJY3RybC0+
-cGFnZV9zaXplX3NoaWZ0ID0gQ0ZHX1BBR0VfU0laRV9TSElGVDsKKwkJZWxzZQorCQkJY3RybC0+
-cGFnZV9zaXplX3NoaWZ0ID0gQ0ZHX1BBR0VfU0laRV9TSElGVF92Ml8xOworCiAJCWlmIChjdHJs
-LT5uYW5kX3ZlcnNpb24gPj0gMHgwNjAwKQogCQkJY3RybC0+YmxvY2tfc2l6ZXMgPSBibG9ja19z
-aXplc192NjsKLQkJZWxzZQorCQllbHNlIGlmIChjdHJsLT5uYW5kX3ZlcnNpb24gPj0gMHgwNDAw
-KQogCQkJY3RybC0+YmxvY2tfc2l6ZXMgPSBibG9ja19zaXplc192NDsKKwkJZWxzZSBpZiAoY3Ry
-bC0+bmFuZF92ZXJzaW9uID49IDB4MDIwMikKKwkJCWN0cmwtPmJsb2NrX3NpemVzID0gYmxvY2tf
-c2l6ZXNfdjJfMjsKKwkJZWxzZQorCQkJY3RybC0+YmxvY2tfc2l6ZXMgPSBibG9ja19zaXplc192
-Ml8xOwogCiAJCWlmIChjdHJsLT5uYW5kX3ZlcnNpb24gPCAweDA0MDApIHsKLQkJCWN0cmwtPm1h
-eF9wYWdlX3NpemUgPSA0MDk2OworCQkJaWYgKGN0cmwtPm5hbmRfdmVyc2lvbiA8IDB4MDIwMikK
-KwkJCQljdHJsLT5tYXhfcGFnZV9zaXplID0gMjA0ODsKKwkJCWVsc2UKKwkJCQljdHJsLT5tYXhf
-cGFnZV9zaXplID0gNDA5NjsKIAkJCWN0cmwtPm1heF9ibG9ja19zaXplID0gNTEyICogMTAyNDsK
-IAkJfQogCX0KQEAgLTgxMSw2ICs4NjksOSBAQCBzdGF0aWMgdm9pZCBicmNtbmFuZF93cl9jb3Jy
-X3RocmVzaChzdHJ1Y3QgYnJjbW5hbmRfaG9zdCAqaG9zdCwgdTggdmFsKQogCWVudW0gYnJjbW5h
-bmRfcmVnIHJlZyA9IEJSQ01OQU5EX0NPUlJfVEhSRVNIT0xEOwogCWludCBjcyA9IGhvc3QtPmNz
-OwogCisJaWYgKCFjdHJsLT5yZWdfb2Zmc2V0c1tyZWddKQorCQlyZXR1cm47CisKIAlpZiAoY3Ry
-bC0+bmFuZF92ZXJzaW9uID09IDB4MDcwMikKIAkJYml0cyA9IDc7CiAJZWxzZSBpZiAoY3RybC0+
-bmFuZF92ZXJzaW9uID49IDB4MDYwMCkKQEAgLTg2OSw4ICs5MzAsMTAgQEAgc3RhdGljIGlubGlu
-ZSB1MzIgYnJjbW5hbmRfc3BhcmVfYXJlYV9tYXNrKHN0cnVjdCBicmNtbmFuZF9jb250cm9sbGVy
-ICpjdHJsKQogCQlyZXR1cm4gR0VOTUFTSyg3LCAwKTsKIAllbHNlIGlmIChjdHJsLT5uYW5kX3Zl
-cnNpb24gPj0gMHgwNjAwKQogCQlyZXR1cm4gR0VOTUFTSyg2LCAwKTsKLQllbHNlCisJZWxzZSBp
-ZiAoY3RybC0+bmFuZF92ZXJzaW9uID49IDB4MDMwMykKIAkJcmV0dXJuIEdFTk1BU0soNSwgMCk7
-CisJZWxzZQorCQlyZXR1cm4gR0VOTUFTSyg0LCAwKTsKIH0KIAogI2RlZmluZSBOQU5EX0FDQ19D
-T05UUk9MX0VDQ19TSElGVAkxNgpAQCAtMjM3OCw3ICsyNDQxLDcgQEAgc3RhdGljIGludCBicmNt
-bmFuZF9zZXRfY2ZnKHN0cnVjdCBicmNtbmFuZF9ob3N0ICpob3N0LAogCQkoISEoY2ZnLT5kZXZp
-Y2Vfd2lkdGggPT0gMTYpIDw8IENGR19CVVNfV0lEVEhfU0hJRlQpIHwKIAkJKGRldmljZV9zaXpl
-IDw8IENGR19ERVZJQ0VfU0laRV9TSElGVCk7CiAJaWYgKGNmZ19vZmZzID09IGNmZ19leHRfb2Zm
-cykgewotCQl0bXAgfD0gKHBhZ2Vfc2l6ZSA8PCBDRkdfUEFHRV9TSVpFX1NISUZUKSB8CisJCXRt
-cCB8PSAocGFnZV9zaXplIDw8IGN0cmwtPnBhZ2Vfc2l6ZV9zaGlmdCkgfAogCQkgICAgICAgKGJs
-b2NrX3NpemUgPDwgQ0ZHX0JMS19TSVpFX1NISUZUKTsKIAkJbmFuZF93cml0ZXJlZyhjdHJsLCBj
-Zmdfb2ZmcywgdG1wKTsKIAl9IGVsc2UgewpAQCAtMjM5MCw5ICsyNDUzLDExIEBAIHN0YXRpYyBp
-bnQgYnJjbW5hbmRfc2V0X2NmZyhzdHJ1Y3QgYnJjbW5hbmRfaG9zdCAqaG9zdCwKIAogCXRtcCA9
-IG5hbmRfcmVhZHJlZyhjdHJsLCBhY2NfY29udHJvbF9vZmZzKTsKIAl0bXAgJj0gfmJyY21uYW5k
-X2VjY19sZXZlbF9tYXNrKGN0cmwpOwotCXRtcCB8PSBjZmctPmVjY19sZXZlbCA8PCBOQU5EX0FD
-Q19DT05UUk9MX0VDQ19TSElGVDsKIAl0bXAgJj0gfmJyY21uYW5kX3NwYXJlX2FyZWFfbWFzayhj
-dHJsKTsKLQl0bXAgfD0gY2ZnLT5zcGFyZV9hcmVhX3NpemU7CisJaWYgKGN0cmwtPm5hbmRfdmVy
-c2lvbiA+PSAweDAzMDIpIHsKKwkJdG1wIHw9IGNmZy0+ZWNjX2xldmVsIDw8IE5BTkRfQUNDX0NP
-TlRST0xfRUNDX1NISUZUOworCQl0bXAgfD0gY2ZnLT5zcGFyZV9hcmVhX3NpemU7CisJfQogCW5h
-bmRfd3JpdGVyZWcoY3RybCwgYWNjX2NvbnRyb2xfb2ZmcywgdG1wKTsKIAogCWJyY21uYW5kX3Nl
-dF9zZWN0b3Jfc2l6ZV8xayhob3N0LCBjZmctPnNlY3Rvcl9zaXplXzFrKTsKQEAgLTI3NjYsNiAr
-MjgzMSw4IEBAIGNvbnN0IHN0cnVjdCBkZXZfcG1fb3BzIGJyY21uYW5kX3BtX29wcyA9IHsKIEVY
-UE9SVF9TWU1CT0xfR1BMKGJyY21uYW5kX3BtX29wcyk7CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-b2ZfZGV2aWNlX2lkIGJyY21uYW5kX29mX21hdGNoW10gPSB7CisJeyAuY29tcGF0aWJsZSA9ICJi
-cmNtLGJyY21uYW5kLXYyLjEiIH0sCisJeyAuY29tcGF0aWJsZSA9ICJicmNtLGJyY21uYW5kLXYy
-LjIiIH0sCiAJeyAuY29tcGF0aWJsZSA9ICJicmNtLGJyY21uYW5kLXY0LjAiIH0sCiAJeyAuY29t
-cGF0aWJsZSA9ICJicmNtLGJyY21uYW5kLXY1LjAiIH0sCiAJeyAuY29tcGF0aWJsZSA9ICJicmNt
-LGJyY21uYW5kLXY2LjAiIH0sCi0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Daniel,
+
+On 18/05/2020 21:16, Daniel Gomez wrote:
+> Select DRM_KMS_HELPER dependency.
+> 
+> Build error when DRM_KMS_HELPER is not selected:
+> 
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd48): undefined reference to `drm_atomic_helper_bridge_duplicate_state'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd50): undefined reference to `drm_atomic_helper_bridge_destroy_state'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd70): undefined reference to `drm_atomic_helper_bridge_reset'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xdc8): undefined reference to `drm_atomic_helper_connector_reset'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xde0): undefined reference to `drm_helper_probe_single_connector_modes'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe08): undefined reference to `drm_atomic_helper_connector_duplicate_state'
+> drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe10): undefined reference to `drm_atomic_helper_connector_destroy_state'
+> 
+
+Looking at the files in rcar_du that utilise drm_atomic_helpers...
+
+git grep -l drm_atomic_helper_ drivers/gpu/drm/rcar-du/
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+ drivers/gpu/drm/rcar-du/rcar_lvds.c
+
+of those, these are configurable:
+
+ rcar_du_vsp.c		# DRM_RCAR_VSP
+ rcar_du_writeback.c	# DRM_RCAR_WRITEBACK
+ rcar_lvds.c		# DRM_RCAR_LVDS
+
+But VSP and WRITEBACK are already implicitly dependant upon DRM_RCAR_DU
+because they get built into the DU module.
+
+So indeed, only the RCAR_LVDS is a separate module, using those helpers,
+so I think a select is a reasonable fix.
+
+I would also ask whether DRM_RCAR_LVDS should depend upon DRM_RCAR_DU
+though as well.
+
+There is no linkage requirement, as it's a standalone bridge driver from
+what I can see, but I don't think it serves much purpose without the DU?
+
+Anyway, even if it's just for compile testing maybe, the select here
+should be fine.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Daniel Gomez <dagmcr@gmail.com>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 0919f1f159a4..f65d1489dc50 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -31,6 +31,7 @@ config DRM_RCAR_DW_HDMI
+>  config DRM_RCAR_LVDS
+>  	tristate "R-Car DU LVDS Encoder Support"
+>  	depends on DRM && DRM_BRIDGE && OF
+> +	select DRM_KMS_HELPER
+>  	select DRM_PANEL
+>  	select OF_FLATTREE
+>  	select OF_OVERLAY
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
