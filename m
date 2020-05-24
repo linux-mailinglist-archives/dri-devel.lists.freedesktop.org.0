@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4666B1E0140
-	for <lists+dri-devel@lfdr.de>; Sun, 24 May 2020 19:46:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65451E07BE
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:21:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9FD89DDF;
-	Sun, 24 May 2020 17:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 980E589D1D;
+	Mon, 25 May 2020 07:21:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80F889DDF
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 17:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gEucHw00yI0aDw2301W8fLDPFjF0TZfhsCmw9IsXOBs=; b=GRIbVQIppWgeNa7ixzVNW22N+Z
- vpo4I3CslBa3BVW17pWaVO8O7AKqUgDNNhDaaHxOx5voXbIDMyaXxlFbO75CPA3EVFN2pq+ynkeld
- OwL8cxXFs2KTpuhiZAxe4aqBhjFH5N658kMJkMgerzUeHF5VBViHnWWC4b5UMq1JMGaTPUp+OToxj
- N/eFkWovNXM2NxlSe9kKaQarW9aUpeQbgDfGjGUdaoVdY91KDeCTN2dyofqYnc0UL2mvnHuAJpAje
- Sr1g4rrKMmFoo/+5JsWxOqdZxykkW8qUm0lLpfMCtl69nILNQtjYdzHkyCiWCss1Rcg1zJZQ9Aksu
- w+mCIu/w==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51721
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jcuhg-0004FH-MM; Sun, 24 May 2020 19:46:28 +0200
-Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: Paul Cercueil <paul@crapouillou.net>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
-Date: Sun, 24 May 2020 19:46:25 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2488789DD5
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 17:52:46 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id l15so18050216lje.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 10:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
+ b=tMPJkT7nYXzIltgSxd8IMB1ZfmKN7RQ0Vo6jw6DbXG/aftDjIm52h3KjdYosFIX2sT
+ RzGuS+TYtE6hiLTN0iQbigzokbZAKHcxf9wx7XKLCbaQwIdYTpOGaaeT4grZeaKRTk8R
+ r+Kd8SsNnkBm1BTxWA4B713AxaeYjTfjYwgvl+CDmulG9VXTFkHhQmVaTfrIKKTp0mVk
+ Bhyf5rQbxEPM/uxJ4AE1+NiBHpoeNutdt7uIQSQ451dTP+EgKIcJNGZ3NhKYjiqhewaG
+ uMoo4vY6ZHHmtcqJa733wowG86MYgEOB7pfA42MrwsiSfEsXKtGaKKzIj4R71TIQSYOh
+ nkYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7aR3YE6Bd8ZKirlEsF7qmRCiqSqK5gXeUv4sa0t1B5c=;
+ b=Okwh24TIDWPVuoNOqW20JTAj7XqDgW/MhG+anEWkTeINNVsCqACQ0ueJNOC2MVSMPo
+ ufJknHqLKCAlRa2XakJM6CGD9musVtnAsnU/xMIj0FLNHiLD5uQyBYuQ784KiTGyYNVX
+ A7RNPHyF7toxc731AT3zhLgiK5B07KVAxmqv2hY0bz9dRlT+DUEdH0+2cqd1BNlyvye9
+ ZLBIKXNBYBNbFJKCmUfdcek/UwWaVKYKL05ZQz4bD/T3qtVECaoZGEMbjrISIAyN0gN6
+ IzpJVPZP3PoL9ZOtEAA+doTAr+3dn+sIgAZh4Qe8eAeM44ZCftugVCEeKgfuV+VpBrc4
+ MaoA==
+X-Gm-Message-State: AOAM532eaitOle30Y8ka535sHeqcw4zWiLcTKhldYkxfaPfBI1J0kJT8
+ 6FarRApq7u0xpFtL054PtdY=
+X-Google-Smtp-Source: ABdhPJx/D1WOpoi7YhAWGUmlWW8wdWMarJABuwSnWKv1uUXtK7oI2xLYIypZ0T3+PlXs0jNbKLMkxg==
+X-Received: by 2002:a2e:3517:: with SMTP id z23mr11915394ljz.147.1590342764482; 
+ Sun, 24 May 2020 10:52:44 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru.
+ [91.76.17.204])
+ by smtp.gmail.com with ESMTPSA id 130sm4045350lfl.37.2020.05.24.10.52.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 May 2020 10:52:43 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v1 0/4] Minor improvements for Host1x driver
+Date: Sun, 24 May 2020 20:50:56 +0300
+Message-Id: <20200524175100.9334-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
+X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,75 +66,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
+This series contains some minor improvements for the Host1x driver which
+I picked up from an older local git branch. I selected the less invasive
+and most relevant patches and added one new patch that dumps the push
+buffer state, a day ago it helped me to debug SMMU driver issue that is
+easily triggered using the vanilla upstream Host1x driver.
 
-Den 24.05.2020 18.13, skrev Paul Cercueil:
-> Hi list,
-> 
-> I'd like to open a discussion about the current support of MIPI DSI and
-> DBI panels.
-> 
-> Both are standards from the MIPI alliance, both are communication
-> protocols between a LCD controller and a LCD panel, they generally both
-> use the same commands (DCS), the main difference is that DSI is serial
-> and DBI is generally parallel.
-> 
-> In the kernel right now, DSI is pretty well implemented. All the
-> infrastucture to register a DSI host, DSI device etc. is there. DSI
-> panels are implemented as regular drm_panel instances, and their drivers
-> go through the DSI API to communicate with the panel, which makes them
-> independent of the DSI host driver.
-> 
-> DBI, on the other hand, does not have any of this. All (?) DBI panels
-> are implemented as tinydrm drivers, which make them impossible to use
-> with regular DRM drivers. Writing a standard drm_panel driver is
-> impossible, as there is no concept of host and device. All these tinydrm
-> drivers register their own DBI host as they all do DBI over SPI.
-> 
-> I think this needs a good cleanup. Given that DSI and DBI are so
-> similar, it would probably make sense to fuse DBI support into the
-> current DSI code, as trying to update DBI would result in a lot of code
-> being duplicated. With the proper host/device registration mechanism
-> from DSI code, it would be possible to turn most of the tinydrm drivers
-> into regular drm_panel drivers.
-> 
-> The problem then is that these should still be available as tinydrm
-> drivers. If the DSI/DBI panels can somehow register a .update_fb()
-> callback, it would make it possible to have a panel-agnostic tinydrm
-> driver, which would then probably open a lot of doors, and help a lot to
-> clean the mess.
-> 
-> I think I can help with that, I just need some guidance - I am fishing
-> in exotic seas here.
-> 
-> Thoughts, comments, are very welcome.
+Dmitry Osipenko (4):
+  gpu: host1x: Optimize BOs usage when firewall is enabled
+  gpu: host1x: Put gather's BO on pinning error
+  gpu: host1x: debug: Fix multiple channels emitting messages
+    simultaneously
+  gpu: host1x: debug: Dump push buffer state
 
-I did look at this a few months back:
+ drivers/gpu/host1x/debug.c       |  4 ++++
+ drivers/gpu/host1x/hw/debug_hw.c |  6 ++++++
+ drivers/gpu/host1x/job.c         | 27 ++++++++++++++++++++-------
+ 3 files changed, 30 insertions(+), 7 deletions(-)
 
-drm/mipi-dbi: Support panel drivers
-https://lists.freedesktop.org/archives/dri-devel/2019-August/228966.html
+-- 
+2.26.0
 
-The problem with DBI is that it has reused other busses which means we
-don't have DBI drivers, we have SPI drivers instead (6800/8080 is not
-avail. as busses in Linux yet). DSI and DPI on the other hand has
-dedicated hw controller drivers not shared with other subsystems.
-
-My initial tinydrm work used drm_panel, but I was not allowed to use it
-(at least not the way I had done it).
-
-Noralf.
-
-> 
-> Cheers,
-> -Paul
-> 
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
