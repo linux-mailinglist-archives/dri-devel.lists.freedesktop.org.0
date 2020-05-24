@@ -1,50 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F09C1E02FA
-	for <lists+dri-devel@lfdr.de>; Sun, 24 May 2020 23:24:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5841E07C7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:21:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708BF89D83;
-	Sun, 24 May 2020 21:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EDD289D89;
+	Mon, 25 May 2020 07:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9F789D83
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 21:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gE0DbFixmW4Lc/ozAVAPHT0YeLWmhlCZcamxiRu66XY=; b=axiKXm80kOu1A+gRtOSnxz8aQv
- xHbji2mR3k9K4KUL6BgV8TSdvuOrdbjTQOymkZC5K+q4F6x60zRszF3buZvYAnGEVh1A6pkCK4zn/
- Xi6EzlBaXHzN26PyQqtdDdQfkUF6sgcVsx6uoiux4IigMVbArRua3YfiQiJrhTrjqJwsBta3nZeNf
- GmXVBO7TAwna+iKDEBlLs4tq563VVVKeK6fbB0C/pCeW3ludlt4LCTGFqpTcS6bg4HO155WhAoom0
- EJtGHrlHleOwvtFGwZ69QWDljk6WuKtORaMVQk78k6edlZ1TBw8gyaTAF24UozGninmu9fZeuEiFc
- on5aWjxg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52396
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jcy6O-000249-7B; Sun, 24 May 2020 23:24:12 +0200
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7235489D99
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 21:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1590356042; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gKrT+xIetVGywW9iqRIRY6goZLcbYEU/fgSytCDMyGo=;
+ b=AJTWIVk7Pglggn4OdohN0xfRv62FKSzmJwDnWFHsnasv1V6qucT3uWdD3Q9Gcz9NbnsXhE
+ duKVLBelf5lXCu7wanUioCexr1Ds0AsZ8IHusDiX3h8H6oB+bVnYboHq1V5GdjsL3Y9Fkk
+ 7KxapskQSSydPn8zWUujLFNmmqcx0yI=
+Date: Sun, 24 May 2020 23:33:52 +0200
+From: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: Paul Cercueil <paul@crapouillou.net>
+To: Noralf =?iso-8859-1?q?Tr=F8nnes?= <noralf@tronnes.org>
+Message-Id: <GKUUAQ.UZ3OW5SM7R453@crapouillou.net>
+In-Reply-To: <b4075c4f-1c32-3b97-831a-707d0b588ed5@tronnes.org>
 References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
  <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
  <3YPUAQ.ALFWN74JD6DR1@crapouillou.net>
  <0f860795-218e-b9f0-0d1c-699024d3cc9a@tronnes.org>
  <T6SUAQ.4AZ5S5FWL6VZ@crapouillou.net>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <b4075c4f-1c32-3b97-831a-707d0b588ed5@tronnes.org>
-Date: Sun, 24 May 2020 23:24:11 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ <b4075c4f-1c32-3b97-831a-707d0b588ed5@tronnes.org>
 MIME-Version: 1.0
-In-Reply-To: <T6SUAQ.4AZ5S5FWL6VZ@crapouillou.net>
+X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,88 +50,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sam Ravnborg <sam@ravnborg.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjQuMDUuMjAyMCAyMi40Miwgc2tyZXYgUGF1bCBDZXJjdWVpbDoKPiAKPiAKPiBMZSBk
-aW0uIDI0IG1haSAyMDIwIMOgIDIyOjE0LCBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVz
-Lm9yZz4gYSDDqWNyaXQgOgo+Pgo+Pgo+PiBEZW4gMjQuMDUuMjAyMCAyMS41NCwgc2tyZXYgUGF1
-bCBDZXJjdWVpbDoKPj4+IMKgSGkgTm9yYWxmLAo+Pj4KPj4+IMKgTGUgZGltLiAyNCBtYWkgMjAy
-MCDDoCAxOTo0NiwgTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+IGEKPj4+IMOp
-Y3JpdCA6Cj4+Pj4KPj4+Pgo+Pj4+IMKgRGVuIDI0LjA1LjIwMjAgMTguMTMsIHNrcmV2IFBhdWwg
-Q2VyY3VlaWw6Cj4+Pj4+IMKgIEhpIGxpc3QsCj4+Pj4+Cj4+Pj4+IMKgIEknZCBsaWtlIHRvIG9w
-ZW4gYSBkaXNjdXNzaW9uIGFib3V0IHRoZSBjdXJyZW50IHN1cHBvcnQgb2YgTUlQSQo+Pj4+PiBE
-U0kgYW5kCj4+Pj4+IMKgIERCSSBwYW5lbHMuCj4+Pj4+Cj4+Pj4+IMKgIEJvdGggYXJlIHN0YW5k
-YXJkcyBmcm9tIHRoZSBNSVBJIGFsbGlhbmNlLCBib3RoIGFyZSBjb21tdW5pY2F0aW9uCj4+Pj4+
-IMKgIHByb3RvY29scyBiZXR3ZWVuIGEgTENEIGNvbnRyb2xsZXIgYW5kIGEgTENEIHBhbmVsLCB0
-aGV5Cj4+Pj4+IGdlbmVyYWxseSBib3RoCj4+Pj4+IMKgIHVzZSB0aGUgc2FtZSBjb21tYW5kcyAo
-RENTKSwgdGhlIG1haW4gZGlmZmVyZW5jZSBpcyB0aGF0IERTSSBpcwo+Pj4+PiBzZXJpYWwKPj4+
-Pj4gwqAgYW5kIERCSSBpcyBnZW5lcmFsbHkgcGFyYWxsZWwuCj4+Pj4+Cj4+Pj4+IMKgIEluIHRo
-ZSBrZXJuZWwgcmlnaHQgbm93LCBEU0kgaXMgcHJldHR5IHdlbGwgaW1wbGVtZW50ZWQuIEFsbCB0
-aGUKPj4+Pj4gwqAgaW5mcmFzdHVjdHVyZSB0byByZWdpc3RlciBhIERTSSBob3N0LCBEU0kgZGV2
-aWNlIGV0Yy4gaXMgdGhlcmUuIERTSQo+Pj4+PiDCoCBwYW5lbHMgYXJlIGltcGxlbWVudGVkIGFz
-IHJlZ3VsYXIgZHJtX3BhbmVsIGluc3RhbmNlcywgYW5kIHRoZWlyCj4+Pj4+IMKgZHJpdmVycwo+
-Pj4+PiDCoCBnbyB0aHJvdWdoIHRoZSBEU0kgQVBJIHRvIGNvbW11bmljYXRlIHdpdGggdGhlIHBh
-bmVsLCB3aGljaCBtYWtlcwo+Pj4+PiB0aGVtCj4+Pj4+IMKgIGluZGVwZW5kZW50IG9mIHRoZSBE
-U0kgaG9zdCBkcml2ZXIuCj4+Pj4+Cj4+Pj4+IMKgIERCSSwgb24gdGhlIG90aGVyIGhhbmQsIGRv
-ZXMgbm90IGhhdmUgYW55IG9mIHRoaXMuIEFsbCAoPykgREJJCj4+Pj4+IHBhbmVscwo+Pj4+PiDC
-oCBhcmUgaW1wbGVtZW50ZWQgYXMgdGlueWRybSBkcml2ZXJzLCB3aGljaCBtYWtlIHRoZW0gaW1w
-b3NzaWJsZSB0bwo+Pj4+PiB1c2UKPj4+Pj4gwqAgd2l0aCByZWd1bGFyIERSTSBkcml2ZXJzLiBX
-cml0aW5nIGEgc3RhbmRhcmQgZHJtX3BhbmVsIGRyaXZlciBpcwo+Pj4+PiDCoCBpbXBvc3NpYmxl
-LCBhcyB0aGVyZSBpcyBubyBjb25jZXB0IG9mIGhvc3QgYW5kIGRldmljZS4gQWxsIHRoZXNlCj4+
-Pj4+IMKgdGlueWRybQo+Pj4+PiDCoCBkcml2ZXJzIHJlZ2lzdGVyIHRoZWlyIG93biBEQkkgaG9z
-dCBhcyB0aGV5IGFsbCBkbyBEQkkgb3ZlciBTUEkuCj4+Pj4+Cj4+Pj4+IMKgIEkgdGhpbmsgdGhp
-cyBuZWVkcyBhIGdvb2QgY2xlYW51cC4gR2l2ZW4gdGhhdCBEU0kgYW5kIERCSSBhcmUgc28KPj4+
-Pj4gwqAgc2ltaWxhciwgaXQgd291bGQgcHJvYmFibHkgbWFrZSBzZW5zZSB0byBmdXNlIERCSSBz
-dXBwb3J0IGludG8gdGhlCj4+Pj4+IMKgIGN1cnJlbnQgRFNJIGNvZGUsIGFzIHRyeWluZyB0byB1
-cGRhdGUgREJJIHdvdWxkIHJlc3VsdCBpbiBhIGxvdAo+Pj4+PiBvZiBjb2RlCj4+Pj4+IMKgIGJl
-aW5nIGR1cGxpY2F0ZWQuIFdpdGggdGhlIHByb3BlciBob3N0L2RldmljZSByZWdpc3RyYXRpb24g
-bWVjaGFuaXNtCj4+Pj4+IMKgIGZyb20gRFNJIGNvZGUsIGl0IHdvdWxkIGJlIHBvc3NpYmxlIHRv
-IHR1cm4gbW9zdCBvZiB0aGUgdGlueWRybQo+Pj4+PiBkcml2ZXJzCj4+Pj4+IMKgIGludG8gcmVn
-dWxhciBkcm1fcGFuZWwgZHJpdmVycy4KPj4+Pj4KPj4+Pj4gwqAgVGhlIHByb2JsZW0gdGhlbiBp
-cyB0aGF0IHRoZXNlIHNob3VsZCBzdGlsbCBiZSBhdmFpbGFibGUgYXMgdGlueWRybQo+Pj4+PiDC
-oCBkcml2ZXJzLiBJZiB0aGUgRFNJL0RCSSBwYW5lbHMgY2FuIHNvbWVob3cgcmVnaXN0ZXIgYSAu
-dXBkYXRlX2ZiKCkKPj4+Pj4gwqAgY2FsbGJhY2ssIGl0IHdvdWxkIG1ha2UgaXQgcG9zc2libGUg
-dG8gaGF2ZSBhIHBhbmVsLWFnbm9zdGljIHRpbnlkcm0KPj4+Pj4gwqAgZHJpdmVyLCB3aGljaCB3
-b3VsZCB0aGVuIHByb2JhYmx5IG9wZW4gYSBsb3Qgb2YgZG9vcnMsIGFuZCBoZWxwIGEKPj4+Pj4g
-wqBsb3QgdG8KPj4+Pj4gwqAgY2xlYW4gdGhlIG1lc3MuCj4+Pj4+Cj4+Pj4+IMKgIEkgdGhpbmsg
-SSBjYW4gaGVscCB3aXRoIHRoYXQsIEkganVzdCBuZWVkIHNvbWUgZ3VpZGFuY2UgLSBJIGFtCj4+
-Pj4+IGZpc2hpbmcKPj4+Pj4gwqAgaW4gZXhvdGljIHNlYXMgaGVyZS4KPj4+Pj4KPj4+Pj4gwqAg
-VGhvdWdodHMsIGNvbW1lbnRzLCBhcmUgdmVyeSB3ZWxjb21lLgo+Pj4+Cj4+Pj4gwqBJIGRpZCBs
-b29rIGF0IHRoaXMgYSBmZXcgbW9udGhzIGJhY2s6Cj4+Pj4KPj4+PiDCoGRybS9taXBpLWRiaTog
-U3VwcG9ydCBwYW5lbCBkcml2ZXJzCj4+Pj4gwqAKPj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1BdWd1c3QvMjI4OTY2Lmh0bWwKPj4+Pgo+
-Pj4+Cj4+Pj4gwqBUaGUgcHJvYmxlbSB3aXRoIERCSSBpcyB0aGF0IGl0IGhhcyByZXVzZWQgb3Ro
-ZXIgYnVzc2VzIHdoaWNoIG1lYW5zIHdlCj4+Pj4gwqBkb24ndCBoYXZlIERCSSBkcml2ZXJzLCB3
-ZSBoYXZlIFNQSSBkcml2ZXJzIGluc3RlYWQgKDY4MDAvODA4MCBpcyBub3QKPj4+PiDCoGF2YWls
-LiBhcyBidXNzZXMgaW4gTGludXggeWV0KS4gRFNJIGFuZCBEUEkgb24gdGhlIG90aGVyIGhhbmQg
-aGFzCj4+Pj4gwqBkZWRpY2F0ZWQgaHcgY29udHJvbGxlciBkcml2ZXJzIG5vdCBzaGFyZWQgd2l0
-aCBvdGhlciBzdWJzeXN0ZW1zLgo+Pj4KPj4+IMKgSSBkb24ndCB0aGluayB0aGF0IHNob3VsZCBi
-ZSBtdWNoIG9mIGEgcHJvYmxlbS4gWW91IGNvdWxkIGhhdmUgYQo+Pj4gREJJL1NQSQo+Pj4gwqBi
-cmlkZ2UsIHRoYXQgd3JhcHMgYSBTUEkgZGV2aWNlIGludG8gYSBEQkkgaG9zdCwgZm9yIGluc3Rh
-bmNlLiBUaGUKPj4+IHBhbmVsCj4+PiDCoGRyaXZlcnMgd291bGQganVzdCB1c2UgdGhlIERCSSBB
-UEkgd2l0aG91dCBoYXZpbmcgdG8ga25vdyB3aGF0J3MgZG9uZQo+Pj4gwqBiZWhpbmQgdGhlIHNj
-ZW5lLgo+Pgo+PiBUaGlzIHdpbGwgYmUgYSBicmlkZ2UgaW1wbGVtZW50ZWQgaW4gc29mdHdhcmUs
-IGFyZSB3ZSBhbGxvd2VkIHRvIGhhdmUKPj4gc29mdHdhcmUgZGV2aWNlcyBpbiB0aGUgRGV2aWNl
-IFRyZWU/IEkgdGhvdWdoIGl0IHdhcyBqdXN0IGFsbG93ZWQgdG8KPj4gZGVzY3JpYmUgaGFyZHdh
-cmUuCj4gCj4gSXQgd291bGRuJ3QgYXBwZWFyIGluIGRldmljZXRyZWUuIElmIHRoZSBwYW5lbCBp
-cyBjb25uZWN0ZWQgb3ZlciBTUEksCj4gdGhlbiBEQkkgaXMganVzdCB0aGUgcHJvdG9jb2wgaXQg
-dXNlcy4KCkhvdyBkbyB5b3UgYXR0YWNoIGEgcGFuZWwgdG8gdGhlIERCSSBkZXZpY2UgaWYgaXQg
-ZG9lc24ndCBhcHBlYXIgaW4gRFQ/CkFub3RoZXIgcHJvYmxlbSBpcyB0aGF0IHRoZSBEQkkgcGFu
-ZWwgdXNlcyBTUEkgYm90aCBmb3IgZnJhbWVidWZmZXIKdXBsb2FkIGFuZCBjb250cm9sbGVyIGlu
-aXRpYWxpemF0aW9uLiBIb3cgc2hhbGwgdGhpcyBiZSBoYW5kbGVkIHdoZW4gdGhlCnBhbmVsIGRy
-aXZlciBuZWVkcyBTUEkgZm9yIGluaXQgYW5kIHRoZSBEQkkgYnJpZGdlIG5lZWRzIFNQSSBmb3Ig
-ZnJhbWUKdXBsb2FkPwoKTm9yYWxmLgoKPiAKPiBJZiBwcm9iZWQgYXMgYSBTUEkgZGV2aWNlIGRy
-aXZlciwgdGhlIHBhbmVsJ3Mgc3BpX2RyaXZlciB3b3VsZCByZWdpc3Rlcgo+IGFuIGluc3RhbmNl
-IG9mIHRoZSBEQkkvU1BJIGhvc3QgZHJpdmVyLCB0aGVuIHJlZ2lzdGVyIGl0c2VsZiBhcyBhCj4g
-ZGJpX2RyaXZlci4gSWYgcHJvYmVkIGZyb20gYSBEQkkgaG9zdCBpdCB3b3VsZCBqdXN0IHJlZ2lz
-dGVyIGl0c2VsZiBhcyBhCj4gZGJpX2RyaXZlci4KPiAKPiAtUGF1bAo+IAo+Pj4KPj4+PiDCoE15
-IGluaXRpYWwgdGlueWRybSB3b3JrIHVzZWQgZHJtX3BhbmVsLCBidXQgSSB3YXMgbm90IGFsbG93
-ZWQgdG8KPj4+PiB1c2UgaXQKPj4+PiDCoChhdCBsZWFzdCBub3QgdGhlIHdheSBJIGhhZCBkb25l
-IGl0KS4KPj4+Pgo+Pj4+IMKgTm9yYWxmLgo+Pj4+Cj4+Pj4+Cj4+Pj4+IMKgIENoZWVycywKPj4+
-Pj4gwqAgLVBhdWwKPj4+Pj4KPj4+Pj4KPj4+Cj4+Pgo+Pj4KPiAKPiAKPiAKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+
+Le dim. 24 mai 2020 =E0 23:24, Noralf Tr=F8nnes <noralf@tronnes.org> a =
+
+=E9crit :
+> =
+
+> =
+
+> Den 24.05.2020 22.42, skrev Paul Cercueil:
+>> =
+
+>> =
+
+>>  Le dim. 24 mai 2020 =E0 22:14, Noralf Tr=F8nnes <noralf@tronnes.org> =
+
+>> a =E9crit :
+>>> =
+
+>>> =
+
+>>>  Den 24.05.2020 21.54, skrev Paul Cercueil:
+>>>>   Hi Noralf,
+>>>> =
+
+>>>>   Le dim. 24 mai 2020 =E0 19:46, Noralf Tr=F8nnes =
+
+>>>> <noralf@tronnes.org> a
+>>>>  =E9crit :
+>>>>> =
+
+>>>>> =
+
+>>>>>   Den 24.05.2020 18.13, skrev Paul Cercueil:
+>>>>>>    Hi list,
+>>>>>> =
+
+>>>>>>    I'd like to open a discussion about the current support of =
+
+>>>>>> MIPI
+>>>>>>  DSI and
+>>>>>>    DBI panels.
+>>>>>> =
+
+>>>>>>    Both are standards from the MIPI alliance, both are =
+
+>>>>>> communication
+>>>>>>    protocols between a LCD controller and a LCD panel, they
+>>>>>>  generally both
+>>>>>>    use the same commands (DCS), the main difference is that DSI =
+
+>>>>>> is
+>>>>>>  serial
+>>>>>>    and DBI is generally parallel.
+>>>>>> =
+
+>>>>>>    In the kernel right now, DSI is pretty well implemented. All =
+
+>>>>>> the
+>>>>>>    infrastucture to register a DSI host, DSI device etc. is =
+
+>>>>>> there. DSI
+>>>>>>    panels are implemented as regular drm_panel instances, and =
+
+>>>>>> their
+>>>>>>   drivers
+>>>>>>    go through the DSI API to communicate with the panel, which =
+
+>>>>>> makes
+>>>>>>  them
+>>>>>>    independent of the DSI host driver.
+>>>>>> =
+
+>>>>>>    DBI, on the other hand, does not have any of this. All (?) DBI
+>>>>>>  panels
+>>>>>>    are implemented as tinydrm drivers, which make them =
+
+>>>>>> impossible to
+>>>>>>  use
+>>>>>>    with regular DRM drivers. Writing a standard drm_panel driver =
+
+>>>>>> is
+>>>>>>    impossible, as there is no concept of host and device. All =
+
+>>>>>> these
+>>>>>>   tinydrm
+>>>>>>    drivers register their own DBI host as they all do DBI over =
+
+>>>>>> SPI.
+>>>>>> =
+
+>>>>>>    I think this needs a good cleanup. Given that DSI and DBI are =
+
+>>>>>> so
+>>>>>>    similar, it would probably make sense to fuse DBI support =
+
+>>>>>> into the
+>>>>>>    current DSI code, as trying to update DBI would result in a =
+
+>>>>>> lot
+>>>>>>  of code
+>>>>>>    being duplicated. With the proper host/device registration =
+
+>>>>>> mechanism
+>>>>>>    from DSI code, it would be possible to turn most of the =
+
+>>>>>> tinydrm
+>>>>>>  drivers
+>>>>>>    into regular drm_panel drivers.
+>>>>>> =
+
+>>>>>>    The problem then is that these should still be available as =
+
+>>>>>> tinydrm
+>>>>>>    drivers. If the DSI/DBI panels can somehow register a =
+
+>>>>>> .update_fb()
+>>>>>>    callback, it would make it possible to have a panel-agnostic =
+
+>>>>>> tinydrm
+>>>>>>    driver, which would then probably open a lot of doors, and =
+
+>>>>>> help a
+>>>>>>   lot to
+>>>>>>    clean the mess.
+>>>>>> =
+
+>>>>>>    I think I can help with that, I just need some guidance - I am
+>>>>>>  fishing
+>>>>>>    in exotic seas here.
+>>>>>> =
+
+>>>>>>    Thoughts, comments, are very welcome.
+>>>>> =
+
+>>>>>   I did look at this a few months back:
+>>>>> =
+
+>>>>>   drm/mipi-dbi: Support panel drivers
+>>>>> =
+
+>>>>>  =
+
+>>>>> https://lists.freedesktop.org/archives/dri-devel/2019-August/228966.h=
+tml
+>>>>> =
+
+>>>>> =
+
+>>>>>   The problem with DBI is that it has reused other busses which =
+
+>>>>> means we
+>>>>>   don't have DBI drivers, we have SPI drivers instead (6800/8080 =
+
+>>>>> is not
+>>>>>   avail. as busses in Linux yet). DSI and DPI on the other hand =
+
+>>>>> has
+>>>>>   dedicated hw controller drivers not shared with other =
+
+>>>>> subsystems.
+>>>> =
+
+>>>>   I don't think that should be much of a problem. You could have a
+>>>>  DBI/SPI
+>>>>   bridge, that wraps a SPI device into a DBI host, for instance. =
+
+>>>> The
+>>>>  panel
+>>>>   drivers would just use the DBI API without having to know what's =
+
+>>>> done
+>>>>   behind the scene.
+>>> =
+
+>>>  This will be a bridge implemented in software, are we allowed to =
+
+>>> have
+>>>  software devices in the Device Tree? I though it was just allowed =
+
+>>> to
+>>>  describe hardware.
+>> =
+
+>>  It wouldn't appear in devicetree. If the panel is connected over =
+
+>> SPI,
+>>  then DBI is just the protocol it uses.
+> =
+
+> How do you attach a panel to the DBI device if it doesn't appear in =
+
+> DT?
+
+When probed from a DBI host controller, the panel's devicetree binding =
+
+would look like this:
+
+&dbi_host {
+
+    panel {
+        compatible =3D "my,dbi-device";
+    };
+};
+
+When probed from SPI it would appear in DT like this:
+
+&spi {
+
+    panel@0 {
+        reg =3D <0>;
+        compatible =3D "my,dbi-device-spi";
+    };
+};
+
+In that case, the driver would create a SPI-DBI bridge, but that is an =
+
+implementation detail that doesn't belong in devicetree.
+
+
+> Another problem is that the DBI panel uses SPI both for framebuffer
+> upload and controller initialization. How shall this be handled when =
+
+> the
+> panel driver needs SPI for init and the DBI bridge needs SPI for frame
+> upload?
+
+Does the panel driver need SPI for init? I don't think so. It needs to =
+
+send DBI commands over SPI, yes. Only the DBI-SPI bridge would control =
+
+the SPI device.
+
+-Paul
+
+>> =
+
+>>  If probed as a SPI device driver, the panel's spi_driver would =
+
+>> register
+>>  an instance of the DBI/SPI host driver, then register itself as a
+>>  dbi_driver. If probed from a DBI host it would just register itself =
+
+>> as a
+>>  dbi_driver.
+>> =
+
+>>  -Paul
+>> =
+
+>>>> =
+
+>>>>>   My initial tinydrm work used drm_panel, but I was not allowed to
+>>>>>  use it
+>>>>>   (at least not the way I had done it).
+>>>>> =
+
+>>>>>   Noralf.
+>>>>> =
+
+>>>>>> =
+
+>>>>>>    Cheers,
+>>>>>>    -Paul
+>>>>>> =
+
+>>>>>> =
+
+>>>> =
+
+>>>> =
+
+>>>> =
+
+>> =
+
+>> =
+
+>> =
+
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
