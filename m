@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1291E07E9
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A468D1E03A8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 00:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A236989F77;
-	Mon, 25 May 2020 07:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0847189D63;
+	Sun, 24 May 2020 22:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 763EA89D46
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 22:06:49 +0000 (UTC)
-Received: from xps13 (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay11.mail.gandi.net (Postfix) with ESMTPSA id A0AD8100004;
- Sun, 24 May 2020 22:06:44 +0000 (UTC)
-Date: Mon, 25 May 2020 00:06:43 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
-Subject: Re: [PATCH v4 4/5] dt: bindings: brcmnand: add v2.1 and v2.2 support
-Message-ID: <20200525000643.4ed45a73@xps13>
-In-Reply-To: <DB7PR03MB4604C2B50C013033D0CB95F8F5B20@DB7PR03MB4604.eurprd03.prod.outlook.com>
-References: <20200522121524.4161539-5-noltari@gmail.com>
- <20200524192550.4559-1-miquel.raynal@bootlin.com>
- <20200524212740.08c2810f@xps13>
- <DB7PR03MB4604C2B50C013033D0CB95F8F5B20@DB7PR03MB4604.eurprd03.prod.outlook.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E953789D63
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 22:27:23 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1jcz5Q-0008Vx-0y; Sun, 24 May 2020 22:27:16 +0000
+From: Colin King <colin.king@canonical.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/auth: remove redundant assignment to variable ret
+Date: Sun, 24 May 2020 23:27:15 +0100
+Message-Id: <20200524222715.27305-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,28 +40,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "vigneshr@ti.com" <vigneshr@ti.com>,
- "kdasu.kdev@gmail.com" <kdasu.kdev@gmail.com>,
- "richard@nod.at" <richard@nod.at>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "computersforpeace@gmail.com" <computersforpeace@gmail.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CsOBbHZhcm8gRmVybsOhbmRleiBSb2phcyA8bm9sdGFyaUBnbWFpbC5jb20+IHdyb3RlIG9uIFN1
-biwgMjQgTWF5IDIwMjAKMjE6MTM6NDEgKzAwMDA6Cgo+IFRoYW5rcyBmb3IgbWVyZ2luZyB0aGUg
-cGF0Y2hlcyA6KS4KPiAKPiBCVFcsIGlzIHRoZXJlIHNvbWV0aGluZyB3cm9uZyB3aXRoIHBhdGNo
-IDU/Cj4gSSBjYW4gc2VlIHBhdGNoZXMgMS00IGFwcGxpZWQgaW4gaHR0cHM6Ly9naXQua2VybmVs
-Lm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvbXRkL2xpbnV4LmdpdC9sb2cvP2g9bmFuZC9u
-ZXh0LCBidXQgSSBjYW7igJl0IHNlZSBwYXRjaCA1Lgo+IAoKRG9uZSA6KQpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+From: Colin Ian King <colin.king@canonical.com>
+
+The variable ret is being initialized with a value that is
+never read and it is being updated later with a new value. The
+initialization is redundant and can be removed.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/drm_auth.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index 800ac39f3213..74ce0c29c960 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -282,7 +282,7 @@ static void drm_drop_master(struct drm_device *dev,
+ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 			 struct drm_file *file_priv)
+ {
+-	int ret = -EINVAL;
++	int ret;
+ 
+ 	mutex_lock(&dev->master_mutex);
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
