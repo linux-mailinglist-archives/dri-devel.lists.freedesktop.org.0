@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6820C1E07CE
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:22:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AD41E07B6
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:21:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091CA89D84;
-	Mon, 25 May 2020 07:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F6A89D64;
+	Mon, 25 May 2020 07:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B06589BF3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 19:17:05 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D59F89BF3
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 19:17:14 +0000 (UTC)
 X-Originating-IP: 91.224.148.103
 Received: from localhost.localdomain (unknown [91.224.148.103])
  (Authenticated sender: miquel.raynal@bootlin.com)
- by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 29EA3240002;
- Sun, 24 May 2020 19:16:59 +0000 (UTC)
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id AA8A9FF803;
+ Sun, 24 May 2020 19:17:10 +0000 (UTC)
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: =?utf-8?q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>,
  computersforpeace@gmail.com, kdasu.kdev@gmail.com,
@@ -26,15 +26,15 @@ To: =?utf-8?q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>,
  bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4] mtd: rawnand: brcmnand: correctly verify erased pages
-Date: Sun, 24 May 2020 21:16:58 +0200
-Message-Id: <20200524191658.29742-1-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v4 2/2] mtd: rawnand: brcmnand: improve hamming oob layout
+Date: Sun, 24 May 2020 21:17:09 +0200
+Message-Id: <20200524191709.29417-1-miquel.raynal@bootlin.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200512082451.771212-1-noltari@gmail.com>
+In-Reply-To: <20200512075733.745374-3-noltari@gmail.com>
 References: 
 MIME-Version: 1.0
 X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: dcb351c03f2fa6a599de1061b174167e03ee312b
+X-linux-mtd-patch-commit: d00358d7a1c50718232799e1ee10955bcd73795a
 X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,17 +53,16 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIwLTA1LTEyIGF0IDA4OjI0OjUxIFVUQywgPT91dGYtOD9xPz1DMz04MWx2YXJv
-X0Zlcm49QzM9QTFuZGV6X1JvamFzPz0gd3JvdGU6Cj4gVGhlIGN1cnJlbnQgY29kZSBjaGVja3Mg
-dGhhdCB0aGUgd2hvbGUgT09CIGFyZWEgaXMgZXJhc2VkLgo+IFRoaXMgaXMgYSBwcm9ibGVtIHdo
-ZW4gSkZGUzIgY2xlYW5tYXJrZXJzIGFyZSBhZGRlZCB0byB0aGUgT09CLCBzaW5jZSBpdCB3aWxs
-Cj4gZmFpbCBkdWUgdG8gdGhlIHVzYWJsZSBPT0IgYnl0ZXMgbm90IGJlaW5nIDB4ZmYuCj4gQ29y
-cmVjdCB0aGlzIGJ5IG9ubHkgY2hlY2tpbmcgdGhhdCBkYXRhIGFuZCBFQ0MgYnl0ZXMgYXJlbid0
-IDB4ZmYuCj4gCj4gRml4ZXM6IDAyYjg4ZWVhOWY5YyAoIm10ZDogYnJjbW5hbmQ6IEFkZCBjaGVj
-ayBmb3IgZXJhc2VkIHBhZ2UgYml0ZmxpcHMiKQo+IFNpZ25lZC1vZmYtYnk6IMOBbHZhcm8gRmVy
-bsOhbmRleiBSb2phcyA8bm9sdGFyaUBnbWFpbC5jb20+CgpBcHBsaWVkIHRvIGh0dHBzOi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L210ZC9saW51eC5naXQgbmFuZC9u
-ZXh0LCB0aGFua3MuCgpNaXF1ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+T24gVHVlLCAyMDIwLTA1LTEyIGF0IDA3OjU3OjMzIFVUQywgPT91dGYtOD9xPz1DMz04MWx2YXJv
+X0Zlcm49QzM9QTFuZGV6X1JvamFzPz0gd3JvdGU6Cj4gVGhlIGN1cnJlbnQgY29kZSBnZW5lcmF0
+ZXMgOCBvb2Igc2VjdGlvbnM6Cj4gUzEJMS01Cj4gRUNDCTYtOAo+IFMyCTktMTUKPiBTMwkxNi0y
+MQo+IEVDQwkyMi0yNAo+IFM0CTI1LTMxCj4gUzUJMzItMzcKPiBFQ0MJMzgtNDAKPiBTNgk0MS00
+Nwo+IFM3CTQ4LTUzCj4gRUNDCTU0LTU2Cj4gUzgJNTctNjMKPiAKPiBDaGFuZ2UgaXQgYnkgbWVy
+Z2luZyBjb250aW51b3VzIHNlY3Rpb25zOgo+IFMxCTEtNQo+IEVDQwk2LTgKPiBTMgk5LTIxCj4g
+RUNDCTIyLTI0Cj4gUzMJMjUtMzcKPiBFQ0MJMzgtNDAKPiBTNAk0MS01Mwo+IEVDQwk1NC01Ngo+
+IFM1CTU3LTYzCj4gCj4gU2lnbmVkLW9mZi1ieTogw4FsdmFybyBGZXJuw6FuZGV6IFJvamFzIDxu
+b2x0YXJpQGdtYWlsLmNvbT4KCkFwcGxpZWQgdG8gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIv
+c2NtL2xpbnV4L2tlcm5lbC9naXQvbXRkL2xpbnV4LmdpdCBuYW5kL25leHQsIHRoYW5rcy4KCk1p
+cXVlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
