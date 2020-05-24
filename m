@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1B81E07D1
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080811E018C
+	for <lists+dri-devel@lfdr.de>; Sun, 24 May 2020 20:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B1F89E9E;
-	Mon, 25 May 2020 07:21:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0220B89C2A;
+	Sun, 24 May 2020 18:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6200A89DB7
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 18:41:19 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id l15so18126725lje.9
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 11:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=i8KyzXHKIumyKcOOKIQxQqqoRSvdhyjaN9Ou/p7liK8=;
- b=BqhRT/gd4E44riA6Wiy8Om0tHR69jQXMYmbdhNefaQphsk3H7v9+/R4I4EuLk/MrEP
- +Dv2TRzhLwOpCc0n597mnkqxjySzcoio4vs5V0pPN+M+sYCjBDcFbMxrCiCswJh0QY4N
- yzsg7iTNM4tTwkfFmmn7ZXuzXSy2ZcX8DNj+UBKpPMLu1EtZcgXxroyvdH7HPHp+ikfl
- xuNzKBCj3bziZCjoV8U5N5dXY4cxhsdWtcveEi52GXgaX1HidVQJ6mBoKvpmWhJ9bdrN
- oi9jyv6NLMP9rnzK+Vo6/cJGAr5sAL7GM95v2vLs0N70raolMn+Bml8LzNAeyqsIEKeX
- W8iw==
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA2689C2A
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 18:53:19 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id j145so14415488oib.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 11:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TMLYV07cbfSPWnrIAdUyiuv5pzgWkCg4U+syR/bfgW8=;
+ b=R5lxnVUIz93U/VOUNmPUZR1/u41Ji6BDSrSgA60AX4C2Dee7vWebGJQYAPfK6ig9Ch
+ dLHLLWpIyRr6H78gHrXieAHsP0Wjw542jYAKTRDnML42w3R82XUevFHtTCnEuZVOPIkU
+ nw88kmg6KoXZwUgByP8nLV4YHl+8kj8cK5L80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i8KyzXHKIumyKcOOKIQxQqqoRSvdhyjaN9Ou/p7liK8=;
- b=i4WiBAyywYh0WytVq5iaVlMiCelasXoWJqm63+u1YNet7oL2R0JrlYoLbkMg/YkvFu
- EaWIXIGVDYEr2ok1KYuwDLWZruMlAFM7xZJzsFXVcfK9oFeAk8eatbtafkuSua/WbwyY
- ulrAeScsP4pDgQib9D1azquTfrHzUyQTWahy5NULsVXRqZ/WXDVrvz7PLn7WD/pY6uZy
- vrFgtMfxGdC5zHKaDnBdMw6T3czRcFK4ZB8jJ0rgBgoR0yh1spFpRzEzQmWiQG1np2du
- Vzs6JiKndlZhZnw6r4qS/qqqOPpYqe9iaR1owMlQbwOghWUsdqyW0u8fBSSRYPMTStgd
- h8Fg==
-X-Gm-Message-State: AOAM532JJQSvGgomBgiEVdV25icJlbys17uxf3jGETWCboplKBTrdE1P
- +2+gVY1VBq+SMrs7AY8Zy0T39Kzw
-X-Google-Smtp-Source: ABdhPJzswEHQjqu7AlJZeRjZr+f5jmG4PSyaBms0l5qUUhd3hzXmhpqNt+e61OpwIJBsdLbfxMAAbw==
-X-Received: by 2002:a2e:9746:: with SMTP id f6mr12032867ljj.189.1590345677778; 
- Sun, 24 May 2020 11:41:17 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-76-17-204.pppoe.mtu-net.ru.
- [91.76.17.204])
- by smtp.googlemail.com with ESMTPSA id o4sm4063239lfb.75.2020.05.24.11.41.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 May 2020 11:41:17 -0700 (PDT)
-Subject: Re: [PATCH v5 0/6] Support DRM bridges on NVIDIA Tegra
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20200418170703.1583-1-digetx@gmail.com>
-Message-ID: <65a9c464-7031-586d-3b5e-d29ec01934ab@gmail.com>
-Date: Sun, 24 May 2020 21:41:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TMLYV07cbfSPWnrIAdUyiuv5pzgWkCg4U+syR/bfgW8=;
+ b=kiv+LiywqasFqJwseDNGtguuNZ39U8ZMoXZetQByQbsibOK3+mclVr3aGj3aSSlibj
+ Gt3ylSgeznJHKUsbh5CUFj3N25+wwd5NZYjbpmGA4X9bkrRZQFTSX3XOdmHUZf5Ti6gM
+ kTgvXBghB6h6DJ0AbCAgevQbDL+gomOyAIn6KJZz+KZyG9XB1HkVYNayqpQVWZ7EF81G
+ muoerDU9l+5XIYkiEkgSv2SEbLK9ttaSwBoVL/N9NoCtAKA8BcjcfQUIZGG+77aoBshw
+ UEBRAfeyu2u9wFxvFT7VLeN3IA/LsGYvF76GUssf9tYCrIeteF7NwwsQZey9NqsQNqkw
+ I0qA==
+X-Gm-Message-State: AOAM530wxLt/9ya6HHKZMgOhwfwq11FNfVzjYC4AvSPWi4/aQhJ5CD+f
+ SumMD1q1zJ083qam0qOQgpezuUPmM0PH44vNC+EgVg==
+X-Google-Smtp-Source: ABdhPJzYQs8qTptkaEBREmKGmBLAPRD+p0MG0AM9VACafV1XhsnYOxo/FI5cN/l7xJlYOJevl1azC1alnQJH8a8KEDA=
+X-Received: by 2002:aca:fd14:: with SMTP id b20mr9101162oii.14.1590346398668; 
+ Sun, 24 May 2020 11:53:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200418170703.1583-1-digetx@gmail.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
+References: <20200523154426.1088988-1-issor.oruam@gmail.com>
+In-Reply-To: <20200523154426.1088988-1-issor.oruam@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Sun, 24 May 2020 20:53:07 +0200
+Message-ID: <CAKMK7uGKps4AfLKTSP2HZTHd1cm+1dMD9r8M9rKobqwXGgv5EQ@mail.gmail.com>
+Subject: Re: [PATCH] xf86drm: add drmOpenByFB
+To: Mauro Rossi <issor.oruam@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,62 +57,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Robert Foss <robert.foss@collabora.com>, cwhuang@linux.org.tw,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTguMDQuMjAyMCAyMDowNiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gSGVsbG8sCj4g
-Cj4gVGhpcyBzZXJpZXMgYWRkcyBpbml0aWFsIHN1cHBvcnQgZm9yIHRoZSBEUk0gYnJpZGdlcyB0
-byBOVklESUEgVGVncmEgRFJNCj4gZHJpdmVyLiBUaGlzIGlzIHJlcXVpcmVkIGJ5IG5ld2VyIGRl
-dmljZS10cmVlcyB3aGVyZSB3ZSBtb2RlbCB0aGUgTFZEUwo+IGVuY29kZXIgYnJpZGdlIHByb3Bl
-cmx5Lgo+IAo+IENoYW5nZWxvZzoKPiAKPiB2NTogLSBBZGRlZCBuZXcgcGF0Y2hlcyB0aGF0IG1h
-a2UgZHJtX29mX2ZpbmRfcGFuZWxfb3JfYnJpZGdlKCkgbW9yZSB1c2FibGUKPiAgICAgICBpZiBn
-cmFwaCBpc24ndCBkZWZpbmVkIGluIGEgZGV2aWNlLXRyZWU6Cj4gCj4gICAgICAgICBvZl9ncmFw
-aDogYWRkIG9mX2dyYXBoX2dldF9sb2NhbF9wb3J0KCkKPiAgICAgICAgIGRybS9vZjogTWFrZSBk
-cm1fb2ZfZmluZF9wYW5lbF9vcl9icmlkZ2UoKSB0byBjaGVjayBncmFwaCdzIHByZXNlbmNlCj4g
-Cj4gICAgIC0gVXBkYXRlZCAiU3VwcG9ydCBEUk0gYnJpZGdlcyIgcGF0Y2ggdG8gdXNlIGRybV9v
-Zl9maW5kX3BhbmVsX29yX2JyaWRnZSgpCj4gICAgICAgZGlyZWN0bHkgYW5kIGFkZGVkIFdBUk5f
-T04ob3V0cHV0LT5wYW5lbCB8fCBvdXRwdXQtPmJyaWRnZSkgc2FuaXR5LWNoZWNrLgo+IAo+ICAg
-ICAtIEFkZGVkIG5ldyAiV3JhcCBkaXJlY3RseS1jb25uZWN0ZWQgcGFuZWwgaW50byBEUk0gYnJp
-ZGdlIiBwYXRjaCwgYXMKPiAgICAgICB3YXMgc3VnZ2VzdGVkIGJ5IExhdXJlbnQgUGluY2hhcnQu
-Cj4gCj4gdjQ6IC0gRm9sbG93aW5nIHJldmlldyBjb21tZW50cyB0aGF0IHdlcmUgbWFkZSBieSBM
-YXVyZW50IFBpbmNoYXJ0IHRvIHRoZSB2MywKPiAgICAgICB3ZSBub3cgY3JlYXRlIGFuZCB1c2Ug
-dGhlICJicmlkZ2UgY29ubmVjdG9yIi4KPiAKPiB2MzogLSBGb2xsb3dpbmcgcmVjb21tZW5kYXRp
-b24gZnJvbSBTYW0gUmF2bmJvcmcsIHRoZSBuZXcgYnJpZGdlIGF0dGFjaG1lbnQKPiAgICAgICBt
-b2RlbCBpcyBub3cgYmVpbmcgdXNlZCwgaS5lLiB3ZSBhc2sgYnJpZGdlIHRvICpub3QqIGNyZWF0
-ZSBhIGNvbm5lY3Rvcgo+ICAgICAgIHVzaW5nIHRoZSBEUk1fQlJJREdFX0FUVEFDSF9OT19DT05O
-RUNUT1IgZmxhZy4KPiAKPiAgICAgLSBUaGUgYnJpZGdlIGlzIG5vdyBjcmVhdGVkIG9ubHkgZm9y
-IHRoZSBSR0IgKExWRFMpIG91dHB1dCwgYW5kIG9ubHkKPiAgICAgICB3aGVuIG5lY2Vzc2FyeS4g
-Rm9yIG5vdyB3ZSBkb24ndCBuZWVkIGJyaWRnZXMgZm9yIEhETUkgb3IgRFNJIG91dHB1dHMuCj4g
-Cj4gICAgIC0gSSBub3RpY2VkIHRoYXQgd2UncmUgbGVha2luZyBPRiBub2RlIGluIHRoZSBwYW5l
-bCdzIGVycm9yIGNvZGUgcGF0aCwKPiAgICAgICB0aGlzIGlzIGZpeGVkIG5vdyBieSB0aGUgbmV3
-IHBhdGNoICJEb24ndCBsZWFrIE9GIG5vZGUgb24gZXJyb3IiLgo+IAo+IHYyOiAtIEFkZGVkIHRo
-ZSBuZXcgInJnYjogRG9uJ3QgcmVnaXN0ZXIgY29ubmVjdG9yIGlmIGJyaWRnZSBpcyB1c2VkIgo+
-ICAgICAgIHBhdGNoLCB3aGljaCBoaWRlcyB0aGUgdW51c2VkIGNvbm5lY3RvciBwcm92aWRlZCBi
-eSB0aGUgVGVncmEgRFJNCj4gICAgICAgZHJpdmVyIHdoZW4gYnJpZGdlIGlzIHVzZWQsIHNpbmNl
-IGJyaWRnZSBwcm92aWRlcyBpdHMgb3duIGNvbm5lY3Rvcgo+ICAgICAgIHRvIHVzLgo+IAo+ICAg
-ICAtIFBsZWFzZSBub3RpY2UgdGhhdCB0aGUgZmlyc3QgIlN1cHBvcnQgRFJNIGJyaWRnZXMiIHBh
-dGNoIHdhcyBwcmV2aW91c2x5Cj4gICAgICAgc2VudCBvdXQgYXMgYSBzdGFuZGFsb25lIHYxIGNo
-YW5nZS4KPiAKPiBEbWl0cnkgT3NpcGVua28gKDYpOgo+ICAgb2ZfZ3JhcGg6IGFkZCBvZl9ncmFw
-aF9nZXRfbG9jYWxfcG9ydCgpCj4gICBkcm0vb2Y6IE1ha2UgZHJtX29mX2ZpbmRfcGFuZWxfb3Jf
-YnJpZGdlKCkgdG8gY2hlY2sgZ3JhcGgncyBwcmVzZW5jZQo+ICAgZHJtL3RlZ3JhOiBvdXRwdXQ6
-IERvbid0IGxlYWsgT0Ygbm9kZSBvbiBlcnJvcgo+ICAgZHJtL3RlZ3JhOiBvdXRwdXQ6IFN1cHBv
-cnQgRFJNIGJyaWRnZXMKPiAgIGRybS90ZWdyYTogb3V0cHV0OiByZ2I6IFN1cHBvcnQgTFZEUyBl
-bmNvZGVyIGJyaWRnZQo+ICAgZHJtL3RlZ3JhOiBvdXRwdXQ6IHJnYjogV3JhcCBkaXJlY3RseS1j
-b25uZWN0ZWQgcGFuZWwgaW50byBEUk0gYnJpZGdlCj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1f
-b2YuYyAgICAgICB8IDEzICsrKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZHJtLmggICAg
-fCAgMiArCj4gIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9vdXRwdXQuYyB8IDIxICsrKysrKystLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvcmdiLmMgICAgfCA4NSArKysrKysrKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvb2YvcHJvcGVydHkuYyAgICAgICAgICB8IDMyICsr
-KysrKysrKy0tLS0KPiAgaW5jbHVkZS9saW51eC9vZl9ncmFwaC5oICAgICAgIHwgIDcgKysrCj4g
-IDYgZmlsZXMgY2hhbmdlZCwgMTE0IGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQo+IAoK
-SGVsbG8gVGhpZXJyeSwKCkRvIHlvdSB5b3UgaGF2ZSBhbnkgb2JqZWN0aW9ucyB0byB0aGlzIHNl
-cmllcz8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Sat, May 23, 2020 at 5:44 PM Mauro Rossi <issor.oruam@gmail.com> wrote:
+>
+> OpenByFB is introduced to overcome GPU driver loading order issue
+> on a device with multiple GPUs, e.g. Intel iGPU and Nvidia dGPU
+> where the first drmfb kernel module loaded will become device file
+> /dev/dri/card0 and the second will become /dev/dri/card1
+>
+> The use case is to prefer Intel iGPU over dGPU, or viceversa,
+> in a deterministic and reliable manner.
+>
+> OpenByFB function opens the DRM device with specified fb and node type,
+> thus enabling gralloc to open the correct device node of the primary fb,
+> regardless of the GPU driver loading order.
+
+The fbdev load ordering is as inconsistent/random as the dri node
+loading. Well more so, because you might have random firmware fbdev
+drivers hanging out there. Hence I'm not following how this solves
+anything for your problem.
+
+I think usually what userspace does it look at the boot_vga property
+of the underlying device in sysfs, and prefer that one. Iirc (but
+might be wrong) that's patched to essentially mean "primary display
+device, the same the firmware used for boot-up screens". Either way I
+think the proper way to solve this is you figure out matching rules
+you care about using udev/sysfs, and then use that information to open
+the right drm node. Opening by fbdev seems a most convoluted way to
+get to a drm device (we're trying to deprecate fbdev outright as much
+as possible), and you could even match for any specific device with
+sysfs already if that's what you're doing using udev rules.
+-Daniel
+
+
+>
+> Signed-off-by: Chih-Wei Huang <cwhuang@linux.org.tw>
+> ---
+>  core-symbols.txt |  1 +
+>  xf86drm.c        | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  xf86drm.h        |  1 +
+>  3 files changed, 44 insertions(+)
+>
+> diff --git a/core-symbols.txt b/core-symbols.txt
+> index 1ff4ecaa..6bf8c70d 100644
+> --- a/core-symbols.txt
+> +++ b/core-symbols.txt
+> @@ -146,6 +146,7 @@ drmModeSetCursor2
+>  drmModeSetPlane
+>  drmMsg
+>  drmOpen
+> +drmOpenByFB
+>  drmOpenControl
+>  drmOpenOnce
+>  drmOpenOnceWithType
+> diff --git a/xf86drm.c b/xf86drm.c
+> index b49d42f7..229a54bf 100644
+> --- a/xf86drm.c
+> +++ b/xf86drm.c
+> @@ -793,6 +793,48 @@ drm_public int drmOpenRender(int minor)
+>      return drmOpenMinor(minor, 0, DRM_NODE_RENDER);
+>  }
+>
+> +/**
+> + * Open the DRM device with specified type of specified framebuffer.
+> + *
+> + * Looks up the associated DRM device with specified type of the
+> + * specified framebuffer and opens it.
+> + *
+> + * \param fb the index of framebuffer.
+> + * \param type the device node type to open, PRIMARY, CONTROL or RENDER
+> + *
+> + * \return a file descriptor on success, or a negative value on error.
+> + *
+> + */
+> +drm_public int drmOpenByFB(int fb, int type)
+> +{
+> +#ifdef __linux__
+> +    DIR *sysdir;
+> +    struct dirent *ent;
+> +    char buf[64];
+> +    const char *name = drmGetMinorName(type);
+> +    int fd = -1, len = strlen(name);
+> +
+> +    snprintf(buf, sizeof(buf), "/sys/class/graphics/fb%d/device/drm", fb);
+> +    sysdir = opendir(buf);
+> +    if (!sysdir)
+> +        return -errno;
+> +
+> +    while ((ent = readdir(sysdir))) {
+> +        if (!strncmp(ent->d_name, name, len)) {
+> +            snprintf(buf, sizeof(buf), "%s/%s", DRM_DIR_NAME, ent->d_name);
+> +            fd = open(buf, O_RDWR | O_CLOEXEC, 0);
+> +            break;
+> +        }
+> +    }
+> +
+> +    closedir(sysdir);
+> +    return fd;
+> +#else
+> +#warning "Missing implementation of drmOpenByFB"
+> +    return -EINVAL;
+> +#endif
+> +}
+> +
+>  /**
+>   * Free the version information returned by drmGetVersion().
+>   *
+> diff --git a/xf86drm.h b/xf86drm.h
+> index 7b85079a..d45d696f 100644
+> --- a/xf86drm.h
+> +++ b/xf86drm.h
+> @@ -605,6 +605,7 @@ extern int           drmOpenWithType(const char *name, const char *busid,
+>
+>  extern int           drmOpenControl(int minor);
+>  extern int           drmOpenRender(int minor);
+> +extern int           drmOpenByFB(int fb, int type);
+>  extern int           drmClose(int fd);
+>  extern drmVersionPtr drmGetVersion(int fd);
+>  extern drmVersionPtr drmGetLibVersion(int fd);
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
