@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473311E0156
-	for <lists+dri-devel@lfdr.de>; Sun, 24 May 2020 20:09:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FD01E0160
+	for <lists+dri-devel@lfdr.de>; Sun, 24 May 2020 20:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC52189A1A;
-	Sun, 24 May 2020 18:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93CD689ACC;
+	Sun, 24 May 2020 18:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D9D89A1A
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 18:09:40 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id l11so15214530wru.0
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 11:09:40 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9BDA89ACC
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 18:12:20 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id c71so2930394wmd.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 11:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=I5sd0bpTTGmV/rnbGwNSLP2tv0PAifOdYjpUCKeY/9Y=;
- b=F2lRHHdI1Gh2zVbp7VJLLXuucQ1zJQM7uX5jS6okh0tKvR8DdjzYErg3OTgTAcHluX
- yKOWYGKGtOOvMRBFGBWFpAQG/NvXvEbkNd8SO3vQH4m0LTPY3KaRNCs98Q+RBMrXcDom
- DlhHa1dYvllKU5qzHqcrUjAcT7SrVL8iJ2UY3W6STlfkT8AN0zCOxXDNn3E/8tlpcS7k
- M9XKoF+DkYtJKBSOPBdBjBx01VVX//L6wnoOauu6nql8NB0yR9jXFLTH6Ujq+wVwzY9z
- dDK4nJ8/37te84EDGdiHp2PfNqoP0l6Qb6ruy1RIl4bcWl9kZFwA+rwp8ex1PmFDfGPz
- pG3g==
+ bh=4J/cm6jvLXDE3mCoSLia2FeIV3HtrP4CV1b39kQ3A/8=;
+ b=IwKd39mmRaOvvYb3tFeD3GQOI73bQxBSdw8+VeV9Ldta0xF6HUUY0pZ5Mm41nfIJO7
+ rnMzuWCFKA14bUxN+tCNZMMCEe08sZv7dycfo5/5vuMjiaZGja0tafF485OS0RDHbxft
+ YmXcSiYVOjWJpisIZaKE8qe6RR0YPPAVfosb6dYCeOcFDLsKuyATjmVe08ZKvvtdQ5Nb
+ hjopG+6v4yUZDR5MQFGfB68QF8P/+10MVTxh9z/5W9WU4HXz0CO5IAiOnHIIYqlDjVWv
+ E/tnCHlAs5zp/9AOP7l2TSo/+xdvyntAB0r2jrb7Vzyrg7X0W4hFeUD+c0uRJFW9OoUd
+ fg+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=I5sd0bpTTGmV/rnbGwNSLP2tv0PAifOdYjpUCKeY/9Y=;
- b=SDprJBl4aehc/WJs2Ml7IrBtL3I6iP67ksbVZjoNR2DDoBFd3z1obo9MBdxVKkwwTh
- PhxeM+sR1QiRLpueXWC1O+t1VqnGH6P24g3QqtzjD2OTnsn5GZkfa/HtsEQbMVBmKvn4
- mE77+HHcVt3NcIdiiCbHP7Rk3UKqoc+XWiDbkPtp+jhBak/5wY38GYFYuQkIX3C1UyT6
- SV12wkwELV8BpIlKFhrfs8JHX4mHHiBkB+IK0jpSujWGeWhHHeUtIF+/Pjxw1fLaOLj/
- wTEK48/6HYJ16oMXpczOXu8qnileDQ82r4605dEy1Jif1JAftv5pohgHRekM1Mn6WiyN
- 4TAA==
-X-Gm-Message-State: AOAM5306HpiAFbva7A5n4+cicrcnUaGmPWaSVFUKrYFLNQ+qRvhBurqh
- 6qWaOK7nh8dbXh7VsJG5Tvw=
-X-Google-Smtp-Source: ABdhPJwUAPfdVye1qlS2OnpvE2aWbOl9Nu9LFLUxMjbIEVv0wPhNWDieR2d5P+5yES1Bm+jiaLYxoA==
-X-Received: by 2002:a5d:6284:: with SMTP id k4mr12552733wru.40.1590343778785; 
- Sun, 24 May 2020 11:09:38 -0700 (PDT)
+ bh=4J/cm6jvLXDE3mCoSLia2FeIV3HtrP4CV1b39kQ3A/8=;
+ b=tK3PTu4vkiTpBTI0+IrS/XjbDjR+b2YnD86KeVA75KIW2vaauPmnkB53D8B4wECD9u
+ ah82f7km4tkhLLGSUnaYgXINaTkQEr3XvgOBC8ClPIddGclNLdFOWUqA6hMev4iA+BGU
+ wpcxikpulukW9ijB4KdZ2zWhtgj4V90u+dXbGDzb7JkBspVLF85EgjglhHmGAq9Wwn6v
+ F01uD+v/wAI1VlOBo1oPDQcMCvg/2NFkf4vQq7NbH3OBDo/CfNTm0Gl6d/83cdCqvC9O
+ Rdz6YcKvkbbtlRNrJ0hyRm4Lg10QCVtgQUUZRx8Ch/z5ujBLn9Z91IH8am4/vgXS19+W
+ JeJQ==
+X-Gm-Message-State: AOAM531g4XZntTfIDjF79uY5voW0zXLaeMoC4wLpVPAHraisdh1aM1YU
+ z0IUaFfhSPFqRa02ijcwEQ4=
+X-Google-Smtp-Source: ABdhPJwaS92JredqOU081/tbg2UiMc8CAJPDQVSoDSEoiqkJRCMt64vGLz1jK102Fmv03ZouttLp8w==
+X-Received: by 2002:a1c:451:: with SMTP id 78mr1936944wme.83.1590343939406;
+ Sun, 24 May 2020 11:12:19 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.243])
- by smtp.gmail.com with ESMTPSA id w10sm4434164wrp.16.2020.05.24.11.09.37
+ by smtp.gmail.com with ESMTPSA id e5sm7979764wrw.19.2020.05.24.11.12.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 May 2020 11:09:37 -0700 (PDT)
-Subject: Re: [PATCH v5 06/13] soc: mediatek: cmdq: add assign function
+ Sun, 24 May 2020 11:12:18 -0700 (PDT)
+Subject: Re: [PATCH v5 07/13] soc: mediatek: cmdq: add write_s function
 To: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
 References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583664775-19382-7-git-send-email-dennis-yc.hsieh@mediatek.com>
- <c671ea8a-07fa-a050-4679-c7aa15d19a9d@gmail.com>
- <1590339695.31286.4.camel@mtkswgap22>
+ <1583664775-19382-8-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <58575c2c-0b5a-55c0-f3b0-082bfd4b6144@gmail.com>
+ <1590341186.31286.16.camel@mtkswgap22>
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -127,12 +127,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <b087eb7c-7b6b-344e-0c50-34b09610e74e@gmail.com>
-Date: Sun, 24 May 2020 20:09:36 +0200
+Message-ID: <f48d7566-d814-35e0-e04a-756687ed9e2b@gmail.com>
+Date: Sun, 24 May 2020 20:12:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1590339695.31286.4.camel@mtkswgap22>
+In-Reply-To: <1590341186.31286.16.camel@mtkswgap22>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,138 +159,189 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 24/05/2020 19:01, Dennis-YC Hsieh wrote:
-> Hi Matthias,
+On 24/05/2020 19:26, Dennis-YC Hsieh wrote:
+> Hi Mattias,
 > 
 > Thanks for your comment.
 > 
-> On Sat, 2020-05-16 at 19:59 +0200, Matthias Brugger wrote:
+> On Sat, 2020-05-16 at 20:14 +0200, Matthias Brugger wrote:
 >>
 >> On 08/03/2020 11:52, Dennis YC Hsieh wrote:
->>> Add assign function in cmdq helper which assign constant value into
->>> internal register by index.
+>>> add write_s function in cmdq helper functions which
+>>> writes value contains in internal register to address
+>>> with large dma access support.
 >>>
 >>> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 >>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 >>> ---
->>>  drivers/soc/mediatek/mtk-cmdq-helper.c   | 24 +++++++++++++++++++++++-
->>>  include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
->>>  include/linux/soc/mediatek/mtk-cmdq.h    | 14 ++++++++++++++
->>>  3 files changed, 38 insertions(+), 1 deletion(-)
+>>>  drivers/soc/mediatek/mtk-cmdq-helper.c   | 34 +++++++++++++++++++++++-
+>>>  include/linux/mailbox/mtk-cmdq-mailbox.h |  2 ++
+>>>  include/linux/soc/mediatek/mtk-cmdq.h    | 20 ++++++++++++++
+>>>  3 files changed, 55 insertions(+), 1 deletion(-)
 >>>
 >>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
->>> index 98f23ba3ba47..33153d17c9d9 100644
+>>> index 33153d17c9d9..90f1ff2b4b00 100644
 >>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 >>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
->>> @@ -12,6 +12,7 @@
->>>  #define CMDQ_WRITE_ENABLE_MASK	BIT(0)
->>>  #define CMDQ_POLL_ENABLE_MASK	BIT(0)
->>>  #define CMDQ_EOC_IRQ_EN		BIT(0)
->>> +#define CMDQ_REG_TYPE		1
->>>  
->>>  struct cmdq_instruction {
+>>> @@ -18,6 +18,10 @@ struct cmdq_instruction {
 >>>  	union {
->>> @@ -21,8 +22,17 @@ struct cmdq_instruction {
+>>>  		u32 value;
+>>>  		u32 mask;
+>>> +		struct {
+>>> +			u16 arg_c;
+>>> +			u16 src_reg;
+>>> +		};
+>>>  	};
 >>>  	union {
 >>>  		u16 offset;
->>>  		u16 event;
->>> +		u16 reg_dst;
->>> +	};
->>> +	union {
->>> +		u8 subsys;
->>> +		struct {
->>> +			u8 sop:5;
->>> +			u8 arg_c_t:1;
->>> +			u8 arg_b_t:1;
->>> +			u8 dst_t:1;
->>> +		};
+>>> @@ -29,7 +33,7 @@ struct cmdq_instruction {
+>>>  		struct {
+>>>  			u8 sop:5;
+>>>  			u8 arg_c_t:1;
+>>> -			u8 arg_b_t:1;
+>>> +			u8 src_t:1;
 >>
->> This union seems without context in this patch. Please drop.
+>> fixing patch 6/13 please. seems the struct should be added in this patch.
+> 
+> ok, will move to this patch.
+> 
 >>
-> 
-> The dst_t use in cmdq_pkt_assign function so how about merge other
-
-Ah didn't realize this. Then I think it's OK like it is.
-
-Regards,
-Matthias
-
-> variables to reserved and leave dst_t ?
-> 
-> struct {
-> 	u8 reserved_t:7;
-> 	u8 dst_t:1;
-> };
-> 
-> 
-> Regards,
-> Dennis
-> 
-> 
->> Regards,
->> Matthias
->>
+>>>  			u8 dst_t:1;
+>>>  		};
 >>>  	};
->>> -	u8 subsys;
->>>  	u8 op;
->>>  };
->>>  
->>> @@ -277,6 +287,18 @@ int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
+>>> @@ -222,6 +226,34 @@ int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
 >>>  }
->>>  EXPORT_SYMBOL(cmdq_pkt_poll_mask);
+>>>  EXPORT_SYMBOL(cmdq_pkt_write_mask);
 >>>  
->>> +int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value)
+>>> +int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>> +		     u16 addr_low, u16 src_reg_idx, u32 mask)
 >>> +{
 >>> +	struct cmdq_instruction inst = { {0} };
+>>> +	int err;
 >>> +
->>> +	inst.op = CMDQ_CODE_LOGIC;
->>> +	inst.dst_t = CMDQ_REG_TYPE;
->>> +	inst.reg_dst = reg_idx;
->>> +	inst.value = value;
+>>> +	if (mask != U32_MAX) {
+>>> +		inst.op = CMDQ_CODE_MASK;
+>>> +		inst.mask = ~mask;
+>>> +		err = cmdq_pkt_append_command(pkt, inst);
+>>> +		if (err < 0)
+>>> +			return err;
+>>> +
+>>> +		inst.mask = 0;
+>>> +		inst.op = CMDQ_CODE_WRITE_S_MASK;
+>>> +	} else {
+>>> +		inst.op = CMDQ_CODE_WRITE_S;
+>>> +	}
+>>> +
+>>> +	inst.src_t = CMDQ_REG_TYPE;
+>>
+>> Not defined.
+>> Please make sure that every patch compiles on it's own and does not add a
+>> regression. This is very helpful if we have to bisect the kernel in the future.
+> 
+> May I know which part not defined? The src_t defined on top of this
+> patch and CMDQ_REG_TYPE defined in last patc (see 06/13).
+
+correct, sorry for the noise.
+
+> 
+>>
+>>> +	inst.sop = high_addr_reg_idx;
+>>> +	inst.offset = addr_low;
+>>> +	inst.src_reg = src_reg_idx;
+>>> +
 >>> +	return cmdq_pkt_append_command(pkt, inst);
 >>> +}
->>> +EXPORT_SYMBOL(cmdq_pkt_assign);
+>>> +EXPORT_SYMBOL(cmdq_pkt_write_s);
 >>> +
->>>  static int cmdq_pkt_finalize(struct cmdq_pkt *pkt)
+>>>  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
 >>>  {
 >>>  	struct cmdq_instruction inst = { {0} };
 >>> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
->>> index dfe5b2eb85cc..121c3bb6d3de 100644
+>>> index 121c3bb6d3de..8ef87e1bd03b 100644
 >>> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
 >>> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
->>> @@ -59,6 +59,7 @@ enum cmdq_code {
+>>> @@ -59,6 +59,8 @@ enum cmdq_code {
 >>>  	CMDQ_CODE_JUMP = 0x10,
 >>>  	CMDQ_CODE_WFE = 0x20,
 >>>  	CMDQ_CODE_EOC = 0x40,
->>> +	CMDQ_CODE_LOGIC = 0xa0,
+>>> +	CMDQ_CODE_WRITE_S = 0x90,
+>>> +	CMDQ_CODE_WRITE_S_MASK = 0x91,
+>>>  	CMDQ_CODE_LOGIC = 0xa0,
 >>>  };
 >>>  
->>>  enum cmdq_cb_status {
 >>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
->>> index a74c1d5acdf3..83340211e1d3 100644
+>>> index 83340211e1d3..c72d826d8934 100644
 >>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
 >>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
->>> @@ -152,6 +152,20 @@ int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
->>>   */
->>>  int cmdq_pkt_poll_mask(struct cmdq_pkt *pkt, u8 subsys,
->>>  		       u16 offset, u32 value, u32 mask);
->>> +
+>>> @@ -12,6 +12,8 @@
+>>>  #include <linux/timer.h>
+>>>  
+>>>  #define CMDQ_NO_TIMEOUT		0xffffffffu
+>>> +#define CMDQ_ADDR_HIGH(addr)	((u32)(((addr) >> 16) & GENMASK(31, 0)))
+>>> +#define CMDQ_ADDR_LOW(addr)	((u16)(addr) | BIT(1))
+>>>  
+>>>  struct cmdq_pkt;
+>>>  
+>>> @@ -102,6 +104,24 @@ int cmdq_pkt_write(struct cmdq_pkt *pkt, u8 subsys, u16 offset, u32 value);
+>>>  int cmdq_pkt_write_mask(struct cmdq_pkt *pkt, u8 subsys,
+>>>  			u16 offset, u32 value, u32 mask);
+>>>  
 >>> +/**
->>> + * cmdq_pkt_assign() - Append logic assign command to the CMDQ packet, ask GCE
->>> + *		       to execute an instruction that set a constant value into
->>> + *		       internal register and use as value, mask or address in
->>> + *		       read/write instruction.
+>>> + * cmdq_pkt_write_s() - append write_s command to the CMDQ packet
 >>> + * @pkt:	the CMDQ packet
->>> + * @reg_idx:	the CMDQ internal register ID
->>> + * @value:	the specified value
+>>> + * @high_addr_reg_idx:	internal regisger ID which contains high address of pa
+>>
+>> s/regisger/register
+> 
+> will fix
+> 
+>>
+>>> + * @addr_low:	low address of pa
+>>> + * @src_reg_idx:	the CMDQ internal register ID which cache source value
+>>> + * @mask:	the specified target address mask, use U32_MAX if no need
 >>> + *
 >>> + * Return: 0 for success; else the error code is returned
+>>> + *
+>>> + * Support write value to physical address without subsys. Use CMDQ_ADDR_HIGH()
+>>> + * to get high addrees and call cmdq_pkt_assign() to assign value into internal
+>>
+>> s/addrees/address
+> 
+> will fix
+> 
+>>
+>>> + * reg. Also use CMDQ_ADDR_LOW() to get low address for addr_low parameterwhen
+>>
+>> s/parameterwhen/parameter when
+> 
+> will fix
+> 
+>>
+>>> + * call to this function.
 >>> + */
->>> +int cmdq_pkt_assign(struct cmdq_pkt *pkt, u16 reg_idx, u32 value);
+>>> +int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>> +		     u16 addr_low, u16 src_reg_idx, u32 mask);
 >>> +
+>>
+>> In general I wonder if we shouldn't provide two functions, one that writes a
+>> mask and on for the else case.
+> 
+> ok, I'll separate this function to cmdq_pkt_write_s and
+> cmdq_pkt_write_s_mask. Let the client choose which case is more
+> suitable.
+
+Sound good, thanks.
+
+
+> 
+> 
+>>
+>> Regards,
+>> Matthias
+>>
 >>>  /**
->>>   * cmdq_pkt_flush_async() - trigger CMDQ to asynchronously execute the CMDQ
->>>   *                          packet and call back at the end of done packet
+>>>   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
+>>>   * @pkt:	the CMDQ packet
 >>>
 > 
 _______________________________________________
