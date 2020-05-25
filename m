@@ -1,48 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6041E07AF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:21:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 928941E07CC
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC9889C1E;
-	Mon, 25 May 2020 07:21:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA5789DBC;
+	Mon, 25 May 2020 07:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id F3D7589D67
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 02:27:07 +0000 (UTC)
-X-UUID: 4fc6df781b9b4a069b5cc16a77390c77-20200525
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=iCgaqwFsUfvQyQOBvfXfyk2ReBUFB1D+FN/5yAizTjQ=; 
- b=A9+20zyQu4UmAW9DpAVHlg23ZdynfSZzOahsLkXaj9IjywU/R0exT/SAOvQ+G1ZxjSwrVRtzwmk2Ed8QQV7vvX6f2RSCETJwMS88O9FUxRN6O3exb2WLAuBDn7BMJ+MJuw87j/JNBhW2/oaMZZAylBZDVSN7uyH+aAwNRr2stx4=;
-X-UUID: 4fc6df781b9b4a069b5cc16a77390c77-20200525
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <dennis-yc.hsieh@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1671043586; Mon, 25 May 2020 10:27:02 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 25 May 2020 10:27:00 +0800
-Received: from [172.21.77.33] (172.21.77.33) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 25 May 2020 10:27:00 +0800
-Message-ID: <1590373621.31522.7.camel@mtkswgap22>
-Subject: Re: [PATCH v5 09/13] soc: mediatek: cmdq: add write_s value function
-From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Date: Mon, 25 May 2020 10:27:01 +0800
-In-Reply-To: <eb604637-28f0-fa8f-ce4b-3e87f6c944ad@gmail.com>
-References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583664775-19382-10-git-send-email-dennis-yc.hsieh@mediatek.com>
- <f9fd9ea8-f706-ed4a-4c83-c53ad092035c@gmail.com>
- <1590341462.31286.19.camel@mtkswgap22>
- <eb604637-28f0-fa8f-ce4b-3e87f6c944ad@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-MIME-Version: 1.0
-X-MTK: N
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824E189D53
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 03:41:10 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id p21so8099383pgm.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 20:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=V6bHngqzBjjcimyp4HxH/p2UMJo9dJvIc8PwFZSC+CA=;
+ b=aOeC/Nr/acFM3HuR/Lo9ZtaRnMkQ5S0uv2LDWJyAYXFdzmUzRE3n13Fhl8x4FV8Q8E
+ XQB+9W906G96KSwV1kx6VsFfQY6MqD7Ui7+3z4+jtPFDQ7+LOeTQYXLj0MWSk8qTP2ln
+ jlHo8yQ8AHp4Bjd7pefU72K2UID80/OCDtoEW7OibLN/DTbpSCdMSY/TkzGql8LzJVAB
+ mEycMb7WC82ZzHF7G2vU2NH2LfKkw0z6nGy+hcWjTLQvl+uAX7szl0b7kwB54MWAAeb2
+ NKSfqm7qnS6u6e7MwNcGSG2Vfisjk1AL9YvtF6veVWeuIy94iOrXs4qo3tEksUCm6LSM
+ rj9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=V6bHngqzBjjcimyp4HxH/p2UMJo9dJvIc8PwFZSC+CA=;
+ b=DY9m+2BOrYnBOUCNRug/yWeob1o95KdwLfbAoZT0U9daCzFiSdN/5KQmJkEY1vxU5d
+ Y9uXyh08SS3DP1XzYsjzRmP6fh17zPTmMOOVB0LTyzjEZAIKpuLzLnEzv5jW3GzW1XT8
+ 08+rAv1thXUsxPqZ1sqQdXaEpbklSupeY16EfK8qLIcaovrH+BTN7ONOfhkCczTMFyy3
+ XL2Fig9JZWkcuRKMwg//EGjRSxUtWRnS4yi+6e1/MiiC88X0Hv09TPP090p0ilu9Gku0
+ iTGtDxpUMvycCJTN5sFFOKoje3EI3LN/r5jT+QuzyUGK8cDXWDDbzy1uZtsnTky3vVsY
+ pLpA==
+X-Gm-Message-State: AOAM533z4l5N7681WUgUERFYuPv5SajqaUO1kuXSLHe8LB29cuQ5+R4I
+ 5M5NRQBC8k8DrDdvSzOq2Gs=
+X-Google-Smtp-Source: ABdhPJxqLStyPNMFpP3TVYD0bkPBn6i+JD/A+HI8Eb7EY3tJVFtPEv203Lr79ePRqbSvGJDs5dnPYA==
+X-Received: by 2002:aa7:99cc:: with SMTP id v12mr15435085pfi.279.1590378070073; 
+ Sun, 24 May 2020 20:41:10 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([103.206.191.44])
+ by smtp.gmail.com with ESMTPSA id 7sm11981695pfc.203.2020.05.24.20.41.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 24 May 2020 20:41:09 -0700 (PDT)
+From: dillon.minfei@gmail.com
+To: robh+dt@kernel.org, p.zabel@pengutronix.de, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@st.com, thierry.reding@gmail.com, sam@ravnborg.org,
+ airlied@linux.ie, daniel@ffwll.ch, mturquette@baylibre.com,
+ sboyd@kernel.org
+Subject: [PATCH v5 0/8] Enable ili9341 and l3gd20 on stm32f429-disco
+Date: Mon, 25 May 2020 11:40:54 +0800
+Message-Id: <1590378062-7965-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <broonie@kernel.org>
+References: <broonie@kernel.org>
 X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,136 +68,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
- Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Houlong Wei <houlong.wei@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, dillon min <dillon.minfei@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: dillon min <dillon.minfei@gmail.com>
 
-On Sun, 2020-05-24 at 20:13 +0200, Matthias Brugger wrote:
-> 
-> On 24/05/2020 19:31, Dennis-YC Hsieh wrote:
-> > Hi Matthias,
-> > 
-> > Thanks for your comment.
-> > 
-> > On Sat, 2020-05-16 at 20:20 +0200, Matthias Brugger wrote:
-> >>
-> >> On 08/03/2020 11:52, Dennis YC Hsieh wrote:
-> >>> add write_s function in cmdq helper functions which
-> >>> writes a constant value to address with large dma
-> >>> access support.
-> >>>
-> >>> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
-> >>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> >>> ---
-> >>>  drivers/soc/mediatek/mtk-cmdq-helper.c | 26 ++++++++++++++++++++++++++
-> >>>  include/linux/soc/mediatek/mtk-cmdq.h  | 14 ++++++++++++++
-> >>>  2 files changed, 40 insertions(+)
-> >>>
-> >>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>> index 03c129230cd7..a9ebbabb7439 100644
-> >>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-> >>> @@ -269,6 +269,32 @@ int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>>  }
-> >>>  EXPORT_SYMBOL(cmdq_pkt_write_s);
-> >>>  
-> >>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>> +			   u16 addr_low, u32 value, u32 mask)
-> >>> +{
-> >>> +	struct cmdq_instruction inst = { {0} };
-> >>> +	int err;
-> >>> +
-> >>> +	if (mask != U32_MAX) {
-> >>> +		inst.op = CMDQ_CODE_MASK;
-> >>> +		inst.mask = ~mask;
-> >>> +		err = cmdq_pkt_append_command(pkt, inst);
-> >>> +		if (err < 0)
-> >>> +			return err;
-> >>> +
-> >>> +		inst.op = CMDQ_CODE_WRITE_S_MASK;
-> >>> +	} else {
-> >>> +		inst.op = CMDQ_CODE_WRITE_S;
-> >>> +	}
-> >>> +
-> >>> +	inst.sop = high_addr_reg_idx;
-> >>
-> >> Writing u16 value in a 5 bit wide variable?
-> > 
-> > We need only 5 bits in this case. I'll change high_addr_reg_idx
-> > parameter to u8.
-> > 
-> 
-> Ok, please make sure to mask the value, so that it's explicit in the code that
-> we only use the lowest 5 bits of high_addr_reg_idx.
+V5's update based on Mark Brown's suggestion, use 'SPI_MASTER_MUST_RX'
+for SPI_SIMPLEX_RX mode on stm32 spi controller.
 
-Is it necessary to mask the value?
-Since sop already defined as "u8 sop:5;", I thought it is explicit that
-only use 5 bits and compiler should do the rest jobs.
+V5:
+1 instead of add send dummy data out under SIMPLEX_RX mode,
+   add flags 'SPI_CONTROLLER_MUST_TX' for stm32 spi driver
+2 bypass 'SPI_CONTROLLER_MUST_TX' and 'SPI_CONTROLLER_MUST_RX' under
+'SPI_3WIRE' mode
+
+V4:
+According to alexandre torgue's suggestion, combine ili9341 and
+l3gd20's modification on stm32f429-disco board to one patchset.
+
+Changes:
+
+ili9341:
+
+1 update ili9341 panel driver according to Linus's suggestion
+2 drop V1's No.5 patch, sumbit new changes for clk-stm32f4
+3 merge l3gd20's change to this patchset
+
+V3:
+1 merge original tiny/ili9341.c driver to panel/panel-ilitek-ili9341.c
+  to support serial spi & parallel rgb interface in one driver.
+2 update ilitek,ili9341.yaml dts binding documentation.
+3 update stm32f429-disco dts binding
+
+V2:
+1 verify ilitek,ili9341.yaml with make O=../linux-stm32
+  dt_binding_check
+  DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/
+  ilitek,ili9341.yaml
+
+V1:
+1 add ili9341 drm panel driver
+2 add ltdc, spi5 controller for stm32f429-disco
+3 add ltdc, spi5 pin map for stm32f429-disco
+4 add docs about ili9341
+5 fix ltdc driver loading hang in clk set rate bug
 
 
-Regards,
-Dennis
+L3gd20:
+V3:
+1 merge stm32f429-disco dtbs binding with ili9341 part
 
-> 
-> Regards,
-> Matthias
-> 
-> >>
-> >>> +	inst.offset = addr_low;
-> >>> +	inst.value = value;
-> >>> +
-> >>> +	return cmdq_pkt_append_command(pkt, inst);
-> >>> +}
-> >>> +EXPORT_SYMBOL(cmdq_pkt_write_s_value);
-> >>> +
-> >>>  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-> >>>  {
-> >>>  	struct cmdq_instruction inst = { {0} };
-> >>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-> >>> index 01b4184af310..fec292aac83c 100644
-> >>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
-> >>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-> >>> @@ -135,6 +135,20 @@ int cmdq_pkt_read_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx, u16 addr_low,
-> >>>  int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>>  		     u16 addr_low, u16 src_reg_idx, u32 mask);
-> >>>  
-> >>> +/**
-> >>> + * cmdq_pkt_write_s_value() - append write_s command with mask to the CMDQ
-> >>> + *			      packet which write value to a physical address
-> >>> + * @pkt:	the CMDQ packet
-> >>> + * @high_addr_reg_idx:	internal regisger ID which contains high address of pa
-> >>
-> >> register
-> > 
-> > will fix
-> > 
-> > 
-> > Regards,
-> > Dennis
-> > 
-> >>
-> >>> + * @addr_low:	low address of pa
-> >>> + * @value:	the specified target value
-> >>> + * @mask:	the specified target mask
-> >>> + *
-> >>> + * Return: 0 for success; else the error code is returned
-> >>> + */
-> >>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
-> >>> +			   u16 addr_low, u32 value, u32 mask);
-> >>> +
-> >>>  /**
-> >>>   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
-> >>>   * @pkt:	the CMDQ packet
-> >>>
-> > 
+V2:
+1 insert blank line at stm32f420-disco.dts line 143
+2 add more description for l3gd20 in commit message
+
+V1:
+1 enable spi5 controller on stm32f429-disco (dts)
+2 add spi5 pinmap for stm32f429-disco  (dts)
+3 add SPI_SIMPLEX_RX, SPI_3WIRE_RX support for stm32f4
+
+
+dillon min (8):
+  ARM: dts: stm32: Add dma config for spi5
+  ARM: dts: stm32: Add pin map for ltdc & spi5 on stm32f429-disco board
+  ARM: dts: stm32: enable ltdc binding with ili9341, gyro l3gd20 on    
+    stm32429-disco board
+  dt-bindings: display: panel: Add ilitek ili9341 panel bindings
+  clk: stm32: Fix stm32f429's ltdc driver hang in set clock rate,    
+    fix duplicated ltdc clock register to 'clk_core' case ltdc's clock  
+      turn off by clk_disable_unused()
+  drm/panel: Add ilitek ili9341 panel driver
+  spi: stm32: Add 'SPI_SIMPLEX_RX', 'SPI_3WIRE_RX' support for stm32f4
+  spi: flags 'SPI_CONTROLLER_MUST_RX' and 'SPI_CONTROLLER_MUST_TX' can't
+    be     coexit with 'SPI_3WIRE' mode
+
+ .../bindings/display/panel/ilitek,ili9341.yaml     |   69 ++
+ arch/arm/boot/dts/stm32f4-pinctrl.dtsi             |   67 +
+ arch/arm/boot/dts/stm32f429-disco.dts              |   48 +
+ arch/arm/boot/dts/stm32f429.dtsi                   |    3 +
+ drivers/clk/clk-stm32f4.c                          |    7 +-
+ drivers/gpu/drm/panel/Kconfig                      |   12 +
+ drivers/gpu/drm/panel/Makefile                     |    1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c       | 1301 ++++++++++++++++++++
+ drivers/spi/spi-stm32.c                            |   19 +-
+ drivers/spi/spi.c                                  |    3 +-
+ 10 files changed, 1521 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
