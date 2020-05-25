@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97631E11B9
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 17:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFE11E11C2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 17:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5B689AA2;
-	Mon, 25 May 2020 15:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0357B89DEC;
+	Mon, 25 May 2020 15:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1192389AA2;
- Mon, 25 May 2020 15:29:14 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id b27so7758813qka.4;
- Mon, 25 May 2020 08:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07E7989B51
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:31:11 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id a68so14039634otb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 08:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MajqGGcx8RiCQk6ATDHnRMGHO7PnNDZ6bn+cbs0zuV8=;
- b=b1ONgD+1A7f9mLzkzWrQltn8Kgv/t1vNYo6HhXiLvLj+X6OJZUnBbdwde+9b44rPW3
- hqh+G35ocCMptwXUByjUdiz79Byi51kTrJLoocljG/qFgG7ZxCEKnzns44ZQbQH/r2NJ
- vHWWV8xaAkGLmriz3BOhmGvcSL9PEFq4Gl4wmUwPZF9PqaQpBkORYeGpdCGVYI7YPKEh
- VWMwVBFIy/Mq5w2atgrXEtNj4ZWlmwzyLAJTSBnVOvpuTLdg2fRF+9Ic1s/ISV98HJbO
- zRINvZEA5dSvSC7qLuohWsxFGvcGn6RkhvEwzaMMuR+yunelp416HYVm2Q4YMx/Oc7Tt
- YPtA==
+ :cc:content-transfer-encoding;
+ bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
+ b=Tr5Is/tFfhBcNvoJFDbRu5Ln8A76+CnG+YDW2gJrWDvyNGkCXJ7tLlLksMoNneiC/G
+ JQcpPGhoKYZL1sU8qtPMsxurg5u2WpN3lkX8GcIcMGy67IE5X9Z/KXbl7mWg/wzgEVa5
+ 0YNI55NOQ1RqN/Ren3NRDgb8W+ScMuN+eyqoU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MajqGGcx8RiCQk6ATDHnRMGHO7PnNDZ6bn+cbs0zuV8=;
- b=Ri8hYJfhG7vQBb7gsTSGq5RTvj17tD96bZkz+O9U4fbw+mqT25PpBbnZVO6lG9G41h
- OGACRrH6pWIfkL0WqZYxj2bvzczhCQBPkvic+DpddCsSTs2Vdp/vEEIGcNbaWyAyWWX8
- 7WyxPaTZOtr7AX8PfcJwn1hsmRqSvJR85C8BorofcatYjr4w+Tiz5+Z5lLyohGrc43o3
- zvx67WcgMH7G1yPzyvoc+3M7pDWwNdEePNZ2RRFK088axyAz/3FoUm7I4BXr6/w3qmB2
- VzDC5cHIOY8tPrvfgjTXZ8hdai7ImR6tJrEfdhFf4J7PjQTpjG7UXwwKSdwwPf/FRMt9
- t/qw==
-X-Gm-Message-State: AOAM533mHL6s4VvDf0vsgvwEXPH48Yk4lf5uym926Y/sU5IDXYrhQt/S
- sxgfhNsspIettpe5h+mQBs7S1OZai0R0NP8Tj6Y=
-X-Google-Smtp-Source: ABdhPJyL0GULyOQ2cd85oWwtjExn3D87j3AKfthxULkpWdtU0VhE9YgiC5XNvtMENCFCHmvTS9HmwwiUXSoGMT8p/sw=
-X-Received: by 2002:a37:a7c3:: with SMTP id
- q186mr23244835qke.499.1590420553256; 
- Mon, 25 May 2020 08:29:13 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
+ b=ap+FzeiTt0li/n/s1kbWtnPFtpYnAyFGe2gBwBO8vVJJLdOZ5s9v8KXnbOS/TX+3Du
+ 1AUQFb2BbhJQnlMR1lG30Hjm3fvr38V01T0FEyRazu0haXmcNDp2DolPMyfIi+7Kq0l8
+ 1vit/wuXsecAYPhZgUr0/UEaAAvsdOljmqSFTkvpqSFyQBRNAd/dKdTGQt0qTSwAsPns
+ cms/yBSJCvY/W6uDakqlsn7oug2U5Umq3LawnMna7oj0ZYQ21DeoKILmeZtnnhtbcN1S
+ 9rfgR2F9IbRuhBURgKDrSNv3ANDylJQaWETCfFmKjlxUD/ct4utrx+SHGPggazY0yhcL
+ +YgQ==
+X-Gm-Message-State: AOAM531oLDQEG1t/iPrnWVR30Mtl9EMpQewZHbdK2WrDj5BiTmC6N+nu
+ wnGXIXsoma6NXhUodVywdPpp8OOJPCeQnyTIWzFfy5FU
+X-Google-Smtp-Source: ABdhPJzkcrR3yAMwEAELXE9cys4iQedV/n7q7FwrzlUwqN0x19DN2aghlSLeBpaRXuxxoHbrXZYQHIFlGr+0T8f9mVM=
+X-Received: by 2002:a9d:768a:: with SMTP id j10mr5068453otl.188.1590420670094; 
+ Mon, 25 May 2020 08:31:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAGcx_0Yu4D6F2BiPp5CnJhMyrupGsnFnzEH0-Gv=8rFuVtDi+w@mail.gmail.com>
- <20200525151515.GK206103@phenom.ffwll.local>
-In-Reply-To: <20200525151515.GK206103@phenom.ffwll.local>
-From: uday kiran pichika <udaykiran.pichika@gmail.com>
-Date: Mon, 25 May 2020 20:59:02 +0530
-Message-ID: <CAGcx_0aMhyy85MDfWQQhdA7kEREeJdtbQMR8RB+AAftRWfuR9Q@mail.gmail.com>
-Subject: Re: Adaptive Sync enabling in Xorg Modesetting driver
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-9-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200512085944.222637-9-daniel.vetter@ffwll.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 25 May 2020 17:30:59 +0200
+Message-ID: <CAKMK7uHXjFcVZuV-gF-mGYZVG8CbosoxWKN5MKV+rBXwEr3JZw@mail.gmail.com>
+Subject: Re: [RFC 08/17] drm/scheduler: use dma-fence annotations in main
+ thread
+To: DRI Development <dri-devel@lists.freedesktop.org>,
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Qiang Yu <yuq825@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
+ Steven Price <Steven.Price@arm.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ "Anholt, Eric" <eric@anholt.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,177 +65,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1184547496=="
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1184547496==
-Content-Type: multipart/alternative; boundary="0000000000001ed1fb05a67aa42e"
-
---0000000000001ed1fb05a67aa42e
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Daniel,
-
-We are trying to enable this feature in the Modesetting driver based on AMD
-DDX driver as a reference.
-Do you have any pointers to make this work ?
-
-Thanks
-Uday Kiran
-
-On Mon, May 25, 2020 at 8:45 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> On Mon, May 25, 2020 at 07:01:21PM +0530, uday kiran pichika wrote:
-> > Hello,
-> >
-> > Am working on enabling the Adaptive sync feature as part of the
-> > Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver
-> > (xf86-video-amdgpu). Below is the commit which i submitted.
-> >
-> https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371cc3731ee805cc4a0ace80db
-> >
-> >
-> > I have made the below changes to enable this feature
-> > 1. Enable Adaptive sync in Graphics Driver
-> > 2. Added Xorg.conf file with VariableRefresh property which is read in
-> the
-> > Modesetting driver --> This is working fine.
->
-> -modesetting, even in latest git master branch doesn't have VRR support.
->
-> So yeah this wont work.
-> -Daniel
->
-> >
-> > After taking the above changes, am observing that Adaptive sync is not
-> > working.
-> >
-> > Below are my observations.
-> > 1. loader_dri3_helper.c  --> Adaptive sync property is being set once the
-> > system is booted successfully on one Window. Once
-> > set_adaptive_sync_property() method gets called, adaptive_sync_active
-> flag
-> > is setting to true. From the next time, when fullscreen applications are
-> > loaded, this property never gets set on any window.
-> > 2. Once this property is being set, received a notification in
-> modesetting
-> > ddx driver and read the property from the Stuff->window.
-> > 3. But when the fullscreen application(Either DOTA or Xonotic), not
-> > observing that this propety is not being set on any app window.
-> >
-> > Can any one please help me why this property is not being set in the
-> > application windows ?
-> >
-> > Thanks
-> > Uday Kiran
->
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
-
---0000000000001ed1fb05a67aa42e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Daniel,<div><br></div><div>We are trying to enable this=
- feature in the Modesetting driver based on AMD DDX driver as a reference.=
-=C2=A0</div><div>Do you have any pointers to make this work ?=C2=A0</div><d=
-iv><br></div><div>Thanks=C2=A0</div><div>Uday Kiran</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 25, 20=
-20 at 8:45 PM Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@f=
-fwll.ch</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Mon, May 25, 2020 at 07:01:21PM +0530, uday kiran pichika wrote:<=
-br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; Am working on enabling the Adaptive sync feature as part of the<br>
-&gt; Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver<=
-br>
-&gt; (xf86-video-amdgpu). Below is the commit which i submitted.<br>
-&gt; <a href=3D"https://gitlab.freedesktop.org/pichika/xserver/-/commit/682=
-565a645bda7371cc3731ee805cc4a0ace80db" rel=3D"noreferrer" target=3D"_blank"=
->https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371c=
-c3731ee805cc4a0ace80db</a><br>
-&gt; <br>
-&gt; <br>
-&gt; I have made the below changes to enable this feature<br>
-&gt; 1. Enable Adaptive sync in Graphics Driver<br>
-&gt; 2. Added Xorg.conf file with VariableRefresh property which is read in=
- the<br>
-&gt; Modesetting driver --&gt; This is working fine.<br>
-<br>
--modesetting, even in latest git master branch doesn&#39;t have VRR support=
-.<br>
-<br>
-So yeah this wont work.<br>
--Daniel<br>
-<br>
-&gt; <br>
-&gt; After taking the above changes, am observing that Adaptive sync is not=
-<br>
-&gt; working.<br>
-&gt; <br>
-&gt; Below are my observations.<br>
-&gt; 1. loader_dri3_helper.c=C2=A0 --&gt; Adaptive sync property is being s=
-et once the<br>
-&gt; system is booted successfully on one Window. Once<br>
-&gt; set_adaptive_sync_property() method gets called, adaptive_sync_active =
-flag<br>
-&gt; is setting to true. From the next time, when fullscreen applications a=
-re<br>
-&gt; loaded, this property never gets set on any window.<br>
-&gt; 2. Once this property is being set, received a notification in modeset=
-ting<br>
-&gt; ddx driver and read the property from the Stuff-&gt;window.<br>
-&gt; 3. But when the fullscreen application(Either DOTA or Xonotic), not<br=
->
-&gt; observing that this propety is not being set on any app window.<br>
-&gt; <br>
-&gt; Can any one please help me why this property is not being set in the<b=
-r>
-&gt; application windows ?<br>
-&gt; <br>
-&gt; Thanks<br>
-&gt; Uday Kiran<br>
-<br>
-&gt; _______________________________________________<br>
-&gt; dri-devel mailing list<br>
-&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">d=
-ri-devel@lists.freedesktop.org</a><br>
-&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" r=
-el=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/l=
-istinfo/dri-devel</a><br>
-<br>
-<br>
--- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
-//blog.ffwll.ch</a><br>
-</blockquote></div>
-
---0000000000001ed1fb05a67aa42e--
-
---===============1184547496==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1184547496==--
+T24gVHVlLCBNYXkgMTIsIDIwMjAgYXQgMTE6MDAgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
+dHRlckBmZndsbC5jaD4gd3JvdGU6Cj4KPiBJZiB0aGUgc2NoZWR1bGVyIHJ0IHRocmVhZCBnZXRz
+IHN0dWNrIG9uIGEgbXV0ZXggdGhhdCB3ZSdyZSBob2xkaW5nCj4gd2hpbGUgd2FpdGluZyBmb3Ig
+Z3B1IHdvcmtsb2FkcyB0byBjb21wbGV0ZSwgd2UgaGF2ZSBhIHByb2JsZW0uCj4KPiBBZGQgZG1h
+LWZlbmNlIGFubm90YXRpb25zIHNvIHRoYXQgbG9ja2RlcCBjYW4gY2hlY2sgdGhpcyBmb3IgdXMu
+Cj4KPiBJJ3ZlIHRyaWVkIHRvIHF1aXRlIGNhcmVmdWxseSByZXZpZXcgdGhpcywgYW5kIEkgdGhp
+bmsgaXQncyBhdCB0aGUKPiByaWdodCBzcG90LiBCdXQgb2J2aW9zbHkgbm8gZXhwZXJ0IG9uIGRy
+bSBzY2hlZHVsZXIuCj4KPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxp
+bmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IENjOiBsaW51eC1yZG1hQHZnZXIua2VybmVs
+Lm9yZwo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBpbnRlbC1nZnhA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2ls
+c29uLmNvLnVrPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGlu
+dXguaW50ZWwuY29tPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
+ZC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
+bC5jb20+CgpBZGRpbmcgYSBidW5jaCBtb3JlIHBlb3BsZSBmcm9tIGRyaXZlcnMgdXNpbmcgdGhl
+IGRybS9zY2hlZHVsZXIgKHNvCnRoYXQncyBtYWludGFpbmVycyBmb3IgZXRuYXZpdiwgbGltYSwg
+cGFuZnJvc3QsIGFuZCB2M2Qgb24gdG9wIG9mCmFtZGdwdSBmb2xrcyBhcmxyZWFkeSBvbiBjYyku
+IEFueSB0YWtlcyBvciB0ZXN0aW5nIG9uIHRoaXMgYW5kIHdlbGwKdGhlIGVudGlyZSBzZXJpZXMg
+dmVyeSBtdWNoIGFwcHJlY2lhdGVkLCB0aGVyZSdzIGFsc28gYW5vdGhlciBwYXRjaCB0bwphbm90
+YXRlIHRoZSB0ZHIgd29yayBpbiB0aGlzIHNlcmllcy4gUGx1cyBvZmMgdGhlIHByZXAgd29yay4K
+ClRoYW5rcywgRGFuaWVsCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
+X21haW4uYyB8IDYgKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPgo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gaW5kZXggMmYzMTkxMDJhZTlm
+Li4wNmE3MzZlNTA2YWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9z
+Y2hlZF9tYWluLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4u
+Ywo+IEBAIC03NjMsOSArNzYzLDEyIEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVkX21haW4odm9pZCAq
+cGFyYW0pCj4gICAgICAgICBzdHJ1Y3Qgc2NoZWRfcGFyYW0gc3BhcmFtID0gey5zY2hlZF9wcmlv
+cml0eSA9IDF9Owo+ICAgICAgICAgc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCA9IChz
+dHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKilwYXJhbTsKPiAgICAgICAgIGludCByOwo+ICsgICAg
+ICAgYm9vbCBmZW5jZV9jb29raWU7Cj4KPiAgICAgICAgIHNjaGVkX3NldHNjaGVkdWxlcihjdXJy
+ZW50LCBTQ0hFRF9GSUZPLCAmc3BhcmFtKTsKPgo+ICsgICAgICAgZmVuY2VfY29va2llID0gZG1h
+X2ZlbmNlX2JlZ2luX3NpZ25hbGxpbmcoKTsKPiArCj4gICAgICAgICB3aGlsZSAoIWt0aHJlYWRf
+c2hvdWxkX3N0b3AoKSkgewo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0
+eSAqZW50aXR5ID0gTlVMTDsKPiAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9zY2hlZF9mZW5j
+ZSAqc19mZW5jZTsKPiBAQCAtODIzLDYgKzgyNiw5IEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVkX21h
+aW4odm9pZCAqcGFyYW0pCj4KPiAgICAgICAgICAgICAgICAgd2FrZV91cCgmc2NoZWQtPmpvYl9z
+Y2hlZHVsZWQpOwo+ICAgICAgICAgfQo+ICsKPiArICAgICAgIGRtYV9mZW5jZV9lbmRfc2lnbmFs
+bGluZyhmZW5jZV9jb29raWUpOwo+ICsKPiAgICAgICAgIHJldHVybiAwOwo+ICB9Cj4KPiAtLQo+
+IDIuMjYuMgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
+cnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
