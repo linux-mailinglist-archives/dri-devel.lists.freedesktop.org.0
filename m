@@ -2,58 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B801E0464
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 03:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239401E07D0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA8B389C55;
-	Mon, 25 May 2020 01:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5903A89DB8;
+	Mon, 25 May 2020 07:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A7089C53
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 01:29:34 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id l20so16001176ilj.10
- for <dri-devel@lists.freedesktop.org>; Sun, 24 May 2020 18:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R71dV7S9rJQPlMHMjk6Vu0NBsTKVA0V6AR1/+ijdTXU=;
- b=YG0i9AGd6c2S5ULFReX3uDyCO0YWpEQCkwusIvHlXGkiFJT+GtuhdBKe9bqYDEGHPb
- E3+x+B/bMoy6IQPVjsI7AggtSBmpul1UTgun/A+Q2EOnJlbgXz7On0eFGyvM62Jcq7TB
- 0e6p3z/qn1cDJ54BSMybkDq/gImwKoRitLte8r8ujFU5kvQuKUP/haYS5ztBh5IQkiDh
- eBo7a6dG4doC9fuPhpq6/5Veb5dmh532DftU9nhEHXRZwxNZ3Cxd0qrGxDy/Q1dv6Smw
- mYrc1BOsvh5Me6Ghy6A/PUZTwGaIkt67xwxK5HvPqmsw4BnfM8sJ5IpaaJ+eBhTnJ38Z
- AM+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R71dV7S9rJQPlMHMjk6Vu0NBsTKVA0V6AR1/+ijdTXU=;
- b=dN+aJZisHpL9ezOKgNAvFM6F4plPm5H5DpjV08/LBOTuXzw4jjvXIrzBFtoCpibmWn
- rgGmQPsaXZioboJBT6ZMtW5lME1zlTxpVVCxJrCE1VQ9Q4Q8e0XNt3Utlo4eR+X9oPEl
- lcy3UuMvZGUY7S9yA8EO23vYXYK2ZB5OB3jW/kZxBbLFm/mHGKn7VCpyO5vLw3879KEF
- m5w0h7hP2pIwNo8ZYRQXHfyec/XMjqTwDdvZUTj37cT2nUd0g9BwCFVDPjpYPfPvebbL
- MjqnbIfL7uS/+I3UQ2ZnA02COILbK8jX12zxtFkxb208kc4Wi+eOJXLiegauZk6FU887
- BCVw==
-X-Gm-Message-State: AOAM533Upcb6gfJZlI2NZ5Q2lN8srg9PyoMEbK3oleiKErVAlGpI3Gdf
- NHDO4+yXRpsaTM8noh05MUWWBXYbVjM=
-X-Google-Smtp-Source: ABdhPJypDVQv9J77hH8HwSGLN96MDsXiBlnK/6+cLrJxFiV/47Xdl8IvjqMmRo6j1STXYHmMcm0URg==
-X-Received: by 2002:a92:da52:: with SMTP id p18mr23324203ilq.173.1590370173505; 
- Sun, 24 May 2020 18:29:33 -0700 (PDT)
-Received: from james-x399.localdomain (71-218-100-23.hlrn.qwest.net.
- [71.218.100.23])
- by smtp.gmail.com with ESMTPSA id t10sm8396302ilq.62.2020.05.24.18.29.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 May 2020 18:29:32 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RESEND PATCH] drm/vc4: hdmi: Silence pixel clock error on
- -EPROBE_DEFER
-Date: Sun, 24 May 2020 19:28:59 -0600
-Message-Id: <20200525012859.267433-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C865889D02
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 01:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1590371216; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=orU0K8jf0TTvgUzPv6gXs+exJ+cNAHJF3xMNx1FP0VM=;
+ b=P/l/2SeG3OslBTx+PYoalf3WpS+4M9d6bFQ5JdAXCJqtMu/X7PP8O3C1zL1ryeh4HYmSgE
+ 2lw71X7INh2SKY10eiAStcTvEOzEiYJ7a0HvwyvWA0s4n35Az1xoxsrc2HkNrxhltwkJLd
+ 4Z3M95UU7dvEcDYrLZyfrVqBMbl7J30=
+Date: Mon, 25 May 2020 03:46:47 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: MIPI DSI, DBI, and tinydrm drivers
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <Z96VAQ.OJZYLOUQ5XU4@crapouillou.net>
+In-Reply-To: <20200524200655.GA44152@ravnborg.org>
+References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
+ <20200524200655.GA44152@ravnborg.org>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +44,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Hilliard <james.hilliard1@gmail.com>,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the vc4 hdmi driver loads before the pixel clock is available we
-see a spurious "*ERROR* Failed to get pixel clock" error.
+Hi Sam,
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
-no response in over 2 weeks
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Le dim. 24 mai 2020 =E0 22:06, Sam Ravnborg <sam@ravnborg.org> a =E9crit :
+> Hi Paul.
+> =
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 340719238753..6d4ee3f6b445 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1338,8 +1338,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	hdmi->pixel_clock = devm_clk_get(dev, "pixel");
- 	if (IS_ERR(hdmi->pixel_clock)) {
--		DRM_ERROR("Failed to get pixel clock\n");
--		return PTR_ERR(hdmi->pixel_clock);
-+		ret = PTR_ERR(hdmi->pixel_clock);
-+		if (ret != -EPROBE_DEFER)
-+			DRM_ERROR("Failed to get pixel clock\n");
-+		return ret;
- 	}
- 	hdmi->hsm_clock = devm_clk_get(dev, "hdmi");
- 	if (IS_ERR(hdmi->hsm_clock)) {
--- 
-2.25.1
+> On Sun, May 24, 2020 at 06:13:16PM +0200, Paul Cercueil wrote:
+>>  Hi list,
+>> =
+
+>>  I'd like to open a discussion about the current support of MIPI DSI =
+
+>> and DBI
+>>  panels.
+>> =
+
+>>  Both are standards from the MIPI alliance, both are communication =
+
+>> protocols
+>>  between a LCD controller and a LCD panel, they generally both use =
+
+>> the same
+>>  commands (DCS), the main difference is that DSI is serial and DBI is
+>>  generally parallel.
+>> =
+
+>>  In the kernel right now, DSI is pretty well implemented. All the
+>>  infrastucture to register a DSI host, DSI device etc. is there. DSI =
+
+>> panels
+>>  are implemented as regular drm_panel instances, and their drivers =
+
+>> go through
+>>  the DSI API to communicate with the panel, which makes them =
+
+>> independent of
+>>  the DSI host driver.
+>> =
+
+>>  DBI, on the other hand, does not have any of this. All (?) DBI =
+
+>> panels are
+>>  implemented as tinydrm drivers, which make them impossible to use =
+
+>> with
+>>  regular DRM drivers. Writing a standard drm_panel driver is =
+
+>> impossible, as
+>>  there is no concept of host and device. All these tinydrm drivers =
+
+>> register
+>>  their own DBI host as they all do DBI over SPI.
+>> =
+
+>>  I think this needs a good cleanup. Given that DSI and DBI are so =
+
+>> similar, it
+>>  would probably make sense to fuse DBI support into the current DSI =
+
+>> code, as
+>>  trying to update DBI would result in a lot of code being =
+
+>> duplicated. With
+>>  the proper host/device registration mechanism from DSI code, it =
+
+>> would be
+>>  possible to turn most of the tinydrm drivers into regular drm_panel =
+
+>> drivers.
+> =
+
+> We could add proper support for a DBI bus, like we have today for DSI.
+> This seems like the simple approach as we then have a DSI and a DBI =
+
+> bus.
+> =
+
+> But many panels implement support for both DSI and DBI and then what =
+
+> to
+> do then? We could register a driver based on the configuration like we
+> do in some drivers already. But this would push logic to the dirvers
+> which we would like to keep simple.
+> We could also try to extend the current DSI bus support to cover
+> DBI too - but thats seems also to be not so elegant.
+
+My controller supports 8/16/18-bit commands, 8/16/18-bit data, serial =
+
+or parallel. There is nothing DBI-specific in that, but there is =
+
+nothing DSI-specific either; it is more of a bus controller, on which =
+
+the DSI and DBI protocols can be used. I think the way to go would be =
+
+to separate the buses from the protocols. Ideally, I would have a bus =
+
+driver, with "mipi-dsi" and "mipi-dbi-8080" flags in devicetree, and =
+
+the core's DSI/DBI code would work on top of the bus API.
+
+> I atually started on the framework bits for implementing a DBI bus
+> but got sidetracked so did not get far.
+> And back then I also was concerned if we should go for a dedicated
+> DBI bus or we should do something else.
+> =
+
+> I have attached two WIP patches from when I looked at it.
+> The binding needs extra work and the code may not even build...
+
+The code looks pretty much like what I was experimenting with before =
+
+sending the email. But I think we can do better.
+
+The binding specifies the 'mipi-dbi-type' while in practice the same =
+
+hardware may be able to support several types, and specifies a bunch of =
+
+GPIOs which wouldn't apply in my case (since they are handled by the =
+
+controller).
+
+>>  The problem then is that these should still be available as tinydrm =
+
+>> drivers.
+>>  If the DSI/DBI panels can somehow register a .update_fb() callback, =
+
+>> it would
+>>  make it possible to have a panel-agnostic tinydrm driver, which =
+
+>> would then
+>>  probably open a lot of doors, and help a lot to clean the mess.
+> We should find a clean solution for new drivers and then we can see =
+
+> what
+> to do for the existing drivers.
+
+Agreed.
+
+Cheers,
+-Paul
+
+> We only have a few existing tiny drivers for now - and knowing the
+> amount of panel candidates that exist we have to make it simple to
+> add support for new panels, both DBI, DSI and DPI variants.
+> =
+
+> And if we could then find a way to allow the user to specify the init
+> sequence without modifying the kernel then we could make it much
+> simpler again. Noralf have a solution for this in staging but I think
+> we need something else in DRM.
+> I have had in mind if we could ut something in initrd or some sort but
+> that is down on the TODO list to look at.
+> =
+
+> 	Sam
+
 
 _______________________________________________
 dri-devel mailing list
