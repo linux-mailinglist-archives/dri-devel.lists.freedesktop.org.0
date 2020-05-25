@@ -2,42 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F173B1E1C35
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 09:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6041E07AF
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB3E89F6B;
-	Tue, 26 May 2020 07:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC9889C1E;
+	Mon, 25 May 2020 07:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C964A89F63
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 11:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1590405396; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZbT0GWmyjCMgXfPhs+VW7ql2axIOMSvUwaw4Z3oEWcQ=;
- b=dODHHX/V3JZeBw0dO2AoReEDsczgbkBwjDfm2SGQREmYVAXSTEZinQ6cC84QIC0zIoUNH0
- c9Tr5BCvtKR/P+PYYz/dhN4qgM0Zg6jOgE42GYlKh/Xr9W6pVgdLkd9KBHCrGN7B3ZTC1J
- Gd+TfJcEtkKEwhOJ4QSQtvxXrqzLEc8=
-Date: Mon, 25 May 2020 04:05:47 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: Noralf =?iso-8859-1?q?Tr=F8nnes?= <noralf@tronnes.org>
-Message-Id: <N57VAQ.31YYXWIY2P781@crapouillou.net>
-In-Reply-To: <224444bc-e573-920e-f9a8-c23c6962b322@tronnes.org>
-References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
- <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
- <3YPUAQ.ALFWN74JD6DR1@crapouillou.net>
- <0f860795-218e-b9f0-0d1c-699024d3cc9a@tronnes.org>
- <T6SUAQ.4AZ5S5FWL6VZ@crapouillou.net>
- <b4075c4f-1c32-3b97-831a-707d0b588ed5@tronnes.org>
- <GKUUAQ.UZ3OW5SM7R453@crapouillou.net>
- <224444bc-e573-920e-f9a8-c23c6962b322@tronnes.org>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F3D7589D67
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 02:27:07 +0000 (UTC)
+X-UUID: 4fc6df781b9b4a069b5cc16a77390c77-20200525
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=iCgaqwFsUfvQyQOBvfXfyk2ReBUFB1D+FN/5yAizTjQ=; 
+ b=A9+20zyQu4UmAW9DpAVHlg23ZdynfSZzOahsLkXaj9IjywU/R0exT/SAOvQ+G1ZxjSwrVRtzwmk2Ed8QQV7vvX6f2RSCETJwMS88O9FUxRN6O3exb2WLAuBDn7BMJ+MJuw87j/JNBhW2/oaMZZAylBZDVSN7uyH+aAwNRr2stx4=;
+X-UUID: 4fc6df781b9b4a069b5cc16a77390c77-20200525
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <dennis-yc.hsieh@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1671043586; Mon, 25 May 2020 10:27:02 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 25 May 2020 10:27:00 +0800
+Received: from [172.21.77.33] (172.21.77.33) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 25 May 2020 10:27:00 +0800
+Message-ID: <1590373621.31522.7.camel@mtkswgap22>
+Subject: Re: [PATCH v5 09/13] soc: mediatek: cmdq: add write_s value function
+From: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Date: Mon, 25 May 2020 10:27:01 +0800
+In-Reply-To: <eb604637-28f0-fa8f-ce4b-3e87f6c944ad@gmail.com>
+References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <1583664775-19382-10-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <f9fd9ea8-f706-ed4a-4c83-c53ad092035c@gmail.com>
+ <1590341462.31286.19.camel@mtkswgap22>
+ <eb604637-28f0-fa8f-ce4b-3e87f6c944ad@gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 26 May 2020 07:26:30 +0000
+X-MTK: N
+X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,379 +56,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Houlong Wei <houlong.wei@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Le lun. 25 mai 2020 =E0 2:46, Noralf Tr=F8nnes <noralf@tronnes.org> a =
-
-=E9crit :
-> =
-
-> =
-
-> Den 24.05.2020 23.33, skrev Paul Cercueil:
->> =
-
->> =
-
->>  Le dim. 24 mai 2020 =E0 23:24, Noralf Tr=F8nnes <noralf@tronnes.org> =
-
->> a =E9crit :
->>> =
-
->>> =
-
->>>  Den 24.05.2020 22.42, skrev Paul Cercueil:
->>>> =
-
->>>> =
-
->>>>   Le dim. 24 mai 2020 =E0 22:14, Noralf Tr=F8nnes =
-
->>>> <noralf@tronnes.org> a
->>>>  =E9crit :
->>>>> =
-
->>>>> =
-
->>>>>   Den 24.05.2020 21.54, skrev Paul Cercueil:
->>>>>>    Hi Noralf,
->>>>>> =
-
->>>>>>    Le dim. 24 mai 2020 =E0 19:46, Noralf Tr=F8nnes =
-
->>>>>> <noralf@tronnes.org> a
->>>>>>   =E9crit :
->>>>>>> =
-
->>>>>>> =
-
->>>>>>>    Den 24.05.2020 18.13, skrev Paul Cercueil:
->>>>>>>>     Hi list,
->>>>>>>> =
-
->>>>>>>>     I'd like to open a discussion about the current support of =
-
->>>>>>>> MIPI
->>>>>>>>   DSI and
->>>>>>>>     DBI panels.
->>>>>>>> =
-
->>>>>>>>     Both are standards from the MIPI alliance, both are =
-
->>>>>>>> communication
->>>>>>>>     protocols between a LCD controller and a LCD panel, they
->>>>>>>>   generally both
->>>>>>>>     use the same commands (DCS), the main difference is that =
-
->>>>>>>> DSI is
->>>>>>>>   serial
->>>>>>>>     and DBI is generally parallel.
->>>>>>>> =
-
->>>>>>>>     In the kernel right now, DSI is pretty well implemented. =
-
->>>>>>>> All the
->>>>>>>>     infrastucture to register a DSI host, DSI device etc. is
->>>>>>>>  there. DSI
->>>>>>>>     panels are implemented as regular drm_panel instances, and =
-
->>>>>>>> their
->>>>>>>>    drivers
->>>>>>>>     go through the DSI API to communicate with the panel, =
-
->>>>>>>> which makes
->>>>>>>>   them
->>>>>>>>     independent of the DSI host driver.
->>>>>>>> =
-
->>>>>>>>     DBI, on the other hand, does not have any of this. All (?) =
-
->>>>>>>> DBI
->>>>>>>>   panels
->>>>>>>>     are implemented as tinydrm drivers, which make them =
-
->>>>>>>> impossible to
->>>>>>>>   use
->>>>>>>>     with regular DRM drivers. Writing a standard drm_panel =
-
->>>>>>>> driver is
->>>>>>>>     impossible, as there is no concept of host and device. All =
-
->>>>>>>> these
->>>>>>>>    tinydrm
->>>>>>>>     drivers register their own DBI host as they all do DBI =
-
->>>>>>>> over SPI.
->>>>>>>> =
-
->>>>>>>>     I think this needs a good cleanup. Given that DSI and DBI =
-
->>>>>>>> are so
->>>>>>>>     similar, it would probably make sense to fuse DBI support =
-
->>>>>>>> into
->>>>>>>>  the
->>>>>>>>     current DSI code, as trying to update DBI would result in =
-
->>>>>>>> a lot
->>>>>>>>   of code
->>>>>>>>     being duplicated. With the proper host/device registration
->>>>>>>>  mechanism
->>>>>>>>     from DSI code, it would be possible to turn most of the =
-
->>>>>>>> tinydrm
->>>>>>>>   drivers
->>>>>>>>     into regular drm_panel drivers.
->>>>>>>> =
-
->>>>>>>>     The problem then is that these should still be available as
->>>>>>>>  tinydrm
->>>>>>>>     drivers. If the DSI/DBI panels can somehow register a
->>>>>>>>  .update_fb()
->>>>>>>>     callback, it would make it possible to have a =
-
->>>>>>>> panel-agnostic
->>>>>>>>  tinydrm
->>>>>>>>     driver, which would then probably open a lot of doors, and =
-
->>>>>>>> help a
->>>>>>>>    lot to
->>>>>>>>     clean the mess.
->>>>>>>> =
-
->>>>>>>>     I think I can help with that, I just need some guidance - =
-
->>>>>>>> I am
->>>>>>>>   fishing
->>>>>>>>     in exotic seas here.
->>>>>>>> =
-
->>>>>>>>     Thoughts, comments, are very welcome.
->>>>>>> =
-
->>>>>>>    I did look at this a few months back:
->>>>>>> =
-
->>>>>>>    drm/mipi-dbi: Support panel drivers
->>>>>>> =
-
->>>>>>> =
-
->>>>>>>  =
-
->>>>>>> https://lists.freedesktop.org/archives/dri-devel/2019-August/228966=
-.html
->>>>>>> =
-
->>>>>>> =
-
->>>>>>> =
-
->>>>>>>    The problem with DBI is that it has reused other busses which
->>>>>>>  means we
->>>>>>>    don't have DBI drivers, we have SPI drivers instead =
-
->>>>>>> (6800/8080
->>>>>>>  is not
->>>>>>>    avail. as busses in Linux yet). DSI and DPI on the other =
-
->>>>>>> hand has
->>>>>>>    dedicated hw controller drivers not shared with other =
-
->>>>>>> subsystems.
->>>>>> =
-
->>>>>>    I don't think that should be much of a problem. You could =
-
->>>>>> have a
->>>>>>   DBI/SPI
->>>>>>    bridge, that wraps a SPI device into a DBI host, for =
-
->>>>>> instance. The
->>>>>>   panel
->>>>>>    drivers would just use the DBI API without having to know =
-
->>>>>> what's
->>>>>>  done
->>>>>>    behind the scene.
->>>>> =
-
->>>>>   This will be a bridge implemented in software, are we allowed =
-
->>>>> to have
->>>>>   software devices in the Device Tree? I though it was just =
-
->>>>> allowed to
->>>>>   describe hardware.
->>>> =
-
->>>>   It wouldn't appear in devicetree. If the panel is connected over =
-
->>>> SPI,
->>>>   then DBI is just the protocol it uses.
->>> =
-
->>>  How do you attach a panel to the DBI device if it doesn't appear =
-
->>> in DT?
->> =
-
->>  When probed from a DBI host controller, the panel's devicetree =
-
->> binding
->>  would look like this:
->> =
-
->>  &dbi_host {
->> =
-
->>     panel {
->>         compatible =3D "my,dbi-device";
->>     };
->>  };
->> =
-
->>  When probed from SPI it would appear in DT like this:
->> =
-
->>  &spi {
->> =
-
->>     panel@0 {
->>         reg =3D <0>;
->>         compatible =3D "my,dbi-device-spi";
->>     };
->>  };
->> =
-
->>  In that case, the driver would create a SPI-DBI bridge, but that is =
-
->> an
->>  implementation detail that doesn't belong in devicetree.
-> =
-
-> You said that you want to turn the tinydrm drivers into regular
-> drm_panel drivers. If this is a drm_panel driver, who calls
-> drm_of_find_panel_or_bridge() to make use of it? Or is this drm_panel
-> driver a full blown DRM driver?
-
-What I had in mind was a generic tinydrm driver that fetched the =
-
-drm_panel from devicetree. Which is what you were working on, right?
-
-> (btw. tinydrm.ko is gone now, all drivers in tiny/ are regular DRM =
-
-> drivers)
-> =
-
-> I'm curious, what kind of device is going to use this? It's a bit
-> strange to spend so many pins on the display interface and choose DBI
-> instead of DPI.
-
-I'm not sure the number of pins changes that much between the two, does =
-
-it? Here I have 16 pins for command/data, one pin for command/data =
-
-signal, and the pixel clock.
-
-DBI has advantages over DPI, e.g. you don't need a separate SPI/I2C to =
-
-configure the panel, and data is only transferred when a new frame is =
-
-available, which means power savings when displaying still images, or a =
-
-variable refresh rate when displaying video.
-
--Paul
-
->> =
-
->> =
-
->>>  Another problem is that the DBI panel uses SPI both for framebuffer
->>>  upload and controller initialization. How shall this be handled =
-
->>> when the
->>>  panel driver needs SPI for init and the DBI bridge needs SPI for =
-
->>> frame
->>>  upload?
->> =
-
->>  Does the panel driver need SPI for init? I don't think so. It needs =
-
->> to
->>  send DBI commands over SPI, yes. Only the DBI-SPI bridge would =
-
->> control
->>  the SPI device.
->> =
-
->>  -Paul
->> =
-
->>>> =
-
->>>>   If probed as a SPI device driver, the panel's spi_driver would =
-
->>>> register
->>>>   an instance of the DBI/SPI host driver, then register itself as a
->>>>   dbi_driver. If probed from a DBI host it would just register =
-
->>>> itself
->>>>  as a
->>>>   dbi_driver.
->>>> =
-
->>>>   -Paul
->>>> =
-
->>>>>> =
-
->>>>>>>    My initial tinydrm work used drm_panel, but I was not =
-
->>>>>>> allowed to
->>>>>>>   use it
->>>>>>>    (at least not the way I had done it).
->>>>>>> =
-
->>>>>>>    Noralf.
->>>>>>> =
-
->>>>>>>> =
-
->>>>>>>>     Cheers,
->>>>>>>>     -Paul
->>>>>>>> =
-
->>>>>>>> =
-
->>>>>> =
-
->>>>>> =
-
->>>>>> =
-
->>>> =
-
->>>> =
-
->>>> =
-
->> =
-
->> =
-
->> =
-
-
+On Sun, 2020-05-24 at 20:13 +0200, Matthias Brugger wrote:
+> 
+> On 24/05/2020 19:31, Dennis-YC Hsieh wrote:
+> > Hi Matthias,
+> > 
+> > Thanks for your comment.
+> > 
+> > On Sat, 2020-05-16 at 20:20 +0200, Matthias Brugger wrote:
+> >>
+> >> On 08/03/2020 11:52, Dennis YC Hsieh wrote:
+> >>> add write_s function in cmdq helper functions which
+> >>> writes a constant value to address with large dma
+> >>> access support.
+> >>>
+> >>> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+> >>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> >>> ---
+> >>>  drivers/soc/mediatek/mtk-cmdq-helper.c | 26 ++++++++++++++++++++++++++
+> >>>  include/linux/soc/mediatek/mtk-cmdq.h  | 14 ++++++++++++++
+> >>>  2 files changed, 40 insertions(+)
+> >>>
+> >>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> >>> index 03c129230cd7..a9ebbabb7439 100644
+> >>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+> >>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+> >>> @@ -269,6 +269,32 @@ int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+> >>>  }
+> >>>  EXPORT_SYMBOL(cmdq_pkt_write_s);
+> >>>  
+> >>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+> >>> +			   u16 addr_low, u32 value, u32 mask)
+> >>> +{
+> >>> +	struct cmdq_instruction inst = { {0} };
+> >>> +	int err;
+> >>> +
+> >>> +	if (mask != U32_MAX) {
+> >>> +		inst.op = CMDQ_CODE_MASK;
+> >>> +		inst.mask = ~mask;
+> >>> +		err = cmdq_pkt_append_command(pkt, inst);
+> >>> +		if (err < 0)
+> >>> +			return err;
+> >>> +
+> >>> +		inst.op = CMDQ_CODE_WRITE_S_MASK;
+> >>> +	} else {
+> >>> +		inst.op = CMDQ_CODE_WRITE_S;
+> >>> +	}
+> >>> +
+> >>> +	inst.sop = high_addr_reg_idx;
+> >>
+> >> Writing u16 value in a 5 bit wide variable?
+> > 
+> > We need only 5 bits in this case. I'll change high_addr_reg_idx
+> > parameter to u8.
+> > 
+> 
+> Ok, please make sure to mask the value, so that it's explicit in the code that
+> we only use the lowest 5 bits of high_addr_reg_idx.
+
+Is it necessary to mask the value?
+Since sop already defined as "u8 sop:5;", I thought it is explicit that
+only use 5 bits and compiler should do the rest jobs.
+
+
+Regards,
+Dennis
+
+> 
+> Regards,
+> Matthias
+> 
+> >>
+> >>> +	inst.offset = addr_low;
+> >>> +	inst.value = value;
+> >>> +
+> >>> +	return cmdq_pkt_append_command(pkt, inst);
+> >>> +}
+> >>> +EXPORT_SYMBOL(cmdq_pkt_write_s_value);
+> >>> +
+> >>>  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
+> >>>  {
+> >>>  	struct cmdq_instruction inst = { {0} };
+> >>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+> >>> index 01b4184af310..fec292aac83c 100644
+> >>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+> >>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+> >>> @@ -135,6 +135,20 @@ int cmdq_pkt_read_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx, u16 addr_low,
+> >>>  int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+> >>>  		     u16 addr_low, u16 src_reg_idx, u32 mask);
+> >>>  
+> >>> +/**
+> >>> + * cmdq_pkt_write_s_value() - append write_s command with mask to the CMDQ
+> >>> + *			      packet which write value to a physical address
+> >>> + * @pkt:	the CMDQ packet
+> >>> + * @high_addr_reg_idx:	internal regisger ID which contains high address of pa
+> >>
+> >> register
+> > 
+> > will fix
+> > 
+> > 
+> > Regards,
+> > Dennis
+> > 
+> >>
+> >>> + * @addr_low:	low address of pa
+> >>> + * @value:	the specified target value
+> >>> + * @mask:	the specified target mask
+> >>> + *
+> >>> + * Return: 0 for success; else the error code is returned
+> >>> + */
+> >>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+> >>> +			   u16 addr_low, u32 value, u32 mask);
+> >>> +
+> >>>  /**
+> >>>   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
+> >>>   * @pkt:	the CMDQ packet
+> >>>
+> > 
 
 _______________________________________________
 dri-devel mailing list
