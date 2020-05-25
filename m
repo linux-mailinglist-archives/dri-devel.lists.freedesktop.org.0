@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE4D1E1120
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 16:58:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C761E1138
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 17:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C1A6E0C4;
-	Mon, 25 May 2020 14:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1835888861;
+	Mon, 25 May 2020 15:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BC389FC9;
- Mon, 25 May 2020 14:58:44 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id v15so8131496qvr.8;
- Mon, 25 May 2020 07:58:44 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABBE88861
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:02:33 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id o14so21132584ljp.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 08:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oEQGzdGf55hROlZZzP0RnfWNG7N1rwyMbo4r+EOdmtY=;
- b=XLw/D5Y5CYvPnqtBj44xxUf0ghkYSdQTDck6flWnKA14aCrwYAETHua6U7qIkW53lx
- wFsS37BtgEJRsJZlqALjaMFSVIoZUgaNTRBRwI0Jy2DC1XEPFrpeStPZgwYKkBFCyYZk
- CbXLPhqhwxbpwZ9taBnYshAMEw3poKDZXq9F8hG6DatVvIgm/INmwtwAsIis2Yu/ZZuu
- 2YRr+4scdLz5kLe1+6W8Mdb5rDdqc2CfiGdNDs5ubW6grPIEx6hccbwUim89dNl2WFeY
- MYXLGrw/YTwmejrDWIeEaZ+AriRHBfmbq6U6pkgsQX455cTysumPggK00E5TPthTS2DG
- pRtw==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=I9M5QFQ/gf7eGGNWGUZvEDzvHCbUgDgt6V2KllOXXKw=;
+ b=VCis8jS6vJOy8zkXc5IcnnlBJZWpueZAKLUVAeIIm8WXwO5N2LLBX/VYgo+CAgXP5T
+ crfOlXQOcMaYCIDtXeesEVLYmR45v57C4oMGe5UimdmSIUbo+6/pqxJ8o4n+Pw+3DCvL
+ xip+cGzwYOQXUVBoThlUrATTTqzItyuhPnDekhkd1mPaTZ4l/+yzBK0BSZ4gK+obxQXs
+ ov8QspbCApP5geUF6QAzBaJtv+K17iTw2Ktw8qNKgmNrBjOxR/U3BUYckxVy6yBD83rJ
+ qrM6KoM2aFskkZDSFGpo81ckKue6M3WS8FFsWU+ILPT6bKo/DY9ELq9cDUYL2SkbSVXz
+ 4qAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oEQGzdGf55hROlZZzP0RnfWNG7N1rwyMbo4r+EOdmtY=;
- b=svRJtv8wd3RsG7tfULAvLdYpV09yG61l+Wry/mT1+te00JwIcc1jgAYaTFS2PkNn60
- Gghzb0UMYUuUTv453+accqunm9rmvUK0FuokpdGQ3D0GnGtzi46o93sau3yi2yDSvhoR
- xlW1f4CTdzj0PL+KxdEsAAYzamOftmf+kcol7C9BBgOz0yLTMll1onsBWVbzO4jne00d
- CAeKwE6+WwyLfDjB8iR1yki0nL08V/2W4CmiP0+CvpvmrFetaAB1iSv4F+iK267hGmlE
- SfLAcV+SrBR5E3cxJF72LixT4/crPjKn7OR/jlq4pKc07tdkHdjfTk55NlBTDiII7I3w
- QBoA==
-X-Gm-Message-State: AOAM531NYlH/D7+4WK/fAlPBoZ+Lv+52a5MQIjtktuYzPOByIAdsqtgu
- fsVhwL7ssHPt8jPifTwDXliL2k6jZ/wL5ItiL98StA==
-X-Google-Smtp-Source: ABdhPJyqUdWv4bIKxEfJPSje7DMT+Us0WHVqBUtXg44pHK/pMnqdY/RlXJDthiirjcyGVb/CNTB1A3ewPZJEKq4FgVE=
-X-Received: by 2002:a0c:b60c:: with SMTP id f12mr15962313qve.244.1590418724031; 
- Mon, 25 May 2020 07:58:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=I9M5QFQ/gf7eGGNWGUZvEDzvHCbUgDgt6V2KllOXXKw=;
+ b=iBj6bXTQPKqO4PRKgiGNmVHPvWykXap8pJhk1Jf0PdVKRnx95b9N3Sp+c2RwZk4hBy
+ 1BgafQ6zhUvIQTK7L1flgSbzYURdbJXMWlvwO8qlT3AJEsRKA8MoYnNqoqnAeM6++5H8
+ nhcJtrqNv0IVNn7FH9MxShsM5WJAUAe7AzKp+wRc5G/QaIHkpinXMLHtGyFdNc8qZUWk
+ 2D0BthD16QqkP14AKmuSaQjVxZrpAss9+KEoJ3nN+CFudniINIB7WUy7dZ+tOs4TjatA
+ vLq3Ug2SfXEVyD7Rr1SwptXD72gB3bD8gn4IQjomVwtiIroDM8bPOZmAwOMpoqpAOQuI
+ +pxw==
+X-Gm-Message-State: AOAM533+DHbz0BUbemEeN5nkVY/WvXe9VqhsDRrnJXXqg3zgJ8q0jPxY
+ lz6ycCJVEkE2XyjnKn0q+Iw=
+X-Google-Smtp-Source: ABdhPJwS4EdZFED8NUxqY7nCiXijKUUfzc3wKfZcaX6KYPWCPQ7cTGXuDugbFB7RMcRUOerNYKxWvw==
+X-Received: by 2002:a2e:8186:: with SMTP id e6mr14913273ljg.252.1590418951798; 
+ Mon, 25 May 2020 08:02:31 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v22sm3815147ljv.80.2020.05.25.08.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 08:02:31 -0700 (PDT)
+Date: Mon, 25 May 2020 18:02:26 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/doc: device hot-unplug for userspace
+Message-ID: <20200525180226.7ca79105@eldfell.localdomain>
+In-Reply-To: <20200525143017.GF206103@phenom.ffwll.local>
+References: <20200519100649.12053-1-ppaalanen@gmail.com>
+ <20200525124614.16339-1-ppaalanen@gmail.com>
+ <d2acce4d-8e5f-a335-24e6-e454a7fc2436@amd.com>
+ <20200525143017.GF206103@phenom.ffwll.local>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CAGcx_0Yu4D6F2BiPp5CnJhMyrupGsnFnzEH0-Gv=8rFuVtDi+w@mail.gmail.com>
- <53679f9b-4d81-cb46-72bb-02ca05fb303f@daenzer.net>
-In-Reply-To: <53679f9b-4d81-cb46-72bb-02ca05fb303f@daenzer.net>
-From: uday kiran pichika <udaykiran.pichika@gmail.com>
-Date: Mon, 25 May 2020 20:28:32 +0530
-Message-ID: <CAGcx_0Z3JhUP_2KpfC0JQZeugd6VfDSYeErMSZMVVA8sogUt+A@mail.gmail.com>
-Subject: Re: Adaptive Sync enabling in Xorg Modesetting driver
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,173 +68,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0847900839=="
+Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1846210073=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0847900839==
-Content-Type: multipart/alternative; boundary="00000000000017138a05a67a37f5"
+--===============1846210073==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/g.3Qn+n5VScJQ3yt=J3kqIe"; protocol="application/pgp-signature"
 
---00000000000017138a05a67a37f5
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/g.3Qn+n5VScJQ3yt=J3kqIe
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Thanks Michel..
+On Mon, 25 May 2020 16:30:17 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
 
-sorry if my description is not clear.
-Yes I have used with glxgears in fullscreen mode and also a simple glxapp
-which actually opens in fullscreen by default.
-
-In both the cases, the issue is same.
-
-Just wanted to know if AMD has done anything different apart from the
-configurations either in MESA or in its Radeon driver ?
-
-Thanks
-Uday Kiran
-
-On Mon, May 25, 2020 at 7:26 PM Michel D=C3=A4nzer <michel@daenzer.net> wro=
-te:
-
-> On 2020-05-25 3:31 p.m., uday kiran pichika wrote:
-> > Hello,
-> >
-> > Am working on enabling the Adaptive sync feature as part of the
-> > Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver
-> > (xf86-video-amdgpu). Below is the commit which i submitted.
-> >
-> https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371=
-cc3731ee805cc4a0ace80db
-> >
-> >
-> > I have made the below changes to enable this feature
-> > 1. Enable Adaptive sync in Graphics Driver
-> > 2. Added Xorg.conf file with VariableRefresh property which is read in
-> the
-> > Modesetting driver --> This is working fine.
-> >
-> > After taking the above changes, am observing that Adaptive sync is not
-> > working.
-> >
-> > Below are my observations.
-> > 1. loader_dri3_helper.c  --> Adaptive sync property is being set once t=
+> On Mon, May 25, 2020 at 09:51:30AM -0400, Andrey Grodzovsky wrote:
+> > On 5/25/20 8:46 AM, Pekka Paalanen wrote:
+> >  =20
+> > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > >=20
+> > > Set up the expectations on how hot-unplugging a DRM device should loo=
+k like to
+> > > userspace.
+> > >=20
+> > > Written by Daniel Vetter's request and largely based on his comments =
+in IRC and
+> > > from https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2020-May%2F265484.html&a=
+mp;data=3D02%7C01%7Candrey.grodzovsky%40amd.com%7Cc9676f35bbdf4d5a052808d80=
+0a9b517%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637260076178891269&amp=
+;sdata=3DtbOTr7TfESohEgWspomM1sbMq4U4n7bOvdS6JlYifmM%3D&amp;reserved=3D0 .
+> > >=20
+> > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> > > Cc: Dave Airlie <airlied@redhat.com>
+> > > Cc: Sean Paul <sean@poorly.run>
+> > > Cc: Simon Ser <contact@emersion.fr>
+> > >=20
+> > > ---
+> > >=20
+> > > v2:
+> > > - mmap reads/writes undefined (danvet)
+> > > - make render ioctl behaviour driver-specific (danvet)
+> > > - restructure the mmap paragraphs (danvet)
+> > > - chardev minor notes (Simon)
+> > > - open behaviour (danvet)
+> > > - DRM leasing behaviour (danvet)
+> > > - added links
+> > >=20
+> > > Disclaimer: I am a userspace developer writing for other userspace de=
+velopers.
+> > > I took some liberties in defining what should happen without knowing =
+what is
+> > > actually possible or what existing drivers already implement.
+> > > ---
+> > >   Documentation/gpu/drm-uapi.rst | 102 ++++++++++++++++++++++++++++++=
++++
+> > >   1 file changed, 102 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-u=
+api.rst
+> > > index 56fec6ed1ad8..520b8e640ad1 100644
+> > > --- a/Documentation/gpu/drm-uapi.rst
+> > > +++ b/Documentation/gpu/drm-uapi.rst
+> > > @@ -1,3 +1,5 @@
+> > > +.. Copyright 2020 DisplayLink (UK) Ltd.
+> > > +
+> > >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >   Userland interfaces
+> > >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > @@ -162,6 +164,106 @@ other hand, a driver requires shared state betw=
+een clients which is
+> > >   visible to user-space and accessible beyond open-file boundaries, t=
+hey
+> > >   cannot support render nodes.
+> > > +Device Hot-Unplug
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +.. note::
+> > > +   The following is the plan. Implementation is not there yet
+> > > +   (2020 May).
+> > > +
+> > > +Graphics devices (display and/or render) may be connected via USB (e=
+.g.
+> > > +display adapters or docking stations) or Thunderbolt (e.g. eGPU). An=
+ end
+> > > +user is able to hot-unplug this kind of devices while they are being
+> > > +used, and expects that the very least the machine does not crash. Any
+> > > +damage from hot-unplugging a DRM device needs to be limited as much =
+as
+> > > +possible and userspace must be given the chance to handle it if it w=
+ants
+> > > +to. Ideally, unplugging a DRM device still lets a desktop to continue
+> > > +running, but that is going to need explicit support throughout the w=
+hole
+> > > +graphics stack: from kernel and userspace drivers, through display
+> > > +servers, via window system protocols, and in applications and librar=
+ies. =20
+> >=20
+> > So to support all the requirements in this document only kernel changes
+> > should be enough and no changes are required from user mode part of the
+> > stack ?
+> >  =20
+> > > +
+> > > +Other scenarios that should lead to the same are: unrecoverable GPU
+> > > +crash, PCI device disappearing off the bus, or forced unbind of a dr=
+iver
+> > > +from the physical device.
+> > > +
+> > > +In other words, from userspace perspective everything needs to keep =
+on
+> > > +working more or less, until userspace stops using the disappeared DRM
+> > > +device and closes it completely. Userspace will learn of the device
+> > > +disappearance from the device removed uevent =20
+> >=20
+> >=20
+> > Is this uevent already implemented ? Can you point me to the code ?
+> >=20
+> >  =20
+> > > or in some cases
+> > > +driver-specific ioctls returning EIO.
+> > > +
+> > > +Only after userspace has closed all relevant DRM device and dmabuf f=
+ile
+> > > +descriptors and removed all mmaps, the DRM driver can tear down its
+> > > +instance for the device that no longer exists. If the same physical
+> > > +device somehow comes back in the mean time, it shall be a new DRM
+> > > +device.
+> > > +
+> > > +Similar to PIDs, chardev minor numbers are not recycled immediately.=
+ A
+> > > +new DRM device always picks the next free minor number compared to t=
 he
-> > system is booted successfully on one Window. Once
-> > set_adaptive_sync_property() method gets called, adaptive_sync_active
-> flag
-> > is setting to true. From the next time, when fullscreen applications ar=
-e
-> > loaded, this property never gets set on any window.
-> > 2. Once this property is being set, received a notification in
-> modesetting
-> > ddx driver and read the property from the Stuff->window.
-> > 3. But when the fullscreen application(Either DOTA or Xonotic), not
-> > observing that this propety is not being set on any app window.
-> >
-> > Can any one please help me why this property is not being set in the
-> > application windows ?
->
-> From your description, it does get set for some windows. Just apparently
-> not for the window which is fullscreen and using page flipping (your
-> description is a bit vague to be sure though).
->
-> Have you tried with a simpler test app, e.g.
->
->  glxgears -fullscreen
->
-> ?
->
->
-> --
-> Earthling Michel D=C3=A4nzer               |               https://redhat=
-.com
-> Libre software enthusiast             |             Mesa and X developer
->
+> > > +previous one allocated, and wraps around when minor numbers are
+> > > +exhausted.
+> > > +
+> > > +Requirements for UAPI
+> > > +---------------------
+> > > +
+> > > +The goal raises at least the following requirements for the kernel a=
+nd
+> > > +drivers:
+> > > +
+> > > +- The kernel must not hang, crash or oops, no matter what userspace =
+was
+> > > +  in the middle of doing when the device disappeared.
+> > > +
+> > > +- All GPU jobs that can no longer run must have their fences
+> > > +  force-signalled to avoid inflicting hangs to userspace.
+> > > +
+> > > +- KMS connectors must change their status to disconnected.
+> > > +
+> > > +- Legacy modesets and pageflips fake success.
+> > > +
+> > > +- Atomic commits, both real and TEST_ONLY, fake success.
+> > > +
+> > > +- Pending non-blocking KMS operations deliver the DRM events userspa=
+ce
+> > > +  is expecting. =20
+> >=20
+> >=20
+> > The 4 points above refer to mode setting/display attached card and are
+> > irrelevant for secondary GPU (e.g. DRI-PRIME scenario) or no display sy=
+stem
+> > in general. Maybe we can somehow highlight this in the document and I o=
+n the
+> > implementing side can then decide as a first step to concentrate on
+> > implementing the non display case as a first step or the only step. In
+> > general and correct me if I am wrong, render only GPUs (or compute only=
+) are
+> > the majority of cases where you would want to be able to detach/attach =
+GPU
+> > on the fly (e.g attach stronger secondary graphic card to a laptop to g=
+et
+> > high performance in a game or add/remove a GPU to/from a compute cluste=
+r) =20
+>=20
+> Yeah maybe splitting this up into kms section, and rendering/cross driver
+> section (the dma-buf/fence stuff is relevant for both display and
+> rendering) would make some sense.
 
---00000000000017138a05a67a37f5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Is that really something that needs spelling out?
 
-<div dir=3D"ltr">Thanks Michel..<div><br></div><div>sorry if my description=
- is not clear.=C2=A0</div><div>Yes I have used with glxgears in fullscreen =
-mode and also a simple glxapp which actually opens in fullscreen=C2=A0by de=
-fault.=C2=A0</div><div><br></div><div>In both the cases, the issue is same.=
-=C2=A0</div><div><br></div><div>Just wanted to know if AMD has done anythin=
-g different apart from the configurations either in MESA or in its Radeon d=
-river ?=C2=A0</div><div><br></div><div>Thanks=C2=A0</div><div>Uday Kiran</d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Mon, May 25, 2020 at 7:26 PM Michel D=C3=A4nzer &lt;<a href=3D"mailto=
-:michel@daenzer.net">michel@daenzer.net</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On 2020-05-25 3:31 p.m., uday kiran =
-pichika wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; Am working on enabling the Adaptive sync feature as part of the<br>
-&gt; Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver<=
-br>
-&gt; (xf86-video-amdgpu). Below is the commit which i submitted.<br>
-&gt; <a href=3D"https://gitlab.freedesktop.org/pichika/xserver/-/commit/682=
-565a645bda7371cc3731ee805cc4a0ace80db" rel=3D"noreferrer" target=3D"_blank"=
->https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371c=
-c3731ee805cc4a0ace80db</a><br>
-&gt; <br>
-&gt; <br>
-&gt; I have made the below changes to enable this feature<br>
-&gt; 1. Enable Adaptive sync in Graphics Driver<br>
-&gt; 2. Added Xorg.conf file with VariableRefresh property which is read in=
- the<br>
-&gt; Modesetting driver --&gt; This is working fine.<br>
-&gt; <br>
-&gt; After taking the above changes, am observing that Adaptive sync is not=
-<br>
-&gt; working.<br>
-&gt; <br>
-&gt; Below are my observations.<br>
-&gt; 1. loader_dri3_helper.c=C2=A0 --&gt; Adaptive sync property is being s=
-et once the<br>
-&gt; system is booted successfully on one Window. Once<br>
-&gt; set_adaptive_sync_property() method gets called, adaptive_sync_active =
-flag<br>
-&gt; is setting to true. From the next time, when fullscreen applications a=
-re<br>
-&gt; loaded, this property never gets set on any window.<br>
-&gt; 2. Once this property is being set, received a notification in modeset=
-ting<br>
-&gt; ddx driver and read the property from the Stuff-&gt;window.<br>
-&gt; 3. But when the fullscreen application(Either DOTA or Xonotic), not<br=
->
-&gt; observing that this propety is not being set on any app window.<br>
-&gt; <br>
-&gt; Can any one please help me why this property is not being set in the<b=
-r>
-&gt; application windows ?<br>
-<br>
-From your description, it does get set for some windows. Just apparently<br=
->
-not for the window which is fullscreen and using page flipping (your<br>
-description is a bit vague to be sure though).<br>
-<br>
-Have you tried with a simpler test app, e.g.<br>
-<br>
-=C2=A0glxgears -fullscreen<br>
-<br>
-?<br>
-<br>
-<br>
--- <br>
-Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=
-=3D"https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redhat=
-.com</a><br>
-Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and X developer<br>
-</blockquote></div>
+Hmm. I guess the unwritten assumption on every "fake success" is the
+condition that it would have succeeded if the device was not unplugged.
 
---00000000000017138a05a67a37f5--
+Is the problem here that one might read this as needing to fake success
+for things that could never have worked at all? Like KMS on render-only
+device.
 
---===============0847900839==
+The dmabuf items below have the wording.
+
+I think splitting stuff into KMS stuff, render stuff, KMS-and-render
+stuff, cross-device stuff, and mmaps gets a bit far. Or do you expect a
+lot more text in here? Maybe expanding each bullet point to a paragraph?
+
+
+Thanks,
+pq
+
+
+> -Daniel
+>=20
+> >=20
+> > Andrey
+> >=20
+> >  =20
+> > > +
+> > > +- dmabuf which point to memory that has disappeared will continue to
+> > > +  be successfully imported if it would have succeeded before the
+> > > +  disappearance.
+> > > +
+> > > +- Attempting to import a dmabuf to a disappeared device will succeed=
+ if
+> > > +  it would have succeeded without the disappearance.
+> > > +
+> > > +- Some userspace APIs already define what should happen when the dev=
+ice
+> > > +  disappears (OpenGL, GL ES: `GL_KHR_robustness`_; `Vulkan`_:
+> > > +  VK_ERROR_DEVICE_LOST; etc.). DRM drivers are free to implement this
+> > > +  behaviour the way they see best, e.g. returning failures in
+> > > +  driver-specific ioctls and handling those in userspace drivers, or
+> > > +  rely on uevents, and so on.
+> > > +
+> > > +- open() on a device node whose underlying device has disappeared wi=
+ll
+> > > +  fail.
+> > > +
+> > > +- Attempting to create a DRM lease on a disappeared DRM device will
+> > > +  fail. Existing DRM leases remain.
+> > > +
+> > > +.. _GL_KHR_robustness: https://nam11.safelinks.protection.outlook.co=
+m/?url=3Dhttps%3A%2F%2Fwww.khronos.org%2Fregistry%2FOpenGL%2Fextensions%2FK=
+HR%2FKHR_robustness.txt&amp;data=3D02%7C01%7Candrey.grodzovsky%40amd.com%7C=
+c9676f35bbdf4d5a052808d800a9b517%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0=
+%7C637260076178891269&amp;sdata=3Dm%2FneRusoe6qGVU8Edk%2FncaD7eSJZXtPnA1IqL=
+r7k%2Bos%3D&amp;reserved=3D0
+> > > +.. _Vulkan: https://nam11.safelinks.protection.outlook.com/?url=3Dht=
+tps%3A%2F%2Fwww.khronos.org%2Fvulkan%2F&amp;data=3D02%7C01%7Candrey.grodzov=
+sky%40amd.com%7Cc9676f35bbdf4d5a052808d800a9b517%7C3dd8961fe4884e608e11a82d=
+994e183d%7C0%7C0%7C637260076178901265&amp;sdata=3DWsfLduUBzRKlybOJb5PQViBWY=
+u5DgleEeycmf76l3UU%3D&amp;reserved=3D0
+> > > +
+> > > +Requirements for memory maps
+> > > +----------------------------
+> > > +
+> > > +Memory maps have further requirements. If the underlying memory
+> > > +disappears, the mmap is modified such that reads and writes will sti=
+ll
+> > > +complete successfully but the result is undefined. This applies to b=
+oth
+> > > +userspace mmap()'d memory and memory pointed to by dmabuf which migh=
+t be
+> > > +mapped to other devices.
+> > > +
+> > > +Raising SIGBUS is not an option, because userspace cannot realistica=
+lly
+> > > +handle it.  Signal handlers are global, which makes them extremely
+> > > +difficult to use correctly from libraries like those that Mesa produ=
+ces.
+> > > +Signal handlers are not composable, you can't have different handlers
+> > > +for GPU1 and GPU2 from different vendors, and a third handler for
+> > > +mmapped regular files.  Threads cause additional pain with signal
+> > > +handling as well.
+> > > +
+> > >   .. _drm_driver_ioctl:
+> > >   IOCTL Support on Device Nodes =20
+>=20
+
+
+--Sig_/g.3Qn+n5VScJQ3yt=J3kqIe
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7L3gIACgkQI1/ltBGq
+qqeFgA/+NWuMED+RRJj53YJq22r5cj+QLkeSz2HerkC/LLv0T3i/AsBv3f0QrKFE
+Gdzeh6E81h6qPtBDPCuPHQmI7OC5nJFReIn06ZtcyHEmV0nLxr7tL1gJHTk5l5bM
+6UbFGPjeGJi4X+4v8gm8oW90wGXEu/Pz+vZigyVzgbMELI87uL++QGsmjoSq0Vc4
+I4PXL4Te1Sc0ZU5u/qXAxME1wnxDu5vFvOJ5roUYon9OXv6zk6ftMZGrBYl3Qnj2
+hb8LK5JI+UCpbzafcXwq0DXvq8In9C/SbOUVS4LZvJ5YTHsJTp6lWXZMx7didTxp
+DBSaUaWn22XXR8uuOS3iEROs7f1F0cuyFpbqx2ZYlkjKSH7EkXDhu1xbKdyxii7Y
+TJ5/NaqtQ++H/pcNt2LSaQ4jaU6NtDLmMEWHqEdVY+RjYHDY51sZTJXITN3Ranvb
+H59KT6i94bOnoZUoPsVs3GJk740/VN63fmjhq/YeoAjWqM02wjMUmyxMDvIlfWRx
+L6QiMxT6XZ2pm87C5hqXkfjFN79jIu2XI+OzAYb6MPik4pPJXfF55w2hdFyVkCwX
+CKerJV98OhIgSWXtKIwtltiGnmxHeJ2wIStl0JsppQLLJKEtFUqHn5WNSMOy996b
+p+2tf2E+FbP3n7JHbyxHb1Sc5ALRkx3no+T/LRrLceG7R/EXwG4=
+=oAN4
+-----END PGP SIGNATURE-----
+
+--Sig_/g.3Qn+n5VScJQ3yt=J3kqIe--
+
+--===============1846210073==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -238,4 +375,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0847900839==--
+--===============1846210073==--
