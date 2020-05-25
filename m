@@ -2,43 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167391E0E4B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CB51E0E57
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE0389D6C;
-	Mon, 25 May 2020 12:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B134389F2E;
+	Mon, 25 May 2020 12:23:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBFAD89C54
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:21:13 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Mon, 25 May 2020 12:21:12 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: udovdh@xs4all.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-201957-2300-7Y5ZaXgzam@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FB389F2E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:23:56 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id l15so20189166lje.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 05:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1neDSVvo2exAwO7XG1Q7asHC8C/uLbtbXAanu+QhUvY=;
+ b=mHchiWv9d+bl7TypEyswUYJoJBznRNEzkaqNXJ6yZYcwVhCmDlHeQE5uaH/HclG1/A
+ Bx4Cg9tDzYVicfaKmVDBhYVOUgLefRTuPj7YFVjqzZ8YnTP/1LLLJTykYqXl+FHN2pZL
+ g8xP1m6SXMaHEiGtmqiEB2IP7G+kpZcs9VS8hZv85N+n3X6CdpddRhU6y1nCKsAQzFCY
+ 4rfmeLIz/oOwhxkepv8pd1oS85BdwpikntEpMCfo0gVE3d09pfC4AhwFL/nAFV+L4+Zb
+ mwcQqn4CqSg3gj+nOH2kk2AibQMFcCPYOzlGhx/9SXJpErxweRkVif+GCa4LGQO8gvT9
+ 9trw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1neDSVvo2exAwO7XG1Q7asHC8C/uLbtbXAanu+QhUvY=;
+ b=Rs2Dwm8PlpEFdsYkuaK6Q84r4oKERAxeFOgzyL7HdHC6He7XisPme35WH8Px+Ms1W9
+ t3L3Z/W28ENsoobT0pBUrJD7WRrG1r+O9GElNvRW9FxwG4MT9frmP9UDS0V//s2AkiVQ
+ ge4hFICWb1gHin2iXyln1Y3jSobRFG2pTxW6CfhOMEt55vVpWtPeJawJxCShqbReGyQt
+ nx+GAz76fDwTZshDmtv9ilpwMkVUu4tMoaamjiQ04H1q5YwbQYNVs0igRRDSs72Kd1qq
+ Zh1FgMwD59IJjgiP7629HrzvbcaRXldAOsQRTq0Z0x3K6VzRmWhDRYt4xthMW17glIsT
+ UMYw==
+X-Gm-Message-State: AOAM533hainPpNlSvhpEsrecbf7d/1WBNp1FXG7YiNr7B9OA7EsK0Uzg
+ rgUaQU3JtPnCFnGtH/Vp9/rlxWRIszMdvNmvCoCI+w==
+X-Google-Smtp-Source: ABdhPJyf5wZA8Fh7xQjtaNnLLHBTpAkEbLAQIKhyb7JglaMhaJDSU7UOMtER0/cndL74Gsc/vcIt53XFGmKsX5AJ0t0=
+X-Received: by 2002:a2e:711c:: with SMTP id m28mr13451102ljc.104.1590409434478; 
+ Mon, 25 May 2020 05:23:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <1590378348-8115-1-git-send-email-dillon.minfei@gmail.com>
+ <1590378348-8115-7-git-send-email-dillon.minfei@gmail.com>
+In-Reply-To: <1590378348-8115-7-git-send-email-dillon.minfei@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 25 May 2020 14:23:43 +0200
+Message-ID: <CACRpkda26eQZGMfbq-FL9X532mK=Z87GotjYMu2MWNGgNohp7A@mail.gmail.com>
+Subject: Re: [PATCH v5 6/8] drm/panel: Add ilitek ili9341 panel driver
+To: dillon min <dillon.minfei@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,145 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=201957
+On Mon, May 25, 2020 at 5:46 AM <dillon.minfei@gmail.com> wrote:
 
-udo (udovdh@xs4all.nl) changed:
+> From: dillon min <dillon.minfei@gmail.com>
+>
+>     This driver combine tiny/ili9341.c mipi_dbi_interface driver
+>     with mipi_dpi_interface driver, can support ili9341 with serial
+>     mode or parallel rgb interface mode by register configuration.
+>
+> Changes since V3:
+>
+>     accoding to Linus Walleij's suggestion.
+>     1 add more comments to driver.
+>     2 reduce magic number usage in the driver.
+>     3 move panel configuration from common place to system configuration.
+>     4 reuse MIPI_DCS_* as more as possible.
+>
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |udovdh@xs4all.nl
+This looks good to me!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
---- Comment #33 from udo (udovdh@xs4all.nl) ---
-I still see them on 5.6.13:
-
-[191571.372560] sd 11:0:0:0: [sde] Synchronize Cache(10) failed: Result:
-hostbyte=0x01 driverbyte=0x00
-[205796.424607] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout,
-signaled seq=4518280, emitted seq=4518282
-[205796.424637] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information:
-process mpv pid 488243 thread mpv:cs0 pid 488257
-[205796.424640] amdgpu 0000:0a:00.0: GPU reset begin!
-[205800.840504] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for
-fences timed out!
-[205800.937565] amdgpu 0000:0a:00.0: GPU reset succeeded, trying to resume
-[205800.938060] [drm] PCIE GART of 1024M enabled (table at 0x000000F400900000).
-[205800.938849] [drm] PSP is resuming...
-[205800.958729] [drm] reserve 0x400000 from 0xf47f800000 for PSP TMR
-[205800.972414] [drm] psp command (0x5) failed and response status is
-(0xFFFF0007)
-[205801.176411] amdgpu 0000:0a:00.0: RAS: ras ta ucode is not available
-[205801.460775] [drm] kiq ring mec 2 pipe 1 q 0
-[205801.460986] amdgpu 0000:0a:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT
-domain=0x0002 address=0x800002300 flags=0x0000]
-[205801.516698] [drm] VCN decode and encode initialized successfully(under DPG
-Mode).
-[205801.516709] amdgpu 0000:0a:00.0: ring gfx uses VM inv eng 0 on hub 0
-[205801.516713] amdgpu 0000:0a:00.0: ring comp_1.0.0 uses VM inv eng 1 on hub 0
-[205801.516717] amdgpu 0000:0a:00.0: ring comp_1.1.0 uses VM inv eng 4 on hub 0
-[205801.516720] amdgpu 0000:0a:00.0: ring comp_1.2.0 uses VM inv eng 5 on hub 0
-[205801.516724] amdgpu 0000:0a:00.0: ring comp_1.3.0 uses VM inv eng 6 on hub 0
-[205801.516727] amdgpu 0000:0a:00.0: ring comp_1.0.1 uses VM inv eng 7 on hub 0
-[205801.516730] amdgpu 0000:0a:00.0: ring comp_1.1.1 uses VM inv eng 8 on hub 0
-[205801.516733] amdgpu 0000:0a:00.0: ring comp_1.2.1 uses VM inv eng 9 on hub 0
-[205801.516736] amdgpu 0000:0a:00.0: ring comp_1.3.1 uses VM inv eng 10 on hub
-0
-[205801.516740] amdgpu 0000:0a:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hub 0
-[205801.516743] amdgpu 0000:0a:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[205801.516746] amdgpu 0000:0a:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
-[205801.516749] amdgpu 0000:0a:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
-[205801.516752] amdgpu 0000:0a:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
-[205801.516755] amdgpu 0000:0a:00.0: ring jpeg_dec uses VM inv eng 6 on hub 1
-[205801.525996] [drm] recover vram bo from shadow start
-[205801.525998] [drm] recover vram bo from shadow done
-[205801.526008] [drm] Skip scheduling IBs!
-[205801.526051] amdgpu 0000:0a:00.0: GPU reset(1) succeeded!
-[205802.536444] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring sdma0 timeout,
-signaled seq=4518342, emitted seq=4518344
-[205802.536523] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information:
-process gnome-shell pid 3825 thread gnome-shel:cs0 pid 3834
-[205802.536531] amdgpu 0000:0a:00.0: GPU reset begin!
-[205806.728558] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for
-fences timed out!
-[205806.821326] amdgpu 0000:0a:00.0: GPU reset succeeded, trying to resume
-[205806.821578] [drm] PCIE GART of 1024M enabled (table at 0x000000F400900000).
-[205806.821899] [drm] PSP is resuming...
-[205806.841769] [drm] reserve 0x400000 from 0xf47f800000 for PSP TMR
-[205806.856213] [drm] psp command (0x5) failed and response status is
-(0xFFFF0007)
-[205807.072210] amdgpu 0000:0a:00.0: RAS: ras ta ucode is not available
-[205807.355997] [drm] kiq ring mec 2 pipe 1 q 0
-[205807.356308] amdgpu 0000:0a:00.0: AMD-Vi: Event logged [IO_PAGE_FAULT
-domain=0x0002 address=0x800072f00 flags=0x0000]
-[205807.409389] [drm] VCN decode and encode initialized successfully(under DPG
-Mode).
-[205807.409401] amdgpu 0000:0a:00.0: ring gfx uses VM inv eng 0 on hub 0
-[205807.409406] amdgpu 0000:0a:00.0: ring comp_1.0.0 uses VM inv eng 1 on hub 0
-[205807.409410] amdgpu 0000:0a:00.0: ring comp_1.1.0 uses VM inv eng 4 on hub 0
-[205807.409415] amdgpu 0000:0a:00.0: ring comp_1.2.0 uses VM inv eng 5 on hub 0
-[205807.409418] amdgpu 0000:0a:00.0: ring comp_1.3.0 uses VM inv eng 6 on hub 0
-[205807.409422] amdgpu 0000:0a:00.0: ring comp_1.0.1 uses VM inv eng 7 on hub 0
-[205807.409425] amdgpu 0000:0a:00.0: ring comp_1.1.1 uses VM inv eng 8 on hub 0
-[205807.409429] amdgpu 0000:0a:00.0: ring comp_1.2.1 uses VM inv eng 9 on hub 0
-[205807.409432] amdgpu 0000:0a:00.0: ring comp_1.3.1 uses VM inv eng 10 on hub
-0
-[205807.409436] amdgpu 0000:0a:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hub 0
-[205807.409440] amdgpu 0000:0a:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[205807.409444] amdgpu 0000:0a:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
-[205807.409447] amdgpu 0000:0a:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
-[205807.409451] amdgpu 0000:0a:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
-[205807.409454] amdgpu 0000:0a:00.0: ring jpeg_dec uses VM inv eng 6 on hub 1
-[205807.418547] [drm] recover vram bo from shadow start
-[205807.418549] [drm] recover vram bo from shadow done
-[205807.418567] [drm] Skip scheduling IBs!
-[205807.418569] [drm] Skip scheduling IBs!
-[205807.418592] [drm] Skip scheduling IBs!
-[205807.418613] amdgpu 0000:0a:00.0: GPU reset(2) succeeded!
-[205808.428469] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-but soft recovered
-[205809.458201] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=11463546, emitted seq=11463549
-[205809.458282] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information:
-process Xorg pid 3513 thread Xorg:cs0 pid 3514
-[205809.458289] amdgpu 0000:0a:00.0: GPU reset begin!
-[205812.872123] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting for
-fences timed out!
-[205812.981471] amdgpu 0000:0a:00.0: GPU reset succeeded, trying to resume
-[205812.981823] [drm] PCIE GART of 1024M enabled (table at 0x000000F400900000).
-[205812.982264] [drm] PSP is resuming...
-[205813.002134] [drm] reserve 0x400000 from 0xf47f800000 for PSP TMR
-[205813.012088] [drm] psp command (0x5) failed and response status is
-(0xFFFF0007)
-[205813.208005] amdgpu 0000:0a:00.0: RAS: ras ta ucode is not available
-[205813.497603] [drm] kiq ring mec 2 pipe 1 q 0
-[205813.551494] [drm] VCN decode and encode initialized successfully(under DPG
-Mode).
-[205813.551506] amdgpu 0000:0a:00.0: ring gfx uses VM inv eng 0 on hub 0
-[205813.551510] amdgpu 0000:0a:00.0: ring comp_1.0.0 uses VM inv eng 1 on hub 0
-[205813.551514] amdgpu 0000:0a:00.0: ring comp_1.1.0 uses VM inv eng 4 on hub 0
-[205813.551517] amdgpu 0000:0a:00.0: ring comp_1.2.0 uses VM inv eng 5 on hub 0
-[205813.551520] amdgpu 0000:0a:00.0: ring comp_1.3.0 uses VM inv eng 6 on hub 0
-[205813.551524] amdgpu 0000:0a:00.0: ring comp_1.0.1 uses VM inv eng 7 on hub 0
-[205813.551526] amdgpu 0000:0a:00.0: ring comp_1.1.1 uses VM inv eng 8 on hub 0
-[205813.551529] amdgpu 0000:0a:00.0: ring comp_1.2.1 uses VM inv eng 9 on hub 0
-[205813.551532] amdgpu 0000:0a:00.0: ring comp_1.3.1 uses VM inv eng 10 on hub
-0
-[205813.551535] amdgpu 0000:0a:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hub 0
-[205813.551538] amdgpu 0000:0a:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[205813.551541] amdgpu 0000:0a:00.0: ring vcn_dec uses VM inv eng 1 on hub 1
-[205813.551543] amdgpu 0000:0a:00.0: ring vcn_enc0 uses VM inv eng 4 on hub 1
-[205813.551546] amdgpu 0000:0a:00.0: ring vcn_enc1 uses VM inv eng 5 on hub 1
-[205813.551549] amdgpu 0000:0a:00.0: ring jpeg_dec uses VM inv eng 6 on hub 1
-[205902.384966] traps: Bluez D-Bus thr[409727] trap invalid opcode
-ip:555cd19202af sp:7f265cf9de10 error:0 in skypeforlinux[555ccfa02000+542a000]
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Yours,
+Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
