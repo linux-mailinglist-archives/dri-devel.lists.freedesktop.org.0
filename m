@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07971E0C98
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 13:13:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEE21E0C80
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 13:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62A0B89B57;
-	Mon, 25 May 2020 11:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAECE89CA8;
+	Mon, 25 May 2020 11:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Mon, 25 May 2020 11:13:17 UTC
-Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9833D89B57
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 11:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
- content-transfer-encoding;
- s=001; bh=2LWdqhF0h0/L5eZEj9shpyC31aMFpai1+VBjGb1xfe4=;
- b=p/Wt9uLswLTkDWUapkGzVW5dAwuH63HxA2baVRaWbcbRNxS+atQohHXFO2blDIniS5nN
- G63ndDt+wGG2RSlIjmcchksG6H6D8y/n8RAFDt98vEGoPjx2pW6vSbBRcAP3TW8jnYCwnJ
- F7yaE8mMLlGYOSUObzsAu7CoDdd+O+3eA=
-Received: by filterdrecv-p3iad2-8ddf98858-xxtk7 with SMTP id
- filterdrecv-p3iad2-8ddf98858-xxtk7-19-5ECBA71B-F
- 2020-05-25 11:08:11.20063802 +0000 UTC m=+5220041.072740182
-Received: from [10.13.72.153] (unknown)
- by ismtpd0008p1lon1.sendgrid.net (SG) with ESMTP
- id y9_SA6rrTuqHmZHhxMwWsA Mon, 25 May 2020 11:08:10.860 +0000 (UTC)
-Subject: Re: [PATCH] drm: drm_fourcc: add NV15, Q410, Q401 YUV formats
-References: <20200422111349.1632-1-ben.davis@arm.com>
- <20200506144126.GB13535@arm.com>
- <20200515133712.l5vaxnye3qypkah2@DESKTOP-E1NTVVP.localdomain>
-From: Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <504d071a-50c8-2bb9-c9e1-2cbe65ba6380@kwiboo.se>
-Date: Mon, 25 May 2020 11:08:11 +0000 (UTC)
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1B189A94
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 11:08:19 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id DFD7CAD45;
+ Mon, 25 May 2020 11:08:20 +0000 (UTC)
+Subject: Re: [PATCH v1 0/2] drm: update drm_vblank logging
+To: Sam Ravnborg <sam@ravnborg.org>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org
+References: <20200523071224.1716837-1-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <34a01df5-15b0-ff2b-34fa-e5b5d961823a@suse.de>
+Date: Mon, 25 May 2020 13:08:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200515133712.l5vaxnye3qypkah2@DESKTOP-E1NTVVP.localdomain>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h0rCdRPDvYYuMicfB?=
- =?us-ascii?Q?fWOesWqPn76ZKDWnewP6Wmf7ZSmDYv1DilKNM5z?=
- =?us-ascii?Q?mbtUJv7kwKRPLBRwPSREKwZaLaViCDHuAUyTpsj?=
- =?us-ascii?Q?jELQ2sMvDEMzHdyes6LqiPn6cBODkTxgZyzCxCK?=
- =?us-ascii?Q?MXBjYcBAh=2FG8AEaGrumhRB7BJx71URGQr9tDF4s?=
- =?us-ascii?Q?iNdUjvO2kZpHQkvqfpWzQ=3D=3D?=
-To: Brian Starkey <brian.starkey@arm.com>, Ben Davis <ben.davis@arm.com>,
- airlied@linux.ie, daniel@ffwll.ch
-Content-Language: sv
+In-Reply-To: <20200523071224.1716837-1-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,157 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd@arm.com, liviu.dudau@arm.com, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, matteo.franchin@arm.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Y David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: multipart/mixed; boundary="===============0856060063=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0856060063==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="oM8r7rE2hDlQdcy9fvcW8FLAXhYNRSntY"
 
-On 2020-05-15 15:37, Brian Starkey wrote:
-> Hi Ben,
-> 
-> On Wed, May 06, 2020 at 03:41:26PM +0100, Ben Davis wrote:
->> Hi all, any feedback on this patch?
->> Thanks, Ben
->> On Wed, Apr 22, 2020 at 12:13:49PM +0100, Ben Davis wrote:
->>> DRM_FORMAT_NV15 is a 2 plane format suitable for linear and 16x16
->>> block-linear memory layouts. The format is similar to P010 with 4:2:0
->>> sub-sampling but has no padding between components. Instead, luminance
->>> and chrominance samples are grouped into 4s so that each group is packed
->>> into an integer number of bytes:
->>>
->>> YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
->>>
->>> The '15' suffix refers to the optimum effective bits per pixel which is
->>> achieved when the total number of luminance samples is a multiple of 8.
->>>
->>> Q410 and Q401 are both 3 plane non-subsampled formats with 16 bits per
->>> component, but only 10 bits are used and 6 are padded. 'Q' is chosen
->>> as the first letter to denote 3 plane YUV444, (and is the next letter
->>> along from P which is usually 2 plane).
->>>
->>> Signed-off-by: Ben Davis <ben.davis@arm.com>
-> 
-> The descriptions match my understanding of the formats and the
-> format_info struct, so feel free to add my r-b:
-> 
-> Reviewed-by: Brian Starkey <brian.starkey@arm.com>
-> 
-> Can anyone else pass comment on the approach and/or naming? I feel
-> like we should have some non-Arm eyes on this before we merge it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--oM8r7rE2hDlQdcy9fvcW8FLAXhYNRSntY
+Content-Type: multipart/mixed; boundary="n5TL0phDP1eqWf55P8Lp3Rj3noD9fNtFk";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Y David Airlie
+ <airlied@linux.ie>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+Message-ID: <34a01df5-15b0-ff2b-34fa-e5b5d961823a@suse.de>
+Subject: Re: [PATCH v1 0/2] drm: update drm_vblank logging
+References: <20200523071224.1716837-1-sam@ravnborg.org>
+In-Reply-To: <20200523071224.1716837-1-sam@ravnborg.org>
 
-This pixel format seem to match the memory layout used for 10-bit 4:2:0 by the
-Rockchip Video Decoder, for the rkvdec a 4:2:2 format is also needed (maybe NV20?).
+--n5TL0phDP1eqWf55P8Lp3Rj3noD9fNtFk
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-From what I can tell the rockchip specific pixel format has previously been submitted in [1]
-and GStreamer use NV12_10LE40 (fourcc RK20) for this pixel format.
+Hi Sam
 
-[1] https://patchwork.freedesktop.org/patch/276029/
+Am 23.05.20 um 09:12 schrieb Sam Ravnborg:
+> Replace all logging functions in vblank with their drm_ counterparts.
+> As cocinelle and I are not yet good friends this was a pure mechanical
+> replacement.
+>=20
+> It adds more lines because the added argument required some more lines
+> to be divided in two.
+>=20
+> The patch was split in two:
+> - the logging functions
+> - the WARN functions
+>=20
+> This was only done to ease the review a little.
+> The patch is done on top of drm-misc-next.
+>=20
+> 	Sam
+>=20
+> Sam Ravnborg (2):
+>       drm/vblank: use drm_* functions for logging
+>       drm/vblank: use drm_WARN for all warnings
+>=20
+>  drivers/gpu/drm/drm_vblank.c | 198 +++++++++++++++++++++++------------=
+--------
 
-> 
-> Thanks,
-> -Brian
-> 
->>> ---
->>>  drivers/gpu/drm/drm_fourcc.c  | 12 ++++++++++++
->>>  include/uapi/drm/drm_fourcc.h | 24 ++++++++++++++++++++++++
->>>  2 files changed, 36 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
->>> index b234bfaeda06..0c0a65481afd 100644
->>> --- a/drivers/gpu/drm/drm_fourcc.c
->>> +++ b/drivers/gpu/drm/drm_fourcc.c
->>> @@ -274,6 +274,18 @@ const struct drm_format_info *__drm_format_info(u32 format)
->>>  		{ .format = DRM_FORMAT_YUV420_10BIT,    .depth = 0,
->>>  		  .num_planes = 1, .cpp = { 0, 0, 0 }, .hsub = 2, .vsub = 2,
->>>  		  .is_yuv = true },
->>> +		{ .format = DRM_FORMAT_NV15,		.depth = 0,
->>> +		  .num_planes = 2, .char_per_block = { 5, 5, 0 },
->>> +		  .block_w = { 4, 4, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
->>> +		  .vsub = 2, .is_yuv = true },
+For the series:
 
-For a 4:2:0 format I wonder if the char_per_block value is correct for the second plane,
-using the following formula to calculate the pitch seem to result in only half expected width.
-Maybe .char_per_block { 5, 10, 0 } could be correct?
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-pitch = (width * char_per_block[1]) / block_w[1] / hsub
+>  1 file changed, 108 insertions(+), 90 deletions(-)
+>=20
+>=20
 
-for 16x16 this would be
-
-pitch[1] = (16 * 5) / 4 / 2 = 10 bytes
-vs
-pitch[1] = (16 * 10) / 4 / 2 = 20 bytes
-
-height[1] = 16 / 2 = 8
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-Regards,
-Jonas
+--n5TL0phDP1eqWf55P8Lp3Rj3noD9fNtFk--
 
->>> +		{ .format = DRM_FORMAT_Q410,		.depth = 0,
->>> +		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
->>> +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
->>> +		  .vsub = 0, .is_yuv = true },
->>> +		{ .format = DRM_FORMAT_Q401,		.depth = 0,
->>> +		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
->>> +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
->>> +		  .vsub = 0, .is_yuv = true },
->>>  	};
->>>  
->>>  	unsigned int i;
->>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
->>> index 8bc0b31597d8..232b9ad3534d 100644
->>> --- a/include/uapi/drm/drm_fourcc.h
->>> +++ b/include/uapi/drm/drm_fourcc.h
->>> @@ -236,6 +236,12 @@ extern "C" {
->>>  #define DRM_FORMAT_NV61		fourcc_code('N', 'V', '6', '1') /* 2x1 subsampled Cb:Cr plane */
->>>  #define DRM_FORMAT_NV24		fourcc_code('N', 'V', '2', '4') /* non-subsampled Cr:Cb plane */
->>>  #define DRM_FORMAT_NV42		fourcc_code('N', 'V', '4', '2') /* non-subsampled Cb:Cr plane */
->>> +/*
->>> + * 2 plane YCbCr
->>> + * index 0 = Y plane, [39:0] Y3:Y2:Y1:Y0 little endian
->>> + * index 1 = Cr:Cb plane, [39:0] Cr1:Cb1:Cr0:Cb0 little endian
->>> + */
->>> +#define DRM_FORMAT_NV15		fourcc_code('N', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane */
->>>  
->>>  /*
->>>   * 2 plane YCbCr MSB aligned
->>> @@ -265,6 +271,24 @@ extern "C" {
->>>   */
->>>  #define DRM_FORMAT_P016		fourcc_code('P', '0', '1', '6') /* 2x2 subsampled Cr:Cb plane 16 bits per channel */
->>>  
->>> +
->>> +/* 3 plane non-subsampled (444) YCbCr
->>> + * 16 bits per component, but only 10 bits are used and 6 bits are padded
->>> + * index 0: Y plane, [15:0] Y:x [10:6] little endian
->>> + * index 1: Cb plane, [15:0] Cb:x [10:6] little endian
->>> + * index 2: Cr plane, [15:0] Cr:x [10:6] little endian
->>> + */
->>> +#define DRM_FORMAT_Q410		fourcc_code('Q', '4', '1', '0')
->>> +
->>> +/* 3 plane non-subsampled (444) YCrCb
->>> + * 16 bits per component, but only 10 bits are used and 6 bits are padded
->>> + * index 0: Y plane, [15:0] Y:x [10:6] little endian
->>> + * index 1: Cr plane, [15:0] Cr:x [10:6] little endian
->>> + * index 2: Cb plane, [15:0] Cb:x [10:6] little endian
->>> + */
->>> +#define DRM_FORMAT_Q401		fourcc_code('Q', '4', '0', '1')
->>> +
->>> +
->>>  /*
->>>   * 3 plane YCbCr
->>>   * index 0: Y plane, [7:0] Y
->>> -- 
->>> 2.24.0
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+--oM8r7rE2hDlQdcy9fvcW8FLAXhYNRSntY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LpyEACgkQaA3BHVML
+eiP/KAf/WEzwBu0UVbMMPw9dAt9P6Z+gFZRmzBL9lKtlTTUnaSbfcqAeTPEwM3ak
+533Lgtzufs/Pwz1tUa1pd6I34H4PIedSOZ4KZuyUsX1mXw3E1i4flGg46O8/m+Jd
+L/RbSU5shvBq5My9w4cwMCikCD9jhzJtplprPRmweTXKTnemBaGWNw2b5a+l80bi
+LUjIno5wNppj7sJCmW+lTze31n6WnxSAhhHknriokBlwTpOx0y/B49G6J2F307Dj
+srbc1JPifkqIVAfbswkYxuRkMCDw7G5Hud+dH04XKhDGjetGGWAmkDSjDURGWQ7h
+h55M6ycZK+jY9A92mgTfZPBHJdJKfw==
+=1NVX
+-----END PGP SIGNATURE-----
+
+--oM8r7rE2hDlQdcy9fvcW8FLAXhYNRSntY--
+
+--===============0856060063==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0856060063==--
