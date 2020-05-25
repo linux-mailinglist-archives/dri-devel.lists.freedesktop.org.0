@@ -2,38 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BCD1E05AF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 05:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928851E07DB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 09:22:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 500B189C49;
-	Mon, 25 May 2020 03:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87FA989F43;
+	Mon, 25 May 2020 07:21:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1C489C49
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 03:51:44 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49Vjnk5ZQWz9sRK;
- Mon, 25 May 2020 13:51:38 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1590378702;
- bh=dD85KlQO7eQL4fMZBMu+JpbqAl6Gy9dAS0VsjQ5gE20=;
- h=Date:From:To:Cc:Subject:From;
- b=Khy3TuOqRVjNraCdhVxLQfeES/8tE7wzAiBMqnHcSECuzCFLe36ugvMcUQ0hrJvlu
- u0DNPUnfcRfj1GfmIKCYH9r9B5gRDfupFU5wD5Xi7AFWGEy/2O4cIJq5L+1ONtfzGq
- JZjzkaST7fdel/PJVwBEIrzIu5dhlzICAK9mpaGRQthNZTJ3ZVjURs3KDgbdb5PS4S
- Lem44p6uXZdy5BcMAfbMYn8A3AViJEC2VD1RSNw6FNJZPJiW/9GRAssc2CRvRn5+b4
- yEQlKcERczBNjqcehHSoKAYGX1869OgnWcj9zujCEU5IVaMp6cSFyrTKbRIhZzOwdY
- 3nOMihdgAycYw==
-Date: Mon, 25 May 2020 13:51:32 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20200525135132.14918f41@canb.auug.org.au>
-MIME-Version: 1.0
+X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
+ Mon, 25 May 2020 07:19:09 UTC
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D31089C16
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 07:19:09 +0000 (UTC)
+Received: from linux.localdomain (unknown [113.200.148.30])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr2uyb8teEdE4AA--.1329S2;
+ Mon, 25 May 2020 15:11:46 +0800 (CST)
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] video: fbdev: pxafb: Use correct return value for
+ pxafb_probe()
+Date: Mon, 25 May 2020 15:11:45 +0800
+Message-Id: <1590390705-22898-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf9Dxr2uyb8teEdE4AA--.1329S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruw18Zw1xXFykWFyrtFyxZrb_yoW3AFb_Cw
+ 48ur93XryUtr1vg3Wqya15Ary2yF97Wr4fXanrK3yYy347uryfuryUZr1v9FW8Xw4jyFn8
+ ZF4qgr1avr4fCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4x
+ MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+ 0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
+ wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+ W8JwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF
+ 0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUIApnUUUUU=
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Mailman-Approved-At: Mon, 25 May 2020 07:21:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,133 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sung Lee <sung.lee@amd.com>, Jason Yan <yanaijie@huawei.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Yongqiang Sun <yongqiang.sun@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: multipart/mixed; boundary="===============0060000996=="
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>, linux-fbdev@vger.kernel.org,
+ Xuefeng Li <lixuefeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0060000996==
-Content-Type: multipart/signed; boundary="Sig_/SmEhE2DQbR1O+SQLdEKB76L";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+When call function devm_platform_ioremap_resource(), we should use IS_ERR()
+to check the return value and return PTR_ERR() if failed.
 
---Sig_/SmEhE2DQbR1O+SQLdEKB76L
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ drivers/video/fbdev/pxafb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi all,
-
-Today's linux-next merge of the drm tree got conflicts in:
-
-  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c
-  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c
-
-between commit:
-
-  31ecebee9c36 ("drm/amd/display: Defer cursor lock until after VUPDATE")
-
-from Linus' tree and commits:
-
-  b3a941df690f ("drm/amd/display: Power down hw blocks on boot")
-  4b0e95d1838f ("drm/amd/display: Add set backlight to hw sequencer.")
-  ddea4ed01058 ("drm/amd/display: remove duplicate assignment of dcn21_func=
-s members")
-  3ba01817365c ("drm/amd/display: Move panel_cntl specific register from ab=
-m to panel_cntl.")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c
-index 9e8e32629e47,897a3d25685a..000000000000
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_init.c
-@@@ -72,7 -72,8 +72,9 @@@ static const struct hw_sequencer_funcs=20
-  	.set_clock =3D dcn10_set_clock,
-  	.get_clock =3D dcn10_get_clock,
-  	.get_vupdate_offset_from_vsync =3D dcn10_get_vupdate_offset_from_vsync,
-+ 	.set_backlight_level =3D dce110_set_backlight_level,
-+ 	.set_abm_immediate_disable =3D dce110_set_abm_immediate_disable,
- +	.calc_vupdate_position =3D dcn10_calc_vupdate_position,
-  };
- =20
-  static const struct hwseq_private_funcs dcn10_private_funcs =3D {
-diff --cc drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c
-index 8334bbd6eabb,a8bcd747d7ba..000000000000
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_init.c
-@@@ -83,7 -83,8 +83,9 @@@ static const struct hw_sequencer_funcs=20
-  	.init_vm_ctx =3D dcn20_init_vm_ctx,
-  	.set_flip_control_gsl =3D dcn20_set_flip_control_gsl,
-  	.get_vupdate_offset_from_vsync =3D dcn10_get_vupdate_offset_from_vsync,
-+ 	.set_backlight_level =3D dce110_set_backlight_level,
-+ 	.set_abm_immediate_disable =3D dce110_set_abm_immediate_disable,
- +	.calc_vupdate_position =3D dcn10_calc_vupdate_position,
-  };
- =20
-  static const struct hwseq_private_funcs dcn20_private_funcs =3D {
-diff --cc drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-index 4dd634118df2,e97dfaa656e9..000000000000
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_init.c
-@@@ -86,12 -86,9 +86,10 @@@ static const struct hw_sequencer_funcs=20
-  	.optimize_pwr_state =3D dcn21_optimize_pwr_state,
-  	.exit_optimized_pwr_state =3D dcn21_exit_optimized_pwr_state,
-  	.get_vupdate_offset_from_vsync =3D dcn10_get_vupdate_offset_from_vsync,
- +	.calc_vupdate_position =3D dcn10_calc_vupdate_position,
-- 	.set_cursor_position =3D dcn10_set_cursor_position,
-- 	.set_cursor_attribute =3D dcn10_set_cursor_attribute,
-- 	.set_cursor_sdr_white_level =3D dcn10_set_cursor_sdr_white_level,
-- 	.optimize_pwr_state =3D dcn21_optimize_pwr_state,
-- 	.exit_optimized_pwr_state =3D dcn21_exit_optimized_pwr_state,
-+ 	.power_down =3D dce110_power_down,
-+ 	.set_backlight_level =3D dce110_set_backlight_level,
-+ 	.set_abm_immediate_disable =3D dce110_set_abm_immediate_disable,
-  };
- =20
-  static const struct hwseq_private_funcs dcn21_private_funcs =3D {
-
---Sig_/SmEhE2DQbR1O+SQLdEKB76L
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7LQMQACgkQAVBC80lX
-0Gw4BwgAg5TMCeLUxZpRwKgoMP1w7RBiF17CMOgoAta6c0V+K4aLvOnSiCahC6vH
-+JqDafk/1mO2f74SCIM8yckvU13FxqTZo5SjyWNZON7T64oNnpm+x9wDbe6lYu3t
-112wUKjW7dvO7wB6uoXN1iHAyp2swKNQdKsukELFbDQD+1sRdKB59QZ99zZvSJVM
-cNl8ww8Bpw9qEfp+jbbRfoN1lf1JpvHXC1G72GqZ5+osOwBqY8zcx1KVnpLaEpAr
-XfHC7n0unxu8rLjDxE5S3DlPcPZpYv95EPD/R02M/aZtuqbSzA1DybB/cMN8/Lji
-/Iur3qQAPSQX5SIS7CTKhtOSVJ5unA==
-=RRAU
------END PGP SIGNATURE-----
-
---Sig_/SmEhE2DQbR1O+SQLdEKB76L--
-
---===============0060000996==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+index 00b96a7..423331c 100644
+--- a/drivers/video/fbdev/pxafb.c
++++ b/drivers/video/fbdev/pxafb.c
+@@ -2305,7 +2305,7 @@ static int pxafb_probe(struct platform_device *dev)
+ 	fbi->mmio_base = devm_platform_ioremap_resource(dev, 0);
+ 	if (IS_ERR(fbi->mmio_base)) {
+ 		dev_err(&dev->dev, "failed to get I/O memory\n");
+-		ret = -EBUSY;
++		ret = PTR_ERR(fbi->mmio_base);
+ 		goto failed;
+ 	}
+ 
+-- 
+2.1.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0060000996==--
