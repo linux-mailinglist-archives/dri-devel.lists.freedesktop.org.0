@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5A11E1C2B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 09:26:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50131E11E2
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 17:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66B489CF9;
-	Tue, 26 May 2020 07:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5239899B0;
+	Mon, 25 May 2020 15:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2834989C48
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:35:04 +0000 (UTC)
-Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 04PFYwe6010367;
- Tue, 26 May 2020 00:34:58 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp);
- Tue, 26 May 2020 00:34:58 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 04PFYvw7010363
- (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
- Tue, 26 May 2020 00:34:57 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH] drm/vkms: Don't warn hrtimer_forward_now failure.
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200525143849.4964-1-penguin-kernel@I-love.SAKURA.ne.jp>
- <20200525152119.GL206103@phenom.ffwll.local>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <b3715721-4982-83d9-dd6f-2a87e3b02a40@i-love.sakura.ne.jp>
-Date: Tue, 26 May 2020 00:34:58 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADD6899A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:38:48 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E379562;
+ Mon, 25 May 2020 17:38:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1590421126;
+ bh=CH7bO9h+bXgSIApeNO1CojJAmdxpKZhJjd8+hwnYzd8=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=utZPS/L9k+UGhCThI3kWJUjSf4F+c1Fex7fvUJ/hoJUEPfjvrtm3lG4z8MuYcGIcK
+ 8cKm2UVTJ3v5S0JX+ToiHOrGHD9WdgSZUUJFG0DU/KhnUqTZ3C7mjmrv4XwMa9EmAf
+ +1FqsIdSv9X4nKQVubvYiPgPdJP0b6hza+2kLqQ0=
+Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200522135246.10134-1-tzimmermann@suse.de>
+ <20200522135246.10134-16-tzimmermann@suse.de>
+ <20200522201240.GE5824@pendragon.ideasonboard.com>
+ <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <50d76988-f627-037d-a8bc-d18f6662c981@ideasonboard.com>
+Date: Mon, 25 May 2020 16:38:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200525152119.GL206103@phenom.ffwll.local>
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 26 May 2020 07:26:30 +0000
+In-Reply-To: <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,111 +52,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shayenne Moura <shayenneluzmoura@gmail.com>,
- syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- DRI <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
+ narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
+ paul@crapouillou.net, mihail.atanassov@arm.com, sam@ravnborg.org,
+ marex@denx.de, khilman@baylibre.com, abrodkin@synopsys.com,
+ kong.kongxinwei@hisilicon.com, xinliang.liu@linaro.org,
+ ludovic.desroches@microchip.com, tomi.valkeinen@ti.com,
+ james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
+ alexandre.torgue@st.com, puck.chen@hisilicon.com, s.hauer@pengutronix.de,
+ alison.wang@nxp.com, jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ bbrezillon@kernel.org, andrew@aj.id.au, philippe.cornu@st.com,
+ yannick.fertre@st.com, kernel@pengutronix.de, zourongrong@gmail.com,
+ shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020/05/26 0:21, Daniel Vetter wrote:
-> On Mon, May 25, 2020 at 11:38:49PM +0900, Tetsuo Handa wrote:
->> Commit 3a0709928b172a41 ("drm/vkms: Add vblank events simulated by
->> hrtimers") introduced ret_overrun variable. And that variable was an
->> unused-but-set-variable until commit 09ef09b4ab95dc40 ("drm/vkms:
->> WARN when hrtimer_forward_now fails") added WARN_ON(ret_overrun != 1).
->>
->> Now, syzbot is hitting this WARN_ON() using a simple reproducer that
->> does open("/dev/dri/card1") followed by ioctl(DRM_IOCTL_WAIT_VBLANK),
->> and a debug printk() patch says that syzbot is getting
->>
->>    output->vblank_hrtimer.base->get_time()=93531904774 (which is uptime)
->>    output->period_ns=0
->>    ret_overrun=216994
->>
->> . I can't understand what "verify the hrtimer_forward_now return" in
->> that commit wants to say. hrtimer_forward_now() must return, and the
->> return value of hrtimer_forward_now() is not a boolean. Why comparing
->> with 1 ? Anyway, this failure is not something that worth crashing the
->> system. Let's remove the ret_overrun variable and WARN_ON() test.
+On 25/05/2020 13:49, Thomas Zimmermann wrote:
+> Hi
 > 
-> Uh we're not crashing the system, it's a warning backtrace.
-
-syzbot uses panic_on_warn=1, and this bug is currently the 8th top crasher.
-
+> Am 22.05.20 um 22:12 schrieb Laurent Pinchart:
+>> Hi Thomas,
+>>
+>> Thank you for the patch.
+>>
+>> On Fri, May 22, 2020 at 03:52:40PM +0200, Thomas Zimmermann wrote:
+>>> The rcar-du driver uses the default implementation for CMA functions;
+>>> except for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro
+>>> now sets these defaults and .dumb_create in struct drm_driver. All
+>>> remaining operations are provided by CMA GEM object functions.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
+>>>  1 file changed, 1 insertion(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>> index 3e67cf70f0402..3728038cec1d1 100644
+>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>> @@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+>>>  
+>>>  static struct drm_driver rcar_du_driver = {
+>>>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>>> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
+>>> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+>>> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+>>> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+>>> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+>>> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+>>> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+>>> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+>>> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+>>> -	.dumb_create		= rcar_du_dumb_create,
+>>> +	__DRM_GEM_CMA_DRIVER_OPS(rcar_du_dumb_create),
+>>
+>> Your __DRM_GEM_CMA_DRIVER_OPS is defined as
+>>
+>> #define __DRM_GEM_CMA_DRIVER_OPS(__dumb_create) \
+>>         .gem_create_object      = drm_cma_gem_create_object_default_funcs, \
+>>         .dumb_create            = (__dumb_create), \
+>>         .prime_handle_to_fd     = drm_gem_prime_handle_to_fd, \
+>>         .prime_fd_to_handle     = drm_gem_prime_fd_to_handle, \
+>>         .gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table_vmap, \
+>>         .gem_prime_mmap         = drm_gem_prime_mmap
+>>
+>> The patch thus introduces several changes:
+>>
+>> - drm_gem_cma_prime_import_sg_table_vmap() is used instead of
+>>   drm_gem_cma_prime_import_sg_table() combined with .gem_prime_vmap()
+>>   and .gem_prime_vunmap(). I believe that's fine, but splitting that
+>>   change in a separate commit, or at the very least explaining it in
+>>   details in the commit message, would make review easier.
+>>
+>> - .gem_create_object() is now set. That seems to be OK, but I'm not sure
+>>   to grasp all the implications. This should also be explained in the
+>>   commit message, and ideally split to a separate patch.
 > 
-> And we've spent a few months hunting the races here, so just removing that
-> check isn't really a good idea. The correct thing to do is figure out why
-> we're hitting this. It could be that we're having a missing check
-> somewhere, or missing initialization, and that's what syzbot is hitting.
-> Removing this check here just papers over the bug.
-
-Here is a reproducer which syzbot is using.
-
-----------
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <drm/drm.h>
-
-int main(int argc, char *argv[])
-{
-	union drm_wait_vblank arg;
-	int fd = open("/dev/dri/card1", O_RDONLY);
-
-	arg.request.type = 0;
-	arg.request.sequence = 0xffff;
-	arg.request.signal = 0x21;
-	ioctl(fd, DRM_IOCTL_WAIT_VBLANK, &arg);
-	return 0;
-}
-----------
-
-Debug printk() patch shows that hrtimer_forward_now() can return larger than 1.
-What is the reason you are expecting hrtimer_forward_now() to always return 1 ?
-
+> That's relevant during object creation and sets the object functions.
+> See one of my other replies for how this can go away after all CMA
+> drivers have been updated to GEM object functions.
 > 
-> If the vkms driver is loaded, and there's nothing else going on, then what
-> I expect to happen is that this virtual hw is entirely off. And in that
-> case, the vblank ioctl should be rejected outright. So there's definitely
-> something fishy going on to begin with.
-> 
-> If otoh the virtual hw is somehow on (maybe fbcon gets loaded, no idea),
-> then the vblank wait shouldn't just blow up like this.
-> -Daniel
 > 
 >>
->> Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
->> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->> Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
->> Fixes: 09ef09b4ab95dc40 ("drm/vkms: WARN when hrtimer_forward_now fails")
->> ---
->>  drivers/gpu/drm/vkms/vkms_crtc.c | 5 +----
->>  1 file changed, 1 insertion(+), 4 deletions(-)
+>> - drm_gem_cma_prime_mmap() is replaced with drm_gem_prime_mmap(). Same
+>>   comments :-)
+> 
+> I relied on the aspeed driver to be correct. After Sam's comment on
+> that, I read the code once again several times. The original
+> implementation clears VM_PFNMAP. And I cannot find that code any longer.
+> Going back to the original function might be better.
+> 
+> 
 >>
->> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
->> index ac85e17428f8..cc1811ce6092 100644
->> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
->> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
->> @@ -13,12 +13,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->>  						  vblank_hrtimer);
->>  	struct drm_crtc *crtc = &output->crtc;
->>  	struct vkms_crtc_state *state;
->> -	u64 ret_overrun;
->>  	bool ret;
->>  
->> -	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
->> -					  output->period_ns);
->> -	WARN_ON(ret_overrun != 1);
->> +	hrtimer_forward_now(&output->vblank_hrtimer, output->period_ns);
->>  
->>  	spin_lock(&output->lock);
->>  	ret = drm_crtc_handle_vblank(crtc);
->> -- 
->> 2.18.2
+>> This patch hides way too many changes in what is documented as just
+>> innocent refactoring. It seems other drivers are affected too.
+> 
+> Could you test the patchset? I don't have the HW.
+
+Digging out the branch you provided elsewhere in this thread:
+
+>>> Could you boot-test with the patchset applied?
+>>
+>> Yes, if you have a git branch I can just build and boot I can
+>> do it quickly!
+>
+> Fantastic! It's the cma-objfuncs branch of
+>
+> https://gitlab.freedesktop.org/tzimmermann/linux.git
+
+I have successfully run our display tests with your patches here on an
+R-Car H3 Salvator-XS(-es2).
+
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+
+> Best regards
+> Thomas
+> 
+>>
+>>>  	.fops			= &rcar_du_fops,
+>>>  	.name			= "rcar-du",
+>>>  	.desc			= "Renesas R-Car Display Unit",
 >>
 > 
 
