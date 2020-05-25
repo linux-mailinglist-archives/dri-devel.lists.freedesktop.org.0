@@ -2,26 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4151E0E0F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34981E0E24
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:10:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCDC689BFD;
-	Mon, 25 May 2020 12:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1BA46E02C;
+	Mon, 25 May 2020 12:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8398B89BFD
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:03:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE686E02C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:10:46 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 985C4AEAF;
- Mon, 25 May 2020 12:03:46 +0000 (UTC)
-Subject: Re: [PATCH 01/21] drm/cma-helper: Rework DRM_GEM_CMA_VMAP_DRIVER_OPS
- macro
+ by mx2.suse.de (Postfix) with ESMTP id E258DB039;
+ Mon, 25 May 2020 12:10:46 +0000 (UTC)
+Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
 To: Sam Ravnborg <sam@ravnborg.org>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-2-tzimmermann@suse.de>
- <20200522174835.GA1087580@ravnborg.org>
+ <20200522135246.10134-6-tzimmermann@suse.de>
+ <20200522180824.GB1087580@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <b6f36f00-b68f-b111-5bcd-55c2658b1f27@suse.de>
-Date: Mon, 25 May 2020 14:03:39 +0200
+Message-ID: <8a1de3a8-05d2-9abc-57e9-e29928b777d3@suse.de>
+Date: Mon, 25 May 2020 14:10:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200522174835.GA1087580@ravnborg.org>
+In-Reply-To: <20200522180824.GB1087580@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,19 +79,19 @@ Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
  bbrezillon@kernel.org, andrew@aj.id.au, philippe.cornu@st.com,
  yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
  kernel@pengutronix.de, zourongrong@gmail.com, shawnguo@kernel.org
-Content-Type: multipart/mixed; boundary="===============0356768381=="
+Content-Type: multipart/mixed; boundary="===============1851613839=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0356768381==
+--===============1851613839==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="y014uW9UbPDmqu8s94d3p41U8GRgJuOFE"
+ boundary="U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---y014uW9UbPDmqu8s94d3p41U8GRgJuOFE
-Content-Type: multipart/mixed; boundary="jZqnVpoS59Du5V7y6CaDLyno36mnruRCw";
+--U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD
+Content-Type: multipart/mixed; boundary="iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>
@@ -111,321 +110,89 @@ Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
  dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
  yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
  zourongrong@gmail.com, shawnguo@kernel.org
-Message-ID: <b6f36f00-b68f-b111-5bcd-55c2658b1f27@suse.de>
-Subject: Re: [PATCH 01/21] drm/cma-helper: Rework DRM_GEM_CMA_VMAP_DRIVER_OPS
- macro
+Message-ID: <8a1de3a8-05d2-9abc-57e9-e29928b777d3@suse.de>
+Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-2-tzimmermann@suse.de>
- <20200522174835.GA1087580@ravnborg.org>
-In-Reply-To: <20200522174835.GA1087580@ravnborg.org>
+ <20200522135246.10134-6-tzimmermann@suse.de>
+ <20200522180824.GB1087580@ravnborg.org>
+In-Reply-To: <20200522180824.GB1087580@ravnborg.org>
 
---jZqnVpoS59Du5V7y6CaDLyno36mnruRCw
+--iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sam
+Hi
 
-Am 22.05.20 um 19:48 schrieb Sam Ravnborg:
+Am 22.05.20 um 20:08 schrieb Sam Ravnborg:
 > Hi Thomas.
 >=20
-> On Fri, May 22, 2020 at 03:52:26PM +0200, Thomas Zimmermann wrote:
->> Rename the macro to DRM_GEM_CMA_DRIVER_OPS to align with SHMEM
->> helpers.
-> This part is fine, I like that the naming is somehow consistent.
+> On Fri, May 22, 2020 at 03:52:30PM +0200, Thomas Zimmermann wrote:
+>> The atmel-hlcdc driver uses the default implementation for CMA functio=
+ns. The
+>> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_dri=
+ver.
+>> All remaining operations are provided by CMA GEM object functions.
 >=20
->> An internal version is provided for drivers that override
->> the default .dumb_create callback. Adapt drivers to the changes.
-> I loathe anything named __foo or __FOO. This __ signals to me
-> that the author was clueless in naming - or some sort.
-> I know that __ is used in some lib headers - but thats not the case
-> here.
-
-I agree with your comment and I've been trying to find a better name
-before posting the patchset. I considered something like
-DRM_GEM_CMA_DRIVER_OPS_INTERNAL(), but wasn't happy with that either. In
-the end, I uses the double underscore to push driver authors towards the
-other macro. This one's only for the special case of settings a separate
-implementation for .dumb_create().
-
+> A nice side-effect of introducing the defualt implementation
+> of CMA functions is that this driver is now migrated over to use
+> drm_gem_object_funcs, which is why we can replace all these
+> helpers with a simple macro that defined only 6 helpers.
 >=20
-> But I love that we have a variant that takes a create function.
-> So we do not have to escape from the nice macro.
-> The macro is another way to tell me as rewiewer that this
-> drivers uses all the default helpers for this.
+> With an improved changelog:
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 >=20
+> And as I said in the other mail, this is really nice.
+> It is now much more obvious that this drivers uses
+> all the default helpers for CMA.
 >=20
-> So critizising the name I better suggest something that
-> I personally like better:
->=20
-> DRM_GEM_CMA_DRIVER_OPS_CREATE()
+> And I can drop one item from my TODO list on top of that.
 
-Can we at least use DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE ? Because
-there's also gem_object_create.
+There's still more to do. The current macro still sets
+=2Egem_object_create to a CMA default. But that pointer is the interface
+where drivers can override some of the CMA object defaults, so it should
+not be set by CMA helpers.
 
-I'll update the patches accordingly.
-
-I noticed that most of the affected drivers do some kind of alignment
-calculation in their dumb_create code. IMHO in the long run, we should
-move such calculations into the default implementation and put the
-control paramters into struct drm_mode_config.
+After the other CMA drivers have been converted to GEM object functions,
+this setting can be kept to zero and __drm_gem_cma_create() can set the
+default object functions. SHMEM and VRAM helpers already work this way.
 
 Best regards
 Thomas
 
 >=20
-> It would look like this:
-> 	/* GEM Operations */
-> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
-> -	.dumb_create            =3D drm_sun4i_gem_dumb_create,
-> +	DRM_GEM_CMA_DRIVER_OPS_CREATE(drm_sun4i_gem_dumb_create),
->=20
->=20
->=20
-> Please fix zte/zx_drm_drv.c which also uses DRM_GEM_CMA_VMAP_DRIVER_OPS=
-=2E
->=20
->=20
-> The naming is a bikeshedding topic that we may not agree on, soo..
->=20
-> With zte fixed the patch is:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->=20
 > 	Sam
->=20
 >=20
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
->>  drivers/gpu/drm/drm_gem_cma_helper.c |  2 +-
->>  drivers/gpu/drm/sun4i/sun4i_drv.c    |  3 +--
->>  drivers/gpu/drm/tidss/tidss_drv.c    |  2 +-
->>  drivers/gpu/drm/tiny/hx8357d.c       |  2 +-
->>  drivers/gpu/drm/tiny/ili9225.c       |  2 +-
->>  drivers/gpu/drm/tiny/ili9341.c       |  2 +-
->>  drivers/gpu/drm/tiny/ili9486.c       |  2 +-
->>  drivers/gpu/drm/tiny/mi0283qt.c      |  2 +-
->>  drivers/gpu/drm/tiny/repaper.c       |  2 +-
->>  drivers/gpu/drm/tiny/st7586.c        |  2 +-
->>  drivers/gpu/drm/tiny/st7735r.c       |  2 +-
->>  include/drm/drm_gem_cma_helper.h     | 24 ++++++++++++++++++++----
->>  12 files changed, 31 insertions(+), 16 deletions(-)
+>>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 11 +----------
+>>  1 file changed, 1 insertion(+), 10 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/dr=
-m_gem_cma_helper.c
->> index 12e98fb28229d..6fa4d2f2e3987 100644
->> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
->> @@ -620,7 +620,7 @@ EXPORT_SYMBOL(drm_cma_gem_create_object_default_fu=
-ncs);
->>   * address set. This address is released when the object is freed.
->>   *
->>   * This function can be used as the &drm_driver.gem_prime_import_sg_t=
-able
->> - * callback. The DRM_GEM_CMA_VMAP_DRIVER_OPS() macro provides a short=
-cut to set
->> + * callback. The &DRM_GEM_CMA_DRIVER_OPS macro provides a shortcut to=
- set
->>   * the necessary DRM driver operations.
->>   *
->>   * Returns:
->> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i=
-/sun4i_drv.c
->> index 328272ff77d84..012855fd89c24 100644
->> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
->> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
->> @@ -52,8 +52,7 @@ static struct drm_driver sun4i_drv_driver =3D {
->>  	.minor			=3D 0,
->> =20
->>  	/* GEM Operations */
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> -	.dumb_create		=3D drm_sun4i_gem_dumb_create,
->> +	__DRM_GEM_CMA_DRIVER_OPS(drm_sun4i_gem_dumb_create),
->>  };
->> =20
->>  static int sun4i_drv_bind(struct device *dev)
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss=
-/tidss_drv.c
->> index 99edc66ebdef2..1753cdc74ebda 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.c
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
->> @@ -112,7 +112,7 @@ static struct drm_driver tidss_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &tidss_fops,
->>  	.release		=3D tidss_release,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
+>> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gp=
+u/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> index 112aa5066ceed..871293d1aeeba 100644
+>> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+>> @@ -821,16 +821,7 @@ static struct drm_driver atmel_hlcdc_dc_driver =3D=
+ {
+>>  	.irq_preinstall =3D atmel_hlcdc_dc_irq_uninstall,
+>>  	.irq_postinstall =3D atmel_hlcdc_dc_irq_postinstall,
+>>  	.irq_uninstall =3D atmel_hlcdc_dc_irq_uninstall,
+>> -	.gem_free_object_unlocked =3D drm_gem_cma_free_object,
+>> -	.gem_vm_ops =3D &drm_gem_cma_vm_ops,
+>> -	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+>> -	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+>> -	.gem_prime_get_sg_table =3D drm_gem_cma_prime_get_sg_table,
+>> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
+>> -	.gem_prime_vmap =3D drm_gem_cma_prime_vmap,
+>> -	.gem_prime_vunmap =3D drm_gem_cma_prime_vunmap,
+>> -	.gem_prime_mmap =3D drm_gem_cma_prime_mmap,
+>> -	.dumb_create =3D drm_gem_cma_dumb_create,
 >> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.name			=3D "tidss",
->>  	.desc			=3D "TI Keystone DSS",
->>  	.date			=3D "20180215",
->> diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8=
-357d.c
->> index b4bc358a3269a..592da71d7ca70 100644
->> --- a/drivers/gpu/drm/tiny/hx8357d.c
->> +++ b/drivers/gpu/drm/tiny/hx8357d.c
->> @@ -196,7 +196,7 @@ DEFINE_DRM_GEM_CMA_FOPS(hx8357d_fops);
->>  static struct drm_driver hx8357d_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &hx8357d_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "hx8357d",
->>  	.desc			=3D "HX8357D",
->> diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili=
-9225.c
->> index d1a5ab6747d5c..368ff6c8a1efb 100644
->> --- a/drivers/gpu/drm/tiny/ili9225.c
->> +++ b/drivers/gpu/drm/tiny/ili9225.c
->> @@ -346,7 +346,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ili9225_fops);
->>  static struct drm_driver ili9225_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &ili9225_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.name			=3D "ili9225",
->>  	.desc			=3D "Ilitek ILI9225",
->>  	.date			=3D "20171106",
->> diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili=
-9341.c
->> index bb819f45a5d3b..e1b9043ef7a0a 100644
->> --- a/drivers/gpu/drm/tiny/ili9341.c
->> +++ b/drivers/gpu/drm/tiny/ili9341.c
->> @@ -152,7 +152,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ili9341_fops);
->>  static struct drm_driver ili9341_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &ili9341_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "ili9341",
->>  	.desc			=3D "Ilitek ILI9341",
->> diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili=
-9486.c
->> index 2702ea557d297..90a17f40fdf0c 100644
->> --- a/drivers/gpu/drm/tiny/ili9486.c
->> +++ b/drivers/gpu/drm/tiny/ili9486.c
->> @@ -165,7 +165,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ili9486_fops);
->>  static struct drm_driver ili9486_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &ili9486_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "ili9486",
->>  	.desc			=3D "Ilitek ILI9486",
->> diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi=
-0283qt.c
->> index 08ac549ab0f7f..6624c2098fba2 100644
->> --- a/drivers/gpu/drm/tiny/mi0283qt.c
->> +++ b/drivers/gpu/drm/tiny/mi0283qt.c
->> @@ -156,7 +156,7 @@ DEFINE_DRM_GEM_CMA_FOPS(mi0283qt_fops);
->>  static struct drm_driver mi0283qt_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &mi0283qt_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "mi0283qt",
->>  	.desc			=3D "Multi-Inno MI0283QT",
->> diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/rep=
-aper.c
->> index 1c0e7169545b4..877dcece25828 100644
->> --- a/drivers/gpu/drm/tiny/repaper.c
->> +++ b/drivers/gpu/drm/tiny/repaper.c
->> @@ -946,7 +946,7 @@ DEFINE_DRM_GEM_CMA_FOPS(repaper_fops);
->>  static struct drm_driver repaper_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &repaper_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.name			=3D "repaper",
->>  	.desc			=3D "Pervasive Displays RePaper e-ink panels",
->>  	.date			=3D "20170405",
->> diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st75=
-86.c
->> index 2a1fae422f7a2..ec84bdc51f60d 100644
->> --- a/drivers/gpu/drm/tiny/st7586.c
->> +++ b/drivers/gpu/drm/tiny/st7586.c
->> @@ -285,7 +285,7 @@ DEFINE_DRM_GEM_CMA_FOPS(st7586_fops);
->>  static struct drm_driver st7586_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &st7586_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "st7586",
->>  	.desc			=3D "Sitronix ST7586",
->> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7=
-735r.c
->> index 0af1b15efdf8a..cfd4933f3b30c 100644
->> --- a/drivers/gpu/drm/tiny/st7735r.c
->> +++ b/drivers/gpu/drm/tiny/st7735r.c
->> @@ -157,7 +157,7 @@ DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
->>  static struct drm_driver st7735r_driver =3D {
->>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>  	.fops			=3D &st7735r_fops,
->> -	DRM_GEM_CMA_VMAP_DRIVER_OPS,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.debugfs_init		=3D mipi_dbi_debugfs_init,
->>  	.name			=3D "st7735r",
->>  	.desc			=3D "Sitronix ST7735R",
->> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cm=
-a_helper.h
->> index 947ac95eb24a9..917d42603db06 100644
->> --- a/include/drm/drm_gem_cma_helper.h
->> +++ b/include/drm/drm_gem_cma_helper.h
->> @@ -110,21 +110,37 @@ struct drm_gem_object *
->>  drm_cma_gem_create_object_default_funcs(struct drm_device *dev, size_=
-t size);
->> =20
->>  /**
->> - * DRM_GEM_CMA_VMAP_DRIVER_OPS - CMA GEM driver operations ensuring a=
- virtual
->> - *                               address on the buffer
->> + * __DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations ensuring a
->> + *                            virtual address on the buffer
->> + * @__dumb_create: callback function for .dumb_create
->>   *
->>   * This macro provides a shortcut for setting the default GEM operati=
-ons in the
->>   * &drm_driver structure for drivers that need the virtual address al=
-so on
->>   * imported buffers.
->> + *
->> + * This macro is a variant of DRM_GEM_CMA_DRIVER_OPS for drivers that=
-
->> + * override the default implementation of .dumb_create. Use
->> + * DRM_GEM_CMA_DRIVER_OPS if possible.
->>   */
->> -#define DRM_GEM_CMA_VMAP_DRIVER_OPS \
->> +#define __DRM_GEM_CMA_DRIVER_OPS(__dumb_create) \
->>  	.gem_create_object	=3D drm_cma_gem_create_object_default_funcs, \
->> -	.dumb_create		=3D drm_gem_cma_dumb_create, \
->> +	.dumb_create		=3D (__dumb_create), \
->>  	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd, \
->>  	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle, \
->>  	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table_vma=
-p, \
->>  	.gem_prime_mmap		=3D drm_gem_prime_mmap
->> =20
->> +/**
->> + * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations ensuring a virt=
-ual
->> + *                          address on the buffer
->> + *
->> + * This macro provides a shortcut for setting the default GEM operati=
-ons in the
->> + * &drm_driver structure for drivers that need the virtual address al=
-so on
->> + * imported buffers.
->> + */
->> +#define DRM_GEM_CMA_DRIVER_OPS \
->> +	__DRM_GEM_CMA_DRIVER_OPS(drm_gem_cma_dumb_create)
->> +
->>  struct drm_gem_object *
->>  drm_gem_cma_prime_import_sg_table_vmap(struct drm_device *drm,
->>  				       struct dma_buf_attachment *attach,
+>>  	.fops =3D &fops,
+>>  	.name =3D "atmel-hlcdc",
+>>  	.desc =3D "Atmel HLCD Controller DRM",
 >> --=20
 >> 2.26.2
 > _______________________________________________
@@ -443,28 +210,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---jZqnVpoS59Du5V7y6CaDLyno36mnruRCw--
+--iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx--
 
---y014uW9UbPDmqu8s94d3p41U8GRgJuOFE
+--U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LtBsACgkQaA3BHVML
-eiOmfAf/cY0lo/8aC/nwYB5FIN7qnqju9DjPBeIIWdyz1VELT6BHX/kLYmhxaSx6
-rhgY+r+zzofU1y62c2h5vrhVD7yN6JDM0b98JdIINIe6hgv/9EgmbtGidVBSXHRZ
-jHomh2KRfgxbyjQ74SBdxp7y6HbNsth6x1P7bOQHtjmF26tXuW9dqLPTP9V6/uKN
-/SjoNUVD6ndKYUiWOV3CwE5UaqGL7YcW3mly2JS5W33S/RvzFmrcL9wsecB0gUfs
-YEA7IQhBH3WToemvEcoPkwphfjxZZA0Z5kvW/YZGb7CFYZnz9Un19Yo3lXr7lxt8
-QzPXc9oA2PsGi2R4/Z96qpZRhXi8dg==
-=a+xm
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7Ltb8ACgkQaA3BHVML
+eiPDQQf+LLWilJwCpadkL31CKP+yGXfzoxgqIEyM2LBJZ+bRCVyhvyY05jJNfyHR
+AFJvBw5uc6c0nHd2Tjll5lwBfDlC8nYfXT5UuQB5LqN7/bz0m04rbkCsmy2RJe6b
+3pnrWkyP8ubuMDv7SPY8p6gvVk4w3D7b6zBkznsrtxkvLevXVoHUmLce/6w+fvQ5
+ubkKQQZ+T5dKwkcQzFNv08obQesd1nyND+Q5BWRp8/r6fGnnfIAKonI9rLe0gL18
+n+RGtq5zm6SZcQnzkxOT08L1ct5dP6p2zxX1K1rZ31TBNRBbFEuFWYGfWACMB5MX
+/rGGppCA11bS0KyMk5OZe51d08++Ng==
+=bdN1
 -----END PGP SIGNATURE-----
 
---y014uW9UbPDmqu8s94d3p41U8GRgJuOFE--
+--U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD--
 
---===============0356768381==
+--===============1851613839==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -475,4 +242,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0356768381==--
+--===============1851613839==--
