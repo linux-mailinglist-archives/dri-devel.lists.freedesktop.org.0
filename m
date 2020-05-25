@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D351E1E1315
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 18:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CE11E131E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 19:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE39989A44;
-	Mon, 25 May 2020 16:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 704F26E0D0;
+	Mon, 25 May 2020 17:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72AFB89A44
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 16:57:52 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id b18so14265233oti.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 09:57:52 -0700 (PDT)
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2476E0CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 17:00:53 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id l6so16490724oic.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 10:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/2JOLzMuNPccyYUrPB6DNdL5C+c40yRMfkb0J6WCGPU=;
- b=acUctjHb+Nut4T2mQjsg7gGnyJhfJLGJW4pF4GJzp0UQOPE31EyUkYGoBOo/jj7zLs
- x6XXkN4NlBY0eCykE13h8nOmSrbkTNHerxHVDImvj9+CFhZpQRACvPw1WS6wrbPdi+Y+
- 0BnlUuf3EXvQy6z96D92jjYtPOMocErQsyCuI=
+ :cc; bh=WKpQydo1rfxGWV0Bj2qDfGY1vScpKZW4nQUe3SYaKaE=;
+ b=Rdb4KuE4cg/iJZ3ytBhWfNQWHEpWuw/djsW0KGpSoivEjs3eVlws1TUe1QNQd5Vdt6
+ jZiukeMiuHa28+A32GlPp4fwOytFGbJkGSUG8c+eKBq5AXReBbasPdgWnOHDD8BE/Nxw
+ NaiJEn2yAMBkCk1xkIw/QXY8b6vAdqGPlnixI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/2JOLzMuNPccyYUrPB6DNdL5C+c40yRMfkb0J6WCGPU=;
- b=PjwewiIaaEQyVzr8iG6BphtF9GpJFl4QN9CRmsjdvH3pBzTt1huHVXlNAHB089FVuY
- BEjGz0cA3N9a5C91c8rDFjd5S8WY09P5TlGdqRMJKuMxlS3sioPv41QOryYH1SfFpXVk
- /dLfUCNT8eHpCSjORvGkBEvSkET+ZD10e5DN6Saxb2NsBU203RyyTdA7qj+cHZd2g90/
- Zr7+BKoOiyvw/iH4s8ORjyX1TQXkbjeTD+bgABDZzU2vQiuuFLnq6Oe+xhDsBQL/U/Ec
- CnIXvfb7KwoSmK3hLVsXVMazmDkww0qOxyTwE5ukmycQMISQqb49SWUr+T1A9pCb1bz9
- TIig==
-X-Gm-Message-State: AOAM530+iW8ttIn2WnxDZFG/qIcu4vpJ1lMAETi6PB2SEerncxCOSk/n
- eZWCslrSI5NRsxKNvACieIQ+6MWp2iKFjV1WlaYtLg==
-X-Google-Smtp-Source: ABdhPJxduQEW+aRPsMK/x0mkc5HpOV2DxAq5DKMKKPuJL52cIoEWWxTn/rfyoIPepvjz7VLjdd4YlSSBKYq417+ppdY=
-X-Received: by 2002:a9d:600e:: with SMTP id h14mr22720027otj.281.1590425871704; 
- Mon, 25 May 2020 09:57:51 -0700 (PDT)
+ bh=WKpQydo1rfxGWV0Bj2qDfGY1vScpKZW4nQUe3SYaKaE=;
+ b=CM12HZpgy1HpaEGel51feqBfTIxFOGhwu3pc5oGZNytzrPNF6eg8QcoIrU0nZ0+XXD
+ bfC48D9rtUwC9QbtI5p/6OtnItYPQC1YJ16aYBaSEXToCxpv0r6Hr9iIQySIti/mNNlm
+ 9ltgwDhSwDCCVRR32xjkWH2mW7qPZhdizsfNbEFX61T7gUbqO3a53AYvp349HfkBK8Xz
+ qCsRr7H2I+LH09J+Zu8VsmWMbGBilJqvC/nMLo47VjaKO+4UwF31EhBFSatOLAeaqdnU
+ zmP02biM5t/9/ZhPAwm1+QueKLyxIRnzFNcUUOHJ/Gu1FqgfFNv+CvDFujHWN4zpT9Bo
+ wobg==
+X-Gm-Message-State: AOAM533ozNY8SNd8UlWjejjgY8eYFH5rnAtuAe7/1VsXkTh/VThFmRZy
+ jXraoQQ9bChI5e2LrHMRJHDUGTsul8GUSnu4+OPq7A==
+X-Google-Smtp-Source: ABdhPJzLXTdIW9e1LvGcilb3WBJ/cwS2oO+5oiISm1PxcWsiXo9r4tjpxm3HcUSj1W6Yya+dGTX0VJk6fv/L5yO+QWA=
+X-Received: by 2002:a05:6808:282:: with SMTP id
+ z2mr10953184oic.101.1590426052360; 
+ Mon, 25 May 2020 10:00:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200525143849.4964-1-penguin-kernel@I-love.SAKURA.ne.jp>
  <20200525152119.GL206103@phenom.ffwll.local>
  <b3715721-4982-83d9-dd6f-2a87e3b02a40@i-love.sakura.ne.jp>
 In-Reply-To: <b3715721-4982-83d9-dd6f-2a87e3b02a40@i-love.sakura.ne.jp>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 25 May 2020 18:57:40 +0200
-Message-ID: <CAKMK7uEeBsfVk-2fZAd-7WkapiVY-iSWyfBA9o1BDa6H=o==iA@mail.gmail.com>
+Date: Mon, 25 May 2020 19:00:41 +0200
+Message-ID: <CAKMK7uE9p_qDFL9XAqfHQPitTB+-+ZVAmCor-tbvheYjx4e-ZA@mail.gmail.com>
 Subject: Re: [PATCH] drm/vkms: Don't warn hrtimer_forward_now failure.
 To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,16 +125,17 @@ On Mon, May 25, 2020 at 5:34 PM Tetsuo Handa
 >         return 0;
 > }
 > ----------
+
+Forgot to add: I did run this quickly with vkms as secondary output.
+Good fireworks show, but there's an entire army of additional splats
+after the first one. The WARN_ON you're removing is only the
+messenger, the real bug is probably one of the later backtraces. Or at
+least points more clearly at the real bug.
+-Daniel
+
 >
 > Debug printk() patch shows that hrtimer_forward_now() can return larger than 1.
 > What is the reason you are expecting hrtimer_forward_now() to always return 1 ?
-
-The timer simulates display refresh running at 60Hz. If we miss one,
-the simulation is not accurate against hardware. Missing a few
-thousands either means there's a bug somewhere, or the machine has
-missed a few seconds of worth of timers (which is equally bad).
--Daniel
-
 >
 > >
 > > If the vkms driver is loaded, and there's nothing else going on, then what
