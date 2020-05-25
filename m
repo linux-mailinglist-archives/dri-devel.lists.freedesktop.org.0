@@ -1,48 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C281E0B6B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 12:09:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D89E21E0BD9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 12:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D70C89CCE;
-	Mon, 25 May 2020 10:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B446489F9F;
+	Mon, 25 May 2020 10:31:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4D789CCE
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 10:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=K4rSed6aybafNS6qEAp4pXPx74mkSUtxWcERdvRJ2kU=; b=MdieOXhOf7aF1knqvCAZ3aPRul
- x5l/IvR+giWshzF0Xzss0WAlzj+kTJWYKNwHaclfYx9J5NJVFgdJxUL/sgBqD2VlW3AJneQcXt5BJ
- 8X70WWw5LyROGRYS8vRo9iOuL+qUyp21mpCCtowRsqm4Aomtih4Tp9M6PKRU3qCbcMOd6hHI9mK7Z
- e6z5S6l0tp4hSPvKRFsRDm1dspkTsKDBnUK1Ztzdc+uyy+ljYk0Q4NuKXF88Ip6/KRgUU9mc2KBDl
- 37Vh2PKFVTYFOsRd76tySi+9My+1fiJTnMxCnmcLq55EdCYiWTiIhw9YII4Wr4rMZa/0lrb/mBRor
- 1OqHXSew==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63379
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jdA2R-0004oM-45; Mon, 25 May 2020 12:08:55 +0200
-Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
- <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
- <CAKMK7uGHDrMvchWCmhyy6fbvy2kDWsbPH3nAbCXCmi14uUTA8g@mail.gmail.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <cb5fc2e0-ec85-731d-d8c9-3915c5c74414@tronnes.org>
-Date: Mon, 25 May 2020 12:08:53 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E69189F9F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 10:31:47 +0000 (UTC)
+IronPort-SDR: WQ4uM0F5EBGLMtbahWuwYIMdolwEPhY33kJWx8zcPxDWe06nJeECPJDYnwMJlxIh8f07ySYWeN
+ QrJvOeiDkE/A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2020 03:31:47 -0700
+IronPort-SDR: fpRcIT3ZgbJqWnNHi/xrLLC8/GumvLWmSB39fBHAcgOt6vtv1rYqYzkAvYdCW+Zi8VMrDTFuvl
+ vf24HtvCkr4w==
+X-IronPort-AV: E=Sophos;i="5.73,433,1583222400"; d="scan'208";a="254873662"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2020 03:31:45 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+ id 938E120953; Mon, 25 May 2020 13:31:43 +0300 (EEST)
+Date: Mon, 25 May 2020 13:31:43 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH v2] drm/fourcc: Add bayer formats and modifiers
+Message-ID: <20200525103143.GF7618@paasikivi.fi.intel.com>
+References: <20200521235201.279642-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGHDrMvchWCmhyy6fbvy2kDWsbPH3nAbCXCmi14uUTA8g@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200521235201.279642-1-niklas.soderlund@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,103 +49,422 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: libcamera-devel@lists.libcamera.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjQuMDUuMjAyMCAyMC4zNSwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBTdW4sIE1h
-eSAyNCwgMjAyMCBhdCA3OjQ2IFBNIE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3Jn
-PiB3cm90ZToKPj4KPj4KPj4KPj4gRGVuIDI0LjA1LjIwMjAgMTguMTMsIHNrcmV2IFBhdWwgQ2Vy
-Y3VlaWw6Cj4+PiBIaSBsaXN0LAo+Pj4KPj4+IEknZCBsaWtlIHRvIG9wZW4gYSBkaXNjdXNzaW9u
-IGFib3V0IHRoZSBjdXJyZW50IHN1cHBvcnQgb2YgTUlQSSBEU0kgYW5kCj4+PiBEQkkgcGFuZWxz
-Lgo+Pj4KPj4+IEJvdGggYXJlIHN0YW5kYXJkcyBmcm9tIHRoZSBNSVBJIGFsbGlhbmNlLCBib3Ro
-IGFyZSBjb21tdW5pY2F0aW9uCj4+PiBwcm90b2NvbHMgYmV0d2VlbiBhIExDRCBjb250cm9sbGVy
-IGFuZCBhIExDRCBwYW5lbCwgdGhleSBnZW5lcmFsbHkgYm90aAo+Pj4gdXNlIHRoZSBzYW1lIGNv
-bW1hbmRzIChEQ1MpLCB0aGUgbWFpbiBkaWZmZXJlbmNlIGlzIHRoYXQgRFNJIGlzIHNlcmlhbAo+
-Pj4gYW5kIERCSSBpcyBnZW5lcmFsbHkgcGFyYWxsZWwuCj4+Pgo+Pj4gSW4gdGhlIGtlcm5lbCBy
-aWdodCBub3csIERTSSBpcyBwcmV0dHkgd2VsbCBpbXBsZW1lbnRlZC4gQWxsIHRoZQo+Pj4gaW5m
-cmFzdHVjdHVyZSB0byByZWdpc3RlciBhIERTSSBob3N0LCBEU0kgZGV2aWNlIGV0Yy4gaXMgdGhl
-cmUuIERTSQo+Pj4gcGFuZWxzIGFyZSBpbXBsZW1lbnRlZCBhcyByZWd1bGFyIGRybV9wYW5lbCBp
-bnN0YW5jZXMsIGFuZCB0aGVpciBkcml2ZXJzCj4+PiBnbyB0aHJvdWdoIHRoZSBEU0kgQVBJIHRv
-IGNvbW11bmljYXRlIHdpdGggdGhlIHBhbmVsLCB3aGljaCBtYWtlcyB0aGVtCj4+PiBpbmRlcGVu
-ZGVudCBvZiB0aGUgRFNJIGhvc3QgZHJpdmVyLgo+Pj4KPj4+IERCSSwgb24gdGhlIG90aGVyIGhh
-bmQsIGRvZXMgbm90IGhhdmUgYW55IG9mIHRoaXMuIEFsbCAoPykgREJJIHBhbmVscwo+Pj4gYXJl
-IGltcGxlbWVudGVkIGFzIHRpbnlkcm0gZHJpdmVycywgd2hpY2ggbWFrZSB0aGVtIGltcG9zc2li
-bGUgdG8gdXNlCj4+PiB3aXRoIHJlZ3VsYXIgRFJNIGRyaXZlcnMuIFdyaXRpbmcgYSBzdGFuZGFy
-ZCBkcm1fcGFuZWwgZHJpdmVyIGlzCj4+PiBpbXBvc3NpYmxlLCBhcyB0aGVyZSBpcyBubyBjb25j
-ZXB0IG9mIGhvc3QgYW5kIGRldmljZS4gQWxsIHRoZXNlIHRpbnlkcm0KPj4+IGRyaXZlcnMgcmVn
-aXN0ZXIgdGhlaXIgb3duIERCSSBob3N0IGFzIHRoZXkgYWxsIGRvIERCSSBvdmVyIFNQSS4KPj4+
-Cj4+PiBJIHRoaW5rIHRoaXMgbmVlZHMgYSBnb29kIGNsZWFudXAuIEdpdmVuIHRoYXQgRFNJIGFu
-ZCBEQkkgYXJlIHNvCj4+PiBzaW1pbGFyLCBpdCB3b3VsZCBwcm9iYWJseSBtYWtlIHNlbnNlIHRv
-IGZ1c2UgREJJIHN1cHBvcnQgaW50byB0aGUKPj4+IGN1cnJlbnQgRFNJIGNvZGUsIGFzIHRyeWlu
-ZyB0byB1cGRhdGUgREJJIHdvdWxkIHJlc3VsdCBpbiBhIGxvdCBvZiBjb2RlCj4+PiBiZWluZyBk
-dXBsaWNhdGVkLiBXaXRoIHRoZSBwcm9wZXIgaG9zdC9kZXZpY2UgcmVnaXN0cmF0aW9uIG1lY2hh
-bmlzbQo+Pj4gZnJvbSBEU0kgY29kZSwgaXQgd291bGQgYmUgcG9zc2libGUgdG8gdHVybiBtb3N0
-IG9mIHRoZSB0aW55ZHJtIGRyaXZlcnMKPj4+IGludG8gcmVndWxhciBkcm1fcGFuZWwgZHJpdmVy
-cy4KPiAKPiBEbyB3ZSBoYXZlIGRyaXZlcnMgd2l0aCBkYmkgc3VwcG9ydCB0aGF0IGFjdHVhbGx5
-IHdhbnQgdG8gcmV1c2UgdGhlCj4gdGlueWRybSBkcml2ZXJzPyBHb29kIGNsZWFuIGlzIGFsbCBn
-b29kLCBidXQgd2UgbmVlZCBhIHNvbGlkIHJlYXNvbgo+IGZvciBjaGFuZ2luZyBzdHVmZi4gUGx1
-cyB3ZSBuZWVkIHRvIG1ha2Ugc3VyZSB3ZSdyZSBub3QganVzdAo+IHJlZGlzY292ZXJpbmcgYWxs
-IHRoZSBvbGQgcmVhc29ucyBmb3Igd2h5IHdlIGVuZGVkIHVwIHdoZXJlIHdlIGFyZQo+IHJpZ2h0
-IG5vdyBpbiB0aGUgZmlyc3QgcGxhY2UuCj4gCj4+PiBUaGUgcHJvYmxlbSB0aGVuIGlzIHRoYXQg
-dGhlc2Ugc2hvdWxkIHN0aWxsIGJlIGF2YWlsYWJsZSBhcyB0aW55ZHJtCj4+PiBkcml2ZXJzLiBJ
-ZiB0aGUgRFNJL0RCSSBwYW5lbHMgY2FuIHNvbWVob3cgcmVnaXN0ZXIgYSAudXBkYXRlX2ZiKCkK
-Pj4+IGNhbGxiYWNrLCBpdCB3b3VsZCBtYWtlIGl0IHBvc3NpYmxlIHRvIGhhdmUgYSBwYW5lbC1h
-Z25vc3RpYyB0aW55ZHJtCj4+PiBkcml2ZXIsIHdoaWNoIHdvdWxkIHRoZW4gcHJvYmFibHkgb3Bl
-biBhIGxvdCBvZiBkb29ycywgYW5kIGhlbHAgYSBsb3QgdG8KPj4+IGNsZWFuIHRoZSBtZXNzLgo+
-Pj4KPj4+IEkgdGhpbmsgSSBjYW4gaGVscCB3aXRoIHRoYXQsIEkganVzdCBuZWVkIHNvbWUgZ3Vp
-ZGFuY2UgLSBJIGFtIGZpc2hpbmcKPj4+IGluIGV4b3RpYyBzZWFzIGhlcmUuCj4+Pgo+Pj4gVGhv
-dWdodHMsIGNvbW1lbnRzLCBhcmUgdmVyeSB3ZWxjb21lLgo+Pgo+PiBJIGRpZCBsb29rIGF0IHRo
-aXMgYSBmZXcgbW9udGhzIGJhY2s6Cj4+Cj4+IGRybS9taXBpLWRiaTogU3VwcG9ydCBwYW5lbCBk
-cml2ZXJzCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZl
-bC8yMDE5LUF1Z3VzdC8yMjg5NjYuaHRtbAo+Pgo+PiBUaGUgcHJvYmxlbSB3aXRoIERCSSBpcyB0
-aGF0IGl0IGhhcyByZXVzZWQgb3RoZXIgYnVzc2VzIHdoaWNoIG1lYW5zIHdlCj4+IGRvbid0IGhh
-dmUgREJJIGRyaXZlcnMsIHdlIGhhdmUgU1BJIGRyaXZlcnMgaW5zdGVhZCAoNjgwMC84MDgwIGlz
-IG5vdAo+PiBhdmFpbC4gYXMgYnVzc2VzIGluIExpbnV4IHlldCkuIERTSSBhbmQgRFBJIG9uIHRo
-ZSBvdGhlciBoYW5kIGhhcwo+PiBkZWRpY2F0ZWQgaHcgY29udHJvbGxlciBkcml2ZXJzIG5vdCBz
-aGFyZWQgd2l0aCBvdGhlciBzdWJzeXN0ZW1zLgo+Pgo+PiBNeSBpbml0aWFsIHRpbnlkcm0gd29y
-ayB1c2VkIGRybV9wYW5lbCwgYnV0IEkgd2FzIG5vdCBhbGxvd2VkIHRvIHVzZSBpdAo+PiAoYXQg
-bGVhc3Qgbm90IHRoZSB3YXkgSSBoYWQgZG9uZSBpdCkuCj4gCj4gSG0sIGRvIHdlIGhhdmUgYSBz
-dW1tYXJ5IG9mIGFsbCB0aGUgZGlzY3Vzc2lvbnMvcmVhc29ucyBmcm9tIGJhY2sKPiB0aGVuPyBB
-bGwgSSByZW1lbWJlciBpcyB0aGF0IGl0J3MgYWxsIHRoYXQgc2ltcGxlLCB5b3UndmUgZG9uZSBh
-IGxvdAo+IG9mIHdvcmsgZXhwbG9yaW5nIGFsbCB0aGUgb3B0aW9ucywgSSdtIGZhaXJseSBzdXJl
-IEkgc3VnZ2VzdGVkCj4gZHJtX3BhbmVsIGV2ZW4gYmFjayB0aGVuIGJ1dCBzb21laG93IGl0IGRp
-ZG4ndCByZWFsbHkgd29yay4gV291bGQgYmUKPiBnb29kIGlmIHdlIG1ha2Ugc3VyZSB3ZSBkb24n
-dCBhdCBsZWFzdCByZXBlYXQgaGlzdG9yeSB0b28gbXVjaCA6LSkKPiAKClVuZm9ydHVuYXRlbHkg
-SSBkb24ndCBoYXZlIHRoZSB0d28gUkZDIHNlcmllcyBpbiBteSBpbmJveCBhbnltb3JlLgpJIGNh
-biBzZWUgZnJvbSB0aGlzIGNvdmVybGV0dGVyIHRoYXQgZHJtX3BhbmVsIHdhcyByZW1vdmVkIGFm
-dGVyIFJGQyB2MjoKCmRybTogQWRkIHN1cHBvcnQgZm9yIHRpbnkgTENEIGRpc3BsYXlzCmh0dHBz
-Oi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvNDUyMC8KClRoZSBwcm9ibGVtIGlz
-IHRoYXQgdGhlcmUncyBubyBkaXNjdXNzaW9uIGluIHRoZSByZWxldmFudCBwYXRjaDoKaHR0cHM6
-Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoLzgwMTE3Lz9zZXJpZXM9NDUyMCZyZXY9
-MgoKV2hhdCBJIHJlbWVtYmVyIGlzIHRoYXQgc29tZW9uZSBzYWlkIEkgY291bGRuJ3QgdXNlIGl0
-LCB0aGVuIEkgcmVwbGllZAp0aGF0IHNvbWVvbmUgc3VnZ2VzdGVkIGRybV9wYW5lbCB0byBtZSBp
-biBhbiBlYXJsaWVyIGRpc2N1c3Npb24sIGJ1dCBJCmNvdWxkbid0IHJlbWVtYmVyIHdoby4gVGhl
-biBFbWlsIGNoaW1lZCBpbiBhbmQgc2FpZCBoZSB3YXMgdGhlIG9uZSB0aGF0CnN1Z2dlc3RlZCBp
-dC4KCkFueXdheXMgbGV0J3Mgc2VlIHdoYXQgUGF1bCBjb21lcyB1cCB3aXRoLCBpZiBoZSBmaW5k
-cyBhIHdheSB0byBtb3ZlIFNQSQpEQkkgb3ZlciB0byBkcm1fcGFuZWwgdGhhbiBJJ20gYWxsIGZv
-ciBpdC4gSWYgbm90IHdlJ2xsIGp1c3QgaGF2ZSB0bwpsaXZlIHdpdGggYSBoeWJyaWQgc29sdXRp
-b24gSSBndWVzcywgb25lIGZvciBNSVBJIERCSSBwYXJhbGxlbCBidXMgZm9yCmhpcyBoYXJkd2Fy
-ZSB0eXBlIGFuZCBvbmUgZm9yIE1JUEkgREJJIFNQSS4KClRoZSBQaSBhbHNvIGhhcyBhIGh3IGJs
-b2NrIGZvciBwYXJhbGxlbCBEQkksIGRvd25zdHJlYW0gdGhlcmUncyBhIGRyaXZlcgp0aGF0IHRy
-ZWF0cyBpdCBhcyBhIGdlbmVyaWMgcGFyYWxsZWwgYnVzLCBzaW5jZSBpdCdzIGFuIDgwODAgY29t
-cGF0aWJsZQpidXMuIElmIEknbSBub3QgbWlzdGFrZW4gdGhlIEJlYWdsZUJvbmUgQmxhY2sgYWxz
-byBoYXMgYSBidXMgbGlrZSB0aGlzLgoKV2hlbiBJIHN0YXJ0ZWQgb24gdGlueWRybSBJIGhhZCB0
-aGUgaWRlYSB0byB0cnkgYW5kIGFkZCBhIHBhcmFsbGVsIGJ1cwp0eXBlIHRvIExpbnV4IChldmVu
-IGhhZCBhIHByb3RvdHlwZSBmb3IgYml0IGJhbmdpbmcgZ3BpbykgdGhhdCBJIGNvdWxkCnVzZSB3
-aXRoIERCSS4gVGhpcyB3b3VsZCBtYWtlIHRoZSBidXMgYXZhaWxhYmxlIGZvciB0aGluZ3MgbGlr
-ZSBGUEdBJ3MKYWxzbywgbm90IGp1c3QgZGlzcGxheXMuIEkgZ2F2ZSB1cCBvbiB0aGUgaWRlYSBz
-aW5jZSBwYXJhbGxlbCBEQkkgdXNlcyBhCmxvdCBvZiBwaW5zIHRvIHVwbG9hZCBhIGZyYW1lIHRv
-IGRpc3BsYXkgR1JBTSwgbXVjaCBiZXR0ZXIgdG8gZHJpdmUgdGhlCnBhbmVsIGRpcmVjdGx5IHRo
-cm91Z2ggTUlQSSBEUEkgKGJldHRlciBmcHMpLCB3aGljaCBhbGwgdGhlc2UgU29DJ3MgYWxzbwpz
-dXBwb3J0LgoKTm9yYWxmLgoKPiBDaGVlcnMsIERhbmllbAo+IAo+Pgo+PiBOb3JhbGYuCj4+Cj4+
-Pgo+Pj4gQ2hlZXJzLAo+Pj4gLVBhdWwKPj4+Cj4+Pgo+PiBfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwo+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiAKPiAKPiAKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Niklas,
+
+Thank you for the update.
+
+On Fri, May 22, 2020 at 01:52:01AM +0200, Niklas S=F6derlund wrote:
+> Bayer formats are used with cameras and contain green, red and blue
+> components, with alternating lines of red and green, and blue and green
+> pixels in different orders. For each block of 2x2 pixels there is one
+> pixel with a red filter, two with a green filter, and one with a blue
+> filter. The filters can be arranged in different patterns.
+> =
+
+> Add DRM fourcc formats to describe the most common Bayer formats. Also
+> add a modifiers to describe the custom packing layouts used by the Intel
+> IPU3 and in the MIPI (Mobile Industry Processor Interface) CSI-2
+> specification.
+> =
+
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund@ragnatech.se>
+> ---
+> * Changes since v1
+> - Rename the defines from DRM_FORMAT_SRGGB8 to DRM_FORMAT_BAYER_RGGB8.
+> - Update the fourcc codes passed to fourcc_code() to avoid a conflict.
+> - Add diagrams for all Bayer formats memory layout.
+> - Update documentation.
+> ---
+>  include/uapi/drm/drm_fourcc.h | 205 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 205 insertions(+)
+> =
+
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 8bc0b31597d80737..d07dd24b49bde6c1 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -285,6 +285,73 @@ extern "C" {
+>  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsamp=
+led Cb (1) and Cr (2) planes */
+>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsamp=
+led Cr (1) and Cb (2) planes */
+>  =
+
+> +/*
+> + * Bayer formats
+> + *
+> + * Bayer formats contain green, red and blue components, with alternatin=
+g lines
+> + * of red and green, and blue and green pixels in different orders. For =
+each
+> + * block of 2x2 pixels there is one pixel with a red filter, two with a =
+green
+> + * filter, and one with a blue filter. The filters can be arranged in di=
+fferent
+> + * patterns.
+> + *
+> + * For example, RGGB:
+> + *	row0: RGRGRGRG...
+> + *	row1: GBGBGBGB...
+> + *	row2: RGRGRGRG...
+> + *	row3: GBGBGBGB...
+> + *	...
+> + *
+> + * Vendors have different methods to pack the pixel samples. For this re=
+ason the
+> + * fourcc only describes pixel sample size and the filter pattern for ea=
+ch block
+> + * of 2x2 pixels. A modifier is needed to describe the memory layout.
+> + *
+> + * In addition to vendor modifiers for memory layout DRM_FORMAT_MOD_LINE=
+AR may
+> + * be used to describe a layout where all samples are placed consecutive=
+ly in
+> + * memory. If the sample does not fit inside a single byte each sample i=
+s stored
+> + * in the minimum number of bytes required. Any unused bits in each samp=
+le are
+> + * defined as padding bits and set to zero.
+> + *
+> + * For example, DRM_FORMAT_BAYER_RGGB10 with DRM_FORMAT_MOD_LINEAR:
+> + *
+> + *  0                                              row 0 (RGRG)         =
+                                   31
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r0 r0 r0 r0 r0 r0 r0 r0 |  0  0  0  0  0  0 r0 r0 | g0 g0 g0 g0 g0=
+ g0 g0 g0 |  0  0  0  0  0  0 g0 g0 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r1 r1 r1 r1 r1 r1 r1 r1 |  0  0  0  0  0  0 r1 r1 | g1 g1 g1 g1 g1=
+ g1 g1 g1 |  0  0  0  0  0  0 g1 g1 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + *  0                                              row 1 (GBGB)         =
+                                   31
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g0 g0 g0 g0 g0 g0 g0 g0 |  0  0  0  0  0  0 g0 g0 | b0 b0 b0 b0 b0=
+ b0 b0 b0 |  0  0  0  0  0  0 b0 b0 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g1 g1 g1 g1 g1 g1 g1 g1 |  0  0  0  0  0  0 g1 g1 | b1 b1 b1 b1 b1=
+ b1 b1 b1 |  0  0  0  0  0  0 b1 b1 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + */
+> +
+> +/* 8-bits Bayer formats */
+> +#define DRM_FORMAT_BAYER_RGGB8		fourcc_code('R', 'G', 'G', 'B')
+> +#define DRM_FORMAT_BAYER_GRBG8		fourcc_code('G', 'R', 'B', 'G')
+> +#define DRM_FORMAT_BAYER_GBRG8		fourcc_code('G', 'B', 'R', 'G')
+> +#define DRM_FORMAT_BAYER_BGGR8		fourcc_code('B', 'G', 'G', 'R')
+> +
+> +/* 10-bit Bayer formats */
+> +#define DRM_FORMAT_BAYER_RGGB10		fourcc_code('R', 'G', '1', '0')
+> +#define DRM_FORMAT_BAYER_GRBG10		fourcc_code('G', 'R', '1', '0')
+> +#define DRM_FORMAT_BAYER_GBRG10		fourcc_code('G', 'B', '1', '0')
+> +#define DRM_FORMAT_BAYER_BGGR10		fourcc_code('B', 'G', '1', '0')
+> +
+> +/* 12-bit Bayer formats */
+> +#define DRM_FORMAT_BAYER_RGGB12		fourcc_code('R', 'G', '1', '2')
+> +#define DRM_FORMAT_BAYER_GRBG12		fourcc_code('G', 'R', '1', '2')
+> +#define DRM_FORMAT_BAYER_GBRG12		fourcc_code('G', 'B', '1', '2')
+> +#define DRM_FORMAT_BAYER_BGGR12		fourcc_code('B', 'G', '1', '2')
+> +
+> +/* 14-bit Bayer formats */
+> +#define DRM_FORMAT_BAYER_RGGB14		fourcc_code('R', 'G', '1', '4')
+> +#define DRM_FORMAT_BAYER_GRBG14		fourcc_code('G', 'R', '1', '4')
+> +#define DRM_FORMAT_BAYER_GBRG14		fourcc_code('G', 'B', '1', '4')
+> +#define DRM_FORMAT_BAYER_BGGR14		fourcc_code('B', 'G', '1', '4')
+> +
+>  =
+
+>  /*
+>   * Format Modifiers:
+> @@ -309,6 +376,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_BROADCOM 0x07
+>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> +#define DRM_FORMAT_MOD_VENDOR_MIPI 0x0a
+
+This is an interesting one. I don't think these formats have originated
+from MIPI. The colour pattern itself is from Eastman Kodak apparently
+(named after Bryce Bayer), but the memory format is not, apart from the
+MIPI CSI-2 packed variant.
+
+The formats are probably unlike the formats used on GPUs as they are
+relatively similar across a number of vendors and devices.
+
+There are more raw formats than just the Bayer formats, see e.g.
+
+<URL:https://en.wikipedia.org/wiki/Raw_image_format>
+
+At the same time, it'd be good to keep the CSI-2 packed variant as a format
+modifier. I wonder if we could have something like
+DRM_FORMAT_MOD_VENDOR_RAW, albeit a raw format is not a vendor.
+
+Cc Daniel and Laurent.
+
+>  =
+
+>  /* add more to the end as needed */
+>  =
+
+> @@ -434,6 +502,56 @@ extern "C" {
+>   */
+>  #define I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS fourcc_mod_code(INTEL, 7)
+>  =
+
+> +
+> +/*
+> + * IPU3 Bayer packing layout
+> + *
+> + * The IPU3 raw Bayer formats use a custom packing layout where there ar=
+e no
+> + * gaps between each 10-bit sample. It packs 25 pixels into 32 bytes lea=
+ving
+> + * the 6 most significant bits in the last byte unused zero padding bits.
+> + *
+> + * For example, DRM_FORMAT_BAYER_BGGR10 with IPU3_FORMAT_MOD_PACKED:
+> + *
+> + *  0                                   row 0 (BGBGBGBGBGBGBGBGBGBGBGBGB=
+)                                  31
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | b0 b0 b0 b0 b0 b0 b0 b0 | g0 g0 g0 g0 g0 g0 b0 b0 | b1 b1 b1 b1 g0=
+ g0 g0 g0 | g1 g1 b1 b1 b1 b1 b1 b1 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g1 g1 g1 g1 g1 g1 g1 g1 | b2 b2 b2 b2 b2 b2 b2 b2 | g2 g2 g2 g2 g2=
+ g2 b2 b2 | b3 b3 b3 b3 g2 g2 g2 g2 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g3 g3 b3 b3 b3 b3 b3 b3 | g3 g3 g3 g3 g3 g3 g3 g3 | b4 b4 b4 b4 b4=
+ b4 b4 b4 | g4 g4 g4 g4 g4 g4 b4 b4 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | b5 b5 b5 b5 g4 g4 g4 g4 | g5 g5 b5 b5 b5 b5 b5 b5 | g5 g5 g5 g5 g5=
+ g5 g5 g5 | b6 b6 b6 b6 b6 b6 b6 b6 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g6 g6 g6 g6 g6 g6 b6 b6 | b7 b7 b7 b7 g6 g6 g6 g6 | g7 g7 b7 b7 b7=
+ b7 b7 b7 | g7 g7 g7 g7 g7 g7 g7 g7 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | b8 b8 b8 b8 b8 b8 b8 b8 | g8 g8 g8 g8 g8 g8 b8 b8 | b9 b9 b9 b9 g8=
+ g8 g8 g8 | g9 g9 b9 b9 b9 b9 b9 b9 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g9 g9 g9 g9 g9 g9 g9 g9 | bA bA bA bA bA bA bA bA | gA gA gA gA gA=
+ gA bA bA | bB bB bB bB gA gA gA gA |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | gB gB bB bB bB bB bB bB | gB gB gB gB gB gB gB gB | bC bC bC bC bC=
+ bC bC bC |  0  0  0  0  0  0 bC bC |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + *  0                                   row 1 (GRGRGRGRGRGRGRGRGRGRGRGRG=
+)                                  31
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g0 g0 g0 g0 g0 g0 g0 g0 | r0 r0 r0 r0 r0 r0 g0 g0 | g1 g1 g1 g1 r0=
+ r0 r0 r0 | r1 r1 g1 g1 g1 g1 g1 g1 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r1 r1 r1 r1 r1 r1 r1 r1 | g2 g2 g2 g2 g2 g2 g2 g2 | r2 r2 r2 r2 r2=
+ r2 g2 g2 | g3 g3 g3 g3 r2 r2 r2 r2 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r3 r3 g3 g3 g3 g3 g3 g3 | r3 r3 r3 r3 r3 r3 r3 r3 | g4 g4 g4 g4 g4=
+ g4 g4 g4 | r4 r4 r4 r4 r4 r4 g4 g4 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g5 g5 g5 g5 r4 r4 r4 r4 | r5 r5 g5 g5 g5 g5 g5 g5 | r5 r5 r5 r5 r5=
+ r5 r5 r5 | g6 g6 g6 g6 g6 g6 g6 g6 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r6 r6 r6 r6 r6 r6 g6 g6 | g7 g7 g7 g7 r6 r6 r6 r6 | r7 r7 g7 g7 g7=
+ g7 g7 g7 | r7 r7 r7 r7 r7 r7 r7 r7 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | g8 g8 g8 g8 g8 g8 g8 g8 | r8 r8 r8 r8 r8 r8 g8 g8 | g9 g9 g9 g9 r8=
+ r8 r8 r8 | r9 r9 g9 g9 g9 g9 g9 g9 |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | r9 r9 r9 r9 r9 r9 r9 r9 | gA gA gA gA gA gA gA gA | rA rA rA rA rA=
+ rA gA gA | gB gB gB gB rA rA rA rA |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + *  | rB rB gB gB gB gB gB gB | rB rB rB rB rB rB rB rB | gC gC gC gC gC=
+ gC gC gC |  0  0  0  0  0  0 gC gC |
+> + *  +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  -  -=
+  -  -  - +  -  -  -  -  -  -  -  - +
+> + */
+> +#define IPU3_FORMAT_MOD_PACKED fourcc_mod_code(INTEL, 8)
+> +
+>  /*
+>   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+>   *
+> @@ -804,6 +922,93 @@ extern "C" {
+>   */
+>  #define DRM_FORMAT_MOD_ALLWINNER_TILED fourcc_mod_code(ALLWINNER, 1)
+>  =
+
+> +/* Mobile Industry Processor Interface (MIPI) modifiers */
+> +
+> +/*
+> + * MIPI CSI-2 packing layout
+> + *
+> + * The CSI-2 RAW formats (for example Bayer) use a different packing lay=
+out
+> + * depending on the sample size.
+> + *
+> + * - 10-bits per sample
+> + *   Every four consecutive samples are packed into 5 bytes. Each of the=
+ first 4
+> + *   bytes contain the 8 high order bits of the pixels, and the 5th byte
+> + *   contains the 2 least-significant bits of each pixel, in the same or=
+der.
+> + *
+> + *   For example, DRM_FORMAT_BAYER_BGGR10 with MIPI_FORMAT_MOD_CSI2_PACK=
+ED:
+> + *
+> + *    0                                            row 0 (BGBGBGBG)     =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | b0 b0 b0 b0 b0 b0 b0 b0 | g0 g0 g0 g0 g0 g0 g0 g0 | b1 b1 b1 b1 =
+b1 b1 b1 b1 | g1 g1 g1 g1 g1 g1 g1 g1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g1 g1 b1 b1 g0 g0 b0 b0 | b2 b2 b2 b2 b2 b2 b2 b2 | g2 g2 g2 g2 =
+g2 g2 g2 g2 | b3 b3 b3 b3 b3 b3 b3 b3 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g3 g3 g3 g3 g3 g3 g3 g3 | g3 g3 b3 b3 g2 g2 b2 b2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + *    0                                            row 1 (GRGRGRGR)     =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g0 g0 g0 g0 g0 g0 g0 g0 | r0 r0 r0 r0 r0 r0 r0 r0 | g1 g1 g1 g1 =
+g1 g1 g1 g1 | r1 r1 r1 r1 r1 r1 r1 r1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | r1 r1 g1 g1 r0 r0 g0 g0 | g2 g2 g2 g2 g2 g2 g2 g2 | r2 r2 r2 r2 =
+r2 r2 r2 r2 | g3 g3 g3 g3 g3 g3 g3 g3 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | r3 r3 r3 r3 r3 r3 r3 r3 | r3 r3 g3 g3 r2 r2 g2 g2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + * - 12-bits per sample
+> + *   Every two consecutive samples are packed into three bytes. Each of =
+the
+> + *   first two bytes contain the 8 high order bits of the pixels, and th=
+e third
+> + *   byte contains the four least-significant bits of each pixel, in the=
+ same
+> + *   order.
+> + *
+> + *   For example, DRM_FORMAT_BAYER_GRBG12 with MIPI_FORMAT_MOD_CSI2_PACK=
+ED:
+> + *
+> + *    0                                              row 0 (GRGR)       =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g0 g0 g0 g0 g0 g0 g0 g0 | r0 r0 r0 r0 r0 r0 r0 r0 | r0 r0 r0 r0 =
+g0 g0 g0 g0 | g1 g1 g1 g1 g1 g1 g1 g1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | r1 r1 r1 r1 r1 r1 r1 r1 | r1 r1 r1 r1 g1 g1 g1 g1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + *    0                                              row 1 (BGBG)       =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | b0 b0 b0 b0 b0 b0 b0 b0 | g0 g0 g0 g0 g0 g0 g0 g0 | g0 g0 g0 g0 =
+b0 b0 b0 b0 | b1 b1 b1 b1 b1 b1 b1 b1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g1 g1 g1 g1 g1 g1 g1 g1 | g1 g1 g1 g1 b1 b1 b1 b1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + * - 14-bits per sample
+> + *   Every four consecutive samples are packed into seven bytes. Each of=
+ the
+> + *   first four bytes contain the eight high order bits of the pixels, a=
+nd the
+> + *   three following bytes contains the six least-significant bits of ea=
+ch
+> + *   pixel, in the same order.
+> + *
+> + *   For example, DRM_FORMAT_BAYER_GBRG14 with MIPI_FORMAT_MOD_CSI2_PACK=
+ED:
+> + *
+> + *    0                                            row 0 (GBGBGBGB)     =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g0 g0 g0 g0 g0 g0 g0 g0 | b0 b0 b0 b0 b0 b0 b0 b0 | g1 g1 g1 g1 =
+g1 g1 g1 g1 | b1 b1 b1 b1 b1 b1 b1 b1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | b0 b0 g0 g0 g0 g0 g0 g0 | g1 g1 g1 g1 b0 b0 b0 b0 | b1 b1 b1 b1 =
+b1 b1 g1 g1 | g2 g2 g2 g2 g2 g2 g2 g2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | b2 b2 b2 b2 b2 b2 b2 b2 | g3 g3 g3 g3 g3 g3 g3 g3 | b3 b3 b3 b3 =
+b3 b3 b3 b3 | b2 b2 g2 g2 g2 g2 g2 g2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g3 g3 g3 g3 b2 b2 b2 b2 | b3 b3 b3 b3 b3 b3 g3 g3 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *
+> + *    0                                            row 1 (RGRGRGRG)     =
+                                     31
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | r0 r0 r0 r0 r0 r0 r0 r0 | g0 g0 g0 g0 g0 g0 g0 g0 | r1 r1 r1 r1 =
+r1 r1 r1 r1 | g1 g1 g1 g1 g1 g1 g1 g1 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g0 g0 r0 r0 r0 r0 r0 r0 | r1 r1 r1 r1 g0 g0 g0 g0 | g1 g1 g1 g1 =
+g1 g1 r1 r1 | r2 r2 r2 r2 r2 r2 r2 r2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | g2 g2 g2 g2 g2 g2 g2 g2 | r3 r3 r3 r3 r3 r3 r3 r3 | g3 g3 g3 g3 =
+g3 g3 g3 g3 | g2 g2 r2 r2 r2 r2 r2 r2 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +  -  -  -  - =
+ -  -  -  - +  -  -  -  -  -  -  -  - +
+> + *    | r3 r3 r3 r3 g2 g2 g2 g2 | g3 g3 g3 g3 g3 g3 r3 r3 |
+> + *    +  -  -  -  -  -  -  -  - +  -  -  -  -  -  -  -  - +
+> + */
+> +#define MIPI_FORMAT_MOD_CSI2_PACKED fourcc_mod_code(MIPI, 1)
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+
+-- =
+
+Kind regards,
+
+Sakari Ailus
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
