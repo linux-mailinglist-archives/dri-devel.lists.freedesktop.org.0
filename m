@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27471E0E87
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2921E0E9C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 14:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C246989EF7;
-	Mon, 25 May 2020 12:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357FD89AC9;
+	Mon, 25 May 2020 12:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E78C89EF7
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:37:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E1289AC9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 12:41:59 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id DB97BAD17;
- Mon, 25 May 2020 12:37:42 +0000 (UTC)
-Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
-To: Sam Ravnborg <sam@ravnborg.org>
+ by mx2.suse.de (Postfix) with ESMTP id 7BFCEAD17;
+ Mon, 25 May 2020 12:41:59 +0000 (UTC)
+Subject: Re: [PATCH 07/21] drm/hisilicon/kirin: Use GEM CMA object functions
+To: Emil Velikov <emil.l.velikov@gmail.com>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-6-tzimmermann@suse.de>
- <20200522192546.GA1516695@ravnborg.org>
+ <20200522135246.10134-8-tzimmermann@suse.de>
+ <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -47,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <2c220ab0-e96b-2f5a-0d7f-8e770a13ef56@suse.de>
-Date: Mon, 25 May 2020 14:37:33 +0200
+Message-ID: <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
+Date: Mon, 25 May 2020 14:41:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200522192546.GA1516695@ravnborg.org>
+In-Reply-To: <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,132 +66,142 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- philippe.cornu@st.com, paul@crapouillou.net, laurent.pinchart@ideasonboard.com,
- mihail.atanassov@arm.com, alexandre.torgue@st.com, marex@denx.de,
- khilman@baylibre.com, abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, andrew@aj.id.au, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, zourongrong@gmail.com,
- shawnguo@kernel.org
-Content-Type: multipart/mixed; boundary="===============0396304719=="
+ Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Marek_Va=c5=a1ut?= <marex@denx.de>, khilman@baylibre.com,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, ludovic.desroches@microchip.com,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
+ NXP Linux Team <linux-imx@nxp.com>, joel@jms.id.au,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
+ Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
+ LAKML <linux-arm-kernel@lists.infradead.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
+ andrew@aj.id.au, Philippe Cornu <philippe.cornu@st.com>,
+ Yannick Fertre <yannick.fertre@st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sascha Hauer <kernel@pengutronix.de>, Rongrong Zou <zourongrong@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1256767290=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0396304719==
+--===============1256767290==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk"
+ boundary="wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk
-Content-Type: multipart/mixed; boundary="XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04";
+--wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q
+Content-Type: multipart/mixed; boundary="UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
- james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
- brian.starkey@arm.com, joel@jms.id.au, andrew@aj.id.au,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, xinliang.liu@linaro.org, zourongrong@gmail.com,
- john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
- puck.chen@hisilicon.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, paul@crapouillou.net, linus.walleij@linaro.org,
- narmstrong@baylibre.com, khilman@baylibre.com, marex@denx.de,
- laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
- benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
- philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
- wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org,
- dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <2c220ab0-e96b-2f5a-0d7f-8e770a13ef56@suse.de>
-Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
+ Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
+ Liviu Dudau <liviu.dudau@arm.com>, Philippe Cornu <philippe.cornu@st.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg
+ <sam@ravnborg.org>, Alexandre Torgue <alexandre.torgue@st.com>,
+ =?UTF-8?Q?Marek_Va=c5=a1ut?= <marex@denx.de>,
+ Alexey Brodkin <abrodkin@synopsys.com>, ludovic.desroches@microchip.com,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
+ joel@jms.id.au, NXP Linux Team <linux-imx@nxp.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
+ Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
+ Sascha Hauer <kernel@pengutronix.de>,
+ LAKML <linux-arm-kernel@lists.infradead.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
+ andrew@aj.id.au, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ nicolas.ferre@microchip.com, Yannick Fertre <yannick.fertre@st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ khilman@baylibre.com, Rongrong Zou <zourongrong@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
+Message-ID: <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
+Subject: Re: [PATCH 07/21] drm/hisilicon/kirin: Use GEM CMA object functions
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-6-tzimmermann@suse.de>
- <20200522192546.GA1516695@ravnborg.org>
-In-Reply-To: <20200522192546.GA1516695@ravnborg.org>
+ <20200522135246.10134-8-tzimmermann@suse.de>
+ <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
+In-Reply-To: <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
 
---XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04
+--UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi Emil
 
-Am 22.05.20 um 21:25 schrieb Sam Ravnborg:
-> Hi Thomas.
+Am 22.05.20 um 20:11 schrieb Emil Velikov:
+> Hi Thomas,
 >=20
-> On Fri, May 22, 2020 at 03:52:30PM +0200, Thomas Zimmermann wrote:
->> The atmel-hlcdc driver uses the default implementation for CMA functio=
-ns. The
->> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_dri=
-ver.
->> All remaining operations are provided by CMA GEM object functions.
+> On Fri, 22 May 2020 at 14:53, Thomas Zimmermann <tzimmermann@suse.de> w=
+rote:
+>>
+>> The kirin driver uses the default implementation for CMA functions; ex=
+cept
+>> for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now =
+sets
+>> these defaults and .dumb_create in struct drm_driver. All remaining
+>> operations are provided by CMA GEM object functions.
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
->>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 11 +----------
->>  1 file changed, 1 insertion(+), 10 deletions(-)
+>>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c | 12 +-----------
+>>  1 file changed, 1 insertion(+), 11 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gp=
-u/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> index 112aa5066ceed..871293d1aeeba 100644
->> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
->> @@ -821,16 +821,7 @@ static struct drm_driver atmel_hlcdc_dc_driver =3D=
- {
->>  	.irq_preinstall =3D atmel_hlcdc_dc_irq_uninstall,
->>  	.irq_postinstall =3D atmel_hlcdc_dc_irq_postinstall,
->>  	.irq_uninstall =3D atmel_hlcdc_dc_irq_uninstall,
->> -	.gem_free_object_unlocked =3D drm_gem_cma_free_object,
->> -	.gem_vm_ops =3D &drm_gem_cma_vm_ops,
->> -	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
->> -	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
->> -	.gem_prime_get_sg_table =3D drm_gem_cma_prime_get_sg_table,
->> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
->> -	.gem_prime_vmap =3D drm_gem_cma_prime_vmap,
->> -	.gem_prime_vunmap =3D drm_gem_cma_prime_vunmap,
+>> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers=
+/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+>> index c339e632522a9..b1ffd7d43e562 100644
+>> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+>> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+>> @@ -921,17 +921,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ade_fops);
+>>  static struct drm_driver ade_driver =3D {
+>>         .driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOM=
+IC,
+>>         .fops =3D &ade_fops,
+>> -       .gem_free_object_unlocked =3D drm_gem_cma_free_object,
+>> -       .gem_vm_ops =3D &drm_gem_cma_vm_ops,
+>> -       .dumb_create =3D drm_gem_cma_dumb_create_internal,
 >=20
->> -	.gem_prime_mmap =3D drm_gem_cma_prime_mmap,
-> When using DRM_GEM_CMA_DRIVER_OPS gem_prime_mmap is set to
-> drm_gem_prime_mmap.
-> Why is this the same as drm_gem_cma_prime_mmap?
+> This doesn't seem right. The _internal documentation explicitly says
+> that this should _not_ be used as .dumb_create. Instead drivers should
+> use it to implement their callback.
 >=20
-> Maybe this is all obvious when you know all the CMA stuff,
-> but this puzzeled me.
+> Since it yields the same result as drm_gem_cma_dumb_create we can use
+> the default macro below.
 
-Following through the calls is far from easy.
-
-I took the macro from the aspeed driver. I had some doubts about the
-mmap code, but expected the driver to be working correctly. Maybe we
-should set that field to drm_gem_cma_prime_mmap or implement the mmap
-object function.
+I noticed this and thought that the driver authors probably had their
+reasons. Changing the driver to the default macro is probably still a
+good idea.
 
 Best regards
 Thomas
 
-
-
 >=20
-> 	Sam
+> Weather to the .dumb_create in separate patch, or squash it here -
+> I'll leave to you.
+> In case of the latter, please mentioned it in the commit message.
 >=20
+> -Emil
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
->> -	.dumb_create =3D drm_gem_cma_dumb_create,
->> +	DRM_GEM_CMA_DRIVER_OPS,
->>  	.fops =3D &fops,
->>  	.name =3D "atmel-hlcdc",
->>  	.desc =3D "Atmel HLCD Controller DRM",
->> --=20
->> 2.26.2
 
 --=20
 Thomas Zimmermann
@@ -202,28 +212,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04--
+--UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM--
 
---VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk
+--wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LvA0ACgkQaA3BHVML
-eiMnAwf+LTwppQdiTg588g9FUkJ7vVkZR6KH1V1hkzL55ZWDsbGiNHfGbkLe1wve
-drB3+l79mIk7BfKLHldTBYhXxY58JaI2Rirqf5zBuB6fRHNjFwhwCy050AT68xdA
-L2Js+mw+C2FIRT0Zm+l4Yd2UtT+6gDWGgIV03zhjnS0NUWTbh6psLfbJfvsBWeDJ
-7Qfyp28tm5MBENniOV3QHcxEJ1IfHaLeXMjTj/fxtmguW++Bhbs/Xs0Kk4s6rSOE
-9l/8sbB1Mi1i8ewRCHlsoWKPBZDhbk/dHjj7orPBbS0kZIguqBrT/rAqPX2UTqwy
-8OKe6UaHCHiiKTbEBu8VlyazKtOALA==
-=C3yP
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LvRIACgkQaA3BHVML
+eiN2ewgAkmuMplpbC5LqXdnzF4LkOCBNUM3nULyjENDhH0jEKFZpowHxLheYo0vV
+Zf9EyZpbvv95uQoGWm8qPPHPhrG5BKaiQGB4tubCG6zAtFsBbZagjfDrkMJescxs
+h5Qpqse1JSgmgsAq4GBpcRgy45RiHq96ElO9eHv4uAqtiAbIxmAvklofRnK2XbgL
+g/xsE/9RfatntMan7tSmAY9Td1OucpPBPY3WGB/Md7/DMPvPh2kxXGYLN2+7LN4Y
+GWhx7w7hMIZRSGU7dF++C+qwJjsda2Ri3AeaP9uNgQ36OXLvrBXwdTjJ+idRY8nb
+rE+KZtVpNj7pd2lYizLKbHDiLJixHg==
+=aTLc
 -----END PGP SIGNATURE-----
 
---VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk--
+--wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q--
 
---===============0396304719==
+--===============1256767290==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -234,4 +244,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0396304719==--
+--===============1256767290==--
