@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152BF1E1841
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 01:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF4D1E1857
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 01:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2BFD89831;
-	Mon, 25 May 2020 23:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 964E889C27;
+	Mon, 25 May 2020 23:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBEF7892CC
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 23:32:51 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ecc55500000>; Mon, 25 May 2020 16:31:28 -0700
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03AC89C27;
+ Mon, 25 May 2020 23:49:48 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ecc59900000>; Mon, 25 May 2020 16:49:36 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 25 May 2020 16:32:50 -0700
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Mon, 25 May 2020 16:49:48 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 25 May 2020 16:32:50 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 May
- 2020 23:32:50 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
- Frontend Transport; Mon, 25 May 2020 23:32:50 +0000
+ by hqpgpgate102.nvidia.com on Mon, 25 May 2020 16:49:48 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 May
+ 2020 23:49:47 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 25 May 2020 23:49:47 +0000
 Received: from sandstorm.nvidia.com (Not Verified[10.2.58.199]) by
- rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ecc55a10000>; Mon, 25 May 2020 16:32:49 -0700
+ hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5ecc599b0000>; Mon, 25 May 2020 16:49:47 -0700
 From: John Hubbard <jhubbard@nvidia.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] tee: convert get_user_pages() --> pin_user_pages()
-Date: Mon, 25 May 2020 16:32:48 -0700
-Message-ID: <20200525233248.434636-1-jhubbard@nvidia.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH v2] drm/etnaviv: convert get_user_pages() --> pin_user_pages()
+Date: Mon, 25 May 2020 16:49:46 -0700
+Message-ID: <20200525234946.512848-1-jhubbard@nvidia.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-NVConfidentiality: public
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590449488; bh=VbhMJzzhtLwECOt/zkVs5tvYqSm7aKeF2zHBBFaqTGM=;
+ t=1590450576; bh=C3o3eympRzwR7c/b70BhXHJjaTleTxgbsTFGbme4xwE=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
  Content-Type;
- b=nUf1saWOS7mb/lnsvWb+B21oDh2NRXZqPgX4xJUgmzam4KPf9nZaCoy/X0bwzBYrY
- Zebfr779q3I/dmH4EKycVJH1ILsnuGqwlduZbjJIkWAL4XEHE8ydyNlr7S39B+3xbG
- ZmAMWdFbzBNxH+nqLUULtEyOMt9DIw11bO8iL45LdlOZi9+k1qwzmuPHBu84GIsQ0E
- OLjifKUXBRiZWydx1RMXL5WoWRtvQylgA6UrUO3JIrn8ONHbBCVcLZMv4AIHtErqV+
- 5TGz4dsidr5Ay8zAHeCd69/BvWX3bveRL/gmJmMI8NyPDX8Mi+1BRtFrWTKH1TpdW7
- O+gppcemBUZag==
+ b=cp9XtId8piYPKy0k91vDh1oN7UUmAfRRRnaC9WZ+kxzR3hGCRc4fn3sjSBs1PUBiA
+ ROZX9BwckP+dqa3nPdjNHOrfzxDW7jx3aBhnrsQNLKdZv1oKFquRrHFMeyGJeiQ1DM
+ Vm1VIJqcLAi8LZZRR8s1W+1ZzPgzDxvPakgH/A8F/1bV9/zuMA6pwanKJrkEJwVL6e
+ 7OIfsGldpXQpeymtJWixdgO22WKCcZF0nLOQZQLeAixXHAn6nG86N9dRAWlAr4XLYy
+ vCJywMUv1K6Aw2KT5d3ZQM/jTTHYfgfGzgZLzdbszaPKRCoiq4RzwNg/2pf+3+xZzZ
+ qunVFDmPMQUEg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,9 +61,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, John Hubbard <jhubbard@nvidia.com>,
- dri-devel@lists.freedesktop.org, tee-dev@lists.linaro.org,
- Jens Wiklander <jens.wiklander@linaro.org>, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, John Hubbard <jhubbard@nvidia.com>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -83,77 +84,51 @@ file systems' use of those pages.
 [2] "Explicit pinning of user-space pages":
     https://lwn.net/Articles/807108/
 
-Cc: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: tee-dev@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 ---
 
 Hi,
 
-This fixes the typo ("convert convert") in the subject line, but
-otherwise no changes.
+Changes since v1:
 
-thanks,
+* Rebased onto Linux 5.7-rc7
+
+* Added: Lucas Stach
+
+thanks
 John Hubbard
 NVIDIA
 
 
- drivers/tee/tee_shm.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index bd679b72bd05..7dffc42d8d5a 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -31,16 +31,13 @@ static void tee_shm_release(struct tee_shm *shm)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index dc9ef302f517..0f4578dc169d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -675,10 +675,10 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
+ 		uint64_t ptr = userptr->ptr + pinned * PAGE_SIZE;
+ 		struct page **pages = pvec + pinned;
  
- 		poolm->ops->free(poolm, shm);
- 	} else if (shm->flags & TEE_SHM_REGISTER) {
--		size_t n;
- 		int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
- 
- 		if (rc)
- 			dev_err(teedev->dev.parent,
- 				"unregister shm %p failed: %d", shm, rc);
- 
--		for (n = 0; n < shm->num_pages; n++)
--			put_page(shm->pages[n]);
--
-+		unpin_user_pages(shm->pages, shm->num_pages);
- 		kfree(shm->pages);
- 	}
- 
-@@ -226,7 +223,7 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
- 		goto err;
- 	}
- 
--	rc = get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
-+	rc = pin_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
- 	if (rc > 0)
- 		shm->num_pages = rc;
- 	if (rc != num_pages) {
-@@ -271,16 +268,13 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
- 	return shm;
- err:
- 	if (shm) {
--		size_t n;
--
- 		if (shm->id >= 0) {
- 			mutex_lock(&teedev->mutex);
- 			idr_remove(&teedev->idr, shm->id);
- 			mutex_unlock(&teedev->mutex);
+-		ret = get_user_pages_fast(ptr, num_pages,
++		ret = pin_user_pages_fast(ptr, num_pages,
+ 					  !userptr->ro ? FOLL_WRITE : 0, pages);
+ 		if (ret < 0) {
+-			release_pages(pvec, pinned);
++			unpin_user_pages(pvec, pinned);
+ 			kvfree(pvec);
+ 			return ret;
  		}
- 		if (shm->pages) {
--			for (n = 0; n < shm->num_pages; n++)
--				put_page(shm->pages[n]);
-+			unpin_user_pages(shm->pages, shm->num_pages);
- 			kfree(shm->pages);
- 		}
+@@ -702,7 +702,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
+ 	if (etnaviv_obj->pages) {
+ 		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
+ 
+-		release_pages(etnaviv_obj->pages, npages);
++		unpin_user_pages(etnaviv_obj->pages, npages);
+ 		kvfree(etnaviv_obj->pages);
  	}
+ }
 -- 
 2.26.2
 
