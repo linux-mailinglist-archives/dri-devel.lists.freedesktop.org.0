@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9CF1E0D6B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 13:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA5C1E0D8A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 13:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D662C89FD1;
-	Mon, 25 May 2020 11:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBC889949;
+	Mon, 25 May 2020 11:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA3189FD1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 11:36:56 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id z6so20357182ljm.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 04:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3cboEB9A0EUD0Sv3wBdqVD29b2uLspYFAQ/E57S2GG8=;
- b=VkCGlEZwMw5lm6CNbpgySDuYqUdWf+cRkRKofFCWXFvRVKpc6Vsc5vQ/8F/4GsExxJ
- lhCHCI+zivKuTs5e6l8Szn1UBKGCbE6jvRGQ7W8YfblN9kpWDmIf3dhMphgvz2k5dhp6
- ZS7uvP/BM9bde4ruwDkjNN1euNy2Nzus59C02FYxzlDmREU7LJFoYM35eJMHpryViVta
- s1IuqJQZfpFaple5z0DuvY7g74aqEGQt/7bnwozuTwLJbU6LVJnLa/qi610rTIysaY9d
- o1F7PCaJgwh7uWOqGgMvTqdAmS9DqBTP3RKlpWiwD5VnjVXCHl3F1nwGlIJK4TcVmTG4
- f8vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3cboEB9A0EUD0Sv3wBdqVD29b2uLspYFAQ/E57S2GG8=;
- b=c6C+eB3MKkZmAwNL+4TTL97WKmEvAXFp0cC1c5TwzvYEz2ODRBw8nZyMrTmEzvVMYk
- Nb2l+wJ4KdlzCLBw3ibgPpHMue4acz+x4jDBRqTAGU/qbZvDrmnOktLRtUosgrumVZQl
- JNRq96fTq7mcm9xSZkcJVGzBnYSFxATQxDqiCXuFPXfiUh36ZnFCmS/vFfBms1VdVAek
- kOLQn/FmTNEQ25d+zNPShZtaZCq2aWWeWsaY2iTu29s9suVL8Lz4VH35PiWGV8KH9tY5
- bIvnOBMj0Zax4haUThT/OB9DZremgNCjnlX9cegto4vHX8FzQ4lLGc6U8Ipmm0xmxDuF
- KOyg==
-X-Gm-Message-State: AOAM532qgcEehAKNhgeRo90AIs+EaKEAKvgJ1oHrjli6rcpe/tLCP03C
- 37p0FJYkteXJasMVYprvZgK6S9tbwExJm575Mwd0Og==
-X-Google-Smtp-Source: ABdhPJzgI/S59SwkD29DsR9IgbvO+abZQXZ3sBQEMZnc5AXKk35gsnIKyiA5MxieXb4auAQ3g79w+lr1xZl/NNQBAoU=
-X-Received: by 2002:a2e:b5b0:: with SMTP id f16mr1252357ljn.100.1590406614483; 
- Mon, 25 May 2020 04:36:54 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC80089949
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 11:43:38 +0000 (UTC)
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 36CE020723;
+ Mon, 25 May 2020 11:43:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590407018;
+ bh=ohGuMmEbw6jcckmjGuy7SWze+kKppKGgRxKK0h8JEr0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KM80Gu8HAcmZ1l6c68I4DnrdiD57M88zpiXWycjvRd03XGvrbG2HqVCawIo5VHm3F
+ HJEWyIi+trARwAOz28eZPsmxmVUJW4EKfcNfq4Cq0gz0TOCHmckoj6KzZVgbzVQc1z
+ SfCVNxC1mpxzGiTSEs5yrLbejv0JMu2jkSzODsaQ=
+Date: Mon, 25 May 2020 12:43:36 +0100
+From: Mark Brown <broonie@kernel.org>
+To: dillon min <dillon.minfei@gmail.com>
+Subject: Re: [PATCH v4 3/8] spi: stm32: Add 'SPI_SIMPLEX_RX', 'SPI_3WIRE_RX'
+ support for stm32f4
+Message-ID: <20200525114336.GD4544@sirena.org.uk>
+References: <1589800165-3271-1-git-send-email-dillon.minfei@gmail.com>
+ <1589800165-3271-4-git-send-email-dillon.minfei@gmail.com>
+ <20200522113634.GE5801@sirena.org.uk>
+ <CAL9mu0LAnT+AfjpGs0O-MD2HYrpnQRmrj6qXtJQrJi9kbQLPUw@mail.gmail.com>
+ <CAL9mu0JZ4Qy+m2oF9TSTRqA_mM0J89huCt3t_Gs7qHa=3LxhBw@mail.gmail.com>
+ <20200522162901.GP5801@sirena.org.uk>
+ <CAL9mu0+E5R0mDUW3f+aKpfE_457VimS-ow2z_xVOmCfCAMnKuA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-21-tzimmermann@suse.de>
-In-Reply-To: <20200522135246.10134-21-tzimmermann@suse.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 25 May 2020 13:36:43 +0200
-Message-ID: <CACRpkdacQd71UqyU5QcnSemfR7M+fA9hf-tahzTtyKgK4wV9Sg@mail.gmail.com>
-Subject: Re: [PATCH 20/21] drm/tv200: Use GEM CMA object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAL9mu0+E5R0mDUW3f+aKpfE_457VimS-ow2z_xVOmCfCAMnKuA@mail.gmail.com>
+X-Cookie: Help a swallow land at Capistrano.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +53,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, Philippe Cornu <philippe.cornu@st.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- Alexandre TORGUE <alexandre.torgue@st.com>, Marek Vasut <marex@denx.de>,
- abrodkin@synopsys.com, Ludovic Desroches <ludovic.desroches@microchip.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- k00278426 <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, james.qian.wang@arm.com,
- Joel Stanley <joel@jms.id.au>, NXP Linux Team <linux-imx@nxp.com>,
- "Chenfeng \(puck\)" <puck.chen@hisilicon.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Alison Wang <alison.wang@nxp.com>,
- Jyri Sarha <jsarha@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- Vincent Abriou <vincent.abriou@st.com>, Sascha Hauer <kernel@pengutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Dave Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-kernel@vger.kernel.org,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ linux-spi@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, thierry.reding@gmail.com,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Alexandre Torgue <alexandre.torgue@st.com>
+Content-Type: multipart/mixed; boundary="===============1272026137=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 22, 2020 at 3:53 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-> The tve200 driver uses the default implementation for CMA functions. The
-> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
-> All remaining operations are provided by CMA GEM object functions.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+--===============1272026137==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fXStkuK2IQBfcDe+"
+Content-Disposition: inline
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Yours,
-Linus Walleij
+--fXStkuK2IQBfcDe+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, May 23, 2020 at 09:35:06AM +0800, dillon min wrote:
+
+> -       if (ctlr->flags & (SPI_CONTROLLER_MUST_RX | SPI_CONTROLLER_MUST_TX)) {
+> +       if ((ctlr->flags & (SPI_CONTROLLER_MUST_RX | SPI_CONTROLLER_MUST_TX)) &&
+> +               !(msg->spi->mode & SPI_3WIRE)) {
+>                 max_tx = 0;
+>                 max_rx = 0;
+
+> for my board, lcd panel ilitek ill9341 use 3wire mode, gyro l3gd20 use
+> simplex rx mode.
+> it's has benefits to l3gd20, no impact to ili9341.
+
+> if it's fine to spi-core, i will include it to my next submits.
+
+Yes, looks reasonable.
+
+--fXStkuK2IQBfcDe+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7Lr2cACgkQJNaLcl1U
+h9Czfgf5AZokYX+RDns/ATZTiNwwtWO8zgdUKtvU2B95mvVnSoH/+u22jEMjyBEV
+VTql9iv86CkoWuw8ClYb6Ii3VcZhJlMJjs6f6TPlihKzhOKSAvVrUwf0GXQlWaS5
++uyF6imcop10LBRU7tKfWP+LpK90XFTt8wGtpnHqquhnlvs4zDEFu/Yvp91raDXu
+FfWKf+2Aqu7xuWMGdHJjF/SiRINbFZVw70Rv9GM06ywcTkThXhrKpn5z4fCdWlEQ
+iDy1RvrcqNwjm9MtAgYmwoOF/NVEcZaygAE11tHi6JOjrXYW+29jJRQDn4N06CZZ
+tIaKNPu+scagmjfGwKU2PSW4mVUAuA==
+=Yagp
+-----END PGP SIGNATURE-----
+
+--fXStkuK2IQBfcDe+--
+
+--===============1272026137==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1272026137==--
