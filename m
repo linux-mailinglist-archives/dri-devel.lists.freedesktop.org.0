@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFE11E11C2
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 17:31:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5A11E1C2B
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 09:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0357B89DEC;
-	Mon, 25 May 2020 15:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66B489CF9;
+	Tue, 26 May 2020 07:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E7989B51
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:31:11 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id a68so14039634otb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 08:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
- b=Tr5Is/tFfhBcNvoJFDbRu5Ln8A76+CnG+YDW2gJrWDvyNGkCXJ7tLlLksMoNneiC/G
- JQcpPGhoKYZL1sU8qtPMsxurg5u2WpN3lkX8GcIcMGy67IE5X9Z/KXbl7mWg/wzgEVa5
- 0YNI55NOQ1RqN/Ren3NRDgb8W+ScMuN+eyqoU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
- b=ap+FzeiTt0li/n/s1kbWtnPFtpYnAyFGe2gBwBO8vVJJLdOZ5s9v8KXnbOS/TX+3Du
- 1AUQFb2BbhJQnlMR1lG30Hjm3fvr38V01T0FEyRazu0haXmcNDp2DolPMyfIi+7Kq0l8
- 1vit/wuXsecAYPhZgUr0/UEaAAvsdOljmqSFTkvpqSFyQBRNAd/dKdTGQt0qTSwAsPns
- cms/yBSJCvY/W6uDakqlsn7oug2U5Umq3LawnMna7oj0ZYQ21DeoKILmeZtnnhtbcN1S
- 9rfgR2F9IbRuhBURgKDrSNv3ANDylJQaWETCfFmKjlxUD/ct4utrx+SHGPggazY0yhcL
- +YgQ==
-X-Gm-Message-State: AOAM531oLDQEG1t/iPrnWVR30Mtl9EMpQewZHbdK2WrDj5BiTmC6N+nu
- wnGXIXsoma6NXhUodVywdPpp8OOJPCeQnyTIWzFfy5FU
-X-Google-Smtp-Source: ABdhPJzkcrR3yAMwEAELXE9cys4iQedV/n7q7FwrzlUwqN0x19DN2aghlSLeBpaRXuxxoHbrXZYQHIFlGr+0T8f9mVM=
-X-Received: by 2002:a9d:768a:: with SMTP id j10mr5068453otl.188.1590420670094; 
- Mon, 25 May 2020 08:31:10 -0700 (PDT)
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2834989C48
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 15:35:04 +0000 (UTC)
+Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 04PFYwe6010367;
+ Tue, 26 May 2020 00:34:58 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp);
+ Tue, 26 May 2020 00:34:58 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 04PFYvw7010363
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+ Tue, 26 May 2020 00:34:57 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH] drm/vkms: Don't warn hrtimer_forward_now failure.
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200525143849.4964-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <20200525152119.GL206103@phenom.ffwll.local>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <b3715721-4982-83d9-dd6f-2a87e3b02a40@i-love.sakura.ne.jp>
+Date: Tue, 26 May 2020 00:34:58 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-9-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200512085944.222637-9-daniel.vetter@ffwll.ch>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 25 May 2020 17:30:59 +0200
-Message-ID: <CAKMK7uHXjFcVZuV-gF-mGYZVG8CbosoxWKN5MKV+rBXwEr3JZw@mail.gmail.com>
-Subject: Re: [RFC 08/17] drm/scheduler: use dma-fence annotations in main
- thread
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- Lucas Stach <l.stach@pengutronix.de>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, Qiang Yu <yuq825@gmail.com>, 
- Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
- Steven Price <Steven.Price@arm.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- "Anholt, Eric" <eric@anholt.net>
+In-Reply-To: <20200525152119.GL206103@phenom.ffwll.local>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 26 May 2020 07:26:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,61 +51,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Shayenne Moura <shayenneluzmoura@gmail.com>,
+ syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ DRI <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMTIsIDIwMjAgYXQgMTE6MDAgQU0gRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4gd3JvdGU6Cj4KPiBJZiB0aGUgc2NoZWR1bGVyIHJ0IHRocmVhZCBnZXRz
-IHN0dWNrIG9uIGEgbXV0ZXggdGhhdCB3ZSdyZSBob2xkaW5nCj4gd2hpbGUgd2FpdGluZyBmb3Ig
-Z3B1IHdvcmtsb2FkcyB0byBjb21wbGV0ZSwgd2UgaGF2ZSBhIHByb2JsZW0uCj4KPiBBZGQgZG1h
-LWZlbmNlIGFubm90YXRpb25zIHNvIHRoYXQgbG9ja2RlcCBjYW4gY2hlY2sgdGhpcyBmb3IgdXMu
-Cj4KPiBJJ3ZlIHRyaWVkIHRvIHF1aXRlIGNhcmVmdWxseSByZXZpZXcgdGhpcywgYW5kIEkgdGhp
-bmsgaXQncyBhdCB0aGUKPiByaWdodCBzcG90LiBCdXQgb2J2aW9zbHkgbm8gZXhwZXJ0IG9uIGRy
-bSBzY2hlZHVsZXIuCj4KPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxp
-bmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IENjOiBsaW51eC1yZG1hQHZnZXIua2VybmVs
-Lm9yZwo+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBpbnRlbC1nZnhA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2ls
-c29uLmNvLnVrPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGlu
-dXguaW50ZWwuY29tPgo+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFt
-ZC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRl
-bC5jb20+CgpBZGRpbmcgYSBidW5jaCBtb3JlIHBlb3BsZSBmcm9tIGRyaXZlcnMgdXNpbmcgdGhl
-IGRybS9zY2hlZHVsZXIgKHNvCnRoYXQncyBtYWludGFpbmVycyBmb3IgZXRuYXZpdiwgbGltYSwg
-cGFuZnJvc3QsIGFuZCB2M2Qgb24gdG9wIG9mCmFtZGdwdSBmb2xrcyBhcmxyZWFkeSBvbiBjYyku
-IEFueSB0YWtlcyBvciB0ZXN0aW5nIG9uIHRoaXMgYW5kIHdlbGwKdGhlIGVudGlyZSBzZXJpZXMg
-dmVyeSBtdWNoIGFwcHJlY2lhdGVkLCB0aGVyZSdzIGFsc28gYW5vdGhlciBwYXRjaCB0bwphbm90
-YXRlIHRoZSB0ZHIgd29yayBpbiB0aGlzIHNlcmllcy4gUGx1cyBvZmMgdGhlIHByZXAgd29yay4K
-ClRoYW5rcywgRGFuaWVsCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
-X21haW4uYyB8IDYgKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPgo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gaW5kZXggMmYzMTkxMDJhZTlm
-Li4wNmE3MzZlNTA2YWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9z
-Y2hlZF9tYWluLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4u
-Ywo+IEBAIC03NjMsOSArNzYzLDEyIEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVkX21haW4odm9pZCAq
-cGFyYW0pCj4gICAgICAgICBzdHJ1Y3Qgc2NoZWRfcGFyYW0gc3BhcmFtID0gey5zY2hlZF9wcmlv
-cml0eSA9IDF9Owo+ICAgICAgICAgc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCA9IChz
-dHJ1Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKilwYXJhbTsKPiAgICAgICAgIGludCByOwo+ICsgICAg
-ICAgYm9vbCBmZW5jZV9jb29raWU7Cj4KPiAgICAgICAgIHNjaGVkX3NldHNjaGVkdWxlcihjdXJy
-ZW50LCBTQ0hFRF9GSUZPLCAmc3BhcmFtKTsKPgo+ICsgICAgICAgZmVuY2VfY29va2llID0gZG1h
-X2ZlbmNlX2JlZ2luX3NpZ25hbGxpbmcoKTsKPiArCj4gICAgICAgICB3aGlsZSAoIWt0aHJlYWRf
-c2hvdWxkX3N0b3AoKSkgewo+ICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2VudGl0
-eSAqZW50aXR5ID0gTlVMTDsKPiAgICAgICAgICAgICAgICAgc3RydWN0IGRybV9zY2hlZF9mZW5j
-ZSAqc19mZW5jZTsKPiBAQCAtODIzLDYgKzgyNiw5IEBAIHN0YXRpYyBpbnQgZHJtX3NjaGVkX21h
-aW4odm9pZCAqcGFyYW0pCj4KPiAgICAgICAgICAgICAgICAgd2FrZV91cCgmc2NoZWQtPmpvYl9z
-Y2hlZHVsZWQpOwo+ICAgICAgICAgfQo+ICsKPiArICAgICAgIGRtYV9mZW5jZV9lbmRfc2lnbmFs
-bGluZyhmZW5jZV9jb29raWUpOwo+ICsKPiAgICAgICAgIHJldHVybiAwOwo+ICB9Cj4KPiAtLQo+
-IDIuMjYuMgo+CgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
-cnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 2020/05/26 0:21, Daniel Vetter wrote:
+> On Mon, May 25, 2020 at 11:38:49PM +0900, Tetsuo Handa wrote:
+>> Commit 3a0709928b172a41 ("drm/vkms: Add vblank events simulated by
+>> hrtimers") introduced ret_overrun variable. And that variable was an
+>> unused-but-set-variable until commit 09ef09b4ab95dc40 ("drm/vkms:
+>> WARN when hrtimer_forward_now fails") added WARN_ON(ret_overrun != 1).
+>>
+>> Now, syzbot is hitting this WARN_ON() using a simple reproducer that
+>> does open("/dev/dri/card1") followed by ioctl(DRM_IOCTL_WAIT_VBLANK),
+>> and a debug printk() patch says that syzbot is getting
+>>
+>>    output->vblank_hrtimer.base->get_time()=93531904774 (which is uptime)
+>>    output->period_ns=0
+>>    ret_overrun=216994
+>>
+>> . I can't understand what "verify the hrtimer_forward_now return" in
+>> that commit wants to say. hrtimer_forward_now() must return, and the
+>> return value of hrtimer_forward_now() is not a boolean. Why comparing
+>> with 1 ? Anyway, this failure is not something that worth crashing the
+>> system. Let's remove the ret_overrun variable and WARN_ON() test.
+> 
+> Uh we're not crashing the system, it's a warning backtrace.
+
+syzbot uses panic_on_warn=1, and this bug is currently the 8th top crasher.
+
+> 
+> And we've spent a few months hunting the races here, so just removing that
+> check isn't really a good idea. The correct thing to do is figure out why
+> we're hitting this. It could be that we're having a missing check
+> somewhere, or missing initialization, and that's what syzbot is hitting.
+> Removing this check here just papers over the bug.
+
+Here is a reproducer which syzbot is using.
+
+----------
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <drm/drm.h>
+
+int main(int argc, char *argv[])
+{
+	union drm_wait_vblank arg;
+	int fd = open("/dev/dri/card1", O_RDONLY);
+
+	arg.request.type = 0;
+	arg.request.sequence = 0xffff;
+	arg.request.signal = 0x21;
+	ioctl(fd, DRM_IOCTL_WAIT_VBLANK, &arg);
+	return 0;
+}
+----------
+
+Debug printk() patch shows that hrtimer_forward_now() can return larger than 1.
+What is the reason you are expecting hrtimer_forward_now() to always return 1 ?
+
+> 
+> If the vkms driver is loaded, and there's nothing else going on, then what
+> I expect to happen is that this virtual hw is entirely off. And in that
+> case, the vblank ioctl should be rejected outright. So there's definitely
+> something fishy going on to begin with.
+> 
+> If otoh the virtual hw is somehow on (maybe fbcon gets loaded, no idea),
+> then the vblank wait shouldn't just blow up like this.
+> -Daniel
+> 
+>>
+>> Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+>> Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+>> Fixes: 09ef09b4ab95dc40 ("drm/vkms: WARN when hrtimer_forward_now fails")
+>> ---
+>>  drivers/gpu/drm/vkms/vkms_crtc.c | 5 +----
+>>  1 file changed, 1 insertion(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+>> index ac85e17428f8..cc1811ce6092 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+>> @@ -13,12 +13,9 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>>  						  vblank_hrtimer);
+>>  	struct drm_crtc *crtc = &output->crtc;
+>>  	struct vkms_crtc_state *state;
+>> -	u64 ret_overrun;
+>>  	bool ret;
+>>  
+>> -	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
+>> -					  output->period_ns);
+>> -	WARN_ON(ret_overrun != 1);
+>> +	hrtimer_forward_now(&output->vblank_hrtimer, output->period_ns);
+>>  
+>>  	spin_lock(&output->lock);
+>>  	ret = drm_crtc_handle_vblank(crtc);
+>> -- 
+>> 2.18.2
+>>
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
