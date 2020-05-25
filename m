@@ -1,118 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21051E111D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 16:58:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE4D1E1120
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 16:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1BF089FAC;
-	Mon, 25 May 2020 14:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7C1A6E0C4;
+	Mon, 25 May 2020 14:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F265B89FAC
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 14:58:28 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id j16so4883035wrb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 07:58:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vjkew7DdlxLMVOnBWo3VBUdrMzaxfgVSZ4Re+U7mbE8=;
- b=tNMR+xtaMea9RviRWkwdpakMTpNv/ZRxbgvTWj4HPQ0w7AJNDkUjVsP5YSSJUiUiym
- 1m36NyWj6mrVLN7vfLVQoBv+jSnHZMCnG6QHNgP6iopTn94m3taqD68Zoy+iYjib18FB
- elPj2Ab0Hb1aUzwiL65kYrUtdIIxV0BHPPi1M5dvmLjB0KUqk+Kb1Ol8P1TswakGMoIm
- uc9Vf5DmyeUk0CWphalWRPOlfCXhR4O+Shz7MlARsCl34egvS3Ev4v/bHsBz4IDLNYzX
- S/oC9v/e+P7DVspibbzWcQEOw/QkS+zbjD0TIYlWME4M+dI/GKBva6LUoXWnXsxa5hPj
- /bPA==
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BC389FC9;
+ Mon, 25 May 2020 14:58:44 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id v15so8131496qvr.8;
+ Mon, 25 May 2020 07:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oEQGzdGf55hROlZZzP0RnfWNG7N1rwyMbo4r+EOdmtY=;
+ b=XLw/D5Y5CYvPnqtBj44xxUf0ghkYSdQTDck6flWnKA14aCrwYAETHua6U7qIkW53lx
+ wFsS37BtgEJRsJZlqALjaMFSVIoZUgaNTRBRwI0Jy2DC1XEPFrpeStPZgwYKkBFCyYZk
+ CbXLPhqhwxbpwZ9taBnYshAMEw3poKDZXq9F8hG6DatVvIgm/INmwtwAsIis2Yu/ZZuu
+ 2YRr+4scdLz5kLe1+6W8Mdb5rDdqc2CfiGdNDs5ubW6grPIEx6hccbwUim89dNl2WFeY
+ MYXLGrw/YTwmejrDWIeEaZ+AriRHBfmbq6U6pkgsQX455cTysumPggK00E5TPthTS2DG
+ pRtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=vjkew7DdlxLMVOnBWo3VBUdrMzaxfgVSZ4Re+U7mbE8=;
- b=IZesK/MFqvVMqSDciT+W0p8cqDU3EG+jzXZHQR3s1nrEk0N0jQ3/pjHOiqISsVAL0D
- wiBqzaDR9lw2Bk08llboot9gcl2flN6YqOau2q2c6xD8Jvu4O1fcGqO/7PxyLnEkLroP
- YyvMgB/U4pPpju+Zr7yAZJTjTfCINLCnMnIdb+Ufw7aNJfabHKOmgrR1NXWEX5DXYqpd
- U1adNmeFJBh03xdmrHOT/tK/ZC1UpzqyBh92vq1NCmIeLaGV7jYbixWUrvfgKZsufMNM
- WUwAOoxMn3u4O6iAUWjc5M/MBxm1ZOhjJvU2FUOymNRbtJVe9MzfJQXuwtd0jQzGQ34P
- Dmaw==
-X-Gm-Message-State: AOAM532/Y3ZwKsSSeEjuYwul2CYwJkk99ApnSWT15xa7zaD+MZTW98k6
- hN0bmhjOdblNlgGW3VqHhJqv6wQqMH751A==
-X-Google-Smtp-Source: ABdhPJzWoV93epJsgULTG8jjj8lwigMjDpT7qHpcOFykffZugLPMKV+XDgIj2lfntvW5gRrVZq6+aA==
-X-Received: by 2002:adf:b354:: with SMTP id k20mr15523379wrd.412.1590418706944; 
- Mon, 25 May 2020 07:58:26 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
- ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
- by smtp.gmail.com with ESMTPSA id c16sm18279510wrv.62.2020.05.25.07.58.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 07:58:26 -0700 (PDT)
-Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: Paul Cercueil <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>
-References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
- <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
- <CAKMK7uGHDrMvchWCmhyy6fbvy2kDWsbPH3nAbCXCmi14uUTA8g@mail.gmail.com>
- <ERPUAQ.BSXG2MHQQJKN2@crapouillou.net>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <3724279f-8dad-dd32-2f9e-ab4027bc0976@baylibre.com>
-Date: Mon, 25 May 2020 16:58:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oEQGzdGf55hROlZZzP0RnfWNG7N1rwyMbo4r+EOdmtY=;
+ b=svRJtv8wd3RsG7tfULAvLdYpV09yG61l+Wry/mT1+te00JwIcc1jgAYaTFS2PkNn60
+ Gghzb0UMYUuUTv453+accqunm9rmvUK0FuokpdGQ3D0GnGtzi46o93sau3yi2yDSvhoR
+ xlW1f4CTdzj0PL+KxdEsAAYzamOftmf+kcol7C9BBgOz0yLTMll1onsBWVbzO4jne00d
+ CAeKwE6+WwyLfDjB8iR1yki0nL08V/2W4CmiP0+CvpvmrFetaAB1iSv4F+iK267hGmlE
+ SfLAcV+SrBR5E3cxJF72LixT4/crPjKn7OR/jlq4pKc07tdkHdjfTk55NlBTDiII7I3w
+ QBoA==
+X-Gm-Message-State: AOAM531NYlH/D7+4WK/fAlPBoZ+Lv+52a5MQIjtktuYzPOByIAdsqtgu
+ fsVhwL7ssHPt8jPifTwDXliL2k6jZ/wL5ItiL98StA==
+X-Google-Smtp-Source: ABdhPJyqUdWv4bIKxEfJPSje7DMT+Us0WHVqBUtXg44pHK/pMnqdY/RlXJDthiirjcyGVb/CNTB1A3ewPZJEKq4FgVE=
+X-Received: by 2002:a0c:b60c:: with SMTP id f12mr15962313qve.244.1590418724031; 
+ Mon, 25 May 2020 07:58:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ERPUAQ.BSXG2MHQQJKN2@crapouillou.net>
-Content-Language: en-US
+References: <CAGcx_0Yu4D6F2BiPp5CnJhMyrupGsnFnzEH0-Gv=8rFuVtDi+w@mail.gmail.com>
+ <53679f9b-4d81-cb46-72bb-02ca05fb303f@daenzer.net>
+In-Reply-To: <53679f9b-4d81-cb46-72bb-02ca05fb303f@daenzer.net>
+From: uday kiran pichika <udaykiran.pichika@gmail.com>
+Date: Mon, 25 May 2020 20:28:32 +0530
+Message-ID: <CAGcx_0Z3JhUP_2KpfC0JQZeugd6VfDSYeErMSZMVVA8sogUt+A@mail.gmail.com>
+Subject: Re: Adaptive Sync enabling in Xorg Modesetting driver
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,105 +61,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0847900839=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAyNC8wNS8yMDIwIDIxOjUwLCBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IEhpIERhbmll
-bCwKPiAKPiBMZSBkaW0uIDI0IG1haSAyMDIwIMOgIDIwOjM1LCBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWxAZmZ3bGwuY2g+IGEgw6ljcml0IDoKPj4gT24gU3VuLCBNYXkgMjQsIDIwMjAgYXQgNzo0NiBQ
-TSBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4gd3JvdGU6Cj4+Pgo+Pj4KPj4+
-Cj4+PiDCoERlbiAyNC4wNS4yMDIwIDE4LjEzLCBza3JldiBQYXVsIENlcmN1ZWlsOgo+Pj4gwqA+
-IEhpIGxpc3QsCj4+PiDCoD4KPj4+IMKgPiBJJ2QgbGlrZSB0byBvcGVuIGEgZGlzY3Vzc2lvbiBh
-Ym91dCB0aGUgY3VycmVudCBzdXBwb3J0IG9mIE1JUEkgRFNJIGFuZAo+Pj4gwqA+IERCSSBwYW5l
-bHMuCj4+PiDCoD4KPj4+IMKgPiBCb3RoIGFyZSBzdGFuZGFyZHMgZnJvbSB0aGUgTUlQSSBhbGxp
-YW5jZSwgYm90aCBhcmUgY29tbXVuaWNhdGlvbgo+Pj4gwqA+IHByb3RvY29scyBiZXR3ZWVuIGEg
-TENEIGNvbnRyb2xsZXIgYW5kIGEgTENEIHBhbmVsLCB0aGV5IGdlbmVyYWxseSBib3RoCj4+PiDC
-oD4gdXNlIHRoZSBzYW1lIGNvbW1hbmRzIChEQ1MpLCB0aGUgbWFpbiBkaWZmZXJlbmNlIGlzIHRo
-YXQgRFNJIGlzIHNlcmlhbAo+Pj4gwqA+IGFuZCBEQkkgaXMgZ2VuZXJhbGx5IHBhcmFsbGVsLgo+
-Pj4gwqA+Cj4+PiDCoD4gSW4gdGhlIGtlcm5lbCByaWdodCBub3csIERTSSBpcyBwcmV0dHkgd2Vs
-bCBpbXBsZW1lbnRlZC4gQWxsIHRoZQo+Pj4gwqA+IGluZnJhc3R1Y3R1cmUgdG8gcmVnaXN0ZXIg
-YSBEU0kgaG9zdCwgRFNJIGRldmljZSBldGMuIGlzIHRoZXJlLiBEU0kKPj4+IMKgPiBwYW5lbHMg
-YXJlIGltcGxlbWVudGVkIGFzIHJlZ3VsYXIgZHJtX3BhbmVsIGluc3RhbmNlcywgYW5kIHRoZWly
-IGRyaXZlcnMKPj4+IMKgPiBnbyB0aHJvdWdoIHRoZSBEU0kgQVBJIHRvIGNvbW11bmljYXRlIHdp
-dGggdGhlIHBhbmVsLCB3aGljaCBtYWtlcyB0aGVtCj4+PiDCoD4gaW5kZXBlbmRlbnQgb2YgdGhl
-IERTSSBob3N0IGRyaXZlci4KPj4+IMKgPgo+Pj4gwqA+IERCSSwgb24gdGhlIG90aGVyIGhhbmQs
-IGRvZXMgbm90IGhhdmUgYW55IG9mIHRoaXMuIEFsbCAoPykgREJJIHBhbmVscwo+Pj4gwqA+IGFy
-ZSBpbXBsZW1lbnRlZCBhcyB0aW55ZHJtIGRyaXZlcnMsIHdoaWNoIG1ha2UgdGhlbSBpbXBvc3Np
-YmxlIHRvIHVzZQo+Pj4gwqA+IHdpdGggcmVndWxhciBEUk0gZHJpdmVycy4gV3JpdGluZyBhIHN0
-YW5kYXJkIGRybV9wYW5lbCBkcml2ZXIgaXMKPj4+IMKgPiBpbXBvc3NpYmxlLCBhcyB0aGVyZSBp
-cyBubyBjb25jZXB0IG9mIGhvc3QgYW5kIGRldmljZS4gQWxsIHRoZXNlIHRpbnlkcm0KPj4+IMKg
-PiBkcml2ZXJzIHJlZ2lzdGVyIHRoZWlyIG93biBEQkkgaG9zdCBhcyB0aGV5IGFsbCBkbyBEQkkg
-b3ZlciBTUEkuCj4+PiDCoD4KPj4+IMKgPiBJIHRoaW5rIHRoaXMgbmVlZHMgYSBnb29kIGNsZWFu
-dXAuIEdpdmVuIHRoYXQgRFNJIGFuZCBEQkkgYXJlIHNvCj4+PiDCoD4gc2ltaWxhciwgaXQgd291
-bGQgcHJvYmFibHkgbWFrZSBzZW5zZSB0byBmdXNlIERCSSBzdXBwb3J0IGludG8gdGhlCj4+PiDC
-oD4gY3VycmVudCBEU0kgY29kZSwgYXMgdHJ5aW5nIHRvIHVwZGF0ZSBEQkkgd291bGQgcmVzdWx0
-IGluIGEgbG90IG9mIGNvZGUKPj4+IMKgPiBiZWluZyBkdXBsaWNhdGVkLiBXaXRoIHRoZSBwcm9w
-ZXIgaG9zdC9kZXZpY2UgcmVnaXN0cmF0aW9uIG1lY2hhbmlzbQo+Pj4gwqA+IGZyb20gRFNJIGNv
-ZGUsIGl0IHdvdWxkIGJlIHBvc3NpYmxlIHRvIHR1cm4gbW9zdCBvZiB0aGUgdGlueWRybSBkcml2
-ZXJzCj4+PiDCoD4gaW50byByZWd1bGFyIGRybV9wYW5lbCBkcml2ZXJzLgo+Pgo+PiBEbyB3ZSBo
-YXZlIGRyaXZlcnMgd2l0aCBkYmkgc3VwcG9ydCB0aGF0IGFjdHVhbGx5IHdhbnQgdG8gcmV1c2Ug
-dGhlCj4+IHRpbnlkcm0gZHJpdmVycz8gR29vZCBjbGVhbiBpcyBhbGwgZ29vZCwgYnV0IHdlIG5l
-ZWQgYSBzb2xpZCByZWFzb24KPj4gZm9yIGNoYW5naW5nIHN0dWZmLiBQbHVzIHdlIG5lZWQgdG8g
-bWFrZSBzdXJlIHdlJ3JlIG5vdCBqdXN0Cj4+IHJlZGlzY292ZXJpbmcgYWxsIHRoZSBvbGQgcmVh
-c29ucyBmb3Igd2h5IHdlIGVuZGVkIHVwIHdoZXJlIHdlIGFyZQo+PiByaWdodCBub3cgaW4gdGhl
-IGZpcnN0IHBsYWNlLgo+IAo+IEknbSB0cnlpbmcgdG8gaW50ZXJmYWNlIGEgSUxJOTMzMSBiYXNl
-ZCBwYW5lbCB0aGF0IGhhcyBhIERCSS84MDgwIGludGVyZmFjZS4gVGhlIElMSTkzMzEgaXMgdmVy
-eSBzaW1pbGFyIHRvIHRoZSBJTEk5MzQxIHdoaWNoIGFscmVhZHkgaGFzIGEgdGlueWRybSBkcml2
-ZXIuIE15IFNvQyBoYXMgYSBkZWRpY2F0ZWQgREJJL0RTSSBjb250cm9sbGVyLCBhbmQgSSBoYXZl
-IGN1cnJlbnRseSBubyB3YXkgdG8gbWFrZSBpdCB3b3JrIHdpdGggdGhlIGluZ2VuaWMtZHJtIGRy
-aXZlci4KPiAKPiBUaGUgaWRlYSBvZiBhIGdlbmVyaWMgZHJtX3BhbmVsIHRpbnlkcm0gZHJpdmVy
-IHdhcyB0byBhdm9pZCBkdXBsaWNhdGluZyBjb2RlIGJldHdlZW4gcmVndWxhciBwYW5lbCBhbmQg
-dGlueWRybSBkcml2ZXJzLCBidXQgdGhlIGZvY3VzIG9mIG15IGVtYWlsIHdhcyBtb3JlIHRvIHBv
-aW50IHRoYXQgcmlnaHQgbm93IHRoZXJlIGlzIG5vIHdheSB0byBpbnRlcmZhY2UgYSBEQkkgcGFu
-ZWwgd2l0aCBhIHJlZ3VsYXIgRFJNIGRyaXZlci4gVW5saWtlIERTSSwgdGhlcmUgYXJlIGN1cnJl
-bnRseSBubyBkcml2ZXJzIHdpdGggREJJIHN1cHBvcnQgYXMgdGhlcmUgaXMgbm8gQVBJIHRvIHJl
-Z2lzdGVyIGEgaG9zdCBEQkkgZHJpdmVyIG9yIGEgREJJIHBhbmVsIGRyaXZlci4gVGhpcyBpcyB3
-aGF0J3MgcmVhbGx5IG1pc3NpbmcgaGVyZS4KPiAKCkRpZCB5b3UgaGF2ZSBhIGxvb2sgYXQgIkVu
-YWJsZSBpbGk5MzQxIGFuZCBsM2dkMjAgb24gc3RtMzJmNDI5LWRpc2NvIiAoaHR0cDovL2xrbWwu
-a2VybmVsLm9yZy9yLzE1OTAzNzgwNjItNzk2NS0xLWdpdC1zZW5kLWVtYWlsLWRpbGxvbi5taW5m
-ZWlAZ21haWwuY29tKSBmcm9tIGRpbGxvbi5taW5mZWlAZ21haWwuY29tLAppdCB1c2VzIHRoZSBT
-VE0zMiBEUEkgZW5naW5lIHRvIGZlZWQgYSBpbGk5MzQxLiBTZWVtcyBpdCB3b3VsZCBtYXRjaCB5
-b3VyIGlzc3VlLgoKTmVpbAoKPiBDaGVlcnMsCj4gLVBhdWwKPiAKPj4+IMKgPiBUaGUgcHJvYmxl
-bSB0aGVuIGlzIHRoYXQgdGhlc2Ugc2hvdWxkIHN0aWxsIGJlIGF2YWlsYWJsZSBhcyB0aW55ZHJt
-Cj4+PiDCoD4gZHJpdmVycy4gSWYgdGhlIERTSS9EQkkgcGFuZWxzIGNhbiBzb21laG93IHJlZ2lz
-dGVyIGEgLnVwZGF0ZV9mYigpCj4+PiDCoD4gY2FsbGJhY2ssIGl0IHdvdWxkIG1ha2UgaXQgcG9z
-c2libGUgdG8gaGF2ZSBhIHBhbmVsLWFnbm9zdGljIHRpbnlkcm0KPj4+IMKgPiBkcml2ZXIsIHdo
-aWNoIHdvdWxkIHRoZW4gcHJvYmFibHkgb3BlbiBhIGxvdCBvZiBkb29ycywgYW5kIGhlbHAgYSBs
-b3QgdG8KPj4+IMKgPiBjbGVhbiB0aGUgbWVzcy4KPj4+IMKgPgo+Pj4gwqA+IEkgdGhpbmsgSSBj
-YW4gaGVscCB3aXRoIHRoYXQsIEkganVzdCBuZWVkIHNvbWUgZ3VpZGFuY2UgLSBJIGFtIGZpc2hp
-bmcKPj4+IMKgPiBpbiBleG90aWMgc2VhcyBoZXJlLgo+Pj4gwqA+Cj4+PiDCoD4gVGhvdWdodHMs
-IGNvbW1lbnRzLCBhcmUgdmVyeSB3ZWxjb21lLgo+Pj4KPj4+IMKgSSBkaWQgbG9vayBhdCB0aGlz
-IGEgZmV3IG1vbnRocyBiYWNrOgo+Pj4KPj4+IMKgZHJtL21pcGktZGJpOiBTdXBwb3J0IHBhbmVs
-IGRyaXZlcnMKPj4+IMKgCj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZl
-cy9kcmktZGV2ZWwvMjAxOS1BdWd1c3QvMjI4OTY2Lmh0bWwKPj4+Cj4+PiDCoFRoZSBwcm9ibGVt
-IHdpdGggREJJIGlzIHRoYXQgaXQgaGFzIHJldXNlZCBvdGhlciBidXNzZXMgd2hpY2ggbWVhbnMg
-d2UKPj4+IMKgZG9uJ3QgaGF2ZSBEQkkgZHJpdmVycywgd2UgaGF2ZSBTUEkgZHJpdmVycyBpbnN0
-ZWFkICg2ODAwLzgwODAgaXMgbm90Cj4+PiDCoGF2YWlsLiBhcyBidXNzZXMgaW4gTGludXggeWV0
-KS4gRFNJIGFuZCBEUEkgb24gdGhlIG90aGVyIGhhbmQgaGFzCj4+PiDCoGRlZGljYXRlZCBodyBj
-b250cm9sbGVyIGRyaXZlcnMgbm90IHNoYXJlZCB3aXRoIG90aGVyIHN1YnN5c3RlbXMuCj4+Pgo+
-Pj4gwqBNeSBpbml0aWFsIHRpbnlkcm0gd29yayB1c2VkIGRybV9wYW5lbCwgYnV0IEkgd2FzIG5v
-dCBhbGxvd2VkIHRvIHVzZSBpdAo+Pj4gwqAoYXQgbGVhc3Qgbm90IHRoZSB3YXkgSSBoYWQgZG9u
-ZSBpdCkuCj4+Cj4+IEhtLCBkbyB3ZSBoYXZlIGEgc3VtbWFyeSBvZiBhbGwgdGhlIGRpc2N1c3Np
-b25zL3JlYXNvbnMgZnJvbSBiYWNrCj4+IHRoZW4/IEFsbCBJIHJlbWVtYmVyIGlzIHRoYXQgaXQn
-cyBhbGwgdGhhdCBzaW1wbGUsIHlvdSd2ZSBkb25lIGEgbG90Cj4+IG9mIHdvcmsgZXhwbG9yaW5n
-IGFsbCB0aGUgb3B0aW9ucywgSSdtIGZhaXJseSBzdXJlIEkgc3VnZ2VzdGVkCj4+IGRybV9wYW5l
-bCBldmVuIGJhY2sgdGhlbiBidXQgc29tZWhvdyBpdCBkaWRuJ3QgcmVhbGx5IHdvcmsuIFdvdWxk
-IGJlCj4+IGdvb2QgaWYgd2UgbWFrZSBzdXJlIHdlIGRvbid0IGF0IGxlYXN0IHJlcGVhdCBoaXN0
-b3J5IHRvbyBtdWNoIDotKQo+Pgo+PiBDaGVlcnMsIERhbmllbAo+Pgo+Pj4KPj4+IMKgTm9yYWxm
-Lgo+Pj4KPj4+IMKgPgo+Pj4gwqA+IENoZWVycywKPj4+IMKgPiAtUGF1bAo+Pj4gwqA+Cj4+PiDC
-oD4KPj4+IMKgX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-Pj4+IMKgZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gwqBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4+PiDCoGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCj4+Cj4+Cj4+Cj4+IC0tIAo+PiBEYW5pZWwgVmV0dGVyCj4+IFNvZnR3
-YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+PiArNDEgKDApIDc5IDM2NSA1NyA0OCAt
-IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCj4gCj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+--===============0847900839==
+Content-Type: multipart/alternative; boundary="00000000000017138a05a67a37f5"
+
+--00000000000017138a05a67a37f5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Thanks Michel..
+
+sorry if my description is not clear.
+Yes I have used with glxgears in fullscreen mode and also a simple glxapp
+which actually opens in fullscreen by default.
+
+In both the cases, the issue is same.
+
+Just wanted to know if AMD has done anything different apart from the
+configurations either in MESA or in its Radeon driver ?
+
+Thanks
+Uday Kiran
+
+On Mon, May 25, 2020 at 7:26 PM Michel D=C3=A4nzer <michel@daenzer.net> wro=
+te:
+
+> On 2020-05-25 3:31 p.m., uday kiran pichika wrote:
+> > Hello,
+> >
+> > Am working on enabling the Adaptive sync feature as part of the
+> > Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver
+> > (xf86-video-amdgpu). Below is the commit which i submitted.
+> >
+> https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371=
+cc3731ee805cc4a0ace80db
+> >
+> >
+> > I have made the below changes to enable this feature
+> > 1. Enable Adaptive sync in Graphics Driver
+> > 2. Added Xorg.conf file with VariableRefresh property which is read in
+> the
+> > Modesetting driver --> This is working fine.
+> >
+> > After taking the above changes, am observing that Adaptive sync is not
+> > working.
+> >
+> > Below are my observations.
+> > 1. loader_dri3_helper.c  --> Adaptive sync property is being set once t=
+he
+> > system is booted successfully on one Window. Once
+> > set_adaptive_sync_property() method gets called, adaptive_sync_active
+> flag
+> > is setting to true. From the next time, when fullscreen applications ar=
+e
+> > loaded, this property never gets set on any window.
+> > 2. Once this property is being set, received a notification in
+> modesetting
+> > ddx driver and read the property from the Stuff->window.
+> > 3. But when the fullscreen application(Either DOTA or Xonotic), not
+> > observing that this propety is not being set on any app window.
+> >
+> > Can any one please help me why this property is not being set in the
+> > application windows ?
+>
+> From your description, it does get set for some windows. Just apparently
+> not for the window which is fullscreen and using page flipping (your
+> description is a bit vague to be sure though).
+>
+> Have you tried with a simpler test app, e.g.
+>
+>  glxgears -fullscreen
+>
+> ?
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer               |               https://redhat=
+.com
+> Libre software enthusiast             |             Mesa and X developer
+>
+
+--00000000000017138a05a67a37f5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks Michel..<div><br></div><div>sorry if my description=
+ is not clear.=C2=A0</div><div>Yes I have used with glxgears in fullscreen =
+mode and also a simple glxapp which actually opens in fullscreen=C2=A0by de=
+fault.=C2=A0</div><div><br></div><div>In both the cases, the issue is same.=
+=C2=A0</div><div><br></div><div>Just wanted to know if AMD has done anythin=
+g different apart from the configurations either in MESA or in its Radeon d=
+river ?=C2=A0</div><div><br></div><div>Thanks=C2=A0</div><div>Uday Kiran</d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Mon, May 25, 2020 at 7:26 PM Michel D=C3=A4nzer &lt;<a href=3D"mailto=
+:michel@daenzer.net">michel@daenzer.net</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">On 2020-05-25 3:31 p.m., uday kiran =
+pichika wrote:<br>
+&gt; Hello,<br>
+&gt; <br>
+&gt; Am working on enabling the Adaptive sync feature as part of the<br>
+&gt; Xorg/Modesetting DDX driver by taking the reference of AMD DDX Driver<=
+br>
+&gt; (xf86-video-amdgpu). Below is the commit which i submitted.<br>
+&gt; <a href=3D"https://gitlab.freedesktop.org/pichika/xserver/-/commit/682=
+565a645bda7371cc3731ee805cc4a0ace80db" rel=3D"noreferrer" target=3D"_blank"=
+>https://gitlab.freedesktop.org/pichika/xserver/-/commit/682565a645bda7371c=
+c3731ee805cc4a0ace80db</a><br>
+&gt; <br>
+&gt; <br>
+&gt; I have made the below changes to enable this feature<br>
+&gt; 1. Enable Adaptive sync in Graphics Driver<br>
+&gt; 2. Added Xorg.conf file with VariableRefresh property which is read in=
+ the<br>
+&gt; Modesetting driver --&gt; This is working fine.<br>
+&gt; <br>
+&gt; After taking the above changes, am observing that Adaptive sync is not=
+<br>
+&gt; working.<br>
+&gt; <br>
+&gt; Below are my observations.<br>
+&gt; 1. loader_dri3_helper.c=C2=A0 --&gt; Adaptive sync property is being s=
+et once the<br>
+&gt; system is booted successfully on one Window. Once<br>
+&gt; set_adaptive_sync_property() method gets called, adaptive_sync_active =
+flag<br>
+&gt; is setting to true. From the next time, when fullscreen applications a=
+re<br>
+&gt; loaded, this property never gets set on any window.<br>
+&gt; 2. Once this property is being set, received a notification in modeset=
+ting<br>
+&gt; ddx driver and read the property from the Stuff-&gt;window.<br>
+&gt; 3. But when the fullscreen application(Either DOTA or Xonotic), not<br=
+>
+&gt; observing that this propety is not being set on any app window.<br>
+&gt; <br>
+&gt; Can any one please help me why this property is not being set in the<b=
+r>
+&gt; application windows ?<br>
+<br>
+From your description, it does get set for some windows. Just apparently<br=
+>
+not for the window which is fullscreen and using page flipping (your<br>
+description is a bit vague to be sure though).<br>
+<br>
+Have you tried with a simpler test app, e.g.<br>
+<br>
+=C2=A0glxgears -fullscreen<br>
+<br>
+?<br>
+<br>
+<br>
+-- <br>
+Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=
+=3D"https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redhat=
+.com</a><br>
+Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and X developer<br>
+</blockquote></div>
+
+--00000000000017138a05a67a37f5--
+
+--===============0847900839==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0847900839==--
