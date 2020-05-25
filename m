@@ -1,57 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3071E08F5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 10:38:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB8B1E0910
+	for <lists+dri-devel@lfdr.de>; Mon, 25 May 2020 10:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1EF489BAB;
-	Mon, 25 May 2020 08:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19CC289C8D;
+	Mon, 25 May 2020 08:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D63AD89BAB
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 08:38:14 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id g12so15106885wrw.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 01:38:14 -0700 (PDT)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D22389C8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 08:39:57 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id u12so11137564wmd.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 01:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UZc2CH7pYyilAZluOYrqPrd3fThr3CQF2GU6qOuf958=;
- b=j1x4s/d/vYUHXNDISjfenVtcRXyslFeM/mHGEeqNdM6uFniX82gFWwzpGlLV+trQ+D
- l9rtwW5h2Ocytd3xMPpKZikPdbU0qu+6rb4G8mxtx9r4uz3S4S6l2VNnw6e43ESSucxl
- seBdHzwqUdihswjhFFdag3R07LkpjoiRcYe30XUrL4ez/BkPXINC/om7pTikw/Ar+tEs
- VBU84Gn6ptax/TiJNbuT+kBIrjUHM3fOZg3q6QKIj1hW0taszwIv+j8L22tiTU9rpofv
- a3GOQ8d1x8DOd2JIn2+moc5ePLWsHCyab7XTji4ZZSnnOesoZ58mgRVrfLmMWqJuKcBH
- chLA==
+ bh=FgCVbDd/rHUj4UYDvQc/HOrenT5Dxta9RUiD0g0ktS0=;
+ b=q2ulrqsDhdwpio/ci2FTD77FCrElQXRl/p50G+vjeAt4xxu4YTFhB0zxbZHSoh1ymG
+ YzB0GgEIQgiZYw2MhOk1EzAEBJe43sMr6+HuEGqdXhdrFyCpcbkCVMVMIYRajOvANT1T
+ GIgGVVTWbsjYGAutf1Y+5HjFFi3A+PZJ24uAb59L483PrmQuExVXkzWY6tMT4G2yhcQ3
+ JjBgEvG1u/lYzzWG4ZcLz34lXGyMFyThvdxblYQkqKl5npPLSGKBReQ9u+JKd3+UGAZm
+ SnJsqY2sCews9tNbVLvFDckHJdLoSDgDZ19WMrR9jK2qWiqk0uyyHRD5p2CYlsCAjBqG
+ PDVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=UZc2CH7pYyilAZluOYrqPrd3fThr3CQF2GU6qOuf958=;
- b=RPaPPo83sweJgCdwpsLCZcDtsyaqPBLp2wUMRCKzVIwHFlsPZghx0adS/bJ8YdplKz
- xlNCdoMPc1IDI0n9c28xJIbBJnpF7A4CwWMM+lT+jCKZvP8Ds4JhwBlMxcq4Jn2nFq5R
- aXQi4//wbGLD9zb2j8l3loPmb6yl8Xp8VCRzd7UOfbF3ucUoLlN68fYl7nO8a95dLfz0
- X2X07jL0Pmu4pawZ6lRlweDjeeu8RVBYQn1aNXXioSVxQV2FqJGzwVlVs0FiMtLvXOvm
- bRrO78xmlKKNm4pE8By7xcoZIn182IFPgGXSLGzLI9LKl2eP384T7+ptt1WTsRw8Yc26
- 1SJA==
-X-Gm-Message-State: AOAM532ikjkZNRuonEvaD6gbFOvZPpYvmxql2S5uuRPASMdb8IhZh4Gn
- jH08AVGB1H3iMcMBL5No0Yg=
-X-Google-Smtp-Source: ABdhPJyOwGjWDbZt0YJ3qKFaSDOEfMwhQWk2pD5R3+EVszk8SMSf8yYMdX6wwjpCZZNEgNLd9AGxaA==
-X-Received: by 2002:a5d:4b88:: with SMTP id b8mr14340946wrt.341.1590395893420; 
- Mon, 25 May 2020 01:38:13 -0700 (PDT)
+ bh=FgCVbDd/rHUj4UYDvQc/HOrenT5Dxta9RUiD0g0ktS0=;
+ b=OYqSoP/U88SGVMn3XlffDHMjOWOzO5FYvtqBqkb219H0mQyR+E3RCglc9UjjOIns61
+ 0nM4l0e7IJv+YMOJeZ4Nl6FCYo5W/QjJVxvkbqwV3mE+7ddyN0t8UpNH/oDH59hokFUT
+ L9DL1IRQB3pRLXUpgQzwvqdvgWuw5BtM/eCqq2E4JMKqsANOTGOglNohjoRvcagdtVJD
+ PR0s7W2bYO6nYgiAJvlALzNEKrHwK9hVNU3nDGXMt8DapJaMKrOEiT8fRRXkGma+IPNG
+ 9TcgvMy/Cu3YK0pMCWA+TVZA5esBl6h0BBMzEFzyXvoWG7oE7AZBbNDM36GWQuThsG29
+ T59Q==
+X-Gm-Message-State: AOAM530ZdBTvkePgTvsV4TPwpPq0pqR8EzhGZjQNrr5C75F83W4IYEeb
+ VH0K12VLo97+fiNe91qU8R4=
+X-Google-Smtp-Source: ABdhPJziZNMsGJHaqi+mGUla1Vkrz+NpPEesiM4d39ge5LQpr0zcMFCCsLjsSQB3yHOh+XZx7sO1Wg==
+X-Received: by 2002:a1c:80d4:: with SMTP id b203mr4017283wmd.138.1590395995882; 
+ Mon, 25 May 2020 01:39:55 -0700 (PDT)
 Received: from ziggy.stardust ([213.195.113.243])
- by smtp.gmail.com with ESMTPSA id f2sm8898785wrg.17.2020.05.25.01.38.11
+ by smtp.gmail.com with ESMTPSA id t129sm19803531wmg.27.2020.05.25.01.39.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 01:38:12 -0700 (PDT)
-Subject: Re: [PATCH v5 10/13] soc: mediatek: cmdq: export finalize function
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+ Mon, 25 May 2020 01:39:55 -0700 (PDT)
+Subject: Re: [PATCH v5 09/13] soc: mediatek: cmdq: add write_s value function
+To: Dennis-YC Hsieh <dennis-yc.hsieh@mediatek.com>
 References: <1583664775-19382-1-git-send-email-dennis-yc.hsieh@mediatek.com>
- <1583664775-19382-11-git-send-email-dennis-yc.hsieh@mediatek.com>
- <5d6b61b2-23c9-647f-fa22-73e779010bd8@gmail.com>
- <CAAOTY___HNcRPr8Jq-wNPO_G9pLVjf2D7ezbpPcGbXVNYy1_nA@mail.gmail.com>
+ <1583664775-19382-10-git-send-email-dennis-yc.hsieh@mediatek.com>
+ <f9fd9ea8-f706-ed4a-4c83-c53ad092035c@gmail.com>
+ <1590341462.31286.19.camel@mtkswgap22>
+ <eb604637-28f0-fa8f-ce4b-3e87f6c944ad@gmail.com>
+ <1590373621.31522.7.camel@mtkswgap22>
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFP1zgUBEAC21D6hk7//0kOmsUrE3eZ55kjc9DmFPKIz6l4NggqwQjBNRHIMh04BbCMY
@@ -127,12 +129,12 @@ Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
  jzi+DzD9cvj2K6eD5j5kcKJJQactXqfJvF1Eb+OnxlB1BCLE8D1rNkPO5O742Mq3MgDmq19l
  +abzEL6QDAAxn9md8KwrA3RtucNh87cHlDXfUBKa7SRvBjTczDg+HEPNk2u3hrz1j3l2rliQ
  y1UfYx7Vk/TrdwUIJgKS8QAr8Lw9WuvY2hSqL9vEjx8VAkPWNWPwrQ==
-Message-ID: <e487573a-2252-cd52-3a3d-c271f67fcb9a@gmail.com>
-Date: Mon, 25 May 2020 10:38:11 +0200
+Message-ID: <68535bf6-9824-5077-4811-374c893cdc03@gmail.com>
+Date: Mon, 25 May 2020 10:39:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAAOTY___HNcRPr8Jq-wNPO_G9pLVjf2D7ezbpPcGbXVNYy1_nA@mail.gmail.com>
+In-Reply-To: <1590373621.31522.7.camel@mtkswgap22>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -148,91 +150,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  wsd_upstream@mediatek.com, David Airlie <airlied@linux.ie>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- HS Liao <hs.liao@mediatek.com>, Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Jassi Brar <jassisinghbrar@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, HS Liao <hs.liao@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Houlong Wei <houlong.wei@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAyNS8wNS8yMDIwIDAyOjIzLCBDaHVuLUt1YW5nIEh1IHdyb3RlOgo+IEhpLCBNYXR0aGlh
-czoKPiAKPiBNYXR0aGlhcyBCcnVnZ2VyIDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPiDmlrwgMjAy
-MOW5tDXmnIgxN+aXpSDpgLHml6Ug5LiK5Y2IMjoyMuWvq+mBk++8mgo+Pgo+Pgo+Pgo+PiBPbiAw
-OC8wMy8yMDIwIDExOjUyLCBEZW5uaXMgWUMgSHNpZWggd3JvdGU6Cj4+PiBFeHBvcnQgZmluYWxp
-emUgZnVuY3Rpb24gdG8gY2xpZW50IHdoaWNoIGhlbHBzIGFwcGVuZCBlb2MgYW5kIGp1bXAKPj4+
-IGNvbW1hbmQgdG8gcGt0LiBMZXQgY2xpZW50IGRlY2lkZSBjYWxsIGZpbmFsaXplIG9yIG5vdC4K
-Pj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBEZW5uaXMgWUMgSHNpZWggPGRlbm5pcy15Yy5oc2llaEBt
-ZWRpYXRlay5jb20+Cj4+PiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4K
-Pj4+IC0tLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYyB8IDEg
-Kwo+Pj4gIGRyaXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5jICB8IDcgKystLS0t
-LQo+Pj4gIGluY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmggICB8IDggKysrKysr
-KysKPj4+ICAzIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0p
-Cj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Ny
-dGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMuYwo+Pj4gaW5kZXgg
-MGRmY2QxNzg3ZTY1Li43ZGFhYWJjMjZlYjEgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMKPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHJtX2NydGMuYwo+Pj4gQEAgLTQ5MCw2ICs0OTAsNyBAQCBzdGF0aWMgdm9pZCBt
-dGtfZHJtX2NydGNfaHdfY29uZmlnKHN0cnVjdCBtdGtfZHJtX2NydGMgKm10a19jcnRjKQo+Pj4g
-ICAgICAgICAgICAgICBjbWRxX3BrdF9jbGVhcl9ldmVudChjbWRxX2hhbmRsZSwgbXRrX2NydGMt
-PmNtZHFfZXZlbnQpOwo+Pj4gICAgICAgICAgICAgICBjbWRxX3BrdF93ZmUoY21kcV9oYW5kbGUs
-IG10a19jcnRjLT5jbWRxX2V2ZW50KTsKPj4+ICAgICAgICAgICAgICAgbXRrX2NydGNfZGRwX2Nv
-bmZpZyhjcnRjLCBjbWRxX2hhbmRsZSk7Cj4+PiArICAgICAgICAgICAgIGNtZHFfcGt0X2ZpbmFs
-aXplKGNtZHFfaGFuZGxlKTsKPj4+ICAgICAgICAgICAgICAgY21kcV9wa3RfZmx1c2hfYXN5bmMo
-Y21kcV9oYW5kbGUsIGRkcF9jbWRxX2NiLCBjbWRxX2hhbmRsZSk7Cj4+PiAgICAgICB9Cj4+PiAg
-I2VuZGlmCj4+Cj4+IFRoaXMgc2hvdWxkIGJlIGEgaW5kZXBlbmRlbnQgcGF0Y2guCj4+IE90aGVy
-IHRoZW4gdGhhdCBwYXRjaCBsb29rcyBnb29kLgo+IAo+IEFwcGx5IG9ubHkgZHJtIHBhcnQgb3Ig
-b25seSBjbWRxIGhlbHByIHBhcnQsIGl0IHdvdWxkIGJlIGFibm9ybWFsLgoKUmlnaHQgaXQgd291
-bGQgYnJlYWsgRFJNIGRyaXZlciAoaWYgb25seSBhcHBsaWVkIHRvIGNtZHEpIG9yIGNvbXBpbGF0
-aW9uIGlmIG9ubHkKYXBwbGllZCB0byBEUk0uCgo+IFNoYWxsIHdlIHNlcGVyYXRlIHRoaXMgcGF0
-Y2g/CgpBZnRlciB0aGlua2luZyB0d2ljZSwgSSB0aGluayB3ZSBjYW4gbGVhdmUgaXQgYXMgaXQg
-aXMuIElmIHlvdSBwcm92aWRlIHlvdXIKQWNrZWQtYnkgSSBjYW4gdGFrZSBpdCB0aG9ydWdoIG15
-IHRyZWUsIGlmIHRoYXQncyBPSyBmb3IgeW91LgoKUmVnYXJkcywKTWF0dGhpYXMKCj4gT3Igc2Vw
-ZXJhdGUgaXQgYnV0IG1ha2Ugc3VyZSB0aGVzZSB0d28gcGF0Y2hlcyBiZSBpbiB0aGUgc2FtZSB0
-cmVlPwo+IAo+IFJlZ2FyZHMsCj4gQ2h1bi1LdWFuZy4KPiAKPj4KPj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYyBiL2RyaXZlcnMvc29jL21lZGlh
-dGVrL210ay1jbWRxLWhlbHBlci5jCj4+PiBpbmRleCBhOWViYmFiYjc0MzkuLjU5YmMxMTY0YjQx
-MSAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvc29jL21lZGlhdGVrL210ay1jbWRxLWhlbHBlci5j
-Cj4+PiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tdGstY21kcS1oZWxwZXIuYwo+Pj4gQEAg
-LTM3Miw3ICszNzIsNyBAQCBpbnQgY21kcV9wa3RfYXNzaWduKHN0cnVjdCBjbWRxX3BrdCAqcGt0
-LCB1MTYgcmVnX2lkeCwgdTMyIHZhbHVlKQo+Pj4gIH0KPj4+ICBFWFBPUlRfU1lNQk9MKGNtZHFf
-cGt0X2Fzc2lnbik7Cj4+Pgo+Pj4gLXN0YXRpYyBpbnQgY21kcV9wa3RfZmluYWxpemUoc3RydWN0
-IGNtZHFfcGt0ICpwa3QpCj4+PiAraW50IGNtZHFfcGt0X2ZpbmFsaXplKHN0cnVjdCBjbWRxX3Br
-dCAqcGt0KQo+Pj4gIHsKPj4+ICAgICAgIHN0cnVjdCBjbWRxX2luc3RydWN0aW9uIGluc3QgPSB7
-IHswfSB9Owo+Pj4gICAgICAgaW50IGVycjsKPj4+IEBAIC0zOTIsNiArMzkyLDcgQEAgc3RhdGlj
-IGludCBjbWRxX3BrdF9maW5hbGl6ZShzdHJ1Y3QgY21kcV9wa3QgKnBrdCkKPj4+Cj4+PiAgICAg
-ICByZXR1cm4gZXJyOwo+Pj4gIH0KPj4+ICtFWFBPUlRfU1lNQk9MKGNtZHFfcGt0X2ZpbmFsaXpl
-KTsKPj4+Cj4+PiAgc3RhdGljIHZvaWQgY21kcV9wa3RfZmx1c2hfYXN5bmNfY2Ioc3RydWN0IGNt
-ZHFfY2JfZGF0YSBkYXRhKQo+Pj4gIHsKPj4+IEBAIC00MjYsMTAgKzQyNyw2IEBAIGludCBjbWRx
-X3BrdF9mbHVzaF9hc3luYyhzdHJ1Y3QgY21kcV9wa3QgKnBrdCwgY21kcV9hc3luY19mbHVzaF9j
-YiBjYiwKPj4+ICAgICAgIHVuc2lnbmVkIGxvbmcgZmxhZ3MgPSAwOwo+Pj4gICAgICAgc3RydWN0
-IGNtZHFfY2xpZW50ICpjbGllbnQgPSAoc3RydWN0IGNtZHFfY2xpZW50ICopcGt0LT5jbDsKPj4+
-Cj4+PiAtICAgICBlcnIgPSBjbWRxX3BrdF9maW5hbGl6ZShwa3QpOwo+Pj4gLSAgICAgaWYgKGVy
-ciA8IDApCj4+PiAtICAgICAgICAgICAgIHJldHVybiBlcnI7Cj4+PiAtCj4+PiAgICAgICBwa3Qt
-PmNiLmNiID0gY2I7Cj4+PiAgICAgICBwa3QtPmNiLmRhdGEgPSBkYXRhOwo+Pj4gICAgICAgcGt0
-LT5hc3luY19jYi5jYiA9IGNtZHFfcGt0X2ZsdXNoX2FzeW5jX2NiOwo+Pj4gZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmggYi9pbmNsdWRlL2xpbnV4L3Nv
-Yy9tZWRpYXRlay9tdGstY21kcS5oCj4+PiBpbmRleCBmZWMyOTJhYWM4M2MuLjk5ZTc3MTU1Zjk2
-NyAxMDA2NDQKPj4+IC0tLSBhL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgK
-Pj4+ICsrKyBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1jbWRxLmgKPj4+IEBAIC0y
-MTMsNiArMjEzLDE0IEBAIGludCBjbWRxX3BrdF9wb2xsX21hc2soc3RydWN0IGNtZHFfcGt0ICpw
-a3QsIHU4IHN1YnN5cywKPj4+ICAgKi8KPj4+ICBpbnQgY21kcV9wa3RfYXNzaWduKHN0cnVjdCBj
-bWRxX3BrdCAqcGt0LCB1MTYgcmVnX2lkeCwgdTMyIHZhbHVlKTsKPj4+Cj4+PiArLyoqCj4+PiAr
-ICogY21kcV9wa3RfZmluYWxpemUoKSAtIEFwcGVuZCBFT0MgYW5kIGp1bXAgY29tbWFuZCB0byBw
-a3QuCj4+PiArICogQHBrdDogICAgIHRoZSBDTURRIHBhY2tldAo+Pj4gKyAqCj4+PiArICogUmV0
-dXJuOiAwIGZvciBzdWNjZXNzOyBlbHNlIHRoZSBlcnJvciBjb2RlIGlzIHJldHVybmVkCj4+PiAr
-ICovCj4+PiAraW50IGNtZHFfcGt0X2ZpbmFsaXplKHN0cnVjdCBjbWRxX3BrdCAqcGt0KTsKPj4+
-ICsKPj4+ICAvKioKPj4+ICAgKiBjbWRxX3BrdF9mbHVzaF9hc3luYygpIC0gdHJpZ2dlciBDTURR
-IHRvIGFzeW5jaHJvbm91c2x5IGV4ZWN1dGUgdGhlIENNRFEKPj4+ICAgKiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgcGFja2V0IGFuZCBjYWxsIGJhY2sgYXQgdGhlIGVuZCBvZiBkb25lIHBhY2tl
-dAo+Pj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+On 25/05/2020 04:27, Dennis-YC Hsieh wrote:
+> 
+> On Sun, 2020-05-24 at 20:13 +0200, Matthias Brugger wrote:
+>>
+>> On 24/05/2020 19:31, Dennis-YC Hsieh wrote:
+>>> Hi Matthias,
+>>>
+>>> Thanks for your comment.
+>>>
+>>> On Sat, 2020-05-16 at 20:20 +0200, Matthias Brugger wrote:
+>>>>
+>>>> On 08/03/2020 11:52, Dennis YC Hsieh wrote:
+>>>>> add write_s function in cmdq helper functions which
+>>>>> writes a constant value to address with large dma
+>>>>> access support.
+>>>>>
+>>>>> Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
+>>>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>>>>> ---
+>>>>>  drivers/soc/mediatek/mtk-cmdq-helper.c | 26 ++++++++++++++++++++++++++
+>>>>>  include/linux/soc/mediatek/mtk-cmdq.h  | 14 ++++++++++++++
+>>>>>  2 files changed, 40 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>>>> index 03c129230cd7..a9ebbabb7439 100644
+>>>>> --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>>>> +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+>>>>> @@ -269,6 +269,32 @@ int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>>>>  }
+>>>>>  EXPORT_SYMBOL(cmdq_pkt_write_s);
+>>>>>  
+>>>>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>>>> +			   u16 addr_low, u32 value, u32 mask)
+>>>>> +{
+>>>>> +	struct cmdq_instruction inst = { {0} };
+>>>>> +	int err;
+>>>>> +
+>>>>> +	if (mask != U32_MAX) {
+>>>>> +		inst.op = CMDQ_CODE_MASK;
+>>>>> +		inst.mask = ~mask;
+>>>>> +		err = cmdq_pkt_append_command(pkt, inst);
+>>>>> +		if (err < 0)
+>>>>> +			return err;
+>>>>> +
+>>>>> +		inst.op = CMDQ_CODE_WRITE_S_MASK;
+>>>>> +	} else {
+>>>>> +		inst.op = CMDQ_CODE_WRITE_S;
+>>>>> +	}
+>>>>> +
+>>>>> +	inst.sop = high_addr_reg_idx;
+>>>>
+>>>> Writing u16 value in a 5 bit wide variable?
+>>>
+>>> We need only 5 bits in this case. I'll change high_addr_reg_idx
+>>> parameter to u8.
+>>>
+>>
+>> Ok, please make sure to mask the value, so that it's explicit in the code that
+>> we only use the lowest 5 bits of high_addr_reg_idx.
+> 
+> Is it necessary to mask the value?
+> Since sop already defined as "u8 sop:5;", I thought it is explicit that
+> only use 5 bits and compiler should do the rest jobs.
+
+Yes but it makes the code more explicit if we have a
+inst.sop = high_addr_reg_idx & 0x1f;
+
+What do you think?
+
+Regards,
+Matthias
+
+> 
+> 
+> Regards,
+> Dennis
+> 
+>>
+>> Regards,
+>> Matthias
+>>
+>>>>
+>>>>> +	inst.offset = addr_low;
+>>>>> +	inst.value = value;
+>>>>> +
+>>>>> +	return cmdq_pkt_append_command(pkt, inst);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL(cmdq_pkt_write_s_value);
+>>>>> +
+>>>>>  int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
+>>>>>  {
+>>>>>  	struct cmdq_instruction inst = { {0} };
+>>>>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
+>>>>> index 01b4184af310..fec292aac83c 100644
+>>>>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+>>>>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+>>>>> @@ -135,6 +135,20 @@ int cmdq_pkt_read_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx, u16 addr_low,
+>>>>>  int cmdq_pkt_write_s(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>>>>  		     u16 addr_low, u16 src_reg_idx, u32 mask);
+>>>>>  
+>>>>> +/**
+>>>>> + * cmdq_pkt_write_s_value() - append write_s command with mask to the CMDQ
+>>>>> + *			      packet which write value to a physical address
+>>>>> + * @pkt:	the CMDQ packet
+>>>>> + * @high_addr_reg_idx:	internal regisger ID which contains high address of pa
+>>>>
+>>>> register
+>>>
+>>> will fix
+>>>
+>>>
+>>> Regards,
+>>> Dennis
+>>>
+>>>>
+>>>>> + * @addr_low:	low address of pa
+>>>>> + * @value:	the specified target value
+>>>>> + * @mask:	the specified target mask
+>>>>> + *
+>>>>> + * Return: 0 for success; else the error code is returned
+>>>>> + */
+>>>>> +int cmdq_pkt_write_s_value(struct cmdq_pkt *pkt, u16 high_addr_reg_idx,
+>>>>> +			   u16 addr_low, u32 value, u32 mask);
+>>>>> +
+>>>>>  /**
+>>>>>   * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
+>>>>>   * @pkt:	the CMDQ packet
+>>>>>
+>>>
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
