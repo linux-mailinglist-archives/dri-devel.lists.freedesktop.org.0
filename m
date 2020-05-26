@@ -2,34 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FBD1E18E8
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398ED1E18EC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:16:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2FBC89E5A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF9889EB7;
 	Tue, 26 May 2020 01:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5106489E03
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BF289DFA
  for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:48 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 294A5814;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0DDA1C8F;
  Tue, 26 May 2020 03:15:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590455746;
- bh=Jnis+1eMQ8Txh73mB2sEA5R5j94S/v85zLBpr06Q/pk=;
+ s=mail; t=1590455747;
+ bh=Qz0YRalAoL2LBTowIhArSjJi1EAADzZ1NZrcN1kNams=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mBT5lm8BVOzMr/p2Xvp7VOlOj8n74GjMZTBj9mWaI1UD3yCrvW2iXLlEzl92acx3V
- p525zImaS3rZrz9FeaT/KUm5SRQD0eyTcYhLBt/M5wYs6Ns56Fq5DAwR7XZhYU2/Bp
- a2lEBGLHF/HPdCSp/+DBaJENGCsTL6rFwWMhDQPk=
+ b=I7NJcxoF3y771kyQsCumeOtAjEYGLTLi1np7emkKTCZs3DoLd8FiFT356I4nq00n2
+ hzc+E1BjOUjD64eKg+IVF9QZDq3PDPyOp/bGbnwYQ2h1jggg0MCUp4dMAq87H1hwpG
+ lxj2E4WIR2UggFnwHdQ+1/iRuAr8uPYMwqSEoC00=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 21/27] drm: bridge: dw-hdmi: Pass drm_connector to internal
- functions as needed
-Date: Tue, 26 May 2020 04:14:59 +0300
-Message-Id: <20200526011505.31884-22-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 22/27] drm: bridge: dw-hdmi: Make connector creation optional
+Date: Tue, 26 May 2020 04:15:00 +0300
+Message-Id: <20200526011505.31884-23-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -56,112 +55,185 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prepare for making connector creation optional in the driver, pass
-the drm_connector explicitly to the internal functions that require it.
-The functions that still access the connector from the dw_hdmi structure
-are dw_hdmi_connector_create() and __dw_hdmi_probe(). The former access
-is expected, as that's where the internal connector is created. The
-latter will be addressed separately.
+Implement the drm_bridge_funcs .detect() and .get_edid() operations, and
+call drm_bridge_hpd_notify() notify to report HPD. This provides the
+necessary API to support disabling connector creation, do so by
+accepting DRM_BRIDGE_ATTACH_NO_CONNECTOR in dw_hdmi_bridge_attach().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 31 +++++++++++++----------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 104 +++++++++++++++-------
+ 1 file changed, 74 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 16bffedb4715..b69c14b9de62 100644
+index b69c14b9de62..6148a022569a 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1632,18 +1632,17 @@ static void hdmi_tx_hdcp_config(struct dw_hdmi *hdmi)
+@@ -2323,15 +2323,8 @@ static void dw_hdmi_update_phy_mask(struct dw_hdmi *hdmi)
+ 					  hdmi->rxsense);
  }
  
- static void hdmi_config_AVI(struct dw_hdmi *hdmi,
-+			    const struct drm_connector *connector,
- 			    const struct drm_display_mode *mode)
+-/* -----------------------------------------------------------------------------
+- * DRM Connector Operations
+- */
+-
+-static enum drm_connector_status
+-dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
++static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
  {
- 	struct hdmi_avi_infoframe frame;
- 	u8 val;
+-	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
+-					     connector);
+ 	enum drm_connector_status result;
  
- 	/* Initialise info frame from DRM mode */
--	drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						 &hdmi->connector, mode);
-+	drm_hdmi_avi_infoframe_from_display_mode(&frame, connector, mode);
- 
- 	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
--		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi->connector,
--						   mode,
-+		drm_hdmi_avi_infoframe_quant_range(&frame, connector, mode,
- 						   hdmi->hdmi_data.rgb_limited_range ?
- 						   HDMI_QUANTIZATION_RANGE_LIMITED :
- 						   HDMI_QUANTIZATION_RANGE_FULL);
-@@ -1760,14 +1759,14 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
+ 	mutex_lock(&hdmi->mutex);
+@@ -2354,31 +2347,57 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 	return result;
  }
  
- static void hdmi_config_vendor_specific_infoframe(struct dw_hdmi *hdmi,
-+						  const struct drm_connector *connector,
- 						  const struct drm_display_mode *mode)
+-static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
++static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
++				     struct drm_connector *connector)
  {
- 	struct hdmi_vendor_infoframe frame;
- 	u8 buffer[10];
- 	ssize_t err;
+-	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
+-					     connector);
+ 	struct edid *edid;
+-	int ret = 0;
  
--	err = drm_hdmi_vendor_infoframe_from_display_mode(&frame,
--							  &hdmi->connector,
-+	err = drm_hdmi_vendor_infoframe_from_display_mode(&frame, connector,
- 							  mode);
- 	if (err < 0)
- 		/*
-@@ -1813,9 +1812,10 @@ static void hdmi_config_vendor_specific_infoframe(struct dw_hdmi *hdmi,
- 			HDMI_FC_DATAUTO0_VSD_MASK);
- }
+ 	if (!hdmi->ddc)
+-		return 0;
++		return NULL;
  
--static void hdmi_config_drm_infoframe(struct dw_hdmi *hdmi)
-+static void hdmi_config_drm_infoframe(struct dw_hdmi *hdmi,
-+				      const struct drm_connector *connector)
- {
--	const struct drm_connector_state *conn_state = hdmi->connector.state;
-+	const struct drm_connector_state *conn_state = connector->state;
- 	struct hdmi_drm_infoframe frame;
- 	u8 buffer[30];
- 	ssize_t err;
-@@ -2118,9 +2118,9 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
- }
- 
- static int dw_hdmi_setup(struct dw_hdmi *hdmi,
-+			 const struct drm_connector *connector,
- 			 const struct drm_display_mode *mode)
- {
--	struct drm_connector *connector = &hdmi->connector;
- 	int ret;
- 
- 	hdmi_disable_overflow_interrupts(hdmi);
-@@ -2192,9 +2192,9 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
- 		dev_dbg(hdmi->dev, "%s HDMI mode\n", __func__);
- 
- 		/* HDMI Initialization Step F - Configure AVI InfoFrame */
--		hdmi_config_AVI(hdmi, mode);
--		hdmi_config_vendor_specific_infoframe(hdmi, mode);
--		hdmi_config_drm_infoframe(hdmi);
-+		hdmi_config_AVI(hdmi, connector, mode);
-+		hdmi_config_vendor_specific_infoframe(hdmi, connector, mode);
-+		hdmi_config_drm_infoframe(hdmi, connector);
- 	} else {
- 		dev_dbg(hdmi->dev, "%s DVI mode\n", __func__);
+ 	edid = drm_get_edid(connector, hdmi->ddc);
+-	if (edid) {
+-		dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
+-			edid->width_cm, edid->height_cm);
+-
+-		hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
+-		hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
+-		drm_connector_update_edid_property(connector, edid);
+-		cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier, edid);
+-		ret = drm_add_edid_modes(connector, edid);
+-		kfree(edid);
+-	} else {
++	if (!edid) {
+ 		dev_dbg(hdmi->dev, "failed to get edid\n");
++		return NULL;
  	}
-@@ -2263,7 +2263,12 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
- static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
- {
- 	hdmi->bridge_is_on = true;
--	dw_hdmi_setup(hdmi, &hdmi->previous_mode);
+ 
++	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
++		edid->width_cm, edid->height_cm);
 +
-+	/*
-+	 * The curr_conn field is guaranteed to be valid here, as this function
-+	 * is only be called when !hdmi->disabled.
-+	 */
-+	dw_hdmi_setup(hdmi, hdmi->curr_conn, &hdmi->previous_mode);
++	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
++	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
++
++	return edid;
++}
++
++/* -----------------------------------------------------------------------------
++ * DRM Connector Operations
++ */
++
++static enum drm_connector_status
++dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
++					     connector);
++	return dw_hdmi_detect(hdmi);
++}
++
++static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
++{
++	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
++					     connector);
++	struct edid *edid;
++	int ret;
++
++	edid = dw_hdmi_get_edid(hdmi, connector);
++	if (!edid)
++		return 0;
++
++	drm_connector_update_edid_property(connector, edid);
++	cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier, edid);
++	ret = drm_add_edid_modes(connector, edid);
++	kfree(edid);
++
+ 	return ret;
  }
  
- static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
+@@ -2777,10 +2796,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+ {
+ 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+-		DRM_ERROR("Fix bridge driver to make connector optional!");
+-		return -EINVAL;
+-	}
++	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
++		return 0;
+ 
+ 	return dw_hdmi_connector_create(hdmi);
+ }
+@@ -2860,6 +2877,21 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	mutex_unlock(&hdmi->mutex);
+ }
+ 
++static enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge)
++{
++	struct dw_hdmi *hdmi = bridge->driver_private;
++
++	return dw_hdmi_detect(hdmi);
++}
++
++static struct edid *dw_hdmi_bridge_get_edid(struct drm_bridge *bridge,
++					    struct drm_connector *connector)
++{
++	struct dw_hdmi *hdmi = bridge->driver_private;
++
++	return dw_hdmi_get_edid(hdmi, connector);
++}
++
+ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+@@ -2873,6 +2905,8 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+ 	.atomic_disable = dw_hdmi_bridge_atomic_disable,
+ 	.mode_set = dw_hdmi_bridge_mode_set,
+ 	.mode_valid = dw_hdmi_bridge_mode_valid,
++	.detect = dw_hdmi_bridge_detect,
++	.get_edid = dw_hdmi_bridge_get_edid,
+ };
+ 
+ /* -----------------------------------------------------------------------------
+@@ -2988,10 +3022,18 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+ 	}
+ 
+ 	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
++		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
++						 ? connector_status_connected
++						 : connector_status_disconnected;
++
+ 		dev_dbg(hdmi->dev, "EVENT=%s\n",
+-			phy_int_pol & HDMI_PHY_HPD ? "plugin" : "plugout");
+-		if (hdmi->bridge.dev)
++			status == connector_status_connected ?
++			"plugin" : "plugout");
++
++		if (hdmi->bridge.dev) {
+ 			drm_helper_hpd_irq_event(hdmi->bridge.dev);
++			drm_bridge_hpd_notify(&hdmi->bridge, status);
++		}
+ 	}
+ 
+ 	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
+@@ -3337,6 +3379,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
+ 
+ 	hdmi->bridge.driver_private = hdmi;
+ 	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
++	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
++			 | DRM_BRIDGE_OP_HPD;
+ #ifdef CONFIG_OF
+ 	hdmi->bridge.of_node = pdev->dev.of_node;
+ #endif
 -- 
 Regards,
 
