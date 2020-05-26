@@ -2,53 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF4D1E1857
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 01:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F61E18C8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964E889C27;
-	Mon, 25 May 2020 23:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74CF589CC9;
+	Tue, 26 May 2020 01:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A03AC89C27;
- Mon, 25 May 2020 23:49:48 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ecc59900000>; Mon, 25 May 2020 16:49:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 25 May 2020 16:49:48 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 25 May 2020 16:49:48 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 May
- 2020 23:49:47 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 25 May 2020 23:49:47 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.58.199]) by
- hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ecc599b0000>; Mon, 25 May 2020 16:49:47 -0700
-From: John Hubbard <jhubbard@nvidia.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH v2] drm/etnaviv: convert get_user_pages() --> pin_user_pages()
-Date: Mon, 25 May 2020 16:49:46 -0700
-Message-ID: <20200525234946.512848-1-jhubbard@nvidia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328C989CB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:27 +0000 (UTC)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A53C6562;
+ Tue, 26 May 2020 03:15:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1590455724;
+ bh=4nIwgpjLgcSwZ/NvXq0G8e90h3+fgYlM8h9QhzXYJss=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eXNDT5KMadX2jH+0HTEDVhLkBXxzvlU/fsUvMO3HuJX5pA2Fn1xeNx3FkwRlsiUKa
+ TM3ETGvgwbyRjtM0E/bXUAu41fRm1AMN+ZyJkwLa2VY209DNrOKiEg6lX1fiAmHQb9
+ 71fSbAsZ6YwZZKxCFa4izbnySf561Rt5wCbijHag=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/27] Converter R-Car DU to the DRM bridge connector helper
+Date: Tue, 26 May 2020 04:14:38 +0300
+Message-Id: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590450576; bh=C3o3eympRzwR7c/b70BhXHJjaTleTxgbsTFGbme4xwE=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
- Content-Type;
- b=cp9XtId8piYPKy0k91vDh1oN7UUmAfRRRnaC9WZ+kxzR3hGCRc4fn3sjSBs1PUBiA
- ROZX9BwckP+dqa3nPdjNHOrfzxDW7jx3aBhnrsQNLKdZv1oKFquRrHFMeyGJeiQ1DM
- Vm1VIJqcLAi8LZZRR8s1W+1ZzPgzDxvPakgH/A8F/1bV9/zuMA6pwanKJrkEJwVL6e
- 7OIfsGldpXQpeymtJWixdgO22WKCcZF0nLOQZQLeAixXHAn6nG86N9dRAWlAr4XLYy
- vCJywMUv1K6Aw2KT5d3ZQM/jTTHYfgfGzgZLzdbszaPKRCoiq4RzwNg/2pf+3+xZzZ
- qunVFDmPMQUEg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,76 +43,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, John Hubbard <jhubbard@nvidia.com>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
+Hello,
 
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
+This patch series converts the R-Car DU driver to use the DRM bridge
+connector helper drm_bridge_connector_init().
 
-[1] Documentation/core-api/pin_user_pages.rst
+The bulk of the series is conversion of the adv7511, simple-bridge,
+rcar-lbds and dw-hdmi drivers to make connector creation optional
+(through the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag).
 
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
+The series starts with the adv7511 driver, previously posted as "[PATCH
+0/4] drm: bridge: adv7511: Enable usage with DRM bridge connector
+helper" ([1]). Patches 01/27 to 04/27 incorporate all the received
+review comments.
 
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
+The next three patches address the simple-bridge driver, previously
+posted as "[PATCH 0/2] drm: bridge: simple-bridge: Enable usage with DRM
+bridge connector helper". Patch 05/27 is an additional fix that stems
+from the review, and patches 06/27 and 07/27 incorporate all the
+received review comments.
 
-Hi,
+Patch 08/27 is a new patch that addresses the rcar-lvds driver. Instead
+of implementing direct support for DRM_BRIDGE_ATTACH_NO_CONNECTOR, it
+simply removes code that shouldn't have been in the driver in the first
+place by switching to the panel bridge helper.
 
-Changes since v1:
+Patches 09/27 to 22/27 then address the dw-hdmi driver. That's a more
+sizeable rework, due to the fact that the driver implements a mid-layer
+for platform-specific glue, with the internal drm_connector being used
+throughout the whole code. There's no rocket science there, but patch
+10/27 should be noted for adding a new argument to the
+drm_bridge_funcs.mode_valid() function. Please see individual patches
+for details.
 
-* Rebased onto Linux 5.7-rc7
+Patch 23/27 adds support to the dw-hdmi driver to attach to a downstream
+bridge if one is specified in DT. As the DT port number corresponding to
+the video output differs between platforms that integrate the dw-hdmi
+(some of them even don't have a video output port, which should probably
+be fixed, but that's out of scope for this series), the port number has
+to be specified by the platform glue layer. Patch 24/27 does so for the
+R-Car dw-hdmi driver.
 
-* Added: Lucas Stach
+Patch 25/27 is a drive-by fix for an error path issue in the rcar-du
+driver. Patch 26/27 finally makes use of the drm_bridge_connector_init()
+helper.
 
-thanks
-John Hubbard
-NVIDIA
+Unfortunately, this breaks the VGA output on R-Car Gen3 platforms. On
+those platforms, the VGA DDC lines are not connected, and there is no
+mean for software to detect the VGA output connection status. When the
+simple-bridge driver creates a connector, it automatically adds default
+modes when no DDC is available. This behavious is also present int the
+DRM probe helper drm_helper_probe_single_connector_modes(), but only
+when the connector status is connector_status_connected. As the driver
+(rightfully) reports connector_status_unconnected, no modes are added.
+Patch 27/27 fixes this issue by extending addition of default modes in
+drm_helper_probe_single_connector_modes() when the output status is
+unknown. An alternative approach would be to implement this behaviour in
+the bridge connector helper (drm_bridge_connector.c).
 
+All the modified drivers have been compile-tested, and the series has
+been tested on a Renesas R-Car Salvator-XS board with the VGA, HDMI and
+LVDS outputs.
 
- drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+[1] https://lore.kernel.org/dri-devel/20200409004610.12346-1-laurent.pinchart+renesas@ideasonboard.com/
+[2] https://lore.kernel.org/dri-devel/20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com/
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-index dc9ef302f517..0f4578dc169d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-@@ -675,10 +675,10 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
- 		uint64_t ptr = userptr->ptr + pinned * PAGE_SIZE;
- 		struct page **pages = pvec + pinned;
- 
--		ret = get_user_pages_fast(ptr, num_pages,
-+		ret = pin_user_pages_fast(ptr, num_pages,
- 					  !userptr->ro ? FOLL_WRITE : 0, pages);
- 		if (ret < 0) {
--			release_pages(pvec, pinned);
-+			unpin_user_pages(pvec, pinned);
- 			kvfree(pvec);
- 			return ret;
- 		}
-@@ -702,7 +702,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
- 	if (etnaviv_obj->pages) {
- 		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
- 
--		release_pages(etnaviv_obj->pages, npages);
-+		unpin_user_pages(etnaviv_obj->pages, npages);
- 		kvfree(etnaviv_obj->pages);
- 	}
- }
+Laurent Pinchart (27):
+  drm: bridge: adv7511: Split EDID read to a separate function
+  drm: bridge: adv7511: Split connector creation to a separate function
+  drm: bridge: adv7511: Implement bridge connector operations
+  drm: bridge: adv7511: Make connector creation optional
+  drm: bridge: Return NULL on error from drm_bridge_get_edid()
+  drm: bridge: simple-bridge: Delegate operations to next bridge
+  drm: bridge: simple-bridge: Make connector creation optional
+  drm: rcar-du: lvds: Convert to DRM panel bridge helper
+  drm: edid: Constify connector argument to infoframe functions
+  drm: bridge: Pass drm_display_info to drm_bridge_funcs .mode_valid()
+  drm: bridge: dw-hdmi: Pass private data pointer to .mode_valid()
+  drm: bridge: dw-hdmi: Pass private data pointer to .configure_phy()
+  drm: bridge: dw-hdmi: Remove unused field from dw_hdmi_plat_data
+  drm: meson: dw-hdmi: Use dw_hdmi context to replace hack
+  drm: bridge: dw-hdmi: Pass drm_display_info to .mode_valid()
+  drm: bridge: dw-hdmi: Constify mode argument to dw_hdmi_phy_ops
+    .init()
+  drm: bridge: dw-hdmi: Constify mode argument to internal functions
+  drm: bridge: dw-hdmi: Pass drm_display_info to dw_hdmi_support_scdc()
+  drm: bridge: dw-hdmi: Split connector creation to a separate function
+  drm: bridge: dw-hdmi: Store current connector in struct dw_hdmi
+  drm: bridge: dw-hdmi: Pass drm_connector to internal functions as
+    needed
+  drm: bridge: dw-hdmi: Make connector creation optional
+  drm: bridge: dw-hdmi: Attach to next bridge if available
+  drm: rcar-du: dw-hdmi: Set output port number
+  drm: rcar-du: Fix error handling in rcar_du_encoder_init()
+  drm: rcar-du: Use drm_bridge_connector_init() helper
+  drm: Add default modes for connectors in unknown state
+
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  | 159 +++++---
+ .../drm/bridge/analogix/analogix-anx6345.c    |   1 +
+ .../drm/bridge/analogix/analogix-anx78xx.c    |   1 +
+ drivers/gpu/drm/bridge/cdns-dsi.c             |   1 +
+ drivers/gpu/drm/bridge/chrontel-ch7033.c      |   1 +
+ drivers/gpu/drm/bridge/nwl-dsi.c              |   1 +
+ drivers/gpu/drm/bridge/sii9234.c              |   1 +
+ drivers/gpu/drm/bridge/sil-sii8620.c          |   1 +
+ drivers/gpu/drm/bridge/simple-bridge.c        | 113 +++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 357 ++++++++++++------
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |   1 +
+ drivers/gpu/drm/bridge/tc358767.c             |   1 +
+ drivers/gpu/drm/bridge/tc358768.c             |   1 +
+ drivers/gpu/drm/bridge/thc63lvd1024.c         |   1 +
+ drivers/gpu/drm/bridge/ti-tfp410.c            |  11 +-
+ drivers/gpu/drm/drm_atomic_helper.c           |   3 +-
+ drivers/gpu/drm/drm_bridge.c                  |  10 +-
+ drivers/gpu/drm/drm_edid.c                    |  12 +-
+ drivers/gpu/drm/drm_probe_helper.c            |   7 +-
+ drivers/gpu/drm/i2c/tda998x_drv.c             |   1 +
+ drivers/gpu/drm/imx/dw_hdmi-imx.c             |   6 +-
+ drivers/gpu/drm/meson/meson_dw_hdmi.c         |  34 +-
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |   1 +
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |   1 +
+ drivers/gpu/drm/omapdrm/dss/venc.c            |   1 +
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c     |  26 +-
+ drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c        |   7 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           | 124 +-----
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |   6 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c         |   6 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h         |   3 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c        |   3 +-
+ include/drm/bridge/dw_hdmi.h                  |  28 +-
+ include/drm/drm_bridge.h                      |   3 +
+ include/drm/drm_edid.h                        |   6 +-
+ include/drm/drm_modeset_helper_vtables.h      |   8 +-
+ 36 files changed, 541 insertions(+), 406 deletions(-)
+
 -- 
-2.26.2
+Regards,
+
+Laurent Pinchart
 
 _______________________________________________
 dri-devel mailing list
