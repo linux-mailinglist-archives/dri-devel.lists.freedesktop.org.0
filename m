@@ -2,108 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97B51E2336
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 15:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5696B1E236A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 15:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C276E1CD;
-	Tue, 26 May 2020 13:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A6F689C1B;
+	Tue, 26 May 2020 13:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1160 seconds by postgrey-1.36 at gabe;
- Tue, 26 May 2020 13:42:40 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [62.209.51.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F40256E1CD
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 13:42:40 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04QDHsIC023863; Tue, 26 May 2020 15:22:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=wQm2v0Z5VAQgV4xTo2zwfCmgV90iJzta4mQKFeoOBcE=;
- b=IuvCEUoT2isjEnlFiBuOp+ENWrK5REcb2viDxPg1CkUV/9OylPvwjza0XQvPK69H0Ptr
- kq3/2QvM4INWlK0y1F9GxBeUwmquz+5lz5HeF9xCHFhqeJDEQJzI77qtwu5t6wJjyFsD
- fQiK81ZpXfC5QEzBSVQWnYQUp+wIX5hkrXKtFeosLtvU3+iRfOj71yIkMznsdHKPIlyD
- H2O24f8B1/cNkQsByCVV8sw5rrp5O3zeGRHrhWXa5ui7i51ilD9C841TFYMcQUQAHdGi
- Tz1xN8X/+ubyIvg1tPJWEKh2t3N5NPgTsvTNvfw0Eb/zrmzd5dCIJ/NxSu4ppcdXu0X0 6w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com with ESMTP id 316sa1yxsc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 May 2020 15:22:24 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE2AB10002A;
- Tue, 26 May 2020 15:22:19 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5C9042AEF26;
- Tue, 26 May 2020 15:22:19 +0200 (CEST)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG6NODE1.st.com
- (10.75.127.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 May
- 2020 15:22:19 +0200
-Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
- SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Tue, 26 May 2020 15:22:18 +0200
-From: Philippe CORNU <philippe.cornu@st.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "abrodkin@synopsys.com"
- <abrodkin@synopsys.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "james.qian.wang@arm.com"
- <james.qian.wang@arm.com>, "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
- "brian.starkey@arm.com" <brian.starkey@arm.com>, "joel@jms.id.au"
- <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>, "sam@ravnborg.org"
- <sam@ravnborg.org>, "bbrezillon@kernel.org" <bbrezillon@kernel.org>,
- "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
- "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
- "ludovic.desroches@microchip.com" <ludovic.desroches@microchip.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "stefan@agner.ch"
- <stefan@agner.ch>, "alison.wang@nxp.com" <alison.wang@nxp.com>,
- "xinliang.liu@linaro.org" <xinliang.liu@linaro.org>,
- "zourongrong@gmail.com" <zourongrong@gmail.com>,
- "john.stultz@linaro.org" <john.stultz@linaro.org>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>, "kernel@pengutronix.de"
- <kernel@pengutronix.de>, "festevam@gmail.com" <festevam@gmail.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>, "paul@crapouillou.net"
- <paul@crapouillou.net>, "linus.walleij@linaro.org"
- <linus.walleij@linaro.org>, "narmstrong@baylibre.com"
- <narmstrong@baylibre.com>, "khilman@baylibre.com" <khilman@baylibre.com>,
- "marex@denx.de" <marex@denx.de>, "laurent.pinchart@ideasonboard.com"
- <laurent.pinchart@ideasonboard.com>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, "benjamin.gaignard@linaro.org"
- <benjamin.gaignard@linaro.org>, Vincent ABRIOU <vincent.abriou@st.com>,
- Yannick FERTRE <yannick.fertre@st.com>, "mcoquelin.stm32@gmail.com"
- <mcoquelin.stm32@gmail.com>, Alexandre TORGUE <alexandre.torgue@st.com>,
- "wens@csie.org" <wens@csie.org>, "jsarha@ti.com" <jsarha@ti.com>,
- "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>, "noralf@tronnes.org"
- <noralf@tronnes.org>
-Subject: Re: [PATCH 17/21] drm/stm: Use GEM CMA object functions
-Thread-Topic: [PATCH 17/21] drm/stm: Use GEM CMA object functions
-Thread-Index: AQHWMEBP24K9tztXlE2wkAB9PsURFKi6P1KA
-Date: Tue, 26 May 2020 13:22:18 +0000
-Message-ID: <ee29b996-77ec-9ada-2e96-090399dc5383@st.com>
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-18-tzimmermann@suse.de>
-In-Reply-To: <20200522135246.10134-18-tzimmermann@suse.de>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-ID: <93ED9A11ABEFE040B87BC6B2D4A9B569@st.com>
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr50074.outbound.protection.outlook.com [40.107.5.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B93B389C09
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 13:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ETYQ01IA72tQX+TrM/6OqECCtKKfPzv8aeJkYQ57+V8=;
+ b=PhWuMUtHgW4Z8XtslC5UXZAkilhQZ7LYZz55lfNyRx3J9wOwMbhIiihlZNaMSfFChjCCtomCbxcbR258hXpfSVHTvZDlaObLKwGtpG8d9OhpH9AHprJeE9EsnfX1H9XKPzu3L+Mwdfqsv4WT61ZwtbkAsIDkrAhC3fQ9bcrEO6Y=
+Received: from DB3PR08CA0007.eurprd08.prod.outlook.com (2603:10a6:8::20) by
+ DBBPR08MB4267.eurprd08.prod.outlook.com (2603:10a6:10:cb::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.27; Tue, 26 May 2020 13:53:14 +0000
+Received: from DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:8:0:cafe::bf) by DB3PR08CA0007.outlook.office365.com
+ (2603:10a6:8::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17 via Frontend
+ Transport; Tue, 26 May 2020 13:53:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT057.mail.protection.outlook.com (10.152.20.235) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.23 via Frontend Transport; Tue, 26 May 2020 13:53:14 +0000
+Received: ("Tessian outbound 444e8e881ac1:v57");
+ Tue, 26 May 2020 13:53:14 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 2917d9094306c03e
+X-CR-MTA-TID: 64aa7808
+Received: from 95ec89f95588.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 341C6F0B-5BB6-4DC4-8569-BF524D0EDD40.1; 
+ Tue, 26 May 2020 13:53:14 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 95ec89f95588.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 26 May 2020 13:53:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NLa7NRHQJQQUVeGrc5YBzSz14gjA+qjg9cknLty3TZpWUGDkLztNhABGdvpO/4H+wB/JoLqRCmxlrzYA44xsE9tB60BUIAfUgvce++1s6iJ0B1PvFKUQ7ydRIJsdKDdbsgBla54/n9T/cIHX/sERk8Ky2QM3i7ESd8EDj0gi9WN0QkUc9Yav1kgGXMwAJgCuvHRbYzhABMMIkrJ1jvGFkF2hJM0UD/ZvYsC1qHCYJw/3sjFlIqMWRCCniunKluiu6tmOZXyyzODSRZV3ZWnj+Wie3IkA4quqSoULvtx2PtDXISIiMz8s5Si0BETwzE+cmC0MFktI6q8dVR4C7QW7Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ETYQ01IA72tQX+TrM/6OqECCtKKfPzv8aeJkYQ57+V8=;
+ b=WgOIE48n1IAJtTIyj3okmG91UhrIIrTkHiSVIKrCaPwHnO9eByQ9LpLKenNNo7BKpgQefOw7Pl5Zf0INV4tPqcu+XyofmGi68iObvdTQTLOhKeozAtmUFDDce3MNfVAJ1fJz3jWt5MFRxedXz0JWSKas3zUGWN15huq7HzGQh2GJLN2e6YOWlGvBqJUhB15Hnygf1ITLlnrSlM45vOx5K1L+xXi07lCOP/Cd8uqRKBvoPc3P1VlpuGq4FzjzazTyjov/suaBXtVZkQe4klLlyC3K/vIEvzM8RDYROUuDdG4VjF94vtxfrk12pnpy4mrKnIq+A5jJQLaFXoRbPq03BA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ETYQ01IA72tQX+TrM/6OqECCtKKfPzv8aeJkYQ57+V8=;
+ b=PhWuMUtHgW4Z8XtslC5UXZAkilhQZ7LYZz55lfNyRx3J9wOwMbhIiihlZNaMSfFChjCCtomCbxcbR258hXpfSVHTvZDlaObLKwGtpG8d9OhpH9AHprJeE9EsnfX1H9XKPzu3L+Mwdfqsv4WT61ZwtbkAsIDkrAhC3fQ9bcrEO6Y=
+Authentication-Results-Original: kwiboo.se; dkim=none (message not signed)
+ header.d=none;kwiboo.se; dmarc=none action=none header.from=arm.com;
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com (2603:10a6:7:36::11) by
+ HE1PR08MB2827.eurprd08.prod.outlook.com (2603:10a6:7:37::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.27; Tue, 26 May 2020 13:52:21 +0000
+Received: from HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::e0ed:ba93:1a15:ba08]) by HE1PR08MB2890.eurprd08.prod.outlook.com
+ ([fe80::e0ed:ba93:1a15:ba08%3]) with mapi id 15.20.3021.026; Tue, 26 May 2020
+ 13:52:21 +0000
+Date: Tue, 26 May 2020 14:52:19 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH] drm: drm_fourcc: add NV15, Q410, Q401 YUV formats
+Message-ID: <20200526135219.eu32pqvxfocmoovk@DESKTOP-E1NTVVP.localdomain>
+References: <20200422111349.1632-1-ben.davis@arm.com>
+ <20200506144126.GB13535@arm.com>
+ <20200515133712.l5vaxnye3qypkah2@DESKTOP-E1NTVVP.localdomain>
+ <504d071a-50c8-2bb9-c9e1-2cbe65ba6380@kwiboo.se>
+Content-Disposition: inline
+In-Reply-To: <504d071a-50c8-2bb9-c9e1-2cbe65ba6380@kwiboo.se>
+User-Agent: NeoMutt/20180716-849-147d51-dirty
+X-ClientProxiedBy: LO2P265CA0336.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a4::36) To HE1PR08MB2890.eurprd08.prod.outlook.com
+ (2603:10a6:7:36::11)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-26_02:2020-05-26,
- 2020-05-26 signatures=0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from DESKTOP-E1NTVVP.localdomain (217.140.99.251) by
+ LO2P265CA0336.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a4::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 13:52:20 +0000
+X-Originating-IP: [217.140.99.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: cc354e78-3d57-48bf-b18b-08d8017c2307
+X-MS-TrafficTypeDiagnostic: HE1PR08MB2827:|DBBPR08MB4267:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DBBPR08MB426724E05DDED970E83AA11DF0B00@DBBPR08MB4267.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;OLM:8273;
+X-Forefront-PRVS: 041517DFAB
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 31kKkX3+/E2qw4+tonI2Gl/QF39nWapa3yG1FzI94DfVd/beODE0sdkvykSnBr/tluhbIbCDqbAtn4N5K8CWE2FiFMG5IkagFlLU+1Bz69v7xioG3JUMSDHWxtYkkaUxhMNtRijYD+zSoIbH6GVPmlH9pBlrXbHvhwPZM4jb2GWF4kjSViax9UOGfn4PuNztZkZSR27b/BJhhE7kvZW46Nbit3+CRenYrXih4rcJPC6FNqAHlEv32hhVwmGZotTpT4LU8Bbcw5wX+ELyYoqJRjcE6CrlSQLwxXN2gRLFyaaaigbL1VMsxtTt9UleTZbZiJcWKeRy2hIht0BpP2LYrIlf9X7qxD1tWJxohSXKPJM=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:HE1PR08MB2890.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFTY:;
+ SFS:(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(66946007)(66476007)(66556008)(316002)(8676002)(5660300002)(9686003)(55016002)(8936002)(6506007)(4326008)(86362001)(2906002)(186003)(26005)(956004)(53546011)(44832011)(1076003)(478600001)(6916009)(52116002)(966005)(16526019)(7696005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: RWwXeOzLr/Jw7wSZzGclYPqYq6jr0swR2vqrmrKdZ1B1HAW2Wzg9EON/iJq+z9/i0ObfwR7d63Ke9QcXiZG0kJ5qjy4hIp51A1AzjM50oFU6ntEul8GZdF+aZyH/om5QMC7hAi4F49waC9pe04mwKWVCUOLAixNpJPXTuCLTGtsAF1nMuo1+kp1BwnyDJyZ62RXepbAYAcs66S/IX1olyTYfewo1WwLMXmayNzGntLhIDYn9nz1CtyUuLLhWh5a1nE6ntlGOptzWv//FYhf1pVWnub1koVOohBDLgknv9VqZ4elexYN40ZEkQSXzQTAEAgkmFLIP3pJLCKTRGUBpZ3nPLL+x1fUPXN9XybyRtkcZI2zKvSRyX9j4q2zwPU3L/1pHbpUjMCgW0vIR8BV7s1UMm7awHOy4h3bVLY2LprTVv1ctT98OMBnhBwBJb4laJRDmiKfA4ngvPfzFp2psXma0LnKkkSymprJ2HVKt9SSNG6pPiUabIZHD+tRMBzhd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2827
+Original-Authentication-Results: kwiboo.se; dkim=none (message not signed)
+ header.d=none;kwiboo.se; dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
+ SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(46966005)(478600001)(966005)(8936002)(70586007)(336012)(316002)(47076004)(70206006)(5660300002)(82740400003)(7696005)(16526019)(26005)(81166007)(356005)(82310400002)(8676002)(6862004)(1076003)(4326008)(53546011)(6506007)(44832011)(956004)(55016002)(86362001)(9686003)(2906002)(186003);
+ DIR:OUT; SFP:1101; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 7b5dca37-6bf4-4f8c-66af-08d8017c02c0
+X-Forefront-PRVS: 041517DFAB
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: slTf/oiGmnGrSJHyQfeG9kja9nYqG9jgGxwDgT5bWxZwxHVBTAWrZwxaRV1ByDTxiZvKelJoS/o3qy+QkyW3H7qWdMw15SNa8DzepQWPdpWDLZvnveaOb4/LIKNvGTllpqK23870CIXlyucp4DU+ix6jWAVkUU17MGrPsieWk2qLr4nqRYaqfYBBape31kYxnrvu8MF/t0IbgupYqqrAiy1Mjrls7v/RZM4F//nSstnKLqK6aYCHIAFTDScE149ccWoT3TQtxcwbriot8jN/0B3+ZMtRJKWlDPifYLAgx0iAECKtyQnLMp7IY4sZHS/MKTXg9BNOdSfi5GD+C3jriozQjCdt51JT4CWaUBpoHUrIOMYW4TX9Su5ebEZ+f1JN7mL4QF5jZpbtbaN8LthmcSi3L6aGBYdoRohTVKBce218MZZDAVn+obasi+PEseVs
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 13:53:14.8139 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc354e78-3d57-48bf-b18b-08d8017c2307
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4267
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,53 +153,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, nd@arm.com, matteo.franchin@arm.com,
+ Ben Davis <ben.davis@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/22/20 3:52 PM, Thomas Zimmermann wrote:
-> The stm driver uses the default implementation for CMA functions; except
-> for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
-> these defaults and .dumb_create in struct drm_driver. All remaining
-> operations are provided by CMA GEM object functions.
+Hi Jonas,
+
+On Mon, May 25, 2020 at 11:08:11AM +0000, Jonas Karlman wrote:
+> Hi,
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/stm/drv.c | 11 +----------
->   1 file changed, 1 insertion(+), 10 deletions(-)
+> On 2020-05-15 15:37, Brian Starkey wrote:
+> > Hi Ben,
+> > 
+> > On Wed, May 06, 2020 at 03:41:26PM +0100, Ben Davis wrote:
+> >> Hi all, any feedback on this patch?
+> >> Thanks, Ben
+> >> On Wed, Apr 22, 2020 at 12:13:49PM +0100, Ben Davis wrote:
+> >>> DRM_FORMAT_NV15 is a 2 plane format suitable for linear and 16x16
+> >>> block-linear memory layouts. The format is similar to P010 with 4:2:0
+> >>> sub-sampling but has no padding between components. Instead, luminance
+> >>> and chrominance samples are grouped into 4s so that each group is packed
+> >>> into an integer number of bytes:
+> >>>
+> >>> YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+> >>>
+> >>> The '15' suffix refers to the optimum effective bits per pixel which is
+> >>> achieved when the total number of luminance samples is a multiple of 8.
+> >>>
+> >>> Q410 and Q401 are both 3 plane non-subsampled formats with 16 bits per
+> >>> component, but only 10 bits are used and 6 are padded. 'Q' is chosen
+> >>> as the first letter to denote 3 plane YUV444, (and is the next letter
+> >>> along from P which is usually 2 plane).
+> >>>
+> >>> Signed-off-by: Ben Davis <ben.davis@arm.com>
+> > 
+> > The descriptions match my understanding of the formats and the
+> > format_info struct, so feel free to add my r-b:
+> > 
+> > Reviewed-by: Brian Starkey <brian.starkey@arm.com>
+> > 
+> > Can anyone else pass comment on the approach and/or naming? I feel
+> > like we should have some non-Arm eyes on this before we merge it.
 > 
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index 0f85dd86cafa7..d6238c71fabf6 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -62,16 +62,7 @@ static struct drm_driver drv_driver = {
->   	.minor = 0,
->   	.patchlevel = 0,
->   	.fops = &drv_driver_fops,
-> -	.dumb_create = stm_gem_cma_dumb_create,
-> -	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_vm_ops = &drm_gem_cma_vm_ops,
-> -	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
-> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
-> -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-> +	__DRM_GEM_CMA_DRIVER_OPS(stm_gem_cma_dumb_create),
->   };
->   
->   static int drv_load(struct drm_device *ddev)
+> This pixel format seem to match the memory layout used for 10-bit 4:2:0 by the
+> Rockchip Video Decoder, for the rkvdec a 4:2:2 format is also needed (maybe NV20?).
 > 
-Hi Thomas,
-Thank you for the patch.
-Reviewed-by: Philippe Cornu <philippe.cornu@st.com>
-Philippe :-)
+> From what I can tell the rockchip specific pixel format has previously been submitted in [1]
+> and GStreamer use NV12_10LE40 (fourcc RK20) for this pixel format.
+> 
+> [1] https://patchwork.freedesktop.org/patch/276029/
+> 
+
+Yeah you're right, this is the same as the Rockchip version. I see
+Randy's submission has `block_w = { 4, 2, 0 }`... more on that below.
+
+The comment on block_w says "in pixels" - but what's a pixel in a
+subsampled chroma plane? For a 2-plane 4:2:0 format, is one pair of
+chroma samples a single pixel, or one pair of chroma samples is two
+pixels?
+
+Looks like Randy assumed the former and us the latter.
+
+> > 
+> > Thanks,
+> > -Brian
+> > 
+> >>> ---
+> >>>  drivers/gpu/drm/drm_fourcc.c  | 12 ++++++++++++
+> >>>  include/uapi/drm/drm_fourcc.h | 24 ++++++++++++++++++++++++
+> >>>  2 files changed, 36 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> >>> index b234bfaeda06..0c0a65481afd 100644
+> >>> --- a/drivers/gpu/drm/drm_fourcc.c
+> >>> +++ b/drivers/gpu/drm/drm_fourcc.c
+> >>> @@ -274,6 +274,18 @@ const struct drm_format_info *__drm_format_info(u32 format)
+> >>>  		{ .format = DRM_FORMAT_YUV420_10BIT,    .depth = 0,
+> >>>  		  .num_planes = 1, .cpp = { 0, 0, 0 }, .hsub = 2, .vsub = 2,
+> >>>  		  .is_yuv = true },
+> >>> +		{ .format = DRM_FORMAT_NV15,		.depth = 0,
+> >>> +		  .num_planes = 2, .char_per_block = { 5, 5, 0 },
+> >>> +		  .block_w = { 4, 4, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
+> >>> +		  .vsub = 2, .is_yuv = true },
+> 
+> For a 4:2:0 format I wonder if the char_per_block value is correct for the second plane,
+> using the following formula to calculate the pitch seem to result in only half expected width.
+> Maybe .char_per_block { 5, 10, 0 } could be correct?
+> 
+> pitch = (width * char_per_block[1]) / block_w[1] / hsub
+> 
+> for 16x16 this would be
+> 
+> pitch[1] = (16 * 5) / 4 / 2 = 10 bytes
+> vs
+> pitch[1] = (16 * 10) / 4 / 2 = 20 bytes
+> 
+> height[1] = 16 / 2 = 8
+> 
+
+I've talked myself round in circles, I don't know what to think any
+more.
+
+drm_format_info_min_pitch() does:
+
+pitch[1] = width * char_per_block[1] / (block_w[1] * block_h[1])
+
+so:
+
+pitch[1] = 16 * 5 / (4 * 1) = 20 bytes
+
+which implies that it expects the subsampling to be baked in to the
+block size, or that it just doesn't consider subsampling and so is
+broken, or that it expects `width` to be pre-divided.
+
+
+Looking at DRM_FORMAT_NV12, it has cpp = {1, 2, 0}, which means it
+considers a single pair of chromas to be a single pixel - which is
+in-line with Randy.
+
+So, I think our definition is inconsistent here. We should have
+either:
+
+block_w = { 4, 4, 0 }, char_per_block = { 5, 10, 0 }
+
+or: 
+
+block_w = { 4, 2, 0 }, char_per_block = { 5, 5, 0 }
+
+Probably leaning more towards the { 4, 2, 0 } option, and with a big
+question-mark over whether drm_format_info_min_pitch() is doing the
+right thing.
+
+Thanks,
+-Brian
+
+> 
+> Regards,
+> Jonas
+> 
+> >>> +		{ .format = DRM_FORMAT_Q410,		.depth = 0,
+> >>> +		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+> >>> +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+> >>> +		  .vsub = 0, .is_yuv = true },
+> >>> +		{ .format = DRM_FORMAT_Q401,		.depth = 0,
+> >>> +		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+> >>> +		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+> >>> +		  .vsub = 0, .is_yuv = true },
+> >>>  	};
+> >>>  
+> >>>  	unsigned int i;
+> >>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> >>> index 8bc0b31597d8..232b9ad3534d 100644
+> >>> --- a/include/uapi/drm/drm_fourcc.h
+> >>> +++ b/include/uapi/drm/drm_fourcc.h
+> >>> @@ -236,6 +236,12 @@ extern "C" {
+> >>>  #define DRM_FORMAT_NV61		fourcc_code('N', 'V', '6', '1') /* 2x1 subsampled Cb:Cr plane */
+> >>>  #define DRM_FORMAT_NV24		fourcc_code('N', 'V', '2', '4') /* non-subsampled Cr:Cb plane */
+> >>>  #define DRM_FORMAT_NV42		fourcc_code('N', 'V', '4', '2') /* non-subsampled Cb:Cr plane */
+> >>> +/*
+> >>> + * 2 plane YCbCr
+> >>> + * index 0 = Y plane, [39:0] Y3:Y2:Y1:Y0 little endian
+> >>> + * index 1 = Cr:Cb plane, [39:0] Cr1:Cb1:Cr0:Cb0 little endian
+> >>> + */
+> >>> +#define DRM_FORMAT_NV15		fourcc_code('N', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane */
+> >>>  
+> >>>  /*
+> >>>   * 2 plane YCbCr MSB aligned
+> >>> @@ -265,6 +271,24 @@ extern "C" {
+> >>>   */
+> >>>  #define DRM_FORMAT_P016		fourcc_code('P', '0', '1', '6') /* 2x2 subsampled Cr:Cb plane 16 bits per channel */
+> >>>  
+> >>> +
+> >>> +/* 3 plane non-subsampled (444) YCbCr
+> >>> + * 16 bits per component, but only 10 bits are used and 6 bits are padded
+> >>> + * index 0: Y plane, [15:0] Y:x [10:6] little endian
+> >>> + * index 1: Cb plane, [15:0] Cb:x [10:6] little endian
+> >>> + * index 2: Cr plane, [15:0] Cr:x [10:6] little endian
+> >>> + */
+> >>> +#define DRM_FORMAT_Q410		fourcc_code('Q', '4', '1', '0')
+> >>> +
+> >>> +/* 3 plane non-subsampled (444) YCrCb
+> >>> + * 16 bits per component, but only 10 bits are used and 6 bits are padded
+> >>> + * index 0: Y plane, [15:0] Y:x [10:6] little endian
+> >>> + * index 1: Cr plane, [15:0] Cr:x [10:6] little endian
+> >>> + * index 2: Cb plane, [15:0] Cb:x [10:6] little endian
+> >>> + */
+> >>> +#define DRM_FORMAT_Q401		fourcc_code('Q', '4', '0', '1')
+> >>> +
+> >>> +
+> >>>  /*
+> >>>   * 3 plane YCbCr
+> >>>   * index 0: Y plane, [7:0] Y
+> >>> -- 
+> >>> 2.24.0
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
