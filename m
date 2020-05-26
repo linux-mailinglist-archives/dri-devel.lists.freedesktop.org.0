@@ -1,55 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265DE1E1A30
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 06:23:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C50A1E1A68
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 06:31:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73192898C2;
-	Tue, 26 May 2020 04:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5490F89D67;
+	Tue, 26 May 2020 04:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9F6898C2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 04:23:32 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id i16so16500184edv.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 21:23:32 -0700 (PDT)
+Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
+ [IPv6:2607:f8b0:4864:20::92e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66E7E89D67
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 04:31:36 +0000 (UTC)
+Received: by mail-ua1-x92e.google.com with SMTP id c17so6785528uaq.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 21:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tkzgNeUNEbnNJvODhfdpaGDgefYg9bmlm6y6oms7G+c=;
- b=jmMpwOkn+zb0iuktLXODw0ITTnfQgUYYIUn8kj0+0VE4HnMJ2oS0v/rtjhq+58ObQR
- HcKQse3EBQoSWCXYdkHzQULOhoqQHiJg10YmK4zULLvuoMw0eK5eolwLwtRhJ4jiIQOT
- XqZUBHNhDGqVJ5zWoyDp+c5gDow3hxrjnAfXZzDH4LtAeyM9IlyUPUlg9jIwGOnSDzs8
- KKqTTObkJXjEYrMbDoXI33Cbte5NexMBR1KTJzRatBoppLO7Ya0oXsaED9FbTHan4nJg
- 9IbL+t7n8tdA1mkZIaY0N8SiQiKF1oPtmtPkxiZ6jb+ROO+0EQ2WukKCXg42rRl7VOPZ
- yaWg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=3ZpeBWjCf+OcJ9a5jQ9wWMdGQQcirzNtwzBIdZQq1D0=;
+ b=uk8EuRAX7EfVulooAIVSd2QBJ4MgeJyFo7/UwReydzUh99iXNCgW8U4jbLoEUTKNwm
+ sFpOpc67Fjhl/ST7qb1TYnXAojj0DOn6nsYVBvOx73OCllrSJtK3wQlYY9gvCTX4g584
+ RQopn1tBEO2cnwrlT2gsdiPIEnBtuM9MJDEuDyKIAnxNNkC7+PlE5xUfyJz3w2Jhi9ZI
+ yT3srooMfSLP+06nhSgFomrz6/ypTb9mOnmuSmZU5+DOmMEwNVSdXOzBZvbS0Eflsjx3
+ r30xLwcvo1lMI3VvfViHBPLnx5oj1Zed9GbnTT5PAs4Hz2ML0kHBv5VFUCXVoOIn6V8O
+ cmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tkzgNeUNEbnNJvODhfdpaGDgefYg9bmlm6y6oms7G+c=;
- b=VWwJkOgu2NLL4IsHgcPXi5Dx2y6IFzbOotf7276DGnfHx3HgKD/tWHC+Xu7eIWTTFL
- P3MZ3DWTIQVLZB8YDED9/xaq8U3rsdWCnZ7v3J2RmW9UN4K9EApnqpvN/8O2axJYmV+Z
- aurdjzqP/bhfKPh7vZL6gxgKawe6ZHlTZ4Tx1GCnCYRXKzhajQDRUXiWXjEok/jntbKz
- x1DJCYrFpeaX9J5nFMf/bI7bZjbHPyWiqZCqq+vpM/Io9p3L5pmGrNQfW1SCdbRrANL+
- pffQQ2AkOnH8j1Uz/A6y3+WgT0Sxl5NT6diEsfEsFC/erMO4ieH9hi6oRJzxYo/wdxQL
- bakA==
-X-Gm-Message-State: AOAM533MLYahFRbfwBt4kkMrHQqlSWdVmos5MaSC10qtEtk8YNs1LXBL
- YPi7ge0TYGWLDYvgQzDOCaCSQn5+2DKm3J/vi9w=
-X-Google-Smtp-Source: ABdhPJz2Vn5CDQom18MJ+e1T3aah4Ow5CTNZ/6hbKDPvn1FphzxzUH9yeJd2lttpcr/cKAgnWBjUbZrluAWcO66UHwc=
-X-Received: by 2002:a05:6402:948:: with SMTP id
- h8mr17504187edz.127.1590467011223; 
- Mon, 25 May 2020 21:23:31 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=3ZpeBWjCf+OcJ9a5jQ9wWMdGQQcirzNtwzBIdZQq1D0=;
+ b=UKYqm6wLbr032eZD9bgtkhH5XCzyzYA4rFLA/29JEpdWUt/wnL7VuQt17uJ45fBxVW
+ UsQue5JydNezbv4EUF0fJsuXgqntQpVDJqxJqaJP37drTZ8tKwXXVCFGK9AQJvbkL1J3
+ dY+WFFQDSzqvk3Km2y0VxhNX6ybqvHuY+G+dbcI9yMQbLmgKYbCVg5Sf5kqnhoXb3VZv
+ XKsX4khIZO9NGcQuOlAyPmuLX9/VI1TLo67lVxEC5s6i5LovEJrl9G7n6ricxFdOH4XO
+ AQf8tStGyMboN7o5OdEUsent5p3q5ISmUs9no//gEDuJGG6djgMB+hNWs5jm0yeG4oAy
+ rkMw==
+X-Gm-Message-State: AOAM530G5Yf/r0kOiHBcLQgrcN3ZukkrpWHpDlJhj9SN0oQ9CzXmMkFY
+ W0H7OWwvpFEVTqz96cnpoaTFcdhpXzdkIeQ+8PJAucUW3e8=
+X-Google-Smtp-Source: ABdhPJyp/lCUASe9Ev/I1nHnl9RUaEGKjhRLWLmPonc+CdERX/Kwqm3CVE87v0LKnbl5kSd16tajgr+CDk1bNRT8rH4=
+X-Received: by 2002:a9f:3603:: with SMTP id r3mr19654096uad.102.1590467494289; 
+ Mon, 25 May 2020 21:31:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200525235712.VqEFGWfKu%akpm@linux-foundation.org>
- <21b52c28-3ace-cd13-d8ce-f38f2c6b2a96@infradead.org>
-In-Reply-To: <21b52c28-3ace-cd13-d8ce-f38f2c6b2a96@infradead.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 26 May 2020 14:23:20 +1000
-Message-ID: <CAPM=9twdkW83Wd4G1pS7cP2nf3wOmYvKxUfKA9EUkOEf7BuvKg@mail.gmail.com>
-Subject: Re: mmotm 2020-05-25-16-56 uploaded (drm/nouveau)
-To: Randy Dunlap <rdunlap@infradead.org>
+From: Yogish Kulkarni <yogishkulkarni@gmail.com>
+Date: Tue, 26 May 2020 10:01:23 +0530
+Message-ID: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
+Subject: Dynamically change enumeration list of DRM enumeration property
+To: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +57,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, mm-commits@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Michal Hocko <mhocko@suse.cz>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Mark Brown <broonie@kernel.org>, linux-next <linux-next@vger.kernel.org>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0915909772=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 May 2020 at 13:50, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 5/25/20 4:57 PM, Andrew Morton wrote:
-> > The mm-of-the-moment snapshot 2020-05-25-16-56 has been uploaded to
-> >
-> >    http://www.ozlabs.org/~akpm/mmotm/
-> >
-> > mmotm-readme.txt says
-> >
-> > README for mm-of-the-moment:
-> >
-> > http://www.ozlabs.org/~akpm/mmotm/
-> >
-> > This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
-> > more than once a week.
-> >
-> > You will need quilt to apply these patches to the latest Linus release (5.x
-> > or 5.x-rcY).  The series file is in broken-out.tar.gz and is duplicated in
-> > http://ozlabs.org/~akpm/mmotm/series
-> >
-> > The file broken-out.tar.gz contains two datestamp files: .DATE and
-> > .DATE-yyyy-mm-dd-hh-mm-ss.  Both contain the string yyyy-mm-dd-hh-mm-ss,
-> > followed by the base kernel version against which this patch series is to
-> > be applied.
-> >
->
-> on x86_64:
->
-> when CONFIG_DRM_NOUVEAU=y and CONFIG_FB=m:
->
-> ld: drivers/gpu/drm/nouveau/nouveau_drm.o: in function `nouveau_drm_probe':
-> nouveau_drm.c:(.text+0x1d67): undefined reference to `remove_conflicting_pci_framebuffers'
+--===============0915909772==
+Content-Type: multipart/alternative; boundary="00000000000006248b05a6859287"
 
-I've pushed the fix for this to drm-next.
+--00000000000006248b05a6859287
+Content-Type: text/plain; charset="UTF-8"
 
-Ben just used the wrong API.
+Hi,
 
-Dave.
+Is it possible to dynamically change enumeration list of  DRM enumeration
+property ? Motivation behind this question is to understand whether it is
+possible to create connector enum property (e.g a property which will list
+supported output encodings -  like yuv420, yuv422 etc) whose list of
+supported enum values could be changed dynamically e.g. based on which sink
+is connected.
+
+I think there is existing EDID connector property whose value changes based
+on connected sink. EDID is a BLOB property, I am trying to understand if
+this is also possible for ENUM type property. There is
+"drm_property_replace_blob" to replace blob but I wasn't able to find any
+API which could replace list of supported enums. Alternatively, would it be
+good idea to destroy custom enum property created by a driver and create
+new enum property with new list of supported enums e.g when there is a
+HOTPLUG event.
+
+Thanks,
+-Yogish
+
+--00000000000006248b05a6859287
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div></div><div>Is it possibl=
+e to dynamically change enumeration list of =C2=A0DRM enumeration property =
+? Motivation behind this question is to understand whether it is possible t=
+o create connector enum property (e.g a property which will list supported =
+output encodings -=C2=A0 like yuv420, yuv422 etc) whose list of supported e=
+num values could be changed dynamically e.g. based on which sink is connect=
+ed.</div><div><br></div><div> I think there is existing EDID connector prop=
+erty whose value changes based on connected sink. EDID is a BLOB property, =
+I am trying to understand if this is also possible for ENUM type property. =
+There is &quot;drm_property_replace_blob&quot; to replace blob but I wasn&#=
+39;t able to find any API which could replace list of supported enums. Alte=
+rnatively, would it be good idea to destroy custom enum property created by=
+ a driver and create new enum property with new list of supported enums e.g=
+ when there is a HOTPLUG event.<br></div><div></div><div><br></div><div>Tha=
+nks,</div><div>-Yogish<br></div></div>
+
+--00000000000006248b05a6859287--
+
+--===============0915909772==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0915909772==--
