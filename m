@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F0A1E2200
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 14:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1229A1E223D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 14:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D85C6E0BF;
-	Tue, 26 May 2020 12:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F8E6E188;
+	Tue, 26 May 2020 12:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B9C6E0BF
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 12:35:22 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id i15so20183802wrx.10
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 05:35:22 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A31396E188
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 12:50:24 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id x13so5626077wrv.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 05:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NsLXugu3APIVjRo46I2+TT+8l38+WgGk90t1S6FHpmM=;
- b=TYoR44ViTV/hUGk60qEomhGlNneucOk70bKiVRnUG13sDoxCNa6kAc4z0TcrrIaFQL
- nzs5xinv+Hp152qyid0h+0rRE/RnKmi+c9x5Oaidu8L3XvS4s8OGoFoHhUpNVY9caVYc
- p3VaFfO+/ZSSK3dG3L0Xww7p9u1w8gDcqdV7zpDYgWtkYf01hSBedPFsEHfXOmqahkt7
- u7pbCKHNB9tEQzQ2GTBZjLffYs4vWBRckXo1qIzLQ1Ko8dUhT6SXAyn7XZFSnLHmXOOL
- 3/FjU2dys4c9eVcg91g3bLYvDAktRxoPbywG74Fmpl5CbYna40HB92xh3d4qR+5ZMWhq
- 10eQ==
+ bh=x52IImu6UuzA9b3pfkA9PO1Q3BR4NImsoPwbbpDxa0k=;
+ b=Oth1vWsHkK38NZ1+dFwPTf3MdLoLO/rRqPHKZka1KXtSCFzHWjJLRFw2fgCuDDG9tx
+ fo63oeIIESo7fIJQTHZqIuk+gEsjC3NKQ5bw4aK+t4i8dIwukV16B5ZDl8JPqySyLZXw
+ zHHJCuibFxWB8JzdT7pyr/Tjyz4bxZW90iWmMw28OWg2iwPzCXY2gkLKnubzcxdQGaFj
+ KQfBXoBCQkRIWIPGv29KvXMcu/z/W/Mnv0q1fjZNdHDJY2Z43AMeZtapN8SQfnBD401W
+ IjnySUimkVn3i+AN1+s9qLNgBN0Netb6XmEnLzUXdz6hCPJOKV9cXSEzQp2Q/zxyhVw/
+ xI9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=NsLXugu3APIVjRo46I2+TT+8l38+WgGk90t1S6FHpmM=;
- b=CrV/Nn9LJXCHbaHTxB4ehNywN3z+2fIeXm1f+2ZTfMowrjqyWiG/QTkPp2SYXqwUku
- ru4+D02/oopEXJQIMkTpUp4lizQ2YG3o2MyZZNIEiz45fDwEMv7THDIMhKnyZhgwUqZM
- pa3XXcE1hsx3RuEvatlPNautEGtTFE7J/mSVaFy9aPfnzXljEYRVhwtUHIQLEiRnHK1m
- TL3KuItS3NGWnpkBXXifyW9jWFpSHXi/AD+GtJTB8xXM9YNOAn02F6HaxdXp6T3gUQxV
- BCxdN5our+2fQyfR+Lws4beepvg+vC3X7oPa3VCOC61KSGRed4vaHRsUInps5oddczkW
- 3Dbw==
-X-Gm-Message-State: AOAM530L9fJInCk3V4sOgFKjru6CUdfhrfjPMjwFnrR9soMu48e9x5OV
- qSbBJMgMcWw3lKhyYxkDIQMJTVWO0Xgqig==
-X-Google-Smtp-Source: ABdhPJxkpfFS6k7lAgJ1GXJNz6kk4hWWKHX8h/0HcUyHrC/PQH8j5VEqcnQRHeaLXmnEcfVrRo7UHA==
-X-Received: by 2002:adf:e381:: with SMTP id e1mr18886116wrm.320.1590496521353; 
- Tue, 26 May 2020 05:35:21 -0700 (PDT)
+ bh=x52IImu6UuzA9b3pfkA9PO1Q3BR4NImsoPwbbpDxa0k=;
+ b=cTAtBR0WZ2bgdHWtfRvomlQ0IBrnxt5uTY3n+UAwZIR2x4zwXNAqKj374NRuZNeSQC
+ UlZDgX+CRmA+T3/geVHwTnJ0JtLRYfzP8MbR3OLqTRObRxKIw4DmAlx6MUR2kKSNUfJN
+ 9aIBQ/uWTlulmzI97/wCfE/wlYmiJ6R+XtKYWk8z6CEWidUCBKPhu70dPP1nwjaGQtdN
+ iYwIhvCwfQqaf+QQc7Q1zaYD+pJwtQIAVc8OxeMwMfGWodbfcpUE7pa+WRUZbYddxAlP
+ syKXcqiy3AvYlSInPDuNavOCWyMdxlfpY4HuwjtPxRy/CKtYwGq/f6n+/jCeh2xQh6cq
+ 0sRA==
+X-Gm-Message-State: AOAM533OtMb6+qelALpkVDHl5EDXPuqVXtfKmt9sLlnvjizk6PjHXjAN
+ TGXH2ljln2UMDoYKwHbG73LDWQ==
+X-Google-Smtp-Source: ABdhPJy3jP1cIbEAdWh1QLGhoKDK+3rZdgHG9S+jlqSj1NqAcGF17hX6RFN9sMGHIGUNYaOqPZK4Qw==
+X-Received: by 2002:a5d:49c5:: with SMTP id t5mr20461653wrs.18.1590497423104; 
+ Tue, 26 May 2020 05:50:23 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
  ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
- by smtp.gmail.com with ESMTPSA id f11sm6398892wrm.13.2020.05.26.05.35.19
+ by smtp.gmail.com with ESMTPSA id j5sm5274050wrm.57.2020.05.26.05.50.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 05:35:20 -0700 (PDT)
-Subject: Re: [PATCH 22/27] drm: bridge: dw-hdmi: Make connector creation
- optional
+ Tue, 26 May 2020 05:50:22 -0700 (PDT)
+Subject: Re: [PATCH 23/27] drm: bridge: dw-hdmi: Attach to next bridge if
+ available
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-23-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-24-laurent.pinchart+renesas@ideasonboard.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <3146e372-f900-fd2b-1b2d-2f68cf8697c6@baylibre.com>
-Date: Tue, 26 May 2020 14:35:19 +0200
+Message-ID: <f75a9b4f-a283-53b1-ecb1-2bb6c9a278d6@baylibre.com>
+Date: Tue, 26 May 2020 14:50:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-23-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-24-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -135,196 +135,123 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/05/2020 03:15, Laurent Pinchart wrote:
-> Implement the drm_bridge_funcs .detect() and .get_edid() operations, and
-> call drm_bridge_hpd_notify() notify to report HPD. This provides the
-> necessary API to support disabling connector creation, do so by
-> accepting DRM_BRIDGE_ATTACH_NO_CONNECTOR in dw_hdmi_bridge_attach().
+> On all platforms except i.MX and Rockchip, the dw-hdmi DT bindings
+> require a video output port connected to an HDMI sink (most likely an
+> HDMI connector, in rare cases another bridges converting HDMI to another
+> protocol). For those platforms, retrieve the next bridge and attach it
+> from the dw-hdmi bridge attach handler.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 104 +++++++++++++++-------
->  1 file changed, 74 insertions(+), 30 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 52 ++++++++++++++++++++++-
+>  include/drm/bridge/dw_hdmi.h              |  2 +
+>  2 files changed, 53 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index b69c14b9de62..6148a022569a 100644
+> index 6148a022569a..512e67bb1c32 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2323,15 +2323,8 @@ static void dw_hdmi_update_phy_mask(struct dw_hdmi *hdmi)
->  					  hdmi->rxsense);
->  }
+> @@ -143,6 +143,7 @@ struct dw_hdmi_phy_data {
+>  struct dw_hdmi {
+>  	struct drm_connector connector;
+>  	struct drm_bridge bridge;
+> +	struct drm_bridge *next_bridge;
 >  
-> -/* -----------------------------------------------------------------------------
-> - * DRM Connector Operations
-> - */
-> -
-> -static enum drm_connector_status
-> -dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
-> +static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
->  {
-> -	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
-> -					     connector);
->  	enum drm_connector_status result;
+>  	unsigned int version;
 >  
->  	mutex_lock(&hdmi->mutex);
-> @@ -2354,31 +2347,57 @@ dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
->  	return result;
->  }
->  
-> -static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
-> +static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
-> +				     struct drm_connector *connector)
->  {
-> -	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
-> -					     connector);
->  	struct edid *edid;
-> -	int ret = 0;
->  
->  	if (!hdmi->ddc)
-> -		return 0;
-> +		return NULL;
->  
->  	edid = drm_get_edid(connector, hdmi->ddc);
-> -	if (edid) {
-> -		dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
-> -			edid->width_cm, edid->height_cm);
-> -
-> -		hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
-> -		hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
-> -		drm_connector_update_edid_property(connector, edid);
-> -		cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier, edid);
-> -		ret = drm_add_edid_modes(connector, edid);
-> -		kfree(edid);
-> -	} else {
-> +	if (!edid) {
->  		dev_dbg(hdmi->dev, "failed to get edid\n");
-> +		return NULL;
->  	}
->  
-> +	dev_dbg(hdmi->dev, "got edid: width[%d] x height[%d]\n",
-> +		edid->width_cm, edid->height_cm);
-> +
-> +	hdmi->sink_is_hdmi = drm_detect_hdmi_monitor(edid);
-> +	hdmi->sink_has_audio = drm_detect_monitor_audio(edid);
-> +
-> +	return edid;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * DRM Connector Operations
-> + */
-> +
-> +static enum drm_connector_status
-> +dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
-> +{
-> +	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
-> +					     connector);
-> +	return dw_hdmi_detect(hdmi);
-> +}
-> +
-> +static int dw_hdmi_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	struct dw_hdmi *hdmi = container_of(connector, struct dw_hdmi,
-> +					     connector);
-> +	struct edid *edid;
-> +	int ret;
-> +
-> +	edid = dw_hdmi_get_edid(hdmi, connector);
-> +	if (!edid)
-> +		return 0;
-> +
-> +	drm_connector_update_edid_property(connector, edid);
-> +	cec_notifier_set_phys_addr_from_edid(hdmi->cec_notifier, edid);
-> +	ret = drm_add_edid_modes(connector, edid);
-> +	kfree(edid);
-> +
->  	return ret;
->  }
->  
-> @@ -2777,10 +2796,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
->  {
+> @@ -2797,7 +2798,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
 >  	struct dw_hdmi *hdmi = bridge->driver_private;
 >  
-> -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> -		DRM_ERROR("Fix bridge driver to make connector optional!");
-> -		return -EINVAL;
-> -	}
-> +	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> +		return 0;
+>  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+> -		return 0;
+> +		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+> +					 bridge, flags);
 >  
 >  	return dw_hdmi_connector_create(hdmi);
 >  }
-> @@ -2860,6 +2877,21 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
->  	mutex_unlock(&hdmi->mutex);
+> @@ -3179,6 +3181,50 @@ static void dw_hdmi_init_hw(struct dw_hdmi *hdmi)
+>  		hdmi->phy.ops->setup_hpd(hdmi, hdmi->phy.data);
 >  }
 >  
-> +static enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge)
+> +static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
 > +{
-> +	struct dw_hdmi *hdmi = bridge->driver_private;
+> +	struct device_node *endpoint;
+> +	struct device_node *remote;
 > +
-> +	return dw_hdmi_detect(hdmi);
+> +	if (!hdmi->plat_data->output_port)
+> +		return 0;
+> +
+> +	endpoint = of_graph_get_endpoint_by_regs(hdmi->dev->of_node,
+> +						 hdmi->plat_data->output_port,
+> +						 -1);
+> +	if (!endpoint) {
+> +		/*
+> +		 * Don't treat this as a fatal error as the Rockchip DW-HDMI
+> +		 * binding doesn't make the output port mandatory.
+> +		 */
+> +		dev_dbg(hdmi->dev, "Missing endpoint in port@%u\n",
+> +			hdmi->plat_data->output_port);
+> +		return 0;
+> +	}
+> +
+> +	remote = of_graph_get_remote_port_parent(endpoint);
+> +	of_node_put(endpoint);
+> +	if (!remote) {
+> +		dev_err(hdmi->dev, "Endpoint in port@%u unconnected\n",
+> +			hdmi->plat_data->output_port);
+> +		return -ENODEV;
+> +	}
+> +
+> +	if (!of_device_is_available(remote)) {
+> +		dev_err(hdmi->dev, "port@%u remote device is disabled\n",
+> +			hdmi->plat_data->output_port);
+> +		of_node_put(remote);
+> +		return -ENODEV;
+> +	}
+> +
+> +	hdmi->next_bridge = of_drm_find_bridge(remote);
+> +	of_node_put(remote);
+> +	if (!hdmi->next_bridge)
+> +		return -EPROBE_DEFER;
+
+I'll be safer to print a warn for now until all platforms has been tested.
+
+> +
+> +	return 0;
 > +}
 > +
-> +static struct edid *dw_hdmi_bridge_get_edid(struct drm_bridge *bridge,
-> +					    struct drm_connector *connector)
-> +{
-> +	struct dw_hdmi *hdmi = bridge->driver_private;
-> +
-> +	return dw_hdmi_get_edid(hdmi, connector);
-> +}
-> +
->  static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
->  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> @@ -2873,6 +2905,8 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
->  	.atomic_disable = dw_hdmi_bridge_atomic_disable,
->  	.mode_set = dw_hdmi_bridge_mode_set,
->  	.mode_valid = dw_hdmi_bridge_mode_valid,
-> +	.detect = dw_hdmi_bridge_detect,
-> +	.get_edid = dw_hdmi_bridge_get_edid,
->  };
+>  static struct dw_hdmi *
+>  __dw_hdmi_probe(struct platform_device *pdev,
+>  		const struct dw_hdmi_plat_data *plat_data)
+> @@ -3216,6 +3262,10 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	mutex_init(&hdmi->cec_notifier_mutex);
+>  	spin_lock_init(&hdmi->audio_lock);
 >  
->  /* -----------------------------------------------------------------------------
-> @@ -2988,10 +3022,18 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->  	}
->  
->  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> +		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
-> +						 ? connector_status_connected
-> +						 : connector_status_disconnected;
+> +	ret = dw_hdmi_parse_dt(hdmi);
+> +	if (ret < 0)
+> +		return ERR_PTR(ret);
 > +
->  		dev_dbg(hdmi->dev, "EVENT=%s\n",
-> -			phy_int_pol & HDMI_PHY_HPD ? "plugin" : "plugout");
-> -		if (hdmi->bridge.dev)
-> +			status == connector_status_connected ?
-> +			"plugin" : "plugout");
+>  	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
+>  	if (ddc_node) {
+>  		hdmi->ddc = of_get_i2c_adapter_by_node(ddc_node);
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index ea34ca146b82..8ebeb65d6371 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -126,6 +126,8 @@ struct dw_hdmi_phy_ops {
+>  struct dw_hdmi_plat_data {
+>  	struct regmap *regm;
+>  
+> +	unsigned int output_port;
 > +
-> +		if (hdmi->bridge.dev) {
->  			drm_helper_hpd_irq_event(hdmi->bridge.dev);
-> +			drm_bridge_hpd_notify(&hdmi->bridge, status);
-
-I suspect I will also need to add drm_bridge_hpd_notify() in meson_dw_hdmi.c in dw_hdmi_top_thread_irq() for HPD event, right ?
-
-> +		}
->  	}
->  
->  	hdmi_writeb(hdmi, intr_stat, HDMI_IH_PHY_STAT0);
-> @@ -3337,6 +3379,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
->  
->  	hdmi->bridge.driver_private = hdmi;
->  	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
-> +	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
-> +			 | DRM_BRIDGE_OP_HPD;
-
-same here for meson_dw_hdmi ?
-could I also assume we could disable the dw_hdmi bridge & hpd ops when using with meson_dw_hdmi and
-implement these in meson_dw_hdmi ?
-
->  #ifdef CONFIG_OF
->  	hdmi->bridge.of_node = pdev->dev.of_node;
->  #endif
+>  	unsigned long input_bus_encoding;
+>  	bool use_drm_infoframe;
+>  	bool ycbcr_420_allowed;
 > 
 
-Anyway
+I must check on meson, since I'm not sure for now if the connector probes.
+
+Anyway, this looks fine.
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 _______________________________________________
