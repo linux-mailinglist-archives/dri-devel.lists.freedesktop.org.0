@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0501E3A14
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C0C1E3A1F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984166E296;
-	Wed, 27 May 2020 07:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B326E29D;
+	Wed, 27 May 2020 07:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECDD89BFE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 20:58:26 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id c21so13165832lfb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 13:58:25 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 412F76E055;
+ Tue, 26 May 2020 20:51:57 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id r10so10629043pgv.8;
+ Tue, 26 May 2020 13:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=za0Xo3I0LAsRZXk95U5AbhwvFqCyP5Coh1Szk4hdFT0=;
- b=sYqdL00wxBsKV/tWk4c/6PSxudVVmlGYO0JOmSXa3vGMFJbEfYsZkZ2WKjLTUH3NIe
- GAJj1QX36IrwRg6focC8XHG6l+oVVpXsQkejxtsnxe64lRSIYubjo7ZCRJoYh8iKDEWN
- SznVDhs2V4NCL9rtvxIKN2dy+06oSC4/Vk52LKYk5KLLkyCQVM+zr3CKrBZgJNDub0G8
- nRen1btPHNviYUBqKzOeWSAQ38QWr+MOcaVvV2zM8N49pBQ/6WVvGOCAbCZYsRsBnkdf
- o2jISFaIs1Z1jGm3PkL5sruecUWjw/wZM8eO1lOkbftNZxuu5Sczjr+cXCXWR/t/hV9z
- waVA==
+ h=from:to:cc:subject:date:message-id;
+ bh=84c4yBEfXJR9rBcq5OPzXonTT8+NleW6lQ5k1QA/SLU=;
+ b=ADDgO1yJRKDfKrGbkZJ9Xr9tGv3Rlpo6s7dhDWnowov+fTczDmRjlZ8m7luMhkwmEv
+ phefTQDM8DcjAtqX+1hjqSLZEFpLEN6zcLXzUGxjhhG1P+QZui7TitfW0z91ggcqO4dm
+ xYuQKIzB2ZPYMkYHDnV5GdRLxeKmbJrHncpFTM1MqLsKzsrd4la/sHAOiI0gV3pDgp/I
+ QPTAuOxTnBbs5Z4j+EdHy7avfJNZ3GsSSGQKcILDa41Idlnau5+NyIP0iZRkFa6OUdWp
+ UAHKpjTDv//bLiUMEM+EYtUsptnVpyeB67qSDBmyF2iY6BS08Xk8OprKXnKCZEP5000A
+ PBFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=za0Xo3I0LAsRZXk95U5AbhwvFqCyP5Coh1Szk4hdFT0=;
- b=EY7VyrSKw+DouG70jyvsyrWXMYl2K5B5+174SW1coqNqZvrHyuMXyOoeBISjWDikrm
- 4ovez5Og4+n+Pr73TOEfbCb7rbCIf+YI+1saCkxLXhzkdWys/yI9IkAcRmoj5FgCpuLG
- 095ayh6Ugh/XvYBt711Ox2VaGZ/kSyvYVwyAHw1Ps6p5zVtmtLIZsuREn8Ly1glLqLRj
- IQgPWb/WslLWlfclwyVl47goEvt+KZOFM03oWbEZxcha3IW429ZlzJpoFuf6hBO2c5gk
- YOaeRdsdJqf8IUEl73sfafW0TKSmFiO+zp/hvOk32sNyOJU9jxYlG8eYequ7cghYUQvx
- coag==
-X-Gm-Message-State: AOAM5326Sw4zhikzPzgCK+Pm8gea6PylUhtqyr/xSqviePnepsyWEqkc
- PVR4DNAFZEyR+85f7i3kS9g=
-X-Google-Smtp-Source: ABdhPJz2zthhB+lGno5dNWs8TPvEIizQS0U7tTQWF0e28Oqqtl5d4pIalYrtVRccmB5y8rQ0SirXwA==
-X-Received: by 2002:ac2:5094:: with SMTP id f20mr1391175lfm.128.1590526704190; 
- Tue, 26 May 2020 13:58:24 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-76-17-204.pppoe.mtu-net.ru.
- [91.76.17.204])
- by smtp.gmail.com with ESMTPSA id y130sm241192lfc.22.2020.05.26.13.58.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 13:58:23 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v1] drm/tegra: gr2d: Add tiled PATBASE address register
-Date: Tue, 26 May 2020 23:57:53 +0300
-Message-Id: <20200526205753.14423-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-MIME-Version: 1.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=84c4yBEfXJR9rBcq5OPzXonTT8+NleW6lQ5k1QA/SLU=;
+ b=C/X336hWIPuq3l+5yBpcy9ADbg8nddZGud48gBT65sPMORV7ZS/aKtZbXZKF+3IuXe
+ +gXMDTrMaeicoLZ5YRCKrLSaGcD1eeD8cY0po+DAoiAL2CLe7Uobk6DsA97DPFq2d7OA
+ 5MNPHqt/BcPZiMc+PSF3q2LDNtdqDGijXZvKWMaNRlH+v1Xzzh8D98E9/axYR0QgBWg+
+ QN2VIuL2vcDOLNDT/5+p76dPLc9S1w8sFh8Pl8l+Ddz94PIydP6Gi4CA2F8e5dnEGSw6
+ HSPy1LKec0JzaY0A5N+gpbIyP6oY8BF8LYOhHyx+kY/dqRmpEu7uF6ObAZJw33kb+BqM
+ 2lAw==
+X-Gm-Message-State: AOAM530yH1QAmye6SaLuaVtCGrSrbUbseIRYk7LMBVqyCjavFhplsbCc
+ Ju/O4gzCLq2F2sAJeOCoRxqN+EttHmA=
+X-Google-Smtp-Source: ABdhPJzgMbTszipak4xmw5QtemttiLGjdNZ+kzvDA9nvx2w0FqIaoOqfVu1/VzcOknAOPsTgO1cTow==
+X-Received: by 2002:a05:6a00:46:: with SMTP id i6mr647621pfk.146.1590526316742; 
+ Tue, 26 May 2020 13:51:56 -0700 (PDT)
+Received: from jordon-HP-15-Notebook-PC.domain.name ([171.48.17.249])
+ by smtp.gmail.com with ESMTPSA id v22sm380239pfu.172.2020.05.26.13.51.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 26 May 2020 13:51:56 -0700 (PDT)
+From: Souptick Joarder <jrdr.linux@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, David1.Zhou@amd.com,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: Convert get_user_pages() --> pin_user_pages()
+Date: Wed, 27 May 2020 02:30:02 +0530
+Message-Id: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Wed, 27 May 2020 07:15:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,48 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Souptick Joarder <jrdr.linux@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are two PATBASE address registers, one for linear layout and other
-for tiled. The driver's address registers list misses the tiled PATBASE
-register.
+This code was using get_user_pages(), in a "Case 2" scenario
+(DMA/RDMA), using the categorization from [1]. That means that it's
+time to convert the get_user_pages() + release_pages() calls to
+pin_user_pages() + unpin_user_pages() calls.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+There is some helpful background in [2]: basically, this is a small
+part of fixing a long-standing disconnect between pinning pages, and
+file systems' use of those pages.
+
+[1] Documentation/core-api/pin_user_pages.rst
+
+[2] "Explicit pinning of user-space pages":
+    https://lwn.net/Articles/807108/
+
+Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+Cc: John Hubbard <jhubbard@nvidia.com>
+
+Hi,
+
+I'm compile tested this, but unable to run-time test, so any testing
+help is much appriciated.
 ---
- drivers/gpu/drm/tegra/gr2d.c | 1 +
- drivers/gpu/drm/tegra/gr2d.h | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/radeon/radeon_ttm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
-index 48363f744bb9..1a0d3ba6e525 100644
---- a/drivers/gpu/drm/tegra/gr2d.c
-+++ b/drivers/gpu/drm/tegra/gr2d.c
-@@ -177,6 +177,7 @@ static const u32 gr2d_addr_regs[] = {
- 	GR2D_DSTC_BASE_ADDR,
- 	GR2D_SRCA_BASE_ADDR,
- 	GR2D_SRCB_BASE_ADDR,
-+	GR2D_PATBASE_ADDR,
- 	GR2D_SRC_BASE_ADDR_SB,
- 	GR2D_DSTA_BASE_ADDR_SB,
- 	GR2D_DSTB_BASE_ADDR_SB,
-diff --git a/drivers/gpu/drm/tegra/gr2d.h b/drivers/gpu/drm/tegra/gr2d.h
-index 2398486f0699..9b7d66e15b9f 100644
---- a/drivers/gpu/drm/tegra/gr2d.h
-+++ b/drivers/gpu/drm/tegra/gr2d.h
-@@ -14,6 +14,7 @@
- #define GR2D_DSTC_BASE_ADDR		0x2d
- #define GR2D_SRCA_BASE_ADDR		0x31
- #define GR2D_SRCB_BASE_ADDR		0x32
-+#define GR2D_PATBASE_ADDR		0x47
- #define GR2D_SRC_BASE_ADDR_SB		0x48
- #define GR2D_DSTA_BASE_ADDR_SB		0x49
- #define GR2D_DSTB_BASE_ADDR_SB		0x4a
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 5d50c9e..e927de2 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -506,7 +506,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+ 		uint64_t userptr = gtt->userptr + pinned * PAGE_SIZE;
+ 		struct page **pages = ttm->pages + pinned;
+ 
+-		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
++		r = pin_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+ 				   pages, NULL);
+ 		if (r < 0)
+ 			goto release_pages;
+@@ -535,7 +535,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+ 	kfree(ttm->sg);
+ 
+ release_pages:
+-	release_pages(ttm->pages, pinned);
++	unpin_user_pages(ttm->pages, pinned);
+ 	return r;
+ }
+ 
+@@ -562,7 +562,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_tt *ttm)
+ 			set_page_dirty(page);
+ 
+ 		mark_page_accessed(page);
+-		put_page(page);
++		unpin_user_page(page);
+ 	}
+ 
+ 	sg_free_table(ttm->sg);
 -- 
-2.26.0
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
