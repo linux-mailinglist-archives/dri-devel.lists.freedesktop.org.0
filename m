@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC541E297F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 20:01:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202111E2983
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 20:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2CF6E227;
-	Tue, 26 May 2020 18:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF4D6E229;
+	Tue, 26 May 2020 18:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB4C6E227
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 18:01:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F08F6E229
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 18:01:38 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207899] AMDGPU large block noise in chrome, on streaming video
  pages. CS:GO freezes.
-Date: Tue, 26 May 2020 18:01:23 +0000
+Date: Tue, 26 May 2020 18:01:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: blake.lewis@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-207899-2300-WVqVNF8Uzg@https.bugzilla.kernel.org/>
+Message-ID: <bug-207899-2300-lgOccNeLuj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207899-2300@https.bugzilla.kernel.org/>
 References: <bug-207899-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,12 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207899
 
---- Comment #4 from Alex Deucher (alexdeucher@gmail.com) ---
-Created attachment 289301
-  --> https://bugzilla.kernel.org/attachment.cgi?id=289301&action=edit
-possible fix
-
-Does this patch fix the issue?
+--- Comment #5 from Blake C Lewis (blake.lewis@gmail.com) ---
+Created attachment 289303
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289303&action=edit
+screenshot of block of color noise in chrome
 
 -- 
 You are receiving this mail because:
