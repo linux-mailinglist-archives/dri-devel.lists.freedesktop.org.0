@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789E51E1F04
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A731E1F09
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552F36E10F;
-	Tue, 26 May 2020 09:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3D76E11B;
+	Tue, 26 May 2020 09:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A155A6E10F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:46:45 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id u12so2580921wmd.3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:46:45 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87E46E11B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:46:58 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id j16so7299120wrb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:46:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nj7NvooJxB6iNFJ0vBTOCdN+58GmVX4+zgVNbt8WKbE=;
- b=1G6sgXnDI+IkMgTt75Ol2uTH4dS1RQwrYJaUirUHiWZNJXRYPW9L8HQvQ516vdv4at
- lbpnIde0mBLyywlNQSssv1hvTpYRBa13j5wnlOdXW5AxA6/CS3ltpJQjtAzEzA0usMeh
- QYX+IqPCyiM+MyEczxO51lW4YKTZia9R1YXHpIk5WsdRgM77XJ7OsntKeTYexmfXa2ll
- xGo+6ef0MxxBJE1KRBpWsayzI1rYbOVfIh4nxIJDer7zV5o9FwfjuA4MwEPnIaU4J7te
- RtH3LqPkucupdCWQLkMvP6daiRw02DosSbi0qE+5hCUN6L5KKA0sa6E3N0X7txWeLLQL
- f+rA==
+ bh=FTClm+7gO9lLU3xxrVscBq8j8bnxIHBXtUP5iFPrPTM=;
+ b=LncQ8CXOI0Ff6RLwaOfky8o0ol54ooFafZYLD2RgqXt8/gg8QfTJt0XZdpx8eeR+EL
+ ruQCL26yrhD5j566K0Hg/dLNgbNEL9RMgOc/Gq/e/23Rh9Nbe8xF0kPwsD15UXziKUJS
+ 7yqPIZgIbin+p+k0v1+scizlwB8+lSQdSGe9h/ZgfCl7q7pbLHzW36twJfR/gil2kyrF
+ b++n541Ws7PugD0MWTaQdZJLHukO1oJwOEIPzBq/+UtrdM9SjYgJlslTy75AH4cm2o6U
+ cNEzMN+G65jiCznuqW9sTsbbrI89p79WaxTaaQUOrjO41wNm8WX0wj1EMJpe/EJQHEwd
+ JXIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=nj7NvooJxB6iNFJ0vBTOCdN+58GmVX4+zgVNbt8WKbE=;
- b=lVlfYTrvxxcxT9tzj210x/H+MLJyoTFC37wog18A5iD1jupmLCSuW5ypvjEQW3OuBg
- w7betSShwcRGa8ydMdCsBOa2Ev7ufPekNdHfcM7hcqylV7l7ImFRd/Um1+yAW/j/wO2r
- tNoXCS20VgvvCLOalMi+/6ao7FNreN7tb85ijq9WvvDIIqt/b+SDqbEEi2vojD1mQi+0
- AU0tH2iZrclQl2n/fOjski2WfmXBj/eyWrURn+yiMGoTvvJYoBjG02yCJZrgdBHapb8o
- 6CHAlyN7TGcGK3sM1+FOZqKyqyjcEYjLP4Iwogr6L3QmOxnYOh8+rhbmWNcOglabj4un
- i3fg==
-X-Gm-Message-State: AOAM533CUjStT3MZx2ebbzh8vDW1RvCSlGHQqdgWmw6Xxdg6823vohr0
- U4NJJYdJTZjDP0xyRJzTXowRQQ==
-X-Google-Smtp-Source: ABdhPJxQkGlUqYiML0TFIa2x1oLzbh3yjZLf2USYWdngnjdAwgLo/gVf0Y7sVX5Rj9tgERhgtqzykw==
-X-Received: by 2002:a1c:99d7:: with SMTP id b206mr596995wme.150.1590486404075; 
- Tue, 26 May 2020 02:46:44 -0700 (PDT)
+ bh=FTClm+7gO9lLU3xxrVscBq8j8bnxIHBXtUP5iFPrPTM=;
+ b=cHkQ7IiKTZY90vHFhRsg9Nwcrk2NH51HU7yY2jqDHJGq7PX8aACYO33KAxK+DcNgKx
+ VPCNVZjysrcW/QgdH/Fo7hBHjZYNF5JX4q3Rvmif4mA8s2Dipw3NEplSqoVG08XpSXi1
+ TrdGbonv7Ww0a9hu1C4fCnBlIXgprHK39KDWXM+ii/UjpoBNvzom9GVhmCsd3lqOiuki
+ 0JamPTjDvqVHfdcUay1nLuUBLHjOP5jowN90sb+qW8NpNo5OynM7iTeq0PqYe7ULQXD+
+ 8Fo0bcSy6B+GPhS7iv+zsTb7AV2s3R9GG47HUF6pKgcoAoryiyeMkWAITjMtnaycBMcW
+ JLZg==
+X-Gm-Message-State: AOAM531Wa5DLhLt4kgPU0DXs8TH7lt+T9C5ybVrghnjuM9NrnvnUDWyk
+ XF1iKQ2eNTr/u+jIwwpN27GOg/PSbpHp/g==
+X-Google-Smtp-Source: ABdhPJx/sHFIAg/L7xCRi2JDJ3golb/EOM9LJQAuinZujPZ4ZHRAoj1U5ceWKF1K/8bycKMloHQVAQ==
+X-Received: by 2002:adf:f84d:: with SMTP id d13mr12613093wrq.99.1590486417319; 
+ Tue, 26 May 2020 02:46:57 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
  ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
- by smtp.gmail.com with ESMTPSA id z25sm7647043wmf.10.2020.05.26.02.46.41
+ by smtp.gmail.com with ESMTPSA id j18sm3803872wrn.59.2020.05.26.02.46.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 02:46:42 -0700 (PDT)
-Subject: Re: [PATCH 16/27] drm: bridge: dw-hdmi: Constify mode argument to
- dw_hdmi_phy_ops .init()
+ Tue, 26 May 2020 02:46:56 -0700 (PDT)
+Subject: Re: [PATCH 17/27] drm: bridge: dw-hdmi: Constify mode argument to
+ internal functions
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-17-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-18-laurent.pinchart+renesas@ideasonboard.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <96ba8829-74e6-0a4e-2840-7bd8b113dbf3@baylibre.com>
-Date: Tue, 26 May 2020 11:46:41 +0200
+Message-ID: <790a7aaf-16a8-0c70-60a0-6884ac8b609f@baylibre.com>
+Date: Tue, 26 May 2020 11:46:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-17-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-18-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,101 +127,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>
+ linux-renesas-soc@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/05/2020 03:14, Laurent Pinchart wrote:
-> The PHY .init() must not modify the mode it receives. Make the pointer
-> const to enfore that.
+> Several internal functions take a drm_display_mode argument to configure
+> the HDMI encoder or the HDMI PHY. They must not modify the mode, make
+> the pointer const to enforce that.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 2 +-
->  drivers/gpu/drm/meson/meson_dw_hdmi.c       | 4 ++--
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 2 +-
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      | 2 +-
->  include/drm/bridge/dw_hdmi.h                | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 23650e69604c..6e6a3d95e68e 100644
+> index 6e6a3d95e68e..5b5f07a23400 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1531,7 +1531,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
+> @@ -1628,7 +1628,8 @@ static void hdmi_tx_hdcp_config(struct dw_hdmi *hdmi)
+>  		  HDMI_A_HDCPCFG1_ENCRYPTIONDISABLE_MASK, HDMI_A_HDCPCFG1);
 >  }
 >  
->  static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
-> -			    struct drm_display_mode *mode)
+> -static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+> +static void hdmi_config_AVI(struct dw_hdmi *hdmi,
 > +			    const struct drm_display_mode *mode)
 >  {
->  	int i, ret;
->  
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 71d599970ec7..757c17fbb29f 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -297,7 +297,7 @@ static inline void dw_hdmi_dwc_write_bits(struct meson_dw_hdmi *dw_hdmi,
->  
->  /* Setup PHY bandwidth modes */
->  static void meson_hdmi_phy_setup_mode(struct meson_dw_hdmi *dw_hdmi,
-> -				      struct drm_display_mode *mode)
-> +				      const struct drm_display_mode *mode)
->  {
->  	struct meson_drm *priv = dw_hdmi->priv;
->  	unsigned int pixel_clock = mode->clock;
-> @@ -427,7 +427,7 @@ static void dw_hdmi_set_vclk(struct meson_dw_hdmi *dw_hdmi,
+>  	struct hdmi_avi_infoframe frame;
+>  	u8 val;
+> @@ -1756,7 +1757,7 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
 >  }
 >  
->  static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
-> -			    struct drm_display_mode *mode)
-> +			    const struct drm_display_mode *mode)
+>  static void hdmi_config_vendor_specific_infoframe(struct dw_hdmi *hdmi,
+> -						 struct drm_display_mode *mode)
+> +						  const struct drm_display_mode *mode)
 >  {
->  	struct meson_dw_hdmi *dw_hdmi = (struct meson_dw_hdmi *)data;
->  	struct meson_drm *priv = dw_hdmi->priv;
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index d286751bb333..10e210f6455d 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -312,7 +312,7 @@ static const struct drm_encoder_helper_funcs dw_hdmi_rockchip_encoder_helper_fun
->  };
->  
->  static int dw_hdmi_rockchip_genphy_init(struct dw_hdmi *dw_hdmi, void *data,
-> -			     struct drm_display_mode *mode)
-> +					const struct drm_display_mode *mode)
->  {
->  	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
->  
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> index 43643ad31730..8e078cacf063 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> @@ -341,7 +341,7 @@ static int sun8i_hdmi_phy_config_h3(struct dw_hdmi *hdmi,
+>  	struct hdmi_vendor_infoframe frame;
+>  	u8 buffer[10];
+> @@ -2112,7 +2113,8 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
+>  		    HDMI_IH_MUTE_FC_STAT2);
 >  }
 >  
->  static int sun8i_hdmi_phy_config(struct dw_hdmi *hdmi, void *data,
-> -				 struct drm_display_mode *mode)
-> +				 const struct drm_display_mode *mode)
+> -static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+> +static int dw_hdmi_setup(struct dw_hdmi *hdmi,
+> +			 const struct drm_display_mode *mode)
 >  {
->  	struct sun8i_hdmi_phy *phy = (struct sun8i_hdmi_phy *)data;
->  	u32 val = 0;
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index fec293b21c2e..f930d218cc6b 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -114,7 +114,7 @@ struct dw_hdmi_phy_config {
+>  	int ret;
 >  
->  struct dw_hdmi_phy_ops {
->  	int (*init)(struct dw_hdmi *hdmi, void *data,
-> -		    struct drm_display_mode *mode);
-> +		    const struct drm_display_mode *mode);
->  	void (*disable)(struct dw_hdmi *hdmi, void *data);
->  	enum drm_connector_status (*read_hpd)(struct dw_hdmi *hdmi, void *data);
->  	void (*update_hpd)(struct dw_hdmi *hdmi, void *data,
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
