@@ -1,57 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4457A1E3347
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 00:57:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 133C01E33B3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 01:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 557CE6E27C;
-	Tue, 26 May 2020 22:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8776E26C;
+	Tue, 26 May 2020 23:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F7E6E290;
- Tue, 26 May 2020 22:57:46 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ecd9e910000>; Tue, 26 May 2020 15:56:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 26 May 2020 15:57:46 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 26 May 2020 15:57:46 -0700
-Received: from [10.2.50.17] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 May
- 2020 22:57:45 +0000
-Subject: Re: [PATCH] drm/radeon: Convert get_user_pages() --> pin_user_pages()
-To: Souptick Joarder <jrdr.linux@gmail.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <daniel@ffwll.ch>
-References: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
-X-Nvconfidentiality: public
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <69a033cf-63b2-7da6-6a5e-a5bbc94b8afb@nvidia.com>
-Date: Tue, 26 May 2020 15:57:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2E4CE6E26C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 23:30:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB62C1FB;
+ Tue, 26 May 2020 16:30:23 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85D043F52E;
+ Tue, 26 May 2020 16:30:23 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id CE3C3682B71; Wed, 27 May 2020 00:30:21 +0100 (BST)
+Date: Wed, 27 May 2020 00:30:21 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 03/21] drm/arm: Use GEM CMA object functions
+Message-ID: <20200526233021.GD159988@e110455-lin.cambridge.arm.com>
+References: <20200522135246.10134-1-tzimmermann@suse.de>
+ <20200522135246.10134-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590533777; bh=+/fm5fCUttIpqWTs0jSX13YUVmAx0K1Rl+iVpdhLRU4=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=GAmK3J9YLRYobQGF3pU5h7D1OHgDb3X9cRCMTdfTrpn9a6Ug+ktStJkaSedHNhev7
- Fo0vLXo87hVswKPIZrVmA4Qad4UngVJEtHMrQH6kwS9m4O6rMu72TLsc0S0AgpXtp0
- 6YrG8FclCWX5vGNFF0Z9qZftM0wEKd9HoofGhsVFt/HwaXv+MgZhVZTAdTs1Xfnfbv
- kVSbGn0HLF8g3M/GXt6hCipT4+nlfZjlc+fjVw48lSwCraUg53VW+Jbc/m5oQrP4h+
- /0B7f5m2/ezoX/4zBj0oJOW8iGBUcdUjgFfggXIl8HMpaNNy0dCV3q1BwLksAfrQ/w
- 3HQlFGHaa5r1w==
+Content-Disposition: inline
+In-Reply-To: <20200522135246.10134-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,90 +43,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
+ narmstrong@baylibre.com, airlied@linux.ie, philippe.cornu@st.com,
+ paul@crapouillou.net, laurent.pinchart@ideasonboard.com,
+ mihail.atanassov@arm.com, sam@ravnborg.org, alexandre.torgue@st.com,
+ marex@denx.de, abrodkin@synopsys.com, ludovic.desroches@microchip.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
+ james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ bbrezillon@kernel.org, andrew@aj.id.au, dri-devel@lists.freedesktop.org,
+ nicolas.ferre@microchip.com, yannick.fertre@st.com,
+ kieran.bingham+renesas@ideasonboard.com, khilman@baylibre.com,
+ zourongrong@gmail.com, shawnguo@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-05-26 14:00, Souptick Joarder wrote:
-> This code was using get_user_pages(), in a "Case 2" scenario
-> (DMA/RDMA), using the categorization from [1]. That means that it's
-> time to convert the get_user_pages() + release_pages() calls to
-> pin_user_pages() + unpin_user_pages() calls.
-> 
-> There is some helpful background in [2]: basically, this is a small
-> part of fixing a long-standing disconnect between pinning pages, and
-> file systems' use of those pages.
-> 
-> [1] Documentation/core-api/pin_user_pages.rst
-> 
-> [2] "Explicit pinning of user-space pages":
->      https://lwn.net/Articles/807108/
-> 
-> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> 
-> Hi,
-> 
-> I'm compile tested this, but unable to run-time test, so any testing
-> help is much appriciated.
-> ---
->   drivers/gpu/drm/radeon/radeon_ttm.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 5d50c9e..e927de2 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -506,7 +506,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
->   		uint64_t userptr = gtt->userptr + pinned * PAGE_SIZE;
->   		struct page **pages = ttm->pages + pinned;
->   
-> -		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
-> +		r = pin_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
->   				   pages, NULL);
->   		if (r < 0)
->   			goto release_pages;
-> @@ -535,7 +535,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
->   	kfree(ttm->sg);
->   
->   release_pages:
-> -	release_pages(ttm->pages, pinned);
-> +	unpin_user_pages(ttm->pages, pinned);
->   	return r;
->   }
->   
-> @@ -562,7 +562,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_tt *ttm)
->   			set_page_dirty(page);
-
-
-Maybe we also need a preceding patch, to fix the above? It should be
-set_page_dirty_lock(), rather than set_page_dirty(), unless I'm overlooking
-something (which is very possible!).
-
-Either way, from a tunnel vision perspective of changing gup to pup, this
-looks good to me, so
-
-     Acked-by: John Hubbard <jhubbard@nvidia.com>
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-
->   
->   		mark_page_accessed(page);
-> -		put_page(page);
-> +		unpin_user_page(page);
->   	}
->   
->   	sg_free_table(ttm->sg);
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBNYXkgMjIsIDIwMjAgYXQgMDM6NTI6MjhQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
+bm4gd3JvdGU6Cj4gVGhlIGFybSBkcml2ZXIgdXNlcyB0aGUgZGVmYXVsdCBpbXBsZW1lbnRhdGlv
+biBmb3IgQ01BIGZ1bmN0aW9ucy4gVGhlCj4gRFJNX0dFTV9DTUFfRFJJVkVSX09QUyBtYWNybyBu
+b3cgc2V0cyB0aGVzZSBkZWZhdWx0cyBpbiBzdHJ1Y3QgZHJtX2RyaXZlci4KPiBBbGwgcmVtYWlu
+aW5nIG9wZXJhdGlvbnMgYXJlIHByb3ZpZGVkIGJ5IENNQSBHRU0gb2JqZWN0IGZ1bmN0aW9ucy4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4KCkFja2VkLWJ5OiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KClRoYW5rcyEK
+TGl2aXUKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgfCAxMiArLS0t
+LS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxMSBkZWxldGlvbnMo
+LSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9kcnYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMKPiBpbmRleCAxOTQ0MTlmNDdjNWU1Li5jODNi
+ODFhM2E1ODJhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jCj4gQEAgLTI0MCwxNyArMjQw
+LDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGhkbGNkX2RyaXZlciA9IHsKPiAgCS5pcnFf
+cHJlaW5zdGFsbCA9IGhkbGNkX2lycV9wcmVpbnN0YWxsLAo+ICAJLmlycV9wb3N0aW5zdGFsbCA9
+IGhkbGNkX2lycV9wb3N0aW5zdGFsbCwKPiAgCS5pcnFfdW5pbnN0YWxsID0gaGRsY2RfaXJxX3Vu
+aW5zdGFsbCwKPiAtCS5nZW1fZnJlZV9vYmplY3RfdW5sb2NrZWQgPSBkcm1fZ2VtX2NtYV9mcmVl
+X29iamVjdCwKPiAtCS5nZW1fcHJpbnRfaW5mbyA9IGRybV9nZW1fY21hX3ByaW50X2luZm8sCj4g
+LQkuZ2VtX3ZtX29wcyA9ICZkcm1fZ2VtX2NtYV92bV9vcHMsCj4gLQkuZHVtYl9jcmVhdGUgPSBk
+cm1fZ2VtX2NtYV9kdW1iX2NyZWF0ZSwKPiAtCS5wcmltZV9oYW5kbGVfdG9fZmQgPSBkcm1fZ2Vt
+X3ByaW1lX2hhbmRsZV90b19mZCwKPiAtCS5wcmltZV9mZF90b19oYW5kbGUgPSBkcm1fZ2VtX3By
+aW1lX2ZkX3RvX2hhbmRsZSwKPiAtCS5nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlID0gZHJtX2dlbV9j
+bWFfcHJpbWVfZ2V0X3NnX3RhYmxlLAo+IC0JLmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUgPSBk
+cm1fZ2VtX2NtYV9wcmltZV9pbXBvcnRfc2dfdGFibGUsCj4gLQkuZ2VtX3ByaW1lX3ZtYXAgPSBk
+cm1fZ2VtX2NtYV9wcmltZV92bWFwLAo+IC0JLmdlbV9wcmltZV92dW5tYXAgPSBkcm1fZ2VtX2Nt
+YV9wcmltZV92dW5tYXAsCj4gLQkuZ2VtX3ByaW1lX21tYXAgPSBkcm1fZ2VtX2NtYV9wcmltZV9t
+bWFwLAo+ICsJRFJNX0dFTV9DTUFfRFJJVkVSX09QUywKPiAgI2lmZGVmIENPTkZJR19ERUJVR19G
+Uwo+ICAJLmRlYnVnZnNfaW5pdCA9IGhkbGNkX2RlYnVnZnNfaW5pdCwKPiAgI2VuZGlmCj4gLS0g
+Cj4gMi4yNi4yCj4gCgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8g
+fAp8IGZpeCB0aGUgd29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhl
+ICAgfAogXCBzb3VyY2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8v
+wq8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
