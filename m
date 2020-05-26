@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB151E18D5
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E442E1E18DD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:15:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6297889DA6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7852989DB7;
 	Tue, 26 May 2020 01:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E30389CDB
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEED389CDB
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:39 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9EE411F3;
- Tue, 26 May 2020 03:15:35 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5FFD0DA3;
+ Tue, 26 May 2020 03:15:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590455737;
- bh=0ZDXY7ibm3r1cz7yJcFvOFvrMn1aII0p6Lq59Sm7XK4=;
+ s=mail; t=1590455738;
+ bh=1aNhGdSchRFWlQ87Ei0sqoA/5L29qr+pa4bLo4AxB3Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i1SDDWsoSvsmvfn04gZrlATGWpMqQvZGKZNnDMltEhpT+CAQBWxFQHPxg08tJUWVR
- vRfUT8j8oHfC8VsYXfCjLlptNKqAg4YAQhQaxBcmstdeWL6je1eyC4gAVvBPm770gx
- sIfTg/QGPzMI512K92H/nt0XIPQKwKL5MG7AUHvg=
+ b=i29l7ATUIE8Q0//LhmFFRsTxyU74kVuffikEzY+iAoDsdNIef4Dy6ZV6wTZIdgrSP
+ W7CgYtdjuUZ1mbS61FAJ/SIELl5z8eAENAOOhO6mcavx77I5iTewuuCpqBpm9q0Ko1
+ YQOkToKZd1NoyFaOvC/YWPyu91u2ma85DyHPiQDA=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/27] drm: bridge: dw-hdmi: Pass private data pointer to
- .configure_phy()
-Date: Tue, 26 May 2020 04:14:50 +0300
-Message-Id: <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 13/27] drm: bridge: dw-hdmi: Remove unused field from
+ dw_hdmi_plat_data
+Date: Tue, 26 May 2020 04:14:51 +0300
+Message-Id: <20200526011505.31884-14-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -56,60 +56,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .configure_phy() operation takes a dw_hdmi_plat_data pointer as a
-context argument. This differs from .mode_valid() that takes a custom
-private context pointer, causing possible confusion. Make the
-dw_hdmi_plat_data operations more consistent by passing the private
-context pointer to .configure_phy() as well.
+The input_bus_format field of struct dw_hdmi_plat_data is unused. Remove
+it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
- drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    | 3 +--
- include/drm/bridge/dw_hdmi.h              | 3 +--
- 3 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +----
+ include/drm/bridge/dw_hdmi.h              | 1 -
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 2b3f203cf467..6edb60e6c784 100644
+index 6edb60e6c784..adc5a95a06e9 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1514,7 +1514,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
+@@ -2137,10 +2137,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+ 	hdmi->hdmi_data.video_mode.mpixelrepetitionoutput = 0;
+ 	hdmi->hdmi_data.video_mode.mpixelrepetitioninput = 0;
  
- 	/* Write to the PHY as configured by the platform */
- 	if (pdata->configure_phy)
--		ret = pdata->configure_phy(hdmi, pdata, mpixelclock);
-+		ret = pdata->configure_phy(hdmi, pdata->priv_data, mpixelclock);
- 	else
- 		ret = phy->configure(hdmi, pdata, mpixelclock);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-index 4d837a4d302d..d0dffe55a7cb 100644
---- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-@@ -52,8 +52,7 @@ rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
- 	return MODE_OK;
- }
+-	if (hdmi->plat_data->input_bus_format)
+-		hdmi->hdmi_data.enc_in_bus_format =
+-			hdmi->plat_data->input_bus_format;
+-	else if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
++	if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+ 		hdmi->hdmi_data.enc_in_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
  
--static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi,
--				   const struct dw_hdmi_plat_data *pdata,
-+static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
- 				   unsigned long mpixelclock)
- {
- 	const struct rcar_hdmi_phy_params *params = rcar_hdmi_phy_params;
+ 	/* TOFIX: Get input encoding from plat data or fallback to none */
 diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-index 66a811f75b91..09348c9cbd11 100644
+index 09348c9cbd11..5dfa9d83e2d3 100644
 --- a/include/drm/bridge/dw_hdmi.h
 +++ b/include/drm/bridge/dw_hdmi.h
-@@ -151,8 +151,7 @@ struct dw_hdmi_plat_data {
- 	const struct dw_hdmi_mpll_config *mpll_cfg;
- 	const struct dw_hdmi_curr_ctrl *cur_ctr;
- 	const struct dw_hdmi_phy_config *phy_config;
--	int (*configure_phy)(struct dw_hdmi *hdmi,
--			     const struct dw_hdmi_plat_data *pdata,
-+	int (*configure_phy)(struct dw_hdmi *hdmi, void *data,
- 			     unsigned long mpixelclock);
- };
+@@ -125,7 +125,6 @@ struct dw_hdmi_phy_ops {
+ struct dw_hdmi_plat_data {
+ 	struct regmap *regm;
  
+-	unsigned long input_bus_format;
+ 	unsigned long input_bus_encoding;
+ 	bool use_drm_infoframe;
+ 	bool ycbcr_420_allowed;
 -- 
 Regards,
 
