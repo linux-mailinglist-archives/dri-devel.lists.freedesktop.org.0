@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39041E1EF2
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EA91E1EFB
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 639F86E10B;
-	Tue, 26 May 2020 09:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3E0C6E113;
+	Tue, 26 May 2020 09:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB1BF6E10B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:45:03 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id e1so19743061wrt.5
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:45:03 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F83D6E125
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:45:28 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id x13so5091785wrv.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
- b=LfBRJ9Y6o6A6+P6QeBjMbiB8Nl0DxcVB5e19WSyzwZMtUczqAkBDeVgdxKbUFO6rTW
- A7M1CmOqUOiQ/Vzm/krTIOs9k5nxAJb/gb78FD4kZavyWYx51xHl8Ls8jan1+Nyhp4LD
- cBfkA5WtTkai4Cx4zx1NY9em1KuwP0DF45lgZUeC6pjn8dnZfXyO721RnqcK4O7VhnLp
- 2Z3GrLaBALROj9TIZEZK3NgshsksB4HBm6tfG1Mi3SLYNqWe9kRtJnBpd+Be0qI72+a2
- e1P9z3d/70VHINUtQTdmM9DgW1hjoOCHwF19HMQAN3edVQWgE+5fEJs5n70qrIsmWMwp
- qWNQ==
+ bh=etNF6IOc2WdGwx8VLdPz2n/8TmnS8/dAJbRaBZxGknU=;
+ b=cZpcNVtEUnxGpRI8pg43icwmNxQQ1LYJzr/uCcjmtTr491aW2xCq4Ek3/6L5DaQLcO
+ BjaMuAkK6MdoI8+GimCFeaTICZ8CQFWA1GOgAF7zUZgLBtEMxKMBooIwiKW2zr8WyCQO
+ YOoh8CNXIEZbRtRGw86w5rZ3paFWOjNR53oOI+nrBo51MG8zDcHg7vL1bHVfvg11YCw6
+ yzHPi2dkilsp35cuIKz/Xx+BNuDR2RnAQRQ79bn7FM5FUGzIilUO89IJ+8t/r3XwZlGv
+ XorGZD2bVzdAF4MYak/sAIZ+J+MA+JQsqA93iXgX+2rHYBDuc/FIrZHEHw6mWSNN+zpb
+ LNQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
- b=WMbSNcOJTJ8HHdxxSIO1xr1FU74K1u5tUBMTnx/KZXVCBJ9yVA57iOULie3kVwItA3
- cDWLgKpohzTsCYcEEC3IuAceTf986NaLT3IInb90kU2rOtDUZPLA/KUSgAyvIdWU1l3J
- vpTz83S9TOUgxhxdrVlajeSkl189eV4YcVsJo0H77RRrTpW7fSziv6ZEyl4AKZa6THiJ
- lxPIJNxwe/ZjSfal/6zmjf+YTKn+7cNQDss0kWfa1Vj0oY9/E3Pdo2o7ELOgJq9l5sLO
- 7AnNEElqowGK6x7577p1Skg1XTdXqpoENLA+JmjgcTHiqJuF/nJhxRws7c5VrHysllIX
- MbBA==
-X-Gm-Message-State: AOAM5321yFmKAonlkfSN/9AoR6EvxUBCTFj8Ckw6mDZThFHQLJjR165B
- BSOek59dh0l9TRhnw80h1i6hsg==
-X-Google-Smtp-Source: ABdhPJwBtTbMbz6kQekDHlZ9OPUPxv4FKNSBA2FyxtO9//9EJbFDS/mvMnrmvRFR9v+or6Dpm5kLUA==
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr19831161wrn.96.1590486302498; 
- Tue, 26 May 2020 02:45:02 -0700 (PDT)
+ bh=etNF6IOc2WdGwx8VLdPz2n/8TmnS8/dAJbRaBZxGknU=;
+ b=VMKLhC4K2BI3uvJfV0rAr2haWSv76DT1RsOxoD5vBB10qOAZellT2WD6AJX/aazO/E
+ E785pcie2FvGJIq5tvs1IveXUzWRycT21ecADxZUhjnQnK0s9jOUWzflz973Q9gI/Q52
+ nJTyqlqzjeG8ixD5Oq2D3Cvih/ChvUElYhe0f5EwAb+qZzVQpkZzZAy2jOTxCwP+Glac
+ MA0QEhHkOiMV74+hyW/o6N9XicN7H8bXS4PO6nMRW5xxeF1JBHVN6V5XdzfDYhQtc4OO
+ rZ5e10wpdHhR054/efEZZqNKWtmaN44gmjtlZhvrJXZPgjhW+Dia8+ye4T43DQwMhE7L
+ ZzZQ==
+X-Gm-Message-State: AOAM532ajmStPRHlZaBexEZhIFDCDnr/Vd900sb+gMZbSNxszWq2J9w/
+ h95gCNxqIFjucLOJyq+nH20aOQ==
+X-Google-Smtp-Source: ABdhPJy4gIL7dv+mgO/7oBmmRNFzlYstLIbBvEr8gRKbz5kyF2trnYI5NfZodMt+M/pHAOArFLbPRQ==
+X-Received: by 2002:a5d:4488:: with SMTP id j8mr12105607wrq.242.1590486327035; 
+ Tue, 26 May 2020 02:45:27 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
  ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
- by smtp.gmail.com with ESMTPSA id b185sm406120wmd.3.2020.05.26.02.45.00
+ by smtp.gmail.com with ESMTPSA id o9sm3492887wmh.37.2020.05.26.02.45.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 02:45:01 -0700 (PDT)
-Subject: Re: [PATCH 12/27] drm: bridge: dw-hdmi: Pass private data pointer to
- .configure_phy()
+ Tue, 26 May 2020 02:45:26 -0700 (PDT)
+Subject: Re: [PATCH 13/27] drm: bridge: dw-hdmi: Remove unused field from
+ dw_hdmi_plat_data
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-14-laurent.pinchart+renesas@ideasonboard.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e1ca591c-0975-63ee-b0a6-bf1c98c8af95@baylibre.com>
-Date: Tue, 26 May 2020 11:45:00 +0200
+Message-ID: <ab835b47-b6ec-b756-cf38-d2b5cb4da460@baylibre.com>
+Date: Tue, 26 May 2020 11:45:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-14-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -135,61 +135,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/05/2020 03:14, Laurent Pinchart wrote:
-> The .configure_phy() operation takes a dw_hdmi_plat_data pointer as a
-> context argument. This differs from .mode_valid() that takes a custom
-> private context pointer, causing possible confusion. Make the
-> dw_hdmi_plat_data operations more consistent by passing the private
-> context pointer to .configure_phy() as well.
+> The input_bus_format field of struct dw_hdmi_plat_data is unused. Remove
+> it.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    | 3 +--
->  include/drm/bridge/dw_hdmi.h              | 3 +--
->  3 files changed, 3 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +----
+>  include/drm/bridge/dw_hdmi.h              | 1 -
+>  2 files changed, 1 insertion(+), 5 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 2b3f203cf467..6edb60e6c784 100644
+> index 6edb60e6c784..adc5a95a06e9 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1514,7 +1514,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
+> @@ -2137,10 +2137,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>  	hdmi->hdmi_data.video_mode.mpixelrepetitionoutput = 0;
+>  	hdmi->hdmi_data.video_mode.mpixelrepetitioninput = 0;
 >  
->  	/* Write to the PHY as configured by the platform */
->  	if (pdata->configure_phy)
-> -		ret = pdata->configure_phy(hdmi, pdata, mpixelclock);
-> +		ret = pdata->configure_phy(hdmi, pdata->priv_data, mpixelclock);
->  	else
->  		ret = phy->configure(hdmi, pdata, mpixelclock);
->  	if (ret) {
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 4d837a4d302d..d0dffe55a7cb 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -52,8 +52,7 @@ rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
->  	return MODE_OK;
->  }
+> -	if (hdmi->plat_data->input_bus_format)
+> -		hdmi->hdmi_data.enc_in_bus_format =
+> -			hdmi->plat_data->input_bus_format;
+> -	else if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+> +	if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+>  		hdmi->hdmi_data.enc_in_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
 >  
-> -static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi,
-> -				   const struct dw_hdmi_plat_data *pdata,
-> +static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
->  				   unsigned long mpixelclock)
->  {
->  	const struct rcar_hdmi_phy_params *params = rcar_hdmi_phy_params;
+>  	/* TOFIX: Get input encoding from plat data or fallback to none */
 > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 66a811f75b91..09348c9cbd11 100644
+> index 09348c9cbd11..5dfa9d83e2d3 100644
 > --- a/include/drm/bridge/dw_hdmi.h
 > +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -151,8 +151,7 @@ struct dw_hdmi_plat_data {
->  	const struct dw_hdmi_mpll_config *mpll_cfg;
->  	const struct dw_hdmi_curr_ctrl *cur_ctr;
->  	const struct dw_hdmi_phy_config *phy_config;
-> -	int (*configure_phy)(struct dw_hdmi *hdmi,
-> -			     const struct dw_hdmi_plat_data *pdata,
-> +	int (*configure_phy)(struct dw_hdmi *hdmi, void *data,
->  			     unsigned long mpixelclock);
->  };
+> @@ -125,7 +125,6 @@ struct dw_hdmi_phy_ops {
+>  struct dw_hdmi_plat_data {
+>  	struct regmap *regm;
 >  
+> -	unsigned long input_bus_format;
+>  	unsigned long input_bus_encoding;
+>  	bool use_drm_infoframe;
+>  	bool ycbcr_420_allowed;
 > 
+
+Obviously, now meta-meson doesn't need it anymore, thanks for fixing this.
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 _______________________________________________
