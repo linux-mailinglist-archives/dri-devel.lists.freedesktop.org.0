@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721641E20E5
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 13:32:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D9B1E214F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 13:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A73F6E157;
-	Tue, 26 May 2020 11:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1197A6E158;
+	Tue, 26 May 2020 11:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81776E157
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 11:32:38 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id c11so21870388ljn.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 04:32:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3B56E158
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 11:52:11 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id b13so2165340vsm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 04:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N3aU8bQ2jt19toIdkwK4iimsCUAHj37+zUJ/z8dG82c=;
- b=TxHGmW0M/1J5kA67dTHib6mjP7IqlmXB9GlPXLnj3brNAtLjENIk88ciWY00CFrxgh
- m+RVHnNpqmSoAmn0koZ4VVVv6Q8kij/9A1DQWcHw5NKCJPlqkcB/PoNqDhyiWHyl1iaj
- zEPAGqTTOUnZBomUlkcEEjud7qxatQaGdOU7DXRnWr8MnBbpiXXPwEQFgujvP3Mhq0jt
- KgGPg0GPrFObpIdq9Qmg9LZXRK6i2WYpw5FgQEWoJqeiLwnsW8YIpZroi2BnnirKRE1u
- Te3lMIxX9v3MiDlAkkFy2ES3BpkILyrkkioDjGf+EdIFsoI0j5f3Z1YOQU0m5o9ZCAGa
- zNVQ==
+ :cc; bh=TdWbJz4fRI4rPPfvBRmvU1nA+Zj/EtsCseD5YyknxoM=;
+ b=PbbHA2M2VHZgud/jqIxWp4iT6q/H7tiW5/VFLDOkX4yPSe3dmJN5PKgn3GmdhQjnMV
+ J13qIAIGD30vQRHvbOQ7jJ0nJYXQooDINort/GULM6xtsMrT4XdSNjbVFefGAxIuDJLi
+ HECWpjZHHrgZNwKBWpsoNyw+XPDcKZgdm+Pq/7sTS43iHsLS6ZPrZ8ThfR+MUIVaxxIJ
+ duo5vtiQwi2bXwFgEBOekQT3vrW+ciGlWinQuMCMN/V3nIZjofpHYQiKHcSIFrWXXb+P
+ hJvDd1kTuOHcuDBBs4LzOx2be1Ktn10k4BC4DyiiIXiKVrNARpTTjUza6BIP0slCKlIa
+ iIvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=N3aU8bQ2jt19toIdkwK4iimsCUAHj37+zUJ/z8dG82c=;
- b=sGdbGLX9JYxYYDQOvhtkzdXJP0PIJ/B6k+1cN56YhBt7JmaKou/5diccgeLRKZutd5
- uKfgnLeWqm5KhpbMx8qvqtRkzzvNuaOYy6c7FdOtGZ8dfdq6C3OTtVSdmJJGtPqs3Opo
- 3dufd855ICVKu8lfGXJyNOrz/Z1gFM4jXnGL2odYqsjmnqBBrh6CPw0tgMm64Ge/V7xZ
- Y3i17/XdyuTG5kUfzaB76m5xIV+RB0EggrzFFDaEQYdODrGTpKZqCp4iCS8OgVXgOJRl
- J0EvXFGRNIJeOSsm/HGj+QQ8Js833+1M7aY20Iaf6hgjzsHFDjRNx0jETxDJs2AUDqka
- pitQ==
-X-Gm-Message-State: AOAM532zeRG80MrSwdiR5SSvCjHjav2GF/N2QDdHbw4Kzb+oxed2N3F2
- yklaHdMnNBH4zO9GLiJMV7hghUT6HbwKFHv9/0kUFQ==
-X-Google-Smtp-Source: ABdhPJxM6A8ot4e/2DXXh6aue4hLFO5ial0ZBwWU8vJG+VNoWIczU4kxVWFCMR36ozh5h1OSlYeLxEUkI+61oop6giU=
-X-Received: by 2002:a05:651c:32d:: with SMTP id
- b13mr401630ljp.283.1590492757082; 
- Tue, 26 May 2020 04:32:37 -0700 (PDT)
+ bh=TdWbJz4fRI4rPPfvBRmvU1nA+Zj/EtsCseD5YyknxoM=;
+ b=Ws2/jGEDkTYg7n27mSxyvOPN5avIaHBKdp9Dzkzf57d3QZVOwXzgsMGbf3RW/cXpmr
+ Rk8sQhOeE6MDV1p07HKfctwMepCX1NPLqp9OzAyyCRDxlYIcUf7DuSARWl03PEOKwhWl
+ +LFEmU3H8bGHQoQ33VwoZjVsGESFaD9RpPUSKC9/kZ5/W1FYdzuCtpmxamdCp3yG+Wo8
+ rE5WjPxhuRji34Susls/xGyqg/keyUvzeznSLJhwREmINzJOIYIOFWmBguX1+6TrW6m7
+ RA4p2jrV9pq+BZr4XJg8z6YT6/498qbt1ItoME2xyJVgNuYqKbFqXUOup/G/oJAa7Kkx
+ rpag==
+X-Gm-Message-State: AOAM5328/I3N9G1Hc2fujUFfXRiKPxVgKDeE3Qmy4CoJKFtn3l71DxfO
+ OIJEXshla9K/d/vhrxYHeD/BoeQuEhBsU3ldw/E=
+X-Google-Smtp-Source: ABdhPJxcOPYNQzpzvNRxjwwtw8JKg0ihKVeufHdrGLto+wVF0DbAwUnbbfk0OENNhDramctyMbAJWD+234HBXO7wJjo=
+X-Received: by 2002:a67:fa81:: with SMTP id f1mr464645vsq.104.1590493929446;
+ Tue, 26 May 2020 04:52:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200513212451.1919013-1-megous@megous.com>
- <20200513212451.1919013-4-megous@megous.com>
-In-Reply-To: <20200513212451.1919013-4-megous@megous.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 26 May 2020 13:32:25 +0200
-Message-ID: <CACRpkdZpiQ7E_v-Gfk6vFcUEiMazvixYaL0ksKeP=Tq3O6Fh=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] drm: panel: Add Xingbangda XBD599 panel (ST7703
- controller)
-To: Ondrej Jirman <megous@megous.com>
+References: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
+ <20200526103921.0817ee0b@eldfell.localdomain>
+In-Reply-To: <20200526103921.0817ee0b@eldfell.localdomain>
+From: Yogish Kulkarni <yogishkulkarni@gmail.com>
+Date: Tue, 26 May 2020 17:21:58 +0530
+Message-ID: <CAL3Fm-+6y3oZ_i+U_pVUe5OzZYO2+RPVWz20DSef0CzuHnzJVA@mail.gmail.com>
+Subject: Re: Dynamically change enumeration list of DRM enumeration property
+To: Pekka Paalanen <ppaalanen@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,133 +61,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, Bhushan Shah <bshah@kde.org>,
- Chen-Yu Tsai <wens@csie.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Martijn Braam <martijn@brixit.nl>, linux-sunxi <linux-sunxi@googlegroups.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>, Luca Weiss <luca@z3ntu.xyz>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1593355293=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ondrej,
+--===============1593355293==
+Content-Type: multipart/alternative; boundary="000000000000aea04905a68bb95e"
 
-I see you took over this driver submission from
-Icenowy.
+--000000000000aea04905a68bb95e
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 13, 2020 at 11:24 PM Ondrej Jirman <megous@megous.com> wrote:
+Thanks, Daniel & Pekka.
 
-> From: Icenowy Zheng <icenowy@aosc.io>
+It might be bad idea to destroy and re-create the connector enum property
+from HOTPLUG handler in DRM. But if this is done through
+DRM_IOCTL_MODE_GETCONNECTOR, there won't be race, right ? From code walk
+through it seems that Weston will call this IOCTL for newly connected
+display found through HOTPLUG event and DRM driver will update the EDID
+through the call sequence triggered by this IOCTL. On the similar line if
+existing connector property is destroyed and re-created with new enmu list
+through this IOCTL call chain, then there won't be race ?
+
+Thanks,
+-Yogish
+
+On Tue, May 26, 2020 at 1:09 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+> On Tue, 26 May 2020 10:01:23 +0530
+> Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
 >
-> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI IPS LCD panel made by
-> Xingbangda, which is used on PinePhone final assembled phones.
+> > Hi,
+> >
+> > Is it possible to dynamically change enumeration list of  DRM enumeration
+> > property ? Motivation behind this question is to understand whether it is
+> > possible to create connector enum property (e.g a property which will
+> list
+> > supported output encodings -  like yuv420, yuv422 etc) whose list of
+> > supported enum values could be changed dynamically e.g. based on which
+> sink
+> > is connected.
+> >
+> > I think there is existing EDID connector property whose value changes
+> based
+> > on connected sink. EDID is a BLOB property, I am trying to understand if
+> > this is also possible for ENUM type property. There is
+> > "drm_property_replace_blob" to replace blob but I wasn't able to find any
+> > API which could replace list of supported enums. Alternatively, would it
+> be
+> > good idea to destroy custom enum property created by a driver and create
+> > new enum property with new list of supported enums e.g when there is a
+> > HOTPLUG event.
 >
-> It is based on Sitronix ST7703 LCD controller.
+> Hi,
 >
-> Add support for it.
+> looking at Weston code, it *might* cope with it. A hotplug event does
+> cause Weston to re-discover all properties of a connector. This is
+> specific to connectors only.
 >
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> The race exists though: userspace might be poking at KMS after you
+> changed the property in the kernel but before userspace handles the
+> hotplug event. You'd have to check that does not cause regressions. I
+> guess for a completely new property, the risk seems low, as userspace
+> does not know to poke at it (risk of using outdated property or value
+> IDs causing unexpected atomic commit failure). Also I'm not aware of
+> any KMS program that would yet attempt blind KMS state save & restore
+> to sanitize the KMS state after dropping and re-gaining DRM master.
+>
+> You'd have to check all other KMS using programs too: every Wayland
+> compositor, Xorg, DRM Vulkan WSI(?), ...
+>
+>
+> Thanks,
+> pq
+>
 
-(...)
->  create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
+--000000000000aea04905a68bb95e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Nice!
+<div dir=3D"ltr"><div>Thanks, Daniel &amp; Pekka.</div><div><br></div><div>=
+It might be bad idea to destroy and re-create the connector enum property f=
+rom HOTPLUG handler in DRM. But if this is done through DRM_IOCTL_MODE_GETC=
+ONNECTOR, there won&#39;t be race, right ? From code walk through it seems =
+that Weston will call this IOCTL for newly connected display found through =
+HOTPLUG event and DRM driver will update the EDID through the call sequence=
+ triggered by this IOCTL. On the similar line if existing connector propert=
+y is destroyed and re-created with new enmu list through this IOCTL call ch=
+ain, then there won&#39;t be race ?</div><div><br></div><div>Thanks,</div><=
+div>-Yogish<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, May 26, 2020 at 1:09 PM Pekka Paalanen &lt;<a =
+href=3D"mailto:ppaalanen@gmail.com">ppaalanen@gmail.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 26 May 2020 =
+10:01:23 +0530<br>
+Yogish Kulkarni &lt;<a href=3D"mailto:yogishkulkarni@gmail.com" target=3D"_=
+blank">yogishkulkarni@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; Is it possible to dynamically change enumeration list of=C2=A0 DRM enu=
+meration<br>
+&gt; property ? Motivation behind this question is to understand whether it=
+ is<br>
+&gt; possible to create connector enum property (e.g a property which will =
+list<br>
+&gt; supported output encodings -=C2=A0 like yuv420, yuv422 etc) whose list=
+ of<br>
+&gt; supported enum values could be changed dynamically e.g. based on which=
+ sink<br>
+&gt; is connected.<br>
+&gt; <br>
+&gt; I think there is existing EDID connector property whose value changes =
+based<br>
+&gt; on connected sink. EDID is a BLOB property, I am trying to understand =
+if<br>
+&gt; this is also possible for ENUM type property. There is<br>
+&gt; &quot;drm_property_replace_blob&quot; to replace blob but I wasn&#39;t=
+ able to find any<br>
+&gt; API which could replace list of supported enums. Alternatively, would =
+it be<br>
+&gt; good idea to destroy custom enum property created by a driver and crea=
+te<br>
+&gt; new enum property with new list of supported enums e.g when there is a=
+<br>
+&gt; HOTPLUG event.<br>
+<br>
+Hi,<br>
+<br>
+looking at Weston code, it *might* cope with it. A hotplug event does<br>
+cause Weston to re-discover all properties of a connector. This is<br>
+specific to connectors only.<br>
+<br>
+The race exists though: userspace might be poking at KMS after you<br>
+changed the property in the kernel but before userspace handles the<br>
+hotplug event. You&#39;d have to check that does not cause regressions. I<b=
+r>
+guess for a completely new property, the risk seems low, as userspace<br>
+does not know to poke at it (risk of using outdated property or value<br>
+IDs causing unexpected atomic commit failure). Also I&#39;m not aware of<br=
+>
+any KMS program that would yet attempt blind KMS state save &amp; restore<b=
+r>
+to sanitize the KMS state after dropping and re-gaining DRM master.<br>
+<br>
+You&#39;d have to check all other KMS using programs too: every Wayland<br>
+compositor, Xorg, DRM Vulkan WSI(?), ...<br>
+<br>
+<br>
+Thanks,<br>
+pq<br>
+</blockquote></div>
 
-> +       /*
-> +        * Init sequence was supplied by the panel vendor.
-> +        */
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC,
-> +                         0xF1, 0x12, 0x83);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
-> +                         0x33, 0x81, 0x05, 0xF9, 0x0E, 0x0E, 0x20, 0x00,
-> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x44, 0x25,
-> +                         0x00, 0x91, 0x0a, 0x00, 0x00, 0x02, 0x4F, 0x11,
-> +                         0x00, 0x00, 0x37);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
-> +                         0x25, 0x22, 0x20, 0x03);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
-> +                         0x10, 0x10, 0x05, 0x05, 0x03, 0xFF, 0x00, 0x00,
-> +                         0x00, 0x00);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
-> +                         0x73, 0x73, 0x50, 0x50, 0x00, 0xC0, 0x08, 0x70,
-> +                         0x00);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP, 0xF0, 0x12, 0xF0);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
-> +                         0x00, 0x00, 0x0B, 0x0B, 0x10, 0x10, 0x00, 0x00,
-> +                         0x00, 0x00, 0xFF, 0x00, 0xC0, 0x10);
-> +       dsi_dcs_write_seq(dsi, 0xC6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
-> +                         0x74, 0x00, 0x32, 0x32, 0x77, 0xF1, 0xFF, 0xFF,
-> +                         0xCC, 0xCC, 0x77, 0x77);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x07, 0x07);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x2C, 0x2C);
-> +       dsi_dcs_write_seq(dsi, 0xBF, 0x02, 0x11, 0x00);
-> +
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
-> +                         0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
-> +                         0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
-> +                         0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
-> +                         0x03, 0x00, 0x00, 0x00, 0x75, 0x75, 0x31, 0x88,
-> +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x13, 0x88, 0x64,
-> +                         0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
-> +                         0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
-> +                         0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +                         0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
-> +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
-> +                         0x57, 0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
-> +                         0x75, 0x88, 0x23, 0x14, 0x00, 0x00, 0x02, 0x00,
-> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x0A,
-> +                         0xA5, 0x00, 0x00, 0x00, 0x00);
-> +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
-> +                         0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
-> +                         0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
-> +                         0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
-> +                         0x35, 0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12,
-> +                         0x12, 0x18);
-> +       msleep(20);
+--000000000000aea04905a68bb95e--
 
-This stuff is really hard or impossible to understand without the
-datasheet.
+--===============1593355293==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-In my previous review I wrote:
-
-It appears that the Himax HX8363 is using the same display controller
-if you look at the datasheet:
-http://www.datasheet-pdf.com/PDF/HX8369-A-Datasheet-Himax-729024
-There you find an explanation to some of the commands.
-
-That means, try to get rid of as much of the magic bytes as you can
-and use proper #defines. I know it takes some work but the result
-is so much more useful and readable.
-
-Further I wrote:
-
-You should definately insert code to read the MTP bytes:
-0xDA manufacturer
-0xDB driver version
-0xDC LCD module/driver
-And print these, se e.g. my newly added NT35510 driver or
-the Sony ACX424AKP driver.
-
-So please do that.
-
-Yours,
-Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1593355293==--
