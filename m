@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25EE1E3264
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 00:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4457A1E3347
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 00:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB296E233;
-	Tue, 26 May 2020 22:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 557CE6E27C;
+	Tue, 26 May 2020 22:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAA646E266
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 22:22:24 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id q18so1000037ilm.5
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 15:22:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ynq91C3bWjCUnWc0GV/GZg7ncDaeExN2lTxhHszV0qY=;
- b=b4Ku/dnuvRgQ4lg5cgZKrGrEAaSR0xbozPpDqdBYUwnTchf2uL38E/5Zxm9bpRP8YX
- MjkqFxkTRDwFJgYqsuD2eXum/zJARRVnhD26K1voBRdGduETp5he4ry0feYINUF+mNZz
- I7Unfk1zgHK23i016P4BSW9+gvu0lSrHsYH/+ZxI59ix1MfY0Fv9dHcZOJAlByXTHbL3
- ggDwb/xIpReEFXBtDmUYEPMXurPsSDQDAkVMIgSXjHgTpI0RdEKlnkE3AP6m7FZ88kU2
- J8vrBSr58vKeFll/aLqdNkp1/Oasvsrjnq6jIm8EiT2o1JgXFvUHIW6u00jnp7AebsfV
- vRQA==
-X-Gm-Message-State: AOAM530AsMO2nGQERDhKElpLMDtHBTELTMJprlBDB88srUIcD42LgtVK
- J8+evFRXxpB0RY2HJaNCXg==
-X-Google-Smtp-Source: ABdhPJz4zwTFycpM7xWxPlcIjR9So1dYYKyguqhio4ecnACld0RI8Pfko2UrIAIq7kJ0pfTEHAQqMw==
-X-Received: by 2002:a05:6e02:e46:: with SMTP id l6mr3316013ilk.1.1590531744025; 
- Tue, 26 May 2020 15:22:24 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id b18sm609005ilh.77.2020.05.26.15.22.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 15:22:23 -0700 (PDT)
-Received: (nullmailer pid 489202 invoked by uid 1000);
- Tue, 26 May 2020 22:22:22 -0000
-Date: Tue, 26 May 2020 16:22:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v6 3/3] dt-bindings: drm/bridge: ti-sn65dsi86: Document
- no-hpd
-Message-ID: <20200526222222.GA467364@bogus>
-References: <20200513215902.261547-1-dianders@chromium.org>
- <20200513145807.v6.3.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F7E6E290;
+ Tue, 26 May 2020 22:57:46 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ecd9e910000>; Tue, 26 May 2020 15:56:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 26 May 2020 15:57:46 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 26 May 2020 15:57:46 -0700
+Received: from [10.2.50.17] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 26 May
+ 2020 22:57:45 +0000
+Subject: Re: [PATCH] drm/radeon: Convert get_user_pages() --> pin_user_pages()
+To: Souptick Joarder <jrdr.linux@gmail.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <David1.Zhou@amd.com>, <daniel@ffwll.ch>
+References: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
+X-Nvconfidentiality: public
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <69a033cf-63b2-7da6-6a5e-a5bbc94b8afb@nvidia.com>
+Date: Tue, 26 May 2020 15:57:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200513145807.v6.3.I72892d485088e57378a4748c86bc0f6c2494d807@changeid>
+In-Reply-To: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1590533777; bh=+/fm5fCUttIpqWTs0jSX13YUVmAx0K1Rl+iVpdhLRU4=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=GAmK3J9YLRYobQGF3pU5h7D1OHgDb3X9cRCMTdfTrpn9a6Ug+ktStJkaSedHNhev7
+ Fo0vLXo87hVswKPIZrVmA4Qad4UngVJEtHMrQH6kwS9m4O6rMu72TLsc0S0AgpXtp0
+ 6YrG8FclCWX5vGNFF0Z9qZftM0wEKd9HoofGhsVFt/HwaXv+MgZhVZTAdTs1Xfnfbv
+ kVSbGn0HLF8g3M/GXt6hCipT4+nlfZjlc+fjVw48lSwCraUg53VW+Jbc/m5oQrP4h+
+ /0B7f5m2/ezoX/4zBj0oJOW8iGBUcdUjgFfggXIl8HMpaNNy0dCV3q1BwLksAfrQ/w
+ 3HQlFGHaa5r1w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,65 +64,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org, jernej.skrabec@siol.net,
- a.hajda@samsung.com, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- narmstrong@baylibre.com, jeffrey.l.hugo@gmail.com, spanda@codeaurora.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- bgolaszewski@baylibre.com, jonas@kwiboo.se, Laurent.pinchart@ideasonboard.com,
- linux-gpio@vger.kernel.org, swboyd@chromium.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 13, 2020 at 02:59:02PM -0700, Douglas Anderson wrote:
-> The ti-sn65dsi86 MIPI DSI to eDP bridge chip has a dedicated hardware
-> HPD (Hot Plug Detect) pin on it, but it's mostly useless for eDP
-> because of excessive debouncing in hardware.  Specifically there is no
-> way to disable the debouncing and for eDP debouncing hurts you because
-> HPD is just used for knowing when the panel is ready, not for
-> detecting physical plug events.
+On 2020-05-26 14:00, Souptick Joarder wrote:
+> This code was using get_user_pages(), in a "Case 2" scenario
+> (DMA/RDMA), using the categorization from [1]. That means that it's
+> time to convert the get_user_pages() + release_pages() calls to
+> pin_user_pages() + unpin_user_pages() calls.
 > 
-> Currently the driver in Linux just assumes that nobody has HPD hooked
-> up.  It relies on folks setting the "no-hpd" property in the panel
-> node to specify that HPD isn't hooked up and then the panel driver
-> using this to add some worst case delays when turning on the panel.
+> There is some helpful background in [2]: basically, this is a small
+> part of fixing a long-standing disconnect between pinning pages, and
+> file systems' use of those pages.
 > 
-> Apparently it's also useful to specify "no-hpd" in the bridge node so
-> that the bridge driver can make sure it's doing the right thing
-> without peeking into the panel [1].  This would be used if anyone ever
-> found it useful to implement support for the HW HPD pin on the bridge.
-> Let's add this property to the bindings.
+> [1] Documentation/core-api/pin_user_pages.rst
 > 
-> NOTES:
-> - This is somewhat of a backward-incompatible change.  All current
->   known users of ti-sn65dsi86 didn't have "no-hpd" specified in the
->   bridge node yet none of them had HPD hooked up.  This worked because
->   the current Linux driver just assumed that HPD was never hooked up.
->   We could make it less incompatible by saying that for this bridge
->   it's assumed HPD isn't hooked up _unless_ a property is defined, but
->   "no-hpd" is much more standard and it's unlikely to matter unless
->   someone quickly goes and implements HPD in the driver.
-> - It is sensible to specify "no-hpd" at the bridge chip level and
->   specify "hpd-gpios" at the panel level.  That would mean HPD is
->   hooked up to some other GPIO in the system, just not the hardware
->   HPD pin on the bridge chip.
-
-I would say 'no-hpd' belongs wherever HPD is broken. So it may still 
-make sense in the panel. (Otherwise, it needs to be removed from 
-panel-common.yaml and some panel bindings, right?)
- 
-> [1] https://lore.kernel.org/r/20200417180819.GE5861@pendragon.ideasonboard.com
+> [2] "Explicit pinning of user-space pages":
+>      https://lwn.net/Articles/807108/
 > 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> 
+> Hi,
+> 
+> I'm compile tested this, but unable to run-time test, so any testing
+> help is much appriciated.
 > ---
+>   drivers/gpu/drm/radeon/radeon_ttm.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index 5d50c9e..e927de2 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -506,7 +506,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+>   		uint64_t userptr = gtt->userptr + pinned * PAGE_SIZE;
+>   		struct page **pages = ttm->pages + pinned;
+>   
+> -		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+> +		r = pin_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+>   				   pages, NULL);
+>   		if (r < 0)
+>   			goto release_pages;
+> @@ -535,7 +535,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+>   	kfree(ttm->sg);
+>   
+>   release_pages:
+> -	release_pages(ttm->pages, pinned);
+> +	unpin_user_pages(ttm->pages, pinned);
+>   	return r;
+>   }
+>   
+> @@ -562,7 +562,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_tt *ttm)
+>   			set_page_dirty(page);
 
-In any case,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Maybe we also need a preceding patch, to fix the above? It should be
+set_page_dirty_lock(), rather than set_page_dirty(), unless I'm overlooking
+something (which is very possible!).
+
+Either way, from a tunnel vision perspective of changing gup to pup, this
+looks good to me, so
+
+     Acked-by: John Hubbard <jhubbard@nvidia.com>
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
+>   
+>   		mark_page_accessed(page);
+> -		put_page(page);
+> +		unpin_user_page(page);
+>   	}
+>   
+>   	sg_free_table(ttm->sg);
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
