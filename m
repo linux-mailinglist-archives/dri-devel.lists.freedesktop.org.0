@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1925B1E18D2
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12831E18C4
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B0889DB2;
-	Tue, 26 May 2020 01:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DA3889CC4;
+	Tue, 26 May 2020 01:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3208C89CB9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:30 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75E489CC9
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:31 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D259DC3;
- Tue, 26 May 2020 03:15:27 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F1AAE28;
+ Tue, 26 May 2020 03:15:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590455727;
- bh=8ngUfkSpeA7Td3HepuMqjPeUcyXhqfMkpwkc5tLP/dM=;
+ s=mail; t=1590455728;
+ bh=QKlcKwFQJdG75/rEwggBUXyEhxL/pMX2ebHUG0GEZ28=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=r3PeXRcakmizn59StZmIvHRyrgeybp/diTpP3Qb4L7khlYujnNtCEMkMGObYk9kNi
- 4qfEQawvPNWr0Qv9WssM78m6mTCdH+UwscavBjjr8lhDgBQ0DhHd2wPYEn+q/ifKPe
- qLXotXw0zH90bgRrg8oQ4N1j1BzVLkK8H7rsfogQ=
+ b=LSVpOeqtIqZk1MoazTBVGSkbo1z6VFzdXSTRiEy+dvjYmdYnCudywim+TeyJ0l1YU
+ zZBkomseTiDLaPoJ9pDPJZssw0nwIXTSqcXv8KrbZfwgtCB4c2JcCHcDxpNim+clib
+ oKoITPqt7sqgnVhW3VFutOA98y6yCn/purjeRd20=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/27] drm: bridge: adv7511: Make connector creation optional
-Date: Tue, 26 May 2020 04:14:42 +0300
-Message-Id: <20200526011505.31884-5-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 05/27] drm: bridge: Return NULL on error from
+ drm_bridge_get_edid()
+Date: Tue, 26 May 2020 04:14:43 +0300
+Message-Id: <20200526011505.31884-6-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -55,43 +56,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the driver supports all the connector-related bridge
-operations, make the connector creation optional. This enables usage of
-the adv7511 with the DRM bridge connector helper.
+The drm_bridge_get_edid() function is documented to return an error
+pointer on error. The underlying .get_edid() operation, however, returns
+NULL on error, and so do the drm_get_edid() and drm_do_get_edid()
+functions upon which .get_edid() is usually implemented. Make
+drm_bridge_get_edid() return NULL on error to be consistent.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/ti-tfp410.c | 10 +++++++---
+ drivers/gpu/drm/drm_bridge.c       |  6 +++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 2662f28f8007..f45cdca9cce5 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -902,17 +902,14 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
- 				 enum drm_bridge_attach_flags flags)
+diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+index e3eb6364c0f7..f065a96a0917 100644
+--- a/drivers/gpu/drm/bridge/ti-tfp410.c
++++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+@@ -51,11 +51,15 @@ static int tfp410_get_modes(struct drm_connector *connector)
+ 	struct edid *edid;
+ 	int ret;
+ 
+-	edid = drm_bridge_get_edid(dvi->next_bridge, connector);
+-	if (IS_ERR_OR_NULL(edid)) {
+-		if (edid != ERR_PTR(-ENOTSUPP))
++	if (dvi->next_bridge->ops & DRM_BRIDGE_OP_EDID) {
++		edid = drm_bridge_get_edid(dvi->next_bridge, connector);
++		if (!edid)
+ 			DRM_INFO("EDID read failed. Fallback to standard modes\n");
++	} else {
++		edid = NULL;
++	}
+ 
++	if (!edid) {
+ 		/*
+ 		 * No EDID, fallback on the XGA standard modes and prefer a mode
+ 		 * pretty much anything can handle.
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index afdec8e5fc68..fe1e3460b486 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1086,16 +1086,16 @@ EXPORT_SYMBOL_GPL(drm_bridge_get_modes);
+  *
+  * If the bridge supports output EDID retrieval, as reported by the
+  * DRM_BRIDGE_OP_EDID bridge ops flag, call &drm_bridge_funcs.get_edid to
+- * get the EDID and return it. Otherwise return ERR_PTR(-ENOTSUPP).
++ * get the EDID and return it. Otherwise return NULL.
+  *
+  * RETURNS:
+- * The retrieved EDID on success, or an error pointer otherwise.
++ * The retrieved EDID on success, or NULL otherwise.
+  */
+ struct edid *drm_bridge_get_edid(struct drm_bridge *bridge,
+ 				 struct drm_connector *connector)
  {
- 	struct adv7511 *adv = bridge_to_adv7511(bridge);
--	int ret;
-+	int ret = 0;
+ 	if (!(bridge->ops & DRM_BRIDGE_OP_EDID))
+-		return ERR_PTR(-ENOTSUPP);
++		return NULL;
  
--	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
--		DRM_ERROR("Fix bridge driver to make connector optional!");
--		return -EINVAL;
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+		ret = adv7511_connector_init(adv);
-+		if (ret < 0)
-+			return ret;
- 	}
- 
--	ret = adv7511_connector_init(adv);
--	if (ret < 0)
--		return ret;
--
- 	if (adv->type == ADV7533 || adv->type == ADV7535)
- 		ret = adv7533_attach_dsi(adv);
- 
+ 	return bridge->funcs->get_edid(bridge, connector);
+ }
 -- 
 Regards,
 
