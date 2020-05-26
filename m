@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069191E18F0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FBD1E18E8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 03:16:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648F46E05F;
-	Tue, 26 May 2020 01:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2FBC89E5A;
+	Tue, 26 May 2020 01:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51BC089DFA
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5106489E03
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 01:15:48 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F18AE3D;
- Tue, 26 May 2020 03:15:45 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 294A5814;
+ Tue, 26 May 2020 03:15:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590455745;
- bh=PqFQqx8I8K5Z5pXRytXDMhyzkoDJeHUYQvMz6KbBM2g=;
+ s=mail; t=1590455746;
+ bh=Jnis+1eMQ8Txh73mB2sEA5R5j94S/v85zLBpr06Q/pk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uyc0wgYPVoyOS23PDAs+09qBc+h+qNNtqBQ4W8T/Bftx/WMdvXXpC5p0G5lr+gECM
- Kk0NqoywskT82pXt6BIHN016dcR9q/O7ggNC68XVBIeYk8aamECu7V5jYe3ApxJp/R
- z251i6pKh5ZN1DcpYeleGn+h6b1bWpW0HAKCC0oo=
+ b=mBT5lm8BVOzMr/p2Xvp7VOlOj8n74GjMZTBj9mWaI1UD3yCrvW2iXLlEzl92acx3V
+ p525zImaS3rZrz9FeaT/KUm5SRQD0eyTcYhLBt/M5wYs6Ns56Fq5DAwR7XZhYU2/Bp
+ a2lEBGLHF/HPdCSp/+DBaJENGCsTL6rFwWMhDQPk=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 20/27] drm: bridge: dw-hdmi: Store current connector in struct
- dw_hdmi
-Date: Tue, 26 May 2020 04:14:58 +0300
-Message-Id: <20200526011505.31884-21-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 21/27] drm: bridge: dw-hdmi: Pass drm_connector to internal
+ functions as needed
+Date: Tue, 26 May 2020 04:14:59 +0300
+Message-Id: <20200526011505.31884-22-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -56,73 +56,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Store the connector that the bridge is currently wired to in the dw_hdmi
-structure. This is currently identical to the connector field, but will
-differ once the driver supports disabling connector creation.
+To prepare for making connector creation optional in the driver, pass
+the drm_connector explicitly to the internal functions that require it.
+The functions that still access the connector from the dw_hdmi structure
+are dw_hdmi_connector_create() and __dw_hdmi_probe(). The former access
+is expected, as that's where the internal connector is created. The
+latter will be addressed separately.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 31 +++++++++++++----------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 35d38b644912..16bffedb4715 100644
+index 16bffedb4715..b69c14b9de62 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -181,6 +181,7 @@ struct dw_hdmi {
- 
- 	struct mutex mutex;		/* for state below and previous_mode */
- 	enum drm_connector_force force;	/* mutex-protected force state */
-+	struct drm_connector *curr_conn;/* current connector (only valid when !disabled) */
- 	bool disabled;			/* DRM has disabled our bridge */
- 	bool bridge_is_on;		/* indicates the bridge is on */
- 	bool rxsense;			/* rxsense state */
-@@ -2823,23 +2824,32 @@ static void dw_hdmi_bridge_mode_set(struct drm_bridge *bridge,
- 	mutex_unlock(&hdmi->mutex);
+@@ -1632,18 +1632,17 @@ static void hdmi_tx_hdcp_config(struct dw_hdmi *hdmi)
  }
  
--static void dw_hdmi_bridge_disable(struct drm_bridge *bridge)
-+static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
-+					  struct drm_bridge_state *old_state)
+ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
++			    const struct drm_connector *connector,
+ 			    const struct drm_display_mode *mode)
  {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 	struct hdmi_avi_infoframe frame;
+ 	u8 val;
  
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = true;
-+	hdmi->curr_conn = NULL;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	mutex_unlock(&hdmi->mutex);
+ 	/* Initialise info frame from DRM mode */
+-	drm_hdmi_avi_infoframe_from_display_mode(&frame,
+-						 &hdmi->connector, mode);
++	drm_hdmi_avi_infoframe_from_display_mode(&frame, connector, mode);
+ 
+ 	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format)) {
+-		drm_hdmi_avi_infoframe_quant_range(&frame, &hdmi->connector,
+-						   mode,
++		drm_hdmi_avi_infoframe_quant_range(&frame, connector, mode,
+ 						   hdmi->hdmi_data.rgb_limited_range ?
+ 						   HDMI_QUANTIZATION_RANGE_LIMITED :
+ 						   HDMI_QUANTIZATION_RANGE_FULL);
+@@ -1760,14 +1759,14 @@ static void hdmi_config_AVI(struct dw_hdmi *hdmi,
  }
  
--static void dw_hdmi_bridge_enable(struct drm_bridge *bridge)
-+static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
-+					 struct drm_bridge_state *old_state)
+ static void hdmi_config_vendor_specific_infoframe(struct dw_hdmi *hdmi,
++						  const struct drm_connector *connector,
+ 						  const struct drm_display_mode *mode)
  {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
-+	struct drm_atomic_state *state = old_state->base.state;
-+	struct drm_connector *connector;
+ 	struct hdmi_vendor_infoframe frame;
+ 	u8 buffer[10];
+ 	ssize_t err;
+ 
+-	err = drm_hdmi_vendor_infoframe_from_display_mode(&frame,
+-							  &hdmi->connector,
++	err = drm_hdmi_vendor_infoframe_from_display_mode(&frame, connector,
+ 							  mode);
+ 	if (err < 0)
+ 		/*
+@@ -1813,9 +1812,10 @@ static void hdmi_config_vendor_specific_infoframe(struct dw_hdmi *hdmi,
+ 			HDMI_FC_DATAUTO0_VSD_MASK);
+ }
+ 
+-static void hdmi_config_drm_infoframe(struct dw_hdmi *hdmi)
++static void hdmi_config_drm_infoframe(struct dw_hdmi *hdmi,
++				      const struct drm_connector *connector)
+ {
+-	const struct drm_connector_state *conn_state = hdmi->connector.state;
++	const struct drm_connector_state *conn_state = connector->state;
+ 	struct hdmi_drm_infoframe frame;
+ 	u8 buffer[30];
+ 	ssize_t err;
+@@ -2118,9 +2118,9 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
+ }
+ 
+ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
++			 const struct drm_connector *connector,
+ 			 const struct drm_display_mode *mode)
+ {
+-	struct drm_connector *connector = &hdmi->connector;
+ 	int ret;
+ 
+ 	hdmi_disable_overflow_interrupts(hdmi);
+@@ -2192,9 +2192,9 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
+ 		dev_dbg(hdmi->dev, "%s HDMI mode\n", __func__);
+ 
+ 		/* HDMI Initialization Step F - Configure AVI InfoFrame */
+-		hdmi_config_AVI(hdmi, mode);
+-		hdmi_config_vendor_specific_infoframe(hdmi, mode);
+-		hdmi_config_drm_infoframe(hdmi);
++		hdmi_config_AVI(hdmi, connector, mode);
++		hdmi_config_vendor_specific_infoframe(hdmi, connector, mode);
++		hdmi_config_drm_infoframe(hdmi, connector);
+ 	} else {
+ 		dev_dbg(hdmi->dev, "%s DVI mode\n", __func__);
+ 	}
+@@ -2263,7 +2263,12 @@ static void initialize_hdmi_ih_mutes(struct dw_hdmi *hdmi)
+ static void dw_hdmi_poweron(struct dw_hdmi *hdmi)
+ {
+ 	hdmi->bridge_is_on = true;
+-	dw_hdmi_setup(hdmi, &hdmi->previous_mode);
 +
-+	connector = drm_atomic_get_new_connector_for_encoder(state,
-+							     bridge->encoder);
++	/*
++	 * The curr_conn field is guaranteed to be valid here, as this function
++	 * is only be called when !hdmi->disabled.
++	 */
++	dw_hdmi_setup(hdmi, hdmi->curr_conn, &hdmi->previous_mode);
+ }
  
- 	mutex_lock(&hdmi->mutex);
- 	hdmi->disabled = false;
-+	hdmi->curr_conn = connector;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
- 	mutex_unlock(&hdmi->mutex);
-@@ -2854,8 +2864,8 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
- 	.atomic_check = dw_hdmi_bridge_atomic_check,
- 	.atomic_get_output_bus_fmts = dw_hdmi_bridge_atomic_get_output_bus_fmts,
- 	.atomic_get_input_bus_fmts = dw_hdmi_bridge_atomic_get_input_bus_fmts,
--	.enable = dw_hdmi_bridge_enable,
--	.disable = dw_hdmi_bridge_disable,
-+	.atomic_enable = dw_hdmi_bridge_atomic_enable,
-+	.atomic_disable = dw_hdmi_bridge_atomic_disable,
- 	.mode_set = dw_hdmi_bridge_mode_set,
- 	.mode_valid = dw_hdmi_bridge_mode_valid,
- };
+ static void dw_hdmi_poweroff(struct dw_hdmi *hdmi)
 -- 
 Regards,
 
