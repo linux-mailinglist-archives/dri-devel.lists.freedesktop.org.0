@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5084E1E1F16
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212231E1F1A
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 11:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D0756E11F;
-	Tue, 26 May 2020 09:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 213476E132;
+	Tue, 26 May 2020 09:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16DF56E11F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:48:49 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id e1so19754027wrt.5
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:48:49 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEF36E132
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 09:49:54 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h4so2502873wmb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 02:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EPVXrvJmNbbfCfrmR/PZeAoKO9WxrjIdB7sfKLq1McA=;
- b=i518M9yvpS9qLzL854gmEW1bGOh1K/BfaDa1yQpse/CnIlGcjH50V3IESvTqTZwX0l
- tnpa24EImC4Sw6zVgEumGp1wJA05bsDL3r6aLnQsh78503x3uegOaG7Y/vpIzMRFh0pV
- BfeBSbvQ+0t1MABsemmQ0rvCHSPR0GdzNn5NsbeMzn+tG0QLm5kJEVBBZKJMzMbHbzxY
- HRTS9COejNAiIXuobP+OxCeVRZzVX7kQDqgAmTFIJQMIHZAXqz57LHS92YvswAicVUIj
- T9hQAt2FJE8wids6w4KjqHDkLPUTSQvW73am3WJT10LjkPXbhSNkJkm3ibFvl7LXs7R4
- 1U1g==
+ bh=JTwfEhrVhRiybZj1p67Ecv+rlgQyeszPhQ8sN/8XRfU=;
+ b=mi4tdGs1iQdgxFNqg5VP+qvjiC2yGAhL6aksnvz1dxyBTy1wm2JPIe2QYrdDeBJKAO
+ tEc0yP+rHcW0Fpn3OiasyOlkfaVzKfL96w439gTLUVjfA9AsoTVbk7c3g0+/kT4vuOAH
+ Eiyo3JQO+bvmLFBW4OI+bdY3s9/aVg+ChlmD7U7fuDiNXlWAGn9HWnGuvqiPNzfOLjew
+ Jy/BUyLs7DXgAR8DA6zAzemi79nNX/ZfZvDqPIveufyhVovx3jC7WPmMLkWYZkGuvd5g
+ BlgHzBkHOrQl2j7dh9XXTdJUshZoSM7Ve6cBOm/QLkaaNZ0cPWel7MGnA/sp8jYxriKL
+ cKDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=EPVXrvJmNbbfCfrmR/PZeAoKO9WxrjIdB7sfKLq1McA=;
- b=hUWpQJy53IHsab44G4Ut2pzy72dvIphxCZhENXGSFIx1Ry39fSo3oH/0mmCnuVDiu5
- jDDmS4t2fU9JpzRYJSZOgiWiI3KCt27eoeU40+vcfnj14Qoeu5QknwBTRF7fp8qqDxlg
- nwZNmu612mG+E5wSGAU23Vld8fZm/sidMnevPo6WA9w6Xo/AUjRVj7bJtBQVX9n6Stsf
- hdveJzTqladDD5Ddk+xWQrW1PweDhoyIouMqFvMh8jWrzBFmyXN1hLgCHoKcYwn1QDEZ
- a3LlzOOAYi+cS4xhMynzBon1RjZUxEONFRRgeJvaVK6Tisju253wZqQQmRn47rNs1mk5
- CORw==
-X-Gm-Message-State: AOAM533lK1L++3sK6eWkKIx85Yn3lVhgyOc4uWH9zWGUT3e4FQgIER4b
- 15FQz+FRXnSkGS9R87/DzL+U9w==
-X-Google-Smtp-Source: ABdhPJzaL8ohyrNkfStcCHtB0zzEc5WTr+27JgujYlm9HGKjXGDgs1mhlc209BcznwOTirCioaODQg==
-X-Received: by 2002:adf:ee47:: with SMTP id w7mr13624907wro.171.1590486527551; 
- Tue, 26 May 2020 02:48:47 -0700 (PDT)
+ bh=JTwfEhrVhRiybZj1p67Ecv+rlgQyeszPhQ8sN/8XRfU=;
+ b=kF32mdl11q+tSNIhihzNInziD1YNoouTKJYNOb2k+STeq8ggpSoD9GcdCk4aJsARGY
+ iKjYb8c5gvEL1JbfOZKs37Yaq8+vDuqEDy1BngiAam93RDHqAa6FTOH2152s9VLp6QwJ
+ plptrgqNByVHAJPG4gpTFW8J/+zCbL7ZOdMt5vxWFjHfc0TjKBZUZir4BkLjnnzKOSHC
+ 5hYfxdE6EoOPl0bZ4Uo7h6c9nJo1ivXh7kQogRjFN+coXLk8sHptOr0V6jO0ud24OjJ9
+ VxyCt3Fk35HTfHXb4HY2fdDaxKbY8qqB2+XnP7Jw6XJWGjXSqjfq3ckVyliA2o4ZyaCd
+ hj3g==
+X-Gm-Message-State: AOAM533SPomz7t+E716WCvQ90uQ8IN9J0doQFpL90dr6SEKrQmPmMpUN
+ 3/ZBTs497f/IkH7gyn6z1JwkHDxEIThHRQ==
+X-Google-Smtp-Source: ABdhPJwWQ408uvzWVSPoGUHEdtAKfQAA8KgbeqVUy4ZeYfrncfHMtST0ElyAppe3KgJg3pY+NLfBjw==
+X-Received: by 2002:a1c:9802:: with SMTP id a2mr625039wme.74.1590486593050;
+ Tue, 26 May 2020 02:49:53 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
  ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
- by smtp.gmail.com with ESMTPSA id r11sm21242669wrv.14.2020.05.26.02.48.45
+ by smtp.gmail.com with ESMTPSA id j2sm14571369wre.52.2020.05.26.02.49.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 02:48:46 -0700 (PDT)
-Subject: Re: [PATCH 18/27] drm: bridge: dw-hdmi: Pass drm_display_info to
- dw_hdmi_support_scdc()
+ Tue, 26 May 2020 02:49:52 -0700 (PDT)
+Subject: Re: [PATCH 19/27] drm: bridge: dw-hdmi: Split connector creation to a
+ separate function
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-19-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-20-laurent.pinchart+renesas@ideasonboard.com>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -106,12 +106,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <a1d9dc96-d889-8172-e411-922dd7d2c3b9@baylibre.com>
-Date: Tue, 26 May 2020 11:48:45 +0200
+Message-ID: <790e38a7-16f3-eb00-d20a-1a1df7727844@baylibre.com>
+Date: Tue, 26 May 2020 11:49:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-19-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-20-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,219 +127,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Sandy Huang <hjc@rock-chips.com>, linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-amlogic@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>
+ linux-renesas-soc@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/05/2020 03:14, Laurent Pinchart wrote:
-> To prepare for making connector creation optional in the driver, pass
-> the drm_display_info explicitly to dw_hdmi_support_scdc(). The pointer
-> is passed to the callers where required, particularly to the
-> dw_hdmi_phy_ops .init() function.
+> Isolate all the code related to connector creation to a new
+> dw_hdmi_connector_create() function, to prepare for making connector
+> creation optional.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 32 ++++++++++++---------
->  drivers/gpu/drm/meson/meson_dw_hdmi.c       |  3 +-
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  1 +
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c      |  1 +
->  include/drm/bridge/dw_hdmi.h                |  4 ++-
->  5 files changed, 26 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 107 +++++++++++++---------
+>  1 file changed, 62 insertions(+), 45 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 5b5f07a23400..a18794cce0d8 100644
+> index a18794cce0d8..35d38b644912 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1241,10 +1241,9 @@ void dw_hdmi_phy_i2c_write(struct dw_hdmi *hdmi, unsigned short data,
->  EXPORT_SYMBOL_GPL(dw_hdmi_phy_i2c_write);
->  
->  /* Filter out invalid setups to avoid configuring SCDC and scrambling */
-> -static bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi)
-> +static bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi,
-> +				 const struct drm_display_info *display)
->  {
-> -	struct drm_display_info *display = &hdmi->connector.display_info;
-> -
->  	/* Completely disable SCDC support for older controllers */
->  	if (hdmi->version < 0x200a)
->  		return false;
-> @@ -1282,12 +1281,13 @@ static bool dw_hdmi_support_scdc(struct dw_hdmi *hdmi)
->   * helper should called right before enabling the TMDS Clock and Data in
->   * the PHY configuration callback.
->   */
-> -void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi)
-> +void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
-> +				       const struct drm_display_info *display)
->  {
->  	unsigned long mtmdsclock = hdmi->hdmi_data.video_mode.mtmdsclock;
->  
->  	/* Control for TMDS Bit Period/TMDS Clock-Period Ratio */
-> -	if (dw_hdmi_support_scdc(hdmi)) {
-> +	if (dw_hdmi_support_scdc(hdmi, display)) {
->  		if (mtmdsclock > HDMI14_MAX_TMDSCLK)
->  			drm_scdc_set_high_tmds_clock_ratio(hdmi->ddc, 1);
->  		else
-> @@ -1490,7 +1490,8 @@ static int hdmi_phy_configure_dwc_hdmi_3d_tx(struct dw_hdmi *hdmi,
->  	return 0;
+> @@ -2317,6 +2317,10 @@ static void dw_hdmi_update_phy_mask(struct dw_hdmi *hdmi)
+>  					  hdmi->rxsense);
 >  }
 >  
-> -static int hdmi_phy_configure(struct dw_hdmi *hdmi)
-> +static int hdmi_phy_configure(struct dw_hdmi *hdmi,
-> +			      const struct drm_display_info *display)
+> +/* -----------------------------------------------------------------------------
+> + * DRM Connector Operations
+> + */
+> +
+>  static enum drm_connector_status
+>  dw_hdmi_connector_detect(struct drm_connector *connector, bool force)
 >  {
->  	const struct dw_hdmi_phy_data *phy = hdmi->phy.data;
->  	const struct dw_hdmi_plat_data *pdata = hdmi->plat_data;
-> @@ -1500,7 +1501,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
->  
->  	dw_hdmi_phy_power_off(hdmi);
->  
-> -	dw_hdmi_set_high_tmds_clock_ratio(hdmi);
-> +	dw_hdmi_set_high_tmds_clock_ratio(hdmi, display);
->  
->  	/* Leave low power consumption mode by asserting SVSRET. */
->  	if (phy->has_svsret)
-> @@ -1531,6 +1532,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
->  }
->  
->  static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
-> +			    const struct drm_display_info *display,
->  			    const struct drm_display_mode *mode)
->  {
->  	int i, ret;
-> @@ -1540,7 +1542,7 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
->  		dw_hdmi_phy_sel_data_en_pol(hdmi, 1);
->  		dw_hdmi_phy_sel_interface_control(hdmi, 0);
->  
-> -		ret = hdmi_phy_configure(hdmi);
-> +		ret = hdmi_phy_configure(hdmi, display);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -1846,10 +1848,11 @@ static void hdmi_config_drm_infoframe(struct dw_hdmi *hdmi)
->  }
->  
->  static void hdmi_av_composer(struct dw_hdmi *hdmi,
-> +			     const struct drm_display_info *display,
->  			     const struct drm_display_mode *mode)
->  {
->  	u8 inv_val, bytes;
-> -	struct drm_hdmi_info *hdmi_info = &hdmi->connector.display_info.hdmi;
-> +	const struct drm_hdmi_info *hdmi_info = &display->hdmi;
->  	struct hdmi_vmode *vmode = &hdmi->hdmi_data.video_mode;
->  	int hblank, vblank, h_de_hs, v_de_vs, hsync_len, vsync_len;
->  	unsigned int vdisplay, hdisplay;
-> @@ -1882,7 +1885,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
->  
->  	/* Set up HDMI_FC_INVIDCONF */
->  	inv_val = (hdmi->hdmi_data.hdcp_enable ||
-> -		   (dw_hdmi_support_scdc(hdmi) &&
-> +		   (dw_hdmi_support_scdc(hdmi, display) &&
->  		    (vmode->mtmdsclock > HDMI14_MAX_TMDSCLK ||
->  		     hdmi_info->scdc.scrambling.low_rates)) ?
->  		HDMI_FC_INVIDCONF_HDCP_KEEPOUT_ACTIVE :
-> @@ -1950,7 +1953,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
->  	}
->  
->  	/* Scrambling Control */
-> -	if (dw_hdmi_support_scdc(hdmi)) {
-> +	if (dw_hdmi_support_scdc(hdmi, display)) {
->  		if (vmode->mtmdsclock > HDMI14_MAX_TMDSCLK ||
->  		    hdmi_info->scdc.scrambling.low_rates) {
->  			/*
-> @@ -2116,6 +2119,7 @@ static void hdmi_disable_overflow_interrupts(struct dw_hdmi *hdmi)
->  static int dw_hdmi_setup(struct dw_hdmi *hdmi,
->  			 const struct drm_display_mode *mode)
->  {
-> +	struct drm_connector *connector = &hdmi->connector;
->  	int ret;
->  
->  	hdmi_disable_overflow_interrupts(hdmi);
-> @@ -2161,10 +2165,12 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi,
->  	hdmi->hdmi_data.video_mode.mdataenablepolarity = true;
->  
->  	/* HDMI Initialization Step B.1 */
-> -	hdmi_av_composer(hdmi, mode);
-> +	hdmi_av_composer(hdmi, &connector->display_info, mode);
->  
->  	/* HDMI Initializateion Step B.2 */
-> -	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data, &hdmi->previous_mode);
-> +	ret = hdmi->phy.ops->init(hdmi, hdmi->phy.data,
-> +				  &connector->display_info,
-> +				  &hdmi->previous_mode);
->  	if (ret)
->  		return ret;
->  	hdmi->phy.enabled = true;
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 757c17fbb29f..15e62f327894 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -427,6 +427,7 @@ static void dw_hdmi_set_vclk(struct meson_dw_hdmi *dw_hdmi,
->  }
->  
->  static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
-> +			    const struct drm_display_info *display,
->  			    const struct drm_display_mode *mode)
->  {
->  	struct meson_dw_hdmi *dw_hdmi = (struct meson_dw_hdmi *)data;
-> @@ -496,7 +497,7 @@ static int dw_hdmi_phy_init(struct dw_hdmi *hdmi, void *data,
->  	/* Disable clock, fifo, fifo_wr */
->  	regmap_update_bits(priv->hhi, HHI_HDMI_PHY_CNTL1, 0xf, 0);
->  
-> -	dw_hdmi_set_high_tmds_clock_ratio(hdmi);
-> +	dw_hdmi_set_high_tmds_clock_ratio(hdmi, display);
->  
->  	msleep(100);
->  
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 10e210f6455d..23de359a1dec 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -312,6 +312,7 @@ static const struct drm_encoder_helper_funcs dw_hdmi_rockchip_encoder_helper_fun
+> @@ -2438,6 +2442,59 @@ static const struct drm_connector_helper_funcs dw_hdmi_connector_helper_funcs =
+>  	.atomic_check = dw_hdmi_connector_atomic_check,
 >  };
 >  
->  static int dw_hdmi_rockchip_genphy_init(struct dw_hdmi *dw_hdmi, void *data,
-> +					const struct drm_display_info *display,
->  					const struct drm_display_mode *mode)
+> +static int dw_hdmi_connector_create(struct dw_hdmi *hdmi)
+> +{
+> +	struct drm_connector *connector = &hdmi->connector;
+> +	struct cec_connector_info conn_info;
+> +	struct cec_notifier *notifier;
+> +
+> +	if (hdmi->version >= 0x200a)
+> +		connector->ycbcr_420_allowed =
+> +			hdmi->plat_data->ycbcr_420_allowed;
+> +	else
+> +		connector->ycbcr_420_allowed = false;
+> +
+> +	connector->interlace_allowed = 1;
+> +	connector->polled = DRM_CONNECTOR_POLL_HPD;
+> +
+> +	drm_connector_helper_add(connector, &dw_hdmi_connector_helper_funcs);
+> +
+> +	drm_connector_init_with_ddc(hdmi->bridge.dev, connector,
+> +				    &dw_hdmi_connector_funcs,
+> +				    DRM_MODE_CONNECTOR_HDMIA,
+> +				    hdmi->ddc);
+> +
+> +	/*
+> +	 * drm_connector_attach_max_bpc_property() requires the
+> +	 * connector to have a state.
+> +	 */
+> +	drm_atomic_helper_connector_reset(connector);
+> +
+> +	drm_connector_attach_max_bpc_property(connector, 8, 16);
+> +
+> +	if (hdmi->version >= 0x200a && hdmi->plat_data->use_drm_infoframe)
+> +		drm_object_attach_property(&connector->base,
+> +			connector->dev->mode_config.hdr_output_metadata_property, 0);
+> +
+> +	drm_connector_attach_encoder(connector, hdmi->bridge.encoder);
+> +
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> +
+> +	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
+> +	if (!notifier)
+> +		return -ENOMEM;
+> +
+> +	mutex_lock(&hdmi->cec_notifier_mutex);
+> +	hdmi->cec_notifier = notifier;
+> +	mutex_unlock(&hdmi->cec_notifier_mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * DRM Bridge Operations
+> + */
+> +
+>  /*
+>   * Possible output formats :
+>   * - MEDIA_BUS_FMT_UYYVYY16_0_5X48,
+> @@ -2713,51 +2770,13 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+>  				 enum drm_bridge_attach_flags flags)
 >  {
->  	struct rockchip_hdmi *hdmi = (struct rockchip_hdmi *)data;
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> index 8e078cacf063..156d00e5165b 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> @@ -341,6 +341,7 @@ static int sun8i_hdmi_phy_config_h3(struct dw_hdmi *hdmi,
+>  	struct dw_hdmi *hdmi = bridge->driver_private;
+> -	struct drm_encoder *encoder = bridge->encoder;
+> -	struct drm_connector *connector = &hdmi->connector;
+> -	struct cec_connector_info conn_info;
+> -	struct cec_notifier *notifier;
+>  
+>  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+>  		DRM_ERROR("Fix bridge driver to make connector optional!");
+>  		return -EINVAL;
+>  	}
+>  
+> -	connector->interlace_allowed = 1;
+> -	connector->polled = DRM_CONNECTOR_POLL_HPD;
+> -
+> -	drm_connector_helper_add(connector, &dw_hdmi_connector_helper_funcs);
+> -
+> -	drm_connector_init_with_ddc(bridge->dev, connector,
+> -				    &dw_hdmi_connector_funcs,
+> -				    DRM_MODE_CONNECTOR_HDMIA,
+> -				    hdmi->ddc);
+> -
+> -	/*
+> -	 * drm_connector_attach_max_bpc_property() requires the
+> -	 * connector to have a state.
+> -	 */
+> -	drm_atomic_helper_connector_reset(connector);
+> -
+> -	drm_connector_attach_max_bpc_property(connector, 8, 16);
+> -
+> -	if (hdmi->version >= 0x200a && hdmi->plat_data->use_drm_infoframe)
+> -		drm_object_attach_property(&connector->base,
+> -			connector->dev->mode_config.hdr_output_metadata_property, 0);
+> -
+> -	drm_connector_attach_encoder(connector, encoder);
+> -
+> -	cec_fill_conn_info_from_drm(&conn_info, connector);
+> -
+> -	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
+> -	if (!notifier)
+> -		return -ENOMEM;
+> -
+> -	mutex_lock(&hdmi->cec_notifier_mutex);
+> -	hdmi->cec_notifier = notifier;
+> -	mutex_unlock(&hdmi->cec_notifier_mutex);
+> -
+> -	return 0;
+> +	return dw_hdmi_connector_create(hdmi);
 >  }
 >  
->  static int sun8i_hdmi_phy_config(struct dw_hdmi *hdmi, void *data,
-> +				 const struct drm_display_info *display,
->  				 const struct drm_display_mode *mode)
+>  static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
+> @@ -2841,6 +2860,10 @@ static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
+>  	.mode_valid = dw_hdmi_bridge_mode_valid,
+>  };
+>  
+> +/* -----------------------------------------------------------------------------
+> + * IRQ Handling
+> + */
+> +
+>  static irqreturn_t dw_hdmi_i2c_irq(struct dw_hdmi *hdmi)
 >  {
->  	struct sun8i_hdmi_phy *phy = (struct sun8i_hdmi_phy *)data;
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index f930d218cc6b..ea34ca146b82 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -114,6 +114,7 @@ struct dw_hdmi_phy_config {
+>  	struct dw_hdmi_i2c *i2c = hdmi->i2c;
+> @@ -3303,12 +3326,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
+>  	hdmi->bridge.of_node = pdev->dev.of_node;
+>  #endif
 >  
->  struct dw_hdmi_phy_ops {
->  	int (*init)(struct dw_hdmi *hdmi, void *data,
-> +		    const struct drm_display_info *display,
->  		    const struct drm_display_mode *mode);
->  	void (*disable)(struct dw_hdmi *hdmi, void *data);
->  	enum drm_connector_status (*read_hpd)(struct dw_hdmi *hdmi, void *data);
-> @@ -174,7 +175,8 @@ void dw_hdmi_set_channel_status(struct dw_hdmi *hdmi, u8 *channel_status);
->  void dw_hdmi_set_channel_allocation(struct dw_hdmi *hdmi, unsigned int ca);
->  void dw_hdmi_audio_enable(struct dw_hdmi *hdmi);
->  void dw_hdmi_audio_disable(struct dw_hdmi *hdmi);
-> -void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi);
-> +void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
-> +				       const struct drm_display_info *display);
->  
->  /* PHY configuration */
->  void dw_hdmi_phy_i2c_set_addr(struct dw_hdmi *hdmi, u8 address);
+> -	if (hdmi->version >= 0x200a)
+> -		hdmi->connector.ycbcr_420_allowed =
+> -			hdmi->plat_data->ycbcr_420_allowed;
+> -	else
+> -		hdmi->connector.ycbcr_420_allowed = false;
+> -
+>  	memset(&pdevinfo, 0, sizeof(pdevinfo));
+>  	pdevinfo.parent = dev;
+>  	pdevinfo.id = PLATFORM_DEVID_AUTO;
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
