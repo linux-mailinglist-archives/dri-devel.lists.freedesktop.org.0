@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C68C1E1C30
-	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 09:26:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6051E1C2C
+	for <lists+dri-devel@lfdr.de>; Tue, 26 May 2020 09:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D2989D9A;
-	Tue, 26 May 2020 07:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1A289D7D;
+	Tue, 26 May 2020 07:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1856 seconds by postgrey-1.36 at gabe;
- Tue, 26 May 2020 03:27:34 UTC
-Received: from m1548.mail.126.com (m1548.mail.126.com [220.181.15.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0011589BD4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 03:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=9iUpo
- CVpXvxqBnCO5XE/NFHS1kEIlf9QiQMNspwWX60=; b=fwIFmIFQESPNB4Nuk6nyS
- cAPt+S7ppTPQ6jdbgWUz6o+yiTJMCHHU9+0S2wGj7rSSSRCI+1gS1nCFhMIwEwWd
- lbeHQnxJ1qopkHKhfnW3Uar40oZGHNEuCKic3m/JQJgwKfAiI5gFqgymixkb1z13
- XCPiQW3V+Q0owxxH0WO7W8=
-Received: from chenxb_99091$126.com ( [49.92.141.200] ) by
- ajax-webmail-wmsvr48 (Coremail) ; Tue, 26 May 2020 10:56:23 +0800 (CST)
-X-Originating-IP: [49.92.141.200]
-Date: Tue, 26 May 2020 10:56:23 +0800 (CST)
-From: chenxb_99091 <chenxb_99091@126.com>
-To: "Daniel Vetter" <daniel@ffwll.ch>
-Subject: Re:Re: [PATCH] drm: fix setting of plane_mask in
- pan_display_atomic() function for linux-4.4
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190724(ac680a23)
- Copyright (c) 2002-2020 www.mailtech.cn 126com
-In-Reply-To: <20200525143428.GG206103@phenom.ffwll.local>
-References: <1590205747-19599-1-git-send-email-chenxb_99091@126.com>
- <20200525143428.GG206103@phenom.ffwll.local>
-X-CM-CTRLDATA: vkv+E2Zvb3Rlcl9odG09MzM4Mzo1Ng==
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD5F89CD3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 03:22:41 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id n141so6840372qke.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 May 2020 20:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=irxvBr3fhjh3o4PcQX5WrXrjZ+soB6XClWrdckT/PEg=;
+ b=wmMfYz4Q49KJhfEacTGOCEZGd7yE3D0nE8Xn5qM/BcmKBnqiZ6B7luz3x8cSBRfwTC
+ 3/UZNtYoswmTXLHvaHCPwGjCMMI/nfBNbClpHanLQhJ6coFId0GsNjsICZAyGj6Ca7hY
+ 0aQ9bcBvpbtTHKFmKmHY6lkFfbQT8C+DVZNLH7skIdJysABoMm84FnF6WUs+yYJjlBF6
+ 5OoMApXdGII3qUGOhb6uIvuiifELzRRIun4gCUSA5CqkgUu2yiRCnb6dkPc2f6U7ZiyR
+ T3W7w3AdU5w406o6jibD13vYtURGesBheFcXiu9WWa7YzsAB8hEJ8ZlswFmN9E2eUJe7
+ nDgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=irxvBr3fhjh3o4PcQX5WrXrjZ+soB6XClWrdckT/PEg=;
+ b=gbjgLXfDlTz/RPCNfQa1RzyzwRGPSlLV6U12VlSbp5I5OQuzk6rgllJ2wVdikhfakC
+ y0qlYqTlmwpTNujGOjJYH/jEey0q6Xu4TxK25V65OwoCJFATwfeH6nFG80tcYjiuZxlM
+ 7bxjSyw+4EEDq7fD1vFBTH+lW2O+jzAk0O69iRhyRUe3ccPdODnnowx7y6u3x4wnPqr2
+ 5F2r84Sz6MIHECDG9p4QFXjklDaBJ79+hTVLdczLl7ts96NczzvyADHsDYsACWP41IHP
+ XeSLIDOf3o8wpLAkDRpFMHBN33KwWEXeGR5PFsnIophzcZqoNWHwS6KPYIwg0x/ylHPI
+ VxcA==
+X-Gm-Message-State: AOAM532vnpyotmEsr0b35667z54jvkwi1QFM3QEy4yVjOVnxF3rrats5
+ Pep2xdigw3j3RTfgASPKo+3c5w==
+X-Google-Smtp-Source: ABdhPJwcJbeZ44TzgeR1njybd+DRRmfS48J8wtcs0R4IFp7dHY9QeqGiP5i6eANoJ24H0JQXZ7BQZg==
+X-Received: by 2002:a37:db11:: with SMTP id e17mr28833862qki.336.1590463360740; 
+ Mon, 25 May 2020 20:22:40 -0700 (PDT)
+Received: from localhost.localdomain ([147.253.86.153])
+ by smtp.gmail.com with ESMTPSA id k20sm2530796qtu.16.2020.05.25.20.22.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 20:22:40 -0700 (PDT)
+From: Jonathan Marek <jonathan@marek.ca>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 0/8] Initial SM8150 and SM8250 DPU bringup
+Date: Mon, 25 May 2020 23:22:07 -0400
+Message-Id: <20200526032235.21930-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Message-ID: <5182e8de.260f.1724ee8dcc6.Coremail.chenxb_99091@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: MMqowADHE99Yhcxe3SBQAA--.48672W
-X-CM-SenderInfo: hfkh05lebzmiizr6ij2wof0z/1tbifhgwxVpD-6bDGgAAsK
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-Mailman-Approved-At: Tue, 26 May 2020 07:26:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,134 +66,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0619770536=="
+Cc: Shubhashree Dhar <dhar@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Brian Masney <masneyb@onstation.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Jayant Shekhar <jshekhar@codeaurora.org>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>, Allison Randal <allison@lohutok.net>,
+ Raviteja Tamatam <travitej@codeaurora.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ open list <linux-kernel@vger.kernel.org>, zhengbin <zhengbin13@huawei.com>,
+ Drew Davenport <ddavenport@chromium.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0619770536==
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_32866_2021076805.1590461783237"
+These patches bring up SM8150 and SM8250 with basic functionality.
 
-------=_Part_32866_2021076805.1590461783237
-Content-Type: text/plain; charset=gbk
-Content-Transfer-Encoding: base64
+Tested with displayport output (single mixer, video mode case).
 
-CgoKCgoKLS0Kt6LX1M7StcTN+NLX08rP5MrWu/rWx8TcsOYKPGJyLz48YnIvPjxici8+CgoKLS0t
-LS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLQpGcm9tOiAiRGFuaWVsIFZldHRlciIgPGRhbmllbEBm
-ZndsbC5jaD4KVG86IGNoZW54Yl85OTA5MUAxMjYuY29tCkNjOiAiRGF2aWQgQWlybGllIiA8YWly
-bGllZEBsaW51eC5pZT4sIGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsIGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKU2VudDogTW9uLCAyNSBNYXkgMjAyMCAxNjozNDoyOCArMDIw
-MApTdWJqZWN0OiBSZTogW1BBVENIXSBkcm06IGZpeCBzZXR0aW5nIG9mIHBsYW5lX21hc2sgaW4g
-cGFuX2Rpc3BsYXlfYXRvbWljKCkgZnVuY3Rpb24gZm9yIGxpbnV4LTQuNAoKPk9uIFNhdCwgTWF5
-IDIzLCAyMDIwIGF0IDExOjQ5OjA3QU0gKzA4MDAsIGNoZW54Yl85OTA5MUAxMjYuY29tIHdyb3Rl
-Ogo+ID5Gcm9tOiBYdWViaW5nIENoZW4gPGNoZW54Yl85OTA5MUAxMjYuY29tPgo+ICA+Cj4+VGhl
-IDxpbmNsdWRlL2RybS9kcm1fY3J0Yy5oPiBwcm92aWRlcyBkcm1fZm9yX2VhY2hfcGxhbmVfbWFz
-ayBtYWNybyBhbmQKPj5wbGFuZV9tYXNrIGlzIGRlZmluZWQgYXMgYml0bWFzayBvZiBwbGFuZSBp
-bmRpY2VzLCBzdWNoIGFzCj4+MTw8ZHJtX3BsYW5lX2luZGV4KHBsYW5lKS4gVGhpcyBwYXRjaCBm
-aXhlcyBlcnJvciBzZXR0aW5nIG9mIHBsYW5lX21hc2sKPiA+aW4gcGFuX2Rpc3BsYXlfYXRvbWlj
-KCkgZnVuY3Rpb24uCj4gID4KPiA+U2lnbmVkLW9mZi0+PmJ5OiBYdWViaW5nIENoZW4gPGNoZW54
-Yl85OTA5MUAxMjYuY29tPgoKPldoYXQga2VybmVsIGlzIHRoaXMgcGF0Y2ggYWdhaW5zdD8gTGF0
-ZXN0IHVwc3RyZWFtIGRvZXNuJ3QgaGF2ZSBhbnkgc3VjaAo+Y29kZSBhbnltb3JlIC4uLiBJJ20g
-YXNzdW1pbmcgdGhhdCBWaWxsZSBmaXhlZCB0aGlzIGluIG9uZSBvZiBoaXMgcGF0Y2hlcywKPmJ1
-dCBJIGNhbid0IGZpbmQgdGhlIHJpZ2h0IG9uZSBqdXN0IG5vdy4KPi1EYW5pZQpUaGlzIGJ1ZyBp
-cyBzdGlsbCBwcmVzZW50IGluIHRoZSBsb25nLXN1cHBvcnRlZCB2ZXJzaW9ucyBvZiBrZXJuZWwg
-NC40LnksICBpbmNsdWRpbmcgdGhlIGxhdGVzdCBrZXJuZWwgNC40LjIyNCxzZWUgaHR0cHM6Ly9n
-aXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvc3RhYmxlL2xpbnV4LmdpdC90
-cmVlLz9oPXY0LjQuMjI0CgoKCgo+ID4tLS0KPiA+IGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVs
-cGVyLmMgfCAyICstCj4gID4xIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKPiAgPgo+ID5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMKPiA+aW5kZXggZTQ0OWYyMi4uNmE5
-ZjdlZSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYwo+ID4r
-KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4+IEBAIC0xMjU2LDcgKzEyNTYs
-NyBAQCByZXRyeToKPiA+ICAgIGdvdG8gZmFpbDsKPj4gICAKPiAgPiAgcGxhbmUgPSBtb2RlX3Nl
-dC0+Y3J0Yy0+cHJpbWFyeTsKPj4gLSBwbGFuZV9tYXNrIHw9IGRybV9wbGFuZV9pbmRleChwbGFu
-ZSk7Cj4gPisgcGxhbmVfbWFzayB8PSAxIDw8IGRybV9wbGFuZV9pbmRleChwbGFuZSk7Cj4+ICAg
-IHBsYW5lLT5vbGRfZmIgPSBwbGFuZS0+ZmI7Cj4gID4gfQo+ICA+IAo+PiAtLSAKPiA+Mi43LjQK
-PiAgPgo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwKCi0tIAo+RGFuaWVsIFZldHRlcgo+U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
-cmF0aW9uCj5odHRwOi8vYmxvZy5mZndsbC5jaAo=
-------=_Part_32866_2021076805.1590461783237
-Content-Type: text/html; charset=gbk
-Content-Transfer-Encoding: base64
+I will send patches later to add support for merge3d and dual DSI
+configurations, and possibly also patches to fix command mode on
+these SoCs (note it is also currently broken for SC7180).
 
-PGJyPjxicj48YnI+PGJyPjxicj48ZGl2IGlkPSJzcG5FZGl0b3JTaWduX2FwcCI+LS08YnI+t6LX
-1M7StcTN+NLX08rP5MrWu/rWx8TcsOY8L2Rpdj4mbHQ7YnIvJmd0OyZsdDtici8mZ3Q7Jmx0O2Jy
-LyZndDsKPGJyPgo8YnI+Cjxicj4tLS0tLSZuYnNwO09yaWdpbmFsJm5ic3A7TWVzc2FnZSZuYnNw
-Oy0tLS0tCjxicj5Gcm9tOiZuYnNwOyJEYW5pZWwmbmJzcDtWZXR0ZXIiJm5ic3A7Jmx0O2Rhbmll
-bEBmZndsbC5jaCZndDsKPGJyPlRvOiZuYnNwO2NoZW54Yl85OTA5MUAxMjYuY29tCjxicj5DYzom
-bmJzcDsiRGF2aWQmbmJzcDtBaXJsaWUiJm5ic3A7Jmx0O2FpcmxpZWRAbGludXguaWUmZ3Q7LCZu
-YnNwO2xpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcsJm5ic3A7ZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo8YnI+U2VudDombmJzcDtNb24sJm5ic3A7MjUmbmJzcDtNYXkmbmJzcDsy
-MDIwJm5ic3A7MTY6MzQ6MjgmbmJzcDsrMDIwMAo8YnI+U3ViamVjdDombmJzcDtSZTombmJzcDtb
-UEFUQ0hdJm5ic3A7ZHJtOiZuYnNwO2ZpeCZuYnNwO3NldHRpbmcmbmJzcDtvZiZuYnNwO3BsYW5l
-X21hc2smbmJzcDtpbiZuYnNwO3Bhbl9kaXNwbGF5X2F0b21pYygpJm5ic3A7ZnVuY3Rpb24mbmJz
-cDtmb3ImbmJzcDtsaW51eC00LjQKPGJyPgo8YnI+Jmd0O09uJm5ic3A7U2F0LCZuYnNwO01heSZu
-YnNwOzIzLCZuYnNwOzIwMjAmbmJzcDthdCZuYnNwOzExOjQ5OjA3QU0mbmJzcDsrMDgwMCwmbmJz
-cDtjaGVueGJfOTkwOTFAMTI2LmNvbSZuYnNwO3dyb3RlOgo8YnI+Jmd0OyAmZ3Q7RnJvbTombmJz
-cDtYdWViaW5nJm5ic3A7Q2hlbiZuYnNwOyZsdDtjaGVueGJfOTkwOTFAMTI2LmNvbSZndDsKPGJy
-PiZndDsmbmJzcDsgJmd0Ozxicj4mZ3Q7Jmd0O1RoZSZuYnNwOyZsdDtpbmNsdWRlL2RybS9kcm1f
-Y3J0Yy5oJmd0OyZuYnNwO3Byb3ZpZGVzJm5ic3A7ZHJtX2Zvcl9lYWNoX3BsYW5lX21hc2smbmJz
-cDttYWNybyZuYnNwO2FuZAo8YnI+Jmd0OyZndDtwbGFuZV9tYXNrJm5ic3A7aXMmbmJzcDtkZWZp
-bmVkJm5ic3A7YXMmbmJzcDtiaXRtYXNrJm5ic3A7b2YmbmJzcDtwbGFuZSZuYnNwO2luZGljZXMs
-Jm5ic3A7c3VjaCZuYnNwO2FzCjxicj4mZ3Q7Jmd0OzEmbHQ7Jmx0O2RybV9wbGFuZV9pbmRleChw
-bGFuZSkuJm5ic3A7VGhpcyZuYnNwO3BhdGNoJm5ic3A7Zml4ZXMmbmJzcDtlcnJvciZuYnNwO3Nl
-dHRpbmcmbmJzcDtvZiZuYnNwO3BsYW5lX21hc2sKPGJyPiZndDsgJmd0O2luJm5ic3A7cGFuX2Rp
-c3BsYXlfYXRvbWljKCkmbmJzcDtmdW5jdGlvbi4KPGJyPiZndDsmbmJzcDsgJmd0Ozxicj4mZ3Q7
-ICZndDtTaWduZWQtb2ZmLSZndDsmZ3Q7Ynk6Jm5ic3A7WHVlYmluZyZuYnNwO0NoZW4mbmJzcDsm
-bHQ7Y2hlbnhiXzk5MDkxQDEyNi5jb20mZ3Q7Cjxicj4KPGJyPiZndDtXaGF0Jm5ic3A7a2VybmVs
-Jm5ic3A7aXMmbmJzcDt0aGlzJm5ic3A7cGF0Y2gmbmJzcDthZ2FpbnN0PyZuYnNwO0xhdGVzdCZu
-YnNwO3Vwc3RyZWFtJm5ic3A7ZG9lc24ndCZuYnNwO2hhdmUmbmJzcDthbnkmbmJzcDtzdWNoCjxi
-cj4mZ3Q7Y29kZSZuYnNwO2FueW1vcmUmbmJzcDsuLi4mbmJzcDtJJ20mbmJzcDthc3N1bWluZyZu
-YnNwO3RoYXQmbmJzcDtWaWxsZSZuYnNwO2ZpeGVkJm5ic3A7dGhpcyZuYnNwO2luJm5ic3A7b25l
-Jm5ic3A7b2YmbmJzcDtoaXMmbmJzcDtwYXRjaGVzLAo8YnI+Jmd0O2J1dCZuYnNwO0kmbmJzcDtj
-YW4ndCZuYnNwO2ZpbmQmbmJzcDt0aGUmbmJzcDtyaWdodCZuYnNwO29uZSZuYnNwO2p1c3QmbmJz
-cDtub3cuCjxicj4mZ3Q7LURhbmllPGRpdj5UaGlzIGJ1ZyBpcyBzdGlsbCBwcmVzZW50IGluIHRo
-ZSBsb25nLXN1cHBvcnRlZCB2ZXJzaW9ucyBvZiBrZXJuZWwgNC40LnksJm5ic3A7IGluY2x1ZGlu
-ZyB0aGUgbGF0ZXN0IGtlcm5lbCA0LjQuMjI0LHNlZSZuYnNwO2h0dHBzOi8vZ2l0Lmtlcm5lbC5v
-cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3N0YWJsZS9saW51eC5naXQvdHJlZS8/aD12NC40
-LjIyNDxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pjxicj4mZ3Q7ICZndDstLS0KPGJyPiZn
-dDsgJmd0OyBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jJm5ic3A7fCZuYnNwOzImbmJz
-cDsrLQo8YnI+Jmd0OyZuYnNwOyAmZ3Q7MSZuYnNwO2ZpbGUmbmJzcDtjaGFuZ2VkLCZuYnNwOzEm
-bmJzcDtpbnNlcnRpb24oKyksJm5ic3A7MSZuYnNwO2RlbGV0aW9uKC0pCjxicj4mZ3Q7Jm5ic3A7
-ICZndDs8YnI+Jmd0OyAmZ3Q7ZGlmZiZuYnNwOy0tZ2l0Jm5ic3A7YS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2ZiX2hlbHBlci5jJm5ic3A7Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCjxi
-cj4mZ3Q7ICZndDtpbmRleCZuYnNwO2U0NDlmMjIuLjZhOWY3ZWUmbmJzcDsxMDA2NDQKPGJyPiZn
-dDsmZ3Q7IC0tLSZuYnNwO2EvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYwo8YnI+Jmd0
-OyAmZ3Q7KysrJm5ic3A7Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCjxicj4mZ3Q7
-Jmd0OyBAQCZuYnNwOy0xMjU2LDcmbmJzcDsrMTI1Niw3Jm5ic3A7QEAmbmJzcDtyZXRyeToKPGJy
-PiZndDsgJmd0OyZuYnNwOyAmbmJzcDsgZ290byZuYnNwO2ZhaWw7Cjxicj4mZ3Q7Jmd0OyZuYnNw
-OyAmbmJzcDs8YnI+Jmd0OyZuYnNwOyAmZ3Q7Jm5ic3A7IHBsYW5lJm5ic3A7PSZuYnNwO21vZGVf
-c2V0LSZndDtjcnRjLSZndDtwcmltYXJ5Owo8YnI+Jmd0OyZndDsgLQkJcGxhbmVfbWFzayZuYnNw
-O3w9Jm5ic3A7ZHJtX3BsYW5lX2luZGV4KHBsYW5lKTsKPGJyPiZndDsgJmd0OysJCXBsYW5lX21h
-c2smbmJzcDt8PSZuYnNwOzEmbmJzcDsmbHQ7Jmx0OyZuYnNwO2RybV9wbGFuZV9pbmRleChwbGFu
-ZSk7Cjxicj4mZ3Q7Jmd0OyZuYnNwOyAmbmJzcDsgcGxhbmUtJmd0O29sZF9mYiZuYnNwOz0mbmJz
-cDtwbGFuZS0mZ3Q7ZmI7Cjxicj4mZ3Q7Jm5ic3A7ICZndDsgfQo8YnI+Jmd0OyZuYnNwOyAmZ3Q7
-Jm5ic3A7PGJyPiZndDsmZ3Q7IC0tJm5ic3A7Cjxicj4mZ3Q7ICZndDsyLjcuNAo8YnI+Jmd0OyZu
-YnNwOyAmZ3Q7PGJyPiZndDsmZ3Q7IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCjxicj4mZ3Q7Jmd0OyBkcmktZGV2ZWwmbmJzcDttYWlsaW5nJm5ic3A7bGlz
-dAo8YnI+Jmd0OyAmZ3Q7ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo8YnI+Jmd0OyZn
-dDsgaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwKPGJyPgo8YnI+LS0mbmJzcDsKPGJyPiZndDtEYW5pZWwmbmJzcDtWZXR0ZXIKPGJyPiZndDtT
-b2Z0d2FyZSZuYnNwO0VuZ2luZWVyLCZuYnNwO0ludGVsJm5ic3A7Q29ycG9yYXRpb24KPGJyPiZn
-dDtodHRwOi8vYmxvZy5mZndsbC5jaAo8YnI+PC9kaXY+PGJyPjxicj48c3BhbiB0aXRsZT0ibmV0
-ZWFzZWZvb3RlciI+PHA+Jm5ic3A7PC9wPjwvc3Bhbj4=
-------=_Part_32866_2021076805.1590461783237--
+Jonathan Marek (8):
+  drm/msm/dpu: use right setup_blend_config for sm8150 and sm8250
+  drm/msm/dpu: update UBWC config for sm8150 and sm8250
+  drm/msm/dpu: move some sspp caps to dpu_caps
+  drm/msm/dpu: don't use INTF_INPUT_CTRL feature on sdm845
+  drm/msm/dpu: set missing flush bits for INTF_2 and INTF_3
+  drm/msm/dpu: intf timing path for displayport
+  drm/msm/dpu: add SM8150 to hw catalog
+  drm/msm/dpu: add SM8250 to hw catalog
 
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   6 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 287 +++++++++++++++++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  48 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  29 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  18 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      |  75 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   6 +-
+ 12 files changed, 363 insertions(+), 156 deletions(-)
 
---===============0619770536==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.26.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0619770536==--
-
