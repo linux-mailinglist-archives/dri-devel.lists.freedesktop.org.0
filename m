@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2F51E595B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13C81E59AC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073786E48B;
-	Thu, 28 May 2020 07:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDBD86E49D;
+	Thu, 28 May 2020 07:44:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40FA96E343
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42046E33A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:02 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id A067E5820E1;
- Wed, 27 May 2020 11:51:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:00 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 179F75820E5;
+ Wed, 27 May 2020 11:51:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=7Xm21xCure/jt
- b8FF3BBKZuJ/ZJTfcJibB388wH3Rbg=; b=ImXknI2VBQ/yOE0Z8pCse8QpBGY+p
- zsBpjgT/3nSSoAcxeEPu/ExEvs03dEOWFd/RuT5jHWYQAMr/jwfJ2X38dcXdtWL5
- Dqr6lZbqvHoxj+9LjTk88HHOeekUgpeI3FoNuDVxL9wjZD3K9MpzbphYS+69j/3Q
- tjz5Vo+6gUmcXdsTz18h4isNN/ZndhyhmQNofAwGx9kpMpC8CuLQ0k3g3mMHgs7y
- DKDvweym7qzQURzzsATelEzaupRLRCk4YhDpg+c9pu/cu/OvDl9EcbNoo8LmQnl+
- OC5IngYqspHGSKTtVSkufEM5ujzSS8LuCry55Fp/q3ezqyQjn5+v/c1cA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=phMcnikxY9Yem
+ NSUM3gM7sfHRLZYeHD44iyBhWJvsEU=; b=v+WZhmNoPJp1wKWwaEN0+MRZ3er31
+ zhxI7jnpvEAsKYHhkH6rqHB3PNMmjN5752qdlzzoBHb4SKrJ7hbk2SXQEXdgv3mR
+ zZQGAstOsi3WSnY1d4YIdSsovsHw66zIrsC6QIkob5FCj0QHgqBBrTPZVPvqdtw2
+ YDxdlULYs/pvRE/URkAlR0G6o5EHlsAUtZMIdXDM5waKDi539iNN6ro6c1kSi1Cd
+ zm/W/1l0T1fxtHQbP0x4LZcS64kQkG8UxFmieSLYl0phf5TQjO2yUOFFrGfZcoNI
+ Z3+42lm1sS/HEZCkkI94tcAdpYIiBplkDFVfYtJezlDOJph4X+rebCT9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=7Xm21xCure/jtb8FF3BBKZuJ/ZJTfcJibB388wH3Rbg=; b=JO5gx/b9
- Cf+YGrOm2Ks96QyE7IPVXQVyx+xrsmbRLUvS79W6MLNUw7kHULHOXVSMRUjf4y5i
- gDZ34a4gIQn/rvs8J4kg9XBEZWBngAeNXZAsM4gj8ESN2MlRQdn4e8kBnViqRzj6
- t5H6/LzXMEBGzIRA5lXKTLG53VqGBgakUbOj9xKeYwC1UorLQXxH3UrmUvdmXZ1e
- wRdN1X5CLHkXjVjFpVmZyKrB/s5T4Nb75JZBIE0YB/vi8wHFGl4K05Wv7gH1Jcw1
- x20mh/SFyzhr98+Kg/4buVTUSx0JZ9e3fNJ8hdiJ2cLmJjk8d/Kto9qEYJeCQIRD
- cOtC0RhS2SxZnw==
-X-ME-Sender: <xms:ZIzOXqYTkzaOXIwjN1piJRO6xGlDK78u9tgt37AG_KVAHznQkMVBnA>
+ fm2; bh=phMcnikxY9YemNSUM3gM7sfHRLZYeHD44iyBhWJvsEU=; b=BNFUvXeH
+ +lnWxIbwguw/FxyCu+U/4ab/zuj8YAfCLY2iei1QLh/MM5mjhv6+CCow2G4bFlp5
+ ysHveEUoC6TXhJbpgYMdtKrexSc37Oyq12G0uhcTyIQ8KHT8ZU6YH06/FVDHCcaw
+ LBohcaoa73p2giBXzfq9yVmpoN1+ditp3Osxbrk4mFSFxA9FQSdiTAuwWbZto7CE
+ M2siYUOXaSLCUFWR7xVnBLx7BzYYD8iEzwmq/g+BAZefHlE/sa4lMmFKJ2D6/Alk
+ MhSff17tgREfh93Zovrqwd8FMHuNCp88zPIDUkFAuth6CQ8MyxGJRuysjriKCOWS
+ INIx5I2f3hZ4Tw==
+X-ME-Sender: <xms:ZozOXsDiv7k0b5jaT2tWoPlAz0rF3jZQIqzjsneRazGwStSKZj_vjg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepgeegne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ZIzOXtadRLmP7281uZBf1p5uLPQj5ZLbauhh6Vd6xGmakiH7j6qIRA>
- <xmx:ZIzOXk_QrZQDoLU5zLf-pj4v2R3V3qgpAuJ-9Orf3wS_F7naDqbvmQ>
- <xmx:ZIzOXsoX4EbKY8KyWO_YxUUndlLiy1u0db7QwWyyoEF77yN99pge7A>
- <xmx:ZIzOXpJJCUtGKoAeYU4qMR6h3M5LEENyKD27A93g8z0WO9-T2y6BgA>
+ htvghrnhepjeelvdetvddugeeiffetffektdfggfduheeulefgveehgeefgeejvdffueeu
+ fefgnecuffhomhgrihhnpehmrghrghhinhhsrdhtohhpnecukfhppeeltddrkeelrdeike
+ drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ mhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ZozOXugnYk2-f--nz0i-8qwuibeoFpZOvUQ2mCGulQnyKwNaPVRslA>
+ <xmx:ZozOXvnF5RPSrIqB_ap1gESD4jhwwhm5yR-IxdGBLz8It8dADQvuQQ>
+ <xmx:ZozOXixtIp2pNgKyIfdRZkH0aBAJMzI-OTHq9w6EJ1ibuBVMcFibTQ>
+ <xmx:ZozOXiR8xXErdRAa7UkmcqRb94QPvX0RkjKTM0Czo_kVXBBKmTM8ww>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3F11930618B7;
- Wed, 27 May 2020 11:51:00 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id C03CC3280063;
+ Wed, 27 May 2020 11:51:01 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 065/105] drm/vc4: crtc: Move the txp_armed function to the
- TXP
-Date: Wed, 27 May 2020 17:48:35 +0200
-Message-Id: <338f129930b6730eff4409a4f30a49100c96f722.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 066/105] drm/vc4: txp: Turn the TXP into a CRTC of its own
+Date: Wed, 27 May 2020 17:48:36 +0200
+Message-Id: <e9bc87e240b62c80617ea7825144121a470a2d44.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -89,73 +89,221 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TXP driver is the only place where we need to set the txp_armed flag,
-so let's move the function in the TXP driver.
+The TXP so far has been leveraging the PixelValve infrastructure in the
+driver, that was really two things: the interaction with DRM's CRTC
+concept, the setup of the underlying pixelvalve and the setup of the shared
+HVS, the pixelvalve part being irrelevant to the TXP since it accesses the
+HVS directly.
+
+Now that we have a clear separation between the three parts, we can
+represent the TXP as a CRTC of its own, leveraging the common CRTC and HVS
+code, but leaving aside the pixelvalve setup.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c |  7 -------
- drivers/gpu/drm/vc4/vc4_drv.h  |  1 -
- drivers/gpu/drm/vc4/vc4_txp.c  |  9 ++++++++-
- 3 files changed, 8 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c |  19 +------
+ drivers/gpu/drm/vc4/vc4_txp.c  | 100 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 99 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index d284596ec048..fbddd38ba6a9 100644
+index fbddd38ba6a9..d6eca130644d 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -483,13 +483,6 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
- 	}
- }
+@@ -583,17 +583,6 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
+ 		if (conn_state->crtc != crtc)
+ 			continue;
  
--void vc4_crtc_txp_armed(struct drm_crtc_state *state)
--{
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(state);
+-		/* The writeback connector is implemented using the transposer
+-		 * block which is directly taking its data from the HVS FIFO.
+-		 */
+-		if (conn->connector_type == DRM_MODE_CONNECTOR_WRITEBACK) {
+-			state->no_vblank = true;
+-			vc4_state->feed_txp = true;
+-		} else {
+-			state->no_vblank = false;
+-			vc4_state->feed_txp = false;
+-		}
 -
--	vc4_state->txp_armed = true;
--}
--
- static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 				   struct drm_crtc_state *old_state)
+ 		vc4_state->margins.left = conn_state->tv.margins.left;
+ 		vc4_state->margins.right = conn_state->tv.margins.right;
+ 		vc4_state->margins.top = conn_state->tv.margins.top;
+@@ -1017,7 +1006,6 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
+ 					struct drm_crtc *crtc)
  {
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 999841b1edd8..e14ed9799ecc 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -831,7 +831,6 @@ void vc4_crtc_destroy_state(struct drm_crtc *crtc,
- 			    struct drm_crtc_state *state);
- void vc4_crtc_reset(struct drm_crtc *crtc);
- void vc4_crtc_handle_vblank(struct vc4_crtc *crtc);
--void vc4_crtc_txp_armed(struct drm_crtc_state *state);
- void vc4_crtc_get_margins(struct drm_crtc_state *state,
- 			  unsigned int *right, unsigned int *left,
- 			  unsigned int *top, unsigned int *bottom);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+-	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
+ 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
+ 	const enum vc4_encoder_type *encoder_types = pv_data->encoder_types;
+ 	struct drm_encoder *encoder;
+@@ -1026,13 +1014,6 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
+ 		struct vc4_encoder *vc4_encoder;
+ 		int i;
+ 
+-		/* HVS FIFO2 can feed the TXP IP. */
+-		if (crtc_data->hvs_output == 2 &&
+-		    encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
+-			encoder->possible_crtcs |= drm_crtc_mask(crtc);
+-			continue;
+-		}
+-
+ 		vc4_encoder = to_vc4_encoder(encoder);
+ 		for (i = 0; i < ARRAY_SIZE(pv_data->encoder_types); i++) {
+ 			if (vc4_encoder->type == encoder_types[i]) {
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index bf720206727f..d9a8ab87ad25 100644
+index d9a8ab87ad25..849dcafbfff1 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -222,6 +222,13 @@ static const u32 txp_fmts[] = {
- 	TXP_FORMAT_BGRA8888,
+@@ -19,6 +19,7 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_probe_helper.h>
++#include <drm/drm_vblank.h>
+ #include <drm/drm_writeback.h>
+ 
+ #include "vc4_drv.h"
+@@ -145,6 +146,8 @@
+ #define TXP_WRITE(offset, val) writel(val, txp->regs + (offset))
+ 
+ struct vc4_txp {
++	struct vc4_crtc	base;
++
+ 	struct platform_device *pdev;
+ 
+ 	struct drm_writeback_connector connector;
+@@ -362,23 +365,105 @@ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
+ 	.disable = vc4_txp_encoder_disable,
  };
  
-+static void vc4_txp_armed(struct drm_crtc_state *state)
++static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
 +{
-+	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(state);
-+
-+	vc4_state->txp_armed = true;
++	return 0;
 +}
 +
- static int vc4_txp_connector_atomic_check(struct drm_connector *conn,
- 					  struct drm_atomic_state *state)
++static void vc4_txp_disable_vblank(struct drm_crtc *crtc) {}
++
++static const struct drm_crtc_funcs vc4_txp_crtc_funcs = {
++	.set_config		= drm_atomic_helper_set_config,
++	.destroy		= vc4_crtc_destroy,
++	.page_flip		= vc4_page_flip,
++	.reset			= vc4_crtc_reset,
++	.atomic_duplicate_state	= vc4_crtc_duplicate_state,
++	.atomic_destroy_state	= vc4_crtc_destroy_state,
++	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
++	.enable_vblank		= vc4_txp_enable_vblank,
++	.disable_vblank		= vc4_txp_disable_vblank,
++};
++
++static int vc4_txp_atomic_check(struct drm_crtc *crtc,
++				struct drm_crtc_state *state)
++{
++	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(state);
++	int ret;
++
++	ret = vc4_hvs_atomic_check(crtc, state);
++	if (ret)
++		return ret;
++
++	state->no_vblank = true;
++	vc4_state->feed_txp = true;
++
++	return 0;
++}
++
++static void vc4_txp_atomic_enable(struct drm_crtc *crtc,
++				  struct drm_crtc_state *old_state)
++{
++	drm_crtc_vblank_on(crtc);
++	vc4_hvs_atomic_enable(crtc, old_state);
++}
++
++static void vc4_txp_atomic_disable(struct drm_crtc *crtc,
++				   struct drm_crtc_state *old_state)
++{
++	struct drm_device *dev = crtc->dev;
++
++	/* Disable vblank irq handling before crtc is disabled. */
++	drm_crtc_vblank_off(crtc);
++
++	vc4_hvs_atomic_disable(crtc, old_state);
++
++	/*
++	 * Make sure we issue a vblank event after disabling the CRTC if
++	 * someone was waiting it.
++	 */
++	if (crtc->state->event) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&dev->event_lock, flags);
++		drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++		spin_unlock_irqrestore(&dev->event_lock, flags);
++	}
++}
++
++static const struct drm_crtc_helper_funcs vc4_txp_crtc_helper_funcs = {
++	.atomic_check	= vc4_txp_atomic_check,
++	.atomic_flush	= vc4_hvs_atomic_flush,
++	.atomic_enable	= vc4_txp_atomic_enable,
++	.atomic_disable	= vc4_txp_atomic_disable,
++};
++
+ static irqreturn_t vc4_txp_interrupt(int irq, void *data)
  {
-@@ -256,7 +263,7 @@ static int vc4_txp_connector_atomic_check(struct drm_connector *conn,
- 	if (fb->pitches[0] & GENMASK(3, 0))
- 		return -EINVAL;
+ 	struct vc4_txp *txp = data;
++	struct vc4_crtc *vc4_crtc = &txp->base;
  
--	vc4_crtc_txp_armed(crtc_state);
-+	vc4_txp_armed(crtc_state);
+ 	TXP_WRITE(TXP_DST_CTRL, TXP_READ(TXP_DST_CTRL) & ~TXP_EI);
+-	vc4_crtc_handle_vblank(to_vc4_crtc(txp->connector.base.state->crtc));
++	vc4_crtc_handle_vblank(vc4_crtc);
+ 	drm_writeback_signal_completion(&txp->connector, 0);
  
- 	return 0;
+ 	return IRQ_HANDLED;
  }
+ 
++static const struct vc4_crtc_data vc4_txp_crtc_data = {
++	.hvs_available_channels = BIT(2),
++	.hvs_output = 2,
++};
++
+ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct vc4_dev *vc4 = to_vc4_dev(drm);
++	struct vc4_crtc *vc4_crtc;
+ 	struct vc4_txp *txp;
++	struct drm_crtc *crtc;
++	struct drm_encoder *encoder;
+ 	int ret, irq;
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -388,6 +473,11 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	txp = devm_kzalloc(dev, sizeof(*txp), GFP_KERNEL);
+ 	if (!txp)
+ 		return -ENOMEM;
++	vc4_crtc = &txp->base;
++	crtc = &vc4_crtc->base;
++
++	vc4_crtc->pdev = pdev;
++	vc4_crtc->data = &vc4_txp_crtc_data;
+ 
+ 	txp->pdev = pdev;
+ 
+@@ -407,6 +497,14 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = vc4_crtc_init(drm, vc4_crtc,
++			    &vc4_txp_crtc_funcs, &vc4_txp_crtc_helper_funcs);
++	if (ret)
++		return ret;
++
++	encoder = &txp->connector.encoder;
++	encoder->possible_crtcs |= drm_crtc_mask(crtc);
++
+ 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+ 			       dev_name(dev), txp);
+ 	if (ret)
 -- 
 git-series 0.9.1
 _______________________________________________
