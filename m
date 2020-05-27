@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CBC1E4DD2
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 21:03:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C641E4DDD
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 21:07:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796276E0E2;
-	Wed, 27 May 2020 19:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244906E0E6;
+	Wed, 27 May 2020 19:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366286E0E2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 19:03:50 +0000 (UTC)
-Received: from mail-qt1-f170.google.com ([209.85.160.170]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MEmtx-1jogal0XiF-00GHAc for <dri-devel@lists.freedesktop.org>; Wed, 27
- May 2020 21:03:48 +0200
-Received: by mail-qt1-f170.google.com with SMTP id g18so3233485qtu.13
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 12:03:47 -0700 (PDT)
-X-Gm-Message-State: AOAM530MC5JXTmCoEqyo60CWCiHV3qU8WelMR10reWZ3A0akfPj9XPBQ
- Qs1QR+tilASgzW8qTiXcbbbQgh2jW48jqA5NQCQ=
-X-Google-Smtp-Source: ABdhPJx2uEk/GDw083lErYgjdtJYswpXbBr+NRpNddoZvry1xc7WnNmlfDJSfucfklDsPGDKuPBFf5cTTyfn+MEOjKQ=
-X-Received: by 2002:ac8:6a09:: with SMTP id t9mr5865155qtr.7.1590606226872;
- Wed, 27 May 2020 12:03:46 -0700 (PDT)
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6E86E0E6;
+ Wed, 27 May 2020 19:07:09 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eceba090002>; Wed, 27 May 2020 12:05:45 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 27 May 2020 12:07:09 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 27 May 2020 12:07:09 -0700
+Received: from [10.2.87.74] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 27 May
+ 2020 19:07:08 +0000
+Subject: Re: [PATCH] drm/radeon: Convert get_user_pages() --> pin_user_pages()
+To: Souptick Joarder <jrdr.linux@gmail.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <David1.Zhou@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
+ <69a033cf-63b2-7da6-6a5e-a5bbc94b8afb@nvidia.com>
+ <20200527084852.GN206103@phenom.ffwll.local>
+ <20200527085117.GO206103@phenom.ffwll.local>
+From: John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <aaf62285-981e-3753-5501-07bbba98fc36@nvidia.com>
+Date: Wed, 27 May 2020 12:07:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-References: <20200527133158.462057-1-arnd@arndb.de>
- <20200527145226.GA91560@ravnborg.org>
- <CAK8P3a2k2qPOdREo-+AwOL8JVcO2VFoouAFyx6-fr1UnpavwLA@mail.gmail.com>
- <20200527175012.GB98921@ravnborg.org>
-In-Reply-To: <20200527175012.GB98921@ravnborg.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 27 May 2020 21:03:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a29zkDn50DuRBK1wKDtZnLdyfq5VX5pC3kmEo+=BKCQbw@mail.gmail.com>
-Message-ID: <CAK8P3a29zkDn50DuRBK1wKDtZnLdyfq5VX5pC3kmEo+=BKCQbw@mail.gmail.com>
-Subject: Re: [PATCH] drm: pl111: add CONFIG_VEXPRESS_CONFIG dependency
-To: Sam Ravnborg <sam@ravnborg.org>
-X-Provags-ID: V03:K1:7/GJE/SwpTTCGigdH+VvUSS2Wk4uQu+ItAvo+ILI/INoslNQUK9
- qdQRw4JH3ZmDnKINCnx6TSmZh7f3ydctbb2NIOF3gZioSMPGYFZwM2csGny5287iRvKax7f
- OoT6tlXX0Yl9WucNAu/amXy3t7lY8NWtDRBfE0gyJdy7Heua+MgGryaC3mxaue+snGWEDmh
- thDtHu8Z/G6xMX+MlX4pg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yjd2wiZODK4=:Z7qkSgsW1cdb3XX2N0trzq
- 0yYwL3KXZmnpd5tUFDD2cj26vOsQBpMuWPk9bb59R+2nwIT2RrP+UY+tAOFBeRP5LrlsayA+W
- gPd+T7wePyw6vN0H6QDkhvFn7W2JqFRCt4Mve7B8FeghrXNYuBI4ENSV6pCaHL5nuzHPOFbIS
- A8+jNG5+sZt0JkYapyjjK6AqfA6uVwMoWb3EaqgsQdmgcIPSWJ/E2danyE3JtxfmI2HEMs4Mm
- fPmwjhKiqXOA0Vntqz7rqPOz/4Dc6zSYVZMlahoi+I1xz3a454m/wX+A7eTm3hLBw2ltTR90c
- 2tNHAuDMyTl8+Yt6IhLQyZuvu/u6N79Us+Djwt/z+DSEyA/KiKBk4ufs7ZGfL+De27nRDf61F
- +NUv567gCXxBRIomudRLqZUrHofnl7oeTRE1A6BTreGH9S2HKvTRSHIB16NN8YbUAY4sm/3qV
- lE86LYDStkwWBL8SH/zkpLd/CJPpp2nWTW9rUi5OREJGUnwoKDN/Ghp3eXj/na5MgKVbPqdid
- V6qJtcI6bGwwxXCY5l593ESPEvP3sl5BlvOkq7RuztxlsAZK2xvMLuqziwPBuADHHzJPMEo2F
- i4gryQfKkz82RXIMAfmwU89FsYu5DOp7Yc4rcXnwE4jtwPBQJuutsKi8cWjKfhyEMqALdcUuJ
- lNRJ4hNzSSdUDyzFXE5eozp86Jz1OTT7H8VUxpYfv+eQAj/8FxgwAvVIov8rEK1v8xT66Yh7v
- JiJAfIYgi+Q67j2B09OFjZHrpi9UlSZlOwyGQLFgE4u47flnNzw1hQKr0zxXEKQ49PKmo3RZG
- mOQJGhlvoZ+TX+4tg/NdwZ5amYOP3KRdmxdc7vg1EUAXPcc+/g=
+In-Reply-To: <20200527085117.GO206103@phenom.ffwll.local>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1590606345; bh=cJGxgyxUMS7+SGXB5PmVaX93dA/VtdD9tLRCxZnqybQ=;
+ h=X-PGP-Universal:Subject:To:References:From:X-Nvconfidentiality:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=LFjk88MNH0RKsXsLEslCB9oYqWO/+qMh7mtsWwHzujVQNvjhVM3PMi5vWNhtfXxso
+ crnY9sWfLYHUbXyb1qBHZ2T3NZDECLkFwKYXj5JCxdqvsHElOFJDUqLmcZZUmwz8vw
+ kNSQ1hzCmul6R2atxy7vC4gHnhTLSubpC9+XFFM2R5zhstiVlSIQRp6Lp3IE/8L2SM
+ CucGGzQ8NCIIWK2j5pvWa5Jr7e6iP/ggLLIduMbh7MVZHCREBVJ5dVoD8IhyWo0M2N
+ 1yF68YtM+toIRVk1NkUTaZRPr5GOd1ry/MnsmndslsBkJVaLj7Xb9e0kKPDZlgLWIs
+ sDMfQem0oi7Vw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +69,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 7:50 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> On Wed, May 27, 2020 at 05:47:21PM +0200, Arnd Bergmann wrote:
-> > On Wed, May 27, 2020 at 4:52 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > >
-> > > Hi Arnd.
-> > >
-> > > On Wed, May 27, 2020 at 03:31:42PM +0200, Arnd Bergmann wrote:
-> > > > The vexpress_config code fails to link in some configurations:
-> > > >
-> > > > drivers/gpu/drm/pl111/pl111_versatile.o: in function `pl111_versatile_init':
-> > > > (.text+0x1f0): undefined reference to `devm_regmap_init_vexpress_config'
-> > > >
-> > > > Add a dependency that links to this only if the dependency is there,
-> > > > and prevent the configuration where the drm driver is built-in but
-> > > > the config is a loadable module.
-> > > >
-> > > > Fixes: 826fc86b5903 ("drm: pl111: Move VExpress setup into versatile init")
-> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > Could this be another way to fix it:
-> > >
-> > > diff --git a/drivers/gpu/drm/pl111/pl111_versatile.c b/drivers/gpu/drm/pl111/pl111_versatile.c
-> > > index 64f01a4e6767..1c38d3bd2e84 100644
-> > > --- a/drivers/gpu/drm/pl111/pl111_versatile.c
-> > > +++ b/drivers/gpu/drm/pl111/pl111_versatile.c
-> > > @@ -379,7 +379,7 @@ static int pl111_vexpress_clcd_init(struct device *dev, struct device_node *np,
-> > >         u32 val;
-> > >         int ret;
-> > >
-> > > -       if (!IS_ENABLED(CONFIG_VEXPRESS_CONFIG))
-> > > +       if (!IS_REACHABLE(CONFIG_VEXPRESS_CONFIG))
-> > >                 return -ENODEV;
-> > >
-> > >         /*
-> > >
-> > >
-> > > Then we no longer have the whole driver depending on
-> > > the value of VEXPRESS_CONFIG.
-> > > Not that I like IS_REACHABLE() but we already had
-> > > IS_ENABLED() to cover up here, and that was not enough.
-> > >
-> > > With your patch would we then need the IS_ENABLED()
-> > > check?
-> >
-> > The IS_ENABLED() check is what I'm adding, not removing. I'd still
-> > the Kconfig dependency combined with that check over
-> > IS_REACHABLE(), which is more likely to silently not work.
->
-> Then the now redundant IS_ENABLED() check should go.
-> With you patch it looks like this:
->
->         ...
->         if (IS_ENABLED(CONFIG_VEXPRESS_CONFIG) && ...)
->                 pl111_vexpress_clcd_init()
->
->
-> And in pl111_vexpress_clcd_init() we have:
->
-> {
->         if (!IS_ENABLED(CONFIG_VEXPRESS_CONFIG))
->                 return -ENODEV;
->
-> The IS_ENABLED() in pl111_vexpress_clcd_init() is redundant
-> and the patch should drop it.
+On 2020-05-27 01:51, Daniel Vetter wrote:
+> On Wed, May 27, 2020 at 10:48:52AM +0200, Daniel Vetter wrote:
+>> On Tue, May 26, 2020 at 03:57:45PM -0700, John Hubbard wrote:
+>>> On 2020-05-26 14:00, Souptick Joarder wrote:
+>>>> This code was using get_user_pages(), in a "Case 2" scenario
+>>>> (DMA/RDMA), using the categorization from [1]. That means that it's
+>>>> time to convert the get_user_pages() + release_pages() calls to
+>>>> pin_user_pages() + unpin_user_pages() calls.
+>>>>
+>>>> There is some helpful background in [2]: basically, this is a small
+>>>> part of fixing a long-standing disconnect between pinning pages, and
+>>>> file systems' use of those pages.
+>>>>
+>>>> [1] Documentation/core-api/pin_user_pages.rst
+>>>>
+>>>> [2] "Explicit pinning of user-space pages":
+>>>>       https://lwn.net/Articles/807108/
+>>
+>> I don't think this is a case 2 here, nor is it any of the others. Feels
+>> like not covered at all by the doc.
+>>
+>> radeon has a mmu notifier (might be a bit broken, but hey whatever there's
+>> other drivers which have the same concept, but less broken). So when you
+>> do an munmap, radeon will release the page refcount.
+> 
 
-Ah I see your point now, sorry I missed the double IS_ENABLED()
-check at first. I'll remove the second one from my patch and
-resubmit after some more build testing then.
+Aha, thanks Daniel. I withdraw my misinformed ACK, then.
 
-        Arnd
+> I forgot to add: It's also not case 3, since there's no hw page fault
+> support. It's all faked in software, and explicitly synchronizes against
+> pending io (or preempts it, that depends a bit upon the jobs running).
+> 
+
+This is what case 3 was *intended* to cover, but it looks like case 3 needs to
+be written a little better. I'll attempt that, and Cc you on the actual patch
+to -mm. (I think we also need a case 5 for an unrelated scenario, too, so
+it's time.)
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
+
+>> Which case it that?
+>>
+>> Note that currently only amdgpu doesn't work like that for gpu dma
+>> directly to userspace ranges, it uses hmm and afaiui doens't hold a full
+>> page pin refcount.
+>>
+>> Cheers, Daniel
+>>
+>>
+>>>>
+>>>> Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+>>>> Cc: John Hubbard <jhubbard@nvidia.com>
+>>>>
+>>>> Hi,
+>>>>
+>>>> I'm compile tested this, but unable to run-time test, so any testing
+>>>> help is much appriciated.
+>>>> ---
+>>>>    drivers/gpu/drm/radeon/radeon_ttm.c | 6 +++---
+>>>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> index 5d50c9e..e927de2 100644
+>>>> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+>>>> @@ -506,7 +506,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+>>>>    		uint64_t userptr = gtt->userptr + pinned * PAGE_SIZE;
+>>>>    		struct page **pages = ttm->pages + pinned;
+>>>> -		r = get_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+>>>> +		r = pin_user_pages(userptr, num_pages, write ? FOLL_WRITE : 0,
+>>>>    				   pages, NULL);
+>>>>    		if (r < 0)
+>>>>    			goto release_pages;
+>>>> @@ -535,7 +535,7 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_tt *ttm)
+>>>>    	kfree(ttm->sg);
+>>>>    release_pages:
+>>>> -	release_pages(ttm->pages, pinned);
+>>>> +	unpin_user_pages(ttm->pages, pinned);
+>>>>    	return r;
+>>>>    }
+>>>> @@ -562,7 +562,7 @@ static void radeon_ttm_tt_unpin_userptr(struct ttm_tt *ttm)
+>>>>    			set_page_dirty(page);
+>>>
+>>>
+>>> Maybe we also need a preceding patch, to fix the above? It should be
+>>> set_page_dirty_lock(), rather than set_page_dirty(), unless I'm overlooking
+>>> something (which is very possible!).
+>>>
+>>> Either way, from a tunnel vision perspective of changing gup to pup, this
+>>> looks good to me, so
+>>>
+>>>      Acked-by: John Hubbard <jhubbard@nvidia.com>
+>>>
+>>>
+>>> thanks,
+>>> -- 
+>>> John Hubbard
+>>> NVIDIA
+>>>
+>>>>    		mark_page_accessed(page);
+>>>> -		put_page(page);
+>>>> +		unpin_user_page(page);
+>>>>    	}
+>>>>    	sg_free_table(ttm->sg);
+>>>>
+>>>
+>>
+>> -- 
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
