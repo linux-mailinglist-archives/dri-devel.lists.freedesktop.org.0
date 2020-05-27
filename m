@@ -2,30 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44141E59C8
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573091E5945
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:44:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692E06E41B;
-	Thu, 28 May 2020 07:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF276E408;
+	Thu, 28 May 2020 07:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 10BDC899FF
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 10:00:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7563B6E2C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 10:00:48 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B47C1106F;
- Wed, 27 May 2020 03:00:37 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20DAC55D;
+ Wed, 27 May 2020 03:00:48 -0700 (PDT)
 Received: from e123648.arm.com (unknown [10.37.12.61])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B59313F6C4;
- Wed, 27 May 2020 03:00:27 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2D4713F6C4;
+ Wed, 27 May 2020 03:00:37 -0700 (PDT)
 From: Lukasz Luba <lukasz.luba@arm.com>
 To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, linux-imx@nxp.com
-Subject: [PATCH v8 2/8] PM / EM: introduce em_dev_register_perf_domain function
-Date: Wed, 27 May 2020 10:58:48 +0100
-Message-Id: <20200527095854.21714-3-lukasz.luba@arm.com>
+Subject: [PATCH v8 3/8] PM / EM: update callback structure and add device
+ pointer
+Date: Wed, 27 May 2020 10:58:49 +0100
+Message-Id: <20200527095854.21714-4-lukasz.luba@arm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200527095854.21714-1-lukasz.luba@arm.com>
 References: <20200527095854.21714-1-lukasz.luba@arm.com>
@@ -60,148 +61,160 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add now function in the Energy Model framework which is going to support
-new devices. This function will help in transition and make it smoother.
-For now it still checks if the cpumask is a valid pointer, which will be
-removed later when the new structures and infrastructure will be ready.
+The Energy Model framework is going to support devices other that CPUs. In
+order to make this happen change the callback function and add pointer to
+a device as an argument.
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Update the related users to use new function and new callback from the
+Energy Model.
+
 Acked-by: Quentin Perret <qperret@google.com>
 Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 ---
- include/linux/energy_model.h | 13 ++++++++++--
- kernel/power/energy_model.c  | 40 ++++++++++++++++++++++++++++++------
- 2 files changed, 45 insertions(+), 8 deletions(-)
+ drivers/cpufreq/scmi-cpufreq.c | 11 +++--------
+ drivers/opp/of.c               |  9 ++-------
+ include/linux/energy_model.h   | 15 ++++++++-------
+ kernel/power/energy_model.c    |  9 +++++----
+ 4 files changed, 18 insertions(+), 26 deletions(-)
 
+diff --git a/drivers/cpufreq/scmi-cpufreq.c b/drivers/cpufreq/scmi-cpufreq.c
+index 61623e2ff149..11ee24e06d12 100644
+--- a/drivers/cpufreq/scmi-cpufreq.c
++++ b/drivers/cpufreq/scmi-cpufreq.c
+@@ -103,17 +103,12 @@ scmi_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
+ }
+ 
+ static int __maybe_unused
+-scmi_get_cpu_power(unsigned long *power, unsigned long *KHz, int cpu)
++scmi_get_cpu_power(unsigned long *power, unsigned long *KHz,
++		   struct device *cpu_dev)
+ {
+-	struct device *cpu_dev = get_cpu_device(cpu);
+ 	unsigned long Hz;
+ 	int ret, domain;
+ 
+-	if (!cpu_dev) {
+-		pr_err("failed to get cpu%d device\n", cpu);
+-		return -ENODEV;
+-	}
+-
+ 	domain = handle->perf_ops->device_domain_id(cpu_dev);
+ 	if (domain < 0)
+ 		return domain;
+@@ -200,7 +195,7 @@ static int scmi_cpufreq_init(struct cpufreq_policy *policy)
+ 
+ 	policy->fast_switch_possible = true;
+ 
+-	em_register_perf_domain(policy->cpus, nr_opp, &em_cb);
++	em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, policy->cpus);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/opp/of.c b/drivers/opp/of.c
+index 9cd8f0adacae..5b75829a915d 100644
+--- a/drivers/opp/of.c
++++ b/drivers/opp/of.c
+@@ -1047,9 +1047,8 @@ EXPORT_SYMBOL_GPL(dev_pm_opp_get_of_node);
+  * calculation failed because of missing parameters, 0 otherwise.
+  */
+ static int __maybe_unused _get_cpu_power(unsigned long *mW, unsigned long *kHz,
+-					 int cpu)
++					 struct device *cpu_dev)
+ {
+-	struct device *cpu_dev;
+ 	struct dev_pm_opp *opp;
+ 	struct device_node *np;
+ 	unsigned long mV, Hz;
+@@ -1057,10 +1056,6 @@ static int __maybe_unused _get_cpu_power(unsigned long *mW, unsigned long *kHz,
+ 	u64 tmp;
+ 	int ret;
+ 
+-	cpu_dev = get_cpu_device(cpu);
+-	if (!cpu_dev)
+-		return -ENODEV;
+-
+ 	np = of_node_get(cpu_dev->of_node);
+ 	if (!np)
+ 		return -EINVAL;
+@@ -1128,6 +1123,6 @@ void dev_pm_opp_of_register_em(struct cpumask *cpus)
+ 	if (ret || !cap)
+ 		return;
+ 
+-	em_register_perf_domain(cpus, nr_opp, &em_cb);
++	em_dev_register_perf_domain(cpu_dev, nr_opp, &em_cb, cpus);
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_opp_of_register_em);
 diff --git a/include/linux/energy_model.h b/include/linux/energy_model.h
-index fe336a9eb5d4..7c048df98447 100644
+index 7c048df98447..7076cb22b247 100644
 --- a/include/linux/energy_model.h
 +++ b/include/linux/energy_model.h
-@@ -2,6 +2,7 @@
- #ifndef _LINUX_ENERGY_MODEL_H
- #define _LINUX_ENERGY_MODEL_H
- #include <linux/cpumask.h>
-+#include <linux/device.h>
- #include <linux/jump_label.h>
- #include <linux/kobject.h>
- #include <linux/rcupdate.h>
-@@ -42,7 +43,7 @@ struct em_perf_domain {
- #define em_span_cpus(em) (to_cpumask((em)->cpus))
- 
- #ifdef CONFIG_ENERGY_MODEL
--#define EM_CPU_MAX_POWER 0xFFFF
-+#define EM_MAX_POWER 0xFFFF
- 
+@@ -48,24 +48,25 @@ struct em_perf_domain {
  struct em_data_callback {
  	/**
-@@ -59,7 +60,7 @@ struct em_data_callback {
+ 	 * active_power() - Provide power at the next performance state of
+-	 *		a CPU
++	 *		a device
+ 	 * @power	: Active power at the performance state in mW
+ 	 *		(modified)
+ 	 * @freq	: Frequency at the performance state in kHz
+ 	 *		(modified)
+-	 * @cpu		: CPU for which we do this operation
++	 * @dev		: Device for which we do this operation (can be a CPU)
+ 	 *
+-	 * active_power() must find the lowest performance state of 'cpu' above
++	 * active_power() must find the lowest performance state of 'dev' above
+ 	 * 'freq' and update 'power' and 'freq' to the matching active power
  	 * and frequency.
  	 *
- 	 * The power is the one of a single CPU in the domain, expressed in
--	 * milli-watts. It is expected to fit in the [0, EM_CPU_MAX_POWER]
-+	 * milli-watts. It is expected to fit in the [0, EM_MAX_POWER]
- 	 * range.
+-	 * The power is the one of a single CPU in the domain, expressed in
+-	 * milli-watts. It is expected to fit in the [0, EM_MAX_POWER]
+-	 * range.
++	 * In case of CPUs, the power is the one of a single CPU in the domain,
++	 * expressed in milli-watts. It is expected to fit in the
++	 * [0, EM_MAX_POWER] range.
  	 *
  	 * Return 0 on success.
-@@ -71,6 +72,8 @@ struct em_data_callback {
- struct em_perf_domain *em_cpu_get(int cpu);
- int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
- 						struct em_data_callback *cb);
-+int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-+				struct em_data_callback *cb, cpumask_t *span);
+ 	 */
+-	int (*active_power)(unsigned long *power, unsigned long *freq, int cpu);
++	int (*active_power)(unsigned long *power, unsigned long *freq,
++			    struct device *dev);
+ };
+ #define EM_DATA_CB(_active_power_cb) { .active_power = &_active_power_cb }
  
- /**
-  * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf. domain
-@@ -174,6 +177,12 @@ static inline int em_register_perf_domain(cpumask_t *span,
- {
- 	return -EINVAL;
- }
-+static inline
-+int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-+				struct em_data_callback *cb, cpumask_t *span)
-+{
-+	return -EINVAL;
-+}
- static inline struct em_perf_domain *em_cpu_get(int cpu)
- {
- 	return NULL;
 diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
-index 9892d548a0fa..875b163e54ab 100644
+index 875b163e54ab..5b8a1566526a 100644
 --- a/kernel/power/energy_model.c
 +++ b/kernel/power/energy_model.c
-@@ -125,7 +125,7 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
- 		 * The power returned by active_state() is expected to be
- 		 * positive, in milli-watts and to fit into 16 bits.
- 		 */
--		if (!power || power > EM_CPU_MAX_POWER) {
-+		if (!power || power > EM_MAX_POWER) {
- 			pr_err("pd%d: invalid power: %lu\n", cpu, power);
- 			goto free_ps_table;
- 		}
-@@ -183,10 +183,13 @@ struct em_perf_domain *em_cpu_get(int cpu)
- EXPORT_SYMBOL_GPL(em_cpu_get);
- 
- /**
-- * em_register_perf_domain() - Register the Energy Model of a performance domain
-- * @span	: Mask of CPUs in the performance domain
-+ * em_dev_register_perf_domain() - Register the Energy Model (EM) for a device
-+ * @dev		: Device for which the EM is to register
-  * @nr_states	: Number of performance states to register
-  * @cb		: Callback functions providing the data of the Energy Model
-+ * @span	: Pointer to cpumask_t, which in case of a CPU device is
-+ *		obligatory. It can be taken from i.e. 'policy->cpus'. For other
-+ *		type of devices this should be set to NULL.
-  *
-  * Create Energy Model tables for a performance domain using the callbacks
-  * defined in cb.
-@@ -196,14 +199,14 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
-  *
-  * Return 0 on success
-  */
--int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+@@ -78,8 +78,9 @@ core_initcall(em_debug_init);
+ #else /* CONFIG_DEBUG_FS */
+ static void em_debug_create_pd(struct em_perf_domain *pd, int cpu) {}
+ #endif
+-static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
 -						struct em_data_callback *cb)
-+int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-+				struct em_data_callback *cb, cpumask_t *span)
++static struct em_perf_domain *
++em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
++	     cpumask_t *span)
  {
- 	unsigned long cap, prev_cap = 0;
- 	struct em_perf_domain *pd;
- 	int cpu, ret = 0;
+ 	unsigned long opp_eff, prev_opp_eff = ULONG_MAX;
+ 	unsigned long power, freq, prev_freq = 0;
+@@ -106,7 +107,7 @@ static struct em_perf_domain *em_create_pd(cpumask_t *span, int nr_states,
+ 		 * lowest performance state of 'cpu' above 'freq' and updates
+ 		 * 'power' and 'freq' accordingly.
+ 		 */
+-		ret = cb->active_power(&power, &freq, cpu);
++		ret = cb->active_power(&power, &freq, dev);
+ 		if (ret) {
+ 			pr_err("pd%d: invalid perf. state: %d\n", cpu, ret);
+ 			goto free_ps_table;
+@@ -237,7 +238,7 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+ 	}
  
--	if (!span || !nr_states || !cb)
-+	if (!dev || !span || !nr_states || !cb)
- 		return -EINVAL;
- 
- 	/*
-@@ -255,4 +258,29 @@ int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(em_dev_register_perf_domain);
-+
-+/**
-+ * em_register_perf_domain() - Register the Energy Model of a performance domain
-+ * @span	: Mask of CPUs in the performance domain
-+ * @nr_states	: Number of capacity states to register
-+ * @cb		: Callback functions providing the data of the Energy Model
-+ *
-+ * Create Energy Model tables for a performance domain using the callbacks
-+ * defined in cb.
-+ *
-+ * If multiple clients register the same performance domain, all but the first
-+ * registration will be ignored.
-+ *
-+ * Return 0 on success
-+ */
-+int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
-+						struct em_data_callback *cb)
-+{
-+	struct device *cpu_dev;
-+
-+	cpu_dev = get_cpu_device(cpumask_first(span));
-+
-+	return em_dev_register_perf_domain(cpu_dev, nr_states, cb, span);
-+}
- EXPORT_SYMBOL_GPL(em_register_perf_domain);
+ 	/* Create the performance domain and add it to the Energy Model. */
+-	pd = em_create_pd(span, nr_states, cb);
++	pd = em_create_pd(dev, nr_states, cb, span);
+ 	if (!pd) {
+ 		ret = -EINVAL;
+ 		goto unlock;
 -- 
 2.17.1
 
