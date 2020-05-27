@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436011E59C1
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 662CC1E5973
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9C76E3E3;
-	Thu, 28 May 2020 07:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF2F6E484;
+	Thu, 28 May 2020 07:44:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03C6E340
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F726E340
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:38 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 131B2581514;
- Wed, 27 May 2020 11:51:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:36 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9139D581518;
+ Wed, 27 May 2020 11:51:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=G7atmPA7eX8En
- DxiMYNRcBaB/TV7dfsNzYMcQXosr6Q=; b=YOmGWhizQbR3FyRe8QzBGNpNklQS2
- Zqavm22mpR9iN80mzBk6gMI4znsV9Ye9+GGgcu3aFlroxEc1XVAcTAdBHrwXC7qi
- jcknFjzSJmtCbWNBKTkI6e4tXb/ovenpmOsb4NvVPN9A8Q+PiEPFp1qEMZcGIQbk
- R9xXngYFPmGmxBsSU3mG8rcs2fQwUKahffwej5+PjZVFmitqkEQHIcU/S9spSv+k
- wKj9p1PICjmyGHGwhomwNBqVCMcaTGoVJhGwr7MCXdErwf674oH3o7Hvm0uu3/bT
- NVWcNSLvJ+UEaJPMI4VEkgLc54jMxekXr89U9li/UNbLlDf9unKJPM2HA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Hsd8JQOKXqqad
+ N9HnqexX4egl8EjW+cY6nFdDegziVM=; b=dEs6sji+it2ZXHG8WYplk+ElCqypR
+ 7f6YbJHc52sSBDtdllmRFe4t1AftH69jcdN9BduIlV5SYH1Bn5nGk9VcOTItgENr
+ psGkZ3nbXqK5MuwL+GMpDXtF/5uD7WENtwYVHxAms9LfpoRK16H/4ZwxXI2hYFEV
+ TULzEC5aiLXNdNrFaxb7C4XVNhWO/olCEui1kf5++xYO4q+j1clJgbvCmjPxzRHG
+ UKc+BzlfcszWm7D+UKCuvx6CEwEoh42jA+I+YZZu95SCV0qc5Cm5Dbnt0wlkXfqi
+ fRdi8NbsGn3/OIrTThEnUtwRqc1vXIcV+pAwh0hm3CpHRefS7KDkyzSOA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=G7atmPA7eX8EnDxiMYNRcBaB/TV7dfsNzYMcQXosr6Q=; b=Gpp6s1SF
- U58FsU/krF2Fqnx20uqepleXvZW0CSUF4N31fVuihW3Gu2a25xQAJiF5t0uu1WDw
- YWZY1VoDirFSwFXfxTTUErxVMb3PCMcOWHQUNa1d6J4B/2Q1nnEO2M0O4+OXWLLS
- 047FNwxIjm1TLuDSu53qwbOjGQ4Tlcs1IVHNc2VhYtTLxmSGF71uWkJYUcM1maCI
- tjCSY+PLZjjGxQSOMhimkCIQSr9Xs10NsvalHQn9n00zby8jQK0L/mSXP3hvCscx
- GOO07UAl+CAUkObpy0qBUivlU3CwB0Y12pyyzcK75LJCfo7ldGULGAz63gj2D1ES
- E9niaMBK0Hk1rw==
-X-ME-Sender: <xms:h4zOXr6c9Q-0-O0Bo4yzzJACxJ5azm2BnDXDaQLlZkSyM_ZtdkJ9zg>
+ fm2; bh=Hsd8JQOKXqqadN9HnqexX4egl8EjW+cY6nFdDegziVM=; b=fqP6XMUW
+ y3gBzLXMEY5ZRdGOje4ECtWXxvIsqmqy+oZPl8bbK9U1svzXamIzZ+kvz4MVUX6t
+ 2Ml5WXFG5To9tfdn/SCBVc6W7MdibibSljuybpstJbtpxDHPXybW1Y1RWb19+ZQe
+ /ZkP2eNOHPQkJKxWzi4pFvQGk5Dh+I985yD2DdC9mW2AnuKSElpuF10vw47vDmvJ
+ abCCFkvc4Dwou6BN8qE8sxYDPkVJyUy7F11psaxiyVkH7s4WV5KZ29EPD03VS4mw
+ b+ENhJ8XL1S3hGPyuDYpOsf2rs4OLZuApDLaEJJviuaVutztVtkEUSPnorse7UYt
+ CFV/6mU+JBtoUg==
+X-ME-Sender: <xms:iYzOXpyiBsTFpIJjAMF5o8VXHDcwv9Njoc00UmEaMgg3s0kA55l8eg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepieefne
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepieejne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:h4zOXg6NhAHYD_Mz0zbMrRLwKuoqS7rWXpfBWRrIxdFmrYSf2Mc76Q>
- <xmx:h4zOXif7cuBNtJ7e012tt7XyR6vyfXLnvODeAAno27EvmECKOzDbdw>
- <xmx:h4zOXsJlcX0hde2dGO6zcwTpJG7pxsqfSlV5AHiB4hixs2KC0uSEdQ>
- <xmx:iIzOXsp2g4gUrgJhKNMbs2SwdT-DT2jp6tARLqs-d5DY-gqM-iTHTw>
+X-ME-Proxy: <xmx:iYzOXpSAseRgG1ESpsNfuZGXxM9ygo2n9Npp-hxkKTSKYZQUvk3E6g>
+ <xmx:iYzOXjUP6bBrfqf8doch-6KDGVZlsMmJTBpAbdpXZAxzGA8j7d0XKw>
+ <xmx:iYzOXriDpPa8MKsCeAAP4ZFTuZPFaZHGx4y0CdTkoZW_KYo95bqXlg>
+ <xmx:iYzOXtBXjCnzGm-rvyl4c6t0CYyB9VZa4w6KYmTZEhZI_EuOT40q-g>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A76C83280069;
- Wed, 27 May 2020 11:51:35 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 352773061CCB;
+ Wed, 27 May 2020 11:51:37 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 088/105] drm/vc4: hdmi: Add CEC support flag
-Date: Wed, 27 May 2020 17:48:58 +0200
-Message-Id: <954a94de6ea75165ef0c44ef0298bfa960601885.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 089/105] drm/vc4: hdmi: Remove unused CEC_CLOCK_DIV define
+Date: Wed, 27 May 2020 17:48:59 +0200
+Message-Id: <45917004243e1d8a060a9932bd5348143718fb5b.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -88,52 +88,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Similarly to the audio support, CEC support is not there yet for the
-BCM2711, so let's skip entirely the CEC initialization through a variant
-flag.
+The CEC_CLOCK_DIV define is not used anywhere in the driver, let's remove
+it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++++
- drivers/gpu/drm/vc4/vc4_hdmi.h | 3 +++
- 2 files changed, 7 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 7eb3cee25001..27cfcf38edb4 100644
+index 27cfcf38edb4..f62b488c5bdb 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1178,6 +1178,9 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 	u32 value;
- 	int ret;
+@@ -55,7 +55,6 @@
  
-+	if (!vc4_hdmi->variant->cec_available)
-+		return 0;
-+
- 	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
- 						  vc4_hdmi, "vc4",
- 						  CEC_CAP_DEFAULTS |
-@@ -1457,6 +1460,7 @@ static int vc4_hdmi_dev_remove(struct platform_device *pdev)
- static const struct vc4_hdmi_variant bcm2835_variant = {
- 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
- 	.debugfs_name		= "hdmi_regs",
-+	.cec_available		= true,
- 	.registers		= vc4_hdmi_fields,
- 	.num_registers		= ARRAY_SIZE(vc4_hdmi_fields),
+ #define HSM_CLOCK_FREQ 163682864
+ #define CEC_CLOCK_FREQ 40000
+-#define CEC_CLOCK_DIV  (HSM_CLOCK_FREQ / CEC_CLOCK_FREQ)
  
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 22100820c81b..20e0f5498f1e 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -33,6 +33,9 @@ struct vc4_hdmi_variant {
- 	/* Filename to expose the registers in debugfs */
- 	const char *debugfs_name;
- 
-+	/* Set to true when the CEC support is available */
-+	bool cec_available;
-+
- 	/* List of the registers available on that variant */
- 	const struct vc4_hdmi_register *registers;
- 
+ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+ {
 -- 
 git-series 0.9.1
 _______________________________________________
