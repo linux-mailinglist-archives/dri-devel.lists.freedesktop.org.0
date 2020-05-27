@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D601E3D5E
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 11:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCD31E3DF3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 11:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8268995F;
-	Wed, 27 May 2020 09:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2F8899E6;
+	Wed, 27 May 2020 09:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 552518995F
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 09:15:24 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id b27so13640718qka.4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 02:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessm-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=idtnrQWeAURzpQW+RLs00G+O8A4gS3L+K9UkeXCQe20=;
- b=kaep8FtjTBescBuh/DTMipJrlsUmsVVNCeoJaIoHjvFY3aLX/ypieDP9Eq0bg2Z8Fy
- mfEtfW6eHGq4NWtk78hJA1GrV3b34qvVN1y21NxIWuPsmIIXM3kXfejRW4UodWTNTGQt
- YABx6/a5Ku1L3BTkJ0r9WGY0xs/SJ+8CxmdNMGjb3/7hEkYvKlwFZQmAKkojuQcYbqHm
- wfcdyvs6+MwWQTqgRRzcFX/xcVW3zkg99aMg/449QxobkNDo8rTRYi2IYoVyuomDKqhv
- sBoGhIIszOrZDFM6DGvgkQHYND20PdHpwXfvfZuf9WzJSYFFV0iDQC1JNV1jMqjJ2VlQ
- tvhQ==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093D6896B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 09:48:05 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id l26so2418659wme.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 02:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UR+oqHX3Z65xg1wAwvf/sv5W1xHkc5UdSBKrFC8Pu8Q=;
+ b=FUmWoJACWDcmkjRH6kDrBMqoAEZEPWOUlP0Kr/9+XZIGlPCkq2mPPQTe2NQEIySneg
+ Pwdyk1qWGem4sRPBuWhn7uFRxocuMEjwBrV2DjYY3m0aTfxni92niiedQXHAw52gs1EW
+ 4zZjuH1K/SpMY5QCxQrT/kaCAeXh0X0BK3nec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=idtnrQWeAURzpQW+RLs00G+O8A4gS3L+K9UkeXCQe20=;
- b=CoM6WEftEYFvdsJRo26N/zHo1wWmttFfQaSWsHB1SB5KVMUe+JTLOHu1DbAUgU8qTk
- lqf62mcxQXtIbXd2J4tv5ON/R/GZodhfnT5wKmeE6hTzJ5ElccJ2jFWM3kjGn6L7zE0g
- l4kmuidXSqas6KVhSqvQF55zTCpJjYx+bM3+UG9xAjIwAkI6KtdY+BNTGWHFG5McM45m
- JF0uYFM2OoUoxSQ0tsAJ1eYuXF3MiJL2nAAvwXqLD2AxuCcc5sGaMk6pfU62Hui/Cvyf
- 2eXIwhZm5uFFxtlCaqh3mpd1mUudErgQ9iN5Ix3FOfXZ8iB5hJE9ywW5f9SJ0d+7JVls
- jPKQ==
-X-Gm-Message-State: AOAM533b6xhSjyFUuTT5+5Mv8iVvk+s5nnhUG+XPMzOijavCh5tAF6wK
- NHn70VIFuvgza7BRviPGD65m4FL/GVI4Ru5ZAhSgDQ==
-X-Google-Smtp-Source: ABdhPJz2rYXRknrAa47G5ZoicHWOBJaEnkLv8Z2pCeyzrLZa3p9k5mhYAvQMKK0N2KMt5GCFK7O6dYRm2sJ476AKlKA=
-X-Received: by 2002:a37:6851:: with SMTP id d78mr2994513qkc.86.1590570923313; 
- Wed, 27 May 2020 02:15:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UR+oqHX3Z65xg1wAwvf/sv5W1xHkc5UdSBKrFC8Pu8Q=;
+ b=ptflO8NjpQKBpCtia0cWoo3wVDGu6BQ9fncGuyFuIRauIJ08UHpJQYxxxoh7YEhWXj
+ Tv+XKB2J+e/1+FjziWYeIFRYe399v3+T2SKbUpO29qlVRJW9f/13owGr6axC03HNNCZ5
+ KWXCtHQQmA7a3R5ZA/6hJkkCi5crzPnOljrFiR8KAsOFFyTmnknBP0ggyuygKbZ0i0/R
+ aAxgCSFKxq9AZPPrawApRTVEJZa5NwSVEXIR2PUcXgcXUXba7vatl4ILHFyfDCBRoOYs
+ bwpASjB9uAu4e36ke3hXgZ4GLyvGtWmXDIh2ZSp+xUuP6hQssaf1E9BB+qzgdOlRUIQX
+ EneQ==
+X-Gm-Message-State: AOAM531b/W+P/gu0G1vKjdKlHjz/GGCmM+OmqoMqjIgIuwtGS5JrQP44
+ M0WTZ7JMo/C9lrOGZBK//I500CYDR/Q=
+X-Google-Smtp-Source: ABdhPJwfeJUwsL273S3yIOX7avXf1zfG5f5WAhvIQCbl9w+jX3peXBFWAS4CNo0JUJ5JqqfJLklCbQ==
+X-Received: by 2002:a05:600c:4410:: with SMTP id
+ u16mr3424921wmn.88.1590572883411; 
+ Wed, 27 May 2020 02:48:03 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s8sm2353489wrg.50.2020.05.27.02.48.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 May 2020 02:48:02 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/2] drm/mxsfb: Call drm_crtc_vblank_on/off
+Date: Wed, 27 May 2020 11:47:56 +0200
+Message-Id: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <20200427072342.5499-1-jian-hong@endlessm.com>
- <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
- <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
- <20200507172158.cybtakpo6cxv6wcs@gilmour.lan>
- <CAPpJ_efxenmSXt2OXkhkQ1jDJ59tyWBDUvmpyOB-bfPMDENQZg@mail.gmail.com>
- <CAPpJ_ed9TMJjN8xS1_3saf5obQhULJSLNgQSAFxgiWM2QX9A7Q@mail.gmail.com>
- <20200526102018.kznh6aglpkqlp6en@gilmour.lan>
- <CAD8Lp467DiYWLwH6T1Jeq-uyN4VEuef-gGWw0_bBTtmSPr00Ag@mail.gmail.com>
- <20200527091335.7wc3uy67lbz7j4di@gilmour.lan>
-In-Reply-To: <20200527091335.7wc3uy67lbz7j4di@gilmour.lan>
-From: Daniel Drake <drake@endlessm.com>
-Date: Wed, 27 May 2020 17:15:12 +0800
-Message-ID: <CAD8Lp45ucK-yZ5G_DrUVA7rnxo58UF1LPUy65w2PCOcSxKx_Sg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
-To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,31 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- devicetree <devicetree@vger.kernel.org>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Jian-Hong Pan <jian-hong@endlessm.com>,
- Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, linux-i2c@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 5:13 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> I'm about to send a v3 today or tomorrow, I can Cc you (and Jian-Hong) if you
-> want.
+mxsfb has vblank support, is atomic, but doesn't call
+drm_crtc_vblank_on/off as it should. Not good.
 
-That would be great, although given the potentially inconsistent
-results we've been seeing so far it would be great if you could
-additionally push a git branch somewhere.
-That way we can have higher confidence that we are applying exactly
-the same patches to the same base etc.
+With my next patch to add the drm_crtc_vblank_reset to helpers this
+means not even the very first crtc enabling will vblanks work anymore,
+since they'll just stay off forever.
 
-Thanks
-Daniel
+Since mxsfb doesn't have any vblank waits of its own in the
+enable/disable flow, nor an enable/disable_vblank callback we can do
+the on/off as the first respectively last operation, and it should all
+work.
+
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org
+---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 497cf443a9af..1891cd6deb2f 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -124,6 +124,7 @@ static void mxsfb_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	drm_panel_prepare(mxsfb->panel);
+ 	mxsfb_crtc_enable(mxsfb);
+ 	drm_panel_enable(mxsfb->panel);
++	drm_crtc_vblank_on(&pipe->crtc);
+ }
+ 
+ static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
+@@ -133,6 +134,7 @@ static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_pending_vblank_event *event;
+ 
++	drm_crtc_vblank_off(&pipe->crtc);
+ 	drm_panel_disable(mxsfb->panel);
+ 	mxsfb_crtc_disable(mxsfb);
+ 	drm_panel_unprepare(mxsfb->panel);
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
