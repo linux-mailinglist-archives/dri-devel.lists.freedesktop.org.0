@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176751E5932
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E191E59A3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:46:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC396E3F4;
-	Thu, 28 May 2020 07:43:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB42C6E42A;
+	Thu, 28 May 2020 07:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F686E33D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:49:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 650126E33F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:49:50 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3994D582030;
- Wed, 27 May 2020 11:49:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:49:48 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id C3B9A582034;
+ Wed, 27 May 2020 11:49:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:49:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=FGHgip5pCgsef
- Z4M/vFInKoncWLsvsxW7FNyZtJgmzk=; b=yYHqLeeTM+s0JuUFx5k0doTF+khCA
- MBjLG0djSmTRIK45cNzxKKflIclQE6lK9L5NNcA88H0nVyTHIoai5+m29VdWEAgd
- g6hj5UJ9w38de+R79XuPs3IZn+WNN7LqXOa26JU/k2k4k24kZuSebm86Lv+u/5WK
- JEk/m2JbhZqETNFE3kE92eWHOn9yBtuLIvLzcN7vC841OC+YonV7mLi9twFEaypn
- E01VW48VExpB7y2jGIBCYbQ3XtC54AnQHFsgKpE7Wu83dHIuH0g09rPzNRFDqByg
- p6NZgR939fYveNWH0Hf1oGv7xhxc0uAIICQkWAtF9Moh3Kqc2CtXDa7qQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=fse909+Uy/SxW
+ fg4vh9c6yKXmMtSynUFNN2rQ9mVfiM=; b=CKnAQTj4qF9YmRrmG1WEUm3QBlGmN
+ +Z8rAt4fKlNZvAY2Eb+XikZjeCsWRL6RJP/EZtPIvEdPcY0D5RVMjyTxaHGH0aBU
+ W5Pfmd35yAayjvkBS62zPpb/usriE4khPkxh9oSA2UPfXxTGaoeGOEhkgJgLyckQ
+ rB+mXcLNXZQt+48xIiEAMM/s57iA7jJaLCo+LV8ilOr18tMPd3uLnwUyoudRjkSv
+ nbLnkt9peQi8fOK/yuAJFWRYpkdxBaStJEBCqU5YdBlYDkMS+G/cM/VKXQW3tc78
+ gMPYitDhLkyMhUH4MacOwqjP6N9ucPsdcX1LyrxU4jxyYkqi7hMaljNyw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=FGHgip5pCgsefZ4M/vFInKoncWLsvsxW7FNyZtJgmzk=; b=mfCerUHn
- 7tbvVA0B/mMWEDtBCMmONK31ovGYj0pCPhq/V/f90eZV4pXjKkDu5YNUgJXk9LNv
- v7GSN62YQRozBV1MSpFAmORDaYMYQi7S96zR5kEs2oBG5Ier51mKpyABx3ps5owa
- R3Zrp0oKg6rpno+5lw5YZ1cPssj3AA9myFwAgC8Yqdj1+mv+DtC70QyLHvJ6FY/Z
- +z12FnHnwuCyVfQ3JWKntM7/Wm4HaRyBeih33MOkUuXBGW5GRhOfMFtZo79Id8WZ
- sawnnhVTBfftSYQ5CeYdEYIFbuxjbbFv/tGInnxhxlRZqu5NPQ/kKeSn8TodwVHv
- 3UbL6TACfPg3ng==
-X-ME-Sender: <xms:HIzOXqFDH5o-_Qy8DUoOhUpkzTz8P9j95KfAeiNrynV22rLfRajVCg>
+ fm2; bh=fse909+Uy/SxWfg4vh9c6yKXmMtSynUFNN2rQ9mVfiM=; b=WVS1ZcNo
+ FqGEz8XqMA0IYpsSErp7m51LvvR0lGObJ+dUsbdXH6eQU35Y56w5qYrzFBtRhOsl
+ 2hzgk2EWUcvbGHPiu3utHZQ5zgZlFU27yfeJEVAt0PguyjAmNpReL4rlHdefo/X+
+ j732M4b7CbOxrSN9YsngEYwNhjlj+JP32FncSBJeiydEdLwgjCG+moaCIChdWPJn
+ jTPDYlMOF4Jnqn1/gLAN9ehLRyuPvupVYaPeMIRNwHRgnuF6uGrSyMR4tesjnFDr
+ fS98le+8/daRG2aEu2OqrnHH7qG9BNJHCxqcR6Wk9L34wrcRtsgImA9WqXwoGrPH
+ hnHQ5jM7s9K6/w==
+X-ME-Sender: <xms:HYzOXmPOhVtbZq6umOLH4FtKV5U4Tj_CosAY3igUXG-WM129k0e4GA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:HIzOXrWNdPTSWzoB6wpWZwzQpRfhwEaaZpr-36HBCs5W8-mzwfD4cw>
- <xmx:HIzOXkJMLV2BuiPie6Foecpez46L9naT3InCIKJyLLgeKEBX6eB03A>
- <xmx:HIzOXkEwiCxK8dskKfOYGyBJIe84B28HgYqpdkHuoa182s4s6Xfd8w>
- <xmx:HIzOXjHvIAMGDv5JopO3lQ_WK5jTj3_5trhnXO7YJA1Hgi4tR-iQ4A>
+X-ME-Proxy: <xmx:HYzOXk_un5RM9e-lK-qGZ68t6hcTojeALMY8u1Fah22J90mV8JyAAg>
+ <xmx:HYzOXtTJZyLPprvipXGYkG8Tu3vxZ1iby2tBW4q5zAy3MXjngKsOAw>
+ <xmx:HYzOXmvT2BHsdkWVaXc0DZ1cmgywxTOJhSXevJj1XYYwO3elv7YLhA>
+ <xmx:HYzOXkuqrYplodrUNRB_wbrLkHS7Qd6S4WZStS_tro5ibw_HrziP5A>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D3457328005E;
- Wed, 27 May 2020 11:49:47 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 605A63061CCB;
+ Wed, 27 May 2020 11:49:49 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 020/105] drm/vc4: plane: Create overlays for any CRTC
-Date: Wed, 27 May 2020 17:47:50 +0200
-Message-Id: <74d84c75511974bc1ff4bc044413894a43a907a6.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 021/105] drm/vc4: plane: Create more planes
+Date: Wed, 27 May 2020 17:47:51 +0200
+Message-Id: <6b4586842314b8c101758fdda6555d4353b7789b.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -88,73 +88,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have everything in place, we can now register all the overlay
-planes that can be assigned to all the CRTCs.
+Let's now create more planes that can be affected to all the CRTCs.
 
-This has two side effects:
+vc4 has 3 CRTCs, 1 primary and 1 cursor each, and was having 24 (8
+planes per CRTC) overlays.
 
-  - The number of overlay planes is reduced from 24 to 8. This is temporary
-    and will be increased again in the next patch.
+However, vc5 has 5 CRTCs, so keeping the same logic would put us at 50
+planes which is well above the 32 planes limit imposed by DRM.
 
-  - The ID of the various planes is changed again, and we will now have all
-    the primary planes, then all the overlay planes and finally the cursor
-    planes. This shouldn't cause any issue since the ordering between
-    primary, overlay and cursor planes is preserved.
+Using 16 seems like a good tradeoff between staying under 32 and yet
+providing enough planes.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 35 +++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 824c188980b0..5335123ae2a0 100644
+index 5335123ae2a0..c190ccc42c51 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1378,26 +1378,27 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
- 	struct drm_crtc *crtc;
- 	unsigned int i;
+@@ -1387,7 +1387,7 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
+ 	 * modest number of planes to expose, that should hopefully
+ 	 * still cover any sane usecase.
+ 	 */
+-	for (i = 0; i < 8; i++) {
++	for (i = 0; i < 16; i++) {
+ 		struct drm_plane *plane =
+ 			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
  
--	drm_for_each_crtc(crtc, drm) {
--		/* Set up some arbitrary number of planes.  We're not limited
--		 * by a set number of physical registers, just the space in
--		 * the HVS (16k) and how small an plane can be (28 bytes).
--		 * However, each plane we set up takes up some memory, and
--		 * increases the cost of looping over planes, which atomic
--		 * modesetting does quite a bit.  As a result, we pick a
--		 * modest number of planes to expose, that should hopefully
--		 * still cover any sane usecase.
--		 */
--		for (i = 0; i < 8; i++) {
--			struct drm_plane *plane =
--				vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
-+	/* Set up some arbitrary number of planes.  We're not limited
-+	 * by a set number of physical registers, just the space in
-+	 * the HVS (16k) and how small an plane can be (28 bytes).
-+	 * However, each plane we set up takes up some memory, and
-+	 * increases the cost of looping over planes, which atomic
-+	 * modesetting does quite a bit.  As a result, we pick a
-+	 * modest number of planes to expose, that should hopefully
-+	 * still cover any sane usecase.
-+	 */
-+	for (i = 0; i < 8; i++) {
-+		struct drm_plane *plane =
-+			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
- 
--			if (IS_ERR(plane))
--				continue;
-+		if (IS_ERR(plane))
-+			continue;
- 
--			plane->possible_crtcs = drm_crtc_mask(crtc);
--		}
-+		plane->possible_crtcs =
-+			GENMASK(drm->mode_config.num_crtc - 1, 0);
-+	}
- 
-+	drm_for_each_crtc(crtc, drm) {
- 		/* Set up the legacy cursor after overlay initialization,
- 		 * since we overlay planes on the CRTC in the order they were
- 		 * initialized.
 -- 
 git-series 0.9.1
 _______________________________________________
