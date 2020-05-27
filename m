@@ -1,59 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1F91E3A21
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:16:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 194911E39C5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7206E29E;
-	Wed, 27 May 2020 07:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC0A89A08;
+	Wed, 27 May 2020 07:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B2E6E030
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 03:31:24 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id c20so22676239ilk.6
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 20:31:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mYTDBjmF5P3Prc+HqW20hE68LTSpmhjJUYlei4pinL4=;
- b=gqG/fvpbY+IG7TyiRzSTZ9wDGJLAHqG+o9kNi1AF9EL+ny4VwJW8K4LxWrnbLj+2aG
- 2glK+H/RU/c7WBt6NoFHIPTeid2VMzvufC3lzP+lg/+KT6G5OjUYdzk1eiT1uyVQcIOx
- Hs+qapgUNPryh9o3UdyGBOqeckXGT7W0FCKlX6QMQAFJAhXFk+RK2B+BvQ9mI88x7AKL
- +Nzf5eOLuW/BbgmASX4gDk97t8UoqWmo2RtbjP3ZKxtiFi7wEpH3aVcSKcIL+mBo5qPT
- 7NtdN1wgwoI/hRCJwS/P90XKG51rV9cmbRn7RVOLBrZ4a7JnWmXWeTz++nPwy7tuupdz
- msfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mYTDBjmF5P3Prc+HqW20hE68LTSpmhjJUYlei4pinL4=;
- b=teMNI/hoVAxmGZYx8IxR/GHDWZdmZTxTCTayHHV4Vqh4K2JchRpHGfdw81Q1HtOSmN
- RJ5B/2XpAX3v+chILxM7SXe4BndIt2Cr0eCUj9pF7/Kzdu9z0zBbWqyu2GkoVUY3T0Yu
- jhXHYsMg5shtAx5ZAZyBjBBLjmtEXuWT9Lvw8rcgBpQNxMizeYHZbzkPTU46N3brgztu
- eLAevLnqnD9uwZUdMqZK8p1CAN5CiYtDvuG9K/h287IvVqrL3mNg6rxlINwB1BhL/qpg
- 98br5gbDfYMMurutaMSjlv9C+kz9U5zSqlBzICJvDhPQC9o19m77fJVBnKKJpbVfs8xy
- U+Bw==
-X-Gm-Message-State: AOAM533g2gBmIDJqJhJmPXPp2MbsOWJRmgcrz4AT1VcVG8TPS5ZNkLPf
- a+FvZZMo9jlUJT2i97EkQ8zSs/YDpxLEPjOSpWw=
-X-Google-Smtp-Source: ABdhPJwuyAxSxLkhVb7QvcW25hO5jSZaAlIwIL+dnkE3kgzuiin71PvFpxjwpkiCyDSpFszGEGBvvFVmU0Khgad6kBg=
-X-Received: by 2002:a92:40ca:: with SMTP id d71mr4124378ill.200.1590550284118; 
- Tue, 26 May 2020 20:31:24 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7707A89A08
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 07:03:18 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 47E85207CB;
+ Wed, 27 May 2020 07:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590562998;
+ bh=LhwzZ24hfZZZERXjwv0SCDky3MmpIWrKK1ViT7H5PAk=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=tSeNvf8xROTQJAx1K3QWz2fmLTWCWIDKHQBVpNUyMIf1kjPdgTkhUpLSlmpmTQvYu
+ Cu3XCk/RAU33/h8rJ5ZQSZj4PzzuEurNELuVWI1nFF5+WmhTej4Zn7qgx0wpldILyq
+ 2XNUQdrpZewLdaclffsYXC0o9+OKgz6AfJr34His=
 MIME-Version: 1.0
-References: <1590378348-8115-1-git-send-email-dillon.minfei@gmail.com>
- <1590378348-8115-6-git-send-email-dillon.minfei@gmail.com>
- <159054389592.88029.12389551390229328953@swboyd.mtv.corp.google.com>
-In-Reply-To: <159054389592.88029.12389551390229328953@swboyd.mtv.corp.google.com>
-From: dillon min <dillon.minfei@gmail.com>
-Date: Wed, 27 May 2020 11:30:47 +0800
-Message-ID: <CAL9mu0L1OxDMHwNjfh+11br+z3vt+wyq45Q7-KNVSLTENAxH+Q@mail.gmail.com>
-Subject: Re: [PATCH v5 5/8] clk: stm32: Fix stm32f429's ltdc driver hang in
- set clock rate, fix duplicated ltdc clock register to 'clk_core' case ltdc's
- clock turn off by clk_disable_unused()
-To: Stephen Boyd <sboyd@kernel.org>
-X-Mailman-Approved-At: Wed, 27 May 2020 07:15:42 +0000
+In-Reply-To: <1a25b4f079dcdc669d4b29d3658ef0b72be2651e.1587742492.git-series.maxime@cerno.tech>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <1a25b4f079dcdc669d4b29d3658ef0b72be2651e.1587742492.git-series.maxime@cerno.tech>
+Subject: Re: [PATCH v2 20/91] clk: bcm: rpi: Discover the firmware clocks
+From: Stephen Boyd <sboyd@kernel.org>
+To: Eric Anholt <eric@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Date: Wed, 27 May 2020 00:03:17 -0700
+Message-ID: <159056299757.88029.2814367530440231587@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,105 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-spi <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU3RlcGhlbiwKClRoYW5rcyBmb3IgcmV2aWV3aW5nLgoKT24gV2VkLCBNYXkgMjcsIDIwMjAg
-YXQgOTo0NCBBTSBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gUXVv
-dGluZyBkaWxsb24ubWluZmVpQGdtYWlsLmNvbSAoMjAyMC0wNS0yNCAyMDo0NTo0NSkKPiA+IEZy
-b206IGRpbGxvbiBtaW4gPGRpbGxvbi5taW5mZWlAZ21haWwuY29tPgo+ID4KPiA+IGx0ZGMgc2V0
-IGNsb2NrIHJhdGUgY3Jhc2hlZAo+ID4gICAgJ3Bvc3RfZGl2X2RhdGFbXScncyBwbGxfbnVtIGlz
-IFBMTF9JMlMsIFBMTF9TQUkgKG51bWJlciBpcyAxLDIpLiBidXQsCj4KPiBQbGVhc2Ugd3JpdGUg
-InBvc3RfZGl2X2RhdGFbXSdzIiBpZiBpdCBpcyBwb3NzZXNzaXZlLiAiQnV0IiBkb2Vzbid0Cj4g
-c3RhcnQgYSBzZW50ZW5jZS4gVGhpcyBpcyBvbmUgc2VudGVuY2UsIG5vdCB0d28uCk9rLgoKPgo+
-ID4gICAgIGFzIHBsbF9udW0gaXMgb2Zmc2V0IG9mICdjbGtzW10nIGlucHV0IHRvIGNsa19yZWdp
-c3Rlcl9wbGxfZGl2KCksIHdoaWNoCj4gPiAgICAgaXMgRkNMSywgQ0xLX0xTSSwgZGVmaW5lZCBp
-biAnaW5jbHVkZS9kdC1iaW5kaW5ncy9jbG9jay9zdG0zMmZ4LWNsb2NrLmgnCj4gPiAgICAgc28s
-IHRoaXMgaXMgYSBudWxsIG9iamVjdCBhdCB0aGUgcmVnaXN0ZXIgdGltZS4KPiA+ICAgICB0aGVu
-LCBpbiBsdGRjJ3MgY2xvY2sgaXNfZW5hYmxlZCgpLCBlbmFibGUoKSwgd2lsbCBjYWxsIHRvX2Ns
-a19nYXRlKCkuCj4gPiAgICAgd2lsbCByZXR1cm4gYSBudWxsIG9iamVjdCwgY2F1c2Uga2VybmVs
-IGNyYXNoZWQuCj4gPiAgICAgbmVlZCBjaGFuZ2UgcGxsX251bSB0byBQTExfVkNPX0kyUywgUExM
-X1ZDT19TQUkgZm9yICdwb3N0X2Rpdl9kYXRhW10nCj4gPgo+ID4gIGR1cGxpY2F0ZWQgbHRkYyBj
-bG9jawo+ID4gICAgJ3N0bTMyZjQyOV9nYXRlc1tdJyBoYXMgYSBtZW1iZXIgJ2x0ZGMnIHJlZ2lz
-dGVyIHRvICdjbGtfY29yZScsIGJ1dCBubwo+ID4gICAgIHVwcGVyIGRyaXZlciB1c2UgaXQsIGx0
-ZGMgZHJpdmVyIHVzZSB0aGUgbGNkLXRmdCBkZWZpbmVkIGluCj4gPiAgICAnc3RtMzJmNDI5X2F1
-eF9jbGtbXScuIGFmdGVyIHN5c3RlbSBzdGFydHVwLCBhcyBzdG0zMmY0MjlfZ2F0ZXNbXSdzIGx0
-ZGMKPiA+ICAgICBlbmFibGVfY291bnQgaXMgemVybywgc28gdHVybiBvZmYgYnkgY2xrX2Rpc2Fi
-bGVfdW51c2VkKCkKPgo+IEkgc29ydCBvZiBmb2xsb3cgdGhpcy4gSXMgdGhpcyBhbm90aGVyIHBh
-dGNoPyBTZWVtcyBsaWtlIHR3byB0aGluZ3MgYXJlCj4gZ29pbmcgb24gaGVyZS4KClRoaXMgcGF0
-Y2ggZml4IHR3byBidWdzIGFib3V0IHN0bTMyJ3MgY2xvY2suCmJ1ZzE6ICBsdGRjIGRyaXZlciBs
-b2FkaW5nIGhhbmcgaW4gY2xrX3NldF9yYXRlKCksIHRoaXMgaXMgZHVlIHRvCm1pc3VzZSDigJhQ
-TExfVkNPX1NBSScgYW5kCiAgICAgICAgICAgJ1BMTF9TQUknLgoKIHNwZWFrIGluIHNob3J0LCBm
-cm9tIHRoZSBiZWxvdyBjb2RlLAogICAg4oCZUExMX1NBSScgaXMgMiwgJ1BMTF9WQ09fU0FJJyBp
-cyA3LgogICAgJ3Bvc3RfZGl2JyBwb2ludCB0byAncG9zdF9kaXZfZGF0YVtdJywgJ3Bvc3RfZGl2
-LT5wbGxfbnVtJyBpcwpQTExfSTJTLCBQTExfU0FJLgogICAgJ2Nsa3NbUExMX1ZDT01fU0FJJyBo
-YXMgdmFpbGQgJ3N0cnVjdCBjbGtfaHcqICcgcmV0dXJuIGZyb20Kc3RtMzJmNF9yY2NfcmVnaXN0
-ZXJfcGxsKCkKICAgIGJ1dCwgYXQgbGluZSAxNzc2LCB1c2UgdGhlICdjbGtzW3Bvc3RfZGl2LT5w
-bGxfbnVtXScsIGVxdWFsIHRvCidjbGtzW1BMTF9TQUldJywgdGhpcyBpcyBpbnZhaWxkCiAgICBh
-dCB0aGF0IHRpbWUuCgppbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL3N0bTMyZngtY2xvY2suaAoy
-OSAjZGVmaW5lIFBMTF9WQ09fU0FJICAgICAgICAgICAgIDcKCmRyaXZlcnMvY2xrL2Nsay1zdG0z
-MmY0LmMKIDQ5NCBlbnVtIHsKIDQ5NSAgICAgICAgIFBMTCwKIDQ5NiAgICAgICAgIFBMTF9JMlMs
-CiA0OTcgICAgICAgICBQTExfU0FJLAogNDk4IH07CgoKIDU1OCBzdGF0aWMgY29uc3Qgc3RydWN0
-IHN0bTMyZjRfcGxsX3Bvc3RfZGl2X2RhdGEKcG9zdF9kaXZfZGF0YVtNQVhfUE9TVF9ESVZdID0g
-ewogNTU5ICAgICAgICAgeyBDTEtfSTJTUV9QRElWLCBQTExfSTJTLCAicGxsaTJzLXEtZGl2Iiwg
-InBsbGkycy1xIiwKIDU2MCAgICAgICAgICAgICAgICAgQ0xLX1NFVF9SQVRFX1BBUkVOVCwgU1RN
-MzJGNF9SQ0NfRENLQ0ZHUiwgMCwgNSwgMCwgTlVMTH0sCiA1NjEKIDU2MiAgICAgICAgIHsgQ0xL
-X1NBSVFfUERJViwgUExMX1NBSSwgInBsbHNhaS1xLWRpdiIsICJwbGxzYWktcSIsCiA1NjMgICAg
-ICAgICAgICAgICAgIENMS19TRVRfUkFURV9QQVJFTlQsIFNUTTMyRjRfUkNDX0RDS0NGR1IsIDgs
-IDUsIDAsIE5VTEwgfSwKIDU2NAogNTY1ICAgICAgICAgeyBOT19JRFgsIFBMTF9TQUksICJwbGxz
-YWktci1kaXYiLCAicGxsc2FpLXIiLCBDTEtfU0VUX1JBVEVfUEFSRU5ULAogNTY2ICAgICAgICAg
-ICAgICAgICBTVE0zMkY0X1JDQ19EQ0tDRkdSLCAxNiwgMiwgMCwgcG9zdF9kaXZyX3RhYmxlIH0s
-CiA1NjcgfTsKCgoxNzU5ICAgICAgICAgY2xrc1tQTExfVkNPX1NBSV0gPSBzdG0zMmY0X3JjY19y
-ZWdpc3Rlcl9wbGwoInZjb19pbiIsCjE3NjAgICAgICAgICAgICAgICAgICAgICAgICAgJmRhdGEt
-PnBsbF9kYXRhWzJdLCAmc3RtMzJmNF9jbGtfbG9jayk7CjE3NjEKMTc2MiAgICAgICAgIGZvciAo
-biA9IDA7IG4gPCBNQVhfUE9TVF9ESVY7IG4rKykgewoxNzYzICAgICAgICAgICAgICAgICBjb25z
-dCBzdHJ1Y3Qgc3RtMzJmNF9wbGxfcG9zdF9kaXZfZGF0YSAqcG9zdF9kaXY7CjE3NjQgICAgICAg
-ICAgICAgICAgIHN0cnVjdCBjbGtfaHcgKmh3OwoxNzY1CjE3NjYgICAgICAgICAgICAgICAgIHBv
-c3RfZGl2ID0gJnBvc3RfZGl2X2RhdGFbbl07CjE3NjcKMTc2OCAgICAgICAgICAgICAgICAgaHcg
-PSBjbGtfcmVnaXN0ZXJfcGxsX2Rpdihwb3N0X2Rpdi0+bmFtZSwKMTc2OSAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBvc3RfZGl2LT5wYXJlbnQsCjE3NzAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBwb3N0X2Rpdi0+ZmxhZywKMTc3MSAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGJhc2UgKyBwb3N0X2Rpdi0+b2Zmc2V0LAoxNzcyICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgcG9zdF9kaXYtPnNoaWZ0LAoxNzczICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgcG9zdF9kaXYtPndpZHRoLAoxNzc0ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgcG9zdF9kaXYtPmZsYWdfZGl2LAoxNzc1ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgcG9zdF9kaXYtPmRpdl90YWJsZSwKMTc3NiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGNsa3NbcG9zdF9kaXYtPnBsbF9udW1dLAoxNzc3ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgJnN0bTMyZjRfY2xrX2xvY2spOwoxNzc4CjE3NzkgICAgICAgICAg
-ICAgICAgIGlmIChwb3N0X2Rpdi0+aWR4ICE9IE5PX0lEWCkKMTc4MCAgICAgICAgICAgICAgICAg
-ICAgICAgICBjbGtzW3Bvc3RfZGl2LT5pZHhdID0gaHc7CjE3ODEgICAgICAgICB9CgpidWcyOiBs
-dGRjJ3MgY2xvY2sgdHVybiBvZmYgYnkgY2xrX2Rpc2FibGVfdW51c2VkKCkKCmZyb20geW91ciBj
-b21tZW50cyBhdCAnW1BBVENIIHYzIDQvNV0gY2xrOiBzdG0zMjogRml4IHN0bTMyZjQyOSBsdGRj
-CmRyaXZlciBsb2FkaW5nIGhhbmcKIGluIGNsayBzZXQgcmF0ZS4ga2VlcCBsdGRjIGNsayBydW5u
-aW5nIGFmdGVyIGtlcm5lbCBzdGFydHVwJyAsIGkgZ28KZGVlcCBpbnRvIHRoZSBjb2RlLCBmb3Vu
-ZApzdG0zMidzIGNsayBkcml2ZXIgcmVnaXN0ZXIgdHdvIGdhdGUgY2xrIHRvIGNsayBjb3JlIGJ5
-CmNsa19od19yZWdpc3Rlcl9nYXRlKCkgYW5kCmNsa19od19yZWdpc3Rlcl9jb21wb3NpdGUoKQoK
-Zmlyc3Q6ICdzdG0zMmY0MjlfZ2F0ZXNbXScsIGNsayBuYW1lIGlzICdsdGRjJywgdGhpcyBpcyBu
-byB1c2VyIHVzZWQuCnNlY29uZDogJ3N0bTMyZjQyOV9hdXhfY2xrW10nLCBjbGsgbmFtZSBpcyAn
-bGNkLXRmdCcsIHRoaXMgaXMgdXNlZCBieQpsdGRjIGRyaXZlcgoKYm90aCBvZiB0aGVtIHBvaW50
-IHRvIHRoZSBzYW1lIG9mZnNldCBvZiBzdG0zMidzIFJDQyByZWdpc3Rlci4gYWZ0ZXIKa2VybmVs
-IGVudGVyIGNvbnNvbGUsCmNsayBjb3JlIHR1cm4gb2ZmIGx0ZGMncyBjbGsgYXMgJ3N0bTMyZjQy
-OV9nYXRlc1tdJyBpcyB1bnVzZWQuIGJ1dCwKYWN0dWFsbHkgJ3N0bTMyZjQyOV9hdXhfY2xrW10n
-CmlzIGluIHVzZS4KCmkgY2FuIHNlcGFyYXRlIHRoaXMgcGF0Y2ggdG8gdHdvLCBlYWNoIGJ1ZyBh
-IHBhdGNoIGlmIG5lY2Vzc2FyeQoKPgo+ID4KPiA+IENoYW5nZXMgc2luY2UgVjM6Cj4gPiAxIGRy
-b3AgbGFzdCB3cm9uZyBjaGFuZ2VzIGFib3V0ICdDTEtfSUdOT1JFX1VOVVNFRCcgcGF0Y2gKPiA+
-IDIgZml4IFBMTF9TQUkgbWlzbWF0Y2ggd2l0aCBQTExfVkNPX1NBSQo+Cj4gVGhpcyBjaGFuZ2Ug
-bG9nIGdvZXMgdW5kZXIgdGhlIC0tLSBiZWxvdy4Kb2sKCj4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5
-OiBkaWxsb24gbWluIDxkaWxsb24ubWluZmVpQGdtYWlsLmNvbT4KPgo+IEFueSBGaXhlcyB0YWc/
-Cm9rLCB3aWxsIGFkZCAtLWZpeHVwIGluIGdpdCBjb21taXQgbmV4dCB0aW1lLCB0aGlzIHBhdGNo
-IGZpeCB0d28gYnVncywKaSBzaG91bGQgbWFrZSB0d28gY29tbWl0LCBlYWNoIG9uZSBoYXMgYQpm
-aXhlcyB0YWcsIHJpZ2h0PwpmaXJzdCBwb2ludCB0byAnNTE3NjMzZSBjbGs6IHN0bTMyZjQ6IEFk
-ZCBwb3N0IGRpdmlzb3IgZm9yIEkyUyAmIFNBSSBQTExzJwpzZWNvbmQgcG9pbnQgdG8gJ2RhZjJk
-MTEgY2xrOiBzdG0zMmY0OiBBZGQgbGNkLXRmdCBjbG9jaycKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Quoting Maxime Ripard (2020-04-24 08:34:01)
+> The RaspberryPi4 firmware actually exposes more clocks than are currently
+> handled by the driver and we will need to change some of them directly
+> based on the pixel rate for the display related clocks, or the load for the
+> GPU.
+> 
+> This rate change can have a number of side-effects, including adjusting the
+> various PLL voltages or the PLL parents. The firmware will also update
+> those clocks by itself for example if the SoC runs too hot.
+> 
+> In order to make Linux play as nice as possible with those constraints, it
+> makes sense to rely on the firmware clocks as much as possible.
+> 
+> Fortunately,t he firmware has an interface to discover the clocks it
+
+Fortunately, the
+
+> exposes.
+> 
+> Let's use it to discover, register the clocks in the clocks framework and
+> then expose them through the device tree for consumers to use them.
+> 
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
