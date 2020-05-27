@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52921E597B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CAF1E59AA
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCCE6E443;
-	Thu, 28 May 2020 07:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1156E4BB;
+	Thu, 28 May 2020 07:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6336E33C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59DD06E339
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:47 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4247258210B;
- Wed, 27 May 2020 11:51:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:45 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id C2538582101;
+ Wed, 27 May 2020 11:51:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=9l0N3GFCYNrVd
- 2F1SBKJ2XrWSefL3iJLCc9iCwPGOWc=; b=Bgbo7Rw5pG0Z+dBmot69P7zT9T7U8
- kPRwgDqXDLKNWPBXhyoIcMTFMJaIjLnUn1NDbAyiB2y7K0FLgMo7V9w+c/SE0iq9
- Lu4BMV25y3401nxy7KcyAgDsfGAKHdhHtGAy+gazv+dP+lPg6sH4iyWwbWXyvE1P
- CkfzlPgVouZfI1bWwYa5vN9c5QXwg8ofOPYuU8NKpODACZQGPV9HTFDTPprTzMHX
- lccYIQALryZihCb68noGgy9vcwF4jYXsPP0IrMAi65FbR2aOseXKvk0wPawJmGSk
- QqwA+3ab4d1znTgAndrmW5r/2LAnnaz9qmIaOqEZ4SeMQssPDYiQ4J+Jg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=w9X7BF4nMd1nQ
+ c/IzGAPERlbj1jfgqvltCeOfK66pKY=; b=qgIQRMimoBVH2IAS/AkkUDxzQ59uk
+ Con0+f2IRGcdM1tEQ5My5bRPNjZ6851/Y4X8i36NcPh2Hh180l+/Ab2HsRT5GvSJ
+ kFwgBcvlaSg/ko9XJM3R6aUpUFetvZBxq3k7xIjeADUbSuDr6IdtjsCcyz15B1V8
+ CzdG1VmsgWxQQ1W5YZkVeKFea4FT8IAha7rY2FAmi06sZ3LgK07SRxYK3e+bntmx
+ WlxJCrxlDVuEtnI4ZpMXsIiJywAc8B6KznppVbSs7ab3FuVsKi99GLVeiyn5tkBV
+ LdO+HfNgo2t/hwyRrqxVNhNEPiOEd1ez6X7wDPIxop/Zc1V4lWQlPKl0Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=9l0N3GFCYNrVd2F1SBKJ2XrWSefL3iJLCc9iCwPGOWc=; b=Qma4d6X8
- Qyk2dmH50kPLN8Ifw4CWSWSR3oceIFZnqM7Gfq1pW/AUCSiw3JomtbIrvV9nSvPk
- OuUIE73ewObEFfE3rBdWncBUqPQj/0xItDmYqVvGqpIe9pfFhRGXV0aQf/Sj1hlx
- bqwbjJUtyEt04JR9NL/pOvwooWbEtJH4rRh8Aebn1OS0MCa9kCQL97oahorWGmrV
- pWhGHpB150cSTP/yZJijUP+AA6roCVU4hx8ZJjpA2eKicxBFoRB//RxgejT5g5x9
- ujVTI2oWz4D9X4TiHcBnsbr6/LCMhCO6OX2ZfCWE9vOQtlLd5d9kchlsX9t0dDLs
- FisNdoex+Ck5Uw==
-X-ME-Sender: <xms:kYzOXplL64OvlFO1vPhyNF3QSmRrHR805ONXI0gDOI9pdtqrwxURtQ>
+ fm2; bh=w9X7BF4nMd1nQc/IzGAPERlbj1jfgqvltCeOfK66pKY=; b=1mQDffBz
+ lvS5Z0EYIS3v8NUVXEK54eDW1WPjuc6NVy1/RN5D0AreJ7pOknkJvag9qYzsH906
+ SJWiaugeR9pf2TL4mXYo3gWnfjEG6p9gxrwvYiWe8ZTJzsWPAO507Jvqen3il5NN
+ UKav5h0zelR0qVn+A2UHgjiLLhhHQaXbeWtQyaGxZt96lH0oZjspxcSWikyreqih
+ GJ6F9ZscI6XkbbwhAQhM9gEAVWOSMT6aT7fcLWIPgp90FaUzPPP87jIQ3H+i2umU
+ X6KXZvTBPJ6HxM4otN5seZQUS+3mEpz0hWh9i1nyoC85fgMYKWWK7pDUj+nxzhHm
+ vBQWp4AuvyI12w==
+X-ME-Sender: <xms:kozOXtEzFzM2WIJE-mWhje2IgacN9asU8APCcwgB102MVcNObIu9YQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepjedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:kYzOXk3CHDglhhKTwhLsH9392NeJkBbq1i84qzQk5hTfx7EDZXdtYw>
- <xmx:kYzOXvpALJfeeheTZp5Xmal_b_K-CI5LELsCrIC24bCO1DaKtLtb3g>
- <xmx:kYzOXpmykxfYOcRLaUIewkuLdtxA3fC3nhKh7i2s37OrRd1nUq1PiA>
- <xmx:kYzOXsl5H1bNA8HlbAP7PNU8dwAr_YPKSs-U-dmPSrRqlxnUfIx8mA>
+X-ME-Proxy: <xmx:kozOXiXyEOTR2XcuqCdfQUUlA5KtPUOdjdshIIgzC8AGw5iO7gsGVw>
+ <xmx:kozOXvKvQJyGI1fPPulJ9xi4kzmmHKAiYTquKqAW4oNjNYe3viTLZg>
+ <xmx:kozOXjHCmflnyseM9oCaYy2ktVwGestzHYCDR2gqmDmc1kQbAVcKHQ>
+ <xmx:kozOXqFPX5VNlEJvphdcMcnpAJyi71bbAIbU-nNfhQt_Q_cjm-MuVw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D8E553280060;
- Wed, 27 May 2020 11:51:44 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 66E2330624E4;
+ Wed, 27 May 2020 11:51:46 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 094/105] drm/vc4: hdmi: Reset audio infoframe on
- encoder_enable if previously streaming
-Date: Wed, 27 May 2020 17:49:04 +0200
-Message-Id: <1802995678e68ab74e1dd87b30666a0d5b7146f6.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 095/105] drm/vc4: hdmi: Set the b-frame marker to the match
+ ALSA's default.
+Date: Wed, 27 May 2020 17:49:05 +0200
+Message-Id: <0a8b22baf15ca5c7a3c5bbb6516db17d470ea6de.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -91,77 +91,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-If the encoder is disabled and re-enabled (eg mode change) all infoframes
-are reset, whilst the audio subsystem know nothing about this change.
-The driver therefore needs to reinstate the audio infoframe for
-itself.
+ALSA's iec958 plugin by default sets the block start preamble
+to 8, whilst this driver was programming the hardware to expect
+0xF.
+Amend the hardware config to match ALSA.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 12 ++++++++++++
- drivers/gpu/drm/vc4/vc4_hdmi.h |  2 ++
- 2 files changed, 14 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index ebe9dd25c65a..dcac5e77d2ab 100644
+index dcac5e77d2ab..afa71580bfce 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -308,8 +308,16 @@ static void vc4_hdmi_set_audio_infoframe(struct drm_encoder *encoder)
+@@ -754,10 +754,11 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
  
- static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
- {
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+
- 	vc4_hdmi_set_avi_infoframe(encoder);
- 	vc4_hdmi_set_spd_infoframe(encoder);
-+	/*
-+	 * If audio was streaming, then we need to reenabled the audio
-+	 * infoframe here during encoder_enable.
-+	 */
-+	if (vc4_hdmi->audio.streaming)
-+		vc4_hdmi_set_audio_infoframe(encoder);
- }
+ 	vc4_hdmi_audio_set_mai_clock(vc4_hdmi);
  
- static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-@@ -694,6 +702,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
- 	struct device *dev = &vc4_hdmi->pdev->dev;
- 	int ret;
++	/* The B frame identifier should match the value used by alsa-lib (8) */
+ 	audio_packet_config =
+ 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_SAMPLE_FLAT |
+ 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_INACTIVE_CHANNELS |
+-		VC4_SET_FIELD(0xf, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
++		VC4_SET_FIELD(0x8, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
  
-+	vc4_hdmi->audio.streaming = false;
- 	ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO);
- 	if (ret)
- 		dev_err(dev, "Failed to stop audio infoframe: %d\n", ret);
-@@ -797,6 +806,7 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		vc4_hdmi_set_audio_infoframe(encoder);
-+		vc4_hdmi->audio.streaming = true;
- 
- 		if (vc4_hdmi->variant->phy_rng_enable)
- 			vc4_hdmi->variant->phy_rng_enable(vc4_hdmi);
-@@ -815,6 +825,8 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
- 		if (vc4_hdmi->variant->phy_rng_disable)
- 			vc4_hdmi->variant->phy_rng_disable(vc4_hdmi);
- 
-+		vc4_hdmi->audio.streaming = false;
-+
- 		break;
- 	default:
- 		break;
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 9a6831b941d9..eb0f91b57316 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -85,6 +85,8 @@ struct vc4_hdmi_audio {
- 	int channels;
- 	struct snd_dmaengine_dai_dma_data dma_data;
- 	struct snd_pcm_substream *substream;
-+
-+	bool streaming;
- };
- 
- /* General HDMI hardware state. */
+ 	channel_mask = GENMASK(vc4_hdmi->audio.channels - 1, 0);
+ 	audio_packet_config |= VC4_SET_FIELD(channel_mask,
 -- 
 git-series 0.9.1
 _______________________________________________
