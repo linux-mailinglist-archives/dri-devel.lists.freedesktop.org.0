@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662CC1E5973
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 827F41E59C5
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF2F6E484;
-	Thu, 28 May 2020 07:44:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096106E41F;
+	Thu, 28 May 2020 07:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27F726E340
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF8EA6E340
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:39 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9139D581518;
- Wed, 27 May 2020 11:51:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:37 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2498F581505;
+ Wed, 27 May 2020 11:51:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Hsd8JQOKXqqad
- N9HnqexX4egl8EjW+cY6nFdDegziVM=; b=dEs6sji+it2ZXHG8WYplk+ElCqypR
- 7f6YbJHc52sSBDtdllmRFe4t1AftH69jcdN9BduIlV5SYH1Bn5nGk9VcOTItgENr
- psGkZ3nbXqK5MuwL+GMpDXtF/5uD7WENtwYVHxAms9LfpoRK16H/4ZwxXI2hYFEV
- TULzEC5aiLXNdNrFaxb7C4XVNhWO/olCEui1kf5++xYO4q+j1clJgbvCmjPxzRHG
- UKc+BzlfcszWm7D+UKCuvx6CEwEoh42jA+I+YZZu95SCV0qc5Cm5Dbnt0wlkXfqi
- fRdi8NbsGn3/OIrTThEnUtwRqc1vXIcV+pAwh0hm3CpHRefS7KDkyzSOA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=3+zDc9lTxZ95D
+ Zq2DjYcpdZ0XDPW3I9hVIKy3fpBFXE=; b=WiIW7Or2XQ2o69kz13E2uXS0/1aKZ
+ N4+fenXfWiJcboN9PbwtV+4xVq6gDux6b8vMVqgscUDRsSY5Ip23g7MYybDQCFy4
+ c/qUMO71sKtXUiDfCI/Wf+TragpHZfB6mculEQtHDk0jZmCenoTWyU8JgERD63FV
+ 7NPCWeNJmH0fQvn5K4K37wOaS9keWNvJq5t99H+pYetWX2zL3ZHOF253W3zCenJM
+ daBeKpGJKA/XDnQo04rA2pabB2bhep4tIQgaXF/hPUj9f41UGXLxmOzXPZIYT6rq
+ 5rurRg1rpcnPm68ZhfmcILIE5fK23e/rXz+oCCV8j97PKdV84A3Mxc17A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Hsd8JQOKXqqadN9HnqexX4egl8EjW+cY6nFdDegziVM=; b=fqP6XMUW
- y3gBzLXMEY5ZRdGOje4ECtWXxvIsqmqy+oZPl8bbK9U1svzXamIzZ+kvz4MVUX6t
- 2Ml5WXFG5To9tfdn/SCBVc6W7MdibibSljuybpstJbtpxDHPXybW1Y1RWb19+ZQe
- /ZkP2eNOHPQkJKxWzi4pFvQGk5Dh+I985yD2DdC9mW2AnuKSElpuF10vw47vDmvJ
- abCCFkvc4Dwou6BN8qE8sxYDPkVJyUy7F11psaxiyVkH7s4WV5KZ29EPD03VS4mw
- b+ENhJ8XL1S3hGPyuDYpOsf2rs4OLZuApDLaEJJviuaVutztVtkEUSPnorse7UYt
- CFV/6mU+JBtoUg==
-X-ME-Sender: <xms:iYzOXpyiBsTFpIJjAMF5o8VXHDcwv9Njoc00UmEaMgg3s0kA55l8eg>
+ fm2; bh=3+zDc9lTxZ95DZq2DjYcpdZ0XDPW3I9hVIKy3fpBFXE=; b=MtF8OMy6
+ 03/sCddXj1x7uxh7uLyQsfpsiR//FPiUvzvFT7r+ZFz8PQ4gCQKBvb4Sqi6HTZ7C
+ Ez4CnIOCKQYzHYPmddg/JkKMpaN5DxIfcy4XN8R2pUWr7yEqQ3UF0hUUqbqqX0fY
+ BynbtPlabrTp4JlgMtP+Pa2mEyXvKq98CyGNYYmIjDHj/3zLnQBhb0/URQC7fiQE
+ tU9r2pvckAfYYY+HXmQigNJ4H0uU734geT9SqoYg8LWsQ+W4/wj0LQQQC6Vaz0CL
+ IYEA6V+XXv+ek2KWhopgF/sK5y15sFTFPj0K468shMWOKFxcfvdvnl/JbqacXQGB
+ 6jhMMZEkxps0MQ==
+X-ME-Sender: <xms:iozOXpMfr7uhRZFGocsWjEvM3Oxc0H9SKwW-1TxTwdnC7yaEVMhkXw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,20 +47,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepieejne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:iYzOXpSAseRgG1ESpsNfuZGXxM9ygo2n9Npp-hxkKTSKYZQUvk3E6g>
- <xmx:iYzOXjUP6bBrfqf8doch-6KDGVZlsMmJTBpAbdpXZAxzGA8j7d0XKw>
- <xmx:iYzOXriDpPa8MKsCeAAP4ZFTuZPFaZHGx4y0CdTkoZW_KYo95bqXlg>
- <xmx:iYzOXtBXjCnzGm-rvyl4c6t0CYyB9VZa4w6KYmTZEhZI_EuOT40q-g>
+X-ME-Proxy: <xmx:i4zOXr-faB2rga6JTY5H2ZP-CFH9AdguHRYDc5JxKTaHZaZ-pzYjuA>
+ <xmx:i4zOXoT2hWKWCvE8s5NtafX8paGkcWVnWRjV8lQ1eDUeUaufDAo8qQ>
+ <xmx:i4zOXlv6F006h0xR9YkIsdKQcQweOd5yj5ODrmjdyW8KI4mjw8F_sA>
+ <xmx:i4zOXruXxT2DOBjj8timRIR01DHr5LD6dqpvHFzPM8It-DlPtLw1YQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 352773061CCB;
- Wed, 27 May 2020 11:51:37 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B77A2328005D;
+ Wed, 27 May 2020 11:51:38 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 089/105] drm/vc4: hdmi: Remove unused CEC_CLOCK_DIV define
-Date: Wed, 27 May 2020 17:48:59 +0200
-Message-Id: <45917004243e1d8a060a9932bd5348143718fb5b.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 090/105] drm/vc4: hdmi: Rename drm_encoder pointer in
+ mode_valid
+Date: Wed, 27 May 2020 17:49:00 +0200
+Message-Id: <dcd79c893c993715b4bd2bedb664d6a4bd683e01.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -88,26 +89,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The CEC_CLOCK_DIV define is not used anywhere in the driver, let's remove
-it.
+The mode_valid hook on the encoder uses a pointer to a drm_encoder called
+crtc, which is pretty confusing. Let's rename it to encoder to make it
+clear what it is.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 27cfcf38edb4..f62b488c5bdb 100644
+index f62b488c5bdb..e816e5ab9a51 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -55,7 +55,6 @@
+@@ -556,7 +556,7 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
+ }
  
- #define HSM_CLOCK_FREQ 163682864
- #define CEC_CLOCK_FREQ 40000
--#define CEC_CLOCK_DIV  (HSM_CLOCK_FREQ / CEC_CLOCK_FREQ)
- 
- static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+ static enum drm_mode_status
+-vc4_hdmi_encoder_mode_valid(struct drm_encoder *crtc,
++vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+ 			    const struct drm_display_mode *mode)
  {
+ 	/*
 -- 
 git-series 0.9.1
 _______________________________________________
