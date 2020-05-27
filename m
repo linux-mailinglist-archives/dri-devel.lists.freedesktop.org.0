@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5791E59A2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5AFE1E5989
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:46:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199B96E440;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCAD6E442;
 	Thu, 28 May 2020 07:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82AF26E32C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:50:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172B76E32C
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:50:06 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id EA5B5582047;
- Wed, 27 May 2020 11:50:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:50:03 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7DA7058204A;
+ Wed, 27 May 2020 11:50:05 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=tK1sPZc0eto3z
- 3gDAjTjmk5epnbO+EUqvo+nfO7QKg4=; b=GTHvq7BUjhPoi6mWZH4KmBNdZsm12
- XetJZ7ezG2R44lQsom2amyjCajgbLqBuzazqizE8t/y0Jmr9nDK7RucvWnfoAq6S
- Lh3jf1H23HlShmi77TnURpuJP3m84UnEk6FDYjo+OMdpPD8vV570QZvMYzel1wiZ
- GyhYWvh50Ap0Mq7afoqWtlHj1Svbsp+RTVdEGny7laLljZcAXkDLdxd+JpCd3Mwd
- 5F7pFn3rE4OJwpoKiUvk/Qs3z6pqJuPL5B8yW6R+OroeaM8sy0uBRPuSQPie0sFr
- T/wZAxmHlru3WfNhT+wTbIKAwlf5/28hKSFRUNCaCFPPNb/D5rSitDFCw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=kW7Ps2oNt5lvy
+ Y7OIGFl8oRdikr/7SrdDhAW5AmKu+k=; b=TwnzvMlZ0TBGmflCytGhjo05+Use7
+ Ypbik81BG0rOD8nStJ6uSq2ygD/BsFTE9vCRBr2vSLChYP8s4+JhIZbvO6bFdogJ
+ BKN0LqQWD9heIbaRt9uC0/N8rrtVCUFwaMgeWGMi3vyD2kGWiegHf9ObCBoyzfLx
+ 4iUM/eOGAACSTUc7CPDwfCMQVMBV8sPUFBToxOaSkrGzCg6o8JCo3+yKs/LQSOYl
+ cyiNM7oSV59bryOdN/N7KVEd9/EssWDVU/RdZkZxMIgFC+mG52VTsfF+5XJu/hcp
+ Sb0ZXFvg9IFWOO2UbAP92/ML6hwZ0LHSNl1xA4sbW3Lbv9QL9gb8YdMqA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=tK1sPZc0eto3z3gDAjTjmk5epnbO+EUqvo+nfO7QKg4=; b=DmLvZIFj
- 0wiCBpo/tCxDr3LZ0P+kxWkVWjxPiAwOCxbHNrSxKuhPhLK7f/EsTCKvw/3+CA/f
- p6nNrOMJcT+bUzI8AujhnzgLSRRmWbFZqRzQ0qaErrqF9yxi+x7jWqV2DvIOqxNm
- 1E0OwFHkF8AEM6T8fqUYTbKqUv6ZAgbt0xjkAMnJsdu9L7pt6ZbxmTgnZdMUrlXS
- KX6sM3uYMwBoRDK134nb0/iAMANlCU+L7ABaMtSGQrkLhKlUTsnBbsktVwPgOXXi
- xoiF2tx83DJH9NzChIVyK+pJ1/4f1B3JiZ/wyjOheCNRdA5ZMQ8am8OxAI8gEeuy
- X7Hn1lRiT59pZQ==
-X-ME-Sender: <xms:K4zOXriJY-ZWP1vtJKX5jh38HmiJjtcg7YNkL8wxljYoPPOEdUu7Mg>
+ fm2; bh=kW7Ps2oNt5lvyY7OIGFl8oRdikr/7SrdDhAW5AmKu+k=; b=Je62+51A
+ IohyO1Mw8jMyhRMi3EUO4o3Y2/XO8ruUSufwaLHAYreEcj4jvhgWBzWsY47lBR2c
+ fP9VvsjEVNsueKvvAzpWoESy3y1bWQ53beCqzTPYA8iPDraQ9ztabo3OFYlTM1Vf
+ s771WamtAr6E9+fQAVoPavr8m3S2hBsmbCb8E1oZDV3mWQwfGQ20wc3/mHhRxFCx
+ nredSEDz1hYnEuZDx+1n37Cw0KcSZvn8xLGBunAKk/0NcPV2av+PPgxeAdZrOVwb
+ VOVefhesbPbL/qyYxns6vyy5/Tx3xcQxsS0H/uif105NPJrxXW2IFjOcpACfw05T
+ Jj0Izec4iP/agw==
+X-ME-Sender: <xms:LYzOXufM_HalT_PI_sj12695oY18J5NBmSOhsEl3Nqgyegb3o2VL8w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepuddune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:K4zOXoAPs1N8ye02GgENVLkmdr6EMO7FMKxFbOsZb-fYeG10EQYUHQ>
- <xmx:K4zOXrHxisQabacy1m3f9I5dEr0ldICUcFV7R6VJiFmaIGyve1iQmA>
- <xmx:K4zOXoRaXRaIniZsjttjFb0tPGYdtnpzHxnHloy1qgZ-oSXFVk1TrQ>
- <xmx:K4zOXrx5_55YQhc08xtmgs64sxaS8PxGlm5J104NrKB4kocEWfZZ5A>
+X-ME-Proxy: <xmx:LYzOXoPkpEifJeqS65REK-5zgsbSD2KtealEnQoe47DoVx3TZvSnMA>
+ <xmx:LYzOXvhVp003e5Hr3k7wzBHXmxHfeEQhECsHFTw8311fDg0G5cpdEA>
+ <xmx:LYzOXr_W__zSHxseuR10m6geUMqco-FjOU3-ZKciamPsPXvQniBjZQ>
+ <xmx:LYzOXn-VbFlEWm-yr_e-fggsj8PMTWivRtBEgriW9bLubZUrLN9Krw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 040FD30624CC;
- Wed, 27 May 2020 11:50:01 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1BA86328005A;
+ Wed, 27 May 2020 11:50:05 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 029/105] drm/vc4: crtc: Move the cob allocation outside of
- bind
-Date: Wed, 27 May 2020 17:47:59 +0200
-Message-Id: <1c2c039ca885db63186491275708dbe4371b704c.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 030/105] drm/vc4: crtc: Rename HVS channel to output
+Date: Wed, 27 May 2020 17:48:00 +0200
+Message-Id: <fe71da94cd3311e4c2bb59a62cd5a49d349cc727.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -89,111 +88,85 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The COB allocation depends on the HVS channel used for a given
-pixelvalve.
+In vc5, the HVS has 6 outputs and 3 FIFOs (or channels), with
+pixelvalves each being assigned to a given output, but each output can
+then be muxed to feed from multiple FIFOs.
 
-While the channel allocation was entirely static in vc4, vc5 changes
-that and at bind time, a pixelvalve can be assigned to multiple
-HVS channels.
-
-Let's prepare that rework by allocating the COB when it's actually
-needed.
+Since vc4 had that entirely static, both were probably equivalent, but
+since that changes, let's rename hvs_channel to hvs_output in the
+vc4_crtc_data, since a pixelvalve is really connected to an output, and
+not to a FIFO.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 36 ++++++++++++++++-------------------
- drivers/gpu/drm/vc4/vc4_drv.h  |  2 +--
- 2 files changed, 17 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 10 +++++-----
+ drivers/gpu/drm/vc4/vc4_drv.h  |  4 ++--
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 5e1d234f3c8e..d58f881649d5 100644
+index d58f881649d5..14e3a962d8a7 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -65,6 +65,20 @@ static const struct debugfs_reg32 crtc_regs[] = {
- 	VC4_REG32(PV_HACT_ACT),
+@@ -1056,7 +1056,7 @@ static const struct drm_crtc_helper_funcs vc4_crtc_helper_funcs = {
  };
  
-+static unsigned int
-+vc4_crtc_get_cob_allocation(struct vc4_dev *vc4, unsigned int channel)
-+{
-+	u32 dispbase = HVS_READ(SCALER_DISPBASEX(channel));
-+	/* Top/base are supposed to be 4-pixel aligned, but the
-+	 * Raspberry Pi firmware fills the low bits (which are
-+	 * presumably ignored).
-+	 */
-+	u32 top = VC4_GET_FIELD(dispbase, SCALER_DISPBASEX_TOP) & ~3;
-+	u32 base = VC4_GET_FIELD(dispbase, SCALER_DISPBASEX_BASE) & ~3;
-+
-+	return top - base + 4;
-+}
-+
- static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 					  bool in_vblank_irq,
- 					  int *vpos, int *hpos,
-@@ -74,6 +88,7 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-+	unsigned int cob_size;
- 	u32 val;
- 	int fifo_lines;
- 	int vblank_lines;
-@@ -109,8 +124,9 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 			*hpos += mode->crtc_htotal / 2;
- 	}
+ static const struct vc4_crtc_data bcm2835_pv0_data = {
+-	.hvs_channel = 0,
++	.hvs_output = 0,
+ 	.debugfs_name = "crtc0_regs",
+ 	.pixels_per_clock = 1,
+ 	.encoder_types = {
+@@ -1066,7 +1066,7 @@ static const struct vc4_crtc_data bcm2835_pv0_data = {
+ };
  
-+	cob_size = vc4_crtc_get_cob_allocation(vc4, vc4_crtc->channel);
- 	/* This is the offset we need for translating hvs -> pv scanout pos. */
--	fifo_lines = vc4_crtc->cob_size / mode->crtc_hdisplay;
-+	fifo_lines = cob_size / mode->crtc_hdisplay;
+ static const struct vc4_crtc_data bcm2835_pv1_data = {
+-	.hvs_channel = 2,
++	.hvs_output = 2,
+ 	.debugfs_name = "crtc1_regs",
+ 	.pixels_per_clock = 1,
+ 	.encoder_types = {
+@@ -1076,7 +1076,7 @@ static const struct vc4_crtc_data bcm2835_pv1_data = {
+ };
  
- 	if (fifo_lines > 0)
- 		ret = true;
-@@ -1106,22 +1122,6 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
- 	}
- }
+ static const struct vc4_crtc_data bcm2835_pv2_data = {
+-	.hvs_channel = 1,
++	.hvs_output = 1,
+ 	.debugfs_name = "crtc2_regs",
+ 	.pixels_per_clock = 1,
+ 	.encoder_types = {
+@@ -1105,7 +1105,7 @@ static void vc4_set_crtc_possible_masks(struct drm_device *drm,
+ 		int i;
  
--static void
--vc4_crtc_get_cob_allocation(struct vc4_crtc *vc4_crtc)
--{
--	struct drm_device *drm = vc4_crtc->base.dev;
--	struct vc4_dev *vc4 = to_vc4_dev(drm);
--	u32 dispbase = HVS_READ(SCALER_DISPBASEX(vc4_crtc->channel));
--	/* Top/base are supposed to be 4-pixel aligned, but the
--	 * Raspberry Pi firmware fills the low bits (which are
--	 * presumably ignored).
--	 */
--	u32 top = VC4_GET_FIELD(dispbase, SCALER_DISPBASEX_TOP) & ~3;
--	u32 base = VC4_GET_FIELD(dispbase, SCALER_DISPBASEX_BASE) & ~3;
--
--	vc4_crtc->cob_size = top - base + 4;
--}
--
- static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -1176,8 +1176,6 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
- 	 */
- 	drm_crtc_enable_color_mgmt(crtc, 0, true, crtc->gamma_size);
+ 		/* HVS FIFO2 can feed the TXP IP. */
+-		if (crtc_data->hvs_channel == 2 &&
++		if (crtc_data->hvs_output == 2 &&
+ 		    encoder->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
+ 			encoder->possible_crtcs |= drm_crtc_mask(crtc);
+ 			continue;
+@@ -1167,7 +1167,7 @@ static int vc4_crtc_bind(struct device *dev, struct device *master, void *data)
+ 	drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
+ 				  &vc4_crtc_funcs, NULL);
+ 	drm_crtc_helper_add(crtc, &vc4_crtc_helper_funcs);
+-	vc4_crtc->channel = vc4_crtc->data->hvs_channel;
++	vc4_crtc->channel = vc4_crtc->data->hvs_output;
+ 	drm_mode_crtc_set_gamma_size(crtc, ARRAY_SIZE(vc4_crtc->lut_r));
+ 	drm_crtc_enable_color_mgmt(crtc, 0, false, crtc->gamma_size);
  
--	vc4_crtc_get_cob_allocation(vc4_crtc);
--
- 	CRTC_WRITE(PV_INTEN, 0);
- 	CRTC_WRITE(PV_INTSTAT, PV_INT_VFP_START);
- 	ret = devm_request_irq(dev, platform_get_irq(pdev, 0),
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 8c0f714f557b..6c4b78b71446 100644
+index 6c4b78b71446..9d120aae4af9 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -475,8 +475,6 @@ struct vc4_crtc {
- 	u8 lut_r[256];
- 	u8 lut_g[256];
- 	u8 lut_b[256];
--	/* Size in pixels of the COB memory allocated to this CRTC. */
--	u32 cob_size;
+@@ -450,8 +450,8 @@ to_vc4_encoder(struct drm_encoder *encoder)
+ }
  
- 	struct drm_pending_vblank_event *event;
+ struct vc4_crtc_data {
+-	/* Which channel of the HVS this pixelvalve sources from. */
+-	int hvs_channel;
++	/* Which output of the HVS this pixelvalve sources from. */
++	int hvs_output;
  
+ 	/* Number of pixels output per clock period */
+ 	u8 pixels_per_clock;
 -- 
 git-series 0.9.1
 _______________________________________________
