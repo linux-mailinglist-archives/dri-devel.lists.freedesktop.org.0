@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B17D1E4D13
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 20:26:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99741E4D21
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 20:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4359F6E3A0;
-	Wed, 27 May 2020 18:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1A5F891E1;
+	Wed, 27 May 2020 18:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4458B6E395
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 18:26:25 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id w10so30206406ljo.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 11:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QB7YwKLcAEW/NVxETJ/RRwZrpqw1ubcJORL5utvFFXU=;
- b=jVDU6dAIH5AMHvUenFCLEWc4e55tCqNJdfkNlGCKtdQ94FJ2ncc6VGQQ6rttsFcAyl
- dqtMPPBIon1Ieua2HOivG/UGPk9Ax02cmVxtlqyXA4gNg4qCWoTPim7JDk6SxP0y+Snc
- KqNNJXD4/Fwdr13n9LZMd/DSXHh7ebYllwc7RsOiaeEfmid5gUShCMZoJaA/zHhugQ+3
- vXiq57zCHznETZPv6jo2AMUFiicPgZ5MgBnBGNQ2/aZdxQdxbjj4kALa2fBrOfUuIFU2
- 2SKqQuH6ewCZ4tiwHO47DhJaRPS5pt/diRpda0vF7ojfHnwoJpJnohxNt+gtNrB5K2Ax
- G+Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QB7YwKLcAEW/NVxETJ/RRwZrpqw1ubcJORL5utvFFXU=;
- b=YrpdXrsqucL6KneDW0GzHN7pLM2hWJxWRGx+TMPS7O+o/FO0kiPbuTJ2cTxTELB2Er
- 8d2q+rerz+NI2T6Q5khcTsF+OPgr8WRR1CCaBufnRuHdR58T00gBer1AzZJ4wXq8vm+c
- PXJvXhhvfEXvufyXHveOkKrqZ/dp26pvzWKDwNxx97NOcMdZFRLKKqm5nCvxvvfiaQ6x
- yxNTaAU7Dlel9KoScVLUw3nXn0jFf+FYTxvq1tDlhLmCjhxqWhmQZxB2mN5UxWHMq9Lt
- 1b5O2uZ2bxNMI0ibClMlKQtHLDVLgf7vVmj9NirSytUSxMruRfgmkLPs9wz4zG1X5CoF
- 8RTw==
-X-Gm-Message-State: AOAM530aXV6SzTjLdgekA9XU4WP8/iSiTji/hr0KBVINFkw6LXen1rCs
- RsKj+ZzQSDLj+/9/vEXYFebcC6y26TT+9y2N/6awFA==
-X-Google-Smtp-Source: ABdhPJxA8oAlyNouzKzEzxB2DjfrFnm6s4bMaRIjUr0L/MTi6rlsrHzCde2XffFmTHZekkBhimOM52uiHfe7MBRTvrc=
-X-Received: by 2002:a2e:8186:: with SMTP id e6mr3843593ljg.252.1590603983554; 
- Wed, 27 May 2020 11:26:23 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C53288D3D;
+ Wed, 27 May 2020 18:32:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 4FDC0AEB9;
+ Wed, 27 May 2020 18:32:50 +0000 (UTC)
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
+Date: Wed, 27 May 2020 20:32:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <afcc607bdcaf9ad38480f49cc1fa186ebe6f2d5a.1590594512.git-series.maxime@cerno.tech>
-In-Reply-To: <afcc607bdcaf9ad38480f49cc1fa186ebe6f2d5a.1590594512.git-series.maxime@cerno.tech>
-From: Eric Anholt <eric@anholt.net>
-Date: Wed, 27 May 2020 11:26:12 -0700
-Message-ID: <CADaigPUFP5QXCbE81kFnwJPGO1GjvmoaKK28BhbEUNnJ4Pc0jg@mail.gmail.com>
-Subject: Re: [PATCH v3 041/105] drm/vc4: crtc: Move HVS mode config to HVS file
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +65,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1764573357=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 8:50 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1764573357==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony
+Content-Type: multipart/mixed; boundary="FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+
+--FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+what's your plan for this patch set? I'd need this patch for the udl
+shmem cleanup.
+
+Best regards
+Thomas
+
+Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> Currently this seems to work by converting the sgt into a pages array,
+> and then treating it like a native object. Do the right thing and
+> redirect mmap to the exporter.
+>=20
+> With this nothing is calling get_pages anymore on imported dma-buf,
+> and we can start to remove the use of the ->pages array for that case.
+>=20
+> v2: Rebase
+>=20
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > ---
->  drivers/gpu/drm/vc4/vc4_crtc.c | 272 +-------------------------------
->  drivers/gpu/drm/vc4/vc4_drv.h  |   5 +-
->  drivers/gpu/drm/vc4/vc4_hvs.c  | 298 ++++++++++++++++++++++++++++++++++-
->  3 files changed, 309 insertions(+), 266 deletions(-)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> index b9cba5cc61c3..117a7841e284 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -551,6 +551,9 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
+struct vm_area_struct *vma)
+>  	/* Remove the fake offset */
+>  	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
+> =20
+> +	if (obj->import_attach)
+> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
+> +
+>  	shmem =3D to_drm_gem_shmem_obj(obj);
+> =20
+>  	ret =3D drm_gem_shmem_get_pages(shmem);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
->  static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
->  {
-> -       struct drm_device *dev = crtc->dev;
-> -       struct vc4_dev *vc4 = to_vc4_dev(dev);
->         struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
->         struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
-> -       struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-> -       bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
->         bool debug_dump_regs = false;
->
->         if (debug_dump_regs) {
-> @@ -418,42 +372,10 @@ static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
->                 drm_print_regset32(&p, &vc4_crtc->regset);
->         }
->
-> -       if (vc4_crtc->data->hvs_output == 2) {
-> -               u32 dispctrl;
-> -               u32 dsp3_mux;
-> -
-> -               /*
-> -                * SCALER_DISPCTRL_DSP3 = X, where X < 2 means 'connect DSP3 to
-> -                * FIFO X'.
-> -                * SCALER_DISPCTRL_DSP3 = 3 means 'disable DSP 3'.
-> -                *
-> -                * DSP3 is connected to FIFO2 unless the transposer is
-> -                * enabled. In this case, FIFO 2 is directly accessed by the
-> -                * TXP IP, and we need to disable the FIFO2 -> pixelvalve1
-> -                * route.
-> -                */
-> -               if (vc4_state->feed_txp)
-> -                       dsp3_mux = VC4_SET_FIELD(3, SCALER_DISPCTRL_DSP3_MUX);
-> -               else
-> -                       dsp3_mux = VC4_SET_FIELD(2, SCALER_DISPCTRL_DSP3_MUX);
-> -
-> -               dispctrl = HVS_READ(SCALER_DISPCTRL) &
-> -                          ~SCALER_DISPCTRL_DSP3_MUX_MASK;
-> -               HVS_WRITE(SCALER_DISPCTRL, dispctrl | dsp3_mux);
-> -       }
+--FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe--
 
-I just noticed, this block being moved looks like it should probably
-have been removed as part of patch #33.  Cleaning this up I think will
-impact the following patches.
+--ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7OskwACgkQaA3BHVML
+eiPRWggAkUQB1FCPd7AZDSlIiap+YK0u3fVRxjgrwfFkAcPRirOKxqROV6BINQuV
+BPQsgRV0fqtxTME1D5J7r23BrsF2fwpud0W7/hkNEmmUieoJO3tjtxnt9BQ3TuHU
+K+AxxfGSdQmQVfqxqkfVipnWzUPHq3b12tLQtSkCNpc9Bqx0NvEG2SrlTHW+N95R
+2UZMaH0yKl/vlRphB6Rii3IGhWNyaKNm3VO8Agy3BxlyOAXmejc1HNuGV2uvJh2Q
+5h+DQtaqucmE+SLQFg1zD13mmRyLZGsT3s3yzX6Fg9X+ROoygk7gUCpG+7d0Gsl7
+LKbaSCf2T0WIOJihC9vVFV0sOvrB/Q==
+=MwcU
+-----END PGP SIGNATURE-----
+
+--ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony--
+
+--===============1764573357==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1764573357==--
