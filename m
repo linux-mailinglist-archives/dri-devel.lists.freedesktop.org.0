@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292BF1E59D9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:49:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 975C91E599B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2AD6E4B6;
-	Thu, 28 May 2020 07:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 923FF6E488;
+	Thu, 28 May 2020 07:44:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD746E32C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:50:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 059296E33A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:50:28 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id E633A582022;
- Wed, 27 May 2020 11:50:25 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6E7ED58208B;
+ Wed, 27 May 2020 11:50:27 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:50:25 -0400
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:50:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Ie6bw5e496oKh
- 30HHiSrnFCTx8wMhjVRPsOojlgDgTU=; b=q+Hehvy6NLNMp8aWJ0yq2dU44Fubv
- sX2baMGT64XbQngMIoT9/IqXtbELxMWEzhZxOeBNAwTugsyWNGhHOlIzLTm0qgdy
- a2it/+5p50udYoeUT/FBYP2bZ+7+Nnh08CNGOOBhLuK2T/5lo9SsyhC5Qfe8hNKS
- 8dWuqTE23WTNv8BiTef+gLGavweiKh3Diu5dl3o5+iQwOMG2ZZVHPmH+dJHjtNDk
- 9sLlbHczVHwpYosVlWMfTqhKEz3dP3hhiisfl/q3qNBzOMvaqms9i9mmRNBWN5dA
- 7pW6wCxJ+CJaTeRud8cuH7/gqjX5FjNCGUKhYmInq0osNiBzG/uZno5Fw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=GAOeZq/xDTflc
+ 6+P9LvBBHtQ9OlNDddl/lapwGwoANs=; b=cgimq93HzfgKRS6nQic9ZXJgcznq7
+ feFRMqB03YBMQWWq1b+bVSj/YpqnQTTZ7qI/hAGiApbVOvzABTMYmil/xS+cwHBh
+ +D8XXng7/de7pN5Et12Zz8Tc/QjEo72vIlwKzhd6lbv3kOje/4dD8/USN+39+ngD
+ fNtOwzNhogquofQl2hFmoGeQmTBKHsCArTKtNYc3ZlzObMoFmBYuMtZnkw5ZzEOo
+ /+xKjrtiEgFIWSfMTD/tI06w5MjLrMck6Es+btliBSX1d4l84IuD4vLKwd5Ps6XP
+ Jpg3hw8Kiyd1RUYZyOXImYgaIhr5+KwgdnwqBrcHpWUDL+NNIzK5k00dQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Ie6bw5e496oKh30HHiSrnFCTx8wMhjVRPsOojlgDgTU=; b=u5UoQH64
- 3VtfuOOk+QUW3BlTF0pkBOcxuGBh6qIapOdWFIJdk1bfkyF7y/lYZqayRJUtEVmZ
- 4hy3Hxixas0+5ktv2UcMXEsE7qCliZt648EKG6aGoVu6Pf6zWau82oqIL+ug/Zdw
- vB5ACFC63Ckns4LSeEV4slbMN5FtPVob7ANodq5q/K36bB+SoopWAjHnqjLQNMVP
- Fc8hio7JE3PAb78SJccr1WWXHVAGu0X1EgMbjgduyQaGCIIiFoBiLpPTo1XxLkMS
- MOpY33+09t11IkdylQGuCMFUVDgEXa9d5JhzDN0ELLxe8hSCpkIBMAR35vUFfCyd
- wa0LYdujRuznrw==
-X-ME-Sender: <xms:QYzOXr1fLqLkyKPvbGCB_d_IZWY3PeHDFvZ9RB5Mp9r9UscTv90ikw>
+ fm2; bh=GAOeZq/xDTflc6+P9LvBBHtQ9OlNDddl/lapwGwoANs=; b=kmDEp8eU
+ cmwjzM9Z1zO8xSDTSEJDUHynohjfK1PCbcxanoMa04/A4xa76ipoMndA3kMONFgj
+ UJSVySYgPcZBcF+PcyDFz7UrGWGGCZLxI/auSl2WNmdE15F7EmjkQY6Hf69qvgOx
+ qVjFCaFIz0xzCsi7YJf4jg1/EbzPvo5116RzPJNqAASIb+vzOg0ugWHkNEF3sln+
+ uUhtpIArAszMcUHKgVIUWAEMi0BbTW2emtgsNUE7T0xKqneO+p9lUOK19MeI+iVa
+ 2EhrsqTp1Ol3cXCBicFLTb8k+paI27u7lxv1lTT4Y97H8rNvc14wgOOKqiSBeCrr
+ NpY128nQ9VdBXw==
+X-ME-Sender: <xms:Q4zOXkazRh37YV4SnK8xjokLg1tb7ezshx9C5MikkgMutmHCvhmCIg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdehne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:QYzOXqGt9CcKIVsKhLHXHzNf0Gr2djupIejw09V7q10vb0cQv9bdLA>
- <xmx:QYzOXr7r-Hw5qwygt02huMDGw3gjqG6RYW1alLQ2sB0aWFuQ881HXQ>
- <xmx:QYzOXg2A1DUS9PP2SUiPY7leunVzBYonY4L0O-1CZKHtBtpUWF4dOg>
- <xmx:QYzOXh3i2A288vWirVXzbr4TIYH0TwFBEW_je02ryS47nadiBedMiw>
+X-ME-Proxy: <xmx:Q4zOXvZUqTwumq3GQPgyl_IwNuKVir2V-YsRGrinksEbnIO9FYXQ5g>
+ <xmx:Q4zOXu-IlpTh-fXIXDi8N31lycdWcV5x1AicnbzZ_B9f42ZKybbOhg>
+ <xmx:Q4zOXupzVkZgmioJvv77Bb-QS2UnNIPay_4r88Bq4M0737zsetkYZA>
+ <xmx:Q4zOXrIIimuNMJbJWpoP-V5mjdb8yB23cQzVLHUNXW-s_sT52ZVN6g>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 84F833280064;
- Wed, 27 May 2020 11:50:25 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 11EDF3280060;
+ Wed, 27 May 2020 11:50:26 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 043/105] drm/vc4: crtc: Move HVS init and close to a
- function
-Date: Wed, 27 May 2020 17:48:13 +0200
-Message-Id: <156d2301ee8d70b5ddd0eaf2d60cd1a12f8f4b65.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 044/105] drm/vc4: crtc: Move the HVS gamma LUT setup to our
+ init function
+Date: Wed, 27 May 2020 17:48:14 +0200
+Message-Id: <aa92d353d0cf3673a5d36a60fb82f7a5634270ac.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -89,148 +89,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to make further refactoring easier, let's move the HVS channel
-setup / teardown to their own function.
+Since most of the HVS channel is setup in the init function, let's move the
+gamma setup there too.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 106 +++++++++++++++++++----------------
- 1 file changed, 59 insertions(+), 47 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 0cd63d817a7e..2352a63fd26b 100644
+index 2352a63fd26b..87bbd68d44db 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -196,6 +196,62 @@ static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
- 	vc4_hvs_lut_load(crtc);
- }
+@@ -201,6 +201,8 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
+ {
+ 	struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(crtc->state);
+ 	unsigned int chan = vc4_crtc_state->assigned_channel;
++	bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
++	u32 dispbkgndx;
+ 	u32 dispctrl;
  
-+static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
-+				struct drm_display_mode *mode, bool oneshot)
-+{
-+	struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(crtc->state);
-+	unsigned int chan = vc4_crtc_state->assigned_channel;
-+	u32 dispctrl;
+ 	/* Turn on the scaler, which will wait for vstart to start
+@@ -225,6 +227,20 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
+ 
+ 	HVS_WRITE(SCALER_DISPCTRLX(chan), dispctrl);
+ 
++	dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(chan));
++	dispbkgndx &= ~SCALER_DISPBKGND_GAMMA;
++	dispbkgndx &= ~SCALER_DISPBKGND_INTERLACE;
 +
-+	/* Turn on the scaler, which will wait for vstart to start
-+	 * compositing.
-+	 * When feeding the transposer, we should operate in oneshot
-+	 * mode.
++	HVS_WRITE(SCALER_DISPBKGNDX(chan), dispbkgndx |
++		  SCALER_DISPBKGND_AUTOHS |
++		  ((!vc4->hvs->hvs5) ? SCALER_DISPBKGND_GAMMA : 0) |
++		  (interlace ? SCALER_DISPBKGND_INTERLACE : 0));
++
++	/* Reload the LUT, since the SRAMs would have been disabled if
++	 * all CRTCs had SCALER_DISPBKGND_GAMMA unset at once.
 +	 */
-+	dispctrl = SCALER_DISPCTRLX_ENABLE;
++	vc4_hvs_lut_load(crtc);
 +
-+	if (!vc4->hvs->hvs5)
-+		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
-+					  SCALER_DISPCTRLX_WIDTH) |
-+			    VC4_SET_FIELD(mode->vdisplay,
-+					  SCALER_DISPCTRLX_HEIGHT) |
-+			    (oneshot ? SCALER_DISPCTRLX_ONESHOT : 0);
-+	else
-+		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
-+					  SCALER5_DISPCTRLX_WIDTH) |
-+			    VC4_SET_FIELD(mode->vdisplay,
-+					  SCALER5_DISPCTRLX_HEIGHT) |
-+			    (oneshot ? SCALER5_DISPCTRLX_ONESHOT : 0);
-+
-+	HVS_WRITE(SCALER_DISPCTRLX(chan), dispctrl);
-+
-+	return 0;
-+}
-+
-+static void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
-+{
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+
-+	if (HVS_READ(SCALER_DISPCTRLX(chan)) & SCALER_DISPCTRLX_ENABLE)
-+		return;
-+
-+	HVS_WRITE(SCALER_DISPCTRLX(chan),
-+		  HVS_READ(SCALER_DISPCTRLX(chan)) | SCALER_DISPCTRLX_RESET);
-+	HVS_WRITE(SCALER_DISPCTRLX(chan),
-+		  HVS_READ(SCALER_DISPCTRLX(chan)) & ~SCALER_DISPCTRLX_ENABLE);
-+
-+	/* Once we leave, the scaler should be disabled and its fifo empty. */
-+	WARN_ON_ONCE(HVS_READ(SCALER_DISPCTRLX(chan)) & SCALER_DISPCTRLX_RESET);
-+
-+	WARN_ON_ONCE(VC4_GET_FIELD(HVS_READ(SCALER_DISPSTATX(chan)),
-+				   SCALER_DISPSTATX_MODE) !=
-+		     SCALER_DISPSTATX_MODE_DISABLED);
-+
-+	WARN_ON_ONCE((HVS_READ(SCALER_DISPSTATX(chan)) &
-+		      (SCALER_DISPSTATX_FULL | SCALER_DISPSTATX_EMPTY)) !=
-+		     SCALER_DISPSTATX_EMPTY);
-+}
-+
- int vc4_hvs_atomic_check(struct drm_crtc *crtc,
- 			 struct drm_crtc_state *state)
- {
-@@ -268,63 +324,19 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
+ 	return 0;
+ }
+ 
+@@ -427,8 +443,6 @@ void vc4_hvs_mode_set_nofb(struct drm_crtc *crtc)
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
  	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
- 	bool oneshot = vc4_state->feed_txp;
--	u32 dispctrl;
+-	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+-	bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
  
- 	vc4_hvs_update_dlist(crtc);
+ 	if (vc4_crtc->data->hvs_output == 2) {
+ 		u32 dispctrl;
+@@ -453,16 +467,6 @@ void vc4_hvs_mode_set_nofb(struct drm_crtc *crtc)
+ 			   ~SCALER_DISPCTRL_DSP3_MUX_MASK;
+ 		HVS_WRITE(SCALER_DISPCTRL, dispctrl | dsp3_mux);
+ 	}
 -
--	/* Turn on the scaler, which will wait for vstart to start
--	 * compositing.
--	 * When feeding the transposer, we should operate in oneshot
--	 * mode.
+-	HVS_WRITE(SCALER_DISPBKGNDX(vc4_state->assigned_channel),
+-		  SCALER_DISPBKGND_AUTOHS |
+-		  ((!vc4->hvs->hvs5) ? SCALER_DISPBKGND_GAMMA : 0) |
+-		  (interlace ? SCALER_DISPBKGND_INTERLACE : 0));
+-
+-	/* Reload the LUT, since the SRAMs would have been disabled if
+-	 * all CRTCs had SCALER_DISPBKGND_GAMMA unset at once.
 -	 */
--	dispctrl = SCALER_DISPCTRLX_ENABLE;
--
--	if (!vc4->hvs->hvs5)
--		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
--					  SCALER_DISPCTRLX_WIDTH) |
--			    VC4_SET_FIELD(mode->vdisplay,
--					  SCALER_DISPCTRLX_HEIGHT) |
--			    (oneshot ? SCALER_DISPCTRLX_ONESHOT : 0);
--	else
--		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
--					  SCALER5_DISPCTRLX_WIDTH) |
--			    VC4_SET_FIELD(mode->vdisplay,
--					  SCALER5_DISPCTRLX_HEIGHT) |
--			    (oneshot ? SCALER5_DISPCTRLX_ONESHOT : 0);
--
--	HVS_WRITE(SCALER_DISPCTRLX(vc4_state->assigned_channel), dispctrl);
-+	vc4_hvs_init_channel(vc4, crtc, mode, oneshot);
+-	vc4_hvs_lut_load(crtc);
  }
  
- void vc4_hvs_atomic_disable(struct drm_crtc *crtc,
- 			    struct drm_crtc_state *old_state)
- {
- 	struct drm_device *dev = crtc->dev;
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(old_state);
--	u32 chan = vc4_crtc_state->assigned_channel;
--
--	if (HVS_READ(SCALER_DISPCTRLX(chan)) &
--	    SCALER_DISPCTRLX_ENABLE) {
--		HVS_WRITE(SCALER_DISPCTRLX(chan),
--			  SCALER_DISPCTRLX_RESET);
--
--		/* While the docs say that reset is self-clearing, it
--		 * seems it doesn't actually.
--		 */
--		HVS_WRITE(SCALER_DISPCTRLX(chan), 0);
--	}
--
--	/* Once we leave, the scaler should be disabled and its fifo empty. */
--
--	WARN_ON_ONCE(HVS_READ(SCALER_DISPCTRLX(chan)) & SCALER_DISPCTRLX_RESET);
--
--	WARN_ON_ONCE(VC4_GET_FIELD(HVS_READ(SCALER_DISPSTATX(chan)),
--				   SCALER_DISPSTATX_MODE) !=
--		     SCALER_DISPSTATX_MODE_DISABLED);
-+	unsigned int chan = vc4_crtc_state->assigned_channel;
- 
--	WARN_ON_ONCE((HVS_READ(SCALER_DISPSTATX(chan)) &
--		      (SCALER_DISPSTATX_FULL | SCALER_DISPSTATX_EMPTY)) !=
--		     SCALER_DISPSTATX_EMPTY);
-+	vc4_hvs_stop_channel(dev, chan);
- }
- 
- void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ void vc4_hvs_mask_underrun(struct drm_device *dev, int channel)
 -- 
 git-series 0.9.1
 _______________________________________________
