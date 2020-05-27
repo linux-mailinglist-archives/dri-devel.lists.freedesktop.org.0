@@ -2,60 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB0D1E36AF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 05:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FF01E396B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 08:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA596E030;
-	Wed, 27 May 2020 03:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81BAD89B99;
+	Wed, 27 May 2020 06:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5DD6E030
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 03:49:49 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id c12so8286839qtq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 20:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessm-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dVMhtUwlG7AgZ0Ijz3j9HLaOpimNX6eb8QQEpufvZ6g=;
- b=sExtPwMIpav1ROWvRyoQV2sve5tEvstu/cUoWiG8YF+qvuePbma/yLZ0k8svPQhpQg
- b4zE5SnUv8LyJ/sXjy2t8wvivL6wwko8GOq6BSMx0Zu4S8is/+8gROSd9+J/EJkreJaE
- 0dIpEI8jMKZOz1gNuUUDxRlpZq68hkucY9YMRiTDP4grSJsIleVRRkDO6pksVFnEhXIZ
- xhWfDqzwFOAcFFLGQNzsV3Hz/l1mHI9pk5+ZEix3zzH/uUALeraXLtiAvAGFniq2CS2t
- 3LLlbEGo2DFv51LzG3hD1/mwnfS8mr864C/U+LpL3U8s0jSDsyaB3q59lH4r68bDRqt3
- WMHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dVMhtUwlG7AgZ0Ijz3j9HLaOpimNX6eb8QQEpufvZ6g=;
- b=VSkaKM1pUIacWriSz1J6b+LJxoEhOGvv4FF88aDPQo836PfQwxgrGnxt4uVtIDnFe6
- Oh8nXg9OXHLn5oO5NGgRePCutmZN+iWk4HizYOAmQiMzprefbVoYSPAGAUxQ3C+mZ2C7
- CcNmDyPdIgwg2o6NyRlbHIkoVr1kpH9FPQLIJ6FVxV7ijBDJT0UkSTmAYbs/pdMfQvY+
- OXIA0J58eXdjzy4z268FvFtYup71lIB/mi8s+NhJ1gRhrLrr1h985h0IU3GzlMdSrRIj
- VkaqhwWbETNkVSSsmJJLd3K+FTW1ytRd2d6O3CuoYcLudSiO99Xlq8qo9Q89KxNiZf9T
- Mxxg==
-X-Gm-Message-State: AOAM532bQaECDz0XCpUC73u/ezD+7azoI2Lz6MKHDad6MOK6yylZLVsM
- RtOSzY/9+tHZS+o/agCp99Q85ipafWx90Cs4cgTs9w==
-X-Google-Smtp-Source: ABdhPJzw/Ea21QjAz+NNc+UEvVjKgzKsu7W2vzxBdItWR7V+TRRc1JIl7TX2+ezCAqEJ32OO1Ie36scyU+a6wB1ZZqk=
-X-Received: by 2002:ac8:7383:: with SMTP id t3mr2301591qtp.221.1590551388107; 
- Tue, 26 May 2020 20:49:48 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2DD89B99
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 06:40:14 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CFFB32075A;
+ Wed, 27 May 2020 06:40:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590561613;
+ bh=geQPN2cB7sxO9U2Sau5QlOGksrlZFmA5S78FxZUADUM=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=CnmHpunOPyTq3p5AkW+fF2hEnKTTjCaUJEHXzWbZJNrRTIW0EhJuXpZUWTQhfOfsA
+ 78AZGWXjn2/fM6+vKQFsDRMqHYUk3y/lWdTQ6ESUvaiQxRvN8udsd4GLl8zidYy1Z6
+ RRI9+cYYrMQZhQLEk7oi1XwbszKyBE07hvreYo2o=
 MIME-Version: 1.0
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <20200427072342.5499-1-jian-hong@endlessm.com>
- <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
- <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
- <20200507172158.cybtakpo6cxv6wcs@gilmour.lan>
- <CAPpJ_efxenmSXt2OXkhkQ1jDJ59tyWBDUvmpyOB-bfPMDENQZg@mail.gmail.com>
- <CAPpJ_ed9TMJjN8xS1_3saf5obQhULJSLNgQSAFxgiWM2QX9A7Q@mail.gmail.com>
- <20200526102018.kznh6aglpkqlp6en@gilmour.lan>
-In-Reply-To: <20200526102018.kznh6aglpkqlp6en@gilmour.lan>
-From: Daniel Drake <drake@endlessm.com>
-Date: Wed, 27 May 2020 11:49:36 +0800
-Message-ID: <CAD8Lp467DiYWLwH6T1Jeq-uyN4VEuef-gGWw0_bBTtmSPr00Ag@mail.gmail.com>
-Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <CAL9mu0L1OxDMHwNjfh+11br+z3vt+wyq45Q7-KNVSLTENAxH+Q@mail.gmail.com>
+References: <1590378348-8115-1-git-send-email-dillon.minfei@gmail.com>
+ <1590378348-8115-6-git-send-email-dillon.minfei@gmail.com>
+ <159054389592.88029.12389551390229328953@swboyd.mtv.corp.google.com>
+ <CAL9mu0L1OxDMHwNjfh+11br+z3vt+wyq45Q7-KNVSLTENAxH+Q@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] clk: stm32: Fix stm32f429's ltdc driver hang in
+ set clock rate,
+ fix duplicated ltdc clock register to 'clk_core' case ltdc's clock turn off by
+ clk_disable_unused()
+From: Stephen Boyd <sboyd@kernel.org>
+To: dillon min <dillon.minfei@gmail.com>
+Date: Tue, 26 May 2020 23:40:13 -0700
+Message-ID: <159056161305.88029.13112387855463478530@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- devicetree <devicetree@vger.kernel.org>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Jian-Hong Pan <jian-hong@endlessm.com>,
- Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, linux-i2c@vger.kernel.org
+Cc: OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
+ <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRM PANEL DRIVERS <dri-devel@lists.freedesktop.org>,
+ linux-spi <linux-spi@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Quoting dillon min (2020-05-26 20:30:47)
+> On Wed, May 27, 2020 at 9:44 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> >
+> > Quoting dillon.minfei@gmail.com (2020-05-24 20:45:45)
+> > > From: dillon min <dillon.minfei@gmail.com>
+> 
+> >
+> > >
+> > > Signed-off-by: dillon min <dillon.minfei@gmail.com>
+> >
+> > Any Fixes tag?
+> ok, will add --fixup in git commit next time, this patch fix two bugs,
+> i should make two commit, each one has a
+> fixes tag, right?
+> first point to '517633e clk: stm32f4: Add post divisor for I2S & SAI PLLs'
+> second point to 'daf2d11 clk: stm32f4: Add lcd-tft clock'
 
-On Tue, May 26, 2020 at 6:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> I gave it a try with U-Boot with my latest work and couldn't reproduce it, so it
-> seems that I fixed it along the way
-
-Is your latest work available in a git branch anywhere that we could
-test directly?
-
-Thanks
-Daniel
+Sounds good. Thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
