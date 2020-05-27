@@ -1,36 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB241E33C6
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 01:33:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE47A1E34E4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 03:45:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABCFA6E279;
-	Tue, 26 May 2020 23:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878B86E277;
+	Wed, 27 May 2020 01:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DFB556E279
- for <dri-devel@lists.freedesktop.org>; Tue, 26 May 2020 23:33:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88649101E;
- Tue, 26 May 2020 16:33:36 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 655AF3F52E;
- Tue, 26 May 2020 16:33:36 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 11265682B70; Wed, 27 May 2020 00:33:35 +0100 (BST)
-Date: Wed, 27 May 2020 00:33:35 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 11/21] drm/malidp: Use GEM CMA object functions
-Message-ID: <20200526233335.GF159988@e110455-lin.cambridge.arm.com>
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-12-tzimmermann@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE5516E062
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 01:44:56 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9D60D207CB;
+ Wed, 27 May 2020 01:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590543896;
+ bh=X8IeUYi5TEn1bZovze7WvWR7fZ/TpSB3r+3JOJw+vJQ=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=QLptIsKhuHarasq/W6RYkU8NHJoMp0xnt0xZil+C30FyLSxx0ko4GnJqD1aLFrCrv
+ JahMQqsz6vQdQrXrr7Lr60y5v4JGPCylyVhsRe+7tPWmeip6Q9DrXJiEgtMwCK7xfM
+ XKAngA+z8LBWFwXGQrGa2SIOEiDtNeNG0h/0i6vA=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200522135246.10134-12-tzimmermann@suse.de>
+In-Reply-To: <1590378348-8115-6-git-send-email-dillon.minfei@gmail.com>
+References: <1590378348-8115-1-git-send-email-dillon.minfei@gmail.com>
+ <1590378348-8115-6-git-send-email-dillon.minfei@gmail.com>
+Subject: Re: [PATCH v5 5/8] clk: stm32: Fix stm32f429's ltdc driver hang in
+ set clock rate,
+ fix duplicated ltdc clock register to 'clk_core' case ltdc's clock turn off by
+ clk_disable_unused()
+From: Stephen Boyd <sboyd@kernel.org>
+To: broonie@kernel.org, dillon.minfei@gmail.com, linus.walleij@linaro.org
+Date: Tue, 26 May 2020 18:44:55 -0700
+Message-ID: <159054389592.88029.12389551390229328953@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,57 +49,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, philippe.cornu@st.com,
- paul@crapouillou.net, laurent.pinchart@ideasonboard.com,
- mihail.atanassov@arm.com, sam@ravnborg.org, alexandre.torgue@st.com,
- marex@denx.de, abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, andrew@aj.id.au, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, khilman@baylibre.com,
- zourongrong@gmail.com, shawnguo@kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, dillon min <dillon.minfei@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjIsIDIwMjAgYXQgMDM6NTI6MzZQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6Cj4gVGhlIG1hbGlkcCBkcml2ZXIgdXNlcyB0aGUgZGVmYXVsdCBpbXBsZW1lbnRh
-dGlvbiBmb3IgQ01BIGZ1bmN0aW9uczsgZXhjZXB0Cj4gZm9yIHRoZSAuZHVtYl9jcmVhdGUgY2Fs
-bGJhY2suIFRoZSBfX0RSTV9HRU1fQ01BX0RSSVZFUl9PUFMgbWFjcm8gbm93IHNldHMKPiB0aGVz
-ZSBkZWZhdWx0cyBhbmQgLmR1bWJfY3JlYXRlIGluIHN0cnVjdCBkcm1fZHJpdmVyLiBBbGwgcmVt
-YWluaW5nCj4gb3BlcmF0aW9ucyBhcmUgcHJvdmlkZWQgYnkgQ01BIEdFTSBvYmplY3QgZnVuY3Rp
-b25zLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPgoKQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgoKQmVz
-dCByZWdhcmRzLApMaXZpdQoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2
-LmMgfCAxMSArLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEw
-IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlk
-cF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gaW5kZXggZGVmOGM5
-ZmZhZmNhZi4uOTJlMGJjYTZhYTJmNCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJt
-L21hbGlkcF9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4g
-QEAgLTU2MywxNiArNTYzLDcgQEAgc3RhdGljIHZvaWQgbWFsaWRwX2RlYnVnZnNfaW5pdChzdHJ1
-Y3QgZHJtX21pbm9yICptaW5vcikKPiAgCj4gIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBtYWxp
-ZHBfZHJpdmVyID0gewo+ICAJLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9HRU0gfCBEUklWRVJf
-TU9ERVNFVCB8IERSSVZFUl9BVE9NSUMsCj4gLQkuZ2VtX2ZyZWVfb2JqZWN0X3VubG9ja2VkID0g
-ZHJtX2dlbV9jbWFfZnJlZV9vYmplY3QsCj4gLQkuZ2VtX3ZtX29wcyA9ICZkcm1fZ2VtX2NtYV92
-bV9vcHMsCj4gLQkuZHVtYl9jcmVhdGUgPSBtYWxpZHBfZHVtYl9jcmVhdGUsCj4gLQkucHJpbWVf
-aGFuZGxlX3RvX2ZkID0gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQsCj4gLQkucHJpbWVfZmRf
-dG9faGFuZGxlID0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUsCj4gLQkuZ2VtX3ByaW1lX2dl
-dF9zZ190YWJsZSA9IGRybV9nZW1fY21hX3ByaW1lX2dldF9zZ190YWJsZSwKPiAtCS5nZW1fcHJp
-bWVfaW1wb3J0X3NnX3RhYmxlID0gZHJtX2dlbV9jbWFfcHJpbWVfaW1wb3J0X3NnX3RhYmxlLAo+
-IC0JLmdlbV9wcmltZV92bWFwID0gZHJtX2dlbV9jbWFfcHJpbWVfdm1hcCwKPiAtCS5nZW1fcHJp
-bWVfdnVubWFwID0gZHJtX2dlbV9jbWFfcHJpbWVfdnVubWFwLAo+IC0JLmdlbV9wcmltZV9tbWFw
-ID0gZHJtX2dlbV9jbWFfcHJpbWVfbW1hcCwKPiArCV9fRFJNX0dFTV9DTUFfRFJJVkVSX09QUyht
-YWxpZHBfZHVtYl9jcmVhdGUpLAo+ICAjaWZkZWYgQ09ORklHX0RFQlVHX0ZTCj4gIAkuZGVidWdm
-c19pbml0ID0gbWFsaWRwX2RlYnVnZnNfaW5pdCwKPiAgI2VuZGlmCj4gLS0gCj4gMi4yNi4yCj4g
-CgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUg
-d29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3Vy
-Y2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Quoting dillon.minfei@gmail.com (2020-05-24 20:45:45)
+> From: dillon min <dillon.minfei@gmail.com>
+> 
+> ltdc set clock rate crashed
+>    'post_div_data[]''s pll_num is PLL_I2S, PLL_SAI (number is 1,2). but,
+
+Please write "post_div_data[]'s" if it is possessive. "But" doesn't
+start a sentence. This is one sentence, not two.
+
+>     as pll_num is offset of 'clks[]' input to clk_register_pll_div(), which
+>     is FCLK, CLK_LSI, defined in 'include/dt-bindings/clock/stm32fx-clock.h'
+>     so, this is a null object at the register time.
+>     then, in ltdc's clock is_enabled(), enable(), will call to_clk_gate().
+>     will return a null object, cause kernel crashed.
+>     need change pll_num to PLL_VCO_I2S, PLL_VCO_SAI for 'post_div_data[]'
+> 
+>  duplicated ltdc clock
+>    'stm32f429_gates[]' has a member 'ltdc' register to 'clk_core', but no
+>     upper driver use it, ltdc driver use the lcd-tft defined in
+>    'stm32f429_aux_clk[]'. after system startup, as stm32f429_gates[]'s ltdc
+>     enable_count is zero, so turn off by clk_disable_unused()
+
+I sort of follow this. Is this another patch? Seems like two things are
+going on here.
+
+> 
+> Changes since V3:
+> 1 drop last wrong changes about 'CLK_IGNORE_UNUSED' patch
+> 2 fix PLL_SAI mismatch with PLL_VCO_SAI
+
+This change log goes under the --- below.
+
+> 
+> Signed-off-by: dillon min <dillon.minfei@gmail.com>
+
+Any Fixes tag?
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
