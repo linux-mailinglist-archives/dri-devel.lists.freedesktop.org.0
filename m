@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CAF1E59AA
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31961E59B9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1156E4BB;
-	Thu, 28 May 2020 07:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C27C36E4AA;
+	Thu, 28 May 2020 07:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59DD06E339
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3166E33D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:48 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C2538582101;
- Wed, 27 May 2020 11:51:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:46 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 51C7E58150C;
+ Wed, 27 May 2020 11:51:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=w9X7BF4nMd1nQ
- c/IzGAPERlbj1jfgqvltCeOfK66pKY=; b=qgIQRMimoBVH2IAS/AkkUDxzQ59uk
- Con0+f2IRGcdM1tEQ5My5bRPNjZ6851/Y4X8i36NcPh2Hh180l+/Ab2HsRT5GvSJ
- kFwgBcvlaSg/ko9XJM3R6aUpUFetvZBxq3k7xIjeADUbSuDr6IdtjsCcyz15B1V8
- CzdG1VmsgWxQQ1W5YZkVeKFea4FT8IAha7rY2FAmi06sZ3LgK07SRxYK3e+bntmx
- WlxJCrxlDVuEtnI4ZpMXsIiJywAc8B6KznppVbSs7ab3FuVsKi99GLVeiyn5tkBV
- LdO+HfNgo2t/hwyRrqxVNhNEPiOEd1ez6X7wDPIxop/Zc1V4lWQlPKl0Q==
+ :mime-version:content-transfer-encoding; s=fm2; bh=eDAbvMfLbv4Fg
+ ctRmppyGS67q8PV0h6E7eJzpTtuCW4=; b=nGlpocNCYULmCTd1H1OuoHGYJwDZ6
+ 649B4QIDDUHZLrGwPJWOmuwSBBqRos0JoG2IMimbAoY376xQDOC8nLXRNKURKN2G
+ 5eHbDKyGbInA2SgelWa4OXzh3uEVkN/Re2Qad6MSCwMSx4gOnmBin0+2pHNBG5Tn
+ /sl7uKs7zq/q2g4neUu2DerdeNQoQa7AqfDjhgiLUGsJwzm+2MebSu0XB8yJfdcq
+ kJIwgrdwToj1hltR0W/UC64jgHdjIamv2qQTdt5FwHmtDrf6pkOhyCZnxpPDaGaZ
+ 3tVqvInhbZ7yvtmujHzRUkBOz/UddOi4GkN/dL+ppkv0KUofOYJJNwa6w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=w9X7BF4nMd1nQc/IzGAPERlbj1jfgqvltCeOfK66pKY=; b=1mQDffBz
- lvS5Z0EYIS3v8NUVXEK54eDW1WPjuc6NVy1/RN5D0AreJ7pOknkJvag9qYzsH906
- SJWiaugeR9pf2TL4mXYo3gWnfjEG6p9gxrwvYiWe8ZTJzsWPAO507Jvqen3il5NN
- UKav5h0zelR0qVn+A2UHgjiLLhhHQaXbeWtQyaGxZt96lH0oZjspxcSWikyreqih
- GJ6F9ZscI6XkbbwhAQhM9gEAVWOSMT6aT7fcLWIPgp90FaUzPPP87jIQ3H+i2umU
- X6KXZvTBPJ6HxM4otN5seZQUS+3mEpz0hWh9i1nyoC85fgMYKWWK7pDUj+nxzhHm
- vBQWp4AuvyI12w==
-X-ME-Sender: <xms:kozOXtEzFzM2WIJE-mWhje2IgacN9asU8APCcwgB102MVcNObIu9YQ>
+ fm2; bh=eDAbvMfLbv4FgctRmppyGS67q8PV0h6E7eJzpTtuCW4=; b=w3q9xkVV
+ JIlvjZ/P/pLwG9ZTU/p+GAUodh2ya6RXI0foqzEUzoFyj+jBCchbboCG8svlktb0
+ Yx2Rhi6zeYv+g2PyOUqg1bjuFFAzkPPQZAltOkly15DP8//DK3oR63PAa7A3Mu/y
+ /4ZHpJcZqKyuDQSrPJnsD1TKb2bAJGJbrchxCE04KAzSHZ5suYVw2499Vazw730B
+ 9+w+r1RfyCNk1o/w1E9OpbigzYVY4+62cZV+E22cTSIPRnRU6zxAntNHM08WCS+a
+ ++qz5Ktkcm+70Poaro+RtQF969mVujASVZ32siwMKhN26dwXzrKkfaHCF/HLKh/v
+ QMsP6bpsrlDMvA==
+X-ME-Sender: <xms:lIzOXkH4nKEZ5MhWfBQrSfZ_NrPC40jY8lx7zZwP7kiUN63frrd5og>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -47,21 +47,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepjedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:kozOXiXyEOTR2XcuqCdfQUUlA5KtPUOdjdshIIgzC8AGw5iO7gsGVw>
- <xmx:kozOXvKvQJyGI1fPPulJ9xi4kzmmHKAiYTquKqAW4oNjNYe3viTLZg>
- <xmx:kozOXjHCmflnyseM9oCaYy2ktVwGestzHYCDR2gqmDmc1kQbAVcKHQ>
- <xmx:kozOXqFPX5VNlEJvphdcMcnpAJyi71bbAIbU-nNfhQt_Q_cjm-MuVw>
+X-ME-Proxy: <xmx:lIzOXtU1wljXpIFOo0_m03ISJd_kydTHjirnYGnNKLGS5jMvSkQ1Bg>
+ <xmx:lIzOXuKhypTlW9mpCcoJUmyroMVPq5qvF1o53DHaKeSxALiOZYRR3A>
+ <xmx:lIzOXmFl8-Qt-WurAnskT3WVoSfisCdt4nQc_M9m10pli3kW5k-9kA>
+ <xmx:lIzOXlHfqEQpwFcOnNsx9lDW46qzupl9NqiJpaCFeQy8S7G4TSozfw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 66E2330624E4;
- Wed, 27 May 2020 11:51:46 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id E70B93280063;
+ Wed, 27 May 2020 11:51:47 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 095/105] drm/vc4: hdmi: Set the b-frame marker to the match
- ALSA's default.
-Date: Wed, 27 May 2020 17:49:05 +0200
-Message-Id: <0a8b22baf15ca5c7a3c5bbb6516db17d470ea6de.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 096/105] drm/vc4: hdmi: Add audio-related callbacks
+Date: Wed, 27 May 2020 17:49:06 +0200
+Message-Id: <3fb0c9bed08d66768e0f086165ab553644df0afc.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -91,34 +90,107 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-ALSA's iec958 plugin by default sets the block start preamble
-to 8, whilst this driver was programming the hardware to expect
-0xF.
-Amend the hardware config to match ALSA.
+The audio configuration has changed for the BCM2711, with notably a
+different parent clock and a different channel configuration.
+
+Make that modular to be able to support the BCM2711.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 25 +++++++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  4 ++++
+ 2 files changed, 21 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index dcac5e77d2ab..afa71580bfce 100644
+index afa71580bfce..7f98c1bbda73 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -754,10 +754,11 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+@@ -611,10 +611,22 @@ static const struct drm_encoder_helper_funcs vc4_hdmi_encoder_helper_funcs = {
+ 	.enable = vc4_hdmi_encoder_enable,
+ };
  
- 	vc4_hdmi_audio_set_mai_clock(vc4_hdmi);
++static u32 vc4_hdmi_channel_map(struct vc4_hdmi *vc4_hdmi, u32 channel_mask)
++{
++	int i;
++	u32 channel_map = 0;
++
++	for (i = 0; i < 8; i++) {
++		if (channel_mask & BIT(i))
++			channel_map |= i << (3 * i);
++	}
++	return channel_map;
++}
++
+ /* HDMI audio codec callbacks */
+ static void vc4_hdmi_audio_set_mai_clock(struct vc4_hdmi *vc4_hdmi)
+ {
+-	u32 hsm_clock = clk_get_rate(vc4_hdmi->hsm_clock);
++	u32 hsm_clock = clk_get_rate(vc4_hdmi->audio_clock);
+ 	unsigned long n, m;
  
-+	/* The B frame identifier should match the value used by alsa-lib (8) */
- 	audio_packet_config =
- 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_SAMPLE_FLAT |
- 		VC4_HDMI_AUDIO_PACKET_ZERO_DATA_ON_INACTIVE_CHANNELS |
--		VC4_SET_FIELD(0xf, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
-+		VC4_SET_FIELD(0x8, VC4_HDMI_AUDIO_PACKET_B_FRAME_IDENTIFIER);
+ 	rational_best_approximation(hsm_clock, vc4_hdmi->audio.samplerate,
+@@ -733,7 +745,7 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 	struct vc4_hdmi *vc4_hdmi = dai_to_hdmi(dai);
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
+ 	u32 audio_packet_config, channel_mask;
+-	u32 channel_map, i;
++	u32 channel_map;
  
- 	channel_mask = GENMASK(vc4_hdmi->audio.channels - 1, 0);
- 	audio_packet_config |= VC4_SET_FIELD(channel_mask,
+ 	if (substream != vc4_hdmi->audio.substream)
+ 		return -EINVAL;
+@@ -785,12 +797,7 @@ static int vc4_hdmi_audio_hw_params(struct snd_pcm_substream *substream,
+ 		   VC4_HDMI_MAI_CONFIG_BIT_REVERSE |
+ 		   VC4_SET_FIELD(channel_mask, VC4_HDMI_MAI_CHANNEL_MASK));
+ 
+-	channel_map = 0;
+-	for (i = 0; i < 8; i++) {
+-		if (channel_mask & BIT(i))
+-			channel_map |= i << (3 * i);
+-	}
+-
++	channel_map = vc4_hdmi->variant->channel_map(vc4_hdmi, channel_mask);
+ 	HDMI_WRITE(HDMI_MAI_CHANNEL_MAP, channel_map);
+ 	HDMI_WRITE(HDMI_AUDIO_PACKET_CONFIG, audio_packet_config);
+ 	vc4_hdmi_set_n_cts(vc4_hdmi);
+@@ -1340,6 +1347,7 @@ static int vc4_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
+ 		DRM_ERROR("Failed to get HDMI state machine clock\n");
+ 		return PTR_ERR(vc4_hdmi->hsm_clock);
+ 	}
++	vc4_hdmi->audio_clock = vc4_hdmi->hsm_clock;
+ 
+ 	return 0;
+ }
+@@ -1488,6 +1496,7 @@ static const struct vc4_hdmi_variant bcm2835_variant = {
+ 	.phy_disable		= vc4_hdmi_phy_disable,
+ 	.phy_rng_enable		= vc4_hdmi_phy_rng_enable,
+ 	.phy_rng_disable	= vc4_hdmi_phy_rng_disable,
++	.channel_map		= vc4_hdmi_channel_map,
+ };
+ 
+ static const struct of_device_id vc4_hdmi_dt_match[] = {
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index eb0f91b57316..30eac891dc74 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -72,6 +72,9 @@ struct vc4_hdmi_variant {
+ 
+ 	/* Callback to disable the RNG in the PHY */
+ 	void (*phy_rng_disable)(struct vc4_hdmi *vc4_hdmi);
++
++	/* Callback to get channel map */
++	u32 (*channel_map)(struct vc4_hdmi *vc4_hdmi, u32 channel_mask);
+ };
+ 
+ /* HDMI audio information */
+@@ -112,6 +115,7 @@ struct vc4_hdmi {
+ 
+ 	struct clk *pixel_clock;
+ 	struct clk *hsm_clock;
++	struct clk *audio_clock;
+ 
+ 	struct debugfs_regset32 hdmi_regset;
+ 	struct debugfs_regset32 hd_regset;
 -- 
 git-series 0.9.1
 _______________________________________________
