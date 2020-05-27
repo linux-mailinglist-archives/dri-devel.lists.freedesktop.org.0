@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FA81E595F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E856D1E5974
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2FF86E45D;
-	Thu, 28 May 2020 07:44:00 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBCF26E33D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:52:02 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 31826582132;
- Wed, 27 May 2020 11:52:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:52:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=BCdY/nZMlP2YM
- RIuUh/g7J7SPkyGS3gD6ikktUPwCGo=; b=tv13B7aL7M22wNbGd2PoaNEiBYM9o
- GQcQbErapAkrJvbe5nkVjq4Cvk4pkoYnSJGJxcYNiQh+iuC8+VGCKz472UxH2TvR
- 7NlDXDMfg+oQKCMjT3m4zVVuZ3JwP22GAaPYPMR7fGdmyf3LjvM8Zsk0xcSon3Ky
- hXRyIl2upIGQdjfOGran9RSE7Q5LaES+VBaXywpjVavi76qtR7KqIHTa+4XYZ/BK
- acAw9Rvt8ytoKdlagPMyUyeZymbwTeeHBG8GQppgzPlb7rznRvwLjIW03qW0vLs8
- HzQkWS9EQIZAPH1Qde1DqO/ck/wZdzitH3G4sM1j1N6+wofVcdA84pNUQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=BCdY/nZMlP2YMRIuUh/g7J7SPkyGS3gD6ikktUPwCGo=; b=CqkfyurP
- pGZ4hqmG7N6d3nHRLxbv7pWKDoaCPSXnl8E+oIwSzW4zx9y74A+pd4P2JOpPmgla
- yzhTzYS3U2FTSbmwcEXVtpUtkBNet0tiJJiKVlOYVG1lT4jvLp5XvRLABniXngY1
- 4hhT8iyQR6jUvqbz8XmZV6bLDItfl69TUG9EJBjKFfL/Jo+t9IxhBsq9FiM43wve
- w4NzSd8tK1ziqqyOTbUsFYqHZkSfBoPexg/1LjsDaMooU9UAxdWxNVDwDaMtnQHB
- UawlZXJ8G1kLi5EVANuFJ5bb/KcEwONMbvQVoI2A+tsr4ftgW4JaJgJbf14j4fzn
- PdRAdPfFaQcfhQ==
-X-ME-Sender: <xms:oozOXvQjWd_8jih03EYh-1pFBOJrjg0VJck5oOWmnEaSWNRsvyopug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepkedune
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oozOXgyjJzR1ANhgo9DV3FtFr36DYNQUEhxLR5lRFw30daJa8lTVyg>
- <xmx:oozOXk2MzX_G0jjRpOorsLfhDYSZjwZ3irDFsQyoF8yhKIo50mO4xw>
- <xmx:oozOXvBWcXi2p9mNntkzAmFauEOMb11et77fEfPMjWaX1d2RfTbwhQ>
- <xmx:oozOXkgIMOHMXvyS_pG-vLA3qZUzCozR1ZgivRQjhljhyWCTm4VUMA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D288C306218B;
- Wed, 27 May 2020 11:52:01 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 105/105] ARM: dts: bcm2711: Enable the display pipeline
-Date: Wed, 27 May 2020 17:49:15 +0200
-Message-Id: <587d6e4a529a8d807a5c0bae583dd432d77064d6.1590594512.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC3406E46E;
+	Thu, 28 May 2020 07:44:02 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA14B6E378
+ for <dri-devel@freedesktop.org>; Wed, 27 May 2020 17:32:33 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id c12so9988073qtq.11
+ for <dri-devel@freedesktop.org>; Wed, 27 May 2020 10:32:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G2BXWCTTNBns33NDU0HybwyfZx0pKtO1nI+1NJmXgJE=;
+ b=pzODA/cBQXw/CEtKpRqf9bB5Am/l0I4597dz6MLmQeN2ifmLqZSlDgaAtCARJDivD6
+ 9Kw418h/RetRSvPvlL+x1EYvHZCt7sD4zm0d+hDZx69Tfhz0qgQ11EsKjvSEYaOBzTgp
+ b5DZHfScEflBLAaKm+uce0alcIP4cqrff/9d1LxSimEuSPCTi+XHIizQkk/F06h9VE6S
+ 6DN9TecBtt8FayDYBd3oNgyeUAZTz0aJYB/hXdCXK0Z5zIkG2cdLLzw7lx9I2VrvchJf
+ EIe/6mDvet+14KdS1N0+L3YEdhjUBQSpsBmrCwEzjmfgZ8SIWs7uAYXrJ1EmpEsx4G5t
+ 8uRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G2BXWCTTNBns33NDU0HybwyfZx0pKtO1nI+1NJmXgJE=;
+ b=FU6jeI0KVGhtsAgJvmVbhSmg3HIyXTeYA/zkmtjatnNmK6MIgQpCq6PA1POigdVzhn
+ x50sUXsTf60FZHvvOkOlauKv8xxoa0MmqNoRvreBWbSA0+XQX5/UPg7EYbutyziQ6aKW
+ UcGz8knhLkAKssyDt01ch52FcfyxMSuSLRcT5ePoXoSkJuD+CP317k6wdGcYu8UoP/wa
+ rmaB7VJtiDYVwtu/cz/9qxgjo2aEaEcmOT5LzQOlTqTqGmjljDxbaMtkezV5dpGa1Sin
+ GMgfuCXExYAqipF83wJEhmEO0p6YxEdxGgsS24IyjTMrBvPpsM0RNa6s3eUfMMWr4nsw
+ W1qg==
+X-Gm-Message-State: AOAM531aKheS3tFAMhZw4FV23vIKItzGNxYig8mm4DM9Zvu0LelmmBbM
+ siYZc77MNXum3If/H2hB6w7IOo5PzFlntiNOuA0w8A==
+X-Google-Smtp-Source: ABdhPJwXpn5szmnzOAoismmK3gW+NO2iRmAMAWoX2x9kLxI2DQOfwiJkkj58xfMAJP5sIq8ExwuoK929yeVdXcjTQns=
+X-Received: by 2002:aed:312a:: with SMTP id 39mr5473720qtg.6.1590600752651;
+ Wed, 27 May 2020 10:32:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <1589453659-27581-1-git-send-email-smasetty@codeaurora.org>
+ <1589453659-27581-6-git-send-email-smasetty@codeaurora.org>
+ <20200518142333.GA10796@jcrouse1-lnx.qualcomm.com>
+ <CAF6AEGtoNwUGX-r7QytGn5hSU-VD4RJZyhcb3WdgAgAFR5BK4A@mail.gmail.com>
+ <c8a514c9-5e48-b561-4b45-47cde3bdfb34@codeaurora.org>
+ <CAF6AEGvOtgpHMuiw01QgRYGEBB2rp5QOdVMpkTMsi0c-QSSv1Q@mail.gmail.com>
+In-Reply-To: <CAF6AEGvOtgpHMuiw01QgRYGEBB2rp5QOdVMpkTMsi0c-QSSv1Q@mail.gmail.com>
+From: Saravana Kannan <saravanak@google.com>
+Date: Wed, 27 May 2020 10:31:55 -0700
+Message-ID: <CAGETcx_fuS8cmTwCbZ024gqWOmeAc_ytZZ2P6yReBi7Y9O+qMQ@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 5/6] drm: msm: a6xx: use dev_pm_opp_set_bw to
+ set DDR bandwidth
+To: Rob Clark <robdclark@gmail.com>
 X-Mailman-Approved-At: Thu, 28 May 2020 07:43:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,231 +67,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rajendra Nayak <rnayak@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Sibi Sankar <sibis@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that all the drivers have been adjusted for it, let's bring in the
-necessary device tree changes.
+On Wed, May 27, 2020 at 8:38 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Wed, May 27, 2020 at 1:47 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
+> >
+> > + more folks
+> >
+> > On 5/18/2020 9:55 PM, Rob Clark wrote:
+> > > On Mon, May 18, 2020 at 7:23 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+> > >> On Thu, May 14, 2020 at 04:24:18PM +0530, Sharat Masetty wrote:
+> > >>> This patches replaces the previously used static DDR vote and uses
+> > >>> dev_pm_opp_set_bw() to scale GPU->DDR bandwidth along with scaling
+> > >>> GPU frequency.
+> > >>>
+> > >>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > >>> ---
+> > >>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +-----
+> > >>>   1 file changed, 1 insertion(+), 5 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > >>> index 2d8124b..79433d3 100644
+> > >>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > >>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > >>> @@ -141,11 +141,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> > >>>
+> > >>>        gmu->freq = gmu->gpu_freqs[perf_index];
+> > >>>
+> > >>> -     /*
+> > >>> -      * Eventually we will want to scale the path vote with the frequency but
+> > >>> -      * for now leave it at max so that the performance is nominal.
+> > >>> -      */
+> > >>> -     icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
+> > >>> +     dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
+> > >>>   }
+> > >> This adds an implicit requirement that all targets need bandwidth settings
+> > >> defined in the OPP or they won't get a bus vote at all. I would prefer that
+> > >> there be an default escape valve but if not you'll need to add
+> > >> bandwidth values for the sdm845 OPP that target doesn't regress.
+> > >>
+> > > it looks like we could maybe do something like:
+> > >
+> > >    ret = dev_pm_opp_set_bw(...);
+> > >    if (ret) {
+> > >        dev_warn_once(dev, "no bandwidth settings");
+> > >        icc_set_bw(...);
+> > >    }
+> > >
+> > > ?
+> > >
+> > > BR,
+> > > -R
+> >
+> > There is a bit of an issue here - Looks like its not possible to two icc
+> > handles to the same path.  Its causing double enumeration of the paths
+> > in the icc core and messing up path votes. With [1] Since opp/core
+> > already gets a handle to the icc path as part of table add,  drm/msm
+> > could do either
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/bcm2711-rpi-4-b.dts |  46 +++++++++++-
- arch/arm/boot/dts/bcm2711.dtsi        | 115 ++++++++++++++++++++++++++-
- 2 files changed, 160 insertions(+), 1 deletion(-)
+Are you sure this is the real issue? I'd be surprised if this is a
+real limitation. And if it is, it either needs to be fixed in the ICC
+framework or OPP shouldn't be getting path handles by default (and
+maybe let the driver set the handles before using OPP APIs to change
+BW). I'd lean towards the former.
 
-diff --git a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-index 222d7825e1ab..c4a650ea4e21 100644
---- a/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-+++ b/arch/arm/boot/dts/bcm2711-rpi-4-b.dts
-@@ -231,3 +231,49 @@
- &vchiq {
- 	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
- };
-+
-+&vc4 {
-+	status = "okay";
-+};
-+
-+&pixelvalve0 {
-+	status = "okay";
-+};
-+
-+&pixelvalve1 {
-+	status = "okay";
-+};
-+
-+&pixelvalve2 {
-+	status = "okay";
-+};
-+
-+&pixelvalve4 {
-+	status = "okay";
-+};
-+
-+&vec {
-+	status = "disabled";
-+};
-+
-+&hdmi0 {
-+	clocks = <&firmware_clocks 13>, <&dvp 0>;
-+	status = "okay";
-+};
-+
-+&ddc0 {
-+	status = "okay";
-+};
-+
-+&hdmi1 {
-+	clocks = <&firmware_clocks 13>, <&dvp 1>;
-+	status = "okay";
-+};
-+
-+&ddc1 {
-+	status = "okay";
-+};
-+
-+&hvs {
-+	clocks = <&firmware_clocks 4>;
-+};
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 00bcaed1be32..e637378650f6 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -12,6 +12,11 @@
- 
- 	interrupt-parent = <&gicv2>;
- 
-+	vc4: gpu {
-+		compatible = "brcm,bcm2711-vc5";
-+		status = "disabled";
-+	};
-+
- 	clk_108MHz: clk-108M {
- 		#clock-cells = <0>;
- 		compatible = "fixed-clock";
-@@ -238,6 +243,27 @@
- 			status = "disabled";
- 		};
- 
-+		pixelvalve0: pixelvalve@7e206000 {
-+			compatible = "brcm,bcm2711-pixelvalve0";
-+			reg = <0x7e206000 0x100>;
-+			interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
-+		pixelvalve1: pixelvalve@7e207000 {
-+			compatible = "brcm,bcm2711-pixelvalve1";
-+			reg = <0x7e207000 0x100>;
-+			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
-+		pixelvalve2: pixelvalve@7e20a000 {
-+			compatible = "brcm,bcm2711-pixelvalve2";
-+			reg = <0x7e20a000 0x100>;
-+			interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		pwm1: pwm@7e20c800 {
- 			compatible = "brcm,bcm2835-pwm";
- 			reg = <0x7e20c800 0x28>;
-@@ -248,10 +274,25 @@
- 			status = "disabled";
- 		};
- 
--		hvs@7e400000 {
-+		pixelvalve4: pixelvalve@7e216000 {
-+			compatible = "brcm,bcm2711-pixelvalve4";
-+			reg = <0x7e216000 0x100>;
-+			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
-+		hvs: hvs@7e400000 {
-+			compatible = "brcm,bcm2711-hvs";
- 			interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
-+		pixelvalve3: pixelvalve@7ec12000 {
-+			compatible = "brcm,bcm2711-pixelvalve3";
-+			reg = <0x7ec12000 0x100>;
-+			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		dvp: clock@7ef00000 {
- 			compatible = "brcm,brcm2711-dvp";
- 			reg = <0x7ef00000 0x10>;
-@@ -259,6 +300,78 @@
- 			#clock-cells = <1>;
- 			#reset-cells = <1>;
- 		};
-+
-+		hdmi0: hdmi@7ef00700 {
-+			compatible = "brcm,bcm2711-hdmi0";
-+			reg = <0x7ef00700 0x300>,
-+			      <0x7ef00300 0x200>,
-+			      <0x7ef00f00 0x80>,
-+			      <0x7ef00f80 0x80>,
-+			      <0x7ef01b00 0x200>,
-+			      <0x7ef01f00 0x400>,
-+			      <0x7ef00200 0x80>,
-+			      <0x7ef04300 0x100>,
-+			      <0x7ef20000 0x100>;
-+			reg-names = "hdmi",
-+				    "dvp",
-+				    "phy",
-+				    "rm",
-+				    "packet",
-+				    "metadata",
-+				    "csc",
-+				    "cec",
-+				    "hd";
-+			clock-names = "hdmi", "clk-108M";
-+			resets = <&dvp 0>;
-+			ddc = <&ddc0>;
-+			dmas = <&dma 10>;
-+			dma-names = "audio-rx";
-+			status = "disabled";
-+		};
-+
-+		ddc0: i2c@7ef04500 {
-+			compatible = "brcm,bcm2711-hdmi-i2c";
-+			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
-+			reg-names = "bsc", "auto-i2c";
-+			clock-frequency = <97500>;
-+			status = "disabled";
-+		};
-+
-+		hdmi1: hdmi@7ef05700 {
-+			compatible = "brcm,bcm2711-hdmi1";
-+			reg = <0x7ef05700 0x300>,
-+			      <0x7ef05300 0x200>,
-+			      <0x7ef05f00 0x80>,
-+			      <0x7ef05f80 0x80>,
-+			      <0x7ef06b00 0x200>,
-+			      <0x7ef06f00 0x400>,
-+			      <0x7ef00280 0x80>,
-+			      <0x7ef09300 0x100>,
-+			      <0x7ef20000 0x100>;
-+			reg-names = "hdmi",
-+				    "dvp",
-+				    "phy",
-+				    "rm",
-+				    "packet",
-+				    "metadata",
-+				    "csc",
-+				    "cec",
-+				    "hd";
-+			ddc = <&ddc1>;
-+			clock-names = "hdmi", "clk-108M";
-+			resets = <&dvp 1>;
-+			dmas = <&dma 17>;
-+			dma-names = "audio-rx";
-+			status = "disabled";
-+		};
-+
-+		ddc1: i2c@7ef09500 {
-+			compatible = "brcm,bcm2711-hdmi-i2c";
-+			reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
-+			reg-names = "bsc", "auto-i2c";
-+			clock-frequency = <97500>;
-+			status = "disabled";
-+		};
- 	};
- 
- 	/*
--- 
-git-series 0.9.1
+> > a) Conditionally enumerate gpu->icc_path handle only when pm/opp core
+> > has not got the icc path handle. I could use something like [2] to
+> > determine if should initialize gpu->icc_path*
+
+This seems like a bandaid. Let's fix it correctly in ICC framework or
+OPP framework.
+
+> > b) Add peak-opp-configs in 845 dt and mandate all future versions to use
+> > this bindings. With this, I can remove gpu->icc_path from msm/drm
+> > completely and only rely on opp/core for bw voting.
+
+I don't know what you mean by "peak-opp-configs" but I guess you are
+referring to some kind of DT flag to say if you should vote for BW
+directly or use the OPP framework? If so, I'm pretty sure that won't
+fly. That's an OS implementation specific flag.
+
+-Saravana
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
