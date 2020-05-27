@@ -2,36 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3419F1E4822
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 17:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124691E486F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 17:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE1E89B0B;
-	Wed, 27 May 2020 15:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984C46E33E;
+	Wed, 27 May 2020 15:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9799F89B0B;
- Wed, 27 May 2020 15:48:12 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21311397-1500050 for multiple; Wed, 27 May 2020 16:47:55 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A62E76E33E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:52:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A35830E;
+ Wed, 27 May 2020 08:52:05 -0700 (PDT)
+Received: from [192.168.1.84] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E5533F52E;
+ Wed, 27 May 2020 08:52:03 -0700 (PDT)
+Subject: Re: [PATCH] [v2] drm/panfrost: Fix runtime PM imbalance on error
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+References: <20200522134109.27204-1-dinghao.liu@zju.edu.cn>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <48348af2-649c-7305-6255-6ae6a80e9b7a@arm.com>
+Date: Wed, 27 May 2020 16:52:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200527140526.1458215-3-arnd@arndb.de>
-References: <20200527140526.1458215-1-arnd@arndb.de>
- <20200527140526.1458215-3-arnd@arndb.de>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 3/3] drm/i915/selftests: avoid bogus maybe-uninitialized
- warning
-Message-ID: <159059447457.30979.14504945135116433938@build.alporthouse.com>
-User-Agent: alot/0.8.1
-Date: Wed, 27 May 2020 16:47:54 +0100
+In-Reply-To: <20200522134109.27204-1-dinghao.liu@zju.edu.cn>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,100 +41,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="us-ascii"
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Arnd Bergmann (2020-05-27 15:05:10)
-> gcc has a problem following values through IS_ERR/PTR_ERR macros,
-> leading to a false-positive warning in allmodconfig, with any
-> compiler version:
+On 22/05/2020 14:41, Dinghao Liu wrote:
+> The caller expects panfrost_job_hw_submit() to increase
+> runtime PM usage counter. The refcount decrement on the
+> error branch of WARN_ON() will break the counter balance
+> and needs to be removed.
 > 
-> In file included from drivers/gpu/drm/i915/gt/intel_lrc.c:5892:
-> drivers/gpu/drm/i915/gt/selftest_lrc.c: In function 'create_gpr_client.isra.0':
-> drivers/gpu/drm/i915/gt/selftest_lrc.c:2902:23: error: 'rq' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> 
-> This one is hard to avoid without impairing readability or adding a
-> bugus NULL pointer.
-> 
-> Fixes: c92724de6db1 ("drm/i915/selftests: Try to detect rollback during batchbuffer preemption")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+
+Steve
+
 > ---
->  drivers/gpu/drm/i915/gt/selftest_lrc.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> index 824f99c4cc7c..933c3f5adf0a 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-> @@ -2908,23 +2908,25 @@ create_gpr_client(struct intel_engine_cs *engine,
->  
->         vma = i915_vma_instance(global->obj, ce->vm, NULL);
->         if (IS_ERR(vma)) {
-> -               err = PTR_ERR(vma);
-> +               rq = ERR_CAST(vma);
->                 goto out_ce;
->         }
->  
->         err = i915_vma_pin(vma, 0, 0, PIN_USER);
-> -       if (err)
-> +       if (err) {
-> +               rq = ERR_PTR(err);
->                 goto out_ce;
-> +       }
->  
->         batch = create_gpr_user(engine, vma, offset);
->         if (IS_ERR(batch)) {
-> -               err = PTR_ERR(batch);
-> +               rq = ERR_CAST(batch);
->                 goto out_vma;
->         }
->  
->         rq = intel_context_create_request(ce);
->         if (IS_ERR(rq)) {
-> -               err = PTR_ERR(rq);
-> +               rq = ERR_CAST(rq);
->                 goto out_batch;
->         }
->  
-> @@ -2946,17 +2948,20 @@ create_gpr_client(struct intel_engine_cs *engine,
->         i915_vma_unlock(batch);
->         i915_vma_unpin(batch);
->  
-> -       if (!err)
-> +       if (!err) {
->                 i915_request_get(rq);
-> -       i915_request_add(rq);
-> -
-> +               i915_request_add(rq);
-> +       } else {
-> +               i915_request_add(rq);
-> +               rq = ERR_PTR(err);
-> +       }
->  out_batch:
->         i915_vma_put(batch);
->  out_vma:
->         i915_vma_unpin(vma);
->  out_ce:
->         intel_context_put(ce);
-> -       return err ? ERR_PTR(err) : rq;
-> +       return rq;
-
-Hmm, I've used this style a few times, so could do with some syntactic
-refinement.
-
-drivers/gpu/drm/i915/gem/i915_gem_userptr.c:    return err ? ERR_PTR(err) : mm->mn;
-drivers/gpu/drm/i915/gt/selftest_hangcheck.c:   return err ? ERR_PTR(err) : rq;
-drivers/gpu/drm/i915/gt/selftest_lrc.c: return err ? ERR_PTR(err) : rq;
-drivers/gpu/drm/i915/selftests/i915_gem_gtt.c:  return err ? ERR_PTR(err) : rq;
-drivers/gpu/drm/i915/selftests/i915_request.c:  return err ? ERR_PTR(err) : request;
-drivers/gpu/drm/i915/selftests/igt_spinner.c:   return err ? ERR_PTR(err) : rq;
--Chris
+> Changelog:
+> 
+> v2: - Remove refcount decrement on the error path of
+>        WARN_ON() rather than add refcount decrement
+>        on the error path of pm_runtime_get_sync().
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_job.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 7914b1570841..1092d9754f0f 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -150,7 +150,6 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
+>   		return;
+>   
+>   	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
+> -		pm_runtime_put_sync_autosuspend(pfdev->dev);
+>   		return;
+>   	}
+>   
+> 
 
 _______________________________________________
 dri-devel mailing list
