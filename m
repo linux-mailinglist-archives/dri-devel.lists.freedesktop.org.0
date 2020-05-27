@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A391E47AF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 17:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58651E47B2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 17:38:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B28C6E0DB;
-	Wed, 27 May 2020 15:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86386E329;
+	Wed, 27 May 2020 15:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED36E0DB
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:37:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261186E329
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:38:11 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 207901] Nouveau: In a 4 monitor setup, 1-2 displays remains
  black after boot
-Date: Wed, 27 May 2020 15:37:21 +0000
+Date: Wed, 27 May 2020 15:38:10 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207901-2300-yIVkEXz0nj@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-207901-2300-9zOB7uV8aT@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-207901-2300@https.bugzilla.kernel.org/>
 References: <bug-207901-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,12 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=207901
 
---- Comment #7 from Maurice Gale (mauricegale1@gmail.com) ---
-Interestingly, after installing both 5.6 and 5.7-rc, I get no displays at all
-when connected to my Nvidia p2000. 
-
-However, when I use integrated graphics, I get both of the displays. It seems
-as though things have gotten worse.
+--- Comment #8 from Maurice Gale (mauricegale1@gmail.com) ---
+Created attachment 289347
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289347&action=edit
+Log for 5.6
 
 -- 
 You are receiving this mail because:
