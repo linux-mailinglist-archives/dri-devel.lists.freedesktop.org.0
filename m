@@ -1,34 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124691E486F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 17:52:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43B51E4926
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 18:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984C46E33E;
-	Wed, 27 May 2020 15:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6C56E340;
+	Wed, 27 May 2020 16:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A62E76E33E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:52:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A35830E;
- Wed, 27 May 2020 08:52:05 -0700 (PDT)
-Received: from [192.168.1.84] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E5533F52E;
- Wed, 27 May 2020 08:52:03 -0700 (PDT)
-Subject: Re: [PATCH] [v2] drm/panfrost: Fix runtime PM imbalance on error
-To: Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
-References: <20200522134109.27204-1-dinghao.liu@zju.edu.cn>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <48348af2-649c-7305-6255-6ae6a80e9b7a@arm.com>
-Date: Wed, 27 May 2020 16:52:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD766E340
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 16:03:51 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1jdyWx-0003I0-NC; Wed, 27 May 2020 18:03:47 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1jdyWv-0003Vi-Nt; Wed, 27 May 2020 18:03:45 +0200
+Message-ID: <4ea7187872b3ddb5017cccbcf873e287a86430e2.camel@pengutronix.de>
+Subject: Re: [PATCH v3 002/105] reset: simple: Add reset callback
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Maxime Ripard <maxime@cerno.tech>, Nicolas Saenz Julienne
+ <nsaenzjulienne@suse.de>, Eric Anholt <eric@anholt.net>
+Date: Wed, 27 May 2020 18:03:45 +0200
+In-Reply-To: <be2cecb2654e68385561a15df7967c7723d5531d.1590594512.git-series.maxime@cerno.tech>
+References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
+ <be2cecb2654e68385561a15df7967c7723d5531d.1590594512.git-series.maxime@cerno.tech>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20200522134109.27204-1-dinghao.liu@zju.edu.cn>
-Content-Language: en-GB
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,53 +50,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/05/2020 14:41, Dinghao Liu wrote:
-> The caller expects panfrost_job_hw_submit() to increase
-> runtime PM usage counter. The refcount decrement on the
-> error branch of WARN_ON() will break the counter balance
-> and needs to be removed.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Hi Maxime,
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-
-Steve
-
-> ---
+On Wed, 2020-05-27 at 17:47 +0200, Maxime Ripard wrote:
+> The reset-simple code lacks a reset callback that is still pretty easy to
+> implement. The only real thing to consider is the delay needed for a device
+> to be reset, so let's expose that as part of the reset-simple driver data.
 > 
-> Changelog:
-> 
-> v2: - Remove refcount decrement on the error path of
->        WARN_ON() rather than add refcount decrement
->        on the error path of pm_runtime_get_sync().
-> ---
->   drivers/gpu/drm/panfrost/panfrost_job.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 7914b1570841..1092d9754f0f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -150,7 +150,6 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->   		return;
->   
->   	if (WARN_ON(job_read(pfdev, JS_COMMAND_NEXT(js)))) {
-> -		pm_runtime_put_sync_autosuspend(pfdev->dev);
->   		return;
->   	}
->   
-> 
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
+Thank you, I've applied patches 1 & 2 to the reset/next branch.
+
+regards
+Philipp
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
