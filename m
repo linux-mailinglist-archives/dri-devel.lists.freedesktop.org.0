@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B76E1E39D9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4872E1E3AA9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 09:34:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7916A6E0DA;
-	Wed, 27 May 2020 07:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBAC16E297;
+	Wed, 27 May 2020 07:34:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B74D76E0DA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 07:06:13 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 85A65206F1;
- Wed, 27 May 2020 07:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590563173;
- bh=Bnwio/T0f8/rO+4l0ETfUXCahBdmz6vzX2tvqweK3c4=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=oF/iNegV3lDmsHA8jl2XuOdgHsm3ArbmfhqDo4tj/ixgr/8+hjuVwgK2omrt1GHqK
- lftYRB6EtnDGNvsW0OlYmy8Cp4c40r1rRUvQnh70Y1+AmlskJw2okPi3Ha7N8yyMaB
- MuI4eAKk/rPw1yzcI9NKh9tcdk+KZvcMyWAF4ovE=
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A06E16E297
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 07:34:42 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id s198so20965829oie.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 00:34:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g/2V+ILho993Sc4aTyN2HNrz1xXkT4t8lrGCCn7EhH4=;
+ b=kU1vSNrwBy3Gnp0Mhsj3ox3ZinPlklOM1TfoSw4Z4UJ5RIVJ/XktiBQdqCcxaASRrn
+ 967uI3Ad8Pv4U52m88cNFLVtMO7BjO/kOMOo2ri+ukyIez2sGKvWKknUlY/wBxmHFsgL
+ OAjoJm6qkxRiZf8Ynsyxpo+LYTtAeXFTfoglNK0XIUSnGPHu5UJxs4uyfsHE754c6EM4
+ jpC0KI0iSEUtbtIn7ineIAFcuwivGYBTZAvMJ1gIUfpySrLcORtTg6hFwbr6uyHMFG+h
+ 5OBHIBbEStAB5H+hZT1Tk3kD5vYrUx/TSjjlNxmrYVyx3TaxgbCClrtefVN8Q9JZ8T1C
+ G78A==
+X-Gm-Message-State: AOAM530VQmnTw+LdUPXDEldKewBBo6WgdVZXgwV7bjr2Ov1myCN9k1vc
+ 4VxuFwImn7Pg6vL9wAlXKRP771Yeoc+Edz7kV/0=
+X-Google-Smtp-Source: ABdhPJxCq6xJytQR9MRrSZtC7WsUAZa4yYCcCrs2RUn5qA+cObxdWtdrNC7QR/jq6N/RUcvtStBbHCYsejgBNLFq/wA=
+X-Received: by 2002:aca:210a:: with SMTP id 10mr1716582oiz.153.1590564881908; 
+ Wed, 27 May 2020 00:34:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a1efabae8d7df30c987bff10544c2071e906e07a.1587742492.git-series.maxime@cerno.tech>
-References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
- <a1efabae8d7df30c987bff10544c2071e906e07a.1587742492.git-series.maxime@cerno.tech>
-Subject: Re: [PATCH v2 25/91] clk: bcm: Add BCM2711 DVP driver
-From: Stephen Boyd <sboyd@kernel.org>
-To: Eric Anholt <eric@anholt.net>, Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Date: Wed, 27 May 2020 00:06:12 -0700
-Message-ID: <159056317280.88029.13256292035418533462@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20200527071555.GA23912@lxhi-065.adit-jv.com>
+In-Reply-To: <20200527071555.GA23912@lxhi-065.adit-jv.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 27 May 2020 09:34:30 +0200
+Message-ID: <CAMuHMdVGcFGL6V6_zDCPQA66VFyqM9bQ6choWs8eYfOieFu1ZQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
+To: Eugeniu Rosca <erosca@de.adit-jv.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,76 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+Cc: muroya@ksk.co.jp, David Airlie <airlied@linux.ie>,
+ Michael Rodin <mrodin@de.adit-jv.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ gotthard.voellmeke@renesas.com,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Eugeniu Rosca <roscaeugeniu@gmail.com>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+ Simon Horman <horms@verge.net.au>, Sean Paul <seanpaul@chromium.org>,
+ Michael Dege <michael.dege@renesas.com>,
+ Harsha.ManjulaMallikarjun@in.bosch.com,
+ Ezequiel Garcia <ezequiel@collabora.com>, efriedrich@de.adit-jv.com,
+ ChaitanyaKumar.Borah@in.bosch.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ VenkataRajesh.Kalakodima@in.bosch.com,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Ulrich Hecht <uli+renesas@fpond.eu>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2020-04-24 08:34:06)
-> The HDMI block has a block that controls clocks and reset signals to the
-> HDMI0 and HDMI1 controllers.
-> 
-> Let's expose that through a clock driver implementing a clock and reset
-> provider.
-> 
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
+Hi Eugeniu,
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+On Wed, May 27, 2020 at 9:16 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> On Tue, Oct 15, 2019 at 12:46:13PM +0200, Jacopo Mondi wrote:
+> > CMM functionalities are retained between suspend/resume cycles (tested with
+> > suspend-to-idle) without requiring a re-programming of the LUT tables.
+>
+> Hmm. Is this backed up by any statement in the HW User's manual?
+> This comes in contrast with the original Renesas CMM implementation [**]
+> which does make use of suspend (where the freeze actually happens).
+>
+> Can we infer, based on your statement, that we could also get rid of
+> the suspend callback in [**]?
 
-> diff --git a/drivers/clk/bcm/clk-bcm2711-dvp.c b/drivers/clk/bcm/clk-bcm2711-dvp.c
-> new file mode 100644
-> index 000000000000..c1c4b5857d32
-> --- /dev/null
-> +++ b/drivers/clk/bcm/clk-bcm2711-dvp.c
-> @@ -0,0 +1,127 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +// Copyright 2020 Cerno
-> +
-> +#include <linux/clk-provider.h>
-> +#include <linux/module.h>
-[...]
-> +
-> +static int clk_dvp_probe(struct platform_device *pdev)
-> +{
-> +       struct clk_hw_onecell_data *data;
-> +       struct resource *res;
-> +       struct clk_dvp *dvp;
-> +       void __iomem *base;
-> +       int ret;
-> +
-> +       dvp = devm_kzalloc(&pdev->dev, sizeof(*dvp), GFP_KERNEL);
-> +       if (!dvp)
-> +               return -ENOMEM;
-> +       platform_set_drvdata(pdev, dvp);
-> +
-> +       dvp->data = devm_kzalloc(&pdev->dev,
-> +                                struct_size(dvp->data, hws, NR_CLOCKS),
-> +                                GFP_KERNEL);
-> +       if (!dvp->data)
-> +               return -ENOMEM;
-> +       data = dvp->data;
-> +
-> +       res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +       base = devm_ioremap_resource(&pdev->dev, res);
+While the CMM state will be retained across suspend-to-idle, I'm quite
+sure it will be lost by suspend-to-RAM, at least on the Salvator-X(S),
+ULCB, and Ebisu development boards, as PSCI will ask the BD9571WMV
+regulator to power down the R-Car SoC.
 
-devm_platform_ioremap_resource()?
+So IMHO we do need suspend/resume handling.
 
-> +       if (IS_ERR(base))
-> +               return PTR_ERR(base);
-> +
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
