@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7E11E5975
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264A61E59AE
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274166E48C;
-	Thu, 28 May 2020 07:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 615A46E4A7;
+	Thu, 28 May 2020 07:44:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
  [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4506E339
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE056E33F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 15:51:56 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7372958211E;
- Wed, 27 May 2020 11:51:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:54 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 03D44582101;
+ Wed, 27 May 2020 11:51:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 11:51:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=f1NqZpRqKGWmV
- ec/byPyNo9gaPc7flByeuHa+FEKKrI=; b=MJ2QZ8Gyj4piq2fhlUC+NDk3sNUSK
- s0JwN8QdIWM/1JuyLv+hxosLb7cQzkfDYKHSegFXBcqp+CARYtrxdHXwiYF3MRgY
- WoTRlxEoq4c6OLMwHX+cg1+Lh3VFB8+NzZH8a2ImDpgzkuhYMWea7heD//6TVewq
- GBZuAE3DdJ2+Pwuz2CFdIZlFXhG6hqBvglR2AEJl3y5tnwSOMcK98BPPkbWqseS6
- Y9/P+TmjKR9KXO+7Bjo54kSwATyfIh0lYXYravphA7zTXkjAsALO7kPJV1NJ444q
- rYptzxl5tvOdE9xq2Wj5vljMeZxaylo/uwO+4xPQwdnbGFIvd6A/d98JA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=JDEX6MAtxosDe
+ l7oC/fdDO/+J0huIvOIGDcYTweJxI0=; b=x3eRxR4NffTRdfcoyyIj7gXOrg6B1
+ jjqqGl37SonoO+MqSMFUESbdSiVX4DioNRBId/l9XNtOpk1mggRxqmCVcWRmV4na
+ jbT8+15S/VAaANzakrEcVnuluMc9bvDcw6sgXuf7xkAABWQ7oiL/jgJmrxDkI17t
+ cvh5iFfr9t9vcIIFCJJFeTiFKiUqgEG7De2GSt9nlFZnhfQWyoJfoebTQxVbWd0A
+ Hne2mRlsCkguZsKRAQ3SjRkktHzWJAMUsPMGXg35BMU0DW0GBRA0vqBp33KpexQn
+ R3F8KRDt9lo8EYhACtlHHiHbo+K70gNc0nE0ykfa5YsdcsT0anoH6ebew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=f1NqZpRqKGWmVec/byPyNo9gaPc7flByeuHa+FEKKrI=; b=2DgVVI/C
- 99L6n67wBvSN5IDdEt/Gdw7BjL7TT28f+QrNJzcOmUUhPLc35LizRytSuC3aq1Fd
- yC4dBxQlxzX8D3QKLCSsEyYw3KDDRZfg57WJPIpJkGYKaMIAGSRMjYTplxSy84R4
- oI/TvdEkSDf6aaT6VbAYyEejbFFQlZ72+Il9wzp1CRujK9SXsYKRP1aeOohdX0NK
- uxfKPMI8h+IPVBolYLY7GveZdHHGtZvXtjPAZkp4smgPsaAdIO/XyXnmP682CuMI
- I9pIcWrjsiO3qdilwcZ7WuEqZ604gaMdGu5JBFnaZfw42NiDB/jGkfwwS1jwS8Yl
- ajauQz3qolhENg==
-X-ME-Sender: <xms:mozOXsuRsU4YPvuWmtF1Y354v1WF3OPkEoHghZkiiFPxH0SmAfasZw>
+ fm2; bh=JDEX6MAtxosDel7oC/fdDO/+J0huIvOIGDcYTweJxI0=; b=PYZrrH0V
+ T2bzziBFlbEGOaS+ytete6XxyzrDCYH1HtHq49MmEB0cVm7TCaRNG6WFaed8sKBM
+ WoNYFmAptJaS5lzWZDBFeNBTOTPTx1vcnTRVBoTWUZashX6G4ME9iJY0v5ueK/ik
+ /QF6Cl623a9dtv6qZLSvbhY/bMBT0Y6o2TNex6aSx6sd6I4p9CjapDyRd9fcAw4r
+ nu2VKwIuC4NkPDBzm0AhYayqfbVYDHJR9wlD2rI9uCHdWNhmihI+0NvI20FKYQSa
+ pmaz9o7JzuAC7SHqWAeqogBN0tdgjSvG8lfYcS2dUtqDtzN+msNUWxy6dWSKMeOS
+ Vm3/CjuIsa2Xtg==
+X-ME-Sender: <xms:m4zOXin0eoXbTUjy4Wwqjab0bt_hPbnsoNBcIBgwYFVDRyQXx9r0KA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepfeevhfdvvdeivdeihefftddvtefgieegffevhfeilefgfeeuteevudejgedu
- lefhnecuffhomhgrihhnpegsrghsvgdrphhoshhtnecukfhppeeltddrkeelrdeikedrje
- einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
- gihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mozOXpeRscOZJhp0_8Hu9VmPeK5ZV7C0F-SGnfJ9o5Z0aBkrl1kPRA>
- <xmx:mozOXnz__Pu-jf2SeNjyJGSDPVR-64GRwG6kYPL15TBfkjIyxFt__g>
- <xmx:mozOXvObdeus82BYhQCJ5Uu51_NmpmYhjyVOUBB52ll4s7qlfasFzg>
- <xmx:mozOXpOvDp6XRvfZM7AYBSwfPGQ1OTHQAZa4XGubO_y2TWFFOXZXpw>
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepjeekne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:m4zOXp3neDgaUFj3t6analbmLAOHqioyOT9amYyEkbikdmGVcE-sWA>
+ <xmx:m4zOXgoErk0KyxwpJbjY1iYmVku4E4Bw4GIwV_k_k1F92pUeHhCgFQ>
+ <xmx:m4zOXmkg1BTpY3ohSGRg5npgje76EhOJfC6fMKYnXbpkAP48x7kzQA>
+ <xmx:nIzOXhmTDw5uQksbRQQQpunfPmrweuXj3tP1XHIB2YCTnxkGbCGgew>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0F0BB328005D;
- Wed, 27 May 2020 11:51:53 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 90C75306215A;
+ Wed, 27 May 2020 11:51:55 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 100/105] drm/vc4: hdmi: Implement finer-grained hooks
-Date: Wed, 27 May 2020 17:49:10 +0200
-Message-Id: <a13583f0ae9ae8239a75bffe653b145895aed164.1590594512.git-series.maxime@cerno.tech>
+Subject: [PATCH v3 101/105] drm/vc4: hdmi: Do the VID_CTL configuration at once
+Date: Wed, 27 May 2020 17:49:11 +0200
+Message-Id: <733b4ae69521eb4e580efde2dd1cffeba9dcd80b.1590594512.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
@@ -89,124 +88,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to prevent some pixels getting stuck in an unflushable FIFO on
-bcm2711, we need to enable the HVS, the pixelvalve (the CRTC) and the HDMI
-controller (the encoder) in an intertwined way, and with tight delays.
-
-However, the atomic callbacks don't really provide a way to work with
-either constraints, so we need to roll our own callbacks so that we can
-provide those guarantees.
-
-Since those callbacks have been implemented and called in the CRTC code, we
-can just implement them in the HDMI driver now.
+The VID_CTL setup is done in several places in the driver even though it's
+not really required. Let's simplify it a bit to do the configuration in one
+go.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 43 +++++++++++++++++++++++++++++++----
- 1 file changed, 39 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index a97f378c6d2d..86ce8d247a00 100644
+index 86ce8d247a00..d889a83a0f56 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -320,18 +320,28 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
- 		vc4_hdmi_set_audio_infoframe(encoder);
+@@ -429,10 +429,6 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+ 
+ 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
+ 	HDMI_WRITE(HDMI_VERTB1, vertb);
+-
+-	HDMI_WRITE(HDMI_VID_CTL,
+-		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
+-		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
  }
  
--static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-+static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	int ret;
+ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
+@@ -521,8 +517,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
+ 	if (vc4_hdmi->variant->phy_init)
+ 		vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
  
- 	HDMI_WRITE(HDMI_RAM_PACKET_CONFIG, 0);
-+}
-+
-+static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder)
-+{
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 
- 	if (vc4_hdmi->variant->phy_disable)
- 		vc4_hdmi->variant->phy_disable(vc4_hdmi);
- 
- 	HDMI_WRITE(HDMI_VID_CTL,
- 		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_ENABLE);
-+}
-+
-+static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
-+{
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	int ret;
- 
- 	clk_disable_unprepare(vc4_hdmi->hsm_clock);
- 	clk_disable_unprepare(vc4_hdmi->pixel_clock);
-@@ -449,11 +459,10 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
- 		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
- }
- 
--static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
-+static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
- 	unsigned long pixel_rate, hsm_rate;
- 	int ret;
- 
-@@ -521,6 +530,13 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- 
- 	if (vc4_hdmi->variant->set_timings)
- 		vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
-+}
-+
-+static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder)
-+{
-+	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-+	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 
- 	if (vc4_encoder->hdmi_monitor &&
- 	    drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED) {
-@@ -536,6 +552,16 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- 	}
- 
- 	HDMI_WRITE(HDMI_FIFO_CTL, VC4_HDMI_FIFO_CTL_MASTER_SLAVE_N);
-+}
-+
-+static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
-+{
-+	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
-+	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
-+	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-+	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-+	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
-+	int ret;
- 
+-	HDMI_WRITE(HDMI_VID_CTL, 0);
+-
+ 	HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+ 		   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
+ 		   VC4_HDMI_SCHEDULER_CONTROL_MANUAL_FORMAT |
+@@ -566,8 +560,8 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder)
  	HDMI_WRITE(HDMI_VID_CTL,
  		   HDMI_READ(HDMI_VID_CTL) |
-@@ -582,6 +608,10 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- 	vc4_hdmi_recenter_fifo(vc4_hdmi);
- }
+ 		   VC4_HD_VID_CTL_ENABLE |
+-		   VC4_HD_VID_CTL_UNDERFLOW_ENABLE |
+-		   VC4_HD_VID_CTL_FRAME_COUNTER_RESET);
++		   (vsync_pos ? 0 : VC4_HD_VID_CTL_VSYNC_LOW) |
++		   (hsync_pos ? 0 : VC4_HD_VID_CTL_HSYNC_LOW));
  
-+static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
-+{
-+}
-+
- static enum drm_mode_status
- vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
- 			    const struct drm_display_mode *mode)
-@@ -1359,6 +1389,11 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	variant = of_device_get_match_data(dev);
- 	vc4_hdmi->variant = variant;
- 	vc4_hdmi->encoder.base.type = variant->encoder_type;
-+	vc4_hdmi->encoder.base.pre_crtc_configure = vc4_hdmi_encoder_pre_crtc_configure;
-+	vc4_hdmi->encoder.base.pre_crtc_enable = vc4_hdmi_encoder_pre_crtc_enable;
-+	vc4_hdmi->encoder.base.post_crtc_enable = vc4_hdmi_encoder_post_crtc_enable;
-+	vc4_hdmi->encoder.base.post_crtc_disable = vc4_hdmi_encoder_post_crtc_disable;
-+	vc4_hdmi->encoder.base.post_crtc_powerdown = vc4_hdmi_encoder_post_crtc_powerdown;
- 	encoder = &vc4_hdmi->encoder.base.base;
- 
- 	ret = variant->init_resources(vc4_hdmi);
+ 	if (vc4_encoder->hdmi_monitor) {
+ 		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
 -- 
 git-series 0.9.1
 _______________________________________________
