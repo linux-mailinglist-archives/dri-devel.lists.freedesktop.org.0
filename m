@@ -1,43 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67C41E595A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:45:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DA81E5998
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:46:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 594306E425;
-	Thu, 28 May 2020 07:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9046E480;
+	Thu, 28 May 2020 07:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B91B6E2A8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 07:44:35 +0000 (UTC)
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
- by smtp1.de.adit-jv.com (Postfix) with ESMTP id B90CC3C0579;
- Wed, 27 May 2020 09:44:33 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
- by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NIkAPByA2Jjy; Wed, 27 May 2020 09:44:28 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp1.de.adit-jv.com (Postfix) with ESMTPS id CA7B43C0022;
- Wed, 27 May 2020 09:44:28 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.38) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 27 May
- 2020 09:44:28 +0200
-Date: Wed, 27 May 2020 09:44:22 +0200
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200527074422.GA27239@lxhi-065.adit-jv.com>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <CAMuHMdVGcFGL6V6_zDCPQA66VFyqM9bQ6choWs8eYfOieFu1ZQ@mail.gmail.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08DC38995F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 09:13:42 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 458BF580184;
+ Wed, 27 May 2020 05:13:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 27 May 2020 05:13:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=V5epjiDGiclpAXJJpB3JE24jmk6
+ thqQZcHWLQmvyuUI=; b=afFk/O5M5iUdGGh/mcZZQSmWP9l8zSgz9lNVaE199Em
+ nbgE6W8CSw0zFL9SnUP7uXSR7qT1XxQX8tDdeDIuY63lN0z5jgxQp4K5Lzt2PKyf
+ tHXjyQicYV5VWtE3SKycCHL1AQqxyyxm30+2DEW9afNDHrvV5Vd9FwJXmT1omEjC
+ YZV4G+4eDO7d/2maCVg0uHcPCT7HbYcuC35DsDs3+0/WTRsb0gq23xUK8F2IlYX2
+ RjXIdbJykAIb8SUnCbhyKd2QczXXB1GyyYlOAryCe7ZNnjGl4O8Awk148iQP3fV/
+ 0s0yWscW+JB8U/aPOF0BQrBhdHzJgelUb3Ju7GZz0Yg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=V5epji
+ DGiclpAXJJpB3JE24jmk6thqQZcHWLQmvyuUI=; b=NfATUaw901WlNTfX1Pg5wf
+ VzyV0ZCjREZzEubzT29J2zNQtbxmxgarGmO8OTcLnJFZDbjLIXpU3YkLFpApRf43
+ d65r9jucWdefHFKo0BDbhE7aiqT7SY1cq1i6OnXfumEe+D/Tof39+ge+z5byB15/
+ ow68Z6xgT68Q0RX2pF3Si0qRS9tOce+bAZdreEyzfvLOFc3JTg9wayySAW93iUgz
+ NtanODdCevcGOpqwweMlK8Gr2cUnF6hj+YrjQXuEkwsfWySc6dNXD5gmkrYuqboi
+ Tq5bKPkejPCobXrRhfgT0iKOemYDwJWFeUdfk72nOQz13dPB0YYxNb0M0zZ5/diw
+ ==
+X-ME-Sender: <xms:QS_OXsbh5mG9N37eoM9wr1nZmwvzQsVZK5HS5wtVD4XrBkrpuZoLTw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgedguddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:QS_OXnYhpDwxYPnG140lqFLRlDN_P27ktwVqvxghdhSeN_ZdlZWniA>
+ <xmx:QS_OXm-bGmz1PUWtUlPhyx3yvXa3lF9sSUY1SINUu-poX_q3iI8POQ>
+ <xmx:QS_OXmpUMcCGukOP73oVLStJAyFaG9_8rlFR6rCrTeTgHqNJxkMotw>
+ <xmx:RC_OXq1jTEytyhpvWEScpxh_pvTdwfI8yH08SfBPb187Z1Mw3FSxjg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E95C43280063;
+ Wed, 27 May 2020 05:13:36 -0400 (EDT)
+Date: Wed, 27 May 2020 11:13:35 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Drake <drake@endlessm.com>
+Subject: Re: [PATCH v2 00/91] drm/vc4: Support BCM2711 Display Pipelin
+Message-ID: <20200527091335.7wc3uy67lbz7j4di@gilmour.lan>
+References: <cover.d1e741d37e43e1ba2d2ecd93fc81d42a6df99d14.1587742492.git-series.maxime@cerno.tech>
+ <20200427072342.5499-1-jian-hong@endlessm.com>
+ <20200428162152.ztsqp7nxqbwqrm6r@gilmour.lan>
+ <CAPpJ_efvtVzb_hvoVOeaePh7UdE13wOiiGaDBH38cToB-yhkUg@mail.gmail.com>
+ <20200507172158.cybtakpo6cxv6wcs@gilmour.lan>
+ <CAPpJ_efxenmSXt2OXkhkQ1jDJ59tyWBDUvmpyOB-bfPMDENQZg@mail.gmail.com>
+ <CAPpJ_ed9TMJjN8xS1_3saf5obQhULJSLNgQSAFxgiWM2QX9A7Q@mail.gmail.com>
+ <20200526102018.kznh6aglpkqlp6en@gilmour.lan>
+ <CAD8Lp467DiYWLwH6T1Jeq-uyN4VEuef-gGWw0_bBTtmSPr00Ag@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVGcFGL6V6_zDCPQA66VFyqM9bQ6choWs8eYfOieFu1ZQ@mail.gmail.com>
-X-Originating-IP: [10.72.94.38]
+In-Reply-To: <CAD8Lp467DiYWLwH6T1Jeq-uyN4VEuef-gGWw0_bBTtmSPr00Ag@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 28 May 2020 07:43:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,57 +84,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, David Airlie <airlied@linux.ie>,
- Michael Rodin <mrodin@de.adit-jv.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>, hien.dang.eb@renesas.com,
- Eugeniu Rosca <roscaeugeniu@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- gotthard.voellmeke@renesas.com, Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
- Simon Horman <horms@verge.net.au>, Sean Paul <seanpaul@chromium.org>,
- Michael Dege <michael.dege@renesas.com>, michael.klein@renesas.com,
- Harsha.ManjulaMallikarjun@in.bosch.com,
- Ezequiel Garcia <ezequiel@collabora.com>, efriedrich@de.adit-jv.com,
- ChaitanyaKumar.Borah@in.bosch.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- VenkataRajesh.Kalakodima@in.bosch.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Ulrich Hecht <uli+renesas@fpond.eu>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-arm-kernel@lists.infradead.org,
+ devicetree <devicetree@vger.kernel.org>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Jian-Hong Pan <jian-hong@endlessm.com>,
+ Linux Upstreaming Team <linux@endlessm.com>, linux-clk@vger.kernel.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, linux-i2c@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1946572167=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
 
-On Wed, May 27, 2020 at 09:34:30AM +0200, Geert Uytterhoeven wrote:
-> On Wed, May 27, 2020 at 9:16 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > On Tue, Oct 15, 2019 at 12:46:13PM +0200, Jacopo Mondi wrote:
-> > > CMM functionalities are retained between suspend/resume cycles (tested with
-> > > suspend-to-idle) without requiring a re-programming of the LUT tables.
-> >
-> > Hmm. Is this backed up by any statement in the HW User's manual?
-> > This comes in contrast with the original Renesas CMM implementation [**]
-> > which does make use of suspend (where the freeze actually happens).
-> >
-> > Can we infer, based on your statement, that we could also get rid of
-> > the suspend callback in [**]?
-> 
-> While the CMM state will be retained across suspend-to-idle, I'm quite
-> sure it will be lost by suspend-to-RAM, at least on the Salvator-X(S),
-> ULCB, and Ebisu development boards, as PSCI will ask the BD9571WMV
-> regulator to power down the R-Car SoC.
-> 
-> So IMHO we do need suspend/resume handling.
+--===============1946572167==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="kokco5kof5hl45yv"
+Content-Disposition: inline
 
-That makes sense. I should be more careful about suspend-to-idle
-vs suspend-to-ram and not alias the two.
 
--- 
-Best regards,
-Eugeniu Rosca
+--kokco5kof5hl45yv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Daniel,
+
+On Wed, May 27, 2020 at 11:49:36AM +0800, Daniel Drake wrote:
+> Hi Maxime,
+>=20
+> On Tue, May 26, 2020 at 6:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > I gave it a try with U-Boot with my latest work and couldn't reproduce =
+it, so it
+> > seems that I fixed it along the way
+>=20
+> Is your latest work available in a git branch anywhere that we could
+> test directly?
+
+I'm about to send a v3 today or tomorrow, I can Cc you (and Jian-Hong) if y=
+ou
+want.
+
+Maxime
+
+--kokco5kof5hl45yv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXs4vPwAKCRDj7w1vZxhR
+xaGaAQCg3gZaUrnvSNp3BzxW8iTAVt5FCWnVgDC2YFeAH5wRnAD/RUVn5pMYOZX3
+CW4nLRVoZ8NFLwZqHrhV/v6g5LHIhgQ=
+=WuzX
+-----END PGP SIGNATURE-----
+
+--kokco5kof5hl45yv--
+
+--===============1946572167==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1946572167==--
