@@ -1,56 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084EF1E4BE7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 19:31:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8251E4C3C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 19:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A103C6E370;
-	Wed, 27 May 2020 17:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35B696E191;
+	Wed, 27 May 2020 17:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4806D6E370
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 17:30:57 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id b6so29970720ljj.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 10:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MXtUXHnihi65Qkky3QBg/wO8Z4FKZ8HK0jwFU/d0C1U=;
- b=mAXh/LKAKtst4Z3OgR5OvCltmndxuNEjZQX+8dipX11S4NVUuzI1BduWwJIOd+6DbB
- 6a+NxABiUGXEAf0RRGCvjxerV1sRnnXWb9tnLSD2EL0cWq62ZIoDDhmWb3h6DcFZKRnq
- vYqaWZiaXxv8mG5WFibpZalTRI7liMgwoPwfLPMs5bjBFbIiOiNdnugZKvOwMzZ6uSfX
- Vy6rNk6gQ584/+hDTLOf+SvZBSBIpqid54R/B5q4Kq+q9O1s9BbZ7hw3UWlJxyFPE8+o
- UZE1fx8or/NhVPUNdYyYiAIl2BUAVuY70wq7G5z+Y5QcQk6Lr81KS6MqXz1eHZwM3Q4k
- 6Jow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MXtUXHnihi65Qkky3QBg/wO8Z4FKZ8HK0jwFU/d0C1U=;
- b=uTmYHTWxUBB4zYddbMJKFH62fi6FkfozXBHJQ7B9IA+GOsHTQ95V/syWe99CpstmrE
- 8ubUT5Ol/yc9K/k8Y9S2EsFvuSt2LE060Pbz92Wf/LQYXOHsPXf/BO7o5MsP/cxRdI9L
- im+iw3bIQAxhtsA4b+LZpn9KnqfYcgxL/WuoLDIrOssPgWVVLQVbBDIqwXQkK30IAIaQ
- liLSDs0g6xmytYovMSPQBFaDU+7mgEQP8LapdO9vpFhxHyRWSkRItqlTu6H+w2p6mX+j
- sd3Di4Q9IGaiEVggrzmM/fouRNkh3l/k8rKYtk+QGoPKPISzcHcoBClxiVb0m/RytmUl
- OJxw==
-X-Gm-Message-State: AOAM532ABAuD8MqtKQgnF8yrKPO5zTeFj2r/16yeKgA1pcQFbDbMBHxv
- f/G7EqA360lAxX1IJ1DbTesFeeimHwwstxJtkkjjig==
-X-Google-Smtp-Source: ABdhPJxLtTyXye6ERqUE6zRYmVzfg6k8wpZJsO3V9z/mvydFM0oASGA02J46IB8UgDa1+yhgHxpCV04mqchdroj6ayc=
-X-Received: by 2002:a2e:8ed3:: with SMTP id e19mr3799428ljl.367.1590600655617; 
- Wed, 27 May 2020 10:30:55 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50E2E6E191;
+ Wed, 27 May 2020 17:44:17 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E7FAD8063B;
+ Wed, 27 May 2020 19:44:14 +0200 (CEST)
+Date: Wed, 27 May 2020 19:44:13 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm: use drm_dev_has_vblank more
+Message-ID: <20200527174413.GA98921@ravnborg.org>
+References: <20200527111134.1571781-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <2c6a651cac6359cb0244a40d3b7a14e72918f169.1590594512.git-series.maxime@cerno.tech>
-In-Reply-To: <2c6a651cac6359cb0244a40d3b7a14e72918f169.1590594512.git-series.maxime@cerno.tech>
-From: Eric Anholt <eric@anholt.net>
-Date: Wed, 27 May 2020 10:30:44 -0700
-Message-ID: <CADaigPVObO=mS5zKmB7qKPgUke-mKz7xQ+N3hatkU7dEAAAOVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 040/105] drm/vc4: crtc: Turn pixelvalve reset into a
- function
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <20200527111134.1571781-1-daniel.vetter@ffwll.ch>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=MOBOZvRl c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=7gkXJVJtAAAA:8
+ a=e5mUnYsNAAAA:8 a=XJwfjo96hc9i5sMrGfkA:9 a=Jokcs-bknmqL94pQ:21
+ a=swgEPVSOk_qj554C:21 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +45,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 8:50 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The driver resets the pixelvalve FIFO in a number of occurences without
-> always using the same sequence.
->
-> Since this will be critical for BCM2711, let's move that sequence to a
-> function so that we are consistent.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Patch 34-40 also r-b.
-
-Going to take a little break, this is a lot to try to process at once.
-Hopefully you can merge reviewed stuff to drm-misc and shorten the
-series.
+On Wed, May 27, 2020 at 01:11:34PM +0200, Daniel Vetter wrote:
+> For historical reasons it's called dev->num_crtcs, which is rather
+> confusing ever since kms was added. But now we have a nice helper, so
+> let's use it for better readability!
+> 
+> Only code change is in atomic helpers: vblank support means that
+> dev->irq_enabled must be set too. Another one of these quirky things
+> ... But since it's implied we can simplify that check.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c |  2 +-
+>  drivers/gpu/drm/drm_irq.c           |  2 +-
+>  drivers/gpu/drm/drm_vblank.c        | 14 +++++++-------
+>  3 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 0a541368246e..bfcc7857a9a1 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1097,7 +1097,7 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
+>  		else if (funcs->dpms)
+>  			funcs->dpms(crtc, DRM_MODE_DPMS_OFF);
+>  
+> -		if (!(dev->irq_enabled && dev->num_crtcs))
+> +		if (!drm_dev_has_vblank(dev))
+>  			continue;
+>  
+>  		ret = drm_crtc_vblank_get(crtc);
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index 588be45abd7a..09d6e9e2e075 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -181,7 +181,7 @@ int drm_irq_uninstall(struct drm_device *dev)
+>  	 * vblank/irq handling. KMS drivers must ensure that vblanks are all
+>  	 * disabled when uninstalling the irq handler.
+>  	 */
+> -	if (dev->num_crtcs) {
+> +	if (drm_dev_has_vblank(dev)) {
+>  		spin_lock_irqsave(&dev->vbl_lock, irqflags);
+>  		for (i = 0; i < dev->num_crtcs; i++) {
+>  			struct drm_vblank_crtc *vblank = &dev->vblank[i];
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index e278d6407f8e..162d9f7e692a 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -605,7 +605,7 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+>  	int linedur_ns = 0, framedur_ns = 0;
+>  	int dotclock = mode->crtc_clock;
+>  
+> -	if (!dev->num_crtcs)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return;
+>  
+>  	if (WARN_ON(pipe >= dev->num_crtcs))
+> @@ -1065,7 +1065,7 @@ void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+>  	unsigned int pipe = drm_crtc_index(crtc);
+>  	ktime_t now;
+>  
+> -	if (dev->num_crtcs > 0) {
+> +	if (drm_dev_has_vblank(dev)) {
+>  		seq = drm_vblank_count_and_time(dev, pipe, &now);
+>  	} else {
+>  		seq = 0;
+> @@ -1137,7 +1137,7 @@ static int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+>  	unsigned long irqflags;
+>  	int ret = 0;
+>  
+> -	if (!dev->num_crtcs)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return -EINVAL;
+>  
+>  	if (WARN_ON(pipe >= dev->num_crtcs))
+> @@ -1506,7 +1506,7 @@ static void drm_legacy_vblank_pre_modeset(struct drm_device *dev,
+>  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+>  
+>  	/* vblank is not initialized (IRQ not installed ?), or has been freed */
+> -	if (!dev->num_crtcs)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return;
+>  
+>  	if (WARN_ON(pipe >= dev->num_crtcs))
+> @@ -1533,7 +1533,7 @@ static void drm_legacy_vblank_post_modeset(struct drm_device *dev,
+>  	unsigned long irqflags;
+>  
+>  	/* vblank is not initialized (IRQ not installed ?), or has been freed */
+> -	if (!dev->num_crtcs)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return;
+>  
+>  	if (WARN_ON(pipe >= dev->num_crtcs))
+> @@ -1558,7 +1558,7 @@ int drm_legacy_modeset_ctl_ioctl(struct drm_device *dev, void *data,
+>  	unsigned int pipe;
+>  
+>  	/* If drm_vblank_init() hasn't been called yet, just no-op */
+> -	if (!dev->num_crtcs)
+> +	if (!drm_dev_has_vblank(dev))
+>  		return 0;
+>  
+>  	/* KMS drivers handle this internally */
+> @@ -1896,7 +1896,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
+>  	unsigned long irqflags;
+>  	bool disable_irq, fence_cookie;
+>  
+> -	if (WARN_ON_ONCE(!dev->num_crtcs))
+> +	if (WARN_ON_ONCE(!drm_dev_has_vblank(dev)))
+>  		return false;
+>  
+>  	if (WARN_ON(pipe >= dev->num_crtcs))
+> -- 
+> 2.26.2
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
