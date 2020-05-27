@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99741E4D21
-	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 20:32:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D60161E4D31
+	for <lists+dri-devel@lfdr.de>; Wed, 27 May 2020 20:41:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1A5F891E1;
-	Wed, 27 May 2020 18:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58EB7898E1;
+	Wed, 27 May 2020 18:41:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C53288D3D;
- Wed, 27 May 2020 18:32:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4FDC0AEB9;
- Wed, 27 May 2020 18:32:50 +0000 (UTC)
-Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-8-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
-Date: Wed, 27 May 2020 20:32:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F12898E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 18:41:37 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id w10so30260119ljo.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 11:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=80e9RnD9Ss8eOafGm0SPCkZYoQv72dsa4vHL2CNUsTI=;
+ b=QN1siCcUywmiFL5b2l7OO2oJrFZjy0oVoG39jF8U3zH1k9rEEmuBmleEe7rSCXVq9b
+ QDK/ZQZSsIFtjtyqvUKUGZpDAKKGE4YXN8HrzpU0lJnDxfXUnAFWPaerCMwA/UkQaGq6
+ NV6pwJVvRp8hgN5+JK1UdeoLeCp6e0a+/V5iE7yug/9UO4hqzlfLKMTtQBJjCHMPkpgM
+ gSOMNRg8jwdPUo7jOdYjVE95+JviMtUNl2EJK784jiP4U2WAA6mUOgpjejHB3we1xTko
+ lpHOf2J4ipaoutCd2b80OURfvWweVQlY47Ga3y1MboXT4o7ZqhvVwpWG0R0EOVn86EpA
+ 5Adw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=80e9RnD9Ss8eOafGm0SPCkZYoQv72dsa4vHL2CNUsTI=;
+ b=aipzvy4TOjWSifbsGogaDiLIS0qKOIuHRvQtEH0pI5hBgPIwFnqsFeCOJV9Dtd57jW
+ jrqFFU7uMO4NNalE/bHTfTuTgFfgu0eZnuPSiN35ziNXunX8wE3D83PtmcZXXjCN94Ej
+ gnF6pzKr800lfZOPvh43EOtbPlgmMoxrZNe/ZZSGitLyX4w5apFqf7IIfVO8r4TNT/3T
+ GBISFkvR1alZDZ8H0wIgbS35M4lTwcZgLGYQe0A0mEcQqgB98oX+XPWlpLtFkbbjwOtW
+ wFCWSqClb4d8r/PgYqN9qjurVJ1IHOJledryyluYEj8aES9PzKJnF8Zb45ydCths6MVx
+ PM4A==
+X-Gm-Message-State: AOAM530+hPU5n285T8dsxFlE3CmVJ35VYA1Rn0ush6EcGnEa3nOPA7ba
+ +rN87Ui0Rq6rD26pLMk8ZbaK4mRPZcgcNwcojd6adw==
+X-Google-Smtp-Source: ABdhPJzW+yK0neVV5ZLXfHZuKdL2m3iIwiXaA8c97nSmT8Xer0u16SBA/+K8iU8H0iefWgDrIbwvO/Ns2eUMghYcqCI=
+X-Received: by 2002:a2e:8186:: with SMTP id e6mr3868617ljg.252.1590604895724; 
+ Wed, 27 May 2020 11:41:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
+ <020de18840a1075b2671736c6cc2e451030fad74.1590594512.git-series.maxime@cerno.tech>
+In-Reply-To: <020de18840a1075b2671736c6cc2e451030fad74.1590594512.git-series.maxime@cerno.tech>
+From: Eric Anholt <eric@anholt.net>
+Date: Wed, 27 May 2020 11:41:24 -0700
+Message-ID: <CADaigPXJ0BnMUp=XN6G92Tx=H9j55pmsBAujO2mcpiiTs-RHnQ@mail.gmail.com>
+Subject: Re: [PATCH v3 070/105] drm/vc4: hdmi: rework connectors and encoders
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,122 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1764573357=="
+Cc: Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1764573357==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony
-Content-Type: multipart/mixed; boundary="FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
-Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-8-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200511093554.211493-8-daniel.vetter@ffwll.ch>
-
---FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel,
-
-what's your plan for this patch set? I'd need this patch for the udl
-shmem cleanup.
-
-Best regards
-Thomas
-
-Am 11.05.20 um 11:35 schrieb Daniel Vetter:
-> Currently this seems to work by converting the sgt into a pages array,
-> and then treating it like a native object. Do the right thing and
-> redirect mmap to the exporter.
->=20
-> With this nothing is calling get_pages anymore on imported dma-buf,
-> and we can start to remove the use of the ->pages array for that case.
->=20
-> v2: Rebase
->=20
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> index b9cba5cc61c3..117a7841e284 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -551,6 +551,9 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, =
-struct vm_area_struct *vma)
->  	/* Remove the fake offset */
->  	vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
-> =20
-> +	if (obj->import_attach)
-> +		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> +
->  	shmem =3D to_drm_gem_shmem_obj(obj);
-> =20
->  	ret =3D drm_gem_shmem_get_pages(shmem);
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+On Wed, May 27, 2020 at 8:51 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> the vc4_hdmi driver has some custom structures to hold the data it needs to
+> associate with the drm_encoder and drm_connector structures.
+>
+> However, it allocates them separately from the vc4_hdmi structure which
+> makes it more complicated than it needs to be.
+>
+> Move those structures to be contained by vc4_hdmi and update the code
+> accordingly.
 
 
---FJHIfwQWj2JxRV1v9MFI1V8AeYuYdTmVe--
+> @@ -1220,7 +1219,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         struct drm_device *drm = dev_get_drvdata(master);
+>         struct vc4_dev *vc4 = drm->dev_private;
+>         struct vc4_hdmi *hdmi;
+> -       struct vc4_hdmi_encoder *vc4_hdmi_encoder;
+> +       struct drm_encoder *encoder;
+>         struct device_node *ddc_node;
+>         u32 value;
+>         int ret;
+> @@ -1229,14 +1228,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+>         if (!hdmi)
+>                 return -ENOMEM;
+>
+> -       vc4_hdmi_encoder = devm_kzalloc(dev, sizeof(*vc4_hdmi_encoder),
+> -                                       GFP_KERNEL);
+> -       if (!vc4_hdmi_encoder)
+> -               return -ENOMEM;
+> -       vc4_hdmi_encoder->base.type = VC4_ENCODER_TYPE_HDMI0;
+> -       hdmi->encoder = &vc4_hdmi_encoder->base.base;
+> -
+>         hdmi->pdev = pdev;
+> +       encoder = &hdmi->encoder.base.base;
+> +       encoder->base.type = VC4_ENCODER_TYPE_HDMI0;
 
---ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Wait, does this patch build?  setting struct drm_encoder->base.type =
+VC4_* seems very wrong, when previously we were setting struct
+vc4_hdmi_encoder->base.type (struct vc4_encoder->type).
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7OskwACgkQaA3BHVML
-eiPRWggAkUQB1FCPd7AZDSlIiap+YK0u3fVRxjgrwfFkAcPRirOKxqROV6BINQuV
-BPQsgRV0fqtxTME1D5J7r23BrsF2fwpud0W7/hkNEmmUieoJO3tjtxnt9BQ3TuHU
-K+AxxfGSdQmQVfqxqkfVipnWzUPHq3b12tLQtSkCNpc9Bqx0NvEG2SrlTHW+N95R
-2UZMaH0yKl/vlRphB6Rii3IGhWNyaKNm3VO8Agy3BxlyOAXmejc1HNuGV2uvJh2Q
-5h+DQtaqucmE+SLQFg1zD13mmRyLZGsT3s3yzX6Fg9X+ROoygk7gUCpG+7d0Gsl7
-LKbaSCf2T0WIOJihC9vVFV0sOvrB/Q==
-=MwcU
------END PGP SIGNATURE-----
-
---ONVeQZeczQX1wGy3MvP2LBgCfMc6HEony--
-
---===============1764573357==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Other than this, patch 68-78 r-b.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1764573357==--
