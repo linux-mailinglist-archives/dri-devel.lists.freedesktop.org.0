@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BBB1E5AD3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 10:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BC31E5B67
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 11:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2176E11C;
-	Thu, 28 May 2020 08:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A243A6E129;
+	Thu, 28 May 2020 09:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0C86E11C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590654688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gYZwLjj7CzD0ymsoazFzJV5eo30qTW4FW8DTfD17Jfg=;
- b=Vyk+lWFUm6D6WOApcnDYM0ukHG3YBuPkqwJc5ht4bTw+UrNuudCtYU2wi2cGMgBOPpUJXA
- sDTGwGy9tlVEFJ07wXoWRZrOg6JsxNy5dfgXi9uAjFt7UXh8QI8++Elwa5CkXG6k5yoVIe
- JnDInMql/nh0TakE44Mytxl0NOeT68M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-X8CmvGu5MHitdtBIJs14og-1; Thu, 28 May 2020 04:31:21 -0400
-X-MC-Unique: X8CmvGu5MHitdtBIJs14og-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E9FCBFC2;
- Thu, 28 May 2020 08:31:19 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
- [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09ADE62932;
- Thu, 28 May 2020 08:31:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 450E616E2C; Thu, 28 May 2020 10:31:15 +0200 (CEST)
-Date: Thu, 28 May 2020 10:31:15 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: David Stevens <stevensd@chromium.org>
-Subject: Re: [PATCH v4 0/3] Support virtio cross-device resources
-Message-ID: <20200528083115.a6p3y24x3vqzcj4k@sirius.home.kraxel.org>
-References: <20200526105811.30784-1-stevensd@chromium.org>
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E688D6E129
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 09:05:22 +0000 (UTC)
+Received: by mail-ej1-f66.google.com with SMTP id l27so9126540ejc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 02:05:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/vaqLjNbs4piNK8cHlXi2gJftHYymCTgiDe8fspLXcw=;
+ b=ajULVm2LOJ5IrLTPJom23LXVV3TDYGGkAoPHO+3APj6DqhuZK9TrBWMYvGjgPN7LB8
+ Ll3v+r1yfkdWmgOx/u+y1xBCAN424w8SSNm4mdLWByGVO0FjiQo0Dt4WYrDi8QKqN8gp
+ rWh1ZQXp11t7C6XONfIZHVWtb6/ItoJgA/VhIKY1/hfZhX3rv0O81RCgv1kOvq8FSyVo
+ GHPRO79T6n+fTr9aW9C0xmXajPGxyueyLFQuWSeghaOR9IhDW+DgaPL1E7V3AO6u1+p/
+ C2z7iqimMbExTifJ0sHnJpHGPjk94JgxWZqbfDQ2e6RVfzPCtPyinBIElQ2NG3I2bCH7
+ RcLA==
+X-Gm-Message-State: AOAM532ZB+LNRmY2U/OeFN9HgvuAjePr90f9A4il3paBqepafJH1ksao
+ DxmsArSDiUEly3c8gcvOLLc=
+X-Google-Smtp-Source: ABdhPJwq6tD4O0trcWGRjfLio769XDUhV7qoG+YbP4wCCZ+7K+Gtl8VzA/n45+sr+G24aaA2R77mwA==
+X-Received: by 2002:a17:906:7b52:: with SMTP id
+ n18mr2124539ejo.292.1590656721457; 
+ Thu, 28 May 2020 02:05:21 -0700 (PDT)
+Received: from localhost (ip-37-188-185-40.eurotel.cz. [37.188.185.40])
+ by smtp.gmail.com with ESMTPSA id r2sm1332714ejs.94.2020.05.28.02.05.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 May 2020 02:05:19 -0700 (PDT)
+Date: Thu, 28 May 2020 11:05:17 +0200
+From: Michal Hocko <mhocko@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: next-20200515: Xorg killed due to "OOM"
+Message-ID: <20200528090517.GA27484@dhcp22.suse.cz>
+References: <20200526091054.GA12103@amd>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200526105811.30784-1-stevensd@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200526091054.GA12103@amd>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +57,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
- "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
- Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Andrew Morton <akpm@osdl.org>, airlied@linux.ie, x86@kernel.org,
+ kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ mingo@redhat.com, bp@alien8.de, hpa@zytor.com, tglx@linutronix.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, May 26, 2020 at 07:58:08PM +0900, David Stevens wrote:
-> This patchset implements the current proposal for virtio cross-device
-> resource sharing [1]. It will be used to import virtio resources into
-> the virtio-video driver currently under discussion [2]. The patch
-> under consideration to add support in the virtio-video driver is [3].
-> It uses the APIs from v3 of this series, but the changes to update it
-> are relatively minor.
-> 
-> This patchset adds a new flavor of dma-bufs that supports querying the
-> underlying virtio object UUID, as well as adding support for exporting
-> resources from virtgpu.
-> 
-> [1] https://markmail.org/thread/2ypjt5cfeu3m6lxu
-> [2] https://markmail.org/thread/p5d3k566srtdtute
-> [3] https://markmail.org/thread/j4xlqaaim266qpks
-> 
-> v3 -> v4 changes:
->  - Replace dma-buf hooks with virtio dma-buf from v1.
->  - Remove virtio_attach callback, as the work that had been done
->    in that callback is now done on dma-buf export. The documented
->    requirement that get_uuid only be called on attached virtio
->    dma-bufs is also removed.
->  - Rebase and add call to virtio_gpu_notify for ASSIGN_UUID.
-> 
-> David Stevens (3):
->   virtio: add dma-buf support for exported objects
->   virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
->   drm/virtio: Support virtgpu exported resources
+On Tue 26-05-20 11:10:54, Pavel Machek wrote:
+[...]
+> [38617.276517] oom_reaper: reaped process 31769 (chromium), now anon-rss:0kB, file-rss:0kB, shmem-rss:7968kB
+> [38617.277232] Xorg invoked oom-killer: gfp_mask=0x0(), order=0, oom_score_adj=0
+> [38617.277247] CPU: 0 PID: 2978 Comm: Xorg Not tainted 5.7.0-rc5-next-20200515+ #117
+> [38617.277256] Hardware name: LENOVO 17097HU/17097HU, BIOS 7BETD8WW (2.19 ) 03/31/2011
+> [38617.277266] Call Trace:
+> [38617.277286]  dump_stack+0x54/0x6e
+> [38617.277300]  dump_header+0x45/0x321
+> [38617.277313]  oom_kill_process.cold+0x9/0xe
+> [38617.277324]  ? out_of_memory+0x167/0x420
+> [38617.277336]  out_of_memory+0x1f2/0x420
+> [38617.277348]  pagefault_out_of_memory+0x34/0x56
+> [38617.277361]  mm_fault_error+0x4a/0x130
+> [38617.277372]  do_page_fault+0x3ce/0x416
 
-Looks all sane to me.  mst, have you looked at the virtio core changes?
-How we are going to merge this?  If you ack I can merge via
-drm-misc-next.  Merging through virtio queue would be fine too.
-
-thanks,
-  Gerd
-
+The reason the OOM killer has been invoked is that the page fault
+handler has returned VM_FAULT_OOM. So this is not a result of the page
+allocator struggling to allocate a memory. It would be interesting to
+check which code path has returned this. 
+-- 
+Michal Hocko
+SUSE Labs
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
