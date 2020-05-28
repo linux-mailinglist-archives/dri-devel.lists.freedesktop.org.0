@@ -1,88 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954A51E6F83
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E29261E6F80
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E9B6E848;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1436E849;
 	Thu, 28 May 2020 22:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
- (mail-eopbgr00058.outbound.protection.outlook.com [40.107.0.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC270899E9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 10:03:39 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60053.outbound.protection.outlook.com [40.107.6.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 201B16E07D
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 10:11:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nYwr62FiG629uC+MLbAuUIbFIVRjz+69BPZrVWcu7beUPcmROMX2J0OJII2VhLXmubJ0i5N/Z45cZ/SFLDb2fwrVeKlakUOvW5moXJWqBbf+PjMH7oaSRuyys4opkk37huD7zkqqKfAsMex8sJdJOzWKHGc4nF7Ls5FGSBf75t60HW8oz73i7Rb6kELqaKW0gtfhCXI/M2r01eB5citTVK5wlYnG1TgBIthdHZIZG7F7hhbaj7QL9Kmnz+qgTwdgWzC7m4cMA/9cWWFkuZL9sf0hz8+JH7mQGtVE4zqndc8CYDkb0+8tKslm+MyFzeInLzgBbi1OTcXaVO+Vat4sVw==
+ b=Xq4O0LHeQQQIjJlyWQgMgeo6iqPw2fqdvasVqpfrc0+8koFSNQCEMgKiE0FSPtqxOC+9oN5bGAhzPTDXxNicrs4aglp2uNJByHNXVHq09zygoHQrTlIPbo77oTRgwQGdxHCf1amD+FY4mP8yyUkkIWTpW4G9QU6yx+2KUkIl8YgwULX6IMOdMRIKp+/0yz0IFY54zFjzQgftZsu73CqrQuvxrt+ieJiMKpC+/5ub7+7G7CYlGxeTY4nwDNZ++mg2Bh5kYrmY8P6pY6gipZSGEEHtcIN4+iPhOC8jVYbfGuLMkuYOKPPsBDr1mkJwe31f6dpy2WWwUGjrst+Voyb5HQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fiSKqprrhpQiROE08VUfCHN2l7HN5lH9gB4TIAGLfJ4=;
- b=jRaXP1CswgygoHPFwc+tYx/+aXLBT1qEFiFaLJIF2broENqQF0/MCajZJLdiBVaJ/UemCEHgnWDe6wEoU5gULbQPq1aSwVY8wQ5A4M/+fxFsjQiJZQS2+2SfmkfBhEzU5VNlIUz/ILVqhihvP5GJLyFMtCsgwGLvO/tbonZQ4i/D2pXqXYuX835GofZ4ORtpUwBvrtp7hsLHtBq16q8v/p0BMXFVr7KUR6g9D7CuKq1w/IXbuKDfV4mCQgvfnpGYZnZTZiiIUnDjnurtCHKjPYZNhnyxwt63+TamPPhKt3+mfxQWD/s4FjwbvmA+eW0AoYClLPrrNyjlYhPLMDhT9A==
+ bh=Ye5V5GTICRYavjDd3bX/qf3pRYlmRLqffvikChhysSg=;
+ b=FFbxy7rhVGwniMuwlNOofH59A4B4QxM802jeiMhviYACx7X0hVOFKZdZQfxeIKsmB1eakdj3iUDd4Ve9jAMrjQHdeSmPuH8BRSnrF8p6QpBOukWA4s5Tj+ho43bWyfIfp4+h0rfTpevoep4xZbgw5tR8wQWTi7lXVVQtCXlnkkj6jBGUJiYy5KESBNpVp6enZlhbYudtFjbsVo1ceNVvA/fy3ELZEnRcuBCaKpk6/e8hSL2AB54vvovbWprpr3mVgXG4mE4eXWBlnaOu0i9LAO8/+R3XKoLU4weD58RgLFkW9OU6rqQGFBU7bUgFKD8n6BlYGKF/ETD3PcNGCOAPPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fiSKqprrhpQiROE08VUfCHN2l7HN5lH9gB4TIAGLfJ4=;
- b=GOTNnu8iVtD0VZA5UwGNtwa1fwh92ED+BJJPM3c/I+1WREnK/Obfzu+4fZEluTMrUb/2ch7ba2OrI7ALv+5XJoxBOozP4Pb/DBYhiL/rOXhfXNvJdhITzM/Gw0Tjf94uXLdpGqXEo/2GO2Fpto1dwpPaWwCzUaa45bF9n4z5r1M=
+ bh=Ye5V5GTICRYavjDd3bX/qf3pRYlmRLqffvikChhysSg=;
+ b=c13vSueWJVaktzWOV93Ads1+rdN9ld3ItWrD5RxBlwF+Bm8Rvo674MY/Y2SvcEQz3N7jS5GzJzQJbgCsyBIZAH0dvXRiVSjggkKCodrPWAAZrJuJL0LvqjkVM8gmKRgQNptSmr/9Q3QU/JFMDf1wm+r7BSaQ+2vY8g1UM89+E2M=
 Authentication-Results: pengutronix.de; dkim=none (message not signed)
  header.d=none;pengutronix.de; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB3184.eurprd04.prod.outlook.com (2603:10a6:802:9::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.26; Thu, 28 May
- 2020 10:03:37 +0000
+ by VI1PR04MB4815.eurprd04.prod.outlook.com (2603:10a6:803:5d::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Thu, 28 May
+ 2020 10:11:14 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3021.030; Thu, 28 May 2020
- 10:03:37 +0000
-Message-ID: <31843bf5ba23d0693cab85fdbb5e3ee8a7453527.camel@nxp.com>
-Subject: Re: [PATCH] drm/imx: imx-ldb: Disable both channels for split mode
- in enc->disable()
+ 10:11:14 +0000
+Message-ID: <7611f0fc0eb8f291b317d61d8d3eaa18dd719bd6.camel@nxp.com>
+Subject: Re: [PATCH] drm/imx: imx-ldb: Remove the leftover
+ LVDS_BIT_MAP_SPWG/JEIDA enums
 From: Liu Ying <victor.liu@nxp.com>
 To: Marco Felsch <m.felsch@pengutronix.de>
-Date: Thu, 28 May 2020 18:02:53 +0800
-In-Reply-To: <20200528093145.kmpzbnesv25k7wvc@pengutronix.de>
-References: <1589268718-29837-1-git-send-email-victor.liu@nxp.com>
- <ce17fb3798b208e63eabee6c1e1197bfce6b77a9.camel@nxp.com>
- <20200528093145.kmpzbnesv25k7wvc@pengutronix.de>
+Date: Thu, 28 May 2020 18:10:29 +0800
+In-Reply-To: <20200528093431.x7tfwiw6glzr5tck@pengutronix.de>
+References: <1589268078-19905-1-git-send-email-victor.liu@nxp.com>
+ <e46c78dfddbc76a1e677f3ee6cc9d3816f67edc3.camel@nxp.com>
+ <20200528093431.x7tfwiw6glzr5tck@pengutronix.de>
 User-Agent: Evolution 3.36.2-0ubuntu1 
-X-ClientProxiedBy: SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) To
- VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+X-ClientProxiedBy: SG2PR04CA0176.apcprd04.prod.outlook.com
+ (2603:1096:4:14::14) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from blueberry.ap.freescale.net (119.31.174.66) by
- SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.2 via Frontend Transport; Thu, 28 May 2020 10:03:35 +0000
+ SG2PR04CA0176.apcprd04.prod.outlook.com (2603:1096:4:14::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3045.19 via Frontend Transport; Thu, 28 May 2020 10:11:12 +0000
 X-Originating-IP: [119.31.174.66]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f49b8261-c671-454b-0ebc-08d802ee63b9
-X-MS-TrafficTypeDiagnostic: VI1PR04MB3184:
+X-MS-Office365-Filtering-Correlation-Id: c3e0757f-ac7e-47fb-e248-08d802ef740b
+X-MS-TrafficTypeDiagnostic: VI1PR04MB4815:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB3184B64BDDED651996B8ECC1988E0@VI1PR04MB3184.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB481506DBD49C9B2BEDC1D019988E0@VI1PR04MB4815.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
 X-Forefront-PRVS: 0417A3FFD2
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aSWYbKkLJB+J7yM6pvRuSvOlja8GWxkKDwtJjAU/yo8bjTqHTY99ovJcK7vRLkVkQj+l7ZQMNrTCHj39xiglrj7JimKLGl5tO/qOtahBwl1lEzykVF+M5jSoUZrhdV0R5UzOqvPx04pfj5eMznzTfOk5vjI7JmBt/igDdpJEpJeDuTLPxswwGo18/NYb+z4f+bRbGlca8yQCFPIZ+vkjj7oAbpE/hoFLvfOmYHYo4B447feTw8qcrq6WLO5wh5PGfxo9glaKXmgDw9rOkfb7lhSrncAFE6Nr6OlNiAsR8PQ8YSE5isNSoZ27/2/8j7EiaqEDrfPctUoB43vMuNu+bsu5xRQ4yzwf4ITJZQU1/o78c8LojXWjNGwX9Ap6Y75etYzkTXS5rnEUly1TFXINBw==
+X-Microsoft-Antispam-Message-Info: MaRrYoLh5XTqV64gtnqvE1XJCoK3I9KuaQO28VRJA/fxa40UWpfipzmgyRIjLOim1s6TGdETaa9yGJK9BiRKJ8NzgvSMin6pw4EbHk7KX0K+EAjpWibrXFXg8XIJCcLi3VKR5juWRXvaNGmcYZ0I7V0cfWEyKu6Jwy+Wo9zDJzLtG8Zk+NP3G+05l1aPRcLl0v3EPvVShoMb5PPH9wimuGYyoc4fxoG13XNOBKXdczvMDCzjUL5NNIruPnv+HmxsB/sC18Law63dZiAglueFSCmx7iDxASOtk4Sa0vGnNDiiXoVJRwHQsSLIJfSI3pGIK/ZZ5/8Qpg2Yb6//ALTqOJzdV2rajyvy6g5qIrx4Du3iA7zOW/FxP+mINnO7dMwPGU8PbSjKfnuG00kI0FBsPg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(366004)(39860400002)(396003)(346002)(36756003)(8936002)(2616005)(956004)(316002)(8676002)(966005)(83380400001)(2906002)(45080400002)(478600001)(86362001)(66476007)(4326008)(6512007)(6486002)(6916009)(52116002)(6666004)(66556008)(66946007)(6506007)(16526019)(186003)(53546011)(5660300002)(26005);
+ SFS:(4636009)(376002)(396003)(346002)(136003)(366004)(39860400002)(6486002)(966005)(8936002)(2906002)(5660300002)(52116002)(53546011)(6506007)(86362001)(478600001)(16526019)(186003)(26005)(6666004)(45080400002)(36756003)(6916009)(8676002)(956004)(2616005)(6512007)(316002)(66946007)(4326008)(66556008)(66476007)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: LVE2l9e/c0YpXnJgMqkvUrGQnfEvQEUK41i+cyhV7/oxjbjlIdUktjRLDiycA8X95miM9+lxsUwhR7JwceKIeLiMybolqV6gNO9Dn/i5SMrlhFjtAsVF9cNZj9yOliAkDZO7UGbKTqgR9dyhe+Zg8TDyizvBLvGDWsjcqw2bl6hN9701aUnzbn5NT8ynnB3/VxtzWE2pVOISkzM9fl6qBhWELCs+vkJl8OXVRQOrYhb9+8rxdiBlXApJNWHAzDSaTXs2/Ye1ZEeYt/wYb1xr1SwmWIii4RvtLnVa3l8fmaG9HqLnhQ4iW0vozagxOO6232pkBw3XTCtVGe8WHUvZPeIm7O5ZhVsfY0T9MdAjDkNDMug6vnohuhM61MmDKE8qPBIVk7OAnsSxUxYwGRxAf4NE8zEwkOhL03/3W1ItOmztysxp7jU8xeehGR3cBbYE6mxSLAMmV5j2lhS2umkAoXxzMxcnDKgVaVGvHblX438=
+X-MS-Exchange-AntiSpam-MessageData: 7G4PjncWqgwxdMxWCjoCK2Y/5yDxOfxE1kVu5+aivZTS8QLThdSi3/E/s0OvxJsXcF+gzxClms08Jqz/x59IFFfGhlIgHR4kJ6mfmHcXkQY1nVcqxHiFu9wBSOMwUd4ne2VGjA8ubnxlQ2NmCLlutj9BDJbNtbX+q6YIhNQtzb43yoOL8MpGnBzqlnj8qxpa7X+MAu1FvYxtJjl/RKwTi7EhrCLZMQlxff0BCQ/AfE4VJcnLxpRqvsulUAEpTQOku8YYqdVxKtY2WG0irIihqucm12+lOpUTE1jYKVPpDyOKJyCOEYhPURx5wN00EHOo55T1m1CN4U+tefZ8H4LT3HP8qIwjNXl6MGiaahmaAhmxesHeGX36QRh55NpAnTh+CyTqO3YFjsnUXfJYd+OvOxZTriOW4rkQJWyBz6pr1SGHHL5vFTCaAHGzy2i50XbOe8WlylpRgfytJvtXPnjQOJYlfb2T7uU6WEocL1+YCUU=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f49b8261-c671-454b-0ebc-08d802ee63b9
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 10:03:37.3008 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3e0757f-ac7e-47fb-e248-08d802ef740b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 10:11:14.1669 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yDrWEOIRYkZRDe5nA3GpaagDk3AMH9Qk191/KZOS7QDubPCDISbrRx9uA4+bH+VY1Khr6mILP7qy7+bqbFdBww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3184
+X-MS-Exchange-CrossTenant-UserPrincipalName: TigSEIu+jdnsoYM9Pha7+78JF5LAXDXPiD+SxsiEjO5jdw9a/tNDVhOlrGdcjeUkGTUVEq2/nMQrvAq6D09z9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4815
 X-Mailman-Approved-At: Thu, 28 May 2020 22:47:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,90 +97,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: s.hauer@pengutronix.de, stable@vger.kernel.org, p.zable@pengutronix.de,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de, linux-imx@nxp.com
+Cc: s.hauer@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marco,
+Hi Macro,
 
-On Thu, 2020-05-28 at 11:31 +0200, Marco Felsch wrote:
-> Hi Liu
+On Thu, 2020-05-28 at 11:34 +0200, Marco Felsch wrote:
+> Hi Liu,
 > 
-> On 20-05-28 10:58, Liu Ying wrote:
-> > Gentle ping...
-> 
-> Please check my "spring cleanup series" [1] which do the split:
+> pls check [1], I already send patches for it. Those stuck because we
+> need to verify Philipp's proposal.
 
-It looks that your series doesn't disable both lvds channels in the
-encoder disablement callback for the ldb split mode.
-So, I think this patch still stands.
+Yeah, '[PATCH 09/17] drm/imx: imx-ldb: remove useless enum' in your
+patch series does the same thing as this patch does.  I'm fine to drop
+this patch then.
+
+Regarding Philipp's proposal on the use-after-free issue, we've got the
+basically the same implemetation in downstream ldb driver to address
+the issue.
 
 Regards,
-Liu Ying
+Liu Ying 
 
 > 
 > [1] 
-> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Farm-kernel%2Fmsg789309.html&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7Cd177bf874b8f41c404e108d802e9f179%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262551086663318&amp;sdata=PIMNspESt%2BYqEMV1Vh0eBn5PNjKPfz5GdJ6NrnM2bUw%3D&amp;reserved=0
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Farm-kernel%2Fmsg789309.html&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7C8da3e383727f4fe1e0dd08d802ea5458%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262552748306435&amp;sdata=DWN%2F3jRT07qmPWxlgSTuD9eRiRVoOHWGRmfrgj0ZA3A%3D&amp;reserved=0
 > 
 > Regards,
 >   Marco
 > 
-> > On Tue, 2020-05-12 at 15:31 +0800, Liu Ying wrote:
-> > > Both of the two LVDS channels should be disabled for split mode
-> > > in the encoder's ->disable() callback, because they are enabled
-> > > in the encoder's ->enable() callback.
+> On 20-05-28 10:55, Liu Ying wrote:
+> > Gentle ping...
+> > 
+> > On Tue, 2020-05-12 at 15:21 +0800, Liu Ying wrote:
+> > > No one is using the LVDS_BIT_MAP_SPWG/JEIDA enums since a
+> > > previous
+> > > commit which changes the imx_ldb_bit_mappings[] array definition,
+> > > so let's remove them.
 > > > 
-> > > Fixes: 6556f7f82b9c ("drm: imx: Move imx-drm driver out of
-> > > staging")
+> > > Fixes: 5e501ed7253b ("drm/imx: imx-ldb: allow to determine bus
+> > > format
+> > > from the connected panel")
 > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
 > > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
 > > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
 > > > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > > Cc: <stable@vger.kernel.org>
 > > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > > > ---
-> > >  drivers/gpu/drm/imx/imx-ldb.c | 7 ++++---
-> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > >  drivers/gpu/drm/imx/imx-ldb.c | 5 -----
+> > >  1 file changed, 5 deletions(-)
 > > > 
 > > > diff --git a/drivers/gpu/drm/imx/imx-ldb.c
 > > > b/drivers/gpu/drm/imx/imx-
 > > > ldb.c
-> > > index 4da22a9..af4d0d8 100644
+> > > index 4da22a9..19a00eb 100644
 > > > --- a/drivers/gpu/drm/imx/imx-ldb.c
 > > > +++ b/drivers/gpu/drm/imx/imx-ldb.c
-> > > @@ -303,18 +303,19 @@ static void imx_ldb_encoder_disable(struct
-> > > drm_encoder *encoder)
-> > >  {
-> > >  	struct imx_ldb_channel *imx_ldb_ch =
-> > > enc_to_imx_ldb_ch(encoder);
-> > >  	struct imx_ldb *ldb = imx_ldb_ch->ldb;
-> > > +	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
-> > >  	int mux, ret;
+> > > @@ -477,11 +477,6 @@ static int imx_ldb_register(struct
+> > > drm_device
+> > > *drm,
+> > >  	return 0;
+> > >  }
 > > >  
-> > >  	drm_panel_disable(imx_ldb_ch->panel);
-> > >  
-> > > -	if (imx_ldb_ch == &ldb->channel[0])
-> > > +	if (imx_ldb_ch == &ldb->channel[0] || dual)
-> > >  		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
-> > > -	else if (imx_ldb_ch == &ldb->channel[1])
-> > > +	if (imx_ldb_ch == &ldb->channel[1] || dual)
-> > >  		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
-> > >  
-> > >  	regmap_write(ldb->regmap, IOMUXC_GPR2, ldb->ldb_ctrl);
-> > >  
-> > > -	if (ldb->ldb_ctrl & LDB_SPLIT_MODE_EN) {
-> > > +	if (dual) {
-> > >  		clk_disable_unprepare(ldb->clk[0]);
-> > >  		clk_disable_unprepare(ldb->clk[1]);
-> > >  	}
+> > > -enum {
+> > > -	LVDS_BIT_MAP_SPWG,
+> > > -	LVDS_BIT_MAP_JEIDA
+> > > -};
+> > > -
+> > >  struct imx_ldb_bit_mapping {
+> > >  	u32 bus_format;
+> > >  	u32 datawidth;
 > > 
 > > _______________________________________________
 > > dri-devel mailing list
 > > dri-devel@lists.freedesktop.org
-> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7Cd177bf874b8f41c404e108d802e9f179%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262551086663318&amp;sdata=lNC4lwLUqM0upUxrrBtk1ap423lBIQlAAqDjdHv92LI%3D&amp;reserved=0
+> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7C8da3e383727f4fe1e0dd08d802ea5458%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262552748306435&amp;sdata=isO%2Fp5kg9qJ8%2FLg5zqI8XazuxwHr1hPjiyTHFhy0n2o%3D&amp;reserved=0
 > > 
 
 _______________________________________________
