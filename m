@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A032C1E5B78
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 11:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E881E5BEC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 11:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 723A16E0F8;
-	Thu, 28 May 2020 09:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8793C6E126;
+	Thu, 28 May 2020 09:31:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D336E0F8
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 09:09:32 +0000 (UTC)
-Received: from mail-qt1-f169.google.com ([209.85.160.169]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MGhds-1jqpTM4Bfu-00Do1Y; Thu, 28 May 2020 11:09:31 +0200
-Received: by mail-qt1-f169.google.com with SMTP id j32so6687511qte.10;
- Thu, 28 May 2020 02:09:29 -0700 (PDT)
-X-Gm-Message-State: AOAM531ZckDf+1kJ/gxkWCd2TbySgD1KgU8746k9/qwuKp2dSFw6u495
- +rBBFiqHpW7c+bqtM9renkzbODeqTnOH1G/ZiH8=
-X-Google-Smtp-Source: ABdhPJw0lPr/TwhrVNC3iy5YtxH6Hjy8bzmX2rAe1KGmP7eYz/oL6ngiwKPu38ETWEqiMphjY7bZ3Eseev3rSciH8pY=
-X-Received: by 2002:ac8:6a09:: with SMTP id t9mr2005129qtr.7.1590656968528;
- Thu, 28 May 2020 02:09:28 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B816E126
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 09:31:47 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jeEt7-0004v6-F9; Thu, 28 May 2020 11:31:45 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jeEt7-0003cW-4F; Thu, 28 May 2020 11:31:45 +0200
+Date: Thu, 28 May 2020 11:31:45 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH] drm/imx: imx-ldb: Disable both channels for split mode
+ in enc->disable()
+Message-ID: <20200528093145.kmpzbnesv25k7wvc@pengutronix.de>
+References: <1589268718-29837-1-git-send-email-victor.liu@nxp.com>
+ <ce17fb3798b208e63eabee6c1e1197bfce6b77a9.camel@nxp.com>
 MIME-Version: 1.0
-References: <20200527134254.854672-1-arnd@arndb.de>
- <CAKb7Uvhh2JKck524D9S14uNSLykFj+U48AgR+sd2uwchsH_wEQ@mail.gmail.com>
- <CAK8P3a3kRP6Sg-An5szsN=4Pv1OsG+-YQYa1wgxJCi1c+uedPw@mail.gmail.com>
- <CAPM=9tw_D0edbF38iFSrecDM8gnK4wNCDGiL2JV86tSUAmSk6g@mail.gmail.com>
-In-Reply-To: <CAPM=9tw_D0edbF38iFSrecDM8gnK4wNCDGiL2JV86tSUAmSk6g@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 28 May 2020 11:09:12 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3wuK9hHWCypF0HEzWY_iSn1SQJ22j26ykXYeVYYqKpCg@mail.gmail.com>
-Message-ID: <CAK8P3a3wuK9hHWCypF0HEzWY_iSn1SQJ22j26ykXYeVYYqKpCg@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] nouveau: add fbdev dependency
-To: Dave Airlie <airlied@gmail.com>
-X-Provags-ID: V03:K1:+m3ukmoA1ks/niOL9hBvbGQ8a1cq/CDwTe+9K4T9isRbNoC9Nnn
- i0dqCCiverb0ay5guh+7xAc+JPFc3i3OHyBO/pG1Hb4t3YuHAC8hu6knV9gqL6irC957St2
- Fxk5tY24hlWYJys6kyXJxTI5Ci95Hog1DR6CjScN/Tff2O+KPK/0uozYdvc3bHGIEm7WP8p
- d1Ph0cuTZEarP2cuVpHeg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C8bldEvzp0Y=:ln1mGADWnb4CxUIUhBSIIB
- LZHmR/nWtSf4nNwXq1QTCyRDBlDn9xTUGHeWIdGTmZr7niclwdR9zUjXR0P5DPou9EPNRWRqt
- mjjfl2Eguv9OxQtI04HIrrdJP2onZfuY8BLe73XwxsroDfsRUQIHtaxx95stZaZnKsANkPii/
- ImbbXtiePqEUtowEQMC9ntk4k0deUjJVqLazjyRsPOOtA1YSC9fpJMls4WuwyqSJwzEfBWpI1
- R1b6GtseEdjtZAX8NVpgBu+3XLKW2mIYgVeChIUeDEjz2h7O2SpU0r7zK4xLq1r3f/shXPssk
- BDXI403+CuSDPpuYGrMIsH9LmIqhB9gkgva9K+da6pYYsc27f5cNps6BoWbmLDUS2NRVniM6e
- y10uO3G5xyAfiBXiiNm7ggH2t0zN51/Dak1nf5J2plH2tQXFBZgOOFqBGMyHP3SShs+tWGRQp
- V4XFmePP6lWcXOHCBScJKunALzcjHNsEt8JgawVm9gOy2/GBc+SQJ97I/azv0RpzIzmqB+EhF
- So633hGuHTulJgLN11uL1P2Hg6ykvNTley3UhReTorONgaEyMPGhZuRK7+wxLN3l8sYMLvepV
- I/BIZ178MKVU+5QH31wrCQOKFuH37yPQ9Io8QeCgDndeO+XPWyB5cSBl9FnMZt1cW0AtWCDQu
- osu8K3QmmOSWYhwcw+4kq2IMI/9YSz9pzBEIzrWaulKOKCRpve9RS3bhlwvU6wWSGB85VNDRk
- /HHmQh0uWHxsU2y/JNWcigv1rX5sutcwZYSeMXeVf3sT1XVf+6jEFw0ndruhVBdttMq+N+s7o
- EEG8eKVS82n0t3p7pwuwy5eqWuxiDmJJ0P0hbqrtaIh/zsJo0M=
+Content-Disposition: inline
+In-Reply-To: <ce17fb3798b208e63eabee6c1e1197bfce6b77a9.camel@nxp.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:30:15 up 195 days, 48 min, 196 users, load average: 0.21, 0.18, 
+ 0.10
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +57,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Cc: kernel@pengutronix.de, s.hauer@pengutronix.de, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 28, 2020 at 7:37 AM Dave Airlie <airlied@gmail.com> wrote:
->
-> On Thu, 28 May 2020 at 00:36, Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Wed, May 27, 2020 at 4:05 PM Ilia Mirkin <imirkin@alum.mit.edu> wrote:
-> > >
-> > > Isn't this already fixed by
-> > >
-> > > https://cgit.freedesktop.org/drm/drm/commit/?id=7dbbdd37f2ae7dd4175ba3f86f4335c463b18403
-> >
-> > Ok, I see that fixes the link error, but I when I created my fix, that did
-> > not seem like the correct solution because it reverts part of the original
-> > patch without reverting the rest of it. Unfortunately there was no
-> > changelog text in the first patch to explain why this is safe.
->
-> No it doesn't, I think you missed the pci in API name.
->
-> The initial behaviour doesn't use the pci version of the API, the
-> replacement did, and the fix used the drm wrapper around the pci one.
->
-> So this patch isn't necessary now that I've fixed it the other way,
+Hi Liu
 
-Ok, got it, thanks for explaining!
+On 20-05-28 10:58, Liu Ying wrote:
+> Gentle ping...
 
-       Arnd
+Please check my "spring cleanup series" [1] which do the split:
+
+[1] https://www.spinics.net/lists/arm-kernel/msg789309.html
+
+Regards,
+  Marco
+
+> On Tue, 2020-05-12 at 15:31 +0800, Liu Ying wrote:
+> > Both of the two LVDS channels should be disabled for split mode
+> > in the encoder's ->disable() callback, because they are enabled
+> > in the encoder's ->enable() callback.
+> > 
+> > Fixes: 6556f7f82b9c ("drm: imx: Move imx-drm driver out of staging")
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > Cc: <stable@vger.kernel.org>
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  drivers/gpu/drm/imx/imx-ldb.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-
+> > ldb.c
+> > index 4da22a9..af4d0d8 100644
+> > --- a/drivers/gpu/drm/imx/imx-ldb.c
+> > +++ b/drivers/gpu/drm/imx/imx-ldb.c
+> > @@ -303,18 +303,19 @@ static void imx_ldb_encoder_disable(struct
+> > drm_encoder *encoder)
+> >  {
+> >  	struct imx_ldb_channel *imx_ldb_ch =
+> > enc_to_imx_ldb_ch(encoder);
+> >  	struct imx_ldb *ldb = imx_ldb_ch->ldb;
+> > +	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+> >  	int mux, ret;
+> >  
+> >  	drm_panel_disable(imx_ldb_ch->panel);
+> >  
+> > -	if (imx_ldb_ch == &ldb->channel[0])
+> > +	if (imx_ldb_ch == &ldb->channel[0] || dual)
+> >  		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
+> > -	else if (imx_ldb_ch == &ldb->channel[1])
+> > +	if (imx_ldb_ch == &ldb->channel[1] || dual)
+> >  		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
+> >  
+> >  	regmap_write(ldb->regmap, IOMUXC_GPR2, ldb->ldb_ctrl);
+> >  
+> > -	if (ldb->ldb_ctrl & LDB_SPLIT_MODE_EN) {
+> > +	if (dual) {
+> >  		clk_disable_unprepare(ldb->clk[0]);
+> >  		clk_disable_unprepare(ldb->clk[1]);
+> >  	}
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
