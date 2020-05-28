@@ -1,56 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E4B1E6414
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 16:37:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5BB1E6418
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 16:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3B616E02B;
-	Thu, 28 May 2020 14:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B942C6E580;
+	Thu, 28 May 2020 14:38:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021726E02B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 14:37:38 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id 1so15858258vsl.9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 07:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zhjLeGnnSiMQRUUbdYfOMsIgW1q+H/0EWlHfLoiEMtE=;
- b=CbKCD5fVpYp1aySqZdKnzqK4Q2fgUNjrKce3em6AzjVDLz8s0NG0/V1jiEgII88EV6
- QE9gxRgIdBssjKzN8c9Zg/T88CncTWrDZjjHBURYmyRPX3qJgA5b5hIQZhg/jJU2e7rL
- Rbpdph3yfrYbRsQOvvH4FOvDjbvKauAU44w1rX4VbhcA8W+FSRYO/FBCTsuKp70ynmwv
- j4fnZ5f1/o5nphKz37BhmxIDH1v5xxz0MpLIjCSwp43846om7e/5adWroCwymmxTsb0k
- v6+dHcr8BGLmT+hTMeokGnwbWps5BfsssA7hPevfqdN3VyvbTWkFjWwcYyCFD5TLU6c6
- +7Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zhjLeGnnSiMQRUUbdYfOMsIgW1q+H/0EWlHfLoiEMtE=;
- b=Wi/bgWBqhT54FUhykkgJOAs7AxwFvIgk7nRkk74uBzDBIGrXzYgkSmpuF03t8sovSl
- ZSbMWOKEBW7eqko3Hv0yhd6VEwqSOPrd8PhfMWakua91rr6A3Qinv76aa/ae89lG2cKe
- GiBDC/jbbUWVloZr/uLUV/EA1ksTPP38awKxc+z66fnFgcJa2TQXb1POFClscdxjBt5u
- ByqXbzm+oQ6+y1gR78dhnHt7R9d5oWBu/pcwg/3LIl5sjogN3j3umJ38i8WO/QJG8J2t
- F1CIuqxcKyicYp5nXIO9fnEItmyXmvZuOFHaUcf/uAHMnHMV1ul5E7wcurm4oKclYgzy
- J1Vg==
-X-Gm-Message-State: AOAM533uCh7VFKUISV9csJFOufUOBa4fT4kVXnyc2xWDLbQ9SMjLGC8l
- x8bXrVfOa8VXcw5H8FybKEC7F11vDBeA4p9A8D8=
-X-Google-Smtp-Source: ABdhPJxf/Xvp0FffRYRAO2YMcSmKjuft134y0VUyAxlVwQruDsfuEhriUCGMVWXQHGRus78KTihyjqzAINdicC/TUO4=
-X-Received: by 2002:a67:be19:: with SMTP id x25mr2244123vsq.37.1590676658056; 
- Thu, 28 May 2020 07:37:38 -0700 (PDT)
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6686E580
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 14:38:42 +0000 (UTC)
+Date: Thu, 28 May 2020 14:38:36 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1590676720;
+ bh=6nX+3Kc+Y9sYwyBybvlXzoRRG7Tr/+XUylJzEN8KV/k=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=jugfI4VY9MZwBgqBNsPoEiqAK/xvojPwWL872vk083rEguvtdSCLEGDI6qrlncWTC
+ /5al/p1lOydquRRsw3dal6VeTxTBcI003IxB4/7aIfe5T9u71hv32YMDl55GzdHYX2
+ cr24adi+kXBV135O/CEevBCXHqDPJOOubgSW9tkI=
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
 MIME-Version: 1.0
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-8-tzimmermann@suse.de>
- <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
- <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
-In-Reply-To: <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 28 May 2020 15:34:30 +0100
-Message-ID: <CACvgo52de8opoX98Kchp00gfDa7iGyezumNZPeNaOeLpYjETEQ@mail.gmail.com>
-Subject: Re: [PATCH 07/21] drm/hisilicon/kirin: Use GEM CMA object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,85 +41,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>, khilman@baylibre.com,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, ludovic.desroches@microchip.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, joel@jms.id.au,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
- LAKML <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
- andrew@aj.id.au, Philippe Cornu <philippe.cornu@st.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sascha Hauer <kernel@pengutronix.de>, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 May 2020 at 13:41, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi Emil
->
-> Am 22.05.20 um 20:11 schrieb Emil Velikov:
-> > Hi Thomas,
-> >
-> > On Fri, 22 May 2020 at 14:53, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>
-> >> The kirin driver uses the default implementation for CMA functions; except
-> >> for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
-> >> these defaults and .dumb_create in struct drm_driver. All remaining
-> >> operations are provided by CMA GEM object functions.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> ---
-> >>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c | 12 +-----------
-> >>  1 file changed, 1 insertion(+), 11 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-> >> index c339e632522a9..b1ffd7d43e562 100644
-> >> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-> >> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
-> >> @@ -921,17 +921,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ade_fops);
-> >>  static struct drm_driver ade_driver = {
-> >>         .driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> >>         .fops = &ade_fops,
-> >> -       .gem_free_object_unlocked = drm_gem_cma_free_object,
-> >> -       .gem_vm_ops = &drm_gem_cma_vm_ops,
-> >> -       .dumb_create = drm_gem_cma_dumb_create_internal,
-> >
-> > This doesn't seem right. The _internal documentation explicitly says
-> > that this should _not_ be used as .dumb_create. Instead drivers should
-> > use it to implement their callback.
-> >
-> > Since it yields the same result as drm_gem_cma_dumb_create we can use
-> > the default macro below.
->
-> I noticed this and thought that the driver authors probably had their
-> reasons. Changing the driver to the default macro is probably still a
-> good idea.
->
-To be on the _extra_ safe side might want to keep that separate patch
-explicitly CC-ing the author/reviewers of the offending commit.
-Although as said before - it's your call, I'm fine either way.
-
-HTH
-Emil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgaGF2ZSBzdWdnZXN0aW9ucyB0byBiYWtlIHBpdGNoIGFsaWdubWVudCwgYWRkcmVzcyBh
+bGlnbmVtZW50LApjb250aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBW
+UkFNLCBHVFQvQkFSLCBldGMpCmNvbnN0cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUg
+dGhpcyB3YXMgYnJvdWdodCB1cCBpdCBzZWVtZWQKbGlrZSB0aGUgY29uc2Vuc3VzIHdhcyB0byBu
+b3QgYWxsb3cgdGhpcy4gRG9jdW1lbnQgdGhpcyBpbiBkcm1fZm91cmNjLmguCgpUaGVyZSBhcmUg
+c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgoKLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
+YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQogIHNlYXJjaCBzcGFjZSBw
+cmV0dHkgcXVpY2tseSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KLSBNb2Rp
+ZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2FuIG9ubHkgaGF2ZSBhIHNp
+bmdsZQogIG1vZGlmaWVyLgotIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJz
+ZSBtb2RpZmllcnMuCgp2MjogYWRkIHBhcmFncmFwaCBhYm91dCBhbGlhc2VzIChEYW5pZWwpCgp2
+MzogZml4IHVucmVsYXRlZCBjaGFuZ2VzIHNlbnQgd2l0aCB0aGUgcGF0Y2gKClNpZ25lZC1vZmYt
+Ynk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KUmV2aWV3ZWQtYnk6IERhbmllbCBW
+ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBEYW5pZWwgU3RvbmUgPGRhbmllbEBm
+b29pc2hiYXIub3JnPgpDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVu
+Lm5sPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogTWFyZWsgT2zFocOh
+ayA8bWFyYWVvQGdtYWlsLmNvbT4KLS0tCiBpbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8
+IDE1ICsrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKykKCmRp
+ZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2luY2x1ZGUvdWFwaS9k
+cm0vZHJtX2ZvdXJjYy5oCmluZGV4IDQ5MDE0MzUwMGE1MC4uZjQxZmNiMWVkNjNkIDEwMDY0NAot
+LS0gYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaAorKysgYi9pbmNsdWRlL3VhcGkvZHJt
+L2RybV9mb3VyY2MuaApAQCAtNTgsNiArNTgsMjEgQEAgZXh0ZXJuICJDIiB7CiAgKiBtYXkgcHJl
+c2VydmUgbWVhbmluZyAtIHN1Y2ggYXMgbnVtYmVyIG9mIHBsYW5lcyAtIGZyb20gdGhlIGZvdXJj
+YyBjb2RlLAogICogd2hlcmVhcyBvdGhlcnMgbWF5IG5vdC4KICAqCisgKiBNb2RpZmllcnMgbXVz
+dCB1bmlxdWVseSBlbmNvZGUgYnVmZmVyIGxheW91dC4gSW4gb3RoZXIgd29yZHMsIGEgYnVmZmVy
+IG11c3QKKyAqIG1hdGNoIG9ubHkgYSBzaW5nbGUgbW9kaWZpZXIuIEEgbW9kaWZpZXIgbXVzdCBu
+b3QgYmUgYSBzdWJzZXQgb2YgbGF5b3V0cyBvZgorICogYW5vdGhlciBtb2RpZmllci4gRm9yIGlu
+c3RhbmNlLCBpdCdzIGluY29ycmVjdCB0byBlbmNvZGUgcGl0Y2ggYWxpZ25tZW50IGluCisgKiBh
+IG1vZGlmaWVyOiBhIGJ1ZmZlciBtYXkgbWF0Y2ggYSA2NC1waXhlbCBhbGlnbmVkIG1vZGlmaWVy
+IGFuZCBhIDMyLXBpeGVsCisgKiBhbGlnbmVkIG1vZGlmaWVyLiBUaGF0IHNhaWQsIG1vZGlmaWVy
+cyBjYW4gaGF2ZSBpbXBsaWNpdCBtaW5pbWFsCisgKiByZXF1aXJlbWVudHMuCisgKgorICogRm9y
+IG1vZGlmaWVycyB3aGVyZSB0aGUgY29tYmluYXRpb24gb2YgZm91cmNjIGNvZGUgYW5kIG1vZGlm
+aWVyIGNhbiBhbGlhcywKKyAqIGEgY2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBh
+bmQgdXNlZCBieSBhbGwgZHJpdmVycy4gQW4gZXhhbXBsZQorICogaXMgQUZCQywgd2hlcmUgYm90
+aCBBUkdCIGFuZCBBQkdSIGhhdmUgdGhlIGV4YWN0IHNhbWUgY29tcHJlc3NlZCBsYXlvdXQuCisg
+KgorICogVXNlcnMgc2VlIG1vZGlmaWVycyBhcyBvcGFxdWUgdG9rZW5zIHRoZXkgY2FuIGNoZWNr
+IGZvciBlcXVhbGl0eSBhbmQKKyAqIGludGVyc2VjdC4gVXNlcnMgbXVzbid0IG5lZWQgdG8ga25v
+dyB0byByZWFzb24gYWJvdXQgdGhlIG1vZGlmaWVyIHZhbHVlCisgKiAoaS5lLiB1c2VycyBhcmUg
+bm90IGV4cGVjdGVkIHRvIGV4dHJhY3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllciku
+CisgKgogICogVmVuZG9ycyBzaG91bGQgZG9jdW1lbnQgdGhlaXIgbW9kaWZpZXIgdXNhZ2UgaW4g
+YXMgbXVjaCBkZXRhaWwgYXMKICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRp
+YmlsaXR5IGFjcm9zcyBkZXZpY2VzLCBkcml2ZXJzIGFuZAogICogYXBwbGljYXRpb25zLgotLSAK
+Mi4yNi4yCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
