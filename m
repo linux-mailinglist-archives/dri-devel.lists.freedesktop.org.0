@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7321E5ACB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 10:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BBB1E5AD3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 10:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C906E50E;
-	Thu, 28 May 2020 08:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2176E11C;
+	Thu, 28 May 2020 08:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC0116E11C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:29:28 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f185so1114265wmf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 01:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3a+6oUJ3RVAXmDVoeSWKckQbnvzhZe/iIrVHhbckTSA=;
- b=ERqBDMdAnQDYPD9KzJ57eRE4d+vU/o813ShwTbfBLtbCPVIBgTaGUk/HN4PKVgHz5s
- ssiiZRJ60nWDc+hDFscU9QlTDVUzDb9MRNK98C0hJwkIiyOSSelVGtknQyCpx4ES2ly1
- yNdD/WL4E0sqjH6i2/6NDVraxFVCuAVJXsZxo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3a+6oUJ3RVAXmDVoeSWKckQbnvzhZe/iIrVHhbckTSA=;
- b=dFFEvnLBtL00kyMrvl5+XgcANqMV70iVoj2E9mYwg19WBkf85da9CuONDT6yBNES7O
- TNskUgErckxsi9+Poyj6ajBadEhJP6UbwBlaL1PCZlPTZ/orJEiE4lpUh+C6ZZf7dFcm
- V4xlvSQXp5qQ2lYmDDUB3P4loDtRkYTVJrgtpXjFYGQlGD9occ7g5+eoHgiRk7gtp47C
- LKa/176l/wg6wdWF3mrZNIDpHtVGNAeKXuts/KV7WFWHIyDaI/oGScgEaVcAg7xJE1f3
- b7yzWKM2Gy3BegOANCrLCyxfFVyujxZtfidLq+rmrUGFShZjq63FCmSKOjuzUXCD4yBA
- ZEYA==
-X-Gm-Message-State: AOAM530qEGbgPMbb95Y/VVWRvB438HXWeSAnqZQhzoymqcLuwWt1OvsF
- HvUFwRyU5+6td3jH40AwsqybhKzN4+8=
-X-Google-Smtp-Source: ABdhPJw4yVmexsCHhZYQAMfsaB18NxRGTxyj/lu3EJI0gih192r5q6aVr+bET/fdfmcmLb2vss9cyA==
-X-Received: by 2002:a05:600c:2201:: with SMTP id
- z1mr2224541wml.70.1590654567303; 
- Thu, 28 May 2020 01:29:27 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y4sm5288810wro.91.2020.05.28.01.29.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 01:29:26 -0700 (PDT)
-Date: Thu, 28 May 2020 10:29:24 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/msm: Don't call dma_buf_vunmap without _vmap
-Message-ID: <20200528082924.GT206103@phenom.ffwll.local>
-References: <20200511093554.211493-2-daniel.vetter@ffwll.ch>
- <20200514201117.465146-1-daniel.vetter@ffwll.ch>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0C86E11C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590654688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gYZwLjj7CzD0ymsoazFzJV5eo30qTW4FW8DTfD17Jfg=;
+ b=Vyk+lWFUm6D6WOApcnDYM0ukHG3YBuPkqwJc5ht4bTw+UrNuudCtYU2wi2cGMgBOPpUJXA
+ sDTGwGy9tlVEFJ07wXoWRZrOg6JsxNy5dfgXi9uAjFt7UXh8QI8++Elwa5CkXG6k5yoVIe
+ JnDInMql/nh0TakE44Mytxl0NOeT68M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-X8CmvGu5MHitdtBIJs14og-1; Thu, 28 May 2020 04:31:21 -0400
+X-MC-Unique: X8CmvGu5MHitdtBIJs14og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E9FCBFC2;
+ Thu, 28 May 2020 08:31:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09ADE62932;
+ Thu, 28 May 2020 08:31:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 450E616E2C; Thu, 28 May 2020 10:31:15 +0200 (CEST)
+Date: Thu, 28 May 2020 10:31:15 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH v4 0/3] Support virtio cross-device resources
+Message-ID: <20200528083115.a6p3y24x3vqzcj4k@sirius.home.kraxel.org>
+References: <20200526105811.30784-1-stevensd@chromium.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200514201117.465146-1-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200526105811.30784-1-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
- freedreno@lists.freedesktop.org
+Cc: virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>, David Airlie <airlied@linux.ie>,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 10:11:17PM +0200, Daniel Vetter wrote:
-> I honestly don't exactly understand what's going on here, but the
-> current code is wrong for sure: It calls dma_buf_vunmap without ever
-> calling dma_buf_vmap.
+On Tue, May 26, 2020 at 07:58:08PM +0900, David Stevens wrote:
+> This patchset implements the current proposal for virtio cross-device
+> resource sharing [1]. It will be used to import virtio resources into
+> the virtio-video driver currently under discussion [2]. The patch
+> under consideration to add support in the virtio-video driver is [3].
+> It uses the APIs from v3 of this series, but the changes to update it
+> are relatively minor.
 > 
-> What I'm not sure about is whether the WARN_ON is correct:
-> - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
->   a pretty neat layering violation of how you shouldn't peek behind
->   the curtain of the dma-buf exporter, but par for course. Note that
->   all the nice new helpers don't (and we should probably have a bit a
->   warning about this in the kerneldoc).
+> This patchset adds a new flavor of dma-bufs that supports querying the
+> underlying virtio object UUID, as well as adding support for exporting
+> resources from virtgpu.
 > 
-> - but then in the get_vaddr() in msm_gem.c, we seems to happily wrap a
->   vmap() around any object with ->pages set (so including imported
->   dma-buf).
+> [1] https://markmail.org/thread/2ypjt5cfeu3m6lxu
+> [2] https://markmail.org/thread/p5d3k566srtdtute
+> [3] https://markmail.org/thread/j4xlqaaim266qpks
 > 
-> - I'm not seeing any guarantees that userspace can't use an imported
->   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
->   guarantees that an imported dma-buf won't end up with a ->vaddr set.
+> v3 -> v4 changes:
+>  - Replace dma-buf hooks with virtio dma-buf from v1.
+>  - Remove virtio_attach callback, as the work that had been done
+>    in that callback is now done on dma-buf export. The documented
+>    requirement that get_uuid only be called on attached virtio
+>    dma-bufs is also removed.
+>  - Rebase and add call to virtio_gpu_notify for ASSIGN_UUID.
 > 
-> But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
-> calling dma_buf_vunmap is the wrong thing to do.
-> 
-> v2: Rob said in review that we do indeed have a gap in get_vaddr() that
-> needs to be plugged. But the users I've found aren't legit users on
-> imported dma-buf, so we can just reject that.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: freedreno@lists.freedesktop.org
+> David Stevens (3):
+>   virtio: add dma-buf support for exported objects
+>   virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
+>   drm/virtio: Support virtgpu exported resources
 
-Ping for some review/ack so I can start landing thist stuff please?
+Looks all sane to me.  mst, have you looked at the virtio core changes?
+How we are going to merge this?  If you ack I can merge via
+drm-misc-next.  Merging through virtio queue would be fine too.
 
-Thanks, Daniel
+thanks,
+  Gerd
 
-> ---
->  drivers/gpu/drm/msm/msm_gem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 5a6a79fbc9d6..e70abd1cde43 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -554,6 +554,9 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
->  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
->  	int ret = 0;
->  
-> +	if (obj->import_attach)
-> +		return ERR_PTR(-ENODEV);
-> +
->  	mutex_lock(&msm_obj->lock);
->  
->  	if (WARN_ON(msm_obj->madv > madv)) {
-> @@ -907,8 +910,7 @@ static void free_object(struct msm_gem_object *msm_obj)
->  	put_iova(obj);
->  
->  	if (obj->import_attach) {
-> -		if (msm_obj->vaddr)
-> -			dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
-> +		WARN_ON(msm_obj->vaddr);
->  
->  		/* Don't drop the pages for imported dmabuf, as they are not
->  		 * ours, just free the array we allocated:
-> -- 
-> 2.26.2
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
