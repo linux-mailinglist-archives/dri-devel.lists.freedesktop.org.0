@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA341E6F63
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0FE1E6F7A
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4896E829;
-	Thu, 28 May 2020 22:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C086E841;
+	Thu, 28 May 2020 22:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1787C6E5AB
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 17:05:16 +0000 (UTC)
-X-UUID: c17741b5fcb1400b831acbb7300696ef-20200529
+ by gabe.freedesktop.org (Postfix) with ESMTP id 845406E1A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 17:05:17 +0000 (UTC)
+X-UUID: 472895f1d076407fa927842fa5903ceb-20200529
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=Ji9H1E5vbwxd7CeKqgjMppwKo2IKtgv1TNRwCWXxzlU=; 
- b=tyRoWPAzaQf1rtT0N8NuM4Tt9wGzM0FxhdtwNRCk/Z1YSme3I9PDIA11aqacG+daWvrZdW+Hv6A+za49witPN6lZ+0I1j0wYITyJ5zx09onb71F+JD2HFxPsWmNA643E47pKbaUapHZo/bEJwZFFSqAALsJrt+aHdcM6M1CBW9Q=;
-X-UUID: c17741b5fcb1400b831acbb7300696ef-20200529
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
- (envelope-from <dennis-yc.hsieh@mediatek.com>)
+ bh=jXGE+hYgBs3oPyBPAQ0ebVKN3bSWPLCsVNhlOqhbvHg=; 
+ b=V1pchG7AVkud645jmQ3QAjaqrm3sbr1oB0R0E7zI7sH7fd5x0uSQ3LKzTt7gMfZxoXu9D4n4aVIAVM0oyVtEWWlfGju1pxJZFzDTXk64UtdxaFI5qLuwHAPtERzq/AebaYmanxQGWht3+ConwvRf2yr03Ixuhpw2gcE77EIB5l4=;
+X-UUID: 472895f1d076407fa927842fa5903ceb-20200529
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1113529576; Fri, 29 May 2020 01:05:13 +0800
+ with ESMTP id 276028837; Fri, 29 May 2020 01:05:14 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 29 May 2020 01:05:09 +0800
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 29 May 2020 01:05:10 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Fri, 29 May 2020 01:05:09 +0800
@@ -34,14 +34,14 @@ To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Jassi Brar
  <jassisinghbrar@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
  Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 15/16] soc: mediatek: cmdq: add clear option in
- cmdq_pkt_wfe api
-Date: Fri, 29 May 2020 01:04:50 +0800
-Message-ID: <1590685491-17107-16-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v6 16/16] soc: mediatek: cmdq: add set event function
+Date: Fri, 29 May 2020 01:04:51 +0800
+Message-ID: <1590685491-17107-17-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1590685491-17107-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1590685491-17107-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 56617F63CC51ADD7C66EDB7B1D4639E09A5C3E1F232749219309A55CBEC22B882000:8
 X-MTK: N
 X-Mailman-Approved-At: Thu, 28 May 2020 22:46:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,87 +66,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add clear parameter to let client decide if
-event should be clear to 0 after GCE receive it.
+Add set event function in cmdq helper functions to set specific event.
 
 Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 2 +-
- drivers/soc/mediatek/mtk-cmdq-helper.c   | 5 +++--
- include/linux/mailbox/mtk-cmdq-mailbox.h | 3 +--
- include/linux/soc/mediatek/mtk-cmdq.h    | 5 +++--
- 4 files changed, 8 insertions(+), 7 deletions(-)
+ drivers/soc/mediatek/mtk-cmdq-helper.c   | 15 +++++++++++++++
+ include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
+ include/linux/soc/mediatek/mtk-cmdq.h    |  9 +++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 7daaabc26eb1..a065b3a412cf 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -488,7 +488,7 @@ static void mtk_drm_crtc_hw_config(struct mtk_drm_crtc *mtk_crtc)
- 	if (mtk_crtc->cmdq_client) {
- 		cmdq_handle = cmdq_pkt_create(mtk_crtc->cmdq_client, PAGE_SIZE);
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
--		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event);
-+		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
- 		cmdq_pkt_flush_async(cmdq_handle, ddp_cmdq_cb, cmdq_handle);
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 5cf9e71b7900..9e9a4c81553a 100644
+index 9e9a4c81553a..e9b1dd31f63b 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -315,15 +315,16 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
+@@ -346,6 +346,21 @@ int cmdq_pkt_clear_event(struct cmdq_pkt *pkt, u16 event)
  }
- EXPORT_SYMBOL(cmdq_pkt_write_s_mask_value);
+ EXPORT_SYMBOL(cmdq_pkt_clear_event);
  
--int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event)
-+int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear)
++int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16 event)
++{
++	struct cmdq_instruction inst = { {0} };
++
++	if (event >= CMDQ_MAX_EVENT)
++		return -EINVAL;
++
++	inst.op = CMDQ_CODE_WFE;
++	inst.value = CMDQ_WFE_UPDATE | CMDQ_WFE_UPDATE_VALUE;
++	inst.event = event;
++
++	return cmdq_pkt_append_command(pkt, inst);
++}
++EXPORT_SYMBOL(cmdq_pkt_set_event);
++
+ int cmdq_pkt_poll(struct cmdq_pkt *pkt, u8 subsys,
+ 		  u16 offset, u32 value)
  {
- 	struct cmdq_instruction inst = { {0} };
-+	u32 clear_option = clear ? CMDQ_WFE_UPDATE : 0;
- 
- 	if (event >= CMDQ_MAX_EVENT)
- 		return -EINVAL;
- 
- 	inst.op = CMDQ_CODE_WFE;
--	inst.value = CMDQ_WFE_OPTION;
-+	inst.value = CMDQ_WFE_OPTION | clear_option;
- 	inst.event = event;
- 
- 	return cmdq_pkt_append_command(pkt, inst);
 diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index 3f6bc0dfd5da..42d2a30e6a70 100644
+index 42d2a30e6a70..ba2d811183a9 100644
 --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
 +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -27,8 +27,7 @@
-  * bit 16-27: update value
-  * bit 31: 1 - update, 0 - no update
-  */
--#define CMDQ_WFE_OPTION			(CMDQ_WFE_UPDATE | CMDQ_WFE_WAIT | \
--					CMDQ_WFE_WAIT_VALUE)
-+#define CMDQ_WFE_OPTION			(CMDQ_WFE_WAIT | CMDQ_WFE_WAIT_VALUE)
+@@ -17,6 +17,7 @@
+ #define CMDQ_JUMP_PASS			CMDQ_INST_SIZE
  
- /** cmdq event maximum */
- #define CMDQ_MAX_EVENT			0x3ff
+ #define CMDQ_WFE_UPDATE			BIT(31)
++#define CMDQ_WFE_UPDATE_VALUE		BIT(16)
+ #define CMDQ_WFE_WAIT			BIT(15)
+ #define CMDQ_WFE_WAIT_VALUE		0x1
+ 
 diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 9494b293bad9..3216ccfff4a9 100644
+index 3216ccfff4a9..ea26020e63bf 100644
 --- a/include/linux/soc/mediatek/mtk-cmdq.h
 +++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -183,11 +183,12 @@ int cmdq_pkt_write_s_mask_value(struct cmdq_pkt *pkt, u8 high_addr_reg_idx,
- /**
-  * cmdq_pkt_wfe() - append wait for event command to the CMDQ packet
-  * @pkt:	the CMDQ packet
-- * @event:	the desired event type to "wait and CLEAR"
-+ * @event:	the desired event type to wait
-+ * @clear:	clear event or not after event arrive
-  *
-  * Return: 0 for success; else the error code is returned
+@@ -199,6 +199,15 @@ int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear);
   */
--int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event);
-+int cmdq_pkt_wfe(struct cmdq_pkt *pkt, u16 event, bool clear);
+ int cmdq_pkt_clear_event(struct cmdq_pkt *pkt, u16 event);
  
++/**
++ * cmdq_pkt_set_event() - append set event command to the CMDQ packet
++ * @pkt:	the CMDQ packet
++ * @event:	the desired event to be set
++ *
++ * Return: 0 for success; else the error code is returned
++ */
++int cmdq_pkt_set_event(struct cmdq_pkt *pkt, u16 event);
++
  /**
-  * cmdq_pkt_clear_event() - append clear event command to the CMDQ packet
+  * cmdq_pkt_poll() - Append polling command to the CMDQ packet, ask GCE to
+  *		     execute an instruction that wait for a specified
 -- 
 2.18.0
 _______________________________________________
