@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C1C1E5413
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 04:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BB71E5419
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 04:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB1526E156;
-	Thu, 28 May 2020 02:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EABBA6E15F;
+	Thu, 28 May 2020 02:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
  [209.85.166.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46CF16E156
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 02:41:13 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id c8so8017965iob.6
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 19:41:13 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 056FC6E15F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 02:42:10 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id f3so28429846ioj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 19:42:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aJSvdBSUP8hCC8+rgsz4EB7YLn+fmauMUvtrBMNRvO0=;
- b=aZB3xKKfWlRyPA5hlSDKUl8Bui/k6m1n0KNL3Rx/IlWyiZ4OSL82VsdE6aT2bFb0id
- 2jipoyw3aE7XJo6Yyra0oavE+PRxEMYhOEwBALKJFQT26sbtHJixQJf4l9bqRm8ydGf5
- XfzswdkcmnjS2wSBAryVEc3KlZKEcSzBb3x+tI9/7HGyv50DNR1kFyWSrTqGzjftYAJ9
- 3t3Bw3e/nrJuUBFA/y0gQflIfRvM1rVdX4XyET9R9X8WJ4RXt4wsPbdMcckzlPh9akNi
- UBZ+sJ/ux8F8LoamKsC7gyUdLQqBvTckdjZcajYrAVREX3rVzSL3w5yO4RlLbWdF+oYM
- +bzg==
-X-Gm-Message-State: AOAM533zDFBcSTgU48lsAc27WjUH4TEVvB7/1JWG/cSrgOdXmEOvBbgh
- r5IYpDT0ahir7ZOF6W+uaQ==
-X-Google-Smtp-Source: ABdhPJwSqz8Y/sFww2/trT6sggJFiwuWfVKWn54mRv6JFqUdmLygooXIQDu0sxeliOzsjWUfS6ELdw==
-X-Received: by 2002:a5d:9e51:: with SMTP id i17mr691242ioi.8.1590633672645;
- Wed, 27 May 2020 19:41:12 -0700 (PDT)
+ bh=b/oNRFbWcA9UKdCn5+v8TysbsT9eF8fH1Ja8+nqZDmU=;
+ b=arWpwGNNUoKAHm+7pUcREGCBiIgSnSO47iQjJKSHz9UkL3fPYkP9CHMOpwpIXcLdKK
+ 1SP3sxo+ON0XvYiWc/guToTuMOjHe+Vi1C4ua7nUJu7SBYywhoyp9Zi8s45YFv2BhRp4
+ y1SApLXhXGYHTH3etWwdobimuqZZ5eCrHShrksqltm75D/O6HB2EUaDEdb46VqzOFojm
+ m12retp0MBHjog8+TWOE/lzHkT1y1fwa7Z1cyGQWrTmypWjeFZULQLWjvDJ9+F+lLDY8
+ btW+y7ASEPSolJO+YnR1DM+qqWAthjcXLLoRIqkltT61lt0vbOE/8h6BMXCZ1N8coPTT
+ kQzQ==
+X-Gm-Message-State: AOAM532DduhfzdQNaSG2V5qRKwovEt8yejdoJJ9kv3aU9mro7Zinhmf9
+ Y7rBGn73rb7O+KbqklSoMg==
+X-Google-Smtp-Source: ABdhPJzKlFiW8HM67DLDFC6JfQlSVeYAE3EzxuQizHFJK24jCTp1VdyCqhMig8TKRQg5EZ+n1bEodQ==
+X-Received: by 2002:a05:6602:2f06:: with SMTP id
+ q6mr693015iow.135.1590633729485; 
+ Wed, 27 May 2020 19:42:09 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id u2sm1917979ion.50.2020.05.27.19.41.10
+ by smtp.gmail.com with ESMTPSA id d12sm2665990ill.80.2020.05.27.19.42.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 19:41:12 -0700 (PDT)
-Received: (nullmailer pid 3259982 invoked by uid 1000);
- Thu, 28 May 2020 02:41:10 -0000
-Date: Wed, 27 May 2020 20:41:10 -0600
+ Wed, 27 May 2020 19:42:08 -0700 (PDT)
+Received: (nullmailer pid 3261346 invoked by uid 1000);
+ Thu, 28 May 2020 02:42:08 -0000
+Date: Wed, 27 May 2020 20:42:08 -0600
 From: Rob Herring <robh@kernel.org>
-To: Ondrej Jirman <megous@megous.com>
-Subject: Re: [PATCH v3 2/5] dt-bindings: panel: Add binding for Xingbangda
- XBD599 panel
-Message-ID: <20200528024110.GA3259935@bogus>
-References: <20200513212451.1919013-1-megous@megous.com>
- <20200513212451.1919013-3-megous@megous.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 5/4] dt-bindings: display: bridge: thc63lvd1024: Document
+ dual-output mode
+Message-ID: <20200528024208.GA3261299@bogus>
+References: <20200406111543.GC4757@pendragon.ideasonboard.com>
+ <20200513232127.21798-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200513212451.1919013-3-megous@megous.com>
+In-Reply-To: <20200513232127.21798-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,33 +61,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Martijn Braam <martijn@brixit.nl>,
- Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
- Bhushan Shah <bshah@kde.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
- Rob Herring <robh+dt@kernel.org>, linux-sunxi@googlegroups.com,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
- Icenowy Zheng <icenowy@aosc.io>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Jacopo Mondi <jacopo@jmondi.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 May 2020 23:24:48 +0200, Ondrej Jirman wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
+On Thu, 14 May 2020 02:21:27 +0300, Laurent Pinchart wrote:
+> The DT binding support both dual-input and dual-output mode, but only
+> dual-input is documented. Document dual-output mode.
 > 
-> Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI LCD panel. It is based on
-> Sitronix ST7703 LCD controller.
-> 
-> Add its device tree binding.
-> 
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> Suggested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  .../display/panel/sitronix,st7703.yaml        | 63 +++++++++++++++++++
->  1 file changed, 63 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/sitronix,st7703.yaml
+>  .../display/bridge/thine,thc63lvd1024.yaml       | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
