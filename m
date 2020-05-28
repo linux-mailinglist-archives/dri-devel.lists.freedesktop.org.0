@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE241E6F82
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0931E6F75
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E706E847;
-	Thu, 28 May 2020 22:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72AA16E83F;
+	Thu, 28 May 2020 22:46:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 43D8C6E5B0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 17:05:17 +0000 (UTC)
-X-UUID: 21cd28bc08e94f828604d341d1fd8597-20200529
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B7476E1A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 17:05:15 +0000 (UTC)
+X-UUID: 292e1fd87dec4704a1204d43386f66b4-20200529
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=rIPq/TQMxIdoMnoMPlQi3c8FcKYOGsapwaO1S3xYcgE=; 
- b=eE3eoVa+AN3mHaklgWmRtF/l4eieYvHCflSeNJQEj2GTpacZiPTFJApTqaJB9lvNSjhg/woAssfA5SbCvOCDV1cJlX6qEOzC5B380NS+OInt6VomLnsSFjLu2/4EqVSO2bUDPXL7hJ0GWLpLh9+rl5EQckeNX+hRPs4R/saXyqE=;
-X-UUID: 21cd28bc08e94f828604d341d1fd8597-20200529
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw01.mediatek.com (envelope-from <dennis-yc.hsieh@mediatek.com>)
+ bh=D+dXiJm3APaX+tyDPhHiGjNPGNdy177jnTfCoMxdsUw=; 
+ b=Lq0CgPByFfW5Typs9hswM3N6rE9eK5Snih8E9g4jpe+JdtGlTzhLBGjYM4APwtKzr9/g86CXb+NV7ShsDyHl5UrgMbgHpcbc62wGnTUZ4sx+JAUhj0/fukylbZz5KArZxR3ZKD0WewuiZh12PrWhYwiRzDm3QAgURdDqaWzh2dA=;
+X-UUID: 292e1fd87dec4704a1204d43386f66b4-20200529
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <dennis-yc.hsieh@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 549696073; Fri, 29 May 2020 01:05:11 +0800
+ with ESMTP id 1406105919; Fri, 29 May 2020 01:05:11 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Fri, 29 May 2020 01:05:08 +0800
 Received: from mtkswgap22.mediatek.inc (172.21.77.33) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Fri, 29 May 2020 01:05:07 +0800
+ Frontend Transport; Fri, 29 May 2020 01:05:08 +0800
 From: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Matthias Brugger <matthias.bgg@gmail.com>, Jassi Brar
  <jassisinghbrar@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
  Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 03/16] mailbox: cmdq: support mt6779 gce platform definition
-Date: Fri, 29 May 2020 01:04:39 +0800
-Message-ID: <1590685491-17107-5-git-send-email-dennis-yc.hsieh@mediatek.com>
+Subject: [PATCH v6 04/16] mailbox: mediatek: cmdq: clear task in channel
+ before shutdown
+Date: Fri, 29 May 2020 01:04:40 +0800
+Message-ID: <1590685491-17107-6-git-send-email-dennis-yc.hsieh@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1590685491-17107-1-git-send-email-dennis-yc.hsieh@mediatek.com>
 References: <1590685491-17107-1-git-send-email-dennis-yc.hsieh@mediatek.com>
@@ -65,32 +66,71 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add gce v4 hardware support with different thread number and shift.
+Do success callback in channel when shutdown. For those task not finish,
+callback with error code thus client has chance to cleanup or reset.
 
 Signed-off-by: Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/mailbox/mtk-cmdq-mailbox.c | 38 ++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index 4dbee9258127..9994ac9426d6 100644
+index 9994ac9426d6..b56d340c8982 100644
 --- a/drivers/mailbox/mtk-cmdq-mailbox.c
 +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -572,10 +572,12 @@ static const struct dev_pm_ops cmdq_pm_ops = {
+@@ -387,6 +387,12 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
  
- static const struct gce_plat gce_plat_v2 = {.thread_nr = 16};
- static const struct gce_plat gce_plat_v3 = {.thread_nr = 24};
-+static const struct gce_plat gce_plat_v4 = {.thread_nr = 24, .shift = 3};
+ 	if (list_empty(&thread->task_busy_list)) {
+ 		WARN_ON(clk_enable(cmdq->clock) < 0);
++		/*
++		 * The thread reset will clear thread related register to 0,
++		 * including pc, end, priority, irq, suspend and enable. Thus
++		 * set CMDQ_THR_ENABLED to CMDQ_THR_ENABLE_TASK will enable
++		 * thread and make it running.
++		 */
+ 		WARN_ON(cmdq_thread_reset(cmdq, thread) < 0);
  
- static const struct of_device_id cmdq_of_ids[] = {
- 	{.compatible = "mediatek,mt8173-gce", .data = (void *)&gce_plat_v2},
- 	{.compatible = "mediatek,mt8183-gce", .data = (void *)&gce_plat_v3},
-+	{.compatible = "mediatek,mt6779-gce", .data = (void *)&gce_plat_v4},
- 	{}
- };
+ 		writel(task->pa_base >> cmdq->shift_pa,
+@@ -450,6 +456,38 @@ static int cmdq_mbox_startup(struct mbox_chan *chan)
  
+ static void cmdq_mbox_shutdown(struct mbox_chan *chan)
+ {
++	struct cmdq_thread *thread = (struct cmdq_thread *)chan->con_priv;
++	struct cmdq *cmdq = dev_get_drvdata(chan->mbox->dev);
++	struct cmdq_task *task, *tmp;
++	unsigned long flags;
++
++	spin_lock_irqsave(&thread->chan->lock, flags);
++	if (list_empty(&thread->task_busy_list))
++		goto done;
++
++	WARN_ON(cmdq_thread_suspend(cmdq, thread) < 0);
++
++	/* make sure executed tasks have success callback */
++	cmdq_thread_irq_handler(cmdq, thread);
++	if (list_empty(&thread->task_busy_list))
++		goto done;
++
++	list_for_each_entry_safe(task, tmp, &thread->task_busy_list,
++				 list_entry) {
++		cmdq_task_exec_done(task, CMDQ_CB_ERROR);
++		kfree(task);
++	}
++
++	cmdq_thread_disable(cmdq, thread);
++	clk_disable(cmdq->clock);
++done:
++	/*
++	 * The thread->task_busy_list empty means thread already disable. The
++	 * cmdq_mbox_send_data() always reset thread which clear disable and
++	 * suspend statue when first pkt send to channel, so there is no need
++	 * to do any operation here, only unlock and leave.
++	 */
++	spin_unlock_irqrestore(&thread->chan->lock, flags);
+ }
+ 
+ static const struct mbox_chan_ops cmdq_mbox_chan_ops = {
 -- 
 2.18.0
 _______________________________________________
