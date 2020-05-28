@@ -1,34 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5BB1E6418
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 16:38:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBEF1E642A
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 16:40:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B942C6E580;
-	Thu, 28 May 2020 14:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4128D6E588;
+	Thu, 28 May 2020 14:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE6686E580
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 14:38:42 +0000 (UTC)
-Date: Thu, 28 May 2020 14:38:36 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1590676720;
- bh=6nX+3Kc+Y9sYwyBybvlXzoRRG7Tr/+XUylJzEN8KV/k=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=jugfI4VY9MZwBgqBNsPoEiqAK/xvojPwWL872vk083rEguvtdSCLEGDI6qrlncWTC
- /5al/p1lOydquRRsw3dal6VeTxTBcI003IxB4/7aIfe5T9u71hv32YMDl55GzdHYX2
- cr24adi+kXBV135O/CEevBCXHqDPJOOubgSW9tkI=
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-Message-ID: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 241366E584;
+ Thu, 28 May 2020 14:40:19 +0000 (UTC)
+IronPort-SDR: 71skjs7t0xKwX8tpnvDMxq7l8XDg2RJYJTWnXp4lsT+TW5ulPACW6YvGjb7Eq6uuf2ou9to8DM
+ 1ivup0vBDP9w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2020 07:40:18 -0700
+IronPort-SDR: btbwKYi2CTmKiySvF9jhms0TA7uJyGwg4z+fW4FpnvCbI6Eu5iSdkLS0y6iHh8F5nrQgGR78F9
+ zxBH1ICa0kSg==
+X-IronPort-AV: E=Sophos;i="5.73,445,1583222400"; d="scan'208";a="442970603"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.251.87.93])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2020 07:40:14 -0700
+Date: Thu, 28 May 2020 17:40:12 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <20200528144012.GA141827@jlahtine-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,56 +45,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgaGF2ZSBzdWdnZXN0aW9ucyB0byBiYWtlIHBpdGNoIGFsaWdubWVudCwgYWRkcmVzcyBh
-bGlnbmVtZW50LApjb250aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBW
-UkFNLCBHVFQvQkFSLCBldGMpCmNvbnN0cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUg
-dGhpcyB3YXMgYnJvdWdodCB1cCBpdCBzZWVtZWQKbGlrZSB0aGUgY29uc2Vuc3VzIHdhcyB0byBu
-b3QgYWxsb3cgdGhpcy4gRG9jdW1lbnQgdGhpcyBpbiBkcm1fZm91cmNjLmguCgpUaGVyZSBhcmUg
-c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgoKLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
-YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQogIHNlYXJjaCBzcGFjZSBw
-cmV0dHkgcXVpY2tseSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KLSBNb2Rp
-ZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2FuIG9ubHkgaGF2ZSBhIHNp
-bmdsZQogIG1vZGlmaWVyLgotIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJz
-ZSBtb2RpZmllcnMuCgp2MjogYWRkIHBhcmFncmFwaCBhYm91dCBhbGlhc2VzIChEYW5pZWwpCgp2
-MzogZml4IHVucmVsYXRlZCBjaGFuZ2VzIHNlbnQgd2l0aCB0aGUgcGF0Y2gKClNpZ25lZC1vZmYt
-Ynk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KUmV2aWV3ZWQtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBEYW5pZWwgU3RvbmUgPGRhbmllbEBm
-b29pc2hiYXIub3JnPgpDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVu
-Lm5sPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPgpDYzogTWFyZWsgT2zFocOh
-ayA8bWFyYWVvQGdtYWlsLmNvbT4KLS0tCiBpbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCB8
-IDE1ICsrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKykKCmRp
-ZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2luY2x1ZGUvdWFwaS9k
-cm0vZHJtX2ZvdXJjYy5oCmluZGV4IDQ5MDE0MzUwMGE1MC4uZjQxZmNiMWVkNjNkIDEwMDY0NAot
-LS0gYS9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaAorKysgYi9pbmNsdWRlL3VhcGkvZHJt
-L2RybV9mb3VyY2MuaApAQCAtNTgsNiArNTgsMjEgQEAgZXh0ZXJuICJDIiB7CiAgKiBtYXkgcHJl
-c2VydmUgbWVhbmluZyAtIHN1Y2ggYXMgbnVtYmVyIG9mIHBsYW5lcyAtIGZyb20gdGhlIGZvdXJj
-YyBjb2RlLAogICogd2hlcmVhcyBvdGhlcnMgbWF5IG5vdC4KICAqCisgKiBNb2RpZmllcnMgbXVz
-dCB1bmlxdWVseSBlbmNvZGUgYnVmZmVyIGxheW91dC4gSW4gb3RoZXIgd29yZHMsIGEgYnVmZmVy
-IG11c3QKKyAqIG1hdGNoIG9ubHkgYSBzaW5nbGUgbW9kaWZpZXIuIEEgbW9kaWZpZXIgbXVzdCBu
-b3QgYmUgYSBzdWJzZXQgb2YgbGF5b3V0cyBvZgorICogYW5vdGhlciBtb2RpZmllci4gRm9yIGlu
-c3RhbmNlLCBpdCdzIGluY29ycmVjdCB0byBlbmNvZGUgcGl0Y2ggYWxpZ25tZW50IGluCisgKiBh
-IG1vZGlmaWVyOiBhIGJ1ZmZlciBtYXkgbWF0Y2ggYSA2NC1waXhlbCBhbGlnbmVkIG1vZGlmaWVy
-IGFuZCBhIDMyLXBpeGVsCisgKiBhbGlnbmVkIG1vZGlmaWVyLiBUaGF0IHNhaWQsIG1vZGlmaWVy
-cyBjYW4gaGF2ZSBpbXBsaWNpdCBtaW5pbWFsCisgKiByZXF1aXJlbWVudHMuCisgKgorICogRm9y
-IG1vZGlmaWVycyB3aGVyZSB0aGUgY29tYmluYXRpb24gb2YgZm91cmNjIGNvZGUgYW5kIG1vZGlm
-aWVyIGNhbiBhbGlhcywKKyAqIGEgY2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBh
-bmQgdXNlZCBieSBhbGwgZHJpdmVycy4gQW4gZXhhbXBsZQorICogaXMgQUZCQywgd2hlcmUgYm90
-aCBBUkdCIGFuZCBBQkdSIGhhdmUgdGhlIGV4YWN0IHNhbWUgY29tcHJlc3NlZCBsYXlvdXQuCisg
-KgorICogVXNlcnMgc2VlIG1vZGlmaWVycyBhcyBvcGFxdWUgdG9rZW5zIHRoZXkgY2FuIGNoZWNr
-IGZvciBlcXVhbGl0eSBhbmQKKyAqIGludGVyc2VjdC4gVXNlcnMgbXVzbid0IG5lZWQgdG8ga25v
-dyB0byByZWFzb24gYWJvdXQgdGhlIG1vZGlmaWVyIHZhbHVlCisgKiAoaS5lLiB1c2VycyBhcmUg
-bm90IGV4cGVjdGVkIHRvIGV4dHJhY3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllciku
-CisgKgogICogVmVuZG9ycyBzaG91bGQgZG9jdW1lbnQgdGhlaXIgbW9kaWZpZXIgdXNhZ2UgaW4g
-YXMgbXVjaCBkZXRhaWwgYXMKICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRp
-YmlsaXR5IGFjcm9zcyBkZXZpY2VzLCBkcml2ZXJzIGFuZAogICogYXBwbGljYXRpb25zLgotLSAK
-Mi4yNi4yCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Dave & Daniel,
+
+Two bigger fixes to corner case kernel access faults
+and three workload scheduling fixups this week.
+
+CI_DINF_191 at:
+https://intel-gfx-ci.01.org/tree/drm-intel-next-fixes/combined-alt.html?
+
+I got gvt-next-fixes pull today, I'll pull it next week so it
+has time to run through CI.
+
+PS. Update on igt@i915_selftest@live@gt_pm is that subtest was
+updated and the added part is failing for now. The granularity
+of the kernel selftests is short one level from normal IGT due
+to nature of how they integrate to CI.
+
+Regards, Joonas
+
+***
+
+drm-intel-next-fixes-2020-05-28:
+
+One empty list iteration bug (Cc: stable), One use after free fix
+and three workload scheduling fixups.
+
+The following changes since commit d96536f0fe699729a0974eb5b65eb0d87cc747e1:
+
+  drm/i915: Fix AUX power domain toggling across TypeC mode resets (2020-05-19 17:54:07 +0300)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2020-05-28
+
+for you to fetch changes up to 757a9395f33c51c4e6eff2c7c0fbd50226a58224:
+
+  drm/i915/gem: Avoid iterating an empty list (2020-05-25 15:40:43 +0300)
+
+----------------------------------------------------------------
+One empty list iteration bug (Cc: stable), One use after free fix
+and three workload scheduling fixups.
+
+----------------------------------------------------------------
+Chris Wilson (5):
+      drm/i915: Don't set queue-priority hint when supressing the reschedule
+      drm/i915/gt: Remove errant assertion in __intel_context_do_pin
+      drm/i915: Disable semaphore inter-engine sync without timeslicing
+      drm/i915: Avoid using rq->engine after free during i915_fence_release
+      drm/i915/gem: Avoid iterating an empty list
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c |  4 ++--
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c   | 15 ++++++++-----
+ drivers/gpu/drm/i915/gt/intel_context.c     |  2 --
+ drivers/gpu/drm/i915/i915_request.c         | 35 +++++++++++++++++++++++++++--
+ drivers/gpu/drm/i915/i915_scheduler.c       | 16 ++++++-------
+ 5 files changed, 52 insertions(+), 20 deletions(-)
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
