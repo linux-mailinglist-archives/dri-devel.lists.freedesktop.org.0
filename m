@@ -2,89 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DC91E69BD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 20:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859791E69C7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 20:52:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DABA66E1F5;
-	Thu, 28 May 2020 18:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 463AB6E5C0;
+	Thu, 28 May 2020 18:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2083.outbound.protection.outlook.com [40.107.92.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8263D6E1F5
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 18:49:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c+sA2ODekeJY7Gs5Svnbe3qRT6D2w8lydihQfiTGuKjz49AHpivK9TRhI/+kmM41Tlt+85QORYv05+EJfYFgjn5ix2le573B9VDhs8GHq7DvVoFaHNiR199Yjiyuw+FaUHdj4f+x+PMI3FTbWc6Rg96o0byJouw2rELnV1hZ6YSynguWoV6VfjS1owC1gkUp723iGdyLs4WmwJnyOyqOlkmoI/DFDQNNXmSngX7ubYjTt9r2d1fcnRV5/gnywrDZxU3njzTHl89yo7F4QWrppL6lirp6ZKuX8hRotQ6eltBpBN6HC/tXPQph7Ixq9ZIt7TjdH2Y2iS/oxqILWmxQJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D7ttkiiQSZhlE7J3+OHm70DQrIQymcYdsGOtXNVilrg=;
- b=R0+j7SGwV0xkYetfD5TvWzXi+bZULpRl1KynqvhNNXLdDFRl67eLMwC2/GCqmaDl6FgRaBPhC3gn9snyjmnte5fcCTm/cgXi3fpsl//VOwcpi+Pjr5+xzVZyKQF7PqX2r3KrvTfmPjr3TPLoqw3xWTrgK1tgO7wWsf/9pT0C1AZkGmzBG911THOcaa/QjEcqSa1sd7aqo2iXWUUzX7Vt626sMHOX+xxnG/10cPZwMYRZQc+27HmZw8aJPqSWGdB8BNAKZxT5HGDiUPzmkJX03tMxhbu6y11WJa6hYrMsGwFy2TL6pntbKJALRSKDJ59BUSXbU873XFd1ZSg3GmllcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D7ttkiiQSZhlE7J3+OHm70DQrIQymcYdsGOtXNVilrg=;
- b=os2ju4wqJ9BMy/JsnwhfoAs+r3SlOv9ZFQZ9bALTsCjs2hqlF/bYEHawbw1un9eeDax4GIAME+4D5/f0XDj84meTDFJ375cUWQ5XSOL8QK9wW1PkIVEIOyvSgSEcToqNy8P+QM0+qw/H3iG1RlUKOwG9/sfSZYge6+JwxPDH4oE=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB4201.namprd12.prod.outlook.com (2603:10b6:5:216::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Thu, 28 May
- 2020 18:49:35 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.3045.018; Thu, 28 May 2020
- 18:49:35 +0000
-Subject: Re: [PATCH] drm/mm: add ig_frag selftest
-To: Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20200528130556.53275-1-nirmoy.das@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <0a73e54e-10bd-d06b-d9a4-fcbf5b5571d6@amd.com>
-Date: Thu, 28 May 2020 20:49:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200528130556.53275-1-nirmoy.das@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM3PR03CA0067.eurprd03.prod.outlook.com
- (2603:10a6:207:5::25) To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
+ [209.85.166.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88226E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 18:52:46 +0000 (UTC)
+Received: by mail-il1-f174.google.com with SMTP id 18so1272294iln.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 11:52:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0Fz5MiaQp70eeOuFCJV3/xefSBjk2vY90EIv5bN2fzc=;
+ b=ZcNdtHwI/HJfBWMj+RflNiZzHcyIRKe1eZ6Pm7Olepxgg5ZjaBrqQMV1Upevc7/dmn
+ AsdzbQGEAmLgwglMQElRmRABG3inSI/LNM7+OQirzxcnJK05kXtm9NICida34H/aSI3C
+ peFzQmLZsBkZjO+a+UAMM2aCaNJU1c57YnKSkqNzkHMkUjj6yETdmHWMNY1XnUYdqmBn
+ jlNX2MRYAEEHkckPEQRtoJDHh8Lt4CTWWUvQVqPbUJZBl+Tz5Iu1p1UIn5TM1TNAsH//
+ MUO7tzOld8uBQl+bVfKNxRWTtBbWjYD+L3fFZnziZjfGD3+tA8ZxF17PFD5/hnpvw7sT
+ nrww==
+X-Gm-Message-State: AOAM532JOAgU4h9zEyS6ik7ySksF2owApGYXJzFsRum+8zdo/XCpMjZt
+ anPwmThpnrTLdxVvpogrDmYibNE=
+X-Google-Smtp-Source: ABdhPJyLlPhUl64Hn0pkxe+N3RGm14+0RM4I2mONub/Ar8vKVBhN64jxsXqzZ+iO5OFXRcHQPrx0xw==
+X-Received: by 2002:a92:290c:: with SMTP id l12mr3947053ilg.279.1590691965834; 
+ Thu, 28 May 2020 11:52:45 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+ by smtp.gmail.com with ESMTPSA id n12sm2713758iog.25.2020.05.28.11.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 May 2020 11:52:45 -0700 (PDT)
+Received: (nullmailer pid 494588 invoked by uid 1000);
+ Thu, 28 May 2020 18:52:44 -0000
+Date: Thu, 28 May 2020 12:52:44 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH] dt-bindings: display: renesas, du: Convert binding to YAML
+Message-ID: <20200528185244.GA400585@bogus>
+References: <20200515003340.18191-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM3PR03CA0067.eurprd03.prod.outlook.com (2603:10a6:207:5::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.19 via Frontend Transport; Thu, 28 May 2020 18:49:34 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9091fdeb-67aa-4490-d544-08d80337ddd0
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4201:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4201EE21A55A9ADDA1197AC3838E0@DM6PR12MB4201.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
-X-Forefront-PRVS: 0417A3FFD2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z/NCG7d/6T9DVt8utooeAFadH5kvMxei72sw56avc17fOJKSYoxqwoYM/8LvbGQ7CH5xQqOSGoXXcCo1wQMG06KSvwXN7/5IG5tyL89N4cfkWYMNb8cr0W/7LifVQ8mzHE9teCPWpTP2T4jWCs2x76SAM0rBNNGf3TXhALaXjrcrvt+E0TBsfzX48iGFEt6qarVKU23BexCDvhznH8tnXFBc7Q7gngDqfcVxPQzYt+PoSlUKu48gyClY0y3xNQl7/eaXUWlmCks2rKU54zgbatoF46a7EkFFc/hG5GZCsAEdORxznL/VrMjQ5Lbzgx0uXtOBZaiawtsyWuWgOHsGO3OvOFSHCRQVMqOCPA93bog0Vxv+PCcQD4WJ7/msTQla
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(2616005)(16526019)(8676002)(8936002)(6666004)(6486002)(86362001)(31696002)(66946007)(66556008)(66476007)(31686004)(2906002)(5660300002)(36756003)(478600001)(316002)(52116002)(186003)(4326008)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 93zwmJmYfIYxtQsmeNhmLGUlhO8mXUxArgLkdaGUR1aUJujMr+08mKy5178MOZyt+QnkLw3F3Ui9/M/7+Y+edD+kqHldkm+YaWGnFjwPYCLG5og0CnOanbcsI5pjb4zupoAPc7o0eXibTEdTuON5/NXBoPo5nWikpBtzB2cTasySTFKI8z9/F9kh+OJ7nJeNoaVGTx1YSnM9S6QSD7So1O5OcfXKDKdTFAFOFHV1z/L5eRYFiaccN52Yu9hvsOIFpnQ/3ZE9PR1HaYuo60tRK1Tp4qPeQqc9eiDcZej6wGenoaiUcXVwnBVtLlLHQBRNhQ+Ljbuz2bdKKBd7Fzebmas3ucdlgguqw1URBENZSRBSilZ3hQOz68rAmKCqrcqiut3BZREvCgzxQ86jmS0+s1fKdhwbAEQlAsv4HeZwqmj+rP0dK50Xnr9SPfGU4F+KmG/iph0uBSLdr+4ZiiSf/RIZxDZdRjSlLCh/w7GJOtIlnjOPc26Yyu4HIzF7VCqejSRV/pcPBM6Mv4B3a531f2rFofLPJVmEXzMK4lFXeUm4E+OeDSOrn/55IU3Wv4gD
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9091fdeb-67aa-4490-d544-08d80337ddd0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 18:49:35.5039 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2XT/5RoI1a+7ZVIK4HzlvXhfYvMwW8oKa5vRzhLjV4kyAKo9VvqsL8Ig5erSJhi5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4201
+Content-Disposition: inline
+In-Reply-To: <20200515003340.18191-1-laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,83 +58,970 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nirmoy Das <nirmoy.das@amd.com>, chris@chris-wilson.co.uk
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjguMDUuMjAgdW0gMTU6MDUgc2NocmllYiBOaXJtb3kgRGFzOgo+IFRoaXMgcGF0Y2ggaW50
-cm9kdWNlcyBmcmFnbWVudGF0aW9uIGluIHRoZSBhZGRyZXNzIHJhbmdlCj4gYW5kIG1lYXN1cmVz
-IHRpbWUgdGFrZW4gYnkgMTBrIGluc2VydGlvbnMgZm9yIGVhY2ggbW9kZXMuCj4KPiBpZ19mcmFn
-KCkgd2lsbCBmYWlsIGlmIG9uZSBvZiB0aGUgbW9kZSB0YWtlcyBtb3JlIHRoYW4gMSBzZWMuCj4K
-PiBPdXRwdXQ6Cj4gPHNuaXA+Cj4gWyAgIDM3LjMyNjcyM10gZHJtX21tOiBpZ3Rfc2FuaXR5Y2hl
-Y2sgLSBvayEKPiBbICAgMzcuMzI2NzI3XSBpZ3RfZGVidWcgMHgwMDAwMDAwMDAwMDAwMDAwLTB4
-MDAwMDAwMDAwMDAwMDIwMDogNTEyOiBmcmVlCj4gWyAgIDM3LjMyNjcyOF0gaWd0X2RlYnVnIDB4
-MDAwMDAwMDAwMDAwMDIwMC0weDAwMDAwMDAwMDAwMDA2MDA6IDEwMjQ6IHVzZWQKPiBbICAgMzcu
-MzI2NzI4XSBpZ3RfZGVidWcgMHgwMDAwMDAwMDAwMDAwNjAwLTB4MDAwMDAwMDAwMDAwMGEwMDog
-MTAyNDogZnJlZQo+IFsgICAzNy4zMjY3MjldIGlndF9kZWJ1ZyAweDAwMDAwMDAwMDAwMDBhMDAt
-MHgwMDAwMDAwMDAwMDAwZTAwOiAxMDI0OiB1c2VkCj4gWyAgIDM3LjMyNjczMF0gaWd0X2RlYnVn
-IDB4MDAwMDAwMDAwMDAwMGUwMC0weDAwMDAwMDAwMDAwMDEwMDA6IDUxMjogZnJlZQo+IFsgICAz
-Ny4zMjY3MzBdIGlndF9kZWJ1ZyB0b3RhbDogNDA5NiwgdXNlZCAyMDQ4IGZyZWUgMjA0OAo+IFsg
-ICA1Ni4wNDAwNjRdIGRybV9tbTogYmVzdCBmcmFnbWVudGVkIGluc2VydCB0b29rIDUwNCBtc2Vj
-cwo+IFsgICA1Ni4wODIxODRdIGRybV9tbTogYm90dG9tLXVwIGZyYWdtZW50ZWQgaW5zZXJ0IHRv
-b2sgNDAgbXNlY3MKPiBbICAgNTYuMTAyMjU1XSBkcm1fbW06IHRvcC1kb3duIGZyYWdtZW50ZWQg
-aW5zZXJ0IHRvb2sgMjAgbXNlY3MKPiBbICAgNTYuMTA3MTc3XSBkcm1fbW06IGV2aWN0IGZyYWdt
-ZW50ZWQgaW5zZXJ0IHRvb2sgNCBtc2Vjcwo+IDxzbmlwPgo+Cj4gU2lnbmVkLW9mZi1ieTogTmly
-bW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPgoKT2ZmIGhhbmQgdGhhdCBsb29rcyBsaWtlIGl0
-IHNob3VsZCB3b3JrLCBidXQgSSdtIHJlYWxseSBub3QgYW4gZXhwZXJ0IApmb3IgdGhlIGRybV9t
-bSBjb2RlLgoKRmVlbCBmcmVlIHRvIGFkZCBhbiBBY2tlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyAK
-PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4sIGJ1dCBJIHdvdWxkIGNvbnNpZGVyIGRvaW5nIHdo
-YXQgQ2hyaXMgc2FpZCAKYXMgd2VsbC4KCkNocmlzdGlhbi4KCj4gLS0tCj4gICBkcml2ZXJzL2dw
-dS9kcm0vc2VsZnRlc3RzL2RybV9tbV9zZWxmdGVzdHMuaCB8ICAxICsKPiAgIGRyaXZlcnMvZ3B1
-L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fbW0uYyAgICAgIHwgNTkgKysrKysrKysrKysrKysrKysr
-KysKPiAgIDIgZmlsZXMgY2hhbmdlZCwgNjAgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvZHJtX21tX3NlbGZ0ZXN0cy5oIGIvZHJpdmVycy9n
-cHUvZHJtL3NlbGZ0ZXN0cy9kcm1fbW1fc2VsZnRlc3RzLmgKPiBpbmRleCA2Yjk0M2VhMWM1N2Qu
-LjhjODdjOTY0MTc2YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL2Ry
-bV9tbV9zZWxmdGVzdHMuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvZHJtX21t
-X3NlbGZ0ZXN0cy5oCj4gQEAgLTE0LDYgKzE0LDcgQEAgc2VsZnRlc3QoaW5zZXJ0LCBpZ3RfaW5z
-ZXJ0KQo+ICAgc2VsZnRlc3QocmVwbGFjZSwgaWd0X3JlcGxhY2UpCj4gICBzZWxmdGVzdChpbnNl
-cnRfcmFuZ2UsIGlndF9pbnNlcnRfcmFuZ2UpCj4gICBzZWxmdGVzdChhbGlnbiwgaWd0X2FsaWdu
-KQo+ICtzZWxmdGVzdChmcmFnLCBpZ3RfZnJhZykKPiAgIHNlbGZ0ZXN0KGFsaWduMzIsIGlndF9h
-bGlnbjMyKQo+ICAgc2VsZnRlc3QoYWxpZ242NCwgaWd0X2FsaWduNjQpCj4gICBzZWxmdGVzdChl
-dmljdCwgaWd0X2V2aWN0KQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3Rz
-L3Rlc3QtZHJtX21tLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMK
-PiBpbmRleCA5YWFiZTgyZGNkM2EuLjRjMDhjYTg2YmI4NiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-c2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPiBAQCAtMTAzMyw2ICsxMDMzLDY1IEBAIHN0YXRpYyBp
-bnQgaWd0X2luc2VydF9yYW5nZSh2b2lkICppZ25vcmVkKQo+ICAgCXJldHVybiAwOwo+ICAgfQo+
-ICAgCj4gK3N0YXRpYyBpbnQgaWd0X2ZyYWcodm9pZCAqaWdub3JlZCkKPiArewo+ICsJY29uc3Qg
-c3RydWN0IGluc2VydF9tb2RlICptb2RlOwo+ICsJc3RydWN0IGRybV9tbSBtbTsKPiArCXN0cnVj
-dCBkcm1fbW1fbm9kZSAqbm9kZXMsICpub2RlLCAqbmV4dDsKPiArCXVuc2lnbmVkIGludCBzaXpl
-ID0gNDA5NiwgYWxpZ24gPSA4MTkyOwo+ICsJdW5zaWduZWQgbG9uZyBzdGFydCwgdGltZW91dCA9
-IDEwMDA7Cj4gKwljb25zdCB1bnNpZ25lZCBpbnQgbWF4X2NvdW50ID0gMTAwMDA7Cj4gKwl1bnNp
-Z25lZCBpbnQgaTsKPiArCWludCByZXQgPSAtRUlOVkFMOwo+ICsKPiArCS8qIEZvciBlYWNoIG9m
-IHRoZSBwb3NzaWJsZSBpbnNlcnRpb24gbW9kZXMsIHdlIHBhc3MgYW4gc2l6ZSwgYWxpZ25tZW50
-Cj4gKwkgKiB2YWx1ZSB0aGF0IGlzIGtub3duIHRvIGludHJvZHVjZSBmcmFnbWVudGF0aW9uIGFu
-ZCBjaGVjayB0aGF0IGl0Cj4gKwkgKiBkb2Vzbid0IHRha2UgbW9yZSB0aGFuIDEgc2VjLgo+ICsJ
-ICovCj4gKwo+ICsJbm9kZXMgPSB2emFsbG9jKGFycmF5X3NpemUobWF4X2NvdW50LCBzaXplb2Yo
-Km5vZGVzKSkpOwo+ICsJaWYgKCFub2RlcykKPiArCQlnb3RvIGVycjsKPiArCj4gKwlkcm1fbW1f
-aW5pdCgmbW0sIDEsIFU2NF9NQVggLSAyKTsKPiArCj4gKwlmb3IgKG1vZGUgPSBpbnNlcnRfbW9k
-ZXM7IG1vZGUtPm5hbWU7IG1vZGUrKykgewo+ICsJCXN0YXJ0ID0gamlmZmllczsKPiArCj4gKwkJ
-Zm9yIChpID0gMDsgaSA8IG1heF9jb3VudDsgaSsrKSB7Cj4gKwkJCWlmIChqaWZmaWVzX3RvX21z
-ZWNzKGppZmZpZXMgLSBzdGFydCkgPj0gdGltZW91dCkgewo+ICsJCQkJcHJfZXJyKCIlcyBmcmFn
-bWVudGVkIGluc2VydCB0b29rIG1vcmUgdGhhbiAlbHUgbXNlY3NcbiIsCj4gKwkJCQkgICAgICAg
-bW9kZS0+bmFtZSwgdGltZW91dCk7Cj4gKwkJCQlnb3RvIG91dDsKPiArCQkJfQo+ICsKPiArCQkJ
-aWYgKCFleHBlY3RfaW5zZXJ0KCZtbSwgJm5vZGVzW2ldLAo+ICsJCQkJCSAgIHNpemUsIGFsaWdu
-LCBpLCBtb2RlKSkgewo+ICsJCQkJcHJfZXJyKCIlcyBpbnNlcnQgZmFpbGVkIHdpdGggYWxpZ25t
-ZW50PSVkIiwKPiArCQkJCSAgICAgICBtb2RlLT5uYW1lLCBhbGlnbik7Cj4gKwkJCQlnb3RvIG91
-dDsKPiArCQkJfQo+ICsJCX0KPiArCj4gKwkJcHJfaW5mbygiJXMgZnJhZ21lbnRlZCBpbnNlcnQg
-dG9vayAlZCBtc2Vjc1xuIiwKPiArCQkJbW9kZS0+bmFtZSwgamlmZmllc190b19tc2VjcyhqaWZm
-aWVzIC0gc3RhcnQpKTsKPiArCQlkcm1fbW1fZm9yX2VhY2hfbm9kZV9zYWZlKG5vZGUsIG5leHQs
-ICZtbSkKPiArCQkJZHJtX21tX3JlbW92ZV9ub2RlKG5vZGUpOwo+ICsJCURSTV9NTV9CVUdfT04o
-IWRybV9tbV9jbGVhbigmbW0pKTsKPiArCj4gKwkJY29uZF9yZXNjaGVkKCk7Cj4gKwl9Cj4gKwo+
-ICsJcmV0ID0gMDsKPiArb3V0Ogo+ICsJZHJtX21tX2Zvcl9lYWNoX25vZGVfc2FmZShub2RlLCBu
-ZXh0LCAmbW0pCj4gKwkJZHJtX21tX3JlbW92ZV9ub2RlKG5vZGUpOwo+ICsJZHJtX21tX3Rha2Vk
-b3duKCZtbSk7Cj4gKwl2ZnJlZShub2Rlcyk7Cj4gK2VycjoKPiArCXJldHVybiByZXQ7Cj4gK30K
-PiArCj4gICBzdGF0aWMgaW50IGlndF9hbGlnbih2b2lkICppZ25vcmVkKQo+ICAgewo+ICAgCWNv
-bnN0IHN0cnVjdCBpbnNlcnRfbW9kZSAqbW9kZTsKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, May 15, 2020 at 03:33:40AM +0300, Laurent Pinchart wrote:
+> Convert the Renesas R-Car DU text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../bindings/display/renesas,du.txt           | 139 ---
+>  .../bindings/display/renesas,du.yaml          | 915 ++++++++++++++++++
+
+A 'normal' conversion is about double the lines. I guess this is a sign 
+that the original was not well specified.
+
+Maybe this can be split to reduce some of the if/then? One way is define 
+a common 'include' file that each specific instance can reference
+
+[...]
+
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> new file mode 100644
+> index 000000000000..ca48065afe1f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -0,0 +1,915 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/renesas,du.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car Display Unit (DU)
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  These DT bindings describe the Display Unit embedded in the Renesas R-Car
+> +  Gen1, R-Car Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,du-r8a7743 # for RZ/G1M compatible DU
+> +      - renesas,du-r8a7744 # for RZ/G1N compatible DU
+> +      - renesas,du-r8a7745 # for RZ/G1E compatible DU
+> +      - renesas,du-r8a77470 # for RZ/G1C compatible DU
+> +      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
+> +      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
+> +      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
+> +      - renesas,du-r8a7779 # for R-Car H1 compatible DU
+> +      - renesas,du-r8a7790 # for R-Car H2 compatible DU
+> +      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
+> +      - renesas,du-r8a7792 # for R-Car V2H compatible DU
+> +      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
+> +      - renesas,du-r8a7794 # for R-Car E2 compatible DU
+> +      - renesas,du-r8a7795 # for R-Car H3 compatible DU
+> +      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
+> +      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
+> +      - renesas,du-r8a77970 # for R-Car V3M compatible DU
+> +      - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> +      - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> +      - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  # See compatible-specific constraints below.
+> +  clocks: true
+> +  clock-names: true
+> +  interrupts: true
+> +  resets: true
+> +  reset-names: true
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      The connections to the DU output video ports are modeled using the OF
+> +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> +      The number of ports and their assignment are model-dependent. Each port
+> +      shall have a single endpoint.
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^port@[0-3]$":
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              remote-endpoint:
+> +                $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +        additionalProperties: false
+
+You can drop this and assume there's a generic check for this. Though I 
+guess this does ensure only 'remote-endpoint' is present which a generic 
+schema couldn't do.
+
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +    additionalProperties: false
+> +
+> +  renesas,cmms:
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +    description:
+> +      A list of phandles to the CMM instances present in the SoC, one for each
+> +      available DU channel.
+> +
+> +  renesas,vsps:
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +    description:
+> +      A list of phandle and channel index tuples to the VSPs that handle the
+> +      memory interfaces for the DU channels. The phandle identifies the VSP
+> +      instance that serves the DU channel, and the channel index identifies
+> +      the LIF instance in that VSP.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - interrupts
+> +  - resets
+> +  - ports
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,du-r8a7779
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 3
+> +          items:
+> +            - description: Functional clock
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 1
+> +          maxItems: 3
+> +          items:
+> +            - const: du.0
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+
+Here and elsewhere:
+
+- pattern: "^dclkin\.[01]$"
+
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 1
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: DPAD 1
+> +            # port@2 is TCON, not supported yet
+
+Does that matter?
+
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +      required:
+> +        - interrupts
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a7743
+> +              - renesas,du-r8a7744
+> +              - renesas,du-r8a7791
+> +              - renesas,du-r8a7793
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: LVDS 0
+> +            # port@2 is TCON, not supported yet
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a7745
+> +              - renesas,du-r8a7792
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: DPAD 1
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a7794
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: DPAD 1
+> +            # port@2 is TCON, not supported yet
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a77470
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: DPAD 1
+> +            port@2:
+> +              description: LVDS 0
+> +            # port@3 is DVENC, not supported yet
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a7790
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: Functional clock for DU2
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +            - description: DU_DOTCLKIN2 input clock
+> +
+> +        clock-names:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - const: du.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +
+> +        interrupts:
+> +          maxItems: 3
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: LVDS 0
+> +            port@2:
+> +              description: LVDS 1
+> +            # port@3 is TCON, not supported yet
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a7795
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 4
+> +          maxItems: 8
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: Functional clock for DU2
+> +            - description: Functional clock for DU4
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +            - description: DU_DOTCLKIN2 input clock
+> +            - description: DU_DOTCLKIN3 input clock
+> +
+> +        clock-names:
+> +          minItems: 4
+> +          maxItems: 8
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - const: du.2
+> +            - const: du.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +              - dclkin.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +              - dclkin.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +              - dclkin.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +              - dclkin.3
+> +
+> +        interrupts:
+> +          maxItems: 4
+> +
+> +        resets:
+> +          maxItems: 2
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +            - const: du.2
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: HDMI 0
+> +            port@2:
+> +              description: HDMI 1
+> +            port@3:
+> +              description: LVDS 0
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +            - port@3
+> +
+> +        renesas,cmms:
+> +          minItems: 4
+> +
+> +        renesas,vsps:
+> +          minItems: 4
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a774a1
+> +              - renesas,du-r8a7796
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: Functional clock for DU2
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +            - description: DU_DOTCLKIN2 input clock
+> +
+> +        clock-names:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - const: du.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.2
+> +
+> +        interrupts:
+> +          maxItems: 3
+> +
+> +        resets:
+> +          maxItems: 2
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +            - const: du.2
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: HDMI 0
+> +            port@2:
+> +              description: LVDS 0
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +        renesas,cmms:
+> +          minItems: 3
+> +
+> +        renesas,vsps:
+> +          minItems: 3
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a774b1
+> +              - renesas,du-r8a77965
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: Functional clock for DU3
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +            - description: DU_DOTCLKIN3 input clock
+> +
+> +        clock-names:
+> +          minItems: 3
+> +          maxItems: 6
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - const: du.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.3
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +              - dclkin.3
+> +
+> +        interrupts:
+> +          maxItems: 3
+> +
+> +        resets:
+> +          maxItems: 2
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +            - const: du.3
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: HDMI 0
+> +            port@2:
+> +              description: LVDS 0
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +        renesas,cmms:
+> +          minItems: 3
+> +
+> +        renesas,vsps:
+> +          minItems: 3
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a77970
+> +              - renesas,du-r8a77980
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 2
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: DU_DOTCLKIN0 input clock
+> +
+> +        clock-names:
+> +          minItems: 1
+> +          maxItems: 2
+> +          items:
+> +            - const: du.0
+> +            - const: dclkin.0
+> +
+> +        interrupts:
+> +          maxItems: 1
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: LVDS 0
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +        renesas,vsps:
+> +          minItems: 1
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a774c0
+> +              - renesas,du-r8a77990
+> +              - renesas,du-r8a77995
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - description: Functional clock for DU0
+> +            - description: Functional clock for DU1
+> +            - description: DU_DOTCLKIN0 input clock
+> +            - description: DU_DOTCLKIN1 input clock
+> +
+> +        clock-names:
+> +          minItems: 2
+> +          maxItems: 4
+> +          items:
+> +            - const: du.0
+> +            - const: du.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +            - enum:
+> +              - dclkin.0
+> +              - dclkin.1
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DPAD 0
+> +            port@1:
+> +              description: LVDS 0
+> +            port@2:
+> +              description: LVDS 1
+> +            # port@3 is TCON, not supported yet
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +        renesas,cmms:
+> +          minItems: 2
+> +
+> +        renesas,vsps:
+> +          minItems: 2
+> +
+> +      required:
+> +        - clock-names
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # R-Car H3 ES2.0 DU
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    display@feb00000 {
+> +        compatible = "renesas,du-r8a7795";
+> +        reg = <0xfeb00000 0x80000>;
+> +        interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&cpg CPG_MOD 724>,
+> +                 <&cpg CPG_MOD 723>,
+> +                 <&cpg CPG_MOD 722>,
+> +                 <&cpg CPG_MOD 721>;
+> +        clock-names = "du.0", "du.1", "du.2", "du.3";
+> +        resets = <&cpg 724>, <&cpg 722>;
+> +        reset-names = "du.0", "du.2";
+> +
+> +        renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+> +        renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                endpoint {
+> +                    remote-endpoint = <&adv7123_in>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                    remote-endpoint = <&dw_hdmi0_in>;
+> +                };
+> +            };
+> +            port@2 {
+> +                reg = <2>;
+> +                endpoint {
+> +                    remote-endpoint = <&dw_hdmi1_in>;
+> +                };
+> +            };
+> +            port@3 {
+> +                reg = <3>;
+> +                endpoint {
+> +                    remote-endpoint = <&lvds0_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
