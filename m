@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C0F1E6086
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B871E60CB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEC4899B7;
-	Thu, 28 May 2020 12:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902F56E1F7;
+	Thu, 28 May 2020 12:28:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
  [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C18899B7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:13:14 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id z13so23393463ljn.7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:13:14 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C64F6E1F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:28:04 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id e4so10656788ljn.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=r4LHdRLCJvJwBdLw8weBqnKkfBYAQMvc7SO3ADrUECY=;
- b=Cm2ZyhWEl49lFVgLJgZJUMCul8dhP45ccvmt1Do2BLJnlbWinYYIq8ydGrzHNawceo
- eGK2ZBKNiG6ZDDB2YFokGC14z0rm0nEwiMWVYhJuTbOoP/yM1Xx1N7wN457ukRiRm1yH
- CeQXlVSlKFbQRF/CaQwVmjqteCyCnKFhhjG9y01E9R1Y0UikGZonlqirddl4yX/YH+At
- fvlqixI0XkkpDA8celZdcReoNWkH4ZORoLf8TKEzQ+18u+i+em4Of8b42iGwAVtreJLS
- nA+iHM/kMiurS6Wfg9LwvYSUB/1B+RtNr+x/b0REo3AYuUITN7Hr/uTLPnE22TfL4qs3
- 6W1Q==
+ :mime-version; bh=BNRDPGW7chSXX7qmpW2THVpzPoENAtOqOAw+aIQtBQU=;
+ b=KzeykDSGByxnWrmKyoMlb9GcVI/BTq7qTqIZbU9E0UGJCOkPMqL4bq8ojyV3PDj+k/
+ MNBnS6P6pxzjIG258o2sBQQ9OfazB6F7F267TtkOahWNsW3WIISs8hjivd462xMm4ki7
+ l6NZk1Av1l3wDrumxz/Lz1ALwFBEIYxqP0ecazcH2NypKMwiv+Guf4Xe18J6XwxkBOnE
+ IHp7sOrRfMZbesoePJ7Lu09fdUBfW2gItwJRJabcJ0ypBdaUZGawzGn7JMcFTMInmoi3
+ y6rqppETX6sDSzmm3zOXl/LSKhUGMc4UPq375bK6ClPCx8QUjoKOQuJnP5IpUjoKAFY3
+ j71A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=r4LHdRLCJvJwBdLw8weBqnKkfBYAQMvc7SO3ADrUECY=;
- b=j++af3yzM6GUl7EbVy2Rgd2FW3B+NkjE/n646XckSUep0kZfTOQfIN0qPdbihZ72xq
- 8tUsmlMsPPVvP0llVzBFMOhfKUmi5suSKjuxAMkaaOE8RFK9AN0zjRA+zqYSbUBb6ppj
- rSkxK5seEFkbxKGA/rtGY8CZSwVSUs1AOVZM4aYAE9BCHnal3vtQdv3HdJXoQpRHo0md
- Uo2X3rOvtIV7S1w3wMYtQXkdU90F/s87ztURwD3xu5WIp3+gLPLHIYmnVKDKI9FUEi68
- 7Z6i6FEVx99D6AkRtuvBz5Du8sFaiDgH8QxH3DI8ybzwJUFmf5h3tjX6v7rn+JpG9Ncr
- jxog==
-X-Gm-Message-State: AOAM532Rv3IXMlR1ZqaqMSDrTWgtSjdfBfCuWHVcqPaeC7udMSrcazOI
- wTzPm7CqhmgTZNQxtJLBcw0=
-X-Google-Smtp-Source: ABdhPJw7hMX8IhuXsVjw/Z5gjovX16xvSYAWd+lFgKqMG+dev/VKnlsvTs5SsyT//7G1cGS2eHiMcw==
-X-Received: by 2002:a2e:a58a:: with SMTP id m10mr1337191ljp.346.1590667993032; 
- Thu, 28 May 2020 05:13:13 -0700 (PDT)
+ bh=BNRDPGW7chSXX7qmpW2THVpzPoENAtOqOAw+aIQtBQU=;
+ b=GLA3z0/FB2QrD7vczyF/jYYke72xR9KeZ5BegsD6IpRtxym1+igoomA0BxP9CY5l4X
+ U0u0F2Ko7x2E+EVCybaNlnNivrd9GFJJuYowgA19KPX98y9s5hCU+7hclll1Y5mHJpZq
+ RVrUAEUSQvkpbro4DSx7AJV8g5ij4FiBymTxM9j/bjGQxpiBn3DzBye6+LsMADhwoBP0
+ GExJ4m13ud6Sny7XAz3CEDLfEZp4395WnXXuzTnn+C3IWb+t7ML2FERi2puefLnW1ctj
+ T7Bh4PiPaqYfgrnvTU2cvR6HIb7t0a7qwe/2lE1CUVbZBAmKjMda+qxmJMh4av5DlWKx
+ PlMQ==
+X-Gm-Message-State: AOAM533D53DIXRf0rRhMYdk8uSf97Q/qUpX+HUGOUv5LBhLByu+psu0/
+ dbsX9TMaETUKUjc+ZWe4MZU=
+X-Google-Smtp-Source: ABdhPJxXpsCwbPO0wWpgt0cydfGARE3JrRPPWnRltqlWHOYosvdJZjaL86Ol+ynuCR9XLDoYoqbtqw==
+X-Received: by 2002:a2e:9a0a:: with SMTP id o10mr1390260lji.359.1590668882314; 
+ Thu, 28 May 2020 05:28:02 -0700 (PDT)
 Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q26sm1407662ljc.41.2020.05.28.05.13.12
+ by smtp.gmail.com with ESMTPSA id y199sm1606727lff.6.2020.05.28.05.28.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:13:12 -0700 (PDT)
-Date: Thu, 28 May 2020 15:13:02 +0300
+ Thu, 28 May 2020 05:28:01 -0700 (PDT)
+Date: Thu, 28 May 2020 15:27:57 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: [PATCH] drm/doc: device hot-unplug for userspace
-Message-ID: <20200528151302.7f4509ae@eldfell.localdomain>
-In-Reply-To: <CAKMK7uHf11TAvunaWyH7=JdNOUO3KJ9pXOsFX0Kur1wOPVQS4w@mail.gmail.com>
+Message-ID: <20200528151402.17aaeb9d@eldfell.localdomain>
+In-Reply-To: <20200525150955.GI206103@phenom.ffwll.local>
 References: <20200519100649.12053-1-ppaalanen@gmail.com>
- <db6e57bd-a5c0-f156-93ca-80828d98064e@amd.com>
- <20200527094428.4b4a7ca6@eldfell.localdomain>
- <63d2e957-ae79-8c70-29c9-fd53a7de92cf@amd.com>
- <CAKMK7uGHrPfAeN-PVZ5ixf7hSGj-RatTebt-nR5pTsykWOMkAw@mail.gmail.com>
- <c7c207ab-97bf-d153-0cb7-9e39c51c0045@amd.com>
- <44696a76-4a33-a19f-7e11-dd431e1703e6@amd.com>
- <CAKMK7uHf11TAvunaWyH7=JdNOUO3KJ9pXOsFX0Kur1wOPVQS4w@mail.gmail.com>
+ <3b8add86-a65c-df60-4273-18be804a7174@amd.com>
+ <20200520141908.314607bc@eldfell.localdomain>
+ <20200520124617.GX206103@phenom.ffwll.local>
+ <382ab1ab-a89c-e384-3200-0cb3257c25bb@amd.com>
+ <20200525142804.GD206103@phenom.ffwll.local>
+ <20200525175519.0289a728@eldfell.localdomain>
+ <20200525150955.GI206103@phenom.ffwll.local>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,159 +72,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0107594645=="
+Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1663152541=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0107594645==
+--===============1663152541==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/c4nfd=YRzdl_ds_hVj+ODyU"; protocol="application/pgp-signature"
+ boundary="Sig_/jf3_UfxUaI9cRm7yH3FZqUS"; protocol="application/pgp-signature"
 
---Sig_/c4nfd=YRzdl_ds_hVj+ODyU
+--Sig_/jf3_UfxUaI9cRm7yH3FZqUS
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 27 May 2020 22:25:00 +0200
+On Mon, 25 May 2020 17:09:55 +0200
 Daniel Vetter <daniel@ffwll.ch> wrote:
 
-> On Wed, May 27, 2020 at 9:44 PM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 27.05.20 um 17:23 schrieb Andrey Grodzovsky: =20
-> > >
-> > > On 5/27/20 10:39 AM, Daniel Vetter wrote: =20
-> > >> On Wed, May 27, 2020 at 3:51 PM Andrey Grodzovsky
-> > >> <Andrey.Grodzovsky@amd.com> wrote: =20
-> > >>>
-> > >>> On 5/27/20 2:44 AM, Pekka Paalanen wrote: =20
-> > >>>> On Tue, 26 May 2020 10:30:20 -0400
-> > >>>> Andrey Grodzovsky <Andrey.Grodzovsky@amd.com> wrote:
-> > >>>> =20
-> > >>>>> On 5/19/20 6:06 AM, Pekka Paalanen wrote: =20
-> > >>>>>> From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > >>>>>>
-> > >>>>>> Set up the expectations on how hot-unplugging a DRM device should
-> > >>>>>> look like to
-> > >>>>>> userspace.
-> > >>>>>>
-> > >>>>>> Written by Daniel Vetter's request and largely based on his
-> > >>>>>> comments in IRC and
-> > >>>>>> from
-> > >>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
-F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2020-May%2F265484.html&a=
-mp;data=3D02%7C01%7CAndrey.Grodzovsky%40amd.com%7C3c671803b2ba41b2ceac08d80=
-24bcc9a%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637261871869742519&amp=
-;sdata=3DZnhylRubOM0%2BjoreSSYMqVDzZuUdybEsoyBVcTKgxWE%3D&amp;reserved=3D0
-> > >>>>>> .
-> > >>>>>>
-> > >>>>>> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > >>>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
-> > >>>>>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > >>>>>> Cc: Dave Airlie <airlied@redhat.com>
-> > >>>>>> Cc: Sean Paul <sean@poorly.run>
-> > >>>>>>
-> > >>>>>> ---
-> > >>>>>>
-> > >>>>>> Disclaimer: I am a userspace developer writing for other
-> > >>>>>> userspace developers.
-> > >>>>>> I took some liberties in defining what should happen without
-> > >>>>>> knowing what is
-> > >>>>>> actually possible or what existing drivers already implement.
-> > >>>>>> ---
-> > >>>>>>     Documentation/gpu/drm-uapi.rst | 75
-> > >>>>>> ++++++++++++++++++++++++++++++++++
-> > >>>>>>     1 file changed, 75 insertions(+)
+> On Mon, May 25, 2020 at 05:55:19PM +0300, Pekka Paalanen wrote:
+> > On Mon, 25 May 2020 16:28:04 +0200
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> >  =20
+> > > On Wed, May 20, 2020 at 10:50:41AM -0400, Andrey Grodzovsky wrote: =20
+> > > >=20
+> > > > On 5/20/20 8:46 AM, Daniel Vetter wrote:   =20
+> > > > > On Wed, May 20, 2020 at 02:19:08PM +0300, Pekka Paalanen wrote:  =
+ =20
+> > > > > > On Tue, 19 May 2020 10:37:12 -0400
+> > > > > > Andrey Grodzovsky <Andrey.Grodzovsky@amd.com> wrote:
+> > > > > >    =20
+> > > > > > > Thanks for the summary, does put things in order and makes it=
+ easier to
+> > > > > > > comprehend all the TODOs, some questions bellow
+> > > > > > >=20
+> > > > > > > On 5/19/20 6:06 AM, Pekka Paalanen wrote:   =20
+> > > > > > > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > > > >=20
+> > > > > > > > Set up the expectations on how hot-unplugging a DRM device =
+should look like to
+> > > > > > > > userspace.
 
 ...
 
-> > >>> Next related question is more for Daniel/Christian - about the
-> > >>> implementation of this paragraph, I was thinking about something li=
-ke
-> > >>> checking for device disconnect in ttm_bo_vm_fault_reserved and if so
-> > >>> remap the entire VA range for the VMA where the fault address
-> > >>> belongs to
-> > >>> the global zero page (i.e. (remap_pfn_range(vma, vma->vm_start,
-> > >>> page_to_pfn(ZERO_PAGE(vma->vm_start), vma->vm_end - vma->vm_start,
-> > >>> vma->vm_page_prot)). Question is, when the doc says 'writes are
-> > >>> ignored'
-> > >>> does it mean i should use copy on write for the vma->vm_page_prot
-> > >>> and if
-> > >>> so how i actually do it as i was not able to find what flags to set
-> > >>> into
-> > >>> vm_page_prot to force copy on write behavior. =20
-> > >> Already discussed this with Pekka on irc, I think simply a private
-> > >> page (per gpu ctx to avoid leaks) is good enough. Otherwise we need =
-to
-> > >> catch write faults and throw the writes away, and that's a) a bit
-> > >> tricky to implement and b) slow, which we kinda don't want to. If the
-> > >> desktop is stuck for a few seconds because we're trapping every write
-> > >> of a 4k buffer that's getting uploaded, the user is going to have a
-> > >> bad time :-/
-> > >> -Daniel =20
-> > >
-> > >
-> > > So like allocating a page per process context in the driver (struct
-> > > amdgpu_ctx in amdgpu) and mapping this page into the faulting VMAs
-> > > for when device is disconnected ? I am still not clear how i make the
-> > > mapping ignore writes without catching write faults and ignoring them.
-> > > I cannot just make it read only obviously and i can't make it writable
-> > > as then reading back will start returning non 0's. My question is what
-> > > set of flags in vm_area_struct.vm_flags can (if at all) give me
-> > > 'ignore writes' behavior for the mapping of that page. =20
-> >
-> > I'm not aware of a possibility like that on x86 CPUs. As far as I know
-> > we only have something like an ignore write functionality on our GPUs
-> > for PRTs.
-> >
-> > Could we use an address which points to a non allocated MMIO space or
-> > something like this? We would might get 0xffffffff on reads instead of
-> > 0x0, but writes would be certainly ignored. =20
+> > > > So currently drm_ioctl will just check for drm_dev_is_unplugged and=
+ return
+> > > > -ENODEV at the very beginning of the function (https://elixir.bootl=
+in.com/linux/latest/source/drivers/gpu/drm/drm_ioctl.c#L825)
+> > > > meaning that currently we blanket failure any IOCTL in case the dev=
+ice is
+> > > > unplagued (ignoring the race condition if the device unplugged afte=
+r the
+> > > > check). So do we want to remove this check and put it only for rend=
+er ioctls
+> > > > (which are those ? e.g. for amdgpu there is=C2=A0 AMDGPU_CS ioctl) =
+but not for
+> > > > mode setting/dma_buf_import/dma_buf_export ioctls ? What about othe=
+r types
+> > > > of ioctls which are non of the listed above ?   =20
+> > >=20
+> > > Hm right, and this goes back all the way to first usb udl support:
+> > >=20
+> > > commit 2c07a21d6fb0be47fda696a618b726ea258ed1dd
+> > > Author: Dave Airlie <airlied@redhat.com>
+> > > Date:   Mon Feb 20 14:18:07 2012 +0000
+> > >=20
+> > >     drm: add core support for unplugging a device (v2)
+> > >=20
+> > > So I guess we need to change the uapi docs to explain that. Not sure
+> > > everyone can cope, but I guess they better do. Since the use-case back
+> > > then was just udl, so simple legacy kms only, the damage was probably
+> > > rather limited. I'm not sure we can get away with that now, where kms=
+ code
+> > > has spread to funny places likey vulkan winsys code.
+> > >=20
+> > > Or maybe we want a file priv flag you can set along the lines of "giv=
+e me
+> > > less shitty hotunplug semantics for ioctls". Or maybe we can just cha=
+nge
+> > > the semantics, not crashing&burning shouldn't cause a regression :-)
+> > >=20
+> > > For everything else (mmap, dma-buf fd, sync_file fd, syncobj fd) I th=
+ink
+> > > the discussion is still more or less accurate.
+> > >=20
+> > > Pekka, any thoughts? =20
+> >=20
+> > Hi,
+> >=20
+> > is ENODEV unique to this particular failure? =20
 >=20
-> I think just a page with garbage in, garbage out semantics is going to
-> be ok. I think pretty much anything has a chance to upset userspace,
-> so whether it's 0 or all 1s or anything else doesn't really matter.
+> Not really sure, we'd need to audit all of drm ...
+
+$ git ngrep ENODEV -- drivers/gpu/drm | wc -l
+762
+
+Yeah, grep is not enough.
+
+> > Returning errors instead of faking success was my first idea, but you
+> > already convinced me that faking is at least as good if not better. :-)
+> >=20
+> > So as long as the error code returned is unique to hot-unplug or other
+> > "oops, the device is gone" conditions, I think I'm fine. Weston does
+> > not handle ENODEV any way, it never did, and it certainly cannot be
+> > called a kernel regression.
+> >=20
+> > As a Weston developer, I don't mind adding checks for ENODEV. But if I
+> > don't have to, even better. Weston is going to need more code to handle
+> > DRM device unplug in any case.
+> >=20
+> > Sorry, no preference from me. ;-)
+> >=20
+> > I do agree that replacing ENODEV with fake success is hard to imagine
+> > regressing anything. It's something you can do in the kernel at any
+> > time easily, but going from fake success to error is going to be
+> > painful. Maybe don't change things until there is a good reason to?
+> >=20
+> > We need a kernel that doesn't crash before we can properly test what
+> > would be best for userspace, fake or error. =20
 >=20
-> Only thing that does matter a bit is that we have a page per fd, so
-> that we don't accidentally leak something between processes where we
-> shouldn't. I think as long as we don't crash&burn in a SIGBUS it's
-> good enough.
+> One upshot of faking stuff and only bailing in low-level hw code is that
+> it makes validating the races when you hotunplug easier - if we remove the
+> early bail-out check even an ioctl later on will look like it raced with
+> the hotunplug path in the kernel. So better assurance that things won't
+> blow up badly.
+>=20
+> Otoh the early bail out in the top-level ioctl code increases the odds
+> that you'll survive even on a driver that's totally buggy.
+>=20
+> So yeah I guess maybe we should just document that currently you get an
+> -ENODEV and maybe have the option mentioned that we might change this
+> going forward. See also
+>=20
+> https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#recommended-ioctl-=
+return-values
+>=20
+> I think that needs an update, at least clarify that "not present" includes
+> "no longer present".
 
-Hi,
+So if dmabuf import related ioctl returns ENODEV, it means a Wayland
+compositor should not punish the client for giving a bad buffer.
 
-the v2 I sent on Monday already changed the wording to have undefined
-reads/writes instead of read zero / ignore write. v3 is coming.
+If a compositor uses EGL to import a dmabuf, then the EGL
+implementation will be calling dmabuf import related ioctls, does it
+not? But I'm fairly sure that EGL has no way to signal this particular
+condition to the caller uniquely. That means that either a compositor
+accepts buffers it never should have, or that it punishes clients for
+the DRM device disappearing.
+
+See the below quote for a reminder:
+
+> > > > > > > > +- dmabuf which point to memory that has disappeared are re=
+written to
+> > > > > > > > +  point to harmless zero pages, similar to mmaps. Imports =
+still succeed
+> > > > > > > > +  both ways: an existing device importing a dmabuf pointin=
+g to
+> > > > > > > > +  disappeared memory, and a disappeared device importing a=
+ny dmabuf.   =20
+> > > > > > >=20
+> > > > > > > Same as above, I would expect drmPrimeHandleToFD and drmPrime=
+FDToHandle
+> > > > > > > to return -EIO in case device is detached   =20
+> > > > > > I imagined a use case behind this: a Wayland compositor attempt=
+ing to
+> > > > > > import a client's dmabuf. The GPU the client was using is
+> > > > > > hot-unplugged, meaning the dmabufs lose their storage. It is up=
+ to the
+> > > > > > client to handle its rendering GPU disappearance on its own, bu=
+t also
+> > > > > > the compositor should not disconnect it because the GPU disappe=
+ared.
+> > > > > > It's not the client's fault the GPU disappeared.
+> > > > > >=20
+> > > > > > In Wayland, failure to use a wl_buffer is considered a protocol=
+ error,
+> > > > > > and protocol errors are always fatal: the client is disconnecte=
+d. The
+> > > > > > rationale is that the compositor must always be able to present=
+ the
+> > > > > > client buffer somehow. If the compositor cannot, then the clien=
+t did
+> > > > > > not obey the protocol.
+> > > > > >=20
+> > > > > > The fallback presentation path in a compositor is usually impor=
+ting the
+> > > > > > dmabuf to EGL, to be sampled from OpenGL. Normally the protocol
+> > > > > > guarantees that this works, so any failure to do so is a protoc=
+ol
+> > > > > > violation. But if the GPU used by the client suddenly disappear=
+s and
+> > > > > > the imports start to fail, that is interpreted as a protocol vi=
+olation
+> > > > > > unless the compositor can see why the import failed. Since the =
+import
+> > > > > > is done via EGL, getting the right error code plumbed through f=
+rom
+> > > > > > libdrm functions to the EGL caller would be a hassle. I don't s=
+ee any
+> > > > > > error code in EGL_EXT_image_dma_buf_import reserved for "the dm=
+abuf
+> > > > > > storage was hot-unplugged", and I doubt there is anything exclu=
+sively
+> > > > > > for only that in the EGL base spec either.
+> > > > > >=20
+> > > > > > The cost of lying that the import worked is that the compositor=
+ will
+> > > > > > paint black or transparent where the window was supposed to be.=
+ It's a
+> > > > > > graphical glitch that is contrary to the Wayland design princip=
+les, but
+> > > > > > in this case a glitch is unavoidable: even if the compositor kn=
+ew this
+> > > > > > buffer is now bad, what would it paint instead? It has nothing =
+else to
+> > > > > > paint from. I'm assuming the compositor is using a different GP=
+U than
+> > > > > > what disappeared.
+> > > > > >=20
+> > > > > > Ideally, the client will eventually react to losing the GPU and=
+ either
+> > > > > > crash, quit, or switch its rendering to something that works wh=
+ich
+> > > > > > simply gives the compositor a new, working buffer without losin=
+g any
+> > > > > > window state in the process. If we risk the compositor disconne=
+cting
+> > > > > > the client, then the client might not recover even if it wanted=
+ to.
+
+This goes for both ways: importing a good dmabuf to a bad device, and a
+bad dmabuf to a good device. In neither case there should be a risk of
+erroneously disconnecting the Wayland client.
+
+Hmm. Maybe Wayland compositors should ignore all EGL import failures
+that happen after the wl_buffer has been created (which implies that
+the dmabuf has been validated to work initially). When import fails at
+a later time, the compositor should just paint some error pattern
+instead of the window. That would let the kernel keep on returning
+errors.
+
+Yeah, ok. I'll keep the ENODEV there in my next version. Let's see how
+that looks then.
 
 
 Thanks,
 pq
 
---Sig_/c4nfd=YRzdl_ds_hVj+ODyU
+--Sig_/jf3_UfxUaI9cRm7yH3FZqUS
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7Pqs8ACgkQI1/ltBGq
-qqe+HQ/8CjJnw/LR6aNtm7AH+BQoy5FZEKbYJGZEPWqtYn8NuRp76sazAEttFIaf
-hRB4P/WPCn+B0xhhmSLyaOTYj7pvw1LZcm8nxP4NK7o0Q8adxpWGkynBxYXC8nIw
-u/huNj0BHxuBVPVjVrdpSr9iiy3GZCy6xt+uiuZDQ+3upUENlQFK3i7T7pHeovvy
-MhQGV63vrtfB3V9mWUgl9NcCPUs0ZaguozZA3zYS0sq+mOcWRedlovQk25hixIXO
-c/flyonZ0Z5DeDi5tbcZlsKxH5RqChUTIuSzXkjUD5SDHCoIW8OcQCwty47onVJR
-YO/9ZDOIY/FS1i8YdGSjJ282L7cf/sMp4c0bAo+fdF1XCyjFVKjv4SHNTCOrEuUQ
-V5UZhqh4wlccczSKfqNHKS+piSrUhE08jh7i+pu/HDkpP2hhzhwYWriZHvP++meR
-gs+RZ3XpDomtFRn3JxvmbRp0dcO3Qxefdxk3ecyWqyc4MrBAjrN78ZzUcZpz9X8N
-5yFA+7oadCQ9JTbtynzlnr61urHAPd+Q+RWbpdfaTdIdrmCqa/XKNZhFvuCtD6QF
-xW8ct19Fg8fGEBuSvxU5zqZlLRd/4Cc/5HxbqeSYmLiBuq4F5edrfzAMfHU2abS6
-7gPQhWoUfSUwz1Y5ObGDvdq3Cb/vB7ZqEw29fLES2xYtqDp3WJE=
-=8SKe
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7Prk4ACgkQI1/ltBGq
+qqfsIw//TZdn/ztJyXctBuXNdU4wTc6BWxR/+R9PdAEW0qEYw7IlIyjshSyIk6ls
+v/RttcrdK6FWbl6nUOKTyqm1hTiZoS8c6h8DsCTtzir1nyYpYVSQjCV21/HKajNY
+pIKI8h/TajqPgv/v+8CI3TEPLy0qJ6VLnvuNHKlO5q3iFtYGhVN1yAU3asgFdV8e
+6FL8cGVv1A7tihhOWV8/cSEqoRgOXY6hUlLdekx1eJhe1QHhazDnJkFCX6oD9mwl
+xBlaTMBvP8JwCxYOp+DWNN6zSxVpVs2fvehenis8fouJK9y5YW2AlWiTT8RaR96d
+YaO7w6IbMsiDINjuPl7siUJHr1Q23EvjTki1HRRizxCFUwwCuU8N5nXCqrkU9o/V
++fP1X00417wgRW4j6QWRMLTO1221c9gnMZ9q+7rhyM/lgi7wHh7aZIUjiUQOlfcU
+vIkspHvW9aEjZRl9vUrObARzTessDLT0cHxPp1bCTAWgauqd0a0TAN0yr+867AfN
+B/HtHKDgxRAZ+0XQG11hgVxbTuHIhdPXO43EM9RH2H8ZG4vHwkzdcs1ddCsHhHDG
+Zibcb69+0lo6uGMihv24uuu1mw1B9U0bJzogmMEjyC/DJ8x9qmnY8HSToH28vCcD
+DphTdDJj0otofXMGXJ+4n9FH8q5BPbZuvF2GNSycUrUj9WbY3WA=
+=vdP/
 -----END PGP SIGNATURE-----
 
---Sig_/c4nfd=YRzdl_ds_hVj+ODyU--
+--Sig_/jf3_UfxUaI9cRm7yH3FZqUS--
 
---===============0107594645==
+--===============1663152541==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -235,4 +352,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0107594645==--
+--===============1663152541==--
