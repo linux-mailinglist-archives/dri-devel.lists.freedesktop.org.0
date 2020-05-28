@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033FC1E5AB7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 10:25:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7321E5ACB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 10:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8466E503;
-	Thu, 28 May 2020 08:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C906E50E;
+	Thu, 28 May 2020 08:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 199076E500
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:25:45 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s8so26879432wrt.9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 01:25:45 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC0116E11C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:29:28 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id f185so1114265wmf.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 01:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=dZm4qqnvnFfi9AnD6QwHMa98Owv4lt6xBotC4KU/1vk=;
- b=czup3S4I54O/SmAYJ1Yp032Bx7qbeA/atZsIzCP1VOKKssxod9difMHd2pgQRQxnAl
- XPPDdkNnsr4nGucu0jsfvEjhEvgKy1XhTyVyjk00Kpj5+6kbsaTM3Rf0jqixp6tjilap
- QsF7jrQHPymmQ1iI926fYhE6+fP62b0lLwEik=
+ bh=3a+6oUJ3RVAXmDVoeSWKckQbnvzhZe/iIrVHhbckTSA=;
+ b=ERqBDMdAnQDYPD9KzJ57eRE4d+vU/o813ShwTbfBLtbCPVIBgTaGUk/HN4PKVgHz5s
+ ssiiZRJ60nWDc+hDFscU9QlTDVUzDb9MRNK98C0hJwkIiyOSSelVGtknQyCpx4ES2ly1
+ yNdD/WL4E0sqjH6i2/6NDVraxFVCuAVJXsZxo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=dZm4qqnvnFfi9AnD6QwHMa98Owv4lt6xBotC4KU/1vk=;
- b=bAyI5F1NdAGaL/DN8mrTyY0nL4k7a6nbWdyvHkbqa/KJsgnb6qitSjDBt43s9VI0Lw
- HrFGAWkdzZtk94uHmIoUBoAfi1CC/H2BOuEWiYI8LWPilvPydGdoML+YRT03UqRd/ied
- VJnvyVQE8U7jiso/HHHbQtUFNaYgr6+Xsx4ZiCyNeoUad0NKqqOxc1pW2zthTRWRqW4N
- sbX0KQdDyOGNdRh9p/gQxxfHPhljOiMQaibpmN2e99FyeXKRwwgcX2GG477ew9f+JY3G
- NJ6F+PVbJARtKUfmWSX6HpJsXXOSFsxefKevyVOYpYlCx06qLEpScmvA4ZYxm1R7CpBm
- S+rA==
-X-Gm-Message-State: AOAM532BIVkogKsEoQ4aLZ+U+L+UEcL0T75AgKRkkD2fhdot/fkz2+oq
- JnQvqAeYilVQEDLyNd5Bkgk8GifYRmM=
-X-Google-Smtp-Source: ABdhPJxgiT43pQLH7LRt5KZW/Vdlek75Gu2WZPGjirY+tzqkiyl5+Cnx66FgSLx0/C9mCLO0V0lQfg==
-X-Received: by 2002:a5d:4286:: with SMTP id k6mr2309159wrq.140.1590654343729; 
- Thu, 28 May 2020 01:25:43 -0700 (PDT)
+ bh=3a+6oUJ3RVAXmDVoeSWKckQbnvzhZe/iIrVHhbckTSA=;
+ b=dFFEvnLBtL00kyMrvl5+XgcANqMV70iVoj2E9mYwg19WBkf85da9CuONDT6yBNES7O
+ TNskUgErckxsi9+Poyj6ajBadEhJP6UbwBlaL1PCZlPTZ/orJEiE4lpUh+C6ZZf7dFcm
+ V4xlvSQXp5qQ2lYmDDUB3P4loDtRkYTVJrgtpXjFYGQlGD9occ7g5+eoHgiRk7gtp47C
+ LKa/176l/wg6wdWF3mrZNIDpHtVGNAeKXuts/KV7WFWHIyDaI/oGScgEaVcAg7xJE1f3
+ b7yzWKM2Gy3BegOANCrLCyxfFVyujxZtfidLq+rmrUGFShZjq63FCmSKOjuzUXCD4yBA
+ ZEYA==
+X-Gm-Message-State: AOAM530qEGbgPMbb95Y/VVWRvB438HXWeSAnqZQhzoymqcLuwWt1OvsF
+ HvUFwRyU5+6td3jH40AwsqybhKzN4+8=
+X-Google-Smtp-Source: ABdhPJw4yVmexsCHhZYQAMfsaB18NxRGTxyj/lu3EJI0gih192r5q6aVr+bET/fdfmcmLb2vss9cyA==
+X-Received: by 2002:a05:600c:2201:: with SMTP id
+ z1mr2224541wml.70.1590654567303; 
+ Thu, 28 May 2020 01:29:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j4sm3492917wma.7.2020.05.28.01.25.42
+ by smtp.gmail.com with ESMTPSA id y4sm5288810wro.91.2020.05.28.01.29.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 01:25:43 -0700 (PDT)
-Date: Thu, 28 May 2020 10:25:41 +0200
+ Thu, 28 May 2020 01:29:26 -0700 (PDT)
+Date: Thu, 28 May 2020 10:29:24 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Stefan Agner <stefan@agner.ch>
-Subject: Re: [PATCH 1/2] drm/mxsfb: Call drm_crtc_vblank_on/off
-Message-ID: <20200528082541.GS206103@phenom.ffwll.local>
-References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
- <20200528054643.GQ206103@phenom.ffwll.local>
- <7911368105b92200b661f0fed39f5642@agner.ch>
- <CAKMK7uGzbadiY1EQKQvQcBND4Ja73WZRF8-DoxLJNTsGBJS0jw@mail.gmail.com>
- <c8294901e201cd40a41111b05ecccd43@agner.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/msm: Don't call dma_buf_vunmap without _vmap
+Message-ID: <20200528082924.GT206103@phenom.ffwll.local>
+References: <20200511093554.211493-2-daniel.vetter@ffwll.ch>
+ <20200514201117.465146-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c8294901e201cd40a41111b05ecccd43@agner.ch>
+In-Reply-To: <20200514201117.465146-1-daniel.vetter@ffwll.ch>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,122 +66,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: Sean Paul <sean@poorly.run>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 28, 2020 at 10:19:46AM +0200, Stefan Agner wrote:
-> On 2020-05-28 10:06, Daniel Vetter wrote:
-> > On Thu, May 28, 2020 at 9:56 AM Stefan Agner <stefan@agner.ch> wrote:
-> >>
-> >> Hi Daniel,
-> >>
-> >> On 2020-05-28 07:46, Daniel Vetter wrote:
-> >> > On Wed, May 27, 2020 at 11:47:56AM +0200, Daniel Vetter wrote:
-> >> >> mxsfb has vblank support, is atomic, but doesn't call
-> >> >> drm_crtc_vblank_on/off as it should. Not good.
-> >> >>
-> >> >> With my next patch to add the drm_crtc_vblank_reset to helpers this
-> >> >> means not even the very first crtc enabling will vblanks work anymore,
-> >> >> since they'll just stay off forever.
-> >> >>
-> >> >> Since mxsfb doesn't have any vblank waits of its own in the
-> >> >> enable/disable flow, nor an enable/disable_vblank callback we can do
-> >> >> the on/off as the first respectively last operation, and it should all
-> >> >> work.
-> >> >>
-> >> >> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >> >> Cc: Marek Vasut <marex@denx.de>
-> >> >> Cc: Stefan Agner <stefan@agner.ch>
-> >> >> Cc: Shawn Guo <shawnguo@kernel.org>
-> >> >> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> >> >> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >> >> Cc: Fabio Estevam <festevam@gmail.com>
-> >> >> Cc: NXP Linux Team <linux-imx@nxp.com>
-> >> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> >
-> >> > Ping for some ack/review on this one here, it's holding up the subsystem
-> >> > wide fix in patch 2.
-> >>
-> >> Sorry for the delay.
-> >>
-> >> I guess that has the same effect as patch 14 in Laurent's patchset would
-> >> have:
-> >> https://lore.kernel.org/dri-devel/20200309195216.31042-15-laurent.pinchart@ideasonboard.com/
-> > 
-> > Uh, looking at that patch I realized that mxsfb indeed calls
-> > drm_vblank_init before mode_config.num_crtc is set. Which means it
-> > never had working vblank support in upstream. That also explains the
-> > lack of fireworks, since all other drivers that actually do initialize
-> > vblank support have the drm_crtc_vblank_on/off calls - without them
-> > the driver doesn't survive for very long.
-> > 
-> > tldr; I don't need this patch here to apply the 2nd one, so no
-> > conflict potential at all. And the patch from Laurent does fix up
-> > everything correctly, so we should be good.
+On Thu, May 14, 2020 at 10:11:17PM +0200, Daniel Vetter wrote:
+> I honestly don't exactly understand what's going on here, but the
+> current code is wrong for sure: It calls dma_buf_vunmap without ever
+> calling dma_buf_vmap.
 > 
-> Uh I see, that is somehow unfortunate and fortunate at the same time!
+> What I'm not sure about is whether the WARN_ON is correct:
+> - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
+>   a pretty neat layering violation of how you shouldn't peek behind
+>   the curtain of the dma-buf exporter, but par for course. Note that
+>   all the nice new helpers don't (and we should probably have a bit a
+>   warning about this in the kerneldoc).
 > 
-> Ok, I hope we get this cleaned up soon.
+> - but then in the get_vaddr() in msm_gem.c, we seems to happily wrap a
+>   vmap() around any object with ->pages set (so including imported
+>   dma-buf).
+> 
+> - I'm not seeing any guarantees that userspace can't use an imported
+>   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
+>   guarantees that an imported dma-buf won't end up with a ->vaddr set.
+> 
+> But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
+> calling dma_buf_vunmap is the wrong thing to do.
+> 
+> v2: Rob said in review that we do indeed have a gap in get_vaddr() that
+> needs to be plugged. But the users I've found aren't legit users on
+> imported dma-buf, so we can just reject that.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
 
-I recommend igt tests for actually making sure your driver does something,
-instead of just thinking you've enabled a feature :-)
--Daniel
+Ping for some review/ack so I can start landing thist stuff please?
 
+Thanks, Daniel
+
+> ---
+>  drivers/gpu/drm/msm/msm_gem.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> --
-> Stefan
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 5a6a79fbc9d6..e70abd1cde43 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -554,6 +554,9 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+>  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>  	int ret = 0;
+>  
+> +	if (obj->import_attach)
+> +		return ERR_PTR(-ENODEV);
+> +
+>  	mutex_lock(&msm_obj->lock);
+>  
+>  	if (WARN_ON(msm_obj->madv > madv)) {
+> @@ -907,8 +910,7 @@ static void free_object(struct msm_gem_object *msm_obj)
+>  	put_iova(obj);
+>  
+>  	if (obj->import_attach) {
+> -		if (msm_obj->vaddr)
+> -			dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
+> +		WARN_ON(msm_obj->vaddr);
+>  
+>  		/* Don't drop the pages for imported dmabuf, as they are not
+>  		 * ours, just free the array we allocated:
+> -- 
+> 2.26.2
 > 
-> > -Daniel
-> > 
-> >> But should be rather trivial to rebase. So until Laurent's patchset is
-> >> ready, we can go with this fix.
-> >>
-> >> Acked-by: Stefan Agner <stefan@agner.ch>
-> >>
-> >> --
-> >> Stefan
-> >>
-> >> >
-> >> > Thanks, Daniel
-> >> >
-> >> >> ---
-> >> >>  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 2 ++
-> >> >>  1 file changed, 2 insertions(+)
-> >> >>
-> >> >> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> >> >> index 497cf443a9af..1891cd6deb2f 100644
-> >> >> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> >> >> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> >> >> @@ -124,6 +124,7 @@ static void mxsfb_pipe_enable(struct drm_simple_display_pipe *pipe,
-> >> >>      drm_panel_prepare(mxsfb->panel);
-> >> >>      mxsfb_crtc_enable(mxsfb);
-> >> >>      drm_panel_enable(mxsfb->panel);
-> >> >> +    drm_crtc_vblank_on(&pipe->crtc);
-> >> >>  }
-> >> >>
-> >> >>  static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
-> >> >> @@ -133,6 +134,7 @@ static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
-> >> >>      struct drm_crtc *crtc = &pipe->crtc;
-> >> >>      struct drm_pending_vblank_event *event;
-> >> >>
-> >> >> +    drm_crtc_vblank_off(&pipe->crtc);
-> >> >>      drm_panel_disable(mxsfb->panel);
-> >> >>      mxsfb_crtc_disable(mxsfb);
-> >> >>      drm_panel_unprepare(mxsfb->panel);
-> >> >> --
-> >> >> 2.26.2
-> >> >>
 
 -- 
 Daniel Vetter
