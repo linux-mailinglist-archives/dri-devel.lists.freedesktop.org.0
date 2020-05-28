@@ -1,55 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161431E66D0
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 17:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E32061E670D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 18:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D27A86E152;
-	Thu, 28 May 2020 15:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4ABA6E5A2;
+	Thu, 28 May 2020 16:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC9D6E152
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 15:54:40 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id e1so2207527vkd.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 08:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eD9Q69yAidIqs4JbIyrQRrLyc1rX+qPaojDMR0joP5U=;
- b=C+6c+/zy8X6oTdVUsHMPt6wtqdA0tC4QkpLSWdowQI9DkamTI3pEeTTNwx05CUF3Ck
- j9QffXYNwLwSAwzGnNt5/ybY54h7uLZdbuPeEvcHeqdlowZRVJZ2u0Z8z9fGW66IR/Ec
- g1E8wcwTUs1kkq97e0xEC+nhTHjbKMwHHKRvv2bi+dJDaUvPB6Eyi5bItg1rvvrgB26l
- 1pPdNkR6iMiN1GoI7/dpaQeKS3596mUhoP/w6UbOIPxD2QsREiYbX/29PTbKxGMG/Gtr
- voApI0UepKgzJ5C9/b+P2vRerTtJqf0vDAVf1Oo7UvGcpfMU4ZqjBtYzbYTZLa/rS/fE
- b/EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eD9Q69yAidIqs4JbIyrQRrLyc1rX+qPaojDMR0joP5U=;
- b=ZnmzWJrZr5j0Sm87oZ6lLLJ06es5v83UvqVpK6QCfCcq9pwmHwg3Y+wt3yT0ARFZYG
- lt7PsZGxpJTFflMxJTxVr2rscr8Gye1AUpoTpTu7fiV6mCkC7asmwgahoQGPOy+tTyIE
- OPsnThKz7fFDKsxjfjoiMqrc/IQnNb2wpWzfHbiwfT24QK6gBMKYgi+BMQ3LFaLxA8kE
- 2g0eSdeoH8dYCseFwS5GX3wC0UKx0dNyAqmFBcRR5SyhUfYy9Vv96GVZSF8nxmbXdvt8
- lEPTwzW+CYGmmrSevOg1nzKVPgiiUB/vMlGwWSTFCeSUfbAl38Y3L4rH+/P2bZnG5bxR
- ur3Q==
-X-Gm-Message-State: AOAM5329bvg4HwZSBEBJqSI79mwuvwfIqj0k9utJMoypDsdXwlAButgR
- ZSst8t6ZWyl1FTs8Nu4vAlPP+bkSyvGrzsf9S38=
-X-Google-Smtp-Source: ABdhPJw8Xk8oV6L3uEur2x175XF+krnVvLBDXMAI0SFt0rkatKFthbfQqghuLCvU+aV4LiyrGoasfZr/GxwSNaGmR1s=
-X-Received: by 2002:a1f:a3c1:: with SMTP id m184mr2268337vke.38.1590681279501; 
- Thu, 28 May 2020 08:54:39 -0700 (PDT)
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 530746E15B
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 16:04:46 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21324674-1500050 for multiple; Thu, 28 May 2020 17:04:41 +0100
 MIME-Version: 1.0
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <e9bc87e240b62c80617ea7825144121a470a2d44.1590594512.git-series.maxime@cerno.tech>
-In-Reply-To: <e9bc87e240b62c80617ea7825144121a470a2d44.1590594512.git-series.maxime@cerno.tech>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 28 May 2020 16:51:31 +0100
-Message-ID: <CACvgo50j1t5VtMgE7-pquuYRaC_ku5pZ2aBVoD-MCCktfPm-VQ@mail.gmail.com>
-Subject: Re: [PATCH v3 066/105] drm/vc4: txp: Turn the TXP into a CRTC of its
- own
-To: Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20200528130556.53275-1-nirmoy.das@amd.com>
+References: <20200528130556.53275-1-nirmoy.das@amd.com>
+Subject: Re: [PATCH] drm/mm: add ig_frag selftest
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Nirmoy Das <nirmoy.aiemd@gmail.com>, dri-devel@lists.freedesktop.org
+Message-ID: <159068188106.10651.8110655246465285780@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Thu, 28 May 2020 17:04:41 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +38,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LAKML <linux-arm-kernel@lists.infradead.org>,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: Nirmoy Das <nirmoy.das@amd.com>, christian.koenig@amd.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Have you considered splitting the series into several parts and
-focusing on merging one at a time?
-IIRC this the longest series _ever_ submitted to dri-devel, plus it
-seems to be growing with each revision.
-
-Due to the sheer volume, it's likely to miss various points - large or
-small (like below).
-
-On Thu, 28 May 2020 at 08:47, Maxime Ripard <maxime@cerno.tech> wrote:
-
-> +static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
+Quoting Nirmoy Das (2020-05-28 14:05:56)
+> This patch introduces fragmentation in the address range
+> and measures time taken by 10k insertions for each modes.
+> 
+> ig_frag() will fail if one of the mode takes more than 1 sec.
+> 
+> Output:
+> <snip>
+> [   37.326723] drm_mm: igt_sanitycheck - ok!
+> [   37.326727] igt_debug 0x0000000000000000-0x0000000000000200: 512: free
+> [   37.326728] igt_debug 0x0000000000000200-0x0000000000000600: 1024: used
+> [   37.326728] igt_debug 0x0000000000000600-0x0000000000000a00: 1024: free
+> [   37.326729] igt_debug 0x0000000000000a00-0x0000000000000e00: 1024: used
+> [   37.326730] igt_debug 0x0000000000000e00-0x0000000000001000: 512: free
+> [   37.326730] igt_debug total: 4096, used 2048 free 2048
+> [   56.040064] drm_mm: best fragmented insert took 504 msecs
+> [   56.082184] drm_mm: bottom-up fragmented insert took 40 msecs
+> [   56.102255] drm_mm: top-down fragmented insert took 20 msecs
+> [   56.107177] drm_mm: evict fragmented insert took 4 msecs
+> <snip>
+> 
+> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+> ---
+>  drivers/gpu/drm/selftests/drm_mm_selftests.h |  1 +
+>  drivers/gpu/drm/selftests/test-drm_mm.c      | 59 ++++++++++++++++++++
+>  2 files changed, 60 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/selftests/drm_mm_selftests.h b/drivers/gpu/drm/selftests/drm_mm_selftests.h
+> index 6b943ea1c57d..8c87c964176b 100644
+> --- a/drivers/gpu/drm/selftests/drm_mm_selftests.h
+> +++ b/drivers/gpu/drm/selftests/drm_mm_selftests.h
+> @@ -14,6 +14,7 @@ selftest(insert, igt_insert)
+>  selftest(replace, igt_replace)
+>  selftest(insert_range, igt_insert_range)
+>  selftest(align, igt_align)
+> +selftest(frag, igt_frag)
+>  selftest(align32, igt_align32)
+>  selftest(align64, igt_align64)
+>  selftest(evict, igt_evict)
+> diff --git a/drivers/gpu/drm/selftests/test-drm_mm.c b/drivers/gpu/drm/selftests/test-drm_mm.c
+> index 9aabe82dcd3a..4c08ca86bb86 100644
+> --- a/drivers/gpu/drm/selftests/test-drm_mm.c
+> +++ b/drivers/gpu/drm/selftests/test-drm_mm.c
+> @@ -1033,6 +1033,65 @@ static int igt_insert_range(void *ignored)
+>         return 0;
+>  }
+>  
+> +static int igt_frag(void *ignored)
 > +{
-> +       return 0;
-> +}
+> +       const struct insert_mode *mode;
+> +       struct drm_mm mm;
+> +       struct drm_mm_node *nodes, *node, *next;
+> +       unsigned int size = 4096, align = 8192;
+> +       unsigned long start, timeout = 1000;
+> +       const unsigned int max_count = 10000;
+> +       unsigned int i;
+> +       int ret = -EINVAL;
 > +
-> +static void vc4_txp_disable_vblank(struct drm_crtc *crtc) {}
+> +       /* For each of the possible insertion modes, we pass an size, alignment
+> +        * value that is known to introduce fragmentation and check that it
+> +        * doesn't take more than 1 sec.
+> +        */
 > +
-Core should handle if these are NULL, so the stubs should not be needed.
+> +       nodes = vzalloc(array_size(max_count, sizeof(*nodes)));
+> +       if (!nodes)
+> +               goto err;
+> +
+> +       drm_mm_init(&mm, 1, U64_MAX - 2);
+> +
+> +       for (mode = insert_modes; mode->name; mode++) {
+> +               start = jiffies;
+> +
+> +               for (i = 0; i < max_count; i++) {
+> +                       if (jiffies_to_msecs(jiffies - start) >= timeout) {
+> +                               pr_err("%s fragmented insert took more than %lu msecs\n",
+> +                                      mode->name, timeout);
+> +                               goto out;
 
-HTH
-Emil
+We will run into problems with fixed timeouts on slow devices (emulated
+virtual machines and whatnot). And yes there are a few that are known to
+run kernel selftests and send bug reports (and complain about slow
+tests such as the other drm_mm selftests :).
+
+Off the top of my head, we expect the fragmented search to scale
+[sub]linearly, whereas at the moment it's quadratic. How about if we do
+something like insert as many as we can within 50ms, and then verify
+that if we double that number of inserts it is less than 200ms. We will
+still run into fun with the CPU scheduler causing imprecise timing, but
+that should have sufficiently wide error margins.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
