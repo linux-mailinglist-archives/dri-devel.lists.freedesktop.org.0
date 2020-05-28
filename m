@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89481E6F6D
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77AE1E6F74
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88BBC6E838;
-	Thu, 28 May 2020 22:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1E86E832;
+	Thu, 28 May 2020 22:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647126E1B8
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 11:09:50 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9B9E65817FA;
- Thu, 28 May 2020 07:09:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 28 May 2020 07:09:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm2; bh=+s86+cK7gN9PLvlRSKhy0WKh2+J7H0/31/AiNdZTdZY=; b=BTrig9Qt
- p8mq49BtZ3G8nNJP6JP9BtrJN6bp291HAQT8JgX9uH8w4vr5nVEnn2hhoyHJto3D
- V9ZBg1Vcd0vyWbniWmvhO9pmxMwQHMGf7FOupAbCifvZTzmffXXKIXDscOmmKTte
- vbKulNc1y95kuen/eO8CH6gyk9jRHTugWft8MiFSedCiVDvcvq+ZnP6tObJz/zeE
- gxcfu6ENkoIV2GkOT0yHdTaP5lurfy0Ob8K/46ur8+I63AS1olZkZmDk4tIoE7iq
- TsySkuvI4gOF/oD0IV4k5QLuOKGHQsbeDrbqxJgfn5A+lQh5WLsYBr4Eh3a+m/Gt
- R+5eLAEJxP30zQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=+s86+cK7gN9PLvlRSKhy0WKh2+J7H
- 0/31/AiNdZTdZY=; b=j8Wbhp3Hsf2+fF+hEfSN8uVduTJcs81846ERasNX2OHqd
- rhvUSt6Q13idwmgxts8mgxOajjXjg3++P/LSDcVTtt8RqDfFqUaVclVgf9fNzAuT
- gCbK0E7hIjGe7jcUA/qUOVlVQDdhqbuNooqyWyU+auKtgNWzVThgdJOCm2bwhEfU
- EWE7NatUSS3JQJdVon1lKnt5mC/9IMSlDMAfRfoQFe57XVRFY379UcPSie1vZSkB
- dLyHCmOA0JkAxXlKQTRnWWmmm8X9fnttmiVifQM0qGh6O9liQCnG2sH59+dFW6Mf
- 9G9F3FjuVS/3vvLDQQGSe2wKJuwDL7p1mQR9LOLpw==
-X-ME-Sender: <xms:-ZvPXqeoHQZSpkpEhoxkwGOiCgv2qO9P3sEBpajYQMxXXv8TcmKcPQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddviedgudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepgeeuvddtheeggeehhfeigeetffeufeelveeggfekveegieevudeljeeugedviefg
- necuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppeeltddrkeelrd
- eikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
- mhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-pvPXkP1ENSzt7Mtbmbt-QTLJYplWtEkSZ6hwdfSs7NDaQOq5z60mA>
- <xmx:-pvPXrj3trI_TqqhUEVzvDV-NABu_xEXg8A1bSGcj-wNFcxuAM8tOA>
- <xmx:-pvPXn81-qwUC06KqZtw8QqHnjF-j-3a-aGtLp8qHnOyhIne_7lvjA>
- <xmx:-5vPXj9W_i5ciJloLC5eaKh2z3ysjiQZfoVYb0p9k5uVDvQHNLlD5Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B74A93280063;
- Thu, 28 May 2020 07:09:45 -0400 (EDT)
-Date: Thu, 28 May 2020 13:09:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20200528110944.hanv4qgc6w7whnj3@gilmour.lan>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE7526E406
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 13:05:42 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id k8so25268edq.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 06:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6iN5Lj8HoVMgtIBkC+DktRX5/Yy2DKeu8kDD8YjoYSg=;
+ b=QhtSmdOI/M6HNhbYpwQSuwGjzd/dXHR9IVN4twGF6xaXwdlP6cgyY3IG0AFT3lK72+
+ VxFdOez0FwH0IKbDO5z2SqXHGJwzcF1Z+QhIF/R87CI7JeYvBW0FCu93u6w+7QM8n/ff
+ oyFoh8AtfSM3WLykanUztN07OPDdCg+IjPlXbyKRPeWJy7Fc6nI3z9Or+WWb6OwwvsCy
+ zL6pN9edm6O3muMQQDnHyFDBrxCwYk/2LHd3+H/lbLVqSinaeCK1M7x2zXIFrDW9ecSw
+ M/dQLZZwGnk0ozQgdOg5pIUxYnPLosQS/kRxZbhq63dh4LTq8OBpeW3DYB1GNwyVrJQY
+ o1ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6iN5Lj8HoVMgtIBkC+DktRX5/Yy2DKeu8kDD8YjoYSg=;
+ b=IDxgg+GZn2mQhZcYwrI4beSJh+TdWVZdl0byi8Nxc3hGS2Z2kg1s3vlPprZ7qrzuQm
+ VoeCfKQcucvRiWux8oArwZADHW7ilAqvoGG7uikwln2SsRoS1AiD5Mf580D0rRBY6Hf8
+ 45+Cyz5x9A65NG8ijylOI13GWLs6mpjWfO4etpQe8o5++GMczr76Gjx2yEh1D87V+kxR
+ 1qXyTp5jo/SDAB3fCcFUkn36WYNvg3rcAQLMcC6d5mQWgwyz7LPyhJqrORni2YCFD5li
+ a7oGJgXA+8AerRVevsLgwJ3Ephq1UOfPcdDwhEIWp3o5UHaf2p8vDp61VcdQWKMTlTKe
+ X/4w==
+X-Gm-Message-State: AOAM532WJtpGHc5O+qQKeSIEgpI6qDARr2i+M7SsEajwvjyMsqnVZ2to
+ 4yJtix//AQqp//Pa9ek2OcWkG7dVh17yKw==
+X-Google-Smtp-Source: ABdhPJzEDJjZ3FA1y6HUaD6g2I3wRi+9riHH61V7tRLMUP8QxRO/6VdHpfQ4CIqmoRhKg2Wg9BGDAQ==
+X-Received: by 2002:a05:6402:417:: with SMTP id
+ q23mr3067977edv.139.1590671140092; 
+ Thu, 28 May 2020 06:05:40 -0700 (PDT)
+Received: from localhost.localdomain
+ (p200300c58f230400765197681c23776d.dip0.t-ipconnect.de.
+ [2003:c5:8f23:400:7651:9768:1c23:776d])
+ by smtp.gmail.com with ESMTPSA id n25sm5090382edo.56.2020.05.28.06.05.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 May 2020 06:05:39 -0700 (PDT)
+From: Nirmoy Das <nirmoy.aiemd@gmail.com>
+X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/mm: add ig_frag selftest
+Date: Thu, 28 May 2020 15:05:56 +0200
+Message-Id: <20200528130556.53275-1-nirmoy.das@amd.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 28 May 2020 22:46:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,80 +69,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1403590556=="
+Cc: Nirmoy Das <nirmoy.das@amd.com>, christian.koenig@amd.com,
+ chris@chris-wilson.co.uk
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch introduces fragmentation in the address range
+and measures time taken by 10k insertions for each modes.
 
---===============1403590556==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="eza5ig7hrp5rv5nt"
-Content-Disposition: inline
+ig_frag() will fail if one of the mode takes more than 1 sec.
 
+Output:
+<snip>
+[   37.326723] drm_mm: igt_sanitycheck - ok!
+[   37.326727] igt_debug 0x0000000000000000-0x0000000000000200: 512: free
+[   37.326728] igt_debug 0x0000000000000200-0x0000000000000600: 1024: used
+[   37.326728] igt_debug 0x0000000000000600-0x0000000000000a00: 1024: free
+[   37.326729] igt_debug 0x0000000000000a00-0x0000000000000e00: 1024: used
+[   37.326730] igt_debug 0x0000000000000e00-0x0000000000001000: 512: free
+[   37.326730] igt_debug total: 4096, used 2048 free 2048
+[   56.040064] drm_mm: best fragmented insert took 504 msecs
+[   56.082184] drm_mm: bottom-up fragmented insert took 40 msecs
+[   56.102255] drm_mm: top-down fragmented insert took 20 msecs
+[   56.107177] drm_mm: evict fragmented insert took 4 msecs
+<snip>
 
---eza5ig7hrp5rv5nt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+---
+ drivers/gpu/drm/selftests/drm_mm_selftests.h |  1 +
+ drivers/gpu/drm/selftests/test-drm_mm.c      | 59 ++++++++++++++++++++
+ 2 files changed, 60 insertions(+)
 
-Hi Dave, Daniel,
-
-Here's this week drm-misc-fixes PR.
-
-Thanks!
-Maxime
-
-drm-misc-fixes-2020-05-28:
-Two ingenic fixes, one for a wrong cast, the other for a typo in a
-comparison
-The following changes since commit c54a8f1f329197d83d941ad84c4aa38bf282cbbd:
-
-  drm/meson: pm resume add return errno branch (2020-05-13 12:00:37 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2020-05-28
-
-for you to fetch changes up to abf56fadf0e208abfb13ad1ac0094416058da0ad:
-
-  gpu/drm: Ingenic: Fix opaque pointer casted to wrong type (2020-05-17 14:16:15 +0200)
-
-----------------------------------------------------------------
-Two ingenic fixes, one for a wrong cast, the other for a typo in a
-comparison
-
-----------------------------------------------------------------
-Paul Cercueil (2):
-      gpu/drm: ingenic: Fix bogus crtc_atomic_check callback
-      gpu/drm: Ingenic: Fix opaque pointer casted to wrong type
-
- drivers/gpu/drm/ingenic/ingenic-drm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
---eza5ig7hrp5rv5nt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXs+b+AAKCRDj7w1vZxhR
-xW8FAP9QdaTat2slUCH6fw0E1j0HPwUNLYYEG59uoIULne3AvgEAsCWGrgDpRQKY
-qBN5MTujAFYyLPNckbWQUI+ZDRPKyQo=
-=byX/
------END PGP SIGNATURE-----
-
---eza5ig7hrp5rv5nt--
-
---===============1403590556==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/selftests/drm_mm_selftests.h b/drivers/gpu/drm/selftests/drm_mm_selftests.h
+index 6b943ea1c57d..8c87c964176b 100644
+--- a/drivers/gpu/drm/selftests/drm_mm_selftests.h
++++ b/drivers/gpu/drm/selftests/drm_mm_selftests.h
+@@ -14,6 +14,7 @@ selftest(insert, igt_insert)
+ selftest(replace, igt_replace)
+ selftest(insert_range, igt_insert_range)
+ selftest(align, igt_align)
++selftest(frag, igt_frag)
+ selftest(align32, igt_align32)
+ selftest(align64, igt_align64)
+ selftest(evict, igt_evict)
+diff --git a/drivers/gpu/drm/selftests/test-drm_mm.c b/drivers/gpu/drm/selftests/test-drm_mm.c
+index 9aabe82dcd3a..4c08ca86bb86 100644
+--- a/drivers/gpu/drm/selftests/test-drm_mm.c
++++ b/drivers/gpu/drm/selftests/test-drm_mm.c
+@@ -1033,6 +1033,65 @@ static int igt_insert_range(void *ignored)
+ 	return 0;
+ }
+ 
++static int igt_frag(void *ignored)
++{
++	const struct insert_mode *mode;
++	struct drm_mm mm;
++	struct drm_mm_node *nodes, *node, *next;
++	unsigned int size = 4096, align = 8192;
++	unsigned long start, timeout = 1000;
++	const unsigned int max_count = 10000;
++	unsigned int i;
++	int ret = -EINVAL;
++
++	/* For each of the possible insertion modes, we pass an size, alignment
++	 * value that is known to introduce fragmentation and check that it
++	 * doesn't take more than 1 sec.
++	 */
++
++	nodes = vzalloc(array_size(max_count, sizeof(*nodes)));
++	if (!nodes)
++		goto err;
++
++	drm_mm_init(&mm, 1, U64_MAX - 2);
++
++	for (mode = insert_modes; mode->name; mode++) {
++		start = jiffies;
++
++		for (i = 0; i < max_count; i++) {
++			if (jiffies_to_msecs(jiffies - start) >= timeout) {
++				pr_err("%s fragmented insert took more than %lu msecs\n",
++				       mode->name, timeout);
++				goto out;
++			}
++
++			if (!expect_insert(&mm, &nodes[i],
++					   size, align, i, mode)) {
++				pr_err("%s insert failed with alignment=%d",
++				       mode->name, align);
++				goto out;
++			}
++		}
++
++		pr_info("%s fragmented insert took %d msecs\n",
++			mode->name, jiffies_to_msecs(jiffies - start));
++		drm_mm_for_each_node_safe(node, next, &mm)
++			drm_mm_remove_node(node);
++		DRM_MM_BUG_ON(!drm_mm_clean(&mm));
++
++		cond_resched();
++	}
++
++	ret = 0;
++out:
++	drm_mm_for_each_node_safe(node, next, &mm)
++		drm_mm_remove_node(node);
++	drm_mm_takedown(&mm);
++	vfree(nodes);
++err:
++	return ret;
++}
++
+ static int igt_align(void *ignored)
+ {
+ 	const struct insert_mode *mode;
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1403590556==--
