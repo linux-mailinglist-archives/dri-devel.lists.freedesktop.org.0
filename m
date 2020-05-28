@@ -1,59 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7886B1E6F76
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 954A51E6F83
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC0B6E834;
-	Thu, 28 May 2020 22:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E9B6E848;
+	Thu, 28 May 2020 22:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBC586E141
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 09:46:21 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id x1so31346203ejd.8
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 02:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-org-tw.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6ssSQduh/qaifF816w5IytgkGWKHHYZpKW+7WTxibYE=;
- b=tg8BdJ/NeDWXpWiGgV95EV33XRJhxGSTVQk+D5ZZbI0D3SasA57Aum+k1470q/bIKR
- L7Olx8sR3Jz0N+TWBcCWh+GZ5I9aqsFatR1Oz37WXWGdf3zrmG7vXz+DwQ9+bq4h8+l6
- jdOxDaBppUNFgGy/zM3eKh8tgLUfg0iv2Zw5wFgUWbd4LylXwXWt6Qg2WI+UP7p29us2
- +PHkgq4g21ToSiMOGXNJkDeMq0elGyYA/hPd0UAJ9yV3CXhNYTyeOHO+pwLvr58VTMxR
- OTRqASo+qm8EbHAu0MgdMUX909w8SFAhrbuvN2APJTp1UMKb7euvXfqrcIeseH/TGrLv
- uBKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6ssSQduh/qaifF816w5IytgkGWKHHYZpKW+7WTxibYE=;
- b=bjQ7Aln8YfUJnDYSBpMtPFG+Z434MUjxpSahXswd/aljm0LwuOtHswWyB+642nJ2eg
- 2AyqhqVCPNMQABvpbdpfPdGzynut1NI/LxyRYuiRBc/E1NpydqzT1ewV03/GVp6iVut+
- 7eKzW7W6EF5+nb9SVhU1lJz6PL4BIWHirNDTQVigP7JA+o08SNwySlUOZUUpJODHIS4k
- /U2RI1ERMe0Z7e1QbRrB5ECNFcTCAc4gMrJnv4fsgflH3woU62/Eb8Ca6i7ysysAxpxF
- dcWMt5cmuS/exXiKyjY6SJDSk4BUkAwQr10Kn0amMBOBr5YSrXU2dHN/LS58LiyqBNpy
- oAPA==
-X-Gm-Message-State: AOAM530gfjoPkFwohYttrWhf7aXkGBhWTWw5hp7pqfzc/c0RCI8ZAWDT
- CX255DPWbduF8Bq8MZwIch9Q6JGIfTuFLS7hxOKS4A==
-X-Google-Smtp-Source: ABdhPJyQx7/DpqFliRN8Mfi2IEINj5rkr7DgpFOU3swyLrTWDY6THPR2JOAJV4Fr2bk3kJF1cDI0M3UshVrEjHA/8N4=
-X-Received: by 2002:a17:906:b817:: with SMTP id
- dv23mr2136914ejb.185.1590659180297; 
- Thu, 28 May 2020 02:46:20 -0700 (PDT)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00058.outbound.protection.outlook.com [40.107.0.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC270899E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 10:03:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nYwr62FiG629uC+MLbAuUIbFIVRjz+69BPZrVWcu7beUPcmROMX2J0OJII2VhLXmubJ0i5N/Z45cZ/SFLDb2fwrVeKlakUOvW5moXJWqBbf+PjMH7oaSRuyys4opkk37huD7zkqqKfAsMex8sJdJOzWKHGc4nF7Ls5FGSBf75t60HW8oz73i7Rb6kELqaKW0gtfhCXI/M2r01eB5citTVK5wlYnG1TgBIthdHZIZG7F7hhbaj7QL9Kmnz+qgTwdgWzC7m4cMA/9cWWFkuZL9sf0hz8+JH7mQGtVE4zqndc8CYDkb0+8tKslm+MyFzeInLzgBbi1OTcXaVO+Vat4sVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fiSKqprrhpQiROE08VUfCHN2l7HN5lH9gB4TIAGLfJ4=;
+ b=jRaXP1CswgygoHPFwc+tYx/+aXLBT1qEFiFaLJIF2broENqQF0/MCajZJLdiBVaJ/UemCEHgnWDe6wEoU5gULbQPq1aSwVY8wQ5A4M/+fxFsjQiJZQS2+2SfmkfBhEzU5VNlIUz/ILVqhihvP5GJLyFMtCsgwGLvO/tbonZQ4i/D2pXqXYuX835GofZ4ORtpUwBvrtp7hsLHtBq16q8v/p0BMXFVr7KUR6g9D7CuKq1w/IXbuKDfV4mCQgvfnpGYZnZTZiiIUnDjnurtCHKjPYZNhnyxwt63+TamPPhKt3+mfxQWD/s4FjwbvmA+eW0AoYClLPrrNyjlYhPLMDhT9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fiSKqprrhpQiROE08VUfCHN2l7HN5lH9gB4TIAGLfJ4=;
+ b=GOTNnu8iVtD0VZA5UwGNtwa1fwh92ED+BJJPM3c/I+1WREnK/Obfzu+4fZEluTMrUb/2ch7ba2OrI7ALv+5XJoxBOozP4Pb/DBYhiL/rOXhfXNvJdhITzM/Gw0Tjf94uXLdpGqXEo/2GO2Fpto1dwpPaWwCzUaa45bF9n4z5r1M=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB3184.eurprd04.prod.outlook.com (2603:10a6:802:9::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.26; Thu, 28 May
+ 2020 10:03:37 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3021.030; Thu, 28 May 2020
+ 10:03:37 +0000
+Message-ID: <31843bf5ba23d0693cab85fdbb5e3ee8a7453527.camel@nxp.com>
+Subject: Re: [PATCH] drm/imx: imx-ldb: Disable both channels for split mode
+ in enc->disable()
+From: Liu Ying <victor.liu@nxp.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Date: Thu, 28 May 2020 18:02:53 +0800
+In-Reply-To: <20200528093145.kmpzbnesv25k7wvc@pengutronix.de>
+References: <1589268718-29837-1-git-send-email-victor.liu@nxp.com>
+ <ce17fb3798b208e63eabee6c1e1197bfce6b77a9.camel@nxp.com>
+ <20200528093145.kmpzbnesv25k7wvc@pengutronix.de>
+User-Agent: Evolution 3.36.2-0ubuntu1 
+X-ClientProxiedBy: SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) To
+ VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-References: <20200523154426.1088988-1-issor.oruam@gmail.com>
- <CAKMK7uGKps4AfLKTSP2HZTHd1cm+1dMD9r8M9rKobqwXGgv5EQ@mail.gmail.com>
- <2xZF5q7722pK-_L_0jQjYv33oMS6WS4Jm06tbVwUo9SQO9QBv48_HaVhzVHTb2OLnz3JUj3O1uRYn_y-JWGrWpD3c8J0y8Mr_qgwbNzsxDE=@emersion.fr>
-In-Reply-To: <2xZF5q7722pK-_L_0jQjYv33oMS6WS4Jm06tbVwUo9SQO9QBv48_HaVhzVHTb2OLnz3JUj3O1uRYn_y-JWGrWpD3c8J0y8Mr_qgwbNzsxDE=@emersion.fr>
-From: Chih-Wei Huang <cwhuang@linux.org.tw>
-Date: Thu, 28 May 2020 17:46:08 +0800
-Message-ID: <CAHUn7wPfaEuWAc7iDGtfCdT71dwYkt7fNgMdPtfZL=COmKBaiQ@mail.gmail.com>
-Subject: Re: [PATCH] xf86drm: add drmOpenByFB
-To: Simon Ser <contact@emersion.fr>
-X-Mailman-Approved-At: Thu, 28 May 2020 22:46:32 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry.ap.freescale.net (119.31.174.66) by
+ SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3066.2 via Frontend Transport; Thu, 28 May 2020 10:03:35 +0000
+X-Originating-IP: [119.31.174.66]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f49b8261-c671-454b-0ebc-08d802ee63b9
+X-MS-TrafficTypeDiagnostic: VI1PR04MB3184:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB3184B64BDDED651996B8ECC1988E0@VI1PR04MB3184.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0417A3FFD2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aSWYbKkLJB+J7yM6pvRuSvOlja8GWxkKDwtJjAU/yo8bjTqHTY99ovJcK7vRLkVkQj+l7ZQMNrTCHj39xiglrj7JimKLGl5tO/qOtahBwl1lEzykVF+M5jSoUZrhdV0R5UzOqvPx04pfj5eMznzTfOk5vjI7JmBt/igDdpJEpJeDuTLPxswwGo18/NYb+z4f+bRbGlca8yQCFPIZ+vkjj7oAbpE/hoFLvfOmYHYo4B447feTw8qcrq6WLO5wh5PGfxo9glaKXmgDw9rOkfb7lhSrncAFE6Nr6OlNiAsR8PQ8YSE5isNSoZ27/2/8j7EiaqEDrfPctUoB43vMuNu+bsu5xRQ4yzwf4ITJZQU1/o78c8LojXWjNGwX9Ap6Y75etYzkTXS5rnEUly1TFXINBw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(376002)(366004)(39860400002)(396003)(346002)(36756003)(8936002)(2616005)(956004)(316002)(8676002)(966005)(83380400001)(2906002)(45080400002)(478600001)(86362001)(66476007)(4326008)(6512007)(6486002)(6916009)(52116002)(6666004)(66556008)(66946007)(6506007)(16526019)(186003)(53546011)(5660300002)(26005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: LVE2l9e/c0YpXnJgMqkvUrGQnfEvQEUK41i+cyhV7/oxjbjlIdUktjRLDiycA8X95miM9+lxsUwhR7JwceKIeLiMybolqV6gNO9Dn/i5SMrlhFjtAsVF9cNZj9yOliAkDZO7UGbKTqgR9dyhe+Zg8TDyizvBLvGDWsjcqw2bl6hN9701aUnzbn5NT8ynnB3/VxtzWE2pVOISkzM9fl6qBhWELCs+vkJl8OXVRQOrYhb9+8rxdiBlXApJNWHAzDSaTXs2/Ye1ZEeYt/wYb1xr1SwmWIii4RvtLnVa3l8fmaG9HqLnhQ4iW0vozagxOO6232pkBw3XTCtVGe8WHUvZPeIm7O5ZhVsfY0T9MdAjDkNDMug6vnohuhM61MmDKE8qPBIVk7OAnsSxUxYwGRxAf4NE8zEwkOhL03/3W1ItOmztysxp7jU8xeehGR3cBbYE6mxSLAMmV5j2lhS2umkAoXxzMxcnDKgVaVGvHblX438=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f49b8261-c671-454b-0ebc-08d802ee63b9
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 10:03:37.3008 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yDrWEOIRYkZRDe5nA3GpaagDk3AMH9Qk191/KZOS7QDubPCDISbrRx9uA4+bH+VY1Khr6mILP7qy7+bqbFdBww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3184
+X-Mailman-Approved-At: Thu, 28 May 2020 22:47:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +96,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@collabora.com>,
- Mauro Rossi <issor.oruam@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: s.hauer@pengutronix.de, stable@vger.kernel.org, p.zable@pengutronix.de,
+ dri-devel@lists.freedesktop.org, kernel@pengutronix.de, linux-imx@nxp.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPiDmlrwgMjAyMOW5tDXmnIgyNeaXpSDpgLHk
-uIAg5LiK5Y2IMzoyNeWvq+mBk++8mgo+IE9uIFN1bmRheSwgTWF5IDI0LCAyMDIwIDg6NTMgUE0s
-IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6Cj4gPiBPbiBTYXQsIE1heSAy
-MywgMjAyMCBhdCA1OjQ0IFBNIE1hdXJvIFJvc3NpIGlzc29yLm9ydWFtQGdtYWlsLmNvbSB3cm90
-ZToKPiA+Cj4gPiA+IE9wZW5CeUZCIGlzIGludHJvZHVjZWQgdG8gb3ZlcmNvbWUgR1BVIGRyaXZl
-ciBsb2FkaW5nIG9yZGVyIGlzc3VlCj4gPiA+IG9uIGEgZGV2aWNlIHdpdGggbXVsdGlwbGUgR1BV
-cywgZS5nLiBJbnRlbCBpR1BVIGFuZCBOdmlkaWEgZEdQVQo+ID4gPiB3aGVyZSB0aGUgZmlyc3Qg
-ZHJtZmIga2VybmVsIG1vZHVsZSBsb2FkZWQgd2lsbCBiZWNvbWUgZGV2aWNlIGZpbGUKPiA+ID4g
-L2Rldi9kcmkvY2FyZDAgYW5kIHRoZSBzZWNvbmQgd2lsbCBiZWNvbWUgL2Rldi9kcmkvY2FyZDEK
-PiA+ID4gVGhlIHVzZSBjYXNlIGlzIHRvIHByZWZlciBJbnRlbCBpR1BVIG92ZXIgZEdQVSwgb3Ig
-dmljZXZlcnNhLAo+ID4gPiBpbiBhIGRldGVybWluaXN0aWMgYW5kIHJlbGlhYmxlIG1hbm5lci4K
-PiA+ID4gT3BlbkJ5RkIgZnVuY3Rpb24gb3BlbnMgdGhlIERSTSBkZXZpY2Ugd2l0aCBzcGVjaWZp
-ZWQgZmIgYW5kIG5vZGUgdHlwZSwKPiA+ID4gdGh1cyBlbmFibGluZyBncmFsbG9jIHRvIG9wZW4g
-dGhlIGNvcnJlY3QgZGV2aWNlIG5vZGUgb2YgdGhlIHByaW1hcnkgZmIsCj4gPiA+IHJlZ2FyZGxl
-c3Mgb2YgdGhlIEdQVSBkcml2ZXIgbG9hZGluZyBvcmRlci4KPiA+Cj4gPiBUaGUgZmJkZXYgbG9h
-ZCBvcmRlcmluZyBpcyBhcyBpbmNvbnNpc3RlbnQvcmFuZG9tIGFzIHRoZSBkcmkgbm9kZQo+ID4g
-bG9hZGluZy4gV2VsbCBtb3JlIHNvLCBiZWNhdXNlIHlvdSBtaWdodCBoYXZlIHJhbmRvbSBmaXJt
-d2FyZSBmYmRldgo+ID4gZHJpdmVycyBoYW5naW5nIG91dCB0aGVyZS4gSGVuY2UgSSdtIG5vdCBm
-b2xsb3dpbmcgaG93IHRoaXMgc29sdmVzCj4gPiBhbnl0aGluZyBmb3IgeW91ciBwcm9ibGVtLgo+
-ID4KPiA+IEkgdGhpbmsgdXN1YWxseSB3aGF0IHVzZXJzcGFjZSBkb2VzIGl0IGxvb2sgYXQgdGhl
-IGJvb3RfdmdhIHByb3BlcnR5Cj4gPiBvZiB0aGUgdW5kZXJseWluZyBkZXZpY2UgaW4gc3lzZnMs
-IGFuZCBwcmVmZXIgdGhhdCBvbmUuCgpUaGFuayB5b3UgZm9yIHRoZSByZXBseS4KSSdtIG5vdCB0
-aGUgZXhwZXJ0IHNvCkkgY2FuJ3QgZnVsbHkgdW5kZXJzdGFuZCB3aGF0IHlvdSBtZWFuLgpXaGF0
-IGRvZXMgJ2Jvb3RfdmdhJyBtZWFuIGFuZCBob3cgY291bGQgaXQgaGVscCBvdXIgcHJvYmxlbT8K
-ClRoZSBtYWluIHByb2JsZW0gd2UncmUgdHJ5aW5nIHRvIHNvbHZlIGlzIHRvCmZpbmQgdGhlIERS
-TSBkZXZpY2Ugb2YgdGhlIHByaW1hcnkgZnJhbWVidWZmZXIgKGZiMCkuCkkgYmVsaWV2ZSAvc3lz
-L2NsYXNzL2dyYXBoaWNzL2ZiMC9kZXZpY2UvZHJtCmlzIHRoZSBjb3JyZWN0IG9uZSB3ZSBjb3Vs
-ZCB1c2UuCkF0IGxlYXN0IGl0IHdvcmtzIG9uIGFsbCBkZXZpY2VzIEkndmUgdGVzdGVkCmluY2x1
-ZGluZyBudmlkaWEgb3B0aW11cyBub3RlYm9va3MuCklmIHRoZXJlIGlzIGEgc2ltcGxlciB3YXkg
-dG8gZ2V0IHRoZSBEUk0gZGV2aWNlIG9mIGZiMApJJ20gaGFwcHkgdG8gbGVhcm4uCgo+IFllcy4g
-U2VlIFsxXSBmb3IgYW4gZXhhbXBsZSBvZiBob3cgdG8gZG8gdGhpcy4KPgo+IFsxXTogaHR0cHM6
-Ly9naXRodWIuY29tL3N3YXl3bS93bHJvb3RzL2Jsb2IvNWM5NDJiZDU5NzJhZmVlOWE2OGNiMTVj
-MTRhYTgzYjRiMGFhZjgyZC9iYWNrZW5kL3Nlc3Npb24vc2Vzc2lvbi5jI0wzMzEKClRoYW5rIHlv
-dSBmb3IgdGhlIGV4YW1wbGUuCkhvd2V2ZXIsIG91ciB0YXJnZXQgcGxhdGZvcm0gaXMgQW5kcm9p
-ZCBhbmQKQW5kcm9pZCBkb2Vzbid0IGhhdmUgdWRldi4gU28gSSdtIGFmcmFpZCB3ZSBjYW4ndCB1
-c2UgaXQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Marco,
+
+On Thu, 2020-05-28 at 11:31 +0200, Marco Felsch wrote:
+> Hi Liu
+> 
+> On 20-05-28 10:58, Liu Ying wrote:
+> > Gentle ping...
+> 
+> Please check my "spring cleanup series" [1] which do the split:
+
+It looks that your series doesn't disable both lvds channels in the
+encoder disablement callback for the ldb split mode.
+So, I think this patch still stands.
+
+Regards,
+Liu Ying
+
+> 
+> [1] 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Farm-kernel%2Fmsg789309.html&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7Cd177bf874b8f41c404e108d802e9f179%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262551086663318&amp;sdata=PIMNspESt%2BYqEMV1Vh0eBn5PNjKPfz5GdJ6NrnM2bUw%3D&amp;reserved=0
+> 
+> Regards,
+>   Marco
+> 
+> > On Tue, 2020-05-12 at 15:31 +0800, Liu Ying wrote:
+> > > Both of the two LVDS channels should be disabled for split mode
+> > > in the encoder's ->disable() callback, because they are enabled
+> > > in the encoder's ->enable() callback.
+> > > 
+> > > Fixes: 6556f7f82b9c ("drm: imx: Move imx-drm driver out of
+> > > staging")
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > > ---
+> > >  drivers/gpu/drm/imx/imx-ldb.c | 7 ++++---
+> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/imx/imx-ldb.c
+> > > b/drivers/gpu/drm/imx/imx-
+> > > ldb.c
+> > > index 4da22a9..af4d0d8 100644
+> > > --- a/drivers/gpu/drm/imx/imx-ldb.c
+> > > +++ b/drivers/gpu/drm/imx/imx-ldb.c
+> > > @@ -303,18 +303,19 @@ static void imx_ldb_encoder_disable(struct
+> > > drm_encoder *encoder)
+> > >  {
+> > >  	struct imx_ldb_channel *imx_ldb_ch =
+> > > enc_to_imx_ldb_ch(encoder);
+> > >  	struct imx_ldb *ldb = imx_ldb_ch->ldb;
+> > > +	int dual = ldb->ldb_ctrl & LDB_SPLIT_MODE_EN;
+> > >  	int mux, ret;
+> > >  
+> > >  	drm_panel_disable(imx_ldb_ch->panel);
+> > >  
+> > > -	if (imx_ldb_ch == &ldb->channel[0])
+> > > +	if (imx_ldb_ch == &ldb->channel[0] || dual)
+> > >  		ldb->ldb_ctrl &= ~LDB_CH0_MODE_EN_MASK;
+> > > -	else if (imx_ldb_ch == &ldb->channel[1])
+> > > +	if (imx_ldb_ch == &ldb->channel[1] || dual)
+> > >  		ldb->ldb_ctrl &= ~LDB_CH1_MODE_EN_MASK;
+> > >  
+> > >  	regmap_write(ldb->regmap, IOMUXC_GPR2, ldb->ldb_ctrl);
+> > >  
+> > > -	if (ldb->ldb_ctrl & LDB_SPLIT_MODE_EN) {
+> > > +	if (dual) {
+> > >  		clk_disable_unprepare(ldb->clk[0]);
+> > >  		clk_disable_unprepare(ldb->clk[1]);
+> > >  	}
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=02%7C01%7Cvictor.liu%40nxp.com%7Cd177bf874b8f41c404e108d802e9f179%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637262551086663318&amp;sdata=lNC4lwLUqM0upUxrrBtk1ap423lBIQlAAqDjdHv92LI%3D&amp;reserved=0
+> > 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
