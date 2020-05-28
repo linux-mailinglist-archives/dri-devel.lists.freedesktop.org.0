@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9621E58C4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2811E59F0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 09:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0185F6E1A2;
-	Thu, 28 May 2020 07:38:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5F26E4B3;
+	Thu, 28 May 2020 07:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6E76E1A2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 07:38:50 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 207763] Noisy Screen in Linux with kernel 5
-Date: Thu, 28 May 2020 07:38:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: xunilarium@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-207763-2300-MxN8RQHcfY@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-207763-2300@https.bugzilla.kernel.org/>
-References: <bug-207763-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273C16E46C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 07:56:39 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 1516A5C21A9;
+ Thu, 28 May 2020 09:56:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1590652596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0m6DCkNJigFgdctZfTg4koHIN9qilDIV5zyAFu7UANk=;
+ b=ZxUC8YSj8HosGbCCpwbO9vKJo/LuRKMai4rWEYhA2TIcIKaYfttOrkk4WXUT4E7TaYIVBl
+ l5h/MdScKX6wPyPh+5r8IFvmYuEHm1pb8m5YwLZTC9JA0Bete8H9e6pTT1lmHZcccDSFWA
+ cmBT8G5iQfcAXCwl6QKlzjfhK+0DvR4=
 MIME-Version: 1.0
+Date: Thu, 28 May 2020 09:56:36 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Daniel Vetter <daniel@ffwll.ch>, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/2] drm/mxsfb: Call drm_crtc_vblank_on/off
+In-Reply-To: <20200528054643.GQ206103@phenom.ffwll.local>
+References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
+ <20200528054643.GQ206103@phenom.ffwll.local>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <7911368105b92200b661f0fed39f5642@agner.ch>
+X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,33 +48,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Marek Vasut <marex@denx.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDc3NjMKCi0tLSBD
-b21tZW50ICMzIGZyb20gTW9oYW1tYWQgTmFlaW0gKHh1bmlsYXJpdW1AZ21haWwuY29tKSAtLS0K
-KEluIHJlcGx5IHRvIEFsZXggRGV1Y2hlciBmcm9tIGNvbW1lbnQgIzEpCj4gRG9lcyByZXZlcnRp
-bmc6Cj4gCj4gY29tbWl0IDMzYjNhZDM3ODhhYmE4NDZmYzhiOWEwNjVmZTI2ODVhMGI2NGY3MTMK
-PiBBdXRob3I6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IERhdGU6ICAgVGh1IEF1
-ZyAxNSAwOToyNzowMCAyMDE5ICswMjAwCj4gCj4gICAgIGRybS9yYWRlb246IGhhbmRsZSBQQ0ll
-IHJvb3QgcG9ydHMgd2l0aCBhZGRyZXNzaW5nIGxpbWl0YXRpb25zCj4gICAgIAo+ICAgICByYWRl
-b24gdXNlcyBhIG5lZWRfZG1hMzIgZmxhZyB0byBpbmRpY2F0ZSB0byB0aGUgZHJtIGNvcmUgdGhh
-dCBzb21lCj4gICAgIGFsbG9jYXRpb25zIG5lZWQgdG8gYmUgZG9uZSB1c2luZyBHRlBfRE1BMzIs
-IGJ1dCBpdCBvbmx5IGNoZWNrcyB0aGUKPiAgICAgZGV2aWNlIGFkZHJlc3NpbmcgY2FwYWJpbGl0
-aWVzIHRvIG1ha2UgdGhhdCBkZWNpc2lvbi4gIFVuZm9ydHVuYXRlbHkKPiAgICAgUENJZSByb290
-IHBvcnRzIHRoYXQgaGF2ZSBsaW1pdGVkIGFkZHJlc3NpbmcgZXhpc3QgYXMgd2VsbC4gIFVzZSB0
-aGUKPiAgICAgZG1hX2FkZHJlc3NpbmdfbGltaXRlZCBpbnN0ZWFkIHRvIGFsc28gdGFrZSB0aG9z
-ZSBpbnRvIGFjY291bnQuCj4gICAgIAo+ICAgICBSZXZpZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ICAgICBSZXBvcnRlZC1ieTogQXRpc2ggUGF0
-cmEgPEF0aXNoLlBhdHJhQHdkYy5jb20+Cj4gICAgIFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBI
-ZWxsd2lnIDxoY2hAbHN0LmRlPgo+ICAgICBTaWduZWQtb2ZmLWJ5OiBBbGV4IERldWNoZXIgPGFs
-ZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gCj4gCj4gRml4IHRoZSBpc3N1ZT8KCkkgZGlkIHRo
-aXMgYW5kIHRoZSBpc3N1ZSBzdGlsbCBleGlzdHM6Cmh0dHBzOi8vd3d3LnJlZGRpdC5jb20vci9s
-aW51eHF1ZXN0aW9ucy9jb21tZW50cy9ncXJrM20vbm9pc3lfc2NyZWVuX2luX2xpbnV4X3dpdGhf
-a2VybmVsXzUvCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBh
-cmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Daniel,
+
+On 2020-05-28 07:46, Daniel Vetter wrote:
+> On Wed, May 27, 2020 at 11:47:56AM +0200, Daniel Vetter wrote:
+>> mxsfb has vblank support, is atomic, but doesn't call
+>> drm_crtc_vblank_on/off as it should. Not good.
+>>
+>> With my next patch to add the drm_crtc_vblank_reset to helpers this
+>> means not even the very first crtc enabling will vblanks work anymore,
+>> since they'll just stay off forever.
+>>
+>> Since mxsfb doesn't have any vblank waits of its own in the
+>> enable/disable flow, nor an enable/disable_vblank callback we can do
+>> the on/off as the first respectively last operation, and it should all
+>> work.
+>>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> Cc: Marek Vasut <marex@denx.de>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: NXP Linux Team <linux-imx@nxp.com>
+>> Cc: linux-arm-kernel@lists.infradead.org
+> 
+> Ping for some ack/review on this one here, it's holding up the subsystem
+> wide fix in patch 2.
+
+Sorry for the delay.
+
+I guess that has the same effect as patch 14 in Laurent's patchset would
+have:
+https://lore.kernel.org/dri-devel/20200309195216.31042-15-laurent.pinchart@ideasonboard.com/
+
+But should be rather trivial to rebase. So until Laurent's patchset is
+ready, we can go with this fix.
+
+Acked-by: Stefan Agner <stefan@agner.ch>
+
+--
+Stefan
+
+> 
+> Thanks, Daniel
+> 
+>> ---
+>>  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> index 497cf443a9af..1891cd6deb2f 100644
+>> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> @@ -124,6 +124,7 @@ static void mxsfb_pipe_enable(struct drm_simple_display_pipe *pipe,
+>>  	drm_panel_prepare(mxsfb->panel);
+>>  	mxsfb_crtc_enable(mxsfb);
+>>  	drm_panel_enable(mxsfb->panel);
+>> +	drm_crtc_vblank_on(&pipe->crtc);
+>>  }
+>>
+>>  static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
+>> @@ -133,6 +134,7 @@ static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
+>>  	struct drm_crtc *crtc = &pipe->crtc;
+>>  	struct drm_pending_vblank_event *event;
+>>
+>> +	drm_crtc_vblank_off(&pipe->crtc);
+>>  	drm_panel_disable(mxsfb->panel);
+>>  	mxsfb_crtc_disable(mxsfb);
+>>  	drm_panel_unprepare(mxsfb->panel);
+>> --
+>> 2.26.2
+>>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
