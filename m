@@ -1,57 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F771E611F
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:41:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BFC1E6149
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0BF86E513;
-	Thu, 28 May 2020 12:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E776E517;
+	Thu, 28 May 2020 12:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0136E513
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:41:15 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id k3so2637343vsg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:41:15 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84EFC6E514
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:48:10 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id d7so5319878lfi.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=u1MJ3BAJSqo5TPA+ajs5HcPNPErOcboD5ojFdYMufhI=;
- b=A7w3bkrieZ06HqPuXLMBqVK+TZXAReAHetKzaIwUEcH7HoZacoBBSgp1MRr9X6NKsM
- fNVTysALuDc24DewTyIZbgEFqT1tqwDsvorcKY7TMv+3h0V5D7xo5BWOwbUvDyxotGlb
- k8VCf9A0Zwu5NYMtv50lBTUljcgGeSyQ5S5lj/oWcB9kweWYwlELh8BGU/7DepCGDzJl
- 8xVMPeWtJu4ILgEfrM6SB5qBkuyeXSgIQVEkqLt2s4WlQRks3VAmFdrRf9LWHqFZDmkv
- z9osgkxPcz+jgmZDIRicC95mwFWPJ+rplCEmOUkulVsPdz+k73F0iinyq0O2m70UF+4H
- cRNw==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=+C0igjhGT+sYhN7GzwMHQ4aSr4cxXqb485GsRfnenxw=;
+ b=HspxuV6zJNKNzYNIVKfE/bgUdotoEi+ZqAajXqNCTP80TI6X8ewueh4HiZiwPGEizl
+ 36pYw9EzQfRb/8hVbVpYHWJ1Sz3ZPTetbO2oLdR/FjjYA/5b9UWaN4W6yH8k9AVz0SmF
+ sURpk06sRHVhKJ1K8k1mRkqxsTxbdLJSkZs7ozHdBffYnUIt0P2HbKXgV9Rhx+6PNSEW
+ XLUqVfkN1vd4r2MjUflgK64Fl4NgPVmjFFoHSfQfwHUXAFCpqMy7FTsO103eXqk8AYLj
+ Dplv60rSozcEUnmYZWN/WrbMYjZWPDxu/y9K1UIiQbaZUi8W2JLxll4ob6JxSynG/IEO
+ tFlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=u1MJ3BAJSqo5TPA+ajs5HcPNPErOcboD5ojFdYMufhI=;
- b=t/6Ih7h4DbMJfv6oIb13aOdGZuxEZTJsF+C6kckRXR5nSWIGlbsmzFoEjeqsMzwRls
- xJf28lWnaQyzA0xP+auV25LaA+w6L8Y94qredR7wj0ZpNuzgEk4PEftF6DXOkG0zsQra
- ePk6CueXFcCtIjWud3N1UX9Un6Y0ebHkTdDThIShk2W8/FMFRTKOG2/4cf2qmMcjlErk
- t31u1u+LBZu/F77jrKH7m8tul8Ndpx3afWuFMojqBlerDgBP3IwLfKqP9gcn6AukdOW9
- JnO3yXpITaNfKjNJX0SVUlXpn2pQrsQ7Dy4LrBKvdBgDNeDCno7eYLfEY/MsCsLwMG6C
- 6PKw==
-X-Gm-Message-State: AOAM533btCc7glFOjT0zM+TcyWN/zYW/oR2b5CforDA6i0M34O8IOUJe
- Ytjs526GhrsFJhGWdgkL0wlTRdY6CQ20yrbGnd0=
-X-Google-Smtp-Source: ABdhPJx+ERqxCsirvtlgt51bxJTXTlw72jDRUlgZDQNHj6MZvPku22TVtfsAd8xerUKZU+u2JfdHUZwtq6BjKmN64Ag=
-X-Received: by 2002:a67:be19:: with SMTP id x25mr1744519vsq.37.1590669674608; 
- Thu, 28 May 2020 05:41:14 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=+C0igjhGT+sYhN7GzwMHQ4aSr4cxXqb485GsRfnenxw=;
+ b=LF6ZIwDhEZGsJ/AaCTJAYqo2M+nzDfV6h2qFc/ZJXoGl8/maDU8IwmPlAHbaX1/R0C
+ 8WawIXKB7eopfl6KoqvyRA5swr+Rs6iB7nxFZxc4MPtBRH35fdtJOFFwNpJcNl6i8lzw
+ Hcf7jyXmXVFYrOesrqA8L9aO//qOQPjc5GiEMRJeqaSdEfUjRs3HoU1wElAJAIJG0R73
+ 9tk7YSLEePL8ObBm9sHD81T0aw7MbX6+5H8F7Eb16rZQiNB5AqkVPhwKoJpKIrUW+PaL
+ JDPryx1Jw1JP8wujr1JdaI0n1H4jtuEi4sWBck34vO/XPgpfvDJ+Kwk92Nt3VS1PbpMt
+ d8FQ==
+X-Gm-Message-State: AOAM5329EZH3aIwMnN/2vpfDvuVyVuijO2MCmdUhhmaNLdWTfXpyQ21m
+ kEpvpxpt32zj/1UJOswD1i8=
+X-Google-Smtp-Source: ABdhPJznEvS6tD8CmhN8F4z6oku/+JHIPfD8fwb+VRu5tshe1c1mnyFRFHWhTy1479mX5jRjmzbD6g==
+X-Received: by 2002:a05:6512:62:: with SMTP id
+ i2mr1598207lfo.152.1590670088666; 
+ Thu, 28 May 2020 05:48:08 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id j9sm1615551lfe.24.2020.05.28.05.48.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 May 2020 05:48:08 -0700 (PDT)
+Date: Thu, 28 May 2020 15:48:04 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Yogish Kulkarni <yogishkulkarni@gmail.com>
+Subject: Re: Dynamically change enumeration list of DRM enumeration property
+Message-ID: <20200528154804.02fb8901@eldfell.localdomain>
+In-Reply-To: <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
+References: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
+ <20200526103921.0817ee0b@eldfell.localdomain>
+ <CAKMK7uHG1P9hwT1CBqWUfL6sBwZwyS7q0scXSUuXNiJMmRz-+g@mail.gmail.com>
+ <CAL3Fm-L-iwGu60Zf15aYf9Xm9201sT2vU888Fv46Tv7x37Aq6Q@mail.gmail.com>
+ <20200528082445.GR206103@phenom.ffwll.local>
+ <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20200523154426.1088988-1-issor.oruam@gmail.com>
- <CAKMK7uGKps4AfLKTSP2HZTHd1cm+1dMD9r8M9rKobqwXGgv5EQ@mail.gmail.com>
- <2xZF5q7722pK-_L_0jQjYv33oMS6WS4Jm06tbVwUo9SQO9QBv48_HaVhzVHTb2OLnz3JUj3O1uRYn_y-JWGrWpD3c8J0y8Mr_qgwbNzsxDE=@emersion.fr>
- <CAHUn7wPfaEuWAc7iDGtfCdT71dwYkt7fNgMdPtfZL=COmKBaiQ@mail.gmail.com>
-In-Reply-To: <CAHUn7wPfaEuWAc7iDGtfCdT71dwYkt7fNgMdPtfZL=COmKBaiQ@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 28 May 2020 13:38:06 +0100
-Message-ID: <CACvgo5209ymx5cMz7WODBLfCSBuVLXGCY+h2qFyB6_t_HLiZug@mail.gmail.com>
-Subject: Re: [PATCH] xf86drm: add drmOpenByFB
-To: Chih-Wei Huang <cwhuang@linux.org.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,57 +71,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@collabora.com>,
- Mauro Rossi <issor.oruam@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0364269012=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyOCBNYXkgMjAyMCBhdCAxMDo0NiwgL3dyb3RlOgo+Cj4gU2ltb24gU2VyIDxjb250
-YWN0QGVtZXJzaW9uLmZyPiDmlrwgMjAyMOW5tDXmnIgyNeaXpSDpgLHkuIAg5LiK5Y2IMzoyNeWv
-q+mBk++8mgo+ID4gT24gU3VuZGF5LCBNYXkgMjQsIDIwMjAgODo1MyBQTSwgRGFuaWVsIFZldHRl
-ciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+ID4gT24gU2F0LCBNYXkgMjMsIDIwMjAgYXQg
-NTo0NCBQTSBNYXVybyBSb3NzaSBpc3Nvci5vcnVhbUBnbWFpbC5jb20gd3JvdGU6Cj4gPiA+Cj4g
-PiA+ID4gT3BlbkJ5RkIgaXMgaW50cm9kdWNlZCB0byBvdmVyY29tZSBHUFUgZHJpdmVyIGxvYWRp
-bmcgb3JkZXIgaXNzdWUKPiA+ID4gPiBvbiBhIGRldmljZSB3aXRoIG11bHRpcGxlIEdQVXMsIGUu
-Zy4gSW50ZWwgaUdQVSBhbmQgTnZpZGlhIGRHUFUKPiA+ID4gPiB3aGVyZSB0aGUgZmlyc3QgZHJt
-ZmIga2VybmVsIG1vZHVsZSBsb2FkZWQgd2lsbCBiZWNvbWUgZGV2aWNlIGZpbGUKPiA+ID4gPiAv
-ZGV2L2RyaS9jYXJkMCBhbmQgdGhlIHNlY29uZCB3aWxsIGJlY29tZSAvZGV2L2RyaS9jYXJkMQo+
-ID4gPiA+IFRoZSB1c2UgY2FzZSBpcyB0byBwcmVmZXIgSW50ZWwgaUdQVSBvdmVyIGRHUFUsIG9y
-IHZpY2V2ZXJzYSwKPiA+ID4gPiBpbiBhIGRldGVybWluaXN0aWMgYW5kIHJlbGlhYmxlIG1hbm5l
-ci4KPiA+ID4gPiBPcGVuQnlGQiBmdW5jdGlvbiBvcGVucyB0aGUgRFJNIGRldmljZSB3aXRoIHNw
-ZWNpZmllZCBmYiBhbmQgbm9kZSB0eXBlLAo+ID4gPiA+IHRodXMgZW5hYmxpbmcgZ3JhbGxvYyB0
-byBvcGVuIHRoZSBjb3JyZWN0IGRldmljZSBub2RlIG9mIHRoZSBwcmltYXJ5IGZiLAo+ID4gPiA+
-IHJlZ2FyZGxlc3Mgb2YgdGhlIEdQVSBkcml2ZXIgbG9hZGluZyBvcmRlci4KPiA+ID4KPiA+ID4g
-VGhlIGZiZGV2IGxvYWQgb3JkZXJpbmcgaXMgYXMgaW5jb25zaXN0ZW50L3JhbmRvbSBhcyB0aGUg
-ZHJpIG5vZGUKPiA+ID4gbG9hZGluZy4gV2VsbCBtb3JlIHNvLCBiZWNhdXNlIHlvdSBtaWdodCBo
-YXZlIHJhbmRvbSBmaXJtd2FyZSBmYmRldgo+ID4gPiBkcml2ZXJzIGhhbmdpbmcgb3V0IHRoZXJl
-LiBIZW5jZSBJJ20gbm90IGZvbGxvd2luZyBob3cgdGhpcyBzb2x2ZXMKPiA+ID4gYW55dGhpbmcg
-Zm9yIHlvdXIgcHJvYmxlbS4KPiA+ID4KPiA+ID4gSSB0aGluayB1c3VhbGx5IHdoYXQgdXNlcnNw
-YWNlIGRvZXMgaXQgbG9vayBhdCB0aGUgYm9vdF92Z2EgcHJvcGVydHkKPiA+ID4gb2YgdGhlIHVu
-ZGVybHlpbmcgZGV2aWNlIGluIHN5c2ZzLCBhbmQgcHJlZmVyIHRoYXQgb25lLgo+Cj4gVGhhbmsg
-eW91IGZvciB0aGUgcmVwbHkuCj4gSSdtIG5vdCB0aGUgZXhwZXJ0IHNvCj4gSSBjYW4ndCBmdWxs
-eSB1bmRlcnN0YW5kIHdoYXQgeW91IG1lYW4uCj4gV2hhdCBkb2VzICdib290X3ZnYScgbWVhbiBh
-bmQgaG93IGNvdWxkIGl0IGhlbHAgb3VyIHByb2JsZW0/Cj4KVGhlIGJvb3RfdmdhIGlzIGEgZmxh
-ZyB3aGljaCBpbmRpY2F0aW5nIHdoaWNoIFZHQSAoZ3JhcGhpY3MpIGRldmljZQp0aGUgc3lzdGVt
-IGJvb3RlZCBmcm9tLgoKPiBUaGUgbWFpbiBwcm9ibGVtIHdlJ3JlIHRyeWluZyB0byBzb2x2ZSBp
-cyB0bwo+IGZpbmQgdGhlIERSTSBkZXZpY2Ugb2YgdGhlIHByaW1hcnkgZnJhbWVidWZmZXIgKGZi
-MCkuCj4gSSBiZWxpZXZlIC9zeXMvY2xhc3MvZ3JhcGhpY3MvZmIwL2RldmljZS9kcm0KPiBpcyB0
-aGUgY29ycmVjdCBvbmUgd2UgY291bGQgdXNlLgo+IEF0IGxlYXN0IGl0IHdvcmtzIG9uIGFsbCBk
-ZXZpY2VzIEkndmUgdGVzdGVkCj4gaW5jbHVkaW5nIG52aWRpYSBvcHRpbXVzIG5vdGVib29rcy4K
-PiBJZiB0aGVyZSBpcyBhIHNpbXBsZXIgd2F5IHRvIGdldCB0aGUgRFJNIGRldmljZSBvZiBmYjAK
-PiBJJ20gaGFwcHkgdG8gbGVhcm4uCj4KPiA+IFllcy4gU2VlIFsxXSBmb3IgYW4gZXhhbXBsZSBv
-ZiBob3cgdG8gZG8gdGhpcy4KPiA+Cj4gPiBbMV06IGh0dHBzOi8vZ2l0aHViLmNvbS9zd2F5d20v
-d2xyb290cy9ibG9iLzVjOTQyYmQ1OTcyYWZlZTlhNjhjYjE1YzE0YWE4M2I0YjBhYWY4MmQvYmFj
-a2VuZC9zZXNzaW9uL3Nlc3Npb24uYyNMMzMxCj4KPiBUaGFuayB5b3UgZm9yIHRoZSBleGFtcGxl
-Lgo+IEhvd2V2ZXIsIG91ciB0YXJnZXQgcGxhdGZvcm0gaXMgQW5kcm9pZCBhbmQKPiBBbmRyb2lk
-IGRvZXNuJ3QgaGF2ZSB1ZGV2LiBTbyBJJ20gYWZyYWlkIHdlIGNhbid0IHVzZSBpdC4KCkluZGVl
-ZCAtIHVkZXYgaXNuJ3QgYXMgd2lkZS1zcHJlYWQgYXMgaXQgY291bGQgaGF2ZSBiZWVuLiBBIHF1
-aWNrIFdJUApzaG91bGQgYmUgaW4geW91ciBpbmJveC4KSXQgaW1wbGVtZW50cyBib290X3ZnYSBz
-dXBwb3J0IGZvciBkcm1EZXZpY2UuCgpEbyBnaXZlIGl0IHNvbWUgdGVzdC9sb3ZlIGFuZCByZXN1
-Ym1pdCBvbmNlIGl0IHdvcmtzIG9uIHlvdXIgZW5kLgoKLUVtaWwKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+--===============0364269012==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/3QFChqKJ987lAIA0KYNbA0D"; protocol="application/pgp-signature"
+
+--Sig_/3QFChqKJ987lAIA0KYNbA0D
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 28 May 2020 17:38:59 +0530
+Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+
+> I am trying to find a way through Weston which will allow setting specific
+> encoding at display output.
+
+Hi,
+
+why do *you* want to control that?
+
+Why not let the driver always choose the highest possible encoding
+given the video mode and hardware capability?
+
+I can understand userspace wanting to know what it got, but why should
+userspace be able to control it?
+
+Would people want to pick the encoding first, and then go for the
+highest possible video mode?
+
+> Could you please elaborate on  why it is best
+> to let DRM driver automatically configure which encoding to choose rather
+> than making it selectable by DRM client ? I am not able to find reference
+> to past discussion about this. I was only able to find a proposed change -
+> https://lists.freedesktop.org/archives/intel-gfx/2017-April/125451.html b=
+ut
+> am not able to find why it got rejected.
+>=20
+> Alternatively, is there existing way through which DRM clients can specify
+> preference for output encoding ? Or currently it's all up to the DRM driv=
+er
+> to choose what output encoding to use.
+
+There must be some reason why userspace needs to be able to control it.
+I'm also asking as a Weston maintainer, since I'm interested in how
+this affects e.g. color reproduction or HDR support.
+
+One thing that comes to my mind is using atomic TEST_ONLY commits to
+probe all the possible video modes =C3=97 encodings for presenting a list to
+the user to choose from, if you have a display configuration GUI. E.g
+with some TV use cases, maybe the user wants to avoid sub-sampling, use
+the native resolution, but limit refresh rate to what's actually
+possible. Or any other combination of the three.
+
+
+Thanks,
+pq
+
+>=20
+> Thanks,
+> -Yogish
+>=20
+> On Thu, May 28, 2020 at 1:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>=20
+> > On Thu, May 28, 2020 at 12:29:43PM +0530, Yogish Kulkarni wrote: =20
+> > > For creating new source property, is it good to follow
+> > > "drm_mode_create_hdmi_colorspace_property()"  as an example ? It seem=
+s =20
+> > that =20
+> > > currently there is no standard DRM property which allows DRM client t=
+o =20
+> > set =20
+> > > a specific output encoding (like YUV420, YUV422 etc). Also, there is =
+no
+> > > standard property for letting client select YUV/RGB color range. I see
+> > > there are two ways to introduce new properties, 1. do something like
+> > > drm_mode_create_hdmi_colorspace_property 2. create custom property =20
+> > similar =20
+> > > to "Broadcast RGB". Is there opinion on which is a preferable way to =
+=20
+> > expose =20
+> > > encoding and color rage selection property ? =20
+> >
+> > I guess first question is "why?" Thus far we've gone with the opinion t=
+hat
+> > automatically configuring output stuff as much as possible is best. Wha=
+t's
+> > the use-case where the driver can't select this?
+> > -Daniel
+
+--Sig_/3QFChqKJ987lAIA0KYNbA0D
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7PswQACgkQI1/ltBGq
+qqdBWA//d9bID31SbUV7C6HM+6VFka6+WudaYHsXgY291zM+texe5D2CV0lo4yjP
+RZYxDQoZFvS5CD2BcAjYQUzNmA8p5jk1OXOGLu/1juv9Y2/PcZOht+Z8nmDbz2qb
+7aW5EVZQjDU8ZQQ8ERL94NAdh5uSq0YPhJARQQkaFPnTUfCAw57QFI7ZG1HU849I
+yNaMqlVnX/YVy6b8pPvyvtOpZ116u1V93yaBBMVbhd/ikVVEoDnffNi3vnO7wALY
+89Bmdn7Q4JTbs9k2VFP4A84hv3VPgMu9GJph5Co3h61bvnTa/92ISy93FPYW8O8A
+IQt+0PHdyUp6PrLW5Go4mq6ct7luqpFFijOB9FAWLdDdHfh7Oodh946pevi6AMq8
+QOdwuXwQFINH2mdiEAOgwti4oY5DXSVweU/V9kB297l5mkmGzghzOKqPm/H7mPtS
+dl0YpxZhqDob3lshU29dBWg3BBz5lRLtFC1TLblV9HyRDVBQQx8utsFaVwIh73Fd
+NPDrCd7mioCAGRRVoo4nYzaelw26HRifP1Vfwek6XdJarDu7EY3HVZXi/VfRvYf2
+7dmc11NFpOF2Y5RWV4mxkeCrQNraljg+dnGQB4buDT6ZkzjycC3QO5Dza8nbBt5J
+A9g9CZ0hCcfH0c81lje8VTyGMsmQ0rm4Ef/PRox2sF4aD2KX1yQ=
+=+ldT
+-----END PGP SIGNATURE-----
+
+--Sig_/3QFChqKJ987lAIA0KYNbA0D--
+
+--===============0364269012==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0364269012==--
