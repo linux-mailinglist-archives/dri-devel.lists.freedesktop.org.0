@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5D01E5EE0
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 13:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E73B1E5EED
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 13:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 422886E135;
-	Thu, 28 May 2020 11:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8156E136;
+	Thu, 28 May 2020 11:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749A16E135
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 11:57:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7AFF6E136
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 11:57:35 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id ACF4E21532;
- Thu, 28 May 2020 11:57:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F2D23216C4;
+ Thu, 28 May 2020 11:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590667027;
- bh=ihlDfgG3j3xz4bDy2bhDZn4pw55pV0TlDHOrGsmuZdM=;
+ s=default; t=1590667055;
+ bh=MULI+Njyfm2wJqBQaQ0lcAG8tNbzME1uIFaWCPpfjBo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1NY3feux499ag/YC16+Vy/86BqCc+CzjB71nfPXwqXlWZui+Pr0sbTnLFb7cU3BTN
- TzZEoErNDO4dvztJjG5iKklpp7q1ejk2OWuqnSehVDl8+tnRn68VnWDzaauixpddlh
- ziqnny7GTh+xmU3XrGUhMhlHlywci60rMBW7/7cM=
+ b=PIZsaxQTrd7zjexMAFSPKivImWVEJv1nzGIArAoojxO9IsSmOrMRzZXS2pqKSWpNH
+ l1RvfdcgzlqtSgdL53HWkdsItAtPHFtY/ZBfgfOAjqMr+0HEBYJeya1TFyJwgUxGxY
+ xBy5YKA33XPF/7MquljOdMkUjKehnRQcrFTQJgd8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 11/26] drm/edid: Add Oculus Rift S to non-desktop
+Subject: [PATCH AUTOSEL 4.19 09/17] drm/edid: Add Oculus Rift S to non-desktop
  list
-Date: Thu, 28 May 2020 07:56:39 -0400
-Message-Id: <20200528115654.1406165-11-sashal@kernel.org>
+Date: Thu, 28 May 2020 07:57:16 -0400
+Message-Id: <20200528115724.1406376-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200528115654.1406165-1-sashal@kernel.org>
-References: <20200528115654.1406165-1-sashal@kernel.org>
+In-Reply-To: <20200528115724.1406376-1-sashal@kernel.org>
+References: <20200528115724.1406376-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index ea2849338d6c..9b69e55ad701 100644
+index d5dcee7f1fc8..108f542176b8 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -191,10 +191,11 @@ static const struct edid_quirk {
+@@ -198,10 +198,11 @@ static const struct edid_quirk {
  	{ "HVR", 0xaa01, EDID_QUIRK_NON_DESKTOP },
  	{ "HVR", 0xaa02, EDID_QUIRK_NON_DESKTOP },
  
