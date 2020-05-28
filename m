@@ -2,67 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143901E5DB8
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 13:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD951E5DDC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 13:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB59C89911;
-	Thu, 28 May 2020 11:03:23 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C7289911
- for <dri-devel@freedesktop.org>; Thu, 28 May 2020 11:03:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1590663803; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Cun8HK2gcH9EvzGyJWpeBqNsioNPtJ+qdy5W+mMvL8Y=;
- b=gdG0IObc4FjeXND7LX7FwYmH6MNykL4f3blMimljX42DcxqiRlPxa5gK2Fa2MCqEh8zwwBJA
- NIfOonFisalGiAZU85hYtSgIxtUgF+oSbeO4yopRexNDpoOmCFFkrijcsXehonQ5F/DNCJVQ
- OJe53Yqn8AgZlqgqw4B4qrq65lA=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5ecf9a6b27386861262896dd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 28 May 2020 11:03:07
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 22783C433AD; Thu, 28 May 2020 11:03:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.227] (unknown [49.204.177.40])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: smasetty)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9E396C433C6;
- Thu, 28 May 2020 11:03:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9E396C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=smasetty@codeaurora.org
-Subject: Re: [Freedreno] [PATCH 5/6] drm: msm: a6xx: use dev_pm_opp_set_bw to
- set DDR bandwidth
-To: Rob Clark <robdclark@gmail.com>
-References: <1589453659-27581-1-git-send-email-smasetty@codeaurora.org>
- <1589453659-27581-6-git-send-email-smasetty@codeaurora.org>
- <20200518142333.GA10796@jcrouse1-lnx.qualcomm.com>
- <CAF6AEGtoNwUGX-r7QytGn5hSU-VD4RJZyhcb3WdgAgAFR5BK4A@mail.gmail.com>
- <c8a514c9-5e48-b561-4b45-47cde3bdfb34@codeaurora.org>
- <CAF6AEGvOtgpHMuiw01QgRYGEBB2rp5QOdVMpkTMsi0c-QSSv1Q@mail.gmail.com>
-From: Sharat Masetty <smasetty@codeaurora.org>
-Message-ID: <46976ed1-d732-cb77-bb0c-c2c6a566b95b@codeaurora.org>
-Date: Thu, 28 May 2020 16:32:57 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29C02898BC;
+	Thu, 28 May 2020 11:06:31 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79500898BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 11:06:29 +0000 (UTC)
+Date: Thu, 28 May 2020 11:06:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1590663987;
+ bh=NjeB8N5uvQOXhnkGoU7h4FdwKgVTA8eOlvxQtWImED0=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=Ly4R30jRuJaiggPdlM7Gr/+e5ut3UMIQmCy7cgg4zoCGxRG1OsOeuwRBZLSxkwbU1
+ CEnwAVyZtHYvBjmWHBX1AgZBkpGBseCccM9bSSssdoCIJcfTtUHkctH9SA/012+MEk
+ UUSKosqRTDJgOUiQkwsltSxxj6BKYeYFmJxYJqp8=
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v2] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <zai-Dt6ReehqWcMx7G2ea3aujv9IA89tzLjpDvYr7a5uAU1nDkdNQMlSHPlDTgSWQwEwUD2FEHR6r0_oMyKOU_nb7fLsLVE8TglnGg1YzWE=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <CAF6AEGvOtgpHMuiw01QgRYGEBB2rp5QOdVMpkTMsi0c-QSSv1Q@mail.gmail.com>
-Content-Language: en-US
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,124 +41,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Rajendra Nayak <rnayak@codeaurora.org>,
- saravanak@google.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
- Viresh Kumar <viresh.kumar@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Georgi Djakov <georgi.djakov@linaro.org>, Sibi Sankar <sibis@codeaurora.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 5/27/2020 9:08 PM, Rob Clark wrote:
-> On Wed, May 27, 2020 at 1:47 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
->> + more folks
->>
->> On 5/18/2020 9:55 PM, Rob Clark wrote:
->>> On Mon, May 18, 2020 at 7:23 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
->>>> On Thu, May 14, 2020 at 04:24:18PM +0530, Sharat Masetty wrote:
->>>>> This patches replaces the previously used static DDR vote and uses
->>>>> dev_pm_opp_set_bw() to scale GPU->DDR bandwidth along with scaling
->>>>> GPU frequency.
->>>>>
->>>>> Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +-----
->>>>>    1 file changed, 1 insertion(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>>> index 2d8124b..79433d3 100644
->>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>>> @@ -141,11 +141,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
->>>>>
->>>>>         gmu->freq = gmu->gpu_freqs[perf_index];
->>>>>
->>>>> -     /*
->>>>> -      * Eventually we will want to scale the path vote with the frequency but
->>>>> -      * for now leave it at max so that the performance is nominal.
->>>>> -      */
->>>>> -     icc_set_bw(gpu->icc_path, 0, MBps_to_icc(7216));
->>>>> +     dev_pm_opp_set_bw(&gpu->pdev->dev, opp);
->>>>>    }
->>>> This adds an implicit requirement that all targets need bandwidth settings
->>>> defined in the OPP or they won't get a bus vote at all. I would prefer that
->>>> there be an default escape valve but if not you'll need to add
->>>> bandwidth values for the sdm845 OPP that target doesn't regress.
->>>>
->>> it looks like we could maybe do something like:
->>>
->>>     ret = dev_pm_opp_set_bw(...);
->>>     if (ret) {
->>>         dev_warn_once(dev, "no bandwidth settings");
->>>         icc_set_bw(...);
->>>     }
->>>
->>> ?
->>>
->>> BR,
->>> -R
->> There is a bit of an issue here - Looks like its not possible to two icc
->> handles to the same path.  Its causing double enumeration of the paths
->> in the icc core and messing up path votes. With [1] Since opp/core
->> already gets a handle to the icc path as part of table add,  drm/msm
->> could do either
->>
->> a) Conditionally enumerate gpu->icc_path handle only when pm/opp core
->> has not got the icc path handle. I could use something like [2] to
->> determine if should initialize gpu->icc_path*
->>
->> b) Add peak-opp-configs in 845 dt and mandate all future versions to use
->> this bindings. With this, I can remove gpu->icc_path from msm/drm
->> completely and only rely on opp/core for bw voting.
-> The main thing is that we want to make sure newer dtb always works on
-> an older kernel without regression.. but, hmm..  I guess the
-> interconnects/interconnects-names properties haven't landed yet in
-> sdm845.dtsi?  Maybe that lets us go with the simpler approach (b).
-> Looks like we haven't wired up interconnect for 8916 or 8996 either,
-> so probably we can just mandate this for all of them?
-
-I checked all three 845, 820 and 8916 and none of them have the 
-interconnect configs for GPU. So, I think we are good here. I'll go with 
-option (b) and re-spin v3. Adding interconnects and opp-peak-kBps 
-configs for previous chips can be taken up as a separate activity.
-
-Sharat
-
-> If we have landed the interconnect dts hookup for gpu somewhere that
-> I'm overlooking, I guess we would have to go with (a) and keep the
-> existing interconnects/interconnects-names properties.
->
-> BR,
-> -R
->
->> [1] - https://lore.kernel.org/patchwork/cover/1240687/
->>
->> [2] - https://patchwork.kernel.org/patch/11527573/
->>
->> Let me know your thoughts
->>
->> Sharat
->>
->>>> Jordan
->>>>
->>>>>    unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
->>>>> --
->>>>> 2.7.4
->>>>>
->>>> --
->>>> The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
->>>> a Linux Foundation Collaborative Project
->>>> _______________________________________________
->>>> Freedreno mailing list
->>>> Freedreno@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/freedreno
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlcmUgaGF2ZSBzdWdnZXN0aW9ucyB0byBiYWtlIHBpdGNoIGFsaWdubWVudCwgYWRkcmVzcyBh
+bGlnbmVtZW50LApjb250aWd1b3VzIG1lbW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBW
+UkFNLCBHVFQvQkFSLCBldGMpCmNvbnN0cmFpbnRzIGludG8gbW9kaWZpZXJzLiBMYXN0IHRpbWUg
+dGhpcyB3YXMgYnJvdWdodCB1cCBpdCBzZWVtZWQKbGlrZSB0aGUgY29uc2Vuc3VzIHdhcyB0byBu
+b3QgYWxsb3cgdGhpcy4gRG9jdW1lbnQgdGhpcyBpbiBkcm1fZm91cmNjLmguCgpUaGVyZSBhcmUg
+c2V2ZXJhbCByZWFzb25zIGZvciB0aGlzLgoKLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
+YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQogIHNlYXJjaCBzcGFjZSBw
+cmV0dHkgcXVpY2tseSAod2Ugb25seSBoYXZlIDY0IGJpdHMgdG8gd29yayB3aXRoKS4KLSBNb2Rp
+ZmllcnMgbmVlZCB0byBiZSB1bmFtYmlndW91czogYSBidWZmZXIgY2FuIG9ubHkgaGF2ZSBhIHNp
+bmdsZQogIG1vZGlmaWVyLgotIE1vZGlmaWVyIHVzZXJzIGFyZW4ndCBleHBlY3RlZCB0byBwYXJz
+ZSBtb2RpZmllcnMuCgpTaWduZWQtb2ZmLWJ5OiBTaW1vbiBTZXIgPGNvbnRhY3RAZW1lcnNpb24u
+ZnI+ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpD
+YzogRGFuaWVsIFN0b25lIDxkYW5pZWxAZm9vaXNoYmFyLm9yZz4KQ2M6IEJhcyBOaWV1d2VuaHVp
+emVuIDxiYXNAYmFzbmlldXdlbmh1aXplbi5ubD4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdt
+YWlsLmNvbT4KQ2M6IE1hcmVrIE9sxaHDoWsgPG1hcmFlb0BnbWFpbC5jb20+Ci0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYyB8ICA3IC0tLS0tLS0K
+IGluY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oICAgICAgICAgICAgICAgICAgICAgfCAxNSAr
+KysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgNyBkZWxl
+dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1
+X2RtL2FtZGdwdV9kbS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9h
+bWRncHVfZG0uYwppbmRleCAyOTZjODE3ZTVmOTEuLjA0YTJjN2RkNjI5ZCAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCkBAIC03OTEw
+LDEzICs3OTEwLDYgQEAgc3RhdGljIGludCBkbV91cGRhdGVfcGxhbmVfc3RhdGUoc3RydWN0IGRj
+ICpkYywKIAkJCXJldHVybiAtRUlOVkFMOwogCQl9CiAKLQkJaWYgKG5ld19wbGFuZV9zdGF0ZS0+
+Y3J0Y194IDw9IC1uZXdfYWNydGMtPm1heF9jdXJzb3Jfd2lkdGggfHwKLQkJCW5ld19wbGFuZV9z
+dGF0ZS0+Y3J0Y195IDw9IC1uZXdfYWNydGMtPm1heF9jdXJzb3JfaGVpZ2h0KSB7Ci0JCQlEUk1f
+REVCVUdfQVRPTUlDKCJCYWQgY3Vyc29yIHBvc2l0aW9uICVkLCAlZFxuIiwKLQkJCQkJCQkgbmV3
+X3BsYW5lX3N0YXRlLT5jcnRjX3gsIG5ld19wbGFuZV9zdGF0ZS0+Y3J0Y195KTsKLQkJCXJldHVy
+biAtRUlOVkFMOwotCQl9Ci0KIAkJcmV0dXJuIDA7CiAJfQogCmRpZmYgLS1naXQgYS9pbmNsdWRl
+L3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCmlu
+ZGV4IDQ5MDE0MzUwMGE1MC4uZjQxZmNiMWVkNjNkIDEwMDY0NAotLS0gYS9pbmNsdWRlL3VhcGkv
+ZHJtL2RybV9mb3VyY2MuaAorKysgYi9pbmNsdWRlL3VhcGkvZHJtL2RybV9mb3VyY2MuaApAQCAt
+NTgsNiArNTgsMjEgQEAgZXh0ZXJuICJDIiB7CiAgKiBtYXkgcHJlc2VydmUgbWVhbmluZyAtIHN1
+Y2ggYXMgbnVtYmVyIG9mIHBsYW5lcyAtIGZyb20gdGhlIGZvdXJjYyBjb2RlLAogICogd2hlcmVh
+cyBvdGhlcnMgbWF5IG5vdC4KICAqCisgKiBNb2RpZmllcnMgbXVzdCB1bmlxdWVseSBlbmNvZGUg
+YnVmZmVyIGxheW91dC4gSW4gb3RoZXIgd29yZHMsIGEgYnVmZmVyIG11c3QKKyAqIG1hdGNoIG9u
+bHkgYSBzaW5nbGUgbW9kaWZpZXIuIEEgbW9kaWZpZXIgbXVzdCBub3QgYmUgYSBzdWJzZXQgb2Yg
+bGF5b3V0cyBvZgorICogYW5vdGhlciBtb2RpZmllci4gRm9yIGluc3RhbmNlLCBpdCdzIGluY29y
+cmVjdCB0byBlbmNvZGUgcGl0Y2ggYWxpZ25tZW50IGluCisgKiBhIG1vZGlmaWVyOiBhIGJ1ZmZl
+ciBtYXkgbWF0Y2ggYSA2NC1waXhlbCBhbGlnbmVkIG1vZGlmaWVyIGFuZCBhIDMyLXBpeGVsCisg
+KiBhbGlnbmVkIG1vZGlmaWVyLiBUaGF0IHNhaWQsIG1vZGlmaWVycyBjYW4gaGF2ZSBpbXBsaWNp
+dCBtaW5pbWFsCisgKiByZXF1aXJlbWVudHMuCisgKgorICogRm9yIG1vZGlmaWVycyB3aGVyZSB0
+aGUgY29tYmluYXRpb24gb2YgZm91cmNjIGNvZGUgYW5kIG1vZGlmaWVyIGNhbiBhbGlhcywKKyAq
+IGEgY2Fub25pY2FsIHBhaXIgbmVlZHMgdG8gYmUgZGVmaW5lZCBhbmQgdXNlZCBieSBhbGwgZHJp
+dmVycy4gQW4gZXhhbXBsZQorICogaXMgQUZCQywgd2hlcmUgYm90aCBBUkdCIGFuZCBBQkdSIGhh
+dmUgdGhlIGV4YWN0IHNhbWUgY29tcHJlc3NlZCBsYXlvdXQuCisgKgorICogVXNlcnMgc2VlIG1v
+ZGlmaWVycyBhcyBvcGFxdWUgdG9rZW5zIHRoZXkgY2FuIGNoZWNrIGZvciBlcXVhbGl0eSBhbmQK
+KyAqIGludGVyc2VjdC4gVXNlcnMgbXVzbid0IG5lZWQgdG8ga25vdyB0byByZWFzb24gYWJvdXQg
+dGhlIG1vZGlmaWVyIHZhbHVlCisgKiAoaS5lLiB1c2VycyBhcmUgbm90IGV4cGVjdGVkIHRvIGV4
+dHJhY3QgaW5mb3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllcikuCisgKgogICogVmVuZG9ycyBz
+aG91bGQgZG9jdW1lbnQgdGhlaXIgbW9kaWZpZXIgdXNhZ2UgaW4gYXMgbXVjaCBkZXRhaWwgYXMK
+ICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRpYmlsaXR5IGFjcm9zcyBkZXZp
+Y2VzLCBkcml2ZXJzIGFuZAogICogYXBwbGljYXRpb25zLgotLSAKMi4yNi4yCgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
