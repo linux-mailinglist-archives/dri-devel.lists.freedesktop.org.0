@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD581E6F88
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FAD1E6FEC
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 01:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD1416E1B4;
-	Thu, 28 May 2020 22:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6D36E83C;
+	Thu, 28 May 2020 23:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC05B6E1B4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 22:48:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F2B6E096
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 23:04:35 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D64742A8;
- Fri, 29 May 2020 00:48:46 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D76AE2A8;
+ Fri, 29 May 2020 01:04:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590706127;
- bh=cdsHXo6OKUnTW5BR3DkvIcc+0E7wWVVJF01vOkcdybU=;
+ s=mail; t=1590707074;
+ bh=NkLFU1lGVrngCpsagvs/+jL3KcMwCsMCh3BtwfDEfjE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MOlOp9ERp7sP/cv0RcfSVx08Rs5F2NJ38mNzxDiouoKsk3hbBPCZ4D3usqCEltwlx
- H0bzwLrayVMrscNMyMLoVT9bgJyUqzqTHKq63rbHmmyoT6zhhe85OroD/VutySHmBt
- p1Fb6nOSufjvYXgzSFrPc29VlFgr1gGJP+7C/UeQ=
-Date: Fri, 29 May 2020 01:48:32 +0300
+ b=IgKSkqXuHNMXbQJ2AyRoBp51Qqr9n+65voqBALl1ZlkzTV67Cdif5vTMiFNuxbOl6
+ 1z46scVXW+iq68qhH6XewIHrwHxLoDdCbmD4D7/egijpiAV6MzwXCD4xDkNVj47gTw
+ RUNfuypROaw1YAMjPNqQsT2Isr/5miTUFkH+9sB8=
+Date: Fri, 29 May 2020 02:04:19 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Rob Herring <robh@kernel.org>
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display/bridge: Add binding for
- input mux bridge
-Message-ID: <20200528224832.GE14756@pendragon.ideasonboard.com>
-References: <cover.1589548223.git.agx@sigxcpu.org>
- <14a44a664f40584ffa25c1764aab5ebf97809c71.1589548223.git.agx@sigxcpu.org>
- <20200528194804.GA541078@bogus>
+Subject: Re: [PATCH] dt-bindings: display: renesas, du: Convert binding to YAML
+Message-ID: <20200528230419.GF14756@pendragon.ideasonboard.com>
+References: <20200515003340.18191-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200528185244.GA400585@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200528194804.GA541078@bogus>
+In-Reply-To: <20200528185244.GA400585@bogus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,78 +46,1012 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>, Anson Huang <Anson.Huang@nxp.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Chiras <robert.chiras@nxp.com>,
- Leonard Crestez <leonard.crestez@nxp.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iLAoKT24gVGh1LCBNYXkgMjgsIDIwMjAgYXQgMDE6NDg6MDRQTSAtMDYwMCwgUm9iIEhl
-cnJpbmcgd3JvdGU6Cj4gT24gRnJpLCBNYXkgMTUsIDIwMjAgYXQgMDM6MTI6MTBQTSArMDIwMCwg
-R3VpZG8gR8O8bnRoZXIgd3JvdGU6Cj4gPiBUaGUgYnJpZGdlIGFsbG93cyB0byBzZWxlY3QgdGhl
-IGlucHV0IHNvdXJjZSB2aWEgYSBtdXggY29udHJvbGxlci4KPiA+IAo+ID4gU2lnbmVkLW9mZi1i
-eTogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KPiA+IC0tLQo+ID4gIC4uLi9kaXNw
-bGF5L2JyaWRnZS9tdXgtaW5wdXQtYnJpZGdlLnlhbWwgICAgICB8IDEyMyArKysrKysrKysrKysr
-KysrKysKPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTIzIGluc2VydGlvbnMoKykKPiA+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJp
-ZGdlL211eC1pbnB1dC1icmlkZ2UueWFtbAo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL211eC1pbnB1dC1icmlkZ2Uu
-eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9t
-dXgtaW5wdXQtYnJpZGdlLnlhbWwKPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gPiBpbmRleCAw
-MDAwMDAwMDAwMDAuLjQwMjljZjYzZWU1Ywo+ID4gLS0tIC9kZXYvbnVsbAo+ID4gKysrIGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL211eC1pbnB1dC1i
-cmlkZ2UueWFtbAo+ID4gQEAgLTAsMCArMSwxMjMgQEAKPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVu
-dGlmaWVyOiAoR1BMLTIuMC1vbmx5IE9SIEJTRC0yLUNsYXVzZSkKPiA+ICslWUFNTCAxLjIKPiA+
-ICstLS0KPiA+ICskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9zY2hlbWFzL2Rpc3BsYXkvYnJp
-ZGdlL211eC1pbnB1dC1icmlkZ2UueWFtbCMKPiA+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJl
-ZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMKPiA+ICsKPiA+ICt0aXRsZTogRFJNIGlucHV0
-IHNvdXJjZSBzZWxlY3Rpb24gdmlhIG11bHRpcGxleGVyCj4gCj4gRFJNIGlzIG5vdCBhIGhhcmR3
-YXJlIHRoaW5nLgo+IAo+IFRoZSBncmFwaCBiaW5kaW5nIGlzIGFscmVhZHkgZGVzaWduZWQgdG8g
-c3VwcG9ydCBtdXhpbmcuIEdlbmVyYWxseSwgCj4gbXVsdGlwbGUgZW5kcG9pbnRzIG9uIGFuIGlu
-cHV0IG5vZGUgaXMgYSBtdXguIFNvIGVpdGhlciB0aGUgZGV2aWNlIHdpdGggCj4gdGhlIGlucHV0
-IHBvcnRzIGtub3dzIGhvdyB0byBzZWxlY3QgdGhlIGlucHV0LCBvciB5b3UganVzdCBuZWVkIGEg
-Cj4gbXV4LWNvbnRyb2wgcHJvcGVydHkgZm9yIHRoZSBwb3J0IHRvIGhhdmUgc29tZSBvdGhlciBk
-ZXZpY2UgaW1wbGVtZW50IAo+IHRoZSBjb250cm9sLgoKVGhlIG11eCBtb2RlbGxlZCBieSB0aGlz
-IGJpbmRpbmcgaXMgdXNlZCBieSBHdWlkbyB3aXRoIHRoZSBOV0wgRFNJCmJyaWRnZSBpbnRlZ3Jh
-dGVkIGluIHRoZSBpLk1YOC4gVGhlIE5XTCBEU0kgaXMgYW4gSVAgY29yZSB0aGF0IGhhcyBhCnNp
-bmdsZSBpbnB1dC4gVGhlIGkuTVg4IGhhcyBhbiBhZGRpdGlvbmFsIG11eCBpbiBmcm9udCBvZiB0
-aGUgTldMIERTSSwKdG8gc2VsZWN0IGJldHdlZW4gdGhlIHR3byBkaXNwbGF5IGNvbnRyb2xsZXJz
-IGluIHRoZSBTb0MgKGVMQ0RJRiBhbmQKRENTUykuIFRoZSBtdXggZG9lc24ndCBiZWxvbmcgdG8g
-YW55IG9mIHRoZSBkaXNwbGF5IGNvbnRyb2xsZXIsIGl0J3MKcmVhbGx5IGdsdWUgbG9naWMgYmV0
-d2VlbiB0aGUgZGlzcGxheSBjb250cm9sbGVycyBhbmQgdGhlIE5XTCBEU0kKYnJpZGdlLgoKSSBh
-Z3JlZSB0aGF0IHRoZSBiaW5kaW5ncyBzaG91bGRuJ3QgbWVudGlvbiBEUk0uIEkgd291bGQgaG93
-ZXZlciBwcmVmZXIKbm90IGFkZGluZyBhIG11eC1jb250cm9sIHByb3BlcnR5IGFuZCBtdWx0aXBs
-ZSBpbnB1dCBwb3J0cyB0byB0aGUgTldMCkRTSSBiaW5kaW5nLCBhcyB0aGUgbXV4IGlzbid0IGlu
-dGVybmFsIHRvIHRoYXQgSVAgY29yZSAoaWYgd2UgZ28gdGhhdApyb3V0ZSwgd2Ugd291bGQgbmVl
-ZCB0byBhZGQgbXV4IGNvbnRyb2wgdG8gYW55IElQIGNvcmUgdGhhdCB3b3VsZCBiZQppbnRlZ3Jh
-dGVkIGluIGFuIFNvQyB3aXRoIGEgbXV4IGluIGZyb250KS4gQXMgRFQgc2hvdWxkIGRlc2NyaWJl
-IHRoZQpoYXJkd2FyZSwgSSB0aGluayBkZXNjcmliaW5nIHRoZSBzdGFuZGFsb25lIG11eCBiZXR3
-ZWVuIHRoZSBkaXNwbGF5CmNvbnRyb2xsZXJzIGFuZCB0aGUgTldMIERTSSBicmlkZ2UgbWFrZXgg
-c2Vuc2UuCgpXZSBhbHJlYWR5IGhhdmUgYSBEVCBiaW5kaW5nIGZvciBhIHZpZGVvIG11eAooRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3ZpZGVvLW11eC50eHQpLiBGcm9t
-IGEgRFQgcG9pbnQKb2YgdmlldywgSSBzZWUgbm8gcmVhc29uIG5vdCB0byByZXVzZSB0aGF0LiBG
-cm9tIGEgZHJpdmVyIHBvaW50IG9mIHZpZXcKdGhhdCB3aWxsIGJlIG1lc3N5LCBhcyB0aGUgZHJp
-dmVyIHRoYXQgYmluZHMgdG8gdGhlIHZpZGVvLW11eCBjb21wYXRpYmxlCnN0cmluZyBpcyBwYXJ0
-IG9mIFY0TDIuIFRoYXQncyBhIGRyaXZlciBpc3N1ZSBob3dldmVyIChhbmQgbm90IGEgbmV3Cm9u
-ZSwgd2UgYWxyZWFkeSBoYXZlIGRldmljZXMgdGhhdCBjYW4gYmUgcGFydCBvZiBhIHZpZGVvIGNh
-cHR1cmUKcGlwZWxpbmUgb3IgYSB2aWRlbyBkaXNwbGF5IHBpcGVsaW5lKSwgYW5kIHNob3VsZCBi
-ZSBzb2x2ZWQgb24gdGhlCnNvZnR3YXJlIHNpZGUsIG5vdCB0aGUgRFQgc2lkZS4gSXQgd2lsbCBo
-b3dldmVyIG5vdCBiZSBlYXN5IHdvcmssIHdoaWNoCmV4cGxhaW5zIHdoeSwgc28gZmFyLCBldmVy
-eWJvZHkgaGFzIGlnbm9yZWQgdGhlIGlzc3VlIGhvcGluZyB0aGF0CnNvbWVvbmUgZWxzZSB3b3Vs
-ZCBiZSBoaXQgYnkgaXQgZmlyc3QuIFdlIG1heSBoYXZlIHJlYWNoZWQgdGhhdCBkYXkuCgo+IFlv
-dSBjb3VsZCBkbyBpdCBsaWtlIHlvdSBoYXZlIGJlbG93LiBUaGF0IHdvdWxkIGJlIGFwcHJvcHJp
-YXRlIGlmIAo+IHRoZXJlJ3MgYSBzZXBhcmF0ZSBoL3cgZGV2aWNlIGNvbnRyb2xsaW5nIHRoZSBt
-dXhpbmcuIFNheSBmb3IgZXhhbXBsZSAKPiBzb21lIGJvYXJkIGxldmVsIGRldmljZSBjb250cm9s
-bGVkIGJ5IGkyYy4KCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi Rob,
+
+On Thu, May 28, 2020 at 12:52:44PM -0600, Rob Herring wrote:
+> On Fri, May 15, 2020 at 03:33:40AM +0300, Laurent Pinchart wrote:
+> > Convert the Renesas R-Car DU text binding to YAML.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  .../bindings/display/renesas,du.txt           | 139 ---
+> >  .../bindings/display/renesas,du.yaml          | 915 ++++++++++++++++++
+> 
+> A 'normal' conversion is about double the lines. I guess this is a sign 
+> that the original was not well specified.
+
+The original was specified in a much more compressed form (for instance
+there was a table with one line per SoC to describe the port node, the
+YAML equivalent has to be longer).
+
+> Maybe this can be split to reduce some of the if/then? One way is define 
+> a common 'include' file that each specific instance can reference
+
+With your recommendation of using pattern instead of enum for the dclkin
+clock names, we're down to 848 lines, it's already a bit better :-)
+
+I could indeed split the file, but I'll then run into naming issues. If
+you look at the compatible strings for each of the if...then...else,
+they don't have easy patterns that could be used to name files. I could
+name the files based on one arbitrarily chosen compat string among the
+multiple values that are supported, but I think that would become
+confusing. I could also have one file per SoC, but we'll then end up
+with lots of files, several of them being totally identical except for
+the compatible string. Would you mind keeping it as-is, or do you think
+it really needs to be split ?
+
+> [...]
+> 
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > new file mode 100644
+> > index 000000000000..ca48065afe1f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > @@ -0,0 +1,915 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/renesas,du.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car Display Unit (DU)
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +
+> > +description: |
+> > +  These DT bindings describe the Display Unit embedded in the Renesas R-Car
+> > +  Gen1, R-Car Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - renesas,du-r8a7743 # for RZ/G1M compatible DU
+> > +      - renesas,du-r8a7744 # for RZ/G1N compatible DU
+> > +      - renesas,du-r8a7745 # for RZ/G1E compatible DU
+> > +      - renesas,du-r8a77470 # for RZ/G1C compatible DU
+> > +      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
+> > +      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
+> > +      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
+> > +      - renesas,du-r8a7779 # for R-Car H1 compatible DU
+> > +      - renesas,du-r8a7790 # for R-Car H2 compatible DU
+> > +      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
+> > +      - renesas,du-r8a7792 # for R-Car V2H compatible DU
+> > +      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
+> > +      - renesas,du-r8a7794 # for R-Car E2 compatible DU
+> > +      - renesas,du-r8a7795 # for R-Car H3 compatible DU
+> > +      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
+> > +      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
+> > +      - renesas,du-r8a77970 # for R-Car V3M compatible DU
+> > +      - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> > +      - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> > +      - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  # See compatible-specific constraints below.
+> > +  clocks: true
+> > +  clock-names: true
+> > +  interrupts: true
+> > +  resets: true
+> > +  reset-names: true
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      The connections to the DU output video ports are modeled using the OF
+> > +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > +      The number of ports and their assignment are model-dependent. Each port
+> > +      shall have a single endpoint.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^port@[0-3]$":
+> > +        type: object
+> > +
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              remote-endpoint:
+> > +                $ref: /schemas/types.yaml#/definitions/phandle
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +        additionalProperties: false
+> 
+> You can drop this and assume there's a generic check for this. Though I 
+> guess this does ensure only 'remote-endpoint' is present which a generic 
+> schema couldn't do.
+
+When you say I can drop "this", which part do you mean exactly ? I
+indeed wanted to specify that no other property than remote-endpoint can
+be present. What's your recommendation ?
+
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +    additionalProperties: false
+> > +
+> > +  renesas,cmms:
+> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> > +    description:
+> > +      A list of phandles to the CMM instances present in the SoC, one for each
+> > +      available DU channel.
+> > +
+> > +  renesas,vsps:
+> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> > +    description:
+> > +      A list of phandle and channel index tuples to the VSPs that handle the
+> > +      memory interfaces for the DU channels. The phandle identifies the VSP
+> > +      instance that serves the DU channel, and the channel index identifies
+> > +      the LIF instance in that VSP.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - interrupts
+> > +  - resets
+> > +  - ports
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,du-r8a7779
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 1
+> > +          maxItems: 3
+> > +          items:
+> > +            - description: Functional clock
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 1
+> > +          maxItems: 3
+> > +          items:
+> > +            - const: du.0
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> 
+> Here and elsewhere:
+> 
+> - pattern: "^dclkin\.[01]$"
+
+I assume you meant
+
+- pattern: "^dclkin\\.[01]$"
+
+Will fix.
+
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 1
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: DPAD 1
+> > +            # port@2 is TCON, not supported yet
+> 
+> Does that matter?
+
+It's a nice reminder that we should add support for it. And I don't
+meant in the driver, even if that part is also required, but in the DT
+bindings. I don't want to blindly state
+
+            port@2:
+              description: TCON
+
+without working on TCON support on the driver side to validate that the
+DT binding is fine and that I haven't overlooked something. Do you mind
+keeping the comment for now ?
+
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - interrupts
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7743
+> > +              - renesas,du-r8a7744
+> > +              - renesas,du-r8a7791
+> > +              - renesas,du-r8a7793
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: LVDS 0
+> > +            # port@2 is TCON, not supported yet
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7745
+> > +              - renesas,du-r8a7792
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: DPAD 1
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7794
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: DPAD 1
+> > +            # port@2 is TCON, not supported yet
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a77470
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: DPAD 1
+> > +            port@2:
+> > +              description: LVDS 0
+> > +            # port@3 is DVENC, not supported yet
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7790
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: Functional clock for DU2
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +            - description: DU_DOTCLKIN2 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - const: du.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +
+> > +        interrupts:
+> > +          maxItems: 3
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: LVDS 0
+> > +            port@2:
+> > +              description: LVDS 1
+> > +            # port@3 is TCON, not supported yet
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7795
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 4
+> > +          maxItems: 8
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: Functional clock for DU2
+> > +            - description: Functional clock for DU4
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +            - description: DU_DOTCLKIN2 input clock
+> > +            - description: DU_DOTCLKIN3 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 4
+> > +          maxItems: 8
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - const: du.2
+> > +            - const: du.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +              - dclkin.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +              - dclkin.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +              - dclkin.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +              - dclkin.3
+> > +
+> > +        interrupts:
+> > +          maxItems: 4
+> > +
+> > +        resets:
+> > +          maxItems: 2
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.2
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: HDMI 0
+> > +            port@2:
+> > +              description: HDMI 1
+> > +            port@3:
+> > +              description: LVDS 0
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +            - port@3
+> > +
+> > +        renesas,cmms:
+> > +          minItems: 4
+> > +
+> > +        renesas,vsps:
+> > +          minItems: 4
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +        - renesas,vsps
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a774a1
+> > +              - renesas,du-r8a7796
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: Functional clock for DU2
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +            - description: DU_DOTCLKIN2 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - const: du.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.2
+> > +
+> > +        interrupts:
+> > +          maxItems: 3
+> > +
+> > +        resets:
+> > +          maxItems: 2
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.2
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: HDMI 0
+> > +            port@2:
+> > +              description: LVDS 0
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +
+> > +        renesas,cmms:
+> > +          minItems: 3
+> > +
+> > +        renesas,vsps:
+> > +          minItems: 3
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +        - renesas,vsps
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a774b1
+> > +              - renesas,du-r8a77965
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: Functional clock for DU3
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +            - description: DU_DOTCLKIN3 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 3
+> > +          maxItems: 6
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - const: du.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.3
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +              - dclkin.3
+> > +
+> > +        interrupts:
+> > +          maxItems: 3
+> > +
+> > +        resets:
+> > +          maxItems: 2
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.3
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: HDMI 0
+> > +            port@2:
+> > +              description: LVDS 0
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +
+> > +        renesas,cmms:
+> > +          minItems: 3
+> > +
+> > +        renesas,vsps:
+> > +          minItems: 3
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +        - renesas,vsps
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a77970
+> > +              - renesas,du-r8a77980
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 1
+> > +          maxItems: 2
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 1
+> > +          maxItems: 2
+> > +          items:
+> > +            - const: du.0
+> > +            - const: dclkin.0
+> > +
+> > +        interrupts:
+> > +          maxItems: 1
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: LVDS 0
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +        renesas,vsps:
+> > +          minItems: 1
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +        - renesas,vsps
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a774c0
+> > +              - renesas,du-r8a77990
+> > +              - renesas,du-r8a77995
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +            - enum:
+> > +              - dclkin.0
+> > +              - dclkin.1
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: LVDS 0
+> > +            port@2:
+> > +              description: LVDS 1
+> > +            # port@3 is TCON, not supported yet
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +            - port@2
+> > +
+> > +        renesas,cmms:
+> > +          minItems: 2
+> > +
+> > +        renesas,vsps:
+> > +          minItems: 2
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+> > +        - renesas,vsps
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  # R-Car H3 ES2.0 DU
+> > +  - |
+> > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    display@feb00000 {
+> > +        compatible = "renesas,du-r8a7795";
+> > +        reg = <0xfeb00000 0x80000>;
+> > +        interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+> > +                     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+> > +                     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
+> > +                     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks = <&cpg CPG_MOD 724>,
+> > +                 <&cpg CPG_MOD 723>,
+> > +                 <&cpg CPG_MOD 722>,
+> > +                 <&cpg CPG_MOD 721>;
+> > +        clock-names = "du.0", "du.1", "du.2", "du.3";
+> > +        resets = <&cpg 724>, <&cpg 722>;
+> > +        reset-names = "du.0", "du.2";
+> > +
+> > +        renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+> > +        renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +
+> > +            port@0 {
+> > +                reg = <0>;
+> > +                endpoint {
+> > +                    remote-endpoint = <&adv7123_in>;
+> > +                };
+> > +            };
+> > +            port@1 {
+> > +                reg = <1>;
+> > +                endpoint {
+> > +                    remote-endpoint = <&dw_hdmi0_in>;
+> > +                };
+> > +            };
+> > +            port@2 {
+> > +                reg = <2>;
+> > +                endpoint {
+> > +                    remote-endpoint = <&dw_hdmi1_in>;
+> > +                };
+> > +            };
+> > +            port@3 {
+> > +                reg = <3>;
+> > +                endpoint {
+> > +                    remote-endpoint = <&lvds0_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
