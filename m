@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BFC1E6149
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCED71E6176
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E776E517;
-	Thu, 28 May 2020 12:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A9B6E519;
+	Thu, 28 May 2020 12:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84EFC6E514
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:48:10 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id d7so5319878lfi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=+C0igjhGT+sYhN7GzwMHQ4aSr4cxXqb485GsRfnenxw=;
- b=HspxuV6zJNKNzYNIVKfE/bgUdotoEi+ZqAajXqNCTP80TI6X8ewueh4HiZiwPGEizl
- 36pYw9EzQfRb/8hVbVpYHWJ1Sz3ZPTetbO2oLdR/FjjYA/5b9UWaN4W6yH8k9AVz0SmF
- sURpk06sRHVhKJ1K8k1mRkqxsTxbdLJSkZs7ozHdBffYnUIt0P2HbKXgV9Rhx+6PNSEW
- XLUqVfkN1vd4r2MjUflgK64Fl4NgPVmjFFoHSfQfwHUXAFCpqMy7FTsO103eXqk8AYLj
- Dplv60rSozcEUnmYZWN/WrbMYjZWPDxu/y9K1UIiQbaZUi8W2JLxll4ob6JxSynG/IEO
- tFlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=+C0igjhGT+sYhN7GzwMHQ4aSr4cxXqb485GsRfnenxw=;
- b=LF6ZIwDhEZGsJ/AaCTJAYqo2M+nzDfV6h2qFc/ZJXoGl8/maDU8IwmPlAHbaX1/R0C
- 8WawIXKB7eopfl6KoqvyRA5swr+Rs6iB7nxFZxc4MPtBRH35fdtJOFFwNpJcNl6i8lzw
- Hcf7jyXmXVFYrOesrqA8L9aO//qOQPjc5GiEMRJeqaSdEfUjRs3HoU1wElAJAIJG0R73
- 9tk7YSLEePL8ObBm9sHD81T0aw7MbX6+5H8F7Eb16rZQiNB5AqkVPhwKoJpKIrUW+PaL
- JDPryx1Jw1JP8wujr1JdaI0n1H4jtuEi4sWBck34vO/XPgpfvDJ+Kwk92Nt3VS1PbpMt
- d8FQ==
-X-Gm-Message-State: AOAM5329EZH3aIwMnN/2vpfDvuVyVuijO2MCmdUhhmaNLdWTfXpyQ21m
- kEpvpxpt32zj/1UJOswD1i8=
-X-Google-Smtp-Source: ABdhPJznEvS6tD8CmhN8F4z6oku/+JHIPfD8fwb+VRu5tshe1c1mnyFRFHWhTy1479mX5jRjmzbD6g==
-X-Received: by 2002:a05:6512:62:: with SMTP id
- i2mr1598207lfo.152.1590670088666; 
- Thu, 28 May 2020 05:48:08 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id j9sm1615551lfe.24.2020.05.28.05.48.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:48:08 -0700 (PDT)
-Date: Thu, 28 May 2020 15:48:04 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Yogish Kulkarni <yogishkulkarni@gmail.com>
-Subject: Re: Dynamically change enumeration list of DRM enumeration property
-Message-ID: <20200528154804.02fb8901@eldfell.localdomain>
-In-Reply-To: <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
-References: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
- <20200526103921.0817ee0b@eldfell.localdomain>
- <CAKMK7uHG1P9hwT1CBqWUfL6sBwZwyS7q0scXSUuXNiJMmRz-+g@mail.gmail.com>
- <CAL3Fm-L-iwGu60Zf15aYf9Xm9201sT2vU888Fv46Tv7x37Aq6Q@mail.gmail.com>
- <20200528082445.GR206103@phenom.ffwll.local>
- <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7918F6E519;
+ Thu, 28 May 2020 12:53:12 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 84DFCAA35;
+ Thu, 28 May 2020 12:53:10 +0000 (UTC)
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Rob Herring <robh@kernel.org>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+ <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
+ <CAKMK7uEcP0aj0r-TevAMdz8_fUH_DnJCDfJxiVf1_H+qweS_5Q@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <742324eb-c063-3148-6802-7fcf447ae741@suse.de>
+Date: Thu, 28 May 2020 14:53:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uEcP0aj0r-TevAMdz8_fUH_DnJCDfJxiVf1_H+qweS_5Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,122 +66,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0364269012=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0104490187=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0364269012==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0104490187==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/3QFChqKJ987lAIA0KYNbA0D"; protocol="application/pgp-signature"
+ protocol="application/pgp-signature";
+ boundary="TQyiAQixWTGYjPxuMxfyZX8pfIhOLLZV9"
 
---Sig_/3QFChqKJ987lAIA0KYNbA0D
-Content-Type: text/plain; charset=UTF-8
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--TQyiAQixWTGYjPxuMxfyZX8pfIhOLLZV9
+Content-Type: multipart/mixed; boundary="TGHMCy0a1F4w2RjkJMK6pNizs74k30mKg";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Rob Herring <robh@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Message-ID: <742324eb-c063-3148-6802-7fcf447ae741@suse.de>
+Subject: Re: [PATCH 7/9] drm/shmem-helpers: Redirect mmap for imported dma-buf
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-8-daniel.vetter@ffwll.ch>
+ <d6dc2421-b875-7fd7-74a6-ec78aebdcd84@suse.de>
+ <CAKMK7uEcP0aj0r-TevAMdz8_fUH_DnJCDfJxiVf1_H+qweS_5Q@mail.gmail.com>
+In-Reply-To: <CAKMK7uEcP0aj0r-TevAMdz8_fUH_DnJCDfJxiVf1_H+qweS_5Q@mail.gmail.com>
+
+--TGHMCy0a1F4w2RjkJMK6pNizs74k30mKg
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 28 May 2020 17:38:59 +0530
-Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+Hi
 
-> I am trying to find a way through Weston which will allow setting specific
-> encoding at display output.
-
-Hi,
-
-why do *you* want to control that?
-
-Why not let the driver always choose the highest possible encoding
-given the video mode and hardware capability?
-
-I can understand userspace wanting to know what it got, but why should
-userspace be able to control it?
-
-Would people want to pick the encoding first, and then go for the
-highest possible video mode?
-
-> Could you please elaborate on  why it is best
-> to let DRM driver automatically configure which encoding to choose rather
-> than making it selectable by DRM client ? I am not able to find reference
-> to past discussion about this. I was only able to find a proposed change -
-> https://lists.freedesktop.org/archives/intel-gfx/2017-April/125451.html b=
-ut
-> am not able to find why it got rejected.
+Am 27.05.20 um 21:34 schrieb Daniel Vetter:
+> On Wed, May 27, 2020 at 8:32 PM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
+>>
+>> Hi Daniel,
+>>
+>> what's your plan for this patch set? I'd need this patch for the udl
+>> shmem cleanup.
 >=20
-> Alternatively, is there existing way through which DRM clients can specify
-> preference for output encoding ? Or currently it's all up to the DRM driv=
-er
-> to choose what output encoding to use.
+> I was pinging some people for a tested-by, I kinda don't want to push
+> this entirely untested. I think at least one of the rendering drivers
+> using shmem would be nice to run this on, I've pinged Rob Herring a
+> bit.
 
-There must be some reason why userspace needs to be able to control it.
-I'm also asking as a Weston maintainer, since I'm interested in how
-this affects e.g. color reproduction or HDR support.
+OK, makes sense. FWIW I tested the patchset with udl as secondary
+adapter. No problems noticed.
 
-One thing that comes to my mind is using atomic TEST_ONLY commits to
-probe all the possible video modes =C3=97 encodings for presenting a list to
-the user to choose from, if you have a display configuration GUI. E.g
-with some TV use cases, maybe the user wants to avoid sub-sampling, use
-the native resolution, but limit refresh rate to what's actually
-possible. Or any other combination of the three.
+Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+Best regards
+Thomas
 
-Thanks,
-pq
-
+> -Daniel
 >=20
-> Thanks,
-> -Yogish
+>>
+>> Best regards
+>> Thomas
+>>
+>> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+>>> Currently this seems to work by converting the sgt into a pages array=
+,
+>>> and then treating it like a native object. Do the right thing and
+>>> redirect mmap to the exporter.
+>>>
+>>> With this nothing is calling get_pages anymore on imported dma-buf,
+>>> and we can start to remove the use of the ->pages array for that case=
+=2E
+>>>
+>>> v2: Rebase
+>>>
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Rob Herring <robh@kernel.org>
+>>> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm=
+/drm_gem_shmem_helper.c
+>>> index b9cba5cc61c3..117a7841e284 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -551,6 +551,9 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj=
+, struct vm_area_struct *vma)
+>>>       /* Remove the fake offset */
+>>>       vma->vm_pgoff -=3D drm_vma_node_start(&obj->vma_node);
+>>>
+>>> +     if (obj->import_attach)
+>>> +             return dma_buf_mmap(obj->dma_buf, vma, 0);
+>>> +
+>>>       shmem =3D to_drm_gem_shmem_obj(obj);
+>>>
+>>>       ret =3D drm_gem_shmem_get_pages(shmem);
+>>>
+>>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>
 >=20
-> On Thu, May 28, 2020 at 1:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 >=20
-> > On Thu, May 28, 2020 at 12:29:43PM +0530, Yogish Kulkarni wrote: =20
-> > > For creating new source property, is it good to follow
-> > > "drm_mode_create_hdmi_colorspace_property()"  as an example ? It seem=
-s =20
-> > that =20
-> > > currently there is no standard DRM property which allows DRM client t=
-o =20
-> > set =20
-> > > a specific output encoding (like YUV420, YUV422 etc). Also, there is =
-no
-> > > standard property for letting client select YUV/RGB color range. I see
-> > > there are two ways to introduce new properties, 1. do something like
-> > > drm_mode_create_hdmi_colorspace_property 2. create custom property =20
-> > similar =20
-> > > to "Broadcast RGB". Is there opinion on which is a preferable way to =
-=20
-> > expose =20
-> > > encoding and color rage selection property ? =20
-> >
-> > I guess first question is "why?" Thus far we've gone with the opinion t=
-hat
-> > automatically configuring output stuff as much as possible is best. Wha=
-t's
-> > the use-case where the driver can't select this?
-> > -Daniel
 
---Sig_/3QFChqKJ987lAIA0KYNbA0D
-Content-Type: application/pgp-signature
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--TGHMCy0a1F4w2RjkJMK6pNizs74k30mKg--
+
+--TQyiAQixWTGYjPxuMxfyZX8pfIhOLLZV9
+Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7PswQACgkQI1/ltBGq
-qqdBWA//d9bID31SbUV7C6HM+6VFka6+WudaYHsXgY291zM+texe5D2CV0lo4yjP
-RZYxDQoZFvS5CD2BcAjYQUzNmA8p5jk1OXOGLu/1juv9Y2/PcZOht+Z8nmDbz2qb
-7aW5EVZQjDU8ZQQ8ERL94NAdh5uSq0YPhJARQQkaFPnTUfCAw57QFI7ZG1HU849I
-yNaMqlVnX/YVy6b8pPvyvtOpZ116u1V93yaBBMVbhd/ikVVEoDnffNi3vnO7wALY
-89Bmdn7Q4JTbs9k2VFP4A84hv3VPgMu9GJph5Co3h61bvnTa/92ISy93FPYW8O8A
-IQt+0PHdyUp6PrLW5Go4mq6ct7luqpFFijOB9FAWLdDdHfh7Oodh946pevi6AMq8
-QOdwuXwQFINH2mdiEAOgwti4oY5DXSVweU/V9kB297l5mkmGzghzOKqPm/H7mPtS
-dl0YpxZhqDob3lshU29dBWg3BBz5lRLtFC1TLblV9HyRDVBQQx8utsFaVwIh73Fd
-NPDrCd7mioCAGRRVoo4nYzaelw26HRifP1Vfwek6XdJarDu7EY3HVZXi/VfRvYf2
-7dmc11NFpOF2Y5RWV4mxkeCrQNraljg+dnGQB4buDT6ZkzjycC3QO5Dza8nbBt5J
-A9g9CZ0hCcfH0c81lje8VTyGMsmQ0rm4Ef/PRox2sF4aD2KX1yQ=
-=+ldT
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7PtDAACgkQaA3BHVML
+eiNb8ggAvudKy0nLjLJaPUfuqIFNobVtPMsq3tbj5d5ErAmj4Iv4A61oWBFK/zML
+YwbVk/9Woll+pxdeNH4sgNg4cs+be6vtquVldkCqc5BwQMfs0z7/Tv+N8kn3vau5
+eZ4kyrD1H0v6giERuBU3SBnY40YRW+iE9FV6KKtaAQPcDq6z2aSeicsiblR/aU5e
+QhQgQQ3v8jw1OEequu+JQs41fkfVmVuSdh7OVezA4zlTDC/F9jdm8qmEoflPjKxZ
+va84DRHvEb9mkorrq+7qqjMNZ4JqYBWLTxjjgY1Sxo0/6QyAuM6qznkWn9r7E6D8
+rmcCvJ6bEex09Xeq9KBDH4b8eRJ6ug==
+=raaC
 -----END PGP SIGNATURE-----
 
---Sig_/3QFChqKJ987lAIA0KYNbA0D--
+--TQyiAQixWTGYjPxuMxfyZX8pfIhOLLZV9--
 
---===============0364269012==
+--===============0104490187==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -197,4 +223,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0364269012==--
+--===============0104490187==--
