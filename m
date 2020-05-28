@@ -2,47 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F6C1E5330
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 03:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8201E5352
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 03:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10BC36E133;
-	Thu, 28 May 2020 01:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7F36E13B;
+	Thu, 28 May 2020 01:48:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921636E133
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 01:37:42 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id d7so28310015ioq.5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 May 2020 18:37:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nbx5PheTegOHEEr/4nd2amubzWo0SUuwMck94zzOXno=;
- b=PxUehSpWm8C+ISpvRgK35AJDpUkP5adYCvHA6CSo47p4fmoanJGDF6r5bSjnm8KfJF
- EGqNMtyPXOeQ3M5qs4JOJNP0QuMpj59AQrn9oBfNd7As6ApkwiZ3ecQnbTvgDtQXMeO/
- P0+UwIsMv8+dU67AFtMz/sDvBfBCGvIckNLkrID0Kp7/tEPuNquXdgsg+r8iA44OsE5n
- ZJXBpaHlAGw0GbnF9s0ISID7YvptGv7RW5Zgdryi45eF5bHG6xitSfG+vGj1NzCDYvQd
- wiaQ/5ncg+7d/vA8TBb+Tdolb3E0UkLNzm0mezO0sfGPmuQaaD4YKXtfviAeLlhkvQap
- FDKw==
-X-Gm-Message-State: AOAM532/XlFhyW8kDZ6H6FgAbENbO2NjtqqAe7G6FDnKsf1X3Evghcyo
- 5lzHe3y+LYs34h34Iw2Miw==
-X-Google-Smtp-Source: ABdhPJyw9o9EnKs0HcIDKMaQ4TcrHd2XeHo+9zjE0fdpnilS5FbjfGLGSCLKvxuGkF3aQHm53AYG2g==
-X-Received: by 2002:a02:3705:: with SMTP id r5mr648818jar.29.1590629861926;
- Wed, 27 May 2020 18:37:41 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id n17sm2046869ili.1.2020.05.27.18.37.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 18:37:41 -0700 (PDT)
-Received: (nullmailer pid 3175224 invoked by uid 1000);
- Thu, 28 May 2020 01:37:40 -0000
-Date: Wed, 27 May 2020 19:37:39 -0600
-From: Rob Herring <robh@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7FD6E13B
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 01:48:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C59812A3;
+ Thu, 28 May 2020 03:48:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1590630532;
+ bh=U4kq/jSbwNGuKVGeEHlzWvc3R7NEee14LdRS0610D+0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sdVgaQBICro/JkQEixC7dLVChef2a3hJuZPkokvJZsnUfJam/kJl/yhEOuU6HqF5K
+ sACsXGtsSlhkcr+GTq6mlcw04pdgZ2qXhQD+yzwVIMRr3ocYdxVDKbzxfGkKOlXm/+
+ rnuP7/X2gLmOLmoMh33OLsGIZh49vnc5EbSVBmvc=
+Date: Thu, 28 May 2020 04:48:37 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Vinod Koul <vkoul@kernel.org>
 Subject: Re: [PATCH 2/3] dt-bindings: display: bridge: Add documentation for
  LT9611
-Message-ID: <20200528013739.GA3174723@bogus>
+Message-ID: <20200528014837.GD4670@pendragon.ideasonboard.com>
 References: <20200513100533.42996-1-vkoul@kernel.org>
  <20200513100533.42996-3-vkoul@kernel.org>
 MIME-Version: 1.0
@@ -65,14 +52,17 @@ Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
  linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 May 2020 15:35:32 +0530, Vinod Koul wrote:
+Hi Vinod,
+
+Thank you for the patch.
+
+On Wed, May 13, 2020 at 03:35:32PM +0530, Vinod Koul wrote:
 > Lontium LT9611 is a DSI to HDMI bridge which supports 2 DSI ports
 > and I2S port as input and one HDMI port as output
 > 
@@ -82,8 +72,232 @@ On Wed, 13 May 2020 15:35:32 +0530, Vinod Koul wrote:
 >  1 file changed, 178 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+> new file mode 100644
+> index 000000000000..77ee8cc35cd8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+> @@ -0,0 +1,178 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Lontium LT9611 2 Port MIPI to HDMI Bridge
+> +
+> +maintainers:
+> +  - Vinod Koul <vkoul@kernel.org>
+> +
+> +description: |
+> +  The LT9611 is a bridge device which converts DSI to HDMI
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - lontium,lt9611
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: base I2C address of the device.
+> +
+> +  "#sound-dai-cells":
+> +    const: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: interrupt line for the chip
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I think you could drop the descriptions for the reg and interrupt
+properties, they don't add much.
+
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active high RESET pin.
+> +
+> +  vdd-supply:
+> +    description: Regulator for 1.8V MIPI phy power.
+> +
+> +  vcc-supply:
+> +    description: Regulator for 3.3V IO power.
+> +
+> +  ports:
+> +    type: object
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description: |
+> +          HDMI port for HDMI output
+
+The usual practice is to have the input ports first, followed by the
+output ports. Is there a reason not to follow that rule ?
+
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +        patternProperties:
+> +          endpoint:
+
+If you want to use patternProperties, this should be
+
+          "^endpoint@[0-9]+$":
+
+(including the quotes). Same below.
+
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+
+How about
+
+              remote-endpoint:
+                $ref: /schemas/types.yaml#/definitions/phandle
+
+and the same below ?
+
+You also need a reg property if multiple endpoints are present.
+
+> +
+> +        required:
+> +          - reg
+> +
+> +      port@1:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description: |
+> +          MIPI port-1 for MIPI input
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +
+> +      port@2:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        description: |
+> +          MIPI port-2 for MIPI input
+
+A description of how the two MIPI inputs differ would be useful. In
+particular, are both mandatory, or is it valid to connect only one of
+the two ? If using a single input is supported, can it be either, or
+does it have to be the first one ? When using both inputs, what should
+be connected to them ?
+
+> +
+> +        properties:
+> +          reg:
+> +            const: 2
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - vdd-supply
+> +  - vcc-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c10 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      lt9611_codec: hdmi-bridge@3b {
+
+Please drop unused labels.
+
+> +        compatible = "lontium,lt9611";
+> +        reg = <0x3b>;
+> +
+> +        reset-gpios = <&tlmm 128 GPIO_ACTIVE_HIGH>;
+> +        interrupts-extended = <&tlmm 84 IRQ_TYPE_EDGE_FALLING>;
+> +
+> +        vdd-supply = <&lt9611_1v8>;
+> +        vcc-supply = <&lt9611_3v3>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            lt9611_out: endpoint {
+> +              remote-endpoint = <&hdmi_con>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            lt9611_a: endpoint {
+> +              remote-endpoint = <&dsi0_out>;
+> +            };
+> +          };
+> +
+> +          port@2 {
+> +            reg = <2>;
+> +            lt9611_b: endpoint {
+> +              remote-endpoint = <&dsi1_out>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+
+It's customary to end YAML schema files with ... on a separate line.
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
