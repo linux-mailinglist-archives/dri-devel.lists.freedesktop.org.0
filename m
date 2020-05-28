@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25221E6F68
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFD01E6F66
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A92346E82C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF506E802;
 	Thu, 28 May 2020 22:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-blr-02.qualcomm.com (alexa-out-blr-02.qualcomm.com
- [103.229.18.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F776E129;
- Thu, 28 May 2020 08:34:54 +0000 (UTC)
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479EC6E509;
+ Thu, 28 May 2020 08:38:28 +0000 (UTC)
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 28 May 2020 14:04:52 +0530
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 28 May 2020 14:08:26 +0530
 Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
- by ironmsg02-blr.qualcomm.com with ESMTP; 28 May 2020 14:04:32 +0530
+ by ironmsg02-blr.qualcomm.com with ESMTP; 28 May 2020 14:08:26 +0530
 Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
- id 25DBD47C1; Thu, 28 May 2020 14:04:31 +0530 (IST)
+ id DE28247C1; Thu, 28 May 2020 14:08:24 +0530 (IST)
 From: Krishna Manikandan <mkrishn@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm/dpu: allow initialization of encoder locks during
- encoder init
-Date: Thu, 28 May 2020 14:04:28 +0530
-Message-Id: <1590654868-21270-1-git-send-email-mkrishn@codeaurora.org>
+Subject: [v1] drm/msm: add shutdown support for display platform_driver
+Date: Thu, 28 May 2020 14:08:23 +0530
+Message-Id: <1590655103-21568-1-git-send-email-mkrishn@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Thu, 28 May 2020 22:46:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,46 +49,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the current implementation, mutex initialization
-for encoder mutex locks are done during encoder
-setup. This can lead to scenarios where the lock
-is used before it is initialized. Move mutex_init
-to dpu_encoder_init to avoid this.
+Define shutdown callback for display drm driver,
+so as to disable all the CRTCS when shutdown
+notification is received by the driver.
 
 Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index f8ac3bf..21730a5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2145,7 +2145,6 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 
- 	dpu_enc = to_dpu_encoder_virt(enc);
- 
--	mutex_init(&dpu_enc->enc_lock);
- 	ret = dpu_encoder_setup_display(dpu_enc, dpu_kms, disp_info);
- 	if (ret)
- 		goto fail;
-@@ -2160,7 +2159,6 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
- 				0);
- 
- 
--	mutex_init(&dpu_enc->rc_lock);
- 	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
- 			dpu_encoder_off_work);
- 	dpu_enc->idle_timeout = IDLE_TIMEOUT;
-@@ -2205,6 +2203,8 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
- 
- 	spin_lock_init(&dpu_enc->enc_spinlock);
- 	dpu_enc->enabled = false;
-+	mutex_init(&dpu_enc->enc_lock);
-+	mutex_init(&dpu_enc->rc_lock);
- 
- 	return &dpu_enc->base;
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index e4b750b..7a8953f 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1322,6 +1322,18 @@ static int msm_pdev_remove(struct platform_device *pdev)
+ 	return 0;
  }
+ 
++static void msm_pdev_shutdown(struct platform_device *pdev)
++{
++	struct drm_device *drm = platform_get_drvdata(pdev);
++
++	if (!drm) {
++		DRM_ERROR("Invalid drm device node\n");
++		return;
++	}
++
++	drm_atomic_helper_shutdown(drm);
++}
++
+ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "qcom,mdp4", .data = (void *)KMS_MDP4 },
+ 	{ .compatible = "qcom,mdss", .data = (void *)KMS_MDP5 },
+@@ -1334,6 +1346,7 @@ static int msm_pdev_remove(struct platform_device *pdev)
+ static struct platform_driver msm_platform_driver = {
+ 	.probe      = msm_pdev_probe,
+ 	.remove     = msm_pdev_remove,
++	.shutdown   = msm_pdev_shutdown,
+ 	.driver     = {
+ 		.name   = "msm",
+ 		.of_match_table = dt_match,
 -- 
 1.9.1
 
