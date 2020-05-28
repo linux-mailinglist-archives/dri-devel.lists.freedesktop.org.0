@@ -2,34 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6BF1E6EC2
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:25:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E521E6F09
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 00:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84E796E237;
-	Thu, 28 May 2020 22:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63BE76E7DD;
+	Thu, 28 May 2020 22:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CDE6E22F;
- Thu, 28 May 2020 22:24:57 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1jeQxK-0000Up-4x; Thu, 28 May 2020 22:24:54 +0000
-From: Colin King <colin.king@canonical.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Mukul Joshi <mukul.joshi@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/amdkfd: fix a dereference of pdd before it is null
- checked
-Date: Thu, 28 May 2020 23:24:53 +0100
-Message-Id: <20200528222453.536137-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C18916E22F;
+ Thu, 28 May 2020 22:30:24 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49Y2T61CKbz9sSm;
+ Fri, 29 May 2020 08:30:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1590705022;
+ bh=5hnKWl4+sVjUwhGg0kPkGh92h5HMCHnAJaXaCE2UxqI=;
+ h=Date:From:To:Cc:Subject:From;
+ b=av81gLblWcN3A0Btu+jakpA2SXJ6ZswVfh83SXcaZaTUFMTZxW4cddM6jWkUuywOM
+ 3aiTvy+9pmGfX9s5KvuMEFzM2JUERZl/Ypa90YgPuIVwHmIeEU2CzFfv38wU4udGDO
+ g9p9u7bBq1Vsnr44YTC0R0skxOPluPlmDE3IuqZV3VQdAwDtzAANAfb2RmIMo8fdKu
+ 9M90WCwIQSbgHh40Ge6aq9i1UqoyjtSvhNbpsUM2vDJLzfGyKuG+r+i9de0Nlpm7RC
+ NEP9cj5dGURatTWRKpcHuTMM0K6y9ODgLeDmFnXz/Qj5PjPbkuhw47+aRA8ANm2/bz
+ RcDVMOA8Zk3Cg==
+Date: Fri, 29 May 2020 08:30:16 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-intel-fixes tree
+Message-ID: <20200529083016.34433f10@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,47 +50,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: multipart/mixed; boundary="===============1626787612=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+--===============1626787612==
+Content-Type: multipart/signed; boundary="Sig_/TOkDXh7dnW68muF.F6F3Zg/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Currently pointer pdd is being dereferenced when assigning pointer
-dpm and then pdd is being null checked.  Fix this by checking if
-pdd is null before the dereference of pdd occurs.
+--Sig_/TOkDXh7dnW68muF.F6F3Zg/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Addresses-Coverity: ("Dereference before null check")
-Fixes: 522b89c63370 ("drm/amdkfd: Track SDMA utilization per process")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Hi all,
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index 25636789f3d3..bdc58741b32e 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -103,10 +103,11 @@ static void kfd_sdma_activity_worker(struct work_struct *work)
- 		return;
- 
- 	pdd = workarea->pdd;
-+	if (!pdd)
-+		return;
- 	dqm = pdd->dev->dqm;
- 	qpd = &pdd->qpd;
--
--	if (!pdd || !dqm || !qpd)
-+	if (!dqm || !qpd)
- 		return;
- 
- 	mm = get_task_mm(pdd->process->lead_thread);
--- 
-2.25.1
+After merging the drm-intel-fixes tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
+
+In file included from drivers/gpu/drm/i915/gt/intel_lrc.c:5472:
+drivers/gpu/drm/i915/gt/selftest_lrc.c: In function 'live_timeslice_nopreem=
+pt':
+drivers/gpu/drm/i915/gt/selftest_lrc.c:1311:3: error: too few arguments to =
+function 'engine_heartbeat_disable'
+ 1311 |   engine_heartbeat_disable(engine);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/gt/selftest_lrc.c:53:13: note: declared here
+   53 | static void engine_heartbeat_disable(struct intel_engine_cs *engine,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/gt/selftest_lrc.c:1380:3: error: too few arguments to =
+function 'engine_heartbeat_enable'
+ 1380 |   engine_heartbeat_enable(engine);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/i915/gt/selftest_lrc.c:63:13: note: declared here
+   63 | static void engine_heartbeat_enable(struct intel_engine_cs *engine,
+      |             ^~~~~~~~~~~~~~~~~~~~~~~
+
+Caused by commit
+
+  1f65efb624c4 ("drm/i915/gt: Prevent timeslicing into unpreemptable reques=
+ts")
+
+I have reverted that commit for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/TOkDXh7dnW68muF.F6F3Zg/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7QO3gACgkQAVBC80lX
+0GzmqAf/XXa5YvykjbEJpv0izaCS+dXGemMJa4jOa8v8elQe75+80ozd3Opc9XyZ
+RO1BP0gQhffz8Y+zfCUL0Mp9gx6U9OW2JYxVIY94rRUqsC+fT/syM91RXcRHOAMq
+R2k36hJ5HtraKp8D9E+pe2sB58mQVF0RSV5ohHOtyDaKkafRSE8KhMx93ap7ehyv
+dzDfC1+JYbGUr96SsG/zvvtFFib/ovjCzHaZKaM4VJfo+7SV6YMMbyY5q0DIAbdE
+xgR5nElIz8oXKMW5gqvtTvtyEg80x0/Le2OdTC5cli7aTnKH1SSBgfPWC7/k6C0j
+XswRutHkAVWD+UqxxFjoWRt3bf5mBg==
+=Ltk3
+-----END PGP SIGNATURE-----
+
+--Sig_/TOkDXh7dnW68muF.F6F3Zg/--
+
+--===============1626787612==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1626787612==--
