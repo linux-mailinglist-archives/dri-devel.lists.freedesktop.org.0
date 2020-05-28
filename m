@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37E41E5FDB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C0F1E6022
+	for <lists+dri-devel@lfdr.de>; Thu, 28 May 2020 14:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A396E504;
-	Thu, 28 May 2020 12:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88C26E507;
+	Thu, 28 May 2020 12:09:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966E66E504
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:07:54 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id r9so2877004wmh.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:07:54 -0700 (PDT)
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA17C6E507
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 12:09:11 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id u7so15601112vsp.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 05:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IlCPWsCikMbIkUc1sTCekNqmdBoBnLya31ORGCOwPhU=;
+ b=ZySQl11YuPWRM6VqOLd8sl9Vzw3SMolSxt0Py1lEBWxVqQTnGWqjqd5Vx4yQKcVL2f
+ mSv6Ix7JDIG3eziJ4E0fTaQ1Gbj84RFAbymxvM23LcBWcIKavheRzH/I6V9HdwJvxfGe
+ vpze94/hyiSgNvkhP3R3qGOfh2PsBtEBGl+Gb3bnuOrHKkwr8+KMHjZISe2QBUrHtW/X
+ T4mRkdTCil1TUnT0n8KgNpfP6Zk2GDHEd022/IjrtZ5qu2A8WvNJMwTi0779UwML9ipo
+ Xr2Lq4ln5TdeXO3Xf5a8ey8Y66qZSdmx/wu/zeiZEZqPhAj9FbaRP4/4Pnj8Qo3Ob00a
+ DEbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fX1cujbgfbt/VM5a/7eMs0kHkEp+fJc6bInREoz+SAI=;
- b=dR/1mV0L9RHURLnul10Svgg2+n3ijFbQfFGxsDHR+et91DK4iGugWr1o4vZia/1s5E
- PruJdzAULbOnsCZSpyxfNDH6DjHXou6JV0vqSfRZDqhP+uONrZdvn3/bF2F07hUsTdyt
- cFJ/MnkPOy7QudR8nOzQ61VkszMzpashLSlVw9yxoCVhR60iLx7g87K5kg47iO2OcAQg
- 6/iIxGdSSQUn+lljHDLZ65MNA884LU2quUTLGf5ZcbGMwuQlT1j1Q3aULfpNpvOjqctt
- w0ZBLmxKXXMgZYJilfrgj4uzRU4VUzRqNxfnKH+/IQFhDbm36D35uniVBg2KifAYG6nd
- rdzw==
-X-Gm-Message-State: AOAM5332pTXjJ+3d8h7BdpxjUB4bdpFVuQBWekqTMi9VwgBJsT8NPhbw
- +41+cx4IUOrHzmAQRrLTeag=
-X-Google-Smtp-Source: ABdhPJw2dn25o5ZhsRcMskgXExklPfpC8pBiTQuJ7MSlKTB+XEWW9AxfZMKa8mVSNRnjxPHc3rxpfA==
-X-Received: by 2002:a1c:117:: with SMTP id 23mr3291422wmb.90.1590667673252;
- Thu, 28 May 2020 05:07:53 -0700 (PDT)
-Received: from localhost (ip-37-188-185-40.eurotel.cz. [37.188.185.40])
- by smtp.gmail.com with ESMTPSA id 62sm5912776wrm.1.2020.05.28.05.07.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 05:07:52 -0700 (PDT)
-Date: Thu, 28 May 2020 14:07:50 +0200
-From: Michal Hocko <mhocko@kernel.org>
-To: Pavel Machek <pavel@ucw.cz>
-Subject: Re: next-20200515: Xorg killed due to "OOM"
-Message-ID: <20200528120750.GC27484@dhcp22.suse.cz>
-References: <20200526091054.GA12103@amd>
- <20200528090517.GA27484@dhcp22.suse.cz>
- <20200528120354.GB22054@duo.ucw.cz>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IlCPWsCikMbIkUc1sTCekNqmdBoBnLya31ORGCOwPhU=;
+ b=rSonXMR/cwCUkULT9Lif9YETvsI621slvmZK82/xlvjYWTex6vW56RRmjv6Q9w3yho
+ M4SCZTknPILqTPpkI/PVeDELiTco+jhxdfSzFp5Jx0p9lLOpUAFcRRWIvp6I+S2Sfy2L
+ Ekml8s116rrEd0MhTePv54cIsx4EQkQ9KhFRO40RP0Y5a2cFUnD5/Jy10mBIBwK24U9g
+ LA6qxbzxvFDbCCFZ4NiH3ijcaAteT8xcgdLUjGPMnbTDTNv1VNmoTTjBC/i0Fm7iS40O
+ vOPZNFXzUSEp2WLGqIHsU7jQ1S8EYPRYZ3O1F0axJ2ScDhu0GpFMDE/Fvv80oq6ahLCL
+ RlJg==
+X-Gm-Message-State: AOAM5310cGymlj0ZMqYntNdSzoxCU+cjmHXZA+lxUTW4uO6cm8omSrZy
+ NRD+gZaCFhXaUJPa3dli9Uk/+qvj6klb86biYsA=
+X-Google-Smtp-Source: ABdhPJwEjXdsQIhip4ZySPCF97pC9u0xxCwk4NWE8rFk4EiU43arg1MgAkwxnodIUX0h5C56GR7ZAa4FZEkcxE8Iorc=
+X-Received: by 2002:a67:f30c:: with SMTP id p12mr567753vsf.11.1590667750571;
+ Thu, 28 May 2020 05:09:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200528120354.GB22054@duo.ucw.cz>
+References: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
+ <20200526103921.0817ee0b@eldfell.localdomain>
+ <CAKMK7uHG1P9hwT1CBqWUfL6sBwZwyS7q0scXSUuXNiJMmRz-+g@mail.gmail.com>
+ <CAL3Fm-L-iwGu60Zf15aYf9Xm9201sT2vU888Fv46Tv7x37Aq6Q@mail.gmail.com>
+ <20200528082445.GR206103@phenom.ffwll.local>
+In-Reply-To: <20200528082445.GR206103@phenom.ffwll.local>
+From: Yogish Kulkarni <yogishkulkarni@gmail.com>
+Date: Thu, 28 May 2020 17:38:59 +0530
+Message-ID: <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
+Subject: Re: Dynamically change enumeration list of DRM enumeration property
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,48 +64,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@osdl.org>, airlied@linux.ie, x86@kernel.org,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- mingo@redhat.com, bp@alien8.de, hpa@zytor.com, tglx@linutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2042420493=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 28-05-20 14:03:54, Pavel Machek wrote:
-> On Thu 2020-05-28 11:05:17, Michal Hocko wrote:
-> > On Tue 26-05-20 11:10:54, Pavel Machek wrote:
-> > [...]
-> > > [38617.276517] oom_reaper: reaped process 31769 (chromium), now anon-rss:0kB, file-rss:0kB, shmem-rss:7968kB
-> > > [38617.277232] Xorg invoked oom-killer: gfp_mask=0x0(), order=0, oom_score_adj=0
-> > > [38617.277247] CPU: 0 PID: 2978 Comm: Xorg Not tainted 5.7.0-rc5-next-20200515+ #117
-> > > [38617.277256] Hardware name: LENOVO 17097HU/17097HU, BIOS 7BETD8WW (2.19 ) 03/31/2011
-> > > [38617.277266] Call Trace:
-> > > [38617.277286]  dump_stack+0x54/0x6e
-> > > [38617.277300]  dump_header+0x45/0x321
-> > > [38617.277313]  oom_kill_process.cold+0x9/0xe
-> > > [38617.277324]  ? out_of_memory+0x167/0x420
-> > > [38617.277336]  out_of_memory+0x1f2/0x420
-> > > [38617.277348]  pagefault_out_of_memory+0x34/0x56
-> > > [38617.277361]  mm_fault_error+0x4a/0x130
-> > > [38617.277372]  do_page_fault+0x3ce/0x416
-> > 
-> > The reason the OOM killer has been invoked is that the page fault
-> > handler has returned VM_FAULT_OOM. So this is not a result of the page
-> > allocator struggling to allocate a memory. It would be interesting to
-> > check which code path has returned this. 
-> 
-> Should the core WARN_ON if that happens and there's enough memory, or
-> something like that?
+--===============2042420493==
+Content-Type: multipart/alternative; boundary="0000000000003a81af05a6b432ae"
 
-I wish it would simply go away. There shouldn't be really any reason for
-VM_FAULT_OOM to exist. The real low on memory situation is already
-handled in the page allocator.
+--0000000000003a81af05a6b432ae
+Content-Type: text/plain; charset="UTF-8"
 
--- 
-Michal Hocko
-SUSE Labs
+I am trying to find a way through Weston which will allow setting specific
+encoding at display output. Could you please elaborate on  why it is best
+to let DRM driver automatically configure which encoding to choose rather
+than making it selectable by DRM client ? I am not able to find reference
+to past discussion about this. I was only able to find a proposed change -
+https://lists.freedesktop.org/archives/intel-gfx/2017-April/125451.html but
+am not able to find why it got rejected.
+
+Alternatively, is there existing way through which DRM clients can specify
+preference for output encoding ? Or currently it's all up to the DRM driver
+to choose what output encoding to use.
+
+Thanks,
+-Yogish
+
+On Thu, May 28, 2020 at 1:54 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Thu, May 28, 2020 at 12:29:43PM +0530, Yogish Kulkarni wrote:
+> > For creating new source property, is it good to follow
+> > "drm_mode_create_hdmi_colorspace_property()"  as an example ? It seems
+> that
+> > currently there is no standard DRM property which allows DRM client to
+> set
+> > a specific output encoding (like YUV420, YUV422 etc). Also, there is no
+> > standard property for letting client select YUV/RGB color range. I see
+> > there are two ways to introduce new properties, 1. do something like
+> > drm_mode_create_hdmi_colorspace_property 2. create custom property
+> similar
+> > to "Broadcast RGB". Is there opinion on which is a preferable way to
+> expose
+> > encoding and color rage selection property ?
+>
+> I guess first question is "why?" Thus far we've gone with the opinion that
+> automatically configuring output stuff as much as possible is best. What's
+> the use-case where the driver can't select this?
+> -Daniel
+>
+> >
+> > Thanks,
+> > -Yogish
+> >
+> > On Tue, May 26, 2020 at 5:44 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > > On Tue, May 26, 2020 at 9:39 AM Pekka Paalanen <ppaalanen@gmail.com>
+> > > wrote:
+> > > >
+> > > > On Tue, 26 May 2020 10:01:23 +0530
+> > > > Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+> > > >
+> > > > > Hi,
+> > > > >
+> > > > > Is it possible to dynamically change enumeration list of  DRM
+> > > enumeration
+> > > > > property ? Motivation behind this question is to understand
+> whether it
+> > > is
+> > > > > possible to create connector enum property (e.g a property which
+> will
+> > > list
+> > > > > supported output encodings -  like yuv420, yuv422 etc) whose list
+> of
+> > > > > supported enum values could be changed dynamically e.g. based on
+> which
+> > > sink
+> > > > > is connected.
+> > > > >
+> > > > > I think there is existing EDID connector property whose value
+> changes
+> > > based
+> > > > > on connected sink. EDID is a BLOB property, I am trying to
+> understand
+> > > if
+> > > > > this is also possible for ENUM type property. There is
+> > > > > "drm_property_replace_blob" to replace blob but I wasn't able to
+> find
+> > > any
+> > > > > API which could replace list of supported enums. Alternatively,
+> would
+> > > it be
+> > > > > good idea to destroy custom enum property created by a driver and
+> > > create
+> > > > > new enum property with new list of supported enums e.g when there
+> is a
+> > > > > HOTPLUG event.
+> > > >
+> > > > Hi,
+> > > >
+> > > > looking at Weston code, it *might* cope with it. A hotplug event does
+> > > > cause Weston to re-discover all properties of a connector. This is
+> > > > specific to connectors only.
+> > >
+> > > Currently the kernel doesn't cope with that. Only objects which can be
+> > > added/removed are connectors, blobs and fbs (iow the refcounted ones).
+> > > Adding/removing properties isn't supported, nor is adding/removing
+> > > which properties are attached to which object while that object is
+> > > life.
+> > >
+> > > Also I think the uapi risk for this is way too big, see my other reply
+> > > for what we've done in the past for stuff like this.
+> > > -Daniel
+> > >
+> > > > The race exists though: userspace might be poking at KMS after you
+> > > > changed the property in the kernel but before userspace handles the
+> > > > hotplug event. You'd have to check that does not cause regressions. I
+> > > > guess for a completely new property, the risk seems low, as userspace
+> > > > does not know to poke at it (risk of using outdated property or value
+> > > > IDs causing unexpected atomic commit failure). Also I'm not aware of
+> > > > any KMS program that would yet attempt blind KMS state save & restore
+> > > > to sanitize the KMS state after dropping and re-gaining DRM master.
+> > > >
+> > > > You'd have to check all other KMS using programs too: every Wayland
+> > > > compositor, Xorg, DRM Vulkan WSI(?), ...
+> > > >
+> > > >
+> > > > Thanks,
+> > > > pq
+> > > > _______________________________________________
+> > > > dri-devel mailing list
+> > > > dri-devel@lists.freedesktop.org
+> > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > >
+> > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> > >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+
+--0000000000003a81af05a6b432ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I am trying to find a way through Weston which will a=
+llow setting specific encoding at display output. Could you please elaborat=
+e on=C2=A0 why it is best to let DRM driver automatically configure which e=
+ncoding to choose rather than making it selectable by DRM client ? I am not=
+ able to find reference to past discussion about this. I was only able to f=
+ind a proposed change - <a href=3D"https://lists.freedesktop.org/archives/i=
+ntel-gfx/2017-April/125451.html">https://lists.freedesktop.org/archives/int=
+el-gfx/2017-April/125451.html</a> but am not able to find why it got reject=
+ed.</div><div><br></div><div>Alternatively, is there existing way through w=
+hich DRM clients can specify preference for output encoding ? Or currently =
+it&#39;s all up to the DRM driver to choose what output encoding to use.<br=
+></div><div><br></div><div>Thanks,</div><div>-Yogish<br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 2=
+8, 2020 at 1:54 PM Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch">dan=
+iel@ffwll.ch</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">On Thu, May 28, 2020 at 12:29:43PM +0530, Yogish Kulkarni wrote=
+:<br>
+&gt; For creating new source property, is it good to follow<br>
+&gt; &quot;drm_mode_create_hdmi_colorspace_property()&quot;=C2=A0 as an exa=
+mple ? It seems that<br>
+&gt; currently there is no standard DRM property which allows DRM client to=
+ set<br>
+&gt; a specific output encoding (like YUV420, YUV422 etc). Also, there is n=
+o<br>
+&gt; standard property for letting client select YUV/RGB color range. I see=
+<br>
+&gt; there are two ways to introduce new properties, 1. do something like<b=
+r>
+&gt; drm_mode_create_hdmi_colorspace_property 2. create custom property sim=
+ilar<br>
+&gt; to &quot;Broadcast RGB&quot;. Is there opinion on which is a preferabl=
+e way to expose<br>
+&gt; encoding and color rage selection property ?<br>
+<br>
+I guess first question is &quot;why?&quot; Thus far we&#39;ve gone with the=
+ opinion that<br>
+automatically configuring output stuff as much as possible is best. What&#3=
+9;s<br>
+the use-case where the driver can&#39;t select this?<br>
+-Daniel<br>
+<br>
+&gt; <br>
+&gt; Thanks,<br>
+&gt; -Yogish<br>
+&gt; <br>
+&gt; On Tue, May 26, 2020 at 5:44 PM Daniel Vetter &lt;<a href=3D"mailto:da=
+niel@ffwll.ch" target=3D"_blank">daniel@ffwll.ch</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Tue, May 26, 2020 at 9:39 AM Pekka Paalanen &lt;<a href=3D"mai=
+lto:ppaalanen@gmail.com" target=3D"_blank">ppaalanen@gmail.com</a>&gt;<br>
+&gt; &gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Tue, 26 May 2020 10:01:23 +0530<br>
+&gt; &gt; &gt; Yogish Kulkarni &lt;<a href=3D"mailto:yogishkulkarni@gmail.c=
+om" target=3D"_blank">yogishkulkarni@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Hi,<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; Is it possible to dynamically change enumeration list o=
+f=C2=A0 DRM<br>
+&gt; &gt; enumeration<br>
+&gt; &gt; &gt; &gt; property ? Motivation behind this question is to unders=
+tand whether it<br>
+&gt; &gt; is<br>
+&gt; &gt; &gt; &gt; possible to create connector enum property (e.g a prope=
+rty which will<br>
+&gt; &gt; list<br>
+&gt; &gt; &gt; &gt; supported output encodings -=C2=A0 like yuv420, yuv422 =
+etc) whose list of<br>
+&gt; &gt; &gt; &gt; supported enum values could be changed dynamically e.g.=
+ based on which<br>
+&gt; &gt; sink<br>
+&gt; &gt; &gt; &gt; is connected.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; I think there is existing EDID connector property whose=
+ value changes<br>
+&gt; &gt; based<br>
+&gt; &gt; &gt; &gt; on connected sink. EDID is a BLOB property, I am trying=
+ to understand<br>
+&gt; &gt; if<br>
+&gt; &gt; &gt; &gt; this is also possible for ENUM type property. There is<=
+br>
+&gt; &gt; &gt; &gt; &quot;drm_property_replace_blob&quot; to replace blob b=
+ut I wasn&#39;t able to find<br>
+&gt; &gt; any<br>
+&gt; &gt; &gt; &gt; API which could replace list of supported enums. Altern=
+atively, would<br>
+&gt; &gt; it be<br>
+&gt; &gt; &gt; &gt; good idea to destroy custom enum property created by a =
+driver and<br>
+&gt; &gt; create<br>
+&gt; &gt; &gt; &gt; new enum property with new list of supported enums e.g =
+when there is a<br>
+&gt; &gt; &gt; &gt; HOTPLUG event.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Hi,<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; looking at Weston code, it *might* cope with it. A hotplug e=
+vent does<br>
+&gt; &gt; &gt; cause Weston to re-discover all properties of a connector. T=
+his is<br>
+&gt; &gt; &gt; specific to connectors only.<br>
+&gt; &gt;<br>
+&gt; &gt; Currently the kernel doesn&#39;t cope with that. Only objects whi=
+ch can be<br>
+&gt; &gt; added/removed are connectors, blobs and fbs (iow the refcounted o=
+nes).<br>
+&gt; &gt; Adding/removing properties isn&#39;t supported, nor is adding/rem=
+oving<br>
+&gt; &gt; which properties are attached to which object while that object i=
+s<br>
+&gt; &gt; life.<br>
+&gt; &gt;<br>
+&gt; &gt; Also I think the uapi risk for this is way too big, see my other =
+reply<br>
+&gt; &gt; for what we&#39;ve done in the past for stuff like this.<br>
+&gt; &gt; -Daniel<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; The race exists though: userspace might be poking at KMS aft=
+er you<br>
+&gt; &gt; &gt; changed the property in the kernel but before userspace hand=
+les the<br>
+&gt; &gt; &gt; hotplug event. You&#39;d have to check that does not cause r=
+egressions. I<br>
+&gt; &gt; &gt; guess for a completely new property, the risk seems low, as =
+userspace<br>
+&gt; &gt; &gt; does not know to poke at it (risk of using outdated property=
+ or value<br>
+&gt; &gt; &gt; IDs causing unexpected atomic commit failure). Also I&#39;m =
+not aware of<br>
+&gt; &gt; &gt; any KMS program that would yet attempt blind KMS state save =
+&amp; restore<br>
+&gt; &gt; &gt; to sanitize the KMS state after dropping and re-gaining DRM =
+master.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; You&#39;d have to check all other KMS using programs too: ev=
+ery Wayland<br>
+&gt; &gt; &gt; compositor, Xorg, DRM Vulkan WSI(?), ...<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Thanks,<br>
+&gt; &gt; &gt; pq<br>
+&gt; &gt; &gt; _______________________________________________<br>
+&gt; &gt; &gt; dri-devel mailing list<br>
+&gt; &gt; &gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D=
+"_blank">dri-devel@lists.freedesktop.org</a><br>
+&gt; &gt; &gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dr=
+i-devel" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org=
+/mailman/listinfo/dri-devel</a><br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; --<br>
+&gt; &gt; Daniel Vetter<br>
+&gt; &gt; Software Engineer, Intel Corporation<br>
+&gt; &gt; +41 (0) 79 365 57 48 - <a href=3D"http://blog.ffwll.ch" rel=3D"no=
+referrer" target=3D"_blank">http://blog.ffwll.ch</a><br>
+&gt; &gt;<br>
+<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
+//blog.ffwll.ch</a><br>
+</blockquote></div>
+
+--0000000000003a81af05a6b432ae--
+
+--===============2042420493==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2042420493==--
