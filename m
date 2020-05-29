@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D067D1E80D6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 16:49:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E541E8122
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 17:03:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56E46E922;
-	Fri, 29 May 2020 14:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDF06E925;
+	Fri, 29 May 2020 15:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD5A6E921
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 14:49:18 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id nu7so1423850pjb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 07:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=IteRcXXajwbtNBJuddDZT526vs0ZDhNnSpFmn8yamV0=;
- b=N2lJ9F/4/3HpzR/J93sxrFdqGlVz2QNhGMFIycNuy00m6veP+w2xnnditHihQIFXnL
- XCqnug4fq5fbhUlWxzOjXXHpHuSdsRGl38B/e6pOTxpS3O0ArAhFReLuF1TrhT95SEC1
- m9Mxjr53v0I0p+Z26i7nqIoQoQyWYIDSUoGm8=
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 294256E925
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 15:03:41 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id x6so3930195wrm.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 08:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=03FMsNXr6+sji79MISYEjdw77lKRx64tNyODjMEC8rI=;
+ b=wb8af7Fh4K1LeZAPVqscHfDcLSfqve2rHXjN+ctZU8WMlNMgY9Q56tV7y/XDnCEbM2
+ CD1BxRAIDxrHfNo542BWOD2iicSYwNApMQUauM0t8DbsJcIpKA68eUbDtrmR284s3npP
+ JcPwU6mPfmdton4Awv27bO/g1eSydmR09wyfJi3Db+2nHim3vyDjOVoT0vBbYenDobAZ
+ UOvPqNxS+fY0chvAKCgxw+HMGwsd0KlwJpcF7UlZVaGpOa7Bvr5IFUp9lmzJGHZRFsx/
+ 8tnUqDWw1F70bQDcoBqWrNLCJn3rCm8+w0biAMXrvJIVshBYiQu6QAL75jxeotxenumm
+ oboA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=IteRcXXajwbtNBJuddDZT526vs0ZDhNnSpFmn8yamV0=;
- b=lW/rb6xRFgy4zGn87soEUNzdP6nXgqyTWuyHcrWnvqgvO+i7ZggvewfyfcFiNZfF4J
- KEh/r7mGXvIykKAtuGThGGdPCBLsZCjgn3hbzbP8QPKqqDi9pnEZxCXyRSV9TpEISgFz
- +VMYUomqttdRn7/ScfHuukSx9MDUFMJhTi8zO7PgtDDADCB71r/37sSJr3xwnO6pTHAX
- IUnWEl+6kLSuUPBOTtVEbMcpNQhKuEF7gRH1X9sQTEbcfuVveBEqg3Gga/hMWXplubDZ
- L36joEgUqOZWpsmPz75PTTjFcijcirCjYWexM/xVsAahhIP+7sDoJsGAARYTbuv7FgP/
- a72Q==
-X-Gm-Message-State: AOAM530Y5hZyMugj1wGxEH6rvxlsa+2T2Btmvs3xKOLW9Ed5Z82womjx
- YnCU6o7eeHNATgIKE5UrLHk89A==
-X-Google-Smtp-Source: ABdhPJzFHib1KyRD9/QyczMF6fwrQXT/kFQagYx7n1WCZ6zEYqL92DxL1gm98yo73HrZ3ypBekLGug==
-X-Received: by 2002:a17:902:ab8b:: with SMTP id
- f11mr9427824plr.145.1590763757769; 
- Fri, 29 May 2020 07:49:17 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id w185sm1049497pfw.145.2020.05.29.07.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 07:49:16 -0700 (PDT)
-Date: Fri, 29 May 2020 07:49:15 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 06/13] ocfs2: use new sysctl subdir helper
- register_sysctl_subdir()
-Message-ID: <202005290748.043EFFA3F@keescook>
-References: <20200529074108.16928-1-mcgrof@kernel.org>
- <20200529074108.16928-7-mcgrof@kernel.org>
- <202005290121.C78B4AC@keescook>
- <20200529114912.GC11244@42.do-not-panic.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=03FMsNXr6+sji79MISYEjdw77lKRx64tNyODjMEC8rI=;
+ b=Qj/4JuCTScGJkOuZzso+SvkLd5ohKEzd8fKF3BBZYB75arjfQO9qbZTqmgiLcIyFFc
+ +105QaqOLx8b5AVZOQS2aGzvKcEbH63v8yAqJNgES05h97OAnooNko+KSwkjctphWAYg
+ o6LKBzc/3u3F+NW0a1rdI7jAew1lMtwYRdYRi0ybzFqII1th2uoot2Fs8YCxr2heH73q
+ Sp5j+5//w63tCZTBUmPJal3qUeG+xj3W059QSydKIavfjntMyHR0ynYW7tBIXbN7nZzG
+ vKlYJUG+n9O1Dn3SF4MN8GO+rXHOUMNNgECxAxl8qI7yjSyqmVVqKFdFaORQVfOaPYbX
+ HyOQ==
+X-Gm-Message-State: AOAM531hF8ztWEBS560BdjCqwuPw7TDAO5jJrYD2NXbbHO6Do+Ne+kgv
+ U9MyPMidbEozs1zNgppm0JVe3oAFU48UyzVGILeZgQ==
+X-Google-Smtp-Source: ABdhPJxG50BvTTLWrltJpdKKvA/5C1dE4A3uev1Q9fUh4uyyTP0/db4Va3LMvKaAYaxzFiiQywNelf/JjABn6GMIknk=
+X-Received: by 2002:a5d:4245:: with SMTP id s5mr5963000wrr.6.1590764619658;
+ Fri, 29 May 2020 08:03:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200529114912.GC11244@42.do-not-panic.com>
+References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
+ <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
+ <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
+ <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
+ <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
+ <CADnq5_OX9o5_Gc4SjU5M4B=fthT9++J-FjX3UqTS7x_u6cJHOQ@mail.gmail.com>
+ <CAPj87rP+Hxhohb4dEjRwtZzy34fYk+hAdgVfCkLF1u4JufJ=CQ@mail.gmail.com>
+ <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
+In-Reply-To: <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 29 May 2020 16:01:48 +0100
+Message-ID: <CAPj87rNO62i5JmRLdMhAg9XbiJUyrrRO7fj1ruXRCh-oxHnifQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
+To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +68,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jack@suse.cz, rafael@kernel.org, airlied@linux.ie, amir73il@gmail.com,
- clemens@ladisch.de, dri-devel@lists.freedesktop.org,
- joseph.qi@linux.alibaba.com, sfr@canb.auug.org.au, mark@fasheh.com,
- rdna@fb.com, yzaikin@google.com, arnd@arndb.de,
- intel-gfx@lists.freedesktop.org, julia.lawall@lip6.fr, jlbec@evilplan.org,
- nixiaoming@huawei.com, vbabka@suse.cz, axboe@kernel.dk, tytso@mit.edu,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- ebiederm@xmission.com, akpm@linux-foundation.org,
- linuxppc-dev@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- viro@zeniv.linux.org.uk
+Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 29, 2020 at 11:49:12AM +0000, Luis Chamberlain wrote:
-> Yikes, sense, you're right. Nope, I left the random config tests to
-> 0day. Will fix, thanks!
+On Fri, 29 May 2020 at 15:36, Alex Deucher <alexdeucher@gmail.com> wrote:
+> On Fri, May 29, 2020 at 10:32 AM Daniel Stone <daniel@fooishbar.org> wrote:
+> > On Fri, 29 May 2020 at 15:29, Alex Deucher <alexdeucher@gmail.com> wrote:
+> > > Maybe I'm over thinking this.  I just don't want to get into a
+> > > situation where we go through a lot of effort to add modifier support
+> > > and then performance ends up being worse than it is today in a lot of
+> > > cases.
+> >
+> > I'm genuinely curious: what do you imagine could cause a worse result?
+>
+> As an example, in some cases, it's actually better to use linear for
+> system memory because it better aligns with pcie access patterns than
+> some tiling formats (which are better aligned for the memory
+> controller topology on the dGPU).  That said, I haven't been in the
+> loop as much with the tiling formats on newer GPUs, so that may not be
+> as much of an issue anymore.
 
-Yeah, I do the same for randconfig, but I always do an "allmodconfig"
-build before sending stuff. It's a good smoke test.
+Yeah, that makes a lot of sense. On the other hand, placement isn't
+explicitly encoded for either modifiers or non-modifiers, so I'm not
+sure how it would really regress.
 
--- 
-Kees Cook
+In case it was missed somewhere, there is no generic code doing
+modifier selection for modifier optimality anywhere. The flow is:
+  - every producer/consumer advertises a list of modifier + format
+pairs, declaring what they _can_ support
+  - for every use where a buffer needs to be allocated, the generic
+code intersects these lists of modifiers to determine the set of
+modifiers mutually acceptable to all consumers
+  - the buffer allocator is always handed a _list_ of modifiers, and
+makes its own decision based on ??
+
+For a concrete end-to-end example:
+  - KMS declares which modifiers are supported for scanout
+  - EGL declares which modifiers are supported for EGLImage import
+  - Weston determines that one of its clients could be directly
+scanned out rather than composited
+  - Weston intersects the KMS + EGL set of modifiers to come up with
+the optimal modifier set (i.e. bypassing composition)
+  - Weston sends this intersected list to the client via the Wayland
+protocol (mentioned in previous MR)
+  - the client is using EGL, so Mesa receives this list of modifiers,
+and passes this on to amdgpu
+  - amdgpu uses magic inscrutable heuristics to determine the most
+optimal modifier to use, and allocates a buffer based on that
+
+Weston (or GNOME Shell, or Chromium, or whatever) will never be in a
+position as a generic client to know that on Raven2 it should use a
+particular supertiled layout with no DCC if width > 2048. So we
+designed the entire framework to explicitly avoid generic code trying
+to reason about the performance properties of specific modifiers.
+
+What Weston _does_ know, however, is that display controller can work
+with modifier set A, and the GPU can work with modifier set B, and if
+the client can pick something from modifier set A, then there is a
+much greater probability that Weston can leave the GPU alone so it can
+be entirely used by the client. It also knows that if the surface
+can't be directly scanned out for whatever reason, then there's no
+point in the client optimising for direct scanout, and it can tell the
+client to select based on optimality purely for the GPU.
+
+So that's the thinking behind the interface: that the driver still has
+exactly as much control and ability to use magic heuristics as it
+always has, but that system components can supplement the driver's
+heuristics with their own knowledge, to increase the chance that the
+driver's heuristics arrive at a configuration that a) will definitely
+work, and b) have a much greater chance of working optimally.
+
+Does that help at all?
+
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
