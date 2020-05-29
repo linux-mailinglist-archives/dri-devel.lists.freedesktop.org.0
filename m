@@ -1,60 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3288D1E9029
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF21E1E902A
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4FB6E9C8;
-	Sat, 30 May 2020 09:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD846E9CF;
+	Sat, 30 May 2020 09:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF3C6E90C
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 14:03:40 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s8so3693660wrt.9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 07:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RwXGTrTSkhfIwmTsFAlwLp31G8dXS8cicMkf9zgOj/A=;
- b=GvVSrVsvM86uEOHuD6a/Cgoc0Fr2OaKCfja3DhluouGDDWpSsF4CjGxXuRUh1EqQLj
- bLCvMXlIYeO714pksvToQBttxtopmn2mgRIk14KMvZmSQOzQ6ciIjkja4RBIcHEBxaDo
- pTfGBEj0aJ1U19aZI8TYHPm4EbfdQmFi8NOMJR3cQCwUsj7At3qVHeCh0GBvHq83jLdF
- 1CEXEpSfIZEmu4buwrTgwFCSiQb7GQ+d9v8POSp9551eJJNXJcco8tL/TDk9MPtpA5aY
- 7IW/V3YVCwIWGfLt4k6Jb3LpeLng3ZZF0L3Hat2ax2NEIwWivJ0uwYQTbnPvg1QJR9kC
- EHLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RwXGTrTSkhfIwmTsFAlwLp31G8dXS8cicMkf9zgOj/A=;
- b=LPA3/Lj1mrh69HNjlD/VVVGbU6scaa4YTb3jLdtOYKZii8sYT7FZV5abIDk2fp/bc3
- l2YxMglWf/A6boI9ExVDMkh1GSs8jUwSOiX1FU5KoxVTQ3MQK6hDql3yyT3xYVk08Yr8
- Noe9Dt4NXF8JCVh+Tc2jcf+giYBsgpW92UMf2/nBPYhR+zNiwYIxb92nYcoB6Ru2SKWy
- XdfPtcroTbq8YR7SoOlppCGGEZLwK9C6lmhGsADizpus5zk5suiF6Np5JwlqDTjwt9wf
- kuP2r1le4jF0K+8sbkj+KbwHvEttZS9tZ8HGuM3u32NWFT0gMS2aQJHgFwx9RWNm2zUT
- qJYA==
-X-Gm-Message-State: AOAM530dlSrw6aGdkLbXt0kXrnzXeTHMQsfpTGxT2jt34RO6YIrCB2bl
- BF1/ut0JZCC+lIMpIveZvBKDmmzsEpI=
-X-Google-Smtp-Source: ABdhPJxy5LbmVodZhUe6FwuHEakfNuJvHsmJ0XcDapuhsLv3T7SqQf1VEPd5pFN8RIfgUOIh3S29lg==
-X-Received: by 2002:adf:9b9e:: with SMTP id d30mr9071909wrc.345.1590761015673; 
- Fri, 29 May 2020 07:03:35 -0700 (PDT)
-Received: from localhost.localdomain
- (p200300c58f1f0600dbea65ed0a386805.dip0.t-ipconnect.de.
- [2003:c5:8f1f:600:dbea:65ed:a38:6805])
- by smtp.gmail.com with ESMTPSA id q13sm4900300wro.5.2020.05.29.07.03.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 07:03:34 -0700 (PDT)
-From: Nirmoy Das <nirmoy.aiemd@gmail.com>
-X-Google-Original-From: Nirmoy Das <nirmoy.das@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/1] drm/mm: fix hole size comparison
-Date: Fri, 29 May 2020 16:04:01 +0200
-Message-Id: <20200529140401.39396-1-nirmoy.das@amd.com>
-X-Mailer: git-send-email 2.26.2
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B0236E924
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 15:00:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D452F1045;
+ Fri, 29 May 2020 08:00:58 -0700 (PDT)
+Received: from [10.37.12.52] (unknown [10.37.12.52])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C41F73F718;
+ Fri, 29 May 2020 08:00:48 -0700 (PDT)
+Subject: Re: [PATCH v8 0/8] Add support for devices in the Energy Model
+To: rjw@rjwysocki.net
+References: <20200527095854.21714-1-lukasz.luba@arm.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <8fca24a1-93f7-f859-bd1f-b7bf484737f4@arm.com>
+Date: Fri, 29 May 2020 16:00:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200527095854.21714-1-lukasz.luba@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 30 May 2020 09:42:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,36 +42,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nirmoy Das <nirmoy.das@amd.com>, christian.koenig@amd.com,
- chris@chris-wilson.co.uk
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, bsegall@google.com,
+ alyssa.rosenzweig@collabora.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ agross@kernel.org, daniel.lezcano@linaro.org, steven.price@arm.com,
+ cw00.choi@samsung.com, mingo@redhat.com, linux-imx@nxp.com,
+ rui.zhang@intel.com, mgorman@suse.de, orjan.eide@arm.com,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ s.hauer@pengutronix.de, rostedt@goodmis.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org, b.zolnierkie@samsung.com,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXM6IDBjZGVhNDQ1NWFjZDM1MGEgKCJkcm0vbW06IG9wdGltaXplIHJiX2hvbGVfYWRkciBy
-YnRyZWUgc2VhcmNoIikKClNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1k
-LmNvbT4KUmVwb3J0ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1k
-LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9tbS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCmluZGV4IGY0Y2Ex
-ZmY4MGFmOS4uNjBlOWE5YzkxZTlkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX21t
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9tbS5jCkBAIC00MDcsNyArNDA3LDcgQEAgbmV4
-dF9ob2xlX2hpZ2hfYWRkcihzdHJ1Y3QgZHJtX21tX25vZGUgKmVudHJ5LCB1NjQgc2l6ZSkKIAkJ
-bGVmdF9ub2RlID0gcmJfZW50cnkobGVmdF9yYl9ub2RlLAogCQkJCSAgICAgc3RydWN0IGRybV9t
-bV9ub2RlLCByYl9ob2xlX2FkZHIpOwogCQlpZiAoKGxlZnRfbm9kZS0+c3VidHJlZV9tYXhfaG9s
-ZSA8IHNpemUgfHwKLQkJICAgICBlbnRyeS0+c2l6ZSA9PSBlbnRyeS0+c3VidHJlZV9tYXhfaG9s
-ZSkgJiYKKwkJICAgICBIT0xFX1NJWkUoZW50cnkpID09IGVudHJ5LT5zdWJ0cmVlX21heF9ob2xl
-KSAmJgogCQkgICAgcGFyZW50X3JiX25vZGUgJiYgcGFyZW50X3JiX25vZGUtPnJiX2xlZnQgIT0g
-cmJfbm9kZSkKIAkJCXJldHVybiByYl9ob2xlX2FkZHJfdG9fbm9kZShwYXJlbnRfcmJfbm9kZSk7
-CiAJfQpAQCAtNDQ3LDcgKzQ0Nyw3IEBAIG5leHRfaG9sZV9sb3dfYWRkcihzdHJ1Y3QgZHJtX21t
-X25vZGUgKmVudHJ5LCB1NjQgc2l6ZSkKIAkJcmlnaHRfbm9kZSA9IHJiX2VudHJ5KHJpZ2h0X3Ji
-X25vZGUsCiAJCQkJICAgICAgc3RydWN0IGRybV9tbV9ub2RlLCByYl9ob2xlX2FkZHIpOwogCQlp
-ZiAoKHJpZ2h0X25vZGUtPnN1YnRyZWVfbWF4X2hvbGUgPCBzaXplIHx8Ci0JCSAgICAgZW50cnkt
-PnNpemUgPT0gZW50cnktPnN1YnRyZWVfbWF4X2hvbGUpICYmCisJCSAgICAgSE9MRV9TSVpFKGVu
-dHJ5KSA9PSBlbnRyeS0+c3VidHJlZV9tYXhfaG9sZSkgJiYKIAkJICAgIHBhcmVudF9yYl9ub2Rl
-ICYmIHBhcmVudF9yYl9ub2RlLT5yYl9yaWdodCAhPSByYl9ub2RlKQogCQkJcmV0dXJuIHJiX2hv
-bGVfYWRkcl90b19ub2RlKHBhcmVudF9yYl9ub2RlKTsKIAl9Ci0tIAoyLjI2LjIKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Rafael,
+
+
+On 5/27/20 10:58 AM, Lukasz Luba wrote:
+> Hi all,
+> 
+> Background of this version:
+> This is the v8 of the patch set and is has smaller scope. I had to split
+> the series into two: EM changes and thermal changes due to devfreq
+> dependencies. The patches from v7 9-14 which change devfreq cooling are
+> going to be sent in separate patch series, just after this set get merged
+> into mainline. These patches related to EM got acks and hopefully can go
+> through linux-pm tree. The later thermal patches will go through thermal
+> tree.
+> 
+> The idea and purpose of the Energy Model framework changes:
+> This patch set introduces support for devices in the Energy Model (EM)
+> framework. It will unify the power model for thermal subsystem. It will
+> make simpler to add support for new devices willing to use more
+> advanced features (like Intelligent Power Allocation). Now it should
+> require less knowledge and effort for driver developer to add e.g.
+> GPU driver with simple energy model. A more sophisticated energy model
+> in the thermal framework is also possible, driver needs to provide
+> a dedicated callback function. More information can be found in the
+> updated documentation file.
+> 
+> First 7 patches are refactoring Energy Model framework to add support
+> of other devices that CPUs. They change:
+> - naming convention from 'capacity' to 'performance' state,
+> - API arguments adding device pointer and not rely only on cpumask,
+> - change naming when 'cpu' was used, now it's a 'device'
+> - internal structure to maintain registered devices
+> - update users to the new API
+> Patch 8 updates OPP framework helper function to be more generic, not
+> CPU specific.
+> 
+> The patch set is based on linux-pm branch linux-next 813946019dfd.
+> 
+
+Could you take the patch set via your linux-pm?
+
+Regards,
+Lukasz
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
