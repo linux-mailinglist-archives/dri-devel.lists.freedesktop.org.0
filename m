@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22461E7724
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79481E772D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE3F6E889;
-	Fri, 29 May 2020 07:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 628186E887;
+	Fri, 29 May 2020 07:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1876E883;
- Fri, 29 May 2020 07:41:20 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id e11so896617pfn.3;
- Fri, 29 May 2020 00:41:19 -0700 (PDT)
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D15E6E88C;
+ Fri, 29 May 2020 07:41:24 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id bg4so769441plb.3;
+ Fri, 29 May 2020 00:41:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Gyi+SSBMYaz8TR5pIeizC0x+opRDWqonQ2PbJtJFBcU=;
- b=sjIGq3TAcFZDlu8CtoPK2mPbR0G9lCw7dzyJNkYDq+wAtv160RWF7U6506wNl/E+PJ
- TdvSqQ8t98H2Te2BRhrz++DY7eaH4so8fZJRweO/7pZvPdnryEI2cQFXs9Yh78pAnhDq
- iUh5pa1iz114XBL+D9bR3oibjD3FIqwWiQ13e7kbO7TXBQPSgHhfo8cm2/qJ558w4sz5
- 5i4D41wjRvNRaHiMnwN2b4CWKoJuiJO5RrFyLjprPY9LqwsHlsBy6iMEdBWTrP94tD5I
- OGEOOMFLQHcwmsJKo9izD7wtr4ok+OK6EMXRroPk/I6gvvYXRAqEGXO0wM95B3nCr0W+
- oK9w==
-X-Gm-Message-State: AOAM531obz0x1Tm196Y/bqFU4aTIJCE3CI31rPAA6Xeo55Eqi78WG3Zr
- M36ojlxui1li0t9HhDSzQeL7ucEE/E0sIw==
-X-Google-Smtp-Source: ABdhPJx56643L02wDwth5rceoeGJdrDM09GlBME9Pg+5yDtZkMeY7H83kJ7EluZRQYSUUOaPNTyILA==
-X-Received: by 2002:aa7:9510:: with SMTP id b16mr7400994pfp.265.1590738079523; 
- Fri, 29 May 2020 00:41:19 -0700 (PDT)
+ bh=OeMaeWf8ySHfvuEzWncwhX9a4D5s1xQoEDO3/r/aYzY=;
+ b=BBP2zhwI+CKz7ExHa1rz9vOKWEKLx5f1WKsvPYByUXRBfCfY7AjW8MZ8kurb3Ofq33
+ ylXJEQ8O4l2rEqVPdjDKGdFgZF3P8M0p8r0eiApPQuCgihJzZWWwVxPOcM+MVVuo2rch
+ bUmgAK4GbANcpcZe6ebo7WIzLPH8n/q4/oBITijitYx+uff/gti9MBw3giTqtIelbJe9
+ G+kjt7Jn5CMkk9cvYydKSOkpyndiW9Nlidlj0jg7mJeY/k1xbm5N1aR53J8ScleI3MJU
+ 93ixYpGtEA2BDigWRC255sAY68reUhQlbFx1ihKuogQc/AqiVy+jk5GgR1XZOH/JVqd2
+ wZdg==
+X-Gm-Message-State: AOAM532dIVLgKvW5iHFZ4LyRBohY8gJLjpJGJm06q3pzWIObl621c0iG
+ btoYZx4draEXAXUUdMsnidk=
+X-Google-Smtp-Source: ABdhPJyZTqVeXpnC780yNsYcAysPbnmEI2o7s7rzYFo+LKi1oKtcOEgW9W/Zd68h1pyiVT90AxPOjw==
+X-Received: by 2002:a17:90a:2807:: with SMTP id e7mr7981405pjd.6.1590738083514; 
+ Fri, 29 May 2020 00:41:23 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id s63sm7735409pjj.16.2020.05.29.00.41.13
+ by smtp.gmail.com with ESMTPSA id jx10sm6903511pjb.46.2020.05.29.00.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 May 2020 00:41:16 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id D3A3042349; Fri, 29 May 2020 07:41:10 +0000 (UTC)
+ id DDE9C42376; Fri, 29 May 2020 07:41:10 +0000 (UTC)
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  ebiederm@xmission.com, axboe@kernel.dk, clemens@ladisch.de, arnd@arndb.de,
@@ -46,10 +46,10 @@ To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  viro@zeniv.linux.org.uk, mark@fasheh.com, jlbec@evilplan.org,
  joseph.qi@linux.alibaba.com, vbabka@suse.cz, sfr@canb.auug.org.au,
  jack@suse.cz, amir73il@gmail.com, rafael@kernel.org, tytso@mit.edu
-Subject: [PATCH 08/13] inotify: simplify sysctl declaration with
+Subject: [PATCH 09/13] firmware_loader: simplify sysctl declaration with
  register_sysctl_subdir()
-Date: Fri, 29 May 2020 07:41:03 +0000
-Message-Id: <20200529074108.16928-9-mcgrof@kernel.org>
+Date: Fri, 29 May 2020 07:41:04 +0000
+Message-Id: <20200529074108.16928-10-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200529074108.16928-1-mcgrof@kernel.org>
 References: <20200529074108.16928-1-mcgrof@kernel.org>
@@ -77,98 +77,130 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xiaoming Ni <nixiaoming@huawei.com>
 
-move inotify_user sysctl to inotify_user.c and use the new
-register_sysctl_subdir() helper.
+Move the firmware config sysctl table to fallback_table.c and use the
+new register_sysctl_subdir() helper. This removes the clutter from
+kernel/sysctl.c.
 
 Signed-off-by: Xiaoming Ni <nixiaoming@huawei.com>
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- fs/notify/inotify/inotify_user.c | 11 ++++++++++-
- include/linux/inotify.h          |  3 ---
- kernel/sysctl.c                  | 11 -----------
- 3 files changed, 10 insertions(+), 15 deletions(-)
+ drivers/base/firmware_loader/fallback.c       |  4 ++++
+ drivers/base/firmware_loader/fallback.h       | 11 ++++++++++
+ drivers/base/firmware_loader/fallback_table.c | 22 +++++++++++++++++--
+ include/linux/sysctl.h                        |  1 -
+ kernel/sysctl.c                               |  7 ------
+ 5 files changed, 35 insertions(+), 10 deletions(-)
 
-diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
-index f88bbcc9efeb..64859fbf8463 100644
---- a/fs/notify/inotify/inotify_user.c
-+++ b/fs/notify/inotify/inotify_user.c
-@@ -46,7 +46,7 @@ struct kmem_cache *inotify_inode_mark_cachep __read_mostly;
+diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
+index d9ac7296205e..8190653ae9a3 100644
+--- a/drivers/base/firmware_loader/fallback.c
++++ b/drivers/base/firmware_loader/fallback.c
+@@ -200,12 +200,16 @@ static struct class firmware_class = {
  
- #include <linux/sysctl.h>
+ int register_sysfs_loader(void)
+ {
++	int ret = register_firmware_config_sysctl();
++	if (ret != 0)
++		return ret;
+ 	return class_register(&firmware_class);
+ }
  
--struct ctl_table inotify_table[] = {
-+static struct ctl_table inotify_table[] = {
+ void unregister_sysfs_loader(void)
+ {
+ 	class_unregister(&firmware_class);
++	unregister_firmware_config_sysctl();
+ }
+ 
+ static ssize_t firmware_loading_show(struct device *dev,
+diff --git a/drivers/base/firmware_loader/fallback.h b/drivers/base/firmware_loader/fallback.h
+index 06f4577733a8..7d2cb5f6ceb8 100644
+--- a/drivers/base/firmware_loader/fallback.h
++++ b/drivers/base/firmware_loader/fallback.h
+@@ -42,6 +42,17 @@ void fw_fallback_set_default_timeout(void);
+ 
+ int register_sysfs_loader(void);
+ void unregister_sysfs_loader(void);
++#ifdef CONFIG_SYSCTL
++extern int register_firmware_config_sysctl(void);
++extern void unregister_firmware_config_sysctl(void);
++#else
++static inline int register_firmware_config_sysctl(void)
++{
++	return 0;
++}
++static inline void unregister_firmware_config_sysctl(void) { }
++#endif /* CONFIG_SYSCTL */
++
+ #else /* CONFIG_FW_LOADER_USER_HELPER */
+ static inline int firmware_fallback_sysfs(struct firmware *fw, const char *name,
+ 					  struct device *device,
+diff --git a/drivers/base/firmware_loader/fallback_table.c b/drivers/base/firmware_loader/fallback_table.c
+index 46a731dede6f..4234aa5ee5df 100644
+--- a/drivers/base/firmware_loader/fallback_table.c
++++ b/drivers/base/firmware_loader/fallback_table.c
+@@ -24,7 +24,7 @@ struct firmware_fallback_config fw_fallback_config = {
+ EXPORT_SYMBOL_NS_GPL(fw_fallback_config, FIRMWARE_LOADER_PRIVATE);
+ 
+ #ifdef CONFIG_SYSCTL
+-struct ctl_table firmware_config_table[] = {
++static struct ctl_table firmware_config_table[] = {
  	{
- 		.procname	= "max_user_instances",
- 		.data		= &init_user_ns.ucount_max[UCOUNT_INOTIFY_INSTANCES],
-@@ -73,6 +73,14 @@ struct ctl_table inotify_table[] = {
+ 		.procname	= "force_sysfs_fallback",
+ 		.data		= &fw_fallback_config.force_sysfs_fallback,
+@@ -45,4 +45,22 @@ struct ctl_table firmware_config_table[] = {
  	},
  	{ }
  };
+-#endif
 +
-+static void __init inotify_sysctls_init(void)
++static struct ctl_table_header *hdr;
++int register_firmware_config_sysctl(void)
 +{
-+	register_sysctl_subdir("fs", "inotify", inotify_table);
++	if (hdr)
++		return -EEXIST;
++	hdr = register_sysctl_subdir("kernel", "firmware_config",
++				     firmware_config_table);
++	if (!hdr)
++		return -ENOMEM;
++	return 0;
 +}
 +
-+#else
-+#define inotify_sysctls_init() do { } while (0)
- #endif /* CONFIG_SYSCTL */
++void unregister_firmware_config_sysctl(void)
++{
++	if (hdr)
++		unregister_sysctl_table(hdr);
++}
++#endif /* CONFIG_SYSCTL */
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index 58bc978d4f03..aa01f54d0442 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -217,7 +217,6 @@ extern int no_unaligned_warning;
  
- static inline __u32 inotify_arg_to_mask(u32 arg)
-@@ -826,6 +834,7 @@ static int __init inotify_user_setup(void)
- 	inotify_max_queued_events = 16384;
- 	init_user_ns.ucount_max[UCOUNT_INOTIFY_INSTANCES] = 128;
- 	init_user_ns.ucount_max[UCOUNT_INOTIFY_WATCHES] = 8192;
-+	inotify_sysctls_init();
+ extern struct ctl_table sysctl_mount_point[];
+ extern struct ctl_table random_table[];
+-extern struct ctl_table firmware_config_table[];
+ extern struct ctl_table epoll_table[];
  
- 	return 0;
- }
-diff --git a/include/linux/inotify.h b/include/linux/inotify.h
-index 6a24905f6e1e..8d20caa1b268 100644
---- a/include/linux/inotify.h
-+++ b/include/linux/inotify.h
-@@ -7,11 +7,8 @@
- #ifndef _LINUX_INOTIFY_H
- #define _LINUX_INOTIFY_H
- 
--#include <linux/sysctl.h>
- #include <uapi/linux/inotify.h>
- 
--extern struct ctl_table inotify_table[]; /* for sysctl */
--
- #define ALL_INOTIFY_BITS (IN_ACCESS | IN_MODIFY | IN_ATTRIB | IN_CLOSE_WRITE | \
- 			  IN_CLOSE_NOWRITE | IN_OPEN | IN_MOVED_FROM | \
- 			  IN_MOVED_TO | IN_CREATE | IN_DELETE | \
+ #else /* CONFIG_SYSCTL */
 diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 04ff032f2863..30c2d521502a 100644
+index 30c2d521502a..e007375c8a11 100644
 --- a/kernel/sysctl.c
 +++ b/kernel/sysctl.c
-@@ -123,10 +123,6 @@ static const int maxolduid = 65535;
- static int ngroups_max = NGROUPS_MAX;
- static const int cap_last_cap = CAP_LAST_CAP;
- 
--#ifdef CONFIG_INOTIFY_USER
--#include <linux/inotify.h>
--#endif
--
- #ifdef CONFIG_PROC_SYSCTL
- 
- /**
-@@ -3012,13 +3008,6 @@ static struct ctl_table fs_table[] = {
- 		.proc_handler	= proc_dointvec,
+@@ -2088,13 +2088,6 @@ static struct ctl_table kern_table[] = {
+ 		.mode		= 0555,
+ 		.child		= usermodehelper_table,
  	},
- #endif
--#ifdef CONFIG_INOTIFY_USER
+-#ifdef CONFIG_FW_LOADER_USER_HELPER
 -	{
--		.procname	= "inotify",
+-		.procname	= "firmware_config",
 -		.mode		= 0555,
--		.child		= inotify_table,
+-		.child		= firmware_config_table,
 -	},
--#endif	
- #ifdef CONFIG_EPOLL
+-#endif
  	{
- 		.procname	= "epoll",
+ 		.procname	= "overflowuid",
+ 		.data		= &overflowuid,
 -- 
 2.26.2
 
