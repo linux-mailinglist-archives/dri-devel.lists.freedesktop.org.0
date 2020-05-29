@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94FB1E7CA3
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 14:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058241E7CF5
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 14:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094846E8DF;
-	Fri, 29 May 2020 12:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D056E8DC;
+	Fri, 29 May 2020 12:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49676E8DA;
- Fri, 29 May 2020 12:09:14 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id 5so1270156pjd.0;
- Fri, 29 May 2020 05:09:14 -0700 (PDT)
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45EDD6E8DC;
+ Fri, 29 May 2020 12:16:43 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id z26so1286334pfk.12;
+ Fri, 29 May 2020 05:16:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6vvgKHZv01UUvGrvhAsOqf6+UpVrlcy+OwWplQqQmoA=;
- b=UUVtofIwQNHqPTitzSAJjBz9ueAdSfUpALXKo4+RjiPgO/EgXDkNGXc+BwlvQEIgZq
- iw+1PoCNVP462mcYd9Qf9xmE2zYnjjQNjcxQ8KUj2YzVAP3Pp127N9j0C7XRaCMeE/ur
- BGjVMrOTi565aowPxyHTrxelVIf+k1q1F3IuztwpQIGNFSxm/QgiVAx7Yapr/HddizeW
- JMm3IvolNORwH6hpehAF0BRQ2NFCKqDT2idGGgXykeK49M7ircRKsWNnU3yTA6E7vhu/
- Po/QUYKGXuZSZTQF1iXVqj4r05qFviFaMmexfyDSyux/ePCRuS3sl8JAT63kpPEi4kvR
- pnjw==
-X-Gm-Message-State: AOAM531NQMqpWsgIPXtwP0deb6xn1EFezLJnImJoT4nGYns2Ng/rIumq
- DGskBbcxTVlAZvVRTOuXNoY=
-X-Google-Smtp-Source: ABdhPJwH0ItHfFV94FqIi+i7pGGCJoHNOMavuCMZwaTSNJ24JRmSNe+lTFt06Kawbit8Fif5KqcKXw==
-X-Received: by 2002:a17:90a:ce11:: with SMTP id
- f17mr2283340pju.123.1590754154418; 
- Fri, 29 May 2020 05:09:14 -0700 (PDT)
+ bh=1QRcJc+0V37tU9/CoMttBOeUhGM/q++JCRSrvKfZi1c=;
+ b=Zu+zP9v5T1sxGmfLKjSOdmmJwnFKNbKi6U+K8CxImeDj1zFL0WWILzOyQ5rm7vaJj0
+ bcPhCVekiIcvZ2jaafrCXFy8jZR3jOVQTStSlCKfVlXTp76hZD5rerl8L2qXvoWBS2H0
+ oJqX8n44giR9Xdbe1TvhzBzPI/cbONRTAbyOKNQGJ5N7nD3KVKkYvI4DeZLygq9vVQWQ
+ yyjeJVvHtLsBSx6zslsWrhsWiUiPVvmhqyiiRyUJHgGoiT6DTybd3LF30nXkoCQ0h3Ev
+ Em9c+hBn8bW7elAt1s4/iLHZYsj7tZz6/pRKcb+ejUgbWQQc7FJouaGmHl7QMK29gngD
+ DEUA==
+X-Gm-Message-State: AOAM533uzSqvhJoCuzyDOWQXwb02COhj8Rh892FuIqZ4uWDBVQtsT14W
+ DHNjQeVGNK3PJ/ZaKCS899Y=
+X-Google-Smtp-Source: ABdhPJyXXen44MBfu6MyEx4C7z2Ttl/Mr2eBWsGlqpPiqejkkDLE4gTu0+5b69yRv2/USHCPT392yg==
+X-Received: by 2002:a63:dc0f:: with SMTP id s15mr7843478pgg.182.1590754602683; 
+ Fri, 29 May 2020 05:16:42 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id l187sm7199102pfl.218.2020.05.29.05.09.13
+ by smtp.gmail.com with ESMTPSA id z13sm7663876pfj.153.2020.05.29.05.16.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 05:09:13 -0700 (PDT)
+ Fri, 29 May 2020 05:16:41 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id AE8314046C; Fri, 29 May 2020 12:09:12 +0000 (UTC)
-Date: Fri, 29 May 2020 12:09:12 +0000
+ id 982654046C; Fri, 29 May 2020 12:16:40 +0000 (UTC)
+Date: Fri, 29 May 2020 12:16:40 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 09/13] firmware_loader: simplify sysctl declaration with
- register_sysctl_subdir()
-Message-ID: <20200529120912.GD11244@42.do-not-panic.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 01/13] sysctl: add new register_sysctl_subdir() helper
+Message-ID: <20200529121640.GE11244@42.do-not-panic.com>
 References: <20200529074108.16928-1-mcgrof@kernel.org>
- <20200529074108.16928-10-mcgrof@kernel.org>
- <20200529102613.GA1345939@kroah.com>
+ <20200529074108.16928-2-mcgrof@kernel.org>
+ <87d06n17mm.fsf@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200529102613.GA1345939@kroah.com>
+In-Reply-To: <87d06n17mm.fsf@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,41 +67,53 @@ Cc: jack@suse.cz, rafael@kernel.org, airlied@linux.ie, amir73il@gmail.com,
  rdna@fb.com, yzaikin@google.com, keescook@chromium.org, arnd@arndb.de,
  intel-gfx@lists.freedesktop.org, julia.lawall@lip6.fr, jlbec@evilplan.org,
  rodrigo.vivi@intel.com, nixiaoming@huawei.com, vbabka@suse.cz, axboe@kernel.dk,
- tytso@mit.edu, linux-kernel@vger.kernel.org, ebiederm@xmission.com,
- akpm@linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
- ocfs2-devel@oss.oracle.com, viro@zeniv.linux.org.uk
+ tytso@mit.edu, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ ebiederm@xmission.com, akpm@linux-foundation.org,
+ linuxppc-dev@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
+ viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 29, 2020 at 12:26:13PM +0200, Greg KH wrote:
-> On Fri, May 29, 2020 at 07:41:04AM +0000, Luis Chamberlain wrote:
-> > From: Xiaoming Ni <nixiaoming@huawei.com>
-> > 
-> > Move the firmware config sysctl table to fallback_table.c and use the
-> > new register_sysctl_subdir() helper. This removes the clutter from
-> > kernel/sysctl.c.
-> > 
-> > Signed-off-by: Xiaoming Ni <nixiaoming@huawei.com>
-> > Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> > ---
-> >  drivers/base/firmware_loader/fallback.c       |  4 ++++
-> >  drivers/base/firmware_loader/fallback.h       | 11 ++++++++++
-> >  drivers/base/firmware_loader/fallback_table.c | 22 +++++++++++++++++--
-> >  include/linux/sysctl.h                        |  1 -
-> >  kernel/sysctl.c                               |  7 ------
-> >  5 files changed, 35 insertions(+), 10 deletions(-)
+On Fri, May 29, 2020 at 11:13:21AM +0300, Jani Nikula wrote:
+> On Fri, 29 May 2020, Luis Chamberlain <mcgrof@kernel.org> wrote:
+> > Often enough all we need to do is create a subdirectory so that
+> > we can stuff sysctls underneath it. However, *if* that directory
+> > was already created early on the boot sequence we really have no
+> > need to use the full boiler plate code for it, we can just use
+> > local variables to help us guide sysctl to place the new leaf files.
 > 
-> So it now takes more lines than the old stuff?  :(
+> I find it hard to figure out the lifetime requirements for the tables
+> passed in; when it's okay to use local variables and when you need
+> longer lifetimes. It's not documented, everyone appears to be using
+> static tables for this. It's far from obvious.
 
-Pretty much agreed with the other changes, thanks for the review!
+I agree 2000% that it is not obvious. What made me consider it was that
+I *knew* that the base directory would already exist, so it wouldn't
+make sense for the code to rely on earlier parts of a table if part
+of the hierarchy already existed.
 
-But this diff-stat change, indeed, it is unfortunate that we end up
-with more code here than before. We'll try to reduce it instead
-somehow, however in some cases during this spring-cleaning, since
-the goal is to move code from one file to another, it *may* require
-more code. So it won't always be negative. But we'll try!
+In fact, a *huge* part of the due dilligence on this and futre series
+on this cleanup will be to be 100% sure that the base path is already
+created. And so this use is obviously dangerous, you just *need* to
+know that the base path is created before.
+
+Non-posted changes also deal with link order to help address this
+in other places, given that link order controls how *initcalls()
+(early_initcall(), late_initcall(), etc) are ordered if you have
+multiple of these.
+
+I had a link order series long ago which augmented our ability to make
+things clearer at a link order. Eventually I believe this will become
+more important, specially as we end up wanting to async more code.
+
+For now, we can only rely on manual code inspection for ensuring
+proper ordering. Part of the implicit aspects of this cleanup is
+to slowly make these things clearer for each base path.
+
+So... the "fs" base path will actually end up being created in
+fs/sysctl.c after we are *fully* done with the fs sysctl cleanups.
 
   Luis
 _______________________________________________
