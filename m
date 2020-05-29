@@ -2,50 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A421E7134
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 02:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7022D1E7233
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 03:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6F06E258;
-	Fri, 29 May 2020 00:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C03D26E852;
+	Fri, 29 May 2020 01:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28ACD6E258
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 00:21:26 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id m21so377720eds.13
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 17:21:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=4pM5c1cQ3g56121SjZ45rsEvKVQSMwyRfhGxq2A2I20=;
- b=IUbkmIffxEwqCpMwWLh1vmsPQ7VxJcD3qTZG5Ka6UZWTllIoAkYpB74ISHCgk23NWl
- 9P+Sz5avR05RP7ETk8tXcR6ruiCLRscFWAm4f/gQGeu8cfe9aZkEnKtQIip1f6dl+UfZ
- VDQ+rXM7LAXWxRbf/4ur+ojXUPwthzE/WPRqXXJU8F9CnfIMElxpTNWhYJnxc43zYEao
- tKXsTRw0md60MgAcId0a1MV14eQMp1QqEOFTtdsQp6+9TXGW2E2Pgit80kCY/rp7Qm7I
- DqkK7p+NwyYn6hqf+83Sd/QzExwTFhQjqO5QRF3NtbomWPFc1wkHbVLz/IxgLHqVDjcV
- oUBQ==
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74CE76E852
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 01:49:33 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id c11so617372ljn.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 18:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KkwZFdug2ibfipHp51Hdh/MIpXAxoqnCWV3ptE8ypxM=;
+ b=OQI7g/LZthfupWZGTaaD31P84Kb9G8XBQLwp0DDsDWA2HzBFoyGDMu31FtMKA9ET7J
+ dDPGe9+x7OgAmQSeGW4sGXMu3sEUp7l35dkDgmSjURvllTM1xUIqeoN9hVSBQG1UpRgQ
+ ta7w4tJ7XCis8TtVKRq2VSK4+I12I3r45wSLc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=4pM5c1cQ3g56121SjZ45rsEvKVQSMwyRfhGxq2A2I20=;
- b=NBroUJ+iYHI3fyxxm0f7aW1vdImMxDUYM9Bj+TgzVrTowgy7Sr+uuB9E0gfv7dZleT
- NIuehoI/Z31lqjDQbWZXQ/BzBszpIQguSUJzbB1M5Pm+M4bKIwwO0hMWqnEDNrg5ogCY
- +dg4gx0P2vFr7QOG8WM6wX3Bd9yq9SKoBdOdpaed/BIiY7d12VhrKnfNtuXVpYPoMY8M
- loFbWlo0QtdZbGy2DKfokdpA+ZrnMRrd2eu/uyYkCPzdzZlDNtsdZ68A9wJFievNeHtf
- KEgQt95qPlQWOulI/G0fldkG8kN3XCSSbVkuRy+YMo1nptExZIX9JmGYvaoK7C6XLt+7
- gqeA==
-X-Gm-Message-State: AOAM533BOL+/nLcxcY514ogaobqAFcBcghughXh8bPf31u1A8nZH3uHU
- QMnC+kE6RO/iSUQT8FAYH4tLGha9/omyc30jxU8=
-X-Google-Smtp-Source: ABdhPJz/E46YBu3Op2fxf9zP7Ifln5J3gZRDb1qfZb962EaMW3NEaM7dW9urbQHxeErnZ6p4gm4h2PbwmVr93qTF1fA=
-X-Received: by 2002:a50:9547:: with SMTP id v7mr6158307eda.78.1590711684741;
- Thu, 28 May 2020 17:21:24 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KkwZFdug2ibfipHp51Hdh/MIpXAxoqnCWV3ptE8ypxM=;
+ b=KOS+XoaKm2QaEZGSeOEbPKhFLs4Enyw9MpyyhI2kDHuUQMCBcEHYnD66ZbsZJvGaH7
+ o0tXjl+O90mPG1l4fwvvBPs29FkMZBPw1ycJ/KEQJmScX60JJdMW798Djf+BY2zt5qnK
+ WoLiMN6ewezTaMroy3+Y4ihVuTlRYr4UKtHrBbWYC5oGsAQpY7YQb19bG3wt+0LtKkD+
+ Jtl1JrIT763HT1ujoaXf9pd7CvCIyG8s9kGHMtRVfrj/7ejAd95m8CwDn9/SFQC7Ee2P
+ nXy2xGe8WT+iiHdlWA6mzpF0K/x17f6OWiqvScbGn6yFSqwhu/RvD/uLz5jeVqs0w2Nl
+ Bsug==
+X-Gm-Message-State: AOAM533Z/M7iTxGslPWWaOQKZV0BhznW9jPvfvitp4tEtY+DD0b7iMVJ
+ G6ZhbPZ4lKpwUI2afyGOgmxWKQQOxrE=
+X-Google-Smtp-Source: ABdhPJzBQxo43NBTYKe2zBtADRnlh7yNPfOlZJeMChTalyLJIbmIKTiHBqiJzwWEFpvf6Y+UHG3Nbg==
+X-Received: by 2002:a2e:8e78:: with SMTP id t24mr3115187ljk.444.1590716971198; 
+ Thu, 28 May 2020 18:49:31 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id w144sm1950643lff.67.2020.05.28.18.49.30
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 May 2020 18:49:30 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id d7so307598lfi.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 18:49:30 -0700 (PDT)
+X-Received: by 2002:ac2:5a4c:: with SMTP id r12mr3133948lfn.10.1590716969967; 
+ Thu, 28 May 2020 18:49:29 -0700 (PDT)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 29 May 2020 10:21:13 +1000
-Message-ID: <CAPM=9ty+Vyn8aSxNqWY+_KEnqj8nGZbp2PRJTvQLcV1iPhG7dA@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.7-rc8/final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <CAPM=9ty+Vyn8aSxNqWY+_KEnqj8nGZbp2PRJTvQLcV1iPhG7dA@mail.gmail.com>
+In-Reply-To: <CAPM=9ty+Vyn8aSxNqWY+_KEnqj8nGZbp2PRJTvQLcV1iPhG7dA@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 28 May 2020 18:49:14 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgo1HUhSj-kGO8u+iUCxp+QS+rNenbM8gywbF3pdQ_DQA@mail.gmail.com>
+Message-ID: <CAHk-=wgo1HUhSj-kGO8u+iUCxp+QS+rNenbM8gywbF3pdQ_DQA@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 5.7-rc8/final
+To: Dave Airlie <airlied@gmail.com>, Chris Wilson <chris@chris-wilson.co.uk>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,101 +70,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+On Thu, May 28, 2020 at 5:21 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> Seems to have wound down nicely, a couple of i915 fixes, amdgpu fixes
+> and minor ingenic fixes.
 
-Seems to have wound down nicely, a couple of i915 fixes, amdgpu fixes
-and minor ingenic fixes.
+Dave, this doesn't even build. WTF?
 
-Should be it until the merge window.
+In drivers/gpu/drm/i915/gt/selftest_lrc.c, there's a
+engine_heartbeat_disable() function that takes two arguments, but the
+new "live_timeslice_nopreempt()" gives it only one.
 
-Dave.
+I'd blame a merge problem, since the failure is in new code, but the
+problem exists in your top-of-tree, not just my merge.
 
-drm-fixes-2020-05-29:
-drm fixes for 5.7 final
+In fact, it's not even your merge of the i915 tree that is the source
+of the problem (although the fact that you clearly didn't _test_ the
+end result most definitely is _part_ of the problem!).
 
-i915:
-- gcc 9 compile warning fix
-- timeslicing fixes
+Because the problem exists in the commit that introduced that thing:
+commit 1f65efb624c4 ("drm/i915/gt: Prevent timeslicing into
+unpreemptable requests").
 
-amdgpu:
-- display atomic test fix
-- Fix soft hang in display vupdate code
+It's garbage, and never compiled.
 
-ingenic:
-- fix pointer cast
-- fix crtc atomic check callback
-The following changes since commit 9cb1fd0efd195590b828b9b865421ad345a4a145:
+See here:
 
-  Linux 5.7-rc7 (2020-05-24 15:32:54 -0700)
+  git grep -1wh engine_heartbeat_disable 1f65efb62 \
+        drivers/gpu/drm/i915/gt/selftest_lrc.c
 
-are available in the Git repository at:
+and you'll see how the definition of that function looks like this:
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-05-29
+  static void engine_heartbeat_disable(struct intel_engine_cs *engine,
+                                       unsigned long *saved)
 
-for you to fetch changes up to d099f415d50c3980339479f56f124f8bfa6875bc:
+but then in the middle of that grep, you'll find
 
-  Merge tag 'drm-misc-fixes-2020-05-28' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-05-29
-09:25:23 +1000)
+                engine_heartbeat_disable(engine);
 
-----------------------------------------------------------------
-drm fixes for 5.7 final
+WTF?
 
-i915:
-- gcc 9 compile warning fix
-- timeslicing fixes
+That commit seems to be a cherry-pick of another commit, and maybe it
+worked in that other context (which I don't see), but it sure doesn't
+work in the context it was then cherry-picked into.
 
-amdgpu:
-- display atomic test fix
-- Fix soft hang in display vupdate code
+So people took that thing, and it went through at least two different
+people WHO NEVER EVEN BOTHERED TO TEST IF IT BUILDS!
 
-ingenic:
-- fix pointer cast
-- fix crtc atomic check callback
+Christ, people.
 
-----------------------------------------------------------------
-Aric Cyr (1):
-      drm/amd/display: Fix potential integer wraparound resulting in a hang
+This is why I absolutely DO NOT WANT TO SEE random rebases or
+cherry-picks and then sending the resulting untested crap on to me.
 
-Arnd Bergmann (2):
-      drm/i915/pmu: avoid an maybe-uninitialized warning
-      drm/i915: work around false-positive maybe-uninitialized warning
+Because it's exactly that: untested crap.
 
-Chris Wilson (2):
-      drm/i915/gt: Incorporate the virtual engine into timeslicing
-      drm/i915/gt: Prevent timeslicing into unpreemptable requests
+It doesn't matter *how* well you have tested a commit in some original
+context: the moment you rebase it (or cherry-pick it, which is just
+another form of rebasing), it's a completely new commit in a
+completely new environment, and all your old testing is null and void.
 
-Dave Airlie (3):
-      Merge tag 'amd-drm-fixes-5.7-2020-05-27' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2020-05-28' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2020-05-28' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+Guys, get your act together! I should not be getting these kinds of
+shit pull requests days before a release!
 
-Paul Cercueil (2):
-      gpu/drm: ingenic: Fix bogus crtc_atomic_check callback
-      gpu/drm: Ingenic: Fix opaque pointer casted to wrong type
+And how the hell did this not get any build testing at any point
+before asking me to pull?
 
-Simon Ser (1):
-      drm/amd/display: drop cursor position check in atomic test
-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   7 --
- .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |   2 +
- drivers/gpu/drm/i915/gt/intel_lrc.c                |  31 ++++--
- drivers/gpu/drm/i915/gt/selftest_lrc.c             | 118 ++++++++++++++++++++-
- drivers/gpu/drm/i915/gt/selftest_workarounds.c     |   2 +
- drivers/gpu/drm/i915/i915_pmu.c                    |  84 +++++++--------
- drivers/gpu/drm/i915/i915_priolist_types.h         |   2 +-
- drivers/gpu/drm/ingenic/ingenic-drm.c              |   6 +-
- 8 files changed, 192 insertions(+), 60 deletions(-)
+                Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
