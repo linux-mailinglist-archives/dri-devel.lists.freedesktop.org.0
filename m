@@ -1,54 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F961E72A4
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 04:38:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 274BB1E7489
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 06:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A606E094;
-	Fri, 29 May 2020 02:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3626E235;
+	Fri, 29 May 2020 04:23:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437816E094
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 02:38:04 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id z5so548815ejb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 May 2020 19:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=LRWL3md3cdfmyEEJJW9b1YfTGvsPpjYM45xVODC6cfc=;
- b=PWbxRWqfCKXeJr+EPrN+hJitAczR2rWP+QP2s/cIcVNKpQy7BtLNt0pCGIjwGby667
- 4RdLLFRuWU3RU7CNx40+MaNrKjI8fZWt3LJQK/IhGvKimWhThZe2EGUqwenVIB2sxdV1
- FU3nUXh5J/+sJ+OjyR7yiIeJ0S2ahL7kI/YSPK0NXPx4787GGrIlKsWY3quqZtTlrMps
- 1nZrFpq/ER6cFFgJzWZ3L6HzFajogsYMCeDeeEfIzMrBTgD/0WamHS786L/zqHhim8lq
- H8kwxnRzBjGeJy7VCsT3BoLtlq3S5b/v151SW8CLSn+NS1P9a90ENkKOHLtZxXplDgDE
- Ffpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=LRWL3md3cdfmyEEJJW9b1YfTGvsPpjYM45xVODC6cfc=;
- b=ASbpFZ4e9Hh+HS+2DsL2xTMoJCysNqofMP8Z+dKsAckGDoz5DCzJgXTNSjN+BvT2J+
- q69zQXvXIEVaLHctPwhNcNzwrytNU9jVsiYtj+faENp65cTxVhbsRMLT6/BwMSuZF+pZ
- Wg+ZMsNZeFQkhzzpNXi3asDuKtY0SrfcqvKwhwiIcqtgYFGCtJ1ooMdEmczqFoxJO99+
- jnnDLNZWmRwi/OhjK5DKOEkKJbEC7H18n3HjKrbsHd4lZ13y9DCP+qc5Lu1Krrj+iqIe
- vr7XMwTp/FTTcWAuKrpTbTtfouFuortYm7JnvdttieYNkUtnePhjFQjsVtMgw86J5u2c
- AZkQ==
-X-Gm-Message-State: AOAM530c0/mgWhMAG2Xaid1vZyw7T6E29Ff985RyUXPL0xxXrapGVjyw
- JeL/CKdCoeTGd2D400wEbEUGA/N+DNII4+Bkxb0=
-X-Google-Smtp-Source: ABdhPJwuQwT+mh59AfvI9h748+ECizDXZ6gIe+r811X0N6LfgmL4jbXZrAOk/o8tGqll+chuI/++ePZj/hfmwWJqnTQ=
-X-Received: by 2002:a17:906:f115:: with SMTP id
- gv21mr104958ejb.340.1590719882776; 
- Thu, 28 May 2020 19:38:02 -0700 (PDT)
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96996E235
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 04:23:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 75CD8FB03;
+ Fri, 29 May 2020 06:23:47 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cWWfHe7cer4i; Fri, 29 May 2020 06:23:46 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id A09C644AF9; Fri, 29 May 2020 06:23:45 +0200 (CEST)
+Date: Fri, 29 May 2020 06:23:45 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [RFC PATCH 3/6] dt-bindings: display/bridge/nwl-dsi: Drop mux
+ handling
+Message-ID: <20200529042345.GA2876@bogon.m.sigxcpu.org>
+References: <cover.1589548223.git.agx@sigxcpu.org>
+ <9884c56219e9bdbeec179c27ea2b734dbb5f1289.1589548223.git.agx@sigxcpu.org>
+ <20200528195914.GB568887@bogus>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 29 May 2020 12:37:51 +1000
-Message-ID: <CAPM=9tznwDT9GEhbAHD1dkUVY_OF5bQNzxX7sBjXPkSH6VFjcw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.7 final (apologies release)
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20200528195914.GB568887@bogus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +45,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Anson Huang <Anson.Huang@nxp.com>,
+ David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Chiras <robert.chiras@nxp.com>,
+ Leonard Crestez <leonard.crestez@nxp.com>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+Hi Rob,
+On Thu, May 28, 2020 at 01:59:14PM -0600, Rob Herring wrote:
+> On Fri, May 15, 2020 at 03:12:12PM +0200, Guido G=FCnther wrote:
+> > No need to encode the SoC specifics in the bridge driver. For the
+> > imx8mq we can use the mux-input-bridge.
+> =
 
-Apologies for previous PR, I did build it locally, I just don't build
-EXPERT kernels, I expect if I ever get a new builder I should add a
-few more configs to my list.
+> You can't just change bindings like this. You'd still have to support =
 
-I've just dropped the i915 PR from this completely, I'm sure when they
-wake up they'll be able to tell us what we are missing due to mistakes
-made.
+> the "old" way. But IMO, this way is the right way.
 
-Dave.
+My understanding is that binding stability only applies to released
+kernels and this binding never was in released kernel yet. Does it still
+apply in this case?
+Cheers,
+ -- Guido
 
-drm-fixes-2020-05-29-1:
-drm fixes for 5.7 final
+> =
 
-amdgpu:
-- display atomic test fix
-- Fix soft hang in display vupdate code
+> > =
 
-ingenic:
-- fix pointer cast
-- fix crtc atomic check callback
-The following changes since commit 9cb1fd0efd195590b828b9b865421ad345a4a145:
+> > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
+> > ---
+> >  .../devicetree/bindings/display/bridge/nwl-dsi.yaml         | 6 ------
+> >  1 file changed, 6 deletions(-)
+> =
 
-  Linux 5.7-rc7 (2020-05-24 15:32:54 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-05-29-1
-
-for you to fetch changes up to ed9244bd0b265c4c0866a9246c6e7cca1cca3acf:
-
-  Merge tag 'drm-misc-fixes-2020-05-28' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2020-05-29
-12:11:11 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.7 final
-
-amdgpu:
-- display atomic test fix
-- Fix soft hang in display vupdate code
-
-ingenic:
-- fix pointer cast
-- fix crtc atomic check callback
-
-----------------------------------------------------------------
-Aric Cyr (1):
-      drm/amd/display: Fix potential integer wraparound resulting in a hang
-
-Dave Airlie (2):
-      Merge tag 'amd-drm-fixes-5.7-2020-05-27' of
-git://people.freedesktop.org/~agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2020-05-28' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-
-Paul Cercueil (2):
-      gpu/drm: ingenic: Fix bogus crtc_atomic_check callback
-      gpu/drm: Ingenic: Fix opaque pointer casted to wrong type
-
-Simon Ser (1):
-      drm/amd/display: drop cursor position check in atomic test
-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 7 -------
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 ++
- drivers/gpu/drm/ingenic/ingenic-drm.c                     | 6 +++---
- 3 files changed, 5 insertions(+), 10 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
