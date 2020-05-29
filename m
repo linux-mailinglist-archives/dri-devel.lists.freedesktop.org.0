@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A83A1E9023
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EEC1E9024
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8D06E045;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E640E6E9C2;
 	Sat, 30 May 2020 09:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
- by gabe.freedesktop.org (Postfix) with ESMTP id 51F5D6E897;
- Fri, 29 May 2020 08:00:58 +0000 (UTC)
-Received: from localhost.localdomain (unknown [222.205.60.151])
- by mail-app3 (Coremail) with SMTP id cC_KCgAHD+MrwdBe0KQfAA--.26998S4;
- Fri, 29 May 2020 16:00:47 +0800 (CST)
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
-To: dinghao.liu@zju.edu.cn,
-	kjlu@umn.edu
-Subject: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in gm20b_clk_new
-Date: Fri, 29 May 2020 16:00:39 +0800
-Message-Id: <20200529080042.6082-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgAHD+MrwdBe0KQfAA--.26998S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Jr1Dur1rZF1DurW8Wr4fuFg_yoW8Jr1xpF
- 40qayj9rWUJF4xCw17Aw1UWF98ua1vyFyxG34SkwnIgrs8Jr95ZFWYyryrJayrXFW5GFWY
- vFsrKFy5ur45uFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43MxAIw28IcxkI7VAKI48J
- MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
- 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
- GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
- CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
- wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
- 7VUjNJ55UUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0OBlZdtOWM2gAPsE
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CAA89F41;
+ Fri, 29 May 2020 12:33:22 +0000 (UTC)
+IronPort-SDR: iqqS54Bu776Gs22riHvGBdpvdYnzeqZmn+YO8PfbgLlGx0RiFbSucf3hV8exErsPJuBmxfTw9I
+ AmDLzrOl/WIw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2020 05:33:21 -0700
+IronPort-SDR: BH8cx+3xgrjE2I/A+UZDj1fS2eA+3s+/PeyvoU5yUDuOW2JZwAkkAAeK5uWjfg2fQ9QrlsI/wc
+ 5J4tTI4APi+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,448,1583222400"; d="scan'208";a="303113842"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga008.jf.intel.com with ESMTP; 29 May 2020 05:33:19 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 3CB2EFC; Fri, 29 May 2020 15:33:17 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v1] drm/i915/dsi: Drop double check for ACPI companion device
+Date: Fri, 29 May 2020 15:33:17 +0300
+Message-Id: <20200529123317.20470-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 30 May 2020 09:42:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,51 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
-MIME-Version: 1.0
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When gk20a_clk_ctor() returns an error code, pointer "clk"
-should be released. It's the same when gm20b_clk_new()
-returns from elsewhere following this call.
+acpi_dev_get_resources() does perform the NULL pointer check against
+ACPI companion device which is given as function parameter. Thus,
+there is no need to duplicate this check in the caller.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 24 ++++++++------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
-index b284e949f732..a5aeba74d3b7 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
-@@ -1039,7 +1039,7 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
- 	ret = gk20a_clk_ctor(device, index, &gm20b_clk, clk_params,
- 			     &clk->base);
- 	if (ret)
--		return ret;
-+		goto out_free;
+diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+index 574dcfec9577..6f9e08cda964 100644
+--- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
++++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+@@ -426,23 +426,19 @@ static void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+ {
+ 	struct drm_device *drm_dev = intel_dsi->base.base.dev;
+ 	struct device *dev = &drm_dev->pdev->dev;
+-	struct acpi_device *acpi_dev;
++	struct acpi_device *acpi_dev = ACPI_COMPANION(dev);
+ 	struct list_head resource_list;
+ 	struct i2c_adapter_lookup lookup;
  
- 	/*
- 	 * NAPLL can only work with max_u, clamp the m range so
-@@ -1067,8 +1067,8 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
- 		nvkm_warn(subdev, "no fused calibration parameters\n");
- 
- 	ret = gm20b_clk_init_safe_fmax(clk);
--	if (ret)
--		return ret;
- 
--	return 0;
-+out_free:
-+	kfree(clk);
-+	return ret;
+-	acpi_dev = ACPI_COMPANION(dev);
+-	if (acpi_dev) {
+-		memset(&lookup, 0, sizeof(lookup));
+-		lookup.slave_addr = slave_addr;
+-		lookup.intel_dsi = intel_dsi;
+-		lookup.dev_handle = acpi_device_handle(acpi_dev);
+-
+-		INIT_LIST_HEAD(&resource_list);
+-		acpi_dev_get_resources(acpi_dev, &resource_list,
+-				       i2c_adapter_lookup,
+-				       &lookup);
+-		acpi_dev_free_resource_list(&resource_list);
+-	}
++	memset(&lookup, 0, sizeof(lookup));
++	lookup.slave_addr = slave_addr;
++	lookup.intel_dsi = intel_dsi;
++	lookup.dev_handle = acpi_device_handle(acpi_dev);
++
++	INIT_LIST_HEAD(&resource_list);
++	acpi_dev_get_resources(acpi_dev, &resource_list,
++			       i2c_adapter_lookup, &lookup);
++	acpi_dev_free_resource_list(&resource_list);
  }
+ #else
+ static inline void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
 -- 
-2.17.1
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
