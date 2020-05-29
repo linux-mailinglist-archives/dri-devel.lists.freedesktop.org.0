@@ -2,58 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171E01E782F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 10:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BF51E7882
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 10:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CB26E8A7;
-	Fri, 29 May 2020 08:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C83696E8A4;
+	Fri, 29 May 2020 08:37:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4DF56E8A1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 08:23:21 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id k2so920397pjs.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 01:23:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AIdQINovPOSOTJO7LcbhlxJUhgtHjantuh4CQ+iWOIk=;
- b=V5cw7BLL23TyvF7XSXItctQqYMbZHnd3YzoANtt528V7qq7xu1e8i/d5BPhYuuzcJA
- S4SZfsMhz56qz6LHdqb9P3YxO98X4/nyW5suGrtljbQRKiFaxDCQddMjE6qySAsDecYm
- 59mGjrKtcG0wLlb2EG+x0AmjGyZj6GcSpchSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AIdQINovPOSOTJO7LcbhlxJUhgtHjantuh4CQ+iWOIk=;
- b=s86BE34WIso0wEBPJ+d5/nYEfY/BvYKEWbr6C3sviLSAjWY90XKehrDdI+qLkp5I/H
- F8ajnnAVzOyMga+xFk9tIAq7AxEViUHjYYCf8p3PxYA3euPYsmq9lt0tH4DhkXuOZ7+f
- 1K13ATwcAtGitUnaqnUId3kjx/D+NMe85Xyif8jb8o34WuZ2sPnLZcBlUo1ZaQJ6KraN
- m97rcdwjJczLBgtxapq1Q0eEMA/JY+caF8AFpFtyl3MGkwOq49jlrGh9xX4UyXCMGtDq
- DDPFvH4Uuz0toIGK3nQuCN/pEedAm8uoXV7OE8gqEoDhzglPOOX1WmVVpuzbaInfTeQk
- mmoA==
-X-Gm-Message-State: AOAM532bU1NEwe7qRcsfWLlzHKs47R4yInib4nmvCYQxbBTLF464n9yJ
- ASo4IgNfGFvcyofCv48d5/Nl1g==
-X-Google-Smtp-Source: ABdhPJxhe+HLIcubMtL5eQGoTBqj0FU4LjvgWIjKqizFmhGngk4G6mh/yk/MZlVlYeZObWjd5EoKaQ==
-X-Received: by 2002:a17:90a:2e8a:: with SMTP id
- r10mr8137536pjd.33.1590740601487; 
- Fri, 29 May 2020 01:23:21 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
- by smtp.gmail.com with ESMTPSA id gd1sm7532180pjb.14.2020.05.29.01.23.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 01:23:20 -0700 (PDT)
-Date: Fri, 29 May 2020 01:23:19 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH 06/13] ocfs2: use new sysctl subdir helper
- register_sysctl_subdir()
-Message-ID: <202005290121.C78B4AC@keescook>
-References: <20200529074108.16928-1-mcgrof@kernel.org>
- <20200529074108.16928-7-mcgrof@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 052666E8A4;
+ Fri, 29 May 2020 08:37:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63A7030E;
+ Fri, 29 May 2020 01:37:42 -0700 (PDT)
+Received: from [192.168.1.84] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E536A3F305;
+ Fri, 29 May 2020 01:37:40 -0700 (PDT)
+Subject: Re: [PATCH i-g-t] panfrost: Test labeling functionality
+To: Rohan Garg <rohan.garg@collabora.com>, igt-dev@lists.freedesktop.org
+References: <20200528133835.5087-1-rohan.garg@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <8e3412c3-1c78-9e23-08a8-32514c3320c6@arm.com>
+Date: Fri, 29 May 2020 09:37:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200529074108.16928-7-mcgrof@kernel.org>
+In-Reply-To: <20200528133835.5087-1-rohan.garg@collabora.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,157 +41,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jack@suse.cz, rafael@kernel.org, airlied@linux.ie, amir73il@gmail.com,
- clemens@ladisch.de, dri-devel@lists.freedesktop.org,
- joseph.qi@linux.alibaba.com, sfr@canb.auug.org.au, mark@fasheh.com,
- rdna@fb.com, yzaikin@google.com, arnd@arndb.de,
- intel-gfx@lists.freedesktop.org, julia.lawall@lip6.fr, jlbec@evilplan.org,
- rodrigo.vivi@intel.com, nixiaoming@huawei.com, vbabka@suse.cz, axboe@kernel.dk,
- tytso@mit.edu, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- ebiederm@xmission.com, akpm@linux-foundation.org,
- linuxppc-dev@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: emil.l.velikov@gmail.com, alyssa.rosenzweig@collabora.com,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 29, 2020 at 07:41:01AM +0000, Luis Chamberlain wrote:
-> This simplifies the code considerably. The following coccinelle
-> SmPL grammar rule was used to transform this code.
-> 
-> // pycocci sysctl-subdir.cocci fs/ocfs2/stackglue.c
-> 
-> @c1@
-> expression E1;
-> identifier subdir, sysctls;
-> @@
-> 
-> static struct ctl_table subdir[] = {
-> 	{
-> 		.procname = E1,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = sysctls,
-> 	},
-> 	{ }
-> };
-> 
-> @c2@
-> identifier c1.subdir;
-> 
-> expression E2;
-> identifier base;
-> @@
-> 
-> static struct ctl_table base[] = {
-> 	{
-> 		.procname = E2,
-> 		.maxlen = 0,
-> 		.mode = 0555,
-> 		.child = subdir,
-> 	},
-> 	{ }
-> };
-> 
-> @c3@
-> identifier c2.base;
-> identifier header;
-> @@
-> 
-> header = register_sysctl_table(base);
-> 
-> @r1 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.subdir, c1.sysctls;
-> @@
-> 
-> -static struct ctl_table subdir[] = {
-> -	{
-> -		.procname = E1,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = sysctls,
-> -	},
-> -	{ }
-> -};
-> 
-> @r2 depends on c1 && c2 && c3@
-> identifier c1.subdir;
-> 
-> expression c2.E2;
-> identifier c2.base;
-> @@
-> -static struct ctl_table base[] = {
-> -	{
-> -		.procname = E2,
-> -		.maxlen = 0,
-> -		.mode = 0555,
-> -		.child = subdir,
-> -	},
-> -	{ }
-> -};
-> 
-> @r3 depends on c1 && c2 && c3@
-> expression c1.E1;
-> identifier c1.sysctls;
-> expression c2.E2;
-> identifier c2.base;
-> identifier c3.header;
-> @@
-> 
-> header =
-> -register_sysctl_table(base);
-> +register_sysctl_subdir(E2, E1, sysctls);
-> 
-> Generated-by: Coccinelle SmPL
-> 
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  fs/ocfs2/stackglue.c | 27 ++++-----------------------
->  1 file changed, 4 insertions(+), 23 deletions(-)
-> 
-> diff --git a/fs/ocfs2/stackglue.c b/fs/ocfs2/stackglue.c
-> index a191094694c6..addafced7f59 100644
-> --- a/fs/ocfs2/stackglue.c
-> +++ b/fs/ocfs2/stackglue.c
-> @@ -677,28 +677,8 @@ static struct ctl_table ocfs2_mod_table[] = {
->  	},
->  	{ }
->  };
-> -
-> -static struct ctl_table ocfs2_kern_table[] = {
-> -	{
-> -		.procname	= "ocfs2",
-> -		.data		= NULL,
-> -		.maxlen		= 0,
-> -		.mode		= 0555,
-> -		.child		= ocfs2_mod_table
-> -	},
-> -	{ }
-> -};
-> -
-> -static struct ctl_table ocfs2_root_table[] = {
-> -	{
-> -		.procname	= "fs",
-> -		.data		= NULL,
-> -		.maxlen		= 0,
-> -		.mode		= 0555,
-> -		.child		= ocfs2_kern_table
-> -	},
-> -	{ }
-> -};
-> +	.data		= NULL,
-> +	.data		= NULL,
-
-The conversion script doesn't like the .data field assignments. ;)
-
-Was this series built with allmodconfig? I would have expected this to
-blow up very badly. :)
-
--- 
-Kees Cook
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjgvMDUvMjAyMCAxNDozOCwgUm9oYW4gR2FyZyB3cm90ZToKPiBJbnRyb2R1Y2UgdGVzdHMg
+dG8gY292ZXIgdGhlIG5ldyBnZW5lcmljIGxhYmVsaW5nIGlvY3RsJ3MKPiBiZWluZyByZXZpZXdl
+ZCBoZXJlIFsxXS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBSb2hhbiBHYXJnIDxyb2hhbi5nYXJnQGNv
+bGxhYm9yYS5jb20+Cj4gCj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9z
+ZXJpZXMvNzcyNjcvCj4gCj4gU2lnbmVkLW9mZi1ieTogUm9oYW4gR2FyZyA8cm9oYW4uZ2FyZ0Bj
+b2xsYWJvcmEuY29tPgoKQSBmZXcgY29tbWVudHMgYmVsb3cuCgo+IC0tLQo+ICAgaW5jbHVkZS9k
+cm0tdWFwaS9kcm0uaCAgICB8ICAyMyArKysrKystCj4gICB0ZXN0cy9tZXNvbi5idWlsZCAgICAg
+ICAgIHwgICAxICsKPiAgIHRlc3RzL3BhbmZyb3N0X2JvX2xhYmVsLmMgfCAxMjkgKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgIDMgZmlsZXMgY2hhbmdlZCwgMTUyIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9w
+YW5mcm9zdF9ib19sYWJlbC5jCj4gCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtLXVhcGkvZHJt
+LmggYi9pbmNsdWRlL2RybS11YXBpL2RybS5oCj4gaW5kZXggYzdmZDJhMzUuLjg3MTI0ODgyIDEw
+MDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtLXVhcGkvZHJtLmgKPiArKysgYi9pbmNsdWRlL2RybS11
+YXBpL2RybS5oCj4gQEAgLTYyMCw2ICs2MjAsMjUgQEAgc3RydWN0IGRybV9nZW1fb3BlbiB7Cj4g
+ICAJX191NjQgc2l6ZTsKPiAgIH07Cj4gICAKPiArLyoqIHN0cnVjdCBkcm1faGFuZGxlX2xhYmVs
+IC0gaW9jdGwgYXJndW1lbnQgZm9yIGxhYmVsbGluZyBCT3MuCj4gKyAqCj4gKyAqIFRoaXMgbGFi
+ZWwncyBhIEJPIHdpdGggYSB1c2Vyc3BhY2UgbGFiZWwKPiArICoKPiArICovCj4gK3N0cnVjdCBk
+cm1faGFuZGxlX2xhYmVsIHsKPiArCS8qKiBIYW5kbGUgZm9yIHRoZSBvYmplY3QgYmVpbmcgbGFi
+ZWxsZWQuICovCj4gKwlfX3UzMiBoYW5kbGU7Cj4gKwo+ICsJLyoqIExhYmVsIGFuZCBsYWJlbCBs
+ZW5ndGggKGxlbiBpbmNsdWRlcyB0aGUgdHJhaWxpbmcgTlVMTCkuCj4gKwkgKiAgTGFiZWwgbGVu
+Z2h0ICpNVVNUKiBiZSBzbWFsbGVyIHRoYW4gUEFHRV9TSVpFLgogICAgICAgICAgICAgICAgICAg
+Xl5eXl5eCnR5cG86IHMvbGVuZ2h0L2xlbmd0aC8KCj4gKwkgKi8KPiArCV9fdTMyIGxlbjsKPiAr
+CV9fdTY0IGxhYmVsOwo+ICsKPiArCS8qKiBGbGFncyAuLiBDdXJyZW50bHkgbm8gZmxhZ3MgYXJl
+IGRlZmluZWQgKi8KPiArCV9fdTMyIGZsYWdzOwo+ICt9Owo+ICsKPiAgICNkZWZpbmUgRFJNX0NB
+UF9EVU1CX0JVRkZFUgkJMHgxCj4gICAjZGVmaW5lIERSTV9DQVBfVkJMQU5LX0hJR0hfQ1JUQwkw
+eDIKPiAgICNkZWZpbmUgRFJNX0NBUF9EVU1CX1BSRUZFUlJFRF9ERVBUSAkweDMKPiBAQCAtOTQx
+LDggKzk2MCwxMCBAQCBleHRlcm4gIkMiIHsKPiAgICNkZWZpbmUgRFJNX0lPQ1RMX1NZTkNPQkpf
+UVVFUlkJCURSTV9JT1dSKDB4Q0IsIHN0cnVjdCBkcm1fc3luY29ial90aW1lbGluZV9hcnJheSkK
+PiAgICNkZWZpbmUgRFJNX0lPQ1RMX1NZTkNPQkpfVFJBTlNGRVIJRFJNX0lPV1IoMHhDQywgc3Ry
+dWN0IGRybV9zeW5jb2JqX3RyYW5zZmVyKQo+ICAgI2RlZmluZSBEUk1fSU9DVExfU1lOQ09CSl9U
+SU1FTElORV9TSUdOQUwJRFJNX0lPV1IoMHhDRCwgc3RydWN0IGRybV9zeW5jb2JqX3RpbWVsaW5l
+X2FycmF5KQo+IC0KPiAgICNkZWZpbmUgRFJNX0lPQ1RMX01PREVfR0VURkIyCQlEUk1fSU9XUigw
+eENFLCBzdHJ1Y3QgZHJtX21vZGVfZmJfY21kMikKPiArI2RlZmluZSBEUk1fSU9DVExfSEFORExF
+X1NFVF9MQUJFTCAgICAgIERSTV9JT1dSKDB4Q0YsIHN0cnVjdCBkcm1faGFuZGxlX2xhYmVsKQo+
+ICsjZGVmaW5lIERSTV9JT0NUTF9IQU5ETEVfR0VUX0xBQkVMICAgICAgRFJNX0lPV1IoMHhEMCwg
+c3RydWN0IGRybV9oYW5kbGVfbGFiZWwpCj4gKwo+ICAgCj4gICAvKioKPiAgICAqIERldmljZSBz
+cGVjaWZpYyBpb2N0bHMgc2hvdWxkIG9ubHkgYmUgaW4gdGhlaXIgcmVzcGVjdGl2ZSBoZWFkZXJz
+Cj4gZGlmZiAtLWdpdCBhL3Rlc3RzL21lc29uLmJ1aWxkIGIvdGVzdHMvbWVzb24uYnVpbGQKPiBp
+bmRleCBlNjliZGI3ZC4uZWU5MWJmNDggMTAwNjQ0Cj4gLS0tIGEvdGVzdHMvbWVzb24uYnVpbGQK
+PiArKysgYi90ZXN0cy9tZXNvbi5idWlsZAo+IEBAIC03Miw2ICs3Miw3IEBAIHRlc3RfcHJvZ3Mg
+PSBbCj4gICAJJ2ttc192YmxhbmsnLAo+ICAgCSdrbXNfdnJyJywKPiAgIAknbWV0YV90ZXN0JywK
+PiArICAgICAgICAncGFuZnJvc3RfYm9fbGFiZWwnLAoKTG9va3MgbGlrZSB5b3UndmUgdXNlZCBz
+cGFjZXMgcmF0aGVyIHRoYW4gdGFicy4gUGxlYXNlIGFsc28gY2hlY2sgdGhlIApyZXN0IG9mIHRo
+ZSBwYXRjaCBmb3IgY29ycmVjdCBzcGFjZXMvdGFicy4KCj4gICAJJ3BhbmZyb3N0X2dldF9wYXJh
+bScsCj4gICAJJ3BhbmZyb3N0X2dlbV9uZXcnLAo+ICAgCSdwYW5mcm9zdF9wcmltZScsCj4gZGlm
+ZiAtLWdpdCBhL3Rlc3RzL3BhbmZyb3N0X2JvX2xhYmVsLmMgYi90ZXN0cy9wYW5mcm9zdF9ib19s
+YWJlbC5jCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwMC4uZDMxNzk0NTgK
+PiAtLS0gL2Rldi9udWxsCj4gKysrIGIvdGVzdHMvcGFuZnJvc3RfYm9fbGFiZWwuYwo+IEBAIC0w
+LDAgKzEsMTI5IEBACj4gKy8qCj4gKyAqIENvcHlyaWdodCDCqSAyMDIwIENvbGxhYm9yYSBMdGQu
+Cj4gKyAqICAgICBBdXRob3I6IFJvaGFuIEdhcmcgPHJvaGFuLmdhcmdAY29sbGFib3JhLmNvbT4K
+PiArICoKPiArICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2Us
+IHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEKPiArICogY29weSBvZiB0aGlzIHNvZnR3YXJlIGFu
+ZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdhcmUiKSwKPiArICog
+dG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdp
+dGhvdXQgbGltaXRhdGlvbgo+ICsgKiB0aGUgcmlnaHRzIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBt
+ZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwKPiArICogYW5kL29yIHNlbGwg
+Y29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25zIHRvIHdob20gdGhl
+Cj4gKyAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVjdCB0byB0aGUgZm9s
+bG93aW5nIGNvbmRpdGlvbnM6Cj4gKyAqCj4gKyAqIFRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNl
+IGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIChpbmNsdWRpbmcgdGhlIG5leHQKPiArICogcGFy
+YWdyYXBoKSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBv
+cnRpb25zIG9mIHRoZQo+ICsgKiBTb2Z0d2FyZS4KPiArICoKPiArICogVEhFIFNPRlRXQVJFIElT
+IFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1Mg
+T1IKPiArICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFO
+VElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gKyAqIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQ
+VVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBTSEFMTAo+ICsgKiBUSEUg
+QVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFN
+QUdFUyBPUiBPVEhFUgo+ICsgKiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9OIE9GIENP
+TlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORwo+ICsgKiBGUk9NLCBPVVQgT0YgT1Ig
+SU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJ
+TkdTCj4gKyAqIElOIFRIRSBTT0ZUV0FSRS4KPiArICovCj4gKwo+ICsjaW5jbHVkZSAiaWd0Lmgi
+Cj4gKyNpbmNsdWRlICJpZ3RfcGFuZnJvc3QuaCIKPiArI2luY2x1ZGUgPHVuaXN0ZC5oPgo+ICsj
+aW5jbHVkZSA8c3RkbGliLmg+Cj4gKyNpbmNsdWRlIDxzdGRpby5oPgo+ICsjaW5jbHVkZSA8c3Ry
+aW5nLmg+Cj4gKyNpbmNsdWRlIDxmY250bC5oPgo+ICsjaW5jbHVkZSA8aW50dHlwZXMuaD4KPiAr
+I2luY2x1ZGUgPGVycm5vLmg+Cj4gKyNpbmNsdWRlIDxzeXMvc3RhdC5oPgo+ICsjaW5jbHVkZSA8
+c3lzL2lvY3RsLmg+Cj4gKyNpbmNsdWRlIDxwb2xsLmg+Cj4gKyNpbmNsdWRlICJ2YzRfZHJtLmgi
+Cj4gKwo+ICtzdGF0aWMgaW50Cj4gK3NldF9sYWJlbChpbnQgZmQsIGludCBoYW5kbGUsIGNvbnN0
+IGNoYXIgKmxhYmVsKQo+ICt7Cj4gKwlzdHJ1Y3QgZHJtX2hhbmRsZV9sYWJlbCBhcmdzID0geyAw
+IH07Cj4gKwlpZiAobGFiZWwpIHsKPiArCQlhcmdzLmhhbmRsZSA9IGhhbmRsZTsKPiArCQlhcmdz
+LmxlbiA9IHN0cmxlbihsYWJlbCkgKyAxOwo+ICsJCWFyZ3MubGFiZWw9ICh1aW50cHRyX3QpbGFi
+ZWw7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIGRybUlvY3RsKGZkLCBEUk1fSU9DVExfSEFORExFX1NF
+VF9MQUJFTCwgJmFyZ3MpOwo+ICt9Cj4gKwo+ICtzdGF0aWMgY29uc3QgY2hhcioKPiArZ2V0X2xh
+YmVsKGludCBmZCwgaW50IGhhbmRsZSkKPiArewo+ICsJc3RydWN0IGRybV9oYW5kbGVfbGFiZWwg
+YXJncyA9IHsKPiArICAgICAgICAgICAgICAgIC5oYW5kbGUgPSBoYW5kbGUsCj4gKwkJLmxlbiA9
+IDEwLAo+ICsJCS5sYWJlbCA9ICh1aW50cHRyX3QpIG1hbGxvYyhzaXplb2YoY2hhciopICogMTAp
+Cj4gKyAgICAgICAgfTsKPiArCj4gKwlkcm1Jb2N0bChmZCwgRFJNX0lPQ1RMX0hBTkRMRV9HRVRf
+TEFCRUwsICZhcmdzKTsKPiArCj4gKwlpZiAoIWFyZ3MubGFiZWwpCj4gKwkJcmV0dXJuIE5VTEw7
+CgpUaGlzIHNlZW1zIG91dCBvZiBwbGFjZSAtIGFzc3VtaW5nIHRoaXMgaXMgdG8gY2hlY2sgdGhh
+dCBtYWxsb2MoKSAKc3VjY2VlZGVkIHRoZW4gaXQgd291bGQgYmUgbm9ybWFsIHRvIGNoZWNrIGJl
+Zm9yZSB0aGUgaW9jdGwgY2FsbC4KCj4gKwo+ICsJaWd0X2Fzc2VydChhcmdzLmxhYmVsKTsKCkdp
+dmVuIHRoZSBhYm92ZSBjaGVjayB0aGlzIGNhbiBuZXZlciBmYWlsLgoKQWxzbyBub3RoaW5nIGlz
+IGNoZWNraW5nIHRoZSByZXR1cm4gZnJvbSBkcm1Jb2N0bC4KCj4gKwo+ICsgICAgICAgIGFyZ3Mu
+bGFiZWwgPSAodWludHB0cl90KSByZWFsbG9jKGFyZ3MubGFiZWwsIGFyZ3MubGVuKTsKPiArCj4g
+Kwlkcm1Jb2N0bChmZCwgRFJNX0lPQ1RMX0hBTkRMRV9HRVRfTEFCRUwsICZhcmdzKTsKPiArCj4g
+KyAgICAgICAgcmV0dXJuIGFyZ3MubGFiZWw7Cj4gK30KPiArCj4gKwo+ICtpZ3RfbWFpbgo+ICt7
+Cj4gKwlpbnQgZmQ7Cj4gKwo+ICsJaWd0X2ZpeHR1cmUKPiArCQlmZCA9IGRybV9vcGVuX2RyaXZl
+cihEUklWRVJfQU5ZKTsKPiArCj4gKwlpZ3Rfc3VidGVzdCgic2V0LWxhYmVsIikgewo+ICsJCXN0
+cnVjdCBwYW5mcm9zdF9ibyAqYm8gPSBpZ3RfcGFuZnJvc3RfZ2VtX25ldyhmZCwgNDA5Nik7Cj4g
+KwkJaW50IHJldDsKPiArCQlyZXQgPSBzZXRfbGFiZWwoZmQsIGJvLT5oYW5kbGUsICJhIHRlc3Qg
+bGFiZWwiKTsKPiArCQlpZ3RfYXNzZXJ0KHJldCA9PSAwKTsKPiArCj4gKwkJcmV0ID0gc2V0X2xh
+YmVsKGZkLCBiby0+aGFuZGxlLCAiYSBuZXcgdGVzdCBsYWJlbCIpOwo+ICsJCWlndF9hc3NlcnQo
+cmV0ID09IDApOwo+ICsKPiArCQlpZ3RfcGFuZnJvc3RfZnJlZV9ibyhmZCwgYm8pOwo+ICsJfQo+
+ICsKPiArCWlndF9zdWJ0ZXN0KCJnZXQtbGFiZWwiKSB7Cj4gKwkJc3RydWN0IHBhbmZyb3N0X2Jv
+ICpibyA9IGlndF9wYW5mcm9zdF9nZW1fbmV3KGZkLCA0MDk2KTsKPiArCQlzZXRfbGFiZWwoZmQs
+IGJvLT5oYW5kbGUsICJhIHRlc3QgbGFiZWwiKTsKPiArCQljb25zdCBjaGFyKiBsYWJlbCA9IGdl
+dF9sYWJlbChmZCwgYm8tPmhhbmRsZSk7Cj4gKwkJaWd0X2Fzc2VydChzdHJjbXAobGFiZWwsICJh
+IHRlc3QgbGFiZWwiKSA9PSAwKTsKPiArCQlmcmVlKGxhYmVsKTsKPiArCQlpZ3RfcGFuZnJvc3Rf
+ZnJlZV9ibyhmZCwgYm8pOwo+ICsJfQo+ICsKPiArCWlndF9zdWJ0ZXN0KCJjbGVhci1sYWJlbCIp
+IHsKPiArCQlzdHJ1Y3QgcGFuZnJvc3RfYm8gKmJvID0gaWd0X3BhbmZyb3N0X2dlbV9uZXcoZmQs
+IDQwOTYpOwo+ICsJCXNldF9sYWJlbChmZCwgYm8tPmhhbmRsZSwgTlVMTCk7Cj4gKwkJaWd0X2Fz
+c2VydF9lcShOVUxMLCBnZXRfbGFiZWwoZmQsIGJvLT5oYW5kbGUpKTsKPiArCQlpZ3RfcGFuZnJv
+c3RfZnJlZV9ibyhmZCwgYm8pOwo+ICsJfQo+ICsKPiArCWlndF9zdWJ0ZXN0KCJsYWJlbC10b28t
+bG9uZyIpIHsKPiArCQljaGFyIGxhYmVsWzQwOTZdID0ge1swIC4uLiA0MDk1XSA9ICdhJ307CgpC
+ZXdhcmUgUEFHRV9TSVpFIGlzbid0IGFsd2F5cyA0MDk2IGJ5dGVzLCBlLmcuIHNlZSBBUk02NF82
+NEtfUEFHRVMuIFlvdSAKbWlnaHQgd2FudCB0byB0cnkgc3lzY29uZihfU0NfUEFHRVNJWkUpLgoK
+U3RldmUKCj4gKwkJaW50IHJldDsKPiArCQlzdHJ1Y3QgcGFuZnJvc3RfYm8gKmJvID0gaWd0X3Bh
+bmZyb3N0X2dlbV9uZXcoZmQsIDQwOTYpOwo+ICsJCXJldCA9IHNldF9sYWJlbChmZCwgYm8tPmhh
+bmRsZSwgbGFiZWwpOwo+ICsJCWlndF9hc3NlcnRfZXEoLTEsIHJldCk7Cj4gKwkJaWd0X2Fzc2Vy
+dF9lcShFSU5WQUwsIGVycm5vKTsKPiArCQlpZ3RfcGFuZnJvc3RfZnJlZV9ibyhmZCwgYm8pOwo+
+ICsJfQo+ICsKPiArCWlndF9zdWJ0ZXN0KCJzZXQtYmFkLWhhbmRsZSIpIHsKPiArCQlpbnQgcmV0
+ID0gc2V0X2xhYmVsKGZkLCAweGQwZDBkMGQwLCAiYmFkIGhhbmRsZSIpOwo+ICsJCWlndF9hc3Nl
+cnRfZXEoLTEsIHJldCk7Cj4gKwkJaWd0X2Fzc2VydF9lcShFTk9FTlQsIGVycm5vKTsKPiArCX0K
+PiArCj4gKwlpZ3RfZml4dHVyZQo+ICsJCWNsb3NlKGZkKTsKPiArfQo+IAoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
