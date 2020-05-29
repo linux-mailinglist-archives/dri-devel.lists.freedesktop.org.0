@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5051E7C75
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 13:58:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 679501E7C83
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 14:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 245326E8D8;
-	Fri, 29 May 2020 11:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B5C6E8DD;
+	Fri, 29 May 2020 12:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0075B6E8D4
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 11:58:08 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id q11so3278019wrp.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 04:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xx1veJ0bxaB2/083Vidu3CaROGdKYLceDHTRUZktGpw=;
- b=Wt/+CBVkeqmhoDxkgUcUrdYCWXBHm+nr/cR5jGeFZlv5gPbPpgUNV9WI/2FpxL7Sh1
- BunXXti7wfywtJ60rGKddXoln6Av/Oa0ZZrsy+7IP/AEwggylOynKubSxPnll/s9ssyO
- U1OzX8nAUnwWw4wdQsTbGNiG0MvI03ULQ/5z4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xx1veJ0bxaB2/083Vidu3CaROGdKYLceDHTRUZktGpw=;
- b=Ifhd8frl87ejFaBWMxB/RUlYvxcJqINChh98hOyZevRfRaqbL1RIY0cOadVhOk8Ztq
- Ez68QrV4E+DE2oqqf9NjlhvH20uR9PxYcqJSMvTzbgGgifO6yCV/8mulM3Bk8Gp3a6hC
- 3khVglKx8hq44WQeFz1cWfHbi9JSYy2qvteYHx6YNtEzn4PsR7uZ/3q3GrFB98xGOUDz
- b/6gJ4KE3g8YbAb2CcOSkwVuG3DRY+x3I2lYcZyx9CdObgBNOoPOpjyXNVF29DG2dw2i
- s2/yGQr4jy9ALnHTIvKql40ydgUw4gJK8bpYCg/QIjH+xyTybTb8zRv64EhJjaqky9Gj
- MNOg==
-X-Gm-Message-State: AOAM531K0KY+HWVW2J4RFmE/UjXg0CjaNl+Hur3czL8lUgZcZbxI7lfK
- QwW/uycBiws9scqaNabyRqgXVO3UEsE=
-X-Google-Smtp-Source: ABdhPJwA+WuHmyqac7N86Lzq6cy3+brw4uW9ek2KTrnTVCi54FYc9484ltnjwTUAbNK945k6dJDLyg==
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr7872964wrr.337.1590753487253; 
- Fri, 29 May 2020 04:58:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k17sm9605881wmj.15.2020.05.29.04.58.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 04:58:06 -0700 (PDT)
-Date: Fri, 29 May 2020 13:58:04 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F466E8DD;
+ Fri, 29 May 2020 12:02:15 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F25E12A44A5;
+ Fri, 29 May 2020 13:02:12 +0100 (BST)
+Date: Fri, 29 May 2020 14:02:09 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: Re: [PATCH 2/2] drm/atomic-helper: reset vblank on crtc reset
-Message-ID: <20200529115804.GD1630358@phenom.ffwll.local>
+Message-ID: <20200529140209.23457fad@collabora.com>
+In-Reply-To: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
 References: <20200527094757.1414174-1-daniel.vetter@ffwll.ch>
  <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,7 +44,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
@@ -79,7 +57,7 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Jyri Sarha <jsarha@ti.com>,
+ Jyri Sarha <jsarha@ti.com>, Sean Paul <seanpaul@chromium.org>,
  linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
  Boris Brezillon <bbrezillon@kernel.org>,
  Nicolas Ferre <nicolas.ferre@microchip.com>, zhengbin <zhengbin13@huawei.com>,
@@ -89,7 +67,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 11:47:57AM +0200, Daniel Vetter wrote:
+On Wed, 27 May 2020 11:47:57 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+
 > Only when vblanks are supported ofc.
 > 
 > Some drivers do this already, but most unfortunately missed it. This
@@ -124,10 +104,6 @@ On Wed, May 27, 2020 at 11:47:57AM +0200, Daniel Vetter wrote:
 > drivers do call drm_crtc_vblank_on/off as they should, the remaining
 > drivers are either legacy kms or legacy dri1 drivers, so not affected
 > by this change to atomic helpers.
-
-Note that mxsfb has accidentally totally broken vblank support, so doesn't
-need fixing at all. I'll update that paragraph when merging.
-
 > 
 > Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
 > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
@@ -159,15 +135,15 @@ need fixing at all. I'll update that paragraph when merging.
 > Cc: Thomas Gleixner <tglx@linutronix.de>
 > Cc: linux-tegra@vger.kernel.org
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-
-Ping for some more eyes and maybe testing on this patch here.
-
-Thanks, Daniel
-
 > ---
 >  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
 >  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
 >  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+
+For atmel-hlcdc:
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 >  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
 >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
 >  drivers/gpu/drm/tegra/dc.c                       | 1 -
@@ -313,14 +289,7 @@ Thanks, Daniel
 >  	drm_mode_config_reset(ddev);
 >  
 >  	dev_dbg(tidss->dev, "%s done\n", __func__);
-> -- 
-> 2.26.2
-> 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
