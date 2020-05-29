@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B79B1E772E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4390D1E772F
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE496E894;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFD356E88F;
 	Fri, 29 May 2020 07:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
  [209.85.216.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57956E88C;
- Fri, 29 May 2020 07:41:25 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id nm22so121833pjb.4;
- Fri, 29 May 2020 00:41:25 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0876E88F;
+ Fri, 29 May 2020 07:41:27 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id ci21so847533pjb.3;
+ Fri, 29 May 2020 00:41:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DDbHuQyYpIA+NrKXcOMmKPCGJcWzsoGwYaKrbY/Qlik=;
- b=ZmtGiyqZqp+miGQ3pxjnxGtCrR3spOwaRNDYT7EnpLElpfCjRFoPtXTWbO1MGCa/y0
- s3SvcRza7tR0OYVnlwgNU4RY06l27evsV59v0dIwFXEsfewRkFbpEEGMn7PqpP4iaXiE
- vwT++xZGoloNorwaZSRJwiZblNynjbPRQxusPZ5SOZaxkltk2vS8Ntw4hfANr8DpgoNV
- 9s7Zzvkp47YsRUTrhaBbrQhZTBCZZwCmGaw9S6nfkIoTQ5fB6pJKu5kXuUBTEDwZRluB
- 7MSwYdyjQZCSH4X9BSVBIqZ2RZ5g1HZ999a1ofmMzEp/JI1IgU8SxinWYprwvpbwjsr2
- wMkQ==
-X-Gm-Message-State: AOAM533L9O3sHtUTsfo104JIZbUA5BkbARrcCZgwYptYgImtm5SbSDii
- MaiQvKHFlsCC5V4B5HpgA8E=
-X-Google-Smtp-Source: ABdhPJwGzuqDcH6Vkxqbl1C5ZMUAQstwFZ+JipZBre8wnuBfBUsU2v0rs/LBQURtmvm2RkRrx2hGlQ==
-X-Received: by 2002:a17:90a:fe0c:: with SMTP id
- ck12mr973724pjb.209.1590738085315; 
- Fri, 29 May 2020 00:41:25 -0700 (PDT)
+ bh=1PG5LVb0n4wOO6VZREoyBILeBAzco+IYNIeDXsX/FzY=;
+ b=kSTs3Y6jlaVPkUFuZMvKMWK2eQPYibhQn2DU5zzzacRDRavzhsc/OEAl6M47zUNRl0
+ iljiBndswqbRR5z+uO08uk8EesorXpkDM1+bARnCpYRsJsQe365P4FfY+tQtoqSuiGU4
+ LGZ5hlznXpYzJhzEo1LaH114rb0I61M8/nUvWFqKv/zaXiPU3ZNztkbLI9eIWbr5L74G
+ VnOrxKF9nwNI24yhtld6hoTJN88vSRQFonkgdHwfK8O3wlJVa3SIARtnU4FsSzPa88CN
+ Yf9nNhKHI9/ZFHIxTWvjDHIuSFq8vY4h6Dx/tOf2jujJIfIR9L13i35eYFgluFGdSnzf
+ RDGQ==
+X-Gm-Message-State: AOAM532OHWLa4nQUS2FAUXjCH6NZAJ+qQ/qEnBoYgcnw9X5R/z6wBQT/
+ hcUYih7gICwHyRvqDZLtA18=
+X-Google-Smtp-Source: ABdhPJxM98lxrupu0HzIVHkaILQ2GJoC5HA3ATmBk5nOeI56XgjTlxA112dIBe6io3Hl67zR6z+BjQ==
+X-Received: by 2002:a17:90a:db0c:: with SMTP id
+ g12mr7872171pjv.5.1590738086768; 
+ Fri, 29 May 2020 00:41:26 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id t201sm3703652pfc.104.2020.05.29.00.41.16
+ by smtp.gmail.com with ESMTPSA id q21sm919935pfn.209.2020.05.29.00.41.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 00:41:16 -0700 (PDT)
+ Fri, 29 May 2020 00:41:25 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id 08CEC42394; Fri, 29 May 2020 07:41:11 +0000 (UTC)
+ id 13BC8423BF; Fri, 29 May 2020 07:41:11 +0000 (UTC)
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  ebiederm@xmission.com, axboe@kernel.dk, clemens@ladisch.de, arnd@arndb.de,
@@ -47,9 +47,9 @@ To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  viro@zeniv.linux.org.uk, mark@fasheh.com, jlbec@evilplan.org,
  joseph.qi@linux.alibaba.com, vbabka@suse.cz, sfr@canb.auug.org.au,
  jack@suse.cz, amir73il@gmail.com, rafael@kernel.org, tytso@mit.edu
-Subject: [PATCH 12/13] sysctl: add helper to register empty subdir
-Date: Fri, 29 May 2020 07:41:07 +0000
-Message-Id: <20200529074108.16928-13-mcgrof@kernel.org>
+Subject: [PATCH 13/13] fs: move binfmt_misc sysctl to its own file
+Date: Fri, 29 May 2020 07:41:08 +0000
+Message-Id: <20200529074108.16928-14-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200529074108.16928-1-mcgrof@kernel.org>
 References: <20200529074108.16928-1-mcgrof@kernel.org>
@@ -75,79 +75,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The way to create a subdirectory from the base set of directories
-is a bit obscure, so provide a helper which makes this clear, and
-also helps remove boiler plate code required to do this work.
+This moves the binfmt_misc sysctl to its own file to help remove
+clutter from kernel/sysctl.c.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- include/linux/sysctl.h |  7 +++++++
- kernel/sysctl.c        | 16 +++++++++++++---
- 2 files changed, 20 insertions(+), 3 deletions(-)
+ fs/binfmt_misc.c | 1 +
+ kernel/sysctl.c  | 7 -------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
-index 33a471b56345..89c92390e6de 100644
---- a/include/linux/sysctl.h
-+++ b/include/linux/sysctl.h
-@@ -208,6 +208,8 @@ extern void register_sysctl_init(const char *path, struct ctl_table *table,
- extern struct ctl_table_header *register_sysctl_subdir(const char *base,
- 						       const char *subdir,
- 						       struct ctl_table *table);
-+extern void register_sysctl_empty_subdir(const char *base, const char *subdir);
-+
- void do_sysctl_args(void);
- 
- extern int pwrsw_enabled;
-@@ -231,6 +233,11 @@ inline struct ctl_table_header *register_sysctl_subdir(const char *base,
- 	return NULL;
+diff --git a/fs/binfmt_misc.c b/fs/binfmt_misc.c
+index f69a043f562b..656b3f5f3bbf 100644
+--- a/fs/binfmt_misc.c
++++ b/fs/binfmt_misc.c
+@@ -821,6 +821,7 @@ static int __init init_misc_binfmt(void)
+ 	int err = register_filesystem(&bm_fs_type);
+ 	if (!err)
+ 		insert_binfmt(&misc_format);
++	register_sysctl_empty_subdir("fs", "binfmt_misc");
+ 	return err;
  }
  
-+static inline void register_sysctl_empty_subdir(const char *base,
-+						const char *subdir)
-+{
-+}
-+
- static inline struct ctl_table_header *register_sysctl_paths(
- 			const struct ctl_path *path, struct ctl_table *table)
- {
 diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index f9a35325d5d5..460532cd5ac8 100644
+index 460532cd5ac8..7714e7b476c2 100644
 --- a/kernel/sysctl.c
 +++ b/kernel/sysctl.c
-@@ -3188,13 +3188,17 @@ struct ctl_table_header *register_sysctl_subdir(const char *base,
- 		{ }
- 	};
- 
--	if (!table->procname)
-+	if (table != sysctl_mount_point && !table->procname)
- 		goto out;
- 
- 	hdr = register_sysctl_table(base_table);
- 	if (unlikely(!hdr)) {
--		pr_err("failed when creating subdirectory sysctl %s/%s/%s\n",
--		       base, subdir, table->procname);
-+		if (table != sysctl_mount_point)
-+			pr_err("failed when creating subdirectory sysctl %s/%s/%s\n",
-+			       base, subdir, table->procname);
-+		else
-+			pr_err("failed when creating empty subddirectory %s/%s\n",
-+			       base, subdir);
- 		goto out;
- 	}
- 	kmemleak_not_leak(hdr);
-@@ -3202,6 +3206,12 @@ struct ctl_table_header *register_sysctl_subdir(const char *base,
- 	return hdr;
- }
- EXPORT_SYMBOL_GPL(register_sysctl_subdir);
-+
-+void register_sysctl_empty_subdir(const char *base,
-+				  const char *subdir)
-+{
-+	register_sysctl_subdir(base, subdir, sysctl_mount_point);
-+}
- #endif /* CONFIG_SYSCTL */
- /*
-  * No sense putting this after each symbol definition, twice,
+@@ -3042,13 +3042,6 @@ static struct ctl_table fs_table[] = {
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_TWO,
+ 	},
+-#if defined(CONFIG_BINFMT_MISC) || defined(CONFIG_BINFMT_MISC_MODULE)
+-	{
+-		.procname	= "binfmt_misc",
+-		.mode		= 0555,
+-		.child		= sysctl_mount_point,
+-	},
+-#endif
+ 	{
+ 		.procname	= "pipe-max-size",
+ 		.data		= &pipe_max_size,
 -- 
 2.26.2
 
