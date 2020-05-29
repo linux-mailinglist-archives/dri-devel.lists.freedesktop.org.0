@@ -2,34 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4D41E9030
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161771E9031
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A3026E9CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1FF96E9D1;
 	Sat, 30 May 2020 09:42:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0C2746E8D5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 17:06:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E3A61045;
- Fri, 29 May 2020 10:06:10 -0700 (PDT)
-Received: from [10.37.12.52] (unknown [10.37.12.52])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CC243F52E;
- Fri, 29 May 2020 10:05:59 -0700 (PDT)
-Subject: Re: [PATCH v8 0/8] Add support for devices in the Energy Model
-To: "Rafael J. Wysocki" <rafael@kernel.org>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC0B06E954
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 17:43:31 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id f5so4608752wmh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 10:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gVHswwd0kSAFGKu/imUZP8zXFuR2uDAO/9AxJgTWj2k=;
+ b=vNp+WRPzmVLo1r8+DFAF8gNmZb/28QvNPt/T2VsGiAimd+bWW8HoyDgA44dOUlNzMk
+ fY65A1nqYFgcKpVZcbbW6tYLMtlh1ht+H5UUiLrE4WcIm9kEtdVSx+NatHrZ+lmYrhhC
+ TEkORAF/qRMaBY4K+bWEZXNc34wV8hrH9Sl3bfCSd73vqQudGr/rBOnFlwIQXYpV3J4O
+ YveoFJuluD6cvfUPa7l+Qm9w38CmY64aFpgFFPWvaEWCWqOWPw39DK4zY7+IW5lqL77K
+ De+wvJPgksSh0vXciTQWXdpFVX/+YAGuASngCU8rlZeV4qPQ6T0jq8K2Odu8OOwprjGT
+ T3UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gVHswwd0kSAFGKu/imUZP8zXFuR2uDAO/9AxJgTWj2k=;
+ b=U9+WUiR4/MIlVoTZ40TNrwt9HpYiiJkAXdYkSNO347QQrqW9n0oRRiGrH2b9jxzrGi
+ IXRWHexMzQmRUfEIUl7YozYKZkxeQl/75LP6c0WPGhdwWooK0nqs6PnacYmhppKfV7s7
+ A5zilr7yN2iH+CNIINYqnNzxUG1PNzrnfuOf9Xb5NEUJf8VImyEFfD2jFJS31VEHc8z+
+ y4PrXU3AZr64dqEmq8A5yGPttGG3njSA44Kh17uEUGgj5/RRrjS45vHE6FUQ9IetpSR0
+ cYtYIkr6csq69/88hM+pIClnDHp6L1Z2jHPr+zGAdp3vQxv7TXIXpULcouaxwPzxZZsk
+ k8Qg==
+X-Gm-Message-State: AOAM531O8FXqzbh+1Db0HskvJrMvD4ypOhRHbEQ2R6wCtDjOu1QmRhM/
+ fwE6y6JSBZxLuCI5P5S99amLDQ==
+X-Google-Smtp-Source: ABdhPJw5RPN4E4dGorLBaNA+WhTMk21B9a7oGwIJp3X1RT5IwHv1j8KNJcB+UIWbVhdzlIO7TazAAQ==
+X-Received: by 2002:a1c:a403:: with SMTP id n3mr9510567wme.98.1590774210138;
+ Fri, 29 May 2020 10:43:30 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:5568:5913:8a3a:5e4e?
+ ([2a01:e34:ed2f:f020:5568:5913:8a3a:5e4e])
+ by smtp.googlemail.com with ESMTPSA id q13sm10600040wrn.84.2020.05.29.10.43.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 May 2020 10:43:29 -0700 (PDT)
+Subject: Re: [PATCH v8 3/8] PM / EM: update callback structure and add device
+ pointer
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-imx@nxp.com
 References: <20200527095854.21714-1-lukasz.luba@arm.com>
- <8fca24a1-93f7-f859-bd1f-b7bf484737f4@arm.com>
- <CAJZ5v0g5whSUMkd4majCGj0j9TMeO+fCfhxB6FNWoaLpPsi6UA@mail.gmail.com>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <5237e339-62f5-2e1c-50e2-6f391e863032@arm.com>
-Date: Fri, 29 May 2020 18:05:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <20200527095854.21714-4-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <666b2f9e-d7ed-6ddb-80aa-e63ab9909ee6@linaro.org>
+Date: Fri, 29 May 2020 19:43:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0g5whSUMkd4majCGj0j9TMeO+fCfhxB6FNWoaLpPsi6UA@mail.gmail.com>
+In-Reply-To: <20200527095854.21714-4-lukasz.luba@arm.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Sat, 30 May 2020 09:42:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,97 +77,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Juri Lelli <juri.lelli@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Benjamin Segall <bsegall@google.com>, alyssa.rosenzweig@collabora.com,
- Matthias Kaehlcke <mka@chromium.org>,
- Amit Kucheria <amit.kucheria@verdurent.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Kevin Hilman <khilman@kernel.org>, Andy Gross <agross@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, steven.price@arm.com,
- Chanwoo Choi <cw00.choi@samsung.com>, Ingo Molnar <mingo@redhat.com>,
- dl-linux-imx <linux-imx@nxp.com>, "Zhang, Rui" <rui.zhang@intel.com>,
- Mel Gorman <mgorman@suse.de>, orjan.eide@arm.com,
- Linux PM <linux-pm@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
- "moderated list:ARM/Mediatek SoC..." <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
- Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- David Airlie <airlied@linux.ie>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Quentin Perret <qperret@google.com>, Stephen Boyd <sboyd@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Sascha Hauer <kernel@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>,
- patrick.bellasi@matbug.net, Shawn Guo <shawnguo@kernel.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ steven.price@arm.com, cw00.choi@samsung.com, mingo@redhat.com, mgorman@suse.de,
+ rui.zhang@intel.com, alyssa.rosenzweig@collabora.com, orjan.eide@arm.com,
+ b.zolnierkie@samsung.com, s.hauer@pengutronix.de, rostedt@goodmis.org,
+ matthias.bgg@gmail.com, Dietmar.Eggemann@arm.com, airlied@linux.ie,
+ tomeu.vizoso@collabora.com, qperret@google.com, sboyd@kernel.org,
+ rdunlap@infradead.org, rjw@rjwysocki.net, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 5/29/20 5:18 PM, Rafael J. Wysocki wrote:
-> On Fri, May 29, 2020 at 5:01 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
->>
->> Hi Rafael,
->>
->>
->> On 5/27/20 10:58 AM, Lukasz Luba wrote:
->>> Hi all,
->>>
->>> Background of this version:
->>> This is the v8 of the patch set and is has smaller scope. I had to split
->>> the series into two: EM changes and thermal changes due to devfreq
->>> dependencies. The patches from v7 9-14 which change devfreq cooling are
->>> going to be sent in separate patch series, just after this set get merged
->>> into mainline. These patches related to EM got acks and hopefully can go
->>> through linux-pm tree. The later thermal patches will go through thermal
->>> tree.
->>>
->>> The idea and purpose of the Energy Model framework changes:
->>> This patch set introduces support for devices in the Energy Model (EM)
->>> framework. It will unify the power model for thermal subsystem. It will
->>> make simpler to add support for new devices willing to use more
->>> advanced features (like Intelligent Power Allocation). Now it should
->>> require less knowledge and effort for driver developer to add e.g.
->>> GPU driver with simple energy model. A more sophisticated energy model
->>> in the thermal framework is also possible, driver needs to provide
->>> a dedicated callback function. More information can be found in the
->>> updated documentation file.
->>>
->>> First 7 patches are refactoring Energy Model framework to add support
->>> of other devices that CPUs. They change:
->>> - naming convention from 'capacity' to 'performance' state,
->>> - API arguments adding device pointer and not rely only on cpumask,
->>> - change naming when 'cpu' was used, now it's a 'device'
->>> - internal structure to maintain registered devices
->>> - update users to the new API
->>> Patch 8 updates OPP framework helper function to be more generic, not
->>> CPU specific.
->>>
->>> The patch set is based on linux-pm branch linux-next 813946019dfd.
->>>
->>
->> Could you take the patch set via your linux-pm?
-> 
-> I can do that, but I didn't realize that it was targeted at me, so I
-> need some more time to review the patches.
-> 
-> Thanks!
-> 
-
-No worries. Thank you for your time!
-
-Regards,
-Lukasz
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjcvMDUvMjAyMCAxMTo1OCwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gVGhlIEVuZXJneSBNb2Rl
+bCBmcmFtZXdvcmsgaXMgZ29pbmcgdG8gc3VwcG9ydCBkZXZpY2VzIG90aGVyIHRoYXQgQ1BVcy4g
+SW4KPiBvcmRlciB0byBtYWtlIHRoaXMgaGFwcGVuIGNoYW5nZSB0aGUgY2FsbGJhY2sgZnVuY3Rp
+b24gYW5kIGFkZCBwb2ludGVyIHRvCj4gYSBkZXZpY2UgYXMgYW4gYXJndW1lbnQuCj4gCj4gVXBk
+YXRlIHRoZSByZWxhdGVkIHVzZXJzIHRvIHVzZSBuZXcgZnVuY3Rpb24gYW5kIG5ldyBjYWxsYmFj
+ayBmcm9tIHRoZQo+IEVuZXJneSBNb2RlbC4KPiAKPiBBY2tlZC1ieTogUXVlbnRpbiBQZXJyZXQg
+PHFwZXJyZXRAZ29vZ2xlLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBMdWthc3ogTHViYSA8bHVrYXN6
+Lmx1YmFAYXJtLmNvbT4KCkFja2VkLWJ5OiBEYW5pZWwgTGV6Y2FubyA8ZGFuaWVsLmxlemNhbm9A
+bGluYXJvLm9yZz4KClsgLi4uIF0KCgotLSAKPGh0dHA6Ly93d3cubGluYXJvLm9yZy8+IExpbmFy
+by5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwoKRm9sbG93IExpbmFy
+bzogIDxodHRwOi8vd3d3LmZhY2Vib29rLmNvbS9wYWdlcy9MaW5hcm8+IEZhY2Vib29rIHwKPGh0
+dHA6Ly90d2l0dGVyLmNvbS8jIS9saW5hcm9vcmc+IFR3aXR0ZXIgfAo8aHR0cDovL3d3dy5saW5h
+cm8ub3JnL2xpbmFyby1ibG9nLz4gQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
