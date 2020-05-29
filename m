@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E501E7723
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E794B1E7726
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824816E87F;
-	Fri, 29 May 2020 07:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D35B6E888;
+	Fri, 29 May 2020 07:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086C96E87F;
- Fri, 29 May 2020 07:41:19 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id a13so766156pls.8;
- Fri, 29 May 2020 00:41:19 -0700 (PDT)
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA3C6E88C;
+ Fri, 29 May 2020 07:41:21 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id d10so1018372pgn.4;
+ Fri, 29 May 2020 00:41:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GvzomajvqaDlmHgD5CFBW/9i29+5hKQDe8Dyx3XaSq4=;
- b=SZBEfcOqZQ2NiXdiP1Rh1N54Q4Yiv1pANs5qcWeA6T+cP1w2p7YoCeriF1iI2QrVwI
- eEZAZwZpB0PkdCv0nQs17d8ZiqPectF7qvqXR5PUaR17PHl81vtOSWDk7JWvbN6I2d1i
- wObieH7ANeRbw5GXaBITNt6MaSlGYpb9pEC2HH7I9ipWDT74nuYmTAZ4qVSW2JjKU1w8
- TRyWCFMEJVT/cltAz3iUkKfR2zP0qec9TVS74S7qgTPdeOjfLLAcB3RSAY5ozBUBL5u2
- 4+XL5YeTAZ8szdAxjVKvqN3+5IxkIYHK4pBhq5xBeVf4IAQ9D8aKaNKprxTleHkQyYIc
- v2QA==
-X-Gm-Message-State: AOAM53076kmH4s7de1AFY/FnXv+JNrb+SW+V4qOoU2kKO/jC7Uew9kUs
- FYoZy8J9E3GosNdHGUkHIZs=
-X-Google-Smtp-Source: ABdhPJzaH+urrC8l82AOcunlppRYvCYY8eRn8tjh5bOS5g7bJ5viHl156VGCztJ4ox/+xnpOBndUZg==
-X-Received: by 2002:a17:902:7001:: with SMTP id
- y1mr7344091plk.114.1590738078586; 
- Fri, 29 May 2020 00:41:18 -0700 (PDT)
+ bh=sBgsWCIFjc1dCALH3PIiiJW4ZW3ozJ7JvpAnInxDZto=;
+ b=S5e1ZrAwMAVs57hU8O5zFmWC5Xq0baiDTVggd89Q2gpKUXEfupBiDvcwgIJckmJKfS
+ dw27e5oMZ4R6CpbjYFjVcHb7ilifFs+gmqOek2porx27YABT7MKO8l5UPxDX09VQz5EN
+ Dey2GKyiIovJSjWOpv0q01cDhOds5wOPBjsPMfEpWVAKh3s7fxZMYC2iuhkkNDWdknKz
+ yzbyWkoDd/0gXiT5UmEl6Ci8T57gA4uZ4xBNN46nHV6IZIGlORoS7UFMpDwV0p8w+4hF
+ vh07mMc0nMtsAQiOiNdw4YaExFQLgZthjscHcp9g0HrLO6mfN98h10GOlA1pa68bWn4V
+ hF7g==
+X-Gm-Message-State: AOAM531nnaFw5EqyOA23oHKfButbnXbMGzKmaUvbKV77RuPPxFPIva72
+ y4yHOfh1g1zNj5ovNuUFOaU=
+X-Google-Smtp-Source: ABdhPJzuX8lSSg8Aasn2k4DvlaVD+6USysUPj9KRkIoQC5Conauc3KXazu1gR/0/ORcChuqRpyUMwQ==
+X-Received: by 2002:aa7:9f5a:: with SMTP id h26mr7127671pfr.51.1590738080556; 
+ Fri, 29 May 2020 00:41:20 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id gd1sm7404001pjb.14.2020.05.29.00.41.12
+ by smtp.gmail.com with ESMTPSA id p19sm6115830pfn.216.2020.05.29.00.41.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 May 2020 00:41:16 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id BDFF742340; Fri, 29 May 2020 07:41:10 +0000 (UTC)
+ id C929442341; Fri, 29 May 2020 07:41:10 +0000 (UTC)
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  ebiederm@xmission.com, axboe@kernel.dk, clemens@ladisch.de, arnd@arndb.de,
@@ -47,10 +46,10 @@ To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  viro@zeniv.linux.org.uk, mark@fasheh.com, jlbec@evilplan.org,
  joseph.qi@linux.alibaba.com, vbabka@suse.cz, sfr@canb.auug.org.au,
  jack@suse.cz, amir73il@gmail.com, rafael@kernel.org, tytso@mit.edu
-Subject: [PATCH 06/13] ocfs2: use new sysctl subdir helper
+Subject: [PATCH 07/13] test_sysctl: use new sysctl subdir helper
  register_sysctl_subdir()
-Date: Fri, 29 May 2020 07:41:01 +0000
-Message-Id: <20200529074108.16928-7-mcgrof@kernel.org>
+Date: Fri, 29 May 2020 07:41:02 +0000
+Message-Id: <20200529074108.16928-8-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200529074108.16928-1-mcgrof@kernel.org>
 References: <20200529074108.16928-1-mcgrof@kernel.org>
@@ -79,7 +78,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 This simplifies the code considerably. The following coccinelle
 SmPL grammar rule was used to transform this code.
 
-// pycocci sysctl-subdir.cocci fs/ocfs2/stackglue.c
+// pycocci sysctl-subdir.cocci lib/test_sysctl.c
 
 @c1@
 expression E1;
@@ -164,57 +163,52 @@ header =
 +register_sysctl_subdir(E2, E1, sysctls);
 
 Generated-by: Coccinelle SmPL
-
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- fs/ocfs2/stackglue.c | 27 ++++-----------------------
- 1 file changed, 4 insertions(+), 23 deletions(-)
+ lib/test_sysctl.c | 23 ++---------------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
 
-diff --git a/fs/ocfs2/stackglue.c b/fs/ocfs2/stackglue.c
-index a191094694c6..addafced7f59 100644
---- a/fs/ocfs2/stackglue.c
-+++ b/fs/ocfs2/stackglue.c
-@@ -677,28 +677,8 @@ static struct ctl_table ocfs2_mod_table[] = {
- 	},
+diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
+index 84eaae22d3a6..b17581307756 100644
+--- a/lib/test_sysctl.c
++++ b/lib/test_sysctl.c
+@@ -128,26 +128,6 @@ static struct ctl_table test_table[] = {
  	{ }
  };
--
--static struct ctl_table ocfs2_kern_table[] = {
+ 
+-static struct ctl_table test_sysctl_table[] = {
 -	{
--		.procname	= "ocfs2",
--		.data		= NULL,
+-		.procname	= "test_sysctl",
 -		.maxlen		= 0,
 -		.mode		= 0555,
--		.child		= ocfs2_mod_table
+-		.child		= test_table,
 -	},
 -	{ }
 -};
 -
--static struct ctl_table ocfs2_root_table[] = {
+-static struct ctl_table test_sysctl_root_table[] = {
 -	{
--		.procname	= "fs",
--		.data		= NULL,
+-		.procname	= "debug",
 -		.maxlen		= 0,
 -		.mode		= 0555,
--		.child		= ocfs2_kern_table
+-		.child		= test_sysctl_table,
 -	},
 -	{ }
 -};
-+	.data		= NULL,
-+	.data		= NULL,
+-
+ static struct ctl_table_header *test_sysctl_header;
  
- static struct ctl_table_header *ocfs2_table_header;
- 
-@@ -711,7 +691,8 @@ static int __init ocfs2_stack_glue_init(void)
- {
- 	strcpy(cluster_stack_name, OCFS2_STACK_PLUGIN_O2CB);
- 
--	ocfs2_table_header = register_sysctl_table(ocfs2_root_table);
-+	ocfs2_table_header = register_sysctl_subdir("fs", "ocfs2",
-+						    ocfs2_mod_table);
- 	if (!ocfs2_table_header) {
- 		printk(KERN_ERR
- 		       "ocfs2 stack glue: unable to register sysctl\n");
+ static int __init test_sysctl_init(void)
+@@ -155,7 +135,8 @@ static int __init test_sysctl_init(void)
+ 	test_data.bitmap_0001 = kzalloc(SYSCTL_TEST_BITMAP_SIZE/8, GFP_KERNEL);
+ 	if (!test_data.bitmap_0001)
+ 		return -ENOMEM;
+-	test_sysctl_header = register_sysctl_table(test_sysctl_root_table);
++	test_sysctl_header = register_sysctl_subdir("debug", "test_sysctl",
++						    test_table);
+ 	if (!test_sysctl_header) {
+ 		kfree(test_data.bitmap_0001);
+ 		return -ENOMEM;
 -- 
 2.26.2
 
