@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CFB1E7710
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1478B1E771B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 09:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45A86E875;
-	Fri, 29 May 2020 07:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E911A6E87C;
+	Fri, 29 May 2020 07:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FFC6E875;
- Fri, 29 May 2020 07:41:12 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id t16so758507plo.7;
- Fri, 29 May 2020 00:41:12 -0700 (PDT)
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97EE6E87B;
+ Fri, 29 May 2020 07:41:14 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id z15so2903018pjb.0;
+ Fri, 29 May 2020 00:41:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cxdWIOmMtZof5Zd2ToCNUZnFH4PwEYqbI1WQa7Nahtk=;
- b=UZlrYH3upf5Y0Wev0dpd2tLxtfcL3DS9fRPNaLOqtPhi6ZymY7q21cSS3isnWyQIOg
- 497/SMtbRG01y+S61hgJ8ER2FmPqwpB7M4IYjzUs6f1JNOSLnN5hh9npENOpbz1joXJd
- od+pKE42bbjWYE/9SNENg52fTQnX5mdbTIK6v6wEq0TNi9OFoK3haITKvhcaVUMMc5WE
- LjNCKg6ZbClwx6OOw3RLGoF9n0kMoL31X4JlmFdiDdGknO9N0hEmNAY7GxvD5lP7JRox
- hCDIzp31SgBKgohQM1C+ZZRwQciXmxFbiJAad0ao+mw7fQA6grYDhgj12c5TbtVEGYGZ
- HGAQ==
-X-Gm-Message-State: AOAM531BDWu5oFJScz/atjIKe/g0yeEPf7I99JjGAi4+g6KJ7ROR93UJ
- DKUM7dqHGFqqrOyQWAlywow=
-X-Google-Smtp-Source: ABdhPJx/Y2UkOfRCeSrfHd17IdoL/kq5WzGQ2U9aMMVJNt5xrKYQiwN4acpehMl/gpWlkneskvxS6A==
-X-Received: by 2002:a17:90b:1002:: with SMTP id
- gm2mr8188726pjb.197.1590738072133; 
- Fri, 29 May 2020 00:41:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ztkbZyMAj8QAP+BJLtRR/lmTCR2M8J8E3LJknwjviqU=;
+ b=rMefjZxgUBeXlN80OZ6jnne43tmd7cpRvwgnQExfhGhbgCh8JHVaftLGiNX5wTDKHm
+ dVDdZMehl0+V4EhvdygtBzn0bppZz5W5scj/mUYPvT5pnj3MO925jWg+PJLfYsPaJK5i
+ McediRVH3erC/E++o99+qvo/gCc1TQ4w1Wb9zL6Iy3YoBE5BvunoDLKPZzx6i6Kff5a4
+ EpZb8S+EH56dKBMuiP8e1OSOnybd9oYI5sdmCTjv7xek8YZyz2ZJPK///DcwUJrUgy0a
+ DQvc5NgI6jgC92X+Qg4ldpAXGp6zA4vgPOieu/kGCcb7O/tcqWuTd2MAHvQDel4+sF2y
+ Dgxw==
+X-Gm-Message-State: AOAM530PbLdj+JeBZU7vJeqxuHHGmpVn3KM06SAzKOLmLrSQ4Iewu/qF
+ On5i4tK9sRC1bdl+GvO8y/Q=
+X-Google-Smtp-Source: ABdhPJwef9VnxevTutof/OWjXxMen8nqP316VSHb8lndoYqWe0y1ALBADBIyXeEXdBPr/HgBfKduig==
+X-Received: by 2002:a17:902:bd95:: with SMTP id
+ q21mr7959305pls.238.1590738074446; 
+ Fri, 29 May 2020 00:41:14 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id s1sm6842049pjp.27.2020.05.29.00.41.10
+ by smtp.gmail.com with ESMTPSA id e26sm6189878pgl.27.2020.05.29.00.41.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 00:41:10 -0700 (PDT)
+ Fri, 29 May 2020 00:41:12 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id E3ADF40605; Fri, 29 May 2020 07:41:09 +0000 (UTC)
+ id 10D65418C0; Fri, 29 May 2020 07:41:10 +0000 (UTC)
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  ebiederm@xmission.com, axboe@kernel.dk, clemens@ladisch.de, arnd@arndb.de,
@@ -47,10 +47,12 @@ To: keescook@chromium.org, yzaikin@google.com, nixiaoming@huawei.com,
  viro@zeniv.linux.org.uk, mark@fasheh.com, jlbec@evilplan.org,
  joseph.qi@linux.alibaba.com, vbabka@suse.cz, sfr@canb.auug.org.au,
  jack@suse.cz, amir73il@gmail.com, rafael@kernel.org, tytso@mit.edu
-Subject: [PATCH 00/13] sysctl: spring cleaning
-Date: Fri, 29 May 2020 07:40:55 +0000
-Message-Id: <20200529074108.16928-1-mcgrof@kernel.org>
+Subject: [PATCH 01/13] sysctl: add new register_sysctl_subdir() helper
+Date: Fri, 29 May 2020 07:40:56 +0000
+Message-Id: <20200529074108.16928-2-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.23.0.rc1
+In-Reply-To: <20200529074108.16928-1-mcgrof@kernel.org>
+References: <20200529074108.16928-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,69 +75,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Me and Xiaoming are working on some kernel/sysctl.c spring cleaning.
-During a recent linux-next merge conflict it became clear that
-the kitchen sink on kernel/sysctl.c creates too many conflicts,
-and so we need to do away with stuffing everyone's knobs on this
-one file.
+Often enough all we need to do is create a subdirectory so that
+we can stuff sysctls underneath it. However, *if* that directory
+was already created early on the boot sequence we really have no
+need to use the full boiler plate code for it, we can just use
+local variables to help us guide sysctl to place the new leaf files.
 
-This is part of that work. This is not expected to get merged yet, but
-since our delta is pretty considerable at this point, we need to piece
-meal this and collect reviews for what we have so far. This follows up
-on some of his recent work.
+So use a helper to do precisely this.
 
-This series focuses on a new helper to deal with subdirectories and
-empty subdirectories. The terminology that we will embrace will be
-that things like "fs", "kernel", "debug" are based directories, and
-directories underneath this are subdirectories.
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ include/linux/sysctl.h | 11 +++++++++++
+ kernel/sysctl.c        | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-In this case, the cleanup ends up also trimming the amount of
-code we have for sysctls.
-
-If this seems reasonable we'll kdocify this a bit too.
-
-This code has been boot tested without issues, and I'm letting 0day do
-its thing to test against many kconfig builds. If you however spot
-any issues please let us know.
-
-Luis Chamberlain (9):
-  sysctl: add new register_sysctl_subdir() helper
-  cdrom: use new sysctl subdir helper register_sysctl_subdir()
-  hpet: use new sysctl subdir helper register_sysctl_subdir()
-  i915: use new sysctl subdir helper register_sysctl_subdir()
-  macintosh/mac_hid.c: use new sysctl subdir helper
-    register_sysctl_subdir()
-  ocfs2: use new sysctl subdir helper register_sysctl_subdir()
-  test_sysctl: use new sysctl subdir helper register_sysctl_subdir()
-  sysctl: add helper to register empty subdir
-  fs: move binfmt_misc sysctl to its own file
-
-Xiaoming Ni (4):
-  inotify: simplify sysctl declaration with register_sysctl_subdir()
-  firmware_loader: simplify sysctl declaration with
-    register_sysctl_subdir()
-  eventpoll: simplify sysctl declaration with register_sysctl_subdir()
-  random: simplify sysctl declaration with register_sysctl_subdir()
-
- drivers/base/firmware_loader/fallback.c       |  4 +
- drivers/base/firmware_loader/fallback.h       | 11 +++
- drivers/base/firmware_loader/fallback_table.c | 22 ++++-
- drivers/cdrom/cdrom.c                         | 23 +----
- drivers/char/hpet.c                           | 22 +----
- drivers/char/random.c                         | 14 +++-
- drivers/gpu/drm/i915/i915_perf.c              | 22 +----
- drivers/macintosh/mac_hid.c                   | 25 +-----
- fs/binfmt_misc.c                              |  1 +
- fs/eventpoll.c                                | 10 ++-
- fs/notify/inotify/inotify_user.c              | 11 ++-
- fs/ocfs2/stackglue.c                          | 27 +-----
- include/linux/inotify.h                       |  3 -
- include/linux/poll.h                          |  2 -
- include/linux/sysctl.h                        | 21 ++++-
- kernel/sysctl.c                               | 84 +++++++++++--------
- lib/test_sysctl.c                             | 23 +----
- 17 files changed, 144 insertions(+), 181 deletions(-)
-
+diff --git a/include/linux/sysctl.h b/include/linux/sysctl.h
+index ddaa06ddd852..58bc978d4f03 100644
+--- a/include/linux/sysctl.h
++++ b/include/linux/sysctl.h
+@@ -205,6 +205,9 @@ void unregister_sysctl_table(struct ctl_table_header * table);
+ extern int sysctl_init(void);
+ extern void register_sysctl_init(const char *path, struct ctl_table *table,
+ 				 const char *table_name);
++extern struct ctl_table_header *register_sysctl_subdir(const char *base,
++						       const char *subdir,
++						       struct ctl_table *table);
+ void do_sysctl_args(void);
+ 
+ extern int pwrsw_enabled;
+@@ -223,6 +226,14 @@ static inline struct ctl_table_header *register_sysctl_table(struct ctl_table *
+ 	return NULL;
+ }
+ 
++static
++inline struct ctl_table_header *register_sysctl_subdir(const char *base,
++						       const char *subdir,
++						       struct ctl_table *table)
++{
++	return NULL;
++}
++
+ static inline struct ctl_table_header *register_sysctl_paths(
+ 			const struct ctl_path *path, struct ctl_table *table)
+ {
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 008ac0576ae5..04ff032f2863 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -3195,6 +3195,43 @@ void __init register_sysctl_init(const char *path, struct ctl_table *table,
+ 	}
+ 	kmemleak_not_leak(hdr);
+ }
++
++struct ctl_table_header *register_sysctl_subdir(const char *base,
++						const char *subdir,
++						struct ctl_table *table)
++{
++	struct ctl_table_header *hdr = NULL;
++	struct ctl_table subdir_table[] = {
++		{
++			.procname	= subdir,
++			.mode		= 0555,
++			.child		= table,
++		},
++		{ }
++	};
++	struct ctl_table base_table[] = {
++		{
++			.procname	= base,
++			.mode		= 0555,
++			.child		= subdir_table,
++		},
++		{ }
++	};
++
++	if (!table->procname)
++		goto out;
++
++	hdr = register_sysctl_table(base_table);
++	if (unlikely(!hdr)) {
++		pr_err("failed when creating subdirectory sysctl %s/%s/%s\n",
++		       base, subdir, table->procname);
++		goto out;
++	}
++	kmemleak_not_leak(hdr);
++out:
++	return hdr;
++}
++EXPORT_SYMBOL_GPL(register_sysctl_subdir);
+ #endif /* CONFIG_SYSCTL */
+ /*
+  * No sense putting this after each symbol definition, twice,
 -- 
 2.26.2
 
