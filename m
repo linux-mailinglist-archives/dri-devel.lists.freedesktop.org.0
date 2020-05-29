@@ -1,98 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB081E83B8
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 18:32:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A551E845D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 19:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 272D06E947;
-	Fri, 29 May 2020 16:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B6C6E8D5;
+	Fri, 29 May 2020 17:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07976E947
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 16:32:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200529163230euoutp026bd34068e29086d84c7b04948b642f19~TjNd8dhB_1717217172euoutp02J
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 16:32:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200529163230euoutp026bd34068e29086d84c7b04948b642f19~TjNd8dhB_1717217172euoutp02J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1590769950;
- bh=ZA0i9eHHG5iu5/RTCzNyz3w0SkS4Fkzs8grCQaAd27k=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AMP42dGdaoNciWAvezQNZhZOqLlFNpf5q4Q569M4OGLHmaxhtUMmSOutb1G4hXmpv
- 5Pfki1rRO4k3rcAx1GHx7PtvCjoBrZWHQX1jrwqPuc0jk7PqAiaTs/kH/Lp7itYluV
- iu//CxdVlUvZHWUkuztdl6cFMTxqYiRtOvppEx0k=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200529163230eucas1p17a7d2b6bfadc0e04b85afd2e276ad790~TjNdseh5o2226622266eucas1p1I;
- Fri, 29 May 2020 16:32:30 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 2D.5D.61286.E1931DE5; Fri, 29
- May 2020 17:32:30 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200529163229eucas1p2ee6394f184e5eba12599559f8a621fde~TjNdXTWjd2862228622eucas1p2a;
- Fri, 29 May 2020 16:32:29 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200529163229eusmtrp1babf093f6914f71910758ef451f0ee69~TjNdRHHOa2579525795eusmtrp1L;
- Fri, 29 May 2020 16:32:29 +0000 (GMT)
-X-AuditID: cbfec7f2-f0bff7000001ef66-5f-5ed1391e0a89
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 75.25.07950.D1931DE5; Fri, 29
- May 2020 17:32:29 +0100 (BST)
-Received: from AMDC3061.digital.local (unknown [106.120.51.75]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200529163228eusmtip1d835c6b590f59bad320b4e50b49b9452~TjNcgtTCT1280712807eusmtip1F;
- Fri, 29 May 2020 16:32:28 +0000 (GMT)
-From: Sylwester Nawrocki <s.nawrocki@samsung.com>
-To: georgi.djakov@linaro.org, cw00.choi@samsung.com, krzk@kernel.org
-Subject: [RFC PATCH v5 6/6] drm: exynos: mixer: Add interconnect support
-Date: Fri, 29 May 2020 18:32:00 +0200
-Message-Id: <20200529163200.18031-7-s.nawrocki@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200529163200.18031-1-s.nawrocki@samsung.com>
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4216C6E8D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 17:10:42 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id e4so136940ljn.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 10:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KPyuBRcQNbJ+VwGdtXFWatMMnCegtJoH/pNmZ2I0xk4=;
+ b=epFNEYzhQc/n0QzWyV0AZT8WyDCpcgXqFs7jRR0aPYJXObEFlNvKpdg/z+0Oqd2fje
+ iC0bnCh1DJRkHOQTWL/p2lJMcbnz4cYT/m80OChPKMC8bmcLYM0qG0GL6GH349hR9ww5
+ CeXEe0Fhzh2sAcU5z7NH+bV788b16SLr4Dqr4AkwjjTzEbBB2uoFtq/pEwVoZ4BpH39Q
+ kglleLZcSxoRu2e6LruwJ8dsRQuJp3qZvEe6eWDdbsEKW0oifOqkJg6mnNTzX4LWnBbs
+ 893SBh6RjFikYbQ3Td27qV9XGv+Cbg5/O7WJdc9tod8QbJbs6qVplRZDjtqdtbqc9HCn
+ BNHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KPyuBRcQNbJ+VwGdtXFWatMMnCegtJoH/pNmZ2I0xk4=;
+ b=M+TFBRzLduhVqVdenfEb+VDxqkvjaT/46oJaOPpiCVAlUKWwUptcrMfkIgBfQSJOEw
+ Xd4gzLKoltSVJn26Mkpy6v6KFy3Dz5vtorx+Gs3AroP5bCN40I9UMHW1U7n38wuEa77L
+ M8GJ+bWrHazt2XSMHjH3ItKu5pj1iZ/tF9STlTBIXhbuF8EFurSxTEdCVWgm3snm4AGf
+ FAHGaVwvJ1z0N98LC6/jSVWgluLR1zuwDZcD+J93Misv1ujcF7fs6Bye4+2iE8C8cSHw
+ dExLchgcJ4WICfZ4aFmRhgSYJvg+wWxpR1D5AWIqY3yRK87ROtSkH8uqx5GPx4HYmKG7
+ jBgA==
+X-Gm-Message-State: AOAM53130orP8tzc0mdPRySCVWWS4SvuFpShIcOx9dMChPqcGqlwTcNI
+ 5yGRIe9EvCQt7KSxWOWXc2ISAMh/9z1SXKUTf2p/rw==
+X-Google-Smtp-Source: ABdhPJx/N8vREFnso39ZcReWkXU6GMlXvj7l0GILCl1g6Nn+TjvNS/JorZF9vSwyo1a4DWyjZ2dRdQ205jXKNKaL3Wc=
+X-Received: by 2002:a2e:a552:: with SMTP id e18mr4467216ljn.162.1590772240367; 
+ Fri, 29 May 2020 10:10:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djPc7pylhfjDFo+cFrcn9fKaLFxxnpW
- i+tfnrNaXPn6ns1i+t5NbBaT7k9gsTh/fgO7xabH11gtLu+aw2Yx4/w+Jou1R+6yW9xuXMFm
- cfhNO6vFjMkv2Rz4PDat6mTzuHNtD5vH/e7jTB6bl9R79G1ZxejxeZNcAFsUl01Kak5mWWqR
- vl0CV8alyc/YCq5qVjQf/MTUwDhdqYuRk0NCwERi0Y/VLF2MXBxCAisYJfbPWccE4XxhlHi9
- ZBcLSJWQwGdGiacbrWE6Dl3eygxRtJxR4kD7VEaIIqCOtwtTQWw2AUOJ3qN9YHERAReJtqfz
- wFYwC+xhktg3+x2Qw8EhLOAh0TmzCKSGRUBVYsamJnaQMK+AtcSRTSoQu+QlVm84wAxicwrY
- SHT/mQFm8woISpyc+QTsNmagmuats8HukRC4xS5x+ccyRohmF4ltXavYIWxhiVfHt0DZMhKn
- J/ewQDQ0M0r07L7NDuFMYJS4f3wBVLe1xJ1zv9hALmIW0JRYv0sfIuwocbm/lxUkLCHAJ3Hj
- rSDEEXwSk7ZNZ4YI80p0tAlBVKtI/F41nQnClpLofvKfBcL2kOhqnsQ0gVFxFpJ3ZiF5ZxbC
- 3gWMzKsYxVNLi3PTU4sN81LL9YoTc4tL89L1kvNzNzEC09bpf8c/7WD8einpEKMAB6MSD2+F
- 1sU4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccXleakFh9ilOZgURLnNV70MlZIID2x
- JDU7NbUgtQgmy8TBKdXA6L7Z93jrct4em9nPGsU2xH+/0XV4obhHc/T7g/+Lp52aFtgrYHp0
- j89XlZZ/NeE7k9coT9D48e2UpoFP4Wb+rdMSI9cvVMqwvl7GfyXLbm7sfoWipNnr5v902fBV
- rpnhi+isgrCr6fZ6YYZCPydNKM8LbU3j5da+k8FhvXi1/Qv/HZ9O7V+yV4mlOCPRUIu5qDgR
- ADHSCiFXAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRmVeSWpSXmKPExsVy+t/xu7qylhfjDC6t17W4P6+V0WLjjPWs
- Fte/PGe1uPL1PZvF9L2b2Cwm3Z/AYnH+/AZ2i02Pr7FaXN41h81ixvl9TBZrj9xlt7jduILN
- 4vCbdlaLGZNfsjnweWxa1cnmcefaHjaP+93HmTw2L6n36NuyitHj8ya5ALYoPZui/NKSVIWM
- /OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYxLk5+xFVzVrGg++Imp
- gXG6UhcjJ4eEgInEoctbmbsYuTiEBJYyShxdfYmti5EDKCElMb8FqkZY4s+1LjaImk+MEmtv
- rmMHSbAJGEr0Hu1jBLFFBDwkTrWuZQUpYhY4wSTxpHcj2CBhoETnzCKQGhYBVYkZm5rYQcK8
- AtYSRzapQMyXl1i94QAziM0pYCPR/WcGmC0EVNL2eBYriM0rIChxcuYTFpBWZgF1ifXzhEDC
- zECtzVtnM09gFJyFpGoWQtUsJFULGJlXMYqklhbnpucWG+kVJ+YWl+al6yXn525iBMbitmM/
- t+xg7HoXfIhRgINRiYf3gs7FOCHWxLLiytxDjBIczEoivE5nT8cJ8aYkVlalFuXHF5XmpBYf
- YjQF+mwis5Rocj4wTeSVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCU
- amDcsVOXaZrktxOqfqeLzit1By/pVl2XZemprlJnvaXPUdXLd2nzBbHiU5lFNswfe8MNt52J
- a4mTPqI4aVs6y8fjvnxMXZNuz5j8wqO6W2h5pe9fuxUWKx5qBSrkzUyIUG/Q/nj/p7mSxuo6
- NnOp6vX/W70Wdrpo3UvJmPMh6JjOsf53G6RNKpVYijMSDbWYi4oTAYOAGL/bAgAA
-X-CMS-MailID: 20200529163229eucas1p2ee6394f184e5eba12599559f8a621fde
-X-Msg-Generator: CA
-X-RootMTR: 20200529163229eucas1p2ee6394f184e5eba12599559f8a621fde
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200529163229eucas1p2ee6394f184e5eba12599559f8a621fde
-References: <20200529163200.18031-1-s.nawrocki@samsung.com>
- <CGME20200529163229eucas1p2ee6394f184e5eba12599559f8a621fde@eucas1p2.samsung.com>
+References: <20200528170604.22476-1-rohan.garg@collabora.com>
+ <CADaigPUZ3j35iBKtOyR=3WWKuu+V_PcPEgrk7-FzZWb6QSabbQ@mail.gmail.com>
+ <4235324.LvFx2qVVIh@saphira>
+In-Reply-To: <4235324.LvFx2qVVIh@saphira>
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 29 May 2020 10:10:29 -0700
+Message-ID: <CADaigPUKm-FSb8nVEPZQWn3f6_VWKN_hXqT-U7MzWLXhKJ3H+w@mail.gmail.com>
+Subject: Re: [PATCH v6] drm/ioctl: Add a ioctl to set and get a label on GEM
+ objects
+To: Rohan Garg <rohan.garg@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,106 +64,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, b.zolnierkie@samsung.com,
- sw0312.kim@samsung.com, a.swigon@samsung.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, myungjoo.ham@samsung.com, s.nawrocki@samsung.com,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel@collabora.com, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgoKVGhpcyBw
-YXRjaCBhZGRzIGludGVyY29ubmVjdCBzdXBwb3J0IHRvIGV4eW5vcy1taXhlci4gVGhlIG1peGVy
-IHdvcmtzCnRoZSBzYW1lIGFzIGJlZm9yZSB3aGVuIENPTkZJR19JTlRFUkNPTk5FQ1QgaXMgJ24n
-LgoKRm9yIHByb3BlciBvcGVyYXRpb24gb2YgdGhlIHZpZGVvIG1peGVyIGJsb2NrIHdlIG5lZWQg
-dG8gZW5zdXJlIHRoZQppbnRlcmNvbm5lY3QgYnVzc2VzIGxpa2UgRE1DIG9yIExFRlRCVVMgcHJv
-dmlkZSBlbm91Z2ggYmFuZHdpZHRoIHNvCmFzIHRvIGF2b2lkIERNQSBidWZmZXIgdW5kZXJydW5z
-IGluIHRoZSBtaXhlciBibG9jay4gaS5lIHdlIG5lZWQgdG8KcHJldmVudCB0aG9zZSBidXNzZXMg
-ZnJvbSBvcGVyYXRpbmcgaW4gbG93IHBlcmZvbWFuY2UgT1BQcyB3aGVuCnRoZSBtaXhlciBpcyBy
-dW5uaW5nLgpJbiB0aGlzIHBhdGNoIHRoZSBidXMgYmFuZHdpZHRoIHJlcXVlc3QgaXMgZG9uZSB0
-aHJvdWdoIHRoZSBpbnRlcmNvbm5lY3QKQVBJLCB0aGUgYmFuZGl3aWR0aCB2YWx1ZSBpcyBjYWxj
-dWxhdGVkIGZyb20gc2VsZWN0ZWQgRFJNIG1vZGUsIGkuZS4KdmlkZW8gcGxhbmUgd2lkdGgsIGhl
-aWdodCwgcmVmcmVzaCByYXRlIGFuZCBwaXhlbCBmb3JtYXQuCgpDby1kZXZlbG9wZWQtYnk6IEFy
-dHVyIMWad2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KU2lnbmVkLW9mZi1ieTogTWFyZWsg
-U3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgpbcy5uYXdyb2NraTogcmVuYW1l
-ZCBzb2NfcGF0aCB2YXJpYWJsZSB0byBpY2NfcGF0aCwgZWRpdGVkIGNvbW1pdCBkZXNjLl0KU2ln
-bmVkLW9mZi1ieTogU3lsd2VzdGVyIE5hd3JvY2tpIDxzLm5hd3JvY2tpQHNhbXN1bmcuY29tPgot
-LS0KQ2hhbmdlcyBmb3IgdjU6CiAtIHJlbmFtZWQgc29jX3BhdGggdmFyaWFibGUgdG8gaWNjX3Bh
-dGgKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19taXhlci5jIHwgNzMgKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCA2OCBpbnNlcnRp
-b25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlu
-b3MvZXh5bm9zX21peGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19taXhlci5j
-CmluZGV4IDIxYjcyNmIuLmJkYWU2ODMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlu
-b3MvZXh5bm9zX21peGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfbWl4
-ZXIuYwpAQCAtMTMsNiArMTMsNyBAQAogI2luY2x1ZGUgPGxpbnV4L2NvbXBvbmVudC5oPgogI2lu
-Y2x1ZGUgPGxpbnV4L2RlbGF5Lmg+CiAjaW5jbHVkZSA8bGludXgvaTJjLmg+CisjaW5jbHVkZSA8
-bGludXgvaW50ZXJjb25uZWN0Lmg+CiAjaW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+CiAjaW5j
-bHVkZSA8bGludXgvaXJxLmg+CiAjaW5jbHVkZSA8bGludXgva2VybmVsLmg+CkBAIC05OCw2ICs5
-OSw3IEBAIHN0cnVjdCBtaXhlcl9jb250ZXh0IHsKIAlzdHJ1Y3QgZXh5bm9zX2RybV9jcnRjCSpj
-cnRjOwogCXN0cnVjdCBleHlub3NfZHJtX3BsYW5lCXBsYW5lc1tNSVhFUl9XSU5fTlJdOwogCXVu
-c2lnbmVkIGxvbmcJCWZsYWdzOworCXN0cnVjdCBpY2NfcGF0aAkJKmljY19wYXRoOwogCiAJaW50
-CQkJaXJxOwogCXZvaWQgX19pb21lbQkJKm1peGVyX3JlZ3M7CkBAIC05MzQsNiArOTM2LDQyIEBA
-IHN0YXRpYyB2b2lkIG1peGVyX2Rpc2FibGVfdmJsYW5rKHN0cnVjdCBleHlub3NfZHJtX2NydGMg
-KmNydGMpCiAJbWl4ZXJfcmVnX3dyaXRlbWFzayhtaXhlcl9jdHgsIE1YUl9JTlRfRU4sIDAsIE1Y
-Ul9JTlRfRU5fVlNZTkMpOwogfQogCitzdGF0aWMgdm9pZCBtaXhlcl9zZXRfbWVtb3J5X2JhbmR3
-aWR0aChzdHJ1Y3QgZXh5bm9zX2RybV9jcnRjICpjcnRjKQoreworCXN0cnVjdCBkcm1fZGlzcGxh
-eV9tb2RlICptb2RlID0gJmNydGMtPmJhc2Uuc3RhdGUtPmFkanVzdGVkX21vZGU7CisJc3RydWN0
-IG1peGVyX2NvbnRleHQgKmN0eCA9IGNydGMtPmN0eDsKKwl1bnNpZ25lZCBsb25nIGJ3LCBiYW5k
-d2lkdGggPSAwOworCXUzMiBhdmdfYncsIHBlYWtfYnc7CisJaW50IGksIGosIHN1YjsKKworCWlm
-ICghY3R4LT5pY2NfcGF0aCkKKwkJcmV0dXJuOworCisJZm9yIChpID0gMDsgaSA8IE1JWEVSX1dJ
-Tl9OUjsgaSsrKSB7CisJCXN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0gJmN0eC0+cGxhbmVzW2ld
-LmJhc2U7CisJCWNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZvcm1hdDsKKworCQlpZiAo
-cGxhbmUtPnN0YXRlICYmIHBsYW5lLT5zdGF0ZS0+Y3J0YyAmJiBwbGFuZS0+c3RhdGUtPmZiKSB7
-CisJCQlmb3JtYXQgPSBwbGFuZS0+c3RhdGUtPmZiLT5mb3JtYXQ7CisJCQlidyA9IG1vZGUtPmhk
-aXNwbGF5ICogbW9kZS0+dmRpc3BsYXkgKgorCQkJCQkJCWRybV9tb2RlX3ZyZWZyZXNoKG1vZGUp
-OworCQkJaWYgKG1vZGUtPmZsYWdzICYgRFJNX01PREVfRkxBR19JTlRFUkxBQ0UpCisJCQkJYncg
-Lz0gMjsKKwkJCWZvciAoaiA9IDA7IGogPCBmb3JtYXQtPm51bV9wbGFuZXM7IGorKykgeworCQkJ
-CXN1YiA9IGogPyAoZm9ybWF0LT52c3ViICogZm9ybWF0LT5oc3ViKSA6IDE7CisJCQkJYmFuZHdp
-ZHRoICs9IGZvcm1hdC0+Y3BwW2pdICogYncgLyBzdWI7CisJCQl9CisJCX0KKwl9CisKKwkvKiBh
-ZGQgMjAlIHNhZmV0eSBtYXJnaW4gKi8KKwliYW5kd2lkdGggPSBiYW5kd2lkdGggLyA0ICogNTsK
-KwlkZXZfZGJnKGN0eC0+ZGV2LCAiZXh5bm9zLW1peGVyOiBzYWZlIGJhbmR3aWR0aCAlbGQgQnBz
-XG4iLCBiYW5kd2lkdGgpOworCisJYXZnX2J3ID0gcGVha19idyA9IEJwc190b19pY2MoYmFuZHdp
-ZHRoKTsKKwlpY2Nfc2V0X2J3KGN0eC0+aWNjX3BhdGgsIGF2Z19idywgcGVha19idyk7Cit9CisK
-IHN0YXRpYyB2b2lkIG1peGVyX2F0b21pY19iZWdpbihzdHJ1Y3QgZXh5bm9zX2RybV9jcnRjICpj
-cnRjKQogewogCXN0cnVjdCBtaXhlcl9jb250ZXh0ICpjdHggPSBjcnRjLT5jdHg7CkBAIC05ODUs
-NiArMTAyMyw3IEBAIHN0YXRpYyB2b2lkIG1peGVyX2F0b21pY19mbHVzaChzdHJ1Y3QgZXh5bm9z
-X2RybV9jcnRjICpjcnRjKQogCWlmICghdGVzdF9iaXQoTVhSX0JJVF9QT1dFUkVELCAmbWl4ZXJf
-Y3R4LT5mbGFncykpCiAJCXJldHVybjsKIAorCW1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKGNy
-dGMpOwogCW1peGVyX2VuYWJsZV9zeW5jKG1peGVyX2N0eCk7CiAJZXh5bm9zX2NydGNfaGFuZGxl
-X2V2ZW50KGNydGMpOwogfQpAQCAtMTAzMiw2ICsxMDcxLDcgQEAgc3RhdGljIHZvaWQgbWl4ZXJf
-YXRvbWljX2Rpc2FibGUoc3RydWN0IGV4eW5vc19kcm1fY3J0YyAqY3J0YykKIAlmb3IgKGkgPSAw
-OyBpIDwgTUlYRVJfV0lOX05SOyBpKyspCiAJCW1peGVyX2Rpc2FibGVfcGxhbmUoY3J0YywgJmN0
-eC0+cGxhbmVzW2ldKTsKIAorCW1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKGNydGMpOwogCWV4
-eW5vc19kcm1fcGlwZV9jbGtfZW5hYmxlKGNydGMsIGZhbHNlKTsKIAogCXBtX3J1bnRpbWVfcHV0
-KGN0eC0+ZGV2KTsKQEAgLTEyMjMsMTIgKzEyNjMsMjIgQEAgc3RhdGljIGludCBtaXhlcl9wcm9i
-ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZw
-ZGV2LT5kZXY7CiAJY29uc3Qgc3RydWN0IG1peGVyX2Rydl9kYXRhICpkcnY7CiAJc3RydWN0IG1p
-eGVyX2NvbnRleHQgKmN0eDsKKwlzdHJ1Y3QgaWNjX3BhdGggKnBhdGg7CiAJaW50IHJldDsKIAor
-CS8qCisJICogUmV0dXJucyBOVUxMIGlmIENPTkZJR19JTlRFUkNPTk5FQ1QgaXMgZGlzYWJsZWQu
-CisJICogTWF5IHJldHVybiBFUlJfUFRSKC1FUFJPQkVfREVGRVIpLgorCSAqLworCXBhdGggPSBv
-Zl9pY2NfZ2V0KGRldiwgTlVMTCk7CisJaWYgKElTX0VSUihwYXRoKSkKKwkJcmV0dXJuIFBUUl9F
-UlIocGF0aCk7CisKIAljdHggPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwgc2l6ZW9mKCpjdHgp
-LCBHRlBfS0VSTkVMKTsKIAlpZiAoIWN0eCkgewogCQlEUk1fREVWX0VSUk9SKGRldiwgImZhaWxl
-ZCB0byBhbGxvYyBtaXhlciBjb250ZXh0LlxuIik7Ci0JCXJldHVybiAtRU5PTUVNOworCQlyZXQg
-PSAtRU5PTUVNOworCQlnb3RvIGVycjsKIAl9CiAKIAlkcnYgPSBvZl9kZXZpY2VfZ2V0X21hdGNo
-X2RhdGEoZGV2KTsKQEAgLTEyMzYsNiArMTI4Niw3IEBAIHN0YXRpYyBpbnQgbWl4ZXJfcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAljdHgtPnBkZXYgPSBwZGV2OwogCWN0eC0+
-ZGV2ID0gZGV2OwogCWN0eC0+bXhyX3ZlciA9IGRydi0+dmVyc2lvbjsKKwljdHgtPmljY19wYXRo
-ID0gcGF0aDsKIAogCWlmIChkcnYtPmlzX3ZwX2VuYWJsZWQpCiAJCV9fc2V0X2JpdChNWFJfQklU
-X1ZQX0VOQUJMRUQsICZjdHgtPmZsYWdzKTsKQEAgLTEyNDUsMTcgKzEyOTYsMjkgQEAgc3RhdGlj
-IGludCBtaXhlcl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCXBsYXRmb3Jt
-X3NldF9kcnZkYXRhKHBkZXYsIGN0eCk7CiAKIAlyZXQgPSBjb21wb25lbnRfYWRkKCZwZGV2LT5k
-ZXYsICZtaXhlcl9jb21wb25lbnRfb3BzKTsKLQlpZiAoIXJldCkKLQkJcG1fcnVudGltZV9lbmFi
-bGUoZGV2KTsKKwlpZiAocmV0IDwgMCkKKwkJZ290byBlcnI7CisKKwlwbV9ydW50aW1lX2VuYWJs
-ZShkZXYpOworCisJcmV0dXJuIDA7CisKK2VycjoKKwlpY2NfcHV0KHBhdGgpOwogCiAJcmV0dXJu
-IHJldDsKIH0KIAogc3RhdGljIGludCBtaXhlcl9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
-ZSAqcGRldikKIHsKLQlwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7CisJc3RydWN0IGRl
-dmljZSAqZGV2ID0gJnBkZXYtPmRldjsKKwlzdHJ1Y3QgbWl4ZXJfY29udGV4dCAqY3R4ID0gZGV2
-X2dldF9kcnZkYXRhKGRldik7CisKKwlwbV9ydW50aW1lX2Rpc2FibGUoZGV2KTsKKworCWNvbXBv
-bmVudF9kZWwoZGV2LCAmbWl4ZXJfY29tcG9uZW50X29wcyk7CiAKLQljb21wb25lbnRfZGVsKCZw
-ZGV2LT5kZXYsICZtaXhlcl9jb21wb25lbnRfb3BzKTsKKwlpY2NfcHV0KGN0eC0+aWNjX3BhdGgp
-OwogCiAJcmV0dXJuIDA7CiB9Ci0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, May 29, 2020 at 6:44 AM Rohan Garg <rohan.garg@collabora.com> wrote:
+>
+> Hey Eric!
+>
+> On jueves, 28 de mayo de 2020 20:45:24 (CEST) Eric Anholt wrote:
+> > On Thu, May 28, 2020 at 10:06 AM Rohan Garg <rohan.garg@collabora.com>
+> wrote:
+> > > DRM_IOCTL_HANDLE_SET_LABEL lets you label buffers associated
+> > > with a handle, making it easier to debug issues in userspace
+> > > applications.
+> > >
+> > > DRM_IOCTL_HANDLE_GET_LABEL lets you read the label associated
+> > > with a buffer.
+> > >
+> > > Changes in v2:
+> > >   - Hoist the IOCTL up into the drm_driver framework
+> > >
+> > > Changes in v3:
+> > >   - Introduce a drm_gem_set_label for drivers to use internally
+> > >
+> > >     in order to label a GEM object
+> > >
+> > >   - Hoist string copying up into the IOCTL
+> > >   - Fix documentation
+> > >   - Move actual gem labeling into drm_gem_adopt_label
+> > >
+> > > Changes in v4:
+> > >   - Refactor IOCTL call to only perform string duplication and move
+> > >
+> > >     all gem lookup logic into GEM specific call
+> > >
+> > > Changes in v5:
+> > >   - Fix issues pointed out by kbuild test robot
+> > >   - Cleanup minor issues around kfree and out/err labels
+> > >   - Fixed API documentation issues
+> > >   - Rename to DRM_IOCTL_HANDLE_SET_LABEL
+> > >   - Introduce a DRM_IOCTL_HANDLE_GET_LABEL to read labels
+> > >   - Added some documentation for consumers of this IOCTL
+> > >   - Ensure that label's cannot be longer than PAGE_SIZE
+> > >   - Set a default label value
+> > >   - Drop useless warning
+> > >   - Properly return length of label to userspace even if
+> > >
+> > >     userspace did not allocate memory for label.
+> > >
+> > > Changes in v6:
+> > >   - Wrap code to make better use of 80 char limit
+> > >   - Drop redundant copies of the label
+> > >   - Protect concurrent access to labels
+> > >   - Improved documentation
+> > >   - Refactor setter/getter ioctl's to be static
+> > >   - Return EINVAL when label length > PAGE_SIZE
+> > >   - Simplify code by calling the default GEM label'ing
+> > >
+> > >     function for all drivers using GEM
+> > >
+> > >   - Do not error out when fetching empty labels
+> > >   - Refactor flags to the u32 type and add documentation
+> > >   - Refactor ioctls to use correct DRM_IOCTL{R,W,WR} macros
+> > >   - Return length of copied label to userspace
+> > >
+> > > Signed-off-by: Rohan Garg <rohan.garg@collabora.com>
+> >
+> > I don't think we should land this until it actually does something
+> > with the label, that feels out of the spirit of our uapi merge rules.
+> > I would suggest looking at dma_buf_set_name(), which would produce
+> > useful output in debugfs's /dma_buf/buf_info.  But also presumably you
+> > have something in panfrost using this?
+> >
+>
+> My current short term plan is to hook up glLabel to the labeling functionality
+> in order for userspace applications to debug exactly which buffer objects
+> could be causing faults in the kernel for speedier debugging.
+
+So, something like "when a fault happens, dump/capture names of nearby
+objects"?  That would certainly be nice to have!
+
+> The more long term plan is to label each buffer with a unique id that we can
+> correlate to the GL calls being flushed in order to be able to profile (a set
+> of)  GL calls on various platforms in order to aid driver developers with
+> performance work. This could be something that we corelate on the userspace
+> side with the help of perfetto by using this [1] patch that emits ftrace
+> events.
+
+I'm curious how BO names are part of profiling?  Do you have the
+ability to sample instruction IP and use that to figure out where time
+is spent in shaders, or something?
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
