@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFD91E7F6E
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 15:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C87531E7FA8
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 16:05:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB4216E900;
-	Fri, 29 May 2020 13:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A8556E90C;
+	Fri, 29 May 2020 14:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 102DE6E900
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 13:58:34 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s8so3672808wrt.9
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 06:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N8W5zct5Gx8BLNzMDfYGyBH+eB4JXo/MXqhIvPCT8QI=;
- b=mlLU0F8j8I9c7uoJQ2h8qvbsBYjp2cDxmG2h1Cot2Dhf6Hs6RUj4O7ZP6KbSB1EFvj
- n1+wD9nvy5Ytsb++IFdb3ZOWVhvd6MfJ6O2J0qiLjF8AeN8MYfioVET3IskBp6jHDeQM
- AXc6KZ9/wI2FAM1NAlEh1YwgdRdPgNwevQXcmVM29gVEMFJ02t8Lj99Q5HCop03tW5XY
- qCs5gGtKtr6n+VggE/UU1RauTiwmSYGIFACyYUEYWh/nFU0kkMk95cnvMJC78E2ki2nS
- wTxSRXs5e/LE2qYuaQ6bdrquh4Rc5+VNF44z1D9u/CbLjFz90J/PLcHcbRyFNEVWM4m4
- VkMA==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4596E90C
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 14:05:50 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id r9so3426875wmh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 07:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=l/gK4nczens5mw2mLo6kLRpZ7Aqp5PnScBJg8P95tB0=;
+ b=GilG1U/CS13j6feFEosLweGbSgmAMUA9+2hQSlBE7KdW43GsoNdeB7CjzkPNEyJhi2
+ sdes+vM10KPVnWs0303DevMttzqLHuRzJfKxu0rsLjIOvDeLkNbVbs8RpXRtOesK3P2h
+ YO5X3/AcfECcaNsbb/6dADWWakww1xleGoldc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N8W5zct5Gx8BLNzMDfYGyBH+eB4JXo/MXqhIvPCT8QI=;
- b=i+AjkJMEGN1ozqkr8h6B22vNfp+CqeQiiGvqxTHqGJLXQEZUqEmfn1TNSvPgyPpoEL
- 1wSiDgnm60/4iIy62suY1mzzjH6YYwQYKSiYEC3P5xvxEY13Em8eyn4PoQWkffVvKecR
- ua5AGNuf4KABMW6QvPGmBQAyYJnqS6YPVdpD4TlY1SqsYDwRjGKK7tZyeXrB5qO2heUJ
- y3SC/lldA2xHSbhtI/Ho/2fs7VF/0cq/b2K2zoCWekQVmIJHtNTgqhFnSo+UWPaKpn+A
- QBjJ1D0VJGHClM42ho7OHgt/czVtZpgW2FpR9rixTiM4Gu1co7RKLVRJNdCCIcLToZr6
- 6dDA==
-X-Gm-Message-State: AOAM531WX/2y84y4ToPDEEdN5+yQZ6UA48N1NbOGXlP49hXvwBZhjYwX
- 1vYZRNLxHahdXN4Ob9j7SBHdfPPgq23L/QjnEvE6f0GpDLE=
-X-Google-Smtp-Source: ABdhPJxbf9r3VOPMqH/rnkjBKJE99kzb2ORUGYz7wOouKRWQsYi2iae4Atr5/oIm84STOmEM7VpseOIR5PHTspufNk4=
-X-Received: by 2002:adf:db09:: with SMTP id s9mr8706033wri.256.1590760712577; 
- Fri, 29 May 2020 06:58:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=l/gK4nczens5mw2mLo6kLRpZ7Aqp5PnScBJg8P95tB0=;
+ b=ddsn5Wth0f8iTvuJZIQz8P5XnKXvGkMTJ13KHVJkj46fn8Mr+aP9Un09670SUhNKNp
+ FjDGmRFy7iq6HmgADVeuIlZocCm5InJTlhICWaz8g0Ah4QtnNmxUxeIwMR7/0pSo/ri+
+ 6JwrtTGB7ZzLt7Ot0nbVhNVH3kdrV74V65AKO+kuOcM/U5WmDqynU8v+L95yEiwdThX9
+ LYtKEbtoJwDt9ljwEEy6/2I+JZyNh2Cei2LF7huHMZ1ws53OM0IMBqTZFY+LkQwQ1xRN
+ /YG6evTcJxV2hKviHBcrqqnYuXjIyi8Q8E15ljGgh55GN7Y7LdvchYn3lq0tNe5TStLS
+ 5wuQ==
+X-Gm-Message-State: AOAM530oYdTTc3f0/PCyhr46CoREGJJDCdtTCqgWL6doDjKG0OduMw5U
+ f0/bcw5TlrwCiWoLteoXqfUGhlMgjSQ=
+X-Google-Smtp-Source: ABdhPJzsGT/IZTFJUnzfxbPrxyQoh4ZKiO3Nz0kZTzFgSR3Tgkrz4iNhiTNvQrWytmWRbwyDnxyKug==
+X-Received: by 2002:a1c:65c2:: with SMTP id z185mr8374263wmb.125.1590761148567; 
+ Fri, 29 May 2020 07:05:48 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z25sm11561640wmf.10.2020.05.29.07.05.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 May 2020 07:05:47 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/shmem-helpers: Simplify dma-buf importing
+Date: Fri, 29 May 2020 16:05:42 +0200
+Message-Id: <20200529140542.2103713-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200520180232.956489-1-daniel.vetter@ffwll.ch>
+References: <20200520180232.956489-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
- <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
- <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
- <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
-In-Reply-To: <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Fri, 29 May 2020 14:56:41 +0100
-Message-ID: <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +63,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
-
-On Fri, 29 May 2020 at 14:29, Alex Deucher <alexdeucher@gmail.com> wrote:
-> On Fri, May 29, 2020 at 4:59 AM Simon Ser <contact@emersion.fr> wrote:
-> > OK. In this case I think it's fine to make the DMA-BUF import fail, as
-> > we've suggested on IRC. The more-or-less planned fix for these buffer
-> > sharing issues is to revive the buffer constraints proposal from the
-> > allocator project. It's a lot of work though.
->
-> I get that, but why explicitly limit modifiers then?  Shouldn't we try
-> and do the best we can with what we have now?  If not the situation is
-> not much better than what we have now.  Why go through the effort or
-> adding modifer support in the first place if they are mostly useless?
-
-Well sure, we could add pitch alignment in there. And height
-alignment. And starting byte offset. And acceptable byte distance
-between planes. And physical contiguity / number of backing pages. And
-placement (system vs. GTT vs. local), which also implies adding a
-device-unique identifier whilst we're at it. And acceptable
-width/height bounds. All of those are perfectly valid constraints
-which could cause imports to fail, and not even an exhaustive list.
-
-How does Navi ensure that every single linear dmabuf source it can
-ever receive is aligned to 256 bytes today? How does adding support
-for modifiers - something which does solve other problems, like 'every
-three months I wearily review a patch forcing all winsys buffers to be
-allocated for scanout usage for a new random reason, regressing
-performance for a lot of other vendors' - make Navi's situation worse?
-
-> I don't quite get what we are trying to do with them.  What does this
-> mean "Modifiers must uniquely encode buffer layout"?  We have a number
-> of buffer layouts that are the same from a functional standpoint, but
-> they have different alignment requirements depending on the chip and
-> the number of memory channels, etc.  Would those be considered the
-> same modifer?  If not, then we are sort of implicitly encoding
-> alignment requirements into the modifier.
-
-Yes, of course some requirements are implicit. Given that tiles are
-indivisible, it makes no sense to have a 64x64 tiled buffer with a
-32-pixel stride. But that isn't the same thing as encoding an
-arbitrary constraint, it's just a requirement of the encoding.
-
-The reason why modifiers have been successful and adopted by every
-other vendor apart from IMG, is exactly because they _don't_ attempt
-to boil the ocean, but are the most practical realisation of improving
-performance within a complex ecosystem. The allocator is the complete
-and exhaustive solution to all our problems, but it's not exactly
-going to be done tomorrow.
-
-Playing a single video today could easily involve a V4L2 codec source
-into a V4L2 postprocessor into Chromium's Wayland host compositor
-through Chromium itself into the host Wayland compositor and finally
-into EGL and/or Vulkan and/or KMS. If you want to figure out what the
-V4L2/DRM/KMS, GStreamer/VA-API/Kodi, EGL/Vulkan, and Wayland/X11 APIs
-look for negotiating a totally optimal layout across at least three
-different hardware classes from at least three different vendors, then
-I'm all for it. I'll be cheering you on from the sidelines and doing
-what I can to help. But the only reason we've got to this point today
-is because Allwinner, AmLogic, Arm, Broadcom, Intel, NVIDIA, NXP,
-Qualcomm, Rockchip, Samsung, and VeriSilicon, have all spent the last
-few years trying to avoid perfection being the enemy of good. (And
-those are just the hardware vendors - obviously Collabora and others
-like us have also put not-inconsiderable effort into getting at least
-this far.)
-
-Cheers,
-Daniel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+LSBEaXRjaCB0aGUgLT5wYWdlcyBhcnJheQotIE1ha2UgaXQgYSBwcml2YXRlIGdlbSBibywgd2hp
+Y2ggbWVhbnMgbm8gc2htZW0gb2JqZWN0LCB3aGljaCBtZWFucwogIGZpcmV3b3JrcyBpZiBhbnlv
+bmUgY2FsbHMgZHJtX2dlbV9vYmplY3RfZ2V0X3BhZ2VzLiBCdXQgd2UndmUganVzdAogIG1hZGUg
+c3VyZSB0aGF0J3MgYWxsIGNvdmVyZWQuCgp2MjogUmViYXNlCgp2MzogSSBmb3Jnb3QgdG8gcmVt
+b3ZlIHRoZSBwYWdlX2NvdW50IG1hbmdsaW5nIGZyb20gdGhlIGZyZWUgcGF0aCB0b28uCk5vdGlj
+ZWQgYnkgQm9yaXMgd2hpbGUgdGVzdGluZy4KCkNjOiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJy
+ZXppbGxvbkBjb2xsYWJvcmEuY29tPgpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+CkNjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KQ2M6
+IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+CkNjOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFs
+ZkB0cm9ubmVzLm9yZz4KU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
+ckBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMg
+fCA2MCArKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2Vy
+dGlvbnMoKyksIDM3IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZ2VtX3NobWVtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVs
+cGVyLmMKaW5kZXggMDZjZWU4ZTk3ZDI3Li5mNzUwMDYzOTY4ZWYgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZ2VtX3NobWVtX2hlbHBlci5jCkBAIC0zNSwyMiArMzUsMTIgQEAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyBkcm1fZ2VtX3NobWVtX2Z1bmNzID0gewogCS5tbWFw
+ID0gZHJtX2dlbV9zaG1lbV9tbWFwLAogfTsKIAotLyoqCi0gKiBkcm1fZ2VtX3NobWVtX2NyZWF0
+ZSAtIEFsbG9jYXRlIGFuIG9iamVjdCB3aXRoIHRoZSBnaXZlbiBzaXplCi0gKiBAZGV2OiBEUk0g
+ZGV2aWNlCi0gKiBAc2l6ZTogU2l6ZSBvZiB0aGUgb2JqZWN0IHRvIGFsbG9jYXRlCi0gKgotICog
+VGhpcyBmdW5jdGlvbiBjcmVhdGVzIGEgc2htZW0gR0VNIG9iamVjdC4KLSAqCi0gKiBSZXR1cm5z
+OgotICogQSBzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKiBvbiBzdWNjZXNzIG9yIGFuIEVS
+Ul9QVFIoKS1lbmNvZGVkIG5lZ2F0aXZlCi0gKiBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCi0gKi8K
+LXN0cnVjdCBkcm1fZ2VtX3NobWVtX29iamVjdCAqZHJtX2dlbV9zaG1lbV9jcmVhdGUoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90IHNpemUpCitzdGF0aWMgc3RydWN0IGRybV9nZW1fc2ht
+ZW1fb2JqZWN0ICoKK19fZHJtX2dlbV9zaG1lbV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRl
+diwgc2l6ZV90IHNpemUsIGJvb2wgcHJpdmF0ZSkKIHsKIAlzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9v
+YmplY3QgKnNobWVtOwogCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqOwotCWludCByZXQ7CisJ
+aW50IHJldCA9IDA7CiAKIAlzaXplID0gUEFHRV9BTElHTihzaXplKTsKIApAQCAtNjQsNyArNTQs
+MTAgQEAgc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpkcm1fZ2VtX3NobWVtX2NyZWF0ZShz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzaXplX3QKIAlpZiAoIW9iai0+ZnVuY3MpCiAJCW9iai0+
+ZnVuY3MgPSAmZHJtX2dlbV9zaG1lbV9mdW5jczsKIAotCXJldCA9IGRybV9nZW1fb2JqZWN0X2lu
+aXQoZGV2LCBvYmosIHNpemUpOworCWlmIChwcml2YXRlKQorCQlkcm1fZ2VtX3ByaXZhdGVfb2Jq
+ZWN0X2luaXQoZGV2LCBvYmosIHNpemUpOworCWVsc2UKKwkJcmV0ID0gZHJtX2dlbV9vYmplY3Rf
+aW5pdChkZXYsIG9iaiwgc2l6ZSk7CiAJaWYgKHJldCkKIAkJZ290byBlcnJfZnJlZTsKIApAQCAt
+OTYsNiArODksMjEgQEAgc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpkcm1fZ2VtX3NobWVt
+X2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzaXplX3QKIAogCXJldHVybiBFUlJfUFRS
+KHJldCk7CiB9CisvKioKKyAqIGRybV9nZW1fc2htZW1fY3JlYXRlIC0gQWxsb2NhdGUgYW4gb2Jq
+ZWN0IHdpdGggdGhlIGdpdmVuIHNpemUKKyAqIEBkZXY6IERSTSBkZXZpY2UKKyAqIEBzaXplOiBT
+aXplIG9mIHRoZSBvYmplY3QgdG8gYWxsb2NhdGUKKyAqCisgKiBUaGlzIGZ1bmN0aW9uIGNyZWF0
+ZXMgYSBzaG1lbSBHRU0gb2JqZWN0LgorICoKKyAqIFJldHVybnM6CisgKiBBIHN0cnVjdCBkcm1f
+Z2VtX3NobWVtX29iamVjdCAqIG9uIHN1Y2Nlc3Mgb3IgYW4gRVJSX1BUUigpLWVuY29kZWQgbmVn
+YXRpdmUKKyAqIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KKyAqLworc3RydWN0IGRybV9nZW1fc2ht
+ZW1fb2JqZWN0ICpkcm1fZ2VtX3NobWVtX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBz
+aXplX3Qgc2l6ZSkKK3sKKwlyZXR1cm4gX19kcm1fZ2VtX3NobWVtX2NyZWF0ZShkZXYsIHNpemUs
+IGZhbHNlKTsKK30KIEVYUE9SVF9TWU1CT0xfR1BMKGRybV9nZW1fc2htZW1fY3JlYXRlKTsKIAog
+LyoqCkBAIC0xMTMsOSArMTIxLDcgQEAgdm9pZCBkcm1fZ2VtX3NobWVtX2ZyZWVfb2JqZWN0KHN0
+cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQogCVdBUk5fT04oc2htZW0tPnZtYXBfdXNlX2NvdW50
+KTsKIAogCWlmIChvYmotPmltcG9ydF9hdHRhY2gpIHsKLQkJc2htZW0tPnBhZ2VzX3VzZV9jb3Vu
+dC0tOwogCQlkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3kob2JqLCBzaG1lbS0+c2d0KTsKLQkJa3ZmcmVl
+KHNobWVtLT5wYWdlcyk7CiAJfSBlbHNlIHsKIAkJaWYgKHNobWVtLT5zZ3QpIHsKIAkJCWRtYV91
+bm1hcF9zZyhvYmotPmRldi0+ZGV2LCBzaG1lbS0+c2d0LT5zZ2wsCkBAIC0zNzEsNyArMzc3LDcg
+QEAgZHJtX2dlbV9zaG1lbV9jcmVhdGVfd2l0aF9oYW5kbGUoc3RydWN0IGRybV9maWxlICpmaWxl
+X3ByaXYsCiAJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbTsKIAlpbnQgcmV0Owog
+Ci0Jc2htZW0gPSBkcm1fZ2VtX3NobWVtX2NyZWF0ZShkZXYsIHNpemUpOworCXNobWVtID0gX19k
+cm1fZ2VtX3NobWVtX2NyZWF0ZShkZXYsIHNpemUsIHRydWUpOwogCWlmIChJU19FUlIoc2htZW0p
+KQogCQlyZXR1cm4gc2htZW07CiAKQEAgLTY5NSwzNiArNzAxLDE2IEBAIGRybV9nZW1fc2htZW1f
+cHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJCQkJICAgIHN0
+cnVjdCBzZ190YWJsZSAqc2d0KQogewogCXNpemVfdCBzaXplID0gUEFHRV9BTElHTihhdHRhY2gt
+PmRtYWJ1Zi0+c2l6ZSk7Ci0Jc2l6ZV90IG5wYWdlcyA9IHNpemUgPj4gUEFHRV9TSElGVDsKIAlz
+dHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKnNobWVtOwotCWludCByZXQ7CiAKIAlzaG1lbSA9
+IGRybV9nZW1fc2htZW1fY3JlYXRlKGRldiwgc2l6ZSk7CiAJaWYgKElTX0VSUihzaG1lbSkpCiAJ
+CXJldHVybiBFUlJfQ0FTVChzaG1lbSk7CiAKLQlzaG1lbS0+cGFnZXMgPSBrdm1hbGxvY19hcnJh
+eShucGFnZXMsIHNpemVvZihzdHJ1Y3QgcGFnZSAqKSwgR0ZQX0tFUk5FTCk7Ci0JaWYgKCFzaG1l
+bS0+cGFnZXMpIHsKLQkJcmV0ID0gLUVOT01FTTsKLQkJZ290byBlcnJfZnJlZV9nZW07Ci0JfQot
+Ci0JcmV0ID0gZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc2d0LCBzaG1lbS0+cGFn
+ZXMsIE5VTEwsIG5wYWdlcyk7Ci0JaWYgKHJldCA8IDApCi0JCWdvdG8gZXJyX2ZyZWVfYXJyYXk7
+Ci0KIAlzaG1lbS0+c2d0ID0gc2d0OwotCXNobWVtLT5wYWdlc191c2VfY291bnQgPSAxOyAvKiBQ
+ZXJtYW5lbnRseSBwaW5uZWQgZnJvbSBvdXIgcG9pbnQgb2YgdmlldyAqLwogCiAJRFJNX0RFQlVH
+X1BSSU1FKCJzaXplID0gJXp1XG4iLCBzaXplKTsKIAogCXJldHVybiAmc2htZW0tPmJhc2U7Ci0K
+LWVycl9mcmVlX2FycmF5OgotCWt2ZnJlZShzaG1lbS0+cGFnZXMpOwotZXJyX2ZyZWVfZ2VtOgot
+CWRybV9nZW1fb2JqZWN0X3B1dCgmc2htZW0tPmJhc2UpOwotCi0JcmV0dXJuIEVSUl9QVFIocmV0
+KTsKIH0KIEVYUE9SVF9TWU1CT0xfR1BMKGRybV9nZW1fc2htZW1fcHJpbWVfaW1wb3J0X3NnX3Rh
+YmxlKTsKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
