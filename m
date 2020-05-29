@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3877E1E788F
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 10:43:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 947EB1E78E5
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 10:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A92E6E8A5;
-	Fri, 29 May 2020 08:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC3E6E8A9;
+	Fri, 29 May 2020 08:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D906E8A5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 08:43:45 +0000 (UTC)
-IronPort-SDR: hsw4KO4urlXWSU/hccXRRpLnjfx4BXWmZ3pTv+C5LDkZ3ZW59B7mVnC3dnlNkna0PciQPM1tuo
- 09/Fs5Sz1yvQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2020 01:43:44 -0700
-IronPort-SDR: t7ZaEPSmD2wb8Bht+VsXhBeIShu3zYq8vv8aNGADdkQk1f0JTS6aL8ahV2UPCVLZYwMvpKlEvy
- lkyrxhb245Zg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,448,1583222400"; d="scan'208";a="257283009"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 29 May 2020 01:43:42 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 29 May 2020 11:43:41 +0300
-Date: Fri, 29 May 2020 11:43:41 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: chenxb_99091@126.com
-Subject: Re: Re:[PATCH] drm: fix setting of plane_mask in
- pan_display_atomic() function for linux-4.4
-Message-ID: <20200529084341.GI6112@intel.com>
-References: <1590586407-4109-1-git-send-email-chenxb_99091@126.com>
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08CFF6E8A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 08:59:27 +0000 (UTC)
+Date: Fri, 29 May 2020 08:59:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1590742765;
+ bh=G1AgvezNZLWX9RvgjcuqAZ5N1X49zXNU8K4hi/NCjvo=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=FcNtpPPvGtZc/labd95Z4ZYHCervQnEPnz84Oxxqo32F0DANTEmCpzzvSznCBIlse
+ DCghFrOy7NsinyU5Jk+zYGBFk2D6/Hv+E7NgE/lh9Mut9pLsshAIrPCGvhFQ6vLulh
+ 66pxHFoNvuUqn261dx6YbszjGgQcLMI6wm/zJuc8=
+To: =?UTF-8?Q?Marek_Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
+Message-ID: <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
+In-Reply-To: <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
+References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
+ <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1590586407-4109-1-git-send-email-chenxb_99091@126.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +45,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 09:33:27PM +0800, chenxb_99091@126.com wrote:
-> From: Xuebing Chen <chenxb_99091@126.com>
-> =
-
-> On Mon, May 25, 2020 at 04:34:28PM +0200, Daniel Vetter wrote:
-> > On Sat, May 23, 2020 at 11:49:07AM +0800, chenxb_99091@126.com wrote:
-> > > From: Xuebing Chen <chenxb_99091@126.com>
-> > > =
-
-> > > The <include/drm/drm_crtc.h> provides drm_for_each_plane_mask macro a=
-nd
-> > > plane_mask is defined as bitmask of plane indices, such as
-> > > 1<<drm_plane_index(plane). This patch fixes error setting of plane_ma=
-sk
-> > > in pan_display_atomic() function.
-> > > =
-
-> > > Signed-off-by: Xuebing Chen <chenxb_99091@126.com>
-> > =
-
-> > What kernel is this patch against? Latest upstream doesn't have any such
-> > code anymore ... I'm assuming that Ville fixed this in one of his patch=
-es,
-> > but I can't find the right one just now.
-> =
-
-> This bug is still present in the longterm-supported versions of kernel 4.=
-4.y, =
-
-> including the latest kernel v4.4.224,
-> See https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree=
-/?h=3Dv4.4.224
-
-See Documentation/process/stable-kernel-rules.rst on how to request
-a stable backport.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1cnNkYXksIE1heSAyOCwgMjAyMCA1OjQ5IFBNLCBNYXJlayBPbMWhw6FrIDxtYXJhZW9A
+Z21haWwuY29tPiB3cm90ZToKCj4gT24gbW9zdCBoYXJkd2FyZSwgdGhlcmUgaXMgYSBtaW5pbXVt
+IHBpdGNoIGFsaWdubWVudCBmb3IgbGluZWFyIGFuZAo+IGFueSBncmVhdGVyIG11bHRpcGxlIG9m
+IHRoZSBhbGlnbm1lbnQgaXMgZmluZS4KPgo+IE9uIE5hdmksIHRoZSBwaXRjaCBpbiBieXRlcyBm
+b3IgbGluZWFyIG11c3QgYmUKPiBhbGlnbih3aWR0aCAqIGJwcCAvIDgsIDI1NikuIFRoYXQncyBi
+ZWNhdXNlIHRoZSBodyBjb21wdXRlcyB0aGUgcGl0Y2gKPiBmcm9tIHRoZSB3aWR0aCBhbmQgZG9l
+c24ndCBhbGxvdyBzZXR0aW5nIGEgY3VzdG9tIHBpdGNoLiBGb3IgdGhhdAo+IHJlYXNvbiwgbXVs
+dGktR1BVIHNoYXJpbmcgbWlnaHQgbm90IGJlIHBvc3NpYmxlIGlmIHRoZSBvdGhlciBHUFUKPiBk
+b2Vzbid0IGFsaWduIHRoZSBwaXRjaCBpbiBleGFjdGx5IHRoZSBzYW1lIHdheS4KCk9LLiBJbiB0
+aGlzIGNhc2UgSSB0aGluayBpdCdzIGZpbmUgdG8gbWFrZSB0aGUgRE1BLUJVRiBpbXBvcnQgZmFp
+bCwgYXMKd2UndmUgc3VnZ2VzdGVkIG9uIElSQy4gVGhlIG1vcmUtb3ItbGVzcyBwbGFubmVkIGZp
+eCBmb3IgdGhlc2UgYnVmZmVyCnNoYXJpbmcgaXNzdWVzIGlzIHRvIHJldml2ZSB0aGUgYnVmZmVy
+IGNvbnN0cmFpbnRzIHByb3Bvc2FsIGZyb20gdGhlCmFsbG9jYXRvciBwcm9qZWN0LiBJdCdzIGEg
+bG90IG9mIHdvcmsgdGhvdWdoLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
