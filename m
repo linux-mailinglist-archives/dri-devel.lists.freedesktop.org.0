@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D35E1E8678
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 20:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CC61E88BD
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 22:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 457736E958;
-	Fri, 29 May 2020 18:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7A66E96C;
+	Fri, 29 May 2020 20:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C14F6E958
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 18:18:36 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id d7so346412ioq.5
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 11:18:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+Zt0XlCRbQEAA6WM2kGlK/C6ChZT4zLq85OJJjGFn0o=;
- b=BPqjU7XfHhVknoMo/pLMI7+nTxpPx4vOhBYLNFE/tKlfNbR3jKtpIKRwpOHYMeTpIW
- jEpMv8nmQ1TItjdm1H1JS9nUbtxUrvN6HoVKBsrPHRybSxUXCoulfxLaRH5DvkEC2+Ge
- zmG0cj6GLG7tY0KWDXVEh8Szfudd6JctcT9JC2aS5AYrfk0oo/T7X9OCxayzOKH/MnTF
- qjtvClvheq1a39EDkZCNb0Ig4/a0I51Iy1sOlJRZDWs3fb+Ka2YQt52RzdHBXildMsFT
- 9XzIArjj7zebrYvqpbZ35IEnkeMb3n0QW3ym11tPXKfGMzDDOoO0yot1i3y7ysZ/QkLL
- Ylxg==
-X-Gm-Message-State: AOAM5300O/pN9OFC3mNBsnU6klkd0ATxoP2FW7o1TFbIVngNxShkcXsf
- 0cjb8Psz+lHITa1U8LCHiw==
-X-Google-Smtp-Source: ABdhPJzNDQewkud68OMi7ffyblEdKBffzwXmj7DJAvdOeqGXbabXJygx2EyHsLyuZVGswit2+zLTxg==
-X-Received: by 2002:a6b:5c19:: with SMTP id z25mr7597825ioh.119.1590776315569; 
- Fri, 29 May 2020 11:18:35 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id j63sm1246230ilg.50.2020.05.29.11.18.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 11:18:34 -0700 (PDT)
-Received: (nullmailer pid 2691280 invoked by uid 1000);
- Fri, 29 May 2020 18:18:33 -0000
-Date: Fri, 29 May 2020 12:18:33 -0600
-From: Rob Herring <robh@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v3 104/105] dt-bindings: display: vc4: hdmi: Add BCM2711
- HDMI controllers bindings
-Message-ID: <20200529181833.GA2685451@bogus>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <e85e24a494a3ff41177c94673ced0f4280b6a0ee.1590594512.git-series.maxime@cerno.tech>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385F56E969
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 20:15:48 +0000 (UTC)
+Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MAOa3-1jpzoR1Oqx-00BsNh; Fri, 29 May 2020 22:15:36 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@amd.com>, Chris Wilson <chris@chris-wilson.co.uk>
+Subject: [PATCH] drm/selftests/mm: reduce per-function stack usage
+Date: Fri, 29 May 2020 22:15:26 +0200
+Message-Id: <20200529201534.474853-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e85e24a494a3ff41177c94673ced0f4280b6a0ee.1590594512.git-series.maxime@cerno.tech>
+X-Provags-ID: V03:K1:ho4Mq3U3EtYfgJFR+q7973027xSV2eRELOhe3ml5gCU4m/2NxjG
+ UwhT06TUOtlUo0TML7Hgbve1EF9Pa25ivKXm39twJdLIYZMu9WdiZbOP/XQqo1CGtibwBdv
+ s9wd3LzL6M9uv0/1NLtMw4W/rqPCpYbNfpenFzkGW3EJndjzP76/7MZK43q6dVvNUHo880c
+ A5HmS83cgLYOALPtHFf1w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9vksc22pmvo=:P9XjhkE+Q3JWW5vZh3siuU
+ ezOC3IX4ktHT9kZRx/6s6Hppi7WQWsH9w7QOkliZdzUXhXxic7ZRmNIU2qeiJikarCw2bI8H5
+ vbKkVQchoJYirSJznL7jWKW9ZARqAEVdBHAr6MDpqku6u838ZyNp52zB7a2IJyePtkDd4CDvE
+ LPHUY24SE6z1OFHQl4OXhXbXAFESWWQl88ZnfhjloIeDG6E39ii/64/VmmmRnf02N6kCqmxd3
+ RP/7H+wwG5aN2/7YI1Z7dfOKjVIO3FBkv/SoCajVFRvOJGG8yP1tKIfuOIDgdPvjSIGjSlvG3
+ 3ob2my9I3PU0g22tAjMVAagjAGbt1QPUIDP9Hz8LBeaObegCW15UO1LUIP2jbzw10FGhzN9DA
+ ILPtP+o27BwKaRk32/FuD/D7ed+w3HqbXEGy2wOXEcClLKSe1CURWgobJfKzl94mIyMkV4k04
+ VbUNIGx07Ngg8/An3jz5Q54tijiAPToUuhRQkMMXOLATm7+hvsQs3ZHvfObEb5PpaerqFVjGY
+ nVgRkkfRTWvOlwqbBd49Rri6vSTfbFdmjYh/4LQUwon7Y2e79V4rA3oWaEmpH7TkZoN7tlEEM
+ bMCPfLF42BinIC28wN0x+6ieUqz+uWur2CfhFw5l/EIwEf/vmGJeBdMABEiNobKhq/R/JT+o+
+ 5UYBClvnphTH2sql5sPfKnrNdMli+7Z/Thp1a1a0CfeeHWS8R8mn10MfyoNk4pJcxJIKtHECk
+ vCupWg2BVpwyfTCys96xRpGqM/DR7h4/9FaOTAWOvnVKHtKnKcYk7PKOsJ1GYOeF7xfBHko+n
+ 1lVLY/kBbRPg/7sGq+/5BqyXn4Q4R2btongqsymuZ52S7+8L3s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,161 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kbuild test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 27, 2020 at 05:49:14PM +0200, Maxime Ripard wrote:
-> The HDMI controllers found in the BCM2711 SoC need some adjustments to the
-> bindings, especially since the registers have been shuffled around in more
-> register ranges.
-> 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml | 109 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> new file mode 100644
-> index 000000000000..6091fe3d315b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: GPL-2.0
+The check_reserve_boundaries() function has a large array on the stack,
+over 500 bytes. It gets inlined into __igt_reserve, which has multiple
+other large structures as well but stayed just under the stack size
+warning limit of 1024 bytes until one more member got added to struct
+drm_mm_node, causing a warning:
 
-Dual license...
+drivers/gpu/drm/selftests/test-drm_mm.c:371:12: error:
+stack frame size of 1032 bytes in function '__igt_reserve' [-Werror,-Wframe-larger-than=]
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Broadcom BCM2711 HDMI Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Eric Anholt <eric@anholt.net>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - brcm,bcm2711-hdmi0
-> +      - brcm,bcm2711-hdmi1
+As far as I can tell, this is not nice but will not be called from
+a context that is already low for the kernel stack, so just annotate
+the inner function as noinline_for_stack to ensure that each function
+by itself stays under the warning limit.
 
-What's the difference between the 2 blocks? 
+Fixes: 0cdea4455acd ("drm/mm: optimize rb_hole_addr rbtree search")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/selftests/test-drm_mm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-> +
-> +  reg:
-> +    items:
-> +      - description: HDMI controller register range
-> +      - description: DVP register range
-> +      - description: HDMI PHY register range
-> +      - description: Rate Manager register range
-> +      - description: Packet RAM register range
-> +      - description: Metadata RAM register range
-> +      - description: CSC register range
-> +      - description: CEC register range
-> +      - description: HD register range
-> +
-> +  reg-names:
-> +    items:
-> +      - const: hdmi
-> +      - const: dvp
-> +      - const: phy
-> +      - const: rm
-> +      - const: packet
-> +      - const: metadata
-> +      - const: csc
-> +      - const: cec
-> +      - const: hd
-> +
-> +  clocks:
-> +    description: The HDMI state machine clock
-> +
-> +  clock-names:
-> +    const: hdmi
-> +
-> +  ddc:
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: >
-> +      Phandle of the I2C controller used for DDC EDID probing
+diff --git a/drivers/gpu/drm/selftests/test-drm_mm.c b/drivers/gpu/drm/selftests/test-drm_mm.c
+index 9aabe82dcd3a..30108c330db8 100644
+--- a/drivers/gpu/drm/selftests/test-drm_mm.c
++++ b/drivers/gpu/drm/selftests/test-drm_mm.c
+@@ -323,9 +323,8 @@ static bool expect_reserve_fail(struct drm_mm *mm, struct drm_mm_node *node)
+ 	return false;
+ }
+ 
+-static bool check_reserve_boundaries(struct drm_mm *mm,
+-				     unsigned int count,
+-				     u64 size)
++static noinline_for_stack bool
++check_reserve_boundaries(struct drm_mm *mm, unsigned int count, u64 size)
+ {
+ 	const struct boundary {
+ 		u64 start, size;
+-- 
+2.26.2
 
-Goes in the connector.
-
-And isn't the standard name ddc-i2c-bus?
-
-> +
-> +  hpd-gpios:
-> +    description: >
-> +      The GPIO pin for the HDMI hotplug detect (if it doesn't appear
-> +      as an interrupt/status bit in the HDMI controller itself)
-
-Goes in the connector.
-
-> +
-> +  dmas:
-> +    maxItems: 1
-> +    description: >
-> +      Should contain one entry pointing to the DMA channel used to
-> +      transfer audio data.
-> +
-> +  dma-names:
-> +    const: audio-rx
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - resets
-> +  - ddc
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    hdmi0: hdmi@7ef00700 {
-> +        compatible = "brcm,bcm2711-hdmi0";
-> +        reg = <0x7ef00700 0x300>,
-> +              <0x7ef00300 0x200>,
-> +              <0x7ef00f00 0x80>,
-> +              <0x7ef00f80 0x80>,
-> +              <0x7ef01b00 0x200>,
-> +              <0x7ef01f00 0x400>,
-> +              <0x7ef00200 0x80>,
-> +              <0x7ef04300 0x100>,
-> +              <0x7ef20000 0x100>;
-> +        reg-names = "hdmi",
-> +                    "dvp",
-> +                    "phy",
-> +                    "rm",
-> +                    "packet",
-> +                    "metadata",
-> +                    "csc",
-> +                    "cec",
-> +                    "hd";
-> +        clocks = <&firmware_clocks 13>;
-> +        clock-names = "hdmi";
-> +        resets = <&dvp 0>;
-> +        ddc = <&ddc0>;
-> +    };
-> +
-> +...
-> -- 
-> git-series 0.9.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
