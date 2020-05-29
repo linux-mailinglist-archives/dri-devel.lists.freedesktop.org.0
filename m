@@ -2,54 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642481E7F09
-	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 15:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5781E7F0C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 May 2020 15:44:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA00D6E8F8;
-	Fri, 29 May 2020 13:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814196E8F9;
+	Fri, 29 May 2020 13:44:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2A16E8F8
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 13:43:52 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id d191so2543506oib.12
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 06:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6kj/CJF+L2UHdpvK/P2wD3oBVWVP2DW8O+F0IK52fO0=;
- b=W2I6pdlYY2u6b4I9GfyZ31Y2URDUbCIcH0U+OUwgNKuGra95hJXVzA+cKjcLUFAAio
- NAUyXSDWt52uOg4SQBLuh0rNQq855ixkozB9z+DzIzFTqkWU1Nj+W1YNhAQO2jOzvKjd
- x0Tdl0LbgzLGD7ru3Vx6C8lfE95+TGDgq36qE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6kj/CJF+L2UHdpvK/P2wD3oBVWVP2DW8O+F0IK52fO0=;
- b=PCfHru4oLEb3uJJ4Y1dPHgIBNpJniIxoUcpSY0y1IGg0CpIw78jPHhIiwPOJctc808
- lZWWCviYnmfViULGh2L9qX/qo0HETuk2bJAxb5FKjca7R/lzmmc3Sg2ccBNRSxRzB+TF
- ejpMwWISY9bm38PEOaaKniPNfRukVp7Hfx/hQ7lI7QG3oJndxpQEXtVy8dJRw/F35smz
- GkPg7lRKi3+FSqk4+EUOqceWKXnuJQhN7Ifa4zIzCRCB0OZjiEzZvc6dy3H6vVzcOPrR
- wBVDaZK15Tl5oQVtLnloWhn/7PKYbhfUnoQUbbuLvB1Zv4/qt1rMEUSTr2UTlnHuthK+
- HI1Q==
-X-Gm-Message-State: AOAM5312/wpSNjmA8+Mxes275Io0vbn5ZxAKWYxPXDSRG1ZY0stvUa92
- T+fUwOWpSyACn+l2l795KfEVjrC4j30BqzbIW3Rbbw==
-X-Google-Smtp-Source: ABdhPJwYV44vL6M1a/shAGJv5+KMoTcMyQtPbpUtF3MgNlFuuQPgfl5OMTjvfMuXNeWj3lJkbh/d1Ta1vTM4N83Rw8w=
-X-Received: by 2002:a05:6808:282:: with SMTP id
- z2mr5321417oic.101.1590759826715; 
- Fri, 29 May 2020 06:43:46 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D786E8F9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 13:44:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: shadeslayer) with ESMTPSA id DDC4F2A4591
+From: Rohan Garg <rohan.garg@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6] drm/ioctl: Add a ioctl to set and get a label on GEM
+ objects
+Date: Fri, 29 May 2020 15:44:04 +0200
+Message-ID: <4235324.LvFx2qVVIh@saphira>
+In-Reply-To: <CADaigPUZ3j35iBKtOyR=3WWKuu+V_PcPEgrk7-FzZWb6QSabbQ@mail.gmail.com>
+References: <20200528170604.22476-1-rohan.garg@collabora.com>
+ <CADaigPUZ3j35iBKtOyR=3WWKuu+V_PcPEgrk7-FzZWb6QSabbQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
- <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
- <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
- <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
-In-Reply-To: <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 29 May 2020 15:43:35 +0200
-Message-ID: <CAKMK7uHgRwYzD-ZdRegpZnsBrsecRf75SETUtqd+AYEM7Lvx1A@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-To: Alex Deucher <alexdeucher@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,72 +36,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel@collabora.com, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjksIDIwMjAgYXQgMzoyOSBQTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIE1heSAyOSwgMjAyMCBhdCA0OjU5IEFNIFNp
-bW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4gd3JvdGU6Cj4gPgo+ID4gT24gVGh1cnNkYXks
-IE1heSAyOCwgMjAyMCA1OjQ5IFBNLCBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21haWwuY29tPiB3
-cm90ZToKPiA+Cj4gPiA+IE9uIG1vc3QgaGFyZHdhcmUsIHRoZXJlIGlzIGEgbWluaW11bSBwaXRj
-aCBhbGlnbm1lbnQgZm9yIGxpbmVhciBhbmQKPiA+ID4gYW55IGdyZWF0ZXIgbXVsdGlwbGUgb2Yg
-dGhlIGFsaWdubWVudCBpcyBmaW5lLgo+ID4gPgo+ID4gPiBPbiBOYXZpLCB0aGUgcGl0Y2ggaW4g
-Ynl0ZXMgZm9yIGxpbmVhciBtdXN0IGJlCj4gPiA+IGFsaWduKHdpZHRoICogYnBwIC8gOCwgMjU2
-KS4gVGhhdCdzIGJlY2F1c2UgdGhlIGh3IGNvbXB1dGVzIHRoZSBwaXRjaAo+ID4gPiBmcm9tIHRo
-ZSB3aWR0aCBhbmQgZG9lc24ndCBhbGxvdyBzZXR0aW5nIGEgY3VzdG9tIHBpdGNoLiBGb3IgdGhh
-dAo+ID4gPiByZWFzb24sIG11bHRpLUdQVSBzaGFyaW5nIG1pZ2h0IG5vdCBiZSBwb3NzaWJsZSBp
-ZiB0aGUgb3RoZXIgR1BVCj4gPiA+IGRvZXNuJ3QgYWxpZ24gdGhlIHBpdGNoIGluIGV4YWN0bHkg
-dGhlIHNhbWUgd2F5Lgo+ID4KPiA+IE9LLiBJbiB0aGlzIGNhc2UgSSB0aGluayBpdCdzIGZpbmUg
-dG8gbWFrZSB0aGUgRE1BLUJVRiBpbXBvcnQgZmFpbCwgYXMKPiA+IHdlJ3ZlIHN1Z2dlc3RlZCBv
-biBJUkMuIFRoZSBtb3JlLW9yLWxlc3MgcGxhbm5lZCBmaXggZm9yIHRoZXNlIGJ1ZmZlcgo+ID4g
-c2hhcmluZyBpc3N1ZXMgaXMgdG8gcmV2aXZlIHRoZSBidWZmZXIgY29uc3RyYWludHMgcHJvcG9z
-YWwgZnJvbSB0aGUKPiA+IGFsbG9jYXRvciBwcm9qZWN0LiBJdCdzIGEgbG90IG9mIHdvcmsgdGhv
-dWdoLgo+Cj4gSSBnZXQgdGhhdCwgYnV0IHdoeSBleHBsaWNpdGx5IGxpbWl0IG1vZGlmaWVycyB0
-aGVuPyAgU2hvdWxkbid0IHdlIHRyeQo+IGFuZCBkbyB0aGUgYmVzdCB3ZSBjYW4gd2l0aCB3aGF0
-IHdlIGhhdmUgbm93PyAgSWYgbm90IHRoZSBzaXR1YXRpb24gaXMKPiBub3QgbXVjaCBiZXR0ZXIg
-dGhhbiB3aGF0IHdlIGhhdmUgbm93LiAgV2h5IGdvIHRocm91Z2ggdGhlIGVmZm9ydCBvcgo+IGFk
-ZGluZyBtb2RpZmVyIHN1cHBvcnQgaW4gdGhlIGZpcnN0IHBsYWNlIGlmIHRoZXkgYXJlIG1vc3Rs
-eSB1c2VsZXNzPwo+IEkgZG9uJ3QgcXVpdGUgZ2V0IHdoYXQgd2UgYXJlIHRyeWluZyB0byBkbyB3
-aXRoIHRoZW0uICBXaGF0IGRvZXMgdGhpcwo+IG1lYW4gIk1vZGlmaWVycyBtdXN0IHVuaXF1ZWx5
-IGVuY29kZSBidWZmZXIgbGF5b3V0Ij8gIFdlIGhhdmUgYSBudW1iZXIKPiBvZiBidWZmZXIgbGF5
-b3V0cyB0aGF0IGFyZSB0aGUgc2FtZSBmcm9tIGEgZnVuY3Rpb25hbCBzdGFuZHBvaW50LCBidXQK
-PiB0aGV5IGhhdmUgZGlmZmVyZW50IGFsaWdubWVudCByZXF1aXJlbWVudHMgZGVwZW5kaW5nIG9u
-IHRoZSBjaGlwIGFuZAo+IHRoZSBudW1iZXIgb2YgbWVtb3J5IGNoYW5uZWxzLCBldGMuICBXb3Vs
-ZCB0aG9zZSBiZSBjb25zaWRlcmVkIHRoZQo+IHNhbWUgbW9kaWZlcj8gIElmIG5vdCwgdGhlbiB3
-ZSBhcmUgc29ydCBvZiBpbXBsaWNpdGx5IGVuY29kaW5nCj4gYWxpZ25tZW50IHJlcXVpcmVtZW50
-cyBpbnRvIHRoZSBtb2RpZmllci4KClRoZSByaXNrIGlzIGVzc2VudGlhbGx5IHRoYXQgaWYgeW91
-IGhhdmUgdGhlc2UsIGFuZCB0aGV5IHN0aWxsIG1hdGNoLAp0aGVuIGVpdGhlciB5b3UgbmVlZCB0
-byBtYWtlIHN1cmUgZXZlcnkgY2xhaW1zIHN1cHBvcnQgZm9yIHRoZSBmdWxsCnNldCBvZiBtb2Rp
-ZmllcnMsIGFuZCBpdCBnZXRzIGNvbXBsaWNhdGVkLiBPciBvY2Nhc2lvbmFsbHkgc2hhcmluZwpk
-b2Vzbid0IHdvcmsgd2hlbiBpdCBzaG91bGQuCgpJJ2Qgc2F5IHRoZSBtb3JlIHNwZWNpZmljIHRo
-ZSBmb3JtYXQgKGV4dHJlbWUgY2FzZSBpcyBjb21wcmVzc2lvbgpmb3JtYXQgdXNlZCBieSBvbmUg
-dmVuZG9yIG9ubHkpLCB0aGUgbW9yZSB5b3UgY2FuIGp1c3QgYmFrZSBpbiBhcwppbXBsaWNpdCBh
-c3N1bXB0aW9ucyBhbmQgZGVhbCB3aXRoIHRoZSBmYWxsb3V0LiBUaGUgc3R1ZmYgU2ltb24gcGF0
-Y2gKYWRkcyB0byB0aGUgZG9jcyBpcyBhbHNvIGp1c3QgZ2VuZXJhbCBydWxlcywgdGhlcmUncyBh
-bHdheXMgc29tZQpleGNlcHRpb25zLiBQcmV0dHkgbXVjaCBmb3IgZXZlcnkgbW9yZSBjb21wbGV4
-IHNldCBvZiBtb2RpZmllcnMgd2UgaGFkCmxlbmd0aHkgZGlzY3Vzc2lvbnMgdG8gZmlndXJlIG91
-dCB3aGF0IHRoZXkgc2hvdWxkIGxvb2sgbGlrZSwgYW5kIGFzCnlvdSBjYW4gc2VlIGZyb20gc2Ny
-b2xsaW5nIHRocm91Z2ggZHJtX2ZvdXJjYy5oLCB0aGVyZSdzIGEgYnVuY2ggb2YKZmFpcmx5IGRp
-ZmZlcmVudCBhcHByb2FjaGVzIGluIHRoZXJlLiBPbmUgZXh0cmVtZSBpcyBodyB3aGVyZSB5b3UK
-ZW51bWVyYXRlIDEtMiBtb2RpZmllcnMgYW5kIGRvbmUsIG5vdCBhIHNpbmdsZSBmdXJ0aGVyIGNv
-bnN0cmFpbnQKYmV5b25kICJtdXN0IGJlIGFsaWduZWQgbmF0dXJhbGx5IHRvIHRpbGVzIiwgb3Ro
-ZXJzIGFyZSBhIF9sb3RfIG1vcmUKY29tcGxpY2F0ZWQuIElmIHRoZSBtZW1vcnkgY2hhbm5lbHMg
-YW5kIHN0dWZmIG1lYW5pbmdmdWxseSBpbXBhY3RzIGhvdwp5b3UgY2FuIHNoYXJlIGJ1ZmZlcnMg
-KGFuZCBpZiB0aGF0IG1lYW5pbmdmdWxseSBjaGFuZ2VzIGFjcm9zcwpkaWZmZXJlbnQgZ3B1cywg
-d2UgZG9uJ3Qgd2FudCB0byBlbmNvZGUgZXZlcnl0aGluZywgYnV0IG9ubHkgdGhlIHN0dWZmCnRo
-YXQncyBhY3R1YWxseSBpbiB1c2VkIGFuZCBuZWVkZWQgZm9yIHNoYXJpbmcpLCB0aGVuIHRoYXQn
-cyBhIGdvb2QKcmVhc29uIHRvIGFkZCB0aGVtLiBCdXQgaWYgdGhhdCB0aGVuIHJlc3VsdHMgaW4g
-bm8gc2hhcmluZyBwb3NzaWJsZQpwZXIgbW9kaWZpZXJzLCB3aGlsZSB0aGUgaHcgY291bGQgZG8g
-aXQsIHRoZW4gdGhhdCdzIG5vdCBncmVhdCBlaXRoZXIKKGUuZy4gaWYgeW91IGhhdmUgaW50ZWdy
-YXRlZCArIGRpc2NyZXRlIGdwdSBpbiBhbiBvcHRpbXVzIGxhcHRvcCwgYnV0Cm1lbW9yeSBjaGFu
-bmVscyBtaXNtYXRjaCBleGNlcHQgZm9yIHRoZSBidWZmZXIgc2l6ZSB5b3UgY2FyZSBhYm91dCBp
-dAphbGwgbGluZXMgdXApLgotRGFuaWVsCgoKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVu
-Z2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9i
-bG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hey Eric!
+
+On jueves, 28 de mayo de 2020 20:45:24 (CEST) Eric Anholt wrote:
+> On Thu, May 28, 2020 at 10:06 AM Rohan Garg <rohan.garg@collabora.com> 
+wrote:
+> > DRM_IOCTL_HANDLE_SET_LABEL lets you label buffers associated
+> > with a handle, making it easier to debug issues in userspace
+> > applications.
+> > 
+> > DRM_IOCTL_HANDLE_GET_LABEL lets you read the label associated
+> > with a buffer.
+> > 
+> > Changes in v2:
+> >   - Hoist the IOCTL up into the drm_driver framework
+> > 
+> > Changes in v3:
+> >   - Introduce a drm_gem_set_label for drivers to use internally
+> >   
+> >     in order to label a GEM object
+> >   
+> >   - Hoist string copying up into the IOCTL
+> >   - Fix documentation
+> >   - Move actual gem labeling into drm_gem_adopt_label
+> > 
+> > Changes in v4:
+> >   - Refactor IOCTL call to only perform string duplication and move
+> >   
+> >     all gem lookup logic into GEM specific call
+> > 
+> > Changes in v5:
+> >   - Fix issues pointed out by kbuild test robot
+> >   - Cleanup minor issues around kfree and out/err labels
+> >   - Fixed API documentation issues
+> >   - Rename to DRM_IOCTL_HANDLE_SET_LABEL
+> >   - Introduce a DRM_IOCTL_HANDLE_GET_LABEL to read labels
+> >   - Added some documentation for consumers of this IOCTL
+> >   - Ensure that label's cannot be longer than PAGE_SIZE
+> >   - Set a default label value
+> >   - Drop useless warning
+> >   - Properly return length of label to userspace even if
+> >   
+> >     userspace did not allocate memory for label.
+> > 
+> > Changes in v6:
+> >   - Wrap code to make better use of 80 char limit
+> >   - Drop redundant copies of the label
+> >   - Protect concurrent access to labels
+> >   - Improved documentation
+> >   - Refactor setter/getter ioctl's to be static
+> >   - Return EINVAL when label length > PAGE_SIZE
+> >   - Simplify code by calling the default GEM label'ing
+> >   
+> >     function for all drivers using GEM
+> >   
+> >   - Do not error out when fetching empty labels
+> >   - Refactor flags to the u32 type and add documentation
+> >   - Refactor ioctls to use correct DRM_IOCTL{R,W,WR} macros
+> >   - Return length of copied label to userspace
+> > 
+> > Signed-off-by: Rohan Garg <rohan.garg@collabora.com>
+> 
+> I don't think we should land this until it actually does something
+> with the label, that feels out of the spirit of our uapi merge rules.
+> I would suggest looking at dma_buf_set_name(), which would produce
+> useful output in debugfs's /dma_buf/buf_info.  But also presumably you
+> have something in panfrost using this?
+> 
+
+My current short term plan is to hook up glLabel to the labeling functionality 
+in order for userspace applications to debug exactly which buffer objects 
+could be causing faults in the kernel for speedier debugging.
+
+The more long term plan is to label each buffer with a unique id that we can 
+correlate to the GL calls being flushed in order to be able to profile (a set 
+of)  GL calls on various platforms in order to aid driver developers with 
+performance work. This could be something that we corelate on the userspace 
+side with the help of perfetto by using this [1] patch that emits ftrace 
+events.
+
+> > +int drm_gem_get_label(struct drm_device *dev, struct drm_file *file_priv,
+> > +                     struct drm_handle_label *args)
+> > +{
+> > +       struct drm_gem_object *gem_obj;
+> > +       int len, ret;
+> > +
+> > +       gem_obj = drm_gem_object_lookup(file_priv, args->handle);
+> > +       if (!gem_obj) {
+> > +               DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
+> > +               return -ENOENT;
+> > +       }
+> > +
+> > +       if (!gem_obj->label) {
+> > +               args->label = NULL;
+> > +               args->len = 0;
+> > +               return 0;
+> > +       }
+> > +
+> > +       mutex_lock(&gem_obj->bo_lock);
+> > +       len = strlen(gem_obj->label);
+> > +       ret = copy_to_user(u64_to_user_ptr(args->label), gem_obj->label,
+> > +                          min(args->len, len));
+> > +       mutex_unlock(&gem_obj->bo_lock);
+> > +       args->len = len;
+> > +       drm_gem_object_put(gem_obj);
+> > +       return ret;
+> > +}
+> 
+> I think the !gem_obj->label code path also needs to be under the lock,
+> otherwise you could be racing to copy_to_user from a NULL pointer,
+> right?
+> 
+
+You're absolutely correct.
+
+> >  #define DRM_CORE_IOCTL_COUNT   ARRAY_SIZE( drm_ioctls )
+> > 
+> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> > index bb924cddc09c..6fcb7b9ff322 100644
+> > --- a/include/drm/drm_drv.h
+> > +++ b/include/drm/drm_drv.h
+> > @@ -540,6 +540,36 @@ struct drm_driver {
+> > 
+> >                             struct drm_device *dev,
+> >                             uint32_t handle);
+> > 
+> > +       /**
+> > +        * @set_label:
+> > +        *
+> > +        * Label a buffer object
+> > +        *
+> > +        * Called by the user via ioctl.
+> > +        *
+> > +        * Returns:
+> > +        *
+> > +        * Length of label on success, negative errno on failure.
+> > +        */
+> > +       int (*set_label)(struct drm_device *dev,
+> > +                        struct drm_file *file_priv,
+> > +                        struct drm_handle_label *args);
+> > +
+> > +       /**
+> > +        * @get_label:
+> > +        *
+> > +        * Read the label of a buffer object.
+> > +        *
+> > +        * Called by the user via ioctl.
+> > +        *
+> > +        * Returns:
+> > +        *
+> > +        * Length of label on success, negative errno on failiure.
+> > +        */
+> > +       char *(*get_label)(struct drm_device *dev,
+> > +                          struct drm_file *file_priv,
+> > +                          struct drm_handle_label *args);
+> > +
+> 
+> I think the documentation should note that these are optional.
+
+Gotcha.
+
+Thanks!
+Rohan Garg
+
+[1] https://gitlab.freedesktop.org/shadeslayer/linux/-/commit/
+bc9625b0f73f7ccdb04f9cf3bf6c5a609e3bbcbd
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
