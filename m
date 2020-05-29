@@ -1,113 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BCF1E8B57
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 00:28:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008C51E8B9B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 00:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 187776E25A;
-	Fri, 29 May 2020 22:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 887D26E985;
+	Fri, 29 May 2020 22:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
- (mail-eopbgr760043.outbound.protection.outlook.com [40.107.76.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8F96E25A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 22:28:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VbOdmzj3mUlpDGjCEEO2QNePSaMuR6FfYe3To5VoeeymAzNrz3RVQpmKSd9mOZySoay4Wna3BUlzv0karh5AjcW+I+TPOWnyxoN0u/ZM2ZSwLrfsLWEx3Cz2ibT1yh4ogzJM58P9jFHP2YGMmG80lKLzi8Bru2xGpU+OU0vIbKfONmG5P3oPfMQnZxXkso0Lo9cyZ9ZtvobgIo5Me8zUG8ag39XbZpqmIrudZ+36XETzzkCnqCPBQvjlcK0dN1TXvVDfE7bfUQeNr79ZLjSz8RupE1psVrUJxG0FEP4Cl4nUW0J3mkGyZa1rpIvkKGs0guzRWRiDGYAIef3vG1hOHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vBje5mzUrH/KATmqAI3CAFCDZS1TaVqC7RaCVRRKo/Q=;
- b=eu7CZLokL9eAb+05RoPXu/1sT7l2fiJMdAr9y/nyH6bIY2oFDNJcwGetyo0aZEVJUbiGHlEOmOoY2j2otXq66lfsu3mZ6AMJBfX4NtVpU4e2tfNPXHHtjam7UgpPHkEJQaUsSLjk1VeChcg+4d6X7cOols5XMFnK3sNhPfc2YvpifiB7dTCVMjkN0MH0NDfPttVi653c6OTns2itsh5tRhlm+PRoPJ9979dKOsg9kRJK9v8mrbwaxmeQeekbk4Z84+5hQWOvbQbhiD00J+rzsFij4aU6vdjyW7FlykJimacQQ/UfAv+9nY6dc67QvanslSTq77FfbznjautaoDw0cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vBje5mzUrH/KATmqAI3CAFCDZS1TaVqC7RaCVRRKo/Q=;
- b=PNsaQJkGQfNbijtMKyjLhvkiIfScPSZfEIQn6+FVULJoxR/wPXCSlWPLMPLKVFxapCL0ExnmNhXgBQyV8bLDAbDRvCLNvsVoMFv4Y/I9XgnKB+71tjE3XRasuNDlUhAOERHZ4LXB5BpiS9X4VGV/95u+bXNpXXVqwmKm4TCmThA=
-Received: from SN6PR04CA0100.namprd04.prod.outlook.com (2603:10b6:805:f2::41)
- by BN7PR02MB5250.namprd02.prod.outlook.com (2603:10b6:408:30::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Fri, 29 May
- 2020 22:28:30 +0000
-Received: from SN1NAM02FT040.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:f2:cafe::80) by SN6PR04CA0100.outlook.office365.com
- (2603:10b6:805:f2::41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17 via Frontend
- Transport; Fri, 29 May 2020 22:28:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT040.mail.protection.outlook.com (10.152.72.195) with Microsoft SMTP
- Server id 15.20.3045.17 via Frontend Transport; Fri, 29 May 2020 22:28:30
- +0000
-Received: from [149.199.38.66] (port=48604 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1jenTi-0000gf-JF; Fri, 29 May 2020 15:27:50 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1jenUM-00037R-4h; Fri, 29 May 2020 15:28:30 -0700
-Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04TMSNjJ007703; 
- Fri, 29 May 2020 15:28:24 -0700
-Received: from [172.19.2.244] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <hyun.kwon@xilinx.com>)
- id 1jenUF-00036d-UV; Fri, 29 May 2020 15:28:23 -0700
-Date: Fri, 29 May 2020 15:28:23 -0700
-From: Hyun Kwon <hyun.kwon@xilinx.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RFC PATCH 2/2] drm: xlnx: driver for Xilinx DSI TX Subsystem
-Message-ID: <20200529222823.GA32429@smtp.xilinx.com>
-References: <1587417656-48078-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
- <1587417656-48078-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
- <20200504184348.GA3095@smtp.xilinx.com>
- <20200524030813.GF6026@pendragon.ideasonboard.com>
- <20200527175435.GA26381@smtp.xilinx.com>
- <20200527224524.GH6171@pendragon.ideasonboard.com>
+X-Greylist: delayed 728 seconds by postgrey-1.36 at gabe;
+ Fri, 29 May 2020 22:57:43 UTC
+Received: from foo.stuge.se (foo.stuge.se [212.116.89.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3746E985
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 May 2020 22:57:43 +0000 (UTC)
+Received: (qmail 22262 invoked by uid 1000); 29 May 2020 22:45:31 -0000
+Message-ID: <20200529224531.22261.qmail@stuge.se>
+Date: Fri, 29 May 2020 22:45:31 +0000
+From: Peter Stuge <peter@stuge.se>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
+References: <20200529175643.46094-1-noralf@tronnes.org>
+ <20200529175643.46094-5-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200527224524.GH6171@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(396003)(346002)(376002)(136003)(39860400002)(46966005)(186003)(26005)(8676002)(478600001)(44832011)(426003)(83380400001)(33656002)(2906002)(336012)(4326008)(5660300002)(82740400003)(8936002)(9786002)(6916009)(47076004)(316002)(82310400002)(356005)(70586007)(107886003)(70206006)(1076003)(81166007)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 98031c52-bd7c-46df-520a-08d8041f9d6c
-X-MS-TrafficTypeDiagnostic: BN7PR02MB5250:
-X-Microsoft-Antispam-PRVS: <BN7PR02MB525051F2D88E5C578FE47EADD68F0@BN7PR02MB5250.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 04180B6720
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lgLsAvbq0Y5grx7DgwoBQ7YFf7AirJXIBnFK1fb+K0a8lhRQg6k0t5drrYgWUMRenxnjst4a067/19VSXQHQX7GxECEL4cLwByq8j6aY9WdOCaYy19eDwiMKQFFWSUelcx/+kbAorEO3DneAOEJDpmYPowTekomcsh1BCRrPk4yFZddrYSWPFkTJKU1lysbyg/kL3EBxwgnJ1ENcMi3oCihv4YN2FsQLqiqk4MOh0yCTfhTHoiCmeQ2ta3tjHTusPMD1xuSj9HK3/GTyxmmRVVvpT1iyIp5guU4SluOlwL0R8k1xQbwTwwKUiZlL6j3YYEshmvCOaE9WyoqjUiDB76tp9UdjOPWTSdFHwiL//IN5cU6xdg4TA9RfqsVE1n5b+6PoZ72p4a1nlk4sAudVOQ==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 22:28:30.4374 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 98031c52-bd7c-46df-520a-08d8041f9d6c
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB5250
+In-Reply-To: <20200529175643.46094-5-noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,189 +37,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandip Kothari <sandipk@xilinx.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Venkateshwar Rao Gannavarapu <VGANNAVA@xilinx.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-On Wed, 2020-05-27 at 15:45:24 -0700, Laurent Pinchart wrote:
-> Hi Hyun,
-> 
-> On Wed, May 27, 2020 at 10:54:35AM -0700, Hyun Kwon wrote:
-> > On Sat, 2020-05-23 at 20:08:13 -0700, Laurent Pinchart wrote:
-> > > On Mon, May 04, 2020 at 11:43:48AM -0700, Hyun Kwon wrote:
-> > >> On Mon, 2020-04-20 at 14:20:56 -0700, Venkateshwar Rao Gannavarapu wrote:
-> > >>> The Xilinx MIPI DSI Tx Subsystem soft IP is used to display video
-> > >>> data from AXI-4 stream interface.
-> > >>> 
-> > >>> It supports upto 4 lanes, optional register interface for the DPHY,
-> > >> 
-> > >> I don't see the register interface for dphy support.
-> > > 
-> > > I think the D-PHY should be supported through a PHY driver, as it seems
-> > > to be shared between different subsystems.
-> > 
-> > Right, if the logic is shared across subsystems. I can't tell if that's
-> > the case as the IP comes as a single block. Maybe GVRao can confirm.
-> 
-> I believe the CSI2-RX subsystem uses the same D-PHY IP core, but a
-> confirmation would be nice.
-> 
-> > >>> multiple RGB color formats, command mode and video mode.
-> > >>> This is a MIPI-DSI host driver and provides DSI bus for panels.
-> > >>> This driver also helps to communicate with its panel using panel
-> > >>> framework.
-> > >>> 
-> > >>> Signed-off-by: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> > >>> ---
-> > >>>  drivers/gpu/drm/xlnx/Kconfig    |  11 +
-> > >>>  drivers/gpu/drm/xlnx/Makefile   |   2 +
-> > >>>  drivers/gpu/drm/xlnx/xlnx_dsi.c | 755 ++++++++++++++++++++++++++++++++++++++++
-> > > 
-> > > Daniel Vetter has recently expressed his opiion that bridge drivers
-> > > should go to drivers/gpu/drm/bridge/. It would then be
-> > > drivers/gpu/drm/bridge/xlnx/. I don't have a strong opinion myself.
-> > > 
-> > >>>  3 files changed, 768 insertions(+)
-> > >>>  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
-> > >>> 
-> > >>> diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-> > >>> index aa6cd88..73873cf 100644
-> > >>> --- a/drivers/gpu/drm/xlnx/Kconfig
-> > >>> +++ b/drivers/gpu/drm/xlnx/Kconfig
-> > >>> @@ -11,3 +11,14 @@ config DRM_ZYNQMP_DPSUB
-> > >>>  	  This is a DRM/KMS driver for ZynqMP DisplayPort controller. Choose
-> > >>>  	  this option if you have a Xilinx ZynqMP SoC with DisplayPort
-> > >>>  	  subsystem.
-> > >>> +
-> > >>> +config DRM_XLNX_DSI
-> > >>> +        tristate "Xilinx DRM DSI Subsystem Driver"
-> > >>> +        select DRM_MIPI_DSI
-> > >>> +        select DRM_PANEL
-> > >>> +        select DRM_PANEL_SIMPLE
-> > >>> +        help
-> > >>> +	  This enables support for Xilinx MIPI-DSI.
-> > >> 
-> > >> This sentence is not needed with below. Could you please rephrase the whole?
-> > >> 
-> > >>> +	  This is a DRM/KMS driver for Xilinx programmable DSI controller.
-> > >>> +	  Choose this option if you have a Xilinx MIPI DSI-TX controller
-> > >>> +	  subsytem.
-> > >> 
-> > >> These seem incorrectly indented.
-> > >> 
-> > >>> diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
-> > >>> index 2b844c6..b7ee6ef 100644
-> > >>> --- a/drivers/gpu/drm/xlnx/Makefile
-> > >>> +++ b/drivers/gpu/drm/xlnx/Makefile
-> > >>> @@ -1,2 +1,4 @@
-> > >>>  zynqmp-dpsub-objs += zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o
-> > >>>  obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
-> > >>> +
-> > >>> +obj-$(CONFIG_DRM_XLNX_DSI) += xlnx_dsi.o
-> > >>> diff --git a/drivers/gpu/drm/xlnx/xlnx_dsi.c b/drivers/gpu/drm/xlnx/xlnx_dsi.c
-> > >>> new file mode 100644
-> > >>> index 0000000..b8cae59
-> > >>> --- /dev/null
-> > >>> +++ b/drivers/gpu/drm/xlnx/xlnx_dsi.c
-> > >>> @@ -0,0 +1,755 @@
-> > >>> +// SPDX-License-Identifier: GPL-2.0
-> > >>> +/*
-> > >>> + * Xilinx FPGA MIPI DSI Tx Controller driver
-> > >>> + *
-> > >>> + * Copyright (C) 2017 - 2019 Xilinx, Inc.
-> > >>> + *
-> > >>> + * Authors:
-> > >>> + * - Saurabh Sengar <saurabhs@xilinx.com>
-> > >>> + * - Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> > >>> + */
-> > >>> +
-> > >>> +#include <drm/drm_atomic_helper.h>
-> > >>> +#include <drm/drm_connector.h>
-> > >>> +#include <drm/drm_crtc.h>
-> > >>> +#include <drm/drm_crtc_helper.h>
-> > >>> +#include <drm/drm_device.h>
-> > >>> +#include <drm/drm_encoder.h>
-> > >>> +#include <drm/drm_fourcc.h>
-> > >>> +#include <drm/drm_gem_cma_helper.h>
-> > >>> +#include <drm/drm_mipi_dsi.h>
-> > >>> +#include <drm/drm_panel.h>
-> > >>> +#include <drm/drm_probe_helper.h>
-> > >>> +
-> > >>> +#include <linux/clk.h>
-> > >>> +#include <linux/component.h>
-> > >>> +#include <linux/device.h>
-> > >>> +#include <linux/iopoll.h>
-> > >>> +#include <linux/of_device.h>
-> > >>> +#include <linux/of_graph.h>
-> > >>> +#include <linux/phy/phy.h>
-> > >>> +
-> > >>> +#include <video/mipi_display.h>
-> > >>> +#include <video/videomode.h>
-> > >>> +
-> > >>> +/* DSI Tx IP registers */
-> > >>> +#define XDSI_CCR			0x00
-> > >>> +#define XDSI_CCR_COREENB		BIT(0)
-> > >>> +#define XDSI_CCR_SOFTRST		BIT(1)
-> > >>> +#define XDSI_CCR_CRREADY		BIT(2)
-> > >>> +#define XDSI_CCR_CMDMODE		BIT(3)
-> > >>> +#define XDSI_CCR_DFIFORST		BIT(4)
-> > >>> +#define XDSI_CCR_CMDFIFORST		BIT(5)
-> > >>> +#define XDSI_PCR			0x04
-> > 
-> > [snip]
-> > 
-> > >>> +	}
-> > >>> +
-> > >>> +	ret = clk_prepare_enable(dsi->video_aclk);
-> > >>> +	if (ret) {
-> > >>> +		dev_err(dev, "failed to enable video clk %d\n", ret);
-> > >>> +		goto err_disable_dphy_clk;
-> > >>> +	}
-> > >>> +
-> > >>> +	ret = component_add(dev, &xlnx_dsi_component_ops);
-> > > 
-> > > The driver should expose the DSI-TX as a drm_bridge instead of using the
-> > > component framework. You shouldn't register a drm_encoder, and I don't
-> > > think you should register a drm_connector either. Only bridge operations
-> > > should be exposed, and the drm_bridge .attach() operation should return
-> > > an error when DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set. The top-level
-> > > driver using this bridge should create the drm_encoder and
-> > > drm_connector, most likely using drm_bridge_connector_init() to create
-> > > the connector.
-> > 
-> > Not clear to me if this has to be a bridge, and then what it will be attached
-> > to. The IP block itself pretty much self-contains all functionalities already,
-> > just like any other drm encoder / connector, so it doesn't have to be wrapped
-> > around by any other layer. Please let me know your thought, so I can understand
-> > better. :-)
-> 
-> The DSI output will likely often be connected to a DSI panel, but it
-> could also be connected to another bridge, for instance to an ADV7533
-> DSI-to-HDMI bridge. In that case an HDMI connector needs to be created,
-> not a DSI connector. This is why we are moving towards a model where
-> bridge drivers only handle the bridge device, and the drm_encoder and
-> drm_connector is created externally, but the display controller driver.
-> The drm_bridge_connector_init() helper can automate connector creation
-> for a chain of bridges.
-
-Ah I see. Thanks for explanation. It seems relatively new changes and more
-scalable. The above case is less likely with FPGA pipeline. But right, it can
-still happen in certain cases, ex with 96 boards that have DSI interface only,
-and that will help. So I believe encoder / connector drivers (there are more
-in Xilinx tree) need to be converted to bridges, with a new top level driver
-handling the bridges.
-
-Thanks,
--hyun
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTm9yYWxmLAoKTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+IFRoaXMgYWRkcyBhIGdlbmVyaWMg
+VVNCIGRpc3BsYXkgZHJpdmVyIHdpdGggdGhlIGludGVudGlvbiB0aGF0IGl0IGNhbiBiZQo+IHVz
+ZWQgd2l0aCBmdXR1cmUgVVNCIGludGVyZmFjZWQgbG93IGVuZCBkaXNwbGF5cy9hZGFwdGVycy4K
+CkZ1biEKCgo+IFRoZSBMaW51eCBnYWRnZXQgZGV2aWNlIGRyaXZlciB3aWxsIHNlcnZlIGFzIHRo
+ZSBjYW5vbmljYWwgZGV2aWNlCj4gaW1wbGVtZW50YXRpb24uCgpUaGF0J3MgYSBncmVhdCBnb2Fs
+LCBidXQgYXMgcHJvcG9zZWQgaXQgaXNuJ3QgYXMgZ2VuZXJpYyBhcyBJIHdvdWxkIGxpa2UuCgpT
+ZXZlcmFsIExpbnV4L0RSTSBpbnRlcm5hbHMgaGF2ZSAibGVha2VkIiBpbnRvIHRoZSBVU0IgcHJv
+dG9jb2wgLSB0aGlzCnNob3VsZCBiZSBhdm9pZGVkIGlmIHlvdSB3YW50IGRldmljZSBpbXBsZW1l
+bnRhdGlvbnMgb3RoZXIgdGhhbiB5b3VyCmdhZGdldCwgYmVjYXVzZSB0aG9zZSBpbnRlcm5hbHMg
+Y2FuIGNoYW5nZSB3aXRoaW4gTGludXggaW4gdGhlIGZ1dHVyZSwKd2hpbGUgdGhlIHByb3RvY29s
+IG11c3Qgbm90LgoKCj4gSWYgdGhlIGRldmljZSB0cmFuc2ZlciBidWZmZXIgY2FuJ3QgZml0IGFu
+IHVuY29tcHJlc3NlZCBmcmFtZWJ1ZmZlcgo+IHVwZGF0ZSwgdGhlIHVwZGF0ZSBpcyBzcGxpdCB1
+cCBpbnRvIHBhcnRzIHRoYXQgZG8gZml0LgoKRG9lcyAiZGV2aWNlIHRyYW5zZmVyIGJ1ZmZlciIg
+cmVmZXIgdG8gc29tZXRoaW5nIGxpa2UgZGlzcGxheSBSQU0gb24KdGhlIGRldmljZSBzaWRlPyBJ
+ZiBzbywgaXRzIHNpemUgaXMgYSBkZXZpY2UgaW1wbGVtZW50YXRpb24gZGV0YWlsCndoaWNoIHNo
+b3VsZG4ndCBiZSBleHBvc2VkIG92ZXIgVVNCLgoKSXQncyB0cnVlIHRoYXQgdGhlIGhvc3QgZHJp
+dmVzIFVTQiBjb21tdW5pY2F0aW9uIGJ1dCB0aGUgZGV2aWNlIGRlY2lkZXMKd2hldGhlciBpdCB3
+aWxsIGFjY2VwdCBkYXRhIG9yIG5vdC4gSWYgbm90LCBpdCByZXNwb25kcyB3aXRoIGEgTkFLCmhh
+bmRzaGFrZSBpbiB0aGUgT1VUIHRyYW5zYWN0aW9uLCBhbmQgdGhlIGhvc3QgY29udHJvbGxlciB3
+aWxsIHRoZW4KdHJ5IHRvIHJlc2VuZCB0aGUgZGF0YSBsYXRlciwgdW50aWwgdGhlIHRyYW5zZmVy
+IHRpbWVvdXQgZ2l2ZW4gYnkgdGhlCmhvc3Qgc29mdHdhcmUgZXhwaXJlcy4gUmV0cmllcyBhcmUg
+aW52aXNpYmxlIHRvIGhvc3Qgc29mdHdhcmUuCgpUaGUgcG9pbnQgaXM6IFVTQiBoYXMgbmF0aXZl
+IGZsb3cgY29udHJvbCBvbiB0aGUgbG93ZXN0IGxldmVsOyB0aGF0J3MKZmFyIG1vcmUgZWZmaWNp
+ZW50IHRoYW4gYW55dGhpbmcgdGhlIGFwcGxpY2F0aW9uIGNhbiBjb25zdHJ1Y3QsIGFuZApmbG93
+IGNvbnRyb2wgaW4gdGhlIGFwcGxpY2F0aW9uIHByb3RvY29sIHdvdWxkIGJlIHJlZHVuZGFudC4K
+CldoZW4gdXNpbmcgZ2FkZ2V0ZnMgSUlSQyBkZXZpY2UgY29udHJvbGxlcnMgTkFLIGFzIGxvbmcg
+YXMgdGhlCnVzZXJzcGFjZSBwcm9jZXNzIGRvZXNuJ3Qgd3JpdGUgbmV3IGRhdGEgdG8gdGhlIGVw
+P291dC1idWxrIGZkLgpIYXZlIHlvdSB0cmllZC9zZWVuIHRoaXM/CgoKPiBUaGUgZHJpdmVyIHN1
+cHBvcnRzIGEgb25lIGJpdCBtb25vY2hyb21lIHRyYW5zZmVyIGZvcm1hdDogUjEuIFRoaXMgaXMg
+bm90Cj4gaW1wbGVtZW50ZWQgaW4gdGhlIGdhZGdldCBkcml2ZXIuIEl0IGlzIGFkZGVkIGluIHBy
+ZXBhcmF0aW9uIGZvciBmdXR1cmUKPiBtb25vY2hyb21lIGUtaW5rIGRpc3BsYXlzLgoKVGhlIFIx
+IGlkZWEgaXMgZ3JlYXQhCgoKPiAtIFVzZSBkb25hdGVkIE9wZW5tb2tvIFVTQiBwaWQKCklmIExp
+bnV4IHdpbGwgYmUgdGhlIHJlZmVyZW5jZSBmb3IgdGhpcyBwcm90b2NvbCB0aGVuIHBlcmhhcHMg
+YSBQSUQKdW5kZXIgdGhlIExpbnV4IEZvdW5kYXRpb24gVklEICgxZDZiKSBtYWtlcyBtb3JlIHNl
+bnNlPwoKQnV0OiBBIFBJRCBhcHBsaWVzIG9uIGRldmljZSBsZXZlbCwgbm90IHRvIGludGVyZmFj
+ZXMuCgpVbnRpbCB0aGlzIHByb3RvY29sIGJlY29tZXMgYSBVU0ItSUYgZGV2aWNlIGNsYXNzIG1h
+eWJlIGl0J3MgYmV0dGVyCnRvIGNyZWF0ZSBhIHByb2JlIGZvciBHVUQgaW50ZXJmYWNlKHMpIHJh
+dGhlciB0aGFuIGJpbmRpbmcgdG8gUElEPwoKRG9lcyB0aGUgZHJpdmVyIGJ0dy4gYWxyZWFkeSBz
+dXBwb3J0IGEgY29tcG9zaXRlIGRldmljZSB3aXRoIG11bHRpcGxlIEdVRAppbnRlcmZhY2VzPyBT
+YXkgYSBtaWNyb2NvbnRyb2xsZXIgd2l0aCB0d28gaW5kZXBlbmRlbnQgcGFuZWxzLiBJdCBzZWVt
+cyBubz8KCklmIHllcywgd291bGQgYW55IG9mIHRoZSBjb250cm9sIHJlcXVlc3RzIGN1cnJlbnRs
+eSBzZW50IHRvIHRoZSBpbnRlcmZhY2UKYmUgYmV0dGVyIGRpcmVjdGVkIGF0IHRoZSBkZXZpY2U/
+IElmIHNvLCB0aGVuIGEgUElEIG1pZ2h0IG1ha2Ugc2Vuc2UgYWdhaW4sCmJ1dCBpdCdzIHN0aWxs
+IG5vdCBwb3NzaWJsZSB0byBjcmVhdGUgYSBjb21wb3NpdGUgZGV2aWNlIHdoaWNoIHVzZXMgdGhp
+cwpwcm90b2NvbCwgd2l0aG91dCByaXNraW5nIGNvbGxpc3Npb25zIHdpdGggb3RoZXIgdmVuZG9y
+IHNwZWNpZmljIHJlcXVlc3RzCm9uIG90aGVyICh2ZW5kb3Igc3BlY2lmaWMpIGludGVyZmFjZXMs
+IHRoYXQgd291bGQgYmUgYSByZWFsIHNoYW1lLgoKSSBjYW4gaW1hZ2luZSBhIGNvbXBvc2l0ZSBk
+ZXZpY2Ugd2FudGluZyB0byBpbXBsZW1lbnQgSElEIGFuZCBHVUQsCmxldCdzIG1ha2Ugc3VyZSB0
+aGF0IGl0J3MgcG9zc2libGUuCgoKT24gdG8gdGhlIGNvZGUuCgoKPiArc3RhdGljIGludCBndWRf
+ZHJtX3VzYl9jb250cm9sX21zZyhzdHJ1Y3QgdXNiX2RldmljZSAqdXNiLCB1OCBpZm51bSwgYm9v
+bCBpbiwKPiArCQkJCSAgIHU4IHJlcXVlc3QsIHUxNiB2YWx1ZSwgdm9pZCAqYnVmLCBzaXplX3Qg
+bGVuLAo+ICsJCQkJICAgYm9vbCBjaGVja19sZW4pCj4gK3sKPiArCXU4IHJlcXVlc3R0eXBlID0g
+VVNCX1RZUEVfVkVORE9SIHwgVVNCX1JFQ0lQX0lOVEVSRkFDRTsKClRoaXMgdGFrZXMgc3RydWN0
+IHVzYl9kZXZpY2UgcmF0aGVyIHRoYW4gc3RydWN0IHVzYl9pbnRlcmZhY2UgLSBhZ2FpbiwKd291
+bGQgdGhpcyBhY3R1YWxseSB3b3JrIHdpdGggYSBjb21wb3NpdGUgZGV2aWNlPyBUaGUgZHJpdmVy
+IGRvZXNuJ3QKZXZlciBjbGFpbSB0aGUgaW50ZXJmYWNlIHNvIEkgZ3Vlc3Mgbm8/CgoKPiArc3Rh
+dGljIGludCBndWRfZ2V0X3ZlbmRvcl9kZXNjcmlwdG9yKHN0cnVjdCB1c2JfaW50ZXJmYWNlICpp
+bnRlcmZhY2UsCj4gKwkJCQkgICAgIHN0cnVjdCBndWRfZHJtX2Rpc3BsYXlfZGVzY3JpcHRvciAq
+ZGVzYykKPiArewouLgo+ICsJcmV0ID0gZ3VkX2RybV91c2JfY29udHJvbF9tc2codXNiLCBpZm51
+bSwgdHJ1ZSwgVVNCX1JFUV9HRVRfREVTQ1JJUFRPUiwKPiArCQkJCSAgICAgIEdVRF9EUk1fVVNC
+X0RUX0RJU1BMQVkgPDwgOCwgYnVmLCBzaXplb2YoKmRlc2MpLCBmYWxzZSk7CgpHVURfRFJNX1VT
+Ql9EVF9ESVNQTEFZIGlzIGRlZmluZWQgYXMgKFVTQl9UWVBFX1ZFTkRPUiB8IDB4NCksCmJ1dCBV
+U0JfVFlQRV9WRU5ET1Igb25seSBhcHBsaWVzIHRvIGJtUmVxdWVzdFR5cGVbNjo1XSBpbiBjb250
+cm9sIHRyYW5zZmVycywKbm93aGVyZSBlbHNlLiBJIGtub3cgb2Ygbm8gc3RhbmRhcmRpemVkIHdh
+eSB0byBpbnRyb2R1Y2UgdmVuZG9yLXNwZWNpZmljCmRlc2NyaXB0b3JzLiBTcXVhdHRpbmcgaXMg
+cG9zc2libGUsIGJ1dCBJIHRoaW5rIGl0IHdvdWxkIGJlIG5pY2UgdG8gZG8KYmV0dGVyIGhlcmUu
+IEl0IGlzIGVhc3kgZW5vdWdoLgoKSXQgY291bGQgYmUgYXJndWVkIHRoYXQgdGhlIHZlbmRvciBz
+cGVjaWZpYyBpbnRlcmZhY2UgZ2l2ZXMgZmxleGliaWxpdHkgaGVyZSwKYnV0IGFjdHVhbGx5IGl0
+IGp1c3QgbWVhbnMgdGhhdCB0aGUgc2VtYW50aWNzIG9mIHRoZSBzdGFuZGFyZGl6ZWQgYW5kCndl
+bGwtZGVmaW5lZCBVU0JfUkVRX0dFVF9ERVNDUklQVE9SIGhhdmUgYmVlbiBkdXBsaWNhdGVkIGJ5
+IHRoaXMgcHJvdG9jb2wsCnRoYXQgaXMgbm90IHZlcnkgY29tbW9uIC0gYnV0IGlmIHlvdSB3YW50
+IHRvIGdvIGFoZWFkIHRoZW4gYXQgbGVhc3QgZHJvcApVU0JfVFlQRV9WRU5ET1IgZnJvbSB0aGUg
+R1VEX0RSTV9VU0JfRFRfRElTUExBWSBkZWZpbml0aW9uLgoKTWF5YmUgaXQncyBnb29kIHRvIHRo
+aW5rIGFib3V0IHRoZSBkYXRhIGV4Y2hhbmdlIHNvbWUgbW9yZSAtIGFueXRoaW5nIG5vdAp0cmFu
+c2ZlcmVkIGJ5IHN0YW5kYXJkaXplZCBVU0JfUkVRX0dFVF9ERVNDUklQVE9SIChibVJlcXVlc3RU
+eXBlIDEwMDAwMDAwQjsKRGV2aWNlLXRvLWhvc3QgZGF0YSwgU3RhbmRhcmQgdHlwZSwgRGV2aWNl
+IHJlY2lwaWVudCkgaXNuJ3QgYWN0dWFsbHkKYSBkZXNjcmlwdG9yLCBpdCdzIHZlbmRvci1zcGVj
+aWZpYywgZnJlZS1mb3JtYXQgZGF0YS4gRG9lcyB0aGF0IGVuYWJsZQphbnkgc2ltcGxpZmljYXRp
+b25zPwoKCj4gK3N0YXRpYyBpbnQgZ3VkX3VzYl9nZXRfc3RhdHVzKHN0cnVjdCB1c2JfZGV2aWNl
+ICp1c2IsIHU4IGlmbnVtKQo+ICt7Cj4gKwlzdHJ1Y3QgZ3VkX2RybV9yZXFfZ2V0X3N0YXR1cyAq
+c3RhdHVzOwo+ICsJaW50IHJldCwgc3RhdHVzX3JldHJpZXMgPSAyMDAwIC8gNTsgLyogbWF4aW11
+bSB3YWl0IH4yIHNlY29uZHMgKi8KPiArCXVuc2lnbmVkIGxvbmcgZGVsYXkgPSA1MDA7Cj4gKwo+
+ICsJc3RhdHVzID0ga21hbGxvYyhzaXplb2YoKnN0YXR1cyksIEdGUF9LRVJORUwpOwo+ICsJaWYg
+KCFzdGF0dXMpCj4gKwkJcmV0dXJuIC1FTk9NRU07Cj4gKwo+ICsJLyoKPiArCSAqIFBvbGwgZHVl
+IHRvIGxhY2sgb2YgZGF0YS9zdGF0dXMgc3RhZ2UgY29udHJvbCBvbiB0aGUgZ2FkZ2V0IHNpZGUu
+CgpJIGhvcGUgd2UgY2FuIGZpbmQgc29tZXRoaW5nIGJldHRlciBoZXJlLgoKRG9lc24ndCBnYWRn
+ZXRmcyBhbGxvdyB1c2Vyc3BhY2UgdG8gKGluZGlyZWN0bHkpIGNvbnRyb2wgdGhlIHN0YXR1cyBz
+dGFnZSwKYXMgSSB3cm90ZSBhYm92ZT8KCgo+ICsJICogSWYgd2UgZGlkIG5vdCB1c2UgcG9sbGlu
+ZyBhbmQgZ2F2ZSB1cCBoZXJlIGFmdGVyIHdhaXRpbmcgMiBzZWNvbmRzLAo+ICsJICogdGhlIHdv
+cmtlciBpbiB0aGUgZ2FkZ2V0IHdvdWxkIGZpbmFsbHkgZ2V0IHRvIHF1ZXVpbmcgdXAgdGhlIHN0
+YXR1cwo+ICsJICogcmVzcG9ucywgYnV0IGJ5IHRoYXQgdGltZSB0aGUgaG9zdCBoYXMgbW92ZWQg
+b24uIFRoZSBnYWRnZXQgc2lkZQo+ICsJICogKGF0IGxlYXN0IGR3YzIpIHdvdWxkIG5vdyBiZSBs
+ZWZ0IGluIGEgbm9uLXJlY292ZXJhYmxlIHN0YXRlLgoKSW5kZXBlbmRlbnRseSBvZiB0aGUgYWJv
+dmUsIGhvdyBkb2VzIHRoZSBnYWRnZXQgYmVjb21lIG5vbi1yZWNvdmVyYWJsZT8KCklmIGEgdHJh
+bnNmZXIgdGltZXMgb3V0IG9uIHRoZSBob3N0IHdpdGhvdXQgb3RoZXIgZXJyb3IgdGhlbiB0aGUg
+ZGV2aWNlCmhhcyByZXBsaWVkIHdpdGggTkFLIGluIHRoZSBkYXRhIHN0YWdlIHRyYW5zYWN0aW9u
+cyBzZW50IGJ5IHRoZSBob3N0CnVudGlsIHRoZSBob3N0IHN0b3BwZWQgdHJ5aW5nLiBUaGUgZGV2
+aWNlIGNvbnRyb2xsZXIgdGhlbiBzZWVzIG5vCmZ1cnRoZXIgZGF0YSBzdGFnZSB0cmFuc2FjdGlv
+bnMgYW5kIHNob3VsZG4ndCBiZSBpbiBhIHdlaXJkIHN0YXRlPwoKCj4gKwkgKiBXb3JzdCBjYXNl
+IGNvbW1pdCB0aW1lb3V0IGluIERSTSBjYW4gYmUgdGVucyBvZiBzZWNvbmRzICh3YWl0IGZvcgo+
+ICsJICogdmFyaW91cyBfZG9uZSBjb21wbGV0aW9ucykuCj4gKwkgKi8KPiArCXdoaWxlIChzdGF0
+dXNfcmV0cmllcy0tKSB7Cj4gKwkJcmV0ID0gZ3VkX2RybV91c2JfY29udHJvbF9tc2codXNiLCBp
+Zm51bSwgdHJ1ZSwgVVNCX1JFUV9HRVRfU1RBVFVTLCAwLAo+ICsJCQkJCSAgICAgIHN0YXR1cywg
+c2l6ZW9mKCpzdGF0dXMpLCB0cnVlKTsKCkluc3RlYWQgb2YgdGhpcyBsb29wIGEgc2luZ2xlIHJl
+cXVlc3Qgd2l0aCAyMDAwIG1zIHRpbWVvdXQgd291bGQKYXZvaWQgc29mdHdhcmUgb3ZlcmhlYWQg
+b24gdGhlIGhvc3QuIFRoZSBoZWFkZXIgZmlsZSBzYXlzIHRoYXQKMCA9PSBQRU5ESU5HIGlzIHRo
+ZSBvbmx5IGV4aXQgY29uZGl0aW9uIGZvciB0aGUgbG9vcCBiZXNpZGVzIHRpbWVvdXQsCmFzIGxv
+bmcgYXMgdGhlcmUgYXJlIG5vIG90aGVyIGNvbmRpdGlvbnMgaXQncyBiZXR0ZXIgdG8ganVzdCB3
+YWl0IGZvcgp0aGUgdGltZW91dC4KCgo+ICsJCWlmICghKHN0YXR1cy0+ZmxhZ3MgJiBHVURfRFJN
+X1NUQVRVU19QRU5ESU5HKSkgewo+ICsJCQlyZXQgPSAtc3RhdHVzLT5lcnJubzsKClNvIHRoaXMg
+ZXhwb3NlcyBlcnJubyAoYW4gaW1wbGVtZW50YXRpb24gZGV0YWlsKSBpbiB0aGUgYnVzIHByb3Rv
+Y29sLAphdCBhbiBhYnNvbHV0ZSBtaW5pbXVtIGl0IG5lZWRzIHNvbWUgbGVfdG9fY3B1KCkgYWRq
+dXN0bWVudCwgYnV0IEkKdGhpbmsgaXQgd291bGQgYmUgY2xlYW5lciB0byBkZWZpbmUgdGhlIHNw
+ZWNpZmljIGVycm9ycyB0aGF0IGFyZQphcHBsaWNhdGlvbiByZWxldmFudC4KCgpJZiB0aGlzIGdl
+dF9zdGF0dXMgdGhpbmcgaXMgaW4gZmFjdCByZWFsbHkgcmVhbGx5IHJlcXVpcmVkIHRoZW4gaG93
+IGFib3V0CmFkZGluZyBhbiBpbnRlcnJ1cHQgSU4gZW5kcG9pbnQgZm9yIGl0PyBJIHRoaW5rIHRo
+YXQgd291bGQgYmUgY2xlYW5lciBhbmQKaXQgY29zdHMgbGVzcyBidXMgdGltZSB3aXRoIGFyZ3Vh
+Ymx5IGxvd2VyIGxhdGVuY3kuIFNlZSBlLmcuIHVzYmxwLgoKCj4gK3N0YXRpYyBzdHJ1Y3QgZHJt
+X2dlbV9vYmplY3QgKgo+ICtndWRfZHJtX2RyaXZlcl9nZW1fY3JlYXRlX29iamVjdChzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2LCBzaXplX3Qgc2l6ZSkKPiArewo+ICsJc3RydWN0IGRybV9nZW1fc2ht
+ZW1fb2JqZWN0ICpzaG1lbTsKLi4KPiArCS8qCj4gKwkgKiBUaGlzIGRvZXNuJ3QgbWFrZSBhIGRp
+ZmZlcmVuY2Ugb24geDg2LCBidXQgb24gQVJNIChwaTQpIGl0IHdhcwo+ICsJICogbmVjZXNzYXJ5
+IHRvIGF2b2lkIGJsYWNrIGxpbmVzIGFsbCBvdmVyIGFuZCBpdCBtYWRlIGl0IHBvc3NpYmxlIHRv
+Cj4gKwkgKiBjb21wcmVzcyBkaXJlY3RseSBmcm9tIHRoZSBmcmFtZWJ1ZmZlciB3aXRob3V0IHBl
+cmZvcm1hbmNlIGRyb3AuCj4gKwkgKi8KPiArCXNobWVtLT5tYXBfY2FjaGVkID0gdHJ1ZTsKCkNh
+biB5b3UgZXhwbGFpbiB3aGF0IHRoaXMgZG9lcyBleGFjdGx5PwoKCj4gK3N0YXRpYyBpbnQgZ3Vk
+X2RybV9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZXJmYWNlLAo+ICsJCQkgY29uc3Qg
+c3RydWN0IHVzYl9kZXZpY2VfaWQgKmlkKQo+ICt7Ci4uCj4gKwlzdHJ1Y3QgZ3VkX2RybV9kaXNw
+bGF5X2Rlc2NyaXB0b3IgZGVzYzsKLi4KPiArCQkvKiBDaGVjayBpZiB0aGUgZGV2aWNlIGNhbiBz
+dXBwb3J0IHVzICovCj4gKwkJKnZlcnNpb24gPSAxOwo+ICsJCXJldCA9IGd1ZF9kcm1fdXNiX2Nv
+bnRyb2xfbXNnKHVzYiwgaWZudW0sIGZhbHNlLCBHVURfRFJNX1VTQl9SRVFfU0VUX1ZFUlNJT04s
+Cj4gKwkJCQkJICAgICAgMCwgdmVyc2lvbiwgc2l6ZW9mKCp2ZXJzaW9uKSwgdHJ1ZSk7Cj4gKwkJ
+aWYgKCFyZXQpCj4gKwkJCXJldCA9IGd1ZF91c2JfZ2V0X3N0YXR1cyh1c2IsIGlmbnVtKTsKPiAr
+CQlrZnJlZSh2ZXJzaW9uKTsKPiArCQlpZiAocmV0KSB7Cj4gKwkJCWRldl9lcnIoZGV2LCAiUHJv
+dG9jb2wgdmVyc2lvbiAldSBpcyBub3Qgc3VwcG9ydGVkXG4iLCBkZXNjLmJWZXJzaW9uKTsKPiAr
+CQkJcmV0dXJuIC1FUFJPVE9OT1NVUFBPUlQ7CgpDb3VsZCd0IHRoaXMgd29yayB3aXRob3V0IF9n
+ZXRfc3RhdHVzKCk/IFdoYXQgZG9lcyB1c2JfY29udHJvbF9tc2coKQpyZXR1cm4gZm9yIGEgU1RB
+TEwgaGFuZHNoYWtlIGluIHRoZSBkYXRhIHN0YWdlPwoKQW55d2F5LCB1c2JfZ2V0X3N0YXR1cygp
+ICh3aGljaCBJIGd1ZXNzIGluc3BpcmVkIGd1ZF91c2JfZ2V0X3N0YXR1cygpKSBpcwp1c3VhbGx5
+IGZvciBhZG1pbmlzdHJhdGl2ZSBkZXZpY2Ugc3RhdHVzIHJhdGhlciB0aGFuIGFwcGxpY2F0aW9u
+IHN0YXR1cy4KSWRlYWxseSB0aGUgYXBwbGljYXRpb24gc3RhdHVzIGNhbiBiZSBkZWR1Y2VkIGJ5
+IGhvc3Qgc29mdHdhcmUgYmFzZWQgb24KZGV2aWNlIHJlc3BvbnNlcy4KCgouLgo+ICsJZ2RybS0+
+Y29tcHJlc3Npb24gPSBkZXNjLmJDb21wcmVzc2lvbiAmIEdVRF9EUk1fQ09NUFJFU1NJT05fTFo0
+OwoKVGhpcyBpcyBhIHBlcmZlY3QgZXhhbXBsZSBvZiBkb2luZyB0aGluZ3MgcmlnaHQhIDopCgpH
+VURfRFJNX0NPTVBSRVNTSU9OX0xaNCBpcyBzcGVjaWZpYyBmb3IgdGhpcyBwcm90b2NvbCwgbm90
+IERSTS9MaW51eC4KCldoYXQgZG8geW91IHRoaW5rIGFib3V0IHMsR1VEX0RSTV8sR1VEXywgZm9y
+IHN1Y2ggbmFtZXM/CgpBbmQgd291bGQgaXQgbWFrZSBzZW5zZSB0byBleHBvc2UgdGhlIHByb3Rv
+Y29sIChuYW1lcywgc3RydWN0dXJlcykgaW4gdWFwaT8KCk9yIGF0IGxlYXN0IGluIERvY3VtZW50
+YXRpb24vID8KCgo+ICtzdGF0aWMgc2l6ZV90IGd1ZF9kcm1feHJnYjg4ODhfdG9fcjEyNCh1OCAq
+ZHN0LCBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQsCj4gKwkJCQkgICAgICAg
+dm9pZCAqc3JjLCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiArCQkJCSAgICAgICBzdHJ1
+Y3QgZHJtX3JlY3QgKnJlY3QpCj4gK3sKLi4KPiArCWJ1ZiA9IGttYWxsb2Mod2lkdGggKiBoZWln
+aHQsIEdGUF9LRVJORUwpOwo+ICsJaWYgKCFidWYpCj4gKwkJcmV0dXJuIGxlbjsgLyogVG8ga2Vl
+cCBsb2dpYyBzaW1wbGUsIGp1c3QgdHJhbnNtaXQgZ2FyYmFnZSAqLwoKT3VjaCEgU2hvdWxkbid0
+IHRoaXMgYnViYmxlIHVwIHNvbWVob3c/IElmIHRoZXJlIGlzIG1lbW9yeSBwcmVzc3VyZQp0aGVu
+IEkgcmVhbGx5IHRoaW5rIHNvbWV0aGluZyBhYm92ZSBzaG91bGQgZmFpbC4KCgo+ICtzdGF0aWMg
+aW50IGd1ZF9kcm1fZmJfZmx1c2goc3RydWN0IGd1ZF9kcm1fZGV2aWNlICpnZHJtLCBzdHJ1Y3Qg
+ZHJtX2ZyYW1lYnVmZmVyICpmYiwKPiArCQkJICAgIGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2lu
+Zm8gKmZvcm1hdCwgc3RydWN0IGRybV9yZWN0ICpyZWN0KQo+ICt7CgpUaGlzIGlzIGluIHRoZSBo
+b3QgcGF0aCwgcmlnaHQ/CgoKPiArCXJldCA9IGd1ZF9kcm1fdXNiX3NldChnZHJtLCBHVURfRFJN
+X1VTQl9SRVFfU0VUX0JVRkZFUiwgMCwgJnJlcSwgc2l6ZW9mKHJlcSkpOwo+ICsJaWYgKHJldCkK
+PiArCQlnb3RvIHZ1bm1hcDsKPiArCj4gKwlyZXQgPSB1c2JfYnVsa19tc2coZ2RybS0+dXNiLCBn
+ZHJtLT5idWxrX3BpcGUsIGdkcm0tPmJ1bGtfYnVmLCB0cmxlbiwKPiArCQkJICAgJmFjdHVhbF9s
+ZW5ndGgsIG1zZWNzX3RvX2ppZmZpZXMoMzAwMCkpOwoKSSB3b3VsZCBkZWZpbml0ZWx5IGNoYW5n
+ZSB0aGlzIHBhdHRlcm4gc28gdGhhdCB0aGUgaG90IHBhdGggaGFzIG9ubHkgYnVsawp0cmFuc2Fj
+dGlvbnMsIGlkZWFsbHkgYSBzaW5nbGUgdHJhbnNmZXIuIFRoZSBjb250cm9sIHRyYW5zZmVyIHdh
+c3RlcwpwcmVjaW91cyBidXMgdGltZSBpbiB0aGUgaG90IHBhdGguCgpNYXliZSBpdCdzIGluc2ln
+bmlmaWNhbnQgd2l0aCBGSEQgZGF0YSBidXQgdGhlbiBhZ2FpbiwgdGhlIG1vcmUgZGF0YQp0aGUg
+bGVzcyBvdmVyaGVhZCB3ZSB3YW50LCBhbmQgaW4gYW55IGNhc2UgZm9yIHNtYWxsIFIxIGRhdGEg
+dGhlCmNvbnRyb2wgdHJhbnNmZXIgaXMgZWFzaWx5IG1vcmUgZXhwZW5zaXZlIHRoYW4gdGhlIGRh
+dGEgaXRzZWxmIQoKQSBjb250cm9sIHRyYW5zZmVyIHNvbWVob3cgY29tcGFyZXMgdG8gYW4gaW9j
+dGwoKSBmcm9tIHVzZXJzcGFjZSB3aXRoCm11Y2ggY29udGV4dCBzd2l0Y2hpbmcsIHdoaWxlIGEg
+YnVsayB0cmFuc2ZlciBpcyBtb3JlIGxpa2UgbW1hcGVkIGtlcm5lbAptZW1vcnkgb3IgYWlvLgoK
+V2h5IG5vdCBqdXN0IGFkZCB0aGUgdmFsdWVzIGluIHN0cnVjdCBndWRfZHJtX3JlcV9zZXRfYnVm
+ZmVyIGFzIGEgaGVhZGVyCmJlZm9yZSB0aGUgZGF0YSBpbnN0ZWFkPwoKVGhhdCB3b3VsZCBtZWFu
+IHR3byBidWxrIHRyYW5zZmVycywgYnV0IHRoZXkgY291bGQgYmUgYXN5bmNocm9ub3VzLCBhdCBs
+ZWFzdAp0aGUgZmlyc3QsIGJ1dCBtYWtpbmcgYm90aCBhc3luYyB3b3VsZCBhbHNvIGZpdCBtb3Jl
+IGRhdGEgb250byB0aGUgYnVzLgpNYXliZSBsYXRlci4KCgo+ICsgKiBzdHJ1Y3QgZ3VkX2RybV9y
+ZXFfZ2V0X2Nvbm5lY3RvciAtIENvbm5lY3RvciBkZXNjcmlwdG9yCj4gKyAqIEBjb25uZWN0b3Jf
+dHlwZTogQ29ubmVjdG9yIHR5cGUgKERSTV9NT0RFX0NPTk5FQ1RPUl8qKQo+ICsgKiBAZmxhZ3M6
+IEZsYWdzCj4gKyAqIEBudW1fcHJvcGVydGllczogTnVtYmVyIG9mIHN1cHBvcnRlZCBwcm9wZXJ0
+aWVzCj4gKyAqLwo+ICtzdHJ1Y3QgZ3VkX2RybV9yZXFfZ2V0X2Nvbm5lY3RvciB7Cj4gKwlfX3U4
+IGNvbm5lY3Rvcl90eXBlOwoKVGhpcyBpcyBpbnRlbmRlZCBmb3IgdGhlIChHZW5lcmljKSBVU0Ig
+RGlzcGxheSB0byByZXBvcnQgdGhlIGNvbm5lY3RvciB0eXBlCnVzZWQgZm9yIGl0cyBwYW5lbCwg
+cmlnaHQ/IEl0IHNob3VsZCBub3QgdXNlIExpbnV4L0RSTS1pbnRlcm5hbCB2YWx1ZXMgc3VjaAph
+cyBEUk1fTU9ERV9DT05ORUNUT1JfU1BJIHRvIGRvIHNvLCBpZiBpdCB3YW50cyB0byBiZSBnZW5l
+cmljIGFuZCBzdGFibGUKb3ZlciB0aW1lLgoKV2h5IGRvZXMgdGhlIGhvc3Qgc29mdHdhcmUgbmVl
+ZCB0byBrbm93IGFueXRoaW5nIGFib3V0IHRoZSBjb25uZWN0b3IKaW5zaWRlIHRoZSBkZXZpY2Us
+IGFueXdheT8gV2l0aCBhIG1pY3JvY29udHJvbGxlciB0aGF0IGNvdWxkIGJlIGFueXRoaW5nLApl
+c3BlY2lhbGx5IHdpdGggYWN0dWFsIFIxIGRpc3BsYXlzLgoKV291bGQgaXQgbWFrZSBzZW5zZSB0
+byBpbnRyb2R1Y2UgRFJNX01PREVfQ09OTkVDVE9SX1VTQiBvbiB0aGUgaG9zdCwgYW5kCmtlZXAg
+dGhpcyBpbXBsZW1lbnRhdGlvbiBkZXRhaWwgaW4gdGhlIGRldmljZT8KCk1ha2UgdGhlIHByb3Rv
+Y29sIGFwcGxpY2F0aW9uIHNwZWNpZmljIGFuZCBhdm9pZCBpbXBsZW1lbnRhdGlvbiBzcGVjaWZp
+Y3MuCgoKPiArICogc3RydWN0IGd1ZF9kcm1fcmVxX2dldF9jb25uZWN0b3Jfc3RhdHVzIC0gQ29u
+bmVjdG9yIHN0YXR1cwoKSG93IGRvZXMgdGhpcyB3b3JrIGlmIGFuZCB3aGVuIHRoZSBzdGF0dXMg
+b24gdGhlIGRldmljZSBjaGFuZ2VzPwoKCj4gKy8qCj4gKyAqIEludGVybmFsIG1vbm9jaHJvbWUg
+dHJhbnNmZXIgZm9ybWF0IHByZXNlbnRlZCB0byB1c2Vyc3BhY2UgYXMgWFJHQjg4ODguCj4gKyAq
+IFBpeGVsIGxpbmVzIGFyZSBieXRlIGFsaWduZWQuCj4gKyAqLwo+ICsjZGVmaW5lIEdVRF9EUk1f
+Rk9STUFUX1IxCWZvdXJjY19jb2RlKCdSJywgJzEnLCAnICcsICcgJykKClRoaXMgaXMgYWxzbyBh
+IGRhdGEgZm9ybWF0IG92ZXIgVVNCLCByaWdodD8gVGhlbiBpdCdzIG5vdCByZWFsbHkgaW50ZXJu
+YWwsCmJlY2F1c2UgaXQgYWxzbyBleGlzdHMgb24gdGhlIGRldmljZS4gSSBoYXZlIHNldmVyYWwg
+dXNlcyBmb3IgdGhpcywgYnV0Cm5vbmUgd2lsbCBiZSB1c2luZyBMaW51eCBnYWRnZXRzLCByYXRo
+ZXIgbWljcm9jb250cm9sbGVycy4KCgo+ICsvKiBVU0IgQ29udHJvbCByZXF1ZXN0czogKi8KPiAr
+Cj4gKy8qCj4gKyAqIElmIHRoZSBob3N0IGRyaXZlciBkb2Vzbid0IHN1cHBvcnQgdGhlIGRldmlj
+ZSBwcm90b2NvbCB2ZXJzaW9uIGl0IHdpbGwgc2VuZAo+ICsgKiB0aGUgdmVyc2lvbnMgaXQgc3Vw
+cG9ydHMgc3RhcnRpbmcgd2l0aCB0aGUgbGF0ZXN0LiBJZiB0aGUgZGV2aWNlIGlzbid0Cj4gKyAq
+IGJhY2t3YXJkcyBjb21wYXRpYmxlIG9yIGRvZXNuJ3Qgc3VwcG9ydCB0aGUgdmVyc2lvbiB0aGUg
+aG9zdCBzdWdnZXN0cywgaXQKPiArICogc2hhbGwgcmV0dXJuIEVQUk9UT05PU1VQUE9SVC4KPiAr
+ICovCj4gKyNkZWZpbmUgR1VEX0RSTV9VU0JfUkVRX1NFVF9WRVJTSU9OCQkJMHgzMAoKVVNCIGRl
+dmljZXMgcmVwb3J0IGVycm9ycyB0byBhIGNvbnRyb2wgcmVxdWVzdHMgd2l0aCBhIFNUQUxMIGhh
+bmRzaGFrZSwKd2hpY2ggaXMgcGFzc2VkIGFsbCB0aGUgd2F5IGJhY2sgdG8gdGhlIGhvc3Qgc29m
+dHdhcmUuIFBsZWFzZSB1c2UgdGhhdD8KCkhvdy93aGVyZSB3b3VsZCB0aGUgRVBST1RPTk9TVVBQ
+T1JUIHZhbHVlIGJlIHJldHVybmVkPyBJdCdzIGFub3RoZXIKaW1wbGVtZW50YXRpb24gc3BlY2lm
+aWMsIHRoYXQgc2hvdWxkIGJlIHVzZWQgb24gdGhlIGJ1cy4KCgo+ICsvKiBHZXQgc3VwcG9ydGVk
+IHBpeGVsIGZvcm1hdHMgYXMgYW4gYXJyYXkgb2YgZm91cmNjIGNvZGVzLiBTZWUgaW5jbHVkZS91
+YXBpL2RybS9kcm1fZm91cmNjLmggKi8KPiArI2RlZmluZSBHVURfRFJNX1VTQl9SRVFfR0VUX0ZP
+Uk1BVFMJCQkweDQwCgpQbHVzIFIxLCByaWdodD8gSSBjYW4gdW5kZXJzdGFuZCBpZiB5b3UgZG9u
+J3Qgd2FudCB0byBhZGQgUjEgdG8gdWFwaSwgYnV0CnRoZW4gYXQgbGVhc3QgZG9jdW1lbnQgdGhh
+dCB0aGUgYXJyYXkgY2FuIGNvbnRhaW4gYm90aCB1YXBpIGNvZGVzIGFuZCBSMS4KCgo+ICsvKiBB
+cHBseSB0aGUgcHJldm9pdXMgX1NUQVRFX0NIRUNLIGNvbmZpZ3VyYXRpb24gKi8KPiArI2RlZmlu
+ZSBHVURfRFJNX1VTQl9SRVFfU0VUX1NUQVRFX0NPTU1JVAkJMHg2MgoKVHlwbyAtPiBwcmV2aW91
+cwoKCgpJIGhvcGUgdGhpcyBoZWxwcy4KCktpbmQgcmVnYXJkcwoKLy9QZXRlcgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
