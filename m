@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AA91E8D71
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 05:11:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A91B1E8D7F
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 05:23:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D7D6E9A9;
-	Sat, 30 May 2020 03:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5359B6E9B1;
+	Sat, 30 May 2020 03:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3379B6E99F
- for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 03:10:55 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC4396E9AE
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 03:23:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B505B3191;
- Sat, 30 May 2020 05:10:52 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 541EF2A3;
+ Sat, 30 May 2020 05:23:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590808253;
- bh=smm556O7y/ItEjrAUvnU0imTs9Vxaj3epHAEdLdooOk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f+b8bgjUdc8TYTca2DAJrGjzl/Ss5KdlVdPCpJt318qMMj6QXb+aa6dOnblCCf+xB
- Mba4YYecZk9za+jwAKhynmu/i2RhcVHhBZ6ybsGdvGiwtp3xbzaKf7PKVWuWKvhz9u
- kGsyOzUg9w8iHNikP8j4peU16EYck3Jo3u3Lx8Q8=
+ s=mail; t=1590808994;
+ bh=Zfa2hyUE+8NeAdc6/DlrMkX1P+v+OgrkI7tIOKsks5E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=raydNK1aLuq4wVNrkxFPd2/4vTWgHS0SaLLBEuCQ+r9XJiz8qpXgwmKaMnQtX2nH2
+ SwJHb9BT8c1lXAyw2MyHcffDDZ0rSrgqoCr6pjVLg8YiiTNOrtur9llwYcxpAuvI39
+ iflkBGx4ZNkXL5+YQbKGBABkyzrjn3gwshGMW2FY=
+Date: Sat, 30 May 2020 06:22:58 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 22/22] drm: mxsfb: Support the alpha plane
-Date: Sat, 30 May 2020 06:10:15 +0300
-Message-Id: <20200530031015.15492-23-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200530031015.15492-1-laurent.pinchart@ideasonboard.com>
-References: <20200530031015.15492-1-laurent.pinchart@ideasonboard.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/atomic-helper: reset vblank on crtc reset
+Message-ID: <20200530032258.GD5961@pendragon.ideasonboard.com>
+References: <20200527094757.1414174-2-daniel.vetter@ffwll.ch>
+ <20200527095332.1439425-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200527095332.1439425-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,317 +46,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-imx@nxp.com, kernel@pengutronix.de,
- robert.chiras@nxp.com, leonard.crestez@nxp.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jyri Sarha <jsarha@ti.com>, Sean Paul <seanpaul@chromium.org>,
+ linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, zhengbin <zhengbin13@huawei.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Brian Masney <masneyb@onstation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCDIF in the i.MX6SX and i.MX7 have a second plane called the alpha
-plane. Support it.
+Hi Daniel,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v1:
+Thank you for the patch.
 
-- Split whitespace cleanup to a separate patch
----
- drivers/gpu/drm/mxsfb/mxsfb_drv.c  |   3 +
- drivers/gpu/drm/mxsfb/mxsfb_drv.h  |   6 +-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 129 +++++++++++++++++++++++++----
- drivers/gpu/drm/mxsfb/mxsfb_regs.h |  22 +++++
- 4 files changed, 144 insertions(+), 16 deletions(-)
+On Wed, May 27, 2020 at 11:53:32AM +0200, Daniel Vetter wrote:
+> Only when vblanks are supported ofc.
+> 
+> Some drivers do this already, but most unfortunately missed it. This
+> opens up bugs after driver load, before the crtc is enabled for the
+> first time. syzbot spotted this when loading vkms as a secondary
+> output. Given how many drivers are buggy it's best to solve this once
+> and for all in shared helper code.
+> 
+> Aside from moving the few existing calls to drm_crtc_vblank_reset into
+> helpers (i915 doesn't use helpers, so keeps its own) I think the
+> regression risk is minimal: atomic helpers already rely on drivers
+> calling drm_crtc_vblank_on/off correctly in their hooks when they
+> support vblanks. And driver that's failing to handle vblanks after
+> this is missing those calls already, and vblanks could only work by
+> accident when enabling a CRTC for the first time right after boot.
+> 
+> Big thanks to Tetsuo for helping track down what's going wrong here.
+> 
+> There's only a few drivers which already had the necessary call and
+> needed some updating:
+> - komeda, atmel and tidss also needed to be changed to call
+>   __drm_atomic_helper_crtc_reset() intead of open coding it
+> - tegra and msm even had it in the same place already, just code
+>   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index ed8e3f7bc27c..ab3a212375f1 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -49,6 +49,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.next_buf	= LCDC_V3_NEXT_BUF,
- 		.hs_wdth_mask	= 0xff,
- 		.hs_wdth_shift	= 24,
-+		.has_overlay	= false,
- 	},
- 	[MXSFB_V4] = {
- 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-@@ -56,6 +57,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.next_buf	= LCDC_V4_NEXT_BUF,
- 		.hs_wdth_mask	= 0x3fff,
- 		.hs_wdth_shift	= 18,
-+		.has_overlay	= false,
- 	},
- 	[MXSFB_V6] = {
- 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-@@ -63,6 +65,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.next_buf	= LCDC_V4_NEXT_BUF,
- 		.hs_wdth_mask	= 0x3fff,
- 		.hs_wdth_shift	= 18,
-+		.has_overlay	= true,
- 	},
- };
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index f883b56caed3..399d23e91ed1 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -21,6 +21,7 @@ struct mxsfb_devdata {
- 	unsigned int	next_buf;
- 	unsigned int	hs_wdth_mask;
- 	unsigned int	hs_wdth_shift;
-+	bool		has_overlay;
- };
- 
- struct mxsfb_drm_private {
-@@ -32,7 +33,10 @@ struct mxsfb_drm_private {
- 	struct clk			*clk_disp_axi;
- 
- 	struct drm_device		*drm;
--	struct drm_plane		plane;
-+	struct {
-+		struct drm_plane	primary;
-+		struct drm_plane	overlay;
-+	} planes;
- 	struct drm_crtc			crtc;
- 	struct drm_encoder		encoder;
- 	struct drm_connector		*connector;
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index f81f8c222c13..c9c394f7cbe2 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -169,9 +169,9 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
- 	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
- }
- 
--static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
-+static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
- {
--	struct drm_framebuffer *fb = mxsfb->plane.state->fb;
-+	struct drm_framebuffer *fb = plane->state->fb;
- 	struct drm_gem_cma_object *gem;
- 
- 	if (!fb)
-@@ -206,6 +206,9 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
- 	/* Clear the FIFOs */
- 	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
- 
-+	if (mxsfb->devdata->has_overlay)
-+		writel(0, mxsfb->base + LCDC_AS_CTRL);
-+
- 	mxsfb_set_formats(mxsfb);
- 
- 	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
-@@ -313,7 +316,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 	mxsfb_crtc_mode_set_nofb(mxsfb);
- 
- 	/* Write cur_buf as well to avoid an initial corrupt frame */
--	paddr = mxsfb_get_fb_paddr(mxsfb);
-+	paddr = mxsfb_get_fb_paddr(crtc->primary);
- 	if (paddr) {
- 		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
- 		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-@@ -410,20 +413,85 @@ static int mxsfb_plane_atomic_check(struct drm_plane *plane,
- 						   false, true);
- }
- 
--static void mxsfb_plane_atomic_update(struct drm_plane *plane,
--				      struct drm_plane_state *old_pstate)
-+static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
-+					      struct drm_plane_state *old_pstate)
- {
- 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
- 	dma_addr_t paddr;
- 
--	paddr = mxsfb_get_fb_paddr(mxsfb);
-+	paddr = mxsfb_get_fb_paddr(plane);
- 	if (paddr)
- 		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
- }
- 
--static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
-+static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
-+					      struct drm_plane_state *old_pstate)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-+	struct drm_plane_state *state = plane->state;
-+	dma_addr_t paddr;
-+	u32 ctrl;
-+
-+	paddr = mxsfb_get_fb_paddr(plane);
-+	if (!paddr) {
-+		writel(0, mxsfb->base + LCDC_AS_CTRL);
-+		return;
-+	}
-+
-+	/*
-+	 * HACK: The hardware seems to output 64 bytes of data of unknown
-+	 * origin, and then to proceed with the framebuffer. Until the reason
-+	 * is understood, live with the 16 initial invalid pixels on the first
-+	 * line and start 64 bytes within the framebuffer.
-+	 */
-+	paddr += 64;
-+
-+	writel(paddr, mxsfb->base + LCDC_AS_NEXT_BUF);
-+
-+	/*
-+	 * If the plane was previously disabled, write LCDC_AS_BUF as well to
-+	 * provide the first buffer.
-+	 */
-+	if (!old_pstate->fb)
-+		writel(paddr, mxsfb->base + LCDC_AS_BUF);
-+
-+	ctrl = AS_CTRL_AS_ENABLE | AS_CTRL_ALPHA(255);
-+
-+	switch (state->fb->format->format) {
-+	case DRM_FORMAT_XRGB4444:
-+		ctrl |= AS_CTRL_FORMAT_RGB444 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-+		break;
-+	case DRM_FORMAT_ARGB4444:
-+		ctrl |= AS_CTRL_FORMAT_ARGB4444 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-+		break;
-+	case DRM_FORMAT_XRGB1555:
-+		ctrl |= AS_CTRL_FORMAT_RGB555 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-+		break;
-+	case DRM_FORMAT_ARGB1555:
-+		ctrl |= AS_CTRL_FORMAT_ARGB1555 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-+		break;
-+	case DRM_FORMAT_RGB565:
-+		ctrl |= AS_CTRL_FORMAT_RGB565 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-+		break;
-+	case DRM_FORMAT_XRGB8888:
-+		ctrl |= AS_CTRL_FORMAT_RGB888 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-+		break;
-+	case DRM_FORMAT_ARGB8888:
-+		ctrl |= AS_CTRL_FORMAT_ARGB8888 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-+		break;
-+	}
-+
-+	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
-+}
-+
-+static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
- 	.atomic_check = mxsfb_plane_atomic_check,
--	.atomic_update = mxsfb_plane_atomic_update,
-+	.atomic_update = mxsfb_plane_primary_atomic_update,
-+};
-+
-+static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
-+	.atomic_check = mxsfb_plane_atomic_check,
-+	.atomic_update = mxsfb_plane_overlay_atomic_update,
- };
- 
- static const struct drm_plane_funcs mxsfb_plane_funcs = {
-@@ -435,27 +503,58 @@ static const struct drm_plane_funcs mxsfb_plane_funcs = {
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- };
- 
--static const uint32_t mxsfb_formats[] = {
-+static const uint32_t mxsfb_primary_plane_formats[] = {
-+	DRM_FORMAT_RGB565,
- 	DRM_FORMAT_XRGB8888,
--	DRM_FORMAT_RGB565
- };
- 
-+static const uint32_t mxsfb_overlay_plane_formats[] = {
-+	DRM_FORMAT_XRGB4444,
-+	DRM_FORMAT_ARGB4444,
-+	DRM_FORMAT_XRGB1555,
-+	DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Initialization
-+ */
-+
- int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
- {
- 	struct drm_encoder *encoder = &mxsfb->encoder;
--	struct drm_plane *plane = &mxsfb->plane;
- 	struct drm_crtc *crtc = &mxsfb->crtc;
- 	int ret;
- 
--	drm_plane_helper_add(plane, &mxsfb_plane_helper_funcs);
--	ret = drm_universal_plane_init(mxsfb->drm, plane, 0, &mxsfb_plane_funcs,
--				       mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
-+	drm_plane_helper_add(&mxsfb->planes.primary,
-+			     &mxsfb_plane_primary_helper_funcs);
-+	ret = drm_universal_plane_init(mxsfb->drm, &mxsfb->planes.primary, 1,
-+				       &mxsfb_plane_funcs,
-+				       mxsfb_primary_plane_formats,
-+				       ARRAY_SIZE(mxsfb_primary_plane_formats),
- 				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
- 	if (ret)
- 		return ret;
- 
-+	if (mxsfb->devdata->has_overlay) {
-+		drm_plane_helper_add(&mxsfb->planes.overlay,
-+				     &mxsfb_plane_overlay_helper_funcs);
-+		ret = drm_universal_plane_init(mxsfb->drm,
-+					       &mxsfb->planes.overlay, 1,
-+					       &mxsfb_plane_funcs,
-+					       mxsfb_overlay_plane_formats,
-+					       ARRAY_SIZE(mxsfb_overlay_plane_formats),
-+					       NULL, DRM_PLANE_TYPE_OVERLAY,
-+					       NULL);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
--	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc, plane, NULL,
-+	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
-+					&mxsfb->planes.primary, NULL,
- 					&mxsfb_crtc_funcs, NULL);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-index 8ebb52bb1b46..55d28a27f912 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-@@ -27,6 +27,11 @@
- #define LCDC_VDCTRL4			0xb0
- #define LCDC_V4_DEBUG0			0x1d0
- #define LCDC_V3_DEBUG0			0x1f0
-+#define LCDC_AS_CTRL			0x210
-+#define LCDC_AS_BUF			0x220
-+#define LCDC_AS_NEXT_BUF		0x230
-+#define LCDC_AS_CLRKEYLOW		0x240
-+#define LCDC_AS_CLRKEYHIGH		0x250
- 
- #define CTRL_SFTRST			BIT(31)
- #define CTRL_CLKGATE			BIT(30)
-@@ -90,6 +95,23 @@
- #define DEBUG0_HSYNC			BIT(26)
- #define DEBUG0_VSYNC			BIT(25)
- 
-+#define AS_CTRL_PS_DISABLE		BIT(23)
-+#define AS_CTRL_ALPHA_INVERT		BIT(20)
-+#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
-+#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
-+#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
-+#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
-+#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
-+#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
-+#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
-+#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
-+#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
-+#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
-+#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
-+#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
-+#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
-+#define AS_CTRL_AS_ENABLE		BIT(0)
-+
- #define MXSFB_MIN_XRES			120
- #define MXSFB_MIN_YRES			120
- #define MXSFB_MAX_XRES			0xffff
+Have you intentionally not touched drivers that use
+drm_crtc_vblank_off() at init time instead of drm_crtc_vblank_reset() ?
+I'm thinking about omapdrm and rcar-du that both call neither
+drm_crtc_vblank_reset() nor __drm_atomic_helper_crtc_reset() in their
+CRTC reset handler, and call drm_crtc_vblank_off() at init time. Should
+these (and likely other) drivers be updated ?
+
+Other than that the patch looks good to me,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Only call left is in i915, which doesn't use drm_mode_config_reset,
+> but has its own fastboot infrastructure. So that's the only case where
+> we actually want this in the driver still.
+> 
+> I've also reviewed all other drivers which set up vblank support with
+> drm_vblank_init. After the previous patch fixing mxsfb all atomic
+> drivers do call drm_crtc_vblank_on/off as they should, the remaining
+> drivers are either legacy kms or legacy dri1 drivers, so not affected
+> by this change to atomic helpers.
+> 
+> v2: Use the drm_dev_has_vblank() helper.
+> 
+> Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+> Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Jyri Sarha <jsarha@ti.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Brian Masney <masneyb@onstation.org>
+> Cc: Emil Velikov <emil.velikov@collabora.com>
+> Cc: zhengbin <zhengbin13@huawei.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-tegra@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
+>  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+>  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
+>  drivers/gpu/drm/tegra/dc.c                       | 1 -
+>  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
+>  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
+>  8 files changed, 9 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 56bd938961ee..f33418d6e1a0 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
+>  	crtc->state = NULL;
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  		return err;
+>  
+>  	drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(crtc);
+>  
+>  	crtc->port = kcrtc->master->of_output_port;
+>  
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index c2507b7d8512..02904392e370 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -870,7 +870,6 @@ static int malidp_bind(struct device *dev)
+>  	drm->irq_enabled = true;
+>  
+>  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> -	drm_crtc_vblank_reset(&malidp->crtc);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to initialise vblank\n");
+>  		goto vblank_fail;
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> index 10985134ce0b..ce246b96330b 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
+>  	}
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
+>  	}
+>  
+>  	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(&crtc->base);
+>  
+>  	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
+>  	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 8fce6a115dfe..9ad74045158e 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -32,6 +32,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
+>  #include <drm/drm_writeback.h>
+>  
+>  #include <linux/slab.h>
+> @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+>  	if (crtc_state)
+>  		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+>  
+> +	if (drm_dev_has_vblank(crtc->dev))
+> +		drm_crtc_vblank_reset(crtc);
+> +
+>  	crtc->state = crtc_state;
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> index ca3368c828d0..9606185c284b 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+>  		mdp5_crtc_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
+> -
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 83f31c6e891c..9b308b572eac 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
+>  		tegra_crtc_atomic_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static struct drm_crtc_state *
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 89a226912de8..4d01c4af61cd 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
+>  		return;
+>  	}
+>  
+> -	crtc->state = &tcrtc->base;
+> -	crtc->state->crtc = crtc;
+> +	__drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
+>  }
+>  
+>  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> index 4b99e9fa84a5..e6ab59eed259 100644
+> --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Start with vertical blanking interrupt reporting disabled. */
+> -	for (i = 0; i < tidss->num_crtcs; ++i)
+> -		drm_crtc_vblank_reset(tidss->crtcs[i]);
+> -
+>  	drm_mode_config_reset(ddev);
+>  
+>  	dev_dbg(tidss->dev, "%s done\n", __func__);
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
