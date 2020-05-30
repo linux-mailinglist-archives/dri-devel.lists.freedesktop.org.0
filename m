@@ -1,38 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E07D1E9174
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 15:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472041E91C3
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 15:37:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54FA16E069;
-	Sat, 30 May 2020 13:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C9C6E075;
+	Sat, 30 May 2020 13:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63BF46E069
- for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 13:26:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id B933EFB03;
- Sat, 30 May 2020 15:26:36 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jH8te9rYstS2; Sat, 30 May 2020 15:26:35 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id A29C944AF9; Sat, 30 May 2020 15:26:34 +0200 (CEST)
-Date: Sat, 30 May 2020 15:26:34 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [RFC PATCH 1/6] dt-bindings: display/bridge: Add binding for
- input mux bridge
-Message-ID: <20200530132634.GA3337@bogon.m.sigxcpu.org>
-References: <cover.1589548223.git.agx@sigxcpu.org>
- <14a44a664f40584ffa25c1764aab5ebf97809c71.1589548223.git.agx@sigxcpu.org>
- <20200528194804.GA541078@bogus>
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
+ [IPv6:2607:f8b0:4864:20::941])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92286E075
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 13:37:23 +0000 (UTC)
+Received: by mail-ua1-x941.google.com with SMTP id z12so1788582uap.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 06:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XIzTmlULQhTLTUnw97bUhj9bwYYHY+kN/ezJgvug0Fk=;
+ b=jJf0in08FHKee2pirgS+aTNV5pqQ90PTfdgfvuNRySsFH+182ODzQQb8E53SDuhel6
+ gKht1FLBGbNHFAcU1XbIzVaA9y1TKYMDzPTGPSwra76LLRG8q1GX6QIYGMG5oFL+7CgI
+ lHojTf24jZQNOzONfy5rq3VWiudvOtqS9nRECbRDvZFf7uDFkHQ8AWkQaohdr4vLnIod
+ nSXOo2bOCwF48npLZTibv2lO1i88RbfE5ghCcqyvfT34z5hjxe93c5rAr19VOOtfAA08
+ H0Q02ML3xiinAaS9g86CX5FMC+foIRBdtLmXlJ1bIl7NQELtfgPgl7RCvbE0+3IQSPdF
+ iY5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XIzTmlULQhTLTUnw97bUhj9bwYYHY+kN/ezJgvug0Fk=;
+ b=VQgZoyNXCcs0LRXuVK2KhZmDI254Lg4kRElPHXzApHjSi5sMKX8G6YODzqnDMigAo+
+ hO2idUq1EAu0kUvgjyiGZCiukDQ8MyIxSFqPekMSnVS3XyzaOKaQEaKINL7ViSAAju4h
+ OssxEo+G6EOgBKruSIdTnkqBwgFi1gUyuaQIIhQmazZFKYqL9mUUwEUh+zq7ohk22pkc
+ Z4rPq+yTCNdg5+Twf0L/zr2gCuk18qlc0szQO7LnJbkyT/Pksd7orJLYFo2GEQ+G4Eao
+ tfRjncmDyqUUH9CPnrvHcIhudSXrx0joyjhLOMWzmycsHIxjqFMSmyQlMBMWC+3r3I4o
+ uuBg==
+X-Gm-Message-State: AOAM531ntMM0CKp7myF6M9AWcuU752TpclLGSsuVs5B+QBKGNrgq3Q7W
+ 0yiATVugAdxaMNiBfBNk54TP/+tCNHMPqhMYa4M=
+X-Google-Smtp-Source: ABdhPJxPfqqmJ315AMfabAxdOo/sdAuGX1Esa4giKJu3MeEmMPLbcan9mtEqmbOMgkdJ3w/KNPwT5zE6sJZkcIAho18=
+X-Received: by 2002:a9f:362f:: with SMTP id r44mr9512697uad.69.1590845842836; 
+ Sat, 30 May 2020 06:37:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200528194804.GA541078@bogus>
+References: <20200530124640.4176323-1-emil.l.velikov@gmail.com>
+ <20200530124640.4176323-2-emil.l.velikov@gmail.com>
+ <20200530131815.GA82487@ravnborg.org>
+In-Reply-To: <20200530131815.GA82487@ravnborg.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Sat, 30 May 2020 14:34:10 +0100
+Message-ID: <CACvgo52VvmS-izutgFwdpvuB5gPqNL8jMfd7qYuyfum-hp7XOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/auth: make drm_{set,
+ drop]master_ioctl symmetrical
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,92 +63,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>, Anson Huang <Anson.Huang@nxp.com>,
- David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Chiras <robert.chiras@nxp.com>,
- Leonard Crestez <leonard.crestez@nxp.com>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Colin Ian King <colin.king@canonical.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-On Thu, May 28, 2020 at 01:48:04PM -0600, Rob Herring wrote:
-> On Fri, May 15, 2020 at 03:12:10PM +0200, Guido G=FCnther wrote:
-> > The bridge allows to select the input source via a mux controller.
-> > =
+On Sat, 30 May 2020 at 14:18, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Emil.
+> On Sat, May 30, 2020 at 01:46:40PM +0100, Emil Velikov wrote:
+> > Currently the ret handling is all over the place - with two redundant
+> > assignments and another one addressed earlier.
+> >
+> > Use the exact same flow in both functions.
+> >
+> > v2: straighten the code flow, instead of just removing the assignments
+> Now even I should be able to follow the flow - thanks :-)
+>
+Fwiw reading at the code the first couple of times, did confuse the
+hell out of me.
+So "there is nothing wrong with your television set" :-P
 
-> > Signed-off-by: Guido G=FCnther <agx@sigxcpu.org>
-> > ---
-> >  .../display/bridge/mux-input-bridge.yaml      | 123 ++++++++++++++++++
-> >  1 file changed, 123 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/mu=
-x-input-bridge.yaml
-> > =
+> >
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Colin Ian King <colin.king@canonical.com>
+> > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/mux-input=
--bridge.yaml b/Documentation/devicetree/bindings/display/bridge/mux-input-b=
-ridge.yaml
-> > new file mode 100644
-> > index 000000000000..4029cf63ee5c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/mux-input-bridge=
-.yaml
-> > @@ -0,0 +1,123 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/mux-input-bridge.yam=
-l#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: DRM input source selection via multiplexer
-> =
+Thanks. If you're up for a few more neat patches - check these out [1].
 
-> DRM is not a hardware thing.
+-Emil
 
-I thought about naming the mux pixel-input-mux (input-mux sounding too
-generic) but then i hit rockchip-drm and went for that name.  The
-binding itself is not a drm thing in itself it really aims to model how
-the mux is placed in the 'display pipeline' of the SoC (as Laurent
-explained). Should I go with pixel-input-mux?
-
-> The graph binding is already designed to support muxing. Generally, =
-
-> multiple endpoints on an input node is a mux. So either the device with =
-
-> the input ports knows how to select the input, or you just need a =
-
-> mux-control property for the port to have some other device implement =
-
-> the control.
-
-A mux control property is how it's modeled at the moment but that is
-very SoC specific.
-
-> You could do it like you have below. That would be appropriate if =
-
-> there's a separate h/w device controlling the muxing. Say for example =
-
-> some board level device controlled by i2c.
-
-It's a different part of the SoC that lives in a register range very
-separate (iomuxc_gpr) from MIPI/DSI (nwl). Does that qualify?
-
-Cheers,
- -- Guido
-
-> =
-
-> Rob
-> =
-
+[1] https://patchwork.freedesktop.org/series/76967/
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
