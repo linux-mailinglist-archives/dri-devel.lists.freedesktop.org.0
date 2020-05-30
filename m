@@ -2,39 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E4E1E8D3A
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 04:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5901E8D5C
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 05:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC59C6E998;
-	Sat, 30 May 2020 02:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D906E99C;
+	Sat, 30 May 2020 03:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B7AE6E998
- for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 02:44:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 104846E99B
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 03:10:36 +0000 (UTC)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A06122A3;
- Sat, 30 May 2020 04:44:48 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6D292A3;
+ Sat, 30 May 2020 05:10:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590806688;
- bh=bI+QhfqD1XyiotNGwoSyT1QqHnWHUCiwyLQ3rWP/Px8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IeWbuirREq3bNaBDxuqToS3ChxwKenIQ6zWsZ57RsKYujZ4bAo1cq/3Zc3cO9gqir
- Cind2GuMnk5VIKddoPqqrmrAuVnoWTRTMru8yTCA8ncwVs+yFFbqV9Uc8eM8k2LO/L
- WFq9ZvgOfei9Nffk/pRPbuqJQWjhZI6K+dTYtO/E=
-Date: Sat, 30 May 2020 05:44:33 +0300
+ s=mail; t=1590808234;
+ bh=w7g/o9cGruQn1LqaGQKxdOPMUf/mL6dXdBReAARQSKQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WVP03OEKzjmg47zObWtxh5QXfVBRelaZVacS+ky0ECeGTxIMbcjVUDVhBWlhXyARx
+ 0ggxcHQW9zk3J1ibiV/yRPkQEgQyNC2LsMLnlq59uudUR8s5nZRgG3Qbv4Q6l9Gbj4
+ WIKkKlCkucaMg59EPRD73B0lBrvy+gtgfpn1Qxic=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Agner <stefan@agner.ch>
-Subject: Re: [PATCH 21/21] drm: mxsfb: Support the alpha plane
-Message-ID: <20200530024433.GC5961@pendragon.ideasonboard.com>
-References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
- <20200309195216.31042-22-laurent.pinchart@ideasonboard.com>
- <1b8465c53f93122328ffa5f7fbd741fd@agner.ch>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 00/22] drm: mxsfb: Add i.MX7 support
+Date: Sat, 30 May 2020 06:09:53 +0300
+Message-Id: <20200530031015.15492-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1b8465c53f93122328ffa5f7fbd741fd@agner.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,359 +43,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
- linux-imx@nxp.com, kernel@pengutronix.de, robert.chiras@nxp.com,
- leonard.crestez@nxp.com
+Cc: Marek Vasut <marex@denx.de>, linux-imx@nxp.com, kernel@pengutronix.de,
+ robert.chiras@nxp.com, leonard.crestez@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+Hello,
 
-On Tue, Mar 24, 2020 at 12:48:17AM +0100, Stefan Agner wrote:
-> On 2020-03-09 20:52, Laurent Pinchart wrote:
-> > The LCDIF in the i.MX6SX and i.MX7 have a second plane called the alpha
-> > plane. Support it.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/mxsfb/mxsfb_drv.c  |   3 +
-> >  drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  16 ++--
-> >  drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 129 +++++++++++++++++++++++++----
-> >  drivers/gpu/drm/mxsfb/mxsfb_regs.h |  22 +++++
-> >  4 files changed, 149 insertions(+), 21 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> > b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> > index ed8e3f7bc27c..ab3a212375f1 100644
-> > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> > @@ -49,6 +49,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
-> >  		.next_buf	= LCDC_V3_NEXT_BUF,
-> >  		.hs_wdth_mask	= 0xff,
-> >  		.hs_wdth_shift	= 24,
-> > +		.has_overlay	= false,
-> >  	},
-> >  	[MXSFB_V4] = {
-> >  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-> > @@ -56,6 +57,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
-> >  		.next_buf	= LCDC_V4_NEXT_BUF,
-> >  		.hs_wdth_mask	= 0x3fff,
-> >  		.hs_wdth_shift	= 18,
-> > +		.has_overlay	= false,
-> >  	},
-> >  	[MXSFB_V6] = {
-> >  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-> > @@ -63,6 +65,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
-> >  		.next_buf	= LCDC_V4_NEXT_BUF,
-> >  		.hs_wdth_mask	= 0x3fff,
-> >  		.hs_wdth_shift	= 18,
-> > +		.has_overlay	= true,
-> >  	},
-> >  };
-> >  
-> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> > b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> > index 607a6a5e6be3..399d23e91ed1 100644
-> > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> > @@ -16,11 +16,12 @@
-> >  struct clk;
-> >  
-> >  struct mxsfb_devdata {
-> > -	unsigned int	 transfer_count;
-> > -	unsigned int	 cur_buf;
-> > -	unsigned int	 next_buf;
-> > -	unsigned int	 hs_wdth_mask;
-> > -	unsigned int	 hs_wdth_shift;
-> > +	unsigned int	transfer_count;
-> > +	unsigned int	cur_buf;
-> > +	unsigned int	next_buf;
-> > +	unsigned int	hs_wdth_mask;
-> > +	unsigned int	hs_wdth_shift;
-> 
-> This seems an unrelated change, can you split that out?
+This patch series adds i.MX7 support to the mxsfb driver. The eLCDIF
+instance found in the i.MX7 is backward-compatible with the already
+supported LCDC v4, but has extended features amongst which the most
+notable one is a second plane.
 
-OK.
+The first 10 patches (01/22 to 10/22) contain miscellaneous cleanups and
+refactoring to prepare for what is to come. Patch 11/22 starts the real
+work with removal of the DRM simple display pipeline helper, as it
+doesn't support multiple planes. The next patch (12/22) is an additional
+cleanup.
 
-> > +	bool		has_overlay;
-> >  };
-> >  
-> >  struct mxsfb_drm_private {
-> > @@ -32,7 +33,10 @@ struct mxsfb_drm_private {
-> >  	struct clk			*clk_disp_axi;
-> >  
-> >  	struct drm_device		*drm;
-> > -	struct drm_plane		plane;
-> > +	struct {
-> > +		struct drm_plane	primary;
-> > +		struct drm_plane	overlay;
-> > +	} planes;
-> >  	struct drm_crtc			crtc;
-> >  	struct drm_encoder		encoder;
-> >  	struct drm_connector		*connector;
-> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > index f81f8c222c13..c9c394f7cbe2 100644
-> > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > @@ -169,9 +169,9 @@ static int mxsfb_reset_block(struct
-> > mxsfb_drm_private *mxsfb)
-> >  	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
-> >  }
-> >  
-> > -static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
-> > +static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
-> >  {
-> > -	struct drm_framebuffer *fb = mxsfb->plane.state->fb;
-> > +	struct drm_framebuffer *fb = plane->state->fb;
-> >  	struct drm_gem_cma_object *gem;
-> >  
-> >  	if (!fb)
-> > @@ -206,6 +206,9 @@ static void mxsfb_crtc_mode_set_nofb(struct
-> > mxsfb_drm_private *mxsfb)
-> >  	/* Clear the FIFOs */
-> >  	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
-> >  
-> > +	if (mxsfb->devdata->has_overlay)
-> > +		writel(0, mxsfb->base + LCDC_AS_CTRL);
-> > +
-> >  	mxsfb_set_formats(mxsfb);
-> >  
-> >  	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
-> > @@ -313,7 +316,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
-> >  	mxsfb_crtc_mode_set_nofb(mxsfb);
-> >  
-> >  	/* Write cur_buf as well to avoid an initial corrupt frame */
-> > -	paddr = mxsfb_get_fb_paddr(mxsfb);
-> > +	paddr = mxsfb_get_fb_paddr(crtc->primary);
-> >  	if (paddr) {
-> >  		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
-> >  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> > @@ -410,20 +413,85 @@ static int mxsfb_plane_atomic_check(struct
-> > drm_plane *plane,
-> >  						   false, true);
-> >  }
-> >  
-> > -static void mxsfb_plane_atomic_update(struct drm_plane *plane,
-> > -				      struct drm_plane_state *old_pstate)
-> > +static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
-> > +					      struct drm_plane_state *old_pstate)
-> >  {
-> >  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-> >  	dma_addr_t paddr;
-> >  
-> > -	paddr = mxsfb_get_fb_paddr(mxsfb);
-> > +	paddr = mxsfb_get_fb_paddr(plane);
-> >  	if (paddr)
-> >  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> >  }
-> >  
-> > -static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
-> > +static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
-> > +					      struct drm_plane_state *old_pstate)
-> > +{
-> > +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-> > +	struct drm_plane_state *state = plane->state;
-> > +	dma_addr_t paddr;
-> > +	u32 ctrl;
-> > +
-> > +	paddr = mxsfb_get_fb_paddr(plane);
-> > +	if (!paddr) {
-> > +		writel(0, mxsfb->base + LCDC_AS_CTRL);
-> > +		return;
-> > +	}
-> > +
-> > +	/*
-> > +	 * HACK: The hardware seems to output 64 bytes of data of unknown
-> > +	 * origin, and then to proceed with the framebuffer. Until the reason
-> > +	 * is understood, live with the 16 initial invalid pixels on the first
-> > +	 * line and start 64 bytes within the framebuffer.
-> > +	 */
-> > +	paddr += 64;
-> 
-> Wow, that is interesting. Did you check/find downstream drivers which
-> support this feature and have some kind of hint/work around?
->
-> Also adding NXP folks, maybe you have some idea?
+Patches 13/22 to 15/22 fix vblank handling that I found to be broken
+when testing on my device. Patch 16/22 then performs an additional small
+cleanup, and patch 17/22 starts official support for i.MX7 by mentioning
+it in Kconfig.
 
-I've had a look at the fbdev driver (drivers/video/fbdev/mxsfb.c) in the
-4.14-2.3.x-imx branch of https://github.com/Freescale/linux-fslc.git.
-When enabling the overlay, the driver first disables the LCDIF
-completely, clears the FIFOs, then enable the overlay, clears the FIFOs
-again, and reenables the LCDIF. I really hope that whole sequence isn't
-needed, as that would reduce the usability of the LCDIF even more, but
-it looks quite like a FIFO issue. Feedback from NXP would be helpful,
-the i.MX7D reference manual doesn't decribe how to operate the overlay
-plane, it only lists the related registers.
+Patch 18/22 adds a new device model for the i.MX6SX and i.MX7 eLCDIF.
+After three additional cleanups in patches 19/22 to 21/22, patch 22/22
+finally adds support for the second plane.
 
-> Otherwise I guess we live with this.
-> 
-> > +
-> > +	writel(paddr, mxsfb->base + LCDC_AS_NEXT_BUF);
-> > +
-> > +	/*
-> > +	 * If the plane was previously disabled, write LCDC_AS_BUF as well to
-> > +	 * provide the first buffer.
-> > +	 */
-> > +	if (!old_pstate->fb)
-> > +		writel(paddr, mxsfb->base + LCDC_AS_BUF);
-> > +
-> > +	ctrl = AS_CTRL_AS_ENABLE | AS_CTRL_ALPHA(255);
-> > +
-> > +	switch (state->fb->format->format) {
-> > +	case DRM_FORMAT_XRGB4444:
-> > +		ctrl |= AS_CTRL_FORMAT_RGB444 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> > +		break;
-> > +	case DRM_FORMAT_ARGB4444:
-> > +		ctrl |= AS_CTRL_FORMAT_ARGB4444 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> > +		break;
-> > +	case DRM_FORMAT_XRGB1555:
-> > +		ctrl |= AS_CTRL_FORMAT_RGB555 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> > +		break;
-> > +	case DRM_FORMAT_ARGB1555:
-> > +		ctrl |= AS_CTRL_FORMAT_ARGB1555 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> > +		break;
-> > +	case DRM_FORMAT_RGB565:
-> > +		ctrl |= AS_CTRL_FORMAT_RGB565 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> > +		break;
-> > +	case DRM_FORMAT_XRGB8888:
-> > +		ctrl |= AS_CTRL_FORMAT_RGB888 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> > +		break;
-> > +	case DRM_FORMAT_ARGB8888:
-> > +		ctrl |= AS_CTRL_FORMAT_ARGB8888 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> > +		break;
-> > +	}
-> > +
-> > +	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
-> > +}
-> > +
-> > +static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
-> > +	.atomic_check = mxsfb_plane_atomic_check,
-> > +	.atomic_update = mxsfb_plane_primary_atomic_update,
-> > +};
-> > +
-> > +static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
-> >  	.atomic_check = mxsfb_plane_atomic_check,
-> > -	.atomic_update = mxsfb_plane_atomic_update,
-> > +	.atomic_update = mxsfb_plane_overlay_atomic_update,
-> >  };
-> >  
-> >  static const struct drm_plane_funcs mxsfb_plane_funcs = {
-> > @@ -435,27 +503,58 @@ static const struct drm_plane_funcs mxsfb_plane_funcs = {
-> >  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-> >  };
-> >  
-> > -static const uint32_t mxsfb_formats[] = {
-> > +static const uint32_t mxsfb_primary_plane_formats[] = {
-> > +	DRM_FORMAT_RGB565,
-> > +	DRM_FORMAT_XRGB8888,
-> > +};
-> > +
-> > +static const uint32_t mxsfb_overlay_plane_formats[] = {
-> > +	DRM_FORMAT_XRGB4444,
-> > +	DRM_FORMAT_ARGB4444,
-> > +	DRM_FORMAT_XRGB1555,
-> > +	DRM_FORMAT_ARGB1555,
-> > +	DRM_FORMAT_RGB565,
-> >  	DRM_FORMAT_XRGB8888,
-> > -	DRM_FORMAT_RGB565
-> > +	DRM_FORMAT_ARGB8888,
-> >  };
-> >  
-> > +/*
-> > -----------------------------------------------------------------------------
-> > + * Initialization
-> > + */
-> > +
-> >  int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
-> >  {
-> >  	struct drm_encoder *encoder = &mxsfb->encoder;
-> > -	struct drm_plane *plane = &mxsfb->plane;
-> >  	struct drm_crtc *crtc = &mxsfb->crtc;
-> >  	int ret;
-> >  
-> > -	drm_plane_helper_add(plane, &mxsfb_plane_helper_funcs);
-> > -	ret = drm_universal_plane_init(mxsfb->drm, plane, 0, &mxsfb_plane_funcs,
-> > -				       mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
-> > +	drm_plane_helper_add(&mxsfb->planes.primary,
-> > +			     &mxsfb_plane_primary_helper_funcs);
-> > +	ret = drm_universal_plane_init(mxsfb->drm, &mxsfb->planes.primary, 1,
-> > +				       &mxsfb_plane_funcs,
-> > +				       mxsfb_primary_plane_formats,
-> > +				       ARRAY_SIZE(mxsfb_primary_plane_formats),
-> >  				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	if (mxsfb->devdata->has_overlay) {
-> > +		drm_plane_helper_add(&mxsfb->planes.overlay,
-> > +				     &mxsfb_plane_overlay_helper_funcs);
-> > +		ret = drm_universal_plane_init(mxsfb->drm,
-> > +					       &mxsfb->planes.overlay, 1,
-> > +					       &mxsfb_plane_funcs,
-> > +					       mxsfb_overlay_plane_formats,
-> > +					       ARRAY_SIZE(mxsfb_overlay_plane_formats),
-> > +					       NULL, DRM_PLANE_TYPE_OVERLAY,
-> > +					       NULL);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > +
-> >  	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
-> > -	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc, plane, NULL,
-> > +	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
-> > +					&mxsfb->planes.primary, NULL,
-> >  					&mxsfb_crtc_funcs, NULL);
-> >  	if (ret)
-> >  		return ret;
-> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> > b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> > index 8ebb52bb1b46..55d28a27f912 100644
-> > --- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> > @@ -27,6 +27,11 @@
-> >  #define LCDC_VDCTRL4			0xb0
-> >  #define LCDC_V4_DEBUG0			0x1d0
-> >  #define LCDC_V3_DEBUG0			0x1f0
-> > +#define LCDC_AS_CTRL			0x210
-> > +#define LCDC_AS_BUF			0x220
-> > +#define LCDC_AS_NEXT_BUF		0x230
-> > +#define LCDC_AS_CLRKEYLOW		0x240
-> > +#define LCDC_AS_CLRKEYHIGH		0x250
-> >  
-> >  #define CTRL_SFTRST			BIT(31)
-> >  #define CTRL_CLKGATE			BIT(30)
-> > @@ -90,6 +95,23 @@
-> >  #define DEBUG0_HSYNC			BIT(26)
-> >  #define DEBUG0_VSYNC			BIT(25)
-> >  
-> > +#define AS_CTRL_PS_DISABLE		BIT(23)
-> > +#define AS_CTRL_ALPHA_INVERT		BIT(20)
-> > +#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
-> > +#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
-> > +#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
-> > +#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
-> > +#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
-> > +#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
-> > +#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
-> > +#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
-> > +#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
-> > +#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
-> > +#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
-> > +#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
-> > +#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
-> > +#define AS_CTRL_AS_ENABLE		BIT(0)
-> > +
-> >  #define MXSFB_MIN_XRES			120
-> >  #define MXSFB_MIN_YRES			120
-> >  #define MXSFB_MAX_XRES			0xffff
+The second plane suffers from an issue whose root cause hasn't been
+found, which results in the first 64 bytes of the first line to contain
+data of unknown origin. Help from NXP to diagnose this issue would be
+useful and appreciated.
+
+Compared to v1, the patches incorporate various review feedback, without
+major modifications. See individual changelogs for details.
+
+The code is based on v5.7-rc7 and has been tested on an i.MX7D platform
+with a DPI panel. There is no conflict between v5.7-rc7 and
+drm-misc-next for the mxsfb driver.
+
+Laurent Pinchart (22):
+  drm: mxsfb: Remove fbdev leftovers
+  drm: mxsfb: Use drm_panel_bridge
+  drm: mxsfb: Use BIT() macro to define register bitfields
+  drm: mxsfb: Remove unused macros from mxsfb_regs.h
+  drm: mxsfb: Clarify format and bus width configuration
+  drm: mxsfb: Pass mxsfb_drm_private pointer to mxsfb_reset_block()
+  drm: mxsfb: Use LCDC_CTRL register name explicitly
+  drm: mxsfb: Remove register definitions from mxsfb_crtc.c
+  drm: mxsfb: Remove unneeded includes
+  drm: mxsfb: Rename mxsfb_crtc.c to mxsfb_kms.c
+  drm: mxsfb: Stop using DRM simple display pipeline helper
+  drm: mxsfb: Move vblank event arm to CRTC .atomic_flush()
+  drm: mxsfb: Don't touch AXI clock in IRQ context
+  drm: mxsfb: Enable vblank handling
+  drm: mxsfb: Remove mxsfb_devdata unused fields
+  drm: mxsfb: Add i.MX7 and i.MX8M to the list of supported SoCs in
+    Kconfig
+  drm: mxsfb: Update internal IP version number for i.MX6SX
+  drm: mxsfb: Drop non-OF support
+  drm: mxsfb: Turn mxsfb_set_pixel_fmt() into a void function
+  drm: mxsfb: Merge mxsfb_set_pixel_fmt() and mxsfb_set_bus_fmt()
+  drm: mxsfb: Remove unnecessary spaces after tab
+  drm: mxsfb: Support the alpha plane
+
+ drivers/gpu/drm/mxsfb/Kconfig      |   8 +-
+ drivers/gpu/drm/mxsfb/Makefile     |   2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 343 -----------------
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 248 ++++---------
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  42 ++-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 565 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/mxsfb/mxsfb_out.c  |  99 -----
+ drivers/gpu/drm/mxsfb/mxsfb_regs.h | 103 +++---
+ 8 files changed, 732 insertions(+), 678 deletions(-)
+ delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_crtc.c
+ create mode 100644 drivers/gpu/drm/mxsfb/mxsfb_kms.c
+ delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_out.c
 
 -- 
 Regards,
 
 Laurent Pinchart
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
