@@ -1,74 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327E11E9034
-	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 11:43:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EEC1E911F
+	for <lists+dri-devel@lfdr.de>; Sat, 30 May 2020 14:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A2CD6E9C6;
-	Sat, 30 May 2020 09:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E4489DBA;
+	Sat, 30 May 2020 12:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ale.deltatee.com (unknown [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C08C6E978;
- Fri, 29 May 2020 21:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fj4wKOtVYLrcqYVXpt9c2vH51FUvKotCgqQuY7zVZ2k=; b=b96g+2M4iyp1SAYrzZS1fpiUCq
- ePzANrhF0COO+6jRUPoeDmySlgJVU6m/rPyXt57P4RCIonCpkajDWlESxSns8SkeMf1JUN+p5VwXI
- LaIpyCsQ3xEY1tRZbmrAX1IIBtYPv/hiJXGWo2BfT5aPumyg7CKRMqnBzpal97YO+lQtoBA8ZuQUK
- SvJ/HICeFgy28c6+YAi2NJ+GFJ1XPggoZqdjJjDjetSllwedUe6OueW8gHeiWxj/co4q2lewqWPGz
- DL15eKFLSm2BXN06PzSHNqzjDuDvbEQNIY7M7rCSGRrH1HOWFDVmuFoq8SLMVZEdPWs3RbLgauKc/
- 5xPZm2ZA==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1jemRE-0004yn-1k; Fri, 29 May 2020 15:21:12 -0600
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- Christoph Hellwig <hch@infradead.org>
-References: <20191221150402.13868-1-murphyt7@tcd.ie>
- <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
- <20200529124523.GA11817@infradead.org>
- <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
- <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
- <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
-Date: Fri, 29 May 2020 15:21:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D278E89DBA
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 12:17:10 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id u7so3036495vsp.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 May 2020 05:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BeDeUy53zw3qDJdClH5bln6ot5ga8cNAQ3K8QRGw6RE=;
+ b=T8pVPk/+wtG7NWZsP+XB9OREaii7sNG1fNk7kcYuMd/7q9yKkJxO+c16mAAD1RdF8u
+ 5+86p4yGcVB8eP1XPhrNEVG9Pmhef0caVB1lBnkqchrWrq3HluH8a5vhoNL8QgoOF26T
+ G3DtDiZXauX1cVw37JzcWSs7drNJhmJONzWCgDdl+Lt0kwgkpC6FA2Kj5t14foRaoAKT
+ XqKHS788OKz6ik4sMEnNKfQ5KurueBc8VKt7ye0xXucFhbMBoCs/WQKi+hf/9jGPtRBq
+ ksprMyn77h5XPP3xrnZY4rNQ9BBArbatyttLLhXz+zBC3/8LnVoLRt89p0PaLDYvgwvT
+ rhcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BeDeUy53zw3qDJdClH5bln6ot5ga8cNAQ3K8QRGw6RE=;
+ b=uFpTN6aDlirOiF6tWpwsEkbs8zdKb9L28NzBnpja9xaFuPb2Ab6d0vqm53vbdI9t0h
+ krkpStKWFZd7VOA/MHPvthwxJdTuPpJtR8QNF8TtTqSQb4A6B+04YhfuQTr4Kd0bzBhX
+ y0rEnj2YHq80qAUkILmlib7RbXqx3oWfC5oxUDXEy530hYV05YUnfwtbRMheqmzsCvuY
+ ZqPVcEHIP8jrvRJ4zvSWsdFtVYToxxDFjnXIMD7mFOtckbFba5Ex7fmBw/gBYijfsRjG
+ SBLWv3Je01AWoDJzpHSqMdmcPBLzFwAQSBsJ7x1+rRjdOI7/qc3SJXIHkPg9Rqd9SS/6
+ lgWA==
+X-Gm-Message-State: AOAM531+UmCxWzeQmATaAOh+tGinG03+eykCPs7+3eHIqG+1beRUQn4f
+ 2VxhzCrNUTl7G3WOKCjoLed4OJUMXutWloHbVv8=
+X-Google-Smtp-Source: ABdhPJwiSIaMurOEEV0TnslMPHLT7GaLIuwuI/Sb/VnuDR6oRlKZ03CImQjwnBUo/c7RvZfVuhd/S4dPQ3ceiHrcxKQ=
+X-Received: by 2002:a67:71c2:: with SMTP id m185mr9269940vsc.186.1590841029880; 
+ Sat, 30 May 2020 05:17:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: joonas.lahtinen@linux.intel.com, jani.nikula@linux.intel.com,
- dwmw2@infradead.org, kgene@kernel.org, linux-kernel@vger.kernel.org,
- cohuck@redhat.com, robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
- virtualization@lists.linux-foundation.org, tglx@linutronix.de,
- linux-tegra@vger.kernel.org, rodrigo.vivi@intel.com,
- linux-mediatek@lists.infradead.org, alex.williamson@redhat.com,
- intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-s390@vger.kernel.org, gerald.schaefer@de.ibm.com, agross@kernel.org,
- linux-rockchip@lists.infradead.org, jonathanh@nvidia.com, krzk@kernel.org,
- maz@kernel.org, linux-samsung-soc@vger.kernel.org, jean-philippe@linaro.org,
- will@kernel.org, thierry.reding@gmail.com, julien.grall@arm.com,
- matthias.bgg@gmail.com, bjorn.andersson@linaro.org,
- dri-devel@lists.freedesktop.org, airlied@linux.ie, kvm@vger.kernel.org,
- iommu@lists.linux-foundation.org, murphyt7@tcd.ie, hch@infradead.org,
- m.szyprowski@samsung.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- GREYLIST_ISWHITE autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-X-Mailman-Approved-At: Sat, 30 May 2020 09:42:14 +0000
+References: <20200529214807.3801851-1-emil.l.velikov@gmail.com>
+ <20200529214807.3801851-2-emil.l.velikov@gmail.com>
+ <20200530074830.GB70485@ravnborg.org>
+In-Reply-To: <20200530074830.GB70485@ravnborg.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Sat, 30 May 2020 13:13:58 +0100
+Message-ID: <CACvgo51SN9GbypNOeiCZtSux4tx3m7hNrWJX92H5d+n+kuFDdg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/auth: drop unnessesary variable assignments
+To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,58 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-tegra@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Alex Williamson <alex.williamson@redhat.com>,
- linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- virtualization@lists.linux-foundation.org,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- David Woodhouse <dwmw2@infradead.org>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>,
- iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: David Airlie <airlied@linux.ie>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, 30 May 2020 at 08:48, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Emil.
+>
+> On Fri, May 29, 2020 at 10:48:07PM +0100, Emil Velikov wrote:
+> > The variables are already the exact same value or will be overwritten
+> > shortly afterwords. In either case there's no functional difference.
+> s/afterwords/afterwards/
+>
+> >
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_auth.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > index db701a9e9393..5ae5623f2482 100644
+> > --- a/drivers/gpu/drm/drm_auth.c
+> > +++ b/drivers/gpu/drm/drm_auth.c
+> > @@ -215,7 +215,7 @@ drm_master_check_perm(struct drm_device *dev, struct drm_file *file_priv)
+> >  int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+> >                       struct drm_file *file_priv)
+> >  {
+> > -     int ret = 0;
+> > +     int ret;
+>
+> This was the redundant asignment I mentioned in first mail - good.
+> >
+> >       mutex_lock(&dev->master_mutex);
+> >
+> > @@ -282,7 +282,6 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+> >
+> >       if (file_priv->master->lessor != NULL) {
+> >               DRM_DEBUG_LEASE("Attempt to drop lessee %d as master\n", file_priv->master->lessee_id);
+> > -             ret = -EINVAL;
+> This is wrong. ret is 0 when this code is reached, so we loose the error
+> value if this code-path is triggered.
+> Or I miss something??
+>
+A few lines above [1] - there's unconditional ret = -EINVAL. Although
+the set<>drop paths are pretty asymmetric and misleading.
+Let me respin the series.
 
+-Emil
 
-On 2020-05-29 3:11 p.m., Marek Szyprowski wrote:
-> Patches are pending:
-> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
-
-Cool, nice! Though, I still don't think that fixes the issue in
-i915_scatterlist.h given it still ignores sg_dma_len() and strictly
-relies on sg_next()/sg_is_last() to stop iterating -- and I suspect this
-is the bug that got in Tom's way.
-
->> However, as Robin pointed out, there are other ugly tricks like stopping
->> iterating through the SGL when sg_dma_len() is zero. For example, the
->> AMD driver appears to use drm_prime_sg_to_page_addr_arrays() which does
->> this trick and thus likely isn't buggy (otherwise, I'd expect someone to
->> have complained by now seeing AMD has already switched to IOMMU-DMA.
-> 
-> I'm not sure that this is a trick. Stopping at zero sg_dma_len() was 
-> somewhere documented.
-
-Well whatever you want to call it, it is ugly to have some drivers doing
-one thing with the returned value and others assuming there's an extra
-zero at the end. It just causes confusion for people reading/copying the
-code. It would be better if they are all consistent. However, I concede
-stopping at zero should not be broken, presently.
-
-Logan
+[1] https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_auth.c?id=6015002ece38dac85a373f041e0302781de7474b#n293
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
