@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890DF1E9A76
-	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 23:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01851E9A86
+	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 23:27:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B72D89F2E;
-	Sun, 31 May 2020 21:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2989789F3B;
+	Sun, 31 May 2020 21:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C04D689F2E
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 21:11:34 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id bg4so3426871plb.3
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 14:11:34 -0700 (PDT)
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com
+ [IPv6:2607:f8b0:4864:20::b43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26EF789F38;
+ Sun, 31 May 2020 21:27:05 +0000 (UTC)
+Received: by mail-yb1-xb43.google.com with SMTP id j8so4162180ybj.12;
+ Sun, 31 May 2020 14:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=6T1mcHD3CiuhBUcz1rc+yYa4VtQ3BqY3trLAgPwZnJM=;
- b=g7iI5zik/5exgRaT4Ng/bD7nG/T1S+pjJdnzaEghy0PCDk6T8YSVx1c6wlOYqg47Ro
- m3AtRWEhnD/7GI/TXX9RIyokYgGtZe5GpZoiGdalKcJa4zr5Bc5lXGxGsGAPb4Rtl80J
- Uou8Az6ZxU6eRjiMtiFLg1wY+S70UoiYU9dtfONVanp5a5067qmsY75iAJlt9I6ePZ65
- j3rmEzZ9AVhK0gL2kVwUMaVFj8I0h+WolE2rT7dZyE8uB/mwz4xZk2no4r3eawK9GNpQ
- CGwRn4wxH5Rp008wZP+JUiyDWzPSx3Y2AI/S9EJ6A0S6BpuNl1XSwi4wCGNRvXq2Cm2y
- zIkA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9R6dVyOeXrAbjNA/B3IIGOCdujTvIeVldj32RQubxr8=;
+ b=ovfRk/NleZHoHT7Yd3jtetDN/3l3N1H730cVxdzCsFWsLWEQXtrult0KjWGOQOHVQz
+ Lgb7zZkAZboDsF5+4OKjfPqsgQybBM/BQ0s4/DFQ3uba3eLnFN0AnzhHTUWAuMLvuu6x
+ MyWn31djYZAPKNIuhCAStLK5v43z3VeLLAH47kzAFKnXbM5GSm2oOLEvsMmDLuAbARJm
+ 5w8igNNBinNE0akPd37aaVIQ1TZtItiaYfc/2U2EV2OjgG8PqgRxpXeA18oZoVF6AJ88
+ 3hqs6R5CV9EDWasOqPUwi3cCw9mEnXlVcdc9CR6GIpYfdULtm1MWXBlvmnGJyYs09GFa
+ uAWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6T1mcHD3CiuhBUcz1rc+yYa4VtQ3BqY3trLAgPwZnJM=;
- b=b0eI+YJB3tJVfU4zYMfsXbuPKVXuzJZkm58Kp2IZLlFVq6j4OMUkgTq7xjKPlJInuL
- 8ER1L+Ox4p6B/ifehIVh3XCXFSnzEyx+qHE9hP7z55nCeNCLPe8IEE/ZjUJ6aWLkVPLR
- sJpMwsdSX0gqYY1AlCHD58raVQ7bun+7XyPGQrtjX8aCETaw8Lm0Qj+fJ29Jf0Y2d5R6
- RkEhssGO1oM/v0Nd2HrHQ7mjQc3X9mGLXWM/BFyrGWF2hUQzV6hhQaIECqdl9JuwsNir
- 1XkOllg+Et//m2sfI+hElQHVJnB4nGeZi/VB2H+fxtEgEAQfk0cG3tQMrqekiiJMj7lY
- OuDg==
-X-Gm-Message-State: AOAM5324upTPAPXZbjrILcjOFfPqwo+eMyFxxk/9i3GKFo87Q0Zg+40Z
- ZY3aeXEM3qWKbafTHRyrKVIdZego6f76AbcRBuc=
-X-Google-Smtp-Source: ABdhPJyt1xLgEMhYPNlDCpbhrbW6PChwaH7iOlpvrt4Kg9RGb0CLCagQos/t3t7ctjBWwVJ7mHuA/JMPEtcj0JlVXFs=
-X-Received: by 2002:a17:902:bb95:: with SMTP id
- m21mr5579578pls.262.1590959494319; 
- Sun, 31 May 2020 14:11:34 -0700 (PDT)
+ bh=9R6dVyOeXrAbjNA/B3IIGOCdujTvIeVldj32RQubxr8=;
+ b=rzYhRzEH+kZ8x0buK/3XH1Aas9gUW/thjMw+lfPPUs6x6StvpeaTj3hRr+t18CgNRA
+ O4KsiwOwMmJeWdsA8vGgB3rAtUuFYj3r9lqw6xUaOLs1PHFM/M5RSxrEJwgxhidj8U8Q
+ IsQaDdsfAGHCX6Jx5C4/ssztqksbo8lmH9hBPdKc4gTnC1MXbGa1MNf2if35DYYTdSRA
+ RSth8OA/Xv08ittsCJjC0zF8/bM8IQz0SkP7koOzztDHjSQr9/uwIZIh2NWuYLDVm2WV
+ gOv6f3iYawQn2UNjXirSuQWBXWHNcSl7i3SUhi7K7HOjq1hctzy3LWEjg7pWWigzqaOi
+ Wsaw==
+X-Gm-Message-State: AOAM5303/76qHz/NqCPD8yzt2jkA2JqiyROpuV2tTXFVn04Wz3xLQRsr
+ /wGKzENhkGGav8HZKcEqUJ01vdOX7+lO0Mh8yMU=
+X-Google-Smtp-Source: ABdhPJwRLxg7L3fKQd+F9YCNmDDUNHYElr7ybkypr5S2lY45mveAfg0flKbDgvApEAG1lSwZLNs8XPodr58A0Eg9u6Y=
+X-Received: by 2002:a25:9d82:: with SMTP id v2mr28689573ybp.268.1590960424282; 
+ Sun, 31 May 2020 14:27:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:90b:716:0:0:0:0 with HTTP; Sun, 31 May 2020 14:11:33
- -0700 (PDT)
-In-Reply-To: <854fae07-3cb4-dbcf-fa93-35b447f9d084@nvidia.com>
-References: <20200522041506.39638-1-jhubbard@nvidia.com>
- <20200531205819.GC138722@ravnborg.org>
- <854fae07-3cb4-dbcf-fa93-35b447f9d084@nvidia.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 1 Jun 2020 00:11:33 +0300
-Message-ID: <CAHp75Vf6=UuC2Sef3m3CpRmjAOWt8ZgBW+OPf0-_53P3F__CWw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] video: fbdev: fix error handling,
- convert to pin_user_pages*()
-To: John Hubbard <jhubbard@nvidia.com>
+References: <20200529080042.6082-1-dinghao.liu@zju.edu.cn>
+In-Reply-To: <20200529080042.6082-1-dinghao.liu@zju.edu.cn>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Mon, 1 Jun 2020 07:26:53 +1000
+Message-ID: <CACAvsv73wZK_pKk4TDHaTeBUqxYHvK0KhLQBgPC8Be_VviY2jg@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in gm20b_clk_new
+To: Dinghao Liu <dinghao.liu@zju.edu.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,101 +60,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============1891438096=="
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ kjlu@umn.edu, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1891438096==
-Content-Type: multipart/alternative; boundary="00000000000082d09105a6f81f2e"
-
---00000000000082d09105a6f81f2e
-Content-Type: text/plain; charset="UTF-8"
-
-On Monday, June 1, 2020, John Hubbard <jhubbard@nvidia.com> wrote:
-
-> On 2020-05-31 13:58, Sam Ravnborg wrote:
-> ...
+On Sat, 30 May 2020 at 19:42, Dinghao Liu <dinghao.liu@zju.edu.cn> wrote:
 >
->> Thanks, patches are now applied to drm-misc-next.
->> They will hit -next soon, but you will have to wait
->> until next (not the upcoming) merge window before they hit
->> mainline linux.
->>
->>         Sam
->>
->>
-> Great! That will work out just fine.
+> When gk20a_clk_ctor() returns an error code, pointer "clk"
+> should be released. It's the same when gm20b_clk_new()
+> returns from elsewhere following this call.
+This shouldn't be necessary.  If a subdev constructor fails, and
+returns a pointer, the core will call the destructor to clean things
+up.
 
-
-
-JFYI, we have history.git starting from v0.01.
-
+Ben.
 
 >
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> thanks,
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
+> index b284e949f732..a5aeba74d3b7 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gm20b.c
+> @@ -1039,7 +1039,7 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
+>         ret = gk20a_clk_ctor(device, index, &gm20b_clk, clk_params,
+>                              &clk->base);
+>         if (ret)
+> -               return ret;
+> +               goto out_free;
+>
+>         /*
+>          * NAPLL can only work with max_u, clamp the m range so
+> @@ -1067,8 +1067,8 @@ gm20b_clk_new(struct nvkm_device *device, int index, struct nvkm_clk **pclk)
+>                 nvkm_warn(subdev, "no fused calibration parameters\n");
+>
+>         ret = gm20b_clk_init_safe_fmax(clk);
+> -       if (ret)
+> -               return ret;
+>
+> -       return 0;
+> +out_free:
+> +       kfree(clk);
+> +       return ret;
+>  }
 > --
-> John Hubbard
-> NVIDIA
+> 2.17.1
 >
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
---00000000000082d09105a6f81f2e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, June 1, 2020, John Hubbard &lt;<a href=3D"mailto:jhubbar=
-d@nvidia.com">jhubbard@nvidia.com</a>&gt; wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">On 2020-05-31 13:58, Sam Ravnborg wrote:<br>
-...<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Thanks, patches are now applied to drm-misc-next.<br>
-They will hit -next soon, but you will have to wait<br>
-until next (not the upcoming) merge window before they hit<br>
-mainline linux.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam<br>
-<br>
-</blockquote>
-<br>
-Great! That will work out just fine.</blockquote><div><br></div><div><br></=
-div><div>JFYI, we have history.git starting from v0.01.</div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-<br>
-<br>
-thanks,<br>
--- <br>
-John Hubbard<br>
-NVIDIA<br>
-</blockquote><br><br>-- <br>With Best Regards,<br>Andy Shevchenko<br><br><b=
-r>
-
---00000000000082d09105a6f81f2e--
-
---===============1891438096==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1891438096==--
