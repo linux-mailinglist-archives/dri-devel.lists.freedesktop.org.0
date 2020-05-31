@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06781E9690
-	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 11:30:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8501E9759
+	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 13:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD76389FA6;
-	Sun, 31 May 2020 09:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76F189F47;
+	Sun, 31 May 2020 11:47:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8635989FA6
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 09:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590917435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xwJez0F6pvQTGISwDEz07AkQHwjcOslN4zNMho4Qc9w=;
- b=LNhTxG21H5dPa95LWkeGZlKUGyPthMS+FRgegswe+nRwG4JJs27v+bxq11JA7PhzyHABU5
- I2UjFA80wofU0/tNp11R0TKmiODLtbu6GDP69xt3ua1bYoUdtski3PiUcb5961VgLreL8Y
- MEQswh1aFMblG6f+BR2TFBjh6NTbV48=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-azHkdIpFNc6zmN08vFKqeQ-1; Sun, 31 May 2020 05:30:31 -0400
-X-MC-Unique: azHkdIpFNc6zmN08vFKqeQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0EA6107ACCA;
- Sun, 31 May 2020 09:30:29 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-112-32.ams2.redhat.com [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE5FE6606D;
- Sun, 31 May 2020 09:30:28 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/2] drm: panel-orientation-quirks: Use generic
- orientation-data for Acer S1003
-Date: Sun, 31 May 2020 11:30:25 +0200
-Message-Id: <20200531093025.28050-2-hdegoede@redhat.com>
-In-Reply-To: <20200531093025.28050-1-hdegoede@redhat.com>
-References: <20200531093025.28050-1-hdegoede@redhat.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB8A89F47
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 11:47:32 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205827] drm:drm_atomic_helper_wait_for_dependencies -
+ drm_kms_helper - flip_done timed out
+Date: Sun, 31 May 2020 11:47:31 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ionut_n2001@yahoo.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205827-2300-rtvuNwK1HZ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205827-2300@https.bugzilla.kernel.org/>
+References: <bug-205827-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +52,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Acer S1003 has proper DMI strings for sys-vendor and product-name,
-so we do not need to match by BIOS-date.
+https://bugzilla.kernel.org/show_bug.cgi?id=205827
 
-This means that the Acer S1003 can use the generic lcd800x1280_rightside_up
-drm_dmi_panel_orientation_data struct which is also used by other quirks.
+--- Comment #1 from sander44 (ionut_n2001@yahoo.com) ---
+Hi Kernel Team,
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+I retested with new version kernel, and this issue appear.
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index d11d83703931..d00ea384dcbf 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -30,12 +30,6 @@ struct drm_dmi_panel_orientation_data {
- 	int orientation;
- };
- 
--static const struct drm_dmi_panel_orientation_data acer_s1003 = {
--	.width = 800,
--	.height = 1280,
--	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
--};
--
- static const struct drm_dmi_panel_orientation_data asus_t100ha = {
- 	.width = 800,
- 	.height = 1280,
-@@ -114,7 +108,7 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Acer"),
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "One S1003"),
- 		},
--		.driver_data = (void *)&acer_s1003,
-+		.driver_data = (void *)&lcd800x1280_rightside_up,
- 	}, {	/* Asus T100HA */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
+dmesg | grep drm
+[    4.080480] [drm] DMA map mode: Caching DMA mappings.
+[    4.080866] [drm] Capabilities:
+[    4.081078] [drm]   Rect copy.
+[    4.081389] [drm]   Cursor.
+[    4.081671] [drm]   Cursor bypass.
+[    4.081673] [drm]   Cursor bypass 2.
+[    4.081961] [drm]   8bit emulation.
+[    4.081964] [drm]   Alpha cursor.
+[    4.082213] [drm]   Extended Fifo.
+[    4.082215] [drm]   Multimon.
+[    4.082396] [drm]   Pitchlock.
+[    4.082398] [drm]   Irq mask.
+[    4.082733] [drm]   Display Topology.
+[    4.082736] [drm]   GMR.
+[    4.082912] [drm]   Traces.
+[    4.082914] [drm]   GMR2.
+[    4.083205] [drm]   Screen Object 2.
+[    4.083207] [drm]   Command Buffers.
+[    4.083417] [drm]   Command Buffers 2.
+[    4.083419] [drm]   Guest Backed Resources.
+[    4.083712] [drm]   DX Features.
+[    4.083714] [drm]   HP Command Queue.
+[    4.083914] [drm] Capabilities2:
+[    4.084070] [drm]   Grow oTable.
+[    4.084404] [drm]   IntraSurface copy.
+[    4.084406] [drm] Max GMR ids is 64
+[    4.084592] [drm] Max number of GMR pages is 65536
+[    4.084593] [drm] Max dedicated hypervisor surface memory is 0 kiB
+[    4.084888] [drm] Maximum display memory size is 16384 kiB
+[    4.084890] [drm] VRAM at 0xe8000000 size is 4096 kiB
+[    4.085137] [drm] MMIO at 0xfe000000 size is 256 kiB
+[    4.086031] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    4.087545] [drm] No driver support for vblank timestamp query.
+[    4.087682] [drm] Screen Target Display device initialized
+[    4.087779] [drm] width 640
+[    4.087827] [drm] height 480
+[    4.087875] [drm] bpp 32
+[    4.096688] [drm] Fifo max 0x00040000 min 0x00001000 cap 0x0000077f
+[    4.097696] [drm] Using command buffers with DMA pool.
+[    4.097772] [drm] DX: no.
+[    4.097813] [drm] Atomic: yes.
+[    4.098144] [drm] SM4_1: no.
+[    4.100942] fbcon: svgadrmfb (fb0) is primary device
+[    4.112518] [drm] Initialized vmwgfx 2.17.0 20200114 for 0000:00:0f.0 on
+minor 0
+[484415.570337] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [CRTC:38:crtc-0] flip_done timed out
+[484425.810398] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]]
+*ERROR* [PLANE:34:plane-0] flip_done timed out
+
+5.6.14-vanilla
+
 -- 
-2.26.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
