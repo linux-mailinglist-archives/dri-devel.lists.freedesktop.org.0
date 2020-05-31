@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCEF1EB661
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 09:16:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E78A61EB658
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 09:16:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D416E21A;
-	Tue,  2 Jun 2020 07:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 084D76E09F;
+	Tue,  2 Jun 2020 07:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E51089D57
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 19:40:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A80A989D5B
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 19:40:18 +0000 (UTC)
 Received: from hillo.muru.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTP id 3060481C2;
- Sun, 31 May 2020 19:41:06 +0000 (UTC)
+ by muru.com (Postfix) with ESMTP id 0121B81DD;
+ Sun, 31 May 2020 19:41:07 +0000 (UTC)
 From: Tony Lindgren <tony@atomide.com>
 To: linux-omap@vger.kernel.org
-Subject: [PATCH 4/5] bus: ti-sysc: Fix uninitialized framedonetv_irq
-Date: Sun, 31 May 2020 12:39:40 -0700
-Message-Id: <20200531193941.13179-5-tony@atomide.com>
+Subject: [PATCH 5/5] ARM: OMAP2+: Fix legacy mode dss_reset
+Date: Sun, 31 May 2020 12:39:41 -0700
+Message-Id: <20200531193941.13179-6-tony@atomide.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531193941.13179-1-tony@atomide.com>
 References: <20200531193941.13179-1-tony@atomide.com>
@@ -51,38 +51,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are currently only setting the framedonetv_irq disabled for the SoCs
-that don't have it. But we are never setting it enabled for the SoCs that
-have it. Let's initialized it to true by default.
+We must check for "dss_core" instead of "dss" to avoid also matching
+also "dss_dispc". This only matters for the mixed case of data
+configured in device tree but with legacy booting ti,hwmods property
+still enabled.
 
-Fixes: 7324a7a0d5e2 ("bus: ti-sysc: Implement display subsystem reset quirk")
+Fixes: 8b30919a4e3c ("ARM: OMAP2+: Handle reset quirks for dynamically allocated modules")
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- drivers/bus/ti-sysc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/mach-omap2/omap_hwmod.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/bus/ti-sysc.c b/drivers/bus/ti-sysc.c
---- a/drivers/bus/ti-sysc.c
-+++ b/drivers/bus/ti-sysc.c
-@@ -1553,7 +1553,7 @@ static u32 sysc_quirk_dispc(struct sysc *ddata, int dispc_offset,
- 	bool lcd_en, digit_en, lcd2_en = false, lcd3_en = false;
- 	const int lcd_en_mask = BIT(0), digit_en_mask = BIT(1);
- 	int manager_count;
--	bool framedonetv_irq;
-+	bool framedonetv_irq = true;
- 	u32 val, irq_mask = 0;
+diff --git a/arch/arm/mach-omap2/omap_hwmod.c b/arch/arm/mach-omap2/omap_hwmod.c
+--- a/arch/arm/mach-omap2/omap_hwmod.c
++++ b/arch/arm/mach-omap2/omap_hwmod.c
+@@ -3489,7 +3489,7 @@ static const struct omap_hwmod_reset dra7_reset_quirks[] = {
+ };
  
- 	switch (sysc_soc->soc) {
-@@ -1570,6 +1570,7 @@ static u32 sysc_quirk_dispc(struct sysc *ddata, int dispc_offset,
- 		break;
- 	case SOC_AM4:
- 		manager_count = 1;
-+		framedonetv_irq = false;
- 		break;
- 	case SOC_UNKNOWN:
- 	default:
+ static const struct omap_hwmod_reset omap_reset_quirks[] = {
+-	{ .match = "dss", .len = 3, .reset = omap_dss_reset, },
++	{ .match = "dss_core", .len = 8, .reset = omap_dss_reset, },
+ 	{ .match = "hdq1w", .len = 5, .reset = omap_hdq1w_reset, },
+ 	{ .match = "i2c", .len = 3, .reset = omap_i2c_reset, },
+ 	{ .match = "wd_timer", .len = 8, .reset = omap2_wd_timer_reset, },
 -- 
 2.26.2
 _______________________________________________
