@@ -2,47 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BB31E97E8
-	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 15:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263CA1E98B4
+	for <lists+dri-devel@lfdr.de>; Sun, 31 May 2020 18:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F7B89E9B;
-	Sun, 31 May 2020 13:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D64089F99;
+	Sun, 31 May 2020 16:01:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18C289E9B;
- Sun, 31 May 2020 13:46:16 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id c71so8238302wmd.5;
- Sun, 31 May 2020 06:46:16 -0700 (PDT)
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6C289F99;
+ Sun, 31 May 2020 16:01:49 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id y13so6898266eju.2;
+ Sun, 31 May 2020 09:01:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C6Pcc0KCAqq6UnYDDdgdeBt1kbXH4HvttEs94ToLTKU=;
+ b=uH91HHXPEQsuatgZeJhtxIV9ISRL6OUnl1+5+9aeUjbBFVxjp1Qy85TtGShtR0rZ69
+ rQpFZ5wBUCv25a3eoy76VkpKA7c7VFBBO2hNLZST/wBBhxVDkIpo61XYHtC7PAByihCE
+ fhsuM/n2S1qMDnVXwl07QOuqdAW0MAgdkHto4zbnakiO+k4UvF1+FcbXz2Ul7yTEuuuw
+ KjhtsbdNml4E2A9YllFiqJRkHOiKWduSCidFivH1vrjza8tm9rHD0RKL9FeINh5nF/lQ
+ zLRSpe8S355qiC+7ObRyeBdeJprehnd2nTLjydUKb5QPt4VylKmJD5K7x/hkkTz/jcll
+ q1sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:subject:mime-version
- :content-transfer-encoding:content-disposition;
- bh=vltHbCf/YzphA0i1K874A1cqpT4cIDmiuGQWGOJBMC0=;
- b=Iq4oZdoApLB2TSPYEjNZNmi8o4hHH3nHBkkaGoC+mSzAxKLklhjy9HzP8WnI1ljX7w
- DC/bpXkLcvfaI0sDFPiFZFwnAwyfFf2btztc5/MHfcYh2hOLht4kSnmTde/CxBGfb3cW
- ptc8mEpwZu7wChV/AsJOctxLynvSVQrXauE7yKA/dUVEITtD6HH/oqEIOYqJI92fzges
- kkG1KaXA5JDx8E4ROKnNxhjMO96Od8aiZeTIj0uHW+dw+FIEPh9BH0igY4YeYAhBGVJS
- Sjt+Xfvs0qpiln0SFqTUkvRqrUDsWl8qq/5kEJIj8pC8s0UvJIOf0uulQvuzvCY+oN/o
- h2JA==
-X-Gm-Message-State: AOAM532Z9ngBJ32ZBfeqRU5TP39PF4GTK7qTjbuBS7VBImh9Uq5FaTPP
- GRjD5a8qGWywNltkEQbCYa+fDupLzlM=
-X-Google-Smtp-Source: ABdhPJzfysuMV0Ihm/f9qzb+eZ7Maxal5yo5IX+Dcgi47lPOrcITPRbaOz6zqtT/mk1oVl+MorRDCg==
-X-Received: by 2002:a7b:cd94:: with SMTP id y20mr16888826wmj.87.1590932774704; 
- Sun, 31 May 2020 06:46:14 -0700 (PDT)
-Received: from iHack.local.mail ([194.44.16.38])
- by smtp.gmail.com with ESMTPSA id r7sm7841425wmb.32.2020.05.31.06.46.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 31 May 2020 06:46:14 -0700 (PDT)
-Date: Sun, 31 May 2020 16:46:07 +0300
-From: Yurii Kolesnykov <root@yurikoles.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <etPan.5ed3b524.19a55007.762@yurikoles.com>
-Subject: Current drm-tip =?utf-8?Q?doesn=E2=80=99t_?=build with gcc10 -
- error in amdgpu_amdkfd_gpuvm.c
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C6Pcc0KCAqq6UnYDDdgdeBt1kbXH4HvttEs94ToLTKU=;
+ b=GxoU4VweG5UUlxKntHEkodvnMhRXABXzD0YckGMokoQns9RqMwIs1WH9g/AYHWmneT
+ g7tZpD9CP5fPgkD6v/VAUOpNDtjHCoX/2LJ5a4hAkDUFctoLMQULBt8aElxadPNsfq/P
+ hMcskBkiS4KHOgGTC52+3nlIaRmtavBd1pQzhI/wcZ7QMBUp3+sMQQFaVGjdIjGgdIIf
+ AZ7v3TIymJxdAZjqN4BQrXTDiLDsDmJwUWv751rWs0IDUi55jFY3M17LIl/QQD4E09TT
+ FYbjm23sjaPOEG0YWezhI+y//x7YXpjsyL5Bkw5JysQoMowHd2FYWWCC5uAqDU3i4vnS
+ fi9A==
+X-Gm-Message-State: AOAM530k5Qrvpa49Pe8IpqQkq17K4nrBk+JNNKbUJ73UrSULU194f+W3
+ ljD/OjKOfHiMoYxXbBXCZNiRhjNArZXF9rDj7A4=
+X-Google-Smtp-Source: ABdhPJygcqGQpE4P+85CCBiCBLzq7mgmdy1ks9XHcNICHXdFdGYVlHXB/cFQV9l/NQncP++0NxMItcE6Qgp8da76C4Q=
+X-Received: by 2002:a17:906:44f:: with SMTP id
+ e15mr15309655eja.161.1590940907872; 
+ Sun, 31 May 2020 09:01:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <20200511093554.211493-2-daniel.vetter@ffwll.ch>
+ <20200514201117.465146-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200514201117.465146-1-daniel.vetter@ffwll.ch>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sun, 31 May 2020 09:02:11 -0700
+Message-ID: <CAF6AEGskgFyDxX+MWF84Z53ATmVd3972py88Og=aLQFV0d7UPQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Don't call dma_buf_vunmap without _vmap
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,33 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, jghodd@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T3JpZ2luYWxseSByZXBvcnRlZCBieSBqZ2hvZGRbMV0gaW4gbGludXgtZHJtLXRpcC1naXQgQVVS
-IHBhY2thZ2UgWzJdLCBhbHNvIHJlcG9ydGVkIG9uIGRybS9hbWQgb24gRnJlZWRlc2t0b3AgR2l0
-TGFiIFszXS4KCmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0u
-YzogSW4gZnVuY3Rpb24g4oCYYW1kZ3B1X2FtZGtmZF9ncHV2bV9mcmVlX21lbW9yeV9vZl9ncHXi
-gJk6IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYzoxMzU3
-OjI6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhkcm1fZ2VtX29i
-amVjdF9wdXRfdW5sb2NrZWTigJk7IGRpZCB5b3UgbWVhbiDigJhkcm1fZ2VtX29iamVjdF9wdXRf
-bG9ja2Vk4oCZPyBbLVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0gMTM1NyB8
-IMKgZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKCZtZW0tPmJvLT50Ym8uYmFzZSk7IHwgwqBe
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4gfCDCoGRybV9nZW1fb2JqZWN0X3B1dF9sb2NrZWQg
-Y2MxOiBzb21lIHdhcm5pbmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzIG1ha2VbNF06ICoqKiBb
-c2NyaXB0cy9NYWtlZmlsZS5idWlsZDoyNjc6IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV9hbWRrZmRfZ3B1dm0ub10gRXJyb3IgMSBtYWtlWzNdOiAqKiogW3NjcmlwdHMvTWFrZWZp
-bGUuYnVpbGQ6NDg4OiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdV0gRXJyb3IgMiBtYWtlWzJd
-OiAqKiogW3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6NDg4OiBkcml2ZXJzL2dwdS9kcm1dIEVycm9y
-IDIgbWFrZVsxXTogKioqIFtzY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjQ4ODogZHJpdmVycy9ncHVd
-IEVycm9yIDIgbWFrZTogKioqIFtNYWtlZmlsZToxNzI5OiBkcml2ZXJzXSBFcnJvciAyID09PiBF
-UlJPUjogQSBmYWlsdXJlIG9jY3VycmVkIGluIGJ1aWxkKCkuIEFib3J0aW5n4oCmCgpbMV0gaHR0
-cHM6Ly9hdXIuYXJjaGxpbnV4Lm9yZy9hY2NvdW50L2pnaG9kZApbMl0gaHR0cHM6Ly9hdXIuYXJj
-aGxpbnV4Lm9yZy9wa2diYXNlL2xpbnV4LWRybS10aXAtZ2l0ClszXSBodHRwczovL2dpdGxhYi5m
-cmVlZGVza3RvcC5vcmcvZHJtL2FtZC8tL2lzc3Vlcy8xMTU2CgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, May 14, 2020 at 1:11 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> I honestly don't exactly understand what's going on here, but the
+> current code is wrong for sure: It calls dma_buf_vunmap without ever
+> calling dma_buf_vmap.
+>
+> What I'm not sure about is whether the WARN_ON is correct:
+> - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
+>   a pretty neat layering violation of how you shouldn't peek behind
+>   the curtain of the dma-buf exporter, but par for course. Note that
+>   all the nice new helpers don't (and we should probably have a bit a
+>   warning about this in the kerneldoc).
+>
+> - but then in the get_vaddr() in msm_gem.c, we seems to happily wrap a
+>   vmap() around any object with ->pages set (so including imported
+>   dma-buf).
+>
+> - I'm not seeing any guarantees that userspace can't use an imported
+>   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
+>   guarantees that an imported dma-buf won't end up with a ->vaddr set.
+>
+> But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
+> calling dma_buf_vunmap is the wrong thing to do.
+>
+> v2: Rob said in review that we do indeed have a gap in get_vaddr() that
+> needs to be plugged. But the users I've found aren't legit users on
+> imported dma-buf, so we can just reject that.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <sean@poorly.run>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+
+> ---
+>  drivers/gpu/drm/msm/msm_gem.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 5a6a79fbc9d6..e70abd1cde43 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -554,6 +554,9 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+>         struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>         int ret = 0;
+>
+> +       if (obj->import_attach)
+> +               return ERR_PTR(-ENODEV);
+> +
+>         mutex_lock(&msm_obj->lock);
+>
+>         if (WARN_ON(msm_obj->madv > madv)) {
+> @@ -907,8 +910,7 @@ static void free_object(struct msm_gem_object *msm_obj)
+>         put_iova(obj);
+>
+>         if (obj->import_attach) {
+> -               if (msm_obj->vaddr)
+> -                       dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
+> +               WARN_ON(msm_obj->vaddr);
+>
+>                 /* Don't drop the pages for imported dmabuf, as they are not
+>                  * ours, just free the array we allocated:
+> --
+> 2.26.2
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
