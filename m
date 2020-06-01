@@ -2,43 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF171EA631
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 16:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F251EA646
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 16:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6FE089F97;
-	Mon,  1 Jun 2020 14:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C20BC89FFD;
+	Mon,  1 Jun 2020 14:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CFD489F97
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 14:46:52 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D9A89FFD
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 14:49:07 +0000 (UTC)
+Date: Mon, 01 Jun 2020 14:48:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1591022945;
+ bh=EQuBvQ7n4G31ddRYEDhSZ+pus1K6EB5qR5vZ5LX6Vns=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=DU6t5pblFdffBIfwdrJjVVXHdZPL7LaNaYx7H6nIOPa6rQEah8zS6bqGYSNgojqKW
+ eYfxfPom3CkOP7hmMI6hUP/s7R6oUbP81jeBiKev5oFvdMRodN/Qako3GiJhUqhVG8
+ b2xfzabd4iMiSrNj4dLjJ1/SGE4aqBm53YmPU1r0=
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208011] [amdgpu][Navi10} Kernel crashes during SteamVR
-Date: Mon, 01 Jun 2020 14:46:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-208011-2300-2LIaf22ZHJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208011-2300@https.bugzilla.kernel.org/>
-References: <bug-208011-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm: document how user-space should use link-status
+Message-ID: <krnCwRP0UCcVJbY-8ILP_gEFf4EaUdKPSuuHisFkphFaoOl2EAnU032oOWAeJi2xlsFsA7qeR8lypXs71-SoULZnd2gP5C7ohDEfsWTB5-A=@emersion.fr>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,26 +41,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208011
+Describe what a "BAD" link-status means for user-space and how it should
+handle it. The logic described has been implemented in igt [1].
 
-Alex Deucher (alexdeucher@gmail.com) changed:
+[1]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/fbe61f529737191d0920521946a575bd55f00fbe
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+ drivers/gpu/drm/drm_connector.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
---- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
-This is a GPU hang.  Probably caused by a bug in the user mode drivers.  I'd
-suggest getting a newer version of mesa.
-
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index f2b20fd66319..08ba84f9787a 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -994,6 +994,12 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *      after modeset, the kernel driver may set this to "BAD" and issue a
+  *      hotplug uevent. Drivers should update this value using
+  *      drm_connector_set_link_status_property().
++ *
++ *      When user-space receives the hotplug uevent and detects a "BAD"
++ *      link-status, the connector is no longer enabled. The list of available
++ *      modes may have changed. User-space is expected to pick a new mode if
++ *      the current one has disappeared and perform a new modeset with
++ *      link-status set to "GOOD" to re-enable the connector.
+  * non_desktop:
+  * 	Indicates the output should be ignored for purposes of displaying a
+  * 	standard desktop environment or console. This is most likely because
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.26.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
