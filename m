@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42251E9E3A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:29:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6341E9E3E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E23E6E03E;
-	Mon,  1 Jun 2020 06:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5F36E07F;
+	Mon,  1 Jun 2020 06:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E406E03E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A04976E049
  for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 06:29:44 +0000 (UTC)
 Received: from inva021.nxp.com (localhost [127.0.0.1])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 85D322004D7;
- Mon,  1 Jun 2020 08:23:19 +0200 (CEST)
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C1D682004B9;
+ Mon,  1 Jun 2020 08:23:20 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com
  [165.114.16.14])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 71D232004B9;
- Mon,  1 Jun 2020 08:23:13 +0200 (CEST)
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id C655920047B;
+ Mon,  1 Jun 2020 08:23:14 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
- by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 44904402E8;
- Mon,  1 Jun 2020 14:23:06 +0800 (SGT)
+ by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 990EE402B1;
+ Mon,  1 Jun 2020 14:23:07 +0800 (SGT)
 From: sandor.yu@nxp.com
 To: a.hajda@samsung.com, narmstrong@baylibre.com,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@siol.net, heiko@sntech.de, hjc@rock-chips.com,
  Sandor.yu@nxp.com, dkos@cadence.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] drm: bridge: cadence: Create cadence fold
-Date: Mon,  1 Jun 2020 14:17:32 +0800
-Message-Id: <a189cd4b68fe822f236d6d3585de0aea5554706a.1590982881.git.Sandor.yu@nxp.com>
+Subject: [PATCH 3/7] drm: bridge: cadence: initial support for MHDP DP bridge
+ driver
+Date: Mon,  1 Jun 2020 14:17:33 +0800
+Message-Id: <cebdfdaffa40e208f925661522fa9ee1fb0f8721.1590982881.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590982881.git.Sandor.yu@nxp.com>
 References: <cover.1590982881.git.Sandor.yu@nxp.com>
@@ -58,1121 +59,955 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sandor Yu <Sandor.yu@nxp.com>
 
-Create new directory drm/bridge/cadence.
-Cadence MHDP DP and HDMI bridge dirver will added later.
-
-drm/rockchip/cdn-dp-reg.c will separate to three files.
- - cdns-mhdp-common.c: Provide basic MHDP register read/write via mailbox.
-   public firmware load, event, edid and HPD functions that will be
-   refered in MHDP DP and HDMI drivers.
- - cdns-hdp-audio.c: MHDP Audio specific functions
- - cdns-mhdp-dp.c: MHDP DP specific functions, DPCD and link traning
-   functions.
+This adds initial support for MHDP DP bridge driver.
+Basic DP functions are supported, that include:
+ -Video mode set on-the-fly
+ -Cable hotplug detect
+ -MAX support resolution to 3096x2160@60fps
+ -Support DP audio
+ -EDID read via AUX
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 ---
- drivers/gpu/drm/bridge/Kconfig                |   2 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/cadence/Kconfig        |   7 +
- drivers/gpu/drm/bridge/cadence/Makefile       |   3 +
- .../gpu/drm/bridge/cadence/cdns-mhdp-audio.c  | 198 +++++++++
- .../cadence/cdns-mhdp-common.c}               | 418 ++++--------------
- .../gpu/drm/bridge/cadence/cdns-mhdp-common.h |  23 +
- drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c | 174 ++++++++
- drivers/gpu/drm/rockchip/Kconfig              |   1 +
- drivers/gpu/drm/rockchip/Makefile             |   2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c        |   2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.h        |   2 +-
- .../drm/bridge/cdns-mhdp.h                    |   9 +-
- 13 files changed, 494 insertions(+), 348 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/cadence/Kconfig
- create mode 100644 drivers/gpu/drm/bridge/cadence/Makefile
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
- rename drivers/gpu/drm/{rockchip/cdn-dp-reg.c => bridge/cadence/cdns-mhdp-common.c} (64%)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
- rename drivers/gpu/drm/rockchip/cdn-dp-reg.h => include/drm/bridge/cdns-mhdp.h (98%)
+ drivers/gpu/drm/bridge/cadence/Kconfig        |   4 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   1 +
+ drivers/gpu/drm/bridge/cadence/cdns-dp-core.c | 530 ++++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-mhdp-audio.c  | 100 ++++
+ .../gpu/drm/bridge/cadence/cdns-mhdp-common.c |  42 +-
+ .../gpu/drm/bridge/cadence/cdns-mhdp-common.h |   3 +
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c |  34 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   7 +-
+ include/drm/bridge/cdns-mhdp.h                |  52 +-
+ 9 files changed, 740 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index aaed2347ace9..c764150fb228 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -184,6 +184,8 @@ source "drivers/gpu/drm/bridge/analogix/Kconfig"
- 
- source "drivers/gpu/drm/bridge/adv7511/Kconfig"
- 
-+source "drivers/gpu/drm/bridge/cadence/Kconfig"
-+
- source "drivers/gpu/drm/bridge/synopsys/Kconfig"
- 
- endmenu
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 6fb062b5b0f0..5d61c1d43b67 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -20,4 +20,5 @@ obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
- obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
- 
- obj-y += analogix/
-+obj-y += cadence/
- obj-y += synopsys/
 diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
-new file mode 100644
-index 000000000000..48c1b0f77dc6
---- /dev/null
+index 48c1b0f77dc6..b7b8d30b18b6 100644
+--- a/drivers/gpu/drm/bridge/cadence/Kconfig
 +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-@@ -0,0 +1,7 @@
-+config DRM_CDNS_MHDP
-+	tristate "Cadence MHDP COMMON API driver"
-+	select DRM_KMS_HELPER
-+	select DRM_PANEL_BRIDGE
-+	depends on OF
-+	help
-+	  Support Cadence MHDP API library.
+@@ -5,3 +5,7 @@ config DRM_CDNS_MHDP
+ 	depends on OF
+ 	help
+ 	  Support Cadence MHDP API library.
++
++config DRM_CDNS_DP
++	tristate "Cadence DP DRM driver"
++	depends on DRM_CDNS_MHDP
 diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
-new file mode 100644
-index 000000000000..ddb2ba4fb852
---- /dev/null
+index ddb2ba4fb852..cb3c88311a64 100644
+--- a/drivers/gpu/drm/bridge/cadence/Makefile
 +++ b/drivers/gpu/drm/bridge/cadence/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+cdns_mhdp_drmcore-y := cdns-mhdp-common.o cdns-mhdp-audio.o cdns-mhdp-dp.o
-+obj-$(CONFIG_DRM_CDNS_MHDP)		+= cdns_mhdp_drmcore.o
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ cdns_mhdp_drmcore-y := cdns-mhdp-common.o cdns-mhdp-audio.o cdns-mhdp-dp.o
++cdns_mhdp_drmcore-$(CONFIG_DRM_CDNS_DP) += cdns-dp-core.o
+ obj-$(CONFIG_DRM_CDNS_MHDP)		+= cdns_mhdp_drmcore.o
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dp-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
 new file mode 100644
-index 000000000000..8f51de0672ab
+index 000000000000..b2fe8fdc64ed
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
-@@ -0,0 +1,198 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dp-core.c
+@@ -0,0 +1,530 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-+ * Author: Chris Zhong <zyw@rock-chips.com>
++ * Cadence Display Port Interface (DP) driver
++ *
++ * Copyright (C) 2019-2020 NXP Semiconductor, Inc.
++ *
 + */
-+#include <linux/clk.h>
-+#include <linux/reset.h>
 +#include <drm/bridge/cdns-mhdp.h>
-+#include <sound/hdmi-codec.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_encoder_slave.h>
 +#include <drm/drm_of.h>
++#include <drm/drm_probe_helper.h>
 +#include <drm/drm_vblank.h>
 +#include <drm/drm_print.h>
++#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/irq.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/of_device.h>
 +
 +#include "cdns-mhdp-common.h"
 +
-+#define CDNS_DP_SPDIF_CLK		200000000
++/*
++ * This function only implements native DPDC reads and writes
++ */
++static ssize_t dp_aux_transfer(struct drm_dp_aux *aux,
++		struct drm_dp_aux_msg *msg)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(aux->dev);
++	bool native = msg->request & (DP_AUX_NATIVE_WRITE & DP_AUX_NATIVE_READ);
++	int ret;
 +
-+int cdns_mhdp_audio_stop(struct cdns_mhdp_device *mhdp, struct audio_info *audio)
++	/* Ignore address only message */
++	if ((msg->size == 0) || (msg->buffer == NULL)) {
++		msg->reply = native ?
++			DP_AUX_NATIVE_REPLY_ACK : DP_AUX_I2C_REPLY_ACK;
++		return msg->size;
++	}
++
++	if (!native) {
++		dev_err(mhdp->dev, "%s: only native messages supported\n", __func__);
++		return -EINVAL;
++	}
++
++	/* msg sanity check */
++	if (msg->size > DP_AUX_MAX_PAYLOAD_BYTES) {
++		dev_err(mhdp->dev, "%s: invalid msg: size(%zu), request(%x)\n",
++						__func__, msg->size, (unsigned int)msg->request);
++		return -EINVAL;
++	}
++
++	if (msg->request == DP_AUX_NATIVE_WRITE) {
++		const u8 *buf = msg->buffer;
++		int i;
++		for (i = 0; i < msg->size; ++i) {
++			ret = cdns_mhdp_dpcd_write(mhdp,
++						   msg->address + i, buf[i]);
++			if (!ret)
++				continue;
++
++			DRM_DEV_ERROR(mhdp->dev, "Failed to write DPCD\n");
++
++			return ret;
++		}
++		msg->reply = DP_AUX_NATIVE_REPLY_ACK;
++		return msg->size;
++	}
++
++	if (msg->request == DP_AUX_NATIVE_READ) {
++		ret = cdns_mhdp_dpcd_read(mhdp, msg->address, msg->buffer, msg->size);
++		if (ret < 0)
++			return -EIO;
++		msg->reply = DP_AUX_NATIVE_REPLY_ACK;
++		return msg->size;
++	}
++	return 0;
++}
++
++static int dp_aux_init(struct cdns_mhdp_device *mhdp,
++		  struct device *dev)
 +{
 +	int ret;
 +
-+	ret = cdns_mhdp_reg_write(mhdp, AUDIO_PACK_CONTROL, 0);
-+	if (ret) {
-+		DRM_DEV_ERROR(mhdp->dev, "audio stop failed: %d\n", ret);
-+		return ret;
++	mhdp->dp.aux.name = "imx_dp_aux";
++	mhdp->dp.aux.dev = dev;
++	mhdp->dp.aux.transfer = dp_aux_transfer;
++
++	ret = drm_dp_aux_register(&mhdp->dp.aux);
++
++	return ret;
++}
++
++static int dp_aux_destroy(struct cdns_mhdp_device *mhdp)
++{
++	drm_dp_aux_unregister(&mhdp->dp.aux);
++	return 0;
++}
++
++static void dp_pixel_clk_reset(struct cdns_mhdp_device *mhdp)
++{
++	u32 val;
++
++	/* reset pixel clk */
++	val = cdns_mhdp_reg_read(mhdp, SOURCE_HDTX_CAR);
++	cdns_mhdp_reg_write(mhdp, SOURCE_HDTX_CAR, val & 0xFD);
++	cdns_mhdp_reg_write(mhdp, SOURCE_HDTX_CAR, val);
++}
++
++static void cdns_dp_mode_set(struct cdns_mhdp_device *mhdp)
++{
++	int ret;
++
++	cdns_mhdp_plat_call(mhdp, pclk_rate);
++
++	/* delay for DP FW stable after pixel clock relock */
++	msleep(50);
++
++	dp_pixel_clk_reset(mhdp);
++
++	/* Get DP Caps  */
++	ret = drm_dp_dpcd_read(&mhdp->dp.aux, DP_DPCD_REV, mhdp->dp.dpcd,
++			       DP_RECEIVER_CAP_SIZE);
++	if (ret < 0) {
++		DRM_ERROR("Failed to get caps %d\n", ret);
++		return;
 +	}
 +
-+	cdns_mhdp_bus_write(0, mhdp, SPDIF_CTRL_ADDR);
++	mhdp->dp.rate = drm_dp_max_link_rate(mhdp->dp.dpcd);
++	mhdp->dp.num_lanes = drm_dp_max_lane_count(mhdp->dp.dpcd);
 +
-+	/* clearn the audio config and reset */
-+	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNTL);
-+	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNFG);
-+	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, AUDIO_SRC_CNTL);
-+	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNTL);
++	/* check the max link rate */
++	if (mhdp->dp.rate > CDNS_DP_MAX_LINK_RATE)
++		mhdp->dp.rate = CDNS_DP_MAX_LINK_RATE;
 +
-+	/* reset smpl2pckt component  */
-+	cdns_mhdp_bus_write(0, mhdp, SMPL2PKT_CNTL);
-+	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, SMPL2PKT_CNTL);
-+	cdns_mhdp_bus_write(0, mhdp, SMPL2PKT_CNTL);
++	/* Initialize link rate/num_lanes as panel max link rate/max_num_lanes */
++	cdns_mhdp_plat_call(mhdp, phy_set);
 +
-+	/* reset FIFO */
-+	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, FIFO_CNTL);
-+	cdns_mhdp_bus_write(0, mhdp, FIFO_CNTL);
++	/* Video off */
++	ret = cdns_mhdp_set_video_status(mhdp, CONTROL_VIDEO_IDLE);
++	if (ret) {
++		DRM_DEV_ERROR(mhdp->dev, "Failed to valid video %d\n", ret);
++		return;
++	}
 +
-+	if (audio->format == AFMT_SPDIF_INT)
-+		clk_disable_unprepare(mhdp->spdif_clk);
++	/* Line swaping */
++	mhdp->lane_mapping = mhdp->plat_data->lane_mapping;
++	cdns_mhdp_reg_write(mhdp, LANES_CONFIG, 0x00400000 | mhdp->lane_mapping);
++
++	/* Set DP host capability */
++	ret = cdns_mhdp_set_host_cap(mhdp);
++	if (ret) {
++		DRM_DEV_ERROR(mhdp->dev, "Failed to set host cap %d\n", ret);
++		return;
++	}
++
++	ret = cdns_mhdp_config_video(mhdp);
++	if (ret) {
++		DRM_DEV_ERROR(mhdp->dev, "Failed to config video %d\n", ret);
++		return;
++	}
++
++	return;
++}
++
++/* -----------------------------------------------------------------------------
++ * DP TX Setup
++ */
++static enum drm_connector_status
++cdns_dp_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct cdns_mhdp_device *mhdp = container_of(connector,
++					struct cdns_mhdp_device, connector.base);
++	u8 hpd = 0xf;
++
++	hpd = cdns_mhdp_read_hpd(mhdp);
++	if (hpd == 1)
++		/* Cable Connected */
++		return connector_status_connected;
++	else if (hpd == 0)
++		/* Cable Disconnedted */
++		return connector_status_disconnected;
++	else {
++		/* Cable status unknown */
++		DRM_INFO("Unknow cable status, hdp=%u\n", hpd);
++		return connector_status_unknown;
++	}
++}
++
++static int cdns_dp_connector_get_modes(struct drm_connector *connector)
++{
++	struct cdns_mhdp_device *mhdp = container_of(connector,
++					struct cdns_mhdp_device, connector.base);
++	int num_modes = 0;
++	struct edid *edid;
++
++	edid = drm_do_get_edid(&mhdp->connector.base,
++				   cdns_mhdp_get_edid_block, mhdp);
++	if (edid) {
++		dev_info(mhdp->dev, "%x,%x,%x,%x,%x,%x,%x,%x\n",
++			 edid->header[0], edid->header[1],
++			 edid->header[2], edid->header[3],
++			 edid->header[4], edid->header[5],
++			 edid->header[6], edid->header[7]);
++		drm_connector_update_edid_property(connector, edid);
++		num_modes = drm_add_edid_modes(connector, edid);
++		kfree(edid);
++	}
++
++	if (num_modes == 0)
++		DRM_ERROR("Invalid edid\n");
++	return num_modes;
++}
++
++static const struct drm_connector_funcs cdns_dp_connector_funcs = {
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.detect = cdns_dp_connector_detect,
++	.destroy = drm_connector_cleanup,
++	.reset = drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_connector_helper_funcs cdns_dp_connector_helper_funcs = {
++	.get_modes = cdns_dp_connector_get_modes,
++};
++
++static int cdns_dp_bridge_attach(struct drm_bridge *bridge,
++				 enum drm_bridge_attach_flags flags)
++{
++	struct cdns_mhdp_device *mhdp = bridge->driver_private;
++	struct drm_encoder *encoder = bridge->encoder;
++	struct drm_connector *connector = &mhdp->connector.base;
++
++	connector->interlace_allowed = 1;
++
++	connector->polled = DRM_CONNECTOR_POLL_HPD;
++
++	drm_connector_helper_add(connector, &cdns_dp_connector_helper_funcs);
++
++	drm_connector_init(bridge->dev, connector, &cdns_dp_connector_funcs,
++			   DRM_MODE_CONNECTOR_DisplayPort);
++
++	drm_connector_attach_encoder(connector, encoder);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL(cdns_mhdp_audio_stop);
 +
-+int cdns_mhdp_audio_mute(struct cdns_mhdp_device *mhdp, bool enable)
++static enum drm_mode_status
++cdns_dp_bridge_mode_valid(struct drm_bridge *bridge,
++			  const struct drm_display_mode *mode)
 +{
-+	int ret = true;
++	enum drm_mode_status mode_status = MODE_OK;
 +
-+	ret = cdns_mhdp_reg_write_bit(mhdp, DP_VB_ID, 4, 1, enable);
-+	if (ret)
-+		DRM_DEV_ERROR(mhdp->dev, "audio mute failed: %d\n", ret);
++	/* We don't support double-clocked modes */
++	if (mode->flags & DRM_MODE_FLAG_DBLCLK ||
++			mode->flags & DRM_MODE_FLAG_INTERLACE)
++		return MODE_BAD;
 +
-+	return ret;
++	/* MAX support pixel clock rate 594MHz */
++	if (mode->clock > 594000)
++		return MODE_CLOCK_HIGH;
++
++	/* 4096x2160 is not supported */
++	if (mode->hdisplay > 3840)
++		return MODE_BAD_HVALUE;
++
++	if (mode->vdisplay > 2160)
++		return MODE_BAD_VVALUE;
++
++	return mode_status;
 +}
-+EXPORT_SYMBOL(cdns_mhdp_audio_mute);
 +
-+static void cdns_mhdp_audio_config_i2s(struct cdns_mhdp_device *mhdp,
-+				       struct audio_info *audio)
++static void cdns_dp_bridge_mode_set(struct drm_bridge *bridge,
++				    const struct drm_display_mode *orig_mode,
++				    const struct drm_display_mode *mode)
 +{
-+	int sub_pckt_num = 1, i2s_port_en_val = 0xf, i;
-+	u32 val;
++	struct cdns_mhdp_device *mhdp = bridge->driver_private;
++	struct drm_display_info *display_info = &mhdp->connector.base.display_info;
++	struct video_info *video = &mhdp->video_info;
 +
-+	if (audio->channels == 2) {
-+		if (mhdp->dp.num_lanes == 1)
-+			sub_pckt_num = 2;
-+		else
-+			sub_pckt_num = 4;
-+
-+		i2s_port_en_val = 1;
-+	} else if (audio->channels == 4) {
-+		i2s_port_en_val = 3;
++	switch (display_info->bpc) {
++	case 10:
++		video->color_depth = 10;
++		break;
++	case 6:
++		video->color_depth = 6;
++		break;
++	default:
++		video->color_depth = 8;
++		break;
 +	}
 +
-+	cdns_mhdp_bus_write(0x0, mhdp, SPDIF_CTRL_ADDR);
++	video->color_fmt = PXL_RGB;
++	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
++	video->h_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NHSYNC);
 +
-+	cdns_mhdp_bus_write(SYNC_WR_TO_CH_ZERO, mhdp, FIFO_CNTL);
++	DRM_INFO("Mode: %dx%dp%d\n", mode->hdisplay, mode->vdisplay, mode->clock);
++	memcpy(&mhdp->mode, mode, sizeof(struct drm_display_mode));
 +
-+	val = MAX_NUM_CH(audio->channels);
-+	val |= NUM_OF_I2S_PORTS(audio->channels);
-+	val |= AUDIO_TYPE_LPCM;
-+	val |= CFG_SUB_PCKT_NUM(sub_pckt_num);
-+	cdns_mhdp_bus_write(val, mhdp, SMPL2PKT_CNFG);
++	mutex_lock(&mhdp->lock);
++	cdns_dp_mode_set(mhdp);
++	mutex_unlock(&mhdp->lock);
++}
 +
-+	if (audio->sample_width == 16)
-+		val = 0;
-+	else if (audio->sample_width == 24)
-+		val = 1 << 9;
++static void cdn_dp_bridge_enable(struct drm_bridge *bridge)
++{
++	struct cdns_mhdp_device *mhdp = bridge->driver_private;
++	int ret;
++
++	/* Link trainning */
++	ret = cdns_mhdp_train_link(mhdp);
++	if (ret) {
++		DRM_DEV_ERROR(mhdp->dev, "Failed link train %d\n", ret);
++		return;
++	}
++
++	ret = cdns_mhdp_set_video_status(mhdp, CONTROL_VIDEO_VALID);
++	if (ret) {
++		DRM_DEV_ERROR(mhdp->dev, "Failed to valid video %d\n", ret);
++		return;
++	}
++}
++
++static void cdn_dp_bridge_disable(struct drm_bridge *bridge)
++{
++	struct cdns_mhdp_device *mhdp = bridge->driver_private;
++
++	cdns_mhdp_set_video_status(mhdp, CONTROL_VIDEO_IDLE);
++}
++
++static const struct drm_bridge_funcs cdns_dp_bridge_funcs = {
++	.attach = cdns_dp_bridge_attach,
++	.enable = cdn_dp_bridge_enable,
++	.disable = cdn_dp_bridge_disable,
++	.mode_set = cdns_dp_bridge_mode_set,
++	.mode_valid = cdns_dp_bridge_mode_valid,
++};
++
++static void hotplug_work_func(struct work_struct *work)
++{
++	struct cdns_mhdp_device *mhdp = container_of(work,
++					   struct cdns_mhdp_device, hotplug_work.work);
++	struct drm_connector *connector = &mhdp->connector.base;
++
++	drm_helper_hpd_irq_event(connector->dev);
++
++	if (connector->status == connector_status_connected) {
++		/* Cable connedted  */
++		DRM_INFO("HDMI/DP Cable Plug In\n");
++		enable_irq(mhdp->irq[IRQ_OUT]);
++	} else if (connector->status == connector_status_disconnected) {
++		/* Cable Disconnedted  */
++		DRM_INFO("HDMI/DP Cable Plug Out\n");
++		enable_irq(mhdp->irq[IRQ_IN]);
++	}
++}
++
++static irqreturn_t cdns_dp_irq_thread(int irq, void *data)
++{
++	struct cdns_mhdp_device *mhdp = data;
++
++	disable_irq_nosync(irq);
++
++	mod_delayed_work(system_wq, &mhdp->hotplug_work,
++			msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
++
++	return IRQ_HANDLED;
++}
++
++static int __cdns_dp_probe(struct platform_device *pdev,
++		struct cdns_mhdp_device *mhdp)
++{
++	struct device *dev = &pdev->dev;
++	struct resource *iores = NULL;
++	int ret;
++
++	mutex_init(&mhdp->lock);
++
++	INIT_DELAYED_WORK(&mhdp->hotplug_work, hotplug_work_func);
++
++	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (iores) {
++		mhdp->regs_base = devm_ioremap(dev, iores->start,
++					       resource_size(iores));
++		if (IS_ERR(mhdp->regs_base))
++			return -ENOMEM;
++	}
++
++	mhdp->irq[IRQ_IN] = platform_get_irq_byname(pdev, "plug_in");
++	if (mhdp->irq[IRQ_IN] < 0) {
++		dev_info(dev, "No plug_in irq number\n");
++	}
++
++	mhdp->irq[IRQ_OUT] = platform_get_irq_byname(pdev, "plug_out");
++	if (mhdp->irq[IRQ_OUT] < 0) {
++		dev_info(dev, "No plug_out irq number\n");
++	}
++
++	cdns_mhdp_plat_call(mhdp, power_on);
++
++	cdns_mhdp_plat_call(mhdp, firmware_init);
++
++	/* DP FW alive check */
++	ret = cdns_mhdp_check_alive(mhdp);
++	if (ret == false) {
++		DRM_ERROR("NO dp FW running\n");
++		return -ENXIO;
++	}
++
++	/* DP PHY init before AUX init */
++	cdns_mhdp_plat_call(mhdp, phy_set);
++
++	/* Enable Hotplug Detect IRQ thread */
++	irq_set_status_flags(mhdp->irq[IRQ_IN], IRQ_NOAUTOEN);
++	ret = devm_request_threaded_irq(dev, mhdp->irq[IRQ_IN],
++					NULL, cdns_dp_irq_thread,
++					IRQF_ONESHOT, dev_name(dev),
++					mhdp);
++
++	if (ret) {
++		dev_err(dev, "can't claim irq %d\n",
++				mhdp->irq[IRQ_IN]);
++		return -EINVAL;
++	}
++
++	irq_set_status_flags(mhdp->irq[IRQ_OUT], IRQ_NOAUTOEN);
++	ret = devm_request_threaded_irq(dev, mhdp->irq[IRQ_OUT],
++					NULL, cdns_dp_irq_thread,
++					IRQF_ONESHOT, dev_name(dev),
++					mhdp);
++
++	if (ret) {
++		dev_err(dev, "can't claim irq %d\n",
++				mhdp->irq[IRQ_OUT]);
++		return -EINVAL;
++	}
++
++	if (cdns_mhdp_read_hpd(mhdp))
++		enable_irq(mhdp->irq[IRQ_OUT]);
 +	else
-+		val = 2 << 9;
++		enable_irq(mhdp->irq[IRQ_IN]);
 +
-+	val |= AUDIO_CH_NUM(audio->channels);
-+	val |= I2S_DEC_PORT_EN(i2s_port_en_val);
-+	val |= TRANS_SMPL_WIDTH_32;
-+	cdns_mhdp_bus_write(val, mhdp, AUDIO_SRC_CNFG);
++	mhdp->bridge.base.driver_private = mhdp;
++	mhdp->bridge.base.funcs = &cdns_dp_bridge_funcs;
++#ifdef CONFIG_OF
++	mhdp->bridge.base.of_node = dev->of_node;
++#endif
 +
-+	for (i = 0; i < (audio->channels + 1) / 2; i++) {
-+		if (audio->sample_width == 16)
-+			val = (0x02 << 8) | (0x02 << 20);
-+		else if (audio->sample_width == 24)
-+			val = (0x0b << 8) | (0x0b << 20);
++	dev_set_drvdata(dev, mhdp);
 +
-+		val |= ((2 * i) << 4) | ((2 * i + 1) << 16);
-+		cdns_mhdp_bus_write(val, mhdp, STTS_BIT_CH(i));
-+	}
++	/* register audio driver */
++	cdns_mhdp_register_audio_driver(dev);
 +
-+	switch (audio->sample_rate) {
-+	case 32000:
-+		val = SAMPLING_FREQ(3) |
-+		      ORIGINAL_SAMP_FREQ(0xc);
-+		break;
-+	case 44100:
-+		val = SAMPLING_FREQ(0) |
-+		      ORIGINAL_SAMP_FREQ(0xf);
-+		break;
-+	case 48000:
-+		val = SAMPLING_FREQ(2) |
-+		      ORIGINAL_SAMP_FREQ(0xd);
-+		break;
-+	case 88200:
-+		val = SAMPLING_FREQ(8) |
-+		      ORIGINAL_SAMP_FREQ(0x7);
-+		break;
-+	case 96000:
-+		val = SAMPLING_FREQ(0xa) |
-+		      ORIGINAL_SAMP_FREQ(5);
-+		break;
-+	case 176400:
-+		val = SAMPLING_FREQ(0xc) |
-+		      ORIGINAL_SAMP_FREQ(3);
-+		break;
-+	case 192000:
-+		val = SAMPLING_FREQ(0xe) |
-+		      ORIGINAL_SAMP_FREQ(1);
-+		break;
-+	}
-+	val |= 4;
-+	cdns_mhdp_bus_write(val, mhdp, COM_CH_STTS_BITS);
++	dp_aux_init(mhdp, dev);
 +
-+	cdns_mhdp_bus_write(SMPL2PKT_EN, mhdp, SMPL2PKT_CNTL);
-+	cdns_mhdp_bus_write(I2S_DEC_START, mhdp, AUDIO_SRC_CNTL);
++	return 0;
 +}
 +
-+static void cdns_mhdp_audio_config_spdif(struct cdns_mhdp_device *mhdp)
++static void __cdns_dp_remove(struct cdns_mhdp_device *mhdp)
 +{
-+	u32 val;
-+
-+	cdns_mhdp_bus_write(SYNC_WR_TO_CH_ZERO, mhdp, FIFO_CNTL);
-+
-+	val = MAX_NUM_CH(2) | AUDIO_TYPE_LPCM | CFG_SUB_PCKT_NUM(4);
-+	cdns_mhdp_bus_write(val, mhdp, SMPL2PKT_CNFG);
-+	cdns_mhdp_bus_write(SMPL2PKT_EN, mhdp, SMPL2PKT_CNTL);
-+
-+	val = SPDIF_ENABLE | SPDIF_AVG_SEL | SPDIF_JITTER_BYPASS;
-+	cdns_mhdp_bus_write(val, mhdp, SPDIF_CTRL_ADDR);
-+
-+	clk_prepare_enable(mhdp->spdif_clk);
-+	clk_set_rate(mhdp->spdif_clk, CDNS_DP_SPDIF_CLK);
++	dp_aux_destroy(mhdp);
++	cdns_mhdp_unregister_audio_driver(mhdp->dev);
 +}
 +
-+int cdns_mhdp_audio_config(struct cdns_mhdp_device *mhdp,
-+							struct audio_info *audio)
++/* -----------------------------------------------------------------------------
++ * Probe/remove API, used from platforms based on the DRM bridge API.
++ */
++int cdns_dp_probe(struct platform_device *pdev,
++		  struct cdns_mhdp_device *mhdp)
 +{
 +	int ret;
 +
-+	/* reset the spdif clk before config */
-+	if (audio->format == AFMT_SPDIF_INT) {
-+		reset_control_assert(mhdp->spdif_rst);
-+		reset_control_deassert(mhdp->spdif_rst);
++	ret = __cdns_dp_probe(pdev, mhdp);
++	if (ret)
++		return ret;
++
++	drm_bridge_add(&mhdp->bridge.base);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(cdns_dp_probe);
++
++void cdns_dp_remove(struct platform_device *pdev)
++{
++	struct cdns_mhdp_device *mhdp = platform_get_drvdata(pdev);
++
++	drm_bridge_remove(&mhdp->bridge.base);
++
++	__cdns_dp_remove(mhdp);
++}
++EXPORT_SYMBOL_GPL(cdns_dp_remove);
++
++/* -----------------------------------------------------------------------------
++ * Bind/unbind API, used from platforms based on the component framework.
++ */
++int cdns_dp_bind(struct platform_device *pdev, struct drm_encoder *encoder,
++		struct cdns_mhdp_device *mhdp)
++{
++	int ret;
++
++	ret = __cdns_dp_probe(pdev, mhdp);
++	if (ret < 0)
++		return ret;
++
++	ret = drm_bridge_attach(encoder, &mhdp->bridge.base, NULL, 0);
++	if (ret) {
++		cdns_dp_remove(pdev);
++		DRM_ERROR("Failed to initialize bridge with drm\n");
++		return ret;
 +	}
 +
-+	ret = cdns_mhdp_reg_write(mhdp, CM_LANE_CTRL, LANE_REF_CYC);
-+	if (ret)
-+		goto err_audio_config;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, CM_CTRL, 0);
-+	if (ret)
-+		goto err_audio_config;
-+
-+	if (audio->format == AFMT_I2S)
-+		cdns_mhdp_audio_config_i2s(mhdp, audio);
-+	else if (audio->format == AFMT_SPDIF_INT)
-+		cdns_mhdp_audio_config_spdif(mhdp);
-+
-+	ret = cdns_mhdp_reg_write(mhdp, AUDIO_PACK_CONTROL, AUDIO_PACK_EN);
-+
-+err_audio_config:
-+	if (ret)
-+		DRM_DEV_ERROR(mhdp->dev, "audio config failed: %d\n", ret);
-+	return ret;
++	return 0;
 +}
-+EXPORT_SYMBOL(cdns_mhdp_audio_config);
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
-similarity index 64%
-rename from drivers/gpu/drm/rockchip/cdn-dp-reg.c
-rename to drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
-index f7ccf93fe5e1..efb39cf5f48b 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
-@@ -11,16 +11,14 @@
- #include <linux/io.h>
- #include <linux/iopoll.h>
++EXPORT_SYMBOL_GPL(cdns_dp_bind);
++
++void cdns_dp_unbind(struct device *dev)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++
++	__cdns_dp_remove(mhdp);
++}
++EXPORT_SYMBOL_GPL(cdns_dp_unbind);
++
++MODULE_AUTHOR("Sandor Yu <sandor.yu@nxp.com>");
++MODULE_DESCRIPTION("Cadence Display Port transmitter driver");
++MODULE_LICENSE("GPL");
++MODULE_ALIAS("platform:cdns-dp");
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
+index 8f51de0672ab..fdd4bcd0d33c 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-audio.c
+@@ -2,6 +2,9 @@
+ /*
+  * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+  * Author: Chris Zhong <zyw@rock-chips.com>
++ *
++ * Cadence MHDP Audio driver
++ *
+  */
+ #include <linux/clk.h>
  #include <linux/reset.h>
--
--#include "cdn-dp-core.h"
--#include "cdn-dp-reg.h"
-+#include <drm/bridge/cdns-mhdp.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_print.h>
- 
- #define CDNS_DP_SPDIF_CLK		200000000
- #define FW_ALIVE_TIMEOUT_US		1000000
- #define MAILBOX_RETRY_US		1000
- #define MAILBOX_TIMEOUT_US		5000000
--#define LINK_TRAINING_RETRY_MS		20
--#define LINK_TRAINING_TIMEOUT_MS	500
- 
- u32 cdns_mhdp_bus_read(struct cdns_mhdp_device *mhdp, u32 offset)
- {
-@@ -36,6 +34,7 @@ void cdns_mhdp_set_fw_clk(struct cdns_mhdp_device *mhdp, unsigned long clk)
- {
- 	cdns_mhdp_bus_write(clk / 1000000, mhdp, SW_CLK_H);
+@@ -196,3 +199,100 @@ int cdns_mhdp_audio_config(struct cdns_mhdp_device *mhdp,
+ 	return ret;
  }
-+EXPORT_SYMBOL(cdns_mhdp_set_fw_clk);
- 
- void cdns_mhdp_clock_reset(struct cdns_mhdp_device *mhdp)
- {
-@@ -85,6 +84,26 @@ void cdns_mhdp_clock_reset(struct cdns_mhdp_device *mhdp)
- 	/* enable Mailbox and PIF interrupt */
- 	cdns_mhdp_bus_write(0, mhdp, APB_INT_MASK);
- }
-+EXPORT_SYMBOL(cdns_mhdp_clock_reset);
+ EXPORT_SYMBOL(cdns_mhdp_audio_config);
 +
-+bool cdns_mhdp_check_alive(struct cdns_mhdp_device *mhdp)
++static int audio_hw_params(struct device *dev,  void *data,
++				  struct hdmi_codec_daifmt *daifmt,
++				  struct hdmi_codec_params *params)
 +{
-+	u32  alive, newalive;
-+	u8 retries_left = 50;
-+
-+	alive = cdns_mhdp_bus_read(mhdp, KEEP_ALIVE);
-+
-+	while (retries_left--) {
-+		udelay(2);
-+
-+		newalive = cdns_mhdp_bus_read(mhdp, KEEP_ALIVE);
-+		if (alive == newalive)
-+			continue;
-+		return true;
-+	}
-+	return false;
-+}
-+EXPORT_SYMBOL(cdns_mhdp_check_alive);
- 
- static int mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
- {
-@@ -190,6 +209,51 @@ int cdns_mhdp_mailbox_send(struct cdns_mhdp_device *mhdp, u8 module_id,
- 	return 0;
- }
- 
-+int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr)
-+{
-+	u8 msg[4], resp[8];
-+	u32 val;
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++	struct audio_info audio = {
++		.sample_width = params->sample_width,
++		.sample_rate = params->sample_rate,
++		.channels = params->channels,
++		.connector_type = mhdp->connector.base.connector_type,
++	};
 +	int ret;
 +
-+	if (addr == 0) {
++	switch (daifmt->fmt) {
++	case HDMI_I2S:
++		audio.format = AFMT_I2S;
++		break;
++	case HDMI_SPDIF:
++		audio.format = AFMT_SPDIF_EXT;
++		break;
++	default:
++		DRM_DEV_ERROR(dev, "Invalid format %d\n", daifmt->fmt);
 +		ret = -EINVAL;
-+		goto err_reg_read;
++		goto out;
 +	}
 +
-+	put_unaligned_be32(addr, msg);
++	ret = cdns_mhdp_audio_config(mhdp, &audio);
++	if (!ret)
++		mhdp->audio_info = audio;
 +
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_GENERAL,
-+				     GENERAL_READ_REGISTER,
-+				     sizeof(msg), msg);
-+	if (ret)
-+		goto err_reg_read;
++out:
++	return ret;
++}
 +
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_GENERAL,
-+						 GENERAL_READ_REGISTER,
-+						 sizeof(resp));
-+	if (ret)
-+		goto err_reg_read;
++static void audio_shutdown(struct device *dev, void *data)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++	int ret;
 +
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, resp, sizeof(resp));
-+	if (ret)
-+		goto err_reg_read;
++	ret = cdns_mhdp_audio_stop(mhdp, &mhdp->audio_info);
++	if (!ret)
++		mhdp->audio_info.format = AFMT_UNUSED;
++}
 +
-+	/* Returned address value should be the same as requested */
-+	if (memcmp(msg, resp, sizeof(msg))) {
-+		ret = -EINVAL;
-+		goto err_reg_read;
-+	}
++static int audio_digital_mute(struct device *dev, void *data,
++				     bool enable)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++	int ret;
 +
-+	val = get_unaligned_be32(resp + 4);
-+
-+	return val;
-+
-+err_reg_read:
-+	DRM_DEV_ERROR(mhdp->dev, "Failed to read register.\n");
++	ret = cdns_mhdp_audio_mute(mhdp, enable);
 +
 +	return ret;
 +}
 +
- int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val)
- {
- 	u8 msg[8];
-@@ -215,68 +279,6 @@ int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
- 				      DPTX_WRITE_FIELD, sizeof(field), field);
++static int audio_get_eld(struct device *dev, void *data,
++				u8 *buf, size_t len)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++
++	memcpy(buf, mhdp->connector.base.eld,
++	       min(sizeof(mhdp->connector.base.eld), len));
++
++	return 0;
++}
++
++static const struct hdmi_codec_ops audio_codec_ops = {
++	.hw_params = audio_hw_params,
++	.audio_shutdown = audio_shutdown,
++	.digital_mute = audio_digital_mute,
++	.get_eld = audio_get_eld,
++};
++
++int cdns_mhdp_register_audio_driver(struct device *dev)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++	struct hdmi_codec_pdata codec_data = {
++		.i2s = 1,
++		.spdif = 1,
++		.ops = &audio_codec_ops,
++		.max_i2s_channels = 8,
++	};
++
++	mhdp->audio_pdev = platform_device_register_data(
++			      dev, HDMI_CODEC_DRV_NAME, 1,
++			      &codec_data, sizeof(codec_data));
++
++	return PTR_ERR_OR_ZERO(mhdp->audio_pdev);
++}
++
++void cdns_mhdp_unregister_audio_driver(struct device *dev)
++{
++	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
++
++	platform_device_unregister(mhdp->audio_pdev);
++}
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
+index efb39cf5f48b..9fd4546c6914 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.c
+@@ -357,36 +357,6 @@ int cdns_mhdp_set_firmware_active(struct cdns_mhdp_device *mhdp, bool enable)
  }
+ EXPORT_SYMBOL(cdns_mhdp_set_firmware_active);
  
--int cdns_mhdp_dpcd_read(struct cdns_mhdp_device *mhdp,
--			u32 addr, u8 *data, u16 len)
+-int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp, bool flip)
 -{
--	u8 msg[5], reg[5];
+-	u8 msg[8];
 -	int ret;
 -
--	put_unaligned_be16(len, msg);
--	put_unaligned_be24(addr, msg + 2);
+-	msg[0] = drm_dp_link_rate_to_bw_code(mhdp->dp.rate);
+-	msg[1] = mhdp->dp.num_lanes | SCRAMBLER_EN;
+-	msg[2] = VOLTAGE_LEVEL_2;
+-	msg[3] = PRE_EMPHASIS_LEVEL_3;
+-	msg[4] = PTS1 | PTS2 | PTS3 | PTS4;
+-	msg[5] = FAST_LT_NOT_SUPPORT;
+-	msg[6] = flip ? LANE_MAPPING_FLIPPED : LANE_MAPPING_NORMAL;
+-	msg[7] = ENHANCED;
 -
 -	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
--				     DPTX_READ_DPCD, sizeof(msg), msg);
+-				     DPTX_SET_HOST_CAPABILITIES,
+-				     sizeof(msg), msg);
 -	if (ret)
--		goto err_dpcd_read;
+-		goto err_set_host_cap;
 -
--	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
--						 DPTX_READ_DPCD,
--						 sizeof(reg) + len);
+-	ret = cdns_mhdp_reg_write(mhdp, DP_AUX_SWAP_INVERSION_CONTROL,
+-					AUX_HOST_INVERT);
+-
+-err_set_host_cap:
 -	if (ret)
--		goto err_dpcd_read;
--
--	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
--	if (ret)
--		goto err_dpcd_read;
--
--	ret = cdns_mhdp_mailbox_read_receive(mhdp, data, len);
--
--err_dpcd_read:
+-		DRM_DEV_ERROR(mhdp->dev, "set host cap failed: %d\n", ret);
 -	return ret;
 -}
+-EXPORT_SYMBOL(cdns_mhdp_set_host_cap);
 -
--int cdns_mhdp_dpcd_write(struct cdns_mhdp_device *mhdp, u32 addr, u8 value)
--{
--	u8 msg[6], reg[5];
--	int ret;
--
--	put_unaligned_be16(1, msg);
--	put_unaligned_be24(addr, msg + 2);
--	msg[5] = value;
--
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
--				     DPTX_WRITE_DPCD, sizeof(msg), msg);
--	if (ret)
--		goto err_dpcd_write;
--
--	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
--						 DPTX_WRITE_DPCD, sizeof(reg));
--	if (ret)
--		goto err_dpcd_write;
--
--	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
--	if (ret)
--		goto err_dpcd_write;
--
--	if (addr != get_unaligned_be24(reg + 2))
--		ret = -EINVAL;
--
--err_dpcd_write:
--	if (ret)
--		DRM_DEV_ERROR(mhdp->dev, "dpcd write failed: %d\n", ret);
--	return ret;
--}
--
- int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp, const u32 *i_mem,
- 			    u32 i_size, const u32 *d_mem, u32 d_size)
- {
-@@ -318,6 +320,7 @@ int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp, const u32 *i_mem,
- 
- 	return 0;
- }
-+EXPORT_SYMBOL(cdns_mhdp_load_firmware);
- 
- int cdns_mhdp_set_firmware_active(struct cdns_mhdp_device *mhdp, bool enable)
- {
-@@ -352,6 +355,7 @@ int cdns_mhdp_set_firmware_active(struct cdns_mhdp_device *mhdp, bool enable)
- 		DRM_DEV_ERROR(mhdp->dev, "set firmware active failed\n");
- 	return ret;
- }
-+EXPORT_SYMBOL(cdns_mhdp_set_firmware_active);
- 
- int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp, bool flip)
- {
-@@ -381,6 +385,7 @@ int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp, bool flip)
- 		DRM_DEV_ERROR(mhdp->dev, "set host cap failed: %d\n", ret);
- 	return ret;
- }
-+EXPORT_SYMBOL(cdns_mhdp_set_host_cap);
- 
  int cdns_mhdp_event_config(struct cdns_mhdp_device *mhdp)
  {
-@@ -398,11 +403,13 @@ int cdns_mhdp_event_config(struct cdns_mhdp_device *mhdp)
- 
+ 	u8 msg[5];
+@@ -698,3 +668,15 @@ int cdns_mhdp_config_video(struct cdns_mhdp_device *mhdp)
  	return ret;
  }
-+EXPORT_SYMBOL(cdns_mhdp_event_config);
- 
- u32 cdns_mhdp_get_event(struct cdns_mhdp_device *mhdp)
- {
- 	return cdns_mhdp_bus_read(mhdp, SW_EVENTS0);
- }
-+EXPORT_SYMBOL(cdns_mhdp_get_event);
- 
- int cdns_mhdp_read_hpd(struct cdns_mhdp_device *mhdp)
- {
-@@ -429,6 +436,7 @@ int cdns_mhdp_read_hpd(struct cdns_mhdp_device *mhdp)
- 	DRM_ERROR("read hpd  failed: %d\n", ret);
- 	return ret;
- }
-+EXPORT_SYMBOL(cdns_mhdp_read_hpd);
- 
- int cdns_mhdp_get_edid_block(void *data, u8 *edid,
- 			  unsigned int block, size_t length)
-@@ -471,100 +479,7 @@ int cdns_mhdp_get_edid_block(void *data, u8 *edid,
- 
- 	return ret;
- }
--
--static int cdns_mhdp_training_start(struct cdns_mhdp_device *mhdp)
--{
--	unsigned long timeout;
--	u8 msg, event[2];
--	int ret;
--
--	msg = LINK_TRAINING_RUN;
--
--	/* start training */
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX, DPTX_TRAINING_CONTROL,
--								sizeof(msg), &msg);
--	if (ret)
--		goto err_training_start;
--
--	timeout = jiffies + msecs_to_jiffies(LINK_TRAINING_TIMEOUT_MS);
--	while (time_before(jiffies, timeout)) {
--		msleep(LINK_TRAINING_RETRY_MS);
--		ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
--					     DPTX_READ_EVENT, 0, NULL);
--		if (ret)
--			goto err_training_start;
--
--		ret = cdns_mhdp_mailbox_validate_receive(mhdp,
--							 MB_MODULE_ID_DP_TX,
--							 DPTX_READ_EVENT,
--							 sizeof(event));
--		if (ret)
--			goto err_training_start;
--
--		ret = cdns_mhdp_mailbox_read_receive(mhdp, event, sizeof(event));
--		if (ret)
--			goto err_training_start;
--
--		if (event[1] & EQ_PHASE_FINISHED)
--			return 0;
--	}
--
--	ret = -ETIMEDOUT;
--
--err_training_start:
--	DRM_DEV_ERROR(mhdp->dev, "training failed: %d\n", ret);
--	return ret;
--}
--
--static int cdns_mhdp_get_training_status(struct cdns_mhdp_device *mhdp)
--{
--	u8 status[10];
--	int ret;
--
--	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX, DPTX_READ_LINK_STAT,
--								0, NULL);
--	if (ret)
--		goto err_get_training_status;
--
--	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
--						 DPTX_READ_LINK_STAT,
--						 sizeof(status));
--	if (ret)
--		goto err_get_training_status;
--
--	ret = cdns_mhdp_mailbox_read_receive(mhdp, status, sizeof(status));
--	if (ret)
--		goto err_get_training_status;
--
--	mhdp->dp.rate = drm_dp_bw_code_to_link_rate(status[0]);
--	mhdp->dp.num_lanes = status[1];
--
--err_get_training_status:
--	if (ret)
--		DRM_DEV_ERROR(mhdp->dev, "get training status failed: %d\n", ret);
--	return ret;
--}
--
--int cdns_mhdp_train_link(struct cdns_mhdp_device *mhdp)
--{
--	int ret;
--
--	ret = cdns_mhdp_training_start(mhdp);
--	if (ret) {
--		DRM_DEV_ERROR(mhdp->dev, "Failed to start training %d\n", ret);
--		return ret;
--	}
--
--	ret = cdns_mhdp_get_training_status(mhdp);
--	if (ret) {
--		DRM_DEV_ERROR(mhdp->dev, "Failed to get training stat %d\n", ret);
--		return ret;
--	}
--
--	DRM_DEV_DEBUG_KMS(mhdp->dev, "rate:0x%x, lanes:%d\n", mhdp->dp.rate,
--			  mhdp->dp.num_lanes);
--	return ret;
--}
-+EXPORT_SYMBOL(cdns_mhdp_get_edid_block);
- 
- int cdns_mhdp_set_video_status(struct cdns_mhdp_device *mhdp, int active)
- {
-@@ -580,6 +495,7 @@ int cdns_mhdp_set_video_status(struct cdns_mhdp_device *mhdp, int active)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL(cdns_mhdp_set_video_status);
- 
- static int mhdp_get_msa_misc(struct video_info *video,
- 				  struct drm_display_mode *mode)
-@@ -781,182 +697,4 @@ int cdns_mhdp_config_video(struct cdns_mhdp_device *mhdp)
- 		DRM_DEV_ERROR(mhdp->dev, "config video failed: %d\n", ret);
- 	return ret;
- }
--
--int cdns_mhdp_audio_stop(struct cdns_mhdp_device *mhdp, struct audio_info *audio)
--{
--	int ret;
--
--	ret = cdns_mhdp_reg_write(mhdp, AUDIO_PACK_CONTROL, 0);
--	if (ret) {
--		DRM_DEV_ERROR(mhdp->dev, "audio stop failed: %d\n", ret);
--		return ret;
--	}
--
--	cdns_mhdp_bus_write(0, mhdp, SPDIF_CTRL_ADDR);
--
--	/* clearn the audio config and reset */
--	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNTL);
--	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNFG);
--	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, AUDIO_SRC_CNTL);
--	cdns_mhdp_bus_write(0, mhdp, AUDIO_SRC_CNTL);
--
--	/* reset smpl2pckt component  */
--	cdns_mhdp_bus_write(0, mhdp, SMPL2PKT_CNTL);
--	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, SMPL2PKT_CNTL);
--	cdns_mhdp_bus_write(0, mhdp, SMPL2PKT_CNTL);
--
--	/* reset FIFO */
--	cdns_mhdp_bus_write(AUDIO_SW_RST, mhdp, FIFO_CNTL);
--	cdns_mhdp_bus_write(0, mhdp, FIFO_CNTL);
--
--	if (audio->format == AFMT_SPDIF_INT)
--		clk_disable_unprepare(mhdp->spdif_clk);
--
--	return 0;
--}
--
--int cdns_mhdp_audio_mute(struct cdns_mhdp_device *mhdp, bool enable)
--{
--	int ret = true;
--
--	ret = cdns_mhdp_reg_write_bit(mhdp, DP_VB_ID, 4, 1, enable);
--	if (ret)
--		DRM_DEV_ERROR(mhdp->dev, "audio mute failed: %d\n", ret);
--
--	return ret;
--}
--
--static void cdns_mhdp_audio_config_i2s(struct cdns_mhdp_device *mhdp,
--				       struct audio_info *audio)
--{
--	int sub_pckt_num = 1, i2s_port_en_val = 0xf, i;
--	u32 val;
--
--	if (audio->channels == 2) {
--		if (mhdp->dp.num_lanes == 1)
--			sub_pckt_num = 2;
--		else
--			sub_pckt_num = 4;
--
--		i2s_port_en_val = 1;
--	} else if (audio->channels == 4) {
--		i2s_port_en_val = 3;
--	}
--
--	cdns_mhdp_bus_write(0x0, mhdp, SPDIF_CTRL_ADDR);
--
--	cdns_mhdp_bus_write(SYNC_WR_TO_CH_ZERO, mhdp, FIFO_CNTL);
--
--	val = MAX_NUM_CH(audio->channels);
--	val |= NUM_OF_I2S_PORTS(audio->channels);
--	val |= AUDIO_TYPE_LPCM;
--	val |= CFG_SUB_PCKT_NUM(sub_pckt_num);
--	cdns_mhdp_bus_write(val, mhdp, SMPL2PKT_CNFG);
--
--	if (audio->sample_width == 16)
--		val = 0;
--	else if (audio->sample_width == 24)
--		val = 1 << 9;
--	else
--		val = 2 << 9;
--
--	val |= AUDIO_CH_NUM(audio->channels);
--	val |= I2S_DEC_PORT_EN(i2s_port_en_val);
--	val |= TRANS_SMPL_WIDTH_32;
--	cdns_mhdp_bus_write(val, mhdp, AUDIO_SRC_CNFG);
--
--	for (i = 0; i < (audio->channels + 1) / 2; i++) {
--		if (audio->sample_width == 16)
--			val = (0x02 << 8) | (0x02 << 20);
--		else if (audio->sample_width == 24)
--			val = (0x0b << 8) | (0x0b << 20);
--
--		val |= ((2 * i) << 4) | ((2 * i + 1) << 16);
--		cdns_mhdp_bus_write(val, mhdp, STTS_BIT_CH(i));
--	}
--
--	switch (audio->sample_rate) {
--	case 32000:
--		val = SAMPLING_FREQ(3) |
--		      ORIGINAL_SAMP_FREQ(0xc);
--		break;
--	case 44100:
--		val = SAMPLING_FREQ(0) |
--		      ORIGINAL_SAMP_FREQ(0xf);
--		break;
--	case 48000:
--		val = SAMPLING_FREQ(2) |
--		      ORIGINAL_SAMP_FREQ(0xd);
--		break;
--	case 88200:
--		val = SAMPLING_FREQ(8) |
--		      ORIGINAL_SAMP_FREQ(0x7);
--		break;
--	case 96000:
--		val = SAMPLING_FREQ(0xa) |
--		      ORIGINAL_SAMP_FREQ(5);
--		break;
--	case 176400:
--		val = SAMPLING_FREQ(0xc) |
--		      ORIGINAL_SAMP_FREQ(3);
--		break;
--	case 192000:
--		val = SAMPLING_FREQ(0xe) |
--		      ORIGINAL_SAMP_FREQ(1);
--		break;
--	}
--	val |= 4;
--	cdns_mhdp_bus_write(val, mhdp, COM_CH_STTS_BITS);
--
--	cdns_mhdp_bus_write(SMPL2PKT_EN, mhdp, SMPL2PKT_CNTL);
--	cdns_mhdp_bus_write(I2S_DEC_START, mhdp, AUDIO_SRC_CNTL);
--}
--
--static void cdns_mhdp_audio_config_spdif(struct cdns_mhdp_device *mhdp)
--{
--	u32 val;
--
--	cdns_mhdp_bus_write(SYNC_WR_TO_CH_ZERO, mhdp, FIFO_CNTL);
--
--	val = MAX_NUM_CH(2) | AUDIO_TYPE_LPCM | CFG_SUB_PCKT_NUM(4);
--	cdns_mhdp_bus_write(val, mhdp, SMPL2PKT_CNFG);
--	cdns_mhdp_bus_write(SMPL2PKT_EN, mhdp, SMPL2PKT_CNTL);
--
--	val = SPDIF_ENABLE | SPDIF_AVG_SEL | SPDIF_JITTER_BYPASS;
--	cdns_mhdp_bus_write(val, mhdp, SPDIF_CTRL_ADDR);
--
--	clk_prepare_enable(mhdp->spdif_clk);
--	clk_set_rate(mhdp->spdif_clk, CDNS_DP_SPDIF_CLK);
--}
--
--int cdns_mhdp_audio_config(struct cdns_mhdp_device *mhdp,
--							struct audio_info *audio)
--{
--	int ret;
--
--	/* reset the spdif clk before config */
--	if (audio->format == AFMT_SPDIF_INT) {
--		reset_control_assert(mhdp->spdif_rst);
--		reset_control_deassert(mhdp->spdif_rst);
--	}
--
--	ret = cdns_mhdp_reg_write(mhdp, CM_LANE_CTRL, LANE_REF_CYC);
--	if (ret)
--		goto err_audio_config;
--
--	ret = cdns_mhdp_reg_write(mhdp, CM_CTRL, 0);
--	if (ret)
--		goto err_audio_config;
--
--	if (audio->format == AFMT_I2S)
--		cdns_mhdp_audio_config_i2s(mhdp, audio);
--	else if (audio->format == AFMT_SPDIF_INT)
--		cdns_mhdp_audio_config_spdif(mhdp);
--
--	ret = cdns_mhdp_reg_write(mhdp, AUDIO_PACK_CONTROL, AUDIO_PACK_EN);
--
--err_audio_config:
--	if (ret)
--		DRM_DEV_ERROR(mhdp->dev, "audio config failed: %d\n", ret);
--	return ret;
--}
-+EXPORT_SYMBOL(cdns_mhdp_config_video);
+ EXPORT_SYMBOL(cdns_mhdp_config_video);
++
++int cdns_phy_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val)
++{
++	return cdns_mhdp_reg_write(mhdp, ADDR_PHY_AFE + (addr << 2), val);
++}
++EXPORT_SYMBOL(cdns_phy_reg_write);
++
++u32 cdns_phy_reg_read(struct cdns_mhdp_device *mhdp, u32 addr)
++{
++	return cdns_mhdp_reg_read(mhdp, ADDR_PHY_AFE + (addr << 2));
++}
++EXPORT_SYMBOL(cdns_phy_reg_read);
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
-new file mode 100644
-index 000000000000..1f093a2deaa7
---- /dev/null
+index 1f093a2deaa7..b122bf5f0bdf 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#ifndef _CDNS_MHDP_H_
-+#define _CDNS_MHDP_H_
-+
-+#include <drm/bridge/cdns-mhdp.h>
-+
-+/* mhdp common */
-+u32 cdns_mhdp_bus_read(struct cdns_mhdp_device *mhdp, u32 offset);
-+void cdns_mhdp_bus_write(u32 val, struct cdns_mhdp_device *mhdp, u32 offset);
-+int cdns_mhdp_mailbox_send(struct cdns_mhdp_device *mhdp, u8 module_id,
-+				  u8 opcode, u16 size, u8 *message);
-+int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
-+int cdns_mhdp_mailbox_read_receive(struct cdns_mhdp_device *mhdp,
-+					  u8 *buff, u16 buff_size);
-+int cdns_mhdp_mailbox_validate_receive(struct cdns_mhdp_device *mhdp,
-+					      u8 module_id, u8 opcode, u16 req_size);
-+int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
-+int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val);
-+int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
-+				   u8 start_bit, u8 bits_no, u32 val);
-+
-+#endif
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
-new file mode 100644
-index 000000000000..c8160f321aca
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#include <asm/unaligned.h>
-+#include <drm/bridge/cdns-mhdp.h>
-+#include <drm/drm_print.h>
-+#include <linux/io.h>
-+
-+#include "cdns-mhdp-common.h"
-+
-+#define LINK_TRAINING_TIMEOUT_MS	500
-+#define LINK_TRAINING_RETRY_MS		20
-+
-+int cdns_mhdp_dpcd_read(struct cdns_mhdp_device *mhdp,
-+			u32 addr, u8 *data, u16 len)
-+{
-+	u8 msg[5], reg[5];
-+	int ret;
-+
-+	put_unaligned_be16(len, msg);
-+	put_unaligned_be24(addr, msg + 2);
-+
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
-+				     DPTX_READ_DPCD, sizeof(msg), msg);
-+	if (ret)
-+		goto err_dpcd_read;
-+
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
-+						 DPTX_READ_DPCD,
-+						 sizeof(reg) + len);
-+	if (ret)
-+		goto err_dpcd_read;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
-+	if (ret)
-+		goto err_dpcd_read;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, data, len);
-+
-+err_dpcd_read:
-+	return ret;
-+}
-+EXPORT_SYMBOL(cdns_mhdp_dpcd_read);
-+
-+int cdns_mhdp_dpcd_write(struct cdns_mhdp_device *mhdp, u32 addr, u8 value)
-+{
-+	u8 msg[6], reg[5];
-+	int ret;
-+
-+	put_unaligned_be16(1, msg);
-+	put_unaligned_be24(addr, msg + 2);
-+	msg[5] = value;
-+
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
-+				     DPTX_WRITE_DPCD, sizeof(msg), msg);
-+	if (ret)
-+		goto err_dpcd_write;
-+
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
-+						 DPTX_WRITE_DPCD, sizeof(reg));
-+	if (ret)
-+		goto err_dpcd_write;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
-+	if (ret)
-+		goto err_dpcd_write;
-+
-+	if (addr != get_unaligned_be24(reg + 2))
-+		ret = -EINVAL;
-+
-+err_dpcd_write:
-+	if (ret)
-+		DRM_DEV_ERROR(mhdp->dev, "dpcd write failed: %d\n", ret);
-+	return ret;
-+}
-+EXPORT_SYMBOL(cdns_mhdp_dpcd_write);
-+
-+static int cdns_mhdp_training_start(struct cdns_mhdp_device *mhdp)
-+{
-+	unsigned long timeout;
-+	u8 msg, event[2];
-+	int ret;
-+
-+	msg = LINK_TRAINING_RUN;
-+
-+	/* start training */
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
-+				     DPTX_TRAINING_CONTROL, sizeof(msg), &msg);
-+	if (ret)
-+		goto err_training_start;
-+
-+	timeout = jiffies + msecs_to_jiffies(LINK_TRAINING_TIMEOUT_MS);
-+	while (time_before(jiffies, timeout)) {
-+		msleep(LINK_TRAINING_RETRY_MS);
-+		ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
-+					     DPTX_READ_EVENT, 0, NULL);
-+		if (ret)
-+			goto err_training_start;
-+
-+		ret = cdns_mhdp_mailbox_validate_receive(mhdp,
-+							 MB_MODULE_ID_DP_TX,
-+							 DPTX_READ_EVENT,
-+							 sizeof(event));
-+		if (ret)
-+			goto err_training_start;
-+
-+		ret = cdns_mhdp_mailbox_read_receive(mhdp, event,
-+						     sizeof(event));
-+		if (ret)
-+			goto err_training_start;
-+
-+		if (event[1] & EQ_PHASE_FINISHED)
-+			return 0;
-+	}
-+
-+	ret = -ETIMEDOUT;
-+
-+err_training_start:
-+	DRM_DEV_ERROR(mhdp->dev, "training failed: %d\n", ret);
-+	return ret;
-+}
-+
-+static int cdns_mhdp_get_training_status(struct cdns_mhdp_device *mhdp)
-+{
-+	u8 status[10];
-+	int ret;
-+
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
-+				     DPTX_READ_LINK_STAT, 0, NULL);
-+	if (ret)
-+		goto err_get_training_status;
-+
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_DP_TX,
-+						 DPTX_READ_LINK_STAT,
-+						 sizeof(status));
-+	if (ret)
-+		goto err_get_training_status;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, status, sizeof(status));
-+	if (ret)
-+		goto err_get_training_status;
-+
-+	mhdp->dp.rate = drm_dp_bw_code_to_link_rate(status[0]);
-+	mhdp->dp.num_lanes = status[1];
-+
-+err_get_training_status:
-+	if (ret)
-+		DRM_DEV_ERROR(mhdp->dev, "get training status failed: %d\n",
-+			      ret);
-+	return ret;
-+}
-+
-+int cdns_mhdp_train_link(struct cdns_mhdp_device *mhdp)
-+{
-+	int ret;
-+
-+	ret = cdns_mhdp_training_start(mhdp);
-+	if (ret) {
-+		DRM_DEV_ERROR(mhdp->dev, "Failed to start training %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	ret = cdns_mhdp_get_training_status(mhdp);
-+	if (ret) {
-+		DRM_DEV_ERROR(mhdp->dev, "Failed to get training stat %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	DRM_DEV_DEBUG_KMS(mhdp->dev, "rate:0x%x, lanes:%d\n", mhdp->dp.rate,
-+			  mhdp->dp.num_lanes);
-+	return ret;
-+}
-+EXPORT_SYMBOL(cdns_mhdp_train_link);
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index 310aa1546893..af1e9ac5c5ef 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -30,6 +30,7 @@ config ROCKCHIP_ANALOGIX_DP
- config ROCKCHIP_CDN_DP
- 	bool "Rockchip cdn DP"
- 	depends on EXTCON=y || (EXTCON=m && DRM_ROCKCHIP=m)
-+	depends on DRM_CDNS_MHDP
- 	help
- 	  This selects support for Rockchip SoC specific extensions
- 	  for the cdn DP driver. If you want to enable Dp on
-diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-index 17a9e7eb2130..bd013659404f 100644
---- a/drivers/gpu/drm/rockchip/Makefile
-+++ b/drivers/gpu/drm/rockchip/Makefile
-@@ -8,7 +8,7 @@ rockchipdrm-y := rockchip_drm_drv.o rockchip_drm_fb.o \
- rockchipdrm-$(CONFIG_DRM_FBDEV_EMULATION) += rockchip_drm_fbdev.o
+@@ -20,4 +20,7 @@ int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val);
+ int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
+ 				   u8 start_bit, u8 bits_no, u32 val);
  
- rockchipdrm-$(CONFIG_ROCKCHIP_ANALOGIX_DP) += analogix_dp-rockchip.o
--rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
-+rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
- rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
++/* Audio */
++int cdns_mhdp_register_audio_driver(struct device *dev);
++void cdns_mhdp_unregister_audio_driver(struct device *dev);
+ #endif
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
+index c8160f321aca..8fea072a5568 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-dp.c
+@@ -108,7 +108,9 @@ static int cdns_mhdp_training_start(struct cdns_mhdp_device *mhdp)
+ 		if (ret)
+ 			goto err_training_start;
+ 
+-		if (event[1] & EQ_PHASE_FINISHED)
++		if (event[1] & CLK_RECOVERY_FAILED)
++			DRM_DEV_ERROR(mhdp->dev, "clock recovery failed\n");
++		else if (event[1] & EQ_PHASE_FINISHED)
+ 			return 0;
+ 	}
+ 
+@@ -172,3 +174,33 @@ int cdns_mhdp_train_link(struct cdns_mhdp_device *mhdp)
+ 	return ret;
+ }
+ EXPORT_SYMBOL(cdns_mhdp_train_link);
++
++int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp)
++{
++	u8 msg[8];
++	int ret;
++
++	msg[0] = drm_dp_link_rate_to_bw_code(mhdp->dp.rate);
++	msg[1] = mhdp->dp.num_lanes | SCRAMBLER_EN;
++	msg[2] = VOLTAGE_LEVEL_2;
++	msg[3] = PRE_EMPHASIS_LEVEL_3;
++	msg[4] = PTS1 | PTS2 | PTS3 | PTS4;
++	msg[5] = FAST_LT_NOT_SUPPORT;
++	msg[6] = mhdp->lane_mapping;
++	msg[7] = ENHANCED;
++
++	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_DP_TX,
++				     DPTX_SET_HOST_CAPABILITIES,
++				     sizeof(msg), msg);
++	if (ret)
++		goto err_set_host_cap;
++
++	ret = cdns_mhdp_reg_write(mhdp, DP_AUX_SWAP_INVERSION_CONTROL,
++					AUX_HOST_INVERT);
++
++err_set_host_cap:
++	if (ret)
++		DRM_DEV_ERROR(mhdp->dev, "set host cap failed: %d\n", ret);
++	return ret;
++}
++EXPORT_SYMBOL(cdns_mhdp_set_host_cap);
 diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index b6aa21779608..06fd82b217b6 100644
+index 06fd82b217b6..d94d22650899 100644
 --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
 +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -15,6 +15,7 @@
+@@ -423,7 +423,12 @@ static int cdn_dp_enable_phy(struct cdn_dp_device *dp, struct cdn_dp_port *port)
+ 	}
  
- #include <sound/hdmi-codec.h>
- 
-+#include <drm/bridge/cdns-mhdp.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_edid.h>
-@@ -22,7 +23,6 @@
- #include <drm/drm_probe_helper.h>
- 
- #include "cdn-dp-core.h"
--#include "cdn-dp-reg.h"
- #include "rockchip_drm_vop.h"
- 
- #define connector_to_dp(c) \
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.h b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-index d5dcb75b2398..8b1b15b92503 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.h
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.h
-@@ -7,11 +7,11 @@
- #ifndef _CDN_DP_CORE_H
- #define _CDN_DP_CORE_H
- 
-+#include <drm/bridge/cdns-mhdp.h>
- #include <drm/drm_dp_helper.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_probe_helper.h>
- 
--#include "cdn-dp-reg.h"
- #include "rockchip_drm_drv.h"
- 
- #define MAX_PHY		2
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.h b/include/drm/bridge/cdns-mhdp.h
-similarity index 98%
-rename from drivers/gpu/drm/rockchip/cdn-dp-reg.h
-rename to include/drm/bridge/cdns-mhdp.h
-index 3c1235ff8e1c..c8170e6048f7 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-reg.h
+ 	port->lanes = cdn_dp_get_port_lanes(port);
+-	ret = cdns_mhdp_set_host_cap(&dp->mhdp, property.intval);
++
++	if (property.intval)
++		dp->mhdp.lane_mapping = LANE_MAPPING_FLIPPED;
++	else
++		dp->mhdp.lane_mapping = LANE_MAPPING_NORMAL;
++	ret = cdns_mhdp_set_host_cap(&dp->mhdp);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "set host capabilities failed: %d\n",
+ 			      ret);
+diff --git a/include/drm/bridge/cdns-mhdp.h b/include/drm/bridge/cdns-mhdp.h
+index c8170e6048f7..6ffb97e17fae 100644
+--- a/include/drm/bridge/cdns-mhdp.h
 +++ b/include/drm/bridge/cdns-mhdp.h
-@@ -4,11 +4,12 @@
-  * Author: Chris Zhong <zyw@rock-chips.com>
-  */
- 
--#ifndef _CDN_DP_REG_H
--#define _CDN_DP_REG_H
-+#ifndef CDNS_MHDP_H_
-+#define CDNS_MHDP_H_
- 
- #include <drm/drm_bridge.h>
- #include <drm/drm_connector.h>
-+#include <drm/drm_dp_helper.h>
- #include <linux/bitops.h>
+@@ -14,6 +14,7 @@
  
  #define ADDR_IMEM		0x10000
-@@ -529,8 +530,6 @@ struct cdns_mhdp_device {
- 	};
+ #define ADDR_DMEM		0x20000
++#define ADDR_PHY_AFE	0x80000
+ 
+ /* APB CFG addr */
+ #define APB_CTRL			0
+@@ -81,6 +82,10 @@
+ #define SOURCE_PIF_SW_RESET		0x30834
+ 
+ /* bellow registers need access by mailbox */
++
++/* source phy comp */
++#define LANES_CONFIG			0x0814
++
+ /* source car addr */
+ #define SOURCE_HDTX_CAR			0x0900
+ #define SOURCE_DPTX_CAR			0x0904
+@@ -424,6 +429,16 @@
+ /* Reference cycles when using lane clock as reference */
+ #define LANE_REF_CYC				0x8000
+ 
++#define HOTPLUG_DEBOUNCE_MS		200
++
++#define IRQ_IN    0
++#define IRQ_OUT   1
++#define IRQ_NUM   2
++
++#define cdns_mhdp_plat_call(mhdp, operation)			\
++	(!(mhdp) ? -ENODEV : (((mhdp)->plat_data && (mhdp)->plat_data->operation) ?	\
++	 (mhdp)->plat_data->operation(mhdp) : ENOIOCTLCMD))
++
+ enum voltage_swing_level {
+ 	VOLTAGE_LEVEL_0,
+ 	VOLTAGE_LEVEL_1,
+@@ -504,9 +519,29 @@ struct cdns_mhdp_connector {
+ 	struct cdns_mhdp_bridge *bridge;
  };
  
--int cdns_mhdp_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
--int cdns_mhdp_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val);
++struct cdns_plat_data {
++	/* Vendor PHY support */
++	int (*bind)(struct platform_device *pdev,
++			struct drm_encoder *encoder,
++			struct cdns_mhdp_device *mhdp);
++	void (*unbind)(struct device *dev);
++
++	int (*phy_set)(struct cdns_mhdp_device *mhdp);
++	bool (*phy_video_valid)(struct cdns_mhdp_device *mhdp);
++	int (*firmware_init)(struct cdns_mhdp_device *mhdp);
++	void (*pclk_rate)(struct cdns_mhdp_device *mhdp);
++
++	int (*power_on)(struct cdns_mhdp_device *mhdp);
++	int (*power_off)(struct cdns_mhdp_device *mhdp);
++
++	char *plat_name;
++	int lane_mapping;
++};
++
+ struct cdns_mhdp_device {
+ 	struct device *dev;
+ 	struct cdns_mhdp_connector connector;
++	struct cdns_mhdp_bridge	bridge;
+ 
+ 	void __iomem *regs_base;
+ 	struct reset_control *spdif_rst;
+@@ -520,6 +555,11 @@ struct cdns_mhdp_device {
+ 
+ 	unsigned int fw_version;
+ 
++	struct delayed_work hotplug_work;
++	u32 lane_mapping;
++	bool power_up;
++	struct mutex lock;
++	int irq[IRQ_NUM];
+ 	union {
+ 		struct _dp_data {
+ 			u32 rate;
+@@ -528,6 +568,8 @@ struct cdns_mhdp_device {
+ 			u8 dpcd[DP_RECEIVER_CAP_SIZE];
+ 		} dp;
+ 	};
++	const struct cdns_plat_data *plat_data;
++
+ };
+ 
  void cdns_mhdp_clock_reset(struct cdns_mhdp_device *mhdp);
- void cdns_mhdp_set_fw_clk(struct cdns_mhdp_device *mhdp, unsigned long clk);
+@@ -535,7 +577,7 @@ void cdns_mhdp_set_fw_clk(struct cdns_mhdp_device *mhdp, unsigned long clk);
  int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp, const u32 *i_mem,
-@@ -554,4 +553,4 @@ int cdns_mhdp_audio_mute(struct cdns_mhdp_device *mhdp, bool enable);
+ 			    u32 i_size, const u32 *d_mem, u32 d_size);
+ int cdns_mhdp_set_firmware_active(struct cdns_mhdp_device *mhdp, bool enable);
+-int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp, bool flip);
++int cdns_mhdp_set_host_cap(struct cdns_mhdp_device *mhdp);
+ int cdns_mhdp_event_config(struct cdns_mhdp_device *mhdp);
+ u32 cdns_mhdp_get_event(struct cdns_mhdp_device *mhdp);
+ int cdns_mhdp_read_hpd(struct cdns_mhdp_device *mhdp);
+@@ -547,10 +589,18 @@ int cdns_mhdp_get_edid_block(void *mhdp, u8 *edid,
+ int cdns_mhdp_train_link(struct cdns_mhdp_device *mhdp);
+ int cdns_mhdp_set_video_status(struct cdns_mhdp_device *mhdp, int active);
+ int cdns_mhdp_config_video(struct cdns_mhdp_device *mhdp);
++bool cdns_mhdp_check_alive(struct cdns_mhdp_device *mhdp);
+ int cdns_mhdp_audio_stop(struct cdns_mhdp_device *mhdp,
+ 			 struct audio_info *audio);
+ int cdns_mhdp_audio_mute(struct cdns_mhdp_device *mhdp, bool enable);
  int cdns_mhdp_audio_config(struct cdns_mhdp_device *mhdp,
  			   struct audio_info *audio);
  
--#endif /* _CDN_DP_REG_H */
-+#endif /* CDNS_MHDP_H_ */
++int cdns_phy_reg_write(struct cdns_mhdp_device *mhdp, u32 addr, u32 val);
++u32 cdns_phy_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
++
++/* DP  */
++int cdns_dp_bind(struct platform_device *pdev, struct drm_encoder *encoder,
++		struct cdns_mhdp_device *mhdp);
++void cdns_dp_unbind(struct device *dev);
+ #endif /* CDNS_MHDP_H_ */
 -- 
 2.17.1
 
