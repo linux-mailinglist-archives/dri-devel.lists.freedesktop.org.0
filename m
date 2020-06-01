@@ -1,99 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698881EA4EC
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 15:25:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3CA1EA53B
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 15:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 896586E09A;
-	Mon,  1 Jun 2020 13:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5198E89DA6;
+	Mon,  1 Jun 2020 13:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF0A26E09A
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:31 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200601132530euoutp01ab8bb4830946796288672e54079d7900~UbmDUHdgF2599325993euoutp01C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200601132530euoutp01ab8bb4830946796288672e54079d7900~UbmDUHdgF2599325993euoutp01C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1591017930;
- bh=7MYfA7T1V2zf0ITQLbcPCa/EsxPMtj591hArtPdOjMw=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=G6EVZ06pRJJULZiV8S7AVTH/3ncNkfYaIcWhbeuLOLPrZWKG/W5wlpGKUIpMaRhjv
- DAorg2ctcMO5q+9C4UknJo+QbLjloH9IPsSM6T/KU6ExB5ZFwwyBqzMHDGNhM6JJiu
- SereMKlyB9KM9zu6Zen44NS+u1OuvrF1QVyCZ2kI=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200601132530eucas1p19a24e5bd23ad1d0190549ddb8bf39910~UbmDLs-Sf1285112851eucas1p1o;
- Mon,  1 Jun 2020 13:25:30 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id AB.14.61286.AC105DE5; Mon,  1
- Jun 2020 14:25:30 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200601132530eucas1p273e2fc07bcc82b5acdc6329853398e59~UbmC5ESkn2293122931eucas1p2i;
- Mon,  1 Jun 2020 13:25:30 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200601132530eusmtrp2e22ef13b605eb5f0be3d4bec7968535b~UbmC4V9au1059710597eusmtrp2s;
- Mon,  1 Jun 2020 13:25:30 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-d3-5ed501caf24b
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id DC.95.07950.9C105DE5; Mon,  1
- Jun 2020 14:25:30 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200601132529eusmtip144ca8a4d65015ef72f79683e359a1e3b~UbmCifbJL1117511175eusmtip1Q;
- Mon,  1 Jun 2020 13:25:29 +0000 (GMT)
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [trivial PATCH] video: fbdev: Use IS_BUILTIN
-To: Joe Perches <joe@perches.com>
-Message-ID: <465a04eb-cd2e-d0da-b667-584d297a0102@samsung.com>
-Date: Mon, 1 Jun 2020 15:25:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79D7189DA6
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:43:55 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id r15so11396197wmh.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jun 2020 06:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:autocrypt:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fKaKXt1rVsaTRWoPIaJcXCwRkx09K+guPUVHbLfGK+w=;
+ b=xOnqyzArdWVJFiihen+Khv60disLzpzhh1F06NTFqXEJKqvJ1VLDYW728SnP2KAp5K
+ iZlMAb4h3caicReSKb/8igsyKRUVczPOzjcp3l5hJUWdvTf3EpPcDb1ts3KBnVu6MA2q
+ 4xfSbtFjx+kOXu0MSagsinK/Ft7/uImVGnPyRd02IxcU9Gi0Oiua1g5P5G97W/f8xH86
+ SiRDhhPRYg6bGkYmazimPThlrturM0Vc5Sm1f8KMo/rdj6ZfIe71JjyHtsXrPWouaptZ
+ tLEDHd6IyOr6nNmUwdXD3Zwmmo/YyPRTZiKFPmhXmdh0HFMh7v5fOfGlxjDvlthqn5It
+ GAdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=fKaKXt1rVsaTRWoPIaJcXCwRkx09K+guPUVHbLfGK+w=;
+ b=N2mPGBiIhjxHdMoUidAj2rOuN9O+JIcpRdpFLFSmFK+KZVucrl4hPG2Ia4b+O3MKrw
+ Wu2kflxySuIBK+JaHP64coPFgL407a52N1KNGSRHb7xXaK8PHATGgayTrChx0/2cG8CD
+ zwJYBBI4iFNk0kL2YjukJRJRCn8ReUe4zLxHSjIOTUTh6yDINJnIT0z1LRUkXFnLF8Ga
+ c3wrhIHu280dbTVetuaI6UOV/Cb6734hVAoBIZB6/OkRrp60KvSYSBuJnx0Ck6S/Bhew
+ nyxa4AXlbzRmLpx7toxha5KxbwXB2RZOI1Ex5WcV0L/fClSMhLkPBwpobZGq9jpLJrDb
+ zboQ==
+X-Gm-Message-State: AOAM532vN2Oa2HwM3Wn6D0KQQoA376WJHRGYNVtT+l4NMnL7Z0JJg0kH
+ N8PIwYJS9XCDUQdJ4dTqUICva/r4gfyx3A==
+X-Google-Smtp-Source: ABdhPJxI2MsPFx9P3DXUSCMdrhE6zuGahGRBCrLIVnVCEVXj6GzLK11ARnnrTru1NE0u+x7AZa9hmg==
+X-Received: by 2002:a7b:c0d9:: with SMTP id s25mr22938509wmh.175.1591019033388; 
+ Mon, 01 Jun 2020 06:43:53 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b?
+ ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
+ by smtp.gmail.com with ESMTPSA id u14sm12705298wmd.0.2020.06.01.06.43.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jun 2020 06:43:52 -0700 (PDT)
+Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
+To: dri-devel@lists.freedesktop.org
+References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
+ <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
+ <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
+ <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
+ <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <958996c3-2322-8a39-4eb6-1fdce3859fca@baylibre.com>
+Date: Mon, 1 Jun 2020 15:43:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
+In-Reply-To: <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zmbR2l6nJovGqWjrMy0UT9WmqQUrH/1Q8ku2lFPOtqm7TjT
- IrI/mQs1NVCXtfCSNnQuXU4NzBSc5TVviCQGmpuSWF4ItSwPZ5L/nve5fO/7wEdgoiq+DyFX
- pdFqFaUQC1zwpq61/qOf0Gjssa55kXRkdVEgfTY1jUsbpsf40u68H3zpcGvZFleZj0tLBtp4
- Z5xkU4+tPFlj5X3ZimEMky037L2AX3YJS6QV8nRaHRJ+3SX5Q2kRSv15MMPy/TmehTb8tMiZ
- APIEvLDk87TIhRCRNQhqSysQN6wgyH2vdSjLCD4PTThtR+pHe504oRpBV8E3nBsWEGTn2DDW
- JSBPQUG2AbHYgzwJje3mLRNBeJL+MGl2Y/0YaUVgLawUsB4hGQ761qeI9eDkfuh+48bSXuQl
- WPrayecs7vCxdAZnsTN5Hppzh3ksxkhvmJjRO/A+sCyUYez7QBqdoD2rF3FXn4WKmgIBhz1g
- 3mp2tNkDf1v0PEcAwZ9HdkfagqC6aNORCIUv/esC9jqMPAz1rSEcHQG9g3M8lgbSFcYX3Lkj
- XKGwqRjjaCE8eiji3AFgemUSbK/VtrzGniCxbkc13Y46uh11dP/3vkS4AXnTGkaZRDMSFX07
- mKGUjEaVFJyQomxAW5+nZ9O61IxWh+I7EEkg8S6haWokVsSn0plMZQcCAhN7CiP7emJFwkQq
- 8w6tTolTaxQ004F8CVzsLTxePndNRCZRafRNmk6l1dsqj3D2yULyplpzQqQtetrIXO1VHAhO
- jsuYDe9czifS5HWGmOK3ecFtxkN+R6Iy9YZoSaiOSIrqM95V577bsIetLeZEGKtKqJragSCb
- l75k9+mYhf6l2R7/SI0hXj4fP24uDzzXb3OuM1gmLw7afX9f2bwxalH+urceIVEGPbCv3TIF
- ZIhxJpmSBGJqhvoHW5fcpzgDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xu7qnGK/GGfSZWlz5+p7NYvb9xywW
- mx5fY7U40feB1eLyrjlAsSX9LBYzzu9jcmD3uN99nMlj85J6jy+rrjF7fN4kF8ASpWdTlF9a
- kqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJdxcOZkxoKP6hXb
- 38xlaWD8rdDFyMkhIWAisf7qGXYQW0hgKaPE19tWXYwcQHEZiePryyBKhCX+XOti62LkAip5
- zSixe+lVNpAEm4CVxMT2VYwgtrCApcTmA1tYQHpFBBQl7m7hB6lnFjjOKPHlxBZWiOY5jBI7
- Xt0Aa+AVsJOYv2sKI0gDi4CKxImN/CBhUYEIicM7ZkGVCEqcnPmEBcTmFPCU2NF7mQnEZhZQ
- l/gz7xIzhC0ucevJfKi4vMT2t3OYJzAKzULSPgtJyywkLbOQtCxgZFnFKJJaWpybnltspFec
- mFtcmpeul5yfu4kRGGPbjv3csoOx613wIUYBDkYlHt4N96/ECbEmlhVX5h5ilOBgVhLhdTp7
- Ok6INyWxsiq1KD++qDQntfgQoynQbxOZpUST84Hxn1cSb2hqaG5haWhubG5sZqEkztshcDBG
- SCA9sSQ1OzW1ILUIpo+Jg1OqgXGK5b15//Vnf/2SrPblSUDGonXJ24J2b5/+1PRontf/lSI5
- 7peD39QvmcS2NkLLXWXC1BU6WxkfpFf3zX7pHlKsr3K/XcHqcuyjyG/Xp9xdelAj/XKmRBPr
- NWUhHp3ykLMXImVvzj3EK1/nMbcuY3NFLW8c2+5tPrsrhdJPnOiIPjRDZ7v5mlolluKMREMt
- 5qLiRABw3u1dxwIAAA==
-X-CMS-MailID: 20200601132530eucas1p273e2fc07bcc82b5acdc6329853398e59
-X-Msg-Generator: CA
-X-RootMTR: 20200504232908eucas1p296927bc7c736ad924cefaea9a546459d
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200504232908eucas1p296927bc7c736ad924cefaea9a546459d
-References: <CGME20200504232908eucas1p296927bc7c736ad924cefaea9a546459d@eucas1p2.samsung.com>
- <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,162 +127,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 5/5/20 1:29 AM, Joe Perches wrote:
-> IS_BUILTIN can be use to replace various initializations
-> like #if CONFIG_<FOO> int val = 1; #else int val = 0; #endif
-> so do so.
+On 29/05/2020 15:56, Daniel Stone wrote:
+> Hi Alex,
 > 
-> Signed-off-by: Joe Perches <joe@perches.com>
-
-
-Applied to drm-misc-next tree (patch should show up in v5.9), thanks.
-
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
-
-> ---
->  drivers/video/fbdev/aty/aty128fb.c     | 6 +-----
->  drivers/video/fbdev/aty/atyfb_base.c   | 7 +------
->  drivers/video/fbdev/aty/radeon_base.c  | 6 +-----
->  drivers/video/fbdev/nvidia/nvidia.c    | 6 +-----
->  drivers/video/fbdev/omap/omapfb_main.c | 6 +-----
->  drivers/video/fbdev/riva/fbdev.c       | 6 +-----
->  drivers/video/fbdev/s3c2410fb.c        | 6 +-----
->  7 files changed, 7 insertions(+), 36 deletions(-)
+> On Fri, 29 May 2020 at 14:29, Alex Deucher <alexdeucher@gmail.com> wrote:
+>> On Fri, May 29, 2020 at 4:59 AM Simon Ser <contact@emersion.fr> wrote:
+>>> OK. In this case I think it's fine to make the DMA-BUF import fail, as
+>>> we've suggested on IRC. The more-or-less planned fix for these buffer
+>>> sharing issues is to revive the buffer constraints proposal from the
+>>> allocator project. It's a lot of work though.
+>>
+>> I get that, but why explicitly limit modifiers then?  Shouldn't we try
+>> and do the best we can with what we have now?  If not the situation is
+>> not much better than what we have now.  Why go through the effort or
+>> adding modifer support in the first place if they are mostly useless?
 > 
-> diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-> index d05d4195acad..6fae6ad6cb77 100644
-> --- a/drivers/video/fbdev/aty/aty128fb.c
-> +++ b/drivers/video/fbdev/aty/aty128fb.c
-> @@ -384,11 +384,7 @@ static int default_lcd_on = 1;
->  static bool mtrr = true;
->  
->  #ifdef CONFIG_FB_ATY128_BACKLIGHT
-> -#ifdef CONFIG_PMAC_BACKLIGHT
-> -static int backlight = 1;
-> -#else
-> -static int backlight = 0;
-> -#endif
-> +static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
->  #endif
->  
->  /* PLL constants */
-> diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-> index 49d192869cf5..23a29d61c2a2 100644
-> --- a/drivers/video/fbdev/aty/atyfb_base.c
-> +++ b/drivers/video/fbdev/aty/atyfb_base.c
-> @@ -317,12 +317,7 @@ static int mclk;
->  static int xclk;
->  static int comp_sync = -1;
->  static char *mode;
-> -
-> -#ifdef CONFIG_PMAC_BACKLIGHT
-> -static int backlight = 1;
-> -#else
-> -static int backlight = 0;
-> -#endif
-> +static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
->  
->  #ifdef CONFIG_PPC
->  static int default_vmode = VMODE_CHOOSE;
-> diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-> index e116a3f9ad56..3fe509cb9b87 100644
-> --- a/drivers/video/fbdev/aty/radeon_base.c
-> +++ b/drivers/video/fbdev/aty/radeon_base.c
-> @@ -269,11 +269,7 @@ static bool force_measure_pll = 0;
->  static bool nomtrr = 0;
->  static bool force_sleep;
->  static bool ignore_devlist;
-> -#ifdef CONFIG_PMAC_BACKLIGHT
-> -static int backlight = 1;
-> -#else
-> -static int backlight = 0;
-> -#endif
-> +static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
->  
->  /* Note about this function: we have some rare cases where we must not schedule,
->   * this typically happen with our special "wake up early" hook which allows us to
-> diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-> index c24de9107958..c6820e21875d 100644
-> --- a/drivers/video/fbdev/nvidia/nvidia.c
-> +++ b/drivers/video/fbdev/nvidia/nvidia.c
-> @@ -74,11 +74,7 @@ static int vram = 0;
->  static int bpp = 8;
->  static int reverse_i2c;
->  static bool nomtrr = false;
-> -#ifdef CONFIG_PMAC_BACKLIGHT
-> -static int backlight = 1;
-> -#else
-> -static int backlight = 0;
-> -#endif
-> +static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
->  
->  static char *mode_option = NULL;
->  
-> diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-> index 1a9d6242916e..0cbcc74fa943 100644
-> --- a/drivers/video/fbdev/omap/omapfb_main.c
-> +++ b/drivers/video/fbdev/omap/omapfb_main.c
-> @@ -34,11 +34,7 @@ static unsigned long	def_vyres;
->  static unsigned int	def_rotate;
->  static unsigned int	def_mirror;
->  
-> -#ifdef CONFIG_FB_OMAP_MANUAL_UPDATE
-> -static bool		manual_update = 1;
-> -#else
-> -static bool		manual_update;
-> -#endif
-> +static bool	manual_update = IS_BUILTIN(CONFIG_FB_OMAP_MANUAL_UPDATE);
->  
->  static struct platform_device	*fbdev_pdev;
->  static struct lcd_panel		*fbdev_panel;
-> diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-> index 764ec3285e62..9b3493846f4d 100644
-> --- a/drivers/video/fbdev/riva/fbdev.c
-> +++ b/drivers/video/fbdev/riva/fbdev.c
-> @@ -202,11 +202,7 @@ static int flatpanel = -1; /* Autodetect later */
->  static int forceCRTC = -1;
->  static bool noaccel  = 0;
->  static bool nomtrr = 0;
-> -#ifdef CONFIG_PMAC_BACKLIGHT
-> -static int backlight = 1;
-> -#else
-> -static int backlight = 0;
-> -#endif
-> +static int backlight = IS_BUILTIN(CONFIG_PMAC_BACKLIGHT);
->  
->  static char *mode_option = NULL;
->  static bool strictmode       = 0;
-> diff --git a/drivers/video/fbdev/s3c2410fb.c b/drivers/video/fbdev/s3c2410fb.c
-> index 2fb15a540167..6f8fa501583f 100644
-> --- a/drivers/video/fbdev/s3c2410fb.c
-> +++ b/drivers/video/fbdev/s3c2410fb.c
-> @@ -44,11 +44,7 @@
->  #include "s3c2410fb.h"
->  
->  /* Debugging stuff */
-> -#ifdef CONFIG_FB_S3C2410_DEBUG
-> -static int debug	= 1;
-> -#else
-> -static int debug;
-> -#endif
-> +static int debug = IS_BUILTIN(CONFIG_FB_S3C2410_DEBUG);
->  
->  #define dprintk(msg...) \
->  do { \
+> Well sure, we could add pitch alignment in there. And height
+> alignment. And starting byte offset. And acceptable byte distance
+> between planes. And physical contiguity / number of backing pages. And
+> placement (system vs. GTT vs. local), which also implies adding a
+> device-unique identifier whilst we're at it. And acceptable
+> width/height bounds. All of those are perfectly valid constraints
+> which could cause imports to fail, and not even an exhaustive list.
 > 
+> How does Navi ensure that every single linear dmabuf source it can
+> ever receive is aligned to 256 bytes today? How does adding support
+> for modifiers - something which does solve other problems, like 'every
+> three months I wearily review a patch forcing all winsys buffers to be
+> allocated for scanout usage for a new random reason, regressing
+> performance for a lot of other vendors' - make Navi's situation worse?
+> 
+>> I don't quite get what we are trying to do with them.  What does this
+>> mean "Modifiers must uniquely encode buffer layout"?  We have a number
+>> of buffer layouts that are the same from a functional standpoint, but
+>> they have different alignment requirements depending on the chip and
+>> the number of memory channels, etc.  Would those be considered the
+>> same modifer?  If not, then we are sort of implicitly encoding
+>> alignment requirements into the modifier.
+> 
+> Yes, of course some requirements are implicit. Given that tiles are
+> indivisible, it makes no sense to have a 64x64 tiled buffer with a
+> 32-pixel stride. But that isn't the same thing as encoding an
+> arbitrary constraint, it's just a requirement of the encoding.
+> 
+> The reason why modifiers have been successful and adopted by every
+> other vendor apart from IMG, is exactly because they _don't_ attempt
+> to boil the ocean, but are the most practical realisation of improving
+> performance within a complex ecosystem. The allocator is the complete
+> and exhaustive solution to all our problems, but it's not exactly
+> going to be done tomorrow.
+> 
+> Playing a single video today could easily involve a V4L2 codec source
+> into a V4L2 postprocessor into Chromium's Wayland host compositor
+> through Chromium itself into the host Wayland compositor and finally
+> into EGL and/or Vulkan and/or KMS. If you want to figure out what the
+> V4L2/DRM/KMS, GStreamer/VA-API/Kodi, EGL/Vulkan, and Wayland/X11 APIs
+> look for negotiating a totally optimal layout across at least three
+> different hardware classes from at least three different vendors, then
+> I'm all for it. I'll be cheering you on from the sidelines and doing
+> what I can to help. But the only reason we've got to this point today
+> is because Allwinner, AmLogic, Arm, Broadcom, Intel, NVIDIA, NXP,
+> Qualcomm, Rockchip, Samsung, and VeriSilicon, have all spent the last
+> few years trying to avoid perfection being the enemy of good. (And
+> those are just the hardware vendors - obviously Collabora and others
+> like us have also put not-inconsiderable effort into getting at least
+> this far.)
+
+I have an hard time understanding how this affects the Amlogic Framebuffer
+Compression patchset I sent at [1].
+
+[1] http://lore.kernel.org/r/20200529151935.13418-2-narmstrong@baylibre.com
+
+Neil
+
+> 
+> Cheers,
+> Daniel
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
