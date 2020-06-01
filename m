@@ -1,64 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE931EA884
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 19:42:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B811EA885
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 19:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5096889FF7;
-	Mon,  1 Jun 2020 17:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9876E071;
+	Mon,  1 Jun 2020 17:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A429189FF7
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 17:42:37 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ed53db70000>; Mon, 01 Jun 2020 10:41:11 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 01 Jun 2020 10:42:37 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 01 Jun 2020 10:42:37 -0700
-Received: from [10.2.56.10] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 1 Jun
- 2020 17:42:26 +0000
-Subject: Re: [PATCH 0/2] video: fbdev: fix error handling, convert to
- pin_user_pages*()
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-References: <20200522041506.39638-1-jhubbard@nvidia.com>
- <20200531205819.GC138722@ravnborg.org>
- <854fae07-3cb4-dbcf-fa93-35b447f9d084@nvidia.com>
- <CAHp75Vf6=UuC2Sef3m3CpRmjAOWt8ZgBW+OPf0-_53P3F__CWw@mail.gmail.com>
- <e7f95207-1b30-17a8-4667-ca58b77ec0a3@nvidia.com>
- <CAHp75VcaXTM86K9vzyxTQJP_oNnzJ8mMHzgm7ybEioVhG6DHDQ@mail.gmail.com>
- <8fa07f59-6d77-f76b-7539-c88bf85c5036@nvidia.com>
- <CAHp75VfHnLz56jyR5PNgpxWGtO_u0bss45+iHhQ03c_4L3jH5g@mail.gmail.com>
-X-Nvconfidentiality: public
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <2f832d22-179e-b228-0864-f55dde765b48@nvidia.com>
-Date: Mon, 1 Jun 2020 10:42:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9B4F89FF7
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 17:42:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E2BF55D;
+ Mon,  1 Jun 2020 10:42:38 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B7A63F305;
+ Mon,  1 Jun 2020 10:42:38 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id D0C50682B70; Mon,  1 Jun 2020 18:42:36 +0100 (BST)
+Date: Mon, 1 Jun 2020 18:42:36 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 1/3] drm/arm: Kconfig annotate drivers as COMPILE_TEST
+Message-ID: <20200601174236.GP159988@e110455-lin.cambridge.arm.com>
+References: <20200517193655.3895087-1-emil.l.velikov@gmail.com>
+ <20200518111043.GR159988@e110455-lin.cambridge.arm.com>
+ <CACvgo50zr5WzgwE33Fa=BRc+AuBzg+OjxBTEMaQ5qt1SpW-D_Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VfHnLz56jyR5PNgpxWGtO_u0bss45+iHhQ03c_4L3jH5g@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1591033271; bh=ChY8kQ3GISu3XKtIp7DQSWGeUWq2DqG74+qg5oD8kN8=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=sCPp7JivTlZhcs+40THY6PI0JWnW2mcA0A2601nDZ8DnPr9GsqZOl/aJ0iq1cefjI
- hfItZabxvz1KtzwrdLtiByIm4aJ1UOsVrt3Jx7UA0ZHsUCzCpEluXZ9lDEERWj6iJ5
- 7Crih9Xi3hxUnPY1RxtA3EwDCZZgvilOGjy5zpmAT9sW01BOv0BpWnESgQF/ZrIWPv
- WFA4i7MjiPK6Pgn4jubGCI0rAt80dfO3JAzUw5Q/zgUE4LQN/szeJtJKMCLA13ifls
- +vvjTizNjYNDUs5fDsQypUkq1vdGDhe/mb6Pv6MMZVfNMlt2UoHvh/H8Pr4xAzQTPZ
- /j6nA5Szu0kRQ==
+Content-Disposition: inline
+In-Reply-To: <CACvgo50zr5WzgwE33Fa=BRc+AuBzg+OjxBTEMaQ5qt1SpW-D_Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,67 +44,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- "Gustavo A . R . Silva" <gustavo@embeddedor.com>, Jani
- Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Paul
- Mundt <lethal@linux-sh.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Mali DP Maintainers <malidp@foss.arm.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-06-01 10:25, Andy Shevchenko wrote:
-> On Mon, Jun 1, 2020 at 8:10 PM John Hubbard <jhubbard@nvidia.com> wrote:
->>
->> On 2020-06-01 03:35, Andy Shevchenko wrote:
->>> On Mon, Jun 1, 2020 at 1:00 AM John Hubbard <jhubbard@nvidia.com> wrote:
->>>> On 2020-05-31 14:11, Andy Shevchenko wrote:
->>>>>       ...
->>>>> JFYI, we have history.git starting from v0.01.
->>>>>
->>>> OK, thanks for that note. According to that history.git [1],
->>>> then: drivers/video/pvr2fb.c had get_user_pages_fast() support added to
->>>> pvr2fb_write() back in 2004, but only for CONFIG_SH_DMA, as part of
->>>>
->>>>        commit 434502754f2 ("[PATCH] SH Merge")
->>>>
->>>> ...and that commit created the minor bug that patch 0001 here
->>>> addresses. (+Cc Paul just for the sake of completeness.)
->>>>
->>>>
->>>> [1] git://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
->>>
->>> I mentioned this one, but I guess content should be the same.
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
->>>
->>
->> Actually, that history.git *starts* at Linux 2.6.12-rc2,
-> 
-> It's not true.
-
-OK I see, neither a straight "git log" nor git branches will suffice, you
-have to use tags in order to get to the older versions.
-
-> 
->> while
->> tglx/history.git *ends* at Linux 2.6.12-rc2 (which is in April, 2005).
->> And the commit I was looking for is in 2004. So that's why I needed a
->> different stretch of history.
-> 
-> Actually history/history.git contains all of them starting from v0.01.
-> But it ends, indeed, on 2.6.33.
-> 
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRW1pbCwKCk9uIFdlZCwgTWF5IDIwLCAyMDIwIGF0IDEyOjU0OjE3QU0gKzAxMDAsIEVtaWwg
+VmVsaWtvdiB3cm90ZToKPiBPbiBNb24sIDE4IE1heSAyMDIwIGF0IDEyOjEwLCBMaXZpdSBEdWRh
+dSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gU3VuLCBNYXkgMTcsIDIw
+MjAgYXQgMDg6MzY6NTNQTSArMDEwMCwgRW1pbCBWZWxpa292IHdyb3RlOgo+ID4gPiBBZGQgdGhl
+IENPTVBJTEVfVEVTVCBjb25kaXRpb25hbCwgc28gdGhhdCBwZW9wbGUgY2FuIGF0IGxlYXN0IGJ1
+aWxkIHRlc3QKPiA+ID4gdGhlIGRyaXZlcnMuCj4gPiA+Cj4gPiA+IENjOiBMaXZpdSBEdWRhdSA8
+bGl2aXUuZHVkYXVAYXJtLmNvbT4KPiA+Cj4gPiBBY2tlZC1ieTogTGl2aXUgRHVkYXUgPGxpdml1
+LmR1ZGF1QGFybS5jb20+Cj4gPgo+ID4gPiBDYzogQnJpYW4gU3RhcmtleSA8YnJpYW4uc3Rhcmtl
+eUBhcm0uY29tPgo+ID4gPiBDYzogTWFsaSBEUCBNYWludGFpbmVycyA8bWFsaWRwQGZvc3MuYXJt
+LmNvbT4KPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gU2ln
+bmVkLW9mZi1ieTogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+Cj4gPiA+
+IC0tLQo+ID4gPiBQbGVhc2UgbWVyZ2UgdGhyb3VnaCB0aGUgQVJNIHRyZWUuCj4gPgo+ID4gV2Un
+cmUgbm90IHVzaW5nIHRoZSBBUk0gdHJlZSBhbnltb3JlLCB3ZSBwdXNoIHBhdGNoZXMgdGhyb3Vn
+aCBkcm0tbWlzYy4KPiA+Cj4gPiBJJ20gaGFwcHkgaWYgeW91IHdhbnQgdG8gcHVzaCB0aGUgd2hv
+bGUgc2VyaWVzIG9yIEkgY2FuIGRvIHRoZSAyIHBhdGNoZXMKPiA+IHRoYXQgSSd2ZSBiZWVuIENj
+LWVkIG9uLgo+ID4KPiBUaGUgdGhpcmQgcGF0Y2ggc2hvdWxkIGJlIHRha2VuIGNhcmUgb2YuIFNv
+IDEvMyArIDIvMyBuZWVkIHRha2luZyBjYXJlIG9mLgo+IFBsZWFzZSBkbyBhIHF1aWNrIHJ1bnRp
+bWUgdGVzdCBmb3IgMi8zLiBBcyB5b3UgY2FuIHNlZSBJJ3ZlIG9ubHkgY29tcGlsZWQgaXQuCgpG
+b3IgMS8zICsgMi8zOgoKVGVzdGVkLWJ5OiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNv
+bT4KQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgoKQmVzdCByZWdh
+cmRzLApMaXZpdQoKPiAKPiAtRW1pbAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCj09PT09PT09PT09PT09PT09PT09CnwgSSB3b3VsZCBs
+aWtlIHRvIHwKfCBmaXggdGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5vdCB8CnwgZ2l2aW5n
+IG1lIHRoZSAgIHwKIFwgc291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0tLS0tCiAgICDCr1xf
+KOODhClfL8KvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
