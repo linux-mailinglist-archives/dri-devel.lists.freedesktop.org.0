@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1F41E9AF5
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 02:25:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 681FA1E9C12
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 05:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52E0D89E86;
-	Mon,  1 Jun 2020 00:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85DAA89E11;
+	Mon,  1 Jun 2020 03:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B212D89E86
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 00:25:26 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id q8so7571525qkm.12
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 17:25:26 -0700 (PDT)
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
+ [IPv6:2607:f8b0:4864:20::b42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0F489E0E;
+ Mon,  1 Jun 2020 03:37:32 +0000 (UTC)
+Received: by mail-yb1-xb42.google.com with SMTP id p123so4499086yba.6;
+ Sun, 31 May 2020 20:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Kz5ZwOEUDJkALcMr7ODolUJ33dao0Jqn48aQY1x+fvo=;
- b=JMtde9ZVi4Xh+zrV7qA5+DDbcshUfkjeaSlLaG92QV5ZAvJ8Imr4JILwl+CrsOWBh5
- E8ma1CTQiCghwl/SMoUwdhLqAXPDlHwrnYfJLYSVyn90iZp9IzM5xRcTTIuVGHrKDLAo
- W8nYA/KDkkR//e3DgGfYye+4Ikkq82u3676C5sX1e8iBKpN3mYfbrwN1TU2Nos/DVoLU
- APijplTJSSzdEIgqvXKcaHvcs/LGP4OUXfB0W0hyarrKWsMyPunFty+7Q2YbfU+4dG2H
- kpQZZUZDXkr0rmDKMhhoFu8lfCR/eL1CXt+VXqjepkCjBN0j82X2U71AVyMwxAZ5zs9K
- USBw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M3kXy6Foois4p4YwmWOHbsqPi5NG9OlA8HpHEWFskMI=;
+ b=Fp8ru2YzEzjxWuQL+FWVNIMbN3heKyS6JRkhel7hpnw7QyD+5Eeu3oGkcEbEylFli1
+ afbaRGhIWktXw/VO3jXYZe63X+tqmpdiBWVqfeST7O6t3ce5/qZMfkVV7StGkjHRAst8
+ zf0YapuP2s6yQGFSB6IUaFpe8gXroDNc5aUk7jkRvdFvBut2RSDWTYjdxjxlGvCTvFrf
+ MAzutSUGG/eGym5XmwSeSXjRIl4cDNGhV7XDC94XUKv6VkG31kwr5tym/OcWyPmk7QoO
+ 7BhH5VN9UfkI+RTH3+J+mR4KjcB45oYKxwbO/n6zZbdCpLhQ3Qswuj4kwQf1wpkNJ+I6
+ /pKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Kz5ZwOEUDJkALcMr7ODolUJ33dao0Jqn48aQY1x+fvo=;
- b=O7MlgZxceMIRtCIc8nUlGMCNhcT5Lx84lueupqjdppp2ZtQyxSNnYWcqfTv3zTIJvG
- 5Xl5box+evuVRhE9mJ04K/fud1N4oQkaQ168TY4TVuydsDQkZHmMSYtL+vS/4o7u/Lu1
- HuOB3bN41zUw/Ps6MAqffnFGgulTYOGfq8wB4aXi/xo43GgzLoFUIz3e6EvfyLnK7g35
- 8Fy95EWNlc3JYHjLBNpPXvuo18L5ckhJJ31AnL011JlE5z62g0t2tds4Wd/vK+cGz4li
- EBGwvtOte0Gikg14/148w/q39jTYZcFAfPVz+8a593LOnnNFZVr4COtL4YgWj+7DsW28
- N/eQ==
-X-Gm-Message-State: AOAM532KXrTC6aOZ1Pvc05cosAAOyClC8OYBowSCkvP/1mphQLevbljb
- gjfhIUqPnONmv0BX1FTekKs=
-X-Google-Smtp-Source: ABdhPJzjP660vRht6J3z9ESxCOhezGV36ibMpKltTC8hYcfK3U1Q3zPuyXcyIMeJVLzWB+Y6WfkMkA==
-X-Received: by 2002:a37:ef08:: with SMTP id j8mr17850209qkk.442.1590971125701; 
- Sun, 31 May 2020 17:25:25 -0700 (PDT)
-Received: from smtp.gmail.com
- (CPE9050ca2539f3-CM9050ca2539f0.cpe.net.cable.rogers.com. [99.241.37.211])
- by smtp.gmail.com with ESMTPSA id p16sm11089868qkg.63.2020.05.31.17.25.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 17:25:24 -0700 (PDT)
-Date: Sun, 31 May 2020 20:25:20 -0400
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH] drm/vkms: Optimize compute_crc(), blend()
-Message-ID: <20200601002520.hajvtpefi7yzvmuq@smtp.gmail.com>
-References: <20200531131237.24781-1-realwakka@gmail.com>
- <CACvgo50SzjUe6usELF33qXW3BWZmH5U4ynPTBorZLDrG-Nx2Pw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M3kXy6Foois4p4YwmWOHbsqPi5NG9OlA8HpHEWFskMI=;
+ b=LEQxU3wM7L+USCuJKGvSbieJiiyAEGgtL6fiPneKs6DgePVrEgVAQBiHk9vW/a8Krt
+ gVD1xG/t2FP7QmyV9BOTSEscosQJpozCd+F3BEwnpabTrx4nwnK62zeDUohE8NGijUCq
+ 6/0TPzC8bvh39q85VpDDcNJ6V8wJG+q9cak4qxSWU4ehfAJGv8PYrxje2fEWMGvmB5Zt
+ uVl6lPvj+foo4VE32Jzvx3DqYHN8hvu2yunM2HFTG+EZ3WOjXFcg4VKkpsQFJCWJSFK0
+ nGC2gGRbR8XRhWkBwoCQZqihybQmulL5mBLaZC1B401ooYrmkRHnfrt80qBo9nPdc0vs
+ Wvog==
+X-Gm-Message-State: AOAM533xrL4bGiZzKjGnglTHkKocFaZCKoh/7/EGrKnLQ3UuYNO70i5g
+ kpyJOpZnfV0bfaig24VrTNkBgj0DJXIo1fQF54M=
+X-Google-Smtp-Source: ABdhPJydpKDkvSPYSJk0wcttMYKs+HSyWTjov0ZbhQNnhDIn7/fYDuUakw4pz4rV8NAtwoNzLHJuKOHwA0Hm/1ro+dM=
+X-Received: by 2002:a25:9d82:: with SMTP id v2mr30191893ybp.268.1590982651331; 
+ Sun, 31 May 2020 20:37:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACvgo50SzjUe6usELF33qXW3BWZmH5U4ynPTBorZLDrG-Nx2Pw@mail.gmail.com>
+References: <20200529080042.6082-1-dinghao.liu@zju.edu.cn>
+ <CACAvsv73wZK_pKk4TDHaTeBUqxYHvK0KhLQBgPC8Be_VviY2jg@mail.gmail.com>
+ <6a65a5b1.dd4b7.1726deaea0a.Coremail.dinghao.liu@zju.edu.cn>
+In-Reply-To: <6a65a5b1.dd4b7.1726deaea0a.Coremail.dinghao.liu@zju.edu.cn>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Mon, 1 Jun 2020 13:37:20 +1000
+Message-ID: <CACAvsv5kcUC_kOfMPxqY-irSAexmhm=WKO8Vk=wTZWdsbaartw@mail.gmail.com>
+Subject: Re: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in
+ gm20b_clk_new
+To: dinghao.liu@zju.edu.cn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,102 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Sidong Yang <realwakka@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0089559873=="
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ kjlu@umn.edu, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Markus.Elfring@web.de,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0089559873==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uqybjdb5ptkemz4z"
-Content-Disposition: inline
-
-
---uqybjdb5ptkemz4z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-First of all, thanks a lot for all your patch. And thanks Emil for your
-feedback.
-
-I have a suggestion here:
-
-Emil:
-Could you give me your Acked-by or maybe Reviewed-by for the writeback
-series? With that, I can finally apply the series.
-
-Sidong:
-Secondly, after applying the writeback series, I would suggest you to
-understand Emil's comments (he already provides the link) and prepare a
-new patch based on that. Before you submit your patch, I recommend you
-to test it with https://patchwork.freedesktop.org/series/68352/ and
-kms_flip.
-
-How about that?
-
-Best Regards
-
-On 05/31, Emil Velikov wrote:
-> On Sun, 31 May 2020 at 14:12, Sidong Yang <realwakka@gmail.com> wrote:
+On Mon, 1 Jun 2020 at 13:27, <dinghao.liu@zju.edu.cn> wrote:
+>
+>
+> Hi Ben,
+>
+> > > When gk20a_clk_ctor() returns an error code, pointer "clk"
+> > > should be released. It's the same when gm20b_clk_new()
+> > > returns from elsewhere following this call.
+> > This shouldn't be necessary.  If a subdev constructor fails, and
+> > returns a pointer, the core will call the destructor to clean things
+> > up.
 > >
-> > Optimize looping pixels in compute_crc() and blend(). Calculate
-> > src_offset in start of looping horizontally and increase it.
-> > It's better than calculating in every pixels.
-> >
-> When you say "optimize" have you observed any actual benefits of the
-> patch - be that smaller binary, faster execution time, etc?
-> If there are - mentioned them in the commit message. Otherwise, it
-> doesn't optimise anything.
->=20
-> A while back, I've suggested something similar [1] mostly for cosmetic
-> purposes - doubt there's much benefits beyond that.
->=20
-> HTH
-> -Emil
-> [1] https://patchwork.freedesktop.org/patch/365177/#comment_674314
+>
+> I'm not familiar with the behavior of the caller of gm20b_clk_new().
+> If the subdev constructor fails, the core will check the pointer
+> (here is "pclk"), then it's ok and there is no bug (Do you mean
+> this?). If the core executes error handling code only according to
+> the error code, there may be a memory leak bug (the caller cannot
+> know if -ENOMEM comes from the failure of kzalloc or gk20a_clk_ctor).
+> If the core always calls the destructor as long as the constructor
+> fails (even if the kzalloc fails), we may have a double free bug.
+>
+> Would you like to give a more detailed explanation about the behavior
+> of the core?
+If there's *any* error, it'll check the pointer, if it's non-NULL,
+it'll call the destructor.  If kzalloc() fails, the pointer will be
+NULL, there's no double-free bug.  *every* subdev is written this way
+to avoid duplicating cleanup logic.
 
---=20
-Rodrigo Siqueira
-https://siqueira.tech
-
---uqybjdb5ptkemz4z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl7USuoACgkQWJzP/com
-vP9qrRAAnB7QXjC0la92oJUZ8yyl0o/C442cO+1HhwiRqrbRGs5Vs87vtzgZ0mDG
-He5++yIGDNbnPp7eGQSa+9MVb3+/jmfzg7p+WVGLbxSZpQcO4ubR1cbaNVUctt8v
-HboNRzPGulJgkky3srDRnGuVAc+2Vtq6SvlwqlK/SyB9eQIBT7EpL7Vw8RFL89zW
-g9IwhXur7wQGkaqvPLgIqJgguGhVvHE++m9LcgMF8+oYWX9VlTkpfieO2YT9t+TO
-YUqO2Qu/N6xPmcUXYEePXPrkktj+Sv/BREO8PyFIH4WY4o21ztWQ2LAuVb6elpbC
-dL0F9JZILPZ96ScsjFErf/NqLXSThKw+S5JkKGYRVnelmf8f5QoC060CHQyDF55x
-Uh5ULTbGSE4HmAotJUfOhKsxvBzalQnMrUdaxmNPwIaXd0eLQ1pqpwHPxcy+ndHz
-/6LXNTAZiCSDSMBvZ9k8+zJ2blqmpbjo3cqXozC/4pqaZ3zCnDcUtqlpDZlzs34w
-U8Nlv1/cdYg5ucWXHATqMoafj1J2PhYe4Z9lLXtdmAH2eDbiapn1ahdr58ATs7A1
-BAuzzPMUQdqM2azwjzEh/qD06mVKEk8POtySyRjmKrOdBj8cX11AMpL+3obEQWJA
-TDR1PX1KRXexuLe8dgwx4iwV6e0yL+J+NMxFn22d4xxvA28cpm4=
-=cya/
------END PGP SIGNATURE-----
-
---uqybjdb5ptkemz4z--
-
---===============0089559873==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Ben.
+>
+> Regards,
+> Dinghao
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0089559873==--
