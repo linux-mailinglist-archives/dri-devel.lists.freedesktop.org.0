@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984481E9E98
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3CD1E9E9D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 374FF6E146;
-	Mon,  1 Jun 2020 06:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5744A6E147;
+	Mon,  1 Jun 2020 06:52:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
  [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABC46E146
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 06:52:42 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id c17so994222lji.11
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 23:52:42 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6212F6E14A
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 06:52:44 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id c17so994298lji.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 23:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AnaHL8ZW2AHSXoDqHfMNaVU3hWEgwww58aZX9yKaEh8=;
- b=E7MeDZFYP1vjvb0jmnutl7Cd/7rXGGCPAXDxfA3kTRbZHzTQ2zKfSTZtmIrriXZLdY
- 6WIWBnm/MFR3O9nIQxM3tR0Cl1HBuV3Emywhryw1zL4FZwh/66DsL5G6TKVeC4nzEPsv
- wVPKVD3gj04X9hB5d7ZN6lR7DCjJ0jGjtauxtNB2VIzQ4gQqv1L2W81H+owG6MuFS/N+
- IkjT1FrK5OJSb4Yss1QUwQKddggmHXmXPZkn7KryS48uwBNvh4uXmZxd0VI+rFeL9l88
- ddtpPee0eUztEq4yAVQy397i2KERofzwnmWngZ5ZLhIm0Ul/3hkeA4JNev+xJQusw3Rm
- vV9Q==
+ bh=NjiBPif2aC324+vDH5W7L3OnbFVYWltMaLDt/zt0WxE=;
+ b=mtY7E35P7NMSOhp9i+6bfaqRO2BlrKF2/SCdxL4Wo+C/dxcNueZ/8rL6drsV5Qk4ms
+ OBZHTwJMwRh3vvlu1nl9mBpequPzPsTggrEfpwP84EHz2HBpIB9avd6RWb23Qqp2sjkZ
+ Pb04vSzZr1FEM/sZ8OBTs38Gh1DDOLFSM1Ujn+0t7oUMdCNm9bVm2M0EIeSGSnwt45KB
+ 6Y/glw6EfVkRqqZhnjpU+wNvUkQRAf/gun9TNPiJ1plRGvTPhUJ5Gd9V7gakd43XkzX4
+ tNhtDSKq6ZvNVi01I14PkmXvUCoLKioBy7SAaHwC79131X0KVxC3qKFBFsgkuxrePiiE
+ nX1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AnaHL8ZW2AHSXoDqHfMNaVU3hWEgwww58aZX9yKaEh8=;
- b=hjqQFj83la1+lzqbGlrFR323vI/fpC4JijnrIm+vMnV/aLXRS52Tlugj3TOkA50wt2
- uHcu8+oMRQFyt6QDERhvXnyYsKH6Oc6zXW1U3r+bE/nOvp++LprFagzR/w0VDKMPswVL
- cKjWVf16f2NZkI+e1P0rVatMmZodv3c/tjg9hXpElN4y51Si8+eT5X8WlGqhySAq58a8
- 72IKLIn7I+oFPYQVM8VpxpAGI2HH2mPjnnUsZJYkIFr7RuEuXwj4QEtlqMjrU/ofxydb
- g+fIn9dx9EVbycLJbPzVHGkJ2rWEsGT0tQdw4FeV5sZhF4IOP++ESSQInki1qJpyvSK8
- gLfA==
-X-Gm-Message-State: AOAM532MQ29uaf2h3SAWuh2D6JjzQ8UDslF/FhCAkFdIS4AxxzNpcJJO
- d3O28VQDB4Mk3upAxdERnl3b4M++/zo=
-X-Google-Smtp-Source: ABdhPJy6NUne+NeaxEir/nZPRNno9Z/JzFLm/d5YWSPgm0nw28WxZgRoVCFDsShL4PLF+JqMBV3P3w==
-X-Received: by 2002:a2e:960b:: with SMTP id v11mr2290702ljh.77.1590994360550; 
- Sun, 31 May 2020 23:52:40 -0700 (PDT)
+ bh=NjiBPif2aC324+vDH5W7L3OnbFVYWltMaLDt/zt0WxE=;
+ b=CdB0mYuitFE37eaTM+HNPdN7YLtaqKWurhM1e5mF2Trvl37ngmeUxy4NVYH5JyPbNx
+ IeV/jmMP5lmNvPTsOQzvwn0fl3tpOwW7WZMG2ZdJb8+FZa5QF+DXwG+M8WwYcfMRdxAb
+ DvM6vLDpPaXcDp1m77asfIf2gL8pwKMiNSPkufJ6hpQ0q4hBgsbZgfPp6qgFZJohPX68
+ 4rk++uVlc7jd8tgywqu2QCISkUXwkEXSzyn0y7yhlivxltpE+8RUIOSUXSs/nalOLStS
+ vI1JHPzVMKZra449IcQSAScMjK0wFq6GGwPVuaN9cICdpLfc0kFOCq6hTzzX0Eh7efkQ
+ Y+ZA==
+X-Gm-Message-State: AOAM533PSc/aCnaXuwU/4QYoYC6On8aX85coh7GdNqNrEz553jbyGqjJ
+ yic+xylkiNEiQTA58cK7VZd9O6wnpPk=
+X-Google-Smtp-Source: ABdhPJy7GQRKVdKefzETWFNpD9tAcpKEGeCIQ2ORhC0pwxa34K7ayOx8SXEcMeR6aBbHrE77mAFjFQ==
+X-Received: by 2002:a2e:8044:: with SMTP id p4mr10445457ljg.151.1590994362678; 
+ Sun, 31 May 2020 23:52:42 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:281d:a604:434c:a58d])
- by smtp.gmail.com with ESMTPSA id e13sm2540462ljl.117.2020.05.31.23.52.38
+ by smtp.gmail.com with ESMTPSA id e13sm2540462ljl.117.2020.05.31.23.52.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 23:52:40 -0700 (PDT)
+ Sun, 31 May 2020 23:52:42 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
  Lee Jones <lee.jones@linaro.org>,
  Daniel Thompson <daniel.thompson@linaro.org>
-Subject: [PATCH v3 11/13] backlight: wire up kernel-doc documentation
-Date: Mon,  1 Jun 2020 08:52:05 +0200
-Message-Id: <20200601065207.492614-12-sam@ravnborg.org>
+Subject: [PATCH v3 12/13] backlight: as3711_bl: introduce backlight_is_blank()
+Date: Mon,  1 Jun 2020 08:52:06 +0200
+Message-Id: <20200601065207.492614-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200601065207.492614-1-sam@ravnborg.org>
 References: <20200601065207.492614-1-sam@ravnborg.org>
@@ -86,53 +86,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include backlight so the documentation is now generated
-with make htmldocs and friends.
+Replaces the open-coded checks of the state, with the
+backlight_is_blank() helper. This increases readability
+of the code and aling the functionality across the drivers.
+
+Futhermore drop the debug prints in update_status().
+If we need debug printing then we can add it to the backlight core.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- Documentation/gpu/backlight.rst | 12 ++++++++++++
- Documentation/gpu/index.rst     |  1 +
- 2 files changed, 13 insertions(+)
- create mode 100644 Documentation/gpu/backlight.rst
+ drivers/video/backlight/as3711_bl.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/Documentation/gpu/backlight.rst b/Documentation/gpu/backlight.rst
-new file mode 100644
-index 000000000000..9ebfc9d0aced
---- /dev/null
-+++ b/Documentation/gpu/backlight.rst
-@@ -0,0 +1,12 @@
-+=================
-+Backlight support
-+=================
-+
-+.. kernel-doc:: drivers/video/backlight/backlight.c
-+   :doc: overview
-+
-+.. kernel-doc:: include/linux/backlight.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/video/backlight/backlight.c
-+   :export:
-diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
-index 1fcf8e851e15..c9a51e3bfb5a 100644
---- a/Documentation/gpu/index.rst
-+++ b/Documentation/gpu/index.rst
-@@ -12,6 +12,7 @@ Linux GPU Driver Developer's Guide
-    drm-uapi
-    drm-client
-    drivers
-+   backlight
-    vga-switcheroo
-    vgaarbiter
-    todo
+diff --git a/drivers/video/backlight/as3711_bl.c b/drivers/video/backlight/as3711_bl.c
+index 33f0f0f2e8b3..cc5628beaffd 100644
+--- a/drivers/video/backlight/as3711_bl.c
++++ b/drivers/video/backlight/as3711_bl.c
+@@ -107,13 +107,7 @@ static int as3711_bl_update_status(struct backlight_device *bl)
+ 	int brightness = bl->props.brightness;
+ 	int ret = 0;
+ 
+-	dev_dbg(&bl->dev, "%s(): brightness %u, pwr %x, blank %x, state %x\n",
+-		__func__, bl->props.brightness, bl->props.power,
+-		bl->props.fb_blank, bl->props.state);
+-
+-	if (bl->props.power != FB_BLANK_UNBLANK ||
+-	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
++	if (backlight_is_blank(bl))
+ 		brightness = 0;
+ 
+ 	if (data->type == AS3711_BL_SU1) {
 -- 
 2.25.1
 
