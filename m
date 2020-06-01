@@ -2,99 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B43E1EA4E1
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 15:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14F71EA4E6
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 15:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38FE489FE8;
-	Mon,  1 Jun 2020 13:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8AF26E02F;
+	Mon,  1 Jun 2020 13:25:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BAB89FE8
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:16 +0000 (UTC)
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D026B6E02F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:20 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200601132515euoutp01f96633f074e909395d7cdf7ad4f92567~Ubl1bHbim2284122841euoutp01h
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200601132515euoutp01f96633f074e909395d7cdf7ad4f92567~Ubl1bHbim2284122841euoutp01h
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200601132519euoutp0211f36d20f50eb9fbda292dd19eb594c9~Ubl40Tb-V1973419734euoutp02Y
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 13:25:19 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200601132519euoutp0211f36d20f50eb9fbda292dd19eb594c9~Ubl40Tb-V1973419734euoutp02Y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1591017915;
- bh=8vJu5WoSJc1bPlFRS2kAudUcVnFFPbiM6d2gECaeE2A=;
+ s=mail20170921; t=1591017919;
+ bh=b6PizGUrN2vwV0+zYxApQ090eDAZeWVpfmcwO7qUlbw=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=FewkuPVOViSeylJfXcwjWoiaBI70QjGFRR6dC8t2ljtmVvWd5v4VE/h+1GpEXYWHP
- KJf69YjByKG7A65Ef+aptQwsH6PYOVCTD891T2Hff5BBZ7FGJF0Hczp2S+xgdvcCfb
- JcAnE2oJMLk31SlEvNiiWSBg/S58JbO1A2bcmrzg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ b=FS6hgidwz7R7HYd4fbCYjlwmMnJl284zryABZMu4XyqfIN9DI/J60b7b81OvFwfmQ
+ FpZHsUaRddnut23JTcNdI7l3baw+LOrYk3WVuytMvsQe7uUcl/XxVuorFHnSIqmnrD
+ bcIrU9Wd7fMUBIQVnq8syv1AYK2rIhaZ3Ebdoe78=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200601132515eucas1p227402478c49b1fea20831ef25e9d469e~Ubl1USyP92098120981eucas1p2n;
- Mon,  1 Jun 2020 13:25:15 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 35.33.60679.BB105DE5; Mon,  1
- Jun 2020 14:25:15 +0100 (BST)
+ 20200601132519eucas1p258f4e1b33276abd20b48c1009001aa3d~Ubl4oyA242302023020eucas1p2f;
+ Mon,  1 Jun 2020 13:25:19 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id BE.A6.60698.EB105DE5; Mon,  1
+ Jun 2020 14:25:18 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200601132514eucas1p14257ed00a14e2c2b285e30099cc283ce~Ubl0jF8XG1280112801eucas1p1h;
- Mon,  1 Jun 2020 13:25:14 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200601132518eucas1p2c0a9153ab4f1ce93604ebaa73b16a74a~Ubl4LXDHO2515325153eucas1p2j;
+ Mon,  1 Jun 2020 13:25:18 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200601132514eusmtrp11c2bb965cd5055cf7ae19bf083709249~Ubl0iVzos2270722707eusmtrp1V;
- Mon,  1 Jun 2020 13:25:14 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-35-5ed501bbe442
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 1C.DB.08375.AB105DE5; Mon,  1
- Jun 2020 14:25:14 +0100 (BST)
+ 20200601132518eusmtrp12d11f07519c739f596f9b0b5b07621cd~Ubl4KvQig2270722707eusmtrp1c;
+ Mon,  1 Jun 2020 13:25:18 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-00-5ed501bea4a6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 5E.DB.08375.EB105DE5; Mon,  1
+ Jun 2020 14:25:18 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200601132514eusmtip15d4f8e602708b33e993ba077aeb98600~Ubl0NBAbr0583405834eusmtip1i;
- Mon,  1 Jun 2020 13:25:14 +0000 (GMT)
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200601132518eusmtip2c8670c4f489920546352ea97e17b2221~Ubl3rMcVi1577715777eusmtip2X;
+ Mon,  1 Jun 2020 13:25:17 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH v3] console: newport_con: fix an issue about leak
- related system resources
-To: Dejin Zheng <zhengdejin5@gmail.com>
-Message-ID: <f1533c61-d112-35a2-a5f3-d6fae596b335@samsung.com>
-Date: Mon, 1 Jun 2020 15:25:14 +0200
+Subject: Re: [PATCH] drivers/video: cleanup coding style in video a bit
+To: Bernard Zhao <bernard@vivo.com>
+Message-ID: <dacf902f-12c1-44ff-b214-b05446f07829@samsung.com>
+Date: Mon, 1 Jun 2020 15:25:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200423164251.3349-1-zhengdejin5@gmail.com>
+In-Reply-To: <20200427080530.3234-1-bernard@vivo.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2zk7O5Nmx2n5YlI2u4OX1B+HLnbBH6NfEf3IwMt0h2m6TTZ1
- WURLS22aOUXEYRcM1KzUZug2iWKjVg2XppmZZohGTqfhNMrMch4l/z3v87zP9zwvfCQmbOcG
- kemKbEalkGSKCB+8/eUvZ1gnep8YWTMeRJsbS3n0RLkN0X3zMwRdcK+FoF+VfefSvZZagm4z
- VmG0ZfQjdpQUmw3DPPG008kTP7v1kCceKbFzxP1v55HYY9x6kjjrc0jKZKbnMqqI2GSfNFv+
- EJF1Lfh8v1aPa5F9sw7xSaBi4HdPHUeHfEgh1YhgqsOIs8McAoPxOcYOHgStFVp8zVJhHiBY
- oQHB4BU9Ygc3gs6paa53i6AOgL6oCXmxP5UMA839PC8OoHZDzdWbKxkY5UQwUagjvIKAioU2
- j3vZQJI4tQN+3E3x0puoMzD7xcZlV/zgdc3YSgv+8vuWkaUVK0YFwuDYHQ6Lt0GHu3alNlBW
- How9fcNja8dB6YgdY7E/uOxPVvlgcFSW4qyhGcGf4m+r7g4EDZVsBFAHYci5QHjbYdReaLFE
- sPQxqC93YV4aKF8YcPuxJXyhor16lRZAcaGQ3d4FrfWtxFqsznwfK0ciw7rTDOvOMaw7x/A/
- 9y7Cm1Agk6OWyxh1lILRhKslcnWOQhaeqpQb0fJvcizZ50zIsphiRRSJRBsE5GhfopAryVXn
- ya0ISEwUIDje5UgUCqSSvAuMSpmkyslk1Fa0hcRFgYLouokEISWTZDMZDJPFqNZUDskP0qJz
- o8zsjfSa67pTohcli8JhJjUjtK/LEacpmjxBQINC2fN1p3N8pnj77Z8Xcz886i6kH/MLql0x
- mr/d8ap6W0iqUhofLeveWKbRR2r5HtNwqOIzJyZEGRa1p53rOjyzMNlfx3nnJ/10mTEE9eYf
- OZ0Uar0UbEpoHKwyPWirrhfh6jTJ/n2YSi35B6BxbF5JAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRmVeSWpSXmKPExsVy+t/xu7q7GK/GGXR8U7PYuaKH3eLlhMOM
- Fle+vmezaF68ns3iRN8HVovLu+awWWzeNJXZYtejm8wOHB47Z91l93h37hy7x/65a9g97ncf
- Z/K4dv4ro8fnTXIBbFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2Nimp
- OZllqUX6dgl6GYeb7rAVtMpUXGuYyNLAeFysi5GTQ0LARGLSzhtsXYxcHEICSxkl9m24zNjF
- yAGUkJE4vr4MokZY4s+1Lqia14wSZ9YuZQRJsAlYSUxsXwVmCwskSDxZ8Y4ZxBYRUJeY2dLP
- AtLALHCOUeL2t0uMEN29jBK/9+4D6+AVsJPY/Pkt2DYWARWJbwuSQMKiAhESh3fMgioRlDg5
- 8wkLiM0JtGzX/X9sIDYz0II/8y4xQ9jiEreezGeCsOUltr+dwzyBUWgWkvZZSFpmIWmZhaRl
- ASPLKkaR1NLi3PTcYkO94sTc4tK8dL3k/NxNjMBI3Hbs5+YdjJc2Bh9iFOBgVOLh3XD/SpwQ
- a2JZcWXuIUYJDmYlEV6ns6fjhHhTEiurUovy44tKc1KLDzGaAv02kVlKNDkfmCTySuINTQ3N
- LSwNzY3Njc0slMR5OwQOxggJpCeWpGanphakFsH0MXFwSjUwVj2vaiu+dMJl9i7FTIUTf40/
- zz3AtSZ34ay/dUt/rw9mSb0/j5HT26Enip3jKlfqJY7HVTEbcz4v/lm06/4fC625Nle2nTbf
- cKAl6ur7IPngX/P/cfyw6bWxy3v9Nu3XDnGbVtHZOxarsId3fl9Ulut/jvX0m4qCh6fbDm7s
- VXP9Vuiv+kZLVImlOCPRUIu5qDgRAJeWBoLaAgAA
-X-CMS-MailID: 20200601132514eucas1p14257ed00a14e2c2b285e30099cc283ce
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUhUYRTlm/fmzZuxkedoeLEwGiVQSAuLHpaaETgFhf4Tcxv1uZCONs8d
+ S8UlM7XMH6JpbpFmmGY1lqmkuTaa4IIpLi0aKblvaKPkzBvJf+eeew7nHrgkJungm5EhikhG
+ qZCHSgkRrurc6j/Zgoa9T82n2tMl7ZMYXfZ9AqOH1hcJ+l7uUwHdnbPEpwcbiwg6fzuLT6dM
+ 5/Dpvt5OnN7cLeNdFMmaN0px2eOMAr6sommWJ3vS4yabut/Fk63Wm8vqVjIwV4GH6EIAExoS
+ zShtHX1FwckLAygizSC2ZmYCJaE0YSYSkkCdgey3tUQmEpESqgrByGAKnxvWEAz/aNUPqwh+
+ Nhfj+5ac5F7ELSoRtKvX9ap5BJszuTytiqDsIfduNdJiY8oFyj6kYlpsQlnAyPKQzoBRGzxo
+ 3CnRicSUIyQvqXQYpyyhYvKFznCYcoeVb5/4nMYIegqmdWcIqbMw2z6sC8MoUxibLtHjY9Aw
+ X4RpA4AaE4CqqFXA3X0Zlj9n6jsYw1zXGz1/FNR5WThneIlgJ+O33t2AoDJvl+BU52H8y/Ye
+ JvcirKC20ZajnaFzbQfX0kAZwtd5I+4IQ3ikysc4WgwZ6RJOfQLqntUR+7GZ759jD5G08EC1
+ wgN1Cg/UKfyfW4rwamTKRLFhQQxrp2BibFh5GBulCLLxDw+rR3vPpd7tWn+HWjR+bYgikfSQ
+ uG5qyFvCl0ezcWFtCEhMaiK+1Kf2logD5HHxjDLcRxkVyrBt6AiJS03FduWzXhIqSB7J3GSY
+ CEa5v+WRQrMkZPsHt7DuGIqvHE9QMIEuKquBWvMlV8td4gaR0lUb62C+4OHY4dfg6V9tKn49
+ 7Z7tq/GvWbyy4BVzO7FcM7jlP+vVfVUh/FW1mNDRLxsdvO6sMRoddQqkmgRTasEtvCz2XJaP
+ cfmrdM1HIwO3uKREB9bJ8861BzbHPWv+thcL5qQ4Gyw/bY0pWfk/l+tyqFgDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRmVeSWpSXmKPExsVy+t/xe7r7GK/GGcx8JW8x/8g9ZouFD+8y
+ W1z5+p7NonPiEnaLE30fWC0u75rDZjH9Vw+rRfOTPlaLs2eOsVh8/7eQyYHLY++3BSwesztm
+ snos3vOSyWPeyUCP+93HmTw+b5Lz2PCpgzmAPUrPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jE
+ Us/Q2DzWyshUSd/OJiU1J7MstUjfLkEvo/HdJcaCVu6KtU/vMjYwtnJ2MXJySAiYSPQ1nmHs
+ YuTiEBJYyiix/9Bhli5GDqCEjMTx9WUQNcISf651sUHUvGaUWHLnPjNIgk3ASmJi+ypGEFtY
+ wF1i4e4WsLiIgLLE9Y9XWEEamAV+MEmcejQHakMHo8TrnzOZQKp4BewkGj9sA+tmEVCRWHxv
+ NVi3qECExOEdsxghagQlTs58wgJicwqYSrw8chWsl1lAXeLPvEvMELa4xK0n86Hi8hLb385h
+ nsAoNAtJ+ywkLbOQtMxC0rKAkWUVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYJxuO/Zz8w7G
+ SxuDDzEKcDAq8fBuuH8lTog1say4MvcQowQHs5IIr9PZ03FCvCmJlVWpRfnxRaU5qcWHGE2B
+ npvILCWanA9MIXkl8YamhuYWlobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqYODilGhi5
+ JOIY/Q6tjw1v9Bdmjt3NfL6k5cfXvTNe9rG43HxhXvmzwjokrjxvWuLi3nMVlxVuPFrj+GrC
+ iTlTtSauXvuiZtejjw8CfGLz/3t8E7mf/0X36Fe+fxvfsh5onKQXtNWp/8qNbw8+SkjwfWee
+ MuP+JcXqWr/tNaGdX6I1512dzOCva9cWa/BAiaU4I9FQi7moOBEAzmoWtOkCAAA=
+X-CMS-MailID: 20200601132518eucas1p2c0a9153ab4f1ce93604ebaa73b16a74a
 X-Msg-Generator: CA
-X-RootMTR: 20200423164300eucas1p286ebc9584639c8e8b6311dbf10355808
+X-RootMTR: 20200427080542eucas1p172bdcfd22affc288ec1ceaadf0dad2b0
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200423164300eucas1p286ebc9584639c8e8b6311dbf10355808
-References: <CGME20200423164300eucas1p286ebc9584639c8e8b6311dbf10355808@eucas1p2.samsung.com>
- <20200423164251.3349-1-zhengdejin5@gmail.com>
+X-CMS-RootMailID: 20200427080542eucas1p172bdcfd22affc288ec1ceaadf0dad2b0
+References: <CGME20200427080542eucas1p172bdcfd22affc288ec1ceaadf0dad2b0@eucas1p1.samsung.com>
+ <20200427080530.3234-1-bernard@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,26 +106,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: akpm@osdl.org, linux-fbdev@vger.kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>, tglx@linutronix.de
+Cc: opensource.kernel@vivo.com, linux-fbdev@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shashank Sharma <shashank.sharma@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 4/23/20 6:42 PM, Dejin Zheng wrote:
-> A call of the function do_take_over_console() can fail here.
-> The corresponding system resources were not released then.
-> Thus add a call of iounmap() and release_mem_region()
-> together with the check of a failure predicate. and also
-> add release_mem_region() on device removal.
+On 4/27/20 10:05 AM, Bernard Zhao wrote:
+> Eliminate the magic numbers, add vender infoframe size macro
+> like other hdmi modules.
 > 
-> Fixes: e86bb8acc0fdc ("[PATCH] VT binding: Make newport_con support binding")
-> Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Suggested-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
 Applied to drm-misc-next tree (patch should show up in v5.9), thanks.
 
@@ -137,88 +132,36 @@ Samsung R&D Institute Poland
 Samsung Electronics
 
 > ---
-> v2 -> v3:
-> 	- modify commit tag CC to Cc by Andy's suggestion.
-> 	- modify Subject 'console: console:' to 'console: newport_con:'
-> 	  by Bartlomiej's suggestion.
-> 	- add missing release_mem_region() on error and on device removal
-> 	  by Bartlomiej's suggestion.
-> 	- add correct fixes commit, before this patch, add a wrong 'Fixes:
-> 	  e84de0c6190503 ("MIPS: GIO bus support for SGI IP22/28")'
-> 	  thanks Bartlomiej again!
+>  drivers/video/hdmi.c | 2 +-
+>  include/linux/hdmi.h | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> v1 -> v2:
-> 	- modify the commit comments. The commit comments have some more
-> 	  appropriate instructions by Markus'suggestion. here is my first
-> 	  version commit comments:
-> 
-> 	  if do_take_over_console() return an error in the newport_probe(),
-> 	  due to the io virtual address is not released, it will cause a
-> 	  leak.
-> 	 
->  drivers/video/console/newport_con.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-> index 00dddf6e08b0..2d2ee17052e8 100644
-> --- a/drivers/video/console/newport_con.c
-> +++ b/drivers/video/console/newport_con.c
-> @@ -32,6 +32,8 @@
->  #include <linux/linux_logo.h>
->  #include <linux/font.h>
+> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> index 856a8c4e84a2..f693076f2e5f 100644
+> --- a/drivers/video/hdmi.c
+> +++ b/drivers/video/hdmi.c
+> @@ -495,7 +495,7 @@ int hdmi_vendor_infoframe_init(struct hdmi_vendor_infoframe *frame)
+>  	 * value
+>  	 */
+>  	frame->s3d_struct = HDMI_3D_STRUCTURE_INVALID;
+> -	frame->length = 4;
+> +	frame->length = HDMI_VENDOR_INFOFRAME_SIZE;
 >  
-> +#define NEWPORT_LEN	0x10000
-> +
->  #define FONT_DATA ((unsigned char *)font_vga_8x16.data)
->  
->  /* borrowed from fbcon.c */
-> @@ -43,6 +45,7 @@
->  static unsigned char *font_data[MAX_NR_CONSOLES];
->  
->  static struct newport_regs *npregs;
-> +static unsigned long newport_addr;
->  
->  static int logo_active;
->  static int topscan;
-> @@ -702,7 +705,6 @@ const struct consw newport_con = {
->  static int newport_probe(struct gio_device *dev,
->  			 const struct gio_device_id *id)
->  {
-> -	unsigned long newport_addr;
->  	int err;
->  
->  	if (!dev->resource.start)
-> @@ -712,7 +714,7 @@ static int newport_probe(struct gio_device *dev,
->  		return -EBUSY; /* we only support one Newport as console */
->  
->  	newport_addr = dev->resource.start + 0xF0000;
-> -	if (!request_mem_region(newport_addr, 0x10000, "Newport"))
-> +	if (!request_mem_region(newport_addr, NEWPORT_LEN, "Newport"))
->  		return -ENODEV;
->  
->  	npregs = (struct newport_regs *)/* ioremap cannot fail */
-> @@ -720,6 +722,11 @@ static int newport_probe(struct gio_device *dev,
->  	console_lock();
->  	err = do_take_over_console(&newport_con, 0, MAX_NR_CONSOLES - 1, 1);
->  	console_unlock();
-> +
-> +	if (err) {
-> +		iounmap((void *)npregs);
-> +		release_mem_region(newport_addr, NEWPORT_LEN);
-> +	}
->  	return err;
+>  	return 0;
 >  }
+> diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+> index 9613d796cfb1..ff25aeb95ee4 100644
+> --- a/include/linux/hdmi.h
+> +++ b/include/linux/hdmi.h
+> @@ -57,6 +57,7 @@ enum hdmi_infoframe_type {
+>  #define HDMI_SPD_INFOFRAME_SIZE    25
+>  #define HDMI_AUDIO_INFOFRAME_SIZE  10
+>  #define HDMI_DRM_INFOFRAME_SIZE    26
+> +#define HDMI_VENDOR_INFOFRAME_SIZE  4
 >  
-> @@ -727,6 +734,7 @@ static void newport_remove(struct gio_device *dev)
->  {
->  	give_up_console(&newport_con);
->  	iounmap((void *)npregs);
-> +	release_mem_region(newport_addr, NEWPORT_LEN);
->  }
->  
->  static struct gio_device_id newport_ids[] = {
+>  #define HDMI_INFOFRAME_SIZE(type)	\
+>  	(HDMI_INFOFRAME_HEADER_SIZE + HDMI_ ## type ## _INFOFRAME_SIZE)
 > 
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
