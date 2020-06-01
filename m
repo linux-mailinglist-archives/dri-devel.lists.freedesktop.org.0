@@ -2,51 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0031EB66F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 09:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0065A1EB65A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 09:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F21186E39B;
-	Tue,  2 Jun 2020 07:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A626E156;
+	Tue,  2 Jun 2020 07:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9ECA89DD3
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 04:14:35 +0000 (UTC)
-Received: by mail-il1-x143.google.com with SMTP id d1so8105781ila.8
- for <dri-devel@lists.freedesktop.org>; Sun, 31 May 2020 21:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x8a609a5qZV/8uK75Z+5pZGlJvWxTwewnSI1kRcruvg=;
- b=EcXQ31HMxvgQLQA3X19WLJf7eLN+UICimuf8ahojOCfjxhipVAcPXK6rUNSLcFoWM7
- zCy9sXmj/KUmWr0BQpFzAMQhWpIMOQ6OvYkeLH+SRjwIhwVvpjQZsBv21/QRCGKjODHM
- qSHaOnht3ufj3s18UykNubcE3++uJC4wO0C9s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x8a609a5qZV/8uK75Z+5pZGlJvWxTwewnSI1kRcruvg=;
- b=ar3LX7jCWJnOVG5DSrse/l3gWVKhVsVDtYJVmIofatQIg5Pr8Vju/T0p3CsZoDc3ij
- Ey6IZbwXUth2QVRSAjZPU3nPgwYVjBWKg8q4Z0B+0IFPZkQoupT6+LqypTdieaEm0/gD
- qM6MZrquzA5TQuNw7vJuR/JFuNPDHc4SxOfbVAgQxnPArBOan+Yo/pQjQ+5SHnPIX/1r
- 8zxY13KmTwhwz3lDwNuJD9iANjMgzdjlRUsjFQTROhec2/dgKjwZFKz9BWSGyINBTx4W
- 1AnX2iV61TT2hNBsUOAsh48ah0aoFRHeAlDLxGcV/lEz7wBz6Xtc6PZhC8gNPcLmFzSu
- Q2DQ==
-X-Gm-Message-State: AOAM530PsNE1mXf0xdeAUv101/suAHFWyCvUpNJtCHd7EjU3eUFOn7LO
- GCS+ttn5y0PixiXVdBld5pfO2bSBWlNtMXjj+FGCIQ==
-X-Google-Smtp-Source: ABdhPJwDkiEP8Fr2F3U+zwZn2Cnk0c+q57D8FlJ0+ONjXpxJhdRbpWqi0aGoLKsD8uIuEDU5EshV/8yDSE1Eqot3/Qs=
-X-Received: by 2002:a92:d908:: with SMTP id s8mr18767942iln.283.1590984875133; 
- Sun, 31 May 2020 21:14:35 -0700 (PDT)
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C86A66E038;
+ Mon,  1 Jun 2020 05:21:31 +0000 (UTC)
+Received: by ajax-webmail-mail-app4 (Coremail) ; Mon, 1 Jun 2020 13:21:27
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.72.4]
+Date: Mon, 1 Jun 2020 13:21:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: dinghao.liu@zju.edu.cn
+To: "Ben Skeggs" <skeggsb@gmail.com>
+Subject: Re: Re: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in
+ gm20b_clk_new
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <CACAvsv5t2gWDae_8b0-fH9e8fzgmxfiUtZTPeFuhmKXDFAmvGw@mail.gmail.com>
+References: <20200529080042.6082-1-dinghao.liu@zju.edu.cn>
+ <CACAvsv73wZK_pKk4TDHaTeBUqxYHvK0KhLQBgPC8Be_VviY2jg@mail.gmail.com>
+ <6a65a5b1.dd4b7.1726deaea0a.Coremail.dinghao.liu@zju.edu.cn>
+ <CACAvsv5kcUC_kOfMPxqY-irSAexmhm=WKO8Vk=wTZWdsbaartw@mail.gmail.com>
+ <CACAvsv5t2gWDae_8b0-fH9e8fzgmxfiUtZTPeFuhmKXDFAmvGw@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1589511894.git.xji@analogixsemi.com>
- <3946984ac1024b53b72c2eb39ee41967a2bf9c3d.1589511894.git.xji@analogixsemi.com>
-In-Reply-To: <3946984ac1024b53b72c2eb39ee41967a2bf9c3d.1589511894.git.xji@analogixsemi.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Mon, 1 Jun 2020 12:14:09 +0800
-Message-ID: <CAJMQK-hkrsgbvi91=uBhPfn0scwTSh3OJBGLcy9tC3GYiW1i9Q@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
- DP bridge driver
-To: Xin Ji <xji@analogixsemi.com>
+Message-ID: <b3db4d2.ddd1e.1726e53d54b.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgCHIARXkNRe+6VsAA--.10702W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgUSBlZdtOZozQABsu
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbX0S07vEb7Iv0x
+ C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+ bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+ CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+ z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
+ CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
+ j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
+ AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r1j6r4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
+ Gr1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6r4rMIAIbVCY0x0Ix7I2Y4AK64vIr41lV2
+ xY6xAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCS07vE4x8a6x804xWlV2xY6xC20s026xCa
+ FVCjc4AY6r1j6r4UMIAIbVC20s026c02F40E14v26r1j6r18MIAIbVC20s026x8GjcxK67
+ AKxVWUGVWUWwCS07vEx4CE17CEb7AF67AKxVWUtVW8ZwCS07vEIxAIcVC0I7IYx2IY67AK
+ xVWUJVWUCwCS07vEIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIAIbVCI42IY6xAIw2
+ 0EY4v20xvaj40_WFyUJVCq3wCS07vEIxAIcVC2z280aVAFwI0_Jr0_Gr1lV2xY6IIF0xvE
+ x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU=
 X-Mailman-Approved-At: Tue, 02 Jun 2020 07:16:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,36 +63,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pi-Hsun Shih <pihsun@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
+Cc: David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
+ kjlu@umn.edu, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Markus.Elfring@web.de,
+ Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 2:53 PM Xin Ji <xji@analogixsemi.com> wrote:
+> > If there's *any* error, it'll check the pointer, if it's non-NULL,
+> > it'll call the destructor.  If kzalloc() fails, the pointer will be
+> > NULL, there's no double-free bug.  *every* subdev is written this way
+> > to avoid duplicating cleanup logic.
+> Actually, gm20b_clk_new_speedo0() may have a bug here if kzalloc()
+> fails as it doesn't overwrite the previous pointer from
+> gm20b_clk_new().  That whole ctor() sequence is written a little
+> strangely.
+> 
 
-> +
-> +static int anx7625_bridge_attach(struct drm_bridge *bridge)
+It's clear to me, thank your for your explanation! As for 
+gm20b_clk_new_speedo0(), I think its bug pattern is not very 
+clear. Maybe we should keep it until we find an use chain that
+could lead to a bug.
 
-Latest drm_bridge api:
-
-int (*attach)(struct drm_bridge *bridge,
-     enum drm_bridge_attach_flags flags);
-
-https://elixir.bootlin.com/linux/v5.7-rc7/source/include/drm/drm_bridge.h#L70
-
-> +{
-> +       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-> +       int err;
+Regards,
+Dinghao
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
