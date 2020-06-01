@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B131E9E37
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:29:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 198DC1E9E31
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 08:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC6B6E03B;
-	Mon,  1 Jun 2020 06:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 157836E039;
+	Mon,  1 Jun 2020 06:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 340 seconds by postgrey-1.36 at gabe;
+ Mon, 01 Jun 2020 06:28:58 UTC
 Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00B366E03B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9736E039
  for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 06:28:58 +0000 (UTC)
 Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7E0E01A0634;
- Mon,  1 Jun 2020 08:23:23 +0200 (CEST)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 15B3B1A0643;
+ Mon,  1 Jun 2020 08:23:25 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com
  [165.114.16.14])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 8220D1A062C;
- Mon,  1 Jun 2020 08:23:17 +0200 (CEST)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1DBBE1A0631;
+ Mon,  1 Jun 2020 08:23:19 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
- by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 51C164030C;
- Mon,  1 Jun 2020 14:23:10 +0800 (SGT)
+ by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id A8AFD4031F;
+ Mon,  1 Jun 2020 14:23:11 +0800 (SGT)
 From: sandor.yu@nxp.com
 To: a.hajda@samsung.com, narmstrong@baylibre.com,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@siol.net, heiko@sntech.de, hjc@rock-chips.com,
  Sandor.yu@nxp.com, dkos@cadence.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/7] drm: bridge: cadence: Initial support for MHDP HDMI
- bridge driver
-Date: Mon,  1 Jun 2020 14:17:35 +0800
-Message-Id: <b7ef05362af4127a90af31bf17a37f98b71eff1e.1590982881.git.Sandor.yu@nxp.com>
+Subject: [PATCH 6/7] drm: imx: mhdp: Initial support for i.MX8MQ MHDP HDMI
+Date: Mon,  1 Jun 2020 14:17:36 +0800
+Message-Id: <946044d0c8ab554219487b79ecaaf2b73dc6dcdd.1590982881.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590982881.git.Sandor.yu@nxp.com>
 References: <cover.1590982881.git.Sandor.yu@nxp.com>
@@ -59,1143 +60,681 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sandor Yu <Sandor.yu@nxp.com>
 
-This adds initial support for cadence MHDP HDMI bridge driver.
-Basic HDMI functions are supported, that include:
- -Video mode set on-the-fly
- -Cable hotplug detect
- -MAX support resolution to 3096x2160@60fps
- -HDMI audio
- -AV infoframe
- -EDID read
- -SCDC read
+Add initial support for i.MX8MQ MHDP HDMI.
+Add MHDP HDMI PHY configuration.
+The features are same as mhdp hdmi bridge driver.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 ---
- drivers/gpu/drm/bridge/cadence/Kconfig        |   4 +
- drivers/gpu/drm/bridge/cadence/Makefile       |   3 +-
- .../gpu/drm/bridge/cadence/cdns-hdmi-core.c   | 600 ++++++++++++++++++
- .../gpu/drm/bridge/cadence/cdns-mhdp-common.h |  14 +
- .../gpu/drm/bridge/cadence/cdns-mhdp-hdmi.c   | 330 ++++++++++
- include/drm/bridge/cdns-mhdp.h                |  69 ++
- 6 files changed, 1019 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdmi.c
+ drivers/gpu/drm/imx/mhdp/Kconfig              |   5 +-
+ drivers/gpu/drm/imx/mhdp/Makefile             |   2 +-
+ drivers/gpu/drm/imx/mhdp/cdns-mhdp-hdmi-phy.c | 588 ++++++++++++++++++
+ drivers/gpu/drm/imx/mhdp/cdns-mhdp-imxdrv.c   |  12 +
+ drivers/gpu/drm/imx/mhdp/cdns-mhdp-phy.h      |   2 +
+ 5 files changed, 606 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/imx/mhdp/cdns-mhdp-hdmi-phy.c
 
-diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
-index b7b8d30b18b6..9bc098302837 100644
---- a/drivers/gpu/drm/bridge/cadence/Kconfig
-+++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-@@ -9,3 +9,7 @@ config DRM_CDNS_MHDP
- config DRM_CDNS_DP
- 	tristate "Cadence DP DRM driver"
- 	depends on DRM_CDNS_MHDP
-+
-+config DRM_CDNS_HDMI
-+	tristate "Cadence HDMI DRM driver"
-+	depends on DRM_CDNS_MHDP
-diff --git a/drivers/gpu/drm/bridge/cadence/Makefile b/drivers/gpu/drm/bridge/cadence/Makefile
-index cb3c88311a64..1d60166c2bf5 100644
---- a/drivers/gpu/drm/bridge/cadence/Makefile
-+++ b/drivers/gpu/drm/bridge/cadence/Makefile
-@@ -1,4 +1,5 @@
+diff --git a/drivers/gpu/drm/imx/mhdp/Kconfig b/drivers/gpu/drm/imx/mhdp/Kconfig
+index c9e07a3bf3df..fc0cf708b900 100644
+--- a/drivers/gpu/drm/imx/mhdp/Kconfig
++++ b/drivers/gpu/drm/imx/mhdp/Kconfig
+@@ -1,8 +1,9 @@
  # SPDX-License-Identifier: GPL-2.0-only
--cdns_mhdp_drmcore-y := cdns-mhdp-common.o cdns-mhdp-audio.o cdns-mhdp-dp.o
-+cdns_mhdp_drmcore-y := cdns-mhdp-common.o cdns-mhdp-audio.o cdns-mhdp-dp.o cdns-mhdp-hdmi.o
- cdns_mhdp_drmcore-$(CONFIG_DRM_CDNS_DP) += cdns-dp-core.o
-+cdns_mhdp_drmcore-$(CONFIG_DRM_CDNS_HDMI) += cdns-hdmi-core.o
- obj-$(CONFIG_DRM_CDNS_MHDP)		+= cdns_mhdp_drmcore.o
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c
+ 
+ config DRM_IMX_CDNS_MHDP
+-	tristate "NXP i.MX MX8 DRM DP"
++	tristate "NXP i.MX MX8 DRM DP/HDMI"
+ 	select DRM_CDNS_MHDP
+ 	select DRM_CDNS_DP
++	select DRM_CDNS_HDMI
+ 	help
+-	  Choose this if you want to use Displayport on i.MX8.
++	  Choose this if you want to use Displayport/HDMI on i.MX8.
+diff --git a/drivers/gpu/drm/imx/mhdp/Makefile b/drivers/gpu/drm/imx/mhdp/Makefile
+index 4383e689445a..ca51a2a9641c 100644
+--- a/drivers/gpu/drm/imx/mhdp/Makefile
++++ b/drivers/gpu/drm/imx/mhdp/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+-cdns_mhdp_imx-objs := cdns-mhdp-imxdrv.o cdns-mhdp-dp-phy.o
++cdns_mhdp_imx-objs := cdns-mhdp-imxdrv.o cdns-mhdp-dp-phy.o cdns-mhdp-hdmi-phy.o
+ obj-$(CONFIG_DRM_IMX_CDNS_MHDP) += cdns_mhdp_imx.o
+diff --git a/drivers/gpu/drm/imx/mhdp/cdns-mhdp-hdmi-phy.c b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-hdmi-phy.c
 new file mode 100644
-index 000000000000..5775ed21b734
+index 000000000000..54b01e13a2b6
 --- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-hdmi-core.c
-@@ -0,0 +1,600 @@
++++ b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-hdmi-phy.c
+@@ -0,0 +1,588 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Cadence High-Definition Multimedia Interface (HDMI) driver
++ * Cadence High-Definition Multimedia Interface (HDMI) PHY driver
 + *
 + * Copyright (C) 2019-2020 NXP Semiconductor, Inc.
-+ *
 + */
-+#include <drm/bridge/cdns-mhdp.h>
-+#include <drm/drm_atomic_helper.h>
++#include <drm/drm_of.h>
++#include <drm/drm_vblank.h>
++#include <drm/drm_print.h>
++#include <drm/drm_crtc_helper.h>
++#include <linux/io.h>
 +#include <drm/drm_edid.h>
 +#include <drm/drm_encoder_slave.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_scdc_helper.h>
-+#include <drm/drm_vblank.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/hdmi.h>
-+#include <linux/irq.h>
-+#include <linux/module.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/mutex.h>
-+#include <linux/of_device.h>
++#include <drm/drm_atomic.h>
++#include <linux/io.h>
 +
-+#include "cdns-mhdp-common.h"
++#include <drm/bridge/cdns-mhdp.h>
++#include "cdns-mhdp-phy.h"
 +
-+static void hdmi_sink_config(struct cdns_mhdp_device *mhdp)
++/* HDMI TX clock control settings */
++struct hdmi_ctrl {
++	u32 pixel_clk_freq_min;
++	u32 pixel_clk_freq_max;
++	u32 feedback_factor;
++	u32 data_range_kbps_min;
++	u32 data_range_kbps_max;
++	u32 cmnda_pll0_ip_div;
++	u32 cmn_ref_clk_dig_div;
++	u32 ref_clk_divider_scaler;
++	u32 pll_fb_div_total;
++	u32 cmnda_pll0_fb_div_low;
++	u32 cmnda_pll0_fb_div_high;
++	u32 pixel_div_total;
++	u32 cmnda_pll0_pxdiv_low;
++	u32 cmnda_pll0_pxdiv_high;
++	u32 vco_freq_min;
++	u32 vco_freq_max;
++	u32 vco_ring_select;
++	u32 cmnda_hs_clk_0_sel;
++	u32 cmnda_hs_clk_1_sel;
++	u32 hsclk_div_at_xcvr;
++	u32 hsclk_div_tx_sub_rate;
++	u32 cmnda_pll0_hs_sym_div_sel;
++	u32 cmnda_pll0_clk_freq_min;
++	u32 cmnda_pll0_clk_freq_max;
++};
++
++/* HDMI TX clock control settings, pixel clock is output */
++static const struct hdmi_ctrl imx8mq_ctrl_table[] = {
++/*Minclk  Maxclk Fdbak  DR_min   DR_max  ip_d  dig  DS    Totl */
++{ 27000,  27000, 1000,  270000,  270000, 0x03, 0x1, 0x1,  240, 0x0BC, 0x030,  80, 0x026, 0x026, 2160000, 2160000, 0, 2, 2, 2, 4, 0x3,  27000,  27000},
++{ 27000,  27000, 1250,  337500,  337500, 0x03, 0x1, 0x1,  300, 0x0EC, 0x03C, 100, 0x030, 0x030, 2700000, 2700000, 0, 2, 2, 2, 4, 0x3,  33750,  33750},
++{ 27000,  27000, 1500,  405000,  405000, 0x03, 0x1, 0x1,  360, 0x11C, 0x048, 120, 0x03A, 0x03A, 3240000, 3240000, 0, 2, 2, 2, 4, 0x3,  40500,  40500},
++{ 27000,  27000, 2000,  540000,  540000, 0x03, 0x1, 0x1,  240, 0x0BC, 0x030,  80, 0x026, 0x026, 2160000, 2160000, 0, 2, 2, 2, 4, 0x2,  54000,  54000},
++{ 54000,  54000, 1000,  540000,  540000, 0x03, 0x1, 0x1,  480, 0x17C, 0x060,  80, 0x026, 0x026, 4320000, 4320000, 1, 2, 2, 2, 4, 0x3,  54000,  54000},
++{ 54000,  54000, 1250,  675000,  675000, 0x04, 0x1, 0x1,  400, 0x13C, 0x050,  50, 0x017, 0x017, 2700000, 2700000, 0, 1, 1, 2, 4, 0x2,  67500,  67500},
++{ 54000,  54000, 1500,  810000,  810000, 0x04, 0x1, 0x1,  480, 0x17C, 0x060,  60, 0x01C, 0x01C, 3240000, 3240000, 0, 2, 2, 2, 2, 0x2,  81000,  81000},
++{ 54000,  54000, 2000, 1080000, 1080000, 0x03, 0x1, 0x1,  240, 0x0BC, 0x030,  40, 0x012, 0x012, 2160000, 2160000, 0, 2, 2, 2, 1, 0x1, 108000, 108000},
++{ 74250,  74250, 1000,  742500,  742500, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  80, 0x026, 0x026, 5940000, 5940000, 1, 2, 2, 2, 4, 0x3,  74250,  74250},
++{ 74250,  74250, 1250,  928125,  928125, 0x04, 0x1, 0x1,  550, 0x1B4, 0x06E,  50, 0x017, 0x017, 3712500, 3712500, 1, 1, 1, 2, 4, 0x2,  92812,  92812},
++{ 74250,  74250, 1500, 1113750, 1113750, 0x04, 0x1, 0x1,  660, 0x20C, 0x084,  60, 0x01C, 0x01C, 4455000, 4455000, 1, 2, 2, 2, 2, 0x2, 111375, 111375},
++{ 74250,  74250, 2000, 1485000, 1485000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  40, 0x012, 0x012, 2970000, 2970000, 0, 2, 2, 2, 1, 0x1, 148500, 148500},
++{ 99000,  99000, 1000,  990000,  990000, 0x03, 0x1, 0x1,  440, 0x15C, 0x058,  40, 0x012, 0x012, 3960000, 3960000, 1, 2, 2, 2, 2, 0x2,  99000,  99000},
++{ 99000,  99000, 1250, 1237500, 1237500, 0x03, 0x1, 0x1,  275, 0x0D8, 0x037,  25, 0x00B, 0x00A, 2475000, 2475000, 0, 1, 1, 2, 2, 0x1, 123750, 123750},
++{ 99000,  99000, 1500, 1485000, 1485000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  30, 0x00D, 0x00D, 2970000, 2970000, 0, 2, 2, 2, 1, 0x1, 148500, 148500},
++{ 99000,  99000, 2000, 1980000, 1980000, 0x03, 0x1, 0x1,  440, 0x15C, 0x058,  40, 0x012, 0x012, 3960000, 3960000, 1, 2, 2, 2, 1, 0x1, 198000, 198000},
++{148500, 148500, 1000, 1485000, 1485000, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  40, 0x012, 0x012, 5940000, 5940000, 1, 2, 2, 2, 2, 0x2, 148500, 148500},
++{148500, 148500, 1250, 1856250, 1856250, 0x04, 0x1, 0x1,  550, 0x1B4, 0x06E,  25, 0x00B, 0x00A, 3712500, 3712500, 1, 1, 1, 2, 2, 0x1, 185625, 185625},
++{148500, 148500, 1500, 2227500, 2227500, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  30, 0x00D, 0x00D, 4455000, 4455000, 1, 1, 1, 2, 2, 0x1, 222750, 222750},
++{148500, 148500, 2000, 2970000, 2970000, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  40, 0x012, 0x012, 5940000, 5940000, 1, 2, 2, 2, 1, 0x1, 297000, 297000},
++{198000, 198000, 1000, 1980000, 1980000, 0x03, 0x1, 0x1,  220, 0x0AC, 0x02C,  10, 0x003, 0x003, 1980000, 1980000, 0, 1, 1, 2, 1, 0x0, 198000, 198000},
++{198000, 198000, 1250, 2475000, 2475000, 0x03, 0x1, 0x1,  550, 0x1B4, 0x06E,  25, 0x00B, 0x00A, 4950000, 4950000, 1, 1, 1, 2, 2, 0x1, 247500, 247500},
++{198000, 198000, 1500, 2970000, 2970000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  15, 0x006, 0x005, 2970000, 2970000, 0, 1, 1, 2, 1, 0x0, 297000, 297000},
++{198000, 198000, 2000, 3960000, 3960000, 0x03, 0x1, 0x1,  440, 0x15C, 0x058,  20, 0x008, 0x008, 3960000, 3960000, 1, 1, 1, 2, 1, 0x0, 396000, 396000},
++{297000, 297000, 1000, 2970000, 2970000, 0x03, 0x1, 0x1,  330, 0x104, 0x042,  10, 0x003, 0x003, 2970000, 2970000, 0, 1, 1, 2, 1, 0x0, 297000, 297000},
++{297000, 297000, 1500, 4455000, 4455000, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  15, 0x006, 0x005, 4455000, 4455000, 1, 1, 1, 2, 1, 0x0, 445500, 445500},
++{297000, 297000, 2000, 5940000, 5940000, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  20, 0x008, 0x008, 5940000, 5940000, 1, 1, 1, 2, 1, 0x0, 594000, 594000},
++{594000, 594000, 1000, 5940000, 5940000, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  10, 0x003, 0x003, 5940000, 5940000, 1, 1, 1, 2, 1, 0x0, 594000, 594000},
++{594000, 594000,  750, 4455000, 4455000, 0x03, 0x1, 0x1,  495, 0x188, 0x063,  10, 0x003, 0x003, 4455000, 4455000, 1, 1, 1, 2, 1, 0x0, 445500, 445500},
++{594000, 594000,  625, 3712500, 3712500, 0x04, 0x1, 0x1,  550, 0x1B4, 0x06E,  10, 0x003, 0x003, 3712500, 3712500, 1, 1, 1, 2, 1, 0x0, 371250, 371250},
++{594000, 594000,  500, 2970000, 2970000, 0x03, 0x1, 0x1,  660, 0x20C, 0x084,  10, 0x003, 0x003, 5940000, 5940000, 1, 1, 1, 2, 2, 0x1, 297000, 297000},
++};
++
++/* HDMI TX PLL tuning settings */
++struct hdmi_pll_tuning {
++	u32 vco_freq_bin;
++	u32 vco_freq_min;
++	u32 vco_freq_max;
++	u32 volt_to_current_coarse;
++	u32 volt_to_current;
++	u32 ndac_ctrl;
++	u32 pmos_ctrl;
++	u32 ptat_ndac_ctrl;
++	u32 feedback_div_total;
++	u32 charge_pump_gain;
++	u32 coarse_code;
++	u32 v2i_code;
++	u32 vco_cal_code;
++};
++
++/* HDMI TX PLL tuning settings, pixel clock is output */
++static const struct hdmi_pll_tuning imx8mq_pll_table[] = {
++/*    bin VCO_freq min/max  coar  cod NDAC  PMOS PTAT div-T P-Gain Coa V2I CAL */
++    {  1, 1980000, 1980000, 0x4, 0x3, 0x0, 0x09, 0x09, 220, 0x42, 160, 5, 183 },
++    {  2, 2160000, 2160000, 0x4, 0x3, 0x0, 0x09, 0x09, 240, 0x42, 166, 6, 208 },
++    {  3, 2475000, 2475000, 0x5, 0x3, 0x1, 0x00, 0x07, 275, 0x42, 167, 6, 209 },
++    {  4, 2700000, 2700000, 0x5, 0x3, 0x1, 0x00, 0x07, 300, 0x42, 188, 6, 230 },
++    {  4, 2700000, 2700000, 0x5, 0x3, 0x1, 0x00, 0x07, 400, 0x4C, 188, 6, 230 },
++    {  5, 2970000, 2970000, 0x6, 0x3, 0x1, 0x00, 0x07, 330, 0x42, 183, 6, 225 },
++    {  6, 3240000, 3240000, 0x6, 0x3, 0x1, 0x00, 0x07, 360, 0x42, 203, 7, 256 },
++    {  6, 3240000, 3240000, 0x6, 0x3, 0x1, 0x00, 0x07, 480, 0x4C, 203, 7, 256 },
++    {  7, 3712500, 3712500, 0x4, 0x3, 0x0, 0x07, 0x0F, 550, 0x4C, 212, 7, 257 },
++    {  8, 3960000, 3960000, 0x5, 0x3, 0x0, 0x07, 0x0F, 440, 0x42, 184, 6, 226 },
++    {  9, 4320000, 4320000, 0x5, 0x3, 0x1, 0x07, 0x0F, 480, 0x42, 205, 7, 258 },
++    { 10, 4455000, 4455000, 0x5, 0x3, 0x0, 0x07, 0x0F, 495, 0x42, 219, 7, 272 },
++    { 10, 4455000, 4455000, 0x5, 0x3, 0x0, 0x07, 0x0F, 660, 0x4C, 219, 7, 272 },
++    { 11, 4950000, 4950000, 0x6, 0x3, 0x1, 0x00, 0x07, 550, 0x42, 213, 7, 258 },
++    { 12, 5940000, 5940000, 0x7, 0x3, 0x1, 0x00, 0x07, 660, 0x42, 244, 8, 292 },
++};
++
++static void hdmi_arc_config(struct cdns_mhdp_device *mhdp)
 +{
-+	struct drm_scdc *scdc = &mhdp->connector.base.display_info.hdmi.scdc;
-+	u8 buff = 0;
++	u16 txpu_calib_code;
++	u16 txpd_calib_code;
++	u16 txpu_adj_calib_code;
++	u16 txpd_adj_calib_code;
++	u16 prev_calib_code;
++	u16 new_calib_code;
++	u16 rdata;
 +
-+	/* Default work in HDMI1.4 */
-+	mhdp->hdmi.hdmi_type = MODE_HDMI_1_4;
++	/* Power ARC */
++	cdns_phy_reg_write(mhdp, TXDA_CYA_AUXDA_CYA, 0x0001);
 +
-+	/* check sink support SCDC or not */
-+	if (scdc->supported != true) {
-+		DRM_INFO("Sink Not Support SCDC\n");
-+		return;
++	prev_calib_code = cdns_phy_reg_read(mhdp, TX_DIG_CTRL_REG_2);
++	txpu_calib_code = cdns_phy_reg_read(mhdp, CMN_TXPUCAL_CTRL);
++	txpd_calib_code = cdns_phy_reg_read(mhdp, CMN_TXPDCAL_CTRL);
++	txpu_adj_calib_code = cdns_phy_reg_read(mhdp, CMN_TXPU_ADJ_CTRL);
++	txpd_adj_calib_code = cdns_phy_reg_read(mhdp, CMN_TXPD_ADJ_CTRL);
++
++	new_calib_code = ((txpu_calib_code + txpd_calib_code) / 2)
++		+ txpu_adj_calib_code + txpd_adj_calib_code;
++
++	if (new_calib_code != prev_calib_code) {
++		rdata = cdns_phy_reg_read(mhdp, TX_ANA_CTRL_REG_1);
++		rdata &= 0xDFFF;
++		cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, rdata);
++		cdns_phy_reg_write(mhdp, TX_DIG_CTRL_REG_2, new_calib_code);
++		mdelay(10);
++		rdata |= 0x2000;
++		cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, rdata);
++		udelay(150);
 +	}
 +
-+	if (mhdp->hdmi.char_rate > 340000) {
-+		/*
-+		 * TMDS Character Rate above 340MHz should working in HDMI2.0
-+		 * Enable scrambling and TMDS_Bit_Clock_Ratio
-+		 */
-+		buff = SCDC_TMDS_BIT_CLOCK_RATIO_BY_40 | SCDC_SCRAMBLING_ENABLE;
-+		mhdp->hdmi.hdmi_type = MODE_HDMI_2_0;
-+	} else  if (scdc->scrambling.low_rates) {
-+		/*
-+		 * Enable scrambling and HDMI2.0 when scrambling capability of sink
-+		 * be indicated in the HF-VSDB LTE_340Mcsc_scramble bit
-+		 */
-+		buff = SCDC_SCRAMBLING_ENABLE;
-+		mhdp->hdmi.hdmi_type = MODE_HDMI_2_0;
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_2, 0x0100);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_2, 0x0300);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_3, 0x0000);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, 0x2008);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, 0x2018);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, 0x2098);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_2, 0x030C);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_5, 0x0010);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_4, 0x4001);
++	mdelay(5);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_1, 0x2198);
++	mdelay(5);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_2, 0x030D);
++	udelay(100);
++	cdns_phy_reg_write(mhdp, TX_ANA_CTRL_REG_2, 0x030F);
++}
++
++static void hdmi_phy_set_vswing(struct cdns_mhdp_device *mhdp)
++{
++	const u32 num_lanes = 4;
++	u32 k;
++
++	for (k = 0; k < num_lanes; k++) {
++		cdns_phy_reg_write(mhdp, (TX_DIAG_TX_DRV | (k << 9)), 0x7c0);
++		cdns_phy_reg_write(mhdp, (TX_TXCC_CPOST_MULT_00_0 | (k << 9)), 0x0);
++		cdns_phy_reg_write(mhdp, (TX_TXCC_CAL_SCLR_MULT_0 | (k << 9)), 0x120);
 +	}
-+
-+	/* TMDS config */
-+	cdns_hdmi_scdc_write(mhdp, SCDC_TMDS_CONFIG, buff);
 +}
 +
-+static void hdmi_lanes_config(struct cdns_mhdp_device *mhdp)
++static int hdmi_feedback_factor(struct cdns_mhdp_device *mhdp)
 +{
-+	u32 lane_mapping = mhdp->plat_data->lane_mapping;
-+	/* Line swaping */
-+	cdns_mhdp_reg_write(mhdp, LANES_CONFIG, 0x00400000 | lane_mapping);
-+}
++	u32 feedback_factor;
 +
-+static int hdmi_avi_info_set(struct cdns_mhdp_device *mhdp,
-+			     struct drm_display_mode *mode)
-+{
-+	struct hdmi_avi_infoframe frame;
-+	int format = mhdp->video_info.color_fmt;
-+	struct drm_connector_state *conn_state = mhdp->connector.base.state;
-+	struct drm_display_mode *adj_mode;
-+	enum hdmi_quantization_range qr;
-+	u8 buf[32];
-+	int ret;
-+
-+	/* Initialise info frame from DRM mode */
-+	drm_hdmi_avi_infoframe_from_display_mode(&frame,
-+						&mhdp->connector.base, mode);
-+
-+	switch (format) {
-+	case YCBCR_4_4_4:
-+		frame.colorspace = HDMI_COLORSPACE_YUV444;
-+		break;
++	switch (mhdp->video_info.color_fmt) {
 +	case YCBCR_4_2_2:
-+		frame.colorspace = HDMI_COLORSPACE_YUV422;
++		feedback_factor = 1000;
 +		break;
 +	case YCBCR_4_2_0:
-+		frame.colorspace = HDMI_COLORSPACE_YUV420;
++		switch (mhdp->video_info.color_depth) {
++		case 8:
++			feedback_factor = 500;
++			break;
++		case 10:
++			feedback_factor = 625;
++			break;
++		case 12:
++			feedback_factor = 750;
++			break;
++		case 16:
++			feedback_factor = 1000;
++			break;
++		default:
++			DRM_ERROR("Invalid ColorDepth\n");
++			return 0;
++		}
 +		break;
 +	default:
-+		frame.colorspace = HDMI_COLORSPACE_RGB;
-+		break;
++		/* Assume RGB/YUV444 */
++		switch (mhdp->video_info.color_depth) {
++		case 10:
++			feedback_factor = 1250;
++			break;
++		case 12:
++			feedback_factor = 1500;
++			break;
++		case 16:
++			feedback_factor = 2000;
++			break;
++		default:
++			feedback_factor = 1000;
++		}
++	}
++	return feedback_factor;
++}
++
++static int hdmi_phy_config(struct cdns_mhdp_device *mhdp,
++					const struct hdmi_ctrl *p_ctrl_table,
++					const struct hdmi_pll_tuning *p_pll_table,
++					char pclk_in)
++{
++	const u32 num_lanes = 4;
++	u32 val, i, k;
++
++	/* enable PHY isolation mode only for CMN */
++	cdns_phy_reg_write(mhdp, PHY_PMA_ISOLATION_CTRL, 0xD000);
++
++	/* set cmn_pll0_clk_datart1_div/cmn_pll0_clk_datart0_div dividers */
++	val = cdns_phy_reg_read(mhdp, PHY_PMA_ISO_PLL_CTRL1);
++	val &= 0xFF00;
++	val |= 0x0012;
++	cdns_phy_reg_write(mhdp, PHY_PMA_ISO_PLL_CTRL1, val);
++
++	/* assert PHY reset from isolation register */
++	cdns_phy_reg_write(mhdp, PHY_ISO_CMN_CTRL, 0x0000);
++	/* assert PMA CMN reset */
++	cdns_phy_reg_write(mhdp, PHY_PMA_ISO_CMN_CTRL, 0x0000);
++
++	/* register XCVR_DIAG_BIDI_CTRL */
++	for (k = 0; k < num_lanes; k++)
++		cdns_phy_reg_write(mhdp, XCVR_DIAG_BIDI_CTRL | (k << 9), 0x00FF);
++
++	/* Describing Task phy_cfg_hdp */
++
++	val = cdns_phy_reg_read(mhdp, PHY_PMA_CMN_CTRL1);
++	val &= 0xFFF7;
++	val |= 0x0008;
++	cdns_phy_reg_write(mhdp, PHY_PMA_CMN_CTRL1, val);
++
++	/* PHY Registers */
++	val = cdns_phy_reg_read(mhdp, PHY_PMA_CMN_CTRL1);
++	val &= 0xCFFF;
++	val |= p_ctrl_table->cmn_ref_clk_dig_div << 12;
++	cdns_phy_reg_write(mhdp, PHY_PMA_CMN_CTRL1, val);
++
++	val = cdns_phy_reg_read(mhdp, PHY_HDP_CLK_CTL);
++	val &= 0x00FF;
++	val |= 0x1200;
++	cdns_phy_reg_write(mhdp, PHY_HDP_CLK_CTL, val);
++
++	/* Common control module control and diagnostic registers */
++	val = cdns_phy_reg_read(mhdp, CMN_CDIAG_REFCLK_CTRL);
++	val &= 0x8FFF;
++	val |= p_ctrl_table->ref_clk_divider_scaler << 12;
++	val |= 0x00C0;
++	cdns_phy_reg_write(mhdp, CMN_CDIAG_REFCLK_CTRL, val);
++
++	/* High speed clock used */
++	val = cdns_phy_reg_read(mhdp, CMN_DIAG_HSCLK_SEL);
++	val &= 0xFF00;
++	val |= (p_ctrl_table->cmnda_hs_clk_0_sel >> 1) << 0;
++	val |= (p_ctrl_table->cmnda_hs_clk_1_sel >> 1) << 4;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_HSCLK_SEL, val);
++
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(mhdp, (XCVR_DIAG_HSCLK_SEL | (k << 9)));
++		val &= 0xCFFF;
++		val |= (p_ctrl_table->cmnda_hs_clk_0_sel >> 1) << 12;
++		cdns_phy_reg_write(mhdp, (XCVR_DIAG_HSCLK_SEL | (k << 9)), val);
 +	}
 +
-+	drm_hdmi_avi_infoframe_colorspace(&frame, conn_state);
++	/* PLL 0 control state machine registers */
++	val = p_ctrl_table->vco_ring_select << 12;
++	cdns_phy_reg_write(mhdp, CMN_PLLSM0_USER_DEF_CTRL, val);
 +
-+	adj_mode = &mhdp->bridge.base.encoder->crtc->state->adjusted_mode;
++	if (pclk_in == true)
++		val = 0x30A0;
++	else {
++		val = cdns_phy_reg_read(mhdp, CMN_PLL0_VCOCAL_START);
++		val &= 0xFE00;
++		val |= p_pll_table->vco_cal_code;
++	}
++	cdns_phy_reg_write(mhdp, CMN_PLL0_VCOCAL_START, val);
 +
-+	qr = drm_default_rgb_quant_range(adj_mode);
++	cdns_phy_reg_write(mhdp, CMN_PLL0_VCOCAL_INIT_TMR, 0x0064);
++	cdns_phy_reg_write(mhdp, CMN_PLL0_VCOCAL_ITER_TMR, 0x000A);
 +
-+	drm_hdmi_avi_infoframe_quant_range(&frame, &mhdp->connector.base,
-+					   adj_mode, qr);
++	/* Common functions control and diagnostics registers */
++	val = p_ctrl_table->cmnda_pll0_hs_sym_div_sel << 8;
++	val |= p_ctrl_table->cmnda_pll0_ip_div;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_INCLK_CTRL, val);
 +
-+	ret = hdmi_avi_infoframe_check(&frame);
-+	if (WARN_ON(ret))
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_OVRD, 0x0000);
++
++	val = p_ctrl_table->cmnda_pll0_fb_div_high;
++	val |= (1 << 15);
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_FBH_OVRD, val);
++
++	val = p_ctrl_table->cmnda_pll0_fb_div_low;
++	val |= (1 << 15);
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_FBL_OVRD, val);
++
++	if (pclk_in == false) {
++		val = p_ctrl_table->cmnda_pll0_pxdiv_low;
++		cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_PXL_DIVL, val);
++
++		val = p_ctrl_table->cmnda_pll0_pxdiv_high;
++		val |= (1 << 15);
++		cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_PXL_DIVH, val);
++	}
++
++	val = p_pll_table->volt_to_current_coarse;
++	val |= (p_pll_table->volt_to_current) << 4;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_V2I_TUNE, val);
++
++	val = p_pll_table->charge_pump_gain;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_CP_TUNE, val);
++
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_LF_PROG, 0x0008);
++
++	val = p_pll_table->pmos_ctrl;
++	val |= (p_pll_table->ndac_ctrl) << 8;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_PTATIS_TUNE1, val);
++
++	val = p_pll_table->ptat_ndac_ctrl;
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_PTATIS_TUNE2, val);
++
++	if (pclk_in == true)
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_TEST_MODE, 0x0022);
++	else
++	cdns_phy_reg_write(mhdp, CMN_DIAG_PLL0_TEST_MODE, 0x0020);
++	cdns_phy_reg_write(mhdp, CMN_PSM_CLK_CTRL, 0x0016);
++
++	/* Transceiver control and diagnostic registers */
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(mhdp, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)));
++		val &= 0xBFFF;
++		cdns_phy_reg_write(mhdp, (XCVR_DIAG_PLLDRC_CTRL | (k << 9)), val);
++	}
++
++	for (k = 0; k < num_lanes; k++) {
++		val = cdns_phy_reg_read(mhdp, (TX_DIAG_TX_CTRL | (k << 9)));
++		val &= 0xFF3F;
++		val |= (p_ctrl_table->hsclk_div_tx_sub_rate >> 1) << 6;
++		cdns_phy_reg_write(mhdp, (TX_DIAG_TX_CTRL | (k << 9)), val);
++	}
++
++	val = cdns_phy_reg_read(mhdp, PHY_PMA_CMN_CTRL1);
++	val &= 0xFF8F;
++	/*
++	 * TODO
++	 * Pixel clock source from CCM val |= 0x0030
++	 * Pixel clock gererated by PHY(iMX8MQ):
++	 * --single ended reference clock val |= 0x0030;
++	 * --differential clock  val |= 0x0000;
++	 */
++	val |= 0x0030;
++	cdns_phy_reg_write(mhdp, PHY_PMA_CMN_CTRL1, val);
++
++	/* for differential clock on the refclk_p and
++	 * refclk_m off chip pins: CMN_DIAG_ACYA[8]=1'b1 */
++	cdns_phy_reg_write(mhdp, CMN_DIAG_ACYA, 0x0100);
++
++	/* Deassert PHY reset */
++	cdns_phy_reg_write(mhdp, PHY_ISO_CMN_CTRL, 0x0001);
++	cdns_phy_reg_write(mhdp, PHY_PMA_ISO_CMN_CTRL, 0x0003);
++
++	/* Power state machine registers */
++	for (k = 0; k < num_lanes; k++)
++		cdns_phy_reg_write(mhdp, XCVR_PSM_RCTRL | (k << 9), 0xFEFC);
++
++	/* Assert cmn_macro_pwr_en */
++	cdns_phy_reg_write(mhdp, PHY_PMA_ISO_CMN_CTRL, 0x0013);
++
++	/* wait for cmn_macro_pwr_en_ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(mhdp, PHY_PMA_ISO_CMN_CTRL);
++		if (val & (1 << 5))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		DRM_ERROR("PMA ouput macro power up failed\n");
 +		return false;
++	}
 +
-+	ret = hdmi_avi_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
-+	if (ret < 0) {
-+		DRM_ERROR("failed to pack AVI infoframe: %d\n", ret);
++	/* wait for cmn_ready */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(mhdp, PHY_PMA_CMN_CTRL1);
++		if (val & (1 << 0))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		DRM_ERROR("PMA output ready failed\n");
++		return false;
++	}
++
++	for (k = 0; k < num_lanes; k++) {
++		cdns_phy_reg_write(mhdp, TX_PSC_A0 | (k << 9), 0x6791);
++		cdns_phy_reg_write(mhdp, TX_PSC_A1 | (k << 9), 0x6790);
++		cdns_phy_reg_write(mhdp, TX_PSC_A2 | (k << 9), 0x0090);
++		cdns_phy_reg_write(mhdp, TX_PSC_A3 | (k << 9), 0x0090);
++
++		val = cdns_phy_reg_read(mhdp, RX_PSC_CAL | (k << 9));
++		val &= 0xFFBB;
++		cdns_phy_reg_write(mhdp, RX_PSC_CAL | (k << 9), val);
++
++		val = cdns_phy_reg_read(mhdp, RX_PSC_A0 | (k << 9));
++		val &= 0xFFBB;
++		cdns_phy_reg_write(mhdp, RX_PSC_A0 | (k << 9), val);
++	}
++	return true;
++}
++
++static int hdmi_phy_cfg_imx8mq(struct cdns_mhdp_device *mhdp,
++				struct drm_display_mode *mode)
++{
++	const struct hdmi_ctrl *p_ctrl_table;
++	const struct hdmi_pll_tuning *p_pll_table;
++	const u32 refclk_freq_khz = 27000;
++	const u8 pclk_in = false;
++	u32 pixel_freq = mode->clock;
++	u32 vco_freq, char_freq;
++	u32 div_total, feedback_factor;
++	u32 i, ret;
++
++	feedback_factor = hdmi_feedback_factor(mhdp);
++
++	char_freq = pixel_freq * feedback_factor / 1000;
++
++	DRM_INFO("Pixel clock: %d KHz, character clock: %d, bpc is %0d-bit.\n",
++	     pixel_freq, char_freq, mhdp->video_info.color_depth);
++
++	/* Get right row from the ctrl_table table.
++	 * Check if 'pixel_freq_khz' value matches the PIXEL_CLK_FREQ column.
++	 * Consider only the rows with FEEDBACK_FACTOR column matching feedback_factor. */
++	for (i = 0; i < ARRAY_SIZE(imx8mq_ctrl_table); i++) {
++		if (feedback_factor == imx8mq_ctrl_table[i].feedback_factor &&
++				pixel_freq == imx8mq_ctrl_table[i].pixel_clk_freq_min) {
++			p_ctrl_table = &imx8mq_ctrl_table[i];
++			break;
++		}
++	}
++	if (i == ARRAY_SIZE(imx8mq_ctrl_table)) {
++		DRM_WARN("Pixel clk (%d KHz) not supported, color depth (%0d-bit)\n",
++		     pixel_freq, mhdp->video_info.color_depth);
++		return 0;
++	}
++
++	div_total = p_ctrl_table->pll_fb_div_total;
++	vco_freq = refclk_freq_khz * div_total / p_ctrl_table->cmnda_pll0_ip_div;
++
++	/* Get right row from the imx8mq_pll_table table.
++	 * Check if vco_freq_khz and feedback_div_total
++	 * column matching with imx8mq_pll_table. */
++	for (i = 0; i < ARRAY_SIZE(imx8mq_pll_table); i++) {
++		if (vco_freq == imx8mq_pll_table[i].vco_freq_min &&
++				div_total == imx8mq_pll_table[i].feedback_div_total) {
++			p_pll_table = &imx8mq_pll_table[i];
++			break;
++		}
++	}
++	if (i == ARRAY_SIZE(imx8mq_pll_table)) {
++		DRM_WARN("VCO (%d KHz) not supported\n", vco_freq);
++		return 0;
++	}
++	DRM_INFO("VCO frequency is %d KHz\n", vco_freq);
++
++	ret = hdmi_phy_config(mhdp, p_ctrl_table, p_pll_table, pclk_in);
++	if (ret == false)
++		return 0;
++
++	return char_freq;
++}
++
++static int hdmi_phy_power_up(struct cdns_mhdp_device *mhdp)
++{
++	u32 val, i;
++
++	/* set Power State to A2 */
++	cdns_phy_reg_write(mhdp, PHY_HDP_MODE_CTRL, 0x0004);
++
++	cdns_phy_reg_write(mhdp, TX_DIAG_ACYA_0, 1);
++	cdns_phy_reg_write(mhdp, TX_DIAG_ACYA_1, 1);
++	cdns_phy_reg_write(mhdp, TX_DIAG_ACYA_2, 1);
++	cdns_phy_reg_write(mhdp, TX_DIAG_ACYA_3, 1);
++
++	/* Wait for Power State A2 Ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(mhdp, PHY_HDP_MODE_CTRL);
++		if (val & (1 << 6))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(mhdp->dev, "Wait A2 Ack failed\n");
 +		return -1;
 +	}
 +
-+	buf[0] = 0;
-+	cdns_mhdp_infoframe_set(mhdp, 0, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_AVI);
++	/* Power up ARC */
++	hdmi_arc_config(mhdp);
++
++	/* Configure PHY in A0 mode (PHY must be in the A0 power
++	 * state in order to transmit data)
++	 */
++	cdns_phy_reg_write(mhdp, PHY_HDP_MODE_CTRL, 0x0001);
++
++	/* Wait for Power State A0 Ack */
++	for (i = 0; i < 10; i++) {
++		val = cdns_phy_reg_read(mhdp, PHY_HDP_MODE_CTRL);
++		if (val & (1 << 4))
++			break;
++		msleep(20);
++	}
++	if (i == 10) {
++		dev_err(mhdp->dev, "Wait A0 Ack failed\n");
++		return -1;
++	}
 +	return 0;
 +}
 +
-+static void hdmi_vendor_info_set(struct cdns_mhdp_device *mhdp,
-+				struct drm_display_mode *mode)
++bool cdns_hdmi_phy_mode_valid_imx8mq(struct cdns_mhdp_device *mhdp)
 +{
-+	struct hdmi_vendor_infoframe frame;
-+	u8 buf[32];
-+	int ret;
++	u32 rate = mhdp->hdmi.mode_valid->clock;
++	int i;
 +
-+	/* Initialise vendor frame from DRM mode */
-+	ret = drm_hdmi_vendor_infoframe_from_display_mode(&frame, &mhdp->connector.base, mode);
-+	if (ret < 0) {
-+		DRM_INFO("No vendor infoframe\n");
-+		return;
-+	}
-+
-+	ret = hdmi_vendor_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
-+	if (ret < 0) {
-+		DRM_WARN("Unable to pack vendor infoframe: %d\n", ret);
-+		return;
-+	}
-+
-+	buf[0] = 0;
-+	cdns_mhdp_infoframe_set(mhdp, 3, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_VENDOR);
++	for (i = 0; i < ARRAY_SIZE(imx8mq_ctrl_table); i++)
++			if (rate == imx8mq_ctrl_table[i].pixel_clk_freq_min)
++				return true;
++	return false;
 +}
 +
-+static void hdmi_drm_info_set(struct cdns_mhdp_device *mhdp)
-+{
-+	struct drm_connector_state *conn_state;
-+	struct hdmi_drm_infoframe frame;
-+	u8 buf[32];
-+	int ret;
-+
-+	conn_state = mhdp->connector.base.state;
-+
-+	if (!conn_state->hdr_output_metadata)
-+		return;
-+
-+	ret = drm_hdmi_infoframe_set_hdr_metadata(&frame, conn_state);
-+	if (ret < 0) {
-+		DRM_DEBUG_KMS("couldn't set HDR metadata in infoframe\n");
-+		return;
-+	}
-+
-+	ret = hdmi_drm_infoframe_pack(&frame, buf + 1, sizeof(buf) - 1);
-+	if (ret < 0) {
-+		DRM_DEBUG_KMS("couldn't pack HDR infoframe\n");
-+		return;
-+	}
-+
-+	buf[0] = 0;
-+	cdns_mhdp_infoframe_set(mhdp, 3, sizeof(buf), buf, HDMI_INFOFRAME_TYPE_DRM);
-+}
-+
-+void cdns_hdmi_mode_set(struct cdns_mhdp_device *mhdp)
++int cdns_hdmi_phy_set_imx8mq(struct cdns_mhdp_device *mhdp)
 +{
 +	struct drm_display_mode *mode = &mhdp->mode;
 +	int ret;
 +
-+	/* video mode check */
-+	if (mode->clock == 0 || mode->hdisplay == 0 ||  mode->vdisplay == 0)
-+		return;
-+
-+	hdmi_lanes_config(mhdp);
-+
-+	cdns_mhdp_plat_call(mhdp, pclk_rate);
-+
-+	/* Delay for HDMI FW stable after pixel clock relock */
-+	msleep(20);
-+
-+	cdns_mhdp_plat_call(mhdp, phy_set);
-+
-+	hdmi_sink_config(mhdp);
-+
-+	ret = cdns_hdmi_ctrl_init(mhdp, mhdp->hdmi.hdmi_type, mhdp->hdmi.char_rate);
-+	if (ret < 0) {
-+		DRM_ERROR("%s, ret = %d\n", __func__, ret);
-+		return;
-+	}
-+
-+	/* Config GCP */
-+	if (mhdp->video_info.color_depth == 8)
-+		cdns_hdmi_disable_gcp(mhdp);
-+	else
-+		cdns_hdmi_enable_gcp(mhdp);
-+
-+	ret = hdmi_avi_info_set(mhdp, mode);
-+	if (ret < 0) {
-+		DRM_ERROR("%s ret = %d\n", __func__, ret);
-+		return;
-+	}
-+
-+	/* vendor info frame is enabled only for HDMI1.4 4K mode */
-+	hdmi_vendor_info_set(mhdp, mode);
-+
-+	hdmi_drm_info_set(mhdp);
-+
-+	ret = cdns_hdmi_mode_config(mhdp, mode, &mhdp->video_info);
-+	if (ret < 0) {
-+		DRM_ERROR("CDN_API_HDMITX_SetVic_blocking ret = %d\n", ret);
-+		return;
-+	}
-+}
-+
-+static enum drm_connector_status
-+cdns_hdmi_connector_detect(struct drm_connector *connector, bool force)
-+{
-+	struct cdns_mhdp_device *mhdp =
-+				container_of(connector, struct cdns_mhdp_device, connector.base);
-+	u8 hpd = 0xf;
-+
-+	hpd = cdns_mhdp_read_hpd(mhdp);
-+	if (hpd == 1)
-+		return connector_status_connected;
-+	else if (hpd == 0)
-+		return connector_status_disconnected;
-+	else {
-+		DRM_INFO("Unknow cable status, hdp=%u\n", hpd);
-+		return connector_status_unknown;
-+	}
-+}
-+
-+static int cdns_hdmi_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct cdns_mhdp_device *mhdp =
-+				container_of(connector, struct cdns_mhdp_device, connector.base);
-+	int num_modes = 0;
-+	struct edid *edid;
-+
-+	edid = drm_do_get_edid(&mhdp->connector.base,
-+				   cdns_hdmi_get_edid_block, mhdp);
-+	if (edid) {
-+		dev_info(mhdp->dev, "%x,%x,%x,%x,%x,%x,%x,%x\n",
-+			 edid->header[0], edid->header[1],
-+			 edid->header[2], edid->header[3],
-+			 edid->header[4], edid->header[5],
-+			 edid->header[6], edid->header[7]);
-+		drm_connector_update_edid_property(connector, edid);
-+		num_modes = drm_add_edid_modes(connector, edid);
-+		kfree(edid);
-+	}
-+
-+	if (num_modes == 0)
-+		DRM_ERROR("Invalid edid\n");
-+	return num_modes;
-+}
-+
-+static bool blob_equal(const struct drm_property_blob *a,
-+		       const struct drm_property_blob *b)
-+{
-+	if (a && b)
-+		return a->length == b->length &&
-+			!memcmp(a->data, b->data, a->length);
-+
-+	return !a == !b;
-+}
-+
-+static int cdns_hdmi_connector_atomic_check(struct drm_connector *connector,
-+					    struct drm_atomic_state *state)
-+{
-+	struct drm_connector_state *new_con_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	struct drm_connector_state *old_con_state =
-+		drm_atomic_get_old_connector_state(state, connector);
-+	struct drm_crtc *crtc = new_con_state->crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+
-+	if (!blob_equal(new_con_state->hdr_output_metadata,
-+			old_con_state->hdr_output_metadata) ||
-+	    new_con_state->colorspace != old_con_state->colorspace) {
-+		new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+		if (IS_ERR(new_crtc_state))
-+			return PTR_ERR(new_crtc_state);
-+
-+		new_crtc_state->mode_changed =
-+			!new_con_state->hdr_output_metadata ||
-+			!old_con_state->hdr_output_metadata ||
-+			new_con_state->colorspace != old_con_state->colorspace;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_connector_funcs cdns_hdmi_connector_funcs = {
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.detect = cdns_hdmi_connector_detect,
-+	.destroy = drm_connector_cleanup,
-+	.reset = drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static const struct drm_connector_helper_funcs cdns_hdmi_connector_helper_funcs = {
-+	.get_modes = cdns_hdmi_connector_get_modes,
-+	.atomic_check = cdns_hdmi_connector_atomic_check,
-+};
-+
-+static int cdns_hdmi_bridge_attach(struct drm_bridge *bridge,
-+				 enum drm_bridge_attach_flags flags)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge->driver_private;
-+	struct drm_mode_config *config = &bridge->dev->mode_config;
-+	struct drm_encoder *encoder = bridge->encoder;
-+	struct drm_connector *connector = &mhdp->connector.base;
-+
-+	connector->interlace_allowed = 1;
-+	connector->polled = DRM_CONNECTOR_POLL_HPD;
-+
-+	drm_connector_helper_add(connector, &cdns_hdmi_connector_helper_funcs);
-+
-+	drm_connector_init(bridge->dev, connector, &cdns_hdmi_connector_funcs,
-+			   DRM_MODE_CONNECTOR_HDMIA);
-+
-+	drm_object_attach_property(&connector->base,
-+				   config->hdr_output_metadata_property, 0);
-+
-+	if (!drm_mode_create_hdmi_colorspace_property(connector))
-+		drm_object_attach_property(&connector->base,
-+					connector->colorspace_property, 0);
-+
-+	drm_connector_attach_encoder(connector, encoder);
-+
-+	return 0;
-+}
-+
-+static enum drm_mode_status
-+cdns_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
-+			  const struct drm_display_mode *mode)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge->driver_private;
-+	enum drm_mode_status mode_status = MODE_OK;
-+	int ret;
-+
-+	/* We don't support double-clocked and Interlaced modes */
-+	if (mode->flags & DRM_MODE_FLAG_DBLCLK ||
-+			mode->flags & DRM_MODE_FLAG_INTERLACE)
-+		return MODE_BAD;
-+
-+	/* MAX support pixel clock rate 594MHz */
-+	if (mode->clock > 594000)
-+		return MODE_CLOCK_HIGH;
-+
-+	/* 4096x2160 is not supported */
-+	if (mode->hdisplay > 3840 || mode->vdisplay > 2160)
-+		return MODE_BAD_HVALUE;
-+
-+	/* Check modes supported by PHY */
-+	mhdp->hdmi.mode_valid = mode;
-+	ret = cdns_mhdp_plat_call(mhdp, phy_video_valid);
-+	if (ret == false)
-+		return MODE_CLOCK_RANGE;
-+
-+	return mode_status;
-+}
-+
-+static void cdns_hdmi_bridge_mode_set(struct drm_bridge *bridge,
-+				    const struct drm_display_mode *orig_mode,
-+				    const struct drm_display_mode *mode)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge->driver_private;
-+	struct video_info *video = &mhdp->video_info;
-+
-+	video->v_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
-+	video->h_sync_polarity = !!(mode->flags & DRM_MODE_FLAG_NHSYNC);
-+
-+	DRM_INFO("Mode: %dx%dp%d\n", mode->hdisplay, mode->vdisplay, mode->clock);
-+	memcpy(&mhdp->mode, mode, sizeof(struct drm_display_mode));
-+
-+	mutex_lock(&mhdp->lock);
-+	cdns_hdmi_mode_set(mhdp);
-+	mutex_unlock(&mhdp->lock);
-+}
-+
-+bool cdns_hdmi_bridge_mode_fixup(struct drm_bridge *bridge,
-+				 const struct drm_display_mode *mode,
-+				 struct drm_display_mode *adjusted_mode)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge->driver_private;
-+	struct video_info *video = &mhdp->video_info;
-+
-+	video->color_depth = 8;
-+	video->color_fmt = PXL_RGB;
-+
-+	return true;
-+}
-+
-+static const struct drm_bridge_funcs cdns_hdmi_bridge_funcs = {
-+	.attach = cdns_hdmi_bridge_attach,
-+	.mode_set = cdns_hdmi_bridge_mode_set,
-+	.mode_valid = cdns_hdmi_bridge_mode_valid,
-+	.mode_fixup = cdns_hdmi_bridge_mode_fixup,
-+};
-+
-+static void hotplug_work_func(struct work_struct *work)
-+{
-+	struct cdns_mhdp_device *mhdp = container_of(work,
-+					   struct cdns_mhdp_device, hotplug_work.work);
-+	struct drm_connector *connector = &mhdp->connector.base;
-+
-+	drm_helper_hpd_irq_event(connector->dev);
-+
-+	if (connector->status == connector_status_connected) {
-+		DRM_INFO("HDMI Cable Plug In\n");
-+		enable_irq(mhdp->irq[IRQ_OUT]);
-+	} else if (connector->status == connector_status_disconnected) {
-+		/* Cable Disconnedted  */
-+		DRM_INFO("HDMI Cable Plug Out\n");
-+		enable_irq(mhdp->irq[IRQ_IN]);
-+	}
-+}
-+
-+static irqreturn_t cdns_hdmi_irq_thread(int irq, void *data)
-+{
-+	struct cdns_mhdp_device *mhdp = data;
-+
-+	disable_irq_nosync(irq);
-+
-+	mod_delayed_work(system_wq, &mhdp->hotplug_work,
-+			msecs_to_jiffies(HOTPLUG_DEBOUNCE_MS));
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int __cdns_hdmi_probe(struct platform_device *pdev,
-+		  struct cdns_mhdp_device *mhdp)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct platform_device_info pdevinfo;
-+	struct resource *iores = NULL;
-+	int ret;
-+
-+	mutex_init(&mhdp->lock);
-+
-+	INIT_DELAYED_WORK(&mhdp->hotplug_work, hotplug_work_func);
-+
-+	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	mhdp->regs_base = devm_ioremap(dev, iores->start, resource_size(iores));
-+	if (IS_ERR(mhdp->regs_base)) {
-+		dev_err(dev, "No regs_base memory\n");
-+		return -ENOMEM;
-+	}
-+
-+	mhdp->irq[IRQ_IN] = platform_get_irq_byname(pdev, "plug_in");
-+	if (mhdp->irq[IRQ_IN] < 0) {
-+		dev_info(dev, "No plug_in irq number\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	mhdp->irq[IRQ_OUT] = platform_get_irq_byname(pdev, "plug_out");
-+	if (mhdp->irq[IRQ_OUT] < 0) {
-+		dev_info(dev, "No plug_out irq number\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	cdns_mhdp_plat_call(mhdp, power_on);
-+
-+	/* Initialize FW */
-+	cdns_mhdp_plat_call(mhdp, firmware_init);
-+
-+	/* HDMI FW alive check */
++	/* Check HDMI FW alive before HDMI PHY init */
 +	ret = cdns_mhdp_check_alive(mhdp);
 +	if (ret == false) {
-+		dev_err(dev, "NO HDMI FW running\n");
++		DRM_ERROR("NO HDMI FW running\n");
 +		return -ENXIO;
 +	}
 +
-+	/* Enable Hotplug Detect thread */
-+	irq_set_status_flags(mhdp->irq[IRQ_IN], IRQ_NOAUTOEN);
-+	ret = devm_request_threaded_irq(dev, mhdp->irq[IRQ_IN],
-+					NULL, cdns_hdmi_irq_thread,
-+					IRQF_ONESHOT, dev_name(dev),
-+					mhdp);
-+	if (ret < 0) {
-+		dev_err(dev, "can't claim irq %d\n",
-+						mhdp->irq[IRQ_IN]);
++	/* Configure PHY */
++	mhdp->hdmi.char_rate = hdmi_phy_cfg_imx8mq(mhdp, mode);
++	if (mhdp->hdmi.char_rate == 0) {
++		DRM_ERROR("failed to set phy pclock\n");
 +		return -EINVAL;
 +	}
 +
-+	irq_set_status_flags(mhdp->irq[IRQ_OUT], IRQ_NOAUTOEN);
-+	ret = devm_request_threaded_irq(dev, mhdp->irq[IRQ_OUT],
-+					NULL, cdns_hdmi_irq_thread,
-+					IRQF_ONESHOT, dev_name(dev),
-+					mhdp);
-+	if (ret < 0) {
-+		dev_err(dev, "can't claim irq %d\n",
-+						mhdp->irq[IRQ_OUT]);
-+		return -EINVAL;
-+	}
++	ret = hdmi_phy_power_up(mhdp);
++	if (ret < 0)
++		return ret;
 +
-+	if (cdns_mhdp_read_hpd(mhdp))
-+		enable_irq(mhdp->irq[IRQ_OUT]);
-+	else
-+		enable_irq(mhdp->irq[IRQ_IN]);
++	hdmi_phy_set_vswing(mhdp);
 +
-+	mhdp->bridge.base.driver_private = mhdp;
-+	mhdp->bridge.base.funcs = &cdns_hdmi_bridge_funcs;
-+#ifdef CONFIG_OF
-+	mhdp->bridge.base.of_node = dev->of_node;
-+#endif
-+
-+	memset(&pdevinfo, 0, sizeof(pdevinfo));
-+	pdevinfo.parent = dev;
-+	pdevinfo.id = PLATFORM_DEVID_AUTO;
-+
-+	dev_set_drvdata(dev, mhdp);
-+
-+	/* register audio driver */
-+	cdns_mhdp_register_audio_driver(dev);
-+
-+	return 0;
++	return true;
 +}
-+
-+static void __cdns_hdmi_remove(struct cdns_mhdp_device *mhdp)
-+{
-+	cdns_mhdp_unregister_audio_driver(mhdp->dev);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Probe/remove API, used from platforms based on the DRM bridge API.
-+ */
-+int cdns_hdmi_probe(struct platform_device *pdev,
-+		struct cdns_mhdp_device *mhdp)
-+{
-+	int ret;
-+
-+	ret  = __cdns_hdmi_probe(pdev, mhdp);
-+	if (ret < 0)
-+		return ret;
-+
-+	drm_bridge_add(&mhdp->bridge.base);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cdns_hdmi_probe);
-+
-+void cdns_hdmi_remove(struct platform_device *pdev)
-+{
-+	struct cdns_mhdp_device *mhdp = platform_get_drvdata(pdev);
-+
-+	drm_bridge_remove(&mhdp->bridge.base);
-+
-+	__cdns_hdmi_remove(mhdp);
-+}
-+EXPORT_SYMBOL_GPL(cdns_hdmi_remove);
-+
-+/* -----------------------------------------------------------------------------
-+ * Bind/unbind API, used from platforms based on the component framework.
-+ */
-+int cdns_hdmi_bind(struct platform_device *pdev, struct drm_encoder *encoder,
-+			struct cdns_mhdp_device *mhdp)
-+{
-+	int ret;
-+
-+	ret = __cdns_hdmi_probe(pdev, mhdp);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_bridge_attach(encoder, &mhdp->bridge.base, NULL, 0);
-+	if (ret) {
-+		cdns_hdmi_remove(pdev);
-+		DRM_ERROR("Failed to initialize bridge with drm\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cdns_hdmi_bind);
-+
-+void cdns_hdmi_unbind(struct device *dev)
-+{
-+	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
-+
-+	__cdns_hdmi_remove(mhdp);
-+}
-+EXPORT_SYMBOL_GPL(cdns_hdmi_unbind);
-+
-+MODULE_AUTHOR("Sandor Yu <sandor.yu@nxp.com>");
-+MODULE_DESCRIPTION("Cadence HDMI transmitter driver");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:cdn-hdmi");
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
-index b122bf5f0bdf..fea648070611 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-common.h
-@@ -23,4 +23,18 @@ int cdns_mhdp_reg_write_bit(struct cdns_mhdp_device *mhdp, u16 addr,
- /* Audio */
- int cdns_mhdp_register_audio_driver(struct device *dev);
- void cdns_mhdp_unregister_audio_driver(struct device *dev);
-+
-+/* HDMI */
-+int cdns_hdmi_scdc_write(struct cdns_mhdp_device *mhdp, u8 addr, u8 value);
-+void cdns_mhdp_infoframe_set(struct cdns_mhdp_device *mhdp,
-+					u8 entry_id, u8 packet_len, u8 *packet, u8 packet_type);
-+int cdns_hdmi_ctrl_init(struct cdns_mhdp_device *mhdp,
-+					int protocol, u32 char_rate);
-+int cdns_hdmi_enable_gcp(struct cdns_mhdp_device *mhdp);
-+int cdns_hdmi_disable_gcp(struct cdns_mhdp_device *mhdp);
-+int cdns_hdmi_mode_config(struct cdns_mhdp_device *mhdp,
-+			struct drm_display_mode *mode, struct video_info *video_info);
-+int cdns_hdmi_get_edid_block(void *data, u8 *edid,
-+			  u32 block, size_t length);
-+
- #endif
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdmi.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdmi.c
-new file mode 100644
-index 000000000000..b8826a9ed524
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp-hdmi.c
-@@ -0,0 +1,330 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2019-2020 NXP Semiconductor, Inc.
-+ *
-+ */
-+
-+#include <drm/bridge/cdns-mhdp.h>
-+#include <drm/drm_vblank.h>
-+#include <drm/drm_print.h>
-+#include <linux/io.h>
-+#include <linux/regmap.h>
-+
-+#include "cdns-mhdp-common.h"
-+
-+void cdns_mhdp_infoframe_set(struct cdns_mhdp_device *mhdp,
-+					u8 entry_id, u8 packet_len, u8 *packet, u8 packet_type)
-+{
-+	u32 *packet32, len32;
-+	u32 val, i;
-+
-+	/* invalidate entry */
-+	val = F_ACTIVE_IDLE_TYPE(1) | F_PKT_ALLOC_ADDRESS(entry_id);
-+	cdns_mhdp_bus_write(val, mhdp, SOURCE_PIF_PKT_ALLOC_REG);
-+	cdns_mhdp_bus_write(F_PKT_ALLOC_WR_EN(1), mhdp, SOURCE_PIF_PKT_ALLOC_WR_EN);
-+
-+	/* flush fifo 1 */
-+	cdns_mhdp_bus_write(F_FIFO1_FLUSH(1), mhdp, SOURCE_PIF_FIFO1_FLUSH);
-+
-+	/* write packet into memory */
-+	packet32 = (u32 *)packet;
-+	len32 = packet_len / 4;
-+	for (i = 0; i < len32; i++)
-+		cdns_mhdp_bus_write(F_DATA_WR(packet32[i]), mhdp, SOURCE_PIF_DATA_WR);
-+
-+	/* write entry id */
-+	cdns_mhdp_bus_write(F_WR_ADDR(entry_id), mhdp, SOURCE_PIF_WR_ADDR);
-+
-+	/* write request */
-+	cdns_mhdp_bus_write(F_HOST_WR(1), mhdp, SOURCE_PIF_WR_REQ);
-+
-+	/* update entry */
-+	val =  F_ACTIVE_IDLE_TYPE(1) | F_TYPE_VALID(1) |
-+			F_PACKET_TYPE(packet_type) | F_PKT_ALLOC_ADDRESS(entry_id);
-+	cdns_mhdp_bus_write(val, mhdp, SOURCE_PIF_PKT_ALLOC_REG);
-+
-+	cdns_mhdp_bus_write(F_PKT_ALLOC_WR_EN(1), mhdp, SOURCE_PIF_PKT_ALLOC_WR_EN);
-+}
-+
-+int cdns_hdmi_get_edid_block(void *data, u8 *edid,
-+			  u32 block, size_t length)
-+{
-+	struct cdns_mhdp_device *mhdp = data;
-+	u8 msg[2], reg[5], i;
-+	int ret;
-+
-+	for (i = 0; i < 4; i++) {
-+		msg[0] = block / 2;
-+		msg[1] = block % 2;
-+
-+		ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_HDMI_TX, HDMI_TX_EDID,
-+					  sizeof(msg), msg);
-+		if (ret)
-+			continue;
-+
-+		ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_HDMI_TX,
-+						      HDMI_TX_EDID, sizeof(reg) + length);
-+		if (ret)
-+			continue;
-+
-+		ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
-+		if (ret)
-+			continue;
-+
-+		ret = cdns_mhdp_mailbox_read_receive(mhdp, edid, length);
-+		if (ret)
-+			continue;
-+
-+		if ((reg[3] << 8 | reg[4]) == length)
-+			break;
-+	}
-+
-+	if (ret)
-+		DRM_ERROR("get block[%d] edid failed: %d\n", block, ret);
-+	return ret;
-+}
-+
-+int cdns_hdmi_scdc_read(struct cdns_mhdp_device *mhdp, u8 addr, u8 *data)
-+{
-+	u8 msg[4], reg[6];
-+	int ret;
-+
-+	msg[0] = 0x54;
-+	msg[1] = addr;
-+	msg[2] = 0;
-+	msg[3] = 1;
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_HDMI_TX, HDMI_TX_READ,
-+				  sizeof(msg), msg);
-+	if (ret)
-+		goto err_scdc_read;
-+
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_HDMI_TX,
-+					      HDMI_TX_READ, sizeof(reg));
-+	if (ret)
-+		goto err_scdc_read;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
-+	if (ret)
-+		goto err_scdc_read;
-+
-+	*data = reg[5];
-+
-+err_scdc_read:
-+	if (ret)
-+		DRM_ERROR("scdc read failed: %d\n", ret);
-+	return ret;
-+}
-+
-+int cdns_hdmi_scdc_write(struct cdns_mhdp_device *mhdp, u8 addr, u8 value)
-+{
-+	u8 msg[5], reg[5];
-+	int ret;
-+
-+	msg[0] = 0x54;
-+	msg[1] = addr;
-+	msg[2] = 0;
-+	msg[3] = 1;
-+	msg[4] = value;
-+	ret = cdns_mhdp_mailbox_send(mhdp, MB_MODULE_ID_HDMI_TX, HDMI_TX_WRITE,
-+				  sizeof(msg), msg);
-+	if (ret)
-+		goto err_scdc_write;
-+
-+	ret = cdns_mhdp_mailbox_validate_receive(mhdp, MB_MODULE_ID_HDMI_TX,
-+					      HDMI_TX_WRITE, sizeof(reg));
-+	if (ret)
-+		goto err_scdc_write;
-+
-+	ret = cdns_mhdp_mailbox_read_receive(mhdp, reg, sizeof(reg));
-+	if (ret)
-+		goto err_scdc_write;
-+
-+	if (reg[0] != 0)
-+		ret = -EINVAL;
-+
-+err_scdc_write:
-+	if (ret)
-+		DRM_ERROR("scdc write failed: %d\n", ret);
-+	return ret;
-+}
-+
-+int cdns_hdmi_ctrl_init(struct cdns_mhdp_device *mhdp,
-+				 int protocol, u32 char_rate)
-+{
-+	u32 reg0;
-+	u32 reg1;
-+	u32 val;
-+	int ret;
-+
-+	/* Set PHY to HDMI data */
-+	ret = cdns_mhdp_reg_write(mhdp, PHY_DATA_SEL, F_SOURCE_PHY_MHDP_SEL(1));
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_HPD,
-+					F_HPD_VALID_WIDTH(4) | F_HPD_GLITCH_WIDTH(0));
-+	if (ret < 0)
-+		return ret;
-+
-+	/* open CARS */
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_PHY_CAR, 0xF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_HDTX_CAR, 0xFF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_PKT_CAR, 0xF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_AIF_CAR, 0xF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_CIPHER_CAR, 0xF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_CRYPTO_CAR, 0xF);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, SOURCE_CEC_CAR, 3);
-+	if (ret < 0)
-+		return ret;
-+
-+	reg0 = reg1 = 0x7c1f;
-+	if (protocol == MODE_HDMI_2_0 && char_rate >= 340000) {
-+		reg0 = 0;
-+		reg1 = 0xFFFFF;
-+	}
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CLOCK_REG_0, reg0);
-+	if (ret < 0)
-+		return ret;
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CLOCK_REG_1, reg1);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* set hdmi mode and preemble mode data enable */
-+	val = F_HDMI_MODE(protocol) | F_HDMI2_PREAMBLE_EN(1) |  F_DATA_EN(1) |
-+			F_HDMI2_CTRL_IL_MODE(1) | F_BCH_EN(1) | F_PIC_3D(0XF);
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+
-+	return ret;
-+}
-+
-+int cdns_hdmi_mode_config(struct cdns_mhdp_device *mhdp,
-+					      struct drm_display_mode *mode,
-+						  struct video_info *video_info)
-+{
-+	int ret;
-+	u32 val;
-+	u32 vsync_lines = mode->vsync_end - mode->vsync_start;
-+	u32 eof_lines = mode->vsync_start - mode->vdisplay;
-+	u32 sof_lines = mode->vtotal - mode->vsync_end;
-+	u32 hblank = mode->htotal - mode->hdisplay;
-+	u32 hactive = mode->hdisplay;
-+	u32 vblank = mode->vtotal - mode->vdisplay;
-+	u32 vactive = mode->vdisplay;
-+	u32 hfront = mode->hsync_start - mode->hdisplay;
-+	u32 hback = mode->htotal - mode->hsync_end;
-+	u32 vfront = eof_lines;
-+	u32 hsync = hblank - hfront - hback;
-+	u32 vsync = vsync_lines;
-+	u32 vback = sof_lines;
-+	u32 v_h_polarity = ((mode->flags & DRM_MODE_FLAG_NHSYNC) ? 0 : 1) +
-+						((mode->flags & DRM_MODE_FLAG_NVSYNC) ? 0 : 2);
-+
-+	ret = cdns_mhdp_reg_write(mhdp, SCHEDULER_H_SIZE, (hactive << 16) + hblank);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, SCHEDULER_V_SIZE, (vactive << 16) + vblank);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_SIGNAL_FRONT_WIDTH, (vfront << 16) + hfront);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_SIGNAL_SYNC_WIDTH, (vsync << 16) + hsync);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_SIGNAL_BACK_WIDTH, (vback << 16) + hback);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HSYNC2VSYNC_POL_CTRL, v_h_polarity);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Reset Data Enable */
-+	val = cdns_mhdp_reg_read(mhdp, HDTX_CONTROLLER);
-+	val &= ~F_DATA_EN(1);
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Set bpc */
-+	val &= ~F_VIF_DATA_WIDTH(3);
-+	switch (video_info->color_depth) {
-+	case 10:
-+		val |= F_VIF_DATA_WIDTH(1);
-+		break;
-+	case 12:
-+		val |= F_VIF_DATA_WIDTH(2);
-+		break;
-+	case 16:
-+		val |= F_VIF_DATA_WIDTH(3);
-+		break;
-+	case 8:
-+	default:
-+		val |= F_VIF_DATA_WIDTH(0);
-+		break;
-+	}
-+
-+	/* select color encoding */
-+	val &= ~F_HDMI_ENCODING(3);
-+	switch (video_info->color_fmt) {
-+	case YCBCR_4_4_4:
-+		val |= F_HDMI_ENCODING(2);
-+		break;
-+	case YCBCR_4_2_2:
-+		val |= F_HDMI_ENCODING(1);
-+		break;
-+	case YCBCR_4_2_0:
-+		val |= F_HDMI_ENCODING(3);
-+		break;
-+	case PXL_RGB:
-+	default:
-+		val |= F_HDMI_ENCODING(0);
-+		break;
-+	}
-+
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* set data enable */
-+	val |= F_DATA_EN(1);
-+	ret = cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+
-+	return ret;
-+}
-+
-+int cdns_hdmi_disable_gcp(struct cdns_mhdp_device *mhdp)
-+{
-+	u32 val;
-+
-+	val = cdns_mhdp_reg_read(mhdp, HDTX_CONTROLLER);
-+	val &= ~F_GCP_EN(1);
-+
-+	return cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+}
-+
-+int cdns_hdmi_enable_gcp(struct cdns_mhdp_device *mhdp)
-+{
-+	u32 val;
-+
-+	val = cdns_mhdp_reg_read(mhdp, HDTX_CONTROLLER);
-+	val |= F_GCP_EN(1);
-+
-+	return cdns_mhdp_reg_write(mhdp, HDTX_CONTROLLER, val);
-+}
-diff --git a/include/drm/bridge/cdns-mhdp.h b/include/drm/bridge/cdns-mhdp.h
-index 6ffb97e17fae..7902ecb115e2 100644
---- a/include/drm/bridge/cdns-mhdp.h
-+++ b/include/drm/bridge/cdns-mhdp.h
-@@ -84,6 +84,7 @@
- /* bellow registers need access by mailbox */
- 
- /* source phy comp */
-+#define PHY_DATA_SEL			0x0818
- #define LANES_CONFIG			0x0814
- 
- /* source car addr */
-@@ -97,6 +98,17 @@
- #define SOURCE_CIPHER_CAR		0x0920
- #define SOURCE_CRYPTO_CAR		0x0924
- 
-+/* mhdp tx_top_comp */
-+#define SCHEDULER_H_SIZE		0x1000
-+#define SCHEDULER_V_SIZE		0x1004
-+#define HDTX_SIGNAL_FRONT_WIDTH	0x100c
-+#define HDTX_SIGNAL_SYNC_WIDTH	0x1010
-+#define HDTX_SIGNAL_BACK_WIDTH	0x1014
-+#define HDTX_CONTROLLER			0x1018
-+#define HDTX_HPD				0x1020
-+#define HDTX_CLOCK_REG_0		0x1024
-+#define HDTX_CLOCK_REG_1		0x1028
-+
- /* clock meters addr */
- #define CM_CTRL				0x0a00
- #define CM_I2S_CTRL			0x0a04
-@@ -333,6 +345,7 @@
- #define GENERAL_READ_REGISTER           0x07
- #define GENERAL_GET_HPD_STATE           0x11
- 
-+/* DPTX opcode */
- #define DPTX_SET_POWER_MNG			0x00
- #define DPTX_SET_HOST_CAPABILITIES		0x01
- #define DPTX_GET_EDID				0x02
-@@ -352,6 +365,17 @@
- #define DPTX_FORCE_LANES			0x10
- #define DPTX_HPD_STATE				0x11
- 
-+/* HDMI TX opcode */
-+#define HDMI_TX_READ				0x00
-+#define HDMI_TX_WRITE				0x01
-+#define HDMI_TX_UPDATE_READ			0x02
-+#define HDMI_TX_EDID				0x03
-+#define HDMI_TX_EVENTS				0x04
-+#define HDMI_TX_HPD_STATUS			0x05
-+#define HDMI_TX_DEBUG_ECHO			0xAA
-+#define HDMI_TX_TEST				0xBB
-+#define HDMI_TX_EDID_INTERNAL		0xF0
-+
- #define FW_STANDBY				0
- #define FW_ACTIVE				1
- 
-@@ -402,6 +426,34 @@
- #define TU_SIZE					30
- #define CDNS_DP_MAX_LINK_RATE	540000
- 
-+#define F_HDMI_ENCODING(x) (((x) & ((1 << 2) - 1)) << 16)
-+#define F_VIF_DATA_WIDTH(x) (((x) & ((1 << 2) - 1)) << 2)
-+#define F_HDMI_MODE(x) (((x) & ((1 << 2) - 1)) << 0)
-+#define F_GCP_EN(x) (((x) & ((1 << 1) - 1)) << 12)
-+#define F_DATA_EN(x) (((x) & ((1 << 1) - 1)) << 15)
-+#define F_HDMI2_PREAMBLE_EN(x) (((x) & ((1 << 1) - 1)) << 18)
-+#define F_PIC_3D(x) (((x) & ((1 << 4) - 1)) << 7)
-+#define F_BCH_EN(x) (((x) & ((1 << 1) - 1)) << 11)
-+#define F_SOURCE_PHY_MHDP_SEL(x) (((x) & ((1 << 2) - 1)) << 3)
-+#define F_HPD_VALID_WIDTH(x) (((x) & ((1 << 12) - 1)) << 0)
-+#define F_HPD_GLITCH_WIDTH(x) (((x) & ((1 << 8) - 1)) << 12)
-+#define F_HDMI2_CTRL_IL_MODE(x) (((x) & ((1 << 1) - 1)) << 19)
-+#define F_SOURCE_PHY_LANE0_SWAP(x) (((x) & ((1 << 2) - 1)) << 0)
-+#define F_SOURCE_PHY_LANE1_SWAP(x) (((x) & ((1 << 2) - 1)) << 2)
-+#define F_SOURCE_PHY_LANE2_SWAP(x) (((x) & ((1 << 2) - 1)) << 4)
-+#define F_SOURCE_PHY_LANE3_SWAP(x) (((x) & ((1 << 2) - 1)) << 6)
-+#define F_SOURCE_PHY_COMB_BYPASS(x) (((x) & ((1 << 1) - 1)) << 21)
-+#define F_SOURCE_PHY_20_10(x) (((x) & ((1 << 1) - 1)) << 22)
-+#define F_PKT_ALLOC_ADDRESS(x) (((x) & ((1 << 4) - 1)) << 0)
-+#define F_ACTIVE_IDLE_TYPE(x) (((x) & ((1 << 1) - 1)) << 17)
-+#define F_FIFO1_FLUSH(x) (((x) & ((1 << 1) - 1)) << 0)
-+#define F_PKT_ALLOC_WR_EN(x) (((x) & ((1 << 1) - 1)) << 0)
-+#define F_DATA_WR(x) (x)
-+#define F_WR_ADDR(x) (((x) & ((1 << 4) - 1)) << 0)
-+#define F_HOST_WR(x) (((x) & ((1 << 1) - 1)) << 0)
-+#define F_TYPE_VALID(x) (((x) & ((1 << 1) - 1)) << 16)
-+#define F_PACKET_TYPE(x) (((x) & ((1 << 8) - 1)) << 8)
-+
- /* audio */
- #define AUDIO_PACK_EN				BIT(8)
- #define SAMPLING_FREQ(x)			(((x) & 0xf) << 16)
-@@ -481,6 +533,12 @@ enum audio_format {
- 	AFMT_UNUSED,
+diff --git a/drivers/gpu/drm/imx/mhdp/cdns-mhdp-imxdrv.c b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-imxdrv.c
+index 2dec2e051be6..607d0b34b551 100644
+--- a/drivers/gpu/drm/imx/mhdp/cdns-mhdp-imxdrv.c
++++ b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-imxdrv.c
+@@ -23,6 +23,15 @@ static const struct drm_encoder_funcs cdns_mhdp_imx_encoder_funcs = {
+ 	.destroy = drm_encoder_cleanup,
  };
  
-+enum {
-+	MODE_DVI,
-+	MODE_HDMI_1_4,
-+	MODE_HDMI_2_0,
++static struct cdns_plat_data imx8mq_hdmi_drv_data = {
++	.plat_name = "imx8mq-hdmi",
++	.bind	= cdns_hdmi_bind,
++	.unbind	= cdns_hdmi_unbind,
++	.phy_set = cdns_hdmi_phy_set_imx8mq,
++	.phy_video_valid = cdns_hdmi_phy_mode_valid_imx8mq,
++	.lane_mapping = 0xe4,
 +};
 +
- struct audio_info {
- 	enum audio_format format;
- 	int sample_rate;
-@@ -567,6 +625,11 @@ struct cdns_mhdp_device {
- 			struct drm_dp_aux aux;
- 			u8 dpcd[DP_RECEIVER_CAP_SIZE];
- 		} dp;
-+		struct _hdmi_data {
-+			u32 char_rate;
-+			u32 hdmi_type;
-+			const struct drm_display_mode *mode_valid;
-+		} hdmi;
- 	};
- 	const struct cdns_plat_data *plat_data;
+ static struct cdns_plat_data imx8mq_dp_drv_data = {
+ 	.plat_name = "imx8mq-dp",
+ 	.bind	= cdns_dp_bind,
+@@ -32,6 +41,9 @@ static struct cdns_plat_data imx8mq_dp_drv_data = {
+ };
  
-@@ -603,4 +666,10 @@ u32 cdns_phy_reg_read(struct cdns_mhdp_device *mhdp, u32 addr);
- int cdns_dp_bind(struct platform_device *pdev, struct drm_encoder *encoder,
- 		struct cdns_mhdp_device *mhdp);
- void cdns_dp_unbind(struct device *dev);
-+
-+/* HDMI */
-+int cdns_hdmi_bind(struct platform_device *pdev, struct drm_encoder *encoder,
-+			struct cdns_mhdp_device *mhdp);
-+void cdns_hdmi_unbind(struct device *dev);
-+
- #endif /* CDNS_MHDP_H_ */
+ static const struct of_device_id cdns_mhdp_imx_dt_ids[] = {
++	{ .compatible = "nxp,imx8mq-cdns-hdmi",
++	  .data = &imx8mq_hdmi_drv_data
++	},
+ 	{ .compatible = "nxp,imx8mq-cdns-dp",
+ 	  .data = &imx8mq_dp_drv_data
+ 	},
+diff --git a/drivers/gpu/drm/imx/mhdp/cdns-mhdp-phy.h b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-phy.h
+index 79b1907726db..3305a27bcec7 100644
+--- a/drivers/gpu/drm/imx/mhdp/cdns-mhdp-phy.h
++++ b/drivers/gpu/drm/imx/mhdp/cdns-mhdp-phy.h
+@@ -143,4 +143,6 @@
+ #define PHY_PMA_ISO_RX_DATA_HI          0xCC17
+ 
+ int cdns_dp_phy_set_imx8mq(struct cdns_mhdp_device *hdp);
++int cdns_hdmi_phy_set_imx8mq(struct cdns_mhdp_device *mhdp);
++bool cdns_hdmi_phy_mode_valid_imx8mq(struct cdns_mhdp_device *mhdp);
+ #endif /* _CDNS_MHDP_PHY_H */
 -- 
 2.17.1
 
