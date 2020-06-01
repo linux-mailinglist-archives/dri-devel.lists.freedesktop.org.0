@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15581EA1EB
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 12:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE751EA1ED
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 12:35:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188B46E22A;
-	Mon,  1 Jun 2020 10:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2D0A6E22B;
+	Mon,  1 Jun 2020 10:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E62B6E22A
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 10:35:28 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j10so10936083wrw.8
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jun 2020 03:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3yMprJOB6nqOhrN9jr1CF0yapMmZvuaPTqFeKcrw+2Y=;
- b=fsw1L05Qz/4FDV8NzCwmgd24FTeN28K+QoS34P7sLlUDVcWvQzTF46QJ8D54tpZ+pK
- Zqru6wXiRVK45evrX8qENtf06g41rzGGo/nZeEobKUEe30CKm8I7EU4CbGx/ZEhbpRvR
- bnw7PX2ghTL7/gm7A3+DKDOCuFuxMWaKILZpTbWFeCrKIbr/hSd9LkAdZAcKb+l29KI9
- AQ6s7mglmQKCN6Us6VPNjmp8KvzLsRSMOMvO96k4bjlyfTc2VFdd7EJwbr4fTeunD47s
- 5rVP4836MSuKRtKApwBdvlfDrWXWbgvbffz7Ntxi5Fehbr1btqKhIIdhHxMB9HRA51i+
- KspA==
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4D26E22B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 10:35:36 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id q24so4927883pjd.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jun 2020 03:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=21ZKUiitaA/VhyuuR21o/snW4MjwihJIMa0dWGwpQ4I=;
+ b=cf95h8/P8RLWELxgMUXot/xVV2Qm8zpk/WRjFXZJchtLMflAlwkn0HVmDmNfmy623M
+ x9B+3YHbgZ1PO0Iyf8QndcNTAbtgeZhKTtEw+UTzvdHBadF7RQc4QRHI6LPirfxaz4by
+ GF5KQkGkc9WRfDqJXaSLb0Ffc1x3EAy5CiwpwQkZ7hhFQp/YlL3R3kTAtoskNkZcQRtb
+ PTf0vgDAYBkq+KqGYqJPG5H7Nn69AxOEVLQ9Qet40Sn14P64WBqUzyEIyegC6hKDvFlx
+ Ws3OHclr/nf8BlUexMUqWhVDbydTSJ9PqxD1cJhHayYoqt1RvSagTr6vIKzIq75j8vlG
+ frgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3yMprJOB6nqOhrN9jr1CF0yapMmZvuaPTqFeKcrw+2Y=;
- b=EZUQWPvP89nMj0w/mgtT+XWmbNINsR/2RJsiSp5gmr8y+S+//fUFGDDp2NrtFTaeFJ
- ke7Xuqd8GOSH4qZHZaSfTH+UfGJUDvk3aD36B0Y10XY6Bck8+MhT4aKwdVpPpmdxqgSs
- EDjJMYP5/81VQwZevO8CQ7buWr9M1uaM2KbljdB779wMvmxKCYgpkYzjg2/tm2ro7iax
- NsTKXwe/2bFtdYqNCWPlZzPhSpBqWo1dKG8PG0mpZ5VokND8Y+nb5ksAqunNQ4vf1oF/
- W/WlEhXK5XhekGK/qR0h+ZwnDRUaFEGf5chPPjEgSQHpA5G8BU2K//OLgHCpHg8aPC7J
- Zbcg==
-X-Gm-Message-State: AOAM531OhuRow3sXyI6naJk0eK+MwnGDvbKWJh+DbEhQ/t/nDK3ItcRs
- f8DQpERtSQBvZsOTcidQKUpYcg==
-X-Google-Smtp-Source: ABdhPJz1z5Xyl0EPe0FMzDrgOajVzdCQh/7ByOZrzFwdH9HFfHFURa8zQ834mH8R2xVkmWzkakVlyw==
-X-Received: by 2002:a5d:4390:: with SMTP id i16mr20377364wrq.186.1591007727070; 
- Mon, 01 Jun 2020 03:35:27 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
- [86.9.19.6])
- by smtp.gmail.com with ESMTPSA id i10sm4557577wrw.51.2020.06.01.03.35.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 03:35:26 -0700 (PDT)
-Date: Mon, 1 Jun 2020 11:35:24 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 12/13] backlight: as3711_bl: introduce
- backlight_is_blank()
-Message-ID: <20200601103524.7s6523ijpfqcolrm@holly.lan>
-References: <20200601065207.492614-1-sam@ravnborg.org>
- <20200601065207.492614-13-sam@ravnborg.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=21ZKUiitaA/VhyuuR21o/snW4MjwihJIMa0dWGwpQ4I=;
+ b=fpwcO8FSCEPpfH/3UZduT1mevmcQxBI9KvGE16QFha41JKwdOv98cSOu0DYa5THxTi
+ 09bUninSnkuFQrYN1gLD1H0N66X2btr2xmBUBmotIOXNhD/7c4uMq62NCQMiN5dwMzRs
+ Gt70SlKj1OJ7oq8VBPiYxFsnMYK3hUODhpSq8CRLbZeV8GJV3qApTKVIHFgo7LLeIPcp
+ HOMpyQ03zZzk4s5JM6m3JH4zkxHrQwMsTB4DFyOIuR4UYFyjqXq0PlsaujeYOOrA/x53
+ MavFAJ8Q6Z7KCpH4qOt4kescJuiTcW7SNLiOU2OZm7DPkMSm2srKlpjCcClCAIQ9hbR6
+ wZXQ==
+X-Gm-Message-State: AOAM531o5gg6WUuXTfZHYNL/eGPWs9aQWwec3O3P09Vyce7f33CWVnCr
+ cdSSiIAC3oZ2nTrhBQXPJClmmuw/7+Vj+Gltr9U=
+X-Google-Smtp-Source: ABdhPJwgMTA7CTg/J3O189c9eXdi9xezD6/jnmjsispxqh2tGpuDIdE5UzwbivbO5Alg9BCa5kCstAN/6s2oOmrZCw4=
+X-Received: by 2002:a17:90a:ac05:: with SMTP id
+ o5mr8473367pjq.228.1591007735577; 
+ Mon, 01 Jun 2020 03:35:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200601065207.492614-13-sam@ravnborg.org>
+References: <20200522041506.39638-1-jhubbard@nvidia.com>
+ <20200531205819.GC138722@ravnborg.org>
+ <854fae07-3cb4-dbcf-fa93-35b447f9d084@nvidia.com>
+ <CAHp75Vf6=UuC2Sef3m3CpRmjAOWt8ZgBW+OPf0-_53P3F__CWw@mail.gmail.com>
+ <e7f95207-1b30-17a8-4667-ca58b77ec0a3@nvidia.com>
+In-Reply-To: <e7f95207-1b30-17a8-4667-ca58b77ec0a3@nvidia.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 1 Jun 2020 13:35:24 +0300
+Message-ID: <CAHp75VcaXTM86K9vzyxTQJP_oNnzJ8mMHzgm7ybEioVhG6DHDQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] video: fbdev: fix error handling,
+ convert to pin_user_pages*()
+To: John Hubbard <jhubbard@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +66,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-arm-msm@vger.kernel.org,
- Support Opensource <support.opensource@diasemi.com>,
- Jingoo Han <jingoohan1@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Andy Gross <agross@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- patches@opensource.cirrus.com
+ LKML <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Paul Mundt <lethal@linux-sh.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 01, 2020 at 08:52:06AM +0200, Sam Ravnborg wrote:
-> Replaces the open-coded checks of the state, with the
-> backlight_is_blank() helper. This increases readability
-> of the code and aling the functionality across the drivers.
-> 
-> Futhermore drop the debug prints in update_status().
-> If we need debug printing then we can add it to the backlight core.
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+On Mon, Jun 1, 2020 at 1:00 AM John Hubbard <jhubbard@nvidia.com> wrote:
+> On 2020-05-31 14:11, Andy Shevchenko wrote:
+> >     ...
+> > JFYI, we have history.git starting from v0.01.
+> >
+> OK, thanks for that note. According to that history.git [1],
+> then: drivers/video/pvr2fb.c had get_user_pages_fast() support added to
+> pvr2fb_write() back in 2004, but only for CONFIG_SH_DMA, as part of
+>
+>      commit 434502754f2 ("[PATCH] SH Merge")
+>
+> ...and that commit created the minor bug that patch 0001 here
+> addresses. (+Cc Paul just for the sake of completeness.)
+>
+>
+> [1] git://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+I mentioned this one, but I guess content should be the same.
 
+https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/
 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
->  drivers/video/backlight/as3711_bl.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/as3711_bl.c b/drivers/video/backlight/as3711_bl.c
-> index 33f0f0f2e8b3..cc5628beaffd 100644
-> --- a/drivers/video/backlight/as3711_bl.c
-> +++ b/drivers/video/backlight/as3711_bl.c
-> @@ -107,13 +107,7 @@ static int as3711_bl_update_status(struct backlight_device *bl)
->  	int brightness = bl->props.brightness;
->  	int ret = 0;
->  
-> -	dev_dbg(&bl->dev, "%s(): brightness %u, pwr %x, blank %x, state %x\n",
-> -		__func__, bl->props.brightness, bl->props.power,
-> -		bl->props.fb_blank, bl->props.state);
-> -
-> -	if (bl->props.power != FB_BLANK_UNBLANK ||
-> -	    bl->props.fb_blank != FB_BLANK_UNBLANK ||
-> -	    bl->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> +	if (backlight_is_blank(bl))
->  		brightness = 0;
->  
->  	if (data->type == AS3711_BL_SU1) {
-> -- 
-> 2.25.1
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
