@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4EF1EA027
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 10:33:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 902131EA028
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jun 2020 10:33:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A261C89E3E;
-	Mon,  1 Jun 2020 08:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5CF89FA5;
+	Mon,  1 Jun 2020 08:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B3489E3B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 08:33:20 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id 82so3455397lfh.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Jun 2020 01:33:20 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8323789E3B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jun 2020 08:33:21 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id z13so7066911ljn.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Jun 2020 01:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TwIdJUbQRxeqgtfvfIoF0Z04UMl01JB2vKoyScmExkg=;
- b=cWvgi00RcFiHrv8DMigp7mhttjy/GxX1b+1+aUakQwMf0Gj0QkzZHpTXM6xL7Ya/NO
- p1Lk8Jn+tayq731Hx/VVy48CozlRtRpPToJHNmmxY6yD5QxaNR62nrubajaORG7a9bK/
- TtpCQUJhiAFbmC97Pc/q1yVyCf4FOioozKy8hoCrLURJ2/qz2OfWtufoZ0tEPNGEQI0p
- ayV6wHLzNY3QLtBHC4b5vxlpX9IvEwu/a9fMDsgCAuJ3vI58HJ2AQo5iPwddcOW88QRh
- ln9Na41BlaQJegNLkKXLJwK0gN4CoC0eWPP1fBptj4w1tmuBDN3102mDyos7OMtZm//r
- Elfw==
+ bh=l6EWP19aRaD+4jQ4w5XaCMBbBuo29gOghE8kK7mZeLA=;
+ b=e7cVNHhEF5oLVK6Z/774yExJ1p50RNQ+Ohpx19HwJYJ1j7M6C18K9YQ1uUP59geDXT
+ A/dvTH6r93r1BYWbaL0obD+CYgR3rbGq37RYV5A0kqtOEEaeVCUk6QKfOva+4DcD2UMW
+ kiXBzRuEnFIQ/BxO6mSM3tflpnxzMxxsvjtk+q8qjmN4GB50WFkeBU75qPzZ8jcvdxv7
+ 9kfxIC7eo78GP1R2CROPFycXwz+tWNXPsGT49reA2F5C9dhIPYKfxsq+LQFmuXDFxXOj
+ njGC8gOEaAheCl7ApW8OMl5Ma5bScgS4LtSobCvZyaQ1KhKxT2pegaBlofyoappEXr+x
+ X9Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TwIdJUbQRxeqgtfvfIoF0Z04UMl01JB2vKoyScmExkg=;
- b=R8mtaUMuq7cweOUPcdrOmFBTjwWpLd/KC6/xEN49rfjkJ5XWTd9iC1BP9W54Vv0REQ
- 2bqznwRU1uPczbiY8u9RCLOJB5MhWU+8CjVLQq7B2H0Fj1pR73aFbqYLH+m48VTQ3PvL
- oLEQDuzqDC7G2zM1xqEozX0ziZ8LPQe+5Ne8rMcIjYjDz8bxs7bbwEZ3MBRi3nMAs14t
- T/JbtHzu93j8PNSYNVBY18E/3l8WN2gAK7a3SGIWyLtnpQ1rRa2SGGF+q3beVWUgZYY5
- k2o9l6vqfri7JSRAJnziLfeUyuerKgmlc00ZbeaSe4282Wh24yGee+r0q52cWE7vqo9r
- HGsw==
-X-Gm-Message-State: AOAM530xkd32c2Yv7+DdLMv+bMpKrCXNWzOysnFXsgBbnwowXH2UauC7
- fcyTbp62DaHRQhK9mlztXuwTudC1sh4=
-X-Google-Smtp-Source: ABdhPJw1TnIeYLkuBYxj66EjSh8MTVLLPvYHyksj6de8G3CqLKAXHsCGGH66LzgSdD1ort9SjcODWQ==
-X-Received: by 2002:a05:6512:3214:: with SMTP id
- d20mr10856801lfe.203.1591000398752; 
- Mon, 01 Jun 2020 01:33:18 -0700 (PDT)
+ bh=l6EWP19aRaD+4jQ4w5XaCMBbBuo29gOghE8kK7mZeLA=;
+ b=gRlh8w3nCwWmSqS5Y+n3CHXOz5ZYodu8yhA8B3otuvXm4qG3wYTEOuwGFoXlywBWfN
+ eijlWMdEQr5y4UWwzutSLVLmrXEFcqNLGzd9ZKwjWCJ5FTu0X90u7y60eLNYn2if7Cjk
+ d2MkH2r+rbBKzkxVFKMWg7Kqikybk9+h87J/chl09UjRt5DwJdhd4hE2/+nGKUL+fqTS
+ FnjhMAfSzqZw6WKchPxO5eISCzXQhk3S1omA9MxBAQ1nCm6yZ0nhFxK8rwVsSz4pLMxg
+ WisNjTRz9atWveWSxl+wVysB8HcOjBH+LsnZ6uM5gMz7OtX/QWqLVxc+e9XRbDdNSY5e
+ C07g==
+X-Gm-Message-State: AOAM530apYTuBAH3UdrZpyCz5pI5S3fijH8wXETlT7lNhojAVt1la4T6
+ mU/khJdBKTra+r0dgXxIteH4bwTG8po=
+X-Google-Smtp-Source: ABdhPJxcTe5+uWSaOKBKacGkZollxrVMlCckDg8YCCT9b6X/XEaFwDSZdSev/8FfZVetIHzyFraDUg==
+X-Received: by 2002:a2e:140a:: with SMTP id u10mr4691553ljd.56.1591000399727; 
+ Mon, 01 Jun 2020 01:33:19 -0700 (PDT)
 Received: from saturn.lan ([2a00:fd00:805f:db00:281d:a604:434c:a58d])
- by smtp.gmail.com with ESMTPSA id f14sm3871433ljp.118.2020.06.01.01.33.17
+ by smtp.gmail.com with ESMTPSA id f14sm3871433ljp.118.2020.06.01.01.33.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 01:33:18 -0700 (PDT)
+ Mon, 01 Jun 2020 01:33:19 -0700 (PDT)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v1 4/6] drm: panel-simple: add Hitachi 3.5" QVGA panel
-Date: Mon,  1 Jun 2020 10:33:07 +0200
-Message-Id: <20200601083309.712606-5-sam@ravnborg.org>
+Subject: [PATCH v1 5/6] dt-bindings: panel: add LOGIC Technologies panels
+Date: Mon,  1 Jun 2020 10:33:08 +0200
+Message-Id: <20200601083309.712606-6-sam@ravnborg.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200601083309.712606-1-sam@ravnborg.org>
 References: <20200601083309.712606-1-sam@ravnborg.org>
@@ -74,72 +73,37 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
  Sam Ravnborg <sam@ravnborg.org>,
  Sebastian Reichel <sebastian.reichel@collabora.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This panel is used on evaluation boards for Atmel at91sam9261 and
-at91sam6263.
-
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 8624bb80108c..25c96639631f 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1813,6 +1813,32 @@ static const struct panel_desc hannstar_hsd100pxn1 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct drm_display_mode hitachi_tx09d71vm1cca_mode = {
-+	.clock = 4965000,
-+	.hdisplay = 240,
-+	.hsync_start = 240 + 0,
-+	.hsync_end = 240 + 0 + 5,
-+	.htotal = 240 + 0 + 5 + 1,
-+	.vdisplay = 320,
-+	.vsync_start = 320 + 0,
-+	.vsync_end = 320 + 0 + 1,
-+	.vtotal = 320 + 0 + 1 + 1,
-+	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
-+};
-+
-+static const struct panel_desc hitachi_tx09d71vm1cca = {
-+	.modes = &hitachi_tx09d71vm1cca_mode,
-+	.num_modes = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 54,
-+		.height = 72,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode hitachi_tx23d38vm0caa_mode = {
- 	.clock = 33333,
- 	.hdisplay = 800,
-@@ -3737,6 +3763,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "hannstar,hsd100pxn1",
- 		.data = &hannstar_hsd100pxn1,
-+	}, {
-+		.compatible = "hit,tx09d71vm1cca",
-+		.data = &hitachi_tx09d71vm1cca,
- 	}, {
- 		.compatible = "hit,tx23d38vm0caa",
- 		.data = &hitachi_tx23d38vm0caa
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWRkIHN1cHBvcnQgZm9yIHRoZSBmb2xsb3dpbmcgcGFuZWxzIGZyb20gTE9HSUMgVGVjaG5vbG9n
+aWVzLCBJbmM6Ci0gTFRURDgwMDQ4MDA3MC1MMlJUCi0gTFRURDgwMDQ4MDA3MC1MNldILVJUCgpU
+aGUgTFRURDgwMDQ4MCBMMlJUIGlzIGRpc2NvbnRpbnVlZCwgYnV0IGl0IG1heSBiZSB1c2VkIGlu
+CmV4aXN0aW5nIHByb2R1Y3RzLgoKQm90aCBwYW5lbHMgYXJlIGR1bWIgcGFuZWxzIHRoYXQgbWF0
+Y2hlcyB0aGUgcGFuZWwtc2ltcGxlIGJpbmRpbmcuCgpTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJv
+cmcgPHNhbUByYXZuYm9yZy5vcmc+CkNjOiBTw7hyZW4gQW5kZXJzZW4gPHNhbkBza292LmRrPgpD
+YzogVGhpZXJyeSBSZWRpbmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4KQ2M6IFNhbSBSYXZu
+Ym9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KLS0tCiAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L3BhbmVsL3BhbmVsLXNpbXBsZS55YW1sICAgICAgIHwgNCArKysrCiAxIGZpbGUgY2hhbmdl
+ZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1zaW1wbGUueWFtbAppbmRl
+eCA2ZmUwYWM4NjY5NmQuLmE0OTEwZDRhZjk2YiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLnlhbWwKKysrIGIv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2lt
+cGxlLnlhbWwKQEAgLTE4Myw2ICsxODMsMTAgQEAgcHJvcGVydGllczoKICAgICAgIC0gbG9naWN0
+ZWNobm8sbHQxNjEwMTAtMm5ocgogICAgICAgICAjIExvZ2ljIFRlY2hub2xvZ2llcyBMVDE3MDQx
+MC0yV0hDIDEwLjEiIDEyODB4ODAwIElQUyBURlQgQ2FwIFRvdWNoIE1vZC4KICAgICAgIC0gbG9n
+aWN0ZWNobm8sbHQxNzA0MTAtMndoYworICAgICAgICAjIExPR0lDIFRlY2hub2xvZ2llcyBJbmMu
+IExUVEQ4MDA0ODAwNzAtTDJSVCA3IiAoODAweDQ4MCkgVEZUIExDRCBwYW5lbAorICAgICAgLSBs
+b2dpY3RlY2hubyxsdHRkODAwNDgwMDcwLWwycnQKKyAgICAgICAgIyBMT0dJQyBUZWNobm9sb2dp
+ZXMgSW5jLiBMVFREODAwNDgwMDcwLUw2V0gtUlQgNyIgKDgwMHg0ODApIFRGVCBMQ0QgcGFuZWwK
+KyAgICAgIC0gbG9naWN0ZWNobm8sbHR0ZDgwMDQ4MDA3MC1sNndoLXJ0CiAgICAgICAgICMgTWl0
+c3ViaXNoaSAiQUEwNzBNQzAxIDcuMCIgV1ZHQSBURlQgTENEIHBhbmVsCiAgICAgICAtIG1pdHN1
+YmlzaGksYWEwNzBtYzAxLWNhMQogICAgICAgICAjIE5FQyBMQ0QgVGVjaG5vbG9naWVzLCBMdGQu
+IDEyLjEiIFdYR0EgKDEyODB4ODAwKSBMVkRTIFRGVCBMQ0QgcGFuZWwKLS0gCjIuMjUuMQoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
