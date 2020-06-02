@@ -1,72 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD001ECA26
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:05:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 415E71ECA28
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:05:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779156E4E8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11856E4EA;
 	Wed,  3 Jun 2020 07:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16BCE89612
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 15:08:37 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 52D3558029D;
- Tue,  2 Jun 2020 11:08:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 02 Jun 2020 11:08:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=gy1oFJKqpBP4SByoQQwaUJAvM+9
- w8yd8uHa/7cqBJYw=; b=Oz9Xqz55njCGiEvASU5op28H1HwHkjvsX30FAklJvnC
- 9SRwNgp+FAsmWDWl2eGPl/wwn2wX8iyHIIDpUhDjbxB7ek8aBGBEgqPApx01cJee
- ow72sBBRgkWLGsHHvtuUDxH3cgPp6vZ2IhNqhLL/RB3IOIzbyV8SRrB7FgtHxmux
- mm8q7dyytgf0taBIKSlN4wXh7c9VEwqrVND5Rb52ANfnDzAPAmnWONIEcR1OaMfs
- bnND44Y8qXvtXYaTllhuRgGaRpRw374gEZ1kilfWmxUfh4oxYDidSUTI3aSeDI5y
- Yk/rNyvw7halECPY0JtZEUNQBHLZCoI2suQFBvap7Uw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=gy1oFJ
- KqpBP4SByoQQwaUJAvM+9w8yd8uHa/7cqBJYw=; b=bJM6OPVoNRNPTageBFCxr/
- IN/eDOTiB/u5xeOBUfJZ7dPocqBHKKQmsp7LkdPM4o027HNQoJNFV8UzNnHkhimN
- hwAAwp9IxdEKn5yUNVDVqqEbXV9qo3w8/pCScjiyZmSQIH9N1IpBRoP8ZNuLifP2
- z78jC9+XbmPYa87Ae5US+movKmAI8Pir0IYmv9XPaMdWcg6pm+5SFud3raTOhv/2
- JI2A8GQ+hQQceElacAMzKPp6ZEVUvdgLQfqSf9TjG2O2Lgmw6dKfhZ9sZo683m2p
- y1Mc+GDYcbkqivtCnyEXJs1qHBUwCuobPgB4wcBf1l3zcz7UhsAka2b3+PNwNYFg
- ==
-X-ME-Sender: <xms:c2vWXkhdVEW6ST4sMVFQgmKUTFTvuPer01RwFoKyAodm4pEC_tk76A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudefjedgieefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
- ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekle
- drieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:c2vWXtCDEAcKfSgqwYDZX7tjB7rLCyk7f6fK6F2QNuL4qtIuAbF7TQ>
- <xmx:c2vWXsFXlbOKzrCYCsFvwq4O5GZ-ck9CYfRuifQYUyM_3Hm0ZbjU3A>
- <xmx:c2vWXlQvPSwwrNNBVCFjU57a4PX_szp_kzAzcH61aCULz3_pjaSXHw>
- <xmx:dGvWXomyvR5ShMrCKL5WanwF1A69eGDNVxpMFlapZCgrDvWRLw219Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 119FE30614FA;
- Tue,  2 Jun 2020 11:08:34 -0400 (EDT)
-Date: Tue, 2 Jun 2020 17:08:34 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 104/105] dt-bindings: display: vc4: hdmi: Add BCM2711
- HDMI controllers bindings
-Message-ID: <20200602150834.6xovwdxpgncq3ybh@gilmour>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <e85e24a494a3ff41177c94673ced0f4280b6a0ee.1590594512.git-series.maxime@cerno.tech>
- <20200529181833.GA2685451@bogus>
+X-Greylist: delayed 12339 seconds by postgrey-1.36 at gabe;
+ Tue, 02 Jun 2020 18:44:27 UTC
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D106E455
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 18:44:27 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FIBl9080160;
+ Tue, 2 Jun 2020 15:18:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=goh2CjFO2OFs3pZp2oX5aZuGyT+iy3/nHuM1bPl/gaE=;
+ b=IHA54byGViv1xA85nmDf/7GQNGXznlHYhlC87CtDLuvViPKOBbwgjJYKoSgJ9XJVCPtE
+ jDAJZfHSy34Du3AMicRnbAamyMW5YEbIY8Qce+N+bk9gGmLxN6lt24O1Z//81ERs7c1z
+ HgoStbQcltiAor/5/h7iwLlAbSkH2xAJsbNRsRXecOH1Ez9h15iR2fw624er3SUQ02bN
+ uu8mMw8+8770HuFHouvBJvQBH04TOEVLyaDLpQ3r5MiiBgm7AeBxN0m3rXVeEUdCswbu
+ xmpLmelXOFTDMo0X8oM5SbXKgQJxAevaLJ2CUk/EFBe0e8W3LNpxpBUoEaVhOp1OMCcr 7Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 31dkruhngm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 02 Jun 2020 15:18:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FDvEE006186;
+ Tue, 2 Jun 2020 15:18:30 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 31c25p7g3e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 02 Jun 2020 15:18:30 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 052FISDW018762;
+ Tue, 2 Jun 2020 15:18:28 GMT
+Received: from [10.74.110.208] (/10.74.110.208)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 02 Jun 2020 08:18:28 -0700
+Subject: Re: [PATCH resend 0/2] dts: keystone-k2g-evm: Display support
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ dri-devel@lists.freedesktop.org, ssantosh@kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <cover.1581671951.git.jsarha@ti.com>
+ <6749076a-cbc1-d8e2-bc35-2e2a9ad80a6d@oracle.com>
+ <973b69f2-bbe1-3c1b-615f-751bb8d5d83e@ti.com>
+From: santosh.shilimkar@oracle.com
+Organization: Oracle Corporation
+Message-ID: <5e4c0754-f347-25d7-e5b6-11bc490dfcc0@oracle.com>
+Date: Tue, 2 Jun 2020 08:18:26 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.1
 MIME-Version: 1.0
-In-Reply-To: <20200529181833.GA2685451@bogus>
+In-Reply-To: <973b69f2-bbe1-3c1b-615f-751bb8d5d83e@ti.com>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0 spamscore=0
+ malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006020110
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ priorityscore=1501
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 clxscore=1011
+ adultscore=0 mlxlogscore=999 cotscore=-2147483648 phishscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006020110
 X-Mailman-Approved-At: Wed, 03 Jun 2020 07:04:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,167 +88,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0721037176=="
+Cc: mark.rutland@arm.com, praneeth@ti.com, robh+dt@kernel.org,
+ laurent.pinchart@ideasonboard.com, peter.ujfalusi@ti.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0721037176==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="idttynnu6hrdagv3"
-Content-Disposition: inline
-
-
---idttynnu6hrdagv3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Rob,
-
-On Fri, May 29, 2020 at 12:18:33PM -0600, Rob Herring wrote:
-> On Wed, May 27, 2020 at 05:49:14PM +0200, Maxime Ripard wrote:
-> > The HDMI controllers found in the BCM2711 SoC need some adjustments to =
-the
-> > bindings, especially since the registers have been shuffled around in m=
-ore
-> > register ranges.
-> >=20
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml | 109=
- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 109 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/brcm,bcm2=
-711-hdmi.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdm=
-i.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > new file mode 100644
-> > index 000000000000..6091fe3d315b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
-> > @@ -0,0 +1,109 @@
-> > +# SPDX-License-Identifier: GPL-2.0
->=20
-> Dual license...
->=20
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Broadcom BCM2711 HDMI Controller Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Eric Anholt <eric@anholt.net>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - brcm,bcm2711-hdmi0
-> > +      - brcm,bcm2711-hdmi1
->=20
-> What's the difference between the 2 blocks?=20
-
-The register layout and the lane mapping in the PHY change a bit.
-
-> > +
-> > +  reg:
-> > +    items:
-> > +      - description: HDMI controller register range
-> > +      - description: DVP register range
-> > +      - description: HDMI PHY register range
-> > +      - description: Rate Manager register range
-> > +      - description: Packet RAM register range
-> > +      - description: Metadata RAM register range
-> > +      - description: CSC register range
-> > +      - description: CEC register range
-> > +      - description: HD register range
-> > +
-> > +  reg-names:
-> > +    items:
-> > +      - const: hdmi
-> > +      - const: dvp
-> > +      - const: phy
-> > +      - const: rm
-> > +      - const: packet
-> > +      - const: metadata
-> > +      - const: csc
-> > +      - const: cec
-> > +      - const: hd
-> > +
-> > +  clocks:
-> > +    description: The HDMI state machine clock
-> > +
-> > +  clock-names:
-> > +    const: hdmi
-> > +
-> > +  ddc:
-> > +    allOf:
-> > +      - $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: >
-> > +      Phandle of the I2C controller used for DDC EDID probing
->=20
-> Goes in the connector.
->=20
-> And isn't the standard name ddc-i2c-bus?
->=20
-> > +
-> > +  hpd-gpios:
-> > +    description: >
-> > +      The GPIO pin for the HDMI hotplug detect (if it doesn't appear
-> > +      as an interrupt/status bit in the HDMI controller itself)
->=20
-> Goes in the connector.
-
-If this was an entirely new binding, I would agree, but this is not
-really the case here.
-
-We discussed it already for the v2, and this binding is essentially the
-same one than the bcm2835 HDMI controller.
-
-I initially sent a patch adding conditionnals for the clocks and regs
-differences too, and you asked to split the binding into a separate file
-to simplify it a bit.
-
-Supporting both the old binding, and the new one based on the connector
-is going to make the code significantly more complicated, and I'm not
-really sure why we would here.
-
-Thanks!
-Maxime
-
---idttynnu6hrdagv3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXtZrcQAKCRDj7w1vZxhR
-xS63AQChWBDf5sP/ABh3lPAf9fleWlDwl1ELjIJJmVcgvpMHdwEA7OiJMvxjuIzW
-wGuu/pUZM36aV5U9/r21kOAWpvo1Rgs=
-=4keu
------END PGP SIGNATURE-----
-
---idttynnu6hrdagv3--
-
---===============0721037176==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0721037176==--
+T24gNi8yLzIwIDE6MTMgQU0sIFRvbWkgVmFsa2VpbmVuIHdyb3RlOgo+IEhpIFNhbnRvc2gsCj4g
+Cj4gT24gMTQvMDIvMjAyMCAxOTo0MCwgc2FudG9zaC5zaGlsaW1rYXJAb3JhY2xlLmNvbSB3cm90
+ZToKPj4gT24gMi8xNC8yMCAxOjIyIEFNLCBKeXJpIFNhcmhhIHdyb3RlOgo+Pj4gUmVzZW5kIGJl
+Y2F1c2UgdGhlIGVhcmxpZXIgcmVjaXBpZW50IGxpc3Qgd2FzIHdyb25nLgo+Pj4KPj4+IE5vdyB0
+aGF0IGRybS90aWRzcyBpcyBxdWV1ZWQgZm9yIG1haW5saW5lLCBsZXRzIGFkZCBkaXNwbGF5IHN1
+cHBvcnQgZm9yCj4+PiBrMmctZXZtLiBUaGVyZSBpcyBubyBodXJyeSBzaW5jZSB0aWRzcyBpcyBv
+dXQgb25seSBpbiB2NS43LCBidXQgaXQKPj4+IHNob3VsZCBub3QgaGFybSB0byBoYXZlIHRoZSBk
+dHMgY2hhbmdlcyBpbiBwbGFjZSBiZWZvcmUgdGhhdC4KPj4+Cj4+PiBKeXJpIFNhcmhhICgyKToK
+Pj4+IMKgwqAgQVJNOiBkdHM6IGtleXN0b25lLWsyZzogQWRkIERTUyBub2RlCj4+PiDCoMKgIEFS
+TTogZHRzOiBrZXlzdG9uZS1rMmctZXZtOiBhZGQgSERNSSB2aWRlbyBzdXBwb3J0Cj4+Pgo+Pj4g
+wqAgYXJjaC9hcm0vYm9vdC9kdHMva2V5c3RvbmUtazJnLWV2bS5kdHMgfCAxMDEgKysrKysrKysr
+KysrKysrKysrKysrKysrKwo+Pj4gwqAgYXJjaC9hcm0vYm9vdC9kdHMva2V5c3RvbmUtazJnLmR0
+c2nCoMKgwqAgfMKgIDIyICsrKysrKwo+Pj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAxMjMgaW5zZXJ0
+aW9ucygrKQo+Pj4KPj4gT2suIFdpbGwgYWRkIHRoaXMgdG8gdGhlIG5leHQgcXVldWUuCj4gCj4g
+V2hhdCBoYXBwZW5lZCB3aXRoIHRoaXMgb25lPyBJdCB1c2VkIHRvIGJlIGluIGxpbnV4LW5leHQs
+IGJ1dCBub3cgSSAKPiBkb24ndCBzZWUgaXQgYW55bW9yZS4KPiAKUHVsbCByZXF1ZXN0IFsxXSB3
+YXMgc2VudCBkdXJpbmcgbGFzdCBtZXJnZSB3aW5kb3cuIFRob3VnaHQgaXQgd2FzCnBpY2tlZCB1
+cCBidXQgZG9lc24ndCBzZWVtcyB0byBiZS4gSGF2ZSBzZW50IHF1ZXN0aW9uIHRvIGFybS1zb2MK
+bWFpbnRhaW5lcnMuCgpSZWdhcmRzLApTYW50b3NoCgpbMV0gaHR0cHM6Ly93d3cuc3Bpbmljcy5u
+ZXQvbGlzdHMvYXJtLWtlcm5lbC9tc2c3OTEyMjQuaHRtbApfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
