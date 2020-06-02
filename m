@@ -1,51 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FEB1EBAB0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 13:46:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4751EBAC0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 13:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2B689BFD;
-	Tue,  2 Jun 2020 11:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA6489D7B;
+	Tue,  2 Jun 2020 11:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E0C89BFD
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 11:46:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds201912;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7jSFRiD8Exdrq7DAttCy2RR6MR+Uq8Jv0yByS4G/VXo=; b=Vo3lUlha1F4rfAqPugYllV0Gq4
- es0iXW59eV1Eb17c1PjeS0Q6uwx0A+Nzf3Nh0ynIOYKkNbi030VnRonvhgb0th8ae+Ib9IyDB7znF
- 9m7cxedm9M6OI8AaOie5T58F0Q8NRxDLtZy9TDVGexvKXg3ZRIAhQm84ajdnL41N6rF5y7zxUQQgW
- hEnwT+JO4VfXYyTpT8ELODQaGGgIAVG7cOeSovTx/111mIN1IgJzFhAhtnjVr+iG5XIAvtJ//1DOU
- Nn21Gvu29gyCQg18BaxhdcNSV8MMeILs6Ag39IflUAfLJA88jdfAy5GY0vVyf3eyJsEJv2EekrFQt
- JzA1kOAA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:55017
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1jg5NR-0004Ja-C0; Tue, 02 Jun 2020 13:46:41 +0200
-Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
-To: Alan Stern <stern@rowland.harvard.edu>, Peter Stuge <peter@stuge.se>
-References: <20200529175643.46094-1-noralf@tronnes.org>
- <20200529175643.46094-5-noralf@tronnes.org>
- <20200529224531.22261.qmail@stuge.se>
- <614b0b0d-44d7-22e5-339d-cb8a13b426ac@tronnes.org>
- <20200602001207.17171.qmail@stuge.se>
- <20200602023254.GB15540@rowland.harvard.edu>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <a0f8030c-a609-ce03-ff92-027de37eb834@tronnes.org>
-Date: Tue, 2 Jun 2020 13:46:38 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D14889D7B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 11:50:53 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200602115051euoutp018f8d2630eb66663d4f55f4c5064a0ac7~Ut8sv8mVA0031300313euoutp01H
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 11:50:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200602115051euoutp018f8d2630eb66663d4f55f4c5064a0ac7~Ut8sv8mVA0031300313euoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1591098651;
+ bh=I0Dn5BxzJ+CXY2oWZbgxWOBH4kPjXztDF8cgyoiRsiw=;
+ h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
+ b=OhqalJ2NrcZNvb6+2JQcZrmCdk210myfkPYG9ZRknXvMXqxZFdidGKXjxiqFJeaqJ
+ SkfnwNvHRJzLjwl0OROCdjRM/FqxgaZ71fzfTAYRG1qZMBgmBvUKsj7BsLA8fFgIQi
+ GDtPz3WTTM469UM2qAEi7cbslu5atDeBDB9AO37M=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200602115051eucas1p2427ab69d905703d29b3cabf4b7b29267~Ut8skURLL3250832508eucas1p2_;
+ Tue,  2 Jun 2020 11:50:51 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id C4.09.61286.B1D36DE5; Tue,  2
+ Jun 2020 12:50:51 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200602115051eucas1p235883fa1de4738974b6066f24c9351de~Ut8sSXGSp2118021180eucas1p24;
+ Tue,  2 Jun 2020 11:50:51 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200602115051eusmtrp290e10a7da754d2a574a23a8f6bf576ef~Ut8sRyQX92574825748eusmtrp2w;
+ Tue,  2 Jun 2020 11:50:51 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-66-5ed63d1b92b1
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id F4.14.07950.B1D36DE5; Tue,  2
+ Jun 2020 12:50:51 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200602115050eusmtip267e0418b6b1a0734543180ef1c0a774e~Ut8r3Wjm20841708417eusmtip2o;
+ Tue,  2 Jun 2020 11:50:50 +0000 (GMT)
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH v2 1/2] video: fbdev: amifb: add FIXME about dead APUS support
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <767d36ff-22ec-8136-7ebc-1d9d0d3ac98d@samsung.com>
+Date: Tue, 2 Jun 2020 13:50:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200602023254.GB15540@rowland.harvard.edu>
+In-Reply-To: <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsWy7djP87rSttfiDJpWS1hc+fqezeLZrb1M
+ Fif6PrBaXN41h81i+ZO1zBbn/x5ndWDzOHS4g9HjfvdxJo+Trd9YPD5vkvPY9OQtUwBrFJdN
+ SmpOZllqkb5dAlfGowNTmAsWc1dM3fCbpYFxAWcXIweHhICJxKaJ9l2MnBxCAisYJX41WXQx
+ cgHZXxglLs07yQjhfGaU2PjpITtIFUjDgwcv2CESyxkleuYuZYFof8sosXsXmM0mYCUxsX0V
+ I4gtLBAg8ef4S7C4iICDxJQbE8AGMQssYJTYcsgZxOYVsJP42LiJGcRmEVCR2L77EBOILSoQ
+ IfHpwWFWiBpBiZMzn4DN4RTwlNjRe5kJYo64xK0n86FseYntb+cwgxwnIbCOXeL2jJVMEFe7
+ SJx7u5oFwhaWeHV8C9Q3MhL/d4I0gzUwSvzteAHVvZ1RYvnkf2wQVdYSd879YgMFGLOApsT6
+ XfoQYUeJMxdeMkHCkU/ixltBiCP4JCZtm84MEeaV6GgTgqhWk9iwbAMbzNqunSuZJzAqzULy
+ 2iwk78xC8s4shL0LGFlWMYqnlhbnpqcWG+allusVJ+YWl+al6yXn525iBKad0/+Of9rB+PVS
+ 0iFGAQ5GJR5eA8NrcUKsiWXFlbmHGCU4mJVEeJ3Ono4T4k1JrKxKLcqPLyrNSS0+xCjNwaIk
+ zmu86GWskEB6YklqdmpqQWoRTJaJg1OqgXGZsdvdVFMGJ36Puz2r63d++/dSas8vgxlZbd0K
+ m5ctOLbq7OodVnfnmNvG8lw8draG7eP8ev39KjMXtf6/suWCp9Wj9n9+01jYU7NyUr/6BxYf
+ eLmlk/U6w5xqpVUv+FdIRNUr9D26JTP3DdfjA3NXvTeYpTYhU/3kUd6vubVzf21cPi2urfKI
+ EktxRqKhFnNRcSIAhvVaGjcDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRmVeSWpSXmKPExsVy+t/xe7rSttfiDGYeYLO48vU9m8WzW3uZ
+ LE70fWC1uLxrDpvF8idrmS3O/z3O6sDmcehwB6PH/e7jTB4nW7+xeHzeJOex6clbpgDWKD2b
+ ovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2MRwemMBcs
+ 5q6YuuE3SwPjAs4uRk4OCQETiQcPXrCD2EICSxkl9v827mLkAIrLSBxfXwZRIizx51oXWxcj
+ F1DJa0aJP8uWsIEk2ASsJCa2r2IEsYUF/CR2rL/FDGKLCDhITLkxgR2kgVlgAaPE2baDrBDd
+ cxgldry6AdbBK2An8bFxE1gHi4CKxPbdh5hAbFGBCInDO2ZB1QhKnJz5hAXE5hTwlNjRexms
+ hllAXeLPvEvMELa4xK0n86Hi8hLb385hnsAoNAtJ+ywkLbOQtMxC0rKAkWUVo0hqaXFuem6x
+ kV5xYm5xaV66XnJ+7iZGYKxtO/Zzyw7GrnfBhxgFOBiVeHgNDK/FCbEmlhVX5h5ilOBgVhLh
+ dTp7Ok6INyWxsiq1KD++qDQntfgQoynQcxOZpUST84FpIK8k3tDU0NzC0tDc2NzYzEJJnLdD
+ 4GCMkEB6YklqdmpqQWoRTB8TB6dUA2P6vZzCKfN5kmwsQ/eeS1d7F6HSyMgbIzHBP+lI+hnp
+ Z0u39Up4ntqz4MCRq0JFQUHhSjmH5/5/lvrhC6v/ccXjxjrZzSndFxVbq68uXHYotan448nV
+ 5zxfMVSH77nv3uQh/iMvNXtjbpeoRuHLgxYmN3Kv/vAVkYlafajr1qcW4y+B6ouyGpVYijMS
+ DbWYi4oTAXm2VwPLAgAA
+X-CMS-MailID: 20200602115051eucas1p235883fa1de4738974b6066f24c9351de
+X-Msg-Generator: CA
+X-RootMTR: 20200504232908eucas1p296927bc7c736ad924cefaea9a546459d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200504232908eucas1p296927bc7c736ad924cefaea9a546459d
+References: <CGME20200504232908eucas1p296927bc7c736ad924cefaea9a546459d@eucas1p2.samsung.com>
+ <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,77 +106,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ Al Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 5/14/20 10:21 PM, Geert Uytterhoeven wrote:
 
-Den 02.06.2020 04.32, skrev Alan Stern:
-> On Tue, Jun 02, 2020 at 12:12:07AM +0000, Peter Stuge wrote:
-> 
-> ...
-> 
->> The way I read composite_setup() after try_fun_setup: it calls f->setup()
->> when available, and that can return < 0 to stall.
->>
->> I expect that composite_setup() and thus f->setup() run when the
->> SETUP packet has arrived, thus before the data packet arrives, and if
->> composite_setup() stalls then the device/function should never see the
->> data packet.
->>
->> For an OUT transaction I think the host controller might still send
->> the DATA packet, but the device controllers that I know don't make it
->> visible to the application in that case.
-> 
-> ...
-> 
-> Are you guys interested in comments from other people who know more
-> about the kernel and how it works with USB?
+> These #ifdefs are relics from APUS (Amiga Power-Up System), which
+> added a PPC board.  APUS support was killed off a long time ago,
+> when arch/ppc/ was still king, but these #ifdefs were missed, because
+> they didn't test for CONFIG_APUS.
 
-Absolutely, I want something thats works well in the kernel and doesn't
-look odd to kernel USB people.
+Add FIXME about using the C code variants (APUS ones) in the future.
 
-> Your messages have been
-> far too long to go into in any detail, but I will address this one issue.
-> 
-> The USB protocol forbids a device from sending a STALL response to a
-> SETUP packet.  The only valid response is ACK.  Thus, there is no way
-> to prevent the host from sending its DATA packet for a control-OUT
-> transfer.
-> 
-> A gadget driver can STALL in response to a control-OUT data packet,
-> but only before it has seen the packet.  Once the driver knows what
-> the data packet contains, the gadget API doesn't provide any way to
-> STALL the status stage.  There has been a proposal to change the API
-> to make this possible, but so far it hasn't gone forward.
-> 
+Reported-by: Al Viro <viro@zeniv.linux.org.uk>
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+---
+v2:
+- added FIXME comment instead of removing the C code variants
 
-This confirms what I have seen in the kernel and the reason I added a
-status request so I can know the result of the operation the device has
-performed.
+ drivers/video/fbdev/amifb.c |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I have a problem that I've encountered with this status request.
-In my first version the gadget would usb_ep_queue() the status value
-when the operation was done and as long as this happended within the
-host timeout (5s) everything worked fine.
-
-Then I hit a 10s timeout in the gadget when performing a display modeset
-operation (wait on missing vblank). The result of this was that the host
-timed out and moved on. The gadget however didn't know that the host
-gave up, so it queued up the status value. The result of this was that
-all further requests from the host would time out.
-Do you know a solution to this?
-My work around is to just poll on the status request, which returns a
-value immediately, until there's a result. The udc driver I use is dwc2.
-
-Noralf.
-
-> Alan Stern
-> 
+Index: b/drivers/video/fbdev/amifb.c
+===================================================================
+--- a/drivers/video/fbdev/amifb.c
++++ b/drivers/video/fbdev/amifb.c
+@@ -575,6 +575,12 @@ static u_short maxfmode, chipset;
+ #define downx(x, v)	((v) & -(x))
+ #define modx(x, v)	((v) & ((x) - 1))
+ 
++/*
++ * FIXME: Use C variants of the code marked with #ifdef __mc68000__
++ * in the driver. It shouldn't negatively affect the performance and
++ * is required for APUS support (once it is re-added to the kernel).
++ * Needs to be tested on the hardware though..
++ */
+ /* if x1 is not a constant, this macro won't make real sense :-) */
+ #ifdef __mc68000__
+ #define DIVUL(x1, x2) ({int res; asm("divul %1,%2,%3": "=d" (res): \
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
