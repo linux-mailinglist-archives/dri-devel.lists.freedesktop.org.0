@@ -2,45 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82E11EB8BF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 11:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21F91EB8CE
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 11:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE8E6E0EB;
-	Tue,  2 Jun 2020 09:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 130BC88052;
+	Tue,  2 Jun 2020 09:49:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 282376E03F;
- Tue,  2 Jun 2020 09:45:52 +0000 (UTC)
-IronPort-SDR: YZR7yQ9o8x2VAITdOXiC71TblZEICZr2YARzdkzSERwenrKMMcnxF5Af8YdJ1KZQk54ra4Clcj
- fKchK8fh/a4A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2020 02:45:51 -0700
-IronPort-SDR: GBrG+F5G1jx/CTfaA23KqXDTULHq5bmL+Kd+eUBrulPbQ9kir//xf+TwlY9tUtxNuQdyZwXE+J
- 4m3k7i0X27cA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,463,1583222400"; d="scan'208";a="347353632"
-Received: from mhuther1-mobl.ger.corp.intel.com (HELO [10.252.44.107])
- ([10.252.44.107])
- by orsmga001.jf.intel.com with ESMTP; 02 Jun 2020 02:45:48 -0700
-Subject: Re: [RFC 01/17] dma-fence: add might_sleep annotation to _wait()
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-2-daniel.vetter@ffwll.ch>
- <0b1c65ec-adc2-9f02-da68-c398cf7ce80b@amd.com>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <105c02b5-f18d-cd08-bffa-93033c923365@linux.intel.com>
-Date: Tue, 2 Jun 2020 11:45:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31E5E88052;
+ Tue,  2 Jun 2020 09:49:32 +0000 (UTC)
+Received: by mail-pl1-x642.google.com with SMTP id bg4so1148435plb.3;
+ Tue, 02 Jun 2020 02:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tCSz+uYodVj42SY8RVM02hyZNCG8C1YkgVUlyk0KTjU=;
+ b=SMr2IQjG7D46C5m9upI3klxct3blMqDraFFkJYfnknlybYOmcYPnZXmRNHIfss5yzk
+ vQwSNY0YWdC9St5dXcDpurLKIOvgtbBNTpvf9/pSI7opdPZsuy/4G7kQMoY1aoN6YbJv
+ Ksspyv4MxvHyha/frHRMpppbr7/jIkNgTNn7SegtOf46UcpRZtQrmHMhyKxhHle8TzaB
+ y946LTPjdgOnZLq1+UyZOSU0fXd7x8wLUZlmmEDDfRZ1OieUK6DrER+Z/MeFXCiIoeCp
+ MPVbFnZ8fhfvWNZZtLbHs8YyqacdK90NiR5+7T5p41J31Ailu1w9e6c73WdufDG+4iBM
+ o2MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tCSz+uYodVj42SY8RVM02hyZNCG8C1YkgVUlyk0KTjU=;
+ b=O3XrRCTYLkp4aMDZHLoypTsmmal1YU2mYPJc20bYJikpSoS6ud8+In3t9rpXJRjSwt
+ nhQCCltR04rPHfMvBht5D5khMfHDShO18a9UFgnCJnlUu8ZR1j01sr3sID4CyrF3DGII
+ aLHhkJVpHPwfyHEI+zEV+vobWwjiz4xFkUpMbOr3B3rxmvnRYS12fF/+JU/OtviFYI18
+ t8SsIHnkXUsSMXyI4+YjsiRFaEEFIzKEiMgxni9iUyzExYNi3QC3Q3ELCiVbgdLKn7oP
+ nzPYJDwcLujtfydrFaUu+3a92mceD1ejkCk31KZyKHusT2hQs9OWLxa2uQWIDyPVms69
+ bGgg==
+X-Gm-Message-State: AOAM5312gwp4b9XEqGle6ybIiOIaOZPUITxiSmmPmxVg80fSTRUnNmkR
+ BO2Yh5MzeC9ZStfOjrVPr2Mmm1tr+9XgSYoE5Zc=
+X-Google-Smtp-Source: ABdhPJymZ6h2WYYw5fSCwRyhn3hpPpEakJ8uvqOtOyGfE8Ue5GAXhScl1/g8/52s+KsGW/qY9axU6XvClMPQIAyj23Y=
+X-Received: by 2002:a17:90a:220f:: with SMTP id
+ c15mr4643652pje.129.1591091371638; 
+ Tue, 02 Jun 2020 02:49:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0b1c65ec-adc2-9f02-da68-c398cf7ce80b@amd.com>
-Content-Language: en-US
+References: <20200602092030.31966-1-piotr.stankiewicz@intel.com>
+In-Reply-To: <20200602092030.31966-1-piotr.stankiewicz@intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 2 Jun 2020 12:49:20 +0300
+Message-ID: <CAHp75Ve9tdNB7s+gybsg-OUjA3HiZBgzxeOzw=qkx8t1Ybbmsg@mail.gmail.com>
+Subject: Re: [PATCH 07/15] drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
+To: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,45 +61,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T3AgMTItMDUtMjAyMCBvbSAxMTowOCBzY2hyZWVmIENocmlzdGlhbiBLw7ZuaWc6Cj4gQW0gMTIu
-MDUuMjAgdW0gMTA6NTkgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+PiBCdXQgb25seSBmb3Igbm9u
-LXplcm8gdGltZW91dCwgdG8gYXZvaWQgZmFsc2UgcG9zaXRpdmVzLgo+Pgo+PiBPbmUgcXVlc3Rp
-b24gaGVyZSBpcyB3aGV0aGVyIHRoZSBtaWdodF9zbGVlcCBzaG91bGQgYmUgdW5jb25kaXRpb25h
-bCwKPj4gb3Igb25seSBmb3IgcmVhbCB0aW1lb3V0cy4gSSdtIG5vdCBzdXJlLCBzbyB3ZW50IHdp
-dGggdGhlIG1vcmUKPj4gZGVmZW5zaXZlIG9wdGlvbi4gQnV0IGluIHRoZSBpbnRlcmVzdCBvZiBs
-b2NraW5nIGRvd24gdGhlIGNyb3NzLWRyaXZlcgo+PiBkbWFfZmVuY2UgcnVsZXMgd2UgbWlnaHQg
-d2FudCB0byBiZSBtb3JlIGFnZ3Jlc3NpdmUuCj4+Cj4+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtl
-cm5lbC5vcmcKPj4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+PiBDYzogbGlu
-dXgtcmRtYUB2Z2VyLmtlcm5lbC5vcmcKPj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4+IENjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IENjOiBDaHJpcyBX
-aWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0
-IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4+IENjOiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9kbWEt
-YnVmL2RtYS1mZW5jZS5jIHwgMyArKysKPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
-cygrKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jIGIvZHJp
-dmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jCj4+IGluZGV4IDA1MmE0MWUyNDUxYy4uNjgwMjEyNTM0
-OWZiIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLmMKPj4gKysrIGIv
-ZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS5jCj4+IEBAIC0yMDgsNiArMjA4LDkgQEAgZG1hX2Zl
-bmNlX3dhaXRfdGltZW91dChzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSwgYm9vbCBpbnRyLCBzaWdu
-ZWQgbG9uZyB0aW1lb3V0KQo+PiDCoMKgwqDCoMKgIGlmIChXQVJOX09OKHRpbWVvdXQgPCAwKSkK
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlOVkFMOwo+PiDCoCArwqDCoMKgIGlmICh0
-aW1lb3V0ID4gMCkKPj4gK8KgwqDCoMKgwqDCoMKgIG1pZ2h0X3NsZWVwKCk7Cj4+ICsKPgo+IEkg
-d291bGQgcmF0aGVyIGxpa2UgdG8gc2VlIG1pZ2h0X3NsZWVwKCkgY2FsbGVkIGhlcmUgYWxsIHRo
-ZSB0aW1lIGV2ZW4gd2l0aCB0aW1lb3V0PT0wLgo+Cj4gSUlSQyBJIHJlbW92ZWQgdGhlIGNvZGUg
-aW4gVFRNIGFidXNpbmcgdGhpcyBpbiBhdG9taWMgY29udGV4dCBxdWl0ZSBhIHdoaWxlIGFnbywg
-YnV0IGNvdWxkIGJlIHRoYXQgc29tZSBsZWFrZWQgaW4gYWdhaW4gb3IgaXQgaXMgY2FsbGVkIGlu
-IGF0b21pYyBjb250ZXh0IGVsc2V3aGVyZSBhcyB3ZWxsLiAKCgpTYW1lLCBnbGFkIEknbSBub3Qg
-dGhlIG9ubHkgb25lIHdobyB3YW50cyBpdC4gOikKCn5NYWFydGVuCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jun 2, 2020 at 12:24 PM Piotr Stankiewicz
+<piotr.stankiewicz@intel.com> wrote:
+>
+> Seeing as there is shorthand available to use when asking for any type
+> of interrupt, or any type of message signalled interrupt, leverage it.
+>
+> Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> index 5ed4227f304b..6dbe173a9fd4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> @@ -251,11 +251,11 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+>                 int nvec = pci_msix_vec_count(adev->pdev);
+>                 unsigned int flags;
+>
+> -               if (nvec <= 0) {
+> +               if (nvec > 0)
+> +                       flags = PCI_IRQ_MSI_TYPES;
+> +               else
+>                         flags = PCI_IRQ_MSI;
+> -               } else {
+> -                       flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
+> -               }
+> +
+>                 /* we only need one vector */
+>                 nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
+
+I'm not sure if you have seen my last comment internally about this patch.
+
+I don't understand why we need these pci_msix_vec_count() followed by
+conditional at all.
+Perhaps we may simple drop all these and supply flag directly?
+
+But OTOH, I don't know the initial motivation, so, the above patch is
+non-intrusive and keeps original logic.
+
+>                 if (nvec > 0) {
+> --
+> 2.17.2
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
