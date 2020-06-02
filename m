@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4CA1EBE50
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 16:40:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8401EBE89
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 16:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAD46E3FB;
-	Tue,  2 Jun 2020 14:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00F989E33;
+	Tue,  2 Jun 2020 14:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677606E3FE;
- Tue,  2 Jun 2020 14:39:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id e1so3678578wrt.5;
- Tue, 02 Jun 2020 07:39:59 -0700 (PDT)
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D1E89E33
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 14:58:48 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id k13so2173613vsm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 07:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FUYPo8fB6BaXWbeo8MJfYdpZveOhkfTpvMXfShXVl2U=;
- b=UNfJ7i15I+Y/LzEU4j8lQ7MgEBaWKP0vWG7JdIILtTvy5ReIgcx3InYMMZKjAOiqRV
- FcbghXOQN1BXoMHzAAB9FppHnhkd3NUND2KjB4TmF0je+uTY/SnWRtw7C1eB/MwD4Czk
- j26LgN3HFBAmyNGdGLspNBYQJhzlbf1WT9KsDPiIsQ//AAjPp+qiUHRxyTmAZGzWTv4R
- z9phdzRtSzavTj32z+H8tzuSSllOEaueh8p7bjM4PHVJHQCRLcAGHnBE1Dn0JG/4yxus
- yBvViXAEfvsuuvU0Fcze8Q6tH3wXa4m+7bWejd+BOfiXtVtCAbE4ar5oMGiyRJxaLcDJ
- U/MA==
+ :cc:content-transfer-encoding;
+ bh=R19nSqfwFjKMbuCUuu45u3kNS6yK2MxJbjwL6/Xuo9k=;
+ b=QtyDH/oCp6chj8kOasNywBh1tJ4Q7G9pC+F167iYrTPdp1ztf7nbls3DqELN0+00Xo
+ IsFgDlS0nAqz+u2di0I2mUjHunwzdNubX0VyAVhYNfWjmHFSXAYLWqyMvPUC1S+Rj2sN
+ NOBlljkssJ79TXC2eKmB7fGve+Y186MvRe50O4NwXum67P0KSCWiOrgNz9LE1AmcghMl
+ HynI5UNYyUrWiZkLi2rlEPBOlQQVw5YjIjG6bsNWAKsZ5yoAlxFj2Y7J2/VdYHnynN6L
+ PvP+k3NgvyaDq9Y90LprGcYw06eMkb/5XKJgVCXRmvV0SjBtLLyM9N1EQnNswRgiVyun
+ TlUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FUYPo8fB6BaXWbeo8MJfYdpZveOhkfTpvMXfShXVl2U=;
- b=Neamivqf1p4OHV5TdhKKkE8LACh81JZQoHmg0x8oJ6B3Ym7bD53kFMAmS8bxuiJZzw
- mublRUmAmCewyCIBi2GcGhJqKaWQqWHxVMd0pjeZem/TLtw0UhGVu5eqCDazOboOCWYc
- vcS+0t30i5/CNBEm/m8GamvkLIMGdcb78NNA8dAbcCYMauXpE+l2PPjGQMKPwbYQZmgY
- VGcV0PZ6htF/mudvqigANzZvI/lJPWCHpXW80rQMmVCdWYZyYm9fUZpNlsMerdJO/y5K
- 27zF89hcyKoTAHV0042jsIkr1xTpH1WrpkXr6/4W6I3PTmPDgzqmtSPTYFL5B2V7pTTw
- QCKw==
-X-Gm-Message-State: AOAM532+nq9lQR0IpGU2wkJolZRLUYdFUDCP1Q7/EGS4wov20Og/JROC
- T1HBq85AWXRpSsAOyvr5xAeEJiZZSFHamH0rY3A=
-X-Google-Smtp-Source: ABdhPJwrjdBmlreZah9W7r9r21z3nSN/KOpVsiV4cBN3K6kvpACwdA9Zl067g+t1tRAigKtydZQnx9ZgBZwfjYr/bzI=
-X-Received: by 2002:adf:fd41:: with SMTP id h1mr27830873wrs.374.1591108798154; 
- Tue, 02 Jun 2020 07:39:58 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=R19nSqfwFjKMbuCUuu45u3kNS6yK2MxJbjwL6/Xuo9k=;
+ b=aafeVwGoIj6rLkP81pMwuXW8ejPB7voAt9KroW0mrlK59EOW0w68tqO8XWneAVydNg
+ zUCwfRh53Z/PeeGz5H8OJA2bOmI7A9g61AKEufir4B6BMAsZEOjFWwVw4l84qTK3YgBo
+ vy3neqDzZ7s/MHv2U6SgOQZuhvwCHF2VSEUKFW++7++rrOeEstD24F6xe25M7TcnF6Sn
+ k4Vv5fLm9GUl2xbmaAsytvK6/N0C648QxUAZFvWrgrjoZ7IrXXpZ2T0JHtI+PS8VRsef
+ OuhH1MP6XCpsHEC7V0dXyBLCB7PAU+byo4AvcRhWxx0Y93GtFJjSAXUhGEv3jGghXmBV
+ It/w==
+X-Gm-Message-State: AOAM532/nXOvtlC5ZKlWnfeNSyR5oQooKs9OK8q5PqlDtLtlklnYUScF
+ 4kxCQyVjcafrn6LXdbraq9TY2fIHEvUJWHUrzy/Y4g==
+X-Google-Smtp-Source: ABdhPJxBsPOjIwVhzgw6ohk6Ca8GFwuXLv/XpCGa7jqnU+naJk9H8cjHrKmn3MpnPlo+JlpG14YvfUu+P80O0TyV+08=
+X-Received: by 2002:a67:3291:: with SMTP id y139mr6277739vsy.37.1591109927542; 
+ Tue, 02 Jun 2020 07:58:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200602092030.31966-1-piotr.stankiewicz@intel.com>
- <14063C7AD467DE4B82DEDB5C278E8663010E23E538@FMSMSX108.amr.corp.intel.com>
- <CAHp75Vfe5dQkOiFoAZx5b-NS1afiD-YC_w+5LcX8P1Hm0ASenA@mail.gmail.com>
- <CADnq5_OO=gyo22ZrXp6pDtz2QZ2=LC429u_kkd0ZvX4=M3mBPw@mail.gmail.com>
- <CAHp75Vd1zVt7F2+44EFPHOrCOzexe=mLaiZixqJR9NNK9-wNQg@mail.gmail.com>
-In-Reply-To: <CAHp75Vd1zVt7F2+44EFPHOrCOzexe=mLaiZixqJR9NNK9-wNQg@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 2 Jun 2020 10:39:47 -0400
-Message-ID: <CADnq5_Mcys8tF-UAZ1JrLy1HnL-Ms7TTrLBPrWkA08tuhjkB2A@mail.gmail.com>
-Subject: Re: [PATCH 07/15] drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Tom St Denis <tom.stdenis@amd.com>
+References: <20200601083309.712606-1-sam@ravnborg.org>
+ <20200601083309.712606-3-sam@ravnborg.org>
+ <CAD=FV=VSyODjtVtEe6H46U6xNraD2LUUi+xt8cxraaqXom=64g@mail.gmail.com>
+In-Reply-To: <CAD=FV=VSyODjtVtEe6H46U6xNraD2LUUi+xt8cxraaqXom=64g@mail.gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 2 Jun 2020 15:55:29 +0100
+Message-ID: <CACvgo52e_VE=oPz=A_rc=gkiSx+TqgPUm7smfe8yG6YYLHn+pA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/6] drm: panel-simple: add Seiko 70WVW2T 7" simple
+ panel
+To: Doug Anderson <dianders@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,103 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Ruhl,
- Michael J" <michael.j.ruhl@intel.com>, "Stankiewicz,
- Piotr" <piotr.stankiewicz@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?S=C3=B8ren_Andersen?= <san@skov.dk>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 2, 2020 at 10:35 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Tue, Jun 2, 2020 at 5:21 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> > On Tue, Jun 2, 2020 at 10:00 AM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Tue, Jun 2, 2020 at 4:38 PM Ruhl, Michael J <michael.j.ruhl@intel.com> wrote:
-> > > > >From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
-> > > > >Piotr Stankiewicz
->
-> > > > >               int nvec = pci_msix_vec_count(adev->pdev);
-> > > > >               unsigned int flags;
-> > > > >
-> > > > >-              if (nvec <= 0) {
-> > > > >+              if (nvec > 0)
-> > > > >+                      flags = PCI_IRQ_MSI_TYPES;
-> > > > >+              else
-> > > > >                       flags = PCI_IRQ_MSI;
-> > > > >-              } else {
-> > > > >-                      flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
-> > > > >-              }
-> > > >
-> > > > Minor nit:
-> > > >
-> > > > Is it really necessary to set do this check?  Can flags just
-> > > > be set?
-> > > >
-> > > > I.e.:
-> > > >         flags = PCI_IRQ_MSI_TYPES;
-> > > >
-> > > > pci_alloc_irq_vector() tries stuff in order.  If MSIX is not available,
-> > > > it will try MSI.
-> > >
-> > > That's also what I proposed earlier. But I suggested as well to wait
-> > > for AMD people to confirm that neither pci_msix_vec_count() nor flags
-> > > is needed and we can directly supply MSI_TYPES to the below call.
-> > >
-> >
-> > I think it was leftover from debugging and just to be careful.  We had
-> > some issues when we originally enabled MSI-X on certain boards.  The
-> > fix was to just allocate a single vector (since that is all we use
-> > anyway) and we were using the wrong irq (pdev->irq vs
-> > pci_irq_vector(pdev, 0)).
->
-> Do you agree that simple
->
->   nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, PCI_IRQ_MSI_TYPES);
->
-> will work and we can remove that leftover?
-
-Yes, I believe so.  Tom, can you give this a quick spin on raven just
-in case if you get a chance?  Something like this:
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 0cc4c67f95f7..c59111b57cc2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -248,16 +248,10 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
-        adev->irq.msi_enabled = false;
-
-        if (amdgpu_msi_ok(adev)) {
--               int nvec = pci_msix_vec_count(adev->pdev);
--               unsigned int flags;
-+               int nvec;
-
--               if (nvec <= 0) {
--                       flags = PCI_IRQ_MSI;
--               } else {
--                       flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
--               }
-                /* we only need one vector */
--               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
-+               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1,
-PCI_IRQ_MSI | PCI_IRQ_MSIX);
-                if (nvec > 0) {
-                        adev->irq.msi_enabled = true;
-                        dev_dbg(adev->dev, "using MSI/MSI-X.\n");
-
-
-Thanks,
-
-Alex
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAyIEp1biAyMDIwIGF0IDAxOjMxLCBEb3VnIEFuZGVyc29uIDxkaWFuZGVyc0BjaHJv
+bWl1bS5vcmc+IHdyb3RlOgo+Cj4gSGksCj4KPiBPbiBNb24sIEp1biAxLCAyMDIwIGF0IDE6MzMg
+QU0gU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90ZToKPiA+Cj4gPiBUaGUgU2Vp
+a28gNzBXVlcyVCBpcyBhIGRpc2NvbnRpbnVlZCBwcm9kdWN0LCBidXQgbWF5IGJlIHVzZWQgc29t
+ZXdoZXJlLgo+ID4gVGVzdGVkIG9uIGEgcHJvcHJpZXRhcnkgcHJvZHVjdC4KPiA+Cj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gPiBDYzogU8O4cmVu
+IEFuZGVyc2VuIDxzYW5Ac2tvdi5kaz4KPiA+IENjOiBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5y
+ZWRpbmdAZ21haWwuY29tPgo+ID4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4K
+PiA+IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYyB8IDI4ICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjggaW5zZXJ0
+aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwt
+c2ltcGxlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMKPiA+IGluZGV4
+IGIwNjdmNjZjZWEwZS4uODYyNGJiODAxMDhjIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+cGFuZWwtc2ltcGxlLmMKPiA+IEBAIC0zMTk0LDYgKzMxOTQsMzEgQEAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBwYW5lbF9kZXNjIHNoZWxseV9zY2EwNzAxMF9iZm5fbG5uID0gewo+ID4gICAgICAgICAu
+YnVzX2Zvcm1hdCA9IE1FRElBX0JVU19GTVRfUkdCNjY2XzFYMTgsCj4gPiAgfTsKPiA+Cj4gPiAr
+c3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHNpaV83MHd2dzJ0X21vZGUgPSB7
+Cj4gPiArICAgICAgIC5jbG9jayA9IDMzMDAwLAo+ID4gKyAgICAgICAuaGRpc3BsYXkgPSA4MDAs
+Cj4gPiArICAgICAgIC5oc3luY19zdGFydCA9IDgwMCArIDI1NiwKPiA+ICsgICAgICAgLmhzeW5j
+X2VuZCA9IDgwMCArIDI1NiArIDAsCj4gPiArICAgICAgIC5odG90YWwgPSA4MDAgKyAyNTYgKyAw
+ICsgMCwKPiA+ICsgICAgICAgLnZkaXNwbGF5ID0gNDgwLAo+ID4gKyAgICAgICAudnN5bmNfc3Rh
+cnQgPSA0ODAgKyAwLAo+ID4gKyAgICAgICAudnN5bmNfZW5kID0gNDgwICsgMCArIDAsCj4gPiAr
+ICAgICAgIC52dG90YWwgPSA0ODAgKyAwICsgMCArIDQ1LAo+Cj4gSW1wb3J0YW50IHRvIGhhdmUg
+YSAidnJlZnJlc2giPwo+ClZpbGxlIHBvc3RlZCBhIHNlcmllcyAobW9zdCBvZiB3aGljaCBhbHJl
+YWR5IGxhbmRlZCkgZ2V0dGluZyByZW1vdmluZwp2cmVmcmVzaCBhbGwgdG9nZXRoZXIuIFRoZSBv
+dmVyYWxsIGlkZWEgaXMgdG8gY29tcHV0ZSBpdCwgaW4gdGhlIHJhcmUKY2FzZSBpdCdzIG5lZWRl
+ZC4KCgo+Cj4gPiArICAgICAgIC5mbGFncyA9IERSTV9NT0RFX0ZMQUdfTlZTWU5DIHwgRFJNX01P
+REVfRkxBR19OSFNZTkMsCj4gPiArfTsKPiA+ICsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHBh
+bmVsX2Rlc2Mgc2lpXzcwd3Z3MnQgPSB7Cj4gPiArICAgICAgIC5tb2RlcyA9ICZzaWlfNzB3dncy
+dF9tb2RlLAo+ID4gKyAgICAgICAubnVtX21vZGVzID0gMSwKPgo+IERvIHdlIHdhbnQgImJwYyA9
+IDYiPwo+ClRoZSBsYXJnZXN0IHVzZXIgb2YgYnBjIGlzIHVzZXJzcGFjZSAtIHRoZSBkYXRhIGdl
+dHMgY29waWVkIHZpYSB0aGUgaW9jdGxzLgoKQSBzZWNvbmRhcnksIGFuZCBxdWl0ZSBsaW1pdGVk
+LCB1c2VyIGFyZSBkcml2ZXJzIGV4cG9zaW5nIHRoZSAibWF4CmJwYyIgY29ubmVjdG9yIHByb3Bl
+cnR5LiBGcm9tIGEgcXVpY2sgbG9vazogYW1kZ3B1LCB0aGUgc3lub3BzeXMKZHctaGRtaSBicmlk
+Z2UgYW5kIGk5MTUgZG8gc28uIEluIGNhc2UgdGhlIGRhdGEgbWlzc2luZywgYXRvbWljcwphc3N1
+bWUgYSBtYXggOCBicGMuCgo+Cj4gPiArICAgICAgIC5zaXplID0gewo+ID4gKyAgICAgICAgICAg
+ICAgIC53aWR0aCA9IDE1MiwKPiA+ICsgICAgICAgICAgICAgICAuaGVpZ2h0ID0gOTEsCj4gPiAr
+ICAgICAgIH0sCj4gPiArICAgICAgIC5idXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I4ODhf
+MVgyNCwKPgo+IFNob3VsZCB0aGlzIGJlIGEgNjY2IGZvcm1hdD8gIFJhbmRvbSBpbnRlcm5ldC1m
+b3VuZCBkYXRhIHNoZWV0IHNheXMKPiAyNjJLIGNvbG9ycy4uLgoKR29vZCBjYXRjaC4gV291bGQg
+YmUgbmljZSB0byBoYXZlIGEgc3BlYyBzaGVldCBsaW5rIChldmVuIGlmIHJhbmRvbSkKaW4gdGhl
+IGNvbW1pdCBtZXNzYWdlLgoKSFRICi1FbWlsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
