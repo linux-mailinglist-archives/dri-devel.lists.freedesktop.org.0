@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794061EB73D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 10:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703AB1EB82E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 11:17:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DF989E14;
-	Tue,  2 Jun 2020 08:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E94389C0A;
+	Tue,  2 Jun 2020 09:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD1D89E14
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 08:21:22 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id g1so8483039edv.6
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 01:21:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=bMqx/K8qt6ZuFGVbxPaYyyZ1KHtt21Gc7xSEXh3TFqc=;
- b=kCPw1Wz/Mur63zQf+76SA1cRF35neHBb2N/ZgYMkEOsQupQ8MboadDvCX4cbc5XjhZ
- ATDjhWqemjuHJAp3dpD3giVJfhxDgGSAnXXRLWBVBm4qhQJLhAugcwzfWL/UbBXaXD/s
- LIUicthiYpuZi6Sz+JkzLJXI8EPXVx+94u8W1gxfsFHZlTJymRN4OL11HPZK/Tf5R7oL
- e3D1yXKBqsnKbaJD47H4wO3s0WWTllRAj84kjO0+Zh/W18IO6+6z+DGWtU6mffPIbmUy
- QyPnEs5NdWw4nNLhZqZwexVbxiE2P9bRT1tdCImjV9hhw40VV5QbxQFRz+3THLp/bH34
- Ua0w==
-X-Gm-Message-State: AOAM5333i+VyfLQ8DyUIDmfQkQJpdbWWqoa8S+MuMFQ3Pb5sCxTcddtk
- UezPINCM5GGByuxOXt0zL4r8Zbdb
-X-Google-Smtp-Source: ABdhPJz0s1Yv0craKTmc1+MBA9Wpl8/dfLu81EyEQULFcLKG2SD43M0HslPqhrDnEtV41wdc2KCt7w==
-X-Received: by 2002:aa7:d283:: with SMTP id w3mr13300946edq.262.1591086081042; 
- Tue, 02 Jun 2020 01:21:21 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.118])
- by smtp.googlemail.com with ESMTPSA id h10sm1340569ejb.2.2020.06.02.01.21.19
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 02 Jun 2020 01:21:20 -0700 (PDT)
-Date: Tue, 2 Jun 2020 10:21:18 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [RFC PATCH v5 2/6] interconnect: Add generic interconnect driver
- for Exynos SoCs
-Message-ID: <20200602082118.GB8216@kozik-lap>
-References: <20200529163200.18031-1-s.nawrocki@samsung.com>
- <CGME20200529163223eucas1p2f663280abb499b4114b2f2930b43a4e5@eucas1p2.samsung.com>
- <20200529163200.18031-3-s.nawrocki@samsung.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200529163200.18031-3-s.nawrocki@samsung.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD92189C0A;
+ Tue,  2 Jun 2020 09:17:05 +0000 (UTC)
+IronPort-SDR: Hn8W7KaiScNMFjZTuT0tfjgNNx4d3owJRj8wAh54pWkMhkFcxgs6w5jV8JkKpJlnIdX9h9el9B
+ FcrF7vw1/3Kw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2020 02:17:05 -0700
+IronPort-SDR: x/s6TqMkfFCMf6Elj0L0Y8lX5QW2JWx9MUk5QQCfVZssNH9dEg0ZyETqw7Bb3OWNT1BFwpyD/P
+ Tvjal8T4d0iQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,463,1583222400"; d="scan'208";a="416118065"
+Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
+ by orsmga004.jf.intel.com with ESMTP; 02 Jun 2020 02:16:55 -0700
+From: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+To: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jens Axboe <axboe@kernel.dk>,
+ Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Antoine Tenart <antoine.tenart@bootlin.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S . Miller" <davem@davemloft.net>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ Dan Williams <dan.j.williams@intel.com>, Vinod Koul <vkoul@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Jakub Kicinski <kuba@kernel.org>,
+ Igor Russkikh <irusskikh@marvell.com>,
+ Yisen Zhuang <yisen.zhuang@huawei.com>,
+ Salil Mehta <salil.mehta@huawei.com>, Brian King <brking@us.ibm.com>,
+ "James E . J . Bottomley" <jejb@linux.ibm.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Jim Gill <jgill@vmware.com>, VMware PV-Drivers <pv-drivers@vmware.com>
+Subject: [PATCH 00/15] forward MSIx vector enable error code in
+ pci_alloc_irq_vectors_affinity
+Date: Tue,  2 Jun 2020 11:16:17 +0200
+Message-Id: <20200602091617.31395-1-piotr.stankiewicz@intel.com>
+X-Mailer: git-send-email 2.17.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,113 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, b.zolnierkie@samsung.com,
- sw0312.kim@samsung.com, a.swigon@samsung.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, cw00.choi@samsung.com, myungjoo.ham@samsung.com,
- georgi.djakov@linaro.org, linux-arm-kernel@lists.infradead.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: amd-gfx@lists.freedesktop.org, linux-scsi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Piotr Stankiewicz <piotr.stankiewicz@intel.com>, linux-crypto@vger.kernel.org,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-media@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjksIDIwMjAgYXQgMDY6MzE6NTZQTSArMDIwMCwgU3lsd2VzdGVyIE5hd3Jv
-Y2tpIHdyb3RlOgo+IFRoaXMgcGF0Y2ggYWRkcyBhIGdlbmVyaWMgaW50ZXJjb25uZWN0IGRyaXZl
-ciBmb3IgRXh5bm9zIFNvQ3MgaW4gb3JkZXIKPiB0byBwcm92aWRlIGludGVyY29ubmVjdCBmdW5j
-dGlvbmFsaXR5IGZvciBlYWNoICJzYW1zdW5nLGV4eW5vcy1idXMiCj4gY29tcGF0aWJsZSBkZXZp
-Y2UuCj4gCj4gVGhlIFNvQyB0b3BvbG9neSBpcyBhIGdyYXBoIChvciBtb3JlIHNwZWNpZmljYWxs
-eSwgYSB0cmVlKSBhbmQgaXRzCj4gZWRnZXMgYXJlIHNwZWNpZmllZCB1c2luZyB0aGUgJ3NhbXN1
-bmcsaW50ZXJjb25uZWN0LXBhcmVudCcgaW4gdGhlCj4gRFQuIER1ZSB0byB1bnNwZWNpZmllZCBy
-ZWxhdGl2ZSBwcm9iaW5nIG9yZGVyLCAtRVBST0JFX0RFRkVSIG1heSBiZQo+IHByb3BhZ2F0ZWQg
-dG8gZW5zdXJlIHRoYXQgdGhlIHBhcmVudCBpcyBwcm9iZWQgYmVmb3JlIGl0cyBjaGlsZHJlbi4K
-PiAKPiBFYWNoIGJ1cyBpcyBub3cgYW4gaW50ZXJjb25uZWN0IHByb3ZpZGVyIGFuZCBhbiBpbnRl
-cmNvbm5lY3Qgbm9kZSBhcwo+IHdlbGwgKGNmLiBEb2N1bWVudGF0aW9uL2ludGVyY29ubmVjdC9p
-bnRlcmNvbm5lY3QucnN0KSwgaS5lLiBldmVyeSBidXMKPiByZWdpc3RlcnMgaXRzZWxmIGFzIGEg
-bm9kZS4gTm9kZSBJRHMgYXJlIG5vdCBoYXJkY29kZWQgYnV0IHJhdGhlcgo+IGFzc2lnbmVkIGR5
-bmFtaWNhbGx5IGF0IHJ1bnRpbWUuIFRoaXMgYXBwcm9hY2ggYWxsb3dzIGZvciB1c2luZyB0aGlz
-Cj4gZHJpdmVyIHdpdGggdmFyaW91cyBFeHlub3MgU29Dcy4KPiAKPiBGcmVxdWVuY2llcyByZXF1
-ZXN0ZWQgdmlhIHRoZSBpbnRlcmNvbm5lY3QgQVBJIGZvciBhIGdpdmVuIG5vZGUgYXJlCj4gcHJv
-cGFnYXRlZCB0byBkZXZmcmVxIHVzaW5nIGRldl9wbV9xb3NfdXBkYXRlX3JlcXVlc3QoKS4gUGxl
-YXNlIG5vdGUKPiB0aGF0IGl0IGlzIG5vdCBhbiBlcnJvciB3aGVuIENPTkZJR19JTlRFUkNPTk5F
-Q1QgaXMgJ24nLCBpbiB3aGljaAo+IGNhc2UgYWxsIGludGVyY29ubmVjdCBBUEkgZnVuY3Rpb25z
-IGFyZSBuby1vcC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8YS5zd2lnb25A
-c2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU3lsd2VzdGVyIE5hd3JvY2tpIDxzLm5hd3Jv
-Y2tpQHNhbXN1bmcuY29tPgo+IAo+IENoYW5nZXMgZm9yIHY1Ogo+ICAtIGFkanVzdCB0byByZW5h
-bWVkIGV4eW5vcyxpbnRlcmNvbm5lY3QtcGFyZW50LW5vZGUgcHJvcGVydHksCj4gIC0gdXNlIGF1
-dG9tYXRpY2FsbHkgZ2VuZXJhdGVkIHBsYXRmb3JtIGRldmljZSBpZCBhcyB0aGUgaW50ZXJjb25l
-Y3QKPiAgICBub2RlIGlkIGluc3RlYWQgb2YgYSBub3cgdW5hdmFpbGFibGUgZGV2ZnJlcS0+aWQg
-ZmllbGQsCj4gIC0gYWRkIGljY18gcHJlZml4IHRvIHNvbWUgdmFyaWFibGVzIHRvIG1ha2UgdGhl
-IGNvZGUgbW9yZSBzZWxmLWNvbW1lbnRpbmcsCj4gIC0gdXNlIGljY19ub2Rlc19yZW1vdmUoKSBp
-bnN0ZWFkIG9mIGljY19ub2RlX2RlbCgpICsgaWNjX25vZGVfZGVzdHJveSgpLAo+ICAtIGFkanVz
-dCB0byBleHlub3MsaW50ZXJjb25uZWN0LXBhcmVudC1ub2RlIHByb3BlcnR5IHJlbmFtZSB0bwo+
-ICAgIHNhbXN1bmcsaW50ZXJjb25uZWN0LXBhcmVudCwKPiAgLSBjb252ZXJ0ZWQgdG8gYSBzZXBh
-cmF0ZSBwbGF0Zm9ybSBkcml2ZXIgaW4gZHJpdmVycy9pbnRlcmNvbm5lY3QuCj4gLS0tCj4gIGRy
-aXZlcnMvaW50ZXJjb25uZWN0L0tjb25maWcgICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvaW50
-ZXJjb25uZWN0L01ha2VmaWxlICAgICAgICB8ICAgMSArCj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0
-L2V4eW5vcy9LY29uZmlnICB8ICAgNiArKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3Mv
-TWFrZWZpbGUgfCAgIDQgKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvZXh5bm9zLmMg
-fCAxODUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgNSBmaWxlcyBjaGFu
-Z2VkLCAxOTcgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9pbnRl
-cmNvbm5lY3QvZXh5bm9zL0tjb25maWcKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50
-ZXJjb25uZWN0L2V4eW5vcy9NYWtlZmlsZQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9p
-bnRlcmNvbm5lY3QvZXh5bm9zL2V4eW5vcy5jCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW50
-ZXJjb25uZWN0L0tjb25maWcgYi9kcml2ZXJzL2ludGVyY29ubmVjdC9LY29uZmlnCj4gaW5kZXgg
-NWI3MjA0ZS4uZWNhNmVkYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2ludGVyY29ubmVjdC9LY29u
-ZmlnCj4gKysrIGIvZHJpdmVycy9pbnRlcmNvbm5lY3QvS2NvbmZpZwo+IEBAIC0xMSw2ICsxMSw3
-IEBAIG1lbnVjb25maWcgSU5URVJDT05ORUNUCj4gIAo+ICBpZiBJTlRFUkNPTk5FQ1QKPiAgCj4g
-K3NvdXJjZSAiZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5bm9zL0tjb25maWciCj4gIHNvdXJjZSAi
-ZHJpdmVycy9pbnRlcmNvbm5lY3QvaW14L0tjb25maWciCj4gIHNvdXJjZSAiZHJpdmVycy9pbnRl
-cmNvbm5lY3QvcWNvbS9LY29uZmlnIgo+ICAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNv
-bm5lY3QvTWFrZWZpbGUgYi9kcml2ZXJzL2ludGVyY29ubmVjdC9NYWtlZmlsZQo+IGluZGV4IDQ4
-MjVjMjguLjJiYTFkZTYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvTWFrZWZp
-bGUKPiArKysgYi9kcml2ZXJzL2ludGVyY29ubmVjdC9NYWtlZmlsZQo+IEBAIC00LDUgKzQsNiBA
-QCBDRkxBR1NfY29yZS5vCQkJCTo9IC1JJChzcmMpCj4gIGljYy1jb3JlLW9ianMJCQkJOj0gY29y
-ZS5vCj4gIAo+ICBvYmotJChDT05GSUdfSU5URVJDT05ORUNUKQkJKz0gaWNjLWNvcmUubwo+ICtv
-YmotJChDT05GSUdfSU5URVJDT05ORUNUX0VYWU5PUykJKz0gZXh5bm9zLwo+ICBvYmotJChDT05G
-SUdfSU5URVJDT05ORUNUX0lNWCkJCSs9IGlteC8KPiAgb2JqLSQoQ09ORklHX0lOVEVSQ09OTkVD
-VF9RQ09NKQkJKz0gcWNvbS8KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5
-bm9zL0tjb25maWcgYi9kcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvS2NvbmZpZwo+IG5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMC4uZTUxZTUyZQo+IC0tLSAvZGV2L251bGwK
-PiArKysgYi9kcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MvS2NvbmZpZwo+IEBAIC0wLDAgKzEs
-NiBAQAo+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkKPiArY29uZmln
-IElOVEVSQ09OTkVDVF9FWFlOT1MKPiArCXRyaXN0YXRlICJFeHlub3MgZ2VuZXJpYyBpbnRlcmNv
-bm5lY3QgZHJpdmVyIgo+ICsJZGVwZW5kcyBvbiBBUkNIX0VYWU5PUyB8fCBDT01QSUxFX1RFU1QK
-PiArCWhlbHAKPiArCSAgR2VuZXJpYyBpbnRlcmNvbm5lY3QgZHJpdmVyIGZvciBFeHlub3MgU29D
-cy4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5bm9zL01ha2VmaWxlIGIv
-ZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5bm9zL01ha2VmaWxlCj4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKPiBpbmRleCAwMDAwMDAwLi5lMTlkMWRmCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZl
-cnMvaW50ZXJjb25uZWN0L2V4eW5vcy9NYWtlZmlsZQo+IEBAIC0wLDAgKzEsNCBAQAo+ICsjIFNQ
-RFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gK2V4eW5vcy1pbnRlcmNvbm5lY3Qtb2Jq
-cwkJOj0gZXh5bm9zLm8KPiArCj4gK29iai0kKENPTkZJR19JTlRFUkNPTk5FQ1RfRVhZTk9TKQkr
-PSBleHlub3MtaW50ZXJjb25uZWN0Lm8KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnRlcmNvbm5l
-Y3QvZXh5bm9zL2V4eW5vcy5jIGIvZHJpdmVycy9pbnRlcmNvbm5lY3QvZXh5bm9zL2V4eW5vcy5j
-Cj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwLi44Mjc4MTk0Cj4gLS0tIC9k
-ZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvaW50ZXJjb25uZWN0L2V4eW5vcy9leHlub3MuYwo+IEBA
-IC0wLDAgKzEsMTg1IEBACj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9u
-bHkKPiArLyoKPiArICogRXh5bm9zIGdlbmVyaWMgaW50ZXJjb25uZWN0IHByb3ZpZGVyIGRyaXZl
-cgo+ICsgKgo+ICsgKiBDb3B5cmlnaHQgKGMpIDIwMjAgU2Ftc3VuZyBFbGVjdHJvbmljcyBDby4s
-IEx0ZC4KPiArICoKPiArICogQXV0aG9yczogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1
-bmcuY29tPgo+ICsgKiAgICAgICAgICBTeWx3ZXN0ZXIgTmF3cm9ja2kgPHMubmF3cm9ja2lAc2Ft
-c3VuZy5jb20+Cj4gKyAqLwo+ICsjaW5jbHVkZSA8bGludXgvZGV2aWNlLmg+Cj4gKyNpbmNsdWRl
-IDxsaW51eC9pbnRlcmNvbm5lY3QtcHJvdmlkZXIuaD4KPiArI2luY2x1ZGUgPGxpbnV4L21vZHVs
-ZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvb2YuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3Jt
-X2RldmljZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvcG1fcW9zLmg+Cj4gKwo+ICsjZGVmaW5lIGti
-cHNfdG9fa2h6KHgpICgoeCkgLyA4KQo+ICsKPiArc3RydWN0IGV4eW5vc19pY2NfcHJpdiB7Cj4g
-KwlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gKwo+ICsJLyogT25lIGludGVyY29ubmVjdCBub2RlIHBl
-ciBwcm92aWRlciAqLwo+ICsJc3RydWN0IGljY19wcm92aWRlciBwcm92aWRlcjsKPiArCXN0cnVj
-dCBpY2Nfbm9kZSAqbm9kZTsKPiArCj4gKwlzdHJ1Y3QgZGV2X3BtX3Fvc19yZXF1ZXN0IHFvc19y
-ZXE7Cj4gK307Cj4gKwo+ICtzdGF0aWMgc3RydWN0IGljY19ub2RlICpleHlub3NfaWNjX2dldF9w
-YXJlbnQoc3RydWN0IGRldmljZV9ub2RlICpucCkKPiArewo+ICsJc3RydWN0IG9mX3BoYW5kbGVf
-YXJncyBhcmdzOwo+ICsJaW50IG51bSwgcmV0Owo+ICsKPiArCW51bSA9IG9mX2NvdW50X3BoYW5k
-bGVfd2l0aF9hcmdzKG5wLCAic2Ftc3VuZyxpbnRlcmNvbm5lY3QtcGFyZW50IiwKPiArCQkJCQki
-I2ludGVyY29ubmVjdC1jZWxscyIpOwo+ICsJaWYgKG51bSAhPSAxKQo+ICsJCXJldHVybiBOVUxM
-OyAvKiBwYXJlbnQgbm9kZXMgYXJlIG9wdGlvbmFsICovCj4gKwo+ICsJcmV0ID0gb2ZfcGFyc2Vf
-cGhhbmRsZV93aXRoX2FyZ3MobnAsICJzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQiLAo+ICsJ
-CQkJCSIjaW50ZXJjb25uZWN0LWNlbGxzIiwgMCwgJmFyZ3MpOwo+ICsJaWYgKHJldCA8IDApCj4g
-KwkJcmV0dXJuIEVSUl9QVFIocmV0KTsKPiArCj4gKwlvZl9ub2RlX3B1dChhcmdzLm5wKTsKPiAr
-Cj4gKwlyZXR1cm4gb2ZfaWNjX2dldF9mcm9tX3Byb3ZpZGVyKCZhcmdzKTsKCkkgdGhpbmsgb2Zf
-bm9kZV9wdXQoKSBzaG91bGQgaGFwcGVuIGFmdGVyIG9mX2ljY19nZXRfZnJvbV9wcm92aWRlcigp
-LgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+The primary objective of this patch series is to change the behaviour
+of pci_alloc_irq_vectors_affinity such that it forwards the MSI-X enable
+error code when appropriate. In the process, though, it was pointed out
+that there are multiple places in the kernel which check/ask for message
+signalled interrupts (MSI or MSI-X), which spawned the first patch adding
+PCI_IRQ_MSI_TYPES. Finally the rest of the chain converts all users to
+take advantage of PCI_IRQ_MSI_TYPES or PCI_IRQ_ALL_TYPES, as
+appropriate.
+
+Piotr Stankiewicz (15):
+  PCI: add shorthand define for message signalled interrupt types
+  PCI/MSI: forward MSIx vector enable error code in
+    pci_alloc_irq_vectors_affinity
+  PCI: use PCI_IRQ_MSI_TYPES where appropriate
+  ahci: use PCI_IRQ_MSI_TYPES where appropriate
+  crypto: inside-secure - use PCI_IRQ_MSI_TYPES where appropriate
+  dmaengine: dw-edma: use PCI_IRQ_MSI_TYPES  where appropriate
+  drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
+  IB/qib: Use PCI_IRQ_MSI_TYPES where appropriate
+  media: ddbridge: use PCI_IRQ_MSI_TYPES where appropriate
+  vmw_vmci: use PCI_IRQ_ALL_TYPES where appropriate
+  mmc: sdhci: use PCI_IRQ_MSI_TYPES where appropriate
+  amd-xgbe: use PCI_IRQ_MSI_TYPES where appropriate
+  aquantia: atlantic: use PCI_IRQ_ALL_TYPES where appropriate
+  net: hns3: use PCI_IRQ_MSI_TYPES where appropriate
+  scsi: use PCI_IRQ_MSI_TYPES and PCI_IRQ_ALL_TYPES where appropriate
+
+ Documentation/PCI/msi-howto.rst                           | 5 +++--
+ drivers/ata/ahci.c                                        | 2 +-
+ drivers/crypto/inside-secure/safexcel.c                   | 2 +-
+ drivers/dma/dw-edma/dw-edma-pcie.c                        | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c                   | 8 ++++----
+ drivers/infiniband/hw/qib/qib_pcie.c                      | 2 +-
+ drivers/media/pci/ddbridge/ddbridge-main.c                | 2 +-
+ drivers/misc/vmw_vmci/vmci_guest.c                        | 3 +--
+ drivers/mmc/host/sdhci-pci-gli.c                          | 3 +--
+ drivers/mmc/host/sdhci-pci-o2micro.c                      | 3 +--
+ drivers/net/ethernet/amd/xgbe/xgbe-pci.c                  | 2 +-
+ drivers/net/ethernet/aquantia/atlantic/aq_pci_func.c      | 4 +---
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c   | 3 +--
+ drivers/net/ethernet/hisilicon/hns3/hns3vf/hclgevf_main.c | 2 +-
+ drivers/pci/msi.c                                         | 4 ++--
+ drivers/pci/pcie/portdrv_core.c                           | 4 ++--
+ drivers/pci/switch/switchtec.c                            | 3 +--
+ drivers/scsi/ipr.c                                        | 2 +-
+ drivers/scsi/vmw_pvscsi.c                                 | 2 +-
+ include/linux/pci.h                                       | 4 ++--
+ 20 files changed, 28 insertions(+), 34 deletions(-)
+
+-- 
+2.17.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
