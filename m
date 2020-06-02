@@ -1,32 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06A71EC284
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 21:15:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D10191EC295
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 21:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5D96E45C;
-	Tue,  2 Jun 2020 19:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D636E1CF;
+	Tue,  2 Jun 2020 19:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5806E45C
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 19:15:35 +0000 (UTC)
-Date: Tue, 02 Jun 2020 19:15:27 +0000
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C127F6E1CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 19:18:25 +0000 (UTC)
+Date: Tue, 02 Jun 2020 19:18:15 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1591125332;
- bh=BtLXHL5bynedhQ+EHGNHCicv1d4UL1yB3LV1pyRod7k=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=i5GtaVfqc0zvzqAIzchinXy3TQdPHa8ds6PEDtZs+jCdn7+Gc21oQbmEKJ12G1XFK
- 3fAWajPzkHVYRCZL6gqHyKRHs5mWDgkyGPu1bF16qnGJCEf5aGM7MIAKHKLxRl90lZ
- JtI3mJinJYWbcv9xPw9yBB6oxB5O7sqLfn07UFhQ=
-To: Pekka Paalanen <ppaalanen@gmail.com>
+ s=protonmail; t=1591125503;
+ bh=XkcYEPKzTngNE/ax82fDOr+ZOgz+f0C+ZE0lG3UHhAw=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=iA9AcmaqhzikyIIXrJcc5J4wUl9A/Ade0Z9NI1YrUGJ/cM0VPUhABXxyhYbBar3Ru
+ IshCZXI0Cmh6dneOylR/gdLl+sAqvLYW8FJYuuIMu09M4FdoBhpTolI2Cin40cknCt
+ pceN0NfqMdKDNckw3sK/5PdJjLJn1YouO2St+VA4=
+To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document how user-space should use link-status
-Message-ID: <gTv4qExqdRoSwnkGNBWgzn5oOzF9XDeZT84AotaDqL3KCEEcE_qynbFKre-t0ZRqh0JuAyS-APo9_XZ2Wxr_kYOG1YfS0-tsWooSxfyN9jc=@emersion.fr>
-In-Reply-To: <20200602103846.5c38d080@eldfell.localdomain>
-References: <krnCwRP0UCcVJbY-8ILP_gEFf4EaUdKPSuuHisFkphFaoOl2EAnU032oOWAeJi2xlsFsA7qeR8lypXs71-SoULZnd2gP5C7ohDEfsWTB5-A=@emersion.fr>
- <20200602103846.5c38d080@eldfell.localdomain>
+Subject: [PATCH v2] drm: document how user-space should use link-status
+Message-ID: <a3tPhSgOvV4Vn3if_Bqhg-QDwCIVZfHc99EeOVWLRkxOWQoF2tL3QSz-6SLEv3pIJRg2VANaS5rmZUkTkyqi3y0PO9qY84oOa7v_yNFpauY=@emersion.fr>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -45,41 +43,62 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, June 2, 2020 9:38 AM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+Describe what a "BAD" link-status means for user-space and how it should
+handle it. The logic described has been implemented in igt [1].
 
-> Can it happen that there will be no modes left in
-> the list?
+v2:
 
-Reading drm_helper_probe_single_connector_modes, this sounds unlikely
-but possible.
+- Change wording to avoid "enabled" (Daniel)
+- Add paragraph about multiple connectors sharing the same CRTC (Pekka)
+- Add paragraph about performing an atomic commit on a connector without
+  updating the link-status property (Daniel)
 
-This isn't specific to link-status though. This can be the case on a
-regular hotplug uevent too.
+[1]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/fbe61f529737191d0920521946a575bd55f00fbe
 
-> What if userspace is driving two connectors from the same CRTC, and only
-> one connector gets link-status bad, what does it mean? Is the other
-> connector still running as normal, as if the failed connector didn't
-> even exist?
->
-> That is mostly a question about what happens if userspace does not fix
-> up the link-status=bad connector and does not detach it from the CRTC,
-> but keeps on flipping or modesetting as if the failure never happened.
-> I guess I could ask it about both a CRTC that has another connector
-> still good, and a CRTC where the failed connector was the only one.
->
-> Can I trust that if the other connector is in any way affected, it too
-> will get link-status bad?
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+ drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-link-status is about link maintenance (e.g. DP link training), so I
-think the other connector would be fine in this case. I'll add this to
-the next version and let Daniel/Manasi comment if that's incorrect.
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index f2b20fd66319..829b21124048 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -994,6 +994,21 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *      after modeset, the kernel driver may set this to "BAD" and issue a
+  *      hotplug uevent. Drivers should update this value using
+  *      drm_connector_set_link_status_property().
++ *
++ *      When user-space receives the hotplug uevent and detects a "BAD"
++ *      link-status, the sink doesn't receive pixels anymore. The list of
++ *      available modes may have changed. User-space is expected to pick a new
++ *      mode if the current one has disappeared and perform a new modeset with
++ *      link-status set to "GOOD" to re-enable the connector.
++ *
++ *      If multiple connectors share the same CRTC and one of them gets a "BAD"
++ *      link-status, the other are unaffected (ie. the sinks still continue to
++ *      receive pixels).
++ *
++ *      When user-space performs an atomic commit on a connector with a "BAD"
++ *      link-status without resetting the property to "GOOD", it gets
++ *      implicitly reset. This might make the atomic commit fail if the modeset
++ *      is unsuccessful.
+  * non_desktop:
+  * 	Indicates the output should be ignored for purposes of displaying a
+  * 	standard desktop environment or console. This is most likely because
+-- 
+2.26.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
