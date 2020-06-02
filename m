@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6411EC4AF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 23:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7477F1EC4D1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 00:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 312A06E479;
-	Tue,  2 Jun 2020 21:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F35E6E215;
+	Tue,  2 Jun 2020 22:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747046E479
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 21:56:36 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id b6so183830ljj.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 14:56:36 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD7C6E215
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 22:14:29 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id z18so161935lji.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 15:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZFXpnaRfbFT4qc2OekIf1wIsAFI+MC0nu33d3pEpk/o=;
- b=Pf6ZCcMfs32paMZ+A6vyBAKHYfskO6g12cXyNDwWKdXTZNYfCWP+/YD2fqEFUY6Gcg
- Y7/ubm/9l0oGkth8a9i638SVf7dkUsymUnILaERjpeZ6Rlj7YWZ3VcjcwI7yaO72bFxi
- wjqFS1hTYv6TNtQz1j1Md+NMh+Ni8RqnIN8ro=
+ :cc; bh=LLGNp0bYqdgoODnvR5dT8Alq+1KnKRZvTkwH6Z7/c6A=;
+ b=M2QrFy/uhcAqgs+stRlkgrzMXz/FWWJpJ5dKW1BGDexrTXGHHVMZmsouEZMEH+k6At
+ 40O3iTvokENTGG6qULnrnjBRquHj5u8RPumGZHE1lWNorzc8sz3ZcexmrYgX+oqMyTE4
+ bIaWbyJDbvrfvBVKL8D2l1wicRwTaRrctwaZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZFXpnaRfbFT4qc2OekIf1wIsAFI+MC0nu33d3pEpk/o=;
- b=KdhVKYItoOez5wTcf0QGEr6a8WsJcd2NZvVXat5K3IZ7C4jCP8gn+z4n9t/krGiK6n
- MSUl9Yel8zXWykG9/cyrWCZscFDmgIt1OGXHCGthga95OxNO6hlqok2mvr/e1MYmlNo5
- ZiqWXoAaGbzLbUACzxj9KgcEKbU+42WXrAF413g7Mwc2AnDkTJk3aoURqwv4XnrFDRXv
- X+LT4BCMIRQKqyG9Q6trtUkrvL6TrA26c8BfEvjujIvXYuTaP9K1ZQ9imQlOzKlC8ber
- cfQ+LHwN5v8kwfoFtIqVV4HM/UZrKpoqz/2eju5wUqo153bWtuF3g1hGTNWXJPi86LHP
- fGww==
-X-Gm-Message-State: AOAM5311lKeCZja3p7sMfUnEEGsfkjLAHp6F/X9j6+Mfgaz2o1FDAOpK
- G5kHH2pJASnMvV0Ceoadl8LpDXaj73w=
-X-Google-Smtp-Source: ABdhPJwB0WIDoWcFSUMYk0ELdHgCQhBndhF2gg5/IZ/ONiBmfhHJoEtZRKr38IWndY9vCeOCt9fhGQ==
-X-Received: by 2002:a2e:3e16:: with SMTP id l22mr528559lja.333.1591134993607; 
- Tue, 02 Jun 2020 14:56:33 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
- [209.85.208.173])
- by smtp.gmail.com with ESMTPSA id f74sm73127lfd.68.2020.06.02.14.56.31
+ bh=LLGNp0bYqdgoODnvR5dT8Alq+1KnKRZvTkwH6Z7/c6A=;
+ b=KTN635D1+JWzwjZE4iV2dK/GpEAtSwNPYc0R/TH20GUMCDjknhyaaUyCgzLm80nB/i
+ +sa8qKUae0vn220fFDh7OhbBPoeFGU1/87yDTId5kr8tXqIQHjeO8QhBjvPkxilxKTly
+ I6ZBJ71w1vHkTgZVKrt+lXV2UbsRGzEKb+XHIFSWHw1up1Y17ovnpRhWFuCrDPRKsAs1
+ UxMnzGhW8hCFxfK16D0iFcvfU1283Mwl6G9uXWrzaZuca/rdwfPjTv+2gf0qn9rklaoN
+ np4f3W9lkH3SMKSDgnNNo+Cl9zKQvGVFI4U8oKc0LmWHXC3Oh+Aok5/5UlD8JLMglAIB
+ uDlw==
+X-Gm-Message-State: AOAM530IRrvPGwsMl/IghLjB9GMVUm2lqGRZcejhu7n2YQQYg3v7vRPK
+ MM4yWOsc/aS5JvIFSQrcDM5UwhCzjNw=
+X-Google-Smtp-Source: ABdhPJxKyrMMOptDt8g1dLI8F9ZMj767yPZCGPdLLCZNV04mTWe3rI3BNBUBxKsHfoZfQFhdxnh8fA==
+X-Received: by 2002:a05:651c:93:: with SMTP id 19mr585633ljq.245.1591136066753; 
+ Tue, 02 Jun 2020 15:14:26 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
+ [209.85.167.44])
+ by smtp.gmail.com with ESMTPSA id s28sm88966lfs.3.2020.06.02.15.14.25
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Jun 2020 14:56:32 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id z18so115240lji.12
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 14:56:31 -0700 (PDT)
-X-Received: by 2002:a2e:974e:: with SMTP id f14mr526774ljj.102.1591134991617; 
- Tue, 02 Jun 2020 14:56:31 -0700 (PDT)
+ Tue, 02 Jun 2020 15:14:26 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id c21so33822lfb.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 15:14:25 -0700 (PDT)
+X-Received: by 2002:a05:6512:7b:: with SMTP id i27mr294066lfo.30.1591136065530; 
+ Tue, 02 Jun 2020 15:14:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
- <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
-In-Reply-To: <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
+In-Reply-To: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 2 Jun 2020 14:56:15 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
-Message-ID: <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
+Date: Tue, 2 Jun 2020 15:14:09 -0700
+X-Gmail-Original-Message-ID: <CAHk-=winp5YQv7rFmUe2z=xYSuzF9t1mMt+_C_1iFwxjoqG6gw@mail.gmail.com>
+Message-ID: <CAHk-=winp5YQv7rFmUe2z=xYSuzF9t1mMt+_C_1iFwxjoqG6gw@mail.gmail.com>
 Subject: Re: [git pull] drm for 5.8-rc1
-To: Dave Airlie <airlied@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jyri Sarha <jsarha@ti.com>
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,26 +76,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 2, 2020 at 2:21 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Jun 1, 2020 at 11:06 PM Dave Airlie <airlied@gmail.com> wrote:
 >
-> I'm still working through the rest of the merge, so far that was the
-> only one that made me go "Whaa?".
+> I've pushed a merged by me tree here, which I think gets them all
+> correct, but please let me know if you think different.
+> https://cgit.freedesktop.org/~airlied/linux/log/?h=drm-5.8-merged
 
-Hmm. I'm also ending up effectively reverting the drm commit
-b28ad7deb2f2 ("drm/tidss: Use simple encoder") because commit
-9da67433f64e ("drm/tidss: fix crash related to accessing freed
-memory") made the premise of that simply encoder commit no longer be
-true.
+Ok, I get the same result, except my resolution to the simple encoder
+issue was slightly different. I removed the simple helper header
+include too as part of basically undoing the whole simple encoder
+conversion.
 
-If there is a better way to sort that out (ie something like "use
-simple encoder but make it free things at destroy time"), I don't know
-of it.
+But other than that we're identical, which is a good sign. Apparently
+the drm mis-merge in the middle got fixed up.
 
-I'll let you guys fight it out (added people involved with those
-commits to the participants,
-
-                    Linus
+             Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
