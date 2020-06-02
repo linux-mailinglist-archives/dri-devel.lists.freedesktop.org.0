@@ -1,57 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A7E1EBC2C
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 14:57:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6261EBC3B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 14:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00DCF6E057;
-	Tue,  2 Jun 2020 12:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E20A6E136;
+	Tue,  2 Jun 2020 12:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E976E057
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 12:56:59 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id 59so1192638uam.7
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 05:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BpsIlBQ5nejFohRETbNb9q04gA6fq5BCcsSBn6KKApI=;
- b=JetxGkcmZWwBcj73qk5GvrPQ52LZYWBhk1chHXBbYxrojwIOYCdLU6/e4biJGuow5b
- tVoDhU2dirPxe0+SQa6spJ5Di7Jjk0/Bkgco+Tpe0Z3oAFDHwh0KzP7w92q5qj/3/x3Q
- 9L8vVzBOe32M8mc6kbcNKPmzg0fzMn/paYJ/jnoHguC1SPWDNX9zXsXanb+WqbRV+249
- QMj5r88MFMgwB/mim2CvQ6KmhxANKMbwldClAaVj/3SBwiVC5ZmtFzpv9tadk+xPBodH
- xg5ImqIr4I7KAgHbdnae1fbbQpdjwEwen0yl9P7/GvxCOo+2LHlSYtreF+iVF4LI/u8f
- 8AVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BpsIlBQ5nejFohRETbNb9q04gA6fq5BCcsSBn6KKApI=;
- b=ZscSVay9zReW46pXQJcBSs4zCZYNFSLQFufeiYME+MbrMBeZT9M0DkdsZnTISv5X4U
- ZWI5FDaK69wzeq5hn7pOK0Hjy0wIg0NEYHE6+eL/fHolius04wE/laUDEv2BogyHhnlh
- ppk4b+xIQ8Pnof3X716geOBwDBkGo/+4kmF5fJY9qZvhoB3GDEYVT/eFKXLsm8L7bFt1
- ZP0KUUpMcxNmTM/YcmfqpLRr5XOc7uf+M+ValuYcJrv0MHcoJWwFOd9irpeEl7K5+ktt
- YAxwQTFl1fAQ3ck4rSU3pSAZbzlZEN2Hgn1JTV7ehwwbHNPgapPjidguL/MF3phHmsOg
- l9Mw==
-X-Gm-Message-State: AOAM5339fxt0cXRjxarcmdaaZJ7ijxRfe49FSFS1zAueA1UCtZgE95ol
- Tp3Qo3Xso/CSq8hsCaTnml/MXcMi4P/cqv0Afhw=
-X-Google-Smtp-Source: ABdhPJy94b4dAChxDuW4wDOKIg2tO2nMimj827DSzBUBaeBS4xq/NcIVF/RbxLJKqEmvBcwkcK/jKU0XrmmGsie+2ZA=
-X-Received: by 2002:a9f:22e1:: with SMTP id 88mr13225614uan.19.1591102618237; 
- Tue, 02 Jun 2020 05:56:58 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E8B689D6C;
+ Tue,  2 Jun 2020 12:59:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D6E71FB;
+ Tue,  2 Jun 2020 05:59:50 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD77D3F305;
+ Tue,  2 Jun 2020 05:59:49 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 81DD568065E; Tue,  2 Jun 2020 13:59:48 +0100 (BST)
+Date: Tue, 2 Jun 2020 13:59:48 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 2/3] drm/malidp: Don't call drm_crtc_vblank_off on unbind
+Message-ID: <20200602125948.GQ159988@e110455-lin.cambridge.arm.com>
+References: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
+ <20200602095140.36678-2-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <20200427081952.3536741-1-adrian.ratiu@collabora.com>
- <20200427081952.3536741-9-adrian.ratiu@collabora.com>
- <4acc09e8-0610-01f6-b18d-3ffc390c45a3@st.com>
- <87blm387vt.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
-In-Reply-To: <87blm387vt.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 2 Jun 2020 13:53:40 +0100
-Message-ID: <CACvgo51QyzEa8LFpGq5zjYV-0TifQRtNh4WhMYy8jNtaswxd7Q@mail.gmail.com>
-Subject: Re: [Linux-stm32] [PATCH v8 08/10] drm: stm: dw-mipi-dsi: let the
- bridge handle the HW version check
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Content-Disposition: inline
+In-Reply-To: <20200602095140.36678-2-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +43,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- Adrian Pop <pop.adrian61@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Philippe CORNU <philippe.cornu@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Adrian,
-
-On Mon, 1 Jun 2020 at 10:14, Adrian Ratiu <adrian.ratiu@collabora.com> wrote:
->
-> On Fri, 29 May 2020, Philippe CORNU <philippe.cornu@st.com> wrote:
-> > Hi Adrian, and thank you very much for the patchset.  Thank you
-> > also for having tested it on STM32F769 and STM32MP1.  Sorry for
-> > the late response, Yannick and I will review it as soon as
-> > possible and we will keep you posted.  Note: Do not hesitate to
-> > put us in copy for the next version  (philippe.cornu@st.com,
-> > yannick.fertre@st.com) Regards, Philippe :-)
->
-> Hi Philippe,
->
-> Thank you very much for your previous and future STM testing,
-> really appreciate it! I've CC'd Yannick until now but I'll also CC
-> you sure :)
->
-> It's been over a month since I posted v8 and I was just gearing up
-> to address all feedback, rebase & retest to prepare v9 but I'll
-> wait a little longer, no problem, it's no rush.
->
-Small idea, pardon for joining so late:
-
-Might be a good idea to add inline comment, why the clocks are disabled so late.
-Effectively a 2 line version of the commit summary.
-
-Feel free to make that a separate/follow-up patch.
-
--Emil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLAoKT24gVHVlLCBKdW4gMDIsIDIwMjAgYXQgMTE6NTE6MzlBTSArMDIwMCwgRGFu
+aWVsIFZldHRlciB3cm90ZToKPiBUaGlzIGlzIGFscmVhZHkgZG9uZSBhcyBwYXJ0IG9mIHRoZSBk
+cm1fYXRvbWljX2hlbHBlcl9zaHV0ZG93bigpLAo+IGFuZCBpbiB0aGF0IGNhc2Ugb25seSBmb3Ig
+dGhlIGNydGMgd2hpY2ggYXJlIGFjdHVhbGx5IG9uLgo+CgpJJ20gcHJldHR5IHN1cmUgdGhhdCBp
+dCBkaWRuJ3QgdXNlZCB0byBiZSB0aGUgY2FzZSB3aGVuIEkgd3JvdGUgdGhlIGNvZGUKYW5kIEkg
+d2FzIGhpdHRpbmcgd2FybmluZ3MgZnJvbSA4NDAxNGIwYTM5ZWVmNmRmICgiZHJtL2F0b21pYy1o
+ZWxwZXI6IGNoZWNrIHRoYXQKZHJpdmVycyBjYWxsIGRybV9jcnRjX3ZibGFua19vZmYiKSwgYnV0
+IEknbSBoYXBweSB0aGF0IHRoaW5ncyBoYXZlIG5vdyBiZWVuIGZpeGVkLgoKPiBTaWduZWQtb2Zm
+LWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiBDYzogTGl2aXUg
+RHVkYXUgPGxpdml1LmR1ZGF1QGFybS5jb20+CgpBY2tlZC1ieTogTGl2aXUgRHVkYXUgPGxpdml1
+LmR1ZGF1QGFybS5jb20+CgpCZXN0IHJlZ2FyZHMsCkxpdml1Cgo+IENjOiBCcmlhbiBTdGFya2V5
+IDxicmlhbi5zdGFya2V5QGFybS5jb20+Cj4gQ2M6Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9h
+cm0vbWFsaWRwX2Rydi5jIHwgMSAtCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCj4g
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMKPiBpbmRleCAwMjkwNDM5MmUzNzAuLmRiNmJhNWM3
+ODA0MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gQEAgLTkyOCw3ICs5MjgsNiBA
+QCBzdGF0aWMgdm9pZCBtYWxpZHBfdW5iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgCWRybV9k
+ZXZfdW5yZWdpc3Rlcihkcm0pOwo+ICAJZHJtX2ttc19oZWxwZXJfcG9sbF9maW5pKGRybSk7Cj4g
+IAlwbV9ydW50aW1lX2dldF9zeW5jKGRldik7Cj4gLQlkcm1fY3J0Y192Ymxhbmtfb2ZmKCZtYWxp
+ZHAtPmNydGMpOwo+ICAJbWFsaWRwX3NlX2lycV9maW5pKGh3ZGV2KTsKPiAgCW1hbGlkcF9kZV9p
+cnFfZmluaShod2Rldik7Cj4gIAlkcm0tPmlycV9lbmFibGVkID0gZmFsc2U7Cj4gLS0gCj4gMi4y
+Ni4yCj4gCgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZp
+eCB0aGUgd29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAog
+XCBzb3VyY2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
