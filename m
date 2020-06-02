@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C675E1ECA1C
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7091ECA1D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:04:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A15886E4C9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AADE36E4CA;
 	Wed,  3 Jun 2020 07:04:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D67B6E426
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 15:54:28 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id AB6D25C0227;
- Tue,  2 Jun 2020 11:54:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 02 Jun 2020 11:54:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=cdDGYcXym9L8clxXR7KCFX14lxp
- SPK3OttsaYL6SZMQ=; b=Rkdjea0MH42CeGwamJbTWWfqpvMJsV2xK02vgbSF639
- /oW/Ff3PEMIqdKlqXYKsesOY1H1c6n5qYaf7xIOt+yoSAwQ3acSmVhwhgHjN9cVV
- n/uySVAguavnJqPybHybYNDsAJlScinOT+e1vZP/owqo4c6l4Tb4pF45bxPDqIHe
- ZMY+2xDItJuGfDiqTlfpYcAqSfRDLjcgUfjPcIVWQlwm0ISAlVx/Haem82T8xhq4
- z87xZbNSfyolr7jSgJa+xHN7SuYsjJAaZBMNsdhtRejMrVEUI7Gm+4DfawKZEQ2N
- tpatmLUiErXrKm7HFOwtm04zuOViX7jK7aEEhIMKs4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=cdDGYc
- Xym9L8clxXR7KCFX14lxpSPK3OttsaYL6SZMQ=; b=FG1fvapUBdisWavPjmkg/O
- JzN0HnI76u3btB0Lt/yl8Nr27ZevaEaPaDipHkXmzVImPTcXCkwpy+N8xkpl4njH
- OvBuc+bcIynauF1EZxRx0Vy0kIgADC2Rh8Hj/70AcW2BqdptdFO+t26KIIghuBs9
- 99lYLLqwFlIdhrRNxKKEtSDpKRCof25CcIUUfTRb3FSr+GZfrPW8ssDVkpMSvRMv
- GldVQA6DlbouRt5Uu3iKQbw2+7nkvlBF9L1ezRRyZRwqE5l5ycbI2JMz8SCzlmx0
- +rJWzkIv+4hjjdHInHrKAuoJBnFGUHlgZt1GnxdVP5oXRH8zdLRUvuYzrrGbQTMg
- ==
-X-ME-Sender: <xms:L3bWXsXx44AiawlHbjJXh4GFdSRZGDT1PhULNJufspRHdmrhD4r3BQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudefjedgjedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:L3bWXgkL16skZvtumvJ5vqnQcghldRxJ9t0TDRArNqNQfJcOj6yERQ>
- <xmx:L3bWXgYhJlDYVM3OTJue3vOCLs_Te6h9oOIZO4vF-0l4pN88pBu-NQ>
- <xmx:L3bWXrXfUkwHji9SEzOWV7DiLoHnhX-RxDYlExIYL-AVa0vqo7fceg>
- <xmx:M3bWXkZSdZp066jr43w93PAXpjkTcQ85bjREF4g_IIhBZKS4W7oV5Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 50C1C3280060;
- Tue,  2 Jun 2020 11:54:23 -0400 (EDT)
-Date: Tue, 2 Jun 2020 17:54:21 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH v3 070/105] drm/vc4: hdmi: rework connectors and encoders
-Message-ID: <20200602155421.niyvpwqc42xh5c7v@gilmour>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <020de18840a1075b2671736c6cc2e451030fad74.1590594512.git-series.maxime@cerno.tech>
- <CADaigPXJ0BnMUp=XN6G92Tx=H9j55pmsBAujO2mcpiiTs-RHnQ@mail.gmail.com>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B486E42D
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 16:10:22 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1591114222; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=6WkZkPNZYqHtyoOR3WPRpDqJzCSNDoDiaqF/KoiR35c=;
+ b=iS9IHuAMxisbY6JcWe1HokTxLce1OzUlLBV4+/CX1taL5a61J0OZBuKS4YLnPVmjVksubsF7
+ +Fs2QcvN5RWrkHVfSVCeMT4wh8clI5R2IvdzaRRYEINXERXXq8r0m/sNRA3ihFRO/ATq2Sac
+ iFxXF+CCjlZpRxq2mOy8ZN6dSfY=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
+ 5ed679edea0dfa490e7282d2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 02 Jun 2020 16:10:21
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 05D1EC433CA; Tue,  2 Jun 2020 16:10:21 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED autolearn=ham
+ autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 816A8C433CB;
+ Tue,  2 Jun 2020 16:10:20 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CADaigPXJ0BnMUp=XN6G92Tx=H9j55pmsBAujO2mcpiiTs-RHnQ@mail.gmail.com>
+Date: Tue, 02 Jun 2020 21:40:20 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [v2] drm/msm: add shutdown support for display platform_driver
+In-Reply-To: <CACvgo50b+m2+onak=AZfgihkBXEP9POjMR52087v==-puLdkQQ@mail.gmail.com>
+References: <1591009402-681-1-git-send-email-mkrishn@codeaurora.org>
+ <CACvgo50eb5_jp_6B5tkV9cX_X2_y2Xnavu+wvUUhHN5FsV9hiw@mail.gmail.com>
+ <cd61dd742e73b89794fc1b812d9fdcd9@codeaurora.org>
+ <CACvgo50b+m2+onak=AZfgihkBXEP9POjMR52087v==-puLdkQQ@mail.gmail.com>
+Message-ID: <8742ac6fbd498fdc22dcd469c3a2d52a@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Wed, 03 Jun 2020 07:04:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,124 +67,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0682262553=="
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
+ devicetree-owner@vger.kernel.org, devicetree <devicetree@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, mka@chromium.org,
+ Sean Paul <seanpaul@chromium.org>, kalyan_t@codeaurora.org,
+ "Kristian H . Kristensen" <hoegsberg@chromium.org>,
+ freedreno@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Emil,
 
---===============0682262553==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qxxigstfuc465wjv"
-Content-Disposition: inline
+On 2020-06-02 21:09, Emil Velikov wrote:
+> On Tue, 2 Jun 2020 at 15:49, Sai Prakash Ranjan
+> <saiprakash.ranjan@codeaurora.org> wrote:
+>> 
+>> Hi Emil,
+>> 
+>> On 2020-06-02 19:43, Emil Velikov wrote:
+>> > Hi Krishna,
+>> >
+>> > On Tue, 2 Jun 2020 at 08:17, Krishna Manikandan
+>> > <mkrishn@codeaurora.org> wrote:
+>> >>
+>> >> Define shutdown callback for display drm driver,
+>> >> so as to disable all the CRTCS when shutdown
+>> >> notification is received by the driver.
+>> >>
+>> >> This change will turn off the timing engine so
+>> >> that no display transactions are requested
+>> >> while mmu translations are getting disabled
+>> >> during reboot sequence.
+>> >>
+>> >> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+>> >>
+>> > AFAICT atomics is setup in msm_drm_ops::bind and shutdown in
+>> > msm_drm_ops::unbind.
+>> >
+>> > Are you saying that unbind never triggers? If so, then we should
+>> > really fix that instead, since this patch seems more like a
+>> > workaround.
+>> >
+>> 
+>> Which path do you suppose that the unbind should be called from, 
+>> remove
+>> callback? Here we are talking about the drivers which are builtin, 
+>> where
+>> remove callbacks are not called from the driver core during
+>> reboot/shutdown,
+>> instead shutdown callbacks are called which needs to be defined in 
+>> order
+>> to
+>> trigger unbind. So AFAICS there is nothing to be fixed.
+>> 
+> Interesting - in drm effectively only drm panels implement .shutdown.
+> So my naive assumption was that .remove was used implicitly by core,
+> as part of the shutdown process. Yet that's not the case, so it seems
+> that many drivers could use some fixes.
+> 
+> Then again, that's an existing problem which is irrelevant for msm.
+> -Emil
 
+To give more context, we are actually targeting the clients/consumers
+of SMMU/IOMMU here because we have to make sure that before the supplier
+(SMMU) shuts down, its consumers/clients need to be shutdown properly.
+Now the ordering of this is taken care in the SMMU driver via 
+device_link
+which makes sure that consumer shutdown callbacks are called first, but 
+we
+need to define shutdown callbacks for all its consumers to make sure we
+actually shutdown the clients or else it would invite the crashes during 
+reboot
+which in this case was seen for display.
 
---qxxigstfuc465wjv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
+Sai
 
-On Wed, May 27, 2020 at 11:41:24AM -0700, Eric Anholt wrote:
-> On Wed, May 27, 2020 at 8:51 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > the vc4_hdmi driver has some custom structures to hold the data it need=
-s to
-> > associate with the drm_encoder and drm_connector structures.
-> >
-> > However, it allocates them separately from the vc4_hdmi structure which
-> > makes it more complicated than it needs to be.
-> >
-> > Move those structures to be contained by vc4_hdmi and update the code
-> > accordingly.
->=20
->=20
-> > @@ -1220,7 +1219,7 @@ static int vc4_hdmi_bind(struct device *dev, stru=
-ct device *master, void *data)
-> >         struct drm_device *drm =3D dev_get_drvdata(master);
-> >         struct vc4_dev *vc4 =3D drm->dev_private;
-> >         struct vc4_hdmi *hdmi;
-> > -       struct vc4_hdmi_encoder *vc4_hdmi_encoder;
-> > +       struct drm_encoder *encoder;
-> >         struct device_node *ddc_node;
-> >         u32 value;
-> >         int ret;
-> > @@ -1229,14 +1228,10 @@ static int vc4_hdmi_bind(struct device *dev, st=
-ruct device *master, void *data)
-> >         if (!hdmi)
-> >                 return -ENOMEM;
-> >
-> > -       vc4_hdmi_encoder =3D devm_kzalloc(dev, sizeof(*vc4_hdmi_encoder=
-),
-> > -                                       GFP_KERNEL);
-> > -       if (!vc4_hdmi_encoder)
-> > -               return -ENOMEM;
-> > -       vc4_hdmi_encoder->base.type =3D VC4_ENCODER_TYPE_HDMI0;
-> > -       hdmi->encoder =3D &vc4_hdmi_encoder->base.base;
-> > -
-> >         hdmi->pdev =3D pdev;
-> > +       encoder =3D &hdmi->encoder.base.base;
-> > +       encoder->base.type =3D VC4_ENCODER_TYPE_HDMI0;
->=20
-> Wait, does this patch build?
-
-All those patches were build tested, so yep
-
-> setting struct drm_encoder->base.type =3D VC4_* seems very wrong, when
-> previously we were setting struct vc4_hdmi_encoder->base.type (struct
-> vc4_encoder->type).
-
-So the structure layout now is that vc4_hdmi embeds vc4_hdmi_encoder as
-encoder. So &hdmi->encoder is a pointer to vc4_hdmi_encoder.
-vc4_hdmi_encoder's base is since that patch a struct vc4_encoder. and
-vc4_encoder's base is a drm_encoder.
-
-so encoder being a drm_encoder is correct there.
-
-However, drm_encoder's base is drm_mode_object that does have a type
-field, which is an uint32_t, which will accept a VC4_ENCODER_TYPE_* just
-fine...
-
-Now, drm_encoder_init will then kick in and call drm_mode_object_add
-which will override it to a proper value and since the clock select bit
-in the PV is the same for both HDMI0 and HDMI1, everything works just
-fine...
-
-Good catch, I'll fix it. And I guess it's a good indication we don't
-need a separate HDMI0 and HDMI1 encoder type.
-
-> Other than this, patch 68-78 r-b.
-
-Thanks for your review!
-Maxime
-
---qxxigstfuc465wjv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXtZ2LQAKCRDj7w1vZxhR
-xfluAP43aoGu2OPb0dq0BcgQ5MBEsuDCQDD5MHgSVl0cRgWGjwD/aa+PuVsSgsR0
-5+38Ljq0cbWaxeUJTzW8daGiUZDn8wM=
-=KM7l
------END PGP SIGNATURE-----
-
---qxxigstfuc465wjv--
-
---===============0682262553==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0682262553==--
