@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F181EB6F6
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 10:05:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9341EB71B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 10:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C3F89BFC;
-	Tue,  2 Jun 2020 08:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A71089D87;
+	Tue,  2 Jun 2020 08:13:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF7C89B95
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 08:05:43 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id k8so9343552edq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 01:05:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=SCR2cHiabRKqtkGaERDcoYhLdk1hHk/2OBBAMb5lQNY=;
- b=NI6EenFXTgfPo3vucCLgKR02p2pmBzXye9wNTA6Y2W0BoRMYIRGPViYlxJcLX2AFJe
- 2lupglU1Rk5L3iB0uRnPX2GIVnqF1KThCTtWqKrlEUMHyP4k3OUi/z1xA+n8fKnC0ZTb
- jvX1KvBwOVUBrlUpFwfrSEWg/2RqYX2nNWDO9s/K4pzprDJnzGJ3uqRC3sU6jM62z4KV
- 7Y3cQZDU8TSLWYjnYllFKhTzoNwMf04G0WiF1NM4drSMAy/8efIcwfxHkdePHqP+muZa
- HUNt11YCg2S2xCdG/tsAto5t02Fe54S5Kx+PhRcmVtbFsQB8HGx3qmkyq8/qqBZ4pR3z
- IhJQ==
-X-Gm-Message-State: AOAM532dKBCRI858NQ+XfbxZ3Pn7UonDy7z/N6xMBjeeslFnABRNpJI2
- rdz33RJ0M/xA8j9ZIMYzxGs=
-X-Google-Smtp-Source: ABdhPJwZlPDhteUZ4oQPMQH3bkm+GkPpXcVWfKiuXmPmtRXf3HlXBuN/miC3BujdGRr/785rYqnlRQ==
-X-Received: by 2002:a50:af85:: with SMTP id h5mr17930429edd.86.1591085141913; 
- Tue, 02 Jun 2020 01:05:41 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.118])
- by smtp.googlemail.com with ESMTPSA id u10sm1177397edb.65.2020.06.02.01.05.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 02 Jun 2020 01:05:41 -0700 (PDT)
-Date: Tue, 2 Jun 2020 10:05:38 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Subject: Re: [RFC PATCH v5 1/6] dt-bindings: exynos-bus: Add documentation
- for interconnect properties
-Message-ID: <20200602080538.GA8216@kozik-lap>
-References: <20200529163200.18031-1-s.nawrocki@samsung.com>
- <CGME20200529163219eucas1p2d127fe3936921f53f6fe7902e7d14a3e@eucas1p2.samsung.com>
- <20200529163200.18031-2-s.nawrocki@samsung.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62BD489D87
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 08:13:51 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0528DWxd017543;
+ Tue, 2 Jun 2020 03:13:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1591085612;
+ bh=W/u4Gfn8Bq+eBQ50ZyVyRSF3E4LsSNzZM/DU8aita/I=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=doCaxwsbt8NFkstWB1KPdIFMfNjNNLipev6pIncVThGfebFxJlpuA8OL30Yng3UFj
+ 6Xe2UD2dJJh6/C1MfVGr3uoMTVjo1fodAEdjUUk3YKDlZW/eOLr4jL1NI1mIx6CbK0
+ kR7YE9RNq8m1Q48wvNO5pRUPz0/9jAUcSJxqHqjc=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0528DWEE024193
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 2 Jun 2020 03:13:32 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 2 Jun
+ 2020 03:13:32 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 2 Jun 2020 03:13:32 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0528DTnO024976;
+ Tue, 2 Jun 2020 03:13:29 -0500
+Subject: Re: [PATCH resend 0/2] dts: keystone-k2g-evm: Display support
+To: <santosh.shilimkar@oracle.com>, Jyri Sarha <jsarha@ti.com>,
+ <dri-devel@lists.freedesktop.org>, <ssantosh@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>
+References: <cover.1581671951.git.jsarha@ti.com>
+ <6749076a-cbc1-d8e2-bc35-2e2a9ad80a6d@oracle.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <973b69f2-bbe1-3c1b-615f-751bb8d5d83e@ti.com>
+Date: Tue, 2 Jun 2020 11:13:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200529163200.18031-2-s.nawrocki@samsung.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <6749076a-cbc1-d8e2-bc35-2e2a9ad80a6d@oracle.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,30 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, b.zolnierkie@samsung.com,
- sw0312.kim@samsung.com, a.swigon@samsung.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, cw00.choi@samsung.com, myungjoo.ham@samsung.com,
- georgi.djakov@linaro.org, linux-arm-kernel@lists.infradead.org,
- m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
+Cc: mark.rutland@arm.com, praneeth@ti.com, robh+dt@kernel.org,
+ peter.ujfalusi@ti.com, tomi.valkeinen@ti.com,
+ laurent.pinchart@ideasonboard.com
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjksIDIwMjAgYXQgMDY6MzE6NTVQTSArMDIwMCwgU3lsd2VzdGVyIE5hd3Jv
-Y2tpIHdyb3RlOgo+IEFkZCBkb2N1bWVudGF0aW9uIGZvciBuZXcgb3B0aW9uYWwgcHJvcGVydGll
-cyBpbiB0aGUgZXh5bm9zIGJ1cyBub2RlczoKPiBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQs
-ICNpbnRlcmNvbm5lY3QtY2VsbHMuCj4gVGhlc2UgcHJvcGVydGllcyBhbGxvdyB0byBzcGVjaWZ5
-IHRoZSBTb0MgaW50ZXJjb25uZWN0IHN0cnVjdHVyZSB3aGljaAo+IHRoZW4gYWxsb3dzIHRoZSBp
-bnRlcmNvbm5lY3QgY29uc3VtZXIgZGV2aWNlcyB0byByZXF1ZXN0IHNwZWNpZmljCj4gYmFuZHdp
-ZHRoIHJlcXVpcmVtZW50cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8YS5z
-d2lnb25Ac2Ftc3VuZy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogU3lsd2VzdGVyIE5hd3JvY2tpIDxz
-Lm5hd3JvY2tpQHNhbXN1bmcuY29tPgo+IC0tLQo+IENoYW5nZXMgZm9yIHY1Ogo+ICAtIGV4eW5v
-cyxpbnRlcmNvbm5lY3QtcGFyZW50LW5vZGUgcmVuYW1lZCB0byBzYW1zdW5nLGludGVyY29ubmVj
-dC1wYXJlbnQKPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2RldmZy
-ZXEvZXh5bm9zLWJ1cy50eHQgfCAxNSArKysrKysrKysrKysrLS0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDEzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpBY2tlZC1ieTogS3J6eXN6dG9mIEtv
-emxvd3NraSA8a3J6a0BrZXJuZWwub3JnPgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+SGkgU2FudG9zaCwKCk9uIDE0LzAyLzIwMjAgMTk6NDAsIHNhbnRvc2guc2hpbGlta2FyQG9yYWNs
+ZS5jb20gd3JvdGU6Cj4gT24gMi8xNC8yMCAxOjIyIEFNLCBKeXJpIFNhcmhhIHdyb3RlOgo+PiBS
+ZXNlbmQgYmVjYXVzZSB0aGUgZWFybGllciByZWNpcGllbnQgbGlzdCB3YXMgd3JvbmcuCj4+Cj4+
+IE5vdyB0aGF0IGRybS90aWRzcyBpcyBxdWV1ZWQgZm9yIG1haW5saW5lLCBsZXRzIGFkZCBkaXNw
+bGF5IHN1cHBvcnQgZm9yCj4+IGsyZy1ldm0uIFRoZXJlIGlzIG5vIGh1cnJ5IHNpbmNlIHRpZHNz
+IGlzIG91dCBvbmx5IGluIHY1LjcsIGJ1dCBpdAo+PiBzaG91bGQgbm90IGhhcm0gdG8gaGF2ZSB0
+aGUgZHRzIGNoYW5nZXMgaW4gcGxhY2UgYmVmb3JlIHRoYXQuCj4+Cj4+IEp5cmkgU2FyaGEgKDIp
+Ogo+PiDCoMKgIEFSTTogZHRzOiBrZXlzdG9uZS1rMmc6IEFkZCBEU1Mgbm9kZQo+PiDCoMKgIEFS
+TTogZHRzOiBrZXlzdG9uZS1rMmctZXZtOiBhZGQgSERNSSB2aWRlbyBzdXBwb3J0Cj4+Cj4+IMKg
+IGFyY2gvYXJtL2Jvb3QvZHRzL2tleXN0b25lLWsyZy1ldm0uZHRzIHwgMTAxICsrKysrKysrKysr
+KysrKysrKysrKysrKysKPj4gwqAgYXJjaC9hcm0vYm9vdC9kdHMva2V5c3RvbmUtazJnLmR0c2nC
+oMKgwqAgfMKgIDIyICsrKysrKwo+PiDCoCAyIGZpbGVzIGNoYW5nZWQsIDEyMyBpbnNlcnRpb25z
+KCspCj4+Cj4gT2suIFdpbGwgYWRkIHRoaXMgdG8gdGhlIG5leHQgcXVldWUuCgpXaGF0IGhhcHBl
+bmVkIHdpdGggdGhpcyBvbmU/IEl0IHVzZWQgdG8gYmUgaW4gbGludXgtbmV4dCwgYnV0IG5vdyBJ
+IGRvbid0IHNlZSBpdCBhbnltb3JlLgoKICBUb21pCgotLSAKVGV4YXMgSW5zdHJ1bWVudHMgRmlu
+bGFuZCBPeSwgUG9ya2thbGFua2F0dSAyMiwgMDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2lu
+ZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlwYWlra2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
