@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517671EBB88
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 14:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066EB1EBC0D
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 14:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7C56E1D3;
-	Tue,  2 Jun 2020 12:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB0C89346;
+	Tue,  2 Jun 2020 12:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F6BD6E1D3
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 12:21:57 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id s192so840331vkh.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 05:21:57 -0700 (PDT)
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E44D89346
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 12:49:37 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id o2so1952779vsr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 05:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uhS6wUtL1nQqq687nk7bY+rt6oHfCz/bP20I3cjBhSw=;
- b=iS1cNpg05xcEK6kyHjMSJ22ATuO9KFDUcoDquBU2iOe8OtEp/aHvoOY+Hc1jbuHZ1j
- /Zf/spKV28Tbu++/etF4Zjj4sXvh8pAXYEwRxpTd1PNTIZGqQQJMnllTJIXyTvig+rl7
- ONIP/BDM5lHyDtCrPjr1f21Oc9Ywr8DNAM0/z8teiTSPg84vkpYs7bwL7S0qIB8mmj3v
- mf9cWjDavFRqvO/HxzSGtzUfqAggg0QxBs0uvP1uv0pRsy+lSebm+Nv0HhZ2FR2wX0HW
- cXjB8Ebc8hym8wolXa/Elydr/XWJoBacagzzpPtMsoudz8jLUVGbIiOVugOlM5dRixRi
- NKWg==
+ :cc; bh=u2UCJQtDiG0eHQBJkG5+CdCw59UdXa7OZsIDHTFqlNI=;
+ b=AM+9tD6cynbWf8zZpkOGrVG16SS8ZAJDBrCBcdZsdX5thmEf7Yww4G8MZu09ToM/1f
+ 6XbT6VaSn2jqfmcI/kfjlRwYBCXWMjFuYdPYNQQhVW6Poo2x/DlaKJCsNDz8ZlFNMU75
+ NWK+BU/oTz0eGcPG95ZWQZtaxcwDQANzeV66VzYAwx1KWc5EBruseix8RDYgCx4qiKp/
+ rNv2BK2jHuY6cltKUZoo1wtvDgUY55rtvW7lHuXPuYs/6jbJFPSyTkYSArPY5Jd3OuER
+ 3yEhUBImO1/iwZJDzgV9ii0+8GMHbD+57eEq2ODXwZymjiZDFS1GU2MKoWMzf5jaVrHh
+ Xb2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uhS6wUtL1nQqq687nk7bY+rt6oHfCz/bP20I3cjBhSw=;
- b=XZw5nARrBE+/wLoYJlEKFSgsxXoda+V2X/HOL6AedJSdXrKJmpxgvpBK91zcf31n4n
- PKlb4vYr5VYTS5P96jhXWRUvgpEpO/2tpFwjteyYseYfwEJSGh53mWlGYzXzSIxkCZdA
- kctKoE2U1HBFS6LUwYUYkglDmLB4aQ18KJyS8lEenh2DXYW/ba5zn1UZTOqPzkb/PP73
- HH2xM6eFzPOjNE4rlqVEM0qXLqr0Hp4WksqIx8Y+nDfY6D2OAf5cnrtJvJ/IZ3uqp5Lm
- M0LJJDBODYr1jxOItdDkVHI9n/1EJ+ib7rEExuCiEqSh6H5EmpbheTATV2I50zKO4GwZ
- KitQ==
-X-Gm-Message-State: AOAM531CG6XsxpOvqglmZBS4x7/yWLs4TSJPmKwebfyNce0BI7dsO3QZ
- Y4WfvG//gz44oW6RnlwTEzx5K/pk9DPc4qOUqpg=
-X-Google-Smtp-Source: ABdhPJyFkrbYplf5gWUM2GeUq/gzW7pUpT6I7Z+yO1zl/pK104ACL5dbJongfx+Bv5rPOloANFKde8VOkcaaziUl7fU=
-X-Received: by 2002:a1f:2ac6:: with SMTP id q189mr8911630vkq.28.1591100516362; 
- Tue, 02 Jun 2020 05:21:56 -0700 (PDT)
+ bh=u2UCJQtDiG0eHQBJkG5+CdCw59UdXa7OZsIDHTFqlNI=;
+ b=Lq6q/18uxqQg3o78/gN1sRSrPOAGQVKtQeUktGZwxTc65AUyik7q9lTKNOPLISkkJN
+ WIlK7efwJxhK/maRb/dXCSc4dURstbnKYmOOy3b2YrNzAqjWqIIZX0z/fhjMC+e6QozP
+ dMJN5gc4Qci9/Btphnz+XNxt/QGP8C/+DGtlZmDoNmsSInZZqhUcHBjq3EYuz+ScUZlO
+ wfb503R4jaqwssT2/9+1fICTRz7Nt9WNNRFo9zKqlkyDeeWbxjgJ5prFxTV8V+WO9WaD
+ H42659Nsv9OoMjv6hfbT0aedxrd3UpmJHnv2U7TWDr279nKuFzFX/4q6vm0V7EnwcdfQ
+ R2pw==
+X-Gm-Message-State: AOAM5339z61Wlb+w+MwfPYvccSdh7AIWzASlR2ZAdT8AIEuMaWGFd6ch
+ uT6/RuxPwEz/mOAGEqqPOlI///3AOSebYRCcZZM=
+X-Google-Smtp-Source: ABdhPJw/+z7NB2VWRLaqW6glWW9sGgKJepBqz0O7f+2nQCNT4ZvDq0MnedfrItwQYQF9aQ3NnGmW8s5bLIbEp8NUrCU=
+X-Received: by 2002:a67:3291:: with SMTP id y139mr5737284vsy.37.1591102176673; 
+ Tue, 02 Jun 2020 05:49:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200531131237.24781-1-realwakka@gmail.com>
- <CACvgo50SzjUe6usELF33qXW3BWZmH5U4ynPTBorZLDrG-Nx2Pw@mail.gmail.com>
- <20200601002520.hajvtpefi7yzvmuq@smtp.gmail.com>
-In-Reply-To: <20200601002520.hajvtpefi7yzvmuq@smtp.gmail.com>
+References: <1590991880-24273-1-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1590991880-24273-1-git-send-email-victor.liu@nxp.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 2 Jun 2020 13:18:38 +0100
-Message-ID: <CACvgo52Vh92TFwMqgagMsopW9yAZ6FGXgyXHu9Bhe3qqPSPcHg@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: Optimize compute_crc(), blend()
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Date: Tue, 2 Jun 2020 13:46:19 +0100
+Message-ID: <CACvgo50UOby-xV_OYmM55VUXUbwLxK-q6bs2FoS_FuwB9ChYJg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel: simple: Add support for KOE TX26D202VM0BWA
+ panel
+To: Liu Ying <victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Sidong Yang <realwakka@gmail.com>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 1 Jun 2020 at 01:25, Rodrigo Siqueira
-<rodrigosiqueiramelo@gmail.com> wrote:
+On Tue, 2 Jun 2020 at 08:17, Liu Ying <victor.liu@nxp.com> wrote:
 >
-> Hi,
+> This patch adds support for Kaohsiung Opto-Electronics Inc.
+> 10.1" TX26D202VM0BWA WUXGA(1920x1200) TFT LCD panel with LVDS interface.
+> The panel has dual LVDS channels.
 >
-> First of all, thanks a lot for all your patch. And thanks Emil for your
-> feedback.
+> My panel is manufactured by US Micro Products(USMP).  There is a tag at
+> the back of the panel, which indicates the panel type is 'TX26D202VM0BWA'
+> and it's made by KOE in Taiwan.
 >
-> I have a suggestion here:
+> The panel spec from USMP can be found at:
+> https://www.usmicroproducts.com/sites/default/files/datasheets/USMP-T101-192120NDU-A0.pdf
 >
-> Emil:
-> Could you give me your Acked-by or maybe Reviewed-by for the writeback
-> series? With that, I can finally apply the series.
+> The below panel spec from KOE is basically the same to the one from USMP.
+> However, the panel type 'TX26D202VM0BAA' is a little bit different.
+> It looks that the two types of panel are compatible with each other.
+> http://www.koe.j-display.com/upload/product/TX26D202VM0BAA.pdf
 >
-Sure, once the issues highlighted are resolved. Just left you some
-more comprehensive feedback.
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index b6ecd15..7c222ec 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2200,6 +2200,37 @@ static const struct panel_desc koe_tx14d24vm1bpa = {
+>         },
+>  };
+>
+> +static const struct display_timing koe_tx26d202vm0bwa_timing = {
+> +       .pixelclock = { 151820000, 156720000, 159780000 },
+> +       .hactive = { 1920, 1920, 1920 },
+> +       .hfront_porch = { 105, 130, 142 },
+> +       .hback_porch = { 45, 70, 82 },
+> +       .hsync_len = { 30, 30, 30 },
+> +       .vactive = { 1200, 1200, 1200},
+> +       .vfront_porch = { 3, 5, 10 },
+> +       .vback_porch = { 2, 5, 10 },
+> +       .vsync_len = { 5, 5, 5 },
+> +};
+> +
+> +static const struct panel_desc koe_tx26d202vm0bwa = {
+> +       .timings = &koe_tx26d202vm0bwa_timing,
+> +       .num_timings = 1,
+> +       .bpc = 8,
+> +       .size = {
+> +               .width = 217,
+> +               .height = 136,
+> +       },
+> +       .delay = {
+> +               .prepare = 1000,
+> +               .enable = 1000,
+> +               .unprepare = 1000,
+> +               .disable = 1000,
+Ouch 1s for each delay is huge. Nevertheless it matches the specs so,
+the series is:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+
+Sam, Thierry I assume you'll merge the series. Let me know if I should
+pick it up.
 
 -Emil
-P.S. Something something top posting sucks :-P
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
