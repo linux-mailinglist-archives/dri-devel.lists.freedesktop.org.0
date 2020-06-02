@@ -1,35 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DA81EBF00
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 17:27:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A7A1EBF2A
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 17:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE38C6E416;
-	Tue,  2 Jun 2020 15:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9936E41B;
+	Tue,  2 Jun 2020 15:39:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
- by gabe.freedesktop.org (Postfix) with SMTP id 061796E416
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 15:27:00 +0000 (UTC)
-Received: (qmail 4222 invoked by uid 1000); 2 Jun 2020 11:27:00 -0400
-Date: Tue, 2 Jun 2020 11:27:00 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Peter Stuge <peter@stuge.se>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
-Message-ID: <20200602152700.GB31640@rowland.harvard.edu>
-References: <20200529175643.46094-1-noralf@tronnes.org>
- <20200529175643.46094-5-noralf@tronnes.org>
- <20200529224531.22261.qmail@stuge.se>
- <614b0b0d-44d7-22e5-339d-cb8a13b426ac@tronnes.org>
- <20200602001207.17171.qmail@stuge.se>
- <20200602023254.GB15540@rowland.harvard.edu>
- <20200602052150.1505.qmail@stuge.se>
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3A5A6E41B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 15:39:15 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FW32Q105146;
+ Tue, 2 Jun 2020 15:39:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=DSbMhSk8SwxhpgAbU8esEvoZolFH3pziYxtelXV4q54=;
+ b=zMUNe/3wVc2t0iNS0FHrcOZneeoox1E76XhWQ0SxVThFK9zD02pbVo+mIylWmRF/7lx3
+ Ct3IhpYmvEK7KhiAgJVShmkgJVkE9fldJVQHVuE6shhBGucp5ZQXksuGU37sBloc4h7w
+ 3yYyq63lrrQOuQ7yA74jSpzQUv5lIFOec4j3db9mOqPJKKLNXAY16LqI6FtAvqjJ2Pu0
+ Ryt/cdtemq7uKVKpj4vOa6b47tQPWR1n7A2PbS2Us1tVJU/BemmCP3U5St/wJksnZBkV
+ FpalnxmW4FTe2nfXybQAN/qHdTs956D1ant0TZROQAaEGxxJkF/7Q1J8IZGXBmfTAtOM ig== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 31dkruhrxp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 02 Jun 2020 15:39:14 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FY0Fc104603;
+ Tue, 2 Jun 2020 15:39:14 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 31dju1phrx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 02 Jun 2020 15:39:14 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 052Fd8SF030859;
+ Tue, 2 Jun 2020 15:39:08 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 02 Jun 2020 08:39:08 -0700
+Date: Tue, 2 Jun 2020 18:39:00 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in gm20b_clk_new()
+Message-ID: <20200602153900.GW22511@kadam>
+References: <dd729c13-fbc8-22e7-7d8e-e3e126f66943@web.de>
+ <40d8fb01.db721.17269d3d620.Coremail.dinghao.liu@zju.edu.cn>
+ <20200602102955.GZ30374@kadam>
+ <65e3d2b7-b0ad-f387-b8fe-d83ea816a0f6@web.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200602052150.1505.qmail@stuge.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <65e3d2b7-b0ad-f387-b8fe-d83ea816a0f6@web.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ phishscore=0 malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0
+ suspectscore=18 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006020111
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ priorityscore=1501
+ mlxscore=0 lowpriorityscore=0 suspectscore=18 malwarescore=0 clxscore=1015
+ adultscore=0 mlxlogscore=999 cotscore=-2147483648 phishscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006020111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,129 +81,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dinghao Liu <dinghao.liu@zju.edu.cn>, Kangjie Lu <kjlu@umn.edu>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 02, 2020 at 05:21:50AM +0000, Peter Stuge wrote:
-> > The USB protocol forbids a device from sending a STALL response to a
-> > SETUP packet.  The only valid response is ACK.  Thus, there is no way
-> > to prevent the host from sending its DATA packet for a control-OUT
-> > transfer.
-> =
+On Tue, Jun 02, 2020 at 01:10:34PM +0200, Markus Elfring wrote:
+> > The original patch was basically fine.
+> 
+> I propose to reconsider the interpretation of the software situation once more.
+> 
+> * Should the allocated clock object be kept usable even after
+>   a successful return from this function?
 
-> Right; a STALL handshake only after a DATA packet, but a udc could silent=
-ly
-> drop the first DATA packet if instructed to STALL during SETUP processing.
-> I don't know how common that is for the udc:s supported by gadget, but so=
-me
-> MCU:s behave like that.
+Heh.  You're right.  The patch is freeing "clk" on the success path so
+that doesn't work.
 
-It happens from time to time, such as when the host sends a SETUP packet =
+regards,
+dan carpenter
 
-that the gadget driver doesn't understand.
-
-> > A gadget driver can STALL in response to a control-OUT data packet,
-> > but only before it has seen the packet.
-> =
-
-> How can it do that for OUT, and IN if possible there too?
-
-In the way described just above: The gadget driver's SETUP handler tells =
-
-the UDC to stall the data packet.
-
-> Is it related to f->setup() returning < 0 ?
-
-Yes; the composite core interprets such a value as meaning to STALL =
-
-endpoint 0.
-
-> The spec also allows NAK, but the gadget code seems to not (need to?)
-> explicitly support that. Can you comment on this as well?
-
-If the gadget driver doesn't submit a usb_request then the UDC will =
-
-reply with NAK.
-
-> > Once the driver knows what the data packet contains, the gadget API
-> > doesn't provide any way to STALL the status stage.
-> =
-
-> Thanks. I think this particular gadget driver doesn't need to decide late.
-> =
-
-> Ideally the control transfers can even be avoided.
-
-
-On Tue, Jun 02, 2020 at 01:46:38PM +0200, Noralf Tr=F8nnes wrote:
-
-> > A gadget driver can STALL in response to a control-OUT data packet,
-> > but only before it has seen the packet.  Once the driver knows what
-> > the data packet contains, the gadget API doesn't provide any way to
-> > STALL the status stage.  There has been a proposal to change the API
-> > to make this possible, but so far it hasn't gone forward.
-> > =
-
-> =
-
-> This confirms what I have seen in the kernel and the reason I added a
-> status request so I can know the result of the operation the device has
-> performed.
-
-Does this status request use ep0 or some other endpoint?
-
-> I have a problem that I've encountered with this status request.
-> In my first version the gadget would usb_ep_queue() the status value
-> when the operation was done and as long as this happended within the
-> host timeout (5s) everything worked fine.
-> =
-
-> Then I hit a 10s timeout in the gadget when performing a display modeset
-> operation (wait on missing vblank). The result of this was that the host
-> timed out and moved on. The gadget however didn't know that the host
-> gave up, so it queued up the status value. The result of this was that
-> all further requests from the host would time out.
-> Do you know a solution to this?
-> My work around is to just poll on the status request, which returns a
-> value immediately, until there's a result. The udc driver I use is dwc2.
-
-It's hard to give a precise answer without knowing the details of how =
-
-your driver works.
-
-There are two reasonable approaches you could use.  One is to have a =
-
-vendor-specific control request to get the result of the preceding =
-
-operation.  This works but it has high overhead -- which may not matter =
-
-if it happens infrequently and isn't sensitive to latency.
-
-The other approach is to send the status data over a bulk-IN endpoint.  =
-
-It would have to be formatted in such a way that the host could =
-
-recognize it as a status packet and not some other sort of data packet.  =
-
-That way, if the host received a stale status value, it could ignore it =
-
-and move on.
-
-You also may want to give some thought to a "resynchronization" =
-
-protocol, for use in situations where the host times out waiting for a =
-
-response from the device while the device is waiting for something else =
-
-(the host, a vblank, or whatever).  This could be a special control =
-
-request, or you could rely on the host doing a complete USB reset.
-
-Alan Stern
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
