@@ -1,43 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2DC1EC579
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 01:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A255B1EC5B3
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 01:29:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4484C6E486;
-	Tue,  2 Jun 2020 23:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F09E6E1B4;
+	Tue,  2 Jun 2020 23:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810DF6E484;
- Tue,  2 Jun 2020 23:08:23 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49c74f0J6Gz9sPF;
- Wed,  3 Jun 2020 09:08:17 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1591139300;
- bh=3X31qWO/1Ul5RhQ1agdJfn/17XFGSliumzUhlLvsTWw=;
- h=Date:From:To:Cc:Subject:From;
- b=h6AqdG8KBXbdaHWJrOK9z/qtFoo9CElq3dh+VR7SUxXU1Oma2WWnHcZ/1EDqPv27C
- N4jxKHzzMFQkvgBDxOgyzoE6uJqgXsbMrSs4qf4PcGuUl6VVZl04yZS5c8t6kYMapE
- dxfLkN8P14p5bFMTV4JB41g5YIwOwYaQ5D/r2a2CTLgjUW7b21ifzklwFU244ETIZr
- r8qpC/bdxVdI0jW07MHuMX8vgVATO9UOkY4MBWWDifE2EiewO1ziRjXWSin8Mapdre
- sCyfwh1qTEQiY9LBKfclN0smKOjf2C0m9TkWwjzej/UTZJTZOJoU4DkadT1KZzPh/J
- ClziuHdVJEyqQ==
-Date: Wed, 3 Jun 2020 09:08:16 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-intel-fixes tree with Linus' tree
-Message-ID: <20200603090816.6437acec@canb.auug.org.au>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD79E6E1B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 23:28:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9A4F2A4;
+ Wed,  3 Jun 2020 01:28:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1591140535;
+ bh=lXkvj1T0Wpo9a3y6ncv9G8LcEGUh4n2+D7BDgxV7xmQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O+jYNNIuc7Edhz9qSOLPWtjOOspHJR6sOJ1VTxt8mWv7PTUD4KHv7Bi52BjyGkW/r
+ SPcKr1108TkGVpYbGcMD7VIXIU62iM61DoNwRVoD/AdEqW+0hQ9RoWYbslQsQwt1yr
+ +GtD4Yiq4fY+j0DmdUIkbriof9U9ZSvbUBZh1Hwg=
+Date: Wed, 3 Jun 2020 02:28:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 1/7] drm/rockchip: prepare common code for cdns and rk
+ dpi/dp driver
+Message-ID: <20200602232840.GP6547@pendragon.ideasonboard.com>
+References: <cover.1590982881.git.Sandor.yu@nxp.com>
+ <d3d707cf37e7928a839071242c752779061cc094.1590982881.git.Sandor.yu@nxp.com>
+ <CACvgo52NeUSQV5p8+4DkCjpkv12cs8fCkQqy4MFn8pVaorVaHg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACvgo52NeUSQV5p8+4DkCjpkv12cs8fCkQqy4MFn8pVaorVaHg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,119 +48,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Content-Type: multipart/mixed; boundary="===============1142125004=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ sandor.yu@nxp.com, Neil Armstrong <narmstrong@baylibre.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>, dkos@cadence.com,
+ LAKML <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1142125004==
-Content-Type: multipart/signed; boundary="Sig_/+LWcEw/dTcCMMLWI1+PUaar";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+On Tue, Jun 02, 2020 at 02:55:52PM +0100, Emil Velikov wrote:
+> On Mon, 1 Jun 2020 at 07:29, <sandor.yu@nxp.com> wrote:
+> >
+> > From: Sandor Yu <Sandor.yu@nxp.com>
+> >
+> > - Extracted common fields from cdn_dp_device to a new cdns_mhdp_device
+> >   structure which will be used by two separate drivers later on.
+> > - Moved some datatypes (audio_format, audio_info, vic_pxl_encoding_format,
+> >   video_info) from cdn-dp-core.c to cdn-dp-reg.h.
+> > - Changed prefixes from cdn_dp to cdns_mhdp
+> >     cdn -> cdns to match the other Cadence's drivers
+> >     dp -> mhdp to distinguish it from a "just a DP" as the IP underneath
+> >       this registers map can be a HDMI (which is internally different,
+> >       but the interface for commands, events is pretty much the same).
+> > - Modified cdn-dp-core.c to use the new driver structure and new function
+> >   names.
+> > - writel and readl are replaced by cdns_mhdp_bus_write and
+> >   cdns_mhdp_bus_read.
+> >
+> The high-level idea is great - split, refactor and reuse the existing drivers.
+> 
+> Although looking at the patches themselves - they seems to be doing
+> multiple things at once.
+> As indicated by the extensive list in the commit log.
+> 
+> I would suggest splitting those up a bit, roughly in line of the
+> itemisation as per the commit message.
+> 
+> Here is one hand wavy way to chunk this patch:
+>  1) use put_unalligned*
+>  2) 'use local variable dev' style of changes (as seem in cdn_dp_clk_enable)
+>  3) add writel/readl wrappers
+>  4) hookup struct cdns_mhdp_device, keep dp->mhdp detail internal.
+> The cdn-dp-reg.h function names/signatures will stay the same.
+>  5) finalize the helpers - use mhdp directly, rename
 
---Sig_/+LWcEw/dTcCMMLWI1+PUaar
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+I second this, otherwise review is very hard.
 
-Hi all,
+> Examples:
+> 4)
+>  static int cdn_dp_mailbox_read(struct cdn_dp_device *dp)
+>  {
+> +"  struct cdns_mhdp_device *mhdp = dp->mhdp;
+>    int val, ret;
+> 
+> -  ret = readx_poll_timeout(readl, dp->regs + MAILBOX_EMPTY_ADDR,
+> +  ret = readx_poll_timeout(readl, mhdp->regs_base + MAILBOX_EMPTY_ADDR,
+> ...
+>    return fancy_readl(dp, MAILBOX0_RD_DATA) & 0xff;
+>  }
+> 
+> 5)
+> -static int cdn_dp_mailbox_read(struct cdn_dp_device *dp)
+> +static int mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+>  {
+> -  struct cdns_mhdp_device *mhdp = dp->mhdp;
+>    int val, ret;
+> ...
+> -  return fancy_readl(dp, MAILBOX0_RD_DATA) & 0xff;
+> +  return cdns_mhdp_bus_read(mhdp, MAILBOX0_RD_DATA) & 0xff;
+>  }
 
-Today's linux-next merge of the drm-intel-fixes tree got a conflict in:
+-- 
+Regards,
 
-  drivers/gpu/drm/i915/gt/intel_lrc.c
-
-between commit:
-
-  f53ae29c0ea1 ("drm/i915/gt: Include a few tracek for timeslicing")
-
-from Linus' tree and commit:
-
-  00febf644648 ("drm/i915/gt: Incorporate the virtual engine into timeslici=
-ng")
-
-from the drm-intel-fixes tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/gt/intel_lrc.c
-index 87e6c5bdd2dc,e77f89b43e5f..000000000000
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@@ -1971,20 -1853,12 +1990,19 @@@ static void set_timeslice(struct intel_
-  	if (!intel_engine_has_timeslices(engine))
-  		return;
- =20
- -	set_timer_ms(&engine->execlists.timer, active_timeslice(engine));
- +	duration =3D active_timeslice(engine);
- +	ENGINE_TRACE(engine, "bump timeslicing, interval:%lu", duration);
- +
- +	set_timer_ms(&engine->execlists.timer, duration);
-  }
- =20
-- static void start_timeslice(struct intel_engine_cs *engine)
-+ static void start_timeslice(struct intel_engine_cs *engine, int prio)
-  {
-  	struct intel_engine_execlists *execlists =3D &engine->execlists;
-- 	const int prio =3D queue_prio(execlists);
- +	unsigned long duration;
- +
- +	if (!intel_engine_has_timeslices(engine))
- +		return;
- =20
-  	WRITE_ONCE(execlists->switch_priority_hint, prio);
-  	if (prio =3D=3D INT_MIN)
-@@@ -2140,13 -1994,8 +2158,13 @@@ static void execlists_dequeue(struct in
-  			__unwind_incomplete_requests(engine);
- =20
-  			last =3D NULL;
-- 		} else if (need_timeslice(engine, last) &&
-+ 		} else if (need_timeslice(engine, last, rb) &&
-  			   timeslice_expired(execlists, last)) {
- +			if (i915_request_completed(last)) {
- +				tasklet_hi_schedule(&execlists->tasklet);
- +				return;
- +			}
- +
-  			ENGINE_TRACE(engine,
-  				     "expired last=3D%llx:%lld, prio=3D%d, hint=3D%d, yield?=3D%s\n",
-  				     last->fence.context,
-
---Sig_/+LWcEw/dTcCMMLWI1+PUaar
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7W2+AACgkQAVBC80lX
-0Gzk6Qf+NgipWpAbO9j938t18ykGpgXDxSrAyqX/47f6+DOhTjaz0Ak7P69ECbR5
-zBYdNjOevpGH96Cn6EQV615b+1ldZe/7A4V4uxdCLtwPCccekbqoS2vEX4uetMsZ
-852YsDvkV/6U0RFgmjHEi2Famrde6hjrfajJ49aP0quHo3RNickZIe5xQj8IbtSC
-lX05WBNlr62yWk3aj5KJhVx7fVsC7ul76Yuxq16oqbHAexbJVjrfRaSZ5+xqEE9A
-qg0PaE/Ezdk/DtCaOlc51WDCvYwI5teLVjze+pXG8MDtTPVsoWyKLoyoTOwCZt+n
-+bU80q9HXJ95BOR6e84+vEgB2Y18vw==
-=glNj
------END PGP SIGNATURE-----
-
---Sig_/+LWcEw/dTcCMMLWI1+PUaar--
-
---===============1142125004==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1142125004==--
