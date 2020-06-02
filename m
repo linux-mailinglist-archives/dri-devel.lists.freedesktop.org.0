@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F531EC2C4
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 21:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73DE31EC2C7
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 21:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D23D89970;
-	Tue,  2 Jun 2020 19:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A81976E45D;
+	Tue,  2 Jun 2020 19:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB4D89970
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 19:31:50 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id s1so14059827ljo.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 12:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IQbEYa0oW0Il8mjfCzR4SoEfB7EUDs8d+32KPqK0uG4=;
- b=VG2CJ5t+FQePnvjuONDwr6Dql0NvazBNVRqadOsYgGBHsWUl15Ct8FtXwYihJnDz4P
- roesHC2nlZ1W+rf0yu/PrUqwzwy9amDLGR8maWs7F7LOLxt51R6tgnYvEXzcAPzEY5/C
- A3syAi0TEP9TFKGEiO5g+0hlkjSzNyG6QQG+3cF+LfRsQdyWyzrXblFKTUdRm84VvTRM
- 90fejGTEfsQCFOcBHCCd2S/eQs0TKYCv7mMunvHHl4cPh9vJDYMGI2Qj6UNQZhNYyl4A
- 6YKeBUUuielCOD2+N2SFexpH6ft4bMjwWpo58iuHfwApd6/fnY69lPErh6E1cNhXyw4o
- 9R7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IQbEYa0oW0Il8mjfCzR4SoEfB7EUDs8d+32KPqK0uG4=;
- b=KpAc0u70pxNhvrK48KRkYcOrsyJDl9sJ1czhWTUBmyE3uKxuWDLXOxg8ZYCcS8wCHL
- zubjaWe+kyVVMaIKxzdB3zy/15HQxNJO2oEOAaWeVoYfSryWDxCMRfqqr7YnRHO6D99X
- LWLsfC6QeXBZB50uff1XwJYdMlEO6gP8nIfWJaGKyVkBvXoIyaBC2dPLCk5kO+C8tqBb
- tu64EkQMVFmw5DOA4zTaqXyktbvKbcCg206mXmLJzJ68dP+/cJiR/SpkzDp6CQnOjeVd
- zMx9oBlLJ3MopDrBsWWtTjcf/AbYOayDIvobpUyVe8OYJ5xUoqNiQ3ADbd1Ffx21QOWG
- Jq6A==
-X-Gm-Message-State: AOAM532LRZQ52ktQjeCzFHDBl9bhJSZwIErpAJLoDRXqAeMJyzrgPP06
- xL+Rwa1/g22OzSHvwnLF9a5uM9OLTkm9jrHmHQI1fQ==
-X-Google-Smtp-Source: ABdhPJxA2pW7yh8mSs3AzE0QrgE8KUJRrdHsiJaMgBJ2xDsVXK8ITtIHOEPS1WjP3x7YzPtQAVEFE55uqBSjObbn8hU=
-X-Received: by 2002:a2e:9147:: with SMTP id q7mr326807ljg.430.1591126308681;
- Tue, 02 Jun 2020 12:31:48 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17E2B6E45D
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 19:32:26 +0000 (UTC)
+IronPort-SDR: aKurbRKu3NqV0Ar3wz+8zZoWhkJqpgIhgum4PMhmycvP5TomVD398Ag2IbrDHDg9/lduMLwjkb
+ M77VY3DiT+sQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jun 2020 12:32:25 -0700
+IronPort-SDR: sEjLOyBrgJ/iRCfkHU7TaDu1waDXaVzijhGsGt4Y9ggaY2xoecR1MWmZFQuXdU7to0vKhi53ek
+ 4wiVqUx0WgUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,465,1583222400"; d="scan'208";a="444821760"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by orsmga005.jf.intel.com with ESMTP; 02 Jun 2020 12:32:25 -0700
+Date: Tue, 2 Jun 2020 12:33:10 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: document how user-space should use link-status
+Message-ID: <20200602193309.GB6277@intel.com>
+References: <krnCwRP0UCcVJbY-8ILP_gEFf4EaUdKPSuuHisFkphFaoOl2EAnU032oOWAeJi2xlsFsA7qeR8lypXs71-SoULZnd2gP5C7ohDEfsWTB5-A=@emersion.fr>
+ <20200602103846.5c38d080@eldfell.localdomain>
+ <20200602095836.GB20149@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <d2c1850e38e14f3def4c0307240e6826e296c14b.1590594512.git-series.maxime@cerno.tech>
- <CADaigPU7c=1u47R9GzvGCH_Z2fywY1foGYEy=KbBikjUQpwUFg@mail.gmail.com>
- <20200602141228.7zbkob7bw3owajsq@gilmour>
- <CAPY8ntDZWJeu14mL5a0jqUWHFOEWm2OOBBkh4yjjP0oLU83UCQ@mail.gmail.com>
-In-Reply-To: <CAPY8ntDZWJeu14mL5a0jqUWHFOEWm2OOBBkh4yjjP0oLU83UCQ@mail.gmail.com>
-From: Eric Anholt <eric@anholt.net>
-Date: Tue, 2 Jun 2020 12:31:37 -0700
-Message-ID: <CADaigPUHPhdrt9JkTfaw0iT7Z8z3Si-v2VJ-s+dhnFQaDNkAaA@mail.gmail.com>
-Subject: Re: [PATCH v3 032/105] drm/vc4: crtc: Enable and disable the PV in
- atomic_enable / disable
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Disposition: inline
+In-Reply-To: <20200602095836.GB20149@phenom.ffwll.local>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,62 +50,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- bcm-kernel-feedback-list@broadcom.com, Maxime Ripard <maxime@cerno.tech>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 2, 2020 at 8:02 AM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Maxime and Eric
->
-> On Tue, 2 Jun 2020 at 15:12, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi Eric
-> >
-> > On Wed, May 27, 2020 at 09:54:44AM -0700, Eric Anholt wrote:
-> > > On Wed, May 27, 2020 at 8:50 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > >
-> > > > The VIDEN bit in the pixelvalve currently being used to enable or disable
-> > > > the pixelvalve seems to not be enough in some situations, which whill end
-> > > > up with the pixelvalve stalling.
-> > > >
-> > > > In such a case, even re-enabling VIDEN doesn't bring it back and we need to
-> > > > clear the FIFO. This can only be done if the pixelvalve is disabled though.
-> > > >
-> > > > In order to overcome this, we can configure the pixelvalve during
-> > > > mode_set_no_fb, but only enable it in atomic_enable and flush the FIFO
-> > > > there, and in atomic_disable disable the pixelvalve again.
-> > >
-> > > What displays has this been tested with?  Getting this sequencing
-> > > right is so painful, and things like DSI are tricky to get to light
-> > > up.
-> >
-> > That FIFO is between the HVS and the HDMI PVs, so this was obviously
-> > tested against that. Dave also tested the DSI output IIRC, so we should
-> > be covered here.
->
-> DSI wasn't working on the first patch set that Maxime sent - I haven't
-> tested this one as yet but will do so.
-> DPI was working early on to both an Adafruit 800x480 DPI panel, and
-> via a VGA666 as VGA.
-> HDMI is obviously working.
-> VEC is being ignored now. The clock structure is more restricted than
-> earlier chips, so to get the required clocks for the VEC without using
-> fractional divides it compromises the clock that other parts of the
-> system can run at (IIRC including the ARM). That's why the VEC has to
-> be explicitly enabled for the firmware to enable it as the only
-> output. It's annoying, but that's just a restriction of the chip.
+On Tue, Jun 02, 2020 at 11:58:36AM +0200, Daniel Vetter wrote:
+> On Tue, Jun 02, 2020 at 10:38:46AM +0300, Pekka Paalanen wrote:
+> > On Mon, 01 Jun 2020 14:48:58 +0000
+> > Simon Ser <contact@emersion.fr> wrote:
+> > 
+> > > Describe what a "BAD" link-status means for user-space and how it should
+> > > handle it. The logic described has been implemented in igt [1].
+> > > 
+> > > [1]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/fbe61f529737191d0920521946a575bd55f00fbe
+> > > 
+> > > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Cc: Manasi Navare <manasi.d.navare@intel.com>
+> > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_connector.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > > index f2b20fd66319..08ba84f9787a 100644
+> > > --- a/drivers/gpu/drm/drm_connector.c
+> > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > @@ -994,6 +994,12 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+> > >   *      after modeset, the kernel driver may set this to "BAD" and issue a
+> > >   *      hotplug uevent. Drivers should update this value using
+> > >   *      drm_connector_set_link_status_property().
+> > > + *
+> > > + *      When user-space receives the hotplug uevent and detects a "BAD"
+> > > + *      link-status, the connector is no longer enabled. The list of available
+> 
+> "no longer enabled" is kinda wrong, you can keep doing pageflip. It's just
+> that the pixels aren't getting to the screen anymore.
+> 
+> "enabled" wrt an output has a different meaning in kms, the internal
+> drm_crtc_state->enabled state is very much still set. Including what that
+> all means for the uapi.
 
-I'm more concerned with "make sure we don't regress pre-pi4 with this
-series" than "pi4 displays all work from the beginning"
+Yes I was about to comment on that too. And here we should mention, that rather
+when user space recieves the hotplug uevent and detects a BAD link status, that
+means connector's physical link failed to train correctly hence no output across
+the link and a black screen seen on the display. In this case the userspace
+should respond to this uevent by reprobing the connector to get a modelist
+now as per the new capabilities of the connector after the fallback in link rate/lane count
+and retry a full modeset resetting the link-status to GOOD
+
+Also to answer Pekka's concern here about modelist being empty, this should not happen
+since the kernel fallsback the link capabilities until it reaches the lowest RBR and 1 lane count
+and with this most panels should be still able to do the lowest available mode in their modelist.
+And likely the link training will pass for this minimum resolution and minimum capabilities.
+
+Manasi
+
+> 
+> Also I think we need some words here on what automatically happens when
+> you do an atomic commit with the connector with the bad link status
+> (auto-reset to good, which might make the atomic modeset fail). On irc we
+> had some discussions that we should only do this if ALLOW_MODESET is set,
+> but that's atm not the case.
+> -Daniel
+> 
+> > > + *      modes may have changed. User-space is expected to pick a new mode if
+> > > + *      the current one has disappeared and perform a new modeset with
+> > > + *      link-status set to "GOOD" to re-enable the connector.
+> > >   * non_desktop:
+> > >   * 	Indicates the output should be ignored for purposes of displaying a
+> > >   * 	standard desktop environment or console. This is most likely because
+> > 
+> > Hi,
+> > 
+> > makes sense to me. Can it happen that there will be no modes left in
+> > the list?
+> > 
+> > What if userspace is driving two connectors from the same CRTC, and only
+> > one connector gets link-status bad, what does it mean? Is the other
+> > connector still running as normal, as if the failed connector didn't
+> > even exist?
+> > 
+> > That is mostly a question about what happens if userspace does not fix
+> > up the link-status=bad connector and does not detach it from the CRTC,
+> > but keeps on flipping or modesetting as if the failure never happened.
+> > I guess I could ask it about both a CRTC that has another connector
+> > still good, and a CRTC where the failed connector was the only one.
+> > 
+> > Can I trust that if the other connector is in any way affected, it too
+> > will get link-status bad?
+> > 
+> > 
+> > Thanks,
+> > pq
+> 
+> 
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
