@@ -2,88 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3245F1ECA17
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8DA1ECA25
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B631889BFB;
-	Wed,  3 Jun 2020 07:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443696E4E6;
+	Wed,  3 Jun 2020 07:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F68A6E141
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 11:07:39 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.93) with esmtps (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1jg4lb-0022iv-6w; Tue, 02 Jun 2020 13:07:35 +0200
-Received: from p57bd9b57.dip0.t-ipconnect.de ([87.189.155.87]
- helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.93)
- with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1jg4lb-002h0H-0L; Tue, 02 Jun 2020 13:07:35 +0200
-Subject: Re: [PATCH 1/2] video: fbdev: amifb: remove dead APUS support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <CGME20200504232908eucas1p296927bc7c736ad924cefaea9a546459d@eucas1p2.samsung.com>
- <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
- <839133dd-8ed4-5fec-c311-ce9f8abf3d5f@samsung.com>
- <72e0871c-d4bb-4887-4d6f-a60fd905bec1@physik.fu-berlin.de>
- <CAMuHMdXUD4PNndjtxz84pYMdXaM68g7vWiRd+Gf18a35T-oA=Q@mail.gmail.com>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
- 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
- scOkTAZQGVpD/8AaLH4v1w==
-Message-ID: <6d17452e-29ee-76dd-759c-b39d87bb82b8@physik.fu-berlin.de>
-Date: Tue, 2 Jun 2020 13:07:33 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6813F89F43;
+ Tue,  2 Jun 2020 11:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1591096244;
+ bh=wAC4w7GsX0remXYtsz0+/q5r9dTHAJaLyqVIp9ofCno=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=QlA8fN/T8lLIFAz/KZoHWDcAB8p8C5r2Kin+1LZzw2ZjhgrGAFAKqCcDt+goVxMXD
+ +cOScROdxHL8MnHmZruJlYgLbXmxEl9dUELAC922wASMXdFW5h3SjHkm4PHs8dWIhi
+ WZUy3XaDAwAxoOzTa5PjSIltAh/Q5Af+PrxCZJWI=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([2.243.186.246]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MODmV-1jMc1K36oz-00OX4F; Tue, 02
+ Jun 2020 13:10:43 +0200
+Subject: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in gm20b_clk_new()
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Dinghao Liu <dinghao.liu@zju.edu.cn>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+References: <dd729c13-fbc8-22e7-7d8e-e3e126f66943@web.de>
+ <40d8fb01.db721.17269d3d620.Coremail.dinghao.liu@zju.edu.cn>
+ <20200602102955.GZ30374@kadam>
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <65e3d2b7-b0ad-f387-b8fe-d83ea816a0f6@web.de>
+Date: Tue, 2 Jun 2020 13:10:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXUD4PNndjtxz84pYMdXaM68g7vWiRd+Gf18a35T-oA=Q@mail.gmail.com>
-Content-Language: en-US
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.155.87
+In-Reply-To: <20200602102955.GZ30374@kadam>
+Content-Language: en-GB
+X-Provags-ID: V03:K1:uazG0p1YzHXmf3z0hs6p+NcCmKHj9lldr8B5DAKIx1PI79krr1D
+ sRZGw9PeHjCaTXI434td5X6q/9dus1PV6nmoSNWA0z3ez5nPyZj8MvySdQSKJu9jb5M1RUo
+ NApQFX05yN04RNeZypU4m1ZNmvM9qOrtxvP3pY3rVP3dIVzlEBe9IJUuUgnRflssNtrmW/e
+ 8zy62sloEXL1/USkG8qNw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DHRVIPzbTBk=:Z3qDqkVgFdZeUH0Nn58AQS
+ cjTa4y8p1p5a4NTrIYeuyAHBpFGrPaxV+4fi61cPJaPotu+sJYrnc9PFaI77tkACSCJTnGK89
+ OBRpagnHJcJYprT7wC/j/Nq+auXrjwwaHiBE18eYmNRaJah5eLwDsMYdrtgth+OSE8YtyrSL7
+ /6x20Cm4YOJb5x8PoxiIJLZu0nROHZF6muaPUSHFslosma1GTAg1alYEAjxe55NPALp0kL1vX
+ zflleM1KtXb4DJFLt0IL3vtr+16g/1DnGFyNlUpd2CGiUl3KPkBHvWfVzJgQQOuDrqHfVtMLu
+ PJWbU+/6iVLPIGWULCWfnDkq0zXJJ5PXVR7go+9JxLZCYqRYQZP5yYFpjhYQPwPWpPeOfRr6Y
+ scpGvNgpe+Z6k7wGER/avMO7VwxbHplTSyvGxwVJJWPixSEVaxnY9SjBspMrREpgqyMk+RKrZ
+ MePbAEdF50LCE80L8FjmvzzqjavmJnD4GlVFQ1BKHiuapjbpdsEEPUDSukQRX+pIc+iZH6TX5
+ Xdz+nwAsnc8EbjxsCr+CwVPFtHw/zx2SPF/apw3XHzjYDNFcIdDuoI5dJCasivnygBYo7NZIx
+ UNoowCt9ARH18aemxL3uCD/ZJbZu4IaTC6pFgtN0X7Lc0la2RyZPj4buCpfP9pNq6oivv5qk4
+ 00ILbg/vXx3MRoBrPVCWFKR/Htr4obBwGZvSPYwpcBMl3voLCIlbvnqwewHw45HVhDRwnxQRY
+ xBqmMYiXh5VPJ4y2I+b7WBHZ6D4TOV1yWDuKiX/OXYOTj9AVnYPRPN9Z+dhjpoUorslLzs/rT
+ UFcgqojZ/akhSHcQxP14seAwwGj+q61niX3xJoY6g7BlA2EaRhv8c8plqFXRW82rqDo4uKCv1
+ kKgSHHneWFGAHGmVG0Yc7Imzp9XxYigjNqhhufZhbtfaUNcaw9ct/1H4sXhSNtWe/dKoayX8+
+ B7g6rJIjnk/0BQUN9WWKncp79iPWj7Ci4WYNkrFy16BNBVaaR0kDvqJK3lebW+rLmegnwh9Dd
+ hfjgMtIdSo+Z5Nu2wbZcSeNyNOcky9pNeZE1OeCVEWUk8BXzbTVqofSTCY64lv7HnFDMTxjNQ
+ ptfzzMjO8qmSPdVdw35qUiFd3uot4HnHGp7hBfAhkOazhGU7ZGXxzb20kPNjdHX0eyE6W0pzF
+ /iG3rlBZop4HGhtSE8merhbpyYjClGI8eFc+B9KTFp7i2CGgU5p7M13UG3M0GQhM5HGRFJfdi
+ 7+BjU1zzL7RLnP8G9
 X-Mailman-Approved-At: Wed, 03 Jun 2020 07:04:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,58 +118,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- Al Viro <viro@zeniv.linux.org.uk>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Kangjie Lu <kjlu@umn.edu>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-On 6/2/20 1:04 PM, Geert Uytterhoeven wrote:
->> What do you mean with the sentence "when arch/ppc/ was still king"?
-> 
-> Ah, Bartl copied that from my email ;-)
-> 
-> There used to be APUS support under arch/ppc/.
-> Later, 32-bit arch/ppc/ and 64-bit arch/ppc64/ were merged in a new\
-> architecture port under arch/powerpc/, and the old ones were dropped.
-> APUS was never converted, and thus dropped.
-
-Ah, yes. Similar to the merge with x86.
-
->> Does that mean - in the case we would re-add APUS support in the future, that
->> these particular changes would not be necessary?
-> 
-> They would still be necessary, as PowerPC doesn't grok m68k instructions.
-> Alternatively, we could just drop the m68k inline asm, and retain the C
-> version instead?  I have no idea how big of a difference that would make
-> on m68k, using a more modern compiler than when the code was written
-> originally.
-
-Hmm, no idea. I would keep the assembly for the time being. This was just
-a question out of curiosity. We could still consider such a change if
-someone should consider working on APUS support again.
-
-> Note that all of this is used only for cursor handling, which I doubt is
-> actually used by any user space application. The only exception is the
-> DIVUL() macro, which is used once during initialization, thus also not
-> performance critical.
-I see, thanks.
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBUaGUgb3JpZ2luYWwgcGF0Y2ggd2FzIGJhc2ljYWxseSBmaW5lLgoKSSBwcm9wb3NlIHRvIHJl
+Y29uc2lkZXIgdGhlIGludGVycHJldGF0aW9uIG9mIHRoZSBzb2Z0d2FyZSBzaXR1YXRpb24gb25j
+ZSBtb3JlLgoKKiBTaG91bGQgdGhlIGFsbG9jYXRlZCBjbG9jayBvYmplY3QgYmUga2VwdCB1c2Fi
+bGUgZXZlbiBhZnRlcgogIGEgc3VjY2Vzc2Z1bCByZXR1cm4gZnJvbSB0aGlzIGZ1bmN0aW9uPwoK
+KiBIb3cgbXVjaCBkbyDigJxkZXN0cnVjdG9y4oCdIGNhbGxzIG1hdHRlciBoZXJlIGZvciAoc3Vi
+KWRldmljZXM/CgoKPiBKdXN0IGFkZCBhIEZpeGVzIHRhZyBhbmQgcmVzZW5kLgoKVGhpcyB0YWcg
+Y2FuIGhlbHAgYWxzby4KClJlZ2FyZHMsCk1hcmt1cwpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwK
