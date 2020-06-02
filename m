@@ -2,91 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA451EB9AD
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 12:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6511EB9B0
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 12:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B99B89D3E;
-	Tue,  2 Jun 2020 10:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0EEB89321;
+	Tue,  2 Jun 2020 10:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
  [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2ED89D3E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 10:37:30 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CA989D57
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 10:38:20 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200602103729euoutp0147d5fc84151e793013292a6fdfa11b86~Us8ofRJdX0347303473euoutp01I
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 10:37:29 +0000 (GMT)
+ 20200602103819euoutp014c7edcf6d0ffc096fa0dfe0122d1eded~Us9XrTZsl0267802678euoutp01I
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 10:38:19 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200602103729euoutp0147d5fc84151e793013292a6fdfa11b86~Us8ofRJdX0347303473euoutp01I
+ 20200602103819euoutp014c7edcf6d0ffc096fa0dfe0122d1eded~Us9XrTZsl0267802678euoutp01I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1591094249;
- bh=4vUewRLzHeFYoroLdqGpNGuPNMeJGx5ZvKq8Qs7i8ug=;
+ s=mail20170921; t=1591094299;
+ bh=srJNMlN35yPx2wBufa1+xyUmNboKPt4b/fJgTaYJwj0=;
  h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=M8+hQaQFsd3TD9YQH56v3iYt1haKgPY7V78GF/ZJ7mflbbWT8Nyg8z2xjSsUWacK6
- XUcomYvoxwhHtdCWc7qgkhPRHttXA+iX41nj/XEW8KVebxrUpPYuZ/JJ4b+0g5WEe6
- fyvLKxwjFEdCDMyXKg2L98n8kUVvm5gyFH5wMTV4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=HTQ6BOEfhJHzUPwFhSeT4t9bbPokCsqZl9PeMbsDCpRaH0Hp5L6227Uxb9m6wvwOc
+ cVT2Q6IjaXJwpQdKMZgvn9K+aG6ICbrktt1HOicRKed2k56zS6ri1h6ptRbO1F9ZSJ
+ TTG7cxSDiVqkw206eaksVvJeaw/54km0/uI58zdk=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200602103728eucas1p1412c7a16e2c124de609493d6af81ec2c~Us8oHFc1m2606626066eucas1p1l;
- Tue,  2 Jun 2020 10:37:28 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 2D.FF.60698.8EB26DE5; Tue,  2
- Jun 2020 11:37:28 +0100 (BST)
+ 20200602103819eucas1p1c7c078d397114df8c40cc227b64cf65a~Us9XjvqQt1569715697eucas1p1i;
+ Tue,  2 Jun 2020 10:38:19 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id E3.6D.61286.B1C26DE5; Tue,  2
+ Jun 2020 11:38:19 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200602103728eucas1p14557b8b4c33dbc82b0351f58e2a4140d~Us8nxlVUX1571015710eucas1p1A;
- Tue,  2 Jun 2020 10:37:28 +0000 (GMT)
+ 20200602103819eucas1p1613484842ec2169440d9597557b1c740~Us9XTovJY1306513065eucas1p1l;
+ Tue,  2 Jun 2020 10:38:19 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200602103728eusmtrp2f9a8f6736e923eff4bf707d32c238b35~Us8nw_IWx1363813638eusmtrp26;
- Tue,  2 Jun 2020 10:37:28 +0000 (GMT)
-X-AuditID: cbfec7f5-a29ff7000001ed1a-0a-5ed62be82fee
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 1A.29.07950.8EB26DE5; Tue,  2
- Jun 2020 11:37:28 +0100 (BST)
+ 20200602103819eusmtrp29f4bef2776ab5dcdb45cdb0d40edd7a5~Us9XS8WIG1507115071eusmtrp2v;
+ Tue,  2 Jun 2020 10:38:19 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-b5-5ed62c1b625a
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id C6.49.07950.B1C26DE5; Tue,  2
+ Jun 2020 11:38:19 +0100 (BST)
 Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200602103727eusmtip2d2687492ceec67a96c797c4c247892d1~Us8nY_3Oj2214522145eusmtip2P;
- Tue,  2 Jun 2020 10:37:27 +0000 (GMT)
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200602103818eusmtip1e7b600b92b20ab441ca5277343e72794~Us9W4WQcS2246822468eusmtip1f;
+ Tue,  2 Jun 2020 10:38:18 +0000 (GMT)
 From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH 1/2] video: fbdev: amifb: remove dead APUS support
+Subject: [PATCH 2/2] video: fbdev: amifb: add FIXMEs about {put,get}_user()
+ failures
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <839133dd-8ed4-5fec-c311-ce9f8abf3d5f@samsung.com>
-Date: Tue, 2 Jun 2020 12:37:27 +0200
+Message-ID: <a514e3bf-2e1a-ff4d-5529-3e918d067d5e@samsung.com>
+Date: Tue, 2 Jun 2020 12:38:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 In-Reply-To: <b1cf967015c5beafa475aaa30d8e21a58caff870.camel@perches.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfyyUcRze933fe+9lTl9H80nFuqn1E01/3MoMNZ0tldpobX6cvGH5cd2h
- +KPZSkmYXzGXIr+zye0yji10mmM4FaubWfrjGOYoh5ZF9XpZ/nue5/t8ns/z2b4MKa4RuDDx
- SSmsMkmeIKFtqba+XyMnZo59jvBqfHNQOraySEunx98S0v787wLpaGcFLW0wN5PSkXWDwI+W
- 6XuzkWzyiYGQDWStUjKr1lWmNVuIy4Lrtj4xbEJ8Gqv09I2yjTPlzgsVBYfvWjq9MpHRNQfZ
- MIBPwZDpJ5GDbBkxbkQwv5Ar5MkygkJjKc0TK4KXOg2xPdJi7dlyNSCYWisieWJBMNFXS3Mu
- Gp+GwkdNKAcxjCMOgNplxMlO2A9KTAVCDpO4CkGr/ixnEWFfaHofzMkUdoeayVKSw7vxNVj6
- 1ivgsAg7wEC5meKwDQ4CXd4owcc4w7i5cgu7QbulYrMOYK0QvkzN0Vw+4HNQZkB8f0eYM7QK
- ebwP/nRUErz/NYL17Jmt4XYEDcUbNO86AxPGtc0gEh+Blk5PXvaHoQ+zBJ9vDyaLA9/BHora
- ykheFkH2QzHvPgSaeg29vTan4xVZgCTqHZepd1yj3nGN+v/eKkQ1IWc2VZUYy6q8k9g7Hip5
- oio1KdbjRnKiFv37OoMbhhUd6vodrUeYQRI7kWZyLEIskKep0hP1CBhS4iQKGB6MEIti5OkZ
- rDI5UpmawKr0aC9DSZxF3tWz4WIcK09hb7GsglVuvxKMjUsm0jlE+oQfFxy46d/oUr3LqtEN
- hHU/KLdraAtZLbwnGw4LVSqKv65UmJpv3++/uGipyHsWFVJJPcbpQ8/rQv3nYd5YHWi0xqeX
- qD9e8X13Va0IMkxr3LoUwcH5WVrqx3LPxNKLDLt6h5UL7rj0fKDxky6Y7Oluia67FPR0Yc/+
- UgmlipOfPEoqVfK/qa7VBDYDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsVy+t/xe7ovtK/FGRx8xmNx5et7Notnt/Yy
- WZzo+8BqcXnXHDaL5U/WMluc/3uc1YHN49DhDkaP+93HmTxOtn5j8fi8Sc5j05O3TAGsUXo2
- RfmlJakKGfnFJbZK0YYWRnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZN3resBdM
- 0Kh4u8uggfGcXBcjJ4eEgInE+s8H2LsYuTiEBJYySlz8e4C1i5EDKCEjcXx9GUSNsMSfa11s
- EDWvGSVOL+xgA0mwCVhJTGxfxQhSLyzgJLHkCyNIWETAQWLKjQlgM5kFFjBKnG07yArRPIdR
- YserG2ANvAJ2EquO+II0sAioSCy+P40ZxBYViJA4vGMW2CBeAUGJkzOfsIDYnAKeEjt6LzOB
- 2MwC6hJ/5l1ihrDFJW49mQ8Vl5fY/nYO8wRGoVlI2mchaZmFpGUWkpYFjCyrGEVSS4tz03OL
- jfSKE3OLS/PS9ZLzczcxAuNs27GfW3Ywdr0LPsQowMGoxMO74f6VOCHWxLLiytxDjBIczEoi
- vE5nT8cJ8aYkVlalFuXHF5XmpBYfYjQFem4is5Rocj4wBeSVxBuaGppbWBqaG5sbm1koifN2
- CByMERJITyxJzU5NLUgtgulj4uCUamBUlHngcfbqER79o8Ut935HX//Fe+Z6n8iLzs+p77rq
- ck8u3Onye5Nm214p0ak3Pqt62MWoB28r+BJhuDNJUyfYbqu48i+mmf5OB8I/NT9aeL96tSrv
- o65bjS67pjPF2HT8b/0o0ZZereHup8PJ/Nt5pqho/8L3HXq9dxoOKFefuXqyy3BpIY8SS3FG
- oqEWc1FxIgDIacQmyQIAAA==
-X-CMS-MailID: 20200602103728eucas1p14557b8b4c33dbc82b0351f58e2a4140d
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGKsWRmVeSWpSXmKPExsWy7djPc7rSOtfiDA6dU7S48vU9m8WzW3uZ
+ LE70fWC1uLxrDpvF8idrmS3O/z3O6sDmcehwB6PH/e7jTB4nW7+xeHzeJOex6clbpgDWKC6b
+ lNSczLLUIn27BK6Mle+WMBac46w42b6DrYHxCnsXIyeHhICJxI3JUxi7GLk4hARWMEpM3tPA
+ DOF8YZSYP2cWVOYzo8TJL7vYYFrmfW9gArGFBJYzSvzZwwFR9JZR4t7VUywgCTYBK4mJ7asY
+ QWxhgTCJBS/vgDWICDhITLkxAWw3s8ACRokth5xBbF4BO4kZc7rAelkEVCSmrG4BqxcViJD4
+ 9OAwK0SNoMTJmU/AajgFPCV29F5mgpgjLnHryXwoW15i+9s5YC9ICKxjl7j9aDYTxNUuEle2
+ r2eBsIUlXh3fAg0AGYn/O0GawRoYJf52vIDq3s4osXzyP6ifrSXunPsFZHMArdCUWL9LHyLs
+ KHHmwksmkLCEAJ/EjbeCEEfwSUzaNp0ZIswr0dEmBFGtJrFh2QY2mLVdO1cyT2BUmoXktVlI
+ 3pmF5J1ZCHsXMLKsYhRPLS3OTU8tNsxLLdcrTswtLs1L10vOz93ECEw9p/8d/7SD8eulpEOM
+ AhyMSjy8G+5fiRNiTSwrrsw9xCjBwawkwut09nScEG9KYmVValF+fFFpTmrxIUZpDhYlcV7j
+ RS9jhQTSE0tSs1NTC1KLYLJMHJxSDYyGuaY+040tyquyzDeJmS5KePluXoD382ObuNWiKy8q
+ MP8QfyV27PHV7V/zmzpXeFx2+Xg9Pe34h95zu4y1Fz77Zjzjp6/vkpe3NtrX5j2JkpF+vGb1
+ lAkqhSt8d97aua6Bbb8V168V6i90vQKnFRzdyFC331U7myFp4XO5Y7tOW0afS0y5/T1MiaU4
+ I9FQi7moOBEAuyosQzkDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsVy+t/xu7rSOtfiDK7c4bW48vU9m8WzW3uZ
+ LE70fWC1uLxrDpvF8idrmS3O/z3O6sDmcehwB6PH/e7jTB4nW7+xeHzeJOex6clbpgDWKD2b
+ ovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2Mle+WMBac
+ 46w42b6DrYHxCnsXIyeHhICJxLzvDUxdjFwcQgJLGSUWPzvJ0sXIAZSQkTi+vgyiRljiz7Uu
+ Noia14wSNx7MYANJsAlYSUxsX8UIYgsLhEkseHmHCcQWEXCQmHJjAjtIA7PAAkaJs20HWSG6
+ 5zBK7Hh1A6yDV8BOYsacLhYQm0VARWLK6hawblGBCInDO2ZB1QhKnJz5BKyGU8BTYkfvZbAa
+ ZgF1iT/zLjFD2OISt57Mh4rLS2x/O4d5AqPQLCTts5C0zELSMgtJywJGllWMIqmlxbnpucVG
+ esWJucWleel6yfm5mxiB0bbt2M8tOxi73gUfYhTgYFTi4d1w/0qcEGtiWXFl7iFGCQ5mJRFe
+ p7On44R4UxIrq1KL8uOLSnNSiw8xmgI9N5FZSjQ5H5gI8kriDU0NzS0sDc2NzY3NLJTEeTsE
+ DsYICaQnlqRmp6YWpBbB9DFxcEo1MDY/tS/cLtAV9c3x8PSYtAK9eRVCL2eb/Vnz4WfbgmUz
+ pWz2djyZ8qD59aliXpOkXD8x88Izs4680Vy7VeGHptPPE68zL65a+SOkvyyWdbIvoyy/lWwt
+ j1jRU/Neq/7Q6Ftt16/d1tOaLaRV4hKb6C10ybrL6NEpIRbGTp7ils0WTGcWyX13VGIpzkg0
+ 1GIuKk4EAGB0mu3MAgAA
+X-CMS-MailID: 20200602103819eucas1p1613484842ec2169440d9597557b1c740
 X-Msg-Generator: CA
 X-RootMTR: 20200504232908eucas1p296927bc7c736ad924cefaea9a546459d
 X-EPHeader: CA
@@ -114,168 +115,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since we lack the hardware (or proper emulator setup) for
+testing needed changes add FIXMEs to document the issues
+(so at least they are not forgotten).
 
-On 5/14/20 10:21 PM, Geert Uytterhoeven wrote:
-
-> These #ifdefs are relics from APUS (Amiga Power-Up System), which
-> added a PPC board.  APUS support was killed off a long time ago,
-> when arch/ppc/ was still king, but these #ifdefs were missed, because
-> they didn't test for CONFIG_APUS.
-
-Reported-by: Al Viro <viro@zeniv.linux.org.uk>
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
 Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
- drivers/video/fbdev/amifb.c |   63 --------------------------------------------
- 1 file changed, 63 deletions(-)
+ drivers/video/fbdev/amifb.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
 Index: b/drivers/video/fbdev/amifb.c
 ===================================================================
 --- a/drivers/video/fbdev/amifb.c
 +++ b/drivers/video/fbdev/amifb.c
-@@ -576,14 +576,8 @@ static u_short maxfmode, chipset;
- #define modx(x, v)	((v) & ((x) - 1))
- 
- /* if x1 is not a constant, this macro won't make real sense :-) */
--#ifdef __mc68000__
- #define DIVUL(x1, x2) ({int res; asm("divul %1,%2,%3": "=d" (res): \
- 	"d" (x2), "d" ((long)((x1) / 0x100000000ULL)), "0" ((long)(x1))); res;})
--#else
--/* We know a bit about the numbers, so we can do it this way */
--#define DIVUL(x1, x2) ((((long)((unsigned long long)x1 >> 8) / x2) << 8) + \
--	((((long)((unsigned long long)x1 >> 8) % x2) << 8) / x2))
--#endif
- 
- #define highw(x)	((u_long)(x)>>16 & 0xffff)
- #define loww(x)		((u_long)(x) & 0xffff)
-@@ -1837,11 +1831,7 @@ static int ami_get_var_cursorinfo(struct
- 				  const struct amifb_par *par)
- {
- 	register u_short *lspr, *sspr;
--#ifdef __mc68000__
- 	register u_long datawords asm ("d2");
--#else
--	register u_long datawords;
--#endif
- 	register short delta;
- 	register u_char color;
- 	short height, width, bits, words;
-@@ -1868,24 +1858,14 @@ static int ami_get_var_cursorinfo(struct
- 		for (width = (short)var->width - 1; width >= 0; width--) {
- 			if (bits == 0) {
- 				bits = 16; --words;
--#ifdef __mc68000__
- 				asm volatile ("movew %1@(%3:w:2),%0 ; swap %0 ; movew %1@+,%0"
- 					: "=d" (datawords), "=a" (lspr) : "1" (lspr), "d" (delta));
--#else
--				datawords = (*(lspr + delta) << 16) | (*lspr++);
--#endif
- 			}
- 			--bits;
--#ifdef __mc68000__
- 			asm volatile (
+@@ -1866,6 +1866,7 @@ static int ami_get_var_cursorinfo(struct
  				"clrb %0 ; swap %1 ; lslw #1,%1 ; roxlb #1,%0 ; "
  				"swap %1 ; lslw #1,%1 ; roxlb #1,%0"
  				: "=d" (color), "=d" (datawords) : "1" (datawords));
--#else
--			color = (((datawords >> 30) & 2)
--				 | ((datawords >> 15) & 1));
--			datawords <<= 1;
--#endif
++			/* FIXME: check the return value + test the change */
  			put_user(color, data++);
  		}
  		if (bits > 0) {
-@@ -1893,17 +1873,8 @@ static int ami_get_var_cursorinfo(struct
- 		}
- 		while (--words >= 0)
- 			++lspr;
--#ifdef __mc68000__
- 		asm volatile ("lea %0@(%4:w:2),%0 ; tstl %1 ; jeq 1f ; exg %0,%1\n1:"
- 			: "=a" (lspr), "=a" (sspr) : "0" (lspr), "1" (sspr), "d" (delta));
--#else
--		lspr += delta;
--		if (sspr) {
--			u_short *tmp = lspr;
--			lspr = sspr;
--			sspr = tmp;
--		}
--#endif
- 	}
- 	return 0;
- }
-@@ -1912,11 +1883,7 @@ static int ami_set_var_cursorinfo(struct
- 				  u_char __user *data, struct amifb_par *par)
- {
- 	register u_short *lspr, *sspr;
--#ifdef __mc68000__
- 	register u_long datawords asm ("d2");
--#else
--	register u_long datawords;
--#endif
- 	register short delta;
- 	u_short fmode;
- 	short height, width, bits, words;
-@@ -1958,60 +1925,30 @@ static int ami_set_var_cursorinfo(struct
+@@ -1923,6 +1924,7 @@ static int ami_set_var_cursorinfo(struct
+ 		bits = 16; words = delta; datawords = 0;
+ 		for (width = (short)var->width - 1; width >= 0; width--) {
  			unsigned long tdata = 0;
++			/* FIXME: check the return value + test the change */
  			get_user(tdata, data);
  			data++;
--#ifdef __mc68000__
  			asm volatile (
- 				"lsrb #1,%2 ; roxlw #1,%0 ; swap %0 ; "
- 				"lsrb #1,%2 ; roxlw #1,%0 ; swap %0"
- 				: "=d" (datawords)
- 				: "0" (datawords), "d" (tdata));
--#else
--			datawords = ((datawords << 1) & 0xfffefffe);
--			datawords |= tdata & 1;
--			datawords |= (tdata & 2) << (16 - 1);
--#endif
- 			if (--bits == 0) {
- 				bits = 16; --words;
--#ifdef __mc68000__
- 				asm volatile ("swap %2 ; movew %2,%0@(%3:w:2) ; swap %2 ; movew %2,%0@+"
- 					: "=a" (lspr) : "0" (lspr), "d" (datawords), "d" (delta));
--#else
--				*(lspr + delta) = (u_short) (datawords >> 16);
--				*lspr++ = (u_short) (datawords & 0xffff);
--#endif
- 			}
- 		}
- 		if (bits < 16) {
- 			--words;
--#ifdef __mc68000__
- 			asm volatile (
- 				"swap %2 ; lslw %4,%2 ; movew %2,%0@(%3:w:2) ; "
- 				"swap %2 ; lslw %4,%2 ; movew %2,%0@+"
- 				: "=a" (lspr) : "0" (lspr), "d" (datawords), "d" (delta), "d" (bits));
--#else
--			*(lspr + delta) = (u_short) (datawords >> (16 + bits));
--			*lspr++ = (u_short) ((datawords & 0x0000ffff) >> bits);
--#endif
- 		}
- 		while (--words >= 0) {
--#ifdef __mc68000__
- 			asm volatile ("moveql #0,%%d0 ; movew %%d0,%0@(%2:w:2) ; movew %%d0,%0@+"
- 				: "=a" (lspr) : "0" (lspr), "d" (delta) : "d0");
--#else
--			*(lspr + delta) = 0;
--			*lspr++ = 0;
--#endif
- 		}
--#ifdef __mc68000__
- 		asm volatile ("lea %0@(%4:w:2),%0 ; tstl %1 ; jeq 1f ; exg %0,%1\n1:"
- 			: "=a" (lspr), "=a" (sspr) : "0" (lspr), "1" (sspr), "d" (delta));
--#else
--		lspr += delta;
--		if (sspr) {
--			u_short *tmp = lspr;
--			lspr = sspr;
--			sspr = tmp;
--		}
--#endif
- 	}
- 	par->crsr.height = var->height;
- 	par->crsr.width = var->width;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
