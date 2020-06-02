@@ -2,32 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B591EC392
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 22:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06031EC395
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 22:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A254B6E1FB;
-	Tue,  2 Jun 2020 20:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FE26E202;
+	Tue,  2 Jun 2020 20:18:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 467 seconds by postgrey-1.36 at gabe;
- Tue, 02 Jun 2020 20:16:30 UTC
 Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 365A76E185
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 20:16:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3726E202
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 20:18:33 +0000 (UTC)
 Received: from [192.168.1.164] ([37.4.249.202]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MIdW7-1jjjuh3yUP-00EhX5; Tue, 02 Jun 2020 22:03:15 +0200
-Subject: Re: [PATCH v3 032/105] drm/vc4: crtc: Enable and disable the PV in
- atomic_enable / disable
-To: Eric Anholt <eric@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <maxime@cerno.tech>
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MCsHm-1joyiq39XM-008oeV; Tue, 02 Jun 2020 22:13:00 +0200
+Subject: Re: [PATCH v3 000/105] drm/vc4: Support BCM2711 Display Pipeline
+To: Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Eric Anholt <eric@anholt.net>
 References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <d2c1850e38e14f3def4c0307240e6826e296c14b.1590594512.git-series.maxime@cerno.tech>
- <CADaigPU7c=1u47R9GzvGCH_Z2fywY1foGYEy=KbBikjUQpwUFg@mail.gmail.com>
- <20200602141228.7zbkob7bw3owajsq@gilmour>
- <CAPY8ntDZWJeu14mL5a0jqUWHFOEWm2OOBBkh4yjjP0oLU83UCQ@mail.gmail.com>
- <CADaigPUHPhdrt9JkTfaw0iT7Z8z3Si-v2VJ-s+dhnFQaDNkAaA@mail.gmail.com>
 From: Stefan Wahren <stefan.wahren@i2se.com>
 Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
@@ -159,31 +151,31 @@ Autocrypt: addr=stefan.wahren@i2se.com; keydata=
  VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
  bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
  LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <f0098c06-f892-cc1e-eb75-be48e40f705c@i2se.com>
-Date: Tue, 2 Jun 2020 22:03:13 +0200
+Message-ID: <105e05a5-f5cf-1344-f56b-3000568d86ca@i2se.com>
+Date: Tue, 2 Jun 2020 22:12:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <CADaigPUHPhdrt9JkTfaw0iT7Z8z3Si-v2VJ-s+dhnFQaDNkAaA@mail.gmail.com>
+In-Reply-To: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
 Content-Language: en-US
-X-Provags-ID: V03:K1:1J7oYsG/Yo02Aq3V6XiK7w6ODlDPc/wWdYvmaa7UOlcPUKhmd51
- le3Jvqoz3OFCXrxLVvbxOJRd5i+HYGOmsXWB50exjoV0iXQvnB1L57OslzfrAOR3jki8kwi
- D/S5FN3OhaopISp0x4J3G+MyLx+uUIEmrG0uG/uXtU8o5dNsDJ8vNs9OB2zknn8l22k29jR
- sM5LZg0daBod79keQZ34w==
+X-Provags-ID: V03:K1:CKV5uC1etdiWeVCuFpVrOgqCJyNcI4bbRLdyovq3Ma/PPHCECkE
+ lIBacAGt9vlxMDWgOBfNHNU7RGRTW2pvQbtYs8a0FQOk2ujR/mDkoivL/aJ+h+gqgDAYCdg
+ Yd8Zf6ePWYwchTTMRGZwY+T5fTC8vjf3RPavx5LEs7BykBRnqokoIjRV6kx2caikhuAhC1i
+ +wiPid/ghaIyzGihIU7Mg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DDfBHjKjHys=:gAeFcQ4XvPPnKKPYZAySyY
- tIu+vZD6rAMtRVLsltERFlh5Sjpkjz31AbS0MH4WPcehuG6IVT6YbtqikjTWuizgWRQZPKxK4
- ro7LwVjvRSirVc5ETKpqQYDQgHSJ+8VLAsP7QWJBqpWcbFAQxlTwIT76zdQIarKomnScjs7Il
- 7s9pL+f15lL+neQhh18DUnh71K2xUa6X9FGxGvhrZKzYY2/gUn/jg8YTntmVXHhFocPz1jApU
- Pa/oQm131FC3nuGmXw5mxqOqujbjJNzA79U86zXtwqeuQRxRXd1IZkn2GVNmUbWgCFrTfA/ig
- mSv4k0LVfEfRict6bICFl79URm6SkpdrKg+5KWylsSa7AYGr8Kb1MOqp/mrn5yxiTvnmO49DI
- bR7EHzmo8H8JTrveM2OLyHKNeuTAqn5KNRhOaCMkybZ2YmotS1tnISDawPRKdNSHswq3m0ilq
- hPO0mqezfpSHRHcCXa2hgvoiV3RGoXzsD2dEB9tvy2FSrBluRuzZOWVEyoM57T9rl5iKtZ2NS
- 0gJ4N2KNc9tSh4jSIF0tdsLimgBGh3cbB455c8u1P4mMijVGnxs73ZGXT993+r/S3yFt7NQf1
- RC2zTaeMf417REHvhYu7+qhRmzT7RwKsNxI0FP5nRC0jR26mJgwXTEnxrJCo51u9Sm5mhEBZB
- 1YpaqzCleJ2Tfgl+Fl6BNFBDwNnNtlG6MwwR8oZ33k7rBS8bvtg1/GpkaMbLfFQ+9Fd7YK6Q6
- f+UztnRkLSyrrpv9nJG3hl2FnM00wLq3/6fORGLD7DCEC8OqEoqrNorb2clODE8nVw9PPCzd4
- UfcOUVUO7j8v4JYFc1cddwBnT5FSGXM4bCBNVN/tPEKQYZRdgQqs8PN1xfOCp7glZnK7yiS
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yHaFUyc5Lv4=:/1deyGF8JavorHxwxysGfW
+ r5dPEXjIdkMtLnZbaCowflN01+OaO54b3VJ8un3Axz4v5jFo58MeZ4viXN42rMoFDgJv33drr
+ DZv7q9l3Rkm93f4dXP+EBi2wHsrfn0ykS9hvb/0h+T+RGqq0vKnkJEJvSvHqcDbGpW8Wv5m/o
+ 1mO2/uD+kQrHXdbrbDxPAUZkand3G3AF6kFdV9x30+yibew4H6+Gk0xTDQSY6AYt67kjuLBNY
+ WEVeBvVrkTgY9ejWnoCbFHSytHXRSxC2+sTfqxvLw1o3grZMB5EsdkWBVB3HpQIHQjWCZH43W
+ NuLo7Tb54hslZQYzd2RjzrqdeF/tX6/zdf9TPfPpCKfMbH4SiD9LyY6Q06YF0lWyqcPX//eN0
+ 6hZsiDlpRurRwDyrrdpxB/7iXvvWSUud/SxSKz+LKW1+YEeesyI1BAykFwe6oXyv6tvSb1Cwh
+ Fpwy2jV1USPeDHDzcB1SsH69EqTsOp07ePhNNuYq8DRCqUq3vEnOs+S/8+mCzkw9nCCqwOjsd
+ Ej0BO04VBLc7f0Wnm9absxkZrPxFE1SqMsTBf7MgD5kbtc7zFrRyTzMdbFEf0tCrdkIx3mWjM
+ A2QUs2hIPfkdLGPxLOM7//fAgPzsY3XCnPq6QKbAv5AeQxIh073+u8ICgYfYnnP9UdbEUfhx3
+ UmJbW6EypKQKk6wfUlykm898qt6zMVmLps9yHEZDfiDyeOgjOYvnMeXJ0vfbxayZtoVj3SGua
+ cDF2i0d16i17KuTDlPyW0zcaAPp/qHzjpeHdbDqb8ns3NyRD1CID+aS1EZD/rrrNcWsyQ/thG
+ EN6oEUM+Hoj3KGyUaNX58GMicjIjheE/a0OPMUyjoRXQcu/Awz+270UhIdRRaZz5m4Awf1C
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,72 +188,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Kamal Dasu <kdasu.kdev@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maxime,
 
-Am 02.06.20 um 21:31 schrieb Eric Anholt:
-> On Tue, Jun 2, 2020 at 8:02 AM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
->> Hi Maxime and Eric
->>
->> On Tue, 2 Jun 2020 at 15:12, Maxime Ripard <maxime@cerno.tech> wrote:
->>> Hi Eric
->>>
->>> On Wed, May 27, 2020 at 09:54:44AM -0700, Eric Anholt wrote:
->>>> On Wed, May 27, 2020 at 8:50 AM Maxime Ripard <maxime@cerno.tech> wrote:
->>>>> The VIDEN bit in the pixelvalve currently being used to enable or disable
->>>>> the pixelvalve seems to not be enough in some situations, which whill end
->>>>> up with the pixelvalve stalling.
->>>>>
->>>>> In such a case, even re-enabling VIDEN doesn't bring it back and we need to
->>>>> clear the FIFO. This can only be done if the pixelvalve is disabled though.
->>>>>
->>>>> In order to overcome this, we can configure the pixelvalve during
->>>>> mode_set_no_fb, but only enable it in atomic_enable and flush the FIFO
->>>>> there, and in atomic_disable disable the pixelvalve again.
->>>> What displays has this been tested with?  Getting this sequencing
->>>> right is so painful, and things like DSI are tricky to get to light
->>>> up.
->>> That FIFO is between the HVS and the HDMI PVs, so this was obviously
->>> tested against that. Dave also tested the DSI output IIRC, so we should
->>> be covered here.
->> DSI wasn't working on the first patch set that Maxime sent - I haven't
->> tested this one as yet but will do so.
->> DPI was working early on to both an Adafruit 800x480 DPI panel, and
->> via a VGA666 as VGA.
->> HDMI is obviously working.
->> VEC is being ignored now. The clock structure is more restricted than
->> earlier chips, so to get the required clocks for the VEC without using
->> fractional divides it compromises the clock that other parts of the
->> system can run at (IIRC including the ARM). That's why the VEC has to
->> be explicitly enabled for the firmware to enable it as the only
->> output. It's annoying, but that's just a restriction of the chip.
-> I'm more concerned with "make sure we don't regress pre-pi4 with this
-> series" than "pi4 displays all work from the beginning"
-
-unfortuntely i can confirm this. With this patch series (using Maxime's
-git repo with multi_v7_defconfig) my Raspberry Pi 3 B hangs up while
-starting X (screen stays black, heartbeat stops, no more output at the
-debug UART). AFAIR v2 didn't had this issue.
-
-Stefan
-
+Am 27.05.20 um 17:47 schrieb Maxime Ripard:
+> Hi everyone,
 >
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
+> Here's a (pretty long) series to introduce support in the VC4 DRM driver
+> for the display pipeline found in the BCM2711 (and thus the RaspberryPi 4).
+>
+> The main differences are that there's two HDMI controllers and that there's
+> more pixelvalve now. Those pixelvalve come with a mux in the HVS that still
+> have only 3 FIFOs. Both of those differences are breaking a bunch of
+> expectations in the driver, so we first need a good bunch of cleanup and
+> reworks to introduce support for the new controllers.
+>
+> Similarly, the HDMI controller has all its registers shuffled and split in
+> multiple controllers now, so we need a bunch of changes to support this as
+> well.
+>
+> Only the HDMI support is enabled for now (even though the DPI output has
+> been tested too).
+>
+> This is based on the firmware clocks series sent separately:
+> https://lore.kernel.org/lkml/cover.662a8d401787ef33780d91252a352de91dc4be10.1590594293.git-series.maxime@cerno.tech/
+>
+> Let me know if you have any comments
+> Maxime
+>
+> Cc: bcm-kernel-feedback-list@broadcom.com
+> Cc: devicetree@vger.kernel.org
+> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+> Cc: linux-clk@vger.kernel.org
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+>
+> Changes from v2:
+>   - Rebased on top of next-20200526
+i assume this is the reason why this series doesn't completely apply
+against drm-misc-next.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
