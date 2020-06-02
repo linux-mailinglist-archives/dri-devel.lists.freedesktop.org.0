@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC561EBD2A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 15:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E82981EBD6E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 15:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBE46E3D2;
-	Tue,  2 Jun 2020 13:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F29388697;
+	Tue,  2 Jun 2020 13:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3AD6E3C7;
- Tue,  2 Jun 2020 13:36:26 +0000 (UTC)
-IronPort-SDR: L/YlftZKzkWP0hE/3bFWHfluqzrQo008XyfigaMqJb70JPDbfHQQo/R2ehLcwabCe6KFzoIYha
- 1tu+dgDHDovA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jun 2020 06:36:25 -0700
-IronPort-SDR: NBeSQghNBhFX6gfvY+doY0ZyDPw4dDqR5/Hs8LXo5/2uJ8VK42VCv7OXn2DNZoegfHmCvIvTSb
- beQDtVJARb4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,464,1583222400"; d="scan'208";a="286653698"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by orsmga002.jf.intel.com with ESMTP; 02 Jun 2020 06:36:24 -0700
-Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 2 Jun 2020 06:36:24 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.97]) by
- FMSMSX114.amr.corp.intel.com ([169.254.6.185]) with mapi id 14.03.0439.000;
- Tue, 2 Jun 2020 06:35:20 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: "Stankiewicz, Piotr" <piotr.stankiewicz@intel.com>, Alex Deucher
- <alexander.deucher@amd.com>, =?iso-8859-1?Q?Christian_K=F6nig?=
- <christian.koenig@amd.com>, David Zhou <David1.Zhou@amd.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [PATCH 07/15] drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
-Thread-Topic: [PATCH 07/15] drm/amdgpu: use PCI_IRQ_MSI_TYPES where appropriate
-Thread-Index: AQHWOL8clbNxZ7bnykCB8ftlNPJ+z6jFUrZg
-Date: Tue, 2 Jun 2020 13:35:20 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663010E23E538@FMSMSX108.amr.corp.intel.com>
-References: <20200602092030.31966-1-piotr.stankiewicz@intel.com>
-In-Reply-To: <20200602092030.31966-1-piotr.stankiewicz@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC50388697
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 13:59:10 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id r10so2051610vsa.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 06:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9owB6N5YoTr+QgRWYSW+w97CM/a02Li4ocdyLucMnlA=;
+ b=Ze+ivp4cAFxyqk7NhiH/FgnYGbbWWGkjKQQY3TxEitCzQdk7p0Wu76o0FkjuBwXiVH
+ 2Dg5GkZntUYHmh7C7r68i/lLSdsF0OcuA1BfQ15WDPiUYtJHbjCzEhJEJ9F1fW4CSoBa
+ khCoH7AF8Speu+33IkgkUZJNsl734DdLOmVBBUhwR0J5x8OL60XWZn6dVPDktK0uYZyY
+ STfI+k0NDFh4ebSmg1x4NiORk3wVn8f8pbTx/cFFLCIJdycWBKOR9MKgZnroaxd6/GLI
+ VygAjCvqQjJqWXgTeulGShbJMm30zj4FP81VlH6EQDYtPjzDPJbE9QL+kDGi985PaEAa
+ KZEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9owB6N5YoTr+QgRWYSW+w97CM/a02Li4ocdyLucMnlA=;
+ b=nRZWAGsrSd6u14zAm04lsG+qIy2J+cWvCuaWH2t1F2Nfm1J/gtQL/MZC6gvnXldiPO
+ M1TnHjLhA6bNCrHSp6u5zQ5C3Bve4lEehk/jDRBFfGCj34zFYLDk+5Y5hLmzAo2J6uac
+ wADaAi01rJRPZIbs1WDw/MDnVODwwdgyPGjCe3Im/9mtB0pWGYppwe+eDByO+ZaCceME
+ qTW406vVrqW9EBVACzmkIYvs4VlCYR7SnsDdB/F1wO45+K1B2iYPv1hPha74qRna2wxN
+ DKYTOLuvhYOPDOdWhdRjgptmo/V1SzRwZS6tCwSpa8MebvuZ/rZzPNrDZUn+mRrvcs/A
+ aRCQ==
+X-Gm-Message-State: AOAM533ei4bXcmabGnsugq9B3wwrMFlqD0X2rDCykfgbiGTscmO0xOJl
+ TiYessV2aKp2i3vA3oiyLJEoeKCyy2lRcKlbvyM=
+X-Google-Smtp-Source: ABdhPJwagcH+IMCLFpcz6CGUl5oYhyGNJls9L62J/M3CQCdOJiJr0Rvnef8YwBvKPwiyJDIDZDjyOZlJdWHq94p6Rm4=
+X-Received: by 2002:a67:b149:: with SMTP id z9mr17006698vsl.85.1591106349968; 
+ Tue, 02 Jun 2020 06:59:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1590982881.git.Sandor.yu@nxp.com>
+ <d3d707cf37e7928a839071242c752779061cc094.1590982881.git.Sandor.yu@nxp.com>
+In-Reply-To: <d3d707cf37e7928a839071242c752779061cc094.1590982881.git.Sandor.yu@nxp.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 2 Jun 2020 14:55:52 +0100
+Message-ID: <CACvgo52NeUSQV5p8+4DkCjpkv12cs8fCkQqy4MFn8pVaorVaHg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/rockchip: prepare common code for cdns and rk
+ dpi/dp driver
+To: sandor.yu@nxp.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,80 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Stankiewicz, Piotr" <piotr.stankiewicz@intel.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <narmstrong@baylibre.com>, Sandy Huang <hjc@rock-chips.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>, dkos@cadence.com,
+ LAKML <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Piotr Stankiewicz
->Sent: Tuesday, June 2, 2020 5:21 AM
->To: Alex Deucher <alexander.deucher@amd.com>; Christian K=F6nig
-><christian.koenig@amd.com>; David Zhou <David1.Zhou@amd.com>; David
->Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>
->Cc: Stankiewicz, Piotr <piotr.stankiewicz@intel.com>; dri-
->devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org; linux-
->kernel@vger.kernel.org
->Subject: [PATCH 07/15] drm/amdgpu: use PCI_IRQ_MSI_TYPES where
->appropriate
+HI Sandor Yu
+
+On Mon, 1 Jun 2020 at 07:29, <sandor.yu@nxp.com> wrote:
 >
->Seeing as there is shorthand available to use when asking for any type
->of interrupt, or any type of message signalled interrupt, leverage it.
+> From: Sandor Yu <Sandor.yu@nxp.com>
 >
->Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
->Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
->---
-> drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 8 ++++----
-> 1 file changed, 4 insertions(+), 4 deletions(-)
+> - Extracted common fields from cdn_dp_device to a new cdns_mhdp_device
+>   structure which will be used by two separate drivers later on.
+> - Moved some datatypes (audio_format, audio_info, vic_pxl_encoding_format,
+>   video_info) from cdn-dp-core.c to cdn-dp-reg.h.
+> - Changed prefixes from cdn_dp to cdns_mhdp
+>     cdn -> cdns to match the other Cadence's drivers
+>     dp -> mhdp to distinguish it from a "just a DP" as the IP underneath
+>       this registers map can be a HDMI (which is internally different,
+>       but the interface for commands, events is pretty much the same).
+> - Modified cdn-dp-core.c to use the new driver structure and new function
+>   names.
+> - writel and readl are replaced by cdns_mhdp_bus_write and
+>   cdns_mhdp_bus_read.
 >
->diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
->b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
->index 5ed4227f304b..6dbe173a9fd4 100644
->--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
->+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
->@@ -251,11 +251,11 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
-> 		int nvec =3D pci_msix_vec_count(adev->pdev);
-> 		unsigned int flags;
->
->-		if (nvec <=3D 0) {
->+		if (nvec > 0)
->+			flags =3D PCI_IRQ_MSI_TYPES;
->+		else
-> 			flags =3D PCI_IRQ_MSI;
->-		} else {
->-			flags =3D PCI_IRQ_MSI | PCI_IRQ_MSIX;
->-		}
+The high-level idea is great - split, refactor and reuse the existing drivers.
 
-Minor nit:
+Although looking at the patches themselves - they seems to be doing
+multiple things at once.
+As indicated by the extensive list in the commit log.
 
-Is it really necessary to set do this check?  Can flags just
-be set?
+I would suggest splitting those up a bit, roughly in line of the
+itemisation as per the commit message.
 
-I.e.: =
+Here is one hand wavy way to chunk this patch:
+ 1) use put_unalligned*
+ 2) 'use local variable dev' style of changes (as seem in cdn_dp_clk_enable)
+ 3) add writel/readl wrappers
+ 4) hookup struct cdns_mhdp_device, keep dp->mhdp detail internal.
+The cdn-dp-reg.h function names/signatures will stay the same.
+ 5) finalize the helpers - use mhdp directly, rename
 
-	flags =3D PCI_IRQ_MSI_TYPES;
+HTH
+Emil
 
-pci_alloc_irq_vector() tries stuff in order.  If MSIX is not available,
-it will try MSI.
+Examples:
+4)
+ static int cdn_dp_mailbox_read(struct cdn_dp_device *dp)
+ {
++"  struct cdns_mhdp_device *mhdp = dp->mhdp;
+   int val, ret;
 
-M
+-  ret = readx_poll_timeout(readl, dp->regs + MAILBOX_EMPTY_ADDR,
++  ret = readx_poll_timeout(readl, mhdp->regs_base + MAILBOX_EMPTY_ADDR,
+...
+   return fancy_readl(dp, MAILBOX0_RD_DATA) & 0xff;
+ }
 
->+
-> 		/* we only need one vector */
-> 		nvec =3D pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
-> 		if (nvec > 0) {
->--
->2.17.2
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+5)
+-static int cdn_dp_mailbox_read(struct cdn_dp_device *dp)
++static int mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+ {
+-  struct cdns_mhdp_device *mhdp = dp->mhdp;
+   int val, ret;
+...
+-  return fancy_readl(dp, MAILBOX0_RD_DATA) & 0xff;
++  return cdns_mhdp_bus_read(mhdp, MAILBOX0_RD_DATA) & 0xff;
+ }
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
