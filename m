@@ -2,96 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B97F1EBE16
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 16:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436751EBE35
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 16:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 215336E3EC;
-	Tue,  2 Jun 2020 14:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A4B6E3EB;
+	Tue,  2 Jun 2020 14:34:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690085.outbound.protection.outlook.com [40.107.69.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 619276E3E7;
- Tue,  2 Jun 2020 14:25:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LZ6xUPRFh6XWQj8nkYaWaiwpVXrduE6Rlm69Glj3zOMa0Y8V7OaldxseAPOh1MBzyVwdnHMbm08rjvoobJVFHhvM07HUpjANiy41dnH1uSkYNDqW3wKCTdc6UAWVgp5DThGgh3+rEn07ktWHuEQan3U7RDC6DI5y5hCall9OgY7Cl0RD09FgdFd+lQh/Dd5BbU5mdXrtlMmBD9qstgAx4KZGsfCTmXnOhocoXE4uDOmgHyFn/yByrZYkknAkPKPKzoopoTgS5y0vFYqZv8BVDiVJRzgoGrG1h0rVoDm21/2JWb4JLVL/7Tjd6g60wO+mpOTvwHFO1OhrzBblFF0Rrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NeA0l0fgtRlcw1l8EXtcRu0ZbWLI/EFqKhz6T4vZ5Vs=;
- b=Yrbjngek8hvMBzYkg90itucU5+xZSVbpPFXjEhTQNMg8arybu0ZrIxZ3GW1Su+6JnEtkQT0ntW8puwhel55XCu7NuQdyl3d/acVgAaJaf4kDLKTY09m3vKLaeCo8jYe9jxlx/d0mM4B/t9PhEyEu2OzY5SQwYWLlo71s1jpQxpbGaYReMUzrVCGFf6/zsDVLGezscy72vYV4btGV+zLJd+zh4ti4yp2cfn8CM/FLS0uR48YSki4Eypx2WyjV9Vz82NuPbezXIjqqjJZau2micpaGBL8ASu0ysso1CNBOZgZuitWVwuq8XBIvTBSIh/QLfkULgCSLyeG96ExeJE3faQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NeA0l0fgtRlcw1l8EXtcRu0ZbWLI/EFqKhz6T4vZ5Vs=;
- b=tlEJJFruQhoXmYiEey6d05QOtXat71aKNUGF1M27wa5Oyzja4JYe9fpvh8JODnw9ELIPu82q6J7A5fhgHMhZfbJ+5iPAOLXU3F50IyZ+u9zDobXYMsS1wuXXk7VMzik6By5kwn7/P+SQ+9L94vJ/+/cObFx7Inw1Ff4frMh8gqw=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB4450.namprd12.prod.outlook.com (2603:10b6:5:28e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Tue, 2 Jun
- 2020 14:25:09 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.3045.024; Tue, 2 Jun 2020
- 14:25:09 +0000
-Subject: Re: [RFC PATCH 1/1] drm/mm: add ig_frag selftest
-To: Nirmoy <nirmodas@amd.com>, Chris Wilson <chris@chris-wilson.co.uk>,
- dri-devel@lists.freedesktop.org
-References: <20200529163351.5228-1-nirmoy.das@amd.com>
- <cdb604b7-0817-c786-45f6-3c2f9a395c70@amd.com>
- <159076753114.8851.15594151673471255964@build.alporthouse.com>
- <80a791cd-1319-795d-bd8a-1bf7dd6b9cc3@amd.com>
- <9cbdb0e2-5a44-5f87-df83-74c6b0c72e27@amd.com>
- <6b2d0137-8b7c-2dd0-b49f-1bf6bb300c06@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <dd8eb88b-3d48-0ece-7290-2a7fc8e1e3af@amd.com>
-Date: Tue, 2 Jun 2020 16:25:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <6b2d0137-8b7c-2dd0-b49f-1bf6bb300c06@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM4PR05CA0014.eurprd05.prod.outlook.com (2603:10a6:205::27)
- To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762526E3EB
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 14:34:09 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id E10685C0EB0;
+ Tue,  2 Jun 2020 16:34:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1591108447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mgSaqKx/p9liVFYkIGldeq7562BOSEuv0wxarWDBXkI=;
+ b=rix2b8uR0SwID1Cb4X520Re3EOmOkPQUmUk+Cq68mfzKy1T1KVin5tz/piMpoxPAT6NkOp
+ vrLzN4Px7js6BE+Jvt4ZUQJOKpGZF10fns7WfcTMsUGJRYsqjpv78Wf3+sDKwI0RX7b6BF
+ BIDpPq4cCIxml0kIYfbtomEUJStPN4o=
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR05CA0014.eurprd05.prod.outlook.com (2603:10a6:205::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Tue, 2 Jun 2020 14:25:07 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 952acd9e-25e1-43ce-1fda-08d80700c11d
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4450:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB44503BC055ADAFC1AF766BE5838B0@DM6PR12MB4450.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
-X-Forefront-PRVS: 0422860ED4
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YtMs4DMrz+Yrpg82/P89WpJYvGxpKk8HZw0HKF7Pe8t0nuBhRnSireyk0/oS4tuNm1CySAdqWKsNOVjUB6uj+P6567Kv8XqSuaxPPwU7y8yy6Ea2hDYyQfVBPuwtmGgjHrJIlRUtH/7ayFREQI7Z5Ga8UZ5UpZWFh7yX81edDnYGiQ4WsN6nGCM/r/Qm4+OsM5/MWDAKfLzkHFdY6NJIlPtGMBH+tGU4x+GEEGZTPpWzpQOiqyI9TsFcw49ePL7WmfO+3jKxD8QAuHweect+5R2f5zdU2Qdf28IbScJNle5PaY7IlEcORQp6X1LbeQ6OhpLWB4cOaBYKxFehQBeMLDEVxKZ3TNkAlu4e7QllzLiCH1Np8iOBTbxOphtEXmAy9MbwcCXkBZ0szMkVV+5jDQ5uYDcWbFkdgsQNc+Xqfpc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4401.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(45080400002)(966005)(478600001)(31696002)(66476007)(316002)(110136005)(66556008)(66946007)(52116002)(86362001)(5660300002)(53546011)(6486002)(2616005)(83380400001)(8936002)(36756003)(16526019)(2906002)(8676002)(186003)(4326008)(31686004)(6666004)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: SDBMvhIMtUHuICI/WDYVZhChjbXQMGsBxPEcE034bfO7WC9VKK7u3OlJ5x71cDo5MhUTKDrpKRRRLAb1Jq3qrPucwy5l7U0/yPR9iXlWP3CipTH3hzaiAsktuANXIw/6d0zN4L99CGYj7B93NJcqPEIl1QeVhnr1cOEkQpRicQwAV5gDvn0G3bPVEiQXzSHcJ6ogrffka79T7BN1PmSplx7OWLxQtkP3G678Q8GWHFf2d++YoNuZHXEfrr5Z7VbMTrB8FNCUMtXkiAE6q4BvfM21sZPzyKKQrVzQ1hl3LOmt1NrpYIxZHZzxFfr7jv2msRtlgiosv3tjI0CLSLP2QfwzPRgr5s+aZt4SGpQSxvVaJCOyQknS2MRmp4SNADI0GijMVU8V7vCjfuuSrcEf/UxQT8PA60GtHmV07VkMuBe6qRuyyTtI0CfnLivOmF/r88xfqxTg8PxN7IG+XF8oY6ieWQFxoxEj4Qe+f9kA5ph1P0kOMkUefxqX0rX5wjp53LWmM0krL7jPpaW+nt4YDNb27hfAiSMvfZZn3e5hvhVPb8IyuZf3z7GYYpo6pvmc
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 952acd9e-25e1-43ce-1fda-08d80700c11d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2020 14:25:09.6789 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pWkn0imruR8/4ge+IPx3pNqYkhotbYWDWOf2qm6g+eUMy5pvIsuYFLXuWevEBJnW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4450
+Date: Tue, 02 Jun 2020 16:34:07 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 02/21] drm: mxsfb: Use drm_panel_bridge
+In-Reply-To: <20200602131237.GC20149@phenom.ffwll.local>
+References: <20200309195216.31042-1-laurent.pinchart@ideasonboard.com>
+ <20200309195216.31042-3-laurent.pinchart@ideasonboard.com>
+ <eb16f03d670a424a4a63d9c855fabe65@agner.ch>
+ <20200530021421.GA20571@pendragon.ideasonboard.com>
+ <20200602131237.GC20149@phenom.ffwll.local>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <6b21148a3047fb2a54a1ae5e19a40f90@agner.ch>
+X-Sender: stefan@agner.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,178 +51,490 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de,
+ linux-imx@nxp.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDIuMDYuMjAgdW0gMTY6MTMgc2NocmllYiBOaXJtb3k6Cj4gSGkgQ2hyaXN0aWFuLAo+Cj4g
-T24gNi8yLzIwIDI6NDcgUE0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IE5pcm1veSBwbGVh
-c2Uga2VlcCBpbiBtaW5kIHRoYXQgeW91ciBjdXJyZW50IGltcGxlbWVudGF0aW9uIGRvZXNuJ3Qg
-Cj4+IGZ1bGx5IHNvbHZlIHRoZSBpc3N1ZSB0aGUgdGVzdCBjYXNlIGlzIGV4ZXJjaXNpbmcuCj4+
-Cj4+IEluIG90aGVyIHdvcmRzIHdoYXQgeW91IGhhdmUgaW1wbGVtZW50IGlzIGZhc3Qgc2tpcHBp
-bmcgb2YgZnJhZ21lbnRlZCAKPj4gYWRkcmVzcyBzcGFjZSBmb3IgYm90dG9tLXVwIGFuZCB0b3At
-ZG93bi4KPj4KPj4gQnV0IHdoYXQgdGhpcyB0ZXN0IGhlcmUgZXhlcmNpc2VzIGlzIHRoZSBmYXN0
-IHNraXBwaW5nIG9mIGFsaWduZWQgCj4+IGFsbG9jYXRpb25zLiBZb3Ugc2hvdWxkIHByb2JhYmx5
-IGFkanVzdCB0aGUgdGVzdCBjYXNlIGEgYml0Lgo+Cj4KPiBBbGxvY2F0aW9ucyB3aXRoIHNpemU9
-NGsgYW5kIGFpZ24gPSA4ayBpcyBrbm93biB0byBpbnRyb2R1Y2UgCj4gZnJhZ21lbnRhdGlvbiwK
-ClllcywgYnV0IHRoaXMgZnJhZ21lbnRhdGlvbiBjYW4ndCBiZSBhdm9pZGVkIHdpdGggd2hhdCB3
-ZSBhbHJlYWR5IAppbXBsZW1lbnRlZC4gRm9yIHRoaXMgd2Ugd291bGQgbmVlZCB0aGUgZXh0ZW5z
-aW9uIHdpdGggdGhlIGFsaWdubWVudCBJIAphbHJlYWR5IGV4cGxhaW5lZC4KCj4gZG8geW91IG1l
-YW4gSSBzaG91bGQgb25seSB0ZXN0IGJvdHRvbS11cCBhbmQgdG9wLWRvd24KPgo+IGZvciBub3cg
-PwoKWWVzIGFuZCBuby4KCldoYXQgd2UgbmVlZCB0byB0ZXN0IGlzIHRoZSBmb2xsb3dpbmc6Cgox
-LiBNYWtlIHRvbnMgb2YgYWxsb2NhdGlvbnMgd2l0aCBzaXplPTRrIGFuZCBhbGlnbj0wLgoKMi4g
-RnJlZSBldmVyeSBvdGhlciBvZiB0aG9zZSBhbGxvY2F0aW9ucy4KCjMuIE1ha2UgdG9ucyBvZiBh
-bGxvY2F0aW9ucyB3aXRoIHNpemU9OGsgYW5kIGFsaWduPTAuCgpQcmV2aW91c2x5IGJvdHRvbS11
-cCBhbmQgdG9wLWRvd24gd291bGQgaGF2ZSBjaGVja2VkIGFsbCB0aGUgaG9sZXMgCmNyZWF0ZWQg
-aW4gc3RlcCAjMi4KCldpdGggeW91ciBjaGFuZ2UgdGhleSBjYW4gaW1tZWRpYXRlbHkgc2VlIHRo
-YXQgdGhpcyBkb2Vzbid0IG1ha2Ugc2Vuc2UgCmFuZCBzaG9ydGN1dCB0byB0aGUgbGVmdG1vc3Qv
-cmlnaHRtb3N0IGxlYWYgbm9kZSBpbiB0aGUgdHJlZSB3aXRoIHRoZSAKbGFyZ2UgZnJlZSBibG9j
-ay4KClRoYXQgd2UgY2FuIGhhbmRsZSB0aGUgYWxpZ25tZW50IGFzIHdlbGwgaXMgdGhlIG5leHQg
-c3RlcCBvZiB0aGF0LgoKUmVnYXJkcywKQ2hyaXN0aWFuLgoKPgo+Cj4gUmVnYXJkcywKPgo+IE5p
-cm1veQo+Cj4KPj4KPj4KPj4gUmVnYXJkcywKPj4gQ2hyaXN0aWFuLgo+Pgo+PiBBbSAyOS4wNS4y
-MCB1bSAyMzowMSBzY2hyaWViIE5pcm1veToKPj4+Cj4+PiBPbiA1LzI5LzIwIDU6NTIgUE0sIENo
-cmlzIFdpbHNvbiB3cm90ZToKPj4+PiBRdW90aW5nIE5pcm1veSAoMjAyMC0wNS0yOSAxNjo0MDo1
-MykKPj4+Pj4gVGhpcyB3b3JrcyBjb3JyZWN0bHkgbW9zdCBvZiB0aGUgdGltZXMgYnV0IHNvbWV0
-aW1lcwo+Pj4KPj4+Cj4+PiBJIGhhdmUgdG8gdGFrZSBteSB3b3JkIGJhY2suIEluIGFub3RoZXIg
-bWFjaGluZSzCoCAyMGsgaW5zZXJ0aW9ucyBpbgo+Pj4KPj4+IGJlc3QgbW9kZSB0YWtlcyA2LTkg
-dGltZXMgbW9yZSB0aGFuIDEwayBpbnNlcnRpb25zLCBhbGwgbW9zdCBhbGwgdGhlIAo+Pj4gdGlt
-ZS4KPj4+Cj4+PiBldmljdCwgYm90dG9tLXVwIGFuZCB0b3AtZG93biBtb2RlcyByZW1haW5zIGlu
-IDItNSB0aW1lcyByYW5nZS4KPj4+Cj4+Pgo+Pj4gSWYgSSByZWR1Y2UgdGhlIGluc2VydGlvbnMg
-dG8gMWsgYW5kIDJrIHRoZW4gc2NhbGluZyBmYWN0b3IgZm9yIGJlc3QgCj4+PiBtb2RlIHN0YXlz
-wqAgYmVsb3cgNCBtb3N0IG9mIHRoZSB0aW1lLgo+Pj4KPj4+IGV2aWN0LCBib3R0b20tdXAgYW5k
-IHRvcC1kb3duIG1vZGVzIHJlbWFpbnMgaW4gMi0zIHRpbWVzIHJhbmdlLgo+Pj4KPj4+Cj4+PiBJ
-IHdvbmRlciBpZiBpdCBtYWtlcyBzZW5zZSB0byB0ZXN0IHdpdGggb25seSAxayBhbmQgMmsgaW5z
-ZXJ0aW9ucyAKPj4+IGFuZCB0b2xlcmF0ZSBtb3JlIHRoYW4gZXJyb3IgaWYgdGhlIG1vZGUgPT0g
-YmVzdC4KPj4+Cj4+PiBSZWdhcmRzLAo+Pj4KPj4+IE5pcm1veQo+Pj4KPj4+Pj4KPj4+Pj4gMjBr
-IGluc2VydGlvbnMgY2FuIHRha2UgbW9yZSB0aGFuIDggdGltZXMgb2YgMTBrIGluc2VydGlvbiB0
-aW1lLgo+Pj4+IFRoZSBwcmVzc3VyZSBpcyBvbiB0byBpbXByb3ZlIHRoZW4gOikKPj4+Pgo+Pj4+
-PiBSZWdhcmRzLAo+Pj4+Pgo+Pj4+PiBOaXJtb3kKPj4+Pj4KPj4+Pj4gT24gNS8yOS8yMCA2OjMz
-IFBNLCBOaXJtb3kgRGFzIHdyb3RlOgo+Pj4+Pj4gVGhpcyBwYXRjaCBpbnRyb2R1Y2VzIGZyYWdt
-ZW50YXRpb24gaW4gdGhlIGFkZHJlc3MgcmFuZ2UKPj4+Pj4+IGFuZCBtZWFzdXJlcyB0aW1lIHRh
-a2VuIGJ5IDEwayBhbmQgMjBrIGluc2VydGlvbnMuIGlnX2ZyYWcoKQo+Pj4+Pj4gd2lsbCBmYWls
-IGlmIHRpbWUgdGFrZW4gYnkgMjBrIGluc2VydGlvbnMgdGFrZXMgbW9yZSB0aGFuIDQgdGltZXMK
-Pj4+Pj4+IG9mIDEwayBpbnNlcnRpb25zIGFzIHdlIGtub3cgdGhhdCBpbnNlcnRpb25zIHNjYWxl
-IHF1YWRyYXRpY2FsbHkuCj4+Pj4+PiBBbHNvIHRvbGVyYXRlIDEwJSBlcnJvciBiZWNhdXNlIG9m
-IGtlcm5lbCBzY2hlZHVsZXIncyBqaXR0ZXJzLgo+Pj4+Pj4KPj4+Pj4+IE91dHB1dDoKPj4+Pj4+
-IDxzbmlwPgo+Pj4+Pj4gWyA4MDkyLjY1MzUxOF0gZHJtX21tOiBUZXN0aW5nIERSTSByYW5nZSBt
-YW5nZXIgKHN0cnVjdCBkcm1fbW0pLCAKPj4+Pj4+IHdpdGggcmFuZG9tX3NlZWQ9MHg5YmZiNDEx
-NyBtYXhfaXRlcmF0aW9ucz04MTkyIG1heF9wcmltZT0xMjgKPj4+Pj4+IFsgODA5Mi42NTM1MjBd
-IGRybV9tbTogaWd0X3Nhbml0eWNoZWNrIC0gb2shCj4+Pj4+PiBbIDgwOTIuNjUzNTI1XSBpZ3Rf
-ZGVidWcgMHgwMDAwMDAwMDAwMDAwMDAwLTB4MDAwMDAwMDAwMDAwMDIwMDogCj4+Pj4+PiA1MTI6
-IGZyZWUKPj4+Pj4+IFsgODA5Mi42NTM1MjZdIGlndF9kZWJ1ZyAweDAwMDAwMDAwMDAwMDAyMDAt
-MHgwMDAwMDAwMDAwMDAwNjAwOiAKPj4+Pj4+IDEwMjQ6IHVzZWQKPj4+Pj4+IFsgODA5Mi42NTM1
-MjddIGlndF9kZWJ1ZyAweDAwMDAwMDAwMDAwMDA2MDAtMHgwMDAwMDAwMDAwMDAwYTAwOiAKPj4+
-Pj4+IDEwMjQ6IGZyZWUKPj4+Pj4+IFsgODA5Mi42NTM1MjhdIGlndF9kZWJ1ZyAweDAwMDAwMDAw
-MDAwMDBhMDAtMHgwMDAwMDAwMDAwMDAwZTAwOiAKPj4+Pj4+IDEwMjQ6IHVzZWQKPj4+Pj4+IFsg
-ODA5Mi42NTM1MjldIGlndF9kZWJ1ZyAweDAwMDAwMDAwMDAwMDBlMDAtMHgwMDAwMDAwMDAwMDAx
-MDAwOiAKPj4+Pj4+IDUxMjogZnJlZQo+Pj4+Pj4gWyA4MDkyLjY1MzUyOV0gaWd0X2RlYnVnIHRv
-dGFsOiA0MDk2LCB1c2VkIDIwNDggZnJlZSAyMDQ4Cj4+Pj4+PiBbIDgxMTIuNTY5ODEzXSBkcm1f
-bW06IGJlc3QgZnJhZ21lbnRlZCBpbnNlcnQgb2YgMTAwMDAgYW5kIDIwMDAwIAo+Pj4+Pj4gaW5z
-ZXJ0aW9ucyB0b29rIDUwNCBhbmQgMTk5NiBtc2Vjcwo+Pj4+Pj4gWyA4MTEyLjcyMzI1NF0gZHJt
-X21tOiBib3R0b20tdXAgZnJhZ21lbnRlZCBpbnNlcnQgb2YgMTAwMDAgYW5kIAo+Pj4+Pj4gMjAw
-MDAgaW5zZXJ0aW9ucyB0b29rIDQ0IGFuZCAxMDggbXNlY3MKPj4+Pj4+IFsgODExMi44MTMyMTJd
-IGRybV9tbTogdG9wLWRvd24gZnJhZ21lbnRlZCBpbnNlcnQgb2YgMTAwMDAgYW5kIAo+Pj4+Pj4g
-MjAwMDAgaW5zZXJ0aW9ucyB0b29rIDQwIGFuZCA0NCBtc2Vjcwo+Pj4+Pj4gWyA4MTEyLjg0Nzcz
-M10gZHJtX21tOiBldmljdCBmcmFnbWVudGVkIGluc2VydCBvZiAxMDAwMCBhbmQgMjAwMDAgCj4+
-Pj4+PiBpbnNlcnRpb25zIHRvb2sgOCBhbmQgMjAgbXNlY3MKPj4+Pj4+IDxzbmlwPgo+Pj4+Pj4K
-Pj4+Pj4+IFNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5pcm1veS5kYXNAYW1kLmNvbT4KPj4+
-Pj4+IC0tLQo+Pj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL2RybV9tbV9zZWxm
-dGVzdHMuaCB8wqAgMSArCj4+Pj4+PiDCoMKgIGRyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVz
-dC1kcm1fbW0uY8KgwqDCoMKgwqAgfCA3MyAKPj4+Pj4+ICsrKysrKysrKysrKysrKysrKysrCj4+
-Pj4+PiDCoMKgIDIgZmlsZXMgY2hhbmdlZCwgNzQgaW5zZXJ0aW9ucygrKQo+Pj4+Pj4KPj4+Pj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL2RybV9tbV9zZWxmdGVzdHMu
-aCAKPj4+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy9kcm1fbW1fc2VsZnRlc3RzLmgK
-Pj4+Pj4+IGluZGV4IDZiOTQzZWExYzU3ZC4uOGM4N2M5NjQxNzZiIDEwMDY0NAo+Pj4+Pj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy9kcm1fbW1fc2VsZnRlc3RzLmgKPj4+Pj4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvZHJtX21tX3NlbGZ0ZXN0cy5oCj4+Pj4+PiBA
-QCAtMTQsNiArMTQsNyBAQCBzZWxmdGVzdChpbnNlcnQsIGlndF9pbnNlcnQpCj4+Pj4+PiDCoMKg
-IHNlbGZ0ZXN0KHJlcGxhY2UsIGlndF9yZXBsYWNlKQo+Pj4+Pj4gwqDCoCBzZWxmdGVzdChpbnNl
-cnRfcmFuZ2UsIGlndF9pbnNlcnRfcmFuZ2UpCj4+Pj4+PiDCoMKgIHNlbGZ0ZXN0KGFsaWduLCBp
-Z3RfYWxpZ24pCj4+Pj4+PiArc2VsZnRlc3QoZnJhZywgaWd0X2ZyYWcpCj4+Pj4+PiDCoMKgIHNl
-bGZ0ZXN0KGFsaWduMzIsIGlndF9hbGlnbjMyKQo+Pj4+Pj4gwqDCoCBzZWxmdGVzdChhbGlnbjY0
-LCBpZ3RfYWxpZ242NCkKPj4+Pj4+IMKgwqAgc2VsZnRlc3QoZXZpY3QsIGlndF9ldmljdCkKPj4+
-Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMg
-Cj4+Pj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fbW0uYwo+Pj4+Pj4g
-aW5kZXggOWFhYmU4MmRjZDNhLi4wNWQ4ZjM2NTliNGQgMTAwNjQ0Cj4+Pj4+PiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPj4+Pj4+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fbW0uYwo+Pj4+Pj4gQEAgLTEwMzMsNiArMTAzMyw3
-OSBAQCBzdGF0aWMgaW50IGlndF9pbnNlcnRfcmFuZ2Uodm9pZCAqaWdub3JlZCkKPj4+Pj4+IMKg
-wqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+Pj4+IMKgwqAgfQo+Pj4+Pj4gwqDCoCArc3RhdGljIGlu
-dCBnZXRfaW5zZXJ0X3RpbWUodW5zaWduZWQgaW50IG51bV9pbnNlcnQsCj4+Pj4+PiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgaW5z
-ZXJ0X21vZGUgKm1vZGUpCj4+Pj4+PiArewo+Pj4+Pj4gK8KgwqDCoMKgIHN0cnVjdCBkcm1fbW0g
-bW07Cj4+Pj4+PiArwqDCoMKgwqAgc3RydWN0IGRybV9tbV9ub2RlICpub2RlcywgKm5vZGUsICpu
-ZXh0Owo+Pj4+Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGludCBzaXplID0gNDA5NiwgYWxpZ24gPSA4
-MTkyOwo+Pj4+Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGxvbmcgc3RhcnQ7Cj4+Pj4+PiArwqDCoMKg
-wqAgdW5zaWduZWQgaW50IGk7Cj4+Pj4+PiArwqDCoMKgwqAgaW50IHJldCA9IC1FSU5WQUw7Cj4+
-Pj4+PiArCj4+Pj4+PiArwqDCoMKgwqAgZHJtX21tX2luaXQoJm1tLCAxLCBVNjRfTUFYIC0gMik7
-Cj4+Pj4+PiArwqDCoMKgwqAgbm9kZXMgPSB2emFsbG9jKGFycmF5X3NpemUobnVtX2luc2VydCwg
-c2l6ZW9mKCpub2RlcykpKTsKPj4+Pj4+ICvCoMKgwqDCoCBpZiAoIW5vZGVzKQo+Pj4+Pj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycjsKPj4+Pj4+ICsKPj4+Pj4+ICvCoMKgwqDC
-oCBzdGFydCA9IGppZmZpZXM7Cj4+Pj4gVXNlIGt0aW1lX3Qgc3RhcnQgPSBrdGltZV9ub3coKTsK
-Pj4+Pgo+Pj4+Pj4gK8KgwqDCoMKgIGZvciAoaSA9IDA7IGkgPCBudW1faW5zZXJ0OyBpKyspIHsK
-Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFleHBlY3RfaW5zZXJ0KCZtbSwg
-Jm5vZGVzW2ldLCBzaXplLCBhbGlnbiwgaSwgCj4+Pj4+PiBtb2RlKSkgewo+Pj4+Pj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfZXJyKCIlcyBpbnNlcnQgZmFp
-bGVkXG4iLCBtb2RlLT5uYW1lKTsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGdvdG8gb3V0Owo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9
-Cj4+Pj4+PiArwqDCoMKgwqAgfQo+Pj4+Pj4gKwo+Pj4+Pj4gK8KgwqDCoMKgIHJldCA9IGppZmZp
-ZXNfdG9fbXNlY3MoamlmZmllcyAtIHN0YXJ0KTsKPj4+PiByZXQgPSBrdGltZV9zdWIoa3RpbWVf
-bm93KCksIHN0YXJ0KTsKPj4+Pgo+Pj4+IFRoZSBkb3duc2lkZSB0byB1c2luZyBrdGltZSBpcyBy
-ZW1lbWJlcmluZyBpdCBpcyBzNjQgYW5kIHNvIAo+Pj4+IHJlcXVpcmVzIGNhcmUKPj4+PiBhbmQg
-YXR0ZW50aW9uIGluIGRvaW5nIG1hdGguCj4+Pj4KPj4+Pj4+ICtvdXQ6Cj4+Pj4+PiArwqDCoMKg
-wqAgZHJtX21tX2Zvcl9lYWNoX25vZGVfc2FmZShub2RlLCBuZXh0LCAmbW0pCj4+Pj4+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9tbV9yZW1vdmVfbm9kZShub2RlKTsKPj4+Pj4+ICvC
-oMKgwqDCoCBkcm1fbW1fdGFrZWRvd24oJm1tKTsKPj4+Pj4+ICvCoMKgwqDCoCB2ZnJlZShub2Rl
-cyk7Cj4+Pj4+PiArZXJyOgo+Pj4+Pj4gK8KgwqDCoMKgIHJldHVybiByZXQ7Cj4+Pj4+PiArCj4+
-Pj4+PiArfQo+Pj4+Pj4gKwo+Pj4+Pj4gK3N0YXRpYyBpbnQgaWd0X2ZyYWcodm9pZCAqaWdub3Jl
-ZCkKPj4+Pj4+ICt7Cj4+Pj4+PiArwqDCoMKgwqAgY29uc3Qgc3RydWN0IGluc2VydF9tb2RlICpt
-b2RlOwo+Pj4+Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGludCBpbnNlcnRfdGltZTEsIGluc2VydF90
-aW1lMjsKPj4+Pj4+ICvCoMKgwqDCoCB1bnNpZ25lZCBpbnQgaW5zZXJ0X3NpemUgPSAxMDAwMDsK
-Pj4+Pj4+ICvCoMKgwqDCoCB1bnNpZ25lZCBpbnQgc2NhbGVfZmFjdG9yID0gNDsKPj4+Pj4+ICvC
-oMKgwqDCoCAvKiB0b2xlcmF0ZSAxMCUgZXhjZXNzIGluc2VydGlvbiBkdXJhdGlvbiAqLwo+Pj4+
-Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGludCBlcnJvcl9mYWN0b3IgPSAxMTA7Cj4+Pj4+PiArwqDC
-oMKgwqAgaW50IHJldCA9IC1FSU5WQUw7Cj4+Pj4+PiArCj4+Pj4+PiArwqDCoMKgwqAgZm9yICht
-b2RlID0gaW5zZXJ0X21vZGVzOyBtb2RlLT5uYW1lOyBtb2RlKyspIHsKPj4+Pj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgaW50IGV4cGVjdGVkX3RpbWU7Cj4+Pj4+PiArCj4+
-Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGluc2VydF90aW1lMSA9IGdldF9pbnNlcnRf
-dGltZShpbnNlcnRfc2l6ZSwgbW9kZSk7Cj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGlmIChpbnNlcnRfdGltZTEgPCAwKQo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZ290byBlcnI7Cj4+Pj4gQWgsIGNhbiB5b3UgcHJvcGFnYXRlIHRoZSBh
-Y3R1YWwgZXJyb3IuIEkgc2VlIHlvdSBhcmUgcmV0dXJuaW5nIEVJTlZBTAo+Pj4+IGZvciBFTk9N
-RU0gZXJyb3JzLiBKdXN0IHdhaXQgdW50aWwgaXQgaGl0cyBhbmQgeW91IGhhdmUgdG8gZGVidWcg
-Cj4+Pj4gd2h5IDopCj4+Pj4KPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zZXJ0
-X3RpbWUyID0gZ2V0X2luc2VydF90aW1lKChpbnNlcnRfc2l6ZSAqIDIpLCAKPj4+Pj4+IG1vZGUp
-Owo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoaW5zZXJ0X3RpbWUyIDwgMCkK
-Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZXJy
-Owo+Pj4+Pj4gKwo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleHBlY3RlZF90aW1l
-ID0gKHNjYWxlX2ZhY3RvciAqIGluc2VydF90aW1lMSAqCj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnJvcl9mYWN0b3Ip
-LzEwMDsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGluc2VydF90aW1lMiA+
-IGV4cGVjdGVkX3RpbWUpIHsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHByX2VycigiJXMgZnJhZ21lbnRlZCBpbnNlcnQgdG9vayBtb3JlICV1IAo+Pj4+
-Pj4gbXNlY3NcbiIsCj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIG1vZGUtPm5hbWUsIGluc2VydF90aW1lMiAtIAo+Pj4+Pj4gZXhw
-ZWN0ZWRfdGltZSk7Cj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBnb3RvIGVycjsKPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+Pj4+Pj4g
-Kwo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcl9pbmZvKCIlcyBmcmFnbWVudGVk
-IGluc2VydCBvZiAldSBhbmQgJXUgCj4+Pj4+PiBpbnNlcnRpb25zIHRvb2sgJXUgYW5kICV1IG1z
-ZWNzXG4iLAo+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-bW9kZS0+bmFtZSwgaW5zZXJ0X3NpemUsIGluc2VydF9zaXplICogMiwgCj4+Pj4+PiBpbnNlcnRf
-dGltZTEsCj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
-bnNlcnRfdGltZTIpOwo+Pj4+IFB1dCB0aGUgaW5mbyBmaXJzdCBiZWZvcmUgdGhlIGVycm9yLiBX
-ZSBhbHdheXMgd2FudCB0aGUgZnVsbCBkZXRhaWxzLAo+Pj4+IHdpdGggdGhlIGVycm9yIG1lc3Nh
-Z2UgZXhwbGFpbmluZyB3aHkgaXQncyB1bmhhcHB5Lgo+Pj4+IC1DaHJpcwo+Pj4+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+Pj4gZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdAo+Pj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4+PiBodHRw
-czovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0El
-MkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFuJTJGbGlzdGluZm8lMkZkcmktZGV2
-ZWwmYW1wO2RhdGE9MDIlN0MwMSU3Q25pcm1veS5kYXMlNDBhbWQuY29tJTdDNWM3ZGYxMjliOWNm
-NDRiM2FlNDAwOGQ4MDNlODQ0NDUlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3
-QzAlN0MwJTdDNjM3MjYzNjQzNDE1ODMzNzY3JmFtcDtzZGF0YT1QckNRc2U0bmhOMFpJVFQ5T25p
-dUhoRjdBNXV4SkQ2ZWhrMFBNam03V01VJTNEJmFtcDtyZXNlcnZlZD0wIAo+Pj4+Cj4+CgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 2020-06-02 15:12, Daniel Vetter wrote:
+> On Sat, May 30, 2020 at 05:14:21AM +0300, Laurent Pinchart wrote:
+>> Hi Stefan,
+>>
+>> On Mon, Mar 23, 2020 at 10:27:21PM +0100, Stefan Agner wrote:
+>> > On 2020-03-09 20:51, Laurent Pinchart wrote:
+>> > > Replace the manual connector implementation based on drm_panel with the
+>> > > drm_panel_bridge helper. This simplifies the mxsfb driver by removing
+>> > > connector-related code, and standardizing all pipeline control
+>> > > operations on bridges.
+>> > >
+>> > > A hack is needed to get hold of the connector, as that's our only source
+>> > > of bus flags and formats for now. As soon as the bridge API provides us
+>> > > with that information this can be fixed.
+>> >
+>> > This seems like a nice simplification.
+>> >
+>> > I gave this a go applied on today's drm-misc-next using a Colibri iMX7
+>> > (imx7d-colibri-emmc-eval-v3.dts device tree). This device makes use of
+>> > the simple panel driver. I get this when booting:
+>> >
+>> > [    2.976698] [drm] Supports vblank timestamp caching Rev 2
+>> > (21.10.2013).
+>> > [    2.983526] ------------[ cut here ]------------
+>> > [    2.988180] WARNING: CPU: 0 PID: 1 at
+>> > drivers/gpu/drm/bridge/panel.c:267 devm_drm_panel_bridge_add+0x25/0x28
+>> > [    2.998059] Modules linked in:
+>> > [    3.001159] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+>> > 5.6.0-rc5-yocto-standard-01250-ga4ce5db7c9f1 #29
+>> > [    3.010493] Hardware name: Freescale i.MX7 Dual (Device Tree)
+>> > [    3.016281] [<c010f089>] (unwind_backtrace) from [<c010a9bb>]
+>> > (show_stack+0xb/0xc)
+>> > [    3.023887] [<c010a9bb>] (show_stack) from [<c08b33cf>]
+>> > (dump_stack+0x63/0x70)
+>> > [    3.031144] [<c08b33cf>] (dump_stack) from [<c0124385>]
+>> > (__warn+0x9d/0xb0)
+>> > [    3.038047] [<c0124385>] (__warn) from [<c0124403>]
+>> > (warn_slowpath_fmt+0x6b/0x70)
+>> > [    3.045564] [<c0124403>] (warn_slowpath_fmt) from [<c04ebf65>]
+>> > (devm_drm_panel_bridge_add+0x25/0x28)
+>> > [    3.054736] [<c04ebf65>] (devm_drm_panel_bridge_add) from
+>> > [<c051fe7f>] (mxsfb_probe+0x197/0x2e0)
+>> > [    3.063559] [<c051fe7f>] (mxsfb_probe) from [<c0532e91>]
+>> > (platform_drv_probe+0x2d/0x60)
+>> > [    3.071598] [<c0532e91>] (platform_drv_probe) from [<c0531615>]
+>> > (really_probe+0x1dd/0x330)
+>> > [    3.079897] [<c0531615>] (really_probe) from [<c05318b3>]
+>> > (driver_probe_device+0x4f/0x154)
+>> > [    3.088195] [<c05318b3>] (driver_probe_device) from [<c0531b3f>]
+>> > (device_driver_attach+0x37/0x44)
+>> > [    3.097101] [<c0531b3f>] (device_driver_attach) from [<c0531bc7>]
+>> > (__driver_attach+0x7b/0xec)
+>> > [    3.105660] [<c0531bc7>] (__driver_attach) from [<c0530069>]
+>> > (bus_for_each_dev+0x3d/0x64)
+>> > [    3.113870] [<c0530069>] (bus_for_each_dev) from [<c0530b9b>]
+>> > (bus_add_driver+0xef/0x160)
+>> > [    3.122081] [<c0530b9b>] (bus_add_driver) from [<c053238d>]
+>> > (driver_register+0x35/0x9c)
+>> > [    3.130119] [<c053238d>] (driver_register) from [<c0102de9>]
+>> > (do_one_initcall+0x3d/0x1e4)
+>> > [    3.138333] [<c0102de9>] (do_one_initcall) from [<c1100d13>]
+>> > (kernel_init_freeable+0x1b3/0x1fc)
+>> > [    3.147069] [<c1100d13>] (kernel_init_freeable) from [<c08c3f7b>]
+>> > (kernel_init+0x7/0xd0)
+>> > [    3.155194] [<c08c3f7b>] (kernel_init) from [<c01010f9>]
+>> > (ret_from_fork+0x11/0x38)
+>> > [    3.162789] Exception stack(0xec0e3fb0 to 0xec0e3ff8)
+>> > [    3.167862] 3fa0:                                     00000000
+>> > 00000000 00000000 00000000
+>> > [    3.176071] 3fc0: 00000000 00000000 00000000 00000000 00000000
+>> > 00000000 00000000 00000000
+>> > [    3.184278] 3fe0: 00000000 00000000 00000000 00000000 00000013
+>> > 00000000
+>> > [    3.191029] ---[ end trace b69e1f44de470959 ]---
+>> > [    3.195671] mxsfb 30730000.lcdif: Cannot connect bridge: -19
+>> >
+>> > Should we maybe use devm_drm_panel_bridge_add_typed?
+>>
+>> As Sam reported, this is caused by the panel not setting connector_type.
+>> We could use devm_drm_panel_bridge_add_typed(), even if I like the
+>> warning as it uncovers the problematic panels and gets them fixed. What
+>> would be your preference ?
+> 
+> Adding warnings everywhere is kinda uncool, at least my experience is that
+> if there's too much you get warning overload and train people to ignore
+> them.
+> 
+> Imo either hide the wwarning for now, or if it's not too much work, review
+> all the panel drivers and make sure they set the connector type somewhere.
+> Warnings are kinda ok once you're pretty sure you got them all, and want
+> to make sure newly added drivers get this all right. But not before we've
+> reached that.
+
+I am with Daniel on this, too many warnings make users blind of them, so
+we should save them when really attention is needed.
+
+I guess the only question which connector type we should default to. I
+think DRM_MODE_CONNECTOR_DPI make sense for this IP.
+
+--
+Stefan
+
+
+> 
+> Cheers, Daniel
+> 
+>>
+>> > Two more comments below.
+>> >
+>> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> > > ---
+>> > >  drivers/gpu/drm/mxsfb/Makefile    |   2 +-
+>> > >  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 105 ++++++++++++++----------------
+>> > >  drivers/gpu/drm/mxsfb/mxsfb_drv.h |   5 +-
+>> > >  drivers/gpu/drm/mxsfb/mxsfb_out.c |  99 ----------------------------
+>> > >  4 files changed, 53 insertions(+), 158 deletions(-)
+>> > >  delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_out.c
+>> > >
+>> > > diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
+>> > > index ff6e358088fa..811584e54ad1 100644
+>> > > --- a/drivers/gpu/drm/mxsfb/Makefile
+>> > > +++ b/drivers/gpu/drm/mxsfb/Makefile
+>> > > @@ -1,3 +1,3 @@
+>> > >  # SPDX-License-Identifier: GPL-2.0-only
+>> > > -mxsfb-y := mxsfb_drv.o mxsfb_crtc.o mxsfb_out.o
+>> > > +mxsfb-y := mxsfb_drv.o mxsfb_crtc.o
+>> > >  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
+>> > > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> > > b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> > > index 2e6068d96034..cffc70257bd3 100644
+>> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+>> > > @@ -29,7 +29,6 @@
+>> > >  #include <drm/drm_gem_framebuffer_helper.h>
+>> > >  #include <drm/drm_irq.h>
+>> > >  #include <drm/drm_of.h>
+>> > > -#include <drm/drm_panel.h>
+>> > >  #include <drm/drm_probe_helper.h>
+>> > >  #include <drm/drm_simple_kms_helper.h>
+>> > >  #include <drm/drm_vblank.h>
+>> > > @@ -100,29 +99,11 @@ static void mxsfb_pipe_enable(struct
+>> > > drm_simple_display_pipe *pipe,
+>> > >  			      struct drm_crtc_state *crtc_state,
+>> > >  			      struct drm_plane_state *plane_state)
+>> > >  {
+>> > > -	struct drm_connector *connector;
+>> > >  	struct mxsfb_drm_private *mxsfb = drm_pipe_to_mxsfb_drm_private(pipe);
+>> > >  	struct drm_device *drm = pipe->plane.dev;
+>> > >
+>> > > -	if (!mxsfb->connector) {
+>> > > -		list_for_each_entry(connector,
+>> > > -				    &drm->mode_config.connector_list,
+>> > > -				    head)
+>> > > -			if (connector->encoder == &mxsfb->pipe.encoder) {
+>> > > -				mxsfb->connector = connector;
+>> > > -				break;
+>> > > -			}
+>> > > -	}
+>> > > -
+>> > > -	if (!mxsfb->connector) {
+>> > > -		dev_warn(drm->dev, "No connector attached, using default\n");
+>> > > -		mxsfb->connector = &mxsfb->panel_connector;
+>> > > -	}
+>> > > -
+>> > >  	pm_runtime_get_sync(drm->dev);
+>> > > -	drm_panel_prepare(mxsfb->panel);
+>> > >  	mxsfb_crtc_enable(mxsfb);
+>> > > -	drm_panel_enable(mxsfb->panel);
+>> > >  }
+>> > >
+>> > >  static void mxsfb_pipe_disable(struct drm_simple_display_pipe *pipe)
+>> > > @@ -132,9 +113,7 @@ static void mxsfb_pipe_disable(struct
+>> > > drm_simple_display_pipe *pipe)
+>> > >  	struct drm_crtc *crtc = &pipe->crtc;
+>> > >  	struct drm_pending_vblank_event *event;
+>> > >
+>> > > -	drm_panel_disable(mxsfb->panel);
+>> > >  	mxsfb_crtc_disable(mxsfb);
+>> > > -	drm_panel_unprepare(mxsfb->panel);
+>> > >  	pm_runtime_put_sync(drm->dev);
+>> > >
+>> > >  	spin_lock_irq(&drm->event_lock);
+>> > > @@ -144,9 +123,6 @@ static void mxsfb_pipe_disable(struct
+>> > > drm_simple_display_pipe *pipe)
+>> > >  		drm_crtc_send_vblank_event(crtc, event);
+>> > >  	}
+>> > >  	spin_unlock_irq(&drm->event_lock);
+>> > > -
+>> > > -	if (mxsfb->connector != &mxsfb->panel_connector)
+>> > > -		mxsfb->connector = NULL;
+>> > >  }
+>> > >
+>> > >  static void mxsfb_pipe_update(struct drm_simple_display_pipe *pipe,
+>> > > @@ -190,6 +166,48 @@ static struct drm_simple_display_pipe_funcs mxsfb_funcs = {
+>> > >  	.disable_vblank	= mxsfb_pipe_disable_vblank,
+>> > >  };
+>> > >
+>> > > +static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
+>> > > +{
+>> > > +	struct drm_device *drm = mxsfb->drm;
+>> > > +	struct drm_connector_list_iter iter;
+>> > > +	struct drm_panel *panel;
+>> > > +	struct drm_bridge *bridge;
+>> > > +	int ret;
+>> > > +
+>> > > +	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+>> > > +					  &bridge);
+>> > > +	if (ret)
+>> > > +		return ret;
+>> > > +
+>> > > +	if (panel) {
+>> > > +		bridge = devm_drm_panel_bridge_add(drm->dev, panel);
+>> >
+>> > Do we need a select DRM_PANEL_BRIDGE in Kconfig maybe? From what I can
+>> > tell there is no devm_drm_panel_bridge_add() stub if DRM_PANEL_BRIDGE is
+>> > not selected.
+>>
+>> You're right, I'll add it.
+>>
+>> > > +		if (IS_ERR(bridge))
+>> > > +			return PTR_ERR(bridge);
+>> > > +	}
+>> > > +
+>> > > +	if (!bridge)
+>> > > +		return -ENODEV;
+>> > > +
+>> > > +	ret = drm_simple_display_pipe_attach_bridge(&mxsfb->pipe, bridge);
+>> > > +	if (ret) {
+>> > > +		DRM_DEV_ERROR(drm->dev,
+>> > > +			      "failed to attach bridge: %d\n", ret);
+>> > > +		return ret;
+>> > > +	}
+>> > > +
+>> > > +	mxsfb->bridge = bridge;
+>> > > +
+>> > > +	/*
+>> > > +	 * Get hold of the connector. This is a bit of a hack, until the bridge
+>> > > +	 * API gives us bus flags and formats.
+>> > > +	 */
+>> > > +	drm_connector_list_iter_begin(drm, &iter);
+>> > > +	mxsfb->connector = drm_connector_list_iter_next(&iter);
+>> > > +	drm_connector_list_iter_end(&iter);
+>> >
+>> > Could we not just use drm_panel_bridge_connector() here?
+>>
+>> There's no guarantee that mxsfb->bridge is a panel bridge, the LCDIF
+>> output could be connected to another bridge in which case
+>> drm_of_find_panel_or_bridge() will set panel to NULL and bridge to a
+>> non-NULL value).
+>>
+>> > > +
+>> > > +	return 0;
+>> > > +}
+>> > > +
+>> > >  static int mxsfb_load(struct drm_device *drm, unsigned long flags)
+>> > >  {
+>> > >  	struct platform_device *pdev = to_platform_device(drm->dev);
+>> > > @@ -201,6 +219,7 @@ static int mxsfb_load(struct drm_device *drm,
+>> > > unsigned long flags)
+>> > >  	if (!mxsfb)
+>> > >  		return -ENOMEM;
+>> > >
+>> > > +	mxsfb->drm = drm;
+>> > >  	drm->dev_private = mxsfb;
+>> > >  	mxsfb->devdata = &mxsfb_devdata[pdev->id_entry->driver_data];
+>> > >
+>> > > @@ -236,41 +255,17 @@ static int mxsfb_load(struct drm_device *drm,
+>> > > unsigned long flags)
+>> > >  	/* Modeset init */
+>> > >  	drm_mode_config_init(drm);
+>> > >
+>> > > -	ret = mxsfb_create_output(drm);
+>> > > -	if (ret < 0) {
+>> > > -		dev_err(drm->dev, "Failed to create outputs\n");
+>> > > -		goto err_vblank;
+>> > > -	}
+>> > > -
+>> > >  	ret = drm_simple_display_pipe_init(drm, &mxsfb->pipe, &mxsfb_funcs,
+>> > > -			mxsfb_formats, ARRAY_SIZE(mxsfb_formats), NULL,
+>> > > -			mxsfb->connector);
+>> > > +			mxsfb_formats, ARRAY_SIZE(mxsfb_formats), NULL, NULL);
+>> > >  	if (ret < 0) {
+>> > >  		dev_err(drm->dev, "Cannot setup simple display pipe\n");
+>> > >  		goto err_vblank;
+>> > >  	}
+>> > >
+>> > > -	/*
+>> > > -	 * Attach panel only if there is one.
+>> > > -	 * If there is no panel attach, it must be a bridge. In this case, we
+>> > > -	 * need a reference to its connector for a proper initialization.
+>> > > -	 * We will do this check in pipe->enable(), since the connector won't
+>> > > -	 * be attached to an encoder until then.
+>> > > -	 */
+>> > > -
+>> > > -	if (mxsfb->panel) {
+>> > > -		ret = drm_panel_attach(mxsfb->panel, mxsfb->connector);
+>> > > -		if (ret) {
+>> > > -			dev_err(drm->dev, "Cannot connect panel: %d\n", ret);
+>> > > -			goto err_vblank;
+>> > > -		}
+>> > > -	} else if (mxsfb->bridge) {
+>> > > -		ret = drm_simple_display_pipe_attach_bridge(&mxsfb->pipe,
+>> > > -							    mxsfb->bridge);
+>> > > -		if (ret) {
+>> > > -			dev_err(drm->dev, "Cannot connect bridge: %d\n", ret);
+>> > > -			goto err_vblank;
+>> > > -		}
+>> > > +	ret = mxsfb_attach_bridge(mxsfb);
+>> > > +	if (ret) {
+>> > > +		dev_err(drm->dev, "Cannot connect bridge: %d\n", ret);
+>> > > +		goto err_vblank;
+>> > >  	}
+>> > >
+>> > >  	drm->mode_config.min_width	= MXSFB_MIN_XRES;
+>> > > @@ -288,7 +283,7 @@ static int mxsfb_load(struct drm_device *drm,
+>> > > unsigned long flags)
+>> > >
+>> > >  	if (ret < 0) {
+>> > >  		dev_err(drm->dev, "Failed to install IRQ handler\n");
+>> > > -		goto err_irq;
+>> > > +		goto err_vblank;
+>> > >  	}
+>> > >
+>> > >  	drm_kms_helper_poll_init(drm);
+>> > > @@ -299,8 +294,6 @@ static int mxsfb_load(struct drm_device *drm,
+>> > > unsigned long flags)
+>> > >
+>> > >  	return 0;
+>> > >
+>> > > -err_irq:
+>> > > -	drm_panel_detach(mxsfb->panel);
+>> > >  err_vblank:
+>> > >  	pm_runtime_disable(drm->dev);
+>> > >
+>> > > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+>> > > b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+>> > > index 0b65b5194a9c..0e3e5a63bbf9 100644
+>> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+>> > > +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+>> > > @@ -8,6 +8,8 @@
+>> > >  #ifndef __MXSFB_DRV_H__
+>> > >  #define __MXSFB_DRV_H__
+>> > >
+>> > > +struct drm_device;
+>> > > +
+>> > >  struct mxsfb_devdata {
+>> > >  	unsigned int	 transfer_count;
+>> > >  	unsigned int	 cur_buf;
+>> > > @@ -26,10 +28,9 @@ struct mxsfb_drm_private {
+>> > >  	struct clk			*clk_axi;
+>> > >  	struct clk			*clk_disp_axi;
+>> > >
+>> > > +	struct drm_device		*drm;
+>> > >  	struct drm_simple_display_pipe	pipe;
+>> > > -	struct drm_connector		panel_connector;
+>> > >  	struct drm_connector		*connector;
+>> > > -	struct drm_panel		*panel;
+>> > >  	struct drm_bridge		*bridge;
+>> > >  };
+>> > >
+>> > > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_out.c
+>> > > b/drivers/gpu/drm/mxsfb/mxsfb_out.c
+>> > > deleted file mode 100644
+>> > > index 9eca1605d11d..000000000000
+>> > > --- a/drivers/gpu/drm/mxsfb/mxsfb_out.c
+>> > > +++ /dev/null
+>> > > @@ -1,99 +0,0 @@
+>> > > -// SPDX-License-Identifier: GPL-2.0-or-later
+>> > > -/*
+>> > > - * Copyright (C) 2016 Marek Vasut <marex@denx.de>
+>> > > - */
+>> > > -
+>> > > -#include <linux/of_graph.h>
+>> > > -
+>> > > -#include <drm/drm_atomic.h>
+>> > > -#include <drm/drm_atomic_helper.h>
+>> > > -#include <drm/drm_crtc.h>
+>> > > -#include <drm/drm_fb_cma_helper.h>
+>> > > -#include <drm/drm_gem_cma_helper.h>
+>> > > -#include <drm/drm_of.h>
+>> > > -#include <drm/drm_panel.h>
+>> > > -#include <drm/drm_plane_helper.h>
+>> > > -#include <drm/drm_probe_helper.h>
+>> > > -#include <drm/drm_simple_kms_helper.h>
+>> > > -
+>> > > -#include "mxsfb_drv.h"
+>> > > -
+>> > > -static struct mxsfb_drm_private *
+>> > > -drm_connector_to_mxsfb_drm_private(struct drm_connector *connector)
+>> > > -{
+>> > > -	return container_of(connector, struct mxsfb_drm_private,
+>> > > -			    panel_connector);
+>> > > -}
+>> > > -
+>> > > -static int mxsfb_panel_get_modes(struct drm_connector *connector)
+>> > > -{
+>> > > -	struct mxsfb_drm_private *mxsfb =
+>> > > -			drm_connector_to_mxsfb_drm_private(connector);
+>> > > -
+>> > > -	if (mxsfb->panel)
+>> > > -		return drm_panel_get_modes(mxsfb->panel, connector);
+>> > > -
+>> > > -	return 0;
+>> > > -}
+>> > > -
+>> > > -static const struct
+>> > > -drm_connector_helper_funcs mxsfb_panel_connector_helper_funcs = {
+>> > > -	.get_modes = mxsfb_panel_get_modes,
+>> > > -};
+>> > > -
+>> > > -static enum drm_connector_status
+>> > > -mxsfb_panel_connector_detect(struct drm_connector *connector, bool force)
+>> > > -{
+>> > > -	struct mxsfb_drm_private *mxsfb =
+>> > > -			drm_connector_to_mxsfb_drm_private(connector);
+>> > > -
+>> > > -	if (mxsfb->panel)
+>> > > -		return connector_status_connected;
+>> > > -
+>> > > -	return connector_status_disconnected;
+>> > > -}
+>> > > -
+>> > > -static void mxsfb_panel_connector_destroy(struct drm_connector *connector)
+>> > > -{
+>> > > -	struct mxsfb_drm_private *mxsfb =
+>> > > -			drm_connector_to_mxsfb_drm_private(connector);
+>> > > -
+>> > > -	if (mxsfb->panel)
+>> > > -		drm_panel_detach(mxsfb->panel);
+>> > > -
+>> > > -	drm_connector_unregister(connector);
+>> > > -	drm_connector_cleanup(connector);
+>> > > -}
+>> > > -
+>> > > -static const struct drm_connector_funcs mxsfb_panel_connector_funcs = {
+>> > > -	.detect			= mxsfb_panel_connector_detect,
+>> > > -	.fill_modes		= drm_helper_probe_single_connector_modes,
+>> > > -	.destroy		= mxsfb_panel_connector_destroy,
+>> > > -	.reset			= drm_atomic_helper_connector_reset,
+>> > > -	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
+>> > > -	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+>> > > -};
+>> > > -
+>> > > -int mxsfb_create_output(struct drm_device *drm)
+>> > > -{
+>> > > -	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+>> > > -	int ret;
+>> > > -
+>> > > -	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0,
+>> > > -					  &mxsfb->panel, &mxsfb->bridge);
+>> > > -	if (ret)
+>> > > -		return ret;
+>> > > -
+>> > > -	if (mxsfb->panel) {
+>> > > -		mxsfb->connector = &mxsfb->panel_connector;
+>> > > -		mxsfb->connector->dpms = DRM_MODE_DPMS_OFF;
+>> > > -		mxsfb->connector->polled = 0;
+>> > > -		drm_connector_helper_add(mxsfb->connector,
+>> > > -					 &mxsfb_panel_connector_helper_funcs);
+>> > > -		ret = drm_connector_init(drm, mxsfb->connector,
+>> > > -					 &mxsfb_panel_connector_funcs,
+>> > > -					 DRM_MODE_CONNECTOR_Unknown);
+>> > > -	}
+>> > > -
+>> > > -	return ret;
+>> > > -}
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
