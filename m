@@ -1,74 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A7A1EBF2A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 17:39:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D631EBF3C
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 17:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA9936E41B;
-	Tue,  2 Jun 2020 15:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D63C6E421;
+	Tue,  2 Jun 2020 15:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3A5A6E41B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 15:39:15 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FW32Q105146;
- Tue, 2 Jun 2020 15:39:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=DSbMhSk8SwxhpgAbU8esEvoZolFH3pziYxtelXV4q54=;
- b=zMUNe/3wVc2t0iNS0FHrcOZneeoox1E76XhWQ0SxVThFK9zD02pbVo+mIylWmRF/7lx3
- Ct3IhpYmvEK7KhiAgJVShmkgJVkE9fldJVQHVuE6shhBGucp5ZQXksuGU37sBloc4h7w
- 3yYyq63lrrQOuQ7yA74jSpzQUv5lIFOec4j3db9mOqPJKKLNXAY16LqI6FtAvqjJ2Pu0
- Ryt/cdtemq7uKVKpj4vOa6b47tQPWR1n7A2PbS2Us1tVJU/BemmCP3U5St/wJksnZBkV
- FpalnxmW4FTe2nfXybQAN/qHdTs956D1ant0TZROQAaEGxxJkF/7Q1J8IZGXBmfTAtOM ig== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 31dkruhrxp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 02 Jun 2020 15:39:14 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 052FY0Fc104603;
- Tue, 2 Jun 2020 15:39:14 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 31dju1phrx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 02 Jun 2020 15:39:14 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 052Fd8SF030859;
- Tue, 2 Jun 2020 15:39:08 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 02 Jun 2020 08:39:08 -0700
-Date: Tue, 2 Jun 2020 18:39:00 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH] drm/nouveau/clk/gm20b: Fix memory leak in gm20b_clk_new()
-Message-ID: <20200602153900.GW22511@kadam>
-References: <dd729c13-fbc8-22e7-7d8e-e3e126f66943@web.de>
- <40d8fb01.db721.17269d3d620.Coremail.dinghao.liu@zju.edu.cn>
- <20200602102955.GZ30374@kadam>
- <65e3d2b7-b0ad-f387-b8fe-d83ea816a0f6@web.de>
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com
+ [IPv6:2607:f8b0:4864:20::e41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8406E421;
+ Tue,  2 Jun 2020 15:43:17 +0000 (UTC)
+Received: by mail-vs1-xe41.google.com with SMTP id c1so2270641vsc.11;
+ Tue, 02 Jun 2020 08:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DYngnraAO9v6DgzTxyaGpMxNWkQ9LAzLsVZUZnOMctU=;
+ b=Rih8KGyBH40LBX8n/poZKv9x/eVmj1SMH3+mvtzB7ahZBXpM5zgOl/2ZZZrpYuDWWp
+ VrJEejMmZIzUOLmIWwoivs3brFbI2xHxVTdrDsbBlbr5G7rSN5pv/CU5K0PJS8Kzh8uk
+ rry00PFj7iBcTa7YWVz4K5PqexXAPP6EDn7ekuYRbDjC1O8XAq0CD66pG29XOMU+Q1bM
+ Z02BfsJWl5GocDb3k8jII1nKOTf+9vdgXXPLSeXNPgHysUxG0R6LQwywuPpauFCeB9sc
+ QZ4soiAEvByi7k97gMxFnAM6Vnde9bkAzowzbsaTr2NORJ3UOZteslq/IzFns5zsIZY0
+ BCWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DYngnraAO9v6DgzTxyaGpMxNWkQ9LAzLsVZUZnOMctU=;
+ b=jkxyJhOSuicM5IClEcDuhrVbKoQv11gc0Q4QZNMXJopakHiXNHQGzNfgaPoh2NBF9T
+ qlUFBsXiPIaEHUQCqXaiP8+2U4JK2Kgik5Va4OYtu/Pmc3MnxvpijF5McJisF8CRrqfJ
+ DkazeT5yC8RlXB9FSa9BCJ3tgsL+EJcKg7qlR8ayhenwSgYyF4MP6Oh0/rDpZ83sEErq
+ 7WhVutzepiiEm3Epzm8n3HkXl6BFxjSIsEsf7uK9aEdrg6mhVUjbgNYaZIB/p8Fc2Yg+
+ 3aAiKMTzVm+A2Wx1pGa8npettSHPOg6kH+wBZ8rUTNIIIX0bpVCg5yfRFo+YSlS25/Or
+ x/oA==
+X-Gm-Message-State: AOAM5300TKg5osDRx2SNbnS90vUjem8UFssv4pc+cUDJ7wjL8jnfuIhP
+ ou3CfpFkiV2kQb/Cafk/c1XMtpplEioYgMbTFFw=
+X-Google-Smtp-Source: ABdhPJzkda1ykteQq6BwLnY+Dxu+T8WkWOO2Mx3/6MCrDeWYhdFyjxNXaMlq4pyJjgaKfSkcyDdktLKjZsXYe1+o4Pg=
+X-Received: by 2002:a67:b149:: with SMTP id z9mr17431445vsl.85.1591112596522; 
+ Tue, 02 Jun 2020 08:43:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <65e3d2b7-b0ad-f387-b8fe-d83ea816a0f6@web.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- phishscore=0 malwarescore=0 mlxscore=0 adultscore=0 bulkscore=0
- suspectscore=18 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006020111
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9640
- signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- priorityscore=1501
- mlxscore=0 lowpriorityscore=0 suspectscore=18 malwarescore=0 clxscore=1015
- adultscore=0 mlxlogscore=999 cotscore=-2147483648 phishscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006020111
+References: <1591009402-681-1-git-send-email-mkrishn@codeaurora.org>
+ <CACvgo50eb5_jp_6B5tkV9cX_X2_y2Xnavu+wvUUhHN5FsV9hiw@mail.gmail.com>
+ <cd61dd742e73b89794fc1b812d9fdcd9@codeaurora.org>
+In-Reply-To: <cd61dd742e73b89794fc1b812d9fdcd9@codeaurora.org>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 2 Jun 2020 16:39:58 +0100
+Message-ID: <CACvgo50b+m2+onak=AZfgihkBXEP9POjMR52087v==-puLdkQQ@mail.gmail.com>
+Subject: Re: [v2] drm/msm: add shutdown support for display platform_driver
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,29 +62,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Dinghao Liu <dinghao.liu@zju.edu.cn>, Kangjie Lu <kjlu@umn.edu>
+Cc: Krishna Manikandan <mkrishn@codeaurora.org>,
+ devicetree-owner@vger.kernel.org, devicetree <devicetree@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, mka@chromium.org,
+ Sean Paul <seanpaul@chromium.org>, kalyan_t@codeaurora.org,
+ "Kristian H . Kristensen" <hoegsberg@chromium.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 02, 2020 at 01:10:34PM +0200, Markus Elfring wrote:
-> > The original patch was basically fine.
-> 
-> I propose to reconsider the interpretation of the software situation once more.
-> 
-> * Should the allocated clock object be kept usable even after
->   a successful return from this function?
+On Tue, 2 Jun 2020 at 15:49, Sai Prakash Ranjan
+<saiprakash.ranjan@codeaurora.org> wrote:
+>
+> Hi Emil,
+>
+> On 2020-06-02 19:43, Emil Velikov wrote:
+> > Hi Krishna,
+> >
+> > On Tue, 2 Jun 2020 at 08:17, Krishna Manikandan
+> > <mkrishn@codeaurora.org> wrote:
+> >>
+> >> Define shutdown callback for display drm driver,
+> >> so as to disable all the CRTCS when shutdown
+> >> notification is received by the driver.
+> >>
+> >> This change will turn off the timing engine so
+> >> that no display transactions are requested
+> >> while mmu translations are getting disabled
+> >> during reboot sequence.
+> >>
+> >> Signed-off-by: Krishna Manikandan <mkrishn@codeaurora.org>
+> >>
+> > AFAICT atomics is setup in msm_drm_ops::bind and shutdown in
+> > msm_drm_ops::unbind.
+> >
+> > Are you saying that unbind never triggers? If so, then we should
+> > really fix that instead, since this patch seems more like a
+> > workaround.
+> >
+>
+> Which path do you suppose that the unbind should be called from, remove
+> callback? Here we are talking about the drivers which are builtin, where
+> remove callbacks are not called from the driver core during
+> reboot/shutdown,
+> instead shutdown callbacks are called which needs to be defined in order
+> to
+> trigger unbind. So AFAICS there is nothing to be fixed.
+>
+Interesting - in drm effectively only drm panels implement .shutdown.
+So my naive assumption was that .remove was used implicitly by core,
+as part of the shutdown process. Yet that's not the case, so it seems
+that many drivers could use some fixes.
 
-Heh.  You're right.  The patch is freeing "clk" on the success path so
-that doesn't work.
-
-regards,
-dan carpenter
-
+Then again, that's an existing problem which is irrelevant for msm.
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
