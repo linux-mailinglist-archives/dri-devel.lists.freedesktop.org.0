@@ -1,40 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F3F1EC417
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 22:57:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC15B1EC446
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jun 2020 23:22:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742686E46B;
-	Tue,  2 Jun 2020 20:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6950E6E20A;
+	Tue,  2 Jun 2020 21:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637166E479
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 20:56:57 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 20B6180511;
- Tue,  2 Jun 2020 22:56:55 +0200 (CEST)
-Date: Tue, 2 Jun 2020 22:56:53 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 2/2] drm/panel: simple: Add support for KOE
- TX26D202VM0BWA panel
-Message-ID: <20200602205653.GC56418@ravnborg.org>
-References: <1590991880-24273-1-git-send-email-victor.liu@nxp.com>
- <CACvgo50UOby-xV_OYmM55VUXUbwLxK-q6bs2FoS_FuwB9ChYJg@mail.gmail.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E3D6E20A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jun 2020 21:22:11 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id o9so56909ljj.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 14:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3SbTnu2Joe/UmPFYZAmB5Tz+5GBec7GBEWVsnaWkdrg=;
+ b=ABcLIDWzz1tu1GxHTVMe7bjHac2QIuX7rTxa1aa3QDOFpZ/9DRCPuAFOILb1zcCXs0
+ 7oUcgqs5wDu6bDImq/IzRWVqXPzk1Z2lJmThYxYj/arN3jC60c31M2tmQB5Ue9KM6qt/
+ pb18/JsW9x4nynCcy3hfXBohGrqvWxPqFBFSE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3SbTnu2Joe/UmPFYZAmB5Tz+5GBec7GBEWVsnaWkdrg=;
+ b=Wphdm7gO85AkSUuGvo5LFmQBWdj8gdYOYQCGf/DKZhCIo2KzrsrKxvJj2P++9NgMNz
+ rQELR3SxAyt1alDku1iI7N2/dL53apQC952pCQICTAWMRERBbVClInGvyr+AfJ1NV5nW
+ o8iZXvqmQ5zfN2rYiBeMZiSnECxvZI6jFOoeSZ6JmiTRXPfONnQ60ZGqC0HnyXDn/qMm
+ NHU4nNyXYZ0tRleUD3iuISaiNb3oLzmRR3AIMHzjESP7YQlF68R1zZGCuylrNo28HZCC
+ 7k7H3lWIm1ooc5IgJqSqGnP9MojvyZuTSCeOSnGkDuX2FyHPjlEJKCp/ETLrEdltX4gE
+ hYGA==
+X-Gm-Message-State: AOAM532fGsYXd9/7ULQPr9RS43oNcafjQBIDX1LdPQCOUxdK9kK93Edx
+ g/I/npyC1//r6Rc5WPfPGsj82++r3/U=
+X-Google-Smtp-Source: ABdhPJzzKvj41ROhFlBZxa3GYT8mmLjuqr1wGkYn9TOI104srNWLekGZHGJdsinjzn2yIJgTAFWjTA==
+X-Received: by 2002:a2e:6a11:: with SMTP id f17mr455972ljc.109.1591132929205; 
+ Tue, 02 Jun 2020 14:22:09 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
+ [209.85.208.179])
+ by smtp.gmail.com with ESMTPSA id f16sm58856lfa.10.2020.06.02.14.22.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jun 2020 14:22:08 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 9so44468ljc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jun 2020 14:22:07 -0700 (PDT)
+X-Received: by 2002:a2e:b5d9:: with SMTP id g25mr252353ljn.285.1591132927271; 
+ Tue, 02 Jun 2020 14:22:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACvgo50UOby-xV_OYmM55VUXUbwLxK-q6bs2FoS_FuwB9ChYJg@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=8AirrxEcAAAA:8 a=yWwjhyuKAAAA:8 a=nC4w6PE1AAAA:8
- a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=rqLoeK0XAFqiYc_KYMYA:9
- a=CjuIK1q_8ugA:10 a=ST-jHhOKWsTCqRlWije3:22 a=Af9y4jXI75YbyZfcaVTS:22
- a=6x2acwxlnJam7TDHjV8g:22 a=E9Po1WZjFZOl8hwRPBS3:22
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+In-Reply-To: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 2 Jun 2020 14:21:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
+Message-ID: <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.8-rc1
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,92 +69,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Ying <victor.liu@nxp.com>, devicetree <devicetree@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Emil.
+On Mon, Jun 1, 2020 at 11:06 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> This tree is a bit conflicty, the i915 ones are probably the hairy
+> ones, but amdgpu has a bunch as well, along with smattering of others.
 
-On Tue, Jun 02, 2020 at 01:46:19PM +0100, Emil Velikov wrote:
-> On Tue, 2 Jun 2020 at 08:17, Liu Ying <victor.liu@nxp.com> wrote:
-> >
-> > This patch adds support for Kaohsiung Opto-Electronics Inc.
-> > 10.1" TX26D202VM0BWA WUXGA(1920x1200) TFT LCD panel with LVDS interface.
-> > The panel has dual LVDS channels.
-> >
-> > My panel is manufactured by US Micro Products(USMP).  There is a tag at
-> > the back of the panel, which indicates the panel type is 'TX26D202VM0BWA'
-> > and it's made by KOE in Taiwan.
-> >
-> > The panel spec from USMP can be found at:
-> > https://www.usmicroproducts.com/sites/default/files/datasheets/USMP-T101-192120NDU-A0.pdf
-> >
-> > The below panel spec from KOE is basically the same to the one from USMP.
-> > However, the panel type 'TX26D202VM0BAA' is a little bit different.
-> > It looks that the two types of panel are compatible with each other.
-> > http://www.koe.j-display.com/upload/product/TX26D202VM0BAA.pdf
-> >
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> >  drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index b6ecd15..7c222ec 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -2200,6 +2200,37 @@ static const struct panel_desc koe_tx14d24vm1bpa = {
-> >         },
-> >  };
-> >
-> > +static const struct display_timing koe_tx26d202vm0bwa_timing = {
-> > +       .pixelclock = { 151820000, 156720000, 159780000 },
-> > +       .hactive = { 1920, 1920, 1920 },
-> > +       .hfront_porch = { 105, 130, 142 },
-> > +       .hback_porch = { 45, 70, 82 },
-> > +       .hsync_len = { 30, 30, 30 },
-> > +       .vactive = { 1200, 1200, 1200},
-> > +       .vfront_porch = { 3, 5, 10 },
-> > +       .vback_porch = { 2, 5, 10 },
-> > +       .vsync_len = { 5, 5, 5 },
-> > +};
-> > +
-> > +static const struct panel_desc koe_tx26d202vm0bwa = {
-> > +       .timings = &koe_tx26d202vm0bwa_timing,
-> > +       .num_timings = 1,
-> > +       .bpc = 8,
-> > +       .size = {
-> > +               .width = 217,
-> > +               .height = 136,
-> > +       },
-> > +       .delay = {
-> > +               .prepare = 1000,
-> > +               .enable = 1000,
-> > +               .unprepare = 1000,
-> > +               .disable = 1000,
-> Ouch 1s for each delay is huge. Nevertheless it matches the specs so,
-> the series is:
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> 
-> Sam, Thierry I assume you'll merge the series. Let me know if I should
-> pick it up.
-I am quite busy with non-linux stuff these days so fine if you can pick
-them up. I like that simple panel patches are processed fast.
+Hmm. Some of them are due to your previous mis-merges.
 
-I expect to have some hours for linux work friday or saturday, but no
-promises...
+Your commit 937eea297e26 ("Merge tag 'amd-drm-next-5.8-2020-04-24' of
+git://people.freedesktop.org/~agd5f/linux into drm-next") seems to
+have mis-merged the CONFIG_DEBUG_FS thing in
+drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
 
-	Sam
+I'm still working through the rest of the merge, so far that was the
+only one that made me go "Whaa?".
 
-
-> 
-> -Emil
+                Linus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
