@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C811EDDC6
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 09:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9F91EDDC3
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 09:12:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CF26E27C;
-	Thu,  4 Jun 2020 07:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFB36E297;
+	Thu,  4 Jun 2020 07:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D4D189B55
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 16:12:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id F406889DB5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 16:45:35 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB8CA55D;
- Wed,  3 Jun 2020 09:12:43 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5BF0255D;
+ Wed,  3 Jun 2020 09:45:35 -0700 (PDT)
 Received: from [10.37.12.87] (unknown [10.37.12.87])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 05E993F52E;
- Wed,  3 Jun 2020 09:12:32 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B64873F52E;
+ Wed,  3 Jun 2020 09:45:24 -0700 (PDT)
 Subject: Re: [PATCH v8 4/8] PM / EM: add support for other devices than CPUs
  in Energy Model
 To: "Rafael J. Wysocki" <rafael@kernel.org>
@@ -28,13 +28,15 @@ References: <20200527095854.21714-1-lukasz.luba@arm.com>
  <CAJZ5v0jwoNSYOz3nGqNshd=5btsLxOp-di-Dot+cHqAQZEQVRw@mail.gmail.com>
  <d6a0d345-53ef-523c-836d-3bc4ea4c6e66@arm.com>
  <CAJZ5v0iDNH7tZmKsYgW1xp-g3WmOod+Wo-AzJmszXuv_wztwwA@mail.gmail.com>
+ <d0894383-1362-fdea-f74c-7dd8ecdc33ca@arm.com>
+ <CAJZ5v0jL0+TXDGXaO=WfYg6QM3=B83LLZ90xtc2HtX70jdoiYQ@mail.gmail.com>
 From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <d0894383-1362-fdea-f74c-7dd8ecdc33ca@arm.com>
-Date: Wed, 3 Jun 2020 17:12:31 +0100
+Message-ID: <6693c594-930b-b28e-58d0-f1b28b6eef58@arm.com>
+Date: Wed, 3 Jun 2020 17:45:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0iDNH7tZmKsYgW1xp-g3WmOod+Wo-AzJmszXuv_wztwwA@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jL0+TXDGXaO=WfYg6QM3=B83LLZ90xtc2HtX70jdoiYQ@mail.gmail.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Thu, 04 Jun 2020 07:11:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,124 +87,165 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 6/3/20 4:40 PM, Rafael J. Wysocki wrote:
-> On Wed, Jun 3, 2020 at 5:26 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+On 6/3/20 5:22 PM, Rafael J. Wysocki wrote:
+> On Wed, Jun 3, 2020 at 6:12 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
 >>
 >>
 >>
->> On 6/3/20 4:13 PM, Rafael J. Wysocki wrote:
->>> On Tue, Jun 2, 2020 at 1:31 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>> On 6/3/20 4:40 PM, Rafael J. Wysocki wrote:
+>>> On Wed, Jun 3, 2020 at 5:26 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
 >>>>
->>>> Hi Daniel,
 >>>>
->>>> On 6/1/20 10:44 PM, Daniel Lezcano wrote:
->>>>> On 27/05/2020 11:58, Lukasz Luba wrote:
->>>>>> Add support for other devices than CPUs. The registration function
->>>>>> does not require a valid cpumask pointer and is ready to handle new
->>>>>> devices. Some of the internal structures has been reorganized in order to
->>>>>> keep consistent view (like removing per_cpu pd pointers).
+>>>>
+>>>> On 6/3/20 4:13 PM, Rafael J. Wysocki wrote:
+>>>>> On Tue, Jun 2, 2020 at 1:31 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
 >>>>>>
->>>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->>>>>> ---
+>>>>>> Hi Daniel,
+>>>>>>
+>>>>>> On 6/1/20 10:44 PM, Daniel Lezcano wrote:
+>>>>>>> On 27/05/2020 11:58, Lukasz Luba wrote:
+>>>>>>>> Add support for other devices than CPUs. The registration function
+>>>>>>>> does not require a valid cpumask pointer and is ready to handle new
+>>>>>>>> devices. Some of the internal structures has been reorganized in order to
+>>>>>>>> keep consistent view (like removing per_cpu pd pointers).
+>>>>>>>>
+>>>>>>>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>>>>>>>> ---
+>>>>>>>
+>>>>>>> [ ... ]
+>>>>>>>
+>>>>>>>>      }
+>>>>>>>>      EXPORT_SYMBOL_GPL(em_register_perf_domain);
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * em_dev_unregister_perf_domain() - Unregister Energy Model (EM) for a device
+>>>>>>>> + * @dev             : Device for which the EM is registered
+>>>>>>>> + *
+>>>>>>>> + * Try to unregister the EM for the specified device (but not a CPU).
+>>>>>>>> + */
+>>>>>>>> +void em_dev_unregister_perf_domain(struct device *dev)
+>>>>>>>> +{
+>>>>>>>> +    if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
+>>>>>>>> +            return;
+>>>>>>>> +
+>>>>>>>> +    if (_is_cpu_device(dev))
+>>>>>>>> +            return;
+>>>>>>>> +
+>>>>>>>> +    mutex_lock(&em_pd_mutex);
+>>>>>>>
+>>>>>>> Is the mutex really needed?
+>>>>>>
+>>>>>> I just wanted to align this unregister code with register. Since there
+>>>>>> is debugfs dir lookup and the device's EM existence checks I thought it
+>>>>>> wouldn't harm just to lock for a while and make sure the registration
+>>>>>> path is not used. These two paths shouldn't affect each other, but with
+>>>>>> modules loading/unloading I wanted to play safe.
+>>>>>>
+>>>>>> I can change it maybe to just dmb() and the end of the function if it's
+>>>>>> a big performance problem in this unloading path. What do you think?
 >>>>>
->>>>> [ ... ]
+>>>>> I would rather leave the mutex locking as is.
 >>>>>
->>>>>>     }
->>>>>>     EXPORT_SYMBOL_GPL(em_register_perf_domain);
->>>>>> +
->>>>>> +/**
->>>>>> + * em_dev_unregister_perf_domain() - Unregister Energy Model (EM) for a device
->>>>>> + * @dev             : Device for which the EM is registered
->>>>>> + *
->>>>>> + * Try to unregister the EM for the specified device (but not a CPU).
->>>>>> + */
->>>>>> +void em_dev_unregister_perf_domain(struct device *dev)
->>>>>> +{
->>>>>> +    if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
->>>>>> +            return;
->>>>>> +
->>>>>> +    if (_is_cpu_device(dev))
->>>>>> +            return;
->>>>>> +
->>>>>> +    mutex_lock(&em_pd_mutex);
+>>>>> However, the question to ask is what exactly may go wrong without that
+>>>>> locking in place?  Is there any specific race condition that you are
+>>>>> concerned about?
 >>>>>
->>>>> Is the mutex really needed?
 >>>>
->>>> I just wanted to align this unregister code with register. Since there
->>>> is debugfs dir lookup and the device's EM existence checks I thought it
->>>> wouldn't harm just to lock for a while and make sure the registration
->>>> path is not used. These two paths shouldn't affect each other, but with
->>>> modules loading/unloading I wanted to play safe.
+>>>> I tried to test this with module loading & unloading with panfrost
+>>>> driver and CPU hotplug (which should bail out quickly) and was OK.
+>>>> I don't see any particular race. I don't too much about the
+>>>> debugfs code, though. That's why I tried to protect from some
+>>>> scripts/services which try to re-load the driver.
 >>>>
->>>> I can change it maybe to just dmb() and the end of the function if it's
->>>> a big performance problem in this unloading path. What do you think?
+>>>> Apart from that, maybe just this dev->em = NULL to be populated to all
+>>>> CPUs, which mutex_unlock synchronizes for free here.
 >>>
->>> I would rather leave the mutex locking as is.
+>>> If it may run concurrently with the registration for the same device,
+>>> the locking is necessary, but in that case the !dev->em_pd check needs
+>>> to go under the mutex too IMO, or you may end up leaking the pd if the
+>>> registration can run between that check and the point at which the
+>>> mutex is taken.
+>>
+>> They don't run concurrently for the same device and users of that EM are
+>> already gone.
+>> I just wanted to be sure that everything is cleaned and synced properly.
+>> Here is some example of the directories under
+>> /sys/kernel/debug/energy_model
+>> cpu0, cpu4, gpu, dsp, etc
+>>
+>> The only worry that I had was the debugfs dir name, which is a
+>> string from dev_name() and will be the same for the next registration
+>> if module is re-loaded.
+> 
+> OK, so that needs to be explained in a comment.
+
+OK, I will add it.
+
+> 
+>> So the 'name' is reused and debugfs_create_dir()
+>> and debugfs_remove_recursive() uses this fsnotify, but they are
+>> operating under inode_lock/unlock() on the parent dir 'energy_model'.
+>> Then there is also this debugfs_lookup() which is slightly different.
+>>
+>> That's why I put a mutex to separate all registration and unregistration
+>> for all devices.
+>> It should work without the mutex in unregister path, but I think it does
+>> not harm to take
+> 
+> Well, fair enough, but I still think that the !dev->em_pd check should
+> be done under the mutex or it will be confusing.
+> 
+>> it just in case and also have the CPU variable sync for free.
+> 
+> I'm not sure what you mean by the last part here?
+
+The mutex_unlock for me also means dmb() took place. ARM has slightly
+different memory model than x86 and I just wanted to be sure that
+this new values reach memory and become visible to other cores.
+mutex_unlock just guaranties this for me.
+
+> 
 >>>
->>> However, the question to ask is what exactly may go wrong without that
->>> locking in place?  Is there any specific race condition that you are
->>> concerned about?
+>>> Apart from this your kerneldoc comments might me improved IMO.
+>>>
+>>> First of all, you can use @dev inside of a kerneldoc (if @dev
+>>> represents an argument of the documented function) and that will
+>>> produce the right output automatically.
+>>
+>> OK
+>>
+>>>
+>>> Second, it is better to avoid saying things like "Try to unregister
+>>> ..." in kerneldoc comments (the "Try to" part is redundant).  Simply
+>>> say "Unregister ..." instead.
+>>
+>> Good point, thanks, I will use "Unregister ..." then.
+>>
+>>>
+>>> Thanks!
 >>>
 >>
->> I tried to test this with module loading & unloading with panfrost
->> driver and CPU hotplug (which should bail out quickly) and was OK.
->> I don't see any particular race. I don't too much about the
->> debugfs code, though. That's why I tried to protect from some
->> scripts/services which try to re-load the driver.
->>
->> Apart from that, maybe just this dev->em = NULL to be populated to all
->> CPUs, which mutex_unlock synchronizes for free here.
+>> Shell I send a 'resend patch' which changes these @dev and
+>> 'unregister' comments?
 > 
-> If it may run concurrently with the registration for the same device,
-> the locking is necessary, but in that case the !dev->em_pd check needs
-> to go under the mutex too IMO, or you may end up leaking the pd if the
-> registration can run between that check and the point at which the
-> mutex is taken.
+> Yes, please, but see the comments above too.
 
-They don't run concurrently for the same device and users of that EM are
-already gone.
-I just wanted to be sure that everything is cleaned and synced properly.
-Here is some example of the directories under
-/sys/kernel/debug/energy_model
-cpu0, cpu4, gpu, dsp, etc
-
-The only worry that I had was the debugfs dir name, which is a
-string from dev_name() and will be the same for the next registration
-if module is re-loaded. So the 'name' is reused and debugfs_create_dir()
-and debugfs_remove_recursive() uses this fsnotify, but they are
-operating under inode_lock/unlock() on the parent dir 'energy_model'.
-Then there is also this debugfs_lookup() which is slightly different.
-
-That's why I put a mutex to separate all registration and unregistration
-for all devices.
-It should work without the mutex in unregister path, but I think it does
-not harm to take it just in case and also have the CPU variable sync for
-free.
-
+Saw it
 
 > 
-> Apart from this your kerneldoc comments might me improved IMO.
+>> Or wait for you to finish reviewing the other patches and send v9?
 > 
-> First of all, you can use @dev inside of a kerneldoc (if @dev
-> represents an argument of the documented function) and that will
-> produce the right output automatically.
+> That is not necessary, unless you want to make kerneldoc improvements
+> in the other patches.
 
-OK
+I will check them, but if they are OKish then I will just resend this
+one.
 
-> 
-> Second, it is better to avoid saying things like "Try to unregister
-> ..." in kerneldoc comments (the "Try to" part is redundant).  Simply
-> say "Unregister ..." instead.
 
-Good point, thanks, I will use "Unregister ..." then.
+Thank you for the review.
 
-> 
-> Thanks!
-> 
-
-Shell I send a 'resend patch' which changes these @dev and
-'unregister' comments?
-Or wait for you to finish reviewing the other patches and send v9?
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
