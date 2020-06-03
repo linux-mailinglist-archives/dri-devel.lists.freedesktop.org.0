@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FF11ED121
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:47:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9192D1ED1F9
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 16:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454A989C49;
-	Wed,  3 Jun 2020 13:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 424DC89C08;
+	Wed,  3 Jun 2020 14:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F91889C49
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 13:47:02 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id q25so2155971wmj.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 06:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=OQIprdtrVjtP62bZcoKpQVCgWT34ebTQAfzTo1SmbVI=;
- b=Kp/kJz3t3inOS5ejlXO58XnqG0WmCPzCgXpyWtrm8ddq8WydV9dxOsP2yAZA98/kdi
- SZh862Zmi6trZdy/R9q+rB7HcuA1aWuAljmDyI1s/3g2LgRqD8hss1rpgXFkHRNjCaxN
- WK7yi1+wam78LGNMQTndnf3DX1e6FkG8D83AQ=
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0548289C08;
+ Wed,  3 Jun 2020 14:20:10 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id gl26so2340953ejb.11;
+ Wed, 03 Jun 2020 07:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=brk2U8DSU4E7P9UsEsDcp0iVP2I5n96xwIrVhsO2D0U=;
+ b=O3Hc7B/C+hhE0kIURHDPGIQom3B8NcaK2/PBXIHdaKszf4Shr2XwE/CY7e3K3X9un7
+ bunwidpWUmEKcYQ1+DyovPB6Ss6ilCeqcQ08x4EQjzR8XyyYqwz/Ka4UKJQ4lUHrSSpM
+ UHfXsDtK5Y4CtSSURVBI0x02U4AdOU02Bj41bKnGK2vTB7kQSZrGcKnOXatYMQolqilO
+ xCyzgl8avJ0ILIK67XyJppKrJbmKdazxxb4M4E2N8uaImFg6Kt99NQStQGn4TxJzFZ+C
+ FfnCUK9sHHPZOOE2xvN8K1wDNSa9YBLZfhshse7L2EPgQe3TPqAv5IxCBdCNgm3h27yd
+ 7q0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OQIprdtrVjtP62bZcoKpQVCgWT34ebTQAfzTo1SmbVI=;
- b=iOQ7avBIpozkpryu86tSsAySoBr0wyoKueyYYfrJpM0cjFE/dE51LXj6g47srtOy6O
- usbS11bIOTRjjqltKbBPjYC9Om4nDvkwR+3n2aQhVgcDpNmAauXnw6M/6VKDpQ7HGpNm
- BhljrVH9R7XBupcN09HttJPfaBQOryun3j9+l0Y91tjKLJYko5nk31h72UMOVwyKIgUn
- u7145/5p+VAgUU9mASf1tEb8PQW1w9aOgonuk9WwWX0bkrAAk1HG96Z6ptHticQ1/GxP
- 3MRHMzla0JqMOdBadkYjHTFkQpOpVhGOlXx791vUB8oeLGSbkGJQex0RknQfE8DmFXdi
- JudQ==
-X-Gm-Message-State: AOAM530niQoPfxhyHIxQX5pYTyAbOa0WQv8ueFlNNgqgngsWzfsNfQTh
- H9z84UlFMPTNvQIpsWtHM7q0SA==
-X-Google-Smtp-Source: ABdhPJzR+ou0oB3EXnBrRJJTQKzUn3GuFfq3BMN5h3Cbs8pdS7KkagwQTnmeL/AwgGhlnBWqgIoN1w==
-X-Received: by 2002:a05:600c:2259:: with SMTP id
- a25mr9262872wmm.32.1591192020717; 
- Wed, 03 Jun 2020 06:47:00 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id i74sm3493772wri.49.2020.06.03.06.46.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=brk2U8DSU4E7P9UsEsDcp0iVP2I5n96xwIrVhsO2D0U=;
+ b=KhUmJAXhOTtnx7oDumvWbH64haDgXtDgI6px5vhhQs8aDhVe0pBcCwIhAxR1iCsO71
+ IX/FlpEwlDhnAy8yAzDNNGsi5h0a6fouFoXIkKn6O/2MRPSaJSnEQ7AuoDvKV9cmGjiI
+ gL7kcLq9RdGNEolGO6GeR6fs9KF186VNG7zPqzksE4j1AIHfosD1CGLqXPQV/Q7n+UfH
+ MxI+bEGV62gJABHmlq8ZPbuSLKjN4p+8dPu7Uzu6wkqtnXnNHHCKTsk52ZdR6qOSce8e
+ rKA77cTDPyI9WsIxdNfOe5zmpJDh0W2+8jamIouKolfHu71i1TM3+NtSsq5imfmK593t
+ 1DYg==
+X-Gm-Message-State: AOAM531xWmDr9sxYo3KF8g2gZmkcorKUvoK6L3tW2MjnsGSgRwJ1V0Gy
+ 3SsxLFKnyZ92257xgrGbxlI=
+X-Google-Smtp-Source: ABdhPJybWenTiub6eisJLN+mdRwASGIKTFULXH9VQVTeL1bG9nxCvoga0C3ZtE7cqaD3yXClqEsFtQ==
+X-Received: by 2002:a17:906:3289:: with SMTP id
+ 9mr6777119ejw.316.1591194007599; 
+ Wed, 03 Jun 2020 07:20:07 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+ by smtp.gmail.com with ESMTPSA id qp16sm1181788ejb.64.2020.06.03.07.20.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jun 2020 06:47:00 -0700 (PDT)
-Date: Wed, 3 Jun 2020 15:46:58 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Subject: Re: [PATCH 3/3] drm/hdlcd: Don't call drm_crtc_vblank_off on unbind
-Message-ID: <20200603134658.GQ20149@phenom.ffwll.local>
-References: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
- <20200602095140.36678-3-daniel.vetter@ffwll.ch>
- <20200602130016.GR159988@e110455-lin.cambridge.arm.com>
+ Wed, 03 Jun 2020 07:20:06 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: [PATCH] drm/nouveau: gr/gk20a: Use firmware version 0
+Date: Wed,  3 Jun 2020 16:20:02 +0200
+Message-Id: <20200603142002.3776672-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200602130016.GR159988@e110455-lin.cambridge.arm.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMDIsIDIwMjAgYXQgMDI6MDA6MTZQTSArMDEwMCwgTGl2aXUgRHVkYXUgd3Jv
-dGU6Cj4gT24gVHVlLCBKdW4gMDIsIDIwMjAgYXQgMTE6NTE6NDBBTSArMDIwMCwgRGFuaWVsIFZl
-dHRlciB3cm90ZToKPiA+IFRoaXMgaXMgYWxyZWFkeSB0YWtlbiBjYXJlIG9mIGJ5IGRybV9hdG9t
-aWNfaGVscGVyX3NodXRkb3duKCksIGFuZAo+ID4gaW4gdGhhdCBjYXNlIG9ubHkgZm9yIHRoZSBD
-UlRDIHdoaWNoIGFyZSBhY3R1YWxseSBvbi4KPiA+IAo+ID4gT25seSB0cmlja3kgYml0IGhlcmUg
-aXMgdGhhdCB3ZSBraWxsIHRoZSBpbnRlcnJ1cHQgaGFuZGxpbmcgYmVmb3JlIHdlCj4gPiBzaHV0
-IGRvd24gY3J0Yywgc28gbmVlZCB0byByZW9yZGVyIHRoYXQuCj4gPiAKPiA+IFNpZ25lZC1vZmYt
-Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgo+ID4gQ2M6IExpdml1
-IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgo+IAo+IEFja2VkLWJ5OiBMaXZpdSBEdWRhdSA8
-bGl2aXUuZHVkYXVAYXJtLmNvbT4KCk9rIEkgbWVyZ2VkIHRoZSB0d28gYXJtIHBhdGNoZXMsIHRo
-YW5rcyBmb3IgdGFraW5nIGEgbG9vay4gRmlyc3QgcGF0Y2gKbmVlZHMgbW9yZSB3b3JrIC4uLgot
-RGFuaWVsCgo+IAo+IEJlc3QgcmVnYXJkcywKPiBMaXZpdQo+IAo+ID4gQ2M6IEJyaWFuIFN0YXJr
-ZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4KPiA+IENjOgo+ID4gLS0tCj4gPiAgZHJpdmVycy9n
-cHUvZHJtL2FybS9oZGxjZF9kcnYuYyB8IDMgKy0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FybS9oZGxjZF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMK
-PiA+IGluZGV4IDE5NDQxOWY0N2M1ZS4uMjZiYzVkNzc2NmY1IDEwMDY0NAo+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FybS9oZGxjZF9kcnYuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fy
-bS9oZGxjZF9kcnYuYwo+ID4gQEAgLTM0Nyw5ICszNDcsOCBAQCBzdGF0aWMgdm9pZCBoZGxjZF9k
-cm1fdW5iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiA+ICAJb2Zfbm9kZV9wdXQoaGRsY2QtPmNy
-dGMucG9ydCk7Cj4gPiAgCWhkbGNkLT5jcnRjLnBvcnQgPSBOVUxMOwo+ID4gIAlwbV9ydW50aW1l
-X2dldF9zeW5jKGRldik7Cj4gPiAtCWRybV9jcnRjX3ZibGFua19vZmYoJmhkbGNkLT5jcnRjKTsK
-PiA+IC0JZHJtX2lycV91bmluc3RhbGwoZHJtKTsKPiA+ICAJZHJtX2F0b21pY19oZWxwZXJfc2h1
-dGRvd24oZHJtKTsKPiA+ICsJZHJtX2lycV91bmluc3RhbGwoZHJtKTsKPiA+ICAJcG1fcnVudGlt
-ZV9wdXQoZGV2KTsKPiA+ICAJaWYgKHBtX3J1bnRpbWVfZW5hYmxlZChkZXYpKQo+ID4gIAkJcG1f
-cnVudGltZV9kaXNhYmxlKGRldik7Cj4gPiAtLSAKPiA+IDIuMjYuMgo+ID4gCj4gCj4gLS0gCj4g
-PT09PT09PT09PT09PT09PT09PT0KPiB8IEkgd291bGQgbGlrZSB0byB8Cj4gfCBmaXggdGhlIHdv
-cmxkLCAgfAo+IHwgYnV0IHRoZXkncmUgbm90IHwKPiB8IGdpdmluZyBtZSB0aGUgICB8Cj4gIFwg
-c291cmNlIGNvZGUhICAvCj4gICAtLS0tLS0tLS0tLS0tLS0KPiAgICAgwq9cXyjjg4QpXy/CrwoK
-LS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0
-dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+From: Thierry Reding <treding@nvidia.com>
+
+Tegra firmware doesn't actually use any version numbers and passing -1
+causes the existing firmware binaries not to be found. Use version 0 to
+find the correct files.
+
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+index ec330d791d15..e56880f3e3bd 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
+@@ -352,7 +352,7 @@ gk20a_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+ 
+ static const struct gf100_gr_fwif
+ gk20a_gr_fwif[] = {
+-	{ -1, gk20a_gr_load, &gk20a_gr },
++	{ 0, gk20a_gr_load, &gk20a_gr },
+ 	{}
+ };
+ 
+-- 
+2.24.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
