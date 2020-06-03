@@ -2,63 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F1B1ED66A
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 20:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA761ED696
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 21:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F184898BC;
-	Wed,  3 Jun 2020 18:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33E289DB4;
+	Wed,  3 Jun 2020 19:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 569C689704
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 18:53:45 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id e9so2339686pgo.9
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 11:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0hZctjpjXBU6tKmcpp2xKs+mPpkiV+HKnE+JG/fpbyY=;
- b=Uf4G+Wds/EztGhP93rKQBZMbebO0qsg96y5iXs1QlgRfqiYfryL9rmO5ddCwm01Os5
- skXI858Bh3kqXvAVhPPutcJkiQExPqnwPeGwT9N3gfopvuDrsWBHvyIw6MmWxUyywIcx
- D9RZEztd2KQeus7ScrNWwh3PJSQ+4L6L8os6KfbY+Vcfp/THD68V6vWgzJew1vOxwNd0
- BHQn2vL8vQbMQLkpepPaBKEgldkH2zj2sROtjxaGecTKpSa3Zl2GSFV86igrU6vqYP5q
- Nk6k1cV3OgkekDW9ZAfXBQfhtiq0/8EzwszU4zUD2MJXgMQyn9L8VxMCzbXbi0U++kAo
- 9QhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0hZctjpjXBU6tKmcpp2xKs+mPpkiV+HKnE+JG/fpbyY=;
- b=im3UtCfR1P7NXAdGslVR5uFuHRd3ciJzNrpSMMGTxqg19CCo/XHoi3ut+U6l2+XAH3
- r8RynXWywjq1Mf4TBVq6O/T1YhfsfT9GqhTGnUr9mvr0AsFxQGxyfTXk0972+1l7xAPa
- 6sb/E11jmrgUsJW6+2lo2hTVIZ3ZL1Cy+nU+UiPMKdY1rQxs4PD/Ymw1N0Uv/9AoRdwb
- 0FXDGbVDpXA2/5eftro0UoTeI8KRvjL78BEHWup3n5tqcGstFT6Y37bPltRUGYuUIkVD
- NzDL8FzbSRcHue5DDJWq7GkDDBPw1Bwhv3iZRrW2CM6meGi593xzCvu4e8qP1XgW/zzx
- N9JA==
-X-Gm-Message-State: AOAM533QgVXX9NTBZoLVzi8rwGoPXzuEQZsmm/sDz428F2j6eYdYJFFf
- Xbp+9NyGpmSFbKX8zSPJ/3BbYQysyWLEb8mFYog=
-X-Google-Smtp-Source: ABdhPJwq+SBmlXhD7Fs+juQC2W+ttHwAIp5P2TTT2Kvj8gw8EdftQfStcXQMBlVWHhq+9ub/KxV/aLSFehPxxNVLQEg=
-X-Received: by 2002:a17:90a:9604:: with SMTP id
- v4mr1452331pjo.198.1591210424788; 
- Wed, 03 Jun 2020 11:53:44 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BF389DB4
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 19:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cBo2MlN9z1K4ZbltYmi8+QSe20QUgbDNTTepNJNpo9Y=; b=U95xd3fNir4TTh8DmgCNV5vgqL
+ /qYTeNx7Ttv/4GOqYPTDqh0ENV9H/y79jb6HDI6lcLKh9AXJdPgSSt0viwUYZUXV1nxj2vCDU5lHF
+ H6UWjPvqjelFhMMN+qjJNgH9u9r59A4oTBobNRtsUJftDesrc1VtUmh3ABzLfA769GlPHLpvI9GUY
+ mN5Bh0k9CNu7+bfDM7vzPj4HY7Gcc/5RA1Tonfum5NfIdRgJPmqx1UoBp1eFlZLJlzcVb9m5dx7LR
+ olpVVXca9rwbE+zGNJ0ExNLSNF9wd/hlCHr84nIuMkYOTy55pOHZY8jx0zZgmtzKkteH03+w+azC/
+ BPkmMUTg==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:55108
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jgYst-0004HH-Vb; Wed, 03 Jun 2020 21:17:07 +0200
+Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
+To: Peter Stuge <peter@stuge.se>
+References: <20200529175643.46094-1-noralf@tronnes.org>
+ <20200529175643.46094-5-noralf@tronnes.org>
+ <20200529224531.22261.qmail@stuge.se>
+ <614b0b0d-44d7-22e5-339d-cb8a13b426ac@tronnes.org>
+ <20200602001207.17171.qmail@stuge.se>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <002c09da-5caf-319c-db2c-878cd00f6e3a@tronnes.org>
+Date: Wed, 3 Jun 2020 21:17:04 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
- <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
- <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
- <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
- <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
- <CADnq5_OX9o5_Gc4SjU5M4B=fthT9++J-FjX3UqTS7x_u6cJHOQ@mail.gmail.com>
- <CAPj87rP+Hxhohb4dEjRwtZzy34fYk+hAdgVfCkLF1u4JufJ=CQ@mail.gmail.com>
- <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
- <CAPj87rNO62i5JmRLdMhAg9XbiJUyrrRO7fj1ruXRCh-oxHnifQ@mail.gmail.com>
- <CADnq5_PVZ_DS65SCS=OFW0m7Dz10pMAZVZ33pWf86KBwg4oQKw@mail.gmail.com>
- <CAPj87rNrJtJeVd0ba768D2VMiEKvhXOCozAhkq6QV6mu3WsFVQ@mail.gmail.com>
-In-Reply-To: <CAPj87rNrJtJeVd0ba768D2VMiEKvhXOCozAhkq6QV6mu3WsFVQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Wed, 3 Jun 2020 14:53:08 -0400
-Message-ID: <CAAxE2A4wE0Q4NCQHmQhCa3nQn8VHWngtmuhg2DBtQYsCncTSFw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-To: Daniel Stone <daniel@fooishbar.org>
+In-Reply-To: <20200602001207.17171.qmail@stuge.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,502 +57,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: multipart/mixed; boundary="===============0141432801=="
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0141432801==
-Content-Type: multipart/alternative; boundary="00000000000021e94805a7328c7e"
-
---00000000000021e94805a7328c7e
-Content-Type: text/plain; charset="UTF-8"
-
-TMZ is more complicated. If there is a TMZ buffer used by a command buffer,
-then all other used buffers must also be TMZ or read only. If no TMZ
-buffers are used by a command buffer, then TMZ is disabled. If a context is
-not secure, TMZ is also disabled. A context can switch between secure and
-non-secure based on the buffers being used.
-
-So mixing secure and non-secure memory writes in one command buffer won't
-work. This is not fixable in the driver - apps must be aware of this.
-
-Marek
-
-On Wed, Jun 3, 2020 at 5:50 AM Daniel Stone <daniel@fooishbar.org> wrote:
-
-> Hi Alex,
->
-> On Mon, 1 Jun 2020 at 15:25, Alex Deucher <alexdeucher@gmail.com> wrote:
-> > On Fri, May 29, 2020 at 11:03 AM Daniel Stone <daniel@fooishbar.org>
-> wrote:
-> > > What Weston _does_ know, however, is that display controller can work
-> > > with modifier set A, and the GPU can work with modifier set B, and if
-> > > the client can pick something from modifier set A, then there is a
-> > > much greater probability that Weston can leave the GPU alone so it can
-> > > be entirely used by the client. It also knows that if the surface
-> > > can't be directly scanned out for whatever reason, then there's no
-> > > point in the client optimising for direct scanout, and it can tell the
-> > > client to select based on optimality purely for the GPU.
-> >
-> > Just so I understand this correctly, the main reason for this is to
-> > deal with display hardware and render hardware from different vendors
-> > which may or may not support any common formats other than linear.
->
-> It handles pretty much everything other than a single-context,
-> single-GPU, single-device, tunnel.
->
-> When sharing between subsystems and device categories, it lets us talk
-> about capabilities in a more global way. For example, GBM lets you
-> talk about 'scanout' and 'texture' and 'render', but what about media
-> codecs? We could add the concept of decode/encode to something like
-> GBM, and all the protocols like Wayland/X11 as well, then hope it
-> actually works, but ...
->
-> When sharing between heterogeneous vendors, it lets us talk about
-> capabilities in a neutral way. For example, if you look at most modern
-> Arm SoCs, your GPU, display controller, and media codec, will very
-> likely all be from three totally different vendors. A GPU like
-> Mali-T8xx can be shipped in tens of different vendor SoCs in several
-> different revisions each. Just saying 'scanout' is totally meaningless
-> for the Panfrost driver. Putting awareness for every different KMS
-> platform and every different codec down into the Mesa driver is a
-> synchronisation nightmare, and all those drivers would also need
-> specific awareness about the Mesa driver. So modifiers allow us to
-> explicitly describe that we want a particular revision of Arm
-> Framebuffer Compression, and all the components can understand that
-> without having to be specifically aware of 15 different KMS drivers.
-> But even if you have the same vendor ...
->
-> When sharing between multiple devices of the same class from the same
-> vendor, it lets us surface and transit that information in a generic
-> way, without AMD having to figure out ways to tunnel back-channel
-> information between different instances of drivers potentially
-> targeting different revisions. The alternatives seem to be deeply
-> pessimal hacks, and we think we can do better. And when we get
-> pessimal ...
->
-> In every case, modifiers are about surfacing and sharing information.
-> One of the reasons Collabora have been putting so much time and energy
-> into this work is exactly _because_ solving those problems on a
-> case-by-case basis was a pretty lucrative source of revenue for us.
-> Debugging these kinds of issues before has usually involved specific
-> driver knowledge, hacking into the driver to insert your own tracing,
-> etc.
->
-> If you (as someone who's trying to use a device optimally) are
-> fortunate enough that you can get the attention of a vendor and have
-> them solve the problem for you, then that's lucky for everyone apart
-> from the AMD engineers who have to go solve it. If you're not, and you
-> can't figure it out yourself, then you have to go pay a consultancy.
-> On the face of it, that's good for us, except that we don't want to be
-> doing that kind of repetitive boring work. But it's bad for the
-> ecosystem that this knowledge is hidden away and that you have to pay
-> specialists to extract it. So we're really keen to surface as much
-> mechanism and information as possible, to give people the tools to
-> either solve their own problems or at least make well-informed
-> reports, burn down a toxic source of revenue, waste less engineering
-> time extracting hidden information, and empower users as much as
-> possible.
->
-> > It
-> > provides a way to tunnel device capabilities between the different
-> > drivers.  In the case of a device with display and rendering on the
-> > same device or multiple devices from the same vendor, it not really
-> > that useful.
->
-> Oh no, it's still super useful. There are a ton of corner cases where
-> 'if you're on same same-vendor same-gen same-silicon hardware' falls
-> apart - in addition to the world just not being very much
-> same-vendor/same-gen/same-silicon anymore. For some concrete examples:
->
-> On NVIDIA Tegra hardware, planes within the display controller have
-> heterogeneous capability. Some can decompress and detile, others
-> can't.
->
-> On Rockchip hardware, AFBC (DCC equivalent) is available for scanout
-> on any plane, and can be produced by the GPU. Great! Except that 'any
-> plane' isn't 'every plane' - there's a global decompression unit.
->
-> On Intel hardware, they appear to have forked the media codec IP,
-> shipping two different versions of the codec, one as 'low-power' and
-> one as 'normal', obviously with varying capability.
->
-> Even handwaving those away as vendor errors - that performance on
-> those gens will always be pessimal and they should do better next time
-> - I don't think same-vendor/same-gen/same-silicon is a good design
-> point anymore. Between heterogeneous cut-and-paste SoCs, multi-GPU and
-> eGPU usecases, virtualisation and tunneling, etc, the usecases are
-> starting to demand that we do better. Vulkan's memory-allocation
-> design also really pushes against the model that memory allocations
-> themselves are blessed with side-channel descriptor tags.
->
-> 'Those aren't my usecases and we've made Vulkan work so we don't need
-> it' is an entirely reasonable position, but then you're just
-> exchanging the problem of describing your tiling & compression layouts
-> in a 56-bit enum to make modifiers work, for the problem of
-> maintaining a surprisingly wide chunk of the display stack. For all
-> the reasons above, over the past few years, the entire rest of the
-> ecosystem has settled on using modifiers to describe and negotiate
-> buffer exchange across context/process/protocol/subsystem/device
-> boundaries. All the effort of making this work in KMS, GBM, EGL,
-> Vulkan, Wayland, X11, V4L2, VA-API, GStreamer, etc, is going there.
->
-> Realistically, the non-modifier path is probably going to bitrot, and
-> people are certainly resistant to putting more smarts into it, because
-> it just adds complexity to a now-single-vendor path - even NVIDIA are
-> pushing this forward, and their display path is much more of an
-> encapsulated magic tunnel than AMD's. In that sense, it's pretty much
-> accumulating technical debt; the longer you avoid dealing with the
-> display stack by implementing modifiers, the more work you have to put
-> into maintaining the display stack by fixing the non-modifier path.
->
-> > It doesn't seem to provide much over the current EGL
-> > hints (SCANOUT, SECURE, etc.).
->
-> Well yeah, if those single bits of information are enough to perfectly
-> encapsulate everything you need to know, then sure. But it hasn't been
-> for others, which is why we've all migrated away from them.
->
-> > I still don't understand how it solves
-> > the DCC problem though.  Compression and encryption seem kind like
-> > meta modifiers.  There is an under laying high level layout, linear,
-> > tiled, etc. but it could also be compressed and/or encrypted.  Is the
-> > idea that those are separate modifiers?  E.g.,
-> > 0: linear
-> > 1: linear | encrypted
-> > 2. linear | compressed
-> > 3: linear | encrypted | compressed
-> > 4: tiled1
-> > 5: tiled1 | encrypted
-> > 6: tiled1 | compressed
-> > 7: tiled1 | encrypted | compressed
-> > etc.
-> > Or that the modifiers only expose the high level layout, and it's then
-> > up the the driver(s) to enable compression, etc. if both sides have a
-> > compatible layout?
->
-> Do you remember the old wfb from xserver? Think of modifiers as pretty
-> much that. The format (e.g. A8R8G8B8) describes what you will read
-> when you load a particular pixel/texel, and what will get stored when
-> you write. The modifier describes how to get there: that includes both
-> tiling (since you need to know the particular tiling layout in order
-> to know the byte location to access), and compression (since you need
-> to know the particular compression mechanism in order to access the
-> pixel, e.g. for RLE-type compression that you need to access the first
-> pixel of the tile if the 'all pixels are the identical' bit is set).
->
-> The idea is that these tokens fully describe the mechanisms in use,
-> without the drivers needing to do magic heuristics. For instance, if
-> your modifier is just 'tiled', then that's not a full description. A
-> full description would tell you about supertiling structures, tile
-> sizes and ordering, etc. The definitions already in
-> include/uapi/drm/drm_fourcc.h are a bit of a mixed bag - we've
-> definitely learnt more as we've gone on - but the NVIDIA definitions
-> are  pretty exemplary for something deeply parameterised along a lot
-> of variable axes.
->
-> Basically, if you have to have sets of heuristics which you keep in
-> sync in order to translate from modifier -> hardware layout params,
-> then your modifiers aren't expressive enough. From a very quick look
-> at DC, that would be your tile-split, tile-mode, array-mode, and
-> swizzle-mode parameters, plus whatever from dc_tiling_mode isn't
-> completely static and deterministic. 'DCCRate' always appears to be
-> hardcoded to 1 (and 'DCCRateChroma' never set), but that might be one
-> to parameterise as well.
->
-> With that expression, you don't have to determine the tiling layout
-> from dimensions/usage/etc, because the modifier _is_ the tiling
-> layout, ditto compression.
->
-> Encryption I'm minded to consider as something different. Modifiers
-> don't cover buffer placement at all. That includes whether or not the
-> memory is physically contiguous, whether it's in
-> hidden-VRAM/BAR/sysmem, which device it lives on, etc. As far as I can
-> tell from TMZ, encryption is essentially a side effect of placement?
-> The memory is encrypted, the encryption is an immutable property of
-> the allocation, and if the device is configured to access encrypted
-> memory (by being 'secure'), then the encryption is transparent, no?
->
-> That being said, there is a reasonable argument to consume a single
-> bit in modifiers for TMZ on/off (assuming TMZ is not parameterised),
-> which would make its availability and use much more transparent.
->
-> Cheers,
-> Daniel
->
-
---00000000000021e94805a7328c7e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>TMZ is more complicated. If there is a TMZ buffer use=
-d by a command buffer, then all other used buffers must also be TMZ or read=
- only. If no TMZ buffers are used by a command buffer, then TMZ is disabled=
-. If a context is not secure, TMZ is also disabled. A context can switch be=
-tween secure and non-secure based on the buffers being used.<br></div><div>=
-<br></div><div>So mixing secure and non-secure memory writes in one command=
- buffer won&#39;t work. This is not fixable in the driver - apps must be aw=
-are of this.<br></div><div><br></div><div>Marek<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 3, 202=
-0 at 5:50 AM Daniel Stone &lt;<a href=3D"mailto:daniel@fooishbar.org" targe=
-t=3D"_blank">daniel@fooishbar.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Hi Alex,<br>
-<br>
-On Mon, 1 Jun 2020 at 15:25, Alex Deucher &lt;<a href=3D"mailto:alexdeucher=
-@gmail.com" target=3D"_blank">alexdeucher@gmail.com</a>&gt; wrote:<br>
-&gt; On Fri, May 29, 2020 at 11:03 AM Daniel Stone &lt;<a href=3D"mailto:da=
-niel@fooishbar.org" target=3D"_blank">daniel@fooishbar.org</a>&gt; wrote:<b=
-r>
-&gt; &gt; What Weston _does_ know, however, is that display controller can =
-work<br>
-&gt; &gt; with modifier set A, and the GPU can work with modifier set B, an=
-d if<br>
-&gt; &gt; the client can pick something from modifier set A, then there is =
-a<br>
-&gt; &gt; much greater probability that Weston can leave the GPU alone so i=
-t can<br>
-&gt; &gt; be entirely used by the client. It also knows that if the surface=
-<br>
-&gt; &gt; can&#39;t be directly scanned out for whatever reason, then there=
-&#39;s no<br>
-&gt; &gt; point in the client optimising for direct scanout, and it can tel=
-l the<br>
-&gt; &gt; client to select based on optimality purely for the GPU.<br>
-&gt;<br>
-&gt; Just so I understand this correctly, the main reason for this is to<br=
->
-&gt; deal with display hardware and render hardware from different vendors<=
-br>
-&gt; which may or may not support any common formats other than linear.<br>
-<br>
-It handles pretty much everything other than a single-context,<br>
-single-GPU, single-device, tunnel.<br>
-<br>
-When sharing between subsystems and device categories, it lets us talk<br>
-about capabilities in a more global way. For example, GBM lets you<br>
-talk about &#39;scanout&#39; and &#39;texture&#39; and &#39;render&#39;, bu=
-t what about media<br>
-codecs? We could add the concept of decode/encode to something like<br>
-GBM, and all the protocols like Wayland/X11 as well, then hope it<br>
-actually works, but ...<br>
-<br>
-When sharing between heterogeneous vendors, it lets us talk about<br>
-capabilities in a neutral way. For example, if you look at most modern<br>
-Arm SoCs, your GPU, display controller, and media codec, will very<br>
-likely all be from three totally different vendors. A GPU like<br>
-Mali-T8xx can be shipped in tens of different vendor SoCs in several<br>
-different revisions each. Just saying &#39;scanout&#39; is totally meaningl=
-ess<br>
-for the Panfrost driver. Putting awareness for every different KMS<br>
-platform and every different codec down into the Mesa driver is a<br>
-synchronisation nightmare, and all those drivers would also need<br>
-specific awareness about the Mesa driver. So modifiers allow us to<br>
-explicitly describe that we want a particular revision of Arm<br>
-Framebuffer Compression, and all the components can understand that<br>
-without having to be specifically aware of 15 different KMS drivers.<br>
-But even if you have the same vendor ...<br>
-<br>
-When sharing between multiple devices of the same class from the same<br>
-vendor, it lets us surface and transit that information in a generic<br>
-way, without AMD having to figure out ways to tunnel back-channel<br>
-information between different instances of drivers potentially<br>
-targeting different revisions. The alternatives seem to be deeply<br>
-pessimal hacks, and we think we can do better. And when we get<br>
-pessimal ...<br>
-<br>
-In every case, modifiers are about surfacing and sharing information.<br>
-One of the reasons Collabora have been putting so much time and energy<br>
-into this work is exactly _because_ solving those problems on a<br>
-case-by-case basis was a pretty lucrative source of revenue for us.<br>
-Debugging these kinds of issues before has usually involved specific<br>
-driver knowledge, hacking into the driver to insert your own tracing,<br>
-etc.<br>
-<br>
-If you (as someone who&#39;s trying to use a device optimally) are<br>
-fortunate enough that you can get the attention of a vendor and have<br>
-them solve the problem for you, then that&#39;s lucky for everyone apart<br=
->
-from the AMD engineers who have to go solve it. If you&#39;re not, and you<=
-br>
-can&#39;t figure it out yourself, then you have to go pay a consultancy.<br=
->
-On the face of it, that&#39;s good for us, except that we don&#39;t want to=
- be<br>
-doing that kind of repetitive boring work. But it&#39;s bad for the<br>
-ecosystem that this knowledge is hidden away and that you have to pay<br>
-specialists to extract it. So we&#39;re really keen to surface as much<br>
-mechanism and information as possible, to give people the tools to<br>
-either solve their own problems or at least make well-informed<br>
-reports, burn down a toxic source of revenue, waste less engineering<br>
-time extracting hidden information, and empower users as much as<br>
-possible.<br>
-<br>
-&gt; It<br>
-&gt; provides a way to tunnel device capabilities between the different<br>
-&gt; drivers.=C2=A0 In the case of a device with display and rendering on t=
-he<br>
-&gt; same device or multiple devices from the same vendor, it not really<br=
->
-&gt; that useful.<br>
-<br>
-Oh no, it&#39;s still super useful. There are a ton of corner cases where<b=
-r>
-&#39;if you&#39;re on same same-vendor same-gen same-silicon hardware&#39; =
-falls<br>
-apart - in addition to the world just not being very much<br>
-same-vendor/same-gen/same-silicon anymore. For some concrete examples:<br>
-<br>
-On NVIDIA Tegra hardware, planes within the display controller have<br>
-heterogeneous capability. Some can decompress and detile, others<br>
-can&#39;t.<br>
-<br>
-On Rockchip hardware, AFBC (DCC equivalent) is available for scanout<br>
-on any plane, and can be produced by the GPU. Great! Except that &#39;any<b=
-r>
-plane&#39; isn&#39;t &#39;every plane&#39; - there&#39;s a global decompres=
-sion unit.<br>
-<br>
-On Intel hardware, they appear to have forked the media codec IP,<br>
-shipping two different versions of the codec, one as &#39;low-power&#39; an=
-d<br>
-one as &#39;normal&#39;, obviously with varying capability.<br>
-<br>
-Even handwaving those away as vendor errors - that performance on<br>
-those gens will always be pessimal and they should do better next time<br>
-- I don&#39;t think same-vendor/same-gen/same-silicon is a good design<br>
-point anymore. Between heterogeneous cut-and-paste SoCs, multi-GPU and<br>
-eGPU usecases, virtualisation and tunneling, etc, the usecases are<br>
-starting to demand that we do better. Vulkan&#39;s memory-allocation<br>
-design also really pushes against the model that memory allocations<br>
-themselves are blessed with side-channel descriptor tags.<br>
-<br>
-&#39;Those aren&#39;t my usecases and we&#39;ve made Vulkan work so we don&=
-#39;t need<br>
-it&#39; is an entirely reasonable position, but then you&#39;re just<br>
-exchanging the problem of describing your tiling &amp; compression layouts<=
-br>
-in a 56-bit enum to make modifiers work, for the problem of<br>
-maintaining a surprisingly wide chunk of the display stack. For all<br>
-the reasons above, over the past few years, the entire rest of the<br>
-ecosystem has settled on using modifiers to describe and negotiate<br>
-buffer exchange across context/process/protocol/subsystem/device<br>
-boundaries. All the effort of making this work in KMS, GBM, EGL,<br>
-Vulkan, Wayland, X11, V4L2, VA-API, GStreamer, etc, is going there.<br>
-<br>
-Realistically, the non-modifier path is probably going to bitrot, and<br>
-people are certainly resistant to putting more smarts into it, because<br>
-it just adds complexity to a now-single-vendor path - even NVIDIA are<br>
-pushing this forward, and their display path is much more of an<br>
-encapsulated magic tunnel than AMD&#39;s. In that sense, it&#39;s pretty mu=
-ch<br>
-accumulating technical debt; the longer you avoid dealing with the<br>
-display stack by implementing modifiers, the more work you have to put<br>
-into maintaining the display stack by fixing the non-modifier path.<br>
-<br>
-&gt; It doesn&#39;t seem to provide much over the current EGL<br>
-&gt; hints (SCANOUT, SECURE, etc.).<br>
-<br>
-Well yeah, if those single bits of information are enough to perfectly<br>
-encapsulate everything you need to know, then sure. But it hasn&#39;t been<=
-br>
-for others, which is why we&#39;ve all migrated away from them.<br>
-<br>
-&gt; I still don&#39;t understand how it solves<br>
-&gt; the DCC problem though.=C2=A0 Compression and encryption seem kind lik=
-e<br>
-&gt; meta modifiers.=C2=A0 There is an under laying high level layout, line=
-ar,<br>
-&gt; tiled, etc. but it could also be compressed and/or encrypted.=C2=A0 Is=
- the<br>
-&gt; idea that those are separate modifiers?=C2=A0 E.g.,<br>
-&gt; 0: linear<br>
-&gt; 1: linear | encrypted<br>
-&gt; 2. linear | compressed<br>
-&gt; 3: linear | encrypted | compressed<br>
-&gt; 4: tiled1<br>
-&gt; 5: tiled1 | encrypted<br>
-&gt; 6: tiled1 | compressed<br>
-&gt; 7: tiled1 | encrypted | compressed<br>
-&gt; etc.<br>
-&gt; Or that the modifiers only expose the high level layout, and it&#39;s =
-then<br>
-&gt; up the the driver(s) to enable compression, etc. if both sides have a<=
-br>
-&gt; compatible layout?<br>
-<br>
-Do you remember the old wfb from xserver? Think of modifiers as pretty<br>
-much that. The format (e.g. A8R8G8B8) describes what you will read<br>
-when you load a particular pixel/texel, and what will get stored when<br>
-you write. The modifier describes how to get there: that includes both<br>
-tiling (since you need to know the particular tiling layout in order<br>
-to know the byte location to access), and compression (since you need<br>
-to know the particular compression mechanism in order to access the<br>
-pixel, e.g. for RLE-type compression that you need to access the first<br>
-pixel of the tile if the &#39;all pixels are the identical&#39; bit is set)=
-.<br>
-<br>
-The idea is that these tokens fully describe the mechanisms in use,<br>
-without the drivers needing to do magic heuristics. For instance, if<br>
-your modifier is just &#39;tiled&#39;, then that&#39;s not a full descripti=
-on. A<br>
-full description would tell you about supertiling structures, tile<br>
-sizes and ordering, etc. The definitions already in<br>
-include/uapi/drm/drm_fourcc.h are a bit of a mixed bag - we&#39;ve<br>
-definitely learnt more as we&#39;ve gone on - but the NVIDIA definitions<br=
->
-are=C2=A0 pretty exemplary for something deeply parameterised along a lot<b=
-r>
-of variable axes.<br>
-<br>
-Basically, if you have to have sets of heuristics which you keep in<br>
-sync in order to translate from modifier -&gt; hardware layout params,<br>
-then your modifiers aren&#39;t expressive enough. From a very quick look<br=
->
-at DC, that would be your tile-split, tile-mode, array-mode, and<br>
-swizzle-mode parameters, plus whatever from dc_tiling_mode isn&#39;t<br>
-completely static and deterministic. &#39;DCCRate&#39; always appears to be=
-<br>
-hardcoded to 1 (and &#39;DCCRateChroma&#39; never set), but that might be o=
-ne<br>
-to parameterise as well.<br>
-<br>
-With that expression, you don&#39;t have to determine the tiling layout<br>
-from dimensions/usage/etc, because the modifier _is_ the tiling<br>
-layout, ditto compression.<br>
-<br>
-Encryption I&#39;m minded to consider as something different. Modifiers<br>
-don&#39;t cover buffer placement at all. That includes whether or not the<b=
-r>
-memory is physically contiguous, whether it&#39;s in<br>
-hidden-VRAM/BAR/sysmem, which device it lives on, etc. As far as I can<br>
-tell from TMZ, encryption is essentially a side effect of placement?<br>
-The memory is encrypted, the encryption is an immutable property of<br>
-the allocation, and if the device is configured to access encrypted<br>
-memory (by being &#39;secure&#39;), then the encryption is transparent, no?=
-<br>
-<br>
-That being said, there is a reasonable argument to consume a single<br>
-bit in modifiers for TMZ on/off (assuming TMZ is not parameterised),<br>
-which would make its availability and use much more transparent.<br>
-<br>
-Cheers,<br>
-Daniel<br>
-</blockquote></div>
-
---00000000000021e94805a7328c7e--
-
---===============0141432801==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0141432801==--
+CgpEZW4gMDIuMDYuMjAyMCAwMi4xMiwgc2tyZXYgUGV0ZXIgU3R1Z2U6Cj4gSGkgTm9yYWxmLAo+
+IAo+IFRoYW5rcyBhIGxvdCBmb3IgZ29pbmcgaW50byBtb3JlIGRldGFpbC4KPiAKPiBOb3JhbGYg
+VHLDuG5uZXMgd3JvdGU6Cj4+PiBTZXZlcmFsIExpbnV4L0RSTSBpbnRlcm5hbHMgaGF2ZSAibGVh
+a2VkIiBpbnRvIHRoZSBVU0IgcHJvdG9jb2wgLSB0aGlzCj4+PiBzaG91bGQgYmUgYXZvaWRlZCBp
+ZiB5b3Ugd2FudCBkZXZpY2UgaW1wbGVtZW50YXRpb25zIG90aGVyIHRoYW4geW91cgo+Pj4gZ2Fk
+Z2V0LCBiZWNhdXNlIHRob3NlIGludGVybmFscyBjYW4gY2hhbmdlIHdpdGhpbiBMaW51eCBpbiB0
+aGUgZnV0dXJlLAo+Pj4gd2hpbGUgdGhlIHByb3RvY29sIG11c3Qgbm90Lgo+Pj4KPj4KPj4gVGhh
+dCdzIGludGVudGlvbmFsLCBJIHNlZSBubyBwb2ludCBpbiByZWNyZWF0aW5nIHVhcGkgdmFsdWVz
+IHRoYXQgd29uJ3QKPj4gY2hhbmdlOgo+Pgo+PiBMaW51eCBlcnJubzogL2luY2x1ZGUvdWFwaS9h
+c20tZ2VuZXJpYy9lcnJub3stYmFzZSx9LmgKPj4gUGl4ZWwgZm9ybWF0czogaW5jbHVkZS91YXBp
+L2RybS9kcm1fZm91cmNjLmgKPj4gQ29ubmVjdG9yIHR5cGVzIGFuZCBzdGF0dXM6IGluY2x1ZGUv
+dWFwaS9kcm0vZHJtX21vZGUuaAo+IAo+IEkgdW5kZXJzdGFuZCwgYW5kIGl0J3MgZ29vZCB0aGF0
+IHRoZXNlIGFyZSB1YXBpIHZhbHVlcywgYnV0IEkgd2lsbCBzdGlsbAo+IGRpc2FncmVlIHdpdGgg
+dXNpbmcgZXJybm8gYW5kIERSTSBjb25uZWN0b3IgdHlwZXMgaW4gdGhlIFVTQiBwcm90b2NvbCwK
+PiB3aGljaCBpcyBhICJuYW1lc3BhY2UiIG9mIGl0cyBvd24uCj4gCj4gVGhhdCBpcyBhbiBpbXBv
+cnRhbnQgcG9pbnQgaGVyZTsgR1VEIGlzIHRocmVlIHRoaW5nczogYSBMaW51eCBEUk0gZHJpdmVy
+LAo+IGEgTGludXggZ2FkZ2V0IGRyaXZlciBhbmQgYSBVU0IgcHJvdG9jb2wuIFVTQiBwcm90b2Nv
+bHMgKGdvb2Qgb25lcykgYXJlCj4gT1MtYWdub3N0aWMuCj4gCgpJIG5lZWQgdG8gYmUgbW9yZSBj
+bGVhciBoZXJlIGFib3V0IHRoZSB3b3JkICdHZW5lcmljJyB0aGF0IEkndmUgdXNlZC4KClRoaXMg
+aXMgbm90IGEgT1MtYWdub3N0aWMgcHJvdG9jb2wuIEl0J3Mgd3JpdHRlbiBmb3IgTGludXguIEkg
+aGF2ZSBoYWQKdGhlIEJTRCdzIGluIG1pbmQsIGhlbmNlIHRoZSBNSVQgbGljZW5zZSwgRnJlZUJT
+RCBmb3IgaW5zdGFuY2UgaGFzIGEgRFJNCnN1YnN5c3RlbS4gT3RoZXIgT1MnZXMgbWlnaHQgbm90
+IHN1cHBvcnQgYWxsIERSTSBwcm9wZXJ0aWVzLCBidXQgc2hvdWxkCmJlIGFibGUgdG8gdXNlIGl0
+IGFzIGEgYmFzaWMgZGlzcGxheS4gVGhleSB3aWxsIG9mYyBuZWVkIHRvIHRyYW5zbGF0ZQp0aGUg
+TGludXggRFJNIHNwZWNpZmljcyBpbnRvIHRoZWlyIG93biBlbnZpcm9ubWVudC4gQnV0IGZpcnN0
+IGFuZApmb3JlbW9zdCB0aGlzIGlzIGZvciBMaW51eC4KClRoZSBob3N0IGRyaXZlciBpcyB3cml0
+dGVuIGFnYWluc3QgdGhlIGNhcGFiaWxpdGllcyBvZiB0aGUgTGludXggZ2FkZ2V0CmZyYW1ld29y
+ayBhbmQgdGhlIERSTSBzdWJzeXN0ZW0uIFRoaXMgd2lsbCBhZGQgc29tZSBwZWN1bGlhcml0aWVz
+IHRoYXQgYQptaWNyb2NvbnRyb2xsZXIgaW1wbGVtZW50YXRpb24gd29uJ3QgZmFjZS4gVGhlIGZv
+Y2FsIHBvaW50IG9mIHRoZQpwcm9qZWN0IGlzIHByb3ZpZGluZyBhcyBnb29kIHBlcmZvcm1hbmNl
+IGFzIHBvc3NpYmxlIGZvciBGdWxsIEhEIGRlc2t0b3AKdXNlLgoKVGhlIHdvcmQgJ0dlbmVyaWMn
+IG1lYW5zIHRoYXQgaXQncyAoc2hvdWxkIGJlKSBwb3NzaWJsZSB0byBtYWtlIGEgVVNCCmRpc3Bs
+YXkgZm9yIHVzZSBvbiBMaW51eCB3aXRob3V0IGhhdmluZyB0byB3cml0ZSBhIGdyYXBoaWNzIGRy
+aXZlci4gVGhpcwppbmNsdWRlcyBhbGwga2luZHMgb2YgdGlueS9zbWFsbCBkaXNwbGF5cyB0aGF0
+IGN1cnJlbnRseSBhcmUgU1BJIG9yIEkyQwppbnRlcmZhY2VkLiBUaGVzZSB3aWxsIHByb2JhYmx5
+IHVzZSBhIG1pY3JvY29udHJvbGxlciBpbnN0ZWFkIG9mIGEgTGludXgKU29DIHRvIGtlZXAgY29z
+dCBsb3cuCgo+IAo+Pj4+IElmIHRoZSBkZXZpY2UgdHJhbnNmZXIgYnVmZmVyIGNhbid0IGZpdCBh
+biB1bmNvbXByZXNzZWQgZnJhbWVidWZmZXIKPj4+PiB1cGRhdGUsIHRoZSB1cGRhdGUgaXMgc3Bs
+aXQgdXAgaW50byBwYXJ0cyB0aGF0IGRvIGZpdC4KPj4+Cj4+PiBEb2VzICJkZXZpY2UgdHJhbnNm
+ZXIgYnVmZmVyIiByZWZlciB0byBzb21ldGhpbmcgbGlrZSBkaXNwbGF5IFJBTSBvbgo+Pj4gdGhl
+IGRldmljZSBzaWRlPyBJZiBzbywgaXRzIHNpemUgaXMgYSBkZXZpY2UgaW1wbGVtZW50YXRpb24g
+ZGV0YWlsCj4+PiB3aGljaCBzaG91bGRuJ3QgYmUgZXhwb3NlZCBvdmVyIFVTQi4KPj4KPj4gVGhl
+IHJlYXNvbiBmb3IgZXhwb3NpbmcgdGhpcyBpcyB0aGF0IHRoZSBMaW51eCBnYWRnZXQgZHJpdmVy
+IG5lZWRzIHRvCj4+IGRlY29tcHJlc3MgdGhlIHRyYW5zZmVyIGludG8gYSBidWZmZXIgYW5kIHRo
+ZSBob3N0IG5lZWRzIHRvIGtub3cgaG93IGJpZwo+PiB0aGlzIGlzICh0aGUgaG9zdCBjYW4gY2hv
+b3NlIHRvIGxvd2VyIHRoaXMgaWYgaXQgY2FuJ3QgYWxsb2NhdGUgYQo+PiBjb250aW51b3VzIGJ1
+ZmZlciBvZiB0aGlzIHNpemUpLgo+IAo+IEkgdW5kZXJzdGFuZDsgc28gaXQncyBvbmx5IHJlcXVp
+cmVkIGZvciBzb21lIGNvbXByZXNzaW9uIHR5cGVzIC0gdGhlbgo+IGl0IHNob3VsZCBhdCBsZWFz
+dCBiZSBjb21wbGV0ZWx5IG9wdGlvbmFsLCBidXQgaW4gYW55IGNhc2UgSSBmaW5kCj4gZXhwb3Np
+bmcvaGF2aW5nIHRvIGV4cG9zZSB0aGlzIHRvIGJlIGF3ZnVsIFVTQiBwcm90b2NvbCBkZXNpZ24g
+YW5kIEkKPiBob3BlIHdlIGNhbiBmaW5kIGEgYmV0dGVyIHdheS4KPiAKPiBNYXliZSBpdCdzIHBy
+ZW1hdHVyZSBhbnl3YXk/IEhvdyB3b3VsZCB5b3UgZmVlbCBhYm91dCBza2lwcGluZyBjb21wcmVz
+c2lvbgo+IHRvIGJlZ2luIHdpdGg/Cj4gCgpQZXJmb3JtYW5jZSBpcyBub3QgZ29vZCB3aXRob3V0
+IGNvbXByZXNzaW9uIHNvIEkgbmVlZCB0byBrZWVwIHRoYXQuCgo+IAo+PiBsejQgKGluIHRoZSBr
+ZXJuZWwpIGlzIGJsb2NrIGNvbXByZXNzaW9uIGFuZCBjYW4ndCBiZSB1c2VkIGZvcgo+PiBkZWNv
+bXByZXNzaW5nIGp1c3QgYSBzdHJlYW0gb2YgYnl0ZXMuIFRoZXJlIGlzIGEgbHo0IGZyYW1lIHBy
+b3RvY29sCj4+IHdoaWNoIGxvb2tzIGxpa2UgaXQgY291bGQgYmUgdXNlZnVsLCBidXQgaXQncyBu
+b3QgYXZhaWxhYmxlIGluIHRoZQo+PiBrZXJuZWwuIEkgaGFyZGx5IGtub3cgYW55dGhpbmcgYWJv
+dXQgY29tcHJlc3Npb24gc28gSSdtIGluIG5vIHBvc2l0aW9uCj4+IHRvIGFkZCB0aGF0IHRvIHRo
+ZSBrZXJuZWwuIE1heWJlIHNvbWVvbmUgd2lsbCBhZGQgaXQgYXQgYSBsYXRlciB0aW1lIGlmCj4+
+IGl0IGlzIHVzZWZ1bC4KPiAKPiBXaHkgZGlkIHlvdSBjaG9vc2UgdG8gdXNlIGx6ND8KPiAKClRo
+ZSBrZXJuZWwgc3VwcG9ydHMgaXQgYW5kIGluIGFjdHVhbGx5IHBlcmZvcm1zIHF1aXRlIHdlbGwu
+CkRlY29tcHJlc3Npb24gaXMgbXVjaCBmYXN0ZXIgdGhhbiBjb21wcmVzc2lvbiB3aGljaCBmaXRz
+IG5pY2VseSB3aXRoIG5vdApzbyBwb3dlcmZ1bCBVU0IgZGV2aWNlcy4gTG93IHJlc29sdXRpb24g
+ZGlzcGxheXMgbWlnaHQgbm90IG5lZWQKY29tcHJlc3Npb24gYXQgYWxsLgoKPiBXaGV0aGVyIGNv
+bXByZXNzaW9uIGNvbWVzIG5vdyBvciBsYXRlciwgbWF5YmUgdGhlcmUgaXMgYSBtb3JlIHN1aXRh
+YmxlCj4gYWxnb3JpdGhtPwo+IAoKQ291bGQgYmUsIGl0J3MgcG9zc2libGUgdG8gc3VwcG9ydCBv
+dGhlciBjb21wcmVzc2lvbiBtZXRob2RzLiBJJ2xsIGxlYXZlCnRoYXQgdG8gdGhlIHByb2Zlc3Np
+b25hbHMgdGhhdCBuZWVkIGl0IGZvciB0aGVpciBkaXNwbGF5LgoKPiAKPj4+IFRoZSBSMSBpZGVh
+IGlzIGdyZWF0IQo+Pgo+PiBNeSBwbGFuIHdhcyB0byByZW1vdmUgUjEgc3VwcG9ydCBmcm9tIHRo
+aXMgdmVyc2lvbiBvZiB0aGUgcGF0Y2hzZXQsIGJ1dAo+PiBJIGZvcmdvdC4gVGhlIHJlYXNvbiBp
+cyB0aGF0IGl0J3MgY3VtYmVyc29tZSB0byB0ZXN0IHdoZW4gdGhlIGdhZGdldAo+PiBkcml2ZXIg
+ZG9lc24ndCBzdXBwb3J0IGl0Lgo+IAo+IFdoeSBub3Qgc3VwcG9ydCBSMSBhbHNvIGluIHRoZSBn
+YWRnZXQ/Cj4gCgpUaGUgRFJNIHN1YnN5c3RlbSBkb2Vzbid0IGhhdmUgc3VwcG9ydCBmb3IgaXQg
+c28gdGhlIGdhZGdldCB3b3VsZG4ndAprbm93IHdoZW4gdG8gdXNlIGl0LiBNb25vY2hyb21lIERS
+TSBkcml2ZXJzIGFkdmVydGlzZSBhIFhSR0I4ODg4IGZvcm1hdAphbmQgY29udmVydHMgdGhpcyBp
+bnRvIG1vbm9jaHJvbWUuIFRoZSByZWFzb24gZm9yIHVzaW5nIHRoaXMgZm9ybWF0IGlzCmJlY2F1
+c2UgYWxsIHVzZXJzcGFjZSBzdXBwb3J0cyBpdC4gQUZBSUsgbm8gRFJNIHVzZXJzcGFjZSBzdXBw
+b3J0Cm1vbm9jaHJvbWUuCgo+IAo+PiBZb3UgbWVudGlvbiBmdXJ0aGVyIGRvd24gdGhhdCB5b3Ug
+aGF2ZSB1c2UgY2FzZXMgZm9yIHRoaXMsIGRvIHlvdSBoYXZlIGEKPj4gdGltZXBsYW4gZm9yIHdo
+ZW4geW91IHdpbGwgbWFrZSB1c2Ugb2YgUjE/Cj4gCj4gTm8gc3RyaWN0IHBsYW4sIGJ1dCBpZiBp
+dCBoZWxwcyBJIGNvdWxkIG1ha2UgYSBkZW1vIGRldmljZSBhbmQgLWZpcm13YXJlCj4gd2l0aG91
+dCBtdWNoIGVmZm9ydC4gWW91IG1lbnRpb25lZCB0aGF0IHlvdSB3b3VsZCBsaWtlIHRvIGhhdmUg
+YQo+IG1pY3JvY29udHJvbGxlciBkZXZpY2UgZm9yIHRlc3Rpbmc/Cj4gCgpJIGhhdmUgZG9uZSBh
+IG1pY3JvY29udHJvbGxlciBpbXBsZW1lbnRhdGlvbiwgc28gSSBoYXZlIHRyaWVkIGl0LiBJdCdz
+CnF1aXRlIGEgZGlmZmVyZW50IGVudmlyb25tZW50IHRvIHdvcmsgaW4gdGhhbiBMaW51eCBmb3Ig
+c3VyZSA6LSkgSXQKbWlnaHQgaGF2ZSBiZWVuIGEgbW9yZSBwbGVhc2FudCBleHBlcmllbmNlIGlm
+IEknZCBzcGVudCBtb25leSBvbiBhCnByb2Zlc3Npb25hbCBjb21waWxlci9JREUgSSBndWVzcy4K
+Cj4gCj4+Pj4gLSBVc2UgZG9uYXRlZCBPcGVubW9rbyBVU0IgcGlkCj4+Pgo+Pj4gSWYgTGludXgg
+d2lsbCBiZSB0aGUgcmVmZXJlbmNlIGZvciB0aGlzIHByb3RvY29sIHRoZW4gcGVyaGFwcyBhIFBJ
+RAo+Pj4gdW5kZXIgdGhlIExpbnV4IEZvdW5kYXRpb24gVklEICgxZDZiKSBtYWtlcyBtb3JlIHNl
+bnNlPwo+Pgo+PiBEbyB0aGV5IGhhbmQgb3V0IHBpZCdzPwo+IAo+IEkgZG9uJ3Qga25vdy4gOikg
+VGhlIHJvb3QgaHViIGRyaXZlcnMgZWFjaCBoYXZlIG9uZS4KPiAKPiAKPj4gVG8gbWUgaXQncyBu
+byBiaWcgZGVhbCwgaXQgY2FuIGJlIGFkZGVkIGxhdGVyIGlmIHNvbWVvbmVzIGNhcmVzIGFib3V0
+IGl0Lgo+IAo+IE9rYXksIGhvcGVmdWxseSB3ZSBjYW4gZG8gd2l0aG91dCBhIFBJRCBhbnl3YXku
+Cj4gCgpUaGF0IGNhbid0IGhhcHBlbiBBRkFJSy4gVGhpcyB3b3VsZCByZXF1aXJlIHRoZSBkcml2
+ZXIgdG8gcHJvYmUgYWxsIFVTQgpkZXZpY2VzIHdpdGggYSB2ZW5kb3IgaW50ZXJmYWNlLiBXaG8g
+a25vd3Mgd2hhdCBraW5kIGEgaGF2b2MgdGhpcyBtaWdodApjYXVzZSBvbiB0aGUgZGV2aWNlIGlu
+IHF1ZXN0aW9uLgoKPiAKPj4+IEJ1dDogQSBQSUQgYXBwbGllcyBvbiBkZXZpY2UgbGV2ZWwsIG5v
+dCB0byBpbnRlcmZhY2VzLgo+Pgo+PiBJbmRlZWQuIFRoaXMgaXMgYSBVU0IgaW50ZXJmYWNlIGRy
+aXZlciB0aG91Z2gsIHNvIGl0IG9ubHkgbG9va3MgYXQKPj4gdmVuZG9yIGNsYXNzIGludGVyZmFj
+ZXMuIFRoZW4gaXQgY2hlY2tzIGlmIHRoZXJlJ3MgYSBidWxrIG91dCBlbmRwb2ludCwKPj4gaWYg
+bm90IGl0IHJldHVybnMgLUVOWElPIGFuZCB0aGUgZGV2aWNlIHN1YnN5dGVtIG1vdmVzIG9uIHRv
+IGFub3RoZXIKPj4gaW50ZXJmYWNlIGRyaXZlciBpZiBhbnkuIE5leHQgaXQgdHJpZXMgdG8gZmV0
+Y2ggdGhlIGRpc3BsYXkgZGVzY3JpcHRvcgo+PiBhbmQgaWYgbm90IHN1Y2Nlc2Z1bCBpdCByZXR1
+cm5zIC1FTk9ERVYgdG8gZ2l2ZSBhbm90aGVyIGRyaXZlciBhIGNoYW5jZS4KPiAKPiBUaGFua3Mg
+Zm9yIGNsYXJpZnlpbmcgdGhpcyBmbG93LiBJdCdzIG5pY2Ugbm90IHRvIHJlcXVpcmUgcGFydGlj
+dWxhcgo+IGVuZHBvaW50IGFkZHJlc3NlcyAtIHRoYXQgbWFrZXMgdGhlIHByb3RvY29sL2RyaXZl
+ciBtdWNoIG1vcmUgZ2VuZXJpYy4KPiAKPiAKPj4gSSBoYXZlIHRyaWVkIG15IGJlc3QgdG8gbGV0
+IHRoZSBkcml2ZXIgdG9sZXJhdGUgb3RoZXIgdmVuZG9yIGNsYXNzCj4+IGludGVyZmFjZXMgb24g
+dGhlIGRldmljZS4KPiAKPiBBY2ssIHRoaXMgaXMgY2xlYXIgbm93Lgo+IAo+IAo+PiBJIGRvbid0
+IHVuZGVyc3RhbmQgd2h5IFBJRCBzaG91bGQgbm90IGJlIG5lY2Vzc2FyeSwgSSdtIHVzaW5nIGEg
+dmVuZG9yCj4+IGNsYXNzIGludGVyZmFjZSBhbmQgdGhlIGRyaXZlciBjYW4ndCBwcm9iZSBhbGwg
+b2YgdGhvc2UsIHNvIGl0IGhhcyB0bwo+PiBsb29rIGF0IHNwZWNpZmljIHZpZDpwaWQncy4KPiAK
+PiBXaHkgY2FuJ3QgdGhlIGRyaXZlciBwcm9iZSBhbGwgdmVuZG9yIGNsYXNzIGludGVyZmFjZXM/
+Cj4gCj4gVG8gcHJvYmUgZmV3ZXIgaW50ZXJmYWNlcywgYSBjcml0ZXJpYSBvdGhlciB0aGFuIFBJ
+RCBjYW4gc3RpbGwgYmUgZGVmaW5lZCwKPiBhbmQgZG9pbmcgc28gd291bGQgZW5hYmxlIGltbWVk
+aWF0ZSBwbHVnLWFuZC1wbGF5IGZvciBub24tZ2FkZ2V0IGFuZCBlc3BlY2lhbGx5Cj4gY29tcG9z
+aXRlIGRldmljZXMsIHdpdGhvdXQgcmVxdWlyaW5nIHRoZSBhZGRpdGlvbiBvZiBQSURzIGluIHRo
+ZSBob3N0IGRyaXZlci4KPiAKPiBJIGZpbmQgdGhpcyBwb3NzaWJpbGl0eSBlc3BlY2lhbGx5IGF0
+dHJhY3RpdmUgZm9yIGNvbXBvc2l0ZSBkZXZpY2VzLCB3aGljaAo+IG1heSBhbHJlYWR5IGhhdmUg
+c29tZSBWSUQ6UElEIGFuZCBhIG5vbi1HVUQgcHJpbWFyeSBmdW5jdGlvbi9pbnRlcmZhY2UgdGhh
+dAo+IGlzIGhhbmRsZWQgYnkgYW5vdGhlciBkcml2ZXIsIHN1Y2ggdGhhdCBhIEdVRCBQSUQgZWZm
+ZWN0aXZlbHkgY2FuJ3QgYmUgYWRvcHRlZAo+IGZvciB0aGF0IGRldmljZS4KPiAKPiBPbmUgZXhh
+bXBsZSBvZiBzdWNoIGEgY3JpdGVyaWEgd291bGQgYmUgdG8gcmVxdWlyZSB0aGF0IHRoZSBpSW50
+ZXJmYWNlCj4gc3RyaW5nIGRlc2NyaXB0b3IgY29udGFpbnMgdGhlIChzdWIpc3RyaW5nICJHZW5l
+cmljIFVTQiBEaXNwbGF5Ii4KPiAKCkkgY2FuIGNvbnNpZGVyIGEgZHJpdmVyIHRoYXQgbG9va3Mg
+YXQgYWxsIHZlbmRvciBpbnRlcmZhY2VzIGlmIHlvdSBjYW4KZmluZCBhIGRyaXZlciBpbiB0aGUg
+a2VybmVsIHRoYXQgZG9lcyB0aGlzLgoKPj4+PiArc3RhdGljIGludCBndWRfZ2V0X3ZlbmRvcl9k
+ZXNjcmlwdG9yKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRlcmZhY2UsCj4+Pj4gKwkJCQkgICAg
+IHN0cnVjdCBndWRfZHJtX2Rpc3BsYXlfZGVzY3JpcHRvciAqZGVzYykKPj4+PiArewo+Pj4gLi4K
+Pj4+PiArCXJldCA9IGd1ZF9kcm1fdXNiX2NvbnRyb2xfbXNnKHVzYiwgaWZudW0sIHRydWUsIFVT
+Ql9SRVFfR0VUX0RFU0NSSVBUT1IsCj4+Pj4gKwkJCQkgICAgICBHVURfRFJNX1VTQl9EVF9ESVNQ
+TEFZIDw8IDgsIGJ1Ziwgc2l6ZW9mKCpkZXNjKSwgZmFsc2UpOwo+Pj4KPj4+IEdVRF9EUk1fVVNC
+X0RUX0RJU1BMQVkgaXMgZGVmaW5lZCBhcyAoVVNCX1RZUEVfVkVORE9SIHwgMHg0KSwKPj4+IGJ1
+dCBVU0JfVFlQRV9WRU5ET1Igb25seSBhcHBsaWVzIHRvIGJtUmVxdWVzdFR5cGVbNjo1XSBpbiBj
+b250cm9sIHRyYW5zZmVycywKPj4+IG5vd2hlcmUgZWxzZS4gSSBrbm93IG9mIG5vIHN0YW5kYXJk
+aXplZCB3YXkgdG8gaW50cm9kdWNlIHZlbmRvci1zcGVjaWZpYwo+Pj4gZGVzY3JpcHRvcnMuIFNx
+dWF0dGluZyBpcyBwb3NzaWJsZSwgYnV0IEkgdGhpbmsgaXQgd291bGQgYmUgbmljZSB0byBkbwo+
+Pj4gYmV0dGVyIGhlcmUuIEl0IGlzIGVhc3kgZW5vdWdoLgo+Pj4KPj4+IEl0IGNvdWxkIGJlIGFy
+Z3VlZCB0aGF0IHRoZSB2ZW5kb3Igc3BlY2lmaWMgaW50ZXJmYWNlIGdpdmVzIGZsZXhpYmlsaXR5
+IGhlcmUsCj4+PiBidXQgYWN0dWFsbHkgaXQganVzdCBtZWFucyB0aGF0IHRoZSBzZW1hbnRpY3Mg
+b2YgdGhlIHN0YW5kYXJkaXplZCBhbmQKPj4+IHdlbGwtZGVmaW5lZCBVU0JfUkVRX0dFVF9ERVND
+UklQVE9SIGhhdmUgYmVlbiBkdXBsaWNhdGVkIGJ5IHRoaXMgcHJvdG9jb2wsCj4+PiB0aGF0IGlz
+IG5vdCB2ZXJ5IGNvbW1vbiAtIGJ1dCBpZiB5b3Ugd2FudCB0byBnbyBhaGVhZCB0aGVuIGF0IGxl
+YXN0IGRyb3AKPj4+IFVTQl9UWVBFX1ZFTkRPUiBmcm9tIHRoZSBHVURfRFJNX1VTQl9EVF9ESVNQ
+TEFZIGRlZmluaXRpb24uCj4+Cj4+IEkgbGlrZWQgdGhhdCBpdCBpcyB3ZWxsIGRlZmluZWQgYW5k
+IHVuZGVyc3Rvb2QsIHNvIEkgZGlkbid0IGhhdmUgdG8gYmUgY2xldmVyLgo+IAo+IEkgdHJpZWQg
+dG8gZXhwbGFpbiB0aGF0IGl0IGlzIG9ubHkgd2VsbCBkZWZpbmVkIGZvciB0aGUgc3RhbmRhcmRp
+emVkCj4gR0VUX0RFU0NSSVBUT1IgcmVxdWVzdCB3aXRoIGRldmljZSByZWNpcGllbnQuIFRoZSBj
+b25jZXB0ICJkZXNjcmlwdG9yIgo+IGlzbid0IHVzZWQgYW55d2hlcmUgZWxzZSBieSBvdGhlciBV
+U0IgcHJvdG9jb2xzIHRoYXQgSSBrbm93Lgo+IAo+IFRoZXJlIGFyZSB2YXJpb3VzIGNsYXNzLXNw
+ZWNpZmljIGRlc2NyaXB0b3JzLCBidXQgdGhleSBhcmUgYWxsIHN0YW5kYXJkaXplZAo+IGluIFVT
+Qi1JRiBkZXZpY2UgY2xhc3Mgc3BlY3MsIGFuZCBhbGwgb2YgdGhlbSBhcmUgb25seSBldmVyIHJl
+dHJpZXZlZCBieSB0aGUKPiBzdGFuZGFyZGl6ZWQgR0VUX0RFU0NSSVBUT1IgcmVxdWVzdC4KPiAK
+PiBCZWNhdXNlIG9mIHRoYXQgaXQncyBhY3R1YWxseSByYXRoZXIgY29uZnVzaW5nIHRvIG1lIHRv
+IHJlZmVyIHRvIHRoZSBkaXNwbGF5Cj4gZGF0YSBzdHJ1Y3R1cmUgYXMgYSBkZXNjcmlwdG9yIGFu
+ZCBldmVuIHVzZSB0aGUgc3RhbmRhcmRpemVkIGRlc2NyaXB0b3IgaGVhZGVyCj4gYW5kIG5hbWlu
+ZyBjb252ZW50aW9uIHdoZW4gaXQgaXMgYWN0dWFsbHkgL25vdC8gYSBkZXNjcmlwdG9yLCBzaW5j
+ZSBpdCBpc24ndAo+IHN0YW5kYXJkaXplZCBhbmQgaXNuJ3QgcmV0cmlldmFibGUgd2l0aCB0aGUg
+c3RhbmRhcmRpemVkIEdFVF9ERVNDUklQVE9SCj4gcmVxdWVzdC4gRG9lcyB0aGF0IG1ha2Ugc2Vu
+c2U/Cj4gCj4gCj4+IEkgbGlrZSBpdCBhbmQgdGhpbmsgSSdsbCBrZWVwIGl0LCBzbyBJJ2xsIGNo
+YW5nZSB0aGUgbWFjcm86Cj4+Cj4+ICNkZWZpbmUgR1VEX0RSTV9VU0JfRFRfRElTUExBWSAweDQ0
+Cj4gCj4gT2theS4gVGhlIG51bWJlciBpcyBhcmJpdHJhcnksIHNpbmNlIGEgY29udHJvbCByZXF1
+ZXN0IGRpcmVjdGVkIHRvIGEgdmVuZG9yCj4gc3BlY2lmaWMgaW50ZXJmYWNlIGlzIHZlbmRvciBz
+cGVjaWZpYyAiYnkgaW5oZXJpdGFuY2UiLCB0aHVzIGFsc28gYXJiaXRyYXJ5Lgo+IAo+IAo+Pj4g
+TWF5YmUgaXQncyBnb29kIHRvIHRoaW5rIGFib3V0IHRoZSBkYXRhIGV4Y2hhbmdlIHNvbWUgbW9y
+ZSAtIGFueXRoaW5nIG5vdAo+Pj4gdHJhbnNmZXJlZCBieSBzdGFuZGFyZGl6ZWQgVVNCX1JFUV9H
+RVRfREVTQ1JJUFRPUiAoYm1SZXF1ZXN0VHlwZSAxMDAwMDAwMEI7Cj4+PiBEZXZpY2UtdG8taG9z
+dCBkYXRhLCBTdGFuZGFyZCB0eXBlLCBEZXZpY2UgcmVjaXBpZW50KSBpc24ndCBhY3R1YWxseQo+
+Pj4gYSBkZXNjcmlwdG9yLCBpdCdzIHZlbmRvci1zcGVjaWZpYywgZnJlZS1mb3JtYXQgZGF0YS4g
+RG9lcyB0aGF0IGVuYWJsZQo+Pj4gYW55IHNpbXBsaWZpY2F0aW9ucz8KPj4KPj4gQWN0dWFsbHkg
+aXQgaXM6Cj4+Cj4+IAl1OCByZXF1ZXN0dHlwZSA9IFVTQl9UWVBFX1ZFTkRPUiB8IFVTQl9SRUNJ
+UF9JTlRFUkZBQ0U7Cj4gCj4gUmlnaHQ7IGl0J3MgYSBWZW5kb3ItU3BlY2lmaWMgdHlwZSwgSW50
+ZXJmYWNlIHJlY2lwaWVudCByZXF1ZXN0LCB0aHVzIG5vdAo+IHRoZSBzdGFuZGFyZGl6ZWQgVVNC
+X1JFUV9HRVRfREVTQ1JJUFRPUiwgYW5kIHRodXMgdGhlIGRhdGEgaXMgbm90IGFjdHVhbGx5Cj4g
+YSBkZXNjcmlwdG9yLCBoZW5jZSB3aHkgY2FsbGluZyBpdCBvbmUgaXMgY29uZnVzaW5nIHRvIG1l
+Lgo+IAo+IAo+PiBzZWUgZ3VkX2RybV91c2JfY29udHJvbF9tc2coKS4gSSBjb3VsZCBhZGQKPj4g
+R1VEX0RSTV9VU0JfUkVRX0dFVF9ERVNDUklQVE9SIGluc3RlYWQgb2YgdXNpbmcgVVNCX1JFUV9H
+RVRfREVTQ1JJUFRPUgo+PiBpZiB0aGF0IG1ha2VzIGl0IGFueSBjbGVhcmVyLgo+IAo+IFRoYXQg
+d291bGQgYmUgYW4gaW1wcm92ZW1lbnQsIGJ1dCBJIHdvdWxkIHJlYWxseSB3aXNoIGZvciBkaWZm
+ZXJlbnQKPiB0ZXJtaW5vbG9neSBhbGwgdG9nZXRoZXIuCj4gCj4gCgpPaywgaWYgdGhpcyBpcyBy
+ZWFsbHkgY29uZnVzaW5nIEkgbmVlZCB0byBmaXggaXQgYW5kIEkgY291bGRuJ3QgZmluZCBhCmRy
+aXZlciB0byBzdXBwb3J0IG15IGNhc2UgaW4gdGhlIGtlcm5lbCBlaXRoZXIuCgo+Pj4+ICtzdGF0
+aWMgaW50IGd1ZF91c2JfZ2V0X3N0YXR1cyhzdHJ1Y3QgdXNiX2RldmljZSAqdXNiLCB1OCBpZm51
+bSkKCkknbSBza2lwcGluZyB0aGUgc3RhdHVzIHBvbGwgZGlzY3Vzc2lvbiBzaW5jZSBJJ3ZlIGRp
+c2NvdmVyZWQgYSBidWcgaW4KbXkgcHJldmlvdXMgY29kZSB0aGF0IGJyb2tlIG9uIHRpbWVvdXRz
+LiBJIHdpbGwgdG8gdHJ5IGFuZCBmaXggdGhhdApmaXJzdCBhbmQgc2VlIGhvdyBpdCB0dXJucyBv
+dXQuCgo+Pj4+ICsJc2htZW0tPm1hcF9jYWNoZWQgPSB0cnVlOwo+Pj4KPj4+IENhbiB5b3UgZXhw
+bGFpbiB3aGF0IHRoaXMgZG9lcyBleGFjdGx5Pwo+Pgo+PiBOb3QgZXhjYXRseSwgYnV0IEkgY2Fu
+IHRyeSByYXRoZXIgdmFndWVseSA6LSkgVGhlIG1lbW9yeSBzdWJzeXN0ZW0gaXMgYQo+PiBibGFj
+ayBib3ggdG8gbWUuIEl0IGhhcyB0byBkbyB3aXRoIHRoZSBtZW1vcnkgcGFnZSBhdHRyaWJ1dGUg
+dGhhdAo+PiBjb250cm9scyBob3cgbWVtb3J5IGFjY2VzcyBpcyBoYW5kbGVkIGJ5IHRoZSBDUFUg
+Y2FjaGUuIFRoZSBkZWZhdWx0IGZvcgo+PiBzaG1lbSBpcyBXcml0ZUNvbWJpbmVkIHdoaWNoIG1h
+a2VzIGZvciBzbG93IHJlYWQgYWNjZXNzIG9uIEFSTSwgYnV0IG9uCj4+IHg4NiB0aGVyZSBkb2Vz
+bid0IHNlZW0gdG8gYmUgYW55IHBlbmFsdHkganVkZ2luZyBieSBteSBicmllZiB0ZXN0aW5nLgo+
+IAo+IEhtbS4gQVJNIG9mdGVuIChhbHdheXM/KSBjYW4ndCBkbyBieXRlLWFsaWduZWQgYWNjZXNz
+LCBvbmx5IDMyLWJpdCBhY2Nlc3MuCj4gRG8geW91IGtub3cgaWYgYW5kIGhvdyB0aGUgYnVmZmVy
+IGlzIGFsaWduZWQ/IE1heWJlIHRoaXMgY2FuIG1ha2UgYSBkaWZmZXJlbmNlPwo+IAo+IAoKVGhl
+IHN0YXJ0IG9mIHRoZSBidWZmZXIgaXMgd29yZCBhbGlnbmVkIHRvIG1hdGNoIHRoZSBhcmNoLCB0
+aGUgbWVtb3J5CnN1YnN5c3RlbSB0YWtlcyBjYXJlIG9mIHRoYXQsIG90aGVyd2lzZSB3ZSB3b3Vs
+ZCBoYXZlIGFsbCBraW5kcyBvZiB0cm91YmxlLgoKPj4+PiArc3RhdGljIGludCBndWRfZHJtX3By
+b2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRlcmZhY2UsCj4+Pj4gKwkJCSBjb25zdCBzdHJ1
+Y3QgdXNiX2RldmljZV9pZCAqaWQpCj4+Pj4gK3sKPiAuLgo+Pj4+ICsJCS8qIENoZWNrIGlmIHRo
+ZSBkZXZpY2UgY2FuIHN1cHBvcnQgdXMgKi8KPj4+PiArCQkqdmVyc2lvbiA9IDE7Cj4+Pj4gKwkJ
+cmV0ID0gZ3VkX2RybV91c2JfY29udHJvbF9tc2codXNiLCBpZm51bSwgZmFsc2UsIEdVRF9EUk1f
+VVNCX1JFUV9TRVRfVkVSU0lPTiwKPj4+PiArCQkJCQkgICAgICAwLCB2ZXJzaW9uLCBzaXplb2Yo
+KnZlcnNpb24pLCB0cnVlKTsKPiAKPiBBIG1vcmUgVVNCOnkgd2F5IHdvdWxkIGJ0dy4gYmUgdG8g
+cmVwb3J0IHRoZSBoaWdoZXN0IHN1cHBvcnRlZCBwcm90b2NvbAo+IHZlcnNpb24gdG8gdGhlIGhv
+c3QgaW4gc29tZSBkYXRhIHN0cnVjdHVyZS4KPiAKPiBUaGlzIHRvbyBjb3VsZCBiZSB0aGUgaUlu
+dGVyZmFjZSBzdHJpbmcgZGVzY3JpcHRvci4KPiAKPiAKPj4+IENvdWxkJ3QgdGhpcyB3b3JrIHdp
+dGhvdXQgX2dldF9zdGF0dXMoKT8gV2hhdCBkb2VzIHVzYl9jb250cm9sX21zZygpCj4+PiByZXR1
+cm4gZm9yIGEgU1RBTEwgaGFuZHNoYWtlIGluIHRoZSBkYXRhIHN0YWdlPwo+Pgo+PiBJdCByZXR1
+cm5zIC1FUElQRSwgYnV0IGFzIG1lbnRpb25lZCBhYm92ZSwgSSBjYW4ndCBzdGFsbCBhIGNvbnRy
+b2wgd3JpdGUKPj4gcmVxdWVzdCB3aXRoIHBheWxvYWQuCj4gCj4gUGxlYXNlIGNoZWNrIHRoaXM/
+IEl0IGxvb2tzIHRvIG1lIGxpa2UgaXQgd291bGQgYmUgcG9zc2libGUuCj4gCgpBbGFuIGNvbmZp
+cm1lZCB3aGF0IEkgcmVhZCBpbiB0aGUga2VybmVsIHNvdXJjZSBpbiBoaXMgcmVwbHkuCgo+Pj4g
+T3IgYXQgbGVhc3QgaW4gRG9jdW1lbnRhdGlvbi8gPwo+Pgo+PiBJZGVhbGx5IEkgd291bGQgaGF2
+ZSB3cml0dGVuIGEgc3BlYyBhbmQgbWFkZSB0aGUgaW1wbGVtZW50YXRpb24gYWdhaW5zdCBpdC4K
+Pj4gSG93ZXZlciBzaW5jZSBJIHN1Y2sgYXQgd3JpdGluZywgSSBldmVuIHN0cnVnZ2xlIHdpdGgg
+Z2V0dGluZyB0aGUgY29tcGlsZXIKPj4gdG8gdW5kZXJzdGFuZCBtZSwgc28gaXQgd29uJ3QgaGFw
+cGVuLiBJdCB3b3VsZCBoYXZlIHRha2VuIG1lIGZvcmV2ZXIuCj4gCj4gSSBoYXZlIGEgdGVtcGxh
+dGUgZm9yIFVTQiBwcm90b2NvbHMgdGhhdCBJIGNvdWxkIHVzZSwgcGVyaGFwcyB3ZSBjYW4gbWFr
+ZQo+IHRoYXQgc3BlYyBhIHJlYWxpdHkuIEkgdGhpbmsgaXQgd291bGQgYmUgcXVpdGUgdmFsdWFi
+bGUsIHRvIGhlbHAgZm9sa3MKPiBvdXRzaWRlIExpbnV4IHdobyBtYXkgYWxzbyB3YW50IHRvIGNy
+ZWF0ZSBhIGdlbmVyaWMgdXNiIGRpc3BsYXkuCj4gCgpJJ20gc29ycnkgYnV0IHRoYXQncyBvdXRz
+aWRlIG9mIHRoZSBzY29wZSBvZiB0aGUgcHJvamVjdCBhbmQgdGhlIGVmZm9ydApJIGNhbiBwdXQg
+aW50byBpdC4KCj4gCj4+Pj4gK3N0YXRpYyBzaXplX3QgZ3VkX2RybV94cmdiODg4OF90b19yMTI0
+KHU4ICpkc3QsIGNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZvcm1hdCwKPj4+PiArCQkJ
+CSAgICAgICB2b2lkICpzcmMsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAo+Pj4+ICsJCQkJ
+ICAgICAgIHN0cnVjdCBkcm1fcmVjdCAqcmVjdCkKPj4+PiArewo+Pj4gLi4KPj4+PiArCWJ1ZiA9
+IGttYWxsb2Mod2lkdGggKiBoZWlnaHQsIEdGUF9LRVJORUwpOwo+Pj4+ICsJaWYgKCFidWYpCj4+
+Pj4gKwkJcmV0dXJuIGxlbjsgLyogVG8ga2VlcCBsb2dpYyBzaW1wbGUsIGp1c3QgdHJhbnNtaXQg
+Z2FyYmFnZSAqLwo+Pj4KPj4+IE91Y2ghIFNob3VsZG4ndCB0aGlzIGJ1YmJsZSB1cCBzb21laG93
+PyBJZiB0aGVyZSBpcyBtZW1vcnkgcHJlc3N1cmUKPj4+IHRoZW4gSSByZWFsbHkgdGhpbmsgc29t
+ZXRoaW5nIGFib3ZlIHNob3VsZCBmYWlsLgo+IAo+IE5vIGNvbW1lbnQgb24gdGhpcz8KPiAKCkkg
+d2FudGVkIHRvIHNlZSBpZiB5b3Ugd2VyZSBnb2luZyB0byB1c2UgUjEgaW4gdGhlIG5lYXIgZnV0
+dXJlLApvdGhlcndpc2UgSSB3aWxsIHJlbW92ZSB0aGlzIGluIHRoZSBuZXh0IHZlcnNpb24uIEkg
+Z3Vlc3MgSSdsbCBmaXggdGhpcwppZiBpdCBzdGF5cy4KCj4+Pj4gK3N0YXRpYyBpbnQgZ3VkX2Ry
+bV9mYl9mbHVzaChzdHJ1Y3QgZ3VkX2RybV9kZXZpY2UgKmdkcm0sIHN0cnVjdCBkcm1fZnJhbWVi
+dWZmZXIgKmZiLAoKSSBuZWVkIHRvIGRlbGF5IGNvbW1lbnRpbmcgb24gdGhlIGZsb3cgY29udHJv
+bCBpc3N1ZXMgZm9yIG5vdy4gSSdsbCBwaWNrCml0IHVwIGxhdGVyIGFmdGVyIHNvbWUgbW9yZSBz
+dHVkeS4KCj4+PiBXaHkgZG9lcyB0aGUgaG9zdCBzb2Z0d2FyZSBuZWVkIHRvIGtub3cgYW55dGhp
+bmcgYWJvdXQgdGhlIGNvbm5lY3Rvcgo+Pj4gaW5zaWRlIHRoZSBkZXZpY2UsIGFueXdheT8gV2l0
+aCBhIG1pY3JvY29udHJvbGxlciB0aGF0IGNvdWxkIGJlIGFueXRoaW5nLAo+Pj4gZXNwZWNpYWxs
+eSB3aXRoIGFjdHVhbCBSMSBkaXNwbGF5cy4KPj4+Cj4+PiBXb3VsZCBpdCBtYWtlIHNlbnNlIHRv
+IGludHJvZHVjZSBEUk1fTU9ERV9DT05ORUNUT1JfVVNCIG9uIHRoZSBob3N0LCBhbmQKPj4+IGtl
+ZXAgdGhpcyBpbXBsZW1lbnRhdGlvbiBkZXRhaWwgaW4gdGhlIGRldmljZT8KPj4KPj4gRm9yIGRp
+c3BsYXkgYWRhcHRlcnMgaXQgbWFrZXMgc2Vuc2UgZXNwZWNpYWxseSB3aGVuIGl0IGhhcyBtb3Jl
+IHRoYW4gb25lCj4+IGNvbm5lY3RvciBsaWtlIHRoZSBSYXNwYmVycnkgUGkgd2hpY2ggaGFzIGFu
+IGhkbWkgYW5kIGEgc2R0diBjb25uZWN0b3IuCj4gCj4gUmlnaHQsIGEgR1VEIGRldmljZSBjb3Vs
+ZCBoYXZlIG11bHRpcGxlIGNvbm5lY3RvcnMsIEkgZ3Vlc3Mgd2l0aCBvbmUgVVNCCj4gaW50ZXJm
+YWNlIHBlciBjb25uZWN0b3IsIGJ1dCBhZ2Fpbiwgd2hhdCBkb2VzIHRoZSBob3N0IHJlYWxseSBu
+ZWVkIHRvIGtub3cKPiBhYm91dCB0aGUgY29ubmVjdG9yIGJleW9uZCB0aGUgc3VwcG9ydGVkIHBp
+eGVsIGZvcm1hdChzKT8KPiAKPiBUaGFua3MgZm9yIG1lbnRpb25pbmcgU0RUViAtIEkgd2Fzbid0
+IHN1cmUgYWJvdXQgdGhlIHJhdGlvbmFsZSBmb3IgdGhvc2UKPiBUViBwYXJ0cyBpbiB0aGUgcGF0
+Y2guIENhbiB5b3UgZWxhYm9yYXRlIG9uIHRoYXQ/Cj4gCgpUaG9zZSBhcmUgcHJvcGVydGllcyBl
+eHBvc2VkIGJ5IHRoZSBEUk0gc3Vic3lzdGVtIGZvciB1c2Ugb24gVFYKY29ubmVjdG9ycy4gSSBh
+Y3R1YWxseSBkb24ndCBrbm93IG11Y2ggZGV0YWlscywgSSd2ZSBqdXN0IGV4cG9zZWQgdGhlbQph
+bmQgdGVzdGVkIHRoYXQgSSBjYW4gc2V0IG1hcmdpbnMuCgo+IElmIHRoZSBpZGVhIGlzIGluIGZh
+Y3QgdG8gY3JlYXRlICJMaW51eCBEUk0gb3ZlciBVU0IiIHRoZW4gYnkgYWxsIG1lYW5zCj4gZ28g
+Zm9yIGl0LCBidXQgaW4gdGhhdCBjYXNlIHBsZWFzZSBkb24ndCBjYWxsIGl0IGdlbmVyaWMuCj4g
+CkkgZGlzYWdyZWUsIEkgYmVsaWV2ZSB0aGlzIGlzIGdlbmVyaWMsIHdpdGhpbiB0aGUgTGludXgg
+d29ybGQuCgo+Pj4gSSBob3BlIHRoaXMgaGVscHMuCj4+Cj4+IEluZGVlZCBpdCBJIGRvZXMsIGl0
+IGhlbHBzIG1lIHJldmlzaXQgdGhlIGRlY2lzaW9ucyBJJ3ZlIG1hZGUgYW5kIGxvb2sKPj4gYXQg
+dGhlbSBpbiBhIG5ldyBsaWdodC4gSSBoYXZlIGxvb2tlZCBhdCB0aGUgY29kZSBmb3Igc28gbG9u
+ZyB0aGF0IEkKPj4gaGFyZGx5IHNlZSBpdCBhbnltb3JlLgo+IAo+IEkga25vdyB0aGUgZmVlbGlu
+ZyBhbmQgSSdtIGdsYWQgdG8gaGVscCwgYnV0IG9ubHkgaWYgdGhlIGdvYWwgaXMgaW5kZWVkCj4g
+dG8gY3JlYXRlIGEgZ2VuZXJpYyBVU0I6eSBwcm90b2NvbCwgbW9zdGx5IGlmIG5vdCBjb21wbGV0
+ZWx5IGZyZWUgb2YgTGludXgKPiBkZXRhaWxzLgo+IAo+IElmIHlvdSdyZSBhY3R1YWxseSBhZnRl
+ciBzb21ldGhpbmcgbW9yZSBjbG9zZWx5IHRpZWQgdG8gTGludXgvRFJNIHRoZW4KPiB0aGF0J3Mg
+YWxzbyBhIGZ1biBpZGVhLCBidXQgbXVjaCBsZXNzIHJlbGV2YW50IGZvciBtZS4KPiAKCkknbSBz
+b3JyeSwgYnV0IHRoaXMgaXMgTGludXggZmlyc3QgYW5kIGZvcmVtb3N0LgoKTm9yYWxmLgoKPiAK
+PiAKPiBUaGFua3MgYW5kIGtpbmQgcmVnYXJkcwo+IAo+IC8vUGV0ZXIKPiAKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
