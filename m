@@ -2,57 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0628C1ED761
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 22:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739171ED7B2
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 22:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A97FE89DB5;
-	Wed,  3 Jun 2020 20:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA67589E7B;
+	Wed,  3 Jun 2020 20:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
- [IPv6:2607:f8b0:4864:20::a43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9882D89DA9
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 20:29:05 +0000 (UTC)
-Received: by mail-vk1-xa43.google.com with SMTP id z3so812159vka.10
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 13:29:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9a/MhKslZ13mmbXTQAYp9lN2ROV7oWp/DRuMycwrOeo=;
- b=h3jn+JAs3TLIDzh5j0nKRwoB2em6NnRVd4ORR8dTgecLCe8cpUMb+TE2GPfOsgzjMr
- XtVaYOPfF6RUvpVa5WTqjORBgjn9/1o7GOR1amjMlC6CDG237W7x2bG6v+UEtEI0RWSD
- Fexoi+9OQv9N5tZ9VZLp4Fiq/BnM81YCwc+nF/kIsT5f133Ju0vv896F5ywx9UMGxqtq
- cszUNltavhA4PJ1cDiY8kDZ0dvdVySxvRiuQMH/VW+7WCZ8nIbjFJtEuFNruH0p0fC3N
- CDb+Pi8z/4Bk5I4aRDYjcja+XpPTtMlzxV3R0YzGmz0mLfQQ51zrgw2u2Ebj2ElAw+KR
- 5MEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9a/MhKslZ13mmbXTQAYp9lN2ROV7oWp/DRuMycwrOeo=;
- b=nNRiQdvSM5asb3dEdBL1ifTWbU1eiz1RBTn+b2tBiBXYjTCeeaua5GbOIBTb/cB013
- H6o5J8JFlajLhTNGtJ/Dd8VDhTL0EubXPP71nDP3SaoDhhVik6laQ1+HtS3/8jCPeOWr
- 1b30ktlBrHPJOlj68BujKGQC7QW4d2na7gqYV8ZpuLOdTGhQULrx0EBxzK8AdNFYLExW
- Co86BuHB+2Dhcb5R/BbDUO+gPdjoAZmjnX19Alr4PEEYpVT0H/xRda0c/Ifuu0PQJCT9
- /BtTcCWuqFX/55N40XriwF2AloIOjdIMJxeEFHIE7yDTtVjrymv/KFVHE6hralTk2rfF
- nW8A==
-X-Gm-Message-State: AOAM53141ARMxM0M5ziWn0G+f3eaMn7Qg8VrUGvd5EmDrCW19K0Kq/Zj
- 7glw4z+piwn5p8s1xzzz+evoiNnAI3tQjqZK7zbHBZZc
-X-Google-Smtp-Source: ABdhPJwhAXW/mddXrnZpi0C0r1D9zKfyyshUZ6UXX2+xC3zsWuLAoZ+IdyY1a2GdAFzRBFtsN+nx1C4gKmWkcRY7Q1k=
-X-Received: by 2002:a1f:9e57:: with SMTP id h84mr1246723vke.28.1591216144645; 
- Wed, 03 Jun 2020 13:29:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
- <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
- <CAKMK7uGHDrMvchWCmhyy6fbvy2kDWsbPH3nAbCXCmi14uUTA8g@mail.gmail.com>
- <CACvgo51ot1Z9oALx-74yBijz41Jz8GDxKoa2E32Anv4ad7=89Q@mail.gmail.com>
- <beb8b080-2138-58bf-3fa1-93aa4b553574@tronnes.org>
-In-Reply-To: <beb8b080-2138-58bf-3fa1-93aa4b553574@tronnes.org>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Wed, 3 Jun 2020 21:25:44 +0100
-Message-ID: <CACvgo50a-h+9DSebuf40EXSBbJMiA2dFpq3Be7NdrEy9bPF7zA@mail.gmail.com>
-Subject: Re: MIPI DSI, DBI, and tinydrm drivers
-To: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19FA89DD8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 20:57:38 +0000 (UTC)
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
+ [73.231.172.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 41A652067B;
+ Wed,  3 Jun 2020 20:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591217858;
+ bh=SA51jkVVsXD1P0/zuGau7LRvGwUl3rZwCvD7U14lHT0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=R+x3Nw9u+7nEi0n9itYHOzSOxlNljPSeK///Mzs4PX4z9nuno+Auj7Ou/r8TfYcQj
+ uztZdVJR2O9plQuWNmfFkbrIVuKApSrGtnDYKJxw1kdVo7XgNWC760pouhfMKv0YAR
+ x/btwctWzOGNMZ8iDeLFOfWGWVXq4qA+zZh+kfGg=
+Date: Wed, 3 Jun 2020 13:57:36 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
+ pagefault/preempt twice
+Message-Id: <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
+In-Reply-To: <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200518184843.3029640-1-ira.weiny@intel.com>
+ <20200519165422.GA5838@roeck-us.net>
+ <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
+ <20200519194215.GA71941@roeck-us.net>
+ <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
+ <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
+ <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,99 +54,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ Guenter Roeck <linux@roeck-us.net>, linux-xtensa@linux-xtensa.org,
+ Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
+ Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTm9yYWxmLAoKT24gV2VkLCAzIEp1biAyMDIwIGF0IDEzOjE1LCBOb3JhbGYgVHLDuG5uZXMg
-PG5vcmFsZkB0cm9ubmVzLm9yZz4gd3JvdGU6Cj4KPiBEZW4gMjguMDUuMjAyMCAxNy4yNywgc2ty
-ZXYgRW1pbCBWZWxpa292Ogo+ID4gT24gU3VuLCAyNCBNYXkgMjAyMCBhdCAxOTozNSwgRGFuaWVs
-IFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+Pgo+ID4+IE9uIFN1biwgTWF5IDI0
-LCAyMDIwIGF0IDc6NDYgUE0gTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+IHdy
-b3RlOgo+ID4+Pgo+ID4+Pgo+ID4+Pgo+ID4+PiBEZW4gMjQuMDUuMjAyMCAxOC4xMywgc2tyZXYg
-UGF1bCBDZXJjdWVpbDoKPiA+Pj4+IEhpIGxpc3QsCj4gPj4+Pgo+ID4+Pj4gSSdkIGxpa2UgdG8g
-b3BlbiBhIGRpc2N1c3Npb24gYWJvdXQgdGhlIGN1cnJlbnQgc3VwcG9ydCBvZiBNSVBJIERTSSBh
-bmQKPiA+Pj4+IERCSSBwYW5lbHMuCj4gPj4+Pgo+ID4+Pj4gQm90aCBhcmUgc3RhbmRhcmRzIGZy
-b20gdGhlIE1JUEkgYWxsaWFuY2UsIGJvdGggYXJlIGNvbW11bmljYXRpb24KPiA+Pj4+IHByb3Rv
-Y29scyBiZXR3ZWVuIGEgTENEIGNvbnRyb2xsZXIgYW5kIGEgTENEIHBhbmVsLCB0aGV5IGdlbmVy
-YWxseSBib3RoCj4gPj4+PiB1c2UgdGhlIHNhbWUgY29tbWFuZHMgKERDUyksIHRoZSBtYWluIGRp
-ZmZlcmVuY2UgaXMgdGhhdCBEU0kgaXMgc2VyaWFsCj4gPj4+PiBhbmQgREJJIGlzIGdlbmVyYWxs
-eSBwYXJhbGxlbC4KPiA+Pj4+Cj4gPj4+PiBJbiB0aGUga2VybmVsIHJpZ2h0IG5vdywgRFNJIGlz
-IHByZXR0eSB3ZWxsIGltcGxlbWVudGVkLiBBbGwgdGhlCj4gPj4+PiBpbmZyYXN0dWN0dXJlIHRv
-IHJlZ2lzdGVyIGEgRFNJIGhvc3QsIERTSSBkZXZpY2UgZXRjLiBpcyB0aGVyZS4gRFNJCj4gPj4+
-PiBwYW5lbHMgYXJlIGltcGxlbWVudGVkIGFzIHJlZ3VsYXIgZHJtX3BhbmVsIGluc3RhbmNlcywg
-YW5kIHRoZWlyIGRyaXZlcnMKPiA+Pj4+IGdvIHRocm91Z2ggdGhlIERTSSBBUEkgdG8gY29tbXVu
-aWNhdGUgd2l0aCB0aGUgcGFuZWwsIHdoaWNoIG1ha2VzIHRoZW0KPiA+Pj4+IGluZGVwZW5kZW50
-IG9mIHRoZSBEU0kgaG9zdCBkcml2ZXIuCj4gPj4+Pgo+ID4+Pj4gREJJLCBvbiB0aGUgb3RoZXIg
-aGFuZCwgZG9lcyBub3QgaGF2ZSBhbnkgb2YgdGhpcy4gQWxsICg/KSBEQkkgcGFuZWxzCj4gPj4+
-PiBhcmUgaW1wbGVtZW50ZWQgYXMgdGlueWRybSBkcml2ZXJzLCB3aGljaCBtYWtlIHRoZW0gaW1w
-b3NzaWJsZSB0byB1c2UKPiA+Pj4+IHdpdGggcmVndWxhciBEUk0gZHJpdmVycy4gV3JpdGluZyBh
-IHN0YW5kYXJkIGRybV9wYW5lbCBkcml2ZXIgaXMKPiA+Pj4+IGltcG9zc2libGUsIGFzIHRoZXJl
-IGlzIG5vIGNvbmNlcHQgb2YgaG9zdCBhbmQgZGV2aWNlLiBBbGwgdGhlc2UgdGlueWRybQo+ID4+
-Pj4gZHJpdmVycyByZWdpc3RlciB0aGVpciBvd24gREJJIGhvc3QgYXMgdGhleSBhbGwgZG8gREJJ
-IG92ZXIgU1BJLgo+ID4+Pj4KPiA+Pj4+IEkgdGhpbmsgdGhpcyBuZWVkcyBhIGdvb2QgY2xlYW51
-cC4gR2l2ZW4gdGhhdCBEU0kgYW5kIERCSSBhcmUgc28KPiA+Pj4+IHNpbWlsYXIsIGl0IHdvdWxk
-IHByb2JhYmx5IG1ha2Ugc2Vuc2UgdG8gZnVzZSBEQkkgc3VwcG9ydCBpbnRvIHRoZQo+ID4+Pj4g
-Y3VycmVudCBEU0kgY29kZSwgYXMgdHJ5aW5nIHRvIHVwZGF0ZSBEQkkgd291bGQgcmVzdWx0IGlu
-IGEgbG90IG9mIGNvZGUKPiA+Pj4+IGJlaW5nIGR1cGxpY2F0ZWQuIFdpdGggdGhlIHByb3BlciBo
-b3N0L2RldmljZSByZWdpc3RyYXRpb24gbWVjaGFuaXNtCj4gPj4+PiBmcm9tIERTSSBjb2RlLCBp
-dCB3b3VsZCBiZSBwb3NzaWJsZSB0byB0dXJuIG1vc3Qgb2YgdGhlIHRpbnlkcm0gZHJpdmVycwo+
-ID4+Pj4gaW50byByZWd1bGFyIGRybV9wYW5lbCBkcml2ZXJzLgo+ID4+Cj4gPj4gRG8gd2UgaGF2
-ZSBkcml2ZXJzIHdpdGggZGJpIHN1cHBvcnQgdGhhdCBhY3R1YWxseSB3YW50IHRvIHJldXNlIHRo
-ZQo+ID4+IHRpbnlkcm0gZHJpdmVycz8gR29vZCBjbGVhbiBpcyBhbGwgZ29vZCwgYnV0IHdlIG5l
-ZWQgYSBzb2xpZCByZWFzb24KPiA+PiBmb3IgY2hhbmdpbmcgc3R1ZmYuIFBsdXMgd2UgbmVlZCB0
-byBtYWtlIHN1cmUgd2UncmUgbm90IGp1c3QKPiA+PiByZWRpc2NvdmVyaW5nIGFsbCB0aGUgb2xk
-IHJlYXNvbnMgZm9yIHdoeSB3ZSBlbmRlZCB1cCB3aGVyZSB3ZSBhcmUKPiA+PiByaWdodCBub3cg
-aW4gdGhlIGZpcnN0IHBsYWNlLgo+ID4+Cj4gPj4+PiBUaGUgcHJvYmxlbSB0aGVuIGlzIHRoYXQg
-dGhlc2Ugc2hvdWxkIHN0aWxsIGJlIGF2YWlsYWJsZSBhcyB0aW55ZHJtCj4gPj4+PiBkcml2ZXJz
-LiBJZiB0aGUgRFNJL0RCSSBwYW5lbHMgY2FuIHNvbWVob3cgcmVnaXN0ZXIgYSAudXBkYXRlX2Zi
-KCkKPiA+Pj4+IGNhbGxiYWNrLCBpdCB3b3VsZCBtYWtlIGl0IHBvc3NpYmxlIHRvIGhhdmUgYSBw
-YW5lbC1hZ25vc3RpYyB0aW55ZHJtCj4gPj4+PiBkcml2ZXIsIHdoaWNoIHdvdWxkIHRoZW4gcHJv
-YmFibHkgb3BlbiBhIGxvdCBvZiBkb29ycywgYW5kIGhlbHAgYSBsb3QgdG8KPiA+Pj4+IGNsZWFu
-IHRoZSBtZXNzLgo+ID4+Pj4KPiA+Pj4+IEkgdGhpbmsgSSBjYW4gaGVscCB3aXRoIHRoYXQsIEkg
-anVzdCBuZWVkIHNvbWUgZ3VpZGFuY2UgLSBJIGFtIGZpc2hpbmcKPiA+Pj4+IGluIGV4b3RpYyBz
-ZWFzIGhlcmUuCj4gPj4+Pgo+ID4+Pj4gVGhvdWdodHMsIGNvbW1lbnRzLCBhcmUgdmVyeSB3ZWxj
-b21lLgo+ID4+Pgo+ID4+PiBJIGRpZCBsb29rIGF0IHRoaXMgYSBmZXcgbW9udGhzIGJhY2s6Cj4g
-Pj4+Cj4gPj4+IGRybS9taXBpLWRiaTogU3VwcG9ydCBwYW5lbCBkcml2ZXJzCj4gPj4+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8y
-Mjg5NjYuaHRtbAo+ID4+Pgo+ID4gQ29taW5nIGxhdGUgdG8gdGhlIHBhcnR5IC0gdGhlIHNlcmll
-cyBsb29rcyBsaWtlIGEgZ3JlYXQgc3RlcCBmb3J3YXJkLgo+ID4KPiA+Pj4gVGhlIHByb2JsZW0g
-d2l0aCBEQkkgaXMgdGhhdCBpdCBoYXMgcmV1c2VkIG90aGVyIGJ1c3NlcyB3aGljaCBtZWFucyB3
-ZQo+ID4+PiBkb24ndCBoYXZlIERCSSBkcml2ZXJzLCB3ZSBoYXZlIFNQSSBkcml2ZXJzIGluc3Rl
-YWQgKDY4MDAvODA4MCBpcyBub3QKPiA+Pj4gYXZhaWwuIGFzIGJ1c3NlcyBpbiBMaW51eCB5ZXQp
-LiBEU0kgYW5kIERQSSBvbiB0aGUgb3RoZXIgaGFuZCBoYXMKPiA+Pj4gZGVkaWNhdGVkIGh3IGNv
-bnRyb2xsZXIgZHJpdmVycyBub3Qgc2hhcmVkIHdpdGggb3RoZXIgc3Vic3lzdGVtcy4KPiA+Pj4K
-PiA+Pj4gTXkgaW5pdGlhbCB0aW55ZHJtIHdvcmsgdXNlZCBkcm1fcGFuZWwsIGJ1dCBJIHdhcyBu
-b3QgYWxsb3dlZCB0byB1c2UgaXQKPiA+Pj4gKGF0IGxlYXN0IG5vdCB0aGUgd2F5IEkgaGFkIGRv
-bmUgaXQpLgo+ID4+Cj4gPj4gSG0sIGRvIHdlIGhhdmUgYSBzdW1tYXJ5IG9mIGFsbCB0aGUgZGlz
-Y3Vzc2lvbnMvcmVhc29ucyBmcm9tIGJhY2sKPiA+PiB0aGVuPyBBbGwgSSByZW1lbWJlciBpcyB0
-aGF0IGl0J3MgYWxsIHRoYXQgc2ltcGxlLCB5b3UndmUgZG9uZSBhIGxvdAo+ID4+IG9mIHdvcmsg
-ZXhwbG9yaW5nIGFsbCB0aGUgb3B0aW9ucywgSSdtIGZhaXJseSBzdXJlIEkgc3VnZ2VzdGVkCj4g
-Pj4gZHJtX3BhbmVsIGV2ZW4gYmFjayB0aGVuIGJ1dCBzb21laG93IGl0IGRpZG4ndCByZWFsbHkg
-d29yay4gV291bGQgYmUKPiA+PiBnb29kIGlmIHdlIG1ha2Ugc3VyZSB3ZSBkb24ndCBhdCBsZWFz
-dCByZXBlYXQgaGlzdG9yeSB0b28gbXVjaCA6LSkKPiA+Pgo+ID4gVGhpcyBwcmV0dHkgbXVjaCBe
-Xi4gRG9lcyBhbnlvbmUgaGF2ZSBhIGxpbmsvc3VtbWFyeSBvZiB0aGUgY29uY2VybnM/Cj4gPgo+
-Cj4gSSBmb3VuZCB0aGUgdGhyZWFkIHdoZXJlIHlvdSBFbWlsIHN1Z2dlc3RlZCBJIGxvb2sgYXQg
-ZHJtX3BhbmVsOgo+Cj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJp
-LWRldmVsLzIwMTUtU2VwdGVtYmVyLzA5MTIxNS5odG1sCj4KR3VpbHR5IGFzIGNoYXJnZWQgOy0p
-CgpHdWVzcyBJIHNob3VsZCBhc2sgc29tZSBzaWxseSBxdWVzdGlvbnMgZmlyc3Q6CldhcyB0aW55
-ZHJtIG1vZGVsbGVkIGFzIGEgZHJtIGRyaXZlciBpdHNlbGYsIGJlY2F1c2UgdGhlIGlkZWEgb2YK
-ZHJtX3BhbmVsOjp1cGRhdGUoKSBjYWxsYmFjayBzZWVtZWQgZGlydHk/IFRoYXQncyB0aGUgb25s
-eSBjb25jZXJuCnJhaXNlZCB0aGF0IEkgY2FuIGZpbmQgb24gdGhlIGxpc3QuLi4gSXQncyBlZmZl
-Y3RpdmVseSBpbiB0aGUgbGluayB5b3UKcHJvdmlkZWQuCgpBcyBmYXIgYXMgSSBjYW4gdGVsbCwg
-Zmlyc3QgUkZDIHdhcyBhbHJlYWR5IHVzaW5nIHRoZSB0aW55IGRybSBkcml2ZXIgbW9kZWwuCmh0
-dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC83NzE2MS8KCllldCBhZ2Fpbiwg
-ZG8gd2UgYWN0dWFsbHkgbmVlZCB0aGUgY2FsbGJhY2s/IFRoZSBtaXBpLWRiaSg/KSBzcGkKcGFu
-ZWxzIGluIHBhbmVsLyBnZXQgYXdheSB3L28gb25lLCB3aGlsZSBwdXNoaW5nIGZhciBtb3JlIHBp
-eGVscyBvbnRvCnRoZSBzY3JlZW4gKHRpbnkgaGFzIHJlc29sdXRpb25zIHVwLXRvIDMyMHg0ODAs
-IHBhbmVsIHVwLXRvIDQ4MHg4MDApLgoKClRoYXQgc2FpZCwgSSdtIGEgZmFuIG9mIGxpZnRpbmcg
-dGhlIHRpbnkgKHBhbmVsKSBkcml2ZXJzIGludG8KZHJtLXBhbmVsIGFuZCBleHBvc2luZyB0aGVt
-IHZpYSBkYmktYnVzIHNvdW5kcyByZWFzb25hYmxlIElNSE8uIFNlZW1zCmxpa2UgUGF1bCBoYXMg
-dGhlIERUIGRiaS9zcGkgYnVzIHF1ZXN0aW9ucyBjb3ZlcmVkIGFzIHdlbGwuCgpQYXRjaGVzIGls
-bHVzdHJhdGluZyBoaXMgaWRlYXMgd291bGQgYmUgbW9yZSB0aGFuIHdlbGNvbWUuCgoKLUVtaWwK
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, 21 May 2020 10:42:50 -0700 Ira Weiny <ira.weiny@intel.com> wrote:
+
+> > > 
+> > > Actually it occurs to me that the patch consolidating kmap_prot is odd for
+> > > sparc 32 bit...
+> > > 
+> > > Its a long shot but could you try reverting this patch?
+> > > 
+> > > 4ea7d2419e3f kmap: consolidate kmap_prot definitions
+> > > 
+> > 
+> > That is not easy to revert, unfortunately, due to several follow-up patches.
+> 
+> I have gotten your sparc tests to run and they all pass...
+> 
+> 08:10:34 > ../linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
+> Build reference: v5.7-rc4-17-g852b6f2edc0f
+> 
+> Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
+> Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
+> Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
+> Building sparc32:SS-4:nosmp:initrd ... running ......... passed
+> Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
+> Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
+> Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
+> Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
+> Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
+> Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
+> Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
+> Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
+> Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
+> Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
+> Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+> 
+> Is there another test I need to run?
+
+This all petered out, but as I understand it, this patchset still might
+have issues on various architectures.
+
+Can folks please provide an update on the testing status?
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
