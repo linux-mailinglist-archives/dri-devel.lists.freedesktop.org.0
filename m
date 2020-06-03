@@ -2,29 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05041ECF38
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 14:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802E61ECF93
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 14:15:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9810894EB;
-	Wed,  3 Jun 2020 12:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C911898E4;
+	Wed,  3 Jun 2020 12:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C61E894EB
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 12:02:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id A1BCB2A3958
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v8 04/10] drm: bridge: dw_mipi_dsi: allow bridge daisy
- chaining
-In-Reply-To: <20200602235139.GS6547@pendragon.ideasonboard.com>
-References: <20200427081952.3536741-1-adrian.ratiu@collabora.com>
- <20200427081952.3536741-5-adrian.ratiu@collabora.com>
- <20200602235139.GS6547@pendragon.ideasonboard.com>
-Date: Wed, 03 Jun 2020 15:03:11 +0300
-Message-ID: <875zc88igw.fsf@collabora.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D9F89A62
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 12:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=eeA23Z0ZwE7WVRqHj/9EuPOFSuvzFH+Zt+VLeALiolc=; b=stA+PqhJcGifFqSdy0HW2+sLS5
+ 6NNgerVlevd0FXRhxMd2a+NHr7SjVy+KLsAXvZXPz+i1auu6tXWME+xyOXRRVoowOIIPtcLPRCuRz
+ O/9T80D7/KsBpbvcp/m6CqA321IlzTxe+3OJhU4/0SfUyL9TLJmjba88CSX9rMqCli/qIGzH4Kiz4
+ fU7HxN0+KZJuT3TPlv+ZgnUHJkAXZLCNFAWLY+m9fho1wDOkq6uLw0sEqk1dY4RvMhrOXEok7DA/7
+ JYr5pUmFNHEB8OxyERwbz6LALC/tzmzoph2DSYrC1Y++VjeWghD1KVs7PNGxdFiknVvbzKrOAI6ps
+ VnEfNgmw==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51130
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jgSJ6-0001yO-0w; Wed, 03 Jun 2020 14:15:44 +0200
+Subject: Re: MIPI DSI, DBI, and tinydrm drivers
+To: Emil Velikov <emil.l.velikov@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <4QFUAQ.UPWBIKSUSOG@crapouillou.net>
+ <05f4908a-2df4-2694-e5e6-0faee31cc2a9@tronnes.org>
+ <CAKMK7uGHDrMvchWCmhyy6fbvy2kDWsbPH3nAbCXCmi14uUTA8g@mail.gmail.com>
+ <CACvgo51ot1Z9oALx-74yBijz41Jz8GDxKoa2E32Anv4ad7=89Q@mail.gmail.com>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <beb8b080-2138-58bf-3fa1-93aa4b553574@tronnes.org>
+Date: Wed, 3 Jun 2020 14:15:42 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
+In-Reply-To: <CACvgo51ot1Z9oALx-74yBijz41Jz8GDxKoa2E32Anv4ad7=89Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,121 +56,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- linux-imx@nxp.com, linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Jun 2020, Laurent Pinchart 
-<laurent.pinchart@ideasonboard.com> wrote:
-> Hi Adrian, 
-
-Hi Laurent,
-
-> 
-> Thank you for the patch. 
-> 
-> On Mon, Apr 27, 2020 at 11:19:46AM +0300, Adrian Ratiu wrote: 
->> Up until now the assumption was that the synopsis dsi bridge 
->> will directly connect to an encoder provided by the platform 
->> driver, but the current practice for drivers is to leave the 
->> encoder empty via the simple encoder API and add their logic to 
->> their own drm_bridge.   Thus we need an ablility to connect the 
->> DSI bridge to another bridge provided by the platform driver, 
->> so we extend the dw_mipi_dsi bind() API with a new "previous 
->> bridge" arg instead of just hardcoding NULL.   Cc: Laurent 
->> Pinchart <laurent.pinchart@ideasonboard.com> Signed-off-by: 
->> Adrian Ratiu <adrian.ratiu@collabora.com> --- New in v8.  --- 
->>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   | 6 ++++-- 
->>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +- 
->>  include/drm/bridge/dw_mipi_dsi.h                | 5 ++++- 3 
->>  files changed, 9 insertions(+), 4 deletions(-) 
->>  diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c 
->> b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c index 
->> 16fd87055e7b7..140ff40fa1b62 100644 --- 
->> a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c +++ 
->> b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c @@ -1456,11 
->> +1456,13 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_remove); 
->>  /* 
->>   * Bind/unbind API, used from platforms based on the component 
->>   framework.  */ 
->> -int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct 
->> drm_encoder *encoder) +int dw_mipi_dsi_bind(struct dw_mipi_dsi 
->> *dsi, +		     struct drm_encoder *encoder, + 
->> struct drm_bridge *prev_bridge) 
->>  { int ret;  
->> -	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL, 0); + 
->> ret = drm_bridge_attach(encoder, &dsi->bridge, prev_bridge, 0); 
-> 
-> Please note that chaining of bridges doesn't work well if 
-> multiple bridges in the chain try to create a connector. This is 
-> why a DRM_BRIDGE_ATTACH_NO_CONNECTOR flag has been added, with a 
-> helper to create a connector for a chain of bridges 
-> (drm_bridge_connector_init()).  This won't play well with the 
-> component framework. I would recommend using the 
-> of_drm_find_bridge() instead in the rockchip driver, and 
-> deprecating dw_mipi_dsi_bind(). 
->
-
-Thank you for this insight, indeed the bridge dw_mipi_dsi_bind() 
-is clunky and we're making it even more so by possibly 
-re-inventing drm_bridge_connector_init() with it in a way which 
-can't work (well it does work but can lead to those nasty 
-multiple-encoder corner-cases you mention).
-
-I'll address this before posting v9, to try to move to 
-of_drm_find_bridge() and remove dw_mipi_dsi_bind().
-
->>  	if (ret) {
->>  		DRM_ERROR("Failed to initialize bridge with drm\n");
->>  		return ret;
->> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->> index 3feff0c45b3f7..83ef43be78135 100644
->> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
->> @@ -929,7 +929,7 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
->>  		return ret;
->>  	}
->>  
->> -	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder);
->> +	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder, NULL);
->>  	if (ret) {
->>  		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
->>  		return ret;
->> diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
->> index b0e390b3288e8..699b3531f5b36 100644
->> --- a/include/drm/bridge/dw_mipi_dsi.h
->> +++ b/include/drm/bridge/dw_mipi_dsi.h
->> @@ -14,6 +14,7 @@
->>  #include <drm/drm_modes.h>
->>  
->>  struct drm_display_mode;
->> +struct drm_bridge;
->>  struct drm_encoder;
->>  struct dw_mipi_dsi;
->>  struct mipi_dsi_device;
->> @@ -62,7 +63,9 @@ struct dw_mipi_dsi *dw_mipi_dsi_probe(struct platform_device *pdev,
->>  				      const struct dw_mipi_dsi_plat_data
->>  				      *plat_data);
->>  void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
->> -int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
->> +int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi,
->> +		     struct drm_encoder *encoder,
->> +		     struct drm_bridge *prev_bridge);
->>  void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
->>  void dw_mipi_dsi_set_slave(struct dw_mipi_dsi *dsi, struct dw_mipi_dsi *slave);
->>  
->
-> -- 
-> Regards,
->
-> Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpEZW4gMjguMDUuMjAyMCAxNy4yNywgc2tyZXYgRW1pbCBWZWxpa292Ogo+IE9uIFN1biwgMjQg
+TWF5IDIwMjAgYXQgMTk6MzUsIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6
+Cj4+Cj4+IE9uIFN1biwgTWF5IDI0LCAyMDIwIGF0IDc6NDYgUE0gTm9yYWxmIFRyw7hubmVzIDxu
+b3JhbGZAdHJvbm5lcy5vcmc+IHdyb3RlOgo+Pj4KPj4+Cj4+Pgo+Pj4gRGVuIDI0LjA1LjIwMjAg
+MTguMTMsIHNrcmV2IFBhdWwgQ2VyY3VlaWw6Cj4+Pj4gSGkgbGlzdCwKPj4+Pgo+Pj4+IEknZCBs
+aWtlIHRvIG9wZW4gYSBkaXNjdXNzaW9uIGFib3V0IHRoZSBjdXJyZW50IHN1cHBvcnQgb2YgTUlQ
+SSBEU0kgYW5kCj4+Pj4gREJJIHBhbmVscy4KPj4+Pgo+Pj4+IEJvdGggYXJlIHN0YW5kYXJkcyBm
+cm9tIHRoZSBNSVBJIGFsbGlhbmNlLCBib3RoIGFyZSBjb21tdW5pY2F0aW9uCj4+Pj4gcHJvdG9j
+b2xzIGJldHdlZW4gYSBMQ0QgY29udHJvbGxlciBhbmQgYSBMQ0QgcGFuZWwsIHRoZXkgZ2VuZXJh
+bGx5IGJvdGgKPj4+PiB1c2UgdGhlIHNhbWUgY29tbWFuZHMgKERDUyksIHRoZSBtYWluIGRpZmZl
+cmVuY2UgaXMgdGhhdCBEU0kgaXMgc2VyaWFsCj4+Pj4gYW5kIERCSSBpcyBnZW5lcmFsbHkgcGFy
+YWxsZWwuCj4+Pj4KPj4+PiBJbiB0aGUga2VybmVsIHJpZ2h0IG5vdywgRFNJIGlzIHByZXR0eSB3
+ZWxsIGltcGxlbWVudGVkLiBBbGwgdGhlCj4+Pj4gaW5mcmFzdHVjdHVyZSB0byByZWdpc3RlciBh
+IERTSSBob3N0LCBEU0kgZGV2aWNlIGV0Yy4gaXMgdGhlcmUuIERTSQo+Pj4+IHBhbmVscyBhcmUg
+aW1wbGVtZW50ZWQgYXMgcmVndWxhciBkcm1fcGFuZWwgaW5zdGFuY2VzLCBhbmQgdGhlaXIgZHJp
+dmVycwo+Pj4+IGdvIHRocm91Z2ggdGhlIERTSSBBUEkgdG8gY29tbXVuaWNhdGUgd2l0aCB0aGUg
+cGFuZWwsIHdoaWNoIG1ha2VzIHRoZW0KPj4+PiBpbmRlcGVuZGVudCBvZiB0aGUgRFNJIGhvc3Qg
+ZHJpdmVyLgo+Pj4+Cj4+Pj4gREJJLCBvbiB0aGUgb3RoZXIgaGFuZCwgZG9lcyBub3QgaGF2ZSBh
+bnkgb2YgdGhpcy4gQWxsICg/KSBEQkkgcGFuZWxzCj4+Pj4gYXJlIGltcGxlbWVudGVkIGFzIHRp
+bnlkcm0gZHJpdmVycywgd2hpY2ggbWFrZSB0aGVtIGltcG9zc2libGUgdG8gdXNlCj4+Pj4gd2l0
+aCByZWd1bGFyIERSTSBkcml2ZXJzLiBXcml0aW5nIGEgc3RhbmRhcmQgZHJtX3BhbmVsIGRyaXZl
+ciBpcwo+Pj4+IGltcG9zc2libGUsIGFzIHRoZXJlIGlzIG5vIGNvbmNlcHQgb2YgaG9zdCBhbmQg
+ZGV2aWNlLiBBbGwgdGhlc2UgdGlueWRybQo+Pj4+IGRyaXZlcnMgcmVnaXN0ZXIgdGhlaXIgb3du
+IERCSSBob3N0IGFzIHRoZXkgYWxsIGRvIERCSSBvdmVyIFNQSS4KPj4+Pgo+Pj4+IEkgdGhpbmsg
+dGhpcyBuZWVkcyBhIGdvb2QgY2xlYW51cC4gR2l2ZW4gdGhhdCBEU0kgYW5kIERCSSBhcmUgc28K
+Pj4+PiBzaW1pbGFyLCBpdCB3b3VsZCBwcm9iYWJseSBtYWtlIHNlbnNlIHRvIGZ1c2UgREJJIHN1
+cHBvcnQgaW50byB0aGUKPj4+PiBjdXJyZW50IERTSSBjb2RlLCBhcyB0cnlpbmcgdG8gdXBkYXRl
+IERCSSB3b3VsZCByZXN1bHQgaW4gYSBsb3Qgb2YgY29kZQo+Pj4+IGJlaW5nIGR1cGxpY2F0ZWQu
+IFdpdGggdGhlIHByb3BlciBob3N0L2RldmljZSByZWdpc3RyYXRpb24gbWVjaGFuaXNtCj4+Pj4g
+ZnJvbSBEU0kgY29kZSwgaXQgd291bGQgYmUgcG9zc2libGUgdG8gdHVybiBtb3N0IG9mIHRoZSB0
+aW55ZHJtIGRyaXZlcnMKPj4+PiBpbnRvIHJlZ3VsYXIgZHJtX3BhbmVsIGRyaXZlcnMuCj4+Cj4+
+IERvIHdlIGhhdmUgZHJpdmVycyB3aXRoIGRiaSBzdXBwb3J0IHRoYXQgYWN0dWFsbHkgd2FudCB0
+byByZXVzZSB0aGUKPj4gdGlueWRybSBkcml2ZXJzPyBHb29kIGNsZWFuIGlzIGFsbCBnb29kLCBi
+dXQgd2UgbmVlZCBhIHNvbGlkIHJlYXNvbgo+PiBmb3IgY2hhbmdpbmcgc3R1ZmYuIFBsdXMgd2Ug
+bmVlZCB0byBtYWtlIHN1cmUgd2UncmUgbm90IGp1c3QKPj4gcmVkaXNjb3ZlcmluZyBhbGwgdGhl
+IG9sZCByZWFzb25zIGZvciB3aHkgd2UgZW5kZWQgdXAgd2hlcmUgd2UgYXJlCj4+IHJpZ2h0IG5v
+dyBpbiB0aGUgZmlyc3QgcGxhY2UuCj4+Cj4+Pj4gVGhlIHByb2JsZW0gdGhlbiBpcyB0aGF0IHRo
+ZXNlIHNob3VsZCBzdGlsbCBiZSBhdmFpbGFibGUgYXMgdGlueWRybQo+Pj4+IGRyaXZlcnMuIElm
+IHRoZSBEU0kvREJJIHBhbmVscyBjYW4gc29tZWhvdyByZWdpc3RlciBhIC51cGRhdGVfZmIoKQo+
+Pj4+IGNhbGxiYWNrLCBpdCB3b3VsZCBtYWtlIGl0IHBvc3NpYmxlIHRvIGhhdmUgYSBwYW5lbC1h
+Z25vc3RpYyB0aW55ZHJtCj4+Pj4gZHJpdmVyLCB3aGljaCB3b3VsZCB0aGVuIHByb2JhYmx5IG9w
+ZW4gYSBsb3Qgb2YgZG9vcnMsIGFuZCBoZWxwIGEgbG90IHRvCj4+Pj4gY2xlYW4gdGhlIG1lc3Mu
+Cj4+Pj4KPj4+PiBJIHRoaW5rIEkgY2FuIGhlbHAgd2l0aCB0aGF0LCBJIGp1c3QgbmVlZCBzb21l
+IGd1aWRhbmNlIC0gSSBhbSBmaXNoaW5nCj4+Pj4gaW4gZXhvdGljIHNlYXMgaGVyZS4KPj4+Pgo+
+Pj4+IFRob3VnaHRzLCBjb21tZW50cywgYXJlIHZlcnkgd2VsY29tZS4KPj4+Cj4+PiBJIGRpZCBs
+b29rIGF0IHRoaXMgYSBmZXcgbW9udGhzIGJhY2s6Cj4+Pgo+Pj4gZHJtL21pcGktZGJpOiBTdXBw
+b3J0IHBhbmVsIGRyaXZlcnMKPj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hp
+dmVzL2RyaS1kZXZlbC8yMDE5LUF1Z3VzdC8yMjg5NjYuaHRtbAo+Pj4KPiBDb21pbmcgbGF0ZSB0
+byB0aGUgcGFydHkgLSB0aGUgc2VyaWVzIGxvb2tzIGxpa2UgYSBncmVhdCBzdGVwIGZvcndhcmQu
+Cj4gCj4+PiBUaGUgcHJvYmxlbSB3aXRoIERCSSBpcyB0aGF0IGl0IGhhcyByZXVzZWQgb3RoZXIg
+YnVzc2VzIHdoaWNoIG1lYW5zIHdlCj4+PiBkb24ndCBoYXZlIERCSSBkcml2ZXJzLCB3ZSBoYXZl
+IFNQSSBkcml2ZXJzIGluc3RlYWQgKDY4MDAvODA4MCBpcyBub3QKPj4+IGF2YWlsLiBhcyBidXNz
+ZXMgaW4gTGludXggeWV0KS4gRFNJIGFuZCBEUEkgb24gdGhlIG90aGVyIGhhbmQgaGFzCj4+PiBk
+ZWRpY2F0ZWQgaHcgY29udHJvbGxlciBkcml2ZXJzIG5vdCBzaGFyZWQgd2l0aCBvdGhlciBzdWJz
+eXN0ZW1zLgo+Pj4KPj4+IE15IGluaXRpYWwgdGlueWRybSB3b3JrIHVzZWQgZHJtX3BhbmVsLCBi
+dXQgSSB3YXMgbm90IGFsbG93ZWQgdG8gdXNlIGl0Cj4+PiAoYXQgbGVhc3Qgbm90IHRoZSB3YXkg
+SSBoYWQgZG9uZSBpdCkuCj4+Cj4+IEhtLCBkbyB3ZSBoYXZlIGEgc3VtbWFyeSBvZiBhbGwgdGhl
+IGRpc2N1c3Npb25zL3JlYXNvbnMgZnJvbSBiYWNrCj4+IHRoZW4/IEFsbCBJIHJlbWVtYmVyIGlz
+IHRoYXQgaXQncyBhbGwgdGhhdCBzaW1wbGUsIHlvdSd2ZSBkb25lIGEgbG90Cj4+IG9mIHdvcmsg
+ZXhwbG9yaW5nIGFsbCB0aGUgb3B0aW9ucywgSSdtIGZhaXJseSBzdXJlIEkgc3VnZ2VzdGVkCj4+
+IGRybV9wYW5lbCBldmVuIGJhY2sgdGhlbiBidXQgc29tZWhvdyBpdCBkaWRuJ3QgcmVhbGx5IHdv
+cmsuIFdvdWxkIGJlCj4+IGdvb2QgaWYgd2UgbWFrZSBzdXJlIHdlIGRvbid0IGF0IGxlYXN0IHJl
+cGVhdCBoaXN0b3J5IHRvbyBtdWNoIDotKQo+Pgo+IFRoaXMgcHJldHR5IG11Y2ggXl4uIERvZXMg
+YW55b25lIGhhdmUgYSBsaW5rL3N1bW1hcnkgb2YgdGhlIGNvbmNlcm5zPwo+IAoKSSBmb3VuZCB0
+aGUgdGhyZWFkIHdoZXJlIHlvdSBFbWlsIHN1Z2dlc3RlZCBJIGxvb2sgYXQgZHJtX3BhbmVsOgoK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTUtU2Vw
+dGVtYmVyLzA5MTIxNS5odG1sCgpJIHVzZWQgZHJtX3BhbmVsIGluIHRoZSB0aW55ZHJtIFJGQydz
+LCBidXQgZHJvcHBlZCBpdCBpbiB2ZXJzaW9uIDEKYWNjb3JkaW5nIHRvIHRoZSBjaGFuZ2Vsb2cu
+IEkgdGhpbmsgaXQgd2FzIFRoaWVycnkgdGhhdCBkaWRuJ3QgbGlrZSBob3cKaXQgd2FzIHVzZWQs
+IGJ1dCBJJ20gbm90IGVudGlyZWx5IHN1cmUuIFVuZm9ydHVuYXRlbHkgSSBjYW4ndCBmaW5kIHRo
+ZQplbWFpbHMuIFRoZXJlJ3Mgbm90aGluZyBvbiB0aGUgcHJlY2VkaW5nIFJGQyB2Miwgc28gbG9v
+a3MgbGlrZSBpdCdzIGdvbmUKc29tZWhvdzoKCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9w
+Lm9yZy9wYXRjaC84MDExNy8/c2VyaWVzPTQ1MjAmcmV2PTIKCk5vcmFsZi4KCj4gRnJvbSB1c2Vy
+c3BhY2UgUE9WIC0gaGF2aW5nIHRoZXNlIGFzIHBhbmVsIG1ha2VzIHNlbnNlLgo+IEN1cnJlbnRs
+eSBhcyBuZXcgdGlueSBkcm0gX2RyaXZlcl8gZ2V0cyBhZGRlZCwgdXNlcnNwYWNlIGhhcyB0byBi
+ZQo+IHVwZGF0ZWQgdG8gZGVhbCB3aXRoIGl0IC4uLiBldmVyeSBzbyBvZnRlbi4KPiAKPiBBZGRp
+dGlvbmFsbHkgaGF2aW5nIGJvdGggRFBJIGFuZCBEQkkgY29kZSBmb3IgdGhlIGdpdmVuIHBhbmVs
+Cj4gYWxvbmdzaWRlIG9uZSBhbm90aGVyIG1ha2VzIHRoZSBvdmVyYWxsIHBpY3R1cmUgY2xlYXJl
+ci4KPiAKPiAtRW1pbAo+IEFzaWRlOiBtaXBpX2RiaSBBUEkgc2hvdWxkIGdyb3cgYSBkcm1fIHBy
+ZWZpeC4KPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
