@@ -1,54 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790851ED71A
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 21:51:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E04E01ED71E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 21:55:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F8989CAA;
-	Wed,  3 Jun 2020 19:51:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 521A089B30;
+	Wed,  3 Jun 2020 19:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
- [IPv6:2607:f8b0:4864:20::b44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7658A89C88;
- Wed,  3 Jun 2020 19:50:58 +0000 (UTC)
-Received: by mail-yb1-xb44.google.com with SMTP id d13so1684779ybk.8;
- Wed, 03 Jun 2020 12:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZEyEyEdu5zWmO0R2WmxHhzAVp9IwHZ3PJjcwh7vs5m4=;
- b=CQWsJPQhDizeaRlLOsbnTSO4MdBrCBkDDTAoOJcB9MweMq17vKWSNrySyXQTM8h/R3
- nXA07a4DxKs9SVyNvHK3NQDJWzGqMwuJZyJPhlvefrJHelYTAbzemc/EXLTt+s05uTFJ
- PjgMSfDK3F7CLZjJVo9HZ3mrczwJyMgIsUW3z0Yy1Gzn5ixo69cwN7Ouv8wQyb02QdMz
- u5Izgr0nbBtsspQrXp8WqABdVMOpWbHIJfsgXhJZz1Y0l2ea0mHst7U0tsXjjl7/8nxu
- K2QM1rzO1MWBnjpSFXzChhw5xXoU84I5nT7vP1l5VUwiMFFB/tYb2Rj7/QCs2lnQxlUh
- oong==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZEyEyEdu5zWmO0R2WmxHhzAVp9IwHZ3PJjcwh7vs5m4=;
- b=ojECjPt4o2yeIgn/n1YJNyapS6Ohof6UV8cgwJ4/VwbkL3l06Ti/W6Cwjt5L8JgVlg
- VXi+MgyQKcdwYXGKtE1vWWQMCcgvO6ixqcX5F2jh77X8aY9r3m8emk/RwVlrYj2U07vf
- eERBXUS1TChIbwCCXcfIR3/50hLHFLEowULt63EkkaBeyNJ2y1vsvcRzNGKU8SYEG3I3
- D8er2nP74rty7tBJR3C2CeAHluHkOMbvyYN5Az4h62wiGEbHC/HnysLQOEhIPK38tfwJ
- nG+WYHKRMZelxnh/hHvxGs8tp7inJSRMvKhva4ILsMhdJrMU3DKu0QfS8iK2pHT+BuLa
- Dbbw==
-X-Gm-Message-State: AOAM530VXktqp9y3TjrePkLkgT5Y6sv6y7CN9RT3pzB+DuOuQYqTEo0U
- vbfUAKGCErQ+8EwZbH0DLiikPTl17VVd7rM+NvI=
-X-Google-Smtp-Source: ABdhPJyGWrUhtxot8xwbLc0lAWIcEnJ3LXlTiHs5LNVjXXBQCio5c0BeQbfmM+WJ6+YhUDwAIAybpL++00AoiNi2Tfw=
-X-Received: by 2002:a25:dd87:: with SMTP id u129mr2890055ybg.83.1591213857587; 
- Wed, 03 Jun 2020 12:50:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200603142002.3776672-1-thierry.reding@gmail.com>
- <CACvgo529m+fub=ZddGkjRXEY-7i3rRUs0EssYGf+DJgkcDm3Zg@mail.gmail.com>
-In-Reply-To: <CACvgo529m+fub=ZddGkjRXEY-7i3rRUs0EssYGf+DJgkcDm3Zg@mail.gmail.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Thu, 4 Jun 2020 05:50:46 +1000
-Message-ID: <CACAvsv7ecMSxhCTC6tJU63-aMJpoQn5-hkUpOjNFhJX1GAFQYQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: gr/gk20a: Use firmware version 0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95FA389B30
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 19:55:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C641E80566;
+ Wed,  3 Jun 2020 21:54:59 +0200 (CEST)
+Date: Wed, 3 Jun 2020 21:54:58 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel: simple: Add support for KOE
+ TX26D202VM0BWA panel
+Message-ID: <20200603195458.GA79364@ravnborg.org>
+References: <1590991880-24273-1-git-send-email-victor.liu@nxp.com>
+ <CACvgo50UOby-xV_OYmM55VUXUbwLxK-q6bs2FoS_FuwB9ChYJg@mail.gmail.com>
+ <20200602205653.GC56418@ravnborg.org>
+ <CACvgo52fdrjp_-Q-mB1AYtNuKcQ722mvTOFsjWaXc139rjD58Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACvgo52fdrjp_-Q-mB1AYtNuKcQ722mvTOFsjWaXc139rjD58Q@mail.gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=UwS8wxYxj5kew1OWHm4A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,39 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, ML nouveau <nouveau@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
+Cc: Liu Ying <victor.liu@nxp.com>, devicetree <devicetree@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
  ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Jun 2020 at 01:43, Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> On Wed, 3 Jun 2020 at 15:20, Thierry Reding <thierry.reding@gmail.com> wrote:
-> >
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > Tegra firmware doesn't actually use any version numbers and passing -1
-> > causes the existing firmware binaries not to be found. Use version 0 to
-> > find the correct files.
-> >
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
->
-> Fixes: ef16dc278ec2 ("drm/nouveau/gr/gf100-: select implementation
-> based on available FW")
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-Oops, my bad.  Merged.
+Hi Emil.
 
-Ben.
+> >
+> > I expect to have some hours for linux work friday or saturday, but no
+> > promises...
+> >
+> Don't worry - once the DT maintainers ack 1/2, I'll merge the series.
+If it is in alphabetical order then we are good to go.
+For such simple patches we do not need DT maintainer ack.
+You can add my: r-b then you are fully covered.
 
->
+	Sam
+> 
 > -Emil
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
