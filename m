@@ -2,38 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAF41ECEDF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 13:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05041ECF38
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 14:02:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7711F89938;
-	Wed,  3 Jun 2020 11:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9810894EB;
+	Wed,  3 Jun 2020 12:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C313589938;
- Wed,  3 Jun 2020 11:48:08 +0000 (UTC)
-IronPort-SDR: xNKwsja4vozUUtkmwms539Ykofmbu6aAfbgntSU0u1mp4lSU4UMVdCM4BKQuMVvMga2Eb9jax0
- 4ECw+9Mvs7jA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 04:48:08 -0700
-IronPort-SDR: xXYWtr/kEXDZu+jrLaPS+U4SfPyMrwiW2AyCAfH434gXKsVZc5Pcqvl1FGLYNTu8aFWuS3ueXz
- /+5EBJfP76eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; d="scan'208";a="416537955"
-Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
- by orsmga004.jf.intel.com with ESMTP; 03 Jun 2020 04:48:04 -0700
-From: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	linux-pci@vger.kernel.org
-Subject: [PATCH v2 07/15] drm/amdgpu: Use PCI_IRQ_MSI_TYPES where appropriate
-Date: Wed,  3 Jun 2020 13:47:56 +0200
-Message-Id: <20200603114758.13295-1-piotr.stankiewicz@intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
-References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C61E894EB
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 12:02:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: aratiu) with ESMTPSA id A1BCB2A3958
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v8 04/10] drm: bridge: dw_mipi_dsi: allow bridge daisy
+ chaining
+In-Reply-To: <20200602235139.GS6547@pendragon.ideasonboard.com>
+References: <20200427081952.3536741-1-adrian.ratiu@collabora.com>
+ <20200427081952.3536741-5-adrian.ratiu@collabora.com>
+ <20200602235139.GS6547@pendragon.ideasonboard.com>
+Date: Wed, 03 Jun 2020 15:03:11 +0300
+Message-ID: <875zc88igw.fsf@collabora.com>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,53 +37,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Emily Deng <Emily.Deng@amd.com>,
- Piotr Stankiewicz <piotr.stankiewicz@intel.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- shaoyunl <shaoyun.liu@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ linux-imx@nxp.com, linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Seeing as there is shorthand available to use when asking for any type
-of interrupt, or any type of message signalled interrupt, leverage it.
+On Wed, 03 Jun 2020, Laurent Pinchart 
+<laurent.pinchart@ideasonboard.com> wrote:
+> Hi Adrian, 
 
-Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Hi Laurent,
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 5ed4227f304b..2588dd1015db 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -249,15 +249,10 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
- 
- 	if (amdgpu_msi_ok(adev)) {
- 		int nvec = pci_msix_vec_count(adev->pdev);
--		unsigned int flags;
- 
--		if (nvec <= 0) {
--			flags = PCI_IRQ_MSI;
--		} else {
--			flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
--		}
- 		/* we only need one vector */
--		nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
-+		nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1,
-+					     PCI_IRQ_MSI_TYPES);
- 		if (nvec > 0) {
- 			adev->irq.msi_enabled = true;
- 			dev_dbg(adev->dev, "amdgpu: using MSI/MSI-X.\n");
--- 
-2.17.2
+> 
+> Thank you for the patch. 
+> 
+> On Mon, Apr 27, 2020 at 11:19:46AM +0300, Adrian Ratiu wrote: 
+>> Up until now the assumption was that the synopsis dsi bridge 
+>> will directly connect to an encoder provided by the platform 
+>> driver, but the current practice for drivers is to leave the 
+>> encoder empty via the simple encoder API and add their logic to 
+>> their own drm_bridge.   Thus we need an ablility to connect the 
+>> DSI bridge to another bridge provided by the platform driver, 
+>> so we extend the dw_mipi_dsi bind() API with a new "previous 
+>> bridge" arg instead of just hardcoding NULL.   Cc: Laurent 
+>> Pinchart <laurent.pinchart@ideasonboard.com> Signed-off-by: 
+>> Adrian Ratiu <adrian.ratiu@collabora.com> --- New in v8.  --- 
+>>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   | 6 ++++-- 
+>>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +- 
+>>  include/drm/bridge/dw_mipi_dsi.h                | 5 ++++- 3 
+>>  files changed, 9 insertions(+), 4 deletions(-) 
+>>  diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c 
+>> b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c index 
+>> 16fd87055e7b7..140ff40fa1b62 100644 --- 
+>> a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c +++ 
+>> b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c @@ -1456,11 
+>> +1456,13 @@ EXPORT_SYMBOL_GPL(dw_mipi_dsi_remove); 
+>>  /* 
+>>   * Bind/unbind API, used from platforms based on the component 
+>>   framework.  */ 
+>> -int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct 
+>> drm_encoder *encoder) +int dw_mipi_dsi_bind(struct dw_mipi_dsi 
+>> *dsi, +		     struct drm_encoder *encoder, + 
+>> struct drm_bridge *prev_bridge) 
+>>  { int ret;  
+>> -	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL, 0); + 
+>> ret = drm_bridge_attach(encoder, &dsi->bridge, prev_bridge, 0); 
+> 
+> Please note that chaining of bridges doesn't work well if 
+> multiple bridges in the chain try to create a connector. This is 
+> why a DRM_BRIDGE_ATTACH_NO_CONNECTOR flag has been added, with a 
+> helper to create a connector for a chain of bridges 
+> (drm_bridge_connector_init()).  This won't play well with the 
+> component framework. I would recommend using the 
+> of_drm_find_bridge() instead in the rockchip driver, and 
+> deprecating dw_mipi_dsi_bind(). 
+>
 
+Thank you for this insight, indeed the bridge dw_mipi_dsi_bind() 
+is clunky and we're making it even more so by possibly 
+re-inventing drm_bridge_connector_init() with it in a way which 
+can't work (well it does work but can lead to those nasty 
+multiple-encoder corner-cases you mention).
+
+I'll address this before posting v9, to try to move to 
+of_drm_find_bridge() and remove dw_mipi_dsi_bind().
+
+>>  	if (ret) {
+>>  		DRM_ERROR("Failed to initialize bridge with drm\n");
+>>  		return ret;
+>> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> index 3feff0c45b3f7..83ef43be78135 100644
+>> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+>> @@ -929,7 +929,7 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
+>>  		return ret;
+>>  	}
+>>  
+>> -	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder);
+>> +	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder, NULL);
+>>  	if (ret) {
+>>  		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
+>>  		return ret;
+>> diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
+>> index b0e390b3288e8..699b3531f5b36 100644
+>> --- a/include/drm/bridge/dw_mipi_dsi.h
+>> +++ b/include/drm/bridge/dw_mipi_dsi.h
+>> @@ -14,6 +14,7 @@
+>>  #include <drm/drm_modes.h>
+>>  
+>>  struct drm_display_mode;
+>> +struct drm_bridge;
+>>  struct drm_encoder;
+>>  struct dw_mipi_dsi;
+>>  struct mipi_dsi_device;
+>> @@ -62,7 +63,9 @@ struct dw_mipi_dsi *dw_mipi_dsi_probe(struct platform_device *pdev,
+>>  				      const struct dw_mipi_dsi_plat_data
+>>  				      *plat_data);
+>>  void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi);
+>> -int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder);
+>> +int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi,
+>> +		     struct drm_encoder *encoder,
+>> +		     struct drm_bridge *prev_bridge);
+>>  void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi);
+>>  void dw_mipi_dsi_set_slave(struct dw_mipi_dsi *dsi, struct dw_mipi_dsi *slave);
+>>  
+>
+> -- 
+> Regards,
+>
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
