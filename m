@@ -1,98 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD001ECC2A
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 11:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2781E1ECC41
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 11:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0711289D64;
-	Wed,  3 Jun 2020 09:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D761689D81;
+	Wed,  3 Jun 2020 09:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDCEE89D64;
- Wed,  3 Jun 2020 09:09:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I301Oqc7LBS9ef3hKac2V6kWqExkUlIsbw46RBPa2255uns4f4MpcXgxl00Nq59VWmMl1dWsQE2Pjh+mrPfpcBWhvtZu2e7OSQnby3b3QYQVauE9+3WoLPsFyGW/vouIaCfgI22hE2mCsm1Yc/qtMwRN8F7BqM0BihAlsVKn02lpSq3fSQG5mmTNj4lchPs79Jla9VvTDjjFW6DJ7BARcipNfzu9IgWfTWRhizmWorXmCJd54mXD8Urz8wn5BdbfnM4fsncakim4/fKgy/v6D8rjdd8pCnmoYU8e5fM6td495mhbVnD+O5Neo4IbL7RZPBQbn/aPtMA3yvWsIfC0VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aGCrI0JpAuNDZn2m90k/DSiwTndz0wLCtMI59VT5Xlc=;
- b=VfPHljPXPOrJ7jhpC3ffH8EEhD7GUaPQVBXT64rINSPoQCzE3eN0LDNc926xIbBuLG0Tdb5fPjzcEOhmo5WavilawkabUWHXAApVG0PLeRIjBd61OZrn2URkRAG1RQtSY6Sdl8vFFu5nQz6sMITdl4J6dml27gaxfcxag2XE18wISezMEpfAVpE3a6r9C542K9CMW/xPKXzlBFiH0sWnt38PD6B/3smocwEoCcu+4MxBqGsN4CUzLPvXvwB8d9z61mP0YbHxQlGPAJrCQ06Oz8uKzZdDM6Sg88mG5V/5tIsMaZCakLfaiXulywGKUBhyoEanGdrkm+bBuGXIOBhkHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aGCrI0JpAuNDZn2m90k/DSiwTndz0wLCtMI59VT5Xlc=;
- b=ATJy10snlGe2gybOsAFSI9BHFDdEuRfbPwQnHZ6gGWxt1MaZwmSnD24W2ZycHLxvQlu8W7ygAEE1haJBhPHvY3LqThZHmpSnD0c7v9myCX+17WaKAr9S/vmIwfFQ9bAqzIKuREJDj/XFb6vfpGCzMhFvonRfAbtU5GHTl/d3Uvk=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3872.namprd12.prod.outlook.com (2603:10b6:208:168::17)
- by MN2PR12MB4096.namprd12.prod.outlook.com (2603:10b6:208:1dc::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Wed, 3 Jun
- 2020 09:09:49 +0000
-Received: from MN2PR12MB3872.namprd12.prod.outlook.com
- ([fe80::8843:c094:fb2a:d60a]) by MN2PR12MB3872.namprd12.prod.outlook.com
- ([fe80::8843:c094:fb2a:d60a%7]) with mapi id 15.20.3045.022; Wed, 3 Jun 2020
- 09:09:49 +0000
-Subject: Re: [RFC PATCH 1/1] drm/mm: add ig_frag selftest
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-References: <20200529163351.5228-1-nirmoy.das@amd.com>
- <cdb604b7-0817-c786-45f6-3c2f9a395c70@amd.com>
- <159076753114.8851.15594151673471255964@build.alporthouse.com>
- <80a791cd-1319-795d-bd8a-1bf7dd6b9cc3@amd.com>
- <9cbdb0e2-5a44-5f87-df83-74c6b0c72e27@amd.com>
- <6b2d0137-8b7c-2dd0-b49f-1bf6bb300c06@amd.com>
- <dd8eb88b-3d48-0ece-7290-2a7fc8e1e3af@amd.com>
-From: Nirmoy <nirmodas@amd.com>
-Message-ID: <df085c97-c9b6-2223-b045-ca671b4b808b@amd.com>
-Date: Wed, 3 Jun 2020 11:10:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <dd8eb88b-3d48-0ece-7290-2a7fc8e1e3af@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR06CA0122.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::27) To MN2PR12MB3872.namprd12.prod.outlook.com
- (2603:10b6:208:168::17)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EF3389D81
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 09:12:36 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id c17so1739103lji.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 02:12:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=PE/wCKYIWQyrgx7YeXnEsfJA1it7DGO/e5XctPez/4U=;
+ b=qK3teosEXMbuc6v0GuGal90Hhj0S8NPYOCWTrCLYIcAv+Ma5WFNqzbB3C/uwDAehGD
+ v8XUJ4I8rUe0oxLAQwZkYrhpkUE+LCbwvMQ6hajA7tIVj1+oNeENHnJ8hyzG9rWwv/8j
+ lGD5m7otyfJOLuyR/FIUeIik1gE+rpveJPm56HnMexVP3H0uNmuSwgxSB6dduAtoGnmv
+ Vftur0jP36g/MCHcoRXVjJMzN8aA4Eb5T7oASU0rawhzFYFn1XzvjFLx3KlWdd/qwVNd
+ VKLvTHMyKDF0vJdG6gqtTu3z7m5yyrel1Ch3vRNk+7bLeTGBSphk144m4zY1sLVqvqA9
+ 8Twg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=PE/wCKYIWQyrgx7YeXnEsfJA1it7DGO/e5XctPez/4U=;
+ b=EjsGr5YXj0nE0ShDmefLZYA9jLsNhuKC9I6dJQXPgkQ+NtKOe2rP/qYIONtw0/OqfN
+ i7wVsYngmlNx0aa4O14shzKj/QTJQ7hV51lG5J8Zx4OYIc5tLmeOPYrm3uBSSlgVQ6vA
+ n/5G/n3myBxURbbnpEbJJWBgNGyRkYkrCEcUczXPUR1z7ApMRpR+r5pTUmpX0WCqsAe5
+ 9bj5Js1YYEyCFnh6UmqSTVlLil7fHV/SDEts0d7bwrKGTbXoKHj9AtAbgrLhqdszz7EE
+ mo6/Dva1cw61zFanIC3s8mTYQei8lkqLY1n8d0j3muy0kCIfQlnzAQ8e7s1spqW6W3N/
+ 8iMA==
+X-Gm-Message-State: AOAM532rRLeFRsBbxVHEYXazi5oBWjmDfnXVV6WVAID4RcWbI9aUCfPM
+ jS95hF4YkA61lzRmHwIP9ZE=
+X-Google-Smtp-Source: ABdhPJz5RVmHfseeumvfCZrwQ+GOneNbaXPV2d2EVHF4TNZYqntALhSMjdeSWoW8EWYDu+33thG3qQ==
+X-Received: by 2002:a05:651c:48f:: with SMTP id
+ s15mr1678901ljc.465.1591175554118; 
+ Wed, 03 Jun 2020 02:12:34 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id s9sm312964ljc.43.2020.06.03.02.12.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Jun 2020 02:12:33 -0700 (PDT)
+Date: Wed, 3 Jun 2020 12:12:23 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Yogish Kulkarni <yogishkulkarni@gmail.com>
+Subject: Re: Dynamically change enumeration list of DRM enumeration property
+Message-ID: <20200603121223.70fe0416@eldfell.localdomain>
+In-Reply-To: <CAL3Fm-K215Ws7y2sA6zFvMUxQCN0G58kWd5uvvT=Bek+LfgLZg@mail.gmail.com>
+References: <CAL3Fm-JJbjCby5_HojTf9dWKurw+CECN7LDqamtf53c9L-0jtw@mail.gmail.com>
+ <20200526103921.0817ee0b@eldfell.localdomain>
+ <CAKMK7uHG1P9hwT1CBqWUfL6sBwZwyS7q0scXSUuXNiJMmRz-+g@mail.gmail.com>
+ <CAL3Fm-L-iwGu60Zf15aYf9Xm9201sT2vU888Fv46Tv7x37Aq6Q@mail.gmail.com>
+ <20200528082445.GR206103@phenom.ffwll.local>
+ <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
+ <20200528154804.02fb8901@eldfell.localdomain>
+ <CAL3Fm-Jspwx7=famPO5nOzPwL2wrBnMtZj0FTDjypvwdWZXPiA@mail.gmail.com>
+ <20200601114942.5ae2d3ad@eldfell.localdomain>
+ <CAL3Fm-K215Ws7y2sA6zFvMUxQCN0G58kWd5uvvT=Bek+LfgLZg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2003:c5:8f23:9100:e6ba:e215:4eda:84d0)
- by AM0PR06CA0122.eurprd06.prod.outlook.com (2603:10a6:208:ab::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend
- Transport; Wed, 3 Jun 2020 09:09:47 +0000
-X-Originating-IP: [2003:c5:8f23:9100:e6ba:e215:4eda:84d0]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ed1e94e2-c9db-4670-bcad-08d8079dde08
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4096:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4096F7D88FB83D4AA65481F08B880@MN2PR12MB4096.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
-X-Forefront-PRVS: 04238CD941
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kBqpOKSdGuhTBP/yMB4KkPx0o/Nd7DISUJ30lkf+FlCHXkJ573aCm9qhtVw7Y6D2XO4Mkz8FrV+Z1OF0LNDeA6TjLiwkZpdCrpBbh99chNhNEg6I2HGnH/E0L5fZ2Kzt5MtPIeUvDIX/vQ2MD76Yv8iAmTuXxJjAoMUpMISWi4C25jWgpmyWLUcoypUbJ0e5IwBRNYkTWnqgKrhA6DR4KRw1vpqBbPMaFmcKb0S2QtA9mgSlLyiXft9Bey1EhIbF+4yYXNx1JLOxzqDAt+5jAa1XXZw/rN/Z62SNEwDXd1qF3gHhQXG79zUlF/C1sYWbHlaczNFakcGMPot6y+lqkwrQVTSxyjCGo4CQfZouhfq8PWLjkVp9pAWg/iudBP8ip9HvOnT0JjVC+VHCCSl6AN5DL2M6+lXSV4UnzrO+lwk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3872.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(110136005)(5660300002)(316002)(6512007)(6666004)(31696002)(4326008)(478600001)(45080400002)(8676002)(36756003)(966005)(2616005)(53546011)(52116002)(66946007)(66476007)(66556008)(2906002)(8936002)(6486002)(16526019)(186003)(31686004)(83380400001)(6506007)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: as4fIMYNcKyAN7+cKbMG9NaX/jLQi4NIUzOdvXBOy08McJ7K6XGE1WfxuzSt9X8e82/r00rnqWBWHwIXNK5yQSEHyFo2rAfqIFgSJXtq2kT6b9GRFvcZ2N56R9/mF3LvFZu5Ef+flx1/b/ROOYXZ0xgJvyhgw7HTWq6HK9zOhhQQlA7dxfG8WDngOOI7yyuRGxQMLNKz/AcMRcqofvGHWcQhxSF9UeYB06wZ6sqgyhKnEYIwLmTZmspSfQ1ijmPxv03tVaDs4RV9vBcyEl+eMI6PsE3X3w19eMOIElm3XSS2mJojOKNNwj7gWky+yEgS41hBi/BQoPjkRtDVtxWtFZtRLcvwh/n5IXlO/RX/L1N2ZARZxhg/rgUGNSi6uVCbHQhlPAGzL/W8MwQioBqFwx8HTCeHC6JXCBpP771iBKVz04aTEI70ktg5j15MbiE+uXIpB40zoSBMzLVRthVEQA+QGj+wIRZOHbIKjJAQqMS4DRn3Kcb3s7AFFGQ7uUbViJvMmi0zgxfDk+t5+Cbvc++qOmzQ2+XJhZoEQhBjpAs=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed1e94e2-c9db-4670-bcad-08d8079dde08
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2020 09:09:49.1038 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qq+JCFEDzcxwU2Ah6L121nFDIyLMMuVaMlMJVaztGmdNXZdq6DKHAEC2CO1swAP+YUb1RlMTl5dB2OlXyYRSCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,186 +75,569 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0015468629=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDYvMi8yMCA0OjI1IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFtIDAyLjA2LjIw
-IHVtIDE2OjEzIHNjaHJpZWIgTmlybW95Ogo+PiBIaSBDaHJpc3RpYW4sCj4+Cj4+IE9uIDYvMi8y
-MCAyOjQ3IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Pj4gTmlybW95IHBsZWFzZSBrZWVw
-IGluIG1pbmQgdGhhdCB5b3VyIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gZG9lc24ndCAKPj4+IGZ1
-bGx5IHNvbHZlIHRoZSBpc3N1ZSB0aGUgdGVzdCBjYXNlIGlzIGV4ZXJjaXNpbmcuCj4+Pgo+Pj4g
-SW4gb3RoZXIgd29yZHMgd2hhdCB5b3UgaGF2ZSBpbXBsZW1lbnQgaXMgZmFzdCBza2lwcGluZyBv
-ZiAKPj4+IGZyYWdtZW50ZWQgYWRkcmVzcyBzcGFjZSBmb3IgYm90dG9tLXVwIGFuZCB0b3AtZG93
-bi4KPj4+Cj4+PiBCdXQgd2hhdCB0aGlzIHRlc3QgaGVyZSBleGVyY2lzZXMgaXMgdGhlIGZhc3Qg
-c2tpcHBpbmcgb2YgYWxpZ25lZCAKPj4+IGFsbG9jYXRpb25zLiBZb3Ugc2hvdWxkIHByb2JhYmx5
-IGFkanVzdCB0aGUgdGVzdCBjYXNlIGEgYml0Lgo+Pgo+Pgo+PiBBbGxvY2F0aW9ucyB3aXRoIHNp
-emU9NGsgYW5kIGFpZ24gPSA4ayBpcyBrbm93biB0byBpbnRyb2R1Y2UgCj4+IGZyYWdtZW50YXRp
-b24sCj4KPiBZZXMsIGJ1dCB0aGlzIGZyYWdtZW50YXRpb24gY2FuJ3QgYmUgYXZvaWRlZCB3aXRo
-IHdoYXQgd2UgYWxyZWFkeSAKPiBpbXBsZW1lbnRlZC4gRm9yIHRoaXMgd2Ugd291bGQgbmVlZCB0
-aGUgZXh0ZW5zaW9uIHdpdGggdGhlIGFsaWdubWVudCBJIAo+IGFscmVhZHkgZXhwbGFpbmVkLgo+
-Cj4+IGRvIHlvdSBtZWFuIEkgc2hvdWxkIG9ubHkgdGVzdCBib3R0b20tdXAgYW5kIHRvcC1kb3du
-Cj4+Cj4+IGZvciBub3cgPwo+Cj4gWWVzIGFuZCBuby4KPgo+IFdoYXQgd2UgbmVlZCB0byB0ZXN0
-IGlzIHRoZSBmb2xsb3dpbmc6Cj4KPiAxLiBNYWtlIHRvbnMgb2YgYWxsb2NhdGlvbnMgd2l0aCBz
-aXplPTRrIGFuZCBhbGlnbj0wLgo+Cj4gMi4gRnJlZSBldmVyeSBvdGhlciBvZiB0aG9zZSBhbGxv
-Y2F0aW9ucy4KPgo+IDMuIE1ha2UgdG9ucyBvZiBhbGxvY2F0aW9ucyB3aXRoIHNpemU9OGsgYW5k
-IGFsaWduPTAuCj4KPiBQcmV2aW91c2x5IGJvdHRvbS11cCBhbmQgdG9wLWRvd24gd291bGQgaGF2
-ZSBjaGVja2VkIGFsbCB0aGUgaG9sZXMgCj4gY3JlYXRlZCBpbiBzdGVwICMyLgo+Cj4gV2l0aCB5
-b3VyIGNoYW5nZSB0aGV5IGNhbiBpbW1lZGlhdGVseSBzZWUgdGhhdCB0aGlzIGRvZXNuJ3QgbWFr
-ZSBzZW5zZSAKPiBhbmQgc2hvcnRjdXQgdG8gdGhlIGxlZnRtb3N0L3JpZ2h0bW9zdCBsZWFmIG5v
-ZGUgaW4gdGhlIHRyZWUgd2l0aCB0aGUgCj4gbGFyZ2UgZnJlZSBibG9jay4KPgo+IFRoYXQgd2Ug
-Y2FuIGhhbmRsZSB0aGUgYWxpZ25tZW50IGFzIHdlbGwgaXMgdGhlIG5leHQgc3RlcCBvZiB0aGF0
-LgoKClRoYW5rcyBDaHJpc3RpYW4gZm9yIHRoZSBkZXRhaWxlZCBleHBsYW5hdGlvbi4gSSBoYXZl
-IG1vZGlmaWVkIHRoaXMgYXMgCnlvdSBzdWdnZXN0ZWQsIHdpbGwgc2VuZCBpbiBmZXcgbWludXRl
-cy4KCgpSZWdhcmRzLAoKTmlybW95Cgo+Cj4gUmVnYXJkcywKPiBDaHJpc3RpYW4uCj4KPj4KPj4K
-Pj4gUmVnYXJkcywKPj4KPj4gTmlybW95Cj4+Cj4+Cj4+Pgo+Pj4KPj4+IFJlZ2FyZHMsCj4+PiBD
-aHJpc3RpYW4uCj4+Pgo+Pj4gQW0gMjkuMDUuMjAgdW0gMjM6MDEgc2NocmllYiBOaXJtb3k6Cj4+
-Pj4KPj4+PiBPbiA1LzI5LzIwIDU6NTIgUE0sIENocmlzIFdpbHNvbiB3cm90ZToKPj4+Pj4gUXVv
-dGluZyBOaXJtb3kgKDIwMjAtMDUtMjkgMTY6NDA6NTMpCj4+Pj4+PiBUaGlzIHdvcmtzIGNvcnJl
-Y3RseSBtb3N0IG9mIHRoZSB0aW1lcyBidXQgc29tZXRpbWVzCj4+Pj4KPj4+Pgo+Pj4+IEkgaGF2
-ZSB0byB0YWtlIG15IHdvcmQgYmFjay4gSW4gYW5vdGhlciBtYWNoaW5lLMKgIDIwayBpbnNlcnRp
-b25zIGluCj4+Pj4KPj4+PiBiZXN0IG1vZGUgdGFrZXMgNi05IHRpbWVzIG1vcmUgdGhhbiAxMGsg
-aW5zZXJ0aW9ucywgYWxsIG1vc3QgYWxsIAo+Pj4+IHRoZSB0aW1lLgo+Pj4+Cj4+Pj4gZXZpY3Qs
-IGJvdHRvbS11cCBhbmQgdG9wLWRvd24gbW9kZXMgcmVtYWlucyBpbiAyLTUgdGltZXMgcmFuZ2Uu
-Cj4+Pj4KPj4+Pgo+Pj4+IElmIEkgcmVkdWNlIHRoZSBpbnNlcnRpb25zIHRvIDFrIGFuZCAyayB0
-aGVuIHNjYWxpbmcgZmFjdG9yIGZvciAKPj4+PiBiZXN0IG1vZGUgc3RheXPCoCBiZWxvdyA0IG1v
-c3Qgb2YgdGhlIHRpbWUuCj4+Pj4KPj4+PiBldmljdCwgYm90dG9tLXVwIGFuZCB0b3AtZG93biBt
-b2RlcyByZW1haW5zIGluIDItMyB0aW1lcyByYW5nZS4KPj4+Pgo+Pj4+Cj4+Pj4gSSB3b25kZXIg
-aWYgaXQgbWFrZXMgc2Vuc2UgdG8gdGVzdCB3aXRoIG9ubHkgMWsgYW5kIDJrIGluc2VydGlvbnMg
-Cj4+Pj4gYW5kIHRvbGVyYXRlIG1vcmUgdGhhbiBlcnJvciBpZiB0aGUgbW9kZSA9PSBiZXN0Lgo+
-Pj4+Cj4+Pj4gUmVnYXJkcywKPj4+Pgo+Pj4+IE5pcm1veQo+Pj4+Cj4+Pj4+Pgo+Pj4+Pj4gMjBr
-IGluc2VydGlvbnMgY2FuIHRha2UgbW9yZSB0aGFuIDggdGltZXMgb2YgMTBrIGluc2VydGlvbiB0
-aW1lLgo+Pj4+PiBUaGUgcHJlc3N1cmUgaXMgb24gdG8gaW1wcm92ZSB0aGVuIDopCj4+Pj4+Cj4+
-Pj4+PiBSZWdhcmRzLAo+Pj4+Pj4KPj4+Pj4+IE5pcm1veQo+Pj4+Pj4KPj4+Pj4+IE9uIDUvMjkv
-MjAgNjozMyBQTSwgTmlybW95IERhcyB3cm90ZToKPj4+Pj4+PiBUaGlzIHBhdGNoIGludHJvZHVj
-ZXMgZnJhZ21lbnRhdGlvbiBpbiB0aGUgYWRkcmVzcyByYW5nZQo+Pj4+Pj4+IGFuZCBtZWFzdXJl
-cyB0aW1lIHRha2VuIGJ5IDEwayBhbmQgMjBrIGluc2VydGlvbnMuIGlnX2ZyYWcoKQo+Pj4+Pj4+
-IHdpbGwgZmFpbCBpZiB0aW1lIHRha2VuIGJ5IDIwayBpbnNlcnRpb25zIHRha2VzIG1vcmUgdGhh
-biA0IHRpbWVzCj4+Pj4+Pj4gb2YgMTBrIGluc2VydGlvbnMgYXMgd2Uga25vdyB0aGF0IGluc2Vy
-dGlvbnMgc2NhbGUgcXVhZHJhdGljYWxseS4KPj4+Pj4+PiBBbHNvIHRvbGVyYXRlIDEwJSBlcnJv
-ciBiZWNhdXNlIG9mIGtlcm5lbCBzY2hlZHVsZXIncyBqaXR0ZXJzLgo+Pj4+Pj4+Cj4+Pj4+Pj4g
-T3V0cHV0Ogo+Pj4+Pj4+IDxzbmlwPgo+Pj4+Pj4+IFsgODA5Mi42NTM1MThdIGRybV9tbTogVGVz
-dGluZyBEUk0gcmFuZ2UgbWFuZ2VyIChzdHJ1Y3QgZHJtX21tKSwgCj4+Pj4+Pj4gd2l0aCByYW5k
-b21fc2VlZD0weDliZmI0MTE3IG1heF9pdGVyYXRpb25zPTgxOTIgbWF4X3ByaW1lPTEyOAo+Pj4+
-Pj4+IFsgODA5Mi42NTM1MjBdIGRybV9tbTogaWd0X3Nhbml0eWNoZWNrIC0gb2shCj4+Pj4+Pj4g
-WyA4MDkyLjY1MzUyNV0gaWd0X2RlYnVnIDB4MDAwMDAwMDAwMDAwMDAwMC0weDAwMDAwMDAwMDAw
-MDAyMDA6IAo+Pj4+Pj4+IDUxMjogZnJlZQo+Pj4+Pj4+IFsgODA5Mi42NTM1MjZdIGlndF9kZWJ1
-ZyAweDAwMDAwMDAwMDAwMDAyMDAtMHgwMDAwMDAwMDAwMDAwNjAwOiAKPj4+Pj4+PiAxMDI0OiB1
-c2VkCj4+Pj4+Pj4gWyA4MDkyLjY1MzUyN10gaWd0X2RlYnVnIDB4MDAwMDAwMDAwMDAwMDYwMC0w
-eDAwMDAwMDAwMDAwMDBhMDA6IAo+Pj4+Pj4+IDEwMjQ6IGZyZWUKPj4+Pj4+PiBbIDgwOTIuNjUz
-NTI4XSBpZ3RfZGVidWcgMHgwMDAwMDAwMDAwMDAwYTAwLTB4MDAwMDAwMDAwMDAwMGUwMDogCj4+
-Pj4+Pj4gMTAyNDogdXNlZAo+Pj4+Pj4+IFsgODA5Mi42NTM1MjldIGlndF9kZWJ1ZyAweDAwMDAw
-MDAwMDAwMDBlMDAtMHgwMDAwMDAwMDAwMDAxMDAwOiAKPj4+Pj4+PiA1MTI6IGZyZWUKPj4+Pj4+
-PiBbIDgwOTIuNjUzNTI5XSBpZ3RfZGVidWcgdG90YWw6IDQwOTYsIHVzZWQgMjA0OCBmcmVlIDIw
-NDgKPj4+Pj4+PiBbIDgxMTIuNTY5ODEzXSBkcm1fbW06IGJlc3QgZnJhZ21lbnRlZCBpbnNlcnQg
-b2YgMTAwMDAgYW5kIDIwMDAwIAo+Pj4+Pj4+IGluc2VydGlvbnMgdG9vayA1MDQgYW5kIDE5OTYg
-bXNlY3MKPj4+Pj4+PiBbIDgxMTIuNzIzMjU0XSBkcm1fbW06IGJvdHRvbS11cCBmcmFnbWVudGVk
-IGluc2VydCBvZiAxMDAwMCBhbmQgCj4+Pj4+Pj4gMjAwMDAgaW5zZXJ0aW9ucyB0b29rIDQ0IGFu
-ZCAxMDggbXNlY3MKPj4+Pj4+PiBbIDgxMTIuODEzMjEyXSBkcm1fbW06IHRvcC1kb3duIGZyYWdt
-ZW50ZWQgaW5zZXJ0IG9mIDEwMDAwIGFuZCAKPj4+Pj4+PiAyMDAwMCBpbnNlcnRpb25zIHRvb2sg
-NDAgYW5kIDQ0IG1zZWNzCj4+Pj4+Pj4gWyA4MTEyLjg0NzczM10gZHJtX21tOiBldmljdCBmcmFn
-bWVudGVkIGluc2VydCBvZiAxMDAwMCBhbmQgCj4+Pj4+Pj4gMjAwMDAgaW5zZXJ0aW9ucyB0b29r
-IDggYW5kIDIwIG1zZWNzCj4+Pj4+Pj4gPHNuaXA+Cj4+Pj4+Pj4KPj4+Pj4+PiBTaWduZWQtb2Zm
-LWJ5OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+Cj4+Pj4+Pj4gLS0tCj4+Pj4+Pj4g
-wqDCoCBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL2RybV9tbV9zZWxmdGVzdHMuaCB8wqAgMSAr
-Cj4+Pj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmPCoMKg
-wqDCoMKgIHwgNzMgCj4+Pj4+Pj4gKysrKysrKysrKysrKysrKysrKysKPj4+Pj4+PiDCoMKgIDIg
-ZmlsZXMgY2hhbmdlZCwgNzQgaW5zZXJ0aW9ucygrKQo+Pj4+Pj4+Cj4+Pj4+Pj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvZHJtX21tX3NlbGZ0ZXN0cy5oIAo+Pj4+Pj4+
-IGIvZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy9kcm1fbW1fc2VsZnRlc3RzLmgKPj4+Pj4+PiBp
-bmRleCA2Yjk0M2VhMWM1N2QuLjhjODdjOTY0MTc2YiAxMDA2NDQKPj4+Pj4+PiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL2RybV9tbV9zZWxmdGVzdHMuaAo+Pj4+Pj4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMvZHJtX21tX3NlbGZ0ZXN0cy5oCj4+Pj4+Pj4gQEAgLTE0
-LDYgKzE0LDcgQEAgc2VsZnRlc3QoaW5zZXJ0LCBpZ3RfaW5zZXJ0KQo+Pj4+Pj4+IMKgwqAgc2Vs
-ZnRlc3QocmVwbGFjZSwgaWd0X3JlcGxhY2UpCj4+Pj4+Pj4gwqDCoCBzZWxmdGVzdChpbnNlcnRf
-cmFuZ2UsIGlndF9pbnNlcnRfcmFuZ2UpCj4+Pj4+Pj4gwqDCoCBzZWxmdGVzdChhbGlnbiwgaWd0
-X2FsaWduKQo+Pj4+Pj4+ICtzZWxmdGVzdChmcmFnLCBpZ3RfZnJhZykKPj4+Pj4+PiDCoMKgIHNl
-bGZ0ZXN0KGFsaWduMzIsIGlndF9hbGlnbjMyKQo+Pj4+Pj4+IMKgwqAgc2VsZnRlc3QoYWxpZ242
-NCwgaWd0X2FsaWduNjQpCj4+Pj4+Pj4gwqDCoCBzZWxmdGVzdChldmljdCwgaWd0X2V2aWN0KQo+
-Pj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21t
-LmMgCj4+Pj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPj4+
-Pj4+PiBpbmRleCA5YWFiZTgyZGNkM2EuLjA1ZDhmMzY1OWI0ZCAxMDA2NDQKPj4+Pj4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPj4+Pj4+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX21tLmMKPj4+Pj4+PiBAQCAtMTAzMyw2
-ICsxMDMzLDc5IEBAIHN0YXRpYyBpbnQgaWd0X2luc2VydF9yYW5nZSh2b2lkICppZ25vcmVkKQo+
-Pj4+Pj4+IMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4+Pj4+PiDCoMKgIH0KPj4+Pj4+PiDCoMKg
-ICtzdGF0aWMgaW50IGdldF9pbnNlcnRfdGltZSh1bnNpZ25lZCBpbnQgbnVtX2luc2VydCwKPj4+
-Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25z
-dCBzdHJ1Y3QgaW5zZXJ0X21vZGUgKm1vZGUpCj4+Pj4+Pj4gK3sKPj4+Pj4+PiArwqDCoMKgwqAg
-c3RydWN0IGRybV9tbSBtbTsKPj4+Pj4+PiArwqDCoMKgwqAgc3RydWN0IGRybV9tbV9ub2RlICpu
-b2RlcywgKm5vZGUsICpuZXh0Owo+Pj4+Pj4+ICvCoMKgwqDCoCB1bnNpZ25lZCBpbnQgc2l6ZSA9
-IDQwOTYsIGFsaWduID0gODE5MjsKPj4+Pj4+PiArwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBzdGFy
-dDsKPj4+Pj4+PiArwqDCoMKgwqAgdW5zaWduZWQgaW50IGk7Cj4+Pj4+Pj4gK8KgwqDCoMKgIGlu
-dCByZXQgPSAtRUlOVkFMOwo+Pj4+Pj4+ICsKPj4+Pj4+PiArwqDCoMKgwqAgZHJtX21tX2luaXQo
-Jm1tLCAxLCBVNjRfTUFYIC0gMik7Cj4+Pj4+Pj4gK8KgwqDCoMKgIG5vZGVzID0gdnphbGxvYyhh
-cnJheV9zaXplKG51bV9pbnNlcnQsIHNpemVvZigqbm9kZXMpKSk7Cj4+Pj4+Pj4gK8KgwqDCoMKg
-IGlmICghbm9kZXMpCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycjsK
-Pj4+Pj4+PiArCj4+Pj4+Pj4gK8KgwqDCoMKgIHN0YXJ0ID0gamlmZmllczsKPj4+Pj4gVXNlIGt0
-aW1lX3Qgc3RhcnQgPSBrdGltZV9ub3coKTsKPj4+Pj4KPj4+Pj4+PiArwqDCoMKgwqAgZm9yIChp
-ID0gMDsgaSA8IG51bV9pbnNlcnQ7IGkrKykgewo+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaWYgKCFleHBlY3RfaW5zZXJ0KCZtbSwgJm5vZGVzW2ldLCBzaXplLCBhbGlnbiwgaSwg
-Cj4+Pj4+Pj4gbW9kZSkpIHsKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBwcl9lcnIoIiVzIGluc2VydCBmYWlsZWRcbiIsIG1vZGUtPm5hbWUpOwo+Pj4+
-Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gb3V0Owo+
-Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+Pj4+Pj4+ICvCoMKgwqDCoCB9Cj4+
-Pj4+Pj4gKwo+Pj4+Pj4+ICvCoMKgwqDCoCByZXQgPSBqaWZmaWVzX3RvX21zZWNzKGppZmZpZXMg
-LSBzdGFydCk7Cj4+Pj4+IHJldCA9IGt0aW1lX3N1YihrdGltZV9ub3coKSwgc3RhcnQpOwo+Pj4+
-Pgo+Pj4+PiBUaGUgZG93bnNpZGUgdG8gdXNpbmcga3RpbWUgaXMgcmVtZW1iZXJpbmcgaXQgaXMg
-czY0IGFuZCBzbyAKPj4+Pj4gcmVxdWlyZXMgY2FyZQo+Pj4+PiBhbmQgYXR0ZW50aW9uIGluIGRv
-aW5nIG1hdGguCj4+Pj4+Cj4+Pj4+Pj4gK291dDoKPj4+Pj4+PiArwqDCoMKgwqAgZHJtX21tX2Zv
-cl9lYWNoX25vZGVfc2FmZShub2RlLCBuZXh0LCAmbW0pCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBkcm1fbW1fcmVtb3ZlX25vZGUobm9kZSk7Cj4+Pj4+Pj4gK8KgwqDCoMKgIGRy
-bV9tbV90YWtlZG93bigmbW0pOwo+Pj4+Pj4+ICvCoMKgwqDCoCB2ZnJlZShub2Rlcyk7Cj4+Pj4+
-Pj4gK2VycjoKPj4+Pj4+PiArwqDCoMKgwqAgcmV0dXJuIHJldDsKPj4+Pj4+PiArCj4+Pj4+Pj4g
-K30KPj4+Pj4+PiArCj4+Pj4+Pj4gK3N0YXRpYyBpbnQgaWd0X2ZyYWcodm9pZCAqaWdub3JlZCkK
-Pj4+Pj4+PiArewo+Pj4+Pj4+ICvCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgaW5zZXJ0X21vZGUgKm1v
-ZGU7Cj4+Pj4+Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGludCBpbnNlcnRfdGltZTEsIGluc2VydF90
-aW1lMjsKPj4+Pj4+PiArwqDCoMKgwqAgdW5zaWduZWQgaW50IGluc2VydF9zaXplID0gMTAwMDA7
-Cj4+Pj4+Pj4gK8KgwqDCoMKgIHVuc2lnbmVkIGludCBzY2FsZV9mYWN0b3IgPSA0Owo+Pj4+Pj4+
-ICvCoMKgwqDCoCAvKiB0b2xlcmF0ZSAxMCUgZXhjZXNzIGluc2VydGlvbiBkdXJhdGlvbiAqLwo+
-Pj4+Pj4+ICvCoMKgwqDCoCB1bnNpZ25lZCBpbnQgZXJyb3JfZmFjdG9yID0gMTEwOwo+Pj4+Pj4+
-ICvCoMKgwqDCoCBpbnQgcmV0ID0gLUVJTlZBTDsKPj4+Pj4+PiArCj4+Pj4+Pj4gK8KgwqDCoMKg
-IGZvciAobW9kZSA9IGluc2VydF9tb2RlczsgbW9kZS0+bmFtZTsgbW9kZSsrKSB7Cj4+Pj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBpbnQgZXhwZWN0ZWRfdGltZTsKPj4+
-Pj4+PiArCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnNlcnRfdGltZTEgPSBn
-ZXRfaW5zZXJ0X3RpbWUoaW5zZXJ0X3NpemUsIG1vZGUpOwo+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgaWYgKGluc2VydF90aW1lMSA8IDApCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnI7Cj4+Pj4+IEFoLCBjYW4geW91IHBy
-b3BhZ2F0ZSB0aGUgYWN0dWFsIGVycm9yLiBJIHNlZSB5b3UgYXJlIHJldHVybmluZyAKPj4+Pj4g
-RUlOVkFMCj4+Pj4+IGZvciBFTk9NRU0gZXJyb3JzLiBKdXN0IHdhaXQgdW50aWwgaXQgaGl0cyBh
-bmQgeW91IGhhdmUgdG8gZGVidWcgCj4+Pj4+IHdoeSA6KQo+Pj4+Pgo+Pj4+Pj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaW5zZXJ0X3RpbWUyID0gZ2V0X2luc2VydF90aW1lKChpbnNlcnRf
-c2l6ZSAqIDIpLCAKPj4+Pj4+PiBtb2RlKTsKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGlmIChpbnNlcnRfdGltZTIgPCAwKQo+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZXJyOwo+Pj4+Pj4+ICsKPj4+Pj4+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGV4cGVjdGVkX3RpbWUgPSAoc2NhbGVfZmFjdG9yICogaW5zZXJ0X3Rp
-bWUxICoKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBlcnJvcl9mYWN0b3IpLzEwMDsKPj4+Pj4+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGlmIChpbnNlcnRfdGltZTIgPiBleHBlY3RlZF90aW1lKSB7Cj4+Pj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcHJfZXJyKCIlcyBmcmFn
-bWVudGVkIGluc2VydCB0b29rIG1vcmUgJXUgCj4+Pj4+Pj4gbXNlY3NcbiIsCj4+Pj4+Pj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtb2Rl
-LT5uYW1lLCBpbnNlcnRfdGltZTIgLSAKPj4+Pj4+PiBleHBlY3RlZF90aW1lKTsKPj4+Pj4+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGVycjsKPj4+Pj4+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4+Pj4+PiArCj4+Pj4+Pj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBwcl9pbmZvKCIlcyBmcmFnbWVudGVkIGluc2VydCBvZiAldSBhbmQg
-JXUgCj4+Pj4+Pj4gaW5zZXJ0aW9ucyB0b29rICV1IGFuZCAldSBtc2Vjc1xuIiwKPj4+Pj4+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtb2RlLT5uYW1lLCBpbnNl
-cnRfc2l6ZSwgaW5zZXJ0X3NpemUgKiAyLCAKPj4+Pj4+PiBpbnNlcnRfdGltZTEsCj4+Pj4+Pj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zZXJ0X3RpbWUyKTsK
-Pj4+Pj4gUHV0IHRoZSBpbmZvIGZpcnN0IGJlZm9yZSB0aGUgZXJyb3IuIFdlIGFsd2F5cyB3YW50
-IHRoZSBmdWxsIGRldGFpbHMsCj4+Pj4+IHdpdGggdGhlIGVycm9yIG1lc3NhZ2UgZXhwbGFpbmlu
-ZyB3aHkgaXQncyB1bmhhcHB5Lgo+Pj4+PiAtQ2hyaXMKPj4+Pj4gX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlz
-dAo+Pj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+Pj4+IGh0dHBzOi8vbmFt
-MTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmxp
-c3RzLmZyZWVkZXNrdG9wLm9yZyUyRm1haWxtYW4lMkZsaXN0aW5mbyUyRmRyaS1kZXZlbCZhbXA7
-ZGF0YT0wMiU3QzAxJTdDbmlybW95LmRhcyU0MGFtZC5jb20lN0M1YzdkZjEyOWI5Y2Y0NGIzYWU0
-MDA4ZDgwM2U4NDQ0NSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAl
-N0M2MzcyNjM2NDM0MTU4MzM3NjcmYW1wO3NkYXRhPVByQ1FzZTRuaE4wWklUVDlPbml1SGhGN0E1
-dXhKRDZlaGswUE1qbTdXTVUlM0QmYW1wO3Jlc2VydmVkPTAgCj4+Pj4+Cj4+Pgo+Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+--===============0015468629==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/VFbZ2=rB/VGLPBEMvZXQVal"; protocol="application/pgp-signature"
+
+--Sig_/VFbZ2=rB/VGLPBEMvZXQVal
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 3 Jun 2020 10:50:28 +0530
+Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+
+> Inline..
+>=20
+> On Mon, Jun 1, 2020 at 2:19 PM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>=20
+> > On Mon, 1 Jun 2020 09:22:27 +0530
+> > Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+> > =20
+> > > Hi,
+> > >
+> > > For letting DRM clients to select output encoding:
+> > > Sink can support certain display timings with high output bit-depths =
+=20
+> > using =20
+> > > multiple output encodings, e.g. sink can support a particular timing =
+with
+> > > RGB 10-bit, YCbCr422 10-bit and YCbCr420 10-bit. So DRM client may wa=
+nt =20
+> > to =20
+> > > select YCbCr422 10-bit over RBG 10-bit output to reduce the link =20
+> > bandwidth =20
+> > > (and in turn reduce power/voltage). If DRM driver automatically selec=
+ts
+> > > output encoding then we are restricting DRM clients from making =20
+> > appropriate =20
+> > > choice. =20
+> >
+> > Hi,
+> >
+> > right, that seems to be another reason.
+> > =20
+> > > For selectable output color range:
+> > > Certain applications (typically graphics) usually rendered in full ra=
+nge
+> > > while some applications (typically video) have limited range content.=
+ =20
+> > Since =20
+> > > content can change dynamically, DRM driver does not have enough =20
+> > information =20
+> > > to choose correct quantization. Only DRM client can correctly select =
+=20
+> > which =20
+> > > quantization to set (to preserve artist's intent). =20
+> >
+> > Now this is an interesting topic for me. As far as I know, there is no
+> > window system protocol to tell the display server whether the
+> > application provided content is using full or limited range. This means
+> > that the display server cannot tell DRM about full vs. limited range
+> > either. It also means that when not fullscreen, the display server
+> > cannot show the limited range video content correctly, because it would
+> > have to be converted to full-range (or vice versa).
+> >
+> Right, but there could be DRM client which doesn't use window system (e.g=
+. =20
+> Gstreamer video sink) and wants to select between full/limited color rang=
+e.
+> I agree that there is no window system protocol yet but maybe Wayland
+> protocol could be added/extended for this purpose once we finalize things
+> that needs to be done in DRM.
+
+Hi,
+
+right. If you have that use case and a userspace project welcomes such
+feature, you're good.
+
+If you propose a KMS property for this, I would hope the patches
+document or have links pointing to answers to all my questions here.
+That would help both driver and userspace implementations to get into
+the same mindset.
+
+> > But why would an application produce limited range pixels anyway? Is it
+> > common that hardware video decoders are unable to produce full-range
+> > pixels?
+> > =20
+>=20
+> The primary reason for why content producer masters video/gfx content as
+> limited range is for compatibility with sinks which only support limited
+> range, and not because video decoders are not capable of decoding
+> full-range content.
+
+What I was asking is, even if the video content is limited range, why
+would one not decode it into full-range pixels always and if the sink
+need limited range, then convert again in hardware? When done right, it
+makes no difference in output compared to using limited range
+through-out if both content and sink use limited range.
+
+> Also, certain cinema-related content (e.g., movies) may
+> be better suited for limited range encoding due to the level of detail th=
+at
+> they need to present/hide (see "Why does limited RGB even exist?" section
+> in
+> https://www.benq.com/en-us/knowledge-center/knowledge/full-rgb-vs-limited=
+-rgb-is-there-a-difference.html#:~:text=3DFull%20RGB%20means%20the%20abilit=
+y,less%20dark)%20than%20full%20RGB
+> ).
+
+That is a very nice link, thanks!
+
+But to me it seems the section "Why is this a problem?" gets "crushed
+blacks" backwards, so maybe I just don't get it.
+
+I would assume that if the source (computer) sends full-range pixel
+values on the wire and the sink (monitor) works in limited-range mode,
+then you would get crushed blacks and crushed whites.
+
+But if the source sends limited-range data and the sink works in
+full-range more, you'd get the "washed out" image.
+
+My thinking comes from the mapping of channel values: if 0-16 and
+235-255 ranges show no difference within them, I'd call that "crushed".
+Similarly if one assumes 16 is darkest black and it's actually not,
+you'd get "washed out" (I might call it compressed instead, because it
+affects both black and white ends, unable to achieve both the darkest
+black and the brightest white).
+
+Anyway, I believe I do understand that if you have content in one
+range and the sink assumes a different range, the content will show
+poorly. I don't doubt that.
+
+My question instead is: why would it be bad to always convert
+everything to full-range inside the source (e.g. decoder -> app ->
+display server all in full-range), and then convert for the wire into
+what the sink expects?
+
+Because that is how Wayland color management is going to handle
+differing color spaces, more or less. (Actually, quite likely the
+compositor internal per-output color space will be the sink's color
+space but in linear encoding (e.g. fp16 data type) for proper blending.)
+
+> > I am asking, because I have a request to add limited vs. full range
+> > information to Wayland.
+> >
+> > What about video sinks, including monitors? Are there devices that
+> > accept limited-range only, full-range only, or switchable?
+> > =20
+>=20
+> Yes, there are sinks which support selectable quantization range and there
+> are sinks which don't. If the quantization range is not selectable, then =
+in
+> general, sources should output full-range for IT timings, and output
+> limited for CE timings. At a high-level, IT timings are part of a standard
+> developed by VESA for computer monitor-like displays. CE (Consumer
+> Electronics) timings are a separate standard for timings more applicable =
+to
+> sinks like consumer TVs, etc.
+
+Very good. How is this achieved with KMS today? Does the kernel driver
+automatically make the display chip convert to full-range or
+limited-range based on the mode information?
+
+Or is this something that simply doesn't exist yet, and it needs
+userspace to make the decision on which range to program the display
+hardware to emit into the wire? Hence the need for a range property.
+
+> >
+> > Why not just always use full-range everywhere?
+> >
+> > Or if a sink supports only limited-range, have the display chip
+> > automatically convert from full-range, so that software doesn't have to
+> > convert in software.
+> > =20
+>=20
+> I think it is ok to convert from limited range to full range in display HW
+> pipeline.
+
+But that is a conversion that would practically never be used at that
+point in the pipeline. If a display server works internally
+(composites) in limited range, it means it will always lose detail from
+full-range applications, regardless of whether the monitor is full- or
+limited-range. The display server must always work in full-range (or
+monitor's range) to avoid that. If the sink/monitor accepts only
+limited-range, then convert full-range to limited-range as the very last
+step.
+
+If the sink accepts only limited-range, then necessarily it cannot
+present full-range content accurately and loss of detail is
+unavoidable, so the lossy conversion at scanout is ok.
+
+> By "automatically" if you mean display HW or DRM driver should
+> look at the content to figure out whether it is limited range content and
+> then program display pipeline to do the conversion, I don't think that is=
+ a
+> good idea since we would need to inspect each pixel. Also, there may be
+> some post-processing done to full-range content that happens to cause the
+> pixel component values to fall within the limited quantization range. How
+> about adding a new DRM KMS plane property to let client convey the driver
+> about input content range? More details on this below.
+
+Sorry, a bad choice of word.
+
+I mean "automatically" in the sense that the display server (or KMS
+app) inspects the sink properties and sets up the display scanout
+pipeline to convert to the right range. Then the display server does
+not need to care about compositing in limited-range or to tell apps to
+produce content in limited-range.
+
+> >
+> > If you actually have a DRM KMS property for the range, does it mean tha=
+t:
+> > - the sink is configured to accept that range, and the pixels in the
+> >   framebuffer need to comply, or
+> > - the display chip converts to that range while framebuffer remains in
+> >   full-range?
+> > =20
+>=20
+> I would imagine this as:
+> (1) Add new read DRM KMS connector property which DRM client will read to
+> know whether sink support selectable quantization range.
+
+Good.
+
+> (2) Add new read/write DRM KMS connector property which DRM client will
+> write to set output quantization range and read to know the current output
+> quantization range.
+
+Yes, programming the sink's expectation is good.
+
+Btw. just in case, try not to create KMS properties that are both
+writable by userspace and arbitrarily writable by the kernel as well.
+It often leads to awkward or racy usage patterns. If the read and write
+values are completely disconnected, it also might make blind KMS state
+save/restore impossible. Blind KMS state save/restore is necessary for
+KMS apps and display servers to ensure they continue running with the
+same KMS state they had before, e.g. after VT-switching or reboot, even
+if there are writable properties they do not recognise.
+
+If it's just reading back what userspace last wrote, it's good.
+
+> (3) Add new read/write DRM KMS plane property which DRM client will write
+> to set input quantization range and read to know the current input
+> quantization range.
+
+Ok, so these two properties together would define what automatic
+conversion the display chip does to framebuffer content during scanout.
+
+But there are already other ways too, DEGAMMA/GAMMA LUTs or CTM could
+be used for it already. Is there a benefit from adding more ways to
+achieve the same?
+
+You'd have to define how all these properties interact, regardless of
+whether any driver actually exposes them all at the same time. Plus the
+existing "Broadcast RGB" property. Or, you have to document what
+combinations of properties are forbidden for drivers to expose, so that
+userspace has the correct expectations and know how to use them right.
+
+>=20
+> Now lets say if client has limited range content that it wants to display
+> using limited range, it will perform below steps:
+> (A) Set plane's input range property to LIMITED.
+> (B) Set connector's output range property to LIMITED.
+> (C) Read connector property to know whether sink support selectable
+> quantization range:
+>        (i) If no, validate HW timing + output range (LIMITED) using atomic
+> test commit, if validation doesn't pass, client should choose another HW
+> timing and revalidate.
+
+Is the assumption here that the timing implies range, like you
+explained with IT vs. CE? IOW, the kernel can tell the difference
+between IT and CE timings just from the timing parameters themselves?
+
+>        (ii) if yes, it is not necessary to validate HW timing + output
+> range.
+
+Given the nature of the atomic KMS UAPI, I'd say it is always necessary
+to validate. Just because a setting is possible does not imply the
+combination of all property values you picked is valid.
+
+> Now lets say if client has limited range content that it wants to display
+> using full range, it will perform below steps:
+> (A) Set plane's input range property to LIMITED
+> (B) Set connector's output range property to FULL
+> (C) Read connector property to know whether sink support selectable
+> quantization range:
+>        (i) if no, validate HW timing + output range (FULL) using atomic
+> test commit, if validation doesn't pass, client should choose another HW
+> timing and revalidate
+>        (ii) if yes, it is not necessary to validate HW timing + output
+> range.
+> In this example DRM driver will automatically set up display pipeline to =
+do
+> limited to full-range conversion.
+
+Right.
+
+> Out of the three new properties mentioned above there is another choice f=
+or
+> property (1): Instead of expecting client to read whether sink support
+> selectable quantization range and perform validations as mentioned above
+> when quantization range is not selectable, how about adding new flags to
+> drmModeModeInfo->flags and let DRM driver to inform client using this flag
+> whether given HW timing is supported with full range, limited range or
+> both? This will avoid validation step mentioned in (C)(i).
+
+I can't tell if that is a good idea or not, but I don't think the
+validation can be avoided in any case. With atomic, userspace should
+always validate before assuming.
+
+> Let me know what you think about the overall proposal mentioned above. If
+> there is no strong disagreement about adding new DRM KMS properties for
+> output quantization range (and output encoding), I'll plan to start worki=
+ng
+> on the changes.
+
+=46rom my opinion as a Weston maintainer, I think having quantization
+range and wire encoding would be good to have. The devil is in the
+details though, as always.
+
+
+Thanks,
+pq
+
+
+>=20
+> Thanks,
+> -Yogish
+>=20
+> >
+> > If we look at I915 driver's "Broadcast RGB" property, it seems to say
+> > to me that the framebuffer is always primarily assumed to be in
+> > full-range, and the conversion to limited-range happens in the scanout
+> > circuitry. So that property would not help with video content that is
+> > already in limited-range.
+> >
+> > To recap, there are two orthogonal things: application content or
+> > framebuffer range, and video sink / monitor range. The display server
+> > between the two, at last if it is a Wayland compositor, would be able to
+> > convert as necessary.
+> > =20
+> > > For how to use selectable output encoding with Weston:
+> > > I was thinking that DRM should have separate property to list the =20
+> > encodings =20
+> > > supported by sink and Weston will present this list to its client. Yo=
+ur =20
+> >
+> > Not client. A configuration tool perhaps, but not generically to all
+> > Wayland clients, not as a directly settable knob at least.
+> > =20
+> > > idea to validate encodings using TEST_ONLY commit and present a list =
+of
+> > > timings along with encodings supported by particular timing seems bet=
+ter.
+> > > Instead of validating all possible encodings, does it make sense to
+> > > validate  only those supported by sink? Irrespective of this we would=
+ =20
+> >
+> > Yes, having a list of what the sink actually supports would be nice.
+> >
+> > As for Wayland clients, there is an extension brewing at
+> > https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_reques=
+ts/8
+> > that would allow suggesting the optimal encoding (pixel format and
+> > modifier really) in flight.
+> >
+> > That said, we are talking about the two different things here:
+> > framebuffer format vs. encoding on the wire. Whether making them match
+> > has benefits is another matter.
+> > =20
+> > > anyway need some mechanism which will allow user to select particular
+> > > encoding for a particular mode. I was thinking to allow this using ne=
+w =20
+> > DRM =20
+> > > property "Encoding". Do you have anything better in mind? =20
+> >
+> > I think that is a reasonable and useful goal and idea. Just remember to
+> > document it when proposing, even if it seems obvious. The details on
+> > how to formulate that into UAPI is up for debate.
+> >
+> > As said, changing KMS properties after they have been exposed to
+> > userspace won't really work from either kernel or userspace point of
+> > view. So you'd probably need to expose one blob type property listing
+> > the encodings that may work as an array, and another property for
+> > setting the one to use. IN_FORMATS property is somewhat similar,
+> > although more complicated because it is the combination of format and
+> > modifier.
+> > =20
+> > > (Since I am using my Gmail Id, I feel I should mention that I work at
+> > > Nvidia) =20
+> >
+> > Nice to know the source of interest. :-)
+> >
+> >
+> > Thanks,
+> > pq
+> > =20
+> > >
+> > > Thanks,
+> > > -Yogish
+> > >
+> > > On Thu, May 28, 2020 at 6:18 PM Pekka Paalanen <ppaalanen@gmail.com> =
+=20
+> > wrote: =20
+> > > =20
+> > > > On Thu, 28 May 2020 17:38:59 +0530
+> > > > Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+> > > > =20
+> > > > > I am trying to find a way through Weston which will allow setting=
+ =20
+> > > > specific =20
+> > > > > encoding at display output. =20
+> > > >
+> > > > Hi,
+> > > >
+> > > > why do *you* want to control that?
+> > > >
+> > > > Why not let the driver always choose the highest possible encoding
+> > > > given the video mode and hardware capability?
+> > > >
+> > > > I can understand userspace wanting to know what it got, but why sho=
+uld
+> > > > userspace be able to control it?
+> > > >
+> > > > Would people want to pick the encoding first, and then go for the
+> > > > highest possible video mode?
+> > > > =20
+> > > > > Could you please elaborate on  why it is best
+> > > > > to let DRM driver automatically configure which encoding to choos=
+e =20
+> > rather =20
+> > > > > than making it selectable by DRM client ? I am not able to find =
+=20
+> > reference =20
+> > > > > to past discussion about this. I was only able to find a proposed=
+ =20
+> > change =20
+> > > > - =20
+> > > > > =20
+> > https://lists.freedesktop.org/archives/intel-gfx/2017-April/125451.html=
+ =20
+> > > > but =20
+> > > > > am not able to find why it got rejected.
+> > > > >
+> > > > > Alternatively, is there existing way through which DRM clients ca=
+n =20
+> > > > specify =20
+> > > > > preference for output encoding ? Or currently it's all up to the =
+=20
+> > DRM =20
+> > > > driver =20
+> > > > > to choose what output encoding to use. =20
+> > > >
+> > > > There must be some reason why userspace needs to be able to control=
+ it.
+> > > > I'm also asking as a Weston maintainer, since I'm interested in how
+> > > > this affects e.g. color reproduction or HDR support.
+> > > >
+> > > > One thing that comes to my mind is using atomic TEST_ONLY commits to
+> > > > probe all the possible video modes =C3=97 encodings for presenting =
+a list to
+> > > > the user to choose from, if you have a display configuration GUI. E=
+.g
+> > > > with some TV use cases, maybe the user wants to avoid sub-sampling,=
+ use
+> > > > the native resolution, but limit refresh rate to what's actually
+> > > > possible. Or any other combination of the three.
+> > > >
+> > > >
+> > > > Thanks,
+> > > > pq
+> > > > =20
+> > > > >
+> > > > > Thanks,
+> > > > > -Yogish
+> > > > >
+> > > > > On Thu, May 28, 2020 at 1:54 PM Daniel Vetter <daniel@ffwll.ch> =
+=20
+> > wrote: =20
+> > > > > =20
+> > > > > > On Thu, May 28, 2020 at 12:29:43PM +0530, Yogish Kulkarni wrote=
+: =20
+> > > > > > > For creating new source property, is it good to follow
+> > > > > > > "drm_mode_create_hdmi_colorspace_property()"  as an example ?=
+ =20
+> > It =20
+> > > > seems =20
+> > > > > > that =20
+> > > > > > > currently there is no standard DRM property which allows DRM =
+=20
+> > client =20
+> > > > to =20
+> > > > > > set =20
+> > > > > > > a specific output encoding (like YUV420, YUV422 etc). Also, =
+=20
+> > there is =20
+> > > > no =20
+> > > > > > > standard property for letting client select YUV/RGB color ran=
+ge. =20
+> > I =20
+> > > > see =20
+> > > > > > > there are two ways to introduce new properties, 1. do somethi=
+ng =20
+> > like =20
+> > > > > > > drm_mode_create_hdmi_colorspace_property 2. create custom =20
+> > property =20
+> > > > > > similar =20
+> > > > > > > to "Broadcast RGB". Is there opinion on which is a preferable=
+ =20
+> > way =20
+> > > > to =20
+> > > > > > expose =20
+> > > > > > > encoding and color rage selection property ? =20
+> > > > > >
+> > > > > > I guess first question is "why?" Thus far we've gone with the =
+=20
+> > opinion =20
+> > > > that =20
+> > > > > > automatically configuring output stuff as much as possible is =
+=20
+> > best. =20
+> > > > What's =20
+> > > > > > the use-case where the driver can't select this?
+> > > > > > -Daniel =20
+> > > > =20
+> >
+> > =20
+
+
+--Sig_/VFbZ2=rB/VGLPBEMvZXQVal
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7XaXcACgkQI1/ltBGq
+qqftzBAApFdxY3EQxxIvXF8rbM4zvHFtggpJMUsJa/nkVlG9orHPD2DSOM2zH6GX
+WkmGn58IqPECgBWnHPore2cEFfl11TSyNfU+KZmAe6shfhEyZ9hmSY5m2M7XFOuW
+njQNuKn6NjueZpRGFsKdJ5FZ+Y8NYXH8uSB37AIQtZmlhHBfZVz94wBQqgWIFte9
+Up7uUIlKhVSYOIkC35acv05m2qsWQ8eLywUMsPGvT8ZotBM27HwgzyvjwkrOPBax
+JtN+P6HYboVds8JbYKwWECATWzTqZ5q8G60V5M0T5jeIJg4YN0cYCahr7Pxui4TA
+QlqGBqp8AEHBRnp8xpklTWuuPDK/Hethh40767jI9ii34lchK17uNgn5YXVDSn5t
+3MD6/X3e2PUCbYHiceUgRZ3hvUHdpg/CpnPY8JqJ7eSxYHdJFZPOlZocPSOZIU3x
+4gkyZN12TGpxWKtPmhilgHubMX1ez1OYXkIm77b7lyI/uKmLOjiJ+mYZdRw2lF93
+LXVYoxpAdC7YdNK2agingPi0kurRQTT+Cik57RaclM3MIYcW3RkJU8aIPxyckVvV
+cOZ8Q+hx59MvpyaKhvMV2Evsy/GrB5gEi+baK9ZjzhFjnBVkojXhN2dluFLyM8Ja
+e+tzHUH5BbNYAAKt4F3ScEp83tfzYAdo1xbMdjIYjWQ02Gg7mis=
+=j+iV
+-----END PGP SIGNATURE-----
+
+--Sig_/VFbZ2=rB/VGLPBEMvZXQVal--
+
+--===============0015468629==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0015468629==--
