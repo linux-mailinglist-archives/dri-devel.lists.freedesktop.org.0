@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901C21ECD88
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 12:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85AA41ECDC8
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 12:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8448919C;
-	Wed,  3 Jun 2020 10:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D2689CF7;
+	Wed,  3 Jun 2020 10:45:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BABE883F4
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 10:27:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id 53CE52A3AC2
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>, Adrian Ratiu
- <adrian.ratiu@collabora.com>
-Subject: Re: [Linux-stm32] [PATCH v8 08/10] drm: stm: dw-mipi-dsi: let the
- bridge handle the HW version check
-In-Reply-To: <CACvgo51QyzEa8LFpGq5zjYV-0TifQRtNh4WhMYy8jNtaswxd7Q@mail.gmail.com>
-References: <20200427081952.3536741-1-adrian.ratiu@collabora.com>
- <20200427081952.3536741-9-adrian.ratiu@collabora.com>
- <4acc09e8-0610-01f6-b18d-3ffc390c45a3@st.com>
- <87blm387vt.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
- <CACvgo51QyzEa8LFpGq5zjYV-0TifQRtNh4WhMYy8jNtaswxd7Q@mail.gmail.com>
-Date: Wed, 03 Jun 2020 13:28:54 +0300
-Message-ID: <878sh48mu1.fsf@collabora.com>
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699F089CF7
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 10:45:35 +0000 (UTC)
+Date: Wed, 03 Jun 2020 10:45:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1591181133;
+ bh=dL0hNzhffG6kkgrQLYFzpVklReEnz35ljoYoEETQJE8=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=bzGO0YzYhDbUP02RjsbHEF6ELk/lTg8iKW8kWHVln3Fk6ebstyWo6WcENQmFLiiaM
+ 4mYzpY+SHDBtDW6LwAWYVBiHwG/dOvnypTrAdAX6bXmF1VIRIopeg8G716kqtKlTHu
+ 20ap7A2nXFGQu00aWklP2ArWmJbCLJZ4Abiehla0=
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm/atomic: don't reset link-status to GOOD without
+ ALLOW_MODESET
+Message-ID: <6Q-O7vKObfRu8cOyvcAxR_uRWgjQdlYgVursTGN2AaHtdaUZICSC6szFjkkDGXhyKF22Grj-aGCTC74OGhtuJ9JChitqvqtCVi1wr_Lnh6Y=@emersion.fr>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,76 +42,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Benjamin GAIGNARD <benjamin.gaignard@st.com>,
- Adrian Pop <pop.adrian61@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Philippe CORNU <philippe.cornu@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yannick FERTRE <yannick.fertre@st.com>,
- "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Jun 2020, Emil Velikov <emil.l.velikov@gmail.com> 
-wrote:
-> Hi Adrian, 
+In update_output_state, the link-status property was reset to GOOD to
+ensure legacy drmModeSetCrtc re-trains the link. However this auto-reset
+is also performed on an atomic commit without ALLLOW_MODESET. If a
+driver reads link-status to figure out whether to re-train the link,
+this could cause an atomic commit failure. User-space doesn't expect
+such a failure, because commits without ALLOW_MODESET aren't supposed to
+fail because of link training issues.
 
-Hi Email,
+Change update_output_state to implicitly reset link-status to GOOD only
+if ALLOW_MODESET is set. This is the case for legacy drmModeSetCrtc
+because drm_atomic_state_init sets it (and is used in
+drm_atomic_helper_set_config, called from drm_mode_setcrtc).
 
-> 
-> On Mon, 1 Jun 2020 at 10:14, Adrian Ratiu 
-> <adrian.ratiu@collabora.com> wrote: 
->> 
->> On Fri, 29 May 2020, Philippe CORNU <philippe.cornu@st.com> 
->> wrote: 
->> > Hi Adrian, and thank you very much for the patchset.  Thank 
->> > you also for having tested it on STM32F769 and STM32MP1. 
->> > Sorry for the late response, Yannick and I will review it as 
->> > soon as possible and we will keep you posted.  Note: Do not 
->> > hesitate to put us in copy for the next version 
->> > (philippe.cornu@st.com, yannick.fertre@st.com) Regards, 
->> > Philippe :-) 
->> 
->> Hi Philippe, 
->> 
->> Thank you very much for your previous and future STM testing, 
->> really appreciate it! I've CC'd Yannick until now but I'll also 
->> CC you sure :) 
->> 
->> It's been over a month since I posted v8 and I was just gearing 
->> up to address all feedback, rebase & retest to prepare v9 but 
->> I'll wait a little longer, no problem, it's no rush. 
->> 
-> Small idea, pardon for joining so late: 
-> 
-> Might be a good idea to add inline comment, why the clocks are 
-> disabled so late.  Effectively a 2 line version of the commit 
-> summary. 
-> 
-> Feel free to make that a separate/follow-up patch.
+Drivers don't seem to read link-status at the moment -- they seem to
+rely on user-space performing a modeset instead. So this shouldn't
+result in any change in behaviour, this should only prevent future
+failures if drivers start reading link-status.
 
-Thanks, I'll add the comment to this patch in v9.
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Suggested-by: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+---
+ drivers/gpu/drm/drm_atomic.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
->
-> -Emil
->
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 965173fd0ac2..3d9d9e6f7397 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1426,7 +1426,8 @@ static int update_output_state(struct drm_atomic_state *state,
+ 				return ret;
+ 
+ 			/* Make sure legacy setCrtc always re-trains */
+-			new_conn_state->link_status = DRM_LINK_STATUS_GOOD;
++			if (state->allow_modeset)
++				new_conn_state->link_status = DRM_LINK_STATUS_GOOD;
+ 		}
+ 	}
+ 
+-- 
+2.26.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
