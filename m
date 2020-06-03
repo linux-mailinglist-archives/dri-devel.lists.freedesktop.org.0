@@ -1,50 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25AA1EDD68
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 08:44:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2621EDDB4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 09:11:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E855D89E59;
-	Thu,  4 Jun 2020 06:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF5E6E25A;
+	Thu,  4 Jun 2020 07:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65FF789E59
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 06:44:46 +0000 (UTC)
-IronPort-SDR: maEjC4UNTwksNK7D+6RpIMHsIw/n7qVJsEKGmqxBe2SA8G0J4TP+eq7rZLnynnpO0CAsXY4Q9p
- Qn+YjjOLlzkQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 23:44:45 -0700
-IronPort-SDR: Hi+ARyh48YSb32/Pt8vOy4p7zx/cFnMDyZyMrnGYxWixi6a4PkX1oDrgQ4wPYlujYL2xH3fTes
- IcRlwA5YSB6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="445398016"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga005.jf.intel.com with ESMTP; 03 Jun 2020 23:44:44 -0700
-Date: Wed, 3 Jun 2020 23:44:44 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-Message-ID: <20200604064444.GD1740285@iweiny-DESK2.sc.intel.com>
-References: <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
- <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
- <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
- <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
- <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
- <20200603211416.GA1740285@iweiny-DESK2.sc.intel.com>
- <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
- <20200604062226.GA1740345@iweiny-DESK2.sc.intel.com>
- <20200604063745.GB202650@kernel.org>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0D9589E63
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 08:10:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mi2wgVlkyD/MoZs3mktxyGUfi8dBdQhSpoUQvBbcY5IeZ4kJ4oA1N/cofOvY4rqcbumoZeV0N/VCM4j++er+dvtIn8yiEwjEzdOcFUBh7czn0DUvNRfgl7VBp5AASvzu0BiZ+QpgU/4ug1oVCWlO2AxacToK+XUU/DLo4sYPMAyA2uEdRbOeeBks1qEsY2FtRZeb/TA7434uUWIqXjDpF4SHeUyLZ641XAfM1UAGIX45SobCYZJdAvFjtL4vnpmdIZTL1yaGSavkoGpEupfS8oiBe/H7sgKgfjq+c93ccHSSsxQ8jwwg9tsvfWd58OvcCYZa67PGr9jolL3uuzEkpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hn25T0nqFh3yy/F1pPmJxN4fgLCxRvCTfWQIN4yGCuE=;
+ b=HmqQXfVQlnuXyH2EGHw306/b44jO8DezXztOorkXjzSHSlydRD5KKAZbML0+WfkO5ukit1eIBfcq/cDVRR21ZnTSuBp+TBuCH+0l2BMOnjLSFjUWqqi6EjDceBSZuTb8hBxU4tS1g5fgeVfDbTKo7mldMsZRbsiuB7NLFw9m2lh+Yai1eQkEjnnVN+dvVtdbUPJnYy/CV0587lm6hPQI4zjIKo/fVtnW8PNxo6AwnoCV15B4zFsXedKkk+4Hp8tm19Y/deNyL/Lc7GVATviSWv7WIdEBHNsX966s+WU2Dt+kwIN8AVP5E25+Wjlt/Q3SrF+NKTiyDRAO9W9igd6XWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=lists.ozlabs.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hn25T0nqFh3yy/F1pPmJxN4fgLCxRvCTfWQIN4yGCuE=;
+ b=YlXeISiMT1OG3lI9cRlKzUQ1JiJ2ySgTcfkLjGLOzUcEL6pjWD1lDnNqF1Ww/gUcmhp/5+jCWt3W261OddpdbqhEycMwB+C/vBzuuBCJH62JbIQGQwe5B143vnkRKIJAV1WKMgW2n1pNhZ/wTt3UjT8gd90963ZLr2GT0TrQSVo=
+Received: from MN2PR16CA0056.namprd16.prod.outlook.com (2603:10b6:208:234::25)
+ by SN6PR02MB5648.namprd02.prod.outlook.com (2603:10b6:805:e8::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Wed, 3 Jun
+ 2020 08:10:50 +0000
+Received: from BL2NAM02FT039.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:234:cafe::e2) by MN2PR16CA0056.outlook.office365.com
+ (2603:10b6:208:234::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend
+ Transport; Wed, 3 Jun 2020 08:10:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; lists.ozlabs.org; dkim=none (message not signed)
+ header.d=none;lists.ozlabs.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT039.mail.protection.outlook.com (10.152.77.152) with Microsoft SMTP
+ Server id 15.20.3045.17 via Frontend Transport; Wed, 3 Jun 2020 08:10:49
+ +0000
+Received: from [149.199.38.66] (port=50779 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <michal.simek@xilinx.com>)
+ id 1jgOTM-0005nN-0r; Wed, 03 Jun 2020 01:10:04 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <michal.simek@xilinx.com>)
+ id 1jgOU5-0005nE-Dz; Wed, 03 Jun 2020 01:10:49 -0700
+Received: from [172.30.17.109] by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <michals@xilinx.com>)
+ id 1jgOTw-0005Ee-Eb; Wed, 03 Jun 2020 01:10:40 -0700
+Subject: Re: [PATCH v2 0/2] powerpc: Remove support for ppc405/440 Xilinx
+ platforms
+To: Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Simek <michal.simek@xilinx.com>, Takashi Iwai <tiwai@suse.de>
+References: <cover.1585575111.git.michal.simek@xilinx.com>
+ <87imikufes.fsf@mpe.ellerman.id.au>
+ <12db51d6-d848-118e-5ec1-a4172bd47aa4@xilinx.com>
+ <87y2rftrx7.fsf@mpe.ellerman.id.au> <s5hk12z4hj5.wl-tiwai@suse.de>
+ <02e7f790-b105-de67-799c-0fe065e58320@xilinx.com>
+ <c22540fb-1c54-b718-9045-3ee645c30322@monstr.eu>
+ <87wo4yerom.fsf@mpe.ellerman.id.au>
+From: Michal Simek <michal.simek@xilinx.com>
+Message-ID: <4b807ebc-8d8f-ad76-f5e2-9ce8410dc70c@xilinx.com>
+Date: Wed, 3 Jun 2020 10:10:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200604063745.GB202650@kernel.org>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <87wo4yerom.fsf@mpe.ellerman.id.au>
+Content-Language: en-US
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(346002)(39860400002)(376002)(136003)(396003)(46966005)(9786002)(5660300002)(6666004)(70586007)(44832011)(426003)(82310400002)(2616005)(356005)(81166007)(966005)(26005)(2906002)(31686004)(4326008)(186003)(478600001)(336012)(70206006)(83380400001)(8936002)(31696002)(82740400003)(316002)(47076004)(8676002)(36756003)(7366002)(7406005)(54906003)(7416002)(110136005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9535ab91-4fe1-46b9-439a-08d80795a0b4
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5648:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB5648762759060983638902BEC6880@SN6PR02MB5648.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04238CD941
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AYpbhSOnqFpeQ+uE6RyPc55c+0Q85YqoTxq7gj/ImCopOtRX1wDtXbIB4cm8xwj65556Nu2cCuN9YeWCvWjnvPngXjIbJhTZk7FPf3PHVddpHcP+zg2/YrSYGD9FeCQV4S1cGXTHcVLh00il6wlwFOcdK1yi/zg/GEMFarXAKIs4EHLGiJgI0H0YVVUFK4fiOfekrJ4zzIgvxVzGMzypGXD/5otvFgZO8n/V3BSOYCWK7RBn/IBF4XAmO3c4uNu9CKVdbuJAvkUXUrDGIbucMmoUZwJAOWpwT+1z4TqRPEsNrEL1hUlZ6WxF7Bq06mGcTLSR+EQniyzhhDSE4/hgcIgxs0zMqvUrb2bZbBN6VGQtDNQRhy+0MSSbkyl1/KYS/ibyMlyrCccahmT2rzP5nJiWzue6iBwlKaaKAfVWyoQRWZ+gNOpFiLP1k8Vr3SfPusZRA+o0prYpZdsC19k56+lnaWcJgDQeOHdiWKhwR2JGpwNazzOZrTHvZ6UpUguD
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2020 08:10:49.9916 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9535ab91-4fe1-46b9-439a-08d80795a0b4
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5648
+X-Mailman-Approved-At: Thu, 04 Jun 2020 07:11:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +120,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- Guenter Roeck <linux@roeck-us.net>, linux-xtensa@linux-xtensa.org,
- Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ "Desnes A. Nunes do Rosario" <desnesn@linux.ibm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, Richard Fontana <rfontana@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, sfr@canb.auug.org.au,
+ Jonathan Corbet <corbet@lwn.net>, maz@kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ YueHaibing <yuehaibing@huawei.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Allison Randal <allison@lohutok.net>,
+ Matt Porter <mporter@kernel.crashing.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Alistair Popple <alistair@popple.id.au>, linuxppc-dev@lists.ozlabs.org,
+ Nicholas Piggin <npiggin@gmail.com>, Alexios Zavras <alexios.zavras@intel.com>,
+ Mark Brown <broonie@kernel.org>, git@xilinx.com, linux-fbdev@vger.kernel.org,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Christophe Leroy <christophe.leroy@c-s.fr>,
+ Wei Hu <weh@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Enrico Weigelt <info@metux.net>,
+ "David S. Miller" <davem@davemloft.net>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 04, 2020 at 09:37:45AM +0300, Mike Rapoport wrote:
-> On Wed, Jun 03, 2020 at 11:22:26PM -0700, Ira Weiny wrote:
-> > On Wed, Jun 03, 2020 at 04:44:17PM -0700, Guenter Roeck wrote:
-> > 
-> > With linux-next on sparc I too see the spinlock issue; something like:
-> > 
-> > ...
-> > Starting syslogd: BUG: spinlock recursion on CPU#0, S01syslogd/139
-> >  lock: 0xf53ef350, .magic: dead4ead, .owner: S01syslogd/139, .owner_cpu: 0
-> > CPU: 0 PID: 139 Comm: S01syslogd Not tainted 5.7.0-next-20200603 #1
-> > [f0067d00 : 
-> > do_raw_spin_lock+0xa8/0xd8 ] 
-> > [f00d598c : 
-> > copy_page_range+0x328/0x804 ] 
-> > [f0025c34 : 
-> > dup_mm+0x334/0x434 ] 
-> > [f0027198 : 
-> > copy_process+0x1248/0x12d4 ] 
-> > [f00273b8 : 
-> > _do_fork+0x54/0x30c ] 
-> > [f00276e4 : 
-> > do_fork+0x5c/0x6c ] 
-> > [f000de44 : 
-> > sparc_do_fork+0x18/0x38 ] 
-> > [f000b7f4 : 
-> > do_syscall+0x34/0x40 ] 
-> > [5010cd4c : 
-> > 0x5010cd4c ] 
-> > 
-> > 
-> > I'm going to bisect between there and HEAD.
-> 
-> The sparc issue should be fixed by 
-> 
-> https://lore.kernel.org/lkml/20200526173302.377-1-will@kernel.org
+Hi Michael,
 
-Saw your other email.  And yes they are!
-
-Thanks!
-Ira
-
->  
-> > Ira
+On 26. 05. 20 15:44, Michael Ellerman wrote:
+> Michal Simek <monstr@monstr.eu> writes:
+>> Hi Michael,
+>>
+>> On 01. 04. 20 13:30, Michal Simek wrote:
+>>> On 01. 04. 20 12:38, Takashi Iwai wrote:
+>>>> On Wed, 01 Apr 2020 12:35:16 +0200,
+>>>> Michael Ellerman wrote:
+>>>>>
+>>>>> Michal Simek <michal.simek@xilinx.com> writes:
+>>>>>> On 01. 04. 20 4:07, Michael Ellerman wrote:
+>>>>>>> Michal Simek <michal.simek@xilinx.com> writes:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> recently we wanted to update xilinx intc driver and we found that function
+>>>>>>>> which we wanted to remove is still wired by ancient Xilinx PowerPC
+>>>>>>>> platforms. Here is the thread about it.
+>>>>>>>> https://lore.kernel.org/linux-next/48d3232d-0f1d-42ea-3109-f44bbabfa2e8@xilinx.com/
+>>>>>>>>
+>>>>>>>> I have been talking about it internally and there is no interest in these
+>>>>>>>> platforms and it is also orphan for quite a long time. None is really
+>>>>>>>> running/testing these platforms regularly that's why I think it makes sense
+>>>>>>>> to remove them also with drivers which are specific to this platform.
+>>>>>>>>
+>>>>>>>> U-Boot support was removed in 2017 without anybody complain about it
+>>>>>>>> https://github.com/Xilinx/u-boot-xlnx/commit/98f705c9cefdfdba62c069821bbba10273a0a8ed
+>>>>>>>>
+>>>>>>>> Based on current ppc/next.
+>>>>>>>>
+>>>>>>>> If anyone has any objection about it, please let me know.
+>>>>>>>
+>>>>>>> Thanks for taking the time to find all this code and remove it.
+>>>>>>>
+>>>>>>> I'm not going to take this series for v5.7, it was posted too close to
+>>>>>>> the merge window, and doing so wouldn't give people much time to object,
+>>>>>>> especially given people are distracted at the moment.
+>>>>>>>
+>>>>>>> I'm happy to take it for v5.8, assuming there's no major objections.
+>>>>>>
+>>>>>> Sure. Just to let you know Christophe Leroy included this patch in his
+>>>>>> series about ppc405 removal. It should be the same.
+>>>>>>
+>>>>>> If you don't want to take that alsa patch I can send it separately and
+>>>>>> this patch can be taken from his series. I don't really mind but please
+>>>>>> let me know what way you prefer.
+>>>>>
+>>>>> It's better to keep it all together, so I'm happy take the alsa patch as
+>>>>> well, it's already been acked.
+>>
+>> Can you please take this series? I know that there is v5 from Christophe
+>> which has this 1/2 as 1/13. But I need this alsa patch too and I would
+>> like to close this because it is around for almost 2 months and none
+>> raised a concern about removing just these Xilinx platforms.
 > 
-> -- 
-> Sincerely yours,
-> Mike.
+> Sorry I meant to reply to your last mail.
+> 
+> I have Christophe's series in my testing branch, planning for it to be
+> in v5.8.
+> 
+> Even if the rest of his series doesn't make it for some reason, as you
+> say the Xilinx removal is uncontroversial so I'll keep that in.
+> 
+> I forgot about the sound patch, I'll pick that up as well.
+
+I took a look at your
+https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git repo
+and I can't see any branch with my patches.
+Also was checking linux-next and my patches are also not there.
+That's why I am curious if this will be go v5.8 in MW.
+
+Thanks,
+Michal
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
