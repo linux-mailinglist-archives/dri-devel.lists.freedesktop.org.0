@@ -1,41 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A500F1ED7D8
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 23:10:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D941ED7DE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 23:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82ED389E3F;
-	Wed,  3 Jun 2020 21:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D20C89E43;
+	Wed,  3 Jun 2020 21:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A2289DA2;
- Wed,  3 Jun 2020 21:10:45 +0000 (UTC)
-IronPort-SDR: qX4d8cTJdq7sf/oVMbVuYkrgIbpcDgCo9N/N2r25QSWlYgJ3CzsaReMVSkSNZ3Z+H+iJRGjZ09
- 2ML9HP23BPPA==
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1016A89E43
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 21:14:18 +0000 (UTC)
+IronPort-SDR: qGY2BAXFUruzsR5hNyb2SCK6kgbg4keDlzH93bHBbMRvXhTVlN3muNxWjcmtSPo6txjZ5ELptm
+ muDXvwikvfHw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 14:10:44 -0700
-IronPort-SDR: QZK9j0hJeAGQu7VKZDfEAagfOBafcA7pYtYbxTWG+XJS9DCZ1vxXz0n9EwDXrPVlGCVnhh9HwM
- AvAi3jitfzFA==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2020 14:14:17 -0700
+IronPort-SDR: /+lphg5mhpEEZkBRitWFLPKo3DT2QNviSG1HWZMRFsCRphzo4Njn3WjwLxNQkn0kQpJrJnSBuZ
+ Bg3bhJF0orwQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,469,1583222400"; d="scan'208";a="269199544"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga003.jf.intel.com with ESMTP; 03 Jun 2020 14:10:43 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/dp_mst: Work around out-of-spec adapters
- filtering short pulses
-Date: Thu,  4 Jun 2020 00:10:40 +0300
-Message-Id: <20200603211040.8190-3-imre.deak@intel.com>
-X-Mailer: git-send-email 2.23.1
-In-Reply-To: <20200603211040.8190-1-imre.deak@intel.com>
-References: <20200603211040.8190-1-imre.deak@intel.com>
+X-IronPort-AV: E=Sophos;i="5.73,469,1583222400"; d="scan'208";a="294107077"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by fmsmga004.fm.intel.com with ESMTP; 03 Jun 2020 14:14:16 -0700
+Date: Wed, 3 Jun 2020 14:14:16 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Mike Rapoport <rppt@kernel.org>, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
+ pagefault/preempt twice
+Message-ID: <20200603211416.GA1740285@iweiny-DESK2.sc.intel.com>
+References: <20200507150004.1423069-8-ira.weiny@intel.com>
+ <20200518184843.3029640-1-ira.weiny@intel.com>
+ <20200519165422.GA5838@roeck-us.net>
+ <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
+ <20200519194215.GA71941@roeck-us.net>
+ <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
+ <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
+ <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
+ <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,110 +57,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some TypeC -> native DP adapters, at least the Club CAC-1557 adapter,
-incorrectly filter out HPD short pulses with a duration less than ~540
-usec, leading to MST probe failures.
+On Wed, Jun 03, 2020 at 01:57:36PM -0700, Andrew Morton wrote:
+> On Thu, 21 May 2020 10:42:50 -0700 Ira Weiny <ira.weiny@intel.com> wrote:
+> 
+> > > > 
+> > > > Actually it occurs to me that the patch consolidating kmap_prot is odd for
+> > > > sparc 32 bit...
+> > > > 
+> > > > Its a long shot but could you try reverting this patch?
+> > > > 
+> > > > 4ea7d2419e3f kmap: consolidate kmap_prot definitions
+> > > > 
+> > > 
+> > > That is not easy to revert, unfortunately, due to several follow-up patches.
+> > 
+> > I have gotten your sparc tests to run and they all pass...
+> > 
+> > 08:10:34 > ../linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
+> > Build reference: v5.7-rc4-17-g852b6f2edc0f
+> > 
+> > Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
+> > Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
+> > Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
+> > Building sparc32:SS-4:nosmp:initrd ... running ......... passed
+> > Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
+> > Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
+> > Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
+> > Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
+> > Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
+> > Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
+> > Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
+> > Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
+> > Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
+> > Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
+> > Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+> > 
+> > Is there another test I need to run?
+> 
+> This all petered out, but as I understand it, this patchset still might
+> have issues on various architectures.
+> 
+> Can folks please provide an update on the testing status?
 
-According to the DP alt mode specification adapters should forward short
-pulses with a duration greater than 250 usec. According to the DP
-specificatin DP sources should detect short pulses in the
-500 usec -> 2 ms range. Based on this filtering out short pulses with a
-duration less than 540 usec is incorrect.
+I believe the tests were failing for Guenter due to another patch set...[1]
 
-To make such adapters work add support for a driver polling on MST
-inerrupt flags, and wire this up in the i915 driver. The sink can clear
-an interrupt it raised after 110 ms if the source doesn't respond, so
-use a 50 ms poll period to avoid missing an interrupt. Polling of the
-MST interrupt flags is explicitly allowed by the DP specification.
+My tests with just this series are working.
 
-This fixes MST probe failures I saw using this adapter and a DELL U2515H
-monitor.
+From my understanding the other failures were unrelated.[2]
 
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c       | 18 +++++++++++++++---
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 15 +++++++++++++++
- include/drm/drm_dp_mst_helper.h             |  1 +
- 3 files changed, 31 insertions(+), 3 deletions(-)
+	<quote Mike Rapoport>
+	I've checked the patch above on top of the mmots which already has
+	Ira's patches and it booted fine. I've used sparc32_defconfig to build
+	the kernel and qemu-system-sparc with default machine and CPU.
+	</quote>
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 5bc72e800b85..d1bf340a95a8 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1178,11 +1178,23 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp_mst_branch *mstb,
- 				    struct drm_dp_sideband_msg_tx *txmsg)
- {
- 	struct drm_dp_mst_topology_mgr *mgr = mstb->mgr;
-+	unsigned long wait_expires = jiffies + msecs_to_jiffies(4000);
- 	int ret;
- 
--	ret = wait_event_timeout(mgr->tx_waitq,
--				 check_txmsg_state(mgr, txmsg),
--				 (4 * HZ));
-+	for (;;) {
-+		ret = wait_event_timeout(mgr->tx_waitq,
-+					 check_txmsg_state(mgr, txmsg),
-+					 mgr->cbs->update_hpd_irq_state ?
-+						msecs_to_jiffies(50) :
-+						wait_expires);
-+
-+		if (ret || !mgr->cbs->update_hpd_irq_state ||
-+		    time_after(jiffies, wait_expires))
-+			break;
-+
-+		mgr->cbs->update_hpd_irq_state(mgr);
-+	}
-+
- 	mutex_lock(&mgr->qlock);
- 	if (ret > 0) {
- 		if (txmsg->state == DRM_DP_SIDEBAND_TX_TIMEOUT) {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index d18b406f2a7d..1ff7d0096262 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -765,8 +765,23 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
- 	return NULL;
- }
- 
-+static void
-+intel_dp_mst_update_hpd_irq_state(struct drm_dp_mst_topology_mgr *mgr)
-+{
-+	struct intel_dp *intel_dp = container_of(mgr, struct intel_dp, mst_mgr);
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
-+	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-+
-+	spin_lock_irq(&i915->irq_lock);
-+	i915->hotplug.short_port_mask |= BIT(dig_port->base.port);
-+	spin_unlock_irq(&i915->irq_lock);
-+
-+	queue_work(i915->hotplug.dp_wq, &i915->hotplug.dig_port_work);
-+}
-+
- static const struct drm_dp_mst_topology_cbs mst_cbs = {
- 	.add_connector = intel_dp_add_mst_connector,
-+	.update_hpd_irq_state = intel_dp_mst_update_hpd_irq_state,
- };
- 
- static struct intel_dp_mst_encoder *
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index 9e1ffcd7cb68..c902f4380200 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -475,6 +475,7 @@ struct drm_dp_mst_topology_mgr;
- struct drm_dp_mst_topology_cbs {
- 	/* create a connector for a port */
- 	struct drm_connector *(*add_connector)(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port, const char *path);
-+	void (*update_hpd_irq_state)(struct drm_dp_mst_topology_mgr *mgr);
- };
- 
- #define DP_MAX_PAYLOAD (sizeof(unsigned long) * 8)
--- 
-2.23.1
+Mike, am I wrong?  Do you think the kmap() patches are still causing issues?
+
+Ira
+
+[1] https://lore.kernel.org/lkml/2807E5FD2F6FDA4886F6618EAC48510E92EAB1DE@CRSMSX101.amr.corp.intel.com/
+[2] https://lore.kernel.org/lkml/20200520195110.GH1118872@kernel.org/
 
 _______________________________________________
 dri-devel mailing list
