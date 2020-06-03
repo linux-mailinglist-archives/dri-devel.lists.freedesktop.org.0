@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE971ECB86
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 10:32:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824501ECB87
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 10:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D14389C16;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33C889A75;
 	Wed,  3 Jun 2020 08:31:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB6F89AB6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A517389A75
  for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 08:31:45 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4525DAE6D;
+ by mx2.suse.de (Postfix) with ESMTP id D018DAE8C;
  Wed,  3 Jun 2020 08:31:45 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -33,9 +33,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v2 05/23] drm/atmel-hlcdc: Use GEM CMA object functions
-Date: Wed,  3 Jun 2020 10:31:14 +0200
-Message-Id: <20200603083132.4610-6-tzimmermann@suse.de>
+Subject: [PATCH v2 06/23] drm/fsl-dcu: Use GEM CMA object functions
+Date: Wed,  3 Jun 2020 10:31:15 +0200
+Message-Id: <20200603083132.4610-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200603083132.4610-1-tzimmermann@suse.de>
 References: <20200603083132.4610-1-tzimmermann@suse.de>
@@ -60,7 +60,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The atmel-hlcdc driver uses the default implementation for CMA functions. The
+The fsl-dcu driver uses the default implementation for CMA functions. The
 DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
 
 Using DRM_GEM_CMA_DRIVER_OPS introduces several changes: the driver now
@@ -73,34 +73,33 @@ by drm_gem_prime_mmap(), which goes through GEM file operations. These
 changes have been part of the aspeed driver for some time.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 11 +----------
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 11 +----------
  1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index 112aa5066ceed..871293d1aeeba 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -821,16 +821,7 @@ static struct drm_driver atmel_hlcdc_dc_driver = {
- 	.irq_preinstall = atmel_hlcdc_dc_irq_uninstall,
- 	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
- 	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+index f15d2e7967a3e..abbc1ddbf27f0 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+@@ -141,16 +141,7 @@ static struct drm_driver fsl_dcu_drm_driver = {
+ 	.irq_handler		= fsl_dcu_drm_irq,
+ 	.irq_preinstall		= fsl_dcu_irq_uninstall,
+ 	.irq_uninstall		= fsl_dcu_irq_uninstall,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
--	.gem_vm_ops = &drm_gem_cma_vm_ops,
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
+-	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+-	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
 -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_vmap = drm_gem_cma_prime_vmap,
--	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
--	.gem_prime_mmap = drm_gem_cma_prime_mmap,
--	.dumb_create = drm_gem_cma_dumb_create,
+-	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+-	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+-	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+-	.dumb_create		= drm_gem_cma_dumb_create,
 +	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops = &fops,
- 	.name = "atmel-hlcdc",
- 	.desc = "Atmel HLCD Controller DRM",
+ 	.fops			= &fsl_dcu_drm_fops,
+ 	.name			= "fsl-dcu-drm",
+ 	.desc			= "Freescale DCU DRM",
 -- 
 2.26.2
 
