@@ -2,58 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F61ED247
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 16:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3141ED31B
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 17:13:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC7589B42;
-	Wed,  3 Jun 2020 14:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB5A89B99;
+	Wed,  3 Jun 2020 15:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D87689B42
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 14:43:27 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id s19so1958711edt.12
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 07:43:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=o9fRNgvSMNigCVKD/ACsDI+dr0Pf1b/8hEBeq9sdd5M=;
- b=ac47t/BB9D4PVYXuiMGnyZqA3biXinoGHdO6dJlgyDU0Ie92fcnQ9sBMt3Za/Bt13u
- Sk4GlbqLptQTIKX15mkz84CUw6q3F6qsZKhW1TKNU5GwzdwbrGIS7CzqqImoljV1PEPF
- Zau6LnnvS8+llleGj9Ff5Vj9lOg0L6frs90o5YKc5q9KG/kgYXsivxzgj6BPyUAeTZSy
- gSpjao2R+ecD190c1XIQbXt3OFxWZUgev3fLrnxEorLmZjUQT52ZZ966slo3XuxVtWHO
- x6cIO/mFtnY5ZytjRR5fO3SY+jsQblvKGVUlbwVwWf+yUuvNEB1cRR+H77BWfXfO9e8F
- ng6A==
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCCE89B99
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 15:13:41 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id m67so2107712oif.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 08:13:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=o9fRNgvSMNigCVKD/ACsDI+dr0Pf1b/8hEBeq9sdd5M=;
- b=oozBR7PX/ll9zjLFcXSxIJoTD79kygQRouf8jsR2vuz8aol6doThN+CtPPZ1IWTn/2
- czsa41Gu7Dpzg1MC4l+zCifBRA1XtNvwIT7snU+7IRizcOEjQtmYM8MYMYufvRMrVB5H
- 99E1KvpbWoSek6ricvEavKQCTLigaieS9HPDzPTW2KjuiVmEQdJbivD8+6u+7d4mhl86
- jrGUuLMrcdw+4znrUc9wpEVdmRdBq070Z/aXLASxfU8gnTLl6Y7VjX9gSWp1fWO2lCbU
- RkWIPArCU/oItumEO90JKYx0GEFWILlvZPELQK26xAglnJ1kxI9Zu1IYgpc3yIdvLK+R
- vSDA==
-X-Gm-Message-State: AOAM5332g+XCybbrc5fwEOFxFEvQji2f2NMZlIzs3EVKH4ahnznt139l
- n/XnyhoifTb77jLCCauh55J2ZoDc
-X-Google-Smtp-Source: ABdhPJyaxsz3XlsHiigzT1CahYYFukjnepSqw+UP20iJTINU57nJkUBY8P/fydw/aLWRj5Bqpf40rw==
-X-Received: by 2002:a50:fe07:: with SMTP id f7mr30596654edt.315.1591195405971; 
- Wed, 03 Jun 2020 07:43:25 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
- by smtp.gmail.com with ESMTPSA id j2sm1345039edn.30.2020.06.03.07.43.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jun 2020 07:43:24 -0700 (PDT)
-Date: Wed, 3 Jun 2020 16:43:24 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm/panel: simple: Set connector type for DSI panels
-Message-ID: <20200603144324.GD3478467@ulmo>
-References: <20200602171240.2785-1-laurent.pinchart+renesas@ideasonboard.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Cz2BiX6d4n6x62rcneWGjZMN7VkN9rwUibKP2R8rjL8=;
+ b=IKLKegpTBkFV8yuXBeBN5yUbsycJlcyhbP8d1h1nlw/On0KHFJPQPdG+C1fRokXthM
+ iaJywtkLBVRoC+plZ2fEstmreFrjIUtaRmxSJ5kq0eK8+uK5qQ9S1h/+5a3FFoHQT3NZ
+ lHVSP+H2fgTlhlZvMVDSBX20QGelkuTqHADl1UNRaGUOdCGDbnw+ofPLGqhIEtqoDeI0
+ 8K2LVE+CTvgYcEAbBM52cwkP97iYo2TPx1btiB1YOiB5T5LnrpRxlXeTkHNWSaT8CFgP
+ ahL3JHVVYuygBeUDDRp2SLrhCJ/NwOotiezRmUkYbLkl1yQunkG8mMH7qcl7/m5hrxOz
+ /iqg==
+X-Gm-Message-State: AOAM532s8iV20YQDQ8ZhJRP5oSpXrrAxtHDPR+V44KSI7XV9THT0METn
+ xbiSOe8FEyt2Vh2gYFUWfzd6Mj954JLeBHQ0bwo=
+X-Google-Smtp-Source: ABdhPJwl2C6njoLHvec0+7Z+pvFglKeo2x6xe974h+nkdR52l4Zy34+b5UkPp73bI+Pl0F3UJP8s0n7smqKuM+QPGx4=
+X-Received: by 2002:aca:ad88:: with SMTP id w130mr122356oie.103.1591197220440; 
+ Wed, 03 Jun 2020 08:13:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200602171240.2785-1-laurent.pinchart+renesas@ideasonboard.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+References: <20200527095854.21714-1-lukasz.luba@arm.com>
+ <20200527095854.21714-5-lukasz.luba@arm.com>
+ <d45e5592-8e11-858b-d3a3-2ec9ce1d1f54@linaro.org>
+ <7201e161-6952-6e28-4036-bd0f0353ec30@arm.com>
+In-Reply-To: <7201e161-6952-6e28-4036-bd0f0353ec30@arm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 3 Jun 2020 17:13:29 +0200
+Message-ID: <CAJZ5v0jwoNSYOz3nGqNshd=5btsLxOp-di-Dot+cHqAQZEQVRw@mail.gmail.com>
+Subject: Re: [PATCH v8 4/8] PM / EM: add support for other devices than CPUs
+ in Energy Model
+To: Lukasz Luba <lukasz.luba@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,67 +55,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1089945631=="
+Cc: Nishanth Menon <nm@ti.com>, Juri Lelli <juri.lelli@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Benjamin Segall <bsegall@google.com>, alyssa.rosenzweig@collabora.com,
+ Matthias Kaehlcke <mka@chromium.org>,
+ Amit Kucheria <amit.kucheria@verdurent.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Andy Gross <agross@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, steven.price@arm.com,
+ Chanwoo Choi <cw00.choi@samsung.com>, Ingo Molnar <mingo@redhat.com>,
+ dl-linux-imx <linux-imx@nxp.com>, "Zhang, Rui" <rui.zhang@intel.com>,
+ Mel Gorman <mgorman@suse.de>, orjan.eide@arm.com,
+ Linux PM <linux-pm@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+ "moderated list:ARM/Mediatek SoC..." <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
+ Dietmar Eggemann <Dietmar.Eggemann@arm.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ David Airlie <airlied@linux.ie>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Quentin Perret <qperret@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sascha Hauer <kernel@pengutronix.de>, Sudeep Holla <sudeep.holla@arm.com>,
+ patrick.bellasi@matbug.net, Shawn Guo <shawnguo@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 2, 2020 at 1:31 PM Lukasz Luba <lukasz.luba@arm.com> wrote:
+>
+> Hi Daniel,
+>
+> On 6/1/20 10:44 PM, Daniel Lezcano wrote:
+> > On 27/05/2020 11:58, Lukasz Luba wrote:
+> >> Add support for other devices than CPUs. The registration function
+> >> does not require a valid cpumask pointer and is ready to handle new
+> >> devices. Some of the internal structures has been reorganized in order to
+> >> keep consistent view (like removing per_cpu pd pointers).
+> >>
+> >> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+> >> ---
+> >
+> > [ ... ]
+> >
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(em_register_perf_domain);
+> >> +
+> >> +/**
+> >> + * em_dev_unregister_perf_domain() - Unregister Energy Model (EM) for a device
+> >> + * @dev             : Device for which the EM is registered
+> >> + *
+> >> + * Try to unregister the EM for the specified device (but not a CPU).
+> >> + */
+> >> +void em_dev_unregister_perf_domain(struct device *dev)
+> >> +{
+> >> +    if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
+> >> +            return;
+> >> +
+> >> +    if (_is_cpu_device(dev))
+> >> +            return;
+> >> +
+> >> +    mutex_lock(&em_pd_mutex);
+> >
+> > Is the mutex really needed?
+>
+> I just wanted to align this unregister code with register. Since there
+> is debugfs dir lookup and the device's EM existence checks I thought it
+> wouldn't harm just to lock for a while and make sure the registration
+> path is not used. These two paths shouldn't affect each other, but with
+> modules loading/unloading I wanted to play safe.
+>
+> I can change it maybe to just dmb() and the end of the function if it's
+> a big performance problem in this unloading path. What do you think?
 
---===============1089945631==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
-Content-Disposition: inline
+I would rather leave the mutex locking as is.
 
-
---9dgjiU4MmWPVapMU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 02, 2020 at 08:12:40PM +0300, Laurent Pinchart wrote:
-> None of the DSI panels set the connector_type in their panel_desc
-> descriptor. As they are all guaranteed to be DSI panels, that's an easy
-> fix, set the connector type to DRM_MODE_CONNECTOR_DSI.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---9dgjiU4MmWPVapMU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7XtwwACgkQ3SOs138+
-s6H32RAAl+2VDTjQrs9MexWOL9xc0Xq5Zfzvc1Hj4d1yaUsh/mYDzT2m9Nk1HXfA
-e9I9TJkK3HzcREv6TnhaXTkAkBeyaMriHFyxqaJQS5Sx5APc+uRaQdYSCVFosRKX
-2em5fqwmbsIS5UDm42q5ITkjIgsqCZwl6ygnidssalZZoqYbxwgo1ElueoR3/fxj
-MRn0ozIA1/n21rgDJ/ew0qsIZG3kkkX3w4eXcAHX3RCDtKAOjsG+UTEL6d9c6hRY
-jw8Z4IyhUIXsB8bFrRI45KGXbMryslz/KPOtZpWneiKOA1kx0n0+XjEI7Zujkzp8
-S6Dk1FfHlXogGXAdnTpH+Ahsqn5Z+u1TOjIrw6YS0xwjcdPDHoTy6HJ55WML0ES5
-uD3ayUyKcwx1w6izwlgWd1dpW8LKC/vbtkwDqRCHUc88/QnUhFVrrsBdMo2NkKIf
-MlVx0Aw5YpKFdQYzY6/0vI35PF6waYx72IiI9PcpP99uiQv7E5M3nikhEBG2u0MH
-SbhipCPUaaYqQlyfzGLz6J9w8IwD8nKjZ9j/JdxVr/HFYbVnwH+hXVaL6YXG8quk
-3m7fHes+Vmgc5OuwhC/DuuKJM9yH8fovRqwDwG0yLkGTM4DwX9kc90mDBXNg8/S/
-jdtHfugSR17Sh+WWktwE1H4l5h6akLlaBVnnaVL/q6j83kQzj50=
-=tYYh
------END PGP SIGNATURE-----
-
---9dgjiU4MmWPVapMU--
-
---===============1089945631==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+However, the question to ask is what exactly may go wrong without that
+locking in place?  Is there any specific race condition that you are
+concerned about?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1089945631==--
