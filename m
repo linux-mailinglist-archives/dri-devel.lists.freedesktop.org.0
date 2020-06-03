@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EC61ED00D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 14:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316E81ED05C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 14:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 380B289AA7;
-	Wed,  3 Jun 2020 12:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B782D89BC2;
+	Wed,  3 Jun 2020 12:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA7989AA7
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 12:46:11 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id p5so2192234wrw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 05:46:11 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8885E89BC2
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 12:57:38 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id r15so1943475wmh.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 05:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1dezsFrAXgQRUAbtXd/hJtP7u21s0pQo3uaV+ZSVkq8=;
- b=a3Badg6H297rkPRUu85C7NekyP85uPbUUYCvla+11fA6tY+0ETeq5kIhf76cla91VX
- 6/wXhaWqDbECuDFzSyo7feKnVRLVxeCbwr76IpqTige1zr3RwszH/8rs3l5bxcCf5SkS
- k23uYnUcH0tYgE2PHnt+qeZGAUeWjVXzWb7L8=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=p3J7CIPvEW/4/DOD3MuRieDrllJtb4tW38npIrPN1TE=;
+ b=Ev2653EI84v6RzIG/SV4taBZHLLnlj7mawboc4BX8Azkq8c8mBdKz85Hz9vJhifdHm
+ 9naBj9PfmpG0V81dbx6ijUm1XP2V+iWNRuUU1UosKrhPF9smbVl9gU7MvBvOuyN4RXkN
+ gnfrDAnrglderblFv3yKw0FeXCuIxAqLpHd2Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1dezsFrAXgQRUAbtXd/hJtP7u21s0pQo3uaV+ZSVkq8=;
- b=S+7BL3zdwWi3aYgaz4/GV+5lztJPzWAsDkVe5cbJjqOdpT37Xk5qMTVU5P6Mddkw/W
- HDgQTitwy+hQY1XWY5ll0XNhggLavco/AIdb6bhHb8Qfu4SGPlhPTKgHQ/VDtzb8erW8
- LEbhs1B/Pbz0h/C6x5kbAPxaT5f/26R+j4RHd5Weu9XglWDlHDOM/alwucImoLRauzOY
- E/1UwNjE4ySy6AW+h13IkB/SHTRMy/q8e94AqdKH2bJqNjmdXkVEf47p5H+8vvUSTy4t
- bxJfGeFDXlfKi0UP+iHPYsYJF9qfvJQsz5Ol2sytqvWf9SgrnH6d5GlCwwawuqN7z9kk
- kIXQ==
-X-Gm-Message-State: AOAM531c5qcU7GIINvY15KC32dvCYmjpfOPzn8C1FPtd9ydEszcJlafF
- 1DIPi7R+GkOknsviVDfnrw7tUg==
-X-Google-Smtp-Source: ABdhPJwqNZ2+TYHPjG3wKm9X3fQYrXyzJyZ0YxRk8JXA+4aip8pXwNCddmeftejCdxfMEayVg3qCFg==
-X-Received: by 2002:a5d:5704:: with SMTP id a4mr29147968wrv.389.1591188369746; 
- Wed, 03 Jun 2020 05:46:09 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=p3J7CIPvEW/4/DOD3MuRieDrllJtb4tW38npIrPN1TE=;
+ b=Gb5bF8Fd5Rmv6tw5cmg2nOQvjM/0UbKi+VSC94pPf8oYR/vH62RgHoLv/c7jZzW3Aa
+ 6WZDhv5atSQXB67CBe/QzTpsCkFuZLACR0tx5u1AxFp+8qpyQyP3blBEEgDyesv5Pqql
+ RSU9kpaMD42CPDQTm3StglUsNJUkd6BiYurLsCLID9iErJWp4lSb/vpprL03/n4jw/TI
+ 9Q7vPWssZjXHod6UfvcFGESISfdZxSvxm0Kzv2RizCV+higrIc8/mRbDwIETp+jAtX12
+ OywYsvf4eb3hmmZJnTyEyVSqj7+BWOuKXwKbS3PrzNWLr4dL+m/keDnQmMf3fvWYeesi
+ ksxA==
+X-Gm-Message-State: AOAM533QoNUvcsc29BljkrR9rO/cKwAvRMhQip2dKupZKupKiZemDRZG
+ WuZjwa9gxa/76veQ8qEi2QBbUA==
+X-Google-Smtp-Source: ABdhPJyF+v4LoeoY0PURDaxDAUixFn1hffa5ChPGjQhX3hqDLaF98U4Q5Ny34cuWkL2qQwdEC11BtA==
+X-Received: by 2002:a05:600c:10cf:: with SMTP id
+ l15mr8553162wmd.10.1591189057097; 
+ Wed, 03 Jun 2020 05:57:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l5sm2665527wml.27.2020.06.03.05.46.08
+ by smtp.gmail.com with ESMTPSA id v7sm2889022wme.46.2020.06.03.05.57.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jun 2020 05:46:08 -0700 (PDT)
-Date: Wed, 3 Jun 2020 14:46:06 +0200
+ Wed, 03 Jun 2020 05:57:36 -0700 (PDT)
+Date: Wed, 3 Jun 2020 14:57:34 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm: Don't call dma_buf_vunmap without _vmap
-Message-ID: <20200603124606.GL20149@phenom.ffwll.local>
-References: <20200511093554.211493-2-daniel.vetter@ffwll.ch>
- <20200514201117.465146-1-daniel.vetter@ffwll.ch>
- <CAF6AEGskgFyDxX+MWF84Z53ATmVd3972py88Og=aLQFV0d7UPQ@mail.gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/9] drm/udl: Don't call get/put_pages on imported dma-buf
+Message-ID: <20200603125734.GM20149@phenom.ffwll.local>
+References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
+ <20200511093554.211493-6-daniel.vetter@ffwll.ch>
+ <1f21209e-c041-7203-af94-5e71d9ee9234@suse.de>
+ <20200514124757.GY206103@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGskgFyDxX+MWF84Z53ATmVd3972py88Og=aLQFV0d7UPQ@mail.gmail.com>
+In-Reply-To: <20200514124757.GY206103@phenom.ffwll.local>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,89 +70,144 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sean Paul <sean@poorly.run>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 31, 2020 at 09:02:11AM -0700, Rob Clark wrote:
-> On Thu, May 14, 2020 at 1:11 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > I honestly don't exactly understand what's going on here, but the
-> > current code is wrong for sure: It calls dma_buf_vunmap without ever
-> > calling dma_buf_vmap.
-> >
-> > What I'm not sure about is whether the WARN_ON is correct:
-> > - msm imports dma-buf using drm_prime_sg_to_page_addr_arrays. Which is
-> >   a pretty neat layering violation of how you shouldn't peek behind
-> >   the curtain of the dma-buf exporter, but par for course. Note that
-> >   all the nice new helpers don't (and we should probably have a bit a
-> >   warning about this in the kerneldoc).
-> >
-> > - but then in the get_vaddr() in msm_gem.c, we seems to happily wrap a
-> >   vmap() around any object with ->pages set (so including imported
-> >   dma-buf).
-> >
-> > - I'm not seeing any guarantees that userspace can't use an imported
-> >   dma-buf for e.g. MSM_SUBMIT_CMD_BUF in a5xx_submit_in_rb, so no
-> >   guarantees that an imported dma-buf won't end up with a ->vaddr set.
-> >
-> > But even if that WARN_ON is wrong, cleaning up a vmap() done by msm by
-> > calling dma_buf_vunmap is the wrong thing to do.
-> >
-> > v2: Rob said in review that we do indeed have a gap in get_vaddr() that
-> > needs to be plugged. But the users I've found aren't legit users on
-> > imported dma-buf, so we can just reject that.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Sean Paul <sean@poorly.run>
-> > Cc: linux-arm-msm@vger.kernel.org
-> > Cc: freedreno@lists.freedesktop.org
-> 
-> Reviewed-by: Rob Clark <robdclark@gmail.com>
+On Thu, May 14, 2020 at 02:47:57PM +0200, Daniel Vetter wrote:
+> On Thu, May 14, 2020 at 09:25:18AM +0200, Thomas Zimmermann wrote:
+> > Hi,
+> > =
 
-Queued in drm-misc-next for 5.9, thanks for your review.
+> > given the upcoming removal of this file, I don't know if you really want
+> > to merge this patch. If so, please see my comment on patch 6 and
+> =
+
+> Yeah I can wait for your patch to land, I just looked at that series. I'm
+> kinda just keeping this around as a reminder locally.
+
+Still applied cleanly to drm-misc-next, so I applied it.
 -Daniel
 
-> 
-> > ---
-> >  drivers/gpu/drm/msm/msm_gem.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> > index 5a6a79fbc9d6..e70abd1cde43 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > @@ -554,6 +554,9 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
-> >         struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> >         int ret = 0;
-> >
-> > +       if (obj->import_attach)
-> > +               return ERR_PTR(-ENODEV);
-> > +
-> >         mutex_lock(&msm_obj->lock);
-> >
-> >         if (WARN_ON(msm_obj->madv > madv)) {
-> > @@ -907,8 +910,7 @@ static void free_object(struct msm_gem_object *msm_obj)
-> >         put_iova(obj);
-> >
-> >         if (obj->import_attach) {
-> > -               if (msm_obj->vaddr)
-> > -                       dma_buf_vunmap(obj->import_attach->dmabuf, msm_obj->vaddr);
-> > +               WARN_ON(msm_obj->vaddr);
-> >
-> >                 /* Don't drop the pages for imported dmabuf, as they are not
-> >                  * ours, just free the array we allocated:
-> > --
-> > 2.26.2
-> >
+> -Daniel
+> =
 
--- 
+> > =
+
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > =
+
+> > Am 11.05.20 um 11:35 schrieb Daniel Vetter:
+> > > There's no direct harm, because for the shmem helpers these are noops
+> > > on imported buffers. The trouble is in the locks these take - I want
+> > > to change dma_buf_vmap locking, and so need to make sure that we only
+> > > ever take certain locks on one side of the dma-buf interface: Either
+> > > for exporters, or for importers.
+> > > =
+
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Dave Airlie <airlied@redhat.com>
+> > > Cc: Sean Paul <sean@poorly.run>
+> > > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > ---
+> > >  drivers/gpu/drm/udl/udl_gem.c | 22 ++++++++++++----------
+> > >  1 file changed, 12 insertions(+), 10 deletions(-)
+> > > =
+
+> > > diff --git a/drivers/gpu/drm/udl/udl_gem.c b/drivers/gpu/drm/udl/udl_=
+gem.c
+> > > index b6e26f98aa0a..c68d3e265329 100644
+> > > --- a/drivers/gpu/drm/udl/udl_gem.c
+> > > +++ b/drivers/gpu/drm/udl/udl_gem.c
+> > > @@ -46,29 +46,31 @@ static void *udl_gem_object_vmap(struct drm_gem_o=
+bject *obj)
+> > >  	if (shmem->vmap_use_count++ > 0)
+> > >  		goto out;
+> > >  =
+
+> > > -	ret =3D drm_gem_shmem_get_pages(shmem);
+> > > -	if (ret)
+> > > -		goto err_zero_use;
+> > > -
+> > > -	if (obj->import_attach)
+> > > +	if (obj->import_attach) {
+> > >  		shmem->vaddr =3D dma_buf_vmap(obj->import_attach->dmabuf);
+> > > -	else
+> > > +	} else {
+> > > +		ret =3D drm_gem_shmem_get_pages(shmem);
+> > > +		if (ret)
+> > > +			goto err;
+> > > +
+> > >  		shmem->vaddr =3D vmap(shmem->pages, obj->size >> PAGE_SHIFT,
+> > >  				    VM_MAP, PAGE_KERNEL);
+> > >  =
+
+> > > +		if (!shmem->vaddr)
+> > > +			drm_gem_shmem_put_pages(shmem);
+> > > +	}
+> > > +
+> > >  	if (!shmem->vaddr) {
+> > >  		DRM_DEBUG_KMS("Failed to vmap pages\n");
+> > >  		ret =3D -ENOMEM;
+> > > -		goto err_put_pages;
+> > > +		goto err;
+> > >  	}
+> > >  =
+
+> > >  out:
+> > >  	mutex_unlock(&shmem->vmap_lock);
+> > >  	return shmem->vaddr;
+> > >  =
+
+> > > -err_put_pages:
+> > > -	drm_gem_shmem_put_pages(shmem);
+> > > -err_zero_use:
+> > > +err:
+> > >  	shmem->vmap_use_count =3D 0;
+> > >  	mutex_unlock(&shmem->vmap_lock);
+> > >  	return ERR_PTR(ret);
+> > > =
+
+> > =
+
+> > -- =
+
+> > Thomas Zimmermann
+> > Graphics Driver Developer
+> > SUSE Software Solutions Germany GmbH
+> > Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> > (HRB 36809, AG N=FCrnberg)
+> > Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> > =
+
+> =
+
+> =
+
+> =
+
+> =
+
+> -- =
+
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
