@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CB31ED113
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07EE1ED11B
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 165BE89BA3;
-	Wed,  3 Jun 2020 13:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1328289B9F;
+	Wed,  3 Jun 2020 13:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9791589B9F;
- Wed,  3 Jun 2020 13:43:47 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l11so2466821wru.0;
- Wed, 03 Jun 2020 06:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SOmyve9bUDmubIVPzpcziP63vVpum2UbcrFicqpkq+w=;
- b=dLQbd/+8npTMk4QLp1GlJLJSXrvXa8CCkj+1zvjWm4wHCtiVTwrq10h9aZ8EzttvgH
- kJY1Ro32Qv32VjsmheO8rPIQTYMTXHQjWKtsoKdhC/6fkjgi+uMe3mJgDggZWU0HwoYQ
- Cs3Goq8PKh3PlsqRTG8pZ/803xSfaphW1r5tJVqAKbBoTb9M4N5qVQuqUIxhxAKqX6df
- wSO4RTleRp1+UKJ8HlRhL2Ev7l6ZAZXGAJP5BeFs7Ar9uPyJ84DvN0XCHKha6fuo4Kb0
- 4paMO6Z/6XR5CFul1cJJmPh5unfcREiHYfKfg09IJmc+76JgIlchU9bNd8vJcirWpn0h
- QFMg==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D59B789B9F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 13:44:31 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id r15so2125637wmh.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 06:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wlyKA4Bua/35RYvsorF/aSvaZvpEfS1WUq4eGYd+ass=;
+ b=NpWopXpQNKeVFVJsLKg0mbHTFMI3veHFo/a8zaiz1IPJg1ICSHnB+MJuEyGDtxX1Ec
+ ucBuQMTmrzpuIlANJBTcvUQBbgW2wpWHtUajlrWfE2pQ5CB8rcr1d8ER8z7s4qREL3Qi
+ aSHj+fFBDSzjwkTzR8mee5IXiT+ShEsXExrhI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SOmyve9bUDmubIVPzpcziP63vVpum2UbcrFicqpkq+w=;
- b=INEPDKsoSjznCO5+PzHeCdHzwgVuhSXlngtbnfipw7mfePIVUZ7I/DIKEWXhSNepeB
- igqc92MfnUZyhqQ1nw6vINTxTmJkvCy+0fx1w2UCkCxrGtESUkfw4lyGXKAsS2vumTzx
- OGovr1VhN6Ahw9aRdpA5pkZBVpg70t6PMohg5GSUbonz3LfPUcY0xE5UV+FQxtL7v7Ah
- wLwo8vV+BeqjqDWyRvouQDFFHtsRCix7NmcmtJQeTc6VfdfWzDsjURdKM/chwxhC1V8A
- 7EFr1NKqcfyEfwL0aLefaug5t9iU79iUm6dcLh/+l8HsrhuYCXrAAtWHkW7XgCVl7qXj
- qR1g==
-X-Gm-Message-State: AOAM532CNAck0AIQXm6P2dIq3UdJ7jUZZ6Fg+5edQ3Kmjp4GO9ckLrAr
- LgrHkSsKgRumrPrTHzxYVjr8LDE9t5UUNPqV+DE=
-X-Google-Smtp-Source: ABdhPJyDqMwuUN33to+4ovZr0Z2o1K7X5Asu5DFxHM0Idg4MwGzkmHriwv3Fc/65Nvi83qQQQIvJeu3qs+VvIdRSuGc=
-X-Received: by 2002:a5d:6789:: with SMTP id v9mr33118221wru.124.1591191826155; 
- Wed, 03 Jun 2020 06:43:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wlyKA4Bua/35RYvsorF/aSvaZvpEfS1WUq4eGYd+ass=;
+ b=JUO2p8zuvWlMaBbQNGFlvyRnPYgIjO9z2Fr6cWmbK7whZQS4zCe5iW4gyQAsTdXqCg
+ zBm69ZBolDvbyCMCsguCbISeqzXa5JFQMtPuEm9l4R4Q6uonKID76mnptpO2QusaFb8d
+ nYFVF9Q9djB2BbyyvNWe5nLYXdhiMOYk0eLeIlCqAVgEgbqiK3ToGsFngEFy82coLh2z
+ DsA7G20XRF8WEMs5LcTCEAR9La5BwA2jKpcj+HMAdgmqI7aXLMYmA1ActtaL+CLE4+VU
+ YioSryjLdhSTz5AL5O9P5lGQhIxRn81Fe/CYFD6I9wz8WM2jRSl0NBRCM3neBOK/rFQ9
+ qI0Q==
+X-Gm-Message-State: AOAM5303S+U6OX2BWVPdcj/Wri/uBbI7ruLPgoZTbXpsXTYjK3PqlCSA
+ D42dyoIHz/gGa76+Cvob2JrDaQ==
+X-Google-Smtp-Source: ABdhPJzjv44qpfuN/FRpKDtgqY18M21OcepceFHznuUuZeV0BGGr4cS3sZ6cpgYAi8RpNhNB90swiQ==
+X-Received: by 2002:a1c:4008:: with SMTP id n8mr9381167wma.118.1591191870559; 
+ Wed, 03 Jun 2020 06:44:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id d13sm2940762wmb.39.2020.06.03.06.44.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Jun 2020 06:44:29 -0700 (PDT)
+Date: Wed, 3 Jun 2020 15:44:27 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2] drm: document how user-space should use link-status
+Message-ID: <20200603134427.GO20149@phenom.ffwll.local>
+References: <a3tPhSgOvV4Vn3if_Bqhg-QDwCIVZfHc99EeOVWLRkxOWQoF2tL3QSz-6SLEv3pIJRg2VANaS5rmZUkTkyqi3y0PO9qY84oOa7v_yNFpauY=@emersion.fr>
+ <20200603123204.6ef5f6b1@eldfell.localdomain>
+ <M7Ja_vtKU8uXTBBAW_4XJJAeG4Tq-ftcqJEZ_DtlSPqx_yS_zCnYFnKtB5WQQpxz-2hylwWMlDmSKfZz9IkevX4BjXIuj17UyfRwyNSrWL8=@emersion.fr>
 MIME-Version: 1.0
-References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
- <20200603114758.13295-1-piotr.stankiewicz@intel.com>
-In-Reply-To: <20200603114758.13295-1-piotr.stankiewicz@intel.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 3 Jun 2020 09:43:34 -0400
-Message-ID: <CADnq5_Pa4J3NVprJnpKTih8O1G-oyMMUT4nHb=RZz96i_x+sKw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/15] drm/amdgpu: Use PCI_IRQ_MSI_TYPES where
- appropriate
-To: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+Content-Disposition: inline
+In-Reply-To: <M7Ja_vtKU8uXTBBAW_4XJJAeG4Tq-ftcqJEZ_DtlSPqx_yS_zCnYFnKtB5WQQpxz-2hylwWMlDmSKfZz9IkevX4BjXIuj17UyfRwyNSrWL8=@emersion.fr>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Linux PCI <linux-pci@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Emily Deng <Emily.Deng@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- shaoyunl <shaoyun.liu@amd.com>
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 3, 2020 at 7:48 AM Piotr Stankiewicz
-<piotr.stankiewicz@intel.com> wrote:
->
-> Seeing as there is shorthand available to use when asking for any type
-> of interrupt, or any type of message signalled interrupt, leverage it.
->
-> Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> index 5ed4227f304b..2588dd1015db 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> @@ -249,15 +249,10 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
->
->         if (amdgpu_msi_ok(adev)) {
->                 int nvec = pci_msix_vec_count(adev->pdev);
+On Wed, Jun 03, 2020 at 01:27:55PM +0000, Simon Ser wrote:
+> > > + *      When user-space performs an atomic commit on a connector with a "BAD"
+> > > + *      link-status without resetting the property to "GOOD", it gets
+> > > + *      implicitly reset. This might make the atomic commit fail if the modeset
+> > > + *      is unsuccessful.
+> >
+> > I think this was what Daniel was saying that the kernel should require
+> > ALLOW_MODESET to be set for the automatic reset, right?
+> 
+> Actually this paragraph isn't true. link-status is only reset to GOOD for
+> legacy modeset.
+> 
+> But right now this doesn't matter since no driver reads the link-status
+> property value as far as I can tell. Note, only i915 sets link-status
+> to BAD.
 
-I think you can drop pci_msix_vec_count() here.  It's not used since
-we always request 1 vector.
+It's magic ... change in link status results in connectors_change (or
+something like that), which forces the modeset (and first recomputation of
+mode state) that fixes everything up.
 
-Alex
+But yeah I entirely missed that the autoreset to GOOD only happens in
+legacy modeset.
 
-> -               unsigned int flags;
->
-> -               if (nvec <= 0) {
-> -                       flags = PCI_IRQ_MSI;
-> -               } else {
-> -                       flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
-> -               }
->                 /* we only need one vector */
-> -               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
-> +               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1,
-> +                                            PCI_IRQ_MSI_TYPES);
->                 if (nvec > 0) {
->                         adev->irq.msi_enabled = true;
->                         dev_dbg(adev->dev, "amdgpu: using MSI/MSI-X.\n");
-> --
-> 2.17.2
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+I guess we might have some atomic compositors with slightly suboptimal
+handling of link status failure :-/
+
+> > I'm fine with how the doc is written now. But if ALLOW_MODESET becomes
+> > a requirement for the automatic reset, I suspect there is a risk to
+> > regress Weston, assuming the automatic reset used to be successful.
+> 
+> Right now a commit without ALLOW_MODESET won't reset link-status to GOOD,
+> but also won't re-train the link on i915. So I think it's fine to require
+> ALLOW_MODESET.
+> 
+> Should drivers read the value of the link-status property? Or should we
+> ignore user-space writes to the property and only require ALLOW_MODESET
+> to re-train the link?
+
+Well without allow_modeset it'll fail, that's the problem. But since we
+dont automatically restore, I think the only problem is that existing
+atomic userspace might be stuck on a bad link for a while ...
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
