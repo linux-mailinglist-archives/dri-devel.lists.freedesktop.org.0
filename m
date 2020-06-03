@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C5F1ECA34
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:11:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB791ECA59
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01D3F6E0E1;
-	Wed,  3 Jun 2020 07:10:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0307A6E0EF;
+	Wed,  3 Jun 2020 07:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBCC6E0E1
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 07:10:55 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id z18so1323445lji.12
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 00:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
- :mime-version; bh=A5KJfQO/lM6a9GlX3AQS56h1ed0amroSZdSU94hdRH8=;
- b=fjYALaUVl8UuzSCuFq1diL0PQlLm7k9+SOW1+VDQsZJnCgZb9whkZghhDCTE0+kUkB
- LcXd4nCkWJQdybUS1RSwDEW1Sxbl+a7d1S6XvuF+ZNAZZxhfzMYPcmkzdLjkRcTcOFPY
- y1CZU7Kfp2xlPvyGQxVdacmGS9JCvlW6nYJRD9IGTZ9BVgLgzOatjVhqT5y6q2rhfPHc
- lVpEGCG1Pu2bYoTs9Rs4ARuypVsVZq6SZPYSLZFxQnFbcI1DBgMPvsiOsdgXtYyO4uZ1
- SA4HauDWwY364pH1vYn6UAKYV+e79TrXv0RA0EXelwUbhUQP2+CFd4mm31iFXYoJWnYM
- H/Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
- :date:message-id:mime-version;
- bh=A5KJfQO/lM6a9GlX3AQS56h1ed0amroSZdSU94hdRH8=;
- b=jk3YXi/mOm49GKzL4/9OQ7U8oXJ1D4xTjywdOKCdk4fktF4E/tPJxltgaioIiot7aM
- 75oSrdG1uK0VarDGXk/PIS6d56hdRt1H8nuJ//5h1stk5i8rsqyS4+fhNi11pr1z7DZo
- WEV+EKT1pD2kP8xZN0MzEZZB5YJE2vaWGn8TnFjOeMNdx93IADio8AZJ2kFxpQM8OQ3O
- 7FDkMGDXiHa/1lqpJECU9iZSwdH6eXxsvXG9AJn2UK85wJiP0s6KvzaIDsgvi3YycKKl
- RWY+qOmnUZBF7qHcTBDUrQt01iNawOkks0QCUJfKSE6yHfCtJdCHSyQATEZasdtu7LCo
- 4Uig==
-X-Gm-Message-State: AOAM530F/ouHFH3Bzpv91ZFpjqMG9QeBW5kLj4Jy9Qx2wfrmVT1uxn3h
- zRUI68mcmTHRcnuyu5dUjmM=
-X-Google-Smtp-Source: ABdhPJwjnZ03YT1BUGtlTGrCyASj3ZyL9XcEjAOFnfo9zO5NL7x9Nd1azQ9SgGDRIv6j9WTOPshJ7g==
-X-Received: by 2002:a05:651c:508:: with SMTP id
- o8mr1294150ljp.112.1591168253011; 
- Wed, 03 Jun 2020 00:10:53 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
- by smtp.gmail.com with ESMTPSA id o4sm360151lff.78.2020.06.03.00.10.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 03 Jun 2020 00:10:51 -0700 (PDT)
-From: Felipe Balbi <balbi@kernel.org>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 6/6] usb: gadget: function: Add Generic USB Display
- support
-In-Reply-To: <0d0ec3f5-4b9a-e128-5d50-9e7096b3f984@tronnes.org>
-References: <20200529175643.46094-1-noralf@tronnes.org>
- <20200529175643.46094-7-noralf@tronnes.org> <87k10p1jr6.fsf@kernel.org>
- <0d0ec3f5-4b9a-e128-5d50-9e7096b3f984@tronnes.org>
-Date: Wed, 03 Jun 2020 10:10:47 +0300
-Message-ID: <87h7vs1v60.fsf@kernel.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E046E0EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 07:18:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id A7A0BAD66;
+ Wed,  3 Jun 2020 07:18:52 +0000 (UTC)
+Subject: Re: [git pull] drm for 5.8-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jyri Sarha <jsarha@ti.com>
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+ <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
+ <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <e75218b1-985a-0ec8-483d-9780f668d8c3@suse.de>
+Date: Wed, 3 Jun 2020 09:18:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
+In-Reply-To: <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,198 +68,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, sam@ravnborg.org
-Content-Type: multipart/mixed; boundary="===============1509508703=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0914079791=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1509508703==
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha256; protocol="application/pgp-signature"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0914079791==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="RLSIgEdvUrhZl2rtSOw3WnVw6yWr4RKax"
 
---=-=-=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RLSIgEdvUrhZl2rtSOw3WnVw6yWr4RKax
+Content-Type: multipart/mixed; boundary="jEu9VtUzOhr79a3G2Suw4dWwZjIWlPvjq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jyri Sarha <jsarha@ti.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <e75218b1-985a-0ec8-483d-9780f668d8c3@suse.de>
+Subject: Re: [git pull] drm for 5.8-rc1
+References: <CAPM=9txGww+omvateOTizZRV9_wLdAbq6uAz3DRa_S6bn1jQuQ@mail.gmail.com>
+ <CAHk-=wjvVjei5d45D=GQMsFMssD8knSFWqxMbd4bH8qSgXk-Lg@mail.gmail.com>
+ <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wiug3vS=J7obQsyCLp+6qQvT5v6ctOddHRXbVgsLFTLwQ@mail.gmail.com>
+
+--jEu9VtUzOhr79a3G2Suw4dWwZjIWlPvjq
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
+Hi
 
-Hi,
+Am 02.06.20 um 23:56 schrieb Linus Torvalds:
+> On Tue, Jun 2, 2020 at 2:21 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>
+>> I'm still working through the rest of the merge, so far that was the
+>> only one that made me go "Whaa?".
+>=20
+> Hmm. I'm also ending up effectively reverting the drm commit
+> b28ad7deb2f2 ("drm/tidss: Use simple encoder") because commit
+> 9da67433f64e ("drm/tidss: fix crash related to accessing freed
+> memory") made the premise of that simply encoder commit no longer be
+> true.
 
-Noralf Tr=C3=B8nnes <noralf@tronnes.org> writes:
->> I missed this completely until now.
->> Noralf Tr=C3=B8nnes <noralf@tronnes.org> writes:
->>> This adds the gadget side support for the Generic USB Display. It prese=
-nts
->>> a DRM display device as a USB Display configured through configfs.
->>>
->>> The display is implemented as a vendor type USB interface with one bulk
->>> out endpoint. The protocol is implemented using control requests.
->>> lz4 compressed framebuffer data/pixels are sent over the bulk endpoint.
->>>
->>> The DRM part of the gadget is placed in the DRM subsystem since it reac=
-hes
->>> into the DRM internals.
->>=20
->> First and foremost, could this be done in userspace using the raw gadget
->> or f_fs?
->>=20
->
-> An uncompressed 1920x1080-RGB565 frame is ~4MB. All frames can be
-> compressed (lz4) even if just a little, so this is decompressed into the
-> framebuffer of the attached DRM device. AFAIU I would need to be able to
-> mmap the received bulk buffer if I were to do this from userspace
-> without killing performance. So it doesn't look like I can use raw
-> gadget or f_fs.
+That's OK. The simple encoder is just for consolidating these
+almost-empty encoders at a single place.
 
-oh, yeah we couldn't map that much. I was thinking that maybe we could
-transfer several small buffers instead of a single large one, but
-perhaps that would complicate decompression?
+> If there is a better way to sort that out (ie something like "use
+> simple encoder but make it free things at destroy time"), I don't know
+> of it.
 
->>> diff --git a/drivers/usb/gadget/function/f_gud_drm.c b/drivers/usb/gadg=
-et/function/f_gud_drm.c
->>> new file mode 100644
->>> index 000000000000..9a2d6bb9739f
->>> --- /dev/null
->>> +++ b/drivers/usb/gadget/function/f_gud_drm.c
->>> @@ -0,0 +1,678 @@
->>> +struct f_gud_drm {
->>> +	struct usb_function func;
->>> +	struct work_struct worker;
->>=20
->> why do you need a worker?
->>=20
->
-> The gadget runs in interrupt context and I need to call into the DRM
-> subsystem which can sleep.
+There's now drmm_kmalloc() to auto-free the memory when DRM releases a
+device.
 
-At some point someone wanted to provide a patch to run endpoint giveback
-routine in process context, much like usb host stack does if
-requested. That's currently not implemented, but should be doable by
-modifying usb_gadget_giveback_request().
+Best regards
+Thomas
 
->>> +	size_t max_buffer_size;
->>> +	void *ctrl_req_buf;
->>> +
->>> +	u8 interface_id;
->>> +	struct usb_request *ctrl_req;
->>> +
->>> +	struct usb_ep *bulk_ep;
->>> +	struct usb_request *bulk_req;
->>=20
->> single request? Don't you want to amortize the latency of
->> queue->complete by using a series of requests?
->>=20
->
-> I use only one request per update or partial update.
-> I kmalloc the biggest buffer I can get (default 4MB) and tell the host
-> about this size. If a frame doesn't fit, the host splits it up into
-> partial updates. I already support partial updates so this is built in.
-> Userspace can tell the graphics driver which portion of the framebuffer
-> it has touched to avoid sending the full frame each time.
-> Having one continous buffer simplifies decompression.
+>=20
+> I'll let you guys fight it out (added people involved with those
+> commits to the participants,
+>=20
+>                     Linus
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
 
-got it
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> There's a control request preceding the bulk request which tells the
-> area the update is for and whether it is compressed or not.
-> I did some testing to see if I should avoid the control request overhead
-> for split updates, but it turns out that the bottleneck is the
-> decompression. The control request is just 400-500us, while the total
-> time from control request to buffer is decompressed is 50-100ms
-> (depending on how well the frame compresses).
 
-yeah, that makes sense.
+--jEu9VtUzOhr79a3G2Suw4dWwZjIWlPvjq--
 
->>> +	struct gud_drm_gadget *gdg;
->>> +
->>> +	spinlock_t lock; /* Protects the following members: */
->>> +	bool ctrl_pending;
->>> +	bool status_pending;
->>> +	bool bulk_pending;
->>> +	bool disable_pending;
->>=20
->> could this be a single u32 with #define'd flags? That would be atomic,
->> right?
->>=20
->
-> I have never grasped all the concurrency issues, but wouldn't I need
-> memory barriers as well?
-
-As far as I understand, {test_and_,}{set,clear,change}_bit() handle all
-the required steps to guarantee proper atomic behavior. I haven't looked
-at the implementation myself, though.
-
->>> +	u8 errno;
->>=20
->> a global per-function error? Why?
->>=20
->
-> This is the result of the previously request operation. The host will
-> request this value to see how it went. I might switch to using a bulk
-> endpoint for status following a discussion with Alan Stern in the host
-> driver thread in this patch series. If so I might not need this.
-
-got it.
-
->>> +	u16 request;
->>> +	u16 value;
->>=20
->> also why? Looks odd
->>=20
->
-> These values contains the operation (in addition to the payload) that
-> the worker shall perform following the control-OUT requests.
->
-> control-IN requests can run in interrupt context so in that case the
-> payload is queued up immediately.
-
-cool
-
->>> +static void f_gud_drm_bulk_complete(struct usb_ep *ep, struct usb_requ=
-est *req)
->>> +{
->>> +	struct f_gud_drm *fgd =3D req->context;
->>> +	unsigned long flags;
->>> +
->>> +	if (req->status || req->actual !=3D req->length)
->>> +		return;
->>=20
->> so, if we complete with an erroneous status or a short packet, you'll
->> ignore it?
->>=20
->
-> Hmm yeah. When I wrote this I thought that the bottleneck was the USB
-> transfers, so I didn't want the host to slow down performance by
-> requesting this status. Now I know it's the decompression that takes
-> time, so I could actually do a status check and retry the frame if the
-> device detects an error.
-
-sounds good :-)
-
-=2D-=20
-balbi
-
---=-=-=
+--RLSIgEdvUrhZl2rtSOw3WnVw6yWr4RKax
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl7XTPcACgkQzL64meEa
-mQYaCQ//ZFRfURu4ur1htkBbgGKl6+cF/EZXLfGtqPCvkH6208dFeU4+1MlFp9kN
-Ng+Bi2gj0+HjisKQpDZkl0lv0LyT6ANsRU9oW1OcNR9ToDrP2eFNLs7p4cHNt3W+
-yJDryq3fTUOoFTVvJlholSaC1FQiCch5Ar2R8ol+BBFc2lfuSytGlc8zS1m3GGCk
-ViIMHsd4Iw+PEhWSDD+8G1pyb47p9r9eQN1tVHITBpZGd4LZIU8EhtzLTXYkT7Xf
-Rmok/xebYcm7VYKqZoOfU3EAFXFJmpOQdBIPJogm/MszX5t+EgCTWKyHvdsuB0w6
-ghZ3a07xc3GTxCZ6kulxIc9FA+p1sbkAZO77eDUtRV35O9alJjtoZDayBJR7NluS
-rWetktED0ISu0KrUJ4wilFieTT5blrdzL6wbgKvLxXMqhfvW+cjG23/7KvOcjrec
-5Er6ZrYVu2k/EE5aDKA+hLCur1cuBbDFBhh0M2TugLV2W0L5J8cED0blkIHxwyOd
-u8Io2+87Emo8vCFxro3G6g/7TK531RkegbPlyVbEqub6yl96k2+jCEe92CWJLCIO
-kdnDtWyy50U6z56Jg1u18WzoWfoKT5v4ZtA+eTJOLEoB+SNITCMv/V0mUgCv3zZj
-yTTU76LZrHeWkytMchWUeNNcPiBZenq9v2vDEYzjOchaYAmmvMU=
-=Jumd
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7XTtgACgkQaA3BHVML
+eiPI0AgAgnWMXL2blmz8VMgobGBBamCWk6Y894rrWLPzmXZpFIuVBgQ3EhYrpMBo
+b52G9ZFVCRZ2mlXTB9X/Zlh0oH8GR2sS8Mp4tnYEMhs/PNRlp1zAQfpGEBX292kS
+gb8/dWCi+tsVRcPxEZGHUcSnTAw2bn73ouqR7qpPL7ph5pEQxKjzcny6GNf4G0jm
+8+TFt9LoGj7lwSPjCVvLXf+UZi0WVGCLkcg99BiyF3jhXlKB+3hatSRV+0Q9eL81
+ABVXlhcOb8BptNwRCpUnvCXjaWjBw9Q6lbZLKDyKW46r14DPrry40UkbaTAjYV8h
+mzZr5P3xJ11oLq9nT7A4bXhaZOMDdQ==
+=W1gi
 -----END PGP SIGNATURE-----
---=-=-=--
 
---===============1509508703==
+--RLSIgEdvUrhZl2rtSOw3WnVw6yWr4RKax--
+
+--===============0914079791==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -271,4 +184,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1509508703==--
+--===============0914079791==--
