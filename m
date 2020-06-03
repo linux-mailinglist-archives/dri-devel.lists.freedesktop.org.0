@@ -2,36 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862561ED0C0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CB31ED113
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFFD0899EA;
-	Wed,  3 Jun 2020 13:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165BE89BA3;
+	Wed,  3 Jun 2020 13:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8525E899EA
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 13:28:00 +0000 (UTC)
-Date: Wed, 03 Jun 2020 13:27:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1591190877;
- bh=NerdE5rwH+BBzwen4R2RsgY0Djp8ckQk2/J2i0HYMAk=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=PpXafqJ3Tm1GuNKeJQnI1OJjvs43SovQM1DQq8dOGNQXzbJeXDT/oLYC5BGGXBOP9
- YKlp91NzXFwYqVWrZuvcKaCPH3W4jRwTOW+rOVprd3oJXFpO8N9TpRx44Oqpqoe+4p
- K90Bnp2jmndPEAXRsZfHfeRLZSPTOLHczDO7JWRk=
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2] drm: document how user-space should use link-status
-Message-ID: <M7Ja_vtKU8uXTBBAW_4XJJAeG4Tq-ftcqJEZ_DtlSPqx_yS_zCnYFnKtB5WQQpxz-2hylwWMlDmSKfZz9IkevX4BjXIuj17UyfRwyNSrWL8=@emersion.fr>
-In-Reply-To: <20200603123204.6ef5f6b1@eldfell.localdomain>
-References: <a3tPhSgOvV4Vn3if_Bqhg-QDwCIVZfHc99EeOVWLRkxOWQoF2tL3QSz-6SLEv3pIJRg2VANaS5rmZUkTkyqi3y0PO9qY84oOa7v_yNFpauY=@emersion.fr>
- <20200603123204.6ef5f6b1@eldfell.localdomain>
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9791589B9F;
+ Wed,  3 Jun 2020 13:43:47 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id l11so2466821wru.0;
+ Wed, 03 Jun 2020 06:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SOmyve9bUDmubIVPzpcziP63vVpum2UbcrFicqpkq+w=;
+ b=dLQbd/+8npTMk4QLp1GlJLJSXrvXa8CCkj+1zvjWm4wHCtiVTwrq10h9aZ8EzttvgH
+ kJY1Ro32Qv32VjsmheO8rPIQTYMTXHQjWKtsoKdhC/6fkjgi+uMe3mJgDggZWU0HwoYQ
+ Cs3Goq8PKh3PlsqRTG8pZ/803xSfaphW1r5tJVqAKbBoTb9M4N5qVQuqUIxhxAKqX6df
+ wSO4RTleRp1+UKJ8HlRhL2Ev7l6ZAZXGAJP5BeFs7Ar9uPyJ84DvN0XCHKha6fuo4Kb0
+ 4paMO6Z/6XR5CFul1cJJmPh5unfcREiHYfKfg09IJmc+76JgIlchU9bNd8vJcirWpn0h
+ QFMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SOmyve9bUDmubIVPzpcziP63vVpum2UbcrFicqpkq+w=;
+ b=INEPDKsoSjznCO5+PzHeCdHzwgVuhSXlngtbnfipw7mfePIVUZ7I/DIKEWXhSNepeB
+ igqc92MfnUZyhqQ1nw6vINTxTmJkvCy+0fx1w2UCkCxrGtESUkfw4lyGXKAsS2vumTzx
+ OGovr1VhN6Ahw9aRdpA5pkZBVpg70t6PMohg5GSUbonz3LfPUcY0xE5UV+FQxtL7v7Ah
+ wLwo8vV+BeqjqDWyRvouQDFFHtsRCix7NmcmtJQeTc6VfdfWzDsjURdKM/chwxhC1V8A
+ 7EFr1NKqcfyEfwL0aLefaug5t9iU79iUm6dcLh/+l8HsrhuYCXrAAtWHkW7XgCVl7qXj
+ qR1g==
+X-Gm-Message-State: AOAM532CNAck0AIQXm6P2dIq3UdJ7jUZZ6Fg+5edQ3Kmjp4GO9ckLrAr
+ LgrHkSsKgRumrPrTHzxYVjr8LDE9t5UUNPqV+DE=
+X-Google-Smtp-Source: ABdhPJyDqMwuUN33to+4ovZr0Z2o1K7X5Asu5DFxHM0Idg4MwGzkmHriwv3Fc/65Nvi83qQQQIvJeu3qs+VvIdRSuGc=
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr33118221wru.124.1591191826155; 
+ Wed, 03 Jun 2020 06:43:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
+ <20200603114758.13295-1-piotr.stankiewicz@intel.com>
+In-Reply-To: <20200603114758.13295-1-piotr.stankiewicz@intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 3 Jun 2020 09:43:34 -0400
+Message-ID: <CADnq5_Pa4J3NVprJnpKTih8O1G-oyMMUT4nHb=RZz96i_x+sKw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/15] drm/amdgpu: Use PCI_IRQ_MSI_TYPES where
+ appropriate
+To: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,41 +62,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Manasi Navare <manasi.d.navare@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Emily Deng <Emily.Deng@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ shaoyunl <shaoyun.liu@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > + *      When user-space performs an atomic commit on a connector with a "BAD"
-> > + *      link-status without resetting the property to "GOOD", it gets
-> > + *      implicitly reset. This might make the atomic commit fail if the modeset
-> > + *      is unsuccessful.
+On Wed, Jun 3, 2020 at 7:48 AM Piotr Stankiewicz
+<piotr.stankiewicz@intel.com> wrote:
 >
-> I think this was what Daniel was saying that the kernel should require
-> ALLOW_MODESET to be set for the automatic reset, right?
+> Seeing as there is shorthand available to use when asking for any type
+> of interrupt, or any type of message signalled interrupt, leverage it.
+>
+> Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> index 5ed4227f304b..2588dd1015db 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> @@ -249,15 +249,10 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+>
+>         if (amdgpu_msi_ok(adev)) {
+>                 int nvec = pci_msix_vec_count(adev->pdev);
 
-Actually this paragraph isn't true. link-status is only reset to GOOD for
-legacy modeset.
+I think you can drop pci_msix_vec_count() here.  It's not used since
+we always request 1 vector.
 
-But right now this doesn't matter since no driver reads the link-status
-property value as far as I can tell. Note, only i915 sets link-status
-to BAD.
+Alex
 
-> I'm fine with how the doc is written now. But if ALLOW_MODESET becomes
-> a requirement for the automatic reset, I suspect there is a risk to
-> regress Weston, assuming the automatic reset used to be successful.
-
-Right now a commit without ALLOW_MODESET won't reset link-status to GOOD,
-but also won't re-train the link on i915. So I think it's fine to require
-ALLOW_MODESET.
-
-Should drivers read the value of the link-status property? Or should we
-ignore user-space writes to the property and only require ALLOW_MODESET
-to re-train the link?
-
+> -               unsigned int flags;
+>
+> -               if (nvec <= 0) {
+> -                       flags = PCI_IRQ_MSI;
+> -               } else {
+> -                       flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
+> -               }
+>                 /* we only need one vector */
+> -               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
+> +               nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1,
+> +                                            PCI_IRQ_MSI_TYPES);
+>                 if (nvec > 0) {
+>                         adev->irq.msi_enabled = true;
+>                         dev_dbg(adev->dev, "amdgpu: using MSI/MSI-X.\n");
+> --
+> 2.17.2
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
