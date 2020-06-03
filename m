@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB541EC6C5
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 03:34:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EF41EC6CC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 03:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B48196E4A2;
-	Wed,  3 Jun 2020 01:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232C46E4A5;
+	Wed,  3 Jun 2020 01:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED16E4A2
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 01:34:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F6E6E4A5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 01:35:36 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 206987] [drm] [amdgpu] Whole system crashes when the driver is
  in mode_support_and_system_configuration
-Date: Wed, 03 Jun 2020 01:34:18 +0000
+Date: Wed, 03 Jun 2020 01:35:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-206987-2300-xH2gxcX6es@https.bugzilla.kernel.org/>
+Message-ID: <bug-206987-2300-5ETezrPgFD@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206987-2300@https.bugzilla.kernel.org/>
 References: <bug-206987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206987
 
---- Comment #21 from Cyrax (evvke@hotmail.com) ---
-Created attachment 289479
-  --> https://bugzilla.kernel.org/attachment.cgi?id=289479&action=edit
-dmesg output kernel 5.7.0
+--- Comment #22 from Cyrax (evvke@hotmail.com) ---
+Created attachment 289481
+  --> https://bugzilla.kernel.org/attachment.cgi?id=289481&action=edit
+config file used to build kernel 5.7.0 with KASAN etc
 
 -- 
 You are receiving this mail because:
