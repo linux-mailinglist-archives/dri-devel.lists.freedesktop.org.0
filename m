@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576C81ECACA
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E491ECADA
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 09:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62CC76E137;
-	Wed,  3 Jun 2020 07:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC4E6E4F3;
+	Wed,  3 Jun 2020 07:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1665E6E137
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 07:48:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 6C642ADAB;
- Wed,  3 Jun 2020 07:48:37 +0000 (UTC)
-Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
-To: kieran.bingham+renesas@ideasonboard.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-16-tzimmermann@suse.de>
- <20200522201240.GE5824@pendragon.ideasonboard.com>
- <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
- <50d76988-f627-037d-a8bc-d18f6662c981@ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <32d4e4cb-9b5d-4d69-67d1-1b1953e977c5@suse.de>
-Date: Wed, 3 Jun 2020 09:48:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00EB66E4EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 07:55:24 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id b18so1185918oti.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 00:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KE0II+ShG11ao0ItJHd81sFxEEwGhP4z4kJGjQw/iyE=;
+ b=J60XfNmHnxtt1mfgAV5NDj6wd1h1EL3lP+GDWgGromiYobsXYrPOvS6N6awZ/O5zAE
+ gOFEVGMfWgErP9VZUC7UBS3nKuQk/cDNkgeeARTsmdcrve+TKGSDSW5m/SVTISOLC3vv
+ vapGvbNAv7npitqjHqkItdyJwueCcUPlaxPD0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KE0II+ShG11ao0ItJHd81sFxEEwGhP4z4kJGjQw/iyE=;
+ b=izXQHpqGdfD7LmJqP/fLmHOUbNVMrLjuiaqbgVCjF2BjbdkMq66wqj/vLIfXCwiR6E
+ s+iGZq1mBXQ5WNCxf1Rg3fgcIJQGF3XIwz0aRr6amHHoN6ruhF595j2gtaH/3of3XUU5
+ +at4BgrUMZBiQ3HjY11/JNOJaHZ5ENA7QFr42iJbFQRhP0np0AxIFwQJEbz7ysm8Y40R
+ daixaVc+0HI6ox+AJXPGcwAwdb6DTRG7oa4eexxQKPGHWaQRZJ/vidm045GLd3UZkQyE
+ LmDbUtSNINV73Et6wLSpB0JW7aaiKPWUyvD0bbRpkI//S2DHMiZ+/ptPFRjccMNnerjV
+ 6KPw==
+X-Gm-Message-State: AOAM532UebeSJBPUzCKPWnodJxKefnZWzZLi9YLE+wSMeW/KaE6ivh/K
+ SCZ1zxbQUiSiFo6GtyWggAWbdjgdmyc5+nESXQE2oQ==
+X-Google-Smtp-Source: ABdhPJzhjBICYyUXVxY3WonnfFecLseWJ+h7hC1gsPqH/8fOG5awlVtCbb1dtmutXj/kRrstsZAaH6D5QhJ0OhL1lFk=
+X-Received: by 2002:a9d:768a:: with SMTP id j10mr2435477otl.188.1591170923952; 
+ Wed, 03 Jun 2020 00:55:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <50d76988-f627-037d-a8bc-d18f6662c981@ideasonboard.com>
+References: <20200602095140.36678-1-daniel.vetter@ffwll.ch>
+ <20200603001900.GV6547@pendragon.ideasonboard.com>
+In-Reply-To: <20200603001900.GV6547@pendragon.ideasonboard.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 3 Jun 2020 09:55:12 +0200
+Message-ID: <CAKMK7uEm7bfSpbYXH7SXLR4_+qAjf9OgmW7eqxGAmB0wMTefpg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/atomic-helper: reset vblank on crtc reset
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,231 +58,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
- paul@crapouillou.net, mihail.atanassov@arm.com, sam@ravnborg.org,
- marex@denx.de, khilman@baylibre.com, abrodkin@synopsys.com,
- kong.kongxinwei@hisilicon.com, xinliang.liu@linaro.org,
- ludovic.desroches@microchip.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
- alexandre.torgue@st.com, puck.chen@hisilicon.com, s.hauer@pengutronix.de,
- alison.wang@nxp.com, jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, andrew@aj.id.au, philippe.cornu@st.com,
- yannick.fertre@st.com, kernel@pengutronix.de, zourongrong@gmail.com,
- shawnguo@kernel.org
-Content-Type: multipart/mixed; boundary="===============0885526836=="
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ Thierry Reding <treding@nvidia.com>,
+ syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jyri Sarha <jsarha@ti.com>, Sean Paul <seanpaul@chromium.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, zhengbin <zhengbin13@huawei.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Brian Masney <masneyb@onstation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0885526836==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="IWdH7tzjbDO3z3IDWxiPmmaSLT31RLyEz"
+On Wed, Jun 3, 2020 at 2:19 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Daniel,
+>
+> Thank you for the patch.
+>
+> May I remind you about the -v option to git-format-patch ? :-) Seriously
+> speaking, it really helps review.
+>
+> On Tue, Jun 02, 2020 at 11:51:38AM +0200, Daniel Vetter wrote:
+> > Only when vblanks are supported ofc.
+> >
+> > Some drivers do this already, but most unfortunately missed it. This
+> > opens up bugs after driver load, before the crtc is enabled for the
+> > first time. syzbot spotted this when loading vkms as a secondary
+> > output. Given how many drivers are buggy it's best to solve this once
+> > and for all in shared helper code.
+> >
+> > Aside from moving the few existing calls to drm_crtc_vblank_reset into
+> > helpers (i915 doesn't use helpers, so keeps its own) I think the
+> > regression risk is minimal: atomic helpers already rely on drivers
+> > calling drm_crtc_vblank_on/off correctly in their hooks when they
+> > support vblanks. And driver that's failing to handle vblanks after
+> > this is missing those calls already, and vblanks could only work by
+> > accident when enabling a CRTC for the first time right after boot.
+> >
+> > Big thanks to Tetsuo for helping track down what's going wrong here.
+> >
+> > There's only a few drivers which already had the necessary call and
+> > needed some updating:
+> > - komeda, atmel and tidss also needed to be changed to call
+> >   __drm_atomic_helper_crtc_reset() intead of open coding it
+> > - tegra and msm even had it in the same place already, just code
+> >   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
+> >
+> > Only call left is in i915, which doesn't use drm_mode_config_reset,
+> > but has its own fastboot infrastructure. So that's the only case where
+> > we actually want this in the driver still.
+> >
+> > I've also reviewed all other drivers which set up vblank support with
+> > drm_vblank_init. After the previous patch fixing mxsfb all atomic
+> > drivers do call drm_crtc_vblank_on/off as they should, the remaining
+> > drivers are either legacy kms or legacy dri1 drivers, so not affected
+> > by this change to atomic helpers.
+> >
+> > v2: Use the drm_dev_has_vblank() helper.
+> >
+> > v3: Laurent pointed out that omap and rcar-du used drm_crtc_vblank_off
+> > instead of drm_crtc_vblank_reset. Adjust them too.
+> >
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> > Acked-by: Thierry Reding <treding@nvidia.com>
+> > Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+> > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> > Cc: Brian Starkey <brian.starkey@arm.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Boris Brezillon <bbrezillon@kernel.org>
+> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > Cc: Jyri Sarha <jsarha@ti.com>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Sean Paul <seanpaul@chromium.org>
+> > Cc: Brian Masney <masneyb@onstation.org>
+> > Cc: Emil Velikov <emil.velikov@collabora.com>
+> > Cc: zhengbin <zhengbin13@huawei.com>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: linux-tegra@vger.kernel.org
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
+> >  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+> >  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+> >  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
+> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
+> >  drivers/gpu/drm/omapdrm/omap_drv.c               | 3 ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c           | 3 ---
+> >  drivers/gpu/drm/tegra/dc.c                       | 1 -
+> >  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
+> >  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
+> >  10 files changed, 9 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > index 56bd938961ee..f33418d6e1a0 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> > @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
+> >       crtc->state = NULL;
+> >
+> >       state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > -     if (state) {
+> > -             crtc->state = &state->base;
+> > -             crtc->state->crtc = crtc;
+> > -     }
+> > +     if (state)
+> > +             __drm_atomic_helper_crtc_reset(crtc, &state->base);
+> >  }
+> >
+> >  static struct drm_crtc_state *
+> > @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+> >               return err;
+> >
+> >       drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
+> > -     drm_crtc_vblank_reset(crtc);
+> >
+> >       crtc->port = kcrtc->master->of_output_port;
+> >
+> > diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> > index c2507b7d8512..02904392e370 100644
+> > --- a/drivers/gpu/drm/arm/malidp_drv.c
+> > +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> > @@ -870,7 +870,6 @@ static int malidp_bind(struct device *dev)
+> >       drm->irq_enabled = true;
+> >
+> >       ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> > -     drm_crtc_vblank_reset(&malidp->crtc);
+> >       if (ret < 0) {
+> >               DRM_ERROR("failed to initialise vblank\n");
+> >               goto vblank_fail;
+> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > index 10985134ce0b..ce246b96330b 100644
+> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> > @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
+> >       }
+> >
+> >       state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > -     if (state) {
+> > -             crtc->state = &state->base;
+> > -             crtc->state->crtc = crtc;
+> > -     }
+> > +     if (state)
+> > +             __drm_atomic_helper_crtc_reset(crtc, &state->base);
+> >  }
+> >
+> >  static struct drm_crtc_state *
+> > @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
+> >       }
+> >
+> >       drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
+> > -     drm_crtc_vblank_reset(&crtc->base);
+> >
+> >       drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
+> >       drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > index 8fce6a115dfe..9ad74045158e 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -32,6 +32,7 @@
+> >  #include <drm/drm_device.h>
+> >  #include <drm/drm_plane.h>
+> >  #include <drm/drm_print.h>
+> > +#include <drm/drm_vblank.h>
+> >  #include <drm/drm_writeback.h>
+> >
+> >  #include <linux/slab.h>
+> > @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+> >       if (crtc_state)
+> >               __drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+> >
+> > +     if (drm_dev_has_vblank(crtc->dev))
+> > +             drm_crtc_vblank_reset(crtc);
+> > +
+> >       crtc->state = crtc_state;
+> >  }
+> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > index ca3368c828d0..9606185c284b 100644
+> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> > @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+> >               mdp5_crtc_destroy_state(crtc, crtc->state);
+> >
+> >       __drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
+> > -
+> > -     drm_crtc_vblank_reset(crtc);
+> >  }
+> >
+> >  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
+> > diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> > index 242d28281784..7a7066cded79 100644
+> > --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> > +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> > @@ -642,9 +642,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+> >               goto err_cleanup_modeset;
+> >       }
+> >
+> > -     for (i = 0; i < priv->num_pipes; i++)
+> > -             drm_crtc_vblank_off(priv->pipes[i].crtc);
+> > -
+> >       omap_fbdev_init(ddev);
+> >
+> >       drm_kms_helper_poll_init(ddev);
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > index d73e88ddecd0..e2959e32fd19 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > @@ -1271,9 +1271,6 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+> >
+> >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+> >
+> > -     /* Start with vertical blanking interrupt reporting disabled. */
+> > -     drm_crtc_vblank_off(crtc);
+> > -
+>
+> I'm sure I've added this code for a good reason, I would have sworn that
+> vblank would be either broken or would complain very loudly without this
+> call. I've however tested this patch, and haven't noticed any
+> regression. Has something changed since I've added the call to
+> drm_crtc_vblank_off() in the rcar-du driver ? It can't be
+> __drm_atomic_helper_crtc_reset() handling it, as the rcar-du driver has
+> a custom CRTC reset handler that doesn't call
+> __drm_atomic_helper_crtc_reset(). If it works without calling
+> drm_crtc_vblank_off() or drm_crtc_vblank_reset(), what's the purpose of
+> drm_crtc_vblank_reset() ?
+>
+> /me is very puzzled
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IWdH7tzjbDO3z3IDWxiPmmaSLT31RLyEz
-Content-Type: multipart/mixed; boundary="EMHPb4qyJW3lmGBFN4qh2YWv6vqV5xaw4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kieran.bingham+renesas@ideasonboard.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- philippe.cornu@st.com, paul@crapouillou.net, mihail.atanassov@arm.com,
- sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de,
- abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
- tomi.valkeinen@ti.com, james.qian.wang@arm.com, joel@jms.id.au,
- linux-imx@nxp.com, puck.chen@hisilicon.com, s.hauer@pengutronix.de,
- alison.wang@nxp.com, jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, bbrezillon@kernel.org, andrew@aj.id.au,
- dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
- yannick.fertre@st.com, khilman@baylibre.com, zourongrong@gmail.com,
- shawnguo@kernel.org
-Message-ID: <32d4e4cb-9b5d-4d69-67d1-1b1953e977c5@suse.de>
-Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-16-tzimmermann@suse.de>
- <20200522201240.GE5824@pendragon.ideasonboard.com>
- <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
- <50d76988-f627-037d-a8bc-d18f6662c981@ideasonboard.com>
-In-Reply-To: <50d76988-f627-037d-a8bc-d18f6662c981@ideasonboard.com>
+Uh yeah this breaks stuff, I forgot to review the two drivers I've
+changed to make sure they're using the __drm_atomic_helper_crtc_reset
+function. Like they should. I'll respin.
+-Daniel
 
---EMHPb4qyJW3lmGBFN4qh2YWv6vqV5xaw4
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 25.05.20 um 17:38 schrieb Kieran Bingham:
-> On 25/05/2020 13:49, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 22.05.20 um 22:12 schrieb Laurent Pinchart:
->>> Hi Thomas,
->>>
->>> Thank you for the patch.
->>>
->>> On Fri, May 22, 2020 at 03:52:40PM +0200, Thomas Zimmermann wrote:
->>>> The rcar-du driver uses the default implementation for CMA functions=
-;
->>>> except for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS m=
-acro
->>>> now sets these defaults and .dumb_create in struct drm_driver. All
->>>> remaining operations are provided by CMA GEM object functions.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> ---
->>>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
->>>>  1 file changed, 1 insertion(+), 10 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm=
-/rcar-du/rcar_du_drv.c
->>>> index 3e67cf70f0402..3728038cec1d1 100644
->>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->>>> @@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->>>> =20
->>>>  static struct drm_driver rcar_du_driver =3D {
->>>>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->>>> -	.gem_free_object_unlocked =3D drm_gem_cma_free_object,
->>>> -	.gem_vm_ops		=3D &drm_gem_cma_vm_ops,
->>>> -	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
->>>> -	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
->>>> -	.gem_prime_get_sg_table	=3D drm_gem_cma_prime_get_sg_table,
->>>> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
->>>> -	.gem_prime_vmap		=3D drm_gem_cma_prime_vmap,
->>>> -	.gem_prime_vunmap	=3D drm_gem_cma_prime_vunmap,
->>>> -	.gem_prime_mmap		=3D drm_gem_cma_prime_mmap,
->>>> -	.dumb_create		=3D rcar_du_dumb_create,
->>>> +	__DRM_GEM_CMA_DRIVER_OPS(rcar_du_dumb_create),
->>>
->>> Your __DRM_GEM_CMA_DRIVER_OPS is defined as
->>>
->>> #define __DRM_GEM_CMA_DRIVER_OPS(__dumb_create) \
->>>         .gem_create_object      =3D drm_cma_gem_create_object_default=
-_funcs, \
->>>         .dumb_create            =3D (__dumb_create), \
->>>         .prime_handle_to_fd     =3D drm_gem_prime_handle_to_fd, \
->>>         .prime_fd_to_handle     =3D drm_gem_prime_fd_to_handle, \
->>>         .gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_ta=
-ble_vmap, \
->>>         .gem_prime_mmap         =3D drm_gem_prime_mmap
->>>
->>> The patch thus introduces several changes:
->>>
->>> - drm_gem_cma_prime_import_sg_table_vmap() is used instead of
->>>   drm_gem_cma_prime_import_sg_table() combined with .gem_prime_vmap()=
-
->>>   and .gem_prime_vunmap(). I believe that's fine, but splitting that
->>>   change in a separate commit, or at the very least explaining it in
->>>   details in the commit message, would make review easier.
->>>
->>> - .gem_create_object() is now set. That seems to be OK, but I'm not s=
-ure
->>>   to grasp all the implications. This should also be explained in the=
-
->>>   commit message, and ideally split to a separate patch.
->>
->> That's relevant during object creation and sets the object functions.
->> See one of my other replies for how this can go away after all CMA
->> drivers have been updated to GEM object functions.
->>
->>
->>>
->>> - drm_gem_cma_prime_mmap() is replaced with drm_gem_prime_mmap(). Sam=
-e
->>>   comments :-)
->>
->> I relied on the aspeed driver to be correct. After Sam's comment on
->> that, I read the code once again several times. The original
->> implementation clears VM_PFNMAP. And I cannot find that code any longe=
-r.
->> Going back to the original function might be better.
->>
->>
->>>
->>> This patch hides way too many changes in what is documented as just
->>> innocent refactoring. It seems other drivers are affected too.
->>
->> Could you test the patchset? I don't have the HW.
->=20
-> Digging out the branch you provided elsewhere in this thread:
->=20
->>>> Could you boot-test with the patchset applied?
->>>
->>> Yes, if you have a git branch I can just build and boot I can
->>> do it quickly!
->>
->> Fantastic! It's the cma-objfuncs branch of
->>
->> https://gitlab.freedesktop.org/tzimmermann/linux.git
->=20
-> I have successfully run our display tests with your patches here on an
-> R-Car H3 Salvator-XS(-es2).
->=20
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Thanks for testing.
-
->=20
->=20
->=20
->> Best regards
->> Thomas
->>
->>>
->>>>  	.fops			=3D &rcar_du_fops,
->>>>  	.name			=3D "rcar-du",
->>>>  	.desc			=3D "Renesas R-Car Display Unit",
->>>
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> >       /* Register the interrupt handler. */
+> >       if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
+> >               /* The IRQ's are associated with the CRTC (sw)index. */
+> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> > index 83f31c6e891c..9b308b572eac 100644
+> > --- a/drivers/gpu/drm/tegra/dc.c
+> > +++ b/drivers/gpu/drm/tegra/dc.c
+> > @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
+> >               tegra_crtc_atomic_destroy_state(crtc, crtc->state);
+> >
+> >       __drm_atomic_helper_crtc_reset(crtc, &state->base);
+> > -     drm_crtc_vblank_reset(crtc);
+> >  }
+> >
+> >  static struct drm_crtc_state *
+> > diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> > index 89a226912de8..4d01c4af61cd 100644
+> > --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> > +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> > @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
+> >               return;
+> >       }
+> >
+> > -     crtc->state = &tcrtc->base;
+> > -     crtc->state->crtc = crtc;
+> > +     __drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
+> >  }
+> >
+> >  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> > diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> > index 4b99e9fa84a5..e6ab59eed259 100644
+> > --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> > +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> > @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     /* Start with vertical blanking interrupt reporting disabled. */
+> > -     for (i = 0; i < tidss->num_crtcs; ++i)
+> > -             drm_crtc_vblank_reset(tidss->crtcs[i]);
+> > -
+> >       drm_mode_config_reset(ddev);
+> >
+> >       dev_dbg(tidss->dev, "%s done\n", __func__);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
---EMHPb4qyJW3lmGBFN4qh2YWv6vqV5xaw4--
 
---IWdH7tzjbDO3z3IDWxiPmmaSLT31RLyEz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7XVc0ACgkQaA3BHVML
-eiMRXggAsQNKs6QgFKnHYaP4gBBAY8g/kU80bJEDlOqrwFdri8o+Z4OI/ByaWuLq
-MSJ24HHSfQU7mkSOllkshZDecQ7Z8Njva+WE1zk/obMz6On30OHb7RmrqkcIlAdi
-2sP3y0KLl4oXDFwltFYG/+gQdlucvI3vN5tEIZyvscH3ExeR6CJMa+Scr9EK9l5c
-cKhJ5DB1d0cHutKPT19pfLRWhCRvdbRVA6NFhVkYmIw+7OjVn4iNMDBTqLTLG17U
-LrUSuZsoJsHJOegRZr7tDbFhRXb2Iq150vqstQzso6AGE0sZL9KJaf9+Nx9W2NJL
-+lcarQYp60Ly8kFH/gzEDvDD6KZnpw==
-=tMDV
------END PGP SIGNATURE-----
-
---IWdH7tzjbDO3z3IDWxiPmmaSLT31RLyEz--
-
---===============0885526836==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0885526836==--
