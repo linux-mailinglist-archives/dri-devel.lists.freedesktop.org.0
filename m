@@ -2,61 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F8B1ED093
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11C41ED09E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 15:17:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D22893A2;
-	Wed,  3 Jun 2020 13:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 690CD8997C;
+	Wed,  3 Jun 2020 13:17:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF71D893A2
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 13:12:13 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id c71so1871750wmd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 06:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=JSBMjB9rJ3MuFq/okeIoC+fuKHgtYWUv9ufcPO0A2aU=;
- b=IeRS7TbCWpwz3sRy/xQeggJS2LxQgbeNNjmYwx55R/iAbgTPVF/V0k5Zv9IE08gL7l
- eRZ8RULczh8xUph3Wxv/rmhUTd7z2ngWSwQIm2gu/CnQPTNidE3IyBcQWXkFiiYG/xjO
- zGKFQWn1rwF1w1k2hoie/6ZMTgiaoDh+IHmFc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=JSBMjB9rJ3MuFq/okeIoC+fuKHgtYWUv9ufcPO0A2aU=;
- b=U3xO5sfj0hBnv+ea3EGzcUOJHEpZ79IFQGRTxCTtFVKoR6xtq1obyebUhuojpOpJo1
- 9Uj912R9HoPVtEYzbJcoi1Hu9rjal/PDAn5WHmscnSMD8oBGdqXYV5EkgmKsbElyWh/X
- FYxeBTmMr2mf+/0UMbkyEh2NvCL4xC/IYWHxzuoz32QymKlDDP0mYHmS8hDY2d502cs+
- H8M2VHAq6H2/mfo9Zt2aBt65vp5d4DLLFem7o8/dPXVCSoFAAA3r9l6bKCYTgH8i22M+
- PyGgUgNlMvzoJSqfPuHqERGDM90tZqcUMNDBL409kewqIKQJ/+RHan/I+CGGHbDnREI9
- KoTw==
-X-Gm-Message-State: AOAM533VpWt3UL5a0vYnPw76/ZSvH3/cyHXIPwYFiMahnFtZcdoYhi+x
- jPfuFk4JaIFSw3Vt71ukHZEU8w==
-X-Google-Smtp-Source: ABdhPJw12uZsiZhosNB7o/t0uCZnxYjqSTmiIYpu9yH1Tfz85Rc88dc51qbdLf6gadsd3cC8TBOoRA==
-X-Received: by 2002:a05:600c:2153:: with SMTP id
- v19mr8355435wml.47.1591189932412; 
- Wed, 03 Jun 2020 06:12:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j68sm3563885wrj.28.2020.06.03.06.12.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jun 2020 06:12:11 -0700 (PDT)
-Date: Wed, 3 Jun 2020 15:12:09 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 8/9] drm/shmem-helpers: Ensure get_pages is not called on
- imported dma-buf
-Message-ID: <20200603131209.GN20149@phenom.ffwll.local>
-References: <20200511093554.211493-1-daniel.vetter@ffwll.ch>
- <20200511093554.211493-9-daniel.vetter@ffwll.ch>
- <41b3f24c-de0c-9390-6b8c-e71ceadb6d07@suse.de>
+Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BADB8997C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 13:17:22 +0000 (UTC)
+Date: Wed, 03 Jun 2020 13:17:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1591190239;
+ bh=4F+nlohqWQXtqeVpU/E3G2P/EsMIQwmznCz20+77RJ4=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=O2sFHiY+sIqb+FojGMH40Dw/i5tWqsOc+fghP2RPm1My3ZfSjkjR6WYwHKK+MNCz5
+ 7ft38HTg64wG54hy/JKh0v7BDqUgy+Q4gWb71Ah1OIrOPP1T195bhs9ABvO50Ll5kG
+ 5fF8FMRLmDkfbElIKjxrZ9V8vXKu/GNqCB/3tYgI=
+To: Daniel Vetter <daniel@ffwll.ch>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/atomic: don't reset link-status to GOOD without
+ ALLOW_MODESET
+Message-ID: <JVT0GCme37ZPwkrYR-Ly9A-jZKs8QGDGOgPcmyDgPHvYRwtNutsoG53fkrrKB95t-ml7YKa0gEpCchaW7jIgDW-XnBCYh6xjPrsO-3W05mo=@emersion.fr>
+In-Reply-To: <20200603113646.GK20149@phenom.ffwll.local>
+References: <6Q-O7vKObfRu8cOyvcAxR_uRWgjQdlYgVursTGN2AaHtdaUZICSC6szFjkkDGXhyKF22Grj-aGCTC74OGhtuJ9JChitqvqtCVi1wr_Lnh6Y=@emersion.fr>
+ <20200603111343.GO6112@intel.com>
+ <20200603113646.GK20149@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <41b3f24c-de0c-9390-6b8c-e71ceadb6d07@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,147 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 14, 2020 at 09:30:04AM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
-
-> Am 11.05.20 um 11:35 schrieb Daniel Vetter:
-> > Just a bit of light paranoia. Also sprinkle this check over
-> > drm_gem_shmem_get_sg_table, which should only be called when
-> > exporting, same for the pin/unpin functions, on which it relies to
-> > work correctly.
-> > =
-
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index 117a7841e284..f7011338813e 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -170,6 +170,8 @@ int drm_gem_shmem_get_pages(struct drm_gem_shmem_ob=
-ject *shmem)
-> >  {
-> >  	int ret;
-> >  =
-
-> > +	WARN_ON(shmem->base.import_attach);
-> > +
-> >  	ret =3D mutex_lock_interruptible(&shmem->pages_lock);
-> >  	if (ret)
-> >  		return ret;
-> > @@ -225,6 +227,8 @@ int drm_gem_shmem_pin(struct drm_gem_object *obj)
-> >  {
-> >  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> >  =
-
-> > +	WARN_ON(shmem->base.import_attach);
-> > +
-> =
-
-> I don't understand this change. If a driver pins pages it now has to
-> check that the pages are not imported?
-
-Nope. There's two classes of functions in the helpers, and I'm trying to
-unconfuse them:
-
-- stuff used to implement gem_funcs. These are obviously only ever used on
-  native objects, never on imported ones (on imported ones we try to
-  forward through the dma-buf layer to the exporter). drm_gem_shmem_pin is
-  only used in that role to implement gem_funcs->pin. Calling it on an
-  imported buffer is indeed a bug.
-
-- the other set of functions are for drivers to do their stuff. The
-  interface which (implicitly) pins stuff into places is various set of
-  get_pages, which do have different paths for native and imported
-  objects.
-
-Apologies that I missed your question here, I merged all the patches
-leading up to this one for now.
-
-Thanks, Daniel
-
-> =
-
-> =
-
-> >  	return drm_gem_shmem_get_pages(shmem);
-> >  }
-> >  EXPORT_SYMBOL(drm_gem_shmem_pin);
-> > @@ -240,6 +244,8 @@ void drm_gem_shmem_unpin(struct drm_gem_object *obj)
-> >  {
-> >  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> >  =
-
-> > +	WARN_ON(shmem->base.import_attach);
-> > +
-> >  	drm_gem_shmem_put_pages(shmem);
-> >  }
-> >  EXPORT_SYMBOL(drm_gem_shmem_unpin);
-> > @@ -510,6 +516,8 @@ static void drm_gem_shmem_vm_open(struct vm_area_st=
-ruct *vma)
-> >  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> >  	int ret;
-> >  =
-
-> > +	WARN_ON(shmem->base.import_attach);
-> > +
-> >  	ret =3D drm_gem_shmem_get_pages(shmem);
-> >  	WARN_ON_ONCE(ret !=3D 0);
-> >  =
-
-> > @@ -611,6 +619,8 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct =
-drm_gem_object *obj)
-> >  {
-> >  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> >  =
-
-> > +	WARN_ON(shmem->base.import_attach);
-> > +
-> >  	return drm_prime_pages_to_sg(shmem->pages, obj->size >> PAGE_SHIFT);
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkbmVzZGF5LCBKdW5lIDMsIDIwMjAgMTozNiBQTSwgRGFuaWVsIFZldHRlciA8ZGFuaWVs
+QGZmd2xsLmNoPiB3cm90ZToKCj4gT24gV2VkLCBKdW4gMDMsIDIwMjAgYXQgMDI6MTM6NDNQTSAr
+MDMwMCwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+Cj4gPiBPbiBXZWQsIEp1biAwMywgMjAyMCBh
+dCAxMDo0NToyM0FNICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPgo+ID4gPiBJbiB1cGRhdGVf
+b3V0cHV0X3N0YXRlLCB0aGUgbGluay1zdGF0dXMgcHJvcGVydHkgd2FzIHJlc2V0IHRvIEdPT0Qg
+dG8KPiA+ID4gZW5zdXJlIGxlZ2FjeSBkcm1Nb2RlU2V0Q3J0YyByZS10cmFpbnMgdGhlIGxpbmsu
+IEhvd2V2ZXIgdGhpcyBhdXRvLXJlc2V0Cj4gPiA+IGlzIGFsc28gcGVyZm9ybWVkIG9uIGFuIGF0
+b21pYyBjb21taXQgd2l0aG91dCBBTExMT1dfTU9ERVNFVC4gSWYgYQo+ID4KPiA+IEkgZGlkbid0
+IHRoaW5rIHVkYXRlX291dHB1dF9zdGF0ZSgpIHdhcyBnZXR0aW5nIGNhbGxlZCBmb3IKPiA+IG5v
+bi1sZWdhY3kgcGF0aHMuIFdoZXJlIGlzIHRoYXQgY29taW5nIGZyb20/Cj4KPiBPb3BzLCBJJ20g
+YmxpbmQgYW5kIHlvdSdyZSByaWdodCwgdGhlcmUncyBubyBidWcuIFdlIGFscmVhZHkgb25seQo+
+IGZvcmNlLXNldCB0aGlzIGZvciBsZWdhY3kgbW9kZXNldCAoYW5kIGZiY29uKS4KCkluZGVlZCwg
+Z29vZCBjYXRjaCBWaWxsZS4gc2V0X2NvbmZpZyBpcyBwdXJlbHkgYSBsZWdhY3kgdGhpbmcuCgo+
+IFRoYXQgYWxzbyBtZWFucyB0aGF0IGF0b21pYyB1c2Vyc3BhY2UgaGFzIHRvIGhhbmRsZSB0aGlz
+LCB3aGljaCBpcyBtYXliZQo+IG5vdCBzbyBhd2Vzb21lIC4uLiBTbyBtYXliZSB3ZSBuZWVkIHRv
+IGR1Y3QtdGFwZSBvdmVyIHRoaXMgZm9yIGF0b21pYyB0b28sCj4gYW5kIGluIHRoYXQgY2FzZSBp
+dCBzaG91bGQgYmUgb25seSBkb25lIHdoZW4gQUxMT1dfTU9ERVNFVCBpcyBzZXQuCj4KPiBCdXQg
+bWF5YmUgYWxsIHRoZSBjb21wb3NpdG9ycyB0aGF0IGNhcmUgd2lsbCBoYW5kbGUgdGhpcyA6LS8K
+Ck5vdCBmb25kIG9mIHRoaXMgYmVjYXVzZSB3ZSdsbCBiYXNpY2FsbHkgZW5kIHVwIHdpdGggc29t
+ZSBkcml2ZXJzCmNoZWNraW5nIGZvciBsaW5rLXN0YXR1cyAobm9uZSBkbyB0aGF0IHlldCkgYW5k
+IHNvbWUgdXNlci1zcGFjZQpyZXNldHRpbmcgaXQgdG8gR09PRC4gSXQnbGwgYnJlYWsgb25seSBp
+ZiB1c2VyLXNwYWNlIGRvZXNuJ3QgcmVzZXQgYW5kCmEgZHJpdmVyIHdoaWNoIGNoZWNrcyBsaW5r
+LXN0YXR1cyBpcyB1c2VkLiBEcml2ZXItc3BlY2lmaWMgYmVoYXZpb3VyCmlzbid0IGdyZWF0Lgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
