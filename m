@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDE91ECCF1
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 11:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35611ECD05
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jun 2020 11:57:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C74C89A5E;
-	Wed,  3 Jun 2020 09:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA5D289BA9;
+	Wed,  3 Jun 2020 09:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314D489A5E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 09:50:17 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id v19so1271070wmj.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 02:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eqAdlOX0nZkmfsp41+ENGsSL9phaEtldMIZ/DbNNe+A=;
- b=y/o6QFxG7z6mZO+lFelFDPHV8m3sXV6O7mXN6KJgZAyWwTEezYrIZfhf25JXJgEB0s
- XHMAXcbnSgvcJQzoy6DQUH3wrB+MtzNZnCzFKlbdiAVi+1gX8kZ4Fr7nrynKY+z7hOro
- kIhACTrTtqKgdAJN1C34kD5Uz8ywz/w1NhJRr04HmNFz8QAzxgH/rHKxjmNT1/gRbYvJ
- DiltQlH8Rr8gSYvK9Co4PSYki8RvhAB/4RKLBr027bKtpdzXASIuBPYihx+PRfnIGDCU
- +7bdhGJm2XHsTUTLQwqtl1AW/30tdbALkkY8HXIIV5xW8RL7vkP89JzSTy6HiNURjBac
- j3jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eqAdlOX0nZkmfsp41+ENGsSL9phaEtldMIZ/DbNNe+A=;
- b=O0gRrbSV3a5dnQlunjjJXFt8Jq2DfmLmPyn86RpXBtqa6io9d+JVQNPL9q61n0Lpok
- YsVEWRICwxT76SaAcm8gTMbZLMbKJqnjZcmPYQ6zGoVocYHHbnI3hvxt4QoV5WZFBf/N
- xJMxuieDsHxbeAPivZqogBmgLaU70Z5QN+jyq5zuVrTMWApx64ztb15flnRr4WEkGX4g
- 4HDO75FS5MhN8hzqowRgvdROj3r2VLHI3qd77iW+q4jvuU+kSbm5TjbTXNz9vY404sz9
- 5JjElPcLmzUfFuXi5o5Y8WiGA/k40AEJXW9qBAtzqzBBTI0YfhgIq0l1ONPY+EpaBMpb
- sNSg==
-X-Gm-Message-State: AOAM533Gx5T8MfvU6yPhhJxPOFoHWQJOr9FEZvfAi7LzdPpsrbvxSUq0
- hUwcu9mFB6+ywUptktXhKB9Q0upJOu05B/cjP32fnA==
-X-Google-Smtp-Source: ABdhPJwLc8RlsHCfbuVYDGja3chpAizgtZr9p0hqE3rlQVw0+92oNJQW6EVvMqVI45RbghXhuwjxYBBdmI2sRJj1hyE=
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr7751219wmc.52.1591177815513; 
- Wed, 03 Jun 2020 02:50:15 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 124E889BA9
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 09:57:23 +0000 (UTC)
+IronPort-SDR: IyYHsDW4PZvBaOxcJFikPKiVNXTfj7fQTkSb1H+O8Fkwq6gsbo1f1tjkqgRQZoQMYYw660fJLy
+ wPmbTZYltHqg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2020 02:57:22 -0700
+IronPort-SDR: QUp6JLvgRTCZthVbgolVtkmdiwIduoRsk1B4rKdMoxSwqKv45yWr+nFTYTDNhAG+dWdhp2eSeK
+ 8WN6Dt6C432w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; d="scan'208";a="312551098"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 03 Jun 2020 02:57:19 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 03 Jun 2020 12:57:19 +0300
+Date: Wed, 3 Jun 2020 12:57:19 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: Dynamically change enumeration list of DRM enumeration property
+Message-ID: <20200603095719.GM6112@intel.com>
+References: <20200526103921.0817ee0b@eldfell.localdomain>
+ <CAKMK7uHG1P9hwT1CBqWUfL6sBwZwyS7q0scXSUuXNiJMmRz-+g@mail.gmail.com>
+ <CAL3Fm-L-iwGu60Zf15aYf9Xm9201sT2vU888Fv46Tv7x37Aq6Q@mail.gmail.com>
+ <20200528082445.GR206103@phenom.ffwll.local>
+ <CAL3Fm-+G0MJoYLb2CJKTW5w6Qk4K=j5if+6hLDE_ustW=e933Q@mail.gmail.com>
+ <20200528154804.02fb8901@eldfell.localdomain>
+ <CAL3Fm-Jspwx7=famPO5nOzPwL2wrBnMtZj0FTDjypvwdWZXPiA@mail.gmail.com>
+ <20200601114942.5ae2d3ad@eldfell.localdomain>
+ <CAL3Fm-K215Ws7y2sA6zFvMUxQCN0G58kWd5uvvT=Bek+LfgLZg@mail.gmail.com>
+ <20200603121223.70fe0416@eldfell.localdomain>
 MIME-Version: 1.0
-References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
- <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
- <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
- <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
- <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
- <CADnq5_OX9o5_Gc4SjU5M4B=fthT9++J-FjX3UqTS7x_u6cJHOQ@mail.gmail.com>
- <CAPj87rP+Hxhohb4dEjRwtZzy34fYk+hAdgVfCkLF1u4JufJ=CQ@mail.gmail.com>
- <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
- <CAPj87rNO62i5JmRLdMhAg9XbiJUyrrRO7fj1ruXRCh-oxHnifQ@mail.gmail.com>
- <CADnq5_PVZ_DS65SCS=OFW0m7Dz10pMAZVZ33pWf86KBwg4oQKw@mail.gmail.com>
-In-Reply-To: <CADnq5_PVZ_DS65SCS=OFW0m7Dz10pMAZVZ33pWf86KBwg4oQKw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 3 Jun 2020 10:48:20 +0100
-Message-ID: <CAPj87rNrJtJeVd0ba768D2VMiEKvhXOCozAhkq6QV6mu3WsFVQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-To: Alex Deucher <alexdeucher@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20200603121223.70fe0416@eldfell.localdomain>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,212 +59,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Yogish Kulkarni <yogishkulkarni@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+On Wed, Jun 03, 2020 at 12:12:23PM +0300, Pekka Paalanen wrote:
+> On Wed, 3 Jun 2020 10:50:28 +0530
+> Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+> =
 
-On Mon, 1 Jun 2020 at 15:25, Alex Deucher <alexdeucher@gmail.com> wrote:
-> On Fri, May 29, 2020 at 11:03 AM Daniel Stone <daniel@fooishbar.org> wrote:
-> > What Weston _does_ know, however, is that display controller can work
-> > with modifier set A, and the GPU can work with modifier set B, and if
-> > the client can pick something from modifier set A, then there is a
-> > much greater probability that Weston can leave the GPU alone so it can
-> > be entirely used by the client. It also knows that if the surface
-> > can't be directly scanned out for whatever reason, then there's no
-> > point in the client optimising for direct scanout, and it can tell the
-> > client to select based on optimality purely for the GPU.
->
-> Just so I understand this correctly, the main reason for this is to
-> deal with display hardware and render hardware from different vendors
-> which may or may not support any common formats other than linear.
+> > Inline..
+> > =
 
-It handles pretty much everything other than a single-context,
-single-GPU, single-device, tunnel.
+> > On Mon, Jun 1, 2020 at 2:19 PM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te:
+> > =
 
-When sharing between subsystems and device categories, it lets us talk
-about capabilities in a more global way. For example, GBM lets you
-talk about 'scanout' and 'texture' and 'render', but what about media
-codecs? We could add the concept of decode/encode to something like
-GBM, and all the protocols like Wayland/X11 as well, then hope it
-actually works, but ...
+> > > On Mon, 1 Jun 2020 09:22:27 +0530
+> > > Yogish Kulkarni <yogishkulkarni@gmail.com> wrote:
+> > >  =
 
-When sharing between heterogeneous vendors, it lets us talk about
-capabilities in a neutral way. For example, if you look at most modern
-Arm SoCs, your GPU, display controller, and media codec, will very
-likely all be from three totally different vendors. A GPU like
-Mali-T8xx can be shipped in tens of different vendor SoCs in several
-different revisions each. Just saying 'scanout' is totally meaningless
-for the Panfrost driver. Putting awareness for every different KMS
-platform and every different codec down into the Mesa driver is a
-synchronisation nightmare, and all those drivers would also need
-specific awareness about the Mesa driver. So modifiers allow us to
-explicitly describe that we want a particular revision of Arm
-Framebuffer Compression, and all the components can understand that
-without having to be specifically aware of 15 different KMS drivers.
-But even if you have the same vendor ...
+> > > > Hi,
+> > > >
+> > > > For letting DRM clients to select output encoding:
+> > > > Sink can support certain display timings with high output bit-depth=
+s  =
 
-When sharing between multiple devices of the same class from the same
-vendor, it lets us surface and transit that information in a generic
-way, without AMD having to figure out ways to tunnel back-channel
-information between different instances of drivers potentially
-targeting different revisions. The alternatives seem to be deeply
-pessimal hacks, and we think we can do better. And when we get
-pessimal ...
+> > > using  =
 
-In every case, modifiers are about surfacing and sharing information.
-One of the reasons Collabora have been putting so much time and energy
-into this work is exactly _because_ solving those problems on a
-case-by-case basis was a pretty lucrative source of revenue for us.
-Debugging these kinds of issues before has usually involved specific
-driver knowledge, hacking into the driver to insert your own tracing,
-etc.
+> > > > multiple output encodings, e.g. sink can support a particular timin=
+g with
+> > > > RGB 10-bit, YCbCr422 10-bit and YCbCr420 10-bit. So DRM client may =
+want  =
 
-If you (as someone who's trying to use a device optimally) are
-fortunate enough that you can get the attention of a vendor and have
-them solve the problem for you, then that's lucky for everyone apart
-from the AMD engineers who have to go solve it. If you're not, and you
-can't figure it out yourself, then you have to go pay a consultancy.
-On the face of it, that's good for us, except that we don't want to be
-doing that kind of repetitive boring work. But it's bad for the
-ecosystem that this knowledge is hidden away and that you have to pay
-specialists to extract it. So we're really keen to surface as much
-mechanism and information as possible, to give people the tools to
-either solve their own problems or at least make well-informed
-reports, burn down a toxic source of revenue, waste less engineering
-time extracting hidden information, and empower users as much as
-possible.
+> > > to  =
 
-> It
-> provides a way to tunnel device capabilities between the different
-> drivers.  In the case of a device with display and rendering on the
-> same device or multiple devices from the same vendor, it not really
-> that useful.
+> > > > select YCbCr422 10-bit over RBG 10-bit output to reduce the link  =
 
-Oh no, it's still super useful. There are a ton of corner cases where
-'if you're on same same-vendor same-gen same-silicon hardware' falls
-apart - in addition to the world just not being very much
-same-vendor/same-gen/same-silicon anymore. For some concrete examples:
+> > > bandwidth  =
 
-On NVIDIA Tegra hardware, planes within the display controller have
-heterogeneous capability. Some can decompress and detile, others
-can't.
+> > > > (and in turn reduce power/voltage). If DRM driver automatically sel=
+ects
+> > > > output encoding then we are restricting DRM clients from making  =
 
-On Rockchip hardware, AFBC (DCC equivalent) is available for scanout
-on any plane, and can be produced by the GPU. Great! Except that 'any
-plane' isn't 'every plane' - there's a global decompression unit.
+> > > appropriate  =
 
-On Intel hardware, they appear to have forked the media codec IP,
-shipping two different versions of the codec, one as 'low-power' and
-one as 'normal', obviously with varying capability.
+> > > > choice.  =
 
-Even handwaving those away as vendor errors - that performance on
-those gens will always be pessimal and they should do better next time
-- I don't think same-vendor/same-gen/same-silicon is a good design
-point anymore. Between heterogeneous cut-and-paste SoCs, multi-GPU and
-eGPU usecases, virtualisation and tunneling, etc, the usecases are
-starting to demand that we do better. Vulkan's memory-allocation
-design also really pushes against the model that memory allocations
-themselves are blessed with side-channel descriptor tags.
+> > >
+> > > Hi,
+> > >
+> > > right, that seems to be another reason.
+> > >  =
 
-'Those aren't my usecases and we've made Vulkan work so we don't need
-it' is an entirely reasonable position, but then you're just
-exchanging the problem of describing your tiling & compression layouts
-in a 56-bit enum to make modifiers work, for the problem of
-maintaining a surprisingly wide chunk of the display stack. For all
-the reasons above, over the past few years, the entire rest of the
-ecosystem has settled on using modifiers to describe and negotiate
-buffer exchange across context/process/protocol/subsystem/device
-boundaries. All the effort of making this work in KMS, GBM, EGL,
-Vulkan, Wayland, X11, V4L2, VA-API, GStreamer, etc, is going there.
+> > > > For selectable output color range:
+> > > > Certain applications (typically graphics) usually rendered in full =
+range
+> > > > while some applications (typically video) have limited range conten=
+t.  =
 
-Realistically, the non-modifier path is probably going to bitrot, and
-people are certainly resistant to putting more smarts into it, because
-it just adds complexity to a now-single-vendor path - even NVIDIA are
-pushing this forward, and their display path is much more of an
-encapsulated magic tunnel than AMD's. In that sense, it's pretty much
-accumulating technical debt; the longer you avoid dealing with the
-display stack by implementing modifiers, the more work you have to put
-into maintaining the display stack by fixing the non-modifier path.
+> > > Since  =
 
-> It doesn't seem to provide much over the current EGL
-> hints (SCANOUT, SECURE, etc.).
+> > > > content can change dynamically, DRM driver does not have enough  =
 
-Well yeah, if those single bits of information are enough to perfectly
-encapsulate everything you need to know, then sure. But it hasn't been
-for others, which is why we've all migrated away from them.
+> > > information  =
 
-> I still don't understand how it solves
-> the DCC problem though.  Compression and encryption seem kind like
-> meta modifiers.  There is an under laying high level layout, linear,
-> tiled, etc. but it could also be compressed and/or encrypted.  Is the
-> idea that those are separate modifiers?  E.g.,
-> 0: linear
-> 1: linear | encrypted
-> 2. linear | compressed
-> 3: linear | encrypted | compressed
-> 4: tiled1
-> 5: tiled1 | encrypted
-> 6: tiled1 | compressed
-> 7: tiled1 | encrypted | compressed
-> etc.
-> Or that the modifiers only expose the high level layout, and it's then
-> up the the driver(s) to enable compression, etc. if both sides have a
-> compatible layout?
+> > > > to choose correct quantization. Only DRM client can correctly selec=
+t  =
 
-Do you remember the old wfb from xserver? Think of modifiers as pretty
-much that. The format (e.g. A8R8G8B8) describes what you will read
-when you load a particular pixel/texel, and what will get stored when
-you write. The modifier describes how to get there: that includes both
-tiling (since you need to know the particular tiling layout in order
-to know the byte location to access), and compression (since you need
-to know the particular compression mechanism in order to access the
-pixel, e.g. for RLE-type compression that you need to access the first
-pixel of the tile if the 'all pixels are the identical' bit is set).
+> > > which  =
 
-The idea is that these tokens fully describe the mechanisms in use,
-without the drivers needing to do magic heuristics. For instance, if
-your modifier is just 'tiled', then that's not a full description. A
-full description would tell you about supertiling structures, tile
-sizes and ordering, etc. The definitions already in
-include/uapi/drm/drm_fourcc.h are a bit of a mixed bag - we've
-definitely learnt more as we've gone on - but the NVIDIA definitions
-are  pretty exemplary for something deeply parameterised along a lot
-of variable axes.
+> > > > quantization to set (to preserve artist's intent).  =
 
-Basically, if you have to have sets of heuristics which you keep in
-sync in order to translate from modifier -> hardware layout params,
-then your modifiers aren't expressive enough. From a very quick look
-at DC, that would be your tile-split, tile-mode, array-mode, and
-swizzle-mode parameters, plus whatever from dc_tiling_mode isn't
-completely static and deterministic. 'DCCRate' always appears to be
-hardcoded to 1 (and 'DCCRateChroma' never set), but that might be one
-to parameterise as well.
+> > >
+> > > Now this is an interesting topic for me. As far as I know, there is no
+> > > window system protocol to tell the display server whether the
+> > > application provided content is using full or limited range. This mea=
+ns
+> > > that the display server cannot tell DRM about full vs. limited range
+> > > either. It also means that when not fullscreen, the display server
+> > > cannot show the limited range video content correctly, because it wou=
+ld
+> > > have to be converted to full-range (or vice versa).
+> > >
+> > Right, but there could be DRM client which doesn't use window system (e=
+.g.  =
 
-With that expression, you don't have to determine the tiling layout
-from dimensions/usage/etc, because the modifier _is_ the tiling
-layout, ditto compression.
+> > Gstreamer video sink) and wants to select between full/limited color ra=
+nge.
+> > I agree that there is no window system protocol yet but maybe Wayland
+> > protocol could be added/extended for this purpose once we finalize thin=
+gs
+> > that needs to be done in DRM.
+> =
 
-Encryption I'm minded to consider as something different. Modifiers
-don't cover buffer placement at all. That includes whether or not the
-memory is physically contiguous, whether it's in
-hidden-VRAM/BAR/sysmem, which device it lives on, etc. As far as I can
-tell from TMZ, encryption is essentially a side effect of placement?
-The memory is encrypted, the encryption is an immutable property of
-the allocation, and if the device is configured to access encrypted
-memory (by being 'secure'), then the encryption is transparent, no?
+> Hi,
+> =
 
-That being said, there is a reasonable argument to consume a single
-bit in modifiers for TMZ on/off (assuming TMZ is not parameterised),
-which would make its availability and use much more transparent.
+> right. If you have that use case and a userspace project welcomes such
+> feature, you're good.
+> =
 
-Cheers,
-Daniel
+> If you propose a KMS property for this, I would hope the patches
+> document or have links pointing to answers to all my questions here.
+> That would help both driver and userspace implementations to get into
+> the same mindset.
+> =
+
+> > > But why would an application produce limited range pixels anyway? Is =
+it
+> > > common that hardware video decoders are unable to produce full-range
+> > > pixels?
+> > >  =
+
+> > =
+
+> > The primary reason for why content producer masters video/gfx content as
+> > limited range is for compatibility with sinks which only support limited
+> > range, and not because video decoders are not capable of decoding
+> > full-range content.
+> =
+
+> What I was asking is, even if the video content is limited range, why
+> would one not decode it into full-range pixels always and if the sink
+> need limited range, then convert again in hardware? When done right, it
+> makes no difference in output compared to using limited range
+> through-out if both content and sink use limited range.
+> =
+
+> > Also, certain cinema-related content (e.g., movies) may
+> > be better suited for limited range encoding due to the level of detail =
+that
+> > they need to present/hide (see "Why does limited RGB even exist?" secti=
+on
+> > in
+> > https://www.benq.com/en-us/knowledge-center/knowledge/full-rgb-vs-limit=
+ed-rgb-is-there-a-difference.html#:~:text=3DFull%20RGB%20means%20the%20abil=
+ity,less%20dark)%20than%20full%20RGB
+> > ).
+> =
+
+> That is a very nice link, thanks!
+> =
+
+> But to me it seems the section "Why is this a problem?" gets "crushed
+> blacks" backwards, so maybe I just don't get it.
+> =
+
+> I would assume that if the source (computer) sends full-range pixel
+> values on the wire and the sink (monitor) works in limited-range mode,
+> then you would get crushed blacks and crushed whites.
+> =
+
+> But if the source sends limited-range data and the sink works in
+> full-range more, you'd get the "washed out" image.
+> =
+
+> My thinking comes from the mapping of channel values: if 0-16 and
+> 235-255 ranges show no difference within them, I'd call that "crushed".
+> Similarly if one assumes 16 is darkest black and it's actually not,
+> you'd get "washed out" (I might call it compressed instead, because it
+> affects both black and white ends, unable to achieve both the darkest
+> black and the brightest white).
+> =
+
+> Anyway, I believe I do understand that if you have content in one
+> range and the sink assumes a different range, the content will show
+> poorly. I don't doubt that.
+> =
+
+> My question instead is: why would it be bad to always convert
+> everything to full-range inside the source (e.g. decoder -> app ->
+> display server all in full-range), and then convert for the wire into
+> what the sink expects?
+> =
+
+> Because that is how Wayland color management is going to handle
+> differing color spaces, more or less. (Actually, quite likely the
+> compositor internal per-output color space will be the sink's color
+> space but in linear encoding (e.g. fp16 data type) for proper blending.)
+> =
+
+> > > I am asking, because I have a request to add limited vs. full range
+> > > information to Wayland.
+> > >
+> > > What about video sinks, including monitors? Are there devices that
+> > > accept limited-range only, full-range only, or switchable?
+> > >  =
+
+> > =
+
+> > Yes, there are sinks which support selectable quantization range and th=
+ere
+> > are sinks which don't. If the quantization range is not selectable, the=
+n in
+> > general, sources should output full-range for IT timings, and output
+> > limited for CE timings. At a high-level, IT timings are part of a stand=
+ard
+> > developed by VESA for computer monitor-like displays. CE (Consumer
+> > Electronics) timings are a separate standard for timings more applicabl=
+e to
+> > sinks like consumer TVs, etc.
+> =
+
+> Very good. How is this achieved with KMS today? Does the kernel driver
+> automatically make the display chip convert to full-range or
+> limited-range based on the mode information?
+> =
+
+> Or is this something that simply doesn't exist yet, and it needs
+> userspace to make the decision on which range to program the display
+> hardware to emit into the wire? Hence the need for a range property.
+
+At least i915 handles it all automagically. Older hw generations are
+nicer and have a simple bit to tell the hardware to do the full->limited
+range compression, or modern hw we use the csc matrix to achieve the
+same result. The latter does cause some headaches when this gets
+combined with user provided gamma/degamma/ctm, and I think we still
+get some of the more esoteric combinations wrong.
+
+A few years back there was a proposal to extend the 'Broadcast RGB'
+range prop with a new knob to allow passthrough limited range content
+(ie. no range compression done during scanout, but sink gets told =
+
+the content is limited range), but it fell through the cracks.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
