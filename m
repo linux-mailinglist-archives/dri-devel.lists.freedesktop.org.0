@@ -2,31 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EF01EDDB8
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 09:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5471EDDC1
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 09:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF3E86E271;
-	Thu,  4 Jun 2020 07:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4CC6E279;
+	Thu,  4 Jun 2020 07:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3F27F89B11
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 14:06:44 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id B20A1809C;
- Wed,  3 Jun 2020 14:07:32 +0000 (UTC)
-Date: Wed, 3 Jun 2020 07:06:39 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 1/5] drm/omap: Fix suspend resume regression after
- platform data removal
-Message-ID: <20200603140639.GG37466@atomide.com>
-References: <20200531193941.13179-1-tony@atomide.com>
- <20200531193941.13179-2-tony@atomide.com>
- <16ba1808-5c7f-573d-8dd0-c80cac2f476e@ti.com>
+Received: from Galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710408981D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jun 2020 14:50:06 +0000 (UTC)
+Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de.)
+ by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.80) (envelope-from <a.darwish@linutronix.de>)
+ id 1jgUiE-0001uB-Jj; Wed, 03 Jun 2020 16:49:50 +0200
+From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v2 0/6] seqlock: seqcount_t call sites bugfixes
+Date: Wed,  3 Jun 2020 16:49:43 +0200
+Message-Id: <20200603144949.1122421-1-a.darwish@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <16ba1808-5c7f-573d-8dd0-c80cac2f476e@ti.com>
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
+ SHORTCIRCUIT=-0.0001
 X-Mailman-Approved-At: Thu, 04 Jun 2020 07:11:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,65 +42,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
- Grygorii Strashko <grygorii.strashko@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Keerthy <j-keerthy@ti.com>, Suman Anna <s-anna@ti.com>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>
+Cc: Jens Axboe <axboe@kernel.dk>, "Paul E. McKenney" <paulmck@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-block@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+ dri-devel@lists.freedesktop.org, "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+ Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Vivek Goyal <vgoyal@redhat.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ti.com> [200603 12:34]:
-> Hi Tony,
-> 
-> On 31/05/2020 22:39, Tony Lindgren wrote:
-> > When booting without legacy platform data, we no longer have omap_device
-> > calling PM runtime suspend for us on suspend. This causes the driver
-> > context not be saved as we have no suspend and resume functions defined.
-> > 
-> > Let's fix the issue by switching over to use UNIVERSAL_DEV_PM_OPS as it
-> > will call the existing PM runtime suspend functions on suspend.
-> 
-> I don't think we can use UNIVERSAL_DEV_PM_OPS, as we can't disable DSS
-> modules in any order, but things have to be shut down in orderly manner.
+Hi,
 
-OK. I presume you talk about the order of dss child devices here.
+Since patch #7 and #8 from the series:
 
-> omapdrm hasn't relied on omap_device calling runtime suspend for us (I
-> didn't know it does that). We have system suspend hooks in omap_drv.c:
+   [PATCH v1 00/25] seqlock: Extend seqcount API with associated locks
+   https://lore.kernel.org/lkml/20200519214547.352050-1-a.darwish@linutronix.de
 
-We had omap_device sort of brute forcing things to idle on suspend
-which only really works for interconnect target modules with one
-device in them.
+are now pending on the lockdep/x86 IRQ state tracking patch series:
 
-> SIMPLE_DEV_PM_OPS(omapdrm_pm_ops, omap_drm_suspend, omap_drm_resume)
-> 
-> omap_drm_suspend() is supposed to turn off the displays, which then cause
-> dispc_runtime_put (and other runtime_puts) to be called, which result in
-> dispc_runtime_suspend (and other runtime PM suspends).
+   [PATCH 00/14] x86/entry: disallow #DB more and x86/entry lockdep/nmi
+   https://lkml.kernel.org/r/20200529212728.795169701@infradead.org
 
-OK thanks for explaining, I missed that part.
+   [PATCH v3 0/5] lockdep: Change IRQ state tracking to use per-cpu variables
+   https://lkml.kernel.org/r/20200529213550.683440625@infradead.org
 
-> So... For some reason that's no longer happening? I need to try to find a
-> board with which suspend/resume works (without DSS)...
+This is a repost only of the seqcount_t call sites bugfixes that were on
+top of the seqlock patch series.
 
-Yes it seems something has changed. When diffing the dmesg debug output
-on suspend and resume, context save and restore functions are no longer
-called as the PM runtime suspend and resume functions are no longer
-called on suspend and resume.
+These fixes are independent, and can thus be merged on their own. I'm
+reposting them now so they can at least hit -rc2 or -rc3.
 
-I'll drop this patch, and will be applying the rest of the series to
-fixes if no objections.
+Changelog-v2:
+
+  - patch #1: Add a missing up_read() on netdev_get_name() error path
+              exit. Thanks to Dan/kbuild-bot report.
+
+  - patch #4: new patch, invalid preemptible context found by the new
+              lockdep checks added in the seqlock series + kbuild-bot.
 
 Thanks,
 
-Tony
+8<--------------
+
+Ahmed S. Darwish (6):
+  net: core: device_rename: Use rwsem instead of a seqcount
+  net: phy: fixed_phy: Remove unused seqcount
+  u64_stats: Document writer non-preemptibility requirement
+  net: mdiobus: Disable preemption upon u64_stats update
+  block: nr_sects_write(): Disable preemption on seqcount write
+  dma-buf: Remove custom seqcount lockdep class key
+
+ block/blk.h                    |  2 ++
+ drivers/dma-buf/dma-resv.c     |  9 +------
+ drivers/net/phy/fixed_phy.c    | 26 ++++++++------------
+ drivers/net/phy/mdio_bus.c     |  2 ++
+ include/linux/dma-resv.h       |  2 --
+ include/linux/u64_stats_sync.h | 43 ++++++++++++++++++----------------
+ net/core/dev.c                 | 40 ++++++++++++++-----------------
+ 7 files changed, 56 insertions(+), 68 deletions(-)
+
+base-commit: 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+--
+2.20.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
