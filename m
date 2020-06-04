@@ -2,65 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7030E1EE0F7
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 11:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415541EE11B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 11:20:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11E1C6E053;
-	Thu,  4 Jun 2020 09:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE356E21D;
+	Thu,  4 Jun 2020 09:20:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3146E053
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 09:16:21 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id q11so5266061wrp.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jun 2020 02:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=p5lTW39g1QpsBvEecDQhlbtZ5rwo3DScDmYMeSxtiQM=;
- b=lxUzYKwvrK8PqEF65PB6zvN27pbju/ygVGds1WK/i3JHzCfvHE0m+o3sgfDUsW9sHa
- BWNbjWbF9OrRUTFdwQSkXeN1A7m8084gzpJOr8nTTPTiAYCZQmNbOOyjBmQwjBbUJkPk
- 9Oj6x2rxhdGXSe/tOE2ARIZsTYYCRw7lwLUXkkYcJg0HTFXuN9Fajzy3uolv6rk3x17C
- IxQIhxb0kruQ0MHPyVAR6TMT7lu5JYB88taPpFQE/7THT+w1vuX/AiJ9d2WXGVytW1Ak
- I2PIPYpKGpqp3sj0UgeGIuEXwmP+gVqjh7o1exWHlFdztTZn4OwkGjV0AXS5Y3qXV9ZQ
- AbGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=p5lTW39g1QpsBvEecDQhlbtZ5rwo3DScDmYMeSxtiQM=;
- b=kscZma5QOgxEcN5BDDpjVabHb65zJK8OnQA/D73Lb3YxwCZihjz/1jE6z6uHuGMvVw
- NuOy8yoEbbDke2UYhkYiu6I9N343egJMj+la8tpTTjcrgtXH/l3HnvFTi9UOdxLyNWM1
- Pz3u/McNE8fPZL6CP5jQvHlrlAZlZhvVMQY+GGQSWQ9eFPimcTRhsuWJPNCQL1VDUL2r
- 7dVgPWFI+eddZ8fh2Frc2IvMSBL8TK/cHqEVOZnSXgKO6zjyAqOY28LwHRDXgs3LpCEl
- JTBqd+s622fsmw2jc+wU5v2FnLXRPRkwq/96+/lfubNjR5n6WnPG6OWmEu2u+ELflKRl
- 1Qig==
-X-Gm-Message-State: AOAM531wpUPb7z6vNbSUS2rokp6J4RmnHeo6i6L5cPEttNUJb13PHEMV
- NpzZuYRk5VfHHtC3OsJJz8OWr5BvJbaOy6OUPdwWs+Ny4Nc=
-X-Google-Smtp-Source: ABdhPJwG80016QsfRe0l9d6J68dreTITwTfOhCtWF1jLaFhFVWyLYzyJs8z4dBZ1mDKpW7Dx38Zl7G6/gvLYNY8Aevo=
-X-Received: by 2002:a5d:4090:: with SMTP id o16mr3401011wrp.354.1591262179860; 
- Thu, 04 Jun 2020 02:16:19 -0700 (PDT)
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47CA16E2BC
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 09:20:36 +0000 (UTC)
+Date: Thu, 04 Jun 2020 09:20:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1591262434;
+ bh=S77ijj3zO/iqtCoxNNl6Le0cycvdwXVNi7kBaWwXqlo=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=rBpdAcogQoaZWmPC5crBw+Nzo+MG42yBMXajnus/ghqG/joo07y0r59CMXAwTPxe4
+ BTI3A1vATE7DiBMxv10HJcqx8Wt/Oa8aDoa2btpOs8D+m2RviCsHH4j49eSiu6C03V
+ 6CB490mbVrvDHSGbZVVRhQ89pw8FAve5iu3ABvos=
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH v3] drm: document how user-space should use link-status
+Message-ID: <kFylMmeRMGJk-oi8f-Td8A7GNa1C-GsK23-vjKg77VhWfwpkLJg7QxFlQ_g9KdVxZiyWl9eJWpUGa5PYasR9YcyvIbuBmHVfKeHb4rH0yTM=@emersion.fr>
 MIME-Version: 1.0
-References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
- <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
- <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
- <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
- <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
- <CADnq5_OX9o5_Gc4SjU5M4B=fthT9++J-FjX3UqTS7x_u6cJHOQ@mail.gmail.com>
- <CAPj87rP+Hxhohb4dEjRwtZzy34fYk+hAdgVfCkLF1u4JufJ=CQ@mail.gmail.com>
- <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
- <CAPj87rNO62i5JmRLdMhAg9XbiJUyrrRO7fj1ruXRCh-oxHnifQ@mail.gmail.com>
- <CADnq5_PVZ_DS65SCS=OFW0m7Dz10pMAZVZ33pWf86KBwg4oQKw@mail.gmail.com>
- <CAPj87rNrJtJeVd0ba768D2VMiEKvhXOCozAhkq6QV6mu3WsFVQ@mail.gmail.com>
- <CAAxE2A4wE0Q4NCQHmQhCa3nQn8VHWngtmuhg2DBtQYsCncTSFw@mail.gmail.com>
-In-Reply-To: <CAAxE2A4wE0Q4NCQHmQhCa3nQn8VHWngtmuhg2DBtQYsCncTSFw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 4 Jun 2020 10:14:24 +0100
-Message-ID: <CAPj87rNw7w3itcWiA0A1GGWRW4jhuHBzCkWYPJoRxhU4xoTcXw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +42,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAzIEp1biAyMDIwIGF0IDE5OjUzLCBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21haWwu
-Y29tPiB3cm90ZToKPiBUTVogaXMgbW9yZSBjb21wbGljYXRlZC4gSWYgdGhlcmUgaXMgYSBUTVog
-YnVmZmVyIHVzZWQgYnkgYSBjb21tYW5kIGJ1ZmZlciwgdGhlbiBhbGwgb3RoZXIgdXNlZCBidWZm
-ZXJzIG11c3QgYWxzbyBiZSBUTVogb3IgcmVhZCBvbmx5LiBJZiBubyBUTVogYnVmZmVycyBhcmUg
-dXNlZCBieSBhIGNvbW1hbmQgYnVmZmVyLCB0aGVuIFRNWiBpcyBkaXNhYmxlZC4gSWYgYSBjb250
-ZXh0IGlzIG5vdCBzZWN1cmUsIFRNWiBpcyBhbHNvIGRpc2FibGVkLiBBIGNvbnRleHQgY2FuIHN3
-aXRjaCBiZXR3ZWVuIHNlY3VyZSBhbmQgbm9uLXNlY3VyZSBiYXNlZCBvbiB0aGUgYnVmZmVycyBi
-ZWluZyB1c2VkLgo+Cj4gU28gbWl4aW5nIHNlY3VyZSBhbmQgbm9uLXNlY3VyZSBtZW1vcnkgd3Jp
-dGVzIGluIG9uZSBjb21tYW5kIGJ1ZmZlciB3b24ndCB3b3JrLiBUaGlzIGlzIG5vdCBmaXhhYmxl
-IGluIHRoZSBkcml2ZXIgLSBhcHBzIG11c3QgYmUgYXdhcmUgb2YgdGhpcy4KClN1cmUsIHRoYXQg
-bWFrZXMgc2Vuc2UuIEl0IHByb2JhYmx5IHBvaW50cyB0byBUTVogYmVpbmcgaXRzIG93bgpzcGVj
-aWFsIHRoaW5nLCBpbmRlcGVuZGVudCBvZiBtb2RpZmllcnMsIHNpbmNlIGl0IHRvdWNoZXMgc28g
-bXVjaApnbG9iYWwgc3RhdGUsIGFuZCBkb2Vzbid0IG1lc2ggY2xlYW5seSBhbnkgb2YgdGhlIG1v
-ZGVscyB3ZSBoYXZlIGZvcgphZHZlcnRpc2luZyBhbmQgbmVnb3RpYXRpbmcgYnVmZmVyIGFsbG9j
-YXRpb24gYW5kIGltcG9ydC4KCkNoZWVycywKRGFuaWVsCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Describe what a "BAD" link-status means for user-space and how it should
+handle it. The logic described has been implemented in igt [1].
+
+v2:
+
+- Change wording to avoid "enabled" (Daniel)
+- Add paragraph about multiple connectors sharing the same CRTC (Pekka)
+- Add paragraph about performing an atomic commit on a connector without
+  updating the link-status property (Daniel)
+
+v3:
+
+- Fix description of what happens when link-status isn't reset to
+  "GOOD", and when link-status is reset without ALLOW_MODESET (Daniel,
+  Ville)
+- Changing link-status to "BAD" is a no-op
+- Clearly state that "BAD" means black screen (Manasi)
+
+[1]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/fbe61f529737191d0920521946a575bd55f00fbe
+
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Manasi Navare <manasi.d.navare@intel.com>
+Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+
+I'm not 100% sure the paragraph about not resetting link-status or not
+using ALLOW_MODESET is accurate. Just like the previous version, this
+is just an attempt at documenting the current kernel behaviour.
+
+ drivers/gpu/drm/drm_connector.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index f2b20fd66319..1df036b3353b 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -994,6 +994,26 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+  *      after modeset, the kernel driver may set this to "BAD" and issue a
+  *      hotplug uevent. Drivers should update this value using
+  *      drm_connector_set_link_status_property().
++ *
++ *      When user-space receives the hotplug uevent and detects a "BAD"
++ *      link-status, the sink doesn't receive pixels anymore (e.g. the screen
++ *      becomes completely black). The list of available modes may have
++ *      changed. User-space is expected to pick a new mode if the current one
++ *      has disappeared and perform a new modeset with link-status set to
++ *      "GOOD" to re-enable the connector.
++ *
++ *      If multiple connectors share the same CRTC and one of them gets a "BAD"
++ *      link-status, the other are unaffected (ie. the sinks still continue to
++ *      receive pixels).
++ *
++ *      When user-space performs an atomic commit on a connector with a "BAD"
++ *      link-status without resetting the property to "GOOD", the sink may
++ *      still not receive pixels. When user-space performs an atomic commit
++ *      which resets the link-status property to "GOOD" without the
++ *      ALLOW_MODESET flag set, it might fail because a modeset is required.
++ *
++ *      User-space can only change link-status to "GOOD", changing it to "BAD"
++ *      is a no-op.
+  * non_desktop:
+  * 	Indicates the output should be ignored for purposes of displaying a
+  * 	standard desktop environment or console. This is most likely because
+-- 
+2.26.2
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
