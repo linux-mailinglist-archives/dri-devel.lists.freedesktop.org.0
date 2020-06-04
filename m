@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47561EE8F8
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 18:58:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADB31EE922
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 19:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1016F6E516;
-	Thu,  4 Jun 2020 16:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B89C6E51D;
+	Thu,  4 Jun 2020 17:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1AF26E516
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 16:58:04 +0000 (UTC)
-IronPort-SDR: GP5tgjrw5Yn5pkHMUqOxnMMZlE42Dk3Qft7igB85b1Mr74jk5SfT5Dw3jwsRqBQNiQHDwP1NNs
- EelL7f2B1+JA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 09:58:04 -0700
-IronPort-SDR: ZpOXk6CMB+qToRoj1dTNqOSH8Prm1rTPWYt6Ef20f2MUfvXKTrLptCynpPqPvarBm5e7wvsxjx
- bJ13ckYskE3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; d="scan'208";a="378471307"
-Received: from ayazahma-nuc8i7beh.iind.intel.com ([10.145.162.59])
- by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2020 09:58:02 -0700
-From: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] Fix reserve start and end for lmem of remote tiles
-Date: Thu,  4 Jun 2020 22:25:51 +0530
-Message-Id: <20200604165551.876191-1-ayaz.siddiqui@intel.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44B1B89E01
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 17:08:23 +0000 (UTC)
+Date: Thu, 04 Jun 2020 17:08:12 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1591290501;
+ bh=fcdR2PwZpgv4VLFNovsJiyebMA0gyH1vjRnFs8jImZU=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=N7E9JeNm2O80+1P1voKI1b4SrQQITt0vQy2SffhejFtFKgZzj5Y3ZdTsns8EpiKx+
+ JfKiGqscVUmtOYWeaJOlnQrDfWSsHaSq7wJvz0/WAFpKUu2rkNxU9MK9Jz9z9A9ox9
+ v/oy0j/nk5Lypvlmbx6hHhX5FONZIDj2/hwQXJmA=
+To: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] Fix reserve start and end for lmem of remote tiles
+Message-ID: <Ja3oVwr9jRGXHm4ZKQKpiiPht6IuWj-TOtou-yZVF72Z55eH9hHkOqA3sdPw5L7Kb_x6RPXQ7CLUjBAnOBYGZI36yLLgUjHEHTpTX5aZMdo=@emersion.fr>
+In-Reply-To: <20200604165551.876191-1-ayaz.siddiqui@intel.com>
+References: <20200604165551.876191-1-ayaz.siddiqui@intel.com>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,36 +44,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ramalingam C <ramalingam.c@intel.com>
-
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
----
- drivers/gpu/drm/i915/intel_region_lmem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
-index d5ffef3bf5f6..d85da31f98c9 100644
---- a/drivers/gpu/drm/i915/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/intel_region_lmem.c
-@@ -217,8 +217,8 @@ static int reserve_lowmem_region(struct intel_uncore *uncore,
- 
- 	get_tracedebug_region(uncore, &region_start, &region_size);
- 	if (region_size) {
--		reserve_start = min(reserve_start, region_start);
--		reserve_end = max(reserve_end, region_start + region_size);
-+		reserve_start = 0;
-+		reserve_end = region_size;
- 	}
- 
- 	if (!reserve_end)
--- 
-2.25.0
-
+This patch is i915-specific. It should be sent to
+intel-gfx@lists.freedesktop.org instead of dri-devel.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
