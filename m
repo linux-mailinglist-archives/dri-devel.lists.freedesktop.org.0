@@ -1,43 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369981EEAD7
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 21:06:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1B01EEB33
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 21:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 579FB6E580;
-	Thu,  4 Jun 2020 19:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5EB6E591;
+	Thu,  4 Jun 2020 19:33:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359996E57A;
- Thu,  4 Jun 2020 19:06:16 +0000 (UTC)
-IronPort-SDR: AJro/mDByUG4/0WXw5iSFWvfKy3LKCRj8+j9D4VM/PI51PR/iMCGGEALmBbfSr4I7OC3Tio4pS
- 75fAaTsxrUpw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 12:06:15 -0700
-IronPort-SDR: pgfZZVPFsM4zMRXGE0LoMI3xeW+PRzoOobTJf4kPrWrUkpjxPZudXI51Ckhc1JSmw3DnSLt2/z
- VGyy6lMSwVww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; d="scan'208";a="378505748"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga001.fm.intel.com with SMTP; 04 Jun 2020 12:06:13 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 04 Jun 2020 22:06:12 +0300
-Date: Thu, 4 Jun 2020 22:06:12 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Vidya Srinivas <vidya.srinivas@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/dp: DP PHY compliance for JSL
-Message-ID: <20200604190612.GI6112@intel.com>
-References: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 467CC6E591;
+ Thu,  4 Jun 2020 19:33:18 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id D09B120021;
+ Thu,  4 Jun 2020 21:33:14 +0200 (CEST)
+Date: Thu, 4 Jun 2020 21:33:13 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Harigovindan P <harigovi@codeaurora.org>
+Subject: Re: [v2] drm/bridge: ti-sn65dsi86: ensure bridge suspend happens
+ during PM sleep
+Message-ID: <20200604193313.GA94913@ravnborg.org>
+References: <20200604103438.23667-1-harigovi@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1591247028-5868-1-git-send-email-vidya.srinivas@intel.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200604103438.23667-1-harigovi@codeaurora.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=LpQP-O61AAAA:8 a=M66uC3hkwJVUcRF4gK8A:9
+ a=CjuIK1q_8ugA:10 a=pioyyrs4ZptJ924tMmac:22 a=pHzHmUro8NiASowvMSCR:22
+ a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,151 +45,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org, kalyan_t@codeaurora.org, hoegsberg@chromium.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 04, 2020 at 10:33:48AM +0530, Vidya Srinivas wrote:
-> Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
-> Signed-off-by: Vidya Srinivas <vidya.srinivas@intel.com>
+Hi Harigovindan
+On Thu, Jun 04, 2020 at 04:04:38PM +0530, Harigovindan P wrote:
+> ti-sn65dsi86 bridge is enumerated as a runtime device.
+> 
+> Adding sleep ops to force runtime_suspend when PM suspend is
+> requested on the device.
+
+Patch looks correct - but could you please explain why it is needed.
+What is the gain compared to not having this patch.
+
+I ask for two reasons:
+1) I really do not know
+2) this info should be in the changelog
+
+Without a better changelog no ack from me - sorry.
+
+	Sam
+
+> 
+> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 40 ++++++++++++++++++++++++++-=
-------
->  1 file changed, 32 insertions(+), 8 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index 7223367171d1..44663e8ac9a1 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5470,22 +5470,32 @@ intel_dp_autotest_phy_ddi_disable(struct intel_dp=
- *intel_dp)
->  	struct drm_i915_private *dev_priv =3D to_i915(dev);
->  	struct intel_crtc *crtc =3D to_intel_crtc(intel_dig_port->base.base.crt=
-c);
->  	enum pipe pipe =3D crtc->pipe;
-> -	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
-> +	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value, trans_=
-ddi_port_mask;
-> +	enum port port =3D intel_dig_port->base.port;
-> +	i915_reg_t dp_tp_reg;
-> +
-> +	if (IS_ELKHARTLAKE(dev_priv)) {
-> +		dp_tp_reg =3D DP_TP_CTL(port);
-> +		trans_ddi_port_mask =3D TRANS_DDI_PORT_MASK;
-> +	} else if (IS_TIGERLAKE(dev_priv)) {
-> +		dp_tp_reg =3D TGL_DP_TP_CTL(pipe);
-> +		trans_ddi_port_mask =3D TGL_TRANS_DDI_PORT_MASK;
-> +	}
->  =
-
->  	trans_ddi_func_ctl_value =3D intel_de_read(dev_priv,
->  						 TRANS_DDI_FUNC_CTL(pipe));
->  	trans_conf_value =3D intel_de_read(dev_priv, PIPECONF(pipe));
-> -	dp_tp_ctl_value =3D intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
->  =
-
-> +	dp_tp_ctl_value =3D intel_de_read(dev_priv, dp_tp_reg);
->  	trans_ddi_func_ctl_value &=3D ~(TRANS_DDI_FUNC_ENABLE |
-> -				      TGL_TRANS_DDI_PORT_MASK);
-> +					trans_ddi_port_mask);
->  	trans_conf_value &=3D ~PIPECONF_ENABLE;
->  	dp_tp_ctl_value &=3D ~DP_TP_CTL_ENABLE;
->  =
-
->  	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
->  	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
->  		       trans_ddi_func_ctl_value);
-> -	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
-> +	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
-
-All this ad-hoc modeset code really should not exist. It's going to
-have different bugs than the norma modeset paths, so compliance testing
-this special code proves absolutely nothing about the normal modeset
-code. IMO someone needs to take up the task of rewrtiting all this to
-just perform normal modesets.
-
->  }
->  =
-
->  static void
-> @@ -5497,20 +5507,28 @@ intel_dp_autotest_phy_ddi_enable(struct intel_dp =
-*intel_dp, uint8_t lane_cnt)
->  	enum port port =3D intel_dig_port->base.port;
->  	struct intel_crtc *crtc =3D to_intel_crtc(intel_dig_port->base.base.crt=
-c);
->  	enum pipe pipe =3D crtc->pipe;
-> -	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value;
-> +	u32 trans_ddi_func_ctl_value, trans_conf_value, dp_tp_ctl_value, trans_=
-ddi_sel_port;
-> +	i915_reg_t dp_tp_reg;
-> +
-> +	if (IS_ELKHARTLAKE(dev_priv)) {
-> +		dp_tp_reg =3D DP_TP_CTL(port);
-> +		trans_ddi_sel_port =3D TRANS_DDI_SELECT_PORT(port);
-> +	} else if (IS_TIGERLAKE(dev_priv)) {
-> +		dp_tp_reg =3D TGL_DP_TP_CTL(pipe);
-> +		trans_ddi_sel_port =3D TGL_TRANS_DDI_SELECT_PORT(port);
-> +	}
->  =
-
->  	trans_ddi_func_ctl_value =3D intel_de_read(dev_priv,
->  						 TRANS_DDI_FUNC_CTL(pipe));
->  	trans_conf_value =3D intel_de_read(dev_priv, PIPECONF(pipe));
->  	dp_tp_ctl_value =3D intel_de_read(dev_priv, TGL_DP_TP_CTL(pipe));
-> -
->  	trans_ddi_func_ctl_value |=3D TRANS_DDI_FUNC_ENABLE |
-> -				    TGL_TRANS_DDI_SELECT_PORT(port);
-> +				    trans_ddi_sel_port;
->  	trans_conf_value |=3D PIPECONF_ENABLE;
->  	dp_tp_ctl_value |=3D DP_TP_CTL_ENABLE;
->  =
-
->  	intel_de_write(dev_priv, PIPECONF(pipe), trans_conf_value);
-> -	intel_de_write(dev_priv, TGL_DP_TP_CTL(pipe), dp_tp_ctl_value);
-> +	intel_de_write(dev_priv, dp_tp_reg, dp_tp_ctl_value);
->  	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(pipe),
->  		       trans_ddi_func_ctl_value);
->  }
-> @@ -5557,6 +5575,7 @@ static u8 intel_dp_autotest_phy_pattern(struct inte=
-l_dp *intel_dp)
->  static void intel_dp_handle_test_request(struct intel_dp *intel_dp)
->  {
->  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
-> +	struct drm_i915_private *dev_priv =3D i915;
->  	u8 response =3D DP_TEST_NAK;
->  	u8 request =3D 0;
->  	int status;
-> @@ -5582,6 +5601,11 @@ static void intel_dp_handle_test_request(struct in=
-tel_dp *intel_dp)
->  		response =3D intel_dp_autotest_edid(intel_dp);
->  		break;
->  	case DP_TEST_LINK_PHY_TEST_PATTERN:
-> +		if (!IS_ELKHARTLAKE(dev_priv) || !IS_TIGERLAKE(dev_priv)) {
-> +			drm_dbg_kms(&i915->drm,
-> +				"PHY compliance for platform not supported\n");
-> +			return;
-> +		}
->  		drm_dbg_kms(&i915->drm, "PHY_PATTERN test requested\n");
->  		response =3D intel_dp_autotest_phy_pattern(intel_dp);
->  		break;
-> -- =
-
-> 2.7.4
-> =
-
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+> Changes in v2:
+> 	- Include bridge name in the commit message and 
+> 	remove dependent patchwork link from the commit
+> 	text as bridge is independent of OEM(Stephen Boyd)
+> 
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index 6ad688b320ae..2eef755b2917 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -159,6 +159,8 @@ static int __maybe_unused ti_sn_bridge_suspend(struct device *dev)
+>  
+>  static const struct dev_pm_ops ti_sn_bridge_pm_ops = {
+>  	SET_RUNTIME_PM_OPS(ti_sn_bridge_suspend, ti_sn_bridge_resume, NULL)
+> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +				pm_runtime_force_resume)
+>  };
+>  
+>  static int status_show(struct seq_file *s, void *data)
+> -- 
+> 2.27.0
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
