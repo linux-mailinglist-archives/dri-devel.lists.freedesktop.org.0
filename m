@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF33A1EDCC1
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 07:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9D61EDD0F
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 08:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 017B2898AF;
-	Thu,  4 Jun 2020 05:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828F06E1A4;
+	Thu,  4 Jun 2020 06:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04C07898AF
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 05:49:44 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id k15so3865362otp.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 22:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rqE9XL7eLOP6VB2UAD3Y6E2HkrlmXmVJB3VWo1bq1oI=;
- b=MO5dE3Kx5mjbbliZCC3Gq5PDpWA7a4nuo502DQJrzpCLIvVdxVrbSrhn74AyABYIoe
- lPCMdk1MiPSMBUJxStAfD2Su3qCsvH+iKP1NSA01m8nK3q/DVksrqqgSCWEylPM4Lo1J
- DvKD4hPGE7nIB6NWD+ZthQokSHEdGis3ScNwkMkisKvt8Cb6ttOjq+zpZOfiWse/jeLN
- zJJ/yBzFvL9cHvN+W8MTHmf2Ya3i9bg663uKHwXJ0mF6bymN33x+Wu91is148k50hiPr
- 6/41J7NSxZwfGsh5uWd1z2SbPWNMvEGi5QlrzZ0gGX+TxgBKXXguGWSzfIZeyoRkCBsQ
- Ulag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rqE9XL7eLOP6VB2UAD3Y6E2HkrlmXmVJB3VWo1bq1oI=;
- b=cpM80qzLdHKipy+RQdieDEb9L+EYifxvP4CBby2wYtCqrAdlWXhYFxmHZdr40Oo8q0
- Zn30MN8d/67IPQLSobijaZPikB1BR/dm6I5zZmC1S/qWfezthol2BVD1AkPs9UL4l9Bf
- mv5kGbZWkPLINJm9oGX70tD26ZAF74iO4JkiHuL+grFlfF6J04zmDTrZdUy4OpyIcbiC
- Lvj7zc/7Vwy1cGXrmxpr2kDEuvYl40IApb9sRDQXnli30JMoQHgJ+zlT/b9ArOTcjhap
- hPGejAQY7lyxQukNkuA17YucKg6NfzEQGUlGLwk5ewdxjmMiXzvmJnG1jHu2RMeVMKS4
- BWNA==
-X-Gm-Message-State: AOAM530YD6b/X0ZFlhTTCsqQkr9dXChRzlS7/menYX5cXkcxdvVw5jpy
- qZAFqLraBq5gjeETPZ9xUu0qUDqmuAQJb8Xz5fdZwQ==
-X-Google-Smtp-Source: ABdhPJwFoZcJcGd1oTntB+jTXRYWvHT8WC7Bu9Lm72cHxLY7c0uxSsBeE0QpIpftyseCEEqnkhlM5eJ1pCAOFhWaj6M=
-X-Received: by 2002:a05:6830:2439:: with SMTP id
- k25mr2447692ots.352.1591249783290; 
- Wed, 03 Jun 2020 22:49:43 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B46489B48
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 06:18:23 +0000 (UTC)
+Received: from kernel.org (unknown [87.71.78.142])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3E3962072E;
+ Thu,  4 Jun 2020 06:18:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591251502;
+ bh=b58Vy5SwtTbyRgwDB1JjnKDC7odtYPgt+t7MvV6fCOU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IXkqPQoOU3wscqIXXMWt/Y5TkOrwtwnMx8e1GDO3arwp37wF3YS5TWw1he9VyaSeS
+ 89Vf2ok0AEsO6njQmNORJH1sdCn3SOZLBx7rtKo7/9alOdMNqSdhDlvkldurNoZnBT
+ iW2UzmfH4Spawe1NKyJhKCr9TIFG31X5xIMnk6Lw=
+Date: Thu, 4 Jun 2020 09:18:05 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
+ pagefault/preempt twice
+Message-ID: <20200604061805.GA202650@kernel.org>
+References: <20200518184843.3029640-1-ira.weiny@intel.com>
+ <20200519165422.GA5838@roeck-us.net>
+ <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
+ <20200519194215.GA71941@roeck-us.net>
+ <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
+ <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
+ <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
+ <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
+ <20200603211416.GA1740285@iweiny-DESK2.sc.intel.com>
+ <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
 MIME-Version: 1.0
-References: <20200603083132.4610-1-tzimmermann@suse.de>
- <20200603083132.4610-9-tzimmermann@suse.de>
-In-Reply-To: <20200603083132.4610-9-tzimmermann@suse.de>
-From: John Stultz <john.stultz@linaro.org>
-Date: Wed, 3 Jun 2020 22:49:31 -0700
-Message-ID: <CALAqxLWnxsv8wuMjAWw=MAcf+2oyFLH2M=Av7owZCMgUpQexNw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/23] drm/hisilicon/kirin: Use GEM CMA object functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Disposition: inline
+In-Reply-To: <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,61 +55,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- philippe.cornu@st.com, paul@crapouillou.net,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, mihail.atanassov@arm.com,
- Sam Ravnborg <sam@ravnborg.org>, alexandre.torgue@st.com, marex@denx.de,
- Xu YiPing <xuyiping@hisilicon.com>, abrodkin@synopsys.com,
- ludovic.desroches@microchip.com, Xinliang Liu <z.liuxinliang@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>,
- XinWei Kong <kong.kongxinwei@hisilicon.com>, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au,
- Emil Velikov <emil.velikov@collabora.com>, dl-linux-imx <linux-imx@nxp.com>,
- Feng Chen <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- alison.wang@nxp.com, jsarha@ti.com, Chen-Yu Tsai <wens@csie.org>,
- vincent.abriou@st.com, Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- mcoquelin.stm32@gmail.com, bbrezillon@kernel.org, andrew@aj.id.au,
- dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
- yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
- Kevin Hilman <khilman@baylibre.com>, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>,
+ linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+ Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 3, 2020 at 1:31 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> The kirin driver uses the default implementation for CMA functions. The
-> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
->
-> Using DRM_GEM_CMA_DRIVER_OPS introduces several changes: the driver now
-> sets .gem_create_object to drm_cma_gem_create_object_default_funcs(),
-> which sets CMA GEM object functions. GEM object functions implement the
-> rsp operations where possible. Corresponding interfaces in struct drm_driver
-> are cleared. Prime import now uses drm_gem_cma_prime_import_sg_table_vmap(),
-> which maps the imported buffer upon import. Mmap operations are performed
-> by drm_gem_prime_mmap(), which goes through GEM file operations. These
-> changes have been part of the aspeed driver for some time.
->
-> v2:
->         * use DRM_GEM_CMA_DRIVER_OPS
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Emil Velikov <emil.velikov@collabora.com>
-> Cc: Xu YiPing <xuyiping@hisilicon.com>
-> Cc: Rongrong Zou <zourongrong@gmail.com>
-> Cc: Xinliang Liu <z.liuxinliang@hisilicon.com>
+On Wed, Jun 03, 2020 at 04:44:17PM -0700, Guenter Roeck wrote:
+> On 6/3/20 2:14 PM, Ira Weiny wrote:
+> > On Wed, Jun 03, 2020 at 01:57:36PM -0700, Andrew Morton wrote:
+> >> On Thu, 21 May 2020 10:42:50 -0700 Ira Weiny <ira.weiny@intel.com> wrote:
+> >>
+> >>>>>
+> >>>>> Actually it occurs to me that the patch consolidating kmap_prot is odd for
+> >>>>> sparc 32 bit...
+> >>>>>
+> >>>>> Its a long shot but could you try reverting this patch?
+> >>>>>
+> >>>>> 4ea7d2419e3f kmap: consolidate kmap_prot definitions
+> >>>>>
+> >>>>
+> >>>> That is not easy to revert, unfortunately, due to several follow-up patches.
+> >>>
+> >>> I have gotten your sparc tests to run and they all pass...
+> >>>
+> >>> 08:10:34 > ../linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
+> >>> Build reference: v5.7-rc4-17-g852b6f2edc0f
+> >>>
+> >>> Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
+> >>> Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-4:nosmp:initrd ... running ......... passed
+> >>> Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
+> >>> Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
+> >>> Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
+> >>> Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
+> >>> Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
+> >>> Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+> >>>
+> >>> Is there another test I need to run?
+> >>
+> >> This all petered out, but as I understand it, this patchset still might
+> >> have issues on various architectures.
+> >>
+> >> Can folks please provide an update on the testing status?
+> > 
+> > I believe the tests were failing for Guenter due to another patch set...[1]
+> > 
+> > My tests with just this series are working.
+> > 
+> >>From my understanding the other failures were unrelated.[2]
+> > 
+> > 	<quote Mike Rapoport>
+> > 	I've checked the patch above on top of the mmots which already has
+> > 	Ira's patches and it booted fine. I've used sparc32_defconfig to build
+> > 	the kernel and qemu-system-sparc with default machine and CPU.
+> > 	</quote>
+> > 
+> > Mike, am I wrong?  Do you think the kmap() patches are still causing issues?
 
-Thanks for sending this out! Works fine on my HiKey board.
+sparc32 UP and microblaze work for me with next-20200603, but I didn't
+test other architectures. 
+ 
+> For my part, all I can say is that -next is in pretty bad shape right now.
+> The summary of my tests says:
+> 
+> Build results:
+> 	total: 151 pass: 130 fail: 21
+> Qemu test results:
+> 	total: 430 pass: 375 fail: 55
+> 
+> sparc32 smp images in next-20200603 still crash for me with a spinlock
+> recursion.
 
-Tested-by: John Stultz <john.stultz@linaro.org>
+I think this is because Will's fixes [1] are not yet in -next.
 
-thanks
--john
+> s390 images hang early in boot. Several others (alpha, arm64,
+> various ppc) don't even compile. I can run some more bisects over time,
+> but this is becoming a full-time job :-(.
+> 
+> Guenter
+
+[1] https://lore.kernel.org/lkml/20200526173302.377-1-will@kernel.org
+-- 
+Sincerely yours,
+Mike.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
