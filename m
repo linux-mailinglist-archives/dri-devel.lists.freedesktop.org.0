@@ -2,38 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010D51EDB7B
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 05:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFB81EDC9C
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 07:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 622646E155;
-	Thu,  4 Jun 2020 03:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3E1C6E16F;
+	Thu,  4 Jun 2020 05:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F35EA6E155
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 03:00:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 699CA29B;
- Thu,  4 Jun 2020 05:00:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1591239621;
- bh=V6sWc2OmZvKnvF6NTuPSNLOIX5/q4zUwgTDOnEviFQo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=irv4suQSfhNVReunvv93w24ogJjfIQrwf+k/o7zuzbVVwApBTvJs7cp92kXVPDwYp
- Vn/kJulYbla5IGBcphLaVhiB4OLS85vYwYfRRbHY72QDtdUIOYOGIk4JMarP8NLlPr
- +k1BejXukPwLzpvsBCvS95m44Dkr0RpHFFNLw8jE=
-Date: Thu, 4 Jun 2020 06:00:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 16/23] drm/rcar-du: Use GEM CMA object functions
-Message-ID: <20200604030005.GM27695@pendragon.ideasonboard.com>
-References: <20200603083132.4610-1-tzimmermann@suse.de>
- <20200603083132.4610-17-tzimmermann@suse.de>
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B424E6E16F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 05:00:30 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id v15so2293308ybk.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jun 2020 22:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=VtiTCssO88BBU0c/G4Sg0T1COj71XCtCYSihC3/yz7c=;
+ b=mUkcvP+dtGhgIg3uZ+Qpp0Tsk57x8/feR/++pHLSl14uqlsmmtFxPy1gxvl1fhqLuo
+ F+zC/Jjl10tu/IjIleJIdwrfphaSAVhCVTQ5lE/r8edpA2hPpEMGaT7GZFhTH7blrBsj
+ c4XySZrqQ3i6bIpMaIS2rF7bkucmiRnlMqZcWPQQ+Ut8GGmlVhteQ3D//EaWr8QWA/Q1
+ NBsfpuBXYp+uOdcK9wqsUMGZfXngUnP80PkJuL3wdJoEBDFBwCxF5Ki5ln+eNm49CtV3
+ xKw4IjSunXvlOc0934nYJg77w1pyYjWFP7Z03jR+vfOO/d+nWcLFBR3VBazkwyoOPW6b
+ EjFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=VtiTCssO88BBU0c/G4Sg0T1COj71XCtCYSihC3/yz7c=;
+ b=i8IJpAdgWlCy332TfZyAYHsr33fwIlfY0e4FlAmw7p8xSavVREpU0N40/+AClviBdZ
+ oOrSwRRI35jRfmK/+2noTKV4OwhiFXC+UiuC0q22Y1j2D93d3U1+ELIFwN9d4T3J8xWw
+ zE3Rx1Y/7igK8sCzcJBOGJTwkXTBeu92C3bzO2wALp7B/6A+jFoXfdpGbg/3V3flOTnu
+ N2Xhg3dnmjQRRa4/GX5wFpeMQFi3YKzqtDZwcjZx6d037uT66s9ceTblVnnWCV8m8Nez
+ zIEq9RsWBtTQacJ+z193G04v97Jxa6hNWhtthnzn8kTw+NBWuJGD8GALUitdldPdv3cQ
+ sZQg==
+X-Gm-Message-State: AOAM533uyPJuppQd5wiIKtGqddxRjFIj4qOnqTXLuPtDnBE2fraqj+bT
+ k6S7oxQqSCxDJX2S6KNs4MGA4SrHpyM4QW1nizESdvxp1E4=
+X-Google-Smtp-Source: ABdhPJzc6Hx7I38Xx8RF+f1Ff8e469f16hEhb0Q5INqz9iPoHjOWz2tOB+uDzLkWbhp1tchZ7PuT4aG2g2r8gjqjDNI=
+X-Received: by 2002:a25:6ad5:: with SMTP id f204mr4734221ybc.147.1591246829684; 
+ Wed, 03 Jun 2020 22:00:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200603083132.4610-17-tzimmermann@suse.de>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 4 Jun 2020 15:00:18 +1000
+Message-ID: <CACAvsv4PW6tAZY6Uvrhi5OV+4rDXvrtNcoq2w_i35YajByj+ew@mail.gmail.com>
+Subject: nouveau-fixes 5.8
+To: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,88 +58,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- philippe.cornu@st.com, paul@crapouillou.net, mihail.atanassov@arm.com,
- sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de,
- abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au,
- Emil Velikov <emil.velikov@collabora.com>, linux-imx@nxp.com,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, andrew@aj.id.au, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, khilman@baylibre.com,
- zourongrong@gmail.com, shawnguo@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hey Dave, Daniel,
 
-Thank you for the patch.
+Another -fixes pull for nouveau, mostly more HDA fixes, but also a fix
+for display hangs on Volta/Turing, and a GK20A regression fix.
 
-On Wed, Jun 03, 2020 at 10:31:25AM +0200, Thomas Zimmermann wrote:
-> The rcar-du driver uses the default implementation for CMA functions; except
-> for the .dumb_create callback. The DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE()
-> macro now sets these defaults and .dumb_create in struct drm_driver.
-> 
-> By using DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() the driver now
-> sets .gem_create_object to drm_cma_gem_create_object_default_funcs(),
-> which sets CMA GEM object functions. GEM object functions implement the
-> rsp operations where possible. Corresponding interfaces in struct drm_driver
-> are cleared. Prime import now uses drm_gem_cma_prime_import_sg_table_vmap(),
-> which maps the imported buffer upon import. Mmap operations are performed
-> by drm_gem_prime_mmap(), which goes through GEM file operations. These
-> changes have been part of the aspeed driver for some time.
+Thanks,
+Ben.
 
-How is the aspeed driver related to this patch ?
+The following changes since commit 0ad679d157aa69ddf0ee46b564c9fbb646cf6d4e:
 
-> 
-> v2:
-> 	* update for DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
+  drm/nouveau/kms/gt215-: fix race with audio driver runpm (2020-06-01
+17:28:42 +1000)
 
-As explained in the review of v1, this combines multiple changes in a
-single patch. Some of those changes are not straightforward to review.
-It would be easier if they were split in separate patches.
+are available in the Git repository at:
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Acked-by: Emil Velikov <emil.velikov@collabora.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 3e67cf70f0402..f53b0ec710850 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->  
->  static struct drm_driver rcar_du_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
-> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
-> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
-> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
-> -	.dumb_create		= rcar_du_dumb_create,
-> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
->  	.fops			= &rcar_du_fops,
->  	.name			= "rcar-du",
->  	.desc			= "Renesas R-Car Display Unit",
+  git://github.com/skeggsb/linux linux-5.8
 
--- 
-Regards,
+for you to fetch changes up to dd67cab5db7e940dad66653a04d780d53bd380d5:
 
-Laurent Pinchart
+  drm/nouveau/kms/nv50-: clear SW state of disabled windows harder
+(2020-06-04 14:23:22 +1000)
+
+----------------------------------------------------------------
+Ben Skeggs (6):
+      drm/nouveau/disp: provide hint to OR allocation about HDA requirements
+      drm/nouveau/disp: split part of OR allocation logic into a function
+      drm/nouveau/disp: modify OR allocation policy to account for HDA
+requirements
+      drm/nouveau/disp/gp100: split SOR implementation from gm200
+      drm/nouveau/disp/gm200-: detect and potentially disable HDA
+support on some SORs
+      drm/nouveau/kms/nv50-: clear SW state of disabled windows harder
+
+Thierry Reding (1):
+      drm/nouveau: gr/gk20a: Use firmware version 0
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            | 17 ++--
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c            |  5 +-
+ drivers/gpu/drm/nouveau/include/nvif/cl5070.h      |  3 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/Kbuild    |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gp100.c   |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gp102.c   |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/ior.h     |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.c    | 73 ++++++++++++-----
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/outp.h    |  2 +-
+ .../gpu/drm/nouveau/nvkm/engine/disp/rootnv50.c    |  4 +-
+ .../gpu/drm/nouveau/nvkm/engine/disp/sorgm200.c    | 36 ++++++++-
+ .../gpu/drm/nouveau/nvkm/engine/disp/sorgp100.c    | 93 ++++++++++++++++++++++
+ .../gpu/drm/nouveau/nvkm/engine/disp/sorgv100.c    | 35 +++++++-
+ .../gpu/drm/nouveau/nvkm/engine/disp/sortu102.c    | 32 +++++++-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c     |  2 +-
+ 15 files changed, 270 insertions(+), 38 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/disp/sorgp100.c
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
