@@ -1,96 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169491EE0A6
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 11:09:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7030E1EE0F7
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 11:16:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9516E059;
-	Thu,  4 Jun 2020 09:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11E1C6E053;
+	Thu,  4 Jun 2020 09:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B9416E2BC
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 09:09:06 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 054995ct041070;
- Thu, 4 Jun 2020 04:09:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1591261745;
- bh=EJKAnx9Nl8mi/jJOJx1KYMioKNaKUF1bH8shJvTpLgA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=mLKC5JpsId/vJNdHeEpj8Je04CpJUpQxkSL0kTUs6XX8VRGT6OzwFU9N7he6I1q5f
- /KuwT6Bs6km3uxb1vYhzXOPLAODUehViNU0RscfeY4xHJCkRZwshl9f8HxyWQOZBeD
- HQInQaTXVWAPmwMmpL+s53bJT68PNDzoWFft20h8=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 054995Kp068022
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 4 Jun 2020 04:09:05 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 4 Jun
- 2020 04:09:05 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 4 Jun 2020 04:09:05 -0500
-Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 054994md042022;
- Thu, 4 Jun 2020 04:09:04 -0500
-Subject: Re: [PATCH] drm/tidss: fix modeset init for DPI panels
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <dri-devel@lists.freedesktop.org>
-References: <20200604080214.107159-1-tomi.valkeinen@ti.com>
-From: Jyri Sarha <jsarha@ti.com>
-Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <5514c989-47f6-8ff4-7446-9bccdba0a214@ti.com>
-Date: Thu, 4 Jun 2020 12:09:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3146E053
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 09:16:21 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id q11so5266061wrp.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jun 2020 02:16:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=p5lTW39g1QpsBvEecDQhlbtZ5rwo3DScDmYMeSxtiQM=;
+ b=lxUzYKwvrK8PqEF65PB6zvN27pbju/ygVGds1WK/i3JHzCfvHE0m+o3sgfDUsW9sHa
+ BWNbjWbF9OrRUTFdwQSkXeN1A7m8084gzpJOr8nTTPTiAYCZQmNbOOyjBmQwjBbUJkPk
+ 9Oj6x2rxhdGXSe/tOE2ARIZsTYYCRw7lwLUXkkYcJg0HTFXuN9Fajzy3uolv6rk3x17C
+ IxQIhxb0kruQ0MHPyVAR6TMT7lu5JYB88taPpFQE/7THT+w1vuX/AiJ9d2WXGVytW1Ak
+ I2PIPYpKGpqp3sj0UgeGIuEXwmP+gVqjh7o1exWHlFdztTZn4OwkGjV0AXS5Y3qXV9ZQ
+ AbGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p5lTW39g1QpsBvEecDQhlbtZ5rwo3DScDmYMeSxtiQM=;
+ b=kscZma5QOgxEcN5BDDpjVabHb65zJK8OnQA/D73Lb3YxwCZihjz/1jE6z6uHuGMvVw
+ NuOy8yoEbbDke2UYhkYiu6I9N343egJMj+la8tpTTjcrgtXH/l3HnvFTi9UOdxLyNWM1
+ Pz3u/McNE8fPZL6CP5jQvHlrlAZlZhvVMQY+GGQSWQ9eFPimcTRhsuWJPNCQL1VDUL2r
+ 7dVgPWFI+eddZ8fh2Frc2IvMSBL8TK/cHqEVOZnSXgKO6zjyAqOY28LwHRDXgs3LpCEl
+ JTBqd+s622fsmw2jc+wU5v2FnLXRPRkwq/96+/lfubNjR5n6WnPG6OWmEu2u+ELflKRl
+ 1Qig==
+X-Gm-Message-State: AOAM531wpUPb7z6vNbSUS2rokp6J4RmnHeo6i6L5cPEttNUJb13PHEMV
+ NpzZuYRk5VfHHtC3OsJJz8OWr5BvJbaOy6OUPdwWs+Ny4Nc=
+X-Google-Smtp-Source: ABdhPJwG80016QsfRe0l9d6J68dreTITwTfOhCtWF1jLaFhFVWyLYzyJs8z4dBZ1mDKpW7Dx38Zl7G6/gvLYNY8Aevo=
+X-Received: by 2002:a5d:4090:: with SMTP id o16mr3401011wrp.354.1591262179860; 
+ Thu, 04 Jun 2020 02:16:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200604080214.107159-1-tomi.valkeinen@ti.com>
-Content-Language: en-GB
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <WOsdNGp0dhyp8Modsrt7DYpd0fVk7Yk264FISQ1Yls30bhlSXbxzgKTpmOCJ9H2WV1XHyUjCXu7nwBOWQ6n1NCbIcVl1-1IZ4rMMGN1dN-U=@emersion.fr>
+ <CAAxE2A4NCo_KMkemUOHKbZ7P=GR4p-zwhpmP7Get18x4Ydb-Gg@mail.gmail.com>
+ <bbZABMxDckHUj5JW5DW0pSewqQ-rAIW0gvNnTlI4np7o1A2bDrpPGIeyk5tXGMDr_cAI1l_R9qw6ykJ8OEhQlbKruJ8IG579jqADaPAnUbA=@emersion.fr>
+ <CADnq5_MEFM_2k_uboU6E9d3_j18K+tz=Axtie-80PSSwJ2vkYw@mail.gmail.com>
+ <CAPj87rMrJLNNbFJVvf081=eRqPqAe1H7=+PM21N22Jdsg7FzVQ@mail.gmail.com>
+ <CADnq5_OX9o5_Gc4SjU5M4B=fthT9++J-FjX3UqTS7x_u6cJHOQ@mail.gmail.com>
+ <CAPj87rP+Hxhohb4dEjRwtZzy34fYk+hAdgVfCkLF1u4JufJ=CQ@mail.gmail.com>
+ <CADnq5_Pzj+AWQZWOcwvf8WQDVJrpc2DyG6Z1ZYqgfHA-8AXpMA@mail.gmail.com>
+ <CAPj87rNO62i5JmRLdMhAg9XbiJUyrrRO7fj1ruXRCh-oxHnifQ@mail.gmail.com>
+ <CADnq5_PVZ_DS65SCS=OFW0m7Dz10pMAZVZ33pWf86KBwg4oQKw@mail.gmail.com>
+ <CAPj87rNrJtJeVd0ba768D2VMiEKvhXOCozAhkq6QV6mu3WsFVQ@mail.gmail.com>
+ <CAAxE2A4wE0Q4NCQHmQhCa3nQn8VHWngtmuhg2DBtQYsCncTSFw@mail.gmail.com>
+In-Reply-To: <CAAxE2A4wE0Q4NCQHmQhCa3nQn8VHWngtmuhg2DBtQYsCncTSFw@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 4 Jun 2020 10:14:24 +0100
+Message-ID: <CAPj87rNw7w3itcWiA0A1GGWRW4jhuHBzCkWYPJoRxhU4xoTcXw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/fourcc: document modifier uniqueness requirements
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,49 +73,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/06/2020 11:02, Tomi Valkeinen wrote:
-> The connector type for DISPC's DPI videoport was set the LVDS instead of
-> DPI. This causes any DPI panel setup to fail with tidss, making all DPI
-> panels unusable.
-> 
-> Fix this by using correct connector type.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Fixes: 32a1795f57eecc39749017 ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-> Cc: stable@vger.kernel.org # v5.7+
-
-Reviewed-by: Jyri Sarha <jsarha@ti.com>
-
-> ---
->  drivers/gpu/drm/tidss/tidss_kms.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 7d419960b030..74467f6eafee 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -154,7 +154,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->  				break;
->  			case DISPC_VP_DPI:
->  				enc_type = DRM_MODE_ENCODER_DPI;
-> -				conn_type = DRM_MODE_CONNECTOR_LVDS;
-> +				conn_type = DRM_MODE_CONNECTOR_DPI;
->  				break;
->  			default:
->  				WARN_ON(1);
-> 
-
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAzIEp1biAyMDIwIGF0IDE5OjUzLCBNYXJlayBPbMWhw6FrIDxtYXJhZW9AZ21haWwu
+Y29tPiB3cm90ZToKPiBUTVogaXMgbW9yZSBjb21wbGljYXRlZC4gSWYgdGhlcmUgaXMgYSBUTVog
+YnVmZmVyIHVzZWQgYnkgYSBjb21tYW5kIGJ1ZmZlciwgdGhlbiBhbGwgb3RoZXIgdXNlZCBidWZm
+ZXJzIG11c3QgYWxzbyBiZSBUTVogb3IgcmVhZCBvbmx5LiBJZiBubyBUTVogYnVmZmVycyBhcmUg
+dXNlZCBieSBhIGNvbW1hbmQgYnVmZmVyLCB0aGVuIFRNWiBpcyBkaXNhYmxlZC4gSWYgYSBjb250
+ZXh0IGlzIG5vdCBzZWN1cmUsIFRNWiBpcyBhbHNvIGRpc2FibGVkLiBBIGNvbnRleHQgY2FuIHN3
+aXRjaCBiZXR3ZWVuIHNlY3VyZSBhbmQgbm9uLXNlY3VyZSBiYXNlZCBvbiB0aGUgYnVmZmVycyBi
+ZWluZyB1c2VkLgo+Cj4gU28gbWl4aW5nIHNlY3VyZSBhbmQgbm9uLXNlY3VyZSBtZW1vcnkgd3Jp
+dGVzIGluIG9uZSBjb21tYW5kIGJ1ZmZlciB3b24ndCB3b3JrLiBUaGlzIGlzIG5vdCBmaXhhYmxl
+IGluIHRoZSBkcml2ZXIgLSBhcHBzIG11c3QgYmUgYXdhcmUgb2YgdGhpcy4KClN1cmUsIHRoYXQg
+bWFrZXMgc2Vuc2UuIEl0IHByb2JhYmx5IHBvaW50cyB0byBUTVogYmVpbmcgaXRzIG93bgpzcGVj
+aWFsIHRoaW5nLCBpbmRlcGVuZGVudCBvZiBtb2RpZmllcnMsIHNpbmNlIGl0IHRvdWNoZXMgc28g
+bXVjaApnbG9iYWwgc3RhdGUsIGFuZCBkb2Vzbid0IG1lc2ggY2xlYW5seSBhbnkgb2YgdGhlIG1v
+ZGVscyB3ZSBoYXZlIGZvcgphZHZlcnRpc2luZyBhbmQgbmVnb3RpYXRpbmcgYnVmZmVyIGFsbG9j
+YXRpb24gYW5kIGltcG9ydC4KCkNoZWVycywKRGFuaWVsCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
