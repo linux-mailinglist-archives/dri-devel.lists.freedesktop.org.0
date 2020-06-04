@@ -1,119 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADF61EF1DB
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:19:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D6D1EF1EC
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:19:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E6C6E853;
-	Fri,  5 Jun 2020 07:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692B86E868;
+	Fri,  5 Jun 2020 07:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE586E043
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 09:38:43 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id fs4so910239pjb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jun 2020 02:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TJneLz4oTrW/esK5dXQqX/nyxSOdxGDi31nSDQO9FzM=;
- b=Jpgz4FQ5iRpumw8WSk9Q2OqmXO4DCemawWObVfAT6Er00Y0dqPYVw2mXTOHDGF+cD+
- +VrvibehGeEa+CD6yWesyiMZFFIyCBB03AzdgjVs1L/Y2uqta829M7z4YupUKSL78J9J
- zLXRFoluykpw3HnPZl9n8+QRio4dMHEOTOpjDpiJ5zvC96GPb7j9irDJ1clbW71RY6x6
- /Hi2ORI+9rTtlces848WbJRy2OY/4VdI1Sq4tdKaIIoboWogJ+SVhAXa46Cit2s6sccS
- mAC22UBqAQWc8yYootHqKfovKc2QqiPM0M7tmQEnTUUKm83C20iLurvJYOSSym/wmddH
- 0vxg==
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDA16E2E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 10:15:20 +0000 (UTC)
+Received: by mail-il1-f197.google.com with SMTP id o4so3620241ilc.15
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jun 2020 03:15:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TJneLz4oTrW/esK5dXQqX/nyxSOdxGDi31nSDQO9FzM=;
- b=Vmna78lj+8n3+5sY4xsDEILC0nd7/SmfHOu9+cGM2L8LPzDS76hQIlLhXTuhUJnnZ/
- jH9NdeL1aO+38YqVUS8TrCXHlN5Bkd/omOp83CHcsWX2LdpWlb9fNISMKJB9fDB6xiBH
- C8vqWKwDtLS2AjJfkkfiiUX1VUmyvVknQ5ET9He4+DgMqxt8/nS4CAEG7EFQ5bJx3+QL
- dsW7H9mexAkGb2BrouybuHDUyw3FNO6p58wrkb294VQ9+2o2pOfR6O8jbwY5FCqqOUty
- tBK/D0v0lzYjfx/Byn8m1GAwEPPOhTSECvqFVTjJzKAB2VM3TE2nzFHiA2ov+PlQ6bex
- nMXA==
-X-Gm-Message-State: AOAM531LSn8gqfTWg1GgJUlFKi3zLWsJ0q5ZVSy8SFpcP/jEEIzWSaXe
- 4Oylm7vQjs6XU19XZ3J3l2s=
-X-Google-Smtp-Source: ABdhPJynRQdh1zJ88PnTu9IrFjydcP8QMOwvNlV3Dh5BwS2BMp2wUGqwGE3OBfJwkv2RMnMTN5qQHA==
-X-Received: by 2002:a17:90b:283:: with SMTP id
- az3mr5067888pjb.232.1591263523250; 
- Thu, 04 Jun 2020 02:38:43 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- a14sm3902894pfc.133.2020.06.04.02.38.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jun 2020 02:38:42 -0700 (PDT)
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-To: Ira Weiny <ira.weiny@intel.com>
-References: <20200518184843.3029640-1-ira.weiny@intel.com>
- <20200519165422.GA5838@roeck-us.net>
- <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
- <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
- <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
- <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
- <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
- <20200603211416.GA1740285@iweiny-DESK2.sc.intel.com>
- <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
- <20200604062226.GA1740345@iweiny-DESK2.sc.intel.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <784aacd2-663f-cc82-39be-c46fa6bafd6e@roeck-us.net>
-Date: Thu, 4 Jun 2020 02:38:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=2WkRXGF/9K/CmmudqnkShQ8ojmLnZNEVTlTs88DNymU=;
+ b=fvDKGaTrfKD5pqZslca2kI0GUVP8tycHYfS3FTesXpOpxEke+qkf/eBYqxXQ+qe48T
+ Sw/4+0OSYsGA0rGjt3oETjpYe4em+ybOYaMo9XvFGmH8FoKvhjqpyKOqU2w0ZOymDM/B
+ Vkhl77F2vQJJplp5308bhTQwAESCasAea30y/RUfHnQENAMBZegi5PP2kys6MoBARmLM
+ TVHDrvw1D/H6cmEWk826cCVfqMDpA2qI96npDqSO2w4DJYgTu3aJHgGJgSQH0VVbsq07
+ 0KNmUwxiiTRJX/MsA6XPIe8a8GVXik7AeHigolP2EOfD2Y2w1De3uvlDbPgryzzV+w0B
+ nf9A==
+X-Gm-Message-State: AOAM533sFBIGYkMLtCzdTcB3OuiNqks0hEtTvyf5dXZxApII88owR7Gb
+ U7PGblfjsnOdqV8i2GbYd7pKdS2ExDkr7KaFT4G+NctoPUlK
+X-Google-Smtp-Source: ABdhPJyCuz74mlyZXGn+6OI1o8Y51YqgJxo9QJ3BR6lO7hGygFAMP7+O5P86lL9pVMaxWvdaDqvSRRD/qKvvUYQBHcZ5q3auBubd
 MIME-Version: 1.0
-In-Reply-To: <20200604062226.GA1740345@iweiny-DESK2.sc.intel.com>
-Content-Language: en-US
+X-Received: by 2002:a6b:14d5:: with SMTP id 204mr3344334iou.14.1591265719319; 
+ Thu, 04 Jun 2020 03:15:19 -0700 (PDT)
+Date: Thu, 04 Jun 2020 03:15:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f1859f05a73f6bb0@google.com>
+Subject: KASAN: vmalloc-out-of-bounds Read in trace_raw_output_sys_enter
+From: syzbot <syzbot+a2196edd853f2b2eed30@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Fri, 05 Jun 2020 07:18:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,79 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
- Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/3/20 11:22 PM, Ira Weiny wrote:
-[ ... ]
-> 
-> s390: (does not compile)
-> 
-> <stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-> In file included from ./arch/sparc/include/asm/bug.h:6:0,
->                  from ./include/linux/bug.h:5,
->                  from ./include/linux/mmdebug.h:5,
->                  from ./include/linux/mm.h:9,
->                  from mm/huge_memory.c:8:
-> mm/huge_memory.c: In function 'hugepage_init':
-> ./include/linux/compiler.h:403:38: error: call to '__compiletime_assert_127' declared with attribute error: BUILD_BUG_ON failed: ((13 + (13-3))-13) >= 9
->   _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->                                       ^
-> ./include/linux/compiler.h:384:4: note: in definition of macro '__compiletime_assert'
->     prefix ## suffix();    \
->     ^~~~~~
-> ./include/linux/compiler.h:403:2: note: in expansion of macro '_compiletime_assert'
->   _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->   ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->  #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                      ^~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->   BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->   ^~~~~~~~~~~~~~~~
-> ./include/linux/bug.h:24:4: note: in expansion of macro 'BUILD_BUG_ON'
->     BUILD_BUG_ON(cond);             \
->     ^~~~~~~~~~~~
-> mm/huge_memory.c:403:2: note: in expansion of macro 'MAYBE_BUILD_BUG_ON'
->   MAYBE_BUILD_BUG_ON(HPAGE_PMD_ORDER >= MAX_ORDER);
->   ^~~~~~~~~~~~~~~~~~
-> make[1]: *** [scripts/Makefile.build:267: mm/huge_memory.o] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:1735: mm] Error 2
-> make: *** Waiting for unfinished jobs....
-> ------------
-> 
-> 
-> The s390 error is the same on Linus' master and linux-next.  So whatever is
-> causing that has slipped into mainline and/or is something I've broken in the
-> test scripts.
-> 
+Hello,
 
-Compiler version related. gcc version 8.x and later no longer work.
-Bisect points to commit a148866489f ("sched: Replace rq::wake_list").
-Oddly enough x86 images are broken as well. You'll have to use an
-older version of gcc (or presumably clang) until this is fixed.
+syzbot found the following crash on:
 
-Guenter
+HEAD commit:    86852175 Merge tag 'armsoc-fixes-v5.7' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=125d79ce100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=129ea1e5950835e5
+dashboard link: https://syzkaller.appspot.com/bug?extid=a2196edd853f2b2eed30
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+a2196edd853f2b2eed30@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in trace_raw_output_sys_enter+0x1a8/0x230 include/trace/events/syscalls.h:18
+Read of size 8 at addr ffffc90006191510 by task syz-executor.1/3440
+
+CPU: 1 PID: 3440 Comm: syz-executor.1 Not tainted 5.7.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x188/0x20d lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0x5/0x413 mm/kasan/report.c:382
+ __kasan_report.cold+0x20/0x38 mm/kasan/report.c:511
+ kasan_report+0x33/0x50 mm/kasan/common.c:625
+ trace_raw_output_sys_enter+0x1a8/0x230 include/trace/events/syscalls.h:18
+ interrupt_entry+0xb8/0xc0 arch/x86/entry/entry_64.S:578
+ </IRQ>
+RIP: 0010:bitfill_aligned drivers/video/fbdev/core/cfbfillrect.c:71 [inline]
+RIP: 0010:bitfill_aligned+0x11c/0x200 drivers/video/fbdev/core/cfbfillrect.c:35
+Code: 89 e7 4c 89 ed e8 b4 04 b4 fd 48 89 5d 00 48 89 5d 08 48 89 5d 10 48 89 5d 18 48 89 5d 20 48 89 5d 28 48 8d 45 38 48 89 5d 30 <48> 83 c5 40 48 89 18 41 83 ef 08 bf 07 00 00 00 44 89 fe e8 ec 05
+RSP: 0018:ffffc9000618f480 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: ffff888001007a78 RBX: 0000000000000000 RCX: ffffc9000a905000
+RDX: 0000000000040000 RSI: ffffffff83bf3b1c RDI: 0000000000000005
+RBP: ffff888001007a40 R08: ffff8880a7aa41c0 R09: 0000000000000040
+R10: ffff8880a3ada55f R11: ffffed101475b4ab R12: 0000000000000050
+R13: ffff888001007980 R14: 0000000000000000 R15: 0000000000000038
+ cfb_fillrect+0x418/0x7a0 drivers/video/fbdev/core/cfbfillrect.c:327
+ vga16fb_fillrect+0x68f/0x1960 drivers/video/fbdev/vga16fb.c:951
+ bit_clear_margins+0x2d5/0x4a0 drivers/video/fbdev/core/bitblit.c:232
+ fbcon_clear_margins+0x1de/0x240 drivers/video/fbdev/core/fbcon.c:1381
+ fbcon_switch+0xcde/0x16f0 drivers/video/fbdev/core/fbcon.c:2363
+ redraw_screen+0x2ae/0x770 drivers/tty/vt/vt.c:1015
+ fbcon_modechanged+0x581/0x720 drivers/video/fbdev/core/fbcon.c:3000
+ fbcon_set_all_vcs+0x3b3/0x460 drivers/video/fbdev/core/fbcon.c:3038
+ fbcon_update_vcs+0x26/0x50 drivers/video/fbdev/core/fbcon.c:3045
+ fb_set_var+0xad0/0xd40 drivers/video/fbdev/core/fbmem.c:1056
+ do_fb_ioctl+0x390/0x6e0 drivers/video/fbdev/core/fbmem.c:1109
+ fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl+0x11a/0x180 fs/ioctl.c:771
+ __do_sys_ioctl fs/ioctl.c:780 [inline]
+ __se_sys_ioctl fs/ioctl.c:778 [inline]
+ __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:778
+ do_syscall_64+0xf6/0x7d0 arch/x86/entry/common.c:295
+ entry_SYSCALL_64_after_hwframe+0x49/0xb3
+RIP: 0033:0x45ca69
+Code: 0d b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 db b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f4c0e062c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004e4b00 RCX: 000000000045ca69
+RDX: 0000000020000000 RSI: 0000000000004601 RDI: 0000000000000004
+RBP: 000000000078bf00 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00000000ffffffff
+R13: 00000000000002f2 R14: 00000000004c5708 R15: 00007f4c0e0636d4
+
+
+Memory state around the buggy address:
+ ffffc90006191400: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+ ffffc90006191480: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+>ffffc90006191500: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+                         ^
+ ffffc90006191580: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+ ffffc90006191600: f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9 f9
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
