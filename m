@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9D61EDD0F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 08:18:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 707711EDD21
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 08:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 828F06E1A4;
-	Thu,  4 Jun 2020 06:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 888486E1A5;
+	Thu,  4 Jun 2020 06:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B46489B48
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 06:18:23 +0000 (UTC)
-Received: from kernel.org (unknown [87.71.78.142])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3E3962072E;
- Thu,  4 Jun 2020 06:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591251502;
- bh=b58Vy5SwtTbyRgwDB1JjnKDC7odtYPgt+t7MvV6fCOU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IXkqPQoOU3wscqIXXMWt/Y5TkOrwtwnMx8e1GDO3arwp37wF3YS5TWw1he9VyaSeS
- 89Vf2ok0AEsO6njQmNORJH1sdCn3SOZLBx7rtKo7/9alOdMNqSdhDlvkldurNoZnBT
- iW2UzmfH4Spawe1NKyJhKCr9TIFG31X5xIMnk6Lw=
-Date: Thu, 4 Jun 2020 09:18:05 +0300
-From: Mike Rapoport <rppt@kernel.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 749856E1A5
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 06:22:27 +0000 (UTC)
+IronPort-SDR: OjkMshjnWG4CBRfZ4jCEmS6StNrNQ6mldE9l3yAp6R5AXKSqAGg2LWxS9Em0pSaI3nb0d6rN0p
+ MrGzri/FyTUw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2020 23:22:27 -0700
+IronPort-SDR: n+bdLvM94mTtaMRPqy7AXFXvwlsoFSeHsLefR+I0mp2t0FRH7ts+MqMZTWDdOyglPZ14sBx+MP
+ +P/UgODtKNRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="378322892"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
+ by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2020 23:22:26 -0700
+Date: Wed, 3 Jun 2020 23:22:26 -0700
+From: Ira Weiny <ira.weiny@intel.com>
 To: Guenter Roeck <linux@roeck-us.net>
 Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
  pagefault/preempt twice
-Message-ID: <20200604061805.GA202650@kernel.org>
+Message-ID: <20200604062226.GA1740345@iweiny-DESK2.sc.intel.com>
 References: <20200518184843.3029640-1-ira.weiny@intel.com>
  <20200519165422.GA5838@roeck-us.net>
  <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
@@ -43,6 +44,7 @@ References: <20200518184843.3029640-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,20 +60,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Peter Zijlstra <peterz@infradead.org>,
  Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
  linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
  Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
  "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, linux-csky@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, Ingo Molnar <mingo@redhat.com>,
- linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
+ Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
+ linux-xtensa@linux-xtensa.org, Borislav Petkov <bp@alien8.de>,
+ Al Viro <viro@zeniv.linux.org.uk>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Chris Zankel <chris@zankel.net>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
  Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+ "David S. Miller" <davem@davemloft.net>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -82,39 +84,9 @@ On Wed, Jun 03, 2020 at 04:44:17PM -0700, Guenter Roeck wrote:
 > > On Wed, Jun 03, 2020 at 01:57:36PM -0700, Andrew Morton wrote:
 > >> On Thu, 21 May 2020 10:42:50 -0700 Ira Weiny <ira.weiny@intel.com> wrote:
 > >>
-> >>>>>
-> >>>>> Actually it occurs to me that the patch consolidating kmap_prot is odd for
-> >>>>> sparc 32 bit...
-> >>>>>
-> >>>>> Its a long shot but could you try reverting this patch?
-> >>>>>
-> >>>>> 4ea7d2419e3f kmap: consolidate kmap_prot definitions
-> >>>>>
-> >>>>
-> >>>> That is not easy to revert, unfortunately, due to several follow-up patches.
-> >>>
-> >>> I have gotten your sparc tests to run and they all pass...
-> >>>
-> >>> 08:10:34 > ../linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
-> >>> Build reference: v5.7-rc4-17-g852b6f2edc0f
-> >>>
-> >>> Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
-> >>> Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-4:nosmp:initrd ... running ......... passed
-> >>> Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
-> >>> Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
-> >>> Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
-> >>> Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
-> >>> Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
-> >>> Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
-> >>>
-> >>> Is there another test I need to run?
+
+...
+
 > >>
 > >> This all petered out, but as I understand it, this patchset still might
 > >> have issues on various architectures.
@@ -134,10 +106,8 @@ On Wed, Jun 03, 2020 at 04:44:17PM -0700, Guenter Roeck wrote:
 > > 	</quote>
 > > 
 > > Mike, am I wrong?  Do you think the kmap() patches are still causing issues?
-
-sparc32 UP and microblaze work for me with next-20200603, but I didn't
-test other architectures. 
- 
+> > 
+> 
 > For my part, all I can say is that -next is in pretty bad shape right now.
 > The summary of my tests says:
 > 
@@ -147,20 +117,163 @@ test other architectures.
 > 	total: 430 pass: 375 fail: 55
 > 
 > sparc32 smp images in next-20200603 still crash for me with a spinlock
-> recursion.
-
-I think this is because Will's fixes [1] are not yet in -next.
-
-> s390 images hang early in boot. Several others (alpha, arm64,
+> recursion. s390 images hang early in boot. Several others (alpha, arm64,
 > various ppc) don't even compile. I can run some more bisects over time,
 > but this is becoming a full-time job :-(.
 > 
-> Guenter
 
-[1] https://lore.kernel.org/lkml/20200526173302.377-1-will@kernel.org
--- 
-Sincerely yours,
-Mike.
+I'm not sure what the process here is.  I just applied my series[1] on
+Linus' Master branch[2] and ran sparc32 and s290 from your tests.
+
+sparc32: (passes)
+
+21:43:49 > /home/iweiny/dev/linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
+Build reference: v5.7-7188-g67a7a97e8a0f
+
+Building sparc32:SPARCClassic:nosmp:scsi:hd ... running ......... passed
+Building sparc32:SPARCbook:nosmp:scsi:cd ... running ......... passed
+Building sparc32:LX:nosmp:noapc:scsi:hd ... running ......... passed
+Building sparc32:SS-4:nosmp:initrd ... running ......... passed
+Building sparc32:SS-5:nosmp:scsi:hd ... running ......... passed
+Building sparc32:SS-10:nosmp:scsi:cd ... running ......... passed
+Building sparc32:SS-20:nosmp:scsi:hd ... running ......... passed
+Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
+Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ...... .... passed
+Building sparc32:SS-4:smp:scsi:hd ... running ......... passed
+Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
+Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
+Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
+Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
+Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+
+
+s390: (does not compile)
+
+<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
+In file included from ./arch/sparc/include/asm/bug.h:6:0,
+                 from ./include/linux/bug.h:5,
+                 from ./include/linux/mmdebug.h:5,
+                 from ./include/linux/mm.h:9,
+                 from mm/huge_memory.c:8:
+mm/huge_memory.c: In function 'hugepage_init':
+./include/linux/compiler.h:403:38: error: call to '__compiletime_assert_127' declared with attribute error: BUILD_BUG_ON failed: ((13 + (13-3))-13) >= 9
+  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                      ^
+./include/linux/compiler.h:384:4: note: in definition of macro '__compiletime_assert'
+    prefix ## suffix();    \
+    ^~~~~~
+./include/linux/compiler.h:403:2: note: in expansion of macro '_compiletime_assert'
+  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+  ^~~~~~~~~~~~~~~~~~~
+./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+ #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                     ^~~~~~~~~~~~~~~~~~
+./include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+  ^~~~~~~~~~~~~~~~
+./include/linux/bug.h:24:4: note: in expansion of macro 'BUILD_BUG_ON'
+    BUILD_BUG_ON(cond);             \
+    ^~~~~~~~~~~~
+mm/huge_memory.c:403:2: note: in expansion of macro 'MAYBE_BUILD_BUG_ON'
+  MAYBE_BUILD_BUG_ON(HPAGE_PMD_ORDER >= MAX_ORDER);
+  ^~~~~~~~~~~~~~~~~~
+make[1]: *** [scripts/Makefile.build:267: mm/huge_memory.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1735: mm] Error 2
+make: *** Waiting for unfinished jobs....
+------------
+
+
+The s390 error is the same on Linus' master and linux-next.  So whatever is
+causing that has slipped into mainline and/or is something I've broken in the
+test scripts.
+
+
+With linux-next on sparc I too see the spinlock issue; something like:
+
+...
+Starting syslogd: BUG: spinlock recursion on CPU#0, S01syslogd/139
+ lock: 0xf53ef350, .magic: dead4ead, .owner: S01syslogd/139, .owner_cpu: 0
+CPU: 0 PID: 139 Comm: S01syslogd Not tainted 5.7.0-next-20200603 #1
+[f0067d00 : 
+do_raw_spin_lock+0xa8/0xd8 ] 
+[f00d598c : 
+copy_page_range+0x328/0x804 ] 
+[f0025c34 : 
+dup_mm+0x334/0x434 ] 
+[f0027198 : 
+copy_process+0x1248/0x12d4 ] 
+[f00273b8 : 
+_do_fork+0x54/0x30c ] 
+[f00276e4 : 
+do_fork+0x5c/0x6c ] 
+[f000de44 : 
+sparc_do_fork+0x18/0x38 ] 
+[f000b7f4 : 
+do_syscall+0x34/0x40 ] 
+[5010cd4c : 
+0x5010cd4c ] 
+
+qemu-system-sparc: terminating on signal 15 from pid 2000056 (/bin/bash)
+...
+
+
+FWIW I don't see any of this being an issue with the kmap() code but I agree
+things could be cleaner.  How can we back linux-next off a bit?  I'm not an
+expert here with how linux-next works.
+
+For example I just picked the latest patch from me within the linux-next tree:
+
+  2e483306d5a8 arch/{mips,sparc,microblaze,powerpc}: don't enable pagefault/preempt twice
+
+And built from there it looks good for sparc.
+
+23:01:31 > /home/iweiny/dev/linux-build-test/rootfs/sparc/run-qemu-sparc.sh 
+Build reference: v5.7-719-g2e483306d5a8
+
+Building sparc32:SPARCClassic:nosmp:scsi:hd ... running .......... passed
+Building sparc32:SPARCbook:nosmp:scsi:cd ... running .......... passed
+Building sparc32:LX:nosmp:noapc:scsi:hd ... running .......... passed
+Building sparc32:SS-4:nosmp:initrd ... running .......... passed
+Building sparc32:SS-5:nosmp:scsi:hd ... running .......... passed
+Building sparc32:SS-10:nosmp:scsi:cd ... running .......... passed
+Building sparc32:SS-20:nosmp:scsi:hd ... running .......... passed
+Building sparc32:SS-600MP:nosmp:scsi:hd ... running ......... passed
+Building sparc32:Voyager:nosmp:noapc:scsi:hd ... running ......... passed
+Building sparc32:SS-4:smp:scsi:hd ... running ......^[[1;2D... passed
+Building sparc32:SS-5:smp:scsi:cd ... running ......... passed
+Building sparc32:SS-10:smp:scsi:hd ... running ......... passed
+Building sparc32:SS-20:smp:scsi:hd ... running ......... passed
+Building sparc32:SS-600MP:smp:scsi:hd ... running ......... passed
+Building sparc32:Voyager:smp:noapc:scsi:hd ... running ......... passed
+
+
+I'm going to bisect between there and HEAD.
+
+
+Ira
+
+
+[1]
+
+67a7a97e8a0f arch/{mips,sparc,microblaze,powerpc}: Don't enable pagefault/preempt twice
+4a3dd9ec36d8 kmap: Consolidate kmap_prot definitions
+a3b39b1668ac sparc: Remove unnecessary includes
+452195c6e8a8 parisc/kmap: Remove duplicate kmap code
+317e4af1da94 kmap: Remove kmap_atomic_to_page()
+e11e52415a4d drm: Remove drm specific kmap_atomic code
+afd4911f0cfb arch/kmap: Define kmap_atomic_prot() for all arch's
+2a5524d63341 arch/kmap: Don't hard code kmap_prot values
+c94bbaab0296 arch/kmap: Ensure kmap_prot visibility
+6f29a6b66d3b arch/kunmap_atomic: Consolidate duplicate code
+0c7122ef07d1 arch/kmap_atomic: Consolidate duplicate code
+63b8bbf47723 {x86,powerpc,microblaze}/kmap: Move preempt disable
+23b3175de76f arch/kunmap: Remove duplicate kunmap implementations
+9514dd54fda8 arch/kmap: Remove redundant arch specific kmaps
+e92e53c0080b arch/xtensa: Move kmap build bug out of the way
+cab1afa4f6ac arch/kmap: Remove BUG_ON()
+
+[2] cb8e59cc8720 (linus/master, linus-master) Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
