@@ -1,119 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B321EE2AB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 12:38:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C0E1EE2ED
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 13:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5FE890EA;
-	Thu,  4 Jun 2020 10:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E8A6E32B;
+	Thu,  4 Jun 2020 11:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.87.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03005890EA;
- Thu,  4 Jun 2020 10:38:36 +0000 (UTC)
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com
- [10.192.0.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id AA8C7C0441;
- Thu,  4 Jun 2020 10:38:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1591267116; bh=oWm0B9FDmj1T9Ggq8HdrMv9Okrx+VBTHDQ3YH0nh8S8=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=D19wqJImElIPlfP45XggRJC05aYK8RK9059g9YNfCdymryedClqZr8uGy8HIapYxY
- /5K0cjZR1wbw5k8gGB256MDV5lRJ/Q6ifTNAre9t6L2N/c3zVtgdAC+AKe8uOQvgsG
- jPEt2AdW9fiu8m6mKI5qEr4LyArWO8xvYImgel/0IdchBm1gdIa67ivU3flymZJ+j0
- UcYz069wwOeGMDwnaFJF19W7kI+9atzyS9zrK/lEWOA0n4OUXi9ILIGrNFDnEIuiFS
- u4K5z/YVwBFfWmTJ2aJ4SJ2tHg69unobWr9MayzNaWSJzhO13FWKW9xDlUTSGdrLUt
- SDpTA0BN1uwhQ==
-Received: from US01WEHTC3.internal.synopsys.com
- (us01wehtc3.internal.synopsys.com [10.15.84.232])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 53F38A0071;
- Thu,  4 Jun 2020 10:38:32 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 4 Jun 2020 03:38:32 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Thu, 4 Jun 2020 03:38:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LvMzBnAE/jvObiSx1/HpJZBGlufB1BZtrHtKR2NMBXfrL9XvUgdphSpZyKTj+GrwXWejgJSZwA/9eR3wwn9e7bCw3370C9Ow4zX+gaBtE2NmcTItCeKRSBYU8Bn8qD24hg4cfAgyQQdOjmpnF06eu8ezZwDX0mDZmkoPkEUpVZYX83w73uHjSCjkWg1iiH4f+iMkJoTk+n+uapLFVpXjkeZ0ROlnjURUqwYoi6DUnpbyH20deg022OH8kCZMtPAYc3i5WQOPFg/sIA0z9J7HEdiTrKt5Vh3zSC8QRCny9zV+ByNsqjPwoxR5u2pM0bDeJoRFayt1V4ko3tijujmmIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oWm0B9FDmj1T9Ggq8HdrMv9Okrx+VBTHDQ3YH0nh8S8=;
- b=Ugq0sM16Lvx8ofGYnJ5bwYvYfqwcS0PSy/vmokHNr+zvc2j1R9TLI3G0zPoSUA1D5Rbsw7ZxtcmiI4GqPIP/bCJEWsYe5MI4IuvODS8Oy042Hysx5+0C53R8UdVhilknWK6gMNQJF5ZgNxGoPFnKWGUxH/0gBJkkyTjQccTzT3L9fyP4EosPQBWmZSu/MCPvF/dm0AEpdOC+oh4/j9KtqYpb2kGrUFsp/txTUByzZRDKmTJXpNvxr6bpwSALizjXRnUlD6KyYuLd1ZMwSNwQv3OGFNmPIkUqeR6zS8wCgdWYGKWLk/x4WSOnhBSKJPu87VDbK2ltSGREeGtGI22eBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oWm0B9FDmj1T9Ggq8HdrMv9Okrx+VBTHDQ3YH0nh8S8=;
- b=XTkj93OGwFxd1tYNMaSRuiqHXrLfdp0sy+XY2KI4gQn64Cxlqtww8pRHl5Wmt73VkIozZHzBuoHyAPkES5VsOSuVkNikk4YiQLKy2HIFCqxj1mVBGTapaBhoRBGQzK3jSU1uGdNafiw22gTMmfJPSFp33YGEwlr2PHoP0jaitBM=
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- (2603:10b6:910:1a::19) by CY4PR1201MB2500.namprd12.prod.outlook.com
- (2603:10b6:903:d0::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.22; Thu, 4 Jun
- 2020 10:38:31 +0000
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30]) by CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30%5]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
- 10:38:31 +0000
-X-SNPS-Relay: synopsys.com
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Topic: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Index: AQHWEvlb5mSQq60T60WU0QolrVlsW6h57yoAgAAle+CAAAXvgIAUjIQAgA+y2qCAAEc8gIApxpeAgAAoHHA=
-Date: Thu, 4 Jun 2020 10:38:31 +0000
-Message-ID: <CY4PR1201MB01363EB95985A2C64ADA6841DE890@CY4PR1201MB0136.namprd12.prod.outlook.com>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-54-daniel.vetter@ffwll.ch>
- <20200415094512.GA30444@ravnborg.org>
- <MWHPR12MB14532DA5713E3B579ABFE1F4A1DB0@MWHPR12MB1453.namprd12.prod.outlook.com>
- <CAKMK7uGDGgt8Cm_bFoyzeoP2CWyiUNdUwb7GL6Ohu3k0rP0p1w@mail.gmail.com>
- <20200428140842.GL3456981@phenom.ffwll.local>
- <CH2PR12MB3894B40C6D71435D3E759A34A1A20@CH2PR12MB3894.namprd12.prod.outlook.com>
- <CAKMK7uFRt14m24ajYygdRZz=fUMhA9u6=590R2jjhXGq=VtwNA@mail.gmail.com>,
- <20200604080507.GT20149@phenom.ffwll.local>
-In-Reply-To: <20200604080507.GT20149@phenom.ffwll.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [5.18.247.93]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ae11fbb9-4896-429a-fb4a-08d808736cd4
-x-ms-traffictypediagnostic: CY4PR1201MB2500:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB25004BDDD16AB0110B80A11CDE890@CY4PR1201MB2500.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 04244E0DC5
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CTQMDZ4Uum/OMrx0vWyqKCd935SXzUY9XSn1dXRNSzKfMRvMFt9kLq63OTgzCmG2s1WrtdwudJsv6DayNRyQMEcf7EnG5mAYrEoE8CCoMCG2rA0ncNQO7zGpGBzyg7StpjzNoK5YdIJcopgNBKvFYZ+nEaK5j4/soNHR1GABDMX5RVCwx1eENwk+JjyxjtZ9kFlYDPEza0yJtd4CSL2SxJk+8r1M3lScRkC10MRyVh2yeuLIxwfJFySpR0yobY/SBRxhdgmEFHl5EovhHckY+y6bbDCavjlIAMyClsnv5M0nPDIANgEvsZEQ+ars5hhOg/nRvFUWDPwt7lqyRyA6cvuwHiyQF3ypq66vJK2OrqcVM0MbCVQztXBWwSpc4KvNHJQjqrQcV/M5UmDRs2vGbA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(366004)(136003)(396003)(39860400002)(376002)(346002)(91956017)(5660300002)(6916009)(86362001)(52536014)(8676002)(966005)(55016002)(478600001)(66946007)(7696005)(66446008)(64756008)(66476007)(66556008)(83080400001)(2906002)(26005)(9686003)(316002)(6506007)(76116006)(53546011)(8936002)(107886003)(4326008)(33656002)(71200400001)(83380400001)(54906003)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: uoTBSJyyIvoLA1E4SVLbwibdjglWHx20E11zFfktp393BF0OMoHBrT6mEYHm3mDdvFugUJPMJCMxRdlUy5j6fvhW65SYX7MY2+v8Mu7pkNaadsO5Kh6b+lcd6WVyDz6wSVm2cQdvnTDYul+Z8ZWcFXoszGiA6F4EQR/tPWnO8V0RwwB6LNaf40n03FTjvfqNsdv7b0OvfN6zqcwoyJ0UsmvSudz6tbPbQPUFLqU1ABV9tCHa1IVHMLYLcFIjHv2RUAXFWtlcloxRA/61qiB9jxO/FheV2pru7FZFY0ylv3F3oPQcBZQupbMAU4+ZaabqX/4JLjUf8RyDKvOzxzRcagxjswhk6xTTO7as3l5+oCWQ7S0TxobPSDaVK3ir7dAh/bvaBUn75MsCTHrF9Lj0rW8qDXWcozyKc/IPur70/Sg1EdvoGwyvu5JdmnQfLLj+uUifZQzZWFxVYoimqC+cE3qz15YKI4wwJpVk7CTfXa8=
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D466E32B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 11:06:37 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 054B2Wbt048434;
+ Thu, 4 Jun 2020 11:05:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=4RO7Xefwz2W19qFTEWX/FwDp9Pn7/hDI6Vo3GbQ0CHw=;
+ b=BZk1ybsvNLTvYo2DQYRFC3lHTXpBcrbcCK3KUNW4uhzqEmb63kpA0BJNGTr1XJoXWVzy
+ 47oJRnzV8uezdi2hottXpDrm/PvgIokjcdrWlR8NtYzBMdOwtGM7crgkFweOmU8DcPtm
+ dad9etzRvx9cEkL6vdRFN/crRWnOXi6po9dZyO84H7v4IzNIG69slY9XW7THskfj7bMn
+ 5OhDtSs205OME8L5I3iE0kGeyXsjAPmhU/L7sNIJlz93WVGfRrkojjZfl4OKcWYisLQ2
+ 3fYpH84ScdroRpxGAUKNZu6hWqHzYFrQOJLomtItZ2z78ZoSilpTZJPB5k0tphYobIol nw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 31evap11xk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 04 Jun 2020 11:05:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 054AxXU3143958;
+ Thu, 4 Jun 2020 11:05:49 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 31ej107v9p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 04 Jun 2020 11:05:49 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 054B5M5d015957;
+ Thu, 4 Jun 2020 11:05:22 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 04 Jun 2020 04:05:22 -0700
+Date: Thu, 4 Jun 2020 14:04:55 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH v3 09/13] device core: Introduce multiple dma pfn offsets
+Message-ID: <20200604110455.GO30374@kadam>
+References: <20200603192058.35296-1-james.quinlan@broadcom.com>
+ <20200603192058.35296-10-james.quinlan@broadcom.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae11fbb9-4896-429a-fb4a-08d808736cd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2020 10:38:31.1344 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2BMzCYEzon4VztAIyyB9+euqhGksZqoG8qm34WsX9gCnW74sp76gSZ4DXknSt01v6P1tTzMQ4PeDA8UjaU1GhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2500
-X-OriginatorOrg: synopsys.com
+Content-Disposition: inline
+In-Reply-To: <20200603192058.35296-10-james.quinlan@broadcom.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 suspectscore=0
+ spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006040075
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9641
+ signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 clxscore=1011 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006040075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,71 +79,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>, Sam Ravnborg <sam@ravnborg.org>,
- DRI  Development <dri-devel@lists.freedesktop.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-pci@vger.kernel.org, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR REMOTEPROC SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Frank Rowand <frowand.list@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Will Deacon <will@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE 32-BIT AND 64-BIT" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 ACPI/arm64" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ bcm-kernel-feedback-list@broadcom.com, Alan Stern <stern@rowland.harvard.edu>,
+ Len Brown <lenb@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Yong Deng <yong.deng@magewell.com>,
+ Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>, Wolfram Sang <wsa@kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Wed, Jun 03, 2020 at 03:20:41PM -0400, Jim Quinlan wrote:
+> @@ -786,7 +787,7 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
+>  	const struct sun4i_backend_quirks *quirks;
+>  	struct resource *res;
+>  	void __iomem *regs;
+> -	int i, ret;
+> +	int i, ret = 0;
 
-I've already tested it (and found several issues), so please check my reply here:
-https://www.mail-archive.com/linux-snps-arc@lists.infradead.org/msg07403.html
+No need for this.
 
-Not sure why you didn't receive my reply (probably the reason is because it was sent to your @ffwll.ch mail instead of @intel.com one).
+>  
+>  	backend = devm_kzalloc(dev, sizeof(*backend), GFP_KERNEL);
+>  	if (!backend)
+> @@ -812,7 +813,9 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
+>  		 * on our device since the RAM mapping is at 0 for the DMA bus,
+>  		 * unlike the CPU.
+>  		 */
+> -		drm->dev->dma_pfn_offset = PHYS_PFN_OFFSET;
+> +		ret = attach_uniform_dma_pfn_offset(dev, PHYS_PFN_OFFSET);
+> +		if (ret)
+> +			return ret;
+>  	}
+>  
+>  	backend->engine.node = dev->of_node;
+> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> index 04fbd4bf0ff9..e9cc1c2d47cd 100644
+> --- a/drivers/iommu/io-pgtable-arm.c
+> +++ b/drivers/iommu/io-pgtable-arm.c
+> @@ -754,7 +754,7 @@ arm_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg)
+>  	if (cfg->oas > ARM_LPAE_MAX_ADDR_BITS)
+>  		return NULL;
+>  
+> -	if (!selftest_running && cfg->iommu_dev->dma_pfn_offset) {
+> +	if (!selftest_running && cfg->iommu_dev->dma_pfn_offset_map) {
+>  		dev_err(cfg->iommu_dev, "Cannot accommodate DMA offset for IOMMU page tables\n");
+>  		return NULL;
+>  	}
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> index eff34ded6305..7212da5e1076 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> @@ -7,6 +7,7 @@
+>   */
+>  
+>  #include <linux/clk.h>
+> +#include <linux/dma-mapping.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> @@ -183,7 +184,9 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+>  			return ret;
+>  	} else {
+>  #ifdef PHYS_PFN_OFFSET
+> -		csi->dev->dma_pfn_offset = PHYS_PFN_OFFSET;
+> +		ret = attach_uniform_dma_pfn_offset(dev, PHYS_PFN_OFFSET);
+> +		if (ret)
+> +			return ret;
+>  #endif
+>  	}
+>  
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> index 055eb0b8e396..2d66d415b6c3 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -898,7 +898,10 @@ static int sun6i_csi_probe(struct platform_device *pdev)
+>  
+>  	sdev->dev = &pdev->dev;
+>  	/* The DMA bus has the memory mapped at 0 */
+> -	sdev->dev->dma_pfn_offset = PHYS_OFFSET >> PAGE_SHIFT;
+> +	ret = attach_uniform_dma_pfn_offset(sdev->dev,
+> +					    PHYS_OFFSET >> PAGE_SHIFT);
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = sun6i_csi_resource_request(sdev, pdev);
+>  	if (ret)
+> diff --git a/drivers/of/address.c b/drivers/of/address.c
+> index 96d8cfb14a60..c89333b0a5fb 100644
+> --- a/drivers/of/address.c
+> +++ b/drivers/of/address.c
+> @@ -918,6 +918,70 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
+>  }
+>  EXPORT_SYMBOL(of_io_request_and_map);
+>  
+> +static int attach_dma_pfn_offset_map(struct device *dev,
+> +				     struct device_node *node, int num_ranges)
+> +{
+> +	struct of_range_parser parser;
+> +	struct of_range range;
+> +	struct dma_pfn_offset_region *r;
+> +
+> +	r = devm_kcalloc(dev, num_ranges + 1,
+> +			 sizeof(struct dma_pfn_offset_region), GFP_KERNEL);
+> +	if (!r)
+> +		return -ENOMEM;
+> +	dev->dma_pfn_offset_map = r;
+> +	of_dma_range_parser_init(&parser, node);
+> +
+> +	/*
+> +	 * Record all info for DMA ranges array.  We could
+> +	 * just use the of_range struct, but if we did that it
+> +	 * would require more calculations for phys_to_dma and
+> +	 * dma_to_phys conversions.
+> +	 */
+> +	for_each_of_range(&parser, &range) {
+> +		r->cpu_start = range.cpu_addr;
+> +		r->cpu_end = r->cpu_start + range.size - 1;
+> +		r->dma_start = range.bus_addr;
+> +		r->dma_end = r->dma_start + range.size - 1;
+> +		r->pfn_offset = PFN_DOWN(range.cpu_addr)
+> +			- PFN_DOWN(range.bus_addr);
+> +		r++;
+> +	}
+> +	return 0;
+> +}
+> +
+> +
+> +
+> +/**
+> + * attach_dma_pfn_offset - Assign scalar offset for all addresses.
+> + * @dev:	device pointer; only needed for a corner case.
+> + * @dma_pfn_offset:	offset to apply when converting from phys addr
+      ^^^^^^^^^^^^^^^
+This parameter name does not match.
 
-________________________________________
-From: Daniel Vetter <daniel@ffwll.ch>
-Sent: Thursday, June 4, 2020 11:05
-To: Alexey Brodkin
-Cc: Intel Graphics Development; DRI Development; Daniel Vetter; Eugeniy Paltsev; Sam Ravnborg
-Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
+> + *			to dma addr and vice versa.
+> + *
+> + * It returns -ENOMEM if out of memory, otherwise 0.
 
-On Fri, May 08, 2020 at 08:07:41PM +0200, Daniel Vetter wrote:
-> On Fri, May 8, 2020 at 3:56 PM Alexey Brodkin
-> <Alexey.Brodkin@synopsys.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > > > Looking at this patch series, feels a bit like hand-rolling of bridge
-> > > > code, badly. We should get away from that.
-> > > >
-> > > > Once you have that I think the end result is tiny enough that it can
-> > > > stay, bridges intergrate quite well into simple display pipe drivers.
-> > > >
-> > > > > BTW should I pull that series in my tree and send you a pull-request
-> > > > > or that kind of change needs to go through another tree?
-> > > > >
-> > > > > Also I'd like to test the change we discuss here to make sure stuff
-> > > > > still works. Once we do that I'll send an update. Any hint on
-> > > > > when that change needs to be acked/nacked?
-> > > >
-> > > > Simplest is if this can all land through drm-misc, is arc not
-> > > > maintained in there? And there's plenty of time for testing, I'm just
-> > > > slowly crawling through the tree to get everything polished and
-> > > > cleaned up in this area.
-> > >
-> > > Any updates on testing this pile here? First patch landed now, and I've
-> > > started to push driver patches. So would be good to get this sorted out
-> > > too.
-> >
-> > Sorry we're in the middle of 2 long weekends so missed this one.
-> > I guess we'll be able to test it in a week or two from now.
-> >
-> > Is that OK?
->
-> This aren't high-priority, so totally ok. As long as you don't land a
-> driver rewrite and I have to rebase everything :-)
+It can also return -ENODEV.  Why are we passing NULL dev pointers to
+all these functions anyway?
 
-Ping for a bit of testing on this stuff ...
--Daniel
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-https://urldefense.com/v3/__http://blog.ffwll.ch__;!!A4F2R9G_pg!Ncpf9M5g5wUEicELHfzz8syA0c0KogYc2E0tdnXGHGmUwGbROv-vwMDISCh7u6w58Dgs-ws$
+> + */
+> +int attach_uniform_dma_pfn_offset(struct device *dev, unsigned long pfn_offset)
+> +{
+> +	struct dma_pfn_offset_region *r;
+> +
+> +	if (!dev)
+> +		return -ENODEV;
+> +
+> +	if (!pfn_offset)
+> +		return 0;
+> +
+> +	r = devm_kcalloc(dev, 1, sizeof(struct dma_pfn_offset_region),
+> +			 GFP_KERNEL);
+
+Use:	r = devm_kzalloc(dev, sizeof(*r), GFP_KERNEL);
+
+
+> +	if (!r)
+> +		return -ENOMEM;
+> +
+> +	r->uniform_offset = true;
+> +	r->pfn_offset = pfn_offset;
+> +
+> +	return 0;
+> +}
+
+This function doesn't seem to do anything useful.  Is part of it
+missing?
+
+> +EXPORT_SYMBOL_GPL(attach_uniform_dma_pfn_offset);
+> +
+
+regards,
+dan carpenter
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
