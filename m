@@ -1,50 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED45B1EEC6A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 22:51:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 032231EEC8D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jun 2020 22:57:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A943B6E5C3;
-	Thu,  4 Jun 2020 20:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC4FF6E5D1;
+	Thu,  4 Jun 2020 20:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B896E5C3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 20:51:42 +0000 (UTC)
-IronPort-SDR: uqpOYOg/tPQg/lbW7b1hGirUu+eMB2/GlW2SN1o9hD0YBGcwmVbiucmgE4bRBRVuMFtVoYIj2+
- /0rF+sc1SUgw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 13:51:41 -0700
-IronPort-SDR: zs+MMvxWw13sjlZ9Bw72P4E7fjGK2DTGpjrAZCIfDuEufJrPSBND+RoMuQFrepsdDPuoy+96Bf
- +AJaXGZ7wG6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; d="scan'208";a="348215104"
-Received: from iweiny-desk2.sc.intel.com ([10.3.52.147])
- by orsmga001.jf.intel.com with ESMTP; 04 Jun 2020 13:51:40 -0700
-Date: Thu, 4 Jun 2020 13:51:40 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] arch/{mips,sparc,microblaze,powerpc}: Don't enable
- pagefault/preempt twice
-Message-ID: <20200604205140.GN1505637@iweiny-DESK2.sc.intel.com>
-References: <20200519165422.GA5838@roeck-us.net>
- <20200519184031.GB3356843@iweiny-DESK2.sc.intel.com>
- <20200519194215.GA71941@roeck-us.net>
- <20200520051315.GA3660833@iweiny-DESK2.sc.intel.com>
- <d86dba19-4f4b-061e-a2c7-4f037e9e2de2@roeck-us.net>
- <20200521174250.GB176262@iweiny-DESK2.sc.intel.com>
- <20200603135736.e7b5ded0082a81ae6d9067a0@linux-foundation.org>
- <20200603211416.GA1740285@iweiny-DESK2.sc.intel.com>
- <3538c8ad-674e-d310-d870-4ef6888092ed@roeck-us.net>
- <20200604094133.GC202650@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200604094133.GC202650@kernel.org>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 026FC6E5CE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 20:57:30 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1591304256; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=tGegCLreeE39fZph91CzCOdnJ3ipf0nuM1nQAi/8hPE=;
+ b=SvFJHUPBqaVYf/mP1njre4KRM1EBGo0EGbAtu/fh8p1k2PS9McMUDs89wo/yWhRgk/vva26a
+ ZIskODlMZP8F7OB7ThcZZaMWIucdfJ2CI8p/LAaG5ui7foz7bLhf7YKDHwlzWpP13eUG8gl2
+ b8IvGK1P8gPEy7nbFKGWnquM5z4=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n14.prod.us-east-1.postgun.com with SMTP id
+ 5ed960303131442d951e0030 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 04 Jun 2020 20:57:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9FB26C433BA; Thu,  4 Jun 2020 20:57:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id ECAA0C433CB;
+ Thu,  4 Jun 2020 20:57:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ECAA0C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v7 0/6] iommu/arm-smmu: Enable split pagetable support
+Date: Thu,  4 Jun 2020 14:57:04 -0600
+Message-Id: <20200604205710.3167-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,133 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Helge Deller <deller@gmx.de>,
- x86@kernel.org, linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Ingo Molnar <mingo@redhat.com>, linux-snps-arc@lists.infradead.org,
- Guenter Roeck <linux@roeck-us.net>, linux-xtensa@linux-xtensa.org,
- Borislav Petkov <bp@alien8.de>, Al Viro <viro@zeniv.linux.org.uk>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christian Koenig <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: Sean Paul <sean@poorly.run>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ Thomas Gleixner <tglx@linutronix.de>, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Brian Masney <masneyb@onstation.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 04, 2020 at 12:41:33PM +0300, Mike Rapoport wrote:
-> On Wed, Jun 03, 2020 at 04:44:17PM -0700, Guenter Roeck wrote:
-> > 
-> > sparc32 smp images in next-20200603 still crash for me with a spinlock
-> > recursion. s390 images hang early in boot. Several others (alpha, arm64,
-> > various ppc) don't even compile. I can run some more bisects over time,
-> > but this is becoming a full-time job :-(.
-> 
-> I've been able to bisect s390 hang to commit b614345f52bc ("x86/entry:
-> Clarify irq_{enter,exit}_rcu()").
-> 
-> After this commit, lockdep_hardirq_exit() is called twice on s390 (and
-> others) - one time in irq_exit_rcu() and another one in irq_exit():
-> 
-> /**
->  * irq_exit_rcu() - Exit an interrupt context without updating RCU
->  *
->  * Also processes softirqs if needed and possible.
->  */
-> void irq_exit_rcu(void)
-> {
-> 	__irq_exit_rcu();
-> 	 /* must be last! */
-> 	lockdep_hardirq_exit();
-> }
-> 
-> /**
->  * irq_exit - Exit an interrupt context, update RCU and lockdep
->  *
->  * Also processes softirqs if needed and possible.
->  */
-> void irq_exit(void)
-> {
-> 	irq_exit_rcu();
-> 	rcu_irq_exit();
-> 	 /* must be last! */
-> 	lockdep_hardirq_exit();
-> }
-> 
-> Removing the call in irq_exit() make s390 boot again, and judgung by the
-> x86 entry code, the comment /* must be last! */ is stale...
+Another iteration of the split-pagetable support for arm-smmu and the Adreno GPU
+SMMU. After email discussions [1] we opted to make a arm-smmu implementation for
+specifically for the Adreno GPU and use that to enable split pagetable support
+and later other implementation specific bits that we need.
 
-FWIW I got s390 to compile and this patch fixes s390 booting for me as well.
+On the hardware side this is very close to the same code from before [2] only
+the TTBR1 quirk is turned on by the implementation and not a domain attribute.
+In drm/msm we use the returned size of the aperture as a clue to let us know
+which virtual address space we should use for global memory objects.
 
-13:05:25 > /home/iweiny/dev/linux-build-test/rootfs/s390/run-qemu-s390.sh 
-Build reference: next-20200603-4-g840714292d8c
+There are two open items that you should be aware of. First, in the
+implementation specific code we have to check the compatible string of the
+device so that we only enable TTBR1 for the GPU (SID 0) and not the GMU (SID 4).
+I went back and forth trying to decide if I wanted to use the compatbile string
+or the SID as the filter and settled on the compatible string but I could be
+talked out of it.
 
-Building s390:defconfig:initrd ... running ........... passed
-Building s390:defconfig:virtio-blk-ccw:rootfs ... running ........... passed
-Building s390:defconfig:scsi[virtio-ccw]:rootfs ... running ..............  passed
-Building s390:defconfig:virtio-pci:rootfs ... running ........... passed
-Building s390:defconfig:scsi[virtio-pci]:rootfs ... running ........... passed
+The other open item is that in drm/msm the hardware only uses 49 bits of the
+address space but arm-smmu expects the address to be sign extended all the way
+to 64 bits. This isn't a problem normally unless you look at the hardware
+registers that contain a IOVA and then the upper bits will be zero. I opted to
+restrict the internal drm/msm IOVA range to only 49 bits and then sign extend
+right before calling iommu_map / iommu_unmap. This is a bit wonky but I thought
+that matching the hardware would be less confusing when debugging a hang.
 
-Ira
+[1] https://lists.linuxfoundation.org/pipermail/iommu/2020-May/044537.html
+[2] https://patchwork.kernel.org/patch/11482591/
 
-> 
-> @Peter, @Thomas, can you comment please?
-> 
-> From e51d50ee6f4d1f446decf91c2c67230da14ff82c Mon Sep 17 00:00:00 2001
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> Date: Thu, 4 Jun 2020 12:37:03 +0300
-> Subject: [PATCH] softirq: don't call lockdep_hardirq_exit() twice
-> 
-> After commit b614345f52bc ("x86/entry: Clarify irq_{enter,exit}_rcu()")
-> lockdep_hardirq_exit() is called twice on every architecture that uses
-> irq_exit(): one time in irq_exit_rcu() and another one in irq_exit().
-> 
-> Remove the extra call in irq_exit().
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->  kernel/softirq.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/kernel/softirq.c b/kernel/softirq.c
-> index a3eb6eba8c41..7523f4ce4c1d 100644
-> --- a/kernel/softirq.c
-> +++ b/kernel/softirq.c
-> @@ -427,7 +427,6 @@ static inline void __irq_exit_rcu(void)
->  void irq_exit_rcu(void)
->  {
->  	__irq_exit_rcu();
-> -	 /* must be last! */
->  	lockdep_hardirq_exit();
->  }
->  
-> @@ -440,8 +439,6 @@ void irq_exit(void)
->  {
->  	irq_exit_rcu();
->  	rcu_irq_exit();
-> -	 /* must be last! */
-> -	lockdep_hardirq_exit();
->  }
->  
->  /*
-> -- 
-> 2.26.2
-> 
-> 
-> 
-> > Guenter
-> 
-> -- 
-> Sincerely yours,
-> Mike.
+
+Jordan Crouse (6):
+  iommu/arm-smmu: Pass io-pgtable config to implementation specific
+    function
+  iommu/arm-smmu: Add support for split pagetables
+  dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+  iommu/arm-smmu: Add implementation for the adreno GPU SMMU
+  drm/msm: Set the global virtual address range from the IOMMU domain
+  arm6: dts: qcom: sm845: Set the compatible string for the GPU SMMU
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       | 13 ++++++-
+ drivers/gpu/drm/msm/msm_iommu.c               |  7 ++++
+ drivers/iommu/arm-smmu-impl.c                 |  6 ++-
+ drivers/iommu/arm-smmu-qcom.c                 | 38 ++++++++++++++++++-
+ drivers/iommu/arm-smmu.c                      | 32 +++++++++++-----
+ drivers/iommu/arm-smmu.h                      | 29 ++++++++++----
+ 8 files changed, 108 insertions(+), 23 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
