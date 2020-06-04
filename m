@@ -1,42 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E69E1EF0D4
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 07:10:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654761EF1E5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 887406E837;
-	Fri,  5 Jun 2020 05:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD97C6E85F;
+	Fri,  5 Jun 2020 07:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D0F6E837;
- Fri,  5 Jun 2020 05:10:10 +0000 (UTC)
-IronPort-SDR: l9AVh7jvT45hknyrArF9rIHvgjcP+HHgg3gVnhxazqbHPsQN0JShS6s03TVtLGL0oaOEOnMbSH
- dPrWSuj0M5/A==
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 22:10:09 -0700
-IronPort-SDR: 4idtIugdnOHQYK2nosQvAUNWjA4rL6bAZOJwhqMG8P8YiBjNHy5yvSIA3oUSYEWxW9LZRDSuZc
- TLH/up3j8ssQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,475,1583222400"; 
- d="asc'?scan'208";a="445768791"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.147])
- by orsmga005.jf.intel.com with ESMTP; 04 Jun 2020 22:10:07 -0700
-Date: Fri, 5 Jun 2020 12:54:30 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Subject: Re: [PATCH] drm/i915/gvt: print actionable error message when gm
- runs out
-Message-ID: <20200605045430.GS5687@zhen-hp.sh.intel.com>
-References: <20200603123321.263895-1-julian.stecklina@cyberus-technology.de>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2114.outbound.protection.outlook.com [40.107.236.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5806E29B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jun 2020 07:51:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kHjHpy6OAynVIlk4r0ci5Q+Do/R9TmtjAk5tg656tCNYw5pf7aT3KxowsPB3vOWzNtikFE6FBktZQgx+25+yjWwncgzzSZ3XUOvLgckAH5Fkdik3XKXutBK2YQT3MmB3SYrzcZSO4KSw60AuNhu6KnR9h2JfFYASflsJvgTUoXRnhSP5cWVfDvx/tSRhGw0O+BWYochYlYgFSYAS6vaOsoiGyps5QC/J+WPMIprg7Vumi7xNB832a5YaELe5CDLRT5IorSlMbirlTqUfRBAr21+hcivk4oKfpqWDIriNJ7X0vmRAUgqtq8qHZYVvKpioVjNzbqZrQMcP8fgKjWdq2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+3mVKoW7JkzpuVgFoR2zPA3o8TzAU16P0Y+IhmTyAYI=;
+ b=cHfaKtLwAlVD4UcTDSvkip4zQxFStt8PLfJ/Ou0hnn8nx0oFB4xUcHUkHA/aSVacHeS9u8PqBquezbXkd7NWAk2zF2z1m5FLoAucy4F9aQun6nd54Xw6nkJ4CPJSB/DIhZXOqOlOHqJoW5Nej7yTkV3+DNymSxLj1gM7zxf8FU6h6NtY5/LPrWs2k9CeQXWL5SCP729Ezd9LhFKRAU9y+hLlRsIf9WUGmYxE3V8zAXD9/gioQXjGPcfGRwPrDT+KFrimeblO/UYIsHCBWcSx5Rj4jWw0CQ+OXzb5nqO20ePuJNnudA085gOsMbX0E0bru5mAc4I4jdoJySVpssZf6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+3mVKoW7JkzpuVgFoR2zPA3o8TzAU16P0Y+IhmTyAYI=;
+ b=wHU4dNYL3PFDBeY9DX3HgQzdb2zTMvcXasu82Rq8jJEQJOKqEujEXgBC/7T8Hv3gjsHZw7suqzF0etkgIALDZUvyJ6XcdwDHsK27ac5ZGa5fQjCH91cRZCPQLZ4cB1qRdnGSM9S8d/wZvcoan7mH2IqC3Net5veHRwKBvT8h8ts=
+Authentication-Results: analogixsemi.com; dkim=none (message not signed)
+ header.d=none;analogixsemi.com; dmarc=none action=none
+ header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by BY5PR04MB6818.namprd04.prod.outlook.com (2603:10b6:a03:224::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.20; Thu, 4 Jun
+ 2020 07:51:39 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::844e:398b:2165:631b]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::844e:398b:2165:631b%7]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
+ 07:51:38 +0000
+Date: Thu, 4 Jun 2020 15:51:28 +0800
+From: Xin Ji <xji@analogixsemi.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: Re: [PATCH v11 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to
+ DP bridge driver
+Message-ID: <20200604075128.GA2581@xin-VirtualBox>
+References: <cover.1589511894.git.xji@analogixsemi.com>
+ <3946984ac1024b53b72c2eb39ee41967a2bf9c3d.1589511894.git.xji@analogixsemi.com>
+ <CAJMQK-hkrsgbvi91=uBhPfn0scwTSh3OJBGLcy9tC3GYiW1i9Q@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CAJMQK-hkrsgbvi91=uBhPfn0scwTSh3OJBGLcy9tC3GYiW1i9Q@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: HK0PR01CA0055.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::19) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-In-Reply-To: <20200603123321.263895-1-julian.stecklina@cyberus-technology.de>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from xin-VirtualBox (114.247.245.254) by
+ HK0PR01CA0055.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::19) with
+ Microsoft SMTP Server (version=TLS1_0,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.20.3066.18 via Frontend
+ Transport; Thu, 4 Jun 2020 07:51:38 +0000
+X-Originating-IP: [114.247.245.254]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 269944bd-f3dc-4bf8-0a26-08d8085c1ccb
+X-MS-TrafficTypeDiagnostic: BY5PR04MB6818:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR04MB681874DBBC06AA6C83D9BDC8C7890@BY5PR04MB6818.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 04244E0DC5
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CKZXna2MjkOzc8n5Aw9zUSid2oOvTbN0AniWspBtlQ0o+2l0Sj8EJpnUalzCGtv91leco6Fjkln2YindeOgtyng5DXcTk9jchNoktBJxX8lem1dR2M+i979uQwh90RnLwPYiApgpOa1W5o4Qih6+OtrPbWc+DfK5iI2RpcKdWFsED94MfB1x+WR3eJGR9LCiLVcJGAJKiD61RjxKzhzcAytcj3QgxhNXWnc9Q2kyQsoyogDbJkXl8kN9/AAcT27rLe4sdqvfGotKU+75i60TW18p/nuiyY+BHGI3t6hYSo7ly5NSvbitS3zeAbqeH9TTZiR0OqdzMu3NIaB4EIKG7VaER3HyLPZRXD3T7d7NcJDpyM0HiWNmk6TCP7WwXAiVUABklS+OfNf/SYWZhwF1vA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(396003)(366004)(136003)(39840400004)(376002)(346002)(186003)(16526019)(86362001)(8676002)(956004)(66476007)(8936002)(966005)(66946007)(6916009)(7416002)(6666004)(33716001)(316002)(6496006)(52116002)(66556008)(54906003)(478600001)(33656002)(26005)(9686003)(53546011)(107886003)(4326008)(4744005)(2906002)(55016002)(5660300002)(1076003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: ZJPaVOMUxtE7pVMYNFmVe866UPB0dQ8Iaa2MCgb7+b44Uv9J4c6iATCfxUGtWiuLWm7k9KC7kebjXn5f85hyXacAcI6uEmLcncuFH6/Kfg8wfiW7mq+l4yXkvSGXl98qg49TpsgirHyAWMtWKimDOK3W+tkI0R0/whY43tehHhdDqMmI3KyW453IQBVEHajJq+SnNj35yI/3R1s8xUtLehTm023/YMOySjuivunYW4FrQEB60bdx0YaAzRNxJsoil76uFznP6raNAfCm4cchT0rRHrebkdITCKH8DofhjgmqbdyW8ohk9utpUHk3d0ORR1AWrrOcG1Xnj/PkejCX7mK5o3qjRfa+Cm6sq9LiuDBSLBR74XzFaGJfmrvV9oYQoCs7H4f/uif6XA7DRksOhq47SuSBhQu/cLiepjudATQjfyR5hVLntxqFvPSbnNGl6BqpUu9AVfNk3qUDVxqjdvGk/hxVsQspMcGCPAoyJnI=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 269944bd-f3dc-4bf8-0a26-08d8085c1ccb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 07:51:38.8267 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8/psuGyIkh7DAAI/DwZFO6hmfJEijtD4YtwxsKTKCgMylid2XmP2hbi4MJ7OJs/MC1baj2H86KsvK7LDto1EBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6818
+X-Mailman-Approved-At: Fri, 05 Jun 2020 07:18:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,104 +100,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>,
- intel-gvt-dev@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1220154404=="
+Cc: devel@driverdev.osuosl.org, Nicolas Boichat <drinkcat@google.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Pi-Hsun Shih <pihsun@chromium.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Sheng Pan <span@analogixsemi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 01, 2020 at 12:14:09PM +0800, Hsin-Yi Wang wrote:
+> On Fri, May 15, 2020 at 2:53 PM Xin Ji <xji@analogixsemi.com> wrote:
+> 
+> > +
+> > +static int anx7625_bridge_attach(struct drm_bridge *bridge)
+> 
+> Latest drm_bridge api:
+> 
+> int (*attach)(struct drm_bridge *bridge,
+>      enum drm_bridge_attach_flags flags);
+> 
+> https://elixir.bootlin.com/linux/v5.7-rc7/source/include/drm/drm_bridge.h#L70
+> 
+> > +{
+> > +       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+> > +       int err;
+Hi Hsin-Yi, thanks for the comment, I'll fix it in the version v12
 
---===============1220154404==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tuFXEhzhBeitrIAu"
-Content-Disposition: inline
-
-
---tuFXEhzhBeitrIAu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2020.06.03 14:33:21 +0200, Julian Stecklina wrote:
-> When a user tries to allocate too many or too big vGPUs and runs out
-> of graphics memory, the resulting error message is not actionable and
-> looks like an internal error.
->=20
-> Change the error message to clearly point out what actions a user can
-> take to resolve this situation.
->=20
-> Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Signed-off-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-> ---
->  drivers/gpu/drm/i915/gvt/aperture_gm.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/aperture_gm.c b/drivers/gpu/drm/i91=
-5/gvt/aperture_gm.c
-> index 0d6d598713082..5c5c8e871dae2 100644
-> --- a/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> +++ b/drivers/gpu/drm/i915/gvt/aperture_gm.c
-> @@ -69,9 +69,12 @@ static int alloc_gm(struct intel_vgpu *vgpu, bool high=
-_gm)
->  				  start, end, flags);
->  	mmio_hw_access_post(gt);
->  	mutex_unlock(&gt->ggtt->vm.mutex);
-> -	if (ret)
-> -		gvt_err("fail to alloc %s gm space from host\n",
-> -			high_gm ? "high" : "low");
-> +	if (ret) {
-> +		gvt_err("vgpu%d: failed to allocate %s gm space from host\n",
-> +			vgpu->id, high_gm ? "high" : "low");
-> +		gvt_err("vgpu%d: destroying vGPUs, decreasing vGPU memory size or incr=
-easing GPU aperture size may resolve this\n",
-> +			vgpu->id);
-
-Currently we can't decrease vGPU mem size as defined by mdev type,
-so actually you may try different vGPU type. And aperture size is
-also handled for supported vGPU mdev types, so assume user should
-already be awared of that too. I just don't want us to be too chatty. :)
-
-> +	}
-> =20
->  	return ret;
->  }
-> --=20
-> 2.26.2
->=20
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
-
---=20
-Open Source Technology Center, Intel ltd.
-
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---tuFXEhzhBeitrIAu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXtnQBgAKCRCxBBozTXgY
-J/c4AKCKRut0XbYE1ZzbeKKaRdpwFEG8cgCfRE5+/HXqXZ4OypqRUdPCM+ACVTk=
-=2IF1
------END PGP SIGNATURE-----
-
---tuFXEhzhBeitrIAu--
-
---===============1220154404==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks,
+Xin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1220154404==--
