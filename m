@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25B81EFF29
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 19:38:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2F31EFF77
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 19:57:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C686E4FF;
-	Fri,  5 Jun 2020 17:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77A956E46C;
+	Fri,  5 Jun 2020 17:57:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 278546E4FF
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 17:37:59 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eda82ea0000>; Fri, 05 Jun 2020 10:37:46 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Fri, 05 Jun 2020 10:37:58 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Fri, 05 Jun 2020 10:37:58 -0700
-Received: from localhost (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3;
- Fri, 5 Jun 2020 17:37:53 +0000
-Date: Fri, 5 Jun 2020 19:37:50 +0200
-From: Thierry Reding <treding@nvidia.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 1/3] drm/dsi: use stack buffer in mipi_dsi_dcs_write()
-Message-ID: <20200605173750.GC1265773@ulmo>
-References: <20200505160329.2976059-1-emil.l.velikov@gmail.com>
- <CACvgo53nBpP_cHp=kvBQJnCacdqPfOVxbTf1_x=KhiCyNzbWuQ@mail.gmail.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D861F6E46C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 17:57:10 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id a25so12820701ljp.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jun 2020 10:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YYnGgbB/yUYHLwRnIgeOB2yfvVDg5PB29KwRpcC2gN4=;
+ b=HWlIvo8Gx/GfSgNGX7LbvmwrB8R2/UprUCF6ZpGdTm5eFaUvsIhs/YyhRxIi6C0Bgu
+ eKvjCs9vk7Z007hp+pg8+29RTakK0BG4LfZ6KfTBUENIJULV/m/bqBnWIrwsUs1JUM8/
+ 1/NGt2NwWfaMLuXqDXVe3Io4BwZBxhMbAeR1RevZ7FRe6WgNb1P0/6bzp39+eac5SSI0
+ IJ2t/onuc/NeLjFksiSRP+9/3pOoJpsXpFqF1xvY2lFz/Ngtj3zgOT8AEn6f/pRSyZwx
+ xSg9J8jx/18GSu+o8jK2uEzV4XTjjcqiZW53KhDmRBA/9Xatc7A9DzNlyF1ysAUOFHM0
+ xEvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YYnGgbB/yUYHLwRnIgeOB2yfvVDg5PB29KwRpcC2gN4=;
+ b=WsO1QqJAS1ollPA9p69Ufm2Ltkvr1rg8B5Lh0TpC99+pz7FXYeO/Hcy1cBd2qQ9zOC
+ KdtAUucPnD8kWhK778WVJuU2rD9IyeErBJ0jIoPr0ORWtducFRtEBcSdroBpdJR3jpBX
+ 2r4qwR9W03cYIX4Y0xAX76rEEZjx3rfFT4f2HCAF7TLkXLWOPw1yWyu6JYoeSqs+35Px
+ 3drWPSHScEIDFFljv/QKj4DwthNfTcU6s/DFNnPXjhyBp3H/f7XWbrbL/TlAFCSWuju8
+ dX5NCsMlReduYYuSach+OuRmvnGYjc6J+5Jb0esNue+QOWC4hZ3cNcxkh1EixdusoHB1
+ KSzA==
+X-Gm-Message-State: AOAM530DvuXX7zrrBDj2Xev9Eki3FH9rCCj7q45t8wvxjR+J61vuS/h5
+ QlAU7wpZFZyx1f5WTNWpetXWhCl9ajaNunbC4lnCyg==
+X-Google-Smtp-Source: ABdhPJz1QchXGicuq/e4UbyBXjj2+Lh2IaK3OLii9lagU/34toEvTJek1PSUAitdFBhMHfD0XxPR6jfp824v8PIIWqE=
+X-Received: by 2002:a2e:8705:: with SMTP id m5mr5176522lji.269.1591379829143; 
+ Fri, 05 Jun 2020 10:57:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CACvgo53nBpP_cHp=kvBQJnCacdqPfOVxbTf1_x=KhiCyNzbWuQ@mail.gmail.com>
-X-NVConfidentiality: public
-User-Agent: Mutt/1.13.1 (2019-12-14)
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1591378666; bh=MwVorxjQC/AXHjEJT0DP50gb4elANrB0/3lSIluDpaU=;
- h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
- MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:
- Content-Disposition;
- b=Y4SKpjr6Isv098rzQdVJ0svPyPOJRvV4IFUlRIau/ZMKRzB0jTtxLzDkvCTFbD1Jn
- QYX9OontoPOJ1Vvsiq8oNb9SnowClOGHIXMUFx2tjmdwOhjLGHJ81JMixPGu18BAEL
- uv38XV98GPctgQ4FXUaz021GbHBdlP7duepJwWYw1M5DCKIu8LtO1f3jMprLlJeFin
- vrzu8ZZcjzYXNa7+2SyHUpOARr6epqBsIlkJZ+rHA2opIyPkWWRSzTwio9obk8hfpw
- BjBDTCsIAbyfH9hTm8o/jUBLAl5ZbYOzAznGLHUAGn1gy1XgOqS8BlAxQQ41zouyE1
- F087pTWasd6fg==
+References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
+ <6615a61b8af240e3d10f8890e4b2462ccdaac9b9.1590594512.git-series.maxime@cerno.tech>
+In-Reply-To: <6615a61b8af240e3d10f8890e4b2462ccdaac9b9.1590594512.git-series.maxime@cerno.tech>
+From: Eric Anholt <eric@anholt.net>
+Date: Fri, 5 Jun 2020 10:56:58 -0700
+Message-ID: <CADaigPUOJMwR0y6CjVpu5+nPAvejbCvEQNLEC+EKq9haBaQynw@mail.gmail.com>
+Subject: Re: [PATCH v3 004/105] clk: bcm: Add BCM2711 DVP driver
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,124 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0788024996=="
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-clk@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0788024996==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
-Content-Disposition: inline
+On Wed, May 27, 2020 at 8:49 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The HDMI block has a block that controls clocks and reset signals to the
+> HDMI0 and HDMI1 controllers.
+>
+> Let's expose that through a clock driver implementing a clock and reset
+> provider.
+>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/clk/bcm/Kconfig           |  11 +++-
+>  drivers/clk/bcm/Makefile          |   1 +-
+>  drivers/clk/bcm/clk-bcm2711-dvp.c | 127 +++++++++++++++++++++++++++++++-
+>  3 files changed, 139 insertions(+)
+>  create mode 100644 drivers/clk/bcm/clk-bcm2711-dvp.c
+>
+> diff --git a/drivers/clk/bcm/Kconfig b/drivers/clk/bcm/Kconfig
+> index 8c83977a7dc4..784f12c72365 100644
+> --- a/drivers/clk/bcm/Kconfig
+> +++ b/drivers/clk/bcm/Kconfig
+> @@ -1,4 +1,15 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config CLK_BCM2711_DVP
+> +       tristate "Broadcom BCM2711 DVP support"
+> +       depends on ARCH_BCM2835 ||COMPILE_TEST
+> +       depends on COMMON_CLK
+> +       default ARCH_BCM2835
+> +       select RESET_SIMPLE
+> +       help
+> +         Enable common clock framework support for the Broadcom BCM2711
+> +         DVP Controller.
+> +
+>  config CLK_BCM2835
+>         bool "Broadcom BCM2835 clock support"
+>         depends on ARCH_BCM2835 || ARCH_BRCMSTB || COMPILE_TEST
+> diff --git a/drivers/clk/bcm/Makefile b/drivers/clk/bcm/Makefile
+> index 0070ddf6cdd2..2c1349062147 100644
+> --- a/drivers/clk/bcm/Makefile
+> +++ b/drivers/clk/bcm/Makefile
+> @@ -6,6 +6,7 @@ obj-$(CONFIG_CLK_BCM_KONA)      += clk-kona-setup.o
+>  obj-$(CONFIG_CLK_BCM_KONA)     += clk-bcm281xx.o
+>  obj-$(CONFIG_CLK_BCM_KONA)     += clk-bcm21664.o
+>  obj-$(CONFIG_COMMON_CLK_IPROC) += clk-iproc-armpll.o clk-iproc-pll.o clk-iproc-asiu.o
+> +obj-$(CONFIG_CLK_BCM2835)      += clk-bcm2711-dvp.o
+>  obj-$(CONFIG_CLK_BCM2835)      += clk-bcm2835.o
+>  obj-$(CONFIG_CLK_BCM2835)      += clk-bcm2835-aux.o
+>  obj-$(CONFIG_CLK_RASPBERRYPI)  += clk-raspberrypi.o
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I do think that single driver is the right model here, but I noticed
+that you're not using your new CONFIG_ symbol.  With that fixed, r-b
+from me.
 
-On Thu, May 28, 2020 at 05:47:41PM +0100, Emil Velikov wrote:
-> On Tue, 5 May 2020 at 17:05, Emil Velikov <emil.l.velikov@gmail.com> wrot=
-e:
-> >
-> > Currently the function heap allocates when we have any payload. Where in
-> > many case the payload is 1 byte - ouch.
-> >
-> > From casual observation, vast majority of the payloads are smaller than
-> > 8 bytes - so use a stack array tx[8] to avoid the senseless kmalloc and
-> > kfree dance.
-> >
-> > Cc: Jani Nikula <jani.nikula@intel.com>
-> > Cc: Thierry Reding <treding@nvidia.com>
-> > Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
-> > ---
-> >  drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++----------
-> >  1 file changed, 10 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_=
-dsi.c
-> > index 55531895dde6..b96d5b4629d7 100644
-> > --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> > +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> > @@ -748,26 +748,26 @@ ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device=
- *dsi, u8 cmd,
-> >  {
-> >         ssize_t err;
-> >         size_t size;
-> > +       u8 stack_tx[8];
-> >         u8 *tx;
-> >
-> > -       if (len > 0) {
-> > -               size =3D 1 + len;
-> > -
-> > +       size =3D 1 + len;
-> > +       if (len > ARRAY_SIZE(stack_tx) - 1) {
-> >                 tx =3D kmalloc(size, GFP_KERNEL);
-> >                 if (!tx)
-> >                         return -ENOMEM;
-> > -
-> > -               /* concatenate the DCS command byte and the payload */
-> > -               tx[0] =3D cmd;
-> > -               memcpy(&tx[1], data, len);
-> >         } else {
-> > -               tx =3D &cmd;
-> > -               size =3D 1;
-> > +               tx =3D stack_tx;
-> >         }
-> >
-> > +       /* concatenate the DCS command byte and the payload */
-> > +       tx[0] =3D cmd;
-> > +       if (data)
-> > +               memcpy(&tx[1], data, len);
-> > +
-> >         err =3D mipi_dsi_dcs_write_buffer(dsi, tx, size);
-> >
-> > -       if (len > 0)
-> > +       if (tx !=3D stack_tx)
-> >                 kfree(tx);
-> >
-> >         return err;
-> > --
->=20
-> Thierry, others - humble ping.
-> Can you check through the series?
-
-I don't see patch 2 of this series anywhere? Did it fall victim to some
-filter?
-
-Thierry
-
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7agu4ACgkQ3SOs138+
-s6E50A//eb7elH/9YfwhaTuDpnwripfctO1Qrrc2c4lk0scOdWpJy34QFn18Lpn6
-gjhgars0c/41mQFXlOM7VG92K5h2nnno3Lauil04SHGXnkhbxfQxoMpNqnOrrhKY
-SjKxT1O3iFKnuRebSsBFKW5W06JrfFvtb1j6hzgrcHAbSnl026oO4PYvZq1Gh6k6
-nmlhjCquxuzAYqj1txywBe+ZZ7Ghq57UFQ3fliPKjWXFPkmMG8aTl4nNUZeUOV4l
-NTzkQ6mRebr+ioXZP0C1gHU3AnA7teVtE33Y48ZhF5vyWSQgM+07m1YOyb/Z+qj0
-2yflsgYOpI3xNv2wAawNfExr4273FOUtM2aMeeuy9pW9K3AfWzHunRhJIfqriJSI
-i3PO1+4E4PWpNWMahR+3os+4QO9mP0yGcJd1B78xoDweE9ShpjpgN71XAZkYitGV
-7l/VRUY8Ci7q6UZXWrbHuP1s6L0LPDlkQ1FfqduvYMv6k70DWWv1Q+5flUFzqmkR
-p/5aqATJ7oK5gkxmyDGRy8ur1lMHAePq3xNgwElRdrwXsZHnAaqSGwDv5Ml/O7Bq
-Yo0rYuFl7nrFvBf2tEygqy9Bb8n4bjbmN8g2kgDBGAToKJsc5EVfu7HOBu5vMRbT
-BwH/O62yhFDW1KOFXBkkNZMYu7b4nB976T41SF8mkYHU+kGRwsw=
-=9tx4
------END PGP SIGNATURE-----
-
---ABTtc+pdwF7KHXCz--
-
---===============0788024996==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+(though I'd also recommend devm_platform_get_and_ioremap_resource and
+devm_reset_controller_register())
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0788024996==--
