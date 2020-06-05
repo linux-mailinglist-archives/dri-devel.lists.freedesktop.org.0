@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DE21EF9C4
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DD31EF9C5
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88626E8F7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E900C6E8FA;
 	Fri,  5 Jun 2020 13:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E2E6E8F7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A09AB6E8F6
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:58:08 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id CF535AD48;
+ by mx2.suse.de (Postfix) with ESMTP id F1564AD09;
  Fri,  5 Jun 2020 13:58:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.velikov@collabora.com, kraxel@redhat.com
-Subject: [PATCH 11/14] drm/mgag200: Separate device initialization into
- allocation
-Date: Fri,  5 Jun 2020 15:58:00 +0200
-Message-Id: <20200605135803.19811-12-tzimmermann@suse.de>
+Subject: [PATCH 12/14] drm/mgag200: Allocate device structures in
+ mgag200_driver_load()
+Date: Fri,  5 Jun 2020 15:58:01 +0200
+Message-Id: <20200605135803.19811-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605135803.19811-1-tzimmermann@suse.de>
 References: <20200605135803.19811-1-tzimmermann@suse.de>
@@ -45,75 +45,99 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Embedding the DRM device instance in struct mga_device will require
-changes to device allocation. Moving the device initialization into
-its own functions gets it out of the way.
+Instances of struct drm_device and struct mga_device are now allocated
+next to each other in mgag200_driver_load(). Yet another preparation
+before embedding the DRM device instance in struct mga_device.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c | 32 ++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.c | 38 +++++++++++++++------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index f8bb24199643d..926437a27a228 100644
+index 926437a27a228..592e484f87ee7 100644
 --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -43,17 +43,11 @@ static struct drm_driver mgag200_driver = {
-  * DRM device
-  */
+@@ -88,26 +88,36 @@ static int mgag200_device_init(struct mga_device *mdev, unsigned long flags)
+ 	return 0;
+ }
  
 -static int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
-+static int mgag200_device_init(struct mga_device *mdev, unsigned long flags)
++static struct mga_device *
++mgag200_driver_load(struct pci_dev *pdev, unsigned long flags)
  {
--	struct mga_device *mdev;
-+	struct drm_device *dev = mdev->dev;
- 	int ret, option;
++	struct drm_device *dev;
+ 	struct mga_device *mdev;
+ 	int ret;
  
--	mdev = devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNEL);
--	if (mdev == NULL)
++	dev = drm_dev_alloc(&mgag200_driver, &pdev->dev);
++	if (IS_ERR(dev))
++		return ERR_CAST(dev);
++
++	dev->pdev = pdev;
++	pci_set_drvdata(pdev, dev);
++
+ 	mdev = devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNEL);
+ 	if (mdev == NULL)
 -		return -ENOMEM;
--	dev->dev_private = (void *)mdev;
--	mdev->dev = dev;
--
- 	mdev->flags = mgag200_flags_from_driver_data(flags);
- 	mdev->type = mgag200_type_from_driver_data(flags);
++		return ERR_PTR(-ENOMEM);
+ 	dev->dev_private = (void *)mdev;
+ 	mdev->dev = dev;
  
-@@ -83,15 +77,33 @@ static int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
- 
- 	ret = mgag200_mm_init(mdev);
+ 	ret = mgag200_device_init(mdev, flags);
  	if (ret)
 -		goto err_mm;
-+		return ret;
++		goto err_drm_dev_put;
  
- 	ret = mgag200_modeset_init(mdev);
- 	if (ret) {
- 		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
--		goto err_mm;
-+		return ret;
- 	}
+-	return 0;
++	return mdev;
  
- 	return 0;
-+}
-+
-+static int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
-+{
-+	struct mga_device *mdev;
-+	int ret;
-+
-+	mdev = devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNEL);
-+	if (mdev == NULL)
-+		return -ENOMEM;
-+	dev->dev_private = (void *)mdev;
-+	mdev->dev = dev;
-+
-+	ret = mgag200_device_init(mdev, flags);
-+	if (ret)
-+		goto err_mm;
-+
-+	return 0;
- 
- err_mm:
+-err_mm:
++err_drm_dev_put:
++	drm_dev_put(dev);
  	dev->dev_private = NULL;
+-	return ret;
++	return ERR_PTR(ret);
+ }
+ 
+ static void mgag200_driver_unload(struct drm_device *dev)
+@@ -141,6 +151,7 @@ MODULE_DEVICE_TABLE(pci, mgag200_pciidlist);
+ static int
+ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ {
++	struct mga_device *mdev;
+ 	struct drm_device *dev;
+ 	int ret;
+ 
+@@ -150,16 +161,10 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (ret)
+ 		return ret;
+ 
+-	dev = drm_dev_alloc(&mgag200_driver, &pdev->dev);
+-	if (IS_ERR(dev))
+-		return PTR_ERR(dev);
+-
+-	dev->pdev = pdev;
+-	pci_set_drvdata(pdev, dev);
+-
+-	ret = mgag200_driver_load(dev, ent->driver_data);
+-	if (ret)
+-		goto err_drm_dev_put;
++	mdev = mgag200_driver_load(pdev, ent->driver_data);
++	if (IS_ERR(mdev))
++		return PTR_ERR(mdev);
++	dev = mdev->dev;
+ 
+ 	ret = drm_dev_register(dev, ent->driver_data);
+ 	if (ret)
+@@ -171,7 +176,6 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ err_mgag200_driver_unload:
+ 	mgag200_driver_unload(dev);
+-err_drm_dev_put:
+ 	drm_dev_put(dev);
+ 	return ret;
+ }
 -- 
 2.26.2
 
