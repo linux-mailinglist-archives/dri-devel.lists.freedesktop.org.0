@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769DD1EF9C1
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3AD1EF9BC
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA916E8F3;
-	Fri,  5 Jun 2020 13:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89BF26E8F5;
+	Fri,  5 Jun 2020 13:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E121B6E8EE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:58:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E1C6E8EC
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:58:07 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D46A7AAE8;
+ by mx2.suse.de (Postfix) with ESMTP id F3B70AC9F;
  Fri,  5 Jun 2020 13:58:08 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.velikov@collabora.com, kraxel@redhat.com
-Subject: [PATCH 03/14] drm/mgag200: Use pcim_enable_device()
-Date: Fri,  5 Jun 2020 15:57:52 +0200
-Message-Id: <20200605135803.19811-4-tzimmermann@suse.de>
+Subject: [PATCH 04/14] drm/mgag200: Rename mgag200_ttm.c to mgag200_mm.c
+Date: Fri,  5 Jun 2020 15:57:53 +0200
+Message-Id: <20200605135803.19811-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605135803.19811-1-tzimmermann@suse.de>
 References: <20200605135803.19811-1-tzimmermann@suse.de>
@@ -44,47 +44,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using the managed function simplifies the error handling. After
-unloading the driver, the PCI device should now get disabled as
-well.
+The mgag200 driver does not use TTM any longer. Rename the related file
+to mgag200_mm.c (as in 'memory management').
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mgag200/Makefile                        | 4 ++--
+ drivers/gpu/drm/mgag200/mgag200_drv.h                   | 1 +
+ drivers/gpu/drm/mgag200/{mgag200_ttm.c => mgag200_mm.c} | 0
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+ rename drivers/gpu/drm/mgag200/{mgag200_ttm.c => mgag200_mm.c} (100%)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 00ddea7d7d270..140ae86082c8e 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -52,15 +52,13 @@ static int mga_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
+index 63403133638a3..e6a933874a88c 100644
+--- a/drivers/gpu/drm/mgag200/Makefile
++++ b/drivers/gpu/drm/mgag200/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-mgag200-y   := mgag200_main.o mgag200_mode.o \
+-	mgag200_drv.o mgag200_i2c.o mgag200_ttm.o
++mgag200-y   := mgag200_drv.o mgag200_i2c.o mgag200_main.o mgag200_mm.o \
++	       mgag200_mode.o
  
- 	drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "mgag200drmfb");
+ obj-$(CONFIG_DRM_MGAG200) += mgag200.o
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 92b6679029fe5..cd786ffe319b8 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -196,6 +196,7 @@ void mgag200_driver_unload(struct drm_device *dev);
+ struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev);
+ void mgag200_i2c_destroy(struct mga_i2c_chan *i2c);
  
--	ret = pci_enable_device(pdev);
-+	ret = pcim_enable_device(pdev);
- 	if (ret)
- 		return ret;
++				/* mgag200_mm.c */
+ int mgag200_mm_init(struct mga_device *mdev);
+ void mgag200_mm_fini(struct mga_device *mdev);
  
- 	dev = drm_dev_alloc(&driver, &pdev->dev);
--	if (IS_ERR(dev)) {
--		ret = PTR_ERR(dev);
--		goto err_pci_disable_device;
--	}
-+	if (IS_ERR(dev))
-+		return PTR_ERR(dev);
- 
- 	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
-@@ -81,8 +79,6 @@ static int mga_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	mgag200_driver_unload(dev);
- err_drm_dev_put:
- 	drm_dev_put(dev);
--err_pci_disable_device:
--	pci_disable_device(pdev);
- 	return ret;
- }
- 
+diff --git a/drivers/gpu/drm/mgag200/mgag200_ttm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
+similarity index 100%
+rename from drivers/gpu/drm/mgag200/mgag200_ttm.c
+rename to drivers/gpu/drm/mgag200/mgag200_mm.c
 -- 
 2.26.2
 
