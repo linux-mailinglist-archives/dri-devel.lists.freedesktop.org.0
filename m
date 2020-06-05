@@ -2,31 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C461F0F1C
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C8B1F0F25
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D45A16E426;
-	Sun,  7 Jun 2020 19:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95676E423;
+	Sun,  7 Jun 2020 19:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB546E96E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 18:11:06 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D2843AF48;
- Fri,  5 Jun 2020 18:11:07 +0000 (UTC)
-Message-ID: <977dd9ba222d8c513b09743da5cb53fd14bfd9a0.camel@suse.de>
-Subject: Re: [PATCH v3 004/105] clk: bcm: Add BCM2711 DVP driver
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Date: Fri, 05 Jun 2020 20:11:01 +0200
-In-Reply-To: <20200605174329.hf5d6oulmcewzw63@gilmour.lan>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <6615a61b8af240e3d10f8890e4b2462ccdaac9b9.1590594512.git-series.maxime@cerno.tech>
- <faacbc33174e77500e04e609a654c5810045cb42.camel@suse.de>
- <20200605174329.hf5d6oulmcewzw63@gilmour.lan>
-User-Agent: Evolution 3.36.2 
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+ [209.85.208.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D2BA6E96D
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 18:52:09 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id n24so12969191lji.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jun 2020 11:52:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VDO4czZARJ92nQWa2/saOEN9Dw2btZE7+XJd2+JWZwg=;
+ b=aFRgbDXWmMdwwpnfnkgTgPL1LROAMLW3Yq1qhujHVtzAWrne338eQ5JQDlXT0VIs7P
+ GLJ+gsK9d6dv409VOp1HxKPg3gRLufH/+5TvluMPiMZFvnCEDiYblUq1dLcCgncYHMbn
+ PPxFfN0aRzuIjiBUxmVtJXESkWOOG3Tn1FlG4mr4iDlR/2rtxKhdVAXvDhlGjChGtOeL
+ GTbWZwc3135rXYbxTYOTuyHCd7mGqu3umGG9s/FCCpi+GwGg4u6mIgQv5pIyY3Wm35af
+ CvXM4X5eh3j7Moh7bwLkaQF6lO9zI7bKQ9oAapOBuaLW/k4DBcTm9sB3lu4WXPN+xEbU
+ Athg==
+X-Gm-Message-State: AOAM531aHMUnlAVsuB/iF1idYo4t6MML6iv8nctY7cbIv0A0xC1JBcD6
+ 8Dj2miQTbkKFQWLauIScxEc=
+X-Google-Smtp-Source: ABdhPJyIan/7VLcAaDDYG9UbJg5UdB3j2H3sSeQLJ35gqhMbLfIWcVftnxCOgq6DW3rAJlcuOVAA/w==
+X-Received: by 2002:a2e:9786:: with SMTP id y6mr5299018lji.398.1591383128001; 
+ Fri, 05 Jun 2020 11:52:08 -0700 (PDT)
+Received: from localhost.localdomain (broadband-37-110-38-130.ip.moscow.rt.ru.
+ [37.110.38.130])
+ by smtp.googlemail.com with ESMTPSA id z22sm1273460lfi.96.2020.06.05.11.52.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 11:52:07 -0700 (PDT)
+From: Denis Efremov <efremov@linux.com>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/panfrost: Use kvfree() to free bo->sgts in
+ panfrost_mmu_map_fault_addr()
+Date: Fri,  5 Jun 2020 21:52:07 +0300
+Message-Id: <20200605185207.76661-1-efremov@linux.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 07 Jun 2020 19:13:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,194 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1002658026=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Denis Efremov <efremov@linux.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use kvfree() to free bo->sgts, because the memory is allocated with
+kvmalloc_array().
 
---===============1002658026==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-+FKCCfaEGN1+KOjI+Hug"
+Fixes: 187d2929206e ("drm/panfrost: Add support for GPU heap allocations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Denis Efremov <efremov@linux.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
---=-+FKCCfaEGN1+KOjI+Hug
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2020-06-05 at 19:43 +0200, Maxime Ripard wrote:
-> Hi Nicolas,
->=20
-> On Thu, Jun 04, 2020 at 07:26:07PM +0200, Nicolas Saenz Julienne wrote:
-> > On Wed, 2020-05-27 at 17:47 +0200, Maxime Ripard wrote:
-> > > The HDMI block has a block that controls clocks and reset signals to =
-the
-> > > HDMI0 and HDMI1 controllers.
-> >=20
-> > Why not having two separate drivers?
->=20
-> They share the same address space, so it wouldn't really make sense to
-> split it into two drivers and an MFD, especially when the clock/reset
-> association is fairly common.
-
-Fair enough.
-
->=20
-> > > Let's expose that through a clock driver implementing a clock and res=
-et
-> > > provider.
-> > >=20
-> > > Cc: Michael Turquette <mturquette@baylibre.com>
-> > > Cc: Stephen Boyd <sboyd@kernel.org>
-> > > Cc: Rob Herring <robh+dt@kernel.org>
-> > > Cc: linux-clk@vger.kernel.org
-> > > Cc: devicetree@vger.kernel.org
-> > > Reviewed-by: Stephen Boyd <sboyd@kernel.org>
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/clk/bcm/Kconfig           |  11 +++-
-> > >  drivers/clk/bcm/Makefile          |   1 +-
-> > >  drivers/clk/bcm/clk-bcm2711-dvp.c | 127 ++++++++++++++++++++++++++++=
-+++-
-> > >  3 files changed, 139 insertions(+)
-> > >  create mode 100644 drivers/clk/bcm/clk-bcm2711-dvp.c
-> > >=20
-> > > diff --git a/drivers/clk/bcm/Kconfig b/drivers/clk/bcm/Kconfig
-> > > index 8c83977a7dc4..784f12c72365 100644
-> > > --- a/drivers/clk/bcm/Kconfig
-> > > +++ b/drivers/clk/bcm/Kconfig
-> > > @@ -1,4 +1,15 @@
-> > >  # SPDX-License-Identifier: GPL-2.0-only
-> > > +
-> > > +config CLK_BCM2711_DVP
-> > > +	tristate "Broadcom BCM2711 DVP support"
-> > > +	depends on ARCH_BCM2835 ||COMPILE_TEST
-> > > +	depends on COMMON_CLK
-> > > +	default ARCH_BCM2835
-> > > +	select RESET_SIMPLE
-> > > +	help
-> > > +	  Enable common clock framework support for the Broadcom BCM2711
-> > > +	  DVP Controller.
-> > > +
-> > >  config CLK_BCM2835
-> > >  	bool "Broadcom BCM2835 clock support"
-> > >  	depends on ARCH_BCM2835 || ARCH_BRCMSTB || COMPILE_TEST
-> > > diff --git a/drivers/clk/bcm/Makefile b/drivers/clk/bcm/Makefile
-> > > index 0070ddf6cdd2..2c1349062147 100644
-> > > --- a/drivers/clk/bcm/Makefile
-> > > +++ b/drivers/clk/bcm/Makefile
-> > > @@ -6,6 +6,7 @@ obj-$(CONFIG_CLK_BCM_KONA)	+=3D clk-kona-setup.o
-> > >  obj-$(CONFIG_CLK_BCM_KONA)	+=3D clk-bcm281xx.o
-> > >  obj-$(CONFIG_CLK_BCM_KONA)	+=3D clk-bcm21664.o
-> > >  obj-$(CONFIG_COMMON_CLK_IPROC)	+=3D clk-iproc-armpll.o clk-iproc-pll=
-.o
-> > > clk-iproc-asiu.o
-> > > +obj-$(CONFIG_CLK_BCM2835)	+=3D clk-bcm2711-dvp.o
-> > >  obj-$(CONFIG_CLK_BCM2835)	+=3D clk-bcm2835.o
-> > >  obj-$(CONFIG_CLK_BCM2835)	+=3D clk-bcm2835-aux.o
-> > >  obj-$(CONFIG_CLK_RASPBERRYPI)	+=3D clk-raspberrypi.o
-> > > diff --git a/drivers/clk/bcm/clk-bcm2711-dvp.c b/drivers/clk/bcm/clk-
-> > > bcm2711-
-> > > dvp.c
-> > > new file mode 100644
-> > > index 000000000000..c1c4b5857d32
-> > > --- /dev/null
-> > > +++ b/drivers/clk/bcm/clk-bcm2711-dvp.c
-> > > @@ -0,0 +1,127 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +// Copyright 2020 Cerno
-> > > +
-> > > +#include <linux/clk-provider.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/reset-controller.h>
-> > > +#include <linux/reset/reset-simple.h>
-> > > +
-> > > +#define DVP_HT_RPI_SW_INIT	0x04
-> > > +#define DVP_HT_RPI_MISC_CONFIG	0x08
-> > > +
-> > > +#define NR_CLOCKS	2
-> > > +#define NR_RESETS	6
-> > > +
-> > > +struct clk_dvp {
-> > > +	struct clk_hw_onecell_data	*data;
-> > > +	struct reset_simple_data	reset;
-> > > +};
-> > > +
-> > > +static const struct clk_parent_data clk_dvp_parent =3D {
-> > > +	.index	=3D 0,
-> > > +};
-> > > +
-> > > +static int clk_dvp_probe(struct platform_device *pdev)
-> > > +{
-> > > +	struct clk_hw_onecell_data *data;
-> > > +	struct resource *res;
-> > > +	struct clk_dvp *dvp;
-> > > +	void __iomem *base;
-> > > +	int ret;
-> > > +
-> > > +	dvp =3D devm_kzalloc(&pdev->dev, sizeof(*dvp), GFP_KERNEL);
-> > > +	if (!dvp)
-> > > +		return -ENOMEM;
-> > > +	platform_set_drvdata(pdev, dvp);
-> > > +
-> > > +	dvp->data =3D devm_kzalloc(&pdev->dev,
-> > > +				 struct_size(dvp->data, hws, NR_CLOCKS),
-> > > +				 GFP_KERNEL);
-> > > +	if (!dvp->data)
-> > > +		return -ENOMEM;
-> > > +	data =3D dvp->data;
-> > > +
-> > > +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > +	base =3D devm_ioremap_resource(&pdev->dev, res);
-> >=20
-> > I think the cool function to use these days is
-> > devm_platform_get_and_ioremap_resource().
->=20
-> i'll change it, thanks!
-
-Reviewed-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-
-Regards,
-Nicolas
-
-
---=-+FKCCfaEGN1+KOjI+Hug
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl7airUACgkQlfZmHno8
-x/6RAwgAoMvooAyRe7S9Zeth+KfsqdhHw7fSaIfcyW+1B1hAhY9U35yLYXdM9MqY
-aYWnkeHuMN+ic3frCKcxnR4ySNuiDgvYl9jFOhaEZZePo7dnVoLVrOTaMBs421SQ
-0+roDhCtWXx2tUMKkNLK7w7YRMyDrHP0xFO0+3gFV0k4dD4bBQYwTpT7Yz9k6Big
-wDDlyAeh+Tj5UlMZ7ADJx4Du6nPMDk0P/urKo0AyrnegExOBwlDLKDInRHZg5+G8
-VzgHMoQylpyo3hTBHpSYv2ZXtk3MwvJHi22o42gDzKSfsy6xCrI+/FxdJ+JFmd5i
-Eb0zIV6tEQZNERBn5IILIGn3CWeKzA==
-=i89s
------END PGP SIGNATURE-----
-
---=-+FKCCfaEGN1+KOjI+Hug--
-
-
---===============1002658026==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index ed28aeba6d59..3c8ae7411c80 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -486,7 +486,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+ 				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+ 		if (!pages) {
+-			kfree(bo->sgts);
++			kvfree(bo->sgts);
+ 			bo->sgts = NULL;
+ 			mutex_unlock(&bo->base.pages_lock);
+ 			ret = -ENOMEM;
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1002658026==--
-
