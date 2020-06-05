@@ -2,20 +2,20 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763C51EF212
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D721EF211
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8480C6E881;
-	Fri,  5 Jun 2020 07:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2363D6E887;
+	Fri,  5 Jun 2020 07:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9596E87D
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 07:33:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 888196E87C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 07:33:07 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id A406BB1DF;
- Fri,  5 Jun 2020 07:33:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 47F6BB2AC;
+ Fri,  5 Jun 2020 07:33:08 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
@@ -33,10 +33,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 22/43] drm/malidp: Set GEM CMA functions with
- DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
-Date: Fri,  5 Jun 2020 09:32:26 +0200
-Message-Id: <20200605073247.4057-23-tzimmermann@suse.de>
+Subject: [PATCH v3 23/43] drm/mcde: Use GEM CMA object functions
+Date: Fri,  5 Jun 2020 09:32:27 +0200
+Message-Id: <20200605073247.4057-24-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
@@ -61,38 +60,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE sets the functions in
-struct drm_driver to their defaults. No functional changes are
-made.
+Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
+allocates the object and sets CMA's default object functions. Corresponding
+callbacks in struct drm_driver are cleared. No functional changes are made.
 
-v2:
-	* update for DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
+Driver and object-function instances use the same callback functions, with
+the exception of vunmap. The implementation of vunmap is empty and left out
+in CMA's default object functions.
+
+v3:
+	* convert to DRIVER_OPS macro in a separate patch
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index a56a93fc7bc2e..cbd35fd305803 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -563,12 +563,7 @@ static void malidp_debugfs_init(struct drm_minor *minor)
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 84f3e2dbd77bd..1a715b9e698ad 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -228,16 +228,12 @@ static struct drm_driver mcde_drm_driver = {
+ 	.major = 1,
+ 	.minor = 0,
+ 	.patchlevel = 0,
++	.gem_create_object = drm_gem_cma_create_object_default_funcs,
+ 	.dumb_create = drm_gem_cma_dumb_create,
+-	.gem_free_object_unlocked = drm_gem_cma_free_object,
+-	.gem_vm_ops = &drm_gem_cma_vm_ops,
  
- static struct drm_driver malidp_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
--	.gem_create_object = drm_gem_cma_create_object_default_funcs,
--	.dumb_create = malidp_dumb_create,
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-+	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(malidp_dumb_create),
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = malidp_debugfs_init,
- #endif
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+ 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_vmap = drm_gem_cma_prime_vmap,
+-	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
+ 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+ };
+ 
 -- 
 2.26.2
 
