@@ -2,52 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABAB1F0F1F
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA0E1F0EEC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC526E40B;
-	Sun,  7 Jun 2020 19:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4776E393;
+	Sun,  7 Jun 2020 19:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www413.your-server.de (www413.your-server.de [88.198.28.140])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 998516E435;
- Fri,  5 Jun 2020 11:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=cyberus-technology.de; s=default1911; h=Content-Transfer-Encoding:
- MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3NH0uxciW9wNmCNchpq6bM+XDejEEyxzy2dajdLeTWo=; b=RLBZLCNnSMgKapiRRH0snatQ9
- 7hWvpFAqDlDO/6hY0S3n1zww8LPaufZjRi69WpU2U9fD/aYUcP1xk7PJe3v9/kcZ0W1PTQddayhmW
- L3B1rg7BEWjG38nnXKuA5UsVYwKI7DfJkkjkZWWRTSHvYMSMUJnSoxk4tGKj1uKugSaQbHmx8XLpR
- dzCjXFVT/n3uG5vBmyIowx3tBTerdgF9VGapd8LQmu6oMmTAFo5j9kFC8p8IeBvLrzSQsR3mm5B66
- nH5FwNMz8ulminYxmJM5+11f1wd81YnpUU0e4F8m7DDBmVu42FQfAwTb4ow24fKn6yGLGqGFro6+c
- 3/0FVlvuA==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
- by www413.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1jhADB-0004sx-PN; Fri, 05 Jun 2020 13:08:33 +0200
-Received: from [2001:16b8:57f2:b00:9e42:55f5:e968:2436] (helo=linux.fritz.box)
- by sslproxy01.your-server.de with esmtpsa
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <julian.stecklina@cyberus-technology.de>)
- id 1jhADB-0006U5-H8; Fri, 05 Jun 2020 13:08:33 +0200
-Message-ID: <15677f9958dfe4dfdbb3dda978c84a64427fa00f.camel@cyberus-technology.de>
-Subject: Re: [PATCH] drm/i915/gvt: print actionable error message when gm
- runs out
-From: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Date: Fri, 05 Jun 2020 13:08:32 +0200
-In-Reply-To: <20200605045430.GS5687@zhen-hp.sh.intel.com>
-References: <20200603123321.263895-1-julian.stecklina@cyberus-technology.de>
- <20200605045430.GS5687@zhen-hp.sh.intel.com>
-Organization: Cyberus Technology GmbH
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCED36E8E9
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:41:36 +0000 (UTC)
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+ by smtp1.de.adit-jv.com (Postfix) with ESMTP id BC5403C0579;
+ Fri,  5 Jun 2020 15:41:34 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+ by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1VzfMKGndY1M; Fri,  5 Jun 2020 15:41:29 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp1.de.adit-jv.com (Postfix) with ESMTPS id BBD053C00B5;
+ Fri,  5 Jun 2020 15:41:29 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.47) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 5 Jun 2020
+ 15:41:29 +0200
+Date: Fri, 5 Jun 2020 15:41:24 +0200
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
+Message-ID: <20200605134124.GA28734@lxhi-065.adit-jv.com>
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20200527071555.GA23912@lxhi-065.adit-jv.com>
+ <20200605132900.on527xcggg6f6pil@uno.localdomain>
 MIME-Version: 1.0
-X-Authenticated-Sender: julian.stecklina@cyberus-technology.de
-X-Virus-Scanned: Clear (ClamAV 0.102.3/25833/Thu Jun  4 14:45:29 2020)
+Content-Disposition: inline
+In-Reply-To: <20200605132900.on527xcggg6f6pil@uno.localdomain>
+X-Originating-IP: [10.72.94.47]
 X-Mailman-Approved-At: Sun, 07 Jun 2020 19:13:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,41 +51,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>,
- intel-gvt-dev@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: muroya@ksk.co.jp, airlied@linux.ie, mrodin@de.adit-jv.com,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ Eugeniu Rosca <erosca@de.adit-jv.com>, Eugeniu Rosca <roscaeugeniu@gmail.com>,
+ kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+ gotthard.voellmeke@renesas.com, koji.matsuoka.xm@renesas.com,
+ horms@verge.net.au, seanpaul@chromium.org, michael.dege@renesas.com,
+ Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
+ efriedrich@de.adit-jv.com, ChaitanyaKumar.Borah@in.bosch.com,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ VenkataRajesh.Kalakodima@in.bosch.com,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2020-06-05 at 12:54 +0800, Zhenyu Wang wrote:
-> On 2020.06.03 14:33:21 +0200, Julian Stecklina wrote:
-> > +		gvt_err("vgpu%d: failed to allocate %s gm space from host\n",
-> > +			vgpu->id, high_gm ? "high" : "low");
-> > +		gvt_err("vgpu%d: destroying vGPUs, decreasing vGPU memory size
-> > or increasing GPU aperture size may resolve this\n",
-> > +			vgpu->id);
+Hi Jacopo,
+
+On Fri, Jun 05, 2020 at 03:29:00PM +0200, Jacopo Mondi wrote:
+> On Wed, May 27, 2020 at 09:15:55AM +0200, Eugeniu Rosca wrote:
+> > Could you kindly share the cross compilation steps for your kmsxx fork?
 > 
-> Currently we can't decrease vGPU mem size as defined by mdev type,
-> so actually you may try different vGPU type.
+> I usually build it on the target :)
 
-Yes, that's what I meant.
+Interesting approach. With ARM getting more and more potent, why not? :)
 
->  And aperture size is
-> also handled for supported vGPU mdev types, so assume user should
-> already be awared of that too. I just don't want us to be too chatty. :)
+> 
+> > Just out of curiosity, have you ever tried to pull the display's HDMI
+> > cable while reading from CM2_LUT_TBL?
+> 
+> Ahem, not really :) Did I get you right, you mean disconnecting the
+> HDMI cable from the board ?
 
-Our users typically hit this particular error message when they haven't
-configured the GPU aperture size in the system BIOS correctly. Many laptops we
-see have the aperture set to 256MB and this is simply not enough.
+Right.
 
-I don't cling to the specific wording of the error message, but any hint in the
-error message that this is not an obscure, internal error or bug, but something
-that the user can actually fix, would be helpful.
+> >
+> > At least with the out-of-tree CMM implementation [*], this sends the
+> > R-Car3 reference targets into an unrecoverable freeze, with no lockup
+> > reported by the kernel (i.e. looks like an serious HW issue).
+> >
+> > >
+> > > CMM functionalities are retained between suspend/resume cycles (tested with
+> > > suspend-to-idle) without requiring a re-programming of the LUT tables.
+> >
+> > Hmm. Is this backed up by any statement in the HW User's manual?
+> > This comes in contrast with the original Renesas CMM implementation [**]
+> > which does make use of suspend (where the freeze actually happens).
+> >
+> > Can we infer, based on your statement, that we could also get rid of
+> > the suspend callback in [**]?
+> 
+> As Geert (thanks) explained what I've tested with is suspend-to-idle,
+> which retains the state of the LUT tables (and I assume other
+> not-yet-implemented CMM features, like CLU). I recall the out-of-tree
+> driver has suspend/resume routines but I never really tested that.
 
-Julian
+I see. JFYI, there is a flaw in the suspend handling in the out-of-tree
+CMM patch [*], which renders the SoC unresponsive on HDMI hotplug. The
+fix is currently under review. Hopefully it will make its way to [*]
+in the nearest future. Just to keep in mind for the moment when CMM
+s2ram will become a mainline feature.
 
+> >
+> > [*] https://github.com/renesas-rcar/du_cmm
+> > [**] https://github.com/renesas-rcar/du_cmm/blob/c393ed49834bdbc/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0001-drm-rcar-du-Add-DU-CMM-support.patch#L1912
+
+-- 
+Best regards,
+Eugeniu Rosca
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
