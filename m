@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB511EFEB3
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 19:23:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C9B1EFEBA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 19:26:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC8686E950;
-	Fri,  5 Jun 2020 17:23:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFE546E954;
+	Fri,  5 Jun 2020 17:26:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA796E950
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 17:23:54 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 1D0AAAC6D;
- Fri,  5 Jun 2020 17:23:56 +0000 (UTC)
-Subject: Re: [PATCH 10/14] drm/mgag200: Move device init and cleanup to
- mgag200_drv.c
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200605135803.19811-1-tzimmermann@suse.de>
- <20200605135803.19811-11-tzimmermann@suse.de>
- <20200605144506.GD204352@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <ab8caa07-5b85-11e8-ac16-6128da6c2e36@suse.de>
-Date: Fri, 5 Jun 2020 19:23:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
+ [216.228.121.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 472586E954
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 17:26:42 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eda7fee0001>; Fri, 05 Jun 2020 10:25:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Fri, 05 Jun 2020 10:26:41 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Fri, 05 Jun 2020 10:26:41 -0700
+Received: from localhost (10.124.1.5) by HQMAIL107.nvidia.com (172.20.187.13)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Fri, 5 Jun 2020 17:26:41 +0000
+Date: Fri, 5 Jun 2020 19:26:38 +0200
+From: Thierry Reding <treding@nvidia.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 1/3] drm/dsi: use stack buffer in mipi_dsi_dcs_write()
+Message-ID: <20200605172638.GA1265773@ulmo>
+References: <20200505160329.2976059-1-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200605144506.GD204352@ravnborg.org>
+In-Reply-To: <20200505160329.2976059-1-emil.l.velikov@gmail.com>
+X-NVConfidentiality: public
+User-Agent: Mutt/1.13.1 (2019-12-14)
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1591377902; bh=cO63qlzZcdapJPw4SxcoaKTGpD3ASzlJay+DwUDJ3NQ=;
+ h=X-PGP-Universal:Date:From:To:CC:Subject:Message-ID:References:
+ MIME-Version:In-Reply-To:X-NVConfidentiality:User-Agent:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:
+ Content-Disposition;
+ b=C7gj/vIdNPlB3V2dfVj6TXn3XYhb8Zew+OP4WC9uFO39MbrpxO7uqPVtmV09FmTeK
+ iFZAGGnokXvM/Xb1a74wKBMLyWee1NINcKOByYQDNjNEXf0lDCzyyuR3eQ187M+J+E
+ Jg6GdhYIHKPOnpsFyNGmHpZhv5bdCXd0SH9DDGJ70erOw91fwbzPbWLPCvVjHDizVS
+ fAGKDti38G0N5KSzAvdurIy1iyFKVyk7mfgaQ1LDtzeESK2uqomzKxC/c0HDUdnSp4
+ PWhMDnMaKpQeyjhcWzm+FbO2XxkOnlPL6fGjlHT947CjoOh6fkStUSz6Z4IFAzcrrn
+ 9+I/sWdfYKyzg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,319 +61,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
- emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============1928237293=="
+Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0583710639=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1928237293==
+--===============0583710639==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wImESwquntN1rKR7cIqYSmWeyBX7YahLf"
+	protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wImESwquntN1rKR7cIqYSmWeyBX7YahLf
-Content-Type: multipart/mixed; boundary="xRidGVp1d6yHl69o0zKI5A4S9mpptNuv8";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- emil.velikov@collabora.com
-Message-ID: <ab8caa07-5b85-11e8-ac16-6128da6c2e36@suse.de>
-Subject: Re: [PATCH 10/14] drm/mgag200: Move device init and cleanup to
- mgag200_drv.c
-References: <20200605135803.19811-1-tzimmermann@suse.de>
- <20200605135803.19811-11-tzimmermann@suse.de>
- <20200605144506.GD204352@ravnborg.org>
-In-Reply-To: <20200605144506.GD204352@ravnborg.org>
-
---xRidGVp1d6yHl69o0zKI5A4S9mpptNuv8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sam
-
-Am 05.06.20 um 16:45 schrieb Sam Ravnborg:
-> On Fri, Jun 05, 2020 at 03:57:59PM +0200, Thomas Zimmermann wrote:
->> Moving the initializer and cleanup functions for device instances
->> to mgag200_drv.c prepares for the conversion to managed code. No
->> functional changes are made. Remove mgag200_main.c, which is now
->> empty.
+On Tue, May 05, 2020 at 05:03:27PM +0100, Emil Velikov wrote:
+> Currently the function heap allocates when we have any payload. Where in
+> many case the payload is 1 byte - ouch.
 >=20
-> The functions are still named xx_load() - which comes from old days
-> where drm_driver has a load callback.
-> We can always fight about naming, but I am just left with the impressio=
-n
-> that better naming exists today.
-
-=2E.. and is available in patch 11. :) The driver will have
-mgag200_device_create() to allocate and initialize a device. The cleanup
-is done automatically, so a _destroy() function is not necessary.
-
-My first attempt on this series was 8 or 9 patches long. I split up some
-of them to make the conversion easier to follow and more logical.
-Occasionally I had to keep obsolete artifacts, such as load and unload,
- in a patch if it benefits the series as a whole.
-
-Best regards
-Thomas
-
-> Just a drive by comment - feel free to ignore.
+> From casual observation, vast majority of the payloads are smaller than
+> 8 bytes - so use a stack array tx[8] to avoid the senseless kmalloc and
+> kfree dance.
 >=20
-> 	Sam
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 >=20
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/mgag200/Makefile       |  3 +-
->>  drivers/gpu/drm/mgag200/mgag200_drv.c  | 68 +++++++++++++++++++++++
->>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  4 --
->>  drivers/gpu/drm/mgag200/mgag200_main.c | 77 -------------------------=
--
->>  4 files changed, 69 insertions(+), 83 deletions(-)
->>  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_main.c
->>
->> diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag20=
-0/Makefile
->> index e6a933874a88c..42fedef538826 100644
->> --- a/drivers/gpu/drm/mgag200/Makefile
->> +++ b/drivers/gpu/drm/mgag200/Makefile
->> @@ -1,5 +1,4 @@
->>  # SPDX-License-Identifier: GPL-2.0-only
->> -mgag200-y   :=3D mgag200_drv.o mgag200_i2c.o mgag200_main.o mgag200_m=
-m.o \
->> -	       mgag200_mode.o
->> +mgag200-y   :=3D mgag200_drv.o mgag200_i2c.o mgag200_mm.o mgag200_mod=
-e.o
->> =20
->>  obj-$(CONFIG_DRM_MGAG200) +=3D mgag200.o
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/m=
-gag200/mgag200_drv.c
->> index ad74e02d8f251..f8bb24199643d 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
->> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
->> @@ -39,6 +39,74 @@ static struct drm_driver mgag200_driver =3D {
->>  	DRM_GEM_SHMEM_DRIVER_OPS,
->>  };
->> =20
->> +/*
->> + * DRM device
->> + */
->> +
->> +static int mgag200_driver_load(struct drm_device *dev, unsigned long =
-flags)
->> +{
->> +	struct mga_device *mdev;
->> +	int ret, option;
->> +
->> +	mdev =3D devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNE=
-L);
->> +	if (mdev =3D=3D NULL)
->> +		return -ENOMEM;
->> +	dev->dev_private =3D (void *)mdev;
->> +	mdev->dev =3D dev;
->> +
->> +	mdev->flags =3D mgag200_flags_from_driver_data(flags);
->> +	mdev->type =3D mgag200_type_from_driver_data(flags);
->> +
->> +	pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
->> +	mdev->has_sdram =3D !(option & (1 << 14));
->> +
->> +	/* BAR 0 is the framebuffer, BAR 1 contains registers */
->> +	mdev->rmmio_base =3D pci_resource_start(dev->pdev, 1);
->> +	mdev->rmmio_size =3D pci_resource_len(dev->pdev, 1);
->> +
->> +	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
->> +				     mdev->rmmio_size, "mgadrmfb_mmio")) {
->> +		drm_err(dev, "can't reserve mmio registers\n");
->> +		return -ENOMEM;
->> +	}
->> +
->> +	mdev->rmmio =3D pcim_iomap(dev->pdev, 1, 0);
->> +	if (mdev->rmmio =3D=3D NULL)
->> +		return -ENOMEM;
->> +
->> +	/* stash G200 SE model number for later use */
->> +	if (IS_G200_SE(mdev)) {
->> +		mdev->unique_rev_id =3D RREG32(0x1e24);
->> +		drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
->> +			mdev->unique_rev_id);
->> +	}
->> +
->> +	ret =3D mgag200_mm_init(mdev);
->> +	if (ret)
->> +		goto err_mm;
->> +
->> +	ret =3D mgag200_modeset_init(mdev);
->> +	if (ret) {
->> +		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
->> +		goto err_mm;
->> +	}
->> +
->> +	return 0;
->> +
->> +err_mm:
->> +	dev->dev_private =3D NULL;
->> +	return ret;
->> +}
->> +
->> +static void mgag200_driver_unload(struct drm_device *dev)
->> +{
->> +	struct mga_device *mdev =3D to_mga_device(dev);
->> +
->> +	if (mdev =3D=3D NULL)
->> +		return;
->> +	dev->dev_private =3D NULL;
->> +}
->> +
->>  /*
->>   * PCI driver
->>   */
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/m=
-gag200/mgag200_drv.h
->> index 7b6e6827a9a21..b38e5ce4ee20b 100644
->> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
->> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
->> @@ -188,10 +188,6 @@ mgag200_flags_from_driver_data(kernel_ulong_t dri=
-ver_data)
->>  				/* mgag200_mode.c */
->>  int mgag200_modeset_init(struct mga_device *mdev);
->> =20
->> -				/* mgag200_main.c */
->> -int mgag200_driver_load(struct drm_device *dev, unsigned long flags);=
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_ds=
+i.c
+> index 55531895dde6..b96d5b4629d7 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -748,26 +748,26 @@ ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *=
+dsi, u8 cmd,
+>  {
+>  	ssize_t err;
+>  	size_t size;
+> +	u8 stack_tx[8];
+>  	u8 *tx;
+> =20
+> -	if (len > 0) {
+> -		size =3D 1 + len;
+> -
+> +	size =3D 1 + len;
+> +	if (len > ARRAY_SIZE(stack_tx) - 1) {
 
->> -void mgag200_driver_unload(struct drm_device *dev);
->> -
->>  				/* mgag200_i2c.c */
->>  struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev);
->>  void mgag200_i2c_destroy(struct mga_i2c_chan *i2c);
->> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/=
-mgag200/mgag200_main.c
->> deleted file mode 100644
->> index 49bcdfcb40a4e..0000000000000
->> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
->> +++ /dev/null
->> @@ -1,77 +0,0 @@
->> -// SPDX-License-Identifier: GPL-2.0-only
->> -/*
->> - * Copyright 2010 Matt Turner.
->> - * Copyright 2012 Red Hat
->> - *
->> - * Authors: Matthew Garrett
->> - *          Matt Turner
->> - *          Dave Airlie
->> - */
->> -
->> -#include <linux/pci.h>
->> -
->> -#include "mgag200_drv.h"
->> -
->> -int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
->> -{
->> -	struct mga_device *mdev;
->> -	int ret, option;
->> -
->> -	mdev =3D devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNE=
-L);
->> -	if (mdev =3D=3D NULL)
->> -		return -ENOMEM;
->> -	dev->dev_private =3D (void *)mdev;
->> -	mdev->dev =3D dev;
->> -
->> -	mdev->flags =3D mgag200_flags_from_driver_data(flags);
->> -	mdev->type =3D mgag200_type_from_driver_data(flags);
->> -
->> -	pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
->> -	mdev->has_sdram =3D !(option & (1 << 14));
->> -
->> -	/* BAR 0 is the framebuffer, BAR 1 contains registers */
->> -	mdev->rmmio_base =3D pci_resource_start(dev->pdev, 1);
->> -	mdev->rmmio_size =3D pci_resource_len(dev->pdev, 1);
->> -
->> -	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
->> -				     mdev->rmmio_size, "mgadrmfb_mmio")) {
->> -		drm_err(dev, "can't reserve mmio registers\n");
->> -		return -ENOMEM;
->> -	}
->> -
->> -	mdev->rmmio =3D pcim_iomap(dev->pdev, 1, 0);
->> -	if (mdev->rmmio =3D=3D NULL)
->> -		return -ENOMEM;
->> -
->> -	/* stash G200 SE model number for later use */
->> -	if (IS_G200_SE(mdev)) {
->> -		mdev->unique_rev_id =3D RREG32(0x1e24);
->> -		drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
->> -			mdev->unique_rev_id);
->> -	}
->> -
->> -	ret =3D mgag200_mm_init(mdev);
->> -	if (ret)
->> -		goto err_mm;
->> -
->> -	ret =3D mgag200_modeset_init(mdev);
->> -	if (ret) {
->> -		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
->> -		goto err_mm;
->> -	}
->> -
->> -	return 0;
->> -
->> -err_mm:
->> -	dev->dev_private =3D NULL;
->> -	return ret;
->> -}
->> -
->> -void mgag200_driver_unload(struct drm_device *dev)
->> -{
->> -	struct mga_device *mdev =3D to_mga_device(dev);
->> -
->> -	if (mdev =3D=3D NULL)
->> -		return;
->> -	dev->dev_private =3D NULL;
->> -}
->> --=20
->> 2.26.2
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+I think it would be clearer to do:
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+	if (size > ARRAY_SIZE(stack_tx))
 
+but either way:
 
---xRidGVp1d6yHl69o0zKI5A4S9mpptNuv8--
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
---wImESwquntN1rKR7cIqYSmWeyBX7YahLf
+--zhXaljGHf11kAtnf
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7af6MACgkQaA3BHVML
-eiNQGQf/TOFD1heJdt/kAajqLVeGwmdzAC1b43DurWMN2P2QNG8dpcdl0ucwLhQm
-JhSj4e95UISrXMqfwfr0sRLGZ9C12T0yf302bQMkA/IuMjwmfZyBV8T/ZNEt5oUP
-4vnzDn8TtMlEoFn8rqK1zM+uDwfB7U3KQqahU3lQKpRdAabI2KajfvQRjp3qDHGv
-x8aI4DkFWvRTwsCjCheJCWZa6iHaeCwNjdWMLerofDNziGKEsFi34XCCerWZ3G/Y
-erVB9VkzOVKR4mQS27Vw67x0+cRdOxtE9GhzlIxXE959fTXmPnL+7FAEJIvfwnkf
-gCptOQ8g2y4ZusDV71NKRrvmvrgmow==
-=p0SO
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7agEwACgkQ3SOs138+
+s6FZFBAAiOaIVVnJD8OOSCt7DKABkRAsZEx4T30bJsmThnn5EgoOBxOZK3Do6W0Z
+Dka9iho5p8ATX5eAwFPZNyLxs3PJSTukkZfrby1yFRqkDV9V1LK+9vxJc4Mmzexv
+m9DkKLiQAJULPSomtXXk0xGi9uUcCUX14P9AzozZVUMPMpQySAcBAga3X2PgVyat
+D6t+U/TVSGJmCKsSA/Y0YwCOofMShNZhIZnxjHc3DX0Kg9tTPDS2XwzMqUh+Z9sU
+0DtSzx8bTRqQWMoLaYk8JzxabmYJ/LfsGeLpLoCKkkpdaY7JRvmw9osqmpYTJDlH
+/M07364eWDY+HT+zvyfoxJ0d14xKehBDKxDBcpyfytT+KjcFPsWMR2YehUnPBe4V
+X//SK60y2WUPDGEhdrfRQ9o70DM1lesSfFPBmcD0zP58UFjJ6d9u/kW/6GHkrlQl
+Z05bwz8xRbG9QUDowQx/AKdp7Cfxj+nG8fHBsSdSfaCp7hWF4OSO7fONupm9bqZi
+lj2ElLu78cbDAuvcgqHznTkbOZK6gAIhKz7bJM7VS2SRCHu4eLvi94VQBO0RQCla
+itgie3oDuvn6gLaK/mNEttC6MScOPuGz2g5cQ4nGWe0Grb84BqTqijGxiDrJ24Fb
+5fjKA+CHRBSUrZqv+32JKj5P9+EjjMkQ4rfkMbhIm+yCKr7+WD4=
+=TUvx
 -----END PGP SIGNATURE-----
 
---wImESwquntN1rKR7cIqYSmWeyBX7YahLf--
+--zhXaljGHf11kAtnf--
 
---===============1928237293==
+--===============0583710639==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -389,4 +151,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1928237293==--
+--===============0583710639==--
