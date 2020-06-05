@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174831EF226
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:34:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 762511EF227
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 09:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18BB66E897;
-	Fri,  5 Jun 2020 07:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAAF6E898;
+	Fri,  5 Jun 2020 07:33:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E19936E88F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 07:33:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BA86E897
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 07:33:18 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 987F2B29B;
- Fri,  5 Jun 2020 07:33:18 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3DFD6B29D;
+ Fri,  5 Jun 2020 07:33:19 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
@@ -33,9 +33,10 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 39/43] drm/tve200: Use GEM CMA object functions
-Date: Fri,  5 Jun 2020 09:32:43 +0200
-Message-Id: <20200605073247.4057-40-tzimmermann@suse.de>
+Subject: [PATCH v3 40/43] drm/tve200: Set GEM CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
+Date: Fri,  5 Jun 2020 09:32:44 +0200
+Message-Id: <20200605073247.4057-41-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
@@ -60,46 +61,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
-allocates the object and sets CMA's default object functions. Corresponding
-callbacks in struct drm_driver are cleared. No functional changes are made.
-
-Driver and object-function instances use the same callback functions, with
-the exception of vunmap. The implementation of vunmap is empty and left out
-in CMA's default object functions.
-
-v3:
-	* convert to DRIVER_OPS macro in a separate patch
+DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
+to their defaults. No functional changes are made.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/tve200/tve200_drv.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/tve200/tve200_drv.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 00ba9e5ce1307..f10d5bb1323ca 100644
+index f10d5bb1323ca..c3aa39bd38ecd 100644
 --- a/drivers/gpu/drm/tve200/tve200_drv.c
 +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -147,16 +147,12 @@ static struct drm_driver tve200_drm_driver = {
+@@ -147,13 +147,7 @@ static struct drm_driver tve200_drm_driver = {
  	.major = 1,
  	.minor = 0,
  	.patchlevel = 0,
-+	.gem_create_object = drm_gem_cma_create_object_default_funcs,
- 	.dumb_create = drm_gem_cma_dumb_create,
--	.gem_free_object_unlocked = drm_gem_cma_free_object,
--	.gem_vm_ops = &drm_gem_cma_vm_ops,
- 
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
- 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_vmap = drm_gem_cma_prime_vmap,
--	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
- 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+-	.gem_create_object = drm_gem_cma_create_object_default_funcs,
+-	.dumb_create = drm_gem_cma_dumb_create,
+-
+-	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+-	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_mmap = drm_gem_cma_prime_mmap,
++	DRM_GEM_CMA_DRIVER_OPS,
  };
  
+ static int tve200_probe(struct platform_device *pdev)
 -- 
 2.26.2
 
