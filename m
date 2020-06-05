@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDA21EF348
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 10:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110E91EF6F9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 14:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039BA6E8BC;
-	Fri,  5 Jun 2020 08:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782626E848;
+	Fri,  5 Jun 2020 12:03:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268726E8BC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 08:40:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 388CE27C;
- Fri,  5 Jun 2020 10:40:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1591346444;
- bh=qeOMSh9LCZzBcN478pFcjTQ8N6O1QJ8KVWwqw52Pegg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IDlQsRutMZzgiWC/SkKG+jbkH3YM3NoYOb1c+tZw5kf5eKC1IyAq4yc5/KR3xV1sF
- 8kWP8VUasn1gT/IYRmMLG/G2/rn0R60lJnznUZ5M+WRM1K9UlqvdpW9P+387aZukzU
- Tnkqa00FU3UJQjIn1ZjG4Z+s4JSAL6m08O6vHKwI=
-Date: Fri, 5 Jun 2020 11:40:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 01/43] drm/cma-helper: Rename symbols from
- drm_cma_gem_ to drm_gem_cma_
-Message-ID: <20200605084026.GB11426@pendragon.ideasonboard.com>
-References: <20200605073247.4057-1-tzimmermann@suse.de>
- <20200605073247.4057-2-tzimmermann@suse.de>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002DB6E848
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 12:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds201912;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=y9ittHD8YGkkU5m8rej1IvZl7iF631YkkM7rL3cbOmo=; b=N3dmvrDSvACLFkXDo0XEdH5ECv
+ 5S92bmVvwop0EGyMT2H2ivIpjEL1Kme+o1x2U7JpxQ0561FIlzDxrB0oai0SwmzntTmlGXvU75f6O
+ 2Qi1LIEhomZ/bo0ZvVWrfd21PIcY4w6xTWoIW8Pb7KBy72LCFpzJ6QqSFaORCLG1/ZKMfMBb/9fIe
+ dh+CP1CuBE4Q/ErXvEcd420XOfRDgB0eQLf5qNEgv67eJBDqy0dcZyuMgy2C9rcSgdFxx8EFD8tQX
+ KZ7oNSV/Moei6fe6opg17pViybRsd/sdewkm72viu/jsPmRm1EoB3Y+3rD8HrmPxlFrNgdqdQFiBO
+ 2Q4uXPtQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63447
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1jhB4K-0003C5-RJ; Fri, 05 Jun 2020 14:03:28 +0200
+Subject: Re: [PATCH v3 4/6] drm: Add Generic USB Display driver
+To: Peter Stuge <peter@stuge.se>, Alan Stern <stern@rowland.harvard.edu>
+References: <20200529175643.46094-1-noralf@tronnes.org>
+ <20200529175643.46094-5-noralf@tronnes.org>
+ <20200529224531.22261.qmail@stuge.se>
+ <614b0b0d-44d7-22e5-339d-cb8a13b426ac@tronnes.org>
+ <20200602001207.17171.qmail@stuge.se>
+ <20200602023254.GB15540@rowland.harvard.edu>
+ <20200602052150.1505.qmail@stuge.se>
+ <20200602152700.GB31640@rowland.harvard.edu>
+ <20200602183838.29988.qmail@stuge.se>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <d3d047a1-8e71-e937-36a3-f1f458b7edf5@tronnes.org>
+Date: Fri, 5 Jun 2020 14:03:26 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200605073247.4057-2-tzimmermann@suse.de>
+In-Reply-To: <20200602183838.29988.qmail@stuge.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,133 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- philippe.cornu@st.com, paul@crapouillou.net, mihail.atanassov@arm.com,
- sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de,
- abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, joel@jms.id.au, linux-imx@nxp.com,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, andrew@aj.id.au, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, khilman@baylibre.com,
- zourongrong@gmail.com, shawnguo@kernel.org
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-Thank you for the patch.
-
-On Fri, Jun 05, 2020 at 09:32:05AM +0200, Thomas Zimmermann wrote:
-> This fixes the naming of several symbols within CMA helpers. No functional
-> changes are made.
+Den 02.06.2020 20.38, skrev Peter Stuge:
+> Alan Stern wrote:
+>>>> A gadget driver can STALL in response to a control-OUT data packet,
+>>>> but only before it has seen the packet.
+>>>
+>>> How can it do that for OUT, and IN if possible there too?
+>>
+>> In the way described just above: The gadget driver's SETUP handler tells 
+>> the UDC to stall the data packet.
+>>
+>>> Is it related to f->setup() returning < 0 ?
+>>
+>> Yes; the composite core interprets such a value as meaning to STALL 
+>> endpoint 0.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thank you for the patch.
-
-Speaking of naming, I wish we could rename drm_gem_cma_* to something
-else, as those helpers don't use CMA directly (and may not use it at
-all), but I think that would be too much intrusive changes for too
-little gain :-(
-
-> ---
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c |  2 +-
->  drivers/gpu/drm/drm_gem_cma_helper.c    | 10 +++++-----
->  include/drm/drm_gem_cma_helper.h        |  4 ++--
->  3 files changed, 8 insertions(+), 8 deletions(-)
+> Thanks a lot for confirming this.
 > 
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index 6b27242b9ee3c..5e7ea0459d018 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -188,7 +188,7 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
->  
->  static struct drm_driver aspeed_gfx_driver = {
->  	.driver_features        = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_create_object	= drm_cma_gem_create_object_default_funcs,
-> +	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
->  	.dumb_create		= drm_gem_cma_dumb_create,
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index b3db3ca7bd7a7..842e2fa332354 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -572,7 +572,7 @@ void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vunmap);
->  
-> -static const struct drm_gem_object_funcs drm_cma_gem_default_funcs = {
-> +static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
->  	.free = drm_gem_cma_free_object,
->  	.print_info = drm_gem_cma_print_info,
->  	.get_sg_table = drm_gem_cma_prime_get_sg_table,
-> @@ -581,7 +581,7 @@ static const struct drm_gem_object_funcs drm_cma_gem_default_funcs = {
->  };
->  
->  /**
-> - * drm_cma_gem_create_object_default_funcs - Create a CMA GEM object with a
-> + * drm_gem_cma_create_object_default_funcs - Create a CMA GEM object with a
->   *                                           default function table
->   * @dev: DRM device
->   * @size: Size of the object to allocate
-> @@ -593,7 +593,7 @@ static const struct drm_gem_object_funcs drm_cma_gem_default_funcs = {
->   * A pointer to a allocated GEM object or an error pointer on failure.
->   */
->  struct drm_gem_object *
-> -drm_cma_gem_create_object_default_funcs(struct drm_device *dev, size_t size)
-> +drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size)
->  {
->  	struct drm_gem_cma_object *cma_obj;
->  
-> @@ -601,11 +601,11 @@ drm_cma_gem_create_object_default_funcs(struct drm_device *dev, size_t size)
->  	if (!cma_obj)
->  		return NULL;
->  
-> -	cma_obj->base.funcs = &drm_cma_gem_default_funcs;
-> +	cma_obj->base.funcs = &drm_gem_cma_default_funcs;
->  
->  	return &cma_obj->base;
->  }
-> -EXPORT_SYMBOL(drm_cma_gem_create_object_default_funcs);
-> +EXPORT_SYMBOL(drm_gem_cma_create_object_default_funcs);
->  
->  /**
->   * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
-> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-> index 947ac95eb24a9..64b7e9d42129a 100644
-> --- a/include/drm/drm_gem_cma_helper.h
-> +++ b/include/drm/drm_gem_cma_helper.h
-> @@ -107,7 +107,7 @@ void *drm_gem_cma_prime_vmap(struct drm_gem_object *obj);
->  void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
->  
->  struct drm_gem_object *
-> -drm_cma_gem_create_object_default_funcs(struct drm_device *dev, size_t size);
-> +drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
->  
->  /**
->   * DRM_GEM_CMA_VMAP_DRIVER_OPS - CMA GEM driver operations ensuring a virtual
-> @@ -118,7 +118,7 @@ drm_cma_gem_create_object_default_funcs(struct drm_device *dev, size_t size);
->   * imported buffers.
->   */
->  #define DRM_GEM_CMA_VMAP_DRIVER_OPS \
-> -	.gem_create_object	= drm_cma_gem_create_object_default_funcs, \
-> +	.gem_create_object	= drm_gem_cma_create_object_default_funcs, \
->  	.dumb_create		= drm_gem_cma_dumb_create, \
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
+> 
+>>> The spec also allows NAK, but the gadget code seems to not (need to?)
+>>> explicitly support that. Can you comment on this as well?
+>>
+>> If the gadget driver doesn't submit a usb_request then the UDC will 
+>> reply with NAK.
+> 
+> And thanks for this as well.
+> 
+> 
+>>> a status request so I can know the result of the operation the device has
+>>> performed.
+> ..
+>> There are two reasonable approaches you could use.  One is to have a 
+>> vendor-specific control request to get the result of the preceding 
+>> operation.
+> ..
+>> The other approach is to send the status data over a bulk-IN endpoint.
+> 
+> I've tried to explain a third approach, which I think fits well because the
+> status is only a "Ready" flag - ie. a memory barrier or flow control,
+> to make the host not send data OUT.
+> 
+> I'm proposing that the gadget should NAK on data OUT when it isn't Ready, and
+> that the host driver shouldn't query status but simply send data when it has.
+> 
+> Per Alans description the NAK happens automatically if the gadget driver has
+> no usb_request pending while it is processing previously received data.
+> 
+> On the host that NAK makes the host controller retry automatically until
+> transfer success, timeout or fatal error.
+> 
+> 
+>> It would have to be formatted in such a way that the host could 
+>> recognize it as a status packet and not some other sort of data packet.
+> 
+> For host notification of status changes other than Ready I really like
+> such an IN endpoint, but preferably an interrupt endpoint.
+> 
+> To avoid the formatting problem each data packet could be one full status
+> message. That way the host would always receive a known data structure.
+> Interrupt packets can be max 64 byte. Noralf, do you think that's enough
+> for everyone in the first version?
+> 
 
--- 
-Regards,
+I'm going through some treatment that turned out to be worse than
+expected, so sadly I have to put this project on hold until my body
+recovers.
 
-Laurent Pinchart
+Noralf.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
