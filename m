@@ -2,26 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196301EF9BE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10FF1EF9C2
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6628B6E8F1;
-	Fri,  5 Jun 2020 13:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDBE6E8F8;
+	Fri,  5 Jun 2020 13:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696286E8F1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B9106E8F2
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:58:08 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5DE09ACF9;
+ by mx2.suse.de (Postfix) with ESMTP id 7FA44AD1E;
  Fri,  5 Jun 2020 13:58:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
  emil.velikov@collabora.com, kraxel@redhat.com
-Subject: [PATCH 07/14] drm/mgag200: Switch to managed MM
-Date: Fri,  5 Jun 2020 15:57:56 +0200
-Message-Id: <20200605135803.19811-8-tzimmermann@suse.de>
+Subject: [PATCH 08/14] drm/mgag200: Separate DRM and PCI functionality from
+ each other
+Date: Fri,  5 Jun 2020 15:57:57 +0200
+Message-Id: <20200605135803.19811-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605135803.19811-1-tzimmermann@suse.de>
 References: <20200605135803.19811-1-tzimmermann@suse.de>
@@ -44,109 +45,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The memory-management code now cleans up automatically as part of
-device destruction.
+Moving the DRM driver structures from the middle of the PCI code to
+the top of the file makes it more readable. Also remove an obsolete
+comment.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 -
- drivers/gpu/drm/mgag200/mgag200_main.c |  5 +----
- drivers/gpu/drm/mgag200/mgag200_mm.c   | 28 ++++++++++++++------------
- 3 files changed, 16 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_drv.c | 42 +++++++++++++--------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index cd786ffe319b8..7b6e6827a9a21 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -198,6 +198,5 @@ void mgag200_i2c_destroy(struct mga_i2c_chan *i2c);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 140ae86082c8e..670e12d57dea8 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -17,17 +17,31 @@
  
- 				/* mgag200_mm.c */
- int mgag200_mm_init(struct mga_device *mdev);
--void mgag200_mm_fini(struct mga_device *mdev);
- 
- #endif				/* __MGAG200_DRV_H__ */
-diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-index e9ad783c2b44d..49bcdfcb40a4e 100644
---- a/drivers/gpu/drm/mgag200/mgag200_main.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_main.c
-@@ -57,13 +57,11 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
- 	ret = mgag200_modeset_init(mdev);
- 	if (ret) {
- 		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
--		goto err_mgag200_mm_fini;
-+		goto err_mm;
- 	}
- 
- 	return 0;
- 
--err_mgag200_mm_fini:
--	mgag200_mm_fini(mdev);
- err_mm:
- 	dev->dev_private = NULL;
- 	return ret;
-@@ -75,6 +73,5 @@ void mgag200_driver_unload(struct drm_device *dev)
- 
- 	if (mdev == NULL)
- 		return;
--	mgag200_mm_fini(mdev);
- 	dev->dev_private = NULL;
- }
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
-index f56b0456994f4..1b1e5ec5d1ceb 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mm.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mm.c
-@@ -28,6 +28,8 @@
- 
- #include <linux/pci.h>
- 
-+#include <drm/drm_managed.h>
-+
  #include "mgag200_drv.h"
  
- static size_t mgag200_probe_vram(struct mga_device *mdev, void __iomem *mem,
-@@ -73,6 +75,18 @@ static size_t mgag200_probe_vram(struct mga_device *mdev, void __iomem *mem,
- 	return offset - 65536;
+-/*
+- * This is the generic driver code. This binds the driver to the drm core,
+- * which then performs further device association and calls our graphics init
+- * functions
+- */
+-
+ int mgag200_modeset = -1;
+ MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+ module_param_named(modeset, mgag200_modeset, int, 0400);
+ 
+-static struct drm_driver driver;
++/*
++ * DRM driver
++ */
++
++DEFINE_DRM_GEM_FOPS(mgag200_driver_fops);
++
++static struct drm_driver driver = {
++	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
++	.fops = &mgag200_driver_fops,
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
++	DRM_GEM_SHMEM_DRIVER_OPS,
++};
++
++/*
++ * PCI driver
++ */
+ 
+ static const struct pci_device_id pciidlist[] = {
+ 	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
+@@ -91,20 +105,6 @@ static void mga_pci_remove(struct pci_dev *pdev)
+ 	drm_dev_put(dev);
  }
  
-+static void mgag200_mm_release(struct drm_device *dev, void *ptr)
-+{
-+	struct mga_device *mdev = to_mga_device(dev);
-+
-+	mdev->vram_fb_available = 0;
-+	iounmap(mdev->vram);
-+	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
-+				pci_resource_len(dev->pdev, 0));
-+	arch_phys_wc_del(mdev->fb_mtrr);
-+	mdev->fb_mtrr = 0;
-+}
-+
- int mgag200_mm_init(struct mga_device *mdev)
- {
- 	struct drm_device *dev = mdev->dev;
-@@ -104,22 +118,10 @@ int mgag200_mm_init(struct mga_device *mdev)
- 
- 	mdev->vram_fb_available = mdev->mc.vram_size;
- 
--	return 0;
-+	return drmm_add_action_or_reset(dev, mgag200_mm_release, NULL);
- 
- err_arch_phys_wc_del:
- 	arch_phys_wc_del(mdev->fb_mtrr);
- 	arch_io_free_memtype_wc(start, len);
- 	return ret;
- }
+-DEFINE_DRM_GEM_FOPS(mgag200_driver_fops);
 -
--void mgag200_mm_fini(struct mga_device *mdev)
--{
--	struct drm_device *dev = mdev->dev;
+-static struct drm_driver driver = {
+-	.driver_features = DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
+-	.fops = &mgag200_driver_fops,
+-	.name = DRIVER_NAME,
+-	.desc = DRIVER_DESC,
+-	.date = DRIVER_DATE,
+-	.major = DRIVER_MAJOR,
+-	.minor = DRIVER_MINOR,
+-	.patchlevel = DRIVER_PATCHLEVEL,
+-	DRM_GEM_SHMEM_DRIVER_OPS,
+-};
 -
--	mdev->vram_fb_available = 0;
--	iounmap(mdev->vram);
--	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
--				pci_resource_len(dev->pdev, 0));
--	arch_phys_wc_del(mdev->fb_mtrr);
--	mdev->fb_mtrr = 0;
--}
+ static struct pci_driver mgag200_pci_driver = {
+ 	.name = DRIVER_NAME,
+ 	.id_table = pciidlist,
 -- 
 2.26.2
 
