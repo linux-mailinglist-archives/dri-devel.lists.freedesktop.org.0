@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0D81EFBB9
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 16:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BFE1EFBD9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 16:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9FBB6E921;
-	Fri,  5 Jun 2020 14:45:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99FB16E92B;
+	Fri,  5 Jun 2020 14:50:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAFD6E914
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 14:45:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 413F06E92B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 14:50:43 +0000 (UTC)
 Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 9E42480475;
- Fri,  5 Jun 2020 16:45:07 +0200 (CEST)
-Date: Fri, 5 Jun 2020 16:45:06 +0200
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 482EA8050B;
+ Fri,  5 Jun 2020 16:50:41 +0200 (CEST)
+Date: Fri, 5 Jun 2020 16:50:39 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 10/14] drm/mgag200: Move device init and cleanup to
- mgag200_drv.c
-Message-ID: <20200605144506.GD204352@ravnborg.org>
+Subject: Re: [PATCH 00/14] drm/mgag200: Use managed interfaces for auto-cleanup
+Message-ID: <20200605145039.GE204352@ravnborg.org>
 References: <20200605135803.19811-1-tzimmermann@suse.de>
- <20200605135803.19811-11-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200605135803.19811-11-tzimmermann@suse.de>
+In-Reply-To: <20200605135803.19811-1-tzimmermann@suse.de>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
  a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=QtyzL-hcWMSKyuPidUsA:9 a=bC54Ag5K3dHrfP7-:21
- a=Sq5YOcThdki28LUx:21 a=CjuIK1q_8ugA:10
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=xcGwryNYkNJKYVGtu1UA:9
+ a=ws7rAwUjGMybu8BN:21 a=efSoKNM3MlFlI9Vo:21 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,219 +51,108 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 05, 2020 at 03:57:59PM +0200, Thomas Zimmermann wrote:
-> Moving the initializer and cleanup functions for device instances
-> to mgag200_drv.c prepares for the conversion to managed code. No
-> functional changes are made. Remove mgag200_main.c, which is now
-> empty.
+Hi Thomas.
 
-The functions are still named xx_load() - which comes from old days
-where drm_driver has a load callback.
-We can always fight about naming, but I am just left with the impression
-that better naming exists today.
-Just a drive by comment - feel free to ignore.
+On Fri, Jun 05, 2020 at 03:57:49PM +0200, Thomas Zimmermann wrote:
+> This patchset cleans up mgag200 device initialization, embeds the
+> DRM device instance in struct mga_device and finally converts device
+> initialization to managed interfaces.
+> 
+> Patches 1 and 2 are actually unrelated. Both remove artifacts that got
+> lost from earlier patch series. We're fixing this before introducing new
+> changes.
+> 
+> Patches 3 to 7 cleanup the memory management code and convert it to
+> managed. Specifically, all MM code is being moved into a the same file.
+> That makes it more obvious what's going on and will allow for further
+> cleanups later on.
+> 
+> Modesetting is already cleaned up automatically, so there's nothing
+> to do here.
+> 
+> With modesetting and MM done, patches 8 to 14 convert the device
+> initialization to managed interfaces. The allocation is split among
+> several functions and we move it to the same place in patches 11 and
+> 12. That is also a good opportunity to embed the DRM device instance
+> in struct mga_device in patch 13. Patch 14 adds managed release of the
+> device structure.
+> 
+> Tested on Matrox G200SE HW.
+> 
+> Thomas Zimmermann (14):
+>   drm/mgag200: Remove declaration of mgag200_mmap() from header file
+>   drm/mgag200: Remove mgag200_cursor.c
+>   drm/mgag200: Use pcim_enable_device()
+>   drm/mgag200: Rename mgag200_ttm.c to mgag200_mm.c
+>   drm/mgag200: Lookup VRAM PCI BAR start and length only once
+>   drm/mgag200: Merge VRAM setup into MM initialization
+>   drm/mgag200: Switch to managed MM
+>   drm/mgag200: Separate DRM and PCI functionality from each other
+>   drm/mgag200: Prefix global names in mgag200_drv.c with mgag200_
+>   drm/mgag200: Move device init and cleanup to mgag200_drv.c
+>   drm/mgag200: Separate device initialization into allocation
+>   drm/mgag200: Allocate device structures in mgag200_driver_load()
+>   drm/mgag200: Embed instance of struct drm_device in struct mga_device
+>   drm/mgag200: Use managed device initialization
+
+Looked through all patches.
+A few triggered some small comments. With the comments addressed all
+patches are:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+My comments can, if any chenges are required, be addressed when
+applying. No need for a next round.
 
 	Sam
 
+
+
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/mgag200/Makefile       |  3 +-
->  drivers/gpu/drm/mgag200/mgag200_drv.c  | 68 +++++++++++++++++++++++
->  drivers/gpu/drm/mgag200/mgag200_drv.h  |  4 --
->  drivers/gpu/drm/mgag200/mgag200_main.c | 77 --------------------------
->  4 files changed, 69 insertions(+), 83 deletions(-)
+>  drivers/gpu/drm/mgag200/Makefile              |   3 +-
+>  drivers/gpu/drm/mgag200/mgag200_cursor.c      | 319 ------------------
+>  drivers/gpu/drm/mgag200/mgag200_drv.c         | 161 ++++++---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h         |  11 +-
+>  drivers/gpu/drm/mgag200/mgag200_main.c        | 155 ---------
+>  .../mgag200/{mgag200_ttm.c => mgag200_mm.c}   |  99 ++++--
+>  drivers/gpu/drm/mgag200/mgag200_mode.c        |  12 +-
+>  7 files changed, 195 insertions(+), 565 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
 >  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_main.c
+>  rename drivers/gpu/drm/mgag200/{mgag200_ttm.c => mgag200_mm.c} (51%)
 > 
-> diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
-> index e6a933874a88c..42fedef538826 100644
-> --- a/drivers/gpu/drm/mgag200/Makefile
-> +++ b/drivers/gpu/drm/mgag200/Makefile
-> @@ -1,5 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -mgag200-y   := mgag200_drv.o mgag200_i2c.o mgag200_main.o mgag200_mm.o \
-> -	       mgag200_mode.o
-> +mgag200-y   := mgag200_drv.o mgag200_i2c.o mgag200_mm.o mgag200_mode.o
->  
->  obj-$(CONFIG_DRM_MGAG200) += mgag200.o
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> index ad74e02d8f251..f8bb24199643d 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-> @@ -39,6 +39,74 @@ static struct drm_driver mgag200_driver = {
->  	DRM_GEM_SHMEM_DRIVER_OPS,
->  };
->  
-> +/*
-> + * DRM device
-> + */
-> +
-> +static int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
-> +{
-> +	struct mga_device *mdev;
-> +	int ret, option;
-> +
-> +	mdev = devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNEL);
-> +	if (mdev == NULL)
-> +		return -ENOMEM;
-> +	dev->dev_private = (void *)mdev;
-> +	mdev->dev = dev;
-> +
-> +	mdev->flags = mgag200_flags_from_driver_data(flags);
-> +	mdev->type = mgag200_type_from_driver_data(flags);
-> +
-> +	pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
-> +	mdev->has_sdram = !(option & (1 << 14));
-> +
-> +	/* BAR 0 is the framebuffer, BAR 1 contains registers */
-> +	mdev->rmmio_base = pci_resource_start(dev->pdev, 1);
-> +	mdev->rmmio_size = pci_resource_len(dev->pdev, 1);
-> +
-> +	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
-> +				     mdev->rmmio_size, "mgadrmfb_mmio")) {
-> +		drm_err(dev, "can't reserve mmio registers\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	mdev->rmmio = pcim_iomap(dev->pdev, 1, 0);
-> +	if (mdev->rmmio == NULL)
-> +		return -ENOMEM;
-> +
-> +	/* stash G200 SE model number for later use */
-> +	if (IS_G200_SE(mdev)) {
-> +		mdev->unique_rev_id = RREG32(0x1e24);
-> +		drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
-> +			mdev->unique_rev_id);
-> +	}
-> +
-> +	ret = mgag200_mm_init(mdev);
-> +	if (ret)
-> +		goto err_mm;
-> +
-> +	ret = mgag200_modeset_init(mdev);
-> +	if (ret) {
-> +		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
-> +		goto err_mm;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_mm:
-> +	dev->dev_private = NULL;
-> +	return ret;
-> +}
-> +
-> +static void mgag200_driver_unload(struct drm_device *dev)
-> +{
-> +	struct mga_device *mdev = to_mga_device(dev);
-> +
-> +	if (mdev == NULL)
-> +		return;
-> +	dev->dev_private = NULL;
-> +}
-> +
->  /*
->   * PCI driver
->   */
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index 7b6e6827a9a21..b38e5ce4ee20b 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -188,10 +188,6 @@ mgag200_flags_from_driver_data(kernel_ulong_t driver_data)
->  				/* mgag200_mode.c */
->  int mgag200_modeset_init(struct mga_device *mdev);
->  
-> -				/* mgag200_main.c */
-> -int mgag200_driver_load(struct drm_device *dev, unsigned long flags);
-> -void mgag200_driver_unload(struct drm_device *dev);
-> -
->  				/* mgag200_i2c.c */
->  struct mga_i2c_chan *mgag200_i2c_create(struct drm_device *dev);
->  void mgag200_i2c_destroy(struct mga_i2c_chan *i2c);
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
-> deleted file mode 100644
-> index 49bcdfcb40a4e..0000000000000
-> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
-> +++ /dev/null
-> @@ -1,77 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * Copyright 2010 Matt Turner.
-> - * Copyright 2012 Red Hat
-> - *
-> - * Authors: Matthew Garrett
-> - *          Matt Turner
-> - *          Dave Airlie
-> - */
-> -
-> -#include <linux/pci.h>
-> -
-> -#include "mgag200_drv.h"
-> -
-> -int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
-> -{
-> -	struct mga_device *mdev;
-> -	int ret, option;
-> -
-> -	mdev = devm_kzalloc(dev->dev, sizeof(struct mga_device), GFP_KERNEL);
-> -	if (mdev == NULL)
-> -		return -ENOMEM;
-> -	dev->dev_private = (void *)mdev;
-> -	mdev->dev = dev;
-> -
-> -	mdev->flags = mgag200_flags_from_driver_data(flags);
-> -	mdev->type = mgag200_type_from_driver_data(flags);
-> -
-> -	pci_read_config_dword(dev->pdev, PCI_MGA_OPTION, &option);
-> -	mdev->has_sdram = !(option & (1 << 14));
-> -
-> -	/* BAR 0 is the framebuffer, BAR 1 contains registers */
-> -	mdev->rmmio_base = pci_resource_start(dev->pdev, 1);
-> -	mdev->rmmio_size = pci_resource_len(dev->pdev, 1);
-> -
-> -	if (!devm_request_mem_region(dev->dev, mdev->rmmio_base,
-> -				     mdev->rmmio_size, "mgadrmfb_mmio")) {
-> -		drm_err(dev, "can't reserve mmio registers\n");
-> -		return -ENOMEM;
-> -	}
-> -
-> -	mdev->rmmio = pcim_iomap(dev->pdev, 1, 0);
-> -	if (mdev->rmmio == NULL)
-> -		return -ENOMEM;
-> -
-> -	/* stash G200 SE model number for later use */
-> -	if (IS_G200_SE(mdev)) {
-> -		mdev->unique_rev_id = RREG32(0x1e24);
-> -		drm_dbg(dev, "G200 SE unique revision id is 0x%x\n",
-> -			mdev->unique_rev_id);
-> -	}
-> -
-> -	ret = mgag200_mm_init(mdev);
-> -	if (ret)
-> -		goto err_mm;
-> -
-> -	ret = mgag200_modeset_init(mdev);
-> -	if (ret) {
-> -		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
-> -		goto err_mm;
-> -	}
-> -
-> -	return 0;
-> -
-> -err_mm:
-> -	dev->dev_private = NULL;
-> -	return ret;
-> -}
-> -
-> -void mgag200_driver_unload(struct drm_device *dev)
-> -{
-> -	struct mga_device *mdev = to_mga_device(dev);
-> -
-> -	if (mdev == NULL)
-> -		return;
-> -	dev->dev_private = NULL;
-> -}
-> -- 
+> --
+> 2.26.2
+> 
+> 
+> Thomas Zimmermann (14):
+>   drm/mgag200: Remove declaration of mgag200_mmap() from header file
+>   drm/mgag200: Remove mgag200_cursor.c
+>   drm/mgag200: Use pcim_enable_device()
+>   drm/mgag200: Rename mgag200_ttm.c to mgag200_mm.c
+>   drm/mgag200: Lookup VRAM PCI BAR start and length only once
+>   drm/mgag200: Merge VRAM setup into MM initialization
+>   drm/mgag200: Switch to managed MM
+>   drm/mgag200: Separate DRM and PCI functionality from each other
+>   drm/mgag200: Prefix global names in mgag200_drv.c with mgag200_
+>   drm/mgag200: Move device init and cleanup to mgag200_drv.c
+>   drm/mgag200: Separate device initialization into allocation
+>   drm/mgag200: Allocate device structures in mgag200_driver_load()
+>   drm/mgag200: Embed instance of struct drm_device in struct mga_device
+>   drm/mgag200: Use managed device initialization
+> 
+>  drivers/gpu/drm/mgag200/Makefile              |   3 +-
+>  drivers/gpu/drm/mgag200/mgag200_cursor.c      | 319 ------------------
+>  drivers/gpu/drm/mgag200/mgag200_drv.c         | 161 ++++++---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h         |  11 +-
+>  drivers/gpu/drm/mgag200/mgag200_main.c        | 155 ---------
+>  .../mgag200/{mgag200_ttm.c => mgag200_mm.c}   |  99 ++++--
+>  drivers/gpu/drm/mgag200/mgag200_mode.c        |  12 +-
+>  7 files changed, 195 insertions(+), 565 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_cursor.c
+>  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_main.c
+>  rename drivers/gpu/drm/mgag200/{mgag200_ttm.c => mgag200_mm.c} (51%)
+> 
+> --
 > 2.26.2
 _______________________________________________
 dri-devel mailing list
