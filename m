@@ -2,30 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4CA1EF9CA
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 15:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CBA1EF9DB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 16:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6607B6E8FE;
-	Fri,  5 Jun 2020 13:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7996E8EE;
+	Fri,  5 Jun 2020 14:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC6116E8F8
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:58:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 39EA6AE65;
- Fri,  5 Jun 2020 13:58:10 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
- emil.velikov@collabora.com, kraxel@redhat.com
-Subject: [PATCH 14/14] drm/mgag200: Use managed device initialization
-Date: Fri,  5 Jun 2020 15:58:03 +0200
-Message-Id: <20200605135803.19811-15-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200605135803.19811-1-tzimmermann@suse.de>
-References: <20200605135803.19811-1-tzimmermann@suse.de>
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6BF46E8EE
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 14:02:29 +0000 (UTC)
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 145DB3AE847
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 13:50:25 +0000 (UTC)
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it
+ [93.34.118.233]) (Authenticated sender: jacopo@jmondi.org)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 4FDF4240009;
+ Fri,  5 Jun 2020 13:49:55 +0000 (UTC)
+Date: Fri, 5 Jun 2020 15:53:15 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
+Message-ID: <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20200527071555.GA23912@lxhi-065.adit-jv.com>
+ <20200605132900.on527xcggg6f6pil@uno.localdomain>
+ <20200605134124.GA28734@lxhi-065.adit-jv.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200605134124.GA28734@lxhi-065.adit-jv.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,97 +43,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: muroya@ksk.co.jp, airlied@linux.ie, mrodin@de.adit-jv.com,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ Eugeniu Rosca <roscaeugeniu@gmail.com>,
+ kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+ gotthard.voellmeke@renesas.com, koji.matsuoka.xm@renesas.com,
+ horms@verge.net.au, seanpaul@chromium.org, michael.dege@renesas.com,
+ Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
+ efriedrich@de.adit-jv.com, ChaitanyaKumar.Borah@in.bosch.com,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ VenkataRajesh.Kalakodima@in.bosch.com,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mgag200 driver now uses managed functions for DRM devices. The
-individual helpers for modesetting and memory managed are already
-covered, so only device allocation and initialization is left for
-conversion.
+Hi Eugeniu
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/mgag200/mgag200_drv.c | 30 +++++++--------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+On Fri, Jun 05, 2020 at 03:41:24PM +0200, Eugeniu Rosca wrote:
+> Hi Jacopo,
+>
+> On Fri, Jun 05, 2020 at 03:29:00PM +0200, Jacopo Mondi wrote:
+> > On Wed, May 27, 2020 at 09:15:55AM +0200, Eugeniu Rosca wrote:
+> > > Could you kindly share the cross compilation steps for your kmsxx fork?
+> >
+> > I usually build it on the target :)
+>
+> Interesting approach. With ARM getting more and more potent, why not? :)
+>
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 6dfb7c5f79e3c..e19660f4a6371 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -95,27 +95,20 @@ mgag200_device_create(struct pci_dev *pdev, unsigned long flags)
- 	struct mga_device *mdev;
- 	int ret;
- 
--	mdev = devm_kzalloc(&pdev->dev, sizeof(*mdev), GFP_KERNEL);
--	if (!mdev)
--		return ERR_PTR(-ENOMEM);
-+	mdev = devm_drm_dev_alloc(&pdev->dev, &mgag200_driver,
-+				  struct mga_device, base);
-+	if (IS_ERR(mdev))
-+		return mdev;
- 	dev = &mdev->base;
- 
--	ret = drm_dev_init(dev, &mgag200_driver, &pdev->dev);
--	if (ret)
--		return ERR_PTR(ret);
--
- 	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 
- 	ret = mgag200_device_init(mdev, flags);
- 	if (ret)
--		goto err_drm_dev_put;
-+		return ERR_PTR(ret);
- 
- 	return mdev;
--
--err_drm_dev_put:
--	drm_dev_put(dev);
--	return ERR_PTR(ret);
- }
- 
- /*
-@@ -151,23 +144,17 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		return ret;
- 
- 	mdev = mgag200_device_create(pdev, ent->driver_data);
--	if (IS_ERR(mdev)) {
--		ret = PTR_ERR(mdev);
--		goto err_drm_dev_put;
--	}
-+	if (IS_ERR(mdev))
-+		return PTR_ERR(mdev);
- 	dev = &mdev->base;
- 
- 	ret = drm_dev_register(dev, ent->driver_data);
- 	if (ret)
--		goto err_drm_dev_put;
-+		return ret;
- 
- 	drm_fbdev_generic_setup(dev, 0);
- 
- 	return 0;
--
--err_drm_dev_put:
--	drm_dev_put(dev);
--	return ret;
- }
- 
- static void mgag200_pci_remove(struct pci_dev *pdev)
-@@ -175,7 +162,6 @@ static void mgag200_pci_remove(struct pci_dev *pdev)
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 
- 	drm_dev_unregister(dev);
--	drm_dev_put(dev);
- }
- 
- static struct pci_driver mgag200_pci_driver = {
--- 
-2.26.2
+For 'small' utilities like kmsxx it's doable
 
+> >
+> > > Just out of curiosity, have you ever tried to pull the display's HDMI
+> > > cable while reading from CM2_LUT_TBL?
+> >
+> > Ahem, not really :) Did I get you right, you mean disconnecting the
+> > HDMI cable from the board ?
+>
+> Right.
+>
+
+So, no, I have not tried. Do you see any intersting failure with the
+mainline version ?
+
+> > >
+> > > At least with the out-of-tree CMM implementation [*], this sends the
+> > > R-Car3 reference targets into an unrecoverable freeze, with no lockup
+> > > reported by the kernel (i.e. looks like an serious HW issue).
+> > >
+> > > >
+> > > > CMM functionalities are retained between suspend/resume cycles (tested with
+> > > > suspend-to-idle) without requiring a re-programming of the LUT tables.
+> > >
+> > > Hmm. Is this backed up by any statement in the HW User's manual?
+> > > This comes in contrast with the original Renesas CMM implementation [**]
+> > > which does make use of suspend (where the freeze actually happens).
+> > >
+> > > Can we infer, based on your statement, that we could also get rid of
+> > > the suspend callback in [**]?
+> >
+> > As Geert (thanks) explained what I've tested with is suspend-to-idle,
+> > which retains the state of the LUT tables (and I assume other
+> > not-yet-implemented CMM features, like CLU). I recall the out-of-tree
+> > driver has suspend/resume routines but I never really tested that.
+>
+> I see. JFYI, there is a flaw in the suspend handling in the out-of-tree
+> CMM patch [*], which renders the SoC unresponsive on HDMI hotplug. The
+> fix is currently under review. Hopefully it will make its way to [*]
+> in the nearest future. Just to keep in mind for the moment when CMM
+> s2ram will become a mainline feature.
+
+Thanks, let's keep this in mind. Next week I'll run a few tests again
+with s2ram and will get back to you.
+
+Thanks
+  j
+
+>
+> > >
+> > > [*] https://github.com/renesas-rcar/du_cmm
+> > > [**] https://github.com/renesas-rcar/du_cmm/blob/c393ed49834bdbc/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0001-drm-rcar-du-Add-DU-CMM-support.patch#L1912
+>
+> --
+> Best regards,
+> Eugeniu Rosca
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
