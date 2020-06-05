@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F1B1EF2DC
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 10:13:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE281EF2E7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 10:14:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A15196E8AF;
-	Fri,  5 Jun 2020 08:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF396E8B0;
+	Fri,  5 Jun 2020 08:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1ED6E8AF
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 08:13:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D4236E8B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 08:14:54 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18BFF253;
- Fri,  5 Jun 2020 10:13:24 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2347127C;
+ Fri,  5 Jun 2020 10:14:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1591344804;
- bh=UbGGfjgfsowCxMW2pruzml/FOrKvjG4r631yn4zNedg=;
+ s=mail; t=1591344893;
+ bh=/T4uRFDEAhjR7uiwq2XcwFGu5fflvaee1Ge9L9yOHzY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bffcTNsjHyPAwZ4FgCfywA35Gyaci1Fy0xAs1l8prFLFH3lo26g5jZkJWKrLUnLfZ
- vdt+RJ2u1wP6hCcBZD8C3f7D6MvwIIhWsQZ5kdGJNndHBg6XXuSTrGtzWswpEedq4Z
- B8zA6atut/f5yHovJXrl2FVUeWLYNTaDGzahIqQw=
-Date: Fri, 5 Jun 2020 11:13:05 +0300
+ b=CoKkxHVTtFY2icsK6p9OpPyjsqsrdki4DPY8ISTJKQAb8VDRdiu+PU8SaKB22HVLt
+ qa4o4/+bzYNBXt0EYVwapHLXzT11C+Rr271x/XGdUqqnde9TyP4y4NNLCv0T0E0P1U
+ VqRE/svtQVk2ig921luwAX6B0CzoYHXFYYA9Tx8k=
+Date: Fri, 5 Jun 2020 11:14:35 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 32/43] drm/shmobile: Set GEM CMA functions with
- DRM_GEM_CMA_DRIVER_OPS
-Message-ID: <20200605081305.GA10638@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 30/43] drm/rcar-du: Set GEM CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
+Message-ID: <20200605081435.GB10638@pendragon.ideasonboard.com>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
- <20200605073247.4057-33-tzimmermann@suse.de>
+ <20200605073247.4057-31-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200605073247.4057-33-tzimmermann@suse.de>
+In-Reply-To: <20200605073247.4057-31-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +71,42 @@ Hi Thomas,
 
 Thank you for the patch.
 
-On Fri, Jun 05, 2020 at 09:32:36AM +0200, Thomas Zimmermann wrote:
-> DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
-> to their defaults. No functional changes are made.
+On Fri, Jun 05, 2020 at 09:32:34AM +0200, Thomas Zimmermann wrote:
+> DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE sets the functions in
+> struct drm_driver to their defaults. No functional changes are
+> made.
+> 
+> v2:
+> 	* update for DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > Acked-by: Emil Velikov <emil.velikov@collabora.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 7 +------
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 7 +------
 >  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> index e209610d4b8a1..26a15c214bd3f 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-> @@ -131,12 +131,7 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
->  static struct drm_driver shmob_drm_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
->  	.irq_handler		= shmob_drm_irq,
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 43610d5bf8820..f53b0ec710850 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -476,12 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+>  
+>  static struct drm_driver rcar_du_driver = {
+>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
 > -	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
 > -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
 > -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
 > -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
 > -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
-> -	.dumb_create		= drm_gem_cma_dumb_create,
-> +	DRM_GEM_CMA_DRIVER_OPS,
->  	.fops			= &shmob_drm_fops,
->  	.name			= "shmob-drm",
->  	.desc			= "Renesas SH Mobile DRM",
+> -	.dumb_create		= rcar_du_dumb_create,
+> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
+>  	.fops			= &rcar_du_fops,
+>  	.name			= "rcar-du",
+>  	.desc			= "Renesas R-Car Display Unit",
 
 -- 
 Regards,
