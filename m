@@ -1,58 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF6D1F0EF3
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F291F0EF5
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C51D66E39B;
-	Sun,  7 Jun 2020 19:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAA26E3C4;
+	Sun,  7 Jun 2020 19:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970AE6E945
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 16:15:54 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id k2so2765005pjs.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jun 2020 09:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fuq8iZ/w30hGFlRF7P+LbLAz0hBlIdSZDfbjIwkl+Ys=;
- b=MttvX8sgmxw6H5NSZaRGauZRhobavEOiAKvRo0ATGJCUoMGnKdk/fOph76//jM0WtB
- hI1o++k/E5WSqsPG3+snSomrZmq03ik1WZV8syJgto7yOOBqR3u1v4d7WyAfNwii+ryQ
- FsTf5b7/qZJwcD4yUmaYBuO/cF/262SwLp/o79UopfS3oCmY3ej3Dd+xK/NPYmmUKb8w
- 0GPNNvBejEWzW+/37kuMLoSuBdUjUc1qfM1t+hS9qzqZEQISQ5d4umuKrVK2VxqZTzoC
- EpEpDSETY+CuB6AmdsG0fGilKthilo6GE7WiOFD42IHE47ErvP0srMy28Ra0Ewh1ae+v
- DkCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fuq8iZ/w30hGFlRF7P+LbLAz0hBlIdSZDfbjIwkl+Ys=;
- b=f13qgKvmvw1DD69E7sDtNN2x8cHt/0FkGuskFnqCtDUYISGrkVrYK6jVgfhhY7WmUr
- JYxU2PJeURUmXNCtdUG/1hVlcFzRNYLcv+tULchkOFzeE1KwzM5F7HYqzum8I/peLPpl
- 2V2PTUzJG2HRkuB96pE5VEdUVTvmSVTOJxH3AlqhViMO4gp5N3hj5HJQdP1I+JFaAXnf
- 8rshY2G+z8SBn9rrYcDwqg+EKzkJ6rSj0tW1XsbeYlJWjVneVoZVFnMF9EwUqAM9Gxbd
- E5l6bAj7ZwouAJmWinWLjjvMlrYvRaoK6CsqPogMWhwZD3SzgS8i+y+e52Z9a5wvV3Nl
- WqIg==
-X-Gm-Message-State: AOAM5313pYMMcmzqqyJn2EQjnAGr4l3tSTwNKznIrzyfG1TkWFB/AA6Q
- 0iciDHNiwz5VUYaCx9kow6Y=
-X-Google-Smtp-Source: ABdhPJw+Yh+6a9DtpZMLVt18+l2rdWHlZ/HrTCVinrjrjK1NAV9KB7wxpACoWzuM2Yd6mArQ1x72xQ==
-X-Received: by 2002:a17:902:bc4c:: with SMTP id
- t12mr10171340plz.141.1591373754191; 
- Fri, 05 Jun 2020 09:15:54 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
- by smtp.gmail.com with ESMTPSA id h17sm62665pgv.41.2020.06.05.09.15.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:15:53 -0700 (PDT)
-From: Chuhong Yuan <hslester96@gmail.com>
-To: 
-Subject: [PATCH v2] fbdev: geode: Add the missed pci_disable_device() in
- gx1fb_map_video_memory()
-Date: Sat,  6 Jun 2020 00:14:58 +0800
-Message-Id: <20200605161458.2513177-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36526E956
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 17:27:24 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id ACC14AFA8;
+ Fri,  5 Jun 2020 17:27:25 +0000 (UTC)
+Message-ID: <f7278849ee08211a6446d7a5a8ffc163751b34bc.camel@suse.de>
+Subject: Re: [PATCH v3 09/13] device core: Introduce multiple dma pfn offsets
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Jim Quinlan <james.quinlan@broadcom.com>, Christoph Hellwig <hch@lst.de>
+Date: Fri, 05 Jun 2020 19:27:16 +0200
+In-Reply-To: <CA+-6iNzutM0jfyHTOVZMn8_-MqHwJMAyoQTGMbU3vPnJKd8USA@mail.gmail.com>
+References: <20200603192058.35296-1-james.quinlan@broadcom.com>
+ <20200603192058.35296-10-james.quinlan@broadcom.com>
+ <09c451e24f62e226e1ceaa0fe5d0a81109cace74.camel@suse.de>
+ <CA+-6iNz1-1wOurKoOJzhbVL0_YP7dbmp0wy1GWkLW_61yhRXyA@mail.gmail.com>
+ <b6784faab54711eae215cfaf7433485f58d1d3f1.camel@suse.de>
+ <CA+-6iNzutM0jfyHTOVZMn8_-MqHwJMAyoQTGMbU3vPnJKd8USA@mail.gmail.com>
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 07 Jun 2020 19:13:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,88 +43,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@osdl.org>, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>,
- linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Adrian Bunk <bunk@stusta.de>, Markus Elfring <Markus.Elfring@web.de>,
- Andres Salomon <dilinger@queued.net>, David Vrabel <dvrabel@arcom.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR
+ \(REMOTEPROC\) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H.
+ Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Wolfram Sang <wsa@kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ David Kershner <david.kershner@unisys.com>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>, "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE" <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Dan Williams <dan.j.williams@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Borislav Petkov <bp@alien8.de>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Mark Brown <broonie@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, "open list:USB
+ SUBSYSTEM" <linux-usb@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1452273182=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Although gx1fb_probe() has handled the failure of gx1fb_map_video_memory()
-partly, it does not call pci_disable_device() as gx1fb_map_video_memory()
-calls pci_enable_device().
-Add the missed function call to fix the bug.
 
-Fixes: 53eed4ec8bcd ("[PATCH] fbdev: geode updates]")
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
-Changes in v2:
-  - Fix the typo in the subject.
-  - Modify the label of error handler.
-  - Refactor the code.
- 
- drivers/video/fbdev/geode/gx1fb_core.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+--===============1452273182==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-YwX3NY+MokiYMCDlDcff"
 
-diff --git a/drivers/video/fbdev/geode/gx1fb_core.c b/drivers/video/fbdev/geode/gx1fb_core.c
-index 5d34d89fb665..15645244e4d0 100644
---- a/drivers/video/fbdev/geode/gx1fb_core.c
-+++ b/drivers/video/fbdev/geode/gx1fb_core.c
-@@ -208,29 +208,39 @@ static int gx1fb_map_video_memory(struct fb_info *info, struct pci_dev *dev)
- 
- 	ret = pci_request_region(dev, 0, "gx1fb (video)");
- 	if (ret < 0)
--		return ret;
-+		goto err_disable_device;
- 	par->vid_regs = pci_ioremap_bar(dev, 0);
- 	if (!par->vid_regs)
--		return -ENOMEM;
-+		goto err_nomem;
- 
--	if (!request_mem_region(gx_base + 0x8300, 0x100, "gx1fb (display controller)"))
--		return -EBUSY;
-+	if (!request_mem_region(gx_base + 0x8300, 0x100,
-+				"gx1fb (display controller)")) {
-+		ret = -EBUSY;
-+		goto err_disable_device;
-+	}
- 	par->dc_regs = ioremap(gx_base + 0x8300, 0x100);
- 	if (!par->dc_regs)
--		return -ENOMEM;
-+		goto err_nomem;
- 
- 	if ((fb_len = gx1_frame_buffer_size()) < 0)
--		return -ENOMEM;
-+		goto err_nomem;
-+
- 	info->fix.smem_start = gx_base + 0x800000;
- 	info->fix.smem_len = fb_len;
- 	info->screen_base = ioremap(info->fix.smem_start, info->fix.smem_len);
- 	if (!info->screen_base)
--		return -ENOMEM;
-+		goto err_nomem;
- 
- 	dev_info(&dev->dev, "%d Kibyte of video memory at 0x%lx\n",
- 		 info->fix.smem_len / 1024, info->fix.smem_start);
- 
- 	return 0;
-+
-+err_nomem:
-+	ret = -ENOMEM;
-+err_disable_device:
-+	pci_disable_device(dev);
-+	return ret;
- }
- 
- static int parse_panel_option(struct fb_info *info)
--- 
-2.26.2
+
+--=-YwX3NY+MokiYMCDlDcff
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Christoph,
+a question arouse, is there a real value to dealing with PFNs (as opposed t=
+o
+real addresses) in the core DMA code/structures? I see that in some cases i=
+t
+eases interacting with mm, but the overwhelming usage of say,
+dev->dma_pfn_offset, involves shifting it.
+
+Hi Jim,
+On Thu, 2020-06-04 at 14:01 -0400, Jim Quinlan wrote:
+> Hi Nicolas,
+
+[...]
+
+> > I understand the need for dev to be around, devm_*() is key. But also i=
+t's
+> > important to keep the functions on purpose. And if of_dma_get_range() s=
+tarts
+> > setting ranges it calls, for the very least, for a function rename. Alt=
+hough
+> > I'd rather split the parsing and setting of ranges as mentioned earlier=
+.
+> > That
+> > said, I get that's a more drastic move.
+>=20
+> I agree with you.  I could do this from device.c:
+>=20
+>         of_dma_get_num_ranges(..., &num_ranges); /* new function */
+>         r =3D devm_kcalloc(dev, num_ranges + 1, sizeof(*r), GFP_KERNEL);
+>         of_dma_get_range(np, &dma_addr, &paddr, &size, r, num_ranges);
+>=20
+> The problem here is that there could be four ranges, all with
+> offset=3D0.  My current code would optimize this case out but the above
+> would have us holding useless memory and looping through the four
+> ranges on every dma <=3D> phys conversion only to add 0.
+
+Point taken. Ultimately it's setting the device's dma ranges in
+of_dma_get_range() that was really bothering me, so if we have to pass the
+device pointer for allocations, be it.
+
+> > Talking about drastic moves. How about getting rid of the concept of
+> > dma_pfn_offset for drivers altogether. Let them provide
+> > dma_pfn_offset_regions
+> > (even when there is only one). I feel it's conceptually nicer, as you'd=
+ be
+> > dealing only in one currency, so to speak, and you'd centralize the bus=
+ DMA
+> > ranges setter function which is always easier to maintain.
+> Do you agree that we have to somehow hang this info on the struct
+> device structure?  Because in the dma2phys() and phys2dma() all you
+> have is the dev parameter.  I don't see how this  can be done w/o
+> involving dev.
+
+Sorry I didn't make myself clear here. What bothers me is having two functi=
+ons
+setting the same device parameter trough different means, I'd be happy to g=
+et
+rid of attach_uniform_dma_pfn_offset(), and always use the same function to=
+ set
+a device's bus dma regions. Something the likes of this comes to mind:
+
+dma_attach_pfn_offset_region(struct device *dev, struct dma_pfn_offset_regi=
+ons *r)
+
+We could maybe use some helper macros for the linear case. But that's the g=
+ist
+of it.
+
+Also, it goes hand in hand with the comment below. Why having a special cas=
+e
+for non sparse DMA offsets in struct dma_pfn_offset_regions? The way I see =
+it,
+in this case, code simplicity is more interesting than a small optimization=
+.
+
+> > I'd go as far as not creating a special case for uniform offsets. Let j=
+ust
+> > set
+> > cpu_end and dma_end to -1 so we always get a match. It's slightly more
+> > compute
+> > heavy, but I don't think it's worth the optimization.
+> Well, there are two subcases here.  One where we do know the bounds
+> and one where we do not.  I suppose for the latter I could have the
+> drivers calling it with begin=3D0 and end=3D~(dma_addr_t)0.  Let me give
+> this some thought...
+>=20
+> > Just my two cents :)
+>=20
+> Worth much more than $0.02 IMO :-)
+
+BTW, would you consider renaming the DMA offset struct to something simpler
+like, struct bus_dma_region? It complements 'dev->bus_dma_limit' better IMO=
+.
+
+> BTW, I tried putting the "if (dev->dma_pfn_offset_map)" clause inside
+> the inline functions but the problem is that it slows the fastpath;
+> consider the following code from dma-direct.h
+>=20
+>         if (dev->dma_pfn_offset_map) {
+>                 unsigned long dma_pfn_offset =3D
+dma_pfn_offset_from_phys_addr(dev, paddr);
+>=20
+>                 dev_addr -=3D ((dma_addr_t)dma_pfn_offset << PAGE_SHIFT);
+>         }
+>         return dev_addr;
+>=20
+> becomes
+>=20
+>         unsigned long dma_pfn_offset =3D dma_pfn_offset_from_phys_addr(de=
+v,
+paddr);
+>=20
+>         dev_addr -=3D ((dma_addr_t)dma_pfn_offset << PAGE_SHIFT);
+>         return dev_addr;
+>=20
+> So those configurations that  have no dma_pfn_offsets are doing an
+> unnecessary shift and add.
+
+Fair enough. Still not a huge difference, but I see the value being the mos=
+t
+common case.
+
+Regards,
+Nicolas
+
+
+--=-YwX3NY+MokiYMCDlDcff
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl7agHQACgkQlfZmHno8
+x/6D4wf8C6l0E7AUohntNHuqqtMhRrh3fE2ar9v2l+Hpq582gasP/VKacDmmQlhJ
+ux+9ZkUFYf9RO/CmM11DNpjVWI1skp2OuI4lSLaC7zneYFOwwqPEcgV0KvcfVFim
+su5CyLgwdHInfwIHrAsM09BZkFDKxtsBCvALQEX203VZB8HEC7XsZS3++KWL9bgy
+gbrqF4hs49vdcjVBbkL+wPY7rVZ6Xt8JJfNVx/VJQQtEyjz6Y2tpvRT8KBlZHJKZ
++k9kV1dG9+UZ1Tw6kOvVrdKdjLODEu+ehKdSwuyyTNQFy6+nVcJoAKuWbPou69//
+CZzrN3RMBphApZhnJwGDXfe99/i3GQ==
+=HHS8
+-----END PGP SIGNATURE-----
+
+--=-YwX3NY+MokiYMCDlDcff--
+
+
+--===============1452273182==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1452273182==--
+
