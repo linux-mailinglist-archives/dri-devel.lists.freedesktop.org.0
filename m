@@ -1,65 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB371EFB9A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 16:40:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9964E1EFB8F
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jun 2020 16:39:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2C86E917;
-	Fri,  5 Jun 2020 14:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D716E916;
+	Fri,  5 Jun 2020 14:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 589 seconds by postgrey-1.36 at gabe;
- Fri, 05 Jun 2020 14:40:54 UTC
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690E86E917;
- Fri,  5 Jun 2020 14:40:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id DD4433F6A7;
- Fri,  5 Jun 2020 16:31:03 +0200 (CEST)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=P1NrJ9Ks; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZzJm3QusKM0P; Fri,  5 Jun 2020 16:30:59 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 750183F628;
- Fri,  5 Jun 2020 16:30:57 +0200 (CEST)
-Received: from localhost.localdomain (unknown [134.134.139.76])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 7F8493601AD;
- Fri,  5 Jun 2020 16:30:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1591367457; bh=WmmKpNHpyNnLQkrBY2MHybJLK6DanaIpP6iniTFoQGE=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=P1NrJ9Ksaz/Mu6lOw3BCKxoGnXwlsK564hqTfU32mVfedyJmsS5c4seF5zeSaZ46q
- FuEfibE+fHQnpa/x39VHqeB3JqC21BmEctstREEAZPA7snFzoBcA/MTtT9uxkwoKDG
- yaqYCBUWv+y/aIgYJaCH0q5RNYvlG+HbUYplB8yE=
-Subject: Re: [PATCH] dma-fence: basic lockdep annotations
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200604081224.863494-4-daniel.vetter@ffwll.ch>
- <20200605132953.899664-1-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <83805409-ad4a-65a3-d9cf-21878308dc92@shipmail.org>
-Date: Fri, 5 Jun 2020 16:30:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2CB6E916
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jun 2020 14:39:04 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 34E88804CE;
+ Fri,  5 Jun 2020 16:39:02 +0200 (CEST)
+Date: Fri, 5 Jun 2020 16:39:00 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 06/14] drm/mgag200: Merge VRAM setup into MM initialization
+Message-ID: <20200605143900.GB204352@ravnborg.org>
+References: <20200605135803.19811-1-tzimmermann@suse.de>
+ <20200605135803.19811-7-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200605132953.899664-1-daniel.vetter@ffwll.ch>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200605135803.19811-7-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=kj9zAlcOel0A:10 a=FCcs20V2Fw_tcJdMj10A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,138 +43,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, linaro-mm-sig@lists.linaro.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ emil.velikov@collabora.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDYvNS8yMCAzOjI5IFBNLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IERlc2lnbiBpcyBzaW1p
-bGFyIHRvIHRoZSBsb2NrZGVwIGFubm90YXRpb25zIGZvciB3b3JrZXJzLCBidXQgd2l0aAo+IHNv
-bWUgdHdpc3RzOgo+Cj4gLSBXZSB1c2UgYSByZWFkLWxvY2sgZm9yIHRoZSBleGVjdXRpb24vd29y
-a2VyL2NvbXBsZXRpb24gc2lkZSwgc28gdGhhdAo+ICAgIHRoaXMgZXhwbGljaXQgYW5ub3RhdGlv
-biBjYW4gYmUgbW9yZSBsaWJlcmFsbHkgc3ByaW5rbGVkIGFyb3VuZC4KPiAgICBXaXRoIHJlYWQg
-bG9ja3MgbG9ja2RlcCBpc24ndCBnb2luZyB0byBjb21wbGFpbiBpZiB0aGUgcmVhZC1zaWRlCj4g
-ICAgaXNuJ3QgbmVzdGVkIHRoZSBzYW1lIHdheSB1bmRlciBhbGwgY2lyY3Vtc3RhbmNlcywgc28g
-QUJCQSBkZWFkbG9ja3MKPiAgICBhcmUgb2suIFdoaWNoIHRoZXkgYXJlLCBzaW5jZSB0aGlzIGlz
-IGFuIGFubm90YXRpb24gb25seS4KPgo+IC0gV2UncmUgdXNpbmcgbm9uLXJlY3Vyc2l2ZSBsb2Nr
-ZGVwIHJlYWQgbG9jayBtb2RlLCBzaW5jZSBpbiByZWN1cnNpdmUKPiAgICByZWFkIGxvY2sgbW9k
-ZSBsb2NrZGVwIGRvZXMgbm90IGNhdGNoIHJlYWQgc2lkZSBoYXphcmRzLiBBbmQgd2UKPiAgICBf
-dmVyeV8gbXVjaCB3YW50IHJlYWQgc2lkZSBoYXphcmRzIHRvIGJlIGNhdWdodC4gRm9yIGZ1bGwg
-ZGV0YWlscyBvZgo+ICAgIHRoaXMgbGltaXRhdGlvbiBzZWUKPgo+ICAgIGNvbW1pdCBlOTE0OTg1
-ODk3NDYwNjVlM2FlOTVkOWEwMGIwNjhlNTI1ZWVjMzRmCj4gICAgQXV0aG9yOiBQZXRlciBaaWps
-c3RyYSA8cGV0ZXJ6QGluZnJhZGVhZC5vcmc+Cj4gICAgRGF0ZTogICBXZWQgQXVnIDIzIDEzOjEz
-OjExIDIwMTcgKzAyMDAKPgo+ICAgICAgICBsb2NraW5nL2xvY2tkZXAvc2VsZnRlc3RzOiBBZGQg
-bWl4ZWQgcmVhZC13cml0ZSBBQkJBIHRlc3RzCj4KPiAtIFRvIGFsbG93IG5lc3Rpbmcgb2YgdGhl
-IHJlYWQtc2lkZSBleHBsaWNpdCBhbm5vdGF0aW9ucyB3ZSBleHBsaWNpdGx5Cj4gICAga2VlcCB0
-cmFjayBvZiB0aGUgbmVzdGluZy4gbG9ja19pc19oZWxkKCkgYWxsb3dzIHVzIHRvIGRvIHRoYXQu
-Cj4KPiAtIFRoZSB3YWl0LXNpZGUgYW5ub3RhdGlvbiBpcyBhIHdyaXRlIGxvY2ssIGFuZCBlbnRp
-cmVseSBkb25lIHdpdGhpbgo+ICAgIGRtYV9mZW5jZV93YWl0KCkgZm9yIGV2ZXJ5b25lIGJ5IGRl
-ZmF1bHQuCj4KPiAtIFRvIGJlIGFibGUgdG8gZnJlZWx5IGFubm90YXRlIGhlbHBlciBmdW5jdGlv
-bnMgSSB3YW50IHRvIG1ha2UgaXQgb2sKPiAgICB0byBjYWxsIGRtYV9mZW5jZV9iZWdpbi9lbmRf
-c2lnbmFsbGluZyBmcm9tIHNvZnQvaGFyZGlycSBjb250ZXh0Lgo+ICAgIEZpcnN0IGF0dGVtcHQg
-d2FzIHVzaW5nIHRoZSBoYXJkaXJxIGxvY2tpbmcgY29udGV4dCBmb3IgdGhlIHdyaXRlCj4gICAg
-c2lkZSBpbiBsb2NrZGVwLCBidXQgdGhpcyBmb3JjZXMgYWxsIG5vcm1hbCBzcGlubG9ja3MgbmVz
-dGVkIHdpdGhpbgo+ICAgIGRtYV9mZW5jZV9iZWdpbi9lbmRfc2lnbmFsbGluZyB0byBiZSBzcGlu
-bG9ja3MuIFRoYXQgYm9sbG9ja3MuCj4KPiAgICBUaGUgYXBwcm9hY2ggbm93IGlzIHRvIHNpbXBs
-ZSBjaGVjayBpbl9hdG9taWMoKSwgYW5kIGZvciB0aGVzZSBjYXNlcwo+ICAgIGVudGlyZWx5IHJl
-bHkgb24gdGhlIG1pZ2h0X3NsZWVwKCkgY2hlY2sgaW4gZG1hX2ZlbmNlX3dhaXQoKS4gVGhhdAo+
-ICAgIHdpbGwgY2F0Y2ggYW55IHdyb25nIG5lc3RpbmcgYWdhaW5zdCBzcGlubG9ja3MgZnJvbSBz
-b2Z0L2hhcmRpcnEKPiAgICBjb250ZXh0cy4KPgo+IFRoZSBpZGVhIGhlcmUgaXMgdGhhdCBldmVy
-eSBjb2RlIHBhdGggdGhhdCdzIGNyaXRpY2FsIGZvciBldmVudHVhbGx5Cj4gc2lnbmFsbGluZyBh
-IGRtYV9mZW5jZSBzaG91bGQgYmUgYW5ub3RhdGVkIHdpdGgKPiBkbWFfZmVuY2VfYmVnaW4vZW5k
-X3NpZ25hbGxpbmcuIFRoZSBhbm5vdGF0aW9uIGlkZWFsbHkgc3RhcnRzIHJpZ2h0Cj4gYWZ0ZXIg
-YSBkbWFfZmVuY2UgaXMgcHVibGlzaGVkIChhZGRlZCB0byBhIGRtYV9yZXN2LCBleHBvc2VkIGFz
-IGEKPiBzeW5jX2ZpbGUgZmQsIGF0dGFjaGVkIHRvIGEgZHJtX3N5bmNvYmogZmQsIG9yIGFueXRo
-aW5nIGVsc2UgdGhhdAo+IG1ha2VzIHRoZSBkbWFfZmVuY2UgdmlzaWJsZSB0byBvdGhlciBrZXJu
-ZWwgdGhyZWFkcyksIHVwIHRvIGFuZAo+IGluY2x1ZGluZyB0aGUgZG1hX2ZlbmNlX3dhaXQoKS4g
-RXhhbXBsZXMgYXJlIGlycSBoYW5kbGVycywgdGhlCj4gc2NoZWR1bGVyIHJ0IHRocmVhZHMsIHRo
-ZSB0YWlsIG9mIGV4ZWNidWYgKGFmdGVyIHRoZSBjb3JyZXNwb25kaW5nCj4gZmVuY2VzIGFyZSB2
-aXNpYmxlKSwgYW55IHdvcmtlcnMgdGhhdCBlbmQgdXAgc2lnbmFsbGluZyBkbWFfZmVuY2VzIGFu
-ZAo+IHJlYWxseSBhbnl0aGluZyBlbHNlLiBOb3QgYW5ub3RhdGVkIHNob3VsZCBiZSBjb2RlIHBh
-dGhzIHRoYXQgb25seQo+IGNvbXBsZXRlIGZlbmNlcyBvcHBvcnR1bmlzdGljYWxseSBhcyB0aGUg
-Z3B1IHByb2dyZXNzZXMsIGxpa2UgZS5nLgo+IHNocmlua2VyL2V2aWN0aW9uIGNvZGUuCj4KPiBU
-aGUgbWFpbiBjbGFzcyBvZiBkZWFkbG9ja3MgdGhpcyBpcyBzdXBwb3NlZCB0byBjYXRjaCBhcmU6
-Cj4KPiBUaHJlYWQgQToKPgo+IAltdXRleF9sb2NrKEEpOwo+IAltdXRleF91bmxvY2soQSk7Cj4K
-PiAJZG1hX2ZlbmNlX3NpZ25hbCgpOwo+Cj4gVGhyZWFkIEI6Cj4KPiAJbXV0ZXhfbG9jayhBKTsK
-PiAJZG1hX2ZlbmNlX3dhaXQoKTsKPiAJbXV0ZXhfdW5sb2NrKEEpOwo+Cj4gVGhyZWFkIEIgaXMg
-YmxvY2tlZCBvbiBBIHNpZ25hbGxpbmcgdGhlIGZlbmNlLCBidXQgQSBuZXZlciBnZXRzIGFyb3Vu
-ZAo+IHRvIHRoYXQgYmVjYXVzZSBpdCBjYW5ub3QgYWNxdWlyZSB0aGUgbG9jayBBLgo+Cj4gTm90
-ZSB0aGF0IGRtYV9mZW5jZV93YWl0KCkgaXMgYWxsb3dlZCB0byBiZSBuZXN0ZWQgd2l0aGluCj4g
-ZG1hX2ZlbmNlX2JlZ2luL2VuZF9zaWduYWxsaW5nIHNlY3Rpb25zLiBUbyBhbGxvdyB0aGlzIHRv
-IGhhcHBlbiB0aGUKPiByZWFkIGxvY2sgbmVlZHMgdG8gYmUgdXBncmFkZWQgdG8gYSB3cml0ZSBs
-b2NrLCB3aGljaCBtZWFucyB0aGF0IGFueQo+IG90aGVyIGxvY2sgaXMgYWNxdWlyZWQgYmV0d2Vl
-biB0aGUgZG1hX2ZlbmNlX2JlZ2luX3NpZ25hbGxpbmcoKSBjYWxsIGFuZAo+IHRoZSBjYWxsIHRv
-IGRtYV9mZW5jZV93YWl0KCksIGFuZCBzdGlsbCBoZWxkLCB0aGlzIHdpbGwgcmVzdWx0IGluIGFu
-Cj4gaW1tZWRpYXRlIGxvY2tkZXAgY29tcGxhaW50LiBUaGUgb25seSBvdGhlciBvcHRpb24gd291
-bGQgYmUgdG8gbm90Cj4gYW5ub3RhdGUgc3VjaCBjYWxscywgZGVmZWF0aW5nIHRoZSBwb2ludC4g
-VGhlcmVmb3JlIHRoZXNlIGFubm90YXRpb25zCj4gY2Fubm90IGJlIHNwcmlua2xlZCBvdmVyIHRo
-ZSBjb2RlIGVudGlyZWx5IG1pbmRsZXNzIHRvIGF2b2lkIGZhbHNlCj4gcG9zaXRpdmVzLgo+Cj4g
-T3JpZ2luYWxseSBJIGhvcGUgdGhhdCB0aGUgY3Jvc3MtcmVsZWFzZSBsb2NrZGVwIGV4dGVuc2lv
-bnMgd291bGQKPiBhbGxldmlhdGUgdGhlIG5lZWQgZm9yIGV4cGxpY2l0IGFubm90YXRpb25zOgo+
-Cj4gaHR0cHM6Ly9sd24ubmV0L0FydGljbGVzLzcwOTg0OS8KPgo+IEJ1dCB0aGVyZSdzIGEgZmV3
-IHJlYXNvbnMgd2h5IHRoYXQncyBub3QgYW4gb3B0aW9uOgo+Cj4gLSBJdCdzIG5vdCBoYXBwZW5p
-bmcgaW4gdXBzdHJlYW0sIHNpbmNlIGl0IGdvdCByZXZlcnRlZCBkdWUgdG8gdG9vCj4gICAgbWFu
-eSBmYWxzZSBwb3NpdGl2ZXM6Cj4KPiAJY29tbWl0IGU5NjZlYWVlYjYyM2YwOTk3NWVmMzYyYzI4
-NjZmYWU2Zjg2ODQ0ZjkKPiAJQXV0aG9yOiBJbmdvIE1vbG5hciA8bWluZ29Aa2VybmVsLm9yZz4K
-PiAJRGF0ZTogICBUdWUgRGVjIDEyIDEyOjMxOjE2IDIwMTcgKzAxMDAKPgo+IAkgICAgbG9ja2lu
-Zy9sb2NrZGVwOiBSZW1vdmUgdGhlIGNyb3NzLXJlbGVhc2UgbG9ja2luZyBjaGVja3MKPgo+IAkg
-ICAgVGhpcyBjb2RlIChDT05GSUdfTE9DS0RFUF9DUk9TU1JFTEVBU0U9eSBhbmQgQ09ORklHX0xP
-Q0tERVBfQ09NUExFVElPTlM9eSksCj4gCSAgICB3aGlsZSBpdCBmb3VuZCBhIG51bWJlciBvZiBv
-bGQgYnVncyBpbml0aWFsbHksIHdhcyBhbHNvIGNhdXNpbmcgdG9vIG1hbnkKPiAJICAgIGZhbHNl
-IHBvc2l0aXZlcyB0aGF0IGNhdXNlZCBwZW9wbGUgdG8gZGlzYWJsZSBsb2NrZGVwIC0gd2hpY2gg
-aXMgYXJndWFibHkKPiAJICAgIGEgd29yc2Ugb3ZlcmFsbCBvdXRjb21lLgo+Cj4gLSBjcm9zcy1y
-ZWxlYXNlIHVzZXMgdGhlIGNvbXBsZXRlKCkgY2FsbCB0byBhbm5vdGF0ZSB0aGUgZW5kIG9mCj4g
-ICAgY3JpdGljYWwgc2VjdGlvbnMsIGZvciBkbWFfZmVuY2UgdGhhdCB3b3VsZCBiZSBkbWFfZmVu
-Y2Vfc2lnbmFsKCkuCj4gICAgQnV0IHdlIGRvIG5vdCB3YW50IGFsbCBkbWFfZmVuY2Vfc2lnbmFs
-KCkgY2FsbHMgdG8gYmUgdHJlYXRlZCBhcwo+ICAgIGNyaXRpY2FsLCBzaW5jZSBtYW55IGFyZSBv
-cHBvcnR1bmlzdGljIGNsZWFudXAgb2YgZ3B1IHJlcXVlc3RzLiBJZgo+ICAgIHRoZXNlIGdldCBz
-dHVjayB0aGVyZSdzIHN0aWxsIHRoZSBtYWluIGNvbXBsZXRpb24gaW50ZXJydXB0IGFuZAo+ICAg
-IHdvcmtlcnMgd2hvIGNhbiB1bmJsb2NrIGV2ZXJ5b25lLiBBdXRvbWF0aWNhbGx5IGFubm90YXRp
-bmcgYWxsCj4gICAgZG1hX2ZlbmNlX3NpZ25hbCgpIGNhbGxzIHdvdWxkIGhlbmNlIGNhdXNlIGZh
-bHNlIHBvc2l0aXZlcy4KPgo+IC0gY3Jvc3MtcmVsZWFzZSBoYWQgc29tZSBlZHVjYXRlZCBndWVz
-c2VzIGZvciB3aGVuIGEgY3JpdGljYWwgc2VjdGlvbgo+ICAgIHN0YXJ0cywgbGlrZSBmcmVzaCBz
-eXNjYWxsIG9yIGZyZXNoIHdvcmsgY2FsbGJhY2suIFRoaXMgd291bGQgYWdhaW4KPiAgICBjYXVz
-ZSBmYWxzZSBwb3NpdGl2ZXMgd2l0aG91dCBleHBsaWNpdCBhbm5vdGF0aW9ucywgc2luY2UgZm9y
-Cj4gICAgZG1hX2ZlbmNlIHRoZSBjcml0aWNhbCBzZWN0aW9ucyBvbmx5IHN0YXJ0cyB3aGVuIHdl
-IHB1Ymxpc2ggYSBmZW5jZS4KPgo+IC0gRnVydGhlcm1vcmUgdGhlcmUgY2FuIGJlIGNhc2VzIHdo
-ZXJlIGEgdGhyZWFkIG5ldmVyIGRvZXMgYQo+ICAgIGRtYV9mZW5jZV9zaWduYWwsIGJ1dCBpcyBz
-dGlsbCBjcml0aWNhbCBmb3IgcmVhY2hpbmcgY29tcGxldGlvbiBvZgo+ICAgIGZlbmNlcy4gT25l
-IGV4YW1wbGUgd291bGQgYmUgYSBzY2hlZHVsZXIga3RocmVhZCB3aGljaCBwaWNrcyB1cCBqb2Jz
-Cj4gICAgYW5kIHB1c2hlcyB0aGVtIGludG8gaGFyZHdhcmUsIHdoZXJlIHRoZSBpbnRlcnJ1cHQg
-aGFuZGxlciBvcgo+ICAgIGFub3RoZXIgY29tcGxldGlvbiB0aHJlYWQgY2FsbHMgZG1hX2ZlbmNl
-X3NpZ25hbCgpLiBCdXQgaWYgdGhlCj4gICAgc2NoZWR1bGVyIHRocmVhZCBoYW5ncywgdGhlbiBh
-bGwgdGhlIGZlbmNlcyBoYW5nLCBoZW5jZSB3ZSBuZWVkIHRvCj4gICAgbWFudWFsbHkgYW5ub3Rh
-dGUgaXQuIGNyb3NzLXJlbGVhc2UgYWltZWQgdG8gc29sdmUgdGhpcyBieSBjaGFpbmluZwo+ICAg
-IGNyb3NzLXJlbGVhc2UgZGVwZW5kZW5jaWVzLCBidXQgdGhlIGRlcGVuZGVuY3kgZnJvbSBzY2hl
-ZHVsZXIgdGhyZWFkCj4gICAgdG8gdGhlIGNvbXBsZXRpb24gaW50ZXJydXB0IGhhbmRsZXIgZ29l
-cyB0aHJvdWdoIGh3IHdoZXJlCj4gICAgY3Jvc3MtcmVsZWFzZSBjb2RlIGNhbid0IG9ic2VydmUg
-aXQuCj4KPiBJbiBzaG9ydCwgd2l0aG91dCBtYW51YWwgYW5ub3RhdGlvbnMgYW5kIGNhcmVmdWwg
-cmV2aWV3IG9mIHRoZSBzdGFydAo+IGFuZCBlbmQgb2YgY3JpdGljYWwgc2VjdGlvbnMsIGNyb3Nz
-LXJlbGVzZSBkZXBlbmRlbmN5IHRyYWNraW5nIGRvZXNuJ3QKPiB3b3JrLiBXZSBuZWVkIGV4cGxp
-Y2l0IGFubm90YXRpb25zLgo+Cj4gdjI6IGhhbmRsZSBzb2Z0L2hhcmRpcnEgY3R4IGJldHRlciBh
-Z2FpbnN0IHdyaXRlIHNpZGUgYW5kIGRvbnQgZm9yZ2V0Cj4gRVhQT1JUX1NZTUJPTCwgZHJpdmVy
-cyBjYW4ndCB1c2UgdGhpcyBvdGhlcndpc2UuCj4KPiB2MzogS2VybmVsZG9jLgo+Cj4gdjQ6IFNv
-bWUgc3BlbGxpbmcgZml4ZXMgZnJvbSBNaWthCj4KPiB2NTogQW1lbmQgY29tbWl0IG1lc3NhZ2Ug
-dG8gZXhwbGFpbiBpbiBkZXRhaWwgd2h5IGNyb3NzLXJlbGVhc2UgaXNuJ3QKPiB0aGUgc29sdXRp
-b24uCj4KPiBDYzogTWlrYSBLdW9wcGFsYSA8bWlrYS5rdW9wcGFsYUBpbnRlbC5jb20+Cj4gQ2M6
-IFRob21hcyBIZWxsc3Ryb20gPHRob21hcy5oZWxsc3Ryb21AaW50ZWwuY29tPgo+IENjOiBsaW51
-eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8u
-b3JnCj4gQ2M6IGxpbnV4LXJkbWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGFtZC1nZnhAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBD
-YzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4gQ2M6IE1hYXJ0ZW4g
-TGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiAtLS0KClJldmlld2VkLWJ5
-OiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBpbnRlbC5jb20+CgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Thomas.
+
+Some parts I did not understand here.
+
+On Fri, Jun 05, 2020 at 03:57:55PM +0200, Thomas Zimmermann wrote:
+> The VRAM setup in mgag200_drv.c is part of memory management and
+> should be done in the same place. Merge the code into the memory
+> management's init function.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/mgag200/mgag200_main.c | 75 --------------------------
+>  drivers/gpu/drm/mgag200/mgag200_mm.c   | 52 ++++++++++++++++++
+>  2 files changed, 52 insertions(+), 75 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/mgag200/mgag200_main.c
+> index 3298eff7bd1b4..e9ad783c2b44d 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+> @@ -12,77 +12,6 @@
+>  
+>  #include "mgag200_drv.h"
+>  
+> -static int mga_probe_vram(struct mga_device *mdev, void __iomem *mem)
+> -{
+> -	int offset;
+> -	int orig;
+> -	int test1, test2;
+> -	int orig1, orig2;
+> -	unsigned int vram_size;
+> -
+> -	/* Probe */
+> -	orig = ioread16(mem);
+> -	iowrite16(0, mem);
+> -
+> -	vram_size = mdev->mc.vram_window;
+> -
+> -	if ((mdev->type == G200_EW3) && (vram_size >= 0x1000000)) {
+> -		vram_size = vram_size - 0x400000;
+> -	}
+> -
+> -	for (offset = 0x100000; offset < vram_size; offset += 0x4000) {
+> -		orig1 = ioread8(mem + offset);
+> -		orig2 = ioread8(mem + offset + 0x100);
+> -
+> -		iowrite16(0xaa55, mem + offset);
+> -		iowrite16(0xaa55, mem + offset + 0x100);
+> -
+> -		test1 = ioread16(mem + offset);
+> -		test2 = ioread16(mem);
+> -
+> -		iowrite16(orig1, mem + offset);
+> -		iowrite16(orig2, mem + offset + 0x100);
+> -
+> -		if (test1 != 0xaa55) {
+> -			break;
+> -		}
+> -
+> -		if (test2) {
+> -			break;
+> -		}
+> -	}
+> -
+> -	iowrite16(orig, mem);
+> -	return offset - 65536;
+> -}
+> -
+> -/* Map the framebuffer from the card and configure the core */
+> -static int mga_vram_init(struct mga_device *mdev)
+> -{
+> -	struct drm_device *dev = mdev->dev;
+> -	void __iomem *mem;
+> -
+> -	/* BAR 0 is VRAM */
+> -	mdev->mc.vram_base = pci_resource_start(dev->pdev, 0);
+> -	mdev->mc.vram_window = pci_resource_len(dev->pdev, 0);
+> -
+> -	if (!devm_request_mem_region(dev->dev, mdev->mc.vram_base,
+> -				     mdev->mc.vram_window, "mgadrmfb_vram")) {
+> -		DRM_ERROR("can't reserve VRAM\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	mem = pci_iomap(dev->pdev, 0, 0);
+> -	if (!mem)
+> -		return -ENOMEM;
+> -
+> -	mdev->mc.vram_size = mga_probe_vram(mdev, mem);
+> -
+> -	pci_iounmap(dev->pdev, mem);
+mem is the result of pci_iomap() - but I do not see any call
+to pci_iomap() in the converted code.
+
+mdev->vram is used as argument in new code where mem was used in the old
+code.
+mdev->vram comes from ioremap(start, len) - will it result in the same?
+
+	Sam
+
+
+> -
+> -	return 0;
+> -}
+> -
+>  int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
+>  {
+>  	struct mga_device *mdev;
+> @@ -121,10 +50,6 @@ int mgag200_driver_load(struct drm_device *dev, unsigned long flags)
+>  			mdev->unique_rev_id);
+>  	}
+>  
+> -	ret = mga_vram_init(mdev);
+> -	if (ret)
+> -		return ret;
+> -
+>  	ret = mgag200_mm_init(mdev);
+>  	if (ret)
+>  		goto err_mm;
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
+> index 73e30901e0631..f56b0456994f4 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mm.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mm.c
+> @@ -30,6 +30,49 @@
+>  
+>  #include "mgag200_drv.h"
+>  
+> +static size_t mgag200_probe_vram(struct mga_device *mdev, void __iomem *mem,
+> +				 size_t size)
+> +{
+> +	int offset;
+> +	int orig;
+> +	int test1, test2;
+> +	int orig1, orig2;
+> +	size_t vram_size;
+> +
+> +	/* Probe */
+> +	orig = ioread16(mem);
+> +	iowrite16(0, mem);
+> +
+> +	vram_size = size;
+> +
+> +	if ((mdev->type == G200_EW3) && (vram_size >= 0x1000000))
+> +		vram_size = vram_size - 0x400000;
+> +
+> +	for (offset = 0x100000; offset < vram_size; offset += 0x4000) {
+> +		orig1 = ioread8(mem + offset);
+> +		orig2 = ioread8(mem + offset + 0x100);
+> +
+> +		iowrite16(0xaa55, mem + offset);
+> +		iowrite16(0xaa55, mem + offset + 0x100);
+> +
+> +		test1 = ioread16(mem + offset);
+> +		test2 = ioread16(mem);
+> +
+> +		iowrite16(orig1, mem + offset);
+> +		iowrite16(orig2, mem + offset + 0x100);
+> +
+> +		if (test1 != 0xaa55)
+> +			break;
+> +
+> +		if (test2)
+> +			break;
+> +	}
+> +
+> +	iowrite16(orig, mem);
+> +
+> +	return offset - 65536;
+> +}
+> +
+>  int mgag200_mm_init(struct mga_device *mdev)
+>  {
+>  	struct drm_device *dev = mdev->dev;
+> @@ -40,6 +83,11 @@ int mgag200_mm_init(struct mga_device *mdev)
+>  	start = pci_resource_start(dev->pdev, 0);
+>  	len = pci_resource_len(dev->pdev, 0);
+>  
+> +	if (!devm_request_mem_region(dev->dev, start, len, "mgadrmfb_vram")) {
+> +		drm_err(dev, "can't reserve VRAM\n");
+> +		return -ENXIO;
+> +	}
+> +
+>  	arch_io_reserve_memtype_wc(start, len);
+>  
+>  	mdev->fb_mtrr = arch_phys_wc_add(start, len);
+> @@ -50,6 +98,10 @@ int mgag200_mm_init(struct mga_device *mdev)
+>  		goto err_arch_phys_wc_del;
+>  	}
+>  
+> +	mdev->mc.vram_size = mgag200_probe_vram(mdev, mdev->vram, len);
+> +	mdev->mc.vram_base = start;
+> +	mdev->mc.vram_window = len;
+> +
+>  	mdev->vram_fb_available = mdev->mc.vram_size;
+>  
+>  	return 0;
+> -- 
+> 2.26.2
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
