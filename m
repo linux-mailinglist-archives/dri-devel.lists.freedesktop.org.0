@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1E41F088D
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jun 2020 22:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052551F0892
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jun 2020 22:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1976E1F8;
-	Sat,  6 Jun 2020 20:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8516E1F6;
+	Sat,  6 Jun 2020 20:26:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B93B6E1F6
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jun 2020 20:26:13 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA066E1F6
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jun 2020 20:26:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591475172;
+ s=mimecast20190719; t=1591475174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HFSbgw+jMLXkeGeVQko9oA8LjxZw2ty0U8jf3NzNvyw=;
- b=RP5HNaByCipuD+He3UJmnOOaUXur1VM+Zp0W7pZS+VT0tfQwHEcvXIdPurz2c49VRzqpmW
- qU+/jHM7IIJqag9HKujoOwOjTYGf+tBXPHz1qdMl+Cc5zRLvDPXhK5wmZo8ewXE50GwzUx
- /AZC9hvx05sNuTfYc4h/ALnwjhsNDgg=
+ bh=/A6rEt/BgT7jg64rB2/P/BV7tm4R6W80sJn+U2WEqI0=;
+ b=EKmNEketMaM+q/LLa2vbQyf7VfjdJQaWnJUCtQP3ZRdJMJlJEJvM4rJDBZVX2p6hemyBWA
+ 2l6gkU7r84Mc7WR3yXMD9JAFO1Y6k7Sy7e+Rfil0ledF+lVoV/TBm8R9tbV5b+PPPWaH/J
+ L9KmcaJ5z2c92tL06Doo5kKVWCIhGL8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-yfoI-trrOVuyI2u1DDXtvQ-1; Sat, 06 Jun 2020 16:26:10 -0400
-X-MC-Unique: yfoI-trrOVuyI2u1DDXtvQ-1
+ us-mta-484-sZcOjNHaOy-nPhWYP_mBNw-1; Sat, 06 Jun 2020 16:26:13 -0400
+X-MC-Unique: sZcOjNHaOy-nPhWYP_mBNw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58C15107ACF2;
- Sat,  6 Jun 2020 20:26:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 186F6800685;
+ Sat,  6 Jun 2020 20:26:11 +0000 (UTC)
 Received: from x1.localdomain.com (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D81075C57D;
- Sat,  6 Jun 2020 20:26:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FE365C661;
+ Sat,  6 Jun 2020 20:26:08 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -43,10 +43,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  "Rafael J . Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>
-Subject: [PATCH 01/16] ACPI / LPSS: Resume Cherry Trail PWM controller in
- no-irq phase
-Date: Sat,  6 Jun 2020 22:25:46 +0200
-Message-Id: <20200606202601.48410-2-hdegoede@redhat.com>
+Subject: [PATCH 02/16] ACPI / LPSS: Save Cherry Trail PWM ctx registers only
+ once (at activation)
+Date: Sat,  6 Jun 2020 22:25:47 +0200
+Message-Id: <20200606202601.48410-3-hdegoede@redhat.com>
 In-Reply-To: <20200606202601.48410-1-hdegoede@redhat.com>
 References: <20200606202601.48410-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -74,60 +74,146 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The DSDTs on most Cherry Trail devices have an ugly clutch where the PWM
-controller gets poked from the _PS0 method of the graphics-card device:
+controller gets turned off from the _PS3 method of the graphics-card dev:
 
-	Local0 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
-	If (((Local0 & 0x03) == 0x03))
-	{
-	    PSAT &= 0xFFFFFFFC
-	    Local1 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
-	    RSTA = Zero
-	    RSTF = Zero
-	    RSTA = One
-	    RSTF = One
-	    PWMB |= 0xC0000000
-	    PWMC = PWMB /* \_SB_.PCI0.GFX0.PWMB */
-	}
+            Method (_PS3, 0, Serialized)  // _PS3: Power State 3
+            {
+                ...
+                            PWMB = PWMC /* \_SB_.PCI0.GFX0.PWMC */
+                            PSAT |= 0x03
+                            Local0 = PSAT /* \_SB_.PCI0.GFX0.PSAT */
+                ...
+            }
 
-Where PSAT is the power-status register of the PWM controller, so if it
-is in D3 when the GFX0 device's PS0 method runs then it will turn it on
-and restore the PWM ctrl register value it saved from its PS3 handler.
-Note not only does it restore it, it ors it with 0xC0000000 turning it
-on at a time where we may not want it to get turned on at all.
+Where PSAT is the power-status register of the PWM controller.
 
-The pwm_get call which the i915 driver does to get a reference to the
-PWM controller, already adds a device-link making the GFX0 device a
-consumer of the PWM device. So it should already have been resumed when
-the above AML runs and the AML should thus not do its undesirable poking
-of the PWM controller register.
+Since the i915 driver will do a pwm_get on the pwm device as it uses it to
+control the LCD panel backlight, there is a device-link marking the i915
+device as a consumer of the pwm device. So that the PWM controller will
+always be suspended after the i915 driver suspends (which is the right
+thing to do). This causes the above GFX0 PS3 AML code to run before
+acpi_lpss.c calls acpi_lpss_save_ctx().
 
-But the PCI core powers on PCI devices in the no-irq resume phase and
-thus calls the troublesome PS0 method in the no-irq resume phase.
-Where as LPSS devices by default are resumed in the early resume phase.
+So on these devices the PWM controller will already be off when
+acpi_lpss_save_ctx() runs. This causes it to read/save all 1-s (0xffffffff)
+as ctx register values.
 
-This commit sets the resume_from_noirq flag in the bsw_pwm_dev_desc
-struct, so that Cherry Trail PWM controllers will be resumed in the
-no-irq phase. Together with the device-link added by the pwm-get this
-ensures that the PWM controller will be on when the troublesome PS0
-method runs, which stops it from poking the PWM controller.
+When these bogus values get restored on resume the PWM controller actually
+keeps working, since most bits are reserved, but this does set bit 3 of
+the LPSS General purpose register, which for the PWM controller has the
+following function: "This bit is re-used to support 32kHz slow mode.
+Default is 19.2MHz as PWM source clock".
+
+This causes the clock of the PWM controller to switch from 19.2MHz to
+32KHz, which is a slow-down of a factor 600. Suprisingly enough so far
+there have been few bug reports about this. This is likely because the
+i915 driver was hardcoding the PWM frequency to 46 KHz, which divided
+by 600 would result in a PWM frequency of aprox. 78 Hz, which mostly
+still works fine. There are some bug reports about the LCD backlight
+flickering after suspend/resume which are likely caused by this issue.
+
+But with the upcoming patch-series to finally switch the i915 drivers
+code for external PWM controllers to use the atomic API and to honor
+the PWM frequency specified in the video BIOS (VBT), this becomes a much
+bigger problem. On most cases the VBT specifies either 200 Hz or 20
+KHz as PWM frequency, which with the mentioned issue ends up being either
+1/3 Hz, where the backlight actually visible blinks on and off every 3s,
+or in 33 Hz and horrible flickering of the backlight.
+
+There are a number of possible solutions to this problem:
+
+1. Make acpi_lpss_save_ctx() run before GFX0._PS3
+ Pro: Clean solution from pov of not medling with save/restore ctx code
+ Con: As mentioned the current ordering is the right thing to do
+ Con: Requires assymmetry in at what suspend/resume phase we do the save vs
+      restore, requiring more suspend/resume ordering hacks in already
+      convoluted acpi_lpss.c suspend/resume code.
+2. Do some sort of save once mode for the LPSS ctx
+ Pro: Reasonably clean
+ Con: Needs a new LPSS flag + code changes to handle the flag
+3. Detect we have failed to save the ctx registers and do not restore them
+ Pro: Not PWM specific, might help with issues on other LPSS devices too
+ Con: If we can get away with not restoring the ctx why bother with it at
+      all?
+4. Do not save the ctx for CHT PWM controllers
+ Pro: Clean, as simple as dropping a flag?
+ Con: Not so simple as dropping a flag, needs a new flag to ensure that
+      we still do lpss_deassert_reset() on device activation.
+5. Make the pwm-lpss code fixup the LPSS-context registers
+ Pro: Keeps acpi_lpss.c code clean
+ Con: Moves knowledge of LPSS-context into the pwm-lpss.c code
+
+1 and 5 both do not seem to be a desirable way forward.
+
+3 and 4 seem ok, but they both assume that restoring the LPSS-context
+registers is not necessary. I have done a couple of test and those do
+show that restoring the LPSS-context indeed does not seem to be necessary
+on devices using s2idle suspend (and successfully reaching S0i3). But I
+have no hardware to test deep / S3 suspend. So I'm not sure that not
+restoring the context is safe.
+
+That leaves solution 2, which is about as simple / clean as 3 and 4,
+so this commit fixes the described problem by implementing a new
+LPSS_SAVE_CTX_ONCE flag and setting that for the CHT PWM controllers.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/acpi/acpi_lpss.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/acpi/acpi_lpss.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/acpi/acpi_lpss.c b/drivers/acpi/acpi_lpss.c
-index 5e2bfbcf526f..67892fc0b822 100644
+index 67892fc0b822..26933e6b7b8c 100644
 --- a/drivers/acpi/acpi_lpss.c
 +++ b/drivers/acpi/acpi_lpss.c
-@@ -257,6 +257,7 @@ static const struct lpss_device_desc bsw_pwm_dev_desc = {
- 	.flags = LPSS_SAVE_CTX | LPSS_NO_D3_DELAY,
- 	.prv_offset = 0x800,
- 	.setup = bsw_pwm_setup,
-+	.resume_from_noirq = true,
+@@ -68,6 +68,14 @@ ACPI_MODULE_NAME("acpi_lpss");
+ #define LPSS_LTR			BIT(3)
+ #define LPSS_SAVE_CTX			BIT(4)
+ #define LPSS_NO_D3_DELAY		BIT(5)
++/*
++ * For some devices the DSDT AML code for another device turns off the device
++ * before our suspend handler runs, causing us to read/save all 1-s (0xffffffff)
++ * as ctx register values.
++ * Luckily these devices always use the same ctx register values, so we can
++ * work around this by saving the ctx registers once on activation.
++ */
++#define LPSS_SAVE_CTX_ONCE		BIT(6)
+ 
+ struct lpss_private_data;
+ 
+@@ -254,7 +262,7 @@ static const struct lpss_device_desc byt_pwm_dev_desc = {
  };
  
- static const struct lpss_device_desc byt_uart_dev_desc = {
+ static const struct lpss_device_desc bsw_pwm_dev_desc = {
+-	.flags = LPSS_SAVE_CTX | LPSS_NO_D3_DELAY,
++	.flags = LPSS_SAVE_CTX_ONCE | LPSS_NO_D3_DELAY,
+ 	.prv_offset = 0x800,
+ 	.setup = bsw_pwm_setup,
+ 	.resume_from_noirq = true,
+@@ -885,9 +893,14 @@ static int acpi_lpss_activate(struct device *dev)
+ 	 * we have to deassert reset line to be sure that ->probe() will
+ 	 * recognize the device.
+ 	 */
+-	if (pdata->dev_desc->flags & LPSS_SAVE_CTX)
++	if (pdata->dev_desc->flags & (LPSS_SAVE_CTX | LPSS_SAVE_CTX_ONCE))
+ 		lpss_deassert_reset(pdata);
+ 
++#ifdef CONFIG_PM
++	if (pdata->dev_desc->flags & LPSS_SAVE_CTX_ONCE)
++		acpi_lpss_save_ctx(dev, pdata);
++#endif
++
+ 	return 0;
+ }
+ 
+@@ -1031,7 +1044,7 @@ static int acpi_lpss_resume(struct device *dev)
+ 
+ 	acpi_lpss_d3_to_d0_delay(pdata);
+ 
+-	if (pdata->dev_desc->flags & LPSS_SAVE_CTX)
++	if (pdata->dev_desc->flags & (LPSS_SAVE_CTX | LPSS_SAVE_CTX_ONCE))
+ 		acpi_lpss_restore_ctx(dev, pdata);
+ 
+ 	return 0;
 -- 
 2.26.2
 
