@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674041F0EF4
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AD61F0F00
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3586E3B2;
-	Sun,  7 Jun 2020 19:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6AD96E3CB;
+	Sun,  7 Jun 2020 19:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 335766E393
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:31 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id i27so6813909ljb.12
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:31 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794936E394
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:32 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id 9so8118732ljv.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UvPgx7nfuClCEbY/9qNxk5Wqh42dXshULVk6+zlWjrI=;
- b=Txv9TK5zoOMhF7vXS6mMGopAvQ+wLC0R/0y093Xav9/7fflf+t5MEXh1lX87cGtY7t
- EcIm+ueYddyomNsmyAYXjNonsld6ay8KVREB8rcJeZx+/W8YmwEudUGkYcyXR41nj0VB
- GKutkpURwr+mUIjkAOti8e8J+81e6jRcSJVlC4i3BZfaAXHj7072WB42o6YublbDu09+
- 8zStnINDe3Y+8D1SQeF1Ib02vyjoXXPwjloqf2s9xU/R4zrPFzanc1gRCebkc0N6QhLo
- djzCJxqaKgHmuRQjAR2joQM5a6TMR1drYGm57cvhYNb5TK7i4EWU9ITCknEgTpCJvQrt
- xe9A==
+ bh=061hlrRfunwkyZki3oWiaKmN7ev2U21u3B6yt3cimTc=;
+ b=OpeCLlYVr3IRPV2bWVGeZGoM/AcV5A0pdWEKydgN/1uX4UBx4HRNJyI65ktEmJN67Y
+ U+upq4RGVxvRV1fPu3I4yvBa0omogL/IXYDm/kVNOeIJ9UnIrnMT/9RSfu2Qg+aP2BuS
+ rL9JvCGvgrtRGYYnSQv28MPXPPFz4CIxrOl31hBUgVagyt3F59onvYlhKTeREiCBvLnG
+ htgLq7n9SV+LgHR3+chUjMZVFCd+NzBJj9LYzKD21Cn60rNJzB9gItbsV+OMoFzIyr+B
+ pomvyTmtSZfEqRu/1Kc2UW7k+MRV5pKHVum2Ch8QAjw68aGtVG1TMUxNb7byOwAuLf6W
+ eiDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UvPgx7nfuClCEbY/9qNxk5Wqh42dXshULVk6+zlWjrI=;
- b=s1XmAr+iAKguMijQxTlf0woVJxm/UE2pZ2K0ZUU8F5LyrG/0iXZ3teBB36nRpsJwUH
- xPa3qtFWF9YRGFzW5WZSQ5r3Fcz9JzCY/kRiZvD9Zu9wtLYNbDjylRp0BJhz/NbqUXGa
- LiBXLu3NW69n3pWlE9wNXEc4vOW/LxZmEiG/MaE5TfUbVhbo295pxZrkAghcs9EzyrX1
- 2pq4XUAVnqx28WQpr+RJwRDK97OkhH8+R6lwHMFGC70AqYz9CAr3DhsdgaznE8Ro/3Tq
- Z19Ebv7uzeWALkM13ae9UMCuJWKpQJ32U3zA9z3QZXgy3TNAtiwoREdsqkX7oCEXeI12
- YH0w==
-X-Gm-Message-State: AOAM533g+PYHbZ+Fvm7d7QSfq4aPezF8oQ4x4M35emqg57XJnvbsE6n3
- yAta78Nm6NdEpv3o0mYymT5BEJwF
-X-Google-Smtp-Source: ABdhPJzToqPSxd3YO6VNTABt1RtCoxHsyBrguxlEv9L7QuotPpVI46VP9V3JtmxqUgxI2eV/+FvM2w==
-X-Received: by 2002:a2e:9804:: with SMTP id a4mr10029549ljj.369.1591556249647; 
- Sun, 07 Jun 2020 11:57:29 -0700 (PDT)
+ bh=061hlrRfunwkyZki3oWiaKmN7ev2U21u3B6yt3cimTc=;
+ b=lTBLtV7mNHldNJJgi1Rq24VMS4hy/D7qoO4pHxn7sJwsNvLKsCfvHVf4UJWKCp6PRw
+ gUbiJqsrkvRaxSfh7xbBway5gAixrvK0ebZkr83ggrZb1Egcx6vG3DgJoR6uVBDBy8kO
+ 4CVFTqfBVoNZ0TdITDDImHSVNbOvKdWH4qfhOl55Ok9ttpxKU6QQcYM5FfdeA+fiMX3R
+ 1PztmDsk7LIxIYnHcClZm6X9JIwcYjEDdN7oVRTTOIsbzIIG/texMO61s9XykvmkmsqJ
+ N4myGBvAXvNpX/ufgRdgNPXXpXS58g0cPY8cxpxGlKtCDTcYseD/z9eQ07Eoh4BDo2iW
+ dduA==
+X-Gm-Message-State: AOAM530Dekpx7utjuQ57f0/TD03lmI+QkI72ZRl1c+IRej1y8C3IGB0s
+ ysixrS5MTMW3b9XpS3MiHEA=
+X-Google-Smtp-Source: ABdhPJz7379nhczt27dgiUBvJO9L0ly/gGz6aROzdQPsGh2iExP9kIqzL5tstRWYuiTHNaiqba385Q==
+X-Received: by 2002:a2e:9987:: with SMTP id w7mr8917913lji.215.1591556250974; 
+ Sun, 07 Jun 2020 11:57:30 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.28
+ by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Jun 2020 11:57:29 -0700 (PDT)
+ Sun, 07 Jun 2020 11:57:30 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v3 15/39] PM / devfreq: tegra30: Add error messages to
- tegra_devfreq_target()
-Date: Sun,  7 Jun 2020 21:55:06 +0300
-Message-Id: <20200607185530.18113-16-digetx@gmail.com>
+Subject: [PATCH v3 16/39] PM / devfreq: tegra20: Adjust clocks conversion
+ ratio and polling interval
+Date: Sun,  7 Jun 2020 21:55:07 +0300
+Message-Id: <20200607185530.18113-17-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200607185530.18113-1-digetx@gmail.com>
 References: <20200607185530.18113-1-digetx@gmail.com>
@@ -86,38 +86,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's useful to now when something goes wrong instead of failing silently,
-so let's add error messages to tegra_devfreq_target() to prevent situation
-where it fails silently.
+The current conversion ratio results in a higher frequency than needed,
+that is not very actual now since the Display Controller driver got
+support for memory bandwidth management and hence memory frequency can
+go lower now without bad consequences. Since memory freq now goes to a
+lower rates, the responsiveness of interactive applications become worse
+due to a quite high polling interval value that is currently set to 500ms.
+Changing polling interval to 30ms results in a good responsiveness of the
+system.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/devfreq/tegra30-devfreq.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/devfreq/tegra20-devfreq.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index 13f93c6038ab..a03fb16c5c4c 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -641,12 +641,16 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
- 	dev_pm_opp_put(opp);
+diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
+index 249d0dc44f6c..7cdea4ba38f7 100644
+--- a/drivers/devfreq/tegra20-devfreq.c
++++ b/drivers/devfreq/tegra20-devfreq.c
+@@ -79,16 +79,12 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
  
- 	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
--	if (err)
-+	if (err) {
-+		dev_err(dev, "Failed to set min rate: %d\n", err);
- 		return err;
-+	}
+ 	/*
+ 	 * EMC_COUNT returns number of memory events, that number is lower
+-	 * than the number of clocks. Conversion ratio of 1/8 results in a
+-	 * bit higher bandwidth than actually needed, it is good enough for
+-	 * the time being because drivers don't support requesting minimum
+-	 * needed memory bandwidth yet.
+-	 *
+-	 * TODO: adjust the ratio value once relevant drivers will support
+-	 * memory bandwidth management.
++	 * than the number of total EMC clocks over the sampling period.
++	 * The clocks number is converted to maximum possible number of
++	 * memory events using the ratio of 1/4.
+ 	 */
+ 	stat->busy_time = readl_relaxed(tegra->regs + MC_STAT_EMC_COUNT);
+-	stat->total_time = readl_relaxed(tegra->regs + MC_STAT_EMC_CLOCKS) / 8;
++	stat->total_time = readl_relaxed(tegra->regs + MC_STAT_EMC_CLOCKS) / 4;
+ 	stat->current_frequency = clk_get_rate(tegra->emc_clock);
  
- 	err = clk_set_rate(tegra->emc_clock, 0);
--	if (err)
-+	if (err) {
-+		dev_err(dev, "Failed to set rate: %d\n", err);
- 		goto restore_min_rate;
-+	}
+ 	writel_relaxed(EMC_GATHER_CLEAR, tegra->regs + MC_STAT_CONTROL);
+@@ -98,7 +94,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+ }
  
- 	return 0;
- 
+ static struct devfreq_dev_profile tegra_devfreq_profile = {
+-	.polling_ms	= 500,
++	.polling_ms	= 30,
+ 	.target		= tegra_devfreq_target,
+ 	.get_dev_status	= tegra_devfreq_get_dev_status,
+ };
 -- 
 2.26.0
 
