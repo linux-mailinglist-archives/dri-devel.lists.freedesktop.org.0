@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4181F0F95
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 22:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2261F0FFB
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 23:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2916E1F1;
-	Sun,  7 Jun 2020 20:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1AF86E185;
+	Sun,  7 Jun 2020 21:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC4486E1F2
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 20:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=from:subject:in-reply-to:references:to:cc:content-type:
- content-transfer-encoding;
- s=001; bh=U1V3BbDQhVCpaqm27EpvcGffmR9XTdpDjJ/o9/L2oR8=;
- b=ak6BYs3wRR8cV2mKnvI2Sj3f4yOTk9uoOpHjJyZRkbO0vvfTSMzsJYlVtqUxlCk/jvsc
- VFNwAVeQ3acZms3c9hYr3JbZrQbhmoyCRB/+p7BvT7mi0Cc2wMQstg9g/ewM25s6rbOc6n
- d+QBXkH0ofXEEYUIiXwPJIZBR7dklE5Ig=
-Received: by filterdrecv-p3mdw1-6f5df8956d-pm5pv with SMTP id
- filterdrecv-p3mdw1-6f5df8956d-pm5pv-18-5EDD4D36-9
- 2020-06-07 20:25:26.17129021 +0000 UTC m=+346301.943539117
-Received: from bionic.localdomain (unknown)
- by ismtpd0001p1lon1.sendgrid.net (SG) with ESMTP
- id DgGa4FynTjOECRECitvm0Q Sun, 07 Jun 2020 20:25:25.975 +0000 (UTC)
-From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 2/2] drm: rockchip: add NV15 and NV20 support
-Date: Sun, 07 Jun 2020 20:25:26 +0000 (UTC)
-Message-Id: <20200607202521.18438-3-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200607202521.18438-1-jonas@kwiboo.se>
-References: <20200607202521.18438-1-jonas@kwiboo.se>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h1PLyi+ZkS3aSXIds?=
- =?us-ascii?Q?20md1sb018Ezl5Ds+6PNaPnMHUQXIaOZT5RvIOe?=
- =?us-ascii?Q?Tkh+djI9+QL4uD4b2orzBb0AkbXLx6XyFkYReEG?=
- =?us-ascii?Q?9IfXIw635NSiVAGftB8JjufTcRH6fF3bJ8k4X+5?=
- =?us-ascii?Q?k7Jy8J0=2FRwMv2F1Bcbe8hVdUnw19UygX+CebQxq?=
- =?us-ascii?Q?I9HfRMehlp1IvFj3IPiYw=3D=3D?=
-To: Sandy Huang <hjc@rock-chips.com>, Heiko =?iso-8859-1?q?St=FCbner?=
- <heiko@sntech.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6876E0B7;
+ Sun,  7 Jun 2020 21:25:29 +0000 (UTC)
+IronPort-SDR: AUcy4zek1upvualNQuwztIW4MYZqSMyxYnuIaL+qGXFA9Id/HO4qrQZOR87mUdwEg7iILcJX4H
+ YNUAtMfb2OcQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2020 14:25:28 -0700
+IronPort-SDR: SmnAHvw9l+jvzaBdh3BczrDKs8dLSbTDUNpLYM5MTNMCHIEt+cdbk9DpzbxOeBZFpS5VnZOK9I
+ twGEyIP/pz1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,485,1583222400"; d="scan'208";a="270317161"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga003.jf.intel.com with ESMTP; 07 Jun 2020 14:25:27 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/dp_mst: Fix the DDC I2C device unregistration of an
+ MST port
+Date: Mon,  8 Jun 2020 00:25:20 +0300
+Message-Id: <20200607212522.16935-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.23.1
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,180 +45,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Ben Davis <ben.davis@arm.com>
-MIME-Version: 1.0
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for displaying 10-bit 4:2:0 and 4:2:2 formats produced by the
-Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
+The WARN below triggers during the removal of an MST port. The problem
+is that the parent device's (the connector's kdev) sysfs directory is
+removed recursively when the connector is unregistered (even though the
+I2C device holds a reference on the parent device). To fix this set
+first the Peer Device Type to none which will remove the I2C device.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Note that atm, inconsistently, the parent of the I2C device is initially set to
+the DRM kdev and after a Connection Status Notification the parent may be reset
+to be the connector's kdev. This problem is addressed by the next patch.
+
+[ 4462.989299] ------------[ cut here ]------------
+[ 4463.014940] sysfs group 'power' not found for kobject 'i2c-24'
+[ 4463.034664] WARNING: CPU: 0 PID: 970 at fs/sysfs/group.c:281 sysfs_remove_group+0x71/0x80
+[ 4463.044357] Modules linked in: snd_hda_intel i915 drm_kms_helper(O) drm netconsole snd_hda_codec_hdmi mei_hdcp x86_pkg_temp_thermal coretemp crct10dif_pclmul snd_intel_dspcf
+g crc32_pclmul snd_hda_codec snd_hwdep ghash_clmulni_intel snd_hda_core asix usbnet kvm_intel mii i2c_algo_bit snd_pcm syscopyarea sysfillrect e1000e sysimgblt fb_sys_fops prim
+e_numbers ptp pps_core i2c_i801 r8169 mei_me realtek mei [last unloaded: drm]
+[ 4463.044399] CPU: 0 PID: 970 Comm: kworker/0:2 Tainted: G           O      5.7.0+ #172
+[ 4463.044402] Hardware name: Intel Corporation Tiger Lake Client Platform/TigerLake U DDR4 SODIMM RVP
+[ 4463.044423] Workqueue: events drm_dp_delayed_destroy_work [drm_kms_helper]
+[ 4463.044428] RIP: 0010:sysfs_remove_group+0x71/0x80
+[ 4463.044431] Code: 48 89 df 5b 5d 41 5c e9 cd b6 ff ff 48 89 df e8 95 b4 ff ff eb cb 49 8b 14 24 48 8b 75 00 48 c7 c7 20 0f 3f 82 e8 9f c5 d7 ff <0f> 0b 5b 5d 41 5c c3 0f 1f
+84 00 00 00 00 00 48 85 f6 74 31 41 54
+[ 4463.044433] RSP: 0018:ffffc900018bfbf0 EFLAGS: 00010282
+[ 4463.044436] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000001
+[ 4463.044439] RDX: 0000000080000001 RSI: ffff88849e828f38 RDI: 00000000ffffffff
+[ 4463.052970] [drm:drm_atomic_get_plane_state [drm]] Added [PLANE:100:plane 2B] 00000000c2160caa state to 00000000d172564a
+[ 4463.070533] RBP: ffffffff820cea20 R08: ffff88847f4b8958 R09: 0000000000000000
+[ 4463.070535] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88848a725018
+[ 4463.070537] R13: 0000000000000000 R14: ffffffff827090e0 R15: 0000000000000002
+[ 4463.070539] FS:  0000000000000000(0000) GS:ffff88849e800000(0000) knlGS:0000000000000000
+[ 4463.070541] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 4463.070543] CR2: 00007fdf8a756538 CR3: 0000000489684001 CR4: 0000000000760ef0
+[ 4463.070545] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 4463.070547] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 4463.070549] PKRU: 55555554
+[ 4463.070551] Call Trace:
+[ 4463.070560]  device_del+0x84/0x400
+[ 4463.070571]  cdev_device_del+0x10/0x30
+[ 4463.070578]  put_i2c_dev+0x69/0x80
+[ 4463.070584]  i2cdev_detach_adapter+0x2e/0x60
+[ 4463.070591]  notifier_call_chain+0x34/0x90
+[ 4463.070599]  blocking_notifier_call_chain+0x3f/0x60
+[ 4463.070606]  device_del+0x7c/0x400
+[ 4463.087817]  ? lockdep_init_map_waits+0x57/0x210
+[ 4463.087825]  device_unregister+0x11/0x60
+[ 4463.087829]  i2c_del_adapter+0x249/0x310
+[ 4463.087846]  drm_dp_port_set_pdt+0x6b/0x2c0 [drm_kms_helper]
+[ 4463.087862]  drm_dp_delayed_destroy_work+0x2af/0x350 [drm_kms_helper]
+[ 4463.087876]  process_one_work+0x268/0x600
+[ 4463.105438]  ? __schedule+0x30c/0x920
+[ 4463.105451]  worker_thread+0x37/0x380
+[ 4463.105457]  ? process_one_work+0x600/0x600
+[ 4463.105462]  kthread+0x140/0x160
+[ 4463.105466]  ? kthread_park+0x80/0x80
+[ 4463.105474]  ret_from_fork+0x24/0x50
+
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 27 ++++++++++++++++--
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 31 +++++++++++++++++----
- 3 files changed, 51 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_dp_mst_topology.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index 33463b79a37b..13a0682d438b 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -261,6 +261,17 @@ static bool has_rb_swapped(uint32_t format)
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index 2a309fb2c4cc..02c800b8199f 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -4669,12 +4669,13 @@ static void drm_dp_tx_work(struct work_struct *work)
+ static inline void
+ drm_dp_delayed_destroy_port(struct drm_dp_mst_port *port)
+ {
++	drm_dp_port_set_pdt(port, DP_PEER_DEVICE_NONE, port->mcs);
++
+ 	if (port->connector) {
+ 		drm_connector_unregister(port->connector);
+ 		drm_connector_put(port->connector);
  	}
+ 
+-	drm_dp_port_set_pdt(port, DP_PEER_DEVICE_NONE, port->mcs);
+ 	drm_dp_mst_put_port_malloc(port);
  }
  
-+static bool is_fmt_10(uint32_t format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_NV15:
-+	case DRM_FORMAT_NV20:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static enum vop_data_format vop_convert_format(uint32_t format)
- {
- 	switch (format) {
-@@ -276,8 +287,10 @@ static enum vop_data_format vop_convert_format(uint32_t format)
- 	case DRM_FORMAT_BGR565:
- 		return VOP_FMT_RGB565;
- 	case DRM_FORMAT_NV12:
-+	case DRM_FORMAT_NV15:
- 		return VOP_FMT_YUV420SP;
- 	case DRM_FORMAT_NV16:
-+	case DRM_FORMAT_NV20:
- 		return VOP_FMT_YUV422SP;
- 	case DRM_FORMAT_NV24:
- 		return VOP_FMT_YUV444SP;
-@@ -922,7 +935,12 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 	dsp_sty = dest->y1 + crtc->mode.vtotal - crtc->mode.vsync_start;
- 	dsp_st = dsp_sty << 16 | (dsp_stx & 0xffff);
- 
--	offset = (src->x1 >> 16) * fb->format->cpp[0];
-+	if (fb->format->block_w[0])
-+		offset = (src->x1 >> 16) * fb->format->char_per_block[0] /
-+			 fb->format->block_w[0];
-+	else
-+		offset = (src->x1 >> 16) * fb->format->cpp[0];
-+
- 	offset += (src->y1 >> 16) * fb->pitches[0];
- 	dma_addr = rk_obj->dma_addr + offset + fb->offsets[0];
- 
-@@ -948,6 +966,7 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 	}
- 
- 	VOP_WIN_SET(vop, win, format, format);
-+	VOP_WIN_SET(vop, win, fmt_10, is_fmt_10(fb->format->format));
- 	VOP_WIN_SET(vop, win, yrgb_vir, DIV_ROUND_UP(fb->pitches[0], 4));
- 	VOP_WIN_SET(vop, win, yrgb_mst, dma_addr);
- 	VOP_WIN_YUV2YUV_SET(vop, win_yuv2yuv, y2r_en, is_yuv);
-@@ -964,7 +983,11 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 		uv_obj = fb->obj[1];
- 		rk_uv_obj = to_rockchip_obj(uv_obj);
- 
--		offset = (src->x1 >> 16) * bpp / hsub;
-+		if (fb->format->block_w[1])
-+			offset = (src->x1 >> 16) * bpp /
-+				 fb->format->block_w[1] / hsub;
-+		else
-+			offset = (src->x1 >> 16) * bpp / hsub;
- 		offset += (src->y1 >> 16) * fb->pitches[1] / vsub;
- 
- 		dma_addr = rk_uv_obj->dma_addr + offset + fb->offsets[1];
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-index d03bdb531ef2..db1138da2bd4 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-@@ -154,6 +154,7 @@ struct vop_win_phy {
- 	struct vop_reg enable;
- 	struct vop_reg gate;
- 	struct vop_reg format;
-+	struct vop_reg fmt_10;
- 	struct vop_reg rb_swap;
- 	struct vop_reg act_info;
- 	struct vop_reg dsp_info;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index 2413deded22c..503736c8b6c4 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -50,6 +50,22 @@ static const uint32_t formats_win_full[] = {
- 	DRM_FORMAT_NV24,
- };
- 
-+static const uint32_t formats_win_full_10[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_NV12,
-+	DRM_FORMAT_NV16,
-+	DRM_FORMAT_NV24,
-+	DRM_FORMAT_NV15,
-+	DRM_FORMAT_NV20,
-+};
-+
- static const uint64_t format_modifiers_win_full[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID,
-@@ -570,11 +586,12 @@ static const struct vop_scl_regs rk3288_win_full_scl = {
- 
- static const struct vop_win_phy rk3288_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
- 	.act_info = VOP_REG(RK3288_WIN0_ACT_INFO, 0x1fff1fff, 0),
- 	.dsp_info = VOP_REG(RK3288_WIN0_DSP_INFO, 0x0fff0fff, 0),
-@@ -704,11 +721,12 @@ static const struct vop_intr rk3368_vop_intr = {
- 
- static const struct vop_win_phy rk3368_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3368_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 12),
- 	.x_mir_en = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 21),
- 	.y_mir_en = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 22),
-@@ -853,11 +871,12 @@ static const struct vop_win_yuv2yuv_data rk3399_vop_big_win_yuv2yuv_data[] = {
- 
- static const struct vop_win_phy rk3399_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full_afbc,
- 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
- 	.y_mir_en = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 22),
- 	.act_info = VOP_REG(RK3288_WIN0_ACT_INFO, 0x1fff1fff, 0),
 -- 
-2.17.1
+2.23.1
 
 _______________________________________________
 dri-devel mailing list
