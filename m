@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044BA1F0EE9
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9251F0EE7
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D7F6E38A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3775A6E181;
 	Sun,  7 Jun 2020 19:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC73E6E0FC
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:39:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30336E117
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1591537136; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1591537137; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M8Kkre4i8Qnc2kJTX7UI/DImR2brCl5Ldu5gv55KB7E=;
- b=CVWx74cloO6NJQO+t51oyB4M6GJw/+AlbR92EflprNEK/9mHA36bEFiqlICQcDQJlcEbom
- so7KSBTzqyMhklqsltnMIzXnwXRGOHRi3l+a8JfmP7vWVkBnleCB8XehzqfBTiS+6c4QAB
- jPPY5b2JCrhxv/uni2jDkd6+PvyCZGs=
+ bh=YBQwPgh1VHR0F73CoR+TK99GQFN+9A2TQ9ubnHKyPNA=;
+ b=K6S9shnxgYZlh5qaU5+pO3bRd7s/FP1rFkeCsJ0swBuO45Q9yV4DfDA+SaK9vHXzTxUhJs
+ N6usJgVjAhezyoCYigm9/ukI7pU8UDb3iaLfjegbx6dLkHH5IQrqD5vs/W3Ypn0+N3td+p
+ D8yqATieVqks4dRzyo1UmcOYFaVM7Uc=
 From: Paul Cercueil <paul@crapouillou.net>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Emil Velikov <emil.l.velikov@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [RFC PATCH 3/4] gpu/drm: Add TinyDRM for DSI/DBI panels
-Date: Sun,  7 Jun 2020 15:38:31 +0200
-Message-Id: <20200607133832.1730288-4-paul@crapouillou.net>
+Subject: [RFC PATCH 4/4] gpu/drm: Add Ilitek ILI9341 DBI panel driver
+Date: Sun,  7 Jun 2020 15:38:32 +0200
+Message-Id: <20200607133832.1730288-5-paul@crapouillou.net>
 In-Reply-To: <20200607133832.1730288-1-paul@crapouillou.net>
 References: <20200607133832.1730288-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -46,368 +47,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new API function mipi_dsi_maybe_register_tiny_driver() is supposed
-to be called by DSI/DBI panel drivers at the end of their probe.
-
-If it is detected that the panel is not connected to any controller,
-because it has no port #0 node in Device Tree that points back to it,
-then a TinyDRM driver is registered with it.
-
-This TinyDRM driver expects that a DCS-compliant protocol is used by the
-DSI/DBI panel and can only be used with these.
-
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/gpu/drm/tiny/Kconfig    |   8 +
- drivers/gpu/drm/tiny/Makefile   |   1 +
- drivers/gpu/drm/tiny/tiny-dsi.c | 262 ++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h      |  19 +++
- 4 files changed, 290 insertions(+)
- create mode 100644 drivers/gpu/drm/tiny/tiny-dsi.c
-
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 4160e74e4751..54ee58aecf66 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -9,6 +9,14 @@ config DRM_GM12U320
- 	 This is a KMS driver for projectors which use the GM12U320 chipset
- 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
- 
-+config TINYDRM_DSI
-+	tristate "DRM support for generic DBI/DSI display panels"
-+	depends on DRM && DRM_MIPI_DSI
-+	select DRM_MIPI_DBI
-+	select DRM_KMS_CMA_HELPER
-+	help
-+	  DRM driver for generic DBI/DSI display panels
-+
- config TINYDRM_HX8357D
- 	tristate "DRM support for HX8357D display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index c96ceee71453..49513db9a307 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
-+obj-$(CONFIG_TINYDRM_DSI)		+= tiny-dsi.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
- obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
- obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
-diff --git a/drivers/gpu/drm/tiny/tiny-dsi.c b/drivers/gpu/drm/tiny/tiny-dsi.c
-new file mode 100644
-index 000000000000..915e598844bd
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/tiny-dsi.c
-@@ -0,0 +1,262 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * TinyDRM driver for standard DSI/DBI panels
-+ *
-+ * Copyright 2020 Paul Cercueil <paul@crapouillou.net>
-+ */
-+
-+#include <linux/module.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_mipi_dbi.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modeset_helper.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include <video/mipi_display.h>
-+
-+struct tiny_dsi {
-+	struct drm_device drm;
-+	struct drm_connector connector;
-+	struct drm_simple_display_pipe pipe;
-+
-+	struct mipi_dsi_device *dsi;
-+	struct drm_panel *panel;
-+};
-+
-+#define mipi_dcs_command(dsi, cmd, seq...) \
-+({ \
-+	u8 d[] = { seq }; \
-+	mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d)); \
-+})
-+
-+static inline struct tiny_dsi *drm_to_tiny_dsi(struct drm_device *drm)
-+{
-+	return container_of(drm, struct tiny_dsi, drm);
-+}
-+
-+static void tiny_dsi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
-+{
-+	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
-+	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem);
-+	struct tiny_dsi *priv = drm_to_tiny_dsi(fb->dev);
-+	unsigned int height = rect->y2 - rect->y1;
-+	unsigned int width = rect->x2 - rect->x1;
-+	bool fb_convert;
-+	int idx, ret;
-+	void *tr;
-+
-+	if (!drm_dev_enter(fb->dev, &idx))
-+		return;
-+
-+	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
-+
-+	fb_convert = width != fb->width || height != fb->height
-+		|| fb->format->format == DRM_FORMAT_XRGB8888;
-+	if (fb_convert) {
-+		tr = kzalloc(width * height * 2, GFP_KERNEL);
-+
-+		/* TODO: swap pixels if needed */
-+		ret = mipi_dbi_buf_copy(tr, fb, rect, false);
-+		if (ret)
-+			goto err_msg;
-+	} else {
-+		tr = cma_obj->vaddr;
-+	}
-+
-+	mipi_dcs_command(priv->dsi, MIPI_DCS_SET_COLUMN_ADDRESS,
-+			 (rect->x1 >> 8) & 0xff, rect->x1 & 0xff,
-+			 (rect->x2 >> 8) & 0xff, rect->x2 & 0xff);
-+	mipi_dcs_command(priv->dsi, MIPI_DCS_SET_PAGE_ADDRESS,
-+			 (rect->y1 >> 8) & 0xff, rect->y1 & 0xff,
-+			 (rect->y2 >> 8) & 0xff, rect->y2 & 0xff);
-+
-+	ret = mipi_dsi_dcs_write(priv->dsi, MIPI_DCS_WRITE_MEMORY_START,
-+				 tr, width * height * 2);
-+err_msg:
-+	if (ret)
-+		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
-+
-+	if (fb_convert)
-+		kfree(tr);
-+	drm_dev_exit(idx);
-+}
-+
-+static void tiny_dsi_enable(struct drm_simple_display_pipe *pipe,
-+			    struct drm_crtc_state *crtc_state,
-+			    struct drm_plane_state *plane_state)
-+{
-+	struct tiny_dsi *priv = drm_to_tiny_dsi(pipe->crtc.dev);
-+
-+	drm_panel_enable(priv->panel);
-+}
-+
-+static void tiny_dsi_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	struct tiny_dsi *priv = drm_to_tiny_dsi(pipe->crtc.dev);
-+
-+	drm_panel_disable(priv->panel);
-+}
-+
-+static void tiny_dsi_update(struct drm_simple_display_pipe *pipe,
-+			    struct drm_plane_state *old_state)
-+{
-+	struct drm_plane_state *state = pipe->plane.state;
-+	struct drm_rect rect;
-+
-+	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
-+		tiny_dsi_fb_dirty(state->fb, &rect);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs tiny_dsi_pipe_funcs = {
-+	.enable = tiny_dsi_enable,
-+	.disable = tiny_dsi_disable,
-+	.update = tiny_dsi_update,
-+	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
-+};
-+
-+static int tiny_dsi_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct tiny_dsi *priv = drm_to_tiny_dsi(connector->dev);
-+
-+	return drm_panel_get_modes(priv->panel, connector);
-+}
-+
-+static const struct drm_connector_helper_funcs tiny_dsi_connector_hfuncs = {
-+	.get_modes = tiny_dsi_connector_get_modes,
-+};
-+
-+static const struct drm_connector_funcs tiny_dsi_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+DEFINE_DRM_GEM_CMA_FOPS(tiny_dsi_fops);
-+
-+static const uint32_t tiny_dsi_formats[] = {
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_XRGB8888,
-+};
-+
-+static const struct drm_mode_config_funcs tiny_dsi_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static void tiny_dsi_release(struct drm_device *drm)
-+{
-+	struct tiny_dsi *priv = drm_to_tiny_dsi(drm);
-+
-+	drm_mode_config_cleanup(drm);
-+	drm_dev_fini(drm);
-+	kfree(priv);
-+}
-+
-+static struct drm_driver tiny_dsi_driver = {
-+	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-+	.fops			= &tiny_dsi_fops,
-+	.release		= tiny_dsi_release,
-+	DRM_GEM_CMA_VMAP_DRIVER_OPS,
-+	.name			= "tiny-dsi",
-+	.desc			= "Tiny DSI",
-+	.date			= "20200605",
-+	.major			= 1,
-+	.minor			= 0,
-+};
-+
-+static void tiny_dsi_remove(void *drm)
-+{
-+	drm_dev_unplug(drm);
-+	drm_atomic_helper_shutdown(drm);
-+}
-+
-+int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct drm_device *drm;
-+	struct tiny_dsi *priv;
-+	static const uint64_t modifiers[] = {
-+		DRM_FORMAT_MOD_LINEAR,
-+		DRM_FORMAT_MOD_INVALID
-+	};
-+	int ret;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dsi = dsi;
-+	drm = &priv->drm;
-+
-+	ret = devm_drm_dev_init(dev, drm, &tiny_dsi_driver);
-+	if (ret) {
-+		kfree(priv);
-+		return ret;
-+	}
-+
-+	drm_mode_config_init(drm);
-+
-+	priv->panel = of_drm_find_panel(dev->of_node);
-+	if (IS_ERR(priv->panel)) {
-+		dev_err(dev, "Unable to find panel\n");
-+		return PTR_ERR(priv->panel);
-+	}
-+
-+	drm->mode_config.preferred_depth = 16;
-+
-+	drm->mode_config.funcs = &tiny_dsi_mode_config_funcs;
-+	drm->mode_config.min_width = 0;
-+	drm->mode_config.min_height = 0;
-+	drm->mode_config.max_width = 4096;
-+	drm->mode_config.max_height = 4096;
-+
-+	drm_connector_helper_add(&priv->connector, &tiny_dsi_connector_hfuncs);
-+	ret = drm_connector_init(drm, &priv->connector, &tiny_dsi_connector_funcs,
-+				 DRM_MODE_CONNECTOR_DSI);
-+	if (ret) {
-+		dev_err(dev, "Unable to init connector\n");
-+		return ret;
-+	}
-+
-+	ret = drm_simple_display_pipe_init(drm, &priv->pipe, &tiny_dsi_pipe_funcs,
-+					   tiny_dsi_formats, ARRAY_SIZE(tiny_dsi_formats),
-+					   modifiers, &priv->connector);
-+	if (ret) {
-+		dev_err(dev, "Unable to init display pipe\n");
-+		return ret;
-+	}
-+
-+	drm_plane_enable_fb_damage_clips(&priv->pipe.plane);
-+
-+	drm_mode_config_reset(drm);
-+
-+	ret = drm_dev_register(drm, 0);
-+	if (ret) {
-+		dev_err(dev, "Failed to register DRM driver\n");
-+		return ret;
-+	}
-+
-+	ret = devm_add_action_or_reset(dev, tiny_dsi_remove, drm);
-+	if (ret)
-+		return ret;
-+
-+	drm_fbdev_generic_setup(drm, 0);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(mipi_dsi_register_tiny_driver);
-+
-+MODULE_DESCRIPTION("DSI/DBI TinyDRM driver");
-+MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
-+MODULE_LICENSE("GPL");
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 65d2961fc054..0c2589a55df6 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -10,6 +10,7 @@
- #define __DRM_MIPI_DSI_H__
- 
- #include <linux/device.h>
-+#include <linux/of_graph.h>
- 
- struct mipi_dsi_host;
- struct mipi_dsi_device;
-@@ -337,4 +338,22 @@ void mipi_dsi_driver_unregister(struct mipi_dsi_driver *driver);
- 	module_driver(__mipi_dsi_driver, mipi_dsi_driver_register, \
- 			mipi_dsi_driver_unregister)
- 
-+#if IS_ENABLED(CONFIG_TINYDRM_DSI)
-+int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi);
-+#else
-+static inline int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi)
-+{
-+	return 0;
-+}
-+#endif
-+
-+static inline int mipi_dsi_maybe_register_tiny_driver(struct mipi_dsi_device *dsi)
-+{
-+	/* Register the TinyDRM DSI/DBI driver if the panel has no controller */
-+	if (!of_graph_get_port_by_id(dsi->dev.of_node, 0))
-+		return mipi_dsi_register_tiny_driver(dsi);
-+
-+	return 0;
-+}
-+
- #endif /* __DRM_MIPI_DSI__ */
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBkcml2ZXIgaXMgZm9yIHRoZSBJbGl0ZWsgSUxJOTM0MSBiYXNlZCBZWDI0MFFWMjktVCAy
+LjQiIDI0MHgzMjAgVEZUCkxDRCBwYW5lbCBmcm9tIEFkYWZydWl0LgoKU2lnbmVkLW9mZi1ieTog
+UGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Ci0tLQogZHJpdmVycy9ncHUvZHJt
+L3BhbmVsL0tjb25maWcgICAgICAgICAgICAgICAgfCAgIDkgKwogZHJpdmVycy9ncHUvZHJtL3Bh
+bmVsL01ha2VmaWxlICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L3BhbmVsLWlsaXRlay1pbGk5MzQxLmMgfCAzNDcgKysrKysrKysrKysrKysrKysrKwogMyBmaWxl
+cyBjaGFuZ2VkLCAzNTcgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+Z3B1L2RybS9wYW5lbC9wYW5lbC1pbGl0ZWstaWxpOTM0MS5jCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL3BhbmVsL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvS2NvbmZpZwpp
+bmRleCBhMTcyM2MxYjVmYmYuLjJlYjJjYTc3Y2FiMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3BhbmVsL0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tjb25maWcKQEAg
+LTk1LDYgKzk1LDE1IEBAIGNvbmZpZyBEUk1fUEFORUxfSUxJVEVLX0lMOTMyMgogCSAgU2F5IFkg
+aGVyZSBpZiB5b3Ugd2FudCB0byBlbmFibGUgc3VwcG9ydCBmb3IgSWxpdGVrIElMOTMyMgogCSAg
+UVZHQSAoMzIweDI0MCkgUkdCLCBZVVYgYW5kIElUVS1UIEJULjY1NiBwYW5lbHMuCiAKK2NvbmZp
+ZyBEUk1fUEFORUxfSUxJVEVLX0lMOTM0MQorCXRyaXN0YXRlICJJbGl0ZWsgSUxJOTM0MSAzMjB4
+MjQwIFFWR0EgcGFuZWxzIgorCWRlcGVuZHMgb24gT0YKKwlkZXBlbmRzIG9uIERSTV9NSVBJX0RT
+SQorCWRlcGVuZHMgb24gQkFDS0xJR0hUX0NMQVNTX0RFVklDRQorCWhlbHAKKwkgIFNheSBZIGhl
+cmUgaWYgeW91IHdhbnQgdG8gZW5hYmxlIHN1cHBvcnQgZm9yIElsaXRlayBJTDkzNDEKKwkgIFFW
+R0EgKDMyMHgyNDApIFJHQiwgWVVWIGFuZCBJVFUtVCBCVC42NTYgcGFuZWxzLgorCiBjb25maWcg
+RFJNX1BBTkVMX0lMSVRFS19JTEk5ODgxQwogCXRyaXN0YXRlICJJbGl0ZWsgSUxJOTg4MUMtYmFz
+ZWQgcGFuZWxzIgogCWRlcGVuZHMgb24gT0YKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9w
+YW5lbC9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9NYWtlZmlsZQppbmRleCA5NmE4
+ODNjZDY2MzAuLmQxMjM1NDMxNjkxYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L01ha2VmaWxlCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9NYWtlZmlsZQpAQCAtOCw2ICs4
+LDcgQEAgb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9FTElEQV9LRDM1VDEzMykgKz0gcGFuZWwtZWxp
+ZGEta2QzNXQxMzMubwogb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9GRUlYSU5fSzEwMV9JTTJCQTAy
+KSArPSBwYW5lbC1mZWl4aW4tazEwMS1pbTJiYTAyLm8KIG9iai0kKENPTkZJR19EUk1fUEFORUxf
+RkVJWUFOR19GWTA3MDI0REkyNkEzMEQpICs9IHBhbmVsLWZlaXlhbmctZnkwNzAyNGRpMjZhMzBk
+Lm8KIG9iai0kKENPTkZJR19EUk1fUEFORUxfSUxJVEVLX0lMOTMyMikgKz0gcGFuZWwtaWxpdGVr
+LWlsaTkzMjIubworb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9JTElURUtfSUw5MzQxKSArPSBwYW5l
+bC1pbGl0ZWstaWxpOTM0MS5vCiBvYmotJChDT05GSUdfRFJNX1BBTkVMX0lMSVRFS19JTEk5ODgx
+QykgKz0gcGFuZWwtaWxpdGVrLWlsaTk4ODFjLm8KIG9iai0kKENPTkZJR19EUk1fUEFORUxfSU5O
+T0xVWF9QMDc5WkNBKSArPSBwYW5lbC1pbm5vbHV4LXAwNzl6Y2Eubwogb2JqLSQoQ09ORklHX0RS
+TV9QQU5FTF9KRElfTFQwNzBNRTA1MDAwKSArPSBwYW5lbC1qZGktbHQwNzBtZTA1MDAwLm8KZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1pbGl0ZWstaWxpOTM0MS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWlsaXRlay1pbGk5MzQxLmMKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi42ZmIyNTNiNDlmOGEKLS0tIC9kZXYvbnVsbAor
+KysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtaWxpdGVrLWlsaTkzNDEuYwpAQCAtMCww
+ICsxLDM0NyBAQAorLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjArCisvKgorICog
+RFJNIGRyaXZlciBmb3IgSWxpdGVrIElMSTkzNDEgcGFuZWxzCisgKgorICogQ29weXJpZ2h0IDIw
+MTggRGF2aWQgTGVjaG5lciA8ZGF2aWRAbGVjaG5vbG9neS5jb20+CisgKiBDb3B5cmlnaHQgMjAy
+MCBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4KKyAqCisgKiBCYXNlZCBvbiBt
+aTAyODNxdC5jOgorICogQ29weXJpZ2h0IDIwMTYgTm9yYWxmIFRyw7hubmVzCisgKi8KKworI2lu
+Y2x1ZGUgPGxpbnV4L2JhY2tsaWdodC5oPgorI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+CisjaW5j
+bHVkZSA8bGludXgvZG1hLWJ1Zi5oPgorI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4K
+KyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KKyNpbmNsdWRlIDxsaW51eC9vZl9ncmFwaC5oPgor
+I2luY2x1ZGUgPGxpbnV4L3Byb3BlcnR5Lmg+CisjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVs
+cGVyLmg+CisKKyNpbmNsdWRlIDxkcm0vZHJtX21pcGlfZHNpLmg+CisjaW5jbHVkZSA8ZHJtL2Ry
+bV9tb2Rlcy5oPgorI2luY2x1ZGUgPGRybS9kcm1fcGFuZWwuaD4KKyNpbmNsdWRlIDx2aWRlby9t
+aXBpX2Rpc3BsYXkuaD4KKworI2RlZmluZSBJTEk5MzQxX0ZSTUNUUjEJCTB4YjEKKyNkZWZpbmUg
+SUxJOTM0MV9ESVNDVFJMCQkweGI2CisjZGVmaW5lIElMSTkzNDFfRVRNT0QJCTB4YjcKKworI2Rl
+ZmluZSBJTEk5MzQxX1BXQ1RSTDEJCTB4YzAKKyNkZWZpbmUgSUxJOTM0MV9QV0NUUkwyCQkweGMx
+CisjZGVmaW5lIElMSTkzNDFfVk1DVFJMMQkJMHhjNQorI2RlZmluZSBJTEk5MzQxX1ZNQ1RSTDIJ
+CTB4YzcKKyNkZWZpbmUgSUxJOTM0MV9QV0NUUkxBCQkweGNiCisjZGVmaW5lIElMSTkzNDFfUFdD
+VFJMQgkJMHhjZgorCisjZGVmaW5lIElMSTkzNDFfUEdBTUNUUkwJMHhlMAorI2RlZmluZSBJTEk5
+MzQxX05HQU1DVFJMCTB4ZTEKKyNkZWZpbmUgSUxJOTM0MV9EVENUUkxBCQkweGU4CisjZGVmaW5l
+IElMSTkzNDFfRFRDVFJMQgkJMHhlYQorI2RlZmluZSBJTEk5MzQxX1BXUlNFUQkJMHhlZAorCisj
+ZGVmaW5lIElMSTkzNDFfRU4zR0FNCQkweGYyCisjZGVmaW5lIElMSTkzNDFfUFVNUENUUkwJMHhm
+NworCisjZGVmaW5lIElMSTkzNDFfTUFEQ1RMX0JHUglCSVQoMykKKyNkZWZpbmUgSUxJOTM0MV9N
+QURDVExfTVYJQklUKDUpCisjZGVmaW5lIElMSTkzNDFfTUFEQ1RMX01YCUJJVCg2KQorI2RlZmlu
+ZSBJTEk5MzQxX01BRENUTF9NWQlCSVQoNykKKworc3RydWN0IGlsaTkzNDFfcGRhdGEgeworCXN0
+cnVjdCBkcm1fZGlzcGxheV9tb2RlIG1vZGU7CisJdW5zaWduZWQgaW50IHdpZHRoX21tOworCXVu
+c2lnbmVkIGludCBoZWlnaHRfbW07CisJdW5zaWduZWQgaW50IGJ1c190eXBlOworCXVuc2lnbmVk
+IGludCBsYW5lczsKK307CisKK3N0cnVjdCBpbGk5MzQxIHsKKwlzdHJ1Y3QgZHJtX3BhbmVsIHBh
+bmVsOworCXN0cnVjdCBtaXBpX2RzaV9kZXZpY2UgKmRzaTsKKwljb25zdCBzdHJ1Y3QgaWxpOTM0
+MV9wZGF0YSAqcGRhdGE7CisKKwlzdHJ1Y3QgZ3Bpb19kZXNjCSpyZXNldF9ncGlvZDsKKwlzdHJ1
+Y3QgYmFja2xpZ2h0X2RldmljZSAqYmFja2xpZ2h0OworCXUzMiByb3RhdGlvbjsKK307CisKKyNk
+ZWZpbmUgbWlwaV9kY3NfY29tbWFuZChkc2ksIGNtZCwgc2VxLi4uKSBcCisoeyBcCisJdTggZFtd
+ID0geyBzZXEgfTsgXAorCW1pcGlfZHNpX2Rjc193cml0ZShkc2ksIGNtZCwgZCwgQVJSQVlfU0la
+RShkKSk7IFwKK30pCisKK3N0YXRpYyBpbmxpbmUgc3RydWN0IGlsaTkzNDEgKnBhbmVsX3RvX2ls
+aTkzNDEoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCit7CisJcmV0dXJuIGNvbnRhaW5lcl9vZihw
+YW5lbCwgc3RydWN0IGlsaTkzNDEsIHBhbmVsKTsKK30KKworc3RhdGljIGludCBpbGk5MzQxX3By
+ZXBhcmUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCit7CisJc3RydWN0IGlsaTkzNDEgKnByaXYg
+PSBwYW5lbF90b19pbGk5MzQxKHBhbmVsKTsKKwlzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kg
+PSBwcml2LT5kc2k7CisJdTggYWRkcl9tb2RlOworCWludCByZXQ7CisKKwlncGlvZF9zZXRfdmFs
+dWVfY2Fuc2xlZXAocHJpdi0+cmVzZXRfZ3Bpb2QsIDApOworCXVzbGVlcF9yYW5nZSgyMCwgMTAw
+MCk7CisJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHByaXYtPnJlc2V0X2dwaW9kLCAxKTsKKwlt
+c2xlZXAoMTIwKTsKKworCXJldCA9IG1pcGlfZGNzX2NvbW1hbmQoZHNpLCBNSVBJX0RDU19TT0ZU
+X1JFU0VUKTsKKwlpZiAocmV0KSB7CisJCWRldl9lcnIocGFuZWwtPmRldiwgIkZhaWxlZCB0byBz
+ZW5kIHJlc2V0IGNvbW1hbmQ6ICVkXG4iLCByZXQpOworCQlyZXR1cm4gcmV0OworCX0KKworCS8q
+IFdhaXQgNW1zIGFmdGVyIHNvZnQgcmVzZXQgcGVyIE1JUEkgRENTIHNwZWMgKi8KKwl1c2xlZXBf
+cmFuZ2UoNTAwMCwgMjAwMDApOworCisJbWlwaV9kY3NfY29tbWFuZChkc2ksIE1JUElfRENTX1NF
+VF9ESVNQTEFZX09GRik7CisKKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9QV0NUUkxC
+LCAweDAwLCAweGMxLCAweDMwKTsKKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9QV1JT
+RVEsIDB4NjQsIDB4MDMsIDB4MTIsIDB4ODEpOworCW1pcGlfZGNzX2NvbW1hbmQoZHNpLCBJTEk5
+MzQxX0RUQ1RSTEEsIDB4ODUsIDB4MDAsIDB4NzgpOworCW1pcGlfZGNzX2NvbW1hbmQoZHNpLCBJ
+TEk5MzQxX1BXQ1RSTEEsIDB4MzksIDB4MmMsIDB4MDAsIDB4MzQsIDB4MDIpOworCW1pcGlfZGNz
+X2NvbW1hbmQoZHNpLCBJTEk5MzQxX1BVTVBDVFJMLCAweDIwKTsKKwltaXBpX2Rjc19jb21tYW5k
+KGRzaSwgSUxJOTM0MV9EVENUUkxCLCAweDAwLCAweDAwKTsKKworCS8qIFBvd2VyIENvbnRyb2wg
+Ki8KKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9QV0NUUkwxLCAweDIzKTsKKwltaXBp
+X2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9QV0NUUkwyLCAweDEwKTsKKwkvKiBWQ09NICovCisJ
+bWlwaV9kY3NfY29tbWFuZChkc2ksIElMSTkzNDFfVk1DVFJMMSwgMHgzZSwgMHgyOCk7CisJbWlw
+aV9kY3NfY29tbWFuZChkc2ksIElMSTkzNDFfVk1DVFJMMiwgMHg4Nik7CisKKwkvKiBNZW1vcnkg
+QWNjZXNzIENvbnRyb2wgKi8KKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgTUlQSV9EQ1NfU0VUX1BJ
+WEVMX0ZPUk1BVCwgTUlQSV9EQ1NfUElYRUxfRk1UXzE2QklUKTsKKworCS8qIEZyYW1lIFJhdGUg
+Ki8KKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9GUk1DVFIxLCAweDAwLCAweDFiKTsK
+KworCS8qIEdhbW1hICovCisJbWlwaV9kY3NfY29tbWFuZChkc2ksIElMSTkzNDFfRU4zR0FNLCAw
+eDAwKTsKKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgTUlQSV9EQ1NfU0VUX0dBTU1BX0NVUlZFLCAw
+eDAxKTsKKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJOTM0MV9QR0FNQ1RSTCwKKwkJCSAweDBm
+LCAweDMxLCAweDJiLCAweDBjLCAweDBlLCAweDA4LCAweDRlLCAweGYxLAorCQkJIDB4MzcsIDB4
+MDcsIDB4MTAsIDB4MDMsIDB4MGUsIDB4MDksIDB4MDApOworCW1pcGlfZGNzX2NvbW1hbmQoZHNp
+LCBJTEk5MzQxX05HQU1DVFJMLAorCQkJIDB4MDAsIDB4MGUsIDB4MTQsIDB4MDMsIDB4MTEsIDB4
+MDcsIDB4MzEsIDB4YzEsCisJCQkgMHg0OCwgMHgwOCwgMHgwZiwgMHgwYywgMHgzMSwgMHgzNiwg
+MHgwZik7CisKKwkvKiBERFJBTSAqLworCW1pcGlfZGNzX2NvbW1hbmQoZHNpLCBJTEk5MzQxX0VU
+TU9ELCAweDA3KTsKKworCS8qIERpc3BsYXkgKi8KKwltaXBpX2Rjc19jb21tYW5kKGRzaSwgSUxJ
+OTM0MV9ESVNDVFJMLCAweDA4LCAweDgyLCAweDI3LCAweDAwKTsKKwltaXBpX2Rjc19jb21tYW5k
+KGRzaSwgTUlQSV9EQ1NfRVhJVF9TTEVFUF9NT0RFKTsKKwltc2xlZXAoMTAwKTsKKworCW1pcGlf
+ZGNzX2NvbW1hbmQoZHNpLCBNSVBJX0RDU19TRVRfRElTUExBWV9PTik7CisJbXNsZWVwKDEwMCk7
+CisKKwlzd2l0Y2ggKHByaXYtPnJvdGF0aW9uKSB7CisJZGVmYXVsdDoKKwkJYWRkcl9tb2RlID0g
+SUxJOTM0MV9NQURDVExfTVg7CisJCWJyZWFrOworCWNhc2UgOTA6CisJCWFkZHJfbW9kZSA9IElM
+STkzNDFfTUFEQ1RMX01WOworCQlicmVhazsKKwljYXNlIDE4MDoKKwkJYWRkcl9tb2RlID0gSUxJ
+OTM0MV9NQURDVExfTVk7CisJCWJyZWFrOworCWNhc2UgMjcwOgorCQlhZGRyX21vZGUgPSBJTEk5
+MzQxX01BRENUTF9NViB8IElMSTkzNDFfTUFEQ1RMX01ZIHwKKwkJCSAgICBJTEk5MzQxX01BRENU
+TF9NWDsKKwkJYnJlYWs7CisJfQorCWFkZHJfbW9kZSB8PSBJTEk5MzQxX01BRENUTF9CR1I7CisJ
+bWlwaV9kY3NfY29tbWFuZChkc2ksIE1JUElfRENTX1NFVF9BRERSRVNTX01PREUsIGFkZHJfbW9k
+ZSk7CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGljIGludCBpbGk5MzQxX2VuYWJsZShzdHJ1Y3Qg
+ZHJtX3BhbmVsICpwYW5lbCkKK3sKKwlzdHJ1Y3QgaWxpOTM0MSAqcHJpdiA9IHBhbmVsX3RvX2ls
+aTkzNDEocGFuZWwpOworCisJYmFja2xpZ2h0X2VuYWJsZShwcml2LT5iYWNrbGlnaHQpOworCisJ
+cmV0dXJuIDA7Cit9CisKK3N0YXRpYyBpbnQgaWxpOTM0MV9kaXNhYmxlKHN0cnVjdCBkcm1fcGFu
+ZWwgKnBhbmVsKQoreworCXN0cnVjdCBpbGk5MzQxICpwcml2ID0gcGFuZWxfdG9faWxpOTM0MShw
+YW5lbCk7CisKKwliYWNrbGlnaHRfZGlzYWJsZShwcml2LT5iYWNrbGlnaHQpOworCisJcmV0dXJu
+IDA7Cit9CisKK3N0YXRpYyBpbnQgaWxpOTM0MV91bnByZXBhcmUoc3RydWN0IGRybV9wYW5lbCAq
+cGFuZWwpCit7CisJc3RydWN0IGlsaTkzNDEgKnByaXYgPSBwYW5lbF90b19pbGk5MzQxKHBhbmVs
+KTsKKworCW1pcGlfZGNzX2NvbW1hbmQocHJpdi0+ZHNpLCBNSVBJX0RDU19TRVRfRElTUExBWV9P
+RkYpOworCisJcmV0dXJuIDA7Cit9CisKK3N0YXRpYyBpbnQgaWxpOTM0MV9nZXRfbW9kZXMoc3Ry
+dWN0IGRybV9wYW5lbCAqcGFuZWwsCisJCQkgICAgIHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
+ZWN0b3IpCit7CisJc3RydWN0IGlsaTkzNDEgKnByaXYgPSBwYW5lbF90b19pbGk5MzQxKHBhbmVs
+KTsKKwlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZTsKKwl1MzIgZm9ybWF0ID0gTUVESUFf
+QlVTX0ZNVF9SR0I1NjVfMVgxNjsKKworCW1vZGUgPSBkcm1fbW9kZV9kdXBsaWNhdGUoY29ubmVj
+dG9yLT5kZXYsICZwcml2LT5wZGF0YS0+bW9kZSk7CisJaWYgKCFtb2RlKSB7CisJCWRldl9lcnIo
+cGFuZWwtPmRldiwgImZhaWxlZCB0byBhZGQgbW9kZSAldXgldXhAJXVcbiIsCisJCQlwcml2LT5w
+ZGF0YS0+bW9kZS5oZGlzcGxheSwKKwkJCXByaXYtPnBkYXRhLT5tb2RlLnZkaXNwbGF5LAorCQkJ
+cHJpdi0+cGRhdGEtPm1vZGUudnJlZnJlc2gpOworCQlyZXR1cm4gLUVOT01FTTsKKwl9CisKKwlk
+cm1fbW9kZV9zZXRfbmFtZShtb2RlKTsKKworCW1vZGUtPnR5cGUgPSBEUk1fTU9ERV9UWVBFX0RS
+SVZFUiB8IERSTV9NT0RFX1RZUEVfUFJFRkVSUkVEOworCWRybV9tb2RlX3Byb2JlZF9hZGQoY29u
+bmVjdG9yLCBtb2RlKTsKKworCWNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLmJwYyA9IDg7CisJY29u
+bmVjdG9yLT5kaXNwbGF5X2luZm8ud2lkdGhfbW0gPSBwcml2LT5wZGF0YS0+d2lkdGhfbW07CisJ
+Y29ubmVjdG9yLT5kaXNwbGF5X2luZm8uaGVpZ2h0X21tID0gcHJpdi0+cGRhdGEtPmhlaWdodF9t
+bTsKKworCWRybV9kaXNwbGF5X2luZm9fc2V0X2J1c19mb3JtYXRzKCZjb25uZWN0b3ItPmRpc3Bs
+YXlfaW5mbywgJmZvcm1hdCwgMSk7CisJY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uYnVzX2ZsYWdz
+ID0gRFJNX0JVU19GTEFHX1BJWERBVEFfUE9TRURHRTsKKworCXJldHVybiAxOworfQorCitzdGF0
+aWMgY29uc3Qgc3RydWN0IGRybV9wYW5lbF9mdW5jcyBpbGk5MzQxX2Z1bmNzID0geworCS5wcmVw
+YXJlCT0gaWxpOTM0MV9wcmVwYXJlLAorCS51bnByZXBhcmUJPSBpbGk5MzQxX3VucHJlcGFyZSwK
+KwkuZW5hYmxlCQk9IGlsaTkzNDFfZW5hYmxlLAorCS5kaXNhYmxlCT0gaWxpOTM0MV9kaXNhYmxl
+LAorCS5nZXRfbW9kZXMJPSBpbGk5MzQxX2dldF9tb2RlcywKK307CisKK3N0YXRpYyBpbnQgaWxp
+OTM0MV9wcm9iZShzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kpCit7CisJc3RydWN0IGRldmlj
+ZSAqZGV2ID0gJmRzaS0+ZGV2OworCXN0cnVjdCBpbGk5MzQxICpwcml2OworCWludCByZXQ7CisK
+KwkvKiBTZWUgY29tbWVudCBmb3IgbWlwaV9kYmlfc3BpX2luaXQoKSAqLworCWlmICghZGV2LT5j
+b2hlcmVudF9kbWFfbWFzaykgeworCQlyZXQgPSBkbWFfY29lcmNlX21hc2tfYW5kX2NvaGVyZW50
+KGRldiwgRE1BX0JJVF9NQVNLKDMyKSk7CisJCWlmIChyZXQpIHsKKwkJCWRldl93YXJuKGRldiwg
+IkZhaWxlZCB0byBzZXQgZG1hIG1hc2sgJWRcbiIsIHJldCk7CisJCQlyZXR1cm4gcmV0OworCQl9
+CisJfQorCisJcHJpdiA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqcHJpdiksIEdGUF9LRVJO
+RUwpOworCWlmICghcHJpdikKKwkJcmV0dXJuIC1FTk9NRU07CisKKwltaXBpX2RzaV9zZXRfZHJ2
+ZGF0YShkc2ksIHByaXYpOworCXByaXYtPmRzaSA9IGRzaTsKKworCWRldmljZV9wcm9wZXJ0eV9y
+ZWFkX3UzMihkZXYsICJyb3RhdGlvbiIsICZwcml2LT5yb3RhdGlvbik7CisKKwlwcml2LT5wZGF0
+YSA9IGRldmljZV9nZXRfbWF0Y2hfZGF0YShkZXYpOworCWlmICghcHJpdi0+cGRhdGEpCisJCXJl
+dHVybiAtRUlOVkFMOworCisJZHJtX3BhbmVsX2luaXQoJnByaXYtPnBhbmVsLCBkZXYsICZpbGk5
+MzQxX2Z1bmNzLAorCQkgICAgICAgRFJNX01PREVfQ09OTkVDVE9SX0RQSSk7CisKKwlwcml2LT5y
+ZXNldF9ncGlvZCA9IGRldm1fZ3Bpb2RfZ2V0KGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0hJR0gp
+OworCWlmIChJU19FUlIocHJpdi0+cmVzZXRfZ3Bpb2QpKSB7CisJCWRldl9lcnIoZGV2LCAiQ291
+bGRuJ3QgZ2V0IG91ciByZXNldCBHUElPXG4iKTsKKwkJcmV0dXJuIFBUUl9FUlIocHJpdi0+cmVz
+ZXRfZ3Bpb2QpOworCX0KKworCXByaXYtPmJhY2tsaWdodCA9IGRldm1fb2ZfZmluZF9iYWNrbGln
+aHQoZGV2KTsKKwlpZiAoSVNfRVJSKHByaXYtPmJhY2tsaWdodCkpIHsKKwkJcmV0ID0gUFRSX0VS
+Uihwcml2LT5iYWNrbGlnaHQpOworCQlpZiAocmV0ICE9IC1FUFJPQkVfREVGRVIpCisJCQlkZXZf
+ZXJyKGRldiwgIkZhaWxlZCB0byBnZXQgYmFja2xpZ2h0IGhhbmRsZVxuIik7CisJCXJldHVybiBy
+ZXQ7CisJfQorCisJcmV0ID0gZHJtX3BhbmVsX2FkZCgmcHJpdi0+cGFuZWwpOworCWlmIChyZXQg
+PCAwKSB7CisJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIHJlZ2lzdGVyIHBhbmVsXG4iKTsKKwkJ
+cmV0dXJuIHJldDsKKwl9CisKKwlkc2ktPmJ1c190eXBlID0gcHJpdi0+cGRhdGEtPmJ1c190eXBl
+OworCWRzaS0+bGFuZXMgPSBwcml2LT5wZGF0YS0+bGFuZXM7CisJZHNpLT5mb3JtYXQgPSBNSVBJ
+X0RTSV9GTVRfUkdCNTY1OworCisJcmV0ID0gbWlwaV9kc2lfYXR0YWNoKGRzaSk7CisJaWYgKHJl
+dCkgeworCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBhdHRhY2ggRFNJIHBhbmVsXG4iKTsKKwkJ
+Z290byBlcnJfcGFuZWxfcmVtb3ZlOworCX0KKworCXJldCA9IG1pcGlfZHNpX21heWJlX3JlZ2lz
+dGVyX3RpbnlfZHJpdmVyKGRzaSk7CisJaWYgKHJldCkgeworCQlkZXZfZXJyKGRldiwgIkZhaWxl
+ZCB0byBpbml0IFRpbnlEUk0gZHJpdmVyXG4iKTsKKwkJZ290byBlcnJfbWlwaV9kc2lfZGV0YWNo
+OworCX0KKworCXJldHVybiAwOworCitlcnJfbWlwaV9kc2lfZGV0YWNoOgorCW1pcGlfZHNpX2Rl
+dGFjaChkc2kpOworZXJyX3BhbmVsX3JlbW92ZToKKwlkcm1fcGFuZWxfcmVtb3ZlKCZwcml2LT5w
+YW5lbCk7CisJcmV0dXJuIHJldDsKK30KKworc3RhdGljIGludCBpbGk5MzQxX3JlbW92ZShzdHJ1
+Y3QgbWlwaV9kc2lfZGV2aWNlICpkc2kpCit7CisJc3RydWN0IGlsaTkzNDEgKnByaXYgPSBtaXBp
+X2RzaV9nZXRfZHJ2ZGF0YShkc2kpOworCisJbWlwaV9kc2lfZGV0YWNoKGRzaSk7CisJZHJtX3Bh
+bmVsX3JlbW92ZSgmcHJpdi0+cGFuZWwpOworCisJaWYgKHByaXYtPmJhY2tsaWdodCkKKwkJcHV0
+X2RldmljZSgmcHJpdi0+YmFja2xpZ2h0LT5kZXYpOworCisJcmV0dXJuIDA7Cit9CisKK3N0YXRp
+YyBjb25zdCBzdHJ1Y3QgaWxpOTM0MV9wZGF0YSB5eDI0MHF2MjlfcGRhdGEgPSB7CisJLm1vZGUg
+PSB7IERSTV9TSU1QTEVfTU9ERSgyNDAsIDMyMCwgMzcsIDQ5KSB9LAorCS53aWR0aF9tbSA9IDAs
+IC8vIFRPRE8KKwkuaGVpZ2h0X21tID0gMCwgLy8gVE9ETworCS5idXNfdHlwZSA9IE1JUElfREVW
+SUNFX1RZUEVfREJJX1NQSV9NT0RFMywKKwkubGFuZXMgPSAxLAorfTsKKworc3RhdGljIGNvbnN0
+IHN0cnVjdCBvZl9kZXZpY2VfaWQgaWxpOTM0MV9vZl9tYXRjaFtdID0geworCXsgLmNvbXBhdGli
+bGUgPSAiYWRhZnJ1aXQseXgyNDBxdjI5IiwgLmRhdGEgPSAmeXgyNDBxdjI5X3BkYXRhIH0sCisJ
+eyB9Cit9OworTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgaWxpOTM0MV9vZl9tYXRjaCk7CisKK3N0
+YXRpYyBzdHJ1Y3QgbWlwaV9kc2lfZHJpdmVyIGlsaTkzNDFfZHNpX2RyaXZlciA9IHsKKwkucHJv
+YmUJCT0gaWxpOTM0MV9wcm9iZSwKKwkucmVtb3ZlCQk9IGlsaTkzNDFfcmVtb3ZlLAorCS5kcml2
+ZXIgPSB7CisJCS5uYW1lCQk9ICJpbGk5MzQxLWRzaSIsCisJCS5vZl9tYXRjaF90YWJsZQk9IGls
+aTkzNDFfb2ZfbWF0Y2gsCisJfSwKK307Cittb2R1bGVfbWlwaV9kc2lfZHJpdmVyKGlsaTkzNDFf
+ZHNpX2RyaXZlcik7CisKK01PRFVMRV9ERVNDUklQVElPTigiSWxpdGVrIElMSTkzNDEgRFJNIHBh
+bmVsIGRyaXZlciIpOworTU9EVUxFX0FVVEhPUigiRGF2aWQgTGVjaG5lciA8ZGF2aWRAbGVjaG5v
+bG9neS5jb20+Iik7CitNT0RVTEVfQVVUSE9SKCJQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWls
+bG91Lm5ldD4iKTsKK01PRFVMRV9MSUNFTlNFKCJHUEwiKTsKLS0gCjIuMjYuMgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
