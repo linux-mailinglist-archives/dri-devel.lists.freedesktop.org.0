@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6E41F0F02
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A761F0F27
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F7F6E3C7;
-	Sun,  7 Jun 2020 19:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29DDC6E42B;
+	Sun,  7 Jun 2020 19:13:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440616E19A
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:23 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id u16so8867528lfl.8
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:23 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6366E395
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:24 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id n24so17735216lji.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z07PPt/u97dYBnTZgvhRJ5rLo7+ZbziTOZ6KMaLiXtU=;
- b=Ctrheq2+Lk6agPf9hiEOvCmdXzM5uqqaftrWAGWVrhVKMKGMDwZHxP40MhdNi98r79
- jRnM/h+E9d6TV0BLQJypxKwufygJ1ZMzDYUntJlF3gpaBlbmAXXz0ZRG6gskT3AiKqls
- FQgLziaiSgFbIij7fr5PgZWH0ZN0VOFLqrvggSQhuHCh9GqlnZgfgJ4WJYhBplI+e92p
- tWIxsqbF3q63thO9NQ3ZAlJm9DD4SYtSu7ULH0FvzWFshROa5+GDnjIFQuQBy8Dyhuvj
- vcdcgPs8fBGgE03XAlczSbYn3oFxeszqKeJUp/Fczhm6nYh/0v2Kmy8TOKQyEVASmXLx
- FrCw==
+ bh=AOO2W4vvP/igevCu4IH6JEPHANPVq7vKrjpVvFg7+eU=;
+ b=dRtC+StqRuLCpCgHfPYwlofqS68lJG79Brz1SZw7VYMfL8IsVxpCaJFAkWxV8XNqf2
+ MPaI2Jbrx83MX40jZU+0KfrNwEpEEohcZWmAPmxNXnnhvsOfjaqJsr7xvyovlbe2akvi
+ Y9gDGYBhxZ8Q66atM3UeToZn3Dl1BStCgHZaFihaHAxdXvVGHW3vAs/1xQNB1UJom3Rq
+ jef6QYkisaogv0RqywxdSr2uM4zIIUZ+5wyvYdRxDHdHWZVOPdbYM5urPZ+V60RoIoJ/
+ W/cKBeEvHGXIaHei1TZzk6FsvNUT+K4KdSscJLl9GBN4XnnnU9ZcsjtiGJTIyHWI2C1u
+ hAkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z07PPt/u97dYBnTZgvhRJ5rLo7+ZbziTOZ6KMaLiXtU=;
- b=mqXWx/ENykJ2FEwAWyn/YYBIV3W3AElTWqz8Inu3NfBL5kYSnw5mdWTjK+KykxhhYl
- QoKV3f1rb2Xny7X/6t0Qn8/ZU2Y9t91I7S/SxuDiaR9Z79BRiB+2xvGeCX9xeaDREN/G
- /5CQeOuSwUMLynnK0f+YW+FFue9fIp6E4QW6EeeY02Yw1BjkLq4PJz/8FHdqEgWA5QNv
- DEBptoNb8rxsjFF9RHnug7EdXkjskOubbOTUN2UXHdyrQdNqFmXVfdfIhvqWsM4Gb9oD
- P39v+XyK8mW7t0pI/nY9V56+V2Jx0PBndvYb68gKlGvTpqdiR4IC3HUGACDYbc1qxz3v
- U+8A==
-X-Gm-Message-State: AOAM530F2W/7nhDc75274dJ6jXoB+gQrr3QLhtYThVbh0WuF+9DNBspH
- c1bVfJTTgY/5BpeuZrlXd1A=
-X-Google-Smtp-Source: ABdhPJxaKvBwRyTdyvk01wbXZBDYI3yeNk6swFO3Ell52B0Lg1W78KUXB4yGariWUIU0YR3GP/Pujg==
-X-Received: by 2002:a19:8b06:: with SMTP id n6mr10632727lfd.66.1591556241530; 
- Sun, 07 Jun 2020 11:57:21 -0700 (PDT)
+ bh=AOO2W4vvP/igevCu4IH6JEPHANPVq7vKrjpVvFg7+eU=;
+ b=l4w1p1+8KO2UxsLUJSqB4I3UtruQn0HItRufTGfwHVi+O9fVzfFJMJ1z5G3DvaLIfG
+ mqMVp+zeeTzT2+L9nIYj7P+PP4RcAXfdLHjkoJ0WTF3bIRo+9jgpzuiHNHNMDGCfNv1o
+ qxwvNIN0Z2sqogwfvx6+GwpS1meaxd6q2lswlMgqV1n3XVmORTmwxfcigKEfi8s1KJtP
+ 4Kcf8Vn+9SYZIHec70ub+IdrJMOMx6o7aJ04fEG++O/l2ELwdodTb9yIqRztMkrenEN+
+ KxAvHCuWivvTdVavOhjPtwDyIxgms4sFgoTANLv7rAl6WEMu22SXtZJc6UU7IoqrkbR9
+ Rl+Q==
+X-Gm-Message-State: AOAM533TvYh8+aZbEx+3D1phgJUxrTyzP7dtnxu2+2tNiDKbpmbxlGzz
+ CVWFZqxm9QHXlLLwUcrOLaIIpXwd
+X-Google-Smtp-Source: ABdhPJzxLPXZteuNlyWl8auR9iNrq1tcOwGy23AKnpGEA2ohuyWWWo2bNz4jA8TTZz83t8FlbmeSvg==
+X-Received: by 2002:a05:651c:545:: with SMTP id
+ q5mr9789863ljp.57.1591556242946; 
+ Sun, 07 Jun 2020 11:57:22 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.20
+ by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Jun 2020 11:57:21 -0700 (PDT)
+ Sun, 07 Jun 2020 11:57:22 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +57,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v3 09/39] memory: tegra20-emc: Initialize MC timings
-Date: Sun,  7 Jun 2020 21:55:00 +0300
-Message-Id: <20200607185530.18113-10-digetx@gmail.com>
+Subject: [PATCH v3 10/39] PM / devfreq: tegra20: Silence deferred probe error
+Date: Sun,  7 Jun 2020 21:55:01 +0300
+Message-Id: <20200607185530.18113-11-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200607185530.18113-1-digetx@gmail.com>
 References: <20200607185530.18113-1-digetx@gmail.com>
@@ -85,97 +86,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We're going to add interconnect support to the EMC driver. Once this
-support will be added, the Tegra20 devfreq driver will no longer be
-able to use clk_round_rate(emc) for building up OPP table. It's quite
-handy that struct tegra_mc contains memory timings which could be used
-by the devfreq drivers instead of the clk rate-rounding. The tegra_mc
-timings are populated by the MC driver only for Tegra30+ SoCs, hence
-the Tegra20 EMC could populate timings by itself.
+Tegra EMC driver was turned into a regular kernel driver, it also could
+be compiled as a loadable kernel module now. Hence EMC clock isn't
+guaranteed to be available and clk_get("emc") may return -EPROBE_DEFER and
+there is no good reason to spam KMSG with a error about missing EMC clock
+in this case, so let's silence the deferred probe error.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra20-emc.c | 47 ++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ drivers/devfreq/tegra20-devfreq.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index 035d9251e28a..a95522020a25 100644
---- a/drivers/memory/tegra/tegra20-emc.c
-+++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -15,12 +15,15 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/sort.h>
- #include <linux/types.h>
+diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
+index ff82bac9ee4e..6469dc69c5e0 100644
+--- a/drivers/devfreq/tegra20-devfreq.c
++++ b/drivers/devfreq/tegra20-devfreq.c
+@@ -141,9 +141,11 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
  
- #include <soc/tegra/fuse.h>
- 
-+#include "mc.h"
-+
- #define EMC_INTSTATUS				0x000
- #define EMC_INTMASK				0x004
- #define EMC_DBG					0x008
-@@ -650,6 +653,38 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
- 			    emc, &tegra_emc_debug_max_rate_fops);
- }
- 
-+static int tegra_emc_init_mc_timings(struct tegra_emc *emc)
-+{
-+	struct tegra_mc_timing *timing;
-+	struct platform_device *pdev;
-+	struct device_node *np;
-+	struct tegra_mc *mc;
-+	unsigned int i;
-+
-+	np = of_find_compatible_node(NULL, NULL, "nvidia,tegra20-mc-gart");
-+	if (!np)
-+		return -ENOENT;
-+
-+	pdev = of_find_device_by_node(np);
-+	of_node_put(np);
-+	if (!pdev)
-+		return -ENOENT;
-+
-+	mc = platform_get_drvdata(pdev);
-+	if (!mc)
-+		return -EPROBE_DEFER;
-+
-+	mc->timings = devm_kcalloc(mc->dev, emc->num_timings, sizeof(*timing),
-+				   GFP_KERNEL);
-+	if (!mc->timings)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < emc->num_timings; i++)
-+		mc->timings[mc->num_timings++].rate = emc->timings[i].rate;
-+
-+	return 0;
-+}
-+
- static int tegra_emc_probe(struct platform_device *pdev)
- {
- 	struct device_node *np;
-@@ -705,6 +740,18 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	/* EMC is a system-critical clock that is always enabled */
+ 	tegra->emc_clock = devm_clk_get(&pdev->dev, "emc");
+-	if (IS_ERR(tegra->emc_clock)) {
+-		err = PTR_ERR(tegra->emc_clock);
+-		dev_err(&pdev->dev, "failed to get emc clock: %d\n", err);
++	err = PTR_ERR_OR_ZERO(tegra->emc_clock);
++	if (err) {
++		if (err != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "failed to get emc clock: %d\n",
++				err);
  		return err;
  	}
  
-+	/*
-+	 * Only Tegra30+ SoCs are having Memory Controller timings initialized
-+	 * by the MC driver. For Tegra20 we need to populate the MC timings
-+	 * from here. The MC timings will be used by the Tegra20 devfreq driver.
-+	 */
-+	err = tegra_emc_init_mc_timings(emc);
-+	if (err) {
-+		dev_err(&pdev->dev, "failed to initialize mc timings: %d\n",
-+			err);
-+		return err;
-+	}
-+
- 	tegra20_clk_set_emc_round_callback(emc_round_rate, emc);
- 
- 	emc->clk = devm_clk_get(&pdev->dev, "emc");
 -- 
 2.26.0
 
