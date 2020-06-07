@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F581F0F94
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 22:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2AD1F0F91
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 22:25:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FBE6E1E2;
-	Sun,  7 Jun 2020 20:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8AB06E1D5;
+	Sun,  7 Jun 2020 20:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from o1.b.az.sendgrid.net (o1.b.az.sendgrid.net [208.117.55.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 262406E1D5
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 20:25:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626C06E1D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 20:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=from:subject:to:cc:content-type:content-transfer-encoding;
- s=001; bh=9+UFvR2HLQ1OtsQEFQDlYZvMrwIZ+EbLi39KqEqSC5c=;
- b=PT5/SPwDAKr7hCt/j9ChohbEuXIFE9HVYER3FGySHJCRHG8yfhB5E5ill2UxtU5r+Oll
- ahdPcZND/NfLoiG/dgAGsTGi8C8EG6vGNDhFFZ7UhkZ2jnl1J6j1Tc9hwk5pKPAzJeNt+3
- YJfqoUmq/C7tUiJfY2lPmGR0UToA2v3Ng=
-Received: by filterdrecv-p3mdw1-6f5df8956d-x2qpw with SMTP id
- filterdrecv-p3mdw1-6f5df8956d-x2qpw-20-5EDD4D35-1
- 2020-06-07 20:25:25.100926506 +0000 UTC m=+346300.487522929
+ h=from:subject:in-reply-to:references:to:cc:content-type:
+ content-transfer-encoding;
+ s=001; bh=y4cPh0/f3xkxdbgS5qj6WkCOPZvcYGJkTGyjKr6sOYA=;
+ b=V/UDgp0fOZoYYqSnEV7WYd1bN1V0iJF7T9go8ZR4/oRHNdJYs8t2JHrHab3Uh36JHfQt
+ rnv2kaJZuVnYJDvc1Z6KMDn6Xr9nZEWxXrXNzX9xuz8sZODjxaEVZgfgbMjTwrle+xRbcr
+ SAzf6iHLcMiPL9is3bJFs87OEGRim1rxI=
+Received: by filterdrecv-p3mdw1-6f5df8956d-dtkn2 with SMTP id
+ filterdrecv-p3mdw1-6f5df8956d-dtkn2-21-5EDD4D35-1F
+ 2020-06-07 20:25:25.615165994 +0000 UTC m=+346301.434158460
 Received: from bionic.localdomain (unknown)
  by ismtpd0001p1lon1.sendgrid.net (SG) with ESMTP
- id zJEc6mt4Tsa6oQIoDupI0g Sun, 07 Jun 2020 20:25:24.908 +0000 (UTC)
+ id 8kV6fIRtTkGGPZ3_nSj1Tg Sun, 07 Jun 2020 20:25:25.442 +0000 (UTC)
 From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH 0/2] drm: rockchip: add NV15 and NV20 support
+Subject: [PATCH 1/2] drm: drm_fourcc: add NV20 YUV format
 Date: Sun, 07 Jun 2020 20:25:25 +0000 (UTC)
-Message-Id: <20200607202521.18438-1-jonas@kwiboo.se>
+Message-Id: <20200607202521.18438-2-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200607202521.18438-1-jonas@kwiboo.se>
+References: <20200607202521.18438-1-jonas@kwiboo.se>
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h6O1z6Pg2iWyq5iV4?=
- =?us-ascii?Q?A+F4I6TvUqYcjYtDAgN2Hadv6t1FKJVFTvJ+DT8?=
- =?us-ascii?Q?LaIMpqOITdDIRmvVNs35SgjYXThyqH2g7v9tdXF?=
- =?us-ascii?Q?U8nkovYzdWjDwswGFPg=2FAIySMrgbZXwbK1yoauW?=
- =?us-ascii?Q?NKUFMkoh0CCGVnHjHF+EwtRz2tnOXDITKQpl0Qp?=
- =?us-ascii?Q?CvhXyUvjdWvyl9oN+F2rQ=3D=3D?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h=2FtF3WwO9txVSXf8F?=
+ =?us-ascii?Q?HjIX=2FR2s7i+VJch9=2FwdL08LjEKxGfZ3lRwZHytH?=
+ =?us-ascii?Q?crArFghPPbRhR21qGzFBxRRVKhycnM3RBIN3cC4?=
+ =?us-ascii?Q?VCAtchCUZqLZF7b8gpgen82NVkb5gGRDdy3vdsJ?=
+ =?us-ascii?Q?2dMONTD6bIvhs5P7MEWIZZUnkm0N=2FC7jI6DijeH?=
+ =?us-ascii?Q?aDRPfu7VXYnS0Feij11cA=3D=3D?=
 To: Sandy Huang <hjc@rock-chips.com>, Heiko =?iso-8859-1?q?St=FCbner?=
  <heiko@sntech.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,37 +63,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+DRM_FORMAT_NV20 is a 2 plane format suitable for linear memory layout.
+The format is similar to P210 with 4:2:2 sub-sampling but has no padding
+between components. Instead, luminance and chrominance samples are grouped
+into 4s so that each group is packed into an integer number of bytes:
 
-This series adds support for displaying 10-bit 4:2:0 and 4:2:2 formats produced
-by the Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
+YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
 
-First patch adds a new fourcc 10-bit YUV format with 4:2:2 sub-sampling.
-Second patch adds support for using the the two new fourcc formats.
-Both depend on "drm: drm_fourcc: add NV15, Q410, Q401 YUV formats" at [1].
+The '20' suffix refers to the optimum effective bits per pixel which is
+achieved when the total number of luminance samples is a multiple of 4.
 
-This series can also be found at [2], and can be tested on RK3399 using an
-upcoming rkvdec series at [3] together with ffmpeg at [4] and kodi-gbm or mpv.
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+ drivers/gpu/drm/drm_fourcc.c  | 4 ++++
+ include/uapi/drm/drm_fourcc.h | 1 +
+ 2 files changed, 5 insertions(+)
 
-[1] https://patchwork.freedesktop.org/series/76326/
-[2] https://github.com/Kwiboo/linux-rockchip/commits/next-20200605-fmt_10
-[3] https://github.com/Kwiboo/linux-rockchip/commits/next-20200605-rkvdec
-[4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.2.2-rkvdec
-
-Regards,
-Jonas
-
-Jonas Karlman (2):
-  drm: drm_fourcc: add NV20 YUV format
-  drm: rockchip: add NV15 and NV20 support
-
- drivers/gpu/drm/drm_fourcc.c                |  4 +++
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 27 ++++++++++++++++--
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 31 +++++++++++++++++----
- include/uapi/drm/drm_fourcc.h               |  1 +
- 5 files changed, 56 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 722c7ebe4e88..2a9c8ae719ed 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -278,6 +278,10 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		  .num_planes = 2, .char_per_block = { 5, 5, 0 },
+ 		  .block_w = { 4, 2, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
+ 		  .vsub = 2, .is_yuv = true },
++		{ .format = DRM_FORMAT_NV20,		.depth = 0,
++		  .num_planes = 2, .char_per_block = { 5, 5, 0 },
++		  .block_w = { 4, 2, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
++		  .vsub = 1, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_Q410,		.depth = 0,
+ 		  .num_planes = 3, .char_per_block = { 2, 2, 2 },
+ 		  .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 }, .hsub = 0,
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index b5bf1c0e630e..244d32433a67 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -242,6 +242,7 @@ extern "C" {
+  * index 1 = Cr:Cb plane, [39:0] Cr1:Cb1:Cr0:Cb0 little endian
+  */
+ #define DRM_FORMAT_NV15		fourcc_code('N', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane */
++#define DRM_FORMAT_NV20		fourcc_code('N', 'V', '2', '0') /* 2x1 subsampled Cr:Cb plane */
+ 
+ /*
+  * 2 plane YCbCr MSB aligned
 -- 
 2.17.1
 
