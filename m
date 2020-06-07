@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777B91F0EFD
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 674041F0EF4
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF806E3E3;
-	Sun,  7 Jun 2020 19:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3586E3B2;
+	Sun,  7 Jun 2020 19:13:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD1E6E181
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:29 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id j18so4708091lji.2
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:29 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 335766E393
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:31 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id i27so6813909ljb.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AmHb/qTFiuR6DXvA/ffC/nHLs0yGE7r571S6zKct1lc=;
- b=MqvDq9q43i2GPx/wPz9ytYWKP88kiBVVzmPi0yFwA3iNTVJYOcWPcz/wxxrokVqKJs
- RY2CBx0Uao//TS1K+2h9Hc+mVgFzsOqbu/Ghe8Wpzd/eRdkCsSLBsj2LZPSrW6lMqLUo
- VmpVlTn5mXp4qTqfXzgx84FXF1U4PCk9QykLsBNdfTfwQyr8ngdKJ+vEl4rV8ZWB5MwE
- F7TqbOvhJWSg6W3qu+BZuiUWaHqkbGdTASKaQT9ITEb3xxfOq74uJ7WW9gSbB1Jjc8GK
- gfGjh9yRYpVg255ue2RW9chLZ4Z+DBiwIFORi9YjB1lPu9vbcQifGETMCB/Jx67aWBg3
- P73g==
+ bh=UvPgx7nfuClCEbY/9qNxk5Wqh42dXshULVk6+zlWjrI=;
+ b=Txv9TK5zoOMhF7vXS6mMGopAvQ+wLC0R/0y093Xav9/7fflf+t5MEXh1lX87cGtY7t
+ EcIm+ueYddyomNsmyAYXjNonsld6ay8KVREB8rcJeZx+/W8YmwEudUGkYcyXR41nj0VB
+ GKutkpURwr+mUIjkAOti8e8J+81e6jRcSJVlC4i3BZfaAXHj7072WB42o6YublbDu09+
+ 8zStnINDe3Y+8D1SQeF1Ib02vyjoXXPwjloqf2s9xU/R4zrPFzanc1gRCebkc0N6QhLo
+ djzCJxqaKgHmuRQjAR2joQM5a6TMR1drYGm57cvhYNb5TK7i4EWU9ITCknEgTpCJvQrt
+ xe9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AmHb/qTFiuR6DXvA/ffC/nHLs0yGE7r571S6zKct1lc=;
- b=hqnjAO3koq9B8uQkH2G6zCQmCHrAYg0HvVU50OB/7z6o7L3rvs1aHvyDxCQ7yO2h65
- 7V4k/vqRuf6hWqNxnSEkPLCZpeOYR/f2ePOh+FqgHOnh4aTUvdcz9ZHgMDyKr2wmecI+
- cLKjQHYTusLsRUQU4KH/Wsgs+BuIr43GQFmW80mZ2+aiFFVbCHh/t45CbLWQkFTr8bJP
- 8+DyTaxon8bEsxYowG6Otp/7pLQLC87VBta345lXpB4SNKW5nVM0e2Gz6CLNK8bQxONB
- gPSJRCV/XgMl9r0XM4wcqJASfHGVenpb9GGm05GgCUmuDB9dAzxeDYM4egKhOlr8JSc1
- 7SFQ==
-X-Gm-Message-State: AOAM530FOqs6fjnTO9XPsk/PDkNRIMJLyUc0FIpwWYOVhPqwZUs+0yw5
- tGn8aEkAzw/mSwz12kmFeBQ=
-X-Google-Smtp-Source: ABdhPJwcOUSznwhDpkI4gzAVGoraSqC7sU2i1NNjjHI6KUrQgIoEDkkkPx49bixW8DPBHVbikgyv1w==
-X-Received: by 2002:a2e:9dd8:: with SMTP id x24mr10027334ljj.304.1591556248332; 
- Sun, 07 Jun 2020 11:57:28 -0700 (PDT)
+ bh=UvPgx7nfuClCEbY/9qNxk5Wqh42dXshULVk6+zlWjrI=;
+ b=s1XmAr+iAKguMijQxTlf0woVJxm/UE2pZ2K0ZUU8F5LyrG/0iXZ3teBB36nRpsJwUH
+ xPa3qtFWF9YRGFzW5WZSQ5r3Fcz9JzCY/kRiZvD9Zu9wtLYNbDjylRp0BJhz/NbqUXGa
+ LiBXLu3NW69n3pWlE9wNXEc4vOW/LxZmEiG/MaE5TfUbVhbo295pxZrkAghcs9EzyrX1
+ 2pq4XUAVnqx28WQpr+RJwRDK97OkhH8+R6lwHMFGC70AqYz9CAr3DhsdgaznE8Ro/3Tq
+ Z19Ebv7uzeWALkM13ae9UMCuJWKpQJ32U3zA9z3QZXgy3TNAtiwoREdsqkX7oCEXeI12
+ YH0w==
+X-Gm-Message-State: AOAM533g+PYHbZ+Fvm7d7QSfq4aPezF8oQ4x4M35emqg57XJnvbsE6n3
+ yAta78Nm6NdEpv3o0mYymT5BEJwF
+X-Google-Smtp-Source: ABdhPJzToqPSxd3YO6VNTABt1RtCoxHsyBrguxlEv9L7QuotPpVI46VP9V3JtmxqUgxI2eV/+FvM2w==
+X-Received: by 2002:a2e:9804:: with SMTP id a4mr10029549ljj.369.1591556249647; 
+ Sun, 07 Jun 2020 11:57:29 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.27
+ by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Jun 2020 11:57:27 -0700 (PDT)
+ Sun, 07 Jun 2020 11:57:29 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v3 14/39] PM / devfreq: tegra20: Add error messages to
+Subject: [PATCH v3 15/39] PM / devfreq: tegra30: Add error messages to
  tegra_devfreq_target()
-Date: Sun,  7 Jun 2020 21:55:05 +0300
-Message-Id: <20200607185530.18113-15-digetx@gmail.com>
+Date: Sun,  7 Jun 2020 21:55:06 +0300
+Message-Id: <20200607185530.18113-16-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200607185530.18113-1-digetx@gmail.com>
 References: <20200607185530.18113-1-digetx@gmail.com>
@@ -92,37 +92,27 @@ where it fails silently.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/devfreq/tegra20-devfreq.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/devfreq/tegra30-devfreq.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
-index bf504ca4dea2..249d0dc44f6c 100644
---- a/drivers/devfreq/tegra20-devfreq.c
-+++ b/drivers/devfreq/tegra20-devfreq.c
-@@ -44,19 +44,25 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
- 	int err;
- 
- 	opp = devfreq_recommended_opp(dev, freq, flags);
--	if (IS_ERR(opp))
-+	if (IS_ERR(opp)) {
-+		dev_err(dev, "failed to find opp for %lu Hz\n", *freq);
- 		return PTR_ERR(opp);
-+	}
- 
- 	rate = dev_pm_opp_get_freq(opp);
+diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+index 13f93c6038ab..a03fb16c5c4c 100644
+--- a/drivers/devfreq/tegra30-devfreq.c
++++ b/drivers/devfreq/tegra30-devfreq.c
+@@ -641,12 +641,16 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
  	dev_pm_opp_put(opp);
  
- 	err = clk_set_min_rate(tegra->emc_clock, rate);
+ 	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
 -	if (err)
 +	if (err) {
-+		dev_err(dev, "failed to set min rate: %d\n", err);
++		dev_err(dev, "Failed to set min rate: %d\n", err);
  		return err;
 +	}
  
  	err = clk_set_rate(tegra->emc_clock, 0);
 -	if (err)
 +	if (err) {
-+		dev_err(dev, "failed to set rate: %d\n", err);
++		dev_err(dev, "Failed to set rate: %d\n", err);
  		goto restore_min_rate;
 +	}
  
