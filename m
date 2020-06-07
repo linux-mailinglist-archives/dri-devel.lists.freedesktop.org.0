@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDBD1F0EEF
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044BA1F0EE9
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D36D66E391;
-	Sun,  7 Jun 2020 19:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D7F6E38A;
+	Sun,  7 Jun 2020 19:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFA16E123
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:39:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC73E6E0FC
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1591537135; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1591537136; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ content-type:content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KzRVUml0maXfgFVq+MitCsYwSMuF5r+FxpSe47uLMi8=;
- b=P2uLhfqGzC9wEIm/6Szi8vmSZW6nCycQu4lIb1AehFYyY/ld0I99gKnqWNC3bomoL73c2v
- QntrwuI0Q7jR0Ot+gD1UQRkutMu4/4eaeeZRj6r+wba1E+kLkC9xDNhRbrrOiwu4Kpo9tC
- b3+cRS9Ch9kAhG6VlgV8FA1WQPB8Llk=
+ bh=M8Kkre4i8Qnc2kJTX7UI/DImR2brCl5Ldu5gv55KB7E=;
+ b=CVWx74cloO6NJQO+t51oyB4M6GJw/+AlbR92EflprNEK/9mHA36bEFiqlICQcDQJlcEbom
+ so7KSBTzqyMhklqsltnMIzXnwXRGOHRi3l+a8JfmP7vWVkBnleCB8XehzqfBTiS+6c4QAB
+ jPPY5b2JCrhxv/uni2jDkd6+PvyCZGs=
 From: Paul Cercueil <paul@crapouillou.net>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Emil Velikov <emil.l.velikov@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [RFC PATCH 2/4] gpu/drm: Add SPI DBI host driver
-Date: Sun,  7 Jun 2020 15:38:30 +0200
-Message-Id: <20200607133832.1730288-3-paul@crapouillou.net>
+Subject: [RFC PATCH 3/4] gpu/drm: Add TinyDRM for DSI/DBI panels
+Date: Sun,  7 Jun 2020 15:38:31 +0200
+Message-Id: <20200607133832.1730288-4-paul@crapouillou.net>
 In-Reply-To: <20200607133832.1730288-1-paul@crapouillou.net>
 References: <20200607133832.1730288-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -47,110 +46,368 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBkcml2ZXIgd2lsbCByZWdpc3RlciBhIERCSSBob3N0IGRyaXZlciBmb3IgcGFuZWxzIGNv
-bm5lY3RlZCBvdmVyClNQSS4KCkZvciBub3csIG9ubHkgREJJIHR5cGUgYzMgaXMgc3VwcG9ydGVk
-LCB3aGljaCBpcyBhIFNQSSBwcm90b2NvbCB3aXRoIDgKYml0cyBwZXIgd29yZCwgd2l0aCB0aGUg
-ZGF0YS9jb21tYW5kIGluZm9ybWF0aW9uIGNhcnJpZWQgYnkgYSBzZXBhcmF0ZQpHUElPLgoKU2ln
-bmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Ci0tLQogZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAgfCAgIDggKysKIGRyaXZlcnMvZ3B1L2RybS9i
-cmlkZ2UvTWFrZWZpbGUgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZGJpLXNwaS5j
-IHwgMTU5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwg
-MTY4IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL2RiaS1zcGkuYwoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZp
-ZyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZwppbmRleCBhYWVkMjM0N2FjZTkuLjYx
-NTg3YmM0ZDZlNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZwpAQCAtMTgwLDYgKzE4MCwxNCBAQCBj
-b25maWcgRFJNX1RJX1RQRDEyUzAxNQogCSAgVGV4YXMgSW5zdHJ1bWVudHMgVFBEMTJTMDE1IEhE
-TUkgbGV2ZWwgc2hpZnRlciBhbmQgRVNEIHByb3RlY3Rpb24KIAkgIGRyaXZlci4KIAorY29uZmln
-IERSTV9NSVBJX0RCSV9TUEkKKwl0cmlzdGF0ZSAiU1BJIGhvc3Qgc3VwcG9ydCBmb3IgTUlQSSBE
-QkkiCisJZGVwZW5kcyBvbiBPRiAmJiBTUEkKKwlzZWxlY3QgRFJNX01JUElfRFNJCisJc2VsZWN0
-IERSTV9NSVBJX0RCSQorCWhlbHAKKwkgIERyaXZlciB0byBzdXBwb3J0IERCSSBvdmVyIFNQSS4K
-Kwogc291cmNlICJkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L0tjb25maWciCiAKIHNv
-dXJjZSAiZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL0tjb25maWciCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRn
-ZS9NYWtlZmlsZQppbmRleCA2ZmIwNjJiNWIwZjAuLjE3ZmRmN2RlNDk4ZCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZQorKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJp
-ZGdlL01ha2VmaWxlCkBAIC0xOCw2ICsxOCw3IEBAIG9iai0kKENPTkZJR19EUk1fSTJDX0FEVjc1
-MTEpICs9IGFkdjc1MTEvCiBvYmotJChDT05GSUdfRFJNX1RJX1NONjVEU0k4NikgKz0gdGktc242
-NWRzaTg2Lm8KIG9iai0kKENPTkZJR19EUk1fVElfVEZQNDEwKSArPSB0aS10ZnA0MTAubwogb2Jq
-LSQoQ09ORklHX0RSTV9USV9UUEQxMlMwMTUpICs9IHRpLXRwZDEyczAxNS5vCitvYmotJChDT05G
-SUdfRFJNX01JUElfREJJX1NQSSkgKz0gZGJpLXNwaS5vCiAKIG9iai15ICs9IGFuYWxvZ2l4Lwog
-b2JqLXkgKz0gc3lub3BzeXMvCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Ri
-aS1zcGkuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZGJpLXNwaS5jCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uYzc5MDUxNGI3MzcyCi0tLSAvZGV2L251bGwKKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9kYmktc3BpLmMKQEAgLTAsMCArMSwxNTkgQEAKKy8v
-IFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyCisvKgorICogTUlQSSBE
-aXNwbGF5IEJ1cyBJbnRlcmZhY2UgKERCSSkgU1BJIHN1cHBvcnQKKyAqCisgKiBDb3B5cmlnaHQg
-MjAxNiBOb3JhbGYgVHLDuG5uZXMKKyAqIENvcHlyaWdodCAyMDIwIFBhdWwgQ2VyY3VlaWwgPHBh
-dWxAY3JhcG91aWxsb3UubmV0PgorICovCisKKyNpbmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVy
-Lmg+CisjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+CisjaW5jbHVkZSA8bGludXgvc3BpL3NwaS5o
-PgorCisjaW5jbHVkZSA8ZHJtL2RybV9taXBpX2RiaS5oPgorI2luY2x1ZGUgPGRybS9kcm1fbWlw
-aV9kc2kuaD4KKworI2luY2x1ZGUgPHZpZGVvL21pcGlfZGlzcGxheS5oPgorCitzdHJ1Y3QgZGJp
-X3NwaSB7CisJc3RydWN0IG1pcGlfZHNpX2hvc3QgaG9zdDsKKwlzdHJ1Y3QgbWlwaV9kc2lfaG9z
-dF9vcHMgaG9zdF9vcHM7CisKKwlzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpOworCXN0cnVjdCBncGlv
-X2Rlc2MgKmRjOworCXN0cnVjdCBtdXRleCBjbWRsb2NrOworfTsKKworc3RhdGljIGlubGluZSBz
-dHJ1Y3QgZGJpX3NwaSAqaG9zdF90b19kYmlfc3BpKHN0cnVjdCBtaXBpX2RzaV9ob3N0ICpob3N0
-KQoreworCXJldHVybiBjb250YWluZXJfb2YoaG9zdCwgc3RydWN0IGRiaV9zcGksIGhvc3QpOwor
-fQorCitzdGF0aWMgc3NpemVfdCBkYmlfc3BpX3RyYW5zZmVyKHN0cnVjdCBtaXBpX2RzaV9ob3N0
-ICpob3N0LAorCQkJCWNvbnN0IHN0cnVjdCBtaXBpX2RzaV9tc2cgKm1zZykKK3sKKwlzdHJ1Y3Qg
-ZGJpX3NwaSAqZGJpID0gaG9zdF90b19kYmlfc3BpKGhvc3QpOworCXN0cnVjdCBzcGlfZGV2aWNl
-ICpzcGkgPSBkYmktPnNwaTsKKwljb25zdCB1OCAqYnVmID0gbXNnLT50eF9idWY7CisJdW5zaWdu
-ZWQgaW50IGJwdyA9IDg7CisJdTMyIHNwZWVkX2h6OworCXNzaXplX3QgcmV0OworCisJLyogZm9y
-IG5vdyB3ZSBvbmx5IHN1cHBvcnQgc2VuZGluZyBtZXNzYWdlcywgbm90IHJlY2VpdmluZyAqLwor
-CWlmIChtc2ctPnJ4X2xlbikKKwkJcmV0dXJuIC1FTk9UU1VQUDsKKworCWdwaW9kX3NldF92YWx1
-ZV9jYW5zbGVlcChkYmktPmRjLCAwKTsKKworCXNwZWVkX2h6ID0gbWlwaV9kYmlfc3BpX2NtZF9t
-YXhfc3BlZWQoc3BpLCAxKTsKKwlyZXQgPSBtaXBpX2RiaV9zcGlfdHJhbnNmZXIoc3BpLCBzcGVl
-ZF9oeiwgOCwgYnVmLCAxKTsKKwlpZiAocmV0IHx8IG1zZy0+dHhfbGVuID09IDEpCisJCXJldHVy
-biByZXQ7CisKKwlpZiAoYnVmWzBdID09IE1JUElfRENTX1dSSVRFX01FTU9SWV9TVEFSVCkKKwkJ
-YnB3ID0gMTY7CisKKwlncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAoZGJpLT5kYywgMSk7CisJc3Bl
-ZWRfaHogPSBtaXBpX2RiaV9zcGlfY21kX21heF9zcGVlZChzcGksIG1zZy0+dHhfbGVuIC0gMSk7
-CisKKwlyZXQgPSBtaXBpX2RiaV9zcGlfdHJhbnNmZXIoc3BpLCBzcGVlZF9oeiwgYnB3LAorCQkJ
-CSAgICAmYnVmWzFdLCBtc2ctPnR4X2xlbiAtIDEpOworCWlmIChyZXQpCisJCXJldHVybiByZXQ7
-CisKKwlyZXR1cm4gbXNnLT50eF9sZW47Cit9CisKK3N0YXRpYyBpbnQgZGJpX3NwaV9hdHRhY2go
-c3RydWN0IG1pcGlfZHNpX2hvc3QgKmhvc3QsCisJCQkgIHN0cnVjdCBtaXBpX2RzaV9kZXZpY2Ug
-KmRzaSkKK3sKKwlyZXR1cm4gMDsgLyogTm90aGluZyB0byBkbyAqLworfQorCitzdGF0aWMgaW50
-IGRiaV9zcGlfZGV0YWNoKHN0cnVjdCBtaXBpX2RzaV9ob3N0ICpob3N0LAorCQkJICBzdHJ1Y3Qg
-bWlwaV9kc2lfZGV2aWNlICpkc2kpCit7CisJcmV0dXJuIDA7IC8qIE5vdGhpbmcgdG8gZG8gKi8K
-K30KKworc3RhdGljIHZvaWQgZGJpX3NwaV9ob3N0X3VucmVnaXN0ZXIodm9pZCAqZCkKK3sKKwlt
-aXBpX2RzaV9ob3N0X3VucmVnaXN0ZXIoZCk7Cit9CisKK3N0YXRpYyBpbnQgZGJpX3NwaV9wcm9i
-ZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQoreworCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZzcGkt
-PmRldjsKKwlzdHJ1Y3QgbWlwaV9kc2lfZGV2aWNlX2luZm8gaW5mbyA9IHsgfTsKKwlzdHJ1Y3Qg
-bWlwaV9kc2lfZGV2aWNlICpkc2k7CisJc3RydWN0IGRiaV9zcGkgKmRiaTsKKwlpbnQgcmV0Owor
-CisJZGJpID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpkYmkpLCBHRlBfS0VSTkVMKTsKKwlp
-ZiAoIWRiaSkKKwkJcmV0dXJuIC1FTk9NRU07CisKKwkvKiBPbmx5IERCSSBUeXBlIEMzIHN1cHBv
-cnRlZCBmb3Igbm93ICovCisJZGJpLT5ob3N0LmJ1c190eXBlcyA9IE1JUElfREVWSUNFX1RZUEVf
-REJJX1NQSV9NT0RFMzsKKworCWRiaS0+aG9zdC5kZXYgPSBkZXY7CisJZGJpLT5ob3N0Lm9wcyA9
-ICZkYmktPmhvc3Rfb3BzOworCWRiaS0+c3BpID0gc3BpOworCXNwaV9zZXRfZHJ2ZGF0YShzcGks
-IGRiaSk7CisKKwlkYmktPmRjID0gZGV2bV9ncGlvZF9nZXQoZGV2LCAiZGMiLCBHUElPRF9PVVRf
-TE9XKTsKKwlpZiAoSVNfRVJSKGRiaS0+ZGMpKSB7CisJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRv
-IGdldCBncGlvICdkYydcbiIpOworCQlyZXR1cm4gUFRSX0VSUihkYmktPmRjKTsKKwl9CisKKwlk
-YmktPmhvc3Rfb3BzLnRyYW5zZmVyID0gZGJpX3NwaV90cmFuc2ZlcjsKKwlkYmktPmhvc3Rfb3Bz
-LmF0dGFjaCA9IGRiaV9zcGlfYXR0YWNoOworCWRiaS0+aG9zdF9vcHMuZGV0YWNoID0gZGJpX3Nw
-aV9kZXRhY2g7CisKKwltdXRleF9pbml0KCZkYmktPmNtZGxvY2spOworCisJcmV0ID0gbWlwaV9k
-c2lfaG9zdF9yZWdpc3RlcigmZGJpLT5ob3N0KTsKKwlpZiAocmV0KSB7CisJCWRldl9lcnIoZGV2
-LCAiVW5hYmxlIHRvIHJlZ2lzdGVyIERTSSBob3N0XG4iKTsKKwkJcmV0dXJuIHJldDsKKwl9CisK
-KwlyZXQgPSBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBkYmlfc3BpX2hvc3RfdW5yZWdp
-c3RlciwgJmRiaS0+aG9zdCk7CisJaWYgKHJldCkKKwkJcmV0dXJuIHJldDsKKworCS8qCisJICog
-UmVnaXN0ZXIgb3VyIG93biBub2RlIGFzIGEgTUlQSSBEU0kgZGV2aWNlLgorCSAqIFRoaXMgZW5z
-dXJlcyB0aGF0IHRoZSBwYW5lbCBkcml2ZXIgd2lsbCBiZSBwcm9iZWQuCisJICovCisJaW5mby5j
-aGFubmVsID0gMDsKKwlpbmZvLm5vZGUgPSBvZl9ub2RlX2dldChkZXYtPm9mX25vZGUpOworCisJ
-ZHNpID0gbWlwaV9kc2lfZGV2aWNlX3JlZ2lzdGVyX2Z1bGwoJmRiaS0+aG9zdCwgJmluZm8pOwor
-CWlmIChJU19FUlIoZHNpKSkgeworCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBhZGQgRFNJIGRl
-dmljZVxuIik7CisJCXJldHVybiBQVFJfRVJSKGRzaSk7CisJfQorCisJcmV0dXJuIDA7Cit9CisK
-K3N0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGRiaV9zcGlfb2ZfbWF0Y2hbXSA9IHsK
-Kwl7IC5jb21wYXRpYmxlID0gImFkYWZydWl0LHl4MjQwcXYyOSIgfSwKKwl7IH0KK307CitNT0RV
-TEVfREVWSUNFX1RBQkxFKG9mLCBkYmlfc3BpX29mX21hdGNoKTsKKworc3RhdGljIHN0cnVjdCBz
-cGlfZHJpdmVyIGRiaV9zcGlfZHJpdmVyID0geworCS5kcml2ZXIgPSB7CisJCS5uYW1lID0gImRi
-aS1zcGkiLAorCQkub2ZfbWF0Y2hfdGFibGUgPSBkYmlfc3BpX29mX21hdGNoLAorCX0sCisJLnBy
-b2JlID0gZGJpX3NwaV9wcm9iZSwKK307Cittb2R1bGVfc3BpX2RyaXZlcihkYmlfc3BpX2RyaXZl
-cik7CisKK01PRFVMRV9ERVNDUklQVElPTigiREJJIFNQSSBidXMgZHJpdmVyIik7CitNT0RVTEVf
-QVVUSE9SKCJQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4iKTsKK01PRFVMRV9M
-SUNFTlNFKCJHUEwiKTsKLS0gCjIuMjYuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+The new API function mipi_dsi_maybe_register_tiny_driver() is supposed
+to be called by DSI/DBI panel drivers at the end of their probe.
+
+If it is detected that the panel is not connected to any controller,
+because it has no port #0 node in Device Tree that points back to it,
+then a TinyDRM driver is registered with it.
+
+This TinyDRM driver expects that a DCS-compliant protocol is used by the
+DSI/DBI panel and can only be used with these.
+
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/tiny/Kconfig    |   8 +
+ drivers/gpu/drm/tiny/Makefile   |   1 +
+ drivers/gpu/drm/tiny/tiny-dsi.c | 262 ++++++++++++++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h      |  19 +++
+ 4 files changed, 290 insertions(+)
+ create mode 100644 drivers/gpu/drm/tiny/tiny-dsi.c
+
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index 4160e74e4751..54ee58aecf66 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -9,6 +9,14 @@ config DRM_GM12U320
+ 	 This is a KMS driver for projectors which use the GM12U320 chipset
+ 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
+ 
++config TINYDRM_DSI
++	tristate "DRM support for generic DBI/DSI display panels"
++	depends on DRM && DRM_MIPI_DSI
++	select DRM_MIPI_DBI
++	select DRM_KMS_CMA_HELPER
++	help
++	  DRM driver for generic DBI/DSI display panels
++
+ config TINYDRM_HX8357D
+ 	tristate "DRM support for HX8357D display panels"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+index c96ceee71453..49513db9a307 100644
+--- a/drivers/gpu/drm/tiny/Makefile
++++ b/drivers/gpu/drm/tiny/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+ obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
++obj-$(CONFIG_TINYDRM_DSI)		+= tiny-dsi.o
+ obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+ obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+ obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
+diff --git a/drivers/gpu/drm/tiny/tiny-dsi.c b/drivers/gpu/drm/tiny/tiny-dsi.c
+new file mode 100644
+index 000000000000..915e598844bd
+--- /dev/null
++++ b/drivers/gpu/drm/tiny/tiny-dsi.c
+@@ -0,0 +1,262 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * TinyDRM driver for standard DSI/DBI panels
++ *
++ * Copyright 2020 Paul Cercueil <paul@crapouillou.net>
++ */
++
++#include <linux/module.h>
++
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fb_helper.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_mipi_dbi.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modeset_helper.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
++
++#include <video/mipi_display.h>
++
++struct tiny_dsi {
++	struct drm_device drm;
++	struct drm_connector connector;
++	struct drm_simple_display_pipe pipe;
++
++	struct mipi_dsi_device *dsi;
++	struct drm_panel *panel;
++};
++
++#define mipi_dcs_command(dsi, cmd, seq...) \
++({ \
++	u8 d[] = { seq }; \
++	mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d)); \
++})
++
++static inline struct tiny_dsi *drm_to_tiny_dsi(struct drm_device *drm)
++{
++	return container_of(drm, struct tiny_dsi, drm);
++}
++
++static void tiny_dsi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
++{
++	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
++	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(gem);
++	struct tiny_dsi *priv = drm_to_tiny_dsi(fb->dev);
++	unsigned int height = rect->y2 - rect->y1;
++	unsigned int width = rect->x2 - rect->x1;
++	bool fb_convert;
++	int idx, ret;
++	void *tr;
++
++	if (!drm_dev_enter(fb->dev, &idx))
++		return;
++
++	DRM_DEBUG_KMS("Flushing [FB:%d] " DRM_RECT_FMT "\n", fb->base.id, DRM_RECT_ARG(rect));
++
++	fb_convert = width != fb->width || height != fb->height
++		|| fb->format->format == DRM_FORMAT_XRGB8888;
++	if (fb_convert) {
++		tr = kzalloc(width * height * 2, GFP_KERNEL);
++
++		/* TODO: swap pixels if needed */
++		ret = mipi_dbi_buf_copy(tr, fb, rect, false);
++		if (ret)
++			goto err_msg;
++	} else {
++		tr = cma_obj->vaddr;
++	}
++
++	mipi_dcs_command(priv->dsi, MIPI_DCS_SET_COLUMN_ADDRESS,
++			 (rect->x1 >> 8) & 0xff, rect->x1 & 0xff,
++			 (rect->x2 >> 8) & 0xff, rect->x2 & 0xff);
++	mipi_dcs_command(priv->dsi, MIPI_DCS_SET_PAGE_ADDRESS,
++			 (rect->y1 >> 8) & 0xff, rect->y1 & 0xff,
++			 (rect->y2 >> 8) & 0xff, rect->y2 & 0xff);
++
++	ret = mipi_dsi_dcs_write(priv->dsi, MIPI_DCS_WRITE_MEMORY_START,
++				 tr, width * height * 2);
++err_msg:
++	if (ret)
++		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
++
++	if (fb_convert)
++		kfree(tr);
++	drm_dev_exit(idx);
++}
++
++static void tiny_dsi_enable(struct drm_simple_display_pipe *pipe,
++			    struct drm_crtc_state *crtc_state,
++			    struct drm_plane_state *plane_state)
++{
++	struct tiny_dsi *priv = drm_to_tiny_dsi(pipe->crtc.dev);
++
++	drm_panel_enable(priv->panel);
++}
++
++static void tiny_dsi_disable(struct drm_simple_display_pipe *pipe)
++{
++	struct tiny_dsi *priv = drm_to_tiny_dsi(pipe->crtc.dev);
++
++	drm_panel_disable(priv->panel);
++}
++
++static void tiny_dsi_update(struct drm_simple_display_pipe *pipe,
++			    struct drm_plane_state *old_state)
++{
++	struct drm_plane_state *state = pipe->plane.state;
++	struct drm_rect rect;
++
++	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
++		tiny_dsi_fb_dirty(state->fb, &rect);
++}
++
++static const struct drm_simple_display_pipe_funcs tiny_dsi_pipe_funcs = {
++	.enable = tiny_dsi_enable,
++	.disable = tiny_dsi_disable,
++	.update = tiny_dsi_update,
++	.prepare_fb = drm_gem_fb_simple_display_pipe_prepare_fb,
++};
++
++static int tiny_dsi_connector_get_modes(struct drm_connector *connector)
++{
++	struct tiny_dsi *priv = drm_to_tiny_dsi(connector->dev);
++
++	return drm_panel_get_modes(priv->panel, connector);
++}
++
++static const struct drm_connector_helper_funcs tiny_dsi_connector_hfuncs = {
++	.get_modes = tiny_dsi_connector_get_modes,
++};
++
++static const struct drm_connector_funcs tiny_dsi_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++DEFINE_DRM_GEM_CMA_FOPS(tiny_dsi_fops);
++
++static const uint32_t tiny_dsi_formats[] = {
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_XRGB8888,
++};
++
++static const struct drm_mode_config_funcs tiny_dsi_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static void tiny_dsi_release(struct drm_device *drm)
++{
++	struct tiny_dsi *priv = drm_to_tiny_dsi(drm);
++
++	drm_mode_config_cleanup(drm);
++	drm_dev_fini(drm);
++	kfree(priv);
++}
++
++static struct drm_driver tiny_dsi_driver = {
++	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++	.fops			= &tiny_dsi_fops,
++	.release		= tiny_dsi_release,
++	DRM_GEM_CMA_VMAP_DRIVER_OPS,
++	.name			= "tiny-dsi",
++	.desc			= "Tiny DSI",
++	.date			= "20200605",
++	.major			= 1,
++	.minor			= 0,
++};
++
++static void tiny_dsi_remove(void *drm)
++{
++	drm_dev_unplug(drm);
++	drm_atomic_helper_shutdown(drm);
++}
++
++int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct drm_device *drm;
++	struct tiny_dsi *priv;
++	static const uint64_t modifiers[] = {
++		DRM_FORMAT_MOD_LINEAR,
++		DRM_FORMAT_MOD_INVALID
++	};
++	int ret;
++
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dsi = dsi;
++	drm = &priv->drm;
++
++	ret = devm_drm_dev_init(dev, drm, &tiny_dsi_driver);
++	if (ret) {
++		kfree(priv);
++		return ret;
++	}
++
++	drm_mode_config_init(drm);
++
++	priv->panel = of_drm_find_panel(dev->of_node);
++	if (IS_ERR(priv->panel)) {
++		dev_err(dev, "Unable to find panel\n");
++		return PTR_ERR(priv->panel);
++	}
++
++	drm->mode_config.preferred_depth = 16;
++
++	drm->mode_config.funcs = &tiny_dsi_mode_config_funcs;
++	drm->mode_config.min_width = 0;
++	drm->mode_config.min_height = 0;
++	drm->mode_config.max_width = 4096;
++	drm->mode_config.max_height = 4096;
++
++	drm_connector_helper_add(&priv->connector, &tiny_dsi_connector_hfuncs);
++	ret = drm_connector_init(drm, &priv->connector, &tiny_dsi_connector_funcs,
++				 DRM_MODE_CONNECTOR_DSI);
++	if (ret) {
++		dev_err(dev, "Unable to init connector\n");
++		return ret;
++	}
++
++	ret = drm_simple_display_pipe_init(drm, &priv->pipe, &tiny_dsi_pipe_funcs,
++					   tiny_dsi_formats, ARRAY_SIZE(tiny_dsi_formats),
++					   modifiers, &priv->connector);
++	if (ret) {
++		dev_err(dev, "Unable to init display pipe\n");
++		return ret;
++	}
++
++	drm_plane_enable_fb_damage_clips(&priv->pipe.plane);
++
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret) {
++		dev_err(dev, "Failed to register DRM driver\n");
++		return ret;
++	}
++
++	ret = devm_add_action_or_reset(dev, tiny_dsi_remove, drm);
++	if (ret)
++		return ret;
++
++	drm_fbdev_generic_setup(drm, 0);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(mipi_dsi_register_tiny_driver);
++
++MODULE_DESCRIPTION("DSI/DBI TinyDRM driver");
++MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
++MODULE_LICENSE("GPL");
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 65d2961fc054..0c2589a55df6 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -10,6 +10,7 @@
+ #define __DRM_MIPI_DSI_H__
+ 
+ #include <linux/device.h>
++#include <linux/of_graph.h>
+ 
+ struct mipi_dsi_host;
+ struct mipi_dsi_device;
+@@ -337,4 +338,22 @@ void mipi_dsi_driver_unregister(struct mipi_dsi_driver *driver);
+ 	module_driver(__mipi_dsi_driver, mipi_dsi_driver_register, \
+ 			mipi_dsi_driver_unregister)
+ 
++#if IS_ENABLED(CONFIG_TINYDRM_DSI)
++int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi);
++#else
++static inline int mipi_dsi_register_tiny_driver(struct mipi_dsi_device *dsi)
++{
++	return 0;
++}
++#endif
++
++static inline int mipi_dsi_maybe_register_tiny_driver(struct mipi_dsi_device *dsi)
++{
++	/* Register the TinyDRM DSI/DBI driver if the panel has no controller */
++	if (!of_graph_get_port_by_id(dsi->dev.of_node, 0))
++		return mipi_dsi_register_tiny_driver(dsi);
++
++	return 0;
++}
++
+ #endif /* __DRM_MIPI_DSI__ */
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
