@@ -1,32 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FF11F0F21
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 410371F0EFC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ADD76E419;
-	Sun,  7 Jun 2020 19:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C88626E3D2;
+	Sun,  7 Jun 2020 19:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C4C6E0FC
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:38:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C90B76E117
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 13:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1591537133; h=from:from:sender:reply-to:subject:subject:date:date:
+ s=mail; t=1591537134; h=from:from:sender:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=/eJ0RL2v7u35cWPZsMLVChAJs2gicig7X+Rxg7eyDKQ=;
- b=Sz6dHhm1fzdx6+RddQ+LP5zvot7bkrW16rfiBIAAQc4uJgGhmr4UDXnNZPcZ890o/LbV6v
- m6Lb2RfJh7KqOXV2jZPNy/MiA0hKgph0SgtT1S1kPCW3KOGylXpgr0hB6gly3MAsQciCDu
- WQ4pfeJsCqO3p9pm/CZo3FIBbPjvqMI=
+ in-reply-to:in-reply-to:references:references;
+ bh=FOWmwRmqX4DuTe+vROvPFvUfPPtiRZ4MS+mELI//ba4=;
+ b=fGH9NhsbhX3Xzs6sFHEGU0tPNAbmpRB23reN1HU5EIYaIPd8t0oR4jD8vGxki4wdtbBkKn
+ s3ukzGzhVR2ZLCKePgjOGbz5A1rPi/1Ny2vGz0u7OWZVkfJ6GwRWAExy7s4QYDlE1RDBdi
+ qbAYb7N6G25FSnXOhQqjEYXO7ChrWq0=
 From: Paul Cercueil <paul@crapouillou.net>
 To: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Emil Velikov <emil.l.velikov@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
-Date: Sun,  7 Jun 2020 15:38:28 +0200
-Message-Id: <20200607133832.1730288-1-paul@crapouillou.net>
+Subject: [RFC PATCH 1/4] gpu/drm: dsi: Let host and device specify supported
+ bus
+Date: Sun,  7 Jun 2020 15:38:29 +0200
+Message-Id: <20200607133832.1730288-2-paul@crapouillou.net>
+In-Reply-To: <20200607133832.1730288-1-paul@crapouillou.net>
+References: <20200607133832.1730288-1-paul@crapouillou.net>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 07 Jun 2020 19:13:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,87 +52,98 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The current MIPI DSI framework can very well be used to support MIPI DBI
+panels. In order to add support for the various bus types supported by
+DBI, the DRM panel drivers should specify the bus type they will use,
+and the DSI host drivers should specify the bus types they are
+compatible with.
 
-Here's a follow-up on the previous discussion about the current state of
-DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
+The DSI host driver can then use the information provided by the DBI/DSI
+device driver, such as the bus type and the number of lanes, to
+configure its hardware properly.
 
-This patchset introduces the following:
-* It slightly tweaks the MIPI DSI code so that it supports MIPI DBI over
-  various buses. This patch has been tested with a non-upstream DRM
-  panel driver for a ILI9331 DBI/8080 panel, written with the DSI
-  framework (and doesn't include <drm/drm_mipi_dbi.h>), and non-upstream
-  DSI/DBI host driver for the Ingenic SoCs.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c |  9 +++++++++
+ include/drm/drm_mipi_dsi.h     | 12 ++++++++++++
+ 2 files changed, 21 insertions(+)
 
-* A SPI DBI host driver, using the current MIPI DSI framework. It allows
-  MIPI DSI/DBI drivers to be written with the DSI framework, even if
-  they are connected over SPI, instead of registering as SPI device
-  drivers. Since most of these panels can be connected over various
-  buses, it permits to reuse the same driver independently of the bus
-  used.
-
-* A TinyDRM driver for DSI/DBI panels, once again independent of the bus
-  used; the only dependency (currently) being that the panel must
-  understand DCS commands.
-
-* A DRM panel driver to test the stack. This driver controls Ilitek
-  ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 2.4"
-  TFT LCD panel. This panel was converted from
-  drivers/gpu/drm/tiny/ili9341.c.
-
-I would like to emphasize that while it has been compile-tested, I did
-not test it with real hardware since I do not have any DBI panel
-connected over SPI. I did runtime-test the code, just without any panel
-connected.
-
-Another thing to note, is that it does not break Device Tree ABI. The
-display node stays the same:
-
-display@0 {
-	compatible = "adafruit,yx240qv29", "ilitek,ili9341";
-	reg = <0>;
-	spi-max-frequency = <32000000>;
-	dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-	reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
-	rotation = <270>;
-	backlight = <&backlight>;
-};
-
-The reason it works, is that the "adafruit,yx240qv29" device is probed
-on the SPI bus, so it will match with the SPI/DBI host driver. This will
-in turn register the very same node with the DSI bus, and the ILI9341
-DRM panel driver will probe. The driver will detect that no controller
-is linked to the panel, and eventually register the DBI/DSI TinyDRM
-driver.
-
-I can't stress it enough that this is a RFC, so it still has very rough
-edges.
-
-Cheers,
--Paul
-
-Paul Cercueil (4):
-  gpu/drm: dsi: Let host and device specify supported bus
-  gpu/drm: Add SPI DBI host driver
-  gpu/drm: Add TinyDRM for DSI/DBI panels
-  gpu/drm: Add Ilitek ILI9341 DBI panel driver
-
- drivers/gpu/drm/bridge/Kconfig               |   8 +
- drivers/gpu/drm/bridge/Makefile              |   1 +
- drivers/gpu/drm/bridge/dbi-spi.c             | 159 +++++++++
- drivers/gpu/drm/drm_mipi_dsi.c               |   9 +
- drivers/gpu/drm/panel/Kconfig                |   9 +
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 347 +++++++++++++++++++
- drivers/gpu/drm/tiny/Kconfig                 |   8 +
- drivers/gpu/drm/tiny/Makefile                |   1 +
- drivers/gpu/drm/tiny/tiny-dsi.c              | 262 ++++++++++++++
- include/drm/drm_mipi_dsi.h                   |  31 ++
- 11 files changed, 836 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/dbi-spi.c
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9341.c
- create mode 100644 drivers/gpu/drm/tiny/tiny-dsi.c
-
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 55531895dde6..fe0d874d1594 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -282,6 +282,9 @@ int mipi_dsi_host_register(struct mipi_dsi_host *host)
+ {
+ 	struct device_node *node;
+ 
++	if (WARN_ON_ONCE(!host->bus_types))
++		host->bus_types = MIPI_DEVICE_TYPE_DSI;
++
+ 	for_each_available_child_of_node(host->dev->of_node, node) {
+ 		/* skip nodes without reg property */
+ 		if (!of_find_property(node, "reg", NULL))
+@@ -324,6 +327,12 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+ {
+ 	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
+ 
++	if (WARN_ON_ONCE(!dsi->bus_type))
++		dsi->bus_type = MIPI_DEVICE_TYPE_DSI;
++
++	if (!(dsi->bus_type & dsi->host->bus_types))
++		return -ENOTSUPP;
++
+ 	if (!ops || !ops->attach)
+ 		return -ENOSYS;
+ 
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 360e6377e84b..65d2961fc054 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -63,6 +63,14 @@ struct mipi_dsi_packet {
+ int mipi_dsi_create_packet(struct mipi_dsi_packet *packet,
+ 			   const struct mipi_dsi_msg *msg);
+ 
++/* MIPI bus types */
++#define MIPI_DEVICE_TYPE_DSI		BIT(0)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE1	BIT(1)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE2	BIT(2)
++#define MIPI_DEVICE_TYPE_DBI_SPI_MODE3	BIT(3)
++#define MIPI_DEVICE_TYPE_DBI_M6800	BIT(4)
++#define MIPI_DEVICE_TYPE_DBI_I8080	BIT(5)
++
+ /**
+  * struct mipi_dsi_host_ops - DSI bus operations
+  * @attach: attach DSI device to DSI host
+@@ -94,11 +102,13 @@ struct mipi_dsi_host_ops {
+  * struct mipi_dsi_host - DSI host device
+  * @dev: driver model device node for this DSI host
+  * @ops: DSI host operations
++ * @bus_types: Bitmask of supported MIPI bus types
+  * @list: list management
+  */
+ struct mipi_dsi_host {
+ 	struct device *dev;
+ 	const struct mipi_dsi_host_ops *ops;
++	unsigned int bus_types;
+ 	struct list_head list;
+ };
+ 
+@@ -162,6 +172,7 @@ struct mipi_dsi_device_info {
+  * @host: DSI host for this peripheral
+  * @dev: driver model device node for this peripheral
+  * @name: DSI peripheral chip type
++ * @bus_type: MIPI bus type (MIPI_DEVICE_TYPE_DSI/...)
+  * @channel: virtual channel assigned to the peripheral
+  * @format: pixel format for video mode
+  * @lanes: number of active data lanes
+@@ -178,6 +189,7 @@ struct mipi_dsi_device {
+ 	struct device dev;
+ 
+ 	char name[DSI_DEV_NAME_SIZE];
++	unsigned int bus_type;
+ 	unsigned int channel;
+ 	unsigned int lanes;
+ 	enum mipi_dsi_pixel_format format;
 -- 
 2.26.2
 
