@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70D91F0F0E
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 131DF1F0F06
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 21:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F8776E3DB;
-	Sun,  7 Jun 2020 19:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296D26E416;
+	Sun,  7 Jun 2020 19:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 906186E19A
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:40 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id c12so8854812lfc.10
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:40 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8076E38A
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 18:57:42 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id a9so14202745ljn.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 11:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I+CEcWwsfQJNuC0/u/b9qfD53y89kTF8Pb7X2lFn9BM=;
- b=s8/ZRady/oRoczVgqOH0nV22Yf2p7P/eW+c41mCuIx1onsLooYgbOGn9OxcxdFVELZ
- ga6AcWWtD7jDHC6TqnzzgQUDevfOhDVfv9O1UTdjxHon7eFWr3EKvQkvvj2XwmIr4VUW
- AI8TBScCywKlUOf9wW9ngWM0IVmCCOUHQkc3L4q/u/iWdqFX4/DUV4FVy7HpyXBGqBue
- cDKgxxmdtM1L1CEYwC3npK7ImbvG6wTk5/0oueCtQ7tv7lZCMzlMIX7MMM+MvUygNW4y
- s7IV0Fjr0RKfkaPH3r4BE8Ox5lcW1FRID0ExIXII1D57bxMLyZvXrXJyAxCaZWGUQEtP
- iUYg==
+ bh=jzk01JZt0hk/WZz0ErESEIFFh3afX5T+P2xZ19G0ZC8=;
+ b=H6EFvpfB2xKzGQVM7GlvYYIoxYwtjkbhoJkwKvJMfPrZKNgaVPmkI9RUcju0JJivlU
+ kDqcGdHOFLTe82ZBs32El29xLgityeQwaxPqGc51TCweYPncdvtwwDsWX5/e3auwm1LI
+ dNoSxTlwPsGRUE6qHXPbrWLimGEg/knuHNeiNMOWS5jvk0s9HQw9euzM7hLqBpCuXckV
+ lfMpcQz+aFKpV0+0WqAALMyPoqAz8AxCoWZev89BRxYDQE1PQOPSqFrhQuWQjv74gIdp
+ qUn6hXzTqGdLpnRT0d2H5aCiPPBW4Ym19jIdjJYEL7DTyxtY/n7kG1DjTrsKPcR/ws6B
+ mUqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I+CEcWwsfQJNuC0/u/b9qfD53y89kTF8Pb7X2lFn9BM=;
- b=K+VWhYze6juUFkAQAnyP4lQuGYDFMXE71FcWXgmCOJd25pZEKiY+pSFTgRFwhxVDnd
- e50P86UYFCU1oHO7/UomnAZ+zmKE9K7A1CSuciYAPI0sAmBS2bP4kNvzBQHKmuhor5Lu
- 8TFfJDUnWOws4LtHbbS+eu+3RG8vL+CZtgwrNYo1xIFmUmzz5/pYkwFZpArdra89jPzG
- ZF3KqEnpdAZRfO30lQr9VeEGNxdyeGzJhkoyts/zs4FlfDh/71sIN0KPKoRKf+f+eyXi
- BejlF+nuCnpt9mGBRty1wXtzyNAxs0bDm6Dr2KHjEfO+he5KQH1Ed/N5R1i6QOw4drTK
- YbOg==
-X-Gm-Message-State: AOAM532+ekkWIOPg70hxr+FKVg18heHh8pYuwW8BGn/OIoEvaSdmY8+K
- nsNwiKlntM1DqqzwQtjlLtc=
-X-Google-Smtp-Source: ABdhPJxlQF+6iwxcnNY6hMFfSnwfFz8I64aW5E8IBj224MboabHNtwLz+4rN3BSIyQNWtELIFDPG3g==
-X-Received: by 2002:ac2:5df2:: with SMTP id z18mr10691408lfq.151.1591556259004; 
- Sun, 07 Jun 2020 11:57:39 -0700 (PDT)
+ bh=jzk01JZt0hk/WZz0ErESEIFFh3afX5T+P2xZ19G0ZC8=;
+ b=XlLOyEQde30RtZ26dnN8J4bhzhaTkUQ5oICj5Dj26A3J718+zvkygxbsPykUxjd/kT
+ IkZT+ui8wMb+0K56yCiZg5y2Vv0qWFXdQOFD/1jTRRrt3e15hBIe6Fnpnk/45GckzcgA
+ GcWyw4er1HpCh1PUSlatMQQmVIyCUuDV26X0SB+DRM+RgA2rCJ2F6crKYRV3NBb46XWx
+ BalmPfNrtlK40h9M78E1+kGn5IFWZFTknq6E1whmLENzqgToB1/R4U+fOLGVrTgcUGyt
+ ohQlQ8YhXrWbaFiYRjFIVVpriHxs7Rf48r7fyHMe54flwS6AbXCZMDJCewelW3VY3myk
+ staw==
+X-Gm-Message-State: AOAM533/pZ4KcpnDCi1zy5vAQGu9IFSK4RzmHKF9AwsLb8sG3L44LhiW
+ 5fkwkn/FWXe79IlrzdrQbGc=
+X-Google-Smtp-Source: ABdhPJxzuE/lVkygD4rMhlrInafSJ4dmC6EWK116wb+R0vUiCEfDrZPnondr7VEVByoH7PawNhUD3A==
+X-Received: by 2002:a05:651c:512:: with SMTP id
+ o18mr10077245ljp.226.1591556260742; 
+ Sun, 07 Jun 2020 11:57:40 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.37
+ by smtp.gmail.com with ESMTPSA id e21sm3650953ljb.135.2020.06.07.11.57.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Jun 2020 11:57:38 -0700 (PDT)
+ Sun, 07 Jun 2020 11:57:39 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +57,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v3 22/39] dt-bindings: host1x: Document new interconnect
- properties
-Date: Sun,  7 Jun 2020 21:55:13 +0300
-Message-Id: <20200607185530.18113-23-digetx@gmail.com>
+Subject: [PATCH v3 23/39] dt-bindings: memory: tegra20: Add memory client IDs
+Date: Sun,  7 Jun 2020 21:55:14 +0300
+Message-Id: <20200607185530.18113-24-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200607185530.18113-1-digetx@gmail.com>
 References: <20200607185530.18113-1-digetx@gmail.com>
@@ -86,165 +86,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most of Host1x devices have at least one memory client. These clients
-are directly connected to the memory controller. The new interconnect
-properties represent the memory client's connection to the memory
-controller.
+Each memory client have a unique hardware ID, this patch adds these IDs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../display/tegra/nvidia,tegra20-host1x.txt   | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-index 47319214b5f6..ab4fbee7bccf 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-@@ -20,6 +20,10 @@ Required properties:
- - reset-names: Must include the following entries:
-   - host1x
+diff --git a/include/dt-bindings/memory/tegra20-mc.h b/include/dt-bindings/memory/tegra20-mc.h
+index 35e131eee198..6f8829508ad0 100644
+--- a/include/dt-bindings/memory/tegra20-mc.h
++++ b/include/dt-bindings/memory/tegra20-mc.h
+@@ -18,4 +18,57 @@
+ #define TEGRA20_MC_RESET_VDE		13
+ #define TEGRA20_MC_RESET_VI		14
  
-+Each host1x client module having to perform DMA through the Memory Controller
-+should have the interconnect endpoints set to the Memory Client and External
-+Memory respectively.
++#define TEGRA20_MC_DISPLAY0A		0
++#define TEGRA20_MC_DISPLAY0AB		1
++#define TEGRA20_MC_DISPLAY0B		2
++#define TEGRA20_MC_DISPLAY0BB		3
++#define TEGRA20_MC_DISPLAY0C		4
++#define TEGRA20_MC_DISPLAY0CB		5
++#define TEGRA20_MC_DISPLAY1B		6
++#define TEGRA20_MC_DISPLAY1BB		7
++#define TEGRA20_MC_EPPUP		8
++#define TEGRA20_MC_G2PR			9
++#define TEGRA20_MC_G2SR			10
++#define TEGRA20_MC_MPEUNIFBR		11
++#define TEGRA20_MC_VIRUV		12
++#define TEGRA20_MC_AVPCARM7R		13
++#define TEGRA20_MC_DISPLAYHC		14
++#define TEGRA20_MC_DISPLAYHCB		15
++#define TEGRA20_MC_FDCDRD		16
++#define TEGRA20_MC_G2DR			17
++#define TEGRA20_MC_HOST1XDMAR		18
++#define TEGRA20_MC_HOST1XR		19
++#define TEGRA20_MC_IDXSRD		20
++#define TEGRA20_MC_MPCORER		21
++#define TEGRA20_MC_MPE_IPRED		22
++#define TEGRA20_MC_MPEAMEMRD		23
++#define TEGRA20_MC_MPECSRD		24
++#define TEGRA20_MC_PPCSAHBDMAR		25
++#define TEGRA20_MC_PPCSAHBSLVR		26
++#define TEGRA20_MC_TEXSRD		27
++#define TEGRA20_MC_VDEBSEVR		28
++#define TEGRA20_MC_VDEMBER		29
++#define TEGRA20_MC_VDEMCER		30
++#define TEGRA20_MC_VDETPER		31
++#define TEGRA20_MC_EPPU			32
++#define TEGRA20_MC_EPPV			33
++#define TEGRA20_MC_EPPY			34
++#define TEGRA20_MC_MPEUNIFBW		35
++#define TEGRA20_MC_VIWSB		36
++#define TEGRA20_MC_VIWU			37
++#define TEGRA20_MC_VIWV			38
++#define TEGRA20_MC_VIWY			39
++#define TEGRA20_MC_G2DW			40
++#define TEGRA20_MC_AVPCARM7W		41
++#define TEGRA20_MC_FDCDWR		42
++#define TEGRA20_MC_HOST1XW		43
++#define TEGRA20_MC_ISPW			44
++#define TEGRA20_MC_MPCOREW		45
++#define TEGRA20_MC_MPECSWR		46
++#define TEGRA20_MC_PPCSAHBDMAW		47
++#define TEGRA20_MC_PPCSAHBSLVW		48
++#define TEGRA20_MC_VDEBSEVW		49
++#define TEGRA20_MC_VDEMBEW		50
++#define TEGRA20_MC_VDETPMW		51
 +
- The host1x top-level node defines a number of children, each representing one
- of the following host1x client modules:
- 
-@@ -36,6 +40,12 @@ of the following host1x client modules:
-   - reset-names: Must include the following entries:
-     - mpe
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the MPE memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - vi: video input
- 
-   Required properties:
-@@ -65,6 +75,12 @@ of the following host1x client modules:
-       - power-domains: Must include sor powergate node as csicil is in
-         SOR partition.
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the VI memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - epp: encoder pre-processor
- 
-   Required properties:
-@@ -78,6 +94,12 @@ of the following host1x client modules:
-   - reset-names: Must include the following entries:
-     - epp
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the EPP memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - isp: image signal processor
- 
-   Required properties:
-@@ -91,6 +113,12 @@ of the following host1x client modules:
-   - reset-names: Must include the following entries:
-     - isp
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the ISP memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - gr2d: 2D graphics engine
- 
-   Required properties:
-@@ -104,6 +132,12 @@ of the following host1x client modules:
-   - reset-names: Must include the following entries:
-     - 2d
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the GR2D memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - gr3d: 3D graphics engine
- 
-   Required properties:
-@@ -122,6 +156,12 @@ of the following host1x client modules:
-     - 3d
-     - 3d2 (Only required on SoCs with two 3D clocks)
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the GR3D memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- - dc: display controller
- 
-   Required properties:
-@@ -149,6 +189,10 @@ of the following host1x client modules:
-   - nvidia,hpd-gpio: specifies a GPIO used for hotplug detection
-   - nvidia,edid: supplies a binary EDID blob
-   - nvidia,panel: phandle of a display panel
-+  - interconnects: Must contain entry for the DC memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
- 
- - hdmi: High Definition Multimedia Interface
- 
-@@ -297,6 +341,12 @@ of the following host1x client modules:
-   - reset-names: Must include the following entries:
-     - vic
- 
-+  Optional properties:
-+  - interconnects: Must contain entry for the VIC memory clients.
-+  - interconnect-names: Must include name of the interconnect path for each
-+    interconnect entry. Consult TRM documentation for information about
-+    available memory clients, see MEMORY CONTROLLER section.
-+
- Example:
- 
- / {
-@@ -410,6 +460,15 @@ Example:
- 			resets = <&tegra_car 27>;
- 			reset-names = "dc";
- 
-+			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0B &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0C &emc>,
-+					<&mc TEGRA20_MC_DISPLAY1B &emc>;
-+			interconnect-names = "display0a",
-+					     "display0b",
-+					     "display0c",
-+					     "display1b";
-+
- 			rgb {
- 				status = "disabled";
- 			};
-@@ -425,6 +484,15 @@ Example:
- 			resets = <&tegra_car 26>;
- 			reset-names = "dc";
- 
-+			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY0CB &emc>,
-+					<&mc TEGRA20_MC_DISPLAY1BB &emc>;
-+			interconnect-names = "display0a",
-+					     "display0b",
-+					     "display0c",
-+					     "display1b";
-+
- 			rgb {
- 				status = "disabled";
- 			};
+ #endif
 -- 
 2.26.0
 
