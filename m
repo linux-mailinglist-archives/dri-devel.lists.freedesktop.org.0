@@ -2,57 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9F61F137D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1667D1F137C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D305B6E487;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035D96E489;
 	Mon,  8 Jun 2020 07:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68C406E225
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 01:48:38 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id f18so15868491qkh.1
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 18:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u+d1Eg/67SeROyIrXeX/NcuRKSdM7i+nQ7oJN4CqZ1s=;
- b=UAH4VeW8rcw5ifVzbhD0DAIm3EmtBlTSzdIjL4I3tUMNCd6rB0fHVN/Tcng7OXy/Im
- Igf39lXIWhkgyvfK6zpoYxZeHJ9SCdJ+f8d3by/31azigmWdLCtLGvTDBYcyx8rHCPDu
- 5jS/dLex42d2wwtqbMlNX8B0gvlKzm5hNSvqdPjknfhKgf32GJAgLCJolzLhot278uUO
- NOYi+obqJcXHL6zWcPYKXYqTy4Jov9QFB1Zie2De44J2c4GaRa+XLY6a220Zff0kA0BO
- s5OGDXB3WVZmUVCRNZyBV0m+GVxHUC8TEXA+qs7zf0m5oqqoLjNbzFAB9wDZmxxdWSBv
- 60aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u+d1Eg/67SeROyIrXeX/NcuRKSdM7i+nQ7oJN4CqZ1s=;
- b=MlMcMWUwLjrVbABJkPIOMo4vW4silQ4bup7efAjVc6fo4+hOqPgO5p29LX/9QOO/Qr
- UWZqldP2v82T2wGQm+YHNuJ9EMeTIIyKWkfITAhkVanqmHWnIpiVXDHO0W3qImz66DY9
- VvLk9JrTqKm4nRg7q3Ll7pSz5exk2cbmxq1e3mwnzZanhi3gEv1o18qjBOusDPdHVjh1
- Zjk5SArN+5SblnMP018PtFuaLfCQajSDYOjpOE3Jrk0TFZvloZwsvJ+uCdwRhgQ0WMtJ
- sWKbtPUO3mUMmfGGpOyenGqQphEUhTQRLgzRjluwCDUhAuGgX07sPMzT1hvOyVv9PIjL
- qzqg==
-X-Gm-Message-State: AOAM530iWntOv+2q9mMF2MVyN5zVoqn1ZViMM/WZ3Kys93lHhoqFZKmn
- 8aYLi39bg5WoN9vjLCmTEelUvA==
-X-Google-Smtp-Source: ABdhPJxXcwD2HMq3mQYT+qLBtgZad05Y4KCfdKEMeIYCHdA/aBMZUtrEsncE5ONgoG1uUECyN+C8vg==
-X-Received: by 2002:a37:a801:: with SMTP id r1mr21062926qke.174.1591580917048; 
- Sun, 07 Jun 2020 18:48:37 -0700 (PDT)
-Received: from ovpn-112-81.phx2.redhat.com
- (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id f30sm6423106qtb.9.2020.06.07.18.48.35
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 07 Jun 2020 18:48:36 -0700 (PDT)
-From: Qian Cai <cai@lca.pw>
-To: laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com
-Subject: [PATCH] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
-Date: Sun,  7 Jun 2020 21:48:18 -0400
-Message-Id: <20200608014818.2814-1-cai@lca.pw>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75E456E225;
+ Mon,  8 Jun 2020 01:50:17 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 9167966CFE953DFC9BB7;
+ Mon,  8 Jun 2020 09:50:13 +0800 (CST)
+Received: from huawei.com (10.67.174.156) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Mon, 8 Jun 2020
+ 09:50:02 +0800
+From: Chen Tao <chentao107@huawei.com>
+To: <sean@poorly.run>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/msm/dpu: fix error return code in dpu_encoder_init
+Date: Mon, 8 Jun 2020 09:48:59 +0800
+Message-ID: <20200608014859.120021-1-chentao107@huawei.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
+X-Originating-IP: [10.67.174.156]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 08 Jun 2020 07:21:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,42 +40,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Qian Cai <cai@lca.pw>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ zhengbin13@huawei.com, chentao107@huawei.com, kalyan_t@codeaurora.org,
+ ddavenport@chromium.org, sam@ravnborg.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
-the generated .config a bit ugly.
+Fix to return negative error code -ENOMEM with the use of
+ERR_PTR from dpu_encoder_init.
 
- # ARM devices
- #
- # end of ARM devices
-
- CONFIG_DRM_RCAR_WRITEBACK=y
-
- #
- # Frame buffer Devices
-
-Signed-off-by: Qian Cai <cai@lca.pw>
+Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+Signed-off-by: Chen Tao <chentao107@huawei.com>
 ---
- drivers/gpu/drm/rcar-du/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index 0919f1f159a4..d80696455d3e 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -48,3 +48,4 @@ config DRM_RCAR_VSP
- config DRM_RCAR_WRITEBACK
- 	bool
- 	default y if ARM64
-+	depends on DRM
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index a1b79ee2bd9d..a2f6b688a976 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2173,7 +2173,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+ 
+ 	dpu_enc = devm_kzalloc(dev->dev, sizeof(*dpu_enc), GFP_KERNEL);
+ 	if (!dpu_enc)
+-		return ERR_PTR(ENOMEM);
++		return ERR_PTR(-ENOMEM);
+ 
+ 	rc = drm_encoder_init(dev, &dpu_enc->base, &dpu_encoder_funcs,
+ 			drm_enc_mode, NULL);
 -- 
-2.21.0 (Apple Git-122.2)
+2.22.0
 
 _______________________________________________
 dri-devel mailing list
