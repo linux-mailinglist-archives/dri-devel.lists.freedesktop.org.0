@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDDF1F137F
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4511B1F1382
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1BE6E48F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F3F6E48E;
 	Mon,  8 Jun 2020 07:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339D46E457;
- Mon,  8 Jun 2020 03:50:25 +0000 (UTC)
-IronPort-SDR: pfXdmKC2oxqzAgh5x281JQirVeGfr8vSLKgwoVKiVrrCkRdWq/YndN0sYULbPMuj8RhYBW08kv
- y0tATbMv8bVA==
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BAB66E459;
+ Mon,  8 Jun 2020 03:55:13 +0000 (UTC)
+IronPort-SDR: 8GKRLF2hH75zqFz/hk5OUG6neg+Hr5YxavwdpjEy9kKMIUyoQHzkqbGC2ZkL3vW00iSiTLSMfj
+ 5oX5nioujDNQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2020 20:50:24 -0700
-IronPort-SDR: aBms9IEQNhijJBDDXaj4Ih289dsactoAreSJwOIoFVQlNORC8n8IEK99gECcaTtaEP8q7YgwB+
- d2CD1mMArAWQ==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2020 20:55:13 -0700
+IronPort-SDR: YNhNatDKk0QsxJql0eJaS+rm9XydwHtk7fa1palvrzLF+RZd9dpT7sKRAmctSRtkiSpoojEGYQ
+ V5hg57xbK0YA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,486,1583222400"; d="scan'208";a="446588491"
+X-IronPort-AV: E=Sophos;i="5.73,486,1583222400"; d="scan'208";a="349043083"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga005.jf.intel.com with ESMTP; 07 Jun 2020 20:50:21 -0700
+ by orsmga001.jf.intel.com with ESMTP; 07 Jun 2020 20:55:09 -0700
 Received: from andy by smile with local (Exim 4.93)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1ji8nn-00Ba6K-HD; Mon, 08 Jun 2020 06:50:23 +0300
-Date: Mon, 8 Jun 2020 06:50:23 +0300
+ id 1ji8sS-00Ba8y-32; Mon, 08 Jun 2020 06:55:12 +0300
+Date: Mon, 8 Jun 2020 06:55:12 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 03/15] pwm: lpss: Add range limit check for the
- base_unit register value
-Message-ID: <20200608035023.GZ2428291@smile.fi.intel.com>
+Subject: Re: [PATCH v2 04/15] pwm: lpss: Fix off by one error in base_unit
+ math in pwm_lpss_prepare()
+Message-ID: <20200608035512.GA2428291@smile.fi.intel.com>
 References: <20200607181840.13536-1-hdegoede@redhat.com>
- <20200607181840.13536-4-hdegoede@redhat.com>
+ <20200607181840.13536-5-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200607181840.13536-4-hdegoede@redhat.com>
+In-Reply-To: <20200607181840.13536-5-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Mailman-Approved-At: Mon, 08 Jun 2020 07:21:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,29 +63,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 07, 2020 at 08:18:28PM +0200, Hans de Goede wrote:
-> When the user requests a high enough period ns value, then the
-> calculations in pwm_lpss_prepare() might result in a base_unit value of 0.
-> 
-> But according to the data-sheet the way the PWM controller works is that
+On Sun, Jun 07, 2020 at 08:18:29PM +0200, Hans de Goede wrote:
+> According to the data-sheet the way the PWM controller works is that
 > each input clock-cycle the base_unit gets added to a N bit counter and
-> that counter overflowing determines the PWM output frequency. Adding 0
-> to the counter is a no-op. The data-sheet even explicitly states that
-> writing 0 to the base_unit bits will result in the PWM outputting a
-> continuous 0 signal.
+> that counter overflowing determines the PWM output frequency.
+> 
+> So assuming e.g. a 16 bit counter this means that if base_unit is set to 1,
+> after 65535 input clock-cycles the counter has been increased from 0 to
+> 65535 and it will overflow on the next cycle, so it will overflow after
+> every 65536 clock cycles and thus the calculations done in
+> pwm_lpss_prepare() should use 65536 and not 65535.
+> 
+> This commit fixes this. Note this also aligns the calculations in
+> pwm_lpss_prepare() with those in pwm_lpss_get_state().
 
-So, and why it's a problem?
-
-> base_unit values > (base_unit_range / 256), or iow base_unit values using
-> the 8 most significant bits, cause loss of resolution of the duty-cycle.
-> E.g. assuming a base_unit_range of 65536 steps, then a base_unit value of
-> 768 (256 * 3), limits the duty-cycle resolution to 65536 / 768 = 85 steps.
-> Clamp the max base_unit value to base_unit_range / 32 to ensure a
-> duty-cycle resolution of at least 32 steps. This limits the maximum
-> output frequency to 600 KHz / 780 KHz depending on the base clock.
-
-This part I don't understand. Why we limiting base unit? I seems like a
-deliberate regression.
+This one sounds like a bug which I have noticed on Broxton (but thought as a
+hardware issue). In any case it has to be tested on various platforms to see
+how it affects on them.
 
 -- 
 With Best Regards,
