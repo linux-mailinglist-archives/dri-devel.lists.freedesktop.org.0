@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D981F221A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1561F22DD
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:12:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5015F89FD4;
-	Mon,  8 Jun 2020 23:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C13366E0A0;
+	Mon,  8 Jun 2020 23:12:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4306089FCE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:06:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0B9A6E077;
+ Mon,  8 Jun 2020 23:12:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 542F02076C;
- Mon,  8 Jun 2020 23:06:32 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C4D32208C7;
+ Mon,  8 Jun 2020 23:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657593;
- bh=URSM4OVSd3VdBQHRpH5PXvzyY3qrWEOKrHQAtea9Itk=;
+ s=default; t=1591657935;
+ bh=fte2bte/XDzfHp7/FRDNEq/bGVrJTW18C2qlNPGHEh0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nXHZGou2DqBTPFsVuY9HKXlHWZI4PBVsyeu6721ZO61faGWNpMRl1Z0fx4cSidQF4
- TLvkYWZsqf+59prx3C6SLFxYbS0mkU0J0q8tY80j4Uo8KCn/sgUmSrq7fFDlipHLxh
- YkjifqmuTae5/xkopQhEJ3Nv3bvpUqSOEPH2YjGE=
+ b=cY6LrFwYfKFe3lIK5ORGDXUFpdGQIqth1Ok8c/B8t8PpFbj95B9ESJLmy8FBZLGg1
+ m+ahLIGkrlMYawTYBCwtFWdHt0cZwjbHhewXe1Lk3FHs7R0FHdHBejKkTdTl0lOiKD
+ 9iBJdPKtEfBVdZYIfqje0CXShpvyrlfibVqGgX64=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 020/274] drm/bridge: panel: Return always an error
- pointer in drm_panel_bridge_add()
-Date: Mon,  8 Jun 2020 19:01:53 -0400
-Message-Id: <20200608230607.3361041-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 003/606] drm/i915: Handle idling during
+ i915_gem_evict_something busy loops
+Date: Mon,  8 Jun 2020 19:02:08 -0400
+Message-Id: <20200608231211.3363633-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
+References: <20200608231211.3363633-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,67 +50,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Sasha Levin <sashal@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-[ Upstream commit 30be3031087139061de4421bf52015931eaab569 ]
+[ Upstream commit 955da9d77435acac066139e9d7f7723ce7204a1d ]
 
-Since commit 89958b7cd955 ("drm/bridge: panel: Infer connector type from
-panel by default"), drm_panel_bridge_add() and their variants can return
-NULL and an error pointer. This is fine but none of the actual users of
-the API are checking for the NULL value. Instead of change all the
-users, seems reasonable to return an error pointer instead. So change
-the returned value for those functions when the connector type is unknown.
+i915_gem_evict_something() is charged with finding a slot within the GTT
+that we may reuse. Since our goal is not to stall, we first look for a
+slot that only overlaps idle vma. To this end, on the first pass we move
+any active vma to the end of the search list. However, we only stopped
+moving active vma after we see the first active vma twice. If during the
+search, that first active vma completed, we would not notice and keep on
+extending the search list.
 
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200416210654.2468805-1-enric.balletbo@collabora.com
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/1746
+Fixes: 2850748ef876 ("drm/i915: Pull i915_vma_pin under the vm->mutex")
+Fixes: b1e3177bd1d8 ("drm/i915: Coordinate i915_active with its own mutex")
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: <stable@vger.kernel.org> # v5.5+
+Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200509115217.26853-1-chris@chris-wilson.co.uk
+(cherry picked from commit 73e28cc40bf00b5d168cb8f5cff1ae63e9097446)
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/panel.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_gem_evict.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 8461ee8304ba..7a3df0f319f3 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -166,7 +166,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
-  *
-  * The connector type is set to @panel->connector_type, which must be set to a
-  * known type. Calling this function with a panel whose connector type is
-- * DRM_MODE_CONNECTOR_Unknown will return NULL.
-+ * DRM_MODE_CONNECTOR_Unknown will return ERR_PTR(-EINVAL).
-  *
-  * See devm_drm_panel_bridge_add() for an automatically managed version of this
-  * function.
-@@ -174,7 +174,7 @@ static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
- struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel)
- {
- 	if (WARN_ON(panel->connector_type == DRM_MODE_CONNECTOR_Unknown))
--		return NULL;
-+		return ERR_PTR(-EINVAL);
+diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+index 0697bedebeef..d99df9c33708 100644
+--- a/drivers/gpu/drm/i915/i915_gem_evict.c
++++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+@@ -130,6 +130,13 @@ i915_gem_evict_something(struct i915_address_space *vm,
+ 	active = NULL;
+ 	INIT_LIST_HEAD(&eviction_list);
+ 	list_for_each_entry_safe(vma, next, &vm->bound_list, vm_link) {
++		if (vma == active) { /* now seen this vma twice */
++			if (flags & PIN_NONBLOCK)
++				break;
++
++			active = ERR_PTR(-EAGAIN);
++		}
++
+ 		/*
+ 		 * We keep this list in a rough least-recently scanned order
+ 		 * of active elements (inactive elements are cheap to reap).
+@@ -145,21 +152,12 @@ i915_gem_evict_something(struct i915_address_space *vm,
+ 		 * To notice when we complete one full cycle, we record the
+ 		 * first active element seen, before moving it to the tail.
+ 		 */
+-		if (i915_vma_is_active(vma)) {
+-			if (vma == active) {
+-				if (flags & PIN_NONBLOCK)
+-					break;
+-
+-				active = ERR_PTR(-EAGAIN);
+-			}
+-
+-			if (active != ERR_PTR(-EAGAIN)) {
+-				if (!active)
+-					active = vma;
++		if (active != ERR_PTR(-EAGAIN) && i915_vma_is_active(vma)) {
++			if (!active)
++				active = vma;
  
- 	return drm_panel_bridge_add_typed(panel, panel->connector_type);
- }
-@@ -265,7 +265,7 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
- 					     struct drm_panel *panel)
- {
- 	if (WARN_ON(panel->connector_type == DRM_MODE_CONNECTOR_Unknown))
--		return NULL;
-+		return ERR_PTR(-EINVAL);
+-				list_move_tail(&vma->vm_link, &vm->bound_list);
+-				continue;
+-			}
++			list_move_tail(&vma->vm_link, &vm->bound_list);
++			continue;
+ 		}
  
- 	return devm_drm_panel_bridge_add_typed(dev, panel,
- 					       panel->connector_type);
+ 		if (mark_free(&scan, vma, flags, &eviction_list))
 -- 
 2.25.1
 
