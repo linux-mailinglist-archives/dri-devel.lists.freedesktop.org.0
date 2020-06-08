@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08411F1E7E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 19:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE4A1F1E7F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 19:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 786CD6E990;
-	Mon,  8 Jun 2020 17:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE326E991;
+	Mon,  8 Jun 2020 17:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB7326E198
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 17:48:57 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id k2so147780pjs.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 10:48:57 -0700 (PDT)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2166F6E990
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 17:48:59 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id a45so171232pje.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 10:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rDREJdIeqVVNUFKbTRjN9h4pzjh8nAC/rSJIcVHTPvI=;
- b=YjVS/wJMDLTWoyw/MsK1Tuoq6+gBFrFSlynfEopbBcduF6pOpl8ZIFp6syxK7jadgP
- SnS5iQoGnbiSlE52dB4TPYH0ijiObajjXDXXytMm4k3DNgb2u247r+rvsDyfsIeeAW2w
- Qs4FXhdcsKjWCadLsOOJI8zMKrfIQY8x11DfY=
+ bh=o8YyCBCbGrw0DIZ0MXUQK0lVQu61p/lQcR9/ys0P7l8=;
+ b=crI+dMdfSYQau9vc9/yyK65ynELRvAs6mgoiidknTuRcDF9lKldNHf6Un61KThO6LE
+ aBqIOsMppcw3sgF5IxZmYi6Vi+hGCW50d4PqH5aPGGzmglwhzfJxe0d+KFX5WCCsMNDx
+ ofzFeFKmOIFr+i5FdRP+j44Jqmp71NbWE+Hv4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rDREJdIeqVVNUFKbTRjN9h4pzjh8nAC/rSJIcVHTPvI=;
- b=XZLDthDfZSyqOySeU6ouHmPTvMnQZauw/61XM9F/SWBjD4fcNS0ELYtjC3M43QqRuV
- CLgc7beer3R3hqEsGWaD9UUA4WtmEwHV9l1GLWm9juPgGvTtSJITnpl0an0e3Z2r3JyN
- gZvKlul0w+irhRlJTCDX8lD+dOzyDkxmdiLPkqmszdu32++DYvbeFaXM1mwg7IwC+84F
- 7/AxYIthXZnbyZBWxzFoxjyDCI04xJR80/5Xn8Ej2ntjwJF+z6vpqTZE2WTTETYLr+1P
- MFYfuquFrxwfasAEd9p9MVtJYEI5wCihBuGOjAMFkE2hWE944wQEfBJJqXS3021fxaTa
- cxXw==
-X-Gm-Message-State: AOAM5337itRUf8s5DBv9SbQe4LF+QzpiX3cUmQUrGCE/GWuUyAOCfaI1
- Gp4W10usaFvwQRNo8L6uvaVcHQ==
-X-Google-Smtp-Source: ABdhPJzXgMGLzrQbBansRBa6+m6CHlci9mkI2ZDTaVy/m4IurD1PdamJfY6lX9gd88k7K4l+QTJrvA==
-X-Received: by 2002:a17:90a:1546:: with SMTP id y6mr490880pja.92.1591638537595; 
- Mon, 08 Jun 2020 10:48:57 -0700 (PDT)
+ bh=o8YyCBCbGrw0DIZ0MXUQK0lVQu61p/lQcR9/ys0P7l8=;
+ b=CRS4BYCNYtbRGQ9bBJRzoRkANMaga3xeYaQaUtTXvFyjPgG2nJlnTnG95H1xUR9aat
+ M2p4RL+IHGSAz1NpNP9Y2oVvx0vs86ZZQuq26ad0pDgwVk5qrdX/F13DieYbNLWdPv2f
+ nOKGbxdsmiAzH8sx9HwJubJRJQh/WoLAmlI/TtZnahPO5jXAmcRb8yx0wfEzAasV/s12
+ Y28nQG35h1Nmn/U0+7wDhbqMJGhFgSrKgsT4Ssy5iLfQmhWka1XdzGOJdVqj8czKVGBY
+ IdtRhK7EP6JSscjhCrBPCFTHKMFRjyWJzilH/rAI5gsvzT2S3qt8jjW8J08SRcYCi8GO
+ vI1Q==
+X-Gm-Message-State: AOAM533hMXa7A5uCy0Z3YIrEITn1s1Tei2/R3RYAN45oW6r2JtRJ6bJq
+ Utw1JSIaNor6P266XdWoTCmTzQ==
+X-Google-Smtp-Source: ABdhPJxDBcpzVSyypXwZzUR9uGeArOBaGnIrUgjorP9jdXDSPFLOIaEjQmAkCG5ko8oaACbKDzq5+Q==
+X-Received: by 2002:a17:90b:915:: with SMTP id
+ bo21mr469617pjb.52.1591638538722; 
+ Mon, 08 Jun 2020 10:48:58 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id n7sm162682pjq.22.2020.06.08.10.48.56
+ by smtp.gmail.com with ESMTPSA id n7sm162682pjq.22.2020.06.08.10.48.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 10:48:57 -0700 (PDT)
+ Mon, 08 Jun 2020 10:48:58 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: a.hajda@samsung.com,
 	narmstrong@baylibre.com,
 	sam@ravnborg.org
-Subject: [PATCH 2/4] drm/bridge: ti-sn65dsi86: Don't use kernel-doc comment
- for local array
-Date: Mon,  8 Jun 2020 10:48:33 -0700
-Message-Id: <20200608104832.2.If3807e4ebf7f0440f64c3069edcfac9a70171940@changeid>
+Subject: [PATCH 3/4] drm/bridge: ti-sn65dsi86: Fix kernel-doc typo ln_polr =>
+ ln_polrs
+Date: Mon,  8 Jun 2020 10:48:34 -0700
+Message-Id: <20200608104832.3.Ib616e311c48cc64b2cef11bd54d4a9cedc874bb1@changeid>
 X-Mailer: git-send-email 2.27.0.278.ge193c7cf3a9-goog
 In-Reply-To: <20200608104832.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
 References: <20200608104832.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
@@ -78,14 +79,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building we were getting an error:
+This fixes a kernel doc warning due to a typo:
+  warning: Function parameter or member 'ln_polrs' not described in 'ti_sn_bridge'
 
-  warning: cannot understand function prototype:
-    'const unsigned int ti_sn_bridge_dp_rate_lut[] = '
-
-Arrays aren't supposed to be marked with "/**" kerneldoc comments.  Fix.
-
-Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
+Fixes: 5bebaeadb30e ("drm/bridge: ti-sn65dsi86: Implement lane reordering + polarity")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
@@ -93,18 +90,18 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 6fa7e10b31af..fca7c2a0bcf9 100644
+index fca7c2a0bcf9..1080e4f9df96 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -504,7 +504,7 @@ static unsigned int ti_sn_bridge_get_bpp(struct ti_sn_bridge *pdata)
- 		return 24;
- }
- 
--/**
-+/*
-  * LUT index corresponds to register value and
-  * LUT values corresponds to dp data rate supported
-  * by the bridge in Mbps unit.
+@@ -122,7 +122,7 @@
+  * @supplies:     Data for bulk enabling/disabling our regulators.
+  * @dp_lanes:     Count of dp_lanes we're using.
+  * @ln_assign:    Value to program to the LN_ASSIGN register.
+- * @ln_polr:      Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
++ * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
+  *
+  * @gchip:        If we expose our GPIOs, this is used.
+  * @gchip_output: A cache of whether we've set GPIOs to output.  This
 -- 
 2.27.0.278.ge193c7cf3a9-goog
 
