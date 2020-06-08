@@ -1,61 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21DC1F1CD4
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 18:05:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4111F1D91
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 18:41:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26A7D89E23;
-	Mon,  8 Jun 2020 16:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C86A86E0C9;
+	Mon,  8 Jun 2020 16:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C00C89E23
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 16:05:24 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id 9so11540691ljv.5
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 09:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=muu5X8kpwjspMUSxGgXvhpOJZVBidoTxcsK/ci24bWA=;
- b=eFC3YfbY4L+dO2jOW3bmJcf7rXd9D49rtwaG8ljF9y7NtTlLQe5x1gLVtmucNuqmsr
- OTW5ASVyRt3rJP6LoG4TWMr59QRAomXe6ySEfkVa6oSAZ1ru+gFvA4kh0QaW/DyvgYiQ
- i0JUhicVLJWbwQmebUopVilx3NDH+1CP1a5OwiC0ka5WFTgDZNOJVaGzYkRlNZw8lL68
- Dhek7uethgWPW+g+nyhoPgppEBMD7GHEohhT+Exi+URNYKmXzPmsrmvUy6G414TRosOc
- jfXzEzZmsM7AZkw6IS+HP7KA1EOfIH4YlVSmynjEpRIekwwzwGGnwTtQDiYIHU/FONK9
- VtUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=muu5X8kpwjspMUSxGgXvhpOJZVBidoTxcsK/ci24bWA=;
- b=q4GsFSbhTu5ikPFiqiGU6li9D4rYBhEk9iVkJlf5PVJxOLGYR9fjqvnhYZY1QT1X/z
- DUSautPxNDg3h8vxqRxJELevR6UqsNaKLo+AmwH0TGDlc/vunmc94AwdvlMA5YEOLPrt
- Kvq1yvHFQDhmGCJSlBNXe4uPt/hmjYR9VDSUdLic/mkWocvImvjG2zFXSvYsGropKZid
- 0+MP6WaIZccf9ZJ/yXo96uzghO+nvnu4yRWc1Z6YB+juabDahTXuscWmu6+RIhDpi1+u
- 9/C1Dhz0GWVL5h4PYxUvEOpN8Ra+HsWD0nBnKSEgECJaCaxCRh0seJUu/gcFHq6qQulo
- OarA==
-X-Gm-Message-State: AOAM532vOdO9m37YXPWIg1pbdnCO0Mjyaw96RSWXSsBGkXF0PdliwtQB
- lYW5RU075Yb5InTWiY20whEOhPSu
-X-Google-Smtp-Source: ABdhPJy4bDj8cAibRW5HyFKVhcFy0LBFsOjPIIEiU2ni7zfoUMWOP4Ge/VktH9cTAs432JLuBSXQKA==
-X-Received: by 2002:a05:651c:1045:: with SMTP id
- x5mr11118155ljm.153.1591632322068; 
- Mon, 08 Jun 2020 09:05:22 -0700 (PDT)
-Received: from ferris.localdomain (85-156-247-180.elisa-laajakaista.fi.
- [85.156.247.180])
- by smtp.gmail.com with ESMTPSA id f12sm3775010ljk.44.2020.06.08.09.05.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 09:05:21 -0700 (PDT)
-Date: Mon, 8 Jun 2020 19:05:18 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/doc: device hot-unplug for userspace
-Message-ID: <20200608190518.05d7d15d@ferris.localdomain>
-In-Reply-To: <20200601143203.14666-1-ppaalanen@gmail.com>
-References: <20200519100649.12053-1-ppaalanen@gmail.com>
- <20200601143203.14666-1-ppaalanen@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2040.outbound.protection.outlook.com [40.107.244.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D206C6E0C9;
+ Mon,  8 Jun 2020 16:41:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QLgMR+2P1W7PLAULVNueOo4y4I7Z4UbOeFGET2BIELgImtOOufw7zLUZO2PIZCAweP8PHcQ4rT+7EI7NPADsqAmbMWpkkyMKWrNT5aWXnpeEc/RJ1+GJYIVwgNtRljtOoiQ8CWhfiyeN7awhbiNRrH/Wpb0r/OuPgINU7uP8wvXyqChNc8Qt1IKoL8YUcUEc7h66bIqcwvFIT+0q8I6eDhxVxF5VfDdubfhC3rnx0PQA4H79qvlNiQWOgORwdVI6QNLwp7pTMjYO+vLeJZ+td0j3cJqfz81SrBNT5btcCvKER8vVOWoLOCJ5Jf4ohfkkZ2vxC+i4IkINiiZPeVrYaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zO05e3QzB9UT6710ov808rEMEuuB5NsH36MNGg/Qjng=;
+ b=Gwly3nKd9qNHDvBzF+zrKuM1JxEZ7pjA5kng+0M6FpxKPsaeuVap9/fQEhaqOMdoFpK1wYf6cmOAdEALpfJSV8UIm3NfmJg/HDfB7CpgxRz5ebHkt9UtASmXi0kE3bDSq2k9EhFf2XC5IHtMLhD2jcybPMRxw900bnTAcfXW1iEeWwk9TUKPBATHCTYRXSaVlxd12oZXNtYM7Tsj2asFMUxudVufIRxc5WuyMfSwefH18OKtTuS2DhHpEjfWdeV3NByquQye/MQk0ZnKxbLrG5ZiGnQFKTdom3kNT0s0r+XVD0Zxy2Ur+MJa6eRuQDBT+cI1TLdxPa9Khqm259OzWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zO05e3QzB9UT6710ov808rEMEuuB5NsH36MNGg/Qjng=;
+ b=M8VnTabfNoccEIe9rQndxFHeHcf239qHqWEyNDYYeUnodt309TZnFlnmFS/RZXtiD2cshV8smxa2U1aJyqLNf261gaBTb8dvv9zk2hkE1JVVuvFLD4/UV69xVwqwWiok/hlSQBM23OKOOqdIu51Y81N7eV/dQJnReWLj8JmOsKI=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3872.namprd12.prod.outlook.com (2603:10b6:208:168::17)
+ by MN2PR12MB3294.namprd12.prod.outlook.com (2603:10b6:208:af::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Mon, 8 Jun
+ 2020 16:41:07 +0000
+Received: from MN2PR12MB3872.namprd12.prod.outlook.com
+ ([fe80::8843:c094:fb2a:d60a]) by MN2PR12MB3872.namprd12.prod.outlook.com
+ ([fe80::8843:c094:fb2a:d60a%7]) with mapi id 15.20.3066.023; Mon, 8 Jun 2020
+ 16:41:07 +0000
+Subject: Re: [PATCH] drm/mm: remove invalid entry based optimization
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ nirmoy.das@amd.com, intel-gfx@lists.freedesktop.org,
+ chris@chris-wilson.co.uk, dri-devel@lists.freedesktop.org
+References: <20200608151550.1315-1-christian.koenig@amd.com>
+From: Nirmoy <nirmodas@amd.com>
+Message-ID: <58d0d2cf-5365-d5e5-3338-dcd6c7b3a786@amd.com>
+Date: Mon, 8 Jun 2020 18:42:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
+In-Reply-To: <20200608151550.1315-1-christian.koenig@amd.com>
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR10CA0102.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:e6::19) To MN2PR12MB3872.namprd12.prod.outlook.com
+ (2603:10b6:208:168::17)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (2003:c5:8f20:5d00:7fc6:50c7:b826:f4e) by
+ AM0PR10CA0102.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 16:41:06 +0000
+X-Originating-IP: [2003:c5:8f20:5d00:7fc6:50c7:b826:f4e]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 281cc572-6fb0-4c87-27d4-08d80bcabe12
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3294:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB329465B2953CE70A124160E28B850@MN2PR12MB3294.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 042857DBB5
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uC4hIpvV5857K4XFNfUBSmlDGHFXdw7PSxigFqwpWXMcKlJo2jfA0yTnx5koyCjTUxq0zXmcB7BU6niosrNQYoVWsLaqRE0ufBQ5w0XfqNmdBKY8oLor3Lk56DKQ0D92nFAbX3c2wLpoVAXqdH9oZcKdCpauhiMWUI+DstJA8bK3TI1clsWKjukqkNsXmdLo5swscIa7QPelCWmiWQattImTLMXo46ZVhtriAus3R8ZktWyQCArSGTcn2eBG4OCSHye2cSoMSI63yNdKzzFO/DaUyX/0KXvqsELmVZNL6ocPQy1SX7bK5dFCwzsvz7WSmoArNIY2BXy0kKmCX2yYY5geZE6aa3jEygzGm8IZ7lDqbpR6W4Io/JLx8QBz5c8H
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3872.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(376002)(136003)(346002)(39860400002)(396003)(31686004)(83380400001)(5660300002)(2616005)(31696002)(66946007)(66556008)(66476007)(6506007)(53546011)(36756003)(16526019)(186003)(2906002)(8936002)(8676002)(478600001)(6486002)(52116002)(6512007)(316002)(6666004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: YwhGgSL5+5lgoz7cas1j29UnUJ+PIWDeULDHAY078gTw+tHsUM+2qg03oUsj37VHh9qgP/DgKp6Q/Z2DuqZGKG8biQQy2v3ElEXg9KJ5+9CP329NEI4re83/Ec/cRZOAVIOgTs0yIQXwVsnxTkZJoVl+ux9yhUMQODjh8KwHXncf7aNc2YgM+Ak255Wohtqdvf2rocKglkwoRS9fFNWR9mpzVUw7zj4zvnwUOoD1+l+UPgbxCObXbLMaiPAPajyTOlm1orO6pahwJv79RIl2PKKtnEoV3Frh72XRq2tN6IstsRVJdXwPzIXkT4WIB0vDTt2GQrD2AxC0vwm0Gy+SdP3YBJH5lW+YGPz/dQ7loqx44oD2Achas5rAnHNNfuyR3k7Ek446KgvgJVGc716UVpn+z7nrz/IEZjPsDHuRTyHfVWRmcRsydDTScYvEvaJUpEOYKOmEkDsTYXsWasPridGinqhBRkWJ8a64zZwctXH62IE95ID0qxqP/qUp30T7Clf3dhQWTen7fZCbmES9CouWgEn7R7BIx8Qa75aSrJ0=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 281cc572-6fb0-4c87-27d4-08d80bcabe12
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 16:41:07.4374 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3pFhtYJ2NVFYWIBmeMd/yNbN87A+ClR9GrDU9IZJ9GdRf0sfBCIkwqzsYTZS6QuDsUp3MiWyLSl2+MCxPS0GPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3294
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,109 +99,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Dave Airlie <airlied@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0721084924=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0721084924==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/zuu15iTXhm45SMp6Gi+yBr/"; protocol="application/pgp-signature"
-
---Sig_/zuu15iTXhm45SMp6Gi+yBr/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon,  1 Jun 2020 17:32:03 +0300
-Pekka Paalanen <ppaalanen@gmail.com> wrote:
-
-> Set up the expectations on how hot-unplugging a DRM device should look li=
-ke to
-> userspace.
->=20
-> Written by Daniel Vetter's request and largely based on his comments in I=
-RC and
-> from https://lists.freedesktop.org/archives/dri-devel/2020-May/265484.htm=
-l .
->=20
-> A related Wayland protocol change proposal is at
-> https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests=
-/35
->=20
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-Hi,
-
-how's this version looking? Anything to fix?
-
-
-Thanks,
-pq
-
-
->=20
-> ---
->=20
-> v3:
-> - update ENODEV doc (Daniel)
-> - clarify existing vs. new mmaps (Andrey)
-> - split into KMS and render/cross sections (Andrey, Daniel)
-> - open() returns ENXIO (open(2) man page)
-> - ioctls may return ENODEV (Andrey, Daniel)
-> - new wayland-protocols MR
->=20
-> v2:
-> - mmap reads/writes undefined (Daniel)
-> - make render ioctl behaviour driver-specific (Daniel)
-> - restructure the mmap paragraphs (Daniel)
-> - chardev minor notes (Simon)
-> - open behaviour (Daniel)
-> - DRM leasing behaviour (Daniel)
-> - added links
->=20
-> Disclaimer: I am a userspace developer writing for other userspace develo=
-pers.
-> I took some liberties in defining what should happen without knowing what=
- is
-> actually possible or what existing drivers already implement.
-> ---
->  Documentation/gpu/drm-uapi.rst | 114 ++++++++++++++++++++++++++++++++-
->  1 file changed, 113 insertions(+), 1 deletion(-)
-
-Sorry to trim like this, but gmail refuses to send my email otherwise.
-
---Sig_/zuu15iTXhm45SMp6Gi+yBr/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7eYb4ACgkQI1/ltBGq
-qqeFdxAAnRZEjkc/PrAe6soZTbi62XHZBzf+txhaDDCmRoevdLoMKYB6X6j7fHd4
-x66X6V9v6xvMSAS86eCJj0rC4kOdXtSdhmQ3IwF7IehIcYlWW+8NcBt5eIZHx920
-XMreW2HQ2LmuQhQUTfvwFcqGivKiPVFszjS9WR0QGUolIZiZCw5OsMje1Z73rH4V
-1jGjJEulUoLIqu/nRxnKgYqjB+Phq3HhTmLSsdtLx2W1ad7lxUWFCik3tptSf8GY
-Xz2OtLaUSX00JI5Z5dbhjkZEksfQ+rExGpp6eaUHSwrPuXheOlTQe9TkDPoTRI4+
-/cMBm/HH20205T4ycWUFscqA6Iuw6pN7ArfKzi6q1M5DI1q5Ggy+eJ47ta17KtAd
-3dTNCcNA22qZxyCUzqiv7/X0V3UZD40hs6S2F3FZfFklPfL1yA0aUQGkApz7+NsM
-0Guz6WEjtWP8WyjTm/1gJ8eLzRosyVATKyCKilZu4BdMMBRr+8EaM1KmiPJi6jen
-EWho2zMkNAMmij0nGJfJdlCz8GJ41wG0ijl41EGo4bvr1fl2a9cGnyeb7x+KS+th
-zLOWcBdC6ZjHnZB6xGQ1b8wllwyucxs10Z3EEPuG0p7oOFNc2stc9Y477wFx5DRN
-SIXZ0qC2LYlcoZt9wHE/J3JoHMwAmJen7ptuhxUQu6jsRwTmu4I=
-=GZNY
------END PGP SIGNATURE-----
-
---Sig_/zuu15iTXhm45SMp6Gi+yBr/--
-
---===============0721084924==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0721084924==--
+Ck9uIDYvOC8yMCA1OjE1IFBNLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IFdoZW4gdGhlIGN1
+cnJlbnQgZW50cnkgaXMgcmVqZWN0ZWQgYXMgY2FuZGlkYXRlIGZvciB0aGUgc2VhcmNoCj4gaXQg
+ZG9lcyBub3QgbWVhbiB0aGF0IHdlIGNhbiBhYm9ydCB0aGUgc3VidHJlZSBzZWFyY2guCj4KPiBJ
+dCBpcyBwZXJmZWN0bHkgcG9zc2libGUgdGhhdCBvbmx5IHRoZSBhbGlnbm1lbnQsIGJ1dCBub3Qg
+dGhlCj4gc2l6ZSBpcyB0aGUgcmVhc29uIGZvciB0aGUgcmVqZWN0aW9uLgoKCkkga25vdyB3aHkg
+ScKgIGRpZCB0aGF0LCBJIHdhcyB0ZXN0aW5nIHdpdGggOGsgYWxpZ25tZW50LiBTbyB0aGlzIHdh
+cyAKYmlhc2VkIHRvIG9wdGltaXplIG15IHRlc3QgY2FzZS4KCgo+Cj4gU2lnbmVkLW9mZi1ieTog
+Q2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKClJldmlld2VkLWJ5
+OiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFzQGFtZC5jb20+CgoKPiAtLS0KPiAgIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fbW0uYyB8IDYgKystLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
+KCspLCA0IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+bW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW0uYwo+IGluZGV4IDYwZTlhOWM5MWU5ZC4uODJk
+Mjg4OGViN2ZlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW0uYwo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fbW0uYwo+IEBAIC00MDYsOCArNDA2LDcgQEAgbmV4dF9ob2xl
+X2hpZ2hfYWRkcihzdHJ1Y3QgZHJtX21tX25vZGUgKmVudHJ5LCB1NjQgc2l6ZSkKPiAgIAkJcGFy
+ZW50X3JiX25vZGUgPSByYl9wYXJlbnQocmJfbm9kZSk7Cj4gICAJCWxlZnRfbm9kZSA9IHJiX2Vu
+dHJ5KGxlZnRfcmJfbm9kZSwKPiAgIAkJCQkgICAgIHN0cnVjdCBkcm1fbW1fbm9kZSwgcmJfaG9s
+ZV9hZGRyKTsKPiAtCQlpZiAoKGxlZnRfbm9kZS0+c3VidHJlZV9tYXhfaG9sZSA8IHNpemUgfHwK
+PiAtCQkgICAgIEhPTEVfU0laRShlbnRyeSkgPT0gZW50cnktPnN1YnRyZWVfbWF4X2hvbGUpICYm
+Cj4gKwkJaWYgKGxlZnRfbm9kZS0+c3VidHJlZV9tYXhfaG9sZSA8IHNpemUgJiYKPiAgIAkJICAg
+IHBhcmVudF9yYl9ub2RlICYmIHBhcmVudF9yYl9ub2RlLT5yYl9sZWZ0ICE9IHJiX25vZGUpCj4g
+ICAJCQlyZXR1cm4gcmJfaG9sZV9hZGRyX3RvX25vZGUocGFyZW50X3JiX25vZGUpOwo+ICAgCX0K
+PiBAQCAtNDQ2LDggKzQ0NSw3IEBAIG5leHRfaG9sZV9sb3dfYWRkcihzdHJ1Y3QgZHJtX21tX25v
+ZGUgKmVudHJ5LCB1NjQgc2l6ZSkKPiAgIAkJcGFyZW50X3JiX25vZGUgPSByYl9wYXJlbnQocmJf
+bm9kZSk7Cj4gICAJCXJpZ2h0X25vZGUgPSByYl9lbnRyeShyaWdodF9yYl9ub2RlLAo+ICAgCQkJ
+CSAgICAgIHN0cnVjdCBkcm1fbW1fbm9kZSwgcmJfaG9sZV9hZGRyKTsKPiAtCQlpZiAoKHJpZ2h0
+X25vZGUtPnN1YnRyZWVfbWF4X2hvbGUgPCBzaXplIHx8Cj4gLQkJICAgICBIT0xFX1NJWkUoZW50
+cnkpID09IGVudHJ5LT5zdWJ0cmVlX21heF9ob2xlKSAmJgo+ICsJCWlmIChyaWdodF9ub2RlLT5z
+dWJ0cmVlX21heF9ob2xlIDwgc2l6ZSAmJgo+ICAgCQkgICAgcGFyZW50X3JiX25vZGUgJiYgcGFy
+ZW50X3JiX25vZGUtPnJiX3JpZ2h0ICE9IHJiX25vZGUpCj4gICAJCQlyZXR1cm4gcmJfaG9sZV9h
+ZGRyX3RvX25vZGUocGFyZW50X3JiX25vZGUpOwo+ICAgCX0KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
