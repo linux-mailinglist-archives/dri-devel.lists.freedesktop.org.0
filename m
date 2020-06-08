@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627761F0FFE
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jun 2020 23:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A911F1148
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 04:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94BC66E202;
-	Sun,  7 Jun 2020 21:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55EEE6E225;
+	Mon,  8 Jun 2020 02:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32B586E1C0;
- Sun,  7 Jun 2020 21:25:32 +0000 (UTC)
-IronPort-SDR: LniwemmxuZDJZoUd10CzaVbpy7VqZshMAmezVNeQ1+n8kE584dkqXb6jinHEGY6HWzvWAnwVyJ
- SW7CiCjIDUww==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2020 14:25:31 -0700
-IronPort-SDR: Ubunfb68a83ey9+2yk6CzmgD1PEARNmg9IkTCcwb3BzuwvKEhAl6n24pS6luGRzRFOpiilMnLW
- HBNyZHz+JteA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,485,1583222400"; d="scan'208";a="270317167"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga003.jf.intel.com with ESMTP; 07 Jun 2020 14:25:30 -0700
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/dp_mst: Fix flushing the delayed port/mstb destroy
- work
-Date: Mon,  8 Jun 2020 00:25:22 +0300
-Message-Id: <20200607212522.16935-3-imre.deak@intel.com>
-X-Mailer: git-send-email 2.23.1
-In-Reply-To: <20200607212522.16935-1-imre.deak@intel.com>
-References: <20200607212522.16935-1-imre.deak@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2756C6E225
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 02:02:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C23D50E;
+ Mon,  8 Jun 2020 04:02:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1591581749;
+ bh=i1AmAGyM1Zj7pRO9Jd3l5vQMRbYrocwi6kzrZnDqAuI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WirakFtdzE9ijjcmNr56wAKu+9v5XXpAX6UQl84sa6ca884vfIBDMyIUbrEvwKLxv
+ ayFeIaQI5/ipbHhNHxtjZc4rFrca5XJzxn/cIAC5KYcNQDSzUd/QT3Zvo1mWZ6CE+u
+ JWX7OkvNg2JXfVcVmP1Mi5nR51kQNp1tLH9ogrLk=
+Date: Mon, 8 Jun 2020 05:02:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Qian Cai <cai@lca.pw>
+Subject: Re: [PATCH] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
+Message-ID: <20200608020207.GL22208@pendragon.ideasonboard.com>
+References: <20200608014818.2814-1-cai@lca.pw>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200608014818.2814-1-cai@lca.pw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,94 +45,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Atm, a pending delayed destroy work during module removal will be
-canceled, leaving behind MST ports, mstbs. Fix this by using a dedicated
-workqueue which will be drained of requeued items as well when
-destroying it.
+Hi Qian,
 
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/drm_dp_mst_topology.c | 17 ++++++++++++++---
- include/drm/drm_dp_mst_helper.h       |  8 ++++++++
- 2 files changed, 22 insertions(+), 3 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 083255c33ee0..075fb5ac9264 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -1630,7 +1630,7 @@ static void drm_dp_destroy_mst_branch_device(struct kref *kref)
- 	mutex_lock(&mgr->delayed_destroy_lock);
- 	list_add(&mstb->destroy_next, &mgr->destroy_branch_device_list);
- 	mutex_unlock(&mgr->delayed_destroy_lock);
--	schedule_work(&mgr->delayed_destroy_work);
-+	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
- }
- 
- /**
-@@ -1747,7 +1747,7 @@ static void drm_dp_destroy_port(struct kref *kref)
- 	mutex_lock(&mgr->delayed_destroy_lock);
- 	list_add(&port->next, &mgr->destroy_port_list);
- 	mutex_unlock(&mgr->delayed_destroy_lock);
--	schedule_work(&mgr->delayed_destroy_work);
-+	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
- }
- 
- /**
-@@ -5208,6 +5208,15 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	INIT_LIST_HEAD(&mgr->destroy_port_list);
- 	INIT_LIST_HEAD(&mgr->destroy_branch_device_list);
- 	INIT_LIST_HEAD(&mgr->up_req_list);
-+
-+	/*
-+	 * delayed_destroy_work will be queued on a dedicated WQ, so that any
-+	 * requeuing will be also flushed when deiniting the topology manager.
-+	 */
-+	mgr->delayed_destroy_wq = alloc_ordered_workqueue("drm_dp_mst_wq", 0);
-+	if (mgr->delayed_destroy_wq == NULL)
-+		return -ENOMEM;
-+
- 	INIT_WORK(&mgr->work, drm_dp_mst_link_probe_work);
- 	INIT_WORK(&mgr->tx_work, drm_dp_tx_work);
- 	INIT_WORK(&mgr->delayed_destroy_work, drm_dp_delayed_destroy_work);
-@@ -5252,7 +5261,9 @@ void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr)
- {
- 	drm_dp_mst_topology_mgr_set_mst(mgr, false);
- 	flush_work(&mgr->work);
--	cancel_work_sync(&mgr->delayed_destroy_work);
-+	/* The following will also drain any requeued work on the WQ. */
-+	destroy_workqueue(mgr->delayed_destroy_wq);
-+	mgr->delayed_destroy_wq = NULL;
- 	mutex_lock(&mgr->payload_lock);
- 	kfree(mgr->payloads);
- 	mgr->payloads = NULL;
-diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-index b230ff6f7081..8b9eb4db3381 100644
---- a/include/drm/drm_dp_mst_helper.h
-+++ b/include/drm/drm_dp_mst_helper.h
-@@ -681,6 +681,14 @@ struct drm_dp_mst_topology_mgr {
- 	 * @destroy_branch_device_list.
- 	 */
- 	struct mutex delayed_destroy_lock;
-+
-+	/**
-+	 * @delayed_destroy_wq: Workqueue used for delayed_destroy_work items.
-+	 * A dedicated WQ makes it possible to drain any requeued work items
-+	 * on it.
-+	 */
-+	struct workqueue_struct *delayed_destroy_wq;
-+
- 	/**
- 	 * @delayed_destroy_work: Work item to destroy MST port and branch
- 	 * devices, needed to avoid locking inversion.
+On Sun, Jun 07, 2020 at 09:48:18PM -0400, Qian Cai wrote:
+> There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
+> the generated .config a bit ugly.
+> 
+>  # ARM devices
+>  #
+>  # end of ARM devices
+> 
+>  CONFIG_DRM_RCAR_WRITEBACK=y
+> 
+>  #
+>  # Frame buffer Devices
+> 
+> Signed-off-by: Qian Cai <cai@lca.pw>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 0919f1f159a4..d80696455d3e 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
+>  config DRM_RCAR_WRITEBACK
+>  	bool
+>  	default y if ARM64
+> +	depends on DRM
+
+How about depending on DRM_RCAR_DU instead, as DRM_RCAR_WRITEBACK is
+used to select compilation of rcar_du_writeback.c that is part of the
+rcar-du driver ?
+
 -- 
-2.23.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
