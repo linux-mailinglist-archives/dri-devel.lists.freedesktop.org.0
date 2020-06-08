@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B0B1F227A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E673D1F227C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFEB89FF9;
-	Mon,  8 Jun 2020 23:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 123E56E03D;
+	Mon,  8 Jun 2020 23:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29E989FF9;
- Mon,  8 Jun 2020 23:08:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E136E02A;
+ Mon,  8 Jun 2020 23:08:45 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A7FD920890;
- Mon,  8 Jun 2020 23:08:42 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 13A8C2085B;
+ Mon,  8 Jun 2020 23:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657723;
- bh=7IiQDXdq9Z5dE9WWdDCDCvrJ4FHOUElT9vMdc58iVhs=;
+ s=default; t=1591657725;
+ bh=TT+8tMvqgygFxoAAc7BZuKJHREEz6edhkE6V6E4qA9c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f4Lj95ghCpXTJQqlfuuZHf7dryN6Fo+aQ3BoWQTVM5Dv+ueDnAckKCN1EMlR2uG8l
- ulVrJsFgu0Y8+gbMSc6EpvyVRuK9wPJ0prj3LJuWjl47SedX5yKLQxaRTyzBg0naWU
- ZN/wFuOgq+YxXqA+5pd5RskMRDXnb86qP5eAxNto=
+ b=af7CblJ72Q4b5/8AjOe6ptfhTA2uhYvi5uJb841LlN4IvzfOkiIRs2LgTOWYYxAhX
+ QJW4lms//2dBFCVDEw3ktK1hCYaAGc2pjYIghk9LlbXqp1a+gbWU+e+aimRkmWGL3I
+ Fl2yHb0NU0HSPJvJXxZlwJgcRTkVsYCMyN4oNYkY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 116/274] drm/amd/display: Correct updating logic
- of dcn21's pipe VM flags
-Date: Mon,  8 Jun 2020 19:03:29 -0400
-Message-Id: <20200608230607.3361041-116-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 117/274] drm/amd/display: dmcu wait loop
+ calculation is incorrect in RV
+Date: Mon,  8 Jun 2020 19:03:30 -0400
+Message-Id: <20200608230607.3361041-117-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -50,55 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
- Dale Zhao <dale.zhao@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org, Yongqiang Sun <yongqiang.sun@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Eric Yang <eric.yang2@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Paul Hsieh <paul.hsieh@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dale Zhao <dale.zhao@amd.com>
+From: Paul Hsieh <paul.hsieh@amd.com>
 
-[ Upstream commit 2a28fe92220a116735ef45939b7edcfee83cc6b0 ]
+[ Upstream commit 7fc5c319efceaed1a23b7ef35c333553ce39fecf ]
 
-[Why]:
-Renoir's pipe VM flags are not correctly updated if pipe strategy has
-changed during some scenarios. It will result in watermarks mistakenly
-calculation, thus underflow and garbage appear.
+[Why]
+Driver already get display clock from SMU base on MHz, but driver read
+again and mutiple 1000 cause wait loop value is overflow.
 
-[How]:
-Correctly update pipe VM flags to pipes which have been populated.
+[How]
+remove coding error
 
-Signed-off-by: Dale Zhao <dale.zhao@amd.com>
-Signed-off-by: Sung Lee <sung.lee@amd.com>
-Reviewed-by: Yongqiang Sun <yongqiang.sun@amd.com>
+Signed-off-by: Paul Hsieh <paul.hsieh@amd.com>
+Reviewed-by: Eric Yang <eric.yang2@amd.com>
 Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ .../drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c   | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-index a721bb401ef0..6d1736cf5c12 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-@@ -1694,12 +1694,8 @@ static int dcn21_populate_dml_pipes_from_context(
- {
- 	uint32_t pipe_cnt = dcn20_populate_dml_pipes_from_context(dc, context, pipes);
- 	int i;
--	struct resource_context *res_ctx = &context->res_ctx;
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
+index 97b7f32294fd..c320b7af7d34 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn10/rv1_clk_mgr_vbios_smu.c
+@@ -97,9 +97,6 @@ int rv1_vbios_smu_set_dispclk(struct clk_mgr_internal *clk_mgr, int requested_di
+ 			VBIOSSMC_MSG_SetDispclkFreq,
+ 			requested_dispclk_khz / 1000);
  
--	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-	/* Actual dispclk set is returned in the parameter register */
+-	actual_dispclk_set_mhz = REG_READ(MP1_SMN_C2PMSG_83) * 1000;
 -
--		if (!res_ctx->pipe_ctx[i].stream)
--			continue;
-+	for (i = 0; i < pipe_cnt; i++) {
- 
- 		pipes[i].pipe.src.hostvm = 1;
- 		pipes[i].pipe.src.gpuvm = 1;
+ 	if (!IS_FPGA_MAXIMUS_DC(dc->ctx->dce_environment)) {
+ 		if (dmcu && dmcu->funcs->is_dmcu_initialized(dmcu)) {
+ 			if (clk_mgr->dfs_bypass_disp_clk != actual_dispclk_set_mhz)
 -- 
 2.25.1
 
