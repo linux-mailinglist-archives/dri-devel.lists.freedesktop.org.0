@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E234D1F21FC
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 00:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4960C1F2208
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C2189E3F;
-	Mon,  8 Jun 2020 22:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5A88991C;
+	Mon,  8 Jun 2020 23:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C31189CCB;
- Mon,  8 Jun 2020 22:53:55 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id g1so14799953edv.6;
- Mon, 08 Jun 2020 15:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o0dkW7AvLyKn1HRWpsXIOwbF0Y+dLturfn26dWeNBGk=;
- b=oUIUtFODJiEax1cYkKvYmwAdbOx/v8zdOrVZjhTeHg6/0BEdjS1WeDOIvOZ3WMb7/i
- ONJQj9vfW3ieG2L3o2wsqtHBNoMNMe0kdkpPu0rhTZ2QSLOgtlPblqJ264grL9R+WwlL
- 7kR8ay5zlNj18Un3z9RIxrNLAzj3b6mRroHeqYtD09xsq62yqPZ7dHPaNSD5vqvJRgB3
- tdCRffLsbtIGDVwc0U62UqtymSVZErg50b+7kgsYm9l8F9rZhjK/gEVBiVT/Vn4nuK/1
- FiocN+z1p5MEN7CyXQV0CRu18kNf1pHA5GgmoLMFu+qoZ9Q5zfrmT5ME7kJeoWR6apjq
- tZ9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o0dkW7AvLyKn1HRWpsXIOwbF0Y+dLturfn26dWeNBGk=;
- b=l0uk8f45cmo6R1tzHR92xX2VFIupOH3FTFczV1F6yu8i1bi8M85voJQERKU+e+gEEj
- yrspEFTwR8efBudcpB5a6ahA+GYiV8EPycFbBRj2TG1tto6WyFYJLkiqZ3y4UsE+O+5k
- FTJ/w5EWNiyQce15Tdv+NRH+Q20FjBVqTqO1fF2de3+2quLACdzMFn1Nvn3VGfnYbO7L
- ZncAmseFgLSX+yXoG8Ud7FqO+WEdq+//lbdsO0rnYzhpP391+wQMc2P2909enF5n3rjJ
- ymFmlpwtcPmbyzhF6oE2X5ooVqT/7oDW48TPAc4mA2QPFcVGtD9wEBELQafBaoPpKRO9
- tlEg==
-X-Gm-Message-State: AOAM533dwPFHEKDaxeBrlF3KtU+4prGXKj8ct4CQ2KnLEqFQlb8yAaCy
- rQoV0B/q7PYv/7mDgfEVL2dvtH/WBap6y8XZ9ho=
-X-Google-Smtp-Source: ABdhPJwibOfu09ZokvFJB8guqz4Rh/t6R+97kctxbqsoYNwmzeb7qaLLtQeLrCUX3dmQ1Jq2dt20A6x9O/nH7nNQ8Mg=
-X-Received: by 2002:a50:9d46:: with SMTP id j6mr24741835edk.362.1591656833950; 
- Mon, 08 Jun 2020 15:53:53 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D988991C;
+ Mon,  8 Jun 2020 23:06:09 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 899DA2076A;
+ Mon,  8 Jun 2020 23:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591657569;
+ bh=CicGRjGSOTBsUj/Eqh9polVEPmrcjtOxTk5wOZR5tgE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nI2YdhB1zt9pJ919fxs1oyKtdENrnrLP24ylg86cC/kUoj9RYMFYPe0Ipv8Hn3GWu
+ nZxfi5XehnjrGsJvLMtMlzOtIG5ZkVO4CuuenLWVF3RtdywZzfTkl4Mq+JN7GR6afq
+ ynvWaLS+BIuCTUZ7fNshAQE/pc0Txda7UNMTR2OI=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 001/274] drm/amdgpu: fix and cleanup
+ amdgpu_gem_object_close v4
+Date: Mon,  8 Jun 2020 19:01:34 -0400
+Message-Id: <20200608230607.3361041-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1585044079-358-1-git-send-email-kalyan_t@codeaurora.org>
- <CALAqxLViRrga-XW2o1J1JutFdS1d-qmmgOrEP2beNygw3A7H4A@mail.gmail.com>
- <CALAqxLWbhioSH4pFyM348VrGWxRXHQV1s9bdz6HArYguLtAFcw@mail.gmail.com>
-In-Reply-To: <CALAqxLWbhioSH4pFyM348VrGWxRXHQV1s9bdz6HArYguLtAFcw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 8 Jun 2020 15:54:19 -0700
-Message-ID: <CAF6AEGvGxyen5DbYCoc1x5ZeWiZo0mgvtsNev0k7WJnw+Xgqjg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: add support for color processing blocks
- in dpu driver
-To: John Stultz <john.stultz@linaro.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,84 +48,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Raviteja Tamatam <travitej@codeaurora.org>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
- Kalyan Thota <kalyan_t@codeaurora.org>,
- "Kristian H. Kristensen" <hoegsberg@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sasha Levin <sashal@kernel.org>, xinhui pan <xinhui.pan@amd.com>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 8, 2020 at 3:37 PM John Stultz <john.stultz@linaro.org> wrote:
->
-> On Mon, Jun 8, 2020 at 3:25 PM John Stultz <john.stultz@linaro.org> wrote:
-> >
-> > On Wed, Mar 25, 2020 at 1:17 AM Kalyan Thota <kalyan_t@codeaurora.org> wrote:
-> > >
-> > > This change adds support to configure dspp blocks in
-> > > the dpu driver.
-> > >
-> > > Macro description of the changes coming in this patch.
-> > > 1) Add dspp definitions in the hw catalog.
-> > > 2) Add capability to reserve dspp blocks in the display data path.
-> > > 3) Attach the reserved block to the encoder.
-> > >
-> > > Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
-> >
-> > Hey all,
-> >   With this patch now merged upstream, I'm seeing a regression on
-> > db845c that I bisected down to it.
-> >
-> > When I boot up I see:
-> > [   40.976737] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu
-> > error]failed to get dspp on lm 0
-> > [   40.985600] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu
-> > error]failed to get dspp on lm 0
-> > [   40.994587] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu
-> > error]failed to get dspp on lm 0
-> > [   41.003492] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu
-> > error]failed to get dspp on lm 0
-> > [   41.012283] [drm:_dpu_rm_make_reservation] [dpu error]unable to
-> > find appropriate mixers
-> > [   41.020369] [drm:dpu_rm_reserve] [dpu error]failed to reserve hw
-> > resources: -119
-> >
-> > Over and over, and the display doesn't start up.
-> >
-> > I suspect we're supposed to catch the following check before the failure:
-> >
-> > +       if (!reqs->topology.num_dspp)
-> > +               return true;
-> >
-> > I suspect the issue is in dpu_encoder_get_topology() we don't fully
-> > initialize the topology structure on the stack before returning it.
-> >
-> > Does that sound plausible or is there likely some other cause?
->
-> This guess is wrong. The topology.num_dspp is 2, but lm_cfg->dspp is
-> coming back as zero.
->
-> I'll continue digging to see if I can understand better whats going wrong.
->
-
-It looks like no DSPP was added to 845, see sdm845_lm vs sc7180_lm
-
-
-Kaylan, can this be fixed sanely to make DSPP optional, or should we
-revert and try again next time?
-
-BR,
--R
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
+cmVhbSBjb21taXQgODJjNDE2YjEzY2I3ZDIyYjk2ZWMwODg4YjI5NmE0OGRmZjhhMDllYiBdCgpU
+aGUgcHJvYmxlbSBpcyB0aGF0IHdlIGNhbid0IGFkZCB0aGUgY2xlYXIgZmVuY2UgdG8gdGhlIEJP
+CndoZW4gdGhlcmUgaXMgYW4gZXhjbHVzaXZlIGZlbmNlIG9uIGl0IHNpbmNlIHdlIGNhbid0Cmd1
+YXJhbnRlZSB0aGUgdGhlIGNsZWFyIGZlbmNlIHdpbGwgY29tcGxldGUgYWZ0ZXIgdGhlCmV4Y2x1
+c2l2ZSBvbmUuCgpUbyBmaXggdGhpcyByZWZhY3RvciB0aGUgZnVuY3Rpb24gYW5kIGFsc28gYWRk
+IHRoZSBleGNsdXNpdmUKZmVuY2UgYXMgc2hhcmVkIHRvIHRoZSByZXN2IG9iamVjdC4KCnYyOiBm
+aXggd2FybmluZwp2MzogYWRkIGV4Y2wgZmVuY2UgYXMgc2hhcmVkIGluc3RlYWQKdjQ6IHNxdWFz
+aCBpbiBmaXggZm9yIGZlbmNlIGhhbmRsaW5nIGluIGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlCgpT
+aWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+ClJldmlld2VkLWJ5OiB4aW5odWkgcGFuIDx4aW5odWkucGFuQGFtZC5jb20+ClNpZ25lZC1vZmYt
+Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1i
+eTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9nZW0uYyB8IDQzICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKaW5kZXggNDI3NzEyNWE3OWVlLi4zMmYzNmM5
+NDBhYmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0u
+YworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKQEAgLTE2MSwx
+NiArMTYxLDE3IEBAIHZvaWQgYW1kZ3B1X2dlbV9vYmplY3RfY2xvc2Uoc3RydWN0IGRybV9nZW1f
+b2JqZWN0ICpvYmosCiAKIAlzdHJ1Y3QgYW1kZ3B1X2JvX2xpc3RfZW50cnkgdm1fcGQ7CiAJc3Ry
+dWN0IGxpc3RfaGVhZCBsaXN0LCBkdXBsaWNhdGVzOworCXN0cnVjdCBkbWFfZmVuY2UgKmZlbmNl
+ID0gTlVMTDsKIAlzdHJ1Y3QgdHRtX3ZhbGlkYXRlX2J1ZmZlciB0djsKIAlzdHJ1Y3Qgd3dfYWNx
+dWlyZV9jdHggdGlja2V0OwogCXN0cnVjdCBhbWRncHVfYm9fdmEgKmJvX3ZhOwotCWludCByOwor
+CWxvbmcgcjsKIAogCUlOSVRfTElTVF9IRUFEKCZsaXN0KTsKIAlJTklUX0xJU1RfSEVBRCgmZHVw
+bGljYXRlcyk7CiAKIAl0di5ibyA9ICZiby0+dGJvOwotCXR2Lm51bV9zaGFyZWQgPSAxOworCXR2
+Lm51bV9zaGFyZWQgPSAyOwogCWxpc3RfYWRkKCZ0di5oZWFkLCAmbGlzdCk7CiAKIAlhbWRncHVf
+dm1fZ2V0X3BkX2JvKHZtLCAmbGlzdCwgJnZtX3BkKTsKQEAgLTE3OCwyOCArMTc5LDM0IEBAIHZv
+aWQgYW1kZ3B1X2dlbV9vYmplY3RfY2xvc2Uoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCiAJ
+ciA9IHR0bV9ldV9yZXNlcnZlX2J1ZmZlcnMoJnRpY2tldCwgJmxpc3QsIGZhbHNlLCAmZHVwbGlj
+YXRlcyk7CiAJaWYgKHIpIHsKIAkJZGV2X2VycihhZGV2LT5kZXYsICJsZWFraW5nIGJvIHZhIGJl
+Y2F1c2UgIgotCQkJIndlIGZhaWwgdG8gcmVzZXJ2ZSBibyAoJWQpXG4iLCByKTsKKwkJCSJ3ZSBm
+YWlsIHRvIHJlc2VydmUgYm8gKCVsZClcbiIsIHIpOwogCQlyZXR1cm47CiAJfQogCWJvX3ZhID0g
+YW1kZ3B1X3ZtX2JvX2ZpbmQodm0sIGJvKTsKLQlpZiAoYm9fdmEgJiYgLS1ib192YS0+cmVmX2Nv
+dW50ID09IDApIHsKLQkJYW1kZ3B1X3ZtX2JvX3JtdihhZGV2LCBib192YSk7Ci0KLQkJaWYgKGFt
+ZGdwdV92bV9yZWFkeSh2bSkpIHsKLQkJCXN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlID0gTlVMTDsK
+KwlpZiAoIWJvX3ZhIHx8IC0tYm9fdmEtPnJlZl9jb3VudCkKKwkJZ290byBvdXRfdW5sb2NrOwog
+Ci0JCQlyID0gYW1kZ3B1X3ZtX2NsZWFyX2ZyZWVkKGFkZXYsIHZtLCAmZmVuY2UpOwotCQkJaWYg
+KHVubGlrZWx5KHIpKSB7Ci0JCQkJZGV2X2VycihhZGV2LT5kZXYsICJmYWlsZWQgdG8gY2xlYXIg
+cGFnZSAiCi0JCQkJCSJ0YWJsZXMgb24gR0VNIG9iamVjdCBjbG9zZSAoJWQpXG4iLCByKTsKLQkJ
+CX0KKwlhbWRncHVfdm1fYm9fcm12KGFkZXYsIGJvX3ZhKTsKKwlpZiAoIWFtZGdwdV92bV9yZWFk
+eSh2bSkpCisJCWdvdG8gb3V0X3VubG9jazsKIAotCQkJaWYgKGZlbmNlKSB7Ci0JCQkJYW1kZ3B1
+X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7Ci0JCQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7Ci0J
+CQl9Ci0JCX0KKwlmZW5jZSA9IGRtYV9yZXN2X2dldF9leGNsKGJvLT50Ym8uYmFzZS5yZXN2KTsK
+KwlpZiAoZmVuY2UpIHsKKwkJYW1kZ3B1X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7CisJCWZl
+bmNlID0gTlVMTDsKIAl9CisKKwlyID0gYW1kZ3B1X3ZtX2NsZWFyX2ZyZWVkKGFkZXYsIHZtLCAm
+ZmVuY2UpOworCWlmIChyIHx8ICFmZW5jZSkKKwkJZ290byBvdXRfdW5sb2NrOworCisJYW1kZ3B1
+X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7CisJZG1hX2ZlbmNlX3B1dChmZW5jZSk7CisKK291
+dF91bmxvY2s6CisJaWYgKHVubGlrZWx5KHIgPCAwKSkKKwkJZGV2X2VycihhZGV2LT5kZXYsICJm
+YWlsZWQgdG8gY2xlYXIgcGFnZSAiCisJCQkidGFibGVzIG9uIEdFTSBvYmplY3QgY2xvc2UgKCVs
+ZClcbiIsIHIpOwogCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZ0aWNrZXQsICZsaXN0KTsK
+IH0KIAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwK
