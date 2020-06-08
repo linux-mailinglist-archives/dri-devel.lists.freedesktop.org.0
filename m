@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4960C1F2208
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B588A1F220C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:06:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5A88991C;
-	Mon,  8 Jun 2020 23:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16E289F9F;
+	Mon,  8 Jun 2020 23:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D988991C;
- Mon,  8 Jun 2020 23:06:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC51C89F9F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:06:15 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 899DA2076A;
- Mon,  8 Jun 2020 23:06:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1D21220774;
+ Mon,  8 Jun 2020 23:06:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657569;
- bh=CicGRjGSOTBsUj/Eqh9polVEPmrcjtOxTk5wOZR5tgE=;
- h=From:To:Cc:Subject:Date:From;
- b=nI2YdhB1zt9pJ919fxs1oyKtdENrnrLP24ylg86cC/kUoj9RYMFYPe0Ipv8Hn3GWu
- nZxfi5XehnjrGsJvLMtMlzOtIG5ZkVO4CuuenLWVF3RtdywZzfTkl4Mq+JN7GR6afq
- ynvWaLS+BIuCTUZ7fNshAQE/pc0Txda7UNMTR2OI=
+ s=default; t=1591657575;
+ bh=MvkpziLz+OYcARuVbeGtxopmI4GZl9PufbVqxqdF9n4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LiRg6alm6r3eVfOHOW5WvzaOMAqLQOku9gT94QkQ99Nxx68EDi05y5Dx6T9xzmZcH
+ 8F8wdKCnuhEp5TJY2N7JOjIHt2Z+j/kCOtubOz7Z0gwAFOO9nt1lCig8bXqZUvo4A+
+ 058BpS+guDhxHS8Ir3k1Uoqm6v7jR/0aCNGYZVog=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 001/274] drm/amdgpu: fix and cleanup
- amdgpu_gem_object_close v4
-Date: Mon,  8 Jun 2020 19:01:34 -0400
-Message-Id: <20200608230607.3361041-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 006/274] drm: bridge: adv7511: Extend list of
+ audio sample rates
+Date: Mon,  8 Jun 2020 19:01:39 -0400
+Message-Id: <20200608230607.3361041-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
+References: <20200608230607.3361041-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,68 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, xinhui pan <xinhui.pan@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Bogdan Togorean <bogdan.togorean@analog.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
-cmVhbSBjb21taXQgODJjNDE2YjEzY2I3ZDIyYjk2ZWMwODg4YjI5NmE0OGRmZjhhMDllYiBdCgpU
-aGUgcHJvYmxlbSBpcyB0aGF0IHdlIGNhbid0IGFkZCB0aGUgY2xlYXIgZmVuY2UgdG8gdGhlIEJP
-CndoZW4gdGhlcmUgaXMgYW4gZXhjbHVzaXZlIGZlbmNlIG9uIGl0IHNpbmNlIHdlIGNhbid0Cmd1
-YXJhbnRlZSB0aGUgdGhlIGNsZWFyIGZlbmNlIHdpbGwgY29tcGxldGUgYWZ0ZXIgdGhlCmV4Y2x1
-c2l2ZSBvbmUuCgpUbyBmaXggdGhpcyByZWZhY3RvciB0aGUgZnVuY3Rpb24gYW5kIGFsc28gYWRk
-IHRoZSBleGNsdXNpdmUKZmVuY2UgYXMgc2hhcmVkIHRvIHRoZSByZXN2IG9iamVjdC4KCnYyOiBm
-aXggd2FybmluZwp2MzogYWRkIGV4Y2wgZmVuY2UgYXMgc2hhcmVkIGluc3RlYWQKdjQ6IHNxdWFz
-aCBpbiBmaXggZm9yIGZlbmNlIGhhbmRsaW5nIGluIGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlCgpT
-aWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
-ClJldmlld2VkLWJ5OiB4aW5odWkgcGFuIDx4aW5odWkucGFuQGFtZC5jb20+ClNpZ25lZC1vZmYt
-Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KU2lnbmVkLW9mZi1i
-eTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9nZW0uYyB8IDQzICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0KIDEg
-ZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKaW5kZXggNDI3NzEyNWE3OWVlLi4zMmYzNmM5
-NDBhYmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0u
-YworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKQEAgLTE2MSwx
-NiArMTYxLDE3IEBAIHZvaWQgYW1kZ3B1X2dlbV9vYmplY3RfY2xvc2Uoc3RydWN0IGRybV9nZW1f
-b2JqZWN0ICpvYmosCiAKIAlzdHJ1Y3QgYW1kZ3B1X2JvX2xpc3RfZW50cnkgdm1fcGQ7CiAJc3Ry
-dWN0IGxpc3RfaGVhZCBsaXN0LCBkdXBsaWNhdGVzOworCXN0cnVjdCBkbWFfZmVuY2UgKmZlbmNl
-ID0gTlVMTDsKIAlzdHJ1Y3QgdHRtX3ZhbGlkYXRlX2J1ZmZlciB0djsKIAlzdHJ1Y3Qgd3dfYWNx
-dWlyZV9jdHggdGlja2V0OwogCXN0cnVjdCBhbWRncHVfYm9fdmEgKmJvX3ZhOwotCWludCByOwor
-CWxvbmcgcjsKIAogCUlOSVRfTElTVF9IRUFEKCZsaXN0KTsKIAlJTklUX0xJU1RfSEVBRCgmZHVw
-bGljYXRlcyk7CiAKIAl0di5ibyA9ICZiby0+dGJvOwotCXR2Lm51bV9zaGFyZWQgPSAxOworCXR2
-Lm51bV9zaGFyZWQgPSAyOwogCWxpc3RfYWRkKCZ0di5oZWFkLCAmbGlzdCk7CiAKIAlhbWRncHVf
-dm1fZ2V0X3BkX2JvKHZtLCAmbGlzdCwgJnZtX3BkKTsKQEAgLTE3OCwyOCArMTc5LDM0IEBAIHZv
-aWQgYW1kZ3B1X2dlbV9vYmplY3RfY2xvc2Uoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCiAJ
-ciA9IHR0bV9ldV9yZXNlcnZlX2J1ZmZlcnMoJnRpY2tldCwgJmxpc3QsIGZhbHNlLCAmZHVwbGlj
-YXRlcyk7CiAJaWYgKHIpIHsKIAkJZGV2X2VycihhZGV2LT5kZXYsICJsZWFraW5nIGJvIHZhIGJl
-Y2F1c2UgIgotCQkJIndlIGZhaWwgdG8gcmVzZXJ2ZSBibyAoJWQpXG4iLCByKTsKKwkJCSJ3ZSBm
-YWlsIHRvIHJlc2VydmUgYm8gKCVsZClcbiIsIHIpOwogCQlyZXR1cm47CiAJfQogCWJvX3ZhID0g
-YW1kZ3B1X3ZtX2JvX2ZpbmQodm0sIGJvKTsKLQlpZiAoYm9fdmEgJiYgLS1ib192YS0+cmVmX2Nv
-dW50ID09IDApIHsKLQkJYW1kZ3B1X3ZtX2JvX3JtdihhZGV2LCBib192YSk7Ci0KLQkJaWYgKGFt
-ZGdwdV92bV9yZWFkeSh2bSkpIHsKLQkJCXN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlID0gTlVMTDsK
-KwlpZiAoIWJvX3ZhIHx8IC0tYm9fdmEtPnJlZl9jb3VudCkKKwkJZ290byBvdXRfdW5sb2NrOwog
-Ci0JCQlyID0gYW1kZ3B1X3ZtX2NsZWFyX2ZyZWVkKGFkZXYsIHZtLCAmZmVuY2UpOwotCQkJaWYg
-KHVubGlrZWx5KHIpKSB7Ci0JCQkJZGV2X2VycihhZGV2LT5kZXYsICJmYWlsZWQgdG8gY2xlYXIg
-cGFnZSAiCi0JCQkJCSJ0YWJsZXMgb24gR0VNIG9iamVjdCBjbG9zZSAoJWQpXG4iLCByKTsKLQkJ
-CX0KKwlhbWRncHVfdm1fYm9fcm12KGFkZXYsIGJvX3ZhKTsKKwlpZiAoIWFtZGdwdV92bV9yZWFk
-eSh2bSkpCisJCWdvdG8gb3V0X3VubG9jazsKIAotCQkJaWYgKGZlbmNlKSB7Ci0JCQkJYW1kZ3B1
-X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7Ci0JCQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7Ci0J
-CQl9Ci0JCX0KKwlmZW5jZSA9IGRtYV9yZXN2X2dldF9leGNsKGJvLT50Ym8uYmFzZS5yZXN2KTsK
-KwlpZiAoZmVuY2UpIHsKKwkJYW1kZ3B1X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7CisJCWZl
-bmNlID0gTlVMTDsKIAl9CisKKwlyID0gYW1kZ3B1X3ZtX2NsZWFyX2ZyZWVkKGFkZXYsIHZtLCAm
-ZmVuY2UpOworCWlmIChyIHx8ICFmZW5jZSkKKwkJZ290byBvdXRfdW5sb2NrOworCisJYW1kZ3B1
-X2JvX2ZlbmNlKGJvLCBmZW5jZSwgdHJ1ZSk7CisJZG1hX2ZlbmNlX3B1dChmZW5jZSk7CisKK291
-dF91bmxvY2s6CisJaWYgKHVubGlrZWx5KHIgPCAwKSkKKwkJZGV2X2VycihhZGV2LT5kZXYsICJm
-YWlsZWQgdG8gY2xlYXIgcGFnZSAiCisJCQkidGFibGVzIG9uIEdFTSBvYmplY3QgY2xvc2UgKCVs
-ZClcbiIsIHIpOwogCXR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9uKCZ0aWNrZXQsICZsaXN0KTsK
-IH0KIAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+From: Bogdan Togorean <bogdan.togorean@analog.com>
+
+[ Upstream commit b97b6a1f6e14a25d1e1ca2a46c5fa3e2ca374e22 ]
+
+ADV7511 support sample rates up to 192kHz. CTS and N parameters should
+be computed accordingly so this commit extend the list up to maximum
+supported sample rate.
+
+Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200413113513.86091-2-bogdan.togorean@analog.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index a428185be2c1..d05b3033b510 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -19,13 +19,15 @@ static void adv7511_calc_cts_n(unsigned int f_tmds, unsigned int fs,
+ {
+ 	switch (fs) {
+ 	case 32000:
+-		*n = 4096;
++	case 48000:
++	case 96000:
++	case 192000:
++		*n = fs * 128 / 1000;
+ 		break;
+ 	case 44100:
+-		*n = 6272;
+-		break;
+-	case 48000:
+-		*n = 6144;
++	case 88200:
++	case 176400:
++		*n = fs * 128 / 900;
+ 		break;
+ 	}
+ 
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
