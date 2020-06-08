@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0ED1F233E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11C01F2288
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73EAB6E9A8;
-	Mon,  8 Jun 2020 23:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16AF189C46;
+	Mon,  8 Jun 2020 23:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA5C6E0D7;
- Mon,  8 Jun 2020 23:14:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E0989C46
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:09:48 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 17BDD20B80;
- Mon,  8 Jun 2020 23:14:46 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B89B020B80;
+ Mon,  8 Jun 2020 23:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591658086;
- bh=xNxWuxJz2HZvdmUmAa0zl9AQCLtbYo9SEzWFm3xSK0A=;
+ s=default; t=1591657788;
+ bh=kntZHaADtqmXEkROzUlLhxaIDHYMV/qGZ2kMk2G8Nlk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ic7jaXtVxhgHqBaAMyeqiZTTsfvbf2bta0ZyYggsMNtyhNkZfpl4uuuBSYupLGFUp
- 7F4eRBKKAeUuIbeFjHR+BabIF0mwA1IefmMKFeuUCdS3eVK/vp6xkhGfs11rTMMzZX
- kczkOROft1ddBMgKX4hKm8OdUZPmCblnKr8YoMtc=
+ b=Eli+0q8+23VI6xuqdkBZEVpE/REEAaazVpMc7EqhQ5oI98Y8jlA4l71ACC46kRyW2
+ uTSlTiRkgJTrC/h9OeQMg2q3WxbfTeJoAaKb3ulQ8LZDJSot0NO8Hyqa6DublVQDig
+ cwyyLWQE+ueArq82nz2Ept/0QKDo+ZgweM6XjpLU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 130/606] drm/amd/display: Prevent dpcd reads with
- passive dongles
-Date: Mon,  8 Jun 2020 19:04:15 -0400
-Message-Id: <20200608231211.3363633-130-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 169/274] drm/vkms: Hold gem object while still
+ in-use
+Date: Mon,  8 Jun 2020 19:04:22 -0400
+Message-Id: <20200608230607.3361041-169-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
-References: <20200608231211.3363633-1-sashal@kernel.org>
+In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
+References: <20200608230607.3361041-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,69 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-[ Upstream commit e6142dd511425cb827b5db869f489eb81f5f994d ]
+[ Upstream commit 0ea2ea42b31abc1141f2fd3911f952a97d401fcb ]
 
-[why]
-During hotplug, a DP port may be connected to the sink through
-passive adapter which does not support DPCD reads. Issuing reads
-without checking for this condition will result in errors
+We need to keep the reference to the drm_gem_object
+until the last access by vkms_dumb_create.
 
-[how]
-Ensure the link is in aux_mode before initiating operation that result
-in a DPCD read.
+Therefore, the put the object after it is used.
 
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+This fixes a use-after-free issue reported by syzbot.
+
+While here, change vkms_gem_create() symbol to static.
+
+Reported-and-tested-by: syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200427214405.13069-1-ezequiel@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vkms/vkms_drv.h |  5 -----
+ drivers/gpu/drm/vkms/vkms_gem.c | 11 ++++++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5e27a67fbc58..0cd11d3d4cf4 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1941,17 +1941,22 @@ amdgpu_dm_update_connector_after_detect(struct amdgpu_dm_connector *aconnector)
- 		dc_sink_retain(aconnector->dc_sink);
- 		if (sink->dc_edid.length == 0) {
- 			aconnector->edid = NULL;
--			drm_dp_cec_unset_edid(&aconnector->dm_dp_aux.aux);
-+			if (aconnector->dc_link->aux_mode) {
-+				drm_dp_cec_unset_edid(
-+					&aconnector->dm_dp_aux.aux);
-+			}
- 		} else {
- 			aconnector->edid =
--				(struct edid *) sink->dc_edid.raw_edid;
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index eda04ffba7b1..f4036bb0b9a8 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -117,11 +117,6 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 				  enum drm_plane_type type, int index);
+ 
+ /* Gem stuff */
+-struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+-				       struct drm_file *file,
+-				       u32 *handle,
+-				       u64 size);
 -
-+				(struct edid *)sink->dc_edid.raw_edid;
+ vm_fault_t vkms_gem_fault(struct vm_fault *vmf);
  
- 			drm_connector_update_edid_property(connector,
--					aconnector->edid);
--			drm_dp_cec_set_edid(&aconnector->dm_dp_aux.aux,
--					    aconnector->edid);
-+							   aconnector->edid);
-+
-+			if (aconnector->dc_link->aux_mode)
-+				drm_dp_cec_set_edid(&aconnector->dm_dp_aux.aux,
-+						    aconnector->edid);
- 		}
-+
- 		amdgpu_dm_update_freesync_caps(connector, aconnector->edid);
+ int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
+index 2e01186fb943..c541fec57566 100644
+--- a/drivers/gpu/drm/vkms/vkms_gem.c
++++ b/drivers/gpu/drm/vkms/vkms_gem.c
+@@ -97,10 +97,10 @@ vm_fault_t vkms_gem_fault(struct vm_fault *vmf)
+ 	return ret;
+ }
  
- 	} else {
+-struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+-				       struct drm_file *file,
+-				       u32 *handle,
+-				       u64 size)
++static struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
++					      struct drm_file *file,
++					      u32 *handle,
++					      u64 size)
+ {
+ 	struct vkms_gem_object *obj;
+ 	int ret;
+@@ -113,7 +113,6 @@ struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+ 		return ERR_CAST(obj);
+ 
+ 	ret = drm_gem_handle_create(file, &obj->gem, handle);
+-	drm_gem_object_put_unlocked(&obj->gem);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+@@ -142,6 +141,8 @@ int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 	args->size = gem_obj->size;
+ 	args->pitch = pitch;
+ 
++	drm_gem_object_put_unlocked(gem_obj);
++
+ 	DRM_DEBUG_DRIVER("Created object of size %lld\n", size);
+ 
+ 	return 0;
 -- 
 2.25.1
 
