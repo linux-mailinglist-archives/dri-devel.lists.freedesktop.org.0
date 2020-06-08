@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653D01F225D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B0B1F227A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF6889FF6;
-	Mon,  8 Jun 2020 23:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFEB89FF9;
+	Mon,  8 Jun 2020 23:08:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784F689FDE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:08:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29E989FF9;
+ Mon,  8 Jun 2020 23:08:43 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 874EE208B6;
- Mon,  8 Jun 2020 23:08:29 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A7FD920890;
+ Mon,  8 Jun 2020 23:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657710;
- bh=jMmbglSJ9HsqY9/TfgPULYPabzVlojJgWVf48BoOzOY=;
+ s=default; t=1591657723;
+ bh=7IiQDXdq9Z5dE9WWdDCDCvrJ4FHOUElT9vMdc58iVhs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=zh3ynFLVfdi2Yz2Ro4cFdlxoiEYJQq+mtVP0POsrA798y1K2U0eKXnqfBUIinPHUQ
- 0SuEaU/gGEHSGzyDsIG/WwrjhKgIemHkB2tw0sOcGSn6FaU5UnvvZItpI+ypBd+WSI
- cPWNUZwXQeTCMlaVLdppK52OEgUTsETUtkdNEsGw=
+ b=f4Lj95ghCpXTJQqlfuuZHf7dryN6Fo+aQ3BoWQTVM5Dv+ueDnAckKCN1EMlR2uG8l
+ ulVrJsFgu0Y8+gbMSc6EpvyVRuK9wPJ0prj3LJuWjl47SedX5yKLQxaRTyzBg0naWU
+ ZN/wFuOgq+YxXqA+5pd5RskMRDXnb86qP5eAxNto=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 106/274] drm/mediatek: set dpi pin mode to gpio
- low to avoid leakage current
-Date: Mon,  8 Jun 2020 19:03:19 -0400
-Message-Id: <20200608230607.3361041-106-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 116/274] drm/amd/display: Correct updating logic
+ of dcn21's pipe VM flags
+Date: Mon,  8 Jun 2020 19:03:29 -0400
+Message-Id: <20200608230607.3361041-116-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -50,99 +50,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Sung Lee <sung.lee@amd.com>,
+ Dale Zhao <dale.zhao@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ amd-gfx@lists.freedesktop.org, Yongqiang Sun <yongqiang.sun@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jitao Shi <jitao.shi@mediatek.com>
+From: Dale Zhao <dale.zhao@amd.com>
 
-[ Upstream commit 6bd4763fd532cff43f9b15704f324c45a9806f53 ]
+[ Upstream commit 2a28fe92220a116735ef45939b7edcfee83cc6b0 ]
 
-Config dpi pins mode to output and pull low when dpi is disabled.
-Aovid leakage current from some dpi pins (Hsync Vsync DE ... ).
+[Why]:
+Renoir's pipe VM flags are not correctly updated if pipe strategy has
+changed during some scenarios. It will result in watermarks mistakenly
+calculation, thus underflow and garbage appear.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+[How]:
+Correctly update pipe VM flags to pipes which have been populated.
+
+Signed-off-by: Dale Zhao <dale.zhao@amd.com>
+Signed-off-by: Sung Lee <sung.lee@amd.com>
+Reviewed-by: Yongqiang Sun <yongqiang.sun@amd.com>
+Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 31 ++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 4f0ce4cd5b8c..2994c63ea279 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -10,7 +10,9 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+index a721bb401ef0..6d1736cf5c12 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+@@ -1694,12 +1694,8 @@ static int dcn21_populate_dml_pipes_from_context(
+ {
+ 	uint32_t pipe_cnt = dcn20_populate_dml_pipes_from_context(dc, context, pipes);
+ 	int i;
+-	struct resource_context *res_ctx = &context->res_ctx;
  
-@@ -74,6 +76,9 @@ struct mtk_dpi {
- 	enum mtk_dpi_out_yc_map yc_map;
- 	enum mtk_dpi_out_bit_num bit_num;
- 	enum mtk_dpi_out_channel_swap channel_swap;
-+	struct pinctrl *pinctrl;
-+	struct pinctrl_state *pins_gpio;
-+	struct pinctrl_state *pins_dpi;
- 	int refcount;
- };
+-	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+-
+-		if (!res_ctx->pipe_ctx[i].stream)
+-			continue;
++	for (i = 0; i < pipe_cnt; i++) {
  
-@@ -379,6 +384,9 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 	if (--dpi->refcount != 0)
- 		return;
- 
-+	if (dpi->pinctrl && dpi->pins_gpio)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
-@@ -403,6 +411,9 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_pixel;
- 	}
- 
-+	if (dpi->pinctrl && dpi->pins_dpi)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
-+
- 	mtk_dpi_enable(dpi);
- 	return 0;
- 
-@@ -705,6 +716,26 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 	dpi->dev = dev;
- 	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
- 
-+	dpi->pinctrl = devm_pinctrl_get(&pdev->dev);
-+	if (IS_ERR(dpi->pinctrl)) {
-+		dpi->pinctrl = NULL;
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl!\n");
-+	}
-+	if (dpi->pinctrl) {
-+		dpi->pins_gpio = pinctrl_lookup_state(dpi->pinctrl, "sleep");
-+		if (IS_ERR(dpi->pins_gpio)) {
-+			dpi->pins_gpio = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl idle!\n");
-+		}
-+		if (dpi->pins_gpio)
-+			pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
-+		dpi->pins_dpi = pinctrl_lookup_state(dpi->pinctrl, "default");
-+		if (IS_ERR(dpi->pins_dpi)) {
-+			dpi->pins_dpi = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl active!\n");
-+		}
-+	}
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dpi->regs = devm_ioremap_resource(dev, mem);
- 	if (IS_ERR(dpi->regs)) {
+ 		pipes[i].pipe.src.hostvm = 1;
+ 		pipes[i].pipe.src.gpuvm = 1;
 -- 
 2.25.1
 
