@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE741F2259
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753DA1F225A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B756889FDD;
-	Mon,  8 Jun 2020 23:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DCF689FEA;
+	Mon,  8 Jun 2020 23:08:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1E189FDD
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:08:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C8489FDE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:08:29 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6D76120842;
- Mon,  8 Jun 2020 23:08:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 060F5208A9;
+ Mon,  8 Jun 2020 23:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657707;
- bh=MG/3TpAGaOZF6VTeqb+xQuY8+HXVC7ADyGDWqkiUHqY=;
+ s=default; t=1591657709;
+ bh=9bnpDbtIjXuK5hf81+Zi0XxGmFb2an6nsBRCwIBobCo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AIf79oh4PyWlhw0Yl8NRaa0ka65DDTKJdJtYArXyOIO6ZeUyfum2BSPVafeKDw7ip
- mvnHkdl3cHWEXu1QXriWoXyVk7/1aNpR6PR9tXLHVN3gwJ++JDE1oe9dCEOsZTdM4p
- DcCdQ84JL6gtm6iSYP9BpIg1TpbOco2zvr6TBlak=
+ b=XATXZLj1LjgZbm7pOW+9TTb198t7ZwvcBkubbigsJ/qMyKnmfBMoi8E3p19y2ZQ+e
+ jP2fRcnqVPgGavZvXesT917K1BrRvz8B940Gf7PqQ+mN0lnTwdxuzj8MzSHdswYCoa
+ /C//Dp+OpdIJ2HeKFKpeM79F7CT3Ua077+nJFApo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 104/274] drm/ast: Allocate initial CRTC state of
- the correct size
-Date: Mon,  8 Jun 2020 19:03:17 -0400
-Message-Id: <20200608230607.3361041-104-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 105/274] dt-bindings: display: mediatek: control
+ dpi pins mode to avoid leakage
+Date: Mon,  8 Jun 2020 19:03:18 -0400
+Message-Id: <20200608230607.3361041-105-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -50,101 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CgpbIFVwc3RyZWFt
-IGNvbW1pdCBmMGFkYmMzODJiOGJiNDZhMjQ2N2M0ZTVlMTAyNzc2M2ExOTdjOGUxIF0KClRoZSBh
-c3QgZHJpdmVyIGluaGVyaXRzIGZyb20gRFJNJ3MgQ1JUQyBzdGF0ZSwgYnV0IHN0aWxsIHVzZXMg
-dGhlIGF0b21pYwpoZWxwZXIgZm9yIHN0cnVjdCBkcm1fY3J0Y19mdW5jcy5yZXNldCwgZHJtX2F0
-b21pY19oZWxwZXJfY3J0Y19yZXNldCgpLgoKVGhlIGhlbHBlciBvbmx5IGFsbG9jYXRlcyBlbm91
-Z2ggbWVtb3J5IGZvciB0aGUgY29yZSBDUlRDIHN0YXRlLiBUaGF0CnJlc3VsdHMgaW4gYW4gb3V0
-LW91Zi1ib3VuZHMgYWNjZXNzIHdoZW4gZHVwbGljYXRpbmcgdGhlIGluaXRpYWwgQ1JUQwpzdGF0
-ZS4gU2ltcGxpZmllZCBiYWNrdHJhY2Ugc2hvd24gYmVsb3c6CgpbICAgMjEuNDY5MzIxXSA9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT0KWyAgIDIxLjQ2OTQzNF0gQlVHOiBLQVNBTjogc2xhYi1vdXQtb2YtYm91bmRzIGluIGFz
-dF9jcnRjX2F0b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQpbICAgMjEuNDY5
-NDQ1XSBSZWFkIG9mIHNpemUgOCBhdCBhZGRyIGZmZmY4ODgwMzZjMWM1ZjggYnkgdGFzayBzeXN0
-ZW1kLXVkZXZkLzM4MgpbICAgMjEuNDY5NDUxXQpbICAgMjEuNDY5NDY0XSBDUFU6IDIgUElEOiAz
-ODIgQ29tbTogc3lzdGVtZC11ZGV2ZCBUYWludGVkOiBHICAgICAgICAgICAgRSAgICAgNS41LjAt
-cmM2LTEtZGVmYXVsdCsgIzIxNApbICAgMjEuNDY5NDczXSBIYXJkd2FyZSBuYW1lOiBTdW4gTWlj
-cm9zeXN0ZW1zIFNVTiBGSVJFIFgyMjcwIE0yL1NVTiBGSVJFIFgyMjcwIE0yLCBCSU9TIDIuMDUg
-ICAgMDcvMDEvMjAxMApbICAgMjEuNDY5NDgwXSBDYWxsIFRyYWNlOgpbICAgMjEuNDY5NTAxXSAg
-ZHVtcF9zdGFjaysweGI4LzB4MTEwClsgICAyMS40Njk1MjhdICBwcmludF9hZGRyZXNzX2Rlc2Ny
-aXB0aW9uLmNvbnN0cHJvcC4wKzB4MWIvMHgxZTAKWyAgIDIxLjQ2OTU1N10gID8gYXN0X2NydGNf
-YXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40Njk1ODFdICA/
-IGFzdF9jcnRjX2F0b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQpbICAgMjEu
-NDY5NTk3XSAgX19rYXNhbl9yZXBvcnQuY29sZCsweDFhLzB4MzUKWyAgIDIxLjQ2OTY0MF0gID8g
-YXN0X2NydGNfYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSsweDg0LzB4MTAwIFthc3RdClsgICAyMS40
-Njk2NjVdICBrYXNhbl9yZXBvcnQrMHhlLzB4MjAKWyAgIDIxLjQ2OTY5M10gIGFzdF9jcnRjX2F0
-b21pY19kdXBsaWNhdGVfc3RhdGUrMHg4NC8weDEwMCBbYXN0XQpbICAgMjEuNDY5NzMzXSAgZHJt
-X2F0b21pY19nZXRfY3J0Y19zdGF0ZSsweGJmLzB4MWMwClsgICAyMS40Njk3NjhdICBfX2RybV9h
-dG9taWNfaGVscGVyX3NldF9jb25maWcrMHg4MS8weDVhMApbICAgMjEuNDY5ODAzXSAgPyBkcm1f
-YXRvbWljX3BsYW5lX2NoZWNrKzB4NjkwLzB4NjkwClsgICAyMS40Njk4NDNdICA/IGRybV9jbGll
-bnRfcm90YXRpb24rMHhhZS8weDI0MApbICAgMjEuNDY5ODc2XSAgZHJtX2NsaWVudF9tb2Rlc2V0
-X2NvbW1pdF9hdG9taWMrMHgyMzAvMHgzOTAKWyAgIDIxLjQ2OTg4OF0gID8gX19tdXRleF9sb2Nr
-KzB4OGYwLzB4YmUwClsgICAyMS40Njk5MjldICA/IGRybV9jbGllbnRfZmlybXdhcmVfY29uZmln
-LmlzcmEuMCsweGE2MC8weGE2MApbICAgMjEuNDY5OTQ4XSAgPyBkcm1fY2xpZW50X21vZGVzZXRf
-Y29tbWl0X2ZvcmNlKzB4MjgvMHgyMzAKWyAgIDIxLjQ3MDAzMV0gID8gbWVtc2V0KzB4MjAvMHg0
-MApbICAgMjEuNDcwMDc4XSAgZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9mb3JjZSsweDkwLzB4
-MjMwClsgICAyMS40NzAxMTBdICBkcm1fZmJfaGVscGVyX3Jlc3RvcmVfZmJkZXZfbW9kZV91bmxv
-Y2tlZCsweDVmLzB4YzAKWyAgIDIxLjQ3MDEzMl0gIGRybV9mYl9oZWxwZXJfc2V0X3BhcisweDU5
-LzB4NzAKWyAgIDIxLjQ3MDE1NV0gIGZiY29uX2luaXQrMHg2MWQvMHhhZDAKWyAgIDIxLjQ3MDE4
-NV0gID8gZHJtX2ZiX2hlbHBlcl9yZXN0b3JlX2ZiZGV2X21vZGVfdW5sb2NrZWQrMHhjMC8weGMw
-ClsgICAyMS40NzAyMzJdICB2aXN1YWxfaW5pdCsweDE4Ny8weDI0MApbICAgMjEuNDcwMjY2XSAg
-ZG9fYmluZF9jb25fZHJpdmVyKzB4MmUzLzB4NDYwClsgICAyMS40NzAzMjFdICBkb190YWtlX292
-ZXJfY29uc29sZSsweDIwYS8weDI5MApbICAgMjEuNDcwMzcxXSAgZG9fZmJjb25fdGFrZW92ZXIr
-MHg4NS8weDEwMApbICAgMjEuNDcwNDAyXSAgcmVnaXN0ZXJfZnJhbWVidWZmZXIrMHgyZmQvMHg0
-OTAKWyAgIDIxLjQ3MDQyNV0gID8ga3phbGxvYy5jb25zdHByb3AuMCsweDEwLzB4MTAKWyAgIDIx
-LjQ3MDUwM10gIF9fZHJtX2ZiX2hlbHBlcl9pbml0aWFsX2NvbmZpZ19hbmRfdW5sb2NrKzB4ZjIv
-MHgxNDAKWyAgIDIxLjQ3MDUzM10gIGRybV9mYmRldl9jbGllbnRfaG90cGx1ZysweDE2Mi8weDI1
-MApbICAgMjEuNDcwNTYzXSAgZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXArMHhkMi8weDE1NQpbICAg
-MjEuNDcwNjAyXSAgYXN0X2RyaXZlcl9sb2FkKzB4Njg4LzB4ODUwIFthc3RdCjwuLi4+ClsgICAy
-MS40NzI2MjVdID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PQoKQWxsb2NhdGluZyBlbm91Z2ggbWVtb3J5IGZvciBzdHJ1Y3Qg
-YXN0X2NydGNfc3RhdGUgaW4gYSBjdXN0b20gYXN0IENSVEMKcmVzZXQgaGFuZGxlciBmaXhlcyB0
-aGUgcHJvYmxlbS4KCnYyOgoJKiBpbXBsZW1lbnQgYWNjb3JkaW5nIHRvIGRybV9hdG9taWNfaGVs
-cGVyX2NydGNfcmVzZXQoKQoJKiB1cGRhdGUgc3RhdGUgd2l0aCBfX2RybV9hdG9taWNfaGVscGVy
-X2NydGNfcmVzZXQoKQoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
-YW5uQHN1c2UuZGU+CkZpeGVzOiA4M2JlNmEzY2ViMTEgKCJkcm0vYXN0OiBJbnRyb2R1Y2Ugc3Ry
-dWN0IGFzdF9jcnRjX3N0YXRlIikKUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52
-ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KQ2M6
-IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
-bWQuY29tPgpDYzogIk5vcmFsZiBUcsO4bm5lcyIgPG5vcmFsZkB0cm9ubmVzLm9yZz4KQ2M6IFNh
-bSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJl
-bnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KTGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJl
-ZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMjAwMTMwMDk0MDEyLjMyMTQwLTEtdHppbW1lcm1h
-bm5Ac3VzZS5kZQpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+
-Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIHwgMTMgKysrKysrKysrKysrLQog
-MSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMKaW5kZXggY2RkNmM0NmQ2NTU3Li43YTlmMjBhMmZkMzAgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMKQEAgLTg4MSw2ICs4ODEsMTcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
-Y3J0Y19oZWxwZXJfZnVuY3MgYXN0X2NydGNfaGVscGVyX2Z1bmNzID0gewogCS5hdG9taWNfZGlz
-YWJsZSA9IGFzdF9jcnRjX2hlbHBlcl9hdG9taWNfZGlzYWJsZSwKIH07CiAKK3N0YXRpYyB2b2lk
-IGFzdF9jcnRjX3Jlc2V0KHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKK3sKKwlzdHJ1Y3QgYXN0X2Ny
-dGNfc3RhdGUgKmFzdF9zdGF0ZSA9CisJCWt6YWxsb2Moc2l6ZW9mKCphc3Rfc3RhdGUpLCBHRlBf
-S0VSTkVMKTsKKworCWlmIChjcnRjLT5zdGF0ZSkKKwkJY3J0Yy0+ZnVuY3MtPmF0b21pY19kZXN0
-cm95X3N0YXRlKGNydGMsIGNydGMtPnN0YXRlKTsKKworCV9fZHJtX2F0b21pY19oZWxwZXJfY3J0
-Y19yZXNldChjcnRjLCAmYXN0X3N0YXRlLT5iYXNlKTsKK30KKwogc3RhdGljIHZvaWQgYXN0X2Ny
-dGNfZGVzdHJveShzdHJ1Y3QgZHJtX2NydGMgKmNydGMpCiB7CiAJZHJtX2NydGNfY2xlYW51cChj
-cnRjKTsKQEAgLTkxOSw3ICs5MzAsNyBAQCBzdGF0aWMgdm9pZCBhc3RfY3J0Y19hdG9taWNfZGVz
-dHJveV9zdGF0ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiB9CiAKIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgZHJtX2NydGNfZnVuY3MgYXN0X2NydGNfZnVuY3MgPSB7Ci0JLnJlc2V0ID0gZHJtX2F0b21p
-Y19oZWxwZXJfY3J0Y19yZXNldCwKKwkucmVzZXQgPSBhc3RfY3J0Y19yZXNldCwKIAkuc2V0X2Nv
-bmZpZyA9IGRybV9jcnRjX2hlbHBlcl9zZXRfY29uZmlnLAogCS5nYW1tYV9zZXQgPSBkcm1fYXRv
-bWljX2hlbHBlcl9sZWdhY3lfZ2FtbWFfc2V0LAogCS5kZXN0cm95ID0gYXN0X2NydGNfZGVzdHJv
-eSwKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+From: Jitao Shi <jitao.shi@mediatek.com>
+
+[ Upstream commit b0ff9b590733079f7f9453e5976a9dd2630949e3 ]
+
+Add property "pinctrl-names" to swap pin mode between gpio and dpi mode.
+Set the dpi pins to gpio mode and output-low to avoid leakage current
+when dpi disabled.
+
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dpi.txt   | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+index 58914cf681b8..77def4456706 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+@@ -17,6 +17,9 @@ Required properties:
+   Documentation/devicetree/bindings/graph.txt. This port should be connected
+   to the input port of an attached HDMI or LVDS encoder chip.
+ 
++Optional properties:
++- pinctrl-names: Contain "default" and "sleep".
++
+ Example:
+ 
+ dpi0: dpi@1401d000 {
+@@ -27,6 +30,9 @@ dpi0: dpi@1401d000 {
+ 		 <&mmsys CLK_MM_DPI_ENGINE>,
+ 		 <&apmixedsys CLK_APMIXED_TVDPLL>;
+ 	clock-names = "pixel", "engine", "pll";
++	pinctrl-names = "default", "sleep";
++	pinctrl-0 = <&dpi_pin_func>;
++	pinctrl-1 = <&dpi_pin_idle>;
+ 
+ 	port {
+ 		dpi0_out: endpoint {
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
