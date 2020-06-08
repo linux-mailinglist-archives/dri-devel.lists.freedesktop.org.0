@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F081F2424
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750C81F244E
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2806E9BB;
-	Mon,  8 Jun 2020 23:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D406E9BD;
+	Mon,  8 Jun 2020 23:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 432F86E9B9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:20:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF04A6E9BD
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:21:02 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4EF2320897;
- Mon,  8 Jun 2020 23:20:26 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D831E2074B;
+ Mon,  8 Jun 2020 23:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591658427;
- bh=CbDnseCi3WYnIk/nKUsBden8JvPliQjGqjORSKArbAI=;
+ s=default; t=1591658462;
+ bh=aM9ULyBlhC/+a/IhZeB2y5rQYzwihJZCtyaLvol+r10=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GTOY2GNcFEocupJsPAwREWkTugvtgkokHS0JWsyCKgraZXv73YFvXcJoc42wv523R
- uoPcS6Op3k7hxDWKlz+NlSELqL/fHncoXcTiFCHoKcvtQxbKl0DEGbC8ivcJTUJXw3
- uJXWwwOrvaYWEnNXp+TJDNAZLd2TblOJMfzcWP2s=
+ b=KpI9SkuxChi4ZiFJag8glRdInLAaAR4OU9SwNf74deBASHcZYV0ebkHfdhBafXnmi
+ 5E/MT/DGNC4yzUfYNhVLS4XqDg7j20PIzY5SdpTwjzY8DFP3mY15hCiA5JFdpY7dBe
+ tsfnHGWMPUpxAH6239vtuxbymo2mQJ4tknjU8Y10=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 072/175] drm/mediatek: set dpi pin mode to gpio
- low to avoid leakage current
-Date: Mon,  8 Jun 2020 19:17:05 -0400
-Message-Id: <20200608231848.3366970-72-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 102/175] drm/vkms: Hold gem object while still
+ in-use
+Date: Mon,  8 Jun 2020 19:17:35 -0400
+Message-Id: <20200608231848.3366970-102-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
 References: <20200608231848.3366970-1-sashal@kernel.org>
@@ -50,99 +50,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jitao Shi <jitao.shi@mediatek.com>
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-[ Upstream commit 6bd4763fd532cff43f9b15704f324c45a9806f53 ]
+[ Upstream commit 0ea2ea42b31abc1141f2fd3911f952a97d401fcb ]
 
-Config dpi pins mode to output and pull low when dpi is disabled.
-Aovid leakage current from some dpi pins (Hsync Vsync DE ... ).
+We need to keep the reference to the drm_gem_object
+until the last access by vkms_dumb_create.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Therefore, the put the object after it is used.
+
+This fixes a use-after-free issue reported by syzbot.
+
+While here, change vkms_gem_create() symbol to static.
+
+Reported-and-tested-by: syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200427214405.13069-1-ezequiel@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 31 ++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/gpu/drm/vkms/vkms_drv.h |  5 -----
+ drivers/gpu/drm/vkms/vkms_gem.c | 11 ++++++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index be6d95c5ff25..48de07e9059e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -10,7 +10,9 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
-+#include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5a95100fa18b..03b05c54722d 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -121,11 +121,6 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 				  enum drm_plane_type type, int index);
  
-@@ -73,6 +75,9 @@ struct mtk_dpi {
- 	enum mtk_dpi_out_yc_map yc_map;
- 	enum mtk_dpi_out_bit_num bit_num;
- 	enum mtk_dpi_out_channel_swap channel_swap;
-+	struct pinctrl *pinctrl;
-+	struct pinctrl_state *pins_gpio;
-+	struct pinctrl_state *pins_dpi;
- 	int refcount;
- };
+ /* Gem stuff */
+-struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+-				       struct drm_file *file,
+-				       u32 *handle,
+-				       u64 size);
+-
+ vm_fault_t vkms_gem_fault(struct vm_fault *vmf);
  
-@@ -378,6 +383,9 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 	if (--dpi->refcount != 0)
- 		return;
+ int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
+index 6489bfe0a149..8ba8b87d0c99 100644
+--- a/drivers/gpu/drm/vkms/vkms_gem.c
++++ b/drivers/gpu/drm/vkms/vkms_gem.c
+@@ -95,10 +95,10 @@ vm_fault_t vkms_gem_fault(struct vm_fault *vmf)
+ 	return ret;
+ }
  
-+	if (dpi->pinctrl && dpi->pins_gpio)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
+-struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+-				       struct drm_file *file,
+-				       u32 *handle,
+-				       u64 size)
++static struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
++					      struct drm_file *file,
++					      u32 *handle,
++					      u64 size)
+ {
+ 	struct vkms_gem_object *obj;
+ 	int ret;
+@@ -111,7 +111,6 @@ struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
+ 		return ERR_CAST(obj);
+ 
+ 	ret = drm_gem_handle_create(file, &obj->gem, handle);
+-	drm_gem_object_put_unlocked(&obj->gem);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+@@ -140,6 +139,8 @@ int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 	args->size = gem_obj->size;
+ 	args->pitch = pitch;
+ 
++	drm_gem_object_put_unlocked(gem_obj);
 +
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
-@@ -402,6 +410,9 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_pixel;
- 	}
+ 	DRM_DEBUG_DRIVER("Created object of size %lld\n", size);
  
-+	if (dpi->pinctrl && dpi->pins_dpi)
-+		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
-+
- 	mtk_dpi_enable(dpi);
  	return 0;
- 
-@@ -689,6 +700,26 @@ static int mtk_dpi_probe(struct platform_device *pdev)
- 	dpi->dev = dev;
- 	dpi->conf = (struct mtk_dpi_conf *)of_device_get_match_data(dev);
- 
-+	dpi->pinctrl = devm_pinctrl_get(&pdev->dev);
-+	if (IS_ERR(dpi->pinctrl)) {
-+		dpi->pinctrl = NULL;
-+		dev_dbg(&pdev->dev, "Cannot find pinctrl!\n");
-+	}
-+	if (dpi->pinctrl) {
-+		dpi->pins_gpio = pinctrl_lookup_state(dpi->pinctrl, "sleep");
-+		if (IS_ERR(dpi->pins_gpio)) {
-+			dpi->pins_gpio = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl idle!\n");
-+		}
-+		if (dpi->pins_gpio)
-+			pinctrl_select_state(dpi->pinctrl, dpi->pins_gpio);
-+
-+		dpi->pins_dpi = pinctrl_lookup_state(dpi->pinctrl, "default");
-+		if (IS_ERR(dpi->pins_dpi)) {
-+			dpi->pins_dpi = NULL;
-+			dev_dbg(&pdev->dev, "Cannot find pinctrl active!\n");
-+		}
-+	}
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dpi->regs = devm_ioremap_resource(dev, mem);
- 	if (IS_ERR(dpi->regs)) {
 -- 
 2.25.1
 
