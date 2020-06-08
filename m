@@ -1,73 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569351F1377
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1CC1F1376
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 09:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6646E47E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D906E462;
 	Mon,  8 Jun 2020 07:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9356E1F4
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jun 2020 21:48:01 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id 82so9006718lfh.2
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Jun 2020 14:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ay8EHASwjhU1bjGhoJPlUWvuPWuHbO/3W1nJ49RR5ag=;
- b=VXUjmROcDERX9tK85WWAf5vfiKHroxFpPZt28aMBYRGZJrksc/ZUrpeM9TsQMSJYhE
- DCITogpNAOT9Fc+Gi+ICLkihzUbwLylqKb/dcK0HtK1cI+ZK0ifujYEBYE3Zm5T0bI7/
- ndXyIvGU5qnUYWG7cgegvpLWugs08MGmrb1n9B+z4fvgrsP1ufvxgTT4i+A52SSOcCFI
- UJcJC7/316SDrGbaTqwo+5Zb5uvFbANULzWL3G0apNvUCEde3IQKRFBLhyodvRGYgU2t
- 6PIVdLaYwdOjQR3mMPlA/+QkUOYQbs2wLgcTNhwK37jZoFCfK29uk5xOHFMGZwPwb5QA
- iZiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ay8EHASwjhU1bjGhoJPlUWvuPWuHbO/3W1nJ49RR5ag=;
- b=toDfUuNF54OT/4Xh4mRTS06vl+NQ6OAils/4auNYNqtu5PaRZVThD8m8N8Z7gtlaZ0
- +Cskv+rUC0+TsnOd31G4SJ4vzNN2xcNR+CiLqWKSsqMbwdqBSWHzKOLjNarAC2SxjZNN
- 0KXgUgz0XMTcsSGKi1LyHaXCJqmtYmWzcvMBllDDyK21abBpoXWHkxSARHdJF1ZgLp81
- wGddgw9ar7FMpppiMKmekCz7zDem/rnnHiD3VW/aRsvm2YqBFxpKnfRWLo5iZylF1qDJ
- CEkSWxeEIluawA9z+LO1D6JmcuXHIMB473zvw9ELGlvAz1xtgjjnKGT/0PHqZwbDsT3i
- QVyw==
-X-Gm-Message-State: AOAM53124Bq04Kit88XLsAnQc/qAQW8osdLLXyE1EHA++UAQmDfl+tmu
- AR9pu+iGowYn4eTzerV8eiQ=
-X-Google-Smtp-Source: ABdhPJz+DegAGZHDYRJIlKVV0XxJ0lW/Q/FEgvkvROG5VVEspAJPGPKSKwJCvEcs43RZ2CG7mC0kdQ==
-X-Received: by 2002:a05:6512:3b6:: with SMTP id
- v22mr10767583lfp.97.1591566479992; 
- Sun, 07 Jun 2020 14:47:59 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id u30sm3325110ljd.94.2020.06.07.14.47.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Jun 2020 14:47:59 -0700 (PDT)
-Subject: Re: [PATCH v3 31/39] memory: tegra20-emc: Register as interconnect
- provider
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-References: <20200607185530.18113-1-digetx@gmail.com>
- <20200607185530.18113-32-digetx@gmail.com>
-Message-ID: <89b690be-d2fa-a679-5773-d5906a93ffcc@gmail.com>
-Date: Mon, 8 Jun 2020 00:47:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from Galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3ED6E222
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 00:57:52 +0000 (UTC)
+Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de.)
+ by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.80) (envelope-from <a.darwish@linutronix.de>)
+ id 1ji66U-0000hc-WF; Mon, 08 Jun 2020 02:57:31 +0200
+From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v2 00/18] seqlock: Extend seqcount API with associated locks
+Date: Mon,  8 Jun 2020 02:57:11 +0200
+Message-Id: <20200608005729.1874024-1-a.darwish@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200519214547.352050-1-a.darwish@linutronix.de>
+References: <20200519214547.352050-1-a.darwish@linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20200607185530.18113-32-digetx@gmail.com>
-Content-Language: en-US
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
+ SHORTCIRCUIT=-0.0001
 X-Mailman-Approved-At: Mon, 08 Jun 2020 07:21:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,22 +44,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
- linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jens Axboe <axboe@kernel.dk>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ netdev@vger.kernel.org, "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+ linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-block@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+ linux-fsdevel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ "David S. Miller" <davem@davemloft.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDcuMDYuMjAyMCAyMTo1NSwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Ci4uLgo+ICsJaWYg
-KElTX0VOQUJMRUQoQ09ORklHX0lOVEVSQ09OTkVDVCkpIHsKPiArCQllcnIgPSB0ZWdyYV9lbWNf
-aW50ZXJjb25uZWN0X2luaXQoZW1jKTsKPiArCQlpZiAoZXJyKQo+ICsJCQlkZXZfZXJyKCZwZGV2
-LT5kZXYsICJmYWlsZWQgdG8gaW5pdGlhbGl6ZSBJQ0M6ICVkXG4iLAo+ICsJCQkJZXJyKTsKPiAr
-CX0KCkl0IGp1c3Qgb2NjdXJyZWQgdG8gbWUgdGhhdCBJIGNvbXBsZXRlbHkgZm9yZ290IHRvIHJl
-bW92ZSB0aGUKSVNfRU5BQkxFRCgpIGFuZCBjaGFuZ2UgS2NvbmZpZyB0byBwcm9wZXJseSBzZXQg
-dXAgdGhlIGJ1aWxkIGRlcGVuZGVuY3kKb24gaW50ZXJjb25uZWN0LiBXaWxsIGNvcnJlY3QgaXQg
-aW4gdjQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+This is v2 of the seqlock patch series:
+
+   [PATCH v1 00/25] seqlock: Extend seqcount API with associated locks
+   https://lore.kernel.org/lkml/20200519214547.352050-1-a.darwish@linutronix.de
+
+Patches 1=>3 of this v2 series add documentation for the existing
+seqlock.h datatypes and APIs. Hopefully they can hit v5.8 -rc2 or -rc3.
+
+Changelog-v2
+============
+
+1. Drop, for now, the seqlock v1 patches #7 and #8. These patches added
+lockdep non-preemptibility checks to seqcount_t write paths, but they
+now depend on on-going work by Peter:
+
+   [PATCH v3 0/5] lockdep: Change IRQ state tracking to use per-cpu variables
+   https://lkml.kernel.org/r/20200529213550.683440625@infradead.org
+
+   [PATCH 00/14] x86/entry: disallow #DB more and x86/entry lockdep/nmi
+   https://lkml.kernel.org/r/20200529212728.795169701@infradead.org
+
+Once Peter's work get merged, I'll send the non-preemptibility checks as
+a separate series.
+
+2. Drop the v1 seqcount_t call-sites bugfixes. I've already posted them
+in an isolated series. They got merged into their respective trees, and
+will hit v5.8-rc1 soon:
+
+   [PATCH v2 0/6] seqlock: seqcount_t call sites bugfixes
+   https://lore.kernel.org/lkml/20200603144949.1122421-1-a.darwish@linutronix.de
+
+3. Patch #1: Add a small paragraph explaining that seqcount_t/seqlock_t
+cannot be used if the protected data contains pointers. A similar
+paragraph already existed in seqlock.h, but got mistakenly dropped.
+
+4. Patch #2: Don't add RST directives inside kernel-doc comments. Peter
+doesn't like them :) I've kept the indentation though, and found a
+minimal way for Sphinx to properly render these code samples without too
+much disruption.
+
+5. Patch #3: Brush up the introduced kernel-doc comments. Make them more
+consistent overall, and more concise.
+
+Thanks,
+
+8<--------------
+
+Ahmed S. Darwish (18):
+  Documentation: locking: Describe seqlock design and usage
+  seqlock: Properly format kernel-doc code samples
+  seqlock: Add missing kernel-doc annotations
+  seqlock: Extend seqcount API with associated locks
+  dma-buf: Remove custom seqcount lockdep class key
+  dma-buf: Use sequence counter with associated wound/wait mutex
+  sched: tasks: Use sequence counter with associated spinlock
+  netfilter: conntrack: Use sequence counter with associated spinlock
+  netfilter: nft_set_rbtree: Use sequence counter with associated rwlock
+  xfrm: policy: Use sequence counters with associated lock
+  timekeeping: Use sequence counter with associated raw spinlock
+  vfs: Use sequence counter with associated spinlock
+  raid5: Use sequence counter with associated spinlock
+  iocost: Use sequence counter with associated spinlock
+  NFSv4: Use sequence counter with associated spinlock
+  userfaultfd: Use sequence counter with associated spinlock
+  kvm/eventfd: Use sequence counter with associated spinlock
+  hrtimer: Use sequence counter with associated raw spinlock
+
+ Documentation/locking/index.rst               |   1 +
+ Documentation/locking/seqlock.rst             | 242 +++++
+ MAINTAINERS                                   |   2 +-
+ block/blk-iocost.c                            |   5 +-
+ drivers/dma-buf/dma-resv.c                    |  15 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |   2 -
+ drivers/md/raid5.c                            |   2 +-
+ drivers/md/raid5.h                            |   2 +-
+ fs/dcache.c                                   |   2 +-
+ fs/fs_struct.c                                |   4 +-
+ fs/nfs/nfs4_fs.h                              |   2 +-
+ fs/nfs/nfs4state.c                            |   2 +-
+ fs/userfaultfd.c                              |   4 +-
+ include/linux/dcache.h                        |   2 +-
+ include/linux/dma-resv.h                      |   4 +-
+ include/linux/fs_struct.h                     |   2 +-
+ include/linux/hrtimer.h                       |   2 +-
+ include/linux/kvm_irqfd.h                     |   2 +-
+ include/linux/sched.h                         |   2 +-
+ include/linux/seqlock.h                       | 855 ++++++++++++++----
+ include/linux/seqlock_types_internal.h        | 187 ++++
+ include/net/netfilter/nf_conntrack.h          |   2 +-
+ init/init_task.c                              |   3 +-
+ kernel/fork.c                                 |   2 +-
+ kernel/time/hrtimer.c                         |  13 +-
+ kernel/time/timekeeping.c                     |  19 +-
+ net/netfilter/nf_conntrack_core.c             |   5 +-
+ net/netfilter/nft_set_rbtree.c                |   4 +-
+ net/xfrm/xfrm_policy.c                        |  10 +-
+ virt/kvm/eventfd.c                            |   2 +-
+ 30 files changed, 1175 insertions(+), 226 deletions(-)
+ create mode 100644 Documentation/locking/seqlock.rst
+ create mode 100644 include/linux/seqlock_types_internal.h
+
+base-commit: 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+--
+2.20.1
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
