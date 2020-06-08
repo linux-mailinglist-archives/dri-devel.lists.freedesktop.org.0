@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE5F1F24DD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0BC1F2520
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250116E9C4;
-	Mon,  8 Jun 2020 23:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1ADE6E9CC;
+	Mon,  8 Jun 2020 23:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F066C6E9C4
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:25:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D45076E9C6
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:25:32 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 263382074B;
- Mon,  8 Jun 2020 23:25:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 814452076C;
+ Mon,  8 Jun 2020 23:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591658704;
- bh=jB0JHajaiSD8nMrmh1e+MEqgjkNC208Fvh9HNwxgcUw=;
+ s=default; t=1591658732;
+ bh=UUwxL5xLHGXldFQX6wmblQgeNowCOvhWYxiVUwwxI3M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d0Pmp4Vv0v5zT4DATm5TqvhvYJjX/1ObkjUGgNYosrAz6+EFMp0NGJXLOMVrTQkIs
- wsWjFjRD565lyrfldCKHY5be0v4QBEZ1YsLoRbH/IfBVTYEXfBAIS2gXcZ1xDRx3DS
- iHnmZXcZMkjeyrbZNhtS6ydQisEFTq/6VrY1dB8Q=
+ b=ye0AnFzmSmzGAv/Xxq5s2KZLqiJ8623EZ87sWa3JkftEYzmIM2XGVlrXg1FpVmmZF
+ e5QDlDF5K7PkwsN3KPJ0mDz50bTGjKDKj1KpBhnaEca/KCPMvVe4gFqTl2j3I3DuaT
+ IiFHrWeTGfEJnPZlqwU7/Qm4SUMIHgd8CiyO3ZyE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/72] drm: bridge: adv7511: Extend list of audio
- sample rates
-Date: Mon,  8 Jun 2020 19:23:51 -0400
-Message-Id: <20200608232500.3369581-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 22/72] staging: android: ion: use vmap instead of
+ vm_map_ram
+Date: Mon,  8 Jun 2020 19:24:10 -0400
+Message-Id: <20200608232500.3369581-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
 References: <20200608232500.3369581-1-sashal@kernel.org>
@@ -50,55 +50,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, dri-devel@lists.freedesktop.org,
+ Michael Kelley <mikelley@microsoft.com>, Paul Mackerras <paulus@ozlabs.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Will Deacon <will@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ David Airlie <airlied@linux.ie>, Gao Xiang <xiang@kernel.org>,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ devel@driverdev.osuosl.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Minchan Kim <minchan@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bogdan Togorean <bogdan.togorean@analog.com>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit b97b6a1f6e14a25d1e1ca2a46c5fa3e2ca374e22 ]
+[ Upstream commit 5bf9917452112694b2c774465ee4dbe441c84b77 ]
 
-ADV7511 support sample rates up to 192kHz. CTS and N parameters should
-be computed accordingly so this commit extend the list up to maximum
-supported sample rate.
+vm_map_ram can keep mappings around after the vm_unmap_ram.  Using that
+with non-PAGE_KERNEL mappings can lead to all kinds of aliasing issues.
 
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-Signed-off-by: Andrzej Hajda <a.hajda@samsung.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200413113513.86091-2-bogdan.togorean@analog.com
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Gao Xiang <xiang@kernel.org>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Laura Abbott <labbott@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Michael Kelley <mikelley@microsoft.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Nitin Gupta <ngupta@vflare.org>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc: Paul Mackerras <paulus@ozlabs.org>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Will Deacon <will@kernel.org>
+Link: http://lkml.kernel.org/r/20200414131348.444715-4-hch@lst.de
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/staging/android/ion/ion_heap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-index 67469c26bae8..45a027d7a1e4 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-@@ -20,13 +20,15 @@ static void adv7511_calc_cts_n(unsigned int f_tmds, unsigned int fs,
- {
- 	switch (fs) {
- 	case 32000:
--		*n = 4096;
-+	case 48000:
-+	case 96000:
-+	case 192000:
-+		*n = fs * 128 / 1000;
- 		break;
- 	case 44100:
--		*n = 6272;
--		break;
--	case 48000:
--		*n = 6144;
-+	case 88200:
-+	case 176400:
-+		*n = fs * 128 / 900;
- 		break;
- 	}
+diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
+index babbd94c32d9..33a9777e7a99 100644
+--- a/drivers/staging/android/ion/ion_heap.c
++++ b/drivers/staging/android/ion/ion_heap.c
+@@ -105,12 +105,12 @@ int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
  
+ static int ion_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
+ {
+-	void *addr = vm_map_ram(pages, num, -1, pgprot);
++	void *addr = vmap(pages, num, VM_MAP, pgprot);
+ 
+ 	if (!addr)
+ 		return -ENOMEM;
+ 	memset(addr, 0, PAGE_SIZE * num);
+-	vm_unmap_ram(addr, num);
++	vunmap(addr);
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
