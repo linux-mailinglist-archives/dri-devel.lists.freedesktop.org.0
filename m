@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3EB1F228D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C661F2364
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D03C16E02A;
-	Mon,  8 Jun 2020 23:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2016E9AD;
+	Mon,  8 Jun 2020 23:15:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810B96E02A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:10:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B8D6E9AD;
+ Mon,  8 Jun 2020 23:15:20 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A7B09208C7;
- Mon,  8 Jun 2020 23:10:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 526592078B;
+ Mon,  8 Jun 2020 23:15:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657813;
- bh=3BabQJM6BN1aJZwxaMkpymzATSEqgRe2H4GvW+yQVss=;
+ s=default; t=1591658120;
+ bh=cL658tjAUDKGMd9q07eE3Ieo9f+l6YZLd8BqvCF2ifA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vJ3AvlcE2HUrn+CuknAcK54VNNwCssa9QazWO3UXivaDzRpyX8HyzW+r/nzN19TpP
- oHkA+XaIl3oA+eLZh7EBssgIHi4LZYNuNvWOYOUwY+GxvpyngPlIBSvLtfMYSEVhmz
- M7AMDcmyJvwqmvfNKQj6AUHB7rClE4W9suVRXXZo=
+ b=TeIeOvUhOHKShqMN7CJgxTZf0E2IBBtI3OnmMcZO3TPtpbAMPaqTJrr45BA6sT2E3
+ JuCG2ev7Za6MsNK7/x9EwhQb0onUfYm/7ivJWpSqKPxjBtSOBw0oUR2FYRtDfyP5An
+ UoP9p3KiYZa5s7UM4mNNX9/4zTI2r4ELF9Gnx2MY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 188/274] drm/mcde: dsi: Fix return value check in
- mcde_dsi_bind()
-Date: Mon,  8 Jun 2020 19:04:41 -0400
-Message-Id: <20200608230607.3361041-188-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 157/606] drm/etnaviv: Fix a leak in
+ submit_pin_objects()
+Date: Mon,  8 Jun 2020 19:04:42 -0400
+Message-Id: <20200608231211.3363633-157-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
+References: <20200608231211.3363633-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,47 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Wei Yongjun <weiyongjun1@huawei.com>,
- dri-devel@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 761e9f4f80a21a4b845097027030bef863001636 ]
+commit ad99cb5e783bb03d512092db3387ead9504aad3d upstream.
 
-The of_drm_find_bridge() function returns NULL on error, it doesn't return
-error pointers so this check doesn't work.
+If the mapping address is wrong then we have to release the reference to
+it before returning -EINVAL.
 
-Fixes: 5fc537bfd000 ("drm/mcde: Add new driver for ST-Ericsson MCDE")
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200430073145.52321-1-weiyongjun1@huawei.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 088880ddc0b2 ("drm/etnaviv: implement softpin")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/mcde/mcde_dsi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 7af5ebb0c436..e705afc08c4e 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -1073,10 +1073,9 @@ static int mcde_dsi_bind(struct device *dev, struct device *master,
- 			panel = NULL;
- 
- 			bridge = of_drm_find_bridge(child);
--			if (IS_ERR(bridge)) {
--				dev_err(dev, "failed to find bridge (%ld)\n",
--					PTR_ERR(bridge));
--				return PTR_ERR(bridge);
-+			if (!bridge) {
-+				dev_err(dev, "failed to find bridge\n");
-+				return -EINVAL;
- 			}
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 3b0afa156d92..54def341c1db 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -238,8 +238,10 @@ static int submit_pin_objects(struct etnaviv_gem_submit *submit)
  		}
- 	}
+ 
+ 		if ((submit->flags & ETNA_SUBMIT_SOFTPIN) &&
+-		     submit->bos[i].va != mapping->iova)
++		     submit->bos[i].va != mapping->iova) {
++			etnaviv_gem_mapping_unreference(mapping);
+ 			return -EINVAL;
++		}
+ 
+ 		atomic_inc(&etnaviv_obj->gpu_active);
+ 
 -- 
 2.25.1
 
