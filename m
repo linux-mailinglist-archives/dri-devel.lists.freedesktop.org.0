@@ -2,33 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018E71F1848
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 13:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246161F191B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 14:51:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0E289B78;
-	Mon,  8 Jun 2020 11:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E826E4D4;
+	Mon,  8 Jun 2020 12:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC4B89B78
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 11:55:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: tomeu) with ESMTPSA id 7573F2A164C
-Subject: Re: [PATCH 08/15] drm/panfrost: move devfreq_init()/fini() in device
-To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Steven Price <steven.price@arm.com>
-References: <20200510165538.19720-1-peron.clem@gmail.com>
- <20200510165538.19720-9-peron.clem@gmail.com>
- <3ca4dd51-d868-0d6a-d4ca-37af572190bd@arm.com>
- <CAJiuCceH-wOHc7wEEtmd+CC==QgqK1nOG6YB389Gs=+0t8i=wg@mail.gmail.com>
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Message-ID: <8cdb1fdc-fc40-7880-8fd1-bed2bfdb16a6@collabora.com>
-Date: Mon, 8 Jun 2020 13:55:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9726E4DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 12:51:44 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058CktmJ031202;
+ Mon, 8 Jun 2020 12:51:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=JDcagXN5IWgnkWEj/jglT9oGKYFcCwv8Ecb8T8hrDIM=;
+ b=nwOoyph2HIYkEkWJ47UFPHLPrmmZGFrF7oO8k0qKJrcMrbN7KDjj5f1RPICGeSa2AyfN
+ gIcLtqGpPhSszIMurJjPuG+tTJOk3zkypo3YWe9yGfXbH9k9uOGZTcNsjVcJWd5/Kw+b
+ jEgnfd352G2nzwEUe0KJGPkGeMkfoTezrsWC6zSRIuGOgZL3YlOIPhcJJClewe5MgLCk
+ oBZiw/EbTZ+m+dS2ewtVUg54gTeZE+x8X1gcvtdBnP2wxIHUmNTCdHXqCJPxg6KWo6e1
+ AK7NsQ6Bh9IfDehcEeLGciHyqdbn5cO5Fc2DhZQ/7GCfmp88d+CKmWbUZioWTjpJWcFe Vw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 31g33kxpuc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 08 Jun 2020 12:51:39 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058CmKgC002344;
+ Mon, 8 Jun 2020 12:51:38 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 31gmwpw71j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 08 Jun 2020 12:51:38 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 058CpaHM028413;
+ Mon, 8 Jun 2020 12:51:36 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 08 Jun 2020 05:51:35 -0700
+Date: Mon, 8 Jun 2020 15:51:27 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v8 4/8] PM / EM: add support for other devices than CPUs
+ in Energy Model
+Message-ID: <20200608125127.GN22511@kadam>
+References: <20200608115155.GY30374@kadam>
+ <b347fb60-46d3-e59c-59fa-a2b10932fc49@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJiuCceH-wOHc7wEEtmd+CC==QgqK1nOG6YB389Gs=+0t8i=wg@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <b347fb60-46d3-e59c-59fa-a2b10932fc49@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006080095
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 spamscore=0
+ cotscore=-2147483648 malwarescore=0 phishscore=0 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006080095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,124 +80,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kbuild-all@lists.01.org, lkp@intel.com, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, kbuild@lists.01.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ cw00.choi@samsung.com, linux-mediatek@lists.infradead.org, linux-imx@nxp.com,
+ linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
+ linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNS8yOS8yMCAyOjM4IFBNLCBDbMOpbWVudCBQw6lyb24gd3JvdGU6Cj4gSGkgU3RldmVuCj4g
-Cj4gT24gVGh1LCAyOCBNYXkgMjAyMCBhdCAxNToyMiwgU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJp
-Y2VAYXJtLmNvbT4gd3JvdGU6Cj4+Cj4+IE9uIDEwLzA1LzIwMjAgMTc6NTUsIENsw6ltZW50IFDD
-qXJvbiB3cm90ZToKPj4+IExhdGVyIHdlIHdpbGwgaW50cm9kdWNlIGRldmZyZXEgcHJvYmluZyBy
-ZWd1bGF0b3IgaWYgdGhleQo+Pj4gYXJlIHByZXNlbnQuIEFzIHJlZ3VsYXRvciBzaG91bGQgYmUg
-cHJvYmUgb25seSBvbmUgdGltZSB3ZQo+Pj4gbmVlZCB0byBnZXQgdGhpcyBsb2dpYyBpbiB0aGUg
-ZGV2aWNlX2luaXQoKS4KPj4+Cj4+PiBwYW5mcm9zdF9kZXZpY2UgaXMgYWxyZWFkeSB0YWtpbmcg
-Y2FyZSBvZiBkZXZmcmVxX3Jlc3VtZSgpCj4+PiBhbmQgZGV2ZnJlcV9zdXNwZW5kKCksIHNvIGl0
-J3Mgbm90IHRvdGFsbHkgaWxsb2dpYyB0byBtb3ZlCj4+PiB0aGUgZGV2ZnJlcV9pbml0KCkgYW5k
-IGRldmZyZXFfZmluaSgpIGhlcmUuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogQ2zDqW1lbnQgUMOp
-cm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KPj4+IC0tLQo+Pj4gICAgZHJpdmVycy9ncHUvZHJt
-L3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5jIHwgMzcgKysrKysrKysrKysrKystLS0tLS0tLQo+
-Pj4gICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jICAgIHwgMTUgKyst
-LS0tLS0tCj4+PiAgICAyIGZpbGVzIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDI3IGRlbGV0
-aW9ucygtKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
-ZnJvc3RfZGV2aWNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNl
-LmMKPj4+IGluZGV4IDgxMzZiYWJkM2JhOS4uZjQ4MDEyNzIwNWQ2IDEwMDY0NAo+Pj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5jCj4+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMKPj4+IEBAIC0yMTIsNTkgKzIx
-Miw2NyBAQCBpbnQgcGFuZnJvc3RfZGV2aWNlX2luaXQoc3RydWN0IHBhbmZyb3N0X2RldmljZSAq
-cGZkZXYpCj4+PiAgICAgICAgICAgICAgICByZXR1cm4gZXJyOwo+Pj4gICAgICAgIH0KPj4+Cj4+
-PiArICAgICBlcnIgPSBwYW5mcm9zdF9kZXZmcmVxX2luaXQocGZkZXYpOwo+Pj4gKyAgICAgaWYg
-KGVycikgewo+Pj4gKyAgICAgICAgICAgICBkZXZfZXJyKHBmZGV2LT5kZXYsICJkZXZmcmVxIGlu
-aXQgZmFpbGVkICVkXG4iLCBlcnIpOwo+Pj4gKyAgICAgICAgICAgICBnb3RvIGVycl9vdXQwOwo+
-Pj4gKyAgICAgfQo+Pj4gKwo+Pj4gICAgICAgIGVyciA9IHBhbmZyb3N0X3JlZ3VsYXRvcl9pbml0
-KHBmZGV2KTsKPj4+ICAgICAgICBpZiAoZXJyKSB7Cj4+PiAgICAgICAgICAgICAgICBkZXZfZXJy
-KHBmZGV2LT5kZXYsICJyZWd1bGF0b3IgaW5pdCBmYWlsZWQgJWRcbiIsIGVycik7Cj4+PiAtICAg
-ICAgICAgICAgIGdvdG8gZXJyX291dDA7Cj4+PiArICAgICAgICAgICAgIGdvdG8gZXJyX291dDE7
-Cj4+Cj4+IE5JVDogUmF0aGVyIHRoYW4ganVzdCByZW51bWJlcmluZyB0aGVzZSBjYW4gd2UgZ2l2
-ZSB0aGVtIHNlbnNpYmxlIG5hbWVzCj4+IHNvIHdlIGRvbid0IGhhdmUgdGhpcyBzb3J0IG9mIHJl
-ZmFjdG9yaW5nIGluIGZ1dHVyZT8KPiAKPiBBZ3JlZSwgSSB3aWxsIGNoYW5nZSB0aGF0IGluIHYy
-CgpGV0lXLCB0aGVyZSdzIGEgc2Vuc2libGUgYXBwcm9hY2ggZGVzY3JpYmVkIGluIApEb2N1bWVu
-dGF0aW9uL3Byb2Nlc3MvY29kaW5nLXN0eWxlLnJzdCAoIjcpIENlbnRyYWxpemVkIGV4aXRpbmcg
-b2YgCmZ1bmN0aW9ucyIpLgoKUmVnYXJkcywKClRvbWV1Cgo+IAo+Pgo+Pj4gICAgICAgIH0KPj4+
-Cj4+PiAgICAgICAgZXJyID0gcGFuZnJvc3RfcmVzZXRfaW5pdChwZmRldik7Cj4+PiAgICAgICAg
-aWYgKGVycikgewo+Pj4gICAgICAgICAgICAgICAgZGV2X2VycihwZmRldi0+ZGV2LCAicmVzZXQg
-aW5pdCBmYWlsZWQgJWRcbiIsIGVycik7Cj4+PiAtICAgICAgICAgICAgIGdvdG8gZXJyX291dDE7
-Cj4+PiArICAgICAgICAgICAgIGdvdG8gZXJyX291dDI7Cj4+PiAgICAgICAgfQo+Pj4KPj4+ICAg
-ICAgICBlcnIgPSBwYW5mcm9zdF9wbV9kb21haW5faW5pdChwZmRldik7Cj4+PiAgICAgICAgaWYg
-KGVycikKPj4+IC0gICAgICAgICAgICAgZ290byBlcnJfb3V0MjsKPj4+ICsgICAgICAgICAgICAg
-Z290byBlcnJfb3V0MzsKPj4+Cj4+PiAgICAgICAgcmVzID0gcGxhdGZvcm1fZ2V0X3Jlc291cmNl
-KHBmZGV2LT5wZGV2LCBJT1JFU09VUkNFX01FTSwgMCk7Cj4+PiAgICAgICAgcGZkZXYtPmlvbWVt
-ID0gZGV2bV9pb3JlbWFwX3Jlc291cmNlKHBmZGV2LT5kZXYsIHJlcyk7Cj4+PiAgICAgICAgaWYg
-KElTX0VSUihwZmRldi0+aW9tZW0pKSB7Cj4+PiAgICAgICAgICAgICAgICBkZXZfZXJyKHBmZGV2
-LT5kZXYsICJmYWlsZWQgdG8gaW9yZW1hcCBpb21lbVxuIik7Cj4+PiAgICAgICAgICAgICAgICBl
-cnIgPSBQVFJfRVJSKHBmZGV2LT5pb21lbSk7Cj4+PiAtICAgICAgICAgICAgIGdvdG8gZXJyX291
-dDM7Cj4+PiArICAgICAgICAgICAgIGdvdG8gZXJyX291dDQ7Cj4+PiAgICAgICAgfQo+Pj4KPj4+
-ICAgICAgICBlcnIgPSBwYW5mcm9zdF9ncHVfaW5pdChwZmRldik7Cj4+PiAgICAgICAgaWYgKGVy
-cikKPj4+IC0gICAgICAgICAgICAgZ290byBlcnJfb3V0MzsKPj4+ICsgICAgICAgICAgICAgZ290
-byBlcnJfb3V0NDsKPj4+Cj4+PiAgICAgICAgZXJyID0gcGFuZnJvc3RfbW11X2luaXQocGZkZXYp
-Owo+Pj4gICAgICAgIGlmIChlcnIpCj4+PiAtICAgICAgICAgICAgIGdvdG8gZXJyX291dDQ7Cj4+
-PiArICAgICAgICAgICAgIGdvdG8gZXJyX291dDU7Cj4+Pgo+Pj4gICAgICAgIGVyciA9IHBhbmZy
-b3N0X2pvYl9pbml0KHBmZGV2KTsKPj4+ICAgICAgICBpZiAoZXJyKQo+Pj4gLSAgICAgICAgICAg
-ICBnb3RvIGVycl9vdXQ1Owo+Pj4gKyAgICAgICAgICAgICBnb3RvIGVycl9vdXQ2Owo+Pj4KPj4+
-ICAgICAgICBlcnIgPSBwYW5mcm9zdF9wZXJmY250X2luaXQocGZkZXYpOwo+Pj4gICAgICAgIGlm
-IChlcnIpCj4+PiAtICAgICAgICAgICAgIGdvdG8gZXJyX291dDY7Cj4+PiArICAgICAgICAgICAg
-IGdvdG8gZXJyX291dDc7Cj4+Pgo+Pj4gICAgICAgIHJldHVybiAwOwo+Pj4gLWVycl9vdXQ2Ogo+
-Pj4gK2Vycl9vdXQ3Ogo+Pj4gICAgICAgIHBhbmZyb3N0X2pvYl9maW5pKHBmZGV2KTsKPj4+IC1l
-cnJfb3V0NToKPj4+ICtlcnJfb3V0NjoKPj4+ICAgICAgICBwYW5mcm9zdF9tbXVfZmluaShwZmRl
-dik7Cj4+PiAtZXJyX291dDQ6Cj4+PiArZXJyX291dDU6Cj4+PiAgICAgICAgcGFuZnJvc3RfZ3B1
-X2ZpbmkocGZkZXYpOwo+Pj4gLWVycl9vdXQzOgo+Pj4gK2Vycl9vdXQ0Ogo+Pj4gICAgICAgIHBh
-bmZyb3N0X3BtX2RvbWFpbl9maW5pKHBmZGV2KTsKPj4+IC1lcnJfb3V0MjoKPj4+ICtlcnJfb3V0
-MzoKPj4+ICAgICAgICBwYW5mcm9zdF9yZXNldF9maW5pKHBmZGV2KTsKPj4+IC1lcnJfb3V0MToK
-Pj4+ICtlcnJfb3V0MjoKPj4+ICAgICAgICBwYW5mcm9zdF9yZWd1bGF0b3JfZmluaShwZmRldik7
-Cj4+PiArZXJyX291dDE6Cj4+PiArICAgICBwYW5mcm9zdF9kZXZmcmVxX2ZpbmkocGZkZXYpOwo+
-Pj4gICAgZXJyX291dDA6Cj4+PiAgICAgICAgcGFuZnJvc3RfY2xrX2ZpbmkocGZkZXYpOwo+Pj4g
-ICAgICAgIHJldHVybiBlcnI7Cj4+PiBAQCAtMjc4LDYgKzI4Niw3IEBAIHZvaWQgcGFuZnJvc3Rf
-ZGV2aWNlX2Zpbmkoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYpCj4+PiAgICAgICAgcGFu
-ZnJvc3RfZ3B1X2ZpbmkocGZkZXYpOwo+Pj4gICAgICAgIHBhbmZyb3N0X3BtX2RvbWFpbl9maW5p
-KHBmZGV2KTsKPj4+ICAgICAgICBwYW5mcm9zdF9yZXNldF9maW5pKHBmZGV2KTsKPj4+ICsgICAg
-IHBhbmZyb3N0X2RldmZyZXFfZmluaShwZmRldik7Cj4+PiAgICAgICAgcGFuZnJvc3RfcmVndWxh
-dG9yX2ZpbmkocGZkZXYpOwo+Pj4gICAgICAgIHBhbmZyb3N0X2Nsa19maW5pKHBmZGV2KTsKPj4+
-ICAgIH0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rf
-ZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPj4+IGluZGV4
-IDg4MmZlY2MzM2ZkYi4uNGRkYTY4Njg5MDE1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPj4+IEBAIC0xNCw3ICsxNCw2IEBACj4+PiAgICAjaW5jbHVk
-ZSA8ZHJtL2RybV91dGlscy5oPgo+Pj4KPj4+ICAgICNpbmNsdWRlICJwYW5mcm9zdF9kZXZpY2Uu
-aCIKPj4+IC0jaW5jbHVkZSAicGFuZnJvc3RfZGV2ZnJlcS5oIgo+Pj4gICAgI2luY2x1ZGUgInBh
-bmZyb3N0X2dlbS5oIgo+Pj4gICAgI2luY2x1ZGUgInBhbmZyb3N0X21tdS5oIgo+Pj4gICAgI2lu
-Y2x1ZGUgInBhbmZyb3N0X2pvYi5oIgo+Pj4gQEAgLTYwNiwxMyArNjA1LDYgQEAgc3RhdGljIGlu
-dCBwYW5mcm9zdF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+Pj4gICAgICAg
-ICAgICAgICAgZ290byBlcnJfb3V0MDsKPj4+ICAgICAgICB9Cj4+Pgo+Pj4gLSAgICAgZXJyID0g
-cGFuZnJvc3RfZGV2ZnJlcV9pbml0KHBmZGV2KTsKPj4+IC0gICAgIGlmIChlcnIpIHsKPj4+IC0g
-ICAgICAgICAgICAgaWYgKGVyciAhPSAtRVBST0JFX0RFRkVSKQo+Pj4gLSAgICAgICAgICAgICAg
-ICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwgIkZhdGFsIGVycm9yIGR1cmluZyBkZXZmcmVxIGlu
-aXRcbiIpOwo+Pgo+PiBZb3Ugc2VlbSB0byBoYXZlIGxvc3QgdGhlIGNoZWNrIGZvciBFUFJPQkVf
-REVGRVIgZHVyaW5nIHRoZSBtb3ZlLgo+IAo+IENvcnJlY3QsIHNvcnJ5IGZvciB0aGF0LCBJIHdp
-bGwgZml4IGl0IGluIHYyLgo+IAo+IFRoYW5rcyBmb3IgeW91ciByZXZpZXcsCj4gQ2xlbWVudAo+
-IAo+Pgo+Pj4gLSAgICAgICAgICAgICBnb3RvIGVycl9vdXQxOwo+Pj4gLSAgICAgfQo+Pj4gLQo+
-Pj4gICAgICAgIHBtX3J1bnRpbWVfc2V0X2FjdGl2ZShwZmRldi0+ZGV2KTsKPj4+ICAgICAgICBw
-bV9ydW50aW1lX21hcmtfbGFzdF9idXN5KHBmZGV2LT5kZXYpOwo+Pj4gICAgICAgIHBtX3J1bnRp
-bWVfZW5hYmxlKHBmZGV2LT5kZXYpOwo+Pj4gQEAgLTYyNSwxNiArNjE3LDE0IEBAIHN0YXRpYyBp
-bnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPj4+ICAgICAg
-ICAgKi8KPj4+ICAgICAgICBlcnIgPSBkcm1fZGV2X3JlZ2lzdGVyKGRkZXYsIDApOwo+Pj4gICAg
-ICAgIGlmIChlcnIgPCAwKQo+Pj4gLSAgICAgICAgICAgICBnb3RvIGVycl9vdXQyOwo+Pj4gKyAg
-ICAgICAgICAgICBnb3RvIGVycl9vdXQxOwo+Pj4KPj4+ICAgICAgICBwYW5mcm9zdF9nZW1fc2hy
-aW5rZXJfaW5pdChkZGV2KTsKPj4+Cj4+PiAgICAgICAgcmV0dXJuIDA7Cj4+Pgo+Pj4gLWVycl9v
-dXQyOgo+Pj4gLSAgICAgcG1fcnVudGltZV9kaXNhYmxlKHBmZGV2LT5kZXYpOwo+Pj4gLSAgICAg
-cGFuZnJvc3RfZGV2ZnJlcV9maW5pKHBmZGV2KTsKPj4+ICAgIGVycl9vdXQxOgo+Pj4gKyAgICAg
-cG1fcnVudGltZV9kaXNhYmxlKHBmZGV2LT5kZXYpOwo+Pj4gICAgICAgIHBhbmZyb3N0X2Rldmlj
-ZV9maW5pKHBmZGV2KTsKPj4+ICAgIGVycl9vdXQwOgo+Pj4gICAgICAgIGRybV9kZXZfcHV0KGRk
-ZXYpOwo+Pj4gQEAgLTY1MCw3ICs2NDAsNiBAQCBzdGF0aWMgaW50IHBhbmZyb3N0X3JlbW92ZShz
-dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+Pj4gICAgICAgIHBhbmZyb3N0X2dlbV9zaHJp
-bmtlcl9jbGVhbnVwKGRkZXYpOwo+Pj4KPj4+ICAgICAgICBwbV9ydW50aW1lX2dldF9zeW5jKHBm
-ZGV2LT5kZXYpOwo+Pj4gLSAgICAgcGFuZnJvc3RfZGV2ZnJlcV9maW5pKHBmZGV2KTsKPj4+ICAg
-ICAgICBwYW5mcm9zdF9kZXZpY2VfZmluaShwZmRldik7Cj4+PiAgICAgICAgcG1fcnVudGltZV9w
-dXRfc3luY19zdXNwZW5kKHBmZGV2LT5kZXYpOwo+Pj4gICAgICAgIHBtX3J1bnRpbWVfZGlzYWJs
-ZShwZmRldi0+ZGV2KTsKPj4+Cj4+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On Mon, Jun 08, 2020 at 01:34:37PM +0100, Lukasz Luba wrote:
+> Hi Dan,
+> 
+> Thank you for your analyzes.
+> 
+> On 6/8/20 12:51 PM, Dan Carpenter wrote:
+> > Hi Lukasz,
+> > 
+> > I love your patch! Perhaps something to improve:
+> > 
+> > url:    https://github.com/0day-ci/linux/commits/Lukasz-Luba/Add-support-for-devices-in-the-Energy-Model/20200527-180614
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+> > 
+> > config: i386-randconfig-m021-20200605 (attached as .config)
+> > compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
+> > 
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > 
+> > smatch warnings:
+> > kernel/power/energy_model.c:316 em_dev_register_perf_domain() error: we previously assumed 'dev->em_pd' could be null (see line 277)
+> > 
+> > # https://github.com/0day-ci/linux/commit/110d050cb7ba1c96e63ada498979d1fd99529be2
+> > git remote add linux-review https://github.com/0day-ci/linux
+> > git remote update linux-review
+> > git checkout 110d050cb7ba1c96e63ada498979d1fd99529be2
+> > vim +316 kernel/power/energy_model.c
+> > 
+> > 0e294e607adaf3 Lukasz Luba     2020-05-27  262  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  263  				struct em_data_callback *cb, cpumask_t *cpus)
+> > 27871f7a8a341e Quentin Perret  2018-12-03  264  {
+> > 27871f7a8a341e Quentin Perret  2018-12-03  265  	unsigned long cap, prev_cap = 0;
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  266  	int cpu, ret;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  267
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  268  	if (!dev || !nr_states || !cb)
+> > 27871f7a8a341e Quentin Perret  2018-12-03  269  		return -EINVAL;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  270
+> > 27871f7a8a341e Quentin Perret  2018-12-03  271  	/*
+> > 27871f7a8a341e Quentin Perret  2018-12-03  272  	 * Use a mutex to serialize the registration of performance domains and
+> > 27871f7a8a341e Quentin Perret  2018-12-03  273  	 * let the driver-defined callback functions sleep.
+> > 27871f7a8a341e Quentin Perret  2018-12-03  274  	 */
+> > 27871f7a8a341e Quentin Perret  2018-12-03  275  	mutex_lock(&em_pd_mutex);
+> > 27871f7a8a341e Quentin Perret  2018-12-03  276
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27 @277  	if (dev->em_pd) {
+> >                                                              ^^^^^^^^^^
+> > Check for NULL.
+> > 
+> > 27871f7a8a341e Quentin Perret  2018-12-03  278  		ret = -EEXIST;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  279  		goto unlock;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  280  	}
+> > 27871f7a8a341e Quentin Perret  2018-12-03  281
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  282  	if (_is_cpu_device(dev)) {
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  283  		if (!cpus) {
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  284  			dev_err(dev, "EM: invalid CPU mask\n");
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  285  			ret = -EINVAL;
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  286  			goto unlock;
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  287  		}
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  288
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  289  		for_each_cpu(cpu, cpus) {
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  290  			if (em_cpu_get(cpu)) {
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  291  				dev_err(dev, "EM: exists for CPU%d\n", cpu);
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  292  				ret = -EEXIST;
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  293  				goto unlock;
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  294  			}
+> > 27871f7a8a341e Quentin Perret  2018-12-03  295  			/*
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  296  			 * All CPUs of a domain must have the same
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  297  			 * micro-architecture since they all share the same
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  298  			 * table.
+> > 27871f7a8a341e Quentin Perret  2018-12-03  299  			 */
+> > 8ec59c0f5f4966 Vincent Guittot 2019-06-17  300  			cap = arch_scale_cpu_capacity(cpu);
+> > 27871f7a8a341e Quentin Perret  2018-12-03  301  			if (prev_cap && prev_cap != cap) {
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  302  				dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  303  					cpumask_pr_args(cpus));
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  304
+> > 27871f7a8a341e Quentin Perret  2018-12-03  305  				ret = -EINVAL;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  306  				goto unlock;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  307  			}
+> > 27871f7a8a341e Quentin Perret  2018-12-03  308  			prev_cap = cap;
+> > 27871f7a8a341e Quentin Perret  2018-12-03  309  		}
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  310  	}
+> > 27871f7a8a341e Quentin Perret  2018-12-03  311
+> > 110d050cb7ba1c Lukasz Luba     2020-05-27  312  	ret = em_create_pd(dev, nr_states, cb, cpus);
+> > 
+> > 
+> > If it's a _is_cpu_device() then it iterates through a bunch of devices
+> > and sets up cpu_dev->em_pd for each.  Presumably one of the devices is
+> > "dev" or this would crash pretty early on in testing?
+> 
+> Yes, all of the devices taken from 'cpus' mask will get the em_pd set
+> including the suspected @dev.
+> To calm down this static analyzer I can remove the 'else'
+> in line 204 to make 'dev->em_pd = pd' set always.
+> 199         if (_is_cpu_device(dev))
+> 200                 for_each_cpu(cpu, cpus) {
+> 201                         cpu_dev = get_cpu_device(cpu);
+> 202                         cpu_dev->em_pd = pd;
+> 203                 }
+> 204         else
+> 205                 dev->em_pd = pd;
+> 
+> 
+> Do you think it's a good solution and will work for this tool?
+
+It's not about the tool...  Ignore the tool when it's wrong.  But I do
+think the code is slightly more clear without the else statement.
+
+Arguments could be made either way.  Removing the else statement means
+we set dev->em_pd twice...  But I *personally* lean vaguely towards
+removing the else statement.  :P
+
+That would make the warning go away as well.
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
