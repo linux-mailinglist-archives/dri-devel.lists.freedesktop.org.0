@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFF91F2250
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BEC1F2251
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:08:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B298989BF3;
-	Mon,  8 Jun 2020 23:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6408F89C33;
+	Mon,  8 Jun 2020 23:08:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C727489BF3
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:08:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5DE389C33
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:08:08 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6F5B62087E;
- Mon,  8 Jun 2020 23:08:01 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id C6657208B3;
+ Mon,  8 Jun 2020 23:08:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657684;
- bh=mTiX6BVUQ3jkX0Jh2seMK/MdH4mnuw+Iqv/QKtJSdaw=;
+ s=default; t=1591657688;
+ bh=rl7zVDYqGxocr79XUZScztG4oxq9RmTVjQCEcsz10+k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q/RrEdZFoYdnbeV5uhaByT/rfltudEfsIryDIin6zJfhYKoVEcp9e0cZ2C328Bv4p
- f7t7L9ZvTNgw/3B4uViJp2MkUgX0LWdUUs4OG54cP9O7VsCHo9aD3tSijRsV1pxaxF
- wkUGMk6IpKpLHzogGluIDzELIjl+3k0RkRheaIhU=
+ b=GkI1Fp1rdunkT+mAgzbRK68VvJzX7Zl5/Eftq3iJJoujhWHesnF9wiGASj6J/8vsW
+ V2G4UB3bdgeBfHlma7HLCtgrsz4s+wx8lJ+XsGvu9Z9Bhr1YFcVmRUn+oo2ZPtrzRZ
+ 0DHdc5jtmDcHfjZwUkRk83um4xL7smkg/3ejuUe8=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 087/274] staging: android: ion: use vmap instead
- of vm_map_ram
-Date: Mon,  8 Jun 2020 19:03:00 -0400
-Message-Id: <20200608230607.3361041-87-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 090/274] drm/hisilicon: Enforce 128-byte stride
+ alignment to fix the hardware limitation
+Date: Mon,  8 Jun 2020 19:03:03 -0400
+Message-Id: <20200608230607.3361041-90-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -50,91 +50,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Heiko Carstens <heiko.carstens@de.ibm.com>, dri-devel@lists.freedesktop.org,
- Michael Kelley <mikelley@microsoft.com>, Paul Mackerras <paulus@ozlabs.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>, Will Deacon <will@kernel.org>,
- Sasha Levin <sashal@kernel.org>, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Christoph Hellwig <hch@lst.de>,
- David Airlie <airlied@linux.ie>, Gao Xiang <xiang@kernel.org>,
- Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
- devel@driverdev.osuosl.org, Vasily Gorbik <gor@linux.ibm.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Minchan Kim <minchan@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Gong junjie <gongjunjie2@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
+ dri-devel@lists.freedesktop.org, Xinliang Liu <xinliang.liu@linaro.org>,
+ Sasha Levin <sashal@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christoph Hellwig <hch@lst.de>
+From: Tian Tao <tiantao6@hisilicon.com>
 
-[ Upstream commit 5bf9917452112694b2c774465ee4dbe441c84b77 ]
+[ Upstream commit 9c9a8468de21895abc43f45fc86346467217c986 ]
 
-vm_map_ram can keep mappings around after the vm_unmap_ram.  Using that
-with non-PAGE_KERNEL mappings can lead to all kinds of aliasing issues.
+because the hardware limitation,The initial color depth must set to 32bpp
+and must set the FB Offset of the display hardware to 128Byte alignment,
+which is used to solve the display problem at 800x600 and 1440x900
+resolution under 16bpp.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Gao Xiang <xiang@kernel.org>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Laura Abbott <labbott@redhat.com>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Michael Kelley <mikelley@microsoft.com>
-Cc: Minchan Kim <minchan@kernel.org>
-Cc: Nitin Gupta <ngupta@vflare.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
-Cc: Paul Mackerras <paulus@ozlabs.org>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Will Deacon <will@kernel.org>
-Link: http://lkml.kernel.org/r/20200414131348.444715-4-hch@lst.de
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Signed-off-by: Gong junjie <gongjunjie2@huawei.com>
+Acked-by: Xinliang Liu <xinliang.liu@linaro.org>
+Signed-off-by: Xinliang Liu <xinliang.liu@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1583466184-7060-4-git-send-email-tiantao6@hisilicon.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/android/ion/ion_heap.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c  | 9 +++++----
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c     | 2 +-
+ 3 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
-index 473b465724f1..0755b11348ed 100644
---- a/drivers/staging/android/ion/ion_heap.c
-+++ b/drivers/staging/android/ion/ion_heap.c
-@@ -99,12 +99,12 @@ int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 55b46a7150a5..cc70e836522f 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -94,6 +94,10 @@ static int hibmc_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 	}
  
- static int ion_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
- {
--	void *addr = vm_map_ram(pages, num, -1, pgprot);
-+	void *addr = vmap(pages, num, VM_MAP, pgprot);
- 
- 	if (!addr)
- 		return -ENOMEM;
- 	memset(addr, 0, PAGE_SIZE * num);
--	vm_unmap_ram(addr, num);
-+	vunmap(addr);
- 
++	if (state->fb->pitches[0] % 128 != 0) {
++		DRM_DEBUG_ATOMIC("wrong stride with 128-byte aligned\n");
++		return -EINVAL;
++	}
  	return 0;
  }
+ 
+@@ -119,11 +123,8 @@ static void hibmc_plane_atomic_update(struct drm_plane *plane,
+ 	writel(gpu_addr, priv->mmio + HIBMC_CRT_FB_ADDRESS);
+ 
+ 	reg = state->fb->width * (state->fb->format->cpp[0]);
+-	/* now line_pad is 16 */
+-	reg = PADDING(16, reg);
+ 
+-	line_l = state->fb->width * state->fb->format->cpp[0];
+-	line_l = PADDING(16, line_l);
++	line_l = state->fb->pitches[0];
+ 	writel(HIBMC_FIELD(HIBMC_CRT_FB_WIDTH_WIDTH, reg) |
+ 	       HIBMC_FIELD(HIBMC_CRT_FB_WIDTH_OFFS, line_l),
+ 	       priv->mmio + HIBMC_CRT_FB_WIDTH);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 222356a4f9a8..79a180ae4509 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -94,7 +94,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+ 	priv->dev->mode_config.max_height = 1200;
+ 
+ 	priv->dev->mode_config.fb_base = priv->fb_base;
+-	priv->dev->mode_config.preferred_depth = 24;
++	priv->dev->mode_config.preferred_depth = 32;
+ 	priv->dev->mode_config.prefer_shadow = 1;
+ 
+ 	priv->dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
+@@ -307,7 +307,7 @@ static int hibmc_load(struct drm_device *dev)
+ 	/* reset all the states of crtc/plane/encoder/connector */
+ 	drm_mode_config_reset(dev);
+ 
+-	ret = drm_fbdev_generic_setup(dev, 16);
++	ret = drm_fbdev_generic_setup(dev, dev->mode_config.preferred_depth);
+ 	if (ret) {
+ 		DRM_ERROR("failed to initialize fbdev: %d\n", ret);
+ 		goto err;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+index 99397ac3b363..322bd542e89d 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+@@ -50,7 +50,7 @@ void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+ int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 		      struct drm_mode_create_dumb *args)
+ {
+-	return drm_gem_vram_fill_create_dumb(file, dev, 0, 16, args);
++	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
+ }
+ 
+ const struct drm_mode_config_funcs hibmc_mode_funcs = {
 -- 
 2.25.1
 
