@@ -1,73 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA531F1BD9
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 17:17:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B21DC1F1CD4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 18:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8186E960;
-	Mon,  8 Jun 2020 15:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26A7D89E23;
+	Mon,  8 Jun 2020 16:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B356B6E960
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 15:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591629447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hGKEH1dhLlDad944CTVO7vApiXCC7og9k/LEAwnlxtw=;
- b=A8+gs2el5RBoxqjjoc5bsJNPcn+wbSVtitbFs+5czDHk2bhCJA1o7BfrADa2YU3Z2qkzIu
- 8aYUIX1ttaQe87sJARGk8hVLidyj983HAzxuMKB06k/L1i6csTJ92MgD3izOVteq6RBjwb
- H3pf4b1jJPvS6TLNLFflT5GgI5x9Re8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-puT0mV24NMmPsMnm542QGA-1; Mon, 08 Jun 2020 11:17:23 -0400
-X-MC-Unique: puT0mV24NMmPsMnm542QGA-1
-Received: by mail-wr1-f69.google.com with SMTP id m14so7285953wrj.12
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 08:17:23 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C00C89E23
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 16:05:24 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id 9so11540691ljv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 09:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=muu5X8kpwjspMUSxGgXvhpOJZVBidoTxcsK/ci24bWA=;
+ b=eFC3YfbY4L+dO2jOW3bmJcf7rXd9D49rtwaG8ljF9y7NtTlLQe5x1gLVtmucNuqmsr
+ OTW5ASVyRt3rJP6LoG4TWMr59QRAomXe6ySEfkVa6oSAZ1ru+gFvA4kh0QaW/DyvgYiQ
+ i0JUhicVLJWbwQmebUopVilx3NDH+1CP1a5OwiC0ka5WFTgDZNOJVaGzYkRlNZw8lL68
+ Dhek7uethgWPW+g+nyhoPgppEBMD7GHEohhT+Exi+URNYKmXzPmsrmvUy6G414TRosOc
+ jfXzEzZmsM7AZkw6IS+HP7KA1EOfIH4YlVSmynjEpRIekwwzwGGnwTtQDiYIHU/FONK9
+ VtUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hGKEH1dhLlDad944CTVO7vApiXCC7og9k/LEAwnlxtw=;
- b=aDEwLlP7G4imFz3Ps9R81wIkadoHhGE+mf7jCUdp1f4mNwF/AtZm41r/0tj9KOB3vi
- b3yz7nLM86fF384hGHiNU4EilNe3ClPeXolpdQFm02U+MGZywT9lJcXxXRfqW7ImM86T
- 3u9Rkoi4ZQV8+1WaeqhEwQ9pCQgWEEu28HOTD5jcNmQW2i5Wfws9rfhYlPM7bb6gs4a5
- 3IJLbKCE77COXMo7DchnGI2Lf6aWBcGfIYIdKzY8l1p3vCHls1ulFWb+mG+8x20TqSR1
- sVS8a1YNpIKKHV3HExsW62koH2oMUEOT82QCpZIWa+eYVsrNyTcgAa0KzvuObPEeeqGx
- jkow==
-X-Gm-Message-State: AOAM531j3ydEYgZeyI7R3GQfK8BI4FKKbR5pYICNURiiIDbommXxnmBK
- Vr8iVtS3xyvQl9fWwab2xcozwBdToFkHT3qnoaENoi2OrGC6tvotpaRZ0za2ehVCtvvfkwey9yx
- 8LcHzBT9lVUHLPM0yttczsYfq52Cv
-X-Received: by 2002:adf:fdcc:: with SMTP id i12mr25340197wrs.313.1591629442391; 
- Mon, 08 Jun 2020 08:17:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXf+wDGo8rFUPMEZIpkA8dnO+aIv3ypXkkQNVdstQgDrqG+2iMjbON1WrY0DIT27qSEK9x+g==
-X-Received: by 2002:adf:fdcc:: with SMTP id i12mr25340181wrs.313.1591629442198; 
- Mon, 08 Jun 2020 08:17:22 -0700 (PDT)
-Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
- by smtp.gmail.com with ESMTPSA id
- h29sm24085wrc.78.2020.06.08.08.17.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=muu5X8kpwjspMUSxGgXvhpOJZVBidoTxcsK/ci24bWA=;
+ b=q4GsFSbhTu5ikPFiqiGU6li9D4rYBhEk9iVkJlf5PVJxOLGYR9fjqvnhYZY1QT1X/z
+ DUSautPxNDg3h8vxqRxJELevR6UqsNaKLo+AmwH0TGDlc/vunmc94AwdvlMA5YEOLPrt
+ Kvq1yvHFQDhmGCJSlBNXe4uPt/hmjYR9VDSUdLic/mkWocvImvjG2zFXSvYsGropKZid
+ 0+MP6WaIZccf9ZJ/yXo96uzghO+nvnu4yRWc1Z6YB+juabDahTXuscWmu6+RIhDpi1+u
+ 9/C1Dhz0GWVL5h4PYxUvEOpN8Ra+HsWD0nBnKSEgECJaCaxCRh0seJUu/gcFHq6qQulo
+ OarA==
+X-Gm-Message-State: AOAM532vOdO9m37YXPWIg1pbdnCO0Mjyaw96RSWXSsBGkXF0PdliwtQB
+ lYW5RU075Yb5InTWiY20whEOhPSu
+X-Google-Smtp-Source: ABdhPJy4bDj8cAibRW5HyFKVhcFy0LBFsOjPIIEiU2ni7zfoUMWOP4Ge/VktH9cTAs432JLuBSXQKA==
+X-Received: by 2002:a05:651c:1045:: with SMTP id
+ x5mr11118155ljm.153.1591632322068; 
+ Mon, 08 Jun 2020 09:05:22 -0700 (PDT)
+Received: from ferris.localdomain (85-156-247-180.elisa-laajakaista.fi.
+ [85.156.247.180])
+ by smtp.gmail.com with ESMTPSA id f12sm3775010ljk.44.2020.06.08.09.05.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 08:17:21 -0700 (PDT)
-Date: Mon, 8 Jun 2020 11:17:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Stevens <stevensd@chromium.org>
-Subject: Re: [PATCH v3 4/4] drm/virtio: Support virtgpu exported resources
-Message-ID: <20200608111647-mutt-send-email-mst@kernel.org>
-References: <20200311112004.47138-1-stevensd@chromium.org>
- <20200311112004.47138-5-stevensd@chromium.org>
- <20200513123326-mutt-send-email-mst@kernel.org>
- <CAD=HUj5qcMLw__LfJizR6nzCR9Qmu21Sjk3i0j_8+=rxt1Hk=w@mail.gmail.com>
- <20200608054234-mutt-send-email-mst@kernel.org>
- <CAD=HUj6kF2JFyC9c0CY5_f-cv6r97501Z2f8D9x0VhQpRen+bw@mail.gmail.com>
+ Mon, 08 Jun 2020 09:05:21 -0700 (PDT)
+Date: Mon, 8 Jun 2020 19:05:18 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/doc: device hot-unplug for userspace
+Message-ID: <20200608190518.05d7d15d@ferris.localdomain>
+In-Reply-To: <20200601143203.14666-1-ppaalanen@gmail.com>
+References: <20200519100649.12053-1-ppaalanen@gmail.com>
+ <20200601143203.14666-1-ppaalanen@gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAD=HUj6kF2JFyC9c0CY5_f-cv6r97501Z2f8D9x0VhQpRen+bw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +68,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
- virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sean Paul <sean@poorly.run>, Dave Airlie <airlied@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0721084924=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 08, 2020 at 07:36:55PM +0900, David Stevens wrote:
-> On Mon, Jun 8, 2020 at 6:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Fri, May 15, 2020 at 04:26:15PM +0900, David Stevens wrote:
-> > > > > +     if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
-> > > > > +             vgdev->has_resource_assign_uuid = true;
-> > > > > +     }
-> > > >
-> > > >
-> > > > Just a question: this relies on DMA bufs so I assume it is
-> > > > not really assumed to work when DMA API is bypassed, right?
-> > > > Rather than worry what does it mean, how about just
-> > > > disabling  this feature without PLATFORM_DMA for now?
-> > >
-> > > By PLATFORM_DMA, do you mean CONFIG_DMA_SHARED_BUFFER?
-> >
-> > Sorry, no. I mean VIRTIO_F_IOMMU_PLATFORM which in the
-> > future will be renamed to VIRTIO_F_PLATFORM_ACCESS.
-> 
-> Shouldn't things work independent of whether or not that feature is
-> set? If a virtio driver properly uses the dma_buf APIs (which virtgpu
-> seems to), then that should take care of any mapping/synchronization
-> related to VIRTIO_F_IOMMU_PLATFORM. If anything, the case where
-> VIRTIO_F_IOMMU_PLATFORM isn't set is easier, since then we know that
-> the "the device has same access [sic] to memory addresses supplied to
-> it as the driver has", according to the specification.
-> 
-> -David
+--===============0721084924==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/zuu15iTXhm45SMp6Gi+yBr/"; protocol="application/pgp-signature"
 
-I don't know much about drm so I can't tell, I was hoping Gerd can
-explain.
+--Sig_/zuu15iTXhm45SMp6Gi+yBr/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
--- 
-MST
+On Mon,  1 Jun 2020 17:32:03 +0300
+Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+> Set up the expectations on how hot-unplugging a DRM device should look li=
+ke to
+> userspace.
+>=20
+> Written by Daniel Vetter's request and largely based on his comments in I=
+RC and
+> from https://lists.freedesktop.org/archives/dri-devel/2020-May/265484.htm=
+l .
+>=20
+> A related Wayland protocol change proposal is at
+> https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests=
+/35
+>=20
+> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+Hi,
+
+how's this version looking? Anything to fix?
+
+
+Thanks,
+pq
+
+
+>=20
+> ---
+>=20
+> v3:
+> - update ENODEV doc (Daniel)
+> - clarify existing vs. new mmaps (Andrey)
+> - split into KMS and render/cross sections (Andrey, Daniel)
+> - open() returns ENXIO (open(2) man page)
+> - ioctls may return ENODEV (Andrey, Daniel)
+> - new wayland-protocols MR
+>=20
+> v2:
+> - mmap reads/writes undefined (Daniel)
+> - make render ioctl behaviour driver-specific (Daniel)
+> - restructure the mmap paragraphs (Daniel)
+> - chardev minor notes (Simon)
+> - open behaviour (Daniel)
+> - DRM leasing behaviour (Daniel)
+> - added links
+>=20
+> Disclaimer: I am a userspace developer writing for other userspace develo=
+pers.
+> I took some liberties in defining what should happen without knowing what=
+ is
+> actually possible or what existing drivers already implement.
+> ---
+>  Documentation/gpu/drm-uapi.rst | 114 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 113 insertions(+), 1 deletion(-)
+
+Sorry to trim like this, but gmail refuses to send my email otherwise.
+
+--Sig_/zuu15iTXhm45SMp6Gi+yBr/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl7eYb4ACgkQI1/ltBGq
+qqeFdxAAnRZEjkc/PrAe6soZTbi62XHZBzf+txhaDDCmRoevdLoMKYB6X6j7fHd4
+x66X6V9v6xvMSAS86eCJj0rC4kOdXtSdhmQ3IwF7IehIcYlWW+8NcBt5eIZHx920
+XMreW2HQ2LmuQhQUTfvwFcqGivKiPVFszjS9WR0QGUolIZiZCw5OsMje1Z73rH4V
+1jGjJEulUoLIqu/nRxnKgYqjB+Phq3HhTmLSsdtLx2W1ad7lxUWFCik3tptSf8GY
+Xz2OtLaUSX00JI5Z5dbhjkZEksfQ+rExGpp6eaUHSwrPuXheOlTQe9TkDPoTRI4+
+/cMBm/HH20205T4ycWUFscqA6Iuw6pN7ArfKzi6q1M5DI1q5Ggy+eJ47ta17KtAd
+3dTNCcNA22qZxyCUzqiv7/X0V3UZD40hs6S2F3FZfFklPfL1yA0aUQGkApz7+NsM
+0Guz6WEjtWP8WyjTm/1gJ8eLzRosyVATKyCKilZu4BdMMBRr+8EaM1KmiPJi6jen
+EWho2zMkNAMmij0nGJfJdlCz8GJ41wG0ijl41EGo4bvr1fl2a9cGnyeb7x+KS+th
+zLOWcBdC6ZjHnZB6xGQ1b8wllwyucxs10Z3EEPuG0p7oOFNc2stc9Y477wFx5DRN
+SIXZ0qC2LYlcoZt9wHE/J3JoHMwAmJen7ptuhxUQu6jsRwTmu4I=
+=GZNY
+-----END PGP SIGNATURE-----
+
+--Sig_/zuu15iTXhm45SMp6Gi+yBr/--
+
+--===============0721084924==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0721084924==--
