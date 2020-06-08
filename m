@@ -1,62 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2721F3500
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:36:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6DFB1F34F4
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5E16E9F2;
-	Tue,  9 Jun 2020 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49CC96E265;
+	Tue,  9 Jun 2020 07:35:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F9B89C08
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 14:38:56 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id y18so6738279plr.4
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 07:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=LHVYkeIA74fsa82ThfKsW3dCbekWTk6QgoIVYqEvnVM=;
- b=rR/NFJmDXm26CdXkCHmyqaovvj3YmyuK0TZIZX2y8lBhWId9hpWyfXiPIGaev1NnOp
- 0/OMshzfj6wI5lAFEgTWH/Jo3x6w6yiXWi1M41vux7OklTuiMz+Db/dM92egpXTWyvhi
- gpUxQ6TGCuKTiIJ4Nr/9+TdtaVqu25FX4vU3JX1aEURxvWP7gKtEjV/tDro0Vog41RTd
- UOeA3gccNDwS6Rr3EBPjKbQEsXiGgZ3aow7DFH2DMvyGDjSlTDURRk91+oxBKBhbdkA7
- CNPDl6R9/IcvSXM/OVXKlxwZM0WO1UrkMV/REcYe4o3/yWj5F13XYlqlLamZr0V6W704
- KTfQ==
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66DE6E961
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 15:17:41 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id j18so7911630lji.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 08:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=LHVYkeIA74fsa82ThfKsW3dCbekWTk6QgoIVYqEvnVM=;
- b=h2H/R6OVg5+ANM32G/Xif7rUIxCLw1NihaXO2jeK8gcJarOsyBWkNjRDi+CSZRJhbC
- 8zOpfo8P3xIYAqk3UFA3ZcOCWdQYurMTbK3+wIPyHyUa+JwvJUf+k+6Tgwlay9rz+zy1
- L7lYpEh+IUzPmI/BEg09EXc42RwPbAQiofizD81Myisc0EYHrKHdNNl5bNbgC2nzLaXJ
- 9tjRbnBksemZLM5ajhtdhAH+HUQ11ivIAozp2WLf5y56uxAk9o8LJv97Rbk78XuMSy6W
- JBIaPtHbeHJbon1tXVZFQxHG/cSwGxua8u2dD54yGIKbneihcv8+w0X/8CbYGV3N1X88
- tDvg==
-X-Gm-Message-State: AOAM533DyGwJ23T2l6LZUd3qZCiRac3JBLyZLDILuqsUbrC8agxZp8kX
- +5JSvk9QkbabOoCz/FTTxDg=
-X-Google-Smtp-Source: ABdhPJzjPn6qRrfjuaQzpcUUixUTc/hW5I1F4tToTMD663azYOuhsVML95fB6yTMmORG56y3ZPsx3Q==
-X-Received: by 2002:a17:90a:fa95:: with SMTP id
- cu21mr16725297pjb.56.1591627136540; 
- Mon, 08 Jun 2020 07:38:56 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id f14sm15765562pjq.36.2020.06.08.07.38.55
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 08 Jun 2020 07:38:55 -0700 (PDT)
-Date: Mon, 8 Jun 2020 07:38:54 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 01/11] tty/sysrq: alpha: export and use
- __sysrq_get_key_op()
-Message-ID: <20200608143854.GA140781@roeck-us.net>
-References: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OsWMPsmZoyIJzuygJAaRJCsAmuz070EmkzRigfL9BXc=;
+ b=iDyKOBeHuXUDNKl5PR0lYiVwXy2RD46s7Em+1Vt+ZYvhuBD1cunEFbVa2BJFYqSvPM
+ delRsi9U3vgKhVZVDsIptpvIYJbOY+KyHWOVUmqPLNo064x1nHiK9adIJ6I89REfvDw/
+ 8yn9iKJhfFxR7ndqz5U0gUX5Dzf9gwx54PPbcYEO3Q3OEj2EQBdh8CbqPZvKIyh0eK76
+ fWhnJSDdeMyrKe46P3HcwdIhDxzHlvWgt0nAYXOC3tcoSTby0EvH1/b2TXOk6XPRolam
+ BDz94R/awBq/2nlA/xde0xdtz2W7DYEtREutZWFwuXeD5anjufhPtL1WKIg5unbdzmL6
+ ZK6g==
+X-Gm-Message-State: AOAM533Il6Xlob8nKhj9LZia4o74FYIDMLMZn0KzBiwPBsirHGdvLQcg
+ hViBgHqtiC4h0OYvDtbOjhM=
+X-Google-Smtp-Source: ABdhPJzDUCdm1G2TGpfofl/wlFzlXPT1eIy4dTUHaK0MG2U+WNevg620xxVGee8AVKlTDm/4kibqzg==
+X-Received: by 2002:a2e:2f0a:: with SMTP id v10mr11160069ljv.163.1591629460131; 
+ Mon, 08 Jun 2020 08:17:40 -0700 (PDT)
+Received: from localhost.localdomain ([213.87.137.116])
+ by smtp.googlemail.com with ESMTPSA id x28sm4416704lfg.86.2020.06.08.08.17.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Jun 2020 08:17:39 -0700 (PDT)
+From: Denis Efremov <efremov@linux.com>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/panfrost: Use kvfree() to free bo->sgts
+Date: Mon,  8 Jun 2020 18:17:28 +0300
+Message-Id: <20200608151728.234026-1-efremov@linux.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200605185207.76661-1-efremov@linux.com>
+References: <20200605185207.76661-1-efremov@linux.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200513214351.2138580-1-emil.l.velikov@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Tue, 09 Jun 2020 07:35:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,64 +58,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Jiri Slaby <jslaby@suse.com>, Matt Turner <mattst88@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Denis Efremov <efremov@linux.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, May 13, 2020 at 10:43:41PM +0100, Emil Velikov wrote:
-> Export a pointer to the sysrq_get_key_op(). This way we can cleanly
-> unregister it, instead of the current solutions of modifuing it inplace.
-> 
-> Since __sysrq_get_key_op() is no longer used externally, let's make it
-> a static function.
-> 
-> This patch will allow us to limit access to each and every sysrq op and
-> constify the sysrq handling.
-> 
+Use kvfree() to free bo->sgts, because the memory is allocated with
+kvmalloc_array() in panfrost_mmu_map_fault_addr().
 
-This patch results in:
-
-Building alpha:defconfig ... failed
---------------
-Error log:
-<stdin>:1511:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-arch/alpha/kernel/setup.c:435:13: error: initialization of 'void (*)(int)' from incompatible pointer type 'void (*)(void)'
-
-... which does make me wonder if it was even build tested.
-
-Guenter
-
+Fixes: 187d2929206e ("drm/panfrost: Add support for GPU heap allocations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Denis Efremov <efremov@linux.com>
 ---
-# bad: [af7b4801030c07637840191c69eb666917e4135d] Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
-# good: [3b69e8b4571125bec1f77f886174fe6cab6b9d75] Merge tag 'sh-for-5.8' of git://git.libc.org/linux-sh
-git bisect start 'HEAD' '3b69e8b45711'
-# good: [77f55d1305c11fb729b88f2c3f7881ba0831fa6f] staging: rtl8723bs: Use common packet header constants
-git bisect good 77f55d1305c11fb729b88f2c3f7881ba0831fa6f
-# bad: [f558b8364e19f9222e7976c64e9367f66bab02cc] Merge tag 'driver-core-5.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core
-git bisect bad f558b8364e19f9222e7976c64e9367f66bab02cc
-# good: [ca681aa49200422a4144ee376a2079a9f717bf11] Merge tag 'usb-for-v5.8' of git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb into usb-next
-git bisect good ca681aa49200422a4144ee376a2079a9f717bf11
-# bad: [a1b44ea340b21c99b34c93acad233da727cb88ba] tty: serial: qcom_geni_serial: Add 51.2MHz frequency support
-git bisect bad a1b44ea340b21c99b34c93acad233da727cb88ba
-# good: [e0a851fe6b9b619527bd928aa93caaddd003f70c] serial: 8250: Avoid error message on reprobe
-git bisect good e0a851fe6b9b619527bd928aa93caaddd003f70c
-# bad: [57626ff1c9135211b92dfbea1923333c7b6dd12c] tty: n_gsm: Remove unnecessary test in gsm_print_packet()
-git bisect bad 57626ff1c9135211b92dfbea1923333c7b6dd12c
-# bad: [675cacf11462f112ab13d57e1163082161ef8708] MIPS: constify sysrq_key_op
-git bisect bad 675cacf11462f112ab13d57e1163082161ef8708
-# bad: [0f1c9688a194d22bb81953bd85bd18b0115fd17f] tty/sysrq: alpha: export and use __sysrq_get_key_op()
-git bisect bad 0f1c9688a194d22bb81953bd85bd18b0115fd17f
-# good: [7b668c064ec33f3d687c3a413d05e355172e6c92] serial: 8250: Fix max baud limit in generic 8250 port
-git bisect good 7b668c064ec33f3d687c3a413d05e355172e6c92
-# good: [beca62c4212ade1516a526784adf7f7d99c7f3d9] tty: mxser: make mxser_change_speed() return void
-git bisect good beca62c4212ade1516a526784adf7f7d99c7f3d9
-# first bad commit: [0f1c9688a194d22bb81953bd85bd18b0115fd17f] tty/sysrq: alpha: export and use __sysrq_get_key_op()
+Change in v2:
+ - kvfree() fixed in panfrost_gem_free_object(), thanks to Steven Price
+
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 17b654e1eb94..556181ea4a07 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -46,7 +46,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 				sg_free_table(&bo->sgts[i]);
+ 			}
+ 		}
+-		kfree(bo->sgts);
++		kvfree(bo->sgts);
+ 	}
+ 
+ 	drm_gem_shmem_free_object(obj);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index ed28aeba6d59..3c8ae7411c80 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -486,7 +486,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+ 				       sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+ 		if (!pages) {
+-			kfree(bo->sgts);
++			kvfree(bo->sgts);
+ 			bo->sgts = NULL;
+ 			mutex_unlock(&bo->base.pages_lock);
+ 			ret = -ENOMEM;
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
