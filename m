@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246161F191B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 14:51:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81581F1975
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 14:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E826E4D4;
-	Mon,  8 Jun 2020 12:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411B56E4EA;
+	Mon,  8 Jun 2020 12:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9726E4DD
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 12:51:44 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058CktmJ031202;
- Mon, 8 Jun 2020 12:51:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=JDcagXN5IWgnkWEj/jglT9oGKYFcCwv8Ecb8T8hrDIM=;
- b=nwOoyph2HIYkEkWJ47UFPHLPrmmZGFrF7oO8k0qKJrcMrbN7KDjj5f1RPICGeSa2AyfN
- gIcLtqGpPhSszIMurJjPuG+tTJOk3zkypo3YWe9yGfXbH9k9uOGZTcNsjVcJWd5/Kw+b
- jEgnfd352G2nzwEUe0KJGPkGeMkfoTezrsWC6zSRIuGOgZL3YlOIPhcJJClewe5MgLCk
- oBZiw/EbTZ+m+dS2ewtVUg54gTeZE+x8X1gcvtdBnP2wxIHUmNTCdHXqCJPxg6KWo6e1
- AK7NsQ6Bh9IfDehcEeLGciHyqdbn5cO5Fc2DhZQ/7GCfmp88d+CKmWbUZioWTjpJWcFe Vw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 31g33kxpuc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 08 Jun 2020 12:51:39 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058CmKgC002344;
- Mon, 8 Jun 2020 12:51:38 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 31gmwpw71j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 08 Jun 2020 12:51:38 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 058CpaHM028413;
- Mon, 8 Jun 2020 12:51:36 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 08 Jun 2020 05:51:35 -0700
-Date: Mon, 8 Jun 2020 15:51:27 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v8 4/8] PM / EM: add support for other devices than CPUs
- in Energy Model
-Message-ID: <20200608125127.GN22511@kadam>
-References: <20200608115155.GY30374@kadam>
- <b347fb60-46d3-e59c-59fa-a2b10932fc49@arm.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32D356E4EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 12:57:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 07E17AD7D;
+ Mon,  8 Jun 2020 12:57:52 +0000 (UTC)
+Subject: Re: [PATCH 07/14] drm/mgag200: Switch to managed MM
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200605135803.19811-1-tzimmermann@suse.de>
+ <20200605135803.19811-8-tzimmermann@suse.de>
+ <20200605162229.GV20149@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <ed52f9b3-40d0-e7e9-cb36-fc856d66bb7b@suse.de>
+Date: Mon, 8 Jun 2020 14:57:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b347fb60-46d3-e59c-59fa-a2b10932fc49@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 adultscore=0
- mlxscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080095
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 spamscore=0
- cotscore=-2147483648 malwarescore=0 phishscore=0 mlxscore=0 clxscore=1015
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006080095
+In-Reply-To: <20200605162229.GV20149@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,134 +65,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, kbuild@lists.01.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cw00.choi@samsung.com, linux-mediatek@lists.infradead.org, linux-imx@nxp.com,
- linux-omap@vger.kernel.org, Dietmar.Eggemann@arm.com,
- linux-arm-kernel@lists.infradead.org, Dan Carpenter <error27@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@redhat.com, sam@ravnborg.org, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============0063157685=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 08, 2020 at 01:34:37PM +0100, Lukasz Luba wrote:
-> Hi Dan,
-> 
-> Thank you for your analyzes.
-> 
-> On 6/8/20 12:51 PM, Dan Carpenter wrote:
-> > Hi Lukasz,
-> > 
-> > I love your patch! Perhaps something to improve:
-> > 
-> > url:    https://github.com/0day-ci/linux/commits/Lukasz-Luba/Add-support-for-devices-in-the-Energy-Model/20200527-180614
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-> > 
-> > config: i386-randconfig-m021-20200605 (attached as .config)
-> > compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > 
-> > smatch warnings:
-> > kernel/power/energy_model.c:316 em_dev_register_perf_domain() error: we previously assumed 'dev->em_pd' could be null (see line 277)
-> > 
-> > # https://github.com/0day-ci/linux/commit/110d050cb7ba1c96e63ada498979d1fd99529be2
-> > git remote add linux-review https://github.com/0day-ci/linux
-> > git remote update linux-review
-> > git checkout 110d050cb7ba1c96e63ada498979d1fd99529be2
-> > vim +316 kernel/power/energy_model.c
-> > 
-> > 0e294e607adaf3 Lukasz Luba     2020-05-27  262  int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  263  				struct em_data_callback *cb, cpumask_t *cpus)
-> > 27871f7a8a341e Quentin Perret  2018-12-03  264  {
-> > 27871f7a8a341e Quentin Perret  2018-12-03  265  	unsigned long cap, prev_cap = 0;
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  266  	int cpu, ret;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  267
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  268  	if (!dev || !nr_states || !cb)
-> > 27871f7a8a341e Quentin Perret  2018-12-03  269  		return -EINVAL;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  270
-> > 27871f7a8a341e Quentin Perret  2018-12-03  271  	/*
-> > 27871f7a8a341e Quentin Perret  2018-12-03  272  	 * Use a mutex to serialize the registration of performance domains and
-> > 27871f7a8a341e Quentin Perret  2018-12-03  273  	 * let the driver-defined callback functions sleep.
-> > 27871f7a8a341e Quentin Perret  2018-12-03  274  	 */
-> > 27871f7a8a341e Quentin Perret  2018-12-03  275  	mutex_lock(&em_pd_mutex);
-> > 27871f7a8a341e Quentin Perret  2018-12-03  276
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27 @277  	if (dev->em_pd) {
-> >                                                              ^^^^^^^^^^
-> > Check for NULL.
-> > 
-> > 27871f7a8a341e Quentin Perret  2018-12-03  278  		ret = -EEXIST;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  279  		goto unlock;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  280  	}
-> > 27871f7a8a341e Quentin Perret  2018-12-03  281
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  282  	if (_is_cpu_device(dev)) {
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  283  		if (!cpus) {
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  284  			dev_err(dev, "EM: invalid CPU mask\n");
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  285  			ret = -EINVAL;
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  286  			goto unlock;
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  287  		}
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  288
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  289  		for_each_cpu(cpu, cpus) {
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  290  			if (em_cpu_get(cpu)) {
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  291  				dev_err(dev, "EM: exists for CPU%d\n", cpu);
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  292  				ret = -EEXIST;
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  293  				goto unlock;
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  294  			}
-> > 27871f7a8a341e Quentin Perret  2018-12-03  295  			/*
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  296  			 * All CPUs of a domain must have the same
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  297  			 * micro-architecture since they all share the same
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  298  			 * table.
-> > 27871f7a8a341e Quentin Perret  2018-12-03  299  			 */
-> > 8ec59c0f5f4966 Vincent Guittot 2019-06-17  300  			cap = arch_scale_cpu_capacity(cpu);
-> > 27871f7a8a341e Quentin Perret  2018-12-03  301  			if (prev_cap && prev_cap != cap) {
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  302  				dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  303  					cpumask_pr_args(cpus));
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  304
-> > 27871f7a8a341e Quentin Perret  2018-12-03  305  				ret = -EINVAL;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  306  				goto unlock;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  307  			}
-> > 27871f7a8a341e Quentin Perret  2018-12-03  308  			prev_cap = cap;
-> > 27871f7a8a341e Quentin Perret  2018-12-03  309  		}
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  310  	}
-> > 27871f7a8a341e Quentin Perret  2018-12-03  311
-> > 110d050cb7ba1c Lukasz Luba     2020-05-27  312  	ret = em_create_pd(dev, nr_states, cb, cpus);
-> > 
-> > 
-> > If it's a _is_cpu_device() then it iterates through a bunch of devices
-> > and sets up cpu_dev->em_pd for each.  Presumably one of the devices is
-> > "dev" or this would crash pretty early on in testing?
-> 
-> Yes, all of the devices taken from 'cpus' mask will get the em_pd set
-> including the suspected @dev.
-> To calm down this static analyzer I can remove the 'else'
-> in line 204 to make 'dev->em_pd = pd' set always.
-> 199         if (_is_cpu_device(dev))
-> 200                 for_each_cpu(cpu, cpus) {
-> 201                         cpu_dev = get_cpu_device(cpu);
-> 202                         cpu_dev->em_pd = pd;
-> 203                 }
-> 204         else
-> 205                 dev->em_pd = pd;
-> 
-> 
-> Do you think it's a good solution and will work for this tool?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0063157685==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7wy6VURznnKo5gIi6HlanPgxrYMDvg9cC"
 
-It's not about the tool...  Ignore the tool when it's wrong.  But I do
-think the code is slightly more clear without the else statement.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7wy6VURznnKo5gIi6HlanPgxrYMDvg9cC
+Content-Type: multipart/mixed; boundary="cbkvIzhjInEPCRBP6ul9MjEIrYAMXPy2n";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kraxel@redhat.com, airlied@redhat.com,
+ sam@ravnborg.org, emil.velikov@collabora.com
+Message-ID: <ed52f9b3-40d0-e7e9-cb36-fc856d66bb7b@suse.de>
+Subject: Re: [PATCH 07/14] drm/mgag200: Switch to managed MM
+References: <20200605135803.19811-1-tzimmermann@suse.de>
+ <20200605135803.19811-8-tzimmermann@suse.de>
+ <20200605162229.GV20149@phenom.ffwll.local>
+In-Reply-To: <20200605162229.GV20149@phenom.ffwll.local>
 
-Arguments could be made either way.  Removing the else statement means
-we set dev->em_pd twice...  But I *personally* lean vaguely towards
-removing the else statement.  :P
+--cbkvIzhjInEPCRBP6ul9MjEIrYAMXPy2n
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-That would make the warning go away as well.
+Hi
 
-regards,
-dan carpenter
+Am 05.06.20 um 18:22 schrieb Daniel Vetter:
+> On Fri, Jun 05, 2020 at 03:57:56PM +0200, Thomas Zimmermann wrote:
+>> The memory-management code now cleans up automatically as part of
+>> device destruction.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  1 -
+>>  drivers/gpu/drm/mgag200/mgag200_main.c |  5 +----
+>>  drivers/gpu/drm/mgag200/mgag200_mm.c   | 28 ++++++++++++++-----------=
+-
+>>  3 files changed, 16 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/m=
+gag200/mgag200_drv.h
+>> index cd786ffe319b8..7b6e6827a9a21 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+>> @@ -198,6 +198,5 @@ void mgag200_i2c_destroy(struct mga_i2c_chan *i2c)=
+;
+>> =20
+>>  				/* mgag200_mm.c */
+>>  int mgag200_mm_init(struct mga_device *mdev);
+>> -void mgag200_mm_fini(struct mga_device *mdev);
+>> =20
+>>  #endif				/* __MGAG200_DRV_H__ */
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c b/drivers/gpu/drm/=
+mgag200/mgag200_main.c
+>> index e9ad783c2b44d..49bcdfcb40a4e 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
+>> @@ -57,13 +57,11 @@ int mgag200_driver_load(struct drm_device *dev, un=
+signed long flags)
+>>  	ret =3D mgag200_modeset_init(mdev);
+>>  	if (ret) {
+>>  		drm_err(dev, "Fatal error during modeset init: %d\n", ret);
+>> -		goto err_mgag200_mm_fini;
+>> +		goto err_mm;
+>>  	}
+>> =20
+>>  	return 0;
+>> =20
+>> -err_mgag200_mm_fini:
+>> -	mgag200_mm_fini(mdev);
+>>  err_mm:
+>>  	dev->dev_private =3D NULL;
+>>  	return ret;
+>> @@ -75,6 +73,5 @@ void mgag200_driver_unload(struct drm_device *dev)
+>> =20
+>>  	if (mdev =3D=3D NULL)
+>>  		return;
+>> -	mgag200_mm_fini(mdev);
+>>  	dev->dev_private =3D NULL;
+>>  }
+>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mg=
+ag200/mgag200_mm.c
+>> index f56b0456994f4..1b1e5ec5d1ceb 100644
+>> --- a/drivers/gpu/drm/mgag200/mgag200_mm.c
+>> +++ b/drivers/gpu/drm/mgag200/mgag200_mm.c
+>> @@ -28,6 +28,8 @@
+>> =20
+>>  #include <linux/pci.h>
+>> =20
+>> +#include <drm/drm_managed.h>
+>> +
+>>  #include "mgag200_drv.h"
+>> =20
+>>  static size_t mgag200_probe_vram(struct mga_device *mdev, void __iome=
+m *mem,
+>> @@ -73,6 +75,18 @@ static size_t mgag200_probe_vram(struct mga_device =
+*mdev, void __iomem *mem,
+>>  	return offset - 65536;
+>>  }
+>> =20
+>> +static void mgag200_mm_release(struct drm_device *dev, void *ptr)
+>> +{
+>> +	struct mga_device *mdev =3D to_mga_device(dev);
+>> +
+>> +	mdev->vram_fb_available =3D 0;
+>> +	iounmap(mdev->vram);
+>> +	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
+>> +				pci_resource_len(dev->pdev, 0));
+>> +	arch_phys_wc_del(mdev->fb_mtrr);
+>> +	mdev->fb_mtrr =3D 0;
+>> +}
+>> +
+>>  int mgag200_mm_init(struct mga_device *mdev)
+>>  {
+>>  	struct drm_device *dev =3D mdev->dev;
+>> @@ -104,22 +118,10 @@ int mgag200_mm_init(struct mga_device *mdev)
+>> =20
+>>  	mdev->vram_fb_available =3D mdev->mc.vram_size;
+>> =20
+>> -	return 0;
+>> +	return drmm_add_action_or_reset(dev, mgag200_mm_release, NULL);
+>> =20
+>>  err_arch_phys_wc_del:
+>>  	arch_phys_wc_del(mdev->fb_mtrr);
+>>  	arch_io_free_memtype_wc(start, len);
+>=20
+> Btw I think devm versions of these two would benefit a bunch of drivers=
+ in
+> their cleanup code. devm_ not drmm_ since it's hw resource cleanup. In
+
+Yup, I was looking and couldn't find them. Their non-existence is the
+reason for the release function. Having them would make sense.
+
+> case you ever run out of ideas :-)
+
+I already have patches for further mgag200 mode-setting cleanups and ast
+managed initialization. So no shortage of idea here. :)
+
+Best regards
+Thomas
+
+>=20
+> Cheeres, Daniel
+>=20
+>>  	return ret;
+>>  }
+>> -
+>> -void mgag200_mm_fini(struct mga_device *mdev)
+>> -{
+>> -	struct drm_device *dev =3D mdev->dev;
+>> -
+>> -	mdev->vram_fb_available =3D 0;
+>> -	iounmap(mdev->vram);
+>> -	arch_io_free_memtype_wc(pci_resource_start(dev->pdev, 0),
+>> -				pci_resource_len(dev->pdev, 0));
+>> -	arch_phys_wc_del(mdev->fb_mtrr);
+>> -	mdev->fb_mtrr =3D 0;
+>> -}
+>> --=20
+>> 2.26.2
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--cbkvIzhjInEPCRBP6ul9MjEIrYAMXPy2n--
+
+--7wy6VURznnKo5gIi6HlanPgxrYMDvg9cC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7eNcsACgkQaA3BHVML
+eiNUIwgAiwnTpK33OpGu9/rA3mEDwEIk/AdX8o5NY3RDfqMaHcPy0Z6MVrWxetzf
+KljygVc7UUCqxzkfms2cLJhzleZ3uBy9jmvTOCgTi+mgTFjnertt4nHEAZfct/vk
+miMFHJ1fo0pcL9coCVLsDJAmM5DpL8ZsQeOjHYvB5xx3wFlXoUoBw7xgFIGtnzE/
+y/yCx0Y7JmHCfJJmh8qxu9CWO7aNJjqu1JieT97cEV9wd0XX26Y6pFRBwiwIFocQ
+y+eMGREARk8S0lxr6sowfwQLf5rQQgGiudaTWAfh14gUW+BvwqmkZ3YsRhhY+xvd
+iCt9JI2BbM35DNTuOotLCfqbHhLTaA==
+=8G6c
+-----END PGP SIGNATURE-----
+
+--7wy6VURznnKo5gIi6HlanPgxrYMDvg9cC--
+
+--===============0063157685==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0063157685==--
