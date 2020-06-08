@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11C01F2288
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A7B1F2352
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AF189C46;
-	Mon,  8 Jun 2020 23:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71EF76E9AB;
+	Mon,  8 Jun 2020 23:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E0989C46
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:09:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF77F6E0E4;
+ Mon,  8 Jun 2020 23:15:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B89B020B80;
- Mon,  8 Jun 2020 23:09:47 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E1FF3214F1;
+ Mon,  8 Jun 2020 23:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591657788;
- bh=kntZHaADtqmXEkROzUlLhxaIDHYMV/qGZ2kMk2G8Nlk=;
+ s=default; t=1591658112;
+ bh=jFe9aXoR6voETZO9HbVJP9RbbHAyfbsp/G1r2RlBApo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Eli+0q8+23VI6xuqdkBZEVpE/REEAaazVpMc7EqhQ5oI98Y8jlA4l71ACC46kRyW2
- uTSlTiRkgJTrC/h9OeQMg2q3WxbfTeJoAaKb3ulQ8LZDJSot0NO8Hyqa6DublVQDig
- cwyyLWQE+ueArq82nz2Ept/0QKDo+ZgweM6XjpLU=
+ b=lH5feIjSWoZ847i4PNz78tvfG2mz8RukMWqtpR2Vb8NfwG/KcZyHeU/PHlps/Coiw
+ S4uN6c273Ct2XDCXomRyp9W3Tq06Cwy1n5L0BP4ervMFDcocc8AWxGPl/PHvFqVwLs
+ 5XON9B+VaaN5xZM5WQLtSnVVDK5ojBvJVKYuSMXs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 169/274] drm/vkms: Hold gem object while still
- in-use
-Date: Mon,  8 Jun 2020 19:04:22 -0400
-Message-Id: <20200608230607.3361041-169-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 151/606] drm/etnaviv: fix perfmon domain interation
+Date: Mon,  8 Jun 2020 19:04:36 -0400
+Message-Id: <20200608231211.3363633-151-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
+References: <20200608231211.3363633-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,92 +49,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Paul Cercueil <paul@crapouillou.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ezequiel Garcia <ezequiel@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
 
-[ Upstream commit 0ea2ea42b31abc1141f2fd3911f952a97d401fcb ]
+commit 40b697e256ccdb88aaff424b44b4d300eb8460e8 upstream.
 
-We need to keep the reference to the drm_gem_object
-until the last access by vkms_dumb_create.
+The GC860 has one GPU device which has a 2d and 3d core. In this case
+we want to expose perfmon information for both cores.
 
-Therefore, the put the object after it is used.
+The driver has one array which contains all possible perfmon domains
+with some meta data - doms_meta. Here we can see that for the GC860
+two elements of that array are relevant:
 
-This fixes a use-after-free issue reported by syzbot.
+  doms_3d: is at index 0 in the doms_meta array with 8 perfmon domains
+  doms_2d: is at index 1 in the doms_meta array with 1 perfmon domain
 
-While here, change vkms_gem_create() symbol to static.
+The userspace driver wants to get a list of all perfmon domains and
+their perfmon signals. This is done by iterating over all domains and
+their signals. If the userspace driver wants to access the domain with
+id 8 the kernel driver fails and returns invalid data from doms_3d with
+and invalid offset.
 
-Reported-and-tested-by: syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200427214405.13069-1-ezequiel@collabora.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+This results in:
+  Unable to handle kernel paging request at virtual address 00000000
+
+On such a device it is not possible to use the userspace driver at all.
+
+The fix for this off-by-one error is quite simple.
+
+Reported-by: Paul Cercueil <paul@crapouillou.net>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
+Fixes: ed1dd899baa3 ("drm/etnaviv: rework perfmon query infrastructure")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/vkms/vkms_drv.h |  5 -----
- drivers/gpu/drm/vkms/vkms_gem.c | 11 ++++++-----
- 2 files changed, 6 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index eda04ffba7b1..f4036bb0b9a8 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -117,11 +117,6 @@ struct drm_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 				  enum drm_plane_type type, int index);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+index e6795bafcbb9..75f9db8f7bec 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_perfmon.c
+@@ -453,7 +453,7 @@ static const struct etnaviv_pm_domain *pm_domain(const struct etnaviv_gpu *gpu,
+ 		if (!(gpu->identity.features & meta->feature))
+ 			continue;
  
- /* Gem stuff */
--struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
--				       struct drm_file *file,
--				       u32 *handle,
--				       u64 size);
--
- vm_fault_t vkms_gem_fault(struct vm_fault *vmf);
- 
- int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
-diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkms_gem.c
-index 2e01186fb943..c541fec57566 100644
---- a/drivers/gpu/drm/vkms/vkms_gem.c
-+++ b/drivers/gpu/drm/vkms/vkms_gem.c
-@@ -97,10 +97,10 @@ vm_fault_t vkms_gem_fault(struct vm_fault *vmf)
- 	return ret;
- }
- 
--struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
--				       struct drm_file *file,
--				       u32 *handle,
--				       u64 size)
-+static struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
-+					      struct drm_file *file,
-+					      u32 *handle,
-+					      u64 size)
- {
- 	struct vkms_gem_object *obj;
- 	int ret;
-@@ -113,7 +113,6 @@ struct drm_gem_object *vkms_gem_create(struct drm_device *dev,
- 		return ERR_CAST(obj);
- 
- 	ret = drm_gem_handle_create(file, &obj->gem, handle);
--	drm_gem_object_put_unlocked(&obj->gem);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -142,6 +141,8 @@ int vkms_dumb_create(struct drm_file *file, struct drm_device *dev,
- 	args->size = gem_obj->size;
- 	args->pitch = pitch;
- 
-+	drm_gem_object_put_unlocked(gem_obj);
-+
- 	DRM_DEBUG_DRIVER("Created object of size %lld\n", size);
- 
- 	return 0;
+-		if (meta->nr_domains < (index - offset)) {
++		if (index - offset >= meta->nr_domains) {
+ 			offset += meta->nr_domains;
+ 			continue;
+ 		}
 -- 
 2.25.1
 
