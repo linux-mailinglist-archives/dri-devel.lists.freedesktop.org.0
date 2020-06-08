@@ -1,61 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CF71F1BD2
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 17:15:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA531F1BD9
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 17:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A29196E95F;
-	Mon,  8 Jun 2020 15:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8186E960;
+	Mon,  8 Jun 2020 15:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72136E95F;
- Mon,  8 Jun 2020 15:15:53 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id mb16so18752966ejb.4;
- Mon, 08 Jun 2020 08:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jAc4+hPYb1yY730wa2bXInss6UylBdL9J1Kdgm1oOfk=;
- b=hjTuyL/PgSoZK2Url0WaKnYb6GmbIn2RIhgSS7jvChha9QNWnnXoJ0oFwSiV7NUMnx
- p5mjOdbHGGI/nDWLdAU0WVo0e3fH7gycwuWL3RRImSVchYPL9d6TSbAum2hkiX8k4Vyh
- XLIl3z4old+lLGVwzYDqZXlT4qKVolO1ua2m014BbeA0kI50gnZdmpP57zNAMc8/X3WB
- tdrHVl75c3xoWUgN79meoAcEPKkEXWDdGFy/aWKRwKe+tVLT/QmW+5Hn+ngPIXNGKjpt
- 1DGN44+UVS6OS8VOXM0P3hBDTdczSbJ3Qduc2cyaJuK/ucK+a8dJUu0wDurt0ZoU5Kjn
- VZdQ==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B356B6E960
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 15:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591629447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hGKEH1dhLlDad944CTVO7vApiXCC7og9k/LEAwnlxtw=;
+ b=A8+gs2el5RBoxqjjoc5bsJNPcn+wbSVtitbFs+5czDHk2bhCJA1o7BfrADa2YU3Z2qkzIu
+ 8aYUIX1ttaQe87sJARGk8hVLidyj983HAzxuMKB06k/L1i6csTJ92MgD3izOVteq6RBjwb
+ H3pf4b1jJPvS6TLNLFflT5GgI5x9Re8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-puT0mV24NMmPsMnm542QGA-1; Mon, 08 Jun 2020 11:17:23 -0400
+X-MC-Unique: puT0mV24NMmPsMnm542QGA-1
+Received: by mail-wr1-f69.google.com with SMTP id m14so7285953wrj.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 08:17:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jAc4+hPYb1yY730wa2bXInss6UylBdL9J1Kdgm1oOfk=;
- b=rE8zFOvGGxt8QRVB8kR+ftIvqbKKPENFSx4Vg6/CnELKdHT1SRqChI9KftJeYNMAGz
- FcJcdQT8bV02tkQjatklqZUTM5achubYnZWEah37l/6nVlKatnPg4X3nkne46lBwB4r+
- gZDIe3bYe0qPihxVINjUnrgvBh0f26d6L0+DVWKM+un+pEOAlifAL/86O7LzPoZ5cxKT
- xR/peROA+X5RGnnBAuobGgbQ2gHlaySxQLDorDFpdFvL772nL4sb1T60lHIadCzX3GK+
- 3cb0qhQrqoClosKHGufBgfx2Mg1IX73IfwusEkecgZtoVteGN3CbWzypRiMhcl/AtZLv
- AKDg==
-X-Gm-Message-State: AOAM533d8H+SqzaUMnCdw8Iurdk8+cNbKXqQdx/8GtltP+3zPwYyYAcE
- P8z+U/F2SKBN46mDzr38E7reHHd5
-X-Google-Smtp-Source: ABdhPJyMgbpLKlGyZhUI8z/ZAW3nkU1ZZ8mPJQBF2TtWEoNOt4SJ9ZnPmL4KRhcwAvfx4miWcR8ccw==
-X-Received: by 2002:a17:906:1088:: with SMTP id
- u8mr14841998eju.428.1591629352330; 
- Mon, 08 Jun 2020 08:15:52 -0700 (PDT)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:4c1d:b395:5a4b:a43d])
- by smtp.gmail.com with ESMTPSA id cb6sm12713347edb.18.2020.06.08.08.15.51
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hGKEH1dhLlDad944CTVO7vApiXCC7og9k/LEAwnlxtw=;
+ b=aDEwLlP7G4imFz3Ps9R81wIkadoHhGE+mf7jCUdp1f4mNwF/AtZm41r/0tj9KOB3vi
+ b3yz7nLM86fF384hGHiNU4EilNe3ClPeXolpdQFm02U+MGZywT9lJcXxXRfqW7ImM86T
+ 3u9Rkoi4ZQV8+1WaeqhEwQ9pCQgWEEu28HOTD5jcNmQW2i5Wfws9rfhYlPM7bb6gs4a5
+ 3IJLbKCE77COXMo7DchnGI2Lf6aWBcGfIYIdKzY8l1p3vCHls1ulFWb+mG+8x20TqSR1
+ sVS8a1YNpIKKHV3HExsW62koH2oMUEOT82QCpZIWa+eYVsrNyTcgAa0KzvuObPEeeqGx
+ jkow==
+X-Gm-Message-State: AOAM531j3ydEYgZeyI7R3GQfK8BI4FKKbR5pYICNURiiIDbommXxnmBK
+ Vr8iVtS3xyvQl9fWwab2xcozwBdToFkHT3qnoaENoi2OrGC6tvotpaRZ0za2ehVCtvvfkwey9yx
+ 8LcHzBT9lVUHLPM0yttczsYfq52Cv
+X-Received: by 2002:adf:fdcc:: with SMTP id i12mr25340197wrs.313.1591629442391; 
+ Mon, 08 Jun 2020 08:17:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXf+wDGo8rFUPMEZIpkA8dnO+aIv3ypXkkQNVdstQgDrqG+2iMjbON1WrY0DIT27qSEK9x+g==
+X-Received: by 2002:adf:fdcc:: with SMTP id i12mr25340181wrs.313.1591629442198; 
+ Mon, 08 Jun 2020 08:17:22 -0700 (PDT)
+Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
+ by smtp.gmail.com with ESMTPSA id
+ h29sm24085wrc.78.2020.06.08.08.17.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Jun 2020 08:15:51 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: nirmoy.das@amd.com, intel-gfx@lists.freedesktop.org,
- chris@chris-wilson.co.uk, dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mm: remove invalid entry based optimization
-Date: Mon,  8 Jun 2020 17:15:50 +0200
-Message-Id: <20200608151550.1315-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.17.1
+ Mon, 08 Jun 2020 08:17:21 -0700 (PDT)
+Date: Mon, 8 Jun 2020 11:17:18 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH v3 4/4] drm/virtio: Support virtgpu exported resources
+Message-ID: <20200608111647-mutt-send-email-mst@kernel.org>
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-5-stevensd@chromium.org>
+ <20200513123326-mutt-send-email-mst@kernel.org>
+ <CAD=HUj5qcMLw__LfJizR6nzCR9Qmu21Sjk3i0j_8+=rxt1Hk=w@mail.gmail.com>
+ <20200608054234-mutt-send-email-mst@kernel.org>
+ <CAD=HUj6kF2JFyC9c0CY5_f-cv6r97501Z2f8D9x0VhQpRen+bw@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAD=HUj6kF2JFyC9c0CY5_f-cv6r97501Z2f8D9x0VhQpRen+bw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +80,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ virtio-dev@lists.oasis-open.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Jason Wang <jasowang@redhat.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiB0aGUgY3VycmVudCBlbnRyeSBpcyByZWplY3RlZCBhcyBjYW5kaWRhdGUgZm9yIHRoZSBz
-ZWFyY2gKaXQgZG9lcyBub3QgbWVhbiB0aGF0IHdlIGNhbiBhYm9ydCB0aGUgc3VidHJlZSBzZWFy
-Y2guCgpJdCBpcyBwZXJmZWN0bHkgcG9zc2libGUgdGhhdCBvbmx5IHRoZSBhbGlnbm1lbnQsIGJ1
-dCBub3QgdGhlCnNpemUgaXMgdGhlIHJlYXNvbiBmb3IgdGhlIHJlamVjdGlvbi4KClNpZ25lZC1v
-ZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vZHJtX21tLmMgfCA2ICsrLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX21tLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21tLmMKaW5kZXggNjBlOWE5YzkxZTlkLi44
-MmQyODg4ZWI3ZmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW0uYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX21tLmMKQEAgLTQwNiw4ICs0MDYsNyBAQCBuZXh0X2hvbGVfaGln
-aF9hZGRyKHN0cnVjdCBkcm1fbW1fbm9kZSAqZW50cnksIHU2NCBzaXplKQogCQlwYXJlbnRfcmJf
-bm9kZSA9IHJiX3BhcmVudChyYl9ub2RlKTsKIAkJbGVmdF9ub2RlID0gcmJfZW50cnkobGVmdF9y
-Yl9ub2RlLAogCQkJCSAgICAgc3RydWN0IGRybV9tbV9ub2RlLCByYl9ob2xlX2FkZHIpOwotCQlp
-ZiAoKGxlZnRfbm9kZS0+c3VidHJlZV9tYXhfaG9sZSA8IHNpemUgfHwKLQkJICAgICBIT0xFX1NJ
-WkUoZW50cnkpID09IGVudHJ5LT5zdWJ0cmVlX21heF9ob2xlKSAmJgorCQlpZiAobGVmdF9ub2Rl
-LT5zdWJ0cmVlX21heF9ob2xlIDwgc2l6ZSAmJgogCQkgICAgcGFyZW50X3JiX25vZGUgJiYgcGFy
-ZW50X3JiX25vZGUtPnJiX2xlZnQgIT0gcmJfbm9kZSkKIAkJCXJldHVybiByYl9ob2xlX2FkZHJf
-dG9fbm9kZShwYXJlbnRfcmJfbm9kZSk7CiAJfQpAQCAtNDQ2LDggKzQ0NSw3IEBAIG5leHRfaG9s
-ZV9sb3dfYWRkcihzdHJ1Y3QgZHJtX21tX25vZGUgKmVudHJ5LCB1NjQgc2l6ZSkKIAkJcGFyZW50
-X3JiX25vZGUgPSByYl9wYXJlbnQocmJfbm9kZSk7CiAJCXJpZ2h0X25vZGUgPSByYl9lbnRyeShy
-aWdodF9yYl9ub2RlLAogCQkJCSAgICAgIHN0cnVjdCBkcm1fbW1fbm9kZSwgcmJfaG9sZV9hZGRy
-KTsKLQkJaWYgKChyaWdodF9ub2RlLT5zdWJ0cmVlX21heF9ob2xlIDwgc2l6ZSB8fAotCQkgICAg
-IEhPTEVfU0laRShlbnRyeSkgPT0gZW50cnktPnN1YnRyZWVfbWF4X2hvbGUpICYmCisJCWlmIChy
-aWdodF9ub2RlLT5zdWJ0cmVlX21heF9ob2xlIDwgc2l6ZSAmJgogCQkgICAgcGFyZW50X3JiX25v
-ZGUgJiYgcGFyZW50X3JiX25vZGUtPnJiX3JpZ2h0ICE9IHJiX25vZGUpCiAJCQlyZXR1cm4gcmJf
-aG9sZV9hZGRyX3RvX25vZGUocGFyZW50X3JiX25vZGUpOwogCX0KLS0gCjIuMTcuMQoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Mon, Jun 08, 2020 at 07:36:55PM +0900, David Stevens wrote:
+> On Mon, Jun 8, 2020 at 6:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Fri, May 15, 2020 at 04:26:15PM +0900, David Stevens wrote:
+> > > > > +     if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
+> > > > > +             vgdev->has_resource_assign_uuid = true;
+> > > > > +     }
+> > > >
+> > > >
+> > > > Just a question: this relies on DMA bufs so I assume it is
+> > > > not really assumed to work when DMA API is bypassed, right?
+> > > > Rather than worry what does it mean, how about just
+> > > > disabling  this feature without PLATFORM_DMA for now?
+> > >
+> > > By PLATFORM_DMA, do you mean CONFIG_DMA_SHARED_BUFFER?
+> >
+> > Sorry, no. I mean VIRTIO_F_IOMMU_PLATFORM which in the
+> > future will be renamed to VIRTIO_F_PLATFORM_ACCESS.
+> 
+> Shouldn't things work independent of whether or not that feature is
+> set? If a virtio driver properly uses the dma_buf APIs (which virtgpu
+> seems to), then that should take care of any mapping/synchronization
+> related to VIRTIO_F_IOMMU_PLATFORM. If anything, the case where
+> VIRTIO_F_IOMMU_PLATFORM isn't set is easier, since then we know that
+> the "the device has same access [sic] to memory addresses supplied to
+> it as the driver has", according to the specification.
+> 
+> -David
+
+I don't know much about drm so I can't tell, I was hoping Gerd can
+explain.
+
+-- 
+MST
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
