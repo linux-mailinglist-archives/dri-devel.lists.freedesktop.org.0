@@ -1,69 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528D21F1ACA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 16:17:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6BF1F1AD6
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jun 2020 16:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA086E5BF;
-	Mon,  8 Jun 2020 14:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B756E5D5;
+	Mon,  8 Jun 2020 14:19:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDED86E09E;
- Mon,  8 Jun 2020 14:17:24 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058ECMlx123345;
- Mon, 8 Jun 2020 14:17:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=l3UcWtAhxiBlaTx0yL08z4RFwYwzmwNgMDpxROyXy2c=;
- b=zAw8VwiD5iqkLGhL1aXVEIi4CLrzQRBEh28mfkYaouHWv3uxUwhhGE6NqxRJAL+Ra6gP
- oUwwv9YInxjmNOtPvgmgcWsygHPqDThebSPy0Mdl8WOs/oGA+inoU1uD3HUGyKIWYJKA
- 38q9wc2DAhNXYevOvoW+1unsATlmQJzNNx6SMsfiuNr5mwy4Bns3ar39sZUmVicUsEJy
- vIrFnoZcLFhAPoGMZTRog4Wro3aGh5VcfVxibPvlhbu4E9Ac7QdgchX72C+xpQGCScRf
- eSJURwRaJTEpIPuVv2vNtxSgNJ2sLmypAiXdSjVkUR5drlkOcSi49iRLOTHHam8dimzb 1Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 31g3smq1m2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 08 Jun 2020 14:17:17 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 058E7onq167425;
- Mon, 8 Jun 2020 14:17:16 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 31gmqm9fhj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 08 Jun 2020 14:17:16 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 058EH7SL024510;
- Mon, 8 Jun 2020 14:17:08 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 08 Jun 2020 07:17:07 -0700
-Date: Mon, 8 Jun 2020 17:16:57 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: [PATCH] drm/amd/display: Fix indenting in
- dcn30_set_output_transfer_func()
-Message-ID: <20200608141657.GB1912173@mwanda>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727A16E7F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 14:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591625955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gmWs5xiKNyhpgW0opzKEta80LNVnO/dXhPhvbslqD2U=;
+ b=DFvv4EiLGkDAvLcP3rU/GZTMDGZXLvb9vU1SjzggxRCKDS5bDsrpBHFfAuwaxV1hQQZZB2
+ D1L/2sKeVvoc8PSZdVQ9BSbE1zbbNvttSm0BcvrHlYw7lMnouWXr2pzxwUChGwR7JUJPh9
+ a+dcHtvuNsCjjLoSyT8Lr5XBHx6UeZw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-Tpwj6lzePpC-gONBzWog3w-1; Mon, 08 Jun 2020 10:19:14 -0400
+X-MC-Unique: Tpwj6lzePpC-gONBzWog3w-1
+Received: by mail-wr1-f69.google.com with SMTP id d6so7218946wrn.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 07:19:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gmWs5xiKNyhpgW0opzKEta80LNVnO/dXhPhvbslqD2U=;
+ b=MEuo5XXRprjjV/ZsQg7GKpgS5l1l6SEwBiph/ITdXBhdNF/SLstcMQKVZp3LCg9nXJ
+ K/pZZB1Dsh2A6W4xT8ds9sVEMJlQzAJOAp9tn+ghYFkSzHkK1d2QKcISuQEv4y4MG+42
+ PrZMPzJYgRTLnK7yv9kbDumLDvSzZX0qgCvwAjLPAKw8pZ5I60gC220Jb273mSNzYwrx
+ f7lAUFWTRcx+MqJQ8Mozvhb4phqEBNIhILXnTF/qO4QudepMxMYutZ2P2Of7lCLyfxIC
+ yQ8UFQJdl/TJAFKgYy3QG6diUTThCS3ewAh6Xxu5CqlsSmgc8/hglwwExr4XhxY/lDdf
+ N//A==
+X-Gm-Message-State: AOAM530xSRiJZJ2gbbWSwPTYaRukVRn3nwwkNyprHfXcgWr8V3SYsbAO
+ V5NUW8Qr270PXLXNfuTRzwrnDAH+FIFwo52FXnU+J0CgaXNPdFqlX0uryFPkH6Zyn1XR7kSR0wJ
+ gk39zZHeASZSPG+OE7EAMAt7L5UEx
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr23663891wrw.364.1591625950580; 
+ Mon, 08 Jun 2020 07:19:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjPaCr/8TnJQQDekq/pLvjYLG6035xMzBgU5hUdaugwjW4iDPp5TeNz9CgVwCa8rpiGmFfHQ==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr23663857wrw.364.1591625950241; 
+ Mon, 08 Jun 2020 07:19:10 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+ by smtp.gmail.com with ESMTPSA id c206sm24041161wmf.36.2020.06.08.07.19.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jun 2020 07:19:09 -0700 (PDT)
+Subject: Re: [PATCH v2 03/15] pwm: lpss: Add range limit check for the
+ base_unit register value
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20200607181840.13536-1-hdegoede@redhat.com>
+ <20200607181840.13536-4-hdegoede@redhat.com>
+ <20200608035023.GZ2428291@smile.fi.intel.com>
+ <90769dc0-3174-195b-34e0-ef4bb9d9b982@redhat.com>
+ <20200608125156.GL2428291@smile.fi.intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <ecb5ca16-91eb-d7b9-dbaf-ee18cb85d9f3@redhat.com>
+Date: Mon, 8 Jun 2020 16:19:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 mlxscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006080105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9645
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- priorityscore=1501
- lowpriorityscore=0 impostorscore=0 cotscore=-2147483648 suspectscore=0
- spamscore=0 bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0
- mlxlogscore=999 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006080105
+In-Reply-To: <20200608125156.GL2428291@smile.fi.intel.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,45 +85,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-pwm@vger.kernel.org, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, linux-acpi@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These lines are a part of the if statement and they are supposed to
-be indented one more tab.
+Hi,
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 6/8/20 2:51 PM, Andy Shevchenko wrote:
+> On Mon, Jun 08, 2020 at 01:07:12PM +0200, Hans de Goede wrote:
+>> On 6/8/20 5:50 AM, Andy Shevchenko wrote:
+>>> On Sun, Jun 07, 2020 at 08:18:28PM +0200, Hans de Goede wrote:
+>>>> When the user requests a high enough period ns value, then the
+>>>> calculations in pwm_lpss_prepare() might result in a base_unit value of 0.
+>>>>
+>>>> But according to the data-sheet the way the PWM controller works is that
+>>>> each input clock-cycle the base_unit gets added to a N bit counter and
+>>>> that counter overflowing determines the PWM output frequency. Adding 0
+>>>> to the counter is a no-op. The data-sheet even explicitly states that
+>>>> writing 0 to the base_unit bits will result in the PWM outputting a
+>>>> continuous 0 signal.
+>>>
+>>> So, and why it's a problem?
+>>
+>> Lets sya the user requests a PWM output frequency of 100Hz on Cherry Trail
+>> which has a 19200000 Hz clock this will result in 100 * 65536 / 19200000 =
+>> 0.3 -> 0 as base-unit value. So instead of getting 100 Hz the user will
+>> now get a pin which is always outputting low.
+>>
+>> OTOH if we clamp to 1 as lowest value, the user will get 192000000 / 65536
+>> = 292 Hz as output frequency which is as close to the requested value as
+>> we can get while actually still working as a PWM controller.
+> 
+> So, we should basically divide and round up, no?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index ab20320ebc994..37c310dbb3665 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -203,9 +203,9 @@ bool dcn30_set_output_transfer_func(struct dc *dc,
- 					stream->out_transfer_func,
- 					&mpc->blender_params, false))
- 				params = &mpc->blender_params;
--		 /* there are no ROM LUTs in OUTGAM */
--		if (stream->out_transfer_func->type == TF_TYPE_PREDEFINED)
--			BREAK_TO_DEBUGGER();
-+			 /* there are no ROM LUTs in OUTGAM */
-+			if (stream->out_transfer_func->type == TF_TYPE_PREDEFINED)
-+				BREAK_TO_DEBUGGER();
- 		}
- 	}
- 
--- 
-2.26.2
+Yes, that will work for the low limit of base_unit but it will make
+all the other requested period values less accurate.
+
+> At least for 0 we will get 0.
+
+We're dealing with frequency here, but the API is dealing with period,
+so to get 0 HZ the API user would have to request a period of > 1s e.g.
+request 2s / 0.5 Hz but then the user is still not really requesting 0Hz
+(that would correspond with a period of infinity which integers cannot
+represent.
+
+>>>> base_unit values > (base_unit_range / 256), or iow base_unit values using
+>>>> the 8 most significant bits, cause loss of resolution of the duty-cycle.
+>>>> E.g. assuming a base_unit_range of 65536 steps, then a base_unit value of
+>>>> 768 (256 * 3), limits the duty-cycle resolution to 65536 / 768 = 85 steps.
+>>>> Clamp the max base_unit value to base_unit_range / 32 to ensure a
+>>>> duty-cycle resolution of at least 32 steps. This limits the maximum
+>>>> output frequency to 600 KHz / 780 KHz depending on the base clock.
+>>>
+>>> This part I don't understand. Why we limiting base unit? I seems like a
+>>> deliberate regression.
+>>
+>> The way the PWM controller works is that the base-unit gets added to
+>> say a 16 bit (on CHT) counter each input clock and then the highest 8
+>> bits of that counter get compared to the value programmed into the
+>> ON_TIME_DIV bits.
+>>
+>> Lets say we do not clamp and allow any value and lets say the user
+>> selects an output frequency of half the input clock, so base-unit
+>> value is 32768, then the counter will only have 2 values:
+>> 0 and 32768 after that it will wrap around again. So any on time-div
+>> value < 128 will result in the output being always high and any
+>> value > 128 will result in the output being high/low 50% of the time
+>> and a value of 255 will make the output always low.
+>>
+>> So in essence we now only have 3 duty cycle levels, which seems like
+>> a bad idea to me / not what a pwm controller is supposed to do.
+> 
+> It's exactly what is written in the documentation. I can't buy base unit clamp.
+> Though, I can buy, perhaps, on time divisor granularity, i.e.
+>    1/	0% - 25%-1 (0%)
+>    2/	25% - 50% - 75% (50%)
+>    3/	75%+1 - 100% (100%)
+> And so on till we got a maximum resolution (8 bits).
+
+Note that the PWM API does not expose the granularity to the API user,
+which is why I went with just putting a minimum on it of 32 steps.
+
+Anyways I don't have a strong opinion on this, so I'm fine with not clamping
+the base-unit to preserve granularity. We should still clamp it to avoid
+overflow if the user us requesting a really high frequency though!
+
+The old code had:
+
+	base_unit &= base_unit_range;
+
+Which means that if the user requests a too high value, then we first
+overflow base_unit and then truncate it to fit leading to a random
+frequency.
+
+So if we forget my minimal granularity argument, then at a minimum
+we need to replace the above line with:
+
+	base_unit = clamp_t(unsigned long long, base_unit, 1, base_unit_range - 1);
+
+And since we need the clamp anyways we can then keep the current round-closest
+behavior.
+
+Regards,
+
+Hans
 
 _______________________________________________
 dri-devel mailing list
