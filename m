@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529A61F240D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EAA1F241C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 01:20:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 702AC6E9B8;
-	Mon,  8 Jun 2020 23:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE266E9A6;
+	Mon,  8 Jun 2020 23:20:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675D06E9B8
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:19:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 446A86E9A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jun 2020 23:20:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4B99220842;
- Mon,  8 Jun 2020 23:19:29 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E385B2083E;
+ Mon,  8 Jun 2020 23:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591658370;
- bh=vqpwzmqgPum7xJcl5MJ2NPLpxEZEaPhP2tB5CEtYRks=;
+ s=default; t=1591658412;
+ bh=mTiX6BVUQ3jkX0Jh2seMK/MdH4mnuw+Iqv/QKtJSdaw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rVwVODDPLLdtupXmCn2fDw2JWBK/7bzBZzEXi1x4Y48lgPLVlPGs1Qx/Galz4nD4S
- jAHpqdM2i6zPYiC3zA+q/+WpQ4KXOJmIiEe1Pa1oOUAyCEtbO7gadCOk+biIIDZbnS
- 5FNNOpDgOjkTWqkqD0PR7n6uQl4SKu9yG+nDzN0w=
+ b=qKgvNP0N3CNMBG+tALDLCf1u6go5NV7yncc+aIHUYQvPuJ43OlG4s5rlLD07z+ACk
+ bbtkliuqL2qJxxng2XSCZyNfkD95os1vS480LstmAF8hNC841l82VRhJLsHLVKqRFL
+ Zl9pgXGe0sDXnXrTE68oegudT8hjNQWzg31BsRBI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 033/175] drm: rcar-du: Set primary plane zpos
- immutably at initializing
-Date: Mon,  8 Jun 2020 19:16:26 -0400
-Message-Id: <20200608231848.3366970-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 061/175] staging: android: ion: use vmap instead
+ of vm_map_ram
+Date: Mon,  8 Jun 2020 19:16:54 -0400
+Message-Id: <20200608231848.3366970-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
 References: <20200608231848.3366970-1-sashal@kernel.org>
@@ -50,92 +50,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Daniel Stone <daniels@collabora.com>,
- Koji Matsuoka <koji.matsuoka.xm@renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Yoshihito Ogawa <yoshihito.ogawa.kc@renesas.com>,
- Tomohito Esaki <etom@igel.co.jp>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Heiko Carstens <heiko.carstens@de.ibm.com>, dri-devel@lists.freedesktop.org,
+ Michael Kelley <mikelley@microsoft.com>, Paul Mackerras <paulus@ozlabs.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Will Deacon <will@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Christoph Hellwig <hch@lst.de>,
+ David Airlie <airlied@linux.ie>, Gao Xiang <xiang@kernel.org>,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ devel@driverdev.osuosl.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Minchan Kim <minchan@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomohito Esaki <etom@igel.co.jp>
+From: Christoph Hellwig <hch@lst.de>
 
-[ Upstream commit 7982471d01aac33994276bf567c8f1f3a137648a ]
+[ Upstream commit 5bf9917452112694b2c774465ee4dbe441c84b77 ]
 
-According to drm_plane_create_zpos_property() function documentation,
-all planes zpos range should be set if zpos property is supported.
-However, the rcar-du driver didn't set primary plane zpos range. Since
-the primary plane's zpos is fixed, set it immutably.
+vm_map_ram can keep mappings around after the vm_unmap_ram.  Using that
+with non-PAGE_KERNEL mappings can lead to all kinds of aliasing issues.
 
-Reported-by: Yoshihito Ogawa <yoshihito.ogawa.kc@renesas.com>
-Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Daniel Stone <daniels@collabora.com>
-[Turn continue into if ... else ...]
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Gao Xiang <xiang@kernel.org>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Laura Abbott <labbott@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Michael Kelley <mikelley@microsoft.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Nitin Gupta <ngupta@vflare.org>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc: Paul Mackerras <paulus@ozlabs.org>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Will Deacon <will@kernel.org>
+Link: http://lkml.kernel.org/r/20200414131348.444715-4-hch@lst.de
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 16 +++++++++-------
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 14 ++++++++------
- 2 files changed, 17 insertions(+), 13 deletions(-)
+ drivers/staging/android/ion/ion_heap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index c6430027169f..a0021fc25b27 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -785,13 +785,15 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
+index 473b465724f1..0755b11348ed 100644
+--- a/drivers/staging/android/ion/ion_heap.c
++++ b/drivers/staging/android/ion/ion_heap.c
+@@ -99,12 +99,12 @@ int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
  
- 		drm_plane_create_alpha_property(&plane->plane);
+ static int ion_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
+ {
+-	void *addr = vm_map_ram(pages, num, -1, pgprot);
++	void *addr = vmap(pages, num, VM_MAP, pgprot);
  
--		if (type == DRM_PLANE_TYPE_PRIMARY)
--			continue;
--
--		drm_object_attach_property(&plane->plane.base,
--					   rcdu->props.colorkey,
--					   RCAR_DU_COLORKEY_NONE);
--		drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
-+		if (type == DRM_PLANE_TYPE_PRIMARY) {
-+			drm_plane_create_zpos_immutable_property(&plane->plane,
-+								 0);
-+		} else {
-+			drm_object_attach_property(&plane->plane.base,
-+						   rcdu->props.colorkey,
-+						   RCAR_DU_COLORKEY_NONE);
-+			drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
-+		}
- 	}
+ 	if (!addr)
+ 		return -ENOMEM;
+ 	memset(addr, 0, PAGE_SIZE * num);
+-	vm_unmap_ram(addr, num);
++	vunmap(addr);
  
  	return 0;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 5e4faf258c31..f1a81c9b184d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -392,12 +392,14 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 		drm_plane_helper_add(&plane->plane,
- 				     &rcar_du_vsp_plane_helper_funcs);
- 
--		if (type == DRM_PLANE_TYPE_PRIMARY)
--			continue;
--
--		drm_plane_create_alpha_property(&plane->plane);
--		drm_plane_create_zpos_property(&plane->plane, 1, 1,
--					       vsp->num_planes - 1);
-+		if (type == DRM_PLANE_TYPE_PRIMARY) {
-+			drm_plane_create_zpos_immutable_property(&plane->plane,
-+								 0);
-+		} else {
-+			drm_plane_create_alpha_property(&plane->plane);
-+			drm_plane_create_zpos_property(&plane->plane, 1, 1,
-+						       vsp->num_planes - 1);
-+		}
- 	}
- 
- 	return 0;
+ }
 -- 
 2.25.1
 
