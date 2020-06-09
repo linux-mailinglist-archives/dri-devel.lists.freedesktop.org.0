@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A604D1F4F35
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77ED11F4F09
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51796E4FE;
-	Wed, 10 Jun 2020 07:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716BE6E330;
+	Wed, 10 Jun 2020 07:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 565CB6E2C7
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47B16E2C7
  for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:43 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id y11so23349440ljm.9
+Received: by mail-lj1-x244.google.com with SMTP id n23so24970282ljh.7
  for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qWLmy17GC8FK7PHSQ8U9gnOM1EaYpHMCshqC+sIXbKQ=;
- b=PtZ3FafDGDMkjdGGg6qUN0OnJf60f+Oe1vAYv0QO8j+XNPvxdaM+EF1M1nmS3kUY34
- PzCcKoUALCwrQ9YAgAWxt1h153jj2rB9JUt3VwbSI42wowAlMvQsDICNmiCN3OmMmhlz
- CY1E8DYP5EpdGVDvulxqFCerF8gZqK+9S0R9kBF4vRQ+WcPMs+/9kUGzzZaEgQmvypjE
- cktPp97gljvUmgpnCARjetviUy1gBQzaB8Hwu6Bv9qQSn4LRzoPL+Va51fcCKRWmUJdX
- srgHviY8YRp+3xExR9wU8LjU6Kwb6279+fhVfw6UrWq/JJ4sKg+yyHYv2HWGiZkerWL0
- VpNg==
+ bh=AmHb/qTFiuR6DXvA/ffC/nHLs0yGE7r571S6zKct1lc=;
+ b=SEopFD6WA6X0oE0yMZuxwxvYBQFHQJCCJua3OwUoX/QqrQlqZ3M+GzRG9yCFrFseZP
+ KZ+VpLlPociuyizoUcEgoYDc2D/f2f8RlMbG1zK/GokjMg4umvEjcEmwl8hkk4TLK6IM
+ tF61xjPihOqkZaHBYYLssFhno8KgX92dIUtIiLfVbo7+JTImobm6iXLX6gfB3RtJ5DyG
+ XKkEb75lI/cBFh6PztCCh/B2uQerDExyOHECRoi7sA+VgHSYD7KRAvCeDqt0GOgOcVFJ
+ 6NtBgNT9LVFusNmYz3wZSuJN11UhTRhKjbre8gvBXoW09blWoxZd16ni/P2Vt7/5xtgS
+ eQmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qWLmy17GC8FK7PHSQ8U9gnOM1EaYpHMCshqC+sIXbKQ=;
- b=O9yckNbc+sH6s+sVTSVVkyEdZZwX1dAXb9lyMiif4J1aQTI9Hd1h5vMXqmqVZU1iuT
- LGHDB97xqzTOPim0Jal4plR48TqdBuJVWg2/sNdLQubfiuNilfkEA2gr4odfV69O9oum
- 8apy3pmB/Je2kKgcf4i8zgK5wmbvIwISrUAt02d9vWI6i35dp/Ro8wbXX/m9uRAWld3H
- XYq31fobXWvN8w/IXrjieED6Q1sH5gs39797ZuqY5s/NNFwPrNCVzxYfFmgYzqbGhdBH
- oJKubcNAYkvbvvVFC4vvwavKCdzw++74+te1VNAKVxM+PxpZqSfvyrhwOH9wqHmz6kw7
- 4z2A==
-X-Gm-Message-State: AOAM530Ptsqf+EKpKWx+xlFcpV2LVQo9ewoAF7UgFFZDPDJmK83K5dnE
- M/o5x4+/wiMyxbJ+YXv46hA=
-X-Google-Smtp-Source: ABdhPJx+FulYheW9btOx43o7T/Zt34lJsITrRnYXhNXkpA2Lf7W9TFVIgsYgkcea3WXUz4a7xzLCdQ==
-X-Received: by 2002:a2e:97ce:: with SMTP id m14mr13675149ljj.216.1591708481170; 
- Tue, 09 Jun 2020 06:14:41 -0700 (PDT)
+ bh=AmHb/qTFiuR6DXvA/ffC/nHLs0yGE7r571S6zKct1lc=;
+ b=GqGB1kqyVBIpFcVO/sfr7R/NMTOEcFK0gO4kfTMoAfYEhwTpbUi6xvWzLA7LnRnzRy
+ bgKZa0BAwjCnGGOQCusOebRO3zwDmAyl94+jJ1Nt3pvQ21Rs646yi9IIAL+eSO9AAqNe
+ zH1tQjzXlDrgG9UsV9PZPdcDSkgOAWgHsphAeLbE7m3qHy1L0AzHgbrSTHCErTfPQ/Cw
+ Qi27lHfNao24UOSbxMhNBLDEM3H234u093MUhh4BpLKhUNKZ2JiWFapZbljCUF/SXG9/
+ H8AucJWepTeU9g0fNzmDDP5jJEu/IKQ+q7L3CmZneCUPjWtCr+NIL/fqI2Ut8JnL8MJO
+ o3RA==
+X-Gm-Message-State: AOAM531M7kD+jCW3FF7Os6FdmoYozpamzViIcY4qjbjqiyH/0zN4E40h
+ 6M3pd4plQV8oIl9MBm0sEVQ=
+X-Google-Smtp-Source: ABdhPJyyEojgVqUPpi4CNo4lhcaSGa8eRgXbgLQjT8AsOnF95049pCzOGKyIKTvZUwaIiCa8veiYMQ==
+X-Received: by 2002:a2e:9f57:: with SMTP id v23mr11785142ljk.324.1591708482389; 
+ Tue, 09 Jun 2020 06:14:42 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.40
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:14:40 -0700 (PDT)
+ Tue, 09 Jun 2020 06:14:41 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v4 13/37] PM / devfreq: tegra30: Use MC timings for building
- OPP table
-Date: Tue,  9 Jun 2020 16:13:40 +0300
-Message-Id: <20200609131404.17523-14-digetx@gmail.com>
+Subject: [PATCH v4 14/37] PM / devfreq: tegra20: Add error messages to
+ tegra_devfreq_target()
+Date: Tue,  9 Jun 2020 16:13:41 +0300
+Message-Id: <20200609131404.17523-15-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
 References: <20200609131404.17523-1-digetx@gmail.com>
@@ -86,177 +86,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The clk_round_rate() won't be usable for building OPP table once
-interconnect support will be added to the EMC driver because that CLK API
-function limits the rounded rate based on the clk rate that is imposed by
-active clk-users, and thus, the rounding won't work as expected if
-interconnect will set the minimum EMC clock rate before devfreq driver is
-loaded. The struct tegra_mc contains memory timings which could be used by
-the devfreq driver for building up OPP table instead of rounding clock
-rate, this patch implements this idea.
+It's useful to now when something goes wrong instead of failing silently,
+so let's add error messages to tegra_devfreq_target() to prevent situation
+where it fails silently.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/devfreq/tegra30-devfreq.c | 98 ++++++++++++++++++++++---------
- 1 file changed, 70 insertions(+), 28 deletions(-)
+ drivers/devfreq/tegra20-devfreq.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-index 423dd35c95b3..13f93c6038ab 100644
---- a/drivers/devfreq/tegra30-devfreq.c
-+++ b/drivers/devfreq/tegra30-devfreq.c
-@@ -19,6 +19,8 @@
- #include <linux/reset.h>
- #include <linux/workqueue.h>
- 
-+#include <soc/tegra/mc.h>
-+
- #include "governor.h"
- 
- #define ACTMON_GLB_STATUS					0x0
-@@ -153,6 +155,18 @@ struct tegra_devfreq_device {
- 	unsigned long target_freq;
- };
- 
-+struct tegra_devfreq_soc_data {
-+	const char *mc_compatible;
-+};
-+
-+static const struct tegra_devfreq_soc_data tegra30_soc = {
-+	.mc_compatible = "nvidia,tegra30-mc",
-+};
-+
-+static const struct tegra_devfreq_soc_data tegra124_soc = {
-+	.mc_compatible = "nvidia,tegra124-mc",
-+};
-+
- struct tegra_devfreq {
- 	struct devfreq		*devfreq;
- 
-@@ -771,15 +785,44 @@ static struct devfreq_governor tegra_devfreq_governor = {
- 	.interrupt_driven = true,
- };
- 
-+static struct tegra_mc *tegra_get_memory_controller(const char *compatible)
-+{
-+	struct platform_device *pdev;
-+	struct device_node *np;
-+	struct tegra_mc *mc;
-+
-+	np = of_find_compatible_node(NULL, NULL, compatible);
-+	if (!np)
-+		return ERR_PTR(-ENOENT);
-+
-+	pdev = of_find_device_by_node(np);
-+	of_node_put(np);
-+	if (!pdev)
-+		return ERR_PTR(-ENODEV);
-+
-+	mc = platform_get_drvdata(pdev);
-+	if (!mc)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	return mc;
-+}
-+
- static int tegra_devfreq_probe(struct platform_device *pdev)
- {
-+	const struct tegra_devfreq_soc_data *soc_data;
- 	struct tegra_devfreq_device *dev;
- 	struct tegra_devfreq *tegra;
- 	struct devfreq *devfreq;
-+	struct tegra_mc *mc;
- 	unsigned int i;
--	long rate;
+diff --git a/drivers/devfreq/tegra20-devfreq.c b/drivers/devfreq/tegra20-devfreq.c
+index bf504ca4dea2..249d0dc44f6c 100644
+--- a/drivers/devfreq/tegra20-devfreq.c
++++ b/drivers/devfreq/tegra20-devfreq.c
+@@ -44,19 +44,25 @@ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
  	int err;
  
-+	soc_data = of_device_get_match_data(&pdev->dev);
-+
-+	mc = tegra_get_memory_controller(soc_data->mc_compatible);
-+	if (IS_ERR(mc))
-+		return PTR_ERR(mc);
-+
- 	tegra = devm_kzalloc(&pdev->dev, sizeof(*tegra), GFP_KERNEL);
- 	if (!tegra)
- 		return -ENOMEM;
-@@ -825,6 +868,30 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 	opp = devfreq_recommended_opp(dev, freq, flags);
+-	if (IS_ERR(opp))
++	if (IS_ERR(opp)) {
++		dev_err(dev, "failed to find opp for %lu Hz\n", *freq);
+ 		return PTR_ERR(opp);
++	}
+ 
+ 	rate = dev_pm_opp_get_freq(opp);
+ 	dev_pm_opp_put(opp);
+ 
+ 	err = clk_set_min_rate(tegra->emc_clock, rate);
+-	if (err)
++	if (err) {
++		dev_err(dev, "failed to set min rate: %d\n", err);
  		return err;
- 	}
- 
-+	if (!mc->num_timings) {
-+		tegra->max_freq = clk_get_rate(tegra->clock) / KHZ;
-+
-+		err = dev_pm_opp_add(&pdev->dev, tegra->max_freq, 0);
-+		if (err) {
-+			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
-+			return err;
-+		}
 +	}
-+
-+	for (i = 0; i < mc->num_timings; i++) {
-+		/*
-+		 * Memory Controller timings are sorted in ascending clock
-+		 * rate order, so the last timing will be the max freq.
-+		 */
-+		tegra->max_freq = mc->timings[i].rate / KHZ;
-+
-+		err = dev_pm_opp_add(&pdev->dev, tegra->max_freq, 0);
-+		if (err) {
-+			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
-+			goto remove_opps;
-+		}
+ 
+ 	err = clk_set_rate(tegra->emc_clock, 0);
+-	if (err)
++	if (err) {
++		dev_err(dev, "failed to set rate: %d\n", err);
+ 		goto restore_min_rate;
 +	}
-+
- 	reset_control_assert(tegra->reset);
  
- 	err = clk_prepare_enable(tegra->clock);
-@@ -836,37 +903,12 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
- 
- 	reset_control_deassert(tegra->reset);
- 
--	rate = clk_round_rate(tegra->emc_clock, ULONG_MAX);
--	if (rate < 0) {
--		dev_err(&pdev->dev, "Failed to round clock rate: %ld\n", rate);
--		return rate;
--	}
--
--	tegra->max_freq = rate / KHZ;
--
- 	for (i = 0; i < ARRAY_SIZE(actmon_device_configs); i++) {
- 		dev = tegra->devices + i;
- 		dev->config = actmon_device_configs + i;
- 		dev->regs = tegra->regs + dev->config->offset;
- 	}
- 
--	for (rate = 0; rate <= tegra->max_freq * KHZ; rate++) {
--		rate = clk_round_rate(tegra->emc_clock, rate);
--
--		if (rate < 0) {
--			dev_err(&pdev->dev,
--				"Failed to round clock rate: %ld\n", rate);
--			err = rate;
--			goto remove_opps;
--		}
--
--		err = dev_pm_opp_add(&pdev->dev, rate / KHZ, 0);
--		if (err) {
--			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
--			goto remove_opps;
--		}
--	}
--
- 	platform_set_drvdata(pdev, tegra);
- 
- 	tegra->clk_rate_change_nb.notifier_call = tegra_actmon_clk_notify_cb;
-@@ -921,8 +963,8 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra_devfreq_of_match[] = {
--	{ .compatible = "nvidia,tegra30-actmon" },
--	{ .compatible = "nvidia,tegra124-actmon" },
-+	{ .compatible = "nvidia,tegra30-actmon",  .data = &tegra30_soc, },
-+	{ .compatible = "nvidia,tegra124-actmon", .data = &tegra124_soc, },
- 	{ },
- };
+ 	return 0;
  
 -- 
 2.26.0
