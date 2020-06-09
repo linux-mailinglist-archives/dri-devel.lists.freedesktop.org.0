@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FABE1F4F10
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E74B71F4F3C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1CC6E092;
-	Wed, 10 Jun 2020 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57646E46E;
+	Wed, 10 Jun 2020 07:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
  [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7465389F85
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:29:14 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id x18so8559205lji.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:29:14 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FDFD89F85
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:29:15 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id y11so23413463ljm.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VyQqkmAqCRmhebVrr7VbOeFm0zvD99iAEoTluAvbJX0=;
- b=CIAk2MfPqSQmdCUuQCgNDKahaE/vsRM0XdOjTzVjv0eIHVz/7YGvl4ZBWOIsbIEiEp
- F0YWveupWoIbRDD0vm0jMMq24Im00dNFHkqoppPcK5wVvLP55rBx+pAdazj/QChMjIHB
- 4BlGkOjESv0CkG1jnoLlAvYb19XndAFhH76io3uizAeHQ8VKuAVko6l+32vb/u8+nAT8
- j+JkxEo9B+NspuoZYh/QJ7WFn97Xk4QrZEeVo9strAmn9dMq9X8RweFSjAKVqFeLACGq
- 1OAs5nu3f0wr/a/xzgAFp/pjwQvuSgZefIPRMfx5KaiIOi6O9zHLkRPQn9aWqhK6IRRH
- evXA==
+ bh=h/buGMp+Ss9uiUTlhYkjRB/SevbvsV7Suq67TOhl6lM=;
+ b=ZFwKVZmJ8MZiS+yKqDOG1+DhkcEJJCq/2FLEmxlbnI8iOoQ0pvvcX+9WbJnEL4Y07y
+ q0s3iTqppiEmQg/QWgIF1Hh38LG0s+86Y4cCi1NJY325/Lopu1av7FBHu0RuyEhrOCHo
+ v3dI0Ke2MXFFbZRg3xm1m9Rz59DXhcn+5oYzXaLGP99IwsJVaWzk1LYRtIMx3JAKlxrm
+ kfLLc/RO7ZUEDNvYOIatxGVHjr7vO25gfP4ECoZUXDMZ+lR8HkBjTvd6o8LoHd/+Hrs1
+ tU/p5ClJJIl5wYjdTVXUvPcv6l2IYek75ImnUD/eilhDdAzF1monsFjDZvQzVtl5tt4f
+ HBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VyQqkmAqCRmhebVrr7VbOeFm0zvD99iAEoTluAvbJX0=;
- b=KPpsl9ACwW2fmgQLNyqBZsVY2RObdp6QwaJV0S0ZMuSP27bT3dtH81HGyV3I7PPdA3
- poDLO+TVJV6Q2N3ICrh6iDAmVJJlwNkycXiJq+3eX6Lo8aw7BPKS3vw3YH62bPUjBBFd
- RnxoDely7RCGBjzukuWtWP5pRVE8OYNUNI0ijwf8VdoiDAKVqHQnOCb0pteyStJ/RcNz
- 7Fm+IwV2ofrFQgMKtwIqE4obM/pMJt/VI5UGhda9qbK/jJ9x4JBVZGDhfC8Gh8xV+zKd
- m1uRivt2KTJiXtdNc9H1xz0eeHcuItP6b53TG51dDqTLxgk+vXZ4ArbasP6sqSelwhU2
- SFLw==
-X-Gm-Message-State: AOAM532JCjcgvYoVP8zHDI7jiKsnfrI2XiIgXRlsoNfVIMElvPkBc/rZ
- sTulrfA93VNg4vaXWFD7FnA=
-X-Google-Smtp-Source: ABdhPJzbKrzIKoajQPdCZLcQ+VPt3ZjJhuXrc0D2alUYPYU30yDhBVt4EOUseD8KsWPRpYm4RdY4+Q==
-X-Received: by 2002:a05:651c:54e:: with SMTP id
- q14mr12329916ljp.279.1591709352921; 
- Tue, 09 Jun 2020 06:29:12 -0700 (PDT)
+ bh=h/buGMp+Ss9uiUTlhYkjRB/SevbvsV7Suq67TOhl6lM=;
+ b=RvBGUl2mePFnCxy8uIzKcDbb5pyLsH8GDR2Kx0+goUJISgMxXjGja/sOiQ+bTcer/u
+ r2kskczQrllOhRfgQ6Xgd82ogfhfq8JKVshqNX7qk/rnP9H0aRkWmbvAiFXC0LfOloAw
+ NTFXghNqpRWGyUmWLu6rwlfcExeWvYEP8ciVuVAVor8x72DHHyii0uP5FjUuBlVDW/A1
+ apMlu3Az+kD36qIlk+Q3QS6AElz18ltwiK1FE6nDD+Vj0ufPe7VtjNjkWn/+YS2DAuaG
+ +z8Ff3V4KPK2U5oasYZQLwH+vZz3+LCSP1F1576WEQ7isNvagJcmgCDjNn4REP+oSOdd
+ xHuA==
+X-Gm-Message-State: AOAM530L02Rpgux61IVDGXdQ7tKL+i3p+eOiPiL7IJtiXJ2uAR28YEGJ
+ X9pCNskT79frKfy0xOvXsgI=
+X-Google-Smtp-Source: ABdhPJxoPCX31yr+6U+GKJT2eytYYVErrWCMsq+nf1jvEBCuB8LYKRf2OQ7DnGBobtfcAb7fJw8L1A==
+X-Received: by 2002:a2e:8796:: with SMTP id n22mr12640360lji.15.1591709353929; 
+ Tue, 09 Jun 2020 06:29:13 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id s8sm5069821lfc.83.2020.06.09.06.29.11
+ by smtp.gmail.com with ESMTPSA id s8sm5069821lfc.83.2020.06.09.06.29.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:29:12 -0700 (PDT)
+ Tue, 09 Jun 2020 06:29:13 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v6 2/6] drm/of: Make drm_of_find_panel_or_bridge() to check
- graph's presence
-Date: Tue,  9 Jun 2020 16:28:51 +0300
-Message-Id: <20200609132855.20975-3-digetx@gmail.com>
+Subject: [PATCH v6 3/6] drm/tegra: output: Don't leak OF node on error
+Date: Tue,  9 Jun 2020 16:28:52 +0300
+Message-Id: <20200609132855.20975-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609132855.20975-1-digetx@gmail.com>
 References: <20200609132855.20975-1-digetx@gmail.com>
@@ -79,48 +77,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When graph isn't defined in a device-tree, the of_graph_get_remote_node()
-prints a noisy error message, telling that port node is not found. This is
-undesirable behaviour in our case because absence of a panel/bridge graph
-is a valid case. Let's check presence of the local port in a device-tree
-before proceeding with parsing the graph.
+The OF node should be put before returning error in tegra_output_probe(),
+otherwise node's refcount will be leaked.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/drm_of.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tegra/output.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index b50b44e76279..e0652c38f357 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -239,13 +239,24 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 				struct drm_bridge **bridge)
- {
- 	int ret = -EPROBE_DEFER;
--	struct device_node *remote;
-+	struct device_node *local, *remote;
- 
- 	if (!panel && !bridge)
- 		return -EINVAL;
- 	if (panel)
- 		*panel = NULL;
- 
-+	/*
-+	 * of_graph_get_remote_node() produces a noisy error message if port
-+	 * node isn't found and the absence of the port is a legit case here,
-+	 * so at first we silently check presence of the local port.
-+	 */
-+	local = of_graph_get_local_port(np);
-+	if (!local)
-+		return -ENODEV;
+diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
+index e36e5e7c2f69..a6a711d54e88 100644
+--- a/drivers/gpu/drm/tegra/output.c
++++ b/drivers/gpu/drm/tegra/output.c
+@@ -102,10 +102,10 @@ int tegra_output_probe(struct tegra_output *output)
+ 	panel = of_parse_phandle(output->of_node, "nvidia,panel", 0);
+ 	if (panel) {
+ 		output->panel = of_drm_find_panel(panel);
++		of_node_put(panel);
 +
-+	of_node_put(local);
+ 		if (IS_ERR(output->panel))
+ 			return PTR_ERR(output->panel);
+-
+-		of_node_put(panel);
+ 	}
+ 
+ 	output->edid = of_get_property(output->of_node, "nvidia,edid", &size);
+@@ -113,13 +113,12 @@ int tegra_output_probe(struct tegra_output *output)
+ 	ddc = of_parse_phandle(output->of_node, "nvidia,ddc-i2c-bus", 0);
+ 	if (ddc) {
+ 		output->ddc = of_find_i2c_adapter_by_node(ddc);
++		of_node_put(ddc);
 +
- 	remote = of_graph_get_remote_node(np, port, endpoint);
- 	if (!remote)
- 		return -ENODEV;
+ 		if (!output->ddc) {
+ 			err = -EPROBE_DEFER;
+-			of_node_put(ddc);
+ 			return err;
+ 		}
+-
+-		of_node_put(ddc);
+ 	}
+ 
+ 	output->hpd_gpio = devm_gpiod_get_from_of_node(output->dev,
 -- 
 2.26.0
 
