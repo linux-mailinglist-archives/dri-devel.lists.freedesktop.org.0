@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356D11F4F23
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9F81F4F41
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:37:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56706E3F2;
-	Wed, 10 Jun 2020 07:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C8A46E379;
+	Wed, 10 Jun 2020 07:36:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D6F6E2DC
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:15:05 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id e4so25009645ljn.4
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:15:05 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2CAE6E2B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:15:06 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id c17so24953290lji.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:15:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gODohnu3Esv2qlUienjAVp66GFOWKMfQEeRzgVApqO8=;
- b=q4s89G5iheCGw9OQAjJe2Zc6d+GgU/j8R0VUdl5NnYbuBl/XK2ztpBsz2Ef3lR4KuW
- JWioKUSN8scZ1jlt622kBg9OsW6EIhozc9XVBh9w2w0xrIYsWIAkJvIMD8+rOFMTftLP
- raRlky6+p1TUfxgB093IFSiTZWzQdPoRUK5PiNfWmeWUh5I9SA1WV2nEgPooQrYiNAlT
- CMRiHzk6L+H5f3CXce7iG1XxWJn+n9VSEOGY19V/u+3GJwljxr04lUnfd8G0cGsWv0I0
- B9CiR099u9pr5P+TANsbtEG9lIsHOYGauGX8i+f/2OxRYOaLmstOwQH4NOHQvDghYIj3
- yrtg==
+ bh=tBJCplGhLIr24UMQ5QWC+yX2Aq7GS8Qdhh51vOCv+Fo=;
+ b=YfdrmR8+bDHqkjeC4uKTJ5SfBXCYYq9tKkjD6LLQ/KWTgLvccoblWEZvVMmOJgNUQW
+ yhna0ZQ2wTmP0zb72B313sOCkye+v8ngFV0ACPv63pDPymxM9EV1I/BB6XAk+jw4AEnw
+ 8ziPfrb3maHCNCLZvCIoaYXpoXwGdKWtdvk7L3fA69n+mdFZIxDzNI4RQ+NlbTiZyLLY
+ zgdGFkpK0LFJlAh6+kHzsloU/uiyQn/7vSdehhWuN6CHy/8D59reGUo7szSdY2d9NymF
+ BnT//xnb6SwkF9pQHNC+8H/6MQuaRKC0T/qUPu9WuJZ4UDx2Q7XpwQCjYYx/U/FbRcHj
+ KWTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gODohnu3Esv2qlUienjAVp66GFOWKMfQEeRzgVApqO8=;
- b=ImD1nGn5w2nWzyGLofo4yqxxcZMfEVXByXWUef1jI5cCHMwa6TDXk1S7J/LqaRpfbo
- cpjMMWVK74Ulq5iNmWI49o0hOKejahiFZZ3xzjLJb5n60ZmXeeGOsXXE8DgDULz+AQjx
- 83AWJndM5jnEH1/YmwTk2MFXWHpF3dL/fPxo4Uj7RM2u2eXBaMh1lXg0Rm6gLYqTokno
- 0znx+I0kLQ1iQMnb9yS1t7LhzTmvTmGQi7uHbFuv/itmvV6Xml630kwgHjIthhcjYKpo
- moFeMbnfOGe4+U+KKUyUQP6MTYD3HZDTyOMnvbP4aYUn3vE6qk8LSISALVzFfw3w2XOn
- IUKg==
-X-Gm-Message-State: AOAM530aXy+Rl2NBcRuilPcbFm6B3OE7I5H5m3SDabMZ1dXcBozqosEg
- M/0YLMV/EY4Ym7xJrwJDl3I=
-X-Google-Smtp-Source: ABdhPJzd7UuFrG5+2ucgDJRuP1i8bPa5bf+kKpq/V4rrtNjWPdK7qWtfkrqYiWuUfcb/29MAQnnLFw==
-X-Received: by 2002:a05:651c:2cc:: with SMTP id
- f12mr684410ljo.329.1591708504216; 
- Tue, 09 Jun 2020 06:15:04 -0700 (PDT)
+ bh=tBJCplGhLIr24UMQ5QWC+yX2Aq7GS8Qdhh51vOCv+Fo=;
+ b=Yiyl45mkGH7ob0To28QwePWBic/uySsJdCZsqClahZyOxe65I3iTGUtzrHxT6xr0s9
+ tkr60n38GUkBPvWy+drTIOYE3+NDKejSQfoZPLmtMY/gQxgYy1q8i2CT08gVDfV30R5g
+ /9ecWPBphLWUmPZdeZPIqSHQ5n0+aaV2QPwicThkdBvKR1YjczVyCemTWdTaOxvH10FZ
+ UReIiY8TnhVO3XD9Oj17Y7kA/cA0Y9g0kHAYnTjhqvnMlIHwT9UOCUTDNO5ajVX+rgfl
+ iiCBNMYmwF+ZXY+xICObHDXxwP2PEazSux8lLz54UKy9IJBJajvKRix86tcAvEIVBgXq
+ JK0w==
+X-Gm-Message-State: AOAM533fXE/AaG9ucIGz/fk7KGUh+gu8TTTMzQTCUOkb8yd8JkOdBx8u
+ wSpVMF9x0OYocONy1C61T6I=
+X-Google-Smtp-Source: ABdhPJzNyecHovhlUVhrBdJOpBTvH0mJxqq/5f5UqhaEKubxRG53/Ij7m4LrZV7osBBZOUCPJsDegQ==
+X-Received: by 2002:a2e:1311:: with SMTP id 17mr13650703ljt.122.1591708505387; 
+ Tue, 09 Jun 2020 06:15:05 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.15.03
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.15.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:15:03 -0700 (PDT)
+ Tue, 09 Jun 2020 06:15:04 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -57,9 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v4 32/37] memory: tegra20-emc: Create tegra20-devfreq device
-Date: Tue,  9 Jun 2020 16:13:59 +0300
-Message-Id: <20200609131404.17523-33-digetx@gmail.com>
+Subject: [PATCH v4 33/37] memory: tegra30-emc: Continue probing if timings are
+ missing in device-tree
+Date: Tue,  9 Jun 2020 16:14:00 +0300
+Message-Id: <20200609131404.17523-34-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
 References: <20200609131404.17523-1-digetx@gmail.com>
@@ -86,30 +86,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tegra20-devfreq driver provides memory frequency scaling functionality
-and it uses EMC clock for the scaling. Since tegra20-devfreq is a software
-driver, the device for the driver needs to be created manually. Let's do
-it from EMC driver since it provides the clk rate-change functionality.
+EMC driver will become mandatory after turning it into interconnect
+provider because interconnect users, like display controller driver, will
+fail to probe using newer device-trees that have interconnect properties.
+Thus make EMC driver to probe even if timings are missing in device-tree.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra20-emc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/memory/tegra/tegra30-emc.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index ef0f5a69f24b..59d85e527516 100644
---- a/drivers/memory/tegra/tegra20-emc.c
-+++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -877,6 +877,9 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	tegra_emc_debugfs_init(emc);
- 	tegra_emc_interconnect_init(emc);
+diff --git a/drivers/memory/tegra/tegra30-emc.c b/drivers/memory/tegra/tegra30-emc.c
+index 85d4effb8e6f..f6c688bfe41f 100644
+--- a/drivers/memory/tegra/tegra30-emc.c
++++ b/drivers/memory/tegra/tegra30-emc.c
+@@ -988,6 +988,11 @@ static struct device_node *emc_find_node_by_ram_code(struct device *dev)
+ 	u32 value, ram_code;
+ 	int err;
  
-+	if (IS_ENABLED(CONFIG_ARM_TEGRA20_DEVFREQ))
-+		platform_device_register_simple("tegra20-devfreq", -1, NULL, 0);
++	if (of_get_child_count(dev->of_node) == 0) {
++		dev_info(dev, "device-tree doesn't have memory timings\n");
++		return NULL;
++	}
 +
- 	/*
- 	 * Don't allow the kernel module to be unloaded. Unloading adds some
- 	 * extra complexity which doesn't really worth the effort in a case of
+ 	ram_code = tegra_read_ram_code();
+ 
+ 	for_each_child_of_node(dev->of_node, np) {
+@@ -1057,6 +1062,9 @@ static long emc_round_rate(unsigned long rate,
+ 	struct tegra_emc *emc = arg;
+ 	unsigned int i;
+ 
++	if (!emc->num_timings)
++		return clk_get_rate(emc->clk);
++
+ 	min_rate = min(min_rate, emc->timings[emc->num_timings - 1].rate);
+ 
+ 	for (i = 0; i < emc->num_timings; i++) {
+@@ -1263,12 +1271,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	struct tegra_emc *emc;
+ 	int err;
+ 
+-	if (of_get_child_count(pdev->dev.of_node) == 0) {
+-		dev_info(&pdev->dev,
+-			 "device-tree node doesn't have memory timings\n");
+-		return -ENODEV;
+-	}
+-
+ 	np = of_parse_phandle(pdev->dev.of_node, "nvidia,memory-controller", 0);
+ 	if (!np) {
+ 		dev_err(&pdev->dev, "could not get memory controller node\n");
+@@ -1280,10 +1282,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	if (!mc)
+ 		return -ENOENT;
+ 
+-	np = emc_find_node_by_ram_code(&pdev->dev);
+-	if (!np)
+-		return -EINVAL;
+-
+ 	emc = devm_kzalloc(&pdev->dev, sizeof(*emc), GFP_KERNEL);
+ 	if (!emc) {
+ 		of_node_put(np);
+@@ -1297,10 +1295,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	emc->clk_nb.notifier_call = emc_clk_change_notify;
+ 	emc->dev = &pdev->dev;
+ 
+-	err = emc_load_timings_from_dt(emc, np);
+-	of_node_put(np);
+-	if (err)
+-		return err;
++	np = emc_find_node_by_ram_code(&pdev->dev);
++	if (np) {
++		err = emc_load_timings_from_dt(emc, np);
++		of_node_put(np);
++		if (err)
++			return err;
++	}
+ 
+ 	emc->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(emc->regs))
 -- 
 2.26.0
 
