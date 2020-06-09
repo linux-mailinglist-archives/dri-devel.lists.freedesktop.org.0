@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1011F4875
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 22:59:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA931F48AC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 23:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA2BD6E340;
-	Tue,  9 Jun 2020 20:59:05 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7160D6E33F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 20:59:04 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208115] New: amdgpu (likely) - power management and display
- connection problems with an RX590 card
-Date: Tue, 09 Jun 2020 20:59:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h_mailinglists@posteo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-208115-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F7406E33F;
+	Tue,  9 Jun 2020 21:13:07 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A51D6E33F
+ for <dri-devel@freedesktop.org>; Tue,  9 Jun 2020 21:13:06 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id h5so22899352wrc.7
+ for <dri-devel@freedesktop.org>; Tue, 09 Jun 2020 14:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zBBmHR2NoyS+QubiimzU0L7IU6wBl9P6zD1sO/eVLGc=;
+ b=Oi+ddU+KAostZNA7j8ckAf8r8iW8aejXRo9X76srcypk86YhXkzhGOxjFXXc0005P7
+ +WoogoWvbqj89f+yWzWTpW/KjV9MJ775/x9PwEc9BSxBSwEKq0YVOjEirdhM4sYgg3es
+ CqRFvkHFPnJNMDdpbDLNBsTkys4vOI++PJ2IPGWA1lwY+OV6AHUlEozM5e7sLLteR8c2
+ 9rsStwOoxj45zTonoNxhGgIRKrV3ydF6O+ohWUNjbW8SEkeKmUybcKQ60BRj7eDZpasz
+ H4jet7oKEHYWNjxIj7hA75lTyL+U27Y9jn2IxD6TA7AQq3FLJCyxpK9z8VK+qUSIVrtZ
+ FbzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zBBmHR2NoyS+QubiimzU0L7IU6wBl9P6zD1sO/eVLGc=;
+ b=fFIbGQbrsy80bEt5tMvxOzG1rWihu8P5eis8BUOQwXwqAsn0ui7bw3jbBJuon9jy6m
+ YkPTyVIdHT+y7u8sdd+XRvcehBhvP5QpNDkhcT+801JCqjYqPVxuY7Rcrj6iw280XlI6
+ ahuP1eyaJqxWyEk8xvgLVLbocdElDFcwJutXL33JSWBT6gFHqw2vSZw04m9M/b0aNr6T
+ /gZ8TUDqFcxDTr0P34Uryys7o4yTDQ9Ct0+/ab7vO36XFoJV8yLgV2SkfVukhAzrUynR
+ EtBoEcfx1E6llEIKuTSOm93j8YLq3HaqeDv38o1sLPnCl5uB5pnL6QIKWRJrXjUG6xwa
+ O8Vg==
+X-Gm-Message-State: AOAM532drysPjACpVk6NwLT/muNGARPiUlKMGI4Q1iILdU7g3cfSm0f+
+ QNvFVMELed9zKQ4R7XjL8XFlMgyb1mKM25Z0M+4=
+X-Google-Smtp-Source: ABdhPJyNy9PlI0JBIt6oQt6LnRG30WaBY2+s+0BRyOS1BS6/BUJnE3JQVi0bmQKfkf9xq6zQZJ6oA80MJU4Vd1jWoK8=
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr6940219wru.124.1591737184932; 
+ Tue, 09 Jun 2020 14:13:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
+ <20200609003810.1656842-2-colton.w.lewis@protonmail.com>
+In-Reply-To: <20200609003810.1656842-2-colton.w.lewis@protonmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 9 Jun 2020 17:12:53 -0400
+Message-ID: <CADnq5_OYL6yCh0vn0syWRub-JUtRGF6M1ePkq9FP65vvGnnr0g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/amd: correct trivial kernel-doc inconsistencies
+To: Colton Lewis <colton.w.lewis@protonmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,162 +61,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Jiri Kosina <trivial@kernel.org>, dri-devel@freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208115
+On Tue, Jun 9, 2020 at 3:35 AM Colton Lewis
+<colton.w.lewis@protonmail.com> wrote:
+>
+> Silence documentation warnings by correcting kernel-doc comments.
+>
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3388: warning: Excess function parameter 'suspend' description in 'amdgpu_device_suspend'
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3485: warning: Excess function parameter 'resume' description in 'amdgpu_device_resume'
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'tbo' description in 'amdgpu_vram_mgr_del'
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'place' description in 'amdgpu_vram_mgr_del'
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'tbo' description in 'amdgpu_gtt_mgr_del'
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'place' description in 'amdgpu_gtt_mgr_del'
+> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'hdcp_workqueue' not described in 'amdgpu_display_manager'
+> ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'cached_dc_state' not described in 'amdgpu_display_manager'
+>
+> Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
 
-            Bug ID: 208115
-           Summary: amdgpu (likely) - power management and display
-                    connection problems with an RX590 card
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.x.x
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: h_mailinglists@posteo.de
-        Regression: No
+Applied.  Thanks!
 
-Created attachment 289583
-  --> https://bugzilla.kernel.org/attachment.cgi?id=289583&action=edit
-excerpt from dmesg grepping amdgpu
+Alex
 
-Bug report - power management and display connection problems with an RX590
-card
-
-Hello developer team
-Please bear with me, it is my first bug report on the actual kernel. 
-
-It _might_ partially be related to
-https://bugzilla.kernel.org/show_bug.cgi?id=201139
-
-
-background / generic info:
-I have an AMD RX 590,  which is giving me some severe troubles.
-
-I have a multitude of ATI/AMD cards/APUs in use for years, mostly Gentoo Linux,
-a few Deb. derivatives and W32.
-RX 590 (PCIe)
-RX 560 (PCIe)
-HD 5770 (PCIe)
-HD 5670 (PCIe)
-HD 5450 and the likes (PCI, PCIe)
-HD 3870 (PCIe)
-Kabini (Athlon 5350) (AM1)
-Kabini E-2100 (soldered/BGA)
-E-350 (soldered/BGA)
-Geode LX ;-)  (soldered/BGA / companion chip)
-and more
-
-the very chip/card in question:
-
-Sapphire Nitro+ Radeon RX 590 8G 50th Anniversary, 8192 MB GDDR5
-(the golden one)
-
-the following setup it is currently dysfunctional:
-
-RX 590
-Zen+ 2700
-MSI PC-Mate B-350 (latest FW)
-16 GiB RAM
-PSU BeQuiet DarkPowerPro 550 (should be strong enough, and problems are on the
-low power state side)
-Monitor: Eizo EV2436W hooked up via DP
-
-The setup works _nicely_ with a different GPU (e.g. HD 5450, okay, that's not
-amdgpu driver, but anyway).
-My other actual amdgpu card, the RX 560 (Polaris 11) works like a charm in an
-FX 6300 setup.
-The very (Eizo) screen also works flawless on my Kabini (though there I have to
-use a HDMI-2-DVI adapter connection); also an old Geode LX runs fairly well via
-VGA.
-
-
-software
-(Gentoo) Linux (5.x.x kernel; tried various versions over time, dind't really
-get much better), libdrm 2.4.9x / 2.4.10x, mesa 19.3.2 or later,
-xf86-video-amdgpu 19.1.0
-
-
-I built a box based on a Ryzen Zen+ 2700, MSI PC-Mate B-350 mainboard. 
-While I was setting it up I ran my elderly HD 5670 in it and everything was
-fine.
-All other cards in that ZEN+ system I tried so far worked like a charm. Severe
-video transcoding (CPU based), just "desktopping around", severe compiling
-(<-Gentoo): No problem! Power management? No problem!
-
-With the RX 590 it's a sheer pain.
-
-
-problems:
-* GPU not coming back once monitor goes into powersaving
-* link lost on every second power save (screen blanking / suspend / off / BACO)
-        relation to #201139 ?
-* reading EDID problems message I found once in dmesg could be a hint (but it
-seems all others (cards or different boxes) can obtain the EDID)
-* Sometimes it seems I can still send commands via keyboard / work blindly and
-thus I might try to start a xrandr script to switch on/off ("reset") the
-digital outputs?
-* occasionally switching to VT (and back) helps, sometimes not, and the
-hardware is frozen; even REISUB (!) won't work.
-* once I also got it back - but - in max. 800 x 600 resolution
-* sometimes I can re-gain a signal by
-    replugging the cable
-    switching monitor on/off
-
-* freezes (which seem power management related)
-e.g. running a standard compile job
-host system had little to do, compilation was running inside a chroot env.
-(amd64 on amd64)
-next morning: LEDs on mainboard/GPU still glowing, fans spinning, system
-entirely frozen, not even REISUB would help
-nothing in the logs
-from /var/log/emerge.log it must have stopped somewhere in the middle of a
-harmless compile (iirc. it was sys-fs/fuse or something), and I don't use
-strange CFLAGs which might throw illegeal opcodes or something
-
-
-* power consumption is too high during idle
-* strange power readings in "sensors" at least 33 W (should be 10 W on idling
-and 3 W in BACO / zero core)
-* hint: also the W32 / W64 blob showed quite high consumption during desktop
-idle (AMD blob / GPU-Z)
-* wall measured might be slightly better but whole system (Zen+, GPU, 2 SSDs
-and one HDD, hardly any USB periphery no other cards in slots one BD/DVD/CDROM)
-never drops below 55 W, it's rather higher
-
-
-Is there something I might have missed?
-Should I try to obtain more verbose logs? Is there any "x-trace" tool that I
-could run? Radeontop information outputs?
-
-
-I'll attach one of the few logs I could obtain which might contains some hints
-towards what is happening.
-
-on my to-do list: 
-* try a different monitor (though that very EIZO monitor worked like a charm
-with everything else I threw at it)
-* try HDMI instead of DP, but I think I don't have HDMI monitors at hand
-* try the RX590 in  a different box (e.g. my FX 6300 unit, which currently runs
-flawless with an RX 560) - and see if it still misbehaves... 
-
-Sorry for the wall of text.
-
-keywords: link lost, power management problems, powerplay, device reset
-reinitialization, system freeze, x86-64 amd64, amdgpu, AMD RX 590 RX590 Polaris
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 2 --
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c       | 2 --
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c      | 2 --
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 ++
+>  4 files changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index a027a8f7b281..dd7da7b4b696 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3377,7 +3377,6 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+>   * amdgpu_device_suspend - initiate device suspend
+>   *
+>   * @dev: drm dev pointer
+> - * @suspend: suspend state
+>   * @fbcon : notify the fbdev of suspend
+>   *
+>   * Puts the hw in the suspend state (all asics).
+> @@ -3474,7 +3473,6 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
+>   * amdgpu_device_resume - initiate device resume
+>   *
+>   * @dev: drm dev pointer
+> - * @resume: resume state
+>   * @fbcon : notify the fbdev of resume
+>   *
+>   * Bring the hw back to operating state (all asics).
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index 627104401e84..bc01a06546aa 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -268,8 +268,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_mem_type_manager *man,
+>   * amdgpu_gtt_mgr_del - free ranges
+>   *
+>   * @man: TTM memory type manager
+> - * @tbo: TTM BO we need this range for
+> - * @place: placement flags and restrictions
+>   * @mem: TTM memory object
+>   *
+>   * Free the allocated GTT again.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> index d399e5893170..97ad8ffe6c6c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> @@ -407,8 +407,6 @@ static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
+>   * amdgpu_vram_mgr_del - free ranges
+>   *
+>   * @man: TTM memory type manager
+> - * @tbo: TTM BO we need this range for
+> - * @place: placement flags and restrictions
+>   * @mem: TTM memory object
+>   *
+>   * Free the allocated VRAM again.
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index d61186ff411d..86c132ddc452 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -139,10 +139,12 @@ struct amdgpu_dm_backlight_caps {
+>   * @backlight_link: Link on which to control backlight
+>   * @backlight_caps: Capabilities of the backlight device
+>   * @freesync_module: Module handling freesync calculations
+> + * @hdcp_workqueue: AMDGPU content protection queue
+>   * @fw_dmcu: Reference to DMCU firmware
+>   * @dmcu_fw_version: Version of the DMCU firmware
+>   * @soc_bounding_box: SOC bounding box values provided by gpu_info FW
+>   * @cached_state: Caches device atomic state for suspend/resume
+> + * @cached_dc_state: Cached state of content streams
+>   * @compressor: Frame buffer compression buffer. See &struct dm_comressor_info
+>   */
+>  struct amdgpu_display_manager {
+> --
+> 2.26.2
+>
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
