@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED281F4F21
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FB81F4F06
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2294A6E453;
-	Wed, 10 Jun 2020 07:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6299389E7B;
+	Wed, 10 Jun 2020 07:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722536E2D5
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:58 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id a9so21431493ljn.6
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:58 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA7146E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:59 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id 9so24989331ljc.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AG+TQmILbbrHUh9/3fg4pGtkuDKOX+TOZbe0Aj0MBf0=;
- b=EiGhSOh1ZZPDLaZRrYIeHCwKkcNsouIcTJjk0UxCLEePd/J+r5pwQyDnLWuIeTo8cq
- gV/ci5m3Vqo4aYx143Z/Mzz9uozgdSH6gSl1TK3z0y/3VP1U3hPVMHRWHoYj6C5KYwda
- HroGQYKYI0+uAe1cm29/AeJ07m8HZKzojXdxbRujvQUuOgVxLWrHXRtSHD9IQVEaBMuE
- CJJOTef/97J7HEvFO6iicAJq/7/e8AY3fuCvYSQ2AsdLNPDDOCCHQMNqYh/yRrxCSjnF
- 2TpuG2F+JIqqL6kTkzDfCZ448ytMSV92/cOS2dmdXZer+G85yg9YyWrjGVr4Fabt2XoN
- UiLw==
+ bh=IaLwBgEJHAnRll2My7iiWFVAnwuWkHTJFbXmtwzd9MY=;
+ b=aC4glVDhDS6ajEjF584IuzsxAMYQt4toyxqZK52jEcvULo8RhpSOxNphdBVi8P4OLv
+ DLLzp/QJx/rbgkC6qG1/ST9kv+T/ES4KUlqW2rPtOO0Wph6Hs0Z1qgNv0uIgYfPZyEQI
+ llyWxvYfnUXdL6kWcoCuZ/oZ4mbaCS7kAtLPhwpKjUcOfRUx/4ITmOaJcOV6P2sDgKD1
+ iU/pzZsNOp5pZLqWuj4uY2KzElystLbeKXihgwOOzUnCcTr5/E5sjMPqhFPjtwPOwYxv
+ SylCskYpcyi9T2zgRF0lQBRLmg5udBC3dmOTS4p3B+WxlFyFBszPy/gE4DMm2ero/0pK
+ 9nlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AG+TQmILbbrHUh9/3fg4pGtkuDKOX+TOZbe0Aj0MBf0=;
- b=QqpQYZglBXt++S92g7k+QVzb5V53p4B3ooHJd9i3geHa7M0uyV8XA7ILKTwr5WyeR/
- KbRuuz5Iz+eZXbya12mwCm0/c+UL3eKhKJ1bZ6x7q+kVydurliIPEbDvHfK+NVjOlT1U
- 2zSds1JdjyTLFnvZUy7AJxK1O6LiLfZBJ0kcd1a74328raAVzQMHqXVnXKTvtHf5T3/5
- SLWIv4+WeDHjyb215Ovf0mmMF+2CYMvQdZGwPp8bKPazEjjdvGRfLpJ9W7VtcV4wmoMn
- XS+E1bX26MP+IHydMDrolwpUhmKPeoeQNy8stqdfgGTVGGGYUNt0/x6okyh32CiCKseY
- 8Rsg==
-X-Gm-Message-State: AOAM530b6pPZlr56wnDpL5qslnZmuWeFwjhVYL3zLoSlxVcPE5J9/OuR
- xhFSkF6q06og4hRFtUX0dE8=
-X-Google-Smtp-Source: ABdhPJyiYfbTzP2nZhf3fgnnkhVUB7Ysq7mpxP+V8W5Yvzw4oCoUQgYrSVYyt565zMhI60iILUnTfQ==
-X-Received: by 2002:a2e:89da:: with SMTP id c26mr13060673ljk.447.1591708496791; 
- Tue, 09 Jun 2020 06:14:56 -0700 (PDT)
+ bh=IaLwBgEJHAnRll2My7iiWFVAnwuWkHTJFbXmtwzd9MY=;
+ b=VTVQypCSEHlT2/IyBKVrb4RQ7QSmYJ2rjC3vJK7am7PM3fV1R4Ye0pOVgUtDeEHUEk
+ 4JuntAxQj6wS0SK/yP4l+hO8YDpYxBQpz6TTO2pB9tyhzEjs8wp944UpJ9NMBsOimQP3
+ soZyPPaD4U+403L94WHndc6HamF8FFvwg+iSBK7RTrRTt98oCikbr6M5/tfWEcqXoKBE
+ Q/MKS7v+gDKcN0miQCxFtF9olTVz7yusKaLZJMTnoihcwgmP6y42I83AcHRg35w2Gpaw
+ WOWcId01fuoigE2OOc52H0T92N+fyDwRmw9jtlWsW0dP9MJgHwd/iCQaUszsbPurAEED
+ ZgOQ==
+X-Gm-Message-State: AOAM530lV0gf/j5yTgcSJWOmisRQXzMMJy9+DzwxbSAwL+JcJCRUVDmg
+ BrzKkqt9usNgvl4oeBlTY+8=
+X-Google-Smtp-Source: ABdhPJwqzjarfix9XEE4prNh4Lc0nEjZ80Nvozu6vayHIphT+WuI7ooDdLSLgKJLy9OUPp/ATKnKnA==
+X-Received: by 2002:a2e:b4b3:: with SMTP id q19mr13086844ljm.90.1591708498010; 
+ Tue, 09 Jun 2020 06:14:58 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.55
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:14:56 -0700 (PDT)
+ Tue, 09 Jun 2020 06:14:57 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v4 26/37] ARM: tegra: Add interconnect properties to Tegra30
- device-tree
-Date: Tue,  9 Jun 2020 16:13:53 +0300
-Message-Id: <20200609131404.17523-27-digetx@gmail.com>
+Subject: [PATCH v4 27/37] interconnect: Relax requirement in
+ of_icc_get_from_provider()
+Date: Tue,  9 Jun 2020 16:13:54 +0300
+Message-Id: <20200609131404.17523-28-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
 References: <20200609131404.17523-1-digetx@gmail.com>
@@ -81,80 +81,38 @@ Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add interconnect properties to the memory controller, external memory
-controller and the display controller nodes in order to describe hardware
-interconnection.
-
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra30.dtsi | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index d2d05f1da274..2b183025629f 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -208,6 +208,15 @@ dc@54200000 {
- 
- 			nvidia,head = <0>;
- 
-+			interconnects = <&mc TEGRA30_MC_DISPLAY0A &emc>,
-+					<&mc TEGRA30_MC_DISPLAY0B &emc>,
-+					<&mc TEGRA30_MC_DISPLAY0C &emc>,
-+					<&mc TEGRA30_MC_DISPLAY1B &emc>;
-+			interconnect-names = "display0a",
-+					     "display0b",
-+					     "display0c",
-+					     "display1b";
-+
- 			rgb {
- 				status = "disabled";
- 			};
-@@ -227,6 +236,15 @@ dc@54240000 {
- 
- 			nvidia,head = <1>;
- 
-+			interconnects = <&mc TEGRA30_MC_DISPLAY0AB &emc>,
-+					<&mc TEGRA30_MC_DISPLAY0BB &emc>,
-+					<&mc TEGRA30_MC_DISPLAY0CB &emc>,
-+					<&mc TEGRA30_MC_DISPLAY1BB &emc>;
-+			interconnect-names = "display0a",
-+					     "display0b",
-+					     "display0c",
-+					     "display1b";
-+
- 			rgb {
- 				status = "disabled";
- 			};
-@@ -733,15 +751,18 @@ mc: memory-controller@7000f000 {
- 
- 		#iommu-cells = <1>;
- 		#reset-cells = <1>;
-+		#interconnect-cells = <1>;
- 	};
- 
--	memory-controller@7000f400 {
-+	emc: memory-controller@7000f400 {
- 		compatible = "nvidia,tegra30-emc";
- 		reg = <0x7000f400 0x400>;
- 		interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&tegra_car TEGRA30_CLK_EMC>;
- 
- 		nvidia,memory-controller = <&mc>;
-+
-+		#interconnect-cells = <0>;
- 	};
- 
- 	fuse@7000f800 {
--- 
-2.26.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgoKVGhpcyBwYXRjaCBy
+ZWxheGVzIHRoZSBjb25kaXRpb24gaW4gb2ZfaWNjX2dldF9mcm9tX3Byb3ZpZGVyKCkgc28gdGhh
+dCBpdAppcyBubyBsb25nZXIgcmVxdWlyZWQgdG8gc2V0ICNpbnRlcmNvbm5lY3QtY2VsbHMgPSA8
+MT4gaW4gdGhlIERULiBJbiBjYXNlCm9mIHRoZSBkZXZmcmVxIGRyaXZlciBmb3IgZXh5bm9zLWJ1
+cywgI2ludGVyY29ubmVjdC1jZWxscyBpcyBhbHdheXMgemVyby4KClNpZ25lZC1vZmYtYnk6IEFy
+dHVyIMWad2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KW2RpZ2V0eEBnbWFpbC5jb206IGFk
+ZGVkIGNlbGxzX251bSBjaGVja2luZyBmb3Igb2ZfaWNjX3hsYXRlX29uZWNlbGwoKV0KU2lnbmVk
+LW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgotLS0KIGRyaXZlcnMv
+aW50ZXJjb25uZWN0L2NvcmUuYyB8IDExICsrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMTAg
+aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW50ZXJj
+b25uZWN0L2NvcmUuYyBiL2RyaXZlcnMvaW50ZXJjb25uZWN0L2NvcmUuYwppbmRleCBlNWY5OTg3
+NDQ1MDEuLmNiMTQzNDIxY2E2NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29y
+ZS5jCisrKyBiL2RyaXZlcnMvaW50ZXJjb25uZWN0L2NvcmUuYwpAQCAtMzM5LDcgKzMzOSw3IEBA
+IHN0YXRpYyBzdHJ1Y3QgaWNjX25vZGUgKm9mX2ljY19nZXRfZnJvbV9wcm92aWRlcihzdHJ1Y3Qg
+b2ZfcGhhbmRsZV9hcmdzICpzcGVjKQogCXN0cnVjdCBpY2Nfbm9kZSAqbm9kZSA9IEVSUl9QVFIo
+LUVQUk9CRV9ERUZFUik7CiAJc3RydWN0IGljY19wcm92aWRlciAqcHJvdmlkZXI7CiAKLQlpZiAo
+IXNwZWMgfHwgc3BlYy0+YXJnc19jb3VudCAhPSAxKQorCWlmICghc3BlYykKIAkJcmV0dXJuIEVS
+Ul9QVFIoLUVJTlZBTCk7CiAKIAltdXRleF9sb2NrKCZpY2NfbG9jayk7CkBAIC05NjcsNiArOTY3
+LDE1IEBAIEVYUE9SVF9TWU1CT0xfR1BMKGljY19ub2Rlc19yZW1vdmUpOwogICovCiBpbnQgaWNj
+X3Byb3ZpZGVyX2FkZChzdHJ1Y3QgaWNjX3Byb3ZpZGVyICpwcm92aWRlcikKIHsKKwlzdHJ1Y3Qg
+ZGV2aWNlX25vZGUgKm5wID0gcHJvdmlkZXItPmRldi0+b2Zfbm9kZTsKKwl1MzIgY2VsbHNfbnVt
+OworCWludCBlcnI7CisKKwllcnIgPSBvZl9wcm9wZXJ0eV9yZWFkX3UzMihucCwgIiNpbnRlcmNv
+bm5lY3QtY2VsbHMiLCAmY2VsbHNfbnVtKTsKKwlpZiAoV0FSTl9PTihlcnIpKQorCQlyZXR1cm4g
+ZXJyOworCWlmIChXQVJOX09OKHByb3ZpZGVyLT54bGF0ZSA9PSBvZl9pY2NfeGxhdGVfb25lY2Vs
+bCAmJiBjZWxsc19udW0gIT0gMSkpCisJCXJldHVybiAtRUlOVkFMOwogCWlmIChXQVJOX09OKCFw
+cm92aWRlci0+c2V0KSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAJaWYgKFdBUk5fT04oIXByb3ZpZGVy
+LT54bGF0ZSkpCi0tIAoyLjI2LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
