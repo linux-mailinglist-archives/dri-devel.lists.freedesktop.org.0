@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB3A1F42F0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 19:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1C11F42EB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 19:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 810736E30F;
-	Tue,  9 Jun 2020 17:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4613D6E316;
+	Tue,  9 Jun 2020 17:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B505389D43
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 17:48:36 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E15976E312
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 17:48:37 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: aratiu) with ESMTPSA id D6EA82A3BF5
+ (Authenticated sender: aratiu) with ESMTPSA id BD25F2A3BE2
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 To: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-rockchip@lists.infradead.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v9 04/11] drm: bridge: dw_mipi_dsi: remove bind/unbind API
-Date: Tue,  9 Jun 2020 20:49:52 +0300
-Message-Id: <20200609174959.955926-5-adrian.ratiu@collabora.com>
+Subject: [PATCH v9 05/11] dt-bindings: display: add i.MX6 MIPI DSI host
+ controller doc
+Date: Tue,  9 Jun 2020 20:49:53 +0300
+Message-Id: <20200609174959.955926-6-adrian.ratiu@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200609174959.955926-1-adrian.ratiu@collabora.com>
 References: <20200609174959.955926-1-adrian.ratiu@collabora.com>
@@ -38,107 +38,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sjoerd Simons <sjoerd.simons@collabora.com>,
+ Adrian Pop <pop.adrian61@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Martyn Welch <martyn.welch@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
  Philippe CORNU <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Yannick FERTRE <yannick.fertre@st.com>,
  Andrzej Hajda <a.hajda@samsung.com>, linux-imx@nxp.com, kernel@collabora.com,
  linux-stm32@st-md-mailman.stormreply.com,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DW mipi-dsi bind/unbind API was only used to attach the bridge to
-the encoder in the Rockchip driver, but with the addition of i.MX6 it
-gets more complicated because the i.MX6 part of the bridge is another
-bridge in itself which needs to daisy chain to the dw-mipi-dsi core.
+This provides an example DT binding for the MIPI DSI host controller
+present on the i.MX6 SoC based on Synopsis DesignWare v1.01 IP.
 
-So, instead of extending this API to allow daisy-chaining bridges and
-risk having trouble with multiple connectors added by various bridges
-just delete it and let the DW core bridge be accesed by SoC-specific
-parts via the of_drm_find_bridge() API.
-
-This just fixes the Rockchip driver for the bind() deprecation, it
-doesn't convert it to a proper bridge daisy-chain with simple encoder
-and bridge .attach call-backs, that refactoring work should be done
-separately (and the i.MX6 driver can be used as reference).
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org
+Tested-by: Adrian Pop <pop.adrian61@gmail.com>
+Tested-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Signed-off-by: Sjoerd Simons <sjoerd.simons@collabora.com>
+Signed-off-by: Martyn Welch <martyn.welch@collabora.com>
 Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
 ---
-New in v9.
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 22 -------------------
- .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  7 +++---
- 2 files changed, 3 insertions(+), 26 deletions(-)
+Changes since v8:
+  - Fixed small compatible string typo caught by checkpatch
+  - Added custom select for 'fsl,imx6-mipi-dsi' (Rob)
+  - Replaced additionalProperties -> unevaluatedProperties (Rob)
+  - Dropped all nodes not adding any new constraints apart from
+  the recently upstreamed snps,dw-mipi-dsi.yaml (Rob)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 16fd87055e7b7..70df0578cbe7b 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -1453,28 +1453,6 @@ void dw_mipi_dsi_remove(struct dw_mipi_dsi *dsi)
- }
- EXPORT_SYMBOL_GPL(dw_mipi_dsi_remove);
- 
--/*
-- * Bind/unbind API, used from platforms based on the component framework.
-- */
--int dw_mipi_dsi_bind(struct dw_mipi_dsi *dsi, struct drm_encoder *encoder)
--{
--	int ret;
--
--	ret = drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
--	if (ret) {
--		DRM_ERROR("Failed to initialize bridge with drm\n");
--		return ret;
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(dw_mipi_dsi_bind);
--
--void dw_mipi_dsi_unbind(struct dw_mipi_dsi *dsi)
--{
--}
--EXPORT_SYMBOL_GPL(dw_mipi_dsi_unbind);
--
- MODULE_AUTHOR("Chris Zhong <zyw@rock-chips.com>");
- MODULE_AUTHOR("Philippe Cornu <philippe.cornu@st.com>");
- MODULE_DESCRIPTION("DW MIPI DSI host controller driver");
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 3feff0c45b3f7..86f87c7ea03cf 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -876,6 +876,7 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
- {
- 	struct dw_mipi_dsi_rockchip *dsi = dev_get_drvdata(dev);
- 	struct drm_device *drm_dev = data;
-+	struct drm_bridge *dw_bridge = of_drm_find_bridge(dev->of_node);
- 	struct device *second;
- 	bool master1, master2;
- 	int ret;
-@@ -929,9 +930,9 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
- 		return ret;
- 	}
- 
--	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder);
-+	ret = drm_bridge_attach(&dsi->encoder, dw_bridge, NULL, 0);
- 	if (ret) {
--		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
-+		DRM_DEV_ERROR(dev, "Failed to attach DW DSI bridge: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -947,8 +948,6 @@ static void dw_mipi_dsi_rockchip_unbind(struct device *dev,
- 	if (dsi->is_slave)
- 		return;
- 
--	dw_mipi_dsi_unbind(dsi->dmd);
--
- 	clk_disable_unprepare(dsi->pllref_clk);
- }
- 
+Changes since v7:
+  - Clarified port@0,1 descriptions, marked them as required and
+  added missing port@0 in example (Laurent)
+
+Changes since v6:
+  - Added ref to the newly created snps,dw-mipi-dsi.yaml (Laurent)
+  - Moved *-cells properties outside patternProperties (Laurent)
+  - Removed the panel port documentation (Laurent)
+  - Wrapped lines at 80 chars, typo fixes, sort includes (Laurent)
+
+Changes since v5:
+  - Fixed missing reg warning (Fabio)
+  - Updated dt-schema and fixed warnings (Rob)
+
+Changes since v4:
+  - Fixed yaml binding to pass `make dt_binding_check dtbs_check`
+  and addressed received binding feedback (Rob)
+
+Changes since v3:
+  - Added commit message (Neil)
+  - Converted to yaml format (Neil)
+  - Minor dt node + driver fixes (Rob)
+  - Added small panel example to the host controller binding
+
+Changes since v2:
+  - Fixed commit tags (Emil)
+---
+ .../display/imx/fsl,mipi-dsi-imx6.yaml        | 112 ++++++++++++++++++
+ 1 file changed, 112 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+new file mode 100644
+index 0000000000000..86093729fd5f9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,mipi-dsi-imx6.yaml
+@@ -0,0 +1,112 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,mipi-dsi-imx6.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX6 DW MIPI DSI Host Controller
++
++maintainers:
++  - Adrian Ratiu <adrian.ratiu@collabora.com>
++
++description: |
++  The i.MX6 DSI host controller is a Synopsys DesignWare MIPI DSI v1.01
++  IP block with a companion PHY IP.
++
++  These DT bindings follow the Synopsys DW MIPI DSI bindings defined in
++  Documentation/devicetree/bindings/display/bridge/dw_mipi_dsi.txt with
++  the following device-specific properties.
++
++allOf:
++  - $ref: ../bridge/snps,dw-mipi-dsi.yaml#
++
++# Need a custom select here or 'snps,dw-mipi-dsi' will match lots of nodes
++select:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - fsl,imx6-mipi-dsi
++  required:
++    - compatible
++
++properties:
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  compatible:
++    items:
++      - const: fsl,imx6-mipi-dsi
++      - const: snps,dw-mipi-dsi
++
++  interrupts:
++    maxItems: 1
++
++  fsl,gpr:
++    description:
++      Phandle to the iomuxc-gpr region containing the multiplexer ctrl register.
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++unevaluatedProperties: false
++
++required:
++  - "#address-cells"
++  - "#size-cells"
++  - compatible
++  - interrupts
++
++examples:
++  - |+
++    #include <dt-bindings/clock/imx6qdl-clock.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    dsi: dsi@21e0000 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        compatible = "fsl,imx6-mipi-dsi", "snps,dw-mipi-dsi";
++        reg = <0x021e0000 0x4000>;
++        interrupts = <0 102 IRQ_TYPE_LEVEL_HIGH>;
++        fsl,gpr = <&gpr>;
++        clocks = <&clks IMX6QDL_CLK_MIPI_CORE_CFG>,
++                 <&clks IMX6QDL_CLK_MIPI_IPG>;
++        clock-names = "ref", "pclk";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@0 {
++                reg = <0>;
++                mipi_mux_0: endpoint {
++                    remote-endpoint = <&ipu1_di0_mipi>;
++                };
++            };
++            port@1 {
++                reg = <1>;
++                dsi_out: endpoint {
++                    remote-endpoint = <&panel_in>;
++                };
++            };
++        };
++
++        panel@0 {
++            compatible = "sharp,ls032b3sx01";
++            reg = <0>;
++            reset-gpios = <&gpio6 8 GPIO_ACTIVE_LOW>;
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++                    panel_in: endpoint {
++                        remote-endpoint = <&dsi_out>;
++                    };
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.27.0
 
