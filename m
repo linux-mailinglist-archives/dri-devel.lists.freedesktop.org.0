@@ -1,46 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF7A1F4F27
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C861F4F13
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819736E3BB;
-	Wed, 10 Jun 2020 07:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE986E406;
+	Wed, 10 Jun 2020 07:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA93389262
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 14:30:14 +0000 (UTC)
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
- by smtp1.de.adit-jv.com (Postfix) with ESMTP id 737B73C0579;
- Tue,  9 Jun 2020 16:30:09 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
- by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KG_Oi9lxvAa8; Tue,  9 Jun 2020 16:30:04 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 6D0653C00BB;
- Tue,  9 Jun 2020 16:30:04 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.5) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 9 Jun 2020
- 16:30:03 +0200
-Date: Tue, 9 Jun 2020 16:29:59 +0200
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200609142959.GA621@lxhi-065.adit-jv.com>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <20200605132900.on527xcggg6f6pil@uno.localdomain>
- <20200605134124.GA28734@lxhi-065.adit-jv.com>
- <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
- <20200607024158.GD7339@pendragon.ideasonboard.com>
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 614C66E061
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 15:12:37 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 59E388088;
+ Tue,  9 Jun 2020 15:13:26 +0000 (UTC)
+Date: Tue, 9 Jun 2020 08:12:32 -0700
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH] drm/omap: force runtime PM suspend on system suspend
+Message-ID: <20200609151232.GR43721@atomide.com>
+References: <20200609103220.753969-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200607024158.GD7339@pendragon.ideasonboard.com>
-X-Originating-IP: [10.72.94.5]
+In-Reply-To: <20200609103220.753969-1-tomi.valkeinen@ti.com>
 X-Mailman-Approved-At: Wed, 10 Jun 2020 07:35:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,46 +37,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, airlied@linux.ie, mrodin@de.adit-jv.com,
- dri-devel@lists.freedesktop.org, Eugeniu Rosca <erosca@de.adit-jv.com>,
- Eugeniu Rosca <roscaeugeniu@gmail.com>,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- Jacopo Mondi <jacopo@jmondi.org>, gotthard.voellmeke@renesas.com,
- koji.matsuoka.xm@renesas.com, horms@verge.net.au, seanpaul@chromium.org,
- michael.dege@renesas.com, Harsha.ManjulaMallikarjun@in.bosch.com,
- ezequiel@collabora.com, efriedrich@de.adit-jv.com,
- ChaitanyaKumar.Borah@in.bosch.com, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, VenkataRajesh.Kalakodima@in.bosch.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+* Tomi Valkeinen <tomi.valkeinen@ti.com> [200609 10:33]:
+> Use suspend_late and resume_early callbacks in DSS submodules to force
+> runtime PM suspend and resume.
+> 
+> We use suspend_late callback so that omapdrm's system suspend callback
+> is called first, as that will disable all the display outputs after
+> which it's safe to force DSS into suspend.
 
-On Sun, Jun 07, 2020 at 05:41:58AM +0300, Laurent Pinchart wrote:
-> Note that the CMM driver is controlled by the DU driver. As the DU
-> driver will reenable the display during resume, it will call
-> rcar_du_cmm_setup() at resume time, which will reprogram the CMM. There
-> should thus be no need for manual suspend/resume handling in the CMM as
-> far as I can tell, but we need to ensure that the CMM is suspended
-> before and resumed after the DU. I believe this could be implemented
-> using device links.
+I think we can avoid the pm_runtime_force use if we have omapdrm
+implement both .suspend and .suspend_late. In that case suspend would
+only disable the display outputs, then suspend_late would take care
+of switching off the lights and release the last PM runtime count
+after the children are done suspending.
 
-Based on below quote [*] from Jacopo's commit [**], isn't the device
-link relationship already in place?
+Looks like we have already something similar done for i915_drv.c, so
+it should be doable. Maybe the disconnect can be done in .prepare and
+then .suspend_late is not even needed?
 
-[*] Quote from commit [**]
-   Enforce the probe and suspend/resume ordering of DU and CMM by
-   creating a stateless device link between the two.
+And I think at that point the children can just use the standard
+UNIVERSAL_DEV_PM_OPS without pm_runtime_force usage hopefully :)
 
-[**] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8de707aeb45241
-    ("drm: rcar-du: kms: Initialize CMM instances")
+Regards,
 
--- 
-Best regards,
-Eugeniu Rosca
+Tony
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
