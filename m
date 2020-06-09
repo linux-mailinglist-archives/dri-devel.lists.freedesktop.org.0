@@ -2,131 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593721F3A64
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 14:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE5B1F3A7F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 14:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60FBC89F41;
-	Tue,  9 Jun 2020 12:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022576E045;
+	Tue,  9 Jun 2020 12:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com
- [149.117.87.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA5CF89EFF;
- Tue,  9 Jun 2020 12:08:28 +0000 (UTC)
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id DDD10C03B4;
- Tue,  9 Jun 2020 12:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1591704508; bh=dbEE7GzfSwi+HrT2VZ+ofhqGb/3sRQKM5eWMO25+ji8=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=A5oS+p17UtQMKDTxFxK7li0NodPz+S90ID7FJfbMzacuxc76fN0x1SnZOJvKwm4vb
- JTMcp7WqyEnlz78GppiWln/xVlmUJzUNme1+QIxhV0hBWfQaEZa66fQ5cigcHaXRuz
- QWHMcFFvWUzQ7ZCNaCCi3SbXaEgURvXfh4pQXQ1IMUOHfYqryoNjS8pXaRGKxUqFql
- 7noTDw7ypm4NQtfoNp1htMf7miu6SM1Ya8fH18OoeOv6/ZYRT/9Iw6iuCFUfQXflP/
- EqfveqZZYYoczW0RXY46pUTZKxj3mp6x/57CpfXppepUU7S7m6Xn783/gG03CckJnz
- PHRPoJHols4lQ==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
- [10.4.161.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 3B85BA0080;
- Tue,  9 Jun 2020 12:08:18 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass (mailfrom) smtp.mailfrom=synopsys.com
- (client-ip=104.47.58.170; helo=nam11-bn8-obe.outbound.protection.outlook.com;
- envelope-from=paltsev@synopsys.com; receiver=<UNKNOWN>)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="aEmfVGnq";
- dkim-atps=neutral
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 86412800D1;
- Tue,  9 Jun 2020 12:08:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/HkukF8Y1hsjieoTA86sifzgb9P4c5DPoWf1NNt1lWRO752pM9kV5ozYBUt1IlhEbMUK4tIywZDpxZNnAYs7SXX4yoD6r6tyh4ZU7d6AkmQTbS5MmXPLTRX/R3/KE0CA/Qoi6t62fhEXrjg3s7PpT3FvR6C6HtgJcAzxYk32/N8QjCHVtmso+We8KqXrfevbXONK96f9y8TjMc7JD2Y+29nsqKYD00mpgwSu4idjpQwBgk5r63nRiycY8q7mqkzmOIZGGxPBgkaAudh90ZzoZIsID41OmL+UqA4ZJeWVreE2j6xU8QZOL0TIQugaOKeEA47532RoY0AWuFgB/lwfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CneOXpuZMkPoNxwfoyN3awie1nrGBIJnMia15+Y870o=;
- b=T/HcopoNAbV9XWbm6PF36AwiYgucNsfjJ+X9grx7OgHQAWRYzrA8beOKepgh1Q0X697r7iKKxaRUfHINJGC+6ttazPE741sLtrZkh2u7iEe82FypGH3t563N4rURQIZOL+ATpJcaeMv4jlsTQJ9VTVpdi3rvJdl5y0L3kN/wC9IHI4X4/a0s7jtqX25HMFWribYlsHkv/K9EyErfYJfP6mwH9ki2TvKkPvRBZc9IDmdH8PLxWfl7JQxZ1dYIJi6gilUekMqN+UcuGImqzCpnIDdBH4+orTYxP+6AVe8vBkzGV+sJZSetM4V7xGpbv5qO/jvzbt5KLTrtAZkNrfwtxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CneOXpuZMkPoNxwfoyN3awie1nrGBIJnMia15+Y870o=;
- b=aEmfVGnqDlN+Mz6TaTuK2w8sbn5xXXnrQTjzt6uyudQcjgOfUxWU2lfkXQBzQKBrBixsbLjcSu5Av+in2Beuwf97Xq/PZsTCLtq8Lo2uqQLdOamC5Xm9q1joPERtZ/+ua2Tvq5die+JeYX0JIEB++Os24zNFl/EHdWbl8X5T9RQ=
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- (2603:10b6:910:1a::19) by CY4PR1201MB0006.namprd12.prod.outlook.com
- (2603:10b6:903:d3::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Tue, 9 Jun
- 2020 12:08:11 +0000
-Received: from CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30]) by CY4PR1201MB0136.namprd12.prod.outlook.com
- ([fe80::b1bf:dda1:dd1e:8e30%5]) with mapi id 15.20.3088.018; Tue, 9 Jun 2020
- 12:08:11 +0000
-X-SNPS-Relay: synopsys.com
-From: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Topic: [PATCH 53/59] drm/arc: Move to drm/tiny
-Thread-Index: AQHWEvlb5mSQq60T60WU0QolrVlsW6h57yoAgAAle+CAAAXvgIAUjIQAgA+y2qCAAEc8gIApxpeAgAAoHHCAAA47AIAAexxTgAGneICABcWJSA==
-Date: Tue, 9 Jun 2020 12:08:11 +0000
-Message-ID: <CY4PR1201MB013654230A216EE7EB3C0E9BDE820@CY4PR1201MB0136.namprd12.prod.outlook.com>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-54-daniel.vetter@ffwll.ch>
- <20200415094512.GA30444@ravnborg.org>
- <MWHPR12MB14532DA5713E3B579ABFE1F4A1DB0@MWHPR12MB1453.namprd12.prod.outlook.com>
- <CAKMK7uGDGgt8Cm_bFoyzeoP2CWyiUNdUwb7GL6Ohu3k0rP0p1w@mail.gmail.com>
- <20200428140842.GL3456981@phenom.ffwll.local>
- <CH2PR12MB3894B40C6D71435D3E759A34A1A20@CH2PR12MB3894.namprd12.prod.outlook.com>
- <CAKMK7uFRt14m24ajYygdRZz=fUMhA9u6=590R2jjhXGq=VtwNA@mail.gmail.com>
- <20200604080507.GT20149@phenom.ffwll.local>
- <CY4PR1201MB01363EB95985A2C64ADA6841DE890@CY4PR1201MB0136.namprd12.prod.outlook.com>
- <CAKMK7uFLvV3=uhfnf=MreKBM==-gzXqx3NrV8KDA2D5sTAn2SQ@mail.gmail.com>
- <CY4PR1201MB013642EB94E07AED91813A5FDE890@CY4PR1201MB0136.namprd12.prod.outlook.com>,
- <CAKMK7uESUnLR1N07T513RjGUAp8FA6oHaO1Y+uvTKpFuM_8+gQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uESUnLR1N07T513RjGUAp8FA6oHaO1Y+uvTKpFuM_8+gQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [198.182.37.200]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2bdfeb1c-6343-43fe-fc86-08d80c6dc7b9
-x-ms-traffictypediagnostic: CY4PR1201MB0006:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CY4PR1201MB00061D1E6F49C1EBD98985BADE820@CY4PR1201MB0006.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 042957ACD7
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: V3DXSWg1sPIeJzRDkRk9Z6SK+XLUGiMDLMdqbcRZpz1Qtcc17FJ+HNEj0ZgchVR2vTgibJcXWsQMBWB0SSxjstS70n04wOGnP1YtdJ1tJ4kGW0kcSnAf3iiQ3/oi21Vqhq1hRs9z4SkOVBX3rJAWA4J15LL6YWmcbDfSnJE1rTtzNCRbqSWBtndUffMaBhMkEiieLxmuwBWW8KCRawZyC/HQ8TVj/Id7i313f9IP7OJwokp7Q+thfWB345kZLQFZAGj1jYKX2xnxuTOaFezU2Sn+u7dQHVXHSHYKFKxRjrHCo69fw0FQAVDkoEd12VcL/oHTJFTeu2exMLXsI11W0R9/LSEaJaAHHmFJuoWc4UtbThMYZ/TCnpqc+gvqdZZsD55t4lIQ/WFRRr65inRJ2g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0136.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(346002)(376002)(396003)(366004)(136003)(39860400002)(966005)(33656002)(53546011)(8936002)(54906003)(316002)(6916009)(83080400001)(6506007)(478600001)(8676002)(26005)(83380400001)(64756008)(9686003)(7696005)(55016002)(66556008)(86362001)(4326008)(66446008)(5660300002)(2906002)(186003)(66946007)(71200400001)(91956017)(66476007)(52536014)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: F7N5XI8RXdYPIup4ClZ6jiqr1RhVE3fTgCpQeXW9zoI1LKz0OTwrDKPiqQvkgtSDYgYKoJfTwrAwJnnSa4wDvoqyGo8L2jaaeGXq+u8puztyq4YjaeeUeVWVnypevp0G3GEirDhfDU8avsF83CjncQcaY5WLK1QvVppfpO2qpM0uFCLquvRLGfeSmT+nd+NsRv8r9TeEFu11oj+Kn7Aq6YlmE+lfBXaxLbsJPGiQjj3HrYOtu5nS2ZiPx/23LKf7WhS3lVH7I2IAJPimX7uWEiC6KgZ09JPiu57IlVg+SEY2+AmlmBXBikGHZO3X/udR/h8147p9IJMFok0/nnAEe87m2Copz9wMuqEorc/7A+hOgIhdC55veHfOQOxuWPWmwmZTzyIMIKdtwFfYDspWp+fosIKf9fo3R632nEt326Mdq3I819hitckFB64TjZizymOn0Wtf5zeadlUQZeqH++mZXXuqK5irQHgf7lBt9CzLv0ZZP9fSyNo2/ritvTev
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 709B889FD3;
+ Tue,  9 Jun 2020 12:16:07 +0000 (UTC)
+IronPort-SDR: LTr7AzznEKAWdUdmXZl1ikGPeCTRmD3DUnCjymNa5ycdJgvd+itAyvHTKQXXSk9Pc86NCGoBqa
+ UmGvC0L3lmoQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2020 05:16:06 -0700
+IronPort-SDR: +a+a/mDosKbuqbWAE1DIiLt1uo6jnfFYj++aiF7g0pQbH16iMS6cQJFN+P7Tx29VR+ap6QWZo5
+ ardEP0DHWhbg==
+X-IronPort-AV: E=Sophos;i="5.73,492,1583222400"; d="scan'208";a="447106441"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2020 05:16:04 -0700
+Date: Tue, 9 Jun 2020 15:15:56 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>
+Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/i915/dp_mst: Work around
+ out-of-spec adapters filtering short pulses
+Message-ID: <20200609121556.GF22647@ideak-desk.fi.intel.com>
+References: <20200603211040.8190-3-imre.deak@intel.com>
+ <20200604184500.23730-2-imre.deak@intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bdfeb1c-6343-43fe-fc86-08d80c6dc7b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2020 12:08:11.3769 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4X0VmWAM5pfQoDiRJ+6WbGxVMh++jsL6Nl49zYfo+QhiH8uvWnmnSM33TiYrQ4rrvclQQrBEP139vGu9SVXc1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB0006
+Content-Disposition: inline
+In-Reply-To: <20200604184500.23730-2-imre.deak@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,152 +49,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- "snps-arc@lists.infradead.org" <snps-arc@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Dave, Lyude,
 
-I've got pretty strange results so I need some time to investigate it and probably retest.
-I'll send you update in a few days.
+are you ok to merge this patchset via the drm-intel-next-queued tree?
 
----
- Eugeniy Paltsev
+--Imre
 
+On Thu, Jun 04, 2020 at 09:45:00PM +0300, Imre Deak wrote:
+> Some TypeC -> native DP adapters, at least the Club 3D CAC-1557 adapter,
+> incorrectly filter out HPD short pulses with a duration less than
+> ~540 usec, leading to MST probe failures.
+> =
 
-________________________________________
-From: Daniel Vetter <daniel@ffwll.ch>
-Sent: Friday, June 5, 2020 22:55
-To: Eugeniy Paltsev
-Cc: Intel Graphics Development; DRI Development; Daniel Vetter; Sam Ravnborg; Alexey Brodkin; snps-arc@lists.infradead.org
-Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
+> According to the DP Standard 2.0 section 5.1.4:
+> - DP sinks should generate short pulses in the 500 usec -> 1 msec range
+> - DP sources should detect short pulses in the 250 usec -> 2 msec range
+> =
 
-Hi Eugeniy,
+> According to the DP Alt Mode on TypeC Standard section 3.9.2, adapters
+> should detect and forward short pulses according to how sources should
+> detect them as specified in the DP Standard (250 usec -> 2 msec).
+> =
 
-Thanks for testing. I looked at the second one (I hoped it would just
-magically disappear) and I still don't understand what's going on
-there. My patch series isn't touching that area at all, so really
-confused.
+> Based on the above filtering out short pulses with a duration less than
+> 540 usec is incorrect.
+> =
 
-I squashed in the bugfix from the previous round into the right
-patches, and pushed a branch with just the arcpgu changes here:
-https://urldefense.com/v3/__https://cgit.freedesktop.org/*danvet/drm/log/?h=for-eugeniy__;fg!!A4F2R9G_pg!IJ1o4XiXVdStPu--Q-SCTUpRbsbqrjX255R34nuD7L7ptPywOy4SKr21dwSpfOkXIVqH5pM$
+> To make such adapters work add support for a driver polling on MST
+> inerrupt flags, and wire this up in the i915 driver. The sink can clear
+> an interrupt it raised after 110 msec if the source doesn't respond, so
+> use a 50 msec poll period to avoid missing an interrupt. Polling of the
+> MST interrupt flags is explicitly allowed by the DP Standard.
+> =
 
-Maybe it's something in my pile of not-so-tested stuff :-)
+> This fixes MST probe failures I saw using this adapter and a DELL U2515H
+> monitor.
+> =
 
-Can you pls test this? And if it still fails, try to bisect where it breaks?
+> v2:
+> - Fix the wait event timeout for the no-poll case.
+> v3 (Ville):
+> - Fix the short pulse duration limits in the commit log prescribed by the
+>   DP Standard.
+> - Add code comment explaining why/how polling is used.
+> - Factor out a helper to schedule the port's hpd irq handler and move it
+>   to the rest of hotplug handlers.
+> - Document the new MST callback.
+> - s/update_hpd_irq_state/poll_hpd_irq/
+> =
 
-Thanks, Daniel
-
-On Thu, Jun 4, 2020 at 9:00 PM Eugeniy Paltsev
-<Eugeniy.Paltsev@synopsys.com> wrote:
->
-> I've tested your change and one issue gone.
->
-> However I still see kernel crash (due to invalid read in kernel mode by 0x0 address) on weston stop:
-> ----------------------------------->8-------------------------------------------
-> Oops
-> Path: (null)
-> CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.7.0-rc6-01594-g4ceda91a4176-dirty #6
-> Workqueue: events drm_mode_rmfb_work_fn
-> Invalid Read @ 0x00000000 by insn @ drm_gem_fb_destroy+0x32/0x130
-> ECR: 0x00050100 EFA: 0x00000000 ERET: 0x813b9a76
-> STAT32: 0x80080602 [IE K     ]  BTA: 0x813b9a72
-> BLK: drm_gem_fb_destroy+0xc0/0x130
->  SP: 0x9f055ea4  FP: 0x00000000
-> LPS: 0x813560ec LPE: 0x813560f0 LPC: 0x00000000
-> r00: 0x00000000 r01: 0x9f6a6100 r02: 0x00000001
-> r03: 0x9fd5dde8 r04: 0x810f5de8 r05: 0x00000000
-> r06: 0x00000000 r07: 0x00000000 r08: 0x000000e1
-> r09: 0x00000000 r10: 0x00000000 r11: 0x000000e1
-> r12: 0x813b9b04
->
-> Stack Trace:
->   drm_gem_fb_destroy+0x32/0x130
->   drm_framebuffer_remove+0x1d2/0x358
->   drm_mode_rmfb_work_fn+0x28/0x38
->   process_one_work+0x19a/0x358
->   worker_thread+0x2c4/0x494
->   kthread+0xec/0x100
->   ret_from_fork+0x18/0x1c
-> ----------------------------------->8-------------------------------------------
->
->
-> The stack traces may vary but always end in drm_gem_fb_destroy:
-> ----------------------------------->8-------------------------------------------
-> Stack Trace:
->   drm_gem_fb_destroy+0x32/0x130
->   drm_mode_rmfb+0x10e/0x148
->   drm_ioctl_kernel+0x70/0xa0
->   drm_ioctl+0x284/0x410
->   ksys_ioctl+0xea/0xa3c
->   EV_Trap+0xcc/0xd0
-> ----------------------------------->8-------------------------------------------
-> Stack Trace:
->   drm_gem_fb_destroy+0x32/0x130
->   drm_fb_release+0x66/0xb0
->   drm_file_free.part.11+0x112/0x1bc
->   drm_release+0x80/0x120
->   __fput+0x98/0x1bc
->   task_work_run+0x6e/0xa8
->   do_exit+0x2b4/0x7fc
->   do_group_exit+0x2a/0x8c
->   get_signal+0x9a/0x5f0
->   do_signal+0x86/0x23c
->   resume_user_mode_begin+0x88/0xd0
-> ----------------------------------->8-------------------------------------------
->
->
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
->  Eugeniy Paltsev
->
->
-> ________________________________________
-> From: Daniel Vetter <daniel@ffwll.ch>
-> Sent: Thursday, June 4, 2020 14:19
-> To: Eugeniy Paltsev
-> Cc: Intel Graphics Development; DRI Development; Daniel Vetter; Sam Ravnborg; Alexey Brodkin
-> Subject: Re: [PATCH 53/59] drm/arc: Move to drm/tiny
->
-> Hi Eugeniy,
->
-> Apologies, somehow I missed your mail. I looked at the code again, and I
-> think I fumbled something. Does the below diff help to prevent the issues?
->
-> Thanks, Daniel
->
->
-> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-> index 857812f25bec..33d812a5ad7f 100644
-> --- a/drivers/gpu/drm/tiny/arcpgu.c
-> +++ b/drivers/gpu/drm/tiny/arcpgu.c
-> @@ -228,6 +228,9 @@ static void arc_pgu_update(struct drm_simple_display_pipe *pipe,
->         struct arcpgu_drm_private *arcpgu;
->         struct drm_gem_cma_object *gem;
->
-> +       if (!pipe->plane.state->fb)
-> +               return;
+>  drivers/gpu/drm/drm_dp_mst_topology.c        | 32 ++++++++++++++++++--
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 10 ++++++
+>  drivers/gpu/drm/i915/display/intel_hotplug.c | 18 +++++++++++
+>  drivers/gpu/drm/i915/display/intel_hotplug.h |  2 ++
+>  include/drm/drm_dp_mst_helper.h              |  9 ++++++
+>  5 files changed, 68 insertions(+), 3 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_=
+dp_mst_topology.c
+> index 5bc72e800b85..2a309fb2c4cc 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1178,11 +1178,37 @@ static int drm_dp_mst_wait_tx_reply(struct drm_dp=
+_mst_branch *mstb,
+>  				    struct drm_dp_sideband_msg_tx *txmsg)
+>  {
+>  	struct drm_dp_mst_topology_mgr *mgr =3D mstb->mgr;
+> +	unsigned long wait_timeout =3D msecs_to_jiffies(4000);
+> +	unsigned long wait_expires =3D jiffies + wait_timeout;
+>  	int ret;
+>  =
+
+> -	ret =3D wait_event_timeout(mgr->tx_waitq,
+> -				 check_txmsg_state(mgr, txmsg),
+> -				 (4 * HZ));
+> +	for (;;) {
+> +		/*
+> +		 * If the driver provides a way for this, change to
+> +		 * poll-waiting for the MST reply interrupt if we didn't receive
+> +		 * it for 50 msec. This would cater for cases where the HPD
+> +		 * pulse signal got lost somewhere, even though the sink raised
+> +		 * the corresponding MST interrupt correctly. One example is the
+> +		 * Club 3D CAC-1557 TypeC -> DP adapter which for some reason
+> +		 * filters out short pulses with a duration less than ~540 usec.
+> +		 *
+> +		 * The poll period is 50 msec to avoid missing an interrupt
+> +		 * after the sink has cleared it (after a 110msec timeout
+> +		 * since it raised the interrupt).
+> +		 */
+> +		ret =3D wait_event_timeout(mgr->tx_waitq,
+> +					 check_txmsg_state(mgr, txmsg),
+> +					 mgr->cbs->poll_hpd_irq ?
+> +						msecs_to_jiffies(50) :
+> +						wait_timeout);
 > +
->         arcpgu = pipe_to_arcpgu_priv(pipe);
->         gem = drm_fb_cma_get_gem_obj(pipe->plane.state->fb, 0);
->         arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->paddr);
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> +41 (0) 79 365 57 48 - https://urldefense.com/v3/__http://blog.ffwll.ch__;!!A4F2R9G_pg!P0EvyJfMuDwqbeZmHZM5S9po30QWr4KgGrggRirNfgo7wrRXfnUO-8iq0AA4fQCW2WGPlDc$
+> +		if (ret || !mgr->cbs->poll_hpd_irq ||
+> +		    time_after(jiffies, wait_expires))
+> +			break;
+> +
+> +		mgr->cbs->poll_hpd_irq(mgr);
+> +	}
+> +
+>  	mutex_lock(&mgr->qlock);
+>  	if (ret > 0) {
+>  		if (txmsg->state =3D=3D DRM_DP_SIDEBAND_TX_TIMEOUT) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
+m/i915/display/intel_dp_mst.c
+> index d18b406f2a7d..9be52643205d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -33,6 +33,7 @@
+>  #include "intel_connector.h"
+>  #include "intel_ddi.h"
+>  #include "intel_display_types.h"
+> +#include "intel_hotplug.h"
+>  #include "intel_dp.h"
+>  #include "intel_dp_mst.h"
+>  #include "intel_dpio_phy.h"
+> @@ -765,8 +766,17 @@ static struct drm_connector *intel_dp_add_mst_connec=
+tor(struct drm_dp_mst_topolo
+>  	return NULL;
+>  }
+>  =
 
+> +static void
+> +intel_dp_mst_poll_hpd_irq(struct drm_dp_mst_topology_mgr *mgr)
+> +{
+> +	struct intel_dp *intel_dp =3D container_of(mgr, struct intel_dp, mst_mg=
+r);
+> +
+> +	intel_hpd_trigger_irq(dp_to_dig_port(intel_dp));
+> +}
+> +
+>  static const struct drm_dp_mst_topology_cbs mst_cbs =3D {
+>  	.add_connector =3D intel_dp_add_mst_connector,
+> +	.poll_hpd_irq =3D intel_dp_mst_poll_hpd_irq,
+>  };
+>  =
 
+>  static struct intel_dp_mst_encoder *
+> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/d=
+rm/i915/display/intel_hotplug.c
+> index 4f6f560e093e..664f88354101 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hotplug.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
+> @@ -347,6 +347,24 @@ static void i915_digport_work_func(struct work_struc=
+t *work)
+>  	}
+>  }
+>  =
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - https://urldefense.com/v3/__http://blog.ffwll.ch__;!!A4F2R9G_pg!IJ1o4XiXVdStPu--Q-SCTUpRbsbqrjX255R34nuD7L7ptPywOy4SKr21dwSpfOkXpn86Q20$
+> +/**
+> + * intel_hpd_trigger_irq - trigger an hpd irq event for a port
+> + * @dig_port: digital port
+> + *
+> + * Trigger an HPD interrupt event for the given port, emulating a short =
+pulse
+> + * generated by the sink, and schedule the dig port work to handle it.
+> + */
+> +void intel_hpd_trigger_irq(struct intel_digital_port *dig_port)
+> +{
+> +	struct drm_i915_private *i915 =3D to_i915(dig_port->base.base.dev);
+> +
+> +	spin_lock_irq(&i915->irq_lock);
+> +	i915->hotplug.short_port_mask |=3D BIT(dig_port->base.port);
+> +	spin_unlock_irq(&i915->irq_lock);
+> +
+> +	queue_work(i915->hotplug.dp_wq, &i915->hotplug.dig_port_work);
+> +}
+> +
+>  /*
+>   * Handle hotplug events outside the interrupt handler proper.
+>   */
+> diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.h b/drivers/gpu/d=
+rm/i915/display/intel_hotplug.h
+> index 777b0743257e..a704d7c94d16 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hotplug.h
+> +++ b/drivers/gpu/drm/i915/display/intel_hotplug.h
+> @@ -10,6 +10,7 @@
+>  =
+
+>  struct drm_i915_private;
+>  struct intel_connector;
+> +struct intel_digital_port;
+>  struct intel_encoder;
+>  enum port;
+>  =
+
+> @@ -18,6 +19,7 @@ enum intel_hotplug_state intel_encoder_hotplug(struct i=
+ntel_encoder *encoder,
+>  					       struct intel_connector *connector);
+>  void intel_hpd_irq_handler(struct drm_i915_private *dev_priv,
+>  			   u32 pin_mask, u32 long_mask);
+> +void intel_hpd_trigger_irq(struct intel_digital_port *dig_port);
+>  void intel_hpd_init(struct drm_i915_private *dev_priv);
+>  void intel_hpd_init_work(struct drm_i915_private *dev_priv);
+>  void intel_hpd_cancel_work(struct drm_i915_private *dev_priv);
+> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_hel=
+per.h
+> index 9e1ffcd7cb68..b230ff6f7081 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -475,6 +475,15 @@ struct drm_dp_mst_topology_mgr;
+>  struct drm_dp_mst_topology_cbs {
+>  	/* create a connector for a port */
+>  	struct drm_connector *(*add_connector)(struct drm_dp_mst_topology_mgr *=
+mgr, struct drm_dp_mst_port *port, const char *path);
+> +	/*
+> +	 * Checks for any pending MST interrupts, passing them to MST core for
+> +	 * processing, the same way an HPD IRQ pulse handler would do this.
+> +	 * If provided MST core calls this callback from a poll-waiting loop
+> +	 * when waiting for MST down message replies. The driver is expected
+> +	 * to guard against a race between this callback and the driver's HPD
+> +	 * IRQ pulse handler.
+> +	 */
+> +	void (*poll_hpd_irq)(struct drm_dp_mst_topology_mgr *mgr);
+>  };
+>  =
+
+>  #define DP_MAX_PAYLOAD (sizeof(unsigned long) * 8)
+> -- =
+
+> 2.23.1
+> =
+
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
