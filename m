@@ -1,59 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F331F34F5
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C57901F34ED
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9746E283;
-	Tue,  9 Jun 2020 07:35:16 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13FC89DB7;
- Mon,  8 Jun 2020 19:39:01 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id 9so12376555ljv.5;
- Mon, 08 Jun 2020 12:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TVOtxpmeYOWD7rcQA6p6PVJsdwW/9XtVAfJ00067Jwk=;
- b=Uw7ae4K+D9tmeKHdEU38WOe4FsdhXp1ZnKr7YKUGixiQ9oWe2zUkZdxYWRFL5TGsGn
- +V9y94pvG0g5IXdQ2s4+PKu/NvK9GfJ5zCE2bQeGG95W+5y0fJ2+gTsk4k83rf03ItCJ
- kLC6qXpWbigmmVckNhVl6m270lucklRJQLrGoqZmdnWFsJKpGVxCkW4TqmwNSvOiG1BH
- d7soMSphupowplBAdx0AqVYwm0rmW0kE6W5xrmEBYPj5QQ0rsZtXxPEdj4xYSsQtECzW
- Nrs4lqroRuljEnV+wdWyUPdWz7xp5vspC1+LTQ3C15/rCfKQ54OQWj3k6b8s7vujTbBm
- A2bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TVOtxpmeYOWD7rcQA6p6PVJsdwW/9XtVAfJ00067Jwk=;
- b=aocZlLd7JIFUqc9CQ/JYS9ysr/yWA6oVbxTquwZf7pe1sMuRj41tZRBPd9v00ojMW1
- KZyve7PI4ifEjb7MUqpgfN8hySjKiRvKBz+e/oNVIZWeOBYnOniIfomocMVxY9HyH+fG
- i9CsrfN0scgq7zTjdU/7QjVJcqq/EvK7iJy6DvZnq2dyirj7EZs/xTC0Jwi7C+pwIrBm
- Nuwo9AGUgqVMEd6QjA8e2v8yj9T8h4+oeuNODbC05DKlU4LzZN+fceMwON78N9qp+0P2
- ApdZzxmMghh8pcAmnK9FIflRE8VuesDaLEhuXDN85acscG7iQ2unfunqCc0WpUGsjOk4
- ImLA==
-X-Gm-Message-State: AOAM531jwh0xZeTDhfQ/Pa1dFX4iVzQj8ME1Yw3gPsd3VvB8DMaGtebP
- vXxQz+k/LW8IbzGkA07RE6n9onIwCFR97WZql4c=
-X-Google-Smtp-Source: ABdhPJzj7F/aaSi7HE9SPJMq1V4yr6hfoXBgPhFqPh91CbbkatR/Ryqmnw/QWzidGESYaRxTEW2Cmw1bqOyx6OoorZ0=
-X-Received: by 2002:a2e:9147:: with SMTP id q7mr12642562ljg.430.1591645140048; 
- Mon, 08 Jun 2020 12:39:00 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024346E1F5;
+	Tue,  9 Jun 2020 07:35:14 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4ACF6E9D3
+ for <dri-devel@freedesktop.org>; Tue,  9 Jun 2020 00:44:55 +0000 (UTC)
+Date: Tue, 09 Jun 2020 00:39:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1591663161;
+ bh=AGJtG9tQUKFHHSc7lwe/W00TIZ5m7Y22lrvqm8/oz2M=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=lvtJeprbTHrjqdRsGyLVvYQ+haF3ow0sETIih5Q/6W98WWETlAy80uej1+1pm1g89
+ XDbAd7BjLgGvfXpoB+1cdUmYR3yPELSRAYmwj2bLXV/MYxIZt5M4oAi6RK06tJ/n7x
+ Cwx6PjnExCWxiCAeurYNRdQ5D9pUDhugP3H0aZII=
+To: dri-devel@freedesktop.org
+From: Colton Lewis <colton.w.lewis@protonmail.com>
+Subject: [PATCH 1/2] drm/amd: correct trivial kernel-doc inconsistencies
+Message-ID: <20200609003810.1656842-2-colton.w.lewis@protonmail.com>
+In-Reply-To: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
+References: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
 MIME-Version: 1.0
-References: <1590526802-3008-1-git-send-email-jrdr.linux@gmail.com>
- <69a033cf-63b2-7da6-6a5e-a5bbc94b8afb@nvidia.com>
- <20200527084852.GN206103@phenom.ffwll.local>
- <20200527085117.GO206103@phenom.ffwll.local>
- <aaf62285-981e-3753-5501-07bbba98fc36@nvidia.com>
- <CAFqt6zZVAQ3LKwud85LgHe9300xVjyGYXjvdWKTdezZA1uRewg@mail.gmail.com>
- <011353ca-39d5-a41d-477a-f67a47ebb47b@nvidia.com>
-In-Reply-To: <011353ca-39d5-a41d-477a-f67a47ebb47b@nvidia.com>
-From: Souptick Joarder <jrdr.linux@gmail.com>
-Date: Tue, 9 Jun 2020 01:08:48 +0530
-Message-ID: <CAFqt6zZPh6RazWcwmfz1oXMbHaxMOtQtVU=Cgs79M9JG+PDrSg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Convert get_user_pages() --> pin_user_pages()
-To: John Hubbard <jhubbard@nvidia.com>
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-Mailman-Approved-At: Tue, 09 Jun 2020 07:35:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,42 +45,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Reply-To: Colton Lewis <colton.w.lewis@protonmail.com>
+Cc: alexander.deucher@amd.com, Colton Lewis <colton.w.lewis@protonmail.com>,
+ trivial@kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 29, 2020 at 12:58 PM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 2020-05-28 23:49, Souptick Joarder wrote:
-> ...
-> >> This is what case 3 was *intended* to cover, but it looks like case 3 needs to
-> >> be written a little better. I'll attempt that, and Cc you on the actual patch
-> >> to -mm. (I think we also need a case 5 for an unrelated scenario, too, so
-> >> it's time.)
-> >
-> > There were no *case 5* in the other patch posted in -mm. Do we need to add it ?
-> >
->
-> Working on figuring that out [1], but it's not directly relevant to this thread.
-> Maybe I shouldn't have brought it up here. :)
->
->
-> [1] https://lore.kernel.org/r/20200529070343.GL14550@quack2.suse.cz
->
-> thanks,
-> John Hubbard
-> NVIDIA
->
->
->
+Silence documentation warnings by correcting kernel-doc comments.
 
-As this conversion is not relevant ( mentioned above), I have dropped
-this patch.
+./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3388: warning: Excess function parameter 'suspend' description in 'amdgpu_device_suspend'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3485: warning: Excess function parameter 'resume' description in 'amdgpu_device_resume'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'tbo' description in 'amdgpu_vram_mgr_del'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'place' description in 'amdgpu_vram_mgr_del'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'tbo' description in 'amdgpu_gtt_mgr_del'
+./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'place' description in 'amdgpu_gtt_mgr_del'
+./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'hdcp_workqueue' not described in 'amdgpu_display_manager'
+./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'cached_dc_state' not described in 'amdgpu_display_manager'
+
+Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c       | 2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c      | 2 --
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 ++
+ 4 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index a027a8f7b281..dd7da7b4b696 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -3377,7 +3377,6 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+  * amdgpu_device_suspend - initiate device suspend
+  *
+  * @dev: drm dev pointer
+- * @suspend: suspend state
+  * @fbcon : notify the fbdev of suspend
+  *
+  * Puts the hw in the suspend state (all asics).
+@@ -3474,7 +3473,6 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
+  * amdgpu_device_resume - initiate device resume
+  *
+  * @dev: drm dev pointer
+- * @resume: resume state
+  * @fbcon : notify the fbdev of resume
+  *
+  * Bring the hw back to operating state (all asics).
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 627104401e84..bc01a06546aa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -268,8 +268,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_mem_type_manager *man,
+  * amdgpu_gtt_mgr_del - free ranges
+  *
+  * @man: TTM memory type manager
+- * @tbo: TTM BO we need this range for
+- * @place: placement flags and restrictions
+  * @mem: TTM memory object
+  *
+  * Free the allocated GTT again.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index d399e5893170..97ad8ffe6c6c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -407,8 +407,6 @@ static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
+  * amdgpu_vram_mgr_del - free ranges
+  *
+  * @man: TTM memory type manager
+- * @tbo: TTM BO we need this range for
+- * @place: placement flags and restrictions
+  * @mem: TTM memory object
+  *
+  * Free the allocated VRAM again.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index d61186ff411d..86c132ddc452 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -139,10 +139,12 @@ struct amdgpu_dm_backlight_caps {
+  * @backlight_link: Link on which to control backlight
+  * @backlight_caps: Capabilities of the backlight device
+  * @freesync_module: Module handling freesync calculations
++ * @hdcp_workqueue: AMDGPU content protection queue
+  * @fw_dmcu: Reference to DMCU firmware
+  * @dmcu_fw_version: Version of the DMCU firmware
+  * @soc_bounding_box: SOC bounding box values provided by gpu_info FW
+  * @cached_state: Caches device atomic state for suspend/resume
++ * @cached_dc_state: Cached state of content streams
+  * @compressor: Frame buffer compression buffer. See &struct dm_comressor_info
+  */
+ struct amdgpu_display_manager {
+-- 
+2.26.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
