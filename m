@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62FC1F47BE
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 22:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD2F1F47BF
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 22:08:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A65B896FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDF28897B4;
 	Tue,  9 Jun 2020 20:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 514AE896FA
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 20:08:08 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id a9so23145391ljn.6
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 13:08:08 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A28896FA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 20:08:09 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id q19so3992622lji.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 13:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Kjp4z7wYiCrrM667mqmlZTf80dbcp8zu9m+RxGjxf9I=;
- b=PYyTdvKP+oATBeKULsAEYr47eMnO4wpZg3//iAw/2XUzyN/l05dnJ9oZ51sBvcKQhe
- 4k0d+JIgV5fZFVno2MPERM2Y9ZQJ9/rNPy2JxwOjn3ep40Didh0yRIs1p6Mt79GJgtbq
- n1s+62+FRf+uAQoXhTDu0juwHa6RAwwmLV9opuP3jwFBUnPBXdaXKaNTTezuchqOEmN1
- Yp3CRtDsaqU9HCdo0nDq1GdyU/lV7g+7J/wx7RdcfNF2SOJxWjsmIklqUK2cF73IswOH
- rmbVt12cnheAtON5KEvVzF3EPlFzpdEGDh2kpGEOJrvUpx+0ult3ZyzEV/RZljd8XEBg
- Mtow==
+ bh=GRhNHIEn/ofCyr7rDVzfcw/M3Z+1q2HFWwIyPzEBsHo=;
+ b=sl706ULmQRRB6ijvUJm4R63nyXBJWpbbhjZYSRZBueNSmr1q95llpoY8V+z4KdgP9F
+ i1gDPi9yKjIVuoz1A0/bthrZifxAGn5leEllUrV4R63TiAjdgebPziehX1UVei1HVUWr
+ nxrWSDNScu41YJu1Be+Q3AQ/q21ruJ/45z700iRaGEXa6xnAjQLgrwGRz5RyFtUCTWGo
+ +86dO8kpn7E4Qwuf8+viCqp/uxNpLlfcp4fyqLVsvRDxPl1guKRDhcGB6dww1MIFXK8q
+ XLTAdvRC56T90S9oGVFUIq+Tn32eWWrT1Vn5hLWwL6/PuCvCFtAdj1QbahWqG6lUCxH1
+ mJ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Kjp4z7wYiCrrM667mqmlZTf80dbcp8zu9m+RxGjxf9I=;
- b=ekKiFHowqFh/76MNSymwIMicc7mrblxjAtZ/f3M7M4r2KDhdktCVp1jeHjx9kNtQj1
- XCM7z3lKzqIzgAPuY6pe1u/VbsSQjyDHPxNWhZNplQ1fqVMC4jw/vcEeM9ATSifh2phU
- oswtBFyGlVI38fKmkBwIA4RuWcNHdYPhofvuj9MmRVscgDGz5+M7R0Ub99VwyZjklJQh
- qCvaGRUBmsm9gEjXXE8lBb/NcRuqQ+MoT42YG4lzqHINCZxBYudcVA0pM2SZxRhhmAkb
- t5eNSYCMpAwPND7IW3gbEEBBP3XiYrXSn/oCa+Nav682CzsHCdNVi6BiY5UHlpeu0Bic
- BE6g==
-X-Gm-Message-State: AOAM5326r26YFKQHOGAsd+fhhsW+dYurZDd5PqmSHhdNcmvVs6utfyCO
- b+vRoUrOgakG/75M9JRS5ufbY0QOeuM=
-X-Google-Smtp-Source: ABdhPJxfpl3e1nUamcL8sjNRH5nR46Oey9VO4GdWkuEBh8G6X10J+XF19SfUG4+iwAiAQ5BBIYNhSQ==
-X-Received: by 2002:a2e:b6c5:: with SMTP id m5mr7681ljo.94.1591733285330;
- Tue, 09 Jun 2020 13:08:05 -0700 (PDT)
+ bh=GRhNHIEn/ofCyr7rDVzfcw/M3Z+1q2HFWwIyPzEBsHo=;
+ b=uG6qff+TzbR/rM0RGcPWoUOKXDdSy25DXjL+DT2Rxm4C0M6JW05SvR8yFkFdvP3Ee1
+ q7FOemkYvGBNVP7xeLAtUdj/OV5zndvIIJsNtEnK7wG6x40AT0NmL/XnAWg8Mx3YtB6b
+ M4iBli0jFLuWGVTt/qJPZuS/rT0wVooczlEF301EYOGpXRdzJaj8c43X2DPRn/aPwQel
+ n+W0kSmhFZGIKHk3BZF+6Mfi86pUeKmA1mOaIjjI64tKBgyNPSvzFsbU4Mg9xeLGxlJO
+ FA6toyZc7d+QWKvZZU3P5bd6VHV6WwL23syPz/r6U1eZXMw0zzDGm+9cv/OlUSZHRRrC
+ s7Lg==
+X-Gm-Message-State: AOAM531BvbBT0pq+dMtlYj/4PPdrqqM56Jcn3T2AgLY0WWzQ/92rUlib
+ BacgZNr+aXEd1h06g6DhCw9mrv4GG4I=
+X-Google-Smtp-Source: ABdhPJxsMsT6G4whvwSjtDS4l1jdeFRlavEvAEkTV0wuRzV0nCmnDwFI6Z7QiZeulpD8uwe/92aCKw==
+X-Received: by 2002:a2e:8e94:: with SMTP id z20mr13149877ljk.21.1591733287664; 
+ Tue, 09 Jun 2020 13:08:07 -0700 (PDT)
 Received: from localhost.localdomain
  (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id 66sm6038579lfk.54.2020.06.09.13.08.04
+ by smtp.gmail.com with ESMTPSA id 66sm6038579lfk.54.2020.06.09.13.08.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 13:08:04 -0700 (PDT)
+ Tue, 09 Jun 2020 13:08:06 -0700 (PDT)
 From: Linus Walleij <linus.walleij@linaro.org>
 To: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
  Eric Anholt <eric@anholt.net>, Russell King <linux@armlinux.org.uk>
-Subject: [PATCH 2/4] video: fbdev: amba-clcd: Retire elder CLCD driver
-Date: Tue,  9 Jun 2020 22:04:44 +0200
-Message-Id: <20200609200446.153209-2-linus.walleij@linaro.org>
+Subject: [PATCH 3/4] drm: pl111: Absorb the external register header
+Date: Tue,  9 Jun 2020 22:04:45 +0200
+Message-Id: <20200609200446.153209-3-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200609200446.153209-1-linus.walleij@linaro.org>
 References: <20200609200446.153209-1-linus.walleij@linaro.org>
@@ -71,1389 +71,144 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All the functionality in this driver has been reimplemented
-in the new DRM driver in drivers/gpu/drm/pl111/* and all
-the boards using it have been migrated to use the DRM driver
-with all configuration coming from the device tree.
-
-I started the work to migrate the CLCD driver to DRM in
-april 2017 and it took a little more than 3 years to do this
-properly without leaving any platforms behind.
-
-Cc: Russell King <linux@armlinux.org.uk>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-As the framebuffer subsystem is orphaned I expect this to
-go in through the drm-misc tree.
----
- MAINTAINERS                     |   5 -
- drivers/video/fbdev/Kconfig     |  20 -
- drivers/video/fbdev/Makefile    |   1 -
- drivers/video/fbdev/amba-clcd.c | 989 --------------------------------
- include/linux/amba/clcd.h       | 290 ----------
- 5 files changed, 1305 deletions(-)
- delete mode 100644 drivers/video/fbdev/amba-clcd.c
- delete mode 100644 include/linux/amba/clcd.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index df86f6f06000..086894075397 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1432,11 +1432,6 @@ S:	Odd Fixes
- F:	drivers/amba/
- F:	include/linux/amba/bus.h
- 
--ARM PRIMECELL CLCD PL110 DRIVER
--M:	Russell King <linux@armlinux.org.uk>
--S:	Odd Fixes
--F:	drivers/video/fbdev/amba-clcd.*
--
- ARM PRIMECELL KMI PL050 DRIVER
- M:	Russell King <linux@armlinux.org.uk>
- S:	Odd Fixes
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index fa88e8b9a83d..0a5fc63e05d2 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -272,26 +272,6 @@ config FB_PM2_FIFO_DISCONNECT
- 	help
- 	  Support the Permedia2 FIFO disconnect feature.
- 
--config FB_ARMCLCD
--	tristate "ARM PrimeCell PL110 support"
--	depends on ARM || ARM64 || COMPILE_TEST
--	depends on FB && ARM_AMBA && HAS_IOMEM
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
--	select FB_MODE_HELPERS if OF
--	select VIDEOMODE_HELPERS if OF
--	select BACKLIGHT_CLASS_DEVICE if OF
--	help
--	  This framebuffer device driver is for the ARM PrimeCell PL110
--	  Colour LCD controller.  ARM PrimeCells provide the building
--	  blocks for System on a Chip devices.
--
--	  If you want to compile this as a module (=code which can be
--	  inserted into and removed from the running kernel), say M
--	  here and read <file:Documentation/kbuild/modules.rst>.  The module
--	  will be called amba-clcd.
--
- config FB_ACORN
- 	bool "Acorn VIDC support"
- 	depends on (FB = y) && ARM && ARCH_ACORN
-diff --git a/drivers/video/fbdev/Makefile b/drivers/video/fbdev/Makefile
-index aa6352798cf4..76a43ec8f24c 100644
---- a/drivers/video/fbdev/Makefile
-+++ b/drivers/video/fbdev/Makefile
-@@ -75,7 +75,6 @@ obj-$(CONFIG_FB_HIT)              += hitfb.o
- obj-$(CONFIG_FB_ATMEL)		  += atmel_lcdfb.o
- obj-$(CONFIG_FB_PVR2)             += pvr2fb.o
- obj-$(CONFIG_FB_VOODOO1)          += sstfb.o
--obj-$(CONFIG_FB_ARMCLCD)	  += amba-clcd.o
- obj-$(CONFIG_FB_GOLDFISH)         += goldfishfb.o
- obj-$(CONFIG_FB_68328)            += 68328fb.o
- obj-$(CONFIG_FB_GBE)              += gbefb.o
-diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
-deleted file mode 100644
-index c3d55fc6c4e0..000000000000
---- a/drivers/video/fbdev/amba-clcd.c
-+++ /dev/null
-@@ -1,989 +0,0 @@
--/*
-- *  linux/drivers/video/amba-clcd.c
-- *
-- * Copyright (C) 2001 ARM Limited, by David A Rusling
-- * Updated to 2.5, Deep Blue Solutions Ltd.
-- *
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file COPYING in the main directory of this archive
-- * for more details.
-- *
-- *  ARM PrimeCell PL110 Color LCD Controller
-- */
--#include <linux/amba/bus.h>
--#include <linux/amba/clcd.h>
--#include <linux/backlight.h>
--#include <linux/clk.h>
--#include <linux/delay.h>
--#include <linux/dma-mapping.h>
--#include <linux/fb.h>
--#include <linux/init.h>
--#include <linux/ioport.h>
--#include <linux/list.h>
--#include <linux/mm.h>
--#include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_graph.h>
--#include <linux/slab.h>
--#include <linux/string.h>
--#include <video/display_timing.h>
--#include <video/of_display_timing.h>
--#include <video/videomode.h>
--
--#define to_clcd(info)	container_of(info, struct clcd_fb, fb)
--
--/* This is limited to 16 characters when displayed by X startup */
--static const char *clcd_name = "CLCD FB";
--
--/*
-- * Unfortunately, the enable/disable functions may be called either from
-- * process or IRQ context, and we _need_ to delay.  This is _not_ good.
-- */
--static inline void clcdfb_sleep(unsigned int ms)
--{
--	if (in_atomic()) {
--		mdelay(ms);
--	} else {
--		msleep(ms);
--	}
--}
--
--static inline void clcdfb_set_start(struct clcd_fb *fb)
--{
--	unsigned long ustart = fb->fb.fix.smem_start;
--	unsigned long lstart;
--
--	ustart += fb->fb.var.yoffset * fb->fb.fix.line_length;
--	lstart = ustart + fb->fb.var.yres * fb->fb.fix.line_length / 2;
--
--	writel(ustart, fb->regs + CLCD_UBAS);
--	writel(lstart, fb->regs + CLCD_LBAS);
--}
--
--static void clcdfb_disable(struct clcd_fb *fb)
--{
--	u32 val;
--
--	if (fb->board->disable)
--		fb->board->disable(fb);
--
--	if (fb->panel->backlight) {
--		fb->panel->backlight->props.power = FB_BLANK_POWERDOWN;
--		backlight_update_status(fb->panel->backlight);
--	}
--
--	val = readl(fb->regs + fb->off_cntl);
--	if (val & CNTL_LCDPWR) {
--		val &= ~CNTL_LCDPWR;
--		writel(val, fb->regs + fb->off_cntl);
--
--		clcdfb_sleep(20);
--	}
--	if (val & CNTL_LCDEN) {
--		val &= ~CNTL_LCDEN;
--		writel(val, fb->regs + fb->off_cntl);
--	}
--
--	/*
--	 * Disable CLCD clock source.
--	 */
--	if (fb->clk_enabled) {
--		fb->clk_enabled = false;
--		clk_disable(fb->clk);
--	}
--}
--
--static void clcdfb_enable(struct clcd_fb *fb, u32 cntl)
--{
--	/*
--	 * Enable the CLCD clock source.
--	 */
--	if (!fb->clk_enabled) {
--		fb->clk_enabled = true;
--		clk_enable(fb->clk);
--	}
--
--	/*
--	 * Bring up by first enabling..
--	 */
--	cntl |= CNTL_LCDEN;
--	writel(cntl, fb->regs + fb->off_cntl);
--
--	clcdfb_sleep(20);
--
--	/*
--	 * and now apply power.
--	 */
--	cntl |= CNTL_LCDPWR;
--	writel(cntl, fb->regs + fb->off_cntl);
--
--	/*
--	 * Turn on backlight
--	 */
--	if (fb->panel->backlight) {
--		fb->panel->backlight->props.power = FB_BLANK_UNBLANK;
--		backlight_update_status(fb->panel->backlight);
--	}
--
--	/*
--	 * finally, enable the interface.
--	 */
--	if (fb->board->enable)
--		fb->board->enable(fb);
--}
--
--static int
--clcdfb_set_bitfields(struct clcd_fb *fb, struct fb_var_screeninfo *var)
--{
--	u32 caps;
--	int ret = 0;
--
--	if (fb->panel->caps && fb->board->caps)
--		caps = fb->panel->caps & fb->board->caps;
--	else {
--		/* Old way of specifying what can be used */
--		caps = fb->panel->cntl & CNTL_BGR ?
--			CLCD_CAP_BGR : CLCD_CAP_RGB;
--		/* But mask out 444 modes as they weren't supported */
--		caps &= ~CLCD_CAP_444;
--	}
--
--	/* Only TFT panels can do RGB888/BGR888 */
--	if (!(fb->panel->cntl & CNTL_LCDTFT))
--		caps &= ~CLCD_CAP_888;
--
--	memset(&var->transp, 0, sizeof(var->transp));
--
--	var->red.msb_right = 0;
--	var->green.msb_right = 0;
--	var->blue.msb_right = 0;
--
--	switch (var->bits_per_pixel) {
--	case 1:
--	case 2:
--	case 4:
--	case 8:
--		/* If we can't do 5551, reject */
--		caps &= CLCD_CAP_5551;
--		if (!caps) {
--			ret = -EINVAL;
--			break;
--		}
--
--		var->red.length		= var->bits_per_pixel;
--		var->red.offset		= 0;
--		var->green.length	= var->bits_per_pixel;
--		var->green.offset	= 0;
--		var->blue.length	= var->bits_per_pixel;
--		var->blue.offset	= 0;
--		break;
--
--	case 16:
--		/* If we can't do 444, 5551 or 565, reject */
--		if (!(caps & (CLCD_CAP_444 | CLCD_CAP_5551 | CLCD_CAP_565))) {
--			ret = -EINVAL;
--			break;
--		}
--
--		/*
--		 * Green length can be 4, 5 or 6 depending whether
--		 * we're operating in 444, 5551 or 565 mode.
--		 */
--		if (var->green.length == 4 && caps & CLCD_CAP_444)
--			caps &= CLCD_CAP_444;
--		if (var->green.length == 5 && caps & CLCD_CAP_5551)
--			caps &= CLCD_CAP_5551;
--		else if (var->green.length == 6 && caps & CLCD_CAP_565)
--			caps &= CLCD_CAP_565;
--		else {
--			/*
--			 * PL110 officially only supports RGB555,
--			 * but may be wired up to allow RGB565.
--			 */
--			if (caps & CLCD_CAP_565) {
--				var->green.length = 6;
--				caps &= CLCD_CAP_565;
--			} else if (caps & CLCD_CAP_5551) {
--				var->green.length = 5;
--				caps &= CLCD_CAP_5551;
--			} else {
--				var->green.length = 4;
--				caps &= CLCD_CAP_444;
--			}
--		}
--
--		if (var->green.length >= 5) {
--			var->red.length = 5;
--			var->blue.length = 5;
--		} else {
--			var->red.length = 4;
--			var->blue.length = 4;
--		}
--		break;
--	case 32:
--		/* If we can't do 888, reject */
--		caps &= CLCD_CAP_888;
--		if (!caps) {
--			ret = -EINVAL;
--			break;
--		}
--
--		var->red.length = 8;
--		var->green.length = 8;
--		var->blue.length = 8;
--		break;
--	default:
--		ret = -EINVAL;
--		break;
--	}
--
--	/*
--	 * >= 16bpp displays have separate colour component bitfields
--	 * encoded in the pixel data.  Calculate their position from
--	 * the bitfield length defined above.
--	 */
--	if (ret == 0 && var->bits_per_pixel >= 16) {
--		bool bgr, rgb;
--
--		bgr = caps & CLCD_CAP_BGR && var->blue.offset == 0;
--		rgb = caps & CLCD_CAP_RGB && var->red.offset == 0;
--
--		if (!bgr && !rgb)
--			/*
--			 * The requested format was not possible, try just
--			 * our capabilities.  One of BGR or RGB must be
--			 * supported.
--			 */
--			bgr = caps & CLCD_CAP_BGR;
--
--		if (bgr) {
--			var->blue.offset = 0;
--			var->green.offset = var->blue.offset + var->blue.length;
--			var->red.offset = var->green.offset + var->green.length;
--		} else {
--			var->red.offset = 0;
--			var->green.offset = var->red.offset + var->red.length;
--			var->blue.offset = var->green.offset + var->green.length;
--		}
--	}
--
--	return ret;
--}
--
--static int clcdfb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
--{
--	struct clcd_fb *fb = to_clcd(info);
--	int ret = -EINVAL;
--
--	if (fb->board->check)
--		ret = fb->board->check(fb, var);
--
--	if (ret == 0 &&
--	    var->xres_virtual * var->bits_per_pixel / 8 *
--	    var->yres_virtual > fb->fb.fix.smem_len)
--		ret = -EINVAL;
--
--	if (ret == 0)
--		ret = clcdfb_set_bitfields(fb, var);
--
--	return ret;
--}
--
--static int clcdfb_set_par(struct fb_info *info)
--{
--	struct clcd_fb *fb = to_clcd(info);
--	struct clcd_regs regs;
--
--	fb->fb.fix.line_length = fb->fb.var.xres_virtual *
--				 fb->fb.var.bits_per_pixel / 8;
--
--	if (fb->fb.var.bits_per_pixel <= 8)
--		fb->fb.fix.visual = FB_VISUAL_PSEUDOCOLOR;
--	else
--		fb->fb.fix.visual = FB_VISUAL_TRUECOLOR;
--
--	fb->board->decode(fb, &regs);
--
--	clcdfb_disable(fb);
--
--	writel(regs.tim0, fb->regs + CLCD_TIM0);
--	writel(regs.tim1, fb->regs + CLCD_TIM1);
--	writel(regs.tim2, fb->regs + CLCD_TIM2);
--	writel(regs.tim3, fb->regs + CLCD_TIM3);
--
--	clcdfb_set_start(fb);
--
--	clk_set_rate(fb->clk, (1000000000 / regs.pixclock) * 1000);
--
--	fb->clcd_cntl = regs.cntl;
--
--	clcdfb_enable(fb, regs.cntl);
--
--#ifdef DEBUG
--	printk(KERN_INFO
--	       "CLCD: Registers set to\n"
--	       "  %08x %08x %08x %08x\n"
--	       "  %08x %08x %08x %08x\n",
--		readl(fb->regs + CLCD_TIM0), readl(fb->regs + CLCD_TIM1),
--		readl(fb->regs + CLCD_TIM2), readl(fb->regs + CLCD_TIM3),
--		readl(fb->regs + CLCD_UBAS), readl(fb->regs + CLCD_LBAS),
--		readl(fb->regs + fb->off_ienb), readl(fb->regs + fb->off_cntl));
--#endif
--
--	return 0;
--}
--
--static inline u32 convert_bitfield(int val, struct fb_bitfield *bf)
--{
--	unsigned int mask = (1 << bf->length) - 1;
--
--	return (val >> (16 - bf->length) & mask) << bf->offset;
--}
--
--/*
-- *  Set a single color register. The values supplied have a 16 bit
-- *  magnitude.  Return != 0 for invalid regno.
-- */
--static int
--clcdfb_setcolreg(unsigned int regno, unsigned int red, unsigned int green,
--		 unsigned int blue, unsigned int transp, struct fb_info *info)
--{
--	struct clcd_fb *fb = to_clcd(info);
--
--	if (regno < 16)
--		fb->cmap[regno] = convert_bitfield(transp, &fb->fb.var.transp) |
--				  convert_bitfield(blue, &fb->fb.var.blue) |
--				  convert_bitfield(green, &fb->fb.var.green) |
--				  convert_bitfield(red, &fb->fb.var.red);
--
--	if (fb->fb.fix.visual == FB_VISUAL_PSEUDOCOLOR && regno < 256) {
--		int hw_reg = CLCD_PALETTE + ((regno * 2) & ~3);
--		u32 val, mask, newval;
--
--		newval  = (red >> 11)  & 0x001f;
--		newval |= (green >> 6) & 0x03e0;
--		newval |= (blue >> 1)  & 0x7c00;
--
--		/*
--		 * 3.2.11: if we're configured for big endian
--		 * byte order, the palette entries are swapped.
--		 */
--		if (fb->clcd_cntl & CNTL_BEBO)
--			regno ^= 1;
--
--		if (regno & 1) {
--			newval <<= 16;
--			mask = 0x0000ffff;
--		} else {
--			mask = 0xffff0000;
--		}
--
--		val = readl(fb->regs + hw_reg) & mask;
--		writel(val | newval, fb->regs + hw_reg);
--	}
--
--	return regno > 255;
--}
--
--/*
-- *  Blank the screen if blank_mode != 0, else unblank. If blank == NULL
-- *  then the caller blanks by setting the CLUT (Color Look Up Table) to all
-- *  black. Return 0 if blanking succeeded, != 0 if un-/blanking failed due
-- *  to e.g. a video mode which doesn't support it. Implements VESA suspend
-- *  and powerdown modes on hardware that supports disabling hsync/vsync:
-- *    blank_mode == 2: suspend vsync
-- *    blank_mode == 3: suspend hsync
-- *    blank_mode == 4: powerdown
-- */
--static int clcdfb_blank(int blank_mode, struct fb_info *info)
--{
--	struct clcd_fb *fb = to_clcd(info);
--
--	if (blank_mode != 0) {
--		clcdfb_disable(fb);
--	} else {
--		clcdfb_enable(fb, fb->clcd_cntl);
--	}
--	return 0;
--}
--
--static int clcdfb_mmap(struct fb_info *info,
--		       struct vm_area_struct *vma)
--{
--	struct clcd_fb *fb = to_clcd(info);
--	unsigned long len, off = vma->vm_pgoff << PAGE_SHIFT;
--	int ret = -EINVAL;
--
--	len = info->fix.smem_len;
--
--	if (off <= len && vma->vm_end - vma->vm_start <= len - off &&
--	    fb->board->mmap)
--		ret = fb->board->mmap(fb, vma);
--
--	return ret;
--}
--
--static const struct fb_ops clcdfb_ops = {
--	.owner		= THIS_MODULE,
--	.fb_check_var	= clcdfb_check_var,
--	.fb_set_par	= clcdfb_set_par,
--	.fb_setcolreg	= clcdfb_setcolreg,
--	.fb_blank	= clcdfb_blank,
--	.fb_fillrect	= cfb_fillrect,
--	.fb_copyarea	= cfb_copyarea,
--	.fb_imageblit	= cfb_imageblit,
--	.fb_mmap	= clcdfb_mmap,
--};
--
--static int clcdfb_register(struct clcd_fb *fb)
--{
--	int ret;
--
--	/*
--	 * ARM PL111 always has IENB at 0x1c; it's only PL110
--	 * which is reversed on some platforms.
--	 */
--	if (amba_manf(fb->dev) == 0x41 && amba_part(fb->dev) == 0x111) {
--		fb->off_ienb = CLCD_PL111_IENB;
--		fb->off_cntl = CLCD_PL111_CNTL;
--	} else {
--		fb->off_ienb = CLCD_PL110_IENB;
--		fb->off_cntl = CLCD_PL110_CNTL;
--	}
--
--	fb->clk = clk_get(&fb->dev->dev, NULL);
--	if (IS_ERR(fb->clk)) {
--		ret = PTR_ERR(fb->clk);
--		goto out;
--	}
--
--	ret = clk_prepare(fb->clk);
--	if (ret)
--		goto free_clk;
--
--	fb->fb.device		= &fb->dev->dev;
--
--	fb->fb.fix.mmio_start	= fb->dev->res.start;
--	fb->fb.fix.mmio_len	= resource_size(&fb->dev->res);
--
--	fb->regs = ioremap(fb->fb.fix.mmio_start, fb->fb.fix.mmio_len);
--	if (!fb->regs) {
--		printk(KERN_ERR "CLCD: unable to remap registers\n");
--		ret = -ENOMEM;
--		goto clk_unprep;
--	}
--
--	fb->fb.fbops		= &clcdfb_ops;
--	fb->fb.flags		= FBINFO_FLAG_DEFAULT;
--	fb->fb.pseudo_palette	= fb->cmap;
--
--	strncpy(fb->fb.fix.id, clcd_name, sizeof(fb->fb.fix.id));
--	fb->fb.fix.type		= FB_TYPE_PACKED_PIXELS;
--	fb->fb.fix.type_aux	= 0;
--	fb->fb.fix.xpanstep	= 0;
--	fb->fb.fix.ypanstep	= 0;
--	fb->fb.fix.ywrapstep	= 0;
--	fb->fb.fix.accel	= FB_ACCEL_NONE;
--
--	fb->fb.var.xres		= fb->panel->mode.xres;
--	fb->fb.var.yres		= fb->panel->mode.yres;
--	fb->fb.var.xres_virtual	= fb->panel->mode.xres;
--	fb->fb.var.yres_virtual	= fb->panel->mode.yres;
--	fb->fb.var.bits_per_pixel = fb->panel->bpp;
--	fb->fb.var.grayscale	= fb->panel->grayscale;
--	fb->fb.var.pixclock	= fb->panel->mode.pixclock;
--	fb->fb.var.left_margin	= fb->panel->mode.left_margin;
--	fb->fb.var.right_margin	= fb->panel->mode.right_margin;
--	fb->fb.var.upper_margin	= fb->panel->mode.upper_margin;
--	fb->fb.var.lower_margin	= fb->panel->mode.lower_margin;
--	fb->fb.var.hsync_len	= fb->panel->mode.hsync_len;
--	fb->fb.var.vsync_len	= fb->panel->mode.vsync_len;
--	fb->fb.var.sync		= fb->panel->mode.sync;
--	fb->fb.var.vmode	= fb->panel->mode.vmode;
--	fb->fb.var.activate	= FB_ACTIVATE_NOW;
--	fb->fb.var.nonstd	= 0;
--	fb->fb.var.height	= fb->panel->height;
--	fb->fb.var.width	= fb->panel->width;
--	fb->fb.var.accel_flags	= 0;
--
--	fb->fb.monspecs.hfmin	= 0;
--	fb->fb.monspecs.hfmax   = 100000;
--	fb->fb.monspecs.vfmin	= 0;
--	fb->fb.monspecs.vfmax	= 400;
--	fb->fb.monspecs.dclkmin = 1000000;
--	fb->fb.monspecs.dclkmax	= 100000000;
--
--	/*
--	 * Make sure that the bitfields are set appropriately.
--	 */
--	clcdfb_set_bitfields(fb, &fb->fb.var);
--
--	/*
--	 * Allocate colourmap.
--	 */
--	ret = fb_alloc_cmap(&fb->fb.cmap, 256, 0);
--	if (ret)
--		goto unmap;
--
--	/*
--	 * Ensure interrupts are disabled.
--	 */
--	writel(0, fb->regs + fb->off_ienb);
--
--	fb_set_var(&fb->fb, &fb->fb.var);
--
--	dev_info(&fb->dev->dev, "%s hardware, %s display\n",
--	         fb->board->name, fb->panel->mode.name);
--
--	ret = register_framebuffer(&fb->fb);
--	if (ret == 0)
--		goto out;
--
--	printk(KERN_ERR "CLCD: cannot register framebuffer (%d)\n", ret);
--
--	fb_dealloc_cmap(&fb->fb.cmap);
-- unmap:
--	iounmap(fb->regs);
-- clk_unprep:
--	clk_unprepare(fb->clk);
-- free_clk:
--	clk_put(fb->clk);
-- out:
--	return ret;
--}
--
--#ifdef CONFIG_OF
--static int clcdfb_of_get_dpi_panel_mode(struct device_node *node,
--		struct clcd_panel *clcd_panel)
--{
--	int err;
--	struct display_timing timing;
--	struct videomode video;
--
--	err = of_get_display_timing(node, "panel-timing", &timing);
--	if (err) {
--		pr_err("%pOF: problems parsing panel-timing (%d)\n", node, err);
--		return err;
--	}
--
--	videomode_from_timing(&timing, &video);
--
--	err = fb_videomode_from_videomode(&video, &clcd_panel->mode);
--	if (err)
--		return err;
--
--	/* Set up some inversion flags */
--	if (timing.flags & DISPLAY_FLAGS_PIXDATA_NEGEDGE)
--		clcd_panel->tim2 |= TIM2_IPC;
--	else if (!(timing.flags & DISPLAY_FLAGS_PIXDATA_POSEDGE))
--		/*
--		 * To preserve backwards compatibility, the IPC (inverted
--		 * pixel clock) flag needs to be set on any display that
--		 * doesn't explicitly specify that the pixel clock is
--		 * active on the negative or positive edge.
--		 */
--		clcd_panel->tim2 |= TIM2_IPC;
--
--	if (timing.flags & DISPLAY_FLAGS_HSYNC_LOW)
--		clcd_panel->tim2 |= TIM2_IHS;
--
--	if (timing.flags & DISPLAY_FLAGS_VSYNC_LOW)
--		clcd_panel->tim2 |= TIM2_IVS;
--
--	if (timing.flags & DISPLAY_FLAGS_DE_LOW)
--		clcd_panel->tim2 |= TIM2_IOE;
--
--	return 0;
--}
--
--static int clcdfb_snprintf_mode(char *buf, int size, struct fb_videomode *mode)
--{
--	return snprintf(buf, size, "%ux%u@%u", mode->xres, mode->yres,
--			mode->refresh);
--}
--
--static int clcdfb_of_get_backlight(struct device_node *panel,
--				   struct clcd_panel *clcd_panel)
--{
--	struct device_node *backlight;
--
--	/* Look up the optional backlight phandle */
--	backlight = of_parse_phandle(panel, "backlight", 0);
--	if (backlight) {
--		clcd_panel->backlight = of_find_backlight_by_node(backlight);
--		of_node_put(backlight);
--
--		if (!clcd_panel->backlight)
--			return -EPROBE_DEFER;
--	}
--	return 0;
--}
--
--static int clcdfb_of_get_mode(struct device *dev, struct device_node *panel,
--			      struct clcd_panel *clcd_panel)
--{
--	int err;
--	struct fb_videomode *mode;
--	char *name;
--	int len;
--
--	/* Only directly connected DPI panels supported for now */
--	if (of_device_is_compatible(panel, "panel-dpi"))
--		err = clcdfb_of_get_dpi_panel_mode(panel, clcd_panel);
--	else
--		err = -ENOENT;
--	if (err)
--		return err;
--	mode = &clcd_panel->mode;
--
--	len = clcdfb_snprintf_mode(NULL, 0, mode);
--	name = devm_kzalloc(dev, len + 1, GFP_KERNEL);
--	if (!name)
--		return -ENOMEM;
--
--	clcdfb_snprintf_mode(name, len + 1, mode);
--	mode->name = name;
--
--	return 0;
--}
--
--static int clcdfb_of_init_tft_panel(struct clcd_fb *fb, u32 r0, u32 g0, u32 b0)
--{
--	static struct {
--		unsigned int part;
--		u32 r0, g0, b0;
--		u32 caps;
--	} panels[] = {
--		{ 0x110, 1,  7, 13, CLCD_CAP_5551 },
--		{ 0x110, 0,  8, 16, CLCD_CAP_888 },
--		{ 0x110, 16, 8, 0,  CLCD_CAP_888 },
--		{ 0x111, 4, 14, 20, CLCD_CAP_444 },
--		{ 0x111, 3, 11, 19, CLCD_CAP_444 | CLCD_CAP_5551 },
--		{ 0x111, 3, 10, 19, CLCD_CAP_444 | CLCD_CAP_5551 |
--				    CLCD_CAP_565 },
--		{ 0x111, 0,  8, 16, CLCD_CAP_444 | CLCD_CAP_5551 |
--				    CLCD_CAP_565 | CLCD_CAP_888 },
--	};
--	int i;
--
--	/* Bypass pixel clock divider */
--	fb->panel->tim2 |= TIM2_BCD;
--
--	/* TFT display, vert. comp. interrupt at the start of the back porch */
--	fb->panel->cntl |= CNTL_LCDTFT | CNTL_LCDVCOMP(1);
--
--	fb->panel->caps = 0;
--
--	/* Match the setup with known variants */
--	for (i = 0; i < ARRAY_SIZE(panels) && !fb->panel->caps; i++) {
--		if (amba_part(fb->dev) != panels[i].part)
--			continue;
--		if (g0 != panels[i].g0)
--			continue;
--		if (r0 == panels[i].r0 && b0 == panels[i].b0)
--			fb->panel->caps = panels[i].caps;
--	}
--
--	/*
--	 * If we actually physically connected the R lines to B and
--	 * vice versa
--	 */
--	if (r0 != 0 && b0 == 0)
--		fb->panel->bgr_connection = true;
--
--	return fb->panel->caps ? 0 : -EINVAL;
--}
--
--static int clcdfb_of_init_display(struct clcd_fb *fb)
--{
--	struct device_node *endpoint, *panel;
--	int err;
--	unsigned int bpp;
--	u32 max_bandwidth;
--	u32 tft_r0b0g0[3];
--
--	fb->panel = devm_kzalloc(&fb->dev->dev, sizeof(*fb->panel), GFP_KERNEL);
--	if (!fb->panel)
--		return -ENOMEM;
--
--	/*
--	 * Fetch the panel endpoint.
--	 */
--	endpoint = of_graph_get_next_endpoint(fb->dev->dev.of_node, NULL);
--	if (!endpoint)
--		return -ENODEV;
--
--	panel = of_graph_get_remote_port_parent(endpoint);
--	if (!panel)
--		return -ENODEV;
--
--	err = clcdfb_of_get_backlight(panel, fb->panel);
--	if (err)
--		return err;
--
--	err = clcdfb_of_get_mode(&fb->dev->dev, panel, fb->panel);
--	if (err)
--		return err;
--
--	err = of_property_read_u32(fb->dev->dev.of_node, "max-memory-bandwidth",
--			&max_bandwidth);
--	if (!err) {
--		/*
--		 * max_bandwidth is in bytes per second and pixclock in
--		 * pico-seconds, so the maximum allowed bits per pixel is
--		 *   8 * max_bandwidth / (PICOS2KHZ(pixclock) * 1000)
--		 * Rearrange this calculation to avoid overflow and then ensure
--		 * result is a valid format.
--		 */
--		bpp = max_bandwidth / (1000 / 8)
--			/ PICOS2KHZ(fb->panel->mode.pixclock);
--		bpp = rounddown_pow_of_two(bpp);
--		if (bpp > 32)
--			bpp = 32;
--	} else
--		bpp = 32;
--	fb->panel->bpp = bpp;
--
--#ifdef CONFIG_CPU_BIG_ENDIAN
--	fb->panel->cntl |= CNTL_BEBO;
--#endif
--	fb->panel->width = -1;
--	fb->panel->height = -1;
--
--	if (of_property_read_u32_array(endpoint,
--			"arm,pl11x,tft-r0g0b0-pads",
--			tft_r0b0g0, ARRAY_SIZE(tft_r0b0g0)) != 0)
--		return -ENOENT;
--
--	return clcdfb_of_init_tft_panel(fb, tft_r0b0g0[0],
--					tft_r0b0g0[1],  tft_r0b0g0[2]);
--}
--
--static int clcdfb_of_vram_setup(struct clcd_fb *fb)
--{
--	int err;
--	struct device_node *memory;
--	u64 size;
--
--	err = clcdfb_of_init_display(fb);
--	if (err)
--		return err;
--
--	memory = of_parse_phandle(fb->dev->dev.of_node, "memory-region", 0);
--	if (!memory)
--		return -ENODEV;
--
--	fb->fb.screen_base = of_iomap(memory, 0);
--	if (!fb->fb.screen_base)
--		return -ENOMEM;
--
--	fb->fb.fix.smem_start = of_translate_address(memory,
--			of_get_address(memory, 0, &size, NULL));
--	fb->fb.fix.smem_len = size;
--
--	return 0;
--}
--
--static int clcdfb_of_vram_mmap(struct clcd_fb *fb, struct vm_area_struct *vma)
--{
--	unsigned long off, user_size, kernel_size;
--
--
--	off = vma->vm_pgoff << PAGE_SHIFT;
--	user_size = vma->vm_end - vma->vm_start;
--	kernel_size = fb->fb.fix.smem_len;
--
--	if (off >= kernel_size || user_size > (kernel_size - off))
--		return -ENXIO;
--
--	return remap_pfn_range(vma, vma->vm_start,
--			__phys_to_pfn(fb->fb.fix.smem_start) + vma->vm_pgoff,
--			user_size,
--			pgprot_writecombine(vma->vm_page_prot));
--}
--
--static void clcdfb_of_vram_remove(struct clcd_fb *fb)
--{
--	iounmap(fb->fb.screen_base);
--}
--
--static int clcdfb_of_dma_setup(struct clcd_fb *fb)
--{
--	unsigned long framesize;
--	dma_addr_t dma;
--	int err;
--
--	err = clcdfb_of_init_display(fb);
--	if (err)
--		return err;
--
--	framesize = PAGE_ALIGN(fb->panel->mode.xres * fb->panel->mode.yres *
--			fb->panel->bpp / 8);
--	fb->fb.screen_base = dma_alloc_coherent(&fb->dev->dev, framesize,
--			&dma, GFP_KERNEL);
--	if (!fb->fb.screen_base)
--		return -ENOMEM;
--
--	fb->fb.fix.smem_start = dma;
--	fb->fb.fix.smem_len = framesize;
--
--	return 0;
--}
--
--static int clcdfb_of_dma_mmap(struct clcd_fb *fb, struct vm_area_struct *vma)
--{
--	return dma_mmap_wc(&fb->dev->dev, vma, fb->fb.screen_base,
--			   fb->fb.fix.smem_start, fb->fb.fix.smem_len);
--}
--
--static void clcdfb_of_dma_remove(struct clcd_fb *fb)
--{
--	dma_free_coherent(&fb->dev->dev, fb->fb.fix.smem_len,
--			fb->fb.screen_base, fb->fb.fix.smem_start);
--}
--
--static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
--{
--	struct clcd_board *board = devm_kzalloc(&dev->dev, sizeof(*board),
--			GFP_KERNEL);
--	struct device_node *node = dev->dev.of_node;
--
--	if (!board)
--		return NULL;
--
--	board->name = of_node_full_name(node);
--	board->caps = CLCD_CAP_ALL;
--	board->check = clcdfb_check;
--	board->decode = clcdfb_decode;
--	if (of_find_property(node, "memory-region", NULL)) {
--		board->setup = clcdfb_of_vram_setup;
--		board->mmap = clcdfb_of_vram_mmap;
--		board->remove = clcdfb_of_vram_remove;
--	} else {
--		board->setup = clcdfb_of_dma_setup;
--		board->mmap = clcdfb_of_dma_mmap;
--		board->remove = clcdfb_of_dma_remove;
--	}
--
--	return board;
--}
--#else
--static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
--{
--	return NULL;
--}
--#endif
--
--static int clcdfb_probe(struct amba_device *dev, const struct amba_id *id)
--{
--	struct clcd_board *board = dev_get_platdata(&dev->dev);
--	struct clcd_fb *fb;
--	int ret;
--
--	if (!board)
--		board = clcdfb_of_get_board(dev);
--
--	if (!board)
--		return -EINVAL;
--
--	ret = dma_set_mask_and_coherent(&dev->dev, DMA_BIT_MASK(32));
--	if (ret)
--		goto out;
--
--	ret = amba_request_regions(dev, NULL);
--	if (ret) {
--		printk(KERN_ERR "CLCD: unable to reserve regs region\n");
--		goto out;
--	}
--
--	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
--	if (!fb) {
--		ret = -ENOMEM;
--		goto free_region;
--	}
--
--	fb->dev = dev;
--	fb->board = board;
--
--	dev_info(&fb->dev->dev, "PL%03x designer %02x rev%u at 0x%08llx\n",
--		amba_part(dev), amba_manf(dev), amba_rev(dev),
--		(unsigned long long)dev->res.start);
--
--	ret = fb->board->setup(fb);
--	if (ret)
--		goto free_fb;
--
--	ret = clcdfb_register(fb);
--	if (ret == 0) {
--		amba_set_drvdata(dev, fb);
--		goto out;
--	}
--
--	fb->board->remove(fb);
-- free_fb:
--	kfree(fb);
-- free_region:
--	amba_release_regions(dev);
-- out:
--	return ret;
--}
--
--static int clcdfb_remove(struct amba_device *dev)
--{
--	struct clcd_fb *fb = amba_get_drvdata(dev);
--
--	clcdfb_disable(fb);
--	unregister_framebuffer(&fb->fb);
--	if (fb->fb.cmap.len)
--		fb_dealloc_cmap(&fb->fb.cmap);
--	iounmap(fb->regs);
--	clk_unprepare(fb->clk);
--	clk_put(fb->clk);
--
--	fb->board->remove(fb);
--
--	kfree(fb);
--
--	amba_release_regions(dev);
--
--	return 0;
--}
--
--static const struct amba_id clcdfb_id_table[] = {
--	{
--		.id	= 0x00041110,
--		.mask	= 0x000ffffe,
--	},
--	{ 0, 0 },
--};
--
--MODULE_DEVICE_TABLE(amba, clcdfb_id_table);
--
--static struct amba_driver clcd_driver = {
--	.drv 		= {
--		.name	= "clcd-pl11x",
--	},
--	.probe		= clcdfb_probe,
--	.remove		= clcdfb_remove,
--	.id_table	= clcdfb_id_table,
--};
--
--static int __init amba_clcdfb_init(void)
--{
--	if (fb_get_options("ambafb", NULL))
--		return -ENODEV;
--
--	return amba_driver_register(&clcd_driver);
--}
--
--module_init(amba_clcdfb_init);
--
--static void __exit amba_clcdfb_exit(void)
--{
--	amba_driver_unregister(&clcd_driver);
--}
--
--module_exit(amba_clcdfb_exit);
--
--MODULE_DESCRIPTION("ARM PrimeCell PL110 CLCD core driver");
--MODULE_LICENSE("GPL");
-diff --git a/include/linux/amba/clcd.h b/include/linux/amba/clcd.h
-deleted file mode 100644
-index b6e0cbeaf533..000000000000
---- a/include/linux/amba/clcd.h
-+++ /dev/null
-@@ -1,290 +0,0 @@
--/*
-- * linux/include/asm-arm/hardware/amba_clcd.h -- Integrator LCD panel.
-- *
-- * David A Rusling
-- *
-- * Copyright (C) 2001 ARM Limited
-- *
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file COPYING in the main directory of this archive
-- * for more details.
-- */
--#include <linux/fb.h>
--#include <linux/amba/clcd-regs.h>
--
--enum {
--	/* individual formats */
--	CLCD_CAP_RGB444		= (1 << 0),
--	CLCD_CAP_RGB5551	= (1 << 1),
--	CLCD_CAP_RGB565		= (1 << 2),
--	CLCD_CAP_RGB888		= (1 << 3),
--	CLCD_CAP_BGR444		= (1 << 4),
--	CLCD_CAP_BGR5551	= (1 << 5),
--	CLCD_CAP_BGR565		= (1 << 6),
--	CLCD_CAP_BGR888		= (1 << 7),
--
--	/* connection layouts */
--	CLCD_CAP_444		= CLCD_CAP_RGB444 | CLCD_CAP_BGR444,
--	CLCD_CAP_5551		= CLCD_CAP_RGB5551 | CLCD_CAP_BGR5551,
--	CLCD_CAP_565		= CLCD_CAP_RGB565 | CLCD_CAP_BGR565,
--	CLCD_CAP_888		= CLCD_CAP_RGB888 | CLCD_CAP_BGR888,
--
--	/* red/blue ordering */
--	CLCD_CAP_RGB		= CLCD_CAP_RGB444 | CLCD_CAP_RGB5551 |
--				  CLCD_CAP_RGB565 | CLCD_CAP_RGB888,
--	CLCD_CAP_BGR		= CLCD_CAP_BGR444 | CLCD_CAP_BGR5551 |
--				  CLCD_CAP_BGR565 | CLCD_CAP_BGR888,
--
--	CLCD_CAP_ALL		= CLCD_CAP_BGR | CLCD_CAP_RGB,
--};
--
--struct backlight_device;
--
--struct clcd_panel {
--	struct fb_videomode	mode;
--	signed short		width;	/* width in mm */
--	signed short		height;	/* height in mm */
--	u32			tim2;
--	u32			tim3;
--	u32			cntl;
--	u32			caps;
--	unsigned int		bpp:8,
--				fixedtimings:1,
--				grayscale:1;
--	unsigned int		connector;
--	struct backlight_device	*backlight;
--	/*
--	 * If the B/R lines are switched between the CLCD
--	 * and the panel we need to know this and not try to
--	 * compensate with the BGR bit in the control register.
--	 */
--	bool			bgr_connection;
--};
--
--struct clcd_regs {
--	u32			tim0;
--	u32			tim1;
--	u32			tim2;
--	u32			tim3;
--	u32			cntl;
--	unsigned long		pixclock;
--};
--
--struct clcd_fb;
--
--/*
-- * the board-type specific routines
-- */
--struct clcd_board {
--	const char *name;
--
--	/*
--	 * Optional.  Hardware capability flags.
--	 */
--	u32	caps;
--
--	/*
--	 * Optional.  Check whether the var structure is acceptable
--	 * for this display.
--	 */
--	int	(*check)(struct clcd_fb *fb, struct fb_var_screeninfo *var);
--
--	/*
--	 * Compulsory.  Decode fb->fb.var into regs->*.  In the case of
--	 * fixed timing, set regs->* to the register values required.
--	 */
--	void	(*decode)(struct clcd_fb *fb, struct clcd_regs *regs);
--
--	/*
--	 * Optional.  Disable any extra display hardware.
--	 */
--	void	(*disable)(struct clcd_fb *);
--
--	/*
--	 * Optional.  Enable any extra display hardware.
--	 */
--	void	(*enable)(struct clcd_fb *);
--
--	/*
--	 * Setup platform specific parts of CLCD driver
--	 */
--	int	(*setup)(struct clcd_fb *);
--
--	/*
--	 * mmap the framebuffer memory
--	 */
--	int	(*mmap)(struct clcd_fb *, struct vm_area_struct *);
--
--	/*
--	 * Remove platform specific parts of CLCD driver
--	 */
--	void	(*remove)(struct clcd_fb *);
--};
--
--struct amba_device;
--struct clk;
--
--/* this data structure describes each frame buffer device we find */
--struct clcd_fb {
--	struct fb_info		fb;
--	struct amba_device	*dev;
--	struct clk		*clk;
--	struct clcd_panel	*panel;
--	struct clcd_board	*board;
--	void			*board_data;
--	void __iomem		*regs;
--	u16			off_ienb;
--	u16			off_cntl;
--	u32			clcd_cntl;
--	u32			cmap[16];
--	bool			clk_enabled;
--};
--
--static inline void clcdfb_decode(struct clcd_fb *fb, struct clcd_regs *regs)
--{
--	struct fb_var_screeninfo *var = &fb->fb.var;
--	u32 val, cpl;
--
--	/*
--	 * Program the CLCD controller registers and start the CLCD
--	 */
--	val = ((var->xres / 16) - 1) << 2;
--	val |= (var->hsync_len - 1) << 8;
--	val |= (var->right_margin - 1) << 16;
--	val |= (var->left_margin - 1) << 24;
--	regs->tim0 = val;
--
--	val = var->yres;
--	if (fb->panel->cntl & CNTL_LCDDUAL)
--		val /= 2;
--	val -= 1;
--	val |= (var->vsync_len - 1) << 10;
--	val |= var->lower_margin << 16;
--	val |= var->upper_margin << 24;
--	regs->tim1 = val;
--
--	val = fb->panel->tim2;
--	val |= var->sync & FB_SYNC_HOR_HIGH_ACT  ? 0 : TIM2_IHS;
--	val |= var->sync & FB_SYNC_VERT_HIGH_ACT ? 0 : TIM2_IVS;
--
--	cpl = var->xres_virtual;
--	if (fb->panel->cntl & CNTL_LCDTFT)	  /* TFT */
--		/* / 1 */;
--	else if (!var->grayscale)		  /* STN color */
--		cpl = cpl * 8 / 3;
--	else if (fb->panel->cntl & CNTL_LCDMONO8) /* STN monochrome, 8bit */
--		cpl /= 8;
--	else					  /* STN monochrome, 4bit */
--		cpl /= 4;
--
--	regs->tim2 = val | ((cpl - 1) << 16);
--
--	regs->tim3 = fb->panel->tim3;
--
--	val = fb->panel->cntl;
--	if (var->grayscale)
--		val |= CNTL_LCDBW;
--
--	if (fb->panel->caps && fb->board->caps && var->bits_per_pixel >= 16) {
--		/*
--		 * if board and panel supply capabilities, we can support
--		 * changing BGR/RGB depending on supplied parameters. Here
--		 * we switch to what the framebuffer is providing if need
--		 * be, so if the framebuffer is BGR but the display connection
--		 * is RGB (first case) we switch it around. Vice versa mutatis
--		 * mutandis if the framebuffer is RGB but the display connection
--		 * is BGR, we flip it around.
--		 */
--		if (var->red.offset == 0)
--			val &= ~CNTL_BGR;
--		else
--			val |= CNTL_BGR;
--		if (fb->panel->bgr_connection)
--			val ^= CNTL_BGR;
--	}
--
--	switch (var->bits_per_pixel) {
--	case 1:
--		val |= CNTL_LCDBPP1;
--		break;
--	case 2:
--		val |= CNTL_LCDBPP2;
--		break;
--	case 4:
--		val |= CNTL_LCDBPP4;
--		break;
--	case 8:
--		val |= CNTL_LCDBPP8;
--		break;
--	case 16:
--		/*
--		 * PL110 cannot choose between 5551 and 565 modes in its
--		 * control register.  It is possible to use 565 with
--		 * custom external wiring.
--		 */
--		if (amba_part(fb->dev) == 0x110 ||
--		    var->green.length == 5)
--			val |= CNTL_LCDBPP16;
--		else if (var->green.length == 6)
--			val |= CNTL_LCDBPP16_565;
--		else
--			val |= CNTL_LCDBPP16_444;
--		break;
--	case 32:
--		val |= CNTL_LCDBPP24;
--		break;
--	}
--
--	regs->cntl = val;
--	regs->pixclock = var->pixclock;
--}
--
--static inline int clcdfb_check(struct clcd_fb *fb, struct fb_var_screeninfo *var)
--{
--	var->xres_virtual = var->xres = (var->xres + 15) & ~15;
--	var->yres_virtual = var->yres = (var->yres + 1) & ~1;
--
--#define CHECK(e,l,h) (var->e < l || var->e > h)
--	if (CHECK(right_margin, (5+1), 256) ||	/* back porch */
--	    CHECK(left_margin, (5+1), 256) ||	/* front porch */
--	    CHECK(hsync_len, (5+1), 256) ||
--	    var->xres > 4096 ||
--	    var->lower_margin > 255 ||		/* back porch */
--	    var->upper_margin > 255 ||		/* front porch */
--	    var->vsync_len > 32 ||
--	    var->yres > 1024)
--		return -EINVAL;
--#undef CHECK
--
--	/* single panel mode: PCD = max(PCD, 1) */
--	/* dual panel mode: PCD = max(PCD, 5) */
--
--	/*
--	 * You can't change the grayscale setting, and
--	 * we can only do non-interlaced video.
--	 */
--	if (var->grayscale != fb->fb.var.grayscale ||
--	    (var->vmode & FB_VMODE_MASK) != FB_VMODE_NONINTERLACED)
--		return -EINVAL;
--
--#define CHECK(e) (var->e != fb->fb.var.e)
--	if (fb->panel->fixedtimings &&
--	    (CHECK(xres)		||
--	     CHECK(yres)		||
--	     CHECK(bits_per_pixel)	||
--	     CHECK(pixclock)		||
--	     CHECK(left_margin)		||
--	     CHECK(right_margin)	||
--	     CHECK(upper_margin)	||
--	     CHECK(lower_margin)	||
--	     CHECK(hsync_len)		||
--	     CHECK(vsync_len)		||
--	     CHECK(sync)))
--		return -EINVAL;
--#undef CHECK
--
--	var->nonstd = 0;
--	var->accel_flags = 0;
--
--	return 0;
--}
--- 
-2.25.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIFBMMTExIERSTSBkcml2ZXIgaXMgbm93IHRoZSBzb2xlIHVzZXIgb2YgdGhlIGV4dGVybmFs
+CkNMQ0QgcmVnaXN0ZXJzIGhlYWRlciBmaWxlLCBzbyBsZXQncyBhYnNvcmIgdGhhdCBpbnRvIHRo
+ZQpwbDExMV9kcm0uaCBmaWxlIGFuZCBzYXZlIHRoZSBleHRlcm5hbCBpbmNsdWRlLgoKQ2M6IFJ1
+c3NlbGwgS2luZyA8bGludXhAYXJtbGludXgub3JnLnVrPgpTaWduZWQtb2ZmLWJ5OiBMaW51cyBX
+YWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3Bs
+MTExL3BsMTExX2RlYnVnZnMuYyAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTEx
+X2Rpc3BsYXkuYyAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2RybS5oICAg
+ICAgIHwgNzMgKysrKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwx
+MTFfZHJ2LmMgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfdmVyc2F0
+aWxlLmMgfCAgMSAtCiBpbmNsdWRlL2xpbnV4L2FtYmEvY2xjZC1yZWdzLmggICAgICAgICAgfCA4
+NyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiA2IGZpbGVzIGNoYW5nZWQsIDczIGluc2VydGlv
+bnMoKyksIDkxIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgv
+YW1iYS9jbGNkLXJlZ3MuaAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDEx
+MV9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZGVidWdmcy5jCmluZGV4
+IDI2Y2E4Y2RmM2U2MC4uMzE3ZjY4YWJmMThiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+cGwxMTEvcGwxMTFfZGVidWdmcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9k
+ZWJ1Z2ZzLmMKQEAgLTMsNyArMyw2IEBACiAgKiAgQ29weXJpZ2h0IMKpIDIwMTcgQnJvYWRjb20K
+ICAqLwogCi0jaW5jbHVkZSA8bGludXgvYW1iYS9jbGNkLXJlZ3MuaD4KICNpbmNsdWRlIDxsaW51
+eC9zZXFfZmlsZS5oPgogCiAjaW5jbHVkZSA8ZHJtL2RybV9kZWJ1Z2ZzLmg+CmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZGlzcGxheS5jIGIvZHJpdmVycy9ncHUvZHJt
+L3BsMTExL3BsMTExX2Rpc3BsYXkuYwppbmRleCA3MDNkZGM4MDNjNTUuLmIzZTg2OTdjYWZjZiAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rpc3BsYXkuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZGlzcGxheS5jCkBAIC05LDcgKzksNiBAQAogICog
+Q29weXJpZ2h0IChDKSAyMDExIFRleGFzIEluc3RydW1lbnRzCiAgKi8KIAotI2luY2x1ZGUgPGxp
+bnV4L2FtYmEvY2xjZC1yZWdzLmg+CiAjaW5jbHVkZSA8bGludXgvY2xrLmg+CiAjaW5jbHVkZSA8
+bGludXgvZGVsYXkuaD4KICNpbmNsdWRlIDxsaW51eC92ZXJzaW9uLmg+CmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJtLmggYi9kcml2ZXJzL2dwdS9kcm0vcGwxMTEv
+cGwxMTFfZHJtLmgKaW5kZXggYmEzOTliY2I3OTJmLi4yNGRmNzJhZmViMGQgMTAwNjQ0Ci0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kcm0uaAorKysgYi9kcml2ZXJzL2dwdS9kcm0v
+cGwxMTEvcGwxMTFfZHJtLmgKQEAgLTIzLDYgKzIzLDc5IEBACiAjaW5jbHVkZSA8ZHJtL2RybV9w
+YW5lbC5oPgogI2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4KIAorLyoKKyAq
+IENMQ0QgQ29udHJvbGxlciBJbnRlcm5hbCBSZWdpc3RlciBhZGRyZXNzZXMKKyAqLworI2RlZmlu
+ZSBDTENEX1RJTTAJCTB4MDAwMDAwMDAKKyNkZWZpbmUgQ0xDRF9USU0xIAkJMHgwMDAwMDAwNAor
+I2RlZmluZSBDTENEX1RJTTIgCQkweDAwMDAwMDA4CisjZGVmaW5lIENMQ0RfVElNMyAJCTB4MDAw
+MDAwMGMKKyNkZWZpbmUgQ0xDRF9VQkFTIAkJMHgwMDAwMDAxMAorI2RlZmluZSBDTENEX0xCQVMg
+CQkweDAwMDAwMDE0CisKKyNkZWZpbmUgQ0xDRF9QTDExMF9JRU5CCQkweDAwMDAwMDE4CisjZGVm
+aW5lIENMQ0RfUEwxMTBfQ05UTAkJMHgwMDAwMDAxYworI2RlZmluZSBDTENEX1BMMTEwX1NUQVQJ
+CTB4MDAwMDAwMjAKKyNkZWZpbmUgQ0xDRF9QTDExMF9JTlRSIAkweDAwMDAwMDI0CisjZGVmaW5l
+IENMQ0RfUEwxMTBfVUNVUgkJMHgwMDAwMDAyOAorI2RlZmluZSBDTENEX1BMMTEwX0xDVVIJCTB4
+MDAwMDAwMkMKKworI2RlZmluZSBDTENEX1BMMTExX0NOVEwJCTB4MDAwMDAwMTgKKyNkZWZpbmUg
+Q0xDRF9QTDExMV9JRU5CCQkweDAwMDAwMDFjCisjZGVmaW5lIENMQ0RfUEwxMTFfUklTCQkweDAw
+MDAwMDIwCisjZGVmaW5lIENMQ0RfUEwxMTFfTUlTCQkweDAwMDAwMDI0CisjZGVmaW5lIENMQ0Rf
+UEwxMTFfSUNSCQkweDAwMDAwMDI4CisjZGVmaW5lIENMQ0RfUEwxMTFfVUNVUgkJMHgwMDAwMDAy
+YworI2RlZmluZSBDTENEX1BMMTExX0xDVVIJCTB4MDAwMDAwMzAKKworI2RlZmluZSBDTENEX1BB
+TEwgCQkweDAwMDAwMjAwCisjZGVmaW5lIENMQ0RfUEFMRVRURQkJMHgwMDAwMDIwMAorCisjZGVm
+aW5lIFRJTTJfUENEX0xPX01BU0sJR0VOTUFTSyg0LCAwKQorI2RlZmluZSBUSU0yX1BDRF9MT19C
+SVRTCTUKKyNkZWZpbmUgVElNMl9DTEtTRUwJCSgxIDw8IDUpCisjZGVmaW5lIFRJTTJfQUNCX01B
+U0sJCUdFTk1BU0soMTAsIDYpCisjZGVmaW5lIFRJTTJfSVZTCQkoMSA8PCAxMSkKKyNkZWZpbmUg
+VElNMl9JSFMJCSgxIDw8IDEyKQorI2RlZmluZSBUSU0yX0lQQwkJKDEgPDwgMTMpCisjZGVmaW5l
+IFRJTTJfSU9FCQkoMSA8PCAxNCkKKyNkZWZpbmUgVElNMl9CQ0QJCSgxIDw8IDI2KQorI2RlZmlu
+ZSBUSU0yX1BDRF9ISV9NQVNLCUdFTk1BU0soMzEsIDI3KQorI2RlZmluZSBUSU0yX1BDRF9ISV9C
+SVRTCTUKKyNkZWZpbmUgVElNMl9QQ0RfSElfU0hJRlQJMjcKKworI2RlZmluZSBDTlRMX0xDREVO
+CQkoMSA8PCAwKQorI2RlZmluZSBDTlRMX0xDREJQUDEJCSgwIDw8IDEpCisjZGVmaW5lIENOVExf
+TENEQlBQMgkJKDEgPDwgMSkKKyNkZWZpbmUgQ05UTF9MQ0RCUFA0CQkoMiA8PCAxKQorI2RlZmlu
+ZSBDTlRMX0xDREJQUDgJCSgzIDw8IDEpCisjZGVmaW5lIENOVExfTENEQlBQMTYJCSg0IDw8IDEp
+CisjZGVmaW5lIENOVExfTENEQlBQMTZfNTY1CSg2IDw8IDEpCisjZGVmaW5lIENOVExfTENEQlBQ
+MTZfNDQ0CSg3IDw8IDEpCisjZGVmaW5lIENOVExfTENEQlBQMjQJCSg1IDw8IDEpCisjZGVmaW5l
+IENOVExfTENEQlcJCSgxIDw8IDQpCisjZGVmaW5lIENOVExfTENEVEZUCQkoMSA8PCA1KQorI2Rl
+ZmluZSBDTlRMX0xDRE1PTk84CQkoMSA8PCA2KQorI2RlZmluZSBDTlRMX0xDRERVQUwJCSgxIDw8
+IDcpCisjZGVmaW5lIENOVExfQkdSCQkoMSA8PCA4KQorI2RlZmluZSBDTlRMX0JFQk8JCSgxIDw8
+IDkpCisjZGVmaW5lIENOVExfQkVQTwkJKDEgPDwgMTApCisjZGVmaW5lIENOVExfTENEUFdSCQko
+MSA8PCAxMSkKKyNkZWZpbmUgQ05UTF9MQ0RWQ09NUCh4KQkoKHgpIDw8IDEyKQorI2RlZmluZSBD
+TlRMX0xETUFGSUZPVElNRQkoMSA8PCAxNSkKKyNkZWZpbmUgQ05UTF9XQVRFUk1BUksJCSgxIDw8
+IDE2KQorCisvKiBTVCBNaWNyb2VsZWN0cm9uaWNzIHZhcmlhbnQgYml0cyAqLworI2RlZmluZSBD
+TlRMX1NUXzFYQlBQXzQ0NAkweDAKKyNkZWZpbmUgQ05UTF9TVF8xWEJQUF81NTUxCSgxIDw8IDE3
+KQorI2RlZmluZSBDTlRMX1NUXzFYQlBQXzU2NQkoMSA8PCAxOCkKKyNkZWZpbmUgQ05UTF9TVF9D
+RFdJRF8xMgkweDAKKyNkZWZpbmUgQ05UTF9TVF9DRFdJRF8xNgkoMSA8PCAxOSkKKyNkZWZpbmUg
+Q05UTF9TVF9DRFdJRF8xOAkoMSA8PCAyMCkKKyNkZWZpbmUgQ05UTF9TVF9DRFdJRF8yNAkoKDEg
+PDwgMTkpfCgxIDw8IDIwKSkKKyNkZWZpbmUgQ05UTF9TVF9DRUFFTgkJKDEgPDwgMjEpCisjZGVm
+aW5lIENOVExfU1RfTENEQlBQMjRfUEFDS0VECSg2IDw8IDEpCisKICNkZWZpbmUgQ0xDRF9JUlFf
+TkVYVEJBU0VfVVBEQVRFIEJJVCgyKQogCiBzdHJ1Y3QgZHJtX21pbm9yOwpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3BsMTExL3BsMTExX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3BsMTEx
+L3BsMTExX2Rydi5jCmluZGV4IGRhMGMzOWRhZTg3NC4uOTZlNThmZGE3NWQ4IDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3BsMTExL3BsMTExX2Rydi5jCkBAIC00Nyw3ICs0Nyw2IEBACiAgKi8KIAogI2luY2x1ZGUgPGxp
+bnV4L2FtYmEvYnVzLmg+Ci0jaW5jbHVkZSA8bGludXgvYW1iYS9jbGNkLXJlZ3MuaD4KICNpbmNs
+dWRlIDxsaW51eC9kbWEtYnVmLmg+CiAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+CiAjaW5jbHVk
+ZSA8bGludXgvb2YuaD4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV92
+ZXJzYXRpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV92ZXJzYXRpbGUuYwppbmRl
+eCAxMTI3MDgyZTlhNjAuLmJkZDg4M2Y0ZjBkYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3BsMTExL3BsMTExX3ZlcnNhdGlsZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDEx
+MV92ZXJzYXRpbGUuYwpAQCAtOSw3ICs5LDYgQEAKICAqIE1ham9yIGNvbnRyaWJ1dGlvbnMgYW5k
+IGRpc2NvdmVyaWVzIGJ5IFJ1c3NlbGwgS2luZy4KICAqLwogCi0jaW5jbHVkZSA8bGludXgvYW1i
+YS9jbGNkLXJlZ3MuaD4KICNpbmNsdWRlIDxsaW51eC9iaXRvcHMuaD4KICNpbmNsdWRlIDxsaW51
+eC9kZXZpY2UuaD4KICNpbmNsdWRlIDxsaW51eC9tZmQvc3lzY29uLmg+CmRpZmYgLS1naXQgYS9p
+bmNsdWRlL2xpbnV4L2FtYmEvY2xjZC1yZWdzLmggYi9pbmNsdWRlL2xpbnV4L2FtYmEvY2xjZC1y
+ZWdzLmgKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDQyMWIwZmE5MGQ2YS4uMDAwMDAw
+MDAwMDAwCi0tLSBhL2luY2x1ZGUvbGludXgvYW1iYS9jbGNkLXJlZ3MuaAorKysgL2Rldi9udWxs
+CkBAIC0xLDg3ICswLDAgQEAKLS8qCi0gKiBEYXZpZCBBIFJ1c2xpbmcKLSAqCi0gKiBDb3B5cmln
+aHQgKEMpIDIwMDEgQVJNIExpbWl0ZWQKLSAqCi0gKiBUaGlzIGZpbGUgaXMgc3ViamVjdCB0byB0
+aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYwotICogTGlj
+ZW5zZS4gIFNlZSB0aGUgZmlsZSBDT1BZSU5HIGluIHRoZSBtYWluIGRpcmVjdG9yeSBvZiB0aGlz
+IGFyY2hpdmUKLSAqIGZvciBtb3JlIGRldGFpbHMuCi0gKi8KLQotI2lmbmRlZiBBTUJBX0NMQ0Rf
+UkVHU19ICi0jZGVmaW5lIEFNQkFfQ0xDRF9SRUdTX0gKLQotLyoKLSAqIENMQ0QgQ29udHJvbGxl
+ciBJbnRlcm5hbCBSZWdpc3RlciBhZGRyZXNzZXMKLSAqLwotI2RlZmluZSBDTENEX1RJTTAJCTB4
+MDAwMDAwMDAKLSNkZWZpbmUgQ0xDRF9USU0xIAkJMHgwMDAwMDAwNAotI2RlZmluZSBDTENEX1RJ
+TTIgCQkweDAwMDAwMDA4Ci0jZGVmaW5lIENMQ0RfVElNMyAJCTB4MDAwMDAwMGMKLSNkZWZpbmUg
+Q0xDRF9VQkFTIAkJMHgwMDAwMDAxMAotI2RlZmluZSBDTENEX0xCQVMgCQkweDAwMDAwMDE0Ci0K
+LSNkZWZpbmUgQ0xDRF9QTDExMF9JRU5CCQkweDAwMDAwMDE4Ci0jZGVmaW5lIENMQ0RfUEwxMTBf
+Q05UTAkJMHgwMDAwMDAxYwotI2RlZmluZSBDTENEX1BMMTEwX1NUQVQJCTB4MDAwMDAwMjAKLSNk
+ZWZpbmUgQ0xDRF9QTDExMF9JTlRSIAkweDAwMDAwMDI0Ci0jZGVmaW5lIENMQ0RfUEwxMTBfVUNV
+UgkJMHgwMDAwMDAyOAotI2RlZmluZSBDTENEX1BMMTEwX0xDVVIJCTB4MDAwMDAwMkMKLQotI2Rl
+ZmluZSBDTENEX1BMMTExX0NOVEwJCTB4MDAwMDAwMTgKLSNkZWZpbmUgQ0xDRF9QTDExMV9JRU5C
+CQkweDAwMDAwMDFjCi0jZGVmaW5lIENMQ0RfUEwxMTFfUklTCQkweDAwMDAwMDIwCi0jZGVmaW5l
+IENMQ0RfUEwxMTFfTUlTCQkweDAwMDAwMDI0Ci0jZGVmaW5lIENMQ0RfUEwxMTFfSUNSCQkweDAw
+MDAwMDI4Ci0jZGVmaW5lIENMQ0RfUEwxMTFfVUNVUgkJMHgwMDAwMDAyYwotI2RlZmluZSBDTENE
+X1BMMTExX0xDVVIJCTB4MDAwMDAwMzAKLQotI2RlZmluZSBDTENEX1BBTEwgCQkweDAwMDAwMjAw
+Ci0jZGVmaW5lIENMQ0RfUEFMRVRURQkJMHgwMDAwMDIwMAotCi0jZGVmaW5lIFRJTTJfUENEX0xP
+X01BU0sJR0VOTUFTSyg0LCAwKQotI2RlZmluZSBUSU0yX1BDRF9MT19CSVRTCTUKLSNkZWZpbmUg
+VElNMl9DTEtTRUwJCSgxIDw8IDUpCi0jZGVmaW5lIFRJTTJfQUNCX01BU0sJCUdFTk1BU0soMTAs
+IDYpCi0jZGVmaW5lIFRJTTJfSVZTCQkoMSA8PCAxMSkKLSNkZWZpbmUgVElNMl9JSFMJCSgxIDw8
+IDEyKQotI2RlZmluZSBUSU0yX0lQQwkJKDEgPDwgMTMpCi0jZGVmaW5lIFRJTTJfSU9FCQkoMSA8
+PCAxNCkKLSNkZWZpbmUgVElNMl9CQ0QJCSgxIDw8IDI2KQotI2RlZmluZSBUSU0yX1BDRF9ISV9N
+QVNLCUdFTk1BU0soMzEsIDI3KQotI2RlZmluZSBUSU0yX1BDRF9ISV9CSVRTCTUKLSNkZWZpbmUg
+VElNMl9QQ0RfSElfU0hJRlQJMjcKLQotI2RlZmluZSBDTlRMX0xDREVOCQkoMSA8PCAwKQotI2Rl
+ZmluZSBDTlRMX0xDREJQUDEJCSgwIDw8IDEpCi0jZGVmaW5lIENOVExfTENEQlBQMgkJKDEgPDwg
+MSkKLSNkZWZpbmUgQ05UTF9MQ0RCUFA0CQkoMiA8PCAxKQotI2RlZmluZSBDTlRMX0xDREJQUDgJ
+CSgzIDw8IDEpCi0jZGVmaW5lIENOVExfTENEQlBQMTYJCSg0IDw8IDEpCi0jZGVmaW5lIENOVExf
+TENEQlBQMTZfNTY1CSg2IDw8IDEpCi0jZGVmaW5lIENOVExfTENEQlBQMTZfNDQ0CSg3IDw8IDEp
+Ci0jZGVmaW5lIENOVExfTENEQlBQMjQJCSg1IDw8IDEpCi0jZGVmaW5lIENOVExfTENEQlcJCSgx
+IDw8IDQpCi0jZGVmaW5lIENOVExfTENEVEZUCQkoMSA8PCA1KQotI2RlZmluZSBDTlRMX0xDRE1P
+Tk84CQkoMSA8PCA2KQotI2RlZmluZSBDTlRMX0xDRERVQUwJCSgxIDw8IDcpCi0jZGVmaW5lIENO
+VExfQkdSCQkoMSA8PCA4KQotI2RlZmluZSBDTlRMX0JFQk8JCSgxIDw8IDkpCi0jZGVmaW5lIENO
+VExfQkVQTwkJKDEgPDwgMTApCi0jZGVmaW5lIENOVExfTENEUFdSCQkoMSA8PCAxMSkKLSNkZWZp
+bmUgQ05UTF9MQ0RWQ09NUCh4KQkoKHgpIDw8IDEyKQotI2RlZmluZSBDTlRMX0xETUFGSUZPVElN
+RQkoMSA8PCAxNSkKLSNkZWZpbmUgQ05UTF9XQVRFUk1BUksJCSgxIDw8IDE2KQotCi0vKiBTVCBN
+aWNyb2VsZWN0cm9uaWNzIHZhcmlhbnQgYml0cyAqLwotI2RlZmluZSBDTlRMX1NUXzFYQlBQXzQ0
+NAkweDAKLSNkZWZpbmUgQ05UTF9TVF8xWEJQUF81NTUxCSgxIDw8IDE3KQotI2RlZmluZSBDTlRM
+X1NUXzFYQlBQXzU2NQkoMSA8PCAxOCkKLSNkZWZpbmUgQ05UTF9TVF9DRFdJRF8xMgkweDAKLSNk
+ZWZpbmUgQ05UTF9TVF9DRFdJRF8xNgkoMSA8PCAxOSkKLSNkZWZpbmUgQ05UTF9TVF9DRFdJRF8x
+OAkoMSA8PCAyMCkKLSNkZWZpbmUgQ05UTF9TVF9DRFdJRF8yNAkoKDEgPDwgMTkpfCgxIDw8IDIw
+KSkKLSNkZWZpbmUgQ05UTF9TVF9DRUFFTgkJKDEgPDwgMjEpCi0jZGVmaW5lIENOVExfU1RfTENE
+QlBQMjRfUEFDS0VECSg2IDw8IDEpCi0KLSNlbmRpZiAvKiBBTUJBX0NMQ0RfUkVHU19IICovCi0t
+IAoyLjI1LjQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
