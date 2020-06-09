@@ -2,38 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D01F34F0
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643091F34F7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E120E6E270;
-	Tue,  9 Jun 2020 07:35:14 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-X-Greylist: delayed 362 seconds by postgrey-1.36 at gabe;
- Tue, 09 Jun 2020 00:44:55 UTC
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD456E9D3
- for <dri-devel@freedesktop.org>; Tue,  9 Jun 2020 00:44:55 +0000 (UTC)
-Date: Tue, 09 Jun 2020 00:39:24 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1591663176;
- bh=/n4fYuEdj9NKK4hJumZK4korfqefNY3uSnzrKjH79jg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=E6dBasJ1iJd4akjgzMPaOY+vDb6tlmN9i4rZP8A3STky3F9mxHP+TyW7R7TED1yEA
- SjomhJNaiYhoWMboJBW9TEcD2TCI+NHlsA1ZWyhr+IKwa2eoENxxW10am6aKiBd62v
- e7+PzaYixiVJyXHdiKJeNvcdZtSgFdu7oXMCxmo8=
-To: dri-devel@freedesktop.org
-From: Colton Lewis <colton.w.lewis@protonmail.com>
-Subject: [PATCH 2/2] drm: correct trivial kernel-doc inconsistencies
-Message-ID: <20200609003810.1656842-3-colton.w.lewis@protonmail.com>
-In-Reply-To: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
-References: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB596E293;
+	Tue,  9 Jun 2020 07:35:18 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1CC6E0E3
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 01:25:47 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id q24so643731pjd.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jun 2020 18:25:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=COw8MsymzwRUQaCcvby30uu+ORzSh+2s4CK8yqEnGk0=;
+ b=m4U6w8Hj6efLuU2XJFCP8IPM+30vKQRX8BKy4OU/D+DUTmyH9XKbfEELFpSz42f7a/
+ a3V6e3lrKLFyYc13GVhfa4CdVD7sYJf2xvK5y5RWC823y9VUiUO/9hdCrABpETL9VLNp
+ ypI6smgxA7gnRqgf3Gf8k99kM728ZEUHZIKPQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=COw8MsymzwRUQaCcvby30uu+ORzSh+2s4CK8yqEnGk0=;
+ b=o5hNQDCCPvdkxCYXRBzFa0UbCYFoYXgl5km/UwyTFro8jKu6otyosCAnrvTTI7/zI5
+ oy/OUj1XMREhGeJo8xuGwbwlPcisyhclTblvbQTNWub3RKc5nZeIXRwbpCC7w0HE+Zu+
+ DWAcuT38cUttNfouEqtIOvKjyA/IfHuI37TTU5vqcmUdOpY+dyujX7UanXusgF+kJMxY
+ cmzo89OH/hlu6dgt5nHsoJuHKsA1f5NCyRg3JYxMGMxNSU6vHrWbnjjQB+HGVwaxtbw6
+ 4KF6rPbc4yqCq/YvnKutnnbJrAUIEnhKLR1Jhacom6OwD4mpMjXmwUHIrHN8wp6uKRUh
+ a1Ag==
+X-Gm-Message-State: AOAM530ZhvI5rRTPEISQE0HB4TYl8INrjturDJrgcXlxaEL5D5uebUkn
+ fPBoveAL52coM/MmoK5NstgYAw==
+X-Google-Smtp-Source: ABdhPJxxp3CZRZ++LaDq5ouPDTw2c1q5JXibsFXECAvthEk/ewMP/5LQ+XhXru1zBYVm40/rZfIFZw==
+X-Received: by 2002:a17:902:9043:: with SMTP id
+ w3mr1170254plz.250.1591665946907; 
+ Mon, 08 Jun 2020 18:25:46 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
+ by smtp.gmail.com with ESMTPSA id z23sm6716617pga.86.2020.06.08.18.25.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Jun 2020 18:25:46 -0700 (PDT)
+From: David Stevens <stevensd@chromium.org>
+To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH v5 0/3] Support virtio cross-device resources
+Date: Tue,  9 Jun 2020 10:25:15 +0900
+Message-Id: <20200609012518.198908-1-stevensd@chromium.org>
+X-Mailer: git-send-email 2.27.0.278.ge193c7cf3a9-goog
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 X-Mailman-Approved-At: Tue, 09 Jun 2020 07:35:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,53 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Colton Lewis <colton.w.lewis@protonmail.com>
-Cc: alexander.deucher@amd.com, Colton Lewis <colton.w.lewis@protonmail.com>,
- trivial@kernel.org
+Cc: virtio-dev@lists.oasis-open.org, dri-devel@lists.freedesktop.org,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ David Stevens <stevensd@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Silence documentation warnings by correcting kernel-doc comments.
+This patchset implements the current proposal for virtio cross-device
+resource sharing [1]. It will be used to import virtio resources into
+the virtio-video driver currently under discussion [2]. The patch
+under consideration to add support in the virtio-video driver is [3].
+It uses the APIs from v3 of this series, but the changes to update it
+are relatively minor.
 
-./include/drm/drm_dp_helper.h:1767: warning: Function parameter or member 'hbr2_reset' not described in 'drm_dp_phy_test_params'
-./drivers/gpu/drm/drm_dp_helper.c:1600: warning: Function parameter or member 'dp_rev' not described in 'drm_dp_set_phy_test_pattern'
+This patchset adds a new flavor of dma-bufs that supports querying the
+underlying virtio object UUID, as well as adding support for exporting
+resources from virtgpu.
 
-Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
----
- drivers/gpu/drm/drm_dp_helper.c | 1 +
- include/drm/drm_dp_helper.h     | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+[1] https://markmail.org/thread/2ypjt5cfeu3m6lxu
+[2] https://markmail.org/thread/p5d3k566srtdtute
+[3] https://markmail.org/thread/j4xlqaaim266qpks
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 19c99dddcb99..0bdf3c0f3c2a 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1591,6 +1591,7 @@ EXPORT_SYMBOL(drm_dp_get_phy_test_pattern);
-  * drm_dp_set_phy_test_pattern() - set the pattern to the sink.
-  * @aux: DisplayPort AUX channel
-  * @data: DP phy compliance test parameters.
-+ * @dp_rev: DisplayPort revision
-  *
-  * Returns 0 on success or a negative error code on failure.
-  */
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 2035ac44afde..863bd4341344 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1752,7 +1752,7 @@ static inline void drm_dp_cec_unset_edid(struct drm_dp_aux *aux)
-  * @link_rate: Requested Link rate from DPCD 0x219
-  * @num_lanes: Number of lanes requested by sing through DPCD 0x220
-  * @phy_pattern: DP Phy test pattern from DPCD 0x248
-- * @hb2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
-+ * @hbr2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
-  * @custom80: DP Test_80BIT_CUSTOM_PATTERN from DPCDs 0x250 through 0x259
-  * @enhanced_frame_cap: flag for enhanced frame capability.
-  */
+v4 -> v5 changes:
+ - Remove virtio_dma_buf_export_info.
+
+David Stevens (3):
+  virtio: add dma-buf support for exported objects
+  virtio-gpu: add VIRTIO_GPU_F_RESOURCE_UUID feature
+  drm/virtio: Support virtgpu exported resources
+
+ drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 20 ++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 96 +++++++++++++++++++++++++-
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 +++++++++++++++
+ drivers/virtio/Makefile                |  2 +-
+ drivers/virtio/virtio.c                |  6 ++
+ drivers/virtio/virtio_dma_buf.c        | 82 ++++++++++++++++++++++
+ include/linux/virtio.h                 |  1 +
+ include/linux/virtio_dma_buf.h         | 37 ++++++++++
+ include/uapi/linux/virtio_gpu.h        | 19 +++++
+ 11 files changed, 321 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/virtio/virtio_dma_buf.c
+ create mode 100644 include/linux/virtio_dma_buf.h
+
 -- 
-2.26.2
-
+2.27.0.278.ge193c7cf3a9-goog
 
 _______________________________________________
 dri-devel mailing list
