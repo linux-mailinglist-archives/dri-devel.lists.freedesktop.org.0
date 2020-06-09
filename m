@@ -2,29 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57901F34ED
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3D01F34F0
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 09:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 024346E1F5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E120E6E270;
 	Tue,  9 Jun 2020 07:35:14 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4ACF6E9D3
+X-Greylist: delayed 362 seconds by postgrey-1.36 at gabe;
+ Tue, 09 Jun 2020 00:44:55 UTC
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD456E9D3
  for <dri-devel@freedesktop.org>; Tue,  9 Jun 2020 00:44:55 +0000 (UTC)
-Date: Tue, 09 Jun 2020 00:39:15 +0000
+Date: Tue, 09 Jun 2020 00:39:24 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1591663161;
- bh=AGJtG9tQUKFHHSc7lwe/W00TIZ5m7Y22lrvqm8/oz2M=;
+ s=protonmail; t=1591663176;
+ bh=/n4fYuEdj9NKK4hJumZK4korfqefNY3uSnzrKjH79jg=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=lvtJeprbTHrjqdRsGyLVvYQ+haF3ow0sETIih5Q/6W98WWETlAy80uej1+1pm1g89
- XDbAd7BjLgGvfXpoB+1cdUmYR3yPELSRAYmwj2bLXV/MYxIZt5M4oAi6RK06tJ/n7x
- Cwx6PjnExCWxiCAeurYNRdQ5D9pUDhugP3H0aZII=
+ b=E6dBasJ1iJd4akjgzMPaOY+vDb6tlmN9i4rZP8A3STky3F9mxHP+TyW7R7TED1yEA
+ SjomhJNaiYhoWMboJBW9TEcD2TCI+NHlsA1ZWyhr+IKwa2eoENxxW10am6aKiBd62v
+ e7+PzaYixiVJyXHdiKJeNvcdZtSgFdu7oXMCxmo8=
 To: dri-devel@freedesktop.org
 From: Colton Lewis <colton.w.lewis@protonmail.com>
-Subject: [PATCH 1/2] drm/amd: correct trivial kernel-doc inconsistencies
-Message-ID: <20200609003810.1656842-2-colton.w.lewis@protonmail.com>
+Subject: [PATCH 2/2] drm: correct trivial kernel-doc inconsistencies
+Message-ID: <20200609003810.1656842-3-colton.w.lewis@protonmail.com>
 In-Reply-To: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
 References: <20200609003810.1656842-1-colton.w.lewis@protonmail.com>
 MIME-Version: 1.0
@@ -55,86 +57,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Silence documentation warnings by correcting kernel-doc comments.
 
-./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3388: warning: Excess function parameter 'suspend' description in 'amdgpu_device_suspend'
-./drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3485: warning: Excess function parameter 'resume' description in 'amdgpu_device_resume'
-./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'tbo' description in 'amdgpu_vram_mgr_del'
-./drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:418: warning: Excess function parameter 'place' description in 'amdgpu_vram_mgr_del'
-./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'tbo' description in 'amdgpu_gtt_mgr_del'
-./drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:279: warning: Excess function parameter 'place' description in 'amdgpu_gtt_mgr_del'
-./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'hdcp_workqueue' not described in 'amdgpu_display_manager'
-./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:332: warning: Function parameter or member 'cached_dc_state' not described in 'amdgpu_display_manager'
+./include/drm/drm_dp_helper.h:1767: warning: Function parameter or member 'hbr2_reset' not described in 'drm_dp_phy_test_params'
+./drivers/gpu/drm/drm_dp_helper.c:1600: warning: Function parameter or member 'dp_rev' not described in 'drm_dp_set_phy_test_pattern'
 
 Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c       | 2 --
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c      | 2 --
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 ++
- 4 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_dp_helper.c | 1 +
+ include/drm/drm_dp_helper.h     | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index a027a8f7b281..dd7da7b4b696 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3377,7 +3377,6 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
-  * amdgpu_device_suspend - initiate device suspend
+diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+index 19c99dddcb99..0bdf3c0f3c2a 100644
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -1591,6 +1591,7 @@ EXPORT_SYMBOL(drm_dp_get_phy_test_pattern);
+  * drm_dp_set_phy_test_pattern() - set the pattern to the sink.
+  * @aux: DisplayPort AUX channel
+  * @data: DP phy compliance test parameters.
++ * @dp_rev: DisplayPort revision
   *
-  * @dev: drm dev pointer
-- * @suspend: suspend state
-  * @fbcon : notify the fbdev of suspend
-  *
-  * Puts the hw in the suspend state (all asics).
-@@ -3474,7 +3473,6 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
-  * amdgpu_device_resume - initiate device resume
-  *
-  * @dev: drm dev pointer
-- * @resume: resume state
-  * @fbcon : notify the fbdev of resume
-  *
-  * Bring the hw back to operating state (all asics).
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 627104401e84..bc01a06546aa 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -268,8 +268,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_mem_type_manager *man,
-  * amdgpu_gtt_mgr_del - free ranges
-  *
-  * @man: TTM memory type manager
-- * @tbo: TTM BO we need this range for
-- * @place: placement flags and restrictions
-  * @mem: TTM memory object
-  *
-  * Free the allocated GTT again.
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index d399e5893170..97ad8ffe6c6c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -407,8 +407,6 @@ static int amdgpu_vram_mgr_new(struct ttm_mem_type_manager *man,
-  * amdgpu_vram_mgr_del - free ranges
-  *
-  * @man: TTM memory type manager
-- * @tbo: TTM BO we need this range for
-- * @place: placement flags and restrictions
-  * @mem: TTM memory object
-  *
-  * Free the allocated VRAM again.
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index d61186ff411d..86c132ddc452 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -139,10 +139,12 @@ struct amdgpu_dm_backlight_caps {
-  * @backlight_link: Link on which to control backlight
-  * @backlight_caps: Capabilities of the backlight device
-  * @freesync_module: Module handling freesync calculations
-+ * @hdcp_workqueue: AMDGPU content protection queue
-  * @fw_dmcu: Reference to DMCU firmware
-  * @dmcu_fw_version: Version of the DMCU firmware
-  * @soc_bounding_box: SOC bounding box values provided by gpu_info FW
-  * @cached_state: Caches device atomic state for suspend/resume
-+ * @cached_dc_state: Cached state of content streams
-  * @compressor: Frame buffer compression buffer. See &struct dm_comressor_info
+  * Returns 0 on success or a negative error code on failure.
   */
- struct amdgpu_display_manager {
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 2035ac44afde..863bd4341344 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1752,7 +1752,7 @@ static inline void drm_dp_cec_unset_edid(struct drm_dp_aux *aux)
+  * @link_rate: Requested Link rate from DPCD 0x219
+  * @num_lanes: Number of lanes requested by sing through DPCD 0x220
+  * @phy_pattern: DP Phy test pattern from DPCD 0x248
+- * @hb2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
++ * @hbr2_reset: DP HBR2_COMPLIANCE_SCRAMBLER_RESET from DCPD 0x24A and 0x24B
+  * @custom80: DP Test_80BIT_CUSTOM_PATTERN from DPCDs 0x250 through 0x259
+  * @enhanced_frame_cap: flag for enhanced frame capability.
+  */
 -- 
 2.26.2
 
