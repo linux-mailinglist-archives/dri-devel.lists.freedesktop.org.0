@@ -1,54 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32B51F4F0A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9341F4F28
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88FD26E115;
-	Wed, 10 Jun 2020 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B64B6E3FC;
+	Wed, 10 Jun 2020 07:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C2B6E054
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:11 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c71so2778645wmd.5
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=edVNPE5DX3OyCq+2fyjI6ylHeS+GOPrCyMzTtU1/fzY=;
- b=gDaD4KM/t8KX5Al7J/BjBhHccNF2kg3Pg0xh6Ed7ue9e77HSVyYvClYpogccUWVa0o
- sqMFc5fMJ7AvbB7JFU4K1yuD3yD/zO0J0V9y9SHUHDSSvISS8BVLyTPvZRaUOKotLugh
- kY/jDSW0d+ynzLoQkWgw09J4fzf/weK6pnQL0=
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 968576E2D8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:15:04 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id x22so12472134lfd.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=I7K6pP+VtdggFZCsP3lFDVTttDH/0LC9bYXS86TOH5s=;
+ b=gpz1dVmGBS0JAbbGjI2zfwNKRCHvLrspiNt4fq2GRSzA391Qr0vfeCTsyIRAer/4Ve
+ RoqJunmdCHCAQAA9wAQiT/GqKQexWEMILhCBxSpo5KImBza98KvVbpTbROSO/RgquH97
+ 4H12d9Zdmeh0ybgb4V57JH+9eVjoyGCpU3dxNeBR24H+MZUCGsQasFyrEu6SG1p6EC/r
+ Lf2EQJ3XGzL3c9RdCSw43hN6Nwb7Y6qqSyZ3jABVwF6GRXKyLSR+Z/YmuesJBAha9NDf
+ Nx0E7I4lN8MkNzdkcJEe1vQXLCgxnobtv59F+yJxfWXtP9aMWVxESrCrYHffyPROP/J9
+ JvlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=edVNPE5DX3OyCq+2fyjI6ylHeS+GOPrCyMzTtU1/fzY=;
- b=SccUbNvvwbRKwpXLp15fGGeBMIAFw6Zcau/6a95jzwIEWhiMAgQMEClRgTjHbv3MRt
- 5V8/wk/xaBE+BoHlpoGeNBEE3P8jsuNXJvZiLIpcA+kKH4wwDF1vdPt7TIsqFUG4WP1U
- /qI5a/FTsy1CY2oL2qAJFud4j3qXMGKpDZlTf9YUr5tg6Owbgj7NuDg16BgOV1E2U+wU
- KKWXWxEthPV/aSfl9rnLjBlC/HdMi0UrgZXh1kNbPVBrceiFC/WgY4rFf/w4UUrRFeWJ
- wsXHUiQM1sgo84rb9antKnrCoCyIa6oTKOw2RDFKzb4/WXzdExwPU8nXF43ZRbRv62d7
- upmA==
-X-Gm-Message-State: AOAM532QNHk0ZGYEgGkLIXuSOoKgpStfRqLNg/rIA8Ms7MEbFgpFEqzq
- ue2aGE792NDjXduEOzouCAacZAgQN0Sl4xgNBa5ZYQ==
-X-Google-Smtp-Source: ABdhPJwjOaQHBYP5HBHod5WDWXLMU0/xp0eCkWKGBg/hRiGblG95btpxH0ojmWyIZmWbwAeUqcEutxDqrlqPy0PnDd4=
-X-Received: by 2002:a1c:7305:: with SMTP id d5mr4103395wmb.85.1591708448748;
- Tue, 09 Jun 2020 06:14:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=I7K6pP+VtdggFZCsP3lFDVTttDH/0LC9bYXS86TOH5s=;
+ b=iD1VvvOENEU6sYRZyQx9/S/7ARUvGcVaZyA3AEMNS13uxNktvXAipaeax1AqMkFnZR
+ 1Ga3hfrWuzyxMRaO3+uJ6/0yydnVgFXsCLZVJ5ZA6PPedsXpFuEhFnri3UvflVHjhNdW
+ 3FXX0NgYuQmHhvHVJwGIRs6mrBIezow3tfIci8RmEZNmUNxtlhr1Kt2Kxuy302TfyhGB
+ AcNINsM1+QFI3mT7DAggzBQwPa/dmP9wQAzGjawojbbW8vyt8VezWoqO0Zr74NbrIEPE
+ fCRUyLQODgtzqHHVLvVipbcea2WO2wdnRn0jSu/sOPDi+0Qrlcul8CcYUIPCTHQ+Pr+v
+ LlCA==
+X-Gm-Message-State: AOAM530AKMevbtd7ngRZ98yHRrU/INsR+yffFRBl5WxLmKONq2FwbR+N
+ BQKL7P8e97mRcydVh8UBtbQ=
+X-Google-Smtp-Source: ABdhPJwPGbudINukH8h1BPvKKcnsUFOEztbYVGuIQyCRXoLqJ2LoTQ2Y/j1f0h4O68zrJBXYiJqVZg==
+X-Received: by 2002:a19:ae0f:: with SMTP id f15mr15731902lfc.142.1591708502997; 
+ Tue, 09 Jun 2020 06:15:02 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.15.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 06:15:02 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
+Subject: [PATCH v4 31/37] memory: tegra20-emc: Register as interconnect
+ provider
+Date: Tue,  9 Jun 2020 16:13:58 +0300
+Message-Id: <20200609131404.17523-32-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
+References: <20200609131404.17523-1-digetx@gmail.com>
 MIME-Version: 1.0
-References: <20200605212706.7361-1-james.quinlan@broadcom.com>
- <20200605212706.7361-9-james.quinlan@broadcom.com>
- <20200607164950.GX2428291@smile.fi.intel.com>
- <CA+-6iNyL12Z+igSrWnsmTzrwzyyeDtSK-9ULiZe0MwM5LO5bjQ@mail.gmail.com>
- <20200609111828.GI2428291@smile.fi.intel.com>
-In-Reply-To: <20200609111828.GI2428291@smile.fi.intel.com>
-From: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Tue, 9 Jun 2020 09:13:57 -0400
-Message-ID: <CA+-6iNxPGKFd84zK3k2SsgZcC=ExR=fPsSM8KAxPDswnjzi7QQ@mail.gmail.com>
-Subject: Re: [PATCH v4 08/12] device core: Introduce multiple dma pfn offsets
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-Mailman-Approved-At: Wed, 10 Jun 2020 07:35:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,93 +77,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Wolfram Sang <wsa@kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Dan Williams <dan.j.williams@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Yong Deng <yong.deng@magewell.com>,
- Santosh Shilimkar <ssantosh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Mark Brown <broonie@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
+ linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Now memory controller is a memory interconnection provider. This allows us
+to use interconnect API in order to change memory configuration.
 
-On Tue, Jun 9, 2020 at 7:18 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Mon, Jun 08, 2020 at 11:48:51AM -0400, Jim Quinlan wrote:
-> > On Sun, Jun 7, 2020 at 12:500f9bfe0fb8840b268af1bbcc51f1cd440514e PM
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Fri, Jun 05, 2020 at 05:26:48PM -0400, Jim Quinlan wrote:
->
-> ...
->
-> > > > +     *map_size = (num_ranges + 1) * sizeof(**map);
-> > > > +     r = kzalloc(*map_size, GFP_KERNEL);
-> > >
-> > > kcalloc()
-> > Since I have to calculate the size anyway I thought kzalloc was fine.
-> > I'll switch.
->
-> The point is to check multiplication overflow. See overflow.h for helpers.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/memory/tegra/tegra20-emc.c | 110 +++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
-I am aware of this check and didn't think of it as applicable here, as
-the most dma-ranges I can envision is six. I suppose that it is
-possible that this may change in the future to some big number.  At
-any rate, the next version has kcalloc().
+diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
+index 6cd3d50145dc..ef0f5a69f24b 100644
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -9,6 +9,7 @@
+ #include <linux/clk/tegra.h>
+ #include <linux/debugfs.h>
+ #include <linux/err.h>
++#include <linux/interconnect-provider.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+@@ -148,6 +149,7 @@ struct emc_timing {
+ struct tegra_emc {
+ 	struct device *dev;
+ 	struct notifier_block clk_nb;
++	struct icc_provider provider;
+ 	struct clk *clk;
+ 	void __iomem *regs;
+ 
+@@ -661,6 +663,113 @@ static void tegra_emc_debugfs_init(struct tegra_emc *emc)
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
+ 
++static inline struct tegra_emc *
++to_tegra_emc_provider(struct icc_provider *provider)
++{
++	return container_of(provider, struct tegra_emc, provider);
++}
++
++static struct icc_node *
++emc_of_icc_xlate(struct of_phandle_args *spec, void *data)
++{
++	struct icc_provider *provider = data;
++	struct icc_node *node;
++
++	/* External Memory is the only possible ICC route */
++	list_for_each_entry(node, &provider->nodes, node_list) {
++		if (node->id == TEGRA_ICC_EMEM)
++			return node;
++	}
++
++	return ERR_PTR(-EINVAL);
++}
++
++static int emc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	struct tegra_emc *emc = to_tegra_emc_provider(dst->provider);
++	unsigned long long rate = icc_units_to_bps(dst->avg_bw);
++	unsigned int dram_data_bus_width_bytes = 4;
++	unsigned int ddr = 2;
++	int err;
++
++	do_div(rate, ddr * dram_data_bus_width_bytes);
++	rate = min_t(u64, rate, U32_MAX);
++
++	err = clk_set_min_rate(emc->clk, rate);
++	if (err)
++		return err;
++
++	err = clk_set_rate(emc->clk, rate);
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static int emc_icc_aggregate(struct icc_node *node,
++			     u32 tag, u32 avg_bw, u32 peak_bw,
++			     u32 *agg_avg, u32 *agg_peak)
++{
++	*agg_avg = min((u64)avg_bw + (*agg_avg), (u64)U32_MAX);
++	*agg_peak = max(*agg_peak, peak_bw);
++
++	return 0;
++}
++
++static int tegra_emc_interconnect_init(struct tegra_emc *emc)
++{
++	struct icc_node *node;
++	int err;
++
++	/* older device-trees don't have interconnect properties */
++	if (!of_find_property(emc->dev->of_node, "#interconnect-cells", NULL))
++		return 0;
++
++	emc->provider.dev = emc->dev;
++	emc->provider.set = emc_icc_set;
++	emc->provider.data = &emc->provider;
++	emc->provider.xlate = emc_of_icc_xlate;
++	emc->provider.aggregate = emc_icc_aggregate;
++
++	err = icc_provider_add(&emc->provider);
++	if (err)
++		goto err_msg;
++
++	/* create External Memory Controller node */
++	node = icc_node_create(TEGRA_ICC_EMC);
++	err = PTR_ERR_OR_ZERO(node);
++	if (err)
++		goto del_provider;
++
++	node->name = "External Memory Controller";
++	icc_node_add(node, &emc->provider);
++
++	/* link External Memory Controller to External Memory (DRAM) */
++	err = icc_link_create(node, TEGRA_ICC_EMEM);
++	if (err)
++		goto remove_nodes;
++
++	/* create External Memory node */
++	node = icc_node_create(TEGRA_ICC_EMEM);
++	err = PTR_ERR_OR_ZERO(node);
++	if (err)
++		goto remove_nodes;
++
++	node->name = "External Memory (DRAM)";
++	icc_node_add(node, &emc->provider);
++
++	return 0;
++
++remove_nodes:
++	icc_nodes_remove(&emc->provider);
++del_provider:
++	icc_provider_del(&emc->provider);
++err_msg:
++	dev_err(emc->dev, "failed to initialize ICC: %d\n", err);
++
++	return err;
++}
++
+ static int tegra_emc_init_mc_timings(struct tegra_emc *emc)
+ {
+ 	struct tegra_mc_timing *timing;
+@@ -766,6 +875,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, emc);
+ 	tegra_emc_debugfs_init(emc);
++	tegra_emc_interconnect_init(emc);
+ 
+ 	/*
+ 	 * Don't allow the kernel module to be unloaded. Unloading adds some
+-- 
+2.26.0
 
-Regards,
-Jim
->
->
-> > > > +     if (!r)
-> > > > +             return -ENOMEM;
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
