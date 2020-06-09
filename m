@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCF51F4F26
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899641F4F37
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDC66E40A;
-	Wed, 10 Jun 2020 07:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA1C6E44E;
+	Wed, 10 Jun 2020 07:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 934456E054
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:47 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id x27so12427187lfg.9
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:47 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD376E2CC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:48 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id 202so12460327lfe.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VGygXNg/Km//fsZYaJ9FCB7/EL/aLlPnXW30j/MHS28=;
- b=mXB5SnZfqn16vRA4uYMqy5Krd7bygaAo8rS/UK4iy9Z9kcb0GP2JbBZJ1PUtLi8m9T
- fCPj1cgxlUfnjbanOJ59z+2i4USb6ocIGdXb75mzQaSAkiFWMC/UzomMXJfTjyfczbYe
- RXVvwgb35UFtAbAse/tsbcN+lfAZGMuPBqaFfQoXt58bKPjqtMsalIxULD+b7nXd5ya9
- 4aHZkhv6K8DB3lf0QU7sUNVpTijh43HR+3A8JpDtUaq3X/6p6uoLt0X7xwOGZRKkjGls
- usKYKWDhrkqo+6X+fV/ZOJ+1Nfbg8Xn2VvYTgqwgpWvrzr0MwVf9K7Tw4ZwnH9pOSEwv
- pp6Q==
+ bh=dYJTTF8rWAxRJdQ4tpKkvqb5inrmde6SNOd9Wsb86uU=;
+ b=FyU3xezRgYRLH4TYd7XYiDFM6LXHBEelQLK0NGdETaX6WKkyE9SUCxdnXF1tKr/Qca
+ Y48mQSDFBW18u0dkUbwwNnyfMOGvf+dq/QGBOZmOespFOndPPnCdwZ/jV2sNbZvwl2nz
+ kgFTDOum0p3zBMWWBv7Jzuwm68g92qmFIDdovSC1GBF/dhxlxtKTInzW6tUYmXxqD5/y
+ J+5pqklvO55a5VcWmscU8zgcuExscaIAJgNkxh4mWiIEQFnERuFZZPhEuzavsSOJ4I4N
+ 5UlFRi+emAPxbG0h7CHHAhf+sWPexhOEgTqTIPzcOTmcH5KJC/C5fq236fVzqs/xyDW9
+ RN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VGygXNg/Km//fsZYaJ9FCB7/EL/aLlPnXW30j/MHS28=;
- b=nmm9XOQ1Ebg69CTS6lhJzwHzJHqP2OFOJKWBsEycnNEL4yDJQjD3BuM/Ne1hL1Vn8U
- 1gOEIOy+ZmXmXOZNIVTyUVuupUICv/d9GKiSO5B05Q1lx0mDeE8zeefNKiFyWxUUp21q
- zbFala6C6PHgRoSGHvswqQsigImOFoAtDwvuQV9OiUpYUQynE5NPboPKnrC96dTFQQIk
- HLH2fQU7VW2JrD/WiecAyLrlH10cbagHH7qKmsruSKvmmSn9tcFIAI8t5Szy9pMoPQnn
- Vq6CqRUQRY0bDD3m4AACKPU0GWRoVMdxCyKIJk5DprkqZUV/ro4KyL0KQifJmpflj4Mp
- N8+g==
-X-Gm-Message-State: AOAM531o11YOP0L5JofA5KPpdiJFwydcVs6g7uCxoKI0/Uvjqoh4WByM
- LUrQJdL4TWRH+0srnq0JlTE=
-X-Google-Smtp-Source: ABdhPJw4Dspq+j4OlHVQWELAm+cmFDHSM2hFjfQ0yc7ewczkHde83jPV9VSqWzCREbVJLpyCRkMxjQ==
-X-Received: by 2002:a19:70d:: with SMTP id 13mr15601641lfh.60.1591708485971;
- Tue, 09 Jun 2020 06:14:45 -0700 (PDT)
+ bh=dYJTTF8rWAxRJdQ4tpKkvqb5inrmde6SNOd9Wsb86uU=;
+ b=ECbEbxZ2riN6f51r/EWabOeAm2z0zeHz3FXqH6cOrSdGhyOEhAQ2WPnu7Q6YK7er0Y
+ tcLUPpmouOOctIhFsMTNoWvjxEbVEjqvdpXjnKNDIxk2AZGM9cpTMZHLmqykIyst8mOA
+ mP6aiJjYNN2RQvNWqhtY55Ime+AVlEged5ndIzSapBLWtxPfT+kLIBiguE9z6dDauVFX
+ SVcVwjToXpXXs12Nczp5ymo28ywokC6E0qVTCYlPZ0ltkZ0hWJLcky7j+YSVJJe668FY
+ RLJsLF1A2ZiqGr2KHujFzuuPI6FTSDFz53ayK03BjS0gnM75e0cPKOz2EFlwlQAa7mrZ
+ J5Nw==
+X-Gm-Message-State: AOAM532QRhmIf068+BfslsLK9MSKPwhw2MQs+5Z/2R/SniPeR1XZpDy1
+ DNCyvkH/C8IiiRiAmLd5qug=
+X-Google-Smtp-Source: ABdhPJzEfsQbWQzCGvZqXQMeMC3xMP4vYYgAN1eofLkOvEDdkLppDoquu0V/j5apzqmH5PdMteSdUA==
+X-Received: by 2002:a19:642:: with SMTP id 63mr15648100lfg.173.1591708487296; 
+ Tue, 09 Jun 2020 06:14:47 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.44
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:14:45 -0700 (PDT)
+ Tue, 09 Jun 2020 06:14:46 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,9 +56,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v4 17/37] PM / devfreq: tegra20: Relax Kconfig dependency
-Date: Tue,  9 Jun 2020 16:13:44 +0300
-Message-Id: <20200609131404.17523-18-digetx@gmail.com>
+Subject: [PATCH v4 18/37] dt-bindings: memory: tegra20: mc: Document new
+ interconnect property
+Date: Tue,  9 Jun 2020 16:13:45 +0300
+Message-Id: <20200609131404.17523-19-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
 References: <20200609131404.17523-1-digetx@gmail.com>
@@ -85,33 +86,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Tegra EMC driver now could be compiled as a loadable kernel module.
-Currently devfreq driver depends on the EMC/MC drivers in Kconfig, and
-thus, devfreq is forced to be a kernel module if EMC is compiled as a
-module. This build dependency could be relaxed since devfreq driver
-checks MC/EMC presence on probe, allowing kernel configuration where
-devfreq is a built-in driver and EMC driver is a loadable module.
-This change puts Tegra20 devfreq Kconfig entry on a par with the Tegra30
-devfreq entry.
+Memory controller is interconnected with memory clients and with the
+external memory controller. Document new interconnect property which
+turns memory controller into interconnect provider.
 
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/devfreq/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/memory-controllers/nvidia,tegra20-mc.txt          | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/devfreq/Kconfig b/drivers/devfreq/Kconfig
-index 37dc40d1fcfb..0ee36ae2fa79 100644
---- a/drivers/devfreq/Kconfig
-+++ b/drivers/devfreq/Kconfig
-@@ -123,7 +123,7 @@ config ARM_TEGRA_DEVFREQ
+diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
+index e55328237df4..739b7c6f2e26 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
++++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra20-mc.txt
+@@ -16,6 +16,8 @@ Required properties:
+   IOMMU specifier needed to encode an address. GART supports only a single
+   address space that is shared by all devices, therefore no additional
+   information needed for the address encoding.
++- #interconnect-cells : Should be 1. This cell represents memory client.
++  The assignments may be found in header file <dt-bindings/memory/tegra20-mc.h>.
  
- config ARM_TEGRA20_DEVFREQ
- 	tristate "NVIDIA Tegra20 DEVFREQ Driver"
--	depends on (TEGRA_MC && TEGRA20_EMC) || COMPILE_TEST
-+	depends on ARCH_TEGRA_2x_SOC || COMPILE_TEST
- 	depends on COMMON_CLK
- 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
- 	help
+ Example:
+ 	mc: memory-controller@7000f000 {
+@@ -27,6 +29,7 @@ Example:
+ 		interrupts = <GIC_SPI 77 0x04>;
+ 		#reset-cells = <1>;
+ 		#iommu-cells = <0>;
++		#interconnect-cells = <1>;
+ 	};
+ 
+ 	video-codec@6001a000 {
 -- 
 2.26.0
 
