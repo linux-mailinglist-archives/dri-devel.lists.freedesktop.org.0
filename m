@@ -1,44 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EF01F3EB8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 16:58:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6651F3F36
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jun 2020 17:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A0689E9E;
-	Tue,  9 Jun 2020 14:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AC389CF5;
+	Tue,  9 Jun 2020 15:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87A589E9E
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 14:58:09 +0000 (UTC)
-IronPort-SDR: AY6Bm7UFmqThCjfLzt62AhPluISpG7SWzcjTzcxoH9taYQcx/IAwdU1qptRRWEqYCCmdLembJA
- nIn1Vjrrqayg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2020 07:58:09 -0700
-IronPort-SDR: tMSN7Nuone8GvvVNmU8W6rqQ5cg9e7QBFaHz1xtf3c0cIhx/GpbXcOVAif3LeSrMB9PI4/7t/W
- dIIUVVJDTIrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,492,1583222400"; d="scan'208";a="314219612"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 09 Jun 2020 07:58:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 09 Jun 2020 17:57:45 +0300
-Date: Tue, 9 Jun 2020 17:57:45 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Cyrus Lien <cyrus.lien@canonical.com>
-Subject: Re: [PATCH] drm/edid: add support for min horizontal rate equal to
- max horizontal rate
-Message-ID: <20200609145745.GO6112@intel.com>
-References: <20200608195704.29841-1-cyrus.lien@canonical.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD47E89CF5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 15:26:36 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 059FQVk8025874;
+ Tue, 9 Jun 2020 10:26:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1591716391;
+ bh=b2y0Z9lHjVbTdDJI+gowNTOtYPhQ4/O11hsyYQYGYbw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=NM/Q1KIVU9p5v8dRAq0vTOu/+MLVqokNfJBx6vwOykd4tvFA89FhrVzPt+yCWeQyg
+ CpZwyl2+kAGmy0br/XsUocQ/bIUPGGUtWIVM58hwIq+uotM7cZGd6973A+ybtcNadU
+ wo/kcgJYYh8xbH604xU4auA6DtPDEi5YLI/PBa54=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 059FQVvA056533
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 9 Jun 2020 10:26:31 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 9 Jun
+ 2020 10:26:30 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 9 Jun 2020 10:26:30 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 059FQQVY052033;
+ Tue, 9 Jun 2020 10:26:27 -0500
+Subject: Re: [PATCH 1/5] drm/omap: Fix suspend resume regression after
+ platform data removal
+To: Tony Lindgren <tony@atomide.com>
+References: <20200531193941.13179-1-tony@atomide.com>
+ <20200531193941.13179-2-tony@atomide.com>
+ <16ba1808-5c7f-573d-8dd0-c80cac2f476e@ti.com>
+ <20200603140639.GG37466@atomide.com>
+ <47e286dd-f87a-4440-5bde-1f7b53e8b672@ti.com>
+ <20200609151943.GL37466@atomide.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <9ed70121-2a53-d2b3-051a-88eb83e6c53f@ti.com>
+Date: Tue, 9 Jun 2020 18:26:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200608195704.29841-1-cyrus.lien@canonical.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200609151943.GL37466@atomide.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,77 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
+ Grygorii Strashko <grygorii.strashko@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keerthy <j-keerthy@ti.com>, Suman Anna <s-anna@ti.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Roger Quadros <rogerq@ti.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 09, 2020 at 03:57:04AM +0800, Cyrus Lien wrote:
-> According to EDID spec, table 3.26, byte #6 and #8, which said "Minimum
-> rate value shall be less than or equal to maximum rate value". The minimum
-> horizontal/vertical rate value is able to be equal to maximum horizontal/
-> veritcal rate value.
+On 09/06/2020 18:19, Tony Lindgren wrote:
 
-How does that justifiy ignoring the min value?
+>> But there's an extra runtime PM reference (dev.power.usage_count) that seems
+>> to come out of nowhere. So when omap_drm_suspend is finished, there's still
+>> usage_count of 1, and dispc never suspends fully.
+> 
+> Hmm no idea about that. My guess is that there might be an issue that was
+> masked earlier with omap_device calling the child runtime_suspend.
 
-> =
+Yes. It's how PM works. It calls pm_runtime_get_noresume() before starting the suspend of a device. 
+So I guess omapdrm's suspend has been broken all the time, but it was "fixed" by omap_device.
 
-> This change check if h/v-sync excess maximum horizontal/vertical rate if
-> hmin equal to hmax or vmin equal to vmax.
-> =
+> Currently I'm only able to rmmod -f omapdrm, not sure if these issues might
+> be related.
 
-> Signed-off-by: Cyrus Lien <cyrus.lien@canonical.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> =
+Hmm, I always use modules, and can unload omapdrm and drm fine. But there's a sequence that must be 
+followed. However, the sequence starts with unloading omapdrm... What behavior you see with rmmod?
 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index fed653f13c26..23878320eabd 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2674,6 +2674,9 @@ mode_in_hsync_range(const struct drm_display_mode *=
-mode,
->  	    hmax +=3D ((t[4] & 0x08) ? 255 : 0);
->  	hsync =3D drm_mode_hsync(mode);
->  =
+  Tomi
 
-> +	if (hmax =3D=3D hmin)
-> +		return (hsync <=3D hmax);
-> +
->  	return (hsync <=3D hmax && hsync >=3D hmin);
->  }
->  =
-
-> @@ -2691,6 +2694,9 @@ mode_in_vsync_range(const struct drm_display_mode *=
-mode,
->  	    vmax +=3D ((t[4] & 0x02) ? 255 : 0);
->  	vsync =3D drm_mode_vrefresh(mode);
->  =
-
-> +	if (vmax =3D=3D vmin)
-> +		return (vsync <=3D vmax);
-> +
->  	return (vsync <=3D vmax && vsync >=3D vmin);
->  }
->  =
-
-> -- =
-
-> 2.25.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
