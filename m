@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FB81F4F06
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AEF1F4F12
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6299389E7B;
-	Wed, 10 Jun 2020 07:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF916E2E5;
+	Wed, 10 Jun 2020 07:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA7146E2D5
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:14:59 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id 9so24989331ljc.8
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:14:59 -0700 (PDT)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E61506E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jun 2020 13:15:00 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id s1so24998143ljo.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 06:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IaLwBgEJHAnRll2My7iiWFVAnwuWkHTJFbXmtwzd9MY=;
- b=aC4glVDhDS6ajEjF584IuzsxAMYQt4toyxqZK52jEcvULo8RhpSOxNphdBVi8P4OLv
- DLLzp/QJx/rbgkC6qG1/ST9kv+T/ES4KUlqW2rPtOO0Wph6Hs0Z1qgNv0uIgYfPZyEQI
- llyWxvYfnUXdL6kWcoCuZ/oZ4mbaCS7kAtLPhwpKjUcOfRUx/4ITmOaJcOV6P2sDgKD1
- iU/pzZsNOp5pZLqWuj4uY2KzElystLbeKXihgwOOzUnCcTr5/E5sjMPqhFPjtwPOwYxv
- SylCskYpcyi9T2zgRF0lQBRLmg5udBC3dmOTS4p3B+WxlFyFBszPy/gE4DMm2ero/0pK
- 9nlA==
+ bh=ZdqfFhous9LJ7xyXzWsP8eFwuiJA//aWLNwZ1NRylHU=;
+ b=q/Q3279A8T1Aa8w1vceSd1gO393TTmCcEgws0BzThqIByXo/vuPlcJOPFWhCU0saMZ
+ jv+ecsre/4BafUS4kfZlE10Zt6QK0Q1cI8tN2VfESJ3kly6ym3umTUd+LaLSZnNN6l1B
+ RlL8EPg2JzZIsQbR+LInObnijGxqL+lY0er+vKCtenTFayHxRRhXYtZbRcp0aYkIVhNo
+ qUdtEViVrn7vHLnD8qdQjY+4MJmcjIJN2lCYLkZ+ILmMwz7kJYvXbtjEGGOR9OVjwrp3
+ AAWGtqXxFDPyn0GKioovqBw7eDiL1oet5XNnBZwHcj8Vawu1Kpc4Gsny/0tTfY6+sa/e
+ 7j0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IaLwBgEJHAnRll2My7iiWFVAnwuWkHTJFbXmtwzd9MY=;
- b=VTVQypCSEHlT2/IyBKVrb4RQ7QSmYJ2rjC3vJK7am7PM3fV1R4Ye0pOVgUtDeEHUEk
- 4JuntAxQj6wS0SK/yP4l+hO8YDpYxBQpz6TTO2pB9tyhzEjs8wp944UpJ9NMBsOimQP3
- soZyPPaD4U+403L94WHndc6HamF8FFvwg+iSBK7RTrRTt98oCikbr6M5/tfWEcqXoKBE
- Q/MKS7v+gDKcN0miQCxFtF9olTVz7yusKaLZJMTnoihcwgmP6y42I83AcHRg35w2Gpaw
- WOWcId01fuoigE2OOc52H0T92N+fyDwRmw9jtlWsW0dP9MJgHwd/iCQaUszsbPurAEED
- ZgOQ==
-X-Gm-Message-State: AOAM530lV0gf/j5yTgcSJWOmisRQXzMMJy9+DzwxbSAwL+JcJCRUVDmg
- BrzKkqt9usNgvl4oeBlTY+8=
-X-Google-Smtp-Source: ABdhPJwqzjarfix9XEE4prNh4Lc0nEjZ80Nvozu6vayHIphT+WuI7ooDdLSLgKJLy9OUPp/ATKnKnA==
-X-Received: by 2002:a2e:b4b3:: with SMTP id q19mr13086844ljm.90.1591708498010; 
- Tue, 09 Jun 2020 06:14:58 -0700 (PDT)
+ bh=ZdqfFhous9LJ7xyXzWsP8eFwuiJA//aWLNwZ1NRylHU=;
+ b=CVAU8Wv7AbAxHxNb3qSqmP1j5GuVH3bLtajMAQQ1/0q4Wt4jW1RqKvhlkGSGhpXcFM
+ pLGfbfv3trNkPY8vlQFnRvZ/VEKE+Txi/KA/kGHHMy0r9hDTJwH8N0IEomSf92DdN423
+ dr4CdErfOTmXTCKKgpQreO0R1oVSeSKjm0d/sv2Jr1Jzwfb2o3kwIk1FTbxL2Os0sd0g
+ G3gHxPhGd36uw4kBiMmJOWyoKdunzG9sGIzNJh/2L0lelHwR8iS0rsK4KxL3WbX4UJGl
+ 6szfsyIWbVEEwnq5Uk7fJrCLgHWBc5paRQylZN37zf2JjQ1wrxLLhM456VlFerosGhRk
+ t4+Q==
+X-Gm-Message-State: AOAM532zDAXw7S340n9LiwbBAhGohH5z1jmLWntvea99IvqWKKvxImku
+ GJSVwwNKOdQla0Lmx+wZJb8=
+X-Google-Smtp-Source: ABdhPJxjCGqibKAhYqx6jWx/A2rwQ6iUlJAF96095Hdmp5JKgJSYQXIyGUkLftZy5G4Cb3bXJazPAg==
+X-Received: by 2002:a05:651c:1044:: with SMTP id
+ x4mr9579067ljm.409.1591708499227; 
+ Tue, 09 Jun 2020 06:14:59 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.56
+ by smtp.gmail.com with ESMTPSA id l22sm4323522lji.120.2020.06.09.06.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 06:14:57 -0700 (PDT)
+ Tue, 09 Jun 2020 06:14:58 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -56,10 +57,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  MyungJoo Ham <myungjoo.ham@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>
-Subject: [PATCH v4 27/37] interconnect: Relax requirement in
- of_icc_get_from_provider()
-Date: Tue,  9 Jun 2020 16:13:54 +0300
-Message-Id: <20200609131404.17523-28-digetx@gmail.com>
+Subject: [PATCH v4 28/37] memory: tegra: Register as interconnect provider
+Date: Tue,  9 Jun 2020 16:13:55 +0300
+Message-Id: <20200609131404.17523-29-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200609131404.17523-1-digetx@gmail.com>
 References: <20200609131404.17523-1-digetx@gmail.com>
@@ -81,38 +81,208 @@ Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Artur=20=C5=9Awigo=C5=84?= <a.swigon@samsung.com>,
  linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHNhbXN1bmcuY29tPgoKVGhpcyBwYXRjaCBy
-ZWxheGVzIHRoZSBjb25kaXRpb24gaW4gb2ZfaWNjX2dldF9mcm9tX3Byb3ZpZGVyKCkgc28gdGhh
-dCBpdAppcyBubyBsb25nZXIgcmVxdWlyZWQgdG8gc2V0ICNpbnRlcmNvbm5lY3QtY2VsbHMgPSA8
-MT4gaW4gdGhlIERULiBJbiBjYXNlCm9mIHRoZSBkZXZmcmVxIGRyaXZlciBmb3IgZXh5bm9zLWJ1
-cywgI2ludGVyY29ubmVjdC1jZWxscyBpcyBhbHdheXMgemVyby4KClNpZ25lZC1vZmYtYnk6IEFy
-dHVyIMWad2lnb8WEIDxhLnN3aWdvbkBzYW1zdW5nLmNvbT4KW2RpZ2V0eEBnbWFpbC5jb206IGFk
-ZGVkIGNlbGxzX251bSBjaGVja2luZyBmb3Igb2ZfaWNjX3hsYXRlX29uZWNlbGwoKV0KU2lnbmVk
-LW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgotLS0KIGRyaXZlcnMv
-aW50ZXJjb25uZWN0L2NvcmUuYyB8IDExICsrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMTAg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW50ZXJj
-b25uZWN0L2NvcmUuYyBiL2RyaXZlcnMvaW50ZXJjb25uZWN0L2NvcmUuYwppbmRleCBlNWY5OTg3
-NDQ1MDEuLmNiMTQzNDIxY2E2NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9pbnRlcmNvbm5lY3QvY29y
-ZS5jCisrKyBiL2RyaXZlcnMvaW50ZXJjb25uZWN0L2NvcmUuYwpAQCAtMzM5LDcgKzMzOSw3IEBA
-IHN0YXRpYyBzdHJ1Y3QgaWNjX25vZGUgKm9mX2ljY19nZXRfZnJvbV9wcm92aWRlcihzdHJ1Y3Qg
-b2ZfcGhhbmRsZV9hcmdzICpzcGVjKQogCXN0cnVjdCBpY2Nfbm9kZSAqbm9kZSA9IEVSUl9QVFIo
-LUVQUk9CRV9ERUZFUik7CiAJc3RydWN0IGljY19wcm92aWRlciAqcHJvdmlkZXI7CiAKLQlpZiAo
-IXNwZWMgfHwgc3BlYy0+YXJnc19jb3VudCAhPSAxKQorCWlmICghc3BlYykKIAkJcmV0dXJuIEVS
-Ul9QVFIoLUVJTlZBTCk7CiAKIAltdXRleF9sb2NrKCZpY2NfbG9jayk7CkBAIC05NjcsNiArOTY3
-LDE1IEBAIEVYUE9SVF9TWU1CT0xfR1BMKGljY19ub2Rlc19yZW1vdmUpOwogICovCiBpbnQgaWNj
-X3Byb3ZpZGVyX2FkZChzdHJ1Y3QgaWNjX3Byb3ZpZGVyICpwcm92aWRlcikKIHsKKwlzdHJ1Y3Qg
-ZGV2aWNlX25vZGUgKm5wID0gcHJvdmlkZXItPmRldi0+b2Zfbm9kZTsKKwl1MzIgY2VsbHNfbnVt
-OworCWludCBlcnI7CisKKwllcnIgPSBvZl9wcm9wZXJ0eV9yZWFkX3UzMihucCwgIiNpbnRlcmNv
-bm5lY3QtY2VsbHMiLCAmY2VsbHNfbnVtKTsKKwlpZiAoV0FSTl9PTihlcnIpKQorCQlyZXR1cm4g
-ZXJyOworCWlmIChXQVJOX09OKHByb3ZpZGVyLT54bGF0ZSA9PSBvZl9pY2NfeGxhdGVfb25lY2Vs
-bCAmJiBjZWxsc19udW0gIT0gMSkpCisJCXJldHVybiAtRUlOVkFMOwogCWlmIChXQVJOX09OKCFw
-cm92aWRlci0+c2V0KSkKIAkJcmV0dXJuIC1FSU5WQUw7CiAJaWYgKFdBUk5fT04oIXByb3ZpZGVy
-LT54bGF0ZSkpCi0tIAoyLjI2LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+Now memory controller is a memory interconnection provider. This allows us
+to use interconnect API in order to change memory configuration.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/memory/tegra/Kconfig |   1 +
+ drivers/memory/tegra/mc.c    | 114 +++++++++++++++++++++++++++++++++++
+ drivers/memory/tegra/mc.h    |   8 +++
+ include/soc/tegra/mc.h       |   3 +
+ 4 files changed, 126 insertions(+)
+
+diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+index 5bf75b316a2f..7055fdef2c32 100644
+--- a/drivers/memory/tegra/Kconfig
++++ b/drivers/memory/tegra/Kconfig
+@@ -3,6 +3,7 @@ config TEGRA_MC
+ 	bool "NVIDIA Tegra Memory Controller support"
+ 	default y
+ 	depends on ARCH_TEGRA
++	select INTERCONNECT
+ 	help
+ 	  This driver supports the Memory Controller (MC) hardware found on
+ 	  NVIDIA Tegra SoCs.
+diff --git a/drivers/memory/tegra/mc.c b/drivers/memory/tegra/mc.c
+index 772aa021b5f6..7ef7ac9e103e 100644
+--- a/drivers/memory/tegra/mc.c
++++ b/drivers/memory/tegra/mc.c
+@@ -594,6 +594,118 @@ static __maybe_unused irqreturn_t tegra20_mc_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static int tegra_mc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	return 0;
++}
++
++static int tegra_mc_icc_aggregate(struct icc_node *node,
++				  u32 tag, u32 avg_bw, u32 peak_bw,
++				  u32 *agg_avg, u32 *agg_peak)
++{
++	*agg_avg = min((u64)avg_bw + (*agg_avg), (u64)U32_MAX);
++	*agg_peak = max(*agg_peak, peak_bw);
++
++	return 0;
++}
++
++/*
++ * Memory Controller (MC) has few Memory Clients that are issuing memory
++ * bandwidth allocation requests to the MC interconnect provider. The MC
++ * provider aggregates the requests and then sends the aggregated request
++ * up to the External Memory Controller (EMC) interconnect provider which
++ * re-configures hardware interface to External Memory (EMEM) in accordance
++ * to the required bandwidth. Each MC interconnect node represents an
++ * individual Memory Client.
++ *
++ * Memory interconnect topology:
++ *
++ *               +----+
++ * +--------+    |    |
++ * | TEXSRD +--->+    |
++ * +--------+    |    |
++ *               |    |    +-----+    +------+
++ *    ...        | MC +--->+ EMC +--->+ EMEM |
++ *               |    |    +-----+    +------+
++ * +--------+    |    |
++ * | DISP.. +--->+    |
++ * +--------+    |    |
++ *               +----+
++ */
++static int tegra_mc_interconnect_setup(struct tegra_mc *mc)
++{
++	struct icc_onecell_data *data;
++	struct icc_node *node;
++	unsigned int num_nodes;
++	unsigned int i;
++	int err;
++
++	/* older device-trees don't have interconnect properties */
++	if (!of_find_property(mc->dev->of_node, "#interconnect-cells", NULL))
++		return 0;
++
++	num_nodes = mc->soc->num_clients;
++
++	data = devm_kzalloc(mc->dev, struct_size(data, nodes, num_nodes),
++			    GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	mc->provider.dev = mc->dev;
++	mc->provider.set = tegra_mc_icc_set;
++	mc->provider.data = data;
++	mc->provider.xlate = of_icc_xlate_onecell;
++	mc->provider.aggregate = tegra_mc_icc_aggregate;
++
++	err = icc_provider_add(&mc->provider);
++	if (err)
++		goto err_msg;
++
++	/* create Memory Controller node */
++	node = icc_node_create(TEGRA_ICC_MC);
++	err = PTR_ERR_OR_ZERO(node);
++	if (err)
++		goto del_provider;
++
++	node->name = "Memory Controller";
++	icc_node_add(node, &mc->provider);
++
++	/* link Memory Controller to External Memory Controller */
++	err = icc_link_create(node, TEGRA_ICC_EMC);
++	if (err)
++		goto remove_nodes;
++
++	for (i = 0; i < num_nodes; i++) {
++		/* create MC client node */
++		node = icc_node_create(mc->soc->clients[i].id);
++		err = PTR_ERR_OR_ZERO(node);
++		if (err)
++			goto remove_nodes;
++
++		node->name = mc->soc->clients[i].name;
++		icc_node_add(node, &mc->provider);
++
++		/* link Memory Client to Memory Controller */
++		err = icc_link_create(node, TEGRA_ICC_MC);
++		if (err)
++			goto remove_nodes;
++
++		data->nodes[i] = node;
++	}
++	data->num_nodes = num_nodes;
++
++	return 0;
++
++remove_nodes:
++	icc_nodes_remove(&mc->provider);
++del_provider:
++	icc_provider_del(&mc->provider);
++err_msg:
++	dev_err(mc->dev, "failed to initialize ICC: %d\n", err);
++
++	return err;
++}
++
+ static int tegra_mc_probe(struct platform_device *pdev)
+ {
+ 	struct resource *res;
+@@ -702,6 +814,8 @@ static int tegra_mc_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	tegra_mc_interconnect_setup(mc);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/memory/tegra/mc.h b/drivers/memory/tegra/mc.h
+index afa3ba45c9e6..abeb6a2cc36a 100644
+--- a/drivers/memory/tegra/mc.h
++++ b/drivers/memory/tegra/mc.h
+@@ -115,4 +115,12 @@ extern const struct tegra_mc_soc tegra132_mc_soc;
+ extern const struct tegra_mc_soc tegra210_mc_soc;
+ #endif
+ 
++/*
++ * These IDs are for internal use of Tegra's ICC, the values are chosen
++ * such that they don't conflict with the device-tree ICC node IDs.
++ */
++#define TEGRA_ICC_EMC		1000
++#define TEGRA_ICC_EMEM		2000
++#define TEGRA_ICC_MC		3000
++
+ #endif /* MEMORY_TEGRA_MC_H */
+diff --git a/include/soc/tegra/mc.h b/include/soc/tegra/mc.h
+index 1238e35653d1..71de023f9f47 100644
+--- a/include/soc/tegra/mc.h
++++ b/include/soc/tegra/mc.h
+@@ -7,6 +7,7 @@
+ #define __SOC_TEGRA_MC_H__
+ 
+ #include <linux/err.h>
++#include <linux/interconnect-provider.h>
+ #include <linux/reset-controller.h>
+ #include <linux/types.h>
+ 
+@@ -178,6 +179,8 @@ struct tegra_mc {
+ 
+ 	struct reset_controller_dev reset;
+ 
++	struct icc_provider provider;
++
+ 	spinlock_t lock;
+ };
+ 
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
