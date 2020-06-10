@@ -2,40 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0F11F53E4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 13:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C83A1F5403
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 13:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9809C6E54C;
-	Wed, 10 Jun 2020 11:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A11589994;
+	Wed, 10 Jun 2020 11:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44626E54C;
- Wed, 10 Jun 2020 11:54:40 +0000 (UTC)
-IronPort-SDR: WCDy2rVoFisnRvKomyHdvtjKs2fOsmBl4y0fUTUTZl8jOSEoaIxsfRI0pRCSkABLz/BUvAZQ1Y
- yR3LcM0k9zjQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2020 04:54:39 -0700
-IronPort-SDR: eujbGGjUvEK+OG9icJk8rb0nYxZTbfgTnDh6vpJrPCrNc8twtIVUVp+GHTSoO4zjykoHRG3kUV
- hduoBlw+5nNw==
-X-IronPort-AV: E=Sophos;i="5.73,495,1583222400"; d="scan'208";a="447475792"
-Received: from ksagi-mobl.amr.corp.intel.com (HELO localhost) ([10.249.33.22])
- by orsmga005-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2020 04:54:35 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: David Howells <dhowells@redhat.com>
-Subject: Re: [Intel-gfx] A panic and a hang in the i915 drm driver
-In-Reply-To: <2715545.1591635126@warthog.procyon.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <87ftb6x7em.fsf@intel.com>
- <2136072.1591491984@warthog.procyon.org.uk> <87o8puxak1.fsf@intel.com>
- <4ff2445aff8d44c5961a6d194a8f4663@intel.com>
- <2715545.1591635126@warthog.procyon.org.uk>
-Date: Wed, 10 Jun 2020 14:54:32 +0300
-Message-ID: <87pna7w2yv.fsf@intel.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF4A089994
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 11:58:08 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1jizMq-0000Nb-Ho; Wed, 10 Jun 2020 11:58:04 +0000
+From: Colin King <colin.king@canonical.com>
+To: Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ast: fix missing break in switch statement for
+ format->cpp[0] case 4
+Date: Wed, 10 Jun 2020 12:58:04 +0100
+Message-Id: <20200610115804.1132338-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.27.0.rc0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,35 +40,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- dhowells@redhat.com, "Vivi, 
- Rodrigo" <rodrigo.vivi@intel.com>, "airlied@redhat.com" <airlied@redhat.com>,
- "Saarinen, Jani" <jani.saarinen@intel.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 08 Jun 2020, David Howells <dhowells@redhat.com> wrote:
-> Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
->> David, please try [1].
->
-> Assuming you mean this:
->
->     https://patchwork.freedesktop.org/patch/366958/?series=77635&rev=1
->
-> yes, that works.
->
-> Tested-by: David Howells <dhowells@redhat.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-Many thanks,
-Jani.
+Currently the switch statement for format->cpp[0] value 4 assigns
+color_index which is never read again and then falls through to the
+default case and returns. This looks like a missing break statement
+bug. Fix this by adding a break statement.
 
+Addresses-Coverity: ("Unused value")
+Fixes: 259d14a76a27 ("drm/ast: Split ast_set_vbios_mode_info()")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 7d39b858c9f1..3a3a511670c9 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -226,6 +226,7 @@ static void ast_set_vbios_color_reg(struct ast_private *ast,
+ 	case 3:
+ 	case 4:
+ 		color_index = TrueCModeIndex;
++		break;
+ 	default:
+ 		return;
+ 	}
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.27.0.rc0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
