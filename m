@@ -1,61 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E331F5233
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 12:26:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F18991F52C7
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 13:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A95B6E0BC;
-	Wed, 10 Jun 2020 10:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1647C89A44;
+	Wed, 10 Jun 2020 11:03:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DCB6E0BC;
- Wed, 10 Jun 2020 10:25:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id E15653F9F5;
- Wed, 10 Jun 2020 12:25:56 +0200 (CEST)
-Authentication-Results: pio-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="QIwAgYRB";
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e4UsNpfjkLuV; Wed, 10 Jun 2020 12:25:56 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 2428A3F4CA;
- Wed, 10 Jun 2020 12:25:53 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 25F71360060;
- Wed, 10 Jun 2020 12:25:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1591784753; bh=wU8RKATsV6OHlRI0fpBbOdnJVaB9z2zis0YvRywgYtQ=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=QIwAgYRBj9TuooCL9Dj4Kj+d3aveIvKWfmhMP8O6s+m0rhfvvfUNezMpy4to4a5CF
- zxtqXe67Rs/YgxndNbGHb+Nqn91edpxLOBRymBo+kpI/UziRu8Xt3ynQ+oBq6UwdC8
- wCt00s4FY0zk8o5BSAsHbdVbAj5jKenDPtD8edls=
-Subject: Re: [PATCH 5/6] drm/ttm: Add destroy flag in TTM BO eviction interface
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <1589050310-19666-1-git-send-email-andrey.grodzovsky@amd.com>
- <1589050310-19666-6-git-send-email-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <dd61e068-cbf1-c612-2c7f-f1e7786b16f7@shipmail.org>
-Date: Wed, 10 Jun 2020 12:25:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE40892E4;
+ Wed, 10 Jun 2020 11:02:58 +0000 (UTC)
+IronPort-SDR: ACIw/DjjP7j7fScenlSRKqVkdOKgQmsQb6TRTTQ6wuPcLUc55K/UQgbyy4xIE5xuOBSq08AXdR
+ jWWMrOkN5nGg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2020 04:02:58 -0700
+IronPort-SDR: VF08gMVtYoxG55G73IYob0wuOJxNiU24OVKJFfeAUVItyqIkPRDo3qwRBAqT0DhPKGpgA4yhPa
+ i+FsSJolH99g==
+X-IronPort-AV: E=Sophos;i="5.73,495,1583222400"; d="scan'208";a="260111751"
+Received: from unknown (HELO intel.com) ([10.237.72.89])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2020 04:02:55 -0700
+Date: Wed, 10 Jun 2020 13:59:13 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH 2/3] drm/dp_mst: Fix the DDC I2C device registration of
+ an MST port
+Message-ID: <20200610105913.GA11750@intel.com>
+References: <20200607212522.16935-1-imre.deak@intel.com>
+ <20200607212522.16935-2-imre.deak@intel.com>
+ <20200610080304.GA10787@intel.com>
+ <20200610100936.GB10200@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1589050310-19666-6-git-send-email-andrey.grodzovsky@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200610100936.GB10200@ideak-desk.fi.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,60 +51,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net,
- ckoenig.leichtzumerken@gmail.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 10, 2020 at 01:09:36PM +0300, Imre Deak wrote:
+> On Wed, Jun 10, 2020 at 11:03:04AM +0300, Lisovskiy, Stanislav wrote:
+> > On Mon, Jun 08, 2020 at 12:25:21AM +0300, Imre Deak wrote:
+> > > During the initial MST probing an MST port's I2C device will be
+> > > registered using the kdev of the DRM device as a parent. Later after MST
+> > > Connection Status Notifications this I2C device will be re-registered
+> > > with the kdev of the port's connector. This will also move
+> > > inconsistently the I2C device's sysfs entry from the DRM device's sysfs
+> > > dir to the connector's dir.
+> > > 
+> > > Fix the above by keeping the DRM kdev as the parent of the I2C device.
+> > > 
+> > > Ideally the connector's kdev would be used as a parent, similarly to
+> > > non-MST connectors, however that needs some more refactoring to ensure
+> > > the connector's kdev is already available early enough. So keep the
+> > > existing (initial) behavior for now.
+> > > 
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_dp_mst_topology.c | 28 +++++++++++++++------------
+> > >  1 file changed, 16 insertions(+), 12 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > index 02c800b8199f..083255c33ee0 100644
+> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > @@ -88,8 +88,8 @@ static int drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
+> > >  static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
+> > >  				 u8 *guid);
+> > >  
+> > > -static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux);
+> > > -static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_aux *aux);
+> > > +static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port);
+> > > +static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port);
+> > >  static void drm_dp_mst_kick_tx(struct drm_dp_mst_topology_mgr *mgr);
+> > >  
+> > >  #define DBG_PREFIX "[dp_mst]"
+> > > @@ -1993,7 +1993,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
+> > >  			}
+> > >  
+> > >  			/* remove i2c over sideband */
+> > > -			drm_dp_mst_unregister_i2c_bus(&port->aux);
+> > > +			drm_dp_mst_unregister_i2c_bus(port);
+> > >  		} else {
+> > >  			mutex_lock(&mgr->lock);
+> > >  			drm_dp_mst_topology_put_mstb(port->mstb);
+> > > @@ -2008,7 +2008,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
+> > >  	if (port->pdt != DP_PEER_DEVICE_NONE) {
+> > >  		if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
+> > >  			/* add i2c over sideband */
+> > > -			ret = drm_dp_mst_register_i2c_bus(&port->aux);
+> > > +			ret = drm_dp_mst_register_i2c_bus(port);
+> > >  		} else {
+> > >  			lct = drm_dp_calculate_rad(port, rad);
+> > >  			mstb = drm_dp_add_mst_branch_device(lct, rad);
+> > > @@ -5375,22 +5375,26 @@ static const struct i2c_algorithm drm_dp_mst_i2c_algo = {
+> > >  
+> > >  /**
+> > >   * drm_dp_mst_register_i2c_bus() - register an I2C adapter for I2C-over-AUX
+> > > - * @aux: DisplayPort AUX channel
+> > > + * @port: The port to add the I2C bus on
+> > >   *
+> > >   * Returns 0 on success or a negative error code on failure.
+> > >   */
+> > > -static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux)
+> > > +static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
+> > >  {
+> > > +	struct drm_dp_aux *aux = &port->aux;
+> > > +	struct device *parent_dev = port->mgr->dev->dev;
+> > > +
+> > 
+> > So are we sure that this will always give us thr kdev of the drm device?
+> > I mean could there be more complex hierarchy? Just wondering if there is 
+> > a way to get drm device kdev in a more explicit way.
+> 
+> There is a single mgr per DRM driver (kdev) and port objects created by
+> a given DRM driver will stay owned by the same DRM driver. So the
+> kdev->port association is static.
 
-On 5/9/20 8:51 PM, Andrey Grodzovsky wrote:
-> This will allow to invalidate, destroy backing storage and notify users
-> of BOs when device is unpluged.
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Ok, thanks for clarification. lgtm then.
 
-Please add a motivation in the commit message and use imperative wording 
-("Allow to invalidate..." instead of "This will allow to")
+Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 
-s /unpluged/unplugged/
-
-
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |  2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
->   drivers/gpu/drm/nouveau/nouveau_drm.c       |  2 +-
->   drivers/gpu/drm/qxl/qxl_object.c            |  4 +--
->   drivers/gpu/drm/radeon/radeon_object.c      |  2 +-
->   drivers/gpu/drm/ttm/ttm_bo.c                | 41 ++++++++++++++++++-----------
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c         |  6 ++---
->   include/drm/ttm/ttm_bo_api.h                |  2 +-
->   8 files changed, 35 insertions(+), 26 deletions(-)
->
-> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
-> index b9bc1b0..9d57b8c 100644
-> --- a/include/drm/ttm/ttm_bo_api.h
-> +++ b/include/drm/ttm/ttm_bo_api.h
-> @@ -597,7 +597,7 @@ int ttm_bo_clean_mm(struct ttm_bo_device *bdev, unsigned mem_type);
->    * -ERESTARTSYS: The call was interrupted by a signal while waiting to
->    * evict a buffer.
->    */
-
-Please also update the function documentation.
-
-> -int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type);
-> +int ttm_bo_evict_mm(struct ttm_bo_device *bdev, unsigned mem_type, bool destroy);
->   
->   /**
->    * ttm_kmap_obj_virtual
-
-
-Thanks,
-
-Thomas
-
-
+> 
+> > >  	aux->ddc.algo = &drm_dp_mst_i2c_algo;
+> > >  	aux->ddc.algo_data = aux;
+> > >  	aux->ddc.retries = 3;
+> > >  
+> > >  	aux->ddc.class = I2C_CLASS_DDC;
+> > >  	aux->ddc.owner = THIS_MODULE;
+> > > -	aux->ddc.dev.parent = aux->dev;
+> > > -	aux->ddc.dev.of_node = aux->dev->of_node;
+> > > +	/* FIXME: set the kdev of the port's connector as parent */
+> > > +	aux->ddc.dev.parent = parent_dev;
+> > > +	aux->ddc.dev.of_node = parent_dev->of_node;
+> > >  
+> > > -	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
+> > > +	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
+> > >  		sizeof(aux->ddc.name));
+> > >  
+> > >  	return i2c_add_adapter(&aux->ddc);
+> > > @@ -5398,11 +5402,11 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux)
+> > >  
+> > >  /**
+> > >   * drm_dp_mst_unregister_i2c_bus() - unregister an I2C-over-AUX adapter
+> > > - * @aux: DisplayPort AUX channel
+> > > + * @port: The port to remove the I2C bus from
+> > >   */
+> > > -static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_aux *aux)
+> > > +static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port)
+> > >  {
+> > > -	i2c_del_adapter(&aux->ddc);
+> > > +	i2c_del_adapter(&port->aux.ddc);
+> > >  }
+> > >  
+> > >  /**
+> > > -- 
+> > > 2.23.1
+> > > 
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
