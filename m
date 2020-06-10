@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042901F4A69
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 02:47:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC8F1F4A73
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 02:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBCC6E2A5;
-	Wed, 10 Jun 2020 00:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E75C6E35D;
+	Wed, 10 Jun 2020 00:51:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A05596E2A5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 00:47:25 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1591750048; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=pQUc4fKnBHwIKnTPsoaMWGixFocmxulbLIkiXCV2hNo=;
- b=Iv65ThsazD+GVKv9u7oopKCb+tm0KYmQUnAo2AXlt9s/t2+70j0YLXwMPAX6RKS0xy+A/10B
- rxxx9P1pHYsDBSA0UQ//67D+oPbawyhRHuAQxA1LNwsaWoGlFkCPZoKJ3fRww0/5pTA6FX7E
- mOkobM1rTVBuKy/s273vW39Jfzw=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5ee02d8ae144dd5115112955 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 10 Jun 2020 00:47:06
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9DDBDC43395; Wed, 10 Jun 2020 00:47:06 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from abhinavk-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D7349C433CA;
- Wed, 10 Jun 2020 00:47:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D7349C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=abhinavk@codeaurora.org
-From: Abhinav Kumar <abhinavk@codeaurora.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: call drm_mode_config_reset before drm_dev_register
-Date: Tue,  9 Jun 2020 17:46:59 -0700
-Message-Id: <20200610004659.10401-1-abhinavk@codeaurora.org>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
+ [IPv6:2607:f8b0:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A236E35D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 00:51:20 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id p5so303138ile.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 17:51:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=b+0wEPqP1gRD//dOMrPEa9eijfAxkaREz8rLoK9osa4=;
+ b=KtWrrlapGaEE2Mbv/L8wwTjimcRQdqVuOjtZ8z98GDIl5PuuQKPKubWu+ghsIm3HDf
+ sd7L8r/EAC62rv94MP36eandSPF2aLXLZbDTLIBSuVLbGzo/DyY1Q08iCwyoO1IMyYCa
+ mOMtXCQkuffjovKeqWhFVPMNtTjoo0guyh7DgisqfZ9n0iY33dsllItEMXMnrpruLj7q
+ 2L7034UvMBZyozoNph3bFUylrTe4/Y4u7KFRYhxssQFDCWg19UIha+8DXIwHi6p9ePFE
+ u/2qNATB2x2i1dX4vIn9fWCsAPXX3Yq8SQdSMVt41gLjITPtJY9i+n8XWmgOKitQHpan
+ RUPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=b+0wEPqP1gRD//dOMrPEa9eijfAxkaREz8rLoK9osa4=;
+ b=HOVbpbbd5DTGWMQvfp+CTNrxlkU8XBaNXbo+O9BqRsaH+b/fpRTmJVCWEY9PBw9+ii
+ nrPylvbVF4kXFT/0UdxnRWpTw3ow6LAV1ea7IJKllFLrf/6HD+GpDb1EKQBvVUDiKw3h
+ ImXCaj5GhGvkKHoxoTkZ8Nutka2heFWpnA1WDsT/GOvX1FiRLwyZrKcWgiZuUrW85nHP
+ RD149WhN6xyiGq4e8pR8SXGFxHF4gisG6+WujwbSylJ7Un2cCKkaL81ccSJNig09swpR
+ 6pgxirGTeMq7T7Aha8h7XtYwXKYFPXRK5sjW1l8otcYQATy6EV1yLy5E2lYNtO7R8Ern
+ QIxw==
+X-Gm-Message-State: AOAM533kQ4lEngJbMvoax57xS7QpebyXplduPmKb3xjDeebx7b88RU3j
+ sL1gtrRhk71lM24wVYMGOTU=
+X-Google-Smtp-Source: ABdhPJxLlxYt0huloXisPIzKbPdi8OHNwnCvIvwsBwEm15uOqGBgRd+Cm9jARahd10agkTLsYMUZAw==
+X-Received: by 2002:a92:1b97:: with SMTP id f23mr651194ill.217.1591750279757; 
+ Tue, 09 Jun 2020 17:51:19 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
+ [73.202.231.77])
+ by smtp.googlemail.com with ESMTPSA id z9sm9982875ilq.22.2020.06.09.17.51.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Jun 2020 17:51:18 -0700 (PDT)
+From: Steve Longerbeam <slongerbeam@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH] gpu: ipu-v3: image-convert: Wait for channels before disabling
+Date: Tue,  9 Jun 2020 17:51:10 -0700
+Message-Id: <20200610005110.18096-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, pdhaval@codeaurora.org,
- Abhinav Kumar <abhinavk@codeaurora.org>, seanpaul@chromium.org,
- aravindh@codeaurora.org
+Cc: dri-devel@lists.freedesktop.org, Steve Longerbeam <slongerbeam@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the documentation of drm_dev_register, all drivers should
-call drm_dev_register after all the initialization is completed.
-This also means that drm_mode_config_reset should be done before
-drm_dev_register.
+Call ipu_idmac_wait_busy() on each idmac channel to busy wait for the
+channel to be idle before disabling. Otherwise it was found that a
+conversion would stall after the completion of a tile and the start
+of the next tile.
 
-Change the sequence to align with this documentation.
-
-Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+Fixes: 0537db801bb01 ("gpu: ipu-v3: image-convert: reconfigure IC per tile")
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 29295dee2a2e..9e77cc7f1fa4 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -538,12 +538,12 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
- 		}
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index eeca50d9a1ee..f0938015d2fd 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -1251,6 +1251,19 @@ static int get_run_count(struct ipu_image_convert_ctx *ctx,
+ 	return count;
+ }
+ 
++static void stop_channel(struct ipu_image_convert_chan *chan,
++			 struct ipuv3_channel *channel)
++{
++	struct ipu_image_convert_priv *priv = chan->priv;
++	int ret;
++
++	ret = ipu_idmac_wait_busy(channel, 1);
++	if (ret == -ETIMEDOUT)
++		dev_warn(priv->ipu->dev, "IDMAC timeout\n");
++
++	ipu_idmac_disable_channel(channel);
++}
++
+ static void convert_stop(struct ipu_image_convert_run *run)
+ {
+ 	struct ipu_image_convert_ctx *ctx = run->ctx;
+@@ -1262,12 +1275,12 @@ static void convert_stop(struct ipu_image_convert_run *run)
+ 
+ 	/* disable IC tasks and the channels */
+ 	ipu_ic_task_disable(chan->ic);
+-	ipu_idmac_disable_channel(chan->in_chan);
+-	ipu_idmac_disable_channel(chan->out_chan);
++	stop_channel(chan, chan->in_chan);
++	stop_channel(chan, chan->out_chan);
+ 
+ 	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+-		ipu_idmac_disable_channel(chan->rotation_in_chan);
+-		ipu_idmac_disable_channel(chan->rotation_out_chan);
++		stop_channel(chan, chan->rotation_in_chan);
++		stop_channel(chan, chan->rotation_out_chan);
+ 		ipu_idmac_unlink(chan->out_chan, chan->rotation_in_chan);
  	}
  
-+	drm_mode_config_reset(ddev);
-+
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret)
- 		goto err_msm_uninit;
- 
--	drm_mode_config_reset(ddev);
--
- #ifdef CONFIG_DRM_FBDEV_EMULATION
- 	if (kms && fbdev)
- 		priv->fbdev = msm_fbdev_init(ddev);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
