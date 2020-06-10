@@ -2,42 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F070C1F51E9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 12:09:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B9A1F520A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 12:15:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC686E51B;
-	Wed, 10 Jun 2020 10:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B756E1A7;
+	Wed, 10 Jun 2020 10:15:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1AC6E51B;
- Wed, 10 Jun 2020 10:09:48 +0000 (UTC)
-IronPort-SDR: 0ox8SLpGvwg+lOLK/Lj8rNJRxDl83/s28Azr0J7k8q2i69TFVtM3kpdjBptVCjKSi3Jqj3rIjK
- ITpbI4LKiqcw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2020 03:09:47 -0700
-IronPort-SDR: u7yzXtNEAZBPkfeOwCtOYRmrsH/w+dEc86Ro/nm/clrFwBNC8w2AVdls0hHxtXozbAx1wtFaSA
- 4e4NI+fOUXJw==
-X-IronPort-AV: E=Sophos;i="5.73,495,1583222400"; d="scan'208";a="418700266"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2020 03:09:45 -0700
-Date: Wed, 10 Jun 2020 13:09:36 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-Subject: Re: [PATCH 2/3] drm/dp_mst: Fix the DDC I2C device registration of
- an MST port
-Message-ID: <20200610100936.GB10200@ideak-desk.fi.intel.com>
-References: <20200607212522.16935-1-imre.deak@intel.com>
- <20200607212522.16935-2-imre.deak@intel.com>
- <20200610080304.GA10787@intel.com>
+Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A67C6E1A7;
+ Wed, 10 Jun 2020 10:15:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id CB52A3F528;
+ Wed, 10 Jun 2020 12:15:44 +0200 (CEST)
+Authentication-Results: pio-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=LssQElC0; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.098
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.098 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Lwl8ED8-yITS; Wed, 10 Jun 2020 12:15:43 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id ABD1B3F520;
+ Wed, 10 Jun 2020 12:15:42 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id C88EE360060;
+ Wed, 10 Jun 2020 12:15:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1591784141; bh=dT3JdEctSByiX1xLAnOrOQyvt3Q0Ug/cZ46OWbew4lc=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=LssQElC0m1e4fsZnXd7JKh34MeSjpwf8zD2wGqvN2j/9w6eygwXkRGfyq7FjRSGon
+ o13akxaR16OprvJppEQTu3fhZ+j9aAfiNNFovWkEgyLlo/7BXLTFxuNyWHnisyjQuA
+ Uou4siUPgCIQO32xOc7mzAS+Mmq7chilOQoMzAb4=
+Subject: Re: [PATCH 1/6] drm/ttm: Add unampping of the entire device address
+ space
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
+References: <f36c1fa1-bbee-477a-9cb2-ed2726f27eef@email.android.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <eb9e5896-1f16-2102-350a-1e64d9af7ea8@shipmail.org>
+Date: Wed, 10 Jun 2020 12:15:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200610080304.GA10787@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <f36c1fa1-bbee-477a-9cb2-ed2726f27eef@email.android.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,133 +68,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "michel@daenzer.net" <michel@daenzer.net>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0353893917=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 10, 2020 at 11:03:04AM +0300, Lisovskiy, Stanislav wrote:
-> On Mon, Jun 08, 2020 at 12:25:21AM +0300, Imre Deak wrote:
-> > During the initial MST probing an MST port's I2C device will be
-> > registered using the kdev of the DRM device as a parent. Later after MST
-> > Connection Status Notifications this I2C device will be re-registered
-> > with the kdev of the port's connector. This will also move
-> > inconsistently the I2C device's sysfs entry from the DRM device's sysfs
-> > dir to the connector's dir.
-> > 
-> > Fix the above by keeping the DRM kdev as the parent of the I2C device.
-> > 
-> > Ideally the connector's kdev would be used as a parent, similarly to
-> > non-MST connectors, however that needs some more refactoring to ensure
-> > the connector's kdev is already available early enough. So keep the
-> > existing (initial) behavior for now.
-> > 
-> > Cc: <stable@vger.kernel.org>
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_dp_mst_topology.c | 28 +++++++++++++++------------
-> >  1 file changed, 16 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > index 02c800b8199f..083255c33ee0 100644
-> > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > @@ -88,8 +88,8 @@ static int drm_dp_send_enum_path_resources(struct drm_dp_mst_topology_mgr *mgr,
-> >  static bool drm_dp_validate_guid(struct drm_dp_mst_topology_mgr *mgr,
-> >  				 u8 *guid);
-> >  
-> > -static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux);
-> > -static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_aux *aux);
-> > +static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port);
-> > +static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port);
-> >  static void drm_dp_mst_kick_tx(struct drm_dp_mst_topology_mgr *mgr);
-> >  
-> >  #define DBG_PREFIX "[dp_mst]"
-> > @@ -1993,7 +1993,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
-> >  			}
-> >  
-> >  			/* remove i2c over sideband */
-> > -			drm_dp_mst_unregister_i2c_bus(&port->aux);
-> > +			drm_dp_mst_unregister_i2c_bus(port);
-> >  		} else {
-> >  			mutex_lock(&mgr->lock);
-> >  			drm_dp_mst_topology_put_mstb(port->mstb);
-> > @@ -2008,7 +2008,7 @@ drm_dp_port_set_pdt(struct drm_dp_mst_port *port, u8 new_pdt,
-> >  	if (port->pdt != DP_PEER_DEVICE_NONE) {
-> >  		if (drm_dp_mst_is_end_device(port->pdt, port->mcs)) {
-> >  			/* add i2c over sideband */
-> > -			ret = drm_dp_mst_register_i2c_bus(&port->aux);
-> > +			ret = drm_dp_mst_register_i2c_bus(port);
-> >  		} else {
-> >  			lct = drm_dp_calculate_rad(port, rad);
-> >  			mstb = drm_dp_add_mst_branch_device(lct, rad);
-> > @@ -5375,22 +5375,26 @@ static const struct i2c_algorithm drm_dp_mst_i2c_algo = {
-> >  
-> >  /**
-> >   * drm_dp_mst_register_i2c_bus() - register an I2C adapter for I2C-over-AUX
-> > - * @aux: DisplayPort AUX channel
-> > + * @port: The port to add the I2C bus on
-> >   *
-> >   * Returns 0 on success or a negative error code on failure.
-> >   */
-> > -static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux)
-> > +static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
-> >  {
-> > +	struct drm_dp_aux *aux = &port->aux;
-> > +	struct device *parent_dev = port->mgr->dev->dev;
-> > +
-> 
-> So are we sure that this will always give us thr kdev of the drm device?
-> I mean could there be more complex hierarchy? Just wondering if there is 
-> a way to get drm device kdev in a more explicit way.
+This is a multi-part message in MIME format.
+--===============0353893917==
+Content-Type: multipart/alternative;
+ boundary="------------115E9B973EE48450378DE1A2"
+Content-Language: en-US
 
-There is a single mgr per DRM driver (kdev) and port objects created by
-a given DRM driver will stay owned by the same DRM driver. So the
-kdev->port association is static.
+This is a multi-part message in MIME format.
+--------------115E9B973EE48450378DE1A2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> >  	aux->ddc.algo = &drm_dp_mst_i2c_algo;
-> >  	aux->ddc.algo_data = aux;
-> >  	aux->ddc.retries = 3;
-> >  
-> >  	aux->ddc.class = I2C_CLASS_DDC;
-> >  	aux->ddc.owner = THIS_MODULE;
-> > -	aux->ddc.dev.parent = aux->dev;
-> > -	aux->ddc.dev.of_node = aux->dev->of_node;
-> > +	/* FIXME: set the kdev of the port's connector as parent */
-> > +	aux->ddc.dev.parent = parent_dev;
-> > +	aux->ddc.dev.of_node = parent_dev->of_node;
-> >  
-> > -	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
-> > +	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
-> >  		sizeof(aux->ddc.name));
-> >  
-> >  	return i2c_add_adapter(&aux->ddc);
-> > @@ -5398,11 +5402,11 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_aux *aux)
-> >  
-> >  /**
-> >   * drm_dp_mst_unregister_i2c_bus() - unregister an I2C-over-AUX adapter
-> > - * @aux: DisplayPort AUX channel
-> > + * @port: The port to remove the I2C bus from
-> >   */
-> > -static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_aux *aux)
-> > +static void drm_dp_mst_unregister_i2c_bus(struct drm_dp_mst_port *port)
-> >  {
-> > -	i2c_del_adapter(&aux->ddc);
-> > +	i2c_del_adapter(&port->aux.ddc);
-> >  }
-> >  
-> >  /**
-> > -- 
-> > 2.23.1
-> > 
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+On 6/9/20 7:21 PM, Koenig, Christian wrote:
+>
+>
+> Am 09.06.2020 18:37 schrieb "Grodzovsky, Andrey" 
+> <Andrey.Grodzovsky@amd.com>:
+>
+>
+>     On 6/5/20 2:40 PM, Christian König wrote:
+>     > Am 05.06.20 um 16:29 schrieb Andrey Grodzovsky:
+>     >>
+>     >> On 5/11/20 2:45 AM, Christian König wrote:
+>     >>> Am 09.05.20 um 20:51 schrieb Andrey Grodzovsky:
+>     >>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>     >>>> ---
+>     >>>> drivers/gpu/drm/ttm/ttm_bo.c    | 22 +++++++++++++++++++++-
+>     >>>> include/drm/ttm/ttm_bo_driver.h |  2 ++
+>     >>>>   2 files changed, 23 insertions(+), 1 deletion(-)
+>     >>>>
+>     >>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+>     >>>> b/drivers/gpu/drm/ttm/ttm_bo.c
+>     >>>> index c5b516f..eae61cc 100644
+>     >>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+>     >>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+>     >>>> @@ -1750,9 +1750,29 @@ void ttm_bo_unmap_virtual(struct
+>     >>>> ttm_buffer_object *bo)
+>     >>>> ttm_bo_unmap_virtual_locked(bo);
+>     >>>>       ttm_mem_io_unlock(man);
+>     >>>>   }
+>     >>>> +EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+>     >>>>   +void ttm_bo_unmap_virtual_address_space(struct
+>     ttm_bo_device *bdev)
+>     >>>> +{
+>     >>>> +    struct ttm_mem_type_manager *man;
+>     >>>> +    int i;
+>     >>>> -EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+>     >>>
+>     >>>> +    for (i = 0; i < TTM_NUM_MEM_TYPES; i++) {
+>     >>>> +        man = &bdev->man[i];
+>     >>>> +        if (man->has_type && man->use_type)
+>     >>>> + ttm_mem_io_lock(man, false);
+>     >>>> +    }
+>     >>>
+>     >>> You should drop that it will just result in a deadlock warning
+>     for
+>     >>> Nouveau and has no effect at all.
+>     >>>
+>     >>> Apart from that looks good to me,
+>     >>> Christian.
+>     >>
+>     >>
+>     >> As I am considering to re-include this in V2 of the patchsets, can
+>     >> you clarify please why this will have no effect at all ?
+>     >
+>     > The locks are exclusive for Nouveau to allocate/free the io address
+>     > space.
+>     >
+>     > Since we don't do this here we don't need the locks.
+>     >
+>     > Christian.
+>
+>
+>     So basically calling unmap_mapping_range doesn't require any extra
+>     locking around it and whatever locks are taken within the function
+>     should be enough ?
+>
+>
+>
+> I think so, yes.
+>
+> Christian.
+
+Yes, that's true. However, without the bo reservation, nothing stops a 
+PTE from being immediately re-faulted back again. Even while 
+unmap_mapping_range() is running. So the device removed flag needs to be 
+advertized before this function is run, (perhaps with a memory barrier 
+pair). That should probably be added to the function documentation.
+
+(Other than that, please add a commit message if respinning).
+
+/Thomas
+
+
+
+
+--------------115E9B973EE48450378DE1A2
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 6/9/20 7:21 PM, Koenig, Christian
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:f36c1fa1-bbee-477a-9cb2-ed2726f27eef@email.android.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="auto">
+        <div><br>
+          <div class="gmail_extra"><br>
+            <div class="gmail_quote">Am 09.06.2020 18:37 schrieb
+              "Grodzovsky, Andrey" <a class="moz-txt-link-rfc2396E" href="mailto:Andrey.Grodzovsky@amd.com">&lt;Andrey.Grodzovsky@amd.com&gt;</a>:<br
+                type="attribution">
+              <blockquote class="quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <div><font size="2"><span style="font-size:11pt">
+                      <div><br>
+                        On 6/5/20 2:40 PM, Christian König wrote:<br>
+                        &gt; Am 05.06.20 um 16:29 schrieb Andrey
+                        Grodzovsky:<br>
+                        &gt;&gt;<br>
+                        &gt;&gt; On 5/11/20 2:45 AM, Christian König
+                        wrote:<br>
+                        &gt;&gt;&gt; Am 09.05.20 um 20:51 schrieb Andrey
+                        Grodzovsky:<br>
+                        &gt;&gt;&gt;&gt; Signed-off-by: Andrey
+                        Grodzovsky <a class="moz-txt-link-rfc2396E" href="mailto:andrey.grodzovsky@amd.com">&lt;andrey.grodzovsky@amd.com&gt;</a><br>
+                        &gt;&gt;&gt;&gt; ---<br>
+                        &gt;&gt;&gt;&gt;  
+                        drivers/gpu/drm/ttm/ttm_bo.c    | 22
+                        +++++++++++++++++++++-<br>
+                        &gt;&gt;&gt;&gt;  
+                        include/drm/ttm/ttm_bo_driver.h |  2 ++<br>
+                        &gt;&gt;&gt;&gt;   2 files changed, 23
+                        insertions(+), 1 deletion(-)<br>
+                        &gt;&gt;&gt;&gt;<br>
+                        &gt;&gt;&gt;&gt; diff --git
+                        a/drivers/gpu/drm/ttm/ttm_bo.c <br>
+                        &gt;&gt;&gt;&gt; b/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                        &gt;&gt;&gt;&gt; index c5b516f..eae61cc 100644<br>
+                        &gt;&gt;&gt;&gt; ---
+                        a/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                        &gt;&gt;&gt;&gt; +++
+                        b/drivers/gpu/drm/ttm/ttm_bo.c<br>
+                        &gt;&gt;&gt;&gt; @@ -1750,9 +1750,29 @@ void
+                        ttm_bo_unmap_virtual(struct <br>
+                        &gt;&gt;&gt;&gt; ttm_buffer_object *bo)<br>
+                        &gt;&gt;&gt;&gt;      
+                        ttm_bo_unmap_virtual_locked(bo);<br>
+                        &gt;&gt;&gt;&gt;       ttm_mem_io_unlock(man);<br>
+                        &gt;&gt;&gt;&gt;   }<br>
+                        &gt;&gt;&gt;&gt;
+                        +EXPORT_SYMBOL(ttm_bo_unmap_virtual);<br>
+                        &gt;&gt;&gt;&gt;   +void
+                        ttm_bo_unmap_virtual_address_space(struct
+                        ttm_bo_device *bdev)<br>
+                        &gt;&gt;&gt;&gt; +{<!-- --><br>
+                        &gt;&gt;&gt;&gt; +    struct
+                        ttm_mem_type_manager *man;<br>
+                        &gt;&gt;&gt;&gt; +    int i;<br>
+                        &gt;&gt;&gt;&gt;  
+                        -EXPORT_SYMBOL(ttm_bo_unmap_virtual);<br>
+                        &gt;&gt;&gt;<br>
+                        &gt;&gt;&gt;&gt; +    for (i = 0; i &lt;
+                        TTM_NUM_MEM_TYPES; i++) {<!-- --><br>
+                        &gt;&gt;&gt;&gt; +        man =
+                        &amp;bdev-&gt;man[i];<br>
+                        &gt;&gt;&gt;&gt; +        if (man-&gt;has_type
+                        &amp;&amp; man-&gt;use_type)<br>
+                        &gt;&gt;&gt;&gt; +           
+                        ttm_mem_io_lock(man, false);<br>
+                        &gt;&gt;&gt;&gt; +    }<br>
+                        &gt;&gt;&gt;<br>
+                        &gt;&gt;&gt; You should drop that it will just
+                        result in a deadlock warning for <br>
+                        &gt;&gt;&gt; Nouveau and has no effect at all.<br>
+                        &gt;&gt;&gt;<br>
+                        &gt;&gt;&gt; Apart from that looks good to me,<br>
+                        &gt;&gt;&gt; Christian.<br>
+                        &gt;&gt;<br>
+                        &gt;&gt;<br>
+                        &gt;&gt; As I am considering to re-include this
+                        in V2 of the patchsets, can <br>
+                        &gt;&gt; you clarify please why this will have
+                        no effect at all ?<br>
+                        &gt;<br>
+                        &gt; The locks are exclusive for Nouveau to
+                        allocate/free the io address <br>
+                        &gt; space.<br>
+                        &gt;<br>
+                        &gt; Since we don't do this here we don't need
+                        the locks.<br>
+                        &gt;<br>
+                        &gt; Christian.<br>
+                        <br>
+                        <br>
+                        So basically calling unmap_mapping_range doesn't
+                        require any extra <br>
+                        locking around it and whatever locks are taken
+                        within the function <br>
+                        should be enough ?<br>
+                      </div>
+                    </span></font></div>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">
+          <div class="gmail_extra">
+            <div class="gmail_quote">
+              <blockquote class="quote" style="margin:0 0 0
+                .8ex;border-left:1px #ccc solid;padding-left:1ex">
+                <div><font size="2"><span style="font-size:11pt">
+                    </span></font></div>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">I think so, yes.</div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">Christian.</div>
+      </div>
+    </blockquote>
+    <p>Yes, that's true. However, without the bo reservation, nothing
+      stops a PTE from being immediately re-faulted back again. Even
+      while unmap_mapping_range() is running. So the device removed flag
+      needs to be advertized before this function is run, (perhaps with
+      a memory barrier pair). That should probably be added to the
+      function documentation. <br>
+    </p>
+    <p>(Other than that, please add a commit message if respinning).</p>
+    <p>/Thomas</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------115E9B973EE48450378DE1A2--
+
+--===============0353893917==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0353893917==--
