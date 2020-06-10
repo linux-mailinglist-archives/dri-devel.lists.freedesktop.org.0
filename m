@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732FF1F5732
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 17:01:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 519EA1F5737
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 17:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93A516E5B4;
-	Wed, 10 Jun 2020 15:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 894286E5C1;
+	Wed, 10 Jun 2020 15:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B676E5B4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 15:01:01 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1986E5C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 15:01:43 +0000 (UTC)
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com
+ [66.24.58.225])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id E177480615;
- Wed, 10 Jun 2020 17:00:59 +0200 (CEST)
-Date: Wed, 10 Jun 2020 17:00:58 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: Re: [PATCH 4/4] drm/panel: simple: add Tianma TM070JVHG33
-Message-ID: <20200610150058.GB135509@ravnborg.org>
-References: <20200610120131.3069-1-matthias.schiffer@ew.tq-group.com>
- <20200610120131.3069-5-matthias.schiffer@ew.tq-group.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id C25EE2072F;
+ Wed, 10 Jun 2020 15:01:41 +0000 (UTC)
+Date: Wed, 10 Jun 2020 11:01:40 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v6 13/13] drm/print: Add tracefs support to the drm
+ logging helpers
+Message-ID: <20200610110140.3c0da742@oasis.local.home>
+In-Reply-To: <20200609154932.696-1-sean@poorly.run>
+References: <202006090859.AP8QhpSU%lkp@intel.com>
+ <20200609154932.696-1-sean@poorly.run>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200610120131.3069-5-matthias.schiffer@ew.tq-group.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=8f9FM25-AAAA:8 a=MJQEDvMior-I7x-TAk4A:9
- a=CjuIK1q_8ugA:10 a=uSNRK0Bqq4PXrUp6LDpb:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,72 +41,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
+ chris@chris-wilson.co.uk, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias.
+On Tue,  9 Jun 2020 11:49:19 -0400
+Sean Paul <sean@poorly.run> wrote:
 
-Thanks,
-also a few details here to fix.
-
-	Sam
-
-On Wed, Jun 10, 2020 at 02:01:31PM +0200, Matthias Schiffer wrote:
-> From: Max Merchel <Max.Merchel@tq-group.com>
-> 
-> Add support for the Tianma Micro-electronics TM070JVHG33 7.0" WXGA display
-> to panel-simple.
-> 
-> Signed-off-by: Max Merchel <Max.Merchel@tq-group.com>
-> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 1673113e5a5a..68fcf68da1f3 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3421,6 +3421,17 @@ static const struct panel_desc tianma_tm070jdhg30 = {
->  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
->  };
->  
-> +static const struct panel_desc tianma_tm070jvhg33 = {
-> +	.timings = &tianma_tm070jdhg30_timing,
-> +	.num_timings = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 150,
-> +		.height = 94,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-.bus_flags??
-And again .connector_type.
-
-	Sam
-
-> +};
+> +/**
+> + * drm_trace_printf - adds an entry to the drm tracefs instance
+> + * @format: printf format of the message to add to the trace
+> + *
+> + * This function adds a new entry in the drm tracefs instance
+> + */
+> +void drm_trace_printf(const char *format, ...)
+> +{
+> +	struct va_format vaf;
+> +	va_list args;
 > +
->  static const struct display_timing tianma_tm070rvhg71_timing = {
->  	.pixelclock = { 27700000, 29200000, 39600000 },
->  	.hactive = { 800, 800, 800 },
-> @@ -4029,6 +4040,9 @@ static const struct of_device_id platform_of_match[] = {
->  	}, {
->  		.compatible = "tianma,tm070jdhg30",
->  		.data = &tianma_tm070jdhg30,
-> +	}, {
-> +		.compatible = "tianma,tm070jvhg33",
-> +		.data = &tianma_tm070jvhg33,
->  	}, {
->  		.compatible = "tianma,tm070rvhg71",
->  		.data = &tianma_tm070rvhg71,
-> -- 
-> 2.17.1
+> +	va_start(args, format);
+> +	vaf.fmt = format;
+> +	vaf.va = &args;
+> +	trace_array_printk(trace_arr, _THIS_IP_, "%pV", &vaf);
+> +	va_end(args);
+> +}
+
+The only issue I have with this patch is the above. I really dislike
+the use of trace_array_print(), as that is made to be for debugging and
+not something that should be in a production kernel.
+
+Ideally, every instance should just pass the data it wants to record,
+and you add it to a trace event. There's already a drm trace subsystem,
+how would this be different. Perhaps create a drm_log subsystem, and
+you only need to have your instance enable it?
+
+I guess I'm still confused to why this is needed over just having trace
+events? What's special about this case?
+
+-- Steve
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
