@@ -1,74 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029811F5862
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 17:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F141F5880
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 18:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE86898AF;
-	Wed, 10 Jun 2020 15:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E98F46E7DC;
+	Wed, 10 Jun 2020 16:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DED889E11
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 15:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591804476;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rz1HU+MJqPv86LT11aIGf0qwwos7MWs5V4O+GMnNcQ8=;
- b=d/AtLZTEDM6L3DASIVwqw6WS4fJBNMlLBzhO03L6jp2sM11Z2A5ENQoUF2+xByXGye1Hac
- MT1ICQEcf4RHZU9CMgUJDSOI/jdA7KBNqUWO8bsyQIkwRFnNTWvWrrQzx9zf5G86Jf5Ltc
- 8ptMajVApocYTKPZGsmBmk1yTlCCliQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-7bhpQKHTPSGE-fBN0XiCKQ-1; Wed, 10 Jun 2020 11:54:33 -0400
-X-MC-Unique: 7bhpQKHTPSGE-fBN0XiCKQ-1
-Received: by mail-qk1-f200.google.com with SMTP id d187so2490208qke.4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 08:54:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=Rz1HU+MJqPv86LT11aIGf0qwwos7MWs5V4O+GMnNcQ8=;
- b=gm2VkzB8Upfq3RGZxE+d4ciU/Uk/x/yg2OM5Qk9MH4ea3Cq6/UnNXLWHFXaE9e5qjF
- FRQCieT+pZic00D1sK5WkVU423h5uIYnMRGppwedzVqDL0H7g5Jnfjk0+7C+B2YLb/OO
- QoVyR0N57m75zBU8+vpAOmhPusbVN3Mp+rh76ul7KK4XqVEmMhFiYiOOLUkqKdufEwcZ
- 1LKKmY2tP4UceMW5Og1E5oLuprZQuakhTY0JwzLH0vspTfRsxDf2gfu++eqawMUqMO32
- 6kzGSZbRALibeOsE+kc6JowP2ZXhlseukY4W0vbp9DY3PMkKDpx29EXXZ3mVCpyT0u2B
- R2aA==
-X-Gm-Message-State: AOAM533nS5CdvgGmq1EmCGkBF3aHyKn2mr+mK4ZHyZNa2X1Orv2A5gtg
- IS2SNDh3m4sVvH6D3cEOKSDr7RofeIdFd8Nu9rIQLY1uL3qukoWKz7lQo45U3Crk+mVexgHYBOm
- 6z1ZOuQJDYbHEIU5ZQGXqw8cmOJDy
-X-Received: by 2002:ac8:4e4f:: with SMTP id e15mr3908537qtw.318.1591804472811; 
- Wed, 10 Jun 2020 08:54:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2FbWGNrQWV6QxL8cahz6amxo5yhFnpd6MOOmxUczMpoUYc6ee84eoLXEgwOy00nxhCVglFw==
-X-Received: by 2002:ac8:4e4f:: with SMTP id e15mr3908509qtw.318.1591804472446; 
- Wed, 10 Jun 2020 08:54:32 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id d17sm50091qke.101.2020.06.10.08.54.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Jun 2020 08:54:31 -0700 (PDT)
-Message-ID: <b7e474f0e80026565e7c7ad60a967f167e518536.camel@redhat.com>
-Subject: Re: [PATCH v2 3/3] drm/dp_mst: Fix flushing the delayed port/mstb
- destroy work
-From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 10 Jun 2020 11:54:30 -0400
-In-Reply-To: <20200610134704.25270-1-imre.deak@intel.com>
-References: <20200607212522.16935-3-imre.deak@intel.com>
- <20200610134704.25270-1-imre.deak@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 186B76E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 16:02:13 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 931FE20025;
+ Wed, 10 Jun 2020 18:02:09 +0200 (CEST)
+Date: Wed, 10 Jun 2020 18:02:08 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: Re: (EXT) Re: [PATCH 3/4] drm/panel: simple: add CDTech
+ S070PWS19HP-FC21 and S070SWV29HG-DC44
+Message-ID: <20200610160208.GA138424@ravnborg.org>
+References: <20200610120131.3069-1-matthias.schiffer@ew.tq-group.com>
+ <20200610120131.3069-4-matthias.schiffer@ew.tq-group.com>
+ <20200610145954.GA135509@ravnborg.org>
+ <44d3b82a11fc292f0aa3f60a8ccebd4e8ce5d3e8.camel@ew.tq-group.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <44d3b82a11fc292f0aa3f60a8ccebd4e8ce5d3e8.camel@ew.tq-group.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=8f9FM25-AAAA:8 a=e5mUnYsNAAAA:8
+ a=MH3lEQRaDhxj07Duq-8A:9 a=dKu1ZNvqqGtcOEyT:21 a=FKxxUMPwspYndQKg:21
+ a=CjuIK1q_8ugA:10 a=uSNRK0Bqq4PXrUp6LDpb:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,118 +48,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-my crunch time is over so I can review these on time now :)
-
-one small comment below, although it doesn't stop me from giving my R-B here:
-
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-
-
-On Wed, 2020-06-10 at 16:47 +0300, Imre Deak wrote:
-> Atm, a pending delayed destroy work during module removal will be
-> canceled, leaving behind MST ports, mstbs. Fix this by using a dedicated
-> workqueue which will be drained of requeued items as well when
-> destroying it.
+On Wed, Jun 10, 2020 at 05:26:23PM +0200, Matthias Schiffer wrote:
+> On Wed, 2020-06-10 at 16:59 +0200, Sam Ravnborg wrote:
+> > Hi Matthias.
+> > 
+> > Thanks, a few details you need to fix. See below.
+> > 
+> > 	Sam
+> > 
+> > On Wed, Jun 10, 2020 at 02:01:30PM +0200, Matthias Schiffer wrote:
+> > > From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+> > > 
+> > > Add support for the CDTech Electronics displays S070PWS19HP-FC21
+> > > (7.0" WSVGA) and S070SWV29HG-DC44 (7.0" WVGA) to panel-simple.
+> > > 
+> > > Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com
+> > > >
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-simple.c | 60
+> > > ++++++++++++++++++++++++++++
+> > >  1 file changed, 60 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
+> > > b/drivers/gpu/drm/panel/panel-simple.c
+> > > index b6ecd1552132..1673113e5a5a 100644
+> > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > @@ -1315,6 +1315,60 @@ static const struct panel_desc
+> > > cdtech_s043wq26h_ct7 = {
+> > >  	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> > >  };
+> > >  
+> > > +/* S070PWS19HP-FC21 2017/04/22 */
+> > > +static const struct drm_display_mode cdtech_s070pws19hp_fc21_mode
+> > > = {
+> > > +	.clock = 51200,
+> > > +	.hdisplay = 1024,
+> > > +	.hsync_start = 1024 + 160,
+> > > +	.hsync_end = 1024 + 160 + 20,
+> > > +	.htotal = 1024 + 160 + 20 + 140,
+> > > +	.vdisplay = 600,
+> > > +	.vsync_start = 600 + 12,
+> > > +	.vsync_end = 600 + 12 + 3,
+> > > +	.vtotal = 600 + 12 + 3 + 20,
+> > > +	.vrefresh = 60,
+> > 
+> > .vrefresh is no longer present, please drop.
 > 
-> v2:
-> - Check if wq is NULL before calling destroy_workqueue().
-> 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/drm_dp_mst_topology.c | 19 ++++++++++++++++---
->  include/drm/drm_dp_mst_helper.h       |  8 ++++++++
->  2 files changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index eff8d6ac0273..a5f67b9db7fa 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -1604,7 +1604,7 @@ static void drm_dp_destroy_mst_branch_device(struct kref
-> *kref)
->  	mutex_lock(&mgr->delayed_destroy_lock);
->  	list_add(&mstb->destroy_next, &mgr->destroy_branch_device_list);
->  	mutex_unlock(&mgr->delayed_destroy_lock);
-> -	schedule_work(&mgr->delayed_destroy_work);
-> +	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
->  }
->  
->  /**
-> @@ -1721,7 +1721,7 @@ static void drm_dp_destroy_port(struct kref *kref)
->  	mutex_lock(&mgr->delayed_destroy_lock);
->  	list_add(&port->next, &mgr->destroy_port_list);
->  	mutex_unlock(&mgr->delayed_destroy_lock);
-> -	schedule_work(&mgr->delayed_destroy_work);
-> +	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
->  }
->  
->  /**
-> @@ -5182,6 +5182,15 @@ int drm_dp_mst_topology_mgr_init(struct
-> drm_dp_mst_topology_mgr *mgr,
->  	INIT_LIST_HEAD(&mgr->destroy_port_list);
->  	INIT_LIST_HEAD(&mgr->destroy_branch_device_list);
->  	INIT_LIST_HEAD(&mgr->up_req_list);
-> +
-> +	/*
-> +	 * delayed_destroy_work will be queued on a dedicated WQ, so that any
-> +	 * requeuing will be also flushed when deiniting the topology manager.
-> +	 */
-> +	mgr->delayed_destroy_wq = alloc_ordered_workqueue("drm_dp_mst_wq", 0);
-> +	if (mgr->delayed_destroy_wq == NULL)
-> +		return -ENOMEM;
-> +
->  	INIT_WORK(&mgr->work, drm_dp_mst_link_probe_work);
->  	INIT_WORK(&mgr->tx_work, drm_dp_tx_work);
->  	INIT_WORK(&mgr->delayed_destroy_work, drm_dp_delayed_destroy_work);
-> @@ -5226,7 +5235,11 @@ void drm_dp_mst_topology_mgr_destroy(struct
-> drm_dp_mst_topology_mgr *mgr)
->  {
->  	drm_dp_mst_topology_mgr_set_mst(mgr, false);
->  	flush_work(&mgr->work);
-> -	cancel_work_sync(&mgr->delayed_destroy_work);
-> +	/* The following will also drain any requeued work on the WQ. */
-> +	if (mgr->delayed_destroy_wq) {
-> +		destroy_workqueue(mgr->delayed_destroy_wq);
-> +		mgr->delayed_destroy_wq = NULL;
-> +	}
+> I based my patches on the branch drm-next of 
+> https://cgit.freedesktop.org/drm/drm, should I have used a different
+> branch?
+drm-misc-next would in this case be a better choice.
+In most cases both would have worked equally well, but we have nuked
+.refresh recently.
 
-We should definitely cleanup the cleanup in this function, I don't mind
-submitting some patches to do it today if you poke me on IRC once you've got
-this pushed to drm-misc-next
->  	mutex_lock(&mgr->payload_lock);
->  	kfree(mgr->payloads);
->  	mgr->payloads = NULL;
-> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
-> index 9e1ffcd7cb68..17b568c6f4f8 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -672,6 +672,14 @@ struct drm_dp_mst_topology_mgr {
->  	 * @destroy_branch_device_list.
->  	 */
->  	struct mutex delayed_destroy_lock;
-> +
-> +	/**
-> +	 * @delayed_destroy_wq: Workqueue used for delayed_destroy_work items.
-> +	 * A dedicated WQ makes it possible to drain any requeued work items
-> +	 * on it.
-> +	 */
-> +	struct workqueue_struct *delayed_destroy_wq;
-> +
->  	/**
->  	 * @delayed_destroy_work: Work item to destroy MST port and branch
->  	 * devices, needed to avoid locking inversion.
+	Sam
 
+> 
+> 
+> > > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > > +};
+> > > +
+> > > +static const struct panel_desc cdtech_s070pws19hp_fc21 = {
+> > > +	.modes = &cdtech_s070pws19hp_fc21_mode,
+> > > +	.num_modes = 1,
+> > > +	.bpc = 6,
+> > > +	.size = {
+> > > +		.width = 154,
+> > > +		.height = 86,
+> > > +	},
+> > > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+> > > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> > > DRM_BUS_FLAG_PIXDATA_POSEDGE,
+> > > +};
+> > 
+> > Please add .connector_type - it is mandatory.
+> > > +
+> > > +/* S070SWV29HG-DC44 2017/09/21 */
+> > > +static const struct drm_display_mode cdtech_s070swv29hg_dc44_mode
+> > > = {
+> > > +	.clock = 33300,
+> > > +	.hdisplay = 800,
+> > > +	.hsync_start = 800 + 210,
+> > > +	.hsync_end = 800 + 210 + 2,
+> > > +	.htotal = 800 + 210 + 2 + 44,
+> > > +	.vdisplay = 480,
+> > > +	.vsync_start = 480 + 22,
+> > > +	.vsync_end = 480 + 22 + 2,
+> > > +	.vtotal = 480 + 22 + 2 + 21,
+> > > +	.vrefresh = 60,
+> > 
+> > .vrefresh is no longer present, please drop.
+> > > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > > +};
+> > > +
+> > > +static const struct panel_desc cdtech_s070swv29hg_dc44 = {
+> > > +	.modes = &cdtech_s070swv29hg_dc44_mode,
+> > > +	.num_modes = 1,
+> > > +	.bpc = 6,
+> > > +	.size = {
+> > > +		.width = 154,
+> > > +		.height = 86,
+> > > +	},
+> > > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+> > > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> > > DRM_BUS_FLAG_PIXDATA_POSEDGE,
+> > 
+> > Please add .connector_type - it is mandatory.
+> > > +};
+> > > +
+> > >  static const struct drm_display_mode cdtech_s070wv95_ct16_mode = {
+> > >  	.clock = 35000,
+> > >  	.hdisplay = 800,
+> > > @@ -3723,6 +3777,12 @@ static const struct of_device_id
+> > > platform_of_match[] = {
+> > >  	}, {
+> > >  		.compatible = "cdtech,s043wq26h-ct7",
+> > >  		.data = &cdtech_s043wq26h_ct7,
+> > > +	}, {
+> > > +		.compatible = "cdtech,s070pws19hp-fc21",
+> > > +		.data = &cdtech_s070pws19hp_fc21,
+> > > +	}, {
+> > > +		.compatible = "cdtech,s070swv29hg-dc44",
+> > > +		.data = &cdtech_s070swv29hg_dc44,
+> > >  	}, {
+> > >  		.compatible = "cdtech,s070wv95-ct16",
+> > >  		.data = &cdtech_s070wv95_ct16,
+> > > -- 
+> > > 2.17.1
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
