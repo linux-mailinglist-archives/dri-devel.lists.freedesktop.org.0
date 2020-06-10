@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F141F5880
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 18:02:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBA91F59CD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 19:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E98F46E7DC;
-	Wed, 10 Jun 2020 16:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC336E802;
+	Wed, 10 Jun 2020 17:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186B76E7E5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 16:02:13 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 931FE20025;
- Wed, 10 Jun 2020 18:02:09 +0200 (CEST)
-Date: Wed, 10 Jun 2020 18:02:08 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: Re: (EXT) Re: [PATCH 3/4] drm/panel: simple: add CDTech
- S070PWS19HP-FC21 and S070SWV29HG-DC44
-Message-ID: <20200610160208.GA138424@ravnborg.org>
-References: <20200610120131.3069-1-matthias.schiffer@ew.tq-group.com>
- <20200610120131.3069-4-matthias.schiffer@ew.tq-group.com>
- <20200610145954.GA135509@ravnborg.org>
- <44d3b82a11fc292f0aa3f60a8ccebd4e8ce5d3e8.camel@ew.tq-group.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8A96E802
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 17:15:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 58E21B009;
+ Wed, 10 Jun 2020 17:15:06 +0000 (UTC)
+Subject: Re: [PATCH] drm/ast: fix missing break in switch statement for
+ format->cpp[0] case 4
+To: Colin King <colin.king@canonical.com>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20200610115804.1132338-1-colin.king@canonical.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <3286283e-f202-a515-0ae1-89c0d3e855fb@suse.de>
+Date: Wed, 10 Jun 2020 19:14:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <44d3b82a11fc292f0aa3f60a8ccebd4e8ce5d3e8.camel@ew.tq-group.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=8f9FM25-AAAA:8 a=e5mUnYsNAAAA:8
- a=MH3lEQRaDhxj07Duq-8A:9 a=dKu1ZNvqqGtcOEyT:21 a=FKxxUMPwspYndQKg:21
- a=CjuIK1q_8ugA:10 a=uSNRK0Bqq4PXrUp6LDpb:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20200610115804.1132338-1-colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,144 +66,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1651650267=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 10, 2020 at 05:26:23PM +0200, Matthias Schiffer wrote:
-> On Wed, 2020-06-10 at 16:59 +0200, Sam Ravnborg wrote:
-> > Hi Matthias.
-> > 
-> > Thanks, a few details you need to fix. See below.
-> > 
-> > 	Sam
-> > 
-> > On Wed, Jun 10, 2020 at 02:01:30PM +0200, Matthias Schiffer wrote:
-> > > From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
-> > > 
-> > > Add support for the CDTech Electronics displays S070PWS19HP-FC21
-> > > (7.0" WSVGA) and S070SWV29HG-DC44 (7.0" WVGA) to panel-simple.
-> > > 
-> > > Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
-> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com
-> > > >
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-simple.c | 60
-> > > ++++++++++++++++++++++++++++
-> > >  1 file changed, 60 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panel/panel-simple.c
-> > > b/drivers/gpu/drm/panel/panel-simple.c
-> > > index b6ecd1552132..1673113e5a5a 100644
-> > > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > > @@ -1315,6 +1315,60 @@ static const struct panel_desc
-> > > cdtech_s043wq26h_ct7 = {
-> > >  	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-> > >  };
-> > >  
-> > > +/* S070PWS19HP-FC21 2017/04/22 */
-> > > +static const struct drm_display_mode cdtech_s070pws19hp_fc21_mode
-> > > = {
-> > > +	.clock = 51200,
-> > > +	.hdisplay = 1024,
-> > > +	.hsync_start = 1024 + 160,
-> > > +	.hsync_end = 1024 + 160 + 20,
-> > > +	.htotal = 1024 + 160 + 20 + 140,
-> > > +	.vdisplay = 600,
-> > > +	.vsync_start = 600 + 12,
-> > > +	.vsync_end = 600 + 12 + 3,
-> > > +	.vtotal = 600 + 12 + 3 + 20,
-> > > +	.vrefresh = 60,
-> > 
-> > .vrefresh is no longer present, please drop.
-> 
-> I based my patches on the branch drm-next of 
-> https://cgit.freedesktop.org/drm/drm, should I have used a different
-> branch?
-drm-misc-next would in this case be a better choice.
-In most cases both would have worked equally well, but we have nuked
-.refresh recently.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1651650267==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UsxwGtEEheNGlAKZ6LKRC92AjTcFcuLXI"
 
-	Sam
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UsxwGtEEheNGlAKZ6LKRC92AjTcFcuLXI
+Content-Type: multipart/mixed; boundary="Eah6yEBgs72EXQ71v3OZ8NDYMEkLD36Kz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Colin King <colin.king@canonical.com>, Dave Airlie <airlied@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <3286283e-f202-a515-0ae1-89c0d3e855fb@suse.de>
+Subject: Re: [PATCH] drm/ast: fix missing break in switch statement for
+ format->cpp[0] case 4
+References: <20200610115804.1132338-1-colin.king@canonical.com>
+In-Reply-To: <20200610115804.1132338-1-colin.king@canonical.com>
 
-> 
-> 
-> > > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> > > +};
-> > > +
-> > > +static const struct panel_desc cdtech_s070pws19hp_fc21 = {
-> > > +	.modes = &cdtech_s070pws19hp_fc21_mode,
-> > > +	.num_modes = 1,
-> > > +	.bpc = 6,
-> > > +	.size = {
-> > > +		.width = 154,
-> > > +		.height = 86,
-> > > +	},
-> > > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-> > > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> > > DRM_BUS_FLAG_PIXDATA_POSEDGE,
-> > > +};
-> > 
-> > Please add .connector_type - it is mandatory.
-> > > +
-> > > +/* S070SWV29HG-DC44 2017/09/21 */
-> > > +static const struct drm_display_mode cdtech_s070swv29hg_dc44_mode
-> > > = {
-> > > +	.clock = 33300,
-> > > +	.hdisplay = 800,
-> > > +	.hsync_start = 800 + 210,
-> > > +	.hsync_end = 800 + 210 + 2,
-> > > +	.htotal = 800 + 210 + 2 + 44,
-> > > +	.vdisplay = 480,
-> > > +	.vsync_start = 480 + 22,
-> > > +	.vsync_end = 480 + 22 + 2,
-> > > +	.vtotal = 480 + 22 + 2 + 21,
-> > > +	.vrefresh = 60,
-> > 
-> > .vrefresh is no longer present, please drop.
-> > > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> > > +};
-> > > +
-> > > +static const struct panel_desc cdtech_s070swv29hg_dc44 = {
-> > > +	.modes = &cdtech_s070swv29hg_dc44_mode,
-> > > +	.num_modes = 1,
-> > > +	.bpc = 6,
-> > > +	.size = {
-> > > +		.width = 154,
-> > > +		.height = 86,
-> > > +	},
-> > > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
-> > > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
-> > > DRM_BUS_FLAG_PIXDATA_POSEDGE,
-> > 
-> > Please add .connector_type - it is mandatory.
-> > > +};
-> > > +
-> > >  static const struct drm_display_mode cdtech_s070wv95_ct16_mode = {
-> > >  	.clock = 35000,
-> > >  	.hdisplay = 800,
-> > > @@ -3723,6 +3777,12 @@ static const struct of_device_id
-> > > platform_of_match[] = {
-> > >  	}, {
-> > >  		.compatible = "cdtech,s043wq26h-ct7",
-> > >  		.data = &cdtech_s043wq26h_ct7,
-> > > +	}, {
-> > > +		.compatible = "cdtech,s070pws19hp-fc21",
-> > > +		.data = &cdtech_s070pws19hp_fc21,
-> > > +	}, {
-> > > +		.compatible = "cdtech,s070swv29hg-dc44",
-> > > +		.data = &cdtech_s070swv29hg_dc44,
-> > >  	}, {
-> > >  		.compatible = "cdtech,s070wv95-ct16",
-> > >  		.data = &cdtech_s070wv95_ct16,
-> > > -- 
-> > > 2.17.1
+--Eah6yEBgs72EXQ71v3OZ8NDYMEkLD36Kz
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 10.06.20 um 13:58 schrieb Colin King:
+> From: Colin Ian King <colin.king@canonical.com>
+>=20
+> Currently the switch statement for format->cpp[0] value 4 assigns
+> color_index which is never read again and then falls through to the
+> default case and returns. This looks like a missing break statement
+> bug. Fix this by adding a break statement.
+>=20
+> Addresses-Coverity: ("Unused value")
+> Fixes: 259d14a76a27 ("drm/ast: Split ast_set_vbios_mode_info()")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks for the fix. I'll test and merge the patch tomorrow.
+
+Best regards
+Thomas
+
+> ---
+>  drivers/gpu/drm/ast/ast_mode.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_m=
+ode.c
+> index 7d39b858c9f1..3a3a511670c9 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -226,6 +226,7 @@ static void ast_set_vbios_color_reg(struct ast_priv=
+ate *ast,
+>  	case 3:
+>  	case 4:
+>  		color_index =3D TrueCModeIndex;
+> +		break;
+>  	default:
+>  		return;
+>  	}
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--Eah6yEBgs72EXQ71v3OZ8NDYMEkLD36Kz--
+
+--UsxwGtEEheNGlAKZ6LKRC92AjTcFcuLXI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7hFRUACgkQaA3BHVML
+eiNuewf+NSC3xjI5ZqB94Yy11a5/KKJtyGy9G3I638ASSLvAjH4PiqkGQCW246p7
+QrOnWTdoKlW6XreLjH06r3+9Jb6WafV/ewvzio6+SvuD64edsef6HBekhUlKwYo3
+1593l1mh+DKw3o+uGYUBo96Oj5RY3yZrSjfnhAfOd116th4V5YbOOyakfWQ0gEhX
+xE0+r9NB+BtY1rPUNDcucYn37j4twAICKVPOX2shYc/Qpoc8cE/QI9Y7J/ktpy11
+3LMItZvlevCWP/79zrdpy/buo603otmLkn5Ia8QMtFAKZ+IBIzo97fdHVqrC/aHZ
+X3f5bYnUyyOscA5mRY72K1veGuupuQ==
+=kXy7
+-----END PGP SIGNATURE-----
+
+--UsxwGtEEheNGlAKZ6LKRC92AjTcFcuLXI--
+
+--===============1651650267==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1651650267==--
