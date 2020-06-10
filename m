@@ -1,60 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C081F4F0B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:36:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2EE1F4EF0
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jun 2020 09:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04056E364;
-	Wed, 10 Jun 2020 07:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89BE689ADC;
+	Wed, 10 Jun 2020 07:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3AA6E197
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 02:20:56 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id m2so233226pjv.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jun 2020 19:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:content-transfer-encoding:in-reply-to:references
- :subject:from:cc:to:date:message-id:user-agent;
- bh=dC9/KQFuZY34yyqjXgNCYCIKz+z0z+M8UxzxcZfntAU=;
- b=LshfhBDcAKWKw+BwL1711CUtdj63qrkSDCAl1hU9a4s8T0Drnxqgtvu2sGmOsJJ2yl
- hhnoTDwRU6tZveA+vXZWA7u1LgoUgm7DV4DVmTHTRN8gEI2fuqMAjW+hkOhnQRcep6A+
- esCNzWyueKfigoevJr9Sf8d9sDZ06p66fvk6M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:content-transfer-encoding
- :in-reply-to:references:subject:from:cc:to:date:message-id
- :user-agent;
- bh=dC9/KQFuZY34yyqjXgNCYCIKz+z0z+M8UxzxcZfntAU=;
- b=ITIPccUSHzvT5YH8KB8Icr/gaR4T9EZ8gaPLgua2kCL3CPCNH0DBEUZPOwrQFKhJhO
- ZcXT/gYmyGDN0cGSxoz+QUD6sqHLe8qLxeKvF6S67bnAi7UvY0xaBrFiKw39idFg1C9l
- Zemzc9mGAVe+fOqZP6CI7kKLFf9s42aEAP5JVs90RDz5csF/MgXIenYP5UPn9RIT33Sq
- 8bpa4AW+yW5FnYVU2EEXfFrapPbb+ZBcU9N3y4z963qguLE6M9KgRtU8lknqwbcdHufU
- 3fQYKjiskUvaQbDyK/JmwjhrycEmGCbeM7sWvMMxQ39TVLfl4klvaZwHRFCkUo39Yo06
- kZBw==
-X-Gm-Message-State: AOAM531Ew0JiIxxlu/HoYNcE9YQbAtvxdztasPG54YLEnXcvHgd/VjZc
- D3vmxDDCO687r3erg4yl4qOjkg==
-X-Google-Smtp-Source: ABdhPJxmED+EAnYjUtWkB7dB6RYq/eITyPggCRbENMcrnsfK8Hlc1oCgRoX7471ZCmTD51mFldzUag==
-X-Received: by 2002:a17:902:aa88:: with SMTP id
- d8mr1082183plr.257.1591755655666; 
- Tue, 09 Jun 2020 19:20:55 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
- by smtp.gmail.com with ESMTPSA id d2sm9249070pgp.56.2020.06.09.19.20.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 19:20:55 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D98289A1A;
+ Wed, 10 Jun 2020 07:33:40 +0000 (UTC)
+IronPort-SDR: KM0jzZtiHkhalhvOX6iyqbXnKqbtvbTzK+vWDdkANf3V9BQCIJFL/ciXDXW35bfJRMG7hU7V62
+ fooB+uIPUnjA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2020 00:33:39 -0700
+IronPort-SDR: IPB0qo45bW4Egg1JeE3fsG2kB7Qbs2qhpnyq4SvtQdEAR/fArOJEtYyZdqWXLbPK+SAeQwjIg3
+ R+9vqL7F/s7w==
+X-IronPort-AV: E=Sophos;i="5.73,495,1583222400"; d="scan'208";a="289093745"
+Received: from unknown (HELO intel.com) ([10.237.72.89])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2020 00:33:37 -0700
+Date: Wed, 10 Jun 2020 10:29:54 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH 3/3] drm/dp_mst: Fix flushing the delayed port/mstb
+ destroy work
+Message-ID: <20200610072954.GA10678@intel.com>
+References: <20200607212522.16935-1-imre.deak@intel.com>
+ <20200607212522.16935-3-imre.deak@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200609034047.9407-1-tanmay@codeaurora.org>
-References: <20200609034047.9407-1-tanmay@codeaurora.org>
-Subject: Re: [PATCH v6 2/5] drm: add constant N value in helper file
-From: Stephen Boyd <swboyd@chromium.org>
-To: Tanmay Shah <tanmay@codeaurora.org>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
-Date: Tue, 09 Jun 2020 19:20:54 -0700
-Message-ID: <159175565407.242598.7527036274929582020@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
-X-Mailman-Approved-At: Wed, 10 Jun 2020 07:35:32 +0000
+Content-Disposition: inline
+In-Reply-To: <20200607212522.16935-3-imre.deak@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,35 +49,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, abhinavk@codeaurora.org, seanpaul@chromium.org,
- Tanmay Shah <tanmay@codeaurora.org>, Vara Reddy <varar@codeaurora.org>,
- freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org,
- chandanu@codeaurora.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tanmay Shah (2020-06-08 20:40:47)
-> From: Chandan Uddaraju <chandanu@codeaurora.org>
-> 
-> The constant N value (0x8000) is used by i915 DP
-> driver. Define this value in dp helper header file
-> to use in multiple Display Port drivers. Change
-> i915 driver accordingly.
-> 
-> Change in v6: Change commit message
-> 
-> Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
-> Signed-off-by: Vara Reddy <varar@codeaurora.org>
-> Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
+On Mon, Jun 08, 2020 at 12:25:22AM +0300, Imre Deak wrote:
+> Atm, a pending delayed destroy work during module removal will be
+> canceled, leaving behind MST ports, mstbs. Fix this by using a dedicated
+> workqueue which will be drained of requeued items as well when
+> destroying it.
+>
+
+Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+ 
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
-
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-
-Can you resend this series as an actual patch series? None of the
-patches have the proper In-Reply-To headers so it is hard to track the
-thread.
+>  drivers/gpu/drm/drm_dp_mst_topology.c | 17 ++++++++++++++---
+>  include/drm/drm_dp_mst_helper.h       |  8 ++++++++
+>  2 files changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 083255c33ee0..075fb5ac9264 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1630,7 +1630,7 @@ static void drm_dp_destroy_mst_branch_device(struct kref *kref)
+>  	mutex_lock(&mgr->delayed_destroy_lock);
+>  	list_add(&mstb->destroy_next, &mgr->destroy_branch_device_list);
+>  	mutex_unlock(&mgr->delayed_destroy_lock);
+> -	schedule_work(&mgr->delayed_destroy_work);
+> +	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
+>  }
+>  
+>  /**
+> @@ -1747,7 +1747,7 @@ static void drm_dp_destroy_port(struct kref *kref)
+>  	mutex_lock(&mgr->delayed_destroy_lock);
+>  	list_add(&port->next, &mgr->destroy_port_list);
+>  	mutex_unlock(&mgr->delayed_destroy_lock);
+> -	schedule_work(&mgr->delayed_destroy_work);
+> +	queue_work(mgr->delayed_destroy_wq, &mgr->delayed_destroy_work);
+>  }
+>  
+>  /**
+> @@ -5208,6 +5208,15 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
+>  	INIT_LIST_HEAD(&mgr->destroy_port_list);
+>  	INIT_LIST_HEAD(&mgr->destroy_branch_device_list);
+>  	INIT_LIST_HEAD(&mgr->up_req_list);
+> +
+> +	/*
+> +	 * delayed_destroy_work will be queued on a dedicated WQ, so that any
+> +	 * requeuing will be also flushed when deiniting the topology manager.
+> +	 */
+> +	mgr->delayed_destroy_wq = alloc_ordered_workqueue("drm_dp_mst_wq", 0);
+> +	if (mgr->delayed_destroy_wq == NULL)
+> +		return -ENOMEM;
+> +
+>  	INIT_WORK(&mgr->work, drm_dp_mst_link_probe_work);
+>  	INIT_WORK(&mgr->tx_work, drm_dp_tx_work);
+>  	INIT_WORK(&mgr->delayed_destroy_work, drm_dp_delayed_destroy_work);
+> @@ -5252,7 +5261,9 @@ void drm_dp_mst_topology_mgr_destroy(struct drm_dp_mst_topology_mgr *mgr)
+>  {
+>  	drm_dp_mst_topology_mgr_set_mst(mgr, false);
+>  	flush_work(&mgr->work);
+> -	cancel_work_sync(&mgr->delayed_destroy_work);
+> +	/* The following will also drain any requeued work on the WQ. */
+> +	destroy_workqueue(mgr->delayed_destroy_wq);
+> +	mgr->delayed_destroy_wq = NULL;
+>  	mutex_lock(&mgr->payload_lock);
+>  	kfree(mgr->payloads);
+>  	mgr->payloads = NULL;
+> diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+> index b230ff6f7081..8b9eb4db3381 100644
+> --- a/include/drm/drm_dp_mst_helper.h
+> +++ b/include/drm/drm_dp_mst_helper.h
+> @@ -681,6 +681,14 @@ struct drm_dp_mst_topology_mgr {
+>  	 * @destroy_branch_device_list.
+>  	 */
+>  	struct mutex delayed_destroy_lock;
+> +
+> +	/**
+> +	 * @delayed_destroy_wq: Workqueue used for delayed_destroy_work items.
+> +	 * A dedicated WQ makes it possible to drain any requeued work items
+> +	 * on it.
+> +	 */
+> +	struct workqueue_struct *delayed_destroy_wq;
+> +
+>  	/**
+>  	 * @delayed_destroy_work: Work item to destroy MST port and branch
+>  	 * devices, needed to avoid locking inversion.
+> -- 
+> 2.23.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
