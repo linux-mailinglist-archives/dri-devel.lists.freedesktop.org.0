@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE6A1F62FD
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:54:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8EC1F62F7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E045B6E8A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 530116E89C;
 	Thu, 11 Jun 2020 07:54:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38FAF6E119
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 13:16:17 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id w15so1413840lfe.11
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 06:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OXsw15cR+ZyosRfP5eToOJ+Kwm4SVk27QffhyUka7K4=;
- b=dklUVQIg0cT3POJq7VrrAhoxRlIBa2SLaAudlZk3GM2eJlmoCjen9saRJxYNj0cAih
- qkpNPi9TdjjWYjgkRYNF1qXExXURZgzmJt7q1qid+R6s8NfOU/wV7jEBciopsf0RRb+P
- VPuz6a8feC10FRIAEMC/mPnPzKO00Lf3b/RV3yehxe5qEd0Dgo2SEk15IxalksGB3elW
- CAZbEP/AzFyfojJ/LxQmtWIlkf563ahMSvjB/RAtxuqmoASw0dTBVQgINEenaYWFiB36
- VmWIND4olOFaOtuODEtSN88BC6VIrwyUSOC93ESyXNBWEvO0VZgqrYNQfGkYM0nMH6QT
- LTdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OXsw15cR+ZyosRfP5eToOJ+Kwm4SVk27QffhyUka7K4=;
- b=TmfMJU/MpcCW67Ae0reO2CwlJKMbxkhRLng+W3Jdr/z/lilzp2Ox4v6EGdsoey/yU4
- Mngz5xLoSiq9FtGf9MgaGpZxm+M3WYb3cS01diEnH/Ak4hO5xY+7/gKdSUEA6JH4yjHP
- rfh+wP7AE5TmrHqnZk+j0sDZzGoTBResYl918AJBHKA+O8j8c7sHQe/FIbPiRJw9ptEO
- Ugp98OUXunTH1rX2X42rJd6MQTvfJEtx2QCh/drbfS0a1nQVHC/xF6FVyd90xvisMl2t
- w5vUCl+hlHcyCtw1a1jcopWrQrBdNoInZDKs0AZuSmaItYlpuqmb9pHM6cRLDVKCNMXO
- dLVQ==
-X-Gm-Message-State: AOAM531WQhV+23KOpFZpgmQxF3v78HDBDHLB0JAvheYRdrWFEtl8DLbq
- Yew+twaMemRfbRj4Y25GwG0=
-X-Google-Smtp-Source: ABdhPJwAPrv2z4RRmB7XqNuKaIm0bk8kY6kw8F3Rh9nxZRK38Jk0ohshYLm/22qpCPoyJSAwGeImsw==
-X-Received: by 2002:ac2:5cd1:: with SMTP id f17mr1631899lfq.4.1591794975611;
- Wed, 10 Jun 2020 06:16:15 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id g12sm5001549ljl.33.2020.06.10.06.16.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Jun 2020 06:16:15 -0700 (PDT)
-Subject: Re: [PATCH] drm/tegra: Add zpos property for cursor planes
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20200610113059.2164132-1-thierry.reding@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ca53d82f-1fd0-b2da-cfbf-7183a977e1d1@gmail.com>
-Date: Wed, 10 Jun 2020 16:16:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200610113059.2164132-1-thierry.reding@gmail.com>
-Content-Language: en-US
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3636D89D42
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 15:26:25 +0000 (UTC)
+IronPort-SDR: UCvVFmd+T2/3ddcGqwzY1KXKYIXifE+cRK+2f5+2GBOmMRbPjF5Goar0VwYnIPtXH/xKwHEJyk
+ hJkT4aZyr6UbMHwIOzltacS42sW0Tk2Uw4b6sUs3hERrATX552qex5XcJ9Wz4nd2HODJnIxy6X
+ dbXGnYs1yTS8YxVhirDvadT0gDfzCuTstCG75F5/MgcwmqUtrHc2qVUJhHmNwYbvpJiWI3uLOu
+ RBkJrK9+8b7HoSB523YR3qnC9y7ib5J3KsE/db5EyMbj/9JpeYuyz20C4TlWYYj6uwuiEmqH3M
+ tuA=
+X-IronPort-AV: E=Sophos;i="5.73,496,1583190000"; d="scan'208";a="12640925"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 10 Jun 2020 17:26:24 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 10 Jun 2020 17:26:24 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 10 Jun 2020 17:26:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1591802784; x=1623338784;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=NgpoLcQmfQK0uSFUsODXw4KgmMJLoHjdRmqi3oYQpMg=;
+ b=P7I8+djgRzLr4OXMOtTfgn4kiw8mcUWEBjMXj/IcNJR/4J8wEk9FtAIc
+ gaCY99ZgSKPKWoVvhSV/C9u7km3HM6IaRQmbFYpY2hjCGjg8yaUz5YR7x
+ ahu1gQ1hsWyxlsNMii7447HcCobyjUt0npe+NlBy3E5ypkWUXa+wweldK
+ hkSIRijK9yQROKvXQb/k3Hm9GiJ69++2mf4DcfJMC6+pfvrH0WHq9Jtr8
+ LxTPU/rzu38xo+tH35DHNxpPReeKvKSt+3ce+7ubSaimUvam7EGsHm59p
+ LjXwtXisHNG6FmhFI5/iYs2bjT1GIxYzKSXXr7geyeC+AJDg07X+MbqKJ A==;
+IronPort-SDR: 58e+uR1RdbqcmyDTrw4VUBYlZWfyW5Zqijv4wjO3KBcZ6MVvCWdyaNzteqxdKknSqhcJQbYIqV
+ s6nMgfxxlqJxuDjcLT27n5viu/7Am1LbBDehEL7h1245TeM8VLbxO+A2HgJxHoRJY9a6xTBwE/
+ SvbJrGgfodtK39tRhtmKlnAWh1qSAfiuKu9CiyMjdER4/1gMk2yy2Q3UhJ7LsDM7ZAs7lqCwmB
+ aSQ5lTLfqyCH9GryLwZ/a4a9dIimZu+eUPpTuJeXwFc05Er7bWRuKHl9QKQce4CKU6X1OZqyyP
+ yRM=
+X-IronPort-AV: E=Sophos;i="5.73,496,1583190000"; d="scan'208";a="12640924"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 10 Jun 2020 17:26:24 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+ [10.117.49.26])
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 48A4A280065;
+ Wed, 10 Jun 2020 17:26:24 +0200 (CEST)
+Message-ID: <44d3b82a11fc292f0aa3f60a8ccebd4e8ce5d3e8.camel@ew.tq-group.com>
+Subject: Re: (EXT) Re: [PATCH 3/4] drm/panel: simple: add CDTech
+ S070PWS19HP-FC21 and S070SWV29HG-DC44
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Date: Wed, 10 Jun 2020 17:26:23 +0200
+In-Reply-To: <20200610145954.GA135509@ravnborg.org>
+References: <20200610120131.3069-1-matthias.schiffer@ew.tq-group.com>
+ <20200610120131.3069-4-matthias.schiffer@ew.tq-group.com>
+ <20200610145954.GA135509@ravnborg.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
 X-Mailman-Approved-At: Thu, 11 Jun 2020 07:54:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,25 +74,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTAuMDYuMjAyMCAxNDozMCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBGcm9tOiBUaGll
-cnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IEFzIG9mIGNvbW1pdCA0ZGM1NTUy
-NWIwOTUgKCJkcm06IHBsYW5lOiBWZXJpZnkgdGhhdCBubyBvciBhbGwgcGxhbmVzCj4gaGF2ZSBh
-IHpwb3MgcHJvcGVydHkiKSBhIHdhcm5pbmcgaXMgZW1pdHRlZCBpZiB0aGVyZSdzIGEgbWl4IG9m
-IHBsYW5lcwo+IHdpdGggYW5kIHdpdGhvdXQgYSB6cG9zIHByb3BlcnR5Lgo+IAo+IE9uIFRlZ3Jh
-LCBjdXJzb3IgcGxhbmVzIGFyZSBhbHdheXMgY29tcG9zaXRlZCBvbiB0b3Agb2YgYWxsIG90aGVy
-Cj4gcGxhbmVzLCB3aGljaCBpcyB3aHkgdGhleSBuZXZlciBoYWQgYSB6cG9zIHByb3BlcnR5IGF0
-dGFjaGVkIHRvIHRoZW0uCj4gSG93ZXZlciwgc2luY2UgdGhlIGNvbXBvc2l0aW9uIG9yZGVyIGlz
-IGZpeGVkLCB0aGlzIGlzIHRyaXZpYWwgdG8KPiByZW1lZHkgYnkgc2ltcGx5IGF0dGFjaGluZyBh
-biBpbW11dGFibGUgenBvcyBwcm9wZXJ0eSB0byB0aGVtLgo+IAo+IFJlcG9ydGVkLWJ5OiBKb25h
-dGhhbiBIdW50ZXIgPGpvbmF0aGFuaEBudmlkaWEuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFRoaWVy
-cnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cj4gLS0tCgpXaGF0IHByb2JsZW0gZG9lcyBp
-dCBzb2x2ZT8KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, 2020-06-10 at 16:59 +0200, Sam Ravnborg wrote:
+> Hi Matthias.
+> 
+> Thanks, a few details you need to fix. See below.
+> 
+> 	Sam
+> 
+> On Wed, Jun 10, 2020 at 02:01:30PM +0200, Matthias Schiffer wrote:
+> > From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+> > 
+> > Add support for the CDTech Electronics displays S070PWS19HP-FC21
+> > (7.0" WSVGA) and S070SWV29HG-DC44 (7.0" WVGA) to panel-simple.
+> > 
+> > Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com
+> > >
+> > ---
+> >  drivers/gpu/drm/panel/panel-simple.c | 60
+> > ++++++++++++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/panel/panel-simple.c
+> > b/drivers/gpu/drm/panel/panel-simple.c
+> > index b6ecd1552132..1673113e5a5a 100644
+> > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > @@ -1315,6 +1315,60 @@ static const struct panel_desc
+> > cdtech_s043wq26h_ct7 = {
+> >  	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
+> >  };
+> >  
+> > +/* S070PWS19HP-FC21 2017/04/22 */
+> > +static const struct drm_display_mode cdtech_s070pws19hp_fc21_mode
+> > = {
+> > +	.clock = 51200,
+> > +	.hdisplay = 1024,
+> > +	.hsync_start = 1024 + 160,
+> > +	.hsync_end = 1024 + 160 + 20,
+> > +	.htotal = 1024 + 160 + 20 + 140,
+> > +	.vdisplay = 600,
+> > +	.vsync_start = 600 + 12,
+> > +	.vsync_end = 600 + 12 + 3,
+> > +	.vtotal = 600 + 12 + 3 + 20,
+> > +	.vrefresh = 60,
+> 
+> .vrefresh is no longer present, please drop.
+
+I based my patches on the branch drm-next of 
+https://cgit.freedesktop.org/drm/drm, should I have used a different
+branch?
+
+
+> > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > +};
+> > +
+> > +static const struct panel_desc cdtech_s070pws19hp_fc21 = {
+> > +	.modes = &cdtech_s070pws19hp_fc21_mode,
+> > +	.num_modes = 1,
+> > +	.bpc = 6,
+> > +	.size = {
+> > +		.width = 154,
+> > +		.height = 86,
+> > +	},
+> > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+> > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> > DRM_BUS_FLAG_PIXDATA_POSEDGE,
+> > +};
+> 
+> Please add .connector_type - it is mandatory.
+> > +
+> > +/* S070SWV29HG-DC44 2017/09/21 */
+> > +static const struct drm_display_mode cdtech_s070swv29hg_dc44_mode
+> > = {
+> > +	.clock = 33300,
+> > +	.hdisplay = 800,
+> > +	.hsync_start = 800 + 210,
+> > +	.hsync_end = 800 + 210 + 2,
+> > +	.htotal = 800 + 210 + 2 + 44,
+> > +	.vdisplay = 480,
+> > +	.vsync_start = 480 + 22,
+> > +	.vsync_end = 480 + 22 + 2,
+> > +	.vtotal = 480 + 22 + 2 + 21,
+> > +	.vrefresh = 60,
+> 
+> .vrefresh is no longer present, please drop.
+> > +	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > +};
+> > +
+> > +static const struct panel_desc cdtech_s070swv29hg_dc44 = {
+> > +	.modes = &cdtech_s070swv29hg_dc44_mode,
+> > +	.num_modes = 1,
+> > +	.bpc = 6,
+> > +	.size = {
+> > +		.width = 154,
+> > +		.height = 86,
+> > +	},
+> > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+> > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> > DRM_BUS_FLAG_PIXDATA_POSEDGE,
+> 
+> Please add .connector_type - it is mandatory.
+> > +};
+> > +
+> >  static const struct drm_display_mode cdtech_s070wv95_ct16_mode = {
+> >  	.clock = 35000,
+> >  	.hdisplay = 800,
+> > @@ -3723,6 +3777,12 @@ static const struct of_device_id
+> > platform_of_match[] = {
+> >  	}, {
+> >  		.compatible = "cdtech,s043wq26h-ct7",
+> >  		.data = &cdtech_s043wq26h_ct7,
+> > +	}, {
+> > +		.compatible = "cdtech,s070pws19hp-fc21",
+> > +		.data = &cdtech_s070pws19hp_fc21,
+> > +	}, {
+> > +		.compatible = "cdtech,s070swv29hg-dc44",
+> > +		.data = &cdtech_s070swv29hg_dc44,
+> >  	}, {
+> >  		.compatible = "cdtech,s070wv95-ct16",
+> >  		.data = &cdtech_s070wv95_ct16,
+> > -- 
+> > 2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
