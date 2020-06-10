@@ -1,29 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE14D1F6300
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:54:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5F61F6302
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0556E8A6;
-	Thu, 11 Jun 2020 07:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A66B46E8A4;
+	Thu, 11 Jun 2020 07:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62D9689CE2;
- Wed, 10 Jun 2020 07:55:59 +0000 (UTC)
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37]
- helo=localhost) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>)
- id 1jivaP-0006nK-7L; Wed, 10 Jun 2020 07:55:49 +0000
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-To: jani.nikula@linux.intel.com
-Subject: [PATCH v6] drm/i915: Init lspcon after HPD in intel_dp_detect()
-Date: Wed, 10 Jun 2020 15:55:10 +0800
-Message-Id: <20200610075542.12882-1-kai.heng.feng@canonical.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 171EA6E520
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 10:12:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A090D1FB;
+ Wed, 10 Jun 2020 03:12:54 -0700 (PDT)
+Received: from e123648.arm.com (unknown [10.37.12.16])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7AB763F73D;
+ Wed, 10 Jun 2020 03:12:44 -0700 (PDT)
+From: Lukasz Luba <lukasz.luba@arm.com>
+To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-imx@nxp.com, rjw@rjwysocki.net
+Subject: [RESEND][PATCH v8 4/8] PM / EM: add support for other devices than
+ CPUs in Energy Model
+Date: Wed, 10 Jun 2020 11:12:23 +0100
+Message-Id: <20200610101223.7152-1-lukasz.luba@arm.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200527095854.21714-5-lukasz.luba@arm.com>
+References: <20200527095854.21714-5-lukasz.luba@arm.com>
 X-Mailman-Approved-At: Thu, 11 Jun 2020 07:54:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,258 +43,532 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Kai-Heng Feng <kai.heng.feng@canonical.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, intel-gfx@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>
+Cc: nm@ti.com, juri.lelli@redhat.com, peterz@infradead.org,
+ viresh.kumar@linaro.org, liviu.dudau@arm.com, bjorn.andersson@linaro.org,
+ bsegall@google.com, mka@chromium.org, amit.kucheria@verdurent.com,
+ lorenzo.pieralisi@arm.com, vincent.guittot@linaro.org, khilman@kernel.org,
+ daniel.lezcano@linaro.org, steven.price@arm.com, cw00.choi@samsung.com,
+ mingo@redhat.com, mgorman@suse.de, rui.zhang@intel.com,
+ alyssa.rosenzweig@collabora.com, orjan.eide@arm.com, b.zolnierkie@samsung.com,
+ s.hauer@pengutronix.de, rostedt@goodmis.org, matthias.bgg@gmail.com,
+ Dietmar.Eggemann@arm.com, airlied@linux.ie, tomeu.vizoso@collabora.com,
+ qperret@google.com, sboyd@kernel.org, rdunlap@infradead.org, agross@kernel.org,
+ kernel@pengutronix.de, sudeep.holla@arm.com, patrick.bellasi@matbug.net,
+ shawnguo@kernel.org, lukasz.luba@arm.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On HP 800 G4 DM, if HDMI cable isn't plugged before boot, the HDMI port
-becomes useless and never responds to cable hotplugging:
-[    3.031904] [drm:lspcon_init [i915]] *ERROR* Failed to probe lspcon
-[    3.031945] [drm:intel_ddi_init [i915]] *ERROR* LSPCON init failed on port D
+Add support for other devices than CPUs. The registration function
+does not require a valid cpumask pointer and is ready to handle new
+devices. Some of the internal structures has been reorganized in order to
+keep consistent view (like removing per_cpu pd pointers).
 
-Seems like the lspcon chip on the system only gets powered after the
-cable is plugged.
-
-Consilidate lspcon_init() into lspcon_resume() to dynamically init
-lspcon chip, and make HDMI port work.
-
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
 ---
-v6:
- - Rebase on latest for-linux-next.
+Hi all,
 
-v5:
- - Consolidate lspcon_resume() with lspcon_init().
- - Move more logic into lspcon code.
+This is just a small change compared to v8 addressing Rafael's
+comments an Dan's static analyzes.
+Here are the changes:
+- added comment about mutex usage in the unregister function
+- changed 'dev' into @dev in the kerneldoc comments
+- removed 'else' statement from em_create_pd() to calm down static analizers
 
-v4:
- - Trust VBT in intel_infoframe_init().
- - Init lspcon in intel_dp_detect().
+Regards,
+Lukasz
 
-v3:
- - Make sure it's handled under long HPD case.
+ include/linux/device.h       |   5 +
+ include/linux/energy_model.h |  29 ++++-
+ kernel/power/energy_model.c  | 244 ++++++++++++++++++++++++-----------
+ 3 files changed, 194 insertions(+), 84 deletions(-)
 
-v2: 
- - Move lspcon_init() inside of intel_dp_hpd_pulse().
-
- drivers/gpu/drm/i915/display/intel_ddi.c    | 19 +------
- drivers/gpu/drm/i915/display/intel_dp.c     | 10 ++--
- drivers/gpu/drm/i915/display/intel_hdmi.c   |  3 +-
- drivers/gpu/drm/i915/display/intel_lspcon.c | 63 ++++++++++++---------
- drivers/gpu/drm/i915/display/intel_lspcon.h |  3 +-
- 5 files changed, 43 insertions(+), 55 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index aa22465bb56e..af755b1aa24b 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -4805,7 +4805,7 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- {
- 	struct intel_digital_port *intel_dig_port;
- 	struct intel_encoder *encoder;
--	bool init_hdmi, init_dp, init_lspcon = false;
-+	bool init_hdmi, init_dp;
- 	enum phy phy = intel_port_to_phy(dev_priv, port);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index ac8e37cd716a..7023d3ea189b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -13,6 +13,7 @@
+ #define _DEVICE_H_
  
- 	init_hdmi = intel_bios_port_supports_dvi(dev_priv, port) ||
-@@ -4819,7 +4819,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 		 * is initialized before lspcon.
+ #include <linux/dev_printk.h>
++#include <linux/energy_model.h>
+ #include <linux/ioport.h>
+ #include <linux/kobject.h>
+ #include <linux/klist.h>
+@@ -559,6 +560,10 @@ struct device {
+ 	struct dev_pm_info	power;
+ 	struct dev_pm_domain	*pm_domain;
+ 
++#ifdef CONFIG_ENERGY_MODEL
++	struct em_perf_domain	*em_pd;
++#endif
++
+ #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
+ 	struct irq_domain	*msi_domain;
+ #endif
+diff --git a/include/linux/energy_model.h b/include/linux/energy_model.h
+index 7076cb22b247..2d4689964029 100644
+--- a/include/linux/energy_model.h
++++ b/include/linux/energy_model.h
+@@ -12,8 +12,10 @@
+ 
+ /**
+  * em_perf_state - Performance state of a performance domain
+- * @frequency:	The CPU frequency in KHz, for consistency with CPUFreq
+- * @power:	The power consumed by 1 CPU at this level, in milli-watts
++ * @frequency:	The frequency in KHz, for consistency with CPUFreq
++ * @power:	The power consumed at this level, in milli-watts (by 1 CPU or
++		by a registered device). It can be a total power: static and
++		dynamic.
+  * @cost:	The cost coefficient associated with this level, used during
+  *		energy calculation. Equal to: power * max_frequency / frequency
+  */
+@@ -27,12 +29,16 @@ struct em_perf_state {
+  * em_perf_domain - Performance domain
+  * @table:		List of performance states, in ascending order
+  * @nr_perf_states:	Number of performance states
+- * @cpus:		Cpumask covering the CPUs of the domain
++ * @cpus:		Cpumask covering the CPUs of the domain. It's here
++ *			for performance reasons to avoid potential cache
++ *			misses during energy calculations in the scheduler
++ *			and simplifies allocating/freeing that memory region.
+  *
+- * A "performance domain" represents a group of CPUs whose performance is
+- * scaled together. All CPUs of a performance domain must have the same
+- * micro-architecture. Performance domains often have a 1-to-1 mapping with
+- * CPUFreq policies.
++ * In case of CPU device, a "performance domain" represents a group of CPUs
++ * whose performance is scaled together. All CPUs of a performance domain
++ * must have the same micro-architecture. Performance domains often have
++ * a 1-to-1 mapping with CPUFreq policies. In case of other devices the @cpus
++ * field is unused.
+  */
+ struct em_perf_domain {
+ 	struct em_perf_state *table;
+@@ -71,10 +77,12 @@ struct em_data_callback {
+ #define EM_DATA_CB(_active_power_cb) { .active_power = &_active_power_cb }
+ 
+ struct em_perf_domain *em_cpu_get(int cpu);
++struct em_perf_domain *em_pd_get(struct device *dev);
+ int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+ 						struct em_data_callback *cb);
+ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+ 				struct em_data_callback *cb, cpumask_t *span);
++void em_dev_unregister_perf_domain(struct device *dev);
+ 
+ /**
+  * em_pd_energy() - Estimates the energy consumed by the CPUs of a perf. domain
+@@ -184,10 +192,17 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+ {
+ 	return -EINVAL;
+ }
++static inline void em_dev_unregister_perf_domain(struct device *dev)
++{
++}
+ static inline struct em_perf_domain *em_cpu_get(int cpu)
+ {
+ 	return NULL;
+ }
++static inline struct em_perf_domain *em_pd_get(struct device *dev)
++{
++	return NULL;
++}
+ static inline unsigned long em_pd_energy(struct em_perf_domain *pd,
+ 			unsigned long max_util, unsigned long sum_util)
+ {
+diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
+index 5b8a1566526a..32d76e78f992 100644
+--- a/kernel/power/energy_model.c
++++ b/kernel/power/energy_model.c
+@@ -1,9 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Energy Model of CPUs
++ * Energy Model of devices
+  *
+- * Copyright (c) 2018, Arm ltd.
++ * Copyright (c) 2018-2020, Arm ltd.
+  * Written by: Quentin Perret, Arm ltd.
++ * Improvements provided by: Lukasz Luba, Arm ltd.
+  */
+ 
+ #define pr_fmt(fmt) "energy_model: " fmt
+@@ -15,15 +16,17 @@
+ #include <linux/sched/topology.h>
+ #include <linux/slab.h>
+ 
+-/* Mapping of each CPU to the performance domain to which it belongs. */
+-static DEFINE_PER_CPU(struct em_perf_domain *, em_data);
+-
+ /*
+  * Mutex serializing the registrations of performance domains and letting
+  * callbacks defined by drivers sleep.
+  */
+ static DEFINE_MUTEX(em_pd_mutex);
+ 
++static bool _is_cpu_device(struct device *dev)
++{
++	return (dev->bus == &cpu_subsys);
++}
++
+ #ifdef CONFIG_DEBUG_FS
+ static struct dentry *rootdir;
+ 
+@@ -49,22 +52,30 @@ static int em_debug_cpus_show(struct seq_file *s, void *unused)
+ }
+ DEFINE_SHOW_ATTRIBUTE(em_debug_cpus);
+ 
+-static void em_debug_create_pd(struct em_perf_domain *pd, int cpu)
++static void em_debug_create_pd(struct device *dev)
+ {
+ 	struct dentry *d;
+-	char name[8];
+ 	int i;
+ 
+-	snprintf(name, sizeof(name), "pd%d", cpu);
+-
+ 	/* Create the directory of the performance domain */
+-	d = debugfs_create_dir(name, rootdir);
++	d = debugfs_create_dir(dev_name(dev), rootdir);
+ 
+-	debugfs_create_file("cpus", 0444, d, pd->cpus, &em_debug_cpus_fops);
++	if (_is_cpu_device(dev))
++		debugfs_create_file("cpus", 0444, d, dev->em_pd->cpus,
++				    &em_debug_cpus_fops);
+ 
+ 	/* Create a sub-directory for each performance state */
+-	for (i = 0; i < pd->nr_perf_states; i++)
+-		em_debug_create_ps(&pd->table[i], d);
++	for (i = 0; i < dev->em_pd->nr_perf_states; i++)
++		em_debug_create_ps(&dev->em_pd->table[i], d);
++
++}
++
++static void em_debug_remove_pd(struct device *dev)
++{
++	struct dentry *debug_dir;
++
++	debug_dir = debugfs_lookup(dev_name(dev), rootdir);
++	debugfs_remove_recursive(debug_dir);
+ }
+ 
+ static int __init em_debug_init(void)
+@@ -76,40 +87,34 @@ static int __init em_debug_init(void)
+ }
+ core_initcall(em_debug_init);
+ #else /* CONFIG_DEBUG_FS */
+-static void em_debug_create_pd(struct em_perf_domain *pd, int cpu) {}
++static void em_debug_create_pd(struct device *dev) {}
++static void em_debug_remove_pd(struct device *dev) {}
+ #endif
+-static struct em_perf_domain *
+-em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+-	     cpumask_t *span)
++
++static int em_create_perf_table(struct device *dev, struct em_perf_domain *pd,
++				int nr_states, struct em_data_callback *cb)
+ {
+ 	unsigned long opp_eff, prev_opp_eff = ULONG_MAX;
+ 	unsigned long power, freq, prev_freq = 0;
+-	int i, ret, cpu = cpumask_first(span);
+ 	struct em_perf_state *table;
+-	struct em_perf_domain *pd;
++	int i, ret;
+ 	u64 fmax;
+ 
+-	if (!cb->active_power)
+-		return NULL;
+-
+-	pd = kzalloc(sizeof(*pd) + cpumask_size(), GFP_KERNEL);
+-	if (!pd)
+-		return NULL;
+-
+ 	table = kcalloc(nr_states, sizeof(*table), GFP_KERNEL);
+ 	if (!table)
+-		goto free_pd;
++		return -ENOMEM;
+ 
+ 	/* Build the list of performance states for this performance domain */
+ 	for (i = 0, freq = 0; i < nr_states; i++, freq++) {
+ 		/*
+ 		 * active_power() is a driver callback which ceils 'freq' to
+-		 * lowest performance state of 'cpu' above 'freq' and updates
++		 * lowest performance state of 'dev' above 'freq' and updates
+ 		 * 'power' and 'freq' accordingly.
  		 */
- 		init_dp = true;
--		init_lspcon = true;
- 		init_hdmi = false;
- 		drm_dbg_kms(&dev_priv->drm, "VBT says port %c has lspcon\n",
- 			    port_name(port));
-@@ -4904,22 +4903,6 @@ void intel_ddi_init(struct drm_i915_private *dev_priv, enum port port)
- 			goto err;
+ 		ret = cb->active_power(&power, &freq, dev);
+ 		if (ret) {
+-			pr_err("pd%d: invalid perf. state: %d\n", cpu, ret);
++			dev_err(dev, "EM: invalid perf. state: %d\n",
++				ret);
+ 			goto free_ps_table;
+ 		}
+ 
+@@ -118,7 +123,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+ 		 * higher performance states.
+ 		 */
+ 		if (freq <= prev_freq) {
+-			pr_err("pd%d: non-increasing freq: %lu\n", cpu, freq);
++			dev_err(dev, "EM: non-increasing freq: %lu\n",
++				freq);
+ 			goto free_ps_table;
+ 		}
+ 
+@@ -127,7 +133,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+ 		 * positive, in milli-watts and to fit into 16 bits.
+ 		 */
+ 		if (!power || power > EM_MAX_POWER) {
+-			pr_err("pd%d: invalid power: %lu\n", cpu, power);
++			dev_err(dev, "EM: invalid power: %lu\n",
++				power);
+ 			goto free_ps_table;
+ 		}
+ 
+@@ -142,8 +149,8 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+ 		 */
+ 		opp_eff = freq / power;
+ 		if (opp_eff >= prev_opp_eff)
+-			pr_warn("pd%d: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
+-					cpu, i, i - 1);
++			dev_dbg(dev, "EM: hertz/watts ratio non-monotonically decreasing: em_perf_state %d >= em_perf_state%d\n",
++					i, i - 1);
+ 		prev_opp_eff = opp_eff;
  	}
  
--	if (init_lspcon) {
--		if (lspcon_init(intel_dig_port))
--			/* TODO: handle hdmi info frame part */
--			drm_dbg_kms(&dev_priv->drm,
--				    "LSPCON init success on port %c\n",
--				    port_name(port));
--		else
--			/*
--			 * LSPCON init faied, but DP init was success, so
--			 * lets try to drive as DP++ port.
--			 */
--			drm_err(&dev_priv->drm,
--				"LSPCON init failed on port %c\n",
--				port_name(port));
--	}
+@@ -156,30 +163,82 @@ em_create_pd(struct device *dev, int nr_states, struct em_data_callback *cb,
+ 
+ 	pd->table = table;
+ 	pd->nr_perf_states = nr_states;
+-	cpumask_copy(to_cpumask(pd->cpus), span);
+ 
+-	em_debug_create_pd(pd, cpu);
 -
- 	if (INTEL_GEN(dev_priv) >= 11) {
- 		if (intel_phy_is_tc(dev_priv, phy))
- 			intel_dig_port->connected = intel_tc_port_connected;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index ed9e53c373a7..398a104158a8 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -5962,15 +5962,14 @@ static enum drm_connector_status
- intel_dp_detect_dpcd(struct intel_dp *intel_dp)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
--	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	u8 *dpcd = intel_dp->dpcd;
- 	u8 type;
+-	return pd;
++	return 0;
  
- 	if (WARN_ON(intel_dp_is_edp(intel_dp)))
- 		return connector_status_connected;
- 
--	if (lspcon->active)
--		lspcon_resume(lspcon);
-+	lspcon_resume(dig_port);
- 
- 	if (!intel_dp_get_dpcd(intel_dp))
- 		return connector_status_disconnected;
-@@ -7056,14 +7055,13 @@ void intel_dp_encoder_reset(struct drm_encoder *encoder)
- {
- 	struct drm_i915_private *dev_priv = to_i915(encoder->dev);
- 	struct intel_dp *intel_dp = enc_to_intel_dp(to_intel_encoder(encoder));
--	struct intel_lspcon *lspcon = dp_to_lspcon(intel_dp);
-+	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	intel_wakeref_t wakeref;
- 
- 	if (!HAS_DDI(dev_priv))
- 		intel_dp->DP = intel_de_read(dev_priv, intel_dp->output_reg);
- 
--	if (lspcon->active)
--		lspcon_resume(lspcon);
-+	lspcon_resume(dig_port);
- 
- 	intel_dp->reset_link_params = true;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 010f37240710..643ad2127931 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -3155,7 +3155,8 @@ void intel_infoframe_init(struct intel_digital_port *intel_dig_port)
- 		intel_dig_port->set_infoframes = g4x_set_infoframes;
- 		intel_dig_port->infoframes_enabled = g4x_infoframes_enabled;
- 	} else if (HAS_DDI(dev_priv)) {
--		if (intel_dig_port->lspcon.active) {
-+		if (intel_bios_is_lspcon_present(dev_priv,
-+						 intel_dig_port->base.port)) {
- 			intel_dig_port->write_infoframe = lspcon_write_infoframe;
- 			intel_dig_port->read_infoframe = lspcon_read_infoframe;
- 			intel_dig_port->set_infoframes = lspcon_set_infoframes;
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
-index 6ff7b226f0a1..e3dde4c25604 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.c
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
-@@ -525,44 +525,17 @@ u32 lspcon_infoframes_enabled(struct intel_encoder *encoder,
- 	return 0;
- }
- 
--void lspcon_resume(struct intel_lspcon *lspcon)
--{
--	enum drm_lspcon_mode expected_mode;
--
--	if (lspcon_wake_native_aux_ch(lspcon)) {
--		expected_mode = DRM_LSPCON_MODE_PCON;
--		lspcon_resume_in_pcon_wa(lspcon);
--	} else {
--		expected_mode = DRM_LSPCON_MODE_LS;
--	}
--
--	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
--		return;
--
--	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
--		DRM_ERROR("LSPCON resume failed\n");
--	else
--		DRM_DEBUG_KMS("LSPCON resume success\n");
--}
--
- void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon)
- {
- 	lspcon_wait_mode(lspcon, DRM_LSPCON_MODE_PCON);
- }
- 
--bool lspcon_init(struct intel_digital_port *intel_dig_port)
-+static bool lspcon_init(struct intel_digital_port *intel_dig_port)
- {
- 	struct intel_dp *dp = &intel_dig_port->dp;
- 	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
--	struct drm_device *dev = intel_dig_port->base.base.dev;
--	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct drm_connector *connector = &dp->attached_connector->base;
- 
--	if (!HAS_LSPCON(dev_priv)) {
--		DRM_ERROR("LSPCON is not supported on this platform\n");
--		return false;
--	}
--
- 	lspcon->active = false;
- 	lspcon->mode = DRM_LSPCON_MODE_INVALID;
- 
-@@ -586,3 +559,37 @@ bool lspcon_init(struct intel_digital_port *intel_dig_port)
- 	DRM_DEBUG_KMS("Success: LSPCON init\n");
- 	return true;
- }
-+
-+void lspcon_resume(struct intel_digital_port *intel_dig_port)
-+{
-+	struct intel_lspcon *lspcon = &intel_dig_port->lspcon;
-+	struct drm_device *dev = intel_dig_port->base.base.dev;
-+	struct drm_i915_private *dev_priv = to_i915(dev);
-+	enum drm_lspcon_mode expected_mode;
-+
-+	if (!intel_bios_is_lspcon_present(dev_priv, intel_dig_port->base.port))
-+		return;
-+
-+	if (!lspcon->active) {
-+		if (!lspcon_init(intel_dig_port)) {
-+			DRM_ERROR("LSPCON init failed on port %c\n",
-+				  port_name(intel_dig_port->base.port));
-+			return;
-+		}
-+	}
-+
-+	if (lspcon_wake_native_aux_ch(lspcon)) {
-+		expected_mode = DRM_LSPCON_MODE_PCON;
-+		lspcon_resume_in_pcon_wa(lspcon);
-+	} else {
-+		expected_mode = DRM_LSPCON_MODE_LS;
-+	}
-+
-+	if (lspcon_wait_mode(lspcon, expected_mode) == DRM_LSPCON_MODE_PCON)
-+		return;
-+
-+	if (lspcon_change_mode(lspcon, DRM_LSPCON_MODE_PCON))
-+		DRM_ERROR("LSPCON resume failed\n");
-+	else
-+		DRM_DEBUG_KMS("LSPCON resume success\n");
+ free_ps_table:
+ 	kfree(table);
+-free_pd:
+-	kfree(pd);
++	return -EINVAL;
 +}
-diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.h b/drivers/gpu/drm/i915/display/intel_lspcon.h
-index 37cfddf8a9c5..169db35db13e 100644
---- a/drivers/gpu/drm/i915/display/intel_lspcon.h
-+++ b/drivers/gpu/drm/i915/display/intel_lspcon.h
-@@ -15,8 +15,7 @@ struct intel_digital_port;
- struct intel_encoder;
- struct intel_lspcon;
++
++static int em_create_pd(struct device *dev, int nr_states,
++			struct em_data_callback *cb, cpumask_t *cpus)
++{
++	struct em_perf_domain *pd;
++	struct device *cpu_dev;
++	int cpu, ret;
++
++	if (_is_cpu_device(dev)) {
++		pd = kzalloc(sizeof(*pd) + cpumask_size(), GFP_KERNEL);
++		if (!pd)
++			return -ENOMEM;
++
++		cpumask_copy(em_span_cpus(pd), cpus);
++	} else {
++		pd = kzalloc(sizeof(*pd), GFP_KERNEL);
++		if (!pd)
++			return -ENOMEM;
++	}
++
++	ret = em_create_perf_table(dev, pd, nr_states, cb);
++	if (ret) {
++		kfree(pd);
++		return ret;
++	}
++
++	if (_is_cpu_device(dev))
++		for_each_cpu(cpu, cpus) {
++			cpu_dev = get_cpu_device(cpu);
++			cpu_dev->em_pd = pd;
++		}
++
++	dev->em_pd = pd;
++
++	return 0;
++}
++
++/**
++ * em_pd_get() - Return the performance domain for a device
++ * @dev : Device to find the performance domain for
++ *
++ * Returns the performance domain to which @dev belongs, or NULL if it doesn't
++ * exist.
++ */
++struct em_perf_domain *em_pd_get(struct device *dev)
++{
++	if (IS_ERR_OR_NULL(dev))
++		return NULL;
  
--bool lspcon_init(struct intel_digital_port *intel_dig_port);
--void lspcon_resume(struct intel_lspcon *lspcon);
-+void lspcon_resume(struct intel_digital_port *intel_dig_port);
- void lspcon_wait_pcon_mode(struct intel_lspcon *lspcon);
- void lspcon_write_infoframe(struct intel_encoder *encoder,
- 			    const struct intel_crtc_state *crtc_state,
+-	return NULL;
++	return dev->em_pd;
+ }
++EXPORT_SYMBOL_GPL(em_pd_get);
+ 
+ /**
+  * em_cpu_get() - Return the performance domain for a CPU
+  * @cpu : CPU to find the performance domain for
+  *
+- * Return: the performance domain to which 'cpu' belongs, or NULL if it doesn't
++ * Returns the performance domain to which @cpu belongs, or NULL if it doesn't
+  * exist.
+  */
+ struct em_perf_domain *em_cpu_get(int cpu)
+ {
+-	return READ_ONCE(per_cpu(em_data, cpu));
++	struct device *cpu_dev;
++
++	cpu_dev = get_cpu_device(cpu);
++	if (!cpu_dev)
++		return NULL;
++
++	return em_pd_get(cpu_dev);
+ }
+ EXPORT_SYMBOL_GPL(em_cpu_get);
+ 
+@@ -188,7 +247,7 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
+  * @dev		: Device for which the EM is to register
+  * @nr_states	: Number of performance states to register
+  * @cb		: Callback functions providing the data of the Energy Model
+- * @span	: Pointer to cpumask_t, which in case of a CPU device is
++ * @cpus	: Pointer to cpumask_t, which in case of a CPU device is
+  *		obligatory. It can be taken from i.e. 'policy->cpus'. For other
+  *		type of devices this should be set to NULL.
+  *
+@@ -201,13 +260,12 @@ EXPORT_SYMBOL_GPL(em_cpu_get);
+  * Return 0 on success
+  */
+ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+-				struct em_data_callback *cb, cpumask_t *span)
++				struct em_data_callback *cb, cpumask_t *cpus)
+ {
+ 	unsigned long cap, prev_cap = 0;
+-	struct em_perf_domain *pd;
+-	int cpu, ret = 0;
++	int cpu, ret;
+ 
+-	if (!dev || !span || !nr_states || !cb)
++	if (!dev || !nr_states || !cb)
+ 		return -EINVAL;
+ 
+ 	/*
+@@ -216,47 +274,50 @@ int em_dev_register_perf_domain(struct device *dev, unsigned int nr_states,
+ 	 */
+ 	mutex_lock(&em_pd_mutex);
+ 
+-	for_each_cpu(cpu, span) {
+-		/* Make sure we don't register again an existing domain. */
+-		if (READ_ONCE(per_cpu(em_data, cpu))) {
+-			ret = -EEXIST;
+-			goto unlock;
+-		}
++	if (dev->em_pd) {
++		ret = -EEXIST;
++		goto unlock;
++	}
+ 
+-		/*
+-		 * All CPUs of a domain must have the same micro-architecture
+-		 * since they all share the same table.
+-		 */
+-		cap = arch_scale_cpu_capacity(cpu);
+-		if (prev_cap && prev_cap != cap) {
+-			pr_err("CPUs of %*pbl must have the same capacity\n",
+-							cpumask_pr_args(span));
++	if (_is_cpu_device(dev)) {
++		if (!cpus) {
++			dev_err(dev, "EM: invalid CPU mask\n");
+ 			ret = -EINVAL;
+ 			goto unlock;
+ 		}
+-		prev_cap = cap;
++
++		for_each_cpu(cpu, cpus) {
++			if (em_cpu_get(cpu)) {
++				dev_err(dev, "EM: exists for CPU%d\n", cpu);
++				ret = -EEXIST;
++				goto unlock;
++			}
++			/*
++			 * All CPUs of a domain must have the same
++			 * micro-architecture since they all share the same
++			 * table.
++			 */
++			cap = arch_scale_cpu_capacity(cpu);
++			if (prev_cap && prev_cap != cap) {
++				dev_err(dev, "EM: CPUs of %*pbl must have the same capacity\n",
++					cpumask_pr_args(cpus));
++
++				ret = -EINVAL;
++				goto unlock;
++			}
++			prev_cap = cap;
++		}
+ 	}
+ 
+-	/* Create the performance domain and add it to the Energy Model. */
+-	pd = em_create_pd(dev, nr_states, cb, span);
+-	if (!pd) {
+-		ret = -EINVAL;
++	ret = em_create_pd(dev, nr_states, cb, cpus);
++	if (ret)
+ 		goto unlock;
+-	}
+ 
+-	for_each_cpu(cpu, span) {
+-		/*
+-		 * The per-cpu array can be read concurrently from em_cpu_get().
+-		 * The barrier enforces the ordering needed to make sure readers
+-		 * can only access well formed em_perf_domain structs.
+-		 */
+-		smp_store_release(per_cpu_ptr(&em_data, cpu), pd);
+-	}
++	em_debug_create_pd(dev);
++	dev_info(dev, "EM: created perf domain\n");
+ 
+-	pr_debug("Created perf domain %*pbl\n", cpumask_pr_args(span));
+ unlock:
+ 	mutex_unlock(&em_pd_mutex);
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(em_dev_register_perf_domain);
+@@ -285,3 +346,32 @@ int em_register_perf_domain(cpumask_t *span, unsigned int nr_states,
+ 	return em_dev_register_perf_domain(cpu_dev, nr_states, cb, span);
+ }
+ EXPORT_SYMBOL_GPL(em_register_perf_domain);
++
++/**
++ * em_dev_unregister_perf_domain() - Unregister Energy Model (EM) for a device
++ * @dev		: Device for which the EM is registered
++ *
++ * Unregister the EM for the specified @dev (but not a CPU device).
++ */
++void em_dev_unregister_perf_domain(struct device *dev)
++{
++	if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
++		return;
++
++	if (_is_cpu_device(dev))
++		return;
++
++	/*
++	 * The mutex separates all register/unregister requests and protects
++	 * from potential clean-up/setup issues in the debugfs directories.
++	 * The debugfs directory name is the same as device's name.
++	 */
++	mutex_lock(&em_pd_mutex);
++	em_debug_remove_pd(dev);
++
++	kfree(dev->em_pd->table);
++	kfree(dev->em_pd);
++	dev->em_pd = NULL;
++	mutex_unlock(&em_pd_mutex);
++}
++EXPORT_SYMBOL_GPL(em_dev_unregister_perf_domain);
 -- 
 2.17.1
 
