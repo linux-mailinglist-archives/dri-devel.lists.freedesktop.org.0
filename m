@@ -1,70 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006781F82A2
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B495E1F82A6
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911906E3E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CF16E3EC;
 	Sat, 13 Jun 2020 10:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9CD86E90F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 13:38:44 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 412E15801E1;
- Thu, 11 Jun 2020 09:38:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 11 Jun 2020 09:38:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=HRV+MiemGs5P9
- punwbKUb1BmroV4uFiYrY/M08ZBttw=; b=OvrbZUnrN1XMPl+NYr0G56xMCvkUA
- yR62rMDV4X3sx+kTggdcKzq7ftOfX/AP399qKgVN+YLuro3DX19/Wm5rj0096kbD
- vyYH4aiCetl+VnKdBoQC6J4BjnAO+d1sOfbEJqAnvkt2eRtd0CVD9ffIGIu9eE6K
- oLjU2hbLUtjM6Yq/B57oB7gw6a+OKYJjPMCaUbNc3wAvpZCd3rKihfxTeaUkb2Mi
- WkAjw37j49Cd5Knp0+EbcU5paJFeTf0/AS0AAYgkG1vTtlyQcFerT0BgRdtvIk/8
- QWn+D+/Cb/lOOMHp/Mhe0Umn/GfpCOOyvXcoSTa5mZsy0QmZbP2Trw/7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=HRV+MiemGs5P9punwbKUb1BmroV4uFiYrY/M08ZBttw=; b=MVI4FWee
- Lu/UqIIaMDlqJvNoy1LxaHa79NntQv2TL8lPMCXNM5KjEqRpEmeU7bzynnAljL3k
- klftYBku1byMHqmvIOmgAAi5yPUNlYe09mvriT74C42g4GB0KUPPIyoOKwEPY+rG
- AjR908YZXRSTutc17qEVmtFvJeLjwz4c+vdeidYlnhuSD6hQckMNTWoESj5C+YIx
- aWD6y3m/R+MdGwhjOCs82MAXZfHraKC0zDPbQ4ze70CciQnIROjZIleSVdM4Q/lU
- dwlKx3mwXEvQi6NoJJqFmNhgUeAXAmPz7FE7hfkol/yS/lknlCZMyHwRDLQQdWmF
- oMwum5klH5juzA==
-X-ME-Sender: <xms:4zPiXmvdOB_rZ9P8vtM-47FwUnCw37kzkxul2egglBa3_FQCLgSnjw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehledggeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:5DPiXreEvpLw_BAXCoqNa8XcKq34YjijyuWJJx-njKIb3Na3NqfuQw>
- <xmx:5DPiXhxEb6jifXir-a2OMrMWBC1hpe0cnjtRUXV3u_A_n-RWfDk76A>
- <xmx:5DPiXhOURAXpcf_b_WOZg40iJpbpE2_aMfbbW9C3zK2GtCZ9bzTIhw>
- <xmx:5DPiXrOqvnTP2QtBa7Kzg9ppzKvC_qHsYxk4EybcbeBq_8lx9uuD_g>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id C3D0532801C7;
- Thu, 11 Jun 2020 09:37:13 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 9/9] drm/vc4: crtc: Remove the feed_txp tests
-Date: Thu, 11 Jun 2020 15:36:54 +0200
-Message-Id: <c044daba470fcb1cb57e3d34d88f75325b2ebbab.1591882579.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.c33f5fd8b1b2703081f25398eb879937c9f7ce0b.1591882579.git-series.maxime@cerno.tech>
-References: <cover.c33f5fd8b1b2703081f25398eb879937c9f7ce0b.1591882579.git-series.maxime@cerno.tech>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0116A6E90B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 13:40:09 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1591882814; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Date: Message-ID: Subject: From: Cc: To: Sender;
+ bh=ihrRcjhW9ULLbY+ZlVGkZ/PVZKfJ2usDc73eH+pAOvY=;
+ b=OVTHcpJeDZ7iNX3wsMss7yeFd9KJp+/djShpgG7dgv3KalqVsMVvQek7ebVe6bCwaOPDKI49
+ +iGuSu8Uauzg5CxodHeq3a5XmUe8ozaU/GxWtMnWchz2kSty/ZE3B4Mm+67gvshp9iIAMQz4
+ Mf2Bg981196Oa5ln0zRFaTepXR4=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5ee23432356bcc26ab0c105c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 13:40:02
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 539BDC433C8; Thu, 11 Jun 2020 13:40:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.102] (unknown [183.83.143.239])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: charante)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 823FBC433CA;
+ Thu, 11 Jun 2020 13:39:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 823FBC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=charante@codeaurora.org
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+From: Charan Teja Kalla <charante@codeaurora.org>
+Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
+Message-ID: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
+Date: Thu, 11 Jun 2020 19:09:55 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,117 +69,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>
+Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, vinmenon@codeaurora.org,
+ LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the code in vc4_crtc accessing registers is only meant for the
-pixelvalve, it doesn't make sense anymore to test whether we're accessing
-the TXP or not and we can safely remove those checks.
+There exists a sleep-while-atomic bug while accessing the dmabuf->name
+under mutex in the dmabuffs_dname(). This is caused from the SELinux
+permissions checks on a process where it tries to validate the inherited
+files from fork() by traversing them through iterate_fd() (which
+traverse files under spin_lock) and call
+match_file(security/selinux/hooks.c) where the permission checks happen.
+This audit information is logged using dump_common_audit_data() where it
+calls d_path() to get the file path name. If the file check happen on
+the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+access dmabuf->name. The flow will be like below:
+flush_unauthorized_files()
+  iterate_fd()
+    spin_lock() --> Start of the atomic section.
+      match_file()
+        file_has_perm()
+          avc_has_perm()
+            avc_audit()
+              slow_avc_audit()
+	        common_lsm_audit()
+		  dump_common_audit_data()
+		    audit_log_d_path()
+		      d_path()
+                        dmabuffs_dname()
+                          mutex_lock()--> Sleep while atomic.
 
-Reviewed-by: Eric Anholt <eric@anholt.net>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Call trace captured (on 4.19 kernels) is below:
+___might_sleep+0x204/0x208
+__might_sleep+0x50/0x88
+__mutex_lock_common+0x5c/0x1068
+__mutex_lock_common+0x5c/0x1068
+mutex_lock_nested+0x40/0x50
+dmabuffs_dname+0xa0/0x170
+d_path+0x84/0x290
+audit_log_d_path+0x74/0x130
+common_lsm_audit+0x334/0x6e8
+slow_avc_audit+0xb8/0xf8
+avc_has_perm+0x154/0x218
+file_has_perm+0x70/0x180
+match_file+0x60/0x78
+iterate_fd+0x128/0x168
+selinux_bprm_committing_creds+0x178/0x248
+security_bprm_committing_creds+0x30/0x48
+install_exec_creds+0x1c/0x68
+load_elf_binary+0x3a4/0x14e0
+search_binary_handler+0xb0/0x1e0
+
+So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+
+Cc: <stable@vger.kernel.org> [5.3+]
+Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 29 +++++++----------------------
- 1 file changed, 7 insertions(+), 22 deletions(-)
+ drivers/dma-buf/dma-buf.c | 13 +++++++------
+ include/linux/dma-buf.h   |  1 +
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 0c9d14c70485..bc417e081f07 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -323,7 +323,6 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc)
- static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
- {
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	bool debug_dump_regs = false;
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 01ce125..2e0456c 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ 	size_t ret = 0;
  
- 	if (debug_dump_regs) {
-@@ -333,8 +332,7 @@ static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		drm_print_regset32(&p, &vc4_crtc->regset);
- 	}
+ 	dmabuf = dentry->d_fsdata;
+-	dma_resv_lock(dmabuf->resv, NULL);
++	spin_lock(&dmabuf->name_lock);
+ 	if (dmabuf->name)
+ 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+-	dma_resv_unlock(dmabuf->resv);
++	spin_unlock(&dmabuf->name_lock);
  
--	if (!vc4_state->feed_txp)
--		vc4_crtc_config_pv(crtc);
-+	vc4_crtc_config_pv(crtc);
+ 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+ 			     dentry->d_name.name, ret > 0 ? name : "");
+@@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
  
- 	vc4_hvs_mode_set_nofb(crtc);
+-	dma_resv_lock(dmabuf->resv, NULL);
++	spin_lock(&dmabuf->name_lock);
+ 	if (!list_empty(&dmabuf->attachments)) {
+ 		ret = -EBUSY;
+ 		kfree(name);
+@@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	dmabuf->name = name;
  
-@@ -357,7 +355,6 @@ static void require_hvs_enabled(struct drm_device *dev)
- static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
- 				    struct drm_crtc_state *old_state)
- {
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	int ret;
-@@ -367,12 +364,10 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
- 	/* Disable vblank irq handling before crtc is disabled. */
- 	drm_crtc_vblank_off(crtc);
- 
--	if (!vc4_state->feed_txp) {
--		CRTC_WRITE(PV_V_CONTROL,
--			   CRTC_READ(PV_V_CONTROL) & ~PV_VCONTROL_VIDEN);
--		ret = wait_for(!(CRTC_READ(PV_V_CONTROL) & PV_VCONTROL_VIDEN), 1);
--		WARN_ONCE(ret, "Timeout waiting for !PV_VCONTROL_VIDEN\n");
--	}
-+	CRTC_WRITE(PV_V_CONTROL,
-+		   CRTC_READ(PV_V_CONTROL) & ~PV_VCONTROL_VIDEN);
-+	ret = wait_for(!(CRTC_READ(PV_V_CONTROL) & PV_VCONTROL_VIDEN), 1);
-+	WARN_ONCE(ret, "Timeout waiting for !PV_VCONTROL_VIDEN\n");
- 
- 	vc4_hvs_atomic_disable(crtc, old_state);
- 
-@@ -395,7 +390,6 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
- 
- 	require_hvs_enabled(dev);
-@@ -410,9 +404,8 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
- 	/* When feeding the transposer block the pixelvalve is unneeded and
- 	 * should not be enabled.
- 	 */
--	if (!vc4_state->feed_txp)
--		CRTC_WRITE(PV_V_CONTROL,
--			   CRTC_READ(PV_V_CONTROL) | PV_VCONTROL_VIDEN);
-+	CRTC_WRITE(PV_V_CONTROL,
-+		   CRTC_READ(PV_V_CONTROL) | PV_VCONTROL_VIDEN);
+ out_unlock:
+-	dma_resv_unlock(dmabuf->resv);
++	spin_unlock(&dmabuf->name_lock);
+ 	return ret;
  }
  
- static enum drm_mode_status vc4_crtc_mode_valid(struct drm_crtc *crtc,
-@@ -488,10 +481,6 @@ static int vc4_crtc_atomic_check(struct drm_crtc *crtc,
- static int vc4_enable_vblank(struct drm_crtc *crtc)
- {
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
--
--	if (vc4_state->feed_txp)
--		return 0;
- 
- 	CRTC_WRITE(PV_INTEN, PV_INT_VFP_START);
- 
-@@ -501,10 +490,6 @@ static int vc4_enable_vblank(struct drm_crtc *crtc)
- static void vc4_disable_vblank(struct drm_crtc *crtc)
- {
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
--	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
--
--	if (vc4_state->feed_txp)
--		return;
- 
- 	CRTC_WRITE(PV_INTEN, 0);
+@@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ 	/* Don't count the temporary reference taken inside procfs seq_show */
+ 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+ 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+-	dma_resv_lock(dmabuf->resv, NULL);
++	spin_lock(&dmabuf->name_lock);
+ 	if (dmabuf->name)
+ 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+-	dma_resv_unlock(dmabuf->resv);
++	spin_unlock(&dmabuf->name_lock);
  }
+ 
+ static const struct file_operations dma_buf_fops = {
+@@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 	dmabuf->size = exp_info->size;
+ 	dmabuf->exp_name = exp_info->exp_name;
+ 	dmabuf->owner = exp_info->owner;
++	spin_lock_init(&dmabuf->name_lock);
+ 	init_waitqueue_head(&dmabuf->poll);
+ 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+ 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index ab0c156..93108fd 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -311,6 +311,7 @@ struct dma_buf {
+ 	void *vmap_ptr;
+ 	const char *exp_name;
+ 	const char *name;
++	spinlock_t name_lock;
+ 	struct module *owner;
+ 	struct list_head list_node;
+ 	void *priv;
 -- 
-git-series 0.9.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
