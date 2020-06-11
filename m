@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495E1F82A6
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A4B1F82BE
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CF16E3EC;
-	Sat, 13 Jun 2020 10:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9B96E45C;
+	Sat, 13 Jun 2020 10:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0116A6E90B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 13:40:09 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1591882814; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Date: Message-ID: Subject: From: Cc: To: Sender;
- bh=ihrRcjhW9ULLbY+ZlVGkZ/PVZKfJ2usDc73eH+pAOvY=;
- b=OVTHcpJeDZ7iNX3wsMss7yeFd9KJp+/djShpgG7dgv3KalqVsMVvQek7ebVe6bCwaOPDKI49
- +iGuSu8Uauzg5CxodHeq3a5XmUe8ozaU/GxWtMnWchz2kSty/ZE3B4Mm+67gvshp9iIAMQz4
- Mf2Bg981196Oa5ln0zRFaTepXR4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ee23432356bcc26ab0c105c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 13:40:02
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 539BDC433C8; Thu, 11 Jun 2020 13:40:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 823FBC433CA;
- Thu, 11 Jun 2020 13:39:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 823FBC433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=charante@codeaurora.org
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-From: Charan Teja Kalla <charante@codeaurora.org>
-Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
-Message-ID: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
-Date: Thu, 11 Jun 2020 19:09:55 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+X-Greylist: delayed 5014 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Jun 2020 15:22:39 UTC
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E386E922
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 15:22:39 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05BDwvWK123801;
+ Thu, 11 Jun 2020 08:58:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1591883937;
+ bh=vm6dEZBsilsx43enScI+BD49SWDr4ySN9rl3BtNbgmk=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=tcZyQjBo76EqNJpxeti///VQAcFdzyw9PMHY1rnerSEoaSnxotNdpO6RqXAbLRWRo
+ ZQYf0FOrLwXIH71T8fVsJjXz3YEy1Oo1Pa75nEOb/O0BNE5s4Ij5AFgp6ir6+tAN3R
+ zm3kGFoP43Y9vVR7fYrvCs9f50JG7Xuu7ky9tk4o=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05BDwvkJ035414
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 11 Jun 2020 08:58:57 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 11
+ Jun 2020 08:58:57 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 11 Jun 2020 08:58:57 -0500
+Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05BDwrlD054159;
+ Thu, 11 Jun 2020 08:58:53 -0500
+Subject: Re: [PATCH 1/5] drm/omap: Fix suspend resume regression after
+ platform data removal
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Tony Lindgren <tony@atomide.com>
+References: <20200531193941.13179-1-tony@atomide.com>
+ <20200531193941.13179-2-tony@atomide.com>
+ <16ba1808-5c7f-573d-8dd0-c80cac2f476e@ti.com>
+ <20200603140639.GG37466@atomide.com>
+ <47e286dd-f87a-4440-5bde-1f7b53e8b672@ti.com>
+ <20200609151943.GL37466@atomide.com>
+ <9ed70121-2a53-d2b3-051a-88eb83e6c53f@ti.com>
+From: Grygorii Strashko <grygorii.strashko@ti.com>
+Message-ID: <d03dd04f-6f2c-25ba-fe1f-d5fc0dfb5c68@ti.com>
+Date: Thu, 11 Jun 2020 17:00:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <9ed70121-2a53-d2b3-051a-88eb83e6c53f@ti.com>
 Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,138 +71,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>, vinmenon@codeaurora.org,
- LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
+ Suman Anna <s-anna@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
+ Keerthy <j-keerthy@ti.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There exists a sleep-while-atomic bug while accessing the dmabuf->name
-under mutex in the dmabuffs_dname(). This is caused from the SELinux
-permissions checks on a process where it tries to validate the inherited
-files from fork() by traversing them through iterate_fd() (which
-traverse files under spin_lock) and call
-match_file(security/selinux/hooks.c) where the permission checks happen.
-This audit information is logged using dump_common_audit_data() where it
-calls d_path() to get the file path name. If the file check happen on
-the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
-access dmabuf->name. The flow will be like below:
-flush_unauthorized_files()
-  iterate_fd()
-    spin_lock() --> Start of the atomic section.
-      match_file()
-        file_has_perm()
-          avc_has_perm()
-            avc_audit()
-              slow_avc_audit()
-	        common_lsm_audit()
-		  dump_common_audit_data()
-		    audit_log_d_path()
-		      d_path()
-                        dmabuffs_dname()
-                          mutex_lock()--> Sleep while atomic.
 
-Call trace captured (on 4.19 kernels) is below:
-___might_sleep+0x204/0x208
-__might_sleep+0x50/0x88
-__mutex_lock_common+0x5c/0x1068
-__mutex_lock_common+0x5c/0x1068
-mutex_lock_nested+0x40/0x50
-dmabuffs_dname+0xa0/0x170
-d_path+0x84/0x290
-audit_log_d_path+0x74/0x130
-common_lsm_audit+0x334/0x6e8
-slow_avc_audit+0xb8/0xf8
-avc_has_perm+0x154/0x218
-file_has_perm+0x70/0x180
-match_file+0x60/0x78
-iterate_fd+0x128/0x168
-selinux_bprm_committing_creds+0x178/0x248
-security_bprm_committing_creds+0x30/0x48
-install_exec_creds+0x1c/0x68
-load_elf_binary+0x3a4/0x14e0
-search_binary_handler+0xb0/0x1e0
 
-So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+On 09/06/2020 18:26, Tomi Valkeinen wrote:
+> On 09/06/2020 18:19, Tony Lindgren wrote:
+>>> But there's an extra runtime PM reference (dev.power.usage_count) that seems
+>>> to come out of nowhere. So when omap_drm_suspend is finished, there's still
+>>> usage_count of 1, and dispc never suspends fully.
+>>
+>> Hmm no idea about that. My guess is that there might be an issue that was
+>> masked earlier with omap_device calling the child runtime_suspend.
+> 
+> Yes. It's how PM works. It calls pm_runtime_get_noresume() before starting the suspend of a device. So I guess omapdrm's suspend has been broken all the time, but it was "fixed" by omap_device.
+> 
 
-Cc: <stable@vger.kernel.org> [5.3+]
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
- drivers/dma-buf/dma-buf.c | 13 +++++++------
- include/linux/dma-buf.h   |  1 +
- 2 files changed, 8 insertions(+), 6 deletions(-)
+I think I might have an idea what is going wrong.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 01ce125..2e0456c 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- 	size_t ret = 0;
- 
- 	dmabuf = dentry->d_fsdata;
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- 
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
-@@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	if (IS_ERR(name))
- 		return PTR_ERR(name);
- 
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (!list_empty(&dmabuf->attachments)) {
- 		ret = -EBUSY;
- 		kfree(name);
-@@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	dmabuf->name = name;
- 
- out_unlock:
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- 	return ret;
- }
- 
-@@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- 	/* Don't count the temporary reference taken inside procfs seq_show */
- 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
- 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		seq_printf(m, "name:\t%s\n", dmabuf->name);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- }
- 
- static const struct file_operations dma_buf_fops = {
-@@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	dmabuf->size = exp_info->size;
- 	dmabuf->exp_name = exp_info->exp_name;
- 	dmabuf->owner = exp_info->owner;
-+	spin_lock_init(&dmabuf->name_lock);
- 	init_waitqueue_head(&dmabuf->poll);
- 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
- 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index ab0c156..93108fd 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -311,6 +311,7 @@ struct dma_buf {
- 	void *vmap_ptr;
- 	const char *exp_name;
- 	const char *name;
-+	spinlock_t name_lock;
- 	struct module *owner;
- 	struct list_head list_node;
- 	void *priv;
+Before:
++----------------------+
+|omap_device_pm_domain |
++---------------+------+------+
+                 | device      |
+                 +-------------+
+                 | omap_device |
+                 +-------------+
+
+omap_device is embedded in DD device and PM handled by omap_device_pm_domain.
+
+static int _od_suspend_noirq(struct device *dev)
+{
+...
+
+	ret = pm_generic_suspend_noirq(dev);
+[1] ^^ device suspend_noirq call
+
+	if (!ret && !pm_runtime_status_suspended(dev)) {
+		if (pm_generic_runtime_suspend(dev) == 0) {
+[2] ^^ device pm_runtime_suspend force call
+
+			omap_device_idle(pdev);
+[3] ^^ omap_device disable
+			od->flags |= OMAP_DEVICE_SUSPENDED;
+		}
+	}
+
+	return ret;
+}
+
+Now:
++------------+
+|ti sysc dev |
++-+----------+
+   |
+   |
+   |   +-------------+
+   |   | device      |
+   +-->+             |
+       +-------------+
+
+With new approach the omap_device is not embedded in DD Device anymore,
+instead ti-sysc (hwmod replacement) became parent of DD Device.
+
+As result suspend sequence became the following
+(Note. All PM runtime PUT calls became NOP during suspend by design):
+
+device
+|-> suspend() - in case of dss omap_drm_suspend() and Co if defined
+|-> suspend_noirq() - in case of dss *not defined", equal to step [1] above
+..
+
+ti sysc dev (ti-sysc is parent, so called after device)
+|-> sysc_noirq_suspend
+    |-> pm_runtime_force_suspend()
+	|-> sysc_runtime_suspend() - equal to step [3] above
+
+And step [2] is missing as of now!
+
+I think, suspend might be fixed if all devices, which are now child of ti-sysc, will do
+pm_runtime_force_xxx() calls at noirq suspend stage by adding:
+
+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+				      pm_runtime_force_resume)
+
+Am I missing smth?
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
+Best regards,
+grygorii
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
