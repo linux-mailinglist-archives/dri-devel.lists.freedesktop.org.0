@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04541F6E40
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 21:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4431F6E43
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 21:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F09D6E934;
-	Thu, 11 Jun 2020 19:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 895FF6E931;
+	Thu, 11 Jun 2020 19:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 949846E934
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 19:50:23 +0000 (UTC)
-Subject: Re: [git pull] drm i915 fixes for rc1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFFC06E936
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 19:50:25 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.7-rc1 (updated pull)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591905023;
- bh=v9dNkrpA4SFtGcw/Gc6HzQjUtd4V1ARG1lRzTQD7ehw=;
+ s=default; t=1591905025;
+ bh=JrXRH57fM4fvpHWV3D4gx5E1DHXUOmzoTatnMaljVTo=;
  h=From:In-Reply-To:References:Date:To:Cc:From;
- b=YU+fUiX8jsBQHLqmIiVylpFRvCklZwO5MQ26jF+yZny35dYb76HJpgsn5NhpBiZ3i
- x3lHhDmckekUTvL6tpaW9equWwCQwZyorG4x+0uaQlU54WsPy4xJMRtfyzIiVRgBpq
- RypZ4gRwFjng68y6LUknAIyKZ6ElHZTueD2Sm5zE=
+ b=2PKr1KM7fcVbfG+Xfx+3anXDlaHV9eAGlwfKR/o4akbHOGsWCU1shVhMXfHwp99W8
+ /EUz2DVmuXA2vTSdCe9i213cDifMgoGFIOAicUcpAE+UGr50/QdknvraetF65xL/ZI
+ VZlxqwGwZ95o0tnVO7qQtYayHxg1IrXUJZvdXSjM=
 From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tySU_oXYv+FF5D3GkkyngdxWfkb_6KDK6nA0uBx6EB=qw@mail.gmail.com>
-References: <CAPM=9tySU_oXYv+FF5D3GkkyngdxWfkb_6KDK6nA0uBx6EB=qw@mail.gmail.com>
+In-Reply-To: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
+References: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
 X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9tySU_oXYv+FF5D3GkkyngdxWfkb_6KDK6nA0uBx6EB=qw@mail.gmail.com>
+X-PR-Tracked-Message-Id: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
 X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-next-2020-06-11
-X-PR-Tracked-Commit-Id: addb1e23bf72c47a3e2eb7cdad6dc8cdffa91384
+ tags/drm-next-2020-06-11-1
+X-PR-Tracked-Commit-Id: 66057dd1d1cf2149e0f5fdaee58d6ea69bc98048
 X-PR-Merge-Tree: torvalds/linux.git
 X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 66057dd1d1cf2149e0f5fdaee58d6ea69bc98048
-Message-Id: <159190502341.20905.5113407927895881475.pr-tracker-bot@kernel.org>
-Date: Thu, 11 Jun 2020 19:50:23 +0000
+X-PR-Merge-Commit-Id: d4e181f204dd0491da6c1d09b7208a0b990ec887
+Message-Id: <159190502577.20905.15451629338604498776.pr-tracker-bot@kernel.org>
+Date: Thu, 11 Jun 2020 19:50:25 +0000
 To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,12 +56,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Thu, 11 Jun 2020 13:56:23 +1000:
+The pull request you sent on Thu, 11 Jun 2020 18:38:54 +1000:
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-06-11
+> git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-06-11-1
 
 has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/66057dd1d1cf2149e0f5fdaee58d6ea69bc98048
+https://git.kernel.org/torvalds/c/d4e181f204dd0491da6c1d09b7208a0b990ec887
 
 Thank you!
 
