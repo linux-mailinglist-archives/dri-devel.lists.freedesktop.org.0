@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC3B1F6421
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 10:59:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B301F6431
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 11:03:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55B0B6E8B5;
-	Thu, 11 Jun 2020 08:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5026E030;
+	Thu, 11 Jun 2020 09:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D156E8B5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 08:59:35 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id p5so5273173wrw.9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 01:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yYF1qLiVcqC5+ofUdD+N961rSzft8TLHXK3pdCiJAf4=;
- b=cNtnL98yUbK2MCL+1+RKeOROIoB5KILcEmhKmzVSQ0JHP2sFlFMpJK5x2EyYKhMjev
- UWYHxlDYULDROij0/0uRsiQ7ejZvFyVLTCtOnTXZOy6SFSZgP/Um0CgXGUjh7L2HZZzD
- fxpqR3Hc6bXw3PHPrSq/6JElnTuXsntnW7cB3rappNwxzCynIC+beZ119+lurecYIHfz
- DUDRypO35acuvv2rERRb1XWP0578Z+NQGLRsa2VyEQ4cWvO3hFaYL39RyrPgjfUzY+2P
- +ILv81nreYMMHTMpuoJ+R43utIyD2ldbbWuPkOYdZsGJSWeMQSL3WzQ667IWnPZJ50Ph
- tEtg==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C8C6E030
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 09:03:48 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id y20so4262380wmi.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 02:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=611EZXoXvMC0wgvkSoDqQkuDX4b96jfM5TQTQEW07+g=;
+ b=rBu3ZBBsiU7BegTaLT92EmVcTqTQ1ln4TngPt+QtaRUJwZJvFNvlbvL3HcjTBtXw9H
+ G1BFGLxRjII2qe+n6Wb4wAjp/MIbndhkzRvvFKrM4W8lQT+ibssLtH8TT46cMB5P5uU3
+ 5NUykMXB6wJxIim5uZLsueE9Lb1sMJwsx7fkaWRSDcEwhKWAYhiGyzIwnkpl/z6oq0Or
+ 4x+BtmbF9c7Gs6DTj+RsOX7oSNj6Q0tkv5onPLhaBIsEtG4yxV9T70vq8ePrXAlDNpD8
+ 5sB2zFwst0zY2C9XYIlAcPCJ2JUIt9V9Hjz4+vjSenZxVun25fMG+8FtkYQcjlFwLPq+
+ dTPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yYF1qLiVcqC5+ofUdD+N961rSzft8TLHXK3pdCiJAf4=;
- b=W0H9AzZOqEmObmgMP7yeCkuqOMxWkCEaWSlX+tzyjbsf+lAvJX2M2AUrL9kxGPPsPB
- qdzzZ8ps4BH2lHdq81ELR/67XnhyKEiUZTQWlJa4VObkC2QzE7M440ZnZ4sYC24ymwiE
- 8Fl+YLXxe60DHLsIgcYAI2bYLAd9yUxEh9dqHEc2fXY3/pZ8y+tsMwj87Lh5is8NCk6S
- CwMz6jPGex2na/OixGPTJfIZnk/8cX2Q5I3SF4xIBdoIclRiHItuT7AO0jyfE0KwSgzR
- KHX95sYC1oqipBwRwWqnozpMuOpsZMwoowGxu1FH6wGj0t5iVcyhIBogOZoNUeNEkYWr
- LhGg==
-X-Gm-Message-State: AOAM530NLsBa83fbgtwyRgGbe0OsjlNDV8+FEO5c+2cipnC6WjPyCJ2X
- TZUo2+zcwW8g34TAjsFphWc=
-X-Google-Smtp-Source: ABdhPJzO7ZN5HbQmNp6JjblxAuLk8K1tfrLxFTX4g+Bjh4JseUCjO7OPQwFC79X7Kj44jaFBkZmWUw==
-X-Received: by 2002:adf:dcc3:: with SMTP id x3mr8137121wrm.93.1591865973844;
- Thu, 11 Jun 2020 01:59:33 -0700 (PDT)
-Received: from cizrna.lan ([109.72.12.141])
- by smtp.gmail.com with ESMTPSA id o20sm4205023wra.29.2020.06.11.01.59.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 01:59:33 -0700 (PDT)
-From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] panfrost: Add compatible string for bifrost
-Date: Thu, 11 Jun 2020 10:58:44 +0200
-Message-Id: <20200611085900.49740-2-tomeu.vizoso@collabora.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200611085900.49740-1-tomeu.vizoso@collabora.com>
-References: <20200611085900.49740-1-tomeu.vizoso@collabora.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=611EZXoXvMC0wgvkSoDqQkuDX4b96jfM5TQTQEW07+g=;
+ b=V+5sjUPRs0TnsradGiloLYqbxR93rc/rgxnKgMqiVefZO+RlqE1vMhcU7p2EQhAP6z
+ djzXBrDlKnwnORdM8J14AXnRL0OXEcqYquqoYvuVhsK1H4iCxFjvXpCziIFDAPSQ+x+Y
+ 1sndFBfXLDA2+990SEUcYwZa5Ra/ZhbO0+bpdbKkQ7SK2ggbF/vg8GxT5I3ptnXmMaBV
+ 6rpqxgM2xatQPRkJtGqtf1NJO9TpSKyduO+kUmdneMLiMtkaWbmI7rWi01vJKOHAqanM
+ kHuq/Ce3MrgeF3TExrGS5WdosHiSRVySBBudRvyrphEq6IpYO2FTLvt64Q8J8Gw0CsYX
+ vWmQ==
+X-Gm-Message-State: AOAM532vLZ1gsrbZUZ5fzDBX93cOjQXbKO4oGDRu1kqhVyjvvYsTm83e
+ NE8d1RcsLgwJwZRQ/bHz87uO3TvZQbDh3yEKRJAUbw==
+X-Google-Smtp-Source: ABdhPJxPKKxxiM1BfEdkh9RUDLtOEwohJAfgWmxAu+vR7pTgkQ6fdURfjYcm3A4r4/Ejum+DBwaGettYUqKJ7IOPnc8=
+X-Received: by 2002:a1c:6a01:: with SMTP id f1mr6984797wmc.52.1591866227178;
+ Thu, 11 Jun 2020 02:03:47 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch>
+ <159186243606.1506.4437341616828968890@build.alporthouse.com>
+ <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+In-Reply-To: <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 11 Jun 2020 10:01:46 +0100
+Message-ID: <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +64,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mesa now supports some Bifrost devices, so enable it.
+Hi,
 
-Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, 11 Jun 2020 at 09:44, Dave Airlie <airlied@gmail.com> wrote:
+> On Thu, 11 Jun 2020 at 18:01, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > Introducing a global lockmap that cannot capture the rules correctly,
+>
+> Can you document the rules all drivers should be following then,
+> because from here it looks to get refactored every version of i915,
+> and it would be nice if we could all aim for the same set of things
+> roughly. We've already had enough problems with amdgpu vs i915 vs
+> everyone else with fences, if this stops that in the future then I'd
+> rather we have that than just some unwritten rules per driver and
+> untestable.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 882fecc33fdb..8ff8e140f91e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -677,6 +677,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-t830", .data = &default_data, },
- 	{ .compatible = "arm,mali-t860", .data = &default_data, },
- 	{ .compatible = "arm,mali-t880", .data = &default_data, },
-+	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dt_match);
--- 
-2.21.0
+As someone who has sunk a bunch of work into explicit-fencing
+awareness in my compositor so I can never be blocked, I'd be
+disappointed if the infrastructure was ultimately pointless because
+the documented fencing rules were \_o_/ or thereabouts. Lockdep
+definitely isn't my area of expertise so I can't comment on the patch
+per se, but having something to ensure we don't hit deadlocks sure
+seems a lot better than nothing.
 
+Cheers,
+Daniel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
