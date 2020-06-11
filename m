@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038661F62FB
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:54:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4121F62A1
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264B86E89E;
-	Thu, 11 Jun 2020 07:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D866E03E;
+	Thu, 11 Jun 2020 07:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 894496E866
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jun 2020 22:41:23 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id AE4F18081;
- Wed, 10 Jun 2020 22:42:11 +0000 (UTC)
-Date: Wed, 10 Jun 2020 15:41:17 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 1/5] drm/omap: Fix suspend resume regression after
- platform data removal
-Message-ID: <20200610224117.GE43721@atomide.com>
-References: <20200531193941.13179-1-tony@atomide.com>
- <20200531193941.13179-2-tony@atomide.com>
- <16ba1808-5c7f-573d-8dd0-c80cac2f476e@ti.com>
- <20200603140639.GG37466@atomide.com>
- <47e286dd-f87a-4440-5bde-1f7b53e8b672@ti.com>
- <20200609151943.GL37466@atomide.com>
- <9ed70121-2a53-d2b3-051a-88eb83e6c53f@ti.com>
- <20200609165234.GM37466@atomide.com>
- <20200609171043.GN37466@atomide.com>
- <7c4809d0-5262-a739-354a-61e617fe6c6e@ti.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 471486E03B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 07:36:29 +0000 (UTC)
+Received: from localhost.localdomain (unknown [171.61.66.58])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 92E482072F;
+ Thu, 11 Jun 2020 07:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591860989;
+ bh=CT+nRSifJ5/9M5ZQn6QlYcpQ4iRZi29gzGIoAgD+MZM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=S+lwhGFMHF8QODVcZLdDK/U+v7Ga920A6/87j+vPNfJuwRiXv9Fs3zDVKdoMAva8S
+ XKJjzVp1SoW9HzslsDxFUiFZJpv+nq0XZmySUXxYagmvyWiMQuFJnC1UBPTvTHAOrb
+ dkSw4xEnTonrpYLTgXgxvhDbH30fQqSwpzU0Fbpo=
+From: Vinod Koul <vkoul@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v2 0/3] Add LT9611 DSI to HDMI bridge
+Date: Thu, 11 Jun 2020 13:06:08 +0530
+Message-Id: <20200611073611.1446562-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7c4809d0-5262-a739-354a-61e617fe6c6e@ti.com>
-X-Mailman-Approved-At: Thu, 11 Jun 2020 07:54:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,49 +44,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Tero Kristo <t-kristo@ti.com>,
- Grygorii Strashko <grygorii.strashko@ti.com>, Dave Gerlach <d-gerlach@ti.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Andrew F . Davis" <afd@ti.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Faiz Abbas <faiz_abbas@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Keerthy <j-keerthy@ti.com>, Suman Anna <s-anna@ti.com>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ti.com> [200610 11:48]:
-> On 09/06/2020 20:10, Tony Lindgren wrote:
-> 
-> > > On beagle-x15 I see these errors after modprobe:
-> > > 
-> > > DSS: OMAP DSS rev 6.1
-> > > omapdss_dss 58000000.dss: bound 58001000.dispc (ops dispc_component_ops [omapdss])
-> > > omapdss_dss 58000000.dss: bound 58040000.encoder (ops hdmi5_component_ops [omapdss])
-> > > [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-> > > omapdrm omapdrm.0: [drm] Cannot find any crtc or sizes
-> > > [drm] Initialized omapdrm 1.0.0 20110917 for omapdrm.0 on minor 0
-> > > omapdrm omapdrm.0: [drm] Cannot find any crtc or sizes
-> > > aic_dvdd_fixed: disabling
-> > > ldousb: disabling
-> > > 
-> > > Maybe I'm missing some related module on x15?
-> > 
-> > Still did not figure what I might be missing on x15 :)
-> 
-> The log above shows that nothing is missing, omapdrm has probed fine. But it
-> cannot see anything connected to the hdmi port. Are you booting with correct
-> dtb for your x15 revision? And you have a monitor connected? =)
+Hi,
 
-Oh you're right, I forgot to connect the HDMI cable back to X15 :)
-No wonder it's no longer working for me..
+This series adds driver and bindings for Lontium LT9611 bridge chip which
+takes MIPI DSI as input and HDMI as output.
 
-Regards,
+This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
 
-Tony
+[1]: https://www.96boards.org/product/rb3-platform/
+
+Changes in v2:
+ - Add acks by Rob
+ - Fix comments reported by Emil and rename the file to lontium-lt9611.c
+ - Fix comments reported by Laurent on binding and driver
+ - Add HDMI audio support
+
+Vinod Koul (3):
+  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+  dt-bindings: display: bridge: Add documentation for LT9611
+  drm/bridge: Introduce LT9611 DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt9611.yaml        |  176 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/gpu/drm/bridge/Kconfig                |   13 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/lontium-lt9611.c       | 1219 +++++++++++++++++
+ 5 files changed, 1411 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
+
+-- 
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
