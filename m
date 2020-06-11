@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572A11F6406
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 10:54:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBBF1F6420
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 10:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3EE6E8B1;
-	Thu, 11 Jun 2020 08:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A40E56E8B6;
+	Thu, 11 Jun 2020 08:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7191D6E8B1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 08:54:15 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id o26so3371810edq.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 01:54:15 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8E36E8B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 08:59:29 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id l26so4230181wme.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 01:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2bw+V3wLHTM7iJAt18YSs25Q73LjKcxMJcBBocazrA4=;
- b=DiC/8+X93yYnhHRJtAvQfxbw2XSIf5yNO6ElLZQGmw+ASMt3WHFdOgvdSAY2VN1RdC
- vcjLGNCIAKNZ6aGOO1DpH6Q2SG0Ob6CQVOgobudNqacRfc3AafpN9aKQXNNRDDdDdTsa
- xE8DimKjdyNx5rixUKIhQqGV/QrHYQvWuRV3DXtxMNnAJTBo+oMxJjgonwCY6gL7/uWv
- m55DRMA4goNC29LIW03LkavMCFdUKiSO3HCqJDDdy0g7W8Bbg5Btg1qK5vMfZIK85s0U
- OESWF7AbzrsAwdKk/kfNyFkiL7da1297cO94SiiT0lz3P+LUpkO9s/Uc2rvgY+cTAYDh
- zx9g==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vkpecle/NufRhIWFw6o8Icsy3Vg8yQBJnNwa3m6TOrY=;
+ b=B5T4TeklMK2kiPUFPKuuVP7i4B9RaICOLmQ0X69pyuhRLLiYf66zl/t9yQbxri1F6x
+ hhbN1Jtyz6XDvHQJMaZWpIo6w1GL4iKvhxLlinIrodsKoW2vSITvlTkWlfvkbvMvowKg
+ FruLct+0aI/LfplSLqucAjJdDDa1Fq+j5pd/kuutGlFTwNx39exJ1+LtTp5exE1Q5XjG
+ GaIrWDswsYmKIR11ri1CuhU3/PQRJHSzO6qOn+g+dSIE6/DT4553GanI+L0rcD13XLcn
+ okgjyULRPyGPAFBnD/VaWjNnk/WDAPPFzueKAwimNMBfDm4+OQxPB4rjioBVVmASEHgs
+ T0CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2bw+V3wLHTM7iJAt18YSs25Q73LjKcxMJcBBocazrA4=;
- b=GjAt4Qx91pIiSRZn4xVHo1nT+U4/OFL436p08ohvVXRFS7L5PAqIVtNtxAQh50uZ+v
- 5F8B13dC/AmH4hnXO3kqXg5WI70Y5ITpLsZCgLNi75hPBNHnUxY9njlKFlnmwzpC07/0
- dmSsa3wf/mTOFfcv6A1oHGpJxHTlcxKI/vPJlSmDd7fAykRUmIdURgk7+yxfFku962Rn
- +UmNgytE9jy2+aj43nxlj5RBvSjpYh/4SVBmp8yh/HXr2+hDTyR2hEwtRBgSHgZqpr0w
- 4hrfagcmGykPSIX2RQMuj7Uag4Zdsogx/goikWPVw1wr1IjaUjVPBSm2ZJxAfwfP8beQ
- gacQ==
-X-Gm-Message-State: AOAM531dCxUY1vGoOCSqZ+FCPjD8ITUqU0uXEdSDBLwXX5BqgDTwpZOt
- +nR4YXr2u1uCL1iffmleMXMhZlTtQPHqnxvw+ymV/Q==
-X-Google-Smtp-Source: ABdhPJxyerA60LPR4dRD2QK1TZ5tc9Pqs9AUoEwTTRAumEOjf8tBER/H4EVa++W9q3TACWCmreAnsI0J5Vi1+4jREpI=
-X-Received: by 2002:a05:6402:1153:: with SMTP id
- g19mr5890903edw.127.1591865653991; 
- Thu, 11 Jun 2020 01:54:13 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Vkpecle/NufRhIWFw6o8Icsy3Vg8yQBJnNwa3m6TOrY=;
+ b=nU68kTwsiHHUWIglA3qxEpq1KHW1GwoRH/yzxoPK5rqcTH82vFI5w5f23OLyOttWih
+ K1gp0IemuGy7bHjH94aIOsCBjcl4QGFp1kC28E7jgeRYfj9az9uOywPgWXynwnBt8lIZ
+ KqKBuwBeRZ5ME+Yeqwf6aAiSVNL8HESsP/a8QOFJrA9tDCej+g8+Om6wkDl3TZRTfxdT
+ f5YmaZmPvaneIs23HcGZVwSM3g+5e6JNFSn0+ZGaGxbD0EII1IksGnPHOcyAL6+t9s/d
+ cCQTwr0PJ4DTrsEKicS3m4UkJPX/cOUD4HgtZDjc95s/bSxJrNflui0pZHPSU2oCLqiB
+ 0aMg==
+X-Gm-Message-State: AOAM5306I1OgfKRex6F/GVejEiu80LvAS33Ky1q/PGAGWiPdu8aFhHhq
+ bet5opsqxawcf3cC36KKH70TYVXP
+X-Google-Smtp-Source: ABdhPJwa3GUi28/rl/kCJZRru/8f/xiKju5uiGyA5/rHbxua8XuJbAeq6aH2xxRhczSk1eclm+DSMQ==
+X-Received: by 2002:a1c:7414:: with SMTP id p20mr7011193wmc.124.1591865968099; 
+ Thu, 11 Jun 2020 01:59:28 -0700 (PDT)
+Received: from cizrna.lan ([109.72.12.141])
+ by smtp.gmail.com with ESMTPSA id o20sm4205023wra.29.2020.06.11.01.59.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jun 2020 01:59:27 -0700 (PDT)
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] panfrost: Make sure GPU is powered on when reading
+ GPU_LATEST_FLUSH_ID
+Date: Thu, 11 Jun 2020 10:58:43 +0200
+Message-Id: <20200611085900.49740-1-tomeu.vizoso@collabora.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
-In-Reply-To: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 11 Jun 2020 18:54:02 +1000
-Message-ID: <CAPM=9twpkGsm0z7HkU9PWEKiua37zU4yrHKoKYoe30UPXQ8Lzg@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 5.8-rc1 (updated pull)
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,110 +65,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(now with a subject you might see).
+Bifrost devices do support the flush reduction feature, so on first job
+submit we were trying to read the register while still powered off.
 
-On Thu, 11 Jun 2020 at 18:38, Dave Airlie <airlied@gmail.com> wrote:
->
-> Hi Linus,
->
-> This is the update of the pull I sent earlier today, it's got a couple
-> of more fixes along with the i915 fixes. One sun4i fix and a connector
-> hotplug race The ast fix is for a regression in 5.6, and as mentioned
-> previously one of the i915 ones fixes an oops reported by dhowells.
->
-> definitely taking tomorrow off now :-)
->
-> Regards,
-> Dave.
->
-> drm-next-2020-06-11-1:
-> drm fixes for 5.7-rc1
->
-> core:
-> - fix race in connectors sending hotplug
->
-> i915:
-> - Avoid use after free in cmdparser
-> - Avoid NULL dereference when probing all display encoders
-> - Fixup to module parameter type
->
-> sun4i:
-> - clock divider fix
->
-> ast:
-> - 24/32 bpp mode setting fix
-> The following changes since commit 8d286e2ff4400d313955b4203fc640ca6fd9228b:
->
->   Merge tag 'drm-intel-next-fixes-2020-06-04' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2020-06-08
-> 11:59:57 +1000)
->
-> are available in the Git repository at:
->
->   git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-06-11-1
->
-> for you to fetch changes up to 66057dd1d1cf2149e0f5fdaee58d6ea69bc98048:
->
->   Merge tag 'drm-misc-next-fixes-2020-06-11' of
-> git://anongit.freedesktop.org/drm/drm-misc into drm-next (2020-06-11
-> 17:51:15 +1000)
->
-> ----------------------------------------------------------------
-> drm fixes for 5.7-rc1
->
-> core:
-> - fix race in connectors sending hotplug
->
-> i915:
-> - Avoid use after free in cmdparser
-> - Avoid NULL dereference when probing all display encoders
-> - Fixup to module parameter type
->
-> sun4i:
-> - clock divider fix
->
-> ast:
-> - 24/32 bpp mode setting fix
->
-> ----------------------------------------------------------------
-> Chris Wilson (2):
->       drm/i915/gem: Mark the buffer pool as active for the cmdparser
->       drm/i915/display: Only query DP state of a DDI encoder
->
-> Colin Ian King (1):
->       drm/ast: fix missing break in switch statement for format->cpp[0] case 4
->
-> Dave Airlie (2):
->       Merge tag 'drm-intel-next-fixes-2020-06-10' of
-> git://anongit.freedesktop.org/drm/drm-intel into drm-next
->       Merge tag 'drm-misc-next-fixes-2020-06-11' of
-> git://anongit.freedesktop.org/drm/drm-misc into drm-next
->
-> Jani Nikula (1):
->       drm/i915/params: fix i915.reset module param type
->
-> Jernej Skrabec (1):
->       drm/sun4i: hdmi ddc clk: Fix size of m divider
->
-> Jeykumar Sankaran (1):
->       drm/connector: notify userspace on hotplug after register complete
->
->  drivers/gpu/drm/ast/ast_mode.c                 |  1 +
->  drivers/gpu/drm/drm_connector.c                |  5 +++
->  drivers/gpu/drm/drm_sysfs.c                    |  3 --
->  drivers/gpu/drm/i915/display/intel_dp.c        |  3 ++
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 56 ++++++++++++++++++++++----
->  drivers/gpu/drm/i915/i915_params.c             |  2 +-
->  drivers/gpu/drm/sun4i/sun4i_hdmi.h             |  2 +-
->  drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c     |  2 +-
->  8 files changed, 60 insertions(+), 14 deletions(-)
+If the GPU is powered off, the feature doesn't bring any benefit, so
+don't try to read.
+
+Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index f2c1ddc41a9b..e0f190e43813 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -10,6 +10,7 @@
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ 
+ #include "panfrost_device.h"
+ #include "panfrost_features.h"
+@@ -368,7 +369,16 @@ void panfrost_gpu_fini(struct panfrost_device *pfdev)
+ 
+ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev)
+ {
+-	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_FLUSH_REDUCTION))
+-		return gpu_read(pfdev, GPU_LATEST_FLUSH_ID);
++	u32 flush_id;
++
++	if (panfrost_has_hw_feature(pfdev, HW_FEATURE_FLUSH_REDUCTION)) {
++		/* Flush reduction only makes sense when the GPU is kept powered on between jobs */
++		if (pm_runtime_get_if_in_use(pfdev->dev)) {
++			flush_id = gpu_read(pfdev, GPU_LATEST_FLUSH_ID);
++			pm_runtime_put(pfdev->dev);
++			return flush_id;
++		}
++	}
++
+ 	return 0;
+ }
+-- 
+2.21.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
