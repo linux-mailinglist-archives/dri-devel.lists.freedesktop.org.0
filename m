@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111261F8294
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C6A1F82B7
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3E6E3A8;
-	Sat, 13 Jun 2020 10:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038FB6E443;
+	Sat, 13 Jun 2020 10:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4C0C6E8CF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 09:56:53 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id u5so2339188pgn.5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 02:56:53 -0700 (PDT)
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC5366E8CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 09:57:02 +0000 (UTC)
+Received: by mail-pj1-x1044.google.com with SMTP id d6so2171153pjs.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 02:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=ondMPxf4uc2ph0pt0HgNHkcg5ynpnvHAdpE5eze5hYk=;
- b=QG4OosPTuQ7XSPnl3uAYPgAopJcCv0BggHQxnSP19seCkrDgxFVy4hU0ua0Z3FC9Av
- 2Vkn3X+kkzq1YqJzseiIDbwZLazYZyYTreNneCf7QzsK80vw2E6EXCzBUZiC9rlI7NmA
- KpFDfaDoJ2VQAbnj4HygVOT9ewMmqSHONrSvk=
+ bh=CzkQpCcoRC0sJMa0pR1sKpPdtKMP/PyiTFgiJafcnYY=;
+ b=T1zuyaDTfoAv+to8FZCdUiFLlcjnOFk6V3IaNNgO+XGZmN1ehhha22D9yK6A4xzD13
+ NamAU3IyaEZhQxLQQCtEcuGdXDp9EFgSyS11KLORVlt7RVplueLPudJ/LlFd/YiDlwP1
+ DUneDn4otiEC2gPcNUJzdNDBpsoJK1SA149kI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=ondMPxf4uc2ph0pt0HgNHkcg5ynpnvHAdpE5eze5hYk=;
- b=neQxheK8P9pFTM66WjMIZH17llPjBU8+sUTOiqc9iWveO5os1/sqJJuqCdOA1O0Uf2
- 9zgU7yTYgBI/wpLLlMHtiF6oICWWFe9W8qnIwYYkp8kHjwggsVI8Vter5jPR+VINbqh3
- zXf1d3E3ZwIB9584a30L0/mKYmTa20yae5n44nW0Rs92slbWIR3tfPLyN5QwmdmDL1zD
- V+4b8nTMk69TpvoIRrI4wmHTGGKM3e750cKCFFRx335Loit5hI6R5pFBiFtcWRxNLjQy
- WXUbShGtlugrp9j3sNYUOZVocHsJX/DV5xiUwwj75VDz6ib7Xg5Dge6VtaatdJDHZp+V
- nqTg==
-X-Gm-Message-State: AOAM530JLuTQ/8IEf3PMOmAUbX+Hx4/7gzD32kT+iOfKvqNMPXUdutv1
- b0VOjR9W8ZG1qD/8SbJwa7Vhjw==
-X-Google-Smtp-Source: ABdhPJzhSivEozbKncqU6JHQ+1w1z70+0W7uymFdngeQnJGZhEo6dmuQMhLDSnbesWa3fDCqke3Arw==
-X-Received: by 2002:a65:6550:: with SMTP id a16mr6018320pgw.183.1591869413347; 
- Thu, 11 Jun 2020 02:56:53 -0700 (PDT)
+ bh=CzkQpCcoRC0sJMa0pR1sKpPdtKMP/PyiTFgiJafcnYY=;
+ b=nHImhPXaT3fV37pLxqN8tiOwd7etCGdekSCclB06N6QaKzon0ZPNM84LXYWwI6m+NO
+ d8RRnJqZq8TtV5Bb5XC1go3UhtkwF/EdB6mROCkMttLBJh0L0Pes67pGKq0jEUBYykiM
+ wM8u+hA6XBUTjwSQ7ETUdw4+MqibskbqE9YzRbm+T19STRV6a9qNKyhUsKq0Ld3QmdQ1
+ z3F8+J7yBGTqlXCUtbtnYJlHsUqcnGbWW+vbHy0Tn7SRi4gkRNP6xb7iOohHjby13xep
+ p3frrFWzyLZEYrHYeeKtsnsdV111spJKmQnkkTBtXRVPqFsoa+Dlr5HU44gU/CRoenmH
+ tb1g==
+X-Gm-Message-State: AOAM532GkKeU69NVVEBfRBs2be4BUa3X1d/HO75WwhppQUA7rUAwQ+6x
+ cHIEjy8eP1bK9HAtfZ5xhsKXag==
+X-Google-Smtp-Source: ABdhPJxLjw0gaPc4oCJfx5+8kuZMUUtob14rBwCjjokf0iEIJHPLqK98EAnH8w2jeRriDItthQR/vw==
+X-Received: by 2002:a17:902:b7c9:: with SMTP id
+ v9mr6598219plz.34.1591869422531; 
+ Thu, 11 Jun 2020 02:57:02 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
- by smtp.gmail.com with ESMTPSA id c8sm2154436pjn.16.2020.06.11.02.56.52
+ by smtp.gmail.com with ESMTPSA id cu9sm2160918pjb.28.2020.06.11.02.57.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 02:56:52 -0700 (PDT)
+ Thu, 11 Jun 2020 02:57:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200608104832.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
+In-Reply-To: <20200608104832.2.If3807e4ebf7f0440f64c3069edcfac9a70171940@changeid>
 References: <20200608104832.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
-Subject: Re: [PATCH 1/4] drm/bridge: ti-sn65dsi86: Don't compile GPIO bits if
- not CONFIG_OF_GPIO
+ <20200608104832.2.If3807e4ebf7f0440f64c3069edcfac9a70171940@changeid>
+Subject: Re: [PATCH 2/4] drm/bridge: ti-sn65dsi86: Don't use kernel-doc
+ comment for local array
 From: Stephen Boyd <swboyd@chromium.org>
 To: Douglas Anderson <dianders@chromium.org>, a.hajda@samsung.com,
  narmstrong@baylibre.com, sam@ravnborg.org
-Date: Thu, 11 Jun 2020 02:56:51 -0700
-Message-ID: <159186941181.242598.7668810499408351238@swboyd.mtv.corp.google.com>
+Date: Thu, 11 Jun 2020 02:57:01 -0700
+Message-ID: <159186942131.242598.6194861800377753563@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,28 +70,25 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: robdclark@chromium.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- kernel test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- spanda@codeaurora.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, spanda@codeaurora.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  bjorn.andersson@linaro.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Douglas Anderson (2020-06-08 10:48:32)
-> The kernel test robot noted that if "OF" is defined (which is needed
-> to select DRM_TI_SN65DSI86 at all) but not OF_GPIO that we'd get
-> compile failures because some of the members that we access in "struct
-> gpio_chip" are only defined "#if defined(CONFIG_OF_GPIO)".
+Quoting Douglas Anderson (2020-06-08 10:48:33)
+> When building we were getting an error:
 > 
-> All the GPIO bits in the driver are all nicely separated out.  We'll
-> guard them with the same "#if defined" that the header has and add a
-> little stub function if OF_GPIO is not defined.
+>   warning: cannot understand function prototype:
+>     'const unsigned int ti_sn_bridge_dp_rate_lut[] = '
 > 
-> Fixes: 27ed2b3f22ed ("drm/bridge: ti-sn65dsi86: Export bridge GPIOs to Linux")
-> Reported-by: kernel test robot <lkp@intel.com>
+> Arrays aren't supposed to be marked with "/**" kerneldoc comments.  Fix.
+> 
+> Fixes: a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 
