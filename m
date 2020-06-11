@@ -1,66 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAFD1F828C
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA171F82AF
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99FD96E0D3;
-	Sat, 13 Jun 2020 10:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D08F6E41F;
+	Sat, 13 Jun 2020 10:17:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7F16E8F5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 13:48:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F016E90F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 13:38:43 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8062E5801A2;
- Thu, 11 Jun 2020 09:38:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 11 Jun 2020 09:38:35 -0400
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7DCCC5801D5;
+ Thu, 11 Jun 2020 09:38:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 11 Jun 2020 09:38:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=jQjsWeIlhqPm1oZNMXNmNsjlPz
- ih/RDA2oOywNwUB50=; b=I87kwz69l9LvgHZdmVA+cDiJ9T9yrQX9kGu1qjvJiX
- LlG8iA49WMbkddT4lbo6z2ptt32ZhNcSKpTJns/HIsFWLSDt6OV03QLudgv/G5mC
- nnaz/AUdBPkmzPaMAfrgg/AmPurXxhdteD2LqasHZv6h99gyQfdLjvR7Zs82WWjV
- OSVsG4ViowKy5pqm3DygekU/rlm2qjQEYZUUV0PSsVT0oQ85NZC/v3JfmtvhKuu6
- he6Afya9/QAZ9LXD5gEVE4eiZ6ApAc+8KdcfDGU6p3sBmOazQ3lCVlmCcn3peLXO
- YTK9NBchDnjmah2lSh2Q0UXwwoZi1C8l0hIkZN8ZCf9g==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=fE9nFDf8bvkUK
+ xQdeAn9b8Mf0rGQGKBryUWgZXvi4So=; b=WDTIL3v59nRbZ5++Sq9FwglrW3KQa
+ dnrrGskjhXLcfSQwh+5OrsW6yfWCPd3Spm1Gqiqc4+OMD2Xvv+0iuPrkkLhBEXNT
+ TShSNE+P2NVBXycnsfKd9uM827eylEoH5xiq/egxcF4bsBSzY942mGRJkvi0r6+S
+ uvHQnlnqSHKxVfssGlqlO12yK1SUp2nr20Ldi0InymRmCoWhdGvgMLhy6+q/whuU
+ wQ4kg9OFBE4D5OxAXpSHRAC31u4q25EPVFHiDIuajHBGbWk0Z6Om155FT5irejKg
+ G1SuekgcrBCZNNnNM3VWx/wqF8nOgdZ0gcka2lmBxexOyJ/REcnySDyVg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jQjsWeIlhqPm1oZNM
- XNmNsjlPzih/RDA2oOywNwUB50=; b=PuzL4vF6Dju4Xctz5wQb0mqpZKmzZEQan
- aLEyfReB4xgLdcjXl6pP/FW87U+gCqhQ8E2BLRft+UFfFhkmtbl3PuzxzQLrg8uV
- xApbyVVjR9Ji/dA4qe2dSWFoRMOY2gBAo5yymv3vo7U/EZKHTdVdOEw1Cq81Seck
- lvt4eJUe4L/cefvhiNZNIV2ZJGAIyR24fUkwhRUZdIaTZi7VDJDmj+SOartaueZl
- f0O+mvl8Ls0lliHdtj9VKxKBp7MC9bu3iP4j1uakXzln5ZLpxMvHJnmwY0gRsRVk
- ywSkO/9RG2YfApuUQN8rrRu+kCzi/Ny7WP2dAA05ZJwI1gcSs1aLg==
-X-ME-Sender: <xms:2jPiXktuOVskVoY5KmhamXjS_PrrZeCxGJUmr4HNEvzFgssPTz10NQ>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=fE9nFDf8bvkUKxQdeAn9b8Mf0rGQGKBryUWgZXvi4So=; b=r82AiJpe
+ At1oz6KRTjKib80jETfxf5bt2rossEsOUkFA4IU+dbZ86uANxwVcFptJ8w+OO7kp
+ Lq8sNT5kDK+dQ/0uxkAed3GPSiLOF08QYPbpbAavHnFr6htrTC4lIne8GdJyCnWW
+ JO9JLiYRQ+inttbsSMU2hYVKv+pyql3HGrZ8lDCjXscLAWMXXzkyXud0aE1hMcQF
+ WfY9vM0YNbqaJJ8huh/fu4HDLI/DJVi0A3zd3nEGlYxIKVwoYg5A9DFOoEJGtkl5
+ mcJ6+mq/wNbh2RBmXFOjENtuhLIfWshrMtO0vL9WM18Yo3WIFQytqusWKB2YWkMG
+ vGvMQ9ePqEwyQQ==
+X-ME-Sender: <xms:4jPiXkuCOVr06TX1LMi9u4lf9rqSnQnaYvWV8hpLIYIw2BqS1ljC_A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehledggeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepjeffheduvddvvdelhfegleelfffgieejvdehgfeijedtieeuteejteefueekjeeg
- necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
- hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2jPiXhd0pW_81VlCfqAD34FL9WOAf2j2VtEfJJR0uvOzet2_sVr2EQ>
- <xmx:2jPiXvxvUx66V9nBHhR0qIKP5or9l_sPJdDy_xBbloRRMQK4lpZjFw>
- <xmx:2jPiXnOCVumnEv76bVK98Bn4bEmaxVEnH5LPFD_PzVhpWt8oNrGH6A>
- <xmx:2zPiXhMywNAl4iF7Rt_C0NB88zfGr4tmimA_b5hR7qfebbJM5SQiZA>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:4jPiXhf4pYQyzoHkiewrnYVf4GXlVXGtv76gYpn8_-ncDidyHsH6fw>
+ <xmx:4jPiXvyjIzaIzikk5BO2MusG1jMOqY331vUqMTK_9yLpg8JUbTz8MQ>
+ <xmx:4jPiXnOmtAseSoLD1-nkaAN-b_JCZTw-l_26bFyByn8HV9D6MIN8Jw>
+ <xmx:4jPiXhO26faw7exuJvjYPoebjnpc125MSggyuNxxx2knPgrXoBvjEA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 71E1F3066656;
- Thu, 11 Jun 2020 09:36:59 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 13E7A328022E;
+ Thu, 11 Jun 2020 09:37:00 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v4 0/9] drm/vc4: Turn the TXP into a CRTC
-Date: Thu, 11 Jun 2020 15:36:45 +0200
-Message-Id: <cover.c33f5fd8b1b2703081f25398eb879937c9f7ce0b.1591882579.git-series.maxime@cerno.tech>
+Subject: [PATCH v4 1/9] drm/vc4: Reorder the bind order of the devices
+Date: Thu, 11 Jun 2020 15:36:46 +0200
+Message-Id: <2d7fcde29dec429442eb76afc51d8cc275cb407f.1591882579.git-series.maxime@cerno.tech>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.c33f5fd8b1b2703081f25398eb879937c9f7ce0b.1591882579.git-series.maxime@cerno.tech>
+References: <cover.c33f5fd8b1b2703081f25398eb879937c9f7ce0b.1591882579.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,47 +88,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+We'll need the HVS to be bound before the HVS for the upcoming reworks, but
+it needs to happen before the PV are bound so that the code to set the
+possible_crtcs field works properly on the TXP. Move it right between the
+two devices.
 
-This is another part of the rpi4 HDMI series that got promoted to a
-series of its own to try to reduce the main one.
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This rework is needed since the bcm2711 used in the rpi4 has a more
-complex routing in the HVS that doesn't allow to use a fairly simple
-mapping like what was used before.
-
-Since that mapping affects both the pixelvalves and the TXP, turning the
-TXP into a CRTC just like pixelvalves are allows to deal with the
-mapping in the CRTC states, which turns out to be pretty convenient.
-
-Let me know what you think,
-Maxime
-
-Changes from v3:
-  - Stripped the patches out of the main HDMI series
-  - Change the bind order of the HVS to avoid a compatible check
-  - Added Eric's tags
-  - Rebased on top of drm-misc-next
-
-Maxime Ripard (9):
-  drm/vc4: Reorder the bind order of the devices
-  drm/vc4: crtc: Move HVS setup code to the HVS driver
-  drm/vc4: crtc: Make state functions public
-  drm/vc4: crtc: Split CRTC data in two
-  drm/vc4: crtc: Only access the PixelValve registers if we have to
-  drm/vc4: crtc: Move the CRTC initialisation to a separate function
-  drm/vc4: crtc: Move the txp_armed function to the TXP
-  drm/vc4: txp: Turn the TXP into a CRTC of its own
-  drm/vc4: crtc: Remove the feed_txp tests
-
- drivers/gpu/drm/vc4/vc4_crtc.c | 427 ++++++----------------------------
- drivers/gpu/drm/vc4/vc4_drv.c  |   2 +-
- drivers/gpu/drm/vc4/vc4_drv.h  |  38 ++-
- drivers/gpu/drm/vc4/vc4_hvs.c  | 291 +++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_txp.c  | 109 ++++++++-
- 5 files changed, 522 insertions(+), 345 deletions(-)
-
-base-commit: ebd11f706c9d9756edad5b5f3f3310d77d77f60c
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 7792c97d4303..38343d2fb4fb 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -343,8 +343,8 @@ static struct platform_driver *const component_drivers[] = {
+ 	&vc4_vec_driver,
+ 	&vc4_dpi_driver,
+ 	&vc4_dsi_driver,
+-	&vc4_txp_driver,
+ 	&vc4_hvs_driver,
++	&vc4_txp_driver,
+ 	&vc4_crtc_driver,
+ 	&vc4_v3d_driver,
+ };
 -- 
 git-series 0.9.1
 _______________________________________________
