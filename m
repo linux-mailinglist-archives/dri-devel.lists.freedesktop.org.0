@@ -2,72 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65361F63AC
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 10:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844BB1F63C5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 10:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432366E048;
-	Thu, 11 Jun 2020 08:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B74E16E049;
+	Thu, 11 Jun 2020 08:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872B26E049
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 08:34:34 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r7so5237733wro.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 01:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=QepdUMREFHwlEXMSFJDNAoF8iHTQk6RVQGlxwgtSrqY=;
- b=E74LG/P+ZUE+YX56Cn6Zjyn3Qy68LzAK09BYAfg4YVk4oZ+KoKLm9RShaZSnfhXsyb
- lY/VAxAlqoD8wTaWeNQg/oJboc+vBicFQYrjFpdGQgCMIStdwNU8BV2ZJqMlutdLuJxA
- smQ33DorgG243Y/dKZ/bnO59viWQm2qRYJC1o=
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F91A6E049
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 08:39:06 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id g1so3333410edv.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 01:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=Jt69eBlMhftqx8Dq8Pz0jiYvo6ytNHDe7koTS1ms+pI=;
+ b=nxZFLhkwo4sP6AWmBPZkr63bEC/8MW8U75TZkOCxIbVTBfNFPL0mk8kcjT7xUE6UBy
+ y94lUvzzH62bHqnDjdusHnfc7CyvOJSxNP0y0if/fXKu+k1bNmdTcYHazpVa0oGmcg28
+ 2J2XH21D2zf/+kftXNVG0JkUPk6rBGFSNpsK78Yu4UAFoNCVCS7Jp7VH3VcclFRNsjUF
+ 9RRo2ReLqKfa8zpVZtgVQaWU6C5BmS3kCJjKbNY07DM7ZI1oDr9tepK0FrKX7QWimZcn
+ gWpioeCD44VEcYOS5NNDdlLJPPLBsjO9gsSj0QICd420olLKzzUk9fyUEG0UseLxfiST
+ RyZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=QepdUMREFHwlEXMSFJDNAoF8iHTQk6RVQGlxwgtSrqY=;
- b=OI39CNyVl25kgokRH65FsByhXKEJD509Pj3YuI94OoK/rsO9zau+WNTFmWzOevYIql
- VPfNYuydIF5EOcYtWqaI2QxYXJ7T3UuvN1jqQjhDpp/U4kRumh8gCyg0nEOsd/YhxelP
- je8EuER6EJ9HhHn6GalAOz6WfUEB7iOi3PTs7tNpLmcwdf+Htlc+YdOHn/uA17wEUr8R
- oyWjX321OPybD+0SuTW+wP66VgzdLCZa2RCc7qRg+mNL7NOrJRSBbYwPFO9d7QxP5rzK
- fM9RowIPFiHcvqqT4V02RudKx/2fyiA9CakCAxFiWh8Cp02kJ+OKndR+V0o3JWV0l67e
- udCQ==
-X-Gm-Message-State: AOAM5331t9cNySH6SsMRxVtAhoMD27GoKIRAQyAkGbJfOmhy5OLB0Aev
- sCUn/90CwYZLMSWJYCFiYlEI8w==
-X-Google-Smtp-Source: ABdhPJyPA+yFpnitoMF+MT8lLFomHpWx5gnHcG6eF5i3QAznWQkNqQBZVRnRMVL64cHRAoNHAdiHsw==
-X-Received: by 2002:a5d:42cd:: with SMTP id t13mr8054435wrr.355.1591864473075; 
- Thu, 11 Jun 2020 01:34:33 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b14sm2955283wmj.47.2020.06.11.01.34.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 01:34:32 -0700 (PDT)
-Date: Thu, 11 Jun 2020 10:34:30 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-Message-ID: <20200611083430.GD20149@phenom.ffwll.local>
-Mail-Followup-To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?=
- <thomas_os@shipmail.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-media@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=Jt69eBlMhftqx8Dq8Pz0jiYvo6ytNHDe7koTS1ms+pI=;
+ b=JrARbyuv7SbEALs2rf1SR+we0qFOaz3koVlRTEtYBRIPPB69IeJwWL+UnaK6RXTbI9
+ hhRDcaU5/boSoVCHf5n/BFwiPB3p7BOD47Hx1okds2LS5MGVZBSF87+kyNWQ1oiQfimO
+ bOKX7G7A58gwjguxoRrIv7OeRgqwFFmilWrdIn59L3fPPCQq7x8n2Dp1u6Vhnd4/MVUF
+ p+ZUF9dWT6QCs8PKdUG4lGtNoSqj2DTga/5l31wREYSKc3uO7rIfqvTRO9lHhb/insjs
+ Ql/pANMFBCAezh9BFnG970BeNVgC7YrmWhm0klv4XCtvssCEOYl0hlOJdKU8q8Nea5Wv
+ gGWw==
+X-Gm-Message-State: AOAM533LdM77n9F7vujyRfxIonjKSeaa/+y+DkPGrS5+l53sMghsa1QR
+ 9pOPU+M6STll5AeTJrZIz8WEnQOdeWBN573IdVE=
+X-Google-Smtp-Source: ABdhPJy5hJspyiNYrlGvO+ocRla/Mn05EuhoMs0ELNp6CGUyPq7wCaBaKd7//pzT+bDbrBQIE44nDtC9AJYM1apPoXQ=
+X-Received: by 2002:a05:6402:1481:: with SMTP id
+ e1mr6060527edv.113.1591864745013; 
+ Thu, 11 Jun 2020 01:39:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 11 Jun 2020 18:38:54 +1000
+Message-ID: <CAPM=9tyM72CtJbA4Q9wKnft6oQoMLGEt=xCYBcPn9wK9F=+Uwg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.7-rc1 (updated pull)
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,148 +59,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 11, 2020 at 09:30:12AM +0200, Thomas Hellstr=F6m (Intel) wrote:
-> =
+Hi Linus,
 
-> On 6/4/20 10:12 AM, Daniel Vetter wrote:
-> > Two in one go:
-> > - it is allowed to call dma_fence_wait() while holding a
-> >    dma_resv_lock(). This is fundamental to how eviction works with ttm,
-> >    so required.
-> > =
+This is the update of the pull I sent earlier today, it's got a couple
+of more fixes along with the i915 fixes. One sun4i fix and a connector
+hotplug race The ast fix is for a regression in 5.6, and as mentioned
+previously one of the i915 ones fixes an oops reported by dhowells.
 
-> > - it is allowed to call dma_fence_wait() from memory reclaim contexts,
-> >    specifically from shrinker callbacks (which i915 does), and from mmu
-> >    notifier callbacks (which amdgpu does, and which i915 sometimes also
-> >    does, and probably always should, but that's kinda a debate). Also
-> >    for stuff like HMM we really need to be able to do this, or things
-> >    get real dicey.
-> > =
+definitely taking tomorrow off now :-)
 
-> > Consequence is that any critical path necessary to get to a
-> > dma_fence_signal for a fence must never a) call dma_resv_lock nor b)
-> > allocate memory with GFP_KERNEL. Also by implication of
-> > dma_resv_lock(), no userspace faulting allowed. That's some supremely
-> > obnoxious limitations, which is why we need to sprinkle the right
-> > annotations to all relevant paths.
-> > =
+Regards,
+Dave.
 
-> > The one big locking context we're leaving out here is mmu notifiers,
-> > added in
-> > =
+drm-next-2020-06-11-1:
+drm fixes for 5.7-rc1
 
-> > commit 23b68395c7c78a764e8963fc15a7cfd318bf187f
-> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Date:   Mon Aug 26 22:14:21 2019 +0200
-> > =
+core:
+- fix race in connectors sending hotplug
 
-> >      mm/mmu_notifiers: add a lockdep map for invalidate_range_start/end
-> > =
+i915:
+- Avoid use after free in cmdparser
+- Avoid NULL dereference when probing all display encoders
+- Fixup to module parameter type
 
-> > that one covers a lot of other callsites, and it's also allowed to
-> > wait on dma-fences from mmu notifiers. But there's no ready-made
-> > functions exposed to prime this, so I've left it out for now.
-> > =
+sun4i:
+- clock divider fix
 
-> > v2: Also track against mmu notifier context.
-> > =
+ast:
+- 24/32 bpp mode setting fix
+The following changes since commit 8d286e2ff4400d313955b4203fc640ca6fd9228b:
 
-> > v3: kerneldoc to spec the cross-driver contract. Note that currently
-> > i915 throws in a hard-coded 10s timeout on foreign fences (not sure
-> > why that was done, but it's there), which is why that rule is worded
-> > with SHOULD instead of MUST.
-> > =
+  Merge tag 'drm-intel-next-fixes-2020-06-04' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2020-06-08
+11:59:57 +1000)
 
-> > Also some of the mmu_notifier/shrinker rules might surprise SoC
-> > drivers, I haven't fully audited them all. Which is infeasible anyway,
-> > we'll need to run them with lockdep and dma-fence annotations and see
-> > what goes boom.
-> > =
+are available in the Git repository at:
 
-> > v4: A spelling fix from Mika
-> > =
+  git://anongit.freedesktop.org/drm/drm tags/drm-next-2020-06-11-1
 
-> > Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-> > Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Christian K=F6nig <christian.koenig@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >   Documentation/driver-api/dma-buf.rst |  6 ++++
-> >   drivers/dma-buf/dma-fence.c          | 41 ++++++++++++++++++++++++++++
-> >   drivers/dma-buf/dma-resv.c           |  4 +++
-> >   include/linux/dma-fence.h            |  1 +
-> >   4 files changed, 52 insertions(+)
-> =
+for you to fetch changes up to 66057dd1d1cf2149e0f5fdaee58d6ea69bc98048:
 
-> I still have my doubts about allowing fence waiting from within shrinkers.
-> IMO ideally they should use a trywait approach, in order to allow memory
-> allocation during command submission for drivers that
-> publish fences before command submission. (Since early reservation object
-> release requires that).
+  Merge tag 'drm-misc-next-fixes-2020-06-11' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next (2020-06-11
+17:51:15 +1000)
 
-Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-with a mempool to make sure it can handle it's allocations.
+----------------------------------------------------------------
+drm fixes for 5.7-rc1
 
-> But since drivers are already waiting from within shrinkers and I take yo=
-ur
-> word for HMM requiring this,
+core:
+- fix race in connectors sending hotplug
 
-Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-one, the shrinker one is a lot less established.
+i915:
+- Avoid use after free in cmdparser
+- Avoid NULL dereference when probing all display encoders
+- Fixup to module parameter type
 
-I do wonder whether the mmu notifier constraint should only be set when
-mmu notifiers are enabled, since on a bunch of arm-soc gpu drivers that
-stuff just doesn't matter. But I expect that sooner or later these arm
-gpus will show up in bigger arm cores, where you might want to have kvm
-and maybe device virtualization and stuff, and then you need mmu
-notifiers.
+sun4i:
+- clock divider fix
 
-Plus having a very clear and consistent cross-driver api contract is imo
-better than leaving this up to drivers and then having incompatible
-assumptions.
+ast:
+- 24/32 bpp mode setting fix
 
-I've pinged a bunch of armsoc gpu driver people and ask them how much this
-hurts, so that we have a clear answer. On x86 I don't think we have much
-of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-(but nouveau I think doesn't use dma_fence in there). I think it'll take
-us a while to really bottom out on this specific question here.
--Daniel
+----------------------------------------------------------------
+Chris Wilson (2):
+      drm/i915/gem: Mark the buffer pool as active for the cmdparser
+      drm/i915/display: Only query DP state of a DDI encoder
 
+Colin Ian King (1):
+      drm/ast: fix missing break in switch statement for format->cpp[0] case 4
 
-> =
+Dave Airlie (2):
+      Merge tag 'drm-intel-next-fixes-2020-06-10' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next
+      Merge tag 'drm-misc-next-fixes-2020-06-11' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
 
-> Reviewed-by: Thomas Hellstr=F6m <thomas.hellstrom@intel.com>
-> =
+Jani Nikula (1):
+      drm/i915/params: fix i915.reset module param type
 
-> =
+Jernej Skrabec (1):
+      drm/sun4i: hdmi ddc clk: Fix size of m divider
 
+Jeykumar Sankaran (1):
+      drm/connector: notify userspace on hotplug after register complete
 
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ drivers/gpu/drm/ast/ast_mode.c                 |  1 +
+ drivers/gpu/drm/drm_connector.c                |  5 +++
+ drivers/gpu/drm/drm_sysfs.c                    |  3 --
+ drivers/gpu/drm/i915/display/intel_dp.c        |  3 ++
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 56 ++++++++++++++++++++++----
+ drivers/gpu/drm/i915/i915_params.c             |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi.h             |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c     |  2 +-
+ 8 files changed, 60 insertions(+), 14 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
