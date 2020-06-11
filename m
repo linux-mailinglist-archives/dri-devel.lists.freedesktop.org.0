@@ -1,28 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF1F1F62EA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:50:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE271F62F2
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 09:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65AD56E89A;
-	Thu, 11 Jun 2020 07:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA496E220;
+	Thu, 11 Jun 2020 07:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21BA6E89A;
- Thu, 11 Jun 2020 07:50:11 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C6ED5AD33;
- Thu, 11 Jun 2020 07:50:13 +0000 (UTC)
-Date: Thu, 11 Jun 2020 09:50:07 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20200611075007.GA15098@linux-uq9g>
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 493636E220
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 07:52:35 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id p18so3244937eds.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 00:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=infCVxRBFq8wcPbhY9NtQOYTjb0b7Xr0kvySKO6/Bf8=;
+ b=bHhNRa8JV/1DPjXZSUYmndVbsxCvamN9ht7/kqUeQI0A+5jGWD8l3LqfKkKxlEwZqd
+ ojD/p761Q/GqIu6EnaldNC3MExdBcc5E7/WcQIJP/ds7TnfPJYpVXxhTeFPQA8q9Qdfc
+ CHI4Flr+Mah6/SJkT3mcqdoqHTneUkr9vmuy6vYu9m4+6Bep2m3a98bbmA29wu7uzjVo
+ xNCKDSwktlUs+8YEuKmgFrXo2UEKCcvs9sD3LRvHs9ALPSqcd3dMoYnWgTeocsTI611A
+ 4eE5VqPcS4Dt6o867TGHKaeqVlaPhLoNOz/QY7uS+TGLbH0zG4t8bt086zzaVW4bft/S
+ JqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=infCVxRBFq8wcPbhY9NtQOYTjb0b7Xr0kvySKO6/Bf8=;
+ b=I8l8wkGdW9u+kfiqIohd3mzs+2cyMHuoNWatw+eTUNSCWvMXvNM7/db1d8jsGKfVE2
+ cjhFXrTellQjXODYntbpzjL5HZr3jOTKus9zRTf92Pvox3HTDO263M1AEOsdQTIRqKJv
+ we+b13jTGWgc8t1F4lWtKZR1G8/BuyfO2vMmV1vIHQxU6KCwEDMILOdv4y8Nk1yPZPhN
+ Gl7a6KwmMoumXRJ6twakr5xxzZkXpN3gO21VEhdFWE9ZDoZt1+hC1SVovg8eYaysoL1f
+ 3wvlza8WPJCRhiAUEBW23nRbvRKPTbY5t1VkUC4IUMcqUNUdOUTohgMxSmt6qEWJkkUk
+ 71EA==
+X-Gm-Message-State: AOAM53060qCgur8sBpBhUErVXF3971x0XJPidyVT+Q43Mvf/FMPux3gc
+ BIQMQvtKjLya8aUy1NKvVTn8UkgWgtzO+whEVJzHDQ==
+X-Google-Smtp-Source: ABdhPJwnX0YDM2BHMYIRO8m7ItOvNpONSCGfBYPDq6B5P14y7Ybu1YyQaJs1FffHxDvXRGAmSf18qGgGM4zkfI9T/aQ=
+X-Received: by 2002:a05:6402:c06:: with SMTP id
+ co6mr5700483edb.298.1591861953758; 
+ Thu, 11 Jun 2020 00:52:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
+References: <CAPM=9tySU_oXYv+FF5D3GkkyngdxWfkb_6KDK6nA0uBx6EB=qw@mail.gmail.com>
+In-Reply-To: <CAPM=9tySU_oXYv+FF5D3GkkyngdxWfkb_6KDK6nA0uBx6EB=qw@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 11 Jun 2020 17:52:22 +1000
+Message-ID: <CAPM=9tx_F=dePpDWsmNP4qSCO9mTN37RMYWojdhy7pWswu3WHg@mail.gmail.com>
+Subject: Re: [git pull] drm i915 fixes for rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,58 +62,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Thu, 11 Jun 2020 at 13:56, Dave Airlie <airlied@gmail.com> wrote:
+>
+> Hi Linus,
 
-here's the PR for the latest fixes in drm-misc-next-fixes.
+Hey actually skip this one in favour of the later one, one of the ast
+fixes needs to get into stable as well.
 
-Best regards
-Thomas
-
-drm-misc-next-fixes-2020-06-11:
-In core, DRM connectors now notify userspace of hotplug events via
-sysfs. In drivers, sun4i now uses 4 bits to store the clock's m divider;
-ast sets up 24/32-bit color mode correctly.
-The following changes since commit 9ca1f474cea0edc14a1d7ec933e5472c0ff115d3:
-
-  Merge tag 'amd-drm-next-5.8-2020-05-27' of git://people.freedesktop.org/~agd5f/linux into drm-next (2020-05-28 16:10:17 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2020-06-11
-
-for you to fetch changes up to 291ddeb621e4a9f1ced8302a777fbd7fbda058c6:
-
-  drm/ast: fix missing break in switch statement for format->cpp[0] case 4 (2020-06-11 09:05:31 +0200)
-
-----------------------------------------------------------------
-In core, DRM connectors now notify userspace of hotplug events via
-sysfs. In drivers, sun4i now uses 4 bits to store the clock's m divider;
-ast sets up 24/32-bit color mode correctly.
-
-----------------------------------------------------------------
-Colin Ian King (1):
-      drm/ast: fix missing break in switch statement for format->cpp[0] case 4
-
-Jernej Skrabec (1):
-      drm/sun4i: hdmi ddc clk: Fix size of m divider
-
-Jeykumar Sankaran (1):
-      drm/connector: notify userspace on hotplug after register complete
-
- drivers/gpu/drm/ast/ast_mode.c             | 1 +
- drivers/gpu/drm/drm_connector.c            | 5 +++++
- drivers/gpu/drm/drm_sysfs.c                | 3 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi.h         | 2 +-
- drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c | 2 +-
- 5 files changed, 8 insertions(+), 5 deletions(-)
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
