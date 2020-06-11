@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258251F66F4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 13:44:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93651F676A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 14:04:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F4E6E8F7;
-	Thu, 11 Jun 2020 11:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD0366E915;
+	Thu, 11 Jun 2020 12:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5845B6E8F7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 11:44:31 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id 64so2558464pfv.11
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 04:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NeR4sKutcrUPwtCckv6Tmqw2IkRMLX24dUiE+CNNtLg=;
- b=AzLoTv6lnntU3TjLLEgR6fmbijpMmaW1TiVxBsvjGtDygCtFgSsOhUr/x580awC9CJ
- OWtjuYN91NakIQ0xzJBT44oS7XlppiYpQRPzAIXpeYUcqXzSpm9t2pxKcFM8ltkRm4Qy
- TviFdnkCDQhhB6Ksg6B+/zb6ZBTNWHgNi1TUJ7AYJQgRbi7MVRHjTB1c0e53WO2aIhus
- E28nJ9MuYhrO7fmnxZzxlp4KUMsOHAZ7mv4R33BjeWS8OFVUVsDdgxd+0QROsIrmHkxg
- 8lSPIeygynVgxIQizbR19HoEhoM9eN3KtFFM1P8Din25DLW9W/lBzQHWmvhhVFPkIyX6
- 7qjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NeR4sKutcrUPwtCckv6Tmqw2IkRMLX24dUiE+CNNtLg=;
- b=YiMp1/LCOl0t72IG5NsatO74A0vJa02BIw4/ppeHd8himXMZc0FHjV6/DnlJwGJ/bI
- 23E2VYqtwo9w6311r2zq7kuQnBPXjCWq9FHwY5JqS7Gtc8clVCqJTyIPcGEKrEWCh8Xo
- xdchaOnmugotPx5fuCcxriOUJZuWBS1V+xvohB6v0EZGsBOsnyG4pug+Jqw2rUHte1lr
- VTqqO08pkpAnutx75C7esaNxto4g3i/PBeFZE93AvJXvWW+fcJBzqjGiPi51neOYHKMX
- 5azH909Drfb9fQ2lnQXWjzWmfrxsJisfU46cODtXGkSrywv+qV0xWfRZ8arPfgNCh91y
- 56JQ==
-X-Gm-Message-State: AOAM5307OgK+qflj/i8atMrBiimtQf2gXp0XFplwIs5x2tP7eBlIEy2z
- m7lFLfIe7/0WkdrDw3FauRwNaA==
-X-Google-Smtp-Source: ABdhPJxIOHN+w6MtKWfgrA7bxJRjB7VlTmwl68jAu2JbO5beoiWKr7sP/K2kitarxzXNPDtpNL9xKg==
-X-Received: by 2002:a63:4754:: with SMTP id w20mr452063pgk.255.1591875870670; 
- Thu, 11 Jun 2020 04:44:30 -0700 (PDT)
-Received: from nagraj.local ([49.206.21.239])
- by smtp.gmail.com with ESMTPSA id z144sm3088543pfc.195.2020.06.11.04.44.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 04:44:29 -0700 (PDT)
-From: Sumit Semwal <sumit.semwal@linaro.org>
-To: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
-Date: Thu, 11 Jun 2020 17:14:18 +0530
-Message-Id: <20200611114418.19852-1-sumit.semwal@linaro.org>
-X-Mailer: git-send-email 2.27.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB10A6E14A;
+ Thu, 11 Jun 2020 12:04:11 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 04B02AD35;
+ Thu, 11 Jun 2020 12:04:13 +0000 (UTC)
+Subject: Re: [PATCH 57/59] drm/ast: Use managed pci functions
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-58-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
+Date: Thu, 11 Jun 2020 14:04:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
+In-Reply-To: <20200415074034.175360-58-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,148 +65,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Chenbo Feng <fengc@google.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
- Charan Teja Reddy <charante@codeaurora.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0779524353=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
-happens if the dma_buf_release() is called while the userspace is
-accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
-and dma_buf_release() releases the dmabuf object when the last reference
-to the struct file goes away.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0779524353==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd"
 
-I discussed with Arnd Bergmann, and he suggested that rather than tying
-the dma_buf_release() to the file_operations' release(), we can tie it to
-the dentry_operations' d_release(), which will be called when the last ref
-to the dentry is removed.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd
+Content-Type: multipart/mixed; boundary="ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Message-ID: <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
+Subject: Re: [PATCH 57/59] drm/ast: Use managed pci functions
+References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
+ <20200415074034.175360-58-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200415074034.175360-58-daniel.vetter@ffwll.ch>
 
-The path exercised by __fput() calls f_op->release() first, and then calls
-dput, which eventually calls d_op->d_release().
+--ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-In the 'normal' case, when no userspace access is happening via dma_buf
-pseudo fs, there should be exactly one fd, file, dentry and inode, so
-closing the fd will kill of everything right away.
+Hi
 
-In the presented case, the dentry's d_release() will be called only when
-the dentry's last ref is released.
+Am 15.04.20 um 09:40 schrieb Daniel Vetter:
+> Allows us to remove a bit of cleanup code.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Emil Velikov <emil.velikov@collabora.com>
+> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
 
-Therefore, lets move dma_buf_release() from fops->release() to
-d_ops->d_release()
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Many thanks to Arnd for his FS insights :)
+Thanks for answering my questions. Sorry for never getting back to it.
 
-[1]: https://lore.kernel.org/patchwork/patch/1238278/
+Best regards
+Thomas
 
-Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-Cc: <stable@vger.kernel.org> [5.3+]
-Cc: Arnd Bergmann <arnd@arndb.de>
-Reported-by: Charan Teja Reddy <charante@codeaurora.org>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> ---
+>  drivers/gpu/drm/ast/ast_drv.c  | 10 +++-------
+>  drivers/gpu/drm/ast/ast_main.c |  3 ---
+>  2 files changed, 3 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_dr=
+v.c
+> index b7ba22dddcad..48a9cc4e080a 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -91,15 +91,13 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
+t struct pci_device_id *ent)
+> =20
+>  	ast_kick_out_firmware_fb(pdev);
+> =20
+> -	ret =3D pci_enable_device(pdev);
+> +	ret =3D pcim_enable_device(pdev);
+>  	if (ret)
+>  		return ret;
+> =20
+>  	dev =3D drm_dev_alloc(&driver, &pdev->dev);
+> -	if (IS_ERR(dev)) {
+> -		ret =3D PTR_ERR(dev);
+> -		goto err_pci_disable_device;
+> -	}
+> +	if (IS_ERR(dev))
+> +		return  PTR_ERR(dev);
+> =20
+>  	dev->pdev =3D pdev;
+>  	pci_set_drvdata(pdev, dev);
+> @@ -120,8 +118,6 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
+t struct pci_device_id *ent)
+>  	ast_driver_unload(dev);
+>  err_drm_dev_put:
+>  	drm_dev_put(dev);
+> -err_pci_disable_device:
+> -	pci_disable_device(pdev);
+>  	return ret;
+> =20
+>  }
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
+ain.c
+> index e5398e3dabe7..1b35728ad871 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -531,8 +531,5 @@ void ast_driver_unload(struct drm_device *dev)
+>  	drm_mode_config_cleanup(dev);
+> =20
+>  	ast_mm_fini(ast);
+> -	if (ast->ioregs !=3D ast->regs + AST_IO_MM_OFFSET)
+> -		pci_iounmap(dev->pdev, ast->ioregs);
+> -	pci_iounmap(dev->pdev, ast->regs);
+>  	kfree(ast);
+>  }
+>=20
 
----
-v2: per Arnd: Moved dma_buf_release() above to avoid forward declaration;
-     removed dentry_ops check.
----
- drivers/dma-buf/dma-buf.c | 54 ++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 29 deletions(-)
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 01ce125f8e8d..412629601ad3 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -54,37 +54,11 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- 			     dentry->d_name.name, ret > 0 ? name : "");
- }
- 
--static const struct dentry_operations dma_buf_dentry_ops = {
--	.d_dname = dmabuffs_dname,
--};
--
--static struct vfsmount *dma_buf_mnt;
--
--static int dma_buf_fs_init_context(struct fs_context *fc)
--{
--	struct pseudo_fs_context *ctx;
--
--	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
--	if (!ctx)
--		return -ENOMEM;
--	ctx->dops = &dma_buf_dentry_ops;
--	return 0;
--}
--
--static struct file_system_type dma_buf_fs_type = {
--	.name = "dmabuf",
--	.init_fs_context = dma_buf_fs_init_context,
--	.kill_sb = kill_anon_super,
--};
--
--static int dma_buf_release(struct inode *inode, struct file *file)
-+static void dma_buf_release(struct dentry *dentry)
- {
- 	struct dma_buf *dmabuf;
- 
--	if (!is_dma_buf_file(file))
--		return -EINVAL;
--
--	dmabuf = file->private_data;
-+	dmabuf = dentry->d_fsdata;
- 
- 	BUG_ON(dmabuf->vmapping_counter);
- 
-@@ -110,9 +84,32 @@ static int dma_buf_release(struct inode *inode, struct file *file)
- 	module_put(dmabuf->owner);
- 	kfree(dmabuf->name);
- 	kfree(dmabuf);
-+}
-+
-+static const struct dentry_operations dma_buf_dentry_ops = {
-+	.d_dname = dmabuffs_dname,
-+	.d_release = dma_buf_release,
-+};
-+
-+static struct vfsmount *dma_buf_mnt;
-+
-+static int dma_buf_fs_init_context(struct fs_context *fc)
-+{
-+	struct pseudo_fs_context *ctx;
-+
-+	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
-+	if (!ctx)
-+		return -ENOMEM;
-+	ctx->dops = &dma_buf_dentry_ops;
- 	return 0;
- }
- 
-+static struct file_system_type dma_buf_fs_type = {
-+	.name = "dmabuf",
-+	.init_fs_context = dma_buf_fs_init_context,
-+	.kill_sb = kill_anon_super,
-+};
-+
- static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- {
- 	struct dma_buf *dmabuf;
-@@ -412,7 +409,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- }
- 
- static const struct file_operations dma_buf_fops = {
--	.release	= dma_buf_release,
- 	.mmap		= dma_buf_mmap_internal,
- 	.llseek		= dma_buf_llseek,
- 	.poll		= dma_buf_poll,
--- 
-2.27.0
+
+--ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g--
+
+--uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7iHbkACgkQaA3BHVML
+eiMPAAf/b29grQfSneivr8NgJ1e+1YFkiO/l9upZX5aV56un6u+wRJtb1VkhBbEU
+2RhdnQF5u7QdeP/ax9wDSUBksWPk9aGnXHM+LZPHv/am+GMEYpt76GAGkoqyzlvl
+FQgo0P7H+v2EpV7Gv7qUAmq7tY/fbmGYWrMRjlypAjXjLq/VLW3p7y6ock3WGNUc
+nDB9r/Rn+Ay6lh57MPjU2ZPc95eBXO1qcZiypTvAkcXjWVEwzxT4pXIlNIME8fqw
+BmLgitGku2mLjKSfbxO4gK2YtAyR2XGxsmJDSThEIAtlAOIFfRUBCIDxjwAbNet8
+dvDVJHg2NguqDTEzoHsNg/xHlNL1qQ==
+=tqC8
+-----END PGP SIGNATURE-----
+
+--uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd--
+
+--===============0779524353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0779524353==--
