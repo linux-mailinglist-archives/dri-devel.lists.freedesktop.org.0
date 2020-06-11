@@ -2,57 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93651F676A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 14:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574071F680E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jun 2020 14:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0366E915;
-	Thu, 11 Jun 2020 12:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8674B6E16B;
+	Thu, 11 Jun 2020 12:43:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB10A6E14A;
- Thu, 11 Jun 2020 12:04:11 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 04B02AD35;
- Thu, 11 Jun 2020 12:04:13 +0000 (UTC)
-Subject: Re: [PATCH 57/59] drm/ast: Use managed pci functions
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-58-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
-Date: Thu, 11 Jun 2020 14:04:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 776FE6E17E
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 12:43:54 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.lab.pengutronix.de)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jjMYV-0004eT-F1; Thu, 11 Jun 2020 14:43:39 +0200
+Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1jjMYT-0005Qu-77; Thu, 11 Jun 2020 14:43:37 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: p.zabel@pengutronix.de, airlied@linux.ie, daniel@ffwll.ch,
+ shawnguo@kernel.org, stefan@agner.ch, rmk+kernel@armlinux.org.uk
+Subject: [PATCH 1/2] drm/imx: fix use after free
+Date: Thu, 11 Jun 2020 14:43:31 +0200
+Message-Id: <20200611124332.20819-1-m.felsch@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200415074034.175360-58-daniel.vetter@ffwll.ch>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,162 +47,291 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0779524353=="
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ kernel@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0779524353==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd"
+From: Philipp Zabel <p.zabel@pengutronix.de>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd
-Content-Type: multipart/mixed; boundary="ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
-Subject: Re: [PATCH 57/59] drm/ast: Use managed pci functions
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-58-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200415074034.175360-58-daniel.vetter@ffwll.ch>
+Component driver structures allocated with devm_kmalloc() in bind() are
+freed automatically after unbind(). Since the contained drm structures
+are accessed afterwards in drm_mode_config_cleanup(), move the
+allocation into probe() to extend the driver structure's lifetime to the
+lifetime of the device. This should eventually be changed to use drm
+resource managed allocations with lifetime of the drm device.
 
---ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+We also need to ensure that all componets are available during the
+unbind() so we need to call component_unbind_all() before we free
+non-devres resources like planes.
 
-Hi
+Note this patch fixes the the use after free bug but introduces a
+possible boot loop issue. The issue is triggered if the HDMI support is
+enabled and a component driver always return -EPROBE_DEFER, see
+discussion [1] for more details.
 
-Am 15.04.20 um 09:40 schrieb Daniel Vetter:
-> Allows us to remove a bit of cleanup code.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Emil Velikov <emil.velikov@collabora.com>
-> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
+[1] https://lkml.org/lkml/2020/3/24/1467
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 17b5001b5143 ("imx-drm: convert to componentised device support")
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+[m.felsch@pengutronix: fix imx_tve_probe()]
+[m.felsch@pengutronix: resort component_unbind_all())
+[m.felsch@pengutronix: adapt commit message]
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+Hi,
 
-Thanks for answering my questions. Sorry for never getting back to it.
+I've tested this patch on the imx6 based h100 and the imx53 based qsb
+evk. My tests cases were:
 
-Best regards
-Thomas
+ - Bind / Unbind driver
+ - Correct error handling during bind() calls
 
-> ---
->  drivers/gpu/drm/ast/ast_drv.c  | 10 +++-------
->  drivers/gpu/drm/ast/ast_main.c |  3 ---
->  2 files changed, 3 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_dr=
-v.c
-> index b7ba22dddcad..48a9cc4e080a 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -91,15 +91,13 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *ent)
-> =20
->  	ast_kick_out_firmware_fb(pdev);
-> =20
-> -	ret =3D pci_enable_device(pdev);
-> +	ret =3D pcim_enable_device(pdev);
->  	if (ret)
->  		return ret;
-> =20
->  	dev =3D drm_dev_alloc(&driver, &pdev->dev);
-> -	if (IS_ERR(dev)) {
-> -		ret =3D PTR_ERR(dev);
-> -		goto err_pci_disable_device;
-> -	}
-> +	if (IS_ERR(dev))
-> +		return  PTR_ERR(dev);
-> =20
->  	dev->pdev =3D pdev;
->  	pci_set_drvdata(pdev, dev);
-> @@ -120,8 +118,6 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *ent)
->  	ast_driver_unload(dev);
->  err_drm_dev_put:
->  	drm_dev_put(dev);
-> -err_pci_disable_device:
-> -	pci_disable_device(pdev);
->  	return ret;
-> =20
->  }
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> index e5398e3dabe7..1b35728ad871 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -531,8 +531,5 @@ void ast_driver_unload(struct drm_device *dev)
->  	drm_mode_config_cleanup(dev);
-> =20
->  	ast_mm_fini(ast);
-> -	if (ast->ioregs !=3D ast->regs + AST_IO_MM_OFFSET)
-> -		pci_iounmap(dev->pdev, ast->ioregs);
-> -	pci_iounmap(dev->pdev, ast->regs);
->  	kfree(ast);
->  }
->=20
+Other testers are welcome =)
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Regards,
+  Marco
 
+ drivers/gpu/drm/imx/dw_hdmi-imx.c      | 15 ++++++++++-----
+ drivers/gpu/drm/imx/imx-drm-core.c     |  3 ++-
+ drivers/gpu/drm/imx/imx-ldb.c          | 15 ++++++++++-----
+ drivers/gpu/drm/imx/imx-tve.c          | 15 ++++++++++-----
+ drivers/gpu/drm/imx/ipuv3-crtc.c       | 21 ++++++++++-----------
+ drivers/gpu/drm/imx/parallel-display.c | 15 ++++++++++-----
+ 6 files changed, 52 insertions(+), 32 deletions(-)
 
---ZstktO1jONv1T8oOFG4XI4WNd2GbG0B3g--
-
---uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7iHbkACgkQaA3BHVML
-eiMPAAf/b29grQfSneivr8NgJ1e+1YFkiO/l9upZX5aV56un6u+wRJtb1VkhBbEU
-2RhdnQF5u7QdeP/ax9wDSUBksWPk9aGnXHM+LZPHv/am+GMEYpt76GAGkoqyzlvl
-FQgo0P7H+v2EpV7Gv7qUAmq7tY/fbmGYWrMRjlypAjXjLq/VLW3p7y6ock3WGNUc
-nDB9r/Rn+Ay6lh57MPjU2ZPc95eBXO1qcZiypTvAkcXjWVEwzxT4pXIlNIME8fqw
-BmLgitGku2mLjKSfbxO4gK2YtAyR2XGxsmJDSThEIAtlAOIFfRUBCIDxjwAbNet8
-dvDVJHg2NguqDTEzoHsNg/xHlNL1qQ==
-=tqC8
------END PGP SIGNATURE-----
-
---uoAxM33dMVkCKbcmfTM6FDINVsXgj0Hhd--
-
---===============0779524353==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+index f22cfbf9353e..2e12a4a3bfa1 100644
+--- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
++++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
+@@ -212,9 +212,8 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+ 	if (!pdev->dev.of_node)
+ 		return -ENODEV;
+ 
+-	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+-	if (!hdmi)
+-		return -ENOMEM;
++	hdmi = dev_get_drvdata(dev);
++	memset(hdmi, 0, sizeof(*hdmi));
+ 
+ 	match = of_match_node(dw_hdmi_imx_dt_ids, pdev->dev.of_node);
+ 	plat_data = match->data;
+@@ -239,8 +238,6 @@ static int dw_hdmi_imx_bind(struct device *dev, struct device *master,
+ 	drm_encoder_init(drm, encoder, &dw_hdmi_imx_encoder_funcs,
+ 			 DRM_MODE_ENCODER_TMDS, NULL);
+ 
+-	platform_set_drvdata(pdev, hdmi);
+-
+ 	hdmi->hdmi = dw_hdmi_bind(pdev, encoder, plat_data);
+ 
+ 	/*
+@@ -270,6 +267,14 @@ static const struct component_ops dw_hdmi_imx_ops = {
+ 
+ static int dw_hdmi_imx_probe(struct platform_device *pdev)
+ {
++	struct imx_hdmi *hdmi;
++
++	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
++	if (!hdmi)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, hdmi);
++
+ 	return component_add(&pdev->dev, &dw_hdmi_imx_ops);
+ }
+ 
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index da87c70e413b..881c36d0f16b 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -281,9 +281,10 @@ static void imx_drm_unbind(struct device *dev)
+ 
+ 	drm_kms_helper_poll_fini(drm);
+ 
++	component_unbind_all(drm->dev, drm);
++
+ 	drm_mode_config_cleanup(drm);
+ 
+-	component_unbind_all(drm->dev, drm);
+ 	dev_set_drvdata(dev, NULL);
+ 
+ 	drm_dev_put(drm);
+diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+index 4da22a94790c..8e209117b049 100644
+--- a/drivers/gpu/drm/imx/imx-ldb.c
++++ b/drivers/gpu/drm/imx/imx-ldb.c
+@@ -594,9 +594,8 @@ static int imx_ldb_bind(struct device *dev, struct device *master, void *data)
+ 	int ret;
+ 	int i;
+ 
+-	imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
+-	if (!imx_ldb)
+-		return -ENOMEM;
++	imx_ldb = dev_get_drvdata(dev);
++	memset(imx_ldb, 0, sizeof(*imx_ldb));
+ 
+ 	imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+ 	if (IS_ERR(imx_ldb->regmap)) {
+@@ -704,8 +703,6 @@ static int imx_ldb_bind(struct device *dev, struct device *master, void *data)
+ 		}
+ 	}
+ 
+-	dev_set_drvdata(dev, imx_ldb);
+-
+ 	return 0;
+ 
+ free_child:
+@@ -737,6 +734,14 @@ static const struct component_ops imx_ldb_ops = {
+ 
+ static int imx_ldb_probe(struct platform_device *pdev)
+ {
++	struct imx_ldb *imx_ldb;
++
++	imx_ldb = devm_kzalloc(&pdev->dev, sizeof(*imx_ldb), GFP_KERNEL);
++	if (!imx_ldb)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, imx_ldb);
++
+ 	return component_add(&pdev->dev, &imx_ldb_ops);
+ }
+ 
+diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+index 5bbfaa2cd0f4..9fd4b464e829 100644
+--- a/drivers/gpu/drm/imx/imx-tve.c
++++ b/drivers/gpu/drm/imx/imx-tve.c
+@@ -546,9 +546,8 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+ 	int irq;
+ 	int ret;
+ 
+-	tve = devm_kzalloc(dev, sizeof(*tve), GFP_KERNEL);
+-	if (!tve)
+-		return -ENOMEM;
++	tve = dev_get_drvdata(dev);
++	memset(tve, 0, sizeof(*tve));
+ 
+ 	tve->dev = dev;
+ 	spin_lock_init(&tve->lock);
+@@ -659,8 +658,6 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
+-	dev_set_drvdata(dev, tve);
+-
+ 	return 0;
+ }
+ 
+@@ -680,6 +677,14 @@ static const struct component_ops imx_tve_ops = {
+ 
+ static int imx_tve_probe(struct platform_device *pdev)
+ {
++	struct imx_tve *tve;
++
++	tve = devm_kzalloc(&pdev->dev, sizeof(*tve), GFP_KERNEL);
++	if (!tve)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, tve);
++
+ 	return component_add(&pdev->dev, &imx_tve_ops);
+ }
+ 
+diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
+index 63c0284f8b3c..2256c9789fc2 100644
+--- a/drivers/gpu/drm/imx/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
+@@ -438,21 +438,13 @@ static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+ 	struct ipu_client_platformdata *pdata = dev->platform_data;
+ 	struct drm_device *drm = data;
+ 	struct ipu_crtc *ipu_crtc;
+-	int ret;
+ 
+-	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
+-	if (!ipu_crtc)
+-		return -ENOMEM;
++	ipu_crtc = dev_get_drvdata(dev);
++	memset(ipu_crtc, 0, sizeof(*ipu_crtc));
+ 
+ 	ipu_crtc->dev = dev;
+ 
+-	ret = ipu_crtc_init(ipu_crtc, pdata, drm);
+-	if (ret)
+-		return ret;
+-
+-	dev_set_drvdata(dev, ipu_crtc);
+-
+-	return 0;
++	return ipu_crtc_init(ipu_crtc, pdata, drm);
+ }
+ 
+ static void ipu_drm_unbind(struct device *dev, struct device *master,
+@@ -474,6 +466,7 @@ static const struct component_ops ipu_crtc_ops = {
+ static int ipu_drm_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
++	struct ipu_crtc *ipu_crtc;
+ 	int ret;
+ 
+ 	if (!dev->platform_data)
+@@ -483,6 +476,12 @@ static int ipu_drm_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
++	if (!ipu_crtc)
++		return -ENOMEM;
++
++	dev_set_drvdata(dev, ipu_crtc);
++
+ 	return component_add(dev, &ipu_crtc_ops);
+ }
+ 
+diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+index 08fafa4bf8c2..43e109d67fe3 100644
+--- a/drivers/gpu/drm/imx/parallel-display.c
++++ b/drivers/gpu/drm/imx/parallel-display.c
+@@ -330,9 +330,8 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+ 	u32 bus_format = 0;
+ 	const char *fmt;
+ 
+-	imxpd = devm_kzalloc(dev, sizeof(*imxpd), GFP_KERNEL);
+-	if (!imxpd)
+-		return -ENOMEM;
++	imxpd = dev_get_drvdata(dev);
++	memset(imxpd, 0, sizeof(*imxpd));
+ 
+ 	edidp = of_get_property(np, "edid", &imxpd->edid_len);
+ 	if (edidp)
+@@ -363,8 +362,6 @@ static int imx_pd_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
+-	dev_set_drvdata(dev, imxpd);
+-
+ 	return 0;
+ }
+ 
+@@ -386,6 +383,14 @@ static const struct component_ops imx_pd_ops = {
+ 
+ static int imx_pd_probe(struct platform_device *pdev)
+ {
++	struct imx_parallel_display *imxpd;
++
++	imxpd = devm_kzalloc(&pdev->dev, sizeof(*imxpd), GFP_KERNEL);
++	if (!imxpd)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, imxpd);
++
+ 	return component_add(&pdev->dev, &imx_pd_ops);
+ }
+ 
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0779524353==--
