@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD5E1F6FDA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 00:21:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D6D1F7020
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 00:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3546E218;
-	Thu, 11 Jun 2020 22:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25FF46E21B;
+	Thu, 11 Jun 2020 22:29:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1518C6E20F
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 22:21:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 608746E21E
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 22:29:36 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1591914105; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=wI+CMekow0meYW6dUpwEc+eymozIziRtNlUOVzQUGoI=;
- b=VvEpDCQnk5LekReZtKVtPy18Zas8qHINpsB9XXtN30ZBbmoIJu+botO2ponPxSCXSaXiWrFo
- peQ48Sgbx/xqtXM2vVfJMbCnvD70Az26jUrXHjnd81BUUNPwFJM/oeLRCncPFTqSLhV0azyV
- NajJbsX+MIwmWMSZJ/X53zDbgqk=
+ s=smtp; t=1591914578; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=2ISXN2Jfej+BB8O1Al43XIMTVjOYQJJpTZ3rGr3Vsro=;
+ b=jCEwM0ZWL47lr4At8H87kRqjjLn6OxqP+eysZi5gwhy9t7iEXyzZsYSgB2vn/bHWnJB+A/2N
+ 7b7xkL/LQQcFdaY3znSRUF8PSNji/bMCEoBrLpfbblxKpvD12T12J3zefOsmYq0FLpeNH6KV
+ Y7OuUiRTLxe0aK/CrIH8OSEEXCA=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 5ee2ae78bfb34e631c97fdf7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 22:21:44
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 5ee2b049bfb34e631c9ac62a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 22:29:29
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9F689C433C8; Thu, 11 Jun 2020 22:21:43 +0000 (UTC)
+ id EE962C433B2; Thu, 11 Jun 2020 22:29:27 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,22 +38,20 @@ Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3AB0EC433B2;
- Thu, 11 Jun 2020 22:21:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3AB0EC433B2
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0FD0FC433CA;
+ Thu, 11 Jun 2020 22:29:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0FD0FC433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v8 6/7] drm/msm: Set the global virtual address range from the
- IOMMU domain
-Date: Thu, 11 Jun 2020 16:21:27 -0600
-Message-Id: <20200611222128.28826-7-jcrouse@codeaurora.org>
+Subject: [PATCH 0/6] iommu-arm-smmu: Add auxiliary domains and per-instance
+ pagetables
+Date: Thu, 11 Jun 2020 16:29:15 -0600
+Message-Id: <20200611222921.464-1-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200611222128.28826-1-jcrouse@codeaurora.org>
-References: <20200611222128.28826-1-jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,79 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- iommu@lists.linux-foundation.org, Thomas Gleixner <tglx@linutronix.de>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Brian Masney <masneyb@onstation.org>
+Cc: Sean Paul <sean@poorly.run>, Joerg Roedel <jroedel@suse.de>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
+ freedreno@lists.freedesktop.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Yong Wu <yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the aperture settings from the IOMMU domain to set up the virtual
-address range for the GPU. This allows us to transparently deal with
-IOMMU side features (like split pagetables).
+This is a new refresh of support for auxiliary domains for arm-smmu-v2
+and per-instance pagetables for drm/msm. The big change here from past
+efforts is that outside of creating a single aux-domain to enable TTBR0
+all of the per-instance pagetables are created and managed exclusively
+in drm/msm without involving the arm-smmu driver. This fits in with the
+suggested model of letting the GPU hardware do what it needs and leave the
+arm-smmu driver blissfully unaware.
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
+Almost. In order to set up the io-pgtable properly in drm/msm we need to
+query the pagetable configuration from the current active domain and we need to
+rely on the iommu API to flush TLBs after a unmap. In the future we can optimize
+this in the drm/msm driver to track the state of the TLBs but for now the big
+hammer lets us get off the ground.
 
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 13 +++++++++++--
- drivers/gpu/drm/msm/msm_iommu.c         |  7 +++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+This series is build on the split pagetable support [1].
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 89673c7ed473..3e717c1ebb7f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -192,9 +192,18 @@ adreno_iommu_create_address_space(struct msm_gpu *gpu,
- 	struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
- 	struct msm_mmu *mmu = msm_iommu_new(&pdev->dev, iommu);
- 	struct msm_gem_address_space *aspace;
-+	u64 start, size;
- 
--	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
--		0xfffffff);
-+	/*
-+	 * Use the aperture start or SZ_16M, whichever is greater. This will
-+	 * ensure that we align with the allocated pagetable range while still
-+	 * allowing room in the lower 32 bits for GMEM and whatnot
-+	 */
-+	start = max_t(u64, SZ_16M, iommu->geometry.aperture_start);
-+	size = iommu->geometry.aperture_end - start + 1;
-+
-+	aspace = msm_gem_address_space_create(mmu, "gpu",
-+		start & GENMASK(48, 0), size);
- 
- 	if (IS_ERR(aspace) && !IS_ERR(mmu))
- 		mmu->funcs->destroy(mmu);
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 3a381a9674c9..bbe129867590 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -36,6 +36,10 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
- 	struct msm_iommu *iommu = to_msm_iommu(mmu);
- 	size_t ret;
- 
-+	/* The arm-smmu driver expects the addresses to be sign extended */
-+	if (iova & BIT(48))
-+		iova |= GENMASK(63, 49);
-+
- 	ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
- 	WARN_ON(!ret);
- 
-@@ -46,6 +50,9 @@ static int msm_iommu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
- {
- 	struct msm_iommu *iommu = to_msm_iommu(mmu);
- 
-+	if (iova & BIT(48))
-+		iova |= GENMASK(63, 49);
-+
- 	iommu_unmap(iommu->domain, iova, len);
- 
- 	return 0;
+[1] https://patchwork.kernel.org/patch/11600949/
+
+Jordan Crouse (6):
+  iommu/arm-smmu: Add auxiliary domain support for arm-smmuv2
+  iommu/io-pgtable: Allow a pgtable implementation to skip TLB
+    operations
+  iommu/arm-smmu: Add a domain attribute to pass the pagetable config
+  drm/msm: Add support to create a local pagetable
+  drm/msm: Add support for address space instances
+  drm/msm/a6xx: Add support for per-instance pagetables
+
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c |  69 +++++++-
+ drivers/gpu/drm/msm/msm_drv.c         |  15 +-
+ drivers/gpu/drm/msm/msm_drv.h         |   4 +
+ drivers/gpu/drm/msm/msm_gem_vma.c     |   9 +
+ drivers/gpu/drm/msm/msm_gpu.c         |  17 ++
+ drivers/gpu/drm/msm/msm_gpu.h         |   5 +
+ drivers/gpu/drm/msm/msm_gpummu.c      |   2 +-
+ drivers/gpu/drm/msm/msm_iommu.c       | 180 +++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_mmu.h         |  16 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h  |   1 +
+ drivers/iommu/arm-smmu.c              | 228 ++++++++++++++++++++++++--
+ drivers/iommu/arm-smmu.h              |   1 +
+ include/linux/io-pgtable.h            |  11 +-
+ include/linux/iommu.h                 |   1 +
+ 14 files changed, 529 insertions(+), 30 deletions(-)
+
 -- 
 2.17.1
 
