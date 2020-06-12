@@ -1,37 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F011F828B
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018B41F8289
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56A616E3B2;
-	Sat, 13 Jun 2020 10:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2566E110;
+	Sat, 13 Jun 2020 10:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m17617.mail.qiye.163.com (m17617.mail.qiye.163.com
- [59.111.176.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E61D56E11D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 05:06:45 +0000 (UTC)
-Received: from njvxl5505.vivo.xyz (unknown [157.0.31.125])
- by m17617.mail.qiye.163.com (Hmail) with ESMTPA id D641E2614DE;
- Fri, 12 Jun 2020 13:06:39 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: fix potential memleak issue
-Date: Fri, 12 Jun 2020 13:06:32 +0800
-Message-Id: <20200612050633.3441-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSUIfT0tKHR4ZSUhCVkpOQkpCSENPS0tLSEhVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKTFVKS0tZBg++
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MBg6Ghw*Tzg2GQszOC0WNjA3
- PToKCh1VSlVKTkJKQkhDT0tLT01CVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU5ZV1kIAVlBSUtKQzcG
-X-HM-Tid: 0a72a6ec3f229375kuwsd641e2614de
+Received: from alexa-out-blr-01.qualcomm.com (alexa-out-blr-01.qualcomm.com
+ [103.229.18.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D1B989CD9;
+ Fri, 12 Jun 2020 06:23:16 +0000 (UTC)
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 12 Jun 2020 11:53:13 +0530
+Received: from mkrishn-linux.qualcomm.com ([10.204.66.35])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 12 Jun 2020 11:52:47 +0530
+Received: by mkrishn-linux.qualcomm.com (Postfix, from userid 438394)
+ id 6C8B047A6; Fri, 12 Jun 2020 11:52:46 +0530 (IST)
+From: Krishna Manikandan <mkrishn@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v2] drm/msm/dpu: request for display color blocks based on hw
+ catalog entry
+Date: Fri, 12 Jun 2020 11:52:37 +0530
+Message-Id: <1591942957-18410-1-git-send-email-mkrishn@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,42 +41,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: mkrishn@codeaurora.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, dianders@chromium.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org,
+ mka@chromium.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Function msm_gpu_crashstate_capture maybe called for several
-times, and then the state->bos is a potential memleak. Also
-the state->pos maybe alloc failed, but now without any handle.
-This change is to fix some potential memleak and add error
-handle when alloc failed.
+From: Kalyan Thota <kalyan_t@codeaurora.org>
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+Request for color processing blocks only if they are
+available in the display hw catalog and they are
+sufficient in number for the selection.
+
+Changes in v2:
+	- Include Fixes tag in commit message (Rob Clark)
+	- Adding the Tested by tag as there are no code
+	  changes in v2
+
+Fixes: e47616df008b ("drm/msm/dpu: add support for color processing blocks in dpu driver")
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+Tested-by: John Stultz <john.stultz@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index a22d30622306..d67a9933f3ce 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -366,8 +366,11 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 			if (!should_dump(submit, submit->cmd[i].idx))
- 				nr++;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 63976dc..9f8de77 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -521,7 +521,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 			struct dpu_kms *dpu_kms,
+ 			struct drm_display_mode *mode)
+ {
+-	struct msm_display_topology topology;
++	struct msm_display_topology topology = {0};
+ 	int i, intf_count = 0;
  
-+		kfree(state->bos);
- 		state->bos = kcalloc(nr,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
-+		if (!state->bos)
-+			return;
+ 	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+@@ -537,7 +537,8 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 	 * 1 LM, 1 INTF
+ 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
+ 	 *
+-	 * Adding color blocks only to primary interface
++	 * Adding color blocks only to primary interface if available in
++	 * sufficient number
+ 	 */
+ 	if (intf_count == 2)
+ 		topology.num_lm = 2;
+@@ -546,8 +547,11 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 	else
+ 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
  
- 		for (i = 0; i < submit->nr_bos; i++) {
- 			if (should_dump(submit, i)) {
+-	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI)
+-		topology.num_dspp = topology.num_lm;
++	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
++		if (dpu_kms->catalog->dspp &&
++			(dpu_kms->catalog->dspp_count >= topology.num_lm))
++			topology.num_dspp = topology.num_lm;
++	}
+ 
+ 	topology.num_enc = 0;
+ 	topology.num_intf = intf_count;
 -- 
-2.17.1
+1.9.1
 
 _______________________________________________
 dri-devel mailing list
