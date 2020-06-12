@@ -1,50 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC791F82C0
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CBD1F829C
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:17:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 098A16E47E;
-	Sat, 13 Jun 2020 10:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAD36E3DB;
+	Sat, 13 Jun 2020 10:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A701F6E9C9
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 15:36:20 +0000 (UTC)
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
- by smtp1.de.adit-jv.com (Postfix) with ESMTP id 86DF73C04C1;
- Fri, 12 Jun 2020 17:36:18 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
- by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yz9nHupVRJU1; Fri, 12 Jun 2020 17:36:13 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5FC0B3C00BB;
- Fri, 12 Jun 2020 17:36:13 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.12) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 12 Jun
- 2020 17:36:13 +0200
-Date: Fri, 12 Jun 2020 17:36:07 +0200
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
-To: Jacopo Mondi <jacopo@jmondi.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200612153607.GA23962@lxhi-065.adit-jv.com>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <20200605132900.on527xcggg6f6pil@uno.localdomain>
- <20200605134124.GA28734@lxhi-065.adit-jv.com>
- <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
- <20200607024158.GD7339@pendragon.ideasonboard.com>
- <20200609142959.GA621@lxhi-065.adit-jv.com>
- <20200612150032.pnqaqip54qfrbqst@uno.localdomain>
- <20200612151005.GA28336@pendragon.ideasonboard.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E44CA6EA09
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 16:32:36 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id a9so11790641ljn.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 09:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=h9/hD+5cr+kQsdI9njfbrV+8m68DT/RHAyph11Pyn1Q=;
+ b=olJfsyXkiyvlLDR7lSo1KdmY4DZdXJE7J/mW0weHajgKJxOAjRApOVlkbPFmjSCtm0
+ Ufdb0JxuLgMClwlxM91aHd4i+w+wqXL7iq2fZkMOXyPJRbPlk8INeEUXpPy2v+stgdW9
+ vEJE8kVQvNQ0MKOfMWc3V01Unx/AJP6qy5g2+tQtJImaiipysuvGBR3Y3ILr+hOJ0jnq
+ zncaH18PUZRs1nhTob0OMYzc8C1PMXyVNoqHqNgvw3dnrm2iQFIb235Xa5DgMbYEnj6l
+ mRdzYTTduYp3yE8BfLDCm0gM4VrUXL97cT77nUkNiiYOFptO1rTOEGq0SyZDhLnO8tKp
+ me8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h9/hD+5cr+kQsdI9njfbrV+8m68DT/RHAyph11Pyn1Q=;
+ b=gI5iRmJL9IG/cXFn7+e6air/8XKy8JDD/RfhYJG72KMxcnujVayG36kQ23s2Cc5akf
+ 34pTl4jk2kLd9U0RXBh24Eeh0oJszsTsRG15LA9bLYw00vkft0V8EYdGju67okdbZS/0
+ nGkcfUDbXsWyzDTZV5w6cdfjpDHZaE8zoUegOOc7h4qLuzAgVejufJoORIXZ3dbsjnlA
+ GPoK8NZgnwx4oowlrrL9nu8uKZLr3mID/2qPnadp8s/zH3F1vfS5vIYCRna6EYBNyXRs
+ LT52Q+oTAqOzILLaagBAIXuL2v8U8tW2j1BeTR1zd1zXQy4k+hIQTUjuFCf2pkOeCWPS
+ n84w==
+X-Gm-Message-State: AOAM533WvfeVmv0QpA2xYd/TqpEJBsy70bdP5W9H/nTfccdV/okTYoLC
+ W/15tJHCRIeK7uu4zZXm4Ws=
+X-Google-Smtp-Source: ABdhPJw9NmR9vxMcwTecHWidsvl8CKA5zjxXH1L93pZrVmPeuI/wK9rkSyMZEqFzOC4GurWwS0l0pA==
+X-Received: by 2002:a2e:b0d0:: with SMTP id g16mr7594005ljl.130.1591979554907; 
+ Fri, 12 Jun 2020 09:32:34 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id y21sm1793100ljy.74.2020.06.12.09.32.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Jun 2020 09:32:34 -0700 (PDT)
+Subject: Re: [PATCH v10 0/2] Panel rotation patches
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Sean Paul <sean@poorly.run>, "dbasehore ." <dbasehore@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20200306002112.255361-1-dbasehore@chromium.org>
+ <ecbfb5f8-615a-4a88-5dac-de17158125bf@gmail.com>
+ <CAGAzgsqpjZxh7PEL_Dy7HrFeFGm7+=F6cL3QG9KmK9CHvDWZ9g@mail.gmail.com>
+ <6dc9ef16-9671-6ce8-27e6-aa1f4c009ee2@gmail.com>
+ <CAGAzgsrNrq+S+-5KEFVnJn6S5DRn1fKkToD5=KR911T9AOAF-w@mail.gmail.com>
+ <736ad1d2-4a28-87e8-62f7-28a5582c9fcf@gmail.com>
+ <CAMavQKJtbha_o==X+MX6GmjfAMYvdLyubvCFg48Tbn1mdgo40w@mail.gmail.com>
+ <fa443308-7610-9060-68eb-e14e446dd4bf@gmail.com>
+Message-ID: <cbfbe9dd-3340-2f90-c505-66a57031e620@gmail.com>
+Date: Fri, 12 Jun 2020 19:32:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200612151005.GA28336@pendragon.ideasonboard.com>
-X-Originating-IP: [10.72.94.12]
+In-Reply-To: <fa443308-7610-9060-68eb-e14e446dd4bf@gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,100 +79,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, airlied@linux.ie, mrodin@de.adit-jv.com,
- dri-devel@lists.freedesktop.org, Eugeniu Rosca <erosca@de.adit-jv.com>,
- Eugeniu Rosca <roscaeugeniu@gmail.com>,
- kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
- gotthard.voellmeke@renesas.com, koji.matsuoka.xm@renesas.com,
- horms@verge.net.au, seanpaul@chromium.org, michael.dege@renesas.com,
- Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
- efriedrich@de.adit-jv.com, ChaitanyaKumar.Borah@in.bosch.com,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- VenkataRajesh.Kalakodima@in.bosch.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, uli+renesas@fpond.eu
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Jun 12, 2020 at 06:10:05PM +0300, Laurent Pinchart wrote:
-> On Fri, Jun 12, 2020 at 05:00:32PM +0200, Jacopo Mondi wrote:
-> > On Tue, Jun 09, 2020 at 04:29:59PM +0200, Eugeniu Rosca wrote:
-> > > On Sun, Jun 07, 2020 at 05:41:58AM +0300, Laurent Pinchart wrote:
-> > > > Note that the CMM driver is controlled by the DU driver. As the DU
-> > > > driver will reenable the display during resume, it will call
-> > > > rcar_du_cmm_setup() at resume time, which will reprogram the CMM. There
-> > > > should thus be no need for manual suspend/resume handling in the CMM as
-> > > > far as I can tell, but we need to ensure that the CMM is suspended
-> > > > before and resumed after the DU. I believe this could be implemented
-> > > > using device links.
-> > >
-> > > Based on below quote [*] from Jacopo's commit [**], isn't the device
-> > > link relationship already in place?
-> > 
-> > Yes, it's in place already.
-> > 
-> > I added pm_ops to cmm just to be able to printout when suspend/resume
-> > happens and the sequence is what comment [*] reports
-> > 
-> > [  222.909002] rcar_du_pm_suspend:505
-> > [  223.145497] rcar_cmm_pm_suspend:193
-> > 
-> > [  223.208053] rcar_cmm_pm_resume:200
-> > [  223.460094] rcar_du_pm_resume:513
-> > 
-> > However, Laurent mentioned that in his comment here that he expects
-> > the opposite sequence to happen (CMM to suspend before and resume after
-> > DU).
-> > 
-> > I still think what is implemented is correct:
-> > - CMM is suspended after DU: when CMM is suspended, DU is not feeding
-> >   it with data
-> > - CMM is resumed before: once DU restart operations CMM is ready to
-> >   receive data.
-> > 
-> > Laurent, what do you think ?
-> 
-> I think I shouldn't have written the previous e-mail in the middle of
-> the night :-) Suspending CMM after DU is obviously correct.
-
-Thanks to Renesas team (kudos to Gotthard and Michael), we've
-figured out that below sequence of clock handling (happening during
-concurrent suspend and HDMI display unplug) leads to SoC lockup:
-
-cmm1 OFF 	(caused by HDMI unplug)
-x21-clock OFF 	(caused by HDMI unplug)
-du1 OFF 	(caused by HDMI unplug)
-cmm1 ON (caused by suspend to ram, as preparation for CMM register save)
-# Freeze happens
-
-That seems to be explained by Chapter 35A.4.3 "Restriction of enabling
-clock signal of the CMM" of HW User's manual (Rev.2.00 Jul 2019):
-
- -----8<-----
- When the clock signal of the CMM is enabled (RMSTPCR7.CMMn or
- SMSTPCR7.CMMn = 0), the clock signal of the DU should be also enabled
- (RMSTPCR7.DUn or SMSTPCR7.DUn = 0).
- -----8<-----
-
-So, the lesson learned from the above is: do not enable the CMMi clock
-while the DUi clock is disabled. I expect this to also potentially
-give some input w.r.t. what to suspend/resume first, CMM or DU.
-
-> 
-> > > [*] Quote from commit [**]
-> > >    Enforce the probe and suspend/resume ordering of DU and CMM by
-> > >    creating a stateless device link between the two.
-> > >
-> > > [**] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8de707aeb45241
-> > >     ("drm: rcar-du: kms: Initialize CMM instances")
-
--- 
-Best regards,
-Eugeniu Rosca
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTguMDUuMjAyMCAxMDozNiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMTIuMDUuMjAy
+MCAyMzo1OSwgU2VhbiBQYXVsINC/0LjRiNC10YI6Cj4+IE9uIFRodSwgQXByIDE2LCAyMDIwIGF0
+IDc6MDMgUE0gRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPiB3cm90ZToKPj4+Cj4+
+PiAxNS4wNC4yMDIwIDAwOjMyLCBkYmFzZWhvcmUgLiDQv9C40YjQtdGCOgo+Pj4+IE9uIFR1ZSwg
+QXByIDE0LCAyMDIwIGF0IDI6MTggUE0gRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29t
+PiB3cm90ZToKPj4+Pj4KPj4+Pj4gMTQuMDQuMjAyMCAyMjozMiwgZGJhc2Vob3JlIC4g0L/QuNGI
+0LXRgjoKPj4+Pj4+IEhpIERtaXRyeSwgc29ycnkgZm9yIHRoZSBsYXRlIHJlcGx5Lgo+Pj4+Pj4K
+Pj4+Pj4+IE9uIFN1biwgTWFyIDgsIDIwMjAgYXQgMTI6MjUgUE0gRG1pdHJ5IE9zaXBlbmtvIDxk
+aWdldHhAZ21haWwuY29tPiB3cm90ZToKPj4+Pj4+Pgo+Pj4+Pj4+IDA2LjAzLjIwMjAgMDM6MjEs
+IERlcmVrIEJhc2Vob3JlINC/0LjRiNC10YI6Cj4+Pj4+Pj4+IFRoaXMgYWRkcyB0aGUgcGx1bWJp
+bmcgZm9yIHJlYWRpbmcgcGFuZWwgcm90YXRpb24gZnJvbSB0aGUgZGV2aWNldHJlZQo+Pj4+Pj4+
+PiBhbmQgc2V0cyB1cCBhZGRpbmcgYSBwYW5lbCBwcm9wZXJ0eSBmb3IgdGhlIHBhbmVsIG9yaWVu
+dGF0aW9uIG9uCj4+Pj4+Pj4+IE1lZGlhdGVrIFNvQ3Mgd2hlbiBhIHJvdGF0aW9uIGlzIHByZXNl
+bnQuCj4+Pj4+Pj4KPj4+Pj4+PiBIZWxsbyBEZXJlayBhbmQgZXZlcnlvbmUsCj4+Pj4+Pj4KPj4+
+Pj4+PiBJJ20gbG9va2luZyBhdCBhZGRpbmcgZGlzcGxheSByb3RhdGlvbiBzdXBwb3J0IHRvIE5W
+SURJQSBUZWdyYSBEUk0KPj4+Pj4+PiBkcml2ZXIgYmVjYXVzZSBzb21lIGRldmljZXMgaGF2ZSBk
+aXNwbGF5IHBhbmVsIHBoeXNpY2FsbHkgbW91bnRlZAo+Pj4+Pj4+IHVwc2lkZS1kb3duLCBhbmQg
+dGh1cywgZGlzcGxheSBjb250cm9sbGVyJ3Mgc2Nhbi1vdXQgbmVlZHMgdG8gYmUgcm90YXRlZAo+
+Pj4+Pj4+IGJ5IDE4MMKwIGluIHRoaXMgY2FzZS4KPj4+Pj4+Pgo+Pj4+Pj4+IERlcmVrLCB5b3Vy
+cyBwYW5lbC1yb3RhdGlvbiBwYXRjaGVzIGFkZCBzdXBwb3J0IGZvciBhc3NpZ25pbmcgcGFuZWwn
+cwo+Pj4+Pj4+IG9yaWVudGF0aW9uIHRvIHRoZSBjb25uZWN0b3IsIGJ1dCB0aGVuIG9ubHkgcHJp
+bWFyeSBkaXNwbGF5IHBsYW5lCj4+Pj4+Pj4gcmVjZWl2ZXMgcm90YXRpb24gdmFsdWUgaW4gWzFd
+LCB3aGlsZSByb3RhdGlvbiBuZWVkcyB0byBiZSBhcHBsaWVkIHRvCj4+Pj4+Pj4gYWxsIGF2YWls
+YWJsZSBvdmVybGF5L2N1cnNvciBwbGFuZXMgYW5kIHRoaXMgc2hvdWxkIGhhcHBlbiBpbiBvdGhl
+cgo+Pj4+Pj4+IHBsYWNlcyB0aGFuIFsxXSBhcyB3ZWxsLgo+Pj4+Pj4KPj4+Pj4+IFRoaXMgaXMg
+aW50ZW5kZWQuIFdlIGRvbid0IGNvcnJlY3QgdGhlIG91dHB1dCBpbiB0aGUga2VybmVsLiBXZQo+
+Pj4+Pj4gaW5zdGVhZCByZWx5IG9uIG5vdGlmeWluZyB1c2Vyc3BhY2UgdGhhdCB0aGUgcGFuZWwg
+aXMgcm90YXRlZCwgdGhlbiB3ZQo+Pj4+Pj4gaGFuZGxlIGl0IHRoZXJlLgo+Pj4+Pj4KPj4+Pj4+
+Pgo+Pj4+Pj4+IFsxXSBkcm1fY2xpZW50X21vZGVzZXRfY29tbWl0X2F0b21pYygpCj4+Pj4+Pj4K
+Pj4+Pj4+PiBQbGVhc2UgYWxzbyBub3RlIHRoYXQgaW4gYSBjYXNlIG9mIHRoZSBzY2FuLW91dCBy
+b3RhdGlvbiwgcGxhbmUncwo+Pj4+Pj4+IGNvb3JkaW5hdGVzIG5lZWQgdG8gYmUgY2hhbmdlZCBp
+biBhY2NvcmRhbmNlIHRvIHRoZSBkaXNwbGF5J3Mgcm90YXRpb24uCj4+Pj4+Pj4KPj4+Pj4+PiBJ
+IGxvb2tlZCBicmllZmx5IHRocm91Z2ggdGhlIERSTSBjb2RlIGFuZCBteSB1bmRlcnN0YW5kaW5n
+IHRoYXQgdGhlIERSTQo+Pj4+Pj4+IGNvcmUgY3VycmVudGx5IGRvZXNuJ3Qgc3VwcG9ydCB1c2Ut
+Y2FzZSB3aGVyZSBzY2FuLW91dCBuZWVkcyB0byByb3RhdGVkCj4+Pj4+Pj4gYmFzZWQgb24gYSBw
+YW5lbCdzIG9yaWVudGF0aW9uLCBjb3JyZWN0PyBJcyBpdCB0aGUgdXNlLWNhc2UgeW91J3JlCj4+
+Pj4+Pj4gd29ya2luZyBvbiBmb3IgdGhlIE1lZGlhdGVrIGRyaXZlcj8KPj4+Pj4+Cj4+Pj4+PiBZ
+ZXMsIHdlIHJlbHkgb24gdXNlcnNwYWNlIHRvIHJvdGF0ZSB0aGUgb3V0cHV0LiBUaGUgbWFqb3Ig
+cmVhc29uIGZvcgo+Pj4+Pj4gdGhpcyBpcyBiZWNhdXNlIHRoZXJlIG1heSBub3QgYmUgYSAiZnJl
+ZSIgaGFyZHdhcmUgcm90YXRpb24gdGhhdCBjYW4KPj4+Pj4+IGJlIGFwcGxpZWQgdG8gdGhlIG92
+ZXJsYXkuIFNlYW4gUGF1bCBhbmQgb3RoZXJzIGFsc28gcHJlZmVycmVkIHRoYXQKPj4+Pj4+IHVz
+ZXJzcGFjZSBjb250cm9sIHdoYXQgaXMgb3V0cHV0IHRvIHRoZSBzY3JlZW4gaW5zdGVhZCBvZiB0
+aGUga2VybmVsCj4+Pj4+PiB0YWtpbmcgY2FyZSBvZiBpdC4gVGhpcyBjb2RlIGp1c3QgYWRkcyB0
+aGUgZHJtIHByb3BlcnR5IHRvIHRoZSBwYW5lbC4KPj4+Pj4+Cj4+Pj4+Cj4+Pj4+IENvdWxkIHlv
+dSBwbGVhc2UgZXhwbGFpbiB3aGF0IHRoYXQgdXNlcnNwYWNlIGlzPwo+Pj4+Cj4+Pj4gVGhpcyB3
+YXMgYWRkZWQgZm9yIENocm9tZSBPUywgd2hpY2ggdXNlcyBpdHMgb3duIGdyYXBoaWNzIHN0YWNr
+LAo+Pj4+IE96b25lLCBpbnN0ZWFkIG9mIFhvcmcuCj4+Pj4KPj4+Cj4+PiBUaGFuayB5b3UgdmVy
+eSBtdWNoIGZvciB0aGUgY2xhcmlmaWNhdGlvbi4KPj4+Cj4+PiBJdCdzIHByb2JhYmx5IG5vdCBh
+IGJpZyBwcm9ibGVtIGZvciBzb21ldGhpbmcgbW9ub2xpdGhpYyBhbmQgY3VzdG9taXplZAo+Pj4g
+bGlrZSBDaHJvbWVPUyB0byBpc3N1ZSBhIHNvZnR3YXJlIHVwZGF0ZSBpbiBvcmRlciB0byB0YWtl
+IGludG8gYWNjb3VudAo+Pj4gYWxsIHNwZWNpZmljcyBvZiBhIHBhcnRpY3VsYXIgZGV2aWNlLCBi
+dXQgdGhpcyBkb2Vzbid0IHdvcmsgbmljZWx5IGZvciBhCj4+PiBnZW5lcmljIHNvZnR3YXJlLCBs
+aWtlIGEgdXN1YWwgTGludXggZGlzdHJvLgo+Pj4KPj4+Pj4gQUZBSUssIHRoaW5ncyBsaWtlIFhv
+cmcgbW9kZXNldHRpbmcgZG9uJ3Qgc3VwcG9ydCB0aGF0IG9yaWVudGF0aW9uIHByb3BlcnR5Lgo+
+Pj4KPj4+IEluIG15IGNhc2UgaXQncyBub3Qgb25seSB0aGUgZGlzcGxheSBwYW5lbCB3aGljaCBp
+cyB1cHNpZGUtZG93biwgYnV0Cj4+PiBhbHNvIHRoZSB0b3VjaHNjcmVlbi4gSGVuY2UgYm90aCBk
+aXNwbGF5IG91dHB1dCBhbmQgdG91Y2hzY3JlZW4gaW5wdXQKPj4+IG5lZWQgdG8gYmUgcm90YXRl
+ZCBhdCBvbmNlLCBvdGhlcndpc2UgeW91J2xsIGVuZCB1cCB3aXRoIGVpdGhlciBkaXNwbGF5Cj4+
+PiBvciBpbnB1dCBiZWluZyB1cHNpZGUtZG93bi4KPj4+Cj4+PiBUaGUgMTgwwrAgcm90YXRpb24g
+c2hvdWxkIGJlIGZyZWUgb24gTlZJRElBIFRlZ3JhLiBUaGVyZSBhcmUgbm8ga25vd24KPj4+IGxp
+bWl0YXRpb25zIGZvciB0aGUgcGxhbmVzIGFuZCBCU1Aga2VybmVsIHZpZGVvIGRyaXZlciBoYW5k
+bGVzIHRoZQo+Pj4gcGxhbmUncyBjb29yZGluYXRlcy9mcmFtZWJ1ZmZlciByb3RhdGlvbiB3aXRo
+aW4gdGhlIGRyaXZlci4KPj4+Cj4+PiBUaGUga2VybmVsJ3MgaW5wdXQgc3Vic3lzdGVtIGFsbG93
+cyB1cyB0byB0cmFuc3BhcmVudGx5IChmb3IgdXNlcnNwYWNlKQo+Pj4gcmVtYXAgdGhlIHRvdWNo
+c2NyZWVuIGlucHV0IChieSBzcGVjaWZ5aW5nIGdlbmVyaWMgdG91Y2hzY3JlZW4KPj4+IGRldmlj
+ZS10cmVlIHByb3BlcnRpZXMpLCB3aGlsZSB0aGlzIGlzIG5vdCB0aGUgY2FzZSBmb3IgdGhlIERS
+TSBzdWJzeXN0ZW0uCj4+Pgo+Pj4gQFRoaWVycnksIEBTZWFuLCBARGFuaWVsLCBjb3VsZCB5b3Ug
+cGxlYXNlIGhlbHAgbWUgdG8gdW5kZXJzdGFuZCBob3cgYQo+Pj4gY29vcmRpbmF0ZWQgZGlzcGxh
+eSAvIGlucHV0IHJvdGF0aW9uIGNvdWxkIGJlIGltcGxlbWVudGVkLCBtYWtpbmcgdGhlCj4+PiBy
+b3RhdGlvbiB0cmFuc3BhcmVudCB0byB0aGUgdXNlciAoaS5lLiBhdm9pZGluZyB4b3JnLmNvbmYg
+aGFja2luZyBhbmQKPj4+IGV0Yyk/IEl0IHNob3VsZCBiZSBuaWNlIGlmIGRpc3BsYXkncyBvdXRw
+dXQgY291bGQgYmUgZmxpcHBlZCB3aXRoaW4gdGhlCj4+PiBEUk0gZHJpdmVyLCBoaWRpbmcgdGhp
+cyBmYWN0IGZyb20gdXNlcnNwYWNlLgo+Pgo+PiBJIHRoaW5rIHRoZSByaWdodCB0aGluZyB0byBk
+byBpcyB0byBmaXggdXNlcnNwYWNlIHRvIHJlc3BlY3QgdGhpcwo+PiBwcm9wZXJ0eSwgc2luY2Ug
+dGhhdCBoYXMgdGhlIG1vc3QgY29tbXVuYWwgYmVuZWZpdC4KPiAKPiBIZWxsbyBTZWFuLAo+IAo+
+IFRoaXMgd2lsbCBiZSBpZGVhbCwgYnV0IGl0J3MgZGlmZmljdWx0IHRvIGFjaGlldmUgaW4gYSBs
+b29zZWx5Cj4gY29udHJvbGxlZCB1c2Vyc3BhY2UgZW52aXJvbm1lbnQuCj4gCj4+IEhvd2V2ZXIo
+ISEpIGlmIHlvdSBkb24ndCB3YW50IHRvIGRvIHRoYXQsIGhvdyBhYm91dCBpbnNwZWN0aW5nIHRo
+ZQo+PiBpbmZvLT5wYW5lbF9vcmllbnRhdGlvbiB2YWx1ZSBhZnRlciBkcm1fcGFuZWxfYXR0YWNo
+IGluIHRlZ3JhIGRyaXZlcgo+PiBhbmQgdGhlbiBhZGp1c3Rpbmcgcm90YXRpb24gdmFsdWVzIGlu
+IHRoZSBkcml2ZXIuIE9mIGNvdXJzZSwgeW91Cj4+IHdvdWxkbid0IHdhbnQgdG8gZXhwb3NlIHRo
+ZSBwYW5lbCBvcmllbnRhdGlvbiBwcm9wZXJ0eSBzaW5jZSB5b3UgZG9uJ3QKPj4gd2FudCB1c2Vy
+c3BhY2VzIHRvIGJlIGRvdWJsZS1yb3RhdGluZyBvbiB5b3UsIGJ1dCBpdCdzIG9wdGlvbmFsIHNv
+Cj4+IHlvdSdkIGJlIGZpbmUuCj4gCj4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgdGhlIHN1Z2dl
+c3Rpb24sIEknbGwgYmUgdHJ5aW5nIGl0IG91dCBzb29uLgo+IAo+Pj4KPj4+IFdpbGwgaXQgYmUg
+b2theSBpZiB3ZSdsbCBhZGQgYSB0cmFuc3BhcmVudC1yb3RhdGlvbiBzdXBwb3J0IHNwZWNpZmlj
+YWxseQo+Pj4gdG8gdGhlIFRlZ3JhIERSTSBkcml2ZXI/IEZvciBleGFtcGxlIGlmIGRldmljZS10
+cmVlIGNvbnRhaW5zCj4+PiBudmlkaWEsZGlzcGxheS1mbGlwLXkgcHJvcGVydHksIHRoZW4gdGhl
+IFRlZ3JhIERSTSBkcml2ZXIgd2lsbCB0YWtlIGNhcmUKPj4+IG9mIHJvdGF0aW5nIGNvb3JkaW5h
+dGVzL2ZyYW1lYnVmZmVyIG9mIHRoZSBkaXNwbGF5IHBsYW5lcy4KPj4KPj4gSSBkb24ndCB0aGlu
+ayB0aGlzIGlzIG5lY2Vzc2FyeSwgYnV0IGl0IGFsc28gd291bGRuJ3QgcmVhbGx5IGJlCj4+IGFw
+cHJvcHJpYXRlIHRvIHB1dCBzb2Z0d2FyZSBhdHRyaWJ1dGVzIGludG8gZGV2aWNldHJlZSBhbnl3
+YXlzLgo+IAo+IFllcywgSSdtIGFsc28gbm90IGZlZWxpbmcgdmVyeSBleGNpdGVkIGFib3V0IHRo
+aXMgdmFyaWFudC4KPiAKCkFmdGVyIHNvbWUgY29uc2lkZXJhdGlvbiwgSSBkZWNpZGVkIHRoYXQg
+aXQgd2lsbCBiZSBiZXR0ZXIgdG8gc3RhcnQgZWFzeQpieSBzdXBwb3J0aW5nIHRoZSBtaW5pbXVt
+IG5lZWRlZCBmb3IgdGhlIHJvdGF0aW9uIHByb3BlcnR5IHRvIHdvcmsgb24KVGVncmEsIGkuZS4g
+aGF2aW5nIHVzZXJzcGFjZSB0byB0YWtlIGNhcmUgb2YgdGhlIHJvdGF0aW9uLiBJdCB3aWxsIGJl
+CnBvc3NpYmxlIHRvIGNoYW5nZSBpdCBsYXRlciBvbiBpZiB3aWxsIGJlIG5lY2Vzc2FyeS4KCkBk
+YmFzZWhvcmUsIEknbGwgcHJlcGFyZSBUZWdyYSBEUk0gcGF0Y2hzZXQgYXJvdW5kIE1vbmRheSBh
+bmQgd2lsbAppbmNsdWRlIHlvdXJzIHR3byBwYXRjaGVzIHRoYXQgYWRkIERUIHJlYWRpbmcgaGVs
+cGVyIGFuZCBzZXQgdGhlIGRpc3BsYXkKaW5mbywgc2luY2UgdGhlc2UgcGF0Y2hlcyBoYXZlbid0
+IGJlZW4gYXBwbGllZCB5ZXQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
