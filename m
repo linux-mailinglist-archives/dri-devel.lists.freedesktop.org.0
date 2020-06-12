@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF8F1F71C2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 03:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E401F71C3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 03:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A13F6E0F2;
-	Fri, 12 Jun 2020 01:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C62D6E0FA;
+	Fri, 12 Jun 2020 01:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B44A6E0F2
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A006E0F2
  for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 01:36:30 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id d66so3529066pfd.6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 18:36:29 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id a45so3654429pje.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 18:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VJXjbn0Abhyz2aIJ70BlGOdwvizcrNhcVe7oRHFpvnI=;
- b=YIkCBNJDLFVU2RnuFH7uRXS06GfUZgvZe0YKrK5PfR3oj16uwRqRH3BIQ5V/+XbKmC
- uD3gbHmNhJS3NKGYaCV+hdgKBbpaCqcGeVhy35gZiomyVL7S7sQbhIhwVuAplfMjqFcG
- Qf9SSuOP6uu7+zC+PAryM+UVdIMZMpAocuQPk=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gDDZjyDo+my3LlCriwyTEtD1u694B/BCWGFE3c5hYe8=;
+ b=I5qtmOqeJLGss0H30YBndWaz2TjxXcnF1/IGKG07M/HgG8XLjal7WJrZj7RdHTdgY/
+ TFOWjyE3peSyhFg9BmfeI6PWXVbEW4ds/5qKsby14YvITAtXkVkSbLoytaEbQh4vENSj
+ jLO5sjqOkjRUTYnO3T+ilcQO6SYQPSvkjSobM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VJXjbn0Abhyz2aIJ70BlGOdwvizcrNhcVe7oRHFpvnI=;
- b=Q6lO2zTnLJVpZZm7kmn+le/uGDD9iDQmzon6l0R84ZNTfkuuxVsdrzV9TIdD3/hJKv
- cY5XOGlJJLR2Px4Hp7meaO/u6gylWd229cfmo/dCXrYNgMek1yL3rYRKejc3o2F+JKTs
- YveFFUhUZG5UDi7qtyltcKFVDuUWfjTr8wsKrszCcek7PrJTUMPAAy3n9blhMNJrmFJ+
- YDwSKg8fwPXiRccTartlxOXlUrc+lM8/DQRQpYLvqr+vM358i2yDpOqS2OKEoON+xIiM
- KlAwoKVQPMoCEoQLzCAFNLLR1iwX8NeDkKzIZx1WrppkPgLAzZa+w7YSMFHbYAUWlKmy
- WkGg==
-X-Gm-Message-State: AOAM532My5+LSEukoTXj11UJfjgHAE8LrmC3/zTAkTEPsWAXL7/qbVDL
- VbXopaAqqCHnhY6WCkix6AdNSUZdxb4=
-X-Google-Smtp-Source: ABdhPJwfp7i34/Isdmoe8xYzYz+xLuaGraUhv+TgPIpLXpdkJuhWleYXpOcMfTWW7AW7WwPpxcxOwg==
-X-Received: by 2002:a62:3806:: with SMTP id f6mr9604840pfa.102.1591925789089; 
- Thu, 11 Jun 2020 18:36:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gDDZjyDo+my3LlCriwyTEtD1u694B/BCWGFE3c5hYe8=;
+ b=rJv1OTt6rtWfgZIfryaYRTqC3UftIV98tp0Wv7A6F1wmxpXkVb78NnhgK2KQq6o5W+
+ ASr3BJqNCOM4P+8WqWLNDDlGdNOm2PAJcZSeLfETzBKRM+mFEy9td+ATtJXyFsMGVPSX
+ udU4k+T21g2Dkydw7lCaWxnpU+ZAFPhuN7WG5TdZJiauaObSbanH86UdXEXRGZkciIFN
+ thn2xhD9ddQYKYaZciGBATL3ZGg3spd46EzCeOlVVmT6kBSGLLWfQaNLnhVrMwqEzw/J
+ oRl8zUPp6/ykiYA8balc5nEiW0+GQ9zAioeZENXdzMsoihBFIoexPOwRsHnJarM/Agbw
+ 4jtQ==
+X-Gm-Message-State: AOAM530yLepe9qe0JmuYYBW8Axez+3aoEFnq7a1g1hR/J4vFTQGW6vPZ
+ z5C15uJHFUjEiOARPG43I+mF95lhzEo=
+X-Google-Smtp-Source: ABdhPJw7cpG9RFBZTTPx75vahhmWVKSxNibAtBVjKmmPW/Ss8Ih1rG+9az4sCahNdkLvpc3b3uiYgw==
+X-Received: by 2002:a17:902:b187:: with SMTP id
+ s7mr8643716plr.188.1591925790214; 
+ Thu, 11 Jun 2020 18:36:30 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id c2sm4331535pfi.71.2020.06.11.18.36.27
+ by smtp.gmail.com with ESMTPSA id c2sm4331535pfi.71.2020.06.11.18.36.29
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 11 Jun 2020 18:36:28 -0700 (PDT)
+ Thu, 11 Jun 2020 18:36:29 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/shmem: add support for per object dma api operations
-Date: Thu, 11 Jun 2020 18:36:24 -0700
-Message-Id: <20200612013625.547-1-gurchetansingh@chromium.org>
+Subject: [PATCH 2/2] drm/virtio: rely on drm shmem helpers to take care of
+ dma_map/dma_unmap
+Date: Thu, 11 Jun 2020 18:36:25 -0700
+Message-Id: <20200612013625.547-2-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
+References: <20200612013625.547-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,77 +72,152 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is useful for the next patch.  Also, should we only unmap the
-amount entries that we mapped with the dma-api?
+Fixes a double-free regression:
 
+[    4.357928]  drm_gem_shmem_free_object+0xb4/0x100
+[    4.358983]  virtio_gpu_dequeue_ctrl_func+0xd9/0x290
+[    4.360343]  process_one_work+0x1d2/0x3a0
+[    4.361581]  worker_thread+0x45/0x3c0
+[    4.362645]  kthread+0xf6/0x130
+[    4.363543]  ? process_one_work+0x3a0/0x3a0
+[    4.364770]  ? kthread_park+0x80/0x80
+[    4.365799]  ret_from_fork+0x35/0x40
+[    4.367103] Modules linked in:
+[    4.367958] CR2: 0000000000000018
+[    4.368857] ---[ end trace db84f7a2974d5c79 ]---
+[    4.370118] RIP: 0010:dma_direct_unmap_sg+0x1f/0x60
+
+We can also go back to the prior state aswell.
+
+Fixes: d323bb44e4d2 ("drm/virtio: Call the right shmem helpers")
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 16 +++++++++++-----
- include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
- 2 files changed, 21 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |  1 -
+ drivers/gpu/drm/virtio/virtgpu_object.c | 25 ++++++-------------------
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 12 ++++++------
+ 3 files changed, 12 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 0a7e3b664bc2..d439074ad7b5 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -124,8 +124,10 @@ void drm_gem_shmem_free_object(struct drm_gem_object *obj)
- 		drm_prime_gem_destroy(obj, shmem->sgt);
- 	} else {
- 		if (shmem->sgt) {
--			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
--				     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-+			if (!shmem->skip_dma_api)
-+				dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-+					     shmem->dma_map_count,
-+					     DMA_BIDIRECTIONAL);
- 			sg_free_table(shmem->sgt);
- 			kfree(shmem->sgt);
- 		}
-@@ -422,8 +424,9 @@ void drm_gem_shmem_purge_locked(struct drm_gem_object *obj)
- 
- 	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
- 
--	dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
--		     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-+	if (!shmem->skip_dma_api)
-+		dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-+			     shmem->dma_map_count, DMA_BIDIRECTIONAL);
- 	sg_free_table(shmem->sgt);
- 	kfree(shmem->sgt);
- 	shmem->sgt = NULL;
-@@ -695,7 +698,10 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_object *obj)
- 		goto err_put_pages;
- 	}
- 	/* Map the pages for use by the h/w. */
--	dma_map_sg(obj->dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-+	if (!shmem->skip_dma_api)
-+		shmem->dma_map_count = dma_map_sg(obj->dev->dev, sgt->sgl,
-+						  sgt->nents,
-+						  DMA_BIDIRECTIONAL);
- 
- 	shmem->sgt = sgt;
- 
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 5381f0c8cf6f..2669d87cbfdd 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -101,6 +101,16 @@ struct drm_gem_shmem_object {
- 	 * @map_cached: map object cached (instead of using writecombine).
- 	 */
- 	bool map_cached;
-+
-+	/**
-+	 * @skip_dma_api: skip using dma api in certain places.
-+	 */
-+	bool skip_dma_api;
-+
-+	/**
-+	 * @skip_dma_api: number of pages mapped by dma-api.
-+	 */
-+	bool dma_map_count;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 49bebdee6d91..66af5ea1304b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -78,7 +78,6 @@ struct virtio_gpu_object {
+ struct virtio_gpu_object_shmem {
+ 	struct virtio_gpu_object base;
+ 	struct sg_table *pages;
+-	uint32_t mapped;
  };
  
- #define to_drm_gem_shmem_obj(obj) \
+ #define to_virtio_gpu_shmem(virtio_gpu_object) \
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 346cef5ce251..ec42c5532910 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -69,16 +69,7 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+ 	if (virtio_gpu_is_shmem(bo)) {
+ 		struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+-
+ 		if (shmem->pages) {
+-			if (shmem->mapped) {
+-				dma_unmap_sg(vgdev->vdev->dev.parent,
+-					     shmem->pages->sgl, shmem->mapped,
+-					     DMA_TO_DEVICE);
+-				shmem->mapped = 0;
+-			}
+-
+-			sg_free_table(shmem->pages);
+ 			shmem->pages = NULL;
+ 			drm_gem_shmem_unpin(&bo->base.base);
+ 		}
+@@ -123,6 +114,7 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
+ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 						size_t size)
+ {
++	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_object_shmem *shmem;
+ 	struct drm_gem_shmem_object *dshmem;
+ 
+@@ -133,6 +125,7 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
+ 	dshmem = &shmem->base.base;
+ 	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
+ 	dshmem->map_cached = true;
++	dshmem->skip_dma_api = virtio_has_iommu_quirk(vgdev->vdev);
+ 	return &dshmem->base;
+ }
+ 
+@@ -141,7 +134,6 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 					struct virtio_gpu_mem_entry **ents,
+ 					unsigned int *nents)
+ {
+-	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 	struct scatterlist *sg;
+ 	int si, ret;
+@@ -156,15 +148,10 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (use_dma_api) {
+-		shmem->mapped = dma_map_sg(vgdev->vdev->dev.parent,
+-					   shmem->pages->sgl,
+-					   shmem->pages->nents,
+-					   DMA_TO_DEVICE);
+-		*nents = shmem->mapped;
+-	} else {
++	if (!bo->base.skip_dma_api)
++		*nents = bo->base.dma_map_count;
++	else
+ 		*nents = shmem->pages->nents;
+-	}
+ 
+ 	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+ 			      GFP_KERNEL);
+@@ -174,7 +161,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 	}
+ 
+ 	for_each_sg(shmem->pages->sgl, sg, *nents, si) {
+-		(*ents)[si].addr = cpu_to_le64(use_dma_api
++		(*ents)[si].addr = cpu_to_le64(!bo->base.skip_dma_api
+ 					       ? sg_dma_address(sg)
+ 					       : sg_phys(sg));
+ 		(*ents)[si].length = cpu_to_le32(sg->length);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 9e663a5d9952..117e4aa69ae5 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -599,12 +599,12 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
+ 	struct virtio_gpu_transfer_to_host_2d *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+-	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+-	if (use_dma_api)
++	if (!bo->base.skip_dma_api)
+ 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       shmem->pages->sgl, shmem->pages->nents,
++				       shmem->pages->sgl,
++				       bo->base.dma_map_count,
+ 				       DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+@@ -1015,12 +1015,12 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
+ 	struct virtio_gpu_transfer_host_3d *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+-	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+ 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
+ 
+-	if (use_dma_api)
++	if (!bo->base.skip_dma_api)
+ 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
+-				       shmem->pages->sgl, shmem->pages->nents,
++				       shmem->pages->sgl,
++				       bo->base.dma_map_count,
+ 				       DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
 -- 
 2.25.1
 
