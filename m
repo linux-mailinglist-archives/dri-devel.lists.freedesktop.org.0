@@ -2,27 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B41F747B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 09:13:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3A11F762E
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 11:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85BDC89E15;
-	Fri, 12 Jun 2020 07:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE99389349;
+	Fri, 12 Jun 2020 09:48:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4A71898C7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 07:12:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4360489349
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 09:48:00 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 40C2FAB76;
- Fri, 12 Jun 2020 07:13:01 +0000 (UTC)
-Subject: Re: [PATCH 3/3] drm/ast: Use per-device logging macros
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200611082809.7838-1-tzimmermann@suse.de>
- <20200611082809.7838-4-tzimmermann@suse.de>
- <20200611192406.GB160102@ravnborg.org>
- <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
- <20200612070137.GA172811@ravnborg.org>
+ by mx2.suse.de (Postfix) with ESMTP id A1E76ADCD;
+ Fri, 12 Jun 2020 09:48:02 +0000 (UTC)
+Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
+ operations
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org
+References: <20200612013625.547-1-gurchetansingh@chromium.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -49,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <fa3f9331-e9cb-b43d-3972-9b6f18f1a85a@suse.de>
-Date: Fri, 12 Jun 2020 09:12:53 +0200
+Message-ID: <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
+Date: Fri, 12 Jun 2020 11:47:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.1
 MIME-Version: 1.0
-In-Reply-To: <20200612070137.GA172811@ravnborg.org>
+In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,111 +65,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, chen@aspeedtech.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============1978006393=="
+Cc: daniel.vetter@ffwll.ch, kraxel@redhat.com
+Content-Type: multipart/mixed; boundary="===============0408582675=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1978006393==
+--===============0408582675==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="PaQs0gCA7AeohkE4SGOGLAL8iaxYcDOYT"
+ boundary="wW9sdXfol2HgDodLizumv1OO8w6T8KUjp"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PaQs0gCA7AeohkE4SGOGLAL8iaxYcDOYT
-Content-Type: multipart/mixed; boundary="WyhDUSFXaDd6nG3hRCNxDtiJj26HzMExY";
+--wW9sdXfol2HgDodLizumv1OO8w6T8KUjp
+Content-Type: multipart/mixed; boundary="Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: airlied@redhat.com, chen@aspeedtech.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
-Message-ID: <fa3f9331-e9cb-b43d-3972-9b6f18f1a85a@suse.de>
-Subject: Re: [PATCH 3/3] drm/ast: Use per-device logging macros
-References: <20200611082809.7838-1-tzimmermann@suse.de>
- <20200611082809.7838-4-tzimmermann@suse.de>
- <20200611192406.GB160102@ravnborg.org>
- <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
- <20200612070137.GA172811@ravnborg.org>
-In-Reply-To: <20200612070137.GA172811@ravnborg.org>
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org
+Cc: kraxel@redhat.com, daniel.vetter@ffwll.ch
+Message-ID: <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
+Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
+ operations
+References: <20200612013625.547-1-gurchetansingh@chromium.org>
+In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
 
---WyhDUSFXaDd6nG3hRCNxDtiJj26HzMExY
+--Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 12.06.20 um 09:01 schrieb Sam Ravnborg:
-> Hi Thomas
->=20
-> On Fri, Jun 12, 2020 at 08:28:40AM +0200, Thomas Zimmermann wrote:
->> Hi Sam
->>
->> Am 11.06.20 um 21:24 schrieb Sam Ravnborg:
->>> Hi Thomas.
->>> On Thu, Jun 11, 2020 at 10:28:09AM +0200, Thomas Zimmermann wrote:
->>>> Converts the ast driver to drm_info() and drm_err(). No functional
->>>> changes are made.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>>
->>> I hope you will later follow-up with a patch that introduces drm_WARN=
-_*.
->>
->> I only found DRM_INFO and DRM_ERROR calls. Did I miss any other warnin=
-g
->> macros?
->=20
-> The following:
-> ast_mode.c:     if (WARN_ON_ONCE(gpu_addr < 0))
-> ast_mode.c:     if (WARN_ON_ONCE(fb->width > AST_MAX_HWC_WIDTH) ||
-> ast_mode.c:         WARN_ON_ONCE(fb->height > AST_MAX_HWC_HEIGHT))
-> ast_mode.c:             if (WARN_ON_ONCE(off < 0))
-> ast_mode.c:     if (WARN_ON(!crtc->state))
+Am 12.06.20 um 03:36 schrieb Gurchetan Singh:
+> This is useful for the next patch.  Also, should we only unmap the
+> amount entries that we mapped with the dma-api?
 
-Thanks! I'll fix those.
+It looks like you're moving virtio code into shmem. It would be nice to
+have a cover letter explaining the series.
+
+>=20
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 16 +++++++++++-----
+>  include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
+>  2 files changed, 21 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> index 0a7e3b664bc2..d439074ad7b5 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -124,8 +124,10 @@ void drm_gem_shmem_free_object(struct drm_gem_obje=
+ct *obj)
+>  		drm_prime_gem_destroy(obj, shmem->sgt);
+>  	} else {
+>  		if (shmem->sgt) {
+> -			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
+> -				     shmem->sgt->nents, DMA_BIDIRECTIONAL);
+> +			if (!shmem->skip_dma_api)
+> +				dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
+> +					     shmem->dma_map_count,
+> +					     DMA_BIDIRECTIONAL);
+>  			sg_free_table(shmem->sgt);
+>  			kfree(shmem->sgt);
+>  		}
+> @@ -422,8 +424,9 @@ void drm_gem_shmem_purge_locked(struct drm_gem_obje=
+ct *obj)
+> =20
+>  	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
+> =20
+> -	dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
+> -		     shmem->sgt->nents, DMA_BIDIRECTIONAL);
+> +	if (!shmem->skip_dma_api)
+> +		dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
+> +			     shmem->dma_map_count, DMA_BIDIRECTIONAL);
+>  	sg_free_table(shmem->sgt);
+>  	kfree(shmem->sgt);
+>  	shmem->sgt =3D NULL;
+> @@ -695,7 +698,10 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struc=
+t drm_gem_object *obj)
+>  		goto err_put_pages;
+>  	}
+>  	/* Map the pages for use by the h/w. */
+> -	dma_map_sg(obj->dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
+> +	if (!shmem->skip_dma_api)
+> +		shmem->dma_map_count =3D dma_map_sg(obj->dev->dev, sgt->sgl,
+> +						  sgt->nents,
+> +						  DMA_BIDIRECTIONAL);
+> =20
+>  	shmem->sgt =3D sgt;
+> =20
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_s=
+hmem_helper.h
+> index 5381f0c8cf6f..2669d87cbfdd 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -101,6 +101,16 @@ struct drm_gem_shmem_object {
+>  	 * @map_cached: map object cached (instead of using writecombine).
+>  	 */
+>  	bool map_cached;
+> +
+> +	/**
+> +	 * @skip_dma_api: skip using dma api in certain places.
+> +	 */
+> +	bool skip_dma_api;
+
+This looks like an under-documented workaround for something.
+
+> +
+> +	/**
+> +	 * @skip_dma_api: number of pages mapped by dma-api.
+> +	 */
+> +	bool dma_map_count;
+
+The documentation comment doesn't match the field name.
 
 Best regards
 Thomas
 
->=20
-> can benefit from:
->=20
-> /*
->  * struct drm_device based WARNs
->  *
->  * drm_WARN*() acts like WARN*(), but with the key difference of
->  * using device specific information so that we know from which device
->  * warning is originating from.
->  *
->  * Prefer drm_device based drm_WARN* over regular WARN*
->  */
->=20
-> ...
->=20
-> #define drm_WARN_ON(drm, x)                                            =
- \
->         drm_WARN((drm), (x), "%s",                                     =
- \
->                  "drm_WARN_ON(" __stringify(x) ")")
->=20
-> #define drm_WARN_ON_ONCE(drm, x)                                       =
- \
->         drm_WARN_ONCE((drm), (x), "%s",                                =
- \
->                       "drm_WARN_ON_ONCE(" __stringify(x) ")")
->=20
->=20
-> Also from drm/drm_print.h
->=20
-> 	Sam
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  };
+> =20
+>  #define to_drm_gem_shmem_obj(obj) \
 >=20
 
 --=20
@@ -183,28 +198,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---WyhDUSFXaDd6nG3hRCNxDtiJj26HzMExY--
+--Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X--
 
---PaQs0gCA7AeohkE4SGOGLAL8iaxYcDOYT
+--wW9sdXfol2HgDodLizumv1OO8w6T8KUjp
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jKvUACgkQaA3BHVML
-eiOHGwf+OjCMen1FS2nX49A4ERxiZ8cwn491azBXaCy3L2/XWlICABgm/ghSkbid
-SrcWjX/xtcV6sVReVsMH/lkoVTjAMXRxuu1LIb57/YByb/9JaGf/hyf8UrhDHv3g
-AGz8sspcr6baAR/K6FFEEJfyCPu9Sj+VJH9nHWIbrW8sdbHFOcacRmbZhLTQL4iS
-GFExv+3fhP2/m7rAWo/8MQEuIF5/Nu1HBORD2n3+3VqvaoyUGb9J+961YMPk+46R
-KHadkUE2H4dgzofhGzTRSyj762jlVC7EbUXZS4bZIoKba0EHVJ6aiD4wru1u4TFB
-yxqGDMfmmQb5UvJ0Eqp8p2AQMFU0og==
-=Deia
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jT0sACgkQaA3BHVML
+eiOPWAf7Bzyoa+dE6k8ZQZO2yZiwXTDujACT6VdfWb7/KwzWfO/qrh58gwdZ/LL/
+9QSutlmJqw5G6l9XibkDvTYk+XvaS7DRC0ofPE8ZlH+gK7Mkir3pJnW0zwk7JqVr
+WaDQkt5Wn9Jxr+UULHoEh/l4MdVC1Ee/5YOsrJ1d9bMWC7A+4MJOTNhvb3YqHjMD
+eLXz6bKsg8cPfrkvepr43W32jlAT85tiX/pN3h6m0VTxaSrkhKL6q7joiasOntd2
+BeBDBH2R8pxv4p/ngxiHZ8yGnmR5MGs3njVB7vQvOzPvIDWORz9MR2/3GX1kT8y5
+HenB2P6yKEW5nRSsWDNTW/b3XGLgyg==
+=hSyr
 -----END PGP SIGNATURE-----
 
---PaQs0gCA7AeohkE4SGOGLAL8iaxYcDOYT--
+--wW9sdXfol2HgDodLizumv1OO8w6T8KUjp--
 
---===============1978006393==
+--===============0408582675==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -215,4 +230,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1978006393==--
+--===============0408582675==--
