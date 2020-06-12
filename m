@@ -1,102 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AE41F82B6
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5971F82BC
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446E66E423;
-	Sat, 13 Jun 2020 10:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BD76E450;
+	Sat, 13 Jun 2020 10:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A101C6E546
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 07:44:46 +0000 (UTC)
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20200612074444epoutp0337cd5d2065b908c4642187dedebd6a3c~XvCqZLcxK0031100311epoutp03D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 07:44:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20200612074444epoutp0337cd5d2065b908c4642187dedebd6a3c~XvCqZLcxK0031100311epoutp03D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1591947884;
- bh=m5J+ghZMJqGOXBmy3eWSpEpm7qa5DnNLLLRwQ72pHow=;
- h=From:To:Cc:Subject:Date:References:From;
- b=htc1f40rAWw6FXiS+4M4I8qtwkVz8AQhZSHp+IPsTDvG5DqCSakb/pRWRFhG1Vhfh
- myl3g5Y4vhJAWzyVvs7/cFQ4HBCJKr9XYQiEqWKpc2nnTx+XlT5tqahusXeFMR8xbl
- Z7rPSeFXeWCVbAPCZBNlryyN5iuOpZAPrW8SxDNQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas2p2.samsung.com (KnoxPortal) with ESMTP id
- 20200612074444epcas2p2a8799ff0e6b61ad7954ecf8eeddff60f~XvCqBfvhd3212532125epcas2p29;
- Fri, 12 Jun 2020 07:44:44 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.40.183]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 49jt6K4YtXzMqYls; Fri, 12 Jun
- 2020 07:44:41 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
- epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 87.55.19322.56233EE5; Fri, 12 Jun 2020 16:44:37 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200612074436epcas2p33831d7a3781be5f5414152d42bfabcf0~XvCjHOlYv1960119601epcas2p3R;
- Fri, 12 Jun 2020 07:44:36 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200612074436epsmtrp2598ff0281ec87578f71b81888e5722af~XvCjGi_920955809558epsmtrp2X;
- Fri, 12 Jun 2020 07:44:36 +0000 (GMT)
-X-AuditID: b6c32a45-7adff70000004b7a-b0-5ee332651ccf
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 84.E9.08382.46233EE5; Fri, 12 Jun 2020 16:44:36 +0900 (KST)
-Received: from Dabang.dsn.sec.samsung.com (unknown [12.36.155.59]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200612074436epsmtip1b6169d2b81ae16ece444c69bf5945a97~XvCi7YhzQ1669816698epsmtip1F;
- Fri, 12 Jun 2020 07:44:36 +0000 (GMT)
-From: Hyesoo Yu <hyesoo.yu@samsung.com>
-To: 
-Subject: [PATCH] dma-buf: support to walk the list of dmabuf for debug
-Date: Fri, 12 Jun 2020 17:02:02 +0900
-Message-Id: <20200612080204.19779-1-hyesoo.yu@samsung.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93C36E905;
+ Fri, 12 Jun 2020 09:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1591954655;
+ bh=kuWFZ8oSr+pwcbI4QywrW6/nLWqzxloT2RQ5wBq9vTc=;
+ h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
+ b=SRdxiHa/fkKEof8XVkQMTzGXd5AtUqvJFmnKfXa/u04g16tLDh3vaC4ZrAq5nm/fY
+ n0YussoWJlIaFtjBjKO1AeKTXtkn+QzQ9CRLPZRE9UJHYpelm6h/LgwaG5gY4bN2jQ
+ t3i1TFVB/ulEvcFc0ECblztWft0CdSkUsFypbYNM=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.131.95.40]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MtyA2-1iwEja3NQy-00uCmn; Fri, 12
+ Jun 2020 11:37:34 +0200
+Subject: Re: [PATCH] drm/msm: Fix memory leak in msm_submitqueue_create()
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
+ +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
+ mpVJgXGKkNJ1ey+QOXouzlErVvE2fRh+KXXN1Q7fSmTJlAW9XJYHS3BDHb0uRpymRSX3O+E2
+ lA87C7R8qAigPDZi6Z7UmwIA83ZMKXQ5stA0lhPyYgQcM7fh7V4ZYhnR0I5/qkUoxKpqaYLp
+ YHBczVP+Zx/zHOM0KQphOMbU7X3c1pmMruoe6ti9uZzqZSLsF+NKXFEPBS665tQr66HJvZvY
+ GMDlntZFAZ6xQvCC1r3MGoxEC1tuEa24vPCC9RZ9wk2sY5Csbva0WwYv3WKRZZBv8eIhGMxs
+ rcpeGShRFyZ/0BYO53wZAPV1pEhGLLxd8eLN/nEWjJE0ejakPC1H/mt5F+yQBJAzz9JzbToU
+ 5jKLu0SugNI18MspJut8AiA1M44CIWrNHXvWsQ+nnBKHDHHYZu7MoXlOmB32ndsfPthR3GSv
+ jN7YD4Ad724H8fhRijmC1+RpuSce7w2JLj5cYj4MlccmNb8YUxsE8brY2WkXQYS8Ivse39MX
+ BE66MQN0r5DQ6oqgoJ4gHIVBUv/ZwgcmUNS5gQkNCFA0dWXznQARAQABtCZNYXJrdXMgRWxm
+ cmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPokCVAQTAQgAPhYhBHDP0hzibeXjwQ/ITuU9
+ Figxg9azBQJYNvsQAhsjBQkJZgGABQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEOU9Figx
+ g9azcyMP/iVihZkZ4VyH3/wlV3nRiXvSreqg+pGPI3c8J6DjP9zvz7QHN35zWM++1yNek7Ar
+ OVXwuKBo18ASlYzZPTFJZwQQdkZSV+atwIzG3US50ZZ4p7VyUuDuQQVVqFlaf6qZOkwHSnk+
+ CeGxlDz1POSHY17VbJG2CzPuqMfgBtqIU1dODFLpFq4oIAwEOG6fxRa59qbsTLXxyw+PzRaR
+ LIjVOit28raM83Efk07JKow8URb4u1n7k9RGAcnsM5/WMLRbDYjWTx0lJ2WO9zYwPgRykhn2
+ sOyJVXk9xVESGTwEPbTtfHM+4x0n0gC6GzfTMvwvZ9G6xoM0S4/+lgbaaa9t5tT/PrsvJiob
+ kfqDrPbmSwr2G5mHnSM9M7B+w8odjmQFOwAjfcxoVIHxC4Cl/GAAKsX3KNKTspCHR0Yag78w
+ i8duH/eEd4tB8twcqCi3aCgWoIrhjNS0myusmuA89kAWFFW5z26qNCOefovCx8drdMXQfMYv
+ g5lRk821ZCNBosfRUvcMXoY6lTwHLIDrEfkJQtjxfdTlWQdwr0mM5ye7vd83AManSQwutgpI
+ q+wE8CNY2VN9xAlE7OhcmWXlnAw3MJLW863SXdGlnkA3N+U4BoKQSIToGuXARQ14IMNvfeKX
+ NphLPpUUnUNdfxAHu/S3tPTc/E/oePbHo794dnEm57LuuQINBFg2+xABEADZg/T+4o5qj4cw
+ nd0G5pFy7ACxk28mSrLuva9tyzqPgRZ2bdPiwNXJUvBg1es2u81urekeUvGvnERB/TKekp25
+ 4wU3I2lEhIXj5NVdLc6eU5czZQs4YEZbu1U5iqhhZmKhlLrhLlZv2whLOXRlLwi4jAzXIZAu
+ 76mT813jbczl2dwxFxcT8XRzk9+dwzNTdOg75683uinMgskiiul+dzd6sumdOhRZR7YBT+xC
+ wzfykOgBKnzfFscMwKR0iuHNB+VdEnZw80XGZi4N1ku81DHxmo2HG3icg7CwO1ih2jx8ik0r
+ riIyMhJrTXgR1hF6kQnX7p2mXe6K0s8tQFK0ZZmYpZuGYYsV05OvU8yqrRVL/GYvy4Xgplm3
+ DuMuC7/A9/BfmxZVEPAS1gW6QQ8vSO4zf60zREKoSNYeiv+tURM2KOEj8tCMZN3k3sNASfoG
+ fMvTvOjT0yzMbJsI1jwLwy5uA2JVdSLoWzBD8awZ2X/eCU9YDZeGuWmxzIHvkuMj8FfX8cK/
+ 2m437UA877eqmcgiEy/3B7XeHUipOL83gjfq4ETzVmxVswkVvZvR6j2blQVr+MhCZPq83Ota
+ xNB7QptPxJuNRZ49gtT6uQkyGI+2daXqkj/Mot5tKxNKtM1Vbr/3b+AEMA7qLz7QjhgGJcie
+ qp4b0gELjY1Oe9dBAXMiDwARAQABiQI8BBgBCAAmFiEEcM/SHOJt5ePBD8hO5T0WKDGD1rMF
+ Alg2+xACGwwFCQlmAYAACgkQ5T0WKDGD1rOYSw/+P6fYSZjTJDAl9XNfXRjRRyJSfaw6N1pA
+ Ahuu0MIa3djFRuFCrAHUaaFZf5V2iW5xhGnrhDwE1Ksf7tlstSne/G0a+Ef7vhUyeTn6U/0m
+ +/BrsCsBUXhqeNuraGUtaleatQijXfuemUwgB+mE3B0SobE601XLo6MYIhPh8MG32MKO5kOY
+ hB5jzyor7WoN3ETVNQoGgMzPVWIRElwpcXr+yGoTLAOpG7nkAUBBj9n9TPpSdt/npfok9ZfL
+ /Q+ranrxb2Cy4tvOPxeVfR58XveX85ICrW9VHPVq9sJf/a24bMm6+qEg1V/G7u/AM3fM8U2m
+ tdrTqOrfxklZ7beppGKzC1/WLrcr072vrdiN0icyOHQlfWmaPv0pUnW3AwtiMYngT96BevfA
+ qlwaymjPTvH+cTXScnbydfOQW8220JQwykUe+sHRZfAF5TS2YCkQvsyf7vIpSqo/ttDk4+xc
+ Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
+ x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
+ pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
+To: Bernard Zhao <bernard@vivo.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ opensource.kernel@vivo.com
+Message-ID: <acd53f06-845b-75e0-24c5-40c751d12945@web.de>
+Date: Fri, 12 Jun 2020 11:37:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBKsWRmVeSWpSXmKPExsWy7bCmuW6q0eM4g7YuNosrX9+zWfztvMBq
- 8eXKQyaLy7vmsFn0bNjKanHq7md2BzaPO9f2sHnc7z7O5HH732Nmj74tqxg9Pm+SC2CNyrHJ
- SE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQdcvMAbpASaEsMacU
- KBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNgaFigV5yYW1yal66XnJ9rZWhgYGQKVJmQk7Fh
- yk7GgheCFXPmZjUwPuLrYuTkkBAwkbh/4i9jFyMXh5DADkaJzbf6GUESQgKfGCVmL02ASHxj
- lGhYf58ZpuPu9MPsEIm9QB1LLkC1f2eU2Hb3LTtIFZuAusSJLcvARokIsEis/P6dBaSIWeA8
- o8S7q7OAEhwcwgJuEqtazUBMFgFVieMbOUHKeQWsJBY9388OsUxeYuLsu4wQcUGJkzOfsIDY
- zEDx5q2zmUFGSgicYpeYtHsCO8gcCQEXieY9LBC9whKvjm+BmiMl8fndXjYIu1zibMsjVoje
- FkaJi9OuQiWMJWY9awc7jVlAU2L9Ln2IkcoSR25BreWT6Dj8F2oTr0RHmxBEo7LE/mXzoLZK
- Sjxa284KYXtIbPq/iQUSnrESO+4/YJ/AKD8LyTOzkDwzC2HvAkbmVYxiqQXFuempxUYFhsgx
- uokRnAS1XHcwTn77Qe8QIxMH4yFGCQ5mJRFeQfGHcUK8KYmVValF+fFFpTmpxYcYTYGhO5FZ
- SjQ5H5iG80riDU2NzMwMLE0tTM2MLJTEeXMVL8QJCaQnlqRmp6YWpBbB9DFxcEo1MHUFzZsv
- +Mxmh+b1D9s3P2V91VN0PaxT2/Hzmdm/wt7pSv/azrmy+gKbzjTnJu+Jixd01/lOFH9/4fSx
- UwKzmPzybA1rLa4u1GL9bKR0JuyosSLLHL2rZdvXy8/kfGGSeSW8zErzetfS9jNnd+91dxIp
- j1ofVuBolC7Z5/gydI9lDH8bVxmTWw5vzpVGgbA+D0PTuPrpNkE7ROUOxgRJvTP5HCUVts60
- e+aCxd4XChMkbWqT56T+XjAtad/H8w+PvF5dJb1ytmTZkpQ1r0+yntv947TjYeNo/efrZATO
- ORjorrzUPtdQd8b5SN1ao/bHsv7vt8lZ/nm1+vjtWbqN3/fFxWXMvvFh0XUeszZ5fyWW4oxE
- Qy3mouJEANQ2pUgLBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGLMWRmVeSWpSXmKPExsWy7bCSnG6K0eM4g9nNChZXvr5ns/jbeYHV
- 4suVh0wWl3fNYbPo2bCV1eLU3c/sDmwed67tYfO4332cyeP2v8fMHn1bVjF6fN4kF8AaxWWT
- kpqTWZZapG+XwJWxYcpOxoIXghVz5mY1MD7i62Lk5JAQMJG4O/0wexcjF4eQwG5Gic/bvrFB
- JCQlZn0+yQRhC0vcbznCCmILCXxllOi9bgJiswmoS5zYsowRxBYRYJFY+f07C4jNLHCZUeL4
- tdIuRg4OYQE3iVWtZiAmi4CqxPGNnCAVvAJWEoue72eHmC4vMXH2XUaIuKDEyZlPoKbISzRv
- nc08gZFvFpLULCSpBYxMqxglUwuKc9Nziw0LDPNSy/WKE3OLS/PS9ZLzczcxgoNSS3MH4/ZV
- H/QOMTJxMB5ilOBgVhLhFRR/GCfEm5JYWZValB9fVJqTWnyIUZqDRUmc90bhwjghgfTEktTs
- 1NSC1CKYLBMHp1QDU5vHO9FWm1/LVVVbNyh+TXjp6NpQeMng18VDu/plp3yd6sYrvUMytJnR
- ymr74yl3XnnpbW6/7zzXYdZNi60if1vvzEvQm1Z/ouuL+LEDl19e6U+8mhGZpy7rcvepvOOE
- nuVZ751OXXjylOuP29HvqhYSha0t1hH/tN47JR+c8M/tsl3PLr333VXhm+8eE3i/+pvq8d0v
- 2w3DSiTlz9/OlvM8ttdPd0mH7OY9Rl21U+qPX53MuT9nn5tj6oO4DZvC5/24tNv7jdav9vxD
- Nyd8nMXzlmlduM3C/DcPuEK/umy/8mC20mmZwFfXXCqeTjph8HPS7ICK9bZVC89kv/15wu3E
- 5a8dj3Nj1noxO72VEctQYinOSDTUYi4qTgQAXTYmH7kCAAA=
-X-CMS-MailID: 20200612074436epcas2p33831d7a3781be5f5414152d42bfabcf0
-X-Msg-Generator: CA
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200612074436epcas2p33831d7a3781be5f5414152d42bfabcf0
-References: <CGME20200612074436epcas2p33831d7a3781be5f5414152d42bfabcf0@epcas2p3.samsung.com>
+Content-Language: en-GB
+X-Provags-ID: V03:K1:qaXAm6Q9wV9VhMqjFLP6tY0gcA2He1dT9KWiGh6g8sxPdYxPSS+
+ xAG61gafXJblj4/iONwtirdhDf1sg2OPviJqUGaVn29vgp038pDESbJ18EFQz3qh+yyrJss
+ /CTCQ+1LyeB4JKPuMYPiz5UD8CLt/xOcWxDJ4xT2+JusNTaI/QuGqKDbrrb19WtlqFaRhst
+ iOS8dSnVKNGE/zMNQwLRA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ScQ2l+7H0Ok=:RJnBEIvtOBFJMuQa2CT6qU
+ J3ur9yzgD2xZ4pBWXVGIUBg3qLPn6vIYKAca8ovyVG0TkSbaGX53H1T4GAW928u1RlyWJ1s2G
+ XRPz1G2f+syD17kjPICMrJiSMcCVQNGYtYgD/JYZiPRMa+SriTrOcx3YPDp6rMHmCX9pyCqap
+ QfbZyZF8NynxrGZJOOcObebUndNO3xzdT07H+pF7RXqGjB3sM5b4AEtxImjZTekCBN/dXsYyX
+ S/ZGx3EvZiyPPGBM55vsv9RqyrViXKtPABfhdQ9w/Bb36AH+BSIaiw/o4U1fSbj3LGEWvZNW5
+ xqRpW/9WDasDf0fZRbupErewIk0jkrO7UGsgfMjDxDUEclKj+T8dJvwUQyyn4fIZs0mEFw8qU
+ gEMvmWf2RDd6mTxaAo23KJu0s+G5D+EGnoMuiR+y/3EZ9Wjx3E5x1wgaXkLKQ/Y1eKdb1RWc7
+ oOfNyAYzzxW1kVxTQMlgAscueLHAjzZp/XieBdDQfUVUsj8Q1D0YdxMk7Y0H/5pQQOXS8xR2G
+ Pe/3gW8/aRxX0Ot9vsrNUhInJvnobMSklKvyXXw3uyaoUYOgdihSidjsjpEyxoba0N09mE1fx
+ IJ07zZHnkbSLR3PDLyf9061XY4baqGzRzkpBEVQgR7uSAkKrCTjo9N5LzaArsW7DkXreXtued
+ nUzlnqW6HssjDlC43PHIh9Yt5XzuoOqtLSs4afZK0731cLfL/PvtpT3n5v6ZRFu2SCHgt3LQm
+ dG2zizpV0iYurNiZ423Red36qB/lQiEPD8FSecQYhn2Y2XHuWDTB/HDAV+/r8FfD/+tzfzKcp
+ LcAgXoUpKuqBdl8x1G6fvaAnyol4HOdeVxq9X78VEmyPNOC6k0m52yCynOab1luhpKN+z0+4F
+ 2k+Wk2ErrVN8025/0d4frS25RI6cXeAXb5hyOgLZf0aEMPLmbKTTwGiqRVofiohk4lU0HEjOK
+ WULOiT+v4W+/7HAznesqfRSHRMdirnx4MS0xO27aVOlWL2Xk+o9lO3RuqlHOSc5X5ckzhOBew
+ 7kN5OG3d6aHq0xXUAvGNUE6y3P+fv7WufHwIhnDii5Uds7ncgcMl6r5jT22mRh4bdmmf2sres
+ L7NU09bd45FyvkJWhlTun3N8xUTkdNMcUL7DrFU3oFRCf7GMjuobAKXKAhUZh91FCFj9dB85J
+ pD2cXCXYdTAA+E47XUY7j7+p/8o04NTAWhZkYeHRVxre/iUk3LlVw+57dVuMdEmRWoaFXAP1S
+ YvQ6wMIyIaT1rc1EW
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,90 +114,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Hyesoo Yu <hyesoo.yu@samsung.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's support debugging function to show exporter
-detail information. The exporter don't need to manage
-the lists for debugging because all dmabuf list are
-managed on dmabuf framework.
-
-That supports to walk the dmabuf list and show the
-detailed information for exporter by passed function
-implemented from exporter.
-
-That helps to show exporter detail information.
-For example, ION may show the buffer flag, heap name,
-or the name of process to request allocation.
-
-Change-Id: I670f04dda4a0870081e1b0fd96b9185b48b9dd15
-Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
----
- drivers/dma-buf/dma-buf.c | 30 ++++++++++++++++++++++++++++++
- include/linux/dma-buf.h   |  2 ++
- 2 files changed, 32 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 01ce125f8e8d..002bd3ac636e 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1254,6 +1254,36 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
- }
- EXPORT_SYMBOL_GPL(dma_buf_vunmap);
- 
-+int dma_buf_exp_show(struct seq_file *s,
-+		     int (*it)(struct seq_file *s, struct dma_buf *dmabuf))
-+{
-+	int ret;
-+	struct dma_buf *buf_obj;
-+
-+	ret = mutex_lock_interruptible(&db_list.lock);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry(buf_obj, &db_list.head, list_node) {
-+		ret = mutex_lock_interruptible(&buf_obj->lock);
-+		if (ret) {
-+			seq_puts(s,
-+				 "\tERROR locking buffer object: skipping\n");
-+			continue;
-+		}
-+
-+		ret = it(s, buf_obj);
-+		mutex_unlock(&buf_obj->lock);
-+		if (ret)
-+			break;
-+	}
-+	mutex_unlock(&db_list.lock);
-+
-+	return 0;
-+
-+}
-+EXPORT_SYMBOL_GPL(dma_buf_exp_show);
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index ab0c156abee6..b5c0a10b4eb3 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -502,4 +502,6 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
- 		 unsigned long);
- void *dma_buf_vmap(struct dma_buf *);
- void dma_buf_vunmap(struct dma_buf *, void *vaddr);
-+int dma_buf_exp_show(struct seq_file *s,
-+		     int (*it)(struct seq_file *s, struct dma_buf *dmabuf));
- #endif /* __DMA_BUF_H__ */
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBJbiBmdWNudGluIG1zbV9zdWJtaXRxdWV1ZV9jcmVhdGUsIHRoZSBxdWV1ZSBpcyBhIGxvY2Fs
+Cj4gdmFyaWFibGUsIGluIHJldHVybiAtRUlOVkFMIGJyYW5jaCwgcXVldWUgZGlkbmB0IGFkZCB0
+byBjdHhgcwo+IGxpc3QgeWV0LCBhbmQgYWxzbyBkaWRuYHQga2ZyZWUsIHRoaXMgbWF5YmUgYnJp
+bmcgaW4gcG90ZW50aWFsCj4gbWVtbGVhay4KCkkgc3VnZ2VzdCB0byBpbXByb3ZlIGFsc28gdGhp
+cyBjaGFuZ2UgZGVzY3JpcHRpb24uCkhvdyBkbyB5b3UgdGhpbmsgYWJvdXQgYSB3b3JkaW5nIHZh
+cmlhbnQgbGlrZSB0aGUgZm9sbG93aW5nPwoKICAgUmVsZWFzZSB0aGUgR1BVIHN1Ym1pc3Npb24g
+cXVldWUgb2JqZWN0IGFmdGVyIGFuIGlucHV0IHBhcmFtZXRlciB2YWxpZGF0aW9uIGZhaWxlZC4K
+CgpXb3VsZCB5b3UgbGlrZSB0byBhZGQgdGhlIHRhZyDigJxGaXhlc+KAnSB0byB0aGUgY29tbWl0
+IG1lc3NhZ2U/Cmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
+L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL0RvY3VtZW50YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5n
+LXBhdGNoZXMucnN0P2lkPWI3OTFkMWJkZjkyMTJkOTQ0ZDc0OWE1YzdmZjZmZWJkYmEyNDE3NzEj
+bjE4MwoKCkhvdyBkbyB5b3UgdGhpbmsgYWJvdXQgdG8gcmVvcmRlciBhbnkgc3RhdGVtZW50cyBm
+b3IgdGhpcyBmdW5jdGlvbiBpbXBsZW1lbnRhdGlvbj8KClJlZ2FyZHMsCk1hcmt1cwpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
