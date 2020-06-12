@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3A11F762E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 11:48:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC041F766B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 12:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE99389349;
-	Fri, 12 Jun 2020 09:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7936D6E905;
+	Fri, 12 Jun 2020 10:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4360489349
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 09:48:00 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id A1E76ADCD;
- Fri, 12 Jun 2020 09:48:02 +0000 (UTC)
-Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
- operations
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <20200612013625.547-1-gurchetansingh@chromium.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
-Date: Fri, 12 Jun 2020 11:47:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 015B66E905;
+ Fri, 12 Jun 2020 10:01:41 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3DE6A207D8;
+ Fri, 12 Jun 2020 10:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591956101;
+ bh=IBzrqa8288WHt0Vr+2XSR3sZwtmgNbA3oFvFtV3/1MQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=V2vPFMorhf1SoQns9I/vVtVFeBl5WXxk3cGLGvcK//oMZ6nuV87wkamGEdT9lVhuA
+ 5/Oh1w5iuhlsKrHP4iiWxu7+icB1Rf0xEcwk16Ht5CJX6iPxFHhhdRK7+eyyxemqAL
+ jwWFREBmJhoD2QZdkNWo5iPAze0FaCHpdXyg46S8=
+Date: Fri, 12 Jun 2020 12:01:32 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH] drm/msm: Improve exception handling in
+ msm_gpu_crashstate_capture()
+Message-ID: <20200612100132.GB3157576@kroah.com>
+References: <56a615b6-9881-ff01-fa0f-8ea070fc03e7@web.de>
 MIME-Version: 1.0
-In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
+Content-Disposition: inline
+In-Reply-To: <56a615b6-9881-ff01-fa0f-8ea070fc03e7@web.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,169 +47,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, kraxel@redhat.com
-Content-Type: multipart/mixed; boundary="===============0408582675=="
+Cc: Sean Paul <sean@poorly.run>, opensource.kernel@vivo.com,
+ David Airlie <airlied@linux.ie>, Bernard Zhao <bernard@vivo.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0408582675==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wW9sdXfol2HgDodLizumv1OO8w6T8KUjp"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wW9sdXfol2HgDodLizumv1OO8w6T8KUjp
-Content-Type: multipart/mixed; boundary="Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-Cc: kraxel@redhat.com, daniel.vetter@ffwll.ch
-Message-ID: <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
-Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
- operations
-References: <20200612013625.547-1-gurchetansingh@chromium.org>
-In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
-
---Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 12.06.20 um 03:36 schrieb Gurchetan Singh:
-> This is useful for the next patch.  Also, should we only unmap the
-> amount entries that we mapped with the dma-api?
-
-It looks like you're moving virtio code into shmem. It would be nice to
-have a cover letter explaining the series.
-
->=20
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 16 +++++++++++-----
->  include/drm/drm_gem_shmem_helper.h     | 10 ++++++++++
->  2 files changed, 21 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> index 0a7e3b664bc2..d439074ad7b5 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -124,8 +124,10 @@ void drm_gem_shmem_free_object(struct drm_gem_obje=
-ct *obj)
->  		drm_prime_gem_destroy(obj, shmem->sgt);
->  	} else {
->  		if (shmem->sgt) {
-> -			dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> -				     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-> +			if (!shmem->skip_dma_api)
-> +				dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> +					     shmem->dma_map_count,
-> +					     DMA_BIDIRECTIONAL);
->  			sg_free_table(shmem->sgt);
->  			kfree(shmem->sgt);
->  		}
-> @@ -422,8 +424,9 @@ void drm_gem_shmem_purge_locked(struct drm_gem_obje=
-ct *obj)
-> =20
->  	WARN_ON(!drm_gem_shmem_is_purgeable(shmem));
-> =20
-> -	dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> -		     shmem->sgt->nents, DMA_BIDIRECTIONAL);
-> +	if (!shmem->skip_dma_api)
-> +		dma_unmap_sg(obj->dev->dev, shmem->sgt->sgl,
-> +			     shmem->dma_map_count, DMA_BIDIRECTIONAL);
->  	sg_free_table(shmem->sgt);
->  	kfree(shmem->sgt);
->  	shmem->sgt =3D NULL;
-> @@ -695,7 +698,10 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struc=
-t drm_gem_object *obj)
->  		goto err_put_pages;
->  	}
->  	/* Map the pages for use by the h/w. */
-> -	dma_map_sg(obj->dev->dev, sgt->sgl, sgt->nents, DMA_BIDIRECTIONAL);
-> +	if (!shmem->skip_dma_api)
-> +		shmem->dma_map_count =3D dma_map_sg(obj->dev->dev, sgt->sgl,
-> +						  sgt->nents,
-> +						  DMA_BIDIRECTIONAL);
-> =20
->  	shmem->sgt =3D sgt;
-> =20
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_s=
-hmem_helper.h
-> index 5381f0c8cf6f..2669d87cbfdd 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -101,6 +101,16 @@ struct drm_gem_shmem_object {
->  	 * @map_cached: map object cached (instead of using writecombine).
->  	 */
->  	bool map_cached;
-> +
-> +	/**
-> +	 * @skip_dma_api: skip using dma api in certain places.
-> +	 */
-> +	bool skip_dma_api;
-
-This looks like an under-documented workaround for something.
-
-> +
-> +	/**
-> +	 * @skip_dma_api: number of pages mapped by dma-api.
-> +	 */
-> +	bool dma_map_count;
-
-The documentation comment doesn't match the field name.
-
-Best regards
-Thomas
-
->  };
-> =20
->  #define to_drm_gem_shmem_obj(obj) \
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---Wu1dTVx74q8QLydISsZrG6XCOIKSTus3X--
-
---wW9sdXfol2HgDodLizumv1OO8w6T8KUjp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jT0sACgkQaA3BHVML
-eiOPWAf7Bzyoa+dE6k8ZQZO2yZiwXTDujACT6VdfWb7/KwzWfO/qrh58gwdZ/LL/
-9QSutlmJqw5G6l9XibkDvTYk+XvaS7DRC0ofPE8ZlH+gK7Mkir3pJnW0zwk7JqVr
-WaDQkt5Wn9Jxr+UULHoEh/l4MdVC1Ee/5YOsrJ1d9bMWC7A+4MJOTNhvb3YqHjMD
-eLXz6bKsg8cPfrkvepr43W32jlAT85tiX/pN3h6m0VTxaSrkhKL6q7joiasOntd2
-BeBDBH2R8pxv4p/ngxiHZ8yGnmR5MGs3njVB7vQvOzPvIDWORz9MR2/3GX1kT8y5
-HenB2P6yKEW5nRSsWDNTW/b3XGLgyg==
-=hSyr
------END PGP SIGNATURE-----
-
---wW9sdXfol2HgDodLizumv1OO8w6T8KUjp--
-
---===============0408582675==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0408582675==--
+T24gRnJpLCBKdW4gMTIsIDIwMjAgYXQgMDk6MzY6MDlBTSArMDIwMCwgTWFya3VzIEVsZnJpbmcg
+d3JvdGU6Cj4gPiBGdW5jdGlvbiBtc21fZ3B1X2NyYXNoc3RhdGVfY2FwdHVyZSBtYXliZSBjYWxs
+ZWQgZm9yIHNldmVyYWwKPiA+IHRpbWVzLCBhbmQgdGhlbiB0aGUgc3RhdGUtPmJvcyBpcyBhIHBv
+dGVudGlhbCBtZW1sZWFrLiBBbHNvCj4gPiB0aGUgc3RhdGUtPnBvcyBtYXliZSBhbGxvYyBmYWls
+ZWQsIGJ1dCBub3cgd2l0aG91dCBhbnkgaGFuZGxlLgo+ID4gVGhpcyBjaGFuZ2UgaXMgdG8gZml4
+IHNvbWUgcG90ZW50aWFsIG1lbWxlYWsgYW5kIGFkZCBlcnJvcgo+ID4gaGFuZGxlIHdoZW4gYWxs
+b2MgZmFpbGVkLgo+IAo+IEkgc3VnZ2VzdCB0byBpbXByb3ZlIHRoZSBwcm92aWRlZCBpbmZvcm1h
+dGlvbi4KPiBIb3cgZG8geW91IHRoaW5rIGFib3V0IGEgd29yZGluZyB2YXJpYW50IGxpa2UgdGhl
+IGZvbGxvd2luZz8KPiAKPiAgICBUaGUgZnVuY3Rpb24g4oCcbXNtX2dwdV9jcmFzaHN0YXRlX2Nh
+cHR1cmXigJ0gY2FuIGJlIGNhbGxlZCBtdWx0aXBsZSB0aW1lcy4KPiAgICBUaGUgbWVtYmVycyDi
+gJxjb21t4oCdLCDigJxjbWTigJ0gYW5kIOKAnGJvc+KAnSBvZiB0aGUgZGF0YSBzdHJ1Y3R1cmUg
+4oCcbXNtX2dwdV9zdGF0ZeKAnQo+ICAgIGFyZSByZWFzc2lnbmVkIHdpdGggcG9pbnRlcnMgYWNj
+b3JkaW5nIHRvIGR5bmFtaWMgbWVtb3J5IGFsbG9jYXRpb25zCj4gICAgaWYgdGhlIHByZXByb2Nl
+c3NvciBzeW1ib2wg4oCcQ09ORklHX0RFVl9DT1JFRFVNUOKAnSB3YXMgZGVmaW5lZC4KPiAgICBC
+dXQgdGhlIGZ1bmN0aW9uIOKAnGtmcmVl4oCdIHdhcyBub3QgY2FsbGVkIGZvciB0aGVtIGJlZm9y
+ZS4KPiAKPiAgICBUaHVzIGFkZCBtaXNzaW5nIGFjdGlvbnMuCj4gICAgKiBSZWxlYXNlIHByZXZp
+b3VzIG9iamVjdHMuCj4gICAgKiBVc2UgZnVydGhlciBudWxsIHBvaW50ZXIgY2hlY2tzLgo+ICAg
+ICogQ29tcGxldGUgdGhlIGNvcnJlc3BvbmRpbmcgZXhjZXB0aW9uIGhhbmRsaW5nLgo+IAo+IAo+
+IFdvdWxkIHlvdSBsaWtlIHRvIGFkZCB0aGUgdGFnIOKAnEZpeGVz4oCdIHRvIHRoZSBjb21taXQg
+bWVzc2FnZT8KPiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
+dC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0dGlu
+Zy1wYXRjaGVzLnJzdD9pZD1iNzkxZDFiZGY5MjEyZDk0NGQ3NDlhNWM3ZmY2ZmViZGJhMjQxNzcx
+I24xODMKPiAKPiAKCkhpLAoKVGhpcyBpcyB0aGUgc2VtaS1mcmllbmRseSBwYXRjaC1ib3Qgb2Yg
+R3JlZyBLcm9haC1IYXJ0bWFuLgoKTWFya3VzLCB5b3Ugc2VlbSB0byBoYXZlIHNlbnQgYSBub25z
+ZW5zaWNhbCBvciBvdGhlcndpc2UgcG9pbnRsZXNzCnJldmlldyBjb21tZW50IHRvIGEgcGF0Y2gg
+c3VibWlzc2lvbiBvbiBhIExpbnV4IGtlcm5lbCBkZXZlbG9wZXIgbWFpbGluZwpsaXN0LiAgSSBz
+dHJvbmdseSBzdWdnZXN0IHRoYXQgeW91IG5vdCBkbyB0aGlzIGFueW1vcmUuICBQbGVhc2UgZG8g
+bm90CmJvdGhlciBkZXZlbG9wZXJzIHdobyBhcmUgYWN0aXZlbHkgd29ya2luZyB0byBwcm9kdWNl
+IHBhdGNoZXMgYW5kCmZlYXR1cmVzIHdpdGggY29tbWVudHMgdGhhdCwgaW4gdGhlIGVuZCwgYXJl
+IGEgd2FzdGUgb2YgdGltZS4KClBhdGNoIHN1Ym1pdHRlciwgcGxlYXNlIGlnbm9yZSBNYXJrdXMn
+cyBzdWdnZXN0aW9uOyB5b3UgZG8gbm90IG5lZWQgdG8KZm9sbG93IGl0IGF0IGFsbC4gIFRoZSBw
+ZXJzb24vYm90L0FJIHRoYXQgc2VudCBpdCBpcyBiZWluZyBpZ25vcmVkIGJ5CmFsbW9zdCBhbGwg
+TGludXgga2VybmVsIG1haW50YWluZXJzIGZvciBoYXZpbmcgYSBwZXJzaXN0ZW50IHBhdHRlcm4g
+b2YKYmVoYXZpb3Igb2YgcHJvZHVjaW5nIGRpc3RyYWN0aW5nIGFuZCBwb2ludGxlc3MgY29tbWVu
+dGFyeSwgYW5kCmluYWJpbGl0eSB0byBhZGFwdCB0byBmZWVkYmFjay4gIFBsZWFzZSBmZWVsIGZy
+ZWUgdG8gYWxzbyBpZ25vcmUgZW1haWxzCmZyb20gdGhlbS4KCnRoYW5rcywKCmdyZWcgay1oJ3Mg
+cGF0Y2ggZW1haWwgYm90Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
