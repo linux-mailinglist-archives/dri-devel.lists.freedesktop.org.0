@@ -2,58 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0CA1F73EB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 08:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBDC1F742C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 08:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A899E6E25C;
-	Fri, 12 Jun 2020 06:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E25706E14D;
+	Fri, 12 Jun 2020 06:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7DA6E25C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 06:31:17 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0E8CFAEFD;
- Fri, 12 Jun 2020 06:31:20 +0000 (UTC)
-Subject: Re: [PATCH 2/3] drm/ast: Upcast from DRM device to ast structure via
- to_ast_private()
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20200611082809.7838-1-tzimmermann@suse.de>
- <20200611082809.7838-3-tzimmermann@suse.de>
- <20200611173219.GF20149@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <9d601197-d24c-af6c-e058-f092e3e5810f@suse.de>
-Date: Fri, 12 Jun 2020 08:31:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F337F6E250
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 06:52:39 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id h5so8572145wrc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 23:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=KPEqPiU89krCRQ7eJHbs4BmTB+E1TGc/75h7cOuVmFc=;
+ b=aFzgFVXCCnphSmJ62oDpkjZTZFZPOCE1atMdkUgtWfitshaFyS5xB/uDLc548+U8kZ
+ unRfqPMs50NA8Ryb9iw/8NqZu/zriC+sM1fIkRlgDpl7JVg/rfNR3xSkuFdkEdkvicEU
+ q9KSgkBSC3Lcf9AexKXFqQkhl/Tun4U34m4bo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=KPEqPiU89krCRQ7eJHbs4BmTB+E1TGc/75h7cOuVmFc=;
+ b=RbRlq6GWsb6/uiAGIOl+ej6au1401vbsB1Et7KEVbQ23eb+4QisJbRihLkOsdSBJOP
+ CUo82VES6fxECK7EK7/k/7yHwmrCCsZ6gB9k8pN+xRZITqfMknDwrfiX8hbCjv++UAji
+ dNZlCJUuJTmp/41sTRPQUqFbehX8nJI02ctWcZ6FqW7V+N/QHmSjpQxYyjH7vkMuhQUn
+ vpBpiY9NiBWSAL8Ck/zy00ZUHCJCDLOPxoNgFC0uQfmGizUuoEaNtn984mUQcluS9XG8
+ CbXremUiMYXLUhUyidED2OyIKB+5+2Uo2BQ1ZtGhrLR868cK2d+3LG/dgcMqK9hniULu
+ 7esQ==
+X-Gm-Message-State: AOAM530UTWT1K5Tci82Q6bCimOOjWNTVXr6xNPZ9LnUGAZxCtnWN5zxE
+ q8wq7GnqLl+Of4D9MfA/mvEk/w==
+X-Google-Smtp-Source: ABdhPJxcMp7CK1Cd8wbfj+Ipdxz9pCfgsBW2BG13xSXS31kYW12UQm2VTcokRb2k8n4cP58upz+84Q==
+X-Received: by 2002:adf:fc81:: with SMTP id g1mr13670707wrr.156.1591944758444; 
+ Thu, 11 Jun 2020 23:52:38 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i15sm1674830wre.93.2020.06.11.23.52.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Jun 2020 23:52:37 -0700 (PDT)
+Date: Fri, 12 Jun 2020 08:52:35 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Subject: Re: [PATCH 1/6] drm/ttm: Add unampping of the entire device address
+ space
+Message-ID: <20200612065235.GH20149@phenom.ffwll.local>
+References: <f36c1fa1-bbee-477a-9cb2-ed2726f27eef@email.android.com>
+ <eb9e5896-1f16-2102-350a-1e64d9af7ea8@shipmail.org>
+ <b415e3d1-eed9-9b11-b8c1-c85c7b57eb93@amd.com>
+ <ce6f6109-67df-e3d0-d56e-3f5c27df40a0@amd.com>
+ <20200610153020.GZ20149@phenom.ffwll.local>
+ <715ad9d4-7763-382e-237e-8daab42eff46@shipmail.org>
+ <CAKMK7uGyKKEk4fFdr45ipe0MmS_1qrv8z0QEPWk=zuwhiUajVA@mail.gmail.com>
+ <97308b69-6daa-6047-a1ef-338879be5280@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20200611173219.GF20149@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <97308b69-6daa-6047-a1ef-338879be5280@amd.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,617 +73,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============1823841926=="
+Cc: "michel@daenzer.net" <michel@daenzer.net>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1823841926==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0"
+On Thu, Jun 11, 2020 at 11:15:42AM -0400, Andrey Grodzovsky wrote:
+> =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0
-Content-Type: multipart/mixed; boundary="MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
-Message-ID: <9d601197-d24c-af6c-e058-f092e3e5810f@suse.de>
-Subject: Re: [PATCH 2/3] drm/ast: Upcast from DRM device to ast structure via
- to_ast_private()
-References: <20200611082809.7838-1-tzimmermann@suse.de>
- <20200611082809.7838-3-tzimmermann@suse.de>
- <20200611173219.GF20149@phenom.ffwll.local>
-In-Reply-To: <20200611173219.GF20149@phenom.ffwll.local>
+> On 6/10/20 5:16 PM, Daniel Vetter wrote:
+> > On Wed, Jun 10, 2020 at 10:30 PM Thomas Hellstr=F6m (Intel)
+> > <thomas_os@shipmail.org> wrote:
+> > > =
 
---MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> > > On 6/10/20 5:30 PM, Daniel Vetter wrote:
+> > > > On Wed, Jun 10, 2020 at 04:05:04PM +0200, Christian K=F6nig wrote:
+> > > > > Am 10.06.20 um 15:54 schrieb Andrey Grodzovsky:
+> > > > > > On 6/10/20 6:15 AM, Thomas Hellstr=F6m (Intel) wrote:
+> > > > > > > On 6/9/20 7:21 PM, Koenig, Christian wrote:
+> > > > > > > > Am 09.06.2020 18:37 schrieb "Grodzovsky, Andrey"
+> > > > > > > > <Andrey.Grodzovsky@amd.com>:
+> > > > > > > > =
 
-Hi
+> > > > > > > > =
 
-Am 11.06.20 um 19:32 schrieb Daniel Vetter:
-> On Thu, Jun 11, 2020 at 10:28:08AM +0200, Thomas Zimmermann wrote:
->> All upcasting from struct drm_device to struct ast_private is now
->> performed via to_ast_private(). Using struct drm_device.dev_private is=
+> > > > > > > >       On 6/5/20 2:40 PM, Christian K=F6nig wrote:
+> > > > > > > >       > Am 05.06.20 um 16:29 schrieb Andrey Grodzovsky:
+> > > > > > > >       >>
+> > > > > > > >       >> On 5/11/20 2:45 AM, Christian K=F6nig wrote:
+> > > > > > > >       >>> Am 09.05.20 um 20:51 schrieb Andrey Grodzovsky:
+> > > > > > > >       >>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzov=
+sky@amd.com>
+> > > > > > > >       >>>> ---
+> > > > > > > >       >>>> drivers/gpu/drm/ttm/ttm_bo.c    | 22 +++++++++++=
+++++++++++-
+> > > > > > > >       >>>> include/drm/ttm/ttm_bo_driver.h |  2 ++
+> > > > > > > >       >>>>   2 files changed, 23 insertions(+), 1 deletion(=
+-)
+> > > > > > > >       >>>>
+> > > > > > > >       >>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > >       >>>> b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > >       >>>> index c5b516f..eae61cc 100644
+> > > > > > > >       >>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > >       >>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > > > >       >>>> @@ -1750,9 +1750,29 @@ void ttm_bo_unmap_virtual=
+(struct
+> > > > > > > >       >>>> ttm_buffer_object *bo)
+> > > > > > > >       >>>> ttm_bo_unmap_virtual_locked(bo);
+> > > > > > > >       >>>> ttm_mem_io_unlock(man);
+> > > > > > > >       >>>>   }
+> > > > > > > >       >>>> +EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+> > > > > > > >       >>>>   +void ttm_bo_unmap_virtual_address_space(struct
+> > > > > > > >       ttm_bo_device *bdev)
+> > > > > > > >       >>>> +{
+> > > > > > > >       >>>> +    struct ttm_mem_type_manager *man;
+> > > > > > > >       >>>> +    int i;
+> > > > > > > >       >>>> -EXPORT_SYMBOL(ttm_bo_unmap_virtual);
+> > > > > > > >       >>>
+> > > > > > > >       >>>> +    for (i =3D 0; i < TTM_NUM_MEM_TYPES; i++) {
+> > > > > > > >       >>>> +        man =3D &bdev->man[i];
+> > > > > > > >       >>>> +        if (man->has_type && man->use_type)
+> > > > > > > >       >>>> + ttm_mem_io_lock(man, false);
+> > > > > > > >       >>>> +    }
+> > > > > > > >       >>>
+> > > > > > > >       >>> You should drop that it will just result in a dea=
+dlock
+> > > > > > > >       warning for
+> > > > > > > >       >>> Nouveau and has no effect at all.
+> > > > > > > >       >>>
+> > > > > > > >       >>> Apart from that looks good to me,
+> > > > > > > >       >>> Christian.
+> > > > > > > >       >>
+> > > > > > > >       >>
+> > > > > > > >       >> As I am considering to re-include this in V2 of the
+> > > > > > > >       patchsets, can
+> > > > > > > >       >> you clarify please why this will have no effect at=
+ all ?
+> > > > > > > >       >
+> > > > > > > >       > The locks are exclusive for Nouveau to allocate/fre=
+e the io
+> > > > > > > >       address
+> > > > > > > >       > space.
+> > > > > > > >       >
+> > > > > > > >       > Since we don't do this here we don't need the locks.
+> > > > > > > >       >
+> > > > > > > >       > Christian.
+> > > > > > > > =
 
->> deprecated. The ast variable in ast_crtc_helperatomic_check() is unuse=
-d,
->> so removed it.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
-> Aside, the check in ast_pm_freeze is bogus, you can't resume/freeze bef=
-ore
-> the driver has completed loading.
+> > > > > > > > =
 
-Ah, OK. I'll remove it then.
+> > > > > > > >       So basically calling unmap_mapping_range doesn't requ=
+ire any extra
+> > > > > > > >       locking around it and whatever locks are taken within=
+ the function
+> > > > > > > >       should be enough ?
+> > > > > > > > =
 
-Best regards
-Thomas
+> > > > > > > > =
 
->=20
-> I suspect this is a remnant from the old days of dri1 where freeze/resu=
-me
-> before the driver finished loading was very much possible with the shad=
-ow
-> attach stuff. So probably just copypasta stuff.
->=20
-> In general when you spot that in a modern kms driver, then just delete =
-it.
-> that =3D checking whether the drm_device or dev_private is set. Definit=
-ely
-> not a pattern we should propagate.
->=20
-> Cheers, Daniel
->=20
->> ---
->>  drivers/gpu/drm/ast/ast_dp501.c | 24 +++++++++----------
->>  drivers/gpu/drm/ast/ast_drv.h   |  5 ++++
->>  drivers/gpu/drm/ast/ast_main.c  | 10 ++++----
->>  drivers/gpu/drm/ast/ast_mode.c  | 41 ++++++++++++++++----------------=
--
->>  drivers/gpu/drm/ast/ast_post.c  | 16 ++++++-------
->>  5 files changed, 50 insertions(+), 46 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast=
-_dp501.c
->> index 98cd69269263f..4b85a504825a2 100644
->> --- a/drivers/gpu/drm/ast/ast_dp501.c
->> +++ b/drivers/gpu/drm/ast/ast_dp501.c
->> @@ -10,7 +10,7 @@ MODULE_FIRMWARE("ast_dp501_fw.bin");
->> =20
->>  static int ast_load_dp501_microcode(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	return request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev=
-);
->>  }
->> @@ -93,7 +93,7 @@ static bool wait_fw_ready(struct ast_private *ast)
->> =20
->>  static bool ast_write_cmd(struct drm_device *dev, u8 data)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	int retry =3D 0;
->>  	if (wait_nack(ast)) {
->>  		send_nack(ast);
->> @@ -115,7 +115,7 @@ static bool ast_write_cmd(struct drm_device *dev, =
-u8 data)
->> =20
->>  static bool ast_write_data(struct drm_device *dev, u8 data)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	if (wait_nack(ast)) {
->>  		send_nack(ast);
->> @@ -133,7 +133,7 @@ static bool ast_write_data(struct drm_device *dev,=
- u8 data)
->>  #if 0
->>  static bool ast_read_data(struct drm_device *dev, u8 *data)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 tmp;
->> =20
->>  	*data =3D 0;
->> @@ -172,7 +172,7 @@ static u32 get_fw_base(struct ast_private *ast)
->> =20
->>  bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 i, data;
->>  	u32 boot_address;
->> =20
->> @@ -188,7 +188,7 @@ bool ast_backup_fw(struct drm_device *dev, u8 *add=
-r, u32 size)
->> =20
->>  static bool ast_launch_m68k(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 i, data, len =3D 0;
->>  	u32 boot_address;
->>  	u8 *fw_addr =3D NULL;
->> @@ -255,7 +255,7 @@ static bool ast_launch_m68k(struct drm_device *dev=
-)
->> =20
->>  u8 ast_get_dp501_max_clk(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 boot_address, offset, data;
->>  	u8 linkcap[4], linkrate, linklanes, maxclk =3D 0xff;
->> =20
->> @@ -283,7 +283,7 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev)
->> =20
->>  bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 i, boot_address, offset, data;
->> =20
->>  	boot_address =3D get_fw_base(ast);
->> @@ -312,7 +312,7 @@ bool ast_dp501_read_edid(struct drm_device *dev, u=
-8 *ediddata)
->> =20
->>  static bool ast_init_dvo(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 jreg;
->>  	u32 data;
->>  	ast_write32(ast, 0xf004, 0x1e6e0000);
->> @@ -385,7 +385,7 @@ static bool ast_init_dvo(struct drm_device *dev)
->> =20
->>  static void ast_init_analog(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 data;
->> =20
->>  	/*
->> @@ -412,7 +412,7 @@ static void ast_init_analog(struct drm_device *dev=
-)
->> =20
->>  void ast_init_3rdtx(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 jreg;
->> =20
->>  	if (ast->chip =3D=3D AST2300 || ast->chip =3D=3D AST2400) {
->> @@ -438,7 +438,7 @@ void ast_init_3rdtx(struct drm_device *dev)
->> =20
->>  void ast_release_firmware(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	release_firmware(ast->dp501_fw);
->>  	ast->dp501_fw =3D NULL;
->> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_d=
-rv.h
->> index 09f2659e29118..c44c1376c6977 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.h
->> +++ b/drivers/gpu/drm/ast/ast_drv.h
->> @@ -136,6 +136,11 @@ struct ast_private {
->>  	const struct firmware *dp501_fw;	/* dp501 fw */
->>  };
->> =20
->> +static inline struct ast_private *to_ast_private(struct drm_device *d=
-ev)
->> +{
->> +	return dev->dev_private;
->> +}
->> +
->>  int ast_driver_load(struct drm_device *dev, unsigned long flags);
->>  void ast_driver_unload(struct drm_device *dev);
->> =20
->> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_=
-main.c
->> index f48a9f62368c0..a2ef3d9077671 100644
->> --- a/drivers/gpu/drm/ast/ast_main.c
->> +++ b/drivers/gpu/drm/ast/ast_main.c
->> @@ -67,7 +67,7 @@ uint8_t ast_get_index_reg_mask(struct ast_private *a=
-st,
->>  static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_r=
-ev)
->>  {
->>  	struct device_node *np =3D dev->pdev->dev.of_node;
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	uint32_t data, jregd0, jregd1;
->> =20
->>  	/* Defaults */
->> @@ -117,7 +117,7 @@ static void ast_detect_config_mode(struct drm_devi=
-ce *dev, u32 *scu_rev)
->> =20
->>  static int ast_detect_chip(struct drm_device *dev, bool *need_post)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	uint32_t jreg, scu_rev;
->> =20
->>  	/*
->> @@ -262,7 +262,7 @@ static int ast_detect_chip(struct drm_device *dev,=
- bool *need_post)
->>  static int ast_get_dram_info(struct drm_device *dev)
->>  {
->>  	struct device_node *np =3D dev->pdev->dev.of_node;
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	uint32_t mcr_cfg, mcr_scu_mpll, mcr_scu_strap;
->>  	uint32_t denum, num, div, ref_pll, dsel;
->> =20
->> @@ -388,7 +388,7 @@ static const struct drm_mode_config_funcs ast_mode=
-_funcs =3D {
->> =20
->>  static u32 ast_get_vram_info(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 jreg;
->>  	u32 vram_size;
->>  	ast_open_key(ast);
->> @@ -509,7 +509,7 @@ int ast_driver_load(struct drm_device *dev, unsign=
-ed long flags)
->> =20
->>  void ast_driver_unload(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	/* enable standard VGA decode */
->>  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
-mode.c
->> index be0e2250708fa..10211751182da 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -565,7 +565,7 @@ static void
->>  ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>  				       struct drm_plane_state *old_state)
->>  {
->> -	struct ast_private *ast =3D plane->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(plane->dev);
->>  	struct drm_plane_state *state =3D plane->state;
->>  	struct drm_gem_vram_object *gbo;
->>  	s64 gpu_addr;
->> @@ -585,7 +585,7 @@ static void
->>  ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
->>  					struct drm_plane_state *old_state)
->>  {
->> -	struct ast_private *ast =3D plane->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(plane->dev);
->> =20
->>  	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x20);
->>  }
->> @@ -633,7 +633,7 @@ ast_cursor_plane_helper_prepare_fb(struct drm_plan=
-e *plane,
->>  	    WARN_ON_ONCE(fb->height > AST_MAX_HWC_HEIGHT))
->>  		return -EINVAL; /* BUG: didn't test in atomic_check() */
->> =20
->> -	ast =3D crtc->dev->dev_private;
->> +	ast =3D to_ast_private(crtc->dev);
->> =20
->>  	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
->>  	src =3D drm_gem_vram_vmap(gbo);
->> @@ -705,7 +705,7 @@ ast_cursor_plane_helper_atomic_update(struct drm_p=
-lane *plane,
->>  	struct drm_plane_state *state =3D plane->state;
->>  	struct drm_crtc *crtc =3D state->crtc;
->>  	struct drm_framebuffer *fb =3D state->fb;
->> -	struct ast_private *ast =3D plane->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(plane->dev);
->>  	struct ast_crtc *ast_crtc =3D to_ast_crtc(crtc);
->>  	struct drm_gem_vram_object *gbo;
->>  	s64 off;
->> @@ -738,7 +738,7 @@ static void
->>  ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
->>  				       struct drm_plane_state *old_state)
->>  {
->> -	struct ast_private *ast =3D plane->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(plane->dev);
->> =20
->>  	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xcb, 0xfc, 0x00);
->>  }
->> @@ -766,7 +766,7 @@ static const struct drm_plane_funcs ast_cursor_pla=
-ne_funcs =3D {
->> =20
->>  static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
->>  {
->> -	struct ast_private *ast =3D crtc->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(crtc->dev);
->> =20
->>  	/* TODO: Maybe control display signal generation with
->>  	 *       Sync Enable (bit CR17.7).
->> @@ -789,7 +789,6 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, i=
-nt mode)
->>  static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
->>  					struct drm_crtc_state *state)
->>  {
->> -	struct ast_private *ast =3D crtc->dev->dev_private;
->>  	struct ast_crtc_state *ast_state;
->>  	const struct drm_format_info *format;
->>  	bool succ;
->> @@ -815,7 +814,7 @@ static int ast_crtc_helper_atomic_check(struct drm=
-_crtc *crtc,
->>  static void ast_crtc_helper_atomic_begin(struct drm_crtc *crtc,
->>  					 struct drm_crtc_state *old_crtc_state)
->>  {
->> -	struct ast_private *ast =3D crtc->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(crtc->dev);
->> =20
->>  	ast_open_key(ast);
->>  }
->> @@ -824,7 +823,7 @@ static void ast_crtc_helper_atomic_flush(struct dr=
-m_crtc *crtc,
->>  					 struct drm_crtc_state *old_crtc_state)
->>  {
->>  	struct drm_device *dev =3D crtc->dev;
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	struct ast_crtc_state *ast_state;
->>  	const struct drm_format_info *format;
->>  	struct ast_vbios_mode_info *vbios_mode_info;
->> @@ -937,7 +936,7 @@ static const struct drm_crtc_funcs ast_crtc_funcs =
-=3D {
->> =20
->>  static int ast_crtc_init(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	struct ast_crtc *crtc;
->>  	int ret;
->> =20
->> @@ -966,7 +965,7 @@ static int ast_crtc_init(struct drm_device *dev)
->> =20
->>  static int ast_encoder_init(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	struct drm_encoder *encoder =3D &ast->encoder;
->>  	int ret;
->> =20
->> @@ -986,7 +985,7 @@ static int ast_encoder_init(struct drm_device *dev=
-)
->>  static int ast_get_modes(struct drm_connector *connector)
->>  {
->>  	struct ast_connector *ast_connector =3D to_ast_connector(connector);=
+> > > > > > > > =
 
->> -	struct ast_private *ast =3D connector->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(connector->dev);
->>  	struct edid *edid;
->>  	int ret;
->>  	bool flags =3D false;
->> @@ -1017,7 +1016,7 @@ static int ast_get_modes(struct drm_connector *c=
-onnector)
->>  static enum drm_mode_status ast_mode_valid(struct drm_connector *conn=
-ector,
->>  			  struct drm_display_mode *mode)
->>  {
->> -	struct ast_private *ast =3D connector->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(connector->dev);
->>  	int flags =3D MODE_NOMODE;
->>  	uint32_t jtemp;
->> =20
->> @@ -1128,7 +1127,7 @@ static int ast_connector_init(struct drm_device =
-*dev)
->>  /* allocate cursor cache and pin at start of VRAM */
->>  static int ast_cursor_init(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	size_t size, i;
->>  	struct drm_gem_vram_object *gbo;
->>  	int ret;
->> @@ -1166,7 +1165,7 @@ static int ast_cursor_init(struct drm_device *de=
-v)
->> =20
->>  static void ast_cursor_fini(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	size_t i;
->>  	struct drm_gem_vram_object *gbo;
->> =20
->> @@ -1179,7 +1178,7 @@ static void ast_cursor_fini(struct drm_device *d=
-ev)
->> =20
->>  int ast_mode_init(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	int ret;
->> =20
->>  	memset(&ast->primary_plane, 0, sizeof(ast->primary_plane));
->> @@ -1223,7 +1222,7 @@ void ast_mode_fini(struct drm_device *dev)
->>  static int get_clock(void *i2c_priv)
->>  {
->>  	struct ast_i2c_chan *i2c =3D i2c_priv;
->> -	struct ast_private *ast =3D i2c->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(i2c->dev);
->>  	uint32_t val, val2, count, pass;
->> =20
->>  	count =3D 0;
->> @@ -1245,7 +1244,7 @@ static int get_clock(void *i2c_priv)
->>  static int get_data(void *i2c_priv)
->>  {
->>  	struct ast_i2c_chan *i2c =3D i2c_priv;
->> -	struct ast_private *ast =3D i2c->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(i2c->dev);
->>  	uint32_t val, val2, count, pass;
->> =20
->>  	count =3D 0;
->> @@ -1267,7 +1266,7 @@ static int get_data(void *i2c_priv)
->>  static void set_clock(void *i2c_priv, int clock)
->>  {
->>  	struct ast_i2c_chan *i2c =3D i2c_priv;
->> -	struct ast_private *ast =3D i2c->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(i2c->dev);
->>  	int i;
->>  	u8 ujcrb7, jtemp;
->> =20
->> @@ -1283,7 +1282,7 @@ static void set_clock(void *i2c_priv, int clock)=
+> > > > > > > > I think so, yes.
+> > > > > > > > =
 
->>  static void set_data(void *i2c_priv, int data)
->>  {
->>  	struct ast_i2c_chan *i2c =3D i2c_priv;
->> -	struct ast_private *ast =3D i2c->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(i2c->dev);
->>  	int i;
->>  	u8 ujcrb7, jtemp;
->> =20
->> @@ -1431,7 +1430,7 @@ static int ast_cursor_move(struct drm_crtc *crtc=
-,
->>  			   int x, int y)
->>  {
->>  	struct ast_crtc *ast_crtc =3D to_ast_crtc(crtc);
->> -	struct ast_private *ast =3D crtc->dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(crtc->dev);
->>  	struct drm_gem_vram_object *gbo;
->>  	int x_offset, y_offset;
->>  	u8 *dst, *sig;
->> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_=
-post.c
->> index af0c8ebb009a1..226e1290227ad 100644
->> --- a/drivers/gpu/drm/ast/ast_post.c
->> +++ b/drivers/gpu/drm/ast/ast_post.c
->> @@ -39,7 +39,7 @@ static void ast_post_chip_2500(struct drm_device *de=
-v);
->> =20
->>  void ast_enable_vga(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
->>  	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x01);
->> @@ -47,7 +47,7 @@ void ast_enable_vga(struct drm_device *dev)
->> =20
->>  void ast_enable_mmio(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
->>  }
->> @@ -55,7 +55,7 @@ void ast_enable_mmio(struct drm_device *dev)
->> =20
->>  bool ast_is_vga_enabled(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 ch;
->> =20
->>  	ch =3D ast_io_read8(ast, AST_IO_VGA_ENABLE_PORT);
->> @@ -70,7 +70,7 @@ static const u8 extreginfo_ast2300[] =3D { 0x0f, 0x0=
-4, 0x1f, 0xff };
->>  static void
->>  ast_set_def_ext_reg(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 i, index, reg;
->>  	const u8 *ext_reg_info;
->> =20
->> @@ -272,7 +272,7 @@ static void cbrdlli_ast2150(struct ast_private *as=
-t, int busw)
->> =20
->>  static void ast_init_dram_reg(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u8 j;
->>  	u32 data, temp, i;
->>  	const struct ast_dramstruct *dram_reg_info;
->> @@ -366,7 +366,7 @@ static void ast_init_dram_reg(struct drm_device *d=
-ev)
->>  void ast_post_gpu(struct drm_device *dev)
->>  {
->>  	u32 reg;
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->> =20
->>  	pci_read_config_dword(ast->dev->pdev, 0x04, &reg);
->>  	reg |=3D 0x3;
->> @@ -1596,7 +1596,7 @@ static void ddr2_init(struct ast_private *ast, s=
-truct ast2300_dram_param *param)
->> =20
->>  static void ast_post_chip_2300(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	struct ast2300_dram_param param;
->>  	u32 temp;
->>  	u8 reg;
->> @@ -2028,7 +2028,7 @@ static bool ast_dram_init_2500(struct ast_privat=
-e *ast)
->> =20
->>  void ast_post_chip_2500(struct drm_device *dev)
->>  {
->> -	struct ast_private *ast =3D dev->dev_private;
->> +	struct ast_private *ast =3D to_ast_private(dev);
->>  	u32 temp;
->>  	u8 reg;
->> =20
->> --=20
->> 2.26.2
->>
->=20
+> > > > > > > > Christian.
+> > > > > > > Yes, that's true. However, without the bo reservation, nothin=
+g stops
+> > > > > > > a PTE from being immediately re-faulted back again. Even while
+> > > > > > > unmap_mapping_range() is running.
+> > > > > > > =
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> > > > > > Can you explain more on this - specifically, which function to =
+reserve
+> > > > > > the BO, why BO reservation would prevent re-fault of the PTE ?
+> > > > > > =
+
+> > > > > Thomas is talking about ttm_bo_reserver()/ttm_bo_unreserve(), but=
+ we don't
+> > > > > need this because we unmap everything because the whole device is=
+ gone and
+> > > > > not just manipulate a single BO.
+> > > > > =
+
+> > > > > > > So the device removed flag needs to be advertized before this
+> > > > > > > function is run,
+> > > > > > > =
+
+> > > > > > I indeed intend to call this  right after calling drm_dev_unplu=
+g from
+> > > > > > amdgpu_pci_remove while adding drm_dev_enter/exit in ttm_bo_vm_=
+fault (or
+> > > > > > in amdgpu specific wrapper since I don't see how can I access s=
+truct
+> > > > > > drm_device from ttm_bo_vm_fault) and this in my understanding s=
+hould
+> > > > > > stop a PTE from being re-faulted back as you pointed out - so a=
+gain I
+> > > > > > don't see how  bo reservation would prevent it so it looks like=
+ I am
+> > > > > > missing something...
+> > > > > > =
+
+> > > > > > =
+
+> > > > > > > (perhaps with a memory barrier pair).
+> > > > > > > =
+
+> > > > > > drm_dev_unplug and drm_dev_enter/exit are RCU synchronized and =
+so I
+> > > > > > don't think require any extra memory barriers for visibility of=
+ the
+> > > > > > removed flag being set
+> > > > > > =
+
+> > > > > As far as I can see that should be perfectly sufficient.
+> > > > Only if you have a drm_dev_enter/exit pair in your fault handler.
+> > > > Otherwise you're still open to the races Thomas described. But asid=
+e from
+> > > > that the drm_dev_unplug stuff has all the barriers and stuff to mak=
+e sure
+> > > > nothing escapes.
+> > > > =
+
+> > > > Failure to drm_dev_enter could then also trigger the special case w=
+here we
+> > > > put a dummy page in place.
+> > > > -Daniel
+> > > Hmm, Yes, indeed advertizing the flag before the call to
+> > > unmap_mapping_range isn't enough, since there might be fault handlers
+> > > running that haven't picked up the flag when unmap_mapping_range is
+> > > launched.
+> > Hm ... Now I'm not sure drm_dev_enter/exit is actually good enough. I
+> > guess if you use vmf_insert_pfn within the drm_dev_enter/exit critical
+> > section, it should be fine. But I think you can also do fault handlers
+> > that just return the struct page and then let core handle the pte
+> > wrangling, those would indeed race and we can't have that I think.
+> > =
+
+> > I think we should try and make sure (as much as possible) that this is
+> > done all done in helpers and not some open coded stuff in drivers, or
+> > we'll just get it all wrong in the details.
+> =
+
+> =
+
+> Can you please clarify this last paragraph ? Where in your opinion should=
+ I
+> place the drm_dev_enter/exit and the zero page setting=A0 to faulting VA's
+> PTEs ? I was planning to do it in amdgpu specific .fault handler which in
+> turn calls to ttm_bo_vm_fault.
+
+Nah, I think this should be done in ttm_bo_vm_fault. Reinventing this
+wheel in every driver is going to be horrible. Rough control flow:
+
+	if (!drm_dev_enter()) {
+		/* insert dummy page pfn, the hw is gone */
+
+		return;
+	} =
 
 
---MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo--
+	/* old page fault handling code with vm_insert_pfn and all the
+	 * same locking as before */
 
---uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+	drm_dev_exit();
 
------BEGIN PGP SIGNATURE-----
+Cheers, Daniel
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jITMACgkQaA3BHVML
-eiPfCQf/f7wQSng31j3xlbQM9mLwf7bEkq62KinuUgNXxAFPD0QdDMlkai3/UM0S
-x4bjZD2DnzCULAvkq4i7yfiGLsoxSdVlLf3nb/K11X2Fe2KEHWyLR27xEMsu6Cfr
-/oTqiraV3/1cSLOrShMJAdFKaNQaYv9qxWMDbJsqhZM4/ohDnjZoww3uXyyNFV2I
-YSxygpXOVQwx9jUV8o3G1zPTdGr6+TRibecPjENDPpFhkm/pfewz8j+TDNRRWv8O
-UzYM73vpE8RezdIpKy6xgd+iGFOwD8PJeCI//0WoJ2li9jgsHzEa08Znvic88xx+
-OfG5xoIrpDMfSBm4cuT1a/k+gnFCCg==
-=Mwfv
------END PGP SIGNATURE-----
+> =
 
---uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0--
+> Andrey
+> =
 
---===============1823841926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> =
 
+> > =
+
+> > > For the special case of syncing a full address-space
+> > > unmap_mapping_range() with fault handlers regardless of the reason for
+> > > the full address-space unmap_mapping_range() one could either traverse
+> > > the address space (drm_vma_manager) and grab *all* bo reservations
+> > > around the unmap_mapping_range(), or grab the i_mmap_lock in read mode
+> > > in the fault handler. (It's taken in write mode in unmap_mapping_rang=
+e).
+> > > While the latter may seem like a simple solution, one should probably
+> > > consider the overhead both in run-time and scaling ability.
+> > drm_dev_enter/exit uses srcu internally, so afaik should scale
+> > ridiculously well and be dirt cheap on the read side. It's horrible on
+> > the flush side in drm_dev_unplug, but hey no one cares about that :-)
+> > -Daniel
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1823841926==--
