@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4AEA1F73EA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 08:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0CA1F73EB
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 08:31:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37BC6E255;
-	Fri, 12 Jun 2020 06:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A899E6E25C;
+	Fri, 12 Jun 2020 06:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68036E250
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 06:30:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7DA6E25C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 06:31:17 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 3667AAC2C;
- Fri, 12 Jun 2020 06:30:45 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0E8CFAEFD;
+ Fri, 12 Jun 2020 06:31:20 +0000 (UTC)
 Subject: Re: [PATCH 2/3] drm/ast: Upcast from DRM device to ast structure via
  to_ast_private()
-To: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
 References: <20200611082809.7838-1-tzimmermann@suse.de>
  <20200611082809.7838-3-tzimmermann@suse.de>
- <20200611192310.GA160102@ravnborg.org>
+ <20200611173219.GF20149@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -48,12 +48,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <2d96eb86-0430-7b1e-0881-66a37451d983@suse.de>
-Date: Fri, 12 Jun 2020 08:30:40 +0200
+Message-ID: <9d601197-d24c-af6c-e058-f092e3e5810f@suse.de>
+Date: Fri, 12 Jun 2020 08:31:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.1
 MIME-Version: 1.0
-In-Reply-To: <20200611192310.GA160102@ravnborg.org>
+In-Reply-To: <20200611173219.GF20149@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +66,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, chen@aspeedtech.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
-Content-Type: multipart/mixed; boundary="===============0406166982=="
+Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============1823841926=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0406166982==
+--===============1823841926==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="f2VqzOmMpAXSW2RlTAvKF5pBna0rp5o78"
+ boundary="uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---f2VqzOmMpAXSW2RlTAvKF5pBna0rp5o78
-Content-Type: multipart/mixed; boundary="oTPLZ0Mv0nB35rujf4J4xB2r1ItTZSKho";
+--uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0
+Content-Type: multipart/mixed; boundary="MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
 Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- airlied@redhat.com, emil.velikov@collabora.com
-Message-ID: <2d96eb86-0430-7b1e-0881-66a37451d983@suse.de>
+ airlied@redhat.com, sam@ravnborg.org, emil.velikov@collabora.com
+Message-ID: <9d601197-d24c-af6c-e058-f092e3e5810f@suse.de>
 Subject: Re: [PATCH 2/3] drm/ast: Upcast from DRM device to ast structure via
  to_ast_private()
 References: <20200611082809.7838-1-tzimmermann@suse.de>
  <20200611082809.7838-3-tzimmermann@suse.de>
- <20200611192310.GA160102@ravnborg.org>
-In-Reply-To: <20200611192310.GA160102@ravnborg.org>
+ <20200611173219.GF20149@phenom.ffwll.local>
+In-Reply-To: <20200611173219.GF20149@phenom.ffwll.local>
 
---oTPLZ0Mv0nB35rujf4J4xB2r1ItTZSKho
+--MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 11.06.20 um 21:23 schrieb Sam Ravnborg:
-> Hi Thomas.
->=20
+Am 11.06.20 um 19:32 schrieb Daniel Vetter:
 > On Thu, Jun 11, 2020 at 10:28:08AM +0200, Thomas Zimmermann wrote:
 >> All upcasting from struct drm_device to struct ast_private is now
 >> performed via to_ast_private(). Using struct drm_device.dev_private is=
 
->> deprecated.
+>> deprecated. The ast variable in ast_crtc_helperatomic_check() is unuse=
+d,
+>> so removed it.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> This is a simple 1:1 conversion.
-> But some cases - I checked ast_set_dp501_video_output() =3D>
-> ast_write_cmd(), ast_write_data()
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 >=20
-> could have been fixed by passing ast_private * rather than drm_device *=
-=2E
-> And then no upcasting was needed.
->=20
-> That a more involved approach - but wanted to point it out.
-> Maybe for another day..
+> Aside, the check in ast_pm_freeze is bogus, you can't resume/freeze bef=
+ore
+> the driver has completed loading.
 
-Good idea. I'll consider it, depending on whether it makes the overall
-patchset easier or harder to read.
+Ah, OK. I'll remove it then.
 
 Best regards
 Thomas
 
 >=20
-> 	Sam
+> I suspect this is a remnant from the old days of dri1 where freeze/resu=
+me
+> before the driver finished loading was very much possible with the shad=
+ow
+> attach stuff. So probably just copypasta stuff.
 >=20
+> In general when you spot that in a modern kms driver, then just delete =
+it.
+> that =3D checking whether the drm_device or dev_private is set. Definit=
+ely
+> not a pattern we should propagate.
 >=20
-> The ast variable in ast_crtc_helperatomic_check() is unused,
-> s/ast_crtc_helperatomic_check/ast_crtc_helper_atomic_check/
->> so removed it.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Cheers, Daniel
 >=20
 >> ---
 >>  drivers/gpu/drm/ast/ast_dp501.c | 24 +++++++++----------
@@ -635,10 +635,7 @@ e *ast)
 >> =20
 >> --=20
 >> 2.26.2
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
 >=20
 
 --=20
@@ -650,28 +647,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---oTPLZ0Mv0nB35rujf4J4xB2r1ItTZSKho--
+--MisqKBz5nKZRCgJ2A6SwcDBPsUTz1WiBo--
 
---f2VqzOmMpAXSW2RlTAvKF5pBna0rp5o78
+--uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jIRAACgkQaA3BHVML
-eiPv5wf/bl1kYDTs2/aSJSpfI5ZX5+oXoQEi1Zn7xs38p7O2AG5BJM7DwQ5P4cu1
-WtWXlYYhHfYJ847jPbq518hUgoARyJlOPBXZNd8njwBErgwgk+uBM7cWzyyNyKNB
-NI5aN9cdgtWVz5GW84ULPZq0BY1zzzYNdj4iqUf+11YkPZmYsUpjGjiiPljzkMgu
-qJdB/dK1r/lwixUAz3CefIX14vDYjlwErwC+9Q0fdKE/k2sFZQMiiA0jyiTTGGwF
-xdAqi5YDcP/Y4pggG/YqLbctvp0dP4xOAsMLgdXoUEya4oTDNSx3RjdafBtXYaB/
-20eq5HJ75lOeuLYJTp3b9qpYLuwlpQ==
-=Csoz
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jITMACgkQaA3BHVML
+eiPfCQf/f7wQSng31j3xlbQM9mLwf7bEkq62KinuUgNXxAFPD0QdDMlkai3/UM0S
+x4bjZD2DnzCULAvkq4i7yfiGLsoxSdVlLf3nb/K11X2Fe2KEHWyLR27xEMsu6Cfr
+/oTqiraV3/1cSLOrShMJAdFKaNQaYv9qxWMDbJsqhZM4/ohDnjZoww3uXyyNFV2I
+YSxygpXOVQwx9jUV8o3G1zPTdGr6+TRibecPjENDPpFhkm/pfewz8j+TDNRRWv8O
+UzYM73vpE8RezdIpKy6xgd+iGFOwD8PJeCI//0WoJ2li9jgsHzEa08Znvic88xx+
+OfG5xoIrpDMfSBm4cuT1a/k+gnFCCg==
+=Mwfv
 -----END PGP SIGNATURE-----
 
---f2VqzOmMpAXSW2RlTAvKF5pBna0rp5o78--
+--uoWILbnl7Xa6YgZjMCxswdExplLIn0UF0--
 
---===============0406166982==
+--===============1823841926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -682,4 +679,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0406166982==--
+--===============1823841926==--
