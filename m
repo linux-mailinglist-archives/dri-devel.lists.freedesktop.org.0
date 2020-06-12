@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E401F71C3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 03:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD1D1F71D9
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 03:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C62D6E0FA;
-	Fri, 12 Jun 2020 01:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F2F6E0F5;
+	Fri, 12 Jun 2020 01:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3A006E0F2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 01:36:30 +0000 (UTC)
-Received: by mail-pj1-x1044.google.com with SMTP id a45so3654429pje.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 18:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gDDZjyDo+my3LlCriwyTEtD1u694B/BCWGFE3c5hYe8=;
- b=I5qtmOqeJLGss0H30YBndWaz2TjxXcnF1/IGKG07M/HgG8XLjal7WJrZj7RdHTdgY/
- TFOWjyE3peSyhFg9BmfeI6PWXVbEW4ds/5qKsby14YvITAtXkVkSbLoytaEbQh4vENSj
- jLO5sjqOkjRUTYnO3T+ilcQO6SYQPSvkjSobM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gDDZjyDo+my3LlCriwyTEtD1u694B/BCWGFE3c5hYe8=;
- b=rJv1OTt6rtWfgZIfryaYRTqC3UftIV98tp0Wv7A6F1wmxpXkVb78NnhgK2KQq6o5W+
- ASr3BJqNCOM4P+8WqWLNDDlGdNOm2PAJcZSeLfETzBKRM+mFEy9td+ATtJXyFsMGVPSX
- udU4k+T21g2Dkydw7lCaWxnpU+ZAFPhuN7WG5TdZJiauaObSbanH86UdXEXRGZkciIFN
- thn2xhD9ddQYKYaZciGBATL3ZGg3spd46EzCeOlVVmT6kBSGLLWfQaNLnhVrMwqEzw/J
- oRl8zUPp6/ykiYA8balc5nEiW0+GQ9zAioeZENXdzMsoihBFIoexPOwRsHnJarM/Agbw
- 4jtQ==
-X-Gm-Message-State: AOAM530yLepe9qe0JmuYYBW8Axez+3aoEFnq7a1g1hR/J4vFTQGW6vPZ
- z5C15uJHFUjEiOARPG43I+mF95lhzEo=
-X-Google-Smtp-Source: ABdhPJw7cpG9RFBZTTPx75vahhmWVKSxNibAtBVjKmmPW/Ss8Ih1rG+9az4sCahNdkLvpc3b3uiYgw==
-X-Received: by 2002:a17:902:b187:: with SMTP id
- s7mr8643716plr.188.1591925790214; 
- Thu, 11 Jun 2020 18:36:30 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:bc97:5740:52a7:6875])
- by smtp.gmail.com with ESMTPSA id c2sm4331535pfi.71.2020.06.11.18.36.29
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 11 Jun 2020 18:36:29 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/virtio: rely on drm shmem helpers to take care of
- dma_map/dma_unmap
-Date: Thu, 11 Jun 2020 18:36:25 -0700
-Message-Id: <20200612013625.547-2-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200612013625.547-1-gurchetansingh@chromium.org>
-References: <20200612013625.547-1-gurchetansingh@chromium.org>
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8BC6E0F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 01:51:23 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1591926684; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=NPCb3Uqzz3oUIaeeSIIlCSHfZW4+SVdoUKbcs2t0HXA=;
+ b=sA40wfCR72QYcAVw72kQHykCve0WBYQKQR4+Rnm8t/KBcjQ627Ls5rBq6QLScI3yKdp0qHfX
+ q0HTao4ZBzhgdJFTPbT/1o7k6bzjN9MkuGXm2+xrAcqCd8ZIwJIYT7CYzVl8PsfKizmMJicb
+ fdy3SLwQ8Io6JXqFa+NU7PWU0M4=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
+ 5ee2df9886de6ccd4467555c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 12 Jun 2020 01:51:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8DB3EC433CA; Fri, 12 Jun 2020 01:51:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 49565C433C8;
+ Fri, 12 Jun 2020 01:51:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 49565C433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=tanmay@codeaurora.org
+From: Tanmay Shah <tanmay@codeaurora.org>
+To: sam@ravnborg.org,
+	robh+dt@kernel.org,
+	swboyd@chromium.org
+Subject: [PATCH v6 0/5] Add support for DisplayPort driver on
+Date: Thu, 11 Jun 2020 18:50:25 -0700
+Message-Id: <20200612015030.16072-1-tanmay@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,160 +67,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, kraxel@redhat.com, tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ abhinavk@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes a double-free regression:
+These patches add support for Display-Port driver on SnapDragon
+hardware. It adds
+DP driver and DP PLL driver files along with the needed device-tree
+bindings.
 
-[    4.357928]  drm_gem_shmem_free_object+0xb4/0x100
-[    4.358983]  virtio_gpu_dequeue_ctrl_func+0xd9/0x290
-[    4.360343]  process_one_work+0x1d2/0x3a0
-[    4.361581]  worker_thread+0x45/0x3c0
-[    4.362645]  kthread+0xf6/0x130
-[    4.363543]  ? process_one_work+0x3a0/0x3a0
-[    4.364770]  ? kthread_park+0x80/0x80
-[    4.365799]  ret_from_fork+0x35/0x40
-[    4.367103] Modules linked in:
-[    4.367958] CR2: 0000000000000018
-[    4.368857] ---[ end trace db84f7a2974d5c79 ]---
-[    4.370118] RIP: 0010:dma_direct_unmap_sg+0x1f/0x60
+The block diagram of DP driver is shown below:
 
-We can also go back to the prior state aswell.
 
-Fixes: d323bb44e4d2 ("drm/virtio: Call the right shmem helpers")
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  1 -
- drivers/gpu/drm/virtio/virtgpu_object.c | 25 ++++++-------------------
- drivers/gpu/drm/virtio/virtgpu_vq.c     | 12 ++++++------
- 3 files changed, 12 insertions(+), 26 deletions(-)
+                 +-------------+
+                 |DRM FRAMEWORK|
+                 +------+------+
+                        |
+                   +----v----+
+                   | DP DRM  |
+                   +----+----+
+                        |
+                   +----v----+
+     +------------+|   DP    +----------++------+
+     +        +---+| DISPLAY |+---+      |      |
+     |        +    +-+-----+-+    |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     |        |      |     |      |      |      |
+     v        v      v     v      v      v      v
+ +------+ +------+ +---+ +----+ +----+ +---+ +-----+
+ |  DP  | |  DP  | |DP | | DP | | DP | |DP | | DP  |
+ |PARSER| | HPD  | |AUX| |LINK| |CTRL| |PHY| |POWER|
+ +--+---+ +---+--+ +---+ +----+ +--+-+ +-+-+ +-----+
+    |                              |     |
+ +--v---+                         +v-----v+
+ |DEVICE|                         |  DP   |
+ | TREE |                         |CATALOG|
+ +------+                         +---+---+
+                                      |
+                                  +---v----+
+                                  |CTRL/PHY|
+                                  |   HW   |
+                                  +--------+
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 49bebdee6d91..66af5ea1304b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -78,7 +78,6 @@ struct virtio_gpu_object {
- struct virtio_gpu_object_shmem {
- 	struct virtio_gpu_object base;
- 	struct sg_table *pages;
--	uint32_t mapped;
- };
- 
- #define to_virtio_gpu_shmem(virtio_gpu_object) \
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 346cef5ce251..ec42c5532910 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -69,16 +69,7 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
- 	if (virtio_gpu_is_shmem(bo)) {
- 		struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
--
- 		if (shmem->pages) {
--			if (shmem->mapped) {
--				dma_unmap_sg(vgdev->vdev->dev.parent,
--					     shmem->pages->sgl, shmem->mapped,
--					     DMA_TO_DEVICE);
--				shmem->mapped = 0;
--			}
--
--			sg_free_table(shmem->pages);
- 			shmem->pages = NULL;
- 			drm_gem_shmem_unpin(&bo->base.base);
- 		}
-@@ -123,6 +114,7 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
- struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
- 						size_t size)
- {
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_object_shmem *shmem;
- 	struct drm_gem_shmem_object *dshmem;
- 
-@@ -133,6 +125,7 @@ struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
- 	dshmem = &shmem->base.base;
- 	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
- 	dshmem->map_cached = true;
-+	dshmem->skip_dma_api = virtio_has_iommu_quirk(vgdev->vdev);
- 	return &dshmem->base;
- }
- 
-@@ -141,7 +134,6 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 					struct virtio_gpu_mem_entry **ents,
- 					unsigned int *nents)
- {
--	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
- 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
- 	struct scatterlist *sg;
- 	int si, ret;
-@@ -156,15 +148,10 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 		return -EINVAL;
- 	}
- 
--	if (use_dma_api) {
--		shmem->mapped = dma_map_sg(vgdev->vdev->dev.parent,
--					   shmem->pages->sgl,
--					   shmem->pages->nents,
--					   DMA_TO_DEVICE);
--		*nents = shmem->mapped;
--	} else {
-+	if (!bo->base.skip_dma_api)
-+		*nents = bo->base.dma_map_count;
-+	else
- 		*nents = shmem->pages->nents;
--	}
- 
- 	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
- 			      GFP_KERNEL);
-@@ -174,7 +161,7 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	}
- 
- 	for_each_sg(shmem->pages->sgl, sg, *nents, si) {
--		(*ents)[si].addr = cpu_to_le64(use_dma_api
-+		(*ents)[si].addr = cpu_to_le64(!bo->base.skip_dma_api
- 					       ? sg_dma_address(sg)
- 					       : sg_phys(sg));
- 		(*ents)[si].length = cpu_to_le32(sg->length);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 9e663a5d9952..117e4aa69ae5 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -599,12 +599,12 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
- 	struct virtio_gpu_transfer_to_host_2d *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
--	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
- 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
- 
--	if (use_dma_api)
-+	if (!bo->base.skip_dma_api)
- 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
--				       shmem->pages->sgl, shmem->pages->nents,
-+				       shmem->pages->sgl,
-+				       bo->base.dma_map_count,
- 				       DMA_TO_DEVICE);
- 
- 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-@@ -1015,12 +1015,12 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
- 	struct virtio_gpu_transfer_host_3d *cmd_p;
- 	struct virtio_gpu_vbuffer *vbuf;
--	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
- 	struct virtio_gpu_object_shmem *shmem = to_virtio_gpu_shmem(bo);
- 
--	if (use_dma_api)
-+	if (!bo->base.skip_dma_api)
- 		dma_sync_sg_for_device(vgdev->vdev->dev.parent,
--				       shmem->pages->sgl, shmem->pages->nents,
-+				       shmem->pages->sgl,
-+				       bo->base.dma_map_count,
- 				       DMA_TO_DEVICE);
- 
- 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+
+These patches have dependency on clock driver changes mentioned below:
+https://patchwork.kernel.org/patch/11245895/
+https://patchwork.kernel.org/cover/11069083/
+
+Chandan Uddaraju (4):
+  dt-bindings: msm/dp: add bindings of DP/DP-PLL driver for Snapdragon
+  drm: add constant N value in helper file
+  drm/msm/dp: add displayPort driver support
+  drm/msm/dp: add support for DP PLL driver
+
+Jeykumar Sankaran (1):
+  drm/msm/dpu: add display port support in DPU
+
+ .../bindings/display/msm/dp-sc7180.yaml       |  142 ++
+ .../devicetree/bindings/display/msm/dpu.txt   |    8 +
+ drivers/gpu/drm/i915/display/intel_display.c  |    2 +-
+ drivers/gpu/drm/msm/Kconfig                   |   21 +
+ drivers/gpu/drm/msm/Makefile                  |   15 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   29 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |    8 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   65 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c               |  530 +++++
+ drivers/gpu/drm/msm/dp/dp_aux.h               |   35 +
+ drivers/gpu/drm/msm/dp/dp_catalog.c           | 1025 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h           |   86 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              | 1709 +++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h              |   35 +
+ drivers/gpu/drm/msm/dp/dp_display.c           |  912 +++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h           |   31 +
+ drivers/gpu/drm/msm/dp/dp_drm.c               |  170 ++
+ drivers/gpu/drm/msm/dp/dp_drm.h               |   18 +
+ drivers/gpu/drm/msm/dp/dp_hpd.c               |   69 +
+ drivers/gpu/drm/msm/dp/dp_hpd.h               |   79 +
+ drivers/gpu/drm/msm/dp/dp_link.c              | 1216 ++++++++++++
+ drivers/gpu/drm/msm/dp/dp_link.h              |  132 ++
+ drivers/gpu/drm/msm/dp/dp_panel.c             |  490 +++++
+ drivers/gpu/drm/msm/dp/dp_panel.h             |   95 +
+ drivers/gpu/drm/msm/dp/dp_parser.c            |  390 ++++
+ drivers/gpu/drm/msm/dp/dp_parser.h            |  204 ++
+ drivers/gpu/drm/msm/dp/dp_pll.c               |   93 +
+ drivers/gpu/drm/msm/dp/dp_pll.h               |   59 +
+ drivers/gpu/drm/msm/dp/dp_pll_10nm.c          |  903 +++++++++
+ drivers/gpu/drm/msm/dp/dp_pll_private.h       |  103 +
+ drivers/gpu/drm/msm/dp/dp_power.c             |  422 ++++
+ drivers/gpu/drm/msm/dp/dp_power.h             |  115 ++
+ drivers/gpu/drm/msm/dp/dp_reg.h               |  505 +++++
+ drivers/gpu/drm/msm/msm_drv.c                 |    2 +
+ drivers/gpu/drm/msm/msm_drv.h                 |   53 +-
+ include/drm/drm_dp_helper.h                   |    1 +
+ 36 files changed, 9753 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_aux.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_catalog.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_ctrl.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_display.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_drm.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_hpd.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_link.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_panel.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_parser.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_10nm.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_pll_private.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.c
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_power.h
+ create mode 100644 drivers/gpu/drm/msm/dp/dp_reg.h
+
+
+base-commit: 48f99181fc118d82dc8bf6c7221ad1c654cb8bc2
 -- 
-2.25.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
 _______________________________________________
 dri-devel mailing list
