@@ -2,38 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882991F771A
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 13:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CB11F77BA
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 14:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF5E6E938;
-	Fri, 12 Jun 2020 11:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 495AA6E956;
+	Fri, 12 Jun 2020 12:11:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA2386E938
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 11:14:14 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A265280615;
- Fri, 12 Jun 2020 13:14:09 +0200 (CEST)
-Date: Fri, 12 Jun 2020 13:14:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 4/4] drm: pl111: Update documentation
-Message-ID: <20200612111407.GA175670@ravnborg.org>
-References: <20200609200446.153209-4-linus.walleij@linaro.org>
- <202006101538.mV5c2loX%lkp@intel.com>
- <CACRpkda+GJpHQjvfjcFfhher+Vfr66DRgf6my2Fx7qg9=-5ATQ@mail.gmail.com>
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com
+ [IPv6:2607:f8b0:4864:20::c43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEB3C6E956
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 12:11:08 +0000 (UTC)
+Received: by mail-oo1-xc43.google.com with SMTP id z145so1877536ooa.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 05:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lmrIgfpI+n8LQE4tu10UZBR9goUoOLlBFbRNH8T/Lpg=;
+ b=AFDZs7y/BEfsJ3DEvAd7ed1uFJG3P5hPjDxQ9L23VU4bGw/CT2CmYHuC4HDi+jyYrM
+ n4O2usUUmYSCTk8PKZejbzC6/NYoKncziwuQDmX1WOS9L2mPsTLQBzTy1MP4cO3KprdY
+ f9Ok+TEQTqAee9rWsTqretjbQ9tAnhqV22jJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lmrIgfpI+n8LQE4tu10UZBR9goUoOLlBFbRNH8T/Lpg=;
+ b=JeHF8UriM8Xrz079MmDagRKcu7lN4ceuho/gTIetekaEP1XxylQzK/HUB8bKAAJVwa
+ MVFh5ZGMU2oI7xlE6KZjmkMr6ElvSbcujjJ177La2PeMv0BxJxqQ7/fra1rqU7Dpdjyc
+ IqP6wm3LO/riyLPXil2swUpKXhmJgNmd2I4UN7ZIA2M2lvv0hJ/Liidj0kJKKXgEvCsU
+ B128OXsABYtK+HHhyWNMGnlXxF8z8zEv/U5y9t1PawEY/MwgrhO0if7h+o4vd1IShHb+
+ FoTbfKBGxdePFHhiHfHv5qzml2UGcibx12iRgJbNxTzf4h3W2w02yxbu5BL9/6BheMpj
+ OsSg==
+X-Gm-Message-State: AOAM531XEb2Ut5NmYccLw9SEUgq280b79QbkG3ud4cUVLsH8/zvdyyDv
+ Z9ZgOg5PDGoC9NqMNHI+kKwnMC1azbj66ZGPcl9Swg==
+X-Google-Smtp-Source: ABdhPJy341ckNdjktYB6egjOeCWmAnE80iH3GjnkEGFbFq7I2cr1O68lDq4rjuGU4tD8OfJM1vSUFmZ22bQmK1VaxkU=
+X-Received: by 2002:a4a:5209:: with SMTP id d9mr10246068oob.28.1591963868049; 
+ Fri, 12 Jun 2020 05:11:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACRpkda+GJpHQjvfjcFfhher+Vfr66DRgf6my2Fx7qg9=-5ATQ@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=uPZiAMpXAAAA:8 a=XIb3VsYlAAAA:20
- a=VwQbUJbxAAAA:8 a=6dwM7mUnwVOcjeBvltYA:9 a=nM94bRtmVEs3FB_u:21
- a=QDOh3YgTua_wtUAx:21 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+References: <20200612013625.547-1-gurchetansingh@chromium.org>
+ <b1b26b94-b0a5-6af8-a151-ad6310358708@suse.de>
+ <20200612101650.2kp7wvpz5gfv3vyg@sirius.home.kraxel.org>
+In-Reply-To: <20200612101650.2kp7wvpz5gfv3vyg@sirius.home.kraxel.org>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 12 Jun 2020 14:10:56 +0200
+Message-ID: <CAKMK7uE6g8TF7vvaWK=PK1ryQBZrEM5XS07_JEhyrwtkU=A13A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/shmem: add support for per object dma api
+ operations
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,50 +60,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
- Russell King <linux@armlinux.org.uk>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
-On Fri, Jun 12, 2020 at 01:04:02PM +0200, Linus Walleij wrote:
-> On Wed, Jun 10, 2020 at 9:38 AM kernel test robot <lkp@intel.com> wrote:
-> 
-> > I love your patch! Perhaps something to improve:
+On Fri, Jun 12, 2020 at 12:16 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Fri, Jun 12, 2020 at 11:47:55AM +0200, Thomas Zimmermann wrote:
+> > Hi
 > >
-> > [auto build test WARNING on drm-exynos/exynos-drm-next]
-> > [also build test WARNING on drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linus/master v5.7 next-20200609]
-> > [cannot apply to drm-tip/drm-tip drm/drm-next]
-> > [if your patch is applied to the wrong git tree, please drop us a note to help
-> > improve the system. BTW, we also suggest to use '--base' option to specify the
-> > base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+> > Am 12.06.20 um 03:36 schrieb Gurchetan Singh:
+> > > This is useful for the next patch.  Also, should we only unmap the
+> > > amount entries that we mapped with the dma-api?
 > >
-> > url:    https://github.com/0day-ci/linux/commits/Linus-Walleij/drm-pl111-Credit-where-credit-is-due/20200610-041025
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-> > reproduce: make htmldocs
-> >
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> What on earth was that. The robot reports on a patch only adding a few lines
-> of comments as breaking the whole universe, and none of these systems
-> even use the PL111.
-The patch changes this:
-/**
-- * DOC: ARM PrimeCell PL111 CLCD Driver
-+ * DOC: ARM PrimeCell PL110 and PL111 CLCD Driver
+> > It looks like you're moving virtio code into shmem.
+>
+> Well, not really.
+>
+> virtio has -- for historical reasons -- the oddity that it may or may
+> not need to dma_map resources, depending on device configuration.
+> Initially virtio went with "it's just a vm, lets simply operate on
+> physical ram addresses".  That shortcut turned out to be a bad idea
+> later on, especially with the arrival of iommu emulation support in
+> qemu.  But we couldn't just scratch it for backward compatibility
+> reasons.  See virtio_has_iommu_quirk().
+>
+> This just allows to enable/disable dma_map, I guess to fix some fallout
+> from recent shmem helper changes (Gurchetan, that kind of stuff should
+> be mentioned in cover letter and commit messages).
+>
+> I'm not sure virtio actually needs that patch though.  I *think* doing
+> the dma_map+dma_unmap unconditionally, but then ignore the result in
+> case we don't need it should work.  And it shouldn't be a horrible
+> performance hit either, in case we don't have a (virtual) iommu in the
+> VM dma mapping is essentially a nop ...
 
-The "DOC: ARM PrimeCell PL111 CLCD Driver" is used by kernel-doc
-to match the DOC section.
-So this patch caused a new warning when one odes "make htmldocs".
+Yeah that sounds a lot more like a clean solution, instead of adding
+random flags and stuff all over helpers for each edge-case. The
+sgtable still has the struct pages, so just picking the right one in
+virtio code seems a lot cleaner separation of concerns.
+-Daniel
 
-See Documentation/gpu/pl111.rst
+>
+> take care,
+>   Gerd
+>
 
-	Sam
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
