@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CA91F7D9F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 21:31:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BAE1F7DA1
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 21:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18786E1AA;
-	Fri, 12 Jun 2020 19:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D796E1B3;
+	Fri, 12 Jun 2020 19:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 888416E1AA
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 19:31:01 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id j6so652973pgh.4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 12:31:01 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6FE6E1B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 19:31:02 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id t7so4149648plr.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 12:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b/GfnNC8pXVMnpUdumvg6vaJ4jiyTtawkJau7ukqTZo=;
- b=G2IlTYMXhCkQR4ELMO19WmWfDfP34LAIVdX40D7bNRrYfyXYvFKHC7Cdn77RuP82R4
- 2ji01psEasSHfT1/aQ/yTtES/Sj6YmBf669RUbjoQtq2VMdbkNQgsRnJr3n07tbZ+BsE
- 0QYNW/8dm940Jgz8VVbIfmRORs8S/oDxamvWA=
+ bh=/JLcL+eXskupadvzRPr0KYY4jNSs8dr6KFn31X50BKA=;
+ b=NXzPbPlf441w11iFHGJ9W+Y5ontYOUwpkp86hqoqbgJR2zRFsLy6IrP6O+bPWiagdK
+ qiSa5hgegSw3yVsSvyzmUrpNdQUnheUeuSEjk17lEob7A95e3T0oJdW1NpS0aaPSyQzE
+ Qox/wJm24EvNxtf14X0Upc72JOgNWu4E4/u/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b/GfnNC8pXVMnpUdumvg6vaJ4jiyTtawkJau7ukqTZo=;
- b=q9rcqG1CktHALXAewJy7ME6T8RWq8RpcfoTxvBKU3Xgkujje6YnGB48xPxlknxxFUG
- EQziZuheTBic2+YUO01hslALIU0j5FHMQG5+6Fz+/W7DEt+XQJBw8KbmykvxoM9EL7YK
- gXr5p3d19GgTkLY8gcLZ+y4//gX5slfy3A+cLKyw8DylkdvlVI1s4epODfWxUQ/+c5qD
- FDT/uDW7S4On7OGb4hmWLxXNKs23NNeAmZuHdVScNHc2U4sqQTTFQB54Fz3oCAeowU8V
- xZ0AwyaOa33GMX37ei+snfdGrdz2pC/nOHD7plxo87RhbHrITmsIeKmw8gjFXsde5+xU
- YF1g==
-X-Gm-Message-State: AOAM533+HrFgQFPIoPdI+04YcZkHi46wLK22eLTorYSgvlzV9l4N8ZHw
- hBTHwPFOOXuHjAxhoRHk0pfCHg==
-X-Google-Smtp-Source: ABdhPJyfydS6pnh63FC5FkWpfhhla7sdsI5aEnFHl7FPTKIrMMSQFO2xsBGnY2nj7D6x9bPXeGIkKQ==
-X-Received: by 2002:aa7:9052:: with SMTP id n18mr13776479pfo.319.1591990260998; 
- Fri, 12 Jun 2020 12:31:00 -0700 (PDT)
+ bh=/JLcL+eXskupadvzRPr0KYY4jNSs8dr6KFn31X50BKA=;
+ b=rlNTfgP/F/w3Mrm91YJxJswB/tmQu86Svto1iEferyZeD5plSB2rUunSlw+YiSaPYw
+ UkFZT1KWeapW+N6p3HpmuLWrpFRCuU6zqWOaPxQDCZ89bVsBNUZrDqxGRJZYc0irlGyp
+ W4IB5YMsp9UnRWI/BJ9SJ/Qny8W+OZvQklq305i0tySciMKwsAO+PkiqbdO+LYQ5GGWK
+ 3SpApan6ojv7V3Wjne+3jc5v+CQEZPhgypne+6bRhDsVgbxIU4bXplhlW+wAhU7aG8vr
+ rx+1tPdllZ37U8QCG2m2ZXJgqU9imkU4XqMxOXPkXlZGBbjC08c0zLa25VU5ut4E5ZYK
+ tpGw==
+X-Gm-Message-State: AOAM530ilXWl/GjIeBwqI4UTRHecODK4UqVsaP5lhYnQ3NnCz6JNY+yO
+ PcMfnmyLAU0kmA2kq9wlUuC1vQ==
+X-Google-Smtp-Source: ABdhPJzOVu00ZU0TwmAIoVI0f6eQMllaYaWPr850VAglM8s0JUILuRPjAG0K84Sfcu8Qs1SEo2VMNA==
+X-Received: by 2002:a17:902:507:: with SMTP id
+ 7mr12495042plf.115.1591990262080; 
+ Fri, 12 Jun 2020 12:31:02 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id n69sm6966934pjc.25.2020.06.12.12.31.00
+ by smtp.gmail.com with ESMTPSA id n69sm6966934pjc.25.2020.06.12.12.31.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Jun 2020 12:31:00 -0700 (PDT)
+ Fri, 12 Jun 2020 12:31:01 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: a.hajda@samsung.com,
 	narmstrong@baylibre.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 3/4] drm/bridge: ti-sn65dsi86: Fix kernel-doc typo ln_polr
- => ln_polrs
-Date: Fri, 12 Jun 2020 12:30:49 -0700
-Message-Id: <20200612123003.v2.3.Ib616e311c48cc64b2cef11bd54d4a9cedc874bb1@changeid>
+Subject: [PATCH v2 4/4] drm/bridge: ti-sn65dsi86: Check the regmap return
+ value when setting a GPIO
+Date: Fri, 12 Jun 2020 12:30:50 -0700
+Message-Id: <20200612123003.v2.4.Ia4376fd88cdc6e8f8b43c65548458305f82f1d61@changeid>
 X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
 In-Reply-To: <20200612123003.v2.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
 References: <20200612123003.v2.1.Ibe95d8f3daef01e5c57d4c8c398f04d6a839492c@changeid>
@@ -78,32 +79,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes a kernel doc warning due to a typo:
-  warning: Function parameter or member 'ln_polrs' not described in 'ti_sn_bridge'
+The ti_sn_bridge_gpio_set() got the return value of
+regmap_update_bits() but didn't check it.  The function can't return
+an error value, but we should at least print a warning if it didn't
+work.
 
-Fixes: 5bebaeadb30e ("drm/bridge: ti-sn65dsi86: Implement lane reordering + polarity")
+This fixes a compiler warning about setting "ret" but not using it.
+
+Fixes: 27ed2b3f22ed ("drm/bridge: ti-sn65dsi86: Export bridge GPIOs to Linux")
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
 
-Changes in v2: None
+Changes in v2:
+- GPIO %u because it's unsigned.
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index fca7c2a0bcf9..1080e4f9df96 100644
+index 1080e4f9df96..bd3eb0a09732 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -122,7 +122,7 @@
-  * @supplies:     Data for bulk enabling/disabling our regulators.
-  * @dp_lanes:     Count of dp_lanes we're using.
-  * @ln_assign:    Value to program to the LN_ASSIGN register.
-- * @ln_polr:      Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-+ * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-  *
-  * @gchip:        If we expose our GPIOs, this is used.
-  * @gchip_output: A cache of whether we've set GPIOs to output.  This
+@@ -999,6 +999,9 @@ static void ti_sn_bridge_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 	ret = regmap_update_bits(pdata->regmap, SN_GPIO_IO_REG,
+ 				 BIT(SN_GPIO_OUTPUT_SHIFT + offset),
+ 				 val << (SN_GPIO_OUTPUT_SHIFT + offset));
++	if (ret)
++		dev_warn(pdata->dev,
++			 "Failed to set bridge GPIO %u: %d\n", offset, ret);
+ }
+ 
+ static int ti_sn_bridge_gpio_direction_input(struct gpio_chip *chip,
 -- 
 2.27.0.290.gba653c62da-goog
 
