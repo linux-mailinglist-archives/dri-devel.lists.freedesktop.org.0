@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073BE1F7442
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 09:01:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5971E1F744F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 09:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11ED76E2F2;
-	Fri, 12 Jun 2020 07:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7F106E260;
+	Fri, 12 Jun 2020 07:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A5E6E2F2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 07:01:43 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 04E4680587;
- Fri, 12 Jun 2020 09:01:38 +0200 (CEST)
-Date: Fri, 12 Jun 2020 09:01:37 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/3] drm/ast: Use per-device logging macros
-Message-ID: <20200612070137.GA172811@ravnborg.org>
-References: <20200611082809.7838-1-tzimmermann@suse.de>
- <20200611082809.7838-4-tzimmermann@suse.de>
- <20200611192406.GB160102@ravnborg.org>
- <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE8F6E260
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 07:05:43 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r7so8619211wro.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 00:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=L7qKFqOkT29yYQVebbM9QoBNowxMHJMDPuXRMfTBy5U=;
+ b=OBBnArwvOYmnNL869EE4w+YfXLew6ySZXPzXgjq6bJoSAOdo/hX+BK31qoBHR6pOfP
+ 20QRsaXgECX9JwIuMxYirjtDunKQ//HvqKCjZ++mEDYPyf7tHsaeNDEOJRhFH3H7kHyo
+ wGP3Q5lJnscyJDtjyTqUcPgTCWA1IsPQDO7Ak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=L7qKFqOkT29yYQVebbM9QoBNowxMHJMDPuXRMfTBy5U=;
+ b=k6HRSNqOFiOukMf6gZ37yE6ciORjIBLVunjUtAR7+/mtGJ0mTg4O/STvcdghnH1hYZ
+ JMRhIN4iscmTHR9O/3ZYL0L6BVAZOcVyrHfi/9fOEe6Y5CwtUUKhEpyaU9ptqMFel7DO
+ rTq88S7Aa4SyFws99ZNzgGs1+j2KdrJngmvNtRiYgpJBqJJXuz//kRuaWp8SsDoyKLK5
+ mC4MpaM/Bqnbih3P4bk0ieTnN3fXIaJNJZilPzJWlrUzDlejUNtC4HYz1fVuSHrCg4s5
+ q60Ne0mSsP5/uHEbRflXv2WLFrJAXJyjjaI/y8R+05pohxHf0MkPt3entSD+zWG4o0NW
+ VOzw==
+X-Gm-Message-State: AOAM532rNeeRr1Lzn1Wp+tlmYxui/pSzCmoiiuyv87Y1GiM0qCvEdSMA
+ q9k13CXgfllVSETydbFhQ6PJOOOmXUM=
+X-Google-Smtp-Source: ABdhPJyIq4tyRTqW/QpTujLI8kppaJ5DbNNU3yWliTZOw06zUrHEqS6P+dkPn+sGGLJdfJxTAzdmJw==
+X-Received: by 2002:a5d:6391:: with SMTP id p17mr14223256wru.118.1591945542103; 
+ Fri, 12 Jun 2020 00:05:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i3sm8609087wrm.83.2020.06.12.00.05.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Jun 2020 00:05:41 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] dma-buf: minor doc touch-ups
+Date: Fri, 12 Jun 2020 09:05:35 +0200
+Message-Id: <20200612070535.1778368-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200604081224.863494-3-daniel.vetter@ffwll.ch>
+References: <20200604081224.863494-3-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=ZWOSB2g9pmbKBe_4jyEA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,65 +63,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, chen@aspeedtech.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas
+Just some tiny edits:
+- fix link to struct dma_fence
+- give slightly more meaningful title - the polling here is about
+  implicit fences, explicit fences (in sync_file or drm_syncobj) also
+  have their own polling
 
-On Fri, Jun 12, 2020 at 08:28:40AM +0200, Thomas Zimmermann wrote:
-> Hi Sam
-> 
-> Am 11.06.20 um 21:24 schrieb Sam Ravnborg:
-> > Hi Thomas.
-> > On Thu, Jun 11, 2020 at 10:28:09AM +0200, Thomas Zimmermann wrote:
-> >> Converts the ast driver to drm_info() and drm_err(). No functional
-> >> changes are made.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > I hope you will later follow-up with a patch that introduces drm_WARN_*.
-> 
-> I only found DRM_INFO and DRM_ERROR calls. Did I miss any other warning
-> macros?
+v2: I misplaced the .rst include change corresponding to this patch.
 
-The following:
-ast_mode.c:     if (WARN_ON_ONCE(gpu_addr < 0))
-ast_mode.c:     if (WARN_ON_ONCE(fb->width > AST_MAX_HWC_WIDTH) ||
-ast_mode.c:         WARN_ON_ONCE(fb->height > AST_MAX_HWC_HEIGHT))
-ast_mode.c:             if (WARN_ON_ONCE(off < 0))
-ast_mode.c:     if (WARN_ON(!crtc->state))
+Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ Documentation/driver-api/dma-buf.rst | 6 +++---
+ drivers/dma-buf/dma-buf.c            | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-can benefit from:
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 63dec76d1d8d..7fb7b661febd 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -100,11 +100,11 @@ CPU Access to DMA Buffer Objects
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+    :doc: cpu access
+ 
+-Fence Poll Support
+-~~~~~~~~~~~~~~~~~~
++Implicit Fence Poll Support
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+-   :doc: fence polling
++   :doc: implicit fence polling
+ 
+ Kernel Functions and Structures Reference
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 01ce125f8e8d..e018ef80451e 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -161,11 +161,11 @@ static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
+ }
+ 
+ /**
+- * DOC: fence polling
++ * DOC: implicit fence polling
+  *
+  * To support cross-device and cross-driver synchronization of buffer access
+- * implicit fences (represented internally in the kernel with &struct fence) can
+- * be attached to a &dma_buf. The glue for that and a few related things are
++ * implicit fences (represented internally in the kernel with &struct dma_fence)
++ * can be attached to a &dma_buf. The glue for that and a few related things are
+  * provided in the &dma_resv structure.
+  *
+  * Userspace can query the state of these implicitly tracked fences using poll()
+-- 
+2.26.2
 
-/*
- * struct drm_device based WARNs
- *
- * drm_WARN*() acts like WARN*(), but with the key difference of
- * using device specific information so that we know from which device
- * warning is originating from.
- *
- * Prefer drm_device based drm_WARN* over regular WARN*
- */
-
-...
-
-#define drm_WARN_ON(drm, x)                                             \
-        drm_WARN((drm), (x), "%s",                                      \
-                 "drm_WARN_ON(" __stringify(x) ")")
-
-#define drm_WARN_ON_ONCE(drm, x)                                        \
-        drm_WARN_ONCE((drm), (x), "%s",                                 \
-                      "drm_WARN_ON_ONCE(" __stringify(x) ")")
-
-
-Also from drm/drm_print.h
-
-	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
