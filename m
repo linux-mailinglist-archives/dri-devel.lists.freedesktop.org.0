@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264441F7354
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 07:11:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57A51F73E3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 08:28:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04216E22A;
-	Fri, 12 Jun 2020 05:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC976E24D;
+	Fri, 12 Jun 2020 06:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3626E11D
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 05:11:19 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id p70so7596846oic.12
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 22:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8V+bxbj5WCvzCnxozwhnhcY6TUJ/xexRHaQJ/PDvKQU=;
- b=cilwx1I8Xw8l4cOfCtUN5yHqBSWj+Ms0FUPp+RDFC2UUkvd9G/tKIonAgnCPmV7ju7
- ytE8iPnQdG6xCmbt2X4xyBjcOKSUmiTKGphnksjQ2SRiZLT5IbW006hcE7QfZHx6BSiX
- vrqTUkoSTB5lgrB2uyXPGdQVfa22TxwaFK1IQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8V+bxbj5WCvzCnxozwhnhcY6TUJ/xexRHaQJ/PDvKQU=;
- b=T9OskmstGQ1o0rfWkzskg6lEhzh611+I1Mq5XVyiVuoJ6rKXiRlxhG9ccTFy+vmnXT
- CDEGIbgFVFMcrH9YyosX+cZQ/pXa+cthtwGe+g4FFdGsTPTQFSXP0SGL+M3pBXENYWTk
- HQT6RxDp3EP3x9NPhHjeNRwgNbOyfz8AvGjRtxuQ5xhn6KHzFZPmS36prez2Dixw/Hol
- Fl3cxt6GGnEOj5T/OaHdlMgAiAAsfj0PLoejPkj1CDf2OFff6hplegmqkX0TYCe1ib+r
- 3JpmpRM4mJY3Lpe1axSeeYCrNSgHF7Xatg2EZIpdQLBHESTwXALg2K2doGD9sTVHFnFR
- t0QQ==
-X-Gm-Message-State: AOAM533AY0Xa1Ey5CAVCXrfRg/hXbpuD9Wr0LP0k2swKxDt1bLU9lqH3
- 6sdBJnIl+JZObzBk/IVfLXlBHwLfyURi7RmWEZdaJg==
-X-Google-Smtp-Source: ABdhPJzrYoClOB8B8OguvLlFrj2m7W+GxCU2S2r//wrUh7MPNfSE//K6chPjLrBcT0Xc1X5J0GrxFt1X3IqO0jmAaSg=
-X-Received: by 2002:a05:6808:6d7:: with SMTP id
- m23mr980424oih.14.1591938678473; 
- Thu, 11 Jun 2020 22:11:18 -0700 (PDT)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3940D6E24D
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 06:28:48 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 292ADAC2C;
+ Fri, 12 Jun 2020 06:28:49 +0000 (UTC)
+Subject: Re: [PATCH 3/3] drm/ast: Use per-device logging macros
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200611082809.7838-1-tzimmermann@suse.de>
+ <20200611082809.7838-4-tzimmermann@suse.de>
+ <20200611192406.GB160102@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
+Date: Fri, 12 Jun 2020 08:28:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
- <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
-In-Reply-To: <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 12 Jun 2020 07:11:07 +0200
-Message-ID: <CAKMK7uFE0uc5GNU49dYYQLNWbMFmQPcz_dAHHQT-dNe+Zzva-A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-To: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20200611192406.GB160102@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,97 +65,319 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@redhat.com, chen@aspeedtech.com, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, emil.velikov@collabora.com
+Content-Type: multipart/mixed; boundary="===============1255623179=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 12, 2020 at 1:35 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
->
-> Am 2020-06-11 um 10:15 a.m. schrieb Jason Gunthorpe:
-> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> >>> I still have my doubts about allowing fence waiting from within shrinkers.
-> >>> IMO ideally they should use a trywait approach, in order to allow memory
-> >>> allocation during command submission for drivers that
-> >>> publish fences before command submission. (Since early reservation object
-> >>> release requires that).
-> >> Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> >> with a mempool to make sure it can handle it's allocations.
-> >>
-> >>> But since drivers are already waiting from within shrinkers and I take your
-> >>> word for HMM requiring this,
-> >> Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> >> one, the shrinker one is a lot less established.
-> > I really question if HW that needs something like DMA fence should
-> > even be using mmu notifiers - the best use is HW that can fence the
-> > DMA directly without having to get involved with some command stream
-> > processing.
-> >
-> > Or at the very least it should not be a generic DMA fence but a
-> > narrowed completion tied only into the same GPU driver's command
-> > completion processing which should be able to progress without
-> > blocking.
-> >
-> > The intent of notifiers was never to endlessly block while vast
-> > amounts of SW does work.
-> >
-> > Going around and switching everything in a GPU to GFP_ATOMIC seems
-> > like bad idea.
-> >
-> >> I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> >> hurts, so that we have a clear answer. On x86 I don't think we have much
-> >> of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> >> (but nouveau I think doesn't use dma_fence in there).
->
-> Soon nouveau will get company. We're working on a recoverable page fault
-> implementation for HMM in amdgpu where we'll need to update page tables
-> using the GPUs SDMA engine and wait for corresponding fences in MMU
-> notifiers.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1255623179==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="udLCXKNKywV2e3LMJ1Ce0I9tiAUDJJiIz"
 
-Well amdgpu already has dma_fence waits in the hmm callbacks, so
-nothing new. But since you start using these in amdkfd ... perfect
-opportunity to annotate the amdkfd paths for fence signalling critical
-sections? Especially the preempt-ctx fence should be an interesting
-case to annotate and see whether lockdep finds anything. Not sure what
-else there is.
--Daniel
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--udLCXKNKywV2e3LMJ1Ce0I9tiAUDJJiIz
+Content-Type: multipart/mixed; boundary="qhHucNrw1Ic6Rrw41Lpo9IpcW46DhwUXb";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: chen@aspeedtech.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ airlied@redhat.com, emil.velikov@collabora.com
+Message-ID: <59164816-57b4-0279-56e9-a49a333ce839@suse.de>
+Subject: Re: [PATCH 3/3] drm/ast: Use per-device logging macros
+References: <20200611082809.7838-1-tzimmermann@suse.de>
+ <20200611082809.7838-4-tzimmermann@suse.de>
+ <20200611192406.GB160102@ravnborg.org>
+In-Reply-To: <20200611192406.GB160102@ravnborg.org>
 
->
-> Regards,
->   Felix
->
->
-> > Right, nor will RDMA ODP.
-> >
-> > Jason
-> > _______________________________________________
-> > amd-gfx mailing list
-> > amd-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+--qhHucNrw1Ic6Rrw41Lpo9IpcW46DhwUXb
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sam
+
+Am 11.06.20 um 21:24 schrieb Sam Ravnborg:
+> Hi Thomas.
+> On Thu, Jun 11, 2020 at 10:28:09AM +0200, Thomas Zimmermann wrote:
+>> Converts the ast driver to drm_info() and drm_err(). No functional
+>> changes are made.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>=20
+> I hope you will later follow-up with a patch that introduces drm_WARN_*=
+=2E
+
+I only found DRM_INFO and DRM_ERROR calls. Did I miss any other warning
+macros?
+
+Best regards
+Thomas
+
+>=20
+> 	Sam
+>=20
+>> ---
+>>  drivers/gpu/drm/ast/ast_main.c | 34 +++++++++++++++++----------------=
+-
+>>  drivers/gpu/drm/ast/ast_mode.c |  8 ++++----
+>>  drivers/gpu/drm/ast/ast_post.c |  2 +-
+>>  drivers/gpu/drm/ast/ast_ttm.c  |  2 +-
+>>  4 files changed, 23 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_=
+main.c
+>> index a2ef3d9077671..9063fdc9e8852 100644
+>> --- a/drivers/gpu/drm/ast/ast_main.c
+>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>> @@ -79,7 +79,7 @@ static void ast_detect_config_mode(struct drm_device=
+ *dev, u32 *scu_rev)
+>>  					scu_rev)) {
+>>  		/* We do, disable P2A access */
+>>  		ast->config_mode =3D ast_use_dt;
+>> -		DRM_INFO("Using device-tree for configuration\n");
+>> +		drm_info(dev, "Using device-tree for configuration\n");
+>>  		return;
+>>  	}
+>> =20
+>> @@ -101,7 +101,7 @@ static void ast_detect_config_mode(struct drm_devi=
+ce *dev, u32 *scu_rev)
+>>  			/* P2A works, grab silicon revision */
+>>  			ast->config_mode =3D ast_use_p2a;
+>> =20
+>> -			DRM_INFO("Using P2A bridge for configuration\n");
+>> +			drm_info(dev, "Using P2A bridge for configuration\n");
+>> =20
+>>  			/* Read SCU7c (silicon revision register) */
+>>  			ast_write32(ast, 0xf004, 0x1e6e0000);
+>> @@ -112,7 +112,7 @@ static void ast_detect_config_mode(struct drm_devi=
+ce *dev, u32 *scu_rev)
+>>  	}
+>> =20
+>>  	/* We have a P2A bridge but it's disabled */
+>> -	DRM_INFO("P2A bridge disabled, using default configuration\n");
+>> +	drm_info(dev, "P2A bridge disabled, using default configuration\n");=
+
+>>  }
+>> =20
+>>  static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+>> @@ -128,7 +128,7 @@ static int ast_detect_chip(struct drm_device *dev,=
+ bool *need_post)
+>>  	 */
+>>  	if (!ast_is_vga_enabled(dev)) {
+>>  		ast_enable_vga(dev);
+>> -		DRM_INFO("VGA not enabled on entry, requesting chip POST\n");
+>> +		drm_info(dev, "VGA not enabled on entry, requesting chip POST\n");
+>>  		*need_post =3D true;
+>>  	} else
+>>  		*need_post =3D false;
+>> @@ -144,36 +144,36 @@ static int ast_detect_chip(struct drm_device *de=
+v, bool *need_post)
+>>  	/* Identify chipset */
+>>  	if (dev->pdev->revision >=3D 0x40) {
+>>  		ast->chip =3D AST2500;
+>> -		DRM_INFO("AST 2500 detected\n");
+>> +		drm_info(dev, "AST 2500 detected\n");
+>>  	} else if (dev->pdev->revision >=3D 0x30) {
+>>  		ast->chip =3D AST2400;
+>> -		DRM_INFO("AST 2400 detected\n");
+>> +		drm_info(dev, "AST 2400 detected\n");
+>>  	} else if (dev->pdev->revision >=3D 0x20) {
+>>  		ast->chip =3D AST2300;
+>> -		DRM_INFO("AST 2300 detected\n");
+>> +		drm_info(dev, "AST 2300 detected\n");
+>>  	} else if (dev->pdev->revision >=3D 0x10) {
+>>  		switch (scu_rev & 0x0300) {
+>>  		case 0x0200:
+>>  			ast->chip =3D AST1100;
+>> -			DRM_INFO("AST 1100 detected\n");
+>> +			drm_info(dev, "AST 1100 detected\n");
+>>  			break;
+>>  		case 0x0100:
+>>  			ast->chip =3D AST2200;
+>> -			DRM_INFO("AST 2200 detected\n");
+>> +			drm_info(dev, "AST 2200 detected\n");
+>>  			break;
+>>  		case 0x0000:
+>>  			ast->chip =3D AST2150;
+>> -			DRM_INFO("AST 2150 detected\n");
+>> +			drm_info(dev, "AST 2150 detected\n");
+>>  			break;
+>>  		default:
+>>  			ast->chip =3D AST2100;
+>> -			DRM_INFO("AST 2100 detected\n");
+>> +			drm_info(dev, "AST 2100 detected\n");
+>>  			break;
+>>  		}
+>>  		ast->vga2_clone =3D false;
+>>  	} else {
+>>  		ast->chip =3D AST2000;
+>> -		DRM_INFO("AST 2000 detected\n");
+>> +		drm_info(dev, "AST 2000 detected\n");
+>>  	}
+>> =20
+>>  	/* Check if we support wide screen */
+>> @@ -248,13 +248,13 @@ static int ast_detect_chip(struct drm_device *de=
+v, bool *need_post)
+>>  	/* Print stuff for diagnostic purposes */
+>>  	switch(ast->tx_chip_type) {
+>>  	case AST_TX_SIL164:
+>> -		DRM_INFO("Using Sil164 TMDS transmitter\n");
+>> +		drm_info(dev, "Using Sil164 TMDS transmitter\n");
+>>  		break;
+>>  	case AST_TX_DP501:
+>> -		DRM_INFO("Using DP501 DisplayPort transmitter\n");
+>> +		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
+>>  		break;
+>>  	default:
+>> -		DRM_INFO("Analog VGA only\n");
+>> +		drm_info(dev, "Analog VGA only\n");
+>>  	}
+>>  	return 0;
+>>  }
+>> @@ -443,7 +443,7 @@ int ast_driver_load(struct drm_device *dev, unsign=
+ed long flags)
+>>  	 * and higher).
+>>  	 */
+>>  	if (!(pci_resource_flags(dev->pdev, 2) & IORESOURCE_IO)) {
+>> -		DRM_INFO("platform has no IO space, trying MMIO\n");
+>> +		drm_info(dev, "platform has no IO space, trying MMIO\n");
+>>  		ast->ioregs =3D ast->regs + AST_IO_MM_OFFSET;
+>>  	}
+>> =20
+>> @@ -465,7 +465,7 @@ int ast_driver_load(struct drm_device *dev, unsign=
+ed long flags)
+>>  	if (ret)
+>>  		goto out_free;
+>>  	ast->vram_size =3D ast_get_vram_info(dev);
+>> -	DRM_INFO("dram MCLK=3D%u Mhz type=3D%d bus_width=3D%d size=3D%08x\n"=
+,
+>> +	drm_info(dev, "dram MCLK=3D%u Mhz type=3D%d bus_width=3D%d size=3D%0=
+8x\n",
+>>  		 ast->mclk, ast->dram_type,
+>>  		 ast->dram_bus_width, ast->vram_size);
+>> =20
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
+mode.c
+>> index 10211751182da..ff789f2db9fc8 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -1104,7 +1104,7 @@ static int ast_connector_init(struct drm_device =
+*dev)
+>>  	connector =3D &ast_connector->base;
+>>  	ast_connector->i2c =3D ast_i2c_create(dev);
+>>  	if (!ast_connector->i2c)
+>> -		DRM_ERROR("failed to add ddc bus for connector\n");
+>> +		drm_err(dev, "failed to add ddc bus for connector\n");
+>> =20
+>>  	drm_connector_init_with_ddc(dev, connector,
+>>  				    &ast_connector_funcs,
+>> @@ -1188,7 +1188,7 @@ int ast_mode_init(struct drm_device *dev)
+>>  				       ARRAY_SIZE(ast_primary_plane_formats),
+>>  				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+>>  	if (ret) {
+>> -		DRM_ERROR("ast: drm_universal_plane_init() failed: %d\n", ret);
+>> +		drm_err(dev, "ast: drm_universal_plane_init() failed: %d\n", ret);
+>>  		return ret;
+>>  	}
+>>  	drm_plane_helper_add(&ast->primary_plane,
+>> @@ -1200,7 +1200,7 @@ int ast_mode_init(struct drm_device *dev)
+>>  				       ARRAY_SIZE(ast_cursor_plane_formats),
+>>  				       NULL, DRM_PLANE_TYPE_CURSOR, NULL);
+>>  	if (ret) {
+>> -		DRM_ERROR("drm_universal_plane_failed(): %d\n", ret);
+>> +		drm_err(dev, "drm_universal_plane_failed(): %d\n", ret);
+>>  		return ret;
+>>  	}
+>>  	drm_plane_helper_add(&ast->cursor_plane,
+>> @@ -1322,7 +1322,7 @@ static struct ast_i2c_chan *ast_i2c_create(struc=
+t drm_device *dev)
+>>  	i2c->bit.getscl =3D get_clock;
+>>  	ret =3D i2c_bit_add_bus(&i2c->adapter);
+>>  	if (ret) {
+>> -		DRM_ERROR("Failed to register bit i2c\n");
+>> +		drm_err(dev, "Failed to register bit i2c\n");
+>>  		goto out_free;
+>>  	}
+>> =20
+>> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_=
+post.c
+>> index 226e1290227ad..c043fe7175530 100644
+>> --- a/drivers/gpu/drm/ast/ast_post.c
+>> +++ b/drivers/gpu/drm/ast/ast_post.c
+>> @@ -2067,7 +2067,7 @@ void ast_post_chip_2500(struct drm_device *dev)
+>>  		}
+>> =20
+>>  		if (!ast_dram_init_2500(ast))
+>> -			DRM_ERROR("DRAM init failed !\n");
+>> +			drm_err(dev, "DRAM init failed !\n");
+>> =20
+>>  		temp =3D ast_mindwm(ast, 0x1e6e2040);
+>>  		ast_moutdwm(ast, 0x1e6e2040, temp | 0x40);
+>> diff --git a/drivers/gpu/drm/ast/ast_ttm.c b/drivers/gpu/drm/ast/ast_t=
+tm.c
+>> index fad34106083a8..9c3788a4c1c54 100644
+>> --- a/drivers/gpu/drm/ast/ast_ttm.c
+>> +++ b/drivers/gpu/drm/ast/ast_ttm.c
+>> @@ -44,7 +44,7 @@ int ast_mm_init(struct ast_private *ast)
+>>  		ast->vram_size);
+>>  	if (IS_ERR(vmm)) {
+>>  		ret =3D PTR_ERR(vmm);
+>> -		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
+>> +		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+>>  		return ret;
+>>  	}
+>> =20
+>> --=20
+>> 2.26.2
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
+--qhHucNrw1Ic6Rrw41Lpo9IpcW46DhwUXb--
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--udLCXKNKywV2e3LMJ1Ce0I9tiAUDJJiIz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7jIJwACgkQaA3BHVML
+eiNkGAgAwsV4pjmNbRVqw3ilw4fThaBKQ127nCqXQYvO4+JoHfOCOR6hvmQyOnrS
+dzlySvZe4Hqd+jvitPr36kRioKnCBnwwUUymSOG2Vq0lMdsFrQRL2rMNNDJQ8sB1
+vNFqucy8wTAiO+IuEaOEB4xbzjizB3XejLGsHBlp9JqCoGnLYCuIcXUQrsOtyngO
+DMKJBO02DhpB1XN1f/3lxwtUlBYIUxlwPR+viiamm2oV2e+sevCDlTJfnPnypi2m
+kB454eFLjtZf2s7/M+D2hU0xFqtzOpqCdUDEvxDOqytY5VaPLHIWHWQLW2P51X5Y
+fz1v7tbiJZSE3wWHVnU+y/C9yi5h2g==
+=IDRb
+-----END PGP SIGNATURE-----
+
+--udLCXKNKywV2e3LMJ1Ce0I9tiAUDJJiIz--
+
+--===============1255623179==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1255623179==--
