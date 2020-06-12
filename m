@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08ECD1F71E8
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 03:52:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD7A1F726F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 05:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 233F06E229;
-	Fri, 12 Jun 2020 01:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4866E0C8;
+	Fri, 12 Jun 2020 03:22:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2EB06E1F7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 01:52:48 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1591926772; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=/aZaIYLpDRo9Jmnv3uRBjAFuGehCfPcRUaFTYev5WAs=;
- b=gUUovNLFfYHm9miVjosMCgNRoJGMY0So2eVWdn6QmxZORdu3EOqsnqVC0OysdufwWq6CaKrs
- QomOioFSmflNTDdFx3nMR76jlB6c7KtjOt3O3bF0w1WJk5vX6Uw6UofO6xlYF1SE4JK6L4gh
- OzM9cFZfwFo9E5MhmCEnbhqsaVY=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
- 5ee2dfdf356bcc26abbd2dba (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 12 Jun 2020 01:52:31
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 12F09C433AF; Fri, 12 Jun 2020 01:52:29 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 92D23C433CB;
- Fri, 12 Jun 2020 01:52:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 92D23C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: sam@ravnborg.org,
-	robh+dt@kernel.org,
-	swboyd@chromium.org
-Subject: [PATCH v6 5/5] drm/msm/dpu: add display port support in DPU
-Date: Thu, 11 Jun 2020 18:50:30 -0700
-Message-Id: <20200612015030.16072-6-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200612015030.16072-1-tanmay@codeaurora.org>
-References: <20200612015030.16072-1-tanmay@codeaurora.org>
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B78266E0C8;
+ Fri, 12 Jun 2020 03:22:04 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id f7so8636063ejq.6;
+ Thu, 11 Jun 2020 20:22:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B4Mrm1gIXHBqQrJzDMxE7hny1sPLrSiwXYO/60LCrf4=;
+ b=hPVYoqh8jPs/l54Gc1r4kVaNzjMB73wKzEjspttHVKjphYyFYBNLvFvhAQHgCVuMXD
+ UrW+7t7+BjCCRAb619IpW+4HHRVsgemrpBPTZgHjC/3gzR+obgnFNZvECSNXA9/pCqXz
+ HhQmCLyRPV4bDpj/WbkqT06lRQ5NGJDrYyClx7y0Pw1u1IrVuE89/OQi/G/Xfxj2P6/A
+ q50xVFJ9qf09Fj3gXSwSGq/TCkNbFQz1FMxOxyxexgyiUDja4LM8/ZfhMrlDakdtj+7B
+ mLQMDgcvIZWW4w4wgQpH4a5uPbkhNBMMS2LzQSmi1fC6hyZj/87JizBAF+eT4jMoDrjk
+ jv8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B4Mrm1gIXHBqQrJzDMxE7hny1sPLrSiwXYO/60LCrf4=;
+ b=QcAQLmA5KBOBVlpWCsNMOexIO9iHIJaGOq5upTZM7ZvjA7dRGR9WNqYJ54XthQTU2O
+ 8+j/RzPMYMKoLNIxxp/ZRyEDJV/UfRZQtvaXhowXDleWKyU5a6PUSWlwCxXwbjSt5qoD
+ O4pvo8qVR4WabdBwwyUqW7JZMLKza25QUp1cSA4JbVgvcJQIYks0c3XyoTURiRaMwFgo
+ 2d3N2RMkRCw+4QAjQ4zt7gKx0RUSYUqKYCyhfVZ44peF1LDNZeE85VbFpKyXPDQKp9Pz
+ NRAoicKSrdTjUmTcCf5R2kn4zH46Oxvp7K+ppAGsunR+3TOH+ribtsOPx0+Wt4IldTOE
+ zo5g==
+X-Gm-Message-State: AOAM530Br6utgMdrFxU0fa+my/oXFOAhg7jeTeK6T5tuuzt7ZMLiB4o7
+ CSAV9F+9+Z7+VloV0VCfy5xjbiQvWXPamDns9zw=
+X-Google-Smtp-Source: ABdhPJyzNHPsnPsZMtc0S9NLfKpqe1fzAhLdA7GvVWT23D3A2fUYLq5KDR2bpDt/AdIyu5RKOlbarT8SJfsSUirryUA=
+X-Received: by 2002:a17:906:1088:: with SMTP id
+ u8mr11881278eju.428.1591932123108; 
+ Thu, 11 Jun 2020 20:22:03 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200611222921.464-1-jcrouse@codeaurora.org>
+ <20200611222921.464-7-jcrouse@codeaurora.org>
+In-Reply-To: <20200611222921.464-7-jcrouse@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 11 Jun 2020 20:22:29 -0700
+Message-ID: <CAF6AEGuyqgYKZsnBPCii4W=jxPcFU7JYKn4NBd8JVq7Pt1kR_Q@mail.gmail.com>
+Subject: Re: [PATCH 6/6] drm/msm/a6xx: Add support for per-instance pagetables
+To: Jordan Crouse <jcrouse@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,172 +62,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
- abhinavk@codeaurora.org, Vara Reddy <varar@codeaurora.org>,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jeykumar Sankaran <jsanka@codeaurora.org>
+On Thu, Jun 11, 2020 at 3:29 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> Add support for using per-instance pagetables if all the dependencies are
+> available.
+>
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+>
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 69 ++++++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/msm_ringbuffer.h  |  1 +
+>  2 files changed, 69 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index a1589e040c57..5e82b85d4d55 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -79,6 +79,58 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
+>         OUT_RING(ring, upper_32_bits(iova));
+>  }
+>
+> +static void a6xx_set_pagetable(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+> +               struct msm_file_private *ctx)
+> +{
+> +       phys_addr_t ttbr;
+> +       u32 asid;
+> +
+> +       if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
+> +               return;
+> +
+> +       OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
+> +       OUT_RING(ring, 0);
+> +
+> +       /* Turn on APIV mode to access critical regions */
+> +       OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
+> +       OUT_RING(ring, 1);
+> +
+> +       /* Make sure the ME is synchronized before staring the update */
+> +       OUT_PKT7(ring, CP_WAIT_FOR_ME, 0);
+> +
+> +       /* Execute the table update */
+> +       OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
+> +       OUT_RING(ring, lower_32_bits(ttbr));
+> +       OUT_RING(ring, (((u64) asid) << 48) | upper_32_bits(ttbr));
+> +       /* CONTEXTIDR is currently unused */
+> +       OUT_RING(ring, 0);
+> +       /* CONTEXTBANK is currently unused */
+> +       OUT_RING(ring, 0);
 
-Add display port support in DPU by creating hooks
-for DP encoder enumeration and encoder mode
-initialization.
+I can add this to xml (on userspace side, we've been describing packet
+payload in xml and using the generated builders), and update generated
+headers, if you agree to not add more open-coded pkt7 building ;-)
 
-This change is based on the Snapdragon Display port
-driver changes[1].
+> +
+> +       /*
+> +        * Write the new TTBR0 to the memstore. This is good for debugging.
+> +        */
+> +       OUT_PKT7(ring, CP_MEM_WRITE, 4);
+> +       OUT_RING(ring, lower_32_bits(rbmemptr(ring, ttbr0)));
+> +       OUT_RING(ring, upper_32_bits(rbmemptr(ring, ttbr0)));
+> +       OUT_RING(ring, lower_32_bits(ttbr));
+> +       OUT_RING(ring, (((u64) asid) << 48) | upper_32_bits(ttbr));
+> +
+> +       /* Invalidate the draw state so we start off fresh */
+> +       OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
+> +       OUT_RING(ring, 0x40000);
+> +       OUT_RING(ring, 1);
+> +       OUT_RING(ring, 0);
 
-changes in v2:
-	- rebase on [2] (Sean Paul)
-	- remove unwanted error checks and
-	  switch cases (Jordan Crouse)
+Ie, this would look like:
 
-[1] https://lwn.net/Articles/768265/
-[2] https://lkml.org/lkml/2018/11/17/87
+    OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
+    OUT_RING(ring, CP_SET_DRAW_STATE__0_COUNT(0) |
+            CP_SET_DRAW_STATE__0_DISABLE_ALL_GROUPS |
+            CP_SET_DRAW_STATE__0_GROUP_ID(0));
+    OUT_RING(ring, CP_SET_DRAW_STATE__1_ADDR_LO(1));
+    OUT_RING(ring, CP_SET_DRAW_STATE__2_ADDR_HI(0));
 
-changes in V3:
--- Moved this change as part of the DP driver changes.
--- Addressed compilation issues on the latest code base.
+.. but written that way, I think you meant ADDR_LO to be zero?
 
-Changes in v6:
--- Fix checkpatch.pl warning
+(it is possible we need to regen headers for that to work, the kernel
+headers are somewhat out of date by now)
 
-Signed-off-by: Jeykumar Sankaran <jsanka@codeaurora.org>
-Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
-Signed-off-by: Vara Reddy <varar@codeaurora.org>
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  8 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 65 +++++++++++++++++----
- 2 files changed, 58 insertions(+), 15 deletions(-)
+BR,
+-R
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index d796710ff4aa..745d5ce7e821 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2017,7 +2017,7 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- {
- 	int ret = 0;
- 	int i = 0;
--	enum dpu_intf_type intf_type;
-+	enum dpu_intf_type intf_type = INTF_NONE;
- 	struct dpu_enc_phys_init_params phys_params;
- 
- 	if (!dpu_enc) {
-@@ -2039,9 +2039,9 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 	case DRM_MODE_ENCODER_DSI:
- 		intf_type = INTF_DSI;
- 		break;
--	default:
--		DPU_ERROR_ENC(dpu_enc, "unsupported display interface type\n");
--		return -EINVAL;
-+	case DRM_MODE_ENCODER_TMDS:
-+		intf_type = INTF_DP;
-+		break;
- 	}
- 
- 	WARN_ON(disp_info->num_of_h_tiles < 1);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index b8615d4fe8a3..f6c219f875db 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -492,6 +492,33 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
- 	return rc;
- }
- 
-+static int _dpu_kms_initialize_displayport(struct drm_device *dev,
-+					    struct msm_drm_private *priv,
-+					    struct dpu_kms *dpu_kms)
-+{
-+	struct drm_encoder *encoder = NULL;
-+	int rc = 0;
-+
-+	if (!priv->dp)
-+		return rc;
-+
-+	encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_TMDS);
-+	if (IS_ERR(encoder)) {
-+		DPU_ERROR("encoder init failed for dsi display\n");
-+		return PTR_ERR(encoder);
-+	}
-+
-+	rc = msm_dp_modeset_init(priv->dp, dev, encoder);
-+	if (rc) {
-+		DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
-+		drm_encoder_cleanup(encoder);
-+		return rc;
-+	}
-+
-+	priv->encoders[priv->num_encoders++] = encoder;
-+	return rc;
-+}
-+
- /**
-  * _dpu_kms_setup_displays - create encoders, bridges and connectors
-  *                           for underlying displays
-@@ -504,12 +531,21 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
- 				    struct msm_drm_private *priv,
- 				    struct dpu_kms *dpu_kms)
- {
--	/**
--	 * Extend this function to initialize other
--	 * types of displays
--	 */
-+	int rc = 0;
-+
-+	rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
-+	if (rc) {
-+		DPU_ERROR("initialize_dsi failed, rc = %d\n", rc);
-+		return rc;
-+	}
- 
--	return _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
-+	rc = _dpu_kms_initialize_displayport(dev, priv, dpu_kms);
-+	if (rc) {
-+		DPU_ERROR("initialize_DP failed, rc = %d\n", rc);
-+		return rc;
-+	}
-+
-+	return rc;
- }
- 
- static void _dpu_kms_drm_obj_destroy(struct dpu_kms *dpu_kms)
-@@ -694,13 +730,20 @@ static void _dpu_kms_set_encoder_mode(struct msm_kms *kms,
- 	info.capabilities = cmd_mode ? MSM_DISPLAY_CAP_CMD_MODE :
- 			MSM_DISPLAY_CAP_VID_MODE;
- 
--	/* TODO: No support for DSI swap */
--	for (i = 0; i < ARRAY_SIZE(priv->dsi); i++) {
--		if (priv->dsi[i]) {
--			info.h_tile_instance[info.num_of_h_tiles] = i;
--			info.num_of_h_tiles++;
-+	switch (info.intf_type) {
-+	case DRM_MODE_ENCODER_DSI:
-+		/* TODO: No support for DSI swap */
-+		for (i = 0; i < ARRAY_SIZE(priv->dsi); i++) {
-+			if (priv->dsi[i]) {
-+				info.h_tile_instance[info.num_of_h_tiles] = i;
-+				info.num_of_h_tiles++;
-+			}
- 		}
--	}
-+		break;
-+	case DRM_MODE_ENCODER_TMDS:
-+		info.num_of_h_tiles = 1;
-+		break;
-+	};
- 
- 	rc = dpu_encoder_setup(encoder->dev, encoder, &info);
- 	if (rc)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+> +
+> +       /* Turn off APRIV */
+> +       OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
+> +       OUT_RING(ring, 0);
+> +
+> +       /* Turn off protected mode */
+> +       OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
+> +       OUT_RING(ring, 1);
+> +}
+> +
+>  static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
+>         struct msm_file_private *ctx)
+>  {
+> @@ -89,6 +141,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
+>         struct msm_ringbuffer *ring = submit->ring;
+>         unsigned int i;
+>
+> +       a6xx_set_pagetable(gpu, ring, ctx);
+> +
+>         get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
+>                 rbmemptr_stats(ring, index, cpcycles_start));
+>
+> @@ -872,6 +926,18 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+>         return (unsigned long)busy_time;
+>  }
+>
+> +struct msm_gem_address_space *a6xx_address_space_instance(struct msm_gpu *gpu)
+> +{
+> +       struct msm_mmu *mmu;
+> +
+> +       mmu = msm_iommu_pagetable_create(gpu->aspace->mmu);
+> +       if (IS_ERR(mmu))
+> +               return msm_gem_address_space_get(gpu->aspace);
+> +
+> +       return msm_gem_address_space_create(mmu,
+> +               "gpu", 0x100000000ULL, 0x1ffffffffULL);
+> +}
+> +
+>  static const struct adreno_gpu_funcs funcs = {
+>         .base = {
+>                 .get_param = adreno_get_param,
+> @@ -893,8 +959,9 @@ static const struct adreno_gpu_funcs funcs = {
+>  #if defined(CONFIG_DRM_MSM_GPU_STATE)
+>                 .gpu_state_get = a6xx_gpu_state_get,
+>                 .gpu_state_put = a6xx_gpu_state_put,
+> -               .create_address_space = adreno_iommu_create_address_space,
+>  #endif
+> +               .create_address_space = adreno_iommu_create_address_space,
+> +               .address_space_instance = a6xx_address_space_instance,
+>         },
+>         .get_timestamp = a6xx_get_timestamp,
+>  };
+> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
+> index 7764373d0ed2..0987d6bf848c 100644
+> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
+> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
+> @@ -31,6 +31,7 @@ struct msm_rbmemptrs {
+>         volatile uint32_t fence;
+>
+>         volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
+> +       volatile u64 ttbr0;
+>  };
+>
+>  struct msm_ringbuffer {
+> --
+> 2.17.1
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
