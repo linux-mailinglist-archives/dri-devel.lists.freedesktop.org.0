@@ -1,54 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425891F770E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 13:04:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C36F11F7718
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 13:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2106E93A;
-	Fri, 12 Jun 2020 11:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88C96E91B;
+	Fri, 12 Jun 2020 11:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF376E91B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 11:04:16 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id q19so10613998lji.2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 04:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bTCLOyMG5WAJlNutWrbvXvzVWtTz1Ki5CE4mfBnFpug=;
- b=dopIPNC0Rsp46b+MXz6/oO1UNbscIY6zf6Pt0pb/CcwoXuN6bx2qlmAs9grcZw2RQX
- v9wTidKjbsgVhGi1AIZewuqb3MgYHuF590imU5BLQV1eb607hqUYJje80R9c3U77BqBk
- 1D7TEdXmbySrLP2i3r6pXRylXpWq59EOr+2o117zkmECxWlemA+20S3Su7jiHLyW8qTW
- +rfEVC44lf/dDJMZdvBGrxY6YYcXhh89viRfnWKVxAcjSrOPUTs3l6U8g3F//LCgnlm2
- Qd1KPZQdyxVLSa27A/CLluErNY7z5DxbHk/zPiMY8QR8qqDBuqtNPecHwGSAeLTxiIzS
- n91Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bTCLOyMG5WAJlNutWrbvXvzVWtTz1Ki5CE4mfBnFpug=;
- b=a11F/EHjq+/7tUX61GY3tJ6J+CbN1J/cAft/OljegQ2VsciIjIrQA/7l8x0kGo78aG
- kXpiGbYg+wpAxQULY81A4ibIsXdqx7M7MEPGSxxlsRMWmb38kUiaAJRcWTRbKrgp0T2k
- aAybT98NRgc/t4ipgIaXPiMK06IyJEQxpT1E9DG5A803hEQeBLd5RHoHYbCb76L9Xt/I
- lYezv2LbWL134Z2dluP4PiRuJ5IJVTn6JBFS1AlL49s40/g7G9UZoIaEeuT1Ot5TGZSF
- fnfbIGd2GQtkifyJYhorgNVquJGOiK6JhGMU3nk8C5LU/QC9xTHaYO2H/g2jSClln5JM
- 0d2Q==
-X-Gm-Message-State: AOAM531igCgf8SsysH6YscHqhkgZtJlCfA/jLdAkXg7Abxb5xEtDjiGn
- v+4ld8sQa3OAgLdraVWOz5vaAxLinJAoy6C7tMawnA==
-X-Google-Smtp-Source: ABdhPJzJUo2m4/QEOCUVTfeCUSii5+RSbexYUNIuSMs+0+OTNWgT2a1MpJJeb11vL4/k5gZj/09L/Tm9A7bjqHhGJCM=
-X-Received: by 2002:a2e:974a:: with SMTP id f10mr6883910ljj.283.1591959854875; 
- Fri, 12 Jun 2020 04:04:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200609200446.153209-4-linus.walleij@linaro.org>
- <202006101538.mV5c2loX%lkp@intel.com>
-In-Reply-To: <202006101538.mV5c2loX%lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 12 Jun 2020 13:04:02 +0200
-Message-ID: <CACRpkda+GJpHQjvfjcFfhher+Vfr66DRgf6my2Fx7qg9=-5ATQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm: pl111: Update documentation
-To: kernel test robot <lkp@intel.com>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [207.211.31.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938296E91B
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 11:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591960436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc; bh=XraRyLmV9YVoqx7YIwPq7Sb6loBVWSYc7ETqFptiuSE=;
+ b=dNDdhB3LIXuZxFkvjDlR2MhfsDsNy17iV+yLT6CK/xuFis4NAlHGICXdo1z50oc00LSBYa
+ S/hK5iCNzslX64f1UDJ0LpAkfV9q7PAd+QVBPh4yz+Cr4/4fL5rylc9ptufzFEofDYOyTS
+ a9To50KJtewgZDcmvjgZgtzC3QUPGRs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-Hl5tpEZNM3Cw8eSsu026JA-1; Fri, 12 Jun 2020 07:13:51 -0400
+X-MC-Unique: Hl5tpEZNM3Cw8eSsu026JA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48397EC1A1;
+ Fri, 12 Jun 2020 11:13:49 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com
+ [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D79160BF1;
+ Fri, 12 Jun 2020 11:13:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1F5AC16E16; Fri, 12 Jun 2020 13:13:45 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: fix unblank
+Date: Fri, 12 Jun 2020 13:13:31 +0200
+Message-Id: <20200612111331.6982-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +54,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Russell King <linux@armlinux.org.uk>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, 1882851@bugs.launchpad.net
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 10, 2020 at 9:38 AM kernel test robot <lkp@intel.com> wrote:
+When going through a disable/enable cycle without changing the framebuffer
+the optimization added by commit 3954ff10e06e causes the screen stay
+blank.  Add a bool to force an update to fix that.
 
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on drm-exynos/exynos-drm-next]
-> [also build test WARNING on drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linus/master v5.7 next-20200609]
-> [cannot apply to drm-tip/drm-tip drm/drm-next]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
->
-> url:    https://github.com/0day-ci/linux/commits/Linus-Walleij/drm-pl111-Credit-where-credit-is-due/20200610-041025
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-> reproduce: make htmldocs
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
+Cc: 1882851@bugs.launchpad.net
+Fixes: 3954ff10e06e ("drm/virtio: skip set_scanout if framebuffer didn't change")
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
+ drivers/gpu/drm/virtio/virtgpu_display.c | 1 +
+ drivers/gpu/drm/virtio/virtgpu_plane.c   | 4 +++-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-What on earth was that. The robot reports on a patch only adding a few lines
-of comments as breaking the whole universe, and none of these systems
-even use the PL111.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 7879ff58236f..6d5410d5dd84 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -138,6 +138,7 @@ struct virtio_gpu_output {
+ 	int cur_x;
+ 	int cur_y;
+ 	bool enabled;
++	bool need_update;
+ };
+ #define drm_crtc_to_virtio_gpu_output(x) \
+ 	container_of(x, struct virtio_gpu_output, crtc)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 2b7e6ae65546..44e9c7b874f5 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -99,6 +99,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+ 
+ 	output->enabled = true;
++	output->need_update = true;
+ }
+ 
+ static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 52d24179bcec..5948031a9ce8 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -163,7 +163,8 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 	    plane->state->src_w != old_state->src_w ||
+ 	    plane->state->src_h != old_state->src_h ||
+ 	    plane->state->src_x != old_state->src_x ||
+-	    plane->state->src_y != old_state->src_y) {
++	    plane->state->src_y != old_state->src_y ||
++	    output->need_update) {
+ 		DRM_DEBUG("handle 0x%x, crtc %dx%d+%d+%d, src %dx%d+%d+%d\n",
+ 			  bo->hw_res_handle,
+ 			  plane->state->crtc_w, plane->state->crtc_h,
+@@ -178,6 +179,7 @@ static void virtio_gpu_primary_plane_update(struct drm_plane *plane,
+ 					   plane->state->src_h >> 16,
+ 					   plane->state->src_x >> 16,
+ 					   plane->state->src_y >> 16);
++		output->need_update = false;
+ 	}
+ 
+ 	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle,
+-- 
+2.18.4
 
-Yours,
-Linus Walleij
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
