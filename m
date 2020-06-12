@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF941F7BEB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 19:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2F71F7C15
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 19:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF1936EA16;
-	Fri, 12 Jun 2020 17:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2B36E12C;
+	Fri, 12 Jun 2020 17:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E1E6EA15
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 17:00:53 +0000 (UTC)
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9951E6E12C
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 17:05:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591981252;
+ s=mimecast20190719; t=1591981507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kq1FsuME6m+ciAh6optHE6JOSPQf6LnlX48GlVHF/W0=;
- b=bHZPIgA+kL5wragPf1epfO4PPBp98EgTSYgeEl61xVYUoHQwr51WKIVlfHozcacE+SNdUO
- G2ayFXvhDUhtM62sn/QkxTjl57FzlLN6/8B22LkaZamtsMXlN+P+N5X0j+B0OL1HE5Emxs
- QZZEqY6MXEpSWPg0FAqtHFoMccb2Wb4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-SYjU-o6UNPy1A0T6ihlUUQ-1; Fri, 12 Jun 2020 13:00:45 -0400
-X-MC-Unique: SYjU-o6UNPy1A0T6ihlUUQ-1
-Received: by mail-ej1-f70.google.com with SMTP id m22so4452852ejn.4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 10:00:45 -0700 (PDT)
+ bh=O9piimQ/T++1/TGsJqs3awIx/sU3KGcD6TvfJOnap6Q=;
+ b=D2C28mpjXlcKAtDpzOv98inWQj66wxsqJOuMQTvn+4Dglf0E6d1FvJa9WpX0LaRlm2CSzh
+ tMJlgyy0XJtYma1sJKdD0ac27iY3NTMNgLKwaCst/MY5xGfFkXBdF2FeRwNICvCu2bnnFX
+ 5XIi9FYHgs8/dq/VY8CAQg+R2uSzxqo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-rjv1GNDlO3mfGMngJ02Qfg-1; Fri, 12 Jun 2020 13:04:56 -0400
+X-MC-Unique: rjv1GNDlO3mfGMngJ02Qfg-1
+Received: by mail-ed1-f69.google.com with SMTP id t23so3180361edq.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 10:04:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YTihYUKXSrTnrV1cw1wXoVKUqiDmvG+bRKMsuvDOElI=;
- b=rhx40NBOFjvv87p1Ywrakgxj8Gz3VfYqZIIgPioDogS6oPiauUsB891VdjRPytUthQ
- GIj7tlIekdAdVFdMr6FMxjXYk1CuFhtfS+zCNqsxRE6/qijzC4sIFSy2d4K6xSxulybK
- mud8qcnzMBxsdNUh8XuQVI/XXCisgoaUTFpEARkmvE0Z43GXYhQ0oFgB7lLPp9LXfoFX
- oZXuHd/0hgb8NGILmoNzOv2WFvORYEXcsoiNRAvejeSZFLarP5l8V7zReTxYeHpp9XLo
- tKhILhYs1tlk3x5GfmBiOwIB6TI2o2taxVD1Onkka3o5rUbdCt5m94Uy79eVWWYstsOt
- xkZA==
-X-Gm-Message-State: AOAM531K687UXslqc8/7YYw2J11qh+RlD7+vlTZVk75QbQIErkpAJK72
- ylnkD0xtrPrVKwCCIinYbYshel6EyQ9bW0t6H/XVN9TKDcX+7ESl91hEzKEcutcPXbXERdDoiBs
- E9TKdR1A99WCe01u5C23bxoQTFDIN
-X-Received: by 2002:a50:af25:: with SMTP id g34mr12664933edd.85.1591981244268; 
- Fri, 12 Jun 2020 10:00:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1ZL1hLqchv/eFpUYGZFQqouDUrpcBFi1A1KbkRuhgNPPw1kwQ6gTpxpqVqI+lMaYQMqCDKg==
-X-Received: by 2002:a50:af25:: with SMTP id g34mr12664913edd.85.1591981244074; 
- Fri, 12 Jun 2020 10:00:44 -0700 (PDT)
+ bh=aJhsLiuB5MJfhLZW+3GQ1NI8Ulud2FZJOWodXiS4/hM=;
+ b=laLko7JWBt5medCshzNbkjNw4hLbKMKep0KPI2uEiwSfn8FDUS5c7+myai9+rw1Kfy
+ 8qHpjnygon+2YS0ODCKEqBfyiESVeIiLsWUux4haMdTbrkNRl6gA3EcXpJ7jNRXAvrTo
+ 2adnDJUjM2mBRY3zkIw9mHMFVh2jFR4a0oO+Or9dnoqLYX4upzCtS4bYikF3AaMCIR6b
+ omkgUeBRLLrWTrCtD22XFvjI17LdpAKnPXRixO5o5iSp5D1l0Pd2VZ8/mARp7ID1htm0
+ 4Y4JP9Y3iszCHbcpOIZEn+OSVFqeIGJ4YXjw05SkYeAiR/xRikjCh3W88B9BdEjhNdii
+ 9Ysw==
+X-Gm-Message-State: AOAM532BSygGRqiIHp8Whwos5ZqYDtPrc2RTRX9H1wdPD4+Foucit8BF
+ uo9PKdVNjGpCFOnp6rvh4qQu9Q5SdEQ5xtnW4kVVo2LC0L0gSZYcDZjZ8yCRDPKNTmDVPiXgQjZ
+ QEG4ViTsfKWz0ITLPUj+7xpxvgDAT
+X-Received: by 2002:a17:906:3041:: with SMTP id
+ d1mr14497137ejd.7.1591981493678; 
+ Fri, 12 Jun 2020 10:04:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8/X6kVaFS8fcJPbnnHMtvzqT2kk50X8Vfwy3lEhe+LE8MdjUbh7IV+C3pCB1j1LapjG6OZw==
+X-Received: by 2002:a17:906:3041:: with SMTP id
+ d1mr14497118ejd.7.1591981493412; 
+ Fri, 12 Jun 2020 10:04:53 -0700 (PDT)
 Received: from x1.localdomain
  (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl.
  [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
- by smtp.gmail.com with ESMTPSA id x11sm3852082ejv.81.2020.06.12.10.00.43
+ by smtp.gmail.com with ESMTPSA id o5sm3842626eje.66.2020.06.12.10.04.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Jun 2020 10:00:43 -0700 (PDT)
-Subject: Re: [PATCH v2 11/15] pwm: crc: Implement get_state() method
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20200607181840.13536-1-hdegoede@redhat.com>
- <20200607181840.13536-12-hdegoede@redhat.com>
- <20200611213744.6gg2oy45cende6ba@taurus.defre.kleine-koenig.org>
+ Fri, 12 Jun 2020 10:04:52 -0700 (PDT)
+Subject: Re: pwm/i915: Convert pwm-crc and i915 driver's PWM code to use the
+ atomic PWM API
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20200606202601.48410-1-hdegoede@redhat.com>
+ <20200608143500.GX20149@phenom.ffwll.local>
+ <20200611212144.i7ma7kriznidds4r@taurus.defre.kleine-koenig.org>
 From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <f2a268ef-2b65-d027-0b0c-b83e12a04f20@redhat.com>
-Date: Fri, 12 Jun 2020 19:00:42 +0200
+Message-ID: <58972efb-003d-ca87-0637-ece4c93aeeb5@redhat.com>
+Date: Fri, 12 Jun 2020 19:04:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200611213744.6gg2oy45cende6ba@taurus.defre.kleine-koenig.org>
+In-Reply-To: <20200611212144.i7ma7kriznidds4r@taurus.defre.kleine-koenig.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -94,68 +98,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 6/11/20 11:37 PM, Uwe Kleine-K=C3=B6nig wrote:
+On 6/11/20 11:21 PM, Uwe Kleine-K=C3=B6nig wrote:
 > Hello,
 > =
 
-> On Sun, Jun 07, 2020 at 08:18:36PM +0200, Hans de Goede wrote:
->> Implement the pwm_ops.get_state() method to complete the support for the
->> new atomic PWM API.
+> On Mon, Jun 08, 2020 at 04:35:00PM +0200, Daniel Vetter wrote:
+>> On Sat, Jun 06, 2020 at 10:25:45PM +0200, Hans de Goede wrote:
+>>> Hi All,
+>>>
+>>> This patch series converts the i915 driver's cpde for controlling the
+>>> panel's backlight with an external PWM controller to use the atomic PWM=
+ API.
+>>>
+>>> Initially the plan was for this series to consist of 2 parts:
+>>> 1. convert the pwm-crc driver to support the atomic PWM API and
+>>> 2. convert the i915 driver's PWM code to use the atomic PWM API.
+>>>
+>>> But during testing I've found a number of bugs in the pwm-lpss and I
+>>> found that the acpi_lpss code needs some special handling because of
+>>> some ugliness found in most Cherry Trail DSDTs.
+>>>
+>>> So now this series has grown somewhat large and consists of 4 parts:
+>>>
+>>> 1. acpi_lpss fixes workarounds for Cherry Trail DSTD nastiness
+>>> 2. various fixes to the pwm-lpss driver
+>>> 3. convert the pwm-crc driver to support the atomic PWM API and
+>>> 4. convert the i915 driver's PWM code to use the atomic PWM API
+>>>
+>>> So we need to discuss how to merge this (once it passes review).
+>>> Although the inter-dependencies are only runtime I still think we should
+>>> make sure that 1-3 are in the drm-intel-next-queued (dinq) tree before
+>>> merging the i915 changes. Both to make sure that the intel-gfx CI system
+>>> does not become unhappy and for bisecting reasons.
 >>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/pwm/pwm-crc.c | 29 +++++++++++++++++++++++++++++
->>   1 file changed, 29 insertions(+)
+>> Simplest is if acpi acks the acpi patches for merging through
+>> drm-intel.git. Second simplest is topic branch (drm-intel maintainers can
+>> do that) with the entire pile, which then acpi and drm-intel can both pu=
+ll
+>> in.
 >>
->> diff --git a/drivers/pwm/pwm-crc.c b/drivers/pwm/pwm-crc.c
->> index 58c7e9ef7278..6c75a3470bc8 100644
->> --- a/drivers/pwm/pwm-crc.c
->> +++ b/drivers/pwm/pwm-crc.c
->> @@ -114,8 +114,37 @@ static int crc_pwm_apply(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
->>   	return 0;
->>   }
->>   =
-
->> +static void crc_pwm_get_state(struct pwm_chip *chip, struct pwm_device =
-*pwm,
->> +			       struct pwm_state *state)
->> +{
->> +	struct crystalcove_pwm *crc_pwm =3D to_crc_pwm(chip);
->> +	struct device *dev =3D crc_pwm->chip.dev;
->> +	unsigned int clk_div, clk_div_reg, duty_cycle_reg;
->> +	int error;
->> +
->> +	error =3D regmap_read(crc_pwm->regmap, PWM0_CLK_DIV, &clk_div_reg);
->> +	if (error) {
->> +		dev_err(dev, "Error reading PWM0_CLK_DIV %d\n", error);
->> +		return;
->> +	}
->> +
->> +	error =3D regmap_read(crc_pwm->regmap, PWM0_DUTY_CYCLE, &duty_cycle_re=
-g);
->> +	if (error) {
->> +		dev_err(dev, "Error reading PWM0_DUTY_CYCLE %d\n", error);
->> +		return;
->> +	}
+>> Up to the two maintainer teams to figure this one out.
 > =
 
-> I assume that duty_cycle_reg cannot be bigger than 0xff? Would it make
-> sense to mask the value accordingly to get more robust code?
-> =
+> I'm unclear about the dependencies
 
->> +	clk_div =3D (clk_div_reg & ~PWM_OUTPUT_ENABLE) + 1;
->> +
->> +	state->period     =3D clk_div * NSEC_PER_MHZ * 256 / PWM_BASE_CLK_MHZ;
->> +	state->duty_cycle =3D duty_cycle_reg * state->period / PWM_MAX_LEVEL;
->> +	state->polarity   =3D PWM_POLARITY_NORMAL;
->> +	state->enabled    =3D !!(clk_div_reg & PWM_OUTPUT_ENABLE);
-> =
+There is a runtime dependency of the i915 changes on the PWM changes
+and since the intel-gfx folks use a lot of CI, we this need to get the
+PWM changes into the drm-intel tree before the i915 changes can land.
 
-> These aligned =3D look strange (IMHO). If you don't feel strong here I'd
-> like to see a single space before a =3D.
+> , but the changes to drivers/pwm need
+> an ack (or processing) by the PWM team.
 
-Ok, will change for the next version.
+Of course, I asked for an Acked-by from the PWM team
+(once this passes review) for merging this through
+the drm-intel tree, as the i915 driver is the main
+(only AFAIK) consumer of the PWMs controlled by these
+2 drivers.  Daniel <snip>-ed that bit when he replied.
 
 Regards,
 
