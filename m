@@ -2,47 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C971F82C3
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BAE1F82AB
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 12:18:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798386E426;
-	Sat, 13 Jun 2020 10:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 853FA6E3D8;
+	Sat, 13 Jun 2020 10:17:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B606E949;
- Fri, 12 Jun 2020 11:57:33 +0000 (UTC)
-IronPort-SDR: S4+kuPdOf5Q80ZZl3hv8SjCTFuaFWF/mMhCtd9gjd/lvafTcRhOr2Z0uDvSYjvfqk3tOsXwDVl
- 7nNmoS8QC1/A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2020 04:57:33 -0700
-IronPort-SDR: ABSPo+JBvBU79vQhZigciL7kR9UOM6gudQ79a9E/eot+fTbjWJoQC0Uc00I99Okq50ZXR+JZHs
- +RV39hC8Hnhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,503,1583222400"; d="scan'208";a="296922866"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2020 04:57:30 -0700
-Received: from andy by smile with local (Exim 4.93)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1jjiJQ-00CYBT-2r; Fri, 12 Jun 2020 14:57:32 +0300
-Date: Fri, 12 Jun 2020 14:57:32 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 03/15] pwm: lpss: Add range limit check for the
- base_unit register value
-Message-ID: <20200612115732.GC2428291@smile.fi.intel.com>
-References: <20200607181840.13536-1-hdegoede@redhat.com>
- <20200607181840.13536-4-hdegoede@redhat.com>
- <20200608035023.GZ2428291@smile.fi.intel.com>
- <90769dc0-3174-195b-34e0-ef4bb9d9b982@redhat.com>
- <20200611221242.3bjqvnhcwwxaocxy@taurus.defre.kleine-koenig.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200611221242.3bjqvnhcwwxaocxy@taurus.defre.kleine-koenig.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Received: from m17617.mail.qiye.163.com (m17617.mail.qiye.163.com
+ [59.111.176.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13A636E94B
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 11:59:03 +0000 (UTC)
+Received: from njvxl5505.vivo.xyz (unknown [157.0.31.125])
+ by m17617.mail.qiye.163.com (Hmail) with ESMTPA id A1813261630;
+ Fri, 12 Jun 2020 19:58:58 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Anthony Koo <Anthony.Koo@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Wyatt Wood <wyatt.wood@amd.com>, Josip Pavic <Josip.Pavic@amd.com>,
+ Bernard Zhao <bernard@vivo.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd: add missing fill of the array`s first element
+Date: Fri, 12 Jun 2020 19:58:48 +0800
+Message-Id: <20200612115851.7123-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZGE4dGElNGBpMS0MfVkpOQkpCTUhKSENCTEpVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ny46ATo6GTgrFQsONT4XIygo
+ GToKFBdVSlVKTkJKQk1ISkhCSEhKVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU5ZV1kIAVlBSU5DTjcG
+X-HM-Tid: 0a72a865bb389375kuwsa1813261630
 X-Mailman-Approved-At: Sat, 13 Jun 2020 10:16:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,70 +50,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, Hans de Goede <hdegoede@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: opensource.kernel@vivo.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 12, 2020 at 12:12:42AM +0200, Uwe Kleine-K=F6nig wrote:
-> On Mon, Jun 08, 2020 at 01:07:12PM +0200, Hans de Goede wrote:
-> > On 6/8/20 5:50 AM, Andy Shevchenko wrote:
-> > > On Sun, Jun 07, 2020 at 08:18:28PM +0200, Hans de Goede wrote:
-> > > > When the user requests a high enough period ns value, then the
-> > > > calculations in pwm_lpss_prepare() might result in a base_unit valu=
-e of 0.
-> > > > =
+In function fill_iram_v_2, the ram_table->bright_neg_gain`s
+first element [0][0] seems to be missing. This change is just
+to make the code a bit readable.
 
-> > > > But according to the data-sheet the way the PWM controller works is=
- that
-> > > > each input clock-cycle the base_unit gets added to a N bit counter =
-and
-> > > > that counter overflowing determines the PWM output frequency. Addin=
-g 0
-> > > > to the counter is a no-op. The data-sheet even explicitly states th=
-at
-> > > > writing 0 to the base_unit bits will result in the PWM outputting a
-> > > > continuous 0 signal.
-> > > =
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
+---
+ drivers/gpu/drm/amd/display/modules/power/power_helpers.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > > So, and why it's a problem?
-> > =
-
-> > Lets sya the user requests a PWM output frequency of 100Hz on Cherry Tr=
-ail
-> > which has a 19200000 Hz clock this will result in 100 * 65536 / 1920000=
-0 =3D
-> > 0.3 -> 0 as base-unit value. So instead of getting 100 Hz the user will
-> > now get a pin which is always outputting low.
-> =
-
-> I didn't follow the complete discussion but note that the general rule
-> is:
-> =
-
-> 	round period down to the next possible implementable period
-> 	round duty_cycle down to the next possible implementable duty_cycle
-> =
-
-> so if a small enough period (and so a small duty_cycle) is requested it
-> is expected that duty_cycle will be zero.
-
-...which brings me an idea that PWM framework should expose API to get a
-capabilities, like DMA Engine has.
-
-In such capabilities, in particular, caller can get ranges of the correct
-frequencies of the underneath hardware.
-
--- =
-
-With Best Regards,
-Andy Shevchenko
-
+diff --git a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+index 8c37bcc27132..7604a01be19c 100644
+--- a/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
++++ b/drivers/gpu/drm/amd/display/modules/power/power_helpers.c
+@@ -350,6 +350,7 @@ void fill_iram_v_2(struct iram_table_v_2 *ram_table, struct dmcu_iram_parameters
+ 	ram_table->bright_pos_gain[4][1] = 0x20;
+ 	ram_table->bright_pos_gain[4][2] = 0x20;
+ 	ram_table->bright_pos_gain[4][3] = 0x20;
++	ram_table->bright_neg_gain[0][0] = 0x00;
+ 	ram_table->bright_neg_gain[0][1] = 0x00;
+ 	ram_table->bright_neg_gain[0][2] = 0x00;
+ 	ram_table->bright_neg_gain[0][3] = 0x00;
+-- 
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
