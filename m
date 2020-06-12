@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD7A1F726F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 05:22:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 851831F727C
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jun 2020 05:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4866E0C8;
-	Fri, 12 Jun 2020 03:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E608C6E118;
+	Fri, 12 Jun 2020 03:35:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78266E0C8;
- Fri, 12 Jun 2020 03:22:04 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id f7so8636063ejq.6;
- Thu, 11 Jun 2020 20:22:04 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8314C6E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jun 2020 03:35:17 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id m21so5391332eds.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jun 2020 20:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B4Mrm1gIXHBqQrJzDMxE7hny1sPLrSiwXYO/60LCrf4=;
- b=hPVYoqh8jPs/l54Gc1r4kVaNzjMB73wKzEjspttHVKjphYyFYBNLvFvhAQHgCVuMXD
- UrW+7t7+BjCCRAb619IpW+4HHRVsgemrpBPTZgHjC/3gzR+obgnFNZvECSNXA9/pCqXz
- HhQmCLyRPV4bDpj/WbkqT06lRQ5NGJDrYyClx7y0Pw1u1IrVuE89/OQi/G/Xfxj2P6/A
- q50xVFJ9qf09Fj3gXSwSGq/TCkNbFQz1FMxOxyxexgyiUDja4LM8/ZfhMrlDakdtj+7B
- mLQMDgcvIZWW4w4wgQpH4a5uPbkhNBMMS2LzQSmi1fC6hyZj/87JizBAF+eT4jMoDrjk
- jv8A==
+ :cc; bh=JI0DNPn0mw2LeMlZNFJRm1edlcByvB+ztrobwB0kc+E=;
+ b=mdLTSaXFlWPjeajIEmpqRY79+v8n+HTgR1ixiGuHs6QowIsjXdzilsXizLL+GazUcG
+ L0WBxq2M56fbGgeki9m3OVbU09IzsSHmNA01mr4WtAf0ESZG0a/cDv4u0ncwf4oVjrup
+ 7Jxsoj5gDHfefQ+3nOSTiJM1SncSGePaZrIhMMoixML/d2XVI28BF40AjeQULB/YLxoQ
+ XXqWLzW2y+NoB5Lh2uzgk3tNsOXwtVFjbBZph14hxsOAJnC9ZzCNANqjAxIXOBNvfV0r
+ +dGtEnU4XenQZP/X//lu00UwSIsIKGRfEp36uNzzsexNnQQ6lHRsKmZ8oJb+layfj1BW
+ 1wrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B4Mrm1gIXHBqQrJzDMxE7hny1sPLrSiwXYO/60LCrf4=;
- b=QcAQLmA5KBOBVlpWCsNMOexIO9iHIJaGOq5upTZM7ZvjA7dRGR9WNqYJ54XthQTU2O
- 8+j/RzPMYMKoLNIxxp/ZRyEDJV/UfRZQtvaXhowXDleWKyU5a6PUSWlwCxXwbjSt5qoD
- O4pvo8qVR4WabdBwwyUqW7JZMLKza25QUp1cSA4JbVgvcJQIYks0c3XyoTURiRaMwFgo
- 2d3N2RMkRCw+4QAjQ4zt7gKx0RUSYUqKYCyhfVZ44peF1LDNZeE85VbFpKyXPDQKp9Pz
- NRAoicKSrdTjUmTcCf5R2kn4zH46Oxvp7K+ppAGsunR+3TOH+ribtsOPx0+Wt4IldTOE
- zo5g==
-X-Gm-Message-State: AOAM530Br6utgMdrFxU0fa+my/oXFOAhg7jeTeK6T5tuuzt7ZMLiB4o7
- CSAV9F+9+Z7+VloV0VCfy5xjbiQvWXPamDns9zw=
-X-Google-Smtp-Source: ABdhPJyzNHPsnPsZMtc0S9NLfKpqe1fzAhLdA7GvVWT23D3A2fUYLq5KDR2bpDt/AdIyu5RKOlbarT8SJfsSUirryUA=
-X-Received: by 2002:a17:906:1088:: with SMTP id
- u8mr11881278eju.428.1591932123108; 
- Thu, 11 Jun 2020 20:22:03 -0700 (PDT)
+ bh=JI0DNPn0mw2LeMlZNFJRm1edlcByvB+ztrobwB0kc+E=;
+ b=hPif9lTFRNCKLbUwwyDqT/hYnC9JJilvnAdK3yUCJ5QKA3Ao2rAR2yYm6+fq2P9kk3
+ L9NvX22DScjaxK9XBd3yTGuvmtebKDaSL0SaI1n+t9JsVNImzoyyV8iuIh9RRXqoKx9D
+ fJPC/lx4TpnYyMF4aGKlF72TjSLqZWTj+VmumVyntxD6rGr8Pba2NdZi0ve86YNS+Y9c
+ MS8cy/ViIvxT3GqPCYOLt7ziaUIg9CdCAQ9EJ67UHlv7QmX/ypJwtsz3l7cKrmblkpDc
+ rfMwZ8iuStqXp8vFRuau31ivCqJi5ouUdPJvwQtMYUCjpzVNBEjqksqo0h92lciHElYZ
+ /hGg==
+X-Gm-Message-State: AOAM532KF6pjDAUxqND8SOUD8CmW4v+6LNnhBJM9DWKT4X0MBgyJpiTm
+ VsombTI/GuTU5mEqL0+J0ENwLZcrSWiqsWiS4tw=
+X-Google-Smtp-Source: ABdhPJyKpe0ygVRxt8U4uiWEZG2UakTSkk+OREQUkSZTXvJKUzlUUdzylujk0khPi5w2RtnMhnW2lccL8SConn8oCsE=
+X-Received: by 2002:a50:98c1:: with SMTP id j59mr9971040edb.120.1591932916015; 
+ Thu, 11 Jun 2020 20:35:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200611222921.464-1-jcrouse@codeaurora.org>
- <20200611222921.464-7-jcrouse@codeaurora.org>
-In-Reply-To: <20200611222921.464-7-jcrouse@codeaurora.org>
+References: <20200610004659.10401-1-abhinavk@codeaurora.org>
+In-Reply-To: <20200610004659.10401-1-abhinavk@codeaurora.org>
 From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 11 Jun 2020 20:22:29 -0700
-Message-ID: <CAF6AEGuyqgYKZsnBPCii4W=jxPcFU7JYKn4NBd8JVq7Pt1kR_Q@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/msm/a6xx: Add support for per-instance pagetables
-To: Jordan Crouse <jcrouse@codeaurora.org>
+Date: Thu, 11 Jun 2020 20:35:41 -0700
+Message-ID: <CAF6AEGsOX_QoOnMhqKuUHhhNjL_PgxF_5O7sYKi1Hkj5FmRpGw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: call drm_mode_config_reset before
+ drm_dev_register
+To: Abhinav Kumar <abhinavk@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,171 +61,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, pdhaval@codeaurora.org,
+ Sean Paul <seanpaul@chromium.org>, aravindh@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 11, 2020 at 3:29 PM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+On Tue, Jun 9, 2020 at 5:47 PM Abhinav Kumar <abhinavk@codeaurora.org> wrote:
 >
-> Add support for using per-instance pagetables if all the dependencies are
-> available.
+> As per the documentation of drm_dev_register, all drivers should
+> call drm_dev_register after all the initialization is completed.
+> This also means that drm_mode_config_reset should be done before
+> drm_dev_register.
 >
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> Change the sequence to align with this documentation.
+>
+> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
+
+I assume this is just a cleanup you noticed, and not fixing a bug you
+are hitting (in which case I'll pick it up next merge window, rather
+than -fixes)
+
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+
 > ---
+>  drivers/gpu/drm/msm/msm_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 69 ++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/msm_ringbuffer.h  |  1 +
->  2 files changed, 69 insertions(+), 1 deletion(-)
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 29295dee2a2e..9e77cc7f1fa4 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -538,12 +538,12 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+>                 }
+>         }
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index a1589e040c57..5e82b85d4d55 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -79,6 +79,58 @@ static void get_stats_counter(struct msm_ringbuffer *ring, u32 counter,
->         OUT_RING(ring, upper_32_bits(iova));
->  }
+> +       drm_mode_config_reset(ddev);
+> +
+>         ret = drm_dev_register(ddev, 0);
+>         if (ret)
+>                 goto err_msm_uninit;
 >
-> +static void a6xx_set_pagetable(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
-> +               struct msm_file_private *ctx)
-> +{
-> +       phys_addr_t ttbr;
-> +       u32 asid;
-> +
-> +       if (msm_iommu_pagetable_params(ctx->aspace->mmu, &ttbr, &asid))
-> +               return;
-> +
-> +       OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-> +       OUT_RING(ring, 0);
-> +
-> +       /* Turn on APIV mode to access critical regions */
-> +       OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
-> +       OUT_RING(ring, 1);
-> +
-> +       /* Make sure the ME is synchronized before staring the update */
-> +       OUT_PKT7(ring, CP_WAIT_FOR_ME, 0);
-> +
-> +       /* Execute the table update */
-> +       OUT_PKT7(ring, CP_SMMU_TABLE_UPDATE, 4);
-> +       OUT_RING(ring, lower_32_bits(ttbr));
-> +       OUT_RING(ring, (((u64) asid) << 48) | upper_32_bits(ttbr));
-> +       /* CONTEXTIDR is currently unused */
-> +       OUT_RING(ring, 0);
-> +       /* CONTEXTBANK is currently unused */
-> +       OUT_RING(ring, 0);
-
-I can add this to xml (on userspace side, we've been describing packet
-payload in xml and using the generated builders), and update generated
-headers, if you agree to not add more open-coded pkt7 building ;-)
-
-> +
-> +       /*
-> +        * Write the new TTBR0 to the memstore. This is good for debugging.
-> +        */
-> +       OUT_PKT7(ring, CP_MEM_WRITE, 4);
-> +       OUT_RING(ring, lower_32_bits(rbmemptr(ring, ttbr0)));
-> +       OUT_RING(ring, upper_32_bits(rbmemptr(ring, ttbr0)));
-> +       OUT_RING(ring, lower_32_bits(ttbr));
-> +       OUT_RING(ring, (((u64) asid) << 48) | upper_32_bits(ttbr));
-> +
-> +       /* Invalidate the draw state so we start off fresh */
-> +       OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
-> +       OUT_RING(ring, 0x40000);
-> +       OUT_RING(ring, 1);
-> +       OUT_RING(ring, 0);
-
-Ie, this would look like:
-
-    OUT_PKT7(ring, CP_SET_DRAW_STATE, 3);
-    OUT_RING(ring, CP_SET_DRAW_STATE__0_COUNT(0) |
-            CP_SET_DRAW_STATE__0_DISABLE_ALL_GROUPS |
-            CP_SET_DRAW_STATE__0_GROUP_ID(0));
-    OUT_RING(ring, CP_SET_DRAW_STATE__1_ADDR_LO(1));
-    OUT_RING(ring, CP_SET_DRAW_STATE__2_ADDR_HI(0));
-
-.. but written that way, I think you meant ADDR_LO to be zero?
-
-(it is possible we need to regen headers for that to work, the kernel
-headers are somewhat out of date by now)
-
-BR,
--R
-
-> +
-> +       /* Turn off APRIV */
-> +       OUT_PKT4(ring, REG_A6XX_CP_MISC_CNTL, 1);
-> +       OUT_RING(ring, 0);
-> +
-> +       /* Turn off protected mode */
-> +       OUT_PKT7(ring, CP_SET_PROTECTED_MODE, 1);
-> +       OUT_RING(ring, 1);
-> +}
-> +
->  static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
->         struct msm_file_private *ctx)
->  {
-> @@ -89,6 +141,8 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit,
->         struct msm_ringbuffer *ring = submit->ring;
->         unsigned int i;
->
-> +       a6xx_set_pagetable(gpu, ring, ctx);
-> +
->         get_stats_counter(ring, REG_A6XX_RBBM_PERFCTR_CP_0_LO,
->                 rbmemptr_stats(ring, index, cpcycles_start));
->
-> @@ -872,6 +926,18 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
->         return (unsigned long)busy_time;
->  }
->
-> +struct msm_gem_address_space *a6xx_address_space_instance(struct msm_gpu *gpu)
-> +{
-> +       struct msm_mmu *mmu;
-> +
-> +       mmu = msm_iommu_pagetable_create(gpu->aspace->mmu);
-> +       if (IS_ERR(mmu))
-> +               return msm_gem_address_space_get(gpu->aspace);
-> +
-> +       return msm_gem_address_space_create(mmu,
-> +               "gpu", 0x100000000ULL, 0x1ffffffffULL);
-> +}
-> +
->  static const struct adreno_gpu_funcs funcs = {
->         .base = {
->                 .get_param = adreno_get_param,
-> @@ -893,8 +959,9 @@ static const struct adreno_gpu_funcs funcs = {
->  #if defined(CONFIG_DRM_MSM_GPU_STATE)
->                 .gpu_state_get = a6xx_gpu_state_get,
->                 .gpu_state_put = a6xx_gpu_state_put,
-> -               .create_address_space = adreno_iommu_create_address_space,
->  #endif
-> +               .create_address_space = adreno_iommu_create_address_space,
-> +               .address_space_instance = a6xx_address_space_instance,
->         },
->         .get_timestamp = a6xx_get_timestamp,
->  };
-> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
-> index 7764373d0ed2..0987d6bf848c 100644
-> --- a/drivers/gpu/drm/msm/msm_ringbuffer.h
-> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
-> @@ -31,6 +31,7 @@ struct msm_rbmemptrs {
->         volatile uint32_t fence;
->
->         volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
-> +       volatile u64 ttbr0;
->  };
->
->  struct msm_ringbuffer {
+> -       drm_mode_config_reset(ddev);
+> -
+>  #ifdef CONFIG_DRM_FBDEV_EMULATION
+>         if (kms && fbdev)
+>                 priv->fbdev = msm_fbdev_init(ddev);
 > --
-> 2.17.1
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
 >
 _______________________________________________
 dri-devel mailing list
