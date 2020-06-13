@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE3A1F8535
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 22:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081B81F85A8
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jun 2020 00:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84ED06E448;
-	Sat, 13 Jun 2020 20:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBBC6E461;
+	Sat, 13 Jun 2020 22:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCD46E448
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:50:21 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1jkD6S-0007ba-LW; Sat, 13 Jun 2020 22:50:12 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1jkD6R-0001u5-Ib; Sat, 13 Jun 2020 22:50:11 +0200
-Date: Sat, 13 Jun 2020 22:50:08 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 03/15] pwm: lpss: Add range limit check for the
- base_unit register value
-Message-ID: <20200613205008.l2gxw6pm2ywmj3gz@taurus.defre.kleine-koenig.org>
-References: <20200607181840.13536-1-hdegoede@redhat.com>
- <20200607181840.13536-4-hdegoede@redhat.com>
- <20200608035023.GZ2428291@smile.fi.intel.com>
- <90769dc0-3174-195b-34e0-ef4bb9d9b982@redhat.com>
- <20200611221242.3bjqvnhcwwxaocxy@taurus.defre.kleine-koenig.org>
- <20200612115732.GC2428291@smile.fi.intel.com>
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B346E461
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 22:30:36 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id i3so10439956ljg.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 15:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZVmpYpdcLJwl2DSPAje1OikSpkykl0PP+kQhQUL22OQ=;
+ b=k4TzTSdw7lly8trfcqMwra4DmSkI4MQ/iTmYv7KHHtfai16TeRlOPF0uSFdmNbyi5g
+ rtMMuGe5pWYw3pEYqvgHDJJfaHO3EgQG33NxwnAwZhNthAMjXOEFPcIIyZDNFYUo93UB
+ At4lNZq/62wBKTh/QCAbpRGNFHu5ckD/ijsF1ujB2kzVl65vavcGYKg7UXiAx7dbdSZ/
+ brjIHKxQC2Owfa4xg0gYWccVr6JzZVTlLjFvzG3BRKNx/bkV0ZwBSIu42MKCALiS0VP9
+ 17EGLm6OfpU92sJx+VPd9qbH7pQtSBgwy6gd+1uW3HsMvqwtV/ETGb08aLScAncpot7Y
+ jBcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZVmpYpdcLJwl2DSPAje1OikSpkykl0PP+kQhQUL22OQ=;
+ b=kBChrQpP2vcKdnJSw5lPlIJdMiAOl6i6ELvOXpQMPHXUfv7a3OiW/Ad/b3zrqf1YJ/
+ iHXQKMenC3cz/4Lare/FjMpxJYnn/XoYcAgC1sJdaObVbnY9HhyMgVYawDoAl9JSEUou
+ 2Xb4e1cL6RzBqZA/Usfu9ZzNLcZ4fDAhLDNcnu3ZSnFMo5qPHbL8OzbnuTv6HDQdjsRV
+ SNHuYcxuHsUjO+7day1EcC4gjMiyEFZvBd3gGIaavXZdq96dbeRl6NNt4bMTg1Ptzhvc
+ BCTTD2LmB0jJKsqZbciH69YcPBr0RRhMh0osqtvT2cgNpnPnhzw8TDPGvkCYJ9rjypEn
+ QYAQ==
+X-Gm-Message-State: AOAM53009tOa/cE+VnbUo4vlrez5+g7XxBPjSdo3+5AOx1MCOTcgDIa5
+ GgIUUnfczFBE1+3sWqggYNLvNSRwCbWZGA==
+X-Google-Smtp-Source: ABdhPJyUf7EfwBdgX4MbsmqireeqO0m6LckflQVhSKKESBt72onjFwr5HHppP0IHQAqEb2dZF9/h2Q==
+X-Received: by 2002:a2e:818f:: with SMTP id e15mr9433758ljg.376.1592087434532; 
+ Sat, 13 Jun 2020 15:30:34 -0700 (PDT)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id 15sm2888027ljw.46.2020.06.13.15.30.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Jun 2020 15:30:33 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH 1/2] drm: mcde: Fix display initialization problem
+Date: Sun, 14 Jun 2020 00:30:26 +0200
+Message-Id: <20200613223027.4189309-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200612115732.GC2428291@smile.fi.intel.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,84 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- "Rafael J . Wysocki" <rjw@rjwysocki.net>, Hans de Goede <hdegoede@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1836898877=="
+Cc: linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The following bug appeared in the MCDE driver/display
+initialization during the recent merge window.
 
---===============1836898877==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d3zhknjlycgiygbu"
-Content-Disposition: inline
+First the place we call drm_fbdev_generic_setup() in the
+wrong place: this needs to be called AFTER calling
+drm_dev_register() else we get this splat:
 
+ ------------[ cut here ]------------
+WARNING: CPU: 0 PID: 1 at ../drivers/gpu/drm/drm_fb_helper.c:2198 drm_fbdev_generic_setup+0x164/0x1a8
+mcde a0350000.mcde: Device has not been registered.
+Modules linked in:
+Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
+[<c010e704>] (unwind_backtrace) from [<c010a86c>] (show_stack+0x10/0x14)
+[<c010a86c>] (show_stack) from [<c0414f38>] (dump_stack+0x9c/0xb0)
+[<c0414f38>] (dump_stack) from [<c0121c8c>] (__warn+0xb8/0xd0)
+[<c0121c8c>] (__warn) from [<c0121d18>] (warn_slowpath_fmt+0x74/0xb8)
+[<c0121d18>] (warn_slowpath_fmt) from [<c04b154c>] (drm_fbdev_generic_setup+0x164/0x1a8)
+[<c04b154c>] (drm_fbdev_generic_setup) from [<c04ed278>] (mcde_drm_bind+0xc4/0x160)
+[<c04ed278>] (mcde_drm_bind) from [<c04f06b8>] (try_to_bring_up_master+0x15c/0x1a4)
+(...)
 
---d3zhknjlycgiygbu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/mcde/mcde_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Hello Andy,
-
-On Fri, Jun 12, 2020 at 02:57:32PM +0300, Andy Shevchenko wrote:
-> On Fri, Jun 12, 2020 at 12:12:42AM +0200, Uwe Kleine-K=F6nig wrote:
-> > I didn't follow the complete discussion but note that the general rule
-> > is:
-> >=20
-> > 	round period down to the next possible implementable period
-> > 	round duty_cycle down to the next possible implementable duty_cycle
-> >=20
-> > so if a small enough period (and so a small duty_cycle) is requested it
-> > is expected that duty_cycle will be zero.
->=20
-> ...which brings me an idea that PWM framework should expose API to get a
-> capabilities, like DMA Engine has.
->=20
-> In such capabilities, in particular, caller can get ranges of the correct
-> frequencies of the underneath hardware.
-
-my idea is to introduce a function pwm_round_state() that has a similar
-semantic to clk_round_rate(). But this is only one of several thoughts I
-have for the pwm framework. And as there is (AFAIK) no user who would
-benefit from pwm_round_state() this is further down on my todo list.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---d3zhknjlycgiygbu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7lO/0ACgkQwfwUeK3K
-7AmcWAf+NJKiXM9OZNgwpiVJ90hrVSpaBnIzIyOD9JrkPpA//Wpzt6+DP3jIW4gh
-awT8Pn1q+S/BywtKGkspRruxRPMB+/xhcbFixZkhwnVHtDrTsNBmWa6tmNgJn5ay
-2kksDM69380g/qndu8N1BIkziJ0M04IThxt4Rem7qETymFUIttJP/urLfPEbCNz5
-agQVK0L/G6AktL5F/I68w6dwUkfOnt7bN+sQ3B6H6F38YY3boQJICjKLcHnN7nq8
-mgmaF/jnGuuv3uPrPhm9K9zGy8W+XBmGZjdHQH1aU94+TMhK8AFQOR7N42Aj2VwA
-/pNKs5SAoPGvfcEAUPd6w4sE4pKgTA==
-=dz1/
------END PGP SIGNATURE-----
-
---d3zhknjlycgiygbu--
-
---===============1836898877==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 84f3e2dbd77b..80082d6dce3a 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -209,7 +209,6 @@ static int mcde_modeset_init(struct drm_device *drm)
+ 
+ 	drm_mode_config_reset(drm);
+ 	drm_kms_helper_poll_init(drm);
+-	drm_fbdev_generic_setup(drm, 32);
+ 
+ 	return 0;
+ }
+@@ -264,6 +263,8 @@ static int mcde_drm_bind(struct device *dev)
+ 	if (ret < 0)
+ 		goto unbind;
+ 
++	drm_fbdev_generic_setup(drm, 32);
++
+ 	return 0;
+ 
+ unbind:
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1836898877==--
