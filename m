@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E7A1F84D1
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 21:10:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE3A1F8535
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jun 2020 22:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 888F06E444;
-	Sat, 13 Jun 2020 19:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84ED06E448;
+	Sat, 13 Jun 2020 20:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1363 seconds by postgrey-1.36 at gabe;
- Sat, 13 Jun 2020 19:10:34 UTC
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1E16E198;
- Sat, 13 Jun 2020 19:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=X/jO/oOi/i194CqdSyPFOeD03ocsEI+CR9RGjelX7xY=; b=t1kxOxXawhjaLcxCmcY8hLnACp
- F1b/P7XS1botfvRcieE2eXRSlD/fR0LaGVjWkNcN6Q2dzPLMY9Y1Z6Wss2c8W2HXxaP9v0SeBHOZL
- ndNOGKlGE7n0ypom9LbWyKkJzps9GmRj0wSRrV+8nc5dyNNxx/KqiXmyl966IkY4aosMx+bXHqhKl
- 8etQynPyVsROMw/HTrtBTU4+uDQUD0yWT2w1CjrrleOcstKaBLjurimaG7kObfyvLObWh+oZfuNyE
- 8GMYhhLCClZ95KOF8De+ijdjKNp8jjSziMYIR//hhZlHppaw+v8e8JJ56ladSxXsntPzKuIMI0fxh
- 3mnnUl/g==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:47290 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <david@lechnology.com>)
- id 1jkBBz-0005W8-Fz; Sat, 13 Jun 2020 14:47:47 -0400
-Subject: Re: [PATCH 7/8] drm/mipi-dbi: Remove ->enabled
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
- <20200612160056.2082681-7-daniel.vetter@ffwll.ch>
-From: David Lechner <david@lechnology.com>
-Message-ID: <eb6ffd18-8f2d-3d48-a72e-44bf4e1c8512@lechnology.com>
-Date: Sat, 13 Jun 2020 13:47:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCD46E448
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:50:21 +0000 (UTC)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1jkD6S-0007ba-LW; Sat, 13 Jun 2020 22:50:12 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1jkD6R-0001u5-Ib; Sat, 13 Jun 2020 22:50:11 +0200
+Date: Sat, 13 Jun 2020 22:50:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 03/15] pwm: lpss: Add range limit check for the
+ base_unit register value
+Message-ID: <20200613205008.l2gxw6pm2ywmj3gz@taurus.defre.kleine-koenig.org>
+References: <20200607181840.13536-1-hdegoede@redhat.com>
+ <20200607181840.13536-4-hdegoede@redhat.com>
+ <20200608035023.GZ2428291@smile.fi.intel.com>
+ <90769dc0-3174-195b-34e0-ef4bb9d9b982@redhat.com>
+ <20200611221242.3bjqvnhcwwxaocxy@taurus.defre.kleine-koenig.org>
+ <20200612115732.GC2428291@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200612160056.2082681-7-daniel.vetter@ffwll.ch>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+In-Reply-To: <20200612115732.GC2428291@smile.fi.intel.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +52,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: linux-pwm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "Rafael J . Wysocki" <rjw@rjwysocki.net>, Hans de Goede <hdegoede@redhat.com>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>, Len Brown <lenb@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1836898877=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/12/20 11:00 AM, Daniel Vetter wrote:
-> The atomic helpers try really hard to not lose track of things,
-> duplicating enabled tracking in the driver is at best confusing.
-> Double-enabling or disabling is a bug in atomic helpers.
-> 
-> In the fb_dirty function we can just assume that the fb always exists,
-> simple display pipe helpers guarantee that the crtc is only enabled
-> together with the output, so we always have a primary plane around.
-> 
-> Now in the update function we need to be a notch more careful, since
-> that can also get called when the crtc is off. And we don't want to
-> upload frames when that's the case, so filter that out too.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Lechner <david@lechnology.com>
-> ---
 
-Acked-by: David Lechner <david@lechnology.com>
+--===============1836898877==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d3zhknjlycgiygbu"
+Content-Disposition: inline
+
+
+--d3zhknjlycgiygbu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Andy,
+
+On Fri, Jun 12, 2020 at 02:57:32PM +0300, Andy Shevchenko wrote:
+> On Fri, Jun 12, 2020 at 12:12:42AM +0200, Uwe Kleine-K=F6nig wrote:
+> > I didn't follow the complete discussion but note that the general rule
+> > is:
+> >=20
+> > 	round period down to the next possible implementable period
+> > 	round duty_cycle down to the next possible implementable duty_cycle
+> >=20
+> > so if a small enough period (and so a small duty_cycle) is requested it
+> > is expected that duty_cycle will be zero.
+>=20
+> ...which brings me an idea that PWM framework should expose API to get a
+> capabilities, like DMA Engine has.
+>=20
+> In such capabilities, in particular, caller can get ranges of the correct
+> frequencies of the underneath hardware.
+
+my idea is to introduce a function pwm_round_state() that has a similar
+semantic to clk_round_rate(). But this is only one of several thoughts I
+have for the pwm framework. And as there is (AFAIK) no user who would
+benefit from pwm_round_state() this is further down on my todo list.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--d3zhknjlycgiygbu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7lO/0ACgkQwfwUeK3K
+7AmcWAf+NJKiXM9OZNgwpiVJ90hrVSpaBnIzIyOD9JrkPpA//Wpzt6+DP3jIW4gh
+awT8Pn1q+S/BywtKGkspRruxRPMB+/xhcbFixZkhwnVHtDrTsNBmWa6tmNgJn5ay
+2kksDM69380g/qndu8N1BIkziJ0M04IThxt4Rem7qETymFUIttJP/urLfPEbCNz5
+agQVK0L/G6AktL5F/I68w6dwUkfOnt7bN+sQ3B6H6F38YY3boQJICjKLcHnN7nq8
+mgmaF/jnGuuv3uPrPhm9K9zGy8W+XBmGZjdHQH1aU94+TMhK8AFQOR7N42Aj2VwA
+/pNKs5SAoPGvfcEAUPd6w4sE4pKgTA==
+=dz1/
+-----END PGP SIGNATURE-----
+
+--d3zhknjlycgiygbu--
+
+--===============1836898877==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1836898877==--
