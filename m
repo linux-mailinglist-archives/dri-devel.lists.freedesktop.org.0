@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48C31F8F98
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178321F8F9C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76CAB6E0C4;
-	Mon, 15 Jun 2020 07:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED35F6E091;
+	Mon, 15 Jun 2020 07:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p7.oit.umn.edu (mta-p7.oit.umn.edu [134.84.196.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51FBE89FE8
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:33:46 +0000 (UTC)
+Received: from mta-p8.oit.umn.edu (mta-p8.oit.umn.edu [134.84.196.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983E96E077
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:41:59 +0000 (UTC)
 Received: from localhost (unknown [127.0.0.1])
- by mta-p7.oit.umn.edu (Postfix) with ESMTP id 49kxnP6WRkz9vYx0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:33:45 +0000 (UTC)
+ by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49kxyv2G4lz9vY7L
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:41:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VXkNpl9R8THL for <dri-devel@lists.freedesktop.org>;
- Sat, 13 Jun 2020 20:33:45 -0500 (CDT)
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
+Received: from mta-p8.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3Pxl_a_cz3At for <dri-devel@lists.freedesktop.org>;
+ Sat, 13 Jun 2020 20:41:59 -0500 (CDT)
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 49kxnP4sqQz9vYxK
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:33:44 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 49kxnP4sqQz9vYxK
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 49kxnP4sqQz9vYxK
-Received: by mail-io1-f69.google.com with SMTP id 5so8919359iou.6
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 18:33:44 -0700 (PDT)
+ by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49kxyv0NlJz9vY7G
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:41:59 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49kxyv0NlJz9vY7G
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49kxyv0NlJz9vY7G
+Received: by mail-il1-f200.google.com with SMTP id k63so6850239ilg.17
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 18:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jUlMgTFm6fgfWMMV+9s/cidt0Ya0VFDxiosQzLpc40s=;
- b=Ei3a4oCienBBw6iPl3GFWh9tQY0JjX8uZSP4hyeKGf0Iq4siwktVhkBFJeMu9dwJMn
- Chw34JghNFTOkIHxYWPcX2+UpEehlBp8JIeBr0oRj/bA5uN3Q7o4yyyAqT7GAZMF0Q+d
- S0i844L14NaGAbApvuzW7pnHYPEBsCSj1kfzImBZGrw3dgSdnbPSvg+2v8ZsH3aJpFMY
- 7hZb1cX44hmnYFYpTJLycCmLzr7inAoKdNdrIlie5gMSZ7zwczaPrNIgiThSEtf/+m05
- 7mfJOB3cvuM5dhSwAiobY8dTIC69JCgS6oQRCW+KQ51cbA9nwl4O81GOweBb3rvAWj2S
- 7C7A==
+ bh=RpBLca7Vpqp9NG1nh6LCEacLvQmpL511GojbmNx9nJ4=;
+ b=Wjxn1rKfuw9BdNj2jJqRd7zUXS9Idph8gy/wDlJtPVuwZrLE8Aka8rkIwQd9yNRv2j
+ mp6xtnBdLpUQvYUCouBoe9YCvCw1QHEELjP3WK4Wxk9OXb6mMtjzG8CQh0GtUppw9Gc6
+ dWbbxPDrdmVsUt4miSIsz6UNxBDG5POTtsldrhrjfLt2vmWM2qnFUamAhzuoCEMYvYRM
+ VXIZ7l8w6zQBftrBD7x8nr4Uxx/FaS3nOoynwTxUiZnFUjE+pGvrkpZBhxP+mMpisWO8
+ TKz/cSX1R2QUiUafPIrU5iN7W6xqcwTwaJHIvFlhxLmt13rKt5GEnbhqL66pT/WMeaE2
+ wadw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jUlMgTFm6fgfWMMV+9s/cidt0Ya0VFDxiosQzLpc40s=;
- b=KNO+pkgJsW8zbjqEWEoiQy75ggVwkA3eas3iOvSWKJGOLA9DfL3NrNALD/vVM4BX0T
- Ow5evbrcKuOsIlplN5W0gWBvj94k4wT6iah5bVNu+2AKB3nC/VrL79AeXlvqPMapIbV1
- MJoZkh/gebPg1U4DlEZn9FQByzcuozbs7ZYl6/Xq4ArJR2Bii3c+lDOihc+Ya4n9zCyJ
- 5PeX4GHnMAeoBrhUnEF4czL7OR/pBPN6b3RqwajHe/6270dUsO9A9pKxsTqSnat405VI
- Gh4ZtHOS19qbdOmht2CE1b9ZLll2XsQh6IgZRvNDhjvs+2Ub2aIjyKl72kXfsCEMLAqT
- PXEw==
-X-Gm-Message-State: AOAM531TDUsy+66v40DIl34TkzCIYnk0Kk39+9QtjltZfg4MNW6hIZ+9
- 8UzWov8uvb3PcvwKwUvYLm0CPWEKqeXTC/8jzIaYXM4NdTud9UxYlm5bLWuBPD5oACvvrDUrSDx
- oT62hgXY+XpN6fDzU2p/iDzgk5eEKW6DN
-X-Received: by 2002:a05:6602:1647:: with SMTP id
- y7mr21169395iow.75.1592098424491; 
- Sat, 13 Jun 2020 18:33:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8lq+ZJcFfEGG8Lqn6FC+nNd+cCmmNo/tt7bKBSBKebyGZR+rrsj/xfGHJjBtj4WzgMDZCYw==
-X-Received: by 2002:a05:6602:1647:: with SMTP id
- y7mr21169380iow.75.1592098424337; 
- Sat, 13 Jun 2020 18:33:44 -0700 (PDT)
+ bh=RpBLca7Vpqp9NG1nh6LCEacLvQmpL511GojbmNx9nJ4=;
+ b=MGGX83gKOCy8kkr5UKVnxxNTfiNvoGTuJLNax//ATlPSmOEO9DXIdjFdhgV6i0GxiY
+ 6/Fpu5ZJLHTI4ilVb5x8D91/vpdbmN2wi+rIUvH+lKOXIf1qyF+CJYKsYVT+ACqnsY1P
+ Ch5TTLDth3I/D0I28A34aEUcQuHeEpO5lwQJWSPT1AKJ3F/Jl7vuR8bM7VR+PpZzmafV
+ n6i4g4Fhcq613y4sOMfK9iMXkCTq/14x/QTOGqlOa2M5V3OKbo+s47mor1cvKGITfr8v
+ VVksJ3lQS4B4e+T9OXK/ca+e5NskUpN/5W3FBkwpBbnRT91f+B9YzuSDwp6Cx6bd2IDx
+ JBjQ==
+X-Gm-Message-State: AOAM530Z9ZWedm9fH5I7Z0ICyFWz6ZbSccDLvsh5CEK1i3T5sWO5HaQ6
+ QWF2psqGO+YJ3P1EOvo3Vir8TGpeda92MRWU073LoBDyO6ri0lm0v0TaQ4yqRrKWxYs1HFJxEHg
+ f6SNc/j0tnxBAnxWgqatqmLvKCrwwI9b3
+X-Received: by 2002:a92:d704:: with SMTP id m4mr19565772iln.248.1592098918707; 
+ Sat, 13 Jun 2020 18:41:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBLK54k4OZ8RbUQudZFJkUsqfkSvb0zM96jD7mAQJP4d+aXqcGxn5UyF7jykVx6il8g76RcA==
+X-Received: by 2002:a92:d704:: with SMTP id m4mr19565762iln.248.1592098918550; 
+ Sat, 13 Jun 2020 18:41:58 -0700 (PDT)
 Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:d65:8ac4:1b02:86ac])
- by smtp.gmail.com with ESMTPSA id w18sm5705722ili.19.2020.06.13.18.33.43
+ by smtp.gmail.com with ESMTPSA id y5sm5644372ilp.57.2020.06.13.18.41.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jun 2020 18:33:43 -0700 (PDT)
+ Sat, 13 Jun 2020 18:41:58 -0700 (PDT)
 From: Aditya Pakki <pakki001@umn.edu>
 To: pakki001@umn.edu
-Subject: [PATCH] drm/noveau: fix reference count leak in nouveau_fbcon_open
-Date: Sat, 13 Jun 2020 20:33:42 -0500
-Message-Id: <20200614013342.122079-1-pakki001@umn.edu>
+Subject: [PATCH] drm/nouveau: fix multiple instances of reference count leaks
+Date: Sat, 13 Jun 2020 20:41:56 -0500
+Message-Id: <20200614014156.122729-1-pakki001@umn.edu>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
@@ -93,31 +91,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nouveau_fbcon_open() calls calls pm_runtime_get_sync() that
-increments the reference count. In case of failure, decrement the
+On calling pm_runtime_get_sync() the reference count of the device
+is incremented. In case of failure, decrement the
 ref count before returning the error.
 
 Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 ---
- drivers/gpu/drm/nouveau/nouveau_fbcon.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_drm.c | 8 ++++++--
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 4 +++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index 3d11b84d4cf9..f10d28f8f132 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -189,8 +189,10 @@ nouveau_fbcon_open(struct fb_info *info, int user)
- 	struct nouveau_fbdev *fbcon = info->par;
- 	struct nouveau_drm *drm = nouveau_drm(fbcon->helper.dev);
- 	int ret = pm_runtime_get_sync(drm->dev->dev);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+index ac93d12201dc..880d962c1b19 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -1026,8 +1026,10 @@ nouveau_drm_open(struct drm_device *dev, struct drm_file *fpriv)
+ 
+ 	/* need to bring up power immediately if opening device */
+ 	ret = pm_runtime_get_sync(dev->dev);
 -	if (ret < 0 && ret != -EACCES)
 +	if (ret < 0 && ret != -EACCES) {
-+		pm_runtime_put(drm->dev->dev);
++		pm_runtime_put_autosuspend(dev->dev);
  		return ret;
 +	}
- 	return 0;
- }
  
+ 	get_task_comm(tmpname, current);
+ 	snprintf(name, sizeof(name), "%s[%d]", tmpname, pid_nr(fpriv->pid));
+@@ -1109,8 +1111,10 @@ nouveau_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	long ret;
+ 
+ 	ret = pm_runtime_get_sync(dev->dev);
+-	if (ret < 0 && ret != -EACCES)
++	if (ret < 0 && ret != -EACCES) {
++		pm_runtime_put_autosuspend(dev->dev);
+ 		return ret;
++	}
+ 
+ 	switch (_IOC_NR(cmd) - DRM_COMMAND_BASE) {
+ 	case DRM_NOUVEAU_NVIF:
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 4c3f131ad31d..c5ee5b7364a0 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -45,8 +45,10 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
+ 	int ret;
+ 
+ 	ret = pm_runtime_get_sync(dev);
+-	if (WARN_ON(ret < 0 && ret != -EACCES))
++	if (WARN_ON(ret < 0 && ret != -EACCES)) {
++		pm_runtime_put_autosuspend(dev);
+ 		return;
++	}
+ 
+ 	if (gem->import_attach)
+ 		drm_prime_gem_destroy(gem, nvbo->bo.sg);
 -- 
 2.25.1
 
