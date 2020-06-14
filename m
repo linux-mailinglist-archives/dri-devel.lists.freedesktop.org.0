@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F931F8FCD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:29:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C271F8FC8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 309FC6E2A5;
-	Mon, 15 Jun 2020 07:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A656E2BE;
+	Mon, 15 Jun 2020 07:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D54F589CCB;
- Sun, 14 Jun 2020 07:09:54 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id m81so14556328ioa.1;
- Sun, 14 Jun 2020 00:09:54 -0700 (PDT)
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com
+ [IPv6:2607:f8b0:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEF689CCB;
+ Sun, 14 Jun 2020 07:12:39 +0000 (UTC)
+Received: by mail-il1-x143.google.com with SMTP id j19so8331274ilk.9;
+ Sun, 14 Jun 2020 00:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=VPVqWxYm5OyjOv331996CGH9YiPFKfJycn9OwXQfzdE=;
- b=Si+mBztyXLpNw+lq5vPMpNGKP0EI+ykD3vuqlK8ZNIb6UkkFhoAM75WVjN+g8jSLhX
- hIJJyaxEmiWwfH5wcCzyDLENdFDvHBlpi1xEwIQ+owxGEDnzX+6UCXw2KWm0RXCVZ8xl
- LHMyFNVk/L/xf9JlK3iCt3bsP6NN2NR0TYct1K5D9kz23w5XWNCx7UNHpAnA8vWbr1bO
- h/L769+gQ5P8lKjDPBVsZPQ9y04jqz/kxNXDWf4GQb/M9XwDh944S2JfO/qTQRhvkxcQ
- fx+jW6EaXGWkKxT8IanPZXM4TtDgFUJrWisoD06Gd19DB3bNP+utRmrfnc9BT4uoeyY9
- oTOA==
+ bh=J0HX3Qy+oA7OgSkbAwCFUgm7xc4/mQq2g3sSxGqtxts=;
+ b=ng0Hs7X76WMv2RgLHK06guvTkOhbuJO1TZxkIDGvxw8Y8cfXgIV/12HWs0gFqNgvOe
+ UM/bVQxlvagvWjXIbdCgd0k8y/XX6chWyaZW1KeVUtw5AjHuhIWQ4KHUw3jXaX4omsA7
+ 9HzANrDVVvngT3aa19831CroM1Oqm5DAjVrmsQUuCefQz5mv7gnPKn7ZKQW+NjsL2lQl
+ n69rfkYHJB+wiUECAcoooaS7GBQV/CImXYpLQKQ7uYEOxKRfFCoPCpaZ4pnQkZwBuR04
+ xbinJ2+pytEaA+KPFsIRiRHp+tyJYzZTedi4Kngguff8RDa/SnPIRw/e9/jM7E4RE0IY
+ uCGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=VPVqWxYm5OyjOv331996CGH9YiPFKfJycn9OwXQfzdE=;
- b=XD72jbHdcTYtTfkfccg/2QrdiBcUBgcqUmTdiEPCSi78gnRjgqu2S/Ltf75L3fLQ/m
- xyN7pcNteZg5wiaarlYCYJep/4dJUy/pQJ9PnWyff8LCTQ9gAJahg9BvVXaS5eNxS7c8
- KU0Ca4OkKsYT/r4ngCFVGuiDvP8Em6Cgd1B1QvxwuSMDvEk5BEBzhOXTNK9lOc59mq72
- 3K0PkAdQ8Q1Rvi97rUoqCUpuI8JmWB7WywT8nbRliBfhb6K2soz9FefZbbUArK2P/omv
- tVvI1IX0GCS+WSQv07brchg4UMx31DjoUfMs7wndemg2BZnHfU0Lap4qoH2jsHXvkUHZ
- dmhw==
-X-Gm-Message-State: AOAM531ncfZPghexKSVcs198B4Z0h9f7w617QPZZc3Vy9lOMkT60oD2u
- RhgDE40NyFVzFTx2WJNKpao=
-X-Google-Smtp-Source: ABdhPJzvR4Y9Cg+Ilsim0VN1KWZMeO3R6+hDT2mOL+p/Qnv2PztUdKChVka4CMmVHQj6eU5oQ3nwIA==
-X-Received: by 2002:a05:6602:5ce:: with SMTP id
- w14mr21839589iox.178.1592118594249; 
- Sun, 14 Jun 2020 00:09:54 -0700 (PDT)
+ bh=J0HX3Qy+oA7OgSkbAwCFUgm7xc4/mQq2g3sSxGqtxts=;
+ b=QBIM2xdCkTwm1+TR9BW4pcVJ2WdtrmvOGd5ges6AFfpSuh9Y41+29dqBSoe75aidf6
+ P01glN8rnkg+GQquo+MbH3E+LaSimPLOHR/VvoA20JPNTqBRwMzlkqcP6u7U1WXhMagg
+ q7HRGU/r/uwuWvpRAVVoTj5qtMe3hnDz0rsiCTwr4gsrwUQt0vc8ig57m3vk53AzPCqq
+ xkFzyFsPwKMg9nMRSnu2rBO4iVPnCUhWWKIRgMz6qVDokNsoqPfk67V1OlWz9H8Vr7jw
+ ux7gvIP9rtBxVBn/Fm5u17EPY2VLgMzqWsCgitqwI559796rMpZG2wXmaderxouJmshT
+ e//Q==
+X-Gm-Message-State: AOAM533zUZBhL+o9L5JPeqynPCdT3Dwc7YDD6SoFXSiyCEJYg4mHu8gv
+ 529lmnwacgh2W49JqDgWOE0=
+X-Google-Smtp-Source: ABdhPJyimyxSAUwofweWNgN5hEFbQ/O7Qx3jeTQjffr0wRqkezjV+1DdWhLCq+42269oMOzx82Uv1A==
+X-Received: by 2002:a92:4885:: with SMTP id j5mr19444436ilg.35.1592118758649; 
+ Sun, 14 Jun 2020 00:12:38 -0700 (PDT)
 Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
- by smtp.googlemail.com with ESMTPSA id v11sm5944048ile.61.2020.06.14.00.09.53
+ by smtp.googlemail.com with ESMTPSA id t63sm6158788ill.54.2020.06.14.00.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jun 2020 00:09:53 -0700 (PDT)
+ Sun, 14 Jun 2020 00:12:38 -0700 (PDT)
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Lyude Paul <lyude@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Shirish S <shirish.s@amd.com>, yu kuai <yukuai3@huawei.com>,
- Navid Emamdoost <navid.emamdoost@gmail.com>, amd-gfx@lists.freedesktop.org,
+ Evan Quan <evan.quan@amd.com>, Leo Liu <leo.liu@amd.com>,
+ James Zhu <James.Zhu@amd.com>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: fix ref count leak in
- amdgpu_display_crtc_set_config
-Date: Sun, 14 Jun 2020 02:09:44 -0500
-Message-Id: <20200614070946.65770-1-navid.emamdoost@gmail.com>
+Subject: [PATCH] drm/amdgpu: fix ref count leak in amdgpu_driver_open_kms
+Date: Sun, 14 Jun 2020 02:12:29 -0500
+Message-Id: <20200614071231.87723-1-navid.emamdoost@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,52 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emamd001@umn.edu, kjlu@umn.edu, wu000273@umn.edu, smccaman@umn.edu
+Cc: Navid Emamdoost <navid.emamdoost@gmail.com>, emamd001@umn.edu, kjlu@umn.edu,
+ wu000273@umn.edu, smccaman@umn.edu
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-in amdgpu_display_crtc_set_config, the call to pm_runtime_get_sync
-increments the counter even in case of failure, leading to incorrect
+in amdgpu_driver_open_kms the call to pm_runtime_get_sync increments the
+counter even in case of failure, leading to incorrect
 ref count. In case of failure, decrement the ref count before returning.
 
 Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index f7143d927b6d..5e51f0acf744 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -282,7 +282,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index d7e17e34fee1..bd40aa307462 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -991,7 +991,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
  
- 	ret = pm_runtime_get_sync(dev->dev);
- 	if (ret < 0)
--		return ret;
-+		goto out;
+ 	r = pm_runtime_get_sync(dev->dev);
+ 	if (r < 0)
+-		return r;
++		goto pm_put;
  
- 	ret = drm_crtc_helper_set_config(set, ctx);
+ 	fpriv = kzalloc(sizeof(*fpriv), GFP_KERNEL);
+ 	if (unlikely(!fpriv)) {
+@@ -1042,6 +1042,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
  
-@@ -297,7 +297,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
- 	   take the current one */
- 	if (active && !adev->have_disp_power_ref) {
- 		adev->have_disp_power_ref = true;
--		return ret;
-+		goto out;
- 	}
- 	/* if we have no active crtcs, then drop the power ref
- 	   we got before */
-@@ -306,6 +306,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
- 		adev->have_disp_power_ref = false;
- 	}
- 
-+out:
- 	/* drop the power reference we got coming in here */
+ out_suspend:
+ 	pm_runtime_mark_last_busy(dev->dev);
++pm_put:
  	pm_runtime_put_autosuspend(dev->dev);
- 	return ret;
+ 
+ 	return r;
 -- 
 2.17.1
 
