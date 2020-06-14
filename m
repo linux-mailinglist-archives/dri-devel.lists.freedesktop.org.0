@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE6B1F8FAF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFB71F8FC3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824EE6E2D7;
-	Mon, 15 Jun 2020 07:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F0B6E26F;
+	Mon, 15 Jun 2020 07:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 167D389F06
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 20:01:47 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id w15so8262121lfe.11
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 13:01:46 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F88289F06
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 20:01:48 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id s1so16694563ljo.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 13:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lFel57lgzkdFi66A+blGOSEVo/1btB7qpZRFUjdwuaU=;
- b=vMkCjCpZdLUYv4suIqfx/3MUEZK1a6KD7CNZtbYGdSdsPJeaicMH3Vge7RWPzTknLh
- EBruytN8H/ucQwnaWfYH7FRtktEa54ZS9pRuJHdxX+TBGNZ58+vP5DndOQ1jQJk2T659
- nf93A936pfBRYyHl5QXaT4NudEW35KwfecF/No1EP0u8FKIiOV6/WRaVGGw+cPhh02Ug
- l32ioBRxMnesvhq/nW7pCAeaeZq5jeS9AyVoni47+tY1jEYQ+trPXen6z486WezTghUw
- c2Ij7fzQh1vt3D7P1iQY646Fz4CuDgvZyru32vFUh6y+CNKN+LxsZZ600CJGSTuhefZq
- s99A==
+ bh=1tlVNSxgPSIVY7njRp82EoP3y9oei5GEhi6LB4YQ4wY=;
+ b=jQ4is4o3msNRctJPE8x/rXfdtxgqL+UaT5OUefWyjpSdGCCCRnJTJD8hwrAK+7dPak
+ ccLE732RqdOIO/h1BblHTlMoyhV6snAr+fWgyjo2ypIIksW1HO090SR7hNyA74nKJ6/5
+ am79uNqc5PvmxUBgiI7DxAt+1ki57FYP2g/LNw1/WiArCa6EES4f+ZwZaXqFbvM8WLiG
+ 73o+tLz0aSqAxnAUFfKgQQYFmlipvKHJWrOFKIsFuhb+NW/FS6TCteBvhKhFvRplnG7N
+ QgdOsenUoIWC55wmJq6fPfYqWFpBf9CNRsDhakCSfMBa625Z6xw25OV8BPkh3+zeM+/v
+ kJog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lFel57lgzkdFi66A+blGOSEVo/1btB7qpZRFUjdwuaU=;
- b=Wrbe8UO8U2FqOvgrFvNsdsEJt/xzk7FdhvVEyZE+g+mLDWQ9e0KQHIpWF1sbiYb+QI
- Efeg1T0L4B8HD4m5tcXwFD6VwWWyyHG21SsPSdmMLc1C9dW+2g6DBANPi4F6ZAxriJpw
- JKdONr//E588LA9Uk5RKM0zvLuInZzra24aNq4wEnXNuM5rool/kZdRTUsWi5x8ZT6fF
- 9fxIYWiv2mv0zU192M2brqIL0+HDR9QckLfaPmHAOfQefeI7gpxUmkgU1APi4CtCBl7S
- d/fXolBMikPK40KK6KcluiSHHmUolrSGyFe65ZTj7DHWipnx2nQ9fnQtmyUbYH3Jx9YF
- 8lOg==
-X-Gm-Message-State: AOAM531EkkEyst+e/JIL5/RGfgEHBHV+uz66Q/GViAsIOGueDe8lgExu
- VHqxrhvXGGoDBbc2gs8xEqY=
-X-Google-Smtp-Source: ABdhPJzNUu4NpTHxztFbm6URTJe+XIxQZ+nkTLzrk8ITpSUydiX1sZV0V1uqoL2VvkWht7I0fO+RYg==
-X-Received: by 2002:a19:c212:: with SMTP id l18mr11722963lfc.68.1592164905521; 
- Sun, 14 Jun 2020 13:01:45 -0700 (PDT)
+ bh=1tlVNSxgPSIVY7njRp82EoP3y9oei5GEhi6LB4YQ4wY=;
+ b=ZhM7tIBXjJvhkxnBn94Ri0iOaWvsedwV6kYmKQ3i8TvCqoXvIqgI24Rf4Kdq1oK5Mp
+ 2XT5JsVKg2M8t3ezzzLPbt4oGi0lLJZqziVIP+GgiAwFaHYNrJE2DaET/608kcbJrEpA
+ 0aWfHjL3Py4+og3usa+dgQTvY/78apLxBoMs44ueMAW7cVpYiWtNsRxkH1EtozrChU2H
+ sxWL1dmD7IFH8qx0mU3JsYQ1Q++u4BUApIIhMCkTMh8CRPGYVzAMDsysWtnB3C0rp7iN
+ XbafwFJauLJiSFEKHoUsmA+do8WST+ogIly6fk3QrZ93aL+wepL5ccM86iDDZflktvWA
+ 7MPw==
+X-Gm-Message-State: AOAM531ZdscWATw/QaG83MwgfNPE8ca0FbGDCfj0AKyUfBThxX+lf++a
+ ZfefF28Mebchyrzd2nVEOtY=
+X-Google-Smtp-Source: ABdhPJwkjAohrFdbnjXNIyKjz2EOPAHBkTIDfMEzdvwoiExIpOvjnhuRzO8/1I+pHiLBdhjK8q9qyw==
+X-Received: by 2002:a05:651c:1193:: with SMTP id
+ w19mr11737184ljo.121.1592164906663; 
+ Sun, 14 Jun 2020 13:01:46 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.44
+ by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jun 2020 13:01:45 -0700 (PDT)
+ Sun, 14 Jun 2020 13:01:46 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Derek Basehore <dbasehore@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sean Paul <sean@poorly.run>
-Subject: [PATCH v2 4/5] drm/tegra: plane: Support horizontal reflection mode
-Date: Sun, 14 Jun 2020 23:01:20 +0300
-Message-Id: <20200614200121.14147-5-digetx@gmail.com>
+Subject: [PATCH v2 5/5] =?UTF-8?q?drm/tegra:=20plane:=20Support=20180?=
+ =?UTF-8?q?=C2=B0=20rotation?=
+Date: Sun, 14 Jun 2020 23:01:21 +0300
+Message-Id: <20200614200121.14147-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200614200121.14147-1-digetx@gmail.com>
 References: <20200614200121.14147-1-digetx@gmail.com>
@@ -74,93 +76,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U3VwcG9ydCBob3Jpem9udGFsIHJlZmxlY3Rpb24gbW9kZSB3aGljaCB3aWxsIGFsbG93IHRvIHN1
-cHBvcnQgMTgwwrAKcm90YXRpb24gbW9kZSB3aGVuIGNvbWJpbmVkIHdpdGggdGhlIHZlcnRpY2Fs
-IHJlZmxlY3Rpb24uCgpTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFp
-bC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmMgICAgfCAyNCArKysrKysrKysr
-KysrKysrKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kYy5oICAgIHwgIDEgKwogZHJp
-dmVycy9ncHUvZHJtL3RlZ3JhL3BsYW5lLmMgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEv
-cGxhbmUuaCB8ICAxICsKIDQgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgNCBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYyBiL2RyaXZl
-cnMvZ3B1L2RybS90ZWdyYS9kYy5jCmluZGV4IGVkMjgyZjg4ZTQwOS4uZjMxYmNhMjdjZGU0IDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYworKysgYi9kcml2ZXJzL2dwdS9k
-cm0vdGVncmEvZGMuYwpAQCAtMzY4LDYgKzM2OCwxMiBAQCBzdGF0aWMgdm9pZCB0ZWdyYV9kY19z
-ZXR1cF93aW5kb3coc3RydWN0IHRlZ3JhX3BsYW5lICpwbGFuZSwKIAloX3NpemUgPSB3aW5kb3ct
-PnNyYy53ICogYnBwOwogCXZfc2l6ZSA9IHdpbmRvdy0+c3JjLmg7CiAKKwlpZiAod2luZG93LT5y
-ZWZsZWN0X3gpCisJCWhfb2Zmc2V0ICs9ICh3aW5kb3ctPnNyYy53IC0gMSkgKiBicHA7CisKKwlp
-ZiAod2luZG93LT5yZWZsZWN0X3kpCisJCXZfb2Zmc2V0ICs9IHdpbmRvdy0+c3JjLmggLSAxOwor
-CiAJdmFsdWUgPSBWX1BSRVNDQUxFRF9TSVpFKHZfc2l6ZSkgfCBIX1BSRVNDQUxFRF9TSVpFKGhf
-c2l6ZSk7CiAJdGVncmFfcGxhbmVfd3JpdGVsKHBsYW5lLCB2YWx1ZSwgRENfV0lOX1BSRVNDQUxF
-RF9TSVpFKTsKIApAQCAtNDA0LDkgKzQxMCw2IEBAIHN0YXRpYyB2b2lkIHRlZ3JhX2RjX3NldHVw
-X3dpbmRvdyhzdHJ1Y3QgdGVncmFfcGxhbmUgKnBsYW5lLAogCQl0ZWdyYV9wbGFuZV93cml0ZWwo
-cGxhbmUsIHdpbmRvdy0+c3RyaWRlWzBdLCBEQ19XSU5fTElORV9TVFJJREUpOwogCX0KIAotCWlm
-ICh3aW5kb3ctPnJlZmxlY3RfeSkKLQkJdl9vZmZzZXQgKz0gd2luZG93LT5zcmMuaCAtIDE7Ci0K
-IAl0ZWdyYV9wbGFuZV93cml0ZWwocGxhbmUsIGhfb2Zmc2V0LCBEQ19XSU5CVUZfQUREUl9IX09G
-RlNFVCk7CiAJdGVncmFfcGxhbmVfd3JpdGVsKHBsYW5lLCB2X29mZnNldCwgRENfV0lOQlVGX0FE
-RFJfVl9PRkZTRVQpOwogCkBAIC00NzAsNiArNDczLDkgQEAgc3RhdGljIHZvaWQgdGVncmFfZGNf
-c2V0dXBfd2luZG93KHN0cnVjdCB0ZWdyYV9wbGFuZSAqcGxhbmUsCiAJCXZhbHVlIHw9IENPTE9S
-X0VYUEFORDsKIAl9CiAKKwlpZiAod2luZG93LT5yZWZsZWN0X3gpCisJCXZhbHVlIHw9IEhfRElS
-RUNUSU9OOworCiAJaWYgKHdpbmRvdy0+cmVmbGVjdF95KQogCQl2YWx1ZSB8PSBWX0RJUkVDVElP
-TjsKIApAQCAtNjAxLDcgKzYwNyw5IEBAIHN0YXRpYyBpbnQgdGVncmFfcGxhbmVfYXRvbWljX2No
-ZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCQkJCSAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0
-YXRlICpzdGF0ZSkKIHsKIAlzdHJ1Y3QgdGVncmFfcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlID0g
-dG9fdGVncmFfcGxhbmVfc3RhdGUoc3RhdGUpOwotCXVuc2lnbmVkIGludCByb3RhdGlvbiA9IERS
-TV9NT0RFX1JPVEFURV8wIHwgRFJNX01PREVfUkVGTEVDVF9ZOworCXVuc2lnbmVkIGludCByb3Rh
-dGlvbiA9IERSTV9NT0RFX1JPVEFURV8wIHwKKwkJCQlEUk1fTU9ERV9SRUZMRUNUX1ggfAorCQkJ
-CURSTV9NT0RFX1JFRkxFQ1RfWTsKIAlzdHJ1Y3QgdGVncmFfYm9fdGlsaW5nICp0aWxpbmcgPSAm
-cGxhbmVfc3RhdGUtPnRpbGluZzsKIAlzdHJ1Y3QgdGVncmFfcGxhbmUgKnRlZ3JhID0gdG9fdGVn
-cmFfcGxhbmUocGxhbmUpOwogCXN0cnVjdCB0ZWdyYV9kYyAqZGMgPSB0b190ZWdyYV9kYyhzdGF0
-ZS0+Y3J0Yyk7CkBAIC02NDEsNiArNjQ5LDExIEBAIHN0YXRpYyBpbnQgdGVncmFfcGxhbmVfYXRv
-bWljX2NoZWNrKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAogCiAJcm90YXRpb24gPSBkcm1fcm90
-YXRpb25fc2ltcGxpZnkoc3RhdGUtPnJvdGF0aW9uLCByb3RhdGlvbik7CiAKKwlpZiAocm90YXRp
-b24gJiBEUk1fTU9ERV9SRUZMRUNUX1gpCisJCXBsYW5lX3N0YXRlLT5yZWZsZWN0X3ggPSB0cnVl
-OworCWVsc2UKKwkJcGxhbmVfc3RhdGUtPnJlZmxlY3RfeCA9IGZhbHNlOworCiAJaWYgKHJvdGF0
-aW9uICYgRFJNX01PREVfUkVGTEVDVF9ZKQogCQlwbGFuZV9zdGF0ZS0+cmVmbGVjdF95ID0gdHJ1
-ZTsKIAllbHNlCkBAIC03MDYsNiArNzE5LDcgQEAgc3RhdGljIHZvaWQgdGVncmFfcGxhbmVfYXRv
-bWljX3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKIAl3aW5kb3cuZHN0LncgPSBkcm1f
-cmVjdF93aWR0aCgmcGxhbmUtPnN0YXRlLT5kc3QpOwogCXdpbmRvdy5kc3QuaCA9IGRybV9yZWN0
-X2hlaWdodCgmcGxhbmUtPnN0YXRlLT5kc3QpOwogCXdpbmRvdy5iaXRzX3Blcl9waXhlbCA9IGZi
-LT5mb3JtYXQtPmNwcFswXSAqIDg7CisJd2luZG93LnJlZmxlY3RfeCA9IHN0YXRlLT5yZWZsZWN0
-X3g7CiAJd2luZG93LnJlZmxlY3RfeSA9IHRlZ3JhX2ZiX2lzX2JvdHRvbV91cChmYikgfHwgc3Rh
-dGUtPnJlZmxlY3RfeTsKIAogCS8qIGNvcHkgZnJvbSBzdGF0ZSAqLwpAQCAtNzkyLDYgKzgwNiw3
-IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX3BsYW5lICp0ZWdyYV9wcmltYXJ5X3BsYW5lX2NyZWF0ZShz
-dHJ1Y3QgZHJtX2RldmljZSAqZHJtLAogCWVyciA9IGRybV9wbGFuZV9jcmVhdGVfcm90YXRpb25f
-cHJvcGVydHkoJnBsYW5lLT5iYXNlLAogCQkJCQkJIERSTV9NT0RFX1JPVEFURV8wLAogCQkJCQkJ
-IERSTV9NT0RFX1JPVEFURV8wIHwKKwkJCQkJCSBEUk1fTU9ERV9SRUZMRUNUX1ggfAogCQkJCQkJ
-IERSTV9NT0RFX1JFRkxFQ1RfWSk7CiAJaWYgKGVyciA8IDApCiAJCWRldl9lcnIoZGMtPmRldiwg
-ImZhaWxlZCB0byBjcmVhdGUgcm90YXRpb24gcHJvcGVydHk6ICVkXG4iLApAQCAtMTA3OSw2ICsx
-MDk0LDcgQEAgc3RhdGljIHN0cnVjdCBkcm1fcGxhbmUgKnRlZ3JhX2RjX292ZXJsYXlfcGxhbmVf
-Y3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCiAJZXJyID0gZHJtX3BsYW5lX2NyZWF0ZV9y
-b3RhdGlvbl9wcm9wZXJ0eSgmcGxhbmUtPmJhc2UsCiAJCQkJCQkgRFJNX01PREVfUk9UQVRFXzAs
-CiAJCQkJCQkgRFJNX01PREVfUk9UQVRFXzAgfAorCQkJCQkJIERSTV9NT0RFX1JFRkxFQ1RfWCB8
-CiAJCQkJCQkgRFJNX01PREVfUkVGTEVDVF9ZKTsKIAlpZiAoZXJyIDwgMCkKIAkJZGV2X2Vycihk
-Yy0+ZGV2LCAiZmFpbGVkIHRvIGNyZWF0ZSByb3RhdGlvbiBwcm9wZXJ0eTogJWRcbiIsCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuaCBiL2RyaXZlcnMvZ3B1L2RybS90ZWdy
-YS9kYy5oCmluZGV4IDk4ZTFiNjI1MTY4ZS4uMDUxZDAzZGNiOWIwIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vdGVncmEvZGMuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuaApA
-QCAtMTM2LDYgKzEzNiw3IEBAIHN0cnVjdCB0ZWdyYV9kY193aW5kb3cgewogCXVuc2lnbmVkIGlu
-dCBzdHJpZGVbMl07CiAJdW5zaWduZWQgbG9uZyBiYXNlWzNdOwogCXVuc2lnbmVkIGludCB6cG9z
-OworCWJvb2wgcmVmbGVjdF94OwogCWJvb2wgcmVmbGVjdF95OwogCiAJc3RydWN0IHRlZ3JhX2Jv
-X3RpbGluZyB0aWxpbmc7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUu
-YyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9wbGFuZS5jCmluZGV4IGUwNWVmNjAxM2E5Ny4uNGNk
-MDQ2MWNjNTA4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYwpAQCAtNjEsNiArNjEsNyBAQCB0ZWdyYV9w
-bGFuZV9hdG9taWNfZHVwbGljYXRlX3N0YXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lKQogCWNv
-cHktPnRpbGluZyA9IHN0YXRlLT50aWxpbmc7CiAJY29weS0+Zm9ybWF0ID0gc3RhdGUtPmZvcm1h
-dDsKIAljb3B5LT5zd2FwID0gc3RhdGUtPnN3YXA7CisJY29weS0+cmVmbGVjdF94ID0gc3RhdGUt
-PnJlZmxlY3RfeDsKIAljb3B5LT5yZWZsZWN0X3kgPSBzdGF0ZS0+cmVmbGVjdF95OwogCWNvcHkt
-Pm9wYXF1ZSA9IHN0YXRlLT5vcGFxdWU7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90
-ZWdyYS9wbGFuZS5oIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3BsYW5lLmgKaW5kZXggODA0N2Zj
-OTE2ZDhjLi5jNjkxZGQ3OWIyN2IgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9w
-bGFuZS5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9wbGFuZS5oCkBAIC00Niw2ICs0Niw3
-IEBAIHN0cnVjdCB0ZWdyYV9wbGFuZV9zdGF0ZSB7CiAJdTMyIGZvcm1hdDsKIAl1MzIgc3dhcDsK
-IAorCWJvb2wgcmVmbGVjdF94OwogCWJvb2wgcmVmbGVjdF95OwogCiAJLyogdXNlZCBmb3IgbGVn
-YWN5IGJsZW5kaW5nIHN1cHBvcnQgb25seSAqLwotLSAKMi4yNi4wCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Combining horizontal and vertical reflections gives us 180 degrees of
+rotation.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index f31bca27cde4..ddd9b88f8fce 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -608,6 +608,7 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
+ {
+ 	struct tegra_plane_state *plane_state = to_tegra_plane_state(state);
+ 	unsigned int rotation = DRM_MODE_ROTATE_0 |
++				DRM_MODE_ROTATE_180 |
+ 				DRM_MODE_REFLECT_X |
+ 				DRM_MODE_REFLECT_Y;
+ 	struct tegra_bo_tiling *tiling = &plane_state->tiling;
+@@ -659,6 +660,14 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
+ 	else
+ 		plane_state->reflect_y = false;
+ 
++	if (tegra_fb_is_bottom_up(state->fb))
++		plane_state->reflect_y = true;
++
++	if (rotation & DRM_MODE_ROTATE_180) {
++		plane_state->reflect_x = !plane_state->reflect_x;
++		plane_state->reflect_y = !plane_state->reflect_y;
++	}
++
+ 	/*
+ 	 * Tegra doesn't support different strides for U and V planes so we
+ 	 * error out if the user tries to display a framebuffer with such a
+@@ -720,7 +729,7 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
+ 	window.dst.h = drm_rect_height(&plane->state->dst);
+ 	window.bits_per_pixel = fb->format->cpp[0] * 8;
+ 	window.reflect_x = state->reflect_x;
+-	window.reflect_y = tegra_fb_is_bottom_up(fb) || state->reflect_y;
++	window.reflect_y = state->reflect_y;
+ 
+ 	/* copy from state */
+ 	window.zpos = plane->state->normalized_zpos;
+@@ -806,6 +815,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+ 						 DRM_MODE_ROTATE_0 |
++						 DRM_MODE_ROTATE_180 |
+ 						 DRM_MODE_REFLECT_X |
+ 						 DRM_MODE_REFLECT_Y);
+ 	if (err < 0)
+@@ -1094,6 +1104,7 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+ 						 DRM_MODE_ROTATE_0 |
++						 DRM_MODE_ROTATE_180 |
+ 						 DRM_MODE_REFLECT_X |
+ 						 DRM_MODE_REFLECT_Y);
+ 	if (err < 0)
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
