@@ -2,37 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D02C1F8791
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jun 2020 09:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A011F8834
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jun 2020 11:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF066E170;
-	Sun, 14 Jun 2020 07:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD0689E33;
+	Sun, 14 Jun 2020 09:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF186E170
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 07:48:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 29D488052B;
- Sun, 14 Jun 2020 09:48:49 +0200 (CEST)
-Date: Sun, 14 Jun 2020 09:48:47 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2] drm: mcde: Fix forgotten user of drm->dev_private
-Message-ID: <20200614074847.GB220677@ravnborg.org>
-References: <20200613223027.4189309-1-linus.walleij@linaro.org>
- <20200613223027.4189309-2-linus.walleij@linaro.org>
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 092FD89E33;
+ Sun, 14 Jun 2020 09:48:24 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id 64so6479966pfv.11;
+ Sun, 14 Jun 2020 02:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rvxXGWImKK0idVHDWiFzUpEVLlobMFbDY9vn//eI/9A=;
+ b=nkJFC3z1IN6j1mHX2gbfdoVRUMFSXotIgLCRLgLxMSbaFtMSnRF9i6kPNYaLn0QY2e
+ KWLSX5yWkn1H57pNir1VZyy69tP0B4cvfNrKqFk6IJJaoGiGxCLEbdaUkHe7qtvhd5DS
+ vFsOyE+pK3shQ4G6+mAqNeZB0SEsE0vMc5xF8nAZgp01m5YYzqNOQqTpASlB+soZECmh
+ GCIwNbUjkKVjQQRMUQnKOoHbCaMpw1wgHqGMsth8ybEFjzjAARbMFCP8BZmrDFx3Jy5J
+ VoaROYENiQjg/qd/8KN/cIwZBaqSUczlgK4XHzX5xEcjnEBXf5YTQb1DorH79/IvM/NU
+ KR+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rvxXGWImKK0idVHDWiFzUpEVLlobMFbDY9vn//eI/9A=;
+ b=G/Y6mnpDW3KXnq8/2wUO+IGocHD5YwTa7xM/U66cDG+XBZDIvY/x414ispCLPw68IX
+ BiFwc2g2LSqG3APQRrI1SyNdcJCdb3M23ikhkdN23KL/YO1GFPnaJ3g18Ku2SMSljXWq
+ jkCfxKCRiUBpiXbClOWQS8rrlSWyogrN3s2HZ4mg0Ztgq9rzjPZava9wSfp8tKNru8iJ
+ UsZBK7ilAGp0BUqHt+lb1muKvaB9/SjttmjT9z3hLQfewZwYeRSzrgGWi5DvFuBoHxVd
+ fhgxdnhk1zjFuQX8u8L0TY05+IbEMk/Jf4mAUo48R6dS4TN5TqsGfpI1eePdL6uKlROv
+ +dBg==
+X-Gm-Message-State: AOAM532jMwfLJyiXITHNFHyvVteZyHsDa5GibkPTawMWWQljtOQ4bS54
+ j0TF3SOAs9AmV1b3CuJ7te0yEnHMkugOq4cr21Q=
+X-Google-Smtp-Source: ABdhPJwYZavEWvdA0J1yrGBUxY/uYHKnkxZs2SsvB+9yof058vomrhWPnHEJZKAb221T+W5zWfJi7OS9ca5pfxCA65s=
+X-Received: by 2002:a62:5284:: with SMTP id g126mr12644494pfb.36.1592128103604; 
+ Sun, 14 Jun 2020 02:48:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200613223027.4189309-2-linus.walleij@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=KKAkSRfTAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=Asabxd5-pIFabpSqRscA:9 a=CjuIK1q_8ugA:10 a=cvBusfyB2V15izCimMoJ:22
- a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200614064601.7872-1-navid.emamdoost@gmail.com>
+In-Reply-To: <20200614064601.7872-1-navid.emamdoost@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 14 Jun 2020 12:48:06 +0300
+Message-ID: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
+To: Navid Emamdoost <navid.emamdoost@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,61 +60,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
+Cc: wu000273@umn.edu, David Airlie <airlied@linux.ie>,
+ Stephen McCamant <smccaman@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
+ etnaviv@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Navid Emamdoost <emamd001@umn.edu>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 14, 2020 at 12:30:27AM +0200, Linus Walleij wrote:
-> We forgot one call site directly using drm->dev_private.
-> This leads to a crash like this:
-> 
-> 8<--- cut here ---
-> Unable to handle kernel NULL pointer dereference at virtual address 00000918
-> pgd = (ptrval)
-> [00000918] *pgd=00000000
-> Internal error: Oops: 5 [#1] SMP ARM
-> Modules linked in:
-> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.7.0-15001-gfa384b50b96b-dirty #514
-> Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
-> PC is at mcde_display_enable+0x78/0x7c0
-> LR is at mcde_display_enable+0x78/0x7c0
-> 
-> Fix this by using to_mcde() as in other functions.
-> 
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Fixes: fd7ee85cfe7b ("drm/mcde: Don't use drm_device->dev_private")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+On Sun, Jun 14, 2020 at 9:48 AM Navid Emamdoost
+<navid.emamdoost@gmail.com> wrote:
 
-This is the last hit for "git grep dev_private".
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+...
 
-> ---
->  drivers/gpu/drm/mcde/mcde_display.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-> index b319a474f801..212aee60cf61 100644
-> --- a/drivers/gpu/drm/mcde/mcde_display.c
-> +++ b/drivers/gpu/drm/mcde/mcde_display.c
-> @@ -838,7 +838,7 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
->  	struct drm_crtc *crtc = &pipe->crtc;
->  	struct drm_plane *plane = &pipe->plane;
->  	struct drm_device *drm = crtc->dev;
-> -	struct mcde *mcde = drm->dev_private;
-> +	struct mcde *mcde = to_mcde(drm);
->  	const struct drm_display_mode *mode = &cstate->mode;
->  	struct drm_framebuffer *fb = plane->state->fb;
->  	u32 format = fb->format->format;
-> -- 
-> 2.26.2
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> +               if (ret < 0) {
+
+> +                       pm_runtime_put(gpu->dev);
+
+Please, in all your patches fix this to be _put_noidle(). We wouldn't
+bear the flag day of fixing these parts again.
+Yes, I know that *now* behaviour is the same, but calling put here is
+slightly inconsistent.
+
+...
+
+> +               pm_runtime_put(gpu->dev);
+
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
