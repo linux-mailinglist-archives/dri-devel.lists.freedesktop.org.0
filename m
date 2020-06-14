@@ -1,74 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820E81F8FAD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A111F8FC5
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC6E6E13C;
-	Mon, 15 Jun 2020 07:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489446E265;
+	Mon, 15 Jun 2020 07:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E3189786
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 19:32:34 +0000 (UTC)
+Received: from mta-p8.oit.umn.edu (mta-p8.oit.umn.edu [134.84.196.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D33A889F63
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:31:43 +0000 (UTC)
 Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 49knmf3GQgz9vC9F
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 19:32:34 +0000 (UTC)
+ by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49kxXM6clRz9vC91
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:22:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BcbOeXVFHIDa for <dri-devel@lists.freedesktop.org>;
- Sat, 13 Jun 2020 14:32:34 -0500 (CDT)
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72])
+Received: from mta-p8.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xYZ3ZVfDs5rE for <dri-devel@lists.freedesktop.org>;
+ Sat, 13 Jun 2020 20:22:27 -0500 (CDT)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 49knmf1W4nz9v90G
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 14:32:34 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 49knmf1W4nz9v90G
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 49knmf1W4nz9v90G
-Received: by mail-io1-f72.google.com with SMTP id b11so8485687ioh.22
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 12:32:34 -0700 (PDT)
+ by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49kxXM4mzxz9vC94
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:22:26 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49kxXM4mzxz9vC94
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49kxXM4mzxz9vC94
+Received: by mail-il1-f197.google.com with SMTP id o12so9408055ilf.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 18:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=pJ20cKcKMnGm3+Riu7jtthOtL7g8EIT2MKkma1MPE6o=;
- b=XNWmcjhnocnx2PCeGekIOa6hmp/5qTxzXhmI/rnG/BdQUSUHtNzIw27S8a5v6/a0D6
- QHdgNQrOk9lqbEto8IVTmS3CbgaZdQCIKp+U8A2/9KOWjxuFB1itO+tJL+4z/o0I0PEu
- nYotRjHX1C7FW4T+5Ctpjbp/BVOqmhuyFsstGn5SB+ycEN9N13+5T5+20alrtR0bLrFa
- W8nGcO6mnr+f3ls1xudYP4uIXiOsTb9hgkK7R4fHPwxAXMajNQUC4isiBInG2sjgpTfJ
- wq288R8VLIDVgeRi7H3GKk2l4u7hD5cr1DYRAIEpPPXVX26pAYfpmg9utXKpYI56LSZ9
- E3zw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hWaD4fQyHbWq3bbusGJa3obvcK40dmIFPt4HBS/vC+8=;
+ b=dnGgxZhWilGEvZAkDKg8+Db3hNX1+NOCy/4oK32fpCcuIBiSCLn37R9dMCTvR5yOnN
+ m9KEtdopyhDK6ah8M4C/7Ae9EnXaPpr7b6yJHQL8m/jac7VXpHQVtKYFn8bmbq9lSJro
+ ABG7Whrj7bznZW+sAz3bnIzAN9MG0WAH84cqBVbc+2zq+fJd22+zK1m/hZozqp6+NbrO
+ +6OwzFLwRZau6lJ11+eb9xfW5Ew88zoMf1Wlg/Gw79N1J7+tFJJ6PK4TcLjrugCBhiro
+ AgHbHwNXra0eLZ2T1ZjYU+QKKaraFrGqUywmBUY+NPz1nwRsriTRIle/R+A6z7qIMd3d
+ FvMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=pJ20cKcKMnGm3+Riu7jtthOtL7g8EIT2MKkma1MPE6o=;
- b=VBk4cNbzW+1kLilPlbc4XJMftBsOSl72otvesnTq2Mi11xs6TPc2c0Oax0ktuxuJhY
- wwr/MFQj7H5icJa64FtMRHEICp4rlDkOdKoWjaynM/Fz2AMvD6Autw9hhTqFG2cuNgv1
- rrjq+z/UBEhv2pWwijuLNbZRzsbdxMsvwKpOzTPUtmdbG/+ykVZcqIHjV2khoY4uvFaW
- JtmZfBI+HlxNNismopUXIDGVzsgkG/dqZvfwtTeUumMQ40tEkZUdnnXJlscqCzLsxYfM
- BcNMt9D+xC0jHqi6ltJ8LWKPnRkZvRE/EiSl5taoruvT87/K4wZ4eYLiuoc1gLj7hnNB
- jINg==
-X-Gm-Message-State: AOAM533yBFiZjgH3kaQDCHE6uaYvWMTZd9+WpE1ZoQQOBbmcmIxgwxWl
- QHU4Gg8Q4zXn4BJtPWLJ45q0scmcRKC4/sDfvJivRkREKo9Hp7R1N/5cclHGliAUHcPuhB6SAWq
- MHclHxV8eFUIwQ6gEehuqvHt5nKVJiOj3
-X-Received: by 2002:a05:6638:dd3:: with SMTP id
- m19mr14405838jaj.106.1592076753490; 
- Sat, 13 Jun 2020 12:32:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNb/Sk7PVT9zM53pVsCho9Wzso9hsmtHF+L1UVP9LJR0pCZeyktih4ZL5JuGWYbfJxALxufQ==
-X-Received: by 2002:a05:6638:dd3:: with SMTP id
- m19mr14405814jaj.106.1592076753173; 
- Sat, 13 Jun 2020 12:32:33 -0700 (PDT)
-Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
- by smtp.gmail.com with ESMTPSA id t63sm5383628ill.54.2020.06.13.12.32.32
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hWaD4fQyHbWq3bbusGJa3obvcK40dmIFPt4HBS/vC+8=;
+ b=Us0vOSH7X7fSRZPjtstou3upCPIjm5tdg/V4UdhN8hvgmP0tdLmDd/4qkF8LKINdqL
+ mEgwHDrvfLmRu9FiTD/r6KlTTIacAi9ybmV6vZZdEoTXx47maUh9NZ9cSVZghXDJzNid
+ 8VSZMsR4Kyx/XujNKJV0VPtmSZq6+rmCNT67belldnEy76be0ZDS4+7sYOsv8DSshQWM
+ hEYr9znM/YSGYFyxmFllbG3A+m1ZvxQ+xWAVuYf3hGNJfRPb4cLD5VMG/5sen57jPES1
+ d9XODwbnoQxL6f5kQ9wfCXaII/xeMMhH3j0DJoVzkBrR5g6OtKgSsEZfSK8PJaIOr24x
+ kK1g==
+X-Gm-Message-State: AOAM532YltIBw2sVFc1hrrAYTSQk4mwx9maE0jq2VxHzDXGklafq6s/X
+ heGL5TMgtmCmxFgULUWQeTQK6TNDPaqncUDWoTVuD827FmQs5gh3paD0+Wkl2hqZN9zjqy8oXUL
+ IOSGZtg9NdxcnvYwP0IQw0RR4hsySAHQp
+X-Received: by 2002:a5e:dd07:: with SMTP id t7mr21202634iop.21.1592097746366; 
+ Sat, 13 Jun 2020 18:22:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxG9/5j6jwcpTDWma6pdM8Bkh2xp31WtVsWXYi2gCUmVJhMzt5E2i8yikc3nH8lOVjzJe+aTg==
+X-Received: by 2002:a5e:dd07:: with SMTP id t7mr21202621iop.21.1592097746172; 
+ Sat, 13 Jun 2020 18:22:26 -0700 (PDT)
+Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:d65:8ac4:1b02:86ac])
+ by smtp.gmail.com with ESMTPSA id j63sm5760966ilg.50.2020.06.13.18.22.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jun 2020 12:32:32 -0700 (PDT)
-From: wu000273@umn.edu
-To: kjlu@umn.edu
-Subject: [PATCH] drm/amdkfd: Fix reference count leaks.
-Date: Sat, 13 Jun 2020 14:32:26 -0500
-Message-Id: <20200613193226.21531-1-wu000273@umn.edu>
-X-Mailer: git-send-email 2.17.1
+ Sat, 13 Jun 2020 18:22:25 -0700 (PDT)
+From: Aditya Pakki <pakki001@umn.edu>
+To: pakki001@umn.edu
+Subject: [PATCH] drm/nouveau: Fix reference count leak in
+ nouveau_connector_detect
+Date: Sat, 13 Jun 2020 20:22:23 -0500
+Message-Id: <20200614012223.121019-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,94 +84,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, wu000273@umn.edu,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-MIME-Version: 1.0
+Cc: wu000273@umn.edu, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org, kjlu@umn.edu, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qiushi Wu <wu000273@umn.edu>
+nouveau_connector_detect() calls pm_runtime_get_sync and in turn
+increments the reference count. In case of failure, decrement the
+ref count before returning the error.
 
-kobject_init_and_add() takes reference even when it fails.
-If this function returns an error, kobject_put() must be called to
-properly clean up the memory associated with the object.
-
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index bb77f7af2b6d..dc3c4149f860 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -632,8 +632,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 
- 	ret = kobject_init_and_add(dev->kobj_node, &node_type,
- 			sys_props.kobj_nodes, "%d", id);
--	if (ret < 0)
-+	if (ret < 0) {
-+		kobject_put(dev->kobj_node);
- 		return ret;
-+	}
- 
- 	dev->kobj_mem = kobject_create_and_add("mem_banks", dev->kobj_node);
- 	if (!dev->kobj_mem)
-@@ -680,8 +682,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(mem->kobj, &mem_type,
- 				dev->kobj_mem, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(mem->kobj);
- 			return ret;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index 1b383ae0248f..ef8ddbe44581 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -572,8 +572,10 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
+ 		pm_runtime_get_noresume(dev->dev);
+ 	} else {
+ 		ret = pm_runtime_get_sync(dev->dev);
+-		if (ret < 0 && ret != -EACCES)
++		if (ret < 0 && ret != -EACCES) {
++			pm_runtime_put_autosuspend(dev->dev);
+ 			return conn_status;
 +		}
+ 	}
  
- 		mem->attr.name = "properties";
- 		mem->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -699,8 +703,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(cache->kobj, &cache_type,
- 				dev->kobj_cache, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(cache->kobj);
- 			return ret;
-+		}
- 
- 		cache->attr.name = "properties";
- 		cache->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -718,8 +724,10 @@ static int kfd_build_sysfs_node_entry(struct kfd_topology_device *dev,
- 			return -ENOMEM;
- 		ret = kobject_init_and_add(iolink->kobj, &iolink_type,
- 				dev->kobj_iolink, "%d", i);
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(iolink->kobj);
- 			return ret;
-+		}
- 
- 		iolink->attr.name = "properties";
- 		iolink->attr.mode = KFD_SYSFS_FILE_MODE;
-@@ -798,8 +806,10 @@ static int kfd_topology_update_sysfs(void)
- 		ret = kobject_init_and_add(sys_props.kobj_topology,
- 				&sysprops_type,  &kfd_device->kobj,
- 				"topology");
--		if (ret < 0)
-+		if (ret < 0) {
-+			kobject_put(sys_props.kobj_topology);
- 			return ret;
-+		}
- 
- 		sys_props.kobj_nodes = kobject_create_and_add("nodes",
- 				sys_props.kobj_topology);
+ 	nv_encoder = nouveau_connector_ddc_detect(connector);
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 dri-devel mailing list
