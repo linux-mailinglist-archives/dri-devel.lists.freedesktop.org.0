@@ -1,62 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105101F8FB0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 220281F8F93
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540DD6E13D;
-	Mon, 15 Jun 2020 07:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D58489FF6;
+	Mon, 15 Jun 2020 07:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2039C89EB1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 17:23:26 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id c17so16383148lji.11
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 10:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
- b=sUM+61bHMTQwyYxyYmN3fSPDw7/38uK50F0zfc7/YI9dEkVzyM9NDOvp2JksQFxlp5
- +XXYcNtE6bwKD1ZtEgCTqYbjoKGJUk9bFlSM7g7PCqKJLuNbskX9LlACSXwTrgLzq+zK
- nIIkNqncpoEs6GazHlCOxHv9tVrGbnBki3ob+PiT9cP4TBBmfSfBZKtE5K6Y9vT3iaw9
- YyDnfQ6O/jedLLqaOUACuoh7l6pXCyG/CGAupZ4k8xPzrjheB0PwD97CVU9RSxwek/tN
- K0CsnhRxmA4w6XasvfzFQ7yqEOfRH8CLbhoPum1rJly1ylZ7qxjWtnH0seb1nKRGI2SQ
- wY0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=37Z3HYJxY12m2q1zLLMVAo9a4Krobq6zohBrdzALyVQ=;
- b=RgDuajWzhmbrW/gfPvKDC09tuBYlYUbfJWmZNb4S5sN1RpvS1Q0X7uJ0B/uDz6TmYI
- aHssf6CciLwHKa6KJQikpfnBdVx0Nh/D7zf00RWcS/aFJ7MRrtowaNWF9PUAAWCMUba4
- bZmGts510PbO3IiXvdB+ICWnOr/vr33E+r3iNyY3MOwInL1j73otLmvdb3/Lpvax8dH1
- s5RkbB7bEVT7d8MCKQL3P+9+PoT19mEtqtOXTf83Qg6Lx8wmOAxMmgWjNAwpXxnUw2e6
- 7ONYaErJw97xJFqzKZJUGDXsWRGy/OgKXhYCqo/6R7a/LM9/QKshx6MsjW3yLj3zl9f3
- C0mw==
-X-Gm-Message-State: AOAM532d6IqaCfC99Rwizvo+HXkFpB3xYIGY5bAhfbBDT+W0XNbM4VUC
- 516xm2LBLb6XONGV/QV8at4=
-X-Google-Smtp-Source: ABdhPJwJkmicC3yQWMn1EaHLj6NqgXGyVJXWs5uV2d/dqFdB4aC3XCOIC1NQbPfRIz+w9Luv9PWQ2w==
-X-Received: by 2002:a2e:82ce:: with SMTP id n14mr12022057ljh.9.1592155404533; 
- Sun, 14 Jun 2020 10:23:24 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id m14sm55144lfp.18.2020.06.14.10.23.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jun 2020 10:23:24 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v7 6/6] drm/tegra: output: rgb: Wrap directly-connected panel
- into DRM bridge
-Date: Sun, 14 Jun 2020 20:22:34 +0300
-Message-Id: <20200614172234.8856-7-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200614172234.8856-1-digetx@gmail.com>
-References: <20200614172234.8856-1-digetx@gmail.com>
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC35089F07
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 18:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1592160312; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nNx9FEgFzl5gt4Wt06FhGkEd6Voy9fzWaPxnnz0XX3w=;
+ b=v814cFoJZcW+NZF+rNw66UkZIp4k0cRuCt4mjxGQHKcAGvgH4O3O3xuoq0x7Mhhc+9rNn/
+ 7mzceIs3xwtPBVk/FZ9bASGkWiPMSuffk3+ngUa39r4rGwcnvyCev+yyRfBwTg/DIGjYXA
+ 2RNBvpC2g1J2t2VWDrnQZV66pu9hXp8=
+Date: Sun, 14 Jun 2020 20:45:01 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
+To: Noralf =?iso-8859-1?q?Tr=F8nnes?= <noralf@tronnes.org>
+Message-Id: <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
+In-Reply-To: <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
+References: <20200607133832.1730288-1-paul@crapouillou.net>
+ <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,157 +44,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, od@zcrc.me,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently Tegra DRM driver manually manages display panel, but this
-management could be moved out into DRM core if we'll wrap panel into
-DRM bridge. This patch wraps RGB panel into a DRM bridge and removes
-manual handling of the panel from the RGB output code.
+Hi Noralf,
 
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/tegra/rgb.c | 70 ++++++++++---------------------------
- 1 file changed, 18 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index 9a7024ec96bc..4142a56ca764 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -8,7 +8,6 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge_connector.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "drm.h"
-@@ -86,45 +85,13 @@ static void tegra_dc_write_regs(struct tegra_dc *dc,
- 		tegra_dc_writel(dc, table[i].value, table[i].offset);
- }
- 
--static const struct drm_connector_funcs tegra_rgb_connector_funcs = {
--	.reset = drm_atomic_helper_connector_reset,
--	.detect = tegra_output_connector_detect,
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = tegra_output_connector_destroy,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--};
--
--static enum drm_mode_status
--tegra_rgb_connector_mode_valid(struct drm_connector *connector,
--			       struct drm_display_mode *mode)
--{
--	/*
--	 * FIXME: For now, always assume that the mode is okay. There are
--	 * unresolved issues with clk_round_rate(), which doesn't always
--	 * reliably report whether a frequency can be set or not.
--	 */
--	return MODE_OK;
--}
--
--static const struct drm_connector_helper_funcs tegra_rgb_connector_helper_funcs = {
--	.get_modes = tegra_output_connector_get_modes,
--	.mode_valid = tegra_rgb_connector_mode_valid,
--};
--
- static void tegra_rgb_encoder_disable(struct drm_encoder *encoder)
- {
- 	struct tegra_output *output = encoder_to_output(encoder);
- 	struct tegra_rgb *rgb = to_rgb(output);
- 
--	if (output->panel)
--		drm_panel_disable(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_disable, ARRAY_SIZE(rgb_disable));
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_unprepare(output->panel);
- }
- 
- static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
-@@ -133,9 +100,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	struct tegra_rgb *rgb = to_rgb(output);
- 	u32 value;
- 
--	if (output->panel)
--		drm_panel_prepare(output->panel);
--
- 	tegra_dc_write_regs(rgb->dc, rgb_enable, ARRAY_SIZE(rgb_enable));
- 
- 	value = DE_SELECT_ACTIVE | DE_CONTROL_NORMAL;
-@@ -157,9 +121,6 @@ static void tegra_rgb_encoder_enable(struct drm_encoder *encoder)
- 	tegra_dc_writel(rgb->dc, value, DC_DISP_SHIFT_CLOCK_OPTIONS);
- 
- 	tegra_dc_commit(rgb->dc);
--
--	if (output->panel)
--		drm_panel_enable(output->panel);
- }
- 
- static int
-@@ -278,6 +239,23 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	drm_encoder_helper_add(&output->encoder,
- 			       &tegra_rgb_encoder_helper_funcs);
- 
-+	/*
-+	 * Wrap directly-connected panel into DRM bridge in order to let
-+	 * DRM core to handle panel for us.
-+	 */
-+	if (output->panel) {
-+		output->bridge = devm_drm_panel_bridge_add(output->dev,
-+							   output->panel);
-+		if (IS_ERR(output->bridge)) {
-+			dev_err(output->dev,
-+				"failed to wrap panel into bridge: %pe\n",
-+				output->bridge);
-+			return PTR_ERR(output->bridge);
-+		}
-+
-+		output->panel = NULL;
-+	}
-+
- 	/*
- 	 * Tegra devices that have LVDS panel utilize LVDS encoder bridge
- 	 * for converting up to 28 LCD LVTTL lanes into 5/4 LVDS lanes that
-@@ -292,8 +270,7 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 	 * Newer device-trees utilize LVDS encoder bridge, which provides
- 	 * us with a connector and handles the display panel.
- 	 *
--	 * For older device-trees we fall back to our own connector and use
--	 * nvidia,panel phandle.
-+	 * For older device-trees we wrapped panel into the panel-bridge.
- 	 */
- 	if (output->bridge) {
- 		err = drm_bridge_attach(&output->encoder, output->bridge,
-@@ -313,17 +290,6 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 		}
- 
- 		drm_connector_attach_encoder(connector, &output->encoder);
--	} else {
--		drm_connector_init(drm, &output->connector,
--				   &tegra_rgb_connector_funcs,
--				   DRM_MODE_CONNECTOR_LVDS);
--		drm_connector_helper_add(&output->connector,
--					 &tegra_rgb_connector_helper_funcs);
--		output->connector.dpms = DRM_MODE_DPMS_OFF;
--
--		drm_connector_attach_encoder(&output->connector,
--					     &output->encoder);
--		drm_connector_register(&output->connector);
- 	}
- 
- 	err = tegra_output_init(drm, output);
--- 
-2.26.0
+Le dim. 14 juin 2020 =E0 18:36, Noralf Tr=F8nnes <noralf@tronnes.org> a =
+
+=E9crit :
+> =
+
+> =
+
+> Den 07.06.2020 15.38, skrev Paul Cercueil:
+>>  Hi,
+>> =
+
+>>  Here's a follow-up on the previous discussion about the current =
+
+>> state of
+>>  DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
+>> =
+
+>>  This patchset introduces the following:
+>>  * It slightly tweaks the MIPI DSI code so that it supports MIPI DBI =
+
+>> over
+>>    various buses. This patch has been tested with a non-upstream DRM
+>>    panel driver for a ILI9331 DBI/8080 panel, written with the DSI
+>>    framework (and doesn't include <drm/drm_mipi_dbi.h>), and =
+
+>> non-upstream
+>>    DSI/DBI host driver for the Ingenic SoCs.
+>> =
+
+>>  * A SPI DBI host driver, using the current MIPI DSI framework. It =
+
+>> allows
+>>    MIPI DSI/DBI drivers to be written with the DSI framework, even if
+>>    they are connected over SPI, instead of registering as SPI device
+>>    drivers. Since most of these panels can be connected over various
+>>    buses, it permits to reuse the same driver independently of the =
+
+>> bus
+>>    used.
+>> =
+
+>>  * A TinyDRM driver for DSI/DBI panels, once again independent of =
+
+>> the bus
+>>    used; the only dependency (currently) being that the panel must
+>>    understand DCS commands.
+>> =
+
+>>  * A DRM panel driver to test the stack. This driver controls Ilitek
+>>    ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 =
+
+>> 2.4"
+>>    TFT LCD panel. This panel was converted from
+>>    drivers/gpu/drm/tiny/ili9341.c.
+>> =
+
+>>  I would like to emphasize that while it has been compile-tested, I =
+
+>> did
+>>  not test it with real hardware since I do not have any DBI panel
+>>  connected over SPI. I did runtime-test the code, just without any =
+
+>> panel
+>>  connected.
+>> =
+
+>>  Another thing to note, is that it does not break Device Tree ABI. =
+
+>> The
+>>  display node stays the same:
+>> =
+
+>>  display@0 {
+>>  	compatible =3D "adafruit,yx240qv29", "ilitek,ili9341";
+>>  	reg =3D <0>;
+>>  	spi-max-frequency =3D <32000000>;
+>>  	dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
+>>  	reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
+>>  	rotation =3D <270>;
+>>  	backlight =3D <&backlight>;
+>>  };
+>> =
+
+>>  The reason it works, is that the "adafruit,yx240qv29" device is =
+
+>> probed
+>>  on the SPI bus, so it will match with the SPI/DBI host driver. This =
+
+>> will
+>>  in turn register the very same node with the DSI bus, and the =
+
+>> ILI9341
+>>  DRM panel driver will probe. The driver will detect that no =
+
+>> controller
+>>  is linked to the panel, and eventually register the DBI/DSI TinyDRM
+>>  driver.
+>> =
+
+>>  I can't stress it enough that this is a RFC, so it still has very =
+
+>> rough
+>>  edges.
+>> =
+
+> =
+
+> I don't know bridge and dsi drivers so I can't comment on that, but =
+
+> one
+> thing I didn't like is that the DT compatible string has to be added =
+
+> to
+> 2 different modules.
+
+That's a minimal drawback for a perfectly architectured design ;)
+
+> As an example, a MI0283QT panel (ILI9341) supports these interface =
+
+> options:
+> =
+
+> 1. SPI
+>    Panel setup/control and framebuffer upload over SPI
+> =
+
+> 2. SPI + DPI
+>    Panel setup/control over SPI, framebuffer scanout over DPI
+> =
+
+> 3. Parallel bus
+>    Panel setup/control and framebuffer upload over parallel bus
+> =
+
+> My suggestion is to have one panel driver module that can support all =
+
+> of
+> these like this:
+> =
+
+> For 1. and 2. a SPI driver is registered and if I understand your
+> example correctly of_graph_get_port_by_id() can be used during probe =
+
+> to
+> distinguish between the 2 options and register a full DRM driver for =
+
+> 1.
+> and add a DRM panel for 2.
+> =
+
+> For 3. a DSI driver is registered (adapted for DBI use like you're
+> suggesting).
+
+That means basically having two entry points per DBI driver, one as DSI =
+
+device and one as SPI device, the latter doing the job of the current =
+
+DBI-SPI bridge. I think i would be cleaner to just have duplicated =
+
+strings with the DBI-SPI bridge.
+
+Cheers,
+-Paul
+
+> Note that the interface part of the controller initialization will
+> differ between these, the panel side init will be the same I assume.
+
+> Noralf.
+
 
 _______________________________________________
 dri-devel mailing list
