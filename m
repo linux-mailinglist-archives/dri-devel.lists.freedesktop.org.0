@@ -1,75 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAB71F8F9F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACD91F8FA3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1801B6E0AD;
-	Mon, 15 Jun 2020 07:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E79536E258;
+	Mon, 15 Jun 2020 07:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD6F6E077
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75F4E89F2A
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:21:25 +0000 (UTC)
 Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 49kyGp28v9z9vCCQ
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 01:55:46 +0000 (UTC)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTP id 49kyrP1Gpdz9vHdf
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:21:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
 Received: from mta-p5.oit.umn.edu ([127.0.0.1])
  by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7F5zfEL5V9zI for <dri-devel@lists.freedesktop.org>;
- Sat, 13 Jun 2020 20:55:46 -0500 (CDT)
+ with ESMTP id HrKCmX-ciltr for <dri-devel@lists.freedesktop.org>;
+ Sat, 13 Jun 2020 21:21:25 -0500 (CDT)
 Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
  [209.85.166.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 49kyGp0KByz9vBs7
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 20:55:46 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 49kyGp0KByz9vBs7
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 49kyGp0KByz9vBs7
-Received: by mail-io1-f71.google.com with SMTP id h65so8912253ioa.7
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 18:55:46 -0700 (PDT)
+ by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 49kyrN6cGQz9vHdS
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 21:21:24 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 49kyrN6cGQz9vHdS
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 49kyrN6cGQz9vHdS
+Received: by mail-io1-f71.google.com with SMTP id h65so8926924ioa.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 19:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TdqIFxgHaPyml2SmCdHxvLQZge/mICMslBYJgjMsN0k=;
- b=mGPxDd568gvpjZYW7B0VV+xmdjn8NF+TD7I3LwqVL2COMehOHnoTIw5DZKtZ2bCFGj
- BMwI50DUWvzIA/tkfqI65XIID6XJlTCB+kdK1dh8rade6ulX7Fi6FgldOo2ERHBlLP2E
- siDnavJnLqqVBTE/lCpswnHpXQ3RILH0X1OcuU63Jb7jg4KONnbJRfSzX+IfyN0IPSRn
- IgppSXNBpwFC8F/DX691Ay6J3ZtLHjW5t8tArT5DtA1b/L9EpEdLoE+k6XLlxU86O5ra
- 8lAH96X22H/YvEqm7TkoXs7Lf95zofSOUpbSCv6nAIFhoj7emn26PExmWKYugvvVBMIw
- 6VMQ==
+ bh=1skhAYqgTNSWsq4lvqV5pXURB90mGpd6sDboa81hzn4=;
+ b=inDQYcmHcL3Cz+asrBz/w7/AH+tbLoHWzIu2j3/vBKxYRotaYrR5dtjBlReiW10muR
+ JgRA7bR5vnj1ZLaL/RZraj1F3mx2KnqSqFmaI0AN1pl7t3wXWBnHQtOwIfAiEqxfhDwV
+ HKUtr3/gv03Oz+PzAaaeW8sVCHIlPPzRLIpmlfBvilKpr1GJWbfuWfSLNFDpXlZKwGhc
+ AjwoKU9MfTAeNWiZ1q47UyU7QzPSNrEgTkJ73Byh6v5PoKL7iiSeU/4R35njyzj/5+uT
+ qCxwAwiiUTmGJIYYBX51YNcIcbOIgx4uvW6caEEPkoLiC+gnepFHBVifLyZ9PhjKnCD8
+ ZIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TdqIFxgHaPyml2SmCdHxvLQZge/mICMslBYJgjMsN0k=;
- b=bohGwOT9ipnCgi8KMpQLL6zrVG3i5VcLJ4RMpQr2evdX/Xb3ZU5jwLR9y86SBtnkZ7
- m9jZBBCklZi/yfVPrB2ZaXUtqL96QKHWU0zI3T4ayExf+JIhehHD5abEnAlItH5rcVvU
- 8GVI48BdPt+op5s+gYRY7W3+f0IqHr1jkHCOKsyibuS/SvAlMMNhJq5ecO8TGW3mRQpD
- ef+t1NPWouHEl7wm7Fps8QkUOXSRHezaCPLMHc8Dzal75hK33U/IU2uYJK+pZDUwOFZz
- 2U+eHg2bwJCbvX5S8VRZKXF9bTGsIlQgEjZnHg5ItQaVq/QuD/VfLGQk7iUCJkfc7Rmk
- n8OA==
-X-Gm-Message-State: AOAM533+Fq1usIgBW1Msa9lnQkSp+hxzjcs9UEWtLgH+Fj5xfa2ZWkkb
- evOnYVowPhVGIdaIgD8BAQkLluuTsX1U7CwL6ZWi+9lLe3S5ElUFXI/U4ZoAYISO1k6ZimFeYzw
- tOvLLHeUvmrZFPofMvbGT2QMvoYrbDzka
-X-Received: by 2002:a05:6e02:be8:: with SMTP id
- d8mr19558116ilu.32.1592099745719; 
- Sat, 13 Jun 2020 18:55:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcVDjXlANd/0Xr752unf8N10VGa47mAE3GfelbMmqQ32kEGlnlBYsVkfVLgyXnIgnf2V8zuQ==
-X-Received: by 2002:a05:6e02:be8:: with SMTP id
- d8mr19558104ilu.32.1592099745566; 
- Sat, 13 Jun 2020 18:55:45 -0700 (PDT)
+ bh=1skhAYqgTNSWsq4lvqV5pXURB90mGpd6sDboa81hzn4=;
+ b=A7yvMa419I5sxa74m+ZJebTzhXc7H+RelgeXzDHKSS/OsRYU0EOsZP79jXQhpVATbZ
+ nsNkzIGOsGqMiOpiLR3I8l+3u2+gS/9udsY+ngTYDjH903lfpTcvmvuan8zXRVeBjP0Q
+ N5f3padEjivm5ZyASjJLYmp0sZe9hwYRQFOKNVWOEUIVL01e6NU6KALaQFDvw30Tj0kL
+ VArYOk0BJIIARAZOjOMWSI/czJiwNeuIwKblSsQN4lyhk9MXeKpdF5lPH5USn7gP0u08
+ YOkUqumRO5jdupXCT0FONDLdK+1qlIkyw9PdevhvLwOyVkCyLXLXFA6pW+Jy1nwujz6p
+ Jg7g==
+X-Gm-Message-State: AOAM532nCqNCjgWICh6SEgdlEl3jxEWi73qCguHombWmghysZdsWxZZW
+ qrOZxzWlGl3tx7yCCeOiTcdoxk8hdTyEYjT6Ca3T5ZrJyy9kBSqDZw8LIRioL7V/TTy0fnJrqVA
+ 6qtcoqFkJYnoFHMfkuAVxZkhfkm/kBUgy
+X-Received: by 2002:a92:6a06:: with SMTP id f6mr19738341ilc.89.1592101284493; 
+ Sat, 13 Jun 2020 19:21:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwE+vPbigALAessccDcAKFOmVWqMDFxxHN2H7lviB9iL6LRnhGo3tuBBjuUyQNOGb53QjP8Ew==
+X-Received: by 2002:a92:6a06:: with SMTP id f6mr19738330ilc.89.1592101284325; 
+ Sat, 13 Jun 2020 19:21:24 -0700 (PDT)
 Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:49fa:9c47:e40b:9c40])
- by smtp.gmail.com with ESMTPSA id w15sm5544402ilq.4.2020.06.13.18.55.44
+ by smtp.gmail.com with ESMTPSA id l26sm5762514ild.59.2020.06.13.19.21.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jun 2020 18:55:45 -0700 (PDT)
+ Sat, 13 Jun 2020 19:21:23 -0700 (PDT)
 From: Aditya Pakki <pakki001@umn.edu>
 To: pakki001@umn.edu
-Subject: [PATCH] drm/radeon: fix multiple reference count leak
-Date: Sat, 13 Jun 2020 20:55:39 -0500
-Message-Id: <20200614015539.123654-1-pakki001@umn.edu>
+Subject: [PATCH] drm/radeon: Fix reference count leaks caused by
+ pm_runtime_get_sync
+Date: Sat, 13 Jun 2020 21:21:22 -0500
+Message-Id: <20200614022122.124908-1-pakki001@umn.edu>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
@@ -100,73 +99,59 @@ reference count before returning the error.
 
 Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 ---
- drivers/gpu/drm/radeon/radeon_connectors.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/radeon/radeon_display.c | 4 +++-
+ drivers/gpu/drm/radeon/radeon_drv.c     | 4 +++-
+ drivers/gpu/drm/radeon/radeon_kms.c     | 4 +++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index fe12d9d91d7a..e30834434442 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -879,8 +879,10 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 35db79a168bf..df1a7eb73651 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -635,8 +635,10 @@ radeon_crtc_set_config(struct drm_mode_set *set,
+ 	dev = set->crtc->dev;
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	ret = pm_runtime_get_sync(dev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(dev->dev);
+ 		return ret;
++	}
  
- 	if (encoder) {
-@@ -1025,8 +1027,10 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
+ 	ret = drm_crtc_helper_set_config(set, ctx);
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index bbb0883e8ce6..62b5069122cc 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -549,8 +549,10 @@ long radeon_drm_ioctl(struct file *filp,
+ 	long ret;
+ 	dev = file_priv->minor->dev;
+ 	ret = pm_runtime_get_sync(dev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(dev->dev);
+ 		return ret;
++	}
  
- 	encoder = radeon_best_single_encoder(connector);
-@@ -1163,8 +1167,10 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
+ 	ret = drm_ioctl(filp, cmd, arg);
+ 	
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index c5d1dc9618a4..99ee60f8b604 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -638,8 +638,10 @@ int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
+ 	file_priv->driver_priv = NULL;
  
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
+ 	r = pm_runtime_get_sync(dev->dev);
+-	if (r < 0)
++	if (r < 0) {
++		pm_runtime_put_autosuspend(dev->dev);
+ 		return r;
++	}
  
- 	encoder = radeon_best_single_encoder(connector);
-@@ -1247,8 +1253,10 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
- 
- 	if (radeon_connector->detected_hpd_without_ddc) {
-@@ -1657,8 +1665,10 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
- 		r = pm_runtime_get_sync(connector->dev->dev);
--		if (r < 0)
-+		if (r < 0) {
-+			pm_runtime_put_autosuspend(connector->dev->dev);
- 			return connector_status_disconnected;
-+		}
- 	}
- 
- 	if (!force && radeon_check_hpd_status_unchanged(connector)) {
+ 	/* new gpu have virtual address space support */
+ 	if (rdev->family >= CHIP_CAYMAN) {
 -- 
 2.25.1
 
