@@ -1,74 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942331F8FC6
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C31A41F8FB1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 703606E266;
-	Mon, 15 Jun 2020 07:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 725B96E2B8;
+	Mon, 15 Jun 2020 07:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta-p5.oit.umn.edu (mta-p5.oit.umn.edu [134.84.196.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81A926E029
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:40:08 +0000 (UTC)
+Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDC36E077
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:45:03 +0000 (UTC)
 Received: from localhost (unknown [127.0.0.1])
- by mta-p5.oit.umn.edu (Postfix) with ESMTP id 49kzG016w3z9vHdS
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:40:08 +0000 (UTC)
+ by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49kzMf65swz9vC8G
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 02:45:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
- by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jo7DoENkQ1SE for <dri-devel@lists.freedesktop.org>;
- Sat, 13 Jun 2020 21:40:08 -0500 (CDT)
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200])
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+ by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id donrDWqy__8f for <dri-devel@lists.freedesktop.org>;
+ Sat, 13 Jun 2020 21:45:02 -0500 (CDT)
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 49kzFz6ZXZz9vHdB
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 21:40:07 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 49kzFz6ZXZz9vHdB
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 49kzFz6ZXZz9vHdB
-Received: by mail-il1-f200.google.com with SMTP id j71so9492212ilg.9
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 19:40:07 -0700 (PDT)
+ by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49kzMf4MT1z9vBv9
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 21:45:02 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49kzMf4MT1z9vBv9
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49kzMf4MT1z9vBv9
+Received: by mail-il1-f199.google.com with SMTP id c8so9525249ilm.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 19:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=umn.edu; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cjw2EDUNWQmlGguDj5XMiD/z/+98wuHl/U5yK7YcmK8=;
- b=ns2HOH+9IxAgXPEwDFxUkuvCgvyKbVXx7DkZfncXFoBThyQnWFmpyp7tbMmE2iCgl3
- S8oBix/jeQEYV76MhfEOxw8aDjKpcQVZns4CH4CJG+wGRn1agUmbDRQSXkSBoanvB3Uu
- ZNI13YKN2eqm+598/batBVlAu1fWzLevA6ZitBI7dygE4QWFsHoep7G62Am6OiqYAKRf
- M1LjrdBSv7cYkk+/1CruR6B5i2dAqUIgDtWGBH/L/PtG7L8D3j8WH22EB32u00mNdfnv
- Ykyo0/1PgeM0OC1stJsny8PhrYzxaiZT/v5SMml1qqLOEZYdJe4ofRraXBsAPbpS7Wus
- nJDQ==
+ bh=Rd2VjpzQgkEClsEYtAWgC+2Wg7FwSwBjiaqDtTh+S08=;
+ b=HxATxqIHtlr+96w9P6AFy9iierCYkjOYBhGVkz3bOHlbza7ltvrOv7V9YBSd2Cdc4F
+ Mp74lvOSNbVRm8H9OBgbaNPH5K0Z1kX+gIZV+EU0B5qZUtoFIFOxmp0szGFD0LVl54Ib
+ dSHPMvXjTXyREpnowAy2W3xH2T8Qxc8sJVZgGYaCacFTB+g73KBNIbm1irNW48m4kIGC
+ tWYpBr0VIBPuo6QQRprd4Mos/hh1FDaZwntWslyOw0uLdMETUFEXh90klLlvahGT6gLN
+ FnAlQOhrA+RkXDXbfCYueGuXJttoY2MzilHCnxgO7oCt1VXu1hJFFH8ludppnpMYIJ0H
+ sv+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cjw2EDUNWQmlGguDj5XMiD/z/+98wuHl/U5yK7YcmK8=;
- b=qfYprWkvrVZ/Ca+7gHs+uAMkg5NDjXg/m5BKf3MviTMPNn0Zeaq4/zss6FLXl1QMOu
- vvK8DuSOSiLRJufXzaeiEhjNPbbD3EeKXX2L5plXEt7LTCWerdu6Gsc2WY65D/WLRpa5
- tjcl2UVjhp0feTG7p9Vad9pWYK2DgstUnvHjnkwP0rv6+LxA2qk9sWE/E/m5fCNkAsVN
- vDePnHkk6qDxZM+uX/PZgPIrt9rYsK/ByX9Pll7jsBlNEutX1ZnygRLbiWAJQoXSn8mv
- Cw0D4vcBckIrIPHxnqq0QY7Uf60qjh/rTxaEYZ2ToHvCowzp1x48T+alWrgowNmAZKfD
- glbA==
-X-Gm-Message-State: AOAM530fdV+1dlT0oJmHYnSnoI3nkazg7LQgheKZVoBEG4A3GB0Qo2hm
- /ZxPpJdHJLudL4c83HFf0uR1wroJ0JNyxelW8ORKcwHWd/UTypCHsOnGGNrT9+tFveAdnUygBhr
- N8neuBH1Qa2of/xGVGpAb1T+xA2bt0Mkg
-X-Received: by 2002:a92:4852:: with SMTP id v79mr19760141ila.172.1592102407585; 
- Sat, 13 Jun 2020 19:40:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLYZiX+rxdPmvbSe+AhVS/yXl4ftp+Ygbnt1X+F2sUaj6fwZpleI680VBHOfDvc36fjxCtPg==
-X-Received: by 2002:a92:4852:: with SMTP id v79mr19760129ila.172.1592102407398; 
- Sat, 13 Jun 2020 19:40:07 -0700 (PDT)
+ bh=Rd2VjpzQgkEClsEYtAWgC+2Wg7FwSwBjiaqDtTh+S08=;
+ b=uGTe+aHe719K4/zMZ+aVJ1s/Mzadnj1uWbg3frhZeV5iOp4w2tMyVSFgdfY2TGeaBI
+ Lmc8IZ762AIfZENuwanjawA/t287zLWKpyKNH3YVVeiBdDza9IZa4B83bURraeCGyz3q
+ sjI+Ak5i6zTgeoGtK/Yzy9DhTz2P6L5yR2F0lpGBQb5ZY1CouXcL5zJZmQg1QWIb+XKf
+ VAn0O2CEJKj6/CFYioTtLkW22ig1rAJfZRMSO8Bn/wg8rgkS3TD6TrPCWCa3pAHbF6OH
+ 4qCBdua7aXRL+QLT2PmMe4tirXirYCP3+m/q8dggnGExAPotAjtVxacN3UVpHe64RmwM
+ 3LfA==
+X-Gm-Message-State: AOAM533wgbOt05q6rC6zIKMyea/GjGNFOa/Yygo7hhnIo+OizrkJI1zH
+ X0kKexaca8yvjtfccOvN846lbVOvIVSoFANao5xeMrDyriRqXRXUIksm284KyilWMaINcz1zyVz
+ Saxez01mMhlzcWO/XISpmiUHgzdl1nwYc
+X-Received: by 2002:a02:2444:: with SMTP id q4mr15015781jae.29.1592102701783; 
+ Sat, 13 Jun 2020 19:45:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGSBps24otpQFtoYYQPeA7t7P0ZZ1AIxnDyr0Ew5+8uROSBa8DH3IN9OjwWqBGbKM1cjqh5g==
+X-Received: by 2002:a02:2444:: with SMTP id q4mr15015776jae.29.1592102701608; 
+ Sat, 13 Jun 2020 19:45:01 -0700 (PDT)
 Received: from syssec1.cs.umn.edu ([2607:ea00:101:3c74:49fa:9c47:e40b:9c40])
- by smtp.gmail.com with ESMTPSA id c85sm5869099ilg.41.2020.06.13.19.40.06
+ by smtp.gmail.com with ESMTPSA id 13sm5689192ilg.24.2020.06.13.19.45.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jun 2020 19:40:07 -0700 (PDT)
+ Sat, 13 Jun 2020 19:45:01 -0700 (PDT)
 From: Aditya Pakki <pakki001@umn.edu>
 To: pakki001@umn.edu
-Subject: [PATCH] drm/bridge: fix reference count leaks due to
- pm_runtime_get_sync()
-Date: Sat, 13 Jun 2020 21:40:05 -0500
-Message-Id: <20200614024005.125578-1-pakki001@umn.edu>
+Subject: [PATCH] drm/v3d: fix reference count leaks due to pm_runtime_get_sync
+Date: Sat, 13 Jun 2020 21:44:59 -0500
+Message-Id: <20200614024459.126372-1-pakki001@umn.edu>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
@@ -84,11 +83,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- kjlu@umn.edu, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, wu000273@umn.edu
+Cc: wu000273@umn.edu, David Airlie <airlied@linux.ie>, kjlu@umn.edu,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -100,36 +96,70 @@ reference count before returning the error.
 
 Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 ---
- drivers/gpu/drm/bridge/cdns-dsi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 8 ++++++--
+ drivers/gpu/drm/v3d/v3d_drv.c     | 4 +++-
+ drivers/gpu/drm/v3d/v3d_gem.c     | 4 +++-
+ 3 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
-index 69c3892caee5..583cb8547106 100644
---- a/drivers/gpu/drm/bridge/cdns-dsi.c
-+++ b/drivers/gpu/drm/bridge/cdns-dsi.c
-@@ -788,8 +788,10 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 	u32 tmp, reg_wakeup, div;
- 	int nlanes;
+diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
+index e76b24bb8828..7ceb945e3a31 100644
+--- a/drivers/gpu/drm/v3d/v3d_debugfs.c
++++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+@@ -133,8 +133,10 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
+ 	int ret, core;
  
--	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
-+	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0)) {
-+		pm_runtime_put(dsi->base.dev);
- 		return;
-+	}
- 
- 	mode = &bridge->encoder->crtc->state->adjusted_mode;
- 	nlanes = output->dev->lanes;
-@@ -1028,8 +1030,10 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
- 	int ret, i, tx_len, rx_len;
- 
- 	ret = pm_runtime_get_sync(host->dev);
+ 	ret = pm_runtime_get_sync(v3d->drm.dev);
 -	if (ret < 0)
 +	if (ret < 0) {
-+		pm_runtime_put(host->dev);
++		pm_runtime_put_autosuspend(v3d->drm.dev);
  		return ret;
 +	}
  
- 	cdns_dsi_init_link(dsi);
+ 	ident0 = V3D_READ(V3D_HUB_IDENT0);
+ 	ident1 = V3D_READ(V3D_HUB_IDENT1);
+@@ -220,8 +222,10 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
+ 	int ret;
+ 
+ 	ret = pm_runtime_get_sync(v3d->drm.dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(v3d->drm.dev);
+ 		return ret;
++	}
+ 
+ 	if (v3d->ver >= 40) {
+ 		V3D_CORE_WRITE(core, V3D_V4_PCTR_0_SRC_0_3,
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 82a7dfdd14c2..9b0a60b0bc11 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -106,8 +106,10 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+ 			return -EINVAL;
+ 
+ 		ret = pm_runtime_get_sync(v3d->drm.dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_autosuspend(v3d->drm.dev);
+ 			return ret;
++		}
+ 		if (args->param >= DRM_V3D_PARAM_V3D_CORE0_IDENT0 &&
+ 		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
+ 			args->value = V3D_CORE_READ(0, offset);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 09a7639cf161..f2980632896a 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -440,8 +440,10 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	job->free = free;
+ 
+ 	ret = pm_runtime_get_sync(v3d->drm.dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(v3d->drm.dev);
+ 		return ret;
++	}
+ 
+ 	xa_init_flags(&job->deps, XA_FLAGS_ALLOC);
  
 -- 
 2.25.1
