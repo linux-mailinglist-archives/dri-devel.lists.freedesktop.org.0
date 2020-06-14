@@ -1,35 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220281F8F93
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 526FF1F8FA8
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D58489FF6;
-	Mon, 15 Jun 2020 07:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DD96E1B9;
+	Mon, 15 Jun 2020 07:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC35089F07
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 18:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1592160312; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nNx9FEgFzl5gt4Wt06FhGkEd6Voy9fzWaPxnnz0XX3w=;
- b=v814cFoJZcW+NZF+rNw66UkZIp4k0cRuCt4mjxGQHKcAGvgH4O3O3xuoq0x7Mhhc+9rNn/
- 7mzceIs3xwtPBVk/FZ9bASGkWiPMSuffk3+ngUa39r4rGwcnvyCev+yyRfBwTg/DIGjYXA
- 2RNBvpC2g1J2t2VWDrnQZV66pu9hXp8=
-Date: Sun, 14 Jun 2020 20:45:01 +0200
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
-To: Noralf =?iso-8859-1?q?Tr=F8nnes?= <noralf@tronnes.org>
-Message-Id: <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
-In-Reply-To: <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
-References: <20200607133832.1730288-1-paul@crapouillou.net>
- <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3C1A89F9F
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 19:04:05 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id u16so8236941lfl.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 12:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KE3Cp/6ehIOZgJvolIteO7RRh/P+B1vr5r/zeIK+g48=;
+ b=CM8pkeiPpV/67TLF7YKAfKe5HVs3AYuhSnj5bs2/s2CG6DXNwaswpbOihAWLTH4+st
+ eyGNcsyT8xG+s2M8sSKl1ae7Fy6glbgrPOCRBHbtwlV8r0bsbwKYTrbhrD8Zm4yhSYGZ
+ K0mX2nWPdcw0WQnQnLgFTnXIYSeMGKGOacsfzxijAwpxpOC4QkFXTWD8c2BpuAXCszgB
+ jhRewBYI0z/KoFZD6ubZqR/hNx+oQtl2CTdleIKgtR2z6tYPRulxQXJznsCZ+h44DrLy
+ QjnAEtRX+2uxqXhRgRw0D+PliEZBcMKmaC5Vo7gt9L+1KQJXc4VhzSvA0x/EcWnQpeGG
+ v3JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KE3Cp/6ehIOZgJvolIteO7RRh/P+B1vr5r/zeIK+g48=;
+ b=YGD9OH9BXwkSlYwcACV0yiibKwI5cN9lEKAT0/+UUC7+7Gg985etxCEvyrKrhKoMMK
+ QVdvxlsfjKm38uyzFbUnCgT+1MlhIE39O0obivFuwTj6jO1ns33puVCNiyKO7ScVxWVT
+ R2rMi0GOiApF+2ZUFLsTdx6xzldyOEOeI4oG1eFnT7rei8Sgw/CNFBorZSviOdvjYySf
+ 4cDaoAhubfr2bPqOgmMhFJ9R6l6Vjy2+Mq6MTEtRbF27Z9XJsxfFVsIFHpQK3uNoh1NF
+ 1ZrGmbS1vYxaMtDNKWRxwLr9hfz/NibQJcCv3EfcbapXRLp5YGEZ0bNadBk6Z1PQ1PNV
+ EJ3w==
+X-Gm-Message-State: AOAM532XDBY4JXBfLUxPGLSl8Vwu03eC/ccfp+Nzp4FwXJKNuPDWxiD/
+ Z6M8KVpFJ4T+ggxmPQRPX6Y=
+X-Google-Smtp-Source: ABdhPJxNedxUdUCkWwvqkcgI48DIxGqZguFQL2MNpeDFwrd7JYgemHr0/qUfI5fIGeC1nd13rG1z9g==
+X-Received: by 2002:ac2:5324:: with SMTP id f4mr11951627lfh.209.1592161443982; 
+ Sun, 14 Jun 2020 12:04:03 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.gmail.com with ESMTPSA id p15sm3410856ljn.53.2020.06.14.12.04.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Jun 2020 12:04:03 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Derek Basehore <dbasehore@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Paul <sean@poorly.run>
+Subject: [PATCH v1 0/6] 180° rotation support for NVIDIA Tegra DRM
+Date: Sun, 14 Jun 2020 22:03:42 +0300
+Message-Id: <20200614190348.12193-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -44,188 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, od@zcrc.me,
- Emil Velikov <emil.l.velikov@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf,
-
-
-Le dim. 14 juin 2020 =E0 18:36, Noralf Tr=F8nnes <noralf@tronnes.org> a =
-
-=E9crit :
-> =
-
-> =
-
-> Den 07.06.2020 15.38, skrev Paul Cercueil:
->>  Hi,
->> =
-
->>  Here's a follow-up on the previous discussion about the current =
-
->> state of
->>  DSI/DBI panel drivers, TinyDRM, and the need of a cleanup.
->> =
-
->>  This patchset introduces the following:
->>  * It slightly tweaks the MIPI DSI code so that it supports MIPI DBI =
-
->> over
->>    various buses. This patch has been tested with a non-upstream DRM
->>    panel driver for a ILI9331 DBI/8080 panel, written with the DSI
->>    framework (and doesn't include <drm/drm_mipi_dbi.h>), and =
-
->> non-upstream
->>    DSI/DBI host driver for the Ingenic SoCs.
->> =
-
->>  * A SPI DBI host driver, using the current MIPI DSI framework. It =
-
->> allows
->>    MIPI DSI/DBI drivers to be written with the DSI framework, even if
->>    they are connected over SPI, instead of registering as SPI device
->>    drivers. Since most of these panels can be connected over various
->>    buses, it permits to reuse the same driver independently of the =
-
->> bus
->>    used.
->> =
-
->>  * A TinyDRM driver for DSI/DBI panels, once again independent of =
-
->> the bus
->>    used; the only dependency (currently) being that the panel must
->>    understand DCS commands.
->> =
-
->>  * A DRM panel driver to test the stack. This driver controls Ilitek
->>    ILI9341 based DBI panels, like the Adafruit YX240QV29-T 320x240 =
-
->> 2.4"
->>    TFT LCD panel. This panel was converted from
->>    drivers/gpu/drm/tiny/ili9341.c.
->> =
-
->>  I would like to emphasize that while it has been compile-tested, I =
-
->> did
->>  not test it with real hardware since I do not have any DBI panel
->>  connected over SPI. I did runtime-test the code, just without any =
-
->> panel
->>  connected.
->> =
-
->>  Another thing to note, is that it does not break Device Tree ABI. =
-
->> The
->>  display node stays the same:
->> =
-
->>  display@0 {
->>  	compatible =3D "adafruit,yx240qv29", "ilitek,ili9341";
->>  	reg =3D <0>;
->>  	spi-max-frequency =3D <32000000>;
->>  	dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
->>  	reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
->>  	rotation =3D <270>;
->>  	backlight =3D <&backlight>;
->>  };
->> =
-
->>  The reason it works, is that the "adafruit,yx240qv29" device is =
-
->> probed
->>  on the SPI bus, so it will match with the SPI/DBI host driver. This =
-
->> will
->>  in turn register the very same node with the DSI bus, and the =
-
->> ILI9341
->>  DRM panel driver will probe. The driver will detect that no =
-
->> controller
->>  is linked to the panel, and eventually register the DBI/DSI TinyDRM
->>  driver.
->> =
-
->>  I can't stress it enough that this is a RFC, so it still has very =
-
->> rough
->>  edges.
->> =
-
-> =
-
-> I don't know bridge and dsi drivers so I can't comment on that, but =
-
-> one
-> thing I didn't like is that the DT compatible string has to be added =
-
-> to
-> 2 different modules.
-
-That's a minimal drawback for a perfectly architectured design ;)
-
-> As an example, a MI0283QT panel (ILI9341) supports these interface =
-
-> options:
-> =
-
-> 1. SPI
->    Panel setup/control and framebuffer upload over SPI
-> =
-
-> 2. SPI + DPI
->    Panel setup/control over SPI, framebuffer scanout over DPI
-> =
-
-> 3. Parallel bus
->    Panel setup/control and framebuffer upload over parallel bus
-> =
-
-> My suggestion is to have one panel driver module that can support all =
-
-> of
-> these like this:
-> =
-
-> For 1. and 2. a SPI driver is registered and if I understand your
-> example correctly of_graph_get_port_by_id() can be used during probe =
-
-> to
-> distinguish between the 2 options and register a full DRM driver for =
-
-> 1.
-> and add a DRM panel for 2.
-> =
-
-> For 3. a DSI driver is registered (adapted for DBI use like you're
-> suggesting).
-
-That means basically having two entry points per DBI driver, one as DSI =
-
-device and one as SPI device, the latter doing the job of the current =
-
-DBI-SPI bridge. I think i would be cleaner to just have duplicated =
-
-strings with the DBI-SPI bridge.
-
-Cheers,
--Paul
-
-> Note that the interface part of the controller initialization will
-> differ between these, the panel side init will be the same I assume.
-
-> Noralf.
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8hCgpUaGlzIHNlcmllcyBhZGRzIDE4MMKwIGRpc3BsYXkgcGxhbmUgcm90YXRpb24gc3Vw
+cG9ydCB0byB0aGUgTlZJRElBIFRlZ3JhCkRSTSBkcml2ZXIgd2hpY2ggaXMgbmVlZGVkIGZvciBk
+ZXZpY2VzIHRoYXQgaGF2ZSBkaXNwbGF5IHBhbmVsIHBoeXNpY2FsbHkKbW91bnRlZCB1cHNpZGUt
+ZG93biwgbGlrZSBOZXh1cyA3IHRhYmxldCBkZXZpY2UgZm9yIGV4YW1wbGUgWzFdLiBTaW5jZQpE
+Uk0gcGFuZWwgcm90YXRpb24gaXMgYSBuZXcgdGhpbmcgZm9yIGEgdXNlcnNwYWNlLCBjdXJyZW50
+bHkgb25seQpPcGVudGVncmEgWG9yZyBkcml2ZXIgaGFuZGxlcyB0aGUgcm90YXRlZCBkaXNwbGF5
+IHBhbmVsIFsyXSwgYnV0IHRoaXMKaXMgZ29vZCBlbm91Z2ggZm9yIHRoZSBzdGFydC4KCk5vdGUg
+dGhhdCBsYXRlciBvbiBpdCBzaG91bGQgYmUgcG9zc2libGUgdG8gaW1wbGVtZW50IGEgdHJhbnNw
+YXJlbnQgMTgwwrAKZGlzcGxheSByb3RhdGlvbiBmb3IgVGVncmEgRFJNIGRyaXZlciB3aGljaCB3
+aWxsIHJlbW92ZSB0aGUgbmVlZCB0byBoYXZlCmEgYmxlZWRpbmcgZWRnZSB1c2Vyc3BhY2UgdGhh
+dCBrbm93cyBob3cgdG8gcm90YXRlIGRpc3BsYXkgcGxhbmVzIGFuZCBJJ20Kc2xvd2x5IHdvcmtp
+bmcgb24gaXQuIEZvciB0aGUgc3RhcnRlciB3ZSBjYW4gZ28gd2l0aCB0aGUgbWluaW1hbCByb3Rh
+dGlvbgpzdXBwb3J0LCBzbyBpdCdzIG5vdCBhIGJsb2NrZXIuCgpUaGlzIHNlcmllcyBpcyBiYXNl
+ZCBvbiB0aGUgd29yayB0aGF0IHdhcyBtYWRlIGJ5IERlcmVrIEJhc2Vob3JlIGZvciB0aGUKTWVk
+aWF0ZWsgZHJpdmVyIFszXSwgaGlzIHBhdGNoZXMgYXJlIGluY2x1ZGVkIGludG8gdGhpcyBwYXRj
+aHNldC4gSSBhZGRlZApteSB0ZXN0ZWQtYnkgdGFncyB0byB0aGUgRGVyZWsncyBwYXRjaGVzLgoK
+UGxlYXNlIHJldmlldyBhbmQgYXBwbHksIHRoYW5rcyBpbiBhZHZhbmNlIQoKWzFdIGh0dHBzOi8v
+cGF0Y2h3b3JrLm96bGFicy5vcmcvcHJvamVjdC9saW51eC10ZWdyYS9wYXRjaC8yMDIwMDYwNzE1
+NDMyNy4xODU4OS0zLWRpZ2V0eEBnbWFpbC5jb20vClsyXSBodHRwczovL2dpdGh1Yi5jb20vZ3Jh
+dGUtZHJpdmVyL3hmODYtdmlkZW8tb3BlbnRlZ3JhL2NvbW1pdC8yOGViMjBhMzk1OWJiZTViYzNh
+M2I2N2U1NTk3NzA5M2ZkNTExNGNhClszXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMC8zLzUv
+MTExOQoKRGVyZWsgQmFzZWhvcmUgKDIpOgogIGRybS9wYW5lbDogQWRkIGhlbHBlciBmb3IgcmVh
+ZGluZyBEVCByb3RhdGlvbgogIGRybS9wYW5lbDogU2V0IGRpc3BsYXkgaW5mbyBpbiBwYW5lbCBh
+dHRhY2gKCkRtaXRyeSBPc2lwZW5rbyAoNCk6CiAgZHJtL3BhbmVsOiBsdmRzOiBTZXQgdXAgcGFu
+ZWwgb3JpZW50YXRpb24KICBkcm0vdGVncmE6IHBsYW5lOiBSZW5hbWUgYm90dG9tX3VwIHRvIHJl
+ZmxlY3RfeQogIGRybS90ZWdyYTogcGxhbmU6IFN1cHBvcnQgaG9yaXpvbnRhbCByZWZsZWN0aW9u
+IG1vZGUKICBkcm0vdGVncmE6IHBsYW5lOiBTdXBwb3J0IDE4MMKwIHJvdGF0aW9uCgogZHJpdmVy
+cy9ncHUvZHJtL2RybV9wYW5lbC5jICAgICAgICB8IDU2ICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysKIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMgfCAgNiArKysKIGRyaXZl
+cnMvZ3B1L2RybS90ZWdyYS9kYy5jICAgICAgICAgfCA0MyArKysrKysrKysrKysrKysrKystLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuaCAgICAgICAgIHwgIDMgKy0KIGRyaXZlcnMvZ3B1
+L2RybS90ZWdyYS9wbGFuZS5jICAgICAgfCAgMyArLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL3Bs
+YW5lLmggICAgICB8ICAzICstCiBpbmNsdWRlL2RybS9kcm1fcGFuZWwuaCAgICAgICAgICAgIHwg
+NTkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiA3IGZpbGVzIGNoYW5nZWQsIDE2MiBp
+bnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKCi0tIAoyLjI2LjAKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
