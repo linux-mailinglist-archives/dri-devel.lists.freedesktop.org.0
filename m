@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954EE1F8F99
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:27:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 375B11F8FDE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8936E0C6;
-	Mon, 15 Jun 2020 07:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8866E2AF;
+	Mon, 15 Jun 2020 07:28:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-x141.google.com (mail-il1-x141.google.com
  [IPv6:2607:f8b0:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6ED189B4D
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 06:59:26 +0000 (UTC)
-Received: by mail-il1-x141.google.com with SMTP id i1so12433860ils.11
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jun 2020 23:59:26 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E30C88985A;
+ Sun, 14 Jun 2020 07:05:38 +0000 (UTC)
+Received: by mail-il1-x141.google.com with SMTP id 9so12454031ilg.12;
+ Sun, 14 Jun 2020 00:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=auNQFE3Ts/lVKnLWQnQdPedtvSl90z04f6oWD1caeAc=;
- b=fr93qj4cO5q9jan80fW8xtu+/eibTNkcbWX449Tp/akm4f6PjZ8mDsVrgyjU/Empj9
- 942OISwA9bSU8EkzzJKKUspnzShkwbC3ctM6GNXC/vFp4d2IzrHolJnTRhAu9WY2U05n
- 46Jv9dB+ChM2nehsNXfLwJVmCtIzhdYw4BxQzSQu6tLvL98HMtl473sY4NqSYhMRk/vR
- 33/SsYcnpaEO+62gJXefyW3is8G1hvievGgWQbFfmVweFVzPgEfNF5jcMtbHXCvLTgQY
- m8wQ9mxxeXAT5kpmSAeWFMG5+DkIeSjcsXmx1v5GRCcNneem1mZ2P21CEHhSnOaCbJuJ
- dcrQ==
+ bh=0XuYLXE5LXbZw3w+xu/hegikrINLkb1ZDvcbBdL0ayM=;
+ b=LpaxFuy0s9GL1das7axADmDQ6Y1YqWAaWu1hxP1r1ZBSYNJpSrMug1KhN4q+TZvseA
+ 7EOd510jkNdZmnilgAEOcAOag30TLmRIMFyNaC28MKtS92uKCMwH5YPwr2KLKrxjA+KV
+ 7AMPBAiqfyWrCSV6Bkz4HekY6xGvVh0HSkrQBo9EZWnJERzqcG+jZSstD067A3CneKFG
+ D5MDWKZ3HozR1wjSWVLubkRq0yUXkPqV5kTSttF4AGXhX/J7bG7muzBSe+ybPdh9gXwk
+ jd/B50nQz8rjRmndlA4BPTIDx7DC3v43BruUxo3d3LpAL3mlY+eCMx9nz5ID7yUGQlkw
+ a1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=auNQFE3Ts/lVKnLWQnQdPedtvSl90z04f6oWD1caeAc=;
- b=cytiH8RGxEdwsqRFK6lhNAoc8BGIypjh7IrLEYHp1l1I6HA/2zTbJ6b+P3AA+cTDzF
- G08dD+uE12qb4z39+shECpkXjMK95xIiRZN2c6qD0FayzAp3rh1vaP4fLfZdqfA0vOg8
- Jml8MRzjj0A6PKlU3HBqQK6XNFTX4U/Ej1JnzyJWFA6zDtcnDH3OBwc7Z+xpKCcfUNct
- TBdxMT3i6mOCK6YCn4eWTP3bA2NPwjuTWb8fchxttskg+jCM9+DHxu5DFZaDeGJSORvY
- ovwubEvThcOxGKMcS2Jz693KuryeO9sbdB8R5sJmcEiiKlYJjljOPjFX45q4tXHlzQz/
- tjWg==
-X-Gm-Message-State: AOAM532AIa5M+EeOUSNRWAmcOJCIGibgATjD9NhXpygouOqmqmLo3fXD
- pXv1Xrbes1n0rLLQkLYjFAc=
-X-Google-Smtp-Source: ABdhPJweiJFF+5LqULDJLR2TwZW0TiEJ6Awp1CZ6WxSBn7w2pKBXDZWYH9RovwOg6lM/3x/4Qtkltw==
-X-Received: by 2002:a92:cec3:: with SMTP id z3mr19504546ilq.183.1592117966166; 
- Sat, 13 Jun 2020 23:59:26 -0700 (PDT)
+ bh=0XuYLXE5LXbZw3w+xu/hegikrINLkb1ZDvcbBdL0ayM=;
+ b=IJw+WJ/x9uAqT0Wib+wH7x5aDlxlgoBscXmsXraBhtycmQIq93y0fwjWLjXc5Q0Lpk
+ oAXrUXaSfwSCbamsJ+GAE8QyYNEBJ5sqzbKu4WpL/mTMJ4Spy7IoXq5xH8pieXuVUlWG
+ GoH4KsBB8LTrR6uwshwQhC7goMCWWum3cJoLF+DlKtoquGRyQKXL5m/zhNa8Khhbh1J5
+ I6pDaPSPa1liVl7C9gWAGavrZwjS9qrIVeHkUneM6qmu/dhXKfIxpMtiXSJ1P5/F5K5r
+ Z2fQogCEhRZ74HAsiZgBGkn7jqi5Wjln1hsn6NG71NHIsrDqLDka0356Fx8fRepWZrA9
+ 6ugQ==
+X-Gm-Message-State: AOAM531aIfcfHPf5T7WIF4rEky3HO846bw3+HqOlrMMRi2gI8iInF8F/
+ /o1yfELttqiYIscD76Zu+ew=
+X-Google-Smtp-Source: ABdhPJy24po3ZTlu9/GPx5XVlvsADFJvpxCf44M5BuTfT1nO7/H8lWeq4lUmzcuJYTAkE5nprNwvcg==
+X-Received: by 2002:a92:2454:: with SMTP id k81mr20064215ilk.24.1592118338299; 
+ Sun, 14 Jun 2020 00:05:38 -0700 (PDT)
 Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
- by smtp.googlemail.com with ESMTPSA id b29sm5843375ioc.32.2020.06.13.23.59.25
+ by smtp.googlemail.com with ESMTPSA id c62sm6132702ill.62.2020.06.14.00.05.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 Jun 2020 23:59:25 -0700 (PDT)
+ Sun, 14 Jun 2020 00:05:37 -0700 (PDT)
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
-To: Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vc4: fix ref count leak in vc4_vec_encoder_enable
-Date: Sun, 14 Jun 2020 01:59:18 -0500
-Message-Id: <20200614065918.18738-1-navid.emamdoost@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Navid Emamdoost <navid.emamdoost@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu/display: fix ref count leak when
+ pm_runtime_get_sync fails
+Date: Sun, 14 Jun 2020 02:05:28 -0500
+Message-Id: <20200614070530.56366-1-navid.emamdoost@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,61 +71,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Navid Emamdoost <navid.emamdoost@gmail.com>, emamd001@umn.edu, kjlu@umn.edu,
- wu000273@umn.edu, smccaman@umn.edu
+Cc: emamd001@umn.edu, kjlu@umn.edu, wu000273@umn.edu, smccaman@umn.edu
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-in vc4_vec_encoder_enable, the call to pm_runtime_get_sync increments
-the counter even in case of failure, leading to incorrect
-ref count. In case of failure, decrement the ref count before returning.
+The call to pm_runtime_get_sync increments the counter even in case of
+failure, leading to incorrect ref count.
+In case of failure, decrement the ref count before returning.
 
 Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_vec.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index bd5b8eb58b18..706fdc7758f9 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -406,7 +406,7 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder)
- 	ret = pm_runtime_get_sync(&vec->pdev->dev);
- 	if (ret < 0) {
- 		DRM_ERROR("Failed to retain power domain: %d\n", ret);
--		return;
-+		goto out;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index f355d9a752d2..a1aec205435d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -716,8 +716,10 @@ amdgpu_connector_lvds_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
  	}
  
- 	/*
-@@ -419,13 +419,13 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder)
- 	ret = clk_set_rate(vec->clock, 108000000);
- 	if (ret) {
- 		DRM_ERROR("Failed to set clock rate: %d\n", ret);
--		return;
-+		goto out;
+ 	if (encoder) {
+@@ -854,8 +856,10 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
  	}
  
- 	ret = clk_prepare_enable(vec->clock);
- 	if (ret) {
- 		DRM_ERROR("Failed to turn on core clock: %d\n", ret);
--		return;
-+		goto out;
+ 	encoder = amdgpu_connector_best_single_encoder(connector);
+@@ -977,8 +981,10 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ 
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
  	}
  
- 	/* Reset the different blocks */
-@@ -464,6 +464,8 @@ static void vc4_vec_encoder_enable(struct drm_encoder *encoder)
- 	VEC_WRITE(VEC_DAC_MISC,
- 		  VEC_DAC_MISC_VID_ACT | VEC_DAC_MISC_DAC_RST_N);
- 	VEC_WRITE(VEC_CFG, VEC_CFG_VEC_EN);
-+out:
-+	pm_runtime_put(&vec->pdev->dev);
- }
+ 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
+@@ -1328,8 +1334,10 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
  
+ 	if (!drm_kms_helper_is_poll_worker()) {
+ 		r = pm_runtime_get_sync(connector->dev->dev);
+-		if (r < 0)
++		if (r < 0) {
++			pm_runtime_put_autosuspend(connector->dev->dev);
+ 			return connector_status_disconnected;
++		}
+ 	}
  
+ 	if (!force && amdgpu_connector_check_hpd_status_unchanged(connector)) {
 -- 
 2.17.1
 
