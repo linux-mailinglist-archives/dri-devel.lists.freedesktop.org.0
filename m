@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6171F8FC7
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079EA1F8FB4
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:28:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B32696E2CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF546E2CD;
 	Mon, 15 Jun 2020 07:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
  [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12B0D89ED3
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 20:01:44 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id o4so642329lfi.7
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 13:01:43 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1696289EF7
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 20:01:45 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id u16so8284470lfl.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jun 2020 13:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=//s7SgUTdZk+8R0ozrOfOf203NYUFv49iTLgW3uAUIg=;
- b=p8FlROeIHMU+80XLsAsY3zFZqSiEq7oaT2fgY3JL8e//OFfrvoGekDl4kI3JmydCIZ
- CpYcdY44klOGtGOluYcC/Zvope3pfNNDWyAIe7KM4swQYNeaKEZ1zb4Mm8tTbNhocus+
- PJMZfrqLJKnhQMUJl/0iyeFLNCJDCGnp8qTMHf7x4R1W34Kp+Bzs0qpNehklXR7fms1V
- L5clzZYyZE8+87NGdo9JL+Yaam8lvssz5FskCZ/LMRqShGIFpTzu6HgiXnlnEUSWV6tL
- fLy0zG3S7QKUZ6yMxIoFHzOOpfaj5QyqX+iGmk4m31zncYElQLlMrWjjHMcZhBcrOtQ2
- FpmA==
+ bh=vWfY4zIihMKIqVQsNJvI1F9WXeF9VfCOeT2znS/jkBE=;
+ b=I92A6vFvYRmXFMFlLXE0dvrv2v1ZT86Q6B8yuD0d7W4+I6+lG5BtRpx6yMHvP2zWn3
+ IQbQGP515wItCFw3PVnxaY1z9uIJzgi7PUq+BWx9EYmjRYDt5p0orxHCIFkVeRNrvrEF
+ ZIaYIfF56FpyWmNBYPnZ9S9FiLM/Mlcgjsi04F2cg3tgBgRxufrcQY0RZRzSa/r42PrP
+ NLV6ySPjIytaou8FXRmy0Vl/vANztw1x0K3DdpGSXZ6pw4zp3OAu/xGGScXn5iO5tIUu
+ G9Ja2WdsdbPJq2HRB4tKmJUNpH02hqRDNkxkpovZ+PxLRYaHcO0wvCANcu2+emhGmj1j
+ 5XXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=//s7SgUTdZk+8R0ozrOfOf203NYUFv49iTLgW3uAUIg=;
- b=hWviB26LV0gWTXDfhRlsMRSJWaJ0F3/6LYKKdvi4ASxpmKk0IXuCELpLE4rsrjTWDH
- dgSKyCSWkjyE8RA1P1HUpDLL7oKggCV+dlrqjyofdaAUqakyrh7gB96xH8AWrxjfOEHf
- iOcXeK/J0RmLTQU7j2QI8A0OfCqlRbF1mdVLCTRCvpE0WwhYork7ypDYasF5zeNXoj6D
- 1QT4WBeLWLtblsYPY+tyUZJ6ucKplZyxSt5/hJvRK6TtNFPn29XHMoP98D4Lt9VYAYji
- E34gZilF0E084j5aEkGipEhZOn/2ExKsvW4eTJB1rL2cP9NKuKBlHSZ9ghkuw8j/x7Z0
- beTQ==
-X-Gm-Message-State: AOAM532Zy9ZuxiYBW7/zfTS8PBPcauJsMPC7muAVhgVrcPFrHTAsfYdg
- WtG+WOGxXTGTym+v3RMy3sk=
-X-Google-Smtp-Source: ABdhPJzDUXrvTGWJPXT1RIij9O/dOiKRpxwRH+3PWIhrxfAWUuI7IRJJLtpJO2GCLBjc+jxQlKu/6w==
-X-Received: by 2002:a19:4bd1:: with SMTP id y200mr3556664lfa.60.1592164902463; 
- Sun, 14 Jun 2020 13:01:42 -0700 (PDT)
+ bh=vWfY4zIihMKIqVQsNJvI1F9WXeF9VfCOeT2znS/jkBE=;
+ b=f61Y8PjhvqltuXy4gzwV/7dnR2+En/1McIB23+5uU9BaeZPG3nTF9XXsLcmJYw+vRb
+ 8xNF6UbEf8aDO0YTAP7PJm6Z89Mz5G2wx9lGlf8AQn2fjhO304bwIUCqAALlyxZO5x3J
+ /miyC3gRo3oMocgk/syD1eulP8CaOykWI4zfSQLNaJXIvP6GRzHxv1Js84FxtWOIWc9x
+ hXpzgG0BnxsY1b8wAh3arPdBCvUBSdSq5XLbZ61QWmvxeE8a9J/vVeJjxNeLUlZ+Pgr5
+ F17qRM5B03GnsJtwRuFkd5FLyDjKQeryFScmdK1Ar+EznEhlVH787MOi6MZbXgtp2NeJ
+ aPWg==
+X-Gm-Message-State: AOAM533OeBWnRFoQQeF+Ked7yN8pX6lRCjZc/mdQ3Jh754HQe/X3ZnzO
+ zjZVAhdwgsM06pOHwOVMIhI=
+X-Google-Smtp-Source: ABdhPJyquOv0rIens15YMdI/BhmzeC2GXeZ/2F8wC+6/DIjUEi9FTzACjRXR4/AQ7tL3D0TaQsUlCA==
+X-Received: by 2002:a19:8389:: with SMTP id f131mr487597lfd.16.1592164903554; 
+ Sun, 14 Jun 2020 13:01:43 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.41
+ by smtp.gmail.com with ESMTPSA id 144sm1422105lfm.87.2020.06.14.13.01.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jun 2020 13:01:41 -0700 (PDT)
+ Sun, 14 Jun 2020 13:01:42 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Derek Basehore <dbasehore@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Sean Paul <sean@poorly.run>
-Subject: [PATCH v2 1/5] drm/panel: Add helper for reading DT rotation
-Date: Sun, 14 Jun 2020 23:01:17 +0300
-Message-Id: <20200614200121.14147-2-digetx@gmail.com>
+Subject: [PATCH v2 2/5] drm/panel: lvds: Set up panel orientation
+Date: Sun, 14 Jun 2020 23:01:18 +0300
+Message-Id: <20200614200121.14147-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200614200121.14147-1-digetx@gmail.com>
 References: <20200614200121.14147-1-digetx@gmail.com>
@@ -79,106 +79,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Basehore <dbasehore@chromium.org>
+The panel orientation needs to parsed from a device-tree and assigned to
+the panel's connector in order to make orientation property available to
+userspace. That's what this patch does for the generic LVDS panel.
 
-This adds a helper function for reading the rotation (panel
-orientation) from the device tree.
-
-Signed-off-by: Derek Basehore <dbasehore@chromium.org>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/drm_panel.c | 43 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_panel.h     |  9 ++++++++
- 2 files changed, 52 insertions(+)
+ drivers/gpu/drm/panel/panel-lvds.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 8c7bac85a793..5557c75301f1 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -300,6 +300,49 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
- 	return ERR_PTR(-EPROBE_DEFER);
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index 5ce3f4a2b7a1..333d21cee5f6 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -37,6 +37,8 @@ struct panel_lvds {
+ 
+ 	struct gpio_desc *enable_gpio;
+ 	struct gpio_desc *reset_gpio;
++
++	enum drm_panel_orientation orientation;
+ };
+ 
+ static inline struct panel_lvds *to_panel_lvds(struct drm_panel *panel)
+@@ -99,6 +101,7 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = lvds->data_mirror
+ 					  ? DRM_BUS_FLAG_DATA_LSB_TO_MSB
+ 					  : DRM_BUS_FLAG_DATA_MSB_TO_LSB;
++	drm_connector_set_panel_orientation(connector, lvds->orientation);
+ 
+ 	return 1;
  }
- EXPORT_SYMBOL(of_drm_find_panel);
-+
-+/**
-+ * of_drm_get_panel_orientation - look up the orientation of the panel through
-+ * the "rotation" binding from a device tree node
-+ * @np: device tree node of the panel
-+ * @orientation: orientation enum to be filled in
-+ *
-+ * Looks up the rotation of a panel in the device tree. The orientation of the
-+ * panel is expressed as a property name "rotation" in the device tree. The
-+ * rotation in the device tree is counter clockwise.
-+ *
-+ * Return: 0 when a valid rotation value (0, 90, 180, or 270) is read or the
-+ * rotation property doesn't exist. -EERROR otherwise.
-+ */
-+int of_drm_get_panel_orientation(const struct device_node *np,
-+				 enum drm_panel_orientation *orientation)
-+{
-+	int rotation, ret;
-+
-+	ret = of_property_read_u32(np, "rotation", &rotation);
-+	if (ret == -EINVAL) {
-+		/* Don't return an error if there's no rotation property. */
-+		*orientation = DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+		return 0;
-+	}
-+
-+	if (ret < 0)
+@@ -223,6 +226,11 @@ static int panel_lvds_probe(struct platform_device *pdev)
+ 	drm_panel_init(&lvds->panel, lvds->dev, &panel_lvds_funcs,
+ 		       DRM_MODE_CONNECTOR_LVDS);
+ 
++	ret = of_drm_get_panel_orientation(lvds->dev->of_node,
++					   &lvds->orientation);
++	if (ret)
 +		return ret;
 +
-+	if (rotation == 0)
-+		*orientation = DRM_MODE_PANEL_ORIENTATION_NORMAL;
-+	else if (rotation == 90)
-+		*orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
-+	else if (rotation == 180)
-+		*orientation = DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
-+	else if (rotation == 270)
-+		*orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(of_drm_get_panel_orientation);
- #endif
- 
- #if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 6193cb555acc..781c735f0f9b 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -35,6 +35,8 @@ struct drm_device;
- struct drm_panel;
- struct display_timing;
- 
-+enum drm_panel_orientation;
-+
- /**
-  * struct drm_panel_funcs - perform operations on a given panel
-  *
-@@ -191,11 +193,18 @@ int drm_panel_get_modes(struct drm_panel *panel, struct drm_connector *connector
- 
- #if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL)
- struct drm_panel *of_drm_find_panel(const struct device_node *np);
-+int of_drm_get_panel_orientation(const struct device_node *np,
-+				 enum drm_panel_orientation *orientation);
- #else
- static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
- {
- 	return ERR_PTR(-ENODEV);
- }
-+static inline int of_drm_get_panel_orientation(const struct device_node *np,
-+		enum drm_panel_orientation *orientation)
-+{
-+	return -ENODEV;
-+}
- #endif
- 
- #if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
+ 	ret = drm_panel_of_backlight(&lvds->panel);
+ 	if (ret)
+ 		return ret;
 -- 
 2.26.0
 
