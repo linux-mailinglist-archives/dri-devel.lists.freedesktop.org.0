@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BCA1F8E11
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 08:47:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9411F8E15
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 08:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51C6A89F27;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CAC89F55;
 	Mon, 15 Jun 2020 06:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B182189F55
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B104F89F27
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 06:47:13 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de
  [95.90.213.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 947E521556;
+ by mail.kernel.org (Postfix) with ESMTPSA id 5E49B2067B;
  Mon, 15 Jun 2020 06:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1592203632;
- bh=sOlCZeAIIdnJeZ75NMKYKIJfx785+zKJ7yu0YkJu2qg=;
+ bh=fv0MzJ8bIKCwSrIThq9x0hNnlzQ27eGxPFmXO+dIS00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eYahEgyPPQXSmFAT7H9YIWLrUz7r9bYJ3sEmnpf2WjfEZkEfYSQL+dnCBid4wPO3T
- Ff7Yc21Lokg1ydol9hQBG25i5Bwy/5e16o9e1ssMGQswWyQGV4Zw4FZ3rWBJGz9Iwd
- tmb2mt5uOxRpXVgFNGkevjoXwvHrVow/kwT35a+w=
+ b=Hzwv+xEXH5jb9Hia7ucOdQ5hRa/40+9UQBu1bs8agR2EBLgoAOHNadiHf4lOkLjOp
+ bynK+1U49kBQ4et91TbnzHpT3uaeIx1IPJUurjfaKrwA6m/YlO3Dh6keJahgaZDEis
+ US0EwvYWYmZ+1G89Kuiqo5T9Gb6tDcR3EuCHeJcs=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
  (envelope-from <mchehab@kernel.org>)
- id 1jkith-009nmo-QD; Mon, 15 Jun 2020 08:47:09 +0200
+ id 1jkith-009nmv-RU; Mon, 15 Jun 2020 08:47:09 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH 13/29] dt: fix broken links due to txt->yaml renames
-Date: Mon, 15 Jun 2020 08:46:52 +0200
-Message-Id: <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 14/29] dt: Fix broken references to renamed docs
+Date: Mon, 15 Jun 2020 08:46:53 +0200
+Message-Id: <6866c0d6d10ce36bb151c2d3752a20eb5122c532.1592203542.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
 References: <cover.1592203542.git.mchehab+huawei@kernel.org>
@@ -49,147 +49,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>,
+Cc: devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
- Jakub Kicinski <kuba@kernel.org>, linux-mips@vger.kernel.org,
- devicetree@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
- Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, netdev@vger.kernel.org,
- Arnaud Pouliquen <arnaud.pouliquen@st.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-bluetooth@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>,
+ Mark Brown <broonie@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-arm-msm@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ linux-spi@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some new broken doc links due to yaml renames
-at DT. Developers should really run:
-
-	./scripts/documentation-file-ref-check
-
-in order to solve those issues while submitting patches.
-This tool can even fix most of the issues with:
-
-	./scripts/documentation-file-ref-check --fix
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/devicetree/bindings/display/bridge/sii902x.txt  | 2 +-
- .../devicetree/bindings/display/rockchip/rockchip-drm.yaml    | 2 +-
- Documentation/devicetree/bindings/net/mediatek-bluetooth.txt  | 2 +-
- Documentation/devicetree/bindings/sound/audio-graph-card.txt  | 2 +-
- Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt  | 2 +-
- Documentation/mips/ingenic-tcu.rst                            | 2 +-
- MAINTAINERS                                                   | 4 ++--
- 7 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-index 6e14e087c0d0..0d1db3f9da84 100644
---- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-+++ b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
-@@ -37,7 +37,7 @@ Optional properties:
- 	simple-card or audio-graph-card binding. See their binding
- 	documents on how to describe the way the sii902x device is
- 	connected to the rest of the audio system:
--	Documentation/devicetree/bindings/sound/simple-card.txt
-+	Documentation/devicetree/bindings/sound/simple-card.yaml
- 	Documentation/devicetree/bindings/sound/audio-graph-card.txt
- 	Note: In case of the audio-graph-card binding the used port
- 	index should be 3.
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-index ec8ae742d4da..7204da5eb4c5 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
-@@ -24,7 +24,7 @@ properties:
-     description: |
-       Should contain a list of phandles pointing to display interface port
-       of vop devices. vop definitions as defined in
--      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
-+      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
-index 219bcbd0d344..9ef5bacda8c1 100644
---- a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
-+++ b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
-@@ -3,7 +3,7 @@ MediaTek SoC built-in Bluetooth Devices
- 
- This device is a serial attached device to BTIF device and thus it must be a
- child node of the serial node with BTIF. The dt-bindings details for BTIF
--device can be known via Documentation/devicetree/bindings/serial/8250.txt.
-+device can be known via Documentation/devicetree/bindings/serial/8250.yaml.
- 
- Required properties:
- 
-diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card.txt b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
-index 269682619a70..d5f6919a2d69 100644
---- a/Documentation/devicetree/bindings/sound/audio-graph-card.txt
-+++ b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
-@@ -5,7 +5,7 @@ It is based on common bindings for device graphs.
- see ${LINUX}/Documentation/devicetree/bindings/graph.txt
- 
- Basically, Audio Graph Card property is same as Simple Card.
--see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.txt
-+see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.yaml
- 
- Below are same as Simple-Card.
- 
-diff --git a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
-index 4d51f3f5ea98..a6ffcdec6f6a 100644
---- a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
-+++ b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
-@@ -5,7 +5,7 @@ codec or external codecs.
- 
- sti sound drivers allows to expose sti SoC audio interface through the
- generic ASoC simple card. For details about sound card declaration please refer to
--Documentation/devicetree/bindings/sound/simple-card.txt.
-+Documentation/devicetree/bindings/sound/simple-card.yaml.
- 
- 1) sti-uniperiph-dai: audio dai device.
- ---------------------------------------
-diff --git a/Documentation/mips/ingenic-tcu.rst b/Documentation/mips/ingenic-tcu.rst
-index c5a646b14450..2b75760619b4 100644
---- a/Documentation/mips/ingenic-tcu.rst
-+++ b/Documentation/mips/ingenic-tcu.rst
-@@ -68,4 +68,4 @@ and frameworks can be controlled from the same registers, all of these
- drivers access their registers through the same regmap.
- 
- For more information regarding the devicetree bindings of the TCU drivers,
--have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.txt.
-+have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.yaml.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68f21d46614c..0617dd671c2d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3946,7 +3946,7 @@ L:	linux-crypto@vger.kernel.org
- S:	Supported
- F:	drivers/char/hw_random/cctrng.c
- F:	drivers/char/hw_random/cctrng.h
--F:	Documentation/devicetree/bindings/rng/arm-cctrng.txt
-+F:	Documentation/devicetree/bindings/rng/arm-cctrng.yaml
- W:	https://developer.arm.com/products/system-ip/trustzone-cryptocell/cryptocell-700-family
- 
- CEC FRAMEWORK
-@@ -5490,7 +5490,7 @@ F:	include/uapi/drm/r128_drm.h
- DRM DRIVER FOR RAYDIUM RM67191 PANELS
- M:	Robert Chiras <robert.chiras@nxp.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
-+F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
- F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
- 
- DRM DRIVER FOR ROCKTECH JH057N00900 PANELS
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+U29tZSBmaWxlcyBnb3QgcmVuYW1lZC4gVGhvc2Ugd2VyZSBhbGwgZml4ZWQgYXV0b21hdGljYWxs
+eSBieQoKCS4vc2NyaXB0cy9kb2N1bWVudGF0aW9uLWZpbGUtcmVmLWNoZWNrIC0tZml4CgpTaWdu
+ZWQtb2ZmLWJ5OiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWIraHVhd2VpQGtlcm5lbC5v
+cmc+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9mcmVlc2NhbGUv
+ZnNsLHNjdS50eHQgICB8IDIgKy0KIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
+aXNwbGF5L2lteC9mc2wtaW14LWRybS50eHQgfCA0ICsrLS0KIERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lteC9sZGIudHh0ICAgICAgICAgfCA0ICsrLS0KIERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9zcGkvcWNvbSxzcGktZ2VuaS1xY29tLnR4dCAg
+fCAyICstCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgNCArKy0tCiA1IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwg
+OCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvYXJtL2ZyZWVzY2FsZS9mc2wsc2N1LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9hcm0vZnJlZXNjYWxlL2ZzbCxzY3UudHh0CmluZGV4IDcxNTA0NzQ0NDM5MS4u
+MTBiODQ1OWU0OWY4IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvYXJtL2ZyZWVzY2FsZS9mc2wsc2N1LnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvYXJtL2ZyZWVzY2FsZS9mc2wsc2N1LnR4dApAQCAtNDcsNyArNDcsNyBAQCBS
+ZXF1aXJlZCBwcm9wZXJ0aWVzOgogCQkJICAmbHNpb19tdTEgMSAyCiAJCQkgICZsc2lvX211MSAx
+IDMKIAkJCSAgJmxzaW9fbXUxIDMgMz47Ci0JCVNlZSBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvbWFpbGJveC9mc2wsbXUudHh0CisJCVNlZSBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvbWFpbGJveC9mc2wsbXUueWFtbAogCQlmb3IgZGV0YWlsZWQgbWFpbGJveCBi
+aW5kaW5nLgogCiBOb3RlOiBFYWNoIG11IHdoaWNoIHN1cHBvcnRzIGdlbmVyYWwgaW50ZXJydXB0
+IHNob3VsZCBoYXZlIGFuIGFsaWFzIGNvcnJlY3RseQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvaW14L2ZzbC1pbXgtZHJtLnR4dCBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lteC9mc2wtaW14LWRybS50eHQK
+aW5kZXggNWJmNzdmNmRkMTlkLi41YTk5NDkwYzE3YjkgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lteC9mc2wtaW14LWRybS50eHQKKysrIGIv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvaW14L2ZzbC1pbXgtZHJt
+LnR4dApAQCAtNjgsNyArNjgsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzOgogICBkYXRhc2hlZXQK
+IC0gY2xvY2tzIDogcGhhbmRsZSB0byB0aGUgUFJFIGF4aSBjbG9jayBpbnB1dCwgYXMgZGVzY3Jp
+YmVkCiAgIGluIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jbG9jay9jbG9jay1i
+aW5kaW5ncy50eHQgYW5kCi0gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jbG9j
+ay9pbXg2cS1jbG9jay50eHQuCisgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9j
+bG9jay9pbXg2cS1jbG9jay55YW1sLgogLSBjbG9jay1uYW1lczogc2hvdWxkIGJlICJheGkiCiAt
+IGludGVycnVwdHM6IHNob3VsZCBjb250YWluIHRoZSBQUkUgaW50ZXJydXB0CiAtIGZzbCxpcmFt
+OiBwaGFuZGxlIHBvaW50aW5nIHRvIHRoZSBtbWlvLXNyYW0gZGV2aWNlIG5vZGUsIHRoYXQgc2hv
+dWxkIGJlCkBAIC05NCw3ICs5NCw3IEBAIFJlcXVpcmVkIHByb3BlcnRpZXM6CiAgIGRhdGFzaGVl
+dAogLSBjbG9ja3MgOiBwaGFuZGxlcyB0byB0aGUgUFJHIGlwZyBhbmQgYXhpIGNsb2NrIGlucHV0
+cywgYXMgZGVzY3JpYmVkCiAgIGluIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9j
+bG9jay9jbG9jay1iaW5kaW5ncy50eHQgYW5kCi0gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9jbG9jay9pbXg2cS1jbG9jay50eHQuCisgIERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9jbG9jay9pbXg2cS1jbG9jay55YW1sLgogLSBjbG9jay1uYW1lczogc2hvdWxk
+IGJlICJpcGciIGFuZCAiYXhpIgogLSBmc2wscHJlczogcGhhbmRsZXMgdG8gdGhlIFBSRSB1bml0
+cyBhdHRhY2hlZCB0byB0aGlzIFBSRywgd2l0aCB0aGUgZml4ZWQKICAgUFJFIGFzIHRoZSBmaXJz
+dCBlbnRyeSBhbmQgdGhlIG11eGFibGUgUFJFcyBmb2xsb3dpbmcuCmRpZmYgLS1naXQgYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9pbXgvbGRiLnR4dCBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lteC9sZGIudHh0CmluZGV4IDM4
+YzYzN2ZhMzlkZC4uOGU2ZTdkNzk3OTQzIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9pbXgvbGRiLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9pbXgvbGRiLnR4dApAQCAtMzAsOCArMzAsOCBAQCBS
+ZXF1aXJlZCBwcm9wZXJ0aWVzOgogICAgICAgICAgICAgICAgICJkaTJfc2VsIiAtIElQVTIgREkw
+IG11eAogICAgICAgICAgICAgICAgICJkaTNfc2VsIiAtIElQVTIgREkxIG11eAogICAgICAgICBU
+aGUgbmVlZGVkIGNsb2NrIG51bWJlcnMgZm9yIGVhY2ggYXJlIGRvY3VtZW50ZWQgaW4KLSAgICAg
+ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2NrL2lteDUtY2xvY2sudHh0
+LCBhbmQgaW4KLSAgICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2Nr
+L2lteDZxLWNsb2NrLnR4dC4KKyAgICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2Nsb2NrL2lteDUtY2xvY2sueWFtbCwgYW5kIGluCisgICAgICAgIERvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9jbG9jay9pbXg2cS1jbG9jay55YW1sLgogCiBPcHRpb25hbCBw
+cm9wZXJ0aWVzOgogIC0gcGluY3RybC1uYW1lcyA6IHNob3VsZCBiZSAiZGVmYXVsdCIgb24gaS5N
+WDUzLCBub3QgdXNlZCBvbiBpLk1YNnEKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9zcGkvcWNvbSxzcGktZ2VuaS1xY29tLnR4dCBiL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9zcGkvcWNvbSxzcGktZ2VuaS1xY29tLnR4dAppbmRleCA3OTAz
+MTFhNDJiZjEuLmM4YzFlOTEzZjRlNyAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL3NwaS9xY29tLHNwaS1nZW5pLXFjb20udHh0CisrKyBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9zcGkvcWNvbSxzcGktZ2VuaS1xY29tLnR4dApAQCAtMTks
+NyArMTksNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzOgogCiBTUEkgQ29udHJvbGxlciBub2RlcyBt
+dXN0IGJlIGNoaWxkIG9mIEdFTkkgYmFzZWQgUXVhbGNvbW0gVW5pdmVyc2FsCiBQZXJpcGhhcmFs
+LiBQbGVhc2UgcmVmZXIgR0VOSSBiYXNlZCBRVVAgd3JhcHBlciBjb250cm9sbGVyIG5vZGUgYmlu
+ZGluZ3MKLWRlc2NyaWJlZCBpbiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc29j
+L3Fjb20vcWNvbSxnZW5pLXNlLnR4dC4KK2Rlc2NyaWJlZCBpbiBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3Mvc29jL3Fjb20vcWNvbSxnZW5pLXNlLnlhbWwuCiAKIFNQSSBzbGF2ZSBu
+b2RlcyBtdXN0IGJlIGNoaWxkcmVuIG9mIHRoZSBTUEkgbWFzdGVyIG5vZGUgYW5kIGNvbmZvcm0g
+dG8gU1BJIGJ1cwogYmluZGluZyBhcyBkZXNjcmliZWQgaW4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL3NwaS9zcGktYnVzLnR4dC4KZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIv
+TUFJTlRBSU5FUlMKaW5kZXggMDYxN2RkNjcxYzJkLi40NTI5MDRkNzUyMjggMTAwNjQ0Ci0tLSBh
+L01BSU5UQUlORVJTCisrKyBiL01BSU5UQUlORVJTCkBAIC0xNDU2MSw4ICsxNDU2MSw4IEBAIFJF
+TkVTQVMgUi1DQVIgVEhFUk1BTCBEUklWRVJTCiBNOglOaWtsYXMgU8O2ZGVybHVuZCA8bmlrbGFz
+LnNvZGVybHVuZEByYWduYXRlY2guc2U+CiBMOglsaW51eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5l
+bC5vcmcKIFM6CVN1cHBvcnRlZAotRjoJRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L3RoZXJtYWwvcmNhci1nZW4zLXRoZXJtYWwudHh0Ci1GOglEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvdGhlcm1hbC9yY2FyLXRoZXJtYWwudHh0CitGOglEb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvdGhlcm1hbC9yY2FyLWdlbjMtdGhlcm1hbC55YW1sCitGOglEb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdGhlcm1hbC9yY2FyLXRoZXJtYWwueWFtbAog
+RjoJZHJpdmVycy90aGVybWFsL3JjYXJfZ2VuM190aGVybWFsLmMKIEY6CWRyaXZlcnMvdGhlcm1h
+bC9yY2FyX3RoZXJtYWwuYwogCi0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbAo=
