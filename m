@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57781FA027
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 21:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4764F1FA02F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 21:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E876E4DD;
-	Mon, 15 Jun 2020 19:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A676E4DE;
+	Mon, 15 Jun 2020 19:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
  [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43ED86E4DD
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 19:26:29 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id r11so10049532vsj.5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 12:26:29 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF5A56E4DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 19:27:33 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id o2so10050230vsr.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 12:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tesv8smtIgd+xiSORLH2FyhMzD11l9j50zG5mxjhYfs=;
- b=je+Cfz21/B+VNEFNMSQ1dyBdqLGez05SnOgnWdL4+4hwhVDTK7rYVCYABbj1M1dm86
- rjckPR+MEsiF4ZX0qS17GZxvnZX4iebQ4kL9YIAjefslLRSKjx+o/gkJ5t6hUwd9NyGi
- 7fYypRsHjLTh9iaIqOAoP0Wto407edtOEw2xQuaGu7XQy3w3vjHsM8INgx13psVVOo6r
- Sj/1VZdU47VOukWEjwXgFwf2rRyNeGuz4xND8G6rFLIMWM3B1q26T1X4FfsQcAR3zFZc
- iQE1mLkHRMfOTrpIk599Uu6zU5QSWhgCYvr42NGzFI+5ZFV18oggO09i1kN5VTAL4hCb
- ZABA==
+ :cc; bh=HJ6bjo3Cs4Jwgups1DYv3/zdxfvupCXkofRDuQ5IYp4=;
+ b=F/KF1m/Nsc5S3Yx4XObaR/c5zbV66z0YUGKURgdlXq3RhMwcOYjMvbsylDBdpMPaI5
+ ZofxpZzwnmGrhmlm7Gsfnm/IE110cOQR38HaGX4srG2QqQLfDzZJTf+hP6n2pxq7WDnI
+ LTWxE69cCLquAXsFA/o7rN+qZob2z4eKO7jERL3THdcSMhGdugsmoi5QU1HQNM3mxLvH
+ CYHTqO/nsXT3AVh8/U+5SO0JOHL2wKbmhzJCF4WeTrFi6JSd8/ptRNMnprZx1j1KFoto
+ OlHEn6TwBXJdd4nVUVw6/rYknBHF2hfn7swL5+IbPLMnGo7TTlBFFyqQDtQRFLUPPMoK
+ qCoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tesv8smtIgd+xiSORLH2FyhMzD11l9j50zG5mxjhYfs=;
- b=KtzO8Z+3z45TIjPQ6Kg3OBa11OJnwf6AFICpuCi+YoswD80E5Ivib4SIExXunOQSQ7
- 8PD/KmlBmbHY2j/fdxqermiyu5gPjBbCGn4dX9JrzCqtnebciRuIQJFk/gW242MIfMr7
- Hl6Vi61HiDU7K8dxqcCFVdncEuDHqVwUZRKTNSUu24H65heg43IxmQGPurMZBK1syIda
- BayLsWkvTW/EF+UWLm516+8faq6mMrgVPUycwzMA3V+Sxs+zfGyAlr6JWxtDbL4LoGG0
- nysLK30w4QP6WOW4d13vdTYoet4RALbG1zAuvTs7dAeTHSDhfBsvRVd65flVEMMYynG3
- z10w==
-X-Gm-Message-State: AOAM5331eSCCSax6c7//qCljvX0IxqSpe12qRKsMgfWOumSzw77AA6oj
- CYK2HMu+koAhNENkNaeTYpcSQ0ETl2uSaddZaHw=
-X-Google-Smtp-Source: ABdhPJzfX3Lt5eM5OiYlPAv26PyACHCtj2cUzj6cbo7JbwJ5YXBoX8I5wIZbnxZsCRShIO+2AASuEdn6zyT08SdkMvs=
-X-Received: by 2002:a05:6102:22ec:: with SMTP id
- b12mr20800051vsh.138.1592249188375; 
- Mon, 15 Jun 2020 12:26:28 -0700 (PDT)
+ bh=HJ6bjo3Cs4Jwgups1DYv3/zdxfvupCXkofRDuQ5IYp4=;
+ b=Cr7UhjyMlAcd/kjgu8RStrWr+upANfLbmsHEgYIge1atPkAPocvnUyej4AAyAL+zNz
+ Aur7NEqs9gDKguxORUSxou7wRLAVf9TqDyX5zSGGw1Q2aNwUn5zRidTzNx4fX8njIYhG
+ 3BEKkrTQbWXanQxcnHemc38zilbOgIbOsQbDre5M3Mn8mbDPThLtnTG13sMJdTOKI39m
+ A7OiETeXhpQudul4Sv47ZPmdaGbALieec/d7tO4E87jYBIOi30C1V691CTU9fVX1/4i4
+ ALsCZ2lGvZM/g5f27MNkqdre0/VnW/oZ8MwCn0ZreCg/TUID00xTnXUg2E/sAOR83d1M
+ KZKQ==
+X-Gm-Message-State: AOAM530H//cGbwVlxlO1oCaLE1b6e1z0EXqTF6TRQs2EvbC9jV5D6gT5
+ Ba1g+LUsUgAWC8c4x50CxKR7c7lxmXV0yj9KyH8=
+X-Google-Smtp-Source: ABdhPJyey5KBWRA1ZbCsa5rIECNxSTstW6aSPmQqLZD0K5FxzqvwTPBW/JBmWgeRWgeuakGBVhHZP6TGEjCBAJUkaZA=
+X-Received: by 2002:a67:c18a:: with SMTP id h10mr20910321vsj.186.1592249252845; 
+ Mon, 15 Jun 2020 12:27:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200530124640.4176323-1-emil.l.velikov@gmail.com>
- <efe3f43b-e743-d4b8-e942-23fbf23b0118@vmware.com>
- <CACvgo52PLgMA-zFeOTQwzyuTXxwYOq3o37Fh1Ym4tMfM8jgvQg@mail.gmail.com>
-In-Reply-To: <CACvgo52PLgMA-zFeOTQwzyuTXxwYOq3o37Fh1Ym4tMfM8jgvQg@mail.gmail.com>
+References: <20200603170434.2363446-1-emil.l.velikov@gmail.com>
+ <20200604073049.GS20149@phenom.ffwll.local>
+In-Reply-To: <20200604073049.GS20149@phenom.ffwll.local>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 15 Jun 2020 20:22:48 +0100
-Message-ID: <CACvgo530O4fedDs2te1++cXS-=RKFkajwhRBCrtm+4NE1yXY7A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: vmwgfx: remove drm_driver::master_set()
- return typ
-To: Roland Scheidegger <sroland@vmware.com>
+Date: Mon, 15 Jun 2020 20:23:52 +0100
+Message-ID: <CACvgo51dMoquksHkDj_UXtZcxE2r5uPWcuH8x-idWrcTDszzww@mail.gmail.com>
+Subject: Re: [PATCH] drm/todo: Add item about modeset properties
+To: Daniel Vetter <daniel@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,38 +61,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 5 Jun 2020 at 15:07, Emil Velikov <emil.l.velikov@gmail.com> wrote:
+On Thu, 4 Jun 2020 at 08:30, Daniel Vetter <daniel@ffwll.ch> wrote:
 >
-> On Wed, 3 Jun 2020 at 19:37, Roland Scheidegger <sroland@vmware.com> wrote:
+> On Wed, Jun 03, 2020 at 06:04:34PM +0100, Emil Velikov wrote:
+> > Add some information about pre-atomic modeset properties alongside a
+> > list of suggestions how to handle the different instances.
 > >
-> > Looks like a nice cleanup to me. (No idea if at some point there
-> > actually was a reason for a return value...)
+> > Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
+> > ---
+> >  Documentation/gpu/todo.rst | 32 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 32 insertions(+)
 > >
-> It was required up-to quite recently actually:
->
-> commit 9c84aeba67cce6514374f134c9ce2c5f35ac3831
-> Author: Thomas Hellstrom <thellstrom@vmware.com>
-> AuthorDate: Tue May 28 08:08:55 2019 +0200
-> Commit:     Thomas Hellstrom <thellstrom@vmware.com>
-> CommitDate: Thu Aug 15 08:39:27 2019 +0200
->
->     drm/vmwgfx: Kill unneeded legacy security features
->
-> > Reviewed-by: Roland Scheidegger <sroland@vmware.com>
+> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> > index 658b52f7ffc6..6648fd13cc1e 100644
+> > --- a/Documentation/gpu/todo.rst
+> > +++ b/Documentation/gpu/todo.rst
+> > @@ -392,6 +392,38 @@ Contact: Laurent Pinchart, respective driver maintainers
 > >
-> Thank you. Will push to drm-misc in a moment.
+> >  Level: Intermediate
+> >
+> > +Consolidate custom driver modeset properties
+> > +--------------------------------------------
+> > +
+> > +Before atomic modeset took place, many drivers where creating their own
+> > +properties. Among other things, atomic brought the requirement that custom,
+> > +driver specific properties should not be used.
+> > +
+> > +In for this task, we aim to introduce core helper or reuse the existing ones
 >
-... and finally pushed to drm-misc/next.
+> s/In for/For/ I think ...
+>
+Fixed up alongside s/core helper/core helpers/
 
-Thanks again.
+> > +if available:
+> > +
+> > +A quick, unconfirmed, examples list.
+> > +
+> > +Introduce core helpers:
+> > +- audio (amdgpu, intel, gma500, radeon)
+> > +- brightness, contrast, etc (armada, nouveau) - overlay only (?)
+> > +- broadcast rgb (gma500, intel)
+> > +- colorkey (armada, nouveau, rcar) - overlay only (?)
+> > +- dither (amdgpu, nouveau, radeon) - varies across drivers
+> > +- underscan family (amdgpu, radeon, nouveau)
+> > +
+> > +Already in core:
+> > +- colorspace (sti)
+> > +- tv format names, enhancements (gma500, intel)
+> > +- tv overscan, margins, etc. (gma500, intel)
+> > +- zorder (omapdrm) - same as zpos (?)
+> > +
+> > +
+> > +Contact: Emil Velikov, respective driver maintainers
+> > +
+> > +Level: Intermediate
+>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+... and pushed to drm-misc. Thank you.
+
 -Emil
 _______________________________________________
 dri-devel mailing list
