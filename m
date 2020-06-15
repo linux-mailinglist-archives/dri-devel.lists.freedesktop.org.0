@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6392F1FA304
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 23:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3361FA315
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 23:52:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E11D6E51A;
-	Mon, 15 Jun 2020 21:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E246E52F;
+	Mon, 15 Jun 2020 21:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DCD6E51A;
- Mon, 15 Jun 2020 21:47:02 +0000 (UTC)
-IronPort-SDR: jZajlAkGIIaKPjb3uIW9PjBCRZS2bF/HVGNrcdUndnqIr3o1fM2QcOmW+ytmxDgdE2UgzdE8iW
- saYRcee3yyLA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2020 14:47:01 -0700
-IronPort-SDR: vrLN12SKSKdHKRJMFTF72BJlpnJwYW/OfP+90ZgqAnKl/MpRtdoajlpvb3BzbeLcQD9AY7onJk
- VZOMWuDRKRjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,516,1583222400"; d="scan'208";a="476177176"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2020 14:47:01 -0700
-Date: Mon, 15 Jun 2020 14:48:09 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH v7 3/3] drm/i915/dp: Expose connector VRR monitor range
- via debugfs
-Message-ID: <20200615214809.GA4334@intel.com>
-References: <20200612230444.10121-4-manasi.d.navare@intel.com>
- <20200612235606.25120-1-manasi.d.navare@intel.com>
- <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7236E52F;
+ Mon, 15 Jun 2020 21:52:26 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id r9so1010716wmh.2;
+ Mon, 15 Jun 2020 14:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pMrmQR08NbuxMuMQ9XTt0aege9jgLzpM8HoXAcM2lr4=;
+ b=tExXfijlyDzCgiPKBttpScZpH7EE0HQbvlprkUGn54gjurJarPMV0iKnTgho8tBucC
+ nk+dgtb0H3n7ccO1adYneQODQn9PnSRoqgDVhPAffWjhSq3p+PeGnV42A6hU3HcjR7cw
+ OCuZuQBKhZTKSRlocN73E1fSqeHc6W5WwGoEtWxsQUTIXGBLzpPOqiHkB9lQUo8kqKMI
+ LdykCrm6aFJY7yehqk1cxFzlJ3R1GIRe8uqQi1r+WXlFRc1/F57y8KV90Ga6W+S11i7n
+ 7Kb5Hcw1py9IfXCwtjD/zPBchiFqChNmuTgbcLd/9kFHBg5CzWhpBMdLfH8UHGVpFLnv
+ cEyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pMrmQR08NbuxMuMQ9XTt0aege9jgLzpM8HoXAcM2lr4=;
+ b=UgZl3CcN0yjMz/hk/5Uti4xXkabSoG+qlnX03rpWtYdNopxl5mhXFf/4JFPtUHlRka
+ 6FCY20QR0VxX4MEQLH1KQKeqLFtZwdLVN4PwEUZKVpzVSv80jnVaRnPeBCRNi+AiGCGd
+ qKV/Ctvgowv6RGCfAGK8JBJnVZo4oYIoaf5uSR+AHz0G6UAWkSVTF4IR7Mt9WbgA/6A0
+ zz5ucI9uSY0eyxbk28dW6X98tTg7dW2ZivT6SmJamIr2gWz/ZmTw17lKpd+4sN+k2kUU
+ wS+VYJV/Fd4bmSgIIMeisoMsA8q46NXeB/GUNcDq8VmhBtqHN5L2JhwzeVbXX0PYMX/y
+ PtCQ==
+X-Gm-Message-State: AOAM532IPc+ExKaGlmZvCsyI57uGj9U1sLcBJuBCE5+/Tg0jDdYazABy
+ Ux8k+l2Gkpdz9kE0mp0IMngNsJuO1Yia9rW1jgk=
+X-Google-Smtp-Source: ABdhPJwSxUGklIsrSu/SHjWDyPn/otPVKio1ZbHbv4bC0MTX+tgbgI1YdyYgobjmthIhIY4phxxYn+K1f0UdCUPIRMU=
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr1309269wmy.79.1592257945080; 
+ Mon, 15 Jun 2020 14:52:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20200614015539.123654-1-pakki001@umn.edu>
+In-Reply-To: <20200614015539.123654-1-pakki001@umn.edu>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 15 Jun 2020 17:52:14 -0400
+Message-ID: <CADnq5_NK7YP-yfN1SWhXk0Kromxs46LbEtFSTfA94cbhvgUEGQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix multiple reference count leak
+To: Aditya Pakki <pakki001@umn.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,136 +60,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Kangjie Lu <kjlu@umn.edu>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, wu000273@umn.edu,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 15, 2020 at 10:36:28PM +0100, Emil Velikov wrote:
-> Hi Manasi,
-> =
-
-> On Sat, 13 Jun 2020 at 00:55, Manasi Navare <manasi.d.navare@intel.com> w=
-rote:
-> >
-> > From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> >
-> > [Why]
-> > It's useful to know the min and max vrr range for IGT testing.
-> >
-> > [How]
-> > Expose the min and max vfreq for the connector via a debugfs file
-> > on the connector, "vrr_range".
-> >
-> > Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> >
-> > v7:
-> > * Fix cmpilation due to rebase
-> > v6:
-> > * Rebase (manasi)
-> > v5:
-> > * Rename to vrr_range to match AMD debugfs
-> > v4:
-> > * Rebase
-> > v3:
-> > * Remove the unnecessary debug print (Manasi)
-> > v2:
-> > * Fix the typo in max_vfreq (Manasi)
-> > * Change the name of node to i915_vrr_info so we can add
-> > other vrr info for more debug info (Manasi)
-> > * Change the VRR capable to display Yes or No (Manasi)
-> > * Fix indentation checkpatch errors (Manasi)
-> >
-> Nit: generally revision log is listed in v2 -> v6 order.
-
-Okay point noted. Will update this in the next rev
-
-> =
-
-> > Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > Tested-by: Manasi Navare <manasi.d.navare@intel.com>
-> > ---
-> >  .../drm/i915/display/intel_display_debugfs.c  | 22 ++++++++++++++++++-
-> >  1 file changed, 21 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/dri=
-vers/gpu/drm/i915/display/intel_display_debugfs.c
-> > index 28dd717e943a..2921f7d2a26e 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> > @@ -2185,6 +2185,21 @@ static const struct file_operations i915_dsc_fec=
-_support_fops =3D {
-> >         .write =3D i915_dsc_fec_support_write
-> >  };
-> >
-> > +static int vrr_range_show(struct seq_file *m, void *data)
-> > +{
-> > +       struct drm_connector *connector =3D m->private;
-> > +
-> > +       if (connector->status !=3D connector_status_connected)
-> > +               return -ENODEV;
-> > +
-> > +       seq_printf(m, "Vrr_capable: %s\n", yesno(intel_dp_is_vrr_capabl=
-e(connector)));
-> > +       seq_printf(m, "Min: %u\n", (u8)connector->display_info.monitor_=
-range.min_vfreq);
-> > +       seq_printf(m, "Max: %u\n", (u8)connector->display_info.monitor_=
-range.max_vfreq);
-> > +
-> > +       return 0;
-> > +}
-> > +DEFINE_SHOW_ATTRIBUTE(vrr_range);
-> > +
-> >  /**
-> >   * intel_connector_debugfs_add - add i915 specific connector debugfs f=
-iles
-> >   * @connector: pointer to a registered drm_connector
-> > @@ -2220,10 +2235,15 @@ int intel_connector_debugfs_add(struct drm_conn=
-ector *connector)
-> >         if (INTEL_GEN(dev_priv) >=3D 10 &&
-> >             ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_Displ=
-ayPort &&
-> >               !to_intel_connector(connector)->mst_port) ||
-> > -            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP))
-> > +            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP)) {
-> >                 debugfs_create_file("i915_dsc_fec_support", S_IRUGO, ro=
-ot,
-> >                                     connector, &i915_dsc_fec_support_fo=
-ps);
-> >
-> > +               if (INTEL_GEN(dev_priv) >=3D 12)
-> > +                       debugfs_create_file("vrr_range", S_IRUGO,
-> > +                                           root, connector, &vrr_range=
-_fops);
-> > +       }
-> > +
-> =
-
-> I think this should be added by core drm. Ideally drm will add it
-> automatically for each connector that the driver has called
-> drm_connector_attach_vrr_capable_property() upon.
+On Mon, Jun 15, 2020 at 3:27 AM Aditya Pakki <pakki001@umn.edu> wrote:
 >
+> On calling pm_runtime_get_sync() the reference count of the device
+> is incremented. In case of failure, decrement the
+> reference count before returning the error.
 
-But in this case drm_connector_attach_vrr_capable_property() is called by i=
-ndividual
-driver since its an optional connector property. So we call this inside i91=
-5.
-Also currently AMD sets this debugfs inside AMD IMO, so setting this here f=
-or now.
-But I agree that can be moved to drm core may be when drm_display_info gets=
- populated
-with min and max, thats where drm can add this?
+Is this required if pm_runtime_get_sync() fails?
 
-Manasi
-  =
+Alex
 
-> -Emil
+>
+> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+> ---
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+> index fe12d9d91d7a..e30834434442 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -879,8 +879,10 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
+>
+>         if (!drm_kms_helper_is_poll_worker()) {
+>                 r = pm_runtime_get_sync(connector->dev->dev);
+> -               if (r < 0)
+> +               if (r < 0) {
+> +                       pm_runtime_put_autosuspend(connector->dev->dev);
+>                         return connector_status_disconnected;
+> +               }
+>         }
+>
+>         if (encoder) {
+> @@ -1025,8 +1027,10 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
+>
+>         if (!drm_kms_helper_is_poll_worker()) {
+>                 r = pm_runtime_get_sync(connector->dev->dev);
+> -               if (r < 0)
+> +               if (r < 0) {
+> +                       pm_runtime_put_autosuspend(connector->dev->dev);
+>                         return connector_status_disconnected;
+> +               }
+>         }
+>
+>         encoder = radeon_best_single_encoder(connector);
+> @@ -1163,8 +1167,10 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
+>
+>         if (!drm_kms_helper_is_poll_worker()) {
+>                 r = pm_runtime_get_sync(connector->dev->dev);
+> -               if (r < 0)
+> +               if (r < 0) {
+> +                       pm_runtime_put_autosuspend(connector->dev->dev);
+>                         return connector_status_disconnected;
+> +               }
+>         }
+>
+>         encoder = radeon_best_single_encoder(connector);
+> @@ -1247,8 +1253,10 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
+>
+>         if (!drm_kms_helper_is_poll_worker()) {
+>                 r = pm_runtime_get_sync(connector->dev->dev);
+> -               if (r < 0)
+> +               if (r < 0) {
+> +                       pm_runtime_put_autosuspend(connector->dev->dev);
+>                         return connector_status_disconnected;
+> +               }
+>         }
+>
+>         if (radeon_connector->detected_hpd_without_ddc) {
+> @@ -1657,8 +1665,10 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
+>
+>         if (!drm_kms_helper_is_poll_worker()) {
+>                 r = pm_runtime_get_sync(connector->dev->dev);
+> -               if (r < 0)
+> +               if (r < 0) {
+> +                       pm_runtime_put_autosuspend(connector->dev->dev);
+>                         return connector_status_disconnected;
+> +               }
+>         }
+>
+>         if (!force && radeon_check_hpd_status_unchanged(connector)) {
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
