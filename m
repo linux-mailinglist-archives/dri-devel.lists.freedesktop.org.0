@@ -2,42 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DE31F9046
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5A11F9050
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 557348933D;
-	Mon, 15 Jun 2020 07:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B86898C4;
+	Mon, 15 Jun 2020 07:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E41D68933D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 07:48:16 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1jkjqg-0006Gk-PF; Mon, 15 Jun 2020 09:48:06 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1jkjqe-000242-Ti; Mon, 15 Jun 2020 09:48:04 +0200
-Message-ID: <c544bcb8ea20dadcea68e22d33c160a713c7fe02.camel@pengutronix.de>
-Subject: Re: [PATCH 14/29] dt: Fix broken references to renamed docs
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Date: Mon, 15 Jun 2020 09:48:04 +0200
-In-Reply-To: <6866c0d6d10ce36bb151c2d3752a20eb5122c532.1592203542.git.mchehab+huawei@kernel.org>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <6866c0d6d10ce36bb151c2d3752a20eb5122c532.1592203542.git.mchehab+huawei@kernel.org>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C5E898C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 07:49:17 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 270B2AFBC;
+ Mon, 15 Jun 2020 07:49:20 +0000 (UTC)
+From: Jiri Slaby <jslaby@suse.cz>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH 25/38] vt: redefine world of cursor macros
+Date: Mon, 15 Jun 2020 09:48:57 +0200
+Message-Id: <20200615074910.19267-25-jslaby@suse.cz>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200615074910.19267-1-jslaby@suse.cz>
+References: <20200615074910.19267-1-jslaby@suse.cz>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,88 +37,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, linux-arm-msm@vger.kernel.org,
- Andy Gross <agross@kernel.org>, linux-spi@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.cz>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-06-15 at 08:46 +0200, Mauro Carvalho Chehab wrote:
-> Some files got renamed. Those were all fixed automatically by
-> 
-> 	./scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt   | 2 +-
->  Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt | 4 ++--
->  Documentation/devicetree/bindings/display/imx/ldb.txt         | 4 ++--
->  Documentation/devicetree/bindings/spi/qcom,spi-geni-qcom.txt  | 2 +-
->  MAINTAINERS                                                   | 4 ++--
->  5 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> index 715047444391..10b8459e49f8 100644
-> --- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> +++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
-> @@ -47,7 +47,7 @@ Required properties:
->  			  &lsio_mu1 1 2
->  			  &lsio_mu1 1 3
->  			  &lsio_mu1 3 3>;
-> -		See Documentation/devicetree/bindings/mailbox/fsl,mu.txt
-> +		See Documentation/devicetree/bindings/mailbox/fsl,mu.yaml
->  		for detailed mailbox binding.
->  
->  Note: Each mu which supports general interrupt should have an alias correctly
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> index 5bf77f6dd19d..5a99490c17b9 100644
-> --- a/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl-imx-drm.txt
-> @@ -68,7 +68,7 @@ Required properties:
->    datasheet
->  - clocks : phandle to the PRE axi clock input, as described
->    in Documentation/devicetree/bindings/clock/clock-bindings.txt and
-> -  Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +  Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  - clock-names: should be "axi"
->  - interrupts: should contain the PRE interrupt
->  - fsl,iram: phandle pointing to the mmio-sram device node, that should be
-> @@ -94,7 +94,7 @@ Required properties:
->    datasheet
->  - clocks : phandles to the PRG ipg and axi clock inputs, as described
->    in Documentation/devicetree/bindings/clock/clock-bindings.txt and
-> -  Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +  Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  - clock-names: should be "ipg" and "axi"
->  - fsl,pres: phandles to the PRE units attached to this PRG, with the fixed
->    PRE as the first entry and the muxable PREs following.
-> diff --git a/Documentation/devicetree/bindings/display/imx/ldb.txt b/Documentation/devicetree/bindings/display/imx/ldb.txt
-> index 38c637fa39dd..8e6e7d797943 100644
-> --- a/Documentation/devicetree/bindings/display/imx/ldb.txt
-> +++ b/Documentation/devicetree/bindings/display/imx/ldb.txt
-> @@ -30,8 +30,8 @@ Required properties:
->                  "di2_sel" - IPU2 DI0 mux
->                  "di3_sel" - IPU2 DI1 mux
->          The needed clock numbers for each are documented in
-> -        Documentation/devicetree/bindings/clock/imx5-clock.txt, and in
-> -        Documentation/devicetree/bindings/clock/imx6q-clock.txt.
-> +        Documentation/devicetree/bindings/clock/imx5-clock.yaml, and in
-> +        Documentation/devicetree/bindings/clock/imx6q-clock.yaml.
->  
->  Optional properties:
->   - pinctrl-names : should be "default" on i.MX53, not used on i.MX6q
+The cursor code used to use magic constants, ANDs, ORs, and some macros.
+Redefine all this to make some sense.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+In particular:
+* Drop CUR_DEFAULT, which is CUR_UNDERLINE. CUR_DEFAULT was used only
+  for cur_default variable initialization, so use CUR_UNDERLINE there to
+  make obvious what's the default.
+* Drop CUR_HWMASK. Instead, define CUR_SIZE() which explains it more.
+  And use it all over the places.
+* Define few more masks and bits which will be used in next patches
+  instead of magic constants.
+* Define CUR_MAKE to build up cursor value.
 
-regards
-Philipp
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+---
+ drivers/tty/vt/vt.c                  |  2 +-
+ drivers/video/fbdev/core/bitblit.c   |  2 +-
+ drivers/video/fbdev/core/fbcon_ccw.c |  2 +-
+ drivers/video/fbdev/core/fbcon_cw.c  |  2 +-
+ drivers/video/fbdev/core/fbcon_ud.c  |  2 +-
+ include/linux/console_struct.h       | 28 +++++++++++++++++-----------
+ 6 files changed, 22 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index f7d5a3c3845f..af1ef717f416 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -163,7 +163,7 @@ module_param(default_utf8, int, S_IRUGO | S_IWUSR);
+ int global_cursor_default = -1;
+ module_param(global_cursor_default, int, S_IRUGO | S_IWUSR);
+ 
+-static int cur_default = CUR_DEFAULT;
++static int cur_default = CUR_UNDERLINE;
+ module_param(cur_default, int, S_IRUGO | S_IWUSR);
+ 
+ /*
+diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
+index c750470a31ec..3b002b365a5a 100644
+--- a/drivers/video/fbdev/core/bitblit.c
++++ b/drivers/video/fbdev/core/bitblit.c
+@@ -325,7 +325,7 @@ static void bit_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		ops->p->cursor_shape = vc->vc_cursor_type;
+ 		cursor.set |= FB_CUR_SETSHAPE;
+ 
+-		switch (ops->p->cursor_shape & CUR_HWMASK) {
++		switch (CUR_SIZE(ops->p->cursor_shape)) {
+ 		case CUR_NONE:
+ 			cur_height = 0;
+ 			break;
+diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
+index 9d06446a1a3b..5b67bcebe34c 100644
+--- a/drivers/video/fbdev/core/fbcon_ccw.c
++++ b/drivers/video/fbdev/core/fbcon_ccw.c
+@@ -325,7 +325,7 @@ static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		ops->p->cursor_shape = vc->vc_cursor_type;
+ 		cursor.set |= FB_CUR_SETSHAPE;
+ 
+-		switch (ops->p->cursor_shape & CUR_HWMASK) {
++		switch (CUR_SIZE(ops->p->cursor_shape)) {
+ 		case CUR_NONE:
+ 			cur_height = 0;
+ 			break;
+diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
+index 4b5f76bb01e5..f1aab3ae3bc9 100644
+--- a/drivers/video/fbdev/core/fbcon_cw.c
++++ b/drivers/video/fbdev/core/fbcon_cw.c
+@@ -308,7 +308,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		ops->p->cursor_shape = vc->vc_cursor_type;
+ 		cursor.set |= FB_CUR_SETSHAPE;
+ 
+-		switch (ops->p->cursor_shape & CUR_HWMASK) {
++		switch (CUR_SIZE(ops->p->cursor_shape)) {
+ 		case CUR_NONE:
+ 			cur_height = 0;
+ 			break;
+diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
+index 7e0ae3549dc7..81ed6f6bed67 100644
+--- a/drivers/video/fbdev/core/fbcon_ud.c
++++ b/drivers/video/fbdev/core/fbcon_ud.c
+@@ -348,7 +348,7 @@ static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
+ 		ops->p->cursor_shape = vc->vc_cursor_type;
+ 		cursor.set |= FB_CUR_SETSHAPE;
+ 
+-		switch (ops->p->cursor_shape & CUR_HWMASK) {
++		switch (CUR_SIZE(ops->p->cursor_shape)) {
+ 		case CUR_NONE:
+ 			cur_height = 0;
+ 			break;
+diff --git a/include/linux/console_struct.h b/include/linux/console_struct.h
+index 40ed52f67bc5..153734816b49 100644
+--- a/include/linux/console_struct.h
++++ b/include/linux/console_struct.h
+@@ -173,17 +173,23 @@ struct vc {
+ extern struct vc vc_cons [MAX_NR_CONSOLES];
+ extern void vc_SAK(struct work_struct *work);
+ 
+-#define CUR_DEF		0
+-#define CUR_NONE	1
+-#define CUR_UNDERLINE	2
+-#define CUR_LOWER_THIRD	3
+-#define CUR_LOWER_HALF	4
+-#define CUR_TWO_THIRDS	5
+-#define CUR_BLOCK	6
+-#define CUR_HWMASK	0x0f
+-#define CUR_SWMASK	0xfff0
+-
+-#define CUR_DEFAULT CUR_UNDERLINE
++#define CUR_MAKE(size, change, set)	((size) | ((change) << 8) |	\
++		((set) << 16))
++#define CUR_SIZE(c)		 ((c) & 0x00000f)
++# define CUR_DEF			       0
++# define CUR_NONE			       1
++# define CUR_UNDERLINE			       2
++# define CUR_LOWER_THIRD		       3
++# define CUR_LOWER_HALF			       4
++# define CUR_TWO_THIRDS			       5
++# define CUR_BLOCK			       6
++#define CUR_SW				0x000010
++#define CUR_ALWAYS_BG			0x000020
++#define CUR_INVERT_FG_BG		0x000040
++#define CUR_FG				0x000700
++#define CUR_BG				0x007000
++#define CUR_CHANGE(c)		 ((c) & 0x00ff00)
++#define CUR_SET(c)		(((c) & 0xff0000) >> 8)
+ 
+ bool con_is_visible(const struct vc_data *vc);
+ 
+-- 
+2.27.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
