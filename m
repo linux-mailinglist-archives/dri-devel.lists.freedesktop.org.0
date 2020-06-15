@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9ED1F8FD0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89701F8FDA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 09:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBF716E29E;
-	Mon, 15 Jun 2020 07:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A306E2A0;
+	Mon, 15 Jun 2020 07:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
  [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B0989B57;
- Mon, 15 Jun 2020 06:12:32 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id r2so16595781ioo.4;
- Sun, 14 Jun 2020 23:12:32 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7794589B42;
+ Mon, 15 Jun 2020 06:13:20 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id m81so16572618ioa.1;
+ Sun, 14 Jun 2020 23:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MpaNV/qQKz10iqV54hZ3d06qChO86uOpWp9hsgu+lWY=;
- b=R9dTqLFqtzTAkZcs7wraz0nABjqsFyXZgImHWAjW/JRpifRBjCvM4fhxHp9/gej4n5
- DNMG3Ht6UnmJefKwqtmlhhw6gIS51mdT1Y03Dnl9+jenWXLpeSk0+rwg8O4nQtCext1X
- nN6yPFGPJ+ELR06ivu2dPofx7LFNSa56L2y+2g3mphJQsRxGkMX1+fAFWN3JLabu4yBa
- O0YY12KchtNRz8i9AUYqDcaxqSQcOnKPDZ8O/HCnOaFRm4DSY0kKjelxhtlSXgZ0kMnS
- I1pPgussUNro4NKXQN6Zm8TzPLvyU8Ak5siiRMN+2tg6y27KxK1az6mPo3c1JgSpplOw
- J5oA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l6JLd6VBkcDkATEVOSxJhkAGOZIDXqhoY8AZkpcmZ1I=;
+ b=P7R3C+Pv5AStNTdmtByWH8kFJIAdbrKj63kPRxtluqt+798Vb3IuRi3kpqZPiUP1q2
+ OO+3rEvIlkJUteKFWcqNGD+jYemiXli3MSM+4vuAj5aY15kAT9AldFavTYhW9RXxbKpD
+ AKCVbPTgC1KEMgA5CWro19tnhyF/rRH99ptqhqMgnPpjgP3cCAqRZX2NfV4xcVTLh5xW
+ TzIt/P8c6t85pSeeMOXu30H9ferniSHjmQdrwEFhDVEDMQTB//lHgNSSvbuoj0i5qtAP
+ AxGPl/3neip1F+ady4JB+Y53uLG4zp2Ni8/jqOsQXbFMqbegxmv2rC2llztVNX6NtTbH
+ d0JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=MpaNV/qQKz10iqV54hZ3d06qChO86uOpWp9hsgu+lWY=;
- b=RH5hX2PlB0zVqRH8nMJmklCSMj6UaST9flAdfeqPTVMubiTAG4kyo/F11bScP8jefU
- 4jdgLcT69duIAI+HhhI43vAMEqtfBQHANPDhvRhWM/5tzsejXr4FhWeOJYZk4GJQ0TrK
- dzI86r6kYc1ovwWZ2N0EwS5B/CK0x6kyn7B1t/E66gONmpN8Z8QI25kK1K374ibRuIId
- ihiHBHD60tIjKzmQY9KoC7VTaImy5HUyV6OwlzLEQKv6ZZFmsuvxaR9/mK+GhRGnpP7M
- uxZ6sqNOcWoK+0SP1olwmKLlwk/YHEnQn94/rNICwwQ77jKRWrRR32yQ920hNTuqZOmt
- ffkg==
-X-Gm-Message-State: AOAM530tQP3kElqTzUajemxmhIZ9WmIk39nhozI2zOU/mOCX2c//pXxJ
- +JJB3oinT+NXMzxuJQFY/fA=
-X-Google-Smtp-Source: ABdhPJyzcnYLaAIqOamesc01+OyA8JCS1/7QXApZEWy/YVtyVV5vBZBB6DNo4QZqY8CgYo+qQnFOqw==
-X-Received: by 2002:a05:6638:d05:: with SMTP id
- q5mr19398438jaj.2.1592201551850; 
- Sun, 14 Jun 2020 23:12:31 -0700 (PDT)
-Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
- by smtp.googlemail.com with ESMTPSA id c3sm7421822ilr.45.2020.06.14.23.12.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Jun 2020 23:12:31 -0700 (PDT)
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
-To: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
-Date: Mon, 15 Jun 2020 01:12:20 -0500
-Message-Id: <20200615061220.68711-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l6JLd6VBkcDkATEVOSxJhkAGOZIDXqhoY8AZkpcmZ1I=;
+ b=Gixc2J/0B1X4JD8ulXt9hk/gzsAQ/HWtQLUohvHIc+nZi5+cu+wOzIoRd/KsfXm7aZ
+ 2P8Gq3bpyrwCp+kiholzBgf/e6LIwtxYVEvR5OG5ZJiHjhK+ZztuzOUcxvAEujIfWDN0
+ 7SaZJu7HWOq2moeKmXN0CdthAF3jfWDsI5uFYeOPhna1rdP3V2I+AMKXlfFK8fVMQ9X+
+ iqglytoLGCozxc6WSx3uc4KB/rLom3txUrp/fVjC3BA2Vdf93CHSwsR2r2kFjFeCvQw+
+ pqEW1Rlg8+R5rjGBas07cDpNRLOLMQyrhMjb4vbiyrb3wEY4vqH3asrFg+zcpVW3nJk6
+ LJ6g==
+X-Gm-Message-State: AOAM533GuPA3H3u8Mtx9tugbIVnc6aT6ZXVbOiUyi4WLaOZgcSDebopO
+ IU7/RDAimqVrSJ4OhPT1u8GB7bectk2W2j/RG/o=
+X-Google-Smtp-Source: ABdhPJxFXpC6yxoyS/q+VFmv3UDEL3AF9AGZcAzbg95oAGdfyGUv7KDldyeXnqrxKmupmPQJdhjCt6Ym7GydEAwH5dc=
+X-Received: by 2002:a6b:39d7:: with SMTP id g206mr26366722ioa.31.1592201599906; 
+ Sun, 14 Jun 2020 23:13:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200614064601.7872-1-navid.emamdoost@gmail.com>
+ <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
 In-Reply-To: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
-References: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+Date: Mon, 15 Jun 2020 01:13:09 -0500
+Message-ID: <CAEkB2EQmtRh4HjhykCdKtw8SPaQWgLHgDc7VQ3=H0ssz=m1Y-Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
 X-Mailman-Approved-At: Mon, 15 Jun 2020 07:27:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,106 +62,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kjlu@umn.edu, mccamant@cs.umn.edu, andy.shevchenko@gmail.com,
- emamd001@umn.edu, wu000273@umn.edu,
- Navid Emamdoost <navid.emamdoost@gmail.com>
-MIME-Version: 1.0
+Cc: Qiushi Wu <wu000273@umn.edu>, David Airlie <airlied@linux.ie>,
+ Stephen McCamant <smccaman@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
+ etnaviv@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Navid Emamdoost <emamd001@umn.edu>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
-and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
-counter even in case of failure, leading to incorrect ref count.
-In case of failure, decrement the ref count before returning.
+On Sun, Jun 14, 2020 at 4:48 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sun, Jun 14, 2020 at 9:48 AM Navid Emamdoost
+> <navid.emamdoost@gmail.com> wrote:
+>
+> ...
+>
+> > +               if (ret < 0) {
+>
+> > +                       pm_runtime_put(gpu->dev);
+>
+> Please, in all your patches fix this to be _put_noidle(). We wouldn't
+> bear the flag day of fixing these parts again.
+> Yes, I know that *now* behaviour is the same, but calling put here is
+> slightly inconsistent.
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
----
-Changes in v2:
-	- replace pm_runtime_put with  pm_runtime_put_noidle
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+v2 is sent.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index a31eeff2b297..7c9f3f9ba123 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 	ret = pm_runtime_get_sync(gpu->dev);
- 	if (ret < 0) {
- 		dev_err(gpu->dev, "Failed to enable GPU power domain\n");
--		return ret;
-+		goto pm_put;
- 	}
- 
- 	etnaviv_hw_identify(gpu);
-@@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 
- fail:
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- 
- 	return ret;
-@@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 
- 	ret = pm_runtime_get_sync(gpu->dev);
- 	if (ret < 0)
--		return ret;
-+		goto pm_put;
- 
- 	dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
- 	dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
-@@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 	ret = 0;
- 
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- 
- 	return ret;
-@@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- 	dev_err(gpu->dev, "recover hung GPU!\n");
- 
- 	if (pm_runtime_get_sync(gpu->dev) < 0)
--		return;
-+		goto pm_put;
- 
- 	mutex_lock(&gpu->lock);
- 
-@@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
- 
- 	mutex_unlock(&gpu->lock);
- 	pm_runtime_mark_last_busy(gpu->dev);
-+pm_put:
- 	pm_runtime_put_autosuspend(gpu->dev);
- }
- 
-@@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
- 
- 	if (!submit->runtime_resumed) {
- 		ret = pm_runtime_get_sync(gpu->dev);
--		if (ret < 0)
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(gpu->dev);
- 			return NULL;
-+		}
- 		submit->runtime_resumed = true;
- 	}
- 
-@@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
- 	ret = event_alloc(gpu, nr_events, event);
- 	if (ret) {
- 		DRM_ERROR("no free events\n");
-+		pm_runtime_put_noidle(gpu->dev);
- 		return NULL;
- 	}
- 
+>
+> ...
+>
+> > +               pm_runtime_put(gpu->dev);
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+
+
 -- 
-2.17.1
-
+Navid.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
