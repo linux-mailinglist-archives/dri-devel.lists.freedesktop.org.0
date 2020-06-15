@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8244E1F982C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 15:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525101F9974
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 16:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846A26E314;
-	Mon, 15 Jun 2020 13:19:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B76C6E32D;
+	Mon, 15 Jun 2020 14:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B4E6E314
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 13:19:42 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id k22so12474769qtm.6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 06:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Y3ar0NlCgHyRvUgHFVw4GwwVEYkMu69FrpNlEgYZaig=;
- b=S/S2vKqaaiMkDzviRm/cegQn34GwLrWUJzwiHO0SG32LaLpY/rNXsqw3qrBJvWE8nz
- vJ3yXdKMkbxGFOnXF0fJTJ3ng+YqmDPBZMVP+BTsB+Zp/2fLBUFulmvBSeR2p95aVSJr
- lPiRIXtpA9L/nyr0fVE/shzaF0Tde6OSPgP2QV+vLGJR4bXoVXxPwRD4vx4aVhzvBaPi
- bQML8PfmRN+AulAeCD43dyushoKncliEd7WaZG8x2g8gtsLZ5/sGnY5G27qsr8JuQVxc
- uuj8QamlfZWw4WJO2jpbfL8RfbaR6EuvKjN3+WhhRHVkm2Nua00pgXNs3bQXjEt5AS2D
- LgCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Y3ar0NlCgHyRvUgHFVw4GwwVEYkMu69FrpNlEgYZaig=;
- b=XNH6nFMpCyfBm7e/ctucoSlYALL59ecZgNVP0p+av2e10uUTN99aP2ixd0lgfqz6Tf
- Xuoa79H8Tetpy+8Pa5Ztg907vTviv/2aKksf8oCVTcYVEZ0D07q8ix2CA58xJQZpOJE7
- JKBzc6qrquC7P8rh8H+M2EOygzMiBwt5iHhmyXi5ao1SzPH4+ozEGDat78rGd70oINVn
- 2wuX7eGwB/u6KcdDo9DetjyFb7fyGsJWKlZ/mC2bueKbz1IzVjsbb+4U306W2iBcNnL8
- FrUbjRv34ml84tDxSoMfSZ93crAfgj/MS6UB+abEIdquQr4Yu+E+7YGTEmCjd56EUxeV
- WgKw==
-X-Gm-Message-State: AOAM531bokRXuZwP3gE7xNUYAP67ghobC6ovNbNjwg49w9x6KXV0ZTX3
- 9MJt0bqIT8dVOPX74G59hUTKIWOZ
-X-Google-Smtp-Source: ABdhPJyWlvPaYg5fM0exV17DKKfaRTgNRErTfbIaQDpsECFpyLk/C8vgs/087jTcN9C+sRmBlCN7vw==
-X-Received: by 2002:ac8:7c2:: with SMTP id m2mr15444087qth.282.1592227180849; 
- Mon, 15 Jun 2020 06:19:40 -0700 (PDT)
-Received: from aford-OptiPlex-7050.logicpd.com ([174.46.170.158])
- by smtp.gmail.com with ESMTPSA id q24sm11520968qkj.103.2020.06.15.06.19.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 06:19:40 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panel-simple: fix connector type for LogicPD Type28
- Display
-Date: Mon, 15 Jun 2020 08:19:34 -0500
-Message-Id: <20200615131934.12440-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B04426E32C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 14:01:05 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3A212207F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 14:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592229665;
+ bh=4ZrW2imLQHEXjli9BMhglqZFIS7OW1wia511Wm26A1U=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=K/KRxrBXnu5c9C61GD1bP9YnkYAS8ruyvyXbp1IrTBwyjJw+wcLWprnxL6Pt+0wlm
+ iClKngonSjFnN4GcpEb/ADtDlsiWUqvVUKQ8JDCe6hgbWqgJU1vZkvsgZoL6NfpZR3
+ B5ltzhb/M60tsPAqEQpKTzCJp69GVQrDZHrDNus0=
+Received: by mail-ed1-f43.google.com with SMTP id c35so11605338edf.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 07:01:05 -0700 (PDT)
+X-Gm-Message-State: AOAM531xffFaJ3fsjvqGUzCwEoQGWhDbwXe6TmZOli4hKpb9RByjaB9T
+ dqIYxWMWLHjHxxw8Ph8lRiyfBg3A+eGaDi9uWw==
+X-Google-Smtp-Source: ABdhPJzhTQFzeEH1zu8mZaCAKp7pknQNSxFhk52tv3DYlzeZp7BzgLrUFynXCoEueO+cSHinJ+GV8Pn0MiN3cVMAAd0=
+X-Received: by 2002:a05:6402:1247:: with SMTP id
+ l7mr22777542edw.61.1592229663698; 
+ Mon, 15 Jun 2020 07:01:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200612124007.4990-1-bernard@vivo.com>
+ <48891eaf60c5e0c449e573a906894db2c3a7b72c.camel@perches.com>
+In-Reply-To: <48891eaf60c5e0c449e573a906894db2c3a7b72c.camel@perches.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 15 Jun 2020 22:00:52 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__sSV2f4MqSLJYvSW9TGV=bCKXz+zELYREaEOFVjA6XQQ@mail.gmail.com>
+Message-ID: <CAAOTY__sSV2f4MqSLJYvSW9TGV=bCKXz+zELYREaEOFVjA6XQQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: remove unnecessary conversion to bool
+To: Joe Perches <joe@perches.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Adam Ford <aford173@gmail.com>,
- aford@beaconembedded.com, stable@vger.kernel.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, opensource.kernel@vivo.com,
+ David Airlie <airlied@linux.ie>, Bernard Zhao <bernard@vivo.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LogicPD Type28 display used by several Logic PD products has not
-worked since v5.5.
-
-The connector type for the LogicPD Type 28 display is missing and
-drm_panel_bridge_add() requires connector type to be set.
-
-Signed-off-by: Adam Ford <aford173@gmail.com>
-CC: stable@vger.kernel.org #v5.5+
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index b6ecd1552132..334e9de5b2c8 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2495,6 +2495,7 @@ static const struct panel_desc logicpd_type_28 = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE |
- 		     DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
- static const struct panel_desc mitsubishi_aa070mc01 = {
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Sm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVzLmNvbT4g5pa8IDIwMjDlubQ25pyIMTXml6Ug6YCx5LiA
+IOS4iuWNiDQ6NDHlr6vpgZPvvJoKPgo+IE9uIEZyaSwgMjAyMC0wNi0xMiBhdCAyMDo0MCArMDgw
+MCwgQmVybmFyZCBaaGFvIHdyb3RlOgo+ID4gSW4gZnVuY3Rpb24gbXRrX2RzaV9jbGtfaHNfc3Rh
+dGUsIHJlbW92ZSB1bm5lY2Vzc2FyeSBjb252ZXJzaW9uCj4gPiB0byBib29sIHJldHVybiwgdGhp
+cyBjaGFuZ2UgaXMgdG8gbWFrZSB0aGUgY29kZSBhIGJpdCByZWFkYWJsZS4KPiBbXQo+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gW10KPiA+IEBAIC0zMTksNyArMzE5LDcgQEAgc3Rh
+dGljIGJvb2wgbXRrX2RzaV9jbGtfaHNfc3RhdGUoc3RydWN0IG10a19kc2kgKmRzaSkKPiA+ICAg
+ICAgIHUzMiB0bXBfcmVnMTsKPiA+Cj4gPiAgICAgICB0bXBfcmVnMSA9IHJlYWRsKGRzaS0+cmVn
+cyArIERTSV9QSFlfTENDT04pOwo+ID4gLSAgICAgcmV0dXJuICgodG1wX3JlZzEgJiBMQ19IU19U
+WF9FTikgPT0gMSkgPyB0cnVlIDogZmFsc2U7Cj4gPiArICAgICByZXR1cm4gKCh0bXBfcmVnMSAm
+IExDX0hTX1RYX0VOKSA9PSAxKTsKPgo+IEdpdmVuOgo+Cj4gZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kc2kuYzojZGVmaW5lIExDX0hTX1RYX0VOICAgICAgICAgICAgICAgICAgQklUKDAp
+Cj4KPiBUaGlzIGlzIGxpa2VseSBjbGVhcmVyIGFzCj4KPiAgICAgICAgIHJldHVybiB0bXBfcmVn
+MSAmIExDX0hTX1RYX0VOOwo+Cj4gb3IgZXZlbgo+Cj4gc3RhdGljIGJvb2wgbXRrX2RzaV9jbGtf
+aHNfc3RhdGUoc3RydWN0IG10a19kc2kgKmRzaSkKPiB7Cj4gICAgICAgICByZXR1cm4gcmVhZGwo
+ZHNpLT5yZWdzICsgRFNJX1BIWV9MQ0NPTikgJiBMQ19IU19UWF9FTjsKPiB9CgpJIGxpa2UgdGhl
+IHNlY29uZCBvbmUuCgo+Cj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCg==
