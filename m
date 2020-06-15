@@ -1,37 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADB01FA3E9
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 01:10:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232661FA414
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 01:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AEDB6E550;
-	Mon, 15 Jun 2020 23:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A48AE6E532;
+	Mon, 15 Jun 2020 23:25:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1E06E550
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 23:10:24 +0000 (UTC)
-Received: from embeddedor (unknown [189.207.59.248])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D51EC2068E;
- Mon, 15 Jun 2020 23:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592262623;
- bh=7RV+LZohdXGjxU20nhjS42pqNFlJCzFWcJTRRTFiDDc=;
- h=Date:From:To:Cc:Subject:From;
- b=CEs4aLG5bPIwZbrsvC2dSFTmKvPInHk5eson9VqbhFdXVH0XydZjGHGGolJ1XST+g
- mlNkDLx5IU3HQg59/H7h47facnlBhyRq+gX3NcxcZ6UcYuXoBExfajLH22hE+PRHfu
- BpG1T8V0uj1NWRhG3TsLNA7PQU73D1kX15FUM8YM=
-Date: Mon, 15 Jun 2020 18:15:42 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH][next] fbcon: Use array3_size() helper in scr_memcpyw()
-Message-ID: <20200615231542.GA20470@embeddedor>
+Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
+ [IPv6:2607:f8b0:4864:20::944])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AD256E532
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 23:25:03 +0000 (UTC)
+Received: by mail-ua1-x944.google.com with SMTP id x14so2725101uao.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 16:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dHV//JeVZwUCJpEL3xxVW8ltiRmVeR1bCpb+AU5FTcw=;
+ b=YTfX+qUwuVa8VI7ZmSwoHK21jcKKvIQ2AMJ4ei2fBY2W1aDUO8b4pNMb6bO7xd4gnK
+ wnrINz5Yt9I7IoyMTxTIAwuNdpm2vAdbK/Yy2ff7XoIjYu6SMDJnBTZaSWIxHHkDpuYo
+ Pu6dHwu+QYIstUMVR8ufgU2E3b7Y6SFzOhshZo+sOVsETs8j1DHRE1pisjgj3mKGZ6EC
+ gHA4humBq1iZ3e5MAFgQg62px1mKcDM69QTxvVCn+m7AiHXEI7IILB9SXSBVowSKk2fF
+ nwG7fd7uPrZcIuO4FYibvmYqgEH0eZbfFEjmkD71pFRi3QKxP4QSpqxzqQY1Hu67UzDm
+ c5wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dHV//JeVZwUCJpEL3xxVW8ltiRmVeR1bCpb+AU5FTcw=;
+ b=lGgdn6AFGRQPeJFXMuWan9gyu4PpYAPdWoWmNKRyDRsy8jiZLNdqbbdMQ28oubl5gv
+ DCaQXDi3m5RIDQru05Trl0lGDLJ9aq3OA1r7612FpX/F534KI6tNpnpw+kT3d4eskVaE
+ qhKAwX1WUqgQDgqDe51bAaTIKwgta+t5kQt425KHiQCMazBcVjUG0jk4vuIbhEule3fS
+ PjMgdYAB8HYmRue9d5qXxtYre9/lvxGHoQi1PAluZTEeLwFamQD9jbdnUPuHBvGjXG6G
+ 3g64W/tRao3e+C0QawrREe1jgBmEkR46rbBmsL1wl1/xEX+ix1ULK66VHlgSN5GOFmge
+ NFlA==
+X-Gm-Message-State: AOAM531GnYQq5GcMWffadZRKXGRTiAr9f3h7SfLCJVfQzsU9Ln6WCzUL
+ Hi2LyJlZ4K5o6Iuu/NNT80R9yb2+1M6Xv82W6oQ=
+X-Google-Smtp-Source: ABdhPJyozyB/pcw8SmH/NTCH9Xl0Zn9uO781EnwTZkuV48K7BasYLBvE1BZMVb+8Fd/BqmhEwxp9QCbFe6G8Gg5m59A=
+X-Received: by 2002:ab0:2758:: with SMTP id c24mr42983uap.64.1592263502193;
+ Mon, 15 Jun 2020 16:25:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200611082809.7838-1-tzimmermann@suse.de>
+ <20200611082809.7838-2-tzimmermann@suse.de>
+In-Reply-To: <20200611082809.7838-2-tzimmermann@suse.de>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 16 Jun 2020 00:21:21 +0100
+Message-ID: <CACvgo53MoViSck=VpYb1jVaTXb1CtuR9t3251COFQ_H_qZucBg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/ast: Remove unused code paths for AST 1180
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,52 +61,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: chen@aspeedtech.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use array3_size() helper instead of the open-coded version in scr_memcpyw()
-and scr_memsetw(). These sorts of multiplication factors need to be wrapped
-in array3_size().
+Hi Thomas,
 
-This issue was found with the help of Coccinelle and, audited and fixed
-manually.
+On Thu, 11 Jun 2020 at 09:28, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-Addresses-KSPP-ID: https://github.com/KSPP/linux/issues/83
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/video/fbdev/core/fbcon.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> --- a/drivers/gpu/drm/ast/ast_drv.c
+> +++ b/drivers/gpu/drm/ast/ast_drv.c
+> @@ -59,7 +59,6 @@ static struct drm_driver driver;
+>  static const struct pci_device_id pciidlist[] = {
+>         AST_VGA_DEVICE(PCI_CHIP_AST2000, NULL),
+>         AST_VGA_DEVICE(PCI_CHIP_AST2100, NULL),
+> -       /*      AST_VGA_DEVICE(PCI_CHIP_AST1180, NULL), - don't bind to 1180 for now */
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 9d28a8e3328f..6af2734f2a7b 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -639,7 +639,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
- 			       GFP_KERNEL);
- 		if (save) {
- 			int i = cols < new_cols ? cols : new_cols;
--			scr_memsetw(save, erase, logo_lines * new_cols * 2);
-+			scr_memsetw(save, erase, array3_size(logo_lines, new_cols, 2));
- 			r = q - step;
- 			for (cnt = 0; cnt < logo_lines; cnt++, r += i)
- 				scr_memcpyw(save + cnt * new_cols, r, 2 * i);
-@@ -676,7 +676,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
- 		q = (unsigned short *) (vc->vc_origin +
- 					vc->vc_size_row *
- 					rows);
--		scr_memcpyw(q, save, logo_lines * new_cols * 2);
-+		scr_memcpyw(q, save, array3_size(logo_lines, new_cols, 2));
- 		vc->vc_y += logo_lines;
- 		vc->vc_pos += logo_lines * vc->vc_size_row;
- 		kfree(save);
--- 
-2.27.0
+Since we don't bind to this pciid, the (removed) code is never
+used/dead. For the series:
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 
+Small idea below: feel free to ignore or if you agree - follow-up at a
+random point in the future.
+
+
+> +       if (dev->pdev->revision >= 0x40) {
+> +               ast->chip = AST2500;
+> +               DRM_INFO("AST 2500 detected\n");
+> +       } else if (dev->pdev->revision >= 0x30) {
+> +               ast->chip = AST2400;
+> +               DRM_INFO("AST 2400 detected\n");
+> +       } else if (dev->pdev->revision >= 0x30) {
+> +               ast->chip = AST2400;
+> +               DRM_INFO("AST 2400 detected\n");
+> +       } else if (dev->pdev->revision >= 0x20) {
+> +               ast->chip = AST2300;
+> +               DRM_INFO("AST 2300 detected\n");
+> +       } else if (dev->pdev->revision >= 0x10) {
+> +               switch (scu_rev & 0x0300) {
+> +               case 0x0200:
+> +                       ast->chip = AST1100;
+> +                       DRM_INFO("AST 1100 detected\n");
+> +                       break;
+> +               case 0x0100:
+> +                       ast->chip = AST2200;
+> +                       DRM_INFO("AST 2200 detected\n");
+> +                       break;
+> +               case 0x0000:
+> +                       ast->chip = AST2150;
+> +                       DRM_INFO("AST 2150 detected\n");
+> +                       break;
+> +               default:
+> +                       ast->chip = AST2100;
+> +                       DRM_INFO("AST 2100 detected\n");
+> +                       break;
+>                 }
+> +               ast->vga2_clone = false;
+> +       } else {
+> +               ast->chip = AST2000;
+> +               DRM_INFO("AST 2000 detected\n");
+>         }
+>
+Instead of the above if/else spaghetti, one can use something alike
+
+static const struct foo {
+    u8 rev_maj; // revision & 0xf0 >> 4
+    u8 rev_scu; // scu_rev & 0x0300 >> 8, ignored if table has 0xf
+    enum ast_chip;
+    const char *name;
+} bar {
+   { 0x3, 0xf, AST2400, "2400" },
+   { 0x2, 0xf, AST2300, "2300" },
+   { 0x1, 0x3, AST2100, "2100" },
+   { 0x1, 0x2, AST1100, "1100" },
+   { 0x1, 0x1, AST2200, "2200" },
+   { 0x1, 0x0, AST2150, "2150" },
+   { 0x0, 0xf, AST2000, "2000" },
+};
+
++ trivial loop.
+
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
