@@ -2,54 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5811FA313
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 23:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6392F1FA304
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 23:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC456E53E;
-	Mon, 15 Jun 2020 21:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E11D6E51A;
+	Mon, 15 Jun 2020 21:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51696E54C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 21:51:18 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id o15so507695vsp.12
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 14:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qgketSwNHBH9JjKBViUJC5dtablUpG9gaeko3bA7e1g=;
- b=kF+GOarzfpIuy/JohE32cXP4Vd2JnpxHM6h0pYme+S7/RWHhC/TmS14r6nlHzUA7+H
- s338WjKce/rQdZZlsDASW3HB7VCWcETvbyXs5Ia+aeWjOfo2+BUJGG2Fxb36GrbjhXrp
- jSuaGAHywJk+9Yvu636+61kzkxBZNPZywBqUJLXOBQfAwAhROHIsoXp6Du9Z6Mtqxc96
- AmJxrsalGzepTrvbjQHDzP3eAh6alhDAJx2EhVaWiQWYgykER/4i2ofnR1OF7vVHz4q/
- +pBMozwuGP4nTI9vBVOIcndY/I2eL2OkLca321sNh+qPYUJM6wM03a2MSLl/2VkmBCmS
- /DjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qgketSwNHBH9JjKBViUJC5dtablUpG9gaeko3bA7e1g=;
- b=lg72gJK/ptUqoNHVXJziCerkQ0H0oQ3NMBZRYX4LCxcsLonlXB9eHjC6skApVWHXaG
- hzaF+z0IIgoa/c81o8a0K4IOdMI/GABGH4LYZnWzb8oRXSsaStkkgN7X1fU8T03L8SHr
- To1mwOD4RRq4H4pezBoxErglreXr1pTL7aB2g10e5600zKgz/wxVT+qtZp5TCHMMGEwR
- sC3IxJYD+LTeNpjQlYfiYDhJW3EaNSVvtW9OGw2KBw8A3VFirKLfVhV7TbWrxdt6koM4
- Vs0aUoNhSiuIR7iAJ2oysFir3dJG0bL7i19JNmABSqkDVlqN53Ql5FnZUwEXvzQwlx9T
- i6gw==
-X-Gm-Message-State: AOAM530jhY2ZNq4x+/637HOBOzGw96R+vqyBDnBnc3UaXRN3IKp15Q2v
- pFwBOTULNeTZEZjl/EVe/lg3kgO+dVGWShc+bws=
-X-Google-Smtp-Source: ABdhPJzv/Bc7NGZajPShdorVicz6OHnHErN3ywjEZYsKSV3VG3JL4TYVkoKlW2KXsaRy+3TOPCaluY8wxU3XWXFdMS4=
-X-Received: by 2002:a67:b149:: with SMTP id z9mr20210130vsl.85.1592257878077; 
- Mon, 15 Jun 2020 14:51:18 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77DCD6E51A;
+ Mon, 15 Jun 2020 21:47:02 +0000 (UTC)
+IronPort-SDR: jZajlAkGIIaKPjb3uIW9PjBCRZS2bF/HVGNrcdUndnqIr3o1fM2QcOmW+ytmxDgdE2UgzdE8iW
+ saYRcee3yyLA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2020 14:47:01 -0700
+IronPort-SDR: vrLN12SKSKdHKRJMFTF72BJlpnJwYW/OfP+90ZgqAnKl/MpRtdoajlpvb3BzbeLcQD9AY7onJk
+ VZOMWuDRKRjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,516,1583222400"; d="scan'208";a="476177176"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2020 14:47:01 -0700
+Date: Mon, 15 Jun 2020 14:48:09 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH v7 3/3] drm/i915/dp: Expose connector VRR monitor range
+ via debugfs
+Message-ID: <20200615214809.GA4334@intel.com>
+References: <20200612230444.10121-4-manasi.d.navare@intel.com>
+ <20200612235606.25120-1-manasi.d.navare@intel.com>
+ <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200614200121.14147-1-digetx@gmail.com>
- <20200614200121.14147-6-digetx@gmail.com>
-In-Reply-To: <20200614200121.14147-6-digetx@gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 15 Jun 2020 22:47:37 +0100
-Message-ID: <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_=5BPATCH_v2_5=2F5=5D_drm=2Ftegra=3A_plane=3A_Support_180=C2=B0_r?=
- =?UTF-8?Q?otation?=
-To: Dmitry Osipenko <digetx@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +51,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On Mon, Jun 15, 2020 at 10:36:28PM +0100, Emil Velikov wrote:
+> Hi Manasi,
+> =
 
-Perhaps a silly question:
+> On Sat, 13 Jun 2020 at 00:55, Manasi Navare <manasi.d.navare@intel.com> w=
+rote:
+> >
+> > From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> >
+> > [Why]
+> > It's useful to know the min and max vrr range for IGT testing.
+> >
+> > [How]
+> > Expose the min and max vfreq for the connector via a debugfs file
+> > on the connector, "vrr_range".
+> >
+> > Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
+> >
+> > v7:
+> > * Fix cmpilation due to rebase
+> > v6:
+> > * Rebase (manasi)
+> > v5:
+> > * Rename to vrr_range to match AMD debugfs
+> > v4:
+> > * Rebase
+> > v3:
+> > * Remove the unnecessary debug print (Manasi)
+> > v2:
+> > * Fix the typo in max_vfreq (Manasi)
+> > * Change the name of node to i915_vrr_info so we can add
+> > other vrr info for more debug info (Manasi)
+> > * Change the VRR capable to display Yes or No (Manasi)
+> > * Fix indentation checkpatch errors (Manasi)
+> >
+> Nit: generally revision log is listed in v2 -> v6 order.
 
-On Mon, 15 Jun 2020 at 08:28, Dmitry Osipenko <digetx@gmail.com> wrote:
+Okay point noted. Will update this in the next rev
+
+> =
+
+> > Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > Tested-by: Manasi Navare <manasi.d.navare@intel.com>
+> > ---
+> >  .../drm/i915/display/intel_display_debugfs.c  | 22 ++++++++++++++++++-
+> >  1 file changed, 21 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/dri=
+vers/gpu/drm/i915/display/intel_display_debugfs.c
+> > index 28dd717e943a..2921f7d2a26e 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> > @@ -2185,6 +2185,21 @@ static const struct file_operations i915_dsc_fec=
+_support_fops =3D {
+> >         .write =3D i915_dsc_fec_support_write
+> >  };
+> >
+> > +static int vrr_range_show(struct seq_file *m, void *data)
+> > +{
+> > +       struct drm_connector *connector =3D m->private;
+> > +
+> > +       if (connector->status !=3D connector_status_connected)
+> > +               return -ENODEV;
+> > +
+> > +       seq_printf(m, "Vrr_capable: %s\n", yesno(intel_dp_is_vrr_capabl=
+e(connector)));
+> > +       seq_printf(m, "Min: %u\n", (u8)connector->display_info.monitor_=
+range.min_vfreq);
+> > +       seq_printf(m, "Max: %u\n", (u8)connector->display_info.monitor_=
+range.max_vfreq);
+> > +
+> > +       return 0;
+> > +}
+> > +DEFINE_SHOW_ATTRIBUTE(vrr_range);
+> > +
+> >  /**
+> >   * intel_connector_debugfs_add - add i915 specific connector debugfs f=
+iles
+> >   * @connector: pointer to a registered drm_connector
+> > @@ -2220,10 +2235,15 @@ int intel_connector_debugfs_add(struct drm_conn=
+ector *connector)
+> >         if (INTEL_GEN(dev_priv) >=3D 10 &&
+> >             ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_Displ=
+ayPort &&
+> >               !to_intel_connector(connector)->mst_port) ||
+> > -            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP))
+> > +            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP)) {
+> >                 debugfs_create_file("i915_dsc_fec_support", S_IRUGO, ro=
+ot,
+> >                                     connector, &i915_dsc_fec_support_fo=
+ps);
+> >
+> > +               if (INTEL_GEN(dev_priv) >=3D 12)
+> > +                       debugfs_create_file("vrr_range", S_IRUGO,
+> > +                                           root, connector, &vrr_range=
+_fops);
+> > +       }
+> > +
+> =
+
+> I think this should be added by core drm. Ideally drm will add it
+> automatically for each connector that the driver has called
+> drm_connector_attach_vrr_capable_property() upon.
 >
-> Combining horizontal and vertical reflections gives us 180 degrees of
-> rotation.
->
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/gpu/drm/tegra/dc.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index f31bca27cde4..ddd9b88f8fce 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
 
-> +       if (rotation & DRM_MODE_ROTATE_180) {
-> +               plane_state->reflect_x = !plane_state->reflect_x;
-> +               plane_state->reflect_y = !plane_state->reflect_y;
-> +       }
-> +
-As mentioned by Ville the above is already handled by
-drm_rotation_simplify() ... although it makes me wonder:
+But in this case drm_connector_attach_vrr_capable_property() is called by i=
+ndividual
+driver since its an optional connector property. So we call this inside i91=
+5.
+Also currently AMD sets this debugfs inside AMD IMO, so setting this here f=
+or now.
+But I agree that can be moved to drm core may be when drm_display_info gets=
+ populated
+with min and max, thats where drm can add this?
 
+Manasi
+  =
 
->         err = drm_plane_create_rotation_property(&plane->base,
->                                                  DRM_MODE_ROTATE_0,
->                                                  DRM_MODE_ROTATE_0 |
-> +                                                DRM_MODE_ROTATE_180 |
->                                                  DRM_MODE_REFLECT_X |
->                                                  DRM_MODE_REFLECT_Y);
-
-Would it make sense for drm_plane_create_rotation_property() itself,
-to add DRM_MODE_ROTATE_180, when both reflections are supported?
-
--Emil
+> -Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
