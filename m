@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355B91F9C46
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 17:51:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD8E1F9CA7
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 18:10:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513376E372;
-	Mon, 15 Jun 2020 15:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3836E375;
+	Mon, 15 Jun 2020 16:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD4E6E372
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 15:51:51 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id t6so13449858otk.9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 08:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bWyoo9JIc02kJrgZwZWDB6M+M+eayvoh4h0JfKlgAOg=;
- b=HZ9TGIHT3a6uTYpAL41ct8BaksKi9jcKD+CTcG4bhh49tCI0spnO7q4fba7ph6J5+u
- LSALdBHwUbHldi9ukvwr9xI0ecx34xxIsv5A9G8nByTcSF/RGMXOvoZAyE1Zivo97yeP
- xMbgtpCvWTGagmJbVQpMNElwruwDinKtRKbuE=
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D256E375
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 16:09:58 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id c8so18505389iob.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 09:09:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bWyoo9JIc02kJrgZwZWDB6M+M+eayvoh4h0JfKlgAOg=;
- b=jLaUA3vnAyxs413R2bjmXdotmXS0o+IhT2/Ozgd+Wsi1GyOtIOrwECAlYD+rHJTFwh
- /CH4mW6q6syP5T5czUlnnIsDyl294TnPH0do3SV/JMx/GMtMlUBMRYTLqpK1O8o2dnFl
- f+E8xQmoKyl/IgW5+RXx9P+E758I+lGug40dwcoUBUPB1y7C9gAbPgn3GWFDmBN4g64l
- 8CUXd3Qq2J3Oh3jd2dYh6lInoV60HDMV+GuV+BTsGXh0As9pWusr9brxBwpetNmmk8yW
- Zr+uwegsqxkSJL1aUB7zSycyP0UwFmPuhBB5TaZ6OeskEhP+PsUsgh16jpxk8/+Bgb8Z
- 2HZA==
-X-Gm-Message-State: AOAM530BKU4kVqMe6NVh+H3bUbr7n3UqWP0U9tAH82VK8pAq0BKujqxY
- 6EYBwF+LvAQOlfZ6uD6W5MlXuWP0HuPS9qtCme3qRg==
-X-Google-Smtp-Source: ABdhPJx6HqrEy7ruwqlLz5F7KsjYacsr6GyNremIHWvMKdV1r9zXlfsXDgmMhd5sUL1E7QvEGvXk/jO3No7vVKicdOY=
-X-Received: by 2002:a05:6830:54:: with SMTP id
- d20mr23204225otp.281.1592236310586; 
- Mon, 15 Jun 2020 08:51:50 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6pcmdJx4HNdfvoURK0pS/uo9gcQBvUR51Fl9F7RD+2g=;
+ b=GLFqCOBjMzSd7oA+WbFY5c/R7fLMfOASNFQhs5yPNLpFBretxIbMILbEWSnbZpycV9
+ +LFrA134QKnp/7RzBzNDLSY3gs8tl8pSZr4AGSXAVmPvdsx3Y8bFdGAHfx48ikP/jvBQ
+ 4JcY0sA4Zo9WYbBBw45GElZN86HilvL2QqbeUvgyIBPADwwl+b2NCIRP58QNbHmBY7b0
+ f0W5n2bad2N/58OXoqvrxGkJqCXiO0CwdyB1ALf5trYR/5JtN6HpaaxQ7X2Ag1sNRF2T
+ DlgAJ+CKJLYRUP1BvJoxA2xWWUueDmJqib+RlzbIBc34pnV0B3fU1xIND1jOnO6SDgD7
+ vkkA==
+X-Gm-Message-State: AOAM530VspWqHRZIN7fpopM7T8wKa6rs1oaAwjxGsVF5a1VDezmCmTCC
+ Fm4KO388VcDvw2ZALqD/Nw==
+X-Google-Smtp-Source: ABdhPJxjLCBX9sKIbflLAfGJFvnKwPQdtJxMytSuki4Cyx5b84o8tX12LEkI1o1hSS+BanuS7tOEZQ==
+X-Received: by 2002:a6b:4413:: with SMTP id r19mr27931825ioa.162.1592237397848; 
+ Mon, 15 Jun 2020 09:09:57 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+ by smtp.gmail.com with ESMTPSA id j63sm8448166ilg.50.2020.06.15.09.09.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Jun 2020 09:09:57 -0700 (PDT)
+Received: (nullmailer pid 1861733 invoked by uid 1000);
+ Mon, 15 Jun 2020 16:09:56 -0000
+Date: Mon, 15 Jun 2020 10:09:56 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Subject: Re: [PATCH v16 1/1] dt-bindings: display: mediatek: convert the dpi
+ bindings to yaml
+Message-ID: <20200615160956.GB1861039@bogus>
+References: <20200614073036.63969-1-jitao.shi@mediatek.com>
+ <20200614073036.63969-2-jitao.shi@mediatek.com>
 MIME-Version: 1.0
-References: <20200613223027.4189309-1-linus.walleij@linaro.org>
- <20200614074441.GA220677@ravnborg.org>
- <CACRpkdZNM7+qzbJqyfJfEDO8P9SqpO4W6+t0-t89CXeFk9tSRw@mail.gmail.com>
-In-Reply-To: <CACRpkdZNM7+qzbJqyfJfEDO8P9SqpO4W6+t0-t89CXeFk9tSRw@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 15 Jun 2020 17:51:39 +0200
-Message-ID: <CAKMK7uHmSvGE+qSvxUMGE3CTak1_UOKpD0+NmRZYJDa-xBTgMA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: mcde: Fix display initialization problem
-To: Linus Walleij <linus.walleij@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Content-Disposition: inline
+In-Reply-To: <20200614073036.63969-2-jitao.shi@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,72 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Sam Ravnborg <sam@ravnborg.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ srv_heupstream@mediatek.com, David Airlie <airlied@linux.ie>,
+ huijuan.xie@mediatek.com, stonea168@163.com, cawa.cheng@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, yingjoe.chen@mediatek.com,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 14, 2020 at 11:29 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Sun, Jun 14, 2020 at 9:44 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> > Hi Linus.
-> >
-> > On Sun, Jun 14, 2020 at 12:30:26AM +0200, Linus Walleij wrote:
-> > > The following bug appeared in the MCDE driver/display
-> > > initialization during the recent merge window.
-> > >
-> > > First the place we call drm_fbdev_generic_setup() in the
-> > > wrong place: this needs to be called AFTER calling
-> > > drm_dev_register() else we get this splat:
-> > >
-> > >  ------------[ cut here ]------------
-> > > WARNING: CPU: 0 PID: 1 at ../drivers/gpu/drm/drm_fb_helper.c:2198 drm_fbdev_generic_setup+0x164/0x1a8
-> > > mcde a0350000.mcde: Device has not been registered.
-> > > Modules linked in:
-> > > Hardware name: ST-Ericsson Ux5x0 platform (Device Tree Support)
-> > > [<c010e704>] (unwind_backtrace) from [<c010a86c>] (show_stack+0x10/0x14)
-> > > [<c010a86c>] (show_stack) from [<c0414f38>] (dump_stack+0x9c/0xb0)
-> > > [<c0414f38>] (dump_stack) from [<c0121c8c>] (__warn+0xb8/0xd0)
-> > > [<c0121c8c>] (__warn) from [<c0121d18>] (warn_slowpath_fmt+0x74/0xb8)
-> > > [<c0121d18>] (warn_slowpath_fmt) from [<c04b154c>] (drm_fbdev_generic_setup+0x164/0x1a8)
-> > > [<c04b154c>] (drm_fbdev_generic_setup) from [<c04ed278>] (mcde_drm_bind+0xc4/0x160)
-> > > [<c04ed278>] (mcde_drm_bind) from [<c04f06b8>] (try_to_bring_up_master+0x15c/0x1a4)
-> > > (...)
-> > >
-> > > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> >
-> > Yup, this is the right way to do it.
-> >
-> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->
-> Hm I can't seem to apply these because drm-misc-fixes isn't
-> rebased to v5.8-rc1 or something (wrong ancestor).
->
-> Does anyone know if ther is a special trick for this or do I
-> need to wait for someone else to rebase that branch?
-
-Thomas Zimmermann (added) as current -fixes handler needs to roll the
-branch forward (and make sure nothing got lost).
--Daniel
-
->
-> Yours,
-> Linus Walleij
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+On Sun, 14 Jun 2020 15:30:36 +0800, Jitao Shi wrote:
+> Convert display/mediatek/mediatek,dpi.txt to display/mediatek/mediatek,dpi.yaml
+> and remove the old text bindings.
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,dpi.txt         | 42 --------
+>  .../display/mediatek/mediatek,dpi.yaml        | 97 +++++++++++++++++++
+>  2 files changed, 97 insertions(+), 42 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> 
 
 
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.example.dt.yaml: example-0: dpi@1401d000:reg:0: [0, 335663104, 0, 4096] is too long
+
+
+See https://patchwork.ozlabs.org/patch/1308901
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
