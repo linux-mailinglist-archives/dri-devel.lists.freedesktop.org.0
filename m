@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAB31FA9B2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:10:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335201FA995
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F9E6E82F;
-	Tue, 16 Jun 2020 07:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 990D76E7E6;
+	Tue, 16 Jun 2020 07:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F19289C14
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B959189C51
  for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 07:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=k1; bh=RMjlCTPUvJW1xCnOoDBBA4mwVvV
- x7bFOG969Q15EZOU=; b=SYydaonKX5A7C0B1a+4qFM1lKE7T4hIZFdE9R+5ioBU
- dOOeaOjQ69pzbcX6BA1gYstAhfc1gEvpILpV03n5BL9khDjYRlxzJz7PnJDduXzy
- TtJoCxH8ev12glMVgaCN8go3X4rAVq2RX7GLodVdpYjE3qrBwpILRdwcJxD9VSbA
- =
-Received: (qmail 989091 invoked from network); 15 Jun 2020 09:58:27 +0200
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=k1; bh=I0WHFYAv4nxQs6
+ tkAm55ITf+hr7ghVSe5IeMsWR0Ebw=; b=X/pORW/dgUb3m2RPbwaCx5wMOMh+cF
+ RkM8TtjpetEVkBK0GW6zrJzTuKlK0WNT+5bU6OaabLgGlj/N1412Hjzb5BKrl+Lo
+ IKfFHN5BnqFiIFTqzBtflEBW9916RdijN4mBrii+MIAWWhXwd5dxvzBJpE9yTKlu
+ kI2aiSI4JMGT4=
+Received: (qmail 989136 invoked from network); 15 Jun 2020 09:58:27 +0200
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
  authenticated); 15 Jun 2020 09:58:27 +0200
-X-UD-Smtp-Session: l3s3148p1@h+KzyhqoBrYgAwDPXwRdAFnN6pRlEuNX
+X-UD-Smtp-Session: l3s3148p1@p029yhqoCLYgAwDPXwRdAFnN6pRlEuNX
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i2c@vger.kernel.org
-Subject: [PATCH 0/6] remove deprecated i2c_new_device API
-Date: Mon, 15 Jun 2020 09:58:09 +0200
-Message-Id: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 1/6] drm: encoder_slave: fix refcouting error for modules
+Date: Mon, 15 Jun 2020 09:58:10 +0200
+Message-Id: <20200615075816.2848-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
+References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 16 Jun 2020 07:09:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -43,50 +45,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I want to remove the above API this cycle, and just a few patches have
-not made it into 5.8-rc1. They have been reviewed and most had been
-promised to get into linux-next, but well, things happen. So, I hope it
-is okay for everyone to collect them like this and push them via I2C for
-5.8-rc2.
+module_put() balances try_module_get(), not request_module(). Fix the
+error path to match that.
 
-One minor exception is the media documentation patch which I simply have
-missed so far, but it is trivial.
+Fixes: 2066facca4c7 ("drm/kms: slave encoder interface.")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+---
 
-And then, finally, there is the removal of the old API as the final
-patch. Phew, that's been a long ride.
+I'd like to push it via I2C for 5.8-rc2.
 
-I am open for comments, of course.
+ drivers/gpu/drm/drm_encoder_slave.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Happy hacking,
-
-   Wolfram
-
-
-Wolfram Sang (6):
-  drm: encoder_slave: fix refcouting error for modules
-  drm: encoder_slave: use new I2C API
-  x86/platform/intel-mid: convert to use i2c_new_client_device()
-  video: backlight: tosa_lcd: convert to use i2c_new_client_device()
-  Documentation: media: convert to use i2c_new_client_device()
-  i2c: remove deprecated i2c_new_device API
-
- .../driver-api/media/v4l2-subdev.rst          |  2 +-
- .../userspace-api/media/conf_nitpick.py       |  2 +-
- arch/x86/platform/intel-mid/sfi.c             |  4 +--
- drivers/gpu/drm/drm_encoder_slave.c           | 15 ++++-------
- drivers/i2c/i2c-core-base.c                   | 25 -------------------
- drivers/video/backlight/tosa_lcd.c            |  4 +--
- include/linux/i2c.h                           |  8 +++---
- 7 files changed, 14 insertions(+), 46 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_encoder_slave.c b/drivers/gpu/drm/drm_encoder_slave.c
+index cf804389f5ec..d50a7884e69e 100644
+--- a/drivers/gpu/drm/drm_encoder_slave.c
++++ b/drivers/gpu/drm/drm_encoder_slave.c
+@@ -84,7 +84,7 @@ int drm_i2c_encoder_init(struct drm_device *dev,
+ 
+ 	err = encoder_drv->encoder_init(client, dev, encoder);
+ 	if (err)
+-		goto fail_unregister;
++		goto fail_module_put;
+ 
+ 	if (info->platform_data)
+ 		encoder->slave_funcs->set_config(&encoder->base,
+@@ -92,9 +92,10 @@ int drm_i2c_encoder_init(struct drm_device *dev,
+ 
+ 	return 0;
+ 
++fail_module_put:
++	module_put(module);
+ fail_unregister:
+ 	i2c_unregister_device(client);
+-	module_put(module);
+ fail:
+ 	return err;
+ }
 -- 
 2.27.0
 
