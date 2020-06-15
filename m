@@ -1,115 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87261F8BF8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 02:47:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BCA1F8E11
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 08:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A0F789E3F;
-	Mon, 15 Jun 2020 00:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C6A89F27;
+	Mon, 15 Jun 2020 06:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACA989E3F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 00:47:12 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20200615004710epoutp027bc026b70654bac2cf1ff4756f10b00d~YkR7v1iDg3052030520epoutp02q
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 00:47:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20200615004710epoutp027bc026b70654bac2cf1ff4756f10b00d~YkR7v1iDg3052030520epoutp02q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1592182030;
- bh=8yvh7hV29VBPOtwpd8omf9HSfJ9mL6MVoGzHXyVkzKM=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=esH6rqnU5jYdTX5AMWLAWhUhL7EiD6t3Dpgp+lHTSC/obSercnAWweMRF9qGob+kC
- SFhnNY7O+wM80uAAv5ZCYdJucS14BpV+VnTRCyJjShTfL3bPpw40r3LYE781oJTuqH
- b2FL9ZgYsSociYXPV6zUCqRXh3fiyuG/nLxi7VTo=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20200615004709epcas1p365ad9f2a41c4f8ef2c2201f7784524c0~YkR63vdTd3045330453epcas1p3N;
- Mon, 15 Jun 2020 00:47:09 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.156]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 49lXj770DwzMqYkn; Mon, 15 Jun
- 2020 00:47:07 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 59.CE.18978.B05C6EE5; Mon, 15 Jun 2020 09:47:07 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20200615004707epcas1p3f9d0e4367d2a8f333961a05fee14258a~YkR44ko1e3059930599epcas1p37;
- Mon, 15 Jun 2020 00:47:07 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200615004707epsmtrp1f86ef955f5aee69b793717dd0083138a~YkR43o9NU2192121921epsmtrp1c;
- Mon, 15 Jun 2020 00:47:07 +0000 (GMT)
-X-AuditID: b6c32a35-603ff70000004a22-73-5ee6c50b2ab6
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- AE.83.08382.B05C6EE5; Mon, 15 Jun 2020 09:47:07 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200615004707epsmtip1aa43a233efc06f0cb1b7365c311ad051~YkR4qpdgL1601216012epsmtip1G;
- Mon, 15 Jun 2020 00:47:06 +0000 (GMT)
-Subject: Re: [PATCH] drm/exynos: fix ref count leak in mic_pre_enable
-To: Navid Emamdoost <navid.emamdoost@gmail.com>, Joonyoung Shim
- <jy0922.shim@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski
- <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Inki Dae <inki.dae@samsung.com>
-Message-ID: <027d9eb5-a1c1-c329-72c3-a555b71f8677@samsung.com>
-Date: Mon, 15 Jun 2020 09:52:43 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B182189F55
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 06:47:13 +0000 (UTC)
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de
+ [95.90.213.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 947E521556;
+ Mon, 15 Jun 2020 06:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592203632;
+ bh=sOlCZeAIIdnJeZ75NMKYKIJfx785+zKJ7yu0YkJu2qg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=eYahEgyPPQXSmFAT7H9YIWLrUz7r9bYJ3sEmnpf2WjfEZkEfYSQL+dnCBid4wPO3T
+ Ff7Yc21Lokg1ydol9hQBG25i5Bwy/5e16o9e1ssMGQswWyQGV4Zw4FZ3rWBJGz9Iwd
+ tmb2mt5uOxRpXVgFNGkevjoXwvHrVow/kwT35a+w=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+ (envelope-from <mchehab@kernel.org>)
+ id 1jkith-009nmo-QD; Mon, 15 Jun 2020 08:47:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: [PATCH 13/29] dt: fix broken links due to txt->yaml renames
+Date: Mon, 15 Jun 2020 08:46:52 +0200
+Message-Id: <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200614062339.87374-1-navid.emamdoost@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBJsWRmVeSWpSXmKPExsWy7bCmri730WdxBs/mm1v0njvJZPF/20Rm
- iytf37NZPGuczmrx4t5FFov+x6+ZLU7MO8tucf78BnaLs01v2C02Pb7GanF51xw2ixnn9zFZ
- 9J7cwWwx7csidosZk1+yWfQebWRzEPDY+20Bi8fOWXfZPTat6mTz2P7tAavH/e7jTB6bl9R7
- 9G1ZxehxdWETu8fnTXIBnFHZNhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJ
- uam2Si4+AbpumTlAbygplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCiwL9IoTc4tL
- 89L1kvNzrQwNDIxMgQoTsjN2ntvHXLCYo6Lz5hbmBsaHbF2MHBwSAiYSLb9luxi5OIQEdjBK
- PDnyhhXC+cQo0fXlCguE841R4vbdCUAZTrCO7W/eM0Mk9jJKTF7wBqrqPaPE2a3tLCBVwgKu
- Ek9+XgdLiAicYJZYcO4F2EJmATeJJydEQGrYBFQlJq64zwZi8wrYSazd8xWslwUo/qLnLwtI
- uahAhMTpr4kQJYISJ2c+ASvhFLCXaJuxhBnEZhYQl7j1ZD4ThC0v0bx1NthxEgIvOCTudT1g
- h7jaReJhx1aoD4QlXh3fAhWXknjZ38YO0dDMKDFxxmkmCKeDUeLu4+ssEFXGEvuXTmaCeEBT
- Yv0ufYiwosTO33MZITbzSbz72sMKCVReiY42IYgSJYljF28wQtgSEheWTGSDsD0kjvzuZp/A
- qDgLyW+zkPwzC8k/sxAWL2BkWcUollpQnJueWmxYYIgc25sYwUlcy3QH48S3H/QOMTJxMB5i
- lOBgVhLh7U57EifEm5JYWZValB9fVJqTWnyI0RQY2BOZpUST84F5JK8k3tDUyNjY2MLE0MzU
- 0FBJnFdc5kKckEB6YklqdmpqQWoRTB8TB6dUA1N5AZvHKpO96x49DbgS7mxraL3ur2OM6rcv
- fxZEH3Tc29sSdyNkHuvJeX2fZK5YzhRIdzm7Wanx4PtJxmcOHUm6nVytnbjr74+Np6J2TDqR
- kr3XIlQyct2/L3PDT5zXkJnme3zFt7opTksLl/79J8xtNFfUffm/oiz/O/dmL/485UHEo1bD
- TdeurEtuu6brsEH1zGPb9TomL0584P+hZ7/D/MKJXa/v9PUJ8Nfb2GxLZ35X8TKf4b3zCe7C
- it17lq452vqwwPbPvlUsjVO2pk2IP2nSJCB554Tro3lp+ys/LJ4QW6ZqrCpQct10Ss/qfxNN
- OxelNUyMPbk1eVrU47XnOKL8c+YcniWRuu/0qYaVV5RYijMSDbWYi4oTAY0a+iJrBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsWy7bCSnC730WdxBisfcFv0njvJZPF/20Rm
- iytf37NZPGuczmrx4t5FFov+x6+ZLU7MO8tucf78BnaLs01v2C02Pb7GanF51xw2ixnn9zFZ
- 9J7cwWwx7csidosZk1+yWfQebWRzEPDY+20Bi8fOWXfZPTat6mTz2P7tAavH/e7jTB6bl9R7
- 9G1ZxehxdWETu8fnTXIBnFFcNimpOZllqUX6dglcGTvP7WMuWMxR0XlzC3MD40O2LkZODgkB
- E4ntb94zdzFycQgJ7GaUOLXiPVCCAyghIbFlKweEKSxx+HAxRMlbRokjd3eD9QoLuEo8+Xmd
- BSQhInCKWWLb9idMIA3MAm4ST06IQDRMYpT48LmHBaSBTUBVYuKK+2DNvAJ2Emv3fAWLswDF
- X/T8BbNFBSIknm+/wQhRIyhxcuYTsDingL1E24wlzCA2s4C6xJ95l6BscYlbT+YzQdjyEs1b
- ZzNPYBSahaR9FpKWWUhaZiFpWcDIsopRMrWgODc9t9iwwDAvtVyvODG3uDQvXS85P3cTIzhq
- tTR3MG5f9UHvECMTB+MhRgkOZiUR3u60J3FCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeW8ULowT
- EkhPLEnNTk0tSC2CyTJxcEo1MB1+teTKck+Jo9unX7K+fa+U2bH79N9aG/MDH0z0LniIGgp3
- nQjs3/H/sXaIcYgazwrxzxubRKTPM8V6ndK2mrxB7vmsk7bvXDdwnv3+/na14WOJe7PUa2ev
- nvw4ecelloeqirIPQ/e+CHzQwa2lLbZizowvF5eftpp8+n7+RP6rb1yallSUS3I4Radvjt3x
- T/Yoawif1xbuxW2S/R6sJQtXcEZy1jyOlnmkEWLT6zjXl2+KQubByAOVrumWZtZS/t/mrUxJ
- clvkJTTBvHml9Xfu5hsyXzf2TXm3IHPH1+uepXOdp4g952l7fvyD71W9/Cd7/qyNnBbpPln6
- 1oW+hp2upj/zpPxVa0KnF7mvmqzEUpyRaKjFXFScCAAU6wGESQMAAA==
-X-CMS-MailID: 20200615004707epcas1p3f9d0e4367d2a8f333961a05fee14258a
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200614062349epcas1p1e285479c1e6483708b62f93e70a453a4
-References: <CGME20200614062349epcas1p1e285479c1e6483708b62f93e70a453a4@epcas1p1.samsung.com>
- <20200614062339.87374-1-navid.emamdoost@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,30 +49,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emamd001@umn.edu, kjlu@umn.edu, wu000273@umn.edu, smccaman@umn.edu
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
+ Jakub Kicinski <kuba@kernel.org>, linux-mips@vger.kernel.org,
+ devicetree@vger.kernel.org, Sean Wang <sean.wang@mediatek.com>,
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, netdev@vger.kernel.org,
+ Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-bluetooth@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgoyMC4gNi4gMTQuIOyYpO2bhCAzOjIz7JeQIE5hdmlkIEVtYW1kb29zdCDsnbQo6rCAKSDs
-k7Qg6riAOgo+IGluIG1pY19wcmVfZW5hYmxlLCBwbV9ydW50aW1lX2dldF9zeW5jIGlzIGNhbGxl
-ZCB3aGljaAo+IGluY3JlbWVudHMgdGhlIGNvdW50ZXIgZXZlbiBpbiBjYXNlIG9mIGZhaWx1cmUs
-IGxlYWRpbmcgdG8gaW5jb3JyZWN0Cj4gcmVmIGNvdW50LiBJbiBjYXNlIG9mIGZhaWx1cmUsIGRl
-Y3JlbWVudCB0aGUgcmVmIGNvdW50IGJlZm9yZSByZXR1cm5pbmcuCj4gCj4gU2lnbmVkLW9mZi1i
-eTogTmF2aWQgRW1hbWRvb3N0IDxuYXZpZC5lbWFtZG9vc3RAZ21haWwuY29tPgo+IC0tLQo+ICBk
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fbWljLmMgfCAyICstCj4gIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fbWljLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-ZXh5bm9zL2V4eW5vc19kcm1fbWljLmMKPiBpbmRleCBhODZhYmMxNzM2MDUuLjY5ZmY3NGMyY2Vi
-NSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fbWljLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fbWljLmMKPiBAQCAtMjcw
-LDcgKzI3MCw3IEBAIHN0YXRpYyB2b2lkIG1pY19wcmVfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdl
-ICpicmlkZ2UpCj4gIAo+ICAJcmV0ID0gcG1fcnVudGltZV9nZXRfc3luYyhtaWMtPmRldik7Cj4g
-IAlpZiAocmV0IDwgMCkKPiAtCQlnb3RvIHVubG9jazsKPiArCQlnb3RvIHR1cm5fb2ZmOwoKSG93
-IGFib3V0IGp1c3QgY2FsbGluZyBwbV9ydW50aW1lX3B1dF9ub2lkbGUoKT8KCmlmIChyZXQgPCAw
-KSB7CglwbV9ydW50aW1lX3B1dF9ub2lkbGUobWljLT5kZXYpOwoJZ290byB1bmxvY2s7Cn0KClRo
-YW5rcywKSW5raSBEYWUKCj4gIAo+ICAJbWljX3NldF9wYXRoKG1pYywgMSk7Cj4gIAo+IApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+There are some new broken doc links due to yaml renames
+at DT. Developers should really run:
+
+	./scripts/documentation-file-ref-check
+
+in order to solve those issues while submitting patches.
+This tool can even fix most of the issues with:
+
+	./scripts/documentation-file-ref-check --fix
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/devicetree/bindings/display/bridge/sii902x.txt  | 2 +-
+ .../devicetree/bindings/display/rockchip/rockchip-drm.yaml    | 2 +-
+ Documentation/devicetree/bindings/net/mediatek-bluetooth.txt  | 2 +-
+ Documentation/devicetree/bindings/sound/audio-graph-card.txt  | 2 +-
+ Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt  | 2 +-
+ Documentation/mips/ingenic-tcu.rst                            | 2 +-
+ MAINTAINERS                                                   | 4 ++--
+ 7 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/sii902x.txt b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+index 6e14e087c0d0..0d1db3f9da84 100644
+--- a/Documentation/devicetree/bindings/display/bridge/sii902x.txt
++++ b/Documentation/devicetree/bindings/display/bridge/sii902x.txt
+@@ -37,7 +37,7 @@ Optional properties:
+ 	simple-card or audio-graph-card binding. See their binding
+ 	documents on how to describe the way the sii902x device is
+ 	connected to the rest of the audio system:
+-	Documentation/devicetree/bindings/sound/simple-card.txt
++	Documentation/devicetree/bindings/sound/simple-card.yaml
+ 	Documentation/devicetree/bindings/sound/audio-graph-card.txt
+ 	Note: In case of the audio-graph-card binding the used port
+ 	index should be 3.
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+index ec8ae742d4da..7204da5eb4c5 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-drm.yaml
+@@ -24,7 +24,7 @@ properties:
+     description: |
+       Should contain a list of phandles pointing to display interface port
+       of vop devices. vop definitions as defined in
+-      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.txt
++      Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
+index 219bcbd0d344..9ef5bacda8c1 100644
+--- a/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
++++ b/Documentation/devicetree/bindings/net/mediatek-bluetooth.txt
+@@ -3,7 +3,7 @@ MediaTek SoC built-in Bluetooth Devices
+ 
+ This device is a serial attached device to BTIF device and thus it must be a
+ child node of the serial node with BTIF. The dt-bindings details for BTIF
+-device can be known via Documentation/devicetree/bindings/serial/8250.txt.
++device can be known via Documentation/devicetree/bindings/serial/8250.yaml.
+ 
+ Required properties:
+ 
+diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card.txt b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
+index 269682619a70..d5f6919a2d69 100644
+--- a/Documentation/devicetree/bindings/sound/audio-graph-card.txt
++++ b/Documentation/devicetree/bindings/sound/audio-graph-card.txt
+@@ -5,7 +5,7 @@ It is based on common bindings for device graphs.
+ see ${LINUX}/Documentation/devicetree/bindings/graph.txt
+ 
+ Basically, Audio Graph Card property is same as Simple Card.
+-see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.txt
++see ${LINUX}/Documentation/devicetree/bindings/sound/simple-card.yaml
+ 
+ Below are same as Simple-Card.
+ 
+diff --git a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+index 4d51f3f5ea98..a6ffcdec6f6a 100644
+--- a/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
++++ b/Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt
+@@ -5,7 +5,7 @@ codec or external codecs.
+ 
+ sti sound drivers allows to expose sti SoC audio interface through the
+ generic ASoC simple card. For details about sound card declaration please refer to
+-Documentation/devicetree/bindings/sound/simple-card.txt.
++Documentation/devicetree/bindings/sound/simple-card.yaml.
+ 
+ 1) sti-uniperiph-dai: audio dai device.
+ ---------------------------------------
+diff --git a/Documentation/mips/ingenic-tcu.rst b/Documentation/mips/ingenic-tcu.rst
+index c5a646b14450..2b75760619b4 100644
+--- a/Documentation/mips/ingenic-tcu.rst
++++ b/Documentation/mips/ingenic-tcu.rst
+@@ -68,4 +68,4 @@ and frameworks can be controlled from the same registers, all of these
+ drivers access their registers through the same regmap.
+ 
+ For more information regarding the devicetree bindings of the TCU drivers,
+-have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.txt.
++have a look at Documentation/devicetree/bindings/timer/ingenic,tcu.yaml.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 68f21d46614c..0617dd671c2d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3946,7 +3946,7 @@ L:	linux-crypto@vger.kernel.org
+ S:	Supported
+ F:	drivers/char/hw_random/cctrng.c
+ F:	drivers/char/hw_random/cctrng.h
+-F:	Documentation/devicetree/bindings/rng/arm-cctrng.txt
++F:	Documentation/devicetree/bindings/rng/arm-cctrng.yaml
+ W:	https://developer.arm.com/products/system-ip/trustzone-cryptocell/cryptocell-700-family
+ 
+ CEC FRAMEWORK
+@@ -5490,7 +5490,7 @@ F:	include/uapi/drm/r128_drm.h
+ DRM DRIVER FOR RAYDIUM RM67191 PANELS
+ M:	Robert Chiras <robert.chiras@nxp.com>
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.txt
++F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+ F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
+ 
+ DRM DRIVER FOR ROCKTECH JH057N00900 PANELS
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
