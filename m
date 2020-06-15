@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC8C1F8E7C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 08:50:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A12F1F8E7D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jun 2020 08:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1259789F31;
-	Mon, 15 Jun 2020 06:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F2989F6B;
+	Mon, 15 Jun 2020 06:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 217B189F31
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 06:50:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2BCA89F31
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de
  [95.90.213.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BF39D21473;
+ by mail.kernel.org (Postfix) with ESMTPSA id AFEB2212CC;
  Mon, 15 Jun 2020 06:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592203833;
- bh=d2J+ptwGTE+UKzRI7PSJpikOZrf3bjiPT/HuBsw4Rxw=;
- h=From:To:Cc:Subject:Date:From;
- b=ON12gpswpp91jF8gjz431ZuETSZLlqhTbUNoVJYQIPHXiMUQ/ptKfqtVgr+kFU8uj
- MWjcNEBacHTZ9AFG62MgPST5uq7xN4G4hTBj2jYyidBLosS3o4ADePk2d2mUPt09/g
- Vp2Bxwb8k1yB9HwaacRRZHFcIiUFiqWOvMaDROc4=
+ s=default; t=1592203832;
+ bh=kmMjy+w5RUzmyvsPQqO7Q52eLX6bKSLAj2uvYVPQ0hI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gc7Mk2zJyDF2jVFSAcgsTkzFqdLy9t+9l4gRMf+s92JbmUIhXJ6uTzHUtTi2uWM+h
+ eG/LupWaw/RLlXxpzqVRNX3t+bd+6IK8BnYc2up1vgRJuLI+RNxEGo48C2FQ5JwvZo
+ D7ZvjjR5edwgcZ0EpAEEziQeS+Mfn7nIZYCQtBVc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
  (envelope-from <mchehab@kernel.org>)
- id 1jkiwv-009o5P-NY; Mon, 15 Jun 2020 08:50:29 +0200
+ id 1jkiww-009o6s-Mq; Mon, 15 Jun 2020 08:50:30 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH 00/22] ReST conversion patches (final?)
-Date: Mon, 15 Jun 2020 08:50:05 +0200
-Message-Id: <cover.1592203650.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/22] docs: move other kAPI documents to core-api
+Date: Mon, 15 Jun 2020 08:50:24 +0200
+Message-Id: <633998e4e7c3c3bb340f69d4a02f0ee9e7f9306f.1592203650.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
+References: <cover.1592203650.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,186 +49,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, linux-pci@vger.kernel.org,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Howells <dhowells@redhat.com>, linux-mm@kvack.org,
- Harry Wei <harryxiyou@gmail.com>, Paul Mackerras <paulus@samba.org>,
- Alex Shi <alex.shi@linux.alibaba.com>, Will Deacon <will@kernel.org>,
- Javi Merino <javi.merino@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-crypto@vger.kernel.org,
- Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>, linux-pm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Amit Daniel Kachhap <amit.kachhap@gmail.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, tee-dev@lists.linaro.org,
- Vinod Koul <vkoul@kernel.org>, keyrings@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Masami Hiramatsu <mhiramat@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dmaengine@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- Jens Wiklander <jens.wiklander@linaro.org>
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jon,
+There are a number of random documents that seem to be
+describing some aspects of the core-api. Move them to such
+directory, adding them at the core-api/index.rst file.
 
-That's my final(*) series of conversion patches from .txt to ReST.
-
-(*) Well, running the script I'm using to check, I noticed a couple of new *.txt files.
-If I have some time, I'll try to address those last pending things for v5.9.
-
-Mauro Carvalho Chehab (22):
-  docs: dt: convert booting-without-of.txt to ReST format
-  docs: thermal: convert cpu-idle-cooling.rst to ReST
-  docs: crypto: convert asymmetric-keys.txt to ReST
-  docs: crypto: convert api-intro.txt to ReST format
-  docs: crypto: convert async-tx-api.txt to ReST format
-  docs: crypto: descore-readme.txt: convert to ReST format
-  docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
-  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
-  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
-  docs: misc-devices/c2port.txt: convert to ReST format
-  docs: misc-devices/bh1770glc.txt: convert to ReST
-  docs: misc-devices/apds990x.txt: convert to ReST format
-  docs: pci: endpoint/function/binding/pci-test.txt convert to ReST
-  docs: arm64: convert perf.txt to ReST format
-  docs: powerpc: convert vcpudispatch_stats.txt to ReST
-  docs: sh: convert new-machine.txt to ReST
-  docs: sh: convert register-banks.txt to ReST
-  docs: trace: ring-buffer-design.txt: convert to ReST format
-  docs: move other kAPI documents to core-api
-  docs: move remaining stuff under Documentation/*.txt to
-    Documentation/staging
-  docs: staging: don't use literalinclude
-  docs: staging: use small font for literal includes
-
- .../endpoint/function/binding/pci-test.rst    |  26 +
- .../endpoint/function/binding/pci-test.txt    |  19 -
- Documentation/PCI/endpoint/index.rst          |   2 +
- Documentation/admin-guide/sysctl/vm.rst       |   2 +-
- Documentation/arm/booting.rst                 |   2 +-
- Documentation/arm64/index.rst                 |   1 +
- Documentation/arm64/{perf.txt => perf.rst}    |   7 +-
- Documentation/core-api/index.rst              |   6 +
- .../{mailbox.txt => core-api/mailbox.rst}     |   0
- .../nommu-mmap.rst}                           |   0
- .../this_cpu_ops.rst}                         |   0
- .../unaligned-memory-access.rst               |   0
- .../crypto/{api-intro.txt => api-intro.rst}   | 186 ++--
- ...symmetric-keys.txt => asymmetric-keys.rst} |  91 +-
- .../{async-tx-api.txt => async-tx-api.rst}    | 253 +++---
- ...{descore-readme.txt => descore-readme.rst} | 152 +++-
- Documentation/crypto/index.rst                |   5 +
- ...-without-of.txt => booting-without-of.rst} | 299 ++++---
- Documentation/devicetree/index.rst            |   1 +
- Documentation/driver-api/dmaengine/client.rst |   2 +-
- .../driver-api/dmaengine/provider.rst         |   2 +-
- .../driver-api/thermal/cpu-idle-cooling.rst   |  14 +-
- Documentation/gpu/drm-mm.rst                  |   2 +-
- Documentation/index.rst                       |  13 +
- .../{ad525x_dpot.txt => ad525x_dpot.rst}      |  24 +-
- .../{apds990x.txt => apds990x.rst}            |  31 +-
- .../{bh1770glc.txt => bh1770glc.rst}          |  45 +-
- .../misc-devices/{c2port.txt => c2port.rst}   |  58 +-
- Documentation/misc-devices/index.rst          |   6 +
- .../misc-devices/pci-endpoint-test.rst        |  56 ++
- .../misc-devices/pci-endpoint-test.txt        |  41 -
- .../misc-devices/spear-pcie-gadget.rst        | 170 ++++
- .../misc-devices/spear-pcie-gadget.txt        | 130 ---
- Documentation/powerpc/index.rst               |   1 +
- ...patch_stats.txt => vcpudispatch_stats.rst} |  17 +-
- Documentation/security/keys/core.rst          |   2 +-
- Documentation/sh/index.rst                    |   6 +
- .../sh/{new-machine.txt => new-machine.rst}   | 195 +++--
- ...{register-banks.txt => register-banks.rst} |  13 +-
- .../{crc32.txt => staging/crc32.rst}          |   0
- Documentation/staging/index.rst               |  59 ++
- .../{kprobes.txt => staging/kprobes.rst}      |   0
- Documentation/{lzo.txt => staging/lzo.rst}    |   0
- .../remoteproc.rst}                           |   2 +-
- .../{rpmsg.txt => staging/rpmsg.rst}          |   0
- .../speculation.rst}                          |   8 +-
- .../static-keys.rst}                          |   0
- Documentation/{tee.txt => staging/tee.rst}    |   1 +
- Documentation/{xz.txt => staging/xz.rst}      |   0
- Documentation/trace/index.rst                 |   1 +
- Documentation/trace/kprobetrace.rst           |   2 +-
- ...ffer-design.txt => ring-buffer-design.rst} | 802 ++++++++++--------
- Documentation/translations/zh_CN/arm/Booting  |   2 +-
- MAINTAINERS                                   |  12 +-
- arch/Kconfig                                  |   2 +-
- arch/sh/Kconfig.cpu                           |   2 +-
- crypto/asymmetric_keys/asymmetric_type.c      |   2 +-
- crypto/asymmetric_keys/public_key.c           |   2 +-
- crypto/asymmetric_keys/signature.c            |   2 +-
- drivers/misc/Kconfig                          |   2 +-
- drivers/misc/ad525x_dpot.c                    |   2 +-
- include/crypto/public_key.h                   |   2 +-
- include/keys/asymmetric-parser.h              |   2 +-
- include/keys/asymmetric-subtype.h             |   2 +-
- include/keys/asymmetric-type.h                |   2 +-
- include/linux/jump_label.h                    |   2 +-
- init/Kconfig                                  |   2 +-
- lib/crc32.c                                   |   2 +-
- lib/lzo/lzo1x_decompress_safe.c               |   2 +-
- lib/xz/Kconfig                                |   2 +-
- mm/Kconfig                                    |   2 +-
- mm/nommu.c                                    |   2 +-
- samples/kprobes/kprobe_example.c              |   2 +-
- samples/kprobes/kretprobe_example.c           |   2 +-
- 74 files changed, 1620 insertions(+), 1189 deletions(-)
- create mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.rst
- delete mode 100644 Documentation/PCI/endpoint/function/binding/pci-test.txt
- rename Documentation/arm64/{perf.txt => perf.rst} (95%)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/sysctl/vm.rst                     | 2 +-
+ Documentation/core-api/index.rst                            | 6 ++++++
+ Documentation/{mailbox.txt => core-api/mailbox.rst}         | 0
+ Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst}   | 0
+ .../{this_cpu_ops.txt => core-api/this_cpu_ops.rst}         | 0
+ .../{process => core-api}/unaligned-memory-access.rst       | 0
+ Documentation/gpu/drm-mm.rst                                | 2 +-
+ arch/Kconfig                                                | 2 +-
+ init/Kconfig                                                | 2 +-
+ mm/Kconfig                                                  | 2 +-
+ mm/nommu.c                                                  | 2 +-
+ 11 files changed, 12 insertions(+), 6 deletions(-)
  rename Documentation/{mailbox.txt => core-api/mailbox.rst} (100%)
  rename Documentation/{nommu-mmap.txt => core-api/nommu-mmap.rst} (100%)
  rename Documentation/{this_cpu_ops.txt => core-api/this_cpu_ops.rst} (100%)
  rename Documentation/{process => core-api}/unaligned-memory-access.rst (100%)
- rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
- rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
- rename Documentation/crypto/{async-tx-api.txt => async-tx-api.rst} (55%)
- rename Documentation/crypto/{descore-readme.txt => descore-readme.rst} (81%)
- rename Documentation/devicetree/{booting-without-of.txt => booting-without-of.rst} (90%)
- rename Documentation/misc-devices/{ad525x_dpot.txt => ad525x_dpot.rst} (85%)
- rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
- rename Documentation/misc-devices/{bh1770glc.txt => bh1770glc.rst} (83%)
- rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
- create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
- delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
- create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
- delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
- rename Documentation/powerpc/{vcpudispatch_stats.txt => vcpudispatch_stats.rst} (94%)
- rename Documentation/sh/{new-machine.txt => new-machine.rst} (73%)
- rename Documentation/sh/{register-banks.txt => register-banks.rst} (88%)
- rename Documentation/{crc32.txt => staging/crc32.rst} (100%)
- create mode 100644 Documentation/staging/index.rst
- rename Documentation/{kprobes.txt => staging/kprobes.rst} (100%)
- rename Documentation/{lzo.txt => staging/lzo.rst} (100%)
- rename Documentation/{remoteproc.txt => staging/remoteproc.rst} (99%)
- rename Documentation/{rpmsg.txt => staging/rpmsg.rst} (100%)
- rename Documentation/{speculation.txt => staging/speculation.rst} (97%)
- rename Documentation/{static-keys.txt => staging/static-keys.rst} (100%)
- rename Documentation/{tee.txt => staging/tee.rst} (99%)
- rename Documentation/{xz.txt => staging/xz.rst} (100%)
- rename Documentation/trace/{ring-buffer-design.txt => ring-buffer-design.rst} (55%)
 
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index d46d5b7013c6..9f7fa2d37fa7 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -583,7 +583,7 @@ trimming of allocations is initiated.
+ 
+ The default value is 1.
+ 
+-See Documentation/nommu-mmap.txt for more information.
++See Documentation/core-api/nommu-mmap.rst for more information.
+ 
+ 
+ numa_zonelist_order
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 721e40a8c65b..2a364dd533de 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -38,11 +38,15 @@ Library functionality that is used throughout the kernel.
+    circular-buffers
+    rbtree
+    generic-radix-tree
++   mailbox
+    packing
++   rbtree
++   this_cpu_ops
+    timekeeping
+    watch_queue
+    errseq
+ 
++
+ Concurrency primitives
+ ======================
+ 
+@@ -83,11 +87,13 @@ more memory-management documentation in :doc:`/vm/index`.
+    :maxdepth: 1
+ 
+    memory-allocation
++   unaligned-memory-access
+    dma-api
+    dma-api-howto
+    dma-attributes
+    dma-isa-lpc
+    bus-virt-phys-mapping
++   nommu-mmap
+    mm-api
+    genalloc
+    pin_user_pages
+diff --git a/Documentation/mailbox.txt b/Documentation/core-api/mailbox.rst
+similarity index 100%
+rename from Documentation/mailbox.txt
+rename to Documentation/core-api/mailbox.rst
+diff --git a/Documentation/nommu-mmap.txt b/Documentation/core-api/nommu-mmap.rst
+similarity index 100%
+rename from Documentation/nommu-mmap.txt
+rename to Documentation/core-api/nommu-mmap.rst
+diff --git a/Documentation/this_cpu_ops.txt b/Documentation/core-api/this_cpu_ops.rst
+similarity index 100%
+rename from Documentation/this_cpu_ops.txt
+rename to Documentation/core-api/this_cpu_ops.rst
+diff --git a/Documentation/process/unaligned-memory-access.rst b/Documentation/core-api/unaligned-memory-access.rst
+similarity index 100%
+rename from Documentation/process/unaligned-memory-access.rst
+rename to Documentation/core-api/unaligned-memory-access.rst
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index 1839762044be..e0bbcbb6f512 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -314,7 +314,7 @@ To use drm_gem_cma_get_unmapped_area(), drivers must fill the struct
+ a pointer on drm_gem_cma_get_unmapped_area().
+ 
+ More detailed information about get_unmapped_area can be found in
+-Documentation/nommu-mmap.txt
++Documentation/core-api/nommu-mmap.rst
+ 
+ Memory Coherency
+ ----------------
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 8cc35dc556c7..2a439fb8069e 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -147,7 +147,7 @@ config HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	  problems with received packets if doing so would not help
+ 	  much.
+ 
+-	  See Documentation/unaligned-memory-access.txt for more
++	  See Documentation/core-api/unaligned-memory-access.rst for more
+ 	  information on the topic of unaligned memory accesses.
+ 
+ config ARCH_USE_BUILTIN_BSWAP
+diff --git a/init/Kconfig b/init/Kconfig
+index 3327f0eca1a3..4218a60f5f79 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1957,7 +1957,7 @@ config MMAP_ALLOW_UNINITIALIZED
+ 	  userspace.  Since that isn't generally a problem on no-MMU systems,
+ 	  it is normally safe to say Y here.
+ 
+-	  See Documentation/nommu-mmap.txt for more information.
++	  See Documentation/core-api/nommu-mmap.rst for more information.
+ 
+ config SYSTEM_DATA_VERIFICATION
+ 	def_bool n
+diff --git a/mm/Kconfig b/mm/Kconfig
+index f2104cc0d35c..6c6189724b75 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -387,7 +387,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
+ 	  This option specifies the initial value of this option.  The default
+ 	  of 1 says that all excess pages should be trimmed.
+ 
+-	  See Documentation/nommu-mmap.txt for more information.
++	  See Documentation/core-api/nommu-mmap.rst for more information.
+ 
+ config TRANSPARENT_HUGEPAGE
+ 	bool "Transparent Hugepage Support"
+diff --git a/mm/nommu.c b/mm/nommu.c
+index cdcad5d61dd1..8f2e502ad8a3 100644
+--- a/mm/nommu.c
++++ b/mm/nommu.c
+@@ -5,7 +5,7 @@
+  *  Replacement code for mm functions to support CPU's that don't
+  *  have any form of memory management unit (thus no virtual memory).
+  *
+- *  See Documentation/nommu-mmap.txt
++ *  See Documentation/core-api/nommu-mmap.rst
+  *
+  *  Copyright (c) 2004-2008 David Howells <dhowells@redhat.com>
+  *  Copyright (c) 2000-2003 David McCullough <davidm@snapgear.com>
 -- 
 2.26.2
-
 
 _______________________________________________
 dri-devel mailing list
