@@ -1,27 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34E51FA9A8
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:09:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79F61FA9AA
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:10:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13AD26E829;
-	Tue, 16 Jun 2020 07:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF59B6E825;
+	Tue, 16 Jun 2020 07:09:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3E489D9B
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 20:53:30 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60DAA6E507
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jun 2020 20:53:31 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: eballetbo) with ESMTPSA id EEFE82A0920
+ (Authenticated sender: eballetbo) with ESMTPSA id 3E0D82A1758
 From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] drm/bridge: ps8640: Make sure all needed is powered to
- get the EDID
-Date: Mon, 15 Jun 2020 22:53:17 +0200
-Message-Id: <20200615205320.790334-1-enric.balletbo@collabora.com>
+Subject: [PATCH 1/3] drm/bridge: ps8640: Return an error for incorrect attach
+ flags
+Date: Mon, 15 Jun 2020 22:53:18 +0200
+Message-Id: <20200615205320.790334-2-enric.balletbo@collabora.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200615205320.790334-1-enric.balletbo@collabora.com>
+References: <20200615205320.790334-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 16 Jun 2020 07:09:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,27 +49,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first patch is not really related and can be picked alone. The
-second and the third are to rework the power handling to get the EDID.
-Basically, we need to make sure all the needed is powered to be able
-to get the EDID. Before, we saw that getting the EDID failed as
-explained in the third patch.
+Bridge drivers that implement the new model only shall return an error
+from their attach() handler when the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+is not set. So make sure we return an error because only the new
+drm_bridge model is supported.
 
-Note that this series depends on:
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
 
-  https://lore.kernel.org/patchwork/project/lkml/list/?series=448525
+ drivers/gpu/drm/bridge/parade-ps8640.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-to apply cleanly.
-
-
-Enric Balletbo i Serra (3):
-  drm/bridge: ps8640: Return an error for incorrect attach flags
-  drm/bridge: ps8640: Print an error if VDO control fails
-  drm/bridge: ps8640: Rework power state handling
-
- drivers/gpu/drm/bridge/parade-ps8640.c | 94 ++++++++++++++++++++++----
- 1 file changed, 82 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 13755d278db6d..ce3e8b2da8c9b 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -200,6 +200,10 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 						   .channel = 0,
+ 						   .node = NULL,
+ 						 };
++
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		return -EINVAL;
++
+ 	/* port@0 is ps8640 dsi input port */
+ 	in_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
+ 	if (!in_ep)
 -- 
 2.27.0
 
