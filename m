@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3971FB308
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 15:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54471FB31B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 15:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A41846E8C3;
-	Tue, 16 Jun 2020 13:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF5DA6E8C1;
+	Tue, 16 Jun 2020 13:59:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B50026E8C0;
- Tue, 16 Jun 2020 13:57:43 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id o15so1708966vsp.12;
- Tue, 16 Jun 2020 06:57:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=in6M8A0CH5OKf+Nbo1oBHvJHNYxt4ZeUCEay6OgPJEk=;
- b=Beje5QC/d81tgkTUxui/haFJxMK8ytQrTnfhFBwIk3g9I0x4+lImg9hxuyJ4GqiRZo
- ZB8ODmgx9UWbvUU1H4NWxHekOfhLTrEdUZ92RogTYRFTPB/WKsD4r+aZK9UOeRBLdnko
- D1lJApvjGKw1GedlrKvjmhtejI2CuzL2roGoTVepD20r6g08W25LNMU2nsfup2PqEpaJ
- oi8ttXs96bIOiJ+64XbwDovn0LAAsYtSb9T9m/CCfXwwXpFRO2PnJFQduO1EufgUUFBd
- UrfCttEk53VcE2uzIr4lNSGd+K4T0xCjgwWi8OfKs1FPgcNHAZLn3IGw4mwZvCYVJMJS
- gblA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=in6M8A0CH5OKf+Nbo1oBHvJHNYxt4ZeUCEay6OgPJEk=;
- b=Oi/4FgvbU+3/Dvdrt99yZfrW5obrEN15TyvY5Y+G0DTltXUkbyJulFM9ZxleP0n4w+
- yA+46LG6OEKsZBqv77tne+xcmBIEYd+F7TVTprrbRv3DiHoTEEMoLHwX5WxiycH0KBJF
- yDSP05/Qe85HX3fTvLExBlThG5Puff6nuao/hQhE4p0Ltwwm6aGM85EjtkYtQqsqhhnl
- aLToERkcx12MURnCv2inupVAHMV1/H8SLFdt91qqWNRwmtF1CrU/HYR1hUos3F1YEkMN
- yue/3zJqMI5VJAn60rzeGgyEaNZHJByIr0AKPq60C9sgN5j3TZ7EbMjErvhfdatIZ8og
- AUMQ==
-X-Gm-Message-State: AOAM533WEbqCL7ncnGWxwS9Ab/Ytf5fExQ00nwtMPAG3ogxSQ677MBwD
- WsK3Zai1f85g0w0eXqJf6x0WXGUZjzqmxSR74RE=
-X-Google-Smtp-Source: ABdhPJwc3voHSHU4RcDs+eBXMYsKfwrpWnk2uxrQZw7zn7uDDKBSaKyJe3BlzxCDRQ7xv7KLRrD+MAOeqUXncV5yI4I=
-X-Received: by 2002:a67:b149:: with SMTP id z9mr1632846vsl.85.1592315862902;
- Tue, 16 Jun 2020 06:57:42 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 615E96E8C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 13:59:50 +0000 (UTC)
+IronPort-SDR: 41YLQiP5H98o63IxfaAckO/KW6v/jzSRV7shngZnT91IWgsCn+hnxjEZi2hug4MFfvRx5UwHI7
+ EaOYUrisjQlw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 06:59:49 -0700
+IronPort-SDR: rsvUd2K8Rjd/Chd9QnQKbs8ZSlxfNxI367Qd4WoHwiKtukcN2FrqzLr4GYlH4I8FmT1x/uHjGU
+ 8/3xVJXG1p+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="298916485"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2020 06:59:49 -0700
+Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 16 Jun 2020 06:59:49 -0700
+Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.74]) by
+ FMSMSX113.amr.corp.intel.com ([169.254.13.85]) with mapi id 14.03.0439.000;
+ Tue, 16 Jun 2020 06:59:48 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>, Charan Teja Kalla
+ <charante@codeaurora.org>, Sumit Semwal <sumit.semwal@linaro.org>, "open
+ list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, "DRI
+ mailing list" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
+Thread-Topic: [PATCH] dmabuf: use spinlock to access dmabuf->name
+Thread-Index: AQHWQWvsYI6eTL2/6UmOYEBVkPsE9KjbRi5AgAADWlA=
+Date: Tue, 16 Jun 2020 13:59:48 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
+References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.108]
 MIME-Version: 1.0
-References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
- <20200612160056.2082681-7-daniel.vetter@ffwll.ch>
- <CACvgo51AVVOxhGK2Uin=ZLgPpihJiEsnc6pvAyKqFKPvLdOzLA@mail.gmail.com>
- <CAKMK7uEEkH+8BuFcFUVTv6p8swZZTwcho-HNx5GdZTO1vHDoeg@mail.gmail.com>
-In-Reply-To: <CAKMK7uEEkH+8BuFcFUVTv6p8swZZTwcho-HNx5GdZTO1vHDoeg@mail.gmail.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 16 Jun 2020 14:54:01 +0100
-Message-ID: <CACvgo51ZObyCiOeV+cdJo6xJ3ahuvBUxx1DrK+emDHTOfmVA_g@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 7/8] drm/mipi-dbi: Remove ->enabled
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +65,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 16 Jun 2020 at 07:50, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>-----Original Message-----
+>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>Ruhl, Michael J
+>Sent: Tuesday, June 16, 2020 9:51 AM
+>To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
+><sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
+><linux-media@vger.kernel.org>; DRI mailing list <dri-
+>devel@lists.freedesktop.org>
+>Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
+>vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
+>stable@vger.kernel.org
+>Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
 >
-> On Mon, Jun 15, 2020 at 11:35 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > On Fri, 12 Jun 2020 at 17:01, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >
-> > > The atomic helpers try really hard to not lose track of things,
-> > > duplicating enabled tracking in the driver is at best confusing.
-> > > Double-enabling or disabling is a bug in atomic helpers.
-> > >
-> > > In the fb_dirty function we can just assume that the fb always exists,
-> > > simple display pipe helpers guarantee that the crtc is only enabled
-> > > together with the output, so we always have a primary plane around.
-> > >
-> > > Now in the update function we need to be a notch more careful, since
-> > > that can also get called when the crtc is off. And we don't want to
-> > > upload frames when that's the case, so filter that out too.
-> > >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Cc: David Airlie <airlied@linux.ie>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Cc: David Lechner <david@lechnology.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_mipi_dbi.c | 16 ++++++----------
-> > >  drivers/gpu/drm/tiny/ili9225.c | 12 +++---------
-> > >  drivers/gpu/drm/tiny/st7586.c  | 11 +++--------
-> > >  include/drm/drm_mipi_dbi.h     |  5 -----
-> > >  4 files changed, 12 insertions(+), 32 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> > > index fd8d672972a9..79532b9a324a 100644
-> > > --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> > > +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> > > @@ -268,7 +268,7 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
-> > >         bool full;
-> > >         void *tr;
-> > >
-> > > -       if (!dbidev->enabled)
-> > > +       if (WARN_ON(!fb))
-> > >                 return;
-> > >
-> > AFAICT no other driver has such WARN_ON. Let's drop that - it is
-> > pretty confusing and misleading as-is.
+>>-----Original Message-----
+>>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>>Charan Teja Kalla
+>>Sent: Thursday, June 11, 2020 9:40 AM
+>>To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
+>>SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list <dri-
+>>devel@lists.freedesktop.org>
+>>Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
+>>vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
+>>stable@vger.kernel.org
+>>Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
+>>
+>>There exists a sleep-while-atomic bug while accessing the dmabuf->name
+>>under mutex in the dmabuffs_dname(). This is caused from the SELinux
+>>permissions checks on a process where it tries to validate the inherited
+>>files from fork() by traversing them through iterate_fd() (which
+>>traverse files under spin_lock) and call
+>>match_file(security/selinux/hooks.c) where the permission checks happen.
+>>This audit information is logged using dump_common_audit_data() where it
+>>calls d_path() to get the file path name. If the file check happen on
+>>the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+>>access dmabuf->name. The flow will be like below:
+>>flush_unauthorized_files()
+>>  iterate_fd()
+>>    spin_lock() --> Start of the atomic section.
+>>      match_file()
+>>        file_has_perm()
+>>          avc_has_perm()
+>>            avc_audit()
+>>              slow_avc_audit()
+>>	        common_lsm_audit()
+>>		  dump_common_audit_data()
+>>		    audit_log_d_path()
+>>		      d_path()
+>>                        dmabuffs_dname()
+>>                          mutex_lock()--> Sleep while atomic.
+>>
+>>Call trace captured (on 4.19 kernels) is below:
+>>___might_sleep+0x204/0x208
+>>__might_sleep+0x50/0x88
+>>__mutex_lock_common+0x5c/0x1068
+>>__mutex_lock_common+0x5c/0x1068
+>>mutex_lock_nested+0x40/0x50
+>>dmabuffs_dname+0xa0/0x170
+>>d_path+0x84/0x290
+>>audit_log_d_path+0x74/0x130
+>>common_lsm_audit+0x334/0x6e8
+>>slow_avc_audit+0xb8/0xf8
+>>avc_has_perm+0x154/0x218
+>>file_has_perm+0x70/0x180
+>>match_file+0x60/0x78
+>>iterate_fd+0x128/0x168
+>>selinux_bprm_committing_creds+0x178/0x248
+>>security_bprm_committing_creds+0x30/0x48
+>>install_exec_creds+0x1c/0x68
+>>load_elf_binary+0x3a4/0x14e0
+>>search_binary_handler+0xb0/0x1e0
+>>
+>>So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+>>
+>>Cc: <stable@vger.kernel.org> [5.3+]
+>>Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>>---
+>> drivers/dma-buf/dma-buf.c | 13 +++++++------
+>> include/linux/dma-buf.h   |  1 +
+>> 2 files changed, 8 insertions(+), 6 deletions(-)
+>>
+>>diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>index 01ce125..2e0456c 100644
+>>--- a/drivers/dma-buf/dma-buf.c
+>>+++ b/drivers/dma-buf/dma-buf.c
+>>@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
+>>char *buffer, int buflen)
+>> 	size_t ret = 0;
+>>
+>> 	dmabuf = dentry->d_fsdata;
+>>-	dma_resv_lock(dmabuf->resv, NULL);
+>>+	spin_lock(&dmabuf->name_lock);
+>> 	if (dmabuf->name)
+>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>>-	dma_resv_unlock(dmabuf->resv);
+>>+	spin_unlock(&dmabuf->name_lock);
 >
-> Yeah, this is a helper library which might be used wrongly by drivers.
-> That's why I put it in - if you don't put all the various calls
-> together correctly, this should at least catch one case. So really
-> would like to keep this, can I convince you?
+>I am not really clear on why you need this lock.
+>
+>If name == NULL you have no issues.
+>If name is real, you have no issues.
+>
+>If name is freed you will copy garbage, but the only way
+>for that to happen is that _set_name or _release have to be called
+>at just the right time.
+>
+>And the above would probably only be an issue if the set_name
+>was called, so you will get NULL or a real name.
+>
+>Is there a reason for the lock here?
+>
+>Mike
 
-There are plenty of similar places where a drm library/helper can be
-misused, lacking a WARN. Nevertheless - sure feel free to keep it.
+Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
 
--Emil
+dma_buf_release()
+
+Would be sufficient?
+
+M
+>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>> 			     dentry->d_name.name, ret > 0 ? name : "");
+>>@@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
+>>*dmabuf, const char __user *buf)
+>> 	if (IS_ERR(name))
+>> 		return PTR_ERR(name);
+>>
+>>-	dma_resv_lock(dmabuf->resv, NULL);
+>>+	spin_lock(&dmabuf->name_lock);
+>> 	if (!list_empty(&dmabuf->attachments)) {
+>> 		ret = -EBUSY;
+>> 		kfree(name);
+>>@@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
+>>*dmabuf, const char __user *buf)
+>> 	dmabuf->name = name;
+>>
+>> out_unlock:
+>>-	dma_resv_unlock(dmabuf->resv);
+>>+	spin_unlock(&dmabuf->name_lock);
+>> 	return ret;
+>> }
+>>
+>>@@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file
+>>*m, struct file *file)
+>> 	/* Don't count the temporary reference taken inside procfs seq_show
+>>*/
+>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+>>-	dma_resv_lock(dmabuf->resv, NULL);
+>>+	spin_lock(&dmabuf->name_lock);
+>> 	if (dmabuf->name)
+>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+>>-	dma_resv_unlock(dmabuf->resv);
+>>+	spin_unlock(&dmabuf->name_lock);
+>> }
+>>
+>> static const struct file_operations dma_buf_fops = {
+>>@@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
+>>dma_buf_export_info *exp_info)
+>> 	dmabuf->size = exp_info->size;
+>> 	dmabuf->exp_name = exp_info->exp_name;
+>> 	dmabuf->owner = exp_info->owner;
+>>+	spin_lock_init(&dmabuf->name_lock);
+>> 	init_waitqueue_head(&dmabuf->poll);
+>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>>diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>index ab0c156..93108fd 100644
+>>--- a/include/linux/dma-buf.h
+>>+++ b/include/linux/dma-buf.h
+>>@@ -311,6 +311,7 @@ struct dma_buf {
+>> 	void *vmap_ptr;
+>> 	const char *exp_name;
+>> 	const char *name;
+>>+	spinlock_t name_lock;
+>> 	struct module *owner;
+>> 	struct list_head list_node;
+>> 	void *priv;
+>>--
+>>The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>>Forum, a Linux Foundation Collaborative Project
+>>_______________________________________________
+>>dri-devel mailing list
+>>dri-devel@lists.freedesktop.org
+>>https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
