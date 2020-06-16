@@ -1,90 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585261FC731
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DFD1FC745
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4276E517;
-	Wed, 17 Jun 2020 07:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50E326E523;
+	Wed, 17 Jun 2020 07:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2045.outbound.protection.outlook.com [40.107.21.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DACCD6E883
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 09:16:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KlGjakecxW0Qc3RKrRMZYDriwTymIt8+hBH3SFvwr2ng+aOXJWDk4aS0oDUjIx8+GO25hCkDLLtABruuofFuXN1Dg29rqdu8TXIdKstLwkvOHzaPfeYAnM+xjPA4JSB9a4K3JIZttcBIr2h2xviQg9ZQPHQzsJl/fYcYT8EfQHysbWF0TJxZcOnVHNTbjzrzBE88UVihsrkrnZUcVACQ17bBJ6aERhdLTT2NMEnJexxWKNMtg3ESFvz1QUa5PpsxWt5SIaMd7fm4TW0t4LLChpGfW56OnWiqGMs1b8/oWY5EzuZY46QontHGn3tWXWPUTYCr9XfVV04MyPRGor1B9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t77HwjFouhlGLqQi4b1Nupg8Ek7b2rhk4wP2JDAJkGY=;
- b=HmH3ndoJnkYYIQxqJMRbrQCuT1sf9SYIMiZMo2/Tn3p5nt5pstcxXnDbPCcBqkIVP9YBgv/dh0eCF/+MmIIjdLPD1DQEf6LPYRawnv//qdlGmq7QNDMJwCaI8f0NLYmO5cruhVMpFHuIgioqUwGTnJoXc4ftmjspifciNETRkgCVMLmcnSGOvT8jPBvDWs7HnuqjHTmi6yhVgMQoPbeIgI0RvNodfGRETGNkuAEV7fgmeL7LOhVuazXJBtdCXRS1d8C041V4B1RcrCmOlz+KfptSDB2imcrcuMAZTQjB0OAcS6GrWpn0UFGKfutLnYn31xS9qJLf6X1uMBP99bXzcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t77HwjFouhlGLqQi4b1Nupg8Ek7b2rhk4wP2JDAJkGY=;
- b=HPCGwOZ+FvB9sjYVnpNfDII5YuWxLNVVcVXG7tuBE/wZJ+5EOshywCQ7DNhEJ6hcY3f/jtnrNtjYTXoVhdhkUY6XbYB9mQeXLVuaJvu6LG1trEiV72rLoMN+RsCM+41f4jGN4UXgwnG85WP1wgi4bKe9nc/qtzeFcFEPov594mE=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=nxp.com;
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5087.eurprd04.prod.outlook.com (2603:10a6:803:5d::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.26; Tue, 16 Jun
- 2020 09:16:13 +0000
-Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
- ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3088.028; Tue, 16 Jun 2020
- 09:16:13 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/bridge: dw-hdmi: Always add the bridge in the global
- bridge list
-Date: Tue, 16 Jun 2020 17:04:52 +0800
-Message-Id: <1592298292-17634-2-git-send-email-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592298292-17634-1-git-send-email-victor.liu@nxp.com>
-References: <1592298292-17634-1-git-send-email-victor.liu@nxp.com>
-X-ClientProxiedBy: SGAP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::35)
- To VI1PR04MB3983.eurprd04.prod.outlook.com
- (2603:10a6:803:4c::16)
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7816E040
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:55:32 +0000 (UTC)
+Received: by mail-pj1-x1041.google.com with SMTP id b7so1077713pju.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 03:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=P0rgsD9Ct3sLOZeZyHD1bcKF15pZ4X0Ei5Mx+pWd/mE=;
+ b=cBsuKjhLkk1YAPB7IC/X7x2KOOKUVv74p6wbbgrNn2JTfuq18XCdwqJyCWw++F2IzP
+ JuI0h9NIrPM+DIvEQvk3oL6QP06TuIZbGoca4/oVtHisrsbqt3wA7YbjQnZqPnw9b/F+
+ WbPuH9UTZHbsPLWtIuJ4xuPU9Y6qNi0DhSKpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=P0rgsD9Ct3sLOZeZyHD1bcKF15pZ4X0Ei5Mx+pWd/mE=;
+ b=KlJd9sSU9pcKdaQ5j5vRZCuThqR/QNzhGddGd4V8Mk6Fmeg7qc25BXuXI6Hmwns51n
+ 95OstSsDZVxQNKxQiKtuHWt6Xo4EZvniNhn0ZbDqUN/xoEMGEWmM3IUUH8t+OuAoAOCk
+ eLTh0jZi6hBFsmm5im0O0K4RiutqRua+jRscDkmH9F808v7264zTPp3ZvbjXuco6VySI
+ nAqN4SAu+0Vm0PgfUn/mDLCG4zPWSDsmvBLjKThTmGvwlrTtdqfzlJFpKw3EFVjl5iAo
+ jXLq4LK/UYst8hxjqatOdEEeij3AWH7O1hrGneDerHAtdEVqR8kPG5ZVi9rdODCseygc
+ CZkg==
+X-Gm-Message-State: AOAM5311kNTVZa6W3gPhzmvkcIaJBt3Pf7lCqeT8wdtut/kOr1az1H5/
+ j/cNtCvmK0+/AxtpkmmvvBh7CA==
+X-Google-Smtp-Source: ABdhPJzuT0DcmntlVBwDdeDpH39DGEE13XccI71h8P1IxymNV+mNcmeovPxHUeQTw13PqWjyh0ScDw==
+X-Received: by 2002:a17:90a:c5:: with SMTP id v5mr2281693pjd.226.1592304930604; 
+ Tue, 16 Jun 2020 03:55:30 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id p30sm14059553pgn.58.2020.06.16.03.55.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 03:55:29 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (119.31.174.66) by
- SGAP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3088.19 via Frontend Transport; Tue, 16 Jun 2020 09:16:08 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [119.31.174.66]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fc37c0d0-1a0a-4dce-0310-08d811d5ea4e
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5087:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB5087D6B491161E8896FAA647989D0@VI1PR04MB5087.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-Forefront-PRVS: 04362AC73B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LmWP0ytafJWi250EiXcTWGqFO68qbEsREzKJOoGnjtyBJPERSv3KNkSVmbXyCuDhH69IwfeEkU9lOu4orm4IbSNYv3y7wf95u+9E1rCeFyieI88r9sIOnxCjO1SbZfsGDxYDrvrZFQM9AjCK1hvAOmb5V7KdB1pzLG0HFW3eXDd1tPo+WYc8sYZhFZwZOZpUOqoqgfhZMWGnozd1gdfBp6O/a6V7dMIgYQJwYVwm/GiwyFxDz53y8iMK8LVYVfCCES2yJDDoxTINeNMhXq+s8Cx6QPmvy9ylddmbzcWgnkyhc+4rEdIrN1BAzuoXhuj3izBAMIcRQgQ5MzoLNx7WIrxD5GlRAJ6beY3Hvmq+XdgP2XoO4p83zG6FEFf3EbZK1c7GIBVaD1Gi9+CaO4feUiZ0ZJBvCkeicwSFgECZ8SWl9sWV8Q0K9wNRXSfq/jgWl7I05wBt5nAugd0AEvdTeA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(396003)(376002)(366004)(39860400002)(136003)(66476007)(6506007)(26005)(6486002)(2906002)(8676002)(7416002)(966005)(8936002)(6666004)(66946007)(316002)(66556008)(186003)(2616005)(52116002)(69590400007)(4326008)(83380400001)(36756003)(478600001)(6512007)(6916009)(16526019)(5660300002)(956004)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: EN1trwI1q3kn5lperpGtXzqcGuS6yEMiKGQbEo24KApFAkesestqv6f/zY2ac1QYGpYrao1rtA3jYUZMgaNZaUFYcaxdiZbe7o0mMIEoRmYdYHYKRJLduqk3u105eX4yqSqK7C//15MI/K3vUHPLHvTTfvUPIE1NK6XIsaPy1ed0N7f8kPd5d7GMF1JoUQMRnhxzDESH08F7iXob4GL6IcaDv2DhtSjGNIgoWwkTCgAYiPyPt/kxRGqy8qrfpR9vNj6/NY8ZslySZ+alw9GrQ/IHbsV+4yMiqVx/OM2Pvssw+HkRL3gesw98i3rnSNDVtp7xJWQTOG70ZKies5eVSF9pfAIyIbDfbaMg1BR7oNOzC94WPmX5Hzrw0ONyJ/GeL0PDghldcTBYcNcv5EUe5qFw2VyDUaCYroO99hnZAY+/c78X0hp670pcyVEBT23R4vK4L9IOXbFQD7HlKJk9hsXrFuYw6y5vGr1UzrZNbkk=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc37c0d0-1a0a-4dce-0310-08d811d5ea4e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 09:16:13.2221 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9BrrjVs3kHrddC3tYe4kF0X3ZuvlCns6WFNujppsuTH8IPrlDqDeStfHk1V8EK14kX0PQhBQ+ulOObj+b2vqGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5087
-X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:02 +0000
+In-Reply-To: <d6db52a33ac787c0fe6134ca32c06007@codeaurora.org>
+References: <20200609033818.9028-1-tanmay@codeaurora.org>
+ <159175530931.242598.4696487926885071106@swboyd.mtv.corp.google.com>
+ <d6db52a33ac787c0fe6134ca32c06007@codeaurora.org>
+Subject: Re: [PATCH v6 1/5] dt-bindings: msm/dp: add bindings of DP/DP-PLL
+ driver for Snapdragon
+From: Stephen Boyd <swboyd@chromium.org>
+To: tanmay@codeaurora.org
+Date: Tue, 16 Jun 2020 03:55:28 -0700
+Message-ID: <159230492894.62212.17830740055624171310@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
+X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,146 +68,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: joabreu@synopsys.com, jernej.skrabec@siol.net, darekm@google.com,
- jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
- architt@codeaurora.org, a.hajda@samsung.com, boris.brezillon@collabora.com,
- Laurent.pinchart@ideasonboard.com, linux-imx@nxp.com, cychiang@chromium.org,
- jbrunet@baylibre.com
+Cc: devicetree@vger.kernel.org, sam@ravnborg.org, abhinavk@codeaurora.org,
+ seanpaul@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Vara Reddy <varar@codeaurora.org>,
+ freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ chandanu@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It doesn't hurt to add the bridge in the global bridge list also for
-platform specific dw-hdmi drivers which are based on the component
-framework.  This can be achieved by moving the drm_bridge_add() function
-call from dw_hdmi_probe() to __dw_hdmi_probe().  Moreover, putting the
-drm_bridge_add() function call prior to the interrupt registration and
-enablement ensures that the mutex hpd_mutex embedded in the structure
-drm_bridge can be initialized in drm_bridge_add() beforehand, which
-avoids accessing the uninitialized mutex in case people want to call
-function drm_bridge_hpd_notify() with the mutex locked internally to
-handle hot plug detection event in the interrupt handler dw_hdmi_irq().
+Quoting tanmay@codeaurora.org (2020-06-11 13:07:09)
+> On 2020-06-09 19:15, Stephen Boyd wrote:
+> > Quoting Tanmay Shah (2020-06-08 20:38:18)
+> >> diff --git 
+> >> a/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml 
+> >> b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> >> new file mode 100644
+> >> index 0000000..5fdb915
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> > 
+> > Typically the file name matches the compatible string. But the
+> > compatible string is just qcom,dp-display. Maybe the compatible string
+> > should be qcom,sc7180-dp? Notice that the SoC number comes first as is
+> > preferred.
+> > 
+> These bindings will be similar for upcoming SOC as well.
+> So just for understanding, when we add new SOC do we create new file 
+> with same bidings
+> with SOC number in new file name?
+> Instead we can keep this file's name as qcom,dp-display.yaml (same as 
+> compatible const) and we can include SOC number in compatible enum ?
+> some examples:
+> https://patchwork.kernel.org/patch/11448357/
+> https://patchwork.kernel.org/patch/11164619/
 
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Cheng-Yi Chiang <cychiang@chromium.org>
-Cc: Dariusz Marcinkiewicz <darekm@google.com>
-Cc: Archit Taneja <architt@codeaurora.org>
-Cc: Jose Abreu <joabreu@synopsys.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-Laurent,
+Yes that works too. It's really up to robh here.
 
-I may see the uninitialized mutex accessing issue with
-i.MX dw-hdmi after applying your below patch set[1].
-I think patch '[22/27] drm: bridge: dw-hdmi: Make connector creation optional'
-triggers the issue.
+> > 
+> >> @@ -0,0 +1,142 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only  OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/msm/dp-sc7180.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Qualcomm Display Port Controller.
+> >> +
+> >> +maintainers:
+> >> +  - Chandan Uddaraju <chandanu@codeaurora.org>
+> >> +  - Vara Reddy <varar@codeaurora.org>
+> >> +  - Tanmay Shah <tanmay@codeaurora.org>
+> >> +
+> >> +description: |
+> >> +  Device tree bindings for MSM Display Port which supports DP host 
+> >> controllers
+> >> +  that are compatible with VESA Display Port interface specification.
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    items:
+> >> +      - const: qcom,dp-display
+> >> +
+> >> +  cell-index:
+> >> +    description: Specifies the controller instance.
+> >> +
+> >> +  reg:
+> >> +    items:
+> >> +      - description: DP controller registers
+> >> +
+> >> +  interrupts:
+> >> +    description: The interrupt signal from the DP block.
+> >> +
+> >> +  clocks:
+> >> +    description: List of clock specifiers for clocks needed by the 
+> >> device.
+> >> +    items:
+> >> +      - description: Display Port AUX clock
+> >> +      - description: Display Port Link clock
+> >> +      - description: Link interface clock between DP and PHY
+> >> +      - description: Display Port Pixel clock
+> >> +      - description: Root clock generator for pixel clock
+> >> +
+> >> +  clock-names:
+> >> +    description: |
+> >> +      Device clock names in the same order as mentioned in clocks 
+> >> property.
+> >> +      The required clocks are mentioned below.
+> >> +    items:
+> >> +      - const: core_aux
+> >> +      - const: ctrl_link
+> >> +      - const: ctrl_link_iface
+> >> +      - const: stream_pixel
+> >> +      - const: pixel_rcg
+> > 
+> > Why not just 'pixel'? And why is the root clk generator important? It
+> > looks like this binding should be using the assigned clock parents
+> > property instead so that it doesn't have to call clk_set_parent()
+> > explicitly.
+> > 
+> Are we talking about renaming stream_pixel to pixel only?
+> We divide clocks in categories: core, control and stream clock.
+> Similar terminology will be used in subsequent driver patches as well.
+> 
+> We can remove pixel_rcg use assigned clock parents property and remove 
+> clk_set_parent
+> from driver.
 
-[1] https://patchwork.kernel.org/cover/11569709/
+Cool. Using assigned clock parents is good.
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 34 ++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+> 
+> >> +  "#clock-cells":
+> >> +    const: 1
+> >> +
+> >> +  vdda-1p2-supply:
+> >> +    description: phandle to vdda 1.2V regulator node.
+> >> +
+> >> +  vdda-0p9-supply:
+> >> +    description: phandle to vdda 0.9V regulator node.
+> >> +
+> >> +  data-lanes = <0 1>:
+> > 
+> > Is this correct? We can have = <value> in the property name? Also feels
+> > generic and possibly should come from the phy binding instead of from
+> > the controller binding.
+> > 
+> We are using this property in DP controller programming sequence such as 
+> link training.
+> So I think we can keep this here.
+> You are right about <value>. <0 1> part should be in example only. It 
+> was passing through dt_binding_check though.
+> Here it should be like:
+> data-lanes:
+> minItems:1
+> maxItems:4
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index da84a91..4711700 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3247,17 +3247,25 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 
- 	dw_hdmi_init_hw(hdmi);
- 
-+	hdmi->bridge.driver_private = hdmi;
-+	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
-+#ifdef CONFIG_OF
-+	hdmi->bridge.of_node = pdev->dev.of_node;
-+#endif
-+
-+	drm_bridge_add(&hdmi->bridge);
-+
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0) {
- 		ret = irq;
--		goto err_iahb;
-+		goto err_irq;
- 	}
- 
- 	ret = devm_request_threaded_irq(dev, irq, dw_hdmi_hardirq,
- 					dw_hdmi_irq, IRQF_SHARED,
- 					dev_name(dev), hdmi);
- 	if (ret)
--		goto err_iahb;
-+		goto err_irq;
- 
- 	/*
- 	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
-@@ -3290,12 +3298,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 			hdmi->ddc = NULL;
- 	}
- 
--	hdmi->bridge.driver_private = hdmi;
--	hdmi->bridge.funcs = &dw_hdmi_bridge_funcs;
--#ifdef CONFIG_OF
--	hdmi->bridge.of_node = pdev->dev.of_node;
--#endif
--
- 	if (hdmi->version >= 0x200a)
- 		hdmi->connector.ycbcr_420_allowed =
- 			hdmi->plat_data->ycbcr_420_allowed;
-@@ -3357,6 +3359,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 
- 	return hdmi;
- 
-+err_irq:
-+	drm_bridge_remove(&hdmi->bridge);
- err_iahb:
- 	clk_disable_unprepare(hdmi->iahb_clk);
- 	if (hdmi->cec_clk)
-@@ -3371,6 +3375,8 @@ __dw_hdmi_probe(struct platform_device *pdev,
- 
- static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
- {
-+	drm_bridge_remove(&hdmi->bridge);
-+
- 	if (hdmi->audio && !IS_ERR(hdmi->audio))
- 		platform_device_unregister(hdmi->audio);
- 	if (!IS_ERR(hdmi->cec))
-@@ -3396,22 +3402,12 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
- struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 			      const struct dw_hdmi_plat_data *plat_data)
- {
--	struct dw_hdmi *hdmi;
--
--	hdmi = __dw_hdmi_probe(pdev, plat_data);
--	if (IS_ERR(hdmi))
--		return hdmi;
--
--	drm_bridge_add(&hdmi->bridge);
--
--	return hdmi;
-+	return __dw_hdmi_probe(pdev, plat_data);
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_probe);
- 
- void dw_hdmi_remove(struct dw_hdmi *hdmi)
- {
--	drm_bridge_remove(&hdmi->bridge);
--
- 	__dw_hdmi_remove(hdmi);
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_remove);
--- 
-2.7.4
+Ok.
 
+> 
+> >> +    type: object
+> >> +    description: Maximum number of lanes that can be used for Display 
+> >> port.
+> >> +
+> >> +  ports:
+> >> +    description: |
+> >> +       Contains display port controller endpoint subnode.
+> >> +       remote-endpoint: |
+> >> +         For port@0, set to phandle of the connected panel/bridge's
+> >> +         input endpoint. For port@1, set to the DPU interface output.
+> >> +         Documentation/devicetree/bindings/graph.txt and
+> >> +         
+> >> Documentation/devicetree/bindings/media/video-interfaces.txt.
+> >> +
+> >> +patternProperties:
+> >> +  "^aux-cfg([0-9])-settings$":
+> >> +    type: object
+> >> +    description: |
+> >> +      Specifies the DP AUX configuration [0-9] settings.
+> >> +      The first entry in this array corresponds to the register 
+> >> offset
+> >> +      within DP AUX, while the remaining entries indicate the
+> >> +      programmable values.
+> > 
+> > I'd prefer this was removed from the binding and hardcoded in the 
+> > driver
+> > until we can understand what the values are. If they're not
+> > understandable then they most likely don't change and should be done in
+> > the driver.
+> > 
+> Typically customers tune these values by working with vendor. So for 
+> different boards it can be different. Even though it is hard for 
+> customers to do this themselves, these are still board specific and 
+> belong to dts. As requested earlier, we have added default values 
+> already and made these properties optional but, we would like to keep it 
+> in bindings so we can have option to tune them as required.
+
+If they're in the binding then they should make sense instead of just
+being random values. So please move the defaults to the driver and
+have human understandable DT properties to tune these settings. This has
+been done for the qcom USB phy already (see things like
+qcom,hstx-trim-value for example).
+
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - cell-index
+> >> +  - reg
+> >> +  - interrupts
+> >> +  - clocks
+> >> +  - clock-names
+> >> +  - vdda-1p2-supply
+> >> +  - vdda-0p9-supply
+> >> +  - data-lanes
+> >> +  - ports
+> >> +
+> >> +examples:
+> >> +  - |
+> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >> +    #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+> >> +    #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+> >> +    msm_dp: displayport-controller@ae90000{
+> >> +        compatible = "qcom,dp-display";
+> >> +        cell-index = <0>;
+> >> +        reg = <0 0xae90000 0 0x1400>;
+> >> +        reg-names = "dp_controller";
+> >> +
+> >> +        interrupt-parent = <&display_subsystem>;
+> >> +        interrupts = <12 0>;
+> >> +
+> >> +        clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
+> >> +                 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
+> >> +                 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+> >> +                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
+> >> +                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+> >> +        clock-names = "core_aux",
+> >> +                      "ctrl_link",
+> >> +                      "ctrl_link_iface", "stream_pixel",
+> >> +                      "pixel_rcg";
+> >> +        #clock-cells = <1>;
+> >> +
+> >> +        vdda-1p2-supply = <&vreg_l3c_1p2>;
+> >> +        vdda-0p9-supply = <&vreg_l4a_0p8>;
+> >> +
+> >> +        data-lanes = <0 1>;
+> >> +
+> >> +        ports {
+> >> +            #address-cells = <1>;
+> >> +            #size-cells = <0>;
+> >> +
+> >> +            port@0 {
+> >> +                reg = <0>;
+> >> +                dp_in: endpoint {
+> >> +                    remote-endpoint = <&dpu_intf0_out>;
+> >> +                };
+> >> +            };
+> >> +
+> >> +            port@1 {
+> >> +                reg = <1>;
+> >> +                dp_out: endpoint {
+> >> +                };
+> >> +            };
+> >> +        };
+> >> +    };
+> > 
+> > I believe there should be a '...' here.
+> I think you mean signature is missing? If not could you please explain?
+
+No I mean there should be a triple dot at the end.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
