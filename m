@@ -1,55 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852201FBD55
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:50:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7161FBDBF
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 20:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 722DC6E8E8;
-	Tue, 16 Jun 2020 17:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8026E94F;
+	Tue, 16 Jun 2020 18:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C266E8E8
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:50:54 +0000 (UTC)
-Received: by mail-ua1-x943.google.com with SMTP id r9so7213736ual.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:50:54 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDB66E94F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 18:15:02 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j10so21756260wrw.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 11:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5sMP3nTa63QmDJKCaYvrAcFjA3YySoTIgUeAWyvfRJc=;
- b=Xcyo4mpB1wBgedNWPapwvUwtDuVUnxV5HwnjTBrl8ez4Eefa8LwRsZyXWqrN5hVInP
- WFjoepUMGsAvF/rV11vpVv8Uj1mHJFbXhAvKs2ZUeTJHa0E1Kx4Cbq2GpeSReleMPxow
- veTvwW6su1W6rzpXgPdN1ydG5zllBiUBKzDOY0I24JlY50re3OETWdllQUehN+celru8
- h76ECLKNJuBKpdwGtIj7Tvokkc5Skhj9QLjlwOft8Syax7FL9aNZ2iyCXis3ycExGrUR
- 4AVMwBTbxb24tD53L3LkEseov03sq9RtDlSSS7sDRPijnFMOn02nYQpW1/l+3IdJvy9l
- 0DiA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1cwXIj5ouQp4SkSeQCvfyT9yp/LQNeF4xzvNurOwI34=;
+ b=T3SXtACH0iEYl0XvM+ojOpUB0FTQiKxHS6P1I6QXfEcMO7WEYmkFIdOzhGJBVBhbyR
+ 9pgF+5o7KYJA4mMCrwhqp9jAIkOU2uLpLPLk+JGnuUfSqLwuv6C0NeXc82VylSgoLbKr
+ E6kkMdjR9Y6+QarVBRbOkxGTdafxoH8MSXfr3IHae0zaks87sPZnVXa6OYdCgw8S7r3T
+ vWYfmPdZMED1v413T7Ls+fr0eJNnr7j8T4Z7i4Pd/HKzYbxVUJOw4rMctgBpyT5WQHcf
+ 299qBR+Nb+jB9s/7JYRYo70EKII47QM5i3uAZTVagLFDbzjfmhZzY1FfbMpjk9+RvkLG
+ hl/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5sMP3nTa63QmDJKCaYvrAcFjA3YySoTIgUeAWyvfRJc=;
- b=KOIriTASqsfOn4WWN9TieSn3Q5sa+qRRH72GTDJCd7rNUuSKc7U9DjoS4rXmm1z+wP
- 4DjgcBgZI1hdZ/+Nf7pEwwZJRSf61CYJo5OCYlCVXafFrrNSXk6azjPXa5vVPVSSfjf0
- y8TX6qhtzEQ8dlxRFvPNmSdJecFT/lgs6+2ahQ2k5INqYxYnubfpyPA1TsZSHLZmPlOy
- OVB9arajMxvQNYKuizRFrGfbOMPl7HnCIUdHoru43OI3cEzyreg2GEZMYI6i69RnKhv+
- WIf3ctrcsKE7GVdtvdFJCw8DVLUhCI6fKc8MDf3ZlXU62MN46gd4FcO/7to5Z9PA+i9t
- 4bHA==
-X-Gm-Message-State: AOAM533bcPTUII3rWfUO1kb3yKkojyElgZ+1791FNxLxGKyTAk09zHHy
- UKjah9V/9PXT+BCKnxttbl+U/xfFgaBQmEI1Daw=
-X-Google-Smtp-Source: ABdhPJwxqnZ0zbGT6b9qMF90f5G09kOuk/8Saca4YmTVCM+VzfKEHpc81vXVlqZZ+oRVh30GSZpxCj4si5IADFlASLU=
-X-Received: by 2002:ab0:3055:: with SMTP id x21mr3068707ual.106.1592329853780; 
- Tue, 16 Jun 2020 10:50:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1cwXIj5ouQp4SkSeQCvfyT9yp/LQNeF4xzvNurOwI34=;
+ b=IwYC355DXHtLPHnH5Nqk0Ws9VEFBgBXpFcLJ1CA6fuKvrCIzBPqcY7tPE86GJsRw8Z
+ LStOk+skmlU093/SpzSwLOk5A/BtMzEEHqEQLmnXMKy2EsmRbc+v/wQ1A5HK8WeewqSA
+ H7X6eBpdsrGRoY6rfOSSg5gJn7qN1BMZx0t0Rzrc383mgDf4AEuzhrNMZy9EFVNqgvA2
+ d9/6FkFKEzNHBFAvxUtGskljusyLn4Muf0dvJY/toW5oppbwhSwKdYWCrwSvKE8tcDMV
+ YgX9oQy5eBHdJKVD5eQO5gwOaYXKyBuH1ORy7RkfNRXKHuXuLoKdll0F9qJcSP660tiH
+ 2LcQ==
+X-Gm-Message-State: AOAM533mSzVqNPzG1MwJcu4navcQGcBrrHpuVS9BF1Ku30liLGYqpdOt
+ 9V8n9G7RfVKh7IujzcAYSHY=
+X-Google-Smtp-Source: ABdhPJwMuwx+oPVBG4tX5rC/goYaMI+Zw5SMzO0D0jdyuongMlTFYMvYds2ermJbrAAVQ0T/KQ6uRQ==
+X-Received: by 2002:adf:82ab:: with SMTP id 40mr4160642wrc.85.1592331301368;
+ Tue, 16 Jun 2020 11:15:01 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id r14sm1899663wrx.42.2020.06.16.11.14.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 11:14:57 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v3] drm/tegra: Add zpos property for cursor planes
+Date: Tue, 16 Jun 2020 20:14:49 +0200
+Message-Id: <20200616181449.3147258-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200607133832.1730288-1-paul@crapouillou.net>
- <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
- <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
-In-Reply-To: <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 16 Jun 2020 18:47:11 +0100
-Message-ID: <CACvgo50abpfh6Q+zPZCCG7RnAzX=CZJmtv2SyTyBfLC7qWtU1w@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
-To: Paul Cercueil <paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +64,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me
+Cc: dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+From: Thierry Reding <treding@nvidia.com>
 
-Allow me to compare this approach with some work Linus W [1] did a
-while back, which I've just noticed.
+As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+have a zpos property") a warning is emitted if there's a mix of planes
+with and without a zpos property.
 
-Pauls' approach:
+On Tegra, cursor planes are always composited on top of all other
+planes, which is why they never had a zpos property attached to them.
+However, since the composition order is fixed, this is trivial to
+remedy by simply attaching an immutable zpos property to them.
 
- - Perhaps the shortest one possible
-Porting an existing DSI panel to DBI is 3 lines of code - compat line
-in the SPI/DSI bridge, a bus_type and
-mipi_dsi_maybe_register_tiny_driver() call
-The clever use of the DSI type (equal to zero) means that things will
-work w/o updating existing dsi hosts and devices in panel/. Yet in the
-very unlikely case that the panel does not support DSI, we will still
-allow it.
+v3: do not hardcode zpos for overlay planes used as cursor (Dmitry)
+v2: hardcode cursor plane zpos to 255 instead of 0 (Ville)
 
-Although thinking about the type I wonder if it can accommodate all use-cases:
-Since we can have a device (panel) capable of DSI+SPI it makes sense
-for it to expose the type bitmask, not the host. Although, what if the
-host itself supports DSI+SPI.?
-Now we can extrapolate that with a host (say fimd/exynos I think)
-which supports a SPI panel (s6e63m0) while having
-of_graph_get_port_by_id(0)?
+Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/dc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-- Strange (ab)use of the DSI bus for DBI (SPI, 6800, 8080 etc)
-We care about existing users (DT) and it sounds unlikely (based on
-previous discussion) that DBI + SPI/6800... will make it into DT. So
-the current approach seems quite reasonable IMHO.
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 83f31c6e891c..04d6848d19fc 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
++	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+ 
+ 	return &plane->base;
+ }
+-- 
+2.24.1
 
-
-Linus' approach:
-- Clear separation of DSI/SPI
-Compat strings are still duplicated, although in separate files
-
-- Minor code motion and slightly more invasive porting overall
-Much of the boilerplate can be reduced via helper lib and macros. Even
-then it's unlikely we'll reach the 3 line delta as with Paul's
-approach.
-
-- Does not handle tiny-dsi (dummy) drm driver
-It seems doable, with minor changes
-
-
-Personally I'm on the fence and a deciding factor for me is if Paul's
-approach can handle all the combinations of host/device type support.
-That said, the input from people likely to do the work would be highly
-appreciated.
-
-Once a decision is made, an illustrative series + todo entry would be
-great to have.
--Emil
-
-[1] https://lists.freedesktop.org/archives/dri-devel/2020-May/266079.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
