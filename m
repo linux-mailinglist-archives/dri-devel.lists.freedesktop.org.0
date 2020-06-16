@@ -1,77 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1511E1FC739
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0EC1FC728
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B436E328;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 752396E12A;
 	Wed, 17 Jun 2020 07:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FC66E8BB
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 12:31:02 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D5DD9580230;
- Tue, 16 Jun 2020 08:31:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 16 Jun 2020 08:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=Czu8B8/QH/WNCgJQNgYJNhpSKue
- t+bFlALwMiXQlt7Q=; b=M7dBEPbeWLwwTqlbLUs3KVxosMxMWtxu157ekKSzfRe
- IRe2Cwba8ac60C0H4drOIvkhepU3/jYX5wACKHQ6Pzhr2Fp5PY1t3lN288pUc2Jn
- oE3m4e+kDBi+IdxV/jPLgZoT5lPxZC98W/R4VR2cTE+sDwMgd4pBrDinWuaAs9yo
- 9kX6uSS7/9VE3DvuQ+Cir2m5AfIE9+RxBkRC0ZSR9oOvFsisdXVHeFzuPGXLBk8d
- rw4uH6wyKm6Sv+Km/7lPWM5uJhXe0bdepy4avpEpriiTaZ/mBkM7PEN1bxRtOZx1
- DiKqwSITgkDlpnI1a608T7j4pX2Rz9dh4PBvwzM+Dsg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Czu8B8
- /QH/WNCgJQNgYJNhpSKuet+bFlALwMiXQlt7Q=; b=RkDOGdQSXIbFE7mVnntUg6
- gtzvEYQ929qV8uboYKIDxIxIrh7fs1z3L1xm/2zOJuUD6e0PcuF+wc1IcdlypP77
- ICwnJdA2vYjAQoJoCoI0bUoC6LkYDEgcnOLbhGZS3Q3D9dH0202C7JvHttRBPRWS
- BKkADc3N9SS4nqjZPUQF9mZPr9/6aRlK0wTtIkatYBijvrFOMvYHCnlHb/6Sd6EN
- QTfVP68NhEnKUVCYpNRZBrECP5nGSD98qpzdF+RdSYuxa8jHsyHAXwkPYOfSMGUQ
- EanP8l0pKGV4V1a/RPuw4UGQfY3h7uiOypO0V56lmn0K9J7I7atsa3q5bsawJocA
- ==
-X-ME-Sender: <xms:hLvoXljkBehjch5RkoIgRfjal7ws-UNUHZ-W4XwnYzikDhz3jvL_RA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudejtddgheeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeekkefftdffhffhvedvudetgfdtleejveffvedvvdetgeeltdfggefhhedv
- ieffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrieekrd
- ejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:hLvoXqBlvy7B1v3bIFYxEVVnyB6EY5lVLyr9AFhexzp0GnL_IcsDhA>
- <xmx:hLvoXlFdrEM7v5h1cYprIX0lKT7TUuxsP2SJCjat9zNA5S6dD69O3w>
- <xmx:hLvoXqTtyTUyNunov6n2cEhqOTm0aNaIOLjBN-RiYookQILJr4LtHg>
- <xmx:hbvoXtyXTVzevx9bJGEqiHilEKUF4etRgDp9TQE3mkdOX2Kwpsvpwg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 200833280064;
- Tue, 16 Jun 2020 08:31:00 -0400 (EDT)
-Date: Tue, 16 Jun 2020 14:30:58 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Subject: Re: [PATCH v3 070/105] drm/vc4: hdmi: rework connectors and encoders
-Message-ID: <20200616123058.skjudypbsefiom5c@gilmour.lan>
-References: <cover.aaf2100bd7da4609f8bcb8216247d4b4e4379639.1590594512.git-series.maxime@cerno.tech>
- <020de18840a1075b2671736c6cc2e451030fad74.1590594512.git-series.maxime@cerno.tech>
- <CADaigPXJ0BnMUp=XN6G92Tx=H9j55pmsBAujO2mcpiiTs-RHnQ@mail.gmail.com>
- <20200602155421.niyvpwqc42xh5c7v@gilmour>
- <6cd190e0-c81c-8e47-3ca8-22360de9b46d@i2se.com>
- <20200605143536.i6cc2v57eupmlvtn@gilmour.lan>
- <197a3164-828b-510e-47a7-f18ce1300d9d@i2se.com>
- <20200611133444.narsdlxmko2wgyj7@gilmour.lan>
- <8ad354c1-203c-e4bc-ef24-36a2a7b4a9b5@i2se.com>
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDB9B6E159
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 13:44:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1592315046; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=neAnsfkRMgdLmxrFAs43gbDE9/rNCoat18mjJVvgJoU=;
+ b=UFeDYlrct8+Kubye7S/RHyXVTD0JItgx7sO326Qw6vunaqVtMRasnBJ/NIslthVyWqJGBA1x
+ bClmmIWIBChtAm1OFMut2vyMPA4tYnys1MeURCeB84v0a/k8IVaCgQIgwRsvlzMQFAHyuram
+ AgbK+ydGQ8nyPLwCG98e3IX5D9w=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n13.prod.us-west-2.postgun.com with SMTP id
+ 5ee8cc993a8a8b20b85c0985 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 16 Jun 2020 13:43:53
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6AFA4C433C8; Tue, 16 Jun 2020 13:43:53 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.102] (unknown [183.83.143.239])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: charante)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BBD87C433C9;
+ Tue, 16 Jun 2020 13:43:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BBD87C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=charante@codeaurora.org
+Subject: Re: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
+To: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20200611114418.19852-1-sumit.semwal@linaro.org>
+From: Charan Teja Kalla <charante@codeaurora.org>
+Message-ID: <59f0062d-5ca9-84f1-ba92-c3463ff0e73d@codeaurora.org>
+Date: Tue, 16 Jun 2020 19:13:47 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <8ad354c1-203c-e4bc-ef24-36a2a7b4a9b5@i2se.com>
+In-Reply-To: <20200611114418.19852-1-sumit.semwal@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,176 +71,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1186494562=="
+Cc: Arnd Bergmann <arnd@arndb.de>, Chenbo Feng <fengc@google.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks Sumit for the fix.
 
---===============1186494562==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mnj3pykzsuovov52"
-Content-Disposition: inline
+On 6/11/2020 5:14 PM, Sumit Semwal wrote:
+> Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
+> happens if the dma_buf_release() is called while the userspace is
+> accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
+> and dma_buf_release() releases the dmabuf object when the last reference
+> to the struct file goes away.
+> 
+> I discussed with Arnd Bergmann, and he suggested that rather than tying
+> the dma_buf_release() to the file_operations' release(), we can tie it to
+> the dentry_operations' d_release(), which will be called when the last ref
+> to the dentry is removed.
+> 
+> The path exercised by __fput() calls f_op->release() first, and then calls
+> dput, which eventually calls d_op->d_release().
+> 
+> In the 'normal' case, when no userspace access is happening via dma_buf
+> pseudo fs, there should be exactly one fd, file, dentry and inode, so
+> closing the fd will kill of everything right away.
+> 
+> In the presented case, the dentry's d_release() will be called only when
+> the dentry's last ref is released.
+> 
+> Therefore, lets move dma_buf_release() from fops->release() to
+> d_ops->d_release()
+> 
+> Many thanks to Arnd for his FS insights :)
+> 
+> [1]: https://lore.kernel.org/patchwork/patch/1238278/
+> 
+> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+> Cc: <stable@vger.kernel.org> [5.3+]
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Reported-by: Charan Teja Reddy <charante@codeaurora.org>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> 
 
+Tested this patch for Android running on Snapdragon hardware and see no
+issues.
+Tested-by: Charan Teja Reddy <charante@codeaurora.org>
 
---mnj3pykzsuovov52
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> ---
+> v2: per Arnd: Moved dma_buf_release() above to avoid forward declaration;
+>      removed dentry_ops check.
+> ---
+>  drivers/dma-buf/dma-buf.c | 54 ++++++++++++++++++---------------------
+>  1 file changed, 25 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 01ce125f8e8d..412629601ad3 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -54,37 +54,11 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>  			     dentry->d_name.name, ret > 0 ? name : "");
+>  }
+>  
+> -static const struct dentry_operations dma_buf_dentry_ops = {
+> -	.d_dname = dmabuffs_dname,
+> -};
+> -
+> -static struct vfsmount *dma_buf_mnt;
+> -
+> -static int dma_buf_fs_init_context(struct fs_context *fc)
+> -{
+> -	struct pseudo_fs_context *ctx;
+> -
+> -	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
+> -	if (!ctx)
+> -		return -ENOMEM;
+> -	ctx->dops = &dma_buf_dentry_ops;
+> -	return 0;
+> -}
+> -
+> -static struct file_system_type dma_buf_fs_type = {
+> -	.name = "dmabuf",
+> -	.init_fs_context = dma_buf_fs_init_context,
+> -	.kill_sb = kill_anon_super,
+> -};
+> -
+> -static int dma_buf_release(struct inode *inode, struct file *file)
+> +static void dma_buf_release(struct dentry *dentry)
+>  {
+>  	struct dma_buf *dmabuf;
+>  
+> -	if (!is_dma_buf_file(file))
+> -		return -EINVAL;
+> -
+> -	dmabuf = file->private_data;
+> +	dmabuf = dentry->d_fsdata;
+>  
+>  	BUG_ON(dmabuf->vmapping_counter);
+>  
+> @@ -110,9 +84,32 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+>  	module_put(dmabuf->owner);
+>  	kfree(dmabuf->name);
+>  	kfree(dmabuf);
+> +}
+> +
+> +static const struct dentry_operations dma_buf_dentry_ops = {
+> +	.d_dname = dmabuffs_dname,
+> +	.d_release = dma_buf_release,
+> +};
+> +
+> +static struct vfsmount *dma_buf_mnt;
+> +
+> +static int dma_buf_fs_init_context(struct fs_context *fc)
+> +{
+> +	struct pseudo_fs_context *ctx;
+> +
+> +	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +	ctx->dops = &dma_buf_dentry_ops;
+>  	return 0;
+>  }
+>  
+> +static struct file_system_type dma_buf_fs_type = {
+> +	.name = "dmabuf",
+> +	.init_fs_context = dma_buf_fs_init_context,
+> +	.kill_sb = kill_anon_super,
+> +};
+> +
+>  static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>  {
+>  	struct dma_buf *dmabuf;
+> @@ -412,7 +409,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+>  }
+>  
+>  static const struct file_operations dma_buf_fops = {
+> -	.release	= dma_buf_release,
+>  	.mmap		= dma_buf_mmap_internal,
+>  	.llseek		= dma_buf_llseek,
+>  	.poll		= dma_buf_poll,
+> 
 
-On Sun, Jun 14, 2020 at 06:16:56PM +0200, Stefan Wahren wrote:
-> Am 11.06.20 um 15:34 schrieb Maxime Ripard:
-> > Hi Stefan,
-> >
-> > On Sat, Jun 06, 2020 at 10:06:12AM +0200, Stefan Wahren wrote:
-> >> Hi Maxime,
-> >>
-> >> Am 05.06.20 um 16:35 schrieb Maxime Ripard:
-> >>> Hi Stefan,
-> >>>
-> >>> On Wed, Jun 03, 2020 at 07:32:30PM +0200, Stefan Wahren wrote:
-> >>>> Am 02.06.20 um 17:54 schrieb Maxime Ripard:
-> >>>> FWIW this is the first patch which breaks X on my Raspberry Pi 3 B.
-> >>>>
-> >>>> Here are the bisect results:
-> >>>>
-> >>>> 587d6e4a529a8d807a5c0bae583dd432d77064d6 bad (black screen, no heart=
-beat)
-> >>>>
-> >>>> b0523c7b1c9d0edcd6c0fe6d2cb558a9ad5c60a8 good
-> >>>>
-> >>>> 2c6a651cac6359cb0244a40d3b7a14e72918f169 good
-> >>>>
-> >>>> 1705c3cb40906863ec0d24ee5ea5092f5ee2e994 bad (black screen, but hear=
-tbeat)
-> >>>>
-> >>>> 601527fea6bb226abd088a864e74b25368218e87 good
-> >>>>
-> >>>> 2165607ede34d229d0cbce916c70c7fb6c0337be good
-> >>>>
-> >>>> f094f388fc2df848227e2ae648df2c97872df42b good
-> >>>>
-> >>>> 020de18840a1075b2671736c6cc2e451030fad74 bad (black screen, but hear=
-tbeat)
-> >>>>
-> >>>> 4c4da3823e4d1a8189e96a59a79451fff372f70b good
-> >>>>
-> >>>> 020de18840a1075b2671736c6cc2e451030fad74 is the first bad commit
-> >>>> commit 020de18840a1075b2671736c6cc2e451030fad74
-> >>>> Author: Maxime Ripard <maxime@cerno.tech>
-> >>>> Date:=A0=A0 Mon Jan 6 17:17:29 2020 +0100
-> >>>>
-> >>>> =A0=A0=A0 drm/vc4: hdmi: rework connectors and encoders
-> >>>> =A0=A0=A0
-> >>>> =A0=A0=A0 the vc4_hdmi driver has some custom structures to hold the=
- data it
-> >>>> needs to
-> >>>> =A0=A0=A0 associate with the drm_encoder and drm_connector structure=
-s.
-> >>>> =A0=A0=A0
-> >>>> =A0=A0=A0 However, it allocates them separately from the vc4_hdmi st=
-ructure which
-> >>>> =A0=A0=A0 makes it more complicated than it needs to be.
-> >>>> =A0=A0=A0
-> >>>> =A0=A0=A0 Move those structures to be contained by vc4_hdmi and upda=
-te the code
-> >>>> =A0=A0=A0 accordingly.
-> >>>> =A0=A0=A0
-> >>>> =A0=A0=A0 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>> So it looks like there was two issues on the Pi3. The first one was
-> >>> causing the timeouts (and therefore likely the black screen but
-> >>> heartbeat case you had) and I've fixed it.
-> >>>
-> >>> However, I can indeed reproduce the case with the black screen / no
-> >>> heartbeat you mentionned. My bisection however returns that it's the
-> >>> patch "drm/vc4: hdmi: Implement finer-grained hooks" that is at fault.
-> >>> I've pushed my updated branch, if you have some spare time, it would =
-be
-> >>> great if you could confirm it on your Pi.
-> >> yesterday i checked out your latest rpi4-kms branch, but i was still
-> >> facing similiar issues with my Raspberry Pi 3 and multi_v7_defconfig
-> >> (heartbeat stops, splashscreen freeze, heartbeat is abnormal fast). So=
- i
-> >> tried to bisect but the offending commit didn't cause an issue the
-> >> second time.
-> >>
-> >> By accident i noticed that a simple reboot seems to hang for at least 8
-> >> minutes (using b0523c7b1c9d0edcd the base of your branch). This usually
-> >> take a few seconds. So i consider this base on linux-next as too
-> >> unstable for reliable testing.
-> >>
-> >> Is it possible to rebase this on something more stable like linux-5.7 =
-or
-> >> at least drm-misc-next? This should avoid chasing unrelated issues.
-> > I've rebased it on 5.7 here:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git/log/?=
-h=3Drpi4-kms-5.7
-> >
-> > And it looks to be indeed an issue coming from next. That branch can
-> > start the desktop just fine on an RPi3 here. It would be great if you
-> > could confirm on your end.
-> >
-> > Thanks!
-> > Maxime
->=20
-> thank you very much. The good news are that the "black screen, but
-> heartbeat" issue and reboot hang are gone. Unfortunately the "no
-> heartbeat" issue is still there.
->=20
-> Here are more details about the issue. It doesn't occur everytime. I
-> would guess the probability is about 40 percent, which made bisecting
-> much harder.
-
-Are you sure about that 40% reliability? I found out that the culprit
-was that the commit we mentionned was actually running atomic_disable
-before our own custom callbacks, meaning that we would run the custom
-callbacks with the clocks and the power domain shut down, resulting in a
-stall.
-
-I was seeing it all the time when X was shutting down the display, but
-maybe you were changing the resolution between the framebuffer console
-or something, and since the power domain is shut down asynchronously, it
-wasn't running fast enough for the next enable to come up and re-enable
-it again?
-
-> It is reproducible on my 2 Raspberry Pi 3 B Rev 1.2. It is
-> also seems independent from the display because the problem occured on
-> my Computer display and my TV.
-
-But only on HDMI, right?
-
-I've pushed a new branch with that fix.
-
-Maxime
-
---mnj3pykzsuovov52
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXui7ggAKCRDj7w1vZxhR
-xTIYAP4gnQF4W2S9Kk51AvcjH8hnbrHB6RyGKzF2l9eqWRerZgEA0wobgfw2R4Sr
-w16Vk3zTXggYQVJtfTF3hYpNXafEhQQ=
-=1RvC
------END PGP SIGNATURE-----
-
---mnj3pykzsuovov52--
-
---===============1186494562==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+Forum, a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1186494562==--
