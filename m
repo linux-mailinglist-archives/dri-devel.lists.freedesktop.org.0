@@ -1,54 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC421FC660
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 08:49:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77621FC73D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3EA06E245;
-	Wed, 17 Jun 2020 06:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82F0E6EA95;
+	Wed, 17 Jun 2020 07:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4CB6E241
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 06:49:02 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id p70so824155oic.12
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
- b=OIOD71wghmL3BJ+4LTxzheuNdBbWNpLdKTVng8Cfhv9Fc+rfz1Bmpja7NkfffcXZ5t
- F6agC8t3Bl3XSNz2wvhQVeG89txiQ4Fg0oTmf4NqMRP+P7i0aE2AqATgmZ8aSvLna89q
- jo8UfjgpSF4gK32/sAugm1Q4Ddzgv8tjJWzGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
- b=GyByQnKj39F8ORC3Ur3yIEg9AfN72bisNWsSj8ogu1IRG/PR7110VIVlnA1vXczLUc
- CyILp8SwxNKpgAFqvhnkYgRzuCX4+0EX8cxhR3yrK3wWFOHjGgIqQaTcwFi6U6SGDKj4
- PxZ6OGS9djlocnGRDt3/IAzOcjKw8HETxCBcrKDoLCf4X9Rj6hJDQr1nYBpGODfDjYOT
- Xhyj/7fAKAaTvQ3PC8srKVm1e62XotoVyEme7ExUiUJJ2ljQQKlD4xKRe3X/zFYOqjc+
- nHkxyzzrFrEES2S8uqK2Xr07qQjHbdC2bhGhy6sGqt5R52q6Z7br7PDThV9tbhZBFJBJ
- J2WA==
-X-Gm-Message-State: AOAM531L/WDByMcApWP+XYFF+/fbrk3b9xCf5gS6UFiRNwRSyrWSlBuj
- QXyR/eQucC/FPlZDAmPmuVkYjIveZWc0LlujtYNbag==
-X-Google-Smtp-Source: ABdhPJwGAcimp20dQiWfb4LYQbPcyitWuj+om1jev4TmvwlxEdnrUo68m+2HSkZsaPumvrGpeUMSVFkd4tAKg9ZB6PA=
-X-Received: by 2002:aca:ad97:: with SMTP id w145mr6315470oie.128.1592376541438; 
- Tue, 16 Jun 2020 23:49:01 -0700 (PDT)
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr40072.outbound.protection.outlook.com [40.107.4.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22EAC6E880
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 09:16:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LxNqqG+DO+qGXnO2VAcLPa0BVw9CzKdT94H6GIxioqXMZRSdaJyFszDKqcBQ80aZyHPb19gAcJ/AwOU9lppK7c2nSxHwcfnkTM5BWD+m6a9w3qq6nsUAhu3hoBO15xHdAn5EpIel/wJSmAOcZ1e39fgGWsShnKP78MmZgcMEUGvRaFTUpuEkpuBc0u8euPuhwDa9cLCHQgxmcmsXMB5AaIY6MDUNm3RBS4PzXqh5Z6Ev6Uo7YVluGr7mPXIUcqo0EADkMcyOTy1AVBDPrQ7k8KDMHeTUaR4HQ+BqlbN747lve5mTTKz6bC4n3+P4lfFiQ44LtyfdQBPZKuTsL6OcQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1azelHSlVD3Z+Zu/xQhNFOzbEexSql1XpnjQkQA/7xw=;
+ b=gST6kX5fPnLQglEHRSIaR6XOzgzibCuyhQAnCqw9BDv9x5+z99u28+jfLzAOqtGttSmmTPWaheenbMBI+TcRyE+0aKQHopGmLYNdWtf8qdr3z7M8hM0cNyO1n+Uu9XNLWuJf+6h2QPE0/CVJyKr0eCTfQkO9Jc0qwQYLlKqmCWCWs9gT8xhqCBJS0F+7aI6seAecsfGlcZGcqDKjzpxDm9UvzUnJZ9f3gpqw4bCtDUaqgL4H4IT+H7cXfsSPvAwcXzUI6RsBao+VS9CQvP9IVUUtWsJ4PcXzt90N3dRNA9jjFRRPzfHUSqd8hEUkBA6LUxscIe3tA6yBsgp1Cr+NcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1azelHSlVD3Z+Zu/xQhNFOzbEexSql1XpnjQkQA/7xw=;
+ b=KCu36JiK+3n1ZTpruZRd01YwD1dP+lMw8HvVje3kF2Y00ea9AwFW7vSqrnaqh5pn9gBdcUvo8zt0uYipOglehgHCKMPFg5LcJsSCDUu/ZRxFc4REg+fVAqBglKQYsuLkOqay0GxuBGC/jp/oCRBAt5ZACzWdlISQflMm7tD15eg=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
+ by VI1PR04MB5087.eurprd04.prod.outlook.com (2603:10a6:803:5d::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.26; Tue, 16 Jun
+ 2020 09:16:08 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::250a:ccb1:b015:3b38%5]) with mapi id 15.20.3088.028; Tue, 16 Jun 2020
+ 09:16:08 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/bridge: dw-hdmi: Don't cleanup i2c adapter and ddc
+ ptr in __dw_hdmi_probe() bailout path
+Date: Tue, 16 Jun 2020 17:04:51 +0800
+Message-Id: <1592298292-17634-1-git-send-email-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-ClientProxiedBy: SGAP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::35)
+ To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
- <20200616120719.GL20149@phenom.ffwll.local>
-In-Reply-To: <20200616120719.GL20149@phenom.ffwll.local>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 17 Jun 2020 08:48:50 +0200
-Message-ID: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-To: Jason Gunthorpe <jgg@ziepe.ca>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (119.31.174.66) by
+ SGAP274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.3088.19 via Frontend Transport; Tue, 16 Jun 2020 09:16:04 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [119.31.174.66]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b95c7cfb-4a07-4913-5cb9-08d811d5e77e
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5087:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB508763AA6330F1D3E0B04288989D0@VI1PR04MB5087.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Forefront-PRVS: 04362AC73B
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f/vABLurBbxGTPEfT/kWIgFeLomEalSB6Fa/LO2Y5di8hcTZi3LqE39QT7Jtali1HFtgjLmpefaXl1IMy0z6Efs/rHVNf1pfyui0AL9fKg+C5vl98EWABYAZSsqXyW6T1Yv6f15iSnE/Y/qJv9xwpi0dUIRwFKgm/GuKi+b0xPoBmW+5FfVIFNgrbetvjYzu0kT/iHeuDd+FCWk8U3D9eug1sEEKFh4rTwH4lOmBAlBqY70xVPAUw9KhH9mOl2apaEGxKVZ/j93vqGorMU1hSYbtMAR1reg69WF0/3CftP5dSXe9FpHiBWeIxa1kH2r3gOdYwj8mrN+up+vW/aOHQH/G7OgWOAuD/LVXPnIHAmjciotO4vE8ueeAedBhGBQU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(396003)(376002)(366004)(39860400002)(136003)(66476007)(6506007)(26005)(6486002)(2906002)(8676002)(7416002)(8936002)(6666004)(66946007)(316002)(66556008)(186003)(2616005)(52116002)(69590400007)(4326008)(83380400001)(36756003)(478600001)(6512007)(6916009)(16526019)(5660300002)(956004)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: HMT9uTna61wVLV4SQd0MNCE/RPwq1aGB+/18124pe6XK4UgakKo4v9W1orXFNHHvgLxGfJB+Z0c3dbyX+fljDwHsyTuCV5MR/nVBdCKLmK9GwYF3FNKmXfOnribf9hUzAynOi9eJawZt8hkr42rRJA3pXiLRAPo27vEQ92eigs666TrTQQKRxyy3E5JvIc/lYWhGHSX0wlSjSc+4uzfMrqtG4gkUGXdKTz5P4K5vzA7ineUvziXtWMNUuVlBuaZtdowJfgC+ti9lMO1wWZovqLMYToyg2kuSrfeaWQFQsrgyaMqJM7Vk6egeYjDiGlSpI2YcPKNWW7oHZrgNICGSk/lB5EgOcva4lppSaKq2U5eTHKzIjnpAkLTFInGhajRXuRrJpoBpRSu1XMazc72EBN1w9ORJ5yXiJTYHrd4uzXFvj89E8om2xmVW8jum93bv7eyQPRjsP9zyMVlvySBzGyQaqgSqZKXflXxzNLi8Rmg=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b95c7cfb-4a07-4913-5cb9-08d811d5e77e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2020 09:16:08.5018 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rf4NouUAXtJtvBln2vqj5V5BxBwpt+pPJ5tampM3Dnm8OQIz9Nvv3YgDZJLjSnETFVfnVXRKvuVopRVr+DJ/zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5087
+X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,160 +95,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: joabreu@synopsys.com, jernej.skrabec@siol.net, darekm@google.com,
+ jonas@kwiboo.se, airlied@linux.ie, narmstrong@baylibre.com,
+ architt@codeaurora.org, a.hajda@samsung.com, boris.brezillon@collabora.com,
+ Laurent.pinchart@ideasonboard.com, linux-imx@nxp.com, cychiang@chromium.org,
+ jbrunet@baylibre.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> Hi Jason,
->
-> Somehow this got stuck somewhere in the mail queues, only popped up just
-> now ...
->
-> On Thu, Jun 11, 2020 at 11:15:15AM -0300, Jason Gunthorpe wrote:
-> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> > > > I still have my doubts about allowing fence waiting from within shrinkers.
-> > > > IMO ideally they should use a trywait approach, in order to allow memory
-> > > > allocation during command submission for drivers that
-> > > > publish fences before command submission. (Since early reservation object
-> > > > release requires that).
-> > >
-> > > Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> > > with a mempool to make sure it can handle it's allocations.
-> > >
-> > > > But since drivers are already waiting from within shrinkers and I take your
-> > > > word for HMM requiring this,
-> > >
-> > > Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> > > one, the shrinker one is a lot less established.
-> >
-> > I really question if HW that needs something like DMA fence should
-> > even be using mmu notifiers - the best use is HW that can fence the
-> > DMA directly without having to get involved with some command stream
-> > processing.
-> >
-> > Or at the very least it should not be a generic DMA fence but a
-> > narrowed completion tied only into the same GPU driver's command
-> > completion processing which should be able to progress without
-> > blocking.
->
-> The problem with gpus is that these completions leak across the board like
-> mad. Both internally within memory managers (made a lot worse with p2p
-> direct access to vram), and through uapi.
->
-> Many gpus still have a very hard time preempting, so doing an overall
-> switch in drivers/gpu to a memory management model where that is required
-> is not a very realistic option.  And minimally you need either preempt
-> (still takes a while, but a lot faster generally than waiting for work to
-> complete) or hw faults (just a bunch of tlb flushes plus virtual indexed
-> caches, so just the caveat of that for a gpu, which has lots and big tlbs
-> and caches). So preventing the completion leaks within the kernel is I
-> think unrealistic, except if we just say "well sorry, run on windows,
-> mkay" for many gpu workloads. Or more realistic "well sorry, run on the
-> nvidia blob with nvidia hw".
->
-> The userspace side we can somewhat isolate, at least for pure compute
-> workloads. But the thing is drivers/gpu is a continum from tiny socs
-> (where dma_fence is a very nice model) to huge compute stuff (where it's
-> maybe not the nicest, but hey hw sucks so still neeeded). Doing full on
-> break in uapi somewhere in there is at least a bit awkward, e.g. some of
-> the media codec code on intel runs all the way from the smallest intel soc
-> to the big transcode servers.
->
-> So the current status quo is "total mess, every driver defines their own
-> rules". All I'm trying to do is some common rules here, do make this mess
-> slightly more manageable and overall reviewable and testable.
->
-> I have no illusions that this is fundamentally pretty horrible, and the
-> leftover wiggle room for writing memory manager is barely more than a
-> hairline. Just not seeing how other options are better.
+It's unnecessary to cleanup the i2c adapter and the ddc pointer in
+the bailout path of  __dw_hdmi_probe(), since the adapter is not
+added and the ddc pointer is not set.
 
-So bad news is that gpu's are horrible, but I think if you don't have
-to review gpu drivers it's substantially better. If you do have hw
-with full device page fault support, then there's no need to ever
-install a dma_fence. Punching out device ptes and flushing caches is
-all that's needed. That is also the plan we have, for the workloads
-and devices where that's possible.
+Fixes: a23d6265f033 (drm: bridge: dw-hdmi: Extract PHY interrupt setup to a function)
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Cheng-Yi Chiang <cychiang@chromium.org>
+Cc: Dariusz Marcinkiewicz <darekm@google.com>
+Cc: Archit Taneja <architt@codeaurora.org>
+Cc: Jose Abreu <joabreu@synopsys.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Now my understanding for rdma is that if you don't have hw page fault
-support, then the only other object is to more or less permanently pin
-the memory. So again, dma_fence are completely useless, since it's
-entirely up to userspace when a given piece of registered memory isn't
-needed anymore, and the entire problem boils down to how much do we
-allow random userspace to just pin (system or device) memory. Or at
-least I don't really see any other solution.
-
-On the other end we have simpler devices like video input/output.
-Those always need pinned memory, but through hw design it's limited in
-how much you can pin (generally max resolution times a limited set of
-buffers to cycle through). Just including that memory pinning
-allowance as part of device access makes sense.
-
-It's only gpus (I think) which are in this awkward in-between spot
-where dynamic memory management really is much wanted, but the hw
-kinda sucks. Aside, about 10+ years ago we had a similar problem with
-gpu hw, but for security: Many gpu didn't have any kinds of page
-tables to isolate different clients from each another. drivers/gpu
-fixed this by parsing&validating what userspace submitted to make sure
-it's only every accessing its own buffers. Most gpus have become
-reasonable nowadays and do have proper per-process pagetables (gpu
-process, not the pasid stuff), but even today there's still some of
-the old model left in some of the smallest SoC.
-
-tldr; of all this: gpus kinda suck sometimes, but  that's also not news :-/
-
-Cheers, Daniel
-
-> > The intent of notifiers was never to endlessly block while vast
-> > amounts of SW does work.
-> >
-> > Going around and switching everything in a GPU to GFP_ATOMIC seems
-> > like bad idea.
->
-> It's not everyone, or at least not everywhere, it's some fairly limited
-> cases. Also, even if we drop the mmu_notifier on the floor, then we're
-> stuck with shrinkers and GFP_NOFS. Still need a mempool of some sorts to
-> guarantee you get out of a bind, so not much better.
->
-> At least that's my current understanding of where we are across all
-> drivers.
->
-> > > I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> > > hurts, so that we have a clear answer. On x86 I don't think we have much
-> > > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> > > (but nouveau I think doesn't use dma_fence in there).
-> >
-> > Right, nor will RDMA ODP.
->
-> Hm, what's the context here? I thought RDMA side you really don't want
-> dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
-> here.
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
-
-
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 30681398c..da84a91 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -3358,11 +3358,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
+ 	return hdmi;
+ 
+ err_iahb:
+-	if (hdmi->i2c) {
+-		i2c_del_adapter(&hdmi->i2c->adap);
+-		hdmi->ddc = NULL;
+-	}
+-
+ 	clk_disable_unprepare(hdmi->iahb_clk);
+ 	if (hdmi->cec_clk)
+ 		clk_disable_unprepare(hdmi->cec_clk);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
