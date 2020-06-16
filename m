@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2331FBD43
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852201FBD55
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:50:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD1746E901;
-	Tue, 16 Jun 2020 17:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 722DC6E8E8;
+	Tue, 16 Jun 2020 17:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D9E6E901
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:46:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEBA6F9;
- Tue, 16 Jun 2020 19:46:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1592329580;
- bh=Ix9rcVGOxVvbzxxwJK2JdywpynNO9C+izdn2hXCu8fM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dnhPcnhP8V1YiZOGHxfwj01/bT4/JmbgYgVIA0V0gywpwZ6FH7ccqa5ixo+m8su7n
- VrHIvulQfeBrGEdsHBsqV76KeR6pAdlFZev3HwIafZ39DYSIyt4qwVAetQOBy8XhsU
- wtoKpIfHRwM5LFWDYB48pd3UpkUScC+CCmfQYgTk=
-Date: Tue, 16 Jun 2020 20:45:58 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
-Message-ID: <20200616174558.GA913@pendragon.ideasonboard.com>
-References: <20200614200121.14147-1-digetx@gmail.com>
- <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
- <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
- <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
- <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
+ [IPv6:2607:f8b0:4864:20::943])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C266E8E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:50:54 +0000 (UTC)
+Received: by mail-ua1-x943.google.com with SMTP id r9so7213736ual.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:50:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5sMP3nTa63QmDJKCaYvrAcFjA3YySoTIgUeAWyvfRJc=;
+ b=Xcyo4mpB1wBgedNWPapwvUwtDuVUnxV5HwnjTBrl8ez4Eefa8LwRsZyXWqrN5hVInP
+ WFjoepUMGsAvF/rV11vpVv8Uj1mHJFbXhAvKs2ZUeTJHa0E1Kx4Cbq2GpeSReleMPxow
+ veTvwW6su1W6rzpXgPdN1ydG5zllBiUBKzDOY0I24JlY50re3OETWdllQUehN+celru8
+ h76ECLKNJuBKpdwGtIj7Tvokkc5Skhj9QLjlwOft8Syax7FL9aNZ2iyCXis3ycExGrUR
+ 4AVMwBTbxb24tD53L3LkEseov03sq9RtDlSSS7sDRPijnFMOn02nYQpW1/l+3IdJvy9l
+ 0DiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5sMP3nTa63QmDJKCaYvrAcFjA3YySoTIgUeAWyvfRJc=;
+ b=KOIriTASqsfOn4WWN9TieSn3Q5sa+qRRH72GTDJCd7rNUuSKc7U9DjoS4rXmm1z+wP
+ 4DjgcBgZI1hdZ/+Nf7pEwwZJRSf61CYJo5OCYlCVXafFrrNSXk6azjPXa5vVPVSSfjf0
+ y8TX6qhtzEQ8dlxRFvPNmSdJecFT/lgs6+2ahQ2k5INqYxYnubfpyPA1TsZSHLZmPlOy
+ OVB9arajMxvQNYKuizRFrGfbOMPl7HnCIUdHoru43OI3cEzyreg2GEZMYI6i69RnKhv+
+ WIf3ctrcsKE7GVdtvdFJCw8DVLUhCI6fKc8MDf3ZlXU62MN46gd4FcO/7to5Z9PA+i9t
+ 4bHA==
+X-Gm-Message-State: AOAM533bcPTUII3rWfUO1kb3yKkojyElgZ+1791FNxLxGKyTAk09zHHy
+ UKjah9V/9PXT+BCKnxttbl+U/xfFgaBQmEI1Daw=
+X-Google-Smtp-Source: ABdhPJwxqnZ0zbGT6b9qMF90f5G09kOuk/8Saca4YmTVCM+VzfKEHpc81vXVlqZZ+oRVh30GSZpxCj4si5IADFlASLU=
+X-Received: by 2002:ab0:3055:: with SMTP id x21mr3068707ual.106.1592329853780; 
+ Tue, 16 Jun 2020 10:50:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
+References: <20200607133832.1730288-1-paul@crapouillou.net>
+ <c20796dd-d4d2-a989-ba58-7c3c71c15dc2@tronnes.org>
+ <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
+In-Reply-To: <1RIXBQ.4P44ILM1QELP2@crapouillou.net>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 16 Jun 2020 18:47:11 +0100
+Message-ID: <CACvgo50abpfh6Q+zPZCCG7RnAzX=CZJmtv2SyTyBfLC7qWtU1w@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] DSI/DBI and TinyDRM driver
+To: Paul Cercueil <paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,118 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, od@zcrc.me
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMTYsIDIwMjAgYXQgMDg6MjA6NTdQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDE2LjA2LjIwMjAgMTg6NDgsIEVtaWwgVmVsaWtvdiDQv9C40YjQtdGCOgo+ID4g
-T24gVHVlLCAxNiBKdW4gMjAyMCBhdCAxMjo0MCwgRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21h
-aWwuY29tPiB3cm90ZToKPiA+Pgo+ID4+IDE2LjA2LjIwMjAgMDE6MjYsIEVtaWwgVmVsaWtvdiDQ
-v9C40YjQtdGCOgo+ID4+PiBIaSBEbWl0cnksCj4gPj4+Cj4gPj4+IE9uIE1vbiwgMTUgSnVuIDIw
-MjAgYXQgMDg6MjgsIERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4gd3JvdGU6Cj4g
-Pj4+Pgo+ID4+Pj4gSGVsbG8hCj4gPj4+Pgo+ID4+Pj4gVGhpcyBzZXJpZXMgYWRkcyAxODDCsCBk
-aXNwbGF5IHBsYW5lIHJvdGF0aW9uIHN1cHBvcnQgdG8gdGhlIE5WSURJQSBUZWdyYQo+ID4+Pj4g
-RFJNIGRyaXZlciB3aGljaCBpcyBuZWVkZWQgZm9yIGRldmljZXMgdGhhdCBoYXZlIGRpc3BsYXkg
-cGFuZWwgcGh5c2ljYWxseQo+ID4+Pj4gbW91bnRlZCB1cHNpZGUtZG93biwgbGlrZSBOZXh1cyA3
-IHRhYmxldCBkZXZpY2UgZm9yIGV4YW1wbGUgWzFdLiBTaW5jZQo+ID4+Pj4gRFJNIHBhbmVsIHJv
-dGF0aW9uIGlzIGEgbmV3IHRoaW5nIGZvciBhIHVzZXJzcGFjZSwgY3VycmVudGx5IG9ubHkKPiA+
-Pj4+IE9wZW50ZWdyYSBYb3JnIGRyaXZlciBoYW5kbGVzIHRoZSByb3RhdGVkIGRpc3BsYXkgcGFu
-ZWwgWzJdLCBidXQgdGhpcwo+ID4+Pj4gaXMgZ29vZCBlbm91Z2ggZm9yIHRoZSBzdGFydC4KPiA+
-Pj4+Cj4gPj4+PiBOb3RlIHRoYXQgbGF0ZXIgb24gaXQgc2hvdWxkIGJlIHBvc3NpYmxlIHRvIGlt
-cGxlbWVudCBhIHRyYW5zcGFyZW50IDE4MMKwCj4gPj4+PiBkaXNwbGF5IHJvdGF0aW9uIGZvciBU
-ZWdyYSBEUk0gZHJpdmVyIHdoaWNoIHdpbGwgcmVtb3ZlIHRoZSBuZWVkIHRvIGhhdmUKPiA+Pj4+
-IGEgYmxlZWRpbmcgZWRnZSB1c2Vyc3BhY2UgdGhhdCBrbm93cyBob3cgdG8gcm90YXRlIGRpc3Bs
-YXkgcGxhbmVzIGFuZCBJJ20KPiA+Pj4+IHNsb3dseSB3b3JraW5nIG9uIGl0LiBGb3IgdGhlIHN0
-YXJ0ZXIgd2UgY2FuIGdvIHdpdGggdGhlIG1pbmltYWwgcm90YXRpb24KPiA+Pj4+IHN1cHBvcnQs
-IHNvIGl0J3Mgbm90IGEgYmxvY2tlci4KPiA+Pj4+Cj4gPj4+PiBUaGlzIHNlcmllcyBpcyBiYXNl
-ZCBvbiB0aGUgd29yayB0aGF0IHdhcyBtYWRlIGJ5IERlcmVrIEJhc2Vob3JlIGZvciB0aGUKPiA+
-Pj4+IE1lZGlhdGVrIGRyaXZlciBbM10sIGhpcyBwYXRjaCBpcyBpbmNsdWRlZCBpbnRvIHRoaXMg
-cGF0Y2hzZXQuIEkgYWRkZWQKPiA+Pj4+IG15IHRlc3RlZC1ieSB0YWcgdG8gdGhlIERlcmVrJ3Mg
-cGF0Y2guCj4gPj4+Pgo+ID4+Pj4gUGxlYXNlIHJldmlldyBhbmQgYXBwbHksIHRoYW5rcyBpbiBh
-ZHZhbmNlIQo+ID4+Pj4KPiA+Pj4+IFsxXSBodHRwczovL3BhdGNod29yay5vemxhYnMub3JnL3By
-b2plY3QvbGludXgtdGVncmEvcGF0Y2gvMjAyMDA2MDcxNTQzMjcuMTg1ODktMy1kaWdldHhAZ21h
-aWwuY29tLwo+ID4+Pj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12
-aWRlby1vcGVudGVncmEvY29tbWl0LzI4ZWIyMGEzOTU5YmJlNWJjM2EzYjY3ZTU1OTc3MDkzZmQ1
-MTE0Y2EKPiA+Pj4+IFszXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMC8zLzUvMTExOQo+ID4+
-Pj4KPiA+Pj4+IENoYW5nZWxvZzoKPiA+Pj4+Cj4gPj4+PiB2MjogLSBEcm9wcGVkICJkcm0vcGFu
-ZWw6IFNldCBkaXNwbGF5IGluZm8gaW4gcGFuZWwgYXR0YWNoIiBwYXRjaCwgd2hpY2gKPiA+Pj4+
-ICAgICAgIHR1cm5lZCBvdXQgdG8gYmUgb2Jzb2xldGUgbm93Lgo+ID4+Pj4KPiA+Pj4+ICAgICAt
-IFJlbmFtZWQgdGhlIGNvdmVyLWxhdHRlciwgaG9wZWZ1bGx5IHRoaXMgd2lsbCBmaXggdGhlIGJv
-dW5jaW5nIGVtYWlscy4KPiA+Pj4+Cj4gPj4+PiBEZXJlayBCYXNlaG9yZSAoMSk6Cj4gPj4+PiAg
-IGRybS9wYW5lbDogQWRkIGhlbHBlciBmb3IgcmVhZGluZyBEVCByb3RhdGlvbgo+ID4+Pj4KPiA+
-Pj4+IERtaXRyeSBPc2lwZW5rbyAoNCk6Cj4gPj4+PiAgIGRybS9wYW5lbDogbHZkczogU2V0IHVw
-IHBhbmVsIG9yaWVudGF0aW9uCj4gPj4+Cj4gPj4+IElNSE8gaXQncyBwZXJmZWN0bHkgcmVhc29u
-YWJsZSB0byByZXBvcnQgdGhlIHBhbmVsIG9yaWVudGF0aW9uIHRvCj4gPj4+IHVzZXJzcGFjZSwg
-d2hpY2ggY2FuIGFwcGx5IHBsYW5lIHJvdGF0aW9uIGFzIG5lZWRlZC4KPiA+Pj4KPiA+Pj4gQWx0
-aG91Z2ggSSBzZWUgdGhhdCB0aGlzIHNlcmllcywgYWxpa2UgRGVyZWsncywgaGFzIGEgY291cGxl
-IG9mIGlzc3VlczoKPiA+Pj4gIC0gb25seSBhIHNpbmdsZSBwYW5lbCBkcml2ZXIgaXMgdXBkYXRl
-ZAo+ID4+PiAgLSByb3RhdGlvbiBpcyBfbm90XyBsaXN0ZWQgYXMgc3VwcG9ydGVkIHByb3BlcnR5
-LCBpbiBzYWlkIHBhbmVsCj4gPj4+IGRyaXZlciBkZXZpY2UtdHJlZSBiaW5kaW5ncwo+ID4+Pgo+
-ID4+PiBNeSBwZXJzb25hbCBpbmNsaW5hdGlvbiBpcyB0aGF0IHdlIHNob3VsZCBhaW0gZm9yIGEg
-Y29tcHJlaGVuc2l2ZSBzb2x1dGlvbjoKPiA+Pj4gIC0gd2lyZSBhbGwgcGFuZWwgZHJpdmVycywg
-YXMgY3VycmVudGx5IGRvY3VtZW50ZWQgKHF1aWNrIGdyZXAgbGlzdCBiZWxvdykKPiA+Pj4gIC0g
-ZG9jdW1lbnQgYW5kIHdpcmUtdXAgdGhlIGx2ZHMgYW5kIGJvZSBwYW5lbHMgLSBhcyBwcm9wb3Nl
-ZCBieSB5b3UKPiA+Pj4gYW5kIERlcmVrIHJlc3BlY3RpdmVseQo+ID4+Pgo+ID4+PiBIVEgKPiA+
-Pj4gRW1pbAo+ID4+Pgo+ID4+PiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9oaW1heCxoeDgzNTdkLnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5MjI1LnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5MzQxLnR4dDoyCj4gPj4+IERv
-Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5NDg2Lnlh
-bWw6Mgo+ID4+PiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tdWx0
-aS1pbm5vLG1pMDI4M3F0LnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLWNvbW1vbi55YW1sOjIKPiA+Pj4gRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvc2l0cm9uaXgsc3Q3NTg2LnR4dDoxCj4gPj4+
-IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3NpdHJvbml4LHN0Nzcz
-NXIueWFtbDoyCj4gPj4KPiA+PiBSb3RhdGlvbiBpcyBhIGNvbW1vbiBEVCBwYW5lbCBwcm9wZXJ0
-eSB0aGF0IGlzIGRlc2NyaWJlZCBpbiB0aGUKPiA+PiBwYW5lbC1jb21tb24ueWFtbC4KPiA+IFRo
-ZSBwcm9wZXJ0eSB3YXMgaW50cm9kdWNlZCBhbG1vc3QgZXhjbHVzaXZlbHkgZm9yIHRpbnkgZHJt
-IHBhbmVscy4KPiA+IFRob3NlIG9uZXMgYXJlIGEgYml0IGRpZmZlcmVudCBmcm9tIHRoZSByZXN0
-IChpbiBwYW5lbC8pIC0KPiA+IE1JUEktREJJL1NQSSB3L28gKG5vdCBjb25uZWN0ZWQgYXQgbGVh
-c3QpIGFuIGFjdHVhbCBHUFUuCj4gPiAKPiA+IFRvIG1ha2UgaXQgYSBiaXQgYmV0dGVyLCB0aGUg
-cm90YXRpb24gaXMgc2VlbWluZ2x5IHBlcmZvcm1lZCBpbiB0aGUKPiA+IHRpbnkgZHJpdmVyIGl0
-c2VsZiBvdWNoLgo+ID4gCj4gPj4gVGhpcyBwcm9wZXJ0eSBpcyBzdXBwb3J0ZWQgYnkgYWxsIHBh
-bmVsIGJpbmRpbmdzCj4gPj4gYmVjYXVzZSB0aGVzZSBiaW5kaW5ncyBpbmhlcmVudCB0aGUgY29t
-bW9uIHByb3BlcnRpZXMgZnJvbSB0aGUKPiA+PiBwYW5lbC1jb21tb24ueWFtbC4KPiA+Pgo+ID4g
-U2VlbXMgbGlrZSB0aGF0IHdhcyBhbiB1bmludGVudGlvbmFsIGNoYW5nZSB3aXRoIHRoZSBjb252
-ZXJzaW9uIHRvIFlBTUwuCj4gPiBCZWZvcmVoYW5kIG9ubHkgYSBmZXcgc2VsZWN0ZWQgcGFuZWxz
-IGhhZCByb3RhdGlvbi4gVXBvbiBjbG9zZXIgbG9vayAtCj4gPiBzb21lIHBhbmVscyBkbyBoYXZl
-IGZvbGxvdy11cCBmaXhlcywgdG8gcmVtb3ZlL2xpbWl0IHRoZSBpbXBsaWNpdAo+ID4gaW5jbHVz
-aW9uLgo+IAo+IEludGVyZXN0aW5nLi4gbXkgdW5kZXJzdGFuZGluZyB0aGF0IHRoZSByb3RhdGlv
-biBwcm9wZXJ0eSBpcyBzdXBwb3NlZCB0bwo+IGJlIGEgZ2VuZXJpYyBwcm9wZXJ0eSB3aGljaCBy
-ZXByZXNlbnRzIHBoeXNpY2FsIG9yaWVudGF0aW9uIG9mIGEgZGlzcGxheQo+IHBhbmVsIGFuZCBo
-ZW5jZSBpdCBzaG91bGQgYmUgYXBwbGljYWJsZSB0byBhbGwgcGFuZWxzLgoKQWRkaW5nIGEgYml0
-IG1vcmUgZm9vZCBmb3IgdGhvdWdodHMsIHRoZSBEVCByb3RhdGlvbiBwcm9wZXJ0eSBmb3IgY2Ft
-ZXJhCnNlbnNvciBtb2R1bGVzIGhhcyByZWNlbnRseSBiZWVuIGRvY3VtZW50ZWQgd2l0aCBsb3Rz
-IG9mIGRldGFpbHMuIFNlZQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDIw
-MDUwOTA5MDQ1Ni4zNDk2NDgxLTMtamFjb3BvQGptb25kaS5vcmcvLApwYXJ0IG9mIHRoZSBkb2N1
-bWVudGF0aW9uIG1heSBiZSB1c2VmdWwgZm9yIHBhbmVscy4KCj4gPiBTYW0gc2VlbXMgbGlrZSB5
-b3UndmUgZG9uZSBtb3N0IG9mIHRoZSBZQU1MIGNvbnZlcnNpb24uIElNSE8gaXQgd291bGQKPiA+
-IG1ha2Ugc2Vuc2UgdG8gcmV2aXNpdCB0aGUgcGF0Y2hlcyBhbmQgaW5oZXJpdCBjb21tb24gcHJv
-cGVydGllcyBvbmx5Cj4gPiBhcyBhcHBsaWNhYmxlLgo+ID4gCj4gPj4gSSBkb24ndCB0aGluayB0
-aGF0IGl0IG1ha2VzIHNlbnNlIHRvIHdpcmUgdXAgcm90YXRpb24gcHJvcGVydHkgdG8gYWxsCj4g
-Pj4gcGFuZWwgZHJpdmVycyBhdCBvbmNlIGJlY2F1c2UgdGhvc2UgZHJpdmVycyB3aWxsIGJlIHVu
-dGVzdGVkLCBhdCBsZWFzdCBJCj4gPj4gZG9uJ3Qga25vdyBhbnl0aGluZyBhYm91dCB0aG9zZSBv
-dGhlciBwYW5lbHMgYW5kIGNhbid0IHRlc3QgdGhlbS4gSXQKPiA+PiB3aWxsIGJlIG11Y2ggYmV0
-dGVyIHRvIHN1cHBvcnQgdGhlIHJvdGF0aW9uIG9uIGJ5IGFzLW5lZWRlZCBiYXNpcyBmb3IKPiA+
-PiBlYWNoIHBhbmVsIGRyaXZlciBpbmRpdmlkdWFsbHkuCj4gPiAKPiA+IEhvdyBhYm91dCBDQ2lu
-ZyB0aGUgYXV0aG9yIGFuZCByZXZpZXdlciBhc2tpbmcgdGhlbSB0byB0ZXN0IHRoZSBwYXRjaD8K
-PiA+IFRoZSBvbmx5IHBsYWNlIHdoZXJlIHRoZSBwYXRjaGVzIG1pZ2h0IGNhdXNlIGFuIGlzc3Vl
-IGlzIHdpdGggdGlueSwKPiA+IGFsdGhvdWdoIHBhdGNoZXMgd291bGQgc3RpbGwgYmUgYXBwcmVj
-aWF0ZWQuCj4gCj4gVGhlcmUgYXJlIHF1aXRlIGEgbG90IG9mIHBhbmVsIGRyaXZlcnMgYW5kIEkn
-bSBhIGJpdCBkb3VidGZ1bCB0aGF0IGF0Cj4gbGVhc3QgaGFsZiBvZiBkZXZpY2VzIHRoYXQgdXNl
-IHRob3NlIHBhbmVscyBoYXZlIGFueSByZWFsIHVzZSBmb3IgdGhlCj4gcm90YXRpb24gcHJvcGVy
-dHkuIEkgY291bGQgd3JpdGUgdGhlIHBhdGNoZXMuLiBidXQgaW4gdGhlIGVuZCBpdCBjb3VsZAo+
-IGJlIGEgd2FzdGVkIGVmZm9ydCBpZiBub2JvZHkgbmVlZHMgaXQsIHNvIEknZCBwcmVmZXIgbm90
-IHRvIGRvIGl0LgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi all,
+
+Allow me to compare this approach with some work Linus W [1] did a
+while back, which I've just noticed.
+
+Pauls' approach:
+
+ - Perhaps the shortest one possible
+Porting an existing DSI panel to DBI is 3 lines of code - compat line
+in the SPI/DSI bridge, a bus_type and
+mipi_dsi_maybe_register_tiny_driver() call
+The clever use of the DSI type (equal to zero) means that things will
+work w/o updating existing dsi hosts and devices in panel/. Yet in the
+very unlikely case that the panel does not support DSI, we will still
+allow it.
+
+Although thinking about the type I wonder if it can accommodate all use-cases:
+Since we can have a device (panel) capable of DSI+SPI it makes sense
+for it to expose the type bitmask, not the host. Although, what if the
+host itself supports DSI+SPI.?
+Now we can extrapolate that with a host (say fimd/exynos I think)
+which supports a SPI panel (s6e63m0) while having
+of_graph_get_port_by_id(0)?
+
+- Strange (ab)use of the DSI bus for DBI (SPI, 6800, 8080 etc)
+We care about existing users (DT) and it sounds unlikely (based on
+previous discussion) that DBI + SPI/6800... will make it into DT. So
+the current approach seems quite reasonable IMHO.
+
+
+Linus' approach:
+- Clear separation of DSI/SPI
+Compat strings are still duplicated, although in separate files
+
+- Minor code motion and slightly more invasive porting overall
+Much of the boilerplate can be reduced via helper lib and macros. Even
+then it's unlikely we'll reach the 3 line delta as with Paul's
+approach.
+
+- Does not handle tiny-dsi (dummy) drm driver
+It seems doable, with minor changes
+
+
+Personally I'm on the fence and a deciding factor for me is if Paul's
+approach can handle all the combinations of host/device type support.
+That said, the input from people likely to do the work would be highly
+appreciated.
+
+Once a decision is made, an illustrative series + todo entry would be
+great to have.
+-Emil
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2020-May/266079.html
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
