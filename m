@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9841FB17B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 15:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8F91FB1E7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 15:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF896E15C;
-	Tue, 16 Jun 2020 13:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1726E17E;
+	Tue, 16 Jun 2020 13:21:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 368006E8BD
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 13:02:43 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id m2so15817714otr.12
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 06:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NzTqWXpX+jIvy6nNJlsuFOKnjF4HL8dCMVxHFmjhNpc=;
- b=ZiAh19reRpuQMNnULfDrvDsIF/sHi3PNBI2av/6tLQoIpHlpsGZyVyf5/f9zfAkXsT
- RvqRMv27tjZWKFR9Snu8Rk1bKEaoZyL/3MRnmiJD2SYG7VpqMcAfTK6UqN88hIEJj+VT
- ZZoCkxccGShzokCjF5GTZ+PUN11Lr1oNW1HT862bUqaAOlMVCxgyKCPIV1P3uEkrqLi1
- kxFv1PNr65IJYwIvN8H7k/8AJzUyeVk39JEE9mCjY/8kT+oymEOkTRGIvQYJsIyQkvwl
- VTRqUzdDBZjs9D9mgj+yTLxxaJOBRalDP+g3Ki0j/9PsO5oPKeJHujNesCv6z51OEUI/
- s7Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NzTqWXpX+jIvy6nNJlsuFOKnjF4HL8dCMVxHFmjhNpc=;
- b=t3JTu9xFk3FU4h98UHLC2hRoGtixKnj1nmPMl5anWZD0W4wszBVoQSbLwMeuWtbN4t
- XUD5SBD8dTByoRQGXuf4oJ4ViPT80Yq/8qrh1lKVp0OPPJmQSk97BJMARzzWFpSEDsQv
- n1IaU6y0wXrgaVL6yx6huMi5Z+X+q5U82EFRvkdXVCkzaE2HtUDmu5GHYnOzSEqWmfs3
- muewLqhNe8RvoCvpxMwejgdV8OLiecceljpajpnsE/NUUV45risH6JMAZuQt05/UfL9N
- u/satBw/GpksywF+NVPBUc4MgGALvWLfYTglDK3Cs3AKj5figspH9qqziCILW8U4vPaS
- baDA==
-X-Gm-Message-State: AOAM531aQ0XjR3U50305G93gTX5fsqSsTKFuQsR6q5dzT620x8cciTir
- DRn6SyAK0HcOtLJkmsuXQ37ZpgNcUuIT7H3oh9WiAw==
-X-Google-Smtp-Source: ABdhPJxsO1eVEcTPZvlTMUrXhz7ujf5MbjRiGA+lB51S5epUV5ph0XXmivVwvq7RJRM5fxua8F5YwdkG3RxhSDPGT/s=
-X-Received: by 2002:a05:6830:242e:: with SMTP id
- k14mr2249753ots.36.1592312562394; 
- Tue, 16 Jun 2020 06:02:42 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD496E17E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 13:21:32 +0000 (UTC)
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1472D206F1;
+ Tue, 16 Jun 2020 13:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592313692;
+ bh=NzmkbhpV6gQ0cqf7U1NrQrUNv6zLElTT90CV/gT2kXo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ofTlfOUw8BPhx2Iu5uPfykNaA7iGUrhxxKy/hPpiDlwfnFVJh00fKYFJlUK9WaU7g
+ wWH/Kw5fsg5b0N0Iee63zhTBNEd4mQraUaXU3u+9ASbhkS64YuHwRgqAi0NryX6IRJ
+ YgEi0dom95iZDI/5Z8TMtN4r7+AjR9G/CHQGGiOM=
+Date: Tue, 16 Jun 2020 09:21:30 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [RFC PATCH 0/4] DirectX on Linux
+Message-ID: <20200616132130.GO1931@sasha-vm>
+References: <20200519163234.226513-1-sashal@kernel.org>
+ <CAPM=9txZpiCGkv3jiBC1F8pTe4A2pqWpQDyjRBXk2roFqw+0+Q@mail.gmail.com>
+ <CAPM=9tx4wh-Lk6Dffsdh-7mYvXx+GX2AxhrGqFgyN8-AWJvP6A@mail.gmail.com>
+ <20200616105156.GE1718@bug>
 MIME-Version: 1.0
-References: <20200611114418.19852-1-sumit.semwal@linaro.org>
- <CAO_48GFVYOv8Km7fEh8iBPp7d5ziySBV0vB9nu_+oset6hBO8w@mail.gmail.com>
- <159231181752.18853.1290700688849491922@build.alporthouse.com>
-In-Reply-To: <159231181752.18853.1290700688849491922@build.alporthouse.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Tue, 16 Jun 2020 18:32:31 +0530
-Message-ID: <CAO_48GE8K_nDXs_LDU9caRdP-aK9DWV3vXcD4EuVCxyShCBbmg@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
-To: Chris Wilson <chris@chris-wilson.co.uk>
+Content-Disposition: inline
+In-Reply-To: <20200616105156.GE1718@bug>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Chenbo Feng <fengc@google.com>,
+Cc: linux-hyperv@vger.kernel.org, sthemmin@microsoft.com, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, haiyangz@microsoft.com,
  LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
- Charan Teja Reddy <charante@codeaurora.org>,
- "# 3.4.x" <stable@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, spronovo@microsoft.com,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ iourit@microsoft.com, "Deucher, Alexander" <alexander.deucher@amd.com>,
+ kys@microsoft.com, wei.liu@kernel.org, Hawking Zhang <Hawking.Zhang@amd.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
-
-On Tue, 16 Jun 2020 at 18:20, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+On Tue, Jun 16, 2020 at 12:51:56PM +0200, Pavel Machek wrote:
+>> > Having said that, I hit one stumbling block:
+>> > "Further, at this time there are no presentation integration. "
+>> >
+>> > If we upstream this driver as-is into some hyperv specific place, and
+>> > you decide to add presentation integration this is more than likely
+>> > going to mean you will want to interact with dma-bufs and dma-fences.
+>> > If the driver is hidden away in a hyperv place it's likely we won't
+>> > even notice that feature landing until it's too late.
+>> >
+>> > I would like to see a coherent plan for presentation support (not
+>> > code, just an architectural diagram), because I think when you
+>> > contemplate how that works it will change the picture of how this
+>> > driver looks and intergrates into the rest of the Linux graphics
+>> > ecosystem.
+>> >
+>> > As-is I'd rather this didn't land under my purview, since I don't see
+>> > the value this adds to the Linux ecosystem at all, and I think it's
+>> > important when putting a burden on upstream that you provide some
+>> > value.
+>>
+>> I also have another concern from a legal standpoint I'd rather not
+>> review the ioctl part of this. I'd probably request under DRI
+>> developers abstain as well.
+>>
+>> This is a Windows kernel API being smashed into a Linux driver. I don't want to be
+>> tainted by knowledge of an API that I've no idea of the legal status of derived works.
+>> (it this all covered patent wise under OIN?)
 >
-> Quoting Sumit Semwal (2020-06-16 13:42:13)
-> > Hello,
-> >
-> > If there are no objections to this, I will plan to merge it soon.
+>If you can't look onto it, perhaps it is not suitable to merge into kernel...?
 >
-> I was going to suggest running it against our CI, but that's unavailable
-> at the moment.
->
-> There's a particularly nasty BUG_ON() in dma_buf_release that we hit
-> irregularly, that this might help with.
-Thanks for your reply; if the CI is going to be available in a couple
-of days, we could wait - it'd be definitely good to see a bug being
-splattered out!
+>What would be legal requirements so this is "safe to look at"? We should really
+>require submitter to meet them...
 
-> -Chris
+Could you walk me through your view on what the function of the
+"Signed-off-by" tag is?
 
-Best,
-Sumit.
+-- 
+Thanks,
+Sasha
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
