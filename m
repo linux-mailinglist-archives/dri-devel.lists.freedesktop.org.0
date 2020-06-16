@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54471FB31B
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 15:59:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0551FB3A2
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 16:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF5DA6E8C1;
-	Tue, 16 Jun 2020 13:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701CD6E8C6;
+	Tue, 16 Jun 2020 14:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 615E96E8C1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 13:59:50 +0000 (UTC)
-IronPort-SDR: 41YLQiP5H98o63IxfaAckO/KW6v/jzSRV7shngZnT91IWgsCn+hnxjEZi2hug4MFfvRx5UwHI7
- EaOYUrisjQlw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 06:59:49 -0700
-IronPort-SDR: rsvUd2K8Rjd/Chd9QnQKbs8ZSlxfNxI367Qd4WoHwiKtukcN2FrqzLr4GYlH4I8FmT1x/uHjGU
- 8/3xVJXG1p+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="298916485"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
- by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2020 06:59:49 -0700
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
- fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 16 Jun 2020 06:59:49 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.74]) by
- FMSMSX113.amr.corp.intel.com ([169.254.13.85]) with mapi id 14.03.0439.000;
- Tue, 16 Jun 2020 06:59:48 -0700
-From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>, Charan Teja Kalla
- <charante@codeaurora.org>, Sumit Semwal <sumit.semwal@linaro.org>, "open
- list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, "DRI
- mailing list" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
-Thread-Topic: [PATCH] dmabuf: use spinlock to access dmabuf->name
-Thread-Index: AQHWQWvsYI6eTL2/6UmOYEBVkPsE9KjbRi5AgAADWlA=
-Date: Tue, 16 Jun 2020 13:59:48 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
-References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.108]
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
+ [IPv6:2607:f8b0:4864:20::a42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB7F6E8C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 14:09:40 +0000 (UTC)
+Received: by mail-vk1-xa42.google.com with SMTP id s6so1630956vkb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 07:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
+ b=MJHlkngFT133npieWpyoGh0urU3iWbGas7CJZrtMJerpGuJtXJBloYvzE44huOfDvE
+ a+B2I1EBIwegx2wV251qk0dxjJ99+TVLMAqauve8tcZ/Czgrah7MQQ9zWAcV9Tfi1xha
+ 368bEbvhG4rwhmCGX8rOyR5bixzGVSwmAMPwD6QW2bTSIQh9lUvIM33As4HJz19uN1Br
+ HJp2wwAzWFPjN5Re7TByc9JQSxrZvwsUW3K2FdN4eakM9unoII1EBeAVH+SxY6FAnGxd
+ GwnXUnN4QQOVPAAy+h7We3R1u3lxfmC3vixsKANC95sKfUVVE+mFs+DQdYIE/Cezz8YZ
+ W4Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
+ b=OjnojaPFtWTi5UnsNCBjZgsnTSPdBW8QfVA3S5i6MxVr7Jwhg0DIUj3nPXoosZBM9N
+ PgSYcUaTYzpHtDJ+b5HvMgjreEjV127tfSce4ypHiyJKPCS6JH+4RWPgxqznlBrc35SU
+ UYotAJ8ic+RqT3b6/0KE6E9r6/ORtxjrmFkglnadq78CvBJPj+DxWUc3Mfnk9+wBQ+dS
+ sc0Hoaks4j4KtunskyoHxJGleparNGf8yUrSQGR4h1Beald49/Nnn8A2UzYH/5fGgsFQ
+ P0I+7i6qFa0PkkZwdlmzQx0SQ1SqQ9me/oy3STMZGwx+qRw8EWp//iRN2zOub9a/UZu1
+ e1bQ==
+X-Gm-Message-State: AOAM531Mm42uHa8PkW06VkdvqPraX1MAczWeSKsPVdWEwFmFxGkahiZK
+ UjST4pwrjokyFX6gArt7GXRgU9RWD33064YlU1w=
+X-Google-Smtp-Source: ABdhPJze8O6g9fE6ltSX85adg2jK4puYbKO8MUJwujXYHUy4P5RhKum5p0M5dGxwTqPtL4ATGFihpSZvv1m1jjx+STY=
+X-Received: by 2002:a1f:9094:: with SMTP id s142mr1776422vkd.6.1592316579576; 
+ Tue, 16 Jun 2020 07:09:39 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
+ <20200616121244.GN20149@phenom.ffwll.local>
+In-Reply-To: <20200616121244.GN20149@phenom.ffwll.local>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 16 Jun 2020 15:05:58 +0100
+Message-ID: <CACvgo52PaW97cxMeGhbpD4FUVy5BRAunaCxX3106OOAZm6x67A@mail.gmail.com>
+Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-i2c@vger.kernel.org,
+ linux-fbdev <linux-fbdev@vger.kernel.org>, x86@kernel.org, 
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,203 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->-----Original Message-----
->From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->Ruhl, Michael J
->Sent: Tuesday, June 16, 2020 9:51 AM
->To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
-><sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
-><linux-media@vger.kernel.org>; DRI mailing list <dri-
->devel@lists.freedesktop.org>
->Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->stable@vger.kernel.org
->Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
->
->>-----Original Message-----
->>From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->>Charan Teja Kalla
->>Sent: Thursday, June 11, 2020 9:40 AM
->>To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
->>SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list <dri-
->>devel@lists.freedesktop.org>
->>Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->>vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->>stable@vger.kernel.org
->>Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>
->>There exists a sleep-while-atomic bug while accessing the dmabuf->name
->>under mutex in the dmabuffs_dname(). This is caused from the SELinux
->>permissions checks on a process where it tries to validate the inherited
->>files from fork() by traversing them through iterate_fd() (which
->>traverse files under spin_lock) and call
->>match_file(security/selinux/hooks.c) where the permission checks happen.
->>This audit information is logged using dump_common_audit_data() where it
->>calls d_path() to get the file path name. If the file check happen on
->>the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
->>access dmabuf->name. The flow will be like below:
->>flush_unauthorized_files()
->>  iterate_fd()
->>    spin_lock() --> Start of the atomic section.
->>      match_file()
->>        file_has_perm()
->>          avc_has_perm()
->>            avc_audit()
->>              slow_avc_audit()
->>	        common_lsm_audit()
->>		  dump_common_audit_data()
->>		    audit_log_d_path()
->>		      d_path()
->>                        dmabuffs_dname()
->>                          mutex_lock()--> Sleep while atomic.
->>
->>Call trace captured (on 4.19 kernels) is below:
->>___might_sleep+0x204/0x208
->>__might_sleep+0x50/0x88
->>__mutex_lock_common+0x5c/0x1068
->>__mutex_lock_common+0x5c/0x1068
->>mutex_lock_nested+0x40/0x50
->>dmabuffs_dname+0xa0/0x170
->>d_path+0x84/0x290
->>audit_log_d_path+0x74/0x130
->>common_lsm_audit+0x334/0x6e8
->>slow_avc_audit+0xb8/0xf8
->>avc_has_perm+0x154/0x218
->>file_has_perm+0x70/0x180
->>match_file+0x60/0x78
->>iterate_fd+0x128/0x168
->>selinux_bprm_committing_creds+0x178/0x248
->>security_bprm_committing_creds+0x30/0x48
->>install_exec_creds+0x1c/0x68
->>load_elf_binary+0x3a4/0x14e0
->>search_binary_handler+0xb0/0x1e0
->>
->>So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
->>
->>Cc: <stable@vger.kernel.org> [5.3+]
->>Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>---
->> drivers/dma-buf/dma-buf.c | 13 +++++++------
->> include/linux/dma-buf.h   |  1 +
->> 2 files changed, 8 insertions(+), 6 deletions(-)
->>
->>diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>index 01ce125..2e0456c 100644
->>--- a/drivers/dma-buf/dma-buf.c
->>+++ b/drivers/dma-buf/dma-buf.c
->>@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
->>char *buffer, int buflen)
->> 	size_t ret = 0;
->>
->> 	dmabuf = dentry->d_fsdata;
->>-	dma_resv_lock(dmabuf->resv, NULL);
->>+	spin_lock(&dmabuf->name_lock);
->> 	if (dmabuf->name)
->> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->>-	dma_resv_unlock(dmabuf->resv);
->>+	spin_unlock(&dmabuf->name_lock);
->
->I am not really clear on why you need this lock.
->
->If name == NULL you have no issues.
->If name is real, you have no issues.
->
->If name is freed you will copy garbage, but the only way
->for that to happen is that _set_name or _release have to be called
->at just the right time.
->
->And the above would probably only be an issue if the set_name
->was called, so you will get NULL or a real name.
->
->Is there a reason for the lock here?
->
->Mike
+Hi all,
 
-Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
+On Tue, 16 Jun 2020 at 13:12, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
+> > I want to remove the above API this cycle, and just a few patches have
+> > not made it into 5.8-rc1. They have been reviewed and most had been
+> > promised to get into linux-next, but well, things happen. So, I hope it
+> > is okay for everyone to collect them like this and push them via I2C for
+> > 5.8-rc2.
+>
+> for the drm side of things:
+>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >
+> > One minor exception is the media documentation patch which I simply have
+> > missed so far, but it is trivial.
+> >
+> > And then, finally, there is the removal of the old API as the final
+> > patch. Phew, that's been a long ride.
+> >
+> > I am open for comments, of course.
+> >
+> > Happy hacking,
+> >
+> >    Wolfram
+> >
+> >
+> > Wolfram Sang (6):
+> >   drm: encoder_slave: fix refcouting error for modules
+> >   drm: encoder_slave: use new I2C API
 
-dma_buf_release()
+The first two are in drm-misc-next and are to be expected with the 5.9
+merge window. As long as that doesn't cause major nuisance proceed as
+you prefer.
 
-Would be sufficient?
-
-M
->> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->> 			     dentry->d_name.name, ret > 0 ? name : "");
->>@@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
->>*dmabuf, const char __user *buf)
->> 	if (IS_ERR(name))
->> 		return PTR_ERR(name);
->>
->>-	dma_resv_lock(dmabuf->resv, NULL);
->>+	spin_lock(&dmabuf->name_lock);
->> 	if (!list_empty(&dmabuf->attachments)) {
->> 		ret = -EBUSY;
->> 		kfree(name);
->>@@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
->>*dmabuf, const char __user *buf)
->> 	dmabuf->name = name;
->>
->> out_unlock:
->>-	dma_resv_unlock(dmabuf->resv);
->>+	spin_unlock(&dmabuf->name_lock);
->> 	return ret;
->> }
->>
->>@@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file
->>*m, struct file *file)
->> 	/* Don't count the temporary reference taken inside procfs seq_show
->>*/
->> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
->>-	dma_resv_lock(dmabuf->resv, NULL);
->>+	spin_lock(&dmabuf->name_lock);
->> 	if (dmabuf->name)
->> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
->>-	dma_resv_unlock(dmabuf->resv);
->>+	spin_unlock(&dmabuf->name_lock);
->> }
->>
->> static const struct file_operations dma_buf_fops = {
->>@@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
->>dma_buf_export_info *exp_info)
->> 	dmabuf->size = exp_info->size;
->> 	dmabuf->exp_name = exp_info->exp_name;
->> 	dmabuf->owner = exp_info->owner;
->>+	spin_lock_init(&dmabuf->name_lock);
->> 	init_waitqueue_head(&dmabuf->poll);
->> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
->> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
->>diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>index ab0c156..93108fd 100644
->>--- a/include/linux/dma-buf.h
->>+++ b/include/linux/dma-buf.h
->>@@ -311,6 +311,7 @@ struct dma_buf {
->> 	void *vmap_ptr;
->> 	const char *exp_name;
->> 	const char *name;
->>+	spinlock_t name_lock;
->> 	struct module *owner;
->> 	struct list_head list_node;
->> 	void *priv;
->>--
->>The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
->>Forum, a Linux Foundation Collaborative Project
->>_______________________________________________
->>dri-devel mailing list
->>dri-devel@lists.freedesktop.org
->>https://lists.freedesktop.org/mailman/listinfo/dri-devel
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
