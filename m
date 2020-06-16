@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50801FBC80
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:12:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95E51FBC94
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1B6E92D;
-	Tue, 16 Jun 2020 17:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6EAE6E91C;
+	Tue, 16 Jun 2020 17:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0946E927
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:12:47 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id r15so3882730wmh.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:12:47 -0700 (PDT)
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A96D96E927
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:16:57 +0000 (UTC)
+Received: by mail-oo1-xc44.google.com with SMTP id e12so4246472oou.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:16:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QF77TfpXaCpf3AajPTPB0V47GnH1aes+zvHcWXvs9K8=;
- b=W6TaR11rZdjNqUvWs05Qj7o52M7gzYRcpZx4oVhmEEAftItipznpReFrtyAckjiUnG
- 7rKYsWPyW7RSd0JJFadJS6HHiC0LNdfPLXfBIEnd6AS0MRydSTgV6P4l5r0GiCYxnCih
- ieTeuk4i+udLxaseqJ2ZG5iuFOyNw6xtkjDbs=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XLKyIFQjA0hO+M2HmvoX6/wXmPu/pZbk4Ns+D8IxKQg=;
+ b=fh8k4TyxJEnnkRd4t674E0UMUbtaUhGFG+OzQWn1vFd5LjFe+lMyhx6J458g/rkdhe
+ vODv7JRsqHb5bHi9LdD3DhNiwSx4CTgZ+q+l7rnpclA8fpr/h9bRBVRnohfq5VDf7m10
+ EMn94Y8EVRFvL5nMTXPsfc+4MOY8JYohuBhkc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QF77TfpXaCpf3AajPTPB0V47GnH1aes+zvHcWXvs9K8=;
- b=OcjJJWCk57L5MpDG27NkkIf8PgXuIg7TZBbs4S4pT92+EFsXQtUBSjdURRltbOodPo
- eLlS74/Ru+8a9rs3nRYSFoaz3fCmkof6Ixu7Y9YIOsmSFTd5EdhPbZTGqMcvt5F8K3H7
- IC1wLyIbcs8cqa7s9hgoqp2hWaRFr1RcxMyzqX/Eaqdk8Rjdt+miccnXdP6DeWTm9bZY
- lmv0PARaakXNPYbGDxeHVzabM6intX8u1T0l3GQ6oEjgQMHhWY66HcDIqcNOMdL0ZVHR
- 4AWapTbhN45yayT2IabR6XDh9oGu7SZK6wCOziCxJvyo2XiFClGDK7NN9WDC+zcLgX1I
- c/sw==
-X-Gm-Message-State: AOAM531T3sbhHD0yrINvWKOg7hfqw/5oe/jKvNg6tCj+RKdK+Qk8SUu5
- XL76iIVqufYQi+BC9Xp/+tX2OQ==
-X-Google-Smtp-Source: ABdhPJyN3MEIvR8P4WTKEICd/+HgfywI20Ewu7aFZR9PEYw6m3bu6J846GPih+JcjvV14aTdz7J24g==
-X-Received: by 2002:a1c:c904:: with SMTP id f4mr4227814wmb.69.1592327566302;
- Tue, 16 Jun 2020 10:12:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y14sm4556985wma.25.2020.06.16.10.12.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 10:12:45 -0700 (PDT)
-Date: Tue, 16 Jun 2020 19:12:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Only dma-buf imports are private obj
-Message-ID: <20200616171243.GQ20149@phenom.ffwll.local>
-References: <20200616114723.2363268-1-daniel.vetter@ffwll.ch>
- <8c125158-fe7c-29a9-d9a8-9e6b418b6dd5@suse.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XLKyIFQjA0hO+M2HmvoX6/wXmPu/pZbk4Ns+D8IxKQg=;
+ b=fI6KVokRG9OxcBV73XFwVofqKmOOBaIaR23DhiQoubrwtaQniq5wo6KkiDOV5c9rh0
+ X5uf4AjecTvEmibb4ggtnZiL9/4efzhAUwlKH8SfseRD3bbeoq5jxG9z6zgY0J8DM7OD
+ Z19B6z+BsEEXpIDMAEBvWkWrpXRROBNlXSLmMyLuwXfxvGq3rmic0gXSb2MmhUdWFWjl
+ W2iG+bsv2YiHwJiDEwLv5R/ZUxC4ZgsnzTsCdwGOZnytePF4jZA79GXxDFKjorZqOX1r
+ OOZi2PxBYyVnTtJZcHJFJWWeK1yBoGOICDBT2X2b4uOH4fYL7idLMmz3mMdeNeS5b6oj
+ ef2A==
+X-Gm-Message-State: AOAM5333pok+KiuF90v2W0/PDQxcjH7J6GcjnMPk9lTKAfq2asOKYwbj
+ aIQiHT2m5IAryhefqo0Yt1NhsAKvcVDJKhqxM9uNnw==
+X-Google-Smtp-Source: ABdhPJwLyWLfAi2ZOO8whksvPxRYdp+aFssT/X1/Y4FJyT4yCXm97qT49tYUkHfToY6XpIAozSeuW97m9p4w5/Fdw9Y=
+X-Received: by 2002:a4a:5209:: with SMTP id d9mr3284142oob.28.1592327816894;
+ Tue, 16 Jun 2020 10:16:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8c125158-fe7c-29a9-d9a8-9e6b418b6dd5@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
+ <20200612160056.2082681-7-daniel.vetter@ffwll.ch>
+ <CACvgo51AVVOxhGK2Uin=ZLgPpihJiEsnc6pvAyKqFKPvLdOzLA@mail.gmail.com>
+ <CAKMK7uEEkH+8BuFcFUVTv6p8swZZTwcho-HNx5GdZTO1vHDoeg@mail.gmail.com>
+ <CACvgo51ZObyCiOeV+cdJo6xJ3ahuvBUxx1DrK+emDHTOfmVA_g@mail.gmail.com>
+In-Reply-To: <CACvgo51ZObyCiOeV+cdJo6xJ3ahuvBUxx1DrK+emDHTOfmVA_g@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Tue, 16 Jun 2020 19:16:45 +0200
+Message-ID: <CAKMK7uFkXzMMWqaS52K6_tdi-xbsqWTySQATpJewLDL_ebXiMA@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 7/8] drm/mipi-dbi: Remove ->enabled
+To: Emil Velikov <emil.l.velikov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +61,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 02:06:24PM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
+On Tue, Jun 16, 2020 at 3:57 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+>
+> On Tue, 16 Jun 2020 at 07:50, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > On Mon, Jun 15, 2020 at 11:35 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
+> > >
+> > > Hi Daniel,
+> > >
+> > > On Fri, 12 Jun 2020 at 17:01, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > The atomic helpers try really hard to not lose track of things,
+> > > > duplicating enabled tracking in the driver is at best confusing.
+> > > > Double-enabling or disabling is a bug in atomic helpers.
+> > > >
+> > > > In the fb_dirty function we can just assume that the fb always exists,
+> > > > simple display pipe helpers guarantee that the crtc is only enabled
+> > > > together with the output, so we always have a primary plane around.
+> > > >
+> > > > Now in the update function we need to be a notch more careful, since
+> > > > that can also get called when the crtc is off. And we don't want to
+> > > > upload frames when that's the case, so filter that out too.
+> > > >
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: David Lechner <david@lechnology.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_mipi_dbi.c | 16 ++++++----------
+> > > >  drivers/gpu/drm/tiny/ili9225.c | 12 +++---------
+> > > >  drivers/gpu/drm/tiny/st7586.c  | 11 +++--------
+> > > >  include/drm/drm_mipi_dbi.h     |  5 -----
+> > > >  4 files changed, 12 insertions(+), 32 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> > > > index fd8d672972a9..79532b9a324a 100644
+> > > > --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> > > > +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> > > > @@ -268,7 +268,7 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+> > > >         bool full;
+> > > >         void *tr;
+> > > >
+> > > > -       if (!dbidev->enabled)
+> > > > +       if (WARN_ON(!fb))
+> > > >                 return;
+> > > >
+> > > AFAICT no other driver has such WARN_ON. Let's drop that - it is
+> > > pretty confusing and misleading as-is.
+> >
+> > Yeah, this is a helper library which might be used wrongly by drivers.
+> > That's why I put it in - if you don't put all the various calls
+> > together correctly, this should at least catch one case. So really
+> > would like to keep this, can I convince you?
+>
+> There are plenty of similar places where a drm library/helper can be
+> misused, lacking a WARN. Nevertheless - sure feel free to keep it.
 
-> Am 16.06.20 um 13:47 schrieb Daniel Vetter:
-> > I broke that in my refactoring:
-> > =
+Yeah I agree, we can't check for everything. Personally I think a
+check is warranted in two conditions:
+- drivers got it wrong, and the WARNING helps catch driver-bugs we've
+seen in the wild. Not really the case here
+- drivers do check something as defensive programming, but it's an
+invariant enforced by higher levels or helpers. Those I like to
+convert to WARNING so that other driver authors learn that this should
+never happen. This is such a case imo, I removed a bunch of fb checks
+from drivers here.
 
-> > commit 7d2cd72a9aa3df3604cafd169a2d4a525afb68ca
-> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Date:   Fri May 29 16:05:42 2020 +0200
-> > =
-
-> >     drm/shmem-helpers: Simplify dma-buf importing
-> > =
-
-> > I'm not entirely sure of the history here, but I suspect that in one
-> > of the rebases or when applying the patch I moved the hunk from
-> > drm_gem_shmem_prime_import_sg_table(), where it should be, to
-> > drm_gem_shmem_create_with_handle(), which is totally wrong.
-> > =
-
-> > Remedy this.
-> > =
-
-> > Thanks for Thomas for the crucual hint in debugging this.
-> > =
-
-> > Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Fixes: 7d2cd72a9aa3 ("drm/shmem-helpers: Simplify dma-buf importing")
-> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> =
-
-> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Now also merged, thanks a lot for your help.
+But yeah I think we should only add WARNING checks if this is actually
+something people have gotten wrong, otherwise there's just too many of
+them, distracting from the code.
 -Daniel
-
-> =
-
-> > ---
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index 0a7e3b664bc2..837e0840990c 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -377,7 +377,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *f=
-ile_priv,
-> >  	struct drm_gem_shmem_object *shmem;
-> >  	int ret;
-> >  =
-
-> > -	shmem =3D __drm_gem_shmem_create(dev, size, true);
-> > +	shmem =3D drm_gem_shmem_create(dev, size);
-> >  	if (IS_ERR(shmem))
-> >  		return shmem;
-> >  =
-
-> > @@ -730,7 +730,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_devi=
-ce *dev,
-> >  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
-> >  	struct drm_gem_shmem_object *shmem;
-> >  =
-
-> > -	shmem =3D drm_gem_shmem_create(dev, size);
-> > +	shmem =3D __drm_gem_shmem_create(dev, size, true);
-> >  	if (IS_ERR(shmem))
-> >  		return ERR_CAST(shmem);
-> >  =
-
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
