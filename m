@@ -2,59 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998551FBAAF
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 18:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6981FBB94
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 18:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20E66E2E3;
-	Tue, 16 Jun 2020 16:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C71892B9;
+	Tue, 16 Jun 2020 16:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C58CE6E2E3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 16:13:44 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l10so21355939wrr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 09:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0rQoMcjmlT0BEH+UjIHMaJbv/iNxUkPgl1tFBEJqEGQ=;
- b=LY3uz0gYxmoMoF4FNchIEUCd8eNAZ3KAmh7bN/tKclJ7uOIo/j4JZW4pRkcz6eiMv8
- 1HHeyBEJgQRGZaR3zxlZGALJta9jygS+W9EUlm+yqxj6tNsyfDSiBEH+sMXFqqHpypse
- TuNS65lrqUOzfGO6yqJQcOkMRgW/qghzVEr9AF2/5DDKlUcaOhbpw3oURmHyxgkR7932
- 01YX90uJECRzj5SJ9H056HczxewPJKqFAHktbAU4lb+vrf3DgXYtJ3bKI21xluHmioI/
- GLcSGcm3kYRI/MaugvaJzCOxnD+zzUaTULlkobqpvRZE2CvRnr17KgA9VUbT8oLD2R2l
- JzIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0rQoMcjmlT0BEH+UjIHMaJbv/iNxUkPgl1tFBEJqEGQ=;
- b=i2V4JF8Q/hWkBD1w0UV8Ig5JYHQ1RL/cVdIZgrqCYrXZR8MxOR5FurEMicfCg34k/6
- JHm5doFZD3yzPVsBKh9No0MZSp7+9PKToEbSWziU6mKOrvt0hDCfkO/AqUhjM9E0HovG
- vcfYyleUp8ArtuW0nVBcg9FNnIbbzZLjYJAJRzD7l7XpjZbKEt96oA8G1NyLJ26n/hMo
- 6HOwWnM36YoHP0oScH1P285D7rJ3l5QgSXReKz165Bscl2y1ed98qG7+jCfXSHRFXXKP
- mUnGjN4mgKmAreFdjpvJRrqT5QYf8DY9tV1fd1ryWwLigTRuB+z/wGdBo3XsIuUsYM46
- dJJw==
-X-Gm-Message-State: AOAM533AF9XIzBMLoYwJX/njPIf9OimmNRZBYNuVFnZmFm/CbtW8+cPP
- vBnQVOBl95pC4iE0UrgSjAQ=
-X-Google-Smtp-Source: ABdhPJwU3I/himda8O3+Ct698iLDDwqzPv4jdXmHoXOhQ0fsJCZhz/xK7lbrOy4UYrpME4V9asJ59g==
-X-Received: by 2002:adf:97cb:: with SMTP id t11mr3842066wrb.314.1592324023500; 
- Tue, 16 Jun 2020 09:13:43 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id a1sm4973461wmd.28.2020.06.16.09.13.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 09:13:42 -0700 (PDT)
-Date: Tue, 16 Jun 2020 18:13:41 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2] drm/tegra: Add zpos property for cursor planes
-Message-ID: <20200616161341.GA3009091@ulmo>
-References: <20200616121713.2983627-1-thierry.reding@gmail.com>
- <c34c97ab-08de-341e-05e5-77e2651d956f@gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1952E892B9;
+ Tue, 16 Jun 2020 16:23:25 +0000 (UTC)
+IronPort-SDR: LTgvvYnrpe17haGdNQQWEUHXK9hAouEhaa1OZqiO6rSqzumHk08Io+UklaOoQvCzM9xXkqRdaa
+ PWsXjIePiizA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 09:23:24 -0700
+IronPort-SDR: wr5C+swnxrfyrtm5ljZpopyfAgMrOkH4jy9YNitOdEqxfy/FmbEONYcUUZWNDjWKDaDGXRda82
+ AP52WwaMK5iw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="261470401"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by fmsmga007.fm.intel.com with SMTP; 16 Jun 2020 09:23:22 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 16 Jun 2020 19:23:21 +0300
+Date: Tue, 16 Jun 2020 19:23:21 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag is
+ cleared before waiting for it
+Message-ID: <20200616162321.GE6112@intel.com>
+References: <20200616141855.746-1-imre.deak@intel.com>
+ <20200616141855.746-6-imre.deak@intel.com>
+ <20200616154546.GY6112@intel.com>
+ <20200616155441.GC21389@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <c34c97ab-08de-341e-05e5-77e2651d956f@gmail.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+Content-Disposition: inline
+In-Reply-To: <20200616155441.GC21389@ideak-desk.fi.intel.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,129 +54,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>
-Content-Type: multipart/mixed; boundary="===============2050971921=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 16, 2020 at 06:54:41PM +0300, Imre Deak wrote:
+> On Tue, Jun 16, 2020 at 06:45:46PM +0300, Ville Syrj=E4l=E4 wrote:
+> > On Tue, Jun 16, 2020 at 05:18:55PM +0300, Imre Deak wrote:
+> > > Atm, we clear the ACT sent flag in the sink's DPCD before updating the
+> > > sink's payload table, along clearing the payload table updated flag.
+> > > The sink is supposed to set this flag once it detects that the source
+> > > has completed the ACT sequence (after detecting the 4 required ACT MT=
+PH
+> > > symbols sent by the source). As opposed to this 2 DELL monitors I have
+> > > set the flag already along the payload table updated flag, which is n=
+ot
+> > > quite correct.
+> > > =
 
---===============2050971921==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
+> > > To be sure that the sink has detected the ACT MTPH symbols before
+> > > continuing enabling the encoder, clear the ACT sent flag before enabl=
+ing
+> > > or disabling the transcoder VC payload allocation (which is what star=
+ts
+> > > the ACT sequence).
+> > > =
 
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_dp_mst_topology.c       | 31 +++++++++++++++++++=
+--
+> > >  drivers/gpu/drm/i915/display/intel_dp_mst.c |  2 ++
+> > >  include/drm/drm_dp_mst_helper.h             |  2 ++
+> > >  3 files changed, 33 insertions(+), 2 deletions(-)
+> > > =
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/=
+drm_dp_mst_topology.c
+> > > index b2f5a84b4cfb..e3bf8c9c8267 100644
+> > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> > > @@ -4377,6 +4377,34 @@ void drm_dp_mst_deallocate_vcpi(struct drm_dp_=
+mst_topology_mgr *mgr,
+> > >  }
+> > >  EXPORT_SYMBOL(drm_dp_mst_deallocate_vcpi);
+> > >  =
 
-On Tue, Jun 16, 2020 at 06:54:35PM +0300, Dmitry Osipenko wrote:
-> 16.06.2020 15:17, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
-> > have a zpos property") a warning is emitted if there's a mix of planes
-> > with and without a zpos property.
-> >=20
-> > On Tegra, cursor planes are always composited on top of all other
-> > planes, which is why they never had a zpos property attached to them.
-> > However, since the composition order is fixed, this is trivial to
-> > remedy by simply attaching an immutable zpos property to them.
-> >=20
-> > Changes in v2:
-> > - hardcode cursor plane zpos to 255 instead of 0 (Ville)
-> >=20
-> > Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  drivers/gpu/drm/tegra/dc.c  | 9 +++++++--
-> >  drivers/gpu/drm/tegra/hub.c | 2 +-
-> >  2 files changed, 8 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> > index 83f31c6e891c..85408eed4685 100644
-> > --- a/drivers/gpu/drm/tegra/dc.c
-> > +++ b/drivers/gpu/drm/tegra/dc.c
-> > @@ -787,7 +787,7 @@ static struct drm_plane *tegra_primary_plane_create=
-(struct drm_device *drm,
-> >  	}
-> > =20
-> >  	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
-> > -	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
-> > +	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
-> > =20
-> >  	err =3D drm_plane_create_rotation_property(&plane->base,
-> >  						 DRM_MODE_ROTATE_0,
-> > @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_crea=
-te(struct drm_device *drm,
-> >  	}
-> > =20
-> >  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
-> > +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
-> > =20
-> >  	return &plane->base;
-> >  }
-> > @@ -1074,7 +1075,11 @@ static struct drm_plane *tegra_dc_overlay_plane_=
-create(struct drm_device *drm,
-> >  	}
-> > =20
-> >  	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
-> > -	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
-> > +
-> > +	if (!cursor)
-> > +		drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
-> > +	else
-> > +		drm_plane_create_zpos_immutable_property(&plane->base, 255);
->=20
-> On T20/30 we're are setting the plane's type to CURSOR because we want
-> to use one overlay plane for the mouse cursor. Nevertheless, it's still
-> a generic overlay plane that can change its z-position, and thus, it's
-> wrong to make zpos immutable here.
+> > > +/**
+> > > + * drm_dp_clear_payload_status() - Clears the payload table status f=
+lags
+> > > + * @mgr: manager to use
+> > > + *
+> > > + * Clears the payload table ACT handled and table updated flags in t=
+he MST hub's
+> > > + * DPCD. This function must be called before updating the payload ta=
+ble or
+> > > + * starting the ACT sequence and waiting for the corresponding flags=
+ to get
+> > > + * set by the hub.
+> > > + *
+> > > + * Returns:
+> > > + * 0 if the flag got cleared successfully, otherwise a negative erro=
+r code.
+> > > + */
+> > > +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	ret =3D drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
+> > > +				 DP_PAYLOAD_ACT_HANDLED);
+> > > +	if (ret < 0) {
+> > > +		DRM_DEBUG_DRIVER("Can't clear the ACT sent flag (%d)\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +	WARN_ON(ret !=3D 1);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_clear_payload_status);
+> > > +
+> > >  static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_mgr =
+*mgr,
+> > >  				     int id, struct drm_dp_payload *payload)
+> > >  {
+> > > @@ -4384,8 +4412,7 @@ static int drm_dp_dpcd_write_payload(struct drm=
+_dp_mst_topology_mgr *mgr,
+> > >  	int ret;
+> > >  	int retries =3D 0;
+> > >  =
 
-But it doesn't really make sense for the cursor plane to change z-
-position, even if it's technically possible. We do want it to always be
-on top anyway. Doing it this way makes the cursor behave the same way
-irrespective of the Tegra generation that we're running on.
+> > > -	drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
+> > > -			   DP_PAYLOAD_TABLE_UPDATED);
+> > =
 
-Yes, that may not fully expose the capabilities of the hardware, but we
-are already restricting the hardware capabilities by exposing the
-overlay plane as a cursor plane in the first place.
+> > We used to clear DP_PAYLOAD_TABLE_UPDATED but now we clear
+> > DP_PAYLOAD_ACT_HANDLED ?
+> =
 
-Thierry
+> Eek. We should write DP_PAYLOAD_TABLE_UPDATED which is the only way to
+> clear both the act-handled and the table-updated flags.
 
---bp/iNruPH9dso1Pn
-Content-Type: application/pgp-signature; name="signature.asc"
+Huh. That's a bit crazy. But it is what the spec says.
 
------BEGIN PGP SIGNATURE-----
+> I tested things
+> that way but managed to send an old version. Thanks for catching it.
+> =
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7o77IACgkQ3SOs138+
-s6E4lQ//Y2TkGcKv0aei1ScJVjYGc7wbH0fWvmlFFsq9a2HvLqKqCY+4F9shI77V
-6x/k2sjQI2tL6nD8n5Qeu5JGMkc6dREPenIxkJ4HYiqlkqBv/WjsGQmh04w0Gi1W
-Z++iUQz46Wn/AdI0/fl16458One4/2+63VBf4q9UzSu2yeTmNmE2o8copJOpbm+W
-sWLy3CSEI7XgIjAbOcXE0zcyuFeo6Zr96owhibYhE2ClEh6dftk98/eLp1k+ZCFY
-ZloGWglLE36g6ttnXoVS//KTSwxUS6Ll89GZbQrXU2ffmlsLFOJAcVsDZucGuvQB
-GhjMOO174LDGASkCSYanKxY6c71R2jilxxHsk6M+7HsD39eedxSj8LcElgVm+Bfg
-Hj2Udt/UbKQp7f0jnSbjA4vA/g++T1igUkTXh/LtEw8KgILiRKfE0JV8nYc5VIzX
-3of+6QTQmhdD4Di2aBVYEbP+NmwGX9d9cfhbm5XI/0qBR3U6v9LRzpsJheq1cB6L
-8QCwoO5x1fumcW81125BS0/P24uBSfpeLH8kg2/dvYPg5nUSuXy/kV8ceApvzFMR
-Qs8NTlyqYvVQ3m9OZn3B35XUUJCMup2wDG/z2d5ql62FCkwqPDS5AVP48W/B5jQ9
-RETTZln2gfpIvBGQfBH9jryKGeAHDCd2/2JPhtUCp5slUIAx32s=
-=Pe8q
------END PGP SIGNATURE-----
+> > =
 
---bp/iNruPH9dso1Pn--
+> > > +	drm_dp_clear_payload_status(mgr);
+> > >  =
 
---===============2050971921==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> > >  	payload_alloc[0] =3D id;
+> > >  	payload_alloc[1] =3D payload->start_slot;
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gp=
+u/drm/i915/display/intel_dp_mst.c
+> > > index 9308b5920780..3c4b0fb10d8b 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > @@ -323,6 +323,8 @@ static void clear_act_sent(struct intel_dp *intel=
+_dp)
+> > >  =
 
+> > >  	intel_de_write(i915, intel_dp->regs.dp_tp_status,
+> > >  		       DP_TP_STATUS_ACT_SENT);
+> > > +
+> > > +	drm_dp_clear_payload_status(&intel_dp->mst_mgr);
+> > >  }
+> > >  =
+
+> > >  static void wait_for_act_sent(struct intel_dp *intel_dp)
+> > > diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst=
+_helper.h
+> > > index 8b9eb4db3381..2facb87624bf 100644
+> > > --- a/include/drm/drm_dp_mst_helper.h
+> > > +++ b/include/drm/drm_dp_mst_helper.h
+> > > @@ -763,6 +763,8 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topo=
+logy_mgr *mgr,
+> > >  			   int pbn);
+> > >  =
+
+> > >  =
+
+> > > +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *mgr);
+> > > +
+> > >  int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr);
+> > >  =
+
+> > >  =
+
+> > > -- =
+
+> > > 2.23.1
+> > =
+
+> > -- =
+
+> > Ville Syrj=E4l=E4
+> > Intel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2050971921==--
