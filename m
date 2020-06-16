@@ -1,54 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC311FAF7C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 13:47:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330E21FAF96
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 13:55:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B25936E8A2;
-	Tue, 16 Jun 2020 11:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39D76E12B;
+	Tue, 16 Jun 2020 11:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205C36E0DA
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 11:47:31 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id c71so2562211wmd.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 04:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j2wfZA5WI4nz3odeav6s5+urxP6LNN0UmYcHrvMekhM=;
- b=Nem7EWZ04lSzVQpi/+mFBS0Y5tpSp1aH8a1UFxshKJ4ToCu01GQyxqWfsfVBdVufYQ
- /aBErajXoswnyeuwL3Sng/RBJZxODlmnTEsDRLqaXr+ZmBu/P9KkaetUP5a8nHUdkySa
- WDAkVG+cyU105U8LEj/pRHWvD2b40EMNXD7iM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j2wfZA5WI4nz3odeav6s5+urxP6LNN0UmYcHrvMekhM=;
- b=nDWbjIHYraItKI5RMQhvJi5rvP/jA6crVQhG7oG2IzTJIG5/SwuLhRKBVr+LNPg3OQ
- UMxiHbL5CXiKosDHKrHGZq31Nbp3yNgfrBL3Tpr0ghQ1r3weJ8Xam/9FzVnDg8RQNTTJ
- 6mIBg3OfPC2ijzbKHZn2VxVR0f2B/C/oqRkhIxzfJjhq5lpIywxwZn/ibC5yViATR2vD
- o4gas2E1qsoXzuxF94FtZRZyxyIVS9kCUNUyoFBdFirRWaNQe4lQQHWDpcYi1wBF7ElS
- E3lpoOdDB9PP02IDcj3dVIJI1xFE6M8VY0yW882dDx3IdvyuoQ4CQC5tZR48oi6WERyI
- VjGA==
-X-Gm-Message-State: AOAM533MbtwQguH2RNbD7zhnCMdsxM+Oyt2VLgllj5h4w55JFY/VLVce
- 2k+ouRZwizianVn+8INjCsOrYBYzJNk=
-X-Google-Smtp-Source: ABdhPJxVBD/ZgLzZC5H1ezELlYrgoR/76Dwfsn28V9iDtijAl8ddooJfSX/tg01bCLlKOqvGQqvz6g==
-X-Received: by 2002:a1c:2c45:: with SMTP id s66mr3002201wms.40.1592308049419; 
- Tue, 16 Jun 2020 04:47:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h7sm3863726wml.24.2020.06.16.04.47.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 04:47:28 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/shmem-helper: Only dma-buf imports are private obj
-Date: Tue, 16 Jun 2020 13:47:23 +0200
-Message-Id: <20200616114723.2363268-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.27.0
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E866E0DA;
+ Tue, 16 Jun 2020 11:55:28 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05GBpulM014486;
+ Tue, 16 Jun 2020 11:55:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=zXKmGqBgVfd/oRfTCZp+ZNOmz8ApTYrOEDY7rqEojb4=;
+ b=A/dby861BGAp/7q1CQTGlDwIhW8VhVnxKwoWVVueI8C6Rg9aygu+LQSNoxUDc1wg1oxf
+ HCiAolu7pUyHod0qTTIxJEnFHcZcIXNtacxPU4U4q0kEnIhkn30NrxGOc1OC6Q9Tr6Fn
+ QDFhFKSKw70k6V6xXVdWllUI9K7lpaTSPbNhACRptQ8JDFBtTrRPUMGCE2y2bC9ikU4g
+ 7L8msHxiO8K9lV89QKyEctwxzBfp2PL6EubYV/4a0CwXMOZN6LnnAJsQ8AOYSXsnX6hA
+ Bkn7JKSdkDT37u06uvyUaVcINV0FKvmDSQQb7nszR/bKCevTgTVc6jt0wmeDgrgvvL14 aQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 31p6s268tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 16 Jun 2020 11:55:16 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05GBrJSi033107;
+ Tue, 16 Jun 2020 11:55:16 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 31p6dgcvwx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 16 Jun 2020 11:55:15 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05GBt8Fp000378;
+ Tue, 16 Jun 2020 11:55:08 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 16 Jun 2020 04:55:07 -0700
+Date: Tue, 16 Jun 2020 14:54:59 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Colin King <colin.king@canonical.com>
+Subject: Re: [PATCH] drm/i915/display: fix missing null check on allocated
+ dsb object
+Message-ID: <20200616115459.GN4151@kadam>
+References: <20200616114221.73971-1-colin.king@canonical.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200616114221.73971-1-colin.king@canonical.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006160089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ clxscore=1011 mlxscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0
+ malwarescore=0 suspectscore=0 spamscore=0 cotscore=-2147483648 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006160089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,49 +79,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Animesh Manna <animesh.manna@intel.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSBicm9rZSB0aGF0IGluIG15IHJlZmFjdG9yaW5nOgoKY29tbWl0IDdkMmNkNzJhOWFhM2RmMzYw
-NGNhZmQxNjlhMmQ0YTUyNWFmYjY4Y2EKQXV0aG9yOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPgpEYXRlOiAgIEZyaSBNYXkgMjkgMTY6MDU6NDIgMjAyMCArMDIwMAoKICAg
-IGRybS9zaG1lbS1oZWxwZXJzOiBTaW1wbGlmeSBkbWEtYnVmIGltcG9ydGluZwoKSSdtIG5vdCBl
-bnRpcmVseSBzdXJlIG9mIHRoZSBoaXN0b3J5IGhlcmUsIGJ1dCBJIHN1c3BlY3QgdGhhdCBpbiBv
-bmUKb2YgdGhlIHJlYmFzZXMgb3Igd2hlbiBhcHBseWluZyB0aGUgcGF0Y2ggSSBtb3ZlZCB0aGUg
-aHVuayBmcm9tCmRybV9nZW1fc2htZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKCksIHdoZXJlIGl0
-IHNob3VsZCBiZSwgdG8KZHJtX2dlbV9zaG1lbV9jcmVhdGVfd2l0aF9oYW5kbGUoKSwgd2hpY2gg
-aXMgdG90YWxseSB3cm9uZy4KClJlbWVkeSB0aGlzLgoKVGhhbmtzIGZvciBUaG9tYXMgZm9yIHRo
-ZSBjcnVjdWFsIGhpbnQgaW4gZGVidWdnaW5nIHRoaXMuCgpSZXBvcnRlZC1ieTogVGhvbWFzIFpp
-bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA3ZDJjZDcyYTlhYTMgKCJkcm0v
-c2htZW0taGVscGVyczogU2ltcGxpZnkgZG1hLWJ1ZiBpbXBvcnRpbmciKQpDYzogQm9yaXMgQnJl
-emlsbG9uIDxib3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4KQ2M6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhh
-dC5jb20+CkNjOiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgpDYzogTm9yYWxmIFRyw7hu
-bmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+ClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVt
-X2hlbHBlci5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hl
-bHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMKaW5kZXggMGE3
-ZTNiNjY0YmMyLi44MzdlMDg0MDk5MGMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-Z2VtX3NobWVtX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hl
-bHBlci5jCkBAIC0zNzcsNyArMzc3LDcgQEAgZHJtX2dlbV9zaG1lbV9jcmVhdGVfd2l0aF9oYW5k
-bGUoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsCiAJc3RydWN0IGRybV9nZW1fc2htZW1fb2Jq
-ZWN0ICpzaG1lbTsKIAlpbnQgcmV0OwogCi0Jc2htZW0gPSBfX2RybV9nZW1fc2htZW1fY3JlYXRl
-KGRldiwgc2l6ZSwgdHJ1ZSk7CisJc2htZW0gPSBkcm1fZ2VtX3NobWVtX2NyZWF0ZShkZXYsIHNp
-emUpOwogCWlmIChJU19FUlIoc2htZW0pKQogCQlyZXR1cm4gc2htZW07CiAKQEAgLTczMCw3ICs3
-MzAsNyBAQCBkcm1fZ2VtX3NobWVtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LAogCXNpemVfdCBzaXplID0gUEFHRV9BTElHTihhdHRhY2gtPmRtYWJ1Zi0+c2l6
-ZSk7CiAJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbTsKIAotCXNobWVtID0gZHJt
-X2dlbV9zaG1lbV9jcmVhdGUoZGV2LCBzaXplKTsKKwlzaG1lbSA9IF9fZHJtX2dlbV9zaG1lbV9j
-cmVhdGUoZGV2LCBzaXplLCB0cnVlKTsKIAlpZiAoSVNfRVJSKHNobWVtKSkKIAkJcmV0dXJuIEVS
-Ul9DQVNUKHNobWVtKTsKIAotLSAKMi4yNy4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Jun 16, 2020 at 12:42:21PM +0100, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently there is no null check for a failed memory allocation
+> on the dsb object and without this a null pointer dereference
+> error can occur. Fix this by adding a null check.
+> 
+> Note: added a drm_err message in keeping with the error message style
+> in the function.
+
+Don't give in to peer pressure!  That's like being a lemming when Disney
+film makers come to push you off the cliff to create the 1958 nature
+film "White Wilderness".
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
