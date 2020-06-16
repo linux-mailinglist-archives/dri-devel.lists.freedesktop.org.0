@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0551FB3A2
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 16:09:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 921641FB40F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 16:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 701CD6E8C6;
-	Tue, 16 Jun 2020 14:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 656DB6E8D3;
+	Tue, 16 Jun 2020 14:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com
- [IPv6:2607:f8b0:4864:20::a42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB7F6E8C5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 14:09:40 +0000 (UTC)
-Received: by mail-vk1-xa42.google.com with SMTP id s6so1630956vkb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 07:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
- b=MJHlkngFT133npieWpyoGh0urU3iWbGas7CJZrtMJerpGuJtXJBloYvzE44huOfDvE
- a+B2I1EBIwegx2wV251qk0dxjJ99+TVLMAqauve8tcZ/Czgrah7MQQ9zWAcV9Tfi1xha
- 368bEbvhG4rwhmCGX8rOyR5bixzGVSwmAMPwD6QW2bTSIQh9lUvIM33As4HJz19uN1Br
- HJp2wwAzWFPjN5Re7TByc9JQSxrZvwsUW3K2FdN4eakM9unoII1EBeAVH+SxY6FAnGxd
- GwnXUnN4QQOVPAAy+h7We3R1u3lxfmC3vixsKANC95sKfUVVE+mFs+DQdYIE/Cezz8YZ
- W4Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
- b=OjnojaPFtWTi5UnsNCBjZgsnTSPdBW8QfVA3S5i6MxVr7Jwhg0DIUj3nPXoosZBM9N
- PgSYcUaTYzpHtDJ+b5HvMgjreEjV127tfSce4ypHiyJKPCS6JH+4RWPgxqznlBrc35SU
- UYotAJ8ic+RqT3b6/0KE6E9r6/ORtxjrmFkglnadq78CvBJPj+DxWUc3Mfnk9+wBQ+dS
- sc0Hoaks4j4KtunskyoHxJGleparNGf8yUrSQGR4h1Beald49/Nnn8A2UzYH/5fGgsFQ
- P0I+7i6qFa0PkkZwdlmzQx0SQ1SqQ9me/oy3STMZGwx+qRw8EWp//iRN2zOub9a/UZu1
- e1bQ==
-X-Gm-Message-State: AOAM531Mm42uHa8PkW06VkdvqPraX1MAczWeSKsPVdWEwFmFxGkahiZK
- UjST4pwrjokyFX6gArt7GXRgU9RWD33064YlU1w=
-X-Google-Smtp-Source: ABdhPJze8O6g9fE6ltSX85adg2jK4puYbKO8MUJwujXYHUy4P5RhKum5p0M5dGxwTqPtL4ATGFihpSZvv1m1jjx+STY=
-X-Received: by 2002:a1f:9094:: with SMTP id s142mr1776422vkd.6.1592316579576; 
- Tue, 16 Jun 2020 07:09:39 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9AC6E8D0;
+ Tue, 16 Jun 2020 14:19:09 +0000 (UTC)
+IronPort-SDR: PUfEMvKRjYB+5iz9Mnchr4abdWB6nJoDnufyNyVZeuhGEyAd4r2N0kqJ79PqkgcS6DrRd3UhrO
+ P++Xn871dPrQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 07:19:09 -0700
+IronPort-SDR: VEawNHlaVXHbUuuDOr+vdteO9Jeten/WDF4ETGe9XopcqCPV+BUNovNSeqS+O7pGBqexI6dQZu
+ DphrfIiQ5dUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="273165016"
+Received: from ideak-desk.fi.intel.com ([10.237.72.183])
+ by orsmga003.jf.intel.com with ESMTP; 16 Jun 2020 07:19:07 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag is cleared
+ before waiting for it
+Date: Tue, 16 Jun 2020 17:18:55 +0300
+Message-Id: <20200616141855.746-6-imre.deak@intel.com>
+X-Mailer: git-send-email 2.23.1
+In-Reply-To: <20200616141855.746-1-imre.deak@intel.com>
+References: <20200616141855.746-1-imre.deak@intel.com>
 MIME-Version: 1.0
-References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
- <20200616121244.GN20149@phenom.ffwll.local>
-In-Reply-To: <20200616121244.GN20149@phenom.ffwll.local>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 16 Jun 2020 15:05:58 +0100
-Message-ID: <CACvgo52PaW97cxMeGhbpD4FUVy5BRAunaCxX3106OOAZm6x67A@mail.gmail.com>
-Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-i2c@vger.kernel.org,
- linux-fbdev <linux-fbdev@vger.kernel.org>, x86@kernel.org, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +47,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
-
-On Tue, 16 Jun 2020 at 13:12, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
-> > I want to remove the above API this cycle, and just a few patches have
-> > not made it into 5.8-rc1. They have been reviewed and most had been
-> > promised to get into linux-next, but well, things happen. So, I hope it
-> > is okay for everyone to collect them like this and push them via I2C for
-> > 5.8-rc2.
->
-> for the drm side of things:
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > One minor exception is the media documentation patch which I simply have
-> > missed so far, but it is trivial.
-> >
-> > And then, finally, there is the removal of the old API as the final
-> > patch. Phew, that's been a long ride.
-> >
-> > I am open for comments, of course.
-> >
-> > Happy hacking,
-> >
-> >    Wolfram
-> >
-> >
-> > Wolfram Sang (6):
-> >   drm: encoder_slave: fix refcouting error for modules
-> >   drm: encoder_slave: use new I2C API
-
-The first two are in drm-misc-next and are to be expected with the 5.9
-merge window. As long as that doesn't cause major nuisance proceed as
-you prefer.
-
--Emil
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXRtLCB3ZSBjbGVhciB0aGUgQUNUIHNlbnQgZmxhZyBpbiB0aGUgc2luaydzIERQQ0QgYmVmb3Jl
+IHVwZGF0aW5nIHRoZQpzaW5rJ3MgcGF5bG9hZCB0YWJsZSwgYWxvbmcgY2xlYXJpbmcgdGhlIHBh
+eWxvYWQgdGFibGUgdXBkYXRlZCBmbGFnLgpUaGUgc2luayBpcyBzdXBwb3NlZCB0byBzZXQgdGhp
+cyBmbGFnIG9uY2UgaXQgZGV0ZWN0cyB0aGF0IHRoZSBzb3VyY2UKaGFzIGNvbXBsZXRlZCB0aGUg
+QUNUIHNlcXVlbmNlIChhZnRlciBkZXRlY3RpbmcgdGhlIDQgcmVxdWlyZWQgQUNUIE1UUEgKc3lt
+Ym9scyBzZW50IGJ5IHRoZSBzb3VyY2UpLiBBcyBvcHBvc2VkIHRvIHRoaXMgMiBERUxMIG1vbml0
+b3JzIEkgaGF2ZQpzZXQgdGhlIGZsYWcgYWxyZWFkeSBhbG9uZyB0aGUgcGF5bG9hZCB0YWJsZSB1
+cGRhdGVkIGZsYWcsIHdoaWNoIGlzIG5vdApxdWl0ZSBjb3JyZWN0LgoKVG8gYmUgc3VyZSB0aGF0
+IHRoZSBzaW5rIGhhcyBkZXRlY3RlZCB0aGUgQUNUIE1UUEggc3ltYm9scyBiZWZvcmUKY29udGlu
+dWluZyBlbmFibGluZyB0aGUgZW5jb2RlciwgY2xlYXIgdGhlIEFDVCBzZW50IGZsYWcgYmVmb3Jl
+IGVuYWJsaW5nCm9yIGRpc2FibGluZyB0aGUgdHJhbnNjb2RlciBWQyBwYXlsb2FkIGFsbG9jYXRp
+b24gKHdoaWNoIGlzIHdoYXQgc3RhcnRzCnRoZSBBQ1Qgc2VxdWVuY2UpLgoKQ2M6IEx5dWRlIFBh
+dWwgPGx5dWRlQHJlZGhhdC5jb20+CkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFA
+bGludXguaW50ZWwuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpTaWdu
+ZWQtb2ZmLWJ5OiBJbXJlIERlYWsgPGltcmUuZGVha0BpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9n
+cHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyAgICAgICB8IDMxICsrKysrKysrKysrKysrKysr
+KystLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYyB8ICAyICsr
+CiBpbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oICAgICAgICAgICAgIHwgIDIgKysKIDMg
+ZmlsZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwppbmRleCBiMmY1YTg0YjRjZmIuLmUzYmY4YzljODI2
+NyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYworKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCkBAIC00Mzc3LDYgKzQzNzcs
+MzQgQEAgdm9pZCBkcm1fZHBfbXN0X2RlYWxsb2NhdGVfdmNwaShzdHJ1Y3QgZHJtX2RwX21zdF90
+b3BvbG9neV9tZ3IgKm1nciwKIH0KIEVYUE9SVF9TWU1CT0woZHJtX2RwX21zdF9kZWFsbG9jYXRl
+X3ZjcGkpOwogCisvKioKKyAqIGRybV9kcF9jbGVhcl9wYXlsb2FkX3N0YXR1cygpIC0gQ2xlYXJz
+IHRoZSBwYXlsb2FkIHRhYmxlIHN0YXR1cyBmbGFncworICogQG1ncjogbWFuYWdlciB0byB1c2UK
+KyAqCisgKiBDbGVhcnMgdGhlIHBheWxvYWQgdGFibGUgQUNUIGhhbmRsZWQgYW5kIHRhYmxlIHVw
+ZGF0ZWQgZmxhZ3MgaW4gdGhlIE1TVCBodWIncworICogRFBDRC4gVGhpcyBmdW5jdGlvbiBtdXN0
+IGJlIGNhbGxlZCBiZWZvcmUgdXBkYXRpbmcgdGhlIHBheWxvYWQgdGFibGUgb3IKKyAqIHN0YXJ0
+aW5nIHRoZSBBQ1Qgc2VxdWVuY2UgYW5kIHdhaXRpbmcgZm9yIHRoZSBjb3JyZXNwb25kaW5nIGZs
+YWdzIHRvIGdldAorICogc2V0IGJ5IHRoZSBodWIuCisgKgorICogUmV0dXJuczoKKyAqIDAgaWYg
+dGhlIGZsYWcgZ290IGNsZWFyZWQgc3VjY2Vzc2Z1bGx5LCBvdGhlcndpc2UgYSBuZWdhdGl2ZSBl
+cnJvciBjb2RlLgorICovCitpbnQgZHJtX2RwX2NsZWFyX3BheWxvYWRfc3RhdHVzKHN0cnVjdCBk
+cm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyKQoreworCWludCByZXQ7CisKKwlyZXQgPSBkcm1f
+ZHBfZHBjZF93cml0ZWIobWdyLT5hdXgsIERQX1BBWUxPQURfVEFCTEVfVVBEQVRFX1NUQVRVUywK
+KwkJCQkgRFBfUEFZTE9BRF9BQ1RfSEFORExFRCk7CisJaWYgKHJldCA8IDApIHsKKwkJRFJNX0RF
+QlVHX0RSSVZFUigiQ2FuJ3QgY2xlYXIgdGhlIEFDVCBzZW50IGZsYWcgKCVkKVxuIiwgcmV0KTsK
+KwkJcmV0dXJuIHJldDsKKwl9CisJV0FSTl9PTihyZXQgIT0gMSk7CisKKwlyZXR1cm4gMDsKK30K
+K0VYUE9SVF9TWU1CT0woZHJtX2RwX2NsZWFyX3BheWxvYWRfc3RhdHVzKTsKKwogc3RhdGljIGlu
+dCBkcm1fZHBfZHBjZF93cml0ZV9wYXlsb2FkKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21n
+ciAqbWdyLAogCQkJCSAgICAgaW50IGlkLCBzdHJ1Y3QgZHJtX2RwX3BheWxvYWQgKnBheWxvYWQp
+CiB7CkBAIC00Mzg0LDggKzQ0MTIsNyBAQCBzdGF0aWMgaW50IGRybV9kcF9kcGNkX3dyaXRlX3Bh
+eWxvYWQoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCiAJaW50IHJldDsKIAlp
+bnQgcmV0cmllcyA9IDA7CiAKLQlkcm1fZHBfZHBjZF93cml0ZWIobWdyLT5hdXgsIERQX1BBWUxP
+QURfVEFCTEVfVVBEQVRFX1NUQVRVUywKLQkJCSAgIERQX1BBWUxPQURfVEFCTEVfVVBEQVRFRCk7
+CisJZHJtX2RwX2NsZWFyX3BheWxvYWRfc3RhdHVzKG1ncik7CiAKIAlwYXlsb2FkX2FsbG9jWzBd
+ID0gaWQ7CiAJcGF5bG9hZF9hbGxvY1sxXSA9IHBheWxvYWQtPnN0YXJ0X3Nsb3Q7CmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYwppbmRleCA5MzA4YjU5MjA3ODAu
+LjNjNGIwZmIxMGQ4YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9kcF9tc3QuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
+X21zdC5jCkBAIC0zMjMsNiArMzIzLDggQEAgc3RhdGljIHZvaWQgY2xlYXJfYWN0X3NlbnQoc3Ry
+dWN0IGludGVsX2RwICppbnRlbF9kcCkKIAogCWludGVsX2RlX3dyaXRlKGk5MTUsIGludGVsX2Rw
+LT5yZWdzLmRwX3RwX3N0YXR1cywKIAkJICAgICAgIERQX1RQX1NUQVRVU19BQ1RfU0VOVCk7CisK
+Kwlkcm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMoJmludGVsX2RwLT5tc3RfbWdyKTsKIH0KIAog
+c3RhdGljIHZvaWQgd2FpdF9mb3JfYWN0X3NlbnQoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmggYi9pbmNsdWRlL2Ry
+bS9kcm1fZHBfbXN0X2hlbHBlci5oCmluZGV4IDhiOWViNGRiMzM4MS4uMmZhY2I4NzYyNGJmIDEw
+MDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oCisrKyBiL2luY2x1ZGUv
+ZHJtL2RybV9kcF9tc3RfaGVscGVyLmgKQEAgLTc2Myw2ICs3NjMsOCBAQCBpbnQgZHJtX2RwX2Zp
+bmRfdmNwaV9zbG90cyhzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwKIAkJCSAg
+IGludCBwYm4pOwogCiAKK2ludCBkcm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMoc3RydWN0IGRy
+bV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IpOworCiBpbnQgZHJtX2RwX3VwZGF0ZV9wYXlsb2Fk
+X3BhcnQxKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyKTsKIAogCi0tIAoyLjIz
+LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
