@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95E51FBC94
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2331FBD43
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6EAE6E91C;
-	Tue, 16 Jun 2020 17:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1746E901;
+	Tue, 16 Jun 2020 17:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
- [IPv6:2607:f8b0:4864:20::c44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96D96E927
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:16:57 +0000 (UTC)
-Received: by mail-oo1-xc44.google.com with SMTP id e12so4246472oou.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:16:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XLKyIFQjA0hO+M2HmvoX6/wXmPu/pZbk4Ns+D8IxKQg=;
- b=fh8k4TyxJEnnkRd4t674E0UMUbtaUhGFG+OzQWn1vFd5LjFe+lMyhx6J458g/rkdhe
- vODv7JRsqHb5bHi9LdD3DhNiwSx4CTgZ+q+l7rnpclA8fpr/h9bRBVRnohfq5VDf7m10
- EMn94Y8EVRFvL5nMTXPsfc+4MOY8JYohuBhkc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XLKyIFQjA0hO+M2HmvoX6/wXmPu/pZbk4Ns+D8IxKQg=;
- b=fI6KVokRG9OxcBV73XFwVofqKmOOBaIaR23DhiQoubrwtaQniq5wo6KkiDOV5c9rh0
- X5uf4AjecTvEmibb4ggtnZiL9/4efzhAUwlKH8SfseRD3bbeoq5jxG9z6zgY0J8DM7OD
- Z19B6z+BsEEXpIDMAEBvWkWrpXRROBNlXSLmMyLuwXfxvGq3rmic0gXSb2MmhUdWFWjl
- W2iG+bsv2YiHwJiDEwLv5R/ZUxC4ZgsnzTsCdwGOZnytePF4jZA79GXxDFKjorZqOX1r
- OOZi2PxBYyVnTtJZcHJFJWWeK1yBoGOICDBT2X2b4uOH4fYL7idLMmz3mMdeNeS5b6oj
- ef2A==
-X-Gm-Message-State: AOAM5333pok+KiuF90v2W0/PDQxcjH7J6GcjnMPk9lTKAfq2asOKYwbj
- aIQiHT2m5IAryhefqo0Yt1NhsAKvcVDJKhqxM9uNnw==
-X-Google-Smtp-Source: ABdhPJwLyWLfAi2ZOO8whksvPxRYdp+aFssT/X1/Y4FJyT4yCXm97qT49tYUkHfToY6XpIAozSeuW97m9p4w5/Fdw9Y=
-X-Received: by 2002:a4a:5209:: with SMTP id d9mr3284142oob.28.1592327816894;
- Tue, 16 Jun 2020 10:16:56 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43D9E6E901
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:46:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEBA6F9;
+ Tue, 16 Jun 2020 19:46:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1592329580;
+ bh=Ix9rcVGOxVvbzxxwJK2JdywpynNO9C+izdn2hXCu8fM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dnhPcnhP8V1YiZOGHxfwj01/bT4/JmbgYgVIA0V0gywpwZ6FH7ccqa5ixo+m8su7n
+ VrHIvulQfeBrGEdsHBsqV76KeR6pAdlFZev3HwIafZ39DYSIyt4qwVAetQOBy8XhsU
+ wtoKpIfHRwM5LFWDYB48pd3UpkUScC+CCmfQYgTk=
+Date: Tue, 16 Jun 2020 20:45:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+Message-ID: <20200616174558.GA913@pendragon.ideasonboard.com>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+ <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
+ <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
+ <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
 MIME-Version: 1.0
-References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
- <20200612160056.2082681-7-daniel.vetter@ffwll.ch>
- <CACvgo51AVVOxhGK2Uin=ZLgPpihJiEsnc6pvAyKqFKPvLdOzLA@mail.gmail.com>
- <CAKMK7uEEkH+8BuFcFUVTv6p8swZZTwcho-HNx5GdZTO1vHDoeg@mail.gmail.com>
- <CACvgo51ZObyCiOeV+cdJo6xJ3ahuvBUxx1DrK+emDHTOfmVA_g@mail.gmail.com>
-In-Reply-To: <CACvgo51ZObyCiOeV+cdJo6xJ3ahuvBUxx1DrK+emDHTOfmVA_g@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 16 Jun 2020 19:16:45 +0200
-Message-ID: <CAKMK7uFkXzMMWqaS52K6_tdi-xbsqWTySQATpJewLDL_ebXiMA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 7/8] drm/mipi-dbi: Remove ->enabled
-To: Emil Velikov <emil.l.velikov@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,94 +49,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Lechner <david@lechnology.com>, David Airlie <airlied@linux.ie>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 3:57 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
->
-> On Tue, 16 Jun 2020 at 07:50, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > On Mon, Jun 15, 2020 at 11:35 PM Emil Velikov <emil.l.velikov@gmail.com> wrote:
-> > >
-> > > Hi Daniel,
-> > >
-> > > On Fri, 12 Jun 2020 at 17:01, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > >
-> > > > The atomic helpers try really hard to not lose track of things,
-> > > > duplicating enabled tracking in the driver is at best confusing.
-> > > > Double-enabling or disabling is a bug in atomic helpers.
-> > > >
-> > > > In the fb_dirty function we can just assume that the fb always exists,
-> > > > simple display pipe helpers guarantee that the crtc is only enabled
-> > > > together with the output, so we always have a primary plane around.
-> > > >
-> > > > Now in the update function we need to be a notch more careful, since
-> > > > that can also get called when the crtc is off. And we don't want to
-> > > > upload frames when that's the case, so filter that out too.
-> > > >
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: David Lechner <david@lechnology.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_mipi_dbi.c | 16 ++++++----------
-> > > >  drivers/gpu/drm/tiny/ili9225.c | 12 +++---------
-> > > >  drivers/gpu/drm/tiny/st7586.c  | 11 +++--------
-> > > >  include/drm/drm_mipi_dbi.h     |  5 -----
-> > > >  4 files changed, 12 insertions(+), 32 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-> > > > index fd8d672972a9..79532b9a324a 100644
-> > > > --- a/drivers/gpu/drm/drm_mipi_dbi.c
-> > > > +++ b/drivers/gpu/drm/drm_mipi_dbi.c
-> > > > @@ -268,7 +268,7 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
-> > > >         bool full;
-> > > >         void *tr;
-> > > >
-> > > > -       if (!dbidev->enabled)
-> > > > +       if (WARN_ON(!fb))
-> > > >                 return;
-> > > >
-> > > AFAICT no other driver has such WARN_ON. Let's drop that - it is
-> > > pretty confusing and misleading as-is.
-> >
-> > Yeah, this is a helper library which might be used wrongly by drivers.
-> > That's why I put it in - if you don't put all the various calls
-> > together correctly, this should at least catch one case. So really
-> > would like to keep this, can I convince you?
->
-> There are plenty of similar places where a drm library/helper can be
-> misused, lacking a WARN. Nevertheless - sure feel free to keep it.
-
-Yeah I agree, we can't check for everything. Personally I think a
-check is warranted in two conditions:
-- drivers got it wrong, and the WARNING helps catch driver-bugs we've
-seen in the wild. Not really the case here
-- drivers do check something as defensive programming, but it's an
-invariant enforced by higher levels or helpers. Those I like to
-convert to WARNING so that other driver authors learn that this should
-never happen. This is such a case imo, I removed a bunch of fb checks
-from drivers here.
-
-But yeah I think we should only add WARNING checks if this is actually
-something people have gotten wrong, otherwise there's just too many of
-them, distracting from the code.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBKdW4gMTYsIDIwMjAgYXQgMDg6MjA6NTdQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDE2LjA2LjIwMjAgMTg6NDgsIEVtaWwgVmVsaWtvdiDQv9C40YjQtdGCOgo+ID4g
+T24gVHVlLCAxNiBKdW4gMjAyMCBhdCAxMjo0MCwgRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21h
+aWwuY29tPiB3cm90ZToKPiA+Pgo+ID4+IDE2LjA2LjIwMjAgMDE6MjYsIEVtaWwgVmVsaWtvdiDQ
+v9C40YjQtdGCOgo+ID4+PiBIaSBEbWl0cnksCj4gPj4+Cj4gPj4+IE9uIE1vbiwgMTUgSnVuIDIw
+MjAgYXQgMDg6MjgsIERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4gd3JvdGU6Cj4g
+Pj4+Pgo+ID4+Pj4gSGVsbG8hCj4gPj4+Pgo+ID4+Pj4gVGhpcyBzZXJpZXMgYWRkcyAxODDCsCBk
+aXNwbGF5IHBsYW5lIHJvdGF0aW9uIHN1cHBvcnQgdG8gdGhlIE5WSURJQSBUZWdyYQo+ID4+Pj4g
+RFJNIGRyaXZlciB3aGljaCBpcyBuZWVkZWQgZm9yIGRldmljZXMgdGhhdCBoYXZlIGRpc3BsYXkg
+cGFuZWwgcGh5c2ljYWxseQo+ID4+Pj4gbW91bnRlZCB1cHNpZGUtZG93biwgbGlrZSBOZXh1cyA3
+IHRhYmxldCBkZXZpY2UgZm9yIGV4YW1wbGUgWzFdLiBTaW5jZQo+ID4+Pj4gRFJNIHBhbmVsIHJv
+dGF0aW9uIGlzIGEgbmV3IHRoaW5nIGZvciBhIHVzZXJzcGFjZSwgY3VycmVudGx5IG9ubHkKPiA+
+Pj4+IE9wZW50ZWdyYSBYb3JnIGRyaXZlciBoYW5kbGVzIHRoZSByb3RhdGVkIGRpc3BsYXkgcGFu
+ZWwgWzJdLCBidXQgdGhpcwo+ID4+Pj4gaXMgZ29vZCBlbm91Z2ggZm9yIHRoZSBzdGFydC4KPiA+
+Pj4+Cj4gPj4+PiBOb3RlIHRoYXQgbGF0ZXIgb24gaXQgc2hvdWxkIGJlIHBvc3NpYmxlIHRvIGlt
+cGxlbWVudCBhIHRyYW5zcGFyZW50IDE4MMKwCj4gPj4+PiBkaXNwbGF5IHJvdGF0aW9uIGZvciBU
+ZWdyYSBEUk0gZHJpdmVyIHdoaWNoIHdpbGwgcmVtb3ZlIHRoZSBuZWVkIHRvIGhhdmUKPiA+Pj4+
+IGEgYmxlZWRpbmcgZWRnZSB1c2Vyc3BhY2UgdGhhdCBrbm93cyBob3cgdG8gcm90YXRlIGRpc3Bs
+YXkgcGxhbmVzIGFuZCBJJ20KPiA+Pj4+IHNsb3dseSB3b3JraW5nIG9uIGl0LiBGb3IgdGhlIHN0
+YXJ0ZXIgd2UgY2FuIGdvIHdpdGggdGhlIG1pbmltYWwgcm90YXRpb24KPiA+Pj4+IHN1cHBvcnQs
+IHNvIGl0J3Mgbm90IGEgYmxvY2tlci4KPiA+Pj4+Cj4gPj4+PiBUaGlzIHNlcmllcyBpcyBiYXNl
+ZCBvbiB0aGUgd29yayB0aGF0IHdhcyBtYWRlIGJ5IERlcmVrIEJhc2Vob3JlIGZvciB0aGUKPiA+
+Pj4+IE1lZGlhdGVrIGRyaXZlciBbM10sIGhpcyBwYXRjaCBpcyBpbmNsdWRlZCBpbnRvIHRoaXMg
+cGF0Y2hzZXQuIEkgYWRkZWQKPiA+Pj4+IG15IHRlc3RlZC1ieSB0YWcgdG8gdGhlIERlcmVrJ3Mg
+cGF0Y2guCj4gPj4+Pgo+ID4+Pj4gUGxlYXNlIHJldmlldyBhbmQgYXBwbHksIHRoYW5rcyBpbiBh
+ZHZhbmNlIQo+ID4+Pj4KPiA+Pj4+IFsxXSBodHRwczovL3BhdGNod29yay5vemxhYnMub3JnL3By
+b2plY3QvbGludXgtdGVncmEvcGF0Y2gvMjAyMDA2MDcxNTQzMjcuMTg1ODktMy1kaWdldHhAZ21h
+aWwuY29tLwo+ID4+Pj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12
+aWRlby1vcGVudGVncmEvY29tbWl0LzI4ZWIyMGEzOTU5YmJlNWJjM2EzYjY3ZTU1OTc3MDkzZmQ1
+MTE0Y2EKPiA+Pj4+IFszXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMC8zLzUvMTExOQo+ID4+
+Pj4KPiA+Pj4+IENoYW5nZWxvZzoKPiA+Pj4+Cj4gPj4+PiB2MjogLSBEcm9wcGVkICJkcm0vcGFu
+ZWw6IFNldCBkaXNwbGF5IGluZm8gaW4gcGFuZWwgYXR0YWNoIiBwYXRjaCwgd2hpY2gKPiA+Pj4+
+ICAgICAgIHR1cm5lZCBvdXQgdG8gYmUgb2Jzb2xldGUgbm93Lgo+ID4+Pj4KPiA+Pj4+ICAgICAt
+IFJlbmFtZWQgdGhlIGNvdmVyLWxhdHRlciwgaG9wZWZ1bGx5IHRoaXMgd2lsbCBmaXggdGhlIGJv
+dW5jaW5nIGVtYWlscy4KPiA+Pj4+Cj4gPj4+PiBEZXJlayBCYXNlaG9yZSAoMSk6Cj4gPj4+PiAg
+IGRybS9wYW5lbDogQWRkIGhlbHBlciBmb3IgcmVhZGluZyBEVCByb3RhdGlvbgo+ID4+Pj4KPiA+
+Pj4+IERtaXRyeSBPc2lwZW5rbyAoNCk6Cj4gPj4+PiAgIGRybS9wYW5lbDogbHZkczogU2V0IHVw
+IHBhbmVsIG9yaWVudGF0aW9uCj4gPj4+Cj4gPj4+IElNSE8gaXQncyBwZXJmZWN0bHkgcmVhc29u
+YWJsZSB0byByZXBvcnQgdGhlIHBhbmVsIG9yaWVudGF0aW9uIHRvCj4gPj4+IHVzZXJzcGFjZSwg
+d2hpY2ggY2FuIGFwcGx5IHBsYW5lIHJvdGF0aW9uIGFzIG5lZWRlZC4KPiA+Pj4KPiA+Pj4gQWx0
+aG91Z2ggSSBzZWUgdGhhdCB0aGlzIHNlcmllcywgYWxpa2UgRGVyZWsncywgaGFzIGEgY291cGxl
+IG9mIGlzc3VlczoKPiA+Pj4gIC0gb25seSBhIHNpbmdsZSBwYW5lbCBkcml2ZXIgaXMgdXBkYXRl
+ZAo+ID4+PiAgLSByb3RhdGlvbiBpcyBfbm90XyBsaXN0ZWQgYXMgc3VwcG9ydGVkIHByb3BlcnR5
+LCBpbiBzYWlkIHBhbmVsCj4gPj4+IGRyaXZlciBkZXZpY2UtdHJlZSBiaW5kaW5ncwo+ID4+Pgo+
+ID4+PiBNeSBwZXJzb25hbCBpbmNsaW5hdGlvbiBpcyB0aGF0IHdlIHNob3VsZCBhaW0gZm9yIGEg
+Y29tcHJlaGVuc2l2ZSBzb2x1dGlvbjoKPiA+Pj4gIC0gd2lyZSBhbGwgcGFuZWwgZHJpdmVycywg
+YXMgY3VycmVudGx5IGRvY3VtZW50ZWQgKHF1aWNrIGdyZXAgbGlzdCBiZWxvdykKPiA+Pj4gIC0g
+ZG9jdW1lbnQgYW5kIHdpcmUtdXAgdGhlIGx2ZHMgYW5kIGJvZSBwYW5lbHMgLSBhcyBwcm9wb3Nl
+ZCBieSB5b3UKPiA+Pj4gYW5kIERlcmVrIHJlc3BlY3RpdmVseQo+ID4+Pgo+ID4+PiBIVEgKPiA+
+Pj4gRW1pbAo+ID4+Pgo+ID4+PiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9oaW1heCxoeDgzNTdkLnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5MjI1LnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5MzQxLnR4dDoyCj4gPj4+IERv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2lsaXRlayxpbGk5NDg2Lnlh
+bWw6Mgo+ID4+PiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tdWx0
+aS1pbm5vLG1pMDI4M3F0LnR4dDoyCj4gPj4+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLWNvbW1vbi55YW1sOjIKPiA+Pj4gRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvc2l0cm9uaXgsc3Q3NTg2LnR4dDoxCj4gPj4+
+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3NpdHJvbml4LHN0Nzcz
+NXIueWFtbDoyCj4gPj4KPiA+PiBSb3RhdGlvbiBpcyBhIGNvbW1vbiBEVCBwYW5lbCBwcm9wZXJ0
+eSB0aGF0IGlzIGRlc2NyaWJlZCBpbiB0aGUKPiA+PiBwYW5lbC1jb21tb24ueWFtbC4KPiA+IFRo
+ZSBwcm9wZXJ0eSB3YXMgaW50cm9kdWNlZCBhbG1vc3QgZXhjbHVzaXZlbHkgZm9yIHRpbnkgZHJt
+IHBhbmVscy4KPiA+IFRob3NlIG9uZXMgYXJlIGEgYml0IGRpZmZlcmVudCBmcm9tIHRoZSByZXN0
+IChpbiBwYW5lbC8pIC0KPiA+IE1JUEktREJJL1NQSSB3L28gKG5vdCBjb25uZWN0ZWQgYXQgbGVh
+c3QpIGFuIGFjdHVhbCBHUFUuCj4gPiAKPiA+IFRvIG1ha2UgaXQgYSBiaXQgYmV0dGVyLCB0aGUg
+cm90YXRpb24gaXMgc2VlbWluZ2x5IHBlcmZvcm1lZCBpbiB0aGUKPiA+IHRpbnkgZHJpdmVyIGl0
+c2VsZiBvdWNoLgo+ID4gCj4gPj4gVGhpcyBwcm9wZXJ0eSBpcyBzdXBwb3J0ZWQgYnkgYWxsIHBh
+bmVsIGJpbmRpbmdzCj4gPj4gYmVjYXVzZSB0aGVzZSBiaW5kaW5ncyBpbmhlcmVudCB0aGUgY29t
+bW9uIHByb3BlcnRpZXMgZnJvbSB0aGUKPiA+PiBwYW5lbC1jb21tb24ueWFtbC4KPiA+Pgo+ID4g
+U2VlbXMgbGlrZSB0aGF0IHdhcyBhbiB1bmludGVudGlvbmFsIGNoYW5nZSB3aXRoIHRoZSBjb252
+ZXJzaW9uIHRvIFlBTUwuCj4gPiBCZWZvcmVoYW5kIG9ubHkgYSBmZXcgc2VsZWN0ZWQgcGFuZWxz
+IGhhZCByb3RhdGlvbi4gVXBvbiBjbG9zZXIgbG9vayAtCj4gPiBzb21lIHBhbmVscyBkbyBoYXZl
+IGZvbGxvdy11cCBmaXhlcywgdG8gcmVtb3ZlL2xpbWl0IHRoZSBpbXBsaWNpdAo+ID4gaW5jbHVz
+aW9uLgo+IAo+IEludGVyZXN0aW5nLi4gbXkgdW5kZXJzdGFuZGluZyB0aGF0IHRoZSByb3RhdGlv
+biBwcm9wZXJ0eSBpcyBzdXBwb3NlZCB0bwo+IGJlIGEgZ2VuZXJpYyBwcm9wZXJ0eSB3aGljaCBy
+ZXByZXNlbnRzIHBoeXNpY2FsIG9yaWVudGF0aW9uIG9mIGEgZGlzcGxheQo+IHBhbmVsIGFuZCBo
+ZW5jZSBpdCBzaG91bGQgYmUgYXBwbGljYWJsZSB0byBhbGwgcGFuZWxzLgoKQWRkaW5nIGEgYml0
+IG1vcmUgZm9vZCBmb3IgdGhvdWdodHMsIHRoZSBEVCByb3RhdGlvbiBwcm9wZXJ0eSBmb3IgY2Ft
+ZXJhCnNlbnNvciBtb2R1bGVzIGhhcyByZWNlbnRseSBiZWVuIGRvY3VtZW50ZWQgd2l0aCBsb3Rz
+IG9mIGRldGFpbHMuIFNlZQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDIw
+MDUwOTA5MDQ1Ni4zNDk2NDgxLTMtamFjb3BvQGptb25kaS5vcmcvLApwYXJ0IG9mIHRoZSBkb2N1
+bWVudGF0aW9uIG1heSBiZSB1c2VmdWwgZm9yIHBhbmVscy4KCj4gPiBTYW0gc2VlbXMgbGlrZSB5
+b3UndmUgZG9uZSBtb3N0IG9mIHRoZSBZQU1MIGNvbnZlcnNpb24uIElNSE8gaXQgd291bGQKPiA+
+IG1ha2Ugc2Vuc2UgdG8gcmV2aXNpdCB0aGUgcGF0Y2hlcyBhbmQgaW5oZXJpdCBjb21tb24gcHJv
+cGVydGllcyBvbmx5Cj4gPiBhcyBhcHBsaWNhYmxlLgo+ID4gCj4gPj4gSSBkb24ndCB0aGluayB0
+aGF0IGl0IG1ha2VzIHNlbnNlIHRvIHdpcmUgdXAgcm90YXRpb24gcHJvcGVydHkgdG8gYWxsCj4g
+Pj4gcGFuZWwgZHJpdmVycyBhdCBvbmNlIGJlY2F1c2UgdGhvc2UgZHJpdmVycyB3aWxsIGJlIHVu
+dGVzdGVkLCBhdCBsZWFzdCBJCj4gPj4gZG9uJ3Qga25vdyBhbnl0aGluZyBhYm91dCB0aG9zZSBv
+dGhlciBwYW5lbHMgYW5kIGNhbid0IHRlc3QgdGhlbS4gSXQKPiA+PiB3aWxsIGJlIG11Y2ggYmV0
+dGVyIHRvIHN1cHBvcnQgdGhlIHJvdGF0aW9uIG9uIGJ5IGFzLW5lZWRlZCBiYXNpcyBmb3IKPiA+
+PiBlYWNoIHBhbmVsIGRyaXZlciBpbmRpdmlkdWFsbHkuCj4gPiAKPiA+IEhvdyBhYm91dCBDQ2lu
+ZyB0aGUgYXV0aG9yIGFuZCByZXZpZXdlciBhc2tpbmcgdGhlbSB0byB0ZXN0IHRoZSBwYXRjaD8K
+PiA+IFRoZSBvbmx5IHBsYWNlIHdoZXJlIHRoZSBwYXRjaGVzIG1pZ2h0IGNhdXNlIGFuIGlzc3Vl
+IGlzIHdpdGggdGlueSwKPiA+IGFsdGhvdWdoIHBhdGNoZXMgd291bGQgc3RpbGwgYmUgYXBwcmVj
+aWF0ZWQuCj4gCj4gVGhlcmUgYXJlIHF1aXRlIGEgbG90IG9mIHBhbmVsIGRyaXZlcnMgYW5kIEkn
+bSBhIGJpdCBkb3VidGZ1bCB0aGF0IGF0Cj4gbGVhc3QgaGFsZiBvZiBkZXZpY2VzIHRoYXQgdXNl
+IHRob3NlIHBhbmVscyBoYXZlIGFueSByZWFsIHVzZSBmb3IgdGhlCj4gcm90YXRpb24gcHJvcGVy
+dHkuIEkgY291bGQgd3JpdGUgdGhlIHBhdGNoZXMuLiBidXQgaW4gdGhlIGVuZCBpdCBjb3VsZAo+
+IGJlIGEgd2FzdGVkIGVmZm9ydCBpZiBub2JvZHkgbmVlZHMgaXQsIHNvIEknZCBwcmVmZXIgbm90
+IHRvIGRvIGl0LgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
