@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A76F1FAB86
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 10:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6691FAC4A
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 11:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743BE6E064;
-	Tue, 16 Jun 2020 08:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6E46E038;
+	Tue, 16 Jun 2020 09:22:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2123F6E064;
- Tue, 16 Jun 2020 08:43:02 +0000 (UTC)
-IronPort-SDR: ZJv6PeF/YEzzIA35Y9XP0xhbscEpQZOXQUSCSdg/RVO+V0z2AuMRsBtmYncI10HAFMUpD7ncjW
- kLVVopJ8COHA==
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 105986E038;
+ Tue, 16 Jun 2020 09:22:43 +0000 (UTC)
+IronPort-SDR: +HjUmApn5BySSBaN+VVUN/22xjixDhALuaOjxaPGjt6p4NNYV5aOikiCqpCEYn+Y65n7XDciA4
+ N/idLiGjF9IQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 01:43:00 -0700
-IronPort-SDR: ESwecSLyQfPyKt5v+QA7YVSN7oPk6dEwv7A7LD3l65xfCRDTw98JDvGguFbLjsPh4m0pT64k9+
- 4LLFQ1luX1oA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="449726556"
-Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
- by orsmga005.jf.intel.com with ESMTP; 16 Jun 2020 01:42:57 -0700
-From: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/amdgpu: Simplify IRQ vector request logic
-Date: Tue, 16 Jun 2020 10:42:41 +0200
-Message-Id: <20200616084243.18544-1-piotr.stankiewicz@intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <CADnq5_N95PjqU4nMgZBL_PoNKk8ourb_k9HLGvR_RN5FeZ3tkg@mail.gmail.com>
-References: <CADnq5_N95PjqU4nMgZBL_PoNKk8ourb_k9HLGvR_RN5FeZ3tkg@mail.gmail.com>
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 02:22:42 -0700
+IronPort-SDR: eA0x/VqDskuTKgeLmngYdGcDDDgAJQjFs934NzqW4ZS6C6/H5Wt318GMQheZZoPShHoGfAz0Xh
+ ohx8FnggmGhg==
+X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="449736538"
+Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
+ ([10.251.94.207])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 02:22:39 -0700
+MIME-Version: 1.0
+In-Reply-To: <20200616093912.4dffcc71@canb.auug.org.au>
+References: <20200616093912.4dffcc71@canb.auug.org.au>
+Subject: Re: linux-next: build failure after merge of the drm-intel-fixes tree
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: DRI <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Tue, 16 Jun 2020 12:22:36 +0300
+Message-ID: <159229935689.7727.9085291204498542933@jlahtine-desk.ger.corp.intel.com>
+User-Agent: alot/0.8.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,56 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Aurabindo Pillai <mail@aurabindo.in>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Emily Deng <Emily.Deng@amd.com>,
- Piotr Stankiewicz <piotr.stankiewicz@intel.com>,
- dri-devel@lists.freedesktop.org, shaoyunl <shaoyun.liu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-MIME-Version: 1.0
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pci_alloc_irq_vectors() will handle fallback from MSI-X to MSI
-internally, if necessary. So remove checks which determine if we are
-dealing with MSI or MSI-X and rely on pci_alloc_irq_vectors() to do the
-right thing.
+Quoting Stephen Rothwell (2020-06-16 02:39:12)
+> Hi all,
+> 
+> After merging the drm-intel-fixes tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> In file included from drivers/gpu/drm/i915/gt/intel_lrc.c:5972:
+> drivers/gpu/drm/i915/gt/selftest_lrc.c: In function 'live_timeslice_nopreempt':
+> drivers/gpu/drm/i915/gt/selftest_lrc.c:1333:3: error: too few arguments to function 'engine_heartbeat_disable'
+>  1333 |   engine_heartbeat_disable(engine);
+>       |   ^~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gt/selftest_lrc.c:54:13: note: declared here
+>    54 | static void engine_heartbeat_disable(struct intel_engine_cs *engine,
+>       |             ^~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gt/selftest_lrc.c:1402:3: error: too few arguments to function 'engine_heartbeat_enable'
+>  1402 |   engine_heartbeat_enable(engine);
+>       |   ^~~~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/i915/gt/selftest_lrc.c:64:13: note: declared here
+>    64 | static void engine_heartbeat_enable(struct intel_engine_cs *engine,
+>       |             ^~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Caused by commit
+> 
+>   04dc41776145 ("drm/i915/gt: Prevent timeslicing into unpreemptable requests")
+> 
+> I have reverted that commit for today.
 
-Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+Thanks for reporting. I had my drm-intel-fixes build tree configured
+without selftests. I've now corrected that and added a missing dependency
+patch.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 0cc4c67f95f7..2d68ad7d45d4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -248,17 +248,8 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
- 	adev->irq.msi_enabled = false;
- 
- 	if (amdgpu_msi_ok(adev)) {
--		int nvec = pci_msix_vec_count(adev->pdev);
--		unsigned int flags;
--
--		if (nvec <= 0) {
--			flags = PCI_IRQ_MSI;
--		} else {
--			flags = PCI_IRQ_MSI | PCI_IRQ_MSIX;
--		}
- 		/* we only need one vector */
--		nvec = pci_alloc_irq_vectors(adev->pdev, 1, 1, flags);
--		if (nvec > 0) {
-+		if (pci_alloc_irq_vectors(adev->pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_MSIX) > 0) {
- 			adev->irq.msi_enabled = true;
- 			dev_dbg(adev->dev, "using MSI/MSI-X.\n");
- 		}
--- 
-2.17.2
+Regards, Joonas
 
+> 
+> -- 
+> Cheers,
+> Stephen Rothwell
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
