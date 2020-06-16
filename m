@@ -2,34 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0061FA9AE
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF331FA994
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 09:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F446E834;
-	Tue, 16 Jun 2020 07:09:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA76E6E7F5;
+	Tue, 16 Jun 2020 07:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430646E5D3;
- Tue, 16 Jun 2020 06:32:09 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 9AA5DBC2290480716A2C;
- Tue, 16 Jun 2020 14:32:00 +0800 (CST)
-Received: from huawei.com (10.67.174.156) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Tue, 16 Jun 2020
- 14:31:50 +0800
-From: Chen Tao <chentao107@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/amdgpu/debugfs: fix memory leak when
- amdgpu_virt_enable_access_debugfs failed
-Date: Tue, 16 Jun 2020 14:30:39 +0800
-Message-ID: <20200616063039.260990-2-chentao107@huawei.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20200616063039.260990-1-chentao107@huawei.com>
-References: <20200616063039.260990-1-chentao107@huawei.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.67.174.156]
-X-CFilter-Loop: Reflected
+Received: from m17617.mail.qiye.163.com (m17617.mail.qiye.163.com
+ [59.111.176.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0226E7D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 06:51:21 +0000 (UTC)
+Received: from njvxl5505.vivo.xyz (unknown [157.0.31.125])
+ by m17617.mail.qiye.163.com (Hmail) with ESMTPA id 82C2F2616A3;
+ Tue, 16 Jun 2020 14:51:13 +0800 (CST)
+From: Bernard Zhao <bernard@vivo.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/mediatek: remove unnecessary conversion to bool
+Date: Tue, 16 Jun 2020 14:51:01 +0800
+Message-Id: <20200616065102.15756-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZGUweQ09JSElITExLVkpOQklJQktJTEhMQ09VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVKS0tZBg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6P006IRw*Czg3Kw9LSQkSMSE#
+ Qy4wFEpVSlVKTkJJSUJLSUxPSk9IVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU5ZV1kIAVlBSUlNSDcG
+X-HM-Tid: 0a72bbe5699f9375kuws82c2f2616a3
 X-Mailman-Approved-At: Tue, 16 Jun 2020 07:09:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,42 +46,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tom.stdenis@amd.com, Jack.Xiao@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, chentao107@huawei.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, yttao@amd.com
+Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix memory leak in amdgpu_debugfs_gpr_read not freeing data when
-amdgpu_virt_enable_access_debugfs failed.
+In function mtk_dsi_clk_hs_state, remove unnecessary conversion
+to bool return, this change is to make the code a bit readable.
 
-Fixes: 95a2f917387a2 ("drm/amdgpu: restrict debugfs register accessunder SR-IOV")
-Signed-off-by: Chen Tao <chentao107@huawei.com>
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Changes since V1:
+*optimize to make the code a bit more clear.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index bea8c36a53a4..f66ee4b8f04e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -868,8 +868,10 @@ static ssize_t amdgpu_debugfs_gpr_read(struct file *f, char __user *buf,
- 	}
+Link for V1:
+*https://lore.kernel.org/patchwork/patch/1255327/
+---
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index 4491e64b3f06..840cc9b9efc8 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -316,10 +316,7 @@ static void mtk_dsi_lane0_ulp_mode_leave(struct mtk_dsi *dsi)
  
- 	r = amdgpu_virt_enable_access_debugfs(adev);
--	if (r < 0)
-+	if (r < 0) {
-+		kfree(data);
- 		return r;
-+	}
+ static bool mtk_dsi_clk_hs_state(struct mtk_dsi *dsi)
+ {
+-	u32 tmp_reg1;
+-
+-	tmp_reg1 = readl(dsi->regs + DSI_PHY_LCCON);
+-	return ((tmp_reg1 & LC_HS_TX_EN) == 1);
++	return (readl(dsi->regs + DSI_PHY_LCCON) & LC_HS_TX_EN);
+ }
  
- 	/* switch to the specific se/sh/cu */
- 	mutex_lock(&adev->grbm_idx_mutex);
+ static void mtk_dsi_clk_hs_mode(struct mtk_dsi *dsi, bool enter)
 -- 
-2.22.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
