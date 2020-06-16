@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9566B1FB4F7
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 16:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CF11FB5E3
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 17:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB28E6E83C;
-	Tue, 16 Jun 2020 14:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8CB6E8E6;
+	Tue, 16 Jun 2020 15:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BFB6E83C;
- Tue, 16 Jun 2020 14:49:33 +0000 (UTC)
-Received: from embeddedor (unknown [189.207.59.248])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 82ED0208B3;
- Tue, 16 Jun 2020 14:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592318973;
- bh=ovSysk6kOqKTv082hockt1TpSKGLzWO2f3kVdMiM78o=;
- h=Date:From:To:Cc:Subject:From;
- b=loYJF9f7xfeyaBWVBmiXz3O8oEAEuwPE8LD1LEc01/05HTs9EHi54G2MNShbF+4x6
- GzSFw2VZCxY5rpp+mqH0wnwRznSKF8IqqQP5JC2g7fzuum4louloudFhn08jJevpDG
- Vel8U2AphFpDC2kHy71bI/PtRONOMefkJYCBStKs=
-Date: Tue, 16 Jun 2020 09:54:52 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: [PATCH][next] drm/i915/selftests: Fix inconsistent IS_ERR and PTR_ERR
-Message-ID: <20200616145452.GA25291@embeddedor>
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C23466E8E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 15:18:09 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id g129so11655638vsc.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 08:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xv3r9xVZE/z08H/lpNAQcKBaapLWN1RljKJjRWmfzRw=;
+ b=rw+dVMYn6f6+KLvQb3iYi85DcJHhVFuLG0GHauRerkjdgcEiAwl2vWzPnaSp9w/Lub
+ pyA5aLGN2vEt2c/EX46yGMtBmbq6ExJ220twblr8Fwna2WN7EbZJX8SN0fgzVEjpcLFs
+ W1rTNssCBW7jmqOyvraZRx4DEhFbLSuJRaZKYIcQS6OI5M2XQ/Op5GiERxLS2Z68cCCY
+ dZBXKMOUSBlo2z9GN4510iz+BRnLFcR/AAZp60mLqB8nMYol3cg/EUyRBRNBmGDOs7sR
+ T7wpgEMNeF6zkrP16GlVv12BC91urw3hQENra5ycgjOUDsZc/hwny7lg93E8xQ883Yao
+ b7Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xv3r9xVZE/z08H/lpNAQcKBaapLWN1RljKJjRWmfzRw=;
+ b=SD5yeLAl5umRgL4lAnSK66n71dnH/6xiwpRfL/MVrC6tV2lhGVm9zrCGQUUa4Fx0UC
+ nBidNVUHOFX2DXSCJhBOzeOahw3h3p2mTX4hyBJ3oVvvGog/opGmxtiR+iUqZl8EAdcA
+ Z/A58dALF3CGBNUWcv1Q8WmCkTen3DvshsCcfmFX2JEEYv5JEKr5cpCHTxixSlchTbUW
+ DdNEw7vHm6obNcd6+VYUUO0Ig83JsJ+BfVpwu0bweGaQ+WodIUBPzEaqCiHM99yP2SDn
+ yN8n8r85when8XSXMd+t5Ov3SuPtZ3O0/8Gq9+MMQDwCqQErgfKzEoQfNE6KyNzuLVmK
+ m5ow==
+X-Gm-Message-State: AOAM530YlIOPCRempgM7uVrFSISqmmj9hacqlrRzz3zUARVtJOITl64w
+ 9kNdO+7RVyTxGXYntAuVZf8DV3tdlbsdBPTVU3Y=
+X-Google-Smtp-Source: ABdhPJyknOggw5QjsW/WMV95VP/gQCi7OG+jud39vFfQChbZ+1fcqarK6PWJixt7S2hR5AQ/2O2Zc2dindrgsQO+ccQ=
+X-Received: by 2002:a67:c18a:: with SMTP id h10mr2062351vsj.186.1592320688819; 
+ Tue, 16 Jun 2020 08:18:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200616142630.20129-1-tzimmermann@suse.de>
+In-Reply-To: <20200616142630.20129-1-tzimmermann@suse.de>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 16 Jun 2020 16:14:27 +0100
+Message-ID: <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +60,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: John Donnelly <john.p.donnelly@oracle.com>,
+ kernel test robot <rong.a.chen@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix inconsistent IS_ERR and PTR_ERR in live_timeslice_nopreempt().
+Hi Thomas,
 
-The proper pointer to be passed as argument to PTR_ERR() is ce.
+On Tue, 16 Jun 2020 at 15:26, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> The original modesetting code set MISC to 0x2d, which is <hpgoddev>,
+> <clksel> and <ioaddsel>
+>
+> With the conversion to atomic modesetting, <rammapen> accidentally
+> got enabled as well. Revert this change and initialize MISC with a
+> constant value of <hgoddev> and <ioaddsel>. The <clksel> bits are set
+> in mga_crtc_set_plls(), sync flags are set in mgag200_set_mode_regs().
+>
 
-This bug was detected with the help of Coccinelle.
+Let's keep the remove (restoring original functionality) and rename
+(cosmetics) separate patches. The read has also disappeared, which
+should be safe although might be better on it's own.
 
-Fixes: b72f02d78e4f ("drm/i915/gt: Prevent timeslicing into unpreemptable requests")
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/gpu/drm/i915/gt/selftest_lrc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-index 91543494f595..393339de0910 100644
---- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-@@ -1337,7 +1337,7 @@ static int live_timeslice_nopreempt(void *arg)
- 
- 		ce = intel_context_create(engine);
- 		if (IS_ERR(ce)) {
--			err = PTR_ERR(rq);
-+			err = PTR_ERR(ce);
- 			goto out_spin;
- 		}
- 
--- 
-2.27.0
-
+Thanks
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
