@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95351FBC71
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50801FBC80
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C856E8E1;
-	Tue, 16 Jun 2020 17:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1B6E92D;
+	Tue, 16 Jun 2020 17:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74C8A6E91F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:10:27 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id x6so21524088wrm.13
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:10:27 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0946E927
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:12:47 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id r15so3882730wmh.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rH/JzXWDqwAk3BLrVvVQqXAo+ppeFoiKWYiRM4VfD0I=;
- b=IpO5JeHKFb731DILaUWHdUGCYAOttZLrbhATlzOUOp+9T6vO5HskfYpzfIn1UhYpOu
- a6lYMwmCGS3LAfCMXrH5uQ08K0BRI6/ByJJB7S7D9TpboERf2n78xYNMsrdHCJwmwBe3
- lmU8OZTwdcaVlAyTJjU2nnjrVohz9k8pQIpNk=
+ bh=QF77TfpXaCpf3AajPTPB0V47GnH1aes+zvHcWXvs9K8=;
+ b=W6TaR11rZdjNqUvWs05Qj7o52M7gzYRcpZx4oVhmEEAftItipznpReFrtyAckjiUnG
+ 7rKYsWPyW7RSd0JJFadJS6HHiC0LNdfPLXfBIEnd6AS0MRydSTgV6P4l5r0GiCYxnCih
+ ieTeuk4i+udLxaseqJ2ZG5iuFOyNw6xtkjDbs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=rH/JzXWDqwAk3BLrVvVQqXAo+ppeFoiKWYiRM4VfD0I=;
- b=e8ZKg5E8VNZSRGzsWF/HWyh67qpNcrGplqGQ7Hou/61hJRnkJhVg7Cr7fiiQkYAzKY
- T1THOllUn8fzMwhBiAiEcnQFxZKJgHHIv3HY+tIP27vRtcmf5u1rtmgMvE9fxMQcFdyk
- cbFsKZERcCgy++KW+WE8VosoKaLJ3YiWzOeLHsbMKle3iB7K0G9oPvEEb/e6VUeqFPdU
- ol9mqf3ljZETb728jFq18SkU8EDD1H9FdcsE1gTITg4nBebKT2G5lN3pIEFXCR1M+pRe
- Nph4lM5Mh6Vz2h2tQey837J14QMhXdfO95IhVQGYoWeL57tVMuwMVw9Irxw+lWEGyRoG
- kMBw==
-X-Gm-Message-State: AOAM530JBAw+hlJ2tv8dxvm8HPSv44zddNHS4xEpgm04b/6A00gadH+z
- /hoYq3TKrgN0cejHUlRIQNmJxw==
-X-Google-Smtp-Source: ABdhPJwUqafY54okg1vnxUw6SX9ejULIg0cx+SHrNVGZwFUKo3b2FOldbdi5p071JNlCSvAsviOanA==
-X-Received: by 2002:adf:f205:: with SMTP id p5mr4383068wro.302.1592327426008; 
- Tue, 16 Jun 2020 10:10:26 -0700 (PDT)
+ bh=QF77TfpXaCpf3AajPTPB0V47GnH1aes+zvHcWXvs9K8=;
+ b=OcjJJWCk57L5MpDG27NkkIf8PgXuIg7TZBbs4S4pT92+EFsXQtUBSjdURRltbOodPo
+ eLlS74/Ru+8a9rs3nRYSFoaz3fCmkof6Ixu7Y9YIOsmSFTd5EdhPbZTGqMcvt5F8K3H7
+ IC1wLyIbcs8cqa7s9hgoqp2hWaRFr1RcxMyzqX/Eaqdk8Rjdt+miccnXdP6DeWTm9bZY
+ lmv0PARaakXNPYbGDxeHVzabM6intX8u1T0l3GQ6oEjgQMHhWY66HcDIqcNOMdL0ZVHR
+ 4AWapTbhN45yayT2IabR6XDh9oGu7SZK6wCOziCxJvyo2XiFClGDK7NN9WDC+zcLgX1I
+ c/sw==
+X-Gm-Message-State: AOAM531T3sbhHD0yrINvWKOg7hfqw/5oe/jKvNg6tCj+RKdK+Qk8SUu5
+ XL76iIVqufYQi+BC9Xp/+tX2OQ==
+X-Google-Smtp-Source: ABdhPJyN3MEIvR8P4WTKEICd/+HgfywI20Ewu7aFZR9PEYw6m3bu6J846GPih+JcjvV14aTdz7J24g==
+X-Received: by 2002:a1c:c904:: with SMTP id f4mr4227814wmb.69.1592327566302;
+ Tue, 16 Jun 2020 10:12:46 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q4sm4778003wmc.1.2020.06.16.10.10.24
+ by smtp.gmail.com with ESMTPSA id y14sm4556985wma.25.2020.06.16.10.12.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 10:10:25 -0700 (PDT)
-Date: Tue, 16 Jun 2020 19:10:23 +0200
+ Tue, 16 Jun 2020 10:12:45 -0700 (PDT)
+Date: Tue, 16 Jun 2020 19:12:43 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Fix obj->filp derefence
-Message-ID: <20200616171023.GP20149@phenom.ffwll.local>
-References: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
- <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
+Subject: Re: [PATCH] drm/shmem-helper: Only dma-buf imports are private obj
+Message-ID: <20200616171243.GQ20149@phenom.ffwll.local>
+References: <20200616114723.2363268-1-daniel.vetter@ffwll.ch>
+ <8c125158-fe7c-29a9-d9a8-9e6b418b6dd5@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
+In-Reply-To: <8c125158-fe7c-29a9-d9a8-9e6b418b6dd5@suse.de>
 X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,14 +76,11 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 02:10:10PM +0200, Thomas Zimmermann wrote:
-> Hi,
+On Tue, Jun 16, 2020 at 02:06:24PM +0200, Thomas Zimmermann wrote:
+> Hi
 > =
 
-> as discussed on IRC, we still need this patch.
-> =
-
-> Am 15.06.20 um 17:10 schrieb Daniel Vetter:
+> Am 16.06.20 um 13:47 schrieb Daniel Vetter:
 > > I broke that in my refactoring:
 > > =
 
@@ -95,6 +92,18 @@ On Tue, Jun 16, 2020 at 02:10:10PM +0200, Thomas Zimmermann wrote:
 > >     drm/shmem-helpers: Simplify dma-buf importing
 > > =
 
+> > I'm not entirely sure of the history here, but I suspect that in one
+> > of the rebases or when applying the patch I moved the hunk from
+> > drm_gem_shmem_prime_import_sg_table(), where it should be, to
+> > drm_gem_shmem_create_with_handle(), which is totally wrong.
+> > =
+
+> > Remedy this.
+> > =
+
+> > Thanks for Thomas for the crucual hint in debugging this.
+> > =
+
 > > Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
 > > Fixes: 7d2cd72a9aa3 ("drm/shmem-helpers: Simplify dma-buf importing")
 > > Cc: Boris Brezillon <boris.brezillon@collabora.com>
@@ -103,71 +112,48 @@ On Tue, Jun 16, 2020 at 02:10:10PM +0200, Thomas Zimmermann wrote:
 > > Cc: Rob Herring <robh@kernel.org>
 > > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
 > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 20 +++++++++++---------
-> >  1 file changed, 11 insertions(+), 9 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
-rm_gem_shmem_helper.c
-> > index 0a7e3b664bc2..3e7ee407a17c 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -70,15 +70,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
-_t size, bool private)
-> >  	mutex_init(&shmem->vmap_lock);
-> >  	INIT_LIST_HEAD(&shmem->madv_list);
-> >  =
-
-> > -	/*
-> > -	 * Our buffers are kept pinned, so allocating them
-> > -	 * from the MOVABLE zone is a really bad idea, and
-> > -	 * conflicts with CMA. See comments above new_inode()
-> > -	 * why this is required _and_ expected if you're
-> > -	 * going to pin these pages.
-> > -	 */
-> > -	mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
-> > -			     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-> > +	if (!private) {
 > =
-
-> I would test for (obj->filp) here, because it's what the branch depends
-> on. Your choice. In any case
-
-I was pondering this too, on one hand it's the thing we're using, otoh
-it's a direct consequence of the private flag, and the private flag has a
-bit the clearer control flow I think - the obj->filp is clear that it's a
-NULL check, but it's a lot less clear _why_ it is ok to have obj->filp =3D=
-=3D
-NULL. Checking for private makes this a bit clearer imo.
-
-But yeah I considered both options. Maybe we should improve the comment in
-a follow-up patch? I want to land the bugfix meanwhile, to close the
-regression.
 
 > Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Thanks for testing and reviewing!
+Now also merged, thanks a lot for your help.
 -Daniel
 
 > =
 
-> =
+> > ---
+> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > =
 
-> > +		/*
-> > +		 * Our buffers are kept pinned, so allocating them
-> > +		 * from the MOVABLE zone is a really bad idea, and
-> > +		 * conflicts with CMA. See comments above new_inode()
-> > +		 * why this is required _and_ expected if you're
-> > +		 * going to pin these pages.
-> > +		 */
-> > +		mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
-> > +				     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-> > +	}
+> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> > index 0a7e3b664bc2..837e0840990c 100644
+> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > @@ -377,7 +377,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *f=
+ile_priv,
+> >  	struct drm_gem_shmem_object *shmem;
+> >  	int ret;
 > >  =
 
-> >  	return shmem;
+> > -	shmem =3D __drm_gem_shmem_create(dev, size, true);
+> > +	shmem =3D drm_gem_shmem_create(dev, size);
+> >  	if (IS_ERR(shmem))
+> >  		return shmem;
+> >  =
+
+> > @@ -730,7 +730,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_devi=
+ce *dev,
+> >  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+> >  	struct drm_gem_shmem_object *shmem;
+> >  =
+
+> > -	shmem =3D drm_gem_shmem_create(dev, size);
+> > +	shmem =3D __drm_gem_shmem_create(dev, size, true);
+> >  	if (IS_ERR(shmem))
+> >  		return ERR_CAST(shmem);
 > >  =
 
 > > =
