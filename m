@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DFD1FC745
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767121FC737
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50E326E523;
-	Wed, 17 Jun 2020 07:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A80D76EABA;
+	Wed, 17 Jun 2020 07:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7816E040
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:55:32 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id b7so1077713pju.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 03:55:32 -0700 (PDT)
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE216E07F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:59:01 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id h22so1392788pjf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 03:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:content-transfer-encoding:in-reply-to:references
  :subject:from:cc:to:date:message-id:user-agent;
- bh=P0rgsD9Ct3sLOZeZyHD1bcKF15pZ4X0Ei5Mx+pWd/mE=;
- b=cBsuKjhLkk1YAPB7IC/X7x2KOOKUVv74p6wbbgrNn2JTfuq18XCdwqJyCWw++F2IzP
- JuI0h9NIrPM+DIvEQvk3oL6QP06TuIZbGoca4/oVtHisrsbqt3wA7YbjQnZqPnw9b/F+
- WbPuH9UTZHbsPLWtIuJ4xuPU9Y6qNi0DhSKpI=
+ bh=sF7DY7/yFSypbszgUG1TJQhQqtKUSu6uxM9SyAmvReU=;
+ b=EhXmIQtnZNq+af0f45rzYa7xY7qzFTtwkllJujVjzMVGgGdb0f19PuviYbzx31hxlB
+ dspeOymuPg4ERxWpkGhe5R5BfwqLMeGfNcCgrI+rI3Ff1vVGIfhJqQyzQE7tcZwgs0U6
+ ctipaBHozpgxa87Iuql79F94QEL5G+JxcY3g4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:content-transfer-encoding
  :in-reply-to:references:subject:from:cc:to:date:message-id
  :user-agent;
- bh=P0rgsD9Ct3sLOZeZyHD1bcKF15pZ4X0Ei5Mx+pWd/mE=;
- b=KlJd9sSU9pcKdaQ5j5vRZCuThqR/QNzhGddGd4V8Mk6Fmeg7qc25BXuXI6Hmwns51n
- 95OstSsDZVxQNKxQiKtuHWt6Xo4EZvniNhn0ZbDqUN/xoEMGEWmM3IUUH8t+OuAoAOCk
- eLTh0jZi6hBFsmm5im0O0K4RiutqRua+jRscDkmH9F808v7264zTPp3ZvbjXuco6VySI
- nAqN4SAu+0Vm0PgfUn/mDLCG4zPWSDsmvBLjKThTmGvwlrTtdqfzlJFpKw3EFVjl5iAo
- jXLq4LK/UYst8hxjqatOdEEeij3AWH7O1hrGneDerHAtdEVqR8kPG5ZVi9rdODCseygc
- CZkg==
-X-Gm-Message-State: AOAM5311kNTVZa6W3gPhzmvkcIaJBt3Pf7lCqeT8wdtut/kOr1az1H5/
- j/cNtCvmK0+/AxtpkmmvvBh7CA==
-X-Google-Smtp-Source: ABdhPJzuT0DcmntlVBwDdeDpH39DGEE13XccI71h8P1IxymNV+mNcmeovPxHUeQTw13PqWjyh0ScDw==
-X-Received: by 2002:a17:90a:c5:: with SMTP id v5mr2281693pjd.226.1592304930604; 
- Tue, 16 Jun 2020 03:55:30 -0700 (PDT)
+ bh=sF7DY7/yFSypbszgUG1TJQhQqtKUSu6uxM9SyAmvReU=;
+ b=F539MKLcKe8Yf3eIef2IpX+tj2kXmv0lPetOBWbtfMR33DOsF/qM0teJBoqjcWrcEd
+ G2KmLUM8hONseok5SWw/TB2azFVUCluWJvmGsD7+i4ZPbRC1Ub+e1K7Pjn6EMxmZNVA/
+ 39RL7ivJdMrUaxhRmFMeqJdptiZaHyWuFRaXtDOi4Kb0ePrfgRrtUnW5yBDjUYqA6/H1
+ I2Xs2rgPlrNFgXj/fVlAX+wAS84CNeThZ87QroRdWThwmnQ0ChdF903Z+saDikgWbLNr
+ 0ybEnE2qz7YnPu9bwVq2iIKWXjfB++HTdMlg2lnalVR6JUqap/9SqNJMF3WYSJyLkN8b
+ NXhg==
+X-Gm-Message-State: AOAM5320DWsYQXvT7K7CelYOROe50ps6hpFyvwsMwpWGFrnM6m6ffUzs
+ JXWqc8PWoadieq/GQUYuwHZ1/A==
+X-Google-Smtp-Source: ABdhPJyDzDvXlH81r0fimCdkT22DILhAuYzfpIUugmJrsdgt9hVOKKKArx77C9sxLe88JaUmvC6KYg==
+X-Received: by 2002:a17:90a:20a3:: with SMTP id
+ f32mr2278443pjg.171.1592305141154; 
+ Tue, 16 Jun 2020 03:59:01 -0700 (PDT)
 Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
- by smtp.gmail.com with ESMTPSA id p30sm14059553pgn.58.2020.06.16.03.55.29
+ by smtp.gmail.com with ESMTPSA id u4sm16495348pfl.102.2020.06.16.03.59.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 03:55:29 -0700 (PDT)
+ Tue, 16 Jun 2020 03:59:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d6db52a33ac787c0fe6134ca32c06007@codeaurora.org>
-References: <20200609033818.9028-1-tanmay@codeaurora.org>
- <159175530931.242598.4696487926885071106@swboyd.mtv.corp.google.com>
- <d6db52a33ac787c0fe6134ca32c06007@codeaurora.org>
-Subject: Re: [PATCH v6 1/5] dt-bindings: msm/dp: add bindings of DP/DP-PLL
- driver for Snapdragon
+In-Reply-To: <fa12d16e7aeda5971b2a65ac5414f18c@codeaurora.org>
+References: <20200612015030.16072-1-tanmay@codeaurora.org>
+ <159200440578.62212.5195358467251573190@swboyd.mtv.corp.google.com>
+ <1eda01da33b620ddee5162be3326853f@codeaurora.org>
+ <CAOCk7NrX9Lk6GQKXcFMd1CHHu7CjVg7hUAwt1LyNFdVHHGPO-g@mail.gmail.com>
+ <fa12d16e7aeda5971b2a65ac5414f18c@codeaurora.org>
+Subject: Re: [Freedreno] [PATCH v6 0/5] Add support for DisplayPort driver on
 From: Stephen Boyd <swboyd@chromium.org>
-To: tanmay@codeaurora.org
-Date: Tue, 16 Jun 2020 03:55:28 -0700
-Message-ID: <159230492894.62212.17830740055624171310@swboyd.mtv.corp.google.com>
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, tanmay@codeaurora.org
+Date: Tue, 16 Jun 2020 03:58:59 -0700
+Message-ID: <159230513976.62212.16514480218308627258@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,254 +70,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, sam@ravnborg.org, abhinavk@codeaurora.org,
- seanpaul@chromium.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Vara Reddy <varar@codeaurora.org>,
- freedreno@lists.freedesktop.org, linux-clk@vger.kernel.org,
- chandanu@codeaurora.org
+Cc: DTML <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ MSM <linux-arm-msm@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+ DRM PANEL DRIVERS <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, aravindh@codeaurora.org,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting tanmay@codeaurora.org (2020-06-11 13:07:09)
-> On 2020-06-09 19:15, Stephen Boyd wrote:
-> > Quoting Tanmay Shah (2020-06-08 20:38:18)
-> >> diff --git 
-> >> a/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml 
-> >> b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
-> >> new file mode 100644
-> >> index 0000000..5fdb915
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+Quoting tanmay@codeaurora.org (2020-06-15 16:36:52)
+> On 2020-06-15 16:04, Jeffrey Hugo wrote:
+> >> >
+> >> > I've never seen a block diagram for a driver before...
+> >> >
+> >> It is here for v5. https://patchwork.freedesktop.org/series/74312/
 > > 
-> > Typically the file name matches the compatible string. But the
-> > compatible string is just qcom,dp-display. Maybe the compatible string
-> > should be qcom,sc7180-dp? Notice that the SoC number comes first as is
-> > preferred.
+> > I think Stephen is nitpicking your wording, and you seem to not be
+> > understanding his comment.  I'm sorry if I am mistaken.
 > > 
-> These bindings will be similar for upcoming SOC as well.
-> So just for understanding, when we add new SOC do we create new file 
-> with same bidings
-> with SOC number in new file name?
-> Instead we can keep this file's name as qcom,dp-display.yaml (same as 
-> compatible const) and we can include SOC number in compatible enum ?
-> some examples:
-> https://patchwork.kernel.org/patch/11448357/
-> https://patchwork.kernel.org/patch/11164619/
-
-Yes that works too. It's really up to robh here.
-
-> > 
-> >> @@ -0,0 +1,142 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only  OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/display/msm/dp-sc7180.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Qualcomm Display Port Controller.
-> >> +
-> >> +maintainers:
-> >> +  - Chandan Uddaraju <chandanu@codeaurora.org>
-> >> +  - Vara Reddy <varar@codeaurora.org>
-> >> +  - Tanmay Shah <tanmay@codeaurora.org>
-> >> +
-> >> +description: |
-> >> +  Device tree bindings for MSM Display Port which supports DP host 
-> >> controllers
-> >> +  that are compatible with VESA Display Port interface specification.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    items:
-> >> +      - const: qcom,dp-display
-> >> +
-> >> +  cell-index:
-> >> +    description: Specifies the controller instance.
-> >> +
-> >> +  reg:
-> >> +    items:
-> >> +      - description: DP controller registers
-> >> +
-> >> +  interrupts:
-> >> +    description: The interrupt signal from the DP block.
-> >> +
-> >> +  clocks:
-> >> +    description: List of clock specifiers for clocks needed by the 
-> >> device.
-> >> +    items:
-> >> +      - description: Display Port AUX clock
-> >> +      - description: Display Port Link clock
-> >> +      - description: Link interface clock between DP and PHY
-> >> +      - description: Display Port Pixel clock
-> >> +      - description: Root clock generator for pixel clock
-> >> +
-> >> +  clock-names:
-> >> +    description: |
-> >> +      Device clock names in the same order as mentioned in clocks 
-> >> property.
-> >> +      The required clocks are mentioned below.
-> >> +    items:
-> >> +      - const: core_aux
-> >> +      - const: ctrl_link
-> >> +      - const: ctrl_link_iface
-> >> +      - const: stream_pixel
-> >> +      - const: pixel_rcg
-> > 
-> > Why not just 'pixel'? And why is the root clk generator important? It
-> > looks like this binding should be using the assigned clock parents
-> > property instead so that it doesn't have to call clk_set_parent()
-> > explicitly.
-> > 
-> Are we talking about renaming stream_pixel to pixel only?
-> We divide clocks in categories: core, control and stream clock.
-> Similar terminology will be used in subsequent driver patches as well.
+> > The "DP driver" would seem to refer to the linux software driver you
+> > are proposing patches for, however this diagram looks like a hardware
+> > diagram of the various hardware blocks that the Linux driver code (the
+> > "DP driver") is expected to interact with.  I believe you should
+> > re-word "The block diagram of DP driver is shown below:" to be more
+> > specific of what you are describing with your figure.  IE your words
+> > say this is a block diagram of the software, when it looks like it is
+> > a block diagram of the hardware.
 > 
-> We can remove pixel_rcg use assigned clock parents property and remove 
-> clk_set_parent
-> from driver.
-
-Cool. Using assigned clock parents is good.
-
+> Thanks for reviews.
 > 
-> >> +  "#clock-cells":
-> >> +    const: 1
-> >> +
-> >> +  vdda-1p2-supply:
-> >> +    description: phandle to vdda 1.2V regulator node.
-> >> +
-> >> +  vdda-0p9-supply:
-> >> +    description: phandle to vdda 0.9V regulator node.
-> >> +
-> >> +  data-lanes = <0 1>:
-> > 
-> > Is this correct? We can have = <value> in the property name? Also feels
-> > generic and possibly should come from the phy binding instead of from
-> > the controller binding.
-> > 
-> We are using this property in DP controller programming sequence such as 
-> link training.
-> So I think we can keep this here.
-> You are right about <value>. <0 1> part should be in example only. It 
-> was passing through dt_binding_check though.
-> Here it should be like:
-> data-lanes:
-> minItems:1
-> maxItems:4
-
-Ok.
-
+> I am not sure what Stephen meant, but this diagram was available before.
 > 
-> >> +    type: object
-> >> +    description: Maximum number of lanes that can be used for Display 
-> >> port.
-> >> +
-> >> +  ports:
-> >> +    description: |
-> >> +       Contains display port controller endpoint subnode.
-> >> +       remote-endpoint: |
-> >> +         For port@0, set to phandle of the connected panel/bridge's
-> >> +         input endpoint. For port@1, set to the DPU interface output.
-> >> +         Documentation/devicetree/bindings/graph.txt and
-> >> +         
-> >> Documentation/devicetree/bindings/media/video-interfaces.txt.
-> >> +
-> >> +patternProperties:
-> >> +  "^aux-cfg([0-9])-settings$":
-> >> +    type: object
-> >> +    description: |
-> >> +      Specifies the DP AUX configuration [0-9] settings.
-> >> +      The first entry in this array corresponds to the register 
-> >> offset
-> >> +      within DP AUX, while the remaining entries indicate the
-> >> +      programmable values.
-> > 
-> > I'd prefer this was removed from the binding and hardcoded in the 
-> > driver
-> > until we can understand what the values are. If they're not
-> > understandable then they most likely don't change and should be done in
-> > the driver.
-> > 
-> Typically customers tune these values by working with vendor. So for 
-> different boards it can be different. Even though it is hard for 
-> customers to do this themselves, these are still board specific and 
-> belong to dts. As requested earlier, we have added default values 
-> already and made these properties optional but, we would like to keep it 
-> in bindings so we can have option to tune them as required.
+> Just for clarification this is not hardware diagram at all.
+> This is modeling of DP driver for msm.
+> Each box name above except "DRM framework", is file name in driver i.e. 
+> software module.
+> Each line and arrow shows how modules interact with each other.
+> 
+> For example, "DP PARSER" Box is pointing towards "DEVICE TREE" Box, that 
+> means
+> dp_parser.c file contains functions which are parsing device tree 
+> properties and so on...
 
-If they're in the binding then they should make sense instead of just
-being random values. So please move the defaults to the driver and
-have human understandable DT properties to tune these settings. This has
-been done for the qcom USB phy already (see things like
-qcom,hstx-trim-value for example).
-
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - cell-index
-> >> +  - reg
-> >> +  - interrupts
-> >> +  - clocks
-> >> +  - clock-names
-> >> +  - vdda-1p2-supply
-> >> +  - vdda-0p9-supply
-> >> +  - data-lanes
-> >> +  - ports
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >> +    #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
-> >> +    #include <dt-bindings/clock/qcom,gcc-sdm845.h>
-> >> +    msm_dp: displayport-controller@ae90000{
-> >> +        compatible = "qcom,dp-display";
-> >> +        cell-index = <0>;
-> >> +        reg = <0 0xae90000 0 0x1400>;
-> >> +        reg-names = "dp_controller";
-> >> +
-> >> +        interrupt-parent = <&display_subsystem>;
-> >> +        interrupts = <12 0>;
-> >> +
-> >> +        clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-> >> +                 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-> >> +                 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-> >> +                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
-> >> +                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-> >> +        clock-names = "core_aux",
-> >> +                      "ctrl_link",
-> >> +                      "ctrl_link_iface", "stream_pixel",
-> >> +                      "pixel_rcg";
-> >> +        #clock-cells = <1>;
-> >> +
-> >> +        vdda-1p2-supply = <&vreg_l3c_1p2>;
-> >> +        vdda-0p9-supply = <&vreg_l4a_0p8>;
-> >> +
-> >> +        data-lanes = <0 1>;
-> >> +
-> >> +        ports {
-> >> +            #address-cells = <1>;
-> >> +            #size-cells = <0>;
-> >> +
-> >> +            port@0 {
-> >> +                reg = <0>;
-> >> +                dp_in: endpoint {
-> >> +                    remote-endpoint = <&dpu_intf0_out>;
-> >> +                };
-> >> +            };
-> >> +
-> >> +            port@1 {
-> >> +                reg = <1>;
-> >> +                dp_out: endpoint {
-> >> +                };
-> >> +            };
-> >> +        };
-> >> +    };
-> > 
-> > I believe there should be a '...' here.
-> I think you mean signature is missing? If not could you please explain?
-
-No I mean there should be a triple dot at the end.
+Yes sorry for being obtuse. To be more direct I'll just say that needing
+to have a block diagram for a device driver is not a great start. Device
+drivers shouldn't be as complicated to need a block diagram to guide the
+reviewer. If we need them then we've failed to consolidate enough logic
+into the core device driver frameworks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
