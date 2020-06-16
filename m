@@ -1,60 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8441FAF97
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 13:55:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D121FAF9F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 13:56:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355776E8A4;
-	Tue, 16 Jun 2020 11:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B3A6E8A8;
+	Tue, 16 Jun 2020 11:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8476E8A5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 11:55:31 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f185so2754247wmf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 04:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=qo94uGaWDPdmNgYBu+bSlH0/hxQqVNwEZFamefpgV7k=;
- b=Pw/rv7z+YOnEq6Dje1FtMuuSX7IkrIRIcLSAgphOKVRP24U+tP6QWRhCtyVB1A3rNc
- fi3JgYqHGSzMaPc/70WKwXVTRO1PB5/d1vt3US666DHccLalRNSOlCog+prRL1CIn/e7
- EH9hoR0JerLVP1fDKW2uCLwjvYaEtCxojYNlA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qo94uGaWDPdmNgYBu+bSlH0/hxQqVNwEZFamefpgV7k=;
- b=O/PWpRU0u7OK9rSmxLkYIfu6kbGEcvJAdc7lpAYOqxMJbJDu00WdbHKIVAtmRWK/nZ
- K1889devvuEBZzsHKPLtzl5hW/Kp7XgsPru8EnqXgLBrzZu2RUmCtM4DG5VKrEnytefG
- 6YE2Xz6eAtnIGa1yl9aTOfp2NHYzG6/9BwOxvDztOOshDJH28jhG/6ys6TRTrT+KaAvq
- uJixC8WAhuNz12qRCZYTZdxzK4Kt4T8sqMxELsz3fbAliwIrneEaoC9qhgnKCVu16pJW
- KheMcSe7ce64mYDR5Be8rYhSzs98cyo7TsyKOegq+6YiYrXtWkQPAB8NdgE866jAYqaN
- 1NcA==
-X-Gm-Message-State: AOAM531r0xzPpGspeZsvwxqrAV2ZuuRRDO0z775sYCaKXaliOucQYkAs
- wgK5XubbGZBLXQwyoAjIqmc9Dg==
-X-Google-Smtp-Source: ABdhPJyrZ5/80sB9uknbAYb4pONj2FS847HbM5mnxsqlkvqv0g8tZ0mzglLmBa/aQfm2o4jezR93Yg==
-X-Received: by 2002:a1c:f301:: with SMTP id q1mr2901108wmq.110.1592308529856; 
- Tue, 16 Jun 2020 04:55:29 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id l17sm28860348wrq.17.2020.06.16.04.55.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 04:55:29 -0700 (PDT)
-Date: Tue, 16 Jun 2020 13:55:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 57/59] drm/ast: Use managed pci functions
-Message-ID: <20200616115527.GK20149@phenom.ffwll.local>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-58-daniel.vetter@ffwll.ch>
- <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C206E8A5;
+ Tue, 16 Jun 2020 11:56:02 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212])
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1jlAC8-00082K-My; Tue, 16 Jun 2020 11:56:00 +0000
+Subject: Re: [PATCH] drm/i915/display: fix missing null check on allocated dsb
+ object
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20200616114221.73971-1-colin.king@canonical.com>
+ <20200616115459.GN4151@kadam>
+From: Colin Ian King <colin.king@canonical.com>
+Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <45e8594c-14e5-ba67-9708-1b72fa2c51d3@canonical.com>
+Date: Tue, 16 Jun 2020 12:56:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b14b78e4-556d-9e52-bdfd-7c4229392ed9@suse.de>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200616115459.GN4151@kadam>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,136 +85,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Animesh Manna <animesh.manna@intel.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 11, 2020 at 02:04:03PM +0200, Thomas Zimmermann wrote:
-> Hi
-> =
+On 16/06/2020 12:54, Dan Carpenter wrote:
+> On Tue, Jun 16, 2020 at 12:42:21PM +0100, Colin King wrote:
+>> From: Colin Ian King <colin.king@canonical.com>
+>>
+>> Currently there is no null check for a failed memory allocation
+>> on the dsb object and without this a null pointer dereference
+>> error can occur. Fix this by adding a null check.
+>>
+>> Note: added a drm_err message in keeping with the error message style
+>> in the function.
+> 
+> Don't give in to peer pressure!  That's like being a lemming when Disney
+> film makers come to push you off the cliff to create the 1958 nature
+> film "White Wilderness".
 
-> Am 15.04.20 um 09:40 schrieb Daniel Vetter:
-> > Allows us to remove a bit of cleanup code.
-> > =
+:-)
 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Dave Airlie <airlied@redhat.com>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Emil Velikov <emil.velikov@collabora.com>
-> > Cc: "Noralf Tr=F8nnes" <noralf@tronnes.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> > Cc: "Y.C. Chen" <yc_chen@aspeedtech.com>
-> =
+> 
+> regards,
+> dan carpenter
+> 
 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> =
-
-> Thanks for answering my questions. Sorry for never getting back to it.
-
-Nw, patch applied now, thanks for your review.
--Daniel
-
-> =
-
-> Best regards
-> Thomas
-> =
-
-> > ---
-> >  drivers/gpu/drm/ast/ast_drv.c  | 10 +++-------
-> >  drivers/gpu/drm/ast/ast_main.c |  3 ---
-> >  2 files changed, 3 insertions(+), 10 deletions(-)
-> > =
-
-> > diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_dr=
-v.c
-> > index b7ba22dddcad..48a9cc4e080a 100644
-> > --- a/drivers/gpu/drm/ast/ast_drv.c
-> > +++ b/drivers/gpu/drm/ast/ast_drv.c
-> > @@ -91,15 +91,13 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *ent)
-> >  =
-
-> >  	ast_kick_out_firmware_fb(pdev);
-> >  =
-
-> > -	ret =3D pci_enable_device(pdev);
-> > +	ret =3D pcim_enable_device(pdev);
-> >  	if (ret)
-> >  		return ret;
-> >  =
-
-> >  	dev =3D drm_dev_alloc(&driver, &pdev->dev);
-> > -	if (IS_ERR(dev)) {
-> > -		ret =3D PTR_ERR(dev);
-> > -		goto err_pci_disable_device;
-> > -	}
-> > +	if (IS_ERR(dev))
-> > +		return  PTR_ERR(dev);
-> >  =
-
-> >  	dev->pdev =3D pdev;
-> >  	pci_set_drvdata(pdev, dev);
-> > @@ -120,8 +118,6 @@ static int ast_pci_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *ent)
-> >  	ast_driver_unload(dev);
-> >  err_drm_dev_put:
-> >  	drm_dev_put(dev);
-> > -err_pci_disable_device:
-> > -	pci_disable_device(pdev);
-> >  	return ret;
-> >  =
-
-> >  }
-> > diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> > index e5398e3dabe7..1b35728ad871 100644
-> > --- a/drivers/gpu/drm/ast/ast_main.c
-> > +++ b/drivers/gpu/drm/ast/ast_main.c
-> > @@ -531,8 +531,5 @@ void ast_driver_unload(struct drm_device *dev)
-> >  	drm_mode_config_cleanup(dev);
-> >  =
-
-> >  	ast_mm_fini(ast);
-> > -	if (ast->ioregs !=3D ast->regs + AST_IO_MM_OFFSET)
-> > -		pci_iounmap(dev->pdev, ast->ioregs);
-> > -	pci_iounmap(dev->pdev, ast->regs);
-> >  	kfree(ast);
-> >  }
-> > =
-
-> =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> =
-
-
-
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
