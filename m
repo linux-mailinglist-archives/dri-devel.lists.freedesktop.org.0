@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F711FBC10
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 18:48:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D95351FBC71
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 19:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185B26E915;
-	Tue, 16 Jun 2020 16:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50C856E8E1;
+	Tue, 16 Jun 2020 17:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E7A6E912;
- Tue, 16 Jun 2020 16:48:03 +0000 (UTC)
-IronPort-SDR: D17fOnn8KXOasKu7DJKhvH6ZL1J5HgGIifiGQND6rYTHPJYdFRq+9ECKaE4LxhP0uIBfZPmi7e
- GNU/Gt2aafrQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 09:48:02 -0700
-IronPort-SDR: 75BssRjLFt0G7I3bMpSDpqotAo8t94UAugM36MXfBmEzbWdm69vknLFdM/xJgJigGJwfFGplw5
- rCASsNarq7Vw==
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; d="scan'208";a="263065008"
-Received: from ideak-desk.fi.intel.com ([10.237.72.183])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 09:48:01 -0700
-Date: Tue, 16 Jun 2020 19:47:53 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag is
- cleared before waiting for it
-Message-ID: <20200616164753.GE21389@ideak-desk.fi.intel.com>
-References: <20200616141855.746-1-imre.deak@intel.com>
- <20200616141855.746-6-imre.deak@intel.com>
- <20200616154546.GY6112@intel.com>
- <20200616155441.GC21389@ideak-desk.fi.intel.com>
- <20200616162321.GE6112@intel.com> <20200616164047.GG6112@intel.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C8A6E91F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 17:10:27 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id x6so21524088wrm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 10:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=rH/JzXWDqwAk3BLrVvVQqXAo+ppeFoiKWYiRM4VfD0I=;
+ b=IpO5JeHKFb731DILaUWHdUGCYAOttZLrbhATlzOUOp+9T6vO5HskfYpzfIn1UhYpOu
+ a6lYMwmCGS3LAfCMXrH5uQ08K0BRI6/ByJJB7S7D9TpboERf2n78xYNMsrdHCJwmwBe3
+ lmU8OZTwdcaVlAyTJjU2nnjrVohz9k8pQIpNk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rH/JzXWDqwAk3BLrVvVQqXAo+ppeFoiKWYiRM4VfD0I=;
+ b=e8ZKg5E8VNZSRGzsWF/HWyh67qpNcrGplqGQ7Hou/61hJRnkJhVg7Cr7fiiQkYAzKY
+ T1THOllUn8fzMwhBiAiEcnQFxZKJgHHIv3HY+tIP27vRtcmf5u1rtmgMvE9fxMQcFdyk
+ cbFsKZERcCgy++KW+WE8VosoKaLJ3YiWzOeLHsbMKle3iB7K0G9oPvEEb/e6VUeqFPdU
+ ol9mqf3ljZETb728jFq18SkU8EDD1H9FdcsE1gTITg4nBebKT2G5lN3pIEFXCR1M+pRe
+ Nph4lM5Mh6Vz2h2tQey837J14QMhXdfO95IhVQGYoWeL57tVMuwMVw9Irxw+lWEGyRoG
+ kMBw==
+X-Gm-Message-State: AOAM530JBAw+hlJ2tv8dxvm8HPSv44zddNHS4xEpgm04b/6A00gadH+z
+ /hoYq3TKrgN0cejHUlRIQNmJxw==
+X-Google-Smtp-Source: ABdhPJwUqafY54okg1vnxUw6SX9ejULIg0cx+SHrNVGZwFUKo3b2FOldbdi5p071JNlCSvAsviOanA==
+X-Received: by 2002:adf:f205:: with SMTP id p5mr4383068wro.302.1592327426008; 
+ Tue, 16 Jun 2020 10:10:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q4sm4778003wmc.1.2020.06.16.10.10.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 10:10:25 -0700 (PDT)
+Date: Tue, 16 Jun 2020 19:10:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/shmem-helper: Fix obj->filp derefence
+Message-ID: <20200616171023.GP20149@phenom.ffwll.local>
+References: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
+ <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200616164047.GG6112@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,208 +66,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 07:40:47PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Jun 16, 2020 at 07:23:21PM +0300, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Jun 16, 2020 at 06:54:41PM +0300, Imre Deak wrote:
-> > > On Tue, Jun 16, 2020 at 06:45:46PM +0300, Ville Syrj=E4l=E4 wrote:
-> > > > On Tue, Jun 16, 2020 at 05:18:55PM +0300, Imre Deak wrote:
-> > > > > Atm, we clear the ACT sent flag in the sink's DPCD before updatin=
-g the
-> > > > > sink's payload table, along clearing the payload table updated fl=
-ag.
-> > > > > The sink is supposed to set this flag once it detects that the so=
-urce
-> > > > > has completed the ACT sequence (after detecting the 4 required AC=
-T MTPH
-> > > > > symbols sent by the source). As opposed to this 2 DELL monitors I=
- have
-> > > > > set the flag already along the payload table updated flag, which =
-is not
-> > > > > quite correct.
-> > > > > =
-
-> > > > > To be sure that the sink has detected the ACT MTPH symbols before
-> > > > > continuing enabling the encoder, clear the ACT sent flag before e=
-nabling
-> > > > > or disabling the transcoder VC payload allocation (which is what =
-starts
-> > > > > the ACT sequence).
-> > > > > =
-
-> > > > > Cc: Lyude Paul <lyude@redhat.com>
-> > > > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_dp_mst_topology.c       | 31 +++++++++++++++=
-++++--
-> > > > >  drivers/gpu/drm/i915/display/intel_dp_mst.c |  2 ++
-> > > > >  include/drm/drm_dp_mst_helper.h             |  2 ++
-> > > > >  3 files changed, 33 insertions(+), 2 deletions(-)
-> > > > > =
-
-> > > > > diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/=
-drm/drm_dp_mst_topology.c
-> > > > > index b2f5a84b4cfb..e3bf8c9c8267 100644
-> > > > > --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > > +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> > > > > @@ -4377,6 +4377,34 @@ void drm_dp_mst_deallocate_vcpi(struct drm=
-_dp_mst_topology_mgr *mgr,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(drm_dp_mst_deallocate_vcpi);
-> > > > >  =
-
-> > > > > +/**
-> > > > > + * drm_dp_clear_payload_status() - Clears the payload table stat=
-us flags
-> > > > > + * @mgr: manager to use
-> > > > > + *
-> > > > > + * Clears the payload table ACT handled and table updated flags =
-in the MST hub's
-> > > > > + * DPCD. This function must be called before updating the payloa=
-d table or
-> > > > > + * starting the ACT sequence and waiting for the corresponding f=
-lags to get
-> > > > > + * set by the hub.
-> > > > > + *
-> > > > > + * Returns:
-> > > > > + * 0 if the flag got cleared successfully, otherwise a negative =
-error code.
-> > > > > + */
-> > > > > +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *=
-mgr)
-> > > > > +{
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	ret =3D drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_ST=
-ATUS,
-> > > > > +				 DP_PAYLOAD_ACT_HANDLED);
-> > > > > +	if (ret < 0) {
-> > > > > +		DRM_DEBUG_DRIVER("Can't clear the ACT sent flag (%d)\n", ret);
-> > > > > +		return ret;
-> > > > > +	}
-> > > > > +	WARN_ON(ret !=3D 1);
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(drm_dp_clear_payload_status);
-> > > > > +
-> > > > >  static int drm_dp_dpcd_write_payload(struct drm_dp_mst_topology_=
-mgr *mgr,
-> > > > >  				     int id, struct drm_dp_payload *payload)
-> > > > >  {
-> > > > > @@ -4384,8 +4412,7 @@ static int drm_dp_dpcd_write_payload(struct=
- drm_dp_mst_topology_mgr *mgr,
-> > > > >  	int ret;
-> > > > >  	int retries =3D 0;
-> > > > >  =
-
-> > > > > -	drm_dp_dpcd_writeb(mgr->aux, DP_PAYLOAD_TABLE_UPDATE_STATUS,
-> > > > > -			   DP_PAYLOAD_TABLE_UPDATED);
-> > > > =
-
-> > > > We used to clear DP_PAYLOAD_TABLE_UPDATED but now we clear
-> > > > DP_PAYLOAD_ACT_HANDLED ?
-> > > =
-
-> > > Eek. We should write DP_PAYLOAD_TABLE_UPDATED which is the only way to
-> > > clear both the act-handled and the table-updated flags.
-> > =
-
-> > Huh. That's a bit crazy. But it is what the spec says.
+On Tue, Jun 16, 2020 at 02:10:10PM +0200, Thomas Zimmermann wrote:
+> Hi,
 > =
 
-> In fact, I'd suggest adding a comment explaining this crazyness
-> so that the next person doesn't have to wonder why we're never
-> clearing the ACT bit.
+> as discussed on IRC, we still need this patch.
+> =
 
-Ok.
+> Am 15.06.20 um 17:10 schrieb Daniel Vetter:
+> > I broke that in my refactoring:
+> > =
+
+> > commit 7d2cd72a9aa3df3604cafd169a2d4a525afb68ca
+> > Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Date:   Fri May 29 16:05:42 2020 +0200
+> > =
+
+> >     drm/shmem-helpers: Simplify dma-buf importing
+> > =
+
+> > Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Fixes: 7d2cd72a9aa3 ("drm/shmem-helpers: Simplify dma-buf importing")
+> > Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Rob Herring <robh@kernel.org>
+> > Cc: Noralf Tr=F8nnes <noralf@tronnes.org>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 20 +++++++++++---------
+> >  1 file changed, 11 insertions(+), 9 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> > index 0a7e3b664bc2..3e7ee407a17c 100644
+> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > @@ -70,15 +70,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
+_t size, bool private)
+> >  	mutex_init(&shmem->vmap_lock);
+> >  	INIT_LIST_HEAD(&shmem->madv_list);
+> >  =
+
+> > -	/*
+> > -	 * Our buffers are kept pinned, so allocating them
+> > -	 * from the MOVABLE zone is a really bad idea, and
+> > -	 * conflicts with CMA. See comments above new_inode()
+> > -	 * why this is required _and_ expected if you're
+> > -	 * going to pin these pages.
+> > -	 */
+> > -	mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
+> > -			     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> > +	if (!private) {
+> =
+
+> I would test for (obj->filp) here, because it's what the branch depends
+> on. Your choice. In any case
+
+I was pondering this too, on one hand it's the thing we're using, otoh
+it's a direct consequence of the private flag, and the private flag has a
+bit the clearer control flow I think - the obj->filp is clear that it's a
+NULL check, but it's a lot less clear _why_ it is ok to have obj->filp =3D=
+=3D
+NULL. Checking for private makes this a bit clearer imo.
+
+But yeah I considered both options. Maybe we should improve the comment in
+a follow-up patch? I want to land the bugfix meanwhile, to close the
+regression.
+
+> Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks for testing and reviewing!
+-Daniel
 
 > =
 
+> =
+
+> > +		/*
+> > +		 * Our buffers are kept pinned, so allocating them
+> > +		 * from the MOVABLE zone is a really bad idea, and
+> > +		 * conflicts with CMA. See comments above new_inode()
+> > +		 * why this is required _and_ expected if you're
+> > +		 * going to pin these pages.
+> > +		 */
+> > +		mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
+> > +				     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> > +	}
+> >  =
+
+> >  	return shmem;
+> >  =
+
 > > =
 
-> > > I tested things
-> > > that way but managed to send an old version. Thanks for catching it.
-> > > =
-
-> > > > =
-
-> > > > > +	drm_dp_clear_payload_status(mgr);
-> > > > >  =
-
-> > > > >  	payload_alloc[0] =3D id;
-> > > > >  	payload_alloc[1] =3D payload->start_slot;
-> > > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/driver=
-s/gpu/drm/i915/display/intel_dp_mst.c
-> > > > > index 9308b5920780..3c4b0fb10d8b 100644
-> > > > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > > > > @@ -323,6 +323,8 @@ static void clear_act_sent(struct intel_dp *i=
-ntel_dp)
-> > > > >  =
-
-> > > > >  	intel_de_write(i915, intel_dp->regs.dp_tp_status,
-> > > > >  		       DP_TP_STATUS_ACT_SENT);
-> > > > > +
-> > > > > +	drm_dp_clear_payload_status(&intel_dp->mst_mgr);
-> > > > >  }
-> > > > >  =
-
-> > > > >  static void wait_for_act_sent(struct intel_dp *intel_dp)
-> > > > > diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp=
-_mst_helper.h
-> > > > > index 8b9eb4db3381..2facb87624bf 100644
-> > > > > --- a/include/drm/drm_dp_mst_helper.h
-> > > > > +++ b/include/drm/drm_dp_mst_helper.h
-> > > > > @@ -763,6 +763,8 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_=
-topology_mgr *mgr,
-> > > > >  			   int pbn);
-> > > > >  =
-
-> > > > >  =
-
-> > > > > +int drm_dp_clear_payload_status(struct drm_dp_mst_topology_mgr *=
-mgr);
-> > > > > +
-> > > > >  int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *=
-mgr);
-> > > > >  =
-
-> > > > >  =
-
-> > > > > -- =
-
-> > > > > 2.23.1
-> > > > =
-
-> > > > -- =
-
-> > > > Ville Syrj=E4l=E4
-> > > > Intel
-> > =
-
-> > -- =
-
-> > Ville Syrj=E4l=E4
-> > Intel
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 > =
 
 > -- =
 
-> Ville Syrj=E4l=E4
-> Intel
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+> (HRB 36809, AG N=FCrnberg)
+> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> =
+
+
+
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
