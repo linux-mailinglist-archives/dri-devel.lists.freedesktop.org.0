@@ -1,44 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0B51FB793
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 17:48:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE331FB7F2
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 17:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3156E8FE;
-	Tue, 16 Jun 2020 15:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9DA6E904;
+	Tue, 16 Jun 2020 15:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C606E30C
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 15:48:28 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206475] amdgpu under load drop signal to monitor until hard reset
-Date: Tue, 16 Jun 2020 15:48:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rodomar705@protonmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206475-2300-6ZtJhxwfDz@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206475-2300@https.bugzilla.kernel.org/>
-References: <bug-206475-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
+ [IPv6:2607:f8b0:4864:20::a43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5571E6E902
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 15:52:16 +0000 (UTC)
+Received: by mail-vk1-xa43.google.com with SMTP id p187so4930252vkf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 08:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5tUwv8GZvt0tLegCth1XOp+6yS8yReQyRSOWrSBlQn4=;
+ b=fI4dElivqPDBIde5zHrPQYVfRHoecvaR5xo2tlpmaSvwEURd0T3CLTe89tX8Ov7VVD
+ pFh7Hu0POSS26z2glZ3JYCbowKhH5z7mjGkigZN/pcaPT2YYEurO7olee9W3e68oKtPx
+ nF5bVCcpSA+9cLGc6xJZ6b0221kLKp8a3gSIpJmBvM7lf34BvnKlD9UJMArax01JPeTd
+ rg2hy3AFr6C5NxGh/iBUQgibmY54+x5KUwnqUYHTXT3iuxvdOR4TRcoEil1s6Msr1bda
+ DnI2Fg9A4r/DFruzrO0GCxCU/5Lzs+ffQmEuQ/lcZ1GLu4UQQpv95sQqImrT5bt5+3fG
+ XXTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5tUwv8GZvt0tLegCth1XOp+6yS8yReQyRSOWrSBlQn4=;
+ b=iMOM91N+HUp+TtkFgypUaK+sWvX3udzJdL6czQJ6YMR1uyPKgPq21SJfhhzYgFdYCD
+ t8pwlJtGwoCZUY6KN+PYaYa6Yn7LAk/6Gx2s0aEvZ0ecqKf+m8W8heYXOa32OW/HzqQ1
+ 0PRoPBN236006p8WsV7aGApJU+1/zluLBc4oK/QBmXZEz5aK7wTOxji5rQLoSzBu4kZN
+ mk8wj824chNK77T767uqFQ1DbrYph1qAAI8J+YVshsoTCqOBFANErX5uFOzrFCikr+bB
+ sSzajF385IuvZp/EgazqmRKVwYNTf69IqRqBNfSXq/yH8DyaU4EdhVnriOuZooO7BVlR
+ vhgA==
+X-Gm-Message-State: AOAM531/iODNX8NyahwHvdWY6JMWGLS3Wt1V3qwq7syx4Y38lKAcl3i4
+ BrCFmBmrEZD+hmfsPLed1MlTfSlXu/4JiYFo+7xJkxuH
+X-Google-Smtp-Source: ABdhPJwHbzHiIoOeOqf88qGm635l6SYTNpkzRacF/MQtw+0fGQ+NRwhque+7rGZBn/dzalt7nyDZTCXKgzsXv6lYO+E=
+X-Received: by 2002:a1f:ee81:: with SMTP id m123mr2257220vkh.51.1592322735381; 
+ Tue, 16 Jun 2020 08:52:15 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
+ <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
+In-Reply-To: <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 16 Jun 2020 16:48:34 +0100
+Message-ID: <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
+To: Dmitry Osipenko <digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,34 +63,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206475
-
---- Comment #13 from Marco (rodomar705@protonmail.com) ---
-The only way I had it "fixed" (it's more of a workaround, but it is working) is
-to slightly drop the clocks (my GPU has by default a max boost clock of 1430
-MHz, I have dropped it to 1340 MHz) and voltages (From 1150 mV to 1040 mV on
-peak clocks, however both depends on your specific silicon, this is just my
-values). 
-
-Now, if the system post after the downclock of it (sometimes lowering
-clocks/voltages triggers a black screen bug at boot when the values are applied
-with systemd, not sure if the issue is the same), however, if I can reach the
-login screen, the system will work perfectly fine under load with no problem.
-Never had a crash while using since.
-
-I do not know if it's a specific issue of my silicon, since after this issue
-happened to my card the same applies under Windows system. Repasting didn't
-help.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxNiBKdW4gMjAyMCBhdCAxMjo0MCwgRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21h
+aWwuY29tPiB3cm90ZToKPgo+IDE2LjA2LjIwMjAgMDE6MjYsIEVtaWwgVmVsaWtvdiDQv9C40YjQ
+tdGCOgo+ID4gSGkgRG1pdHJ5LAo+ID4KPiA+IE9uIE1vbiwgMTUgSnVuIDIwMjAgYXQgMDg6Mjgs
+IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4KPiA+PiBIZWxs
+byEKPiA+Pgo+ID4+IFRoaXMgc2VyaWVzIGFkZHMgMTgwwrAgZGlzcGxheSBwbGFuZSByb3RhdGlv
+biBzdXBwb3J0IHRvIHRoZSBOVklESUEgVGVncmEKPiA+PiBEUk0gZHJpdmVyIHdoaWNoIGlzIG5l
+ZWRlZCBmb3IgZGV2aWNlcyB0aGF0IGhhdmUgZGlzcGxheSBwYW5lbCBwaHlzaWNhbGx5Cj4gPj4g
+bW91bnRlZCB1cHNpZGUtZG93biwgbGlrZSBOZXh1cyA3IHRhYmxldCBkZXZpY2UgZm9yIGV4YW1w
+bGUgWzFdLiBTaW5jZQo+ID4+IERSTSBwYW5lbCByb3RhdGlvbiBpcyBhIG5ldyB0aGluZyBmb3Ig
+YSB1c2Vyc3BhY2UsIGN1cnJlbnRseSBvbmx5Cj4gPj4gT3BlbnRlZ3JhIFhvcmcgZHJpdmVyIGhh
+bmRsZXMgdGhlIHJvdGF0ZWQgZGlzcGxheSBwYW5lbCBbMl0sIGJ1dCB0aGlzCj4gPj4gaXMgZ29v
+ZCBlbm91Z2ggZm9yIHRoZSBzdGFydC4KPiA+Pgo+ID4+IE5vdGUgdGhhdCBsYXRlciBvbiBpdCBz
+aG91bGQgYmUgcG9zc2libGUgdG8gaW1wbGVtZW50IGEgdHJhbnNwYXJlbnQgMTgwwrAKPiA+PiBk
+aXNwbGF5IHJvdGF0aW9uIGZvciBUZWdyYSBEUk0gZHJpdmVyIHdoaWNoIHdpbGwgcmVtb3ZlIHRo
+ZSBuZWVkIHRvIGhhdmUKPiA+PiBhIGJsZWVkaW5nIGVkZ2UgdXNlcnNwYWNlIHRoYXQga25vd3Mg
+aG93IHRvIHJvdGF0ZSBkaXNwbGF5IHBsYW5lcyBhbmQgSSdtCj4gPj4gc2xvd2x5IHdvcmtpbmcg
+b24gaXQuIEZvciB0aGUgc3RhcnRlciB3ZSBjYW4gZ28gd2l0aCB0aGUgbWluaW1hbCByb3RhdGlv
+bgo+ID4+IHN1cHBvcnQsIHNvIGl0J3Mgbm90IGEgYmxvY2tlci4KPiA+Pgo+ID4+IFRoaXMgc2Vy
+aWVzIGlzIGJhc2VkIG9uIHRoZSB3b3JrIHRoYXQgd2FzIG1hZGUgYnkgRGVyZWsgQmFzZWhvcmUg
+Zm9yIHRoZQo+ID4+IE1lZGlhdGVrIGRyaXZlciBbM10sIGhpcyBwYXRjaCBpcyBpbmNsdWRlZCBp
+bnRvIHRoaXMgcGF0Y2hzZXQuIEkgYWRkZWQKPiA+PiBteSB0ZXN0ZWQtYnkgdGFnIHRvIHRoZSBE
+ZXJlaydzIHBhdGNoLgo+ID4+Cj4gPj4gUGxlYXNlIHJldmlldyBhbmQgYXBwbHksIHRoYW5rcyBp
+biBhZHZhbmNlIQo+ID4+Cj4gPj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFicy5vcmcvcHJv
+amVjdC9saW51eC10ZWdyYS9wYXRjaC8yMDIwMDYwNzE1NDMyNy4xODU4OS0zLWRpZ2V0eEBnbWFp
+bC5jb20vCj4gPj4gWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1kcml2ZXIveGY4Ni12aWRl
+by1vcGVudGVncmEvY29tbWl0LzI4ZWIyMGEzOTU5YmJlNWJjM2EzYjY3ZTU1OTc3MDkzZmQ1MTE0
+Y2EKPiA+PiBbM10gaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMjAvMy81LzExMTkKPiA+Pgo+ID4+
+IENoYW5nZWxvZzoKPiA+Pgo+ID4+IHYyOiAtIERyb3BwZWQgImRybS9wYW5lbDogU2V0IGRpc3Bs
+YXkgaW5mbyBpbiBwYW5lbCBhdHRhY2giIHBhdGNoLCB3aGljaAo+ID4+ICAgICAgIHR1cm5lZCBv
+dXQgdG8gYmUgb2Jzb2xldGUgbm93Lgo+ID4+Cj4gPj4gICAgIC0gUmVuYW1lZCB0aGUgY292ZXIt
+bGF0dGVyLCBob3BlZnVsbHkgdGhpcyB3aWxsIGZpeCB0aGUgYm91bmNpbmcgZW1haWxzLgo+ID4+
+Cj4gPj4gRGVyZWsgQmFzZWhvcmUgKDEpOgo+ID4+ICAgZHJtL3BhbmVsOiBBZGQgaGVscGVyIGZv
+ciByZWFkaW5nIERUIHJvdGF0aW9uCj4gPj4KPiA+PiBEbWl0cnkgT3NpcGVua28gKDQpOgo+ID4+
+ICAgZHJtL3BhbmVsOiBsdmRzOiBTZXQgdXAgcGFuZWwgb3JpZW50YXRpb24KPiA+Cj4gPiBJTUhP
+IGl0J3MgcGVyZmVjdGx5IHJlYXNvbmFibGUgdG8gcmVwb3J0IHRoZSBwYW5lbCBvcmllbnRhdGlv
+biB0bwo+ID4gdXNlcnNwYWNlLCB3aGljaCBjYW4gYXBwbHkgcGxhbmUgcm90YXRpb24gYXMgbmVl
+ZGVkLgo+ID4KPiA+IEFsdGhvdWdoIEkgc2VlIHRoYXQgdGhpcyBzZXJpZXMsIGFsaWtlIERlcmVr
+J3MsIGhhcyBhIGNvdXBsZSBvZiBpc3N1ZXM6Cj4gPiAgLSBvbmx5IGEgc2luZ2xlIHBhbmVsIGRy
+aXZlciBpcyB1cGRhdGVkCj4gPiAgLSByb3RhdGlvbiBpcyBfbm90XyBsaXN0ZWQgYXMgc3VwcG9y
+dGVkIHByb3BlcnR5LCBpbiBzYWlkIHBhbmVsCj4gPiBkcml2ZXIgZGV2aWNlLXRyZWUgYmluZGlu
+Z3MKPiA+Cj4gPiBNeSBwZXJzb25hbCBpbmNsaW5hdGlvbiBpcyB0aGF0IHdlIHNob3VsZCBhaW0g
+Zm9yIGEgY29tcHJlaGVuc2l2ZSBzb2x1dGlvbjoKPiA+ICAtIHdpcmUgYWxsIHBhbmVsIGRyaXZl
+cnMsIGFzIGN1cnJlbnRseSBkb2N1bWVudGVkIChxdWljayBncmVwIGxpc3QgYmVsb3cpCj4gPiAg
+LSBkb2N1bWVudCBhbmQgd2lyZS11cCB0aGUgbHZkcyBhbmQgYm9lIHBhbmVscyAtIGFzIHByb3Bv
+c2VkIGJ5IHlvdQo+ID4gYW5kIERlcmVrIHJlc3BlY3RpdmVseQo+ID4KPiA+IEhUSAo+ID4gRW1p
+bAo+ID4KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2hpbWF4
+LGh4ODM1N2QudHh0OjIKPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L2lsaXRlayxpbGk5MjI1LnR4dDoyCj4gPiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvZGlzcGxheS9pbGl0ZWssaWxpOTM0MS50eHQ6Mgo+ID4gRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvaWxpdGVrLGlsaTk0ODYueWFtbDoyCj4gPiBEb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tdWx0aS1pbm5vLG1pMDI4M3F0LnR4
+dDoyCj4gPiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9w
+YW5lbC1jb21tb24ueWFtbDoyCj4gPiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+ZGlzcGxheS9zaXRyb25peCxzdDc1ODYudHh0OjEKPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L3NpdHJvbml4LHN0NzczNXIueWFtbDoyCj4KPiBSb3RhdGlvbiBp
+cyBhIGNvbW1vbiBEVCBwYW5lbCBwcm9wZXJ0eSB0aGF0IGlzIGRlc2NyaWJlZCBpbiB0aGUKPiBw
+YW5lbC1jb21tb24ueWFtbC4KVGhlIHByb3BlcnR5IHdhcyBpbnRyb2R1Y2VkIGFsbW9zdCBleGNs
+dXNpdmVseSBmb3IgdGlueSBkcm0gcGFuZWxzLgpUaG9zZSBvbmVzIGFyZSBhIGJpdCBkaWZmZXJl
+bnQgZnJvbSB0aGUgcmVzdCAoaW4gcGFuZWwvKSAtCk1JUEktREJJL1NQSSB3L28gKG5vdCBjb25u
+ZWN0ZWQgYXQgbGVhc3QpIGFuIGFjdHVhbCBHUFUuCgpUbyBtYWtlIGl0IGEgYml0IGJldHRlciwg
+dGhlIHJvdGF0aW9uIGlzIHNlZW1pbmdseSBwZXJmb3JtZWQgaW4gdGhlCnRpbnkgZHJpdmVyIGl0
+c2VsZiBvdWNoLgoKPiBUaGlzIHByb3BlcnR5IGlzIHN1cHBvcnRlZCBieSBhbGwgcGFuZWwgYmlu
+ZGluZ3MKPiBiZWNhdXNlIHRoZXNlIGJpbmRpbmdzIGluaGVyZW50IHRoZSBjb21tb24gcHJvcGVy
+dGllcyBmcm9tIHRoZQo+IHBhbmVsLWNvbW1vbi55YW1sLgo+ClNlZW1zIGxpa2UgdGhhdCB3YXMg
+YW4gdW5pbnRlbnRpb25hbCBjaGFuZ2Ugd2l0aCB0aGUgY29udmVyc2lvbiB0byBZQU1MLgpCZWZv
+cmVoYW5kIG9ubHkgYSBmZXcgc2VsZWN0ZWQgcGFuZWxzIGhhZCByb3RhdGlvbi4gVXBvbiBjbG9z
+ZXIgbG9vayAtCnNvbWUgcGFuZWxzIGRvIGhhdmUgZm9sbG93LXVwIGZpeGVzLCB0byByZW1vdmUv
+bGltaXQgdGhlIGltcGxpY2l0CmluY2x1c2lvbi4KClNhbSBzZWVtcyBsaWtlIHlvdSd2ZSBkb25l
+IG1vc3Qgb2YgdGhlIFlBTUwgY29udmVyc2lvbi4gSU1ITyBpdCB3b3VsZAptYWtlIHNlbnNlIHRv
+IHJldmlzaXQgdGhlIHBhdGNoZXMgYW5kIGluaGVyaXQgY29tbW9uIHByb3BlcnRpZXMgb25seQph
+cyBhcHBsaWNhYmxlLgoKPiBJIGRvbid0IHRoaW5rIHRoYXQgaXQgbWFrZXMgc2Vuc2UgdG8gd2ly
+ZSB1cCByb3RhdGlvbiBwcm9wZXJ0eSB0byBhbGwKPiBwYW5lbCBkcml2ZXJzIGF0IG9uY2UgYmVj
+YXVzZSB0aG9zZSBkcml2ZXJzIHdpbGwgYmUgdW50ZXN0ZWQsIGF0IGxlYXN0IEkKPiBkb24ndCBr
+bm93IGFueXRoaW5nIGFib3V0IHRob3NlIG90aGVyIHBhbmVscyBhbmQgY2FuJ3QgdGVzdCB0aGVt
+LiBJdAo+IHdpbGwgYmUgbXVjaCBiZXR0ZXIgdG8gc3VwcG9ydCB0aGUgcm90YXRpb24gb24gYnkg
+YXMtbmVlZGVkIGJhc2lzIGZvcgo+IGVhY2ggcGFuZWwgZHJpdmVyIGluZGl2aWR1YWxseS4KCkhv
+dyBhYm91dCBDQ2luZyB0aGUgYXV0aG9yIGFuZCByZXZpZXdlciBhc2tpbmcgdGhlbSB0byB0ZXN0
+IHRoZSBwYXRjaD8KVGhlIG9ubHkgcGxhY2Ugd2hlcmUgdGhlIHBhdGNoZXMgbWlnaHQgY2F1c2Ug
+YW4gaXNzdWUgaXMgd2l0aCB0aW55LAphbHRob3VnaCBwYXRjaGVzIHdvdWxkIHN0aWxsIGJlIGFw
+cHJlY2lhdGVkLgoKLUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
