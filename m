@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D6E1FAFF3
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 14:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19351FB007
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 14:17:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33906E8B4;
-	Tue, 16 Jun 2020 12:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861B36E8B9;
+	Tue, 16 Jun 2020 12:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C9056E8B4
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 12:13:37 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id h5so20543088wrc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 05:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=XOpwR4mIR2BCAlfbtgwg7hVDYytNk2LC5Gn0C2pFEjI=;
- b=H0amGzbKmNHajF0PJbw8sQ0GVUVnGZbR5ikJ3UIrjhWzwtqmVos/IvMs5zlHorsuTe
- H6/Rn9mJXHaVeMVmkDsGytnzd5eu/63BgtnDKza/LvmRWe04CfIbaJ7VxhN6wc5527GZ
- jC5lZY1MtJ2HPn4LSF/yUc4agZjN0G+q5lPb8=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 457696E8B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 12:17:23 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id f185so2821513wmf.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 05:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
+ b=alKYbtIErka4S28IGsVN9xqXyx7H66TZN4rNQS/pSediSAYZrnjlo9VtJ0Z8kY+pqy
+ 78EIXv5VNf42ucbWZv0CaSNTwquvoySVK+GEhKNDkznX9iXa1kbUzG2Zu/O/wpEIvH3b
+ 38EU+zB238/N85VsPVYsV/co4Mxr/5/nmC44EKZnt2lIJDDQwhCpBqSM82xtcnwMl4Bh
+ dkD62xdsIHYOFRgCWdeUAzRr16tsAumZsOIkjGmhnSgzxGZpzZds/1Nis1Txkvv3xXlv
+ 1ka8rVsa9heWJyDqTNGtb3lC37tB6X+JIACQpUsg9EFNDJwA2dAHs5JanfznnUAgA3cx
+ j4Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=XOpwR4mIR2BCAlfbtgwg7hVDYytNk2LC5Gn0C2pFEjI=;
- b=BnlDYiN/GL1oKCt7zI6vPAITe6nR/klH2w7SfmeIQ84eu2Pz8cJ0dE96BSf8b/voTR
- VKmAlF7tBIW6Qv/U7Td9z7GloF+PROYvu9F74SfePxAxZuxRKP61iQ9d399/LyV2TAZT
- ZwOqudto5WhjIt/6OQJKGzmx52tWVmREx3472oym1FZg9A3UGvMEEm1TGMu4zslkhC5M
- wu0GdzE/ypHO2py8fxIJHWh0p0no/eqvJZQDNaVd89ZloBXrysHQIk7xbLeS/4mSH5Z+
- fn1cqOJjimMhdX6S+6gNhj7M5mcMmtnGNl/UNzMZJNg6dx3Ihl1h5OV0aCY611uL/c+2
- /dTA==
-X-Gm-Message-State: AOAM532N/dYYMTHO+aR1AwIgmxs3didIPWxbPHnqRj1uAn63i/hVJEna
- Xo+RhXikbseuQ++HVkVGA/KUTw==
-X-Google-Smtp-Source: ABdhPJw/BfFtQEbS61mEKoH0YXR2JtcvUHpUygOCU7K0n0/KtoXZhakuzt4lYFic9+8J6LVf6k3NmA==
-X-Received: by 2002:a5d:5483:: with SMTP id h3mr2900010wrv.10.1592309615920;
- Tue, 16 Jun 2020 05:13:35 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n204sm3991714wma.5.2020.06.16.05.13.34
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8bnxqQ/VAftsoq8Me5sQx+qpNnPJPcZh+U5miJTjAOY=;
+ b=gI3ftEaJbovvfgP6c5WSx+X76qbQ9Fhlx0A7bvWkTOG69vyrEGZpYl1rXEUEe08OCe
+ uk4DyL8fzoyllhh2P/jPl9hzrV/rOwyS4TBHo/JpHj4zCBo4DFaXdtJwzUO0/I2vhEjd
+ VGq5lt2CEc7i1Qhf1mnT2mCmMooBM6zckTqlwbQmVgdgUJaxJMnyaxTDBUN1H9sN9f5l
+ OFfWMHo7ZvrDIyY8xIvWpPHOG9Zdy4292tW0X/Lk8bcOBlX7Gx3iiEthHr17HPxJQvS/
+ Q/kJHZuUqhQEFuTHrT1vYTkrlOyCkjYqvlQrqfquV+hHaBgKJm64Tv4CFe0zru91T7Ad
+ xj5g==
+X-Gm-Message-State: AOAM531RVyWhNjUCVSbGusmrSckLXt74kOfpoqCikDSrqhHdkm5qALSr
+ jPqXW4jtwg7CCPB7Fq1x6iazt6iI
+X-Google-Smtp-Source: ABdhPJzYD5ZgVU8Qso6kCT2qCc5TO7bLPnygjG6dG6OPFgby0GqGuhRxI4ObAAtCm77qGk70rA8Aaw==
+X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr2888883wml.108.1592309841939; 
+ Tue, 16 Jun 2020 05:17:21 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id p1sm28059177wrx.44.2020.06.16.05.17.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 05:13:35 -0700 (PDT)
-Date: Tue, 16 Jun 2020 14:13:33 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Masanari Iida <standby24x7@gmail.com>
-Subject: Re: [PATCH] drm/kselftest: fix spellint typo in test-drm_mm.c
-Message-ID: <20200616121333.GO20149@phenom.ffwll.local>
-Mail-Followup-To: Masanari Iida <standby24x7@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@linux.ie, chris@chris-wilson.co.uk
-References: <20200615121151.1557985-1-standby24x7@gmail.com>
+ Tue, 16 Jun 2020 05:17:18 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v2] drm/tegra: Add zpos property for cursor planes
+Date: Tue, 16 Jun 2020 14:17:13 +0200
+Message-Id: <20200616121713.2983627-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200615121151.1557985-1-standby24x7@gmail.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +64,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk
+Cc: dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 15, 2020 at 09:11:51PM +0900, Masanari Iida wrote:
-> This patch fix a spelling typo in test-drm_mm.c
-> 
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+From: Thierry Reding <treding@nvidia.com>
 
-Applied, thanks for your patch.
--Daniel
+As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+have a zpos property") a warning is emitted if there's a mix of planes
+with and without a zpos property.
 
-> ---
->  drivers/gpu/drm/selftests/test-drm_mm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/selftests/test-drm_mm.c b/drivers/gpu/drm/selftests/test-drm_mm.c
-> index 9aabe82dcd3a..31602134c515 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_mm.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_mm.c
-> @@ -2359,7 +2359,7 @@ static int __init test_drm_mm_init(void)
->  	while (!random_seed)
->  		random_seed = get_random_int();
->  
-> -	pr_info("Testing DRM range manger (struct drm_mm), with random_seed=0x%x max_iterations=%u max_prime=%u\n",
-> +	pr_info("Testing DRM range manager (struct drm_mm), with random_seed=0x%x max_iterations=%u max_prime=%u\n",
->  		random_seed, max_iterations, max_prime);
->  	err = run_selftests(selftests, ARRAY_SIZE(selftests), NULL);
->  
-> -- 
-> 2.27.0.83.g0313f36c6ebe
-> 
+On Tegra, cursor planes are always composited on top of all other
+planes, which is why they never had a zpos property attached to them.
+However, since the composition order is fixed, this is trivial to
+remedy by simply attaching an immutable zpos property to them.
 
+Changes in v2:
+- hardcode cursor plane zpos to 255 instead of 0 (Ville)
+
+Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/gpu/drm/tegra/dc.c  | 9 +++++++--
+ drivers/gpu/drm/tegra/hub.c | 2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 83f31c6e891c..85408eed4685 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -787,7 +787,7 @@ static struct drm_plane *tegra_primary_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
+-	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
++	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
+ 
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+@@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs);
++	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+ 
+ 	return &plane->base;
+ }
+@@ -1074,7 +1075,11 @@ static struct drm_plane *tegra_dc_overlay_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(&plane->base, &tegra_plane_helper_funcs);
+-	drm_plane_create_zpos_property(&plane->base, plane->index, 0, 255);
++
++	if (!cursor)
++		drm_plane_create_zpos_property(&plane->base, plane->index, 0, 254);
++	else
++		drm_plane_create_zpos_immutable_property(&plane->base, 255);
+ 
+ 	err = drm_plane_create_rotation_property(&plane->base,
+ 						 DRM_MODE_ROTATE_0,
+diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
+index 22a03f7ffdc1..f8afc05bceb3 100644
+--- a/drivers/gpu/drm/tegra/hub.c
++++ b/drivers/gpu/drm/tegra/hub.c
+@@ -590,7 +590,7 @@ struct drm_plane *tegra_shared_plane_create(struct drm_device *drm,
+ 	}
+ 
+ 	drm_plane_helper_add(p, &tegra_shared_plane_helper_funcs);
+-	drm_plane_create_zpos_property(p, 0, 0, 255);
++	drm_plane_create_zpos_property(p, index, 0, 254);
+ 
+ 	return p;
+ }
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.24.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
