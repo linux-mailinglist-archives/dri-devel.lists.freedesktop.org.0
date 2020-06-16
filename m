@@ -1,76 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E241FAFDA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 14:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156201FAFE7
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jun 2020 14:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942A16E8B0;
-	Tue, 16 Jun 2020 12:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B3C6E8B1;
+	Tue, 16 Jun 2020 12:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFF806E8AD
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 12:07:23 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c71so2625261wmd.5
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 05:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=NYym/pSqjIIqScGqLo5Ww0j4iD30dp97jCKjhc4AWYU=;
- b=knLx2ZpGdX4oGShLggmffytfxEgf558C1PyxfucnfPmqi/xmuLtoOEgBytunObB1zg
- ZIjY/LiV9KQ+0li0viBzy2fcKzZ1o4sgXX7wZfRUllT6FFVlgV9x+uZ64EdChlO5GbtO
- OQSl+XuHY2To5OLz8zVi8cT8LCc/rp6ZyX0ag=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=NYym/pSqjIIqScGqLo5Ww0j4iD30dp97jCKjhc4AWYU=;
- b=RTdBceKAu2UxGuPk7hCLrvgUoQANji0vA5vCDGHNNFxVPMnuTuoSc8ARUziDlTwvc8
- h5ejNabb+8i0hzXTwbNVhc8fKr6PstwEshXggu5lsOCAt98cg5dmrhR5LyomxKv6R/AG
- PcXnIJGm0YQ+XAmHYHsqXAEg/y6SrmX/xtsXsQwu+YqX5P/FBFX5zZA5sVPnHOxUvE44
- oowH/o5L3BkjJVVoADrC3g7ltTNHmxzKlpCxtKk9l8zwzRiWEY+KJ21oq8o56UEP3QMV
- YyjHTRKnlSQKPVWiWBiT1eBTiHMkhC5OSibkfoEiiEsRUEYORb80YKyc02gTVYUW7TV5
- M7iw==
-X-Gm-Message-State: AOAM532tBL61/gJigRRTaxT4P49AJLQTelRHb0xqhJpBI5W4eTI0JDcv
- jXiFvyG1ApM5Lh82Fdj93F6Nsg==
-X-Google-Smtp-Source: ABdhPJzmf+2Tj55YA8oon0+fo0R23Li5LnD45uflCXtBTtCgHH7dL0b7di5HNdwrzpMTAQLZ6BjvLA==
-X-Received: by 2002:a05:600c:2116:: with SMTP id
- u22mr2832332wml.97.1592309242285; 
- Tue, 16 Jun 2020 05:07:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id a15sm28830028wra.86.2020.06.16.05.07.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Jun 2020 05:07:21 -0700 (PDT)
-Date: Tue, 16 Jun 2020 14:07:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-Message-ID: <20200616120719.GL20149@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- LKML <linux-kernel@vger.kernel.org>, amd-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- linux-media@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local>
- <20200611141515.GW6578@ziepe.ca>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F056E8A0;
+ Tue, 16 Jun 2020 12:10:12 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 6296EAE56;
+ Tue, 16 Jun 2020 12:10:15 +0000 (UTC)
+Subject: Re: [PATCH] drm/shmem-helper: Fix obj->filp derefence
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
+ BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
+ Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
+ irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
+ clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
+ mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
+ KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
+ Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
+ UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
+ RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
+ dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
+ ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
+ 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
+ wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
+ h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
+ n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
+ aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
+ HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
+ 3H26qrE=
+Message-ID: <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
+Date: Tue, 16 Jun 2020 14:10:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200611141515.GW6578@ziepe.ca>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,114 +64,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1981674737=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1981674737==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jRhSNXvGkueNoedOk6kH0xFCGfnFuiLgI"
 
-Somehow this got stuck somewhere in the mail queues, only popped up just
-now ...
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jRhSNXvGkueNoedOk6kH0xFCGfnFuiLgI
+Content-Type: multipart/mixed; boundary="TMusJiqInvwO1busglyEk03Ic7eg6lKzK";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
+Message-ID: <a1290884-8cca-f1a1-a05b-8d5c3e323506@suse.de>
+Subject: Re: [PATCH] drm/shmem-helper: Fix obj->filp derefence
+References: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200615151026.2339113-1-daniel.vetter@ffwll.ch>
 
-On Thu, Jun 11, 2020 at 11:15:15AM -0300, Jason Gunthorpe wrote:
-> On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> > > I still have my doubts about allowing fence waiting from within shrinkers.
-> > > IMO ideally they should use a trywait approach, in order to allow memory
-> > > allocation during command submission for drivers that
-> > > publish fences before command submission. (Since early reservation object
-> > > release requires that).
-> > 
-> > Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> > with a mempool to make sure it can handle it's allocations.
-> > 
-> > > But since drivers are already waiting from within shrinkers and I take your
-> > > word for HMM requiring this,
-> > 
-> > Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> > one, the shrinker one is a lot less established.
-> 
-> I really question if HW that needs something like DMA fence should
-> even be using mmu notifiers - the best use is HW that can fence the
-> DMA directly without having to get involved with some command stream
-> processing.
-> 
-> Or at the very least it should not be a generic DMA fence but a
-> narrowed completion tied only into the same GPU driver's command
-> completion processing which should be able to progress without
-> blocking.
+--TMusJiqInvwO1busglyEk03Ic7eg6lKzK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-The problem with gpus is that these completions leak across the board like
-mad. Both internally within memory managers (made a lot worse with p2p
-direct access to vram), and through uapi.
+Hi,
 
-Many gpus still have a very hard time preempting, so doing an overall
-switch in drivers/gpu to a memory management model where that is required
-is not a very realistic option.  And minimally you need either preempt
-(still takes a while, but a lot faster generally than waiting for work to
-complete) or hw faults (just a bunch of tlb flushes plus virtual indexed
-caches, so just the caveat of that for a gpu, which has lots and big tlbs
-and caches). So preventing the completion leaks within the kernel is I
-think unrealistic, except if we just say "well sorry, run on windows,
-mkay" for many gpu workloads. Or more realistic "well sorry, run on the
-nvidia blob with nvidia hw".
+as discussed on IRC, we still need this patch.
 
-The userspace side we can somewhat isolate, at least for pure compute
-workloads. But the thing is drivers/gpu is a continum from tiny socs
-(where dma_fence is a very nice model) to huge compute stuff (where it's
-maybe not the nicest, but hey hw sucks so still neeeded). Doing full on
-break in uapi somewhere in there is at least a bit awkward, e.g. some of
-the media codec code on intel runs all the way from the smallest intel soc
-to the big transcode servers.
+Am 15.06.20 um 17:10 schrieb Daniel Vetter:
+> I broke that in my refactoring:
+>=20
+> commit 7d2cd72a9aa3df3604cafd169a2d4a525afb68ca
+> Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Date:   Fri May 29 16:05:42 2020 +0200
+>=20
+>     drm/shmem-helpers: Simplify dma-buf importing
+>=20
+> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 7d2cd72a9aa3 ("drm/shmem-helpers: Simplify dma-buf importing")
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/d=
+rm_gem_shmem_helper.c
+> index 0a7e3b664bc2..3e7ee407a17c 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -70,15 +70,17 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
+_t size, bool private)
+>  	mutex_init(&shmem->vmap_lock);
+>  	INIT_LIST_HEAD(&shmem->madv_list);
+> =20
+> -	/*
+> -	 * Our buffers are kept pinned, so allocating them
+> -	 * from the MOVABLE zone is a really bad idea, and
+> -	 * conflicts with CMA. See comments above new_inode()
+> -	 * why this is required _and_ expected if you're
+> -	 * going to pin these pages.
+> -	 */
+> -	mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
+> -			     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> +	if (!private) {
 
-So the current status quo is "total mess, every driver defines their own
-rules". All I'm trying to do is some common rules here, do make this mess
-slightly more manageable and overall reviewable and testable.
+I would test for (obj->filp) here, because it's what the branch depends
+on. Your choice. In any case
 
-I have no illusions that this is fundamentally pretty horrible, and the
-leftover wiggle room for writing memory manager is barely more than a
-hairline. Just not seeing how other options are better.
+Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> The intent of notifiers was never to endlessly block while vast
-> amounts of SW does work.
-> 
-> Going around and switching everything in a GPU to GFP_ATOMIC seems
-> like bad idea.
 
-It's not everyone, or at least not everywhere, it's some fairly limited
-cases. Also, even if we drop the mmu_notifier on the floor, then we're
-stuck with shrinkers and GFP_NOFS. Still need a mempool of some sorts to
-guarantee you get out of a bind, so not much better.
+> +		/*
+> +		 * Our buffers are kept pinned, so allocating them
+> +		 * from the MOVABLE zone is a really bad idea, and
+> +		 * conflicts with CMA. See comments above new_inode()
+> +		 * why this is required _and_ expected if you're
+> +		 * going to pin these pages.
+> +		 */
+> +		mapping_set_gfp_mask(obj->filp->f_mapping, GFP_HIGHUSER |
+> +				     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> +	}
+> =20
+>  	return shmem;
+> =20
+>=20
 
-At least that's my current understanding of where we are across all
-drivers.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-> > I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> > hurts, so that we have a clear answer. On x86 I don't think we have much
-> > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> > (but nouveau I think doesn't use dma_fence in there). 
-> 
-> Right, nor will RDMA ODP. 
 
-Hm, what's the context here? I thought RDMA side you really don't want
-dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
-here.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--TMusJiqInvwO1busglyEk03Ic7eg6lKzK--
+
+--jRhSNXvGkueNoedOk6kH0xFCGfnFuiLgI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7otqIACgkQaA3BHVML
+eiP0gwf+ImUZuaFnxYaY0OXRYB4eSJzg+TMBSvN0ofFfA/CxdUjTZAdVaVlAcypm
+xC2UuAIkxofBv7P686EelOUzoDAc55unX3f9hYAMdL48k5UCNXpCQ9Ybm2/SSEze
+x/3AKz4u0JYBZ4wnGN1UAj2rBDmWSRAdNJ8CKdeZEfhQfEXdZMZ1baN8PJT2K12S
+jO+GIWx+wjbITVBQADa+7BVkvFL2bGtL/jgBi/jExt80d8QraepEr7l88rYQKoVP
+P+ewJBhJgmUjYQ1nD+Di1WXn76zt4LNcu+wOXMWd/Q8hbeiyFJvokVPa5Va/CDJq
+3+VQqrxspLQuA1fflgZ9vE/FQjacOw==
+=8+hG
+-----END PGP SIGNATURE-----
+
+--jRhSNXvGkueNoedOk6kH0xFCGfnFuiLgI--
+
+--===============1981674737==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1981674737==--
