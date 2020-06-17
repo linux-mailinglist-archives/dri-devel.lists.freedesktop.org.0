@@ -1,60 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACD31FC9F6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 11:36:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BC11FCA1B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 11:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4AC6E356;
-	Wed, 17 Jun 2020 09:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4606E943;
+	Wed, 17 Jun 2020 09:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99036E356
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 09:36:49 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id j198so4061599wmj.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 02:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kqV7b/dRGRsaYFJFTZmEAIxbxpemJlUlmyVmWunucJQ=;
- b=a1jJ0h4Gh9g26ELV/twHuTjWpRiKFHPp8TLQgzONwinJq+v0ldA8u5Eup6Ntp0eQBq
- nc1Lpg4kzTSI9EogHgUCu6Yr5o6TiGOdyYEUUCMjtBhKeBJkCdSzbL0uqikcMECQzOVp
- Zqchdh7yOtiUOSFYENISzhvCiIXwq0wbd6SI3ndto2+BES4dRC4hLCUprwa87V2AsrtG
- WqhBE2JM8omhJa4pmFycbSidghsV633Z49FM1+QGKfYNjHFDCxSOmXRnl7+h05r/tn6p
- /DmqFKKV9v2dwcM9yR1IGCSbxzmt71MWIxNdkkqw6pfqLArKDMB6tJBJm/imJNvsP/oA
- imzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kqV7b/dRGRsaYFJFTZmEAIxbxpemJlUlmyVmWunucJQ=;
- b=D7SyWDH90CLOA0L9ecC0kyrmcNZFU+GKWqc8FPpmUWjhrVQTKCF2CTrBdIvAK2S1oD
- WR35e6ETdyK5xS7KoH0+I1NnMF44ZjS8nHb/S9OaJp9WYjsT6PaBsnM1iTq0q9jlfDlI
- N00FytMwLquHjDMUdZCPSG6dR6Ow1mGYADf+057p22o3eURCX2faEEvWwGFuv/WcQ0KA
- bypLogTs20Cv8O+zlti/AW41bRcqlphQv+4Nt6DCwVw/1nq6ulCFLV3GdwKSmICWNUUD
- ILoOwrWT3DA7BCGsNEs8IP7p/3lqZBraPB4dpZDdd4W1uND2F5m647Ainm03eWYUtajy
- j+DQ==
-X-Gm-Message-State: AOAM530oItP37nAMQcF3gsNSmWsehYJTUWF1BuBFNmnWa8avDPAXka/j
- mqUw6Wga/xg9Dmh05W7ZC1VVLw65Q/NNTo4XWHDPBg==
-X-Google-Smtp-Source: ABdhPJyt/DSGWPMjUA/TqeAozgDqsIajAJ3rBCfT6Uxx5ItAbPuwx37kc6zO5bdEkyBLeZ+LenZ5E1u117tWg7+oIi0=
-X-Received: by 2002:a1c:bbd6:: with SMTP id l205mr7896275wmf.147.1592386608011; 
- Wed, 17 Jun 2020 02:36:48 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8096E877
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 09:47:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rcn)
+ with ESMTPSA id EA9E32A3876
+From: =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To: Laurent.pinchart@ideasonboard.com
+Subject: [PATCH v4 0/4] dt-bindings: display: ti,tfp410.txt: convert to yaml
+Date: Wed, 17 Jun 2020 11:46:29 +0200
+Message-Id: <20200617094633.19663-1-ricardo.canuelo@collabora.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20200614200121.14147-1-digetx@gmail.com>
- <CACvgo51QuXMgWhFk4C=3rGvUZDX1_W0RZtVb5RtRPiHTpMebWQ@mail.gmail.com>
- <8f789ef5-bebf-c869-784d-afda70fc1fb8@gmail.com>
- <CACvgo50oSMbgXw1vHwVT4hhGe6g3YzKQEohCLJdfDq+0UaN1jw@mail.gmail.com>
- <646b3f37-0f72-7f3b-388f-f71dbcdd5c84@gmail.com>
- <CACvgo50BFH5qsPyWx9a1aZ4k5bzjSN-3KTU0BvnZ-nG-hfzKOQ@mail.gmail.com>
- <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
-In-Reply-To: <fe845434-cbf6-29d4-eeb6-8868d628fd04@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 17 Jun 2020 10:34:41 +0100
-Message-ID: <CAPj87rPwwHWtYpuZfiTMyELvr3D+UAY8CVnH3v6+Lo1-UMRRVA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] 180 degrees rotation support for NVIDIA Tegra DRM
-To: Dmitry Osipenko <digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,39 +33,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Derek Basehore <dbasehore@chromium.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, jason@lakedaemon.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, tomi.valkeinen@ti.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, 16 Jun 2020 at 22:16, Dmitry Osipenko <digetx@gmail.com> wrote:
-> The panel's orientation could be parsed by any panel driver and then
-> assigned as the connector's property in order to allow userspace/FB-core
-> to decide what to do with the rotated display. Apparently upstream
-> kernel supports only that one Samsung device which has display panel
-> mounted upside-down and it already uses the custom DT properties for
-> achieving the 180 rotation. So I don't quite see any panel drivers that
-> instantly could benefit from using the rotation property. Perhaps I can
-> add the orientation support to the panel-simple driver, but will it be
-> useful to anyone?
-
-Yes, exposing it to userspace is helpful, since Weston at least will
-parse the property and then apply the correct transform:
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
-
-Cheers,
-Daniel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBzZXJpZXMgY29udmVydHMgdGhlIERUIGJpbmRpbmcgZm9yIHRoZSBUSSBURlA0MTAgRFBJ
+LXRvLURWSSBlbmNvZGVyCnRvIGpzb24tc2NoZW1hLgoKSXQgYWxzbyBmaXhlcyBhIG1pbm9yIGJ1
+ZyBpbiB0aGUgdGktdGZwNDEwIGRyaXZlciB0aGF0IGNhdXNlcyBhCndyb25nIGNhbGN1bGF0aW9u
+IG9mIHRoZSBzZXR1cCBhbmQgaG9sZCB0aW1lcyB3aGVuIHRoZSBkZS1za2V3IGZlYXR1cmUKaXMg
+ZW5hYmxlZC4gVGhlIHJldHJpZXZhbCBvZiB0aGUgZGUtc2tldyB2YWx1ZSBmcm9tIHRoZSBEVCBo
+YXMgYWxzbyBiZWVuCnVwZGF0ZWQgdG8gcmVmbGVjdCB0aGUgYmluZGluZyBjaGFuZ2VzLgoKQ2hh
+bmdlcyBpbiB2NDoKCiAgLSB0aSx0ZnA0MTAueWFtbDoKICAgIC0gInBvcnRzIiBub2RlIHNldCBi
+YWNrIGFzIHJlcXVpcmVkIChMYXVyZW50IFBpbmNoYXJ0KS4gVGhpcyBtZWFucwogICAgICB0aGF0
+IGRvdmUtc2JjLWE1MTAuZHRzIHdpbGwgbm90IGNvbXBseSB3aXRoIHRoZSBiaW5kaW5nIGFuZCB3
+aWxsCiAgICAgIGhhdmUgdG8gYmUgZml4ZWQgYXQgc29tZSBwb2ludC4KClRoZSBiaW5kaW5ncyBo
+YXZlIGJlZW4gdGVzdGVkIHdpdGg6CgogIG1ha2UgZHRfYmluZGluZ19jaGVjayBBUkNIPTxhcmNo
+PiBEVF9TQ0hFTUFfRklMRVM9PC4uLnRpLHRmcDQxMC55YW1sPgogIG1ha2UgZHRic19jaGVjayBB
+UkNIPTxhcmNoPiBEVF9TQ0hFTUFfRklMRVM9PC4uLnRpLHRmcDQxMC55YW1sPgoKZm9yIDxhcmNo
+PiA9IGFybSBhbmQgYXJtNjQuClRoaXMgdW5jb3ZlcmVkIGEgbnVtYmVyIG9mIGR0cyBmaWxlcyB0
+aGF0IHVzZSB0aGUgVEZQNDEwIGJ1dCBub3QgdGhyb3VnaApJMkMgYW5kIGRvbid0IGRlZmluZSB0
+aGUgdGksZGVza2V3IHByb3BlcnR5LiBUaGVzZSBzaG91bGQgYWxzbyBiZSBmaXhlZC4KClJpY2Fy
+ZG8gQ2HDsXVlbG8gKDQpOgogIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiB0aSx0ZnA0MTAudHh0OiBj
+b252ZXJ0IHRvIHlhbWwKICBkdC1iaW5kaW5nczogZGlzcGxheTogdGksdGZwNDEwLnlhbWw6IFJl
+ZGVmaW5lIHRpLGRlc2tldyBwcm9wZXJ0eQogIGRybS9icmlkZ2U6IHRmcDQxMDogZml4IGRlLXNr
+ZXcgdmFsdWUgcmV0cmlldmFsIGZyb20gRFQKICBkcm0vYnJpZGdlOiB0ZnA0MTA6IEZpeCBzZXR1
+cCBhbmQgaG9sZCB0aW1lIGNhbGN1bGF0aW9uCgogLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdl
+L3RpLHRmcDQxMC50eHQgICAgIHwgIDY2IC0tLS0tLS0tLQogLi4uL2JpbmRpbmdzL2Rpc3BsYXkv
+YnJpZGdlL3RpLHRmcDQxMC55YW1sICAgIHwgMTMxICsrKysrKysrKysrKysrKysrKwogZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS90aS10ZnA0MTAuYyAgICAgICAgICAgIHwgIDEwICstCiAzIGZpbGVz
+IGNoYW5nZWQsIDEzNiBpbnNlcnRpb25zKCspLCA3MSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uv
+dGksdGZwNDEwLnR4dAogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS90aSx0ZnA0MTAueWFtbAoKLS0gCjIuMTguMAoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
