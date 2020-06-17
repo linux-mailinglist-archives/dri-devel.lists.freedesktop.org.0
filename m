@@ -1,37 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F361FD3BC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 19:51:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05451FD410
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 20:04:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7866E9FC;
-	Wed, 17 Jun 2020 17:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB6766E12C;
+	Wed, 17 Jun 2020 18:04:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3429F6E9FC
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 17:51:28 +0000 (UTC)
-Received: from embeddedor (unknown [189.207.59.248])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6562421527;
- Wed, 17 Jun 2020 17:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592416287;
- bh=U94GeFraD01aVQEM8vl0Oh3vdf1LW+6sHme4vUAVTcs=;
- h=Date:From:To:Cc:Subject:From;
- b=HgiE+iQsxkKj1piB7LAgU1JiiOlZZ49+RlrRCXfbLUMEwSBpXPuZRtHNKTgCfLq3k
- xLikeI01z5XBmS4nX02fm0hjslVKjpOWS8xFwuiLE7tr/UXhSC+DtI6QZN4f3+MmH+
- mmuivD/x1ZkhF5iR0tCF+LK8sp+V/LjFmh8o6U5o=
-Date: Wed, 17 Jun 2020 12:56:47 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH][next] fbdev/fb.h: Use struct_size() helper in kzalloc()
-Message-ID: <20200617175647.GA26370@embeddedor>
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59A86E12C;
+ Wed, 17 Jun 2020 18:04:31 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id t18so3335580wru.6;
+ Wed, 17 Jun 2020 11:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=98Xd7cYYus42rhhSbM4fP/t0X9bqTqgjQ8tDB3m+G6g=;
+ b=TJzBz1gszdzcm/5Ihw8zJ8XsCthrYrxTUnICx7VbSj/N/1lA/v20Oh3flumpHWRMXT
+ C3rt6TkyaDzoh90pkNSe9LacZgLsC6shXprLPgoImy6cFbEA9ebk0ETliLBLfSYGeBID
+ vDbDDe5yZRdZOP5cXYuIK1uwhH4O2+IGunFaJ7QQozKeOCDOeiwtxKGPjxFFkFYcGt/b
+ +zWWY4gJlJLxdkscriDyPSShU6XUc6bjry0caTtP0DiysvtRUk8ctZ79SZIZV7HMyKCI
+ SVi4xwnCQzHW+wmywXf4NIkqjBWzv1ERw1iO+3uch2xvxSpPJDpaghlNOPkIJUg84q82
+ EW+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=98Xd7cYYus42rhhSbM4fP/t0X9bqTqgjQ8tDB3m+G6g=;
+ b=LWTohLkQyxOlMiqOx2gMXYOC67db4X6ohBg+LR3zvr7oHY5c8WUFwmPAPaz6IRrcdM
+ N3irDIV5sT7Ep0q1LfnIaDqgbJPw5RS6I7LPeN8J7W13q3zpQCYSMICXYjyQNAHzluM4
+ GiwnoZMFrEqDwCFaW7vfkIxPihpRA18g98hA/57SrhfNoTR7hhQeWN6g36PxomqMuFF9
+ HKDlcN8EzjiPkM9A6oXWPbyHji12f6JEPeR+4/AybbxCXG8NuXyKkujbLH0w9w3r5zmK
+ phsGooKHeshiNS1Ko5m6o8oeZIOuIWu8fZUci8o4FBBYoUAUSuI+acSjGOVKjieaEN9a
+ K1yA==
+X-Gm-Message-State: AOAM531qUiIhnaz+ftZNoIE1iMVzdsJfXQctWHlSVu4rU+O1ZGK6fmhK
+ ABGtH+VZf2zY8W4r3w7XF/omIEQSNMHctU7MmyeXKw==
+X-Google-Smtp-Source: ABdhPJwykZMp1VTe220cRJgrmIGB+9Nb+k1NVNrNN03qzOF31BUtVGYSdFIsO+C983pZopEb/XOjgFMIYStYGYRRB64=
+X-Received: by 2002:adf:fd41:: with SMTP id h1mr490881wrs.374.1592417070411;
+ Wed, 17 Jun 2020 11:04:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200617105130.207116-1-chentao107@huawei.com>
+ <20200617105130.207116-2-chentao107@huawei.com>
+In-Reply-To: <20200617105130.207116-2-chentao107@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 17 Jun 2020 14:04:19 -0400
+Message-ID: <CADnq5_N8QDurdw_kYRbGUSbaaJYLpbJi=uDk4dYkHNVfnJtGFg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/amdgpu/debugfs: fix memory leak when
+ amdgpu_virt_enable_access_debugfs failed
+To: Chen Tao <chentao107@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,44 +62,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: Tom St Denis <tom.stdenis@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
+ Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>, Yintian Tao <yttao@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make use of the struct_size() helper instead of an open-coded version
-in order to avoid any potential type mistakes.
+Applied.  Thanks!
 
-This code was detected with the help of Coccinelle and, audited and
-fixed manually.
+Alex
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- include/linux/fb.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 3b4b2f0c6994..2b530e6d86e4 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -506,8 +506,9 @@ struct fb_info {
- };
- 
- static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
--	struct apertures_struct *a = kzalloc(sizeof(struct apertures_struct)
--			+ max_num * sizeof(struct aperture), GFP_KERNEL);
-+	struct apertures_struct *a;
-+
-+	a = kzalloc(struct_size(a, ranges, max_num), GFP_KERNEL);
- 	if (!a)
- 		return NULL;
- 	a->count = max_num;
--- 
-2.27.0
-
+On Wed, Jun 17, 2020 at 9:10 AM Chen Tao <chentao107@huawei.com> wrote:
+>
+> Fix memory leak in amdgpu_debugfs_gpr_read not freeing data when
+> amdgpu_virt_enable_access_debugfs failed.
+>
+> Fixes: 95a2f917387a2 ("drm/amdgpu: restrict debugfs register accessunder SR-IOV")
+> Signed-off-by: Chen Tao <chentao107@huawei.com>
+> ---
+> v1->v2:
+>  - remove the duplication of result and r here and then use "goto err"
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> index 7993b9eeff38..7086e1982f9e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> @@ -867,7 +867,7 @@ static ssize_t amdgpu_debugfs_gpr_read(struct file *f, char __user *buf,
+>
+>         r = amdgpu_virt_enable_access_debugfs(adev);
+>         if (r < 0)
+> -               return r;
+> +               goto err;
+>
+>         /* switch to the specific se/sh/cu */
+>         mutex_lock(&adev->grbm_idx_mutex);
+> --
+> 2.22.0
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
