@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397941FEC4B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 085BB1FEC34
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B3A6EB2F;
-	Thu, 18 Jun 2020 07:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74A386EAD9;
+	Thu, 18 Jun 2020 07:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3106E1F2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:28:03 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id a9so4855804ljn.6
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:28:03 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7384F6E21A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 23:20:15 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id c17so4942559lji.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IKFzNibCd7jzC+wKme/62sVxJsUZsrptVvulkctN6fc=;
- b=sogBx8KF5qXKU6uIzglmpLtOwdnq8arZ4/R7HdxFWl9vEyg25TbvzNbcUG5pA7PTxu
- +Y21qITF5l2IeoGbX8+uDtgy295BPargj9NdUoojpbkgn1HjN2SCkttS5sEeV73w6saM
- lQut9MIEPs+qRJyP3MahcOMs7ZdAGaGGGpixTEHQfzJoUjI8IPCu6T/6Apst2DmMOBy/
- KUO8dzCcRhMPS2jxwmOYrUeLehzEENLkwHe15tzosdjPEL44iaqVVBabhJPAmHrJMz4M
- 83Q694VYVrE3UFGfqvgWshqUx5wEp6r2E6qeGiZ5eA67Iax9eZVlDzkJJ/iD0iL2vq96
- QKyw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wYFXhzh5n3W0/+lsSdfHJjbCv4Q6beTMubTyt25bamU=;
+ b=Ok19fZx0y2mHLKiAFpRmandHU0EoDjRfBaaPQEgbhcBR5HFtheqTZFCu67x3oKJEOr
+ /u+YWV6c19XxE6Iha3+er0DYXVVlkgxVuYncg1OvFNYWz0oMDUd1TeUjNEA9QmqrY+Il
+ 3xzE0DNI027haL3l9sHmKQNS8ek0ZJpcpDVIiWYtQPYGUuI2DqieNWdTBLpzpKICon+N
+ phAQFHbPaJI2VA2mFzM78W6f+qx1V6uKthNVC1uBSXbUlAThaFvTLCl3VEB/YHa5wKtG
+ s8Ck65117L+Wb6cI5MivXM7pfxMYg+R7joJESSDY9/GYgy2gCoMwWlR8ixr+a3igZyZu
+ ++8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IKFzNibCd7jzC+wKme/62sVxJsUZsrptVvulkctN6fc=;
- b=IaVy/mPidRXEXe7nVa13/BA1+ArZIXrJsrATgUTNnHs8dftfO2uELbbI3zepN0WLeE
- KrhmyQWMS9U3yNO8hwwHaROwryoUvj8ef/5+jlyUCL/NU5oX/sazN7Opzr5llLL3VUrr
- 9XhwkwuOw4Hs3IOIM7p9vStyULFbxNifqUFcfIAnDCqomMUaNtMwwlC8mXIx5tKaU28U
- nlUItBUYGLZCq377H9u/496iXmyFHzSDBTIdsvi/0Ng+3i3vUQ2BNDQ5ozzAVOtRAgCs
- YBnAogBC2KbQaob2sp1VXwgrC2Xigf8OsSMUP/4syF59/HCtBYjg+pYywM5OwyBtzXba
- ia/w==
-X-Gm-Message-State: AOAM530wCNE9PzM+TNRF+wPyZFLaSJX/Glyk8R8C5EXE5SVoX6Eub+lV
- SWvOewWlXtUJoeo4AZSwzZG12jUE
-X-Google-Smtp-Source: ABdhPJwcUfeogdH2fdQoZn2uStj+lMY3N6d4lTg2ozcjT5sN41K76ccpr8S5r0ZJF0Z0vAo7B1CP+A==
-X-Received: by 2002:a2e:9810:: with SMTP id a16mr648149ljj.157.1592432881697; 
- Wed, 17 Jun 2020 15:28:01 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wYFXhzh5n3W0/+lsSdfHJjbCv4Q6beTMubTyt25bamU=;
+ b=CjfEKmgxC3an6AbQitfXELizGSZzF7uzHmbn/4Joyk0XwbP95nj7dluAijRX5OUBy7
+ m1T/7nkC71TRerW0SBiHNNhc5sS2Q5PbvpbnDn/1nwNllRT8Bqfjjs+LLvfEPy5OKpR8
+ KjykjKHSNSBRRceTaK02mHVpSKM8AewsBjKkW0PghQefBcw9IvLeUoS6ibP95kJw591x
+ hndrU3vVF1CAS2vDBHPZ71ZBzif1r2/CzmUwN/QSdTPrJZEAe3pDtVPrNaScps+UI4iM
+ TdqyQuXr1ZoL6L5X8zKM1UgAHWGskjDDzMdK5D3ASnfPkqC7MKQxYMJhi+U87ZUNWXiT
+ VGPA==
+X-Gm-Message-State: AOAM531JuW9MSF+VfQl+CXL/zucDMVBQT9q/HXMoZ16HfBikZIKD29aM
+ U8jEGqxrXnGW1MQe7zP7FRo=
+X-Google-Smtp-Source: ABdhPJy2asig9o4HQkeA6kr0/BZUFzr0Cw199sxDaJ65mXseg932jHDoFA0AVplbmsVwcK8/VX91vg==
+X-Received: by 2002:a2e:1412:: with SMTP id u18mr833931ljd.309.1592436013810; 
+ Wed, 17 Jun 2020 16:20:13 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id a1sm210378ljk.133.2020.06.17.15.28.00
+ by smtp.gmail.com with ESMTPSA id x3sm235100ljc.82.2020.06.17.16.20.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:28:01 -0700 (PDT)
+ Wed, 17 Jun 2020 16:20:13 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Derek Basehore <dbasehore@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for some
- panels
-Date: Thu, 18 Jun 2020 01:27:03 +0300
-Message-Id: <20200617222703.17080-8-digetx@gmail.com>
+ Sean Paul <sean@poorly.run>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Stone <daniel@fooishbar.org>
+Subject: [PATCH v11 0/4] Panel rotation patches
+Date: Thu, 18 Jun 2020 02:18:38 +0300
+Message-Id: <20200617231842.30671-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200617222703.17080-1-digetx@gmail.com>
-References: <20200617222703.17080-1-digetx@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,101 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM panel bridge core requires connector type to be set up properly,
-otherwise it rejects the panel. The missing connector type problem popped
-up while I was trying to wrap CLAA070WP03XG panel into a DRM bridge in
-order to test whether panel's rotation property work properly using
-panel-simple driver on NVIDIA Tegra30 Nexus 7 tablet device, which uses
-CLAA070WP03XG display panel.
+Hello!
 
-The NVIDIA Tegra DRM driver recently gained DRM bridges support for the
-RGB output and now driver wraps directly-connected panels into DRM bridge.
-Hence all panels should have connector type set properly now, otherwise
-the panel's wrapping fails.
+This series adds support for display panel's DT rotation property. It's a
+continuation of the work that was initially started by Derek Basehore for
+the panel driver that is used by some Mediatek device [1]. I picked up the
+Derek's patches and added my t-b and r-b tags to them, I also added
+rotation support to the panel-lvds and panel-simple drivers.
 
-This patch adds missing connector types for the LVDS panels that are found
-on NVIDIA Tegra devices:
+We need the rotation support for the Nexus 7 tablet device which is pending
+to become supported by upstream kernel, the device has display panel mounted
+upside-down and it uses panel-lvds [2].
 
-  1. AUO B101AW03
-  2. Chunghwa CLAA070WP03XG
-  3. Chunghwa CLAA101WA01A
-  4. Chunghwa CLAA101WB01
-  5. EDT ET057090DHU
-  6. Innolux N156BGE L21
-  7. Samsung LTN101NT05
+[1] https://lkml.org/lkml/2020/3/5/1119
+[2] https://patchwork.ozlabs.org/project/linux-tegra/patch/20200607154327.18589-3-digetx@gmail.com/
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changelog:
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 6764ac630e22..9eb2dbb7bfa6 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -687,6 +687,7 @@ static const struct panel_desc auo_b101aw03 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct display_timing auo_b101ean01_timing = {
-@@ -1340,6 +1341,7 @@ static const struct panel_desc chunghwa_claa070wp03xg = {
- 		.width = 94,
- 		.height = 150,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode chunghwa_claa101wa01a_mode = {
-@@ -1362,6 +1364,7 @@ static const struct panel_desc chunghwa_claa101wa01a = {
- 		.width = 220,
- 		.height = 120,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode chunghwa_claa101wb01_mode = {
-@@ -1384,6 +1387,7 @@ static const struct panel_desc chunghwa_claa101wb01 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode dataimage_scf0700c48ggu18_mode = {
-@@ -1573,6 +1577,7 @@ static const struct panel_desc edt_et057090dhu = {
- 	},
- 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode edt_etm0700g0dh6_mode = {
-@@ -2055,6 +2060,7 @@ static const struct panel_desc innolux_n156bge_l21 = {
- 		.width = 344,
- 		.height = 193,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
-@@ -3001,6 +3007,7 @@ static const struct panel_desc samsung_ltn101nt05 = {
- 		.width = 223,
- 		.height = 125,
- 	},
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
- static const struct drm_display_mode samsung_ltn140at29_301_mode = {
+v11: - This series is factored out from this patchset [3] because these
+       patches do not have hard dependency on the Tegra DRM patches and
+       it should be nicer to review and apply the properly grouped patches.
+
+     - Initially [3] only touched the panel-lvds driver and Emil Velikov
+       suggested that it will be better to support more panels in the review
+       comments to [3]. So I included the Derek's patch for the BOE panel
+       and added rotation support to the panel-simple driver. I tested that
+       panel-lvds and panel-simple work properly with the rotated panel using
+       the Opentegra Xorg driver [4] and Wayland Weston [5].
+
+     - The panel-lvds driver now prints a error message if rotation property
+       fails to be parsed.
+
+[3] https://lore.kernel.org/lkml/20200614200121.14147-1-digetx@gmail.com/
+[4] https://github.com/grate-driver/xf86-video-opentegra/commit/28eb20a3959bbe5bc3a3b67e55977093fd5114ca
+[5] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/315
+
+Derek Basehore (2):
+  drm/panel: Add helper for reading DT rotation
+  drm/panel: Read panel orientation for BOE TV101WUM-NL6
+
+Dmitry Osipenko (2):
+  drm/panel: lvds: Read panel orientation
+  drm/panel-simple: Read panel orientation
+
+ drivers/gpu/drm/drm_panel.c                   | 43 +++++++++++++++++++
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    |  6 +++
+ drivers/gpu/drm/panel/panel-lvds.c            | 10 +++++
+ drivers/gpu/drm/panel/panel-simple.c          | 11 +++++
+ include/drm/drm_panel.h                       |  9 ++++
+ 5 files changed, 79 insertions(+)
+
 -- 
 2.26.0
 
