@@ -1,75 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C12C1FD0EC
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 17:28:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C641FD106
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 17:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC9A6E03C;
-	Wed, 17 Jun 2020 15:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F196E970;
+	Wed, 17 Jun 2020 15:30:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0626C6E03C
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592407682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lhSUPYJGQa5KskvJ9T1z4T7yHeLH8K5o911LUOWGRKU=;
- b=Y29mNOL9jBcOj4ouMsBZKPzuZt/nrmI5Lst/0AuXL/r9tIx7FmGBkpMMULL5uYlfAN7Jbb
- d7jBTGbvoqFFMod1n0Sp6OsstP5mZY1w4B0zNYWmDr9NlXdmxBGzZmQISxiVYBRfL7veDE
- rLK5Pp6M+wdoWYs3Kc9r+oEQtpPPyfI=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-PCvp487INKSRKuiInEhfyw-1; Wed, 17 Jun 2020 11:28:01 -0400
-X-MC-Unique: PCvp487INKSRKuiInEhfyw-1
-Received: by mail-qt1-f199.google.com with SMTP id u48so1976641qth.17
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 08:28:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=lhSUPYJGQa5KskvJ9T1z4T7yHeLH8K5o911LUOWGRKU=;
- b=r/80+h6FNv6sbL2sM/C3ffxbL7j8+P99ur/do7SVV0hOrsEOVJgTZRYTCAtrBY3u3Y
- D3CpWNQlhnp2Qkcil0wqfhXKiWfRlD4DwBxULWqKCOvPnHtKJp5hXAamIm6KFMFXV8O5
- xuoslnMQnsY/fGtaSLRuGbtMdz2/ym8kli3H7eHwwDm9ekA39yJPJuITRVhT4sXaiYEN
- RToEbVdF/VXzunmWsoZCYv1tTAOdSmGHJxqFdNmcnUaqvE0cGGk9G9duzN/EFBoDC7cq
- D+kU5U5ydRL/znTlWZIHSPjXyhKLtAdMrjJjrDA8Y8nWFyF8KvJftH1lQmdi/aTbUZ4X
- FoaQ==
-X-Gm-Message-State: AOAM533aJh9ZqJpO2/YsAP/1ncgZeasGzP7LG7fsgFXNgTgXcu0yqO5k
- ZzxowjLdcRWWDiOiyajsJ48hGWnZgR5/iZZihtAc4k5MyqqjmjvgrMQ8PS9WOZpDyxgjkOTDaqU
- 2AZ2L56cWvvOKemW1YGnmZ6AZQB26
-X-Received: by 2002:ac8:341a:: with SMTP id u26mr27073417qtb.36.1592407680518; 
- Wed, 17 Jun 2020 08:28:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzU14VOV0EESxC3VoI4wxvu2CjrnDirIwtSeoeVxGfHYTHojJZPQm/q7U6VCqEBRpjIMUcjxA==
-X-Received: by 2002:ac8:341a:: with SMTP id u26mr27073398qtb.36.1592407680272; 
- Wed, 17 Jun 2020 08:28:00 -0700 (PDT)
-Received: from Ruby.lyude.net (static-173-76-190-23.bstnma.ftas.verizon.net.
- [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id m7sm193123qti.6.2020.06.17.08.27.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 08:27:59 -0700 (PDT)
-Message-ID: <656eecf36aa1200fd3c994a5c5dd2678c5cf8564.camel@redhat.com>
-Subject: Re: [PATCH v2 6/6] drm/i915/dp_mst: Ensure the DPCD ACT sent flag
- is cleared before waiting for it
-From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 17 Jun 2020 11:27:58 -0400
-In-Reply-To: <20200616211146.23027-3-imre.deak@intel.com>
-References: <20200616141855.746-6-imre.deak@intel.com>
- <20200616211146.23027-3-imre.deak@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B08AE6E96C;
+ Wed, 17 Jun 2020 15:30:43 +0000 (UTC)
+IronPort-SDR: JW2uv6RINtynCfmNsfqWY/CIAWcUXUPEwSr5TbAXdlwbcl1bxNr/Zl3SKzhVGaihqesDNjtV7F
+ PrGvKzDyR3fw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2020 08:30:43 -0700
+IronPort-SDR: FhAnKMQ15C/1Vd/68hiK8SPvcJFr4/B2A3iu9OVMnoHzHYQBkrleKPYBhN2scQD1sbZDpEzxpf
+ ipWvoOOQ+W3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,523,1583222400"; d="scan'208";a="291458662"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga002.jf.intel.com with SMTP; 17 Jun 2020 08:30:39 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 17 Jun 2020 18:30:38 +0300
+Date: Wed, 17 Jun 2020 18:30:38 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Intel-gfx] [PATCH v3 1/5] drm/i915: Add enable/disable flip
+ done and flip done handler
+Message-ID: <20200617153038.GM6112@intel.com>
+References: <20200528053931.29282-1-karthik.b.s@intel.com>
+ <20200528053931.29282-2-karthik.b.s@intel.com>
+ <0c4f01e093ad373bad5449ff01ae41df18e88d56.camel@intel.com>
+ <CAKMK7uGHWqReNX9eUPpUyfgUtsNK2neT1wuK3C-tS1eBbDzX=g@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGHWqReNX9eUPpUyfgUtsNK2neT1wuK3C-tS1eBbDzX=g@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,94 +54,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Karthik B S <karthik.b.s@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmV2aWV3ZWQtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CgpUaGFua3MgZm9yIGFs
-bCB0aGUgc3VidGxlIGZpeGVzIGZvciBicm9rZW4gTVNUIGRpc3BsYXlzLCB0aGVzZSBhcmUgYWx3
-YXlzIG15CmZhdm9yaXRlIHRvIGZpbmQgOikKCk9uIFdlZCwgMjAyMC0wNi0xNyBhdCAwMDoxMSAr
-MDMwMCwgSW1yZSBEZWFrIHdyb3RlOgo+IEF0bSwgd2UgY2xlYXIgdGhlIEFDVCBzZW50IGZsYWcg
-aW4gdGhlIHNpbmsncyBEUENEIGJlZm9yZSB1cGRhdGluZyB0aGUKPiBzaW5rJ3MgcGF5bG9hZCB0
-YWJsZSwgYWxvbmcgY2xlYXJpbmcgdGhlIHBheWxvYWQgdGFibGUgdXBkYXRlZCBmbGFnLgo+IFRo
-ZSBzaW5rIGlzIHN1cHBvc2VkIHRvIHNldCB0aGlzIGZsYWcgb25jZSBpdCBkZXRlY3RzIHRoYXQg
-dGhlIHNvdXJjZQo+IGhhcyBjb21wbGV0ZWQgdGhlIEFDVCBzZXF1ZW5jZSAoYWZ0ZXIgZGV0ZWN0
-aW5nIHRoZSA0IHJlcXVpcmVkIEFDVCBNVFBICj4gc3ltYm9scyBzZW50IGJ5IHRoZSBzb3VyY2Up
-LiBBcyBvcHBvc2VkIHRvIHRoaXMgMiBERUxMIG1vbml0b3JzIEkgaGF2ZQo+IHNldCB0aGUgZmxh
-ZyBhbHJlYWR5IGFsb25nIHRoZSBwYXlsb2FkIHRhYmxlIHVwZGF0ZWQgZmxhZywgd2hpY2ggaXMg
-bm90Cj4gcXVpdGUgY29ycmVjdC4KPiAKPiBUbyBiZSBzdXJlIHRoYXQgdGhlIHNpbmsgaGFzIGRl
-dGVjdGVkIHRoZSBBQ1QgTVRQSCBzeW1ib2xzIGJlZm9yZQo+IGNvbnRpbnVpbmcgZW5hYmxpbmcg
-dGhlIGVuY29kZXIsIGNsZWFyIHRoZSBBQ1Qgc2VudCBmbGFnIGJlZm9yZSBlbmFibGluZwo+IG9y
-IGRpc2FibGluZyB0aGUgdHJhbnNjb2RlciBWQyBwYXlsb2FkIGFsbG9jYXRpb24gKHdoaWNoIGlz
-IHdoYXQgc3RhcnRzCj4gdGhlIEFDVCBzZXF1ZW5jZSkuCj4gCj4gdjIgKFZpbGxlKToKPiAtIFVz
-ZSB0aGUgY29ycmVjdCBiaXQgdG8gY2xlYXIgdGhlIGZsYWdzLgo+IC0gQWRkIGNvZGUgY29tbWVu
-dCBleHBsYWluaW5nIHRoZSBjbGVhcmluZyBzZW1hbnRpY3Mgb2YgdGhlIEFDVCBoYW5kbGVkCj4g
-ICBmbGFnLgo+IAo+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENjOiBWaWxs
-ZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+IENjOiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogSW1yZSBEZWFrIDxpbXJl
-LmRlYWtAaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3Bv
-bG9neS5jICAgICAgIHwgMzggKysrKysrKysrKysrKysrKysrKy0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMgfCAgMiArKwo+ICBpbmNsdWRlL2RybS9kcm1f
-ZHBfbXN0X2hlbHBlci5oICAgICAgICAgICAgIHwgIDIgKysKPiAgMyBmaWxlcyBjaGFuZ2VkLCA0
-MCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rw
-X21zdF90b3BvbG9neS5jCj4gaW5kZXggYjJmNWE4NGI0Y2ZiLi4xZjVkMTQxMjhjMWEgMTAwNjQ0
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiBAQCAtNDM3Nyw2ICs0Mzc3LDQx
-IEBAIHZvaWQgZHJtX2RwX21zdF9kZWFsbG9jYXRlX3ZjcGkoc3RydWN0Cj4gZHJtX2RwX21zdF90
-b3BvbG9neV9tZ3IgKm1nciwKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKGRybV9kcF9tc3RfZGVhbGxv
-Y2F0ZV92Y3BpKTsKPiAgCj4gKy8qKgo+ICsgKiBkcm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMo
-KSAtIENsZWFycyB0aGUgcGF5bG9hZCB0YWJsZSBzdGF0dXMgZmxhZ3MKPiArICogQG1ncjogbWFu
-YWdlciB0byB1c2UKPiArICoKPiArICogQ2xlYXJzIHRoZSBwYXlsb2FkIHRhYmxlIEFDVCBoYW5k
-bGVkIGFuZCB0YWJsZSB1cGRhdGVkIGZsYWdzIGluIHRoZSBNU1QKPiBodWIncwo+ICsgKiBEUENE
-LiBUaGlzIGZ1bmN0aW9uIG11c3QgYmUgY2FsbGVkIGJlZm9yZSB1cGRhdGluZyB0aGUgcGF5bG9h
-ZCB0YWJsZSBvcgo+ICsgKiBzdGFydGluZyB0aGUgQUNUIHNlcXVlbmNlIGFuZCB3YWl0aW5nIGZv
-ciB0aGUgY29ycmVzcG9uZGluZyBmbGFncyB0byBnZXQKPiArICogc2V0IGJ5IHRoZSBodWIuCj4g
-KyAqCj4gKyAqIFJldHVybnM6Cj4gKyAqIDAgaWYgdGhlIGZsYWdzIGdvdCBjbGVhcmVkIHN1Y2Nl
-c3NmdWxseSwgb3RoZXJ3aXNlIGEgbmVnYXRpdmUgZXJyb3IKPiBjb2RlLgo+ICsgKi8KPiAraW50
-IGRybV9kcF9jbGVhcl9wYXlsb2FkX3N0YXR1cyhzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9t
-Z3IgKm1ncikKPiArewo+ICsJaW50IHJldDsKPiArCj4gKwkvKgo+ICsJICogTm90ZSB0aGF0IHRo
-ZSBmb2xsb3dpbmcgaXMgYmFzZWQgb24gdGhlIERQIFN0YW5kYXJkIHN0YXRpbmcgdGhhdAo+ICsJ
-ICogd3JpdGluZyB0aGUgRFBfUEFZTE9BRF9UQUJMRV9VUERBVEVEIGJpdCBhbG9uZSB3aWxsIGNs
-ZWFyIGJvdGggdGhlCj4gKwkgKiBEUF9QQVlMT0FEX1RBQkxFX1VQREFURUQgYW5kIHRoZSBEUF9Q
-QVlMT0FEX0FDVF9IQU5ETEVEIGZsYWdzLiBUaGlzCj4gKwkgKiBzZWVtcyB0byBiZSBhbHNvIHRo
-ZSBvbmx5IHdheSB0byBjbGVhciBEUF9QQVlMT0FEX0FDVF9IQU5ETEVELgo+ICsJICovCj4gKwly
-ZXQgPSBkcm1fZHBfZHBjZF93cml0ZWIobWdyLT5hdXgsIERQX1BBWUxPQURfVEFCTEVfVVBEQVRF
-X1NUQVRVUywKPiArCQkJCSBEUF9QQVlMT0FEX1RBQkxFX1VQREFURUQpOwo+ICsJaWYgKHJldCA8
-IDApIHsKPiArCQlEUk1fREVCVUdfRFJJVkVSKCJDYW4ndCBjbGVhciB0aGUgQUNUIGhhbmRsZWQv
-dGFibGUgdXBkYXRlZAo+IGZsYWdzICglZClcbiIsCj4gKwkJCQkgcmV0KTsKPiArCQlyZXR1cm4g
-cmV0Owo+ICsJfQo+ICsJV0FSTl9PTihyZXQgIT0gMSk7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gK30K
-PiArRVhQT1JUX1NZTUJPTChkcm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMpOwo+ICsKPiAgc3Rh
-dGljIGludCBkcm1fZHBfZHBjZF93cml0ZV9wYXlsb2FkKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9s
-b2d5X21nciAqbWdyLAo+ICAJCQkJICAgICBpbnQgaWQsIHN0cnVjdCBkcm1fZHBfcGF5bG9hZCAq
-cGF5bG9hZCkKPiAgewo+IEBAIC00Mzg0LDggKzQ0MTksNyBAQCBzdGF0aWMgaW50IGRybV9kcF9k
-cGNkX3dyaXRlX3BheWxvYWQoc3RydWN0Cj4gZHJtX2RwX21zdF90b3BvbG9neV9tZ3IgKm1nciwK
-PiAgCWludCByZXQ7Cj4gIAlpbnQgcmV0cmllcyA9IDA7Cj4gIAo+IC0JZHJtX2RwX2RwY2Rfd3Jp
-dGViKG1nci0+YXV4LCBEUF9QQVlMT0FEX1RBQkxFX1VQREFURV9TVEFUVVMsCj4gLQkJCSAgIERQ
-X1BBWUxPQURfVEFCTEVfVVBEQVRFRCk7Cj4gKwlkcm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMo
-bWdyKTsKPiAgCj4gIAlwYXlsb2FkX2FsbG9jWzBdID0gaWQ7Cj4gIAlwYXlsb2FkX2FsbG9jWzFd
-ID0gcGF5bG9hZC0+c3RhcnRfc2xvdDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9kcF9tc3QuYwo+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxh
-eS9pbnRlbF9kcF9tc3QuYwo+IGluZGV4IDkzMDhiNTkyMDc4MC4uM2M0YjBmYjEwZDhiIDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHBfbXN0LmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwX21zdC5jCj4gQEAgLTMy
-Myw2ICszMjMsOCBAQCBzdGF0aWMgdm9pZCBjbGVhcl9hY3Rfc2VudChzdHJ1Y3QgaW50ZWxfZHAg
-KmludGVsX2RwKQo+ICAKPiAgCWludGVsX2RlX3dyaXRlKGk5MTUsIGludGVsX2RwLT5yZWdzLmRw
-X3RwX3N0YXR1cywKPiAgCQkgICAgICAgRFBfVFBfU1RBVFVTX0FDVF9TRU5UKTsKPiArCj4gKwlk
-cm1fZHBfY2xlYXJfcGF5bG9hZF9zdGF0dXMoJmludGVsX2RwLT5tc3RfbWdyKTsKPiAgfQo+ICAK
-PiAgc3RhdGljIHZvaWQgd2FpdF9mb3JfYWN0X3NlbnQoc3RydWN0IGludGVsX2RwICppbnRlbF9k
-cCkKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaAo+IGIvaW5j
-bHVkZS9kcm0vZHJtX2RwX21zdF9oZWxwZXIuaAo+IGluZGV4IDhiOWViNGRiMzM4MS4uMmZhY2I4
-NzYyNGJmIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9kcF9tc3RfaGVscGVyLmgKPiAr
-KysgYi9pbmNsdWRlL2RybS9kcm1fZHBfbXN0X2hlbHBlci5oCj4gQEAgLTc2Myw2ICs3NjMsOCBA
-QCBpbnQgZHJtX2RwX2ZpbmRfdmNwaV9zbG90cyhzdHJ1Y3QKPiBkcm1fZHBfbXN0X3RvcG9sb2d5
-X21nciAqbWdyLAo+ICAJCQkgICBpbnQgcGJuKTsKPiAgCj4gIAo+ICtpbnQgZHJtX2RwX2NsZWFy
-X3BheWxvYWRfc3RhdHVzKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyKTsKPiAr
-Cj4gIGludCBkcm1fZHBfdXBkYXRlX3BheWxvYWRfcGFydDEoc3RydWN0IGRybV9kcF9tc3RfdG9w
-b2xvZ3lfbWdyICptZ3IpOwo+ICAKPiAgCi0tIApDaGVlcnMsCglMeXVkZSBQYXVsIChzaGUvaGVy
-KQoJQXNzb2NpYXRlIFNvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Jun 17, 2020 at 11:58:10AM +0200, Daniel Vetter wrote:
+> On Wed, Jun 10, 2020 at 03:33:06PM -0700, Paulo Zanoni wrote:
+> > Em qui, 2020-05-28 =E0s 11:09 +0530, Karthik B S escreveu:
+> > > Add enable/disable flip done functions and the flip done handler
+> > > function which handles the flip done interrupt.
+> > >
+> > > Enable the flip done interrupt in IER.
+> > >
+> > > Enable flip done function is called before writing the
+> > > surface address register as the write to this register triggers
+> > > the flip done interrupt
+> > >
+> > > Flip done handler is used to send the page flip event as soon as the
+> > > surface address is written as per the requirement of async flips.
+> > > The interrupt is disabled after the event is sent.
+> > >
+> > > v2: -Change function name from icl_* to skl_* (Paulo)
+> > >     -Move flip handler to this patch (Paulo)
+> > >     -Remove vblank_put() (Paulo)
+> > >     -Enable flip done interrupt for gen9+ only (Paulo)
+> > >     -Enable flip done interrupt in power_well_post_enable hook (Paulo)
+> > >     -Removed the event check in flip done handler to handle async
+> > >      flips without pageflip events.
+> > >
+> > > v3: -Move skl_disable_flip_done out of interrupt handler (Paulo)
+> > >     -Make the pending vblank event NULL in the begining of
+> > >      flip_done_handler to remove sporadic WARN_ON that is seen.
+> > >
+> > > Signed-off-by: Karthik B S <karthik.b.s@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++
+> > >  drivers/gpu/drm/i915/i915_irq.c              | 52 ++++++++++++++++++=
+++
+> > >  drivers/gpu/drm/i915/i915_irq.h              |  2 +
+> > >  3 files changed, 64 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/g=
+pu/drm/i915/display/intel_display.c
+> > > index f40b909952cc..48cc1fc9bc5a 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > > @@ -15530,6 +15530,13 @@ static void intel_atomic_commit_tail(struct =
+intel_atomic_state *state)
+> > >
+> > >     intel_dbuf_pre_plane_update(state);
+> > >
+> > > +   for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > > +           if (new_crtc_state->uapi.async_flip) {
+> > > +                   skl_enable_flip_done(&crtc->base);
+> > > +                   break;
+> > > +           }
+> > > +   }
+> > > +
+> > >     /* Now enable the clocks, plane, pipe, and connectors that we set=
+ up. */
+> > >     dev_priv->display.commit_modeset_enables(state);
+> > >
+> > > @@ -15551,6 +15558,9 @@ static void intel_atomic_commit_tail(struct i=
+ntel_atomic_state *state)
+> > >     drm_atomic_helper_wait_for_flip_done(dev, &state->base);
+> > >
+> > >     for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
+> > > +           if (new_crtc_state->uapi.async_flip)
+> > > +                   skl_disable_flip_done(&crtc->base);
+> > > +
+> > >             if (new_crtc_state->hw.active &&
+> > >                 !needs_modeset(new_crtc_state) &&
+> > >                 !new_crtc_state->preload_luts &&
+> > > diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i=
+915_irq.c
+> > > index efdd4c7b8e92..632e7b1deb87 100644
+> > > --- a/drivers/gpu/drm/i915/i915_irq.c
+> > > +++ b/drivers/gpu/drm/i915/i915_irq.c
+> > > @@ -1295,6 +1295,23 @@ display_pipe_crc_irq_handler(struct drm_i915_p=
+rivate *dev_priv,
+> > >                          u32 crc4) {}
+> > >  #endif
+> > >
+> > > +static void flip_done_handler(struct drm_i915_private *dev_priv,
+> > > +                         unsigned int pipe)
+> > > +{
+> > > +   struct intel_crtc *crtc =3D intel_get_crtc_for_pipe(dev_priv, pip=
+e);
+> > > +   struct drm_crtc_state *crtc_state =3D crtc->base.state;
+> > > +   struct drm_pending_vblank_event *e =3D crtc_state->event;
+> > > +   struct drm_device *dev =3D &dev_priv->drm;
+> > > +   unsigned long irqflags;
+> > > +
+> > > +   crtc_state->event =3D NULL;
+> > > +
+> > > +   spin_lock_irqsave(&dev->event_lock, irqflags);
+> > > +
+> > > +   drm_crtc_send_vblank_event(&crtc->base, e);
+> >
+> > I don't think this is what we want. With this, the events the Kernel
+> > sends us all have the same sequence and timestamp. In fact, the IGT
+> > test you submitted fails because of this.
+> >
+> > In my original hackish proof-of-concept patch I had changed
+> > drm_update_vblank_count() to force diff=3D1 in order to always send
+> > events and I also changed g4x_get_vblank_counter() to get the counter
+> > from FLIPCOUNT (which updates every time there's a flip) instead of
+> > FRMCOUNT (which doesn't seem to increment when you do async flips).
+> > That is a drastic change, but the patch was just a PoC so I didn't care
+> > about keeping anything else working.
+> >
+> > One thing that confused me a little bit when dealing the the
+> > vblank/flip event interface from drm.ko is that "flips" and "vblanks"
+> > seem to be changed interchangeably, which is confusing for async flips:
+> > if you keep forever doing async flips in the very first few scanlines
+> > you never actually reach the "vblank" period, yet you keep flipping
+> > your frame. Then, what should your expectation regarding events be?
+> =
+
+> Hm vblank should keep happening I thought (this isn't VRR or DRRS or PSR
+> where that changes), no idea why we can't keep sending out vblank
+> interrupts.
+> =
+
+> Now flip events look maybe conflated in drm.ko code with vblank events
+> since most of the time a flip complete happens at exactly the same time
+> the vblank event. But for async flip this is not the case.
+> =
+
+> Probably worth it to have new helpers/function in drm_vblank.c for
+> async flips, so that this is less confusing. Plus good documentation.
+
+We're going to need three different ways to calculate the flip
+timestamps: sync flip, vrr sync flip, async flip.
+
+First one we handle just fine currently since we know know when
+the timestamp was sampled and when the vblank ends so we can do
+the appropriate correction.
+
+VRR is going to be a bit more interesting since we don't really know how
+long the vblank will be. I think we may have to use the frame timestamp
+and current timestamp counter to first convert the monotonic timestamp
+to correlate with the start of the vblank exit, and then we can move it
+forward by the fixed (I think) length of the vblank exit procedure.
+
+For async flip I think we may want to do something similar with the
+flip done timestamp and current timestamp (apart from adding the
+fixed length of the vblank exit procedure of course, since there
+is no vblank exit). Although I'm not entirely sure what we should do
+if we do the async flip during the vblank. If we want to maintain
+that the timestamp always correlates with the first pixel actually
+getting scanned out then we should still correct the timestamp to
+point past the end of vblank. And even with the corrections there =
+
+will be some amount of error due to the old data first having to
+drain out of the FIFO. That error I think we're just going to
+have to accept.
+
+Not sure how much surgery all that is going to require to the vblank
+timestamping code.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
