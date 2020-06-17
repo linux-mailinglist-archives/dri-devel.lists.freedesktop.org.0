@@ -1,25 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67311FC627
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 08:28:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5010B1FC642
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 08:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA2AA6E239;
-	Wed, 17 Jun 2020 06:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDD726E22A;
+	Wed, 17 Jun 2020 06:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C24526E241
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 06:28:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B2D6E22A;
+ Wed, 17 Jun 2020 06:33:31 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id E485CADAA;
- Wed, 17 Jun 2020 06:28:10 +0000 (UTC)
-Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20200616142630.20129-1-tzimmermann@suse.de>
- <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
+ by mx2.suse.de (Postfix) with ESMTP id B7C0DAD04;
+ Wed, 17 Jun 2020 06:33:33 +0000 (UTC)
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+References: <20200617105929.534edd34@canb.auug.org.au>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -46,12 +48,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
-Date: Wed, 17 Jun 2020 08:28:02 +0200
+Message-ID: <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
+Date: Wed, 17 Jun 2020 08:33:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
+In-Reply-To: <20200617105929.534edd34@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,85 +66,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Donnelly <john.p.donnelly@oracle.com>,
- kernel test robot <rong.a.chen@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0821267305=="
+Content-Type: multipart/mixed; boundary="===============1382260341=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0821267305==
+--===============1382260341==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="HrpTiCbDoDBON8ycek7moKZEdjE82lLUU"
+ boundary="9f3F1hth8h3MULKD8eNFEKS2PH808P58m"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HrpTiCbDoDBON8ycek7moKZEdjE82lLUU
-Content-Type: multipart/mixed; boundary="T3spVXhIaJt5WGyy8ktuz9IMA5tXFZUXn";
+--9f3F1hth8h3MULKD8eNFEKS2PH808P58m
+Content-Type: multipart/mixed; boundary="KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: John Donnelly <john.p.donnelly@oracle.com>,
- kernel test robot <rong.a.chen@intel.com>,
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
-References: <20200616142630.20129-1-tzimmermann@suse.de>
- <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
-In-Reply-To: <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
+Message-ID: <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+References: <20200617105929.534edd34@canb.auug.org.au>
+In-Reply-To: <20200617105929.534edd34@canb.auug.org.au>
 
---T3spVXhIaJt5WGyy8ktuz9IMA5tXFZUXn
-Content-Type: text/plain; charset=utf-8
+--KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Emil
+Hi
 
-Am 16.06.20 um 17:14 schrieb Emil Velikov:
-> Hi Thomas,
+Am 17.06.20 um 02:59 schrieb Stephen Rothwell:
+> Hi all,
 >=20
-> On Tue, 16 Jun 2020 at 15:26, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
->>
->> The original modesetting code set MISC to 0x2d, which is <hpgoddev>,
->> <clksel> and <ioaddsel>
->>
->> With the conversion to atomic modesetting, <rammapen> accidentally
->> got enabled as well. Revert this change and initialize MISC with a
->> constant value of <hgoddev> and <ioaddsel>. The <clksel> bits are set
->> in mga_crtc_set_plls(), sync flags are set in mgag200_set_mode_regs().=
-
->>
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
 >=20
-> Let's keep the remove (restoring original functionality) and rename
-> (cosmetics) separate patches. The read has also disappeared, which
-> should be safe although might be better on it's own.
+> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c: In function 'amdgpu_a=
+mdkfd_gpuvm_free_memory_of_gpu':
+> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:1357:2: error: implici=
+t declaration of function 'drm_gem_object_put_unlocked'; did you mean 'dr=
+m_gem_object_put_locked'? [-Werror=3Dimplicit-function-declaration]
+>  1357 |  drm_gem_object_put_unlocked(&mem->bo->tbo.base);
+>       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |  drm_gem_object_put_locked
+>=20
+> Caused by commit
+>=20
+>   ab15d56e27be ("drm: remove transient drm_gem_object_put_unlocked()")
+>=20
+> interacting with commit
+>=20
+>   fd9a9f8801de ("drm/amdgpu: Use GEM obj reference for KFD BOs")
+>=20
+> from Linus' tree.
+>=20
+> I have applied the following merge fix up patch for today.
+>=20
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Wed, 17 Jun 2020 10:55:32 +1000
+> Subject: [PATCH] drm/amdgpu: remove stray drm_gem_object_put_unlocked
+>=20
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers=
+/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index b91b5171270f..9015c7b76d60 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -1354,7 +1354,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
+>  	}
+> =20
+>  	/* Free the BO*/
+> -	drm_gem_object_put_unlocked(&mem->bo->tbo.base);
+> +	drm_gem_object_put(&mem->bo->tbo.base);
 
-I'm waiting for Rong Chen's performance results on this patch. Moving
-the rename into a separate patch makes sense, but removing the read is
-part of restoring the original behavior. I think it should be in this
-patch. Maybe I can write a better commit message to highlight the change.=
-
+We recently dropped the _unlock() suffix from drm_gem_object_put(). This
+patch should be ok.
 
 Best regards
 Thomas
 
+>  	mutex_destroy(&mem->lock);
+>  	kfree(mem);
+> =20
 >=20
-> Thanks
-> Emil
+>=20
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
@@ -153,33 +176,33 @@ Thomas
 Thomas Zimmermann
 Graphics Driver Developer
 SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
 
 
---T3spVXhIaJt5WGyy8ktuz9IMA5tXFZUXn--
+--KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp--
 
---HrpTiCbDoDBON8ycek7moKZEdjE82lLUU
+--9f3F1hth8h3MULKD8eNFEKS2PH808P58m
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7pt/UACgkQaA3BHVML
-eiMZegf9EkVgQw9TNcH097X/4+hOqfK06KPITJx8pIBqiWrUidXXYnc9RTiGQhtF
-jCa6RncaDDSAAiOG/U+t1H/XX75WywogT2Xbjtr/GQFUrLwu2V3boCK+XOsuAScy
-WT0vHdMrVuO2IKJej3CnhkOanPInFp25F2q8bSGxR4Twqn9Sj712poFxDN2TJp/z
-e/fYVrZjTbxk82okAS7JLV9eDywkLNSvymeHAzx7ElpdioD4U9vcuoPpKK9Z5srI
-1mMpcfs1LHA2EUdLpQMPrqrGihgP7JT38gAX2TjVAbvIpgNt1sCfpNNuU/JdGDK0
-+F4/lc0hRNC9iYUpzCDj7Sx8KXz+pg==
-=vlo+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7puTQACgkQaA3BHVML
+eiN0nQgAvsZCT69rEUsA3tUpzZFwC705X8mKMKckywWtoJ+/kuQZqbCkGlq+p1Tk
+LGn7sXGHxrYO1vyPLiqnV/3bvFi2d7jmqkMKkNS2n2nR0yxIEkUsphfFcnUemM7b
+5IS7Z7nmKO5NmuUsiVZHvRGffvLw1+zuhV7NXygjE/fWX6o1SyIhQBD6W1sCq2QM
+cH19eSryZ8/+tTotQzHGcBGzcI7nsppq99gsASWgV0snoGKHpC+DmIwv5GpNge13
+SFaKJjbld60mY1Q0J158zkssxhbhk/AgS0YsrkCKaifDSdDIhE+LEsV/d2huiUVH
+rby49zaP8OSsO2wSrRP+KSWEG+rDxg==
+=Enbr
 -----END PGP SIGNATURE-----
 
---HrpTiCbDoDBON8ycek7moKZEdjE82lLUU--
+--9f3F1hth8h3MULKD8eNFEKS2PH808P58m--
 
---===============0821267305==
+--===============1382260341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -190,4 +213,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0821267305==--
+--===============1382260341==--
