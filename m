@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5311FEC4C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 330E51FEC30
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8D56EB17;
-	Thu, 18 Jun 2020 07:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB5C6EAC9;
+	Thu, 18 Jun 2020 07:17:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765F66E150
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 23:41:02 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id s1so5056802ljo.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:41:02 -0700 (PDT)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98A146E16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 23:41:03 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id y11so5002126ljm.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OcOqz11XDX1GFeXdHeD+rrzTbKQ6O43sVtDhODmNqc0=;
- b=I4EL+9xSGNrxK6Z2hdF8hp2JFC0Q71MdVSv9gkIsSfmBiXE3tO953ygNuEyhWzWq/Y
- kt5sgsr0FU2tTuUPnCvyEy7uo41zYwtq/dc73J6ghXA2pAHLwbp5yDmdG5/9Lj7ZsKVB
- e95PwhYCe6jdiPXV9LN4hyWDXJXW7lEadkgGY1uzMk4kXxOOVB6yJQDhIC+MAszjYRK0
- HzWexz6TTLOMQLkNeq0V64kYu3nwoGtyZKNUAtmX+v9HIHye607uCpTMNtke6/agA4AN
- aHu0CkuCGO4alJutuER72zo7mtz4yAcvRq0eFLnDx7ATn2lh86AUYnSifHlgJcewZFde
- Y+Og==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xltqyEfwrx8qT/CORRGTWXmzlbt9i4EassNZ2G9y7tE=;
+ b=BEku1n40/Xnsjf59bRGYdTjZwuEud3inCy82ivQq2zFfIDTBIX85BM/9nR3smARZoV
+ iaFwihC/aAe4vO2pJBovuMPuEOVeDPjQOqTOgrnh0WAjgKQ21CEh6+Zog4OAtQYG46to
+ cEscvGvVVlVXW7vE2KT1cCd/ERsIInyY0S/ZgeFI4BqE/JRaXM1rs4RAUdq0L22pbWRk
+ vffAMF/f2nQk0kVBKzC0Nqs4oL45s1+9SwmoCIcSWebPLHTAF6u/CaWGG1Ho/Y35Hnam
+ 16Zw9dt8qSZ9zJVImUtI/bfP4EDauQu/MyWtES2ZDcZ7i1xVTkWmVCN4OEBIykxHBAfj
+ yJDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OcOqz11XDX1GFeXdHeD+rrzTbKQ6O43sVtDhODmNqc0=;
- b=Y5gB0P89pKkhnKZGLD/LDa0tcN4If+dhdY6eHS9Auz1O2/eUisjPOyD4rPQIOp4827
- /eIsSBXlPmMLljyHVSGFuEJyVn3f3aHLNrRqW8WT+rmRCWjopFSshXMSNW268VDHjoZl
- mdjWvVkYYPy8W2Gg6I0otXZV4u7nG4DVcJStZeGjvi5Xja1qNf4yStlxDky2iUsEM7Lf
- 4/UBbVMw+35HCpKAml5f+svfGrfc68oU6UIAEB2A4hoOd3NvP0NBPzw8EZLsJrTKKi/Q
- vKb5PC7EvQGrf2dTn1+QSBael1N0wcCYfS/6CHCiHwtoCzvWdiDg9l3NXDjy139nwu2Q
- kwbQ==
-X-Gm-Message-State: AOAM531DxD+QoRR2AXQ5dHPUHBJFGb4EnSDf0l7mqs+KgkxoY/qXGGGJ
- XvYXMREDi6rk1Uzx9ZN6R8A=
-X-Google-Smtp-Source: ABdhPJzwtCosDXfqxKV938U918086QPW2Y3T4a+nySVKa/edKjWK6dOc4Uodf6FWGzHT3zqti2DCHg==
-X-Received: by 2002:a2e:9b8f:: with SMTP id z15mr879391lji.185.1592437260890; 
- Wed, 17 Jun 2020 16:41:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xltqyEfwrx8qT/CORRGTWXmzlbt9i4EassNZ2G9y7tE=;
+ b=sSc/e3fWuSFFGJZa9FnmYB1rqEy/s0/+kt7OumbSOqTDRLT5+5ht+rLf00bR6udGLY
+ pNv76GBQUQJ5Oj5I+b9Vk1ohG+Qw8DLIqdegyHViB19E125YQAYeSOTya0B1FU1rGBD+
+ ARBmybg/J1I7VoMkqQzbuGjtXE1a38dYEw/7kxqEQ8TgcAFaGack8r6NIqa//J0ksRlC
+ KG4J/TWJuny58eJTOoo4QbKfCQQqeFmgx4wpTswy/7vhmp4Y66YC+mzimEAT3KzV2q+9
+ 873jNK5uMhY4bsYbBlw8DfkwXAMEeFXvz74XPNiR7V9jvm/EMrqi3FOoFqNR9ycLHPOg
+ B/nQ==
+X-Gm-Message-State: AOAM533Kjhyqlghy4xc5OBDg+jbpspUgwjfUiILUJufRAJW38ZXFkGj8
+ 1SqlQLe4RKxXS0J5wcY7K38=
+X-Google-Smtp-Source: ABdhPJzFPcMwk85WsfMjXGVdLczf/bH01bsX9EzaXAeWYS4zo/ADuFMsPuQVPLGoV7fmgcVzpYYJfg==
+X-Received: by 2002:a2e:b4c1:: with SMTP id r1mr881604ljm.370.1592437262021;
+ Wed, 17 Jun 2020 16:41:02 -0700 (PDT)
 Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.gmail.com with ESMTPSA id c8sm287871lfc.46.2020.06.17.16.40.59
+ by smtp.gmail.com with ESMTPSA id c8sm287871lfc.46.2020.06.17.16.41.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 16:41:00 -0700 (PDT)
+ Wed, 17 Jun 2020 16:41:01 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,10 +55,12 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  Daniel Stone <daniel@fooishbar.org>
-Subject: [PATCH v3 0/3] 180 degrees rotation support for NVIDIA Tegra DRM
-Date: Thu, 18 Jun 2020 02:40:37 +0300
-Message-Id: <20200617234040.1094-1-digetx@gmail.com>
+Subject: [PATCH v3 1/3] drm/tegra: plane: Rename bottom_up to reflect_y
+Date: Thu, 18 Jun 2020 02:40:38 +0300
+Message-Id: <20200617234040.1094-2-digetx@gmail.com>
 X-Mailer: git-send-email 2.26.0
+In-Reply-To: <20200617234040.1094-1-digetx@gmail.com>
+References: <20200617234040.1094-1-digetx@gmail.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,41 +77,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8hCgpUaGlzIHNlcmllcyBhZGRzIDE4MMKwIGRpc3BsYXkgcGxhbmUgcm90YXRpb24gc3Vw
-cG9ydCB0byB0aGUgTlZJRElBIFRlZ3JhCkRSTSBkcml2ZXIgd2hpY2ggaXMgbmVlZGVkIGZvciBk
-ZXZpY2VzIHRoYXQgaGF2ZSBkaXNwbGF5IHBhbmVsIHBoeXNpY2FsbHkKbW91bnRlZCB1cHNpZGUt
-ZG93biwgbGlrZSBOZXh1cyA3IHRhYmxldCBkZXZpY2UgZm9yIGV4YW1wbGUgWzFdLiBTaW5jZQpE
-Uk0gcGFuZWwgcm90YXRpb24gaXMgYSBuZXcgdGhpbmcgZm9yIGEgdXNlcnNwYWNlLCBjdXJyZW50
-bHkgb25seQpPcGVudGVncmEgWG9yZyBkcml2ZXIgWzJdIGFuZCBhIHJlY2VudCBXZXN0b24gWzNd
-IGhhdmUgc3VwcG9ydCBmb3IgdGhlCnJvdGF0ZWQgZGlzcGxheSBwYW5lbHMsIGJ1dCB0aGlzIGlz
-IG1vcmUgdGhhbiBnb29kIGVub3VnaCBmb3IgdGhlIHN0YXJ0ZXIuCgpbMV0gaHR0cHM6Ly9wYXRj
-aHdvcmsub3psYWJzLm9yZy9wcm9qZWN0L2xpbnV4LXRlZ3JhL3BhdGNoLzIwMjAwNjA3MTU0MzI3
-LjE4NTg5LTMtZGlnZXR4QGdtYWlsLmNvbS8KWzJdIGh0dHBzOi8vZ2l0aHViLmNvbS9ncmF0ZS1k
-cml2ZXIveGY4Ni12aWRlby1vcGVudGVncmEvY29tbWl0LzI4ZWIyMGEzOTU5YmJlNWJjM2EzYjY3
-ZTU1OTc3MDkzZmQ1MTE0Y2EKWzNdIGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXls
-YW5kL3dlc3Rvbi8tL21lcmdlX3JlcXVlc3RzLzMxNQoKQ2hhbmdlbG9nOgoKdjM6IC0gRmFjdG9y
-ZWQgb3V0IHRoZSBwYW5lbCBwYXRjaGVzIGludG8gc3RhbmRhbG9uZSBzZXJpZXMgWzRdIGJlY2F1
-c2UKICAgICAgdGhpcyBzZXJpZXMgZG9lc24ndCBoYXZlIGhhcmQgZGVwZW5kZW5jeSBvbiB0aGUg
-cGFuZWwgcGF0Y2hlcyBhbmQgaXQKICAgICAgc2hvdWxkIGJlIG5pY2VyIHRvIHJldmlldyBhbmQg
-YXBwbHkgdGhlIHByb3Blcmx5IGdyb3VwZWQgcGF0Y2hlcy4KCiAgICAtIFRoZSBEUk1fTU9ERV9S
-T1RBVEVfMTgwIG5vdyBpc24ndCBwYXNzZWQgdG8gZHJtX3JvdGF0aW9uX3NpbXBsaWZ5KCksCiAg
-ICAgIGxpa2UgaXQgd2FzIHN1Z2dlc3RlZCBieSBWaWxsZSBTeXJqw6Rsw6QgaW4gdGhlIGNvbW1l
-bnQgdG8gdjIuCgogICAgLSBBZGRlZCBjbGFyaWZ5aW5nIGNvbW1lbnQgZm9yIHRoZSB0ZWdyYV9m
-Yl9pc19ib3R0b21fdXAoKSBpbiB0aGUgY29kZS4KCls0XSBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9sa21sLzIwMjAwNjE3MjMxODQyLjMwNjcxLTEtZGlnZXR4QGdtYWlsLmNvbS9ULyN0CgpEbWl0
-cnkgT3NpcGVua28gKDMpOgogIGRybS90ZWdyYTogcGxhbmU6IFJlbmFtZSBib3R0b21fdXAgdG8g
-cmVmbGVjdF95CiAgZHJtL3RlZ3JhOiBwbGFuZTogU3VwcG9ydCBob3Jpem9udGFsIHJlZmxlY3Rp
-b24KICBkcm0vdGVncmE6IHBsYW5lOiBTdXBwb3J0IDE4MMKwIHJvdGF0aW9uCgogZHJpdmVycy9n
-cHUvZHJtL3RlZ3JhL2RjLmMgICAgfCA0NiArKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0t
-LS0tLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmggICAgfCAgMyArKy0KIGRyaXZlcnMvZ3B1
-L2RybS90ZWdyYS9wbGFuZS5jIHwgIDMgKystCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUu
-aCB8ICAzICsrLQogNCBmaWxlcyBjaGFuZ2VkLCA0MyBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlv
-bnMoLSkKCi0tIAoyLjI2LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+This makes the naming consistent with the DRM core.
+
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/gpu/drm/tegra/dc.c    | 10 +++++-----
+ drivers/gpu/drm/tegra/dc.h    |  2 +-
+ drivers/gpu/drm/tegra/plane.c |  2 +-
+ drivers/gpu/drm/tegra/plane.h |  2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 04d6848d19fc..bb92c1ed44e9 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -404,7 +404,7 @@ static void tegra_dc_setup_window(struct tegra_plane *plane,
+ 		tegra_plane_writel(plane, window->stride[0], DC_WIN_LINE_STRIDE);
+ 	}
+ 
+-	if (window->bottom_up)
++	if (window->reflect_y)
+ 		v_offset += window->src.h - 1;
+ 
+ 	tegra_plane_writel(plane, h_offset, DC_WINBUF_ADDR_H_OFFSET);
+@@ -470,7 +470,7 @@ static void tegra_dc_setup_window(struct tegra_plane *plane,
+ 		value |= COLOR_EXPAND;
+ 	}
+ 
+-	if (window->bottom_up)
++	if (window->reflect_y)
+ 		value |= V_DIRECTION;
+ 
+ 	if (tegra_plane_use_horizontal_filtering(plane, window)) {
+@@ -642,9 +642,9 @@ static int tegra_plane_atomic_check(struct drm_plane *plane,
+ 	rotation = drm_rotation_simplify(state->rotation, rotation);
+ 
+ 	if (rotation & DRM_MODE_REFLECT_Y)
+-		plane_state->bottom_up = true;
++		plane_state->reflect_y = true;
+ 	else
+-		plane_state->bottom_up = false;
++		plane_state->reflect_y = false;
+ 
+ 	/*
+ 	 * Tegra doesn't support different strides for U and V planes so we
+@@ -706,7 +706,7 @@ static void tegra_plane_atomic_update(struct drm_plane *plane,
+ 	window.dst.w = drm_rect_width(&plane->state->dst);
+ 	window.dst.h = drm_rect_height(&plane->state->dst);
+ 	window.bits_per_pixel = fb->format->cpp[0] * 8;
+-	window.bottom_up = tegra_fb_is_bottom_up(fb) || state->bottom_up;
++	window.reflect_y = tegra_fb_is_bottom_up(fb) || state->reflect_y;
+ 
+ 	/* copy from state */
+ 	window.zpos = plane->state->normalized_zpos;
+diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
+index 3d8ddccd758f..98e1b625168e 100644
+--- a/drivers/gpu/drm/tegra/dc.h
++++ b/drivers/gpu/drm/tegra/dc.h
+@@ -136,7 +136,7 @@ struct tegra_dc_window {
+ 	unsigned int stride[2];
+ 	unsigned long base[3];
+ 	unsigned int zpos;
+-	bool bottom_up;
++	bool reflect_y;
+ 
+ 	struct tegra_bo_tiling tiling;
+ 	u32 format;
+diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
+index 9ccfb56e9b01..e05ef6013a97 100644
+--- a/drivers/gpu/drm/tegra/plane.c
++++ b/drivers/gpu/drm/tegra/plane.c
+@@ -61,7 +61,7 @@ tegra_plane_atomic_duplicate_state(struct drm_plane *plane)
+ 	copy->tiling = state->tiling;
+ 	copy->format = state->format;
+ 	copy->swap = state->swap;
+-	copy->bottom_up = state->bottom_up;
++	copy->reflect_y = state->reflect_y;
+ 	copy->opaque = state->opaque;
+ 
+ 	for (i = 0; i < 2; i++)
+diff --git a/drivers/gpu/drm/tegra/plane.h b/drivers/gpu/drm/tegra/plane.h
+index a158a915109a..8047fc916d8c 100644
+--- a/drivers/gpu/drm/tegra/plane.h
++++ b/drivers/gpu/drm/tegra/plane.h
+@@ -46,7 +46,7 @@ struct tegra_plane_state {
+ 	u32 format;
+ 	u32 swap;
+ 
+-	bool bottom_up;
++	bool reflect_y;
+ 
+ 	/* used for legacy blending support only */
+ 	struct tegra_plane_legacy_blending_state blending[2];
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
