@@ -1,35 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3ABA1FC943
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 10:52:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB551FC957
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 10:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59F386E277;
-	Wed, 17 Jun 2020 08:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD3B6E384;
+	Wed, 17 Jun 2020 08:58:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E906E277;
- Wed, 17 Jun 2020 08:52:19 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1jlTnj-0000eH-ND; Wed, 17 Jun 2020 08:52:07 +0000
-From: Colin King <colin.king@canonical.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Chris Wilson <chris@chris-wilson.co.uk>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] drm/i915/selftests: fix spelling mistake "submited" ->
- "submitted"
-Date: Wed, 17 Jun 2020 09:52:07 +0100
-Message-Id: <20200617085207.167552-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.27.0.rc0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03E156E384
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 08:58:40 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1jlTtu-00071k-3n; Wed, 17 Jun 2020 10:58:30 +0200
+Message-ID: <6ce028567aead7e5270c7d62b4f201bc686c0b3e.camel@pengutronix.de>
+Subject: Re: [PATCH v5 0/2] mfd: Add ENE KB3930 Embedded Controller driver
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Lubomir Rintel <lkundrak@v3.sk>
+Date: Wed, 17 Jun 2020 10:58:28 +0200
+In-Reply-To: <20200616224404.994285-1-lkundrak@v3.sk>
+References: <20200616224404.994285-1-lkundrak@v3.sk>
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,36 +45,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+Hi Lubomir,
 
-There is a spelling mistake in a pr_err message. Fix it.
+Am Mittwoch, den 17.06.2020, 00:44 +0200 schrieb Lubomir Rintel:
+> Hi,
+> 
+> please consider applying the patches chained to this message. It's the
+> fifth version of the driver for the ENE KB3930 Embedded Controller.
+> 
+> This version is essentially a resend of v4. The only actual change is the
+> addition of the Rob's Reviewed-by tag which I failed to do previously.
+> Detailed change logs are in the individual patch descriptions.
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/i915/gt/selftest_lrc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I don't think you wanted this to go to the etnaviv list and
+maintainers, right?
 
-diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-index b8b7b91019f4..547edf3d902b 100644
---- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
-@@ -482,7 +482,7 @@ static int live_unlite_ring(void *arg)
- 		err = wait_for_submit(engine, rq, HZ / 2);
- 		i915_request_put(rq);
- 		if (err) {
--			pr_err("%s: preemption request was not submited\n",
-+			pr_err("%s: preemption request was not submitted\n",
- 			       engine->name);
- 			err = -ETIME;
- 		}
--- 
-2.27.0.rc0
+Regards,
+Lucas
 
 _______________________________________________
 dri-devel mailing list
