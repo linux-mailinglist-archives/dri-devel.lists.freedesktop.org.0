@@ -1,68 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BE81FC756
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 358351FC693
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D4C6EACD;
-	Wed, 17 Jun 2020 07:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F10CC6E109;
+	Wed, 17 Jun 2020 07:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177896E11E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 06:28:56 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1592375339; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=s/Vm4bvk2cxG6VkzRYO3gzXCbP6ddUmYHI9BmSE6AD4=;
- b=Zl03H+k0wCyPcMMwl51WFz6X3mJcG+FxypXEjXMMtOSfdheCUeowet9wK3ZYw3NzTKGz6OBr
- CcEY8jLqeALuVXWZ6FJHvXh+IDhJO6j+OhKfcZg/yeFubiQfnAkTh/QFfzKm/HP0ZQrF/E01
- aX58SQ7KCDNpN9ZZgM1y0CXPwKM=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n12.prod.us-west-2.postgun.com with SMTP id
- 5ee9b81d4c9690533a3ee13b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Jun 2020 06:28:45
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 49A71C433C9; Wed, 17 Jun 2020 06:28:45 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id EDC99C433C8;
- Wed, 17 Jun 2020 06:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EDC99C433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
- <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
-From: Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <5b960c9a-ef9d-b43d-716d-113efc793fe5@codeaurora.org>
-Date: Wed, 17 Jun 2020 11:58:39 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED32C6E109;
+ Wed, 17 Jun 2020 07:03:12 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 49mwy44sBYz9sSc;
+ Wed, 17 Jun 2020 17:03:08 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1592377391;
+ bh=GrjcWt65On8ptPVGkgLJTte3NXkx9HklLRUHmriiWTE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NH8Kf57H5XFN9+75JQ4RTRnSV80r8jFNzsf1pR+WMUsjiDDl1X9ZkGZpdJ0I2npgh
+ HaTtpseUxYG26zgx6KEHKl78LqI0cm2i2Ss3c/iqh7OrtReFKRCabmkk65zd9RTZZa
+ OvqSuqd/yrC9XhXjtdvZ5irrABE+tny5s6jkYnb+H4L8sFMJyHBc5CQhmv3z2AdAhw
+ LG12zvroCmFPk6BZE9hQtUMb8LewkSvPUVtEGvHSRIzFW4lFooPxYpvlwWiitQbkg/
+ GKxxydfLszEAycBAxz0qMyoAsCGtCDSEC5mb68qYZKK5ZmpDAt8a/2KO7/A5YMAKOQ
+ nDp0wGn51DWEA==
+Date: Wed, 17 Jun 2020 17:03:07 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20200617170307.3c87be5a@canb.auug.org.au>
+In-Reply-To: <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
+References: <20200617105929.534edd34@canb.auug.org.au>
+ <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,224 +49,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0112682197=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Michael for the comments..
+--===============0112682197==
+Content-Type: multipart/signed; boundary="Sig_/CFuhTYCQOJWS.N4Fev1VXiA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On 6/16/2020 7:29 PM, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->> Ruhl, Michael J
->> Sent: Tuesday, June 16, 2020 9:51 AM
->> To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
->> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
->> <linux-media@vger.kernel.org>; DRI mailing list <dri-
->> devel@lists.freedesktop.org>
->> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->> stable@vger.kernel.org
->> Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>
->>> -----Original Message-----
->>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->>> Charan Teja Kalla
->>> Sent: Thursday, June 11, 2020 9:40 AM
->>> To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
->>> SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list <dri-
->>> devel@lists.freedesktop.org>
->>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->>> stable@vger.kernel.org
->>> Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>>
->>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
->>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
->>> permissions checks on a process where it tries to validate the inherited
->>> files from fork() by traversing them through iterate_fd() (which
->>> traverse files under spin_lock) and call
->>> match_file(security/selinux/hooks.c) where the permission checks happen.
->>> This audit information is logged using dump_common_audit_data() where it
->>> calls d_path() to get the file path name. If the file check happen on
->>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
->>> access dmabuf->name. The flow will be like below:
->>> flush_unauthorized_files()
->>>  iterate_fd()
->>>    spin_lock() --> Start of the atomic section.
->>>      match_file()
->>>        file_has_perm()
->>>          avc_has_perm()
->>>            avc_audit()
->>>              slow_avc_audit()
->>> 	        common_lsm_audit()
->>> 		  dump_common_audit_data()
->>> 		    audit_log_d_path()
->>> 		      d_path()
->>>                        dmabuffs_dname()
->>>                          mutex_lock()--> Sleep while atomic.
->>>
->>> Call trace captured (on 4.19 kernels) is below:
->>> ___might_sleep+0x204/0x208
->>> __might_sleep+0x50/0x88
->>> __mutex_lock_common+0x5c/0x1068
->>> __mutex_lock_common+0x5c/0x1068
->>> mutex_lock_nested+0x40/0x50
->>> dmabuffs_dname+0xa0/0x170
->>> d_path+0x84/0x290
->>> audit_log_d_path+0x74/0x130
->>> common_lsm_audit+0x334/0x6e8
->>> slow_avc_audit+0xb8/0xf8
->>> avc_has_perm+0x154/0x218
->>> file_has_perm+0x70/0x180
->>> match_file+0x60/0x78
->>> iterate_fd+0x128/0x168
->>> selinux_bprm_committing_creds+0x178/0x248
->>> security_bprm_committing_creds+0x30/0x48
->>> install_exec_creds+0x1c/0x68
->>> load_elf_binary+0x3a4/0x14e0
->>> search_binary_handler+0xb0/0x1e0
->>>
->>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
->>>
->>> Cc: <stable@vger.kernel.org> [5.3+]
->>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>> ---
->>> drivers/dma-buf/dma-buf.c | 13 +++++++------
->>> include/linux/dma-buf.h   |  1 +
->>> 2 files changed, 8 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index 01ce125..2e0456c 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
->>> char *buffer, int buflen)
->>> 	size_t ret = 0;
->>>
->>> 	dmabuf = dentry->d_fsdata;
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (dmabuf->name)
->>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>
->> I am not really clear on why you need this lock.
->>
->> If name == NULL you have no issues.
->> If name is real, you have no issues.
+--Sig_/CFuhTYCQOJWS.N4Fev1VXiA
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Yeah, ideal cases...
+Hi Thomas,
 
->>
->> If name is freed you will copy garbage, but the only way
->> for that to happen is that _set_name or _release have to be called
->> at just the right time.
->>
->> And the above would probably only be an issue if the set_name
->> was called, so you will get NULL or a real name.
+On Wed, 17 Jun 2020 08:33:24 +0200 Thomas Zimmermann <tzimmermann@suse.de> =
+wrote:
+>
+> We recently dropped the _unlock() suffix from drm_gem_object_put(). This
+> patch should be ok.
 
-And there exists a use-after-free to avoid which requires the lock. Say
-that memcpy() in dmabuffs_dname is in progress and in parallel _set_name
-will free the same buffer that memcpy is operating on.
+Yes, but what it shows is that the drm-misc tree is still based on
+v5.7-rc1 and v5.8-rc1 has about 16000 more commits for you to get
+conflicts against :-)
 
->>
->> Is there a reason for the lock here?
->>
->> Mike
-> 
-> Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
-> 
-> dma_buf_release()
-> 
-> Would be sufficient?
+--=20
+Cheers,
+Stephen Rothwell
 
-I don't think that we will access the 'dmabuf'(thus dmabuf->name) once
-it is in the dma_buf_release(). So, setting the NULL in the _release()
-is not required at all.
+--Sig_/CFuhTYCQOJWS.N4Fev1VXiA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> 
-> M
->>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->>> 			     dentry->d_name.name, ret > 0 ? name : "");
->>> @@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
->>> *dmabuf, const char __user *buf)
->>> 	if (IS_ERR(name))
->>> 		return PTR_ERR(name);
->>>
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (!list_empty(&dmabuf->attachments)) {
->>> 		ret = -EBUSY;
->>> 		kfree(name);
->>> @@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
->>> *dmabuf, const char __user *buf)
->>> 	dmabuf->name = name;
->>>
->>> out_unlock:
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>> 	return ret;
->>> }
->>>
->>> @@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file
->>> *m, struct file *file)
->>> 	/* Don't count the temporary reference taken inside procfs seq_show
->>> */
->>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (dmabuf->name)
->>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>> }
->>>
->>> static const struct file_operations dma_buf_fops = {
->>> @@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
->>> dma_buf_export_info *exp_info)
->>> 	dmabuf->size = exp_info->size;
->>> 	dmabuf->exp_name = exp_info->exp_name;
->>> 	dmabuf->owner = exp_info->owner;
->>> +	spin_lock_init(&dmabuf->name_lock);
->>> 	init_waitqueue_head(&dmabuf->poll);
->>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
->>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
->>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>> index ab0c156..93108fd 100644
->>> --- a/include/linux/dma-buf.h
->>> +++ b/include/linux/dma-buf.h
->>> @@ -311,6 +311,7 @@ struct dma_buf {
->>> 	void *vmap_ptr;
->>> 	const char *exp_name;
->>> 	const char *name;
->>> +	spinlock_t name_lock;
->>> 	struct module *owner;
->>> 	struct list_head list_node;
->>> 	void *priv;
->>> --
->>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
->>> Forum, a Linux Foundation Collaborative Project
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+-----BEGIN PGP SIGNATURE-----
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7pwCsACgkQAVBC80lX
+0GxDGQf8CC2+Ktdz5dyuFmZlGHbsWC27PbUpPtzHBtyTU7lyG+622BZAGyeE5LYa
+kMsFA/a6lSE5IHC5z/8C+3g+MGjsLhl85AFPR1GRxCxNK4Y5UcBfxWxhKcOhM+Pd
+OcOjaSc3VRr3Dt2IG3DCdo63H5IN6xrIDPKiDzIMXlBZwaGf/33lXYap/dUsJF5U
+9wZwnGFpcpxkRqUHmuJjGCDZyzGryu2qiiTSclw3ys1OpIG9WVLqD5iqoxvOsnOV
+KQ6IyGoHyd+0hpSIQx7Ach0AbQ0n0bAE76F0dWCRj5ujykjWIcN5Px2aksXPvOj4
+fSKxyqpYyh+B3uhof+0hQ5HMyEGH5A==
+=zVg0
+-----END PGP SIGNATURE-----
+
+--Sig_/CFuhTYCQOJWS.N4Fev1VXiA--
+
+--===============0112682197==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0112682197==--
