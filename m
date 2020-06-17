@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074281FD533
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 21:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3594F1FD539
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 21:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077E56E156;
-	Wed, 17 Jun 2020 19:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D21ED89AC9;
+	Wed, 17 Jun 2020 19:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFAE6E143;
- Wed, 17 Jun 2020 19:09:56 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id e1so845583vkd.1;
- Wed, 17 Jun 2020 12:09:56 -0700 (PDT)
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
+ [IPv6:2607:f8b0:4864:20::942])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 524A989AC9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 19:13:18 +0000 (UTC)
+Received: by mail-ua1-x942.google.com with SMTP id x14so1141931uao.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 12:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eD4bw0lGQCfL/fgr6hV02m8eAYxz9GB1Zd0qbxDAQJ4=;
- b=XRBe8Rr7OkveXmecDtX/Xwx/BpU5lBwhhcVbrpoalnm1bZ7zPj/mDE+sO9H1fjKm8S
- 0WK8Do11W4GOm/hBgpzdfMZkg1HQDYaNifUIEMvH0faExmBNgq9NVV5Vp3yaYGOig8j6
- jvk4u1TeWqnEfqYKYEDLa09ph/KY4QVwdS33iJ0FUQZVnPEKW7vK1LLrwALdWnXjojAx
- 4AdUKLFEhhGVjdUxP7Snk/1AGy3g36NJSZK698jDayOsui7sEmAyQ3Z28PN54+hO0JK0
- m6kr8SBA105mxFS2VHnpdRD5nkwMcWCliyVXfhjOY0hltcf+TkKCke2/dgGoamf7fbcb
- AXpg==
+ :cc; bh=YrPvmWq+X8NgwhXx/4LblQNwQtLW2ZlA9du2sqxkydg=;
+ b=MNJA0Tlx6Tf1x/YELEAxX3Pg09MKtZ/LM0wMBZ1KULStfRfUXTXcClFcLs8JC3Loi0
+ TvxlL5k2eB9sO+8wYRhm4QuDL8gnQIU3U/t1gDi8PcfGyLPVTmcuRFD1ZS7BsbmYa2NA
+ J7LJHsOlqT5ee0iqdjf7028/HKG4fGninY6uiYWd0xzAnJCj6fcncdeCoOENczoYBMjA
+ 2zHNfMXb7MgDJqPS98GimAzhPkLQVWFIZe19vHLrzWB74zYSBTc7aWw1iJlW7qL0QKxV
+ 6wV91OSgEx4IEkQNKjCHHm3kUq3TuKVo0Z1D54oubzNBoR9bjC0WNvkEQY0y7WCg/1ER
+ J03w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eD4bw0lGQCfL/fgr6hV02m8eAYxz9GB1Zd0qbxDAQJ4=;
- b=MEuWj/Dc+H+zOPRBrgdv37ZgHeWeE/8L+lLZzjFQ7eZ3Li41wXfnWqy33KPGrllpGF
- qFfznuU+qnu3RH8gh7qPYqInuYEzurOXcsiGKsYcWlu02pJdmHSW9vev8I8VHigfWaL9
- 8C2LWSVIfkVPHypPxMtRzDdpdsnqJDNLIZfLT+1JvaQIf2CzVbiz6/FArbxbOhJxLHqx
- uoLVwWflzfmEQGy8fpG4bzvtghAGD4zuHwXDpjCh3OvtxmDn+ViJss0ndDaXrpWURoIV
- +sxeiXf6/OHB0ePIk58VSdkI/IGcp4ZY/sNMSbyCc1tPn/+IryWxSoD9RiP8tAXJtBAk
- vZZg==
-X-Gm-Message-State: AOAM533O/mYx7vEiyXDAwbZ0hNEzqjJawg/c2IRYhfp0R4wxHw0ZNDR8
- RcKuiTdW8iBgBPSpCZU3twosA3hKVjR1FopDV+s=
-X-Google-Smtp-Source: ABdhPJwtoKeRVXvgQWYI0FGFEFUVIAQMF4l4PZuS7D/IV4AQqwOs6rxLY7l/5BGZ9tRfwoRr4V6z3VuB3DyHbXX5n8I=
-X-Received: by 2002:a1f:ee81:: with SMTP id m123mr762899vkh.51.1592420995496; 
- Wed, 17 Jun 2020 12:09:55 -0700 (PDT)
+ bh=YrPvmWq+X8NgwhXx/4LblQNwQtLW2ZlA9du2sqxkydg=;
+ b=DX6vKOeE+cVwcQhpUDz2FjL+oqhcE/4rj+8mN6xtGo3d2d+TYFJecN6/NXcRW6mzf5
+ WRSzW7YiV9YNbsCO8cKke4INYF6a5iGoqibzvF3B83gcqczoqzib830vxWhaABxU7Onu
+ thF4slIPts8K3gJ9iglJm7Jijw2Qp5WtoTA2YTpmhq9SZwjtKzYBRQvEUQ5SWixXQuGg
+ 3qfzCehxxbUf8XNoVMjFnsbSnQc2bchTQ1c1IM16gsfwM0QmEaJs+1UvS7faL9nMA6ru
+ HIt0XsdWFqO70ccLpGiG3qfjWeLC79dM70y+9DbJdXFRxX8GL0UjI6DvdM8qZp2IeBxU
+ nkhw==
+X-Gm-Message-State: AOAM531t7UT3Ubs8yGClsgbVKUk9mq4aqa7QKZ/jnTcTOX6E1Q2Mz1lJ
+ IZkRbZgr/p3MNeZRhu7S9fJfl82MWJi6LS4DZ78=
+X-Google-Smtp-Source: ABdhPJys9jhloG81To4CERbiQ0/cQxEdGCy2EMqh9Z2PVzov2lCaOui3dODHCStJbRy3xVaIX2HIwSjzHudVOLt1q2I=
+X-Received: by 2002:ab0:2758:: with SMTP id c24mr423151uap.64.1592421197471;
+ Wed, 17 Jun 2020 12:13:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200617105929.534edd34@canb.auug.org.au>
- <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
- <20200617170307.3c87be5a@canb.auug.org.au>
-In-Reply-To: <20200617170307.3c87be5a@canb.auug.org.au>
+References: <20200616142630.20129-1-tzimmermann@suse.de>
+ <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
+ <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
+In-Reply-To: <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Wed, 17 Jun 2020 20:06:11 +0100
-Message-ID: <CACvgo50Ke-7pGqpwEb8y0iYOKv7wep1qUMm8_KJvUp0fV-YHoQ@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Wed, 17 Jun 2020 20:09:34 +0100
+Message-ID: <CACvgo52eaz6GRets0JGTz_3AKnCnFTGoZM7zqcceXLwgVJXERA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
+Cc: John Donnelly <john.p.donnelly@oracle.com>,
+ kernel test robot <rong.a.chen@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Jos=C3=A9_Roberto_de_Souza?= <jose.souza@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+On Wed, 17 Jun 2020 at 07:28, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-On Wed, 17 Jun 2020 at 08:03, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> Maybe I can write a better commit message to highlight the change.
 >
-> Hi Thomas,
->
-> On Wed, 17 Jun 2020 08:33:24 +0200 Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >
-> > We recently dropped the _unlock() suffix from drm_gem_object_put(). This
-> > patch should be ok.
->
-> Yes, but what it shows is that the drm-misc tree is still based on
-> v5.7-rc1 and v5.8-rc1 has about 16000 more commits for you to get
-> conflicts against :-)
->
-Being the culprit here - thanks for the patience and report.
+That would be amazing, thank you.
 
-I believe that both AMD and drm-misc teams are aware of this lovely
-situation I've put them in.
-As you mentioned drm-misc is a bit special and doing the usual
-backmerge will be fun.
-
-If you have any tips on how to minimise such issues, I'd gladly utilise them.
-
-Thanks again,
--Emil
+Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
