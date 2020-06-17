@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05451FD410
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 20:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074281FD533
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 21:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB6766E12C;
-	Wed, 17 Jun 2020 18:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077E56E156;
+	Wed, 17 Jun 2020 19:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B59A86E12C;
- Wed, 17 Jun 2020 18:04:31 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id t18so3335580wru.6;
- Wed, 17 Jun 2020 11:04:31 -0700 (PDT)
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
+ [IPv6:2607:f8b0:4864:20::a2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFAE6E143;
+ Wed, 17 Jun 2020 19:09:56 +0000 (UTC)
+Received: by mail-vk1-xa2a.google.com with SMTP id e1so845583vkd.1;
+ Wed, 17 Jun 2020 12:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=98Xd7cYYus42rhhSbM4fP/t0X9bqTqgjQ8tDB3m+G6g=;
- b=TJzBz1gszdzcm/5Ihw8zJ8XsCthrYrxTUnICx7VbSj/N/1lA/v20Oh3flumpHWRMXT
- C3rt6TkyaDzoh90pkNSe9LacZgLsC6shXprLPgoImy6cFbEA9ebk0ETliLBLfSYGeBID
- vDbDDe5yZRdZOP5cXYuIK1uwhH4O2+IGunFaJ7QQozKeOCDOeiwtxKGPjxFFkFYcGt/b
- +zWWY4gJlJLxdkscriDyPSShU6XUc6bjry0caTtP0DiysvtRUk8ctZ79SZIZV7HMyKCI
- SVi4xwnCQzHW+wmywXf4NIkqjBWzv1ERw1iO+3uch2xvxSpPJDpaghlNOPkIJUg84q82
- EW+A==
+ :cc; bh=eD4bw0lGQCfL/fgr6hV02m8eAYxz9GB1Zd0qbxDAQJ4=;
+ b=XRBe8Rr7OkveXmecDtX/Xwx/BpU5lBwhhcVbrpoalnm1bZ7zPj/mDE+sO9H1fjKm8S
+ 0WK8Do11W4GOm/hBgpzdfMZkg1HQDYaNifUIEMvH0faExmBNgq9NVV5Vp3yaYGOig8j6
+ jvk4u1TeWqnEfqYKYEDLa09ph/KY4QVwdS33iJ0FUQZVnPEKW7vK1LLrwALdWnXjojAx
+ 4AdUKLFEhhGVjdUxP7Snk/1AGy3g36NJSZK698jDayOsui7sEmAyQ3Z28PN54+hO0JK0
+ m6kr8SBA105mxFS2VHnpdRD5nkwMcWCliyVXfhjOY0hltcf+TkKCke2/dgGoamf7fbcb
+ AXpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=98Xd7cYYus42rhhSbM4fP/t0X9bqTqgjQ8tDB3m+G6g=;
- b=LWTohLkQyxOlMiqOx2gMXYOC67db4X6ohBg+LR3zvr7oHY5c8WUFwmPAPaz6IRrcdM
- N3irDIV5sT7Ep0q1LfnIaDqgbJPw5RS6I7LPeN8J7W13q3zpQCYSMICXYjyQNAHzluM4
- GiwnoZMFrEqDwCFaW7vfkIxPihpRA18g98hA/57SrhfNoTR7hhQeWN6g36PxomqMuFF9
- HKDlcN8EzjiPkM9A6oXWPbyHji12f6JEPeR+4/AybbxCXG8NuXyKkujbLH0w9w3r5zmK
- phsGooKHeshiNS1Ko5m6o8oeZIOuIWu8fZUci8o4FBBYoUAUSuI+acSjGOVKjieaEN9a
- K1yA==
-X-Gm-Message-State: AOAM531qUiIhnaz+ftZNoIE1iMVzdsJfXQctWHlSVu4rU+O1ZGK6fmhK
- ABGtH+VZf2zY8W4r3w7XF/omIEQSNMHctU7MmyeXKw==
-X-Google-Smtp-Source: ABdhPJwykZMp1VTe220cRJgrmIGB+9Nb+k1NVNrNN03qzOF31BUtVGYSdFIsO+C983pZopEb/XOjgFMIYStYGYRRB64=
-X-Received: by 2002:adf:fd41:: with SMTP id h1mr490881wrs.374.1592417070411;
- Wed, 17 Jun 2020 11:04:30 -0700 (PDT)
+ bh=eD4bw0lGQCfL/fgr6hV02m8eAYxz9GB1Zd0qbxDAQJ4=;
+ b=MEuWj/Dc+H+zOPRBrgdv37ZgHeWeE/8L+lLZzjFQ7eZ3Li41wXfnWqy33KPGrllpGF
+ qFfznuU+qnu3RH8gh7qPYqInuYEzurOXcsiGKsYcWlu02pJdmHSW9vev8I8VHigfWaL9
+ 8C2LWSVIfkVPHypPxMtRzDdpdsnqJDNLIZfLT+1JvaQIf2CzVbiz6/FArbxbOhJxLHqx
+ uoLVwWflzfmEQGy8fpG4bzvtghAGD4zuHwXDpjCh3OvtxmDn+ViJss0ndDaXrpWURoIV
+ +sxeiXf6/OHB0ePIk58VSdkI/IGcp4ZY/sNMSbyCc1tPn/+IryWxSoD9RiP8tAXJtBAk
+ vZZg==
+X-Gm-Message-State: AOAM533O/mYx7vEiyXDAwbZ0hNEzqjJawg/c2IRYhfp0R4wxHw0ZNDR8
+ RcKuiTdW8iBgBPSpCZU3twosA3hKVjR1FopDV+s=
+X-Google-Smtp-Source: ABdhPJwtoKeRVXvgQWYI0FGFEFUVIAQMF4l4PZuS7D/IV4AQqwOs6rxLY7l/5BGZ9tRfwoRr4V6z3VuB3DyHbXX5n8I=
+X-Received: by 2002:a1f:ee81:: with SMTP id m123mr762899vkh.51.1592420995496; 
+ Wed, 17 Jun 2020 12:09:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200617105130.207116-1-chentao107@huawei.com>
- <20200617105130.207116-2-chentao107@huawei.com>
-In-Reply-To: <20200617105130.207116-2-chentao107@huawei.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 17 Jun 2020 14:04:19 -0400
-Message-ID: <CADnq5_N8QDurdw_kYRbGUSbaaJYLpbJi=uDk4dYkHNVfnJtGFg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/amdgpu/debugfs: fix memory leak when
- amdgpu_virt_enable_access_debugfs failed
-To: Chen Tao <chentao107@huawei.com>
+References: <20200617105929.534edd34@canb.auug.org.au>
+ <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
+ <20200617170307.3c87be5a@canb.auug.org.au>
+In-Reply-To: <20200617170307.3c87be5a@canb.auug.org.au>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Wed, 17 Jun 2020 20:06:11 +0100
+Message-ID: <CACvgo50Ke-7pGqpwEb8y0iYOKv7wep1qUMm8_KJvUp0fV-YHoQ@mail.gmail.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom St Denis <tom.stdenis@amd.com>, Jack Xiao <Jack.Xiao@amd.com>,
- Dave Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>, Yintian Tao <yttao@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Stephen,
 
-Alex
+On Wed, 17 Jun 2020 at 08:03, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi Thomas,
+>
+> On Wed, 17 Jun 2020 08:33:24 +0200 Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > We recently dropped the _unlock() suffix from drm_gem_object_put(). This
+> > patch should be ok.
+>
+> Yes, but what it shows is that the drm-misc tree is still based on
+> v5.7-rc1 and v5.8-rc1 has about 16000 more commits for you to get
+> conflicts against :-)
+>
+Being the culprit here - thanks for the patience and report.
 
-On Wed, Jun 17, 2020 at 9:10 AM Chen Tao <chentao107@huawei.com> wrote:
->
-> Fix memory leak in amdgpu_debugfs_gpr_read not freeing data when
-> amdgpu_virt_enable_access_debugfs failed.
->
-> Fixes: 95a2f917387a2 ("drm/amdgpu: restrict debugfs register accessunder SR-IOV")
-> Signed-off-by: Chen Tao <chentao107@huawei.com>
-> ---
-> v1->v2:
->  - remove the duplication of result and r here and then use "goto err"
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> index 7993b9eeff38..7086e1982f9e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> @@ -867,7 +867,7 @@ static ssize_t amdgpu_debugfs_gpr_read(struct file *f, char __user *buf,
->
->         r = amdgpu_virt_enable_access_debugfs(adev);
->         if (r < 0)
-> -               return r;
-> +               goto err;
->
->         /* switch to the specific se/sh/cu */
->         mutex_lock(&adev->grbm_idx_mutex);
-> --
-> 2.22.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+I believe that both AMD and drm-misc teams are aware of this lovely
+situation I've put them in.
+As you mentioned drm-misc is a bit special and doing the usual
+backmerge will be fun.
+
+If you have any tips on how to minimise such issues, I'd gladly utilise them.
+
+Thanks again,
+-Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
