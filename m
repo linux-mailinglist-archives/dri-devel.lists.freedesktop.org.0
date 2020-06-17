@@ -1,36 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C6A1FC74D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3E11FC740
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14AEE6EAA4;
-	Wed, 17 Jun 2020 07:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 938ED6EAB9;
+	Wed, 17 Jun 2020 07:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0357C6E0E8
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 00:32:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6CAD6E9CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 02:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1592353935; bh=b1/7qbKU/Xjmfy3lRGyd7/FtHpXUhaxNH3hyWhF4w/I=;
- h=From:To:Cc:Subject:Date:References:From;
- b=fzUsKIKzoQ+1OaWhcz+hZ7MIjha/GYJ3SwW1xSWguquo+3lqSLOaIfzBYY7ta0io8
- rL8DemDnSAwGa1BBkB0+DuxTcVg51GGq/DYZa1aStAcUu9yBwIafghQ+VTlwXqqR0h
- 3THfBi7Z/3isAxxKn49vLTr+lDXdBWz0mMWLDxk4=
-From: Ondrej Jirman <megous@megous.com>
-To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
+ t=1592359249; bh=nfSFk/xxv2HPjCmgiQmTzC85XO7JsaYmjsZ2Hf0O8WA=;
+ h=Date:From:To:Cc:Subject:References:From;
+ b=RSTp/x25+vrf98bzteSPi+kPYJSJl7O5J4mEvqeDFgtzOodDhGQfnygpDh84JiXmH
+ 7U6a1om3H+8zqs/Y+QMNPTl24XwrWut/xPnaaHdCyotCcDDbC7Wqd3W7Oo213aSY9N
+ XoVIbzOov26zePoClavc9rZy25sVMXE7VaGg/5M8=
+Date: Wed, 17 Jun 2020 04:00:49 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [linux-sunxi] Re: [PATCH v3 3/5] drm: panel: Add Xingbangda
+ XBD599 panel (ST7703 controller)
+Message-ID: <20200617020049.iz6vujrs25kuipl6@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v4 5/5] arm64: dts: sun50i-a64-pinephone: Add touchscreen
- support
-Date: Wed, 17 Jun 2020 02:32:09 +0200
-Message-Id: <20200617003209.670819-6-megous@megous.com>
-In-Reply-To: <20200617003209.670819-1-megous@megous.com>
-References: <20200617003209.670819-1-megous@megous.com>
+ Icenowy Zheng <icenowy@aosc.io>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Martijn Braam <martijn@brixit.nl>, Luca Weiss <luca@z3ntu.xyz>,
+ Bhushan Shah <bshah@kde.org>
+References: <20200513212451.1919013-1-megous@megous.com>
+ <20200513212451.1919013-4-megous@megous.com>
+ <CACRpkdZpiQ7E_v-Gfk6vFcUEiMazvixYaL0ksKeP=Tq3O6Fh=Q@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZpiQ7E_v-Gfk6vFcUEiMazvixYaL0ksKeP=Tq3O6Fh=Q@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 17 Jun 2020 07:26:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,57 +59,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
- Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Samuel Holland <samuel@sholland.org>,
+ David Airlie <airlied@linux.ie>, Bhushan Shah <bshah@kde.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Martijn Braam <martijn@brixit.nl>, linux-sunxi <linux-sunxi@googlegroups.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Luca Weiss <luca@z3ntu.xyz>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pinephone has a Goodix GT917S capacitive touchscreen controller on
-I2C0 bus. Add support for it.
+Hello Linus,
 
-Signed-off-by: Ondrej Jirman <megous@megous.com>
----
- .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+On Tue, May 26, 2020 at 01:32:25PM +0200, Linus Walleij wrote:
+> Hi Ondrej,
+> 
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index e60b57f8ac14..6b2ff431cddb 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -123,6 +123,25 @@ &ehci1 {
- 	status = "okay";
- };
- 
-+&i2c0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c0_pins>;
-+	status = "okay";
-+
-+	touchscreen@5d {
-+		compatible = "goodix,gt917s", "goodix,gt911";
-+		reg = <0x5d>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
-+		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-+		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
-+		AVDD28-supply = <&reg_ldo_io0>;
-+		VDDIO-supply = <&reg_ldo_io0>;
-+		touchscreen-size-x = <720>;
-+		touchscreen-size-y = <1440>;
-+	};
-+};
-+
- &i2c1 {
- 	status = "okay";
- 
--- 
-2.27.0
+[...]
 
+> > +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
+> > +                         0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
+> > +                         0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
+> > +                         0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
+> > +                         0x03, 0x00, 0x00, 0x00, 0x75, 0x75, 0x31, 0x88,
+> > +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x13, 0x88, 0x64,
+> > +                         0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> > +                         0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+> > +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
+> > +                         0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                         0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
+> > +                         0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
+> > +                         0x57, 0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> > +                         0x75, 0x88, 0x23, 0x14, 0x00, 0x00, 0x02, 0x00,
+> > +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x0A,
+> > +                         0xA5, 0x00, 0x00, 0x00, 0x00);
+> > +       dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
+> > +                         0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
+> > +                         0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
+> > +                         0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
+> > +                         0x35, 0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12,
+> > +                         0x12, 0x18);
+> > +       msleep(20);
+> 
+> This stuff is really hard or impossible to understand without the
+> datasheet.
+> 
+> In my previous review I wrote:
+> 
+> It appears that the Himax HX8363 is using the same display controller
+> if you look at the datasheet:
+> http://www.datasheet-pdf.com/PDF/HX8369-A-Datasheet-Himax-729024
+> There you find an explanation to some of the commands.
+
+It is st7703, and we have a fairly complete datasheet available
+publicly. I posted links in the cover letter.
+
+> That means, try to get rid of as much of the magic bytes as you can
+> and use proper #defines. I know it takes some work but the result
+> is so much more useful and readable.
+
+I've added some descriptions from the datasheet as comments next
+to the values in v4.
+
+Thank you and regards,
+	o.
+
+> Further I wrote:
+> 
+> You should definately insert code to read the MTP bytes:
+> 0xDA manufacturer
+> 0xDB driver version
+> 0xDC LCD module/driver
+> And print these, se e.g. my newly added NT35510 driver or
+> the Sony ACX424AKP driver.
+> 
+> So please do that.
+> 
+> Yours,
+> Linus Walleij
+> 
+> -- 
+> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
+> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/CACRpkdZpiQ7E_v-Gfk6vFcUEiMazvixYaL0ksKeP%3DTq3O6Fh%3DQ%40mail.gmail.com.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
