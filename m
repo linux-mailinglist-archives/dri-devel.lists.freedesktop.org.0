@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C7E1FC267
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 01:39:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD8A1FC2C9
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 02:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9816E9D3;
-	Tue, 16 Jun 2020 23:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A886E991;
+	Wed, 17 Jun 2020 00:34:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341686E9D3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 23:39:33 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 200695] Blank screen on RX 580 with amdgpu.dc=1 enabled (no
- displays detected)
-Date: Tue, 16 Jun 2020 23:39:32 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lukas.fink1@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-200695-2300-hlnXkbEimI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-200695-2300@https.bugzilla.kernel.org/>
-References: <bug-200695-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D996E0E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 00:33:58 +0000 (UTC)
+IronPort-SDR: fwobji7DrYd2Sr7rfJ4230mkz33ALfo6/+Qc+/wihuX/q60qDwDbctGHRuRZD7kPT4H7j8Tkt9
+ ZCwvt0LSX/cw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 17:33:57 -0700
+IronPort-SDR: CyQEwOoMGmIi/DSVVpGJbsPvCATzFJnJyAaN0i5FYyJztzpPonwe+qfFaA+meue/A3uxSi61Dj
+ E6VlooDkMeWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,520,1583222400"; d="scan'208";a="273339380"
+Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.159.39])
+ by orsmga003.jf.intel.com with ESMTP; 16 Jun 2020 17:33:53 -0700
+Date: Wed, 17 Jun 2020 08:33:28 +0800
+From: Philip Li <philip.li@intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 4/4] drm: pl111: Update documentation
+Message-ID: <20200617003328.GB26983@intel.com>
+References: <20200609200446.153209-4-linus.walleij@linaro.org>
+ <202006101538.mV5c2loX%lkp@intel.com>
+ <CACvgo536CxAynhx3zcamS2-e=a7j++X7X66N4zG_L_HrjLk77A@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACvgo536CxAynhx3zcamS2-e=a7j++X7X66N4zG_L_HrjLk77A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,39 +49,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ Russell King <linux@armlinux.org.uk>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>,
+ LAKML <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=200695
+On Tue, Jun 16, 2020 at 05:12:51PM +0100, Emil Velikov wrote:
+> Hi all,
+> 
+> Inspired by Linus and my personal confusion with the report, allow me
+> to put some suggestions. Followed by an illustrative example.
+thanks for all the suggestions, we will take them into consideration
+to gradually improve the report.
 
-Lukas Fink (lukas.fink1@gmail.com) changed:
+> 
+> On Wed, 10 Jun 2020 at 08:38, kernel test robot <lkp@intel.com> wrote:
+> >
+> > Hi Linus,
+> >
+> > I love your patch! Perhaps something to improve:
+> >
+> > [auto build test WARNING on drm-exynos/exynos-drm-next]
+> > [also build test WARNING on drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linus/master v5.7 next-20200609]
+> One thing which was always inclear me - is the warning identical in
+> all the branches listed.
+yes, they contain same warning, we will clarify this.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |lukas.fink1@gmail.com
+> 
+> > [cannot apply to drm-tip/drm-tip drm/drm-next]
+> > [if your patch is applied to the wrong git tree, please drop us a note to help
+> > improve the system. BTW, we also suggest to use '--base' option to specify the
+> > base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+> >
+> Reference to the manual tends to be better than an old SO thread.
+got it, we will refer to your later example to enhance here.
 
---- Comment #43 from Lukas Fink (lukas.fink1@gmail.com) ---
-(In reply to babgozd from comment #38)
-> I am following this thread since it has created. My R9 380 with DVI-I output
-> is connected to my VGA monitor with DVI-I male to VGA female adapter and I
-> am getting black/blank screen while booting with amdgpu.dc=1 which is
-> default since kernel 4.17. It is fine with amdgpu.dc=0. I can provide logs
-> too if any kernel contributor wants to investigate the problem any further.
+> 
+> > url:    https://github.com/0day-ci/linux/commits/Linus-Walleij/drm-pl111-Credit-where-credit-is-due/20200610-041025
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+> > reproduce: make htmldocs
+> >
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> >
+> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> >
+> Please do not list old warnings/errors. They only distract and dilute
+> what/where the problem is.
+early on, there's a request to view the old warning of modpost related
+issue in case it is a false positive due to modpost output format changing.
 
-To me it seems, as if the DVI-I port is somehow misdetected/misconfigured as a
-DVI-D port. With dc=0 I find the files "card1-DVI-I-1" and "card1-DVI-D-1" in
-"/sys/class/drm/card1". With dc=1 there are "card1-DVI-D-1" and
-"card1-DVI-D-2".
+we will think of this to limit to modpost only.
 
-It appears to correctly negotiate resolution and refresh rate over DDC, but
-because it only outputs the digital signal, a display connected over VGA
-receives nothing and turns off.
+> 
+> 
+> > vim +1 drivers/gpu/drm/pl111/pl111_drv.c
+> >
+> > e559355a9da60a Thomas Gleixner 2019-06-01  @1  // SPDX-License-Identifier: GPL-2.0-only
+> > bed41005e6174d Tom Cooksey     2017-04-12   2  /*
+> > bed41005e6174d Tom Cooksey     2017-04-12   3   * (C) COPYRIGHT 2012-2013 ARM Limited. All rights reserved.
+> > bed41005e6174d Tom Cooksey     2017-04-12   4   *
+> > bed41005e6174d Tom Cooksey     2017-04-12   5   * Parts of this file were based on sources as follows:
+> > bed41005e6174d Tom Cooksey     2017-04-12   6   *
+> > bed41005e6174d Tom Cooksey     2017-04-12   7   * Copyright (c) 2006-2008 Intel Corporation
+> > bed41005e6174d Tom Cooksey     2017-04-12   8   * Copyright (c) 2007 Dave Airlie <airlied@linux.ie>
+> > bed41005e6174d Tom Cooksey     2017-04-12   9   * Copyright (C) 2011 Texas Instruments
+> > bed41005e6174d Tom Cooksey     2017-04-12  10   */
+> > bed41005e6174d Tom Cooksey     2017-04-12  11
+> >
+> > :::::: The code at line 1 was first introduced by commit
+> > :::::: e559355a9da60a2388893d9e9da66c79fd604b9a treewide: Replace GPLv2 boilerplate/reference with SPDX - rule 443
+> >
+> > :::::: TO: Thomas Gleixner <tglx@linutronix.de>
+> > :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >
+> All of this seems useful when debugging the kernel test robot itself.
+> Which in this case is misleading as hell.
+thanks, we will check above 4 lines with ::::: to adjust if needed.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> 
+> 
+> Here is something which is much shorter, with clearer structure and
+> reads much easier.
+this is very helpful and can provide a different perspective for how
+the report is. We will learn from it to imporve the report.
+
+> 
+> ---
+> Hi Linus,
+> 
+> This is an automated message from your friendly test robot.
+> We've noticed some issues with your patch although being a robot,
+> kindly double-check the results.
+> 
+> Branches:
+> [if the warning/errors are the same group them, otherwise split them
+> in separate sections]
+> 
+> - drm-exynos/exynos-drm-next [1]: WARNING
+> - drm-intel/for-linux-next [2]: WARNING
+> - .... : WARNING
+> drivers/gpu/drm/pl111/pl111_drv.c:1: warning: 'ARM PrimeCell PL111
+> CLCD Driver' not found
+> - tegra-drm/drm/tegra/for-next [3]: WARNING
+> some other warning
+> - drm-tip/drm-tip [4] drm/drm-next [5]: cannot apply series
+> 
+> Note: when submitting patches, please use `--base` as documented in
+> https://git-scm.com/docs/git-format-patch.
+> 
+> 
+> To reproduce:
+>  - wget https://url/to/build/toolchain // when applicable
+>  - wget https://url/to/config // when applicable
+>  - make htmldocs // use explicit make command instead of magic shell
+> script, as seen in the cross build reports
+> 
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> Thank you
+> The LKP team
+> 
+> [1] URI to the drm-exynos/exynos-drm-next repo
+> [2] URI to the drm-intel/for-linux-next repo
+> [3] URI to the ...
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
