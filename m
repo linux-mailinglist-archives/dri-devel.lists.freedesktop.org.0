@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C641FD106
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 17:30:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D2E1FD129
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 17:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F196E970;
-	Wed, 17 Jun 2020 15:30:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 192B06E0F2;
+	Wed, 17 Jun 2020 15:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B08AE6E96C;
- Wed, 17 Jun 2020 15:30:43 +0000 (UTC)
-IronPort-SDR: JW2uv6RINtynCfmNsfqWY/CIAWcUXUPEwSr5TbAXdlwbcl1bxNr/Zl3SKzhVGaihqesDNjtV7F
- PrGvKzDyR3fw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2020 08:30:43 -0700
-IronPort-SDR: FhAnKMQ15C/1Vd/68hiK8SPvcJFr4/B2A3iu9OVMnoHzHYQBkrleKPYBhN2scQD1sbZDpEzxpf
- ipWvoOOQ+W3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,523,1583222400"; d="scan'208";a="291458662"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 17 Jun 2020 08:30:39 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 17 Jun 2020 18:30:38 +0300
-Date: Wed, 17 Jun 2020 18:30:38 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH v3 1/5] drm/i915: Add enable/disable flip
- done and flip done handler
-Message-ID: <20200617153038.GM6112@intel.com>
-References: <20200528053931.29282-1-karthik.b.s@intel.com>
- <20200528053931.29282-2-karthik.b.s@intel.com>
- <0c4f01e093ad373bad5449ff01ae41df18e88d56.camel@intel.com>
- <CAKMK7uGHWqReNX9eUPpUyfgUtsNK2neT1wuK3C-tS1eBbDzX=g@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187A46E0F2;
+ Wed, 17 Jun 2020 15:38:33 +0000 (UTC)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+ [209.85.210.51])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D353D20CC7;
+ Wed, 17 Jun 2020 15:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592408312;
+ bh=Mmp7l8nOqzeof+dCZUf8iwFZM9Tbqs2liNaByHyvJTY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Pm9/vwvV1GYPSlFq1DtZ0h59xVMS3OQ4/rltEd2e8Tn+nL+i4hD5bkpMD883BeMFv
+ ZQPg6rW6Auf7WQ2HpUrXvLIbfkl2E5ZDN7DrZlhuR45UEwy/jSKYxXIbFa2jw5RMY+
+ lXOKyeJDeU5Wcun4hSDQlc5NzcJDystAwjhrDfCo=
+Received: by mail-ot1-f51.google.com with SMTP id n6so1985188otl.0;
+ Wed, 17 Jun 2020 08:38:32 -0700 (PDT)
+X-Gm-Message-State: AOAM531iarxVIn1cbdzT1gethUxVJ9ytf6R/a5tOgjH5yw4XKBk9aHh4
+ upo18iZSVxATKAp4MnGkOOZws6dT4fg26D9FXQ==
+X-Google-Smtp-Source: ABdhPJx+PoYXKyeUx8MAjbYQ1LRx9EEpUKsbhPm2Dbg1Vw8A/V17ptpVa4zGODoB4OocpKHaH/C7MvTr0HCPXdlZSBA=
+X-Received: by 2002:a05:6830:3104:: with SMTP id
+ b4mr7446929ots.192.1592408312183; 
+ Wed, 17 Jun 2020 08:38:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGHWqReNX9eUPpUyfgUtsNK2neT1wuK3C-tS1eBbDzX=g@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200612015030.16072-1-tanmay@codeaurora.org>
+ <20200612015030.16072-2-tanmay@codeaurora.org>
+ <159230611219.62212.8262135380349283774@swboyd.mtv.corp.google.com>
+In-Reply-To: <159230611219.62212.8262135380349283774@swboyd.mtv.corp.google.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 17 Jun 2020 09:38:20 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLsp6gR_=nA36usk67n7+EJOoxt-87R5zc1_DXpap5cag@mail.gmail.com>
+Message-ID: <CAL_JsqLsp6gR_=nA36usk67n7+EJOoxt-87R5zc1_DXpap5cag@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings: msm/dp: add bindings of DP/DP-PLL
+ driver for Snapdragon
+To: Stephen Boyd <swboyd@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,177 +57,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Karthik B S <karthik.b.s@intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, aravindh@codeaurora.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, Vara Reddy <varar@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 17, 2020 at 11:58:10AM +0200, Daniel Vetter wrote:
-> On Wed, Jun 10, 2020 at 03:33:06PM -0700, Paulo Zanoni wrote:
-> > Em qui, 2020-05-28 =E0s 11:09 +0530, Karthik B S escreveu:
-> > > Add enable/disable flip done functions and the flip done handler
-> > > function which handles the flip done interrupt.
-> > >
-> > > Enable the flip done interrupt in IER.
-> > >
-> > > Enable flip done function is called before writing the
-> > > surface address register as the write to this register triggers
-> > > the flip done interrupt
-> > >
-> > > Flip done handler is used to send the page flip event as soon as the
-> > > surface address is written as per the requirement of async flips.
-> > > The interrupt is disabled after the event is sent.
-> > >
-> > > v2: -Change function name from icl_* to skl_* (Paulo)
-> > >     -Move flip handler to this patch (Paulo)
-> > >     -Remove vblank_put() (Paulo)
-> > >     -Enable flip done interrupt for gen9+ only (Paulo)
-> > >     -Enable flip done interrupt in power_well_post_enable hook (Paulo)
-> > >     -Removed the event check in flip done handler to handle async
-> > >      flips without pageflip events.
-> > >
-> > > v3: -Move skl_disable_flip_done out of interrupt handler (Paulo)
-> > >     -Make the pending vblank event NULL in the begining of
-> > >      flip_done_handler to remove sporadic WARN_ON that is seen.
-> > >
-> > > Signed-off-by: Karthik B S <karthik.b.s@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++
-> > >  drivers/gpu/drm/i915/i915_irq.c              | 52 ++++++++++++++++++=
-++
-> > >  drivers/gpu/drm/i915/i915_irq.h              |  2 +
-> > >  3 files changed, 64 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/g=
-pu/drm/i915/display/intel_display.c
-> > > index f40b909952cc..48cc1fc9bc5a 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > > @@ -15530,6 +15530,13 @@ static void intel_atomic_commit_tail(struct =
-intel_atomic_state *state)
-> > >
-> > >     intel_dbuf_pre_plane_update(state);
-> > >
-> > > +   for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > > +           if (new_crtc_state->uapi.async_flip) {
-> > > +                   skl_enable_flip_done(&crtc->base);
-> > > +                   break;
-> > > +           }
-> > > +   }
-> > > +
-> > >     /* Now enable the clocks, plane, pipe, and connectors that we set=
- up. */
-> > >     dev_priv->display.commit_modeset_enables(state);
-> > >
-> > > @@ -15551,6 +15558,9 @@ static void intel_atomic_commit_tail(struct i=
-ntel_atomic_state *state)
-> > >     drm_atomic_helper_wait_for_flip_done(dev, &state->base);
-> > >
-> > >     for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i) {
-> > > +           if (new_crtc_state->uapi.async_flip)
-> > > +                   skl_disable_flip_done(&crtc->base);
-> > > +
-> > >             if (new_crtc_state->hw.active &&
-> > >                 !needs_modeset(new_crtc_state) &&
-> > >                 !new_crtc_state->preload_luts &&
-> > > diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i=
-915_irq.c
-> > > index efdd4c7b8e92..632e7b1deb87 100644
-> > > --- a/drivers/gpu/drm/i915/i915_irq.c
-> > > +++ b/drivers/gpu/drm/i915/i915_irq.c
-> > > @@ -1295,6 +1295,23 @@ display_pipe_crc_irq_handler(struct drm_i915_p=
-rivate *dev_priv,
-> > >                          u32 crc4) {}
-> > >  #endif
-> > >
-> > > +static void flip_done_handler(struct drm_i915_private *dev_priv,
-> > > +                         unsigned int pipe)
-> > > +{
-> > > +   struct intel_crtc *crtc =3D intel_get_crtc_for_pipe(dev_priv, pip=
-e);
-> > > +   struct drm_crtc_state *crtc_state =3D crtc->base.state;
-> > > +   struct drm_pending_vblank_event *e =3D crtc_state->event;
-> > > +   struct drm_device *dev =3D &dev_priv->drm;
-> > > +   unsigned long irqflags;
-> > > +
-> > > +   crtc_state->event =3D NULL;
-> > > +
-> > > +   spin_lock_irqsave(&dev->event_lock, irqflags);
-> > > +
-> > > +   drm_crtc_send_vblank_event(&crtc->base, e);
-> >
-> > I don't think this is what we want. With this, the events the Kernel
-> > sends us all have the same sequence and timestamp. In fact, the IGT
-> > test you submitted fails because of this.
-> >
-> > In my original hackish proof-of-concept patch I had changed
-> > drm_update_vblank_count() to force diff=3D1 in order to always send
-> > events and I also changed g4x_get_vblank_counter() to get the counter
-> > from FLIPCOUNT (which updates every time there's a flip) instead of
-> > FRMCOUNT (which doesn't seem to increment when you do async flips).
-> > That is a drastic change, but the patch was just a PoC so I didn't care
-> > about keeping anything else working.
-> >
-> > One thing that confused me a little bit when dealing the the
-> > vblank/flip event interface from drm.ko is that "flips" and "vblanks"
-> > seem to be changed interchangeably, which is confusing for async flips:
-> > if you keep forever doing async flips in the very first few scanlines
-> > you never actually reach the "vblank" period, yet you keep flipping
-> > your frame. Then, what should your expectation regarding events be?
-> =
+On Tue, Jun 16, 2020 at 5:15 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Tanmay Shah (2020-06-11 18:50:26)
+> > diff --git a/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> > new file mode 100644
+> > index 000000000000..5fdb9153df00
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> > @@ -0,0 +1,142 @@
+> > +        data-lanes = <0 1>;
+> > +
+> > +        ports {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +
+> > +            port@0 {
+> > +                reg = <0>;
+> > +                dp_in: endpoint {
+> > +                    remote-endpoint = <&dpu_intf0_out>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg = <1>;
+> > +                dp_out: endpoint {
+>
+> Just curious what is eventually connected here? This is possibly a
+> question for Rob Herring, but I can't figure out how we're supposed to
+> connect this to the USB type-c connector that is receiving the DP
+> signal. Does the type-c connector binding support connecting to this end
+> of the graph? Or should this connect to the DP phy and then the phy
+> connects to the USB type-c connector node? Right now it is empty which
+> seems wrong.
 
-> Hm vblank should keep happening I thought (this isn't VRR or DRRS or PSR
-> where that changes), no idea why we can't keep sending out vblank
-> interrupts.
-> =
+It should connect to the Type-C connector perhaps thru some sort of
+switching/muxing node, but that's not really flushed out though. See
+'dt-bindings: chrome: Add cros-ec-typec mux props' discussion with
+your CrOS colleagues.
 
-> Now flip events look maybe conflated in drm.ko code with vblank events
-> since most of the time a flip complete happens at exactly the same time
-> the vblank event. But for async flip this is not the case.
-> =
-
-> Probably worth it to have new helpers/function in drm_vblank.c for
-> async flips, so that this is less confusing. Plus good documentation.
-
-We're going to need three different ways to calculate the flip
-timestamps: sync flip, vrr sync flip, async flip.
-
-First one we handle just fine currently since we know know when
-the timestamp was sampled and when the vblank ends so we can do
-the appropriate correction.
-
-VRR is going to be a bit more interesting since we don't really know how
-long the vblank will be. I think we may have to use the frame timestamp
-and current timestamp counter to first convert the monotonic timestamp
-to correlate with the start of the vblank exit, and then we can move it
-forward by the fixed (I think) length of the vblank exit procedure.
-
-For async flip I think we may want to do something similar with the
-flip done timestamp and current timestamp (apart from adding the
-fixed length of the vblank exit procedure of course, since there
-is no vblank exit). Although I'm not entirely sure what we should do
-if we do the async flip during the vblank. If we want to maintain
-that the timestamp always correlates with the first pixel actually
-getting scanned out then we should still correct the timestamp to
-point past the end of vblank. And even with the corrections there =
-
-will be some amount of error due to the old data first having to
-drain out of the FIFO. That error I think we're just going to
-have to accept.
-
-Not sure how much surgery all that is going to require to the vblank
-timestamping code.
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
