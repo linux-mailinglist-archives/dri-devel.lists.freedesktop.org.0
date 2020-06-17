@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494901FC359
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 03:28:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9425B1FC361
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 03:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 993B96EA47;
-	Wed, 17 Jun 2020 01:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F02F6E0F0;
+	Wed, 17 Jun 2020 01:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1036EA47
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 01:28:23 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 208209] [amdgpu] driver crash -- enable_link_dp -- RX 570
-Date: Wed, 17 Jun 2020 01:28:22 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: max.bruce12@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-208209-2300-WYEaak5Jtv@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-208209-2300@https.bugzilla.kernel.org/>
-References: <bug-208209-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB446E0F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 01:36:02 +0000 (UTC)
+IronPort-SDR: aUBkIh9AqF3V8iwNKvEk/AGEJFQ7zVsZAR95RAcmdfF8pPTleTNTPxrnFrCinn316CwEds8JPc
+ QRO9Y2VwPKXg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2020 18:36:01 -0700
+IronPort-SDR: BZxflcu76aIOxnlna8HDHI83ao9e0Tw+afvPDR2ci7DLGaJjV8ag7LWISB1sS7UojZGHCl73aw
+ m0ogTTHGS3Bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,520,1583222400"; d="scan'208";a="476671951"
+Received: from shao2-debian.sh.intel.com (HELO [10.239.13.3]) ([10.239.13.3])
+ by fmsmga005.fm.intel.com with ESMTP; 16 Jun 2020 18:35:59 -0700
+Subject: Re: [drm/mgag200] e44e907dd8:
+ phoronix-test-suite.glmark2.800x600.score -64.9% regression
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20200515083233.32036-6-tzimmermann@suse.de>
+ <20200603090929.GG12456@shao2-debian>
+ <CACvgo50e5ddtqWfcBiB9b05XGVuTz=8m4yH7BvAqwV2mKcuupA@mail.gmail.com>
+ <62dc5960-ef0d-1fb5-d377-1f0eb9a4bc0d@intel.com>
+ <CACvgo5111Z6Zq4SYYKOJTbiSYPwY2JmG7apX=qx4k3e1DPO62Q@mail.gmail.com>
+From: Rong Chen <rong.a.chen@intel.com>
+Message-ID: <4227c06c-233e-dfcb-e498-185116d6daf5@intel.com>
+Date: Wed, 17 Jun 2020 09:35:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <CACvgo5111Z6Zq4SYYKOJTbiSYPwY2JmG7apX=qx4k3e1DPO62Q@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,127 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Cc: john.p.donnelly@oracle.com, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ lkp@lists.01.org, OTC LSE PnP <otc.lse.pnp@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=208209
+Hi Emil,
 
---- Comment #2 from max.bruce12@gmail.com ---
-I am using X, there aren't any interesting logs within the prior 12 hours or
-since.
-[901953.262] (II) AMDGPU(0): EDID vendor "SAM", prod id 3427
-[901953.262] (II) AMDGPU(0): Using hsync ranges from config file
-[901953.262] (II) AMDGPU(0): Using vrefresh ranges from config file
-[901953.262] (II) AMDGPU(0): Printing DDC gathered Modelines:
-[901953.262] (II) AMDGPU(0): Modeline "3840x2160"x0.0  533.25  3840 3888 3920
-4000  2160 2163 2168 2222 +hsync -vsync (133.3 kHz eP)
-[901953.262] (II) AMDGPU(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052
-2200  1080 1084 1089 1125 +hsync +vsync (67.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "2560x1440"x0.0  241.50  2560 2608 2640
-2720  1440 1443 1448 1481 +hsync -vsync (88.8 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056 
-600 601 605 628 +hsync +vsync (37.9 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024 
-600 601 603 625 +hsync +vsync (35.2 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 656 720 840 
-480 481 484 500 -hsync -vsync (37.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 664 704 832 
-480 489 492 520 -hsync -vsync (37.9 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   30.24  640 704 768 864 
-480 483 486 525 -hsync -vsync (35.0 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   25.18  640 656 752 800 
-480 490 492 525 -hsync -vsync (31.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "720x400"x0.0   28.32  720 738 846 900 
-400 412 414 449 -hsync +vsync (31.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440
-1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136
-1312  768 769 772 800 +hsync +vsync (60.0 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184
-1328  768 771 777 806 -hsync -vsync (56.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184
-1344  768 771 777 806 -hsync -vsync (48.4 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152 
-624 625 628 667 -hsync -vsync (49.7 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056 
-600 601 604 625 +hsync +vsync (46.9 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040 
-600 637 643 666 +hsync +vsync (48.1 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344
-1600  864 865 868 900 +hsync +vsync (67.5 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1280x800"x0.0   83.50  1280 1352 1480
-1680  800 803 809 831 -hsync +vsync (49.7 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472
-1664  720 721 724 746 -hsync +vsync (44.8 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440
-1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1600x900"x60.0  119.00  1600 1696 1864
-2128  900 901 904 932 -hsync +vsync (55.9 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960
-2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz e)
-[901953.262] (II) AMDGPU(0): Modeline "1440x900"x0.0  106.50  1440 1520 1672
-1904  900 903 909 934 -hsync +vsync (55.9 kHz e)
-[901953.813] (II) AMDGPU(0): EDID vendor "SAM", prod id 3427
-[901953.813] (II) AMDGPU(0): Using hsync ranges from config file
-[901953.813] (II) AMDGPU(0): Using vrefresh ranges from config file
-[901953.813] (II) AMDGPU(0): Printing DDC gathered Modelines:
-[901953.813] (II) AMDGPU(0): Modeline "3840x2160"x0.0  533.25  3840 3888 3920
-4000  2160 2163 2168 2222 +hsync -vsync (133.3 kHz eP)
-[901953.813] (II) AMDGPU(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052
-2200  1080 1084 1089 1125 +hsync +vsync (67.5 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "2560x1440"x0.0  241.50  2560 2608 2640
-2720  1440 1443 1448 1481 +hsync -vsync (88.8 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056 
-600 601 605 628 +hsync +vsync (37.9 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024 
-600 601 603 625 +hsync +vsync (35.2 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 656 720 840 
-480 481 484 500 -hsync -vsync (37.5 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 664 704 832 
-480 489 492 520 -hsync -vsync (37.9 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   30.24  640 704 768 864 
-480 483 486 525 -hsync -vsync (35.0 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   25.18  640 656 752 800 
-480 490 492 525 -hsync -vsync (31.5 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "720x400"x0.0   28.32  720 738 846 900 
-400 412 414 449 -hsync +vsync (31.5 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440
-1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136
-1312  768 769 772 800 +hsync +vsync (60.0 kHz e)
-[901953.813] (II) AMDGPU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184
-1328  768 771 777 806 -hsync -vsync (56.5 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184
-1344  768 771 777 806 -hsync -vsync (48.4 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152 
-624 625 628 667 -hsync -vsync (49.7 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056 
-600 601 604 625 +hsync +vsync (46.9 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040 
-600 637 643 666 +hsync +vsync (48.1 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344
-1600  864 865 868 900 +hsync +vsync (67.5 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1280x800"x0.0   83.50  1280 1352 1480
-1680  800 803 809 831 -hsync +vsync (49.7 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472
-1664  720 721 724 746 -hsync +vsync (44.8 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440
-1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1600x900"x60.0  119.00  1600 1696 1864
-2128  900 901 904 932 -hsync +vsync (55.9 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960
-2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz e)
-[901953.814] (II) AMDGPU(0): Modeline "1440x900"x0.0  106.50  1440 1520 1672
-1904  900 903 909 934 -hsync +vsync (55.9 kHz e)
+Thanks for the guidance, we'll add these information in future reports.
 
+Best Regards,
+Rong Chen
 
-This repeats every so often.
+On 6/16/20 9:49 PM, Emil Velikov wrote:
+> Hi Rong,
+>
+> Thanks for the prompt reply and information. Can I suggest including
+> the suggested information in future reports.
+> I've included a command for each one, to aid automating things.
+>
+> Namely:
+> Xorg: 1.20.4 (or None)
+> $ which Xorg 2>/dev/null  || echo None && Xorg -version |& grep -o "X
+> Server.*" | sed "s/X Server//"
+>
+> Mesa: 20.0.7
+> $ grep -E -o "Mesa [1-9]+.*" | head -n1 | sed "s/Mesa//"
+>
+> Mesa module: swrast_dri.so
+> $ basename `LD_DEBUG=libs glxinfo |& grep _dri.so | head -n1 | cut -f3 -d:`
+>
+> Mesa device: llvmpipe (LLVM 10.0.0, 128 bits) (0xffffffff)
+> $ glxinfo | grep -i device | cut -f2 -d:
+>
+> GPU: Matrox Electronics ...
+> $ lspci -nn | grep -E "VGA|Display|3D" | cut -f2- -d:
+>
+> Thanks
+> -Emil
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
