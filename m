@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24B21FD911
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:40:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5A61FD914
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4EE66E8E4;
-	Wed, 17 Jun 2020 22:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6015C6EA09;
+	Wed, 17 Jun 2020 22:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2C16E8E4
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:40:46 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id e9so1972147pgo.9
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:40:46 -0700 (PDT)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B5A6E8E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:40:47 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id l63so1963535pge.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=yxhkUrEZGMGW6V4hv3gqzEshBUWawbyxpwsGYbTMAP4=;
- b=C3/TSekqJZZMRXXMevCccVhyXTBxs5StkCa3/Myij+08Kzcct5wdEG2BPhAKdXPOfv
- 2WClkyxfVXT81fmioLGdEepEQcsW2bLVwfmqQUMvd7b5IWkow9dHGJs6bLcVtZVih5fc
- rNQdrLvysaoDWBhGyFA04ir9S1TuRmEIjHOnLlO7DA90LVaIf85LgLAAHAvENvOmjddy
- KZkzvb9C6Lxwmoj2fdVAW5JDELlZWxb1AnaS6nGlzHb7xrkX1pV8blDUKgNq+hVrWd9W
- ftuh3XjgDhvwf9nCH1imdw0Brn79AG/VerLFG89gmzHmvPDIaokCodch8Uq7SgHlxEQi
- GvSw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=SoPMTXvqN+c9eLGuj7ute01VMh5hNI9a49zXdLhCV9s=;
+ b=Pjvb1KC/wgVYFAixCZ6ZJtZSkgpiF+/xehBsICyTk7NBUv0o/B3h2IsNeW6TXqIGGq
+ qQnR60qnzrEdLRF34zszX1iNTBN8XGs9yEtLoyvaiZLTJKWEM/YvfsThlfsPpw8le8o1
+ zW2i5PI3mbBzJNzFvOEHH2/e+k1L5ZzFsJG+Tr0Wc/jrhNkkeg4yYHZ39LiwCUhRZJWX
+ Y9fPWCWebJ4ki3mSWPWVCPrSHc0nEuvog7Ax6Gd7xuDfMD2F76A8c7oYL9llcJXBwM+b
+ HQ2eAE/VRDgMRdbJS+sb4ZZDMMz/UpzDNXVzkgNwymf03OS5NqHCoqzoZoq9dWpFICBV
+ 2Xgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=yxhkUrEZGMGW6V4hv3gqzEshBUWawbyxpwsGYbTMAP4=;
- b=Hyrlni5PZ73QZOIrwwI9fyJAVjixhM4mSN4yVhdGVVayuM8mLCYl/topmon11lYTRH
- Sb8gzDaHLNML/TpMxt75HEWkvyoWMHqo2uSzBCS1vcc/vX5adQEWEFXUbJKV1LtKQfYV
- A8XG3vy6PNLMNxy/1m4eox3M1QUo0fZ2SbeuSADjiaKa4mqEVpmwO1WwS6oq6RHM718s
- Z6NqWX8R8COthhRfXn6wfZ6YLotvNTrEZ8Li6LlgJAa3wEOaAjqSg0Upl3cdevOrtg/t
- rU0Z8R8rEgjjbFTJ+kTX4WyQBjw/NuF6sCYlf+ra2JTjkw1+G6c4qy+a2kewnSY8zA+1
- Okog==
-X-Gm-Message-State: AOAM533BDREJ4gQU4BaTeRnC9liDdPEluQtbVUX6L4ahRkEdMk6rlJuQ
- xW2omYMvCi0CmsTRyCTOn58=
-X-Google-Smtp-Source: ABdhPJxrIQeRLx2Cjy19QaB82zGd8G1E+KIumafFZaHrrE9sYy8tgFDygV/AkvTMIJRptlcBVFaf5Q==
-X-Received: by 2002:a62:9255:: with SMTP id o82mr902817pfd.218.1592433645740; 
- Wed, 17 Jun 2020 15:40:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=SoPMTXvqN+c9eLGuj7ute01VMh5hNI9a49zXdLhCV9s=;
+ b=htIsrc30G7nhny1xyUIZiah4K4+t5eARHh2aADA/xW4kn0mn2iznDo4lIjRf09d0na
+ znwV0o67DLOB9lZroT3b0RG5BN8uqq7JAmXvoqYaq8psBG1jc0g8jwc/gzqQjvbCSANl
+ Lwfp5snZ86z1aEPquaI+wY902w2wmUzh91HP3Q4JzHVLLqFxxBKs4jFPG00UHgHrV1VF
+ BYAnb7wmT8/HgNnfAta7vrvNxTIcn/31lPLnVrd8N1AkC/cMw1t/PPBVcalc/vHrqKEj
+ z3A/8qbCBb8nY5QjTgR8hzTzYekMH0Teu9BZVNCHv3XWAh9HGgZmXEm3Zl9CQoZatLFD
+ 0Nnw==
+X-Gm-Message-State: AOAM532s+1N9Qy99pNh45tAyO30/J61WrkDS92ylt7tUHZ/8GmlybJy+
+ dj68hNKA7jpeq1yNzxfNmco=
+X-Google-Smtp-Source: ABdhPJyNogq5pyroi5y5jhPEauxrgHQen8TBiBXdjZ9tsUAkPhogEPL+HvS9ww2piDW5O1QUsUnIdg==
+X-Received: by 2002:a62:7f44:: with SMTP id a65mr916441pfd.258.1592433646853; 
+ Wed, 17 Jun 2020 15:40:46 -0700 (PDT)
 Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
  [73.202.231.77])
- by smtp.googlemail.com with ESMTPSA id x20sm486431pjr.44.2020.06.17.15.40.44
+ by smtp.googlemail.com with ESMTPSA id x20sm486431pjr.44.2020.06.17.15.40.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:40:45 -0700 (PDT)
+ Wed, 17 Jun 2020 15:40:46 -0700 (PDT)
 From: Steve Longerbeam <slongerbeam@gmail.com>
 To: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH 1/3] gpu: ipu-v3: Restore RGB32, BGR32
-Date: Wed, 17 Jun 2020 15:40:36 -0700
-Message-Id: <20200617224038.17889-1-slongerbeam@gmail.com>
+Subject: [PATCH 2/3] gpu: ipu-v3: image-convert: Combine rotate/no-rotate irq
+ handlers
+Date: Wed, 17 Jun 2020 15:40:37 -0700
+Message-Id: <20200617224038.17889-2-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200617224038.17889-1-slongerbeam@gmail.com>
+References: <20200617224038.17889-1-slongerbeam@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +73,110 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGB32 and BGR32 formats were inadvertently removed from the switch
-statement in ipu_pixelformat_to_colorspace(). Restore them.
+Combine the rotate_irq() and norotate_irq() handlers into a single
+eof_irq() handler.
 
-Fixes: a59957172b0c ("gpu: ipu-v3: enable remaining 32-bit RGB V4L2 pixel formats")
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/gpu/ipu-v3/ipu-common.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 58 +++++++++-----------------
+ 1 file changed, 20 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
-index ee2a025e54cf..b3dae9ec1a38 100644
---- a/drivers/gpu/ipu-v3/ipu-common.c
-+++ b/drivers/gpu/ipu-v3/ipu-common.c
-@@ -124,6 +124,8 @@ enum ipu_color_space ipu_pixelformat_to_colorspace(u32 pixelformat)
- 	case V4L2_PIX_FMT_RGBX32:
- 	case V4L2_PIX_FMT_ARGB32:
- 	case V4L2_PIX_FMT_XRGB32:
-+	case V4L2_PIX_FMT_RGB32:
-+	case V4L2_PIX_FMT_BGR32:
- 		return IPUV3_COLORSPACE_RGB;
- 	default:
- 		return IPUV3_COLORSPACE_UNKNOWN;
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index eeca50d9a1ee..f8b031ded3cf 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -1709,9 +1709,10 @@ static irqreturn_t do_irq(struct ipu_image_convert_run *run)
+ 	return IRQ_WAKE_THREAD;
+ }
+ 
+-static irqreturn_t norotate_irq(int irq, void *data)
++static irqreturn_t eof_irq(int irq, void *data)
+ {
+ 	struct ipu_image_convert_chan *chan = data;
++	struct ipu_image_convert_priv *priv = chan->priv;
+ 	struct ipu_image_convert_ctx *ctx;
+ 	struct ipu_image_convert_run *run;
+ 	unsigned long flags;
+@@ -1728,45 +1729,26 @@ static irqreturn_t norotate_irq(int irq, void *data)
+ 
+ 	ctx = run->ctx;
+ 
+-	if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
+-		/* this is a rotation operation, just ignore */
+-		spin_unlock_irqrestore(&chan->irqlock, flags);
+-		return IRQ_HANDLED;
+-	}
+-
+-	ret = do_irq(run);
+-out:
+-	spin_unlock_irqrestore(&chan->irqlock, flags);
+-	return ret;
+-}
+-
+-static irqreturn_t rotate_irq(int irq, void *data)
+-{
+-	struct ipu_image_convert_chan *chan = data;
+-	struct ipu_image_convert_priv *priv = chan->priv;
+-	struct ipu_image_convert_ctx *ctx;
+-	struct ipu_image_convert_run *run;
+-	unsigned long flags;
+-	irqreturn_t ret;
+-
+-	spin_lock_irqsave(&chan->irqlock, flags);
+-
+-	/* get current run and its context */
+-	run = chan->current_run;
+-	if (!run) {
++	if (irq == chan->out_eof_irq) {
++		if (ipu_rot_mode_is_irt(ctx->rot_mode)) {
++			/* this is a rotation op, just ignore */
++			ret = IRQ_HANDLED;
++			goto out;
++		}
++	} else if (irq == chan->rot_out_eof_irq) {
++		if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
++			/* this was NOT a rotation op, shouldn't happen */
++			dev_err(priv->ipu->dev,
++				"Unexpected rotation interrupt\n");
++			ret = IRQ_HANDLED;
++			goto out;
++		}
++	} else {
++		dev_err(priv->ipu->dev, "Received unknown irq %d\n", irq);
+ 		ret = IRQ_NONE;
+ 		goto out;
+ 	}
+ 
+-	ctx = run->ctx;
+-
+-	if (!ipu_rot_mode_is_irt(ctx->rot_mode)) {
+-		/* this was NOT a rotation operation, shouldn't happen */
+-		dev_err(priv->ipu->dev, "Unexpected rotation interrupt\n");
+-		spin_unlock_irqrestore(&chan->irqlock, flags);
+-		return IRQ_HANDLED;
+-	}
+-
+ 	ret = do_irq(run);
+ out:
+ 	spin_unlock_irqrestore(&chan->irqlock, flags);
+@@ -1859,7 +1841,7 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+ 						  chan->out_chan,
+ 						  IPU_IRQ_EOF);
+ 
+-	ret = request_threaded_irq(chan->out_eof_irq, norotate_irq, do_bh,
++	ret = request_threaded_irq(chan->out_eof_irq, eof_irq, do_bh,
+ 				   0, "ipu-ic", chan);
+ 	if (ret < 0) {
+ 		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
+@@ -1872,7 +1854,7 @@ static int get_ipu_resources(struct ipu_image_convert_chan *chan)
+ 						     chan->rotation_out_chan,
+ 						     IPU_IRQ_EOF);
+ 
+-	ret = request_threaded_irq(chan->rot_out_eof_irq, rotate_irq, do_bh,
++	ret = request_threaded_irq(chan->rot_out_eof_irq, eof_irq, do_bh,
+ 				   0, "ipu-ic", chan);
+ 	if (ret < 0) {
+ 		dev_err(priv->ipu->dev, "could not acquire irq %d\n",
 -- 
 2.17.1
 
