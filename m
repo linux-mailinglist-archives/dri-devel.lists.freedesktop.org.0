@@ -1,35 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D621FD253
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:40:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 739CF1FD254
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:40:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E263A6E96A;
-	Wed, 17 Jun 2020 16:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 746B36E972;
+	Wed, 17 Jun 2020 16:40:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97A8F6E96A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:43 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791926E96A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:44 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 677E82BD;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08DFF331;
  Wed, 17 Jun 2020 18:40:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1592412041;
- bh=d8YD5hg6XcWhB2gYGBWn91YXbbOOvKO1XQaKEtPcgNU=;
- h=From:To:Cc:Subject:Date:From;
- b=bDoN75TUGlPtOHIMRbqoZ5zMxQBmLeIhcdEYXHq0cDeHqPKQe4pxTKc5v21Wm7x0m
- JJOji5AEjrTqBowkwn2s2z3mnYHwqxVSilk6ZrnVtVEieKsjMlg6Q8PDwk6AZ0IdJC
- lAPaXccyO+JzkOdjQ2xpWAYUJXmAsXqtXv8dZymk=
+ s=mail; t=1592412042;
+ bh=CKNnxVLVBf+wo96GkDFvnJDfSL8NnYLNEVkOrfGb/NQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=rf+njVj4Bn/nLLwaZMJNQM1uG/wvsZ6kTEY/15w0ji4G379RkDlNkkWgOrMKoDAji
+ 2gDR524fZIcxydUvFeGmZkopPhZR31T6NmbeH5/MgmjIZKkNgsQpEv84s4SiKhnL+B
+ mjfsOvjfXK3Q+i5jmhcp5V34Wt8BsRMAGbP4h2nE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 00/22] drm: mxsfb: Add i.MX7 support
-Date: Wed, 17 Jun 2020 19:39:53 +0300
-Message-Id: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 01/22] drm: mxsfb: Remove fbdev leftovers
+Date: Wed, 17 Jun 2020 19:39:54 +0300
+Message-Id: <20200617164015.30448-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
+References: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,79 +52,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Commit 8e93f1028d74 ("drm/mxsfb: Use drm_fbdev_generic_setup()")
+replaced fbdev handling with drm_fbdev_generic_setup() but left
+inclusion of the drm/drm_fb_cma_helper.h header. Remove it.
 
-This patch series adds i.MX7 support to the mxsfb driver. The eLCDIF
-instance found in the i.MX7 is backward-compatible with the already
-supported LCDC v4, but has extended features amongst which the most
-notable one is a second plane.
+Fixes: 8e93f1028d74 ("drm/mxsfb: Use drm_fbdev_generic_setup()")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Stefan Agner <stefan@agner.ch>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-The first 10 patches (01/22 to 10/22) contain miscellaneous cleanups and
-refactoring to prepare for what is to come. Patch 11/22 starts the real
-work with removal of the DRM simple display pipeline helper, as it
-doesn't support multiple planes. The next patch (12/22) is an additional
-cleanup.
-
-Patches 13/22 to 15/22 fix vblank handling that I found to be broken
-when testing on my device. Patch 16/22 then performs an additional small
-cleanup, and patch 17/22 starts official support for i.MX7 by mentioning
-it in Kconfig.
-
-Patch 18/22 adds a new device model for the i.MX6SX and i.MX7 eLCDIF.
-After three additional cleanups in patches 19/22 to 21/22, patch 22/22
-finally adds support for the second plane.
-
-The second plane suffers from an issue whose root cause hasn't been
-found, which results in the first 64 bytes of the first line to contain
-data of unknown origin. Help from NXP to diagnose this issue would be
-useful and appreciated.
-
-Compared to v2, the patches incorporate various review feedback, without
-major modifications. See individual changelogs for details.
-
-The code is based on drm-misc-next and has been tested on an i.MX7D
-platform with a DPI panel.
-
-Stefan, the series has been fully reviewed, could you merge it ?
-
-Laurent Pinchart (22):
-  drm: mxsfb: Remove fbdev leftovers
-  drm: mxsfb: Use drm_panel_bridge
-  drm: mxsfb: Use BIT() macro to define register bitfields
-  drm: mxsfb: Remove unused macros from mxsfb_regs.h
-  drm: mxsfb: Clarify format and bus width configuration
-  drm: mxsfb: Pass mxsfb_drm_private pointer to mxsfb_reset_block()
-  drm: mxsfb: Use LCDC_CTRL register name explicitly
-  drm: mxsfb: Remove register definitions from mxsfb_crtc.c
-  drm: mxsfb: Remove unneeded includes
-  drm: mxsfb: Rename mxsfb_crtc.c to mxsfb_kms.c
-  drm: mxsfb: Stop using DRM simple display pipeline helper
-  drm: mxsfb: Move vblank event arm to CRTC .atomic_flush()
-  drm: mxsfb: Don't touch AXI clock in IRQ context
-  drm: mxsfb: Enable vblank handling
-  drm: mxsfb: Remove mxsfb_devdata unused fields
-  drm: mxsfb: Add i.MX7 and i.MX8M to the list of supported SoCs in
-    Kconfig
-  drm: mxsfb: Update internal IP version number for i.MX6SX
-  drm: mxsfb: Drop non-OF support
-  drm: mxsfb: Turn mxsfb_set_pixel_fmt() into a void function
-  drm: mxsfb: Merge mxsfb_set_pixel_fmt() and mxsfb_set_bus_fmt()
-  drm: mxsfb: Remove unnecessary spaces after tab
-  drm: mxsfb: Support the alpha plane
-
- drivers/gpu/drm/mxsfb/Kconfig      |   8 +-
- drivers/gpu/drm/mxsfb/Makefile     |   2 +-
- drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 343 -----------------
- drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 249 ++++---------
- drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  42 ++-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 565 +++++++++++++++++++++++++++++
- drivers/gpu/drm/mxsfb/mxsfb_out.c  |  99 -----
- drivers/gpu/drm/mxsfb/mxsfb_regs.h | 103 +++---
- 8 files changed, 733 insertions(+), 678 deletions(-)
- delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_crtc.c
- create mode 100644 drivers/gpu/drm/mxsfb/mxsfb_kms.c
- delete mode 100644 drivers/gpu/drm/mxsfb/mxsfb_out.c
-
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 47c7dce03da4..96ee67ef9a13 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -24,7 +24,6 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_drv.h>
+-#include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 -- 
 Regards,
 
