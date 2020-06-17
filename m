@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B6F1FD260
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08D41FD25A
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7976E97F;
-	Wed, 17 Jun 2020 16:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 581DD6E978;
+	Wed, 17 Jun 2020 16:40:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C0536E977
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC636E978
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:51 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8092AC3;
- Wed, 17 Jun 2020 18:40:46 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 644A7B23;
+ Wed, 17 Jun 2020 18:40:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1592412047;
- bh=BiBz8BAHWaDSM90Mrx9zkTHBl00DzMyXkQuDKTDs1qw=;
+ bh=gtaHvQiR2UQyr2lxj67EbhhgMHSkct2VA25esCQyG+4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l7+hl1WEXCvgdVnfuFvsNDvrPh+K1XBevypzJjEH/W3QY9H8z0u1bxfF/zr98uLb9
- n674fSUQxCFqIGFgvsQWx1G2XBB0a9+LhQnzDpNBtWuOlRRT3akmPJ5iEvbrI2Nie2
- yKxK3Y2xmen3ScrfqrDdston/rmQykt5jxSzh5JQ=
+ b=Zy2UzStG6yL4e1ZmFgIdsbnJsDS7k77EqLOHYC9KTlt13ZvEuRtn0A1F0EkM8RgLt
+ YllJFNCQOMwplMP5GVO9K9uXvgtusefAQU/7Eb7hQy+y00HDLof14uqDUtGty7scpP
+ B/lwOIYo6/REw60QzcC3V5quxhWMwCHdFv43PTso=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 09/22] drm: mxsfb: Remove unneeded includes
-Date: Wed, 17 Jun 2020 19:40:02 +0300
-Message-Id: <20200617164015.30448-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 10/22] drm: mxsfb: Rename mxsfb_crtc.c to mxsfb_kms.c
+Date: Wed, 17 Jun 2020 19:40:03 +0300
+Message-Id: <20200617164015.30448-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
 References: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
@@ -52,64 +52,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A fair number of includes are not needed. Drop them, and add a couple of
-required includes that were included indirectly.
+The mxsfb_crtc.c file doesn't handle just the CRTC, but also the other
+KMS objects. Rename it accordingly.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 12 +++---------
- drivers/gpu/drm/mxsfb/mxsfb_drv.c  |  5 -----
- 2 files changed, 3 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/mxsfb/Makefile                      | 2 +-
+ drivers/gpu/drm/mxsfb/{mxsfb_crtc.c => mxsfb_kms.c} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename drivers/gpu/drm/mxsfb/{mxsfb_crtc.c => mxsfb_kms.c} (100%)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-index aef72adabf41..c4f1575b4210 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-@@ -10,19 +10,13 @@
- 
- #include <linux/clk.h>
- #include <linux/iopoll.h>
--#include <linux/of_graph.h>
--#include <linux/platform_data/simplefb.h>
-+#include <linux/spinlock.h>
- 
--#include <video/videomode.h>
--
--#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_cma_helper.h>
--#include <drm/drm_fb_helper.h>
-+#include <drm/drm_fourcc.h>
- #include <drm/drm_gem_cma_helper.h>
--#include <drm/drm_of.h>
--#include <drm/drm_plane_helper.h>
--#include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index d3de45735237..522680f84874 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -9,15 +9,10 @@
-  */
- 
- #include <linux/clk.h>
--#include <linux/component.h>
- #include <linux/dma-mapping.h>
--#include <linux/list.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
--#include <linux/of_graph.h>
--#include <linux/of_reserved_mem.h>
- #include <linux/pm_runtime.h>
--#include <linux/dma-resv.h>
- #include <linux/spinlock.h>
- 
- #include <drm/drm_atomic.h>
+diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
+index 811584e54ad1..26d153896d72 100644
+--- a/drivers/gpu/drm/mxsfb/Makefile
++++ b/drivers/gpu/drm/mxsfb/Makefile
+@@ -1,3 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-mxsfb-y := mxsfb_drv.o mxsfb_crtc.o
++mxsfb-y := mxsfb_drv.o mxsfb_kms.o
+ obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+similarity index 100%
+rename from drivers/gpu/drm/mxsfb/mxsfb_crtc.c
+rename to drivers/gpu/drm/mxsfb/mxsfb_kms.c
 -- 
 Regards,
 
