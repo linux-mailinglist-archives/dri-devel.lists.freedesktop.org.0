@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CDD1FD66A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 22:53:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8C21FD783
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 23:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3EB6E1B2;
-	Wed, 17 Jun 2020 20:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F376E1A4;
+	Wed, 17 Jun 2020 21:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B7A6E190
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 20:53:26 +0000 (UTC)
-Received: by mail-pj1-x1042.google.com with SMTP id m2so1645257pjv.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 13:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Rkwd2ka8Z7iO2pJxHXIRpwXonoZgh2tKHVmhTEheWDo=;
- b=ankX+yV3pTmnsA/EifSsAOqJzVbig1w1EwLxdujI9nqFQz069s7Fk775dKVyb77dZz
- lsPW2YGgbcyA3+CjH4idHRgLZ94mALQ2IjTUKoioyiNO8+//px24k4CRWfcNgZThRtrV
- SrVLqkHIkdcIAG+Ajf9KeNtMOuZC+3HGLZ/nRTDRer73f/76QobJZP52SyTCPDWBrtOP
- M7nvex6ZuDmGWg8hUvoB+co44d9rgwp6dVbl3WtsAK5Oz/bvPtC+dxGri4nOmSMHWZVV
- ciZ+p0m+yFcsotHidWlmJg1FcX0M3/PgJG2tzDLv0qYXaNrqFbr4RREJ9ZjJPMJlaxmO
- QEoA==
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+ [209.85.166.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C61466E1A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 21:37:29 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id o5so4675022iow.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 14:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Rkwd2ka8Z7iO2pJxHXIRpwXonoZgh2tKHVmhTEheWDo=;
- b=ZGMlDxu1OsYhoaO+HyqoefSJMtuO4oQz/i6FdONA00PVMhU0BQ5MheXr3EBmdjm6K8
- 1Y1D5kX49UyPwo9Yve9gJmGcEktftU738Skm4PlJOoOkdFAqNRq0JnL3om5nPt4e+9Ew
- wG9zwHRiPO/w85Ueeb5cGnLxWTUEe2N3xwFbSKLXiz51lqC/Dx/ShdtLgw/hkRzxkv2a
- kYjiRb1RItt8DQlIzetnutUm6/vtgzyoZqk1WJSOWR9vBuQ/68UaRfk94WbmMUb5PPsO
- CO9Madn3A7mRRLnxbzrcL0TtBDYIPh5rEqnm3Io/aJNGUJjSlG/rcmjgn4kdN2Z+kiJI
- kZHQ==
-X-Gm-Message-State: AOAM531zqkMDbA4dW9KGGrx54mIo+UiyRB1tYZlTGK8K+TjctZ0QWhMH
- c8jjv17wi5AeX0aoFhB/XqPJqE9yQ8j+2A==
-X-Google-Smtp-Source: ABdhPJwJ2UTlCE2dQ2laBUA/pxpoSp23Y3LfsK2W24qN8hJszwXs3PuSNGnOaofSqf1abQraw6x8yg==
-X-Received: by 2002:a17:90a:2683:: with SMTP id
- m3mr859532pje.196.1592427206091; 
- Wed, 17 Jun 2020 13:53:26 -0700 (PDT)
-Received: from miranda.anholt.net (c-73-11-63-120.hsd1.or.comcast.net.
- [73.11.63.120])
- by smtp.gmail.com with ESMTPSA id ca6sm392454pjb.46.2020.06.17.13.53.24
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eDqg9gDgvVSfPZzqiBmC+Ly0PCsBuRi5ihRQMpFBE8U=;
+ b=nzt5qiQ+hNttZxn2YtOTwBzwVyaswA/8v5xDPwJqCQhG5dH/bfjOwFRAglV/d6v0E/
+ cuEL1KMwp6C4tquH8tfemqYtiYIJoc4LiK+P5aUYVtXY29cD7L2rOC3NEZkq2I5c6VBR
+ jt9I+FvRv/mYLJprI22dawHF256B9UJLyU4bVqFs3lmMXvHAo4PYk0zWDadLPYBVvzFv
+ P7hfUZyKOiHKtsInbyPtGcjKLmOw7CWSzt+YNzaW6ASvPrhraR7NC36QlJUJXO/rNQC3
+ KhivBY/k9Mu6CQ84FUJJ4FbedH88fW9AMDi6wwxqH9betTj5Wt69clammbf0TlaP4wKu
+ e/VQ==
+X-Gm-Message-State: AOAM533DrJSxrcLSwF1YmNk9rdc4aw5P4eJ63yT72CRN5rj60dsKHaqZ
+ 2GHPx8qhWaNbtKTgQwC4754u2/uFNw==
+X-Google-Smtp-Source: ABdhPJx9QQcoVumUNEnF3FgFX3xUdRgc7f0svAxUDzJFTb5OqnUWg/b7lDrd5jMkkInGDWqQ6v+G+Q==
+X-Received: by 2002:a05:6602:809:: with SMTP id
+ z9mr1553086iow.79.1592429848645; 
+ Wed, 17 Jun 2020 14:37:28 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id r19sm608186ioj.12.2020.06.17.14.37.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 13:53:25 -0700 (PDT)
-From: Eric Anholt <eric@anholt.net>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Jordan Crouse <jcrouse@codeaurora.org>
-Subject: [PATCH 2/2] drm/msm: Fix setup of a6xx create_address_space.
-Date: Wed, 17 Jun 2020 13:53:10 -0700
-Message-Id: <20200617205310.2183722-2-eric@anholt.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200617205310.2183722-1-eric@anholt.net>
-References: <20200617205310.2183722-1-eric@anholt.net>
+ Wed, 17 Jun 2020 14:37:27 -0700 (PDT)
+Received: (nullmailer pid 2869525 invoked by uid 1000);
+ Wed, 17 Jun 2020 21:37:26 -0000
+Date: Wed, 17 Jun 2020 15:37:26 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v4 22/37] dt-bindings: host1x: Document new interconnect
+ properties
+Message-ID: <20200617213726.GA2837398@bogus>
+References: <20200609131404.17523-1-digetx@gmail.com>
+ <20200609131404.17523-23-digetx@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200609131404.17523-23-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +61,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@samsung.com>,
+ dri-devel@lists.freedesktop.org, Georgi Djakov <georgi.djakov@linaro.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, linux-tegra@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't want it under CONFIG_DRM_MSM_GPU_STATE, we need it all the
-time (like the other GPUs do).
+On Tue, Jun 09, 2020 at 04:13:49PM +0300, Dmitry Osipenko wrote:
+> Most of Host1x devices have at least one memory client. These clients
+> are directly connected to the memory controller. The new interconnect
+> properties represent the memory client's connection to the memory
+> controller.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-host1x.txt   | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> index 47319214b5f6..ab4fbee7bccf 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> @@ -20,6 +20,10 @@ Required properties:
+>  - reset-names: Must include the following entries:
+>    - host1x
+>  
+> +Each host1x client module having to perform DMA through the Memory Controller
+> +should have the interconnect endpoints set to the Memory Client and External
+> +Memory respectively.
+> +
+>  The host1x top-level node defines a number of children, each representing one
+>  of the following host1x client modules:
+>  
+> @@ -36,6 +40,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - mpe
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the MPE memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - vi: video input
+>  
+>    Required properties:
+> @@ -65,6 +75,12 @@ of the following host1x client modules:
+>        - power-domains: Must include sor powergate node as csicil is in
+>          SOR partition.
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the VI memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - epp: encoder pre-processor
+>  
+>    Required properties:
+> @@ -78,6 +94,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - epp
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the EPP memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - isp: image signal processor
+>  
+>    Required properties:
+> @@ -91,6 +113,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - isp
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the ISP memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - gr2d: 2D graphics engine
+>  
+>    Required properties:
+> @@ -104,6 +132,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - 2d
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the GR2D memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - gr3d: 3D graphics engine
+>  
+>    Required properties:
+> @@ -122,6 +156,12 @@ of the following host1x client modules:
+>      - 3d
+>      - 3d2 (Only required on SoCs with two 3D clocks)
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the GR3D memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  - dc: display controller
+>  
+>    Required properties:
+> @@ -149,6 +189,10 @@ of the following host1x client modules:
+>    - nvidia,hpd-gpio: specifies a GPIO used for hotplug detection
+>    - nvidia,edid: supplies a binary EDID blob
+>    - nvidia,panel: phandle of a display panel
+> +  - interconnects: Must contain entry for the DC memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+>  
+>  - hdmi: High Definition Multimedia Interface
+>  
+> @@ -297,6 +341,12 @@ of the following host1x client modules:
+>    - reset-names: Must include the following entries:
+>      - vic
+>  
+> +  Optional properties:
+> +  - interconnects: Must contain entry for the VIC memory clients.
+> +  - interconnect-names: Must include name of the interconnect path for each
+> +    interconnect entry. Consult TRM documentation for information about
+> +    available memory clients, see MEMORY CONTROLLER section.
+> +
+>  Example:
+>  
+>  / {
+> @@ -410,6 +460,15 @@ Example:
+>  			resets = <&tegra_car 27>;
+>  			reset-names = "dc";
+>  
+> +			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0B &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0C &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY1B &emc>;
 
-Fixes: ccac7ce373c1 ("drm/msm: Refactor address space initialization")
-Signed-off-by: Eric Anholt <eric@anholt.net>
----
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This looks odd or wrong. Each entry has 2 phandles? 
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index a1589e040c57..7768557cdfb2 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -893,8 +893,8 @@ static const struct adreno_gpu_funcs funcs = {
- #if defined(CONFIG_DRM_MSM_GPU_STATE)
- 		.gpu_state_get = a6xx_gpu_state_get,
- 		.gpu_state_put = a6xx_gpu_state_put,
--		.create_address_space = adreno_iommu_create_address_space,
- #endif
-+		.create_address_space = adreno_iommu_create_address_space,
- 	},
- 	.get_timestamp = a6xx_get_timestamp,
- };
--- 
-2.26.2
-
+> +			interconnect-names = "display0a",
+> +					     "display0b",
+> +					     "display0c",
+> +					     "display1b";
+> +
+>  			rgb {
+>  				status = "disabled";
+>  			};
+> @@ -425,6 +484,15 @@ Example:
+>  			resets = <&tegra_car 26>;
+>  			reset-names = "dc";
+>  
+> +			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY0CB &emc>,
+> +					<&mc TEGRA20_MC_DISPLAY1BB &emc>;
+> +			interconnect-names = "display0a",
+> +					     "display0b",
+> +					     "display0c",
+> +					     "display1b";
+> +
+>  			rgb {
+>  				status = "disabled";
+>  			};
+> -- 
+> 2.26.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
