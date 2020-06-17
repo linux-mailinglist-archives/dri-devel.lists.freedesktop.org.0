@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676BA1FD25F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13C01FD25C
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849E86E987;
-	Wed, 17 Jun 2020 16:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B066E981;
+	Wed, 17 Jun 2020 16:40:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861446E96D
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF0066E977
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:47 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C113D95;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09A402BD;
  Wed, 17 Jun 2020 18:40:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1592412044;
- bh=megrPKgP00oEycHRh1RmgiRTQgRzcs8HJh/H7euSV1Q=;
+ s=mail; t=1592412045;
+ bh=JCMnmJEutOpPdlLFOUjw35aW0Duqw94n9w7zvFe3kDY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c0cvj86a2CDvkqjhIU1YDIDU1HtajozgpoG69pfC0LxTE1a9t4/f7/lboFyvhBDjz
- YsPIKMJmLH+ypqsLKrbSATI+b7XxVRAcRPI0vjkolMgG2f+2tp8MeUi/bfyHswAmym
- BoZevknas7+JQLP7K+HuToskIAh9kaFM8aQkR5Ok=
+ b=wU7tMmtQFGqGj8nTZlxALgwKabbKsGt4HJ2/rIH9Wce13FT0l9ONwRMl8Isn8Vc2y
+ ZMqOBngMsWRSgkFtSilb67bRj/rKHaI1S58xpwU1buvbpNaT6jPWI4CF0pH/qegTS8
+ GoFr20U6Af77pUi8pYsgPgTjjB8e/YNRKu9QrFHE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 05/22] drm: mxsfb: Clarify format and bus width
- configuration
-Date: Wed, 17 Jun 2020 19:39:58 +0300
-Message-Id: <20200617164015.30448-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 06/22] drm: mxsfb: Pass mxsfb_drm_private pointer to
+ mxsfb_reset_block()
+Date: Wed, 17 Jun 2020 19:39:59 +0300
+Message-Id: <20200617164015.30448-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
 References: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
@@ -53,104 +53,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the convoluted way to set the format and bus width through
-difficult to read macros with more explicit ones. Also remove the
-outdated comment related to the limitations on bus width setting as it
-doesn't apply anymore (the bus width can be specified through the
-display_info bus format).
+The mxsfb_reset_block() function isn't special, pass it the
+mxsfb_drm_private pointer instead of a pointer to the base address.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 17 +++++------------
- drivers/gpu/drm/mxsfb/mxsfb_regs.h | 17 ++++++++---------
- 2 files changed, 13 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-index b69ace8bf526..8b6339316929 100644
+index 8b6339316929..be60c4021e2f 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-@@ -52,13 +52,6 @@ static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
+@@ -166,21 +166,21 @@ static int clear_poll_bit(void __iomem *addr, u32 mask)
+ 	return readl_poll_timeout(addr, reg, !(reg & mask), 0, RESET_TIMEOUT);
+ }
  
- 	ctrl = CTRL_BYPASS_COUNT | CTRL_MASTER;
+-static int mxsfb_reset_block(void __iomem *reset_addr)
++static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+ {
+ 	int ret;
  
--	/*
--	 * WARNING: The bus width, CTRL_SET_BUS_WIDTH(), is configured to
--	 * match the selected mode here. This differs from the original
--	 * MXSFB driver, which had the option to configure the bus width
--	 * to arbitrary value. This limitation should not pose an issue.
--	 */
--
- 	/* CTRL1 contains IRQ config and status bits, preserve those. */
- 	ctrl1 = readl(mxsfb->base + LCDC_CTRL1);
- 	ctrl1 &= CTRL1_CUR_FRAME_DONE_IRQ_EN | CTRL1_CUR_FRAME_DONE_IRQ;
-@@ -66,12 +59,12 @@ static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
- 	switch (format) {
- 	case DRM_FORMAT_RGB565:
- 		dev_dbg(drm->dev, "Setting up RGB565 mode\n");
--		ctrl |= CTRL_SET_WORD_LENGTH(0);
-+		ctrl |= CTRL_WORD_LENGTH_16;
- 		ctrl1 |= CTRL1_SET_BYTE_PACKAGING(0xf);
- 		break;
- 	case DRM_FORMAT_XRGB8888:
- 		dev_dbg(drm->dev, "Setting up XRGB8888 mode\n");
--		ctrl |= CTRL_SET_WORD_LENGTH(3);
-+		ctrl |= CTRL_WORD_LENGTH_24;
- 		/* Do not use packed pixels = one pixel per word instead. */
- 		ctrl1 |= CTRL1_SET_BYTE_PACKAGING(0x7);
- 		break;
-@@ -104,13 +97,13 @@ static void mxsfb_set_bus_fmt(struct mxsfb_drm_private *mxsfb)
- 	reg &= ~CTRL_BUS_WIDTH_MASK;
- 	switch (bus_format) {
- 	case MEDIA_BUS_FMT_RGB565_1X16:
--		reg |= CTRL_SET_BUS_WIDTH(STMLCDIF_16BIT);
-+		reg |= CTRL_BUS_WIDTH_16;
- 		break;
- 	case MEDIA_BUS_FMT_RGB666_1X18:
--		reg |= CTRL_SET_BUS_WIDTH(STMLCDIF_18BIT);
-+		reg |= CTRL_BUS_WIDTH_18;
- 		break;
- 	case MEDIA_BUS_FMT_RGB888_1X24:
--		reg |= CTRL_SET_BUS_WIDTH(STMLCDIF_24BIT);
-+		reg |= CTRL_BUS_WIDTH_24;
- 		break;
- 	default:
- 		dev_err(drm->dev, "Unknown media bus format %d\n", bus_format);
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-index 78e6cb754712..8ebb52bb1b46 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-@@ -34,11 +34,15 @@
- #define CTRL_VSYNC_MODE			BIT(18)
- #define CTRL_DOTCLK_MODE		BIT(17)
- #define CTRL_DATA_SELECT		BIT(16)
--#define CTRL_SET_BUS_WIDTH(x)		(((x) & 0x3) << 10)
--#define CTRL_GET_BUS_WIDTH(x)		(((x) >> 10) & 0x3)
-+#define CTRL_BUS_WIDTH_16		(0 << 10)
-+#define CTRL_BUS_WIDTH_8		(1 << 10)
-+#define CTRL_BUS_WIDTH_18		(2 << 10)
-+#define CTRL_BUS_WIDTH_24		(3 << 10)
- #define CTRL_BUS_WIDTH_MASK		(0x3 << 10)
--#define CTRL_SET_WORD_LENGTH(x)		(((x) & 0x3) << 8)
--#define CTRL_GET_WORD_LENGTH(x)		(((x) >> 8) & 0x3)
-+#define CTRL_WORD_LENGTH_16		(0 << 8)
-+#define CTRL_WORD_LENGTH_8		(1 << 8)
-+#define CTRL_WORD_LENGTH_18		(2 << 8)
-+#define CTRL_WORD_LENGTH_24		(3 << 8)
- #define CTRL_MASTER			BIT(5)
- #define CTRL_DF16			BIT(3)
- #define CTRL_DF18			BIT(2)
-@@ -91,9 +95,4 @@
- #define MXSFB_MAX_XRES			0xffff
- #define MXSFB_MAX_YRES			0xffff
+-	ret = clear_poll_bit(reset_addr, MODULE_SFTRST);
++	ret = clear_poll_bit(mxsfb->base, MODULE_SFTRST);
+ 	if (ret)
+ 		return ret;
  
--#define STMLCDIF_8BIT  1 /* pixel data bus to the display is of 8 bit width */
--#define STMLCDIF_16BIT 0 /* pixel data bus to the display is of 16 bit width */
--#define STMLCDIF_18BIT 2 /* pixel data bus to the display is of 18 bit width */
--#define STMLCDIF_24BIT 3 /* pixel data bus to the display is of 24 bit width */
--
- #endif /* __MXSFB_REGS_H__ */
+-	writel(MODULE_CLKGATE, reset_addr + MXS_CLR_ADDR);
++	writel(MODULE_CLKGATE, mxsfb->base + MXS_CLR_ADDR);
+ 
+-	ret = clear_poll_bit(reset_addr, MODULE_SFTRST);
++	ret = clear_poll_bit(mxsfb->base, MODULE_SFTRST);
+ 	if (ret)
+ 		return ret;
+ 
+-	return clear_poll_bit(reset_addr, MODULE_CLKGATE);
++	return clear_poll_bit(mxsfb->base, MODULE_CLKGATE);
+ }
+ 
+ static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
+@@ -213,7 +213,7 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
+ 	 */
+ 
+ 	/* Mandatory eLCDIF reset as per the Reference Manual */
+-	err = mxsfb_reset_block(mxsfb->base);
++	err = mxsfb_reset_block(mxsfb);
+ 	if (err)
+ 		return;
+ 
 -- 
 Regards,
 
