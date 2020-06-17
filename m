@@ -1,67 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545831FEC41
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02EE1FEC40
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF4966EB13;
-	Thu, 18 Jun 2020 07:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBDA6EB18;
+	Thu, 18 Jun 2020 07:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 026466E02B
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 17:14:09 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id n24so3782931lji.10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 10:14:09 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C02666EA01;
+ Wed, 17 Jun 2020 17:57:20 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id z9so3946402ljh.13;
+ Wed, 17 Jun 2020 10:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
- b=L4npYbNcAsVHBbGJ//fKoV8U9viNmJxA9T2kxtQncuEIUq3Fbrb+J06rGe5dWV0duH
- iHQEPP32axfGgYn/S8WL0XLL+f2u6NLQm6TlMANSafLiPdL/IrxCRVOeZtnlTHTz4/pU
- mS4mClFOf/NbyfkVj2In5kwzkLFlTbDTG8PkJGHu8g/lFDAtYN+HoR6DulWul7rin210
- Sh80Tkff54qReGnmtEojvZiRmmrcEWvnlUiuPzUK1hRcs02ryYPE7675+6u6KY/fJOA+
- aSTLaBjop6+4VC4YnkqCwDA3SIKQ0GHPNkMPHdZaAnzJTEeZ/n1v2G0YvZje2nVAUz25
- EVTQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KY7fprr0DDACjWieFfe2ChRtojrwX3BZmzgMO+wfVKc=;
+ b=hot41bfOqSh2U0gr5jjoD2IPokslzvquFN9OF6L5rUkFdkCMxoVQLZaJDwO2R0Nc8F
+ 7JKuArzVoS159bDQorZ1MBqJtI6TPJw8KR5HdNU5rRtbv7kKNGP5Re4SNGC2/5SjIw0U
+ 1Ec7Zzgbtx7FU/8i6+pSCremhMVFGCbzkmm2cZ6wo0B2DJUmTaVwWI4sbS5WqlzQb1iV
+ 98hnL6i9rZCB+3diIOiJS9G1J0z9okzRJol/RyL7jEXpSMnyOCye2WV30knOUm2EfQN1
+ cv2ZjTEM+yaCXB4N5d3VJ0dUX+UlpEK/GbIuC1/ndXEci9/4vk/z49l2X9lfk1k26gM3
+ Kr+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Ol8wJ0Ar+0WXAazQ6Zc8KnmCQN6jIxvcfv9I6pv77y8=;
- b=dSp0ivk4SSXdO9wjssNeqXwJvgACv7g6bvEUWGwKQx2KIs1SEwpPpP8qLoWzGtGiiH
- 9XLivgLl/D729RqNh8vA5bTUWXi7mm91PDS9rnng0k/+HKvx9V1IhyGfvUZ1UQ7l8C48
- FZzNsU84whTohq7RcRul70JeHhJgwIE7V0uvJZz5316ZiHX21obnL3AvpB5mVZzGU1uy
- WVeVSHiag/JlbMxH1gd9OdMrQqxYaPToGei1jHQelWossN4vM7/q+/EHi4RVRrIKkqE3
- Gt7oMkWy6qBJ5LiBdVzGYvwXvHxB3ExREnPDsqVn8rj3rUoZQsZEAJViVYLEhmBWLryO
- LN/A==
-X-Gm-Message-State: AOAM533md3uilQuS+dynHMbwAINvjom4p4b4gaovm0G2xDyqxlCZNh7O
- x4OjHVsg37VeBdS7qrighiI=
-X-Google-Smtp-Source: ABdhPJyaYtF9klst9couhUW+AQHaqb1DmTJjkPF8/AOeqytSQkgQljNa7GWfBHj8pRRA1Xcfp+N4DQ==
-X-Received: by 2002:a2e:920a:: with SMTP id k10mr105816ljg.413.1592414048294; 
- Wed, 17 Jun 2020 10:14:08 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id i23sm82452ljh.56.2020.06.17.10.14.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 10:14:07 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/tegra: Add zpos property for cursor planes
-To: Thierry Reding <thierry.reding@gmail.com>
-References: <20200616181449.3147258-1-thierry.reding@gmail.com>
- <8e45b425-b667-433e-2074-7a058329f5c2@gmail.com>
- <20200617141015.GB3536291@ulmo>
- <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
- <20200617163724.GA3547875@ulmo>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fcb11625-b17c-752b-de12-29f916ade7cb@gmail.com>
-Date: Wed, 17 Jun 2020 20:14:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=KY7fprr0DDACjWieFfe2ChRtojrwX3BZmzgMO+wfVKc=;
+ b=kOhqQA6d0J2gvdOwfzt28Xgoe3/PJPeXuYXQvhUtD08gI385h8QCTI5I8kQWmc+bAk
+ iCT8j3JhsenKAohtXXpNHDDgiq1niCO0NFLYG62iRjRiC4aTzfAWBeqUvgi8q+5zLrBZ
+ 68JjrzBCAbITPauMcenmoM0GO9+1mfWn6MN3SCIOWagq2uzZ6R/K6pZ9doFJvILT1T1Z
+ vX2JG1q+AV95MPdUrR/mf21Hgeuy/jFpYzQJIAW+svnVe3IrD/pK2LegdaeioJ9Iz7XY
+ UP+TkUH+y8G4ztCcqrXgQojOHuSmY0+S+j93rHQ5Iw9cY5RRMnRETXKmVdD4pYxrG4o8
+ blaw==
+X-Gm-Message-State: AOAM530sWT4Qm3DFw7JCtKGf1G7A5/zrbQiAojuyTL0rbk9doM0zeYu+
+ 1WGrceh8QBTowIFhZA7ZjxI=
+X-Google-Smtp-Source: ABdhPJwCUIZGY4uVMQ7lm8qgRAXZLFSjzWtWXUSeWEr056z+tQUUhX2bXp/JXcFF3uHKSPKbTrEGtA==
+X-Received: by 2002:a2e:95d6:: with SMTP id y22mr211356ljh.469.1592416639064; 
+ Wed, 17 Jun 2020 10:57:19 -0700 (PDT)
+Received: from localhost.localdomain ([5.20.204.163])
+ by smtp.gmail.com with ESMTPSA id h4sm95471ljg.112.2020.06.17.10.57.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 10:57:18 -0700 (PDT)
+From: Andrey Lebedev <andrey.lebedev@gmail.com>
+To: Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/lima: Expose job_hang_limit module parameter
+Date: Wed, 17 Jun 2020 20:54:47 +0300
+Message-Id: <20200617175447.2681047-1-andrey.lebedev@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200617163724.GA3547875@ulmo>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,86 +67,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: andrey@lebedev.lt
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTcuMDYuMjAyMCAxOTozNywgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBXZWQsIEp1
-biAxNywgMjAyMCBhdCAwNToyMDoxNFBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+
-IDE3LjA2LjIwMjAgMTc6MTAsIFRoaWVycnkgUmVkaW5nINC/0LjRiNC10YI6Cj4+PiBPbiBUdWUs
-IEp1biAxNiwgMjAyMCBhdCAwOTozOToxOVBNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6
-Cj4+Pj4gMTYuMDYuMjAyMCAyMToxNCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4+Pj4g
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KPj4+Pj4KPj4+Pj4gQXMg
-b2YgY29tbWl0IDRkYzU1NTI1YjA5NSAoImRybTogcGxhbmU6IFZlcmlmeSB0aGF0IG5vIG9yIGFs
-bCBwbGFuZXMKPj4+Pj4gaGF2ZSBhIHpwb3MgcHJvcGVydHkiKSBhIHdhcm5pbmcgaXMgZW1pdHRl
-ZCBpZiB0aGVyZSdzIGEgbWl4IG9mIHBsYW5lcwo+Pj4+PiB3aXRoIGFuZCB3aXRob3V0IGEgenBv
-cyBwcm9wZXJ0eS4KPj4+Pj4KPj4+Pj4gT24gVGVncmEsIGN1cnNvciBwbGFuZXMgYXJlIGFsd2F5
-cyBjb21wb3NpdGVkIG9uIHRvcCBvZiBhbGwgb3RoZXIKPj4+Pj4gcGxhbmVzLCB3aGljaCBpcyB3
-aHkgdGhleSBuZXZlciBoYWQgYSB6cG9zIHByb3BlcnR5IGF0dGFjaGVkIHRvIHRoZW0uCj4+Pj4+
-IEhvd2V2ZXIsIHNpbmNlIHRoZSBjb21wb3NpdGlvbiBvcmRlciBpcyBmaXhlZCwgdGhpcyBpcyB0
-cml2aWFsIHRvCj4+Pj4+IHJlbWVkeSBieSBzaW1wbHkgYXR0YWNoaW5nIGFuIGltbXV0YWJsZSB6
-cG9zIHByb3BlcnR5IHRvIHRoZW0uCj4+Pj4+Cj4+Pj4+IHYzOiBkbyBub3QgaGFyZGNvZGUgenBv
-cyBmb3Igb3ZlcmxheSBwbGFuZXMgdXNlZCBhcyBjdXJzb3IgKERtaXRyeSkKPj4+Pj4gdjI6IGhh
-cmRjb2RlIGN1cnNvciBwbGFuZSB6cG9zIHRvIDI1NSBpbnN0ZWFkIG9mIDAgKFZpbGxlKQo+Pj4+
-Pgo+Pj4+PiBSZXBvcnRlZC1ieTogSm9uYXRoYW4gSHVudGVyIDxqb25hdGhhbmhAbnZpZGlhLmNv
-bT4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNv
-bT4KPj4+Pj4gLS0tCj4+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYyB8IDEgKwo+Pj4+
-PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4+Pj4+Cj4+Pj4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kYy5j
-Cj4+Pj4+IGluZGV4IDgzZjMxYzZlODkxYy4uMDRkNjg0OGQxOWZjIDEwMDY0NAo+Pj4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYwo+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-dGVncmEvZGMuYwo+Pj4+PiBAQCAtOTU3LDYgKzk1Nyw3IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX3Bs
-YW5lICp0ZWdyYV9kY19jdXJzb3JfcGxhbmVfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0s
-Cj4+Pj4+ICAJfQo+Pj4+PiAgCj4+Pj4+ICAJZHJtX3BsYW5lX2hlbHBlcl9hZGQoJnBsYW5lLT5i
-YXNlLCAmdGVncmFfY3Vyc29yX3BsYW5lX2hlbHBlcl9mdW5jcyk7Cj4+Pj4+ICsJZHJtX3BsYW5l
-X2NyZWF0ZV96cG9zX2ltbXV0YWJsZV9wcm9wZXJ0eSgmcGxhbmUtPmJhc2UsIDI1NSk7Cj4+Pj4+
-ICAKPj4+Pj4gIAlyZXR1cm4gJnBsYW5lLT5iYXNlOwo+Pj4+PiAgfQo+Pj4+Pgo+Pj4+Cj4+Pj4g
-TG9va3MgbmljZSwgdGhhbmtzISBTaW5jZSB5b3UgZHJvcHBlZCBhbGwgb3RoZXIgenBvcyBjaGFu
-Z2VzIGZvciBvdGhlcgo+Pj4+IHBsYW5lcyBhbmQgZ2l2ZW4gdGhhdCB0aGUgb3RoZXIgcGxhbmVz
-IGhhdmUgMjU1IGZvciB0aGUgbWF4IHpwb3MsIHdoYXQKPj4+PiBhYm91dCB0byBzZXQgdGhlIGN1
-cnNvcidzIHpwb3MgdG8gMjU2Pwo+Pj4KPj4+IEknZCBwcmVmZXIgdG8gaGF2ZSBhbGwgb2YgdGhl
-IHBsYW5lcycgenBvcyB3aXRoaW4gdGhlIHNhbWUgcmFuZ2UuIEJ5Cj4+PiBkZWZhdWx0IHRoZSBv
-dGhlciBwbGFuZXMgd2lsbCBiZSBvbiB0aGUgdmVyeSBib3R0b20gZW5kIG9mIHRoYXQgcmFuZ2UK
-Pj4+IGFuZCB0aGUgYXRvbWljIGNvcmUgd2lsbCBub3JtYWxpemUgdGhlIHpwb3MgZm9yIGFsbCBw
-bGFuZXMgYW55d2F5LCBzbwo+Pj4gdGhlIGN1cnNvciBwbGFuZSB3aWxsIGVuZCB1cCB3aXRoIGEg
-dmVyeSBzbWFsbCBub3JtYWxpemVkIHpwb3MgaW4gdGhlCj4+PiBlbmQuCj4+Pgo+Pj4gVGhlIHpw
-b3MgZG9jdW1lbnRhdGlvbiBhbHJlYWR5IG1lbnRpb25zIHRoYXQgdGhlIGJlaGF2aW91ciBpcyB1
-bmRlZmluZWQKPj4+IGlmIHR3byBwbGFuZXMgaGF2ZSB0aGUgc2FtZSB6cG9zIHZhbHVlLCBzbyBJ
-IHRoaW5rIHVzZXJzcGFjZSBpcyBnb2luZyB0bwo+Pj4ga25vdyBob3cgdG8gc2V0IHRoZXNlIGFu
-eXdheS4KPj4+Cj4+PiBJdCBtaWdodCBiZSB3b3J0aCB0byBkbyBhIGZvbGxvdy11cCBwYXRjaCB0
-aGF0IGlzIHNtYXJ0ZXIgYWJvdXQgc2V0dGluZwo+Pj4gdGhlIHJhbmdlIG9mIHZhbGlkIHZhbHVl
-cy4gMC0yNTUgaXMgdHJ1ZSBvbiBsYXRlciBjaGlwcyB3aGVyZSB3ZQo+Pj4gYWN0dWFsbHkgaGF2
-ZSBhIHByb3BlciAibGF5ZXIgZGVwdGgiIHJlZ2lzdGVyIGZpZWxkIGFuZCBJIHdhbnRlZCB0aGlz
-IHRvCj4+PiBiZSB1bmlmb3JtIGFjcm9zcyBhbGwgZ2VuZXJhdGlvbnMuIE90aGVyIGRyaXZlcnMg
-c2VlbSB0byBzZXQgdGhlIHVwcGVyCj4+PiBsaW1pdCBvbiB0aGUgenBvcyByYW5nZSB0byBiZSBl
-cXVhbCB0byB0aGUgbnVtYmVyIG9mIHBsYW5lcyBhdmFpbGFibGUsCj4+PiBzbyB0aGF0IHRoZXJl
-IGFyZW4ndCBwb3RlbnRpYWxseSBiaWcgZ2FwcyBpbiB0aGUgbnVtYmVyaW5nLiBUaGF0IHNhaWQs
-Cj4+PiBzaW5jZSB0aGUgY29yZSBhbHJlYWR5IG5vcm1hbGl6ZXMgdGhlIHpwb3MgZm9yIHVzLCBJ
-IGRvbid0IHNlZSBhIGJpZwo+Pj4gYmVuZWZpdCBpbiBleHBsaWNpdGx5IGNsaXBwaW5nIHRoZSBy
-YW5nZS4KPj4KPj4gQnV0IHRoZSBjdXJzb3IgcGxhbmUgZG9lc24ndCB1c2UgdGhlICJsYXllciBk
-ZXB0aCIgcmVnaXN0ZXIsIGRvZXNuJ3QgaXQ/Cj4+IFNvIHRoZSB6cG9zIG92ZXIgMjU1IHNob3Vs
-ZG4ndCBtYXR0ZXIgaW4gdGhpcyBjYXNlLgo+Pgo+PiBJIGtub3cgdGhhdCBEUk0gc2hvdWxkIG5v
-cm1hbGl6ZXMgdGhlIGdpdmVuIHpwb3MsIGJ1dCBzdGlsbCBpdCBtYWtlcyBtZQo+PiBhIGJpdCB1
-bmNvbWZvcnRhYmxlIGtub3dpbmcgdGhhdCB0aGVyZSBhcmUgdGhlIHJhbmdlcyBvdmVybGFwIHZp
-c2libGUgdG8KPj4gdXNlcnNwYWNlIDopCj4gCj4gVXNlcnNwYWNlIGhhcyB0byBiZSBhYmxlIHRv
-IGRlYWwgd2l0aCB0aGlzIGFueXdheSBiZWNhdXNlIGl0IGNhbid0IG1ha2UKPiBhbnkgYXNzdW1w
-dGlvbnMgYWJvdXQgd2hhdCBoYXJkd2FyZSBzdXBwb3J0cyB1bmRlcm5lYXRoLiBBIGN1cnNvciBv
-biBhCj4gZGlmZmVyZW50IHBsYXRmb3JtIG1heSB2ZXJ5IHdlbGwgYmUgc3RhY2thYmxlIGFueXdo
-ZXJlIGluIHRoZSBsYXlvdXQgc28KPiBpdCBtdXN0IGVuc3VyZSB0aGF0IHRoZSBjdXJzb3IgYWx3
-YXlzIGhhcyB0aGUgaGlnaGVzdCB6cG9zIChwcm92aWRlZAo+IHRoYXQgdGhhdCdzIHdoYXQgaXQg
-d2FudHMpLiBJbW11dGFibGUgMjU1IGJhc2ljYWxseSBqdXN0IHNheXMgdGhhdCB0aGUKPiBjdXJz
-b3IgaXMgYWx3YXlzIGdvaW5nIHRvIGJlIGF0IHRoZSB0b3AuIC9JZi8gdXNlcnNwYWNlIHRoZW4g
-ZGVjaWRlcyB0bwo+IHNldCBzb21lIG90aGVyIHBsYW5lJ3MgenBvcyA9IDI1NSwgdGhlbiB3ZSdy
-ZSBpbiB0aGUgInVuZGVmaW5lZCIKPiBiZWhhdmlvdXIgY2FzZSB0aGF0IHRoZSBkb2N1bWVudGF0
-aW9uIG1lbnRpb25zLCBpbiB3aGljaCBjYXNlIHRoZQo+IGJlaGF2aW91ciBvbiBUZWdyYSB3b3Vs
-ZCBzdGlsbCBiZSBzYW5lIGluIHNob3dpbmcgdGhlIGN1cnNvciBvbiB0b3AuCj4gCj4gU28gSSBk
-b24ndCB0aGluayB0aGVyZSdzIHJlYWxseSBhbiBpc3N1ZSB3aXRoIHRoZSBvdmVybGFwLgoKSXQg
-c2hvdWxkIHdvcmsgb2theSwgYnV0IGlmIGN1cnNvciBoYWQgenBvcyBzZXQgdG8gMjU2IHRoZW4g
-aXQgd291bGQKbG93ZXIgdGhlIGNoYW5jZSBmb3IgdXNlcnNwYWNlIHRvIGNyZWF0ZSB0aGUgdW5k
-ZWZpbmVkIGJlaGF2aW9yIHNpdHVhdGlvbi4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+From: Andrey Lebedev <andrey@lebedev.lt>
+
+Some pp or gp jobs can be successfully repeated even after they time outs.
+Introduce lima module parameter to specify number of times a job can hang
+before being dropped.
+
+Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
+---
+
+Hello,
+
+This patch allows to work around a freezing problem as discussed in
+https://gitlab.freedesktop.org/lima/linux/-/issues/33
+
+ drivers/gpu/drm/lima/lima_drv.c   | 4 ++++
+ drivers/gpu/drm/lima/lima_drv.h   | 1 +
+ drivers/gpu/drm/lima/lima_sched.c | 5 +++--
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
+index a831565af813..2807eba26c55 100644
+--- a/drivers/gpu/drm/lima/lima_drv.c
++++ b/drivers/gpu/drm/lima/lima_drv.c
+@@ -19,6 +19,7 @@
+ int lima_sched_timeout_ms;
+ uint lima_heap_init_nr_pages = 8;
+ uint lima_max_error_tasks;
++int lima_job_hang_limit;
+ 
+ MODULE_PARM_DESC(sched_timeout_ms, "task run timeout in ms");
+ module_param_named(sched_timeout_ms, lima_sched_timeout_ms, int, 0444);
+@@ -29,6 +30,9 @@ module_param_named(heap_init_nr_pages, lima_heap_init_nr_pages, uint, 0444);
+ MODULE_PARM_DESC(max_error_tasks, "max number of error tasks to save");
+ module_param_named(max_error_tasks, lima_max_error_tasks, uint, 0644);
+ 
++MODULE_PARM_DESC(job_hang_limit, "number of times to allow a job to hang before dropping it (default 0)");
++module_param_named(job_hang_limit, lima_job_hang_limit, int, 0444);
++
+ static int lima_ioctl_get_param(struct drm_device *dev, void *data, struct drm_file *file)
+ {
+ 	struct drm_lima_get_param *args = data;
+diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
+index fdbd4077c768..39fd98e3b14d 100644
+--- a/drivers/gpu/drm/lima/lima_drv.h
++++ b/drivers/gpu/drm/lima/lima_drv.h
+@@ -11,6 +11,7 @@
+ extern int lima_sched_timeout_ms;
+ extern uint lima_heap_init_nr_pages;
+ extern uint lima_max_error_tasks;
++extern int lima_job_hang_limit;
+ 
+ struct lima_vm;
+ struct lima_bo;
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index e6cefda00279..1602985dfa04 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -503,8 +503,9 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
+ 
+ 	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
+ 
+-	return drm_sched_init(&pipe->base, &lima_sched_ops, 1, 0,
+-			      msecs_to_jiffies(timeout), name);
++	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
++			      lima_job_hang_limit, msecs_to_jiffies(timeout),
++			      name);
+ }
+ 
+ void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
