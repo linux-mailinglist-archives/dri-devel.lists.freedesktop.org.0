@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AD91FEC2D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1E31FEC24
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36EC96EAD2;
-	Thu, 18 Jun 2020 07:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92E386EA9B;
+	Thu, 18 Jun 2020 07:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69C36EA09
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 18:17:50 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id g10so2778921wmh.4
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 11:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GNuW4DLwTBQChO/w6b63g3sIOzooS9NaSBa2XKqAsPk=;
- b=HVVJWkZDZZh62rgq5TcwWzj9OGMbS5g6A+QBmiSeKSYjT0/p83zMoQ9AZA3Z9n7Z49
- GXrBxj7XUuvFMqtuvLnFTb8nq8u9TM1v8LXIS02nv/Yw2VdJzkZgEMb6U04FXzZhPsVK
- 2snCp+BSgajYbGyTk5E3ht5PP5Gw49UtFVcp4=
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C135F891C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 18:50:45 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id x18so4204946lji.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
+ b=M8QbXD3dhMgoC9HGZspqf7XvjFgGe8WazwwUzCVArg0/V4J/2jzwL8H4RGbmNBNkwD
+ R8wGcFDnf2lOnU41m/g9QNA/9d+ub6zNKxZNXZWQ8tvxe8mZUd8MMFDtixbRyq/Pc/BF
+ PIlXs0P58oAy4Q0Hx7D0IDtf6qGVRToB7UUTEKeWrh2FvdpOJVARsCgHhh3DM2YDYITG
+ yv2i+lxcsBl69kQVaF0qbqTQ0Q5+tPfaYHxiZHxuDl7GF//mofzMEAyRhY5MUNk0ZEEC
+ ecIvPUB2Ri/1v20pzwyv+rz8M4vudDHoEqRG2l6oEitpvq6n6iLOMI6v2o8SNoiAejZ8
+ ZauQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GNuW4DLwTBQChO/w6b63g3sIOzooS9NaSBa2XKqAsPk=;
- b=rEjrpI0Y6SmMYteabT94tayzXX6jSuRECZPPkVqlFELvYrqbt0CEFyb/ZB7DLeeRaR
- StQbgcN+KQdQr8Ekic0I2VUuTNibkod/miPiFc7MJnwtkuWurmJqD3gFE7DAVWFmVD6o
- Buvr1vwmAoTF1x+7Bsg6LOxOOXoOWehxSVsnUpAMFlBb9AIAnq4iSIab7g12DiL2iWSi
- xZ5NJI7x/pCtBv+7xTh4h073WDRIDAKKnldcRnUPGTD8MVKO71ffYvBzKgjz2MNTFJ7R
- m/FGiXba0HAGxH5H13e4GUyMzr8L7wf//9zZwMylNqbRsQZ/q2zebY7Ognbw01NHe7oG
- pzqA==
-X-Gm-Message-State: AOAM531BJka86oiTZqpbEPR0UQFtO/tkXYYwyetHmkR/JGo4pOPYW0/i
- UKF/eVVkgCpkZgZze10O41taxeYgS5qwQOIaNZ34GA==
-X-Google-Smtp-Source: ABdhPJwCOCarFnPVmCXyp4cpXzJ0uN1eXKFwmPhHXPanOof81T2/N88OZe8pdxgNQo+BB3gZ7h7B9fOBg7JidDi7Ss0=
-X-Received: by 2002:a7b:c44a:: with SMTP id l10mr40352wmi.92.1592417868643;
- Wed, 17 Jun 2020 11:17:48 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
+ b=lcYqJ97iqO17U5JfrQFR3pZA5Z6+i93LE15aYnsGS8CjPWTUiRdInTJ6dx/PRY0RhA
+ XvEnmlI2/pHk2vxgYk+wPYO/QXr5dfCWKK7iH6EWPAurD5nkQh5YBcMXBlB5nfMw+GFY
+ ELVmPb7A8gnDyqPCVw3IjdWxaObsQyKoezSVmj8HhqUj3B4S5rPjeqdOknNpL1UkW3uJ
+ ojrHqlQQanr1fX+hiDCUphiQpJuZe9oY8ig3Jw+nhABphdCe+/Z9NNPuWmwcmH2uxAkK
+ Ul0yq13ICV+BMHbfJp2ddROcoOE/rd0jepf8TG5Bh1jb8VxOvyEDM5tXkmouSKCYLU6v
+ KFUg==
+X-Gm-Message-State: AOAM530KMXl8q2RPwJWlYXuv252ILd2KySztElErmpWvnRhVmqk/R374
+ 51ro8JTjccKv83enAvAD+5Gavo/0
+X-Google-Smtp-Source: ABdhPJwHrFp7hl7apCuUIGY5sl9ZXw4ffQukc+KSdkIkDhhEWKTpuESWMBtJoDInAjZab47xZDYMIQ==
+X-Received: by 2002:a05:651c:544:: with SMTP id
+ q4mr348194ljp.310.1592419843008; 
+ Wed, 17 Jun 2020 11:50:43 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id r15sm119829ljm.31.2020.06.17.11.50.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Jun 2020 11:50:42 -0700 (PDT)
+Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v2_5/5=5d_drm/tegra=3a_plane=3a_Support_18?=
+ =?UTF-8?Q?0=c2=b0_rotation?=
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20200614200121.14147-1-digetx@gmail.com>
+ <20200614200121.14147-6-digetx@gmail.com>
+ <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
+ <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
+Message-ID: <2a004826-a505-75e4-b922-c74618404166@gmail.com>
+Date: Wed, 17 Jun 2020 21:50:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200616205533.3513-1-james.quinlan@broadcom.com>
- <20200616205533.3513-9-james.quinlan@broadcom.com>
- <b0feb616-63f3-8563-fbc1-663816d344ea@arm.com>
-In-Reply-To: <b0feb616-63f3-8563-fbc1-663816d344ea@arm.com>
-From: Jim Quinlan <james.quinlan@broadcom.com>
-Date: Wed, 17 Jun 2020 14:17:36 -0400
-Message-ID: <CA+-6iNxUymRBQY-xEVFXBQsAPXKCB4X9knFNSgNvtUwEUYpKTA@mail.gmail.com>
-Subject: Re: [PATCH v5 08/12] device core: Introduce multiple dma pfn offsets
-To: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,378 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Julien Grall <julien.grall@arm.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Wolfram Sang <wsa@kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Frank Rowand <frowand.list@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Mark Brown <broonie@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 17, 2020 at 9:00 AM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> Hi Jim,
->
-> Thanks for taking this on!
-
-Hi Robin,
-
->
-> On 2020-06-16 21:55, Jim Quinlan wrote:
-> > The new field in struct device 'dma_pfn_offset_map' is used to facilitate
-> > the use of single or multiple pfn offsets between cpu addrs and dma addrs.
-> > It subsumes the role of dev->dma_pfn_offset -- a uniform offset.
->
-> This isn't just about offsets - it should (eventually) subsume
-> bus_dma_limit as well, so I'd be inclined to call it something like
-> "dma_ranges"/"dma_range_map"/"dma_regions"/etc.
-I will change my wording here.
-
->
-> > The function of_dma_get_range() has been modified to take two additional
-> > arguments: the "map", which is an array that holds the information
-> > regarding the pfn offset regions, and map_size, which is the size in bytes
-> > of the map array.
-> >
-> > of_dma_configure() is the typical manner to set pfn offsets but there are a
-> > number of ad hoc assignments to dev->dma_pfn_offset in the kernel driver
-> > code.  These cases now invoke the function
-> > dma_attach_uniform_pfn_offset(dev, pfn_offset).
->
-> I'm also not convinced that sticking to the PFN paradigm is necessarily
-> the right way to go - when there's only a single nicely-aligned offset
-> to consider then an unsigned long that's immune to PAE/LPAE/etc.
-> disruption is indeed the cheapest and easiest option from core code's
-> PoV. However it already means that all the users have to do some degree
-> of conversion back and forth between PFNs and usable addresses; once the
-> core code itself also has to start bouncing back and forth between
-> addresses and PFNs internally then we end up effectively just doing work
-> to cancel out other work, and the whole lot would end up simpler and
-> more efficient if the API worked purely in terms of addresses.
-If you want me to change the paradigm to an address offset, I will.
-If so please specify its type: dma_addr_t, phys_addr_t, or u64?
-
->
-> [...]
-> > diff --git a/drivers/of/address.c b/drivers/of/address.c
-> > index 8eea3f6e29a4..767fa3b492c8 100644
-> > --- a/drivers/of/address.c
-> > +++ b/drivers/of/address.c
-> > @@ -918,12 +918,48 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
-> >   }
-> >   EXPORT_SYMBOL(of_io_request_and_map);
-> >
-> > +static int dma_attach_pfn_offset_map(struct device_node *node, int num_ranges,
-> > +                                  struct bus_dma_region **map, size_t *map_size)
-> > +{
-> > +     struct of_range_parser parser;
-> > +     struct of_range range;
-> > +     struct bus_dma_region *r;
-> > +
-> > +     *map_size = (num_ranges + 1) * sizeof(**map);
-> > +     r = kcalloc(num_ranges + 1, sizeof(**map), GFP_KERNEL);
-> > +     if (!r)
-> > +             return -ENOMEM;
-> > +     *map = r;
-> > +
-> > +     of_dma_range_parser_init(&parser, node);
-> > +     /*
-> > +      * Record all info for DMA ranges array.  We could
-> > +      * just use the of_range struct, but if we did that it
->
-> Not making the entire DMA API depend on OF is a far better justification
-> for having its own dedicated structure.
->
-> > +      * would require more calculations for phys_to_dma and
-> > +      * dma_to_phys conversions.
-> > +      */
->
-> However that part is pretty much nonsense. Consider your "efficient"
-> operation for looking up and consuming a DMA offset:
->
->         API                             caller
-> 1. load cpu_start
-> 2. compare addr >= cpu_start
-> 3. load cpu_end
-> 4. compare addr <= cpu_end
-> 5. load pfn_offset
-> 6.                              shift pfn_offset << PAGE_SHIFT
-> 7.                              add "offset" + addr
-> 8.                              [use the result]
->
-> versus the "more calculations" approach (once the PFN cruft is peeled away):
->
->         API                             caller
-> 1. load cpu_addr
-> 2. compare addr >= cpu_addr
-> 3. subtract addr - cpu_addr
-> 4. load size
-> 5. compare "addr_offset" < size
-> 6. load dma_start
-> 7. add dma_start + "addr_offset"
-> 8.                              [use the result]
->
-> Oh look, it's the exact same number of memory accesses and ALU
-> operations, but with a smaller code footprint (assuming, reasonably,
-> more than one caller) and less storage overhead ;)
-I feel you have conflated two independent issues to get your
-comparison.  Issue one is having two  extra fields -- cpu_end, dma_end
--- and issue two is using address verses PFN offsets.  If you look at
-both code sequences when using an address offset verses PFN offset,
-the of_range way requires an extra computation.  Do you  agree?
-
->
-> Basically, having this degree of redundancy is somewhere between silly
-> and actively harmful (what if pfn_offset gets out of sync with
-> cpu_start/dma_start?
-How can this happen if the range map is set once and passed as a const
-structure?
-
-> What if cpu_end/dma_end don't represent equivalent lengths?)
-They are set once using the same +size operation so they must be
-equal.  They are not changed after they are set.
-
-Nonetheless, I really don't care which way we do it.  If you want me
-to have an of_range-like structure I am fine with that.
-
->
-> > +     for_each_of_range(&parser, &range) {
-> > +             r->cpu_start = range.cpu_addr;
-> > +             r->cpu_end = r->cpu_start + range.size - 1;
-> > +             r->dma_start = range.bus_addr;
-> > +             r->dma_end = r->dma_start + range.size - 1;
-> > +             r->pfn_offset = PFN_DOWN(range.cpu_addr) - PFN_DOWN(range.bus_addr);
-> > +             r++;
-> > +     }
-> > +     return 0;
-> > +}
-> > +
-> >   /**
-> >    * of_dma_get_range - Get DMA range info
-> >    * @np:             device node to get DMA range info
-> >    * @dma_addr:       pointer to store initial DMA address of DMA range
-> >    * @paddr:  pointer to store initial CPU address of DMA range
-> >    * @size:   pointer to store size of DMA range
-> > + * @map:     pointer to a pointer of an array of structs.  This is updated
-> > + *           to point to NULL (no offsets needed) or kmalloc'd array of
-> > + *           structs.  In the latter case, it is the caller's obligation to
-> > + *           kfree the array in the case it is no longer in use.
-> > + * @map_size:        updated to be the size in bytes of memory allocated to the map
-> >    *
-> >    * Look in bottom up direction for the first "dma-ranges" property
-> >    * and parse it.
-> > @@ -932,10 +968,11 @@ EXPORT_SYMBOL(of_io_request_and_map);
-> >    *  CPU addr (phys_addr_t)  : pna cells
-> >    *  size                    : nsize cells
-> >    *
-> > - * It returns -ENODEV if "dma-ranges" property was not found
-> > - * for this device in DT.
-> > + * It returns -ENODEV if "dma-ranges" property was not found for this
-> > + * device in the DT.
-> >    */
-> > -int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *size)
-> > +int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr,
-> > +                  u64 *size, struct bus_dma_region **map, size_t *map_size)
->
-> dma_addr, paddr and size don't really make much sense any more when we
-> could be handling multiple ranges - it would seem logical to simplify
-> the interface entirely:
->
-> struct bus_dma_region *of_dma_get_range(struct device_node *np);
->
-> which returns either a valid map, NULL if dma-ranges is absent, or an
-> ERR_PTR.
-Fair enough, I'll change this.  As you may have guessed I typically
-lean towards just changing the minimal code I need to change and
-preserving the rest.
-
->
-> >   {
-> >       struct device_node *node = of_node_get(np);
-> >       const __be32 *ranges = NULL;
-> > @@ -944,7 +981,10 @@ int of_dma_get_range(struct device_node *np, u64 *dma_addr, u64 *paddr, u64 *siz
-> >       bool found_dma_ranges = false;
-> >       struct of_range_parser parser;
-> >       struct of_range range;
-> > -     u64 dma_start = U64_MAX, dma_end = 0, dma_offset = 0;
-> > +     phys_addr_t cpu_start = ~(phys_addr_t)0;
-> > +     u64 dma_start = U64_MAX, dma_end = 0;
-> > +     bool offset_map_needed = false;
-> > +     int num_ranges = 0;
-> >
-> >       while (node) {
-> >               ranges = of_get_property(node, "dma-ranges", &len);
-> [...]
-> > diff --git a/include/linux/device.h b/include/linux/device.h
-> > index 15460a5ac024..a17da8e271a2 100644
-> > --- a/include/linux/device.h
-> > +++ b/include/linux/device.h
-> > @@ -492,7 +492,7 @@ struct dev_links_info {
-> >    *          such descriptors.
-> >    * @bus_dma_limit: Limit of an upstream bridge or bus which imposes a smaller
-> >    *          DMA limit than the device itself supports.
-> > - * @dma_pfn_offset: offset of DMA memory range relatively of RAM
-> > + * @dma_pfn_offset_map: offset map for DMA memory range relatively of RAM
-> >    * @dma_parms:      A low level driver may set these to teach IOMMU code about
-> >    *          segment limitations.
-> >    * @dma_pools:      Dma pools (if dma'ble device).
-> > @@ -577,7 +577,7 @@ struct device {
-> >                                            64 bit addresses for consistent
-> >                                            allocations such descriptors. */
-> >       u64             bus_dma_limit;  /* upstream dma constraint */
-> > -     unsigned long   dma_pfn_offset;
-> > +     struct bus_dma_region *dma_pfn_offset_map;
->
-> I think it's a very good idea for this to be const.
-Agree.
-
->
-> >       struct device_dma_parameters *dma_parms;
-> >
-> [...]
-> > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> > index 98e3d873792e..20149a29d136 100644
-> > --- a/kernel/dma/mapping.c
-> > +++ b/kernel/dma/mapping.c
-> > @@ -11,6 +11,7 @@
-> >   #include <linux/dma-noncoherent.h>
-> >   #include <linux/export.h>
-> >   #include <linux/gfp.h>
-> > +#include <linux/limits.h>
-> >   #include <linux/of_device.h>
-> >   #include <linux/slab.h>
-> >   #include <linux/vmalloc.h>
-> > @@ -407,3 +408,41 @@ unsigned long dma_get_merge_boundary(struct device *dev)
-> >       return ops->get_merge_boundary(dev);
-> >   }
-> >   EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
-> > +
-> > +/**
-> > + * dma_attach_uniform_pfn_offset - Assign scalar offset for all addresses.
-> > + * @dev:     device pointer; needed to "own" the alloced memory.
-> > + * @pfn_offset:      offset to apply when converting from phys addr
-> > + *           to dma addr and vice versa.
-> > + *
-> > + * This is for the simple case of a uniform offset which requires
-> > + * no bounds calculations for its use.
->
-> That's crap - just because we've been (mostly) getting away without them
-> doesn't mean bounds checks aren't relevant to a uniform offset. Take a
-> look at this saga for an example of phys_to_dma() on something *below*
-> the offset being a very nasty problem indeed:
->
-> https://lore.kernel.org/linux-arm-kernel/9bbd87c2-5b6c-069c-dd22-5105dc827428@ti.com/
-Fair enough, I would love to have bounds for this and enforce them.
-The problem is that all of the drivers that are setting the offset do
-not indicate what the bounds actually are.  How do I get around this
-(other than removing my comment)?
-
->
-> >  It is the equivalent the role
-> > + * of the former dev->dma_pfn_offset; ie it is just blindly added
-> > + * or subtracted in all cases.
-> > + *
-> > + * It returns -ENOMEM if out of memory, -ENODEV if dev == NULL, otherwise 0.
-> > + */
-> > +int dma_attach_uniform_pfn_offset(struct device *dev, unsigned long pfn_offset)
-> > +{
-> > +     struct bus_dma_region *map;
-> > +
-> > +     if (!dev)
-> > +             return -ENODEV;
-> > +
-> > +     if (!pfn_offset)
-> > +             return 0;
-> > +
-> > +     map = devm_kcalloc(dev, 2, sizeof(*map), GFP_KERNEL);
->
-> Nope, if you want to call this from bus notifiers then it can't use
-> devres - see the list_empty(&dev->devres_head) check in really_probe().
-> However, I think those platform-level cases are probably better off
-> statically allocating a single map for all devices to share (I had an
-> idea about doing similar in the DT code, but that could be a future
-> optimisation); this function is really only needed for nasty
-> driver-level hacks like the sunxi ones.
-Yes, but there are a decent number of these drivers.  To be clear, you
-have reservations but no change in code is required?
-
->
-> And for those driver-level hacks, I think it would also be worth being a
-> bit cleverer here, i.e. not blindly replacing any existing ranges (but
-> returning success if the desired offset is already in place).
-Got it.
-
->
-> > +     if (!map)
-> > +             return -ENOMEM;
-> > +
-> > +     map->pfn_offset = pfn_offset;
-> > +     map->cpu_start = 0;
-> > +     map->cpu_end = PHYS_ADDR_MAX;
-> > +     map->dma_start = 0;
-> > +     map->dma_end = ~(dma_addr_t)0;
->
-> As above, allowing these to be out-of-sync with the fundamental
-> constraints of dma_pfn_offset seems really bad - there is no valid DMA
-> address corresponding to cpu_start and no representable physical address
-> corresponding to dma_end, and no good can come of that. But of course
-> getting rid of the redundancy entirely is even better.
-Understood.
-
-Thanks much for your time and review,
-Jim Quinlan
-
->
-> Robin.
->
-> > +     dev->dma_pfn_offset_map = map;
-> > +
-> > +     return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_attach_uniform_pfn_offset);
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTYuMDYuMjAyMCAxNDoyNSwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMTYuMDYuMjAy
+MCAwMDo0NywgRW1pbCBWZWxpa292INC/0LjRiNC10YI6Cj4+IEhpIGFsbCwKPj4KPj4gUGVyaGFw
+cyBhIHNpbGx5IHF1ZXN0aW9uOgo+Pgo+PiBPbiBNb24sIDE1IEp1biAyMDIwIGF0IDA4OjI4LCBE
+bWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5jb20+IHdyb3RlOgo+Pj4KPj4+IENvbWJpbmlu
+ZyBob3Jpem9udGFsIGFuZCB2ZXJ0aWNhbCByZWZsZWN0aW9ucyBnaXZlcyB1cyAxODAgZGVncmVl
+cyBvZgo+Pj4gcm90YXRpb24uCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtv
+IDxkaWdldHhAZ21haWwuY29tPgo+Pj4gLS0tCj4+PiAgZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2Rj
+LmMgfCAxMyArKysrKysrKysrKystCj4+PiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rl
+Z3JhL2RjLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYwo+Pj4gaW5kZXggZjMxYmNhMjdj
+ZGU0Li5kZGQ5Yjg4ZjhmY2UgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEv
+ZGMuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmMKPj4KPj4+ICsgICAgICAg
+aWYgKHJvdGF0aW9uICYgRFJNX01PREVfUk9UQVRFXzE4MCkgewo+Pj4gKyAgICAgICAgICAgICAg
+IHBsYW5lX3N0YXRlLT5yZWZsZWN0X3ggPSAhcGxhbmVfc3RhdGUtPnJlZmxlY3RfeDsKPj4+ICsg
+ICAgICAgICAgICAgICBwbGFuZV9zdGF0ZS0+cmVmbGVjdF95ID0gIXBsYW5lX3N0YXRlLT5yZWZs
+ZWN0X3k7Cj4+PiArICAgICAgIH0KPj4+ICsKPj4gQXMgbWVudGlvbmVkIGJ5IFZpbGxlIHRoZSBh
+Ym92ZSBpcyBhbHJlYWR5IGhhbmRsZWQgYnkKPj4gZHJtX3JvdGF0aW9uX3NpbXBsaWZ5KCkgLi4u
+IGFsdGhvdWdoIGl0IG1ha2VzIG1lIHdvbmRlcjoKPj4KPj4KPj4+ICAgICAgICAgZXJyID0gZHJt
+X3BsYW5lX2NyZWF0ZV9yb3RhdGlvbl9wcm9wZXJ0eSgmcGxhbmUtPmJhc2UsCj4+PiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFJNX01PREVfUk9UQVRF
+XzAsCj4+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+RFJNX01PREVfUk9UQVRFXzAgfAo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIERSTV9NT0RFX1JPVEFURV8xODAgfAo+Pj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERSTV9NT0RFX1JFRkxFQ1RfWCB8Cj4+
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFJNX01P
+REVfUkVGTEVDVF9ZKTsKPj4KPj4gV291bGQgaXQgbWFrZSBzZW5zZSBmb3IgZHJtX3BsYW5lX2Ny
+ZWF0ZV9yb3RhdGlvbl9wcm9wZXJ0eSgpIGl0c2VsZiwKPj4gdG8gYWRkIERSTV9NT0RFX1JPVEFU
+RV8xODAsIHdoZW4gYm90aCByZWZsZWN0aW9ucyBhcmUgc3VwcG9ydGVkPwo+IAo+IEhlbGxvIEVt
+aWwsCj4gCj4gVGhhdCdzIGEgZ29vZCBwb2ludCEgQWxsIERSTV9NT0RFX1JPVEFURV8xODAgc2hv
+dWxkIGJlIHJlbW92ZWQgYmVjYXVzZQo+IFRlZ3JhIGNhbid0IGRvIDE4MMKwICsgcmVmbGVjdGVk
+LXguIFRoZSBEUk0gY29yZSB0YWtlcyBjYXJlIG9mIDE4MMKwCj4gcm90YXRpb24gd2hlbiBib3Ro
+IHgveSByZWZsZWN0aW9ucyBhcmUgc3VwcG9ydGVkLgo+IAoKSSBqdXN0IGZvdW5kIG91dCB0aGF0
+IEkgZm9yZ290IHRvIGRyb3AgdGhlIFdJUCBwYXRjaGVzIHdoaWNoIGFkZGVkCnRyYW5zcGFyZW50
+IHJvdGF0aW9uIHN1cHBvcnQgd2hpbGUgd2FzIGNoZWNraW5nIHdoZXRoZXIgdGhlc2UgcGxhbmUK
+RFJNX01PREVfUk9UQVRFXzE4MCBjb3VsZCBiZSBkcm9wcGVkIGFuZCBpdCdzIGFjdHVhbGx5IG5l
+ZWQgdG8gYmUgc2V0CmZvciB0aGUgcGxhbmVzLCBvdGhlcndpc2UgMTgwIHJvdGF0aW9uIHN1cHBv
+cnQgaXMgZmlsdGVyZWQgb3V0IGJ5IHRoZQphdG9taWMgY2hlY2suCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
