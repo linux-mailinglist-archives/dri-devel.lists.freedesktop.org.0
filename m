@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02EE1FEC40
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D37301FEC23
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBDA6EB18;
-	Thu, 18 Jun 2020 07:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 495526EA8E;
+	Thu, 18 Jun 2020 07:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C02666EA01;
- Wed, 17 Jun 2020 17:57:20 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id z9so3946402ljh.13;
- Wed, 17 Jun 2020 10:57:20 -0700 (PDT)
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C67D56EA01;
+ Wed, 17 Jun 2020 17:57:21 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id q8so3878511iow.7;
+ Wed, 17 Jun 2020 10:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KY7fprr0DDACjWieFfe2ChRtojrwX3BZmzgMO+wfVKc=;
- b=hot41bfOqSh2U0gr5jjoD2IPokslzvquFN9OF6L5rUkFdkCMxoVQLZaJDwO2R0Nc8F
- 7JKuArzVoS159bDQorZ1MBqJtI6TPJw8KR5HdNU5rRtbv7kKNGP5Re4SNGC2/5SjIw0U
- 1Ec7Zzgbtx7FU/8i6+pSCremhMVFGCbzkmm2cZ6wo0B2DJUmTaVwWI4sbS5WqlzQb1iV
- 98hnL6i9rZCB+3diIOiJS9G1J0z9okzRJol/RyL7jEXpSMnyOCye2WV30knOUm2EfQN1
- cv2ZjTEM+yaCXB4N5d3VJ0dUX+UlpEK/GbIuC1/ndXEci9/4vk/z49l2X9lfk1k26gM3
- Kr+w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q00goUzCyLy6SD4mp+vmnrzfR0St7QeKsEVA6ziR2PU=;
+ b=RRvn7qM35mVqAY1knuIVPc10vaUdrQvNMukTRVNOheuSL4BNGgJUWKZcI1Tlop7ulM
+ eHEbNnONoOFpOMHgV3OxjZJtAVHASnb6+Kp0iM8VLOvBUPU30Ce6EvIRrDUDDe7aq/1t
+ V5AIQ1Be14Z83jXBo6gBw9pPIYqOTrpX+U/4BWkVHzRchV8quM6JYDrY7uXvtB/sCM4i
+ BXsTwdu2DB+p4w8OeDUtvERmD0VxVXxT27DcDci4gRQ0R9Xg28f6mSS7xRq8+TWNyqVw
+ YtcHyxUltXLKolgtcMD0+EotnZ7NCfKeRWa0Uo3yDAMselHTgbsUYYTAFboGZqKs2pz3
+ NTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KY7fprr0DDACjWieFfe2ChRtojrwX3BZmzgMO+wfVKc=;
- b=kOhqQA6d0J2gvdOwfzt28Xgoe3/PJPeXuYXQvhUtD08gI385h8QCTI5I8kQWmc+bAk
- iCT8j3JhsenKAohtXXpNHDDgiq1niCO0NFLYG62iRjRiC4aTzfAWBeqUvgi8q+5zLrBZ
- 68JjrzBCAbITPauMcenmoM0GO9+1mfWn6MN3SCIOWagq2uzZ6R/K6pZ9doFJvILT1T1Z
- vX2JG1q+AV95MPdUrR/mf21Hgeuy/jFpYzQJIAW+svnVe3IrD/pK2LegdaeioJ9Iz7XY
- UP+TkUH+y8G4ztCcqrXgQojOHuSmY0+S+j93rHQ5Iw9cY5RRMnRETXKmVdD4pYxrG4o8
- blaw==
-X-Gm-Message-State: AOAM530sWT4Qm3DFw7JCtKGf1G7A5/zrbQiAojuyTL0rbk9doM0zeYu+
- 1WGrceh8QBTowIFhZA7ZjxI=
-X-Google-Smtp-Source: ABdhPJwCUIZGY4uVMQ7lm8qgRAXZLFSjzWtWXUSeWEr056z+tQUUhX2bXp/JXcFF3uHKSPKbTrEGtA==
-X-Received: by 2002:a2e:95d6:: with SMTP id y22mr211356ljh.469.1592416639064; 
- Wed, 17 Jun 2020 10:57:19 -0700 (PDT)
-Received: from localhost.localdomain ([5.20.204.163])
- by smtp.gmail.com with ESMTPSA id h4sm95471ljg.112.2020.06.17.10.57.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 10:57:18 -0700 (PDT)
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/lima: Expose job_hang_limit module parameter
-Date: Wed, 17 Jun 2020 20:54:47 +0300
-Message-Id: <20200617175447.2681047-1-andrey.lebedev@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q00goUzCyLy6SD4mp+vmnrzfR0St7QeKsEVA6ziR2PU=;
+ b=hc46Vr4EP0jDOmuO6LEDfbkcDq/HqCQDe/WZWs+V1YbRhbmc/e7P9qYTJmHW2T6SMo
+ koTgaJYolsCLUq1LGBZuiWh6dYsNlsrhekZxT0psacCofzMg73jcMaJMLFnPJ8zwlscW
+ SMPJIPKHOdx7mLf3sj03FBkPCJliyERk+OepiuP89kUdDFzptd5m2JKZbQuCW+QHZIch
+ DEha0+Scz9ydJvo7q/UEfYPP7M8m8xQsD9Iw5Bcm9wiW1kh8hFBWU9b7NWOJcoT+sub7
+ Zg7SYYdRt1wQEbFEk9S/ExVQIZjR2Ag0qhoUR/+UTMr8GPb7qIFXu5EaP/pwykCpScIP
+ 6m3Q==
+X-Gm-Message-State: AOAM531/J9pvdr6yNYmFhsHFSrxBHdkZxvst1aMWTn1PelRx9atbr4FG
+ 8pYOMvpwL6jupJXwE6CpCMjOwdcyawBt9Igs6Fo=
+X-Google-Smtp-Source: ABdhPJzZJiTWi2uOtNqtsGdWLlE7w0p8Q7blzZ5DDM9DIsZb9e2+H8BHK6oknVOa8kl+OV9UMTyk7Mfx5H5udXhynxA=
+X-Received: by 2002:a6b:b252:: with SMTP id b79mr621281iof.31.1592416640937;
+ Wed, 17 Jun 2020 10:57:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAHp75VcLR2w9Ym0YOqUT9G8xT9qWrdD1-wP4UA-1wtuwCNxqSA@mail.gmail.com>
+ <20200615061220.68711-1-navid.emamdoost@gmail.com>
+ <befc07e1d630dbc5a6f96fba4e47e083e6386090.camel@pengutronix.de>
+In-Reply-To: <befc07e1d630dbc5a6f96fba4e47e083e6386090.camel@pengutronix.de>
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+Date: Wed, 17 Jun 2020 12:57:09 -0500
+Message-ID: <CAEkB2EQ9DuLt12MXkw3DYpBDaDAxoWTnMC9+=E7v=6dGGRK=nQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/etnaviv: fix ref count leak via pm_runtime_get_sync
+To: Lucas Stach <l.stach@pengutronix.de>
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,84 +63,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrey@lebedev.lt
+Cc: Qiushi Wu <wu000273@umn.edu>, David Airlie <airlied@linux.ie>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Kangjie Lu <kjlu@umn.edu>,
+ etnaviv@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, mccamant@cs.umn.edu,
+ Navid Emamdoost <emamd001@umn.edu>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Lebedev <andrey@lebedev.lt>
+Hi Lucas,
 
-Some pp or gp jobs can be successfully repeated even after they time outs.
-Introduce lima module parameter to specify number of times a job can hang
-before being dropped.
 
-Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
----
+On Wed, Jun 17, 2020 at 4:53 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> Hi Navid,
+>
+> Am Montag, den 15.06.2020, 01:12 -0500 schrieb Navid Emamdoost:
+> > in etnaviv_gpu_submit, etnaviv_gpu_recover_hang, etnaviv_gpu_debugfs,
+> > and etnaviv_gpu_init the call to pm_runtime_get_sync increments the
+> > counter even in case of failure, leading to incorrect ref count.
+> > In case of failure, decrement the ref count before returning.
+>
+> While that change is correct with the current API, may I ask the
+> question why the way this API works is considered reasonable? A API
+> call that fails, but still changes internal state and expects the
+> caller to clean up the mess it not really what I would consider fool-
+> proof API design. Is there a specific reason why it is done this way
+> and not handled internally?
 
-Hello,
+I share the same concern with you on the way this API is working now.
+To the best of my knowledge, there are ongoing discussions on this
+issue:
 
-This patch allows to work around a freezing problem as discussed in
-https://gitlab.freedesktop.org/lima/linux/-/issues/33
+https://lkml.org/lkml/2020/6/14/76
+https://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995-1-dinghao.liu@zju.edu.cn/
 
- drivers/gpu/drm/lima/lima_drv.c   | 4 ++++
- drivers/gpu/drm/lima/lima_drv.h   | 1 +
- drivers/gpu/drm/lima/lima_sched.c | 5 +++--
- 3 files changed, 8 insertions(+), 2 deletions(-)
+>
+> Regards,
+> Lucas
+>
+> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> > ---
+> > Changes in v2:
+> >       - replace pm_runtime_put with  pm_runtime_put_noidle
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 14 ++++++++++----
+> >  1 file changed, 10 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > index a31eeff2b297..7c9f3f9ba123 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -722,7 +722,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+> >       ret = pm_runtime_get_sync(gpu->dev);
+> >       if (ret < 0) {
+> >               dev_err(gpu->dev, "Failed to enable GPU power domain\n");
+> > -             return ret;
+> > +             goto pm_put;
+> >       }
+> >
+> >       etnaviv_hw_identify(gpu);
+> > @@ -819,6 +819,7 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+> >
+> >  fail:
+> >       pm_runtime_mark_last_busy(gpu->dev);
+> > +pm_put:
+> >       pm_runtime_put_autosuspend(gpu->dev);
+> >
+> >       return ret;
+> > @@ -859,7 +860,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+> >
+> >       ret = pm_runtime_get_sync(gpu->dev);
+> >       if (ret < 0)
+> > -             return ret;
+> > +             goto pm_put;
+> >
+> >       dma_lo = gpu_read(gpu, VIVS_FE_DMA_LOW);
+> >       dma_hi = gpu_read(gpu, VIVS_FE_DMA_HIGH);
+> > @@ -1003,6 +1004,7 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+> >       ret = 0;
+> >
+> >       pm_runtime_mark_last_busy(gpu->dev);
+> > +pm_put:
+> >       pm_runtime_put_autosuspend(gpu->dev);
+> >
+> >       return ret;
+> > @@ -1016,7 +1018,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+> >       dev_err(gpu->dev, "recover hung GPU!\n");
+> >
+> >       if (pm_runtime_get_sync(gpu->dev) < 0)
+> > -             return;
+> > +             goto pm_put;
+> >
+> >       mutex_lock(&gpu->lock);
+> >
+> > @@ -1035,6 +1037,7 @@ void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+> >
+> >       mutex_unlock(&gpu->lock);
+> >       pm_runtime_mark_last_busy(gpu->dev);
+> > +pm_put:
+> >       pm_runtime_put_autosuspend(gpu->dev);
+> >  }
+> >
+> > @@ -1308,8 +1311,10 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+> >
+> >       if (!submit->runtime_resumed) {
+> >               ret = pm_runtime_get_sync(gpu->dev);
+> > -             if (ret < 0)
+> > +             if (ret < 0) {
+> > +                     pm_runtime_put_noidle(gpu->dev);
+> >                       return NULL;
+> > +             }
+> >               submit->runtime_resumed = true;
+> >       }
+> >
+> > @@ -1326,6 +1331,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+> >       ret = event_alloc(gpu, nr_events, event);
+> >       if (ret) {
+> >               DRM_ERROR("no free events\n");
+> > +             pm_runtime_put_noidle(gpu->dev);
+> >               return NULL;
+> >       }
+> >
+>
 
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index a831565af813..2807eba26c55 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -19,6 +19,7 @@
- int lima_sched_timeout_ms;
- uint lima_heap_init_nr_pages = 8;
- uint lima_max_error_tasks;
-+int lima_job_hang_limit;
- 
- MODULE_PARM_DESC(sched_timeout_ms, "task run timeout in ms");
- module_param_named(sched_timeout_ms, lima_sched_timeout_ms, int, 0444);
-@@ -29,6 +30,9 @@ module_param_named(heap_init_nr_pages, lima_heap_init_nr_pages, uint, 0444);
- MODULE_PARM_DESC(max_error_tasks, "max number of error tasks to save");
- module_param_named(max_error_tasks, lima_max_error_tasks, uint, 0644);
- 
-+MODULE_PARM_DESC(job_hang_limit, "number of times to allow a job to hang before dropping it (default 0)");
-+module_param_named(job_hang_limit, lima_job_hang_limit, int, 0444);
-+
- static int lima_ioctl_get_param(struct drm_device *dev, void *data, struct drm_file *file)
- {
- 	struct drm_lima_get_param *args = data;
-diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
-index fdbd4077c768..39fd98e3b14d 100644
---- a/drivers/gpu/drm/lima/lima_drv.h
-+++ b/drivers/gpu/drm/lima/lima_drv.h
-@@ -11,6 +11,7 @@
- extern int lima_sched_timeout_ms;
- extern uint lima_heap_init_nr_pages;
- extern uint lima_max_error_tasks;
-+extern int lima_job_hang_limit;
- 
- struct lima_vm;
- struct lima_bo;
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index e6cefda00279..1602985dfa04 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -503,8 +503,9 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
- 
- 	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
- 
--	return drm_sched_init(&pipe->base, &lima_sched_ops, 1, 0,
--			      msecs_to_jiffies(timeout), name);
-+	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
-+			      lima_job_hang_limit, msecs_to_jiffies(timeout),
-+			      name);
- }
- 
- void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
--- 
-2.25.1
 
+--
+Navid.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
