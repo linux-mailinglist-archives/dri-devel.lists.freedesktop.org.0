@@ -1,41 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F381FD191
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:08:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE0F1FD24B
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8286E0CE;
-	Wed, 17 Jun 2020 16:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99316E83D;
+	Wed, 17 Jun 2020 16:37:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5091E88F3A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:08:30 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id EC73C5C8E51;
- Wed, 17 Jun 2020 18:08:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1592410108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X7hxP//9HtMQemnysoFPEagUqC8cEQLOssidZIKG+t0=;
- b=EvIQUc/JYBs+PzLXr6VQClMlm75FU309qPappkPEsnD3CgmYCP6Fdb0w5a1e8GK4Q93X6+
- kDaMIM0mLE0fWxtZT6JokhX1ACf21XX8zjVPG/XSiodF1AZV0b45yaYfP6uP5n8XXf5S0c
- W1AOitirCuHw4uqCJr01hmJM82ZDoVE=
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F156E83D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:37:30 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id x6so3012452wrm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 09:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=AUIhozUi3FnUlf2LFKvC/KhhSsVgBkUP4FWbfMkq2vc=;
+ b=PJZqyUYacHG3xEblT29YiFoEthYrIsG8i4wZ0rpkpUGURL89H+ItMLHNtxpRligazo
+ 6mTGNBJ4nMmEKb0Jt7UuXwCYQRvNn2k3QTOzxkUBw69Up1RgTeMmz7FvW/E6udjNagUN
+ T/TqRkY0/xrnWnILv0jizv4ZJJ4K7L4k3wGTyGqywsU0foY2Dultc0WfIGET2RvwKJTr
+ 1n3PKHoqsWP7LSpqFBz+TzMAlGoR3/Rx2kEx5bse5hsP4sXV54XB+tSZ6v2Pbbv5/9kb
+ +Ltct2JjqM60ev9ec/o1kmGgTiGwbTO2Vb4fNgQQKXwSDOVZN2JZ+Zm6S6WoqJIItcbh
+ 7lzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AUIhozUi3FnUlf2LFKvC/KhhSsVgBkUP4FWbfMkq2vc=;
+ b=Qwstz5ctGlQsJMpvMZ6AvbpE/IMq88tvzihFt2jpvU9R4/pIRDsL7CV50/l3u36XfI
+ a2P2eJDlIOwDvuO6fo8BLJ1wgF4y5RFy4TlkGDG10oAm8ysKM1kVWWqZLybZHG51AHkx
+ cEGWl5Y4JzKs+H482q5AoCs3tTI39MbF6316YeOGvndYaVjYiMlsMmN5SSe3p4670sGK
+ vdLT+XcBgo7dN2RjT3y8S+EPC9VyiDk7uhtSc0P1f7AwsQ57RyPZ/Sla/tU7we8AU0fZ
+ g06yZjf23ux1tb9HpcF/VFAebWcktoAv2WY90DqPi4KwKThafyQq0j852mcEj7Uek2kd
+ XKRg==
+X-Gm-Message-State: AOAM530CIBCuvULLWP7RG53r85hBJCV0YA3dV73IvxuPUiQDsMfQIGvN
+ y8U9XEWXlgdqkodlT/E6Ffg=
+X-Google-Smtp-Source: ABdhPJxT4PsvouJfW1w3G5z+qhlTObNQ3f14x0DrEHs0bwps9UY1evXFQXVeytUqnw3TFzh2ca5eaA==
+X-Received: by 2002:a05:6000:12c2:: with SMTP id
+ l2mr88072wrx.133.1592411848611; 
+ Wed, 17 Jun 2020 09:37:28 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id z206sm299227wmg.30.2020.06.17.09.37.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 09:37:26 -0700 (PDT)
+Date: Wed, 17 Jun 2020 18:37:24 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v3] drm/tegra: Add zpos property for cursor planes
+Message-ID: <20200617163724.GA3547875@ulmo>
+References: <20200616181449.3147258-1-thierry.reding@gmail.com>
+ <8e45b425-b667-433e-2074-7a058329f5c2@gmail.com>
+ <20200617141015.GB3536291@ulmo>
+ <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
 MIME-Version: 1.0
-Date: Wed, 17 Jun 2020 18:08:28 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 22/22] drm: mxsfb: Support the alpha plane
-In-Reply-To: <20200530031015.15492-23-laurent.pinchart@ideasonboard.com>
-References: <20200530031015.15492-1-laurent.pinchart@ideasonboard.com>
- <20200530031015.15492-23-laurent.pinchart@ideasonboard.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <6f850e282ac6309b1cbe7c0e3f4f7439@agner.ch>
-X-Sender: stefan@agner.ch
+In-Reply-To: <cef8e371-03a8-455e-561d-fca9d0b88309@gmail.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,331 +70,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org,
- linux-imx@nxp.com, kernel@pengutronix.de, robert.chiras@nxp.com,
- leonard.crestez@nxp.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============1328610921=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-05-30 05:10, Laurent Pinchart wrote:
-> The LCDIF in the i.MX6SX and i.MX7 have a second plane called the alpha
-> plane. Support it.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Looks good to me.
+--===============1328610921==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Content-Disposition: inline
 
-Reviewed-by: Stefan Agner <stefan@agner.ch>
 
---
-Stefan
+--PEIAKu/WMn1b1Hv9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
-> Changes since v1:
-> 
-> - Split whitespace cleanup to a separate patch
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c  |   3 +
->  drivers/gpu/drm/mxsfb/mxsfb_drv.h  |   6 +-
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 129 +++++++++++++++++++++++++----
->  drivers/gpu/drm/mxsfb/mxsfb_regs.h |  22 +++++
->  4 files changed, 144 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index ed8e3f7bc27c..ab3a212375f1 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -49,6 +49,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
->  		.next_buf	= LCDC_V3_NEXT_BUF,
->  		.hs_wdth_mask	= 0xff,
->  		.hs_wdth_shift	= 24,
-> +		.has_overlay	= false,
->  	},
->  	[MXSFB_V4] = {
->  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-> @@ -56,6 +57,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
->  		.next_buf	= LCDC_V4_NEXT_BUF,
->  		.hs_wdth_mask	= 0x3fff,
->  		.hs_wdth_shift	= 18,
-> +		.has_overlay	= false,
->  	},
->  	[MXSFB_V6] = {
->  		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-> @@ -63,6 +65,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
->  		.next_buf	= LCDC_V4_NEXT_BUF,
->  		.hs_wdth_mask	= 0x3fff,
->  		.hs_wdth_shift	= 18,
-> +		.has_overlay	= true,
->  	},
->  };
->  
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> index f883b56caed3..399d23e91ed1 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-> @@ -21,6 +21,7 @@ struct mxsfb_devdata {
->  	unsigned int	next_buf;
->  	unsigned int	hs_wdth_mask;
->  	unsigned int	hs_wdth_shift;
-> +	bool		has_overlay;
->  };
->  
->  struct mxsfb_drm_private {
-> @@ -32,7 +33,10 @@ struct mxsfb_drm_private {
->  	struct clk			*clk_disp_axi;
->  
->  	struct drm_device		*drm;
-> -	struct drm_plane		plane;
-> +	struct {
-> +		struct drm_plane	primary;
-> +		struct drm_plane	overlay;
-> +	} planes;
->  	struct drm_crtc			crtc;
->  	struct drm_encoder		encoder;
->  	struct drm_connector		*connector;
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> index f81f8c222c13..c9c394f7cbe2 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -169,9 +169,9 @@ static int mxsfb_reset_block(struct
-> mxsfb_drm_private *mxsfb)
->  	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
->  }
->  
-> -static dma_addr_t mxsfb_get_fb_paddr(struct mxsfb_drm_private *mxsfb)
-> +static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
->  {
-> -	struct drm_framebuffer *fb = mxsfb->plane.state->fb;
-> +	struct drm_framebuffer *fb = plane->state->fb;
->  	struct drm_gem_cma_object *gem;
->  
->  	if (!fb)
-> @@ -206,6 +206,9 @@ static void mxsfb_crtc_mode_set_nofb(struct
-> mxsfb_drm_private *mxsfb)
->  	/* Clear the FIFOs */
->  	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
->  
-> +	if (mxsfb->devdata->has_overlay)
-> +		writel(0, mxsfb->base + LCDC_AS_CTRL);
-> +
->  	mxsfb_set_formats(mxsfb);
->  
->  	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
-> @@ -313,7 +316,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->  	mxsfb_crtc_mode_set_nofb(mxsfb);
->  
->  	/* Write cur_buf as well to avoid an initial corrupt frame */
-> -	paddr = mxsfb_get_fb_paddr(mxsfb);
-> +	paddr = mxsfb_get_fb_paddr(crtc->primary);
->  	if (paddr) {
->  		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
->  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> @@ -410,20 +413,85 @@ static int mxsfb_plane_atomic_check(struct
-> drm_plane *plane,
->  						   false, true);
->  }
->  
-> -static void mxsfb_plane_atomic_update(struct drm_plane *plane,
-> -				      struct drm_plane_state *old_pstate)
-> +static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
-> +					      struct drm_plane_state *old_pstate)
->  {
->  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
->  	dma_addr_t paddr;
->  
-> -	paddr = mxsfb_get_fb_paddr(mxsfb);
-> +	paddr = mxsfb_get_fb_paddr(plane);
->  	if (paddr)
->  		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
->  }
->  
-> -static const struct drm_plane_helper_funcs mxsfb_plane_helper_funcs = {
-> +static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
-> +					      struct drm_plane_state *old_pstate)
-> +{
-> +	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-> +	struct drm_plane_state *state = plane->state;
-> +	dma_addr_t paddr;
-> +	u32 ctrl;
-> +
-> +	paddr = mxsfb_get_fb_paddr(plane);
-> +	if (!paddr) {
-> +		writel(0, mxsfb->base + LCDC_AS_CTRL);
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * HACK: The hardware seems to output 64 bytes of data of unknown
-> +	 * origin, and then to proceed with the framebuffer. Until the reason
-> +	 * is understood, live with the 16 initial invalid pixels on the first
-> +	 * line and start 64 bytes within the framebuffer.
-> +	 */
-> +	paddr += 64;
-> +
-> +	writel(paddr, mxsfb->base + LCDC_AS_NEXT_BUF);
-> +
-> +	/*
-> +	 * If the plane was previously disabled, write LCDC_AS_BUF as well to
-> +	 * provide the first buffer.
-> +	 */
-> +	if (!old_pstate->fb)
-> +		writel(paddr, mxsfb->base + LCDC_AS_BUF);
-> +
-> +	ctrl = AS_CTRL_AS_ENABLE | AS_CTRL_ALPHA(255);
-> +
-> +	switch (state->fb->format->format) {
-> +	case DRM_FORMAT_XRGB4444:
-> +		ctrl |= AS_CTRL_FORMAT_RGB444 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> +		break;
-> +	case DRM_FORMAT_ARGB4444:
-> +		ctrl |= AS_CTRL_FORMAT_ARGB4444 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> +		break;
-> +	case DRM_FORMAT_XRGB1555:
-> +		ctrl |= AS_CTRL_FORMAT_RGB555 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> +		break;
-> +	case DRM_FORMAT_ARGB1555:
-> +		ctrl |= AS_CTRL_FORMAT_ARGB1555 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> +		break;
-> +	case DRM_FORMAT_RGB565:
-> +		ctrl |= AS_CTRL_FORMAT_RGB565 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> +		break;
-> +	case DRM_FORMAT_XRGB8888:
-> +		ctrl |= AS_CTRL_FORMAT_RGB888 | AS_CTRL_ALPHA_CTRL_OVERRIDE;
-> +		break;
-> +	case DRM_FORMAT_ARGB8888:
-> +		ctrl |= AS_CTRL_FORMAT_ARGB8888 | AS_CTRL_ALPHA_CTRL_EMBEDDED;
-> +		break;
-> +	}
-> +
-> +	writel(ctrl, mxsfb->base + LCDC_AS_CTRL);
-> +}
-> +
-> +static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
->  	.atomic_check = mxsfb_plane_atomic_check,
-> -	.atomic_update = mxsfb_plane_atomic_update,
-> +	.atomic_update = mxsfb_plane_primary_atomic_update,
-> +};
-> +
-> +static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
-> +	.atomic_check = mxsfb_plane_atomic_check,
-> +	.atomic_update = mxsfb_plane_overlay_atomic_update,
->  };
->  
->  static const struct drm_plane_funcs mxsfb_plane_funcs = {
-> @@ -435,27 +503,58 @@ static const struct drm_plane_funcs mxsfb_plane_funcs = {
->  	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
->  };
->  
-> -static const uint32_t mxsfb_formats[] = {
-> +static const uint32_t mxsfb_primary_plane_formats[] = {
-> +	DRM_FORMAT_RGB565,
->  	DRM_FORMAT_XRGB8888,
-> -	DRM_FORMAT_RGB565
->  };
->  
-> +static const uint32_t mxsfb_overlay_plane_formats[] = {
-> +	DRM_FORMAT_XRGB4444,
-> +	DRM_FORMAT_ARGB4444,
-> +	DRM_FORMAT_XRGB1555,
-> +	DRM_FORMAT_ARGB1555,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ARGB8888,
-> +};
-> +
-> +/*
-> -----------------------------------------------------------------------------
-> + * Initialization
-> + */
-> +
->  int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
->  {
->  	struct drm_encoder *encoder = &mxsfb->encoder;
-> -	struct drm_plane *plane = &mxsfb->plane;
->  	struct drm_crtc *crtc = &mxsfb->crtc;
->  	int ret;
->  
-> -	drm_plane_helper_add(plane, &mxsfb_plane_helper_funcs);
-> -	ret = drm_universal_plane_init(mxsfb->drm, plane, 0, &mxsfb_plane_funcs,
-> -				       mxsfb_formats, ARRAY_SIZE(mxsfb_formats),
-> +	drm_plane_helper_add(&mxsfb->planes.primary,
-> +			     &mxsfb_plane_primary_helper_funcs);
-> +	ret = drm_universal_plane_init(mxsfb->drm, &mxsfb->planes.primary, 1,
-> +				       &mxsfb_plane_funcs,
-> +				       mxsfb_primary_plane_formats,
-> +				       ARRAY_SIZE(mxsfb_primary_plane_formats),
->  				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
->  	if (ret)
->  		return ret;
->  
-> +	if (mxsfb->devdata->has_overlay) {
-> +		drm_plane_helper_add(&mxsfb->planes.overlay,
-> +				     &mxsfb_plane_overlay_helper_funcs);
-> +		ret = drm_universal_plane_init(mxsfb->drm,
-> +					       &mxsfb->planes.overlay, 1,
-> +					       &mxsfb_plane_funcs,
-> +					       mxsfb_overlay_plane_formats,
-> +					       ARRAY_SIZE(mxsfb_overlay_plane_formats),
-> +					       NULL, DRM_PLANE_TYPE_OVERLAY,
-> +					       NULL);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
-> -	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc, plane, NULL,
-> +	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
-> +					&mxsfb->planes.primary, NULL,
->  					&mxsfb_crtc_funcs, NULL);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> index 8ebb52bb1b46..55d28a27f912 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-> @@ -27,6 +27,11 @@
->  #define LCDC_VDCTRL4			0xb0
->  #define LCDC_V4_DEBUG0			0x1d0
->  #define LCDC_V3_DEBUG0			0x1f0
-> +#define LCDC_AS_CTRL			0x210
-> +#define LCDC_AS_BUF			0x220
-> +#define LCDC_AS_NEXT_BUF		0x230
-> +#define LCDC_AS_CLRKEYLOW		0x240
-> +#define LCDC_AS_CLRKEYHIGH		0x250
->  
->  #define CTRL_SFTRST			BIT(31)
->  #define CTRL_CLKGATE			BIT(30)
-> @@ -90,6 +95,23 @@
->  #define DEBUG0_HSYNC			BIT(26)
->  #define DEBUG0_VSYNC			BIT(25)
->  
-> +#define AS_CTRL_PS_DISABLE		BIT(23)
-> +#define AS_CTRL_ALPHA_INVERT		BIT(20)
-> +#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
-> +#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
-> +#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
-> +#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
-> +#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
-> +#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
-> +#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
-> +#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
-> +#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
-> +#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
-> +#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
-> +#define AS_CTRL_AS_ENABLE		BIT(0)
-> +
->  #define MXSFB_MIN_XRES			120
->  #define MXSFB_MIN_YRES			120
->  #define MXSFB_MAX_XRES			0xffff
+On Wed, Jun 17, 2020 at 05:20:14PM +0300, Dmitry Osipenko wrote:
+> 17.06.2020 17:10, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Jun 16, 2020 at 09:39:19PM +0300, Dmitry Osipenko wrote:
+> >> 16.06.2020 21:14, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> From: Thierry Reding <treding@nvidia.com>
+> >>>
+> >>> As of commit 4dc55525b095 ("drm: plane: Verify that no or all planes
+> >>> have a zpos property") a warning is emitted if there's a mix of planes
+> >>> with and without a zpos property.
+> >>>
+> >>> On Tegra, cursor planes are always composited on top of all other
+> >>> planes, which is why they never had a zpos property attached to them.
+> >>> However, since the composition order is fixed, this is trivial to
+> >>> remedy by simply attaching an immutable zpos property to them.
+> >>>
+> >>> v3: do not hardcode zpos for overlay planes used as cursor (Dmitry)
+> >>> v2: hardcode cursor plane zpos to 255 instead of 0 (Ville)
+> >>>
+> >>> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
+> >>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >>> ---
+> >>>  drivers/gpu/drm/tegra/dc.c | 1 +
+> >>>  1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> >>> index 83f31c6e891c..04d6848d19fc 100644
+> >>> --- a/drivers/gpu/drm/tegra/dc.c
+> >>> +++ b/drivers/gpu/drm/tegra/dc.c
+> >>> @@ -957,6 +957,7 @@ static struct drm_plane *tegra_dc_cursor_plane_cr=
+eate(struct drm_device *drm,
+> >>>  	}
+> >>> =20
+> >>>  	drm_plane_helper_add(&plane->base, &tegra_cursor_plane_helper_funcs=
+);
+> >>> +	drm_plane_create_zpos_immutable_property(&plane->base, 255);
+> >>> =20
+> >>>  	return &plane->base;
+> >>>  }
+> >>>
+> >>
+> >> Looks nice, thanks! Since you dropped all other zpos changes for other
+> >> planes and given that the other planes have 255 for the max zpos, what
+> >> about to set the cursor's zpos to 256?
+> >=20
+> > I'd prefer to have all of the planes' zpos within the same range. By
+> > default the other planes will be on the very bottom end of that range
+> > and the atomic core will normalize the zpos for all planes anyway, so
+> > the cursor plane will end up with a very small normalized zpos in the
+> > end.
+> >=20
+> > The zpos documentation already mentions that the behaviour is undefined
+> > if two planes have the same zpos value, so I think userspace is going to
+> > know how to set these anyway.
+> >=20
+> > It might be worth to do a follow-up patch that is smarter about setting
+> > the range of valid values. 0-255 is true on later chips where we
+> > actually have a proper "layer depth" register field and I wanted this to
+> > be uniform across all generations. Other drivers seem to set the upper
+> > limit on the zpos range to be equal to the number of planes available,
+> > so that there aren't potentially big gaps in the numbering. That said,
+> > since the core already normalizes the zpos for us, I don't see a big
+> > benefit in explicitly clipping the range.
+>=20
+> But the cursor plane doesn't use the "layer depth" register, doesn't it?
+> So the zpos over 255 shouldn't matter in this case.
+>=20
+> I know that DRM should normalizes the given zpos, but still it makes me
+> a bit uncomfortable knowing that there are the ranges overlap visible to
+> userspace :)
+
+Userspace has to be able to deal with this anyway because it can't make
+any assumptions about what hardware supports underneath. A cursor on a
+different platform may very well be stackable anywhere in the layout so
+it must ensure that the cursor always has the highest zpos (provided
+that that's what it wants). Immutable 255 basically just says that the
+cursor is always going to be at the top. /If/ userspace then decides to
+set some other plane's zpos =3D 255, then we're in the "undefined"
+behaviour case that the documentation mentions, in which case the
+behaviour on Tegra would still be sane in showing the cursor on top.
+
+So I don't think there's really an issue with the overlap.
+
+Thierry
+
+--PEIAKu/WMn1b1Hv9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7qRsEACgkQ3SOs138+
+s6F/SQ/9FjgGZOAspRcVYP7wA5WZaMEpquc/ibUS8bCVYfIqr8SBd02PZ/n7EoKX
+uECe9VEcOEkXHrDt0SIuO7cIZC/YDun16O+sZDvv7sTGOhf8ObmLS5Nvstvs35s2
+a8DA/S2EvGZFXJ/NXurj66N71GFTVv+tBTTUSkik2pgYu2wMN2M5TcPW/YOycd4g
+X1VZlg78ibN4tAEpRT14u25KILDHaJJSAqIOQiovaeykl/BcsSUS4AgDY8eNN4xN
+V8NJaLpPmcceiiKxsMukpszsNqCDteIE5Dqgd7Dcyfgl5N//QL/ZJnzG+jr1JSMN
+uKUDB/Py0cPDtHj5+jfEK5NnopHzi3fICJ8LNpwvXsRKMQpAPKvNINXXf/KYEful
+WYuBfOfLog3gAWEeWCNjDSWu5U0SPmhMMjobMQIx5jqIqWMkyEQv632ucAd7SMQ/
+A3yWQctz9dB61JXxRYPfijpj/9DQa/uh6RFdbUc55dl1zljfgn5eh6gCaXKiS0yu
+iqRUrfjU3+n7w2e0bPYEpuKpuIWvTNnq9w84HoJ6rBj+ymvcKsIdi6BcN24iq50T
+kh6MQDNDMv3QtmeTsJer+rHQLfaldhywBMWdOuZDi27adKThQnkIiSx7A29d36/n
+KISfcBZ1vONIix6uZMLY2kpK94YgZEnFKk/1ic7erzCeLQoLmdU=
+=bVhH
+-----END PGP SIGNATURE-----
+
+--PEIAKu/WMn1b1Hv9--
+
+--===============1328610921==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1328610921==--
