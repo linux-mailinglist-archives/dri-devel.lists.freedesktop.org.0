@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E6F1FC318
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 02:59:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 494901FC359
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 03:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C966E9E2;
-	Wed, 17 Jun 2020 00:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 993B96EA47;
+	Wed, 17 Jun 2020 01:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 997276E9E2;
- Wed, 17 Jun 2020 00:59:33 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 49mmtW0xJVz9sSd;
- Wed, 17 Jun 2020 10:59:31 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1592355571;
- bh=GFBSasXQo+uKQuNXeDI+CzG7gcS5dADb2nU/NU1RmL4=;
- h=Date:From:To:Cc:Subject:From;
- b=tisa0g4ZLJgX+QiU36LhpZcJNT42ogc/PRfwTOAqnU0LEQIAD9jWxS43n72ir6KvS
- 1eDE+I9Kbk8fAmWfDTYRTyG7AYY7/sZyGh+iU5+gthhJUZ+N8+j4gop48If+Nc8j2M
- Ckq+E4xAozMEQPssnMtaBDt+QvM9haHCfUF6LG6Da0ApJ8KW3XCZbUpDFL349oKOfu
- m+zStYxj16NDNpgAVAhsB5gJ24ZeJK61/gu/3Km/gf7LBu96GsYhlePcOliazbz3NE
- AcB67UNcRk7+5fpGof/j979y9Oj44Zw9Ey2aCkft2X7/+DrHheXAcs8FNZjNv7X61v
- Fc9XiKlbmR0Hw==
-Date: Wed, 17 Jun 2020 10:59:29 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20200617105929.534edd34@canb.auug.org.au>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1036EA47
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 01:28:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 208209] [amdgpu] driver crash -- enable_link_dp -- RX 570
+Date: Wed, 17 Jun 2020 01:28:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: max.bruce12@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-208209-2300-WYEaak5Jtv@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-208209-2300@https.bugzilla.kernel.org/>
+References: <bug-208209-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,106 +51,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============1342536304=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1342536304==
-Content-Type: multipart/signed; boundary="Sig_/MxT6_+HvYX.kK/4n6ZLF/AO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+https://bugzilla.kernel.org/show_bug.cgi?id=208209
 
---Sig_/MxT6_+HvYX.kK/4n6ZLF/AO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+--- Comment #2 from max.bruce12@gmail.com ---
+I am using X, there aren't any interesting logs within the prior 12 hours or
+since.
+[901953.262] (II) AMDGPU(0): EDID vendor "SAM", prod id 3427
+[901953.262] (II) AMDGPU(0): Using hsync ranges from config file
+[901953.262] (II) AMDGPU(0): Using vrefresh ranges from config file
+[901953.262] (II) AMDGPU(0): Printing DDC gathered Modelines:
+[901953.262] (II) AMDGPU(0): Modeline "3840x2160"x0.0  533.25  3840 3888 3920
+4000  2160 2163 2168 2222 +hsync -vsync (133.3 kHz eP)
+[901953.262] (II) AMDGPU(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052
+2200  1080 1084 1089 1125 +hsync +vsync (67.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "2560x1440"x0.0  241.50  2560 2608 2640
+2720  1440 1443 1448 1481 +hsync -vsync (88.8 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056 
+600 601 605 628 +hsync +vsync (37.9 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024 
+600 601 603 625 +hsync +vsync (35.2 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 656 720 840 
+480 481 484 500 -hsync -vsync (37.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 664 704 832 
+480 489 492 520 -hsync -vsync (37.9 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   30.24  640 704 768 864 
+480 483 486 525 -hsync -vsync (35.0 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "640x480"x0.0   25.18  640 656 752 800 
+480 490 492 525 -hsync -vsync (31.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "720x400"x0.0   28.32  720 738 846 900 
+400 412 414 449 -hsync +vsync (31.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440
+1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136
+1312  768 769 772 800 +hsync +vsync (60.0 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184
+1328  768 771 777 806 -hsync -vsync (56.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184
+1344  768 771 777 806 -hsync -vsync (48.4 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152 
+624 625 628 667 -hsync -vsync (49.7 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056 
+600 601 604 625 +hsync +vsync (46.9 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040 
+600 637 643 666 +hsync +vsync (48.1 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344
+1600  864 865 868 900 +hsync +vsync (67.5 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1280x800"x0.0   83.50  1280 1352 1480
+1680  800 803 809 831 -hsync +vsync (49.7 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472
+1664  720 721 724 746 -hsync +vsync (44.8 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440
+1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1600x900"x60.0  119.00  1600 1696 1864
+2128  900 901 904 932 -hsync +vsync (55.9 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960
+2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz e)
+[901953.262] (II) AMDGPU(0): Modeline "1440x900"x0.0  106.50  1440 1520 1672
+1904  900 903 909 934 -hsync +vsync (55.9 kHz e)
+[901953.813] (II) AMDGPU(0): EDID vendor "SAM", prod id 3427
+[901953.813] (II) AMDGPU(0): Using hsync ranges from config file
+[901953.813] (II) AMDGPU(0): Using vrefresh ranges from config file
+[901953.813] (II) AMDGPU(0): Printing DDC gathered Modelines:
+[901953.813] (II) AMDGPU(0): Modeline "3840x2160"x0.0  533.25  3840 3888 3920
+4000  2160 2163 2168 2222 +hsync -vsync (133.3 kHz eP)
+[901953.813] (II) AMDGPU(0): Modeline "1920x1080"x0.0  148.50  1920 2008 2052
+2200  1080 1084 1089 1125 +hsync +vsync (67.5 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "2560x1440"x0.0  241.50  2560 2608 2640
+2720  1440 1443 1448 1481 +hsync -vsync (88.8 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "800x600"x0.0   40.00  800 840 968 1056 
+600 601 605 628 +hsync +vsync (37.9 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "800x600"x0.0   36.00  800 824 896 1024 
+600 601 603 625 +hsync +vsync (35.2 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 656 720 840 
+480 481 484 500 -hsync -vsync (37.5 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   31.50  640 664 704 832 
+480 489 492 520 -hsync -vsync (37.9 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   30.24  640 704 768 864 
+480 483 486 525 -hsync -vsync (35.0 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "640x480"x0.0   25.18  640 656 752 800 
+480 490 492 525 -hsync -vsync (31.5 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "720x400"x0.0   28.32  720 738 846 900 
+400 412 414 449 -hsync +vsync (31.5 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "1280x1024"x0.0  135.00  1280 1296 1440
+1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "1024x768"x0.0   78.75  1024 1040 1136
+1312  768 769 772 800 +hsync +vsync (60.0 kHz e)
+[901953.813] (II) AMDGPU(0): Modeline "1024x768"x0.0   75.00  1024 1048 1184
+1328  768 771 777 806 -hsync -vsync (56.5 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1024x768"x0.0   65.00  1024 1048 1184
+1344  768 771 777 806 -hsync -vsync (48.4 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "832x624"x0.0   57.28  832 864 928 1152 
+624 625 628 667 -hsync -vsync (49.7 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "800x600"x0.0   49.50  800 816 896 1056 
+600 601 604 625 +hsync +vsync (46.9 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "800x600"x0.0   50.00  800 856 976 1040 
+600 637 643 666 +hsync +vsync (48.1 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1152x864"x0.0  108.00  1152 1216 1344
+1600  864 865 868 900 +hsync +vsync (67.5 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1280x800"x0.0   83.50  1280 1352 1480
+1680  800 803 809 831 -hsync +vsync (49.7 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1280x720"x60.0   74.48  1280 1336 1472
+1664  720 721 724 746 -hsync +vsync (44.8 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1280x1024"x0.0  108.00  1280 1328 1440
+1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1600x900"x60.0  119.00  1600 1696 1864
+2128  900 901 904 932 -hsync +vsync (55.9 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1680x1050"x0.0  146.25  1680 1784 1960
+2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz e)
+[901953.814] (II) AMDGPU(0): Modeline "1440x900"x0.0  106.50  1440 1520 1672
+1904  900 903 909 934 -hsync +vsync (55.9 kHz e)
 
-Hi all,
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+This repeats every so often.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c: In function 'amdgpu_amdkf=
-d_gpuvm_free_memory_of_gpu':
-drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:1357:2: error: implicit de=
-claration of function 'drm_gem_object_put_unlocked'; did you mean 'drm_gem_=
-object_put_locked'? [-Werror=3Dimplicit-function-declaration]
- 1357 |  drm_gem_object_put_unlocked(&mem->bo->tbo.base);
-      |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |  drm_gem_object_put_locked
-
-Caused by commit
-
-  ab15d56e27be ("drm: remove transient drm_gem_object_put_unlocked()")
-
-interacting with commit
-
-  fd9a9f8801de ("drm/amdgpu: Use GEM obj reference for KFD BOs")
-
-from Linus' tree.
-
-I have applied the following merge fix up patch for today.
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Wed, 17 Jun 2020 10:55:32 +1000
-Subject: [PATCH] drm/amdgpu: remove stray drm_gem_object_put_unlocked
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index b91b5171270f..9015c7b76d60 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -1354,7 +1354,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 	}
-=20
- 	/* Free the BO*/
--	drm_gem_object_put_unlocked(&mem->bo->tbo.base);
-+	drm_gem_object_put(&mem->bo->tbo.base);
- 	mutex_destroy(&mem->lock);
- 	kfree(mem);
-=20
---=20
-2.26.2
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/MxT6_+HvYX.kK/4n6ZLF/AO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl7pavEACgkQAVBC80lX
-0GzgoAf+Nw2Z91LEhAIuWthscZ3FUv247hC1EDpWFk0MKhUpIcihVubiiShVF9Kb
-7MssDXDyYaXRPkeMRHdP359SDpcoixOJtTUjKt0PF8PlReWTD/DludpGSQzPVBvc
-rUHMaW4yvzEOhCpaBr2/JhiTCldajXoyukUZhF7tm13aYvlJGtJLGcW0nvr5vT6z
-tLIVFM2B4SFyM08qf3vEJY/CRsBxpNWHGXnsPYDoGtQDrFygpqhJVa0oY0geCSoi
-FyAn3flNWJPP4H6RUYKPoHw20pQ38FOHX2L5eews5Zq+uZWMLV4AlnjFPVZ92p+A
-I4UosxsUfqXshjy3wsa1EHxO+ptreg==
-=zGIh
------END PGP SIGNATURE-----
-
---Sig_/MxT6_+HvYX.kK/4n6ZLF/AO--
-
---===============1342536304==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1342536304==--
