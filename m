@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7748A1FD918
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E6B1FD91F
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:43:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73D916EA02;
-	Wed, 17 Jun 2020 22:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7FF56E1CF;
+	Wed, 17 Jun 2020 22:43:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8A66EA02
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:41:44 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id i1so3909492ils.11
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:41:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xlfwwG2vm/RgPye0RWrcVCc+HKgMqaKW+0Ot0JPSfJs=;
- b=sySLP3AcyfXqdrg0DH1f0b4X+Y2fEBiWpq4InVkExwfnM7ECGHxE7odK+Ax3Nc3dP+
- wdGGCOScf2b3007E/ja/eG2TmD3UnEbFxvMeLNjpBXd/3xmY5AjGc2BvwELRcVBfnj7z
- vXW9xpehZfyhHWiZJqFSAorZvvRAsqfaq1kiyvDLRyi36viwb9wCsRxGNwATRUMDF2/1
- i5YwoJRENXQRwO6ZBn8i89vjzfQZQ74IXVuJBdvmyRnn24jMLvE6DUQMfjCnyHRjHzjL
- 9AhpXmsh4PT5HGrXcWboga3QXc+42UUvehfU5R6EaWQTLGdwHks7NcpCEik/wVKN3d54
- OMmw==
-X-Gm-Message-State: AOAM533AVTj0lTfc+WhgXHJ/s/CrLXXQxTLsf5SAdjWtaAxUKCqAbcco
- mF5u4+GdKEiDNEzcYHcwQg==
-X-Google-Smtp-Source: ABdhPJzdEBr14d5Rgh0EtjpCqbK5agDJX2lPwsxyKJHzXxGUsCUQwcc4dbDzsuyamrfKPQAZAUOXGQ==
-X-Received: by 2002:a92:5e59:: with SMTP id s86mr1274594ilb.104.1592433703988; 
- Wed, 17 Jun 2020 15:41:43 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id z4sm648964iot.24.2020.06.17.15.41.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:41:43 -0700 (PDT)
-Received: (nullmailer pid 2972301 invoked by uid 1000);
- Wed, 17 Jun 2020 22:41:42 -0000
-Date: Wed, 17 Jun 2020 16:41:42 -0600
-From: Rob Herring <robh@kernel.org>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Subject: Re: [PATCH RESEND v2 2/4] dt-bindings: display: simple: add Tianma
- TM070JVHG33
-Message-ID: <20200617224142.GA2972272@bogus>
-References: <20200612072219.13669-1-matthias.schiffer@ew.tq-group.com>
- <20200612072219.13669-3-matthias.schiffer@ew.tq-group.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9513A6E1CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:43:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B1BCF9;
+ Thu, 18 Jun 2020 00:43:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1592433829;
+ bh=RsQLbHMQw0UnnMPXiJLpwb7U7RPinG9A0N7ByG5hyvU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bj4klpDvexsIx02tUwJp8pvRLCUAjQm8xeslbCUfE/Vf4usT2oWacy9HFLrIOZNUf
+ faDGeL3MsCLKh6dw9jNJQEXnPRECPJaiMS3FWqICfdf1bITaAvUthue0AMxfepuWtl
+ fuv9lwk52SICRGq4BtGOq1jaADjKu3lFoYNKOAA8=
+Date: Thu, 18 Jun 2020 01:43:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 5/5] dt-bindings: display: ti,tfp410.yaml: make the
+ ports node optional
+Message-ID: <20200617224326.GE32604@pendragon.ideasonboard.com>
+References: <20200611102356.31563-1-ricardo.canuelo@collabora.com>
+ <20200611102356.31563-6-ricardo.canuelo@collabora.com>
+ <20200617223455.GA2953201@bogus>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200612072219.13669-3-matthias.schiffer@ew.tq-group.com>
+In-Reply-To: <20200617223455.GA2953201@bogus>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,30 +48,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, jason@lakedaemon.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com, kernel@collabora.com,
+ Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Jun 2020 09:22:17 +0200, Matthias Schiffer wrote:
-> Add the Tianma Micro-electronics TM070JVHG33 7.0" WXGA display to the
-> panel-simple compatible list.
-> 
-> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> ---
-> 
-> v2: no changes
-> 
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgUm9iLAoKT24gV2VkLCBKdW4gMTcsIDIwMjAgYXQgMDQ6MzQ6NTVQTSAtMDYwMCwgUm9iIEhl
+cnJpbmcgd3JvdGU6Cj4gT24gVGh1LCBKdW4gMTEsIDIwMjAgYXQgMTI6MjM6NTZQTSArMDIwMCwg
+UmljYXJkbyBDYcOxdWVsbyB3cm90ZToKPiA+IE1ha2UgdGhlIHBvcnRzIG5vZGUgb3B0aW9uYWws
+IHNpbmNlIHRoZXJlIGFyZSBzb21lIERUcyB0aGF0IGRvbid0IGRlZmluZQo+ID4gYW55IHBvcnRz
+IGZvciB0aSx0ZnA0MTAuCj4gCj4gT25seSBhcmNoL2FybS9ib290L2R0cy9kb3ZlLXNiYy1hNTEw
+LmR0cyBBRkFJQ1QuLi4gSXQgc2hvdWxkIGJlIHVwZGF0ZWQgCj4gSU1PLgoKQWdyZWVkLCBidXQg
+UmljYXJkbyB3YXNuJ3Qgc3VyZSBob3cgdG8gdXBkYXRlIGl0LiBJdCB3b3VsZCBiZSBuaWNlIGlm
+CnNvbWVvbmUgd2l0aCBrbm93bGVkZ2Ugb2YgdGhlIGhhcmR3YXJlIGNvdWxkIGhhdmUgYSBsb29r
+LgoKQnkgdGhlIHdheSwgdGhpcyBwYXRjaCBpcyBkcm9wcGVkIGZyb20gdjQgb2YgdGhlIHNlcmll
+cy4KCj4gPiBTaWduZWQtb2ZmLWJ5OiBSaWNhcmRvIENhw7F1ZWxvIDxyaWNhcmRvLmNhbnVlbG9A
+Y29sbGFib3JhLmNvbT4KPiA+IC0tLQo+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L2JyaWRnZS90aSx0ZnA0MTAueWFtbCB8IDEgLQo+ID4gIDEgZmlsZSBjaGFu
+Z2VkLCAxIGRlbGV0aW9uKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvdGksdGZwNDEwLnlhbWwgYi9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvdGksdGZwNDEwLnlhbWwK
+PiA+IGluZGV4IDYwNTgzMWMxZTgzNi4uMWM5NDIxZWI4MGZhIDEwMDY0NAo+ID4gLS0tIGEvRG9j
+dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3RpLHRmcDQxMC55
+YW1sCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9i
+cmlkZ2UvdGksdGZwNDEwLnlhbWwKPiA+IEBAIC04Myw3ICs4Myw2IEBAIHByb3BlcnRpZXM6Cj4g
+PiAgCj4gPiAgcmVxdWlyZWQ6Cj4gPiAgICAtIGNvbXBhdGlibGUKPiA+IC0gIC0gcG9ydHMKPiA+
+ICAKPiA+ICBpZjoKPiA+ICAgIHJlcXVpcmVkOgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNo
+YXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
