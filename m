@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9201A1FC75C
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C6A1FC74D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 09:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBBA56EAD0;
-	Wed, 17 Jun 2020 07:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14AEE6EAA4;
+	Wed, 17 Jun 2020 07:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2664F6E9DD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 00:32:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0357C6E0E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 00:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
- t=1592353935; bh=3S3w0uvAKPDUtGD8MIYTKombkxXLzYzAQMsH7sPMsH4=;
+ t=1592353935; bh=b1/7qbKU/Xjmfy3lRGyd7/FtHpXUhaxNH3hyWhF4w/I=;
  h=From:To:Cc:Subject:Date:References:From;
- b=XdZlr/C+ImanUaucvoM7Ogvp30ybO9Q3X6aCNQJV3IDhDN4WzrZKOVMOP0siuMnBv
- QW47juFN6MrxA00Jv3Mntgqx/RJ1G8mdK4YMDjJxMkVA59dTDabUhUnG9ZNU7+i9WM
- 1nXx7Eofz5qkagJHmEm/rIgQESZIUvnNVYIhtlJ0=
+ b=fzUsKIKzoQ+1OaWhcz+hZ7MIjha/GYJ3SwW1xSWguquo+3lqSLOaIfzBYY7ta0io8
+ rL8DemDnSAwGa1BBkB0+DuxTcVg51GGq/DYZa1aStAcUu9yBwIafghQ+VTlwXqqR0h
+ 3THfBi7Z/3isAxxKn49vLTr+lDXdBWz0mMWLDxk4=
 From: Ondrej Jirman <megous@megous.com>
 To: linux-sunxi@googlegroups.com, Thierry Reding <thierry.reding@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH v4 4/5] arm64: dts: sun50i-a64-pinephone: Enable LCD support
- on PinePhone
-Date: Wed, 17 Jun 2020 02:32:08 +0200
-Message-Id: <20200617003209.670819-5-megous@megous.com>
+Subject: [PATCH v4 5/5] arm64: dts: sun50i-a64-pinephone: Add touchscreen
+ support
+Date: Wed, 17 Jun 2020 02:32:09 +0200
+Message-Id: <20200617003209.670819-6-megous@megous.com>
 In-Reply-To: <20200617003209.670819-1-megous@megous.com>
 References: <20200617003209.670819-1-megous@megous.com>
 MIME-Version: 1.0
@@ -54,109 +54,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Icenowy Zheng <icenowy@aosc.io>
+Pinephone has a Goodix GT917S capacitive touchscreen controller on
+I2C0 bus. Add support for it.
 
-PinePhone uses PWM backlight and a XBD599 LCD panel over DSI for
-display.
-
-Backlight levels curve was optimized by Martijn Braam using a
-lux meter.
-
-Add its device nodes.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-Signed-off-by: Martijn Braam <martijn@brixit.nl>
 Signed-off-by: Ondrej Jirman <megous@megous.com>
 ---
- .../allwinner/sun50i-a64-pinephone-1.1.dts    | 19 ++++++++++
- .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 35 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-index 06a775c41664..3e99a87e9ce5 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-@@ -9,3 +9,22 @@ / {
- 	model = "Pine64 PinePhone Braveheart (1.1)";
- 	compatible = "pine64,pinephone-1.1", "allwinner,sun50i-a64";
- };
-+
-+&backlight {
-+	power-supply = <&reg_ldo_io0>;
-+	/*
-+	 * PWM backlight circuit on this PinePhone revision was changed since
-+	 * 1.0, and the lowest PWM duty cycle that doesn't lead to backlight
-+	 * being off is around 20%. Duty cycle for the lowest brightness level
-+	 * also varries quite a bit between individual boards, so the lowest
-+	 * value here was chosen as a safe default.
-+	 */
-+	brightness-levels = <
-+		774  793  814  842
-+		882  935  1003 1088
-+		1192 1316 1462 1633
-+		1830 2054 2309 2596
-+		2916 3271 3664 4096>;
-+	num-interpolated-steps = <50>;
-+	default-brightness-level = <400>;
-+};
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index cefda145c3c9..e60b57f8ac14 100644
+index e60b57f8ac14..6b2ff431cddb 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -16,6 +16,13 @@ aliases {
- 		serial0 = &uart0;
- 	};
- 
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&r_pwm 0 50000 PWM_POLARITY_INVERTED>;
-+		enable-gpios = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-+		/* Backlight configuration differs per PinePhone revision. */
-+	};
-+
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-@@ -84,6 +91,30 @@ &dai {
+@@ -123,6 +123,25 @@ &ehci1 {
  	status = "okay";
  };
  
-+&de {
-+	status = "okay";
-+};
-+
-+&dphy {
-+	status = "okay";
-+};
-+
-+&dsi {
-+	vcc-dsi-supply = <&reg_dldo1>;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
++&i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c0_pins>;
 +	status = "okay";
 +
-+	panel@0 {
-+		compatible = "xingbangda,xbd599", "sitronix,st7703";
-+		reg = <0>;
-+		reset-gpios = <&pio 3 23 GPIO_ACTIVE_LOW>; /* PD23 */
-+		iovcc-supply = <&reg_dldo2>;
-+		vcc-supply = <&reg_ldo_io0>;
-+		backlight = <&backlight>;
++	touchscreen@5d {
++		compatible = "goodix,gt917s", "goodix,gt911";
++		reg = <0x5d>;
++		interrupt-parent = <&pio>;
++		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
++		irq-gpios = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
++		reset-gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
++		AVDD28-supply = <&reg_ldo_io0>;
++		VDDIO-supply = <&reg_ldo_io0>;
++		touchscreen-size-x = <720>;
++		touchscreen-size-y = <1440>;
 +	};
 +};
 +
- &ehci0 {
- 	status = "okay";
- };
-@@ -188,6 +219,10 @@ &r_pio {
- 	 */
- };
- 
-+&r_pwm {
-+	status = "okay";
-+};
-+
- &r_rsb {
+ &i2c1 {
  	status = "okay";
  
 -- 
