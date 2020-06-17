@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22321FD8F9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:37:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A24B21FD911
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E986E190;
-	Wed, 17 Jun 2020 22:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4EE66E8E4;
+	Wed, 17 Jun 2020 22:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFD856E190
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:37:34 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id l6so3967157ilo.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:37:34 -0700 (PDT)
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2C16E8E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:40:46 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id e9so1972147pgo.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=yxhkUrEZGMGW6V4hv3gqzEshBUWawbyxpwsGYbTMAP4=;
+ b=C3/TSekqJZZMRXXMevCccVhyXTBxs5StkCa3/Myij+08Kzcct5wdEG2BPhAKdXPOfv
+ 2WClkyxfVXT81fmioLGdEepEQcsW2bLVwfmqQUMvd7b5IWkow9dHGJs6bLcVtZVih5fc
+ rNQdrLvysaoDWBhGyFA04ir9S1TuRmEIjHOnLlO7DA90LVaIf85LgLAAHAvENvOmjddy
+ KZkzvb9C6Lxwmoj2fdVAW5JDELlZWxb1AnaS6nGlzHb7xrkX1pV8blDUKgNq+hVrWd9W
+ ftuh3XjgDhvwf9nCH1imdw0Brn79AG/VerLFG89gmzHmvPDIaokCodch8Uq7SgHlxEQi
+ GvSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ZpqmM5b2vnIEZM+uoBwaGezs/bIVuA8qCIC5e2tj4Mk=;
- b=Z9MXtbc3EZJ/2Mu0olvucHu9sfuQCI2cZ48kASVFp/UiVLst0d7ZtY+kcw7A/JA8bM
- yELguJiSauN1i5ty0hzaHzXBFPpJ6CiVKmmTJ7NiPBjDZCsay1mgJXPL+yQNMwJnrZiC
- H6zwoOa8wc4gMEbZ570yZNONVd8bHqN7YqL1kFrLJluE5GWtLvI3nSwjGl3RL2/Ng25Z
- qEIhWHDR0Fh06XozBODpkWHGENrAlcpUGpReyRZAbSmKIQThpz4aHvS3ANWl2E1t4a6s
- Lp+uTwHZ8nAWDeIriHi3ogVHG3gCC9cO7AFLmCsa7qKNvUv2bMwQwW5lHnCawuAeN8ku
- cIzQ==
-X-Gm-Message-State: AOAM532XLd1saaEPoRB2Mn9LwjfUffKZD63qOjRVY410vEsLJrqoQ0EW
- cP6EMjfPxrYz0mZXOIMH8w==
-X-Google-Smtp-Source: ABdhPJyAq5HXFt/cfdAiAR+bnOeSiQTllpHYl1CjJVPEXer5Qdf+2qJhDdxmi+THg3z+2BKJ3Mb/mA==
-X-Received: by 2002:a92:190:: with SMTP id 138mr1144486ilb.5.1592433454005;
- Wed, 17 Jun 2020 15:37:34 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id t5sm717751iov.53.2020.06.17.15.37.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=yxhkUrEZGMGW6V4hv3gqzEshBUWawbyxpwsGYbTMAP4=;
+ b=Hyrlni5PZ73QZOIrwwI9fyJAVjixhM4mSN4yVhdGVVayuM8mLCYl/topmon11lYTRH
+ Sb8gzDaHLNML/TpMxt75HEWkvyoWMHqo2uSzBCS1vcc/vX5adQEWEFXUbJKV1LtKQfYV
+ A8XG3vy6PNLMNxy/1m4eox3M1QUo0fZ2SbeuSADjiaKa4mqEVpmwO1WwS6oq6RHM718s
+ Z6NqWX8R8COthhRfXn6wfZ6YLotvNTrEZ8Li6LlgJAa3wEOaAjqSg0Upl3cdevOrtg/t
+ rU0Z8R8rEgjjbFTJ+kTX4WyQBjw/NuF6sCYlf+ra2JTjkw1+G6c4qy+a2kewnSY8zA+1
+ Okog==
+X-Gm-Message-State: AOAM533BDREJ4gQU4BaTeRnC9liDdPEluQtbVUX6L4ahRkEdMk6rlJuQ
+ xW2omYMvCi0CmsTRyCTOn58=
+X-Google-Smtp-Source: ABdhPJxrIQeRLx2Cjy19QaB82zGd8G1E+KIumafFZaHrrE9sYy8tgFDygV/AkvTMIJRptlcBVFaf5Q==
+X-Received: by 2002:a62:9255:: with SMTP id o82mr902817pfd.218.1592433645740; 
+ Wed, 17 Jun 2020 15:40:45 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
+ [73.202.231.77])
+ by smtp.googlemail.com with ESMTPSA id x20sm486431pjr.44.2020.06.17.15.40.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:37:33 -0700 (PDT)
-Received: (nullmailer pid 2965169 invoked by uid 1000);
- Wed, 17 Jun 2020 22:37:32 -0000
-Date: Wed, 17 Jun 2020 16:37:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Subject: Re: [PATCH v3 5/5] dt-bindings: display: ti,tfp410.yaml: make the
- ports node optional
-Message-ID: <20200617223732.GB2953201@bogus>
-References: <20200611102356.31563-1-ricardo.canuelo@collabora.com>
- <20200611102356.31563-6-ricardo.canuelo@collabora.com>
- <20200611160817.GA6031@pendragon.ideasonboard.com>
- <8ad9a397a5fa6cebd2a4e0170dfa96ad73907faf.camel@collabora.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8ad9a397a5fa6cebd2a4e0170dfa96ad73907faf.camel@collabora.com>
+ Wed, 17 Jun 2020 15:40:45 -0700 (PDT)
+From: Steve Longerbeam <slongerbeam@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 1/3] gpu: ipu-v3: Restore RGB32, BGR32
+Date: Wed, 17 Jun 2020 15:40:36 -0700
+Message-Id: <20200617224038.17889-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,64 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jason@lakedaemon.net, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: dri-devel@lists.freedesktop.org, Steve Longerbeam <slongerbeam@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 15, 2020 at 11:38:07AM +0200, Ricardo Ca=F1uelo wrote:
-> Hi Laurent,
-> =
+RGB32 and BGR32 formats were inadvertently removed from the switch
+statement in ipu_pixelformat_to_colorspace(). Restore them.
 
-> Thanks for reviewing the patch
-> =
+Fixes: a59957172b0c ("gpu: ipu-v3: enable remaining 32-bit RGB V4L2 pixel formats")
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+ drivers/gpu/ipu-v3/ipu-common.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> On Thu, 2020-06-11 at 19:08 +0300, Laurent Pinchart wrote:
-> > Hi Ricardo,
-> > =
+diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
+index ee2a025e54cf..b3dae9ec1a38 100644
+--- a/drivers/gpu/ipu-v3/ipu-common.c
++++ b/drivers/gpu/ipu-v3/ipu-common.c
+@@ -124,6 +124,8 @@ enum ipu_color_space ipu_pixelformat_to_colorspace(u32 pixelformat)
+ 	case V4L2_PIX_FMT_RGBX32:
+ 	case V4L2_PIX_FMT_ARGB32:
+ 	case V4L2_PIX_FMT_XRGB32:
++	case V4L2_PIX_FMT_RGB32:
++	case V4L2_PIX_FMT_BGR32:
+ 		return IPUV3_COLORSPACE_RGB;
+ 	default:
+ 		return IPUV3_COLORSPACE_UNKNOWN;
+-- 
+2.17.1
 
-> > Thank you for the patch.
-> > =
-
-> > On Thu, Jun 11, 2020 at 12:23:56PM +0200, Ricardo Ca=F1uelo wrote:
-> > > Make the ports node optional, since there are some DTs that don't def=
-ine
-> > > any ports for ti,tfp410.
-> > > =
-
-> > > Signed-off-by: Ricardo Ca=F1uelo <ricardo.canuelo@collabora.com>
-> > =
-
-> > Shouldn't we fix those DTs instead ? What's the point of a TFP410
-> > without ports in DT ?
-> =
-
-> This comes from the discussion in the previous version of this series.
-> =
-
-> In the DTs that don't define any ports (it's dove-sbc-a510.dts only, actu=
-ally)
-> it's not clear how to define the ports (I'm not familiar with this board).
-> Initially I defined a set of empty ports just to comply with the binding
-> requirements, but Rob suggested that we might as well declare them as opt=
-ional,
-> since having an empty port definition with no remote endpoints is no bett=
-er than
-> having no ports at all.
-
-I did? Must have missed some context.
-
-> I understand both opinions but I just don't know which is the best option=
- at
-> this point.
-
-Just leave the warning to be fixed.
-
-Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
