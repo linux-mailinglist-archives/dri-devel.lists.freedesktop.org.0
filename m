@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E571FEC35
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31ADE1FEC3A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 251056EACF;
-	Thu, 18 Jun 2020 07:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB8626EB09;
+	Thu, 18 Jun 2020 07:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0847F6E96C
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:28:37 +0000 (UTC)
-Received: by mail-qt1-x843.google.com with SMTP id j32so1799788qte.10
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 08:28:37 -0700 (PDT)
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
+ [IPv6:2607:f8b0:4864:20::f41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8C06E95A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:29:42 +0000 (UTC)
+Received: by mail-qv1-xf41.google.com with SMTP id y9so1211418qvs.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 08:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=YWvFZzs3KP9lJjMgLteUxWcl0AN5fcCF6bv79uFgihI=;
- b=fPvsZiRmvOrvrQ4yxrTzKd5CSIveZ17z50EpolEl+pPAK7HUWF0QJZmXtSGVDOakfw
- 7DHwzIzE2lNcGxpAtO8aw08z/gM8Y21yy9DIXMANO2ubUa3TWdA4GmPrzu72SDfRdvmF
- BClIRqEbNJmDflVkgdFD+OnXmF0SaCCsk8z9/TyDuufHGuZdnpCUVgkaPeljCUzfOGUP
- iou8x9GwNeXqpb+7LiV1ym/MPlGBad5o331/0hIUNzTl2FFPtmlIOP+y+IRR8Ia8Spm0
- VHrOAMJcFDHzlMiG7WUr4U2IvrrqHhxtahUa25x/jrfaWVB1Q09VlgzgQNmhTWG78o/m
- b3Ng==
+ bh=v5BdIMSU0SgDrZuQSRW4xvIrY4rZ7WnbUK5J5TOXFb0=;
+ b=X4atcg3QCitKJdCOr5ja2tE2bUBLSFF91J0CzDtXnsV5WejCzsk2eajJzTjXjsFLTA
+ 5s+gkYE18Kz4f7uWFKMYMARjm17DhKgqFhDle7hMjPDQJSHTF3vHPDJzf/g8gfXm1XCc
+ xS0VLL2kkFYRGpHsv6IKsvfpDgxixqoGb1C7eZAdpsByKmZrD/PLYevp7FEa9NQdLxHk
+ yZFftabPuFhyEj1G7fMasvfilN4m93P/kXM+Vvvx/r/xyhIpvBM0x0Ha3wX71m2O7A/a
+ L0H0SGP2pZKrl4si0m+rtOCOCb+j5CVmE5xryjAmjELn7Uqp0ivvBvKuiMRBNAyyx2kG
+ itRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=YWvFZzs3KP9lJjMgLteUxWcl0AN5fcCF6bv79uFgihI=;
- b=GOXG3RC5tchfXvDxJRoZAKHFv4mw89EceuLcuiCim7I+shxXYURdd5ore94yKqXk6r
- a1Y+sWXPtuyvx2Wgf3noGZXNH8XgdwOlF4S5B3ERu++kaJHpW+pUNIEhGuEMOxPZDYlo
- AbVXxgIFqEHT9nwO4fqME8R0XOmjhfyKsMVx85MHTbL9bjkQh97CWV2ugJNyvrroUwAD
- rasB9u20Vl2xkUwporn37wCKJWdCqq9hBZlGqOk+K9mdKaAZHJklTwtBPxT/xARFWEe7
- 1wjRGLskd0SKI6iHIRw2rZKiAloqs9Ydt9T+ZSmYWhq66oYim+z6dNxYdKHPH65V+R4F
- TZ9w==
-X-Gm-Message-State: AOAM532+Abvv7dFu9un5qoCcMNb4Pje2PIC04uWALZWUE5xinRXdYhlj
- 0Oivcnyd9+IJV8ZCjORchqMl6g==
-X-Google-Smtp-Source: ABdhPJzZDttOnjxPbTFDeZHyWDfba0peOY2A/3G4231dt912/147Xnlp7RMkFB2VSf50LuX5ZTAibw==
-X-Received: by 2002:ac8:468a:: with SMTP id g10mr27323795qto.6.1592407717080; 
- Wed, 17 Jun 2020 08:28:37 -0700 (PDT)
+ bh=v5BdIMSU0SgDrZuQSRW4xvIrY4rZ7WnbUK5J5TOXFb0=;
+ b=aZqhyftdM4s/sHkYHE8pq8CcWVe9TIu6tshoW3z6InAGX+n9oPQ3CI+Uliet3vCs1H
+ cAVsWYXi5uYSxoUWwkIkjMurFfS+ImAB63tgXD6clkpilEBxlko77cwNgKNDLEQw1Em3
+ XE4y+5Pus7fgjQ6uPx/3zIUgiViJnp0q+UcabcroEzwgwv4zDj/7OISAgsvp7AndY+h8
+ 3v03U+LP/WToFdk90mwOXdaxz3RtPnrMp7e9TScd5OG8hhKyzsUCGOey5DetFkcT2x67
+ ICdJpPXwn3SEc7lKBqIntgyFdCpA3euZG/1cxOzmsztUYhTs0Al8hNcT5M4QW6yKT60t
+ J6oA==
+X-Gm-Message-State: AOAM530JC1rmE918+ycSpc7lXjAwoof0L5f0oiBIulKtzK2abZDX02RX
+ 6LTXeiS33rXzUbXAvYvSvG+jVQ==
+X-Google-Smtp-Source: ABdhPJyWaY8mWagCAPiiX7EhWCqcjbxUamRd5/mDpg63tRR7xxsYdOaA9ycSUwn3S5FVu3UfHzBj0g==
+X-Received: by 2002:a0c:f388:: with SMTP id i8mr8163963qvk.224.1592407781973; 
+ Wed, 17 Jun 2020 08:29:41 -0700 (PDT)
 Received: from ziepe.ca
  (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id f127sm210137qkb.55.2020.06.17.08.28.35
+ by smtp.gmail.com with ESMTPSA id y13sm204954qto.23.2020.06.17.08.29.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 08:28:35 -0700 (PDT)
+ Wed, 17 Jun 2020 08:29:41 -0700 (PDT)
 Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
- id 1jlZzP-009d7z-9q; Wed, 17 Jun 2020 12:28:35 -0300
-Date: Wed, 17 Jun 2020 12:28:35 -0300
+ id 1jla0S-009d9h-Uc; Wed, 17 Jun 2020 12:29:40 -0300
+Date: Wed, 17 Jun 2020 12:29:40 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-Message-ID: <20200617152835.GF6578@ziepe.ca>
+Message-ID: <20200617152940.GG6578@ziepe.ca>
 References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
  <20200604081224.863494-5-daniel.vetter@ffwll.ch>
  <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
  <20200611083430.GD20149@phenom.ffwll.local>
  <20200611141515.GW6578@ziepe.ca>
  <20200616120719.GL20149@phenom.ffwll.local>
- <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200616145312.GC6578@ziepe.ca>
+ <CAKMK7uER6ax1zr14xYLKqDfDZp+ycBsY9Yx7JaVkKQ849VfSPg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+In-Reply-To: <CAKMK7uER6ax1zr14xYLKqDfDZp+ycBsY9Yx7JaVkKQ849VfSPg@mail.gmail.com>
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +95,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
+On Wed, Jun 17, 2020 at 09:57:54AM +0200, Daniel Vetter wrote:
 
-> Now my understanding for rdma is that if you don't have hw page fault
-> support,
+> > At the very least I think there should be some big warning that
+> > dma_fence in notifiers should be avoided.
+> 
+> Yeah I'm working on documentation, and also the notifiers here
+> hopefully make it clear it's massive pain. I think we could even make
+> a hard rule that dma_fence in mmu notifier outside of drivers/gpu is a
+> bug/misfeature.
 
-The RDMA ODP feature is restartable HW page faulting just like nouveau
-has. The classical MR feature doesn't have this. Only mlx5 HW supports
-ODP today.
+Yep!
+ 
+> Might be a good idea to add a MAINTAINERS entry with a K: regex
+> pattern, so that you can catch such modifiers. We do already have such
+> a pattern for dma-fence, to catch abuse. So if you want I could type
+> up a documentation patch for this, get your and others acks and the
+> dri-devel folks would enforce that the dma_fence_wait madness doesn't
+> leak beyond drivers/gpu
 
-> It's only gpus (I think) which are in this awkward in-between spot
-> where dynamic memory management really is much wanted, but the hw
-> kinda sucks. Aside, about 10+ years ago we had a similar problem with
-> gpu hw, but for security: Many gpu didn't have any kinds of page
-> tables to isolate different clients from each another. drivers/gpu
-> fixed this by parsing&validating what userspace submitted to make sure
-> it's only every accessing its own buffers. Most gpus have become
-> reasonable nowadays and do have proper per-process pagetables (gpu
-> process, not the pasid stuff), but even today there's still some of
-> the old model left in some of the smallest SoC.
+It seems like the best thing
+ 
+> Oded has agreed to remove the dma-fence usage, since they really don't
+> need it (and all the baggage that comes with it), plain old completion
+> is enough for their use. This use is also why I added the regex to
+> MAINTAINERS, so that in the future we can catch people who try to use
+> dma_fence because it looks cute and useful, and are completely
+> oblivious to all the pain and headaches involved.
 
-But I still don't understand why a dma fence is needed inside the GPU
-driver itself in the notifier.
+This is good!
 
-Surely the GPU driver can block and release the notifier directly from
-its own command processing channel?
-
-Why does this fence and all it entails need to leak out across
-drivers?
-
-Jason
+Thanks,
+Jason 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
