@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ED51FEC44
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5771FEC3B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823A46EB22;
-	Thu, 18 Jun 2020 07:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453D76EAE1;
+	Thu, 18 Jun 2020 07:17:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B786899F3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 21:48:24 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id u25so2258605lfm.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 14:48:24 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1858D6E190
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:27:56 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id 9so4856484ljv.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5Jselfb+tn7C8hTjnU6+q8jejO6KT7yeJaOlgUUkDfU=;
- b=mwx5FqjFDSptmsKzHcONWpBLtprM57vaBgakUrQH//+Wi7aKJIAIWuPst+Zp0Iuhk3
- tfIlYgUDzeYSqxUUURx/O1dx7s2TvPzzgiE2BOy1dqoRKBK66qjg/mVCQkt0dJXpo3Si
- RwrJthyDNFbxLFXPejydJ9Q28ONzS1aPctaHlo31bNgQcGI5sQaLTfIO8JIhNmKCh+FF
- 4VA6pZ7phh/s/FVUZT57NjB+vXPPivPPpJemdR3i11XE16SUYdZgLoY9MNPQQkp/oEoY
- 9lLMohB4e94cWM+epe2qOogrOff4WMh1tRlevLQyiF9w25fRBJ7F/DzNTrRHbF03Ocgw
- OsCA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3D9xQhWZ3+YNDU2r3XFRC5VYoSXlYv2ysEuYOTTgQ9M=;
+ b=un8se91FM/g6jWvRAyHnx+IUi/eX7BKAQqq6Z2OB8CfQ//QMLl2IMo6RFV2TF3qk4s
+ qIAybcRM+CUXrSX+5Snhy0T73NiNIOT+vdWGw8zQWXbM6wh32a1ynuUfaMGVD59wEcSg
+ kMc7rwuFWLfJ97dQnTM+OK0Lw9U9msQgdYCK11ju+lpeO23kuD1TSYGZ944zoj/Wl1hs
+ m+N8lOGSJpOpYwmxlKiapIIx5uuw1SH5bOV2/R+zPKBZZdvFnQsD91Nb5hnVow/oCtlr
+ +r6LLBTAfL5bbNOv9AOLMtjKBPI0U9vVLjzHk5tmmT010oguOyIaSs5O5eqQ8RJ3S/e1
+ Z0cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=5Jselfb+tn7C8hTjnU6+q8jejO6KT7yeJaOlgUUkDfU=;
- b=IC0vepuTViETu+OzuqdlnCj9oybhNKTq+8b5/Y8/ToQwN4KMyGyQass1wjBWguLAGZ
- R1HiuMwjpl0BPa8Mk1dk7qZtdiKkZLGy7QxUr86eix9KDhz6WgZBBzxaWRUJ4+Obe9eA
- 3Nj3Zj8gDDxKS4+Qqny3M882XzK3MxgSCcKKnhDRvoQzAJxr1ci9160WHJ0nyIyoDSjB
- /ZD/5rRC28+F8UAqge1ExXKN2l36ir8N2eN2f8DMZSUQ0S+Z2yGTu48yRZ9jdoXjMVvA
- qGW3scU6fCRaPdDkLfjZsEjP+/bFeba8kB1DTknA/DzWusycj6ll82iwjbx1IOtNVkTn
- Q+2Q==
-X-Gm-Message-State: AOAM531an6F+GCS+AAxOXGAm/I5VAw2ulOCofNAu1qyFtLYioM/tO2U9
- 5A95Jc2sYFa7HNwa9xIdbog=
-X-Google-Smtp-Source: ABdhPJwRVLd8CkSuYn2vqquecgWKtSaPyyIaPzfp8KTngx8hhBHL8y1WDBsfFbYEaKVYw5U+60MERw==
-X-Received: by 2002:a19:787:: with SMTP id 129mr500303lfh.147.1592430502790;
- Wed, 17 Jun 2020 14:48:22 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ bh=3D9xQhWZ3+YNDU2r3XFRC5VYoSXlYv2ysEuYOTTgQ9M=;
+ b=O3XHpYY48x80kdNAobEukDdj4sA9Q8ex1aGzFOdSrevdCONTqDM5XIS6+DsWYYfx2a
+ 3MzX+ujZ4pG63CjJttKworwRaHOJvWOsoMLN4N04lKFhNu+c3IB4Naos6jAC6rImPdcQ
+ W1SYT4gtVVoGzteiSdD3T8CqPDr4FMC9yiuocUp/oLmXWo+t5m97rTSyEiYQzNvYjEsH
+ AMiJiR8FZj+mriBfFCy9tqUqUaZB7FPvoghbLaZfN30/4XsqTZI5gmjnbArnFgafiHSJ
+ yrix4r7ikiO3kzxojPmDz2pRwrlNQBTaRLNGIduOtTjT6xYKMfElHyrfnpAj2QG2cEZ8
+ koyA==
+X-Gm-Message-State: AOAM530TjBw/5PdJ8JjGTrNva5MQffqY1GkIfM9MhG6HQFqgQTwCZVul
+ KmR13M9W06165BGqibEkrZ8=
+X-Google-Smtp-Source: ABdhPJzEGsBdGJFrpea3RjyykDqUrbmbjFAu/LCuXYLIg2VKoB8KYemorANMJW815Fpx/HLak+SjYQ==
+X-Received: by 2002:a2e:800b:: with SMTP id j11mr744710ljg.467.1592432874394; 
+ Wed, 17 Jun 2020 15:27:54 -0700 (PDT)
+Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru.
  [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id s9sm198055ljc.43.2020.06.17.14.48.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 14:48:22 -0700 (PDT)
-Subject: Re: [PATCH v4 22/37] dt-bindings: host1x: Document new interconnect
- properties
+ by smtp.gmail.com with ESMTPSA id a1sm210378ljk.133.2020.06.17.15.27.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 15:27:53 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
-To: Rob Herring <robh@kernel.org>
-References: <20200609131404.17523-1-digetx@gmail.com>
- <20200609131404.17523-23-digetx@gmail.com> <20200617213726.GA2837398@bogus>
- <5303317a-2cb6-d7a8-361a-30867fc6eab7@gmail.com>
-Message-ID: <8fc5c06f-ee0f-f907-6631-05b45b89c7da@gmail.com>
-Date: Thu, 18 Jun 2020 00:48:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v8 0/7] Support DRM bridges on NVIDIA Tegra
+Date: Thu, 18 Jun 2020 01:26:56 +0300
+Message-Id: <20200617222703.17080-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-In-Reply-To: <5303317a-2cb6-d7a8-361a-30867fc6eab7@gmail.com>
-Content-Language: en-US
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,138 +68,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Peter De Schrijver <pdeschrijver@nvidia.com>,
- =?UTF-8?B?QXJ0dXIgxZp3aWdvxYQ=?= <a.swigon@samsung.com>,
- dri-devel@lists.freedesktop.org, Georgi Djakov <georgi.djakov@linaro.org>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, linux-tegra@vger.kernel.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTguMDYuMjAyMCAwMDo0NCwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMTguMDYuMjAy
-MCAwMDozNywgUm9iIEhlcnJpbmcg0L/QuNGI0LXRgjoKPj4gT24gVHVlLCBKdW4gMDksIDIwMjAg
-YXQgMDQ6MTM6NDlQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+Pj4gTW9zdCBvZiBI
-b3N0MXggZGV2aWNlcyBoYXZlIGF0IGxlYXN0IG9uZSBtZW1vcnkgY2xpZW50LiBUaGVzZSBjbGll
-bnRzCj4+PiBhcmUgZGlyZWN0bHkgY29ubmVjdGVkIHRvIHRoZSBtZW1vcnkgY29udHJvbGxlci4g
-VGhlIG5ldyBpbnRlcmNvbm5lY3QKPj4+IHByb3BlcnRpZXMgcmVwcmVzZW50IHRoZSBtZW1vcnkg
-Y2xpZW50J3MgY29ubmVjdGlvbiB0byB0aGUgbWVtb3J5Cj4+PiBjb250cm9sbGVyLgo+Pj4KPj4+
-IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KPj4+IC0t
-LQo+Pj4gIC4uLi9kaXNwbGF5L3RlZ3JhL252aWRpYSx0ZWdyYTIwLWhvc3QxeC50eHQgICB8IDY4
-ICsrKysrKysrKysrKysrKysrKysKPj4+ICAxIGZpbGUgY2hhbmdlZCwgNjggaW5zZXJ0aW9ucygr
-KQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-ZGlzcGxheS90ZWdyYS9udmlkaWEsdGVncmEyMC1ob3N0MXgudHh0IGIvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvdGVncmEvbnZpZGlhLHRlZ3JhMjAtaG9zdDF4LnR4
-dAo+Pj4gaW5kZXggNDczMTkyMTRiNWY2Li5hYjRmYmVlN2JjY2YgMTAwNjQ0Cj4+PiAtLS0gYS9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS90ZWdyYS9udmlkaWEsdGVn
-cmEyMC1ob3N0MXgudHh0Cj4+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS90ZWdyYS9udmlkaWEsdGVncmEyMC1ob3N0MXgudHh0Cj4+PiBAQCAtMjAsNiAr
-MjAsMTAgQEAgUmVxdWlyZWQgcHJvcGVydGllczoKPj4+ICAtIHJlc2V0LW5hbWVzOiBNdXN0IGlu
-Y2x1ZGUgdGhlIGZvbGxvd2luZyBlbnRyaWVzOgo+Pj4gICAgLSBob3N0MXgKPj4+ICAKPj4+ICtF
-YWNoIGhvc3QxeCBjbGllbnQgbW9kdWxlIGhhdmluZyB0byBwZXJmb3JtIERNQSB0aHJvdWdoIHRo
-ZSBNZW1vcnkgQ29udHJvbGxlcgo+Pj4gK3Nob3VsZCBoYXZlIHRoZSBpbnRlcmNvbm5lY3QgZW5k
-cG9pbnRzIHNldCB0byB0aGUgTWVtb3J5IENsaWVudCBhbmQgRXh0ZXJuYWwKPj4+ICtNZW1vcnkg
-cmVzcGVjdGl2ZWx5Lgo+Pj4gKwo+Pj4gIFRoZSBob3N0MXggdG9wLWxldmVsIG5vZGUgZGVmaW5l
-cyBhIG51bWJlciBvZiBjaGlsZHJlbiwgZWFjaCByZXByZXNlbnRpbmcgb25lCj4+PiAgb2YgdGhl
-IGZvbGxvd2luZyBob3N0MXggY2xpZW50IG1vZHVsZXM6Cj4+PiAgCj4+PiBAQCAtMzYsNiArNDAs
-MTIgQEAgb2YgdGhlIGZvbGxvd2luZyBob3N0MXggY2xpZW50IG1vZHVsZXM6Cj4+PiAgICAtIHJl
-c2V0LW5hbWVzOiBNdXN0IGluY2x1ZGUgdGhlIGZvbGxvd2luZyBlbnRyaWVzOgo+Pj4gICAgICAt
-IG1wZQo+Pj4gIAo+Pj4gKyAgT3B0aW9uYWwgcHJvcGVydGllczoKPj4+ICsgIC0gaW50ZXJjb25u
-ZWN0czogTXVzdCBjb250YWluIGVudHJ5IGZvciB0aGUgTVBFIG1lbW9yeSBjbGllbnRzLgo+Pj4g
-KyAgLSBpbnRlcmNvbm5lY3QtbmFtZXM6IE11c3QgaW5jbHVkZSBuYW1lIG9mIHRoZSBpbnRlcmNv
-bm5lY3QgcGF0aCBmb3IgZWFjaAo+Pj4gKyAgICBpbnRlcmNvbm5lY3QgZW50cnkuIENvbnN1bHQg
-VFJNIGRvY3VtZW50YXRpb24gZm9yIGluZm9ybWF0aW9uIGFib3V0Cj4+PiArICAgIGF2YWlsYWJs
-ZSBtZW1vcnkgY2xpZW50cywgc2VlIE1FTU9SWSBDT05UUk9MTEVSIHNlY3Rpb24uCj4+PiArCj4+
-PiAgLSB2aTogdmlkZW8gaW5wdXQKPj4+ICAKPj4+ICAgIFJlcXVpcmVkIHByb3BlcnRpZXM6Cj4+
-PiBAQCAtNjUsNiArNzUsMTIgQEAgb2YgdGhlIGZvbGxvd2luZyBob3N0MXggY2xpZW50IG1vZHVs
-ZXM6Cj4+PiAgICAgICAgLSBwb3dlci1kb21haW5zOiBNdXN0IGluY2x1ZGUgc29yIHBvd2VyZ2F0
-ZSBub2RlIGFzIGNzaWNpbCBpcyBpbgo+Pj4gICAgICAgICAgU09SIHBhcnRpdGlvbi4KPj4+ICAK
-Pj4+ICsgIE9wdGlvbmFsIHByb3BlcnRpZXM6Cj4+PiArICAtIGludGVyY29ubmVjdHM6IE11c3Qg
-Y29udGFpbiBlbnRyeSBmb3IgdGhlIFZJIG1lbW9yeSBjbGllbnRzLgo+Pj4gKyAgLSBpbnRlcmNv
-bm5lY3QtbmFtZXM6IE11c3QgaW5jbHVkZSBuYW1lIG9mIHRoZSBpbnRlcmNvbm5lY3QgcGF0aCBm
-b3IgZWFjaAo+Pj4gKyAgICBpbnRlcmNvbm5lY3QgZW50cnkuIENvbnN1bHQgVFJNIGRvY3VtZW50
-YXRpb24gZm9yIGluZm9ybWF0aW9uIGFib3V0Cj4+PiArICAgIGF2YWlsYWJsZSBtZW1vcnkgY2xp
-ZW50cywgc2VlIE1FTU9SWSBDT05UUk9MTEVSIHNlY3Rpb24uCj4+PiArCj4+PiAgLSBlcHA6IGVu
-Y29kZXIgcHJlLXByb2Nlc3Nvcgo+Pj4gIAo+Pj4gICAgUmVxdWlyZWQgcHJvcGVydGllczoKPj4+
-IEBAIC03OCw2ICs5NCwxMiBAQCBvZiB0aGUgZm9sbG93aW5nIGhvc3QxeCBjbGllbnQgbW9kdWxl
-czoKPj4+ICAgIC0gcmVzZXQtbmFtZXM6IE11c3QgaW5jbHVkZSB0aGUgZm9sbG93aW5nIGVudHJp
-ZXM6Cj4+PiAgICAgIC0gZXBwCj4+PiAgCj4+PiArICBPcHRpb25hbCBwcm9wZXJ0aWVzOgo+Pj4g
-KyAgLSBpbnRlcmNvbm5lY3RzOiBNdXN0IGNvbnRhaW4gZW50cnkgZm9yIHRoZSBFUFAgbWVtb3J5
-IGNsaWVudHMuCj4+PiArICAtIGludGVyY29ubmVjdC1uYW1lczogTXVzdCBpbmNsdWRlIG5hbWUg
-b2YgdGhlIGludGVyY29ubmVjdCBwYXRoIGZvciBlYWNoCj4+PiArICAgIGludGVyY29ubmVjdCBl
-bnRyeS4gQ29uc3VsdCBUUk0gZG9jdW1lbnRhdGlvbiBmb3IgaW5mb3JtYXRpb24gYWJvdXQKPj4+
-ICsgICAgYXZhaWxhYmxlIG1lbW9yeSBjbGllbnRzLCBzZWUgTUVNT1JZIENPTlRST0xMRVIgc2Vj
-dGlvbi4KPj4+ICsKPj4+ICAtIGlzcDogaW1hZ2Ugc2lnbmFsIHByb2Nlc3Nvcgo+Pj4gIAo+Pj4g
-ICAgUmVxdWlyZWQgcHJvcGVydGllczoKPj4+IEBAIC05MSw2ICsxMTMsMTIgQEAgb2YgdGhlIGZv
-bGxvd2luZyBob3N0MXggY2xpZW50IG1vZHVsZXM6Cj4+PiAgICAtIHJlc2V0LW5hbWVzOiBNdXN0
-IGluY2x1ZGUgdGhlIGZvbGxvd2luZyBlbnRyaWVzOgo+Pj4gICAgICAtIGlzcAo+Pj4gIAo+Pj4g
-KyAgT3B0aW9uYWwgcHJvcGVydGllczoKPj4+ICsgIC0gaW50ZXJjb25uZWN0czogTXVzdCBjb250
-YWluIGVudHJ5IGZvciB0aGUgSVNQIG1lbW9yeSBjbGllbnRzLgo+Pj4gKyAgLSBpbnRlcmNvbm5l
-Y3QtbmFtZXM6IE11c3QgaW5jbHVkZSBuYW1lIG9mIHRoZSBpbnRlcmNvbm5lY3QgcGF0aCBmb3Ig
-ZWFjaAo+Pj4gKyAgICBpbnRlcmNvbm5lY3QgZW50cnkuIENvbnN1bHQgVFJNIGRvY3VtZW50YXRp
-b24gZm9yIGluZm9ybWF0aW9uIGFib3V0Cj4+PiArICAgIGF2YWlsYWJsZSBtZW1vcnkgY2xpZW50
-cywgc2VlIE1FTU9SWSBDT05UUk9MTEVSIHNlY3Rpb24uCj4+PiArCj4+PiAgLSBncjJkOiAyRCBn
-cmFwaGljcyBlbmdpbmUKPj4+ICAKPj4+ICAgIFJlcXVpcmVkIHByb3BlcnRpZXM6Cj4+PiBAQCAt
-MTA0LDYgKzEzMiwxMiBAQCBvZiB0aGUgZm9sbG93aW5nIGhvc3QxeCBjbGllbnQgbW9kdWxlczoK
-Pj4+ICAgIC0gcmVzZXQtbmFtZXM6IE11c3QgaW5jbHVkZSB0aGUgZm9sbG93aW5nIGVudHJpZXM6
-Cj4+PiAgICAgIC0gMmQKPj4+ICAKPj4+ICsgIE9wdGlvbmFsIHByb3BlcnRpZXM6Cj4+PiArICAt
-IGludGVyY29ubmVjdHM6IE11c3QgY29udGFpbiBlbnRyeSBmb3IgdGhlIEdSMkQgbWVtb3J5IGNs
-aWVudHMuCj4+PiArICAtIGludGVyY29ubmVjdC1uYW1lczogTXVzdCBpbmNsdWRlIG5hbWUgb2Yg
-dGhlIGludGVyY29ubmVjdCBwYXRoIGZvciBlYWNoCj4+PiArICAgIGludGVyY29ubmVjdCBlbnRy
-eS4gQ29uc3VsdCBUUk0gZG9jdW1lbnRhdGlvbiBmb3IgaW5mb3JtYXRpb24gYWJvdXQKPj4+ICsg
-ICAgYXZhaWxhYmxlIG1lbW9yeSBjbGllbnRzLCBzZWUgTUVNT1JZIENPTlRST0xMRVIgc2VjdGlv
-bi4KPj4+ICsKPj4+ICAtIGdyM2Q6IDNEIGdyYXBoaWNzIGVuZ2luZQo+Pj4gIAo+Pj4gICAgUmVx
-dWlyZWQgcHJvcGVydGllczoKPj4+IEBAIC0xMjIsNiArMTU2LDEyIEBAIG9mIHRoZSBmb2xsb3dp
-bmcgaG9zdDF4IGNsaWVudCBtb2R1bGVzOgo+Pj4gICAgICAtIDNkCj4+PiAgICAgIC0gM2QyIChP
-bmx5IHJlcXVpcmVkIG9uIFNvQ3Mgd2l0aCB0d28gM0QgY2xvY2tzKQo+Pj4gIAo+Pj4gKyAgT3B0
-aW9uYWwgcHJvcGVydGllczoKPj4+ICsgIC0gaW50ZXJjb25uZWN0czogTXVzdCBjb250YWluIGVu
-dHJ5IGZvciB0aGUgR1IzRCBtZW1vcnkgY2xpZW50cy4KPj4+ICsgIC0gaW50ZXJjb25uZWN0LW5h
-bWVzOiBNdXN0IGluY2x1ZGUgbmFtZSBvZiB0aGUgaW50ZXJjb25uZWN0IHBhdGggZm9yIGVhY2gK
-Pj4+ICsgICAgaW50ZXJjb25uZWN0IGVudHJ5LiBDb25zdWx0IFRSTSBkb2N1bWVudGF0aW9uIGZv
-ciBpbmZvcm1hdGlvbiBhYm91dAo+Pj4gKyAgICBhdmFpbGFibGUgbWVtb3J5IGNsaWVudHMsIHNl
-ZSBNRU1PUlkgQ09OVFJPTExFUiBzZWN0aW9uLgo+Pj4gKwo+Pj4gIC0gZGM6IGRpc3BsYXkgY29u
-dHJvbGxlcgo+Pj4gIAo+Pj4gICAgUmVxdWlyZWQgcHJvcGVydGllczoKPj4+IEBAIC0xNDksNiAr
-MTg5LDEwIEBAIG9mIHRoZSBmb2xsb3dpbmcgaG9zdDF4IGNsaWVudCBtb2R1bGVzOgo+Pj4gICAg
-LSBudmlkaWEsaHBkLWdwaW86IHNwZWNpZmllcyBhIEdQSU8gdXNlZCBmb3IgaG90cGx1ZyBkZXRl
-Y3Rpb24KPj4+ICAgIC0gbnZpZGlhLGVkaWQ6IHN1cHBsaWVzIGEgYmluYXJ5IEVESUQgYmxvYgo+
-Pj4gICAgLSBudmlkaWEscGFuZWw6IHBoYW5kbGUgb2YgYSBkaXNwbGF5IHBhbmVsCj4+PiArICAt
-IGludGVyY29ubmVjdHM6IE11c3QgY29udGFpbiBlbnRyeSBmb3IgdGhlIERDIG1lbW9yeSBjbGll
-bnRzLgo+Pj4gKyAgLSBpbnRlcmNvbm5lY3QtbmFtZXM6IE11c3QgaW5jbHVkZSBuYW1lIG9mIHRo
-ZSBpbnRlcmNvbm5lY3QgcGF0aCBmb3IgZWFjaAo+Pj4gKyAgICBpbnRlcmNvbm5lY3QgZW50cnku
-IENvbnN1bHQgVFJNIGRvY3VtZW50YXRpb24gZm9yIGluZm9ybWF0aW9uIGFib3V0Cj4+PiArICAg
-IGF2YWlsYWJsZSBtZW1vcnkgY2xpZW50cywgc2VlIE1FTU9SWSBDT05UUk9MTEVSIHNlY3Rpb24u
-Cj4+PiAgCj4+PiAgLSBoZG1pOiBIaWdoIERlZmluaXRpb24gTXVsdGltZWRpYSBJbnRlcmZhY2UK
-Pj4+ICAKPj4+IEBAIC0yOTcsNiArMzQxLDEyIEBAIG9mIHRoZSBmb2xsb3dpbmcgaG9zdDF4IGNs
-aWVudCBtb2R1bGVzOgo+Pj4gICAgLSByZXNldC1uYW1lczogTXVzdCBpbmNsdWRlIHRoZSBmb2xs
-b3dpbmcgZW50cmllczoKPj4+ICAgICAgLSB2aWMKPj4+ICAKPj4+ICsgIE9wdGlvbmFsIHByb3Bl
-cnRpZXM6Cj4+PiArICAtIGludGVyY29ubmVjdHM6IE11c3QgY29udGFpbiBlbnRyeSBmb3IgdGhl
-IFZJQyBtZW1vcnkgY2xpZW50cy4KPj4+ICsgIC0gaW50ZXJjb25uZWN0LW5hbWVzOiBNdXN0IGlu
-Y2x1ZGUgbmFtZSBvZiB0aGUgaW50ZXJjb25uZWN0IHBhdGggZm9yIGVhY2gKPj4+ICsgICAgaW50
-ZXJjb25uZWN0IGVudHJ5LiBDb25zdWx0IFRSTSBkb2N1bWVudGF0aW9uIGZvciBpbmZvcm1hdGlv
-biBhYm91dAo+Pj4gKyAgICBhdmFpbGFibGUgbWVtb3J5IGNsaWVudHMsIHNlZSBNRU1PUlkgQ09O
-VFJPTExFUiBzZWN0aW9uLgo+Pj4gKwo+Pj4gIEV4YW1wbGU6Cj4+PiAgCj4+PiAgLyB7Cj4+PiBA
-QCAtNDEwLDYgKzQ2MCwxNSBAQCBFeGFtcGxlOgo+Pj4gIAkJCXJlc2V0cyA9IDwmdGVncmFfY2Fy
-IDI3PjsKPj4+ICAJCQlyZXNldC1uYW1lcyA9ICJkYyI7Cj4+PiAgCj4+PiArCQkJaW50ZXJjb25u
-ZWN0cyA9IDwmbWMgVEVHUkEyMF9NQ19ESVNQTEFZMEEgJmVtYz4sCj4+PiArCQkJCQk8Jm1jIFRF
-R1JBMjBfTUNfRElTUExBWTBCICZlbWM+LAo+Pj4gKwkJCQkJPCZtYyBURUdSQTIwX01DX0RJU1BM
-QVkwQyAmZW1jPiwKPj4+ICsJCQkJCTwmbWMgVEVHUkEyMF9NQ19ESVNQTEFZMUIgJmVtYz47Cj4+
-Cj4+IFRoaXMgbG9va3Mgb2RkIG9yIHdyb25nLiBFYWNoIGVudHJ5IGhhcyAyIHBoYW5kbGVzPyAK
-PiAKPiBFYWNoIGVudHJ5IGRlZmluZXMgaW50ZXJjb25uZWN0IHBhdGgsIHdoZXJlIE1DIGlzIHRo
-ZSBzdGFydCBvZiB0aGUgcGF0aAo+IGFuZCBFTUMgaXMgdGhlIGVuZC4gU28geWVzLCAyIHBoYW5k
-bGVzIGZvciBlYWNoIHBhdGguCj4gCj4gUGxlYXNlIHNlZSBhcm0vYm9vdC9kdHMvcWNvbS1tc204
-OTc0LmR0c2kgZm9yIGFub3RoZXIgZXhhbXBsZSBbMV0uCj4gCj4gWzFdCj4gaHR0cHM6Ly9naXQu
-a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3Ry
-ZWUvYXJjaC9hcm0vYm9vdC9kdHMvcWNvbS1tc204OTc0LmR0c2k/aD12NS44LXJjMSNuMTQ0OAo+
-IAoKQWN0dWFsbHksIHRoZXJlIGFyZSBldmVuIGJldHRlciBleGFtcGxlczoKCmh0dHBzOi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90
-cmVlL2FyY2gvYXJtNjQvYm9vdC9kdHMvcWNvbS9zYzcxODAuZHRzaT9oPXY1LjgtcmMxI24xMDQ0
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hello,
+
+This series adds initial support for the DRM bridges to NVIDIA Tegra DRM
+driver. This is required by newer device-trees where we model the LVDS
+encoder bridge properly.
+
+Changelog:
+
+v8: - The new of_graph_get_local_port() helper is replaced with the
+      of_graph_presents(), which simply checks the graph presence in a
+      given DT node. Thank to Laurent Pinchart for the suggestion!
+
+    - The of_graph_get_local_port() is still there, but now it isn't a public
+      function anymore. In the review to v7 Laurent Pinchart suggested that
+      the function's doc-comments and name could be improved and I implemented
+      these suggestions in v8.
+
+    - A day ago I discovered that devm_drm_panel_bridge_add() requires
+      panel to have connector type to be properly set, otherwise function
+      rejects panels with the incomplete description. So, I checked what
+      LVDS panels are used on Tegra and fixed the missing connector types
+      in this new patch:
+
+        drm/panel-simple: Add missing connector type for some panels
+
+v7: - Removed the obscure unused structs (which GCC doesn't detect, but CLANG
+      does) in the patch "Wrap directly-connected panel into DRM bridge",
+      which was reported by kernel test robot for v6.
+
+v6: - Added r-b and acks from Rob Herring and Sam Ravnborg.
+
+    - Rebased on a recent linux-next, patches now apply without fuzz.
+
+v5: - Added new patches that make drm_of_find_panel_or_bridge() more usable
+      if graph isn't defined in a device-tree:
+
+        of_graph: add of_graph_get_local_port()
+        drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+
+    - Updated "Support DRM bridges" patch to use drm_of_find_panel_or_bridge()
+      directly and added WARN_ON(output->panel || output->bridge) sanity-check.
+
+    - Added new "Wrap directly-connected panel into DRM bridge" patch, as
+      was suggested by Laurent Pinchart.
+
+v4: - Following review comments that were made by Laurent Pinchart to the v3,
+      we now create and use the "bridge connector".
+
+v3: - Following recommendation from Sam Ravnborg, the new bridge attachment
+      model is now being used, i.e. we ask bridge to *not* create a connector
+      using the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+
+    - The bridge is now created only for the RGB (LVDS) output, and only
+      when necessary. For now we don't need bridges for HDMI or DSI outputs.
+
+    - I noticed that we're leaking OF node in the panel's error code path,
+      this is fixed now by the new patch "Don't leak OF node on error".
+
+v2: - Added the new "rgb: Don't register connector if bridge is used"
+      patch, which hides the unused connector provided by the Tegra DRM
+      driver when bridge is used, since bridge provides its own connector
+      to us.
+
+Dmitry Osipenko (7):
+  of_graph: add of_graph_presents()
+  drm/of: Make drm_of_find_panel_or_bridge() to check graph's presence
+  drm/tegra: output: Don't leak OF node on error
+  drm/tegra: output: Support DRM bridges
+  drm/tegra: output: rgb: Support LVDS encoder bridge
+  drm/tegra: output: rgb: Wrap directly-connected panel into DRM bridge
+  drm/panel-simple: Add missing connector type for some panels
+
+ drivers/gpu/drm/drm_of.c             |   9 +++
+ drivers/gpu/drm/panel/panel-simple.c |   7 ++
+ drivers/gpu/drm/tegra/drm.h          |   2 +
+ drivers/gpu/drm/tegra/output.c       |  21 ++++--
+ drivers/gpu/drm/tegra/rgb.c          | 102 ++++++++++++++-------------
+ drivers/of/property.c                |  52 +++++++++++---
+ include/linux/of_graph.h             |   6 ++
+ 7 files changed, 137 insertions(+), 62 deletions(-)
+
+-- 
+2.26.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
