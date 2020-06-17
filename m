@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5010B1FC642
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 08:33:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC421FC660
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 08:49:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDD726E22A;
-	Wed, 17 Jun 2020 06:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EA06E245;
+	Wed, 17 Jun 2020 06:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B2D6E22A;
- Wed, 17 Jun 2020 06:33:31 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id B7C0DAD04;
- Wed, 17 Jun 2020 06:33:33 +0000 (UTC)
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20200617105929.534edd34@canb.auug.org.au>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
-Date: Wed, 17 Jun 2020 08:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4CB6E241
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 06:49:02 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id p70so824155oic.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
+ b=OIOD71wghmL3BJ+4LTxzheuNdBbWNpLdKTVng8Cfhv9Fc+rfz1Bmpja7NkfffcXZ5t
+ F6agC8t3Bl3XSNz2wvhQVeG89txiQ4Fg0oTmf4NqMRP+P7i0aE2AqATgmZ8aSvLna89q
+ jo8UfjgpSF4gK32/sAugm1Q4Ddzgv8tjJWzGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
+ b=GyByQnKj39F8ORC3Ur3yIEg9AfN72bisNWsSj8ogu1IRG/PR7110VIVlnA1vXczLUc
+ CyILp8SwxNKpgAFqvhnkYgRzuCX4+0EX8cxhR3yrK3wWFOHjGgIqQaTcwFi6U6SGDKj4
+ PxZ6OGS9djlocnGRDt3/IAzOcjKw8HETxCBcrKDoLCf4X9Rj6hJDQr1nYBpGODfDjYOT
+ Xhyj/7fAKAaTvQ3PC8srKVm1e62XotoVyEme7ExUiUJJ2ljQQKlD4xKRe3X/zFYOqjc+
+ nHkxyzzrFrEES2S8uqK2Xr07qQjHbdC2bhGhy6sGqt5R52q6Z7br7PDThV9tbhZBFJBJ
+ J2WA==
+X-Gm-Message-State: AOAM531L/WDByMcApWP+XYFF+/fbrk3b9xCf5gS6UFiRNwRSyrWSlBuj
+ QXyR/eQucC/FPlZDAmPmuVkYjIveZWc0LlujtYNbag==
+X-Google-Smtp-Source: ABdhPJwGAcimp20dQiWfb4LYQbPcyitWuj+om1jev4TmvwlxEdnrUo68m+2HSkZsaPumvrGpeUMSVFkd4tAKg9ZB6PA=
+X-Received: by 2002:aca:ad97:: with SMTP id w145mr6315470oie.128.1592376541438; 
+ Tue, 16 Jun 2020 23:49:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200617105929.534edd34@canb.auug.org.au>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+In-Reply-To: <20200616120719.GL20149@phenom.ffwll.local>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 17 Jun 2020 08:48:50 +0200
+Message-ID: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,151 +61,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============1382260341=="
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1382260341==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9f3F1hth8h3MULKD8eNFEKS2PH808P58m"
+On Tue, Jun 16, 2020 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> Hi Jason,
+>
+> Somehow this got stuck somewhere in the mail queues, only popped up just
+> now ...
+>
+> On Thu, Jun 11, 2020 at 11:15:15AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
+> > > > I still have my doubts about allowing fence waiting from within shrinkers.
+> > > > IMO ideally they should use a trywait approach, in order to allow memory
+> > > > allocation during command submission for drivers that
+> > > > publish fences before command submission. (Since early reservation object
+> > > > release requires that).
+> > >
+> > > Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
+> > > with a mempool to make sure it can handle it's allocations.
+> > >
+> > > > But since drivers are already waiting from within shrinkers and I take your
+> > > > word for HMM requiring this,
+> > >
+> > > Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
+> > > one, the shrinker one is a lot less established.
+> >
+> > I really question if HW that needs something like DMA fence should
+> > even be using mmu notifiers - the best use is HW that can fence the
+> > DMA directly without having to get involved with some command stream
+> > processing.
+> >
+> > Or at the very least it should not be a generic DMA fence but a
+> > narrowed completion tied only into the same GPU driver's command
+> > completion processing which should be able to progress without
+> > blocking.
+>
+> The problem with gpus is that these completions leak across the board like
+> mad. Both internally within memory managers (made a lot worse with p2p
+> direct access to vram), and through uapi.
+>
+> Many gpus still have a very hard time preempting, so doing an overall
+> switch in drivers/gpu to a memory management model where that is required
+> is not a very realistic option.  And minimally you need either preempt
+> (still takes a while, but a lot faster generally than waiting for work to
+> complete) or hw faults (just a bunch of tlb flushes plus virtual indexed
+> caches, so just the caveat of that for a gpu, which has lots and big tlbs
+> and caches). So preventing the completion leaks within the kernel is I
+> think unrealistic, except if we just say "well sorry, run on windows,
+> mkay" for many gpu workloads. Or more realistic "well sorry, run on the
+> nvidia blob with nvidia hw".
+>
+> The userspace side we can somewhat isolate, at least for pure compute
+> workloads. But the thing is drivers/gpu is a continum from tiny socs
+> (where dma_fence is a very nice model) to huge compute stuff (where it's
+> maybe not the nicest, but hey hw sucks so still neeeded). Doing full on
+> break in uapi somewhere in there is at least a bit awkward, e.g. some of
+> the media codec code on intel runs all the way from the smallest intel soc
+> to the big transcode servers.
+>
+> So the current status quo is "total mess, every driver defines their own
+> rules". All I'm trying to do is some common rules here, do make this mess
+> slightly more manageable and overall reviewable and testable.
+>
+> I have no illusions that this is fundamentally pretty horrible, and the
+> leftover wiggle room for writing memory manager is barely more than a
+> hairline. Just not seeing how other options are better.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9f3F1hth8h3MULKD8eNFEKS2PH808P58m
-Content-Type: multipart/mixed; boundary="KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <c82b9c52-d4e6-9eef-e37d-0a26ee9f1183@suse.de>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-References: <20200617105929.534edd34@canb.auug.org.au>
-In-Reply-To: <20200617105929.534edd34@canb.auug.org.au>
+So bad news is that gpu's are horrible, but I think if you don't have
+to review gpu drivers it's substantially better. If you do have hw
+with full device page fault support, then there's no need to ever
+install a dma_fence. Punching out device ptes and flushing caches is
+all that's needed. That is also the plan we have, for the workloads
+and devices where that's possible.
 
---KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Now my understanding for rdma is that if you don't have hw page fault
+support, then the only other object is to more or less permanently pin
+the memory. So again, dma_fence are completely useless, since it's
+entirely up to userspace when a given piece of registered memory isn't
+needed anymore, and the entire problem boils down to how much do we
+allow random userspace to just pin (system or device) memory. Or at
+least I don't really see any other solution.
 
-Hi
+On the other end we have simpler devices like video input/output.
+Those always need pinned memory, but through hw design it's limited in
+how much you can pin (generally max resolution times a limited set of
+buffers to cycle through). Just including that memory pinning
+allowance as part of device access makes sense.
 
-Am 17.06.20 um 02:59 schrieb Stephen Rothwell:
-> Hi all,
->=20
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c: In function 'amdgpu_a=
-mdkfd_gpuvm_free_memory_of_gpu':
-> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c:1357:2: error: implici=
-t declaration of function 'drm_gem_object_put_unlocked'; did you mean 'dr=
-m_gem_object_put_locked'? [-Werror=3Dimplicit-function-declaration]
->  1357 |  drm_gem_object_put_unlocked(&mem->bo->tbo.base);
->       |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->       |  drm_gem_object_put_locked
->=20
-> Caused by commit
->=20
->   ab15d56e27be ("drm: remove transient drm_gem_object_put_unlocked()")
->=20
-> interacting with commit
->=20
->   fd9a9f8801de ("drm/amdgpu: Use GEM obj reference for KFD BOs")
->=20
-> from Linus' tree.
->=20
-> I have applied the following merge fix up patch for today.
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Wed, 17 Jun 2020 10:55:32 +1000
-> Subject: [PATCH] drm/amdgpu: remove stray drm_gem_object_put_unlocked
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers=
-/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index b91b5171270f..9015c7b76d60 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -1354,7 +1354,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
->  	}
-> =20
->  	/* Free the BO*/
-> -	drm_gem_object_put_unlocked(&mem->bo->tbo.base);
-> +	drm_gem_object_put(&mem->bo->tbo.base);
+It's only gpus (I think) which are in this awkward in-between spot
+where dynamic memory management really is much wanted, but the hw
+kinda sucks. Aside, about 10+ years ago we had a similar problem with
+gpu hw, but for security: Many gpu didn't have any kinds of page
+tables to isolate different clients from each another. drivers/gpu
+fixed this by parsing&validating what userspace submitted to make sure
+it's only every accessing its own buffers. Most gpus have become
+reasonable nowadays and do have proper per-process pagetables (gpu
+process, not the pasid stuff), but even today there's still some of
+the old model left in some of the smallest SoC.
 
-We recently dropped the _unlock() suffix from drm_gem_object_put(). This
-patch should be ok.
+tldr; of all this: gpus kinda suck sometimes, but  that's also not news :-/
 
-Best regards
-Thomas
+Cheers, Daniel
 
->  	mutex_destroy(&mem->lock);
->  	kfree(mem);
-> =20
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+> > The intent of notifiers was never to endlessly block while vast
+> > amounts of SW does work.
+> >
+> > Going around and switching everything in a GPU to GFP_ATOMIC seems
+> > like bad idea.
+>
+> It's not everyone, or at least not everywhere, it's some fairly limited
+> cases. Also, even if we drop the mmu_notifier on the floor, then we're
+> stuck with shrinkers and GFP_NOFS. Still need a mempool of some sorts to
+> guarantee you get out of a bind, so not much better.
+>
+> At least that's my current understanding of where we are across all
+> drivers.
+>
+> > > I've pinged a bunch of armsoc gpu driver people and ask them how much this
+> > > hurts, so that we have a clear answer. On x86 I don't think we have much
+> > > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
+> > > (but nouveau I think doesn't use dma_fence in there).
+> >
+> > Right, nor will RDMA ODP.
+>
+> Hm, what's the context here? I thought RDMA side you really don't want
+> dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
+> here.
+> -Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 
---KpPvdyfxUEtwj1YULHclQa5IHqeHhOHNp--
 
---9f3F1hth8h3MULKD8eNFEKS2PH808P58m
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7puTQACgkQaA3BHVML
-eiN0nQgAvsZCT69rEUsA3tUpzZFwC705X8mKMKckywWtoJ+/kuQZqbCkGlq+p1Tk
-LGn7sXGHxrYO1vyPLiqnV/3bvFi2d7jmqkMKkNS2n2nR0yxIEkUsphfFcnUemM7b
-5IS7Z7nmKO5NmuUsiVZHvRGffvLw1+zuhV7NXygjE/fWX6o1SyIhQBD6W1sCq2QM
-cH19eSryZ8/+tTotQzHGcBGzcI7nsppq99gsASWgV0snoGKHpC+DmIwv5GpNge13
-SFaKJjbld60mY1Q0J158zkssxhbhk/AgS0YsrkCKaifDSdDIhE+LEsV/d2huiUVH
-rby49zaP8OSsO2wSrRP+KSWEG+rDxg==
-=Enbr
------END PGP SIGNATURE-----
-
---9f3F1hth8h3MULKD8eNFEKS2PH808P58m--
-
---===============1382260341==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1382260341==--
