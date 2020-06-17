@@ -1,43 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2B71FCA6F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 12:05:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D99F1FCA7D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 12:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6526E875;
-	Wed, 17 Jun 2020 10:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA1B46E973;
+	Wed, 17 Jun 2020 10:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFBDB6E875
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 10:05:25 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206017] Kernel 5.4.x unusable with GUI due to crashes (some hard)
-Date: Wed, 17 Jun 2020 10:05:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: priit@ww.ee
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206017-2300-JozUDAQwfu@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206017-2300@https.bugzilla.kernel.org/>
-References: <bug-206017-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEE126E973
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 10:07:27 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
+ helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <heiko@sntech.de>)
+ id 1jlUyb-0006xc-4j; Wed, 17 Jun 2020 12:07:25 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-rockchip@lists.infradead.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rockchip: Add per-pixel alpha support for the PX30 VOP
+Date: Wed, 17 Jun 2020 12:07:23 +0200
+Message-Id: <159238836640.1484955.4774492722376755146.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200416140526.262533-1-paul.kocialkowski@bootlin.com>
+References: <20200416140526.262533-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,31 +41,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sandy Huang <hjc@rock-chips.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206017
+On Thu, 16 Apr 2020 16:05:26 +0200, Paul Kocialkowski wrote:
+> Compared to its predecessors, the PX30 VOP has a different register layout
+> for enabling per-pixel alpha. Instead of src_alpha_ctl and dst_alpha_ctl,
+> there is a single alpha control register. This register takes some fields
+> from src_alpha_ctl, but with a different layout.
+> 
+> Add support for the required fields to the PX30 VOP window descriptions,
+> which makes per-pixel-alpha formats behave correctly.
 
-priit@ww.ee (priit@ww.ee) changed:
+Applied, thanks!
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |priit@ww.ee
+[1/1] drm/rockchip: Add per-pixel alpha support for the PX30 VOP
+      commit: 2aae8ed1f390a42ec752e4403ffca877fb3260e1
 
---- Comment #18 from priit@ww.ee (priit@ww.ee) ---
-And it's back after several months.
-
-5.6.16-1-MANJARO
-mesa 20.0.7-3
-
-amdgpu.ppfeaturemask=0xfffd7fff amdgpu.noretry=0 amdgpu.lockup_timeout=0
-amdgpu.gpu_recovery=1 amdgpu.audio=0 amdgpu.deep_color=1 amd_iommu=on iommu=pt
-
+Best regards,
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Heiko Stuebner <heiko@sntech.de>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
