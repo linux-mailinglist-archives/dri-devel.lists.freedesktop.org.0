@@ -2,32 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D99F1FCA7D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 12:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD971FCB94
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 13:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1B46E973;
-	Wed, 17 Jun 2020 10:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0CE6E90E;
+	Wed, 17 Jun 2020 11:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE126E973
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 10:07:27 +0000 (UTC)
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=phil.lan)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1jlUyb-0006xc-4j; Wed, 17 Jun 2020 12:07:25 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/rockchip: Add per-pixel alpha support for the PX30 VOP
-Date: Wed, 17 Jun 2020 12:07:23 +0200
-Message-Id: <159238836640.1484955.4774492722376755146.b4-ty@sntech.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83B556E90E
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 11:00:05 +0000 (UTC)
+Received: from localhost.localdomain (unknown [171.61.66.58])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E73C9208B3;
+ Wed, 17 Jun 2020 10:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592391605;
+ bh=FEl7VkOmlCIeUQ3rEIh1Rii3ZPCCEl9HaFRRWcyrhL4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DHIPntd/xza36B4eF4ELHbJ8Q1kj6bWAibtpuHCnjYx9jWZM38llbz7SXU369q4PV
+ hSHSAiJZR/xbJSvTBbkhKkqgxjyFJ9O8jHOhWdGm96PKaCmHbdYpJ2xIt+eKg/2nN/
+ dZFjrEuKsUHz8LVD+CIdCsKWzSsp/k8xzoMjrfIY=
+From: Vinod Koul <vkoul@kernel.org>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v3 0/3] Add LT9611 DSI to HDMI bridge
+Date: Wed, 17 Jun 2020 16:29:47 +0530
+Message-Id: <20200617105950.3165360-1-vkoul@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200416140526.262533-1-paul.kocialkowski@bootlin.com>
-References: <20200416140526.262533-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,31 +44,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sandy Huang <hjc@rock-chips.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-arm-msm@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Apr 2020 16:05:26 +0200, Paul Kocialkowski wrote:
-> Compared to its predecessors, the PX30 VOP has a different register layout
-> for enabling per-pixel alpha. Instead of src_alpha_ctl and dst_alpha_ctl,
-> there is a single alpha control register. This register takes some fields
-> from src_alpha_ctl, but with a different layout.
-> 
-> Add support for the required fields to the PX30 VOP window descriptions,
-> which makes per-pixel-alpha formats behave correctly.
+Hi,
 
-Applied, thanks!
+This series adds driver and bindings for Lontium LT9611 bridge chip which
+takes MIPI DSI as input and HDMI as output.
 
-[1/1] drm/rockchip: Add per-pixel alpha support for the PX30 VOP
-      commit: 2aae8ed1f390a42ec752e4403ffca877fb3260e1
+This chip can be found in 96boards RB3 platform [1] commonly called DB845c.
 
-Best regards,
+[1]: https://www.96boards.org/product/rb3-platform/
+
+Changes in v3:
+ - fix kbuild reported error
+ - rebase on v5.8-rc1
+
+Changes in v2:
+ - Add acks by Rob
+ - Fix comments reported by Emil and rename the file to lontium-lt9611.c
+ - Fix comments reported by Laurent on binding and driver
+ - Add HDMI audio support
+
+Vinod Koul (3):
+  dt-bindings: vendor-prefixes: Add Lontium vendor prefix
+  dt-bindings: display: bridge: Add documentation for LT9611
+  drm/bridge: Introduce LT9611 DSI to HDMI bridge
+
+ .../display/bridge/lontium,lt9611.yaml        |  176 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/gpu/drm/bridge/Kconfig                |   13 +
+ drivers/gpu/drm/bridge/Makefile               |    1 +
+ drivers/gpu/drm/bridge/lontium-lt9611.c       | 1219 +++++++++++++++++
+ 5 files changed, 1411 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+ create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611.c
+
+
+base-commit: b3a9e3b9622ae10064826dccb4f7a52bd88c7407
 -- 
-Heiko Stuebner <heiko@sntech.de>
+2.26.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
