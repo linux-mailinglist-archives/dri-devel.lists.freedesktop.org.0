@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5351FD8EF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:35:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22321FD8F9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 00:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E256E1F2;
-	Wed, 17 Jun 2020 22:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E986E190;
+	Wed, 17 Jun 2020 22:37:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF4B66E1F2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:34:57 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id j19so3910844ilk.9
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:34:57 -0700 (PDT)
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD856E190
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 22:37:34 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id l6so3967157ilo.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 15:37:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=c5Y+K27z/UnQHPf7dVA+plkp+xMtkTE7h8L8DPS7DYI=;
- b=Jtij6/suL1edEtWWSk1HsxQ0lDOdVA4JDL31uPp7NNknrxsV39GqllWn2tN8erWe/v
- AdNa3TtyFNMZKzbKxryl6sGkUeW6CcL37fmsWSJK1oEgkx9Sg4x8qUP7ZjBJFj81wBmN
- CtQsjYosgFhZaDTtJH3C5luNJuVGVnY5AhuyDrtgK6nu9TL5LNzZjIw+UaDoaFs3fMxR
- JiTYcM5lYb7zJSKzc10lmzbmsty0qlhsARBHYQ4it1bJS6gNL0wEnSxTNjyr9KQdhUWH
- sZ3dv3hnpx/nfvXIoPnesRMJGGfdFwT3ENmIGEA5ZY33lad1eWIx8QaT//bNQz3//dO7
- bxGQ==
-X-Gm-Message-State: AOAM532j4BGkLlJPA3+SXCTWKhKzFD4WCOtbbt9vr4/1sKA78N2prcdA
- Y+yIqDZ1T4IrVDunHlvWHA==
-X-Google-Smtp-Source: ABdhPJxHuv4++9idd4cGJ1YVbZSUibTvT/Vt5YQAo6Eno5pqsY6fnO3joxmM0yNFJzrCC67k4I+ZSg==
-X-Received: by 2002:a92:899b:: with SMTP id w27mr1285269ilk.16.1592433297077; 
- Wed, 17 Jun 2020 15:34:57 -0700 (PDT)
+ bh=ZpqmM5b2vnIEZM+uoBwaGezs/bIVuA8qCIC5e2tj4Mk=;
+ b=Z9MXtbc3EZJ/2Mu0olvucHu9sfuQCI2cZ48kASVFp/UiVLst0d7ZtY+kcw7A/JA8bM
+ yELguJiSauN1i5ty0hzaHzXBFPpJ6CiVKmmTJ7NiPBjDZCsay1mgJXPL+yQNMwJnrZiC
+ H6zwoOa8wc4gMEbZ570yZNONVd8bHqN7YqL1kFrLJluE5GWtLvI3nSwjGl3RL2/Ng25Z
+ qEIhWHDR0Fh06XozBODpkWHGENrAlcpUGpReyRZAbSmKIQThpz4aHvS3ANWl2E1t4a6s
+ Lp+uTwHZ8nAWDeIriHi3ogVHG3gCC9cO7AFLmCsa7qKNvUv2bMwQwW5lHnCawuAeN8ku
+ cIzQ==
+X-Gm-Message-State: AOAM532XLd1saaEPoRB2Mn9LwjfUffKZD63qOjRVY410vEsLJrqoQ0EW
+ cP6EMjfPxrYz0mZXOIMH8w==
+X-Google-Smtp-Source: ABdhPJyAq5HXFt/cfdAiAR+bnOeSiQTllpHYl1CjJVPEXer5Qdf+2qJhDdxmi+THg3z+2BKJ3Mb/mA==
+X-Received: by 2002:a92:190:: with SMTP id 138mr1144486ilb.5.1592433454005;
+ Wed, 17 Jun 2020 15:37:34 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id l3sm710771iow.55.2020.06.17.15.34.56
+ by smtp.gmail.com with ESMTPSA id t5sm717751iov.53.2020.06.17.15.37.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:34:56 -0700 (PDT)
-Received: (nullmailer pid 2961072 invoked by uid 1000);
- Wed, 17 Jun 2020 22:34:55 -0000
-Date: Wed, 17 Jun 2020 16:34:55 -0600
+ Wed, 17 Jun 2020 15:37:33 -0700 (PDT)
+Received: (nullmailer pid 2965169 invoked by uid 1000);
+ Wed, 17 Jun 2020 22:37:32 -0000
+Date: Wed, 17 Jun 2020 16:37:32 -0600
 From: Rob Herring <robh@kernel.org>
 To: Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
 Subject: Re: [PATCH v3 5/5] dt-bindings: display: ti,tfp410.yaml: make the
  ports node optional
-Message-ID: <20200617223455.GA2953201@bogus>
+Message-ID: <20200617223732.GB2953201@bogus>
 References: <20200611102356.31563-1-ricardo.canuelo@collabora.com>
  <20200611102356.31563-6-ricardo.canuelo@collabora.com>
+ <20200611160817.GA6031@pendragon.ideasonboard.com>
+ <8ad9a397a5fa6cebd2a4e0170dfa96ad73907faf.camel@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200611102356.31563-6-ricardo.canuelo@collabora.com>
+In-Reply-To: <8ad9a397a5fa6cebd2a4e0170dfa96ad73907faf.camel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +65,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, jason@lakedaemon.net, airlied@linux.ie,
  dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com,
- Laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 11, 2020 at 12:23:56PM +0200, Ricardo Ca=F1uelo wrote:
-> Make the ports node optional, since there are some DTs that don't define
-> any ports for ti,tfp410.
-
-Only arch/arm/boot/dts/dove-sbc-a510.dts AFAICT... It should be updated =
-
-IMO.
-
+On Mon, Jun 15, 2020 at 11:38:07AM +0200, Ricardo Ca=F1uelo wrote:
+> Hi Laurent,
 > =
 
-> Signed-off-by: Ricardo Ca=F1uelo <ricardo.canuelo@collabora.com>
-> ---
->  Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml | 1 -
->  1 file changed, 1 deletion(-)
+> Thanks for reviewing the patch
 > =
 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.y=
-aml b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> index 605831c1e836..1c9421eb80fa 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> @@ -83,7 +83,6 @@ properties:
->  =
+> On Thu, 2020-06-11 at 19:08 +0300, Laurent Pinchart wrote:
+> > Hi Ricardo,
+> > =
 
->  required:
->    - compatible
-> -  - ports
->  =
+> > Thank you for the patch.
+> > =
 
->  if:
->    required:
-> -- =
+> > On Thu, Jun 11, 2020 at 12:23:56PM +0200, Ricardo Ca=F1uelo wrote:
+> > > Make the ports node optional, since there are some DTs that don't def=
+ine
+> > > any ports for ti,tfp410.
+> > > =
 
-> 2.18.0
+> > > Signed-off-by: Ricardo Ca=F1uelo <ricardo.canuelo@collabora.com>
+> > =
+
+> > Shouldn't we fix those DTs instead ? What's the point of a TFP410
+> > without ports in DT ?
 > =
 
+> This comes from the discussion in the previous version of this series.
+> =
+
+> In the DTs that don't define any ports (it's dove-sbc-a510.dts only, actu=
+ally)
+> it's not clear how to define the ports (I'm not familiar with this board).
+> Initially I defined a set of empty ports just to comply with the binding
+> requirements, but Rob suggested that we might as well declare them as opt=
+ional,
+> since having an empty port definition with no remote endpoints is no bett=
+er than
+> having no ports at all.
+
+I did? Must have missed some context.
+
+> I understand both opinions but I just don't know which is the best option=
+ at
+> this point.
+
+Just leave the warning to be fixed.
+
+Rob
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
