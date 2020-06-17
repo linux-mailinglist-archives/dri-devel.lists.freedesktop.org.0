@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EDC1FD267
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D181FD269
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jun 2020 18:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7146E9D5;
-	Wed, 17 Jun 2020 16:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4886E9A3;
+	Wed, 17 Jun 2020 16:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 100796E988
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:57 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AEA66E988
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 16:40:58 +0000 (UTC)
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8B34B23;
- Wed, 17 Jun 2020 18:40:52 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 560E52BD;
+ Wed, 17 Jun 2020 18:40:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1592412053;
- bh=ulTJmywIxzhpKia6DZ8yyrcoRZRPaqewXVdQ7G3sJmo=;
+ bh=YFSQOSyJZmRRvt57RanjkozCYMs3OqhGEqYH5BOhm1w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qD6IVHxAs9rOHt02qX2JOtIRX3iOD7TeCgGu3vX+7jWdnNxy4OxgF+EdQY0fVI7vA
- MTA57aOnrONxqnO2grdaZqv1lFqxjYSCHtpNgTZNBnJSDNguQZxyYDEWkg+r2a7SUn
- CNvY4onGTjKfqG3AwFsd66WAxwtsc0Yx1lPJtmd4=
+ b=L0IFc2pl/V+qzSf0jNXvjpPbIrt2dc32whMlAM20WNtbkWxAmNFP6QIY5ginwwK44
+ CrJ7dR6K7QiYb7EIqSL9p+La6B5sR9o2vMgOJFaSkFpKnSvnpwH5/amXqsnxkELH0k
+ wAKl5a4KY4woSmIVNRa3f1BYItu1MP2MMEkJUAK4=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 18/22] drm: mxsfb: Drop non-OF support
-Date: Wed, 17 Jun 2020 19:40:11 +0300
-Message-Id: <20200617164015.30448-19-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 19/22] drm: mxsfb: Turn mxsfb_set_pixel_fmt() into a void
+ function
+Date: Wed, 17 Jun 2020 19:40:12 +0300
+Message-Id: <20200617164015.30448-20-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
 References: <20200617164015.30448-1-laurent.pinchart@ideasonboard.com>
@@ -52,84 +53,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mxsfb driver is only used by OF platforms. Drop non-OF support.
+The mxsfb_set_pixel_fmt() function returns an error when the selected
+pixel format is unsupported. This can never happen, as such errors are
+caught by the DRM core. Remove the error check.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Stefan Agner <stefan@agner.ch>
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 5dd82e36154d..bb80e12d9120 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -131,7 +131,8 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- 	return 0;
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index aa9e962bb026..9a43c98963cc 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -43,7 +43,7 @@ static u32 set_hsync_pulse_width(struct mxsfb_drm_private *mxsfb, u32 val)
  }
  
--static int mxsfb_load(struct drm_device *drm, unsigned long flags)
-+static int mxsfb_load(struct drm_device *drm,
-+		      const struct mxsfb_devdata *devdata)
+ /* Setup the MXSFB registers for decoding the pixels out of the framebuffer */
+-static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
++static void mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
  {
- 	struct platform_device *pdev = to_platform_device(drm->dev);
- 	struct mxsfb_drm_private *mxsfb;
-@@ -144,7 +145,7 @@ static int mxsfb_load(struct drm_device *drm, unsigned long flags)
+ 	struct drm_device *drm = mxsfb->drm;
+ 	const u32 format = mxsfb->crtc.primary->state->fb->format->format;
+@@ -67,15 +67,10 @@ static int mxsfb_set_pixel_fmt(struct mxsfb_drm_private *mxsfb)
+ 		/* Do not use packed pixels = one pixel per word instead. */
+ 		ctrl1 |= CTRL1_SET_BYTE_PACKAGING(0x7);
+ 		break;
+-	default:
+-		dev_err(drm->dev, "Unhandled pixel format %08x\n", format);
+-		return -EINVAL;
+ 	}
  
- 	mxsfb->drm = drm;
- 	drm->dev_private = mxsfb;
--	mxsfb->devdata = &mxsfb_devdata[pdev->id_entry->driver_data];
-+	mxsfb->devdata = devdata;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	mxsfb->base = devm_ioremap_resource(drm->dev, res);
-@@ -280,18 +281,10 @@ static struct drm_driver mxsfb_driver = {
- 	.minor	= 0,
- };
- 
--static const struct platform_device_id mxsfb_devtype[] = {
--	{ .name = "imx23-fb", .driver_data = MXSFB_V3, },
--	{ .name = "imx28-fb", .driver_data = MXSFB_V4, },
--	{ .name = "imx6sx-fb", .driver_data = MXSFB_V6, },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(platform, mxsfb_devtype);
+ 	writel(ctrl1, mxsfb->base + LCDC_CTRL1);
+ 	writel(ctrl, mxsfb->base + LCDC_CTRL);
 -
- static const struct of_device_id mxsfb_dt_ids[] = {
--	{ .compatible = "fsl,imx23-lcdif", .data = &mxsfb_devtype[0], },
--	{ .compatible = "fsl,imx28-lcdif", .data = &mxsfb_devtype[1], },
--	{ .compatible = "fsl,imx6sx-lcdif", .data = &mxsfb_devtype[2], },
-+	{ .compatible = "fsl,imx23-lcdif", .data = &mxsfb_devdata[MXSFB_V3], },
-+	{ .compatible = "fsl,imx28-lcdif", .data = &mxsfb_devdata[MXSFB_V4], },
-+	{ .compatible = "fsl,imx6sx-lcdif", .data = &mxsfb_devdata[MXSFB_V6], },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mxsfb_dt_ids);
-@@ -306,14 +299,11 @@ static int mxsfb_probe(struct platform_device *pdev)
- 	if (!pdev->dev.of_node)
- 		return -ENODEV;
+-	return 0;
+ }
  
--	if (of_id)
--		pdev->id_entry = of_id->data;
--
- 	drm = drm_dev_alloc(&mxsfb_driver, &pdev->dev);
- 	if (IS_ERR(drm))
- 		return PTR_ERR(drm);
+ static void mxsfb_set_bus_fmt(struct mxsfb_drm_private *mxsfb)
+@@ -218,9 +213,7 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb)
+ 	/* Clear the FIFOs */
+ 	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
  
--	ret = mxsfb_load(drm, 0);
-+	ret = mxsfb_load(drm, of_id->data);
- 	if (ret)
- 		goto err_free;
+-	err = mxsfb_set_pixel_fmt(mxsfb);
+-	if (err)
+-		return;
++	mxsfb_set_pixel_fmt(mxsfb);
  
-@@ -367,7 +357,6 @@ static const struct dev_pm_ops mxsfb_pm_ops = {
- static struct platform_driver mxsfb_platform_driver = {
- 	.probe		= mxsfb_probe,
- 	.remove		= mxsfb_remove,
--	.id_table	= mxsfb_devtype,
- 	.driver	= {
- 		.name		= "mxsfb",
- 		.of_match_table	= mxsfb_dt_ids,
+ 	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
+ 
 -- 
 Regards,
 
