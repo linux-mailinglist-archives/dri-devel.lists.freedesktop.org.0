@@ -1,68 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1E31FEC24
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:17:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CA81FEC2C
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 09:18:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E386EA9B;
-	Thu, 18 Jun 2020 07:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA336EAD8;
+	Thu, 18 Jun 2020 07:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C135F891C2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 18:50:45 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id x18so4204946lji.1
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 11:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
- b=M8QbXD3dhMgoC9HGZspqf7XvjFgGe8WazwwUzCVArg0/V4J/2jzwL8H4RGbmNBNkwD
- R8wGcFDnf2lOnU41m/g9QNA/9d+ub6zNKxZNXZWQ8tvxe8mZUd8MMFDtixbRyq/Pc/BF
- PIlXs0P58oAy4Q0Hx7D0IDtf6qGVRToB7UUTEKeWrh2FvdpOJVARsCgHhh3DM2YDYITG
- yv2i+lxcsBl69kQVaF0qbqTQ0Q5+tPfaYHxiZHxuDl7GF//mofzMEAyRhY5MUNk0ZEEC
- ecIvPUB2Ri/1v20pzwyv+rz8M4vudDHoEqRG2l6oEitpvq6n6iLOMI6v2o8SNoiAejZ8
- ZauQ==
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972866E150
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 19:52:53 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id n2so1409987pld.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jun 2020 12:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:content-transfer-encoding:in-reply-to:references
+ :subject:from:cc:to:date:message-id:user-agent;
+ bh=LQsBfLuHQnXebs8tzUx0QZBobI6Ci5amH7vvKmW561c=;
+ b=inVPy6Ehzcbr6FMktQ9CscKqG1doUmPe8FrnEKF0cVTb6589k12gpmi0AgjKifH7Sv
+ M/DNoIl+ecZcJTAkS/5cwcxZxR+ha44f7/BQKoOYcrPMS3XRO5WP5gQhIfYAi/ODkZfy
+ UG4FBXOf0RIrDWQgAHk2N4sP9zsAJhSMWYqrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=niGCVV02yGmCTRiNUXF586GuPtEiVqmlf9Dj30WKY8I=;
- b=lcYqJ97iqO17U5JfrQFR3pZA5Z6+i93LE15aYnsGS8CjPWTUiRdInTJ6dx/PRY0RhA
- XvEnmlI2/pHk2vxgYk+wPYO/QXr5dfCWKK7iH6EWPAurD5nkQh5YBcMXBlB5nfMw+GFY
- ELVmPb7A8gnDyqPCVw3IjdWxaObsQyKoezSVmj8HhqUj3B4S5rPjeqdOknNpL1UkW3uJ
- ojrHqlQQanr1fX+hiDCUphiQpJuZe9oY8ig3Jw+nhABphdCe+/Z9NNPuWmwcmH2uxAkK
- Ul0yq13ICV+BMHbfJp2ddROcoOE/rd0jepf8TG5Bh1jb8VxOvyEDM5tXkmouSKCYLU6v
- KFUg==
-X-Gm-Message-State: AOAM530KMXl8q2RPwJWlYXuv252ILd2KySztElErmpWvnRhVmqk/R374
- 51ro8JTjccKv83enAvAD+5Gavo/0
-X-Google-Smtp-Source: ABdhPJwHrFp7hl7apCuUIGY5sl9ZXw4ffQukc+KSdkIkDhhEWKTpuESWMBtJoDInAjZab47xZDYMIQ==
-X-Received: by 2002:a05:651c:544:: with SMTP id
- q4mr348194ljp.310.1592419843008; 
- Wed, 17 Jun 2020 11:50:43 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id r15sm119829ljm.31.2020.06.17.11.50.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Jun 2020 11:50:42 -0700 (PDT)
-Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v2_5/5=5d_drm/tegra=3a_plane=3a_Support_18?=
- =?UTF-8?Q?0=c2=b0_rotation?=
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20200614200121.14147-1-digetx@gmail.com>
- <20200614200121.14147-6-digetx@gmail.com>
- <CACvgo50P5i2jX6ZrMD=UuGr_bA=8MbFhYBWBNvkMcdCyJKS5xg@mail.gmail.com>
- <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
-Message-ID: <2a004826-a505-75e4-b922-c74618404166@gmail.com>
-Date: Wed, 17 Jun 2020 21:50:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:cc:to:date:message-id
+ :user-agent;
+ bh=LQsBfLuHQnXebs8tzUx0QZBobI6Ci5amH7vvKmW561c=;
+ b=N7udx1RThOpaFFf1xTq9k8GEUl8Zs3Su7pMISfVi/J72DwmUixHk6QZfmkxiES6oaD
+ CGf0U9Fi2i9TitrjGa8U1gqhJ5Pg+0X3nu0+mMXpPi0RVyK2vdyBXkvFuXJ/IW2Q8Eke
+ 3vLVxIUCaERmQwBLrXLDDHfOmOkaWSI1hhlhF/Jes0izpE68ICeytWCLzniR7Ostv4t/
+ CTN4vWoQsCmhmrFtVInsFbzM4nCovuoAALxwFXygrWNW12fVy2NOl61/9XYr88uRJPav
+ huwL49YkFeV3MWAH7LXdUy4Vi94iOVKfOmkpiSazhCBkh/S5g7ipEkxACBlt6nJwiXEc
+ yv2g==
+X-Gm-Message-State: AOAM530aPyGOBoz7uTjlqK0G7xMmYUgvEH+kMLy+VFdtLa/cEEavnNJm
+ sVtEqvo8rf4J2x/NTWHc4YMXag==
+X-Google-Smtp-Source: ABdhPJwJUycm8yXEm5q4JlYs31av1QS4bD6y+lVigYkxB8za+MHnq+pjRLRvt0SqgjrtnPemqxALvA==
+X-Received: by 2002:a17:90a:7785:: with SMTP id v5mr681689pjk.31.1592423573026; 
+ Wed, 17 Jun 2020 12:52:53 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+ by smtp.gmail.com with ESMTPSA id i3sm355161pjv.1.2020.06.17.12.52.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 12:52:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e21404bd-49c9-039e-4aef-c4912a9c0640@gmail.com>
-Content-Language: en-US
+In-Reply-To: <CAL_JsqLsp6gR_=nA36usk67n7+EJOoxt-87R5zc1_DXpap5cag@mail.gmail.com>
+References: <20200612015030.16072-1-tanmay@codeaurora.org>
+ <20200612015030.16072-2-tanmay@codeaurora.org>
+ <159230611219.62212.8262135380349283774@swboyd.mtv.corp.google.com>
+ <CAL_JsqLsp6gR_=nA36usk67n7+EJOoxt-87R5zc1_DXpap5cag@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings: msm/dp: add bindings of DP/DP-PLL
+ driver for Snapdragon
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 17 Jun 2020 12:52:51 -0700
+Message-ID: <159242357167.62212.6568995439730589763@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 X-Mailman-Approved-At: Thu, 18 Jun 2020 07:17:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,55 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Derek Basehore <dbasehore@chromium.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, aravindh@codeaurora.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Tanmay Shah <tanmay@codeaurora.org>, Vara Reddy <varar@codeaurora.org>,
+ freedreno <freedreno@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTYuMDYuMjAyMCAxNDoyNSwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gMTYuMDYuMjAy
-MCAwMDo0NywgRW1pbCBWZWxpa292INC/0LjRiNC10YI6Cj4+IEhpIGFsbCwKPj4KPj4gUGVyaGFw
-cyBhIHNpbGx5IHF1ZXN0aW9uOgo+Pgo+PiBPbiBNb24sIDE1IEp1biAyMDIwIGF0IDA4OjI4LCBE
-bWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5jb20+IHdyb3RlOgo+Pj4KPj4+IENvbWJpbmlu
-ZyBob3Jpem9udGFsIGFuZCB2ZXJ0aWNhbCByZWZsZWN0aW9ucyBnaXZlcyB1cyAxODAgZGVncmVl
-cyBvZgo+Pj4gcm90YXRpb24uCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtv
-IDxkaWdldHhAZ21haWwuY29tPgo+Pj4gLS0tCj4+PiAgZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2Rj
-LmMgfCAxMyArKysrKysrKysrKystCj4+PiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMo
-KyksIDEgZGVsZXRpb24oLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rl
-Z3JhL2RjLmMgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMuYwo+Pj4gaW5kZXggZjMxYmNhMjdj
-ZGU0Li5kZGQ5Yjg4ZjhmY2UgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEv
-ZGMuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RjLmMKPj4KPj4+ICsgICAgICAg
-aWYgKHJvdGF0aW9uICYgRFJNX01PREVfUk9UQVRFXzE4MCkgewo+Pj4gKyAgICAgICAgICAgICAg
-IHBsYW5lX3N0YXRlLT5yZWZsZWN0X3ggPSAhcGxhbmVfc3RhdGUtPnJlZmxlY3RfeDsKPj4+ICsg
-ICAgICAgICAgICAgICBwbGFuZV9zdGF0ZS0+cmVmbGVjdF95ID0gIXBsYW5lX3N0YXRlLT5yZWZs
-ZWN0X3k7Cj4+PiArICAgICAgIH0KPj4+ICsKPj4gQXMgbWVudGlvbmVkIGJ5IFZpbGxlIHRoZSBh
-Ym92ZSBpcyBhbHJlYWR5IGhhbmRsZWQgYnkKPj4gZHJtX3JvdGF0aW9uX3NpbXBsaWZ5KCkgLi4u
-IGFsdGhvdWdoIGl0IG1ha2VzIG1lIHdvbmRlcjoKPj4KPj4KPj4+ICAgICAgICAgZXJyID0gZHJt
-X3BsYW5lX2NyZWF0ZV9yb3RhdGlvbl9wcm9wZXJ0eSgmcGxhbmUtPmJhc2UsCj4+PiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFJNX01PREVfUk9UQVRF
-XzAsCj4+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-RFJNX01PREVfUk9UQVRFXzAgfAo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIERSTV9NT0RFX1JPVEFURV8xODAgfAo+Pj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERSTV9NT0RFX1JFRkxFQ1RfWCB8Cj4+
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFJNX01P
-REVfUkVGTEVDVF9ZKTsKPj4KPj4gV291bGQgaXQgbWFrZSBzZW5zZSBmb3IgZHJtX3BsYW5lX2Ny
-ZWF0ZV9yb3RhdGlvbl9wcm9wZXJ0eSgpIGl0c2VsZiwKPj4gdG8gYWRkIERSTV9NT0RFX1JPVEFU
-RV8xODAsIHdoZW4gYm90aCByZWZsZWN0aW9ucyBhcmUgc3VwcG9ydGVkPwo+IAo+IEhlbGxvIEVt
-aWwsCj4gCj4gVGhhdCdzIGEgZ29vZCBwb2ludCEgQWxsIERSTV9NT0RFX1JPVEFURV8xODAgc2hv
-dWxkIGJlIHJlbW92ZWQgYmVjYXVzZQo+IFRlZ3JhIGNhbid0IGRvIDE4MMKwICsgcmVmbGVjdGVk
-LXguIFRoZSBEUk0gY29yZSB0YWtlcyBjYXJlIG9mIDE4MMKwCj4gcm90YXRpb24gd2hlbiBib3Ro
-IHgveSByZWZsZWN0aW9ucyBhcmUgc3VwcG9ydGVkLgo+IAoKSSBqdXN0IGZvdW5kIG91dCB0aGF0
-IEkgZm9yZ290IHRvIGRyb3AgdGhlIFdJUCBwYXRjaGVzIHdoaWNoIGFkZGVkCnRyYW5zcGFyZW50
-IHJvdGF0aW9uIHN1cHBvcnQgd2hpbGUgd2FzIGNoZWNraW5nIHdoZXRoZXIgdGhlc2UgcGxhbmUK
-RFJNX01PREVfUk9UQVRFXzE4MCBjb3VsZCBiZSBkcm9wcGVkIGFuZCBpdCdzIGFjdHVhbGx5IG5l
-ZWQgdG8gYmUgc2V0CmZvciB0aGUgcGxhbmVzLCBvdGhlcndpc2UgMTgwIHJvdGF0aW9uIHN1cHBv
-cnQgaXMgZmlsdGVyZWQgb3V0IGJ5IHRoZQphdG9taWMgY2hlY2suCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Quoting Rob Herring (2020-06-17 08:38:20)
+> On Tue, Jun 16, 2020 at 5:15 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Tanmay Shah (2020-06-11 18:50:26)
+> > > diff --git a/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> > > new file mode 100644
+> > > index 000000000000..5fdb9153df00
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/msm/dp-sc7180.yaml
+> > > @@ -0,0 +1,142 @@
+> > > +        data-lanes = <0 1>;
+> > > +
+> > > +        ports {
+> > > +            #address-cells = <1>;
+> > > +            #size-cells = <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg = <0>;
+> > > +                dp_in: endpoint {
+> > > +                    remote-endpoint = <&dpu_intf0_out>;
+> > > +                };
+> > > +            };
+> > > +
+> > > +            port@1 {
+> > > +                reg = <1>;
+> > > +                dp_out: endpoint {
+> >
+> > Just curious what is eventually connected here? This is possibly a
+> > question for Rob Herring, but I can't figure out how we're supposed to
+> > connect this to the USB type-c connector that is receiving the DP
+> > signal. Does the type-c connector binding support connecting to this end
+> > of the graph? Or should this connect to the DP phy and then the phy
+> > connects to the USB type-c connector node? Right now it is empty which
+> > seems wrong.
+> 
+> It should connect to the Type-C connector perhaps thru some sort of
+> switching/muxing node, but that's not really flushed out though. See
+> 'dt-bindings: chrome: Add cros-ec-typec mux props' discussion with
+> your CrOS colleagues.
+> 
+
+Ok. I see that we have an sbu endpoint for an aux channel but not a DP
+endpoint in the type-c connector. I guess it's an alternate mode of the
+connector too so maybe that complicates things. I'll talk to pmalani.
+Thanks.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
