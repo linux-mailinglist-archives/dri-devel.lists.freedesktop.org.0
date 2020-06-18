@@ -1,80 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634551FF4E6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 16:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1E81FF500
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 16:42:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16C556E04B;
-	Thu, 18 Jun 2020 14:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C73CC6E45E;
+	Thu, 18 Jun 2020 14:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8372C6E04B
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 14:38:52 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
- by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <colin.king@canonical.com>)
- id 1jlvgo-0002Gk-Uo; Thu, 18 Jun 2020 14:38:51 +0000
-Subject: Re: [PATCH] drm/arm: fix unintentional integer overflow on left shift
-To: Garrit Franke <garritfranke@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>
-References: <20200618100400.11464-1-colin.king@canonical.com>
- <20200618121405.GJ159988@e110455-lin.cambridge.arm.com>
- <5d08fbec-75d8-d9a9-af61-e6ab98e77c80@canonical.com>
- <20200618142106.GK159988@e110455-lin.cambridge.arm.com>
- <CAD16O86ebsDkwbnuw2G04YZWfukqxJ=_Tex5OT07icEpfPdQNw@mail.gmail.com>
-From: Colin Ian King <colin.king@canonical.com>
-Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <33bcb868-5202-9a59-b4c6-803097cbe620@canonical.com>
-Date: Thu, 18 Jun 2020 15:38:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E69AB6E45E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 14:42:40 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id c3so6300735wru.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 07:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pdYzXGFouE6m4FSIkgrBziaqe3C5lzqdVFEvi65td6k=;
+ b=Yv00WEyiSIg66gxJEUUQwcy2Tlc1E6Wc6zvKRDzYUlRDO6iCWLetHtRbnLoDvvQlXe
+ zOvWWpAvNNuvZIWHgr0fKWDsU8iNkZKTU9Ci4Vt8EkYVQUyV00qvQSrVYglPeqw2m8hn
+ YqvRGf3NKI0NMSmp82ufCgdaCILt0ba9vFJX0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=pdYzXGFouE6m4FSIkgrBziaqe3C5lzqdVFEvi65td6k=;
+ b=MTIXxsM5e7k3zRTtWCQ55BClfFqp0hsdfH1hijn4iNLUulz+3TxGvw+Y8FVJe65dyc
+ IuwlotdPgtewz6AIOfI5M8tIww9rZsH7rMlM9nQIBer1zQUphEgvQQDp5V64vKxS47Oe
+ 4exDZztnG3fWfgQbBMhqMh3i29FCjPSc/QKYUPAVNx8sgQ3UQPx+HrWO0lY/K/GmfFML
+ AAfyrT+cUBGi73bYzTDItRmuQOs8YIoaja/q+yylhSh1Pn5IAYiQ2fh4a6MinCRAkwa8
+ 4wUBoI6p/OXp/Brfk2r9hBcly7zksJSivA3g9M2mNH4tPz1rrOfsgahtNZGRYB/s4YV/
+ MDGQ==
+X-Gm-Message-State: AOAM5300cdsOj5wa+i1otOyfwhr2UfM28MdawXTj+ZVX8iUugYeuisfv
+ jTtmE3lwJ7yH93YeqB/hYd1lzA==
+X-Google-Smtp-Source: ABdhPJxnVXjNFjlZjZjkcFFWafgkcwR6ZwnMtNAx31PJPXgT9P8/Pv/85bqfzuCJe/q/lkXd/e/Xbg==
+X-Received: by 2002:adf:cf0c:: with SMTP id o12mr4325124wrj.265.1592491359458; 
+ Thu, 18 Jun 2020 07:42:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g25sm3649693wmh.18.2020.06.18.07.42.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jun 2020 07:42:38 -0700 (PDT)
+Date: Thu, 18 Jun 2020 16:42:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+Message-ID: <20200618144236.GR20149@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+ <20200616145312.GC6578@ziepe.ca>
+ <CAKMK7uER6ax1zr14xYLKqDfDZp+ycBsY9Yx7JaVkKQ849VfSPg@mail.gmail.com>
+ <20200617152940.GG6578@ziepe.ca>
 MIME-Version: 1.0
-In-Reply-To: <CAD16O86ebsDkwbnuw2G04YZWfukqxJ=_Tex5OT07icEpfPdQNw@mail.gmail.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200617152940.GG6578@ziepe.ca>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,75 +87,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTgvMDYvMjAyMCAxNTozNiwgR2Fycml0IEZyYW5rZSB3cm90ZToKPiBIaSBhbGwsIG5ld2Jp
-ZSBoZXJlLgo+IENhbiB0aGUgQklUIG1hY3JvIGJlIHNhZmVseSB1c2VkIG9uIG90aGVyIHBhcnRz
-IG9mIHRoZSBrZXJuZWwgYXMgd2VsbD8KPiBKdXN0IHVzaW5nIGdpdCBncmVwICIxIDw8IiByZXR1
-cm5zIGEgdG9uIG9mIHJlc3VsdHMgd2hlcmUgYml0IHNoaWZ0aW5nCj4gaXMgdXNlZCB0aGUgb2xk
-IGZhc2hpb25lZCB3YXkuCgpUaGUgQklUIG1hY3JvIGNhc3RzIHRoZSAxIGl0IGEgVUwgYmVmb3Jl
-IHNoaWZ0aW5nIHNvIGl0IGNhdGNoZXMgdGhlc2UKdHlwZSBvZiBidWdzLiAgdXNlIEJJVF9VTEwg
-d2hlbiB0aGUgcmVzdWx0IGlzIGFzc2lnbmVkIHRvIGEgbG9uZyBsb25nLgoKQ29saW4KCj4gCj4g
-QW0gRG8uLCAxOC4gSnVuaSAyMDIwIHVtIDE2OjIzIFVociBzY2hyaWViIExpdml1IER1ZGF1IDxs
-aXZpdS5kdWRhdUBhcm0uY29tPjoKPj4KPj4gT24gVGh1LCBKdW4gMTgsIDIwMjAgYXQgMDE6NTA6
-MzRQTSArMDEwMCwgQ29saW4gSWFuIEtpbmcgd3JvdGU6Cj4+PiBPbiAxOC8wNi8yMDIwIDEzOjE0
-LCBMaXZpdSBEdWRhdSB3cm90ZToKPj4+PiBPbiBUaHUsIEp1biAxOCwgMjAyMCBhdCAxMTowNDow
-MEFNICswMTAwLCBDb2xpbiBLaW5nIHdyb3RlOgo+Pj4+PiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8
-Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+Pj4+Cj4+Pj4gSGkgQ29saW4sCj4+Pj4KPj4+Pj4K
-Pj4+Pj4gU2hpZnRpbmcgdGhlIGludGVnZXIgdmFsdWUgMSBpcyBldmFsdWF0ZWQgdXNpbmcgMzIt
-Yml0IGFyaXRobWV0aWMKPj4+Pj4gYW5kIHRoZW4gdXNlZCBpbiBhbiBleHByZXNzaW9uIHRoYXQg
-ZXhwZWN0cyBhIGxvbmcgdmFsdWUgbGVhZHMgdG8KPj4+Pj4gYSBwb3RlbnRpYWwgaW50ZWdlciBv
-dmVyZmxvdy4KPj4+Pgo+Pj4+IEknbSBhZnJhaWQgdGhpcyBleHBsYW5hdGlvbiBtYWtlcyBubyBz
-ZW5zZSB0byBtZS4gRG8geW91IGNhcmUgdG8gZXhwbGFpbiBiZXR0ZXIgd2hhdAo+Pj4+IHlvdSB0
-aGluayB0aGUgaXNzdWUgaXM/IElmIHRoZSBzaGlmdCBpcyBkb25lIGFzIDMyLWJpdCBhcml0aG1l
-dGljIGFuZCB0aGVuIHByb21vdGVkCj4+Pj4gdG8gbG9uZyBob3cgZG9lcyB0aGUgb3ZlcmZsb3cg
-aGFwcGVuPwo+Pj4KPj4+IFRoZSBzaGlmdCBpcyBwZXJmb3JtZWQgdXNpbmcgMzIgYml0IHNpZ25l
-ZCBtYXRoIGFuZCB0aGVuIGFzc2lnbmVkIHRvIGFuCj4+PiB1bnNpZ25lZCA2NCBiaXQgbG9uZy4g
-VGhpcyBpZiB0aGUgc2hpZnQgaXMgMzEgYml0cyB0aGVuIHRoZSBzaWduZWQgaW50Cj4+PiBjb252
-ZXJzaW9uIG9mIDB4ODAwMDAwMDAgdG8gdW5zaWduZWQgbG9uZyBiZWNvbWVzIDB4ZmZmZmZmZmY4
-MDAwMDAwMC4KPj4+IElmIHRoZSBzaGlmdCBpcyBtb3JlIHRoYW4gMzIgYml0cyB0aGVuIHJlc3Vs
-dCBvdmVyZmxvd3MgYW5kIGJlY29tZXMgMHgwLgo+Pgo+PiBZb3UgYXJlIHJpZ2h0LCBJJ3ZlIG1p
-c3NlZCB0aGUgZmFjdCB0aGF0IGl0IGlzIHNpZ25lZCBtYXRoLiBOb3QgdmVyeSBsaWtlbHkgdGhh
-dAo+PiB3ZSBhcmUgZ29pbmcgdG8gZXZlciBoYXZlIDMwIG9yIG1vcmUgQ1JUQ3MgaW4gdGhlIGRy
-aXZlciwgYnV0IENvdmVyaXR5IGhhcyBubwo+PiB3YXkgb2Yga25vd2luZyB0aGF0Lgo+Pgo+PiBB
-Y2tlZC1ieTogTGl2aXUgRHVkYXUgPGxpdml1LmR1ZGF1QGFybS5jb20+Cj4+Cj4+IEkgd2lsbCBw
-dWxsIHRoaXMgaW50byBkcm0tbWlzYy1uZXh0IHRvZGF5Lgo+Pgo+PiBCZXN0IHJlZ2FyZHMsCj4+
-IExpdml1Cj4+Cj4+Pgo+Pj4gQ29saW4KPj4+Cj4+Pj4KPj4+PiBCZXN0IHJlZ2FyZHMsCj4+Pj4g
-TGl2aXUKPj4+Pgo+Pj4+PiBGaXggdGhpcyBieSB1c2luZyB0aGUgQklUIG1hY3JvIHRvCj4+Pj4+
-IHBlcmZvcm0gdGhlIHNoaWZ0IHRvIGF2b2lkIHRoZSBvdmVyZmxvdy4KPj4+Pj4KPj4+Pj4gQWRk
-cmVzc2VzLUNvdmVyaXR5OiAoIlVuaW50ZW50aW9uYWwgaW50ZWdlciBvdmVyZmxvdyIpCj4+Pj4+
-IEZpeGVzOiBhZDQ5Zjg2MDJmZTggKCJkcm0vYXJtOiBBZGQgc3VwcG9ydCBmb3IgTWFsaSBEaXNw
-bGF5IFByb2Nlc3NvcnMiKQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29s
-aW4ua2luZ0BjYW5vbmljYWwuY29tPgo+Pj4+PiAtLS0KPj4+Pj4gIGRyaXZlcnMvZ3B1L2RybS9h
-cm0vbWFsaWRwX3BsYW5lcy5jIHwgMiArLQo+Pj4+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4+Pj4+Cj4+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3Bs
-YW5lcy5jCj4+Pj4+IGluZGV4IDM3NzE1Y2M2MDY0ZS4uYWI0NWFjNDQ1MDQ1IDEwMDY0NAo+Pj4+
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYwo+Pj4+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYwo+Pj4+PiBAQCAtOTI4LDcgKzkyOCw3
-IEBAIGludCBtYWxpZHBfZGVfcGxhbmVzX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKPj4+
-Pj4gICAgY29uc3Qgc3RydWN0IG1hbGlkcF9od19yZWdtYXAgKm1hcCA9ICZtYWxpZHAtPmRldi0+
-aHctPm1hcDsKPj4+Pj4gICAgc3RydWN0IG1hbGlkcF9wbGFuZSAqcGxhbmUgPSBOVUxMOwo+Pj4+
-PiAgICBlbnVtIGRybV9wbGFuZV90eXBlIHBsYW5lX3R5cGU7Cj4+Pj4+IC0gIHVuc2lnbmVkIGxv
-bmcgY3J0Y3MgPSAxIDw8IGRybS0+bW9kZV9jb25maWcubnVtX2NydGM7Cj4+Pj4+ICsgIHVuc2ln
-bmVkIGxvbmcgY3J0Y3MgPSBCSVQoZHJtLT5tb2RlX2NvbmZpZy5udW1fY3J0Yyk7Cj4+Pj4+ICAg
-IHVuc2lnbmVkIGxvbmcgZmxhZ3MgPSBEUk1fTU9ERV9ST1RBVEVfMCB8IERSTV9NT0RFX1JPVEFU
-RV85MCB8IERSTV9NT0RFX1JPVEFURV8xODAgfAo+Pj4+PiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgRFJNX01PREVfUk9UQVRFXzI3MCB8IERSTV9NT0RFX1JFRkxFQ1RfWCB8IERSTV9NT0RFX1JF
-RkxFQ1RfWTsKPj4+Pj4gICAgdW5zaWduZWQgaW50IGJsZW5kX2NhcHMgPSBCSVQoRFJNX01PREVf
-QkxFTkRfUElYRUxfTk9ORSkgfAo+Pj4+PiAtLQo+Pj4+PiAyLjI3LjAucmMwCj4+Pj4+Cj4+Pj4K
-Pj4+Cj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+Pj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwKPj4KPj4gLS0KPj4gPT09PT09PT09PT09PT09PT09PT0KPj4gfCBJIHdvdWxkIGxp
-a2UgdG8gfAo+PiB8IGZpeCB0aGUgd29ybGQsICB8Cj4+IHwgYnV0IHRoZXkncmUgbm90IHwKPj4g
-fCBnaXZpbmcgbWUgdGhlICAgfAo+PiAgXCBzb3VyY2UgY29kZSEgIC8KPj4gICAtLS0tLS0tLS0t
-LS0tLS0KPj4gICAgIMKvXF8o44OEKV8vwq8KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Jun 17, 2020 at 12:29:40PM -0300, Jason Gunthorpe wrote:
+> On Wed, Jun 17, 2020 at 09:57:54AM +0200, Daniel Vetter wrote:
+> 
+> > > At the very least I think there should be some big warning that
+> > > dma_fence in notifiers should be avoided.
+> > 
+> > Yeah I'm working on documentation, and also the notifiers here
+> > hopefully make it clear it's massive pain. I think we could even make
+> > a hard rule that dma_fence in mmu notifier outside of drivers/gpu is a
+> > bug/misfeature.
+> 
+> Yep!
+>
+> > Might be a good idea to add a MAINTAINERS entry with a K: regex
+> > pattern, so that you can catch such modifiers. We do already have such
+> > a pattern for dma-fence, to catch abuse. So if you want I could type
+> > up a documentation patch for this, get your and others acks and the
+> > dri-devel folks would enforce that the dma_fence_wait madness doesn't
+> > leak beyond drivers/gpu
+> 
+> It seems like the best thing
+
+Just thought about where to best put this, and I think including it as
+another paragraph in the next round of this series makes the most sense.
+You'll get cc'ed for acking when that happens - might take a while since
+there's a lot of details here all over to sort out.
+-Daniel
+
+>  
+> > Oded has agreed to remove the dma-fence usage, since they really don't
+> > need it (and all the baggage that comes with it), plain old completion
+> > is enough for their use. This use is also why I added the regex to
+> > MAINTAINERS, so that in the future we can catch people who try to use
+> > dma_fence because it looks cute and useful, and are completely
+> > oblivious to all the pain and headaches involved.
+> 
+> This is good!
+> 
+> Thanks,
+> Jason 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
