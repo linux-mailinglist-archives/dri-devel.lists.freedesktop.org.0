@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F6A1FEF31
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 12:04:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF601FEF9E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 12:26:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 123CC6EB36;
-	Thu, 18 Jun 2020 10:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 324F56E087;
+	Thu, 18 Jun 2020 10:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE026EB36
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 10:04:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D73E6E087;
+ Thu, 18 Jun 2020 10:26:25 +0000 (UTC)
 Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
  by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <colin.king@canonical.com>)
- id 1jlrOr-0002xe-89; Thu, 18 Jun 2020 10:04:01 +0000
+ id 1jlrkU-0007iM-G4; Thu, 18 Jun 2020 10:26:22 +0000
 From: Colin King <colin.king@canonical.com>
-To: Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>,
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/arm: fix unintentional integer overflow on left shift
-Date: Thu, 18 Jun 2020 11:04:00 +0100
-Message-Id: <20200618100400.11464-1-colin.king@canonical.com>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: remove redundant initialization of variable ret
+Date: Thu, 18 Jun 2020 11:26:22 +0100
+Message-Id: <20200618102622.12256-1-colin.king@canonical.com>
 X-Mailer: git-send-email 2.27.0.rc0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,31 +48,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Colin Ian King <colin.king@canonical.com>
 
-Shifting the integer value 1 is evaluated using 32-bit arithmetic
-and then used in an expression that expects a long value leads to
-a potential integer overflow. Fix this by using the BIT macro to
-perform the shift to avoid the overflow.
+The variable ret is being initialized with a value that is never read
+and it is being updated later with a new value.  The initialization is
+redundant and can be removed.
 
-Addresses-Coverity: ("Unintentional integer overflow")
-Fixes: ad49f8602fe8 ("drm/arm: Add support for Mali Display Processors")
+Addresses-Coverity: ("Unused value")
 Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/gpu/drm/arm/malidp_planes.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 37715cc6064e..ab45ac445045 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -928,7 +928,7 @@ int malidp_de_planes_init(struct drm_device *drm)
- 	const struct malidp_hw_regmap *map = &malidp->dev->hw->map;
- 	struct malidp_plane *plane = NULL;
- 	enum drm_plane_type plane_type;
--	unsigned long crtcs = 1 << drm->mode_config.num_crtc;
-+	unsigned long crtcs = BIT(drm->mode_config.num_crtc);
- 	unsigned long flags = DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_180 |
- 			      DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
- 	unsigned int blend_caps = BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+index b2cdc8a1268f..58b76d3d7365 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c
+@@ -1609,7 +1609,7 @@ static ssize_t amdgpu_set_pp_power_profile_mode(struct device *dev,
+ 		const char *buf,
+ 		size_t count)
+ {
+-	int ret = 0xff;
++	int ret;
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = ddev->dev_private;
+ 	uint32_t parameter_size = 0;
 -- 
 2.27.0.rc0
 
