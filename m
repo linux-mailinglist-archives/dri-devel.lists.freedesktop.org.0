@@ -2,37 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776C21FEEA0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 11:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD66D1FEF00
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 11:52:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 974DF6EB2D;
-	Thu, 18 Jun 2020 09:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D561F6E1E2;
+	Thu, 18 Jun 2020 09:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EDE1D6E1E2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 09:28:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5C7EC1045;
- Thu, 18 Jun 2020 02:28:33 -0700 (PDT)
-Received: from [192.168.1.84] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 483DF3F6CF;
- Thu, 18 Jun 2020 02:28:32 -0700 (PDT)
-Subject: Re: [PATCH v3] drm/panfrost: Reduce the amount of logs on deferred
- probe
-To: Rob Herring <robh@kernel.org>
-References: <20200527200544.7849-1-krzk@kernel.org>
- <20200527204334.GA15485@kevin> <20200617141547.GA30516@kozik-lap>
- <b41bfead-7b73-be78-c63f-79a0a7e23b2a@arm.com>
- <CAL_JsqLrFFOVQVR0dWbru6bJvz7sXs8v6Op-hiNgdMwH3N=2Fw@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <cd609ad6-9672-9fdd-e693-f15395cb6fd0@arm.com>
-Date: Thu, 18 Jun 2020 10:28:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E526E1E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 09:52:06 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05I9q0wa125071;
+ Thu, 18 Jun 2020 04:52:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1592473920;
+ bh=G9sP1vrCrjN/lVI73aFDIHVuLLC9PV5ia5GovzSM3u0=;
+ h=From:To:CC:Subject:Date;
+ b=PaTFErnUHK+L1j5HFfHCSbO78p8VWqU9QERwxddMRPzzxUWHmZ0+yQGc35Wmo6m3f
+ l7rMlMSijpbvI8/CoT0NFou1MJiG9aM/2p+GAFJq+Ue94OUGwQLYIk5rpv/EdgfQbj
+ AhRCh5doE0vFUvoPOJyH3Z/r+vvDwM3AnBhP+Gf0=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05I9px8t057161
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 18 Jun 2020 04:52:00 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 18
+ Jun 2020 04:51:59 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 18 Jun 2020 04:51:59 -0500
+Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05I9pv7j024166;
+ Thu, 18 Jun 2020 04:51:58 -0500
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, Tony Lindgren <tony@atomide.com>
+Subject: [PATCH v2] drm/omap: force runtime PM suspend on system suspend
+Date: Thu, 18 Jun 2020 12:51:52 +0300
+Message-ID: <20200618095153.611071-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLrFFOVQVR0dWbru6bJvz7sXs8v6Op-hiNgdMwH3N=2Fw@mail.gmail.com>
-Content-Language: en-GB
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,68 +57,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Grygorii Strashko <grygorii.strashko@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2020 20:57, Rob Herring wrote:
-> On Wed, Jun 17, 2020 at 8:36 AM Steven Price <steven.price@arm.com> wrote:
->>
->> On 17/06/2020 15:15, Krzysztof Kozlowski wrote:
->>> On Wed, May 27, 2020 at 04:43:34PM -0400, Alyssa Rosenzweig wrote:
->>>> Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->>>>
->>>> On Wed, May 27, 2020 at 10:05:44PM +0200, Krzysztof Kozlowski wrote:
->>>>> There is no point to print deferred probe (and its failures to get
->>>>> resources) as an error.  Also there is no need to print regulator errors
->>>>> twice.
->>>>>
->>>>> In case of multiple probe tries this would pollute the dmesg.
->>>>>
->>>>> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->>>>> Reviewed-by: Steven Price <steven.price@arm.com>
->>>>>
->>>>> ---
->>>>>
->>>>> Changes since v2:
->>>>> 1. Rebase
->>>>> 2. Add Steven's review
->>>>>
->>>>> Changes since v1:
->>>>> 1. Remove second error message from calling panfrost_regulator_init()
->>>>> ---
->>>>>    drivers/gpu/drm/panfrost/panfrost_device.c | 8 ++++----
->>>>>    1 file changed, 4 insertions(+), 4 deletions(-)
->>>>>
->>>
->>> Hi Rob, Tomeu and Steven,
->>>
->>> You're listed as maintainers for panfrost. Is anyone going to pick this
->>> up?
->>
->> I'm only a reviewer so I've been leaving it for Rob or Tomeu, but I can
->> pick it up if Rob/Tomeu are happy for me to do that.
->>
->>> Maybe I sent it to wrong mailing list or forgot about anything?
->>
->> No, there's actually a few Panfrost commits waiting, it was on my todo
->> list to ask if Rob/Tomeu needed some help with merging patches.
-> 
-> Please do, I haven't had the cycles for panfrost lately.
-> 
-> Rob
-> 
+Use SET_LATE_SYSTEM_SLEEP_PM_OPS in DSS submodules to force runtime PM
+suspend and resume.
 
-Ok, this patch is pushed to drm-misc-next. I'll dig through my emails 
-for the other patches which are pending and take a look at them too.
+We use suspend late version so that omapdrm's system suspend callback is
+called first, as that will disable all the display outputs after which
+it's safe to force DSS into suspend.
 
-Steve
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
+ drivers/gpu/drm/omapdrm/dss/dispc.c | 1 +
+ drivers/gpu/drm/omapdrm/dss/dsi.c   | 1 +
+ drivers/gpu/drm/omapdrm/dss/dss.c   | 1 +
+ drivers/gpu/drm/omapdrm/dss/venc.c  | 1 +
+ 4 files changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
+index 6639ee9b05d3..48593932bddf 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dispc.c
++++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
+@@ -4915,6 +4915,7 @@ static int dispc_runtime_resume(struct device *dev)
+ static const struct dev_pm_ops dispc_pm_ops = {
+ 	.runtime_suspend = dispc_runtime_suspend,
+ 	.runtime_resume = dispc_runtime_resume,
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ struct platform_driver omap_dispchw_driver = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 79ddfbfd1b58..eeccf40bae41 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -5467,6 +5467,7 @@ static int dsi_runtime_resume(struct device *dev)
+ static const struct dev_pm_ops dsi_pm_ops = {
+ 	.runtime_suspend = dsi_runtime_suspend,
+ 	.runtime_resume = dsi_runtime_resume,
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ struct platform_driver omap_dsihw_driver = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 4d5739fa4a5d..6ccbc29c4ce4 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -1614,6 +1614,7 @@ static int dss_runtime_resume(struct device *dev)
+ static const struct dev_pm_ops dss_pm_ops = {
+ 	.runtime_suspend = dss_runtime_suspend,
+ 	.runtime_resume = dss_runtime_resume,
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ struct platform_driver omap_dsshw_driver = {
+diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
+index 9701843ccf09..01ee6c50b663 100644
+--- a/drivers/gpu/drm/omapdrm/dss/venc.c
++++ b/drivers/gpu/drm/omapdrm/dss/venc.c
+@@ -902,6 +902,7 @@ static int venc_runtime_resume(struct device *dev)
+ static const struct dev_pm_ops venc_pm_ops = {
+ 	.runtime_suspend = venc_runtime_suspend,
+ 	.runtime_resume = venc_runtime_resume,
++	SET_LATE_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ static const struct of_device_id venc_of_match[] = {
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
