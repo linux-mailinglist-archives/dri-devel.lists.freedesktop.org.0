@@ -2,100 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488B91FF76B
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD341FF766
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:41:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAF86EB8C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180F66EB89;
 	Thu, 18 Jun 2020 15:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86E56EB7D
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:40:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD486EB7F
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:40:37 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200618154035euoutp02b506c2e0304e4c5bb9878f2d23845c07~ZrZ2HIR5f1314813148euoutp02X
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:40:35 +0000 (GMT)
+ 20200618154036euoutp02b1a4f2c3ca7436b2d2d63487efc6ce7c~ZrZ27Z1Jb1314513145euoutp02d
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:40:36 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200618154035euoutp02b506c2e0304e4c5bb9878f2d23845c07~ZrZ2HIR5f1314813148euoutp02X
+ 20200618154036euoutp02b1a4f2c3ca7436b2d2d63487efc6ce7c~ZrZ27Z1Jb1314513145euoutp02d
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1592494835;
- bh=aaZTZ5x9zU33iQSvUdNimV6zB4azWieuKqbzqgFwTCo=;
+ s=mail20170921; t=1592494836;
+ bh=RMBhG1Fw6ugPclokWBJRv00vV8Qg1yQmDHqJxe7Y93k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ufI0TCkIkyWEsTKrzhfm7RtRWwrCv9j4fMUgZas4UHEgmUfqI1ptxcc6fuNprex39
- cMPs+wHvXa8xvlTDENwoEQPExP17LNBh9ygPnka8RDv/hwH5d/t60XlVzPdYtCivWq
- GGv4S6JzdBYmrLD6Rhukuxl2mIYXIXRWuE2uzpmI=
+ b=QZy6brriuE+JlpxBYK/yvbi6pE6pAz+WGlL7ttKfFzftt9fDBEUrrEw6hOx3xd9k8
+ FH3IO8v4Ybe06ehSXUp05eJrdLiA7nKIqTyzhS2Uj8PM/H/jyDOaPNWiZ5d8Yhr/e9
+ h5f8zS6aSDsX6Q9nK5G3qLbl6Fi8gyh7mstTNU/I=
 Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200618154034eucas1p2223ae48782e68091f46f6b558930c866~ZrZ1u8puc0501005010eucas1p2w;
- Thu, 18 Jun 2020 15:40:34 +0000 (GMT)
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200618154035eucas1p117a6a9102b0d7e4a1993743678c0a19b~ZrZ2komC01248212482eucas1p14;
+ Thu, 18 Jun 2020 15:40:35 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id FC.60.60698.2FA8BEE5; Thu, 18
- Jun 2020 16:40:34 +0100 (BST)
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 4E.60.60698.3FA8BEE5; Thu, 18
+ Jun 2020 16:40:35 +0100 (BST)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200618154034eucas1p1f76546f76920c48a8407bb6737a41fb8~ZrZ1auw851949419494eucas1p1P;
- Thu, 18 Jun 2020 15:40:34 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200618154035eucas1p24774788a08a2d2a0a7e24c8755c885ed~ZrZ2QXB0R0607806078eucas1p2l;
+ Thu, 18 Jun 2020 15:40:35 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200618154034eusmtrp2313bf3889ca98a5f7c8a5c7c72a686c5~ZrZ1Z9UrW0370403704eusmtrp2t;
- Thu, 18 Jun 2020 15:40:34 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-48-5eeb8af24791
+ 20200618154035eusmtrp2e6f73cde99b8d3900a2790d28e272d8d~ZrZ2PoLOU0370403704eusmtrp2u;
+ Thu, 18 Jun 2020 15:40:35 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-4a-5eeb8af3b678
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 15.FE.08375.2FA8BEE5; Thu, 18
- Jun 2020 16:40:34 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 96.FE.08375.3FA8BEE5; Thu, 18
+ Jun 2020 16:40:35 +0100 (BST)
 Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
  eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200618154033eusmtip1382c83db1d245c08d12c5a28e46cbfdf~ZrZ0hRlje0864308643eusmtip1N;
- Thu, 18 Jun 2020 15:40:33 +0000 (GMT)
+ 20200618154034eusmtip14d2941d234d8a5183f57af3dab10a663~ZrZ1ZHKzG2819228192eusmtip1a;
+ Thu, 18 Jun 2020 15:40:34 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 29/36] staging: ion: fix common struct sg_table related
- issues
-Date: Thu, 18 Jun 2020 17:39:50 +0200
-Message-Id: <20200618153956.29558-30-m.szyprowski@samsung.com>
+Subject: [PATCH v6 30/36] staging: tegra-vde: fix common struct sg_table
+ related issues
+Date: Thu, 18 Jun 2020 17:39:51 +0200
+Message-Id: <20200618153956.29558-31-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200618153956.29558-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WSfUyNURzHnee9O9cet7bOYmu7ZEIlsZ2NtV6MsxkzbDXj6tKzXHWr3aeQ
- f1xCdpVUNq2JkEI3vdCNSrmJW9LVqJRKkVGSK72MovT0ePnv8/t+v7/zO7+zw5GqYdqN00XH
- CYZobZSaUVCWJz+ee30zDWpW1r9ejVLsDQRy/OphUElmEY2OfVmEpi1pJKp6NsGiljEHgxKv
- FTHoZsFjAuXUrEV5Rg90s+o7gUZb3hKotK+NRi8rLjKosK6bRRazkUbWr+9p9LR7hEU5bRNs
- gAu2VFpobL5kBvhX9jCJ31Q/ovCD8RwKX/k2RuOutioGl4/30rgm28zinjM2At/JPYo7p/pI
- nNGeD3Blh5HBjupWBp+9ewtsnb9TsS5ciNIdFAw+/mGK/ZPnW8nYoXWHU+3nSSNIX2UCThzk
- V8OqznzSBBScir8BYEN7OSEZKn4UwJ7kYNkYAbAlt4A1AW6246MxVNbzAezNus7IxUxDR2cT
- K3UzvC80DZkYiV34kwDWp8yVQiSfTMOB4uJZw5nfDj8MPqQkpngPOFWaR0us5P1hV10ZLd/P
- HRYUPyQldprRG20naekgyF/hYHJZ65/Qenj/UzclszP8ZLvLyrwQTt+/TMgNiQC+tReycpEM
- 4MvjmUBOrYVd9glGWo7kPWFRhY8sB8LHpgFG3nkebB+aL8nkDKZbLpCyrISnT6nk9BKYZbv9
- b6y1+QUpM4ZWaxIlv1AagKnmz/Q54J71f1gOALeAqxAv6iME0S9aOOQtavVifHSE974YfSmY
- +YiNU7axe6D6595awHNAPVfZv2NQo6K1B8UEfS2AHKl2UQY1NWpUynBtwhHBELPHEB8liLVg
- AUepXZV+Vwd2q/gIbZwQKQixguGvS3BObkbgUeK2u2R54PQW9zyl36jujG5NW2BGqLapTB3j
- um1paLZi8aPPW/So0HpoMax73ezVsils6Z5KlOAWEly04WnAaN+iwQ+bd+nyHOGec/xSMxs1
- 4cZTaXtHepPGiXpH64lJr/KGXa8y++veXXAOWbXRYN8nalbcUcMDkcNXdwaFlYeqKXG/1ncZ
- aRC1vwFfrLEnhAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEIsWRmVeSWpSXmKPExsVy+t/xu7qful7HGWx9pmDRe+4kk8X7v/fZ
- LDbOWM9q0fhO2eL/tonMFnvO/GK3uPL1PZtF8+L1bBYrVx9lsliw39piWYOqxco9P5gsvlx5
- yGSx6fE1VovLu+awWaw9cpfdYtuaBlaLgx+esFqcuvuZ3WLBtV/sDiIe23ZvY/VYM28No8ff
- uR+ZPe7tO8zisffbAhaPhZ++snrcubaHzWP7twesHvvnrmH3uN99nMlj85J6j9v/HjN7TL6x
- nNFj980GNo/3+66yefRtWcUYIBilZ1OUX1qSqpCRX1xiqxRtaGGkZ2hpoWdkYqlnaGwea2Vk
- qqRvZ5OSmpNZllqkb5egl/F7ylXmgrc2Ff3npjA3ME4y6mLk4JAQMJF43hDRxcjFISSwlFHi
- y6rZrF2MnEBxGYmT0xqgbGGJP9e62EBsIYFPjBK3TkqB2GwChhJdb0HiXBwiAp2MEtO6P7KD
- OMwCM1gl1h24xw5SJSwQKLGm5xPYJBYBVYl/m5aB2bwCdhJ3jmyF2iAvsXrDAWYQmxMofvp4
- KyvENluJ5x/a2CYw8i1gZFjFKJJaWpybnltsqFecmFtcmpeul5yfu4kRGJ/bjv3cvIPx0sbg
- Q4wCHIxKPLwvQl7HCbEmlhVX5h5ilOBgVhLhdTp7Ok6INyWxsiq1KD++qDQntfgQoynQUROZ
- pUST84GpI68k3tDU0NzC0tDc2NzYzEJJnLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA6PAOcNN
- rr+FrfKLkkT7T/QpKWz69fRSkeb3FcoLTZcseZbGdqt0hkGt2uEfAVXVFtbBX4uYuio+zv0/
- 4/qx1C+3mBkzvlsZ9aed2qouf/Rpxt2bc29ePL3KOVj4+Obwk5VKl5f81bYIPb20fEnN59Zr
- 3X/mcQY492/SuvSZ70LRUda3iuKtBSJKLMUZiYZazEXFiQBoGbGY5QIAAA==
-X-CMS-MailID: 20200618154034eucas1p1f76546f76920c48a8407bb6737a41fb8
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSf0yMcRzHfZ/nueeezp2erjbflTFntcWEZXwtWqw/Hv6gYUwSh2cd7i67
+ q/TjD1epueNKmlVX0lSi7tw5KYVyiWOXmJQfCS2jnDrpx6olup7iv9fnx/vz/ny++1K4+AvP
+ lzqmjGNVSqlcQgqImifjL1YO6ZzRqysHViB96zMM3co389Cfmhwc3W+Z4KOqwR6AXo+4SJRe
+ aibRjarHGCppDEFnDFcJNPy6G0PWng4eaqsvItF5yx0e0g4bSGRq7uKja9ZJDNl+fuGh8fpi
+ IsybMRYbAfOx4RHBPBgtIZg6QxefsVZqSaZ29DOPabxs5DOfztkx5nbZaaZzqgdnct9WAObe
+ Ow3J6NMHSCaruhIwQ9bFEZ6Rgo1HWfmxBFa1KvSQQPYyy4yf/OqZqCnfrwHFIh3woCC9Fv7o
+ +ErqgIAS09cBbP89xOOCYQDT35cQXDAE4BvXNzAn0Y/aAFeoANDQnIq7CzMSY06Am0l6DdT1
+ 60g3+9AZAD7VC92M0y0EbBkLdrM3vQ+OdX6e0RK0PzQ6jZibRXQorGu2kpzZElhleTjT4zGd
+ d9gzZtaDdA4FM5yFs03h8E2bjc+xN/xur57lRfBP3RWME6QD2N1q4nPBeQDb0vJn7wmBH1on
+ pidR0+sFQnP9KjdCejO8UEtyuAC+7ffi9l8AL9bk4VxaBM9mirkZAdBgv/nP1fby1WwLA/sr
+ IPc6OQCee8e/AJYY/juVAFAJFrLxakUMqw5WsqeC1FKFOl4ZE3QkVmEF03/PMWUfuQsaJg83
+ AZoCEqGod7czWsyTJqiTFE0AUrjER7TluSNaLDoqTUpmVbEHVfFyVt0E/ChCslAUfLXvgJiO
+ kcaxJ1j2JKuaq2KUh68GXEk6btGmyUoDO8oLurrnr5Pv8RTuCsPGx12bVL3ZPhucSwu85vX+
+ LlOYhK7EgpSpoj3Pp+zt+m2m9SZH+L0U/+V4buG3Io1zfWLHpeQ4PcmPjIzYutO7EQ/dG4Xy
+ /Np9+8JDGjIFKcsE2ysGBi0yujS1TjvxS3xzx+7ssdh5URJCLZOuWY6r1NK/niSrNncDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFIsWRmVeSWpSXmKPExsVy+t/xu7qfu17HGeyYIWnRe+4kk8XGGetZ
+ Lf5vm8hssefML3aL1R8fM1pc+fqezaJ58Xo2i5WrjzJZLNhvbdEyaxGLxZcrD5ksNj2+xmpx
+ edccNoueDVtZLTq/zGKzWHvkLrvFsk1/mCwOfnjCavFz1zwWB2GPNfPWMHrc23eYxWPvtwUs
+ Hjtn3WX32LSqk81j+7cHrB77565h97jffZzJY/OSeo/b/x4ze0y+sZzRY/fNBjaP3uZ3bB59
+ W1YxenzeJBfAH6VnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9nk5Kak1mW
+ WqRvl6CXcaFvPXPBM/6KhqXRDYzzeLsYOTkkBEwker8dZOxi5OIQEljKKPH34F9miISMxMlp
+ DawQtrDEn2tdbBBFnxglLj3dwgKSYBMwlOh6C5EQEehklJjW/ZEdxGEWuMEiMXfLB3aQKmGB
+ cIlrG3rAxrIIqEqseb2GCcTmFbCT2HlkExvECnmJ1RsOgNVwAsVPH28FWy0kYCvx/EMb2wRG
+ vgWMDKsYRVJLi3PTc4sN9YoTc4tL89L1kvNzNzEC43HbsZ+bdzBe2hh8iFGAg1GJh/dFyOs4
+ IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccXleakFh9iNAU6aiKzlGhyPjBV5JXEG5oa
+ mltYGpobmxubWSiJ83YIHIwREkhPLEnNTk0tSC2C6WPi4JRqYJST2DZtxd3HkuESWjuv5wjL
+ Flrdri0rmbiOw9rW6cfXJbq/CmaUJ+wOWDdd/9NXEce11kXiAqxPw2rKzUS3Ll+4RTvi88Sl
+ u34eadaZa+eVmP/iy+EJMbbXp9xonbvp8vbo2X9nNB61S5HifzDhzAN+o6gspwtCnn85tl++
+ U85y+2bBlu1dVpZKLMUZiYZazEXFiQDLpozC3QIAAA==
+X-CMS-MailID: 20200618154035eucas1p24774788a08a2d2a0a7e24c8755c885ed
 X-Msg-Generator: CA
-X-RootMTR: 20200618154034eucas1p1f76546f76920c48a8407bb6737a41fb8
+X-RootMTR: 20200618154035eucas1p24774788a08a2d2a0a7e24c8755c885ed
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200618154034eucas1p1f76546f76920c48a8407bb6737a41fb8
+X-CMS-RootMailID: 20200618154035eucas1p24774788a08a2d2a0a7e24c8755c885ed
 References: <20200618153956.29558-1-m.szyprowski@samsung.com>
- <CGME20200618154034eucas1p1f76546f76920c48a8407bb6737a41fb8@eucas1p1.samsung.com>
+ <CGME20200618154035eucas1p24774788a08a2d2a0a7e24c8755c885ed@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,13 +107,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Todd Kjos <tkjos@android.com>,
+Cc: devel@driverdev.osuosl.org,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Martijn Coenen <maco@android.com>, Christian Brauner <christian@brauner.io>,
- Joel Fernandes <joel@joelfernandes.org>, Laura Abbott <labbott@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
  linux-arm-kernel@lists.infradead.org,
  Marek Szyprowski <m.szyprowski@samsung.com>
@@ -148,196 +147,26 @@ nents and orig_nents entries, making the code robust, easier to follow
 and copy/paste safe.
 
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/staging/android/ion/ion.c             | 25 +++++------
- drivers/staging/android/ion/ion_heap.c        | 44 ++++++-------------
- drivers/staging/android/ion/ion_system_heap.c |  2 +-
- 3 files changed, 25 insertions(+), 46 deletions(-)
+ drivers/staging/media/tegra-vde/iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
-index 38b51eace4f9..3c9f09506ffa 100644
---- a/drivers/staging/android/ion/ion.c
-+++ b/drivers/staging/android/ion/ion.c
-@@ -147,14 +147,14 @@ static struct sg_table *dup_sg_table(struct sg_table *table)
- 	if (!new_table)
- 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
+index 6af863d92123..adf8dc7ee25c 100644
+--- a/drivers/staging/media/tegra-vde/iommu.c
++++ b/drivers/staging/media/tegra-vde/iommu.c
+@@ -36,8 +36,8 @@ int tegra_vde_iommu_map(struct tegra_vde *vde,
  
--	ret = sg_alloc_table(new_table, table->nents, GFP_KERNEL);
-+	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
- 	if (ret) {
- 		kfree(new_table);
- 		return ERR_PTR(-ENOMEM);
- 	}
+ 	addr = iova_dma_addr(&vde->iova, iova);
  
- 	new_sg = new_table->sgl;
--	for_each_sg(table->sgl, sg, table->nents, i) {
-+	for_each_sgtable_sg(table, sg, i) {
- 		memcpy(new_sg, sg, sizeof(*sg));
- 		new_sg->dma_address = 0;
- 		new_sg = sg_next(new_sg);
-@@ -224,12 +224,13 @@ static struct sg_table *ion_map_dma_buf(struct dma_buf_attachment *attachment,
- {
- 	struct ion_dma_buf_attachment *a = attachment->priv;
- 	struct sg_table *table;
-+	int ret;
- 
- 	table = a->table;
- 
--	if (!dma_map_sg(attachment->dev, table->sgl, table->nents,
--			direction))
--		return ERR_PTR(-ENOMEM);
-+	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(ret);
- 
- 	return table;
- }
-@@ -238,7 +239,7 @@ static void ion_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 			      struct sg_table *table,
- 			      enum dma_data_direction direction)
- {
--	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
-+	dma_unmap_sgtable(attachment->dev, table, direction, 0);
- }
- 
- static int ion_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-@@ -296,10 +297,8 @@ static int ion_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	}
- 
- 	mutex_lock(&buffer->lock);
--	list_for_each_entry(a, &buffer->attachments, list) {
--		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->nents,
--				    direction);
--	}
-+	list_for_each_entry(a, &buffer->attachments, list)
-+		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
- 
- unlock:
- 	mutex_unlock(&buffer->lock);
-@@ -319,10 +318,8 @@ static int ion_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	}
- 
- 	mutex_lock(&buffer->lock);
--	list_for_each_entry(a, &buffer->attachments, list) {
--		dma_sync_sg_for_device(a->dev, a->table->sgl, a->table->nents,
--				       direction);
--	}
-+	list_for_each_entry(a, &buffer->attachments, list)
-+		dma_sync_sgtable_for_device(a->dev, a->table, direction);
- 	mutex_unlock(&buffer->lock);
- 
- 	return 0;
-diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
-index 9c23b2382a1e..79f27949edda 100644
---- a/drivers/staging/android/ion/ion_heap.c
-+++ b/drivers/staging/android/ion/ion_heap.c
-@@ -20,8 +20,7 @@
- void *ion_heap_map_kernel(struct ion_heap *heap,
- 			  struct ion_buffer *buffer)
- {
--	struct scatterlist *sg;
--	int i, j;
-+	struct sg_page_iter piter;
- 	void *vaddr;
- 	pgprot_t pgprot;
- 	struct sg_table *table = buffer->sg_table;
-@@ -38,14 +37,11 @@ void *ion_heap_map_kernel(struct ion_heap *heap,
- 	else
- 		pgprot = pgprot_writecombine(PAGE_KERNEL);
- 
--	for_each_sg(table->sgl, sg, table->nents, i) {
--		int npages_this_entry = PAGE_ALIGN(sg->length) / PAGE_SIZE;
--		struct page *page = sg_page(sg);
--
--		BUG_ON(i >= npages);
--		for (j = 0; j < npages_this_entry; j++)
--			*(tmp++) = page++;
-+	for_each_sgtable_page(table, &piter, 0) {
-+		BUG_ON(tmp - pages >= npages);
-+		*tmp++ = sg_page_iter_page(&piter);
- 	}
-+
- 	vaddr = vmap(pages, npages, VM_MAP, pgprot);
- 	vfree(pages);
- 
-@@ -64,32 +60,19 @@ void ion_heap_unmap_kernel(struct ion_heap *heap,
- int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
- 		      struct vm_area_struct *vma)
- {
-+	struct sg_page_iter piter;
- 	struct sg_table *table = buffer->sg_table;
- 	unsigned long addr = vma->vm_start;
--	unsigned long offset = vma->vm_pgoff * PAGE_SIZE;
--	struct scatterlist *sg;
--	int i;
- 	int ret;
- 
--	for_each_sg(table->sgl, sg, table->nents, i) {
--		struct page *page = sg_page(sg);
--		unsigned long remainder = vma->vm_end - addr;
--		unsigned long len = sg->length;
-+	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
-+		struct page *page = sg_page_iter_page(&piter);
- 
--		if (offset >= sg->length) {
--			offset -= sg->length;
--			continue;
--		} else if (offset) {
--			page += offset / PAGE_SIZE;
--			len = sg->length - offset;
--			offset = 0;
--		}
--		len = min(len, remainder);
--		ret = remap_pfn_range(vma, addr, page_to_pfn(page), len,
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(page), PAGE_SIZE,
- 				      vma->vm_page_prot);
- 		if (ret)
- 			return ret;
--		addr += len;
-+		addr += PAGE_SIZE;
- 		if (addr >= vma->vm_end)
- 			return 0;
- 	}
-@@ -109,15 +92,14 @@ static int ion_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
- 	return 0;
- }
- 
--static int ion_heap_sglist_zero(struct scatterlist *sgl, unsigned int nents,
--				pgprot_t pgprot)
-+static int ion_heap_sglist_zero(struct sg_table *sgt, pgprot_t pgprot)
- {
- 	int p = 0;
- 	int ret = 0;
- 	struct sg_page_iter piter;
- 	struct page *pages[32];
- 
--	for_each_sg_page(sgl, &piter, nents, 0) {
-+	for_each_sgtable_page(sgt, &piter, 0) {
- 		pages[p++] = sg_page_iter_page(&piter);
- 		if (p == ARRAY_SIZE(pages)) {
- 			ret = ion_heap_clear_pages(pages, p, pgprot);
-@@ -142,7 +124,7 @@ int ion_heap_buffer_zero(struct ion_buffer *buffer)
- 	else
- 		pgprot = pgprot_writecombine(PAGE_KERNEL);
- 
--	return ion_heap_sglist_zero(table->sgl, table->nents, pgprot);
-+	return ion_heap_sglist_zero(table, pgprot);
- }
- 
- void ion_heap_freelist_add(struct ion_heap *heap, struct ion_buffer *buffer)
-diff --git a/drivers/staging/android/ion/ion_system_heap.c b/drivers/staging/android/ion/ion_system_heap.c
-index b83a1d16bd89..eac0632ab4e8 100644
---- a/drivers/staging/android/ion/ion_system_heap.c
-+++ b/drivers/staging/android/ion/ion_system_heap.c
-@@ -162,7 +162,7 @@ static void ion_system_heap_free(struct ion_buffer *buffer)
- 	if (!(buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE))
- 		ion_heap_buffer_zero(buffer);
- 
--	for_each_sg(table->sgl, sg, table->nents, i)
-+	for_each_sgtable_sg(table, sg, i)
- 		free_buffer_page(sys_heap, buffer, sg_page(sg));
- 	sg_free_table(table);
- 	kfree(table);
+-	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
+-			    IOMMU_READ | IOMMU_WRITE);
++	size = iommu_map_sgtable(vde->domain, addr, sgt,
++				 IOMMU_READ | IOMMU_WRITE);
+ 	if (!size) {
+ 		__free_iova(&vde->iova, iova);
+ 		return -ENXIO;
 -- 
 2.17.1
 
