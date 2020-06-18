@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049DB1FFE8F
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 01:22:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2095C1FFE8E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 01:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02CCB6E48C;
-	Thu, 18 Jun 2020 23:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F6F6E48D;
+	Thu, 18 Jun 2020 23:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CFA6E48C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 23:22:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1592522526; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=uxcHy6A4lpfudbGIOzAULZVoTBqGZXltcTorJ7R9H/M=;
- b=U9cEjCGEyyh76q2VgoZpBhCZhVLNxdTB1sB1i2Dhbu22DdZK6NUC/dSqSs9VnF2mi8CgD4Hh
- KBR6IQTea6UIMI+8xvw/7B1Fp77wF7RZD11ZSAm8UStrsCVp009yZcfWZmq8NP6jJw2RY1i4
- iU3wrO90RmPixO6hvjqvYUfgf4A=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5eebf70fe144dd511552579e (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Jun 2020 23:21:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 76C63C43387; Thu, 18 Jun 2020 23:21:51 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 07B1FC433C8;
- Thu, 18 Jun 2020 23:21:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07B1FC433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=tanmay@codeaurora.org
-From: Tanmay Shah <tanmay@codeaurora.org>
-To: swboyd@chromium.org,
-	agross@kernel.org
-Subject: [PATCH v2] arm64: dts: qcom: sc7180: Add Display Port dt node
-Date: Thu, 18 Jun 2020 16:21:13 -0700
-Message-Id: <20200618232113.22687-1-tanmay@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B1F06E484;
+ Thu, 18 Jun 2020 23:21:51 +0000 (UTC)
+IronPort-SDR: Of7j82n7ywX+HP2Cc1LDtTt/TrcfBpRPtYskaBEjkFCvVQAXESKMn67/GbamUU38LddrmuC1x7
+ Zg5TguXRI9sg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="130136489"
+X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; d="scan'208";a="130136489"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 16:21:50 -0700
+IronPort-SDR: d0RREbJANA5nmi/MaT59IThMUpkgu1qOmTmd+SAES1gl3lHyLVANSkNtlqVPNXfhCJKCAApIVY
+ /UHKhKd+fnhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; d="scan'208";a="299866017"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by fmsmga004.fm.intel.com with ESMTP; 18 Jun 2020 16:21:48 -0700
+Date: Thu, 18 Jun 2020 16:23:03 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 1/3] drm/dp: DRM DP helper for reading Ignore MSA from
+ DPCD
+Message-ID: <20200618232303.GB32149@intel.com>
+References: <20200612230444.10121-1-manasi.d.navare@intel.com>
+ <20200612230444.10121-2-manasi.d.navare@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200612230444.10121-2-manasi.d.navare@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,120 +52,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, bjorn.andersson@linaro.org,
- linux-arm-msm@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, seanpaul@chromium.org, abhinavk@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable DP driver for sc7180.
+@Jani N, could you give an ACK on this if this looks okay, addressed
+your review comments regarding the name of the function.
+Else I have a r-b functionality wise so good to get merged?
 
-This change depends-on following series:
-https://patchwork.freedesktop.org/series/78583/
-and https://patchwork.freedesktop.org/patch/351990/
+Regards
+Manasi
 
-Changes in v2:
+On Fri, Jun 12, 2020 at 04:04:42PM -0700, Manasi Navare wrote:
+> DP sink device sets the Ignore MSA bit in its
+> DP_DOWNSTREAM_PORT_COUNT register to indicate its ability to
+> ignore the MSA video timing parameters and its ability to support
+> seamless video timing change over a range of timing exposed by
+> DisplayID and EDID.
+> This is required for the sink to indicate that it is Adaptive sync
+> capable.
+> =
 
-- Add assigned-clocks and assigned-clock-parents
-- Remove cell-index and pixel_rcg
-- Change compatible to qcom,sc7180-dp
+> v3:
+> * Fi the typo in commit message (Manasi)
+> v2:
+> * Rename to describe what the function does (Jani Nikula)
+> =
 
-Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 57 ++++++++++++++++++++++++++--
- 1 file changed, 53 insertions(+), 4 deletions(-)
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  include/drm/drm_dp_helper.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> =
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 916401f7e87c..26fe623e3b0f 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -2216,10 +2216,19 @@ ports {
- 					#address-cells = <1>;
- 					#size-cells = <0>;
- 
-+					port@1 {
-+						reg = <1>;
-+						dpu_intf1_out: endpoint {
-+							remote-endpoint =
-+								 <&dsi0_in>;
-+						};
-+					};
-+
- 					port@0 {
- 						reg = <0>;
--						dpu_intf1_out: endpoint {
--							remote-endpoint = <&dsi0_in>;
-+						dpu_intf0_out: endpoint {
-+							remote-endpoint =
-+								 <&dp_in>;
- 						};
- 					};
- 				};
-@@ -2293,6 +2302,46 @@ dsi_phy: dsi-phy@ae94400 {
- 			};
- 		};
- 
-+		msm_dp: displayport-controller@ae90000{
-+			status = "ok";
-+			compatible = "qcom,sc7180-dp";
-+
-+			reg = <0 0xae90000 0 0x1400>;
-+			reg-names = "dp_controller";
-+
-+			interrupt-parent = <&mdss>;
-+			interrupts = <12 0>;
-+
-+			clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+				 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+				 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+				 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+			clock-names = "core_aux", "ctrl_link",
-+				      "ctrl_link_iface", "stream_pixel";
-+			#clock-cells = <1>;
-+			assigned-clocks = <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+			assigned-clock-parents = <&msm_dp 1>;
-+
-+			data-lanes = <0 1>;
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					dp_in: endpoint {
-+						remote-endpoint =
-+							 <&dpu_intf0_out>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					dp_out: endpoint { };
-+				};
-+			};
-+		};
-+
- 		dispcc: clock-controller@af00000 {
- 			compatible = "qcom,sc7180-dispcc";
- 			reg = <0 0x0af00000 0 0x200000>;
-@@ -2300,8 +2349,8 @@ dispcc: clock-controller@af00000 {
- 				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
- 				 <&dsi_phy 0>,
- 				 <&dsi_phy 1>,
--				 <0>,
--				 <0>;
-+				 <&msm_dp 0>,
-+				 <&msm_dp 1>;
- 			clock-names = "bi_tcxo",
- 				      "gcc_disp_gpll0_clk_src",
- 				      "dsi0_phy_pll_out_byteclk",
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index 1165ec105638..e47dc22ebf50 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1457,6 +1457,14 @@ drm_dp_alternate_scrambler_reset_cap(const u8 dpcd=
+[DP_RECEIVER_CAP_SIZE])
+>  			DP_ALTERNATE_SCRAMBLER_RESET_CAP;
+>  }
+>  =
+
+> +/* Ignore MSA timing for Adaptive Sync support on DP 1.4 */
+> +static inline bool
+> +drm_dp_sink_can_do_video_without_timing_msa(const u8 dpcd[DP_RECEIVER_CA=
+P_SIZE])
+> +{
+> +	return dpcd[DP_DOWN_STREAM_PORT_COUNT] &
+> +		DP_MSA_TIMING_PAR_IGNORED;
+> +}
+> +
+>  /*
+>   * DisplayPort AUX channel
+>   */
+> -- =
+
+> 2.19.1
+> =
 
 _______________________________________________
 dri-devel mailing list
