@@ -2,28 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C64200247
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192D3200246
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E26B6E02B;
-	Fri, 19 Jun 2020 06:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3AA26EC15;
+	Fri, 19 Jun 2020 06:58:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id DF50A6E426
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 13:16:13 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 9F3C780A9;
- Thu, 18 Jun 2020 13:17:03 +0000 (UTC)
-Date: Thu, 18 Jun 2020 06:16:08 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v2] drm/omap: force runtime PM suspend on system suspend
-Message-ID: <20200618131608.GC43721@atomide.com>
-References: <20200618095153.611071-1-tomi.valkeinen@ti.com>
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F075B6E42D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 13:43:28 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 22F47ACB25179D748227;
+ Thu, 18 Jun 2020 21:43:20 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 18 Jun 2020 21:43:12 +0800
+From: Wei Yongjun <weiyongjun1@huawei.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Philippe CORNU <philippe.cornu@st.com>
+Subject: [PATCH] drm/panel: otm8009a: Drop unnessary
+ backlight_device_unregister()
+Date: Thu, 18 Jun 2020 13:46:50 +0000
+Message-ID: <20200618134650.44311-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200618095153.611071-1-tomi.valkeinen@ti.com>
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,26 +43,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Grygorii Strashko <grygorii.strashko@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, Wei Yongjun <weiyongjun1@huawei.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hulk Robot <hulkci@huawei.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tomi Valkeinen <tomi.valkeinen@ti.com> [200618 09:53]:
-> Use SET_LATE_SYSTEM_SLEEP_PM_OPS in DSS submodules to force runtime PM
-> suspend and resume.
-> 
-> We use suspend late version so that omapdrm's system suspend callback is
-> called first, as that will disable all the display outputs after which
-> it's safe to force DSS into suspend.
+It's not necessary to unregister backlight device which
+registered with devm_backlight_device_register().
 
-This looks like a nice way of doing it, would be good to have as a
-regression fix for the -rc cycle:
+Fixes: 12a6cbd4f3f1 ("drm/panel: otm8009a: Use new backlight API")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Acked-by: Tony Lindgren <tony@atomide.com>
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+index 895ee3d1371e..d956522f32ee 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -479,7 +479,6 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
+ 	if (ret < 0) {
+ 		dev_err(dev, "mipi_dsi_attach failed. Is host ready?\n");
+ 		drm_panel_remove(&ctx->panel);
+-		backlight_device_unregister(ctx->bl_dev);
+ 		return ret;
+ 	}
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
