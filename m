@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264C31FDDC1
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:28:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F641FDDC9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3AE6EA41;
-	Thu, 18 Jun 2020 01:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F17FB6EA56;
+	Thu, 18 Jun 2020 01:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECA7B6EA41
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 01:28:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2823B6EA56
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 01:28:29 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EDFE222200;
- Thu, 18 Jun 2020 01:28:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3015C221F3;
+ Thu, 18 Jun 2020 01:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592443696;
- bh=F7uYQaFXoUEc1CvPAxLWQ3BDzMcon3LDLPeg7hbuZ6U=;
+ s=default; t=1592443709;
+ bh=D7QnYO+pvZnv4CSj2j8if+GlEBWTIfsf+981WJSK4Ig=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RAihvH1iL4bbeOO+/nvJEmsI2IRWY7Yb8LEFzvoUbeQuAVmFQczuDXrmGSfeC7IVs
- ufqzeMOGspVGx9FrrLiWbJM7WLsF3ueklzR09mELw14Jf9jhYRY23BLxrPL4AyYA+1
- aqHNuuW1c9D2OqI5uXOMdak2ELMXBjkBbBLFyzGY=
+ b=WgiAGFarMsgoyPjQ+GTEGv9wKUH7xBqJ5lLjJOTA0X8oJoMwI6ggOzQwD8mdBIsot
+ Hl8J84weUgW2B/FzpA1Z9VwfzKnmJwVydDVIcyYj9hqoSecby6grnFvU4GNOGfHe2c
+ n4ZiFZCeav1AyoAXHh9JxP6tFfp0tHz+MjcqwFak=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 107/108] drm/sun4i: hdmi ddc clk: Fix size of m
- divider
-Date: Wed, 17 Jun 2020 21:25:59 -0400
-Message-Id: <20200618012600.608744-107-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 07/80] backlight: lp855x: Ensure regulators are
+ disabled on probe failure
+Date: Wed, 17 Jun 2020 21:27:06 -0400
+Message-Id: <20200618012819.609778-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618012600.608744-1-sashal@kernel.org>
-References: <20200618012600.608744-1-sashal@kernel.org>
+In-Reply-To: <20200618012819.609778-1-sashal@kernel.org>
+References: <20200618012819.609778-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,57 +50,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jon Hunter <jonathanh@nvidia.com>,
+ Lee Jones <lee.jones@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
+From: Jon Hunter <jonathanh@nvidia.com>
 
-[ Upstream commit 54e1e06bcf1cf6e7ac3f86daa5f7454add24b494 ]
+[ Upstream commit d8207c155a7c6015eb7f43739baa7dfb1fa638af ]
 
-m divider in DDC clock register is 4 bits wide. Fix that.
+If probing the LP885x backlight fails after the regulators have been
+enabled, then the following warning is seen when releasing the
+regulators ...
 
-Fixes: 9c5681011a0c ("drm/sun4i: Add HDMI support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20200413095457.1176754-1-jernej.skrabec@siol.net
+ WARNING: CPU: 1 PID: 289 at drivers/regulator/core.c:2051 _regulator_put.part.28+0x158/0x160
+ Modules linked in: tegra_xudc lp855x_bl(+) host1x pwm_tegra ip_tables x_tables ipv6 nf_defrag_ipv6
+ CPU: 1 PID: 289 Comm: systemd-udevd Not tainted 5.6.0-rc2-next-20200224 #1
+ Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
+
+ ...
+
+ Call trace:
+  _regulator_put.part.28+0x158/0x160
+  regulator_put+0x34/0x50
+  devm_regulator_release+0x10/0x18
+  release_nodes+0x12c/0x230
+  devres_release_all+0x34/0x50
+  really_probe+0x1c0/0x370
+  driver_probe_device+0x58/0x100
+  device_driver_attach+0x6c/0x78
+  __driver_attach+0xb0/0xf0
+  bus_for_each_dev+0x68/0xc8
+  driver_attach+0x20/0x28
+  bus_add_driver+0x160/0x1f0
+  driver_register+0x60/0x110
+  i2c_register_driver+0x40/0x80
+  lp855x_driver_init+0x20/0x1000 [lp855x_bl]
+  do_one_initcall+0x58/0x1a0
+  do_init_module+0x54/0x1d0
+  load_module+0x1d80/0x21c8
+  __do_sys_finit_module+0xe8/0x100
+  __arm64_sys_finit_module+0x18/0x20
+  el0_svc_common.constprop.3+0xb0/0x168
+  do_el0_svc+0x20/0x98
+  el0_sync_handler+0xf4/0x1b0
+  el0_sync+0x140/0x180
+
+Fix this by ensuring that the regulators are disabled, if enabled, on
+probe failure.
+
+Finally, ensure that the vddio regulator is disabled in the driver
+remove handler.
+
+Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi.h         | 2 +-
- drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/backlight/lp855x_bl.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
-index a1f8cba251a2..3d9148eb40a7 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
-@@ -143,7 +143,7 @@
- #define SUN4I_HDMI_DDC_CMD_IMPLICIT_WRITE	3
+diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+index 939f057836e1..4cdc7a3f6dc5 100644
+--- a/drivers/video/backlight/lp855x_bl.c
++++ b/drivers/video/backlight/lp855x_bl.c
+@@ -460,7 +460,7 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 		ret = regulator_enable(lp->enable);
+ 		if (ret < 0) {
+ 			dev_err(lp->dev, "failed to enable vddio: %d\n", ret);
+-			return ret;
++			goto disable_supply;
+ 		}
  
- #define SUN4I_HDMI_DDC_CLK_REG		0x528
--#define SUN4I_HDMI_DDC_CLK_M(m)			(((m) & 0x7) << 3)
-+#define SUN4I_HDMI_DDC_CLK_M(m)			(((m) & 0xf) << 3)
- #define SUN4I_HDMI_DDC_CLK_N(n)			((n) & 0x7)
+ 		/*
+@@ -475,24 +475,34 @@ static int lp855x_probe(struct i2c_client *cl, const struct i2c_device_id *id)
+ 	ret = lp855x_configure(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev, "device config err: %d", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
  
- #define SUN4I_HDMI_DDC_LINE_CTRL_REG	0x540
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
-index 4692e8c345ed..58d9557a774f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
-@@ -32,7 +32,7 @@ static unsigned long sun4i_ddc_calc_divider(unsigned long rate,
- 	unsigned long best_rate = 0;
- 	u8 best_m = 0, best_n = 0, _m, _n;
+ 	ret = lp855x_backlight_register(lp);
+ 	if (ret) {
+ 		dev_err(lp->dev,
+ 			"failed to register backlight. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
  
--	for (_m = 0; _m < 8; _m++) {
-+	for (_m = 0; _m < 16; _m++) {
- 		for (_n = 0; _n < 8; _n++) {
- 			unsigned long tmp_rate;
+ 	ret = sysfs_create_group(&lp->dev->kobj, &lp855x_attr_group);
+ 	if (ret) {
+ 		dev_err(lp->dev, "failed to register sysfs. err: %d\n", ret);
+-		return ret;
++		goto disable_vddio;
+ 	}
  
+ 	backlight_update_status(lp->bl);
++
+ 	return 0;
++
++disable_vddio:
++	if (lp->enable)
++		regulator_disable(lp->enable);
++disable_supply:
++	if (lp->supply)
++		regulator_disable(lp->supply);
++
++	return ret;
+ }
+ 
+ static int lp855x_remove(struct i2c_client *cl)
+@@ -501,6 +511,8 @@ static int lp855x_remove(struct i2c_client *cl)
+ 
+ 	lp->bl->props.brightness = 0;
+ 	backlight_update_status(lp->bl);
++	if (lp->enable)
++		regulator_disable(lp->enable);
+ 	if (lp->supply)
+ 		regulator_disable(lp->supply);
+ 	sysfs_remove_group(&lp->dev->kobj, &lp855x_attr_group);
 -- 
 2.25.1
 
