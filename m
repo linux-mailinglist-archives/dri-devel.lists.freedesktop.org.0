@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E20E1FF8B9
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 18:08:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19B51FF981
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 18:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA416EB83;
-	Thu, 18 Jun 2020 16:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D91E06E43C;
+	Thu, 18 Jun 2020 16:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F010E6EB83
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 16:08:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68354101E;
- Thu, 18 Jun 2020 09:08:29 -0700 (PDT)
-Received: from [10.57.9.128] (unknown [10.57.9.128])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E6CF3F6CF;
- Thu, 18 Jun 2020 09:08:22 -0700 (PDT)
-Subject: Re: [PATCH v6 01/36] drm: prime: add common helper to check
- scatterlist contiguity
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20200618153956.29558-1-m.szyprowski@samsung.com>
- <CGME20200618154014eucas1p12812b08c65f53bb216f8ac8751a309de@eucas1p1.samsung.com>
- <20200618153956.29558-2-m.szyprowski@samsung.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <968a920c-83b7-a0e5-8d0d-fa8486816b01@arm.com>
-Date: Thu, 18 Jun 2020 17:07:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9154A6E43C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 16:44:35 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id i25so7862203iog.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 09:44:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=P6K0NMCQ9QdVvPAqikzClu5E67Y9Qrb4CGCZ1kreB7k=;
+ b=qOLllsSY5xmar8eoccWuwkGezkRAphR38TMOMrsGdLLbO5PLY7D14WrLX+37Imb+Ug
+ PZ8Ctpx5Q2crukvCEv+3aMaPCLJmpZMxiS0DnK4bXB1zkibUmEnQplJpwruhV0SDpHb5
+ U2+2+UUdZZHDTfk8i2uZX06XiNd/z33iHrvysDamwPPE5L/5ZnoWbKYzmydWAAqZpHXP
+ M8wpaP5iXXc66eUnUayWREgEENukxjdnGz/OFI5Nke+Z6s0NSO9hWQmH0xTM8rL8fURG
+ wAE5w2OTNxg7EDIyXSlD4CzZQAuWEv5JkOsbovRtkjCyoJpCEA2Rcq8xXXsjWmdP3r+R
+ +k+Q==
+X-Gm-Message-State: AOAM530goFuKBZ8ILuSyje+FhU4zr8egrYWehmrx5DfmAepeSiZc3l8U
+ jHX5RA/mxO0JYtpxyFDKuA==
+X-Google-Smtp-Source: ABdhPJwkW4ZsJ4bdYKr0qKa9ryOy5g+2hE48HtjOUzrbj3WgzjP+FDJi5kL2BbFKLOci4Y0m6ArWyw==
+X-Received: by 2002:a5d:858a:: with SMTP id f10mr6056867ioj.184.1592498674934; 
+ Thu, 18 Jun 2020 09:44:34 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id g21sm1969126ioc.14.2020.06.18.09.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jun 2020 09:44:34 -0700 (PDT)
+Received: (nullmailer pid 504576 invoked by uid 1000);
+ Thu, 18 Jun 2020 16:44:31 -0000
+Date: Thu, 18 Jun 2020 10:44:31 -0600
+From: Rob Herring <robh@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 13/29] dt: fix broken links due to txt->yaml renames
+Message-ID: <20200618164431.GA504444@bogus>
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+ <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200618153956.29558-2-m.szyprowski@samsung.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <0e4a7f0b7efcc8109c8a41a2e13c8adde4d9c6b9.1592203542.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,122 +59,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: alsa-devel@alsa-project.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
+ Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
+ Sean Wang <sean.wang@mediatek.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, netdev@vger.kernel.org,
+ Arnaud Pouliquen <arnaud.pouliquen@st.com>, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-06-18 16:39, Marek Szyprowski wrote:
-> It is a common operation done by DRM drivers to check the contiguity
-> of the DMA-mapped buffer described by a scatterlist in the
-> sg_table object. Let's add a common helper for this operation.
+On Mon, 15 Jun 2020 08:46:52 +0200, Mauro Carvalho Chehab wrote:
+> There are some new broken doc links due to yaml renames
+> at DT. Developers should really run:
 > 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> 	./scripts/documentation-file-ref-check
+> 
+> in order to solve those issues while submitting patches.
+> This tool can even fix most of the issues with:
+> 
+> 	./scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->   drivers/gpu/drm/drm_gem_cma_helper.c | 23 +++--------------------
->   drivers/gpu/drm/drm_prime.c          | 26 ++++++++++++++++++++++++++
->   include/drm/drm_prime.h              |  2 ++
->   3 files changed, 31 insertions(+), 20 deletions(-)
+>  Documentation/devicetree/bindings/display/bridge/sii902x.txt  | 2 +-
+>  .../devicetree/bindings/display/rockchip/rockchip-drm.yaml    | 2 +-
+>  Documentation/devicetree/bindings/net/mediatek-bluetooth.txt  | 2 +-
+>  Documentation/devicetree/bindings/sound/audio-graph-card.txt  | 2 +-
+>  Documentation/devicetree/bindings/sound/st,sti-asoc-card.txt  | 2 +-
+>  Documentation/mips/ingenic-tcu.rst                            | 2 +-
+>  MAINTAINERS                                                   | 4 ++--
+>  7 files changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 06a5b9ee1fe0..41566a15dabd 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -471,26 +471,9 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
->   {
->   	struct drm_gem_cma_object *cma_obj;
->   
-> -	if (sgt->nents != 1) {
-> -		/* check if the entries in the sg_table are contiguous */
-> -		dma_addr_t next_addr = sg_dma_address(sgt->sgl);
-> -		struct scatterlist *s;
-> -		unsigned int i;
-> -
-> -		for_each_sg(sgt->sgl, s, sgt->nents, i) {
-> -			/*
-> -			 * sg_dma_address(s) is only valid for entries
-> -			 * that have sg_dma_len(s) != 0
-> -			 */
-> -			if (!sg_dma_len(s))
-> -				continue;
-> -
-> -			if (sg_dma_address(s) != next_addr)
-> -				return ERR_PTR(-EINVAL);
-> -
-> -			next_addr = sg_dma_address(s) + sg_dma_len(s);
-> -		}
-> -	}
-> +	/* check if the entries in the sg_table are contiguous */
-> +	if (drm_prime_get_contiguous_size(sgt) < attach->dmabuf->size)
-> +		return ERR_PTR(-EINVAL);
->   
->   	/* Create a CMA GEM buffer. */
->   	cma_obj = __drm_gem_cma_create(dev, attach->dmabuf->size);
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index bbfc713bfdc3..0784969894c1 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -825,6 +825,32 @@ struct sg_table *drm_prime_pages_to_sg(struct page **pages, unsigned int nr_page
->   }
->   EXPORT_SYMBOL(drm_prime_pages_to_sg);
->   
-> +/**
-> + * drm_prime_get_contiguous_size - returns the contiguous size of the buffer
-> + * @sgt: sg_table describing the buffer to check
-> + *
-> + * This helper calculates the contiguous size in the DMA address space
-> + * of the the buffer described by the provided sg_table.
-> + *
-> + * This is useful for implementing
-> + * &drm_gem_object_funcs.gem_prime_import_sg_table.
-> + */
-> +unsigned long drm_prime_get_contiguous_size(struct sg_table *sgt)
-> +{
-> +	dma_addr_t expected = sg_dma_address(sgt->sgl);
-> +	struct sg_dma_page_iter dma_iter;
-> +	unsigned long size = 0;
-> +
-> +	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
-> +		if (sg_page_iter_dma_address(&dma_iter) != expected)
-> +			break;
-> +		expected += PAGE_SIZE;
-> +		size += PAGE_SIZE;
 
-Hmm, in many cases this is likely to be far less efficient than simply 
-using for_each_sgtable_dma() and sg_dma_len() equivalent to the original 
-implementation, and there doesn't seem to be any good reason for that. 
-Plus AFAICS it could potentially let false-positives through if someone 
-were to pass in a table with non-page-aligned lengths (I assume that's 
-expected never to happen, but still...)
-
-Robin.
-
-> +	}
-> +	return size;
-> +}
-> +EXPORT_SYMBOL(drm_prime_get_contiguous_size);
-> +
->   /**
->    * drm_gem_prime_export - helper library implementation of the export callback
->    * @obj: GEM object to export
-> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-> index 9af7422b44cf..47ef11614627 100644
-> --- a/include/drm/drm_prime.h
-> +++ b/include/drm/drm_prime.h
-> @@ -92,6 +92,8 @@ struct sg_table *drm_prime_pages_to_sg(struct page **pages, unsigned int nr_page
->   struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
->   				     int flags);
->   
-> +unsigned long drm_prime_get_contiguous_size(struct sg_table *sgt);
-> +
->   /* helper functions for importing */
->   struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
->   						struct dma_buf *dma_buf,
-> 
+Applied, thanks!
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
