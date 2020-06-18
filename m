@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88D7200245
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86204200250
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6E036EC16;
-	Fri, 19 Jun 2020 06:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77976EC1E;
+	Fri, 19 Jun 2020 06:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
- [104.130.122.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E486E2F3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 09:59:08 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1592474350; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=rNkhuxG99K8tVZNE3kdPTirsJ1GISBhhATer2cIRmW8=;
- b=AGRBs5dkKFP6Vb1kBGQO4uXc0n5LXH1e/GnwU8plNCVg/QRjqGsDTVJWq35laGfagdtIqKOr
- 9FLdjfDUq22o7U26gGm+V7rdpLUcAmaqLVRjLZVnkImiR4nfVbqjHJda5YaPyhfnJYu3OWFY
- yxJjnlFNbdjfwX6shhrRW4rB8d8=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5eeb3ae08fe116ddd9420cbd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Jun 2020 09:58:56
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 44E1EC433CB; Thu, 18 Jun 2020 09:58:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id AC27AC433C8;
- Thu, 18 Jun 2020 09:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC27AC433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
- <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
- <5b960c9a-ef9d-b43d-716d-113efc793fe5@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E866301154B8339@FMSMSX108.amr.corp.intel.com>
-From: Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <3ce92582-479e-caf2-1bf1-ffd99970403a@codeaurora.org>
-Date: Thu, 18 Jun 2020 15:28:49 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301154B8339@FMSMSX108.amr.corp.intel.com>
-Content-Language: en-US
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96A766E40B
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 12:19:14 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id v11so2832512pgb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 05:19:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=kTOrqhaLSjsiBsLxPoJaXJ3Xn/KAgWNSimnogI9J75E=;
+ b=UgZNo5+oZW4A520lpaemwstKYxXtJNuozGC3SXwzXLPYXlb1L9+4dIM8ObC9jln9Ca
+ D5j7D97mWAUvJzutqTNb7AUN9Jru0e1wYT7b/sHPk6W8HoYupAkAEQbi4Gpv64fTuvXp
+ cKgqy18ZD2xayBVO6uOx15G2t2uqnLVc599/XAPwqE338ekq3+H55W2csypTIXZKMpId
+ FzwjsFt2EG9avXgNmbqA5cbmiqPJUzoxvk/p4dej0ABOj8uR7W9QNEKhIA3OFpiwzQrU
+ 4wWl+5u7xE/fuj1L+8wkpUoKO5aGTj6o2cDJ4r8rgyeNIom/L6Qt8YR0hw2WkwINk03I
+ sBJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=kTOrqhaLSjsiBsLxPoJaXJ3Xn/KAgWNSimnogI9J75E=;
+ b=XXaaK+iCph28TdS33vlfTQ71/k7kXT8qG5hvfYGCHNP0IFAkkthpuR4rCogG4R4sUx
+ +2nScyat4jTbHICAn/isWwtcEBcWKSdFXovf9vnCVOxSqBQHA1e4tZmALHrM7Q3QSiF4
+ Gdy0XOE8yzQaF0hqg1+RAGHxihNZ0/pkePgsPePyLaGygi5Z5vpko3pVYsEbpoqJJL4n
+ BASOUzGIhd1cYscxVcuqw2wvTZL3HeNfw5YtJwTT/2ifaZ5ydmJSL76chOAbpXQLpzqt
+ wRuxk+zqoJ2WNK591Yr/UtBIoP18v1Dr66lv0HDJBc8vMPCB0PEQhaVFOyMJlO8vtaxL
+ g+ag==
+X-Gm-Message-State: AOAM531KRrDhHXOIFgVqBrTixJkoL+B7T2n15MTJZ55E51FxUK4HMk/p
+ kpe7Bk1hVHR+PuthbT5Gguo=
+X-Google-Smtp-Source: ABdhPJxN+3BMttqiR1PKkjKSnED6WnbWacJDRO/nGr2x1DjrAiQVZE62o3tDWBIzlZ64jE29zN3vLw==
+X-Received: by 2002:aa7:9513:: with SMTP id b19mr3285653pfp.152.1592482753975; 
+ Thu, 18 Jun 2020 05:19:13 -0700 (PDT)
+Received: from in099003062.routereb3c90.com ([106.51.138.45])
+ by smtp.gmail.com with ESMTPSA id v7sm2787269pfn.147.2020.06.18.05.19.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jun 2020 05:19:13 -0700 (PDT)
+From: Vinay Simha BN <simhavcs@gmail.com>
+To: 
+Subject: [PATCH v3 1/2] dt-binding: Add DSI/LVDS TC358775 bridge bindings
+Date: Thu, 18 Jun 2020 17:48:56 +0530
+Message-Id: <20200618121902.16841-1-simhavcs@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,278 +62,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Vinay Simha BN <simhavcs@gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Signed-off-by: Vinay Simha BN <simhavcs@gmail.com>
 
+---
+v1:
+ Initial version wast .txt file
 
-On 6/17/2020 11:13 PM, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: charante=codeaurora.org@mg.codeaurora.org
->> <charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan Teja
->> Kalla
->> Sent: Wednesday, June 17, 2020 2:29 AM
->> To: Ruhl, Michael J <michael.j.ruhl@intel.com>; Sumit Semwal
->> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
->> <linux-media@vger.kernel.org>; DRI mailing list <dri-
->> devel@lists.freedesktop.org>
->> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->> stable@vger.kernel.org
->> Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>
->> Thanks Michael for the comments..
->>
->> On 6/16/2020 7:29 PM, Ruhl, Michael J wrote:
->>>> -----Original Message-----
->>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->>>> Ruhl, Michael J
->>>> Sent: Tuesday, June 16, 2020 9:51 AM
->>>> To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
->>>> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING
->> FRAMEWORK
->>>> <linux-media@vger.kernel.org>; DRI mailing list <dri-
->>>> devel@lists.freedesktop.org>
->>>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->>>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->>>> stable@vger.kernel.org
->>>> Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>>>
->>>>> -----Original Message-----
->>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->>>>> Charan Teja Kalla
->>>>> Sent: Thursday, June 11, 2020 9:40 AM
->>>>> To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
->>>>> SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list
->> <dri-
->>>>> devel@lists.freedesktop.org>
->>>>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->>>>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->>>>> stable@vger.kernel.org
->>>>> Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>>>>
->>>>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
->>>>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
->>>>> permissions checks on a process where it tries to validate the inherited
->>>>> files from fork() by traversing them through iterate_fd() (which
->>>>> traverse files under spin_lock) and call
->>>>> match_file(security/selinux/hooks.c) where the permission checks
->> happen.
->>>>> This audit information is logged using dump_common_audit_data()
->> where it
->>>>> calls d_path() to get the file path name. If the file check happen on
->>>>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex
->> to
->>>>> access dmabuf->name. The flow will be like below:
->>>>> flush_unauthorized_files()
->>>>>  iterate_fd()
->>>>>    spin_lock() --> Start of the atomic section.
->>>>>      match_file()
->>>>>        file_has_perm()
->>>>>          avc_has_perm()
->>>>>            avc_audit()
->>>>>              slow_avc_audit()
->>>>> 	        common_lsm_audit()
->>>>> 		  dump_common_audit_data()
->>>>> 		    audit_log_d_path()
->>>>> 		      d_path()
->>>>>                        dmabuffs_dname()
->>>>>                          mutex_lock()--> Sleep while atomic.
->>>>>
->>>>> Call trace captured (on 4.19 kernels) is below:
->>>>> ___might_sleep+0x204/0x208
->>>>> __might_sleep+0x50/0x88
->>>>> __mutex_lock_common+0x5c/0x1068
->>>>> __mutex_lock_common+0x5c/0x1068
->>>>> mutex_lock_nested+0x40/0x50
->>>>> dmabuffs_dname+0xa0/0x170
->>>>> d_path+0x84/0x290
->>>>> audit_log_d_path+0x74/0x130
->>>>> common_lsm_audit+0x334/0x6e8
->>>>> slow_avc_audit+0xb8/0xf8
->>>>> avc_has_perm+0x154/0x218
->>>>> file_has_perm+0x70/0x180
->>>>> match_file+0x60/0x78
->>>>> iterate_fd+0x128/0x168
->>>>> selinux_bprm_committing_creds+0x178/0x248
->>>>> security_bprm_committing_creds+0x30/0x48
->>>>> install_exec_creds+0x1c/0x68
->>>>> load_elf_binary+0x3a4/0x14e0
->>>>> search_binary_handler+0xb0/0x1e0
->>>>>
->>>>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
->>>>>
->>>>> Cc: <stable@vger.kernel.org> [5.3+]
->>>>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>>>> ---
->>>>> drivers/dma-buf/dma-buf.c | 13 +++++++------
->>>>> include/linux/dma-buf.h   |  1 +
->>>>> 2 files changed, 8 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>>>> index 01ce125..2e0456c 100644
->>>>> --- a/drivers/dma-buf/dma-buf.c
->>>>> +++ b/drivers/dma-buf/dma-buf.c
->>>>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry
->> *dentry,
->>>>> char *buffer, int buflen)
->>>>> 	size_t ret = 0;
->>>>>
->>>>> 	dmabuf = dentry->d_fsdata;
->>>>> -	dma_resv_lock(dmabuf->resv, NULL);
->>>>> +	spin_lock(&dmabuf->name_lock);
->>>>> 	if (dmabuf->name)
->>>>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->>>>> -	dma_resv_unlock(dmabuf->resv);
->>>>> +	spin_unlock(&dmabuf->name_lock);
->>>>
->>>> I am not really clear on why you need this lock.
->>>>
->>>> If name == NULL you have no issues.
->>>> If name is real, you have no issues.
->>
->> Yeah, ideal cases...
->>
->>>>
->>>> If name is freed you will copy garbage, but the only way
->>>> for that to happen is that _set_name or _release have to be called
->>>> at just the right time.
->>>>
->>>> And the above would probably only be an issue if the set_name
->>>> was called, so you will get NULL or a real name.
->>
->> And there exists a use-after-free to avoid which requires the lock. Say
->> that memcpy() in dmabuffs_dname is in progress and in parallel _set_name
->> will free the same buffer that memcpy is operating on.
-> 
-> Hmm...  I can see that.
-> 
-> However, note that in dma_buf_set_name, you cannot use the spinlock
-> to protect the dma_buf->attachements list.
-> 
-> I think you need to do this:
-> 
-> 	dma_resv_lock(dmabuf->resv, NULL);
->  	if (!list_empty(&dmabuf->attachments)) {
->  		ret = -EBUSY;
->  		kfree(name);
->               }
-> 	dma_resv_unlock(dmabuf->resv, NULL);
-> 	if (ret)
-> 		return ret;
-> 
-> 	spinlock(nam_lock)
-> 	namestuff;
-> 	spinunlock
+v2:
+ From txt to yaml file format
 
-Hmm..Yes, I should use the dma_resv_lock() to access the ->attachments
-list. Will correct this in V2.
+v3:
+* Andrzej Hajda review comments incorporated
+  dual port lvds implemented
 
-> 
-> 	return 0;
-> 
-> Mike
-> 
->>>> Is there a reason for the lock here?
->>>>
->>>> Mike
->>>
->>> Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
->>>
->>> dma_buf_release()
->>>
->>> Would be sufficient?
->>
->> I don't think that we will access the 'dmabuf'(thus dmabuf->name) once
->> it is in the dma_buf_release(). So, setting the NULL in the _release()
->> is not required at all.
->>
->>>
->>> M
->>>>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->>>>> 			     dentry->d_name.name, ret > 0 ? name : "");
->>>>> @@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
->>>>> *dmabuf, const char __user *buf)
->>>>> 	if (IS_ERR(name))
->>>>> 		return PTR_ERR(name);
->>>>>
->>>>> -	dma_resv_lock(dmabuf->resv, NULL);
->>>>> +	spin_lock(&dmabuf->name_lock);
->>>>> 	if (!list_empty(&dmabuf->attachments)) {
->>>>> 		ret = -EBUSY;
->>>>> 		kfree(name);
->>>>> @@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
->>>>> *dmabuf, const char __user *buf)
->>>>> 	dmabuf->name = name;
->>>>>
->>>>> out_unlock:
->>>>> -	dma_resv_unlock(dmabuf->resv);
->>>>> +	spin_unlock(&dmabuf->name_lock);
->>>>> 	return ret;
->>>>> }
->>>>>
->>>>> @@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct
->> seq_file
->>>>> *m, struct file *file)
->>>>> 	/* Don't count the temporary reference taken inside procfs seq_show
->>>>> */
->>>>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->>>>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
->>>>> -	dma_resv_lock(dmabuf->resv, NULL);
->>>>> +	spin_lock(&dmabuf->name_lock);
->>>>> 	if (dmabuf->name)
->>>>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
->>>>> -	dma_resv_unlock(dmabuf->resv);
->>>>> +	spin_unlock(&dmabuf->name_lock);
->>>>> }
->>>>>
->>>>> static const struct file_operations dma_buf_fops = {
->>>>> @@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
->>>>> dma_buf_export_info *exp_info)
->>>>> 	dmabuf->size = exp_info->size;
->>>>> 	dmabuf->exp_name = exp_info->exp_name;
->>>>> 	dmabuf->owner = exp_info->owner;
->>>>> +	spin_lock_init(&dmabuf->name_lock);
->>>>> 	init_waitqueue_head(&dmabuf->poll);
->>>>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
->>>>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
->>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>>>> index ab0c156..93108fd 100644
->>>>> --- a/include/linux/dma-buf.h
->>>>> +++ b/include/linux/dma-buf.h
->>>>> @@ -311,6 +311,7 @@ struct dma_buf {
->>>>> 	void *vmap_ptr;
->>>>> 	const char *exp_name;
->>>>> 	const char *name;
->>>>> +	spinlock_t name_lock;
->>>>> 	struct module *owner;
->>>>> 	struct list_head list_node;
->>>>> 	void *priv;
->>>>> --
->>>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
->>>>> Forum, a Linux Foundation Collaborative Project
->>>>> _______________________________________________
->>>>> dri-devel mailing list
->>>>> dri-devel@lists.freedesktop.org
->>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
->> Forum, a Linux Foundation Collaborative Project
+* Laurent Pinchart review comments incorporated
+  dsi lanes property removed and it is dynamically
+  picked from the dsi ports
+  VESA/JEIDA format picked from panel-lvds dts
+---
+ .../display/bridge/toshiba,tc358775.yaml      | 204 ++++++++++++++++++
+ 1 file changed, 204 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+new file mode 100644
+index 000000000000..ec53d62d408b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+@@ -0,0 +1,204 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358775.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Toshiba TC358775 DSI to LVDS bridge bindings
++
++maintainers:
++ - Vinay Simha BN <simhavcs@gmail.com>
++
++description: |
++ This binding supports DSI to LVDS bridge TC358775
++
++properties:
++  compatible:
++    const: toshiba,tc358775
++
++  reg:
++    maxItems: 1
++    description: i2c address of the bridge, 0x0f
++
++  vdd-supply:
++    maxItems: 1
++    description:  1.2V LVDS Power Supply
++
++  vddio-supply:
++    maxItems: 1
++    description: 1.8V IO Power Supply
++
++  stby-gpios:
++    maxItems: 1
++    description: Standby pin, Low active
++
++  reset-gpios:
++    maxItems: 1
++    description: Hardware reset, Low active
++
++  ports:
++    type: object
++    description:
++      A node containing input and output port nodes with endpoint definitions
++      as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        type: object
++        description: |
++          DSI Input. The remote endpoint phandle should be a
++          reference to a valid mipi_dsi_host device node.
++
++      port@1:
++        type: object
++        description: |
++          Video port for LVDS output (panel or connector).
++
++      port@2:
++        type: object
++        description: |
++          Video port for Dual link LVDS output (panel or connector).
++
++    required:
++      - port@0
++      - port@1
++
++required:
++ - compatible
++ - reg
++ - vdd-supply
++ - vddio-supply
++ - stby-gpios
++ - reset-gpios
++ - ports
++
++examples:
++ - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c@78b8000 {
++        /* On High speed expansion */
++        label = "HS-I2C2";
++        reg = <0x078b8000 0x500>;
++        clock-frequency = <400000>; /* fastmode operation */
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        tc_bridge: bridge@f {
++            compatible = "toshiba,tc358775";
++            reg = <0x0f>;
++
++            vdd-supply = <&pm8916_l2>;
++            vddio-supply = <&pm8916_l6>;
++
++            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    d2l_in_test: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    lvds_out: endpoint {
++                        remote-endpoint = <&panel_in>;
++                    };
++                };
++            };
++        };
++    };
++
++    dsi@1a98000 {
++        reg = <0x1a98000 0x25c>;
++        reg-names = "dsi_ctrl";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@1 {
++                reg = <1>;
++                dsi0_out: endpoint {
++                    remote-endpoint = <&d2l_in_test>;
++                        data-lanes = <0 1 2 3>;
++                };
++             };
++         };
++     };
++
++ - |
++    i2c@78b8000 {
++        /* On High speed expansion */
++        label = "HS-I2C2";
++        reg = <0x078b8000 0x500>;
++        clock-frequency = <400000>; /* fastmode operation */
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        tc_bridge_dual: bridge@f {
++            compatible = "toshiba,tc358775";
++            reg = <0x0f>;
++
++            vdd-supply = <&pm8916_l2>;
++            vddio-supply = <&pm8916_l6>;
++
++            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    d2l_in_dual: endpoint {
++                        remote-endpoint = <&dsi0_out_dual>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    lvds0_out: endpoint {
++                        remote-endpoint = <&panel_in0>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++                    lvds1_out: endpoint {
++                        remote-endpoint = <&panel_in1>;
++                    };
++                };
++            };
++        };
++    };
++
++    dsi@1a98000 {
++        reg = <0x1a98000 0x25c>;
++        reg-names = "dsi_ctrl";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@1 {
++                reg = <1>;
++                dsi0_out_dual: endpoint {
++                    remote-endpoint = <&d2l_in_dual>;
++                        data-lanes = <0 1 2 3>;
++                };
++             };
++         };
++     };
++...
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
