@@ -1,33 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A13200254
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBDE20024D
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B39666EC28;
-	Fri, 19 Jun 2020 06:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C305A6EC1D;
+	Fri, 19 Jun 2020 06:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB006E178;
- Thu, 18 Jun 2020 14:09:09 +0000 (UTC)
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 18 Jun 2020 07:09:09 -0700
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 18 Jun 2020 07:09:08 -0700
-Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
- by ironmsg01-blr.qualcomm.com with ESMTP; 18 Jun 2020 19:38:44 +0530
-Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 209F14A0A; Thu, 18 Jun 2020 19:38:43 +0530 (IST)
-From: Kalyan Thota <kalyan_t@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm/dpu: add support for clk and bw scaling for display
-Date: Thu, 18 Jun 2020 19:38:41 +0530
-Message-Id: <1592489321-29213-1-git-send-email-kalyan_t@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFA96EA89
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 14:37:03 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id e5so4667202ote.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 07:37:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=7BX2MczfwnklIekhyvJJ0NhkC58hgUYRasxuG2CoUtI=;
+ b=nEAbYtXy/1I1In7K0fSkRnbxclDKPE5x+iwVmDxh5JN/AktyUce1FVefh+UH+8tA59
+ D0+mklaklftZsz0TvqqJ7MjWoRLIt8OV3+1Fu8JsFhjL2/T+yHgfNK0eWq09CIH8E8bT
+ EXht2WVfhgfZyC3FP+lG5cQMDLf0/wc75OfpBnmGWqqzcbiEpiPHxI5FZOh8bQIQgnMO
+ b4eJxbLoIPn3SempL/oXznqAsWSTsu9ZWU3SiAvatJSxuZ+SiInzCS4aWSCnLFHNpeOK
+ KzJAgIQ9O/0nDGYgiv3yxkiNtzUYdWRsHXl0hNIbdgik/8oeEiQJM4vpFDhBFFq2BiIm
+ CGag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7BX2MczfwnklIekhyvJJ0NhkC58hgUYRasxuG2CoUtI=;
+ b=Zwd6Pgvf5pPvg/lrfRpQOlhSkCmMZr1ILjgbNmkbDImFvbt2S1z42DjFy5xJV4654J
+ 0Ka05sXXT1poT1RV6ApQBg85myvRH4mOP5wsNkUmgL7Hk/ECob96eXeff68Vkru5zdEF
+ 5XEvSFvAKpcj71MK3GgucdfH2TdvPi2w0+VbraYI6VYPe21hhUfJ8Yf7bckgzEj4T0LU
+ SIKexhyEEiYmG/WNYDIsSuZpcQ8ARtzdL/joe90s2DxnK7FFXBWf2Et35osbK4+hdJ2f
+ IoVZPvHtiotwx+YbivRNrmexsEz/rBwDrJ0ydwbk+DLhI17rjh2I8asipSrGB9MEAooG
+ 3HKw==
+X-Gm-Message-State: AOAM533YybrunWlKmw5eCj7bjU2aTuzGZUKf2bp8CpAYAWjIHzyY1MYF
+ 97ly4KBks+0w3eXKXEIuVPw0pj0iu8b/W+IZNzk=
+X-Google-Smtp-Source: ABdhPJwk6h8WIc7fO0xkSvAHrVqw51KS1v1wJFRZWH9JfYKzyXGeklPjICyAGIVoOBMnL4iwQ5OwV0yElfyM/8k0NS4=
+X-Received: by 2002:a05:6830:2054:: with SMTP id
+ f20mr3572787otp.358.1592491022659; 
+ Thu, 18 Jun 2020 07:37:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200618100400.11464-1-colin.king@canonical.com>
+ <20200618121405.GJ159988@e110455-lin.cambridge.arm.com>
+ <5d08fbec-75d8-d9a9-af61-e6ab98e77c80@canonical.com>
+ <20200618142106.GK159988@e110455-lin.cambridge.arm.com>
+In-Reply-To: <20200618142106.GK159988@e110455-lin.cambridge.arm.com>
+From: Garrit Franke <garritfranke@gmail.com>
+Date: Thu, 18 Jun 2020 16:36:51 +0200
+Message-ID: <CAD16O86ebsDkwbnuw2G04YZWfukqxJ=_Tex5OT07icEpfPdQNw@mail.gmail.com>
+Subject: Re: [PATCH] drm/arm: fix unintentional integer overflow on left shift
+To: Liviu Dudau <liviu.dudau@arm.com>
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,500 +66,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mkrishn@codeaurora.org, travitej@codeaurora.org, dianders@chromium.org,
- linux-kernel@vger.kernel.org, seanpaul@chromium.org,
- Kalyan Thota <kalyan_t@codeaurora.org>, hoegsberg@chromium.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Colin Ian King <colin.king@canonical.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This change adds support to scale src clk and bandwidth as
-per composition requirements.
-
-Interconnect registration for bw has been moved to mdp
-device node from mdss to facilitate the scaling.
-
-Changes in v1:
- - Address armv7 compilation issues with the patch (Rob)
-
-Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c  | 109 +++++++++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |   5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |   4 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c        |  37 ++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h        |   4 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c       |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c      |  84 +++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h      |   4 +
- 8 files changed, 233 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-index 7c230f7..e52bc44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-@@ -29,6 +29,74 @@ enum dpu_perf_mode {
- 	DPU_PERF_MODE_MAX
- };
- 
-+/**
-+ * @_dpu_core_perf_calc_bw() - to calculate BW per crtc
-+ * @kms -  pointer to the dpu_kms
-+ * @crtc - pointer to a crtc
-+ * Return: returns aggregated BW for all planes in crtc.
-+ */
-+static u64 _dpu_core_perf_calc_bw(struct dpu_kms *kms,
-+		struct drm_crtc *crtc)
-+{
-+	struct drm_plane *plane;
-+	struct dpu_plane_state *pstate;
-+	u64 crtc_plane_bw = 0;
-+	u32 bw_factor;
-+
-+	drm_atomic_crtc_for_each_plane(plane, crtc) {
-+		pstate = to_dpu_plane_state(plane->state);
-+		if (!pstate)
-+			continue;
-+
-+		crtc_plane_bw += pstate->plane_fetch_bw;
-+	}
-+
-+	bw_factor = kms->catalog->perf.bw_inefficiency_factor;
-+	if (bw_factor) {
-+		crtc_plane_bw *= bw_factor;
-+		do_div(crtc_plane_bw, 100);
-+	}
-+
-+	return crtc_plane_bw;
-+}
-+
-+/**
-+ * _dpu_core_perf_calc_clk() - to calculate clock per crtc
-+ * @kms -  pointer to the dpu_kms
-+ * @crtc - pointer to a crtc
-+ * @state - pointer to a crtc state
-+ * Return: returns max clk for all planes in crtc.
-+ */
-+static u64 _dpu_core_perf_calc_clk(struct dpu_kms *kms,
-+		struct drm_crtc *crtc, struct drm_crtc_state *state)
-+{
-+	struct drm_plane *plane;
-+	struct dpu_plane_state *pstate;
-+	struct drm_display_mode *mode;
-+	u64 crtc_clk;
-+	u32 clk_factor;
-+
-+	mode = &state->adjusted_mode;
-+
-+	crtc_clk = mode->vtotal * mode->hdisplay * drm_mode_vrefresh(mode);
-+
-+	drm_atomic_crtc_for_each_plane(plane, crtc) {
-+		pstate = to_dpu_plane_state(plane->state);
-+		if (!pstate)
-+			continue;
-+
-+		crtc_clk = max(pstate->plane_clk, crtc_clk);
-+	}
-+
-+	clk_factor = kms->catalog->perf.clk_inefficiency_factor;
-+	if (clk_factor) {
-+		crtc_clk *= clk_factor;
-+		do_div(crtc_clk, 100);
-+	}
-+
-+	return crtc_clk;
-+}
-+
- static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
- {
- 	struct msm_drm_private *priv;
-@@ -51,12 +119,7 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
- 	dpu_cstate = to_dpu_crtc_state(state);
- 	memset(perf, 0, sizeof(struct dpu_core_perf_params));
- 
--	if (!dpu_cstate->bw_control) {
--		perf->bw_ctl = kms->catalog->perf.max_bw_high *
--					1000ULL;
--		perf->max_per_pipe_ib = perf->bw_ctl;
--		perf->core_clk_rate = kms->perf.max_core_clk_rate;
--	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
-+	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
- 		perf->bw_ctl = 0;
- 		perf->max_per_pipe_ib = 0;
- 		perf->core_clk_rate = 0;
-@@ -64,6 +127,10 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
- 		perf->bw_ctl = kms->perf.fix_core_ab_vote;
- 		perf->max_per_pipe_ib = kms->perf.fix_core_ib_vote;
- 		perf->core_clk_rate = kms->perf.fix_core_clk_rate;
-+	} else {
-+		perf->bw_ctl = _dpu_core_perf_calc_bw(kms, crtc);
-+		perf->max_per_pipe_ib = kms->catalog->perf.min_dram_ib;
-+		perf->core_clk_rate = _dpu_core_perf_calc_clk(kms, crtc, state);
- 	}
- 
- 	DPU_DEBUG(
-@@ -115,11 +182,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
- 			DPU_DEBUG("crtc:%d bw:%llu ctrl:%d\n",
- 				tmp_crtc->base.id, tmp_cstate->new_perf.bw_ctl,
- 				tmp_cstate->bw_control);
--			/*
--			 * For bw check only use the bw if the
--			 * atomic property has been already set
--			 */
--			if (tmp_cstate->bw_control)
-+
- 				bw_sum_of_intfs += tmp_cstate->new_perf.bw_ctl;
- 		}
- 
-@@ -131,9 +194,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
- 
- 		DPU_DEBUG("final threshold bw limit = %d\n", threshold);
- 
--		if (!dpu_cstate->bw_control) {
--			DPU_DEBUG("bypass bandwidth check\n");
--		} else if (!threshold) {
-+		if (!threshold) {
- 			DPU_ERROR("no bandwidth limits specified\n");
- 			return -E2BIG;
- 		} else if (bw > threshold) {
-@@ -154,7 +215,11 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
- 					= dpu_crtc_get_client_type(crtc);
- 	struct drm_crtc *tmp_crtc;
- 	struct dpu_crtc_state *dpu_cstate;
--	int ret = 0;
-+	int i, ret = 0;
-+	u64 avg_bw;
-+
-+	if (!kms->num_paths)
-+		return -EINVAL;
- 
- 	drm_for_each_crtc(tmp_crtc, crtc->dev) {
- 		if (tmp_crtc->enabled &&
-@@ -165,10 +230,20 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
- 			perf.max_per_pipe_ib = max(perf.max_per_pipe_ib,
- 					dpu_cstate->new_perf.max_per_pipe_ib);
- 
--			DPU_DEBUG("crtc=%d bw=%llu\n", tmp_crtc->base.id,
--					dpu_cstate->new_perf.bw_ctl);
-+			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
-+
-+			DPU_DEBUG("crtc=%d bw=%llu paths:%d\n",
-+				  tmp_crtc->base.id,
-+				  dpu_cstate->new_perf.bw_ctl, kms->num_paths);
- 		}
- 	}
-+
-+	avg_bw = perf.bw_ctl;
-+	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
-+
-+	for (i = 0; i < kms->num_paths; i++)
-+		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
-+
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 29d4fde..8f2357d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -541,7 +541,8 @@
- 	.max_bw_high = 6800000,
- 	.min_core_ib = 2400000,
- 	.min_llcc_ib = 800000,
--	.min_dram_ib = 800000,
-+	.min_dram_ib = 1600000,
-+	.min_prefill_lines = 24,
- 	.danger_lut_tbl = {0xff, 0xffff, 0x0},
- 	.qos_lut_tbl = {
- 		{.nentry = ARRAY_SIZE(sc7180_qos_linear),
-@@ -558,6 +559,8 @@
- 		{.rd_enable = 1, .wr_enable = 1},
- 		{.rd_enable = 1, .wr_enable = 0}
- 	},
-+	.clk_inefficiency_factor = 105,
-+	.bw_inefficiency_factor = 120,
- };
- 
- /*************************************************************
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index f7de438..f2a5fe2 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -651,6 +651,8 @@ struct dpu_perf_cdp_cfg {
-  * @downscaling_prefill_lines  downscaling latency in lines
-  * @amortizable_theshold minimum y position for traffic shaping prefill
-  * @min_prefill_lines  minimum pipeline latency in lines
-+ * @clk_inefficiency_factor DPU src clock inefficiency factor
-+ * @bw_inefficiency_factor DPU axi bus bw inefficiency factor
-  * @safe_lut_tbl: LUT tables for safe signals
-  * @danger_lut_tbl: LUT tables for danger signals
-  * @qos_lut_tbl: LUT tables for QoS signals
-@@ -675,6 +677,8 @@ struct dpu_perf_cfg {
- 	u32 downscaling_prefill_lines;
- 	u32 amortizable_threshold;
- 	u32 min_prefill_lines;
-+	u32 clk_inefficiency_factor;
-+	u32 bw_inefficiency_factor;
- 	u32 safe_lut_tbl[DPU_QOS_LUT_USAGE_MAX];
- 	u32 danger_lut_tbl[DPU_QOS_LUT_USAGE_MAX];
- 	struct dpu_qos_lut_tbl qos_lut_tbl[DPU_QOS_LUT_USAGE_MAX];
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index b8615d4..a5da7aa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -303,6 +303,28 @@ static int dpu_kms_global_obj_init(struct dpu_kms *dpu_kms)
- 	return 0;
- }
- 
-+static int dpu_kms_parse_data_bus_icc_path(struct dpu_kms *dpu_kms)
-+{
-+	struct icc_path *path0;
-+	struct icc_path *path1;
-+	struct drm_device *dev = dpu_kms->dev;
-+
-+	path0 = of_icc_get(dev->dev, "mdp0-mem");
-+	path1 = of_icc_get(dev->dev, "mdp1-mem");
-+
-+	if (IS_ERR_OR_NULL(path0))
-+		return PTR_ERR_OR_ZERO(path0);
-+
-+	dpu_kms->path[0] = path0;
-+	dpu_kms->num_paths = 1;
-+
-+	if (!IS_ERR_OR_NULL(path1)) {
-+		dpu_kms->path[1] = path1;
-+		dpu_kms->num_paths++;
-+	}
-+	return 0;
-+}
-+
- static int dpu_kms_enable_vblank(struct msm_kms *kms, struct drm_crtc *crtc)
- {
- 	return dpu_crtc_vblank(crtc, true);
-@@ -972,6 +994,9 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 
- 	dpu_vbif_init_memtypes(dpu_kms);
- 
-+	if (of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss"))
-+		dpu_kms_parse_data_bus_icc_path(dpu_kms);
-+
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- 
- 	return 0;
-@@ -1077,7 +1102,7 @@ static int dpu_dev_remove(struct platform_device *pdev)
- 
- static int __maybe_unused dpu_runtime_suspend(struct device *dev)
- {
--	int rc = -1;
-+	int i, rc = -1;
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
- 	struct dss_module_power *mp = &dpu_kms->mp;
-@@ -1086,6 +1111,9 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
- 	if (rc)
- 		DPU_ERROR("clock disable failed rc:%d\n", rc);
- 
-+	for (i = 0; i < dpu_kms->num_paths; i++)
-+		icc_set_bw(dpu_kms->path[i], 0, 0);
-+
- 	return rc;
- }
- 
-@@ -1097,8 +1125,15 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
- 	struct drm_encoder *encoder;
- 	struct drm_device *ddev;
- 	struct dss_module_power *mp = &dpu_kms->mp;
-+	int i;
- 
- 	ddev = dpu_kms->dev;
-+
-+	/* Min vote of BW is required before turning on AXI clk */
-+	for (i = 0; i < dpu_kms->num_paths; i++)
-+		icc_set_bw(dpu_kms->path[i], 0,
-+			dpu_kms->catalog->perf.min_dram_ib);
-+
- 	rc = msm_dss_enable_clk(mp->clk_config, mp->num_clk, true);
- 	if (rc) {
- 		DPU_ERROR("clock enable failed rc:%d\n", rc);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 4e32d04..94410ca 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -8,6 +8,8 @@
- #ifndef __DPU_KMS_H__
- #define __DPU_KMS_H__
- 
-+#include <linux/interconnect.h>
-+
- #include <drm/drm_drv.h>
- 
- #include "msm_drv.h"
-@@ -137,6 +139,8 @@ struct dpu_kms {
- 	 * when disabled.
- 	 */
- 	atomic_t bandwidth_ref;
-+	struct icc_path *path[2];
-+	u32 num_paths;
- };
- 
- struct vsync_info {
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-index 80d3cfc..df0a983 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-@@ -8,7 +8,6 @@
- #include <linux/irqdesc.h>
- #include <linux/irqchip/chained_irq.h>
- #include "dpu_kms.h"
--#include <linux/interconnect.h>
- 
- #define to_dpu_mdss(x) container_of(x, struct dpu_mdss, base)
- 
-@@ -315,9 +314,11 @@ int dpu_mdss_init(struct drm_device *dev)
- 	}
- 	dpu_mdss->mmio_len = resource_size(res);
- 
--	ret = dpu_mdss_parse_data_bus_icc_path(dev, dpu_mdss);
--	if (ret)
--		return ret;
-+	if (!of_device_is_compatible(dev->dev->of_node, "qcom,sc7180-mdss")) {
-+		ret = dpu_mdss_parse_data_bus_icc_path(dev, dpu_mdss);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	mp = &dpu_mdss->mp;
- 	ret = msm_dss_parse_clock(pdev, mp);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 3b9c33e..6379fe1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -132,6 +132,86 @@ static struct dpu_kms *_dpu_plane_get_kms(struct drm_plane *plane)
- }
- 
- /**
-+ * _dpu_plane_calc_bw - calculate bandwidth required for a plane
-+ * @Plane: Pointer to drm plane.
-+ * Result: Updates calculated bandwidth in the plane state.
-+ * BW Equation: src_w * src_h * bpp * fps * (v_total / v_dest)
-+ * Prefill BW Equation: line src bytes * line_time
-+ */
-+static void _dpu_plane_calc_bw(struct drm_plane *plane,
-+	struct drm_framebuffer *fb)
-+{
-+	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate;
-+	struct drm_display_mode *mode;
-+	const struct dpu_format *fmt = NULL;
-+	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-+	int src_width, src_height, dst_height, fps;
-+	u64 plane_prefill_bw;
-+	u64 plane_bw;
-+	u32 hw_latency_lines;
-+	u64 scale_factor;
-+	int vbp, vpw;
-+
-+	pstate = to_dpu_plane_state(plane->state);
-+	mode = &plane->state->crtc->mode;
-+
-+	fmt = dpu_get_dpu_format_ext(fb->format->format, fb->modifier);
-+
-+	src_width = drm_rect_width(&pdpu->pipe_cfg.src_rect);
-+	src_height = drm_rect_height(&pdpu->pipe_cfg.src_rect);
-+	dst_height = drm_rect_height(&pdpu->pipe_cfg.dst_rect);
-+	fps = drm_mode_vrefresh(mode);
-+	vbp = mode->vtotal - mode->vsync_end;
-+	vpw = mode->vsync_end - mode->vsync_start;
-+	hw_latency_lines =  dpu_kms->catalog->perf.min_prefill_lines;
-+	scale_factor = src_height > dst_height ?
-+		mult_frac(src_height, 1, dst_height) : 1;
-+
-+	plane_bw =
-+		src_width * mode->vtotal * fps * fmt->bpp *
-+		scale_factor;
-+
-+	plane_prefill_bw =
-+		src_width * hw_latency_lines * fps * fmt->bpp *
-+		scale_factor * mode->vtotal;
-+
-+	do_div(plane_prefill_bw, (vbp+vpw));
-+
-+	pstate->plane_fetch_bw = max(plane_bw, plane_prefill_bw);
-+}
-+
-+/**
-+ * _dpu_plane_calc_clk - calculate clock required for a plane
-+ * @Plane: Pointer to drm plane.
-+ * Result: Updates calculated clock in the plane state.
-+ * Clock equation: dst_w * v_total * fps * (src_h / dst_h)
-+ */
-+static void _dpu_plane_calc_clk(struct drm_plane *plane)
-+{
-+	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate;
-+	struct drm_display_mode *mode;
-+	int dst_width, src_height, dst_height, fps;
-+
-+	pstate = to_dpu_plane_state(plane->state);
-+	mode = &plane->state->crtc->mode;
-+
-+	src_height = drm_rect_height(&pdpu->pipe_cfg.src_rect);
-+	dst_width = drm_rect_width(&pdpu->pipe_cfg.dst_rect);
-+	dst_height = drm_rect_height(&pdpu->pipe_cfg.dst_rect);
-+	fps = drm_mode_vrefresh(mode);
-+
-+	pstate->plane_clk =
-+		dst_width * mode->vtotal * fps;
-+
-+	if (src_height > dst_height) {
-+		pstate->plane_clk *= src_height;
-+		do_div(pstate->plane_clk, dst_height);
-+	}
-+}
-+
-+/**
-  * _dpu_plane_calc_fill_level - calculate fill level of the given source format
-  * @plane:		Pointer to drm plane
-  * @fmt:		Pointer to source buffer format
-@@ -1102,6 +1182,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 	}
- 
- 	_dpu_plane_set_qos_remap(plane);
-+
-+	_dpu_plane_calc_bw(plane, fb);
-+
-+	_dpu_plane_calc_clk(plane);
- }
- 
- static void _dpu_plane_atomic_disable(struct drm_plane *plane)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 4569497..ca83b87 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -25,6 +25,8 @@
-  * @scaler3_cfg: configuration data for scaler3
-  * @pixel_ext: configuration data for pixel extensions
-  * @cdp_cfg:	CDP configuration
-+ * @plane_fetch_bw: calculated BW per plane
-+ * @plane_clk: calculated clk per plane
-  */
- struct dpu_plane_state {
- 	struct drm_plane_state base;
-@@ -39,6 +41,8 @@ struct dpu_plane_state {
- 	struct dpu_hw_pixel_ext pixel_ext;
- 
- 	struct dpu_hw_pipe_cdp_cfg cdp_cfg;
-+	u64 plane_fetch_bw;
-+	u64 plane_clk;
- };
- 
- /**
--- 
-1.9.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgYWxsLCBuZXdiaWUgaGVyZS4KQ2FuIHRoZSBCSVQgbWFjcm8gYmUgc2FmZWx5IHVzZWQgb24g
+b3RoZXIgcGFydHMgb2YgdGhlIGtlcm5lbCBhcyB3ZWxsPwpKdXN0IHVzaW5nIGdpdCBncmVwICIx
+IDw8IiByZXR1cm5zIGEgdG9uIG9mIHJlc3VsdHMgd2hlcmUgYml0IHNoaWZ0aW5nCmlzIHVzZWQg
+dGhlIG9sZCBmYXNoaW9uZWQgd2F5LgoKQW0gRG8uLCAxOC4gSnVuaSAyMDIwIHVtIDE2OjIzIFVo
+ciBzY2hyaWViIExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPjoKPgo+IE9uIFRodSwg
+SnVuIDE4LCAyMDIwIGF0IDAxOjUwOjM0UE0gKzAxMDAsIENvbGluIElhbiBLaW5nIHdyb3RlOgo+
+ID4gT24gMTgvMDYvMjAyMCAxMzoxNCwgTGl2aXUgRHVkYXUgd3JvdGU6Cj4gPiA+IE9uIFRodSwg
+SnVuIDE4LCAyMDIwIGF0IDExOjA0OjAwQU0gKzAxMDAsIENvbGluIEtpbmcgd3JvdGU6Cj4gPiA+
+PiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+ID4gPgo+
+ID4gPiBIaSBDb2xpbiwKPiA+ID4KPiA+ID4+Cj4gPiA+PiBTaGlmdGluZyB0aGUgaW50ZWdlciB2
+YWx1ZSAxIGlzIGV2YWx1YXRlZCB1c2luZyAzMi1iaXQgYXJpdGhtZXRpYwo+ID4gPj4gYW5kIHRo
+ZW4gdXNlZCBpbiBhbiBleHByZXNzaW9uIHRoYXQgZXhwZWN0cyBhIGxvbmcgdmFsdWUgbGVhZHMg
+dG8KPiA+ID4+IGEgcG90ZW50aWFsIGludGVnZXIgb3ZlcmZsb3cuCj4gPiA+Cj4gPiA+IEknbSBh
+ZnJhaWQgdGhpcyBleHBsYW5hdGlvbiBtYWtlcyBubyBzZW5zZSB0byBtZS4gRG8geW91IGNhcmUg
+dG8gZXhwbGFpbiBiZXR0ZXIgd2hhdAo+ID4gPiB5b3UgdGhpbmsgdGhlIGlzc3VlIGlzPyBJZiB0
+aGUgc2hpZnQgaXMgZG9uZSBhcyAzMi1iaXQgYXJpdGhtZXRpYyBhbmQgdGhlbiBwcm9tb3RlZAo+
+ID4gPiB0byBsb25nIGhvdyBkb2VzIHRoZSBvdmVyZmxvdyBoYXBwZW4/Cj4gPgo+ID4gVGhlIHNo
+aWZ0IGlzIHBlcmZvcm1lZCB1c2luZyAzMiBiaXQgc2lnbmVkIG1hdGggYW5kIHRoZW4gYXNzaWdu
+ZWQgdG8gYW4KPiA+IHVuc2lnbmVkIDY0IGJpdCBsb25nLiBUaGlzIGlmIHRoZSBzaGlmdCBpcyAz
+MSBiaXRzIHRoZW4gdGhlIHNpZ25lZCBpbnQKPiA+IGNvbnZlcnNpb24gb2YgMHg4MDAwMDAwMCB0
+byB1bnNpZ25lZCBsb25nIGJlY29tZXMgMHhmZmZmZmZmZjgwMDAwMDAwLgo+ID4gSWYgdGhlIHNo
+aWZ0IGlzIG1vcmUgdGhhbiAzMiBiaXRzIHRoZW4gcmVzdWx0IG92ZXJmbG93cyBhbmQgYmVjb21l
+cyAweDAuCj4KPiBZb3UgYXJlIHJpZ2h0LCBJJ3ZlIG1pc3NlZCB0aGUgZmFjdCB0aGF0IGl0IGlz
+IHNpZ25lZCBtYXRoLiBOb3QgdmVyeSBsaWtlbHkgdGhhdAo+IHdlIGFyZSBnb2luZyB0byBldmVy
+IGhhdmUgMzAgb3IgbW9yZSBDUlRDcyBpbiB0aGUgZHJpdmVyLCBidXQgQ292ZXJpdHkgaGFzIG5v
+Cj4gd2F5IG9mIGtub3dpbmcgdGhhdC4KPgo+IEFja2VkLWJ5OiBMaXZpdSBEdWRhdSA8bGl2aXUu
+ZHVkYXVAYXJtLmNvbT4KPgo+IEkgd2lsbCBwdWxsIHRoaXMgaW50byBkcm0tbWlzYy1uZXh0IHRv
+ZGF5Lgo+Cj4gQmVzdCByZWdhcmRzLAo+IExpdml1Cj4KPiA+Cj4gPiBDb2xpbgo+ID4KPiA+ID4K
+PiA+ID4gQmVzdCByZWdhcmRzLAo+ID4gPiBMaXZpdQo+ID4gPgo+ID4gPj4gRml4IHRoaXMgYnkg
+dXNpbmcgdGhlIEJJVCBtYWNybyB0bwo+ID4gPj4gcGVyZm9ybSB0aGUgc2hpZnQgdG8gYXZvaWQg
+dGhlIG92ZXJmbG93Lgo+ID4gPj4KPiA+ID4+IEFkZHJlc3Nlcy1Db3Zlcml0eTogKCJVbmludGVu
+dGlvbmFsIGludGVnZXIgb3ZlcmZsb3ciKQo+ID4gPj4gRml4ZXM6IGFkNDlmODYwMmZlOCAoImRy
+bS9hcm06IEFkZCBzdXBwb3J0IGZvciBNYWxpIERpc3BsYXkgUHJvY2Vzc29ycyIpCj4gPiA+PiBT
+aWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+
+ID4gPj4gLS0tCj4gPiA+PiAgZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMgfCAy
+ICstCj4gPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+Cj4gPiA+Pgo+ID4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3Bs
+YW5lcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMKPiA+ID4+IGluZGV4
+IDM3NzE1Y2M2MDY0ZS4uYWI0NWFjNDQ1MDQ1IDEwMDY0NAo+ID4gPj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2FybS9tYWxpZHBfcGxhbmVzLmMKPiA+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
+cm0vbWFsaWRwX3BsYW5lcy5jCj4gPiA+PiBAQCAtOTI4LDcgKzkyOCw3IEBAIGludCBtYWxpZHBf
+ZGVfcGxhbmVzX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKPiA+ID4+ICAgIGNvbnN0IHN0
+cnVjdCBtYWxpZHBfaHdfcmVnbWFwICptYXAgPSAmbWFsaWRwLT5kZXYtPmh3LT5tYXA7Cj4gPiA+
+PiAgICBzdHJ1Y3QgbWFsaWRwX3BsYW5lICpwbGFuZSA9IE5VTEw7Cj4gPiA+PiAgICBlbnVtIGRy
+bV9wbGFuZV90eXBlIHBsYW5lX3R5cGU7Cj4gPiA+PiAtICB1bnNpZ25lZCBsb25nIGNydGNzID0g
+MSA8PCBkcm0tPm1vZGVfY29uZmlnLm51bV9jcnRjOwo+ID4gPj4gKyAgdW5zaWduZWQgbG9uZyBj
+cnRjcyA9IEJJVChkcm0tPm1vZGVfY29uZmlnLm51bV9jcnRjKTsKPiA+ID4+ICAgIHVuc2lnbmVk
+IGxvbmcgZmxhZ3MgPSBEUk1fTU9ERV9ST1RBVEVfMCB8IERSTV9NT0RFX1JPVEFURV85MCB8IERS
+TV9NT0RFX1JPVEFURV8xODAgfAo+ID4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgIERSTV9N
+T0RFX1JPVEFURV8yNzAgfCBEUk1fTU9ERV9SRUZMRUNUX1ggfCBEUk1fTU9ERV9SRUZMRUNUX1k7
+Cj4gPiA+PiAgICB1bnNpZ25lZCBpbnQgYmxlbmRfY2FwcyA9IEJJVChEUk1fTU9ERV9CTEVORF9Q
+SVhFTF9OT05FKSB8Cj4gPiA+PiAtLQo+ID4gPj4gMi4yNy4wLnJjMAo+ID4gPj4KPiA+ID4KPiA+
+Cj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4g
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwKPgo+IC0tCj4gPT09PT09PT09PT09PT09PT09PT0KPiB8IEkgd291bGQgbGlrZSB0byB8
+Cj4gfCBmaXggdGhlIHdvcmxkLCAgfAo+IHwgYnV0IHRoZXkncmUgbm90IHwKPiB8IGdpdmluZyBt
+ZSB0aGUgICB8Cj4gIFwgc291cmNlIGNvZGUhICAvCj4gICAtLS0tLS0tLS0tLS0tLS0KPiAgICAg
+wq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
