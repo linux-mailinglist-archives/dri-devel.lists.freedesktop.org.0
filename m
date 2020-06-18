@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1671FDC7E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:20:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2171FDC9D
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDCF6EA42;
-	Thu, 18 Jun 2020 01:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73676EA3E;
+	Thu, 18 Jun 2020 01:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 002ED6EA3E;
- Thu, 18 Jun 2020 01:19:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A1E6EA3E;
+ Thu, 18 Jun 2020 01:21:09 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E2F6D221F1;
- Thu, 18 Jun 2020 01:19:55 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 94DF621D79;
+ Thu, 18 Jun 2020 01:21:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592443196;
- bh=LTMmFEC2MVsr0SbZvuqP5QkFFX4Lbmxd/SYzppacUXE=;
+ s=default; t=1592443269;
+ bh=mIJ1TUXp7dszAtRrMyJYmXKkKV2repG8ZIcsS6zctIo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oGOEplATB1AVZusHTu3ZHzzaWz1fSiziCeM9imDFefYEMgCSPiLqpu8XXAQqrouwn
- Tuzcmke1UZ1UKcT/HV0rP2lM24OjAA7Cah3vOKb/H2KzVn8LRle07s07ZiSjBfU9oJ
- DM0lap+s6hWY/kVhJLDOXZh6q2SjaN+F1Zo3fQFg=
+ b=uPR9mbNwFyTmtfOJJlhCfO/texBAKbGnoJqJxPDQc+274JU/iJmxluVvUPvP3Fosb
+ kac4bE1BuM/LL+FDJ+4VatzcriMrGtzai80ggg+OXmpwm/3P3IBRM1noN7FnxhMPOH
+ iDdgtEgqlLvRP6Exd88vNKSXpzKAyHA6/WeV/e1s=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 156/266] drm/msm/mdp5: Fix mdp5_init error path
- for failed mdp5_kms allocation
-Date: Wed, 17 Jun 2020 21:14:41 -0400
-Message-Id: <20200618011631.604574-156-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 215/266] drm/nouveau/disp/gm200-: fix
+ NV_PDISP_SOR_HDMI2_CTRL(n) selection
+Date: Wed, 17 Jun 2020 21:15:40 -0400
+Message-Id: <20200618011631.604574-215-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
 References: <20200618011631.604574-1-sashal@kernel.org>
@@ -50,44 +50,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Roy Spliet <nouveau@spliet.org>, Abhinav Kumar <abhinavk@codeaurora.org>,
- freedreno@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Roy Spliet <nouveau@spliet.org>
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[ Upstream commit e4337877c5d578722c0716f131fb774522013cf5 ]
+[ Upstream commit a1ef8bad506e4ffa0c57ac5f8cb99ab5cbc3b1fc ]
 
-When allocation for mdp5_kms fails, calling mdp5_destroy() leads to undefined
-behaviour, likely a nullptr exception or use-after-free troubles.
+This is a SOR register, and not indexed by the bound head.
 
-Signed-off-by: Roy Spliet <nouveau@spliet.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Fixes display not coming up on high-bandwidth HDMI displays under a
+number of configurations.
+
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 91cd76a2bab1..77823ccdd0f8 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -1037,7 +1037,8 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
+index 9b16a08eb4d9..bf6d41fb0c9f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
+@@ -27,10 +27,10 @@ void
+ gm200_hdmi_scdc(struct nvkm_ior *ior, int head, u8 scdc)
+ {
+ 	struct nvkm_device *device = ior->disp->engine.subdev.device;
+-	const u32 hoff = head * 0x800;
++	const u32 soff = nv50_ior_base(ior);
+ 	const u32 ctrl = scdc & 0x3;
  
- 	return 0;
- fail:
--	mdp5_destroy(pdev);
-+	if (mdp5_kms)
-+		mdp5_destroy(pdev);
- 	return ret;
+-	nvkm_mask(device, 0x61c5bc + hoff, 0x00000003, ctrl);
++	nvkm_mask(device, 0x61c5bc + soff, 0x00000003, ctrl);
+ 
+ 	ior->tmds.high_speed = !!(scdc & 0x2);
  }
- 
 -- 
 2.25.1
 
