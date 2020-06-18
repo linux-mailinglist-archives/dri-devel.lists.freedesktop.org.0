@@ -2,31 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F65A200252
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B58F200242
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6AC6EC25;
-	Fri, 19 Jun 2020 06:58:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A1D899D4;
+	Fri, 19 Jun 2020 06:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id BFF226EB86
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 16:24:37 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 6E10480A9;
- Thu, 18 Jun 2020 16:25:29 +0000 (UTC)
-Date: Thu, 18 Jun 2020 09:24:34 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v2] drm/omap: force runtime PM suspend on system suspend
-Message-ID: <20200618162434.GG43721@atomide.com>
-References: <20200618095153.611071-1-tomi.valkeinen@ti.com>
- <20200618131608.GC43721@atomide.com>
- <b351785a-5be4-edd2-2907-c9b091cbb481@ti.com>
- <20200618144158.GE43721@atomide.com>
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com
+ [IPv6:2607:f8b0:4864:20::f43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 751386EB98
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 17:23:41 +0000 (UTC)
+Received: by mail-qv1-xf43.google.com with SMTP id dp10so3113864qvb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 10:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
+ b=pQnJk2BkLr+MSY/ZKoRYO3N7SBKy2now/VahbHpiE0ODVcJ+6O7j84vau1mwIApvP7
+ GOdC6OeYk1H3WeQLOrd9w3MqHQZy0OvARyydS7GgAQeW47MnQWfeepZVJrUJjSv717D6
+ 71Y1Jcf/9bD++nyhtsm877xpne1ScehVboFxAFrIK686JYR5j1zM1IYedzgkhSMFLH+q
+ BA1fweTgPgjhYb+wikYXhEAlUND0ztF/D51np5BJ3v4C46sZQvCASI5ckldnPRlU+3hi
+ s8pkLypTSa4SZ0xCcdQBCFHr3EIFZ3G/Xkv9NnnR/g9tJLHfZHgrYGhT36a3jHhTjSZ1
+ XJ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
+ b=Fd3t/6dS0qSiwrURK7nFqsJrCx+mnEu64S1rIKyGlZuKx7FS9BmNTIhU4AOKCBJYFc
+ QrBg7HCLnO7LQH2oZlMu9IAKiQfTqa/Yf7HCAyYSASEf1wyUUgjsC4fit+fJtb/ztYew
+ AoBgWSAjHGa70tnY58LhgOMSDtV+hU1yR7Y5RqkKT+7cKUCwqr/VEYgXqX7gsZkPuXPB
+ t6at6yG65lCsVq651wpFU/hFpTLLdm55dwnGv7vEs5rdAiQhlPOgkI59Tjc7hN5RvEFw
+ H6vSenumryQelClAoIqLz3YSJtbiKkJfsFpykBKxqY7qsmelM3OMZzDM6JTMi/XVGHCW
+ gQpA==
+X-Gm-Message-State: AOAM532L0RhOy3+20UPmqgm9SHCAVHyF21aao+NUIRR12N6L0Zo3hhnF
+ viHkDOxfV7Ep3Wk9gZdxY/RNnw==
+X-Google-Smtp-Source: ABdhPJwk2YUvEzLHMclGfpDEafJPYyQ0A/CvUD7gNhvGjyNa2/WErZ+AilnbN9Hdt0RsaqZHbhBdmA==
+X-Received: by 2002:a05:6214:1705:: with SMTP id
+ db5mr4740498qvb.14.1592501020440; 
+ Thu, 18 Jun 2020 10:23:40 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id r7sm2644175qtm.66.2020.06.18.10.23.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Jun 2020 10:23:39 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
+ id 1jlyGI-00AEEp-Qj; Thu, 18 Jun 2020 14:23:38 -0300
+Date: Thu, 18 Jun 2020 14:23:38 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= <thomas_os@shipmail.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+Message-ID: <20200618172338.GM6578@ziepe.ca>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca>
+ <20200618150051.GS20149@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200618144158.GE43721@atomide.com>
+In-Reply-To: <20200618150051.GS20149@phenom.ffwll.local>
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,86 +92,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-omap@vger.kernel.org, Grygorii Strashko <grygorii.strashko@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Tony Lindgren <tony@atomide.com> [200618 07:42]:
-> I did not have luck the last time I tried am437x-sk-evm, but that
-> seems like some separate regression that's been around for awhile.
-> I recall testing it successfully last fall at some point.
+On Thu, Jun 18, 2020 at 05:00:51PM +0200, Daniel Vetter wrote:
+> On Wed, Jun 17, 2020 at 12:28:35PM -0300, Jason Gunthorpe wrote:
+> > On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
+> > 
+> > > Now my understanding for rdma is that if you don't have hw page fault
+> > > support,
+> > 
+> > The RDMA ODP feature is restartable HW page faulting just like nouveau
+> > has. The classical MR feature doesn't have this. Only mlx5 HW supports
+> > ODP today.
+> > 
+> > > It's only gpus (I think) which are in this awkward in-between spot
+> > > where dynamic memory management really is much wanted, but the hw
+> > > kinda sucks. Aside, about 10+ years ago we had a similar problem with
+> > > gpu hw, but for security: Many gpu didn't have any kinds of page
+> > > tables to isolate different clients from each another. drivers/gpu
+> > > fixed this by parsing&validating what userspace submitted to make sure
+> > > it's only every accessing its own buffers. Most gpus have become
+> > > reasonable nowadays and do have proper per-process pagetables (gpu
+> > > process, not the pasid stuff), but even today there's still some of
+> > > the old model left in some of the smallest SoC.
+> > 
+> > But I still don't understand why a dma fence is needed inside the GPU
+> > driver itself in the notifier.
+> > 
+> > Surely the GPU driver can block and release the notifier directly from
+> > its own command processing channel?
+> > 
+> > Why does this fence and all it entails need to leak out across
+> > drivers?
+> 
+> So 10 years ago we had this world of every gpu driver is its own bucket,
+> nothing leaks out to the world. But the world had a different idea how
+> gpus where supposed to work, with stuff like:
 
-OK I got am437x-sk-evm suspend and resume working again and
-LCD console comes back after resume. I also had to apply the
-panel-simple fix "drm/panel-simple: fix connector type for
-newhaven_nhd_43_480272ef_atxl" to get LCD working again.
+Sure, I understand DMA fence, but why does a *notifier* need it?
 
-I was missing /lib/firmware/am335x-pm-firmware.elf after updating
-my NFSroot file system. And FYI, here are the modules I now load
-with my test script:
+The job of the notifier is to guarentee that the device it is
+connected to is not doing DMA before it returns.
 
-modprobe omap-mailbox
-modprobe omap_remoteproc
-modprobe wkup_m3_rproc
-modprobe wkup_m3_ipc
-modprobe pm33xx
-modprobe rtc-omap
-modprobe pwm-omap-dmtimer
-modprobe pwm-tiecap
-modprobe pwm_bl
-modprobe edt-ft5x06		# on am437x-sk-evm
-modprobe pixcir_i2c_ts		# NOT on am437x-sk-evm, only on am437x-gp-evm.dts
-modprobe omapdrm
-modprobe panel-simple
-modprobe display-connector	# starting with v5.7-rc1
-modprobe omapdss
-modprobe panel-dpi
-modprobe omap-dss
+That just means you need to prove that device is done with the buffer.
 
-And then I get the following with rtcwake -m mem -s 5.
+As I've understood GPU that means you need to show that the commands
+associated with the buffer have completed. This is all local stuff
+within the driver, right? Why use fence (other than it already exists)
 
-Sometimes cps and NFSroot seems to take few tens of seconds to
-recover though.
-
-Regards,
-
-Tony
-
-8< ------------------
-[   33.481400] omapdss_dss 4832a000.dss: supply vdda_video not found, using dummy regulator
-[   33.481573] DSS: OMAP DSS rev 2.0
-[   33.485412] omapdss_dss 4832a000.dss: bound 4832a400.dispc (ops dispc_component_ops [omapdss])
-[   33.485932] omapdrm omapdrm.0: DMM not available, disable DMM support
-[   33.486322] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
-[   33.525740] Console: switching to colour frame buffer device 60x34
-[   33.543690] omapdrm omapdrm.0: fb0: omapdrmdrmfb frame buffer device
-[   33.544563] [drm] Initialized omapdrm 1.0.0 20110917 for omapdrm.0 on minor 0
-[   40.196247] vmmcwl_fixed: disabling
-[  124.230087] PM: suspend entry (deep)
-[  124.230152] Filesystems sync: 0.000 seconds
-[  124.233068] Freezing user space processes ... (elapsed 0.001 seconds) done.
-[  124.234420] OOM killer disabled.
-[  124.234424] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-[  124.235607] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
-[  124.235623] printk: Suspending console(s) (use no_console_suspend to debug)
-[  124.255315] cpsw 4a100000.ethernet eth0: Link is Down
-[  124.260828] Disabling non-boot CPUs ...
-[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
-[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
-[  124.260839] pm33xx pm33xx: PM: Could not transition all powerdomains to target state
-[  124.260839] PM: Wakeup source RTC Alarm
-[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
-[  124.271744] ti-sysc 4a101200.target-module: OCP softreset timed out
-[  124.274498] cpsw 4a100000.ethernet: initializing cpsw version 1.15 (0)
-[  124.415839] Micrel KSZ9031 Gigabit PHY 4a101000.mdio:04: attached PHY driver [Micrel KSZ9031 Gigabit PHY] (mii_bus:phy_addr=4a101000.mdio:04, irq=POLL)
-[  124.493879] OOM killer enabled.
-[  124.493885] Restarting tasks ... done.
-[  124.502993] PM: suspend exit
-[  132.757778] cpsw 4a100000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
