@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0C91FFDFD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 00:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72C31FFE04
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 00:27:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286ED6E47A;
-	Thu, 18 Jun 2020 22:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3EDD6E488;
+	Thu, 18 Jun 2020 22:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099AF6E47A
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 22:27:02 +0000 (UTC)
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAD126E486
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 22:27:10 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1592519223; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1592519232; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=74KPYBul0WN79oQ7Kc0yFX4h5YzlQ/ueHWSiolnC5mY=;
- b=CGf6ChYsm31P5B0U+2zjYPVZq3TSr6K4pstCZpT+ZAUZ7RY9tt2kov2S9jJ598UOsuZqIpyH
- a1jYCk59S+KigoADWC5qh9KWXPRRa86+IllDWSsHf7FMbK7BwGDwC9wGC4UHvIs/sE4Nmtd3
- COEHg31Pj64K51+Ro5nQskOzrRY=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ Sender; bh=cgQ3rQPARSswpvg87Oo6JZ0BG0gpNPuTgsQQ63p80OU=;
+ b=XQZze1lx1dsO2Wwq/pPdsKkICg6X9fP3ESqwFxqZRH4ttRg2eB8FvN+6Bhs0B6OSyEl0VZgg
+ IYs6zZRsz6ZkZVsQAMxIEira1/Nvet4n4a+jzeCJ/f6HPGFHOHjkZMuC8E4cljtUg50IWyxs
+ /AgiRN/+Hx/2YMW4thskP3l2lYs=
+X-Mailgun-Sending-Ip: 104.130.122.29
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5eebea35bfb34e631ccb564b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Jun 2020 22:27:01
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5eebea3cc76a4e7a2aac2b75 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Jun 2020 22:27:08
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9D1E5C433C9; Thu, 18 Jun 2020 22:27:00 +0000 (UTC)
+ id E1BF5C433A0; Thu, 18 Jun 2020 22:27:07 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
- URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from linuxdisplay-lab-04.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: tanmay)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5F231C433C8;
- Thu, 18 Jun 2020 22:26:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5F231C433C8
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D617C433CA;
+ Thu, 18 Jun 2020 22:27:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6D617C433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -50,10 +51,9 @@ From: Tanmay Shah <tanmay@codeaurora.org>
 To: robh+dt@kernel.org,
 	swboyd@chromium.org,
 	sam@ravnborg.org
-Subject: [PATCH v7 1/6] dt-bindings: msm/dp: add bindings of DP/DP-PLL driver
- for Snapdragon
-Date: Thu, 18 Jun 2020 15:26:09 -0700
-Message-Id: <20200618222614.14061-2-tanmay@codeaurora.org>
+Subject: [PATCH v7 2/6] drm: add constant N value in helper file
+Date: Thu, 18 Jun 2020 15:26:10 -0700
+Message-Id: <20200618222614.14061-3-tanmay@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200618222614.14061-1-tanmay@codeaurora.org>
 References: <20200618222614.14061-1-tanmay@codeaurora.org>
@@ -72,9 +72,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Tanmay Shah <tanmay@codeaurora.org>,
  airlied@linux.ie, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
- abhinavk@codeaurora.org, varar@codeaurora.org, aravindh@codeaurora.org,
- freedreno@lists.freedesktop.org, chandanu@codeaurora.org
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ seanpaul@chromium.org, abhinavk@codeaurora.org, varar@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org,
+ chandanu@codeaurora.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -82,301 +83,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chandan Uddaraju <chandanu@codeaurora.org>
 
-Add bindings for Snapdragon DisplayPort controller driver.
+The constant N value (0x8000) is used by i915 DP
+driver. Define this value in dp helper header file
+to use in multiple Display Port drivers. Change
+i915 driver accordingly.
 
-Changes in V2:
-Provide details about sel-gpio
-
-Changes in V4:
-Provide details about max dp lanes
-Change the commit text
-
-Changes in V5:
-moved dp.txt to yaml file
-
-Changes in v6:
-- Squash all AUX LUT properties into one pattern Property
-- Make aux-cfg[0-9]-settings properties optional
-- Remove PLL/PHY bindings from DP controller dts
-- Add DP clocks description
-- Remove _clk suffix from clock names
-- Rename pixel clock to stream_pixel
-- Remove redundant bindings (GPIO, PHY, HDCP clock, etc..)
-- Fix indentation
-- Add Display Port as interface of DPU in DPU bindings
-  and add port mapping accordingly.
-
-Chages in v7:
-- Add dp-controller.yaml file common between multiple SOC
-- Rename dp-sc7180.yaml to dp-controller-sc7180.yaml
-- change compatible string and add SOC name to it.
-- Remove Root clock generator for pixel clock
-- Add assigned-clocks and assigned-clock-parents bindings
-- Remove redundant properties, descriptions and blank lines
-- Add DP port in DPU bindings
-- Update depends-on tag in commit message and rebase change accordingly
-
-This change depends-on:
-	- https://patchwork.freedesktop.org/patch/366159/
+Change in v6: Change commit message
 
 Signed-off-by: Chandan Uddaraju <chandanu@codeaurora.org>
 Signed-off-by: Vara Reddy <varar@codeaurora.org>
 Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 ---
- .../display/msm/dp-controller-sc7180.yaml     | 147 ++++++++++++++++++
- .../bindings/display/msm/dp-controller.yaml   |  59 +++++++
- .../bindings/display/msm/dpu-sc7180.yaml      |  11 ++
- 3 files changed, 217 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/msm/dp-controller-sc7180.yaml
- create mode 100644 Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+ drivers/gpu/drm/i915/display/intel_display.c | 2 +-
+ include/drm/drm_dp_helper.h                  | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller-sc7180.yaml
-new file mode 100644
-index 000000000000..8dd56816dbbd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller-sc7180.yaml
-@@ -0,0 +1,147 @@
-+# SPDX-License-Identifier: (GPL-2.0-only  OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/dp-controller-sc7180.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MSM SC7180 Display Port Controller.
-+
-+maintainers:
-+  - Chandan Uddaraju <chandanu@codeaurora.org>
-+  - Vara Reddy <varar@codeaurora.org>
-+  - Tanmay Shah <tanmay@codeaurora.org>
-+
-+description: |
-+  Device tree bindings for DP host controller for MSM SC7180 target
-+  that are compatible with VESA Display Port interface specification.
-+
-+allOf:
-+  - $ref: dp-controller.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,sc7180-dp
-+
-+  reg:
-+    maxItems: 1
-+  reg-names:
-+    const: dp_controller
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 4
-+    items:
-+      - description: Display Port AUX clock
-+      - description: Display Port Link clock
-+      - description: Link interface clock between DP and PHY
-+      - description: Display Port Pixel clock
-+
-+  clock-names:
-+    items:
-+      - const: core_aux
-+      - const: ctrl_link
-+      - const: ctrl_link_iface
-+      - const: stream_pixel
-+
-+  "#clock-cells":
-+    const: 1
-+
-+  assigned-clocks:
-+    maxItems: 1
-+  assigned-clock-parents:
-+    maxItems: 1
-+
-+  data-lanes:
-+    $ref: "/schemas/types.yaml#/definitions/uint32-array"
-+    minItems: 1
-+    maxItems: 4
-+
-+  vdda-1p2-supply:
-+    description: phandle to vdda 1.2V regulator node.
-+
-+  vdda-0p9-supply:
-+    description: phandle to vdda 0.9V regulator node.
-+
-+  ports:
-+    type: object
-+    properties:
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+      port@0:
-+        type: object
-+      port@1:
-+        type: object
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - assigned-clocks
-+  - assigned-clock-parents
-+  - vdda-1p2-supply
-+  - vdda-0p9-supply
-+  - data-lanes
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
-+    #include <dt-bindings/clock/qcom,gcc-sdm845.h>
-+    msm_dp: displayport-controller@ae90000{
-+        compatible = "qcom,sc7180-dp";
-+        reg = <0 0xae90000 0 0x1400>;
-+        reg-names = "dp_controller";
-+
-+        interrupt-parent = <&mdss>;
-+        interrupts = <12 0>;
-+
-+        clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-+                 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-+        clock-names = "core_aux",
-+                      "ctrl_link",
-+                      "ctrl_link_iface", "stream_pixel";
-+        #clock-cells = <1>;
-+
-+        assigned-clocks = <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
-+        assigned-clock-parents = <&dp_phy 1>;
-+
-+        vdda-1p2-supply = <&vreg_l3c_1p2>;
-+        vdda-0p9-supply = <&vreg_l4a_0p8>;
-+
-+        data-lanes = <0 1>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                dp_in: endpoint {
-+                    remote-endpoint = <&dpu_intf0_out>;
-+                };
-+            };
-+
-+            port@1 {
-+                reg = <1>;
-+                dp_out: endpoint {
-+                };
-+            };
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-new file mode 100644
-index 000000000000..7f3bc0878d8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0-only  OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Display Port Controller.
-+
-+maintainers:
-+  - Chandan Uddaraju <chandanu@codeaurora.org>
-+  - Vara Reddy <varar@codeaurora.org>
-+  - Tanmay Shah <tanmay@codeaurora.org>
-+
-+description: |
-+  Device tree bindings for MSM Display Port which supports DP host controllers
-+  that are compatible with VESA Display Port interface specification.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - qcom,sc7180-dp
-+
-+  reg:
-+    maxItems: 1
-+  reg-names:
-+    const: dp_controller
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 4
-+    items:
-+      - description: Display Port AUX clock
-+      - description: Display Port Link clock
-+      - description: Link interface clock between DP and PHY
-+      - description: Display Port Pixel clock
-+
-+  clock-names:
-+    items:
-+      - const: core_aux
-+      - const: ctrl_link
-+      - const: ctrl_link_iface
-+      - const: stream_pixel
-+
-+  assigned-clocks:
-+    maxItems: 1
-+  assigned-clock-parents:
-+    maxItems: 1
-+
-+  data-lanes:
-+    $ref: "/schemas/types.yaml#/definitions/uint32-array"
-+    minItems: 1
-+    maxItems: 4
-+
-+  ports:
-+    type: object
-+...
-diff --git a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-index b5607f9429d5..9be71558c517 100644
---- a/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml
-@@ -141,6 +141,9 @@ patternProperties:
-              port@1:
-                type: object
-                description: DPU_INTF2 (DSI2)
-+             port@2:
-+               type: object
-+               description: DPU_INTF0 (DP)
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 9ea1a397d1b5..4b2cfff5b761 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -8085,7 +8085,7 @@ static void compute_m_n(unsigned int m, unsigned int n,
+ 	 * which the devices expect also in synchronous clock mode.
+ 	 */
+ 	if (constant_n)
+-		*ret_n = 0x8000;
++		*ret_n = DP_LINK_CONSTANT_N_VALUE;
+ 	else
+ 		*ret_n = min_t(unsigned int, roundup_pow_of_two(n), DATA_LINK_N_MAX);
  
-       assigned-clocks:
-         description: |
-@@ -237,6 +240,14 @@ examples:
-                                                   remote-endpoint = <&dsi0_in>;
-                                    };
-                            };
-+
-+                           port@2 {
-+                                   reg = <2>;
-+                                   dpu_intf0_out: endpoint {
-+                                                  remote-endpoint = <&dp_in>;
-+                                   };
-+                           };
-+
-                    };
-          };
-     };
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 2035ac44afde..589132ab9ab6 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -1134,6 +1134,7 @@
+ #define DP_MST_PHYSICAL_PORT_0 0
+ #define DP_MST_LOGICAL_PORT_0 8
+ 
++#define DP_LINK_CONSTANT_N_VALUE 0x8000
+ #define DP_LINK_STATUS_SIZE	   6
+ bool drm_dp_channel_eq_ok(const u8 link_status[DP_LINK_STATUS_SIZE],
+ 			  int lane_count);
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
