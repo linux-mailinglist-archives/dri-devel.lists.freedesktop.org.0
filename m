@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663191FFD76
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 23:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C24E1FFDBA
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 00:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4586E46F;
-	Thu, 18 Jun 2020 21:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDE36E459;
+	Thu, 18 Jun 2020 22:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9950A6E46F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 21:36:17 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
- [209.85.210.48])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 486E0208D5
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 21:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592516177;
- bh=FdXArNlOB0a4SDD87jaMCdex3U6cqGK9MVm02lJxTSE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=beeDmxTP1FFdQ3fvaOLfntCXvqSjM3gB0ixl7YhxxFGB/mfix17N8JFG/UjJrYG3g
- 6lvMLng2x6l2hVHi2tl35XW4q49P4rxa2+1KBsca738X6+70/pLG9iaaG1wZ1qRCjB
- pE40dTIfIrnvWuKQ4u6tseDX82wTkRlK6KDebxAc=
-Received: by mail-ot1-f48.google.com with SMTP id g7so5712483oti.13
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 14:36:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533e44RUckgy3gpzn9pHkDr7Tp8YEn46Fi6whF/qd4xCFW1tXzzY
- tIP1//NF0VVw1EoqZ2NR19aOXCf7QR4616/WOA==
-X-Google-Smtp-Source: ABdhPJyK9lNDKrCs4w4FjkehZE7UEcLoAPbiczZmKhA3RVLvDbYsghyBlmLbtquEkOgGmeQG/6IBs3D5jEV5pBdXu0Y=
-X-Received: by 2002:a05:6830:3104:: with SMTP id
- b4mr681576ots.192.1592516176577; 
- Thu, 18 Jun 2020 14:36:16 -0700 (PDT)
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
+ [IPv6:2607:f8b0:4864:20::e43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36BEC6E459
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 22:09:28 +0000 (UTC)
+Received: by mail-vs1-xe43.google.com with SMTP id t132so4487378vst.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rIJ2X6dOzoq0wY6kg8iKEYYmkTTN8+C1IDuvViUAAlw=;
+ b=lVrFJvl5mDjocLA105kchQDYwRR/Mq9nlcXy/owwADieAZYgAuGsjK3xpftm0NXclu
+ BDh1QPoJU1TPpXMWq0DmrgoRSIGzBPlrIy8he0In3LWP8m83XqE+r0HZadf/sXAFVj2e
+ IayO8IVxHmcZK2mLywOzCBqLmikiRhPA0Z8ME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rIJ2X6dOzoq0wY6kg8iKEYYmkTTN8+C1IDuvViUAAlw=;
+ b=QuGgI7Wm8VPPFc+/eyPjTCFw3P+or5WRZb9c/wacTSqAppyyBaGmYsGFpE7fKnEB5g
+ aLTmGIbr/e39sVNOcX1L8hAc8ruHDNz4CiwlF74Y0Ao6lBop2bVJs6+p+00toLxNKbje
+ aepcUZkG1cuErBEe+eut7c6k6+88wawlz5+3cpOAulLieBZjP0h2d+LNh2nZ3RTlTcF6
+ xP7xH91P879gXuwMIl0vIBgSQ2w22D3e5ZZkeoUI1VCuEs66KOkaFaGZLWrGrT8abreJ
+ 0qp1z4ByzNmGOUl3t6WyOjhIEgN0oqKm9XJdnrVI7YC0YVzrIjLiUk6TbqiPRTf43PVd
+ CTfg==
+X-Gm-Message-State: AOAM533d3OpWdsTqrzPwbmieeuAyd11fqCqMFrTAZ/PNCQ0flZkG+lT3
+ qbi+fbRYW/DRoHnDi7jZAGWnHK+iQo0=
+X-Google-Smtp-Source: ABdhPJw8sxa5Yl3fIT/WgRKq7+z44j7txU8zbvGJodf/6c6gqLF+frxDNwQmuD0jffNbhA+OoRj20g==
+X-Received: by 2002:a67:fd98:: with SMTP id k24mr5285126vsq.212.1592518166744; 
+ Thu, 18 Jun 2020 15:09:26 -0700 (PDT)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com.
+ [209.85.222.42])
+ by smtp.gmail.com with ESMTPSA id b9sm494321vkb.50.2020.06.18.15.09.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Jun 2020 15:09:25 -0700 (PDT)
+Received: by mail-ua1-f42.google.com with SMTP id v25so2533888uau.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:09:25 -0700 (PDT)
+X-Received: by 2002:a9f:3b1c:: with SMTP id i28mr501831uah.22.1592518164952;
+ Thu, 18 Jun 2020 15:09:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200618202447.872851-1-robh@kernel.org>
- <20200618205922.GA89738@ravnborg.org>
-In-Reply-To: <20200618205922.GA89738@ravnborg.org>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 18 Jun 2020 15:36:05 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+dm-YRtTkQNbNh2JSD_qhf0Do9jP74wKp32=BYgOVRYQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+dm-YRtTkQNbNh2JSD_qhf0Do9jP74wKp32=BYgOVRYQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: Convert connectors to DT schema
-To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200609120455.20458-1-harigovi@codeaurora.org>
+In-Reply-To: <20200609120455.20458-1-harigovi@codeaurora.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 18 Jun 2020 15:09:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XHHAAWNkJGMJESf4C=hcbaswFamGVeyMJ9eRd6dWAy8Q@mail.gmail.com>
+Message-ID: <CAD=FV=XHHAAWNkJGMJESf4C=hcbaswFamGVeyMJ9eRd6dWAy8Q@mail.gmail.com>
+Subject: Re: [v3] drm/bridge: ti-sn65dsi86: ensure bridge suspend happens
+ during PM sleep
+To: Harigovindan P <harigovi@codeaurora.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Andrzej Hajda <a.hajda@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,252 +71,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 18, 2020 at 2:59 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+Hi,
+
+On Tue, Jun 9, 2020 at 5:05 AM Harigovindan P <harigovi@codeaurora.org> wrote:
 >
-> Hi Rob.
+> ti-sn65dsi86 bridge is enumerated as a runtime device. When
+> suspend is triggered, PM core adds a refcount on all the
+> devices and calls device suspend, since usage count is
+> already incremented, runtime suspend will not be called
+> and it kept the bridge regulators and gpios ON which resulted
+> in platform not entering into XO shutdown.
 >
-> On Thu, Jun 18, 2020 at 02:24:47PM -0600, Rob Herring wrote:
-> > Convert the analog TV, DVI, HDMI, and VGA connector bindings to DT schema
-> > format.
-> >
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> > I put myself as maintainer, but would be happy if someone else was like
-> > one of the Cc'ed people.
-> I nominate Laurent for this....
+> Add changes to force suspend on the runtime device during pm sleep.
 >
-> See some comments in the following.
-> Mostly related to required - I may have missed something.
+> Signed-off-by: Harigovindan P <harigovi@codeaurora.org>
+> ---
 >
->         Sam
-> >
-> >  .../display/connector/analog-tv-connector.txt | 31 --------
-> >  .../connector/analog-tv-connector.yaml        | 47 ++++++++++++
-> >  .../display/connector/dvi-connector.txt       | 36 ---------
-> >  .../display/connector/dvi-connector.yaml      | 75 +++++++++++++++++++
-> >  .../display/connector/hdmi-connector.txt      | 31 --------
-> >  .../display/connector/hdmi-connector.yaml     | 63 ++++++++++++++++
-> >  .../display/connector/vga-connector.txt       | 36 ---------
-> >  .../display/connector/vga-connector.yaml      | 42 +++++++++++
-> >  8 files changed, 227 insertions(+), 134 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/connector/hdmi-connector.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/connector/vga-connector.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > deleted file mode 100644
-> > index 883bcb2604c7..000000000000
-> > --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > +++ /dev/null
-> > @@ -1,31 +0,0 @@
-> > -Analog TV Connector
-> > -===================
-> > -
-> > -Required properties:
-> > -- compatible: "composite-video-connector" or "svideo-connector"
-> > -
-> > -Optional properties:
-> > -- label: a symbolic name for the connector
-> > -- sdtv-standards: limit the supported TV standards on a connector to the given
-> > -                  ones. If not specified all TV standards are allowed.
-> > -                  Possible TV standards are defined in
-> > -                  include/dt-bindings/display/sdtv-standards.h.
-> > -
-> > -Required nodes:
-> > -- Video port for TV input
-> > -
-> > -Example
-> > --------
-> > -#include <dt-bindings/display/sdtv-standards.h>
-> > -
-> > -tv: connector {
-> > -     compatible = "composite-video-connector";
-> > -     label = "tv";
-> > -     sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> > -
-> > -     port {
-> > -             tv_connector_in: endpoint {
-> > -                     remote-endpoint = <&venc_out>;
-> > -             };
-> > -     };
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-> > new file mode 100644
-> > index 000000000000..d9ac42cb7e04
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml
-> > @@ -0,0 +1,47 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/connector/analog-tv-connector.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog TV Connector
-> > +
-> > +maintainers:
-> > +  - Rob Herring <robh@kernel.org>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - composite-video-connector
-> > +      - svideo-connector
-> > +
-> > +  label: true
-> > +
-> > +  sdtv-standards:
-> > +    description: Limit the supported TV standards on a connector to the given
-> > +      ones. If not specified all TV standards are allowed. Possible TV
-> > +      standards are defined in include/dt-bindings/display/sdtv-standards.h.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +
-> > +  port:
-> > +    description: Connection to controller providing analog TV signals
-> required:
->   - compatible
->   - port
+> Changes in v2:
+>         - Include bridge name in the commit message and
+>         remove dependent patchwork link from the commit
+>         text as bridge is independent of OEM(Stephen Boyd)
 >
-> ??
-
-compatible is implicitly required as that has to be there to match on.
-So if it was the only thing, I just omitted it. Maybe better to just
-list it.
-
-I was thinking port is optional on all these as it could just be the
-parent node.
-
+> Changes in v3:
+>         - Updating changelog to explain the need for patch
 >
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/display/sdtv-standards.h>
-> > +
-> > +    connector {
-> > +      compatible = "composite-video-connector";
-> > +      label = "tv";
-> > +      sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> > +
-> > +      port {
-> > +        tv_connector_in: endpoint {
-> > +          remote-endpoint = <&venc_out>;
-> > +        };
-> > +      };
-> > +    };
-> My personal preference is 4 space indent.
-> Easier to read for me.
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Sure.
+I think this patch is good to go now (has both Stephen's and my
+reviews).  I noticed that Neil landed my other patches to this driver
+recently (thanks!) and wondered why he didn't land this one.  Then, I
+realized that you didn't send it to him or the other bridge
+maintainer.  :(  Have you tried running get_maintainer?
 
-> But we discussed this before - would be good
-> with a recommendation so we know what to expect.
+$ ./scripts/get_maintainer.pl -f drivers/gpu/drm/bridge/ti-sn65dsi86.c
+Andrzej Hajda <a.hajda@samsung.com> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
+Neil Armstrong <narmstrong@baylibre.com> (maintainer:DRM DRIVERS FOR
+BRIDGE CHIPS)
+Laurent Pinchart <Laurent.pinchart@ideasonboard.com> (reviewer:DRM
+DRIVERS FOR BRIDGE CHIPS)
+Jonas Karlman <jonas@kwiboo.se> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
+Jernej Skrabec <jernej.skrabec@siol.net> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
+David Airlie <airlied@linux.ie> (maintainer:DRM DRIVERS)
+Daniel Vetter <daniel@ffwll.ch> (maintainer:DRM DRIVERS)
+dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
+linux-kernel@vger.kernel.org (open list)
 
-I don't really care until we have a way to automatically check it.
-Then it will be the Law.
+In any case, unless someone has extra feedback on this patch I think
+it's ready to land.
 
->
-> Oh, and example-schema uses 6 spaces :-(
+Neil: If you're willing to land this patch too, can you let
+Harigovindan know if it needs to be re-sent with you in the "To:" list
+or if you can find it on the dri-devel list?
 
-Humm...
+Thanks!
 
-> > +
-> > +...
-> > diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt b/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-> > deleted file mode 100644
-> > index 207e42e9eba0..000000000000
-> > --- a/Documentation/devicetree/bindings/display/connector/dvi-connector.txt
-> > +++ /dev/null
-> > @@ -1,36 +0,0 @@
-> > -DVI Connector
-> > -==============
-> > -
-> > -Required properties:
-> > -- compatible: "dvi-connector"
-> > -
-> > -Optional properties:
-> > -- label: a symbolic name for the connector
-> > -- ddc-i2c-bus: phandle to the i2c bus that is connected to DVI DDC
-> > -- analog: the connector has DVI analog pins
-> > -- digital: the connector has DVI digital pins
-> > -- dual-link: the connector has pins for DVI dual-link
-> > -- hpd-gpios: HPD GPIO number
-> > -
-> > -Required nodes:
-> > -- Video port for DVI input
-> > -
-> > -Note: One (or both) of 'analog' or 'digital' must be set.
-> > -
-> > -Example
-> > --------
-> > -
-> > -dvi0: connector@0 {
-> > -     compatible = "dvi-connector";
-> > -     label = "dvi";
-> > -
-> > -     digital;
-> > -
-> > -     ddc-i2c-bus = <&i2c3>;
-> > -
-> > -     port {
-> > -             dvi_connector_in: endpoint {
-> > -                     remote-endpoint = <&tfp410_out>;
-> > -             };
-> > -     };
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-> > new file mode 100644
-> > index 000000000000..aaf61bce64ca
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/connector/dvi-connector.yaml
-> > @@ -0,0 +1,75 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/connector/dvi-connector.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: DVI Connector
-> > +
-> > +maintainers:
-> > +  - Rob Herring <robh@kernel.org>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: dvi-connector
-> > +
-> > +  type:
-> > +    description: The HDMI connector type
-> > +    enum:
-> > +      - a   # Standard full size
-> > +      - b   # Never deployed?
-> > +      - c   # Mini
-> > +      - d   # Micro
-> > +      - e   # automotive
-> type looks like something that was copied from another binding.
-> It is not part of the .txt binding.
-
-Err, copy-n-paste from hdmi...
-
-Rob
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
