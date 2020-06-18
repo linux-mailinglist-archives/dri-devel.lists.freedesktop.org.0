@@ -2,72 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730231FF66C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7901FF678
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94536EB40;
-	Thu, 18 Jun 2020 15:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED1C6EB5B;
+	Thu, 18 Jun 2020 15:22:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [207.211.31.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A92B76EB40
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592493512;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rQYmuQ6MgsURSBqJgRafWuUZH2kgHeoFm2q5Vrdf7kM=;
- b=Eg+vedmJicogq6ACIDh9gok9aOoSkSS3gXXSulJDhm+/4ZfQ+jDBbUO9KwgLhSLKiq2ldg
- gUxwhe+7Jb38LiQmHtqJGrQxRhdcmUuBYiDadX+49j7+5uyVFEcrPQ9ttfq6JCcbg1Eqgr
- HpEZ/PjL8UUN83gCL20bbjRypw6cZXY=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-tHQy24EiOpG4POlmI9NUBA-1; Thu, 18 Jun 2020 11:18:28 -0400
-X-MC-Unique: tHQy24EiOpG4POlmI9NUBA-1
-Received: by mail-qt1-f200.google.com with SMTP id x6so2648268qtq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 08:18:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
- :in-reply-to:references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=rQYmuQ6MgsURSBqJgRafWuUZH2kgHeoFm2q5Vrdf7kM=;
- b=MMqzXcK/Y3LxzJvBNnbRc9tNrpPEVzTUTOQYi+z0zy9jRO/ouQWx1JjQIgDow00HcC
- 2SUjTf9ueXMaB3nW1rpPwFRUaWZjNWp4z5KQop4Q/HUtUtsoyi38f/uKEbAz/eYmWYGb
- VEbhpCQKdQKQ2B27k1BDLy9leksKE+OxIw/lZu0hDVvfc4ByQHLxeR1A+p+jdVnQYtaP
- 8Yy5s+AXKuIyA0WiFvVIAVZO1SxR7R/URoFtQqR87ICiJDAQdr6X3yHPpoXwHrSFsWnM
- GvbFrQVCd95KbzThUbh9SGAh2i8rdwMhGBQWqRvbqq7CQRYELH+7M+N0ltq3wYF+SBU4
- olKQ==
-X-Gm-Message-State: AOAM5315ki3c5ZpWBl+ykuYDjsOzGnGaR4ZL1+N6kwyjyHHGdYUP6V5Q
- XTUBNVbQHev+4+yStppRWL6b4k5RwmG0I8UP6kqR+l8lziVFI/0hE0W+Xs4K0Qd+y3MrT/ETuPV
- bzXIlVGbULojYuClX7c87Xkm8XR2u
-X-Received: by 2002:ac8:23fb:: with SMTP id r56mr4946257qtr.197.1592493508009; 
- Thu, 18 Jun 2020 08:18:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLgX4Z87MobK3H78vsTvXLd+/eu1CkxpTofEBBUyoXsAsemLOYYh7GV5x0KAA4BnDYUAMf5w==
-X-Received: by 2002:ac8:23fb:: with SMTP id r56mr4946222qtr.197.1592493507790; 
- Thu, 18 Jun 2020 08:18:27 -0700 (PDT)
-Received: from Whitewolf.lyude.net
- (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
- by smtp.gmail.com with ESMTPSA id c2sm3131786qkl.58.2020.06.18.08.18.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 08:18:26 -0700 (PDT)
-Message-ID: <0b1c1a07b6589e91701a1815400a56b66c5f480d.camel@redhat.com>
-Subject: Re: [PATCH] drm/noveau: fix reference count leak in
- nv50_disp_atomic_commit
-From: Lyude Paul <lyude@redhat.com>
-To: Aditya Pakki <pakki001@umn.edu>
-Date: Thu, 18 Jun 2020 11:18:25 -0400
-In-Reply-To: <20200614012920.121567-1-pakki001@umn.edu>
-References: <20200614012920.121567-1-pakki001@umn.edu>
-Organization: Red Hat
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32)
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F421E6EB5B
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:22:21 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05IFLs3C065365;
+ Thu, 18 Jun 2020 15:22:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=7siOWtMnW9wq0JjrCezGCY1u1cWhmZsBCe02fyT6lLA=;
+ b=pUugeWrMkLx5n843KOXWlWw4YwnoT88FeIheD9HTLJ0SYwBT5t3g9KSnnNNmJeXm3pMQ
+ 3URa9d7YvodGrTgY6f4yY72K9nOCvluxJ9g+idGfh4nGOLMDY+bEjHF2axfwTM8qGEGj
+ +4CHA8Q9gBzk61lHyu8GP7VSPiCw62gAcYobgWwQ3SDEGAEfrXNpVG/n6kFgrJoTKjv2
+ azazMyn1nDT0irU99tbgRvHwu/rI8whCvjVb9M9XehblcBTAACZUV6uG8fOn6dI/NMm4
+ Yoo11SPWTXVmtJureZa9U5WQZDy97WzytgR/9yJgC1leZSWh0cpgoa/a7Y1bHEgn8dM7 +w== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 31q6601uks-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 18 Jun 2020 15:22:14 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05IFJELR191509;
+ Thu, 18 Jun 2020 15:22:13 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 31q66pxekr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Jun 2020 15:22:13 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05IFMBYE010808;
+ Thu, 18 Jun 2020 15:22:12 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 18 Jun 2020 08:22:11 -0700
+Date: Thu, 18 Jun 2020 18:22:04 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Garrit Franke <garritfranke@gmail.com>
+Subject: Re: [PATCH] drm/arm: fix unintentional integer overflow on left shift
+Message-ID: <20200618152204.GU4151@kadam>
+References: <20200618100400.11464-1-colin.king@canonical.com>
+ <20200618121405.GJ159988@e110455-lin.cambridge.arm.com>
+ <5d08fbec-75d8-d9a9-af61-e6ab98e77c80@canonical.com>
+ <20200618142106.GK159988@e110455-lin.cambridge.arm.com>
+ <CAD16O86ebsDkwbnuw2G04YZWfukqxJ=_Tex5OT07icEpfPdQNw@mail.gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <CAD16O86ebsDkwbnuw2G04YZWfukqxJ=_Tex5OT07icEpfPdQNw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9655
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 phishscore=0
+ mlxscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006180116
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9655
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 malwarescore=0
+ bulkscore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0 impostorscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006180117
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,49 +82,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: lyude@redhat.com
-Cc: wu000273@umn.edu, David Airlie <airlied@linux.ie>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- James Jones <jajones@nvidia.com>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- nouveau@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Colin Ian King <colin.king@canonical.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2020-06-13 at 20:29 -0500, Aditya Pakki wrote:
-> nv50_disp_atomic_commit() calls calls pm_runtime_get_sync and in turn
-> increments the reference count. In case of failure, decrement the
-> ref count before returning the error.
-> 
-> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-> ---
->  drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index d472942102f5..b4039907f0d6 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -2157,8 +2157,10 @@ nv50_disp_atomic_commit(struct drm_device *dev,
->  	int ret, i;
->  
->  	ret = pm_runtime_get_sync(dev->dev);
-> -	if (ret < 0 && ret != -EACCES)
-> +	if (ret < 0 && ret != -EACCES) {
-> +		pm_runtime_put_autosuspend(dev->dev);
+On Thu, Jun 18, 2020 at 04:36:51PM +0200, Garrit Franke wrote:
+> Hi all, newbie here.
+> Can the BIT macro be safely used on other parts of the kernel as well?
+> Just using git grep "1 <<" returns a ton of results where bit shifting
+> is used the old fashioned way.
 
-s/noveau/nouveau/ in the commit title, but other than that:
+Yeah.  There is a checkpatch warning for it and everything.  :)
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+But I like the way you think.  Start with patches to staging though.
+People don't necessarily like doing cleanups on ancient code.
 
->  		return ret;
-> +	}
->  
->  	ret = drm_atomic_helper_setup_commit(state, nonblock);
->  	if (ret)
+regards,
+dan carpenter
 
 _______________________________________________
 dri-devel mailing list
