@@ -1,61 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C2E200249
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F65A200252
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 678FE6EC17;
-	Fri, 19 Jun 2020 06:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F6AC6EC25;
+	Fri, 19 Jun 2020 06:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8264D6EAE2;
- Thu, 18 Jun 2020 14:58:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l11so6419408wru.0;
- Thu, 18 Jun 2020 07:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jD/vaqPgqn/GbyEshdpFayy0rmaV/B8hrtCZ/Jh2OJE=;
- b=MUhjuTRE41q8DNA4MiAfGDVi5SKnOjfYcFcOhQx7Q0shrPeqQgpSkt8vNdagw81CtD
- lWLMX4+/HZFFKq9CRKzRPyqosy7lw1AjTREEIydy8HM7KhD0t5cCYtapY8p+iKvwIrJU
- 7Y88sQstzp0ZvxbnwwQ/GnOgH5HrC0o3bQQGhF1y9V/l2jWwfjAyYqDJ0mEp/rMQv6Bv
- 4Ijzapji4+JZXd8P9bxQJK/BbyzgGnHZJ85AWAhCegMt6uaB13sZTFWoihMIAObxx9kA
- VnN/1RVFtOzFZJfnVmAtV2Nbbt8eJXjLOLPUk1vH1u2XdGfLw7QjcUBdogC9RiXY3BIR
- g9YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jD/vaqPgqn/GbyEshdpFayy0rmaV/B8hrtCZ/Jh2OJE=;
- b=g4DIs3ApKRhr0DATodZ03TENNMrTLepu7/KIf5iUobgkQGaOLlzf/sbaVhRLOyvIsI
- r6YVninFg6SuxeHa3AVrXvycOtFqceOPMnADpoWGvf57aQJD2TYhb3lK2Pb1WDgYjAck
- cdvtpjla1YoJT25LY+kF7G6vQMu0lZxRlGRVHl3km0Wh0Na2lgxAHn7k00LDlHo+sqwo
- TQUaMdaZE7P5UiKR6CGlkq1telwkqvxE8TbNi3AwRzSQxzvZCYTVL8U4BbAmeU9zax/2
- gkTb2ZrWneII8dWUfjujOVm7pFvqweQBomlO3yMxO2uLvVL94/3r3MfNzyOFkInGZbw9
- l6oA==
-X-Gm-Message-State: AOAM5306gt852TtHmjidd32aWM5AfqDFTEhDfY5XctcstmR+L9/KvFl8
- FbuI1z8kWY1CHp7o9gX6TUjiFHNB7kpOnw==
-X-Google-Smtp-Source: ABdhPJzOZoyx7rjEtPKa6qEeScd/wg3eiCkfIoiDdKF8rKK6pseRXTi7+uxRtJKxdSB6is1mRGCuOw==
-X-Received: by 2002:adf:e2c9:: with SMTP id d9mr4969310wrj.227.1592492331224; 
- Thu, 18 Jun 2020 07:58:51 -0700 (PDT)
-Received: from kedthinkpad.tpwlan.net ([213.197.144.54])
- by smtp.gmail.com with ESMTPSA id e2sm1941346wrt.76.2020.06.18.07.58.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 07:58:50 -0700 (PDT)
-From: Andrey Lebedev <andrey.lebedev@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/lima: Expose job_hang_limit module parameter
-Date: Thu, 18 Jun 2020 17:58:38 +0300
-Message-Id: <20200618145838.2956591-1-andrey.lebedev@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <CAKGbVbuV8meZji9PqFUwt4CpFEy6efpX63hJBgMY7fzAnZS4Rg@mail.gmail.com>
-References: <CAKGbVbuV8meZji9PqFUwt4CpFEy6efpX63hJBgMY7fzAnZS4Rg@mail.gmail.com>
+Received: from muru.com (muru.com [72.249.23.125])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BFF226EB86
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 16:24:37 +0000 (UTC)
+Received: from atomide.com (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 6E10480A9;
+ Thu, 18 Jun 2020 16:25:29 +0000 (UTC)
+Date: Thu, 18 Jun 2020 09:24:34 -0700
+From: Tony Lindgren <tony@atomide.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2] drm/omap: force runtime PM suspend on system suspend
+Message-ID: <20200618162434.GG43721@atomide.com>
+References: <20200618095153.611071-1-tomi.valkeinen@ti.com>
+ <20200618131608.GC43721@atomide.com>
+ <b351785a-5be4-edd2-2907-c9b091cbb481@ti.com>
+ <20200618144158.GE43721@atomide.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200618144158.GE43721@atomide.com>
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,82 +40,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrey@lebedev.lt, kernel test robot <lkp@intel.com>
+Cc: linux-omap@vger.kernel.org, Grygorii Strashko <grygorii.strashko@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrey Lebedev <andrey@lebedev.lt>
+* Tony Lindgren <tony@atomide.com> [200618 07:42]:
+> I did not have luck the last time I tried am437x-sk-evm, but that
+> seems like some separate regression that's been around for awhile.
+> I recall testing it successfully last fall at some point.
 
-Some pp or gp jobs can be successfully repeated even after they time outs.
-Introduce lima module parameter to specify number of times a job can hang
-before being dropped.
+OK I got am437x-sk-evm suspend and resume working again and
+LCD console comes back after resume. I also had to apply the
+panel-simple fix "drm/panel-simple: fix connector type for
+newhaven_nhd_43_480272ef_atxl" to get LCD working again.
 
-Signed-off-by: Andrey Lebedev <andrey@lebedev.lt>
----
+I was missing /lib/firmware/am335x-pm-firmware.elf after updating
+my NFSroot file system. And FYI, here are the modules I now load
+with my test script:
 
-Fixes for the embarrassing build error
-Reported-by: kernel test robot <lkp@intel.com>
+modprobe omap-mailbox
+modprobe omap_remoteproc
+modprobe wkup_m3_rproc
+modprobe wkup_m3_ipc
+modprobe pm33xx
+modprobe rtc-omap
+modprobe pwm-omap-dmtimer
+modprobe pwm-tiecap
+modprobe pwm_bl
+modprobe edt-ft5x06		# on am437x-sk-evm
+modprobe pixcir_i2c_ts		# NOT on am437x-sk-evm, only on am437x-gp-evm.dts
+modprobe omapdrm
+modprobe panel-simple
+modprobe display-connector	# starting with v5.7-rc1
+modprobe omapdss
+modprobe panel-dpi
+modprobe omap-dss
 
- drivers/gpu/drm/lima/lima_drv.c   | 4 ++++
- drivers/gpu/drm/lima/lima_drv.h   | 1 +
- drivers/gpu/drm/lima/lima_sched.c | 5 +++--
- 3 files changed, 8 insertions(+), 2 deletions(-)
+And then I get the following with rtcwake -m mem -s 5.
 
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index a831565af813..2400b8d52d92 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -19,6 +19,7 @@
- int lima_sched_timeout_ms;
- uint lima_heap_init_nr_pages = 8;
- uint lima_max_error_tasks;
-+uint lima_job_hang_limit;
- 
- MODULE_PARM_DESC(sched_timeout_ms, "task run timeout in ms");
- module_param_named(sched_timeout_ms, lima_sched_timeout_ms, int, 0444);
-@@ -29,6 +30,9 @@ module_param_named(heap_init_nr_pages, lima_heap_init_nr_pages, uint, 0444);
- MODULE_PARM_DESC(max_error_tasks, "max number of error tasks to save");
- module_param_named(max_error_tasks, lima_max_error_tasks, uint, 0644);
- 
-+MODULE_PARM_DESC(job_hang_limit, "number of times to allow a job to hang before dropping it (default 0)");
-+module_param_named(job_hang_limit, lima_job_hang_limit, int, 0444);
-+
- static int lima_ioctl_get_param(struct drm_device *dev, void *data, struct drm_file *file)
- {
- 	struct drm_lima_get_param *args = data;
-diff --git a/drivers/gpu/drm/lima/lima_drv.h b/drivers/gpu/drm/lima/lima_drv.h
-index fdbd4077c768..c738d288547b 100644
---- a/drivers/gpu/drm/lima/lima_drv.h
-+++ b/drivers/gpu/drm/lima/lima_drv.h
-@@ -11,6 +11,7 @@
- extern int lima_sched_timeout_ms;
- extern uint lima_heap_init_nr_pages;
- extern uint lima_max_error_tasks;
-+extern uint lima_job_hang_limit;
- 
- struct lima_vm;
- struct lima_bo;
-diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
-index e6cefda00279..1602985dfa04 100644
---- a/drivers/gpu/drm/lima/lima_sched.c
-+++ b/drivers/gpu/drm/lima/lima_sched.c
-@@ -503,8 +503,9 @@ int lima_sched_pipe_init(struct lima_sched_pipe *pipe, const char *name)
- 
- 	INIT_WORK(&pipe->recover_work, lima_sched_recover_work);
- 
--	return drm_sched_init(&pipe->base, &lima_sched_ops, 1, 0,
--			      msecs_to_jiffies(timeout), name);
-+	return drm_sched_init(&pipe->base, &lima_sched_ops, 1,
-+			      lima_job_hang_limit, msecs_to_jiffies(timeout),
-+			      name);
- }
- 
- void lima_sched_pipe_fini(struct lima_sched_pipe *pipe)
--- 
-2.25.1
+Sometimes cps and NFSroot seems to take few tens of seconds to
+recover though.
 
+Regards,
+
+Tony
+
+8< ------------------
+[   33.481400] omapdss_dss 4832a000.dss: supply vdda_video not found, using dummy regulator
+[   33.481573] DSS: OMAP DSS rev 2.0
+[   33.485412] omapdss_dss 4832a000.dss: bound 4832a400.dispc (ops dispc_component_ops [omapdss])
+[   33.485932] omapdrm omapdrm.0: DMM not available, disable DMM support
+[   33.486322] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[   33.525740] Console: switching to colour frame buffer device 60x34
+[   33.543690] omapdrm omapdrm.0: fb0: omapdrmdrmfb frame buffer device
+[   33.544563] [drm] Initialized omapdrm 1.0.0 20110917 for omapdrm.0 on minor 0
+[   40.196247] vmmcwl_fixed: disabling
+[  124.230087] PM: suspend entry (deep)
+[  124.230152] Filesystems sync: 0.000 seconds
+[  124.233068] Freezing user space processes ... (elapsed 0.001 seconds) done.
+[  124.234420] OOM killer disabled.
+[  124.234424] Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+[  124.235607] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
+[  124.235623] printk: Suspending console(s) (use no_console_suspend to debug)
+[  124.255315] cpsw 4a100000.ethernet eth0: Link is Down
+[  124.260828] Disabling non-boot CPUs ...
+[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
+[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
+[  124.260839] pm33xx pm33xx: PM: Could not transition all powerdomains to target state
+[  124.260839] PM: Wakeup source RTC Alarm
+[  124.260839] WARNING: This platform does not support off-mode, entering DeepSleep suspend.
+[  124.271744] ti-sysc 4a101200.target-module: OCP softreset timed out
+[  124.274498] cpsw 4a100000.ethernet: initializing cpsw version 1.15 (0)
+[  124.415839] Micrel KSZ9031 Gigabit PHY 4a101000.mdio:04: attached PHY driver [Micrel KSZ9031 Gigabit PHY] (mii_bus:phy_addr=4a101000.mdio:04, irq=POLL)
+[  124.493879] OOM killer enabled.
+[  124.493885] Restarting tasks ... done.
+[  124.502993] PM: suspend exit
+[  132.757778] cpsw 4a100000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
