@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD061FF32E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 15:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C141FF3C4
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 15:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 392C36E450;
-	Thu, 18 Jun 2020 13:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41C0D6E06D;
+	Thu, 18 Jun 2020 13:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3AB6E445
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 13:36:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF6A26E06D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 13:52:36 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 2F5DFB024;
- Thu, 18 Jun 2020 13:36:07 +0000 (UTC)
-Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
-To: Rong Chen <rong.a.chen@intel.com>
-References: <20200616142630.20129-1-tzimmermann@suse.de>
- <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
- <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
- <20200617092252.GA5279@shao2-debian>
- <f888c170-ee0f-5efa-768d-908ce2507a5b@suse.de>
- <c6412de2-45af-09c0-3e6e-367fe63d302b@intel.com>
+ by mx2.suse.de (Postfix) with ESMTP id 9FFD5AB98;
+ Thu, 18 Jun 2020 13:52:33 +0000 (UTC)
+Subject: Re: [PATCH v2] drm/hisilicon: Code refactoring for hibmc_drv_vdac
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1586586315-12764-1-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -50,12 +49,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <b12cf68d-f4c3-4a09-f846-5a6c97e0fa63@suse.de>
-Date: Thu, 18 Jun 2020 15:36:04 +0200
+Message-ID: <21d9f165-3fe9-d0cb-35ce-c91889e7e0dd@suse.de>
+Date: Thu, 18 Jun 2020 15:52:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <c6412de2-45af-09c0-3e6e-367fe63d302b@intel.com>
+In-Reply-To: <1586586315-12764-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,204 +67,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Donnelly <john.p.donnelly@oracle.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: multipart/mixed; boundary="===============1706584849=="
+Cc: linuxarm@huawei.com
+Content-Type: multipart/mixed; boundary="===============1593505953=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1706584849==
+--===============1593505953==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="n0wdfTTj4cIeT138wjtdjReWNqn0Agoyf"
+ boundary="bMq42WMT5VsIyVKShMmg9UM3yjBKvRebk"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---n0wdfTTj4cIeT138wjtdjReWNqn0Agoyf
-Content-Type: multipart/mixed; boundary="nqCYA4buDq5ubG3beLNG3wDUJUtZnQZai";
+--bMq42WMT5VsIyVKShMmg9UM3yjBKvRebk
+Content-Type: multipart/mixed; boundary="eShotCSXpdcfDQZHiqDDGiBqtaP8lv2Qy";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rong Chen <rong.a.chen@intel.com>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>,
- John Donnelly <john.p.donnelly@oracle.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Jos=c3=a9_Roberto_de_Souza?= <jose.souza@intel.com>,
- Dave Airlie <airlied@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>
-Message-ID: <b12cf68d-f4c3-4a09-f846-5a6c97e0fa63@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Don't set <rammapen> in MISC
-References: <20200616142630.20129-1-tzimmermann@suse.de>
- <CACvgo52NY98wQ4Pm3LozSmdewQf_ftX4cYZbx=t6=s9CNE27kA@mail.gmail.com>
- <ea09692a-5a8f-d315-3bce-d416e8a01c7a@suse.de>
- <20200617092252.GA5279@shao2-debian>
- <f888c170-ee0f-5efa-768d-908ce2507a5b@suse.de>
- <c6412de2-45af-09c0-3e6e-367fe63d302b@intel.com>
-In-Reply-To: <c6412de2-45af-09c0-3e6e-367fe63d302b@intel.com>
+To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: linuxarm@huawei.com
+Message-ID: <21d9f165-3fe9-d0cb-35ce-c91889e7e0dd@suse.de>
+Subject: Re: [PATCH v2] drm/hisilicon: Code refactoring for hibmc_drv_vdac
+References: <1586586315-12764-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1586586315-12764-1-git-send-email-tiantao6@hisilicon.com>
 
---nqCYA4buDq5ubG3beLNG3wDUJUtZnQZai
+--eShotCSXpdcfDQZHiqDDGiBqtaP8lv2Qy
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi,
 
-Am 18.06.20 um 03:40 schrieb Rong Chen:
+sorry for letting these patches sit around for so long. I'd say that if
+you waited for a week or two without further responses, it's ok to ping
+people.
+
+Am 11.04.20 um 08:25 schrieb Tian Tao:
+> code refactoring for hibmc_drv_vdac.c, no actual function changes.
 >=20
+> v2:
+> remove the debug message.
 >=20
-> On 6/17/20 8:29 PM, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 17.06.20 um 11:22 schrieb Rong Chen:
->>> On Wed, Jun 17, 2020 at 08:28:02AM +0200, Thomas Zimmermann wrote:
->>>> Hi Emil
->>>>
->>>> Am 16.06.20 um 17:14 schrieb Emil Velikov:
->>>>> Hi Thomas,
->>>>>
->>>>> On Tue, 16 Jun 2020 at 15:26, Thomas Zimmermann
->>>>> <tzimmermann@suse.de> wrote:
->>>>>> The original modesetting code set MISC to 0x2d, which is <hpgoddev=
->,
->>>>>> <clksel> and <ioaddsel>
->>>>>>
->>>>>> With the conversion to atomic modesetting, <rammapen> accidentally=
-
->>>>>> got enabled as well. Revert this change and initialize MISC with a=
-
->>>>>> constant value of <hgoddev> and <ioaddsel>. The <clksel> bits are =
-set
->>>>>> in mga_crtc_set_plls(), sync flags are set in
->>>>>> mgag200_set_mode_regs().
->>>>>>
->>>>> Let's keep the remove (restoring original functionality) and rename=
-
->>>>> (cosmetics) separate patches. The read has also disappeared, which
->>>>> should be safe although might be better on it's own.
->>>> I'm waiting for Rong Chen's performance results on this patch. Movin=
-g
->>>> the rename into a separate patch makes sense, but removing the read =
-is
->>>> part of restoring the original behavior. I think it should be in thi=
-s
->>>> patch. Maybe I can write a better commit message to highlight the
->>>> change.
->>>>
->>> Hi Thomas,
->>>
->>> I tested the patch based on previous patch series, it seems doesn't t=
-ake
->>> effect, and commit 39fb72816c4ee brings a larger regression when
->>> comparing to commit caac4dda44f37:
->> Thanks for testing!
->>
->> I still don't understand these numbers, but are you sure that
->> e44e907dd8f93 is really the regression?
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> Reviewed-by: Joe Perches <joe@perches.com>
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 50 +++++++---------=
+--------
+>  1 file changed, 14 insertions(+), 36 deletions(-)
 >=20
-> Yes, it's a regression too, according to the previous report
-> https://www.spinics.net/lists/dri-devel/msg260034.html
-> the bot bisected to commit e44e907dd8f93 which let the
-> glmark2.800x600.score reduced by 64.9%,
-> but the bot doesn't notice the improvement of commit caac4dda44f37, and=
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 678ac2e..077b7996 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -52,32 +52,6 @@ static const struct drm_connector_funcs hibmc_connec=
+tor_funcs =3D {
+>  	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
+>  };
+> =20
+> -static struct drm_connector *
+> -hibmc_connector_init(struct hibmc_drm_private *priv)
+> -{
+> -	struct drm_device *dev =3D priv->dev;
+> -	struct drm_connector *connector;
+> -	int ret;
+> -
+> -	connector =3D devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL);=
 
-> commit 39fb72816c4ee
-> causes another regression.
+> -	if (!connector) {
+> -		DRM_ERROR("failed to alloc memory when init connector\n");
+> -		return ERR_PTR(-ENOMEM);
+> -	}
+> -
+> -	ret =3D drm_connector_init(dev, connector,
+> -				 &hibmc_connector_funcs,
+> -				 DRM_MODE_CONNECTOR_VGA);
+> -	if (ret) {
+> -		DRM_ERROR("failed to init connector: %d\n", ret);
+> -		return ERR_PTR(ret);
+> -	}
+> -	drm_connector_helper_add(connector,
+> -				 &hibmc_connector_helper_funcs);
+> -
+> -	return connector;
+> -}
+> -
+>  static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
+>  				   struct drm_display_mode *mode,
+>  				   struct drm_display_mode *adj_mode)
+> @@ -109,18 +83,9 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)=
 
-I sent out a patch for 39fb72816c4ee. It enables caching on the
-framebuffer's pages.
+>  	struct drm_connector *connector;
+>  	int ret;
+> =20
+> -	connector =3D hibmc_connector_init(priv);
+> -	if (IS_ERR(connector)) {
+> -		DRM_ERROR("failed to create connector: %ld\n",
+> -			  PTR_ERR(connector));
+> -		return PTR_ERR(connector);
+> -	}
+> -
+>  	encoder =3D devm_kzalloc(dev->dev, sizeof(*encoder), GFP_KERNEL);
+> -	if (!encoder) {
+> -		DRM_ERROR("failed to alloc memory when init encoder\n");
+> +	if (!encoder)
+>  		return -ENOMEM;
+> -	}
+> =20
+>  	encoder->possible_crtcs =3D 0x1;
+>  	ret =3D drm_encoder_init(dev, encoder, &hibmc_encoder_funcs,
+> @@ -131,6 +96,19 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)=
+
+>  	}
+> =20
+>  	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
+> +
+> +	connector =3D devm_kzalloc(dev->dev, sizeof(*connector), GFP_KERNEL);=
+
+
+Overall, the patch seems correct, expect for this line. DRM data
+structures should now be allocated with drmm_kzalloc() in drm_managed.h.
+It was added recently.
+
+With devm_kzalloc(), the memory will be released when the HW device goes
+away. If userspace still holds a reference, the driver can segfault.
+Using drmm_kzalloc() delays the release until the memory is really unused=
+=2E
+
+However, hibmc's modesetting pipeline appears to be always the same. I
+think you should consider embedding connector and encoder (and crtc) in
+struct hibmc_drm_private. Would make the code simpler and more robust.
 
 Best regards
 Thomas
 
->=20
-> Best Regards,
-> Rong Chen
->=20
->>
->> It would make sense that 39fb72816c4ee has an impact on performance, a=
-s
->> it changes memory management and the way the driver updates the displa=
-y.
->> I'll take a closer look at that patch and maybe send out an update.
->>
->> Best regards
->> Thomas
->>
->>> 4606edf870927 drm/mgag200: Don't set <rammapen> in
->>> MISC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3 3 3
->>> 39fb72816c4ee drm/mgag200: Replace VRAM helpers with SHMEM
->>> helpers=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3 22
->>> caac4dda44f37 drm/mgag200: Convert to simple KMS
->>> helper=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 238 233 240 234=
- 239
->>> 4b11c90431108 drm/mgag200: Use simple-display data
->>> structures=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 35 34 34 34
->>> db22c903c9322 drm/mgag200: Remove out-commented suspend/resume
->>> helpers=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 34 34
->>> 87d4880d2aeb5 drm/mgag200: Move register initialization into separate=
 
->>> function=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35
->>> 0c51726f95396 drm/mgag200: Move hiprilvl setting into separate
->>> functions=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35
->>> 8078e8b182e73 drm/mgag200: Set primary plane's format in separate
->>> helper function=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35
->>> 19f7b409d95b7 drm/mgag200: Set pitch in a separate helper
->>> function=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35 34
->>> 9b9a363828c60 drm/mgag200: Update mode registers after plane
->>> registers=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 34
->>> e44e907dd8f93 drm/mgag200: Split MISC register update into PLL
->>> selection, SYNC and I/O=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 34 34 34 34
->>> bef2303526adb drm/mgag200: Move mode-setting code into separate
->>> helper function=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-97 97
->>> 5cd8460e81e8f drm/mgag200: Clean up
->>> mga_crtc_do_set_base()=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 96
->>> 0671ca8c559ba drm/mgag200: Clean up mga_set_start_address()
->>> e82c8969a2474 drm/mgag200: Remove HW
->>> cursor=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 96
->>>
->>> Best Regards,
->>> Rong Chen
->>>
+
+> +	if (!connector)
+> +		return -ENOMEM;
+> +
+> +	ret =3D drm_connector_init(dev, connector, &hibmc_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_VGA);
+> +	if (ret) {
+> +		DRM_ERROR("failed to init connector: %d\n", ret);
+> +		return ret;
+> +	}
+> +	drm_connector_helper_add(connector, &hibmc_connector_helper_funcs);
+> +
+>  	drm_connector_attach_encoder(connector, encoder);
+> =20
+>  	return 0;
 >=20
 
 --=20
@@ -277,28 +231,28 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---nqCYA4buDq5ubG3beLNG3wDUJUtZnQZai--
+--eShotCSXpdcfDQZHiqDDGiBqtaP8lv2Qy--
 
---n0wdfTTj4cIeT138wjtdjReWNqn0Agoyf
+--bMq42WMT5VsIyVKShMmg9UM3yjBKvRebk
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7rbcQACgkQaA3BHVML
-eiNFNwf/aOxcdDVI6CdBfQbyGFYO8MTkcdy1neD/3Ub/2VJ3ROX7wX8s2hn9U9mY
-SC4gyImBX5SLD9k0RKk9yj3VcXcEApGb/BvNvabUkQhV/lcYoTtTA2tIRFviJahA
-e1uXCfyR/1T5JcFrag7/uH/tDauq7iFpvagw30E72bQOOu7J7jrT+GWRPPnX3ezQ
-x8eo330A0VKaurBpYEErqbkk/ZbJNDBqsn2SAk3RA3YnB2X7izmOnfThCrGqFBid
-/swYq6SMF/ARz5ZT7qvSH4ePqIjlqGn2I5XwR+ahwsuq+0VdelzuNLx9ROdxVcg7
-KEhIS4co8xy0vCdYPyVDgvlszMbtxA==
-=e9Gu
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7rcZ0ACgkQaA3BHVML
+eiP9QggAptYdaNLZREzAwQ3D109OpCD7FmzN610r8cAnUtL3w2FycjP1iGWhO4UY
+NmdwmKhgVXeQnCp0jrjcZL75cAGgCZA4XRvOrqWES5yoFaMJ3U9ziZ3+nb1e/gUy
+okypHn07qNZjdnksbSKgko4u04aS6KLOgskSZubTHlZeKgPbjkw9UnJIaLMXnNHX
+XNI4pRuB5oRkuply7DqzXmKlLu4J8n/s7J2y1mlXLFaQFhOM4Hlb/4XI1g1R2XyX
+NU4IDle8BPpCt5LajQZctcYz8SyNVIbeCOTIZ9LouohgjzJoa7VFPO1j2AJLi9dr
+jDD6ODlT8W8/uOlYsrhidr1dEu67WQ==
+=ZHIf
 -----END PGP SIGNATURE-----
 
---n0wdfTTj4cIeT138wjtdjReWNqn0Agoyf--
+--bMq42WMT5VsIyVKShMmg9UM3yjBKvRebk--
 
---===============1706584849==
+--===============1593505953==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -309,4 +263,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1706584849==--
+--===============1593505953==--
