@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFF91FDB11
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:10:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3F81FDB64
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:13:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE9A6EA22;
-	Thu, 18 Jun 2020 01:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6D846EA29;
+	Thu, 18 Jun 2020 01:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB696E393;
- Thu, 18 Jun 2020 01:10:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74C596EA29;
+ Thu, 18 Jun 2020 01:13:06 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8087D21D7F;
- Thu, 18 Jun 2020 01:10:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4E4B121924;
+ Thu, 18 Jun 2020 01:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592442604;
- bh=1p00aoausvI7CY8T2tlD9dohrS4bq5WWZoQAj/k6VEw=;
+ s=default; t=1592442786;
+ bh=K65oyh5kbV+CJy45U4ctImhpPS1ivlTrRM/FOdW20Vs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VgZruJbuUf1v7aC5/in1H7GvAUil4+TwMhg9Aalc7yKAomlRqL4BC0uv5QLB/KI15
- 1wrcTyWzAin/gGk6ZMAc2AYZpNxAwVqJOVSCLLZclXK3dt3HxNph9hWT3LzIFm3+Xa
- jyIcoWhwXPBSUYahiDmHsR82nc9hQEl0dv5z8rAU=
+ b=k3Ulc+D70i51IWlWHnhCTaOvvX12WvTLtPUPSGSWblLrkhmRy1N5Enx8Fm5zDhC8+
+ 9Rt5AVfgyPfDBYZkfn5UifjW4hJHXBKdvqXh4AjcPMSxgycFHRJe5snzUmMyMKOUfH
+ GG1GOBCkE1uCyyf8TG6Fpj0LOvxLleVGzEj9qZic=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 090/388] drm/nouveau: gr/gk20a: Use firmware
- version 0
-Date: Wed, 17 Jun 2020 21:03:07 -0400
-Message-Id: <20200618010805.600873-90-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.7 230/388] drm/msm: Fix undefined "rd_full" link
+ error
+Date: Wed, 17 Jun 2020 21:05:27 -0400
+Message-Id: <20200618010805.600873-230-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
 References: <20200618010805.600873-1-sashal@kernel.org>
@@ -50,44 +50,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Thierry Reding <treding@nvidia.com>
+Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Sasha Levin <sashal@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-[ Upstream commit 21454fe697fde188ad6fb541f94b9838fa73ab38 ]
+[ Upstream commit 20aebe83698feb107d5a66b6cfd1d54459ccdfcf ]
 
-Tegra firmware doesn't actually use any version numbers and passing -1
-causes the existing firmware binaries not to be found. Use version 0 to
-find the correct files.
+rd_full should be defined outside the CONFIG_DEBUG_FS region, in order
+to be able to link the msm driver even when CONFIG_DEBUG_FS is disabled.
 
-Fixes: ef16dc278ec2 ("drm/nouveau/gr/gf100-: select implementation based on available FW")
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Fixes: e515af8d4a6f ("drm/msm: devcoredump should dump MSM_SUBMIT_BO_DUMP buffers")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_rd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-index 4209b24a46d7..bf6b65257852 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gk20a.c
-@@ -341,7 +341,7 @@ gk20a_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+diff --git a/drivers/gpu/drm/msm/msm_rd.c b/drivers/gpu/drm/msm/msm_rd.c
+index 732f65df5c4f..fea30e7aa9e8 100644
+--- a/drivers/gpu/drm/msm/msm_rd.c
++++ b/drivers/gpu/drm/msm/msm_rd.c
+@@ -29,8 +29,6 @@
+  * or shader programs (if not emitted inline in cmdstream).
+  */
  
- static const struct gf100_gr_fwif
- gk20a_gr_fwif[] = {
--	{ -1, gk20a_gr_load, &gk20a_gr },
-+	{ 0, gk20a_gr_load, &gk20a_gr },
- 	{}
- };
+-#ifdef CONFIG_DEBUG_FS
+-
+ #include <linux/circ_buf.h>
+ #include <linux/debugfs.h>
+ #include <linux/kfifo.h>
+@@ -47,6 +45,8 @@ bool rd_full = false;
+ MODULE_PARM_DESC(rd_full, "If true, $debugfs/.../rd will snapshot all buffer contents");
+ module_param_named(rd_full, rd_full, bool, 0600);
  
++#ifdef CONFIG_DEBUG_FS
++
+ enum rd_sect_type {
+ 	RD_NONE,
+ 	RD_TEST,       /* ascii text */
 -- 
 2.25.1
 
