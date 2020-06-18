@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EB41FF0C3
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 13:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D36C1FF16B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 14:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819CC6E3A8;
-	Thu, 18 Jun 2020 11:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9750C6E3EB;
+	Thu, 18 Jun 2020 12:14:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D19B6E3A8
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 11:37:25 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4941FACA7;
- Thu, 18 Jun 2020 11:37:22 +0000 (UTC)
-Subject: Re: [PATCH v2] drm/hisilicon: Add the shutdown for hibmc_pci_driver
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1586998974-24234-1-git-send-email-tiantao6@hisilicon.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <42a8f817-7319-fe03-1979-1a5a47bbe26e@suse.de>
-Date: Thu, 18 Jun 2020 13:37:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BDD676E3EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 12:14:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 516561045;
+ Thu, 18 Jun 2020 05:14:07 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 30A003F71F;
+ Thu, 18 Jun 2020 05:14:07 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id E2260682412; Thu, 18 Jun 2020 13:14:05 +0100 (BST)
+Date: Thu, 18 Jun 2020 13:14:05 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Colin King <colin.king@canonical.com>
+Subject: Re: [PATCH] drm/arm: fix unintentional integer overflow on left shift
+Message-ID: <20200618121405.GJ159988@e110455-lin.cambridge.arm.com>
+References: <20200618100400.11464-1-colin.king@canonical.com>
 MIME-Version: 1.0
-In-Reply-To: <1586998974-24234-1-git-send-email-tiantao6@hisilicon.com>
+Content-Disposition: inline
+In-Reply-To: <20200618100400.11464-1-colin.king@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,136 +42,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2032508065=="
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2032508065==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ol9vxYNx3H2xNuzBDuflgO99LMJGwzPCV"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ol9vxYNx3H2xNuzBDuflgO99LMJGwzPCV
-Content-Type: multipart/mixed; boundary="VrEBWyRyJ78mNqtFctzS0kAzzRmLvBSfF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Tian Tao <tiantao6@hisilicon.com>, puck.chen@hisilicon.com,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Message-ID: <42a8f817-7319-fe03-1979-1a5a47bbe26e@suse.de>
-Subject: Re: [PATCH v2] drm/hisilicon: Add the shutdown for hibmc_pci_driver
-References: <1586998974-24234-1-git-send-email-tiantao6@hisilicon.com>
-In-Reply-To: <1586998974-24234-1-git-send-email-tiantao6@hisilicon.com>
-
---VrEBWyRyJ78mNqtFctzS0kAzzRmLvBSfF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 16.04.20 um 03:02 schrieb Tian Tao:
-> add the shutdown function to release the resource.
-
-Why is this necessary for hibmc? The other PCI drivers don't require a
-shutdown method.
-
->=20
-> v2:
-> Remove the unnecessary unmap function.
->=20
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
-gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> index a6fd0c2..0250a10 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-> @@ -337,7 +337,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->  	dev->pdev =3D pdev;
->  	pci_set_drvdata(pdev, dev);
-> =20
-> -	ret =3D pci_enable_device(pdev);
-> +	ret =3D pcim_enable_device(pdev);
-
-This probably makes sense.
-
-Best regards
-Thomas
-
->  	if (ret) {
->  		DRM_ERROR("failed to enable pci device: %d\n", ret);
->  		goto err_free;
-> @@ -376,6 +376,11 @@ static void hibmc_pci_remove(struct pci_dev *pdev)=
-
->  	drm_dev_put(dev);
->  }
-> =20
-> +static void hibmc_pci_shutdown(struct pci_dev *pdev)
-> +{
-> +	hibmc_pci_remove(pdev);
-> +}
-> +
->  static struct pci_device_id hibmc_pci_table[] =3D {
->  	{ PCI_VDEVICE(HUAWEI, 0x1711) },
->  	{0,}
-> @@ -386,6 +391,7 @@ static struct pci_driver hibmc_pci_driver =3D {
->  	.id_table =3D	hibmc_pci_table,
->  	.probe =3D	hibmc_pci_probe,
->  	.remove =3D	hibmc_pci_remove,
-> +	.shutdown =3D	hibmc_pci_shutdown,
->  	.driver.pm =3D    &hibmc_pm_ops,
->  };
-> =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---VrEBWyRyJ78mNqtFctzS0kAzzRmLvBSfF--
-
---ol9vxYNx3H2xNuzBDuflgO99LMJGwzPCV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7rUe0ACgkQaA3BHVML
-eiNgeAgAn2zAwsp4nbP1Bkjj2b0uFQjM3LoP3hmR1tf6+2RS/7Fh6O/6Wlt92iLj
-I7lvk8Xt5yUUU65GkdKSZOhenrlw/5H2dunSQORLOTE2DRusQpMNZAHUsWKQKR44
-8J/Gz3SfCsMFsxFsOSla26hWAL3dt80Ak9KdZnAXKZfZwu7HXGIuwHBXf8swbqT4
-rfeE2WXBcNdEsZBA6y1ZIh6nU4kYwjXhgF+3YYD0pBRdFH2WPYN8jzYZYaPxVhx2
-KvT34LUTk9HEoHJwkgOEPE0ChaPbOZjTLJbgqNsAROM8Waxd+IQTDTvafwvWKDBn
-9bNATELq+tTY61NMCk6UZ+ICf0+lDA==
-=p3bI
------END PGP SIGNATURE-----
-
---ol9vxYNx3H2xNuzBDuflgO99LMJGwzPCV--
-
---===============2032508065==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2032508065==--
+T24gVGh1LCBKdW4gMTgsIDIwMjAgYXQgMTE6MDQ6MDBBTSArMDEwMCwgQ29saW4gS2luZyB3cm90
+ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgoKSGkg
+Q29saW4sCgo+IAo+IFNoaWZ0aW5nIHRoZSBpbnRlZ2VyIHZhbHVlIDEgaXMgZXZhbHVhdGVkIHVz
+aW5nIDMyLWJpdCBhcml0aG1ldGljCj4gYW5kIHRoZW4gdXNlZCBpbiBhbiBleHByZXNzaW9uIHRo
+YXQgZXhwZWN0cyBhIGxvbmcgdmFsdWUgbGVhZHMgdG8KPiBhIHBvdGVudGlhbCBpbnRlZ2VyIG92
+ZXJmbG93LgoKSSdtIGFmcmFpZCB0aGlzIGV4cGxhbmF0aW9uIG1ha2VzIG5vIHNlbnNlIHRvIG1l
+LiBEbyB5b3UgY2FyZSB0byBleHBsYWluIGJldHRlciB3aGF0CnlvdSB0aGluayB0aGUgaXNzdWUg
+aXM/IElmIHRoZSBzaGlmdCBpcyBkb25lIGFzIDMyLWJpdCBhcml0aG1ldGljIGFuZCB0aGVuIHBy
+b21vdGVkCnRvIGxvbmcgaG93IGRvZXMgdGhlIG92ZXJmbG93IGhhcHBlbj8KCkJlc3QgcmVnYXJk
+cywKTGl2aXUKCj4gRml4IHRoaXMgYnkgdXNpbmcgdGhlIEJJVCBtYWNybyB0bwo+IHBlcmZvcm0g
+dGhlIHNoaWZ0IHRvIGF2b2lkIHRoZSBvdmVyZmxvdy4KPiAKPiBBZGRyZXNzZXMtQ292ZXJpdHk6
+ICgiVW5pbnRlbnRpb25hbCBpbnRlZ2VyIG92ZXJmbG93IikKPiBGaXhlczogYWQ0OWY4NjAyZmU4
+ICgiZHJtL2FybTogQWRkIHN1cHBvcnQgZm9yIE1hbGkgRGlzcGxheSBQcm9jZXNzb3JzIikKPiBT
+aWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+
+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYyB8IDIgKy0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jIGIvZHJpdmVycy9ncHUvZHJt
+L2FybS9tYWxpZHBfcGxhbmVzLmMKPiBpbmRleCAzNzcxNWNjNjA2NGUuLmFiNDVhYzQ0NTA0NSAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9wbGFuZXMuYwo+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3BsYW5lcy5jCj4gQEAgLTkyOCw3ICs5MjgsNyBA
+QCBpbnQgbWFsaWRwX2RlX3BsYW5lc19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pCj4gIAlj
+b25zdCBzdHJ1Y3QgbWFsaWRwX2h3X3JlZ21hcCAqbWFwID0gJm1hbGlkcC0+ZGV2LT5ody0+bWFw
+Owo+ICAJc3RydWN0IG1hbGlkcF9wbGFuZSAqcGxhbmUgPSBOVUxMOwo+ICAJZW51bSBkcm1fcGxh
+bmVfdHlwZSBwbGFuZV90eXBlOwo+IC0JdW5zaWduZWQgbG9uZyBjcnRjcyA9IDEgPDwgZHJtLT5t
+b2RlX2NvbmZpZy5udW1fY3J0YzsKPiArCXVuc2lnbmVkIGxvbmcgY3J0Y3MgPSBCSVQoZHJtLT5t
+b2RlX2NvbmZpZy5udW1fY3J0Yyk7Cj4gIAl1bnNpZ25lZCBsb25nIGZsYWdzID0gRFJNX01PREVf
+Uk9UQVRFXzAgfCBEUk1fTU9ERV9ST1RBVEVfOTAgfCBEUk1fTU9ERV9ST1RBVEVfMTgwIHwKPiAg
+CQkJICAgICAgRFJNX01PREVfUk9UQVRFXzI3MCB8IERSTV9NT0RFX1JFRkxFQ1RfWCB8IERSTV9N
+T0RFX1JFRkxFQ1RfWTsKPiAgCXVuc2lnbmVkIGludCBibGVuZF9jYXBzID0gQklUKERSTV9NT0RF
+X0JMRU5EX1BJWEVMX05PTkUpIHwKPiAtLSAKPiAyLjI3LjAucmMwCj4gCgotLSAKPT09PT09PT09
+PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8CnwgYnV0
+IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8KICAt
+LS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
