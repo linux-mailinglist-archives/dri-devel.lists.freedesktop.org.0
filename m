@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6921FF80D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234581FF826
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 17:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B17206EB69;
-	Thu, 18 Jun 2020 15:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C3A6EB66;
+	Thu, 18 Jun 2020 15:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D516EB69
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:51:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1098870A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 15:52:59 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1jlwpE-0005mk-KY; Thu, 18 Jun 2020 17:51:36 +0200
-Message-ID: <be88faf0aa10d1c71dbf2c22e6c72623d4598a0c.camel@pengutronix.de>
-Subject: Re: [PATCH v2] drm/etnaviv: convert get_user_pages() -->
- pin_user_pages()
+ id 1jlwqR-00064n-GH; Thu, 18 Jun 2020 17:52:51 +0200
+Message-ID: <4b717455032b5409754dffb71acc82c5fc0fc755.camel@pengutronix.de>
+Subject: Re: [RESEND PATCH v2 0/4] drm/etnaviv: Tidy up clocks handling
 From: Lucas Stach <l.stach@pengutronix.de>
-To: John Hubbard <jhubbard@nvidia.com>
-Date: Thu, 18 Jun 2020 17:51:34 +0200
-In-Reply-To: <20200525234946.512848-1-jhubbard@nvidia.com>
-References: <20200525234946.512848-1-jhubbard@nvidia.com>
+To: Lubomir Rintel <lkundrak@v3.sk>
+Date: Thu, 18 Jun 2020 17:52:50 +0200
+In-Reply-To: <20200616212127.986410-1-lkundrak@v3.sk>
+References: <20200616212127.986410-1-lkundrak@v3.sk>
 User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -46,80 +45,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, den 25.05.2020, 16:49 -0700 schrieb John Hubbard:
-> This code was using get_user_pages*(), in a "Case 2" scenario
-> (DMA/RDMA), using the categorization from [1]. That means that it's
-> time to convert the get_user_pages*() + put_page() calls to
-> pin_user_pages*() + unpin_user_pages() calls.
+Am Dienstag, den 16.06.2020, 23:21 +0200 schrieb Lubomir Rintel:
+> Hi,
 > 
-> There is some helpful background in [2]: basically, this is a small
-> part of fixing a long-standing disconnect between pinning pages, and
-> file systems' use of those pages.
-> 
-> [1] Documentation/core-api/pin_user_pages.rst
-> 
-> [2] "Explicit pinning of user-space pages":
->     https://lwn.net/Articles/807108/
-> 
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> please consider applying patches that are chained to this message.
 
-Thanks, I've applied this to etnaviv/next.
+Thanks, I've applied all of them to etnaviv/next.
 
 Regards,
 Lucas
 
-> ---
+> They make getting/enabling the clocks in the etnaviv driver slightly nicer,
+> first two also fix potential problems.
 > 
-> Hi,
+> Compared to v1, patch 2/4 was fixed and patch 3/4 was added.
 > 
-> Changes since v1:
+> As it was pointed out in response to v1, the clocks documented as
+> mandatory by the binding document are different from what the driver
+> enforces. Moreover, there is no agreement on which clocks must be
+> present in the device tree, so I'm leaving the binding document until
+> it's cleared up.
 > 
-> * Rebased onto Linux 5.7-rc7
+> In any case, the "core" clock is always present so it's safe to make it
+> mandatory and regardless of what ends up happening to the binding
+> documentation, the other clocks can't be enforced without regressions.
+> At most a comment or a warning could be added. I'm leaving it as it is.
 > 
-> * Added: Lucas Stach
-> 
-> thanks
-> John Hubbard
-> NVIDIA
+> Thank you
+> Lubo
 > 
 > 
->  drivers/gpu/drm/etnaviv/etnaviv_gem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> index dc9ef302f517..0f4578dc169d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
-> @@ -675,10 +675,10 @@ static int etnaviv_gem_userptr_get_pages(struct etnaviv_gem_object *etnaviv_obj)
->  		uint64_t ptr = userptr->ptr + pinned * PAGE_SIZE;
->  		struct page **pages = pvec + pinned;
->  
-> -		ret = get_user_pages_fast(ptr, num_pages,
-> +		ret = pin_user_pages_fast(ptr, num_pages,
->  					  !userptr->ro ? FOLL_WRITE : 0, pages);
->  		if (ret < 0) {
-> -			release_pages(pvec, pinned);
-> +			unpin_user_pages(pvec, pinned);
->  			kvfree(pvec);
->  			return ret;
->  		}
-> @@ -702,7 +702,7 @@ static void etnaviv_gem_userptr_release(struct etnaviv_gem_object *etnaviv_obj)
->  	if (etnaviv_obj->pages) {
->  		int npages = etnaviv_obj->base.size >> PAGE_SHIFT;
->  
-> -		release_pages(etnaviv_obj->pages, npages);
-> +		unpin_user_pages(etnaviv_obj->pages, npages);
->  		kvfree(etnaviv_obj->pages);
->  	}
->  }
+> _______________________________________________
+> etnaviv mailing list
+> etnaviv@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/etnaviv
 
 _______________________________________________
 dri-devel mailing list
