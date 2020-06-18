@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF6F1FDCAB
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509961FDCC3
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:22:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE0486EA4B;
-	Thu, 18 Jun 2020 01:21:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 595566EA3C;
+	Thu, 18 Jun 2020 01:22:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFB86EA4B;
- Thu, 18 Jun 2020 01:21:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D72F46EA3C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 01:22:03 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 10C8B20CC7;
- Thu, 18 Jun 2020 01:21:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D9F5020CC7;
+ Thu, 18 Jun 2020 01:22:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592443282;
- bh=Cub4vj9nLqVHK+vP9cLZf3O/SAGabxVQiO5LtqWPr3Q=;
+ s=default; t=1592443323;
+ bh=LhWCgqMpOimMUIh/VYqwEEVS7oF4YKfUj2TxcSiqHWQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C0pG6APArivPVS1UhMa9kylHSmrRtNWZuVYdwW927Evr9PoDOS4LcsiQeq4QtU+FO
- 2V2TGK8H4mZ5H/oQ4HwBPgS6Se2vveXFnuYkfp+4gADmRL9w8dBpXy1M5eQKMTVl9i
- 1+un2skuDuMYT2V3TCOGI+/C8zKGlbiSNpCuEMUA=
+ b=vv4ml2OiS98z7H+EwL31LByglnuzuCWN2DkWo2HfCuraNAKAslKQCAP9cVJcUSnXT
+ evrKSuRXXjCLeuQGRQCZnO4z8utkziWYMntXT2yxBdCnAeilpnOQRdjXkR2yxeqENj
+ y+T2rsjpTiHTzIyvtxKO2RfEWDE1Q5N1MkMwv1Hc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 226/266] drm/amd/display: Revalidate bandwidth
- before commiting DC updates
-Date: Wed, 17 Jun 2020 21:15:51 -0400
-Message-Id: <20200618011631.604574-226-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 257/266] drm/sun4i: hdmi ddc clk: Fix size of m
+ divider
+Date: Wed, 17 Jun 2020 21:16:22 -0400
+Message-Id: <20200618011631.604574-257-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
 References: <20200618011631.604574-1-sashal@kernel.org>
@@ -50,68 +50,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- Hersen Wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-[ Upstream commit a24eaa5c51255b344d5a321f1eeb3205f2775498 ]
+[ Upstream commit 54e1e06bcf1cf6e7ac3f86daa5f7454add24b494 ]
 
-[Why]
-Whenever we switch between tiled formats without also switching pixel
-formats or doing anything else that recreates the DC plane state we
-can run into underflow or hangs since we're not updating the
-DML parameters before committing to the hardware.
+m divider in DDC clock register is 4 bits wide. Fix that.
 
-[How]
-If the update type is FULL then call validate_bandwidth again to update
-the DML parmeters before committing the state.
-
-This is basically just a workaround and protective measure against
-update types being added DC where we could run into this issue in
-the future.
-
-We can only fully validate the state in advance before applying it to
-the hardware if we recreate all the plane and stream states since
-we can't modify what's currently in use.
-
-The next step is to update DM to ensure that we're creating the plane
-and stream states for whatever could potentially be a full update in
-DC to pre-emptively recreate the state for DC global validation.
-
-The workaround can stay until this has been fixed in DM.
-
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fixes: 9c5681011a0c ("drm/sun4i: Add HDMI support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20200413095457.1176754-1-jernej.skrabec@siol.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/sun4i/sun4i_hdmi.h         | 2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index 2028dc017f7a..b95a58aa82d9 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2230,6 +2230,12 @@ void dc_commit_updates_for_stream(struct dc *dc,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+index 7ad3f06c127e..00ca35f07ba5 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+@@ -148,7 +148,7 @@
+ #define SUN4I_HDMI_DDC_CMD_IMPLICIT_WRITE	3
  
- 	copy_stream_update_to_stream(dc, context, stream, stream_update);
+ #define SUN4I_HDMI_DDC_CLK_REG		0x528
+-#define SUN4I_HDMI_DDC_CLK_M(m)			(((m) & 0x7) << 3)
++#define SUN4I_HDMI_DDC_CLK_M(m)			(((m) & 0xf) << 3)
+ #define SUN4I_HDMI_DDC_CLK_N(n)			((n) & 0x7)
  
-+	if (!dc->res_pool->funcs->validate_bandwidth(dc, context, false)) {
-+		DC_ERROR("Mode validation failed for stream update!\n");
-+		dc_release_state(context);
-+		return;
-+	}
-+
- 	commit_planes_for_stream(
- 				dc,
- 				srf_updates,
+ #define SUN4I_HDMI_DDC_LINE_CTRL_REG	0x540
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
+index 2ff780114106..12430b9d4e93 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c
+@@ -33,7 +33,7 @@ static unsigned long sun4i_ddc_calc_divider(unsigned long rate,
+ 	unsigned long best_rate = 0;
+ 	u8 best_m = 0, best_n = 0, _m, _n;
+ 
+-	for (_m = 0; _m < 8; _m++) {
++	for (_m = 0; _m < 16; _m++) {
+ 		for (_n = 0; _n < 8; _n++) {
+ 			unsigned long tmp_rate;
+ 
 -- 
 2.25.1
 
