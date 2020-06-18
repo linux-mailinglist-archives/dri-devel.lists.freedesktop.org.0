@@ -2,47 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880361FFB25
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 20:34:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2C41FFC4B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 22:09:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAF946EBA1;
-	Thu, 18 Jun 2020 18:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 574766EBCA;
+	Thu, 18 Jun 2020 20:09:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D71D96EB9D;
- Thu, 18 Jun 2020 18:34:45 +0000 (UTC)
-IronPort-SDR: va5MfxIJ2IA6fqCVJ84PH4Y5L1+j8Em9cmKmbPNCmTsD0OrWZC4YmZg+c8hUU6hlVaMr+ngSpp
- gHuADmjXfUvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="122916534"
-X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; d="scan'208";a="122916534"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 11:34:45 -0700
-IronPort-SDR: D3ggCbjjETw92amIWT4ZZeUhj8ErXZGMxInomQdPf3pOmDYRjWX6rSCGssz3uJgJKfU8kmvbi1
- CoBNwrqgX5ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; d="scan'208";a="477344935"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga005.fm.intel.com with ESMTP; 18 Jun 2020 11:34:45 -0700
-Date: Thu, 18 Jun 2020 11:35:58 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH v7 3/3] drm/i915/dp: Expose connector VRR monitor range
- via debugfs
-Message-ID: <20200618183558.GA32149@intel.com>
-References: <20200612230444.10121-4-manasi.d.navare@intel.com>
- <20200612235606.25120-1-manasi.d.navare@intel.com>
- <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
- <20200615214809.GA4334@intel.com>
- <CACvgo51j1BXN2ZyQ-m5AALup3ruoUHZhobSeNfS8QsV-UEjS-Q@mail.gmail.com>
+X-Greylist: delayed 470 seconds by postgrey-1.36 at gabe;
+ Thu, 18 Jun 2020 20:09:09 UTC
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C22916E198;
+ Thu, 18 Jun 2020 20:09:09 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0dcf00ed288847e9b97b82.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0d:cf00:ed28:8847:e9b9:7b82])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B29931EC0424;
+ Thu, 18 Jun 2020 22:01:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1592510474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=REiouwTSAKygSPN/bHRtOt64ynjYjWrhYC7ZSW7IpVk=;
+ b=rnGYZ99az9nanMKru5uLmgPbOQ9RO2Gt8N7TUOo2zHChvkPRNA5D1EVWNJWiL261FrIEKB
+ Jky+1VCvIEXFzEAMXsIlv1jhGbpGXC6NaqpVee9ny5vsTh2ZPViEQsobgC58e61Nbvbuzd
+ RitjCc91Ox4LF+YONpLwWJOzX5NbyB4=
+Date: Thu, 18 Jun 2020 22:01:06 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Ben Skeggs <bskeggs@redhat.com>
+Subject: 2dd4d163cd9c ("drm/nouveau: remove open-coded version of
+ remove_conflicting_pci_framebuffers()")
+Message-ID: <20200618200106.GF27951@zn.tnic>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CACvgo51j1BXN2ZyQ-m5AALup3ruoUHZhobSeNfS8QsV-UEjS-Q@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,164 +49,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: nouveau@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 16, 2020 at 04:34:07PM +0100, Emil Velikov wrote:
-> On Mon, 15 Jun 2020 at 22:47, Manasi Navare <manasi.d.navare@intel.com> w=
-rote:
-> >
-> > On Mon, Jun 15, 2020 at 10:36:28PM +0100, Emil Velikov wrote:
-> > > Hi Manasi,
-> > >
-> > > On Sat, 13 Jun 2020 at 00:55, Manasi Navare <manasi.d.navare@intel.co=
-m> wrote:
-> > > >
-> > > > From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> > > >
-> > > > [Why]
-> > > > It's useful to know the min and max vrr range for IGT testing.
-> > > >
-> > > > [How]
-> > > > Expose the min and max vfreq for the connector via a debugfs file
-> > > > on the connector, "vrr_range".
-> > > >
-> > > > Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> > > >
-> > > > v7:
-> > > > * Fix cmpilation due to rebase
-> > > > v6:
-> > > > * Rebase (manasi)
-> > > > v5:
-> > > > * Rename to vrr_range to match AMD debugfs
-> > > > v4:
-> > > > * Rebase
-> > > > v3:
-> > > > * Remove the unnecessary debug print (Manasi)
-> > > > v2:
-> > > > * Fix the typo in max_vfreq (Manasi)
-> > > > * Change the name of node to i915_vrr_info so we can add
-> > > > other vrr info for more debug info (Manasi)
-> > > > * Change the VRR capable to display Yes or No (Manasi)
-> > > > * Fix indentation checkpatch errors (Manasi)
-> > > >
-> > > Nit: generally revision log is listed in v2 -> v6 order.
-> >
-> > Okay point noted. Will update this in the next rev
-> >
-> > >
-> > > > Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> > > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> > > > Tested-by: Manasi Navare <manasi.d.navare@intel.com>
-> > > > ---
-> > > >  .../drm/i915/display/intel_display_debugfs.c  | 22 +++++++++++++++=
-+++-
-> > > >  1 file changed, 21 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b=
-/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> > > > index 28dd717e943a..2921f7d2a26e 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-> > > > @@ -2185,6 +2185,21 @@ static const struct file_operations i915_dsc=
-_fec_support_fops =3D {
-> > > >         .write =3D i915_dsc_fec_support_write
-> > > >  };
-> > > >
-> > > > +static int vrr_range_show(struct seq_file *m, void *data)
-> > > > +{
-> > > > +       struct drm_connector *connector =3D m->private;
-> > > > +
-> > > > +       if (connector->status !=3D connector_status_connected)
-> > > > +               return -ENODEV;
-> > > > +
-> > > > +       seq_printf(m, "Vrr_capable: %s\n", yesno(intel_dp_is_vrr_ca=
-pable(connector)));
-> > > > +       seq_printf(m, "Min: %u\n", (u8)connector->display_info.moni=
-tor_range.min_vfreq);
-> > > > +       seq_printf(m, "Max: %u\n", (u8)connector->display_info.moni=
-tor_range.max_vfreq);
-> > > > +
-> > > > +       return 0;
-> > > > +}
-> > > > +DEFINE_SHOW_ATTRIBUTE(vrr_range);
-> > > > +
-> > > >  /**
-> > > >   * intel_connector_debugfs_add - add i915 specific connector debug=
-fs files
-> > > >   * @connector: pointer to a registered drm_connector
-> > > > @@ -2220,10 +2235,15 @@ int intel_connector_debugfs_add(struct drm_=
-connector *connector)
-> > > >         if (INTEL_GEN(dev_priv) >=3D 10 &&
-> > > >             ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_D=
-isplayPort &&
-> > > >               !to_intel_connector(connector)->mst_port) ||
-> > > > -            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eD=
-P))
-> > > > +            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eD=
-P)) {
-> > > >                 debugfs_create_file("i915_dsc_fec_support", S_IRUGO=
-, root,
-> > > >                                     connector, &i915_dsc_fec_suppor=
-t_fops);
-> > > >
-> > > > +               if (INTEL_GEN(dev_priv) >=3D 12)
-> > > > +                       debugfs_create_file("vrr_range", S_IRUGO,
-> > > > +                                           root, connector, &vrr_r=
-ange_fops);
-> > > > +       }
-> > > > +
-> > >
-> > > I think this should be added by core drm. Ideally drm will add it
-> > > automatically for each connector that the driver has called
-> > > drm_connector_attach_vrr_capable_property() upon.
-> > >
-> >
-> > But in this case drm_connector_attach_vrr_capable_property() is called =
-by individual
-> > driver since its an optional connector property. So we call this inside=
- i915.
-> =
+Hi,
 
-> I'm _not_ suggesting that one moves the
-> drm_connector_attach_vrr_capable_property() call. Simply create the
-> debugfs file in drm itself.
-> =
+my test box won't boot 5.8-rc1 all the way but stops at
 
-> > Also currently AMD sets this debugfs inside AMD IMO, so setting this he=
-re for now.
-> Let's do the better thing of a) make drm create the file, and b)
-> remove the AMDGPU specific one.
-> =
+...
+fb0: switching to nouveaufb from EFI VGA
+<-- EOF
 
-> We're talking about 20-30 lines worth of a patch. Postponing it sounds si=
-lly.
-> =
+I've bisected it to the commit in $Subject, see below. Unfortunately, it
+doesn't revert cleanly so I can't really do the final test of reverting
+it ontop of 5.8-rc1 to confirm that this one is really causing it.
 
-> > But I agree that can be moved to drm core may be when drm_display_info =
-gets populated
-> > with min and max, thats where drm can add this?
-> >
-> Both min and max are already part of drm_display_info. On the question
-> of how - check the existing properties (edid_override, force) for
-> examples.
->
+Any ideas?
 
-Okay makes sense. Will move the vrr_range to drm debugfs node.
-Thanks for your feedback.
+GPU is:
 
-Regards
-Manasi
- =
+[    5.678614] fb0: switching to nouveaufb from EFI VGA
+[    5.685577] Console: switching to colour dummy device 80x25
+[    5.691865] nouveau 0000:03:00.0: NVIDIA GT218 (0a8c00b1)
+[    5.814409] nouveau 0000:03:00.0: bios: version 70.18.83.00.08
+[    5.823559] nouveau 0000:03:00.0: fb: 512 MiB DDR3
+[    6.096680] [TTM] Zone  kernel: Available graphics memory: 8158364 KiB
+[    6.103327] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[    6.109951] [TTM] Initializing pool allocator
+[    6.114405] [TTM] Initializing DMA pool allocator
+[    6.119256] nouveau 0000:03:00.0: DRM: VRAM: 512 MiB
+[    6.124285] nouveau 0000:03:00.0: DRM: GART: 1048576 MiB
+[    6.129677] nouveau 0000:03:00.0: DRM: TMDS table version 2.0
+[    6.135534] nouveau 0000:03:00.0: DRM: DCB version 4.0
+[    6.140755] nouveau 0000:03:00.0: DRM: DCB outp 00: 02000360 00000000
+[    6.147273] nouveau 0000:03:00.0: DRM: DCB outp 01: 02000362 00020010
+[    6.153782] nouveau 0000:03:00.0: DRM: DCB outp 02: 028003a6 0f220010
+[    6.160292] nouveau 0000:03:00.0: DRM: DCB outp 03: 01011380 00000000
+[    6.166810] nouveau 0000:03:00.0: DRM: DCB outp 04: 08011382 00020010
+[    6.173306] nouveau 0000:03:00.0: DRM: DCB outp 05: 088113c6 0f220010
+[    6.179829] nouveau 0000:03:00.0: DRM: DCB conn 00: 00101064
+[    6.185553] nouveau 0000:03:00.0: DRM: DCB conn 01: 00202165
+[    6.196145] nouveau 0000:03:00.0: DRM: MM: using COPY for buffer copies
+[    6.233659] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+[    6.311939] nouveau 0000:03:00.0: DRM: allocated 1920x1080 fb: 0x70000, bo (____ptrval____)
+[    6.320736] fbcon: nouveaudrmfb (fb0) is primary device
+[    6.392722] tsc: Refined TSC clocksource calibration: 3591.346 MHz
+[    6.392788] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x33c46403b59, max_idle_ns: 440795293818 ns
+[    6.392930] clocksource: Switched to clocksource tsc
+[    6.509946] Console: switching to colour frame buffer device 240x67
+[    6.546287] nouveau 0000:03:00.0: fb0: nouveaudrmfb frame buffer device
+[    6.555021] [drm] Initialized nouveau 1.3.1 20120801 for 0000:03:00.0 on minor 0
 
-> -Emil
+Thx.
+
+git bisect start
+# good: [3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162] Linux 5.7
+git bisect good 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+# bad: [b3a9e3b9622ae10064826dccb4f7a52bd88c7407] Linux 5.8-rc1
+git bisect bad b3a9e3b9622ae10064826dccb4f7a52bd88c7407
+# bad: [ee01c4d72adffb7d424535adf630f2955748fa8b] Merge branch 'akpm' (patches from Andrew)
+git bisect bad ee01c4d72adffb7d424535adf630f2955748fa8b
+# bad: [16d91548d1057691979de4686693f0ff92f46000] Merge tag 'xfs-5.8-merge-8' of git://git.kernel.org/pub/scm/fs/xfs/xfs-linux
+git bisect bad 16d91548d1057691979de4686693f0ff92f46000
+# good: [cfa3b8068b09f25037146bfd5eed041b78878bee] Merge tag 'for-linus-hmm' of git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma
+git bisect good cfa3b8068b09f25037146bfd5eed041b78878bee
+# good: [3fd911b69b3117e03181262fc19ae6c3ef6962ce] Merge tag 'drm-misc-next-2020-05-07' of git://anongit.freedesktop.org/drm/drm-misc into drm-next
+git bisect good 3fd911b69b3117e03181262fc19ae6c3ef6962ce
+# bad: [1966391fa576e1fb2701be8bcca197d8f72737b7] mm/migrate.c: attach_page_private already does the get_page
+git bisect bad 1966391fa576e1fb2701be8bcca197d8f72737b7
+# good: [43c8546bcd854806736d8a635a0d696504dd4c21] drm/amdgpu: Add a UAPI flag for user to call mem_sync
+git bisect good 43c8546bcd854806736d8a635a0d696504dd4c21
+# good: [6cf991611bc72c077f0cc64e23987341ad7ef41e] Merge tag 'drm-intel-next-2020-05-15' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
+git bisect good 6cf991611bc72c077f0cc64e23987341ad7ef41e
+# bad: [dc455f4c888365595c0a13da445e092422d55b8d] drm/nouveau/dispnv50: fix runtime pm imbalance on error
+git bisect bad dc455f4c888365595c0a13da445e092422d55b8d
+# bad: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
+git bisect bad 2dd4d163cd9c15432524aa9863155bc03a821361
+# good: [c41219fda6e04255c44d37fd2c0d898c1c46abf1] Merge tag 'drm-intel-next-fixes-2020-05-20' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
+git bisect good c41219fda6e04255c44d37fd2c0d898c1c46abf1
+# good: [fd44028ff145ffb2d03c877d74f479da04ac2c62] drm/nouveau/acr: ensure falcon providing acr functions is bootstrapped first
+git bisect good fd44028ff145ffb2d03c877d74f479da04ac2c62
+# good: [fa4f4c213f5f7807360c41f2501a3031a9940f3a] drm/nouveau/kms: Support NVIDIA format modifiers
+git bisect good fa4f4c213f5f7807360c41f2501a3031a9940f3a
+# good: [d2bcfce7f8a4ba8df28d3bebb81225bd7f9c046f] drm/nouveau/ibus: use nvkm_subdev_new_()
+git bisect good d2bcfce7f8a4ba8df28d3bebb81225bd7f9c046f
+# good: [fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb] drm/nouveau/gr/gk20a: move MODULE_FIRMWARE firmware definitions
+git bisect good fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb
+# first bad commit: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
