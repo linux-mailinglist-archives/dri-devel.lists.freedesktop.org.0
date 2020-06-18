@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2171FDC9D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:21:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF6F1FDCAB
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 03:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E73676EA3E;
-	Thu, 18 Jun 2020 01:21:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0486EA4B;
+	Thu, 18 Jun 2020 01:21:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A1E6EA3E;
- Thu, 18 Jun 2020 01:21:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AFB86EA4B;
+ Thu, 18 Jun 2020 01:21:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 94DF621D79;
- Thu, 18 Jun 2020 01:21:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 10C8B20CC7;
+ Thu, 18 Jun 2020 01:21:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592443269;
- bh=mIJ1TUXp7dszAtRrMyJYmXKkKV2repG8ZIcsS6zctIo=;
+ s=default; t=1592443282;
+ bh=Cub4vj9nLqVHK+vP9cLZf3O/SAGabxVQiO5LtqWPr3Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uPR9mbNwFyTmtfOJJlhCfO/texBAKbGnoJqJxPDQc+274JU/iJmxluVvUPvP3Fosb
- kac4bE1BuM/LL+FDJ+4VatzcriMrGtzai80ggg+OXmpwm/3P3IBRM1noN7FnxhMPOH
- iDdgtEgqlLvRP6Exd88vNKSXpzKAyHA6/WeV/e1s=
+ b=C0pG6APArivPVS1UhMa9kylHSmrRtNWZuVYdwW927Evr9PoDOS4LcsiQeq4QtU+FO
+ 2V2TGK8H4mZ5H/oQ4HwBPgS6Se2vveXFnuYkfp+4gADmRL9w8dBpXy1M5eQKMTVl9i
+ 1+un2skuDuMYT2V3TCOGI+/C8zKGlbiSNpCuEMUA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 215/266] drm/nouveau/disp/gm200-: fix
- NV_PDISP_SOR_HDMI2_CTRL(n) selection
-Date: Wed, 17 Jun 2020 21:15:40 -0400
-Message-Id: <20200618011631.604574-215-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 226/266] drm/amd/display: Revalidate bandwidth
+ before commiting DC updates
+Date: Wed, 17 Jun 2020 21:15:51 -0400
+Message-Id: <20200618011631.604574-226-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
 References: <20200618011631.604574-1-sashal@kernel.org>
@@ -50,45 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ Hersen Wu <hersenxs.wu@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ben Skeggs <bskeggs@redhat.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit a1ef8bad506e4ffa0c57ac5f8cb99ab5cbc3b1fc ]
+[ Upstream commit a24eaa5c51255b344d5a321f1eeb3205f2775498 ]
 
-This is a SOR register, and not indexed by the bound head.
+[Why]
+Whenever we switch between tiled formats without also switching pixel
+formats or doing anything else that recreates the DC plane state we
+can run into underflow or hangs since we're not updating the
+DML parameters before committing to the hardware.
 
-Fixes display not coming up on high-bandwidth HDMI displays under a
-number of configurations.
+[How]
+If the update type is FULL then call validate_bandwidth again to update
+the DML parmeters before committing the state.
 
-Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+This is basically just a workaround and protective measure against
+update types being added DC where we could run into this issue in
+the future.
+
+We can only fully validate the state in advance before applying it to
+the hardware if we recreate all the plane and stream states since
+we can't modify what's currently in use.
+
+The next step is to update DM to ensure that we're creating the plane
+and stream states for whatever could potentially be a full update in
+DC to pre-emptively recreate the state for DC global validation.
+
+The workaround can stay until this has been fixed in DM.
+
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Reviewed-by: Hersen Wu <hersenxs.wu@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
-index 9b16a08eb4d9..bf6d41fb0c9f 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/hdmigm200.c
-@@ -27,10 +27,10 @@ void
- gm200_hdmi_scdc(struct nvkm_ior *ior, int head, u8 scdc)
- {
- 	struct nvkm_device *device = ior->disp->engine.subdev.device;
--	const u32 hoff = head * 0x800;
-+	const u32 soff = nv50_ior_base(ior);
- 	const u32 ctrl = scdc & 0x3;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 2028dc017f7a..b95a58aa82d9 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2230,6 +2230,12 @@ void dc_commit_updates_for_stream(struct dc *dc,
  
--	nvkm_mask(device, 0x61c5bc + hoff, 0x00000003, ctrl);
-+	nvkm_mask(device, 0x61c5bc + soff, 0x00000003, ctrl);
+ 	copy_stream_update_to_stream(dc, context, stream, stream_update);
  
- 	ior->tmds.high_speed = !!(scdc & 0x2);
- }
++	if (!dc->res_pool->funcs->validate_bandwidth(dc, context, false)) {
++		DC_ERROR("Mode validation failed for stream update!\n");
++		dc_release_state(context);
++		return;
++	}
++
+ 	commit_planes_for_stream(
+ 				dc,
+ 				srf_updates,
 -- 
 2.25.1
 
