@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E391FFAF6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 20:21:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 880361FFB25
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jun 2020 20:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08D4D6EB9E;
-	Thu, 18 Jun 2020 18:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF946EBA1;
+	Thu, 18 Jun 2020 18:34:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9287C6EB9F
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 18:20:58 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id i25so8245258iog.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 11:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tu/2iAqxEVznMtkHyMRWXYb6Qqve847KI+y26u4voTA=;
- b=WCRHmkbFFR2VaZdOPQzj7fYwcxVmBNK+Umg88d0y1kbcyAch1Y7Ouzd2Y7JNUXN1Tk
- FLCbt7yCfHrY1QCMgkCAmasg11TgKI+ggbeajCDscwA4MkuEJjDhg1YnZJ/ZffQL8axT
- qEbxhoeAK4/hrpnzQccG+ot3oZgQUmRXuALjFDzL1ik+lw54/lOPoHpZ+bJQb0yB56By
- a7ymWL+zRpZym73AdH/9mW0rOcu5n0aBaRpmTLZupkojUjG1aOrOlAL3dXEOUtDbncMV
- Gsk+boVplvsPdfUfR5BGMhsS/hjTf+x86i+YqHLB0pcxz0dJxkXpWb3+QswAht+/oB58
- hw3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tu/2iAqxEVznMtkHyMRWXYb6Qqve847KI+y26u4voTA=;
- b=k9df5U+DQ6FXfD+6u0Lp0QIipJIXCxxLVFao1XEqekjHJOOvIUmbKspoC2JBFTACKr
- t3o3cs8lEQerZwpwEQzOolu7WT0vb10jN+ftjeVLfjBB4FVhkcBcgDlSFJkXNhAFCk7S
- jn4IuEjWC+zxTyiw/lTrHA6QYRiHHCRhVhqw7g7Lp+rUsgl6GakpmKyvzoVSjssalChf
- /cOopBEvGPn2QMRQbJJ4V36IyyykD/NF7dUPd+jPXhTkBQTbviGMDC4DvMQoPAxKtL8O
- 8BNHNRLJly1xuJJlgWHJLkZ0PzcF4Ye4GucByp8butqwn/x2AE9no2rYq/vBBPCAeO8R
- GTOA==
-X-Gm-Message-State: AOAM530mNqWkztfbdx38LOwShSjwxF3seF3yyq3EP2TYB6RgOkBYGXyy
- 6FoQTHbzwCQCFkZA0RqQ88wVTTw23HCatD+dJsHG8w==
-X-Google-Smtp-Source: ABdhPJzaiROb8+PQP8f7KklNiaohlwJ4wTm++WACmyGyfC+g3qFu58kZAZ/EsUK/iuNIuVLQQ18QQJAz7RaGQEBwQPM=
-X-Received: by 2002:a5d:858a:: with SMTP id f10mr6668ioj.184.1592504457681;
- Thu, 18 Jun 2020 11:20:57 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D71D96EB9D;
+ Thu, 18 Jun 2020 18:34:45 +0000 (UTC)
+IronPort-SDR: va5MfxIJ2IA6fqCVJ84PH4Y5L1+j8Em9cmKmbPNCmTsD0OrWZC4YmZg+c8hUU6hlVaMr+ngSpp
+ gHuADmjXfUvA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="122916534"
+X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; d="scan'208";a="122916534"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 11:34:45 -0700
+IronPort-SDR: D3ggCbjjETw92amIWT4ZZeUhj8ErXZGMxInomQdPf3pOmDYRjWX6rSCGssz3uJgJKfU8kmvbi1
+ CoBNwrqgX5ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,252,1589266800"; d="scan'208";a="477344935"
+Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
+ ([10.165.21.211])
+ by fmsmga005.fm.intel.com with ESMTP; 18 Jun 2020 11:34:45 -0700
+Date: Thu, 18 Jun 2020 11:35:58 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH v7 3/3] drm/i915/dp: Expose connector VRR monitor range
+ via debugfs
+Message-ID: <20200618183558.GA32149@intel.com>
+References: <20200612230444.10121-4-manasi.d.navare@intel.com>
+ <20200612235606.25120-1-manasi.d.navare@intel.com>
+ <CACvgo522mYhCRkNXuwJDCt2fh4-Piq9ZOH9rNbO+HrcbrytJgQ@mail.gmail.com>
+ <20200615214809.GA4334@intel.com>
+ <CACvgo51j1BXN2ZyQ-m5AALup3ruoUHZhobSeNfS8QsV-UEjS-Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200429195502.39919-1-sean@poorly.run>
- <20200429195502.39919-17-sean@poorly.run>
- <20200515144255.GA11877@intel.com>
-In-Reply-To: <20200515144255.GA11877@intel.com>
-From: Sean Paul <sean@poorly.run>
-Date: Thu, 18 Jun 2020 14:20:22 -0400
-Message-ID: <CAMavQK+GQD8xxTzzTP3SdPTWdViBvU=KVGeqBnwgEDeex=tGFA@mail.gmail.com>
-Subject: Re: [PATCH v6 16/16] drm/i915: Add HDCP 1.4 support for MST connectors
-To: Ramalingam C <ramalingam.c@intel.com>
+Content-Disposition: inline
+In-Reply-To: <CACvgo51j1BXN2ZyQ-m5AALup3ruoUHZhobSeNfS8QsV-UEjS-Q@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,180 +55,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Sean Paul <seanpaul@chromium.org>, Juston Li <juston.li@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, May 15, 2020 at 10:43 AM Ramalingam C <ramalingam.c@intel.com> wrote:
+On Tue, Jun 16, 2020 at 04:34:07PM +0100, Emil Velikov wrote:
+> On Mon, 15 Jun 2020 at 22:47, Manasi Navare <manasi.d.navare@intel.com> w=
+rote:
+> >
+> > On Mon, Jun 15, 2020 at 10:36:28PM +0100, Emil Velikov wrote:
+> > > Hi Manasi,
+> > >
+> > > On Sat, 13 Jun 2020 at 00:55, Manasi Navare <manasi.d.navare@intel.co=
+m> wrote:
+> > > >
+> > > > From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> > > >
+> > > > [Why]
+> > > > It's useful to know the min and max vrr range for IGT testing.
+> > > >
+> > > > [How]
+> > > > Expose the min and max vfreq for the connector via a debugfs file
+> > > > on the connector, "vrr_range".
+> > > >
+> > > > Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
+> > > >
+> > > > v7:
+> > > > * Fix cmpilation due to rebase
+> > > > v6:
+> > > > * Rebase (manasi)
+> > > > v5:
+> > > > * Rename to vrr_range to match AMD debugfs
+> > > > v4:
+> > > > * Rebase
+> > > > v3:
+> > > > * Remove the unnecessary debug print (Manasi)
+> > > > v2:
+> > > > * Fix the typo in max_vfreq (Manasi)
+> > > > * Change the name of node to i915_vrr_info so we can add
+> > > > other vrr info for more debug info (Manasi)
+> > > > * Change the VRR capable to display Yes or No (Manasi)
+> > > > * Fix indentation checkpatch errors (Manasi)
+> > > >
+> > > Nit: generally revision log is listed in v2 -> v6 order.
+> >
+> > Okay point noted. Will update this in the next rev
+> >
+> > >
+> > > > Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> > > > Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > > Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+> > > > Tested-by: Manasi Navare <manasi.d.navare@intel.com>
+> > > > ---
+> > > >  .../drm/i915/display/intel_display_debugfs.c  | 22 +++++++++++++++=
++++-
+> > > >  1 file changed, 21 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b=
+/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> > > > index 28dd717e943a..2921f7d2a26e 100644
+> > > > --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> > > > +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> > > > @@ -2185,6 +2185,21 @@ static const struct file_operations i915_dsc=
+_fec_support_fops =3D {
+> > > >         .write =3D i915_dsc_fec_support_write
+> > > >  };
+> > > >
+> > > > +static int vrr_range_show(struct seq_file *m, void *data)
+> > > > +{
+> > > > +       struct drm_connector *connector =3D m->private;
+> > > > +
+> > > > +       if (connector->status !=3D connector_status_connected)
+> > > > +               return -ENODEV;
+> > > > +
+> > > > +       seq_printf(m, "Vrr_capable: %s\n", yesno(intel_dp_is_vrr_ca=
+pable(connector)));
+> > > > +       seq_printf(m, "Min: %u\n", (u8)connector->display_info.moni=
+tor_range.min_vfreq);
+> > > > +       seq_printf(m, "Max: %u\n", (u8)connector->display_info.moni=
+tor_range.max_vfreq);
+> > > > +
+> > > > +       return 0;
+> > > > +}
+> > > > +DEFINE_SHOW_ATTRIBUTE(vrr_range);
+> > > > +
+> > > >  /**
+> > > >   * intel_connector_debugfs_add - add i915 specific connector debug=
+fs files
+> > > >   * @connector: pointer to a registered drm_connector
+> > > > @@ -2220,10 +2235,15 @@ int intel_connector_debugfs_add(struct drm_=
+connector *connector)
+> > > >         if (INTEL_GEN(dev_priv) >=3D 10 &&
+> > > >             ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_D=
+isplayPort &&
+> > > >               !to_intel_connector(connector)->mst_port) ||
+> > > > -            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eD=
+P))
+> > > > +            connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eD=
+P)) {
+> > > >                 debugfs_create_file("i915_dsc_fec_support", S_IRUGO=
+, root,
+> > > >                                     connector, &i915_dsc_fec_suppor=
+t_fops);
+> > > >
+> > > > +               if (INTEL_GEN(dev_priv) >=3D 12)
+> > > > +                       debugfs_create_file("vrr_range", S_IRUGO,
+> > > > +                                           root, connector, &vrr_r=
+ange_fops);
+> > > > +       }
+> > > > +
+> > >
+> > > I think this should be added by core drm. Ideally drm will add it
+> > > automatically for each connector that the driver has called
+> > > drm_connector_attach_vrr_capable_property() upon.
+> > >
+> >
+> > But in this case drm_connector_attach_vrr_capable_property() is called =
+by individual
+> > driver since its an optional connector property. So we call this inside=
+ i915.
+> =
+
+> I'm _not_ suggesting that one moves the
+> drm_connector_attach_vrr_capable_property() call. Simply create the
+> debugfs file in drm itself.
+> =
+
+> > Also currently AMD sets this debugfs inside AMD IMO, so setting this he=
+re for now.
+> Let's do the better thing of a) make drm create the file, and b)
+> remove the AMDGPU specific one.
+> =
+
+> We're talking about 20-30 lines worth of a patch. Postponing it sounds si=
+lly.
+> =
+
+> > But I agree that can be moved to drm core may be when drm_display_info =
+gets populated
+> > with min and max, thats where drm can add this?
+> >
+> Both min and max are already part of drm_display_info. On the question
+> of how - check the existing properties (edid_override, force) for
+> examples.
 >
-> On 2020-04-29 at 15:55:02 -0400, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> >
-> > Now that all the groundwork has been laid, we can turn on HDCP 1.4 over
-> > MST. Everything except for toggling the HDCP signalling and HDCP 2.2
-> > support is the same as the DP case, so we'll re-use those callbacks
-> >
-> > Cc: Juston Li <juston.li@intel.com>
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20191203173638.94919-12-sean@poorly.run #v1
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20191212190230.188505-13-sean@poorly.run #v2
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200117193103.156821-13-sean@poorly.run #v3
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200218220242.107265-15-sean@poorly.run #v4
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20200305201236.152307-17-sean@poorly.run #v5
-> >
-> > Changes in v2:
-> > -Toggle HDCP from encoder disable/enable
-> > -Don't disable HDCP on MST connector destroy, leave that for encoder
-> >  disable, just ensure the check_work routine isn't running any longer
-> > Changes in v3:
-> > -Place the shim in the new intel_dp_hdcp.c file (Ville)
-> > Changes in v4:
-> > -Actually use the mst shim for mst connections (Juston)
-> > -Use QUERY_STREAM_ENC_STATUS MST message to verify channel is encrypted
-> > Changes in v5:
-> > -Add sleep on disable signalling to match hdmi delay
-> > Changes in v6:
-> > -Disable HDCP over MST on GEN12+ since I'm unsure how it should work and I
-> >  don't have hardware to test it
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c | 107 ++++++++++++++++++-
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c  |  18 ++++
-> >  2 files changed, 124 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > index 4e3dafbea1f9..331fdb312e05 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > @@ -7,10 +7,12 @@
-> >   */
-> >
-> >  #include <drm/drm_dp_helper.h>
-> > +#include <drm/drm_dp_mst_helper.h>
-> >  #include <drm/drm_hdcp.h>
-> >  #include <drm/drm_print.h>
-> >
-> >  #include "intel_display_types.h"
-> > +#include "intel_ddi.h"
-> >  #include "intel_dp.h"
-> >  #include "intel_hdcp.h"
-> >
-> > @@ -618,6 +620,106 @@ static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
-> >       .protocol = HDCP_PROTOCOL_DP,
-> >  };
-> >
-> > +static int
-> > +intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *intel_dig_port,
-> > +                                 enum transcoder cpu_transcoder,
-> > +                                 bool enable)
-> > +{
-> > +     struct drm_i915_private *i915 = to_i915(intel_dig_port->base.base.dev);
-> > +     int ret;
-> > +
-> > +     if (!enable)
-> > +             usleep_range(6, 60); /* Bspec says >= 6us */
-> > +
-> > +     ret = intel_ddi_toggle_hdcp_signalling(&intel_dig_port->base,
-> > +                                            cpu_transcoder, enable);
-> Sean,
->
-> The bit configured here is meant for HDMI and DVI only. Ignore for DP.
-> Thanks anshuman for pointing that out.
 
-The bspec says "Select HDCP for the desired stream using the Pipe DDI
-Function Control register." this is required to get stream level
-encryption (confirmed via the QUERY_STREAM_ENCRYPTION_STATUS sideband
-message).
+Okay makes sense. Will move the vrr_range to drm debugfs node.
+Thanks for your feedback.
 
+Regards
+Manasi
+ =
 
-> > +     if (ret)
-> > +             drm_dbg_kms(&i915->drm, "%s HDCP signalling failed (%d)\n",
-> > +                           enable ? "Enable" : "Disable", ret);
-> > +     return ret;
-> > +}
-
-\snip
-
-> > +static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> > +     .write_an_aksv = intel_dp_hdcp_write_an_aksv,
-> > +     .read_bksv = intel_dp_hdcp_read_bksv,
-> > +     .read_bstatus = intel_dp_hdcp_read_bstatus,
-> > +     .repeater_present = intel_dp_hdcp_repeater_present,
-> > +     .read_ri_prime = intel_dp_hdcp_read_ri_prime,
-> > +     .read_ksv_ready = intel_dp_hdcp_read_ksv_ready,
-> > +     .read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
-> > +     .read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
-> > +     .toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> > +     .check_link = intel_dp_mst_hdcp_check_link,
-> > +     .hdcp_capable = intel_dp_hdcp_capable,
-> > +
-> > +     .write_2_2_msg = intel_dp_mst_hdcp2_write_msg,
-> > +     .read_2_2_msg = intel_dp_mst_hdcp2_read_msg,
-> > +     .config_stream_type = intel_dp_mst_hdcp2_config_stream_type,
-> > +     .check_2_2_link = intel_dp_mst_hdcp2_check_link,
-> > +     .hdcp_2_2_capable = intel_dp_mst_hdcp2_capable,
-> IMO, we dont need to introduce dummy functions for HDCP2.2 on MST shim,
-> when we are not enabling HDCP2.2 on it.
->
-> At is_hdcp2_supported() just add
-> if (connector->mst_port)
->         return false;
-
-Ok, will do.
-
-> > +
-> > +     .protocol = HDCP_PROTOCOL_DP,
-> > +};
-> > +
-
-\snip
-
-> > +
-> > +     /* Enable hdcp if it's desired */
-> > +     if (conn_state->content_protection ==
-> > +         DRM_MODE_CONTENT_PROTECTION_DESIRED)
-> > +             intel_hdcp_enable(to_intel_connector(conn_state->connector),
-> > +                               pipe_config->cpu_transcoder,
-> > +                               (u8)conn_state->hdcp_content_type);
->
-> I am afraid I am not seeing the stream level HDCP encryption set
-> anywhere. How the userspace will indicate the streams that needs to be
-> hdcp encrypted?
->
-
-See above. Stream level encryption is achieved via the
-toggle_hdcp_signalling above (that's why it's needed).
-
-Sean
-
-> Thanks,
-> -Ram
-> >  }
-> >
-> >  static bool intel_dp_mst_enc_get_hw_state(struct intel_encoder *encoder,
-> > @@ -748,6 +758,14 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
-> >       intel_attach_force_audio_property(connector);
-> >       intel_attach_broadcast_rgb_property(connector);
-> >
-> > +
-> > +     /* TODO: Figure out how to make HDCP work on GEN12+ */
-> > +     if (INTEL_GEN(dev_priv) < 12) {
-> > +             ret = intel_dp_init_hdcp(intel_dig_port, intel_connector);
-> > +             if (ret)
-> > +                     DRM_DEBUG_KMS("HDCP init failed, skipping.\n");
-> > +     }
-> > +
-> >       /*
-> >        * Reuse the prop from the SST connector because we're
-> >        * not allowed to create new props after device registration.
-> > --
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> >
+> -Emil
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
