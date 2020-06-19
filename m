@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBF92009B8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:15:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7E6200A05
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F360B6ECB5;
-	Fri, 19 Jun 2020 13:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B616ECB7;
+	Fri, 19 Jun 2020 13:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E56206ECB2;
- Fri, 19 Jun 2020 13:15:05 +0000 (UTC)
-IronPort-SDR: uGsSAxhEUf+9NB0lz4bO/YSE4SOdD7BgL2Jd2zfxsa/dA1lpbO4HLnTX3DtkSJ/QyubNuqeNvD
- +MWC8p1+esPg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="130318727"
-X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="130318727"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA666ECB7;
+ Fri, 19 Jun 2020 13:27:48 +0000 (UTC)
+IronPort-SDR: UXLeuO0z059irdWWJUltL6Hfzy4zvP4QFVqjyKqUndqFAxgjDYhCsvRZu8Atoq21Sbpt6Yfudx
+ S8AURLs1t7TQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="208188886"
+X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="208188886"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 06:15:04 -0700
-IronPort-SDR: IqHKIlxThCmFclg/JZx5lRa8E9EVfQczDqwmQtXju8xI72NCNs4fyNa1yxJEDneeh2v/+r3/Uk
- y9/Ube9gAKtA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2020 06:27:47 -0700
+IronPort-SDR: LoRv0M4OCrAexjNOO/Yea7WCg2uu/stJTxo8PCnaqLpGaQcx7Mh1Wzeg66tjpfBKo+W/OhVUjM
+ i0exZrn8+QHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="277995739"
+X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="421849359"
 Received: from bhanu-nuc8i7beh.iind.intel.com ([10.145.162.210])
- by orsmga006.jf.intel.com with ESMTP; 19 Jun 2020 06:14:59 -0700
+ by orsmga004.jf.intel.com with ESMTP; 19 Jun 2020 06:27:44 -0700
 From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 To: bhanuprakash.modem@intel.com, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
-Subject: [v8 3/3] drm/debug: Expose connector VRR monitor range via debugfs
-Date: Sat, 20 Jun 2020 02:41:06 +0530
-Message-Id: <20200619211106.19207-4-bhanuprakash.modem@intel.com>
+Subject: [v6 0/3] VRR capable attach prop in i915, DPCD helper, VRR debugfs
+Date: Sat, 20 Jun 2020 02:53:53 +0530
+Message-Id: <20200619212356.19285-1-bhanuprakash.modem@intel.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200612230444.10121-1-manasi.d.navare@intel.com>
-References: <20200612230444.10121-1-manasi.d.navare@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,86 +47,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1doeV0KSXQncyB1c2VmdWwgdG8ga25vdyB0aGUgbWluIGFuZCBtYXggdnJyIHJhbmdlIGZvciBJ
-R1QgdGVzdGluZy4KCltIb3ddCkV4cG9zZSB0aGUgbWluIGFuZCBtYXggdmZyZXEgZm9yIHRoZSBj
-b25uZWN0b3IgdmlhIGEgZGVidWdmcyBmaWxlCm9uIHRoZSBjb25uZWN0b3IsICJ2cnJfcmFuZ2Ui
-LgoKRXhhbXBsZSB1c2FnZTogY2F0IC9zeXMva2VybmVsL2RlYnVnL2RyaS8wL0RQLTEvdnJyX3Jh
-bmdlCgp2MjoKKiBGaXggdGhlIHR5cG8gaW4gbWF4X3ZmcmVxIChNYW5hc2kpCiogQ2hhbmdlIHRo
-ZSBuYW1lIG9mIG5vZGUgdG8gaTkxNV92cnJfaW5mbyBzbyB3ZSBjYW4gYWRkCm90aGVyIHZyciBp
-bmZvIGZvciBtb3JlIGRlYnVnIGluZm8gKE1hbmFzaSkKKiBDaGFuZ2UgdGhlIFZSUiBjYXBhYmxl
-IHRvIGRpc3BsYXkgWWVzIG9yIE5vIChNYW5hc2kpCiogRml4IGluZGVudGF0aW9uIGNoZWNrcGF0
-Y2ggZXJyb3JzIChNYW5hc2kpCnYzOgoqIFJlbW92ZSB0aGUgdW5uZWNlc3NhcnkgZGVidWcgcHJp
-bnQgKE1hbmFzaSkKdjQ6CiogUmViYXNlCnY1OgoqIFJlbmFtZSB0byB2cnJfcmFuZ2UgdG8gbWF0
-Y2ggQU1EIGRlYnVnZnMKdjY6CiogUmViYXNlIChtYW5hc2kpCnY3OgoqIEZpeCBjbXBpbGF0aW9u
-IGR1ZSB0byByZWJhc2UKdjg6CiogTW92ZSBkZWJ1Z2ZzIG5vZGUgY3JlYXRpb24gbG9naWMgdG8g
-RFJNCiogUmVtb3ZlIEFNRCBzcGVjaWZpYyBsb2dpYwoKU2lnbmVkLW9mZi1ieTogQmhhbnVwcmFr
-YXNoIE1vZGVtIDxiaGFudXByYWthc2gubW9kZW1AaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBN
-YW5hc2kgTmF2YXJlIDxtYW5hc2kuZC5uYXZhcmVAaW50ZWwuY29tPgpDYzogSmFuaSBOaWt1bGEg
-PGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUu
-c3lyamFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxh
-bmRAYW1kLmNvbT4KLS0tCiAuLi4vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9kZWJ1
-Z2ZzLmMgfCAyMCAtLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2Zz
-LmMgICAgICAgICAgICAgICAgIHwgMjIgKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBjaGFu
-Z2VkLCAyMiBpbnNlcnRpb25zKCspLCAyMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9kZWJ1Z2ZzLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9kZWJ1Z2ZzLmMK
-aW5kZXggMDc2YWYyNjdiNDg4Li43MTM4N2QyYWYyZWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtX2RlYnVnZnMuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbV9kZWJ1Z2ZzLmMKQEAg
-LTgyMCwyNCArODIwLDYgQEAgc3RhdGljIGludCBvdXRwdXRfYnBjX3Nob3coc3RydWN0IHNlcV9m
-aWxlICptLCB2b2lkICpkYXRhKQogCXJldHVybiByZXM7CiB9CiAKLS8qCi0gKiBSZXR1cm5zIHRo
-ZSBtaW4gYW5kIG1heCB2cnIgdmZyZXEgdGhyb3VnaCB0aGUgY29ubmVjdG9yJ3MgZGVidWdmcyBm
-aWxlLgotICogRXhhbXBsZSB1c2FnZTogY2F0IC9zeXMva2VybmVsL2RlYnVnL2RyaS8wL0RQLTEv
-dnJyX3JhbmdlCi0gKi8KLXN0YXRpYyBpbnQgdnJyX3JhbmdlX3Nob3coc3RydWN0IHNlcV9maWxl
-ICptLCB2b2lkICpkYXRhKQotewotCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSBt
-LT5wcml2YXRlOwotCXN0cnVjdCBhbWRncHVfZG1fY29ubmVjdG9yICphY29ubmVjdG9yID0gdG9f
-YW1kZ3B1X2RtX2Nvbm5lY3Rvcihjb25uZWN0b3IpOwotCi0JaWYgKGNvbm5lY3Rvci0+c3RhdHVz
-ICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkKQotCQlyZXR1cm4gLUVOT0RFVjsKLQotCXNl
-cV9wcmludGYobSwgIk1pbjogJXVcbiIsICh1bnNpZ25lZCBpbnQpYWNvbm5lY3Rvci0+bWluX3Zm
-cmVxKTsKLQlzZXFfcHJpbnRmKG0sICJNYXg6ICV1XG4iLCAodW5zaWduZWQgaW50KWFjb25uZWN0
-b3ItPm1heF92ZnJlcSk7Ci0KLQlyZXR1cm4gMDsKLX0KLQogI2lmZGVmIENPTkZJR19EUk1fQU1E
-X0RDX0hEQ1AKIC8qCiAgKiBSZXR1cm5zIHRoZSBIRENQIGNhcGFiaWxpdHkgb2YgdGhlIERpc3Bs
-YXkgKDEuNCBmb3Igbm93KS4KQEAgLTEwMDEsNyArOTgzLDYgQEAgc3RhdGljIHNzaXplX3QgZHBf
-ZHBjZF9kYXRhX3JlYWQoc3RydWN0IGZpbGUgKmYsIGNoYXIgX191c2VyICpidWYsCiBERUZJTkVf
-U0hPV19BVFRSSUJVVEUoZG11Yl9md19zdGF0ZSk7CiBERUZJTkVfU0hPV19BVFRSSUJVVEUoZG11
-Yl90cmFjZWJ1ZmZlcik7CiBERUZJTkVfU0hPV19BVFRSSUJVVEUob3V0cHV0X2JwYyk7Ci1ERUZJ
-TkVfU0hPV19BVFRSSUJVVEUodnJyX3JhbmdlKTsKICNpZmRlZiBDT05GSUdfRFJNX0FNRF9EQ19I
-RENQCiBERUZJTkVfU0hPV19BVFRSSUJVVEUoaGRjcF9zaW5rX2NhcGFiaWxpdHkpOwogI2VuZGlm
-CkBAIC0xMDU5LDcgKzEwNDAsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHsKIAkJeyJwaHlfc2V0
-dGluZ3MiLCAmZHBfcGh5X3NldHRpbmdzX2RlYnVnZnNfZm9wfSwKIAkJeyJ0ZXN0X3BhdHRlcm4i
-LCAmZHBfcGh5X3Rlc3RfcGF0dGVybl9mb3BzfSwKIAkJeyJvdXRwdXRfYnBjIiwgJm91dHB1dF9i
-cGNfZm9wc30sCi0JCXsidnJyX3JhbmdlIiwgJnZycl9yYW5nZV9mb3BzfSwKICNpZmRlZiBDT05G
-SUdfRFJNX0FNRF9EQ19IRENQCiAJCXsiaGRjcF9zaW5rX2NhcGFiaWxpdHkiLCAmaGRjcF9zaW5r
-X2NhcGFiaWxpdHlfZm9wc30sCiAjZW5kaWYKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZGVidWdmcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzLmMKaW5kZXggYmZlNDYw
-MmYyMDZiLi4zZDcxODIwMDEwMDQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVi
-dWdmcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmcy5jCkBAIC0zNzYsNiArMzc2
-LDI0IEBAIHN0YXRpYyBzc2l6ZV90IGVkaWRfd3JpdGUoc3RydWN0IGZpbGUgKmZpbGUsIGNvbnN0
-IGNoYXIgX191c2VyICp1YnVmLAogCXJldHVybiAocmV0KSA/IHJldCA6IGxlbjsKIH0KIAorLyoK
-KyAqIFJldHVybnMgdGhlIG1pbiBhbmQgbWF4IHZyciB2ZnJlcSB0aHJvdWdoIHRoZSBjb25uZWN0
-b3IncyBkZWJ1Z2ZzIGZpbGUuCisgKiBFeGFtcGxlIHVzYWdlOiBjYXQgL3N5cy9rZXJuZWwvZGVi
-dWcvZHJpLzAvRFAtMS92cnJfcmFuZ2UKKyAqLworc3RhdGljIGludCB2cnJfcmFuZ2Vfc2hvdyhz
-dHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRhdGEpCit7CisJc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvciA9IG0tPnByaXZhdGU7CisKKwlpZiAoY29ubmVjdG9yLT5zdGF0dXMgIT0gY29u
-bmVjdG9yX3N0YXR1c19jb25uZWN0ZWQpCisJCXJldHVybiAtRU5PREVWOworCisJc2VxX3ByaW50
-ZihtLCAiTWluOiAldVxuIiwgKHU4KWNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLm1vbml0b3JfcmFu
-Z2UubWluX3ZmcmVxKTsKKwlzZXFfcHJpbnRmKG0sICJNYXg6ICV1XG4iLCAodTgpY29ubmVjdG9y
-LT5kaXNwbGF5X2luZm8ubW9uaXRvcl9yYW5nZS5tYXhfdmZyZXEpOworCisJcmV0dXJuIDA7Cit9
-CitERUZJTkVfU0hPV19BVFRSSUJVVEUodnJyX3JhbmdlKTsKKwogc3RhdGljIGNvbnN0IHN0cnVj
-dCBmaWxlX29wZXJhdGlvbnMgZHJtX2VkaWRfZm9wcyA9IHsKIAkub3duZXIgPSBUSElTX01PRFVM
-RSwKIAkub3BlbiA9IGVkaWRfb3BlbiwKQEAgLTQxMyw2ICs0MzEsMTAgQEAgdm9pZCBkcm1fZGVi
-dWdmc19jb25uZWN0b3JfYWRkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiAJLyog
-ZWRpZCAqLwogCWRlYnVnZnNfY3JlYXRlX2ZpbGUoImVkaWRfb3ZlcnJpZGUiLCBTX0lSVUdPIHwg
-U19JV1VTUiwgcm9vdCwgY29ubmVjdG9yLAogCQkJICAgICZkcm1fZWRpZF9mb3BzKTsKKworCS8q
-IHZyciByYW5nZSAqLworCWRlYnVnZnNfY3JlYXRlX2ZpbGUoInZycl9yYW5nZSIsIFNfSVJVR08s
-IHJvb3QsIGNvbm5lY3RvciwKKwkJCSAgICAmdnJyX3JhbmdlX2ZvcHMpOwogfQogCiB2b2lkIGRy
-bV9kZWJ1Z2ZzX2Nvbm5lY3Rvcl9yZW1vdmUoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-cikKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+This is an initial set of patches for enabling VRR support in i915.
+This series has patches for:
+1. Adding a drm dpcd helper to read ignore MSA
+   bit in sink's DPCD indicating sink support for VRR
+2. Attach and set VRR capable connector prop for Intel DP conn
+3. Expose VRR min and max through debugfs
+
+Aditya Swarup (1):
+  drm/i915/dp: Attach and set drm connector VRR property
+
+Bhanuprakash Modem (1):
+  drm/debug: Expose connector VRR monitor range via debugfs
+
+Manasi Navare (1):
+  drm/dp: DRM DP helper for reading Ignore MSA from DPCD
+
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 --------------
+ drivers/gpu/drm/drm_debugfs.c                 | 22 +++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.c       | 27 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_dp.h       |  2 ++
+ include/drm/drm_dp_helper.h                   |  8 ++++++
+ 5 files changed, 59 insertions(+), 20 deletions(-)
+
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
