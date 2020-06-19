@@ -2,53 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32FA202FC5
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 08:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C00203022
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873066E138;
-	Mon, 22 Jun 2020 06:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96236E194;
+	Mon, 22 Jun 2020 07:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61DD36E138
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jun 2020 06:34:28 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id e5so12165132ote.11
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jun 2020 23:34:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fA+O46nAmMQU+XrEe2RpDVyUBd8QOlVEvixhrlksQsk=;
- b=b9/LB+2uOPC2C+s6xNSxYSTXptcjEphcExsNN+CkhnNfNoRXsHKjNJYc3YIrGGzPDH
- ++YxJtnCQUmP3PD/YQoMg/BlUCiy2n33EYzQBEfkxbebiB4hcx+BikkxstWpvr+y3jeX
- qgY4neCyplc7bi0sc+Gdk8vAKpmLkwwstm8khaq3fbVVb7HDadQ1Q458wU68MPQxzS/Z
- sKdhLfpy4uFaJz0QHpn96Y+zk/5kQNrBiA9YhzfBvyyxrYtyVmgmVok3dFllvH+gkabs
- KUE7uG1jIz+vpHmlB+wXVLblZD793pLEMsMXUA69TEoyqALcnB7iSbmSmSPNwdOOR0j+
- bmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fA+O46nAmMQU+XrEe2RpDVyUBd8QOlVEvixhrlksQsk=;
- b=FK5cVyk39dbldIRFF/SCpik3cjfnqMAxRhk77QOO/xbWQkK7tI9a16iYW4fp10V5ZS
- LJLr2Ijj9y+TBADMq7Q2FVY45Xz0mY88yinlzi8k5wPbq1tsQrtLHvo1ZsHa2NTOcyus
- Cq1XGDrmROhHrKK1B29qxUQWy+TyabPZHpD69tqDfio9ILd49N0AVKRpMaGOIzFKqioo
- qT/xXbse5mHsmc4oX2AwWEEUmBCl7dyI2CdToOPLrWbnxwxZ1jD4S91dbJDQO834T0sv
- MYo5FJAA2ujOx7r8RYf133Vu5SX68Tv3SxKFtiXAQ74/40LGQS2T7HgLmyWOVGKY4ASS
- q7Lw==
-X-Gm-Message-State: AOAM533su3qM+gYhJT8NSXE0MBC+Tyxcvg6hWL4GwsLMlfQX9wU42T95
- IkZdqzCgg0k++JEu5oQ8S2QAipZimEiXRKhmvmMqtA==
-X-Google-Smtp-Source: ABdhPJxjGYyJCmNve/9hcTZprbdLfZ54EQVt63NfNc2V6+/VXUjw/7gvzl9rJpUsQ+QN/VfX1wCUG1xliQmhzsSqEsY=
-X-Received: by 2002:a9d:64da:: with SMTP id n26mr7434635otl.36.1592807667489; 
- Sun, 21 Jun 2020 23:34:27 -0700 (PDT)
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2DE6E17C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 07:21:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=k1; bh=Tx1HKfhcOXw7ejBWKidFnCtFoaUu
+ r9y0RAg5uUGEalE=; b=OrBsnhQJjJUlLKpVyJLvgJDRgFo6cVeSKwNw5whAk1AS
+ duWZ4NZ9Ch+3QWEsGdZREuHzzRqPWAfkp64Av2jnS/dA2KVd6SzqUUm7NBVOyIVj
+ GkNDuReFg/5jGv2PZfkYPbR8qhANBWxMzw9SkNK6sXj38epcHqUXGxog472xQc8=
+Received: (qmail 2435058 invoked from network); 19 Jun 2020 09:21:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 19 Jun 2020 09:21:20 +0200
+X-UD-Smtp-Session: l3s3148p1@FpZVvWqoYMdQT+F6
+Date: Fri, 19 Jun 2020 09:21:19 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
+Message-ID: <20200619072119.GB1705@kunai>
+References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20200611114418.19852-1-sumit.semwal@linaro.org>
- <59f0062d-5ca9-84f1-ba92-c3463ff0e73d@codeaurora.org>
-In-Reply-To: <59f0062d-5ca9-84f1-ba92-c3463ff0e73d@codeaurora.org>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Mon, 22 Jun 2020 12:04:16 +0530
-Message-ID: <CAO_48GHRf0AHTVFhroVe4O=+QVeHKNfKNwAf+5ioYyi1h7+Hsw@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
-To: Charan Teja Kalla <charante@codeaurora.org>
+In-Reply-To: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
+X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,84 +43,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Chenbo Feng <fengc@google.com>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
- "# 3.4.x" <stable@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0627768383=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Charan,
 
-On Tue, 16 Jun 2020 at 19:13, Charan Teja Kalla <charante@codeaurora.org> wrote:
->
-> Thanks Sumit for the fix.
->
-> On 6/11/2020 5:14 PM, Sumit Semwal wrote:
-> > Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
-> > happens if the dma_buf_release() is called while the userspace is
-> > accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
-> > and dma_buf_release() releases the dmabuf object when the last reference
-> > to the struct file goes away.
-> >
-> > I discussed with Arnd Bergmann, and he suggested that rather than tying
-> > the dma_buf_release() to the file_operations' release(), we can tie it to
-> > the dentry_operations' d_release(), which will be called when the last ref
-> > to the dentry is removed.
-> >
-> > The path exercised by __fput() calls f_op->release() first, and then calls
-> > dput, which eventually calls d_op->d_release().
-> >
-> > In the 'normal' case, when no userspace access is happening via dma_buf
-> > pseudo fs, there should be exactly one fd, file, dentry and inode, so
-> > closing the fd will kill of everything right away.
-> >
-> > In the presented case, the dentry's d_release() will be called only when
-> > the dentry's last ref is released.
-> >
-> > Therefore, lets move dma_buf_release() from fops->release() to
-> > d_ops->d_release()
-> >
-> > Many thanks to Arnd for his FS insights :)
-> >
-> > [1]: https://lore.kernel.org/patchwork/patch/1238278/
-> >
-> > Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> > Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-> > Cc: <stable@vger.kernel.org> [5.3+]
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Reported-by: Charan Teja Reddy <charante@codeaurora.org>
-> > Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> > Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-> >
->
-> Tested this patch for Android running on Snapdragon hardware and see no
-> issues.
-> Tested-by: Charan Teja Reddy <charante@codeaurora.org>
-Thanks for your tested-by, appreciate it!
+--===============0627768383==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
+Content-Disposition: inline
 
-Chris,
-any luck with your CI to test if this also helps your
-dma_buf_release() bug that you guys have seen?
 
-If you've not been able to test, and there are no more objections by
-EOD today, I will merge this to the drm-misc-fixes branch.
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->
-> > ---
-> > v2: per Arnd: Moved dma_buf_release() above to avoid forward declaration;
-> >      removed dentry_ops check.
-> > ---
+On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
+> I want to remove the above API this cycle, and just a few patches have
+> not made it into 5.8-rc1. They have been reviewed and most had been
+> promised to get into linux-next, but well, things happen. So, I hope it
+> is okay for everyone to collect them like this and push them via I2C for
+> 5.8-rc2.
+>=20
+> One minor exception is the media documentation patch which I simply have
+> missed so far, but it is trivial.
+>=20
+> And then, finally, there is the removal of the old API as the final
+> patch. Phew, that's been a long ride.
+>=20
+> I am open for comments, of course.
 
-<snip>
-Best,
-Sumit.
+Applied to for-current, thanks!
+
+
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7sZ2sACgkQFA3kzBSg
+KbZVtBAAjxj8/yCiqHPP8gPXOpd8hStQqYaqlvw6NW5ddjUNy8nDaA/ztSbvpdDv
+RKtamlqk9b6JKoOgP0Fxe6xQfysX5qdg9DOKGlAS+atbNTQNydlCovfYbUARyJtz
+RoiP0jzxCquuoLcSWAtGWzBhG350v33bysM+zVe4yakWp2ILF8Y1y5l+7/tgXFZB
+HbVGxYihsGm76WPlXRRACWrKB1HsieEPVUXDCzG9BLMicuy1Ly7en7UdhkiJnzpz
++Pk1OVCXpDHoKewKv2uK8sbf+TSy9hdesPCO40TZC1Oe1hB2fJGPOV3XsR0CZ7iS
+mC7vRPd3rNw62m4zMDxIX0Le5QlCQCpwiW8uSNj7IuadxM5p34b2J6cqTeQBEz5K
+y33mJTVybc2yClSvrFDnXNj1Zagz1M4vMVpDLGTBX45rzxmShlzl2inG9hVZblw8
+EMSYAefZUHfgc7HptbdTQsTQkjlS1Q5wg9lHXWXGdtFE/oEhOV/DGQOLQwlBH6jD
+shVnrzLQcr7mUgJCq2+x8dTs73TnupyVCcRIDh2iTXPmd6UGByIAUN5yTC5GkUIf
+wmtRQyJfYHNEvtdFC+jehCarVj0zO0JmzDX434FUDJMFvXa9a2vqJLORds5ASJl7
+3K+Xupy+eSX6trVDd7StjIQYraYbn2rFko60famD5ePLbfpGuDE=
+=kh1x
+-----END PGP SIGNATURE-----
+
+--LpQ9ahxlCli8rRTG--
+
+--===============0627768383==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0627768383==--
