@@ -1,35 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C702003CD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 10:25:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFB5200461
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 10:52:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5916E187;
-	Fri, 19 Jun 2020 08:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 975CA6EC36;
+	Fri, 19 Jun 2020 08:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE9666E175;
- Fri, 19 Jun 2020 08:25:39 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 21546145-1500050 for multiple; Fri, 19 Jun 2020 09:25:14 +0100
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C4E6EC37
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 08:52:11 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id g7so6691683oti.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 01:52:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0iYzCssyK2TOwvjJibrr8lmgnan0eqOfQGCXFa8hzl0=;
+ b=HvD+Ne6fK6tCSG8Ft3uKDnfSuzn6rl8X1bAjFeiWT8vLPxEZjmJncX8oPK8misPEJl
+ +HrZH0ljU7LXjvI51GglxKLsrLx7GnkTO0i9JHRKNaySPY7UvFYcWLbKK6s5M2at9ofp
+ O94/1+kJhIU/ih79NJR26M53HyeVdchNZ7UUw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0iYzCssyK2TOwvjJibrr8lmgnan0eqOfQGCXFa8hzl0=;
+ b=bWQk2etotgY9/3rGhxdZNVb+DKPa8/1J5fsurQtyYVYzuEgwZC6vN4/gLvYNjwA9KI
+ 5p74QEE2/dREhkmiLTurb2KAPKTq4Bep5hxq5ZVft55Q/lFckWkY1eb+ahSlD1aU9H+1
+ kzWrbl+gpeWnUCWDb99awNqpdR3mzZdptdHCZYNAMpwH+MN9t/7tAS6SkKkb9kfN6Qvk
+ rlAb6ibLM6Siz8lo+kUrBDkBYNkPi15csNW9o2EdGRvTHndWfzOYSK+BCF11BCsixxaJ
+ w2lO6qWrTePDQjjdXICXbvJkBN3xrOIK5xT/EGD5LZSRkNuGrdvd1oB4oZsPNAR6heUx
+ 5mFw==
+X-Gm-Message-State: AOAM5304YHWA8ICsovmkQOj5XgPGThGuHN/7WJ07kpv2lCA3+bjNWwsF
+ HPFYaaj71n/rUuTXGhAQI5JeC4Mblng9CcMA99IbvA==
+X-Google-Smtp-Source: ABdhPJxybPB/cZuqnk3F2rp1schcwun27NaO2y2oNb7MhnziSDv7aRjRiagVJoh+hyyaLoyN6YBKcFhlPmqt4m4HeSs=
+X-Received: by 2002:a9d:4cd:: with SMTP id 71mr2341025otm.188.1592556730628;
+ Fri, 19 Jun 2020 01:52:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
 References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
  <20200604081224.863494-4-daniel.vetter@ffwll.ch>
  <159186243606.1506.4437341616828968890@build.alporthouse.com>
  <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
  <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+ <159255511144.7737.12635440776531222029@build.alporthouse.com>
+In-Reply-To: <159255511144.7737.12635440776531222029@build.alporthouse.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 19 Jun 2020 10:51:59 +0200
+Message-ID: <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
 Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Daniel Stone <daniel@fooishbar.org>, Dave Airlie <airlied@gmail.com>
-Message-ID: <159255511144.7737.12635440776531222029@build.alporthouse.com>
-User-Agent: alot/0.8.1
-Date: Fri, 19 Jun 2020 09:25:11 +0100
+To: Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,73 +63,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics Development <intel-gfx@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, DRI Development <dri-devel@lists.freedesktop.org>, "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, Thomas Hellstrom <thomas.hellstrom@intel.com>, amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@intel.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, Christian König <christian.koenig@amd.com>, Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Daniel Stone (2020-06-11 10:01:46)
-> Hi,
-> 
-> On Thu, 11 Jun 2020 at 09:44, Dave Airlie <airlied@gmail.com> wrote:
-> > On Thu, 11 Jun 2020 at 18:01, Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > Introducing a global lockmap that cannot capture the rules correctly,
-> >
-> > Can you document the rules all drivers should be following then,
-> > because from here it looks to get refactored every version of i915,
-> > and it would be nice if we could all aim for the same set of things
-> > roughly. We've already had enough problems with amdgpu vs i915 vs
-> > everyone else with fences, if this stops that in the future then I'd
-> > rather we have that than just some unwritten rules per driver and
-> > untestable.
-> 
-> As someone who has sunk a bunch of work into explicit-fencing
-> awareness in my compositor so I can never be blocked, I'd be
-> disappointed if the infrastructure was ultimately pointless because
-> the documented fencing rules were \_o_/ or thereabouts. Lockdep
-> definitely isn't my area of expertise so I can't comment on the patch
-> per se, but having something to ensure we don't hit deadlocks sure
-> seems a lot better than nothing.
-
-This is doing dependency analysis on execution contexts which is a far
-cry from doing the fence dependency analysis, and so has to actively
-ignore the cycles that must exist on the dma side, and also the cycles
-that prevent entering execution contexts on the CPU. It has to actively
-ignore scheduler execution contexts, for lockdep cries, and so we do not
-get analysis of the locking contexts along that path. This would be
-solvable along the lines of extending lockdep ala lockdep_dma_enter().
-
-Had i915's execution flow been marked up, it should have found the
-dubious wait for external fences inside the dead GPU recovery, and
-probably found a few more things to complain about with the reset locking.
-[Note we already do the same annotations for wait-vs-reset, but not
-reset-vs-execution.]
-
-Determination of which waits are legal and which are not is entirely ad
-hoc, for there is no status change tracking in the dependency analysis
-[that is once an execution context is linked to a published fence, again
-integral to lockdep.] Consider if the completion chain in atomic is
-swapped out for the morally equivalent fences along intertwined timelines,
-and so it does a bunch of dma_fence_wait() instead. Why are those waits
-legal despite them being after we have committed to fulfilling the out
-fence? [Why are the waits on and for the GPU legal, since they equally
-block execution flow?]
-
-Forcing a generic primitive to always be part of the same global map is
-horrible. You forgo being able to use the primitive for unrelated tasks,
-lose the ability to name particular contexts to gain more informative
-dependency cycle reports from having the explicit linkage. You can add
-wait_map tracking without loss of generality [in less than 10 lines],
-and you can still enforce that all fences used for a common purpose
-follow the same rules [the simplest way being to default to the singular
-wait_map]. But it's the explicitly named execution contexts that are the
-biggest boon to reading the code and reading the lockdep warns.
-
-This is a bunch of ad hoc tracking for a very narrow purpose applied
-globally, with loss of information.
--Chris
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBKdW4gMTksIDIwMjAgYXQgMTA6MjUgQU0gQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJp
+cy13aWxzb24uY28udWs+IHdyb3RlOgo+Cj4gUXVvdGluZyBEYW5pZWwgU3RvbmUgKDIwMjAtMDYt
+MTEgMTA6MDE6NDYpCj4gPiBIaSwKPiA+Cj4gPiBPbiBUaHUsIDExIEp1biAyMDIwIGF0IDA5OjQ0
+LCBEYXZlIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+IHdyb3RlOgo+ID4gPiBPbiBUaHUsIDEx
+IEp1biAyMDIwIGF0IDE4OjAxLCBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51
+az4gd3JvdGU6Cj4gPiA+ID4gSW50cm9kdWNpbmcgYSBnbG9iYWwgbG9ja21hcCB0aGF0IGNhbm5v
+dCBjYXB0dXJlIHRoZSBydWxlcyBjb3JyZWN0bHksCj4gPiA+Cj4gPiA+IENhbiB5b3UgZG9jdW1l
+bnQgdGhlIHJ1bGVzIGFsbCBkcml2ZXJzIHNob3VsZCBiZSBmb2xsb3dpbmcgdGhlbiwKPiA+ID4g
+YmVjYXVzZSBmcm9tIGhlcmUgaXQgbG9va3MgdG8gZ2V0IHJlZmFjdG9yZWQgZXZlcnkgdmVyc2lv
+biBvZiBpOTE1LAo+ID4gPiBhbmQgaXQgd291bGQgYmUgbmljZSBpZiB3ZSBjb3VsZCBhbGwgYWlt
+IGZvciB0aGUgc2FtZSBzZXQgb2YgdGhpbmdzCj4gPiA+IHJvdWdobHkuIFdlJ3ZlIGFscmVhZHkg
+aGFkIGVub3VnaCBwcm9ibGVtcyB3aXRoIGFtZGdwdSB2cyBpOTE1IHZzCj4gPiA+IGV2ZXJ5b25l
+IGVsc2Ugd2l0aCBmZW5jZXMsIGlmIHRoaXMgc3RvcHMgdGhhdCBpbiB0aGUgZnV0dXJlIHRoZW4g
+SSdkCj4gPiA+IHJhdGhlciB3ZSBoYXZlIHRoYXQgdGhhbiBqdXN0IHNvbWUgdW53cml0dGVuIHJ1
+bGVzIHBlciBkcml2ZXIgYW5kCj4gPiA+IHVudGVzdGFibGUuCj4gPgo+ID4gQXMgc29tZW9uZSB3
+aG8gaGFzIHN1bmsgYSBidW5jaCBvZiB3b3JrIGludG8gZXhwbGljaXQtZmVuY2luZwo+ID4gYXdh
+cmVuZXNzIGluIG15IGNvbXBvc2l0b3Igc28gSSBjYW4gbmV2ZXIgYmUgYmxvY2tlZCwgSSdkIGJl
+Cj4gPiBkaXNhcHBvaW50ZWQgaWYgdGhlIGluZnJhc3RydWN0dXJlIHdhcyB1bHRpbWF0ZWx5IHBv
+aW50bGVzcyBiZWNhdXNlCj4gPiB0aGUgZG9jdW1lbnRlZCBmZW5jaW5nIHJ1bGVzIHdlcmUgXF9v
+Xy8gb3IgdGhlcmVhYm91dHMuIExvY2tkZXAKPiA+IGRlZmluaXRlbHkgaXNuJ3QgbXkgYXJlYSBv
+ZiBleHBlcnRpc2Ugc28gSSBjYW4ndCBjb21tZW50IG9uIHRoZSBwYXRjaAo+ID4gcGVyIHNlLCBi
+dXQgaGF2aW5nIHNvbWV0aGluZyB0byBlbnN1cmUgd2UgZG9uJ3QgaGl0IGRlYWRsb2NrcyBzdXJl
+Cj4gPiBzZWVtcyBhIGxvdCBiZXR0ZXIgdGhhbiBub3RoaW5nLgo+Cj4gVGhpcyBpcyBkb2luZyBk
+ZXBlbmRlbmN5IGFuYWx5c2lzIG9uIGV4ZWN1dGlvbiBjb250ZXh0cyB3aGljaCBpcyBhIGZhcgo+
+IGNyeSBmcm9tIGRvaW5nIHRoZSBmZW5jZSBkZXBlbmRlbmN5IGFuYWx5c2lzLCBhbmQgc28gaGFz
+IHRvIGFjdGl2ZWx5Cj4gaWdub3JlIHRoZSBjeWNsZXMgdGhhdCBtdXN0IGV4aXN0IG9uIHRoZSBk
+bWEgc2lkZSwgYW5kIGFsc28gdGhlIGN5Y2xlcwo+IHRoYXQgcHJldmVudCBlbnRlcmluZyBleGVj
+dXRpb24gY29udGV4dHMgb24gdGhlIENQVS4gSXQgaGFzIHRvIGFjdGl2ZWx5Cj4gaWdub3JlIHNj
+aGVkdWxlciBleGVjdXRpb24gY29udGV4dHMsIGZvciBsb2NrZGVwIGNyaWVzLCBhbmQgc28gd2Ug
+ZG8gbm90Cj4gZ2V0IGFuYWx5c2lzIG9mIHRoZSBsb2NraW5nIGNvbnRleHRzIGFsb25nIHRoYXQg
+cGF0aC4gVGhpcyB3b3VsZCBiZQo+IHNvbHZhYmxlIGFsb25nIHRoZSBsaW5lcyBvZiBleHRlbmRp
+bmcgbG9ja2RlcCBhbGEgbG9ja2RlcF9kbWFfZW50ZXIoKS4KCmRybS9zY2hlZHVsZXIgaXMgYW5u
+b3RhdGVkLCBmb3VuZCBzb21lIHJhdGhlciBpbXByb2JhYmx5IHRvIGhpdCBpc3N1ZXMKaW4gcHJh
+Y3RpY2UuIEJ1dCBmcm9tIHRoZSBxdWljayBjaGF0IEkndmUgaGFkIHdpdGggS8O2bmlnIGFuZCBv
+dGhlcnMgSQp0aGluayBoZSBhZ3JlZXMgdGhhdCBpdCdzIHJlYWwgYXQgbGVhc3QgaW4gdGhlIHRo
+ZW9yZXRpY2FsIHNlbnNlLgpQcm9iYWJseSBzaG91bGQgY29uc2lkZXIgcGxheWluZyBsb3R0ZXJ5
+IGlmIHlvdSBoaXQgaXQgaW4gcHJhY3RpY2UKdGhvdWdoIDotKQoKPiBIYWQgaTkxNSdzIGV4ZWN1
+dGlvbiBmbG93IGJlZW4gbWFya2VkIHVwLCBpdCBzaG91bGQgaGF2ZSBmb3VuZCB0aGUKPiBkdWJp
+b3VzIHdhaXQgZm9yIGV4dGVybmFsIGZlbmNlcyBpbnNpZGUgdGhlIGRlYWQgR1BVIHJlY292ZXJ5
+LCBhbmQKPiBwcm9iYWJseSBmb3VuZCBhIGZldyBtb3JlIHRoaW5ncyB0byBjb21wbGFpbiBhYm91
+dCB3aXRoIHRoZSByZXNldCBsb2NraW5nLgo+IFtOb3RlIHdlIGFscmVhZHkgZG8gdGhlIHNhbWUg
+YW5ub3RhdGlvbnMgZm9yIHdhaXQtdnMtcmVzZXQsIGJ1dCBub3QKPiByZXNldC12cy1leGVjdXRp
+b24uXQoKSSBrbm93IGl0IHNwbGF0cywgdGhhdCdzIHdoeSB0aGUgdGRyIGFubm90YXRpb24gcGF0
+Y2ggY29tZXMgd2l0aCBhCnNwZWMgcHJvcG9zYWwgZm9yIGxpZnRpbmcgdGhlIHdhaXQgYnVzdGlu
+ZyB3ZSBkbyBpbiBpOTE1IHRvIHRoZQpkbWFfZmVuY2UgbGV2ZWwuIEkgaW5jbHVkZWQgdGhhdCBi
+ZWNhdXNlIGFtZGdwdSBoYXMgdGhlIHNhbWUgcHJvYmxlbQpvbiBtb2Rlcm4gaHcuIEFwcGFyZW50
+bHkgdGhlaXIgcGxhbm5lZCBmaXggKGJlY2F1c2UgdGhleSd2ZSBoaXQgdGhpcwpidWcgaW4gdGVz
+dGluZykgd2FzIHRvIHB1c2ggc29tZSBzaGFyZWQgbG9jayBkb3duIGludG8gdGhlaXIKYXRvbWlj
+X2NvbWl0X3RhaWwgZnVuY3Rpb24gYW5kIHVzZSB0aGF0IGluIGdwdSByZXNldCwgc28gZG9uJ3Qg
+c2VlbQp0aGF0IGludGVyZXN0ZWQgaW4gZXh0ZW5kaW5nIGRtYV9mZW5jZS4KCkZvciBpOTE1IGl0
+J3MganVzdCBnZW4yLzMgZGlzcGxheSwgYW5kIGNyb3NzLWRyaXZlciBkbWEtYnVmL2ZlbmNlCnVz
+YWdlIGZvciB0aG9zZSBpcyBuaWwgYW5kIHdvbid0IGNoYW5nZS4gUHJhZ21hdGljIHNvbHV0aW9u
+IGltbyB3b3VsZApiZSB0byBqdXN0IG5vdCBhbm5vdGF0ZSBncHUgcmVzZXQgb24gdGhlc2UgcGxh
+dGZvcm1zLCBhbmQgcmVseWluZyBvbgpvdXIgd2FpdCBidXN0aW5nIHBsdXMgaWd0IHRlc3RzIHRv
+IG1ha2Ugc3VyZSBpdCBrZWVwcyB3b3JraW5nIGFzLWlzLgpUaGUgcG9pbnQgb2YgdGhlIGV4cGxp
+Y2l0IGFubm90YXRpb25zIGZvciB0aGUgc2lnbmFsbGluZyBzaWRlIGlzIHZlcnkKbXVjaCB0aGF0
+IGl0IGNhbiBiZSByb2xsZWQgb3V0IGdyYWR1YWxseSwgYW5kIGVudGlyZWx5IGxlZnQgb3V0IGZv
+cgpvbGQgbGVnYWN5IHBhdGhzIHRoYXQgYXJlbid0IHdvcnRoIGZpeGluZy4KCj4gRGV0ZXJtaW5h
+dGlvbiBvZiB3aGljaCB3YWl0cyBhcmUgbGVnYWwgYW5kIHdoaWNoIGFyZSBub3QgaXMgZW50aXJl
+bHkgYWQKPiBob2MsIGZvciB0aGVyZSBpcyBubyBzdGF0dXMgY2hhbmdlIHRyYWNraW5nIGluIHRo
+ZSBkZXBlbmRlbmN5IGFuYWx5c2lzCj4gW3RoYXQgaXMgb25jZSBhbiBleGVjdXRpb24gY29udGV4
+dCBpcyBsaW5rZWQgdG8gYSBwdWJsaXNoZWQgZmVuY2UsIGFnYWluCj4gaW50ZWdyYWwgdG8gbG9j
+a2RlcC5dIENvbnNpZGVyIGlmIHRoZSBjb21wbGV0aW9uIGNoYWluIGluIGF0b21pYyBpcwo+IHN3
+YXBwZWQgb3V0IGZvciB0aGUgbW9yYWxseSBlcXVpdmFsZW50IGZlbmNlcyBhbG9uZyBpbnRlcnR3
+aW5lZCB0aW1lbGluZXMsCj4gYW5kIHNvIGl0IGRvZXMgYSBidW5jaCBvZiBkbWFfZmVuY2Vfd2Fp
+dCgpIGluc3RlYWQuIFdoeSBhcmUgdGhvc2Ugd2FpdHMKPiBsZWdhbCBkZXNwaXRlIHRoZW0gYmVp
+bmcgYWZ0ZXIgd2UgaGF2ZSBjb21taXR0ZWQgdG8gZnVsZmlsbGluZyB0aGUgb3V0Cj4gZmVuY2U/
+IFtXaHkgYXJlIHRoZSB3YWl0cyBvbiBhbmQgZm9yIHRoZSBHUFUgbGVnYWwsIHNpbmNlIHRoZXkg
+ZXF1YWxseQo+IGJsb2NrIGV4ZWN1dGlvbiBmbG93P10KCk5vIG5lZWQgdG8gY29uc2lkZXIsIGl0
+J3MgYWxyZWFkeSByZWFsIGFuZCByZXN1bHRlZCBpbiBzb21lIHByZXR0eQpzcGxhdHMgdW50aWwg
+SSBnb3QgdGhlIHJlY3Vyc2lvbiBoYW5kbGluZyByaWdodC4KCj4gRm9yY2luZyBhIGdlbmVyaWMg
+cHJpbWl0aXZlIHRvIGFsd2F5cyBiZSBwYXJ0IG9mIHRoZSBzYW1lIGdsb2JhbCBtYXAgaXMKPiBo
+b3JyaWJsZS4gWW91IGZvcmdvIGJlaW5nIGFibGUgdG8gdXNlIHRoZSBwcmltaXRpdmUgZm9yIHVu
+cmVsYXRlZCB0YXNrcywKPiBsb3NlIHRoZSBhYmlsaXR5IHRvIG5hbWUgcGFydGljdWxhciBjb250
+ZXh0cyB0byBnYWluIG1vcmUgaW5mb3JtYXRpdmUKPiBkZXBlbmRlbmN5IGN5Y2xlIHJlcG9ydHMg
+ZnJvbSBoYXZpbmcgdGhlIGV4cGxpY2l0IGxpbmthZ2UuIFlvdSBjYW4gYWRkCj4gd2FpdF9tYXAg
+dHJhY2tpbmcgd2l0aG91dCBsb3NzIG9mIGdlbmVyYWxpdHkgW2luIGxlc3MgdGhhbiAxMCBsaW5l
+c10sCj4gYW5kIHlvdSBjYW4gc3RpbGwgZW5mb3JjZSB0aGF0IGFsbCBmZW5jZXMgdXNlZCBmb3Ig
+YSBjb21tb24gcHVycG9zZQo+IGZvbGxvdyB0aGUgc2FtZSBydWxlcyBbdGhlIHNpbXBsZXN0IHdh
+eSBiZWluZyB0byBkZWZhdWx0IHRvIHRoZSBzaW5ndWxhcgo+IHdhaXRfbWFwXS4gQnV0IGl0J3Mg
+dGhlIGV4cGxpY2l0bHkgbmFtZWQgZXhlY3V0aW9uIGNvbnRleHRzIHRoYXQgYXJlIHRoZQo+IGJp
+Z2dlc3QgYm9vbiB0byByZWFkaW5nIHRoZSBjb2RlIGFuZCByZWFkaW5nIHRoZSBsb2NrZGVwIHdh
+cm5zLgoKU28gb25lIHRoaW5nIHRoYXQncyBtYXliZSBub3QgY2xlYXIgaGVyZTogVGhpcyBkb2Vz
+bid0IHRyYWNrIHRoZSBEQUcKb2YgZGVwZW5kZW5jaWVzLiBEb2Vzbid0IGV2ZW4gdHJ5LCBJJ20g
+c3RpbGwgZmFpdGhmdWxseSBhc3N1bWluZwpkcml2ZXJzIGdldCB0aGF0IHBhcnQgcmlnaHQuIFdo
+aWNoIGlzIGEgZ2FwIGFuZCBtYXliZSB3ZSBzaG91bGQgZml4CnRoaXMsIGJ1dCBub3QgdGhlIGdv
+YWwgaGVyZS4KCkFsbCB0aGlzIGRvZXMgaXMgdmFsaWRhdGUgZmVuY2VzIGFnYWluc3QgYW55dGhp
+bmcgZWxzZSB0aGF0IG1pZ2h0IGJlCmdvaW5nIG9uIGluIHRoZSBzeXN0ZW0uIEUuZy4geW91ciBy
+ZWN1cnNpb24gZXhhbXBsZSBmb3IgYXRvbWljIGlzCmhhbmRsZWQgYnkganVzdCBhc3N1bWluZyB0
+aGF0IGFueSBkbWFfZmVuY2Vfd2FpdCB3aXRoaW4gYSBzaWduYWxsaW5nCnNlY3Rpb24gaXMgbGVn
+aXQgYW5kIGNvcnJlY3QuIFdlIGNhbiBhZGQgdGhpcyBsYXRlciBvbiwgYnV0IG5vdCB3aXRoCmxv
+Y2tkZXAsIHNpbmNlIGxvY2tkZXAgd29ya3Mgd2l0aCBjbGFzc2VzLiBBbmQgcHJvb2ZpbmcgdGhh
+dApkbWFfZmVuY2VzIGFyZSBhY3ljbGljIHJlcXVpcmVzIHlvdSB0cmFjayB0aGVtIGFsbCBhcyBp
+bmRpdmlkdWFscy4KRW50aXJlbHkgZGlmZmVyZW50IHRoaW5ncy4KClRoYXQgc3RpbGwgbGVhdmVz
+IHRoZSBiZWxvdzoKCj4gRm9yY2luZyBhIGdlbmVyaWMgcHJpbWl0aXZlIHRvIGFsd2F5cyBiZSBw
+YXJ0IG9mIHRoZSBzYW1lIGdsb2JhbCBtYXAgaXMKPiBob3JyaWJsZS4KCkFuZCAgbm8gY29uY3Jl
+dGUgZXhhbXBsZSBvciByZWFzb24gZm9yIHdoeSB0aGF0J3Mgbm90IHBvc3NpYmxlLgpCZWNhdXNl
+IGZyYW5rbHkgaXQncyBub3QgaG9ycmlibGUsIHRoaXMgaXMgd2hhdCB1cHN0cmVhbSBpcyBhbGwg
+YWJvdXQ6ClNoYXJlZCBjb25jZXB0cywgc2hhcmVkIGNvbnRyYWN0cywgc2hhcmVkIGNvZGUuCgpU
+aGUgcHJvcG9zZWQgcGF0Y2hlcyBtaWdodCB2ZXJ5IHdlbGwgZW5jb2RlIHRoZSB3cm9uZyBjb250
+cmFjdCwgdGhhdCdzCmFsbCB1cCBmb3IgZGlzY3Vzc2lvbi4gQnV0IGZ1bmRhbWVudGFsbHkgcXVl
+c3Rpb25pbmcgdGhhdCB3ZSBuZWVkIG9uZQppcyBtaXNzaW5nIHdoYXQgdXBzdHJlYW0gaXMgYWxs
+IGFib3V0LgoKPiBUaGlzIGlzIGEgYnVuY2ggb2YgYWQgaG9jIHRyYWNraW5nIGZvciBhIHZlcnkg
+bmFycm93IHB1cnBvc2UgYXBwbGllZAo+IGdsb2JhbGx5LCB3aXRoIGxvc3Mgb2YgaW5mb3JtYXRp
+b24uCgpJdCBkb2Vzbid0IHNvbHZlIGV2ZXJ5IHByb2JsZW0gaW5kZWVkLiBJJ20gaGFwcHkgdG8g
+cmV2aWV3IHBhdGNoZXMgdG8KY2hlY2sgYWN5Y2xpYy1uZXNzIG9mIGRtYS1mZW5jZSBhdCB0aGUg
+Z2xvYmFsIGxldmVsIGZyb20geW91LCBJCmhhdmVuJ3QgZmlndXJlZCBvdXQgeWV0IGhvdyB0byBt
+YWtlIHRoYXQgaGFwcGVuLiBJIGtub3cgaTkxNS1nZW0gaGFzCnRoYXQsIGJ1dCB0aGlzIGlzIGFi
+b3V0IHRoZSBjcm9zcy1kcml2ZXIgY29udHJhY3QgaGVyZS4KLURhbmllbAotLSAKRGFuaWVsIFZl
+dHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3
+bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
