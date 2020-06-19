@@ -2,59 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E207F201CCC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 22:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44407201D0B
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 23:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9133D6EA5E;
-	Fri, 19 Jun 2020 20:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F1E6EA65;
+	Fri, 19 Jun 2020 21:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EF26EA65
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 20:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1592600361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3zQCeY2hg03c0w2Pqa3443YwJLYT6nkTcSltvd+Vi4A=;
- b=c2pZVs4aN5wz/TjPLSiFGiz937jcjGV6ySvxU92txh0zsXK39rCAjfHwn8TQTtVOXbVWiG
- NZoTxmSo+yY6zbnsiFkd8Ze7xfOSBmxmmxEsulo16R+pWgML9SsgMm5hmOcUc0W7HNeN2T
- nhQrfqQ3A8qUpYVnq3LEWd731g3uDQE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-rrXxSD6nM6-QXDL_hIU0dg-1; Fri, 19 Jun 2020 16:59:17 -0400
-X-MC-Unique: rrXxSD6nM6-QXDL_hIU0dg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0E84193F560;
- Fri, 19 Jun 2020 20:59:14 +0000 (UTC)
-Received: from redhat.com (ovpn-112-200.rdu2.redhat.com [10.10.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A800B7C1E3;
- Fri, 19 Jun 2020 20:59:12 +0000 (UTC)
-Date: Fri, 19 Jun 2020 16:59:10 -0400
-From: Jerome Glisse <jglisse@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-Message-ID: <20200619205910.GA14480@redhat.com>
-References: <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
- <20200619113934.GN6578@ziepe.ca>
- <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
- <20200619181849.GR6578@ziepe.ca>
- <20200619201011.GB13117@redhat.com>
- <CAKMK7uFZgQH3bP4iC9MPArpngeSHESK62KFEeJvYyV9NSJ_GRw@mail.gmail.com>
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr700063.outbound.protection.outlook.com [40.107.70.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5800E6EA65;
+ Fri, 19 Jun 2020 21:21:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KgWOhWjr+Lh4ZCgd4PO7mxpVE6PlQllQwY1c+Ce1B5w1qf9f0NzqRZB/ZRgKzqpUjUcin/Z5BDNwM7d3Fqt5FyCfLSFfVj63Z7VtqXytVEs6AV2ZSqt1Oobhble1ZWZLHMrmFxr0FYQ8hETq4KZ5AT806W2KWwLDAt+fn9vggtZ5Rth7RPw5xwGbEuaDU0GiI3heW1FITdIUMt6b4hCIIUivkfOcrtYp+Dr2galix/kAJg47eXv0/pB6Ni6rfCcObbquPjikKcMEFr7MtKO3qosOKv8p89t9+1vAwpRPlDqKih+GEofC2BL3C/G+GpFpx3247OaxEqunefRLZjgWSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UsNP3XbVRSA6wGFLl6AzI1Fn6dyS2+l6lwsBZ+xrlZE=;
+ b=mYwfdroxIhFXt3TdPR/btSAGYf6gjdaL160/Qp3M16tO094jvp4e6vZBgNkhkwT8/mKQ/jHbIaH3KixRm9USiqEC43ONbwr9XgFjR61qzkyEZbK2K3Q2shwU6O0tm+1JVl7q8ChqV/loBELAD9CXC0F9r/w44GAsJ7fF/1wWOlySyZ/BuZdI7Vjb6mfU3XUre6JL9x1o1SlEAW/PedIGwOLLhPWNg8Crm6rFmVdDLs76U7nnwjdVfU3K2KpNX38dw5EiZiIWrKzGt6aRCCyqTHvw7188eslAR89+OnnMbESd7VYmC38UMG04Vsq6Icj484fUDnDqPOD5jatGTTNhEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UsNP3XbVRSA6wGFLl6AzI1Fn6dyS2+l6lwsBZ+xrlZE=;
+ b=ch2tH6sLXQ/v/scgokO2/tk7nP5Lo9nZrVF4StMSSbUqDQo8nF1kYBmzcR45WqVKpbX6EOd/Ja4HTjbp2f+HtyaDD+n/HmCDJAC6RUxavE1ITt4uqJlM6h94z6aXWRl38Ro4RS5KJNG3N2OxAhQ4mEhwzcSCWUbRoACxSE4bJcQ=
+Authentication-Results: vivo.com; dkim=none (message not signed)
+ header.d=none;vivo.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
+ by SA0PR12MB4574.namprd12.prod.outlook.com (2603:10b6:806:94::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Fri, 19 Jun
+ 2020 21:21:26 +0000
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314]) by SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314%7]) with mapi id 15.20.3109.021; Fri, 19 Jun 2020
+ 21:21:26 +0000
+Subject: Re: [PATCH] drm/amd: fix potential memleak in err branch
+To: Bernard Zhao <bernard@vivo.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20200619114533.2612-1-bernard@vivo.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <3f7e1ac8-c613-8650-56d6-715d39d5f372@amd.com>
+Date: Fri, 19 Jun 2020 17:21:23 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200619114533.2612-1-bernard@vivo.com>
+Content-Language: en-US
+X-ClientProxiedBy: YQXPR01CA0088.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:41::17) To SN1PR12MB2414.namprd12.prod.outlook.com
+ (2603:10b6:802:2e::31)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFZgQH3bP4iC9MPArpngeSHESK62KFEeJvYyV9NSJ_GRw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.63.128) by
+ YQXPR01CA0088.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00:41::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.21 via Frontend Transport; Fri, 19 Jun 2020 21:21:25 +0000
+X-Originating-IP: [142.116.63.128]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 45ce2caf-c039-413e-b962-08d81496b96a
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4574:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4574A1A5FC3E08446E59463392980@SA0PR12MB4574.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1443;
+X-Forefront-PRVS: 0439571D1D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iASdIAzRPxSe+bnlcmn/Imnv/CV8n1hePhpy05ChHiiD6zeL3xsNL0g7t9pQ/9aSuQRBlLVIKPSAwR6WB6GZpxUabcaKhMhlH4dDDdZpJe6Riv1BITDqLuoxJ42Tr10a3kXLwemSo5UwJy0mdqQq6ohg/4fg24QSaNHpXgg+ZWXu1aONBtNJo9SekPJdRABRHZXWdwCVcUd2E1EhmTz6kkxx1ptuiJ9xXYLuUdoKcPKmHSJq7xg0zIu9OARnLxrhqaJCVF8pO7qsTCHF9Wxv9Y69iskaq13RoXiEkxzH0srIvLtDgeHC2mlF0tHlkuu9wMMqWNvTK6ENtHMH2aBGawOu9YAr6wRHke4Gr9Zw6yEO8Yz/cWjXCMBn22ewB6BtboxXnmgNboG/HIbUJ7VDv7B0jiazfWsbu+sjbnwnW+U=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2414.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(39860400002)(366004)(346002)(136003)(396003)(2616005)(26005)(956004)(66476007)(66556008)(44832011)(66946007)(31696002)(5660300002)(36756003)(16526019)(186003)(86362001)(31686004)(4326008)(6486002)(16576012)(316002)(966005)(8676002)(83380400001)(2906002)(478600001)(8936002)(110136005)(52116002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: YL80xVBpoO1y8io1kkfnUyj0LvgN+FYdXlJzE3ejoDZhiRDnslQ/j9bnPi/bjRGFPL2abtPYjag5et6GcE+D8SrWMUV2nHz8FiQB5IgGbyMQgCxSR/ju6otF+aYSKgvu17lPSxE3yTfGPcBlHe8ABNc2xCetnpoINEB8tGpc3Gent1GXMLN46sSNSEBHyG5LB967H/8Dgzlws7Pe9DmjVI3LjAIgvqX76rAeHjubU6ux321JQzI/MvP72svGL4ZHJRnQ+67Klroq7JpVnBNNvk+QMqkKZ4MNpLSjmcBbf25L6scV/rOPIuy2/UoA/kbyNLzqb2JMGfDmzGiNGyX0pciLaT6dqwxz02IJNQ6WmPaY8GOfFGCFnSfMNW+c3/cuPV/0zD8khACxxVTeGMyK5qVVsKXalGzX3xt3WMjaDSvW278JJKcdCPjMYH6fh4240Etflupo+LfAtszf550f9vLj0xSWWjLqDY4N3+46+XoIOqDyAzDSCBEthzLe4uoP
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45ce2caf-c039-413e-b962-08d81496b96a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2020 21:21:26.5421 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UJ/TVsSvrQUeZ1VcHZKFo3O/b8shHyE3BRWBhKGgl26+EgSqCo6eAb8ujLByWU0dUf25X0UlMZuHmadmjtzKCA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4574
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,131 +100,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma <linux-rdma@vger.kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
- LKML <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Mika Kuoppala <mika.kuoppala@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: opensource.kernel@vivo.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 19, 2020 at 10:43:20PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 19, 2020 at 10:10 PM Jerome Glisse <jglisse@redhat.com> wrote:
-> >
-> > On Fri, Jun 19, 2020 at 03:18:49PM -0300, Jason Gunthorpe wrote:
-> > > On Fri, Jun 19, 2020 at 02:09:35PM -0400, Jerome Glisse wrote:
-> > > > On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
-> > > > > On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
-> > > > >
-> > > > > > The madness is only that device B's mmu notifier might need to =
-wait
-> > > > > > for fence_B so that the dma operation finishes. Which in turn h=
-as to
-> > > > > > wait for device A to finish first.
-> > > > >
-> > > > > So, it sound, fundamentally you've got this graph of operations a=
-cross
-> > > > > an unknown set of drivers and the kernel cannot insert itself in
-> > > > > dma_fence hand offs to re-validate any of the buffers involved?
-> > > > > Buffers which by definition cannot be touched by the hardware yet.
-> > > > >
-> > > > > That really is a pretty horrible place to end up..
-> > > > >
-> > > > > Pinning really is right answer for this kind of work flow. I think
-> > > > > converting pinning to notifers should not be done unless notifier
-> > > > > invalidation is relatively bounded.
-> > > > >
-> > > > > I know people like notifiers because they give a bit nicer perfor=
-mance
-> > > > > in some happy cases, but this cripples all the bad cases..
-> > > > >
-> > > > > If pinning doesn't work for some reason maybe we should address t=
-hat?
-> > > >
-> > > > Note that the dma fence is only true for user ptr buffer which pred=
-ate
-> > > > any HMM work and thus were using mmu notifier already. You need the
-> > > > mmu notifier there because of fork and other corner cases.
-> > >
-> > > I wonder if we should try to fix the fork case more directly - RDMA
-> > > has this same problem and added MADV_DONTFORK a long time ago as a
-> > > hacky way to deal with it.
-> > >
-> > > Some crazy page pin that resolved COW in a way that always kept the
-> > > physical memory with the mm that initiated the pin?
-> >
-> > Just no way to deal with it easily, i thought about forcing the
-> > anon_vma (page->mapping for anonymous page) to the anon_vma that
-> > belongs to the vma against which the GUP was done but it would
-> > break things if page is already in other branch of a fork tree.
-> > Also this forbid fast GUP.
-> >
-> > Quite frankly the fork was not the main motivating factor. GPU
-> > can pin potentialy GBytes of memory thus we wanted to be able
-> > to release it but since Michal changes to reclaim code this is
-> > no longer effective.
-> =
-
-> What where how? My patch to annote reclaim paths with mmu notifier
-> possibility just landed in -mm, so if direct reclaim can't reclaim mmu
-> notifier'ed stuff anymore we need to know.
-> =
-
-> Also this would resolve the entire pain we're discussing in this
-> thread about dma_fence_wait deadlocking against anything that's not
-> GFP_ATOMIC ...
-
-Sorry my bad, reclaim still works, only oom skip. It was couple
-years ago and i thought that some of the things discuss while
-back did make it upstream.
-
-It is probably a good time to also point out that what i wanted
-to do is have all the mmu notifier callback provide some kind
-of fence (not dma fence) so that we can split the notification
-into step:
-    A- schedule notification on all devices/system get fences
-       this step should minimize lock dependency and should
-       not have to wait for anything also best if you can avoid
-       memory allocation for instance by pre-allocating what
-       you need for notification.
-    B- mm can do things like unmap but can not map new page
-       so write special swap pte to cpu page table
-    C- wait on each fences from A
-    ... resume old code ie replace pte or finish unmap ...
-
-The idea here is that at step C the core mm can decide to back
-off if any fence returned from A have to wait. This means that
-every device is invalidating for nothing but if we get there
-then it might still be a good thing as next time around maybe
-the kernel would be successfull without a wait.
-
-This would allow things like reclaim to make forward progress
-and skip over or limit wait time to given timeout.
-
-Also I thought to extend this even to multi-cpu tlb flush so
-that device and CPUs follow same pattern and we can make //
-progress on each.
-
-
-Getting to such scheme is a lot of work. My plan was to first
-get the fence as part of the notifier user API and hide it from
-mm inside notifier common code. Then update each core mm path to
-new model and see if there is any benefit from it. Reclaim would
-be first candidate.
-
-Cheers,
-J=E9r=F4me
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgQmVybmFyZCwKCkkganVzdCBhcHBsaWVkIGEgcGF0Y2ggZnJvbSBhbm90aGVyIGNvbnRyaWJ1
+dG9yIGZvciB0aGUga2ZkX3RvcG9sb2d5CnBhcnQgb2YgdGhpcy4gU2VlCmh0dHBzOi8vY2dpdC5m
+cmVlZGVza3RvcC5vcmcvfmFnZDVmL2xpbnV4L2NvbW1pdC8/aD1hbWQtc3RhZ2luZy1kcm0tbmV4
+dCZpZD1mYzBmZTgxMzgzMDlmZWUzMDNiZDEyOTkxZjEyYjIzZjAxYmJmNThjCgpQbGVhc2UgcmVi
+YXNlIHlvdXIgcGF0Y2ggb24gdGhhdC4gSSBiZWxpZXZlIHRoYXQgc2hvdWxkIG9ubHkgbGVhdmUg
+dGhlCmZpeGVzIGluIGtmZF9wcm9jZXNzLmMuCgpUaGFua3MsCsKgIEZlbGl4CgpBbSAyMDIwLTA2
+LTE5IHVtIDc6NDUgYS5tLiBzY2hyaWViIEJlcm5hcmQgWmhhbzoKPiBUaGUgZnVuY3Rpb24ga29i
+amVjdF9pbml0X2FuZF9hZGQgYWxsb2MgbWVtb3J5IGxpa2U6Cj4ga29iamVjdF9pbml0X2FuZF9h
+ZGQtPmtvYmplY3RfYWRkX3ZhcmctPmtvYmplY3Rfc2V0X25hbWVfdmFyZ3MKPiAtPmt2YXNwcmlu
+dGZfY29uc3QtPmtzdHJkdXBfY29uc3QtPmtzdHJkdXAtPmttYWxsb2NfdHJhY2tfY2FsbGVyCj4g
+LT5rbWFsbG9jX3NsYWIsIGluIGVyciBicmFuY2ggdGhpcyBtZW1vcnkgbm90IGZyZWUuIElmIHVz
+ZQo+IGttZW1sZWFrLCB0aGlzIHBhdGggbWF5YmUgY2F0Y2hlZC4KPiBUaGVzZSBjaGFuZ2VzIGFy
+ZSB0byBhZGQga29iamVjdF9wdXQgaW4ga29iamVjdF9pbml0X2FuZF9hZGQKPiBmYWlsZWQgYnJh
+bmNoLCBmaXggcG90ZW50aWFsIG1lbWxlYWsuCj4KPiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpo
+YW8gPGJlcm5hcmRAdml2by5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2Zk
+L2tmZF9wcm9jZXNzLmMgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2Zk
+X3RvcG9sb2d5LmMgfCAyMCArKysrKysrKysrKysrKystLS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQs
+IDE3IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3Byb2Nlc3MuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1ka2ZkL2tmZF9wcm9jZXNzLmMKPiBpbmRleCBkMjcyMjFkZGNkZWIuLjVlZTRkNmNmYjE2ZCAx
+MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfcHJvY2Vzcy5jCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3Byb2Nlc3MuYwo+IEBAIC0xMjQs
+NiArMTI0LDcgQEAgdm9pZCBrZmRfcHJvY2ZzX2luaXQodm9pZCkKPiAgCWlmIChyZXQpIHsKPiAg
+CQlwcl93YXJuKCJDb3VsZCBub3QgY3JlYXRlIHByb2NmcyBwcm9jIGZvbGRlciIpOwo+ICAJCS8q
+IElmIHdlIGZhaWwgdG8gY3JlYXRlIHRoZSBwcm9jZnMsIGNsZWFuIHVwICovCj4gKwkJa29iamVj
+dF9wdXQocHJvY2ZzLmtvYmopOwo+ICAJCWtmZF9wcm9jZnNfc2h1dGRvd24oKTsKPiAgCX0KPiAg
+fQo+IEBAIC00MjgsNiArNDI5LDcgQEAgc3RydWN0IGtmZF9wcm9jZXNzICprZmRfY3JlYXRlX3By
+b2Nlc3Moc3RydWN0IGZpbGUgKmZpbGVwKQo+ICAJCQkJCSAgIChpbnQpcHJvY2Vzcy0+bGVhZF90
+aHJlYWQtPnBpZCk7Cj4gIAkJaWYgKHJldCkgewo+ICAJCQlwcl93YXJuKCJDcmVhdGluZyBwcm9j
+ZnMgcGlkIGRpcmVjdG9yeSBmYWlsZWQiKTsKPiArCQkJa29iamVjdF9wdXQocHJvY2Vzcy0+a29i
+aik7Cj4gIAkJCWdvdG8gb3V0Owo+ICAJCX0KPiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1ka2ZkL2tmZF90b3BvbG9neS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRr
+ZmQva2ZkX3RvcG9sb2d5LmMKPiBpbmRleCBiYjc3ZjdhZjJiNmQuLmRjM2M0MTQ5Zjg2MCAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfdG9wb2xvZ3kuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF90b3BvbG9neS5jCj4gQEAgLTYzMiw4
+ICs2MzIsMTAgQEAgc3RhdGljIGludCBrZmRfYnVpbGRfc3lzZnNfbm9kZV9lbnRyeShzdHJ1Y3Qg
+a2ZkX3RvcG9sb2d5X2RldmljZSAqZGV2LAo+ICAKPiAgCXJldCA9IGtvYmplY3RfaW5pdF9hbmRf
+YWRkKGRldi0+a29ial9ub2RlLCAmbm9kZV90eXBlLAo+ICAJCQlzeXNfcHJvcHMua29ial9ub2Rl
+cywgIiVkIiwgaWQpOwo+IC0JaWYgKHJldCA8IDApCj4gKwlpZiAocmV0IDwgMCkgewo+ICsJCWtv
+YmplY3RfcHV0KGRldi0+a29ial9ub2RlKTsKPiAgCQlyZXR1cm4gcmV0Owo+ICsJfQo+ICAKPiAg
+CWRldi0+a29ial9tZW0gPSBrb2JqZWN0X2NyZWF0ZV9hbmRfYWRkKCJtZW1fYmFua3MiLCBkZXYt
+PmtvYmpfbm9kZSk7Cj4gIAlpZiAoIWRldi0+a29ial9tZW0pCj4gQEAgLTY4MCw4ICs2ODIsMTAg
+QEAgc3RhdGljIGludCBrZmRfYnVpbGRfc3lzZnNfbm9kZV9lbnRyeShzdHJ1Y3Qga2ZkX3RvcG9s
+b2d5X2RldmljZSAqZGV2LAo+ICAJCQlyZXR1cm4gLUVOT01FTTsKPiAgCQlyZXQgPSBrb2JqZWN0
+X2luaXRfYW5kX2FkZChtZW0tPmtvYmosICZtZW1fdHlwZSwKPiAgCQkJCWRldi0+a29ial9tZW0s
+ICIlZCIsIGkpOwo+IC0JCWlmIChyZXQgPCAwKQo+ICsJCWlmIChyZXQgPCAwKSB7Cj4gKwkJCWtv
+YmplY3RfcHV0KG1lbS0+a29iaik7Cj4gIAkJCXJldHVybiByZXQ7Cj4gKwkJfQo+ICAKPiAgCQlt
+ZW0tPmF0dHIubmFtZSA9ICJwcm9wZXJ0aWVzIjsKPiAgCQltZW0tPmF0dHIubW9kZSA9IEtGRF9T
+WVNGU19GSUxFX01PREU7Cj4gQEAgLTY5OSw4ICs3MDMsMTAgQEAgc3RhdGljIGludCBrZmRfYnVp
+bGRfc3lzZnNfbm9kZV9lbnRyeShzdHJ1Y3Qga2ZkX3RvcG9sb2d5X2RldmljZSAqZGV2LAo+ICAJ
+CQlyZXR1cm4gLUVOT01FTTsKPiAgCQlyZXQgPSBrb2JqZWN0X2luaXRfYW5kX2FkZChjYWNoZS0+
+a29iaiwgJmNhY2hlX3R5cGUsCj4gIAkJCQlkZXYtPmtvYmpfY2FjaGUsICIlZCIsIGkpOwo+IC0J
+CWlmIChyZXQgPCAwKQo+ICsJCWlmIChyZXQgPCAwKSB7Cj4gKwkJCWtvYmplY3RfcHV0KGNhY2hl
+LT5rb2JqKTsKPiAgCQkJcmV0dXJuIHJldDsKPiArCQl9Cj4gIAo+ICAJCWNhY2hlLT5hdHRyLm5h
+bWUgPSAicHJvcGVydGllcyI7Cj4gIAkJY2FjaGUtPmF0dHIubW9kZSA9IEtGRF9TWVNGU19GSUxF
+X01PREU7Cj4gQEAgLTcxOCw4ICs3MjQsMTAgQEAgc3RhdGljIGludCBrZmRfYnVpbGRfc3lzZnNf
+bm9kZV9lbnRyeShzdHJ1Y3Qga2ZkX3RvcG9sb2d5X2RldmljZSAqZGV2LAo+ICAJCQlyZXR1cm4g
+LUVOT01FTTsKPiAgCQlyZXQgPSBrb2JqZWN0X2luaXRfYW5kX2FkZChpb2xpbmstPmtvYmosICZp
+b2xpbmtfdHlwZSwKPiAgCQkJCWRldi0+a29ial9pb2xpbmssICIlZCIsIGkpOwo+IC0JCWlmIChy
+ZXQgPCAwKQo+ICsJCWlmIChyZXQgPCAwKSB7Cj4gKwkJCWtvYmplY3RfcHV0KGlvbGluay0+a29i
+aik7Cj4gIAkJCXJldHVybiByZXQ7Cj4gKwkJfQo+ICAKPiAgCQlpb2xpbmstPmF0dHIubmFtZSA9
+ICJwcm9wZXJ0aWVzIjsKPiAgCQlpb2xpbmstPmF0dHIubW9kZSA9IEtGRF9TWVNGU19GSUxFX01P
+REU7Cj4gQEAgLTc5OCw4ICs4MDYsMTAgQEAgc3RhdGljIGludCBrZmRfdG9wb2xvZ3lfdXBkYXRl
+X3N5c2ZzKHZvaWQpCj4gIAkJcmV0ID0ga29iamVjdF9pbml0X2FuZF9hZGQoc3lzX3Byb3BzLmtv
+YmpfdG9wb2xvZ3ksCj4gIAkJCQkmc3lzcHJvcHNfdHlwZSwgICZrZmRfZGV2aWNlLT5rb2JqLAo+
+ICAJCQkJInRvcG9sb2d5Iik7Cj4gLQkJaWYgKHJldCA8IDApCj4gKwkJaWYgKHJldCA8IDApIHsK
+PiArCQkJa29iamVjdF9wdXQoc3lzX3Byb3BzLmtvYmpfdG9wb2xvZ3kpOwo+ICAJCQlyZXR1cm4g
+cmV0Owo+ICsJCX0KPiAgCj4gIAkJc3lzX3Byb3BzLmtvYmpfbm9kZXMgPSBrb2JqZWN0X2NyZWF0
+ZV9hbmRfYWRkKCJub2RlcyIsCj4gIAkJCQlzeXNfcHJvcHMua29ial90b3BvbG9neSk7Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
