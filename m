@@ -1,59 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B90200989
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:07:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 753F920099E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:12:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15CFF6ECA6;
-	Fri, 19 Jun 2020 13:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A186ECAB;
+	Fri, 19 Jun 2020 13:12:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C475E6ECA6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 13:06:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id a6so7675793wrm.4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 06:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=6ZcsGijeFBjmFWeyCrYME8fKNYJdrkpJbfctPNEZWTM=;
- b=M3Voe848STIMHx22PtbPlsyjMRtGu7vwUDyCTxUf5RjyYaIQw6jwzXL5Ny+sVYsjna
- /PhoxB46c7yvxRufeZBzC38JB+0jkjl1eXKYRoc3/AlR9dODi6aROqG22I7ZF9tSIBOK
- PXwEY6LuGdlET+y+GyzDTwhSAR4NT1RY4r0CA=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5C96ECA9;
+ Fri, 19 Jun 2020 13:12:23 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id r15so9067362wmh.5;
+ Fri, 19 Jun 2020 06:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:mime-version:content-transfer-encoding:in-reply-to
+ :references:subject:from:to:cc:message-id:user-agent:date;
+ bh=GkCNCBDLTGNPQOWA3LlDB+HVQOoFNOeRv8FRTeVEIsM=;
+ b=O2IoOtXTfwDLnURJ+oPXILPR4bZC5yfvkimT/xe7sHph7oSWi+9ZBJeMgu8VpB3O29
+ ry7T5AuBz/T6GsCRSKV57xS6lXox0wOBXO8sjeaiphnDq1DCuvVEW2v4bqnwaVh/2QPf
+ /0wtqTvZCSwapDz1xOsN6Mu0PnC3VB0PLCIHTsJT9jVJRXpbEC0mqIgCAd23/Xj6iIme
+ h41kY/cj1d4TZuuhdwGtSzI8WXAiTVpGeedX/ZRocox5N/ealOWbJt3k2FWnmLx3ON2B
+ h5X1CEinnZWXMmTGjhjnsyM7tqY9OpSHy2JEtUoNXVA5mL6gs8baEUtVkUR64tvx3vdi
+ GC7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6ZcsGijeFBjmFWeyCrYME8fKNYJdrkpJbfctPNEZWTM=;
- b=oOJ1b1q1U4zfCqxU6u7T4N6Hed64r3ioRqQpFO93As8cE0IjEEVmt9hCvFslAQTZFJ
- wPYdt0s5yeldxYxIW05CxYCufnN1CeY07+o+EQcpGhssuYu0Z7VkDnix5o8KQbU0ZaIC
- 6Bm8M4lWrk2SfRrOSALaziJd2c2kiWgVPuWS6RsRTQ0Q7R85dtK0idctV5oIDx+zmcGs
- n8IbAc2MSzOocSXm2Cz+xykeepi1LHCS2VycuPrnqnlQNKWIq/q6C9v5QoMrpLLqwDWF
- CLTPsih9F/QEHQok/Ixb7RSok1aqRaVTmkLizOEuT2AFVJI2BqB79GIZfGoLMLiirUbO
- H6pg==
-X-Gm-Message-State: AOAM533VqYtrpIO++WQj97Umicjx9v5kENjf9RyIDUWnXN5SOSWcFxt0
- cdGnfpOTlBVL/s1mVJnTd1aaDA==
-X-Google-Smtp-Source: ABdhPJz0s+qIfPiYuc8Lb/5oTgaLOoIzxPjMvqf0zr4zeqAxjxDIqYXqcMBtiIrMcp62Jo53s0zktg==
-X-Received: by 2002:adf:8b18:: with SMTP id n24mr4251611wra.372.1592572017564; 
- Fri, 19 Jun 2020 06:06:57 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com.
- [35.190.215.205])
- by smtp.gmail.com with ESMTPSA id x5sm1585452wmg.2.2020.06.19.06.06.56
+ h=x-gm-message-state:sender:mime-version:content-transfer-encoding
+ :in-reply-to:references:subject:from:to:cc:message-id:user-agent
+ :date;
+ bh=GkCNCBDLTGNPQOWA3LlDB+HVQOoFNOeRv8FRTeVEIsM=;
+ b=uOnVbfjonA5lhxH8IL5RR5GTOF7+U/7/WtoT73bV3hvVsMCfNH1zooYCEUT6mp14tn
+ FgBWTjJt9LrcLCidkDLrPsqgXzvIn5GiVBR64V8wf0RCD96B7+66WK7I1ayAO5nsyWln
+ le+NdCUuxMcds4t6DL0HsLDFIEAVRp4bqYddb/GEJYDORZq5nk7ESC1R3g92TB8uvlFX
+ lAk4kt5V5nurHPxvEraKiADTK+dbL2CMJ+8d/nnG7aTr35izIWkOpSJgs7oteSUyhUdU
+ ucAfdGq1PJsnhkcEwfNXdGWzceC/flsKLpyOu7Yns22pXWgpCJlhaxMh8Gf7NpGstyzZ
+ LaSg==
+X-Gm-Message-State: AOAM5324d2PSjZFplUU4BhrNAH+aJau/5xhnGVWjGrGPvo7ytoiwGQ4/
+ 3mn6a4JH/Ni7caoVgFhPsug=
+X-Google-Smtp-Source: ABdhPJwSjmILeC2LcTtTmmx0JTtIYZ95VNY2hAQJPzgz/V8uF2EioBLqs1vbWGMXNu2IaPLP58n7IA==
+X-Received: by 2002:a7b:c441:: with SMTP id l1mr3494639wmi.7.1592572341541;
+ Fri, 19 Jun 2020 06:12:21 -0700 (PDT)
+Received: from localhost ([78.156.65.138])
+ by smtp.gmail.com with ESMTPSA id v24sm8375716wrd.92.2020.06.19.06.12.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 06:06:56 -0700 (PDT)
-Date: Fri, 19 Jun 2020 13:06:55 +0000
-From: Tomasz Figa <tfiga@chromium.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: Re: [libcamera-devel] [PATCH v2] drm/fourcc: Add bayer formats and
- modifiers
-Message-ID: <20200619130655.GB241696@chromium.org>
-References: <20200521235201.279642-1-niklas.soderlund@ragnatech.se>
+ Fri, 19 Jun 2020 06:12:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200521235201.279642-1-niklas.soderlund@ragnatech.se>
+In-Reply-To: <20200619094309.GT20149@phenom.ffwll.local>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch>
+ <159186243606.1506.4437341616828968890@build.alporthouse.com>
+ <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+ <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+ <159255511144.7737.12635440776531222029@build.alporthouse.com>
+ <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
+ <159255801588.7737.4425728073225310839@build.alporthouse.com>
+ <20200619094309.GT20149@phenom.ffwll.local>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <159257233754.7737.17318605310513355800@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Fri, 19 Jun 2020 14:12:17 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,100 +75,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: libcamera-devel@lists.libcamera.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-rdma <linux-rdma@vger.kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics Development <intel-gfx@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, DRI Development <dri-devel@lists.freedesktop.org>, "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, Thomas Hellstrom <thomas.hellstrom@intel.com>, amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@intel.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, Christian König <christian.koenig@amd.com>, Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Niklas,
+Quoting Daniel Vetter (2020-06-19 10:43:09)
+> On Fri, Jun 19, 2020 at 10:13:35AM +0100, Chris Wilson wrote:
+> > Quoting Daniel Vetter (2020-06-19 09:51:59)
+> > > On Fri, Jun 19, 2020 at 10:25 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > > > Forcing a generic primitive to always be part of the same global map is
+> > > > horrible.
+> > > 
+> > > And  no concrete example or reason for why that's not possible.
+> > > Because frankly it's not horrible, this is what upstream is all about:
+> > > Shared concepts, shared contracts, shared code.
+> > > 
+> > > The proposed patches might very well encode the wrong contract, that's
+> > > all up for discussion. But fundamentally questioning that we need one
+> > > is missing what upstream is all about.
+> > 
+> > Then I have not clearly communicated, as my opinion is not that
+> > validation is worthless, but that the implementation is enshrining a
+> > global property on a low level primitive that prevents it from being
+> > used elsewhere. And I want to replace completion [chains] with fences, and
+> > bio with fences, and closures with fences, and what other equivalencies
+> > there are in the kernel. The fence is as central a locking construct as
+> > struct completion and deserves to be a foundational primitive provided
+> > by kernel/ used throughout all drivers for discrete problem domains.
+> > 
+> > This is narrowing dma_fence whereby adding
+> >       struct lockdep_map *dma_fence::wait_map
+> > and annotating linkage, allows you to continue to specify that all
+> > dma_fence used for a particular purpose must follow common rules,
+> > without restricting the primitive for uses outside of this scope.
+> 
+> Somewhere else in this thread I had discussions with Jason Gunthorpe about
+> this topic. It might maybe change somewhat depending upon exact rules, but
+> his take is very much "I don't want dma_fence in rdma". Or pretty close to
+> that at least.
+> 
+> Similar discussions with habanalabs, they're using dma_fence internally
+> without any of the uapi. Discussion there has also now concluded that it's
+> best if they remove them, and simply switch over to a wait_queue or
+> completion like every other driver does.
+> 
+> The next round of the patches already have a paragraph to at least
+> somewhat limit how non-gpu drivers use dma_fence. And I guess actual
+> consensus might be pointing even more strongly at dma_fence being solely
+> something for gpus and closely related subsystem (maybe media) for syncing
+> dma-buf access.
+> 
+> So dma_fence as general replacement for completion chains I think just
+> wont happen.
 
-On Fri, May 22, 2020 at 01:52:01AM +0200, Niklas S=F6derlund wrote:
-> Bayer formats are used with cameras and contain green, red and blue
-> components, with alternating lines of red and green, and blue and green
-> pixels in different orders. For each block of 2x2 pixels there is one
-> pixel with a red filter, two with a green filter, and one with a blue
-> filter. The filters can be arranged in different patterns.
-> =
+That is sad. I cannot comprehend going back to pure completions after a
+taste of fence scheduling. And we are not even close to fully utilising
+them, as not all the async cpu [allocation!] tasks are fully tracked by
+fences yet and are still stuck in a FIFO workqueue.
 
-> Add DRM fourcc formats to describe the most common Bayer formats. Also
-> add a modifiers to describe the custom packing layouts used by the Intel
-> IPU3 and in the MIPI (Mobile Industry Processor Interface) CSI-2
-> specification.
-> =
+> What might make sense is if e.g. the lockdep annotations could be reused,
+> at least in design, for wait_queue or completion or anything else
+> really. I do think that has a fair chance compared to the automagic
+> cross-release annotations approach, which relied way too heavily on
+> guessing where barriers are. My experience from just a bit of playing
+> around with these patches here and discussing them with other driver
+> maintainers is that accurately deciding where critical sections start and
+> end is a job for humans only. And if you get it wrong, you will have a
+> false positive.
+> 
+> And you're indeed correct that if we'd do annotations for completions and
+> wait queues, then that would need to have a class per semantically
+> equivalent user, like we have lockdep classes for mutexes, not just one
+> overall.
+> 
+> But dma_fence otoh is something very specific, which comes with very
+> specific rules attached - it's not a generic wait_queue at all. Originally
+> it did start out as one even, but it is a very specialized wait_queue.
+> 
+> So there's imo two cases:
+> 
+> - Your completion is entirely orthogonal of dma_fences, and can never ever
+>   block a dma_fence. Don't use dma_fence for this, and no problem. It's
+>   just another wait_queue somewhere.
+> 
+> - Your completion can eventually, maybe through lots of convolutions and
+>   depdencies, block a dma_fence. In that case full dma_fence rules apply,
+>   and the only thing you can do with a custom annotation is make the rules
+>   even stricter. E.g. if a sub-timeline in the scheduler isn't allowed to
+>   take certain scheduler locks. But the userspace visible/published fence
+>   do take them, maybe as part of command submission or retirement.
+>   Entirely hypotethical, no idea any driver actually needs this.
 
-> Signed-off-by: Niklas S=F6derlund <niklas.soderlund@ragnatech.se>
-> ---
-> * Changes since v1
-> - Rename the defines from DRM_FORMAT_SRGGB8 to DRM_FORMAT_BAYER_RGGB8.
-> - Update the fourcc codes passed to fourcc_code() to avoid a conflict.
-> - Add diagrams for all Bayer formats memory layout.
-> - Update documentation.
-> ---
->  include/uapi/drm/drm_fourcc.h | 205 ++++++++++++++++++++++++++++++++++
->  1 file changed, 205 insertions(+)
-> =
+I think we are faced with this very real problem.
 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 8bc0b31597d80737..d07dd24b49bde6c1 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -285,6 +285,73 @@ extern "C" {
->  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsamp=
-led Cb (1) and Cr (2) planes */
->  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsamp=
-led Cr (1) and Cb (2) planes */
->  =
+The papering we have today over userptr is so very thin, and if you
+squint you can already see it is coupled into the completion signal. Just
+it happens to be on the other side of the fence.
 
-> +/*
-> + * Bayer formats
-> + *
-> + * Bayer formats contain green, red and blue components, with alternatin=
-g lines
-> + * of red and green, and blue and green pixels in different orders. For =
-each
-> + * block of 2x2 pixels there is one pixel with a red filter, two with a =
-green
-> + * filter, and one with a blue filter. The filters can be arranged in di=
-fferent
-> + * patterns.
-> + *
-> + * For example, RGGB:
-> + *	row0: RGRGRGRG...
-> + *	row1: GBGBGBGB...
-> + *	row2: RGRGRGRG...
-> + *	row3: GBGBGBGB...
-> + *	...
-> + *
-
-I wonder if we're operating on the right level of abstraction within this
-proposal.
-
-The sensor itself transfers only sequential pixels, as read
-out from its matrix. Whether a given pixel corresponds to a red, green
-or blue color filter actually depends on the filter layer, which could
-actually vary between integrations of the same sensor. (See Fujifilm
-X-Trans, which uses regular Sony sensors with their own filter pattern
-[1].)
-
-Moreover, the sensor resolution is specified as the number of pixels
-horizontally and the number of lines horizontally, without considering
-the color pattern.
-
-If we consider that, wouldn't the data stream coming from the sensor be
-essentially DRM_FORMAT_R8/R10/R12/etc.?
-
-Then, on top of that, we would have the packing, which I believe is
-defined well in this document +/- being entangled with the Bayer
-pattern.
-
-What do you think?
-
-[1] https://en.wikipedia.org/wiki/Fujifilm_X-Trans_sensor
-
-Best regards,
-Tomasz
+The next batch of priority inversions involve integrating the async cpu
+tasks into the scheduler, and have full dependency tracking over every
+internal fence. I do not see any way to avoid coupling the completion
+signal from the GPU to the earliest resource allocation, as it's an
+unbroken chain of work, at least from the user's perspective. [Next up
+for annotations is that we need to always assume that userspace has an
+implicit lock on GPU resources; having to break that lock with a GPU
+reset should be a breach of our data integrity, and best avoided, for
+compute does not care one iota about system integrity and insist
+userspace knows best.] Such allocations have to be allowed to fail and
+for that failure to propagate cancelling the queued work, such that I'm
+considering what rules we need for gfp_t. That might allow enough
+leverage to break any fs_reclaim loops, but userptr is likely forever
+doomed [aside from its fs_reclaim loop is as preventable as the normal
+shrinker paths], but we still need to suggest to pin_user_pages that
+failure is better than oom and that is not clear atm. Plus the usual
+failure can happen at any time after updating the user facing
+bookkeeping, but that is just extra layers in the execution monitor
+ready to step in and replacing failing work with the error propagation.
+Or where the system grinds to a halt, requiring the monitor to patch in
+a new page / resource.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
