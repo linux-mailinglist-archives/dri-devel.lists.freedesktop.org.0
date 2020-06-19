@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC5020024B
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C157A20024A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 08:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5366EC19;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8946EC1A;
 	Fri, 19 Jun 2020 06:58:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA45C6EC01
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 04:56:15 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id x2so5884013iof.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 21:56:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=kVV7AQIUbbYdGbVlGXkgoxxP+MlYua7sKpJCqtMOVU4=;
- b=Au5sTElMO/YY3P4CMNr9J/wVKXJQgNgKhCRHlEL+o/6iDqY+SAb5VLSu8KJFm+SBAp
- Uab0tTHXK00afShjTtSPn6jP6D+FxiU4hfOShJB0l4Sj7Hjm3bj+jI51jO9G1//SQe8+
- fYCj7BfJtmYLDGHBBuh1d3mPZ4yfvmDHEZ567HtQq4Ji6cqZy+pKLM3vx5dFWHr0NIFs
- woVGBuFGj54jlhco4TLBtNM0PUsysW24hcX0F1ep/5NeR8nEuxQ8mnsMJ1ZGunua4Ail
- ulNLNQV+eVG9ogGE6mf2tjXMBNjn4CI8XuE4ijxMlhTEtjhGssBwH7BcSRYiW9Sb1z+f
- ChDQ==
-X-Gm-Message-State: AOAM530v8rMApGoLNntRq9BG50f2ihT6LpiS3M2vHD63+BQNnY/YigYy
- AjEOEdzTLv+EYOBOg0o8gMGH5xmluH+zlKaFHr0DM3nqV1Z0
-X-Google-Smtp-Source: ABdhPJwdNZQyzkPUlSgTaQiywiDsztu4+RdFjl3U3aswkL4CZhfKr0IA6BTtV1XwM3rxXzkhoJ+yY9MmVKDBru/N5YVV3R1a/wEA
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7CC6EC06
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 06:53:36 +0000 (UTC)
+IronPort-SDR: JxAvtqZwe4WFEiwqcuDFyKZR5ULzqcdxlmw3ey7t9UTYK0QybndS6qG9+qMKwTNDd5E1zRyRwv
+ OuOLctFU2KdA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="227562814"
+X-IronPort-AV: E=Sophos;i="5.75,254,1589266800"; d="scan'208";a="227562814"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 23:53:34 -0700
+IronPort-SDR: +4LuYp7Q2608zhXwp2LjnrFySdknHRRFrbwO1c6mehJUX0/TDWTAFy8h0uZxeKSZVWBbTz9lIp
+ 5Zj3vX7LQlvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,254,1589266800"; d="scan'208";a="421764752"
+Received: from gliakhov-mobl2.ger.corp.intel.com (HELO ubuntu) ([10.249.37.62])
+ by orsmga004.jf.intel.com with ESMTP; 18 Jun 2020 23:53:32 -0700
+Date: Fri, 19 Jun 2020 08:53:30 +0200
+From: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+To: David Stevens <stevensd@chromium.org>
+Subject: Re: [PATCH v4 1/3] virtio: add dma-buf support for exported objects
+Message-ID: <20200619065329.GA12127@ubuntu>
+References: <20200526105811.30784-1-stevensd@chromium.org>
+ <20200526105811.30784-2-stevensd@chromium.org>
+ <20200604145620-mutt-send-email-mst@kernel.org>
+ <20200618122856.GC4189@ubuntu>
+ <CAD=HUj6NY5W1ePKwZhPM+MDTtgEooy-rjo6QX6Fj2qAFtS8H3g@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:ab94:: with SMTP id t20mr2096716jan.13.1592542575012; 
- Thu, 18 Jun 2020 21:56:15 -0700 (PDT)
-Date: Thu, 18 Jun 2020 21:56:15 -0700
-In-Reply-To: <0000000000001d3ff605995c23d6@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000792f4f05a868b670@google.com>
-Subject: Re: BUG: unable to handle kernel paging request in sys_imageblit
-From: syzbot <syzbot+33f89a9a6b6acd893b11@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
+Content-Disposition: inline
+In-Reply-To: <CAD=HUj6NY5W1ePKwZhPM+MDTtgEooy-rjo6QX6Fj2qAFtS8H3g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Fri, 19 Jun 2020 06:58:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,88 +54,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has found a reproducer for the following crash on:
+Hi David,
 
-HEAD commit:    435faf5c Merge tag 'riscv-for-linus-5.8-mw0' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1768c725100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3dbb617b9c2a5bdf
-dashboard link: https://syzkaller.appspot.com/bug?extid=33f89a9a6b6acd893b11
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f3f485100000
+On Fri, Jun 19, 2020 at 10:57:37AM +0900, David Stevens wrote:
+> On Thu, Jun 18, 2020 at 9:29 PM Guennadi Liakhovetski
+> <guennadi.liakhovetski@linux.intel.com> wrote:
+> >
+> > Hi Michael,
+> >
+> > On Thu, Jun 04, 2020 at 03:05:23PM -0400, Michael S. Tsirkin wrote:
+> > > On Tue, May 26, 2020 at 07:58:09PM +0900, David Stevens wrote:
+> > > > This change adds a new flavor of dma-bufs that can be used by virtio
+> > > > drivers to share exported objects. A virtio dma-buf can be queried by
+> > > > virtio drivers to obtain the UUID which identifies the underlying
+> > > > exported object.
+> > > >
+> > > > Signed-off-by: David Stevens <stevensd@chromium.org>
+> > >
+> > > Is this just for graphics? If yes I'd rather we put it in the graphics
+> > > driver. We can always move it later ...
+> >
+> > Wouldn't this be the API that audio virtualisation will have to use to share
+> > buffers between the host and any guests?
+> 
+> The new flavor of dma-buf isn't directly related to sharing buffers
+> between the host and the guest. The purpose of this API is to help
+> share buffers between multiple virtio devices - e.g. share buffers
+> created by a virito-gpu device with a virito-video device. In
+> particular, the new flavor of dma-buf provides a mechanism to attach
+> identifying metadata to a dma-buf object that is shared between
+> different virtio drivers in a single guest. This identifying metadata
+> can then be passed to the importing device and used to fetch some
+> resource from the exporting device. But the new flavor of dma-buf is
+> an abstraction within the guest kernel, independent of the host-guest
+> boundary, and it's definitely not necessary if we're only talking
+> about a single virtio subsystem.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+33f89a9a6b6acd893b11@syzkaller.appspotmail.com
+Thanks for the explanation!
 
-BUG: unable to handle page fault for address: fffff520013df608
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 7ffcd067 P4D 7ffcd067 PUD 2c920067 PMD 29858067 PTE 0
-Oops: 0000 [#1] PREEMPT SMP KASAN
-CPU: 2 PID: 8457 Comm: syz-executor.0 Not tainted 5.7.0-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-RIP: 0010:fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
-RIP: 0010:sys_imageblit+0x616/0x1240 drivers/video/fbdev/core/sysimgblt.c:275
-Code: 0f b6 14 28 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 5c 0b 00 00 8b 44 24 20 4d 8d 77 04 4c 89 fa 48 c1 ea 03 23 07 <42> 0f b6 0c 2a 4c 89 fa 83 e2 07 33 44 24 14 83 c2 03 38 ca 7c 08
-RSP: 0018:ffffc90001867578 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff888023ac8402 RCX: ffffffff88786a40
-RDX: 1ffff920013df608 RSI: ffffffff83c3bbbc RDI: ffffffff88786a40
-RBP: 0000000000000fef R08: ffff888029cf8040 R09: 0000000000000001
-R10: ffffffff8a8b743f R11: fffffbfff1516e87 R12: 0000000000000007
-R13: dffffc0000000000 R14: ffffc90009efb044 R15: ffffc90009efb040
-FS:  0000000000000000(0000) GS:ffff88802d000000(0063) knlGS:00000000f7f0fb40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: fffff520013df608 CR3: 000000001b812000 CR4: 0000000000340ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- drm_fb_helper_sys_imageblit+0x1c/0x180 drivers/gpu/drm/drm_fb_helper.c:747
- bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:139 [inline]
- bit_putcs+0x8d0/0xd60 drivers/video/fbdev/core/bitblit.c:188
- fbcon_putcs+0x345/0x3f0 drivers/video/fbdev/core/fbcon.c:1362
- do_update_region+0x398/0x630 drivers/tty/vt/vt.c:683
- invert_screen+0x2a7/0x600 drivers/tty/vt/vt.c:800
- highlight drivers/tty/vt/selection.c:57 [inline]
- clear_selection drivers/tty/vt/selection.c:84 [inline]
- clear_selection+0x55/0x70 drivers/tty/vt/selection.c:80
- vc_do_resize+0xff3/0x1370 drivers/tty/vt/vt.c:1230
- fbcon_do_set_font+0x4a0/0x950 drivers/video/fbdev/core/fbcon.c:2608
- fbcon_set_font+0x732/0x870 drivers/video/fbdev/core/fbcon.c:2705
- con_font_set drivers/tty/vt/vt.c:4571 [inline]
- con_font_op+0xd65/0x1160 drivers/tty/vt/vt.c:4636
- compat_kdfontop_ioctl drivers/tty/vt/vt_ioctl.c:1151 [inline]
- vt_compat_ioctl+0x23a/0x6c0 drivers/tty/vt/vt_ioctl.c:1213
- tty_compat_ioctl+0x19c/0x410 drivers/tty/tty_io.c:2847
- __do_compat_sys_ioctl fs/ioctl.c:865 [inline]
- __se_compat_sys_ioctl fs/ioctl.c:816 [inline]
- __ia32_compat_sys_ioctl+0x23d/0x2b0 fs/ioctl.c:816
- do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
- do_fast_syscall_32+0x270/0xe90 arch/x86/entry/common.c:396
- entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
-Modules linked in:
-CR2: fffff520013df608
----[ end trace fbceb2e52f6d552c ]---
-RIP: 0010:fast_imageblit drivers/video/fbdev/core/sysimgblt.c:229 [inline]
-RIP: 0010:sys_imageblit+0x616/0x1240 drivers/video/fbdev/core/sysimgblt.c:275
-Code: 0f b6 14 28 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 5c 0b 00 00 8b 44 24 20 4d 8d 77 04 4c 89 fa 48 c1 ea 03 23 07 <42> 0f b6 0c 2a 4c 89 fa 83 e2 07 33 44 24 14 83 c2 03 38 ca 7c 08
-RSP: 0018:ffffc90001867578 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff888023ac8402 RCX: ffffffff88786a40
-RDX: 1ffff920013df608 RSI: ffffffff83c3bbbc RDI: ffffffff88786a40
-RBP: 0000000000000fef R08: ffff888029cf8040 R09: 0000000000000001
-R10: ffffffff8a8b743f R11: fffffbfff1516e87 R12: 0000000000000007
-R13: dffffc0000000000 R14: ffffc90009efb044 R15: ffffc90009efb040
-FS:  0000000000000000(0000) GS:ffff88802d000000(0063) knlGS:00000000f7f0fb40
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: fffff520013df608 CR3: 000000001b812000 CR4: 0000000000340ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Regards
+Guennadi
 
+> > > > ---
+> > > >  drivers/virtio/Makefile         |  2 +-
+> > > >  drivers/virtio/virtio.c         |  6 +++
+> > > >  drivers/virtio/virtio_dma_buf.c | 89 +++++++++++++++++++++++++++++++++
+> > > >  include/linux/virtio.h          |  1 +
+> > > >  include/linux/virtio_dma_buf.h  | 58 +++++++++++++++++++++
+> > > >  5 files changed, 155 insertions(+), 1 deletion(-)
+> > > >  create mode 100644 drivers/virtio/virtio_dma_buf.c
+> > > >  create mode 100644 include/linux/virtio_dma_buf.h
+> > > >
+> > > > diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
+> > > > index 29a1386ecc03..ecdae5b596de 100644
+> > > > --- a/drivers/virtio/Makefile
+> > > > +++ b/drivers/virtio/Makefile
+> > > > @@ -1,5 +1,5 @@
+> > > >  # SPDX-License-Identifier: GPL-2.0
+> > > > -obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o
+> > > > +obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o virtio_dma_buf.o
+> > > >  obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
+> > > >  obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
+> > > >  virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
+> > > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > > > index a977e32a88f2..5d46f0ded92d 100644
+> > > > --- a/drivers/virtio/virtio.c
+> > > > +++ b/drivers/virtio/virtio.c
+> > > > @@ -357,6 +357,12 @@ int register_virtio_device(struct virtio_device *dev)
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(register_virtio_device);
+> > > >
+> > > > +bool is_virtio_device(struct device *dev)
+> > > > +{
+> > > > +   return dev->bus == &virtio_bus;
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(is_virtio_device);
+> > > > +
+> > > >  void unregister_virtio_device(struct virtio_device *dev)
+> > > >  {
+> > > >     int index = dev->index; /* save for after device release */
+> > > > diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+> > > > new file mode 100644
+> > > > index 000000000000..23e3399b11ed
+> > > > --- /dev/null
+> > > > +++ b/drivers/virtio/virtio_dma_buf.c
+> > > > @@ -0,0 +1,89 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > > +/*
+> > > > + * dma-bufs for virtio exported objects
+> > > > + *
+> > > > + * Copyright (C) 2020 Google, Inc.
+> > > > + */
+> > > > +
+> > > > +#include <linux/virtio_dma_buf.h>
+> > > > +
+> > > > +/**
+> > > > + * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
+> > > > + *
+> > > > + * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
+> > > > + * for an virtio exported object that can be queried by other virtio drivers
+> > > > + * for the object's UUID.
+> > > > + */
+> > > > +struct dma_buf *virtio_dma_buf_export(
+> > > > +           const struct virtio_dma_buf_export_info *virtio_exp_info)
+> > > > +{
+> > > > +   struct dma_buf_export_info exp_info;
+> > > > +
+> > > > +   if (!virtio_exp_info->ops
+> > > > +           || virtio_exp_info->ops->ops.attach != &virtio_dma_buf_attach
+> > > > +           || !virtio_exp_info->ops->get_uuid) {
+> > > > +           return ERR_PTR(-EINVAL);
+> > > > +   }
+> > > > +
+> > > > +   exp_info.exp_name = virtio_exp_info->exp_name;
+> > > > +   exp_info.owner = virtio_exp_info->owner;
+> > > > +   exp_info.ops = &virtio_exp_info->ops->ops;
+> > > > +   exp_info.size = virtio_exp_info->size;
+> > > > +   exp_info.flags = virtio_exp_info->flags;
+> > > > +   exp_info.resv = virtio_exp_info->resv;
+> > > > +   exp_info.priv = virtio_exp_info->priv;
+> > > > +   BUILD_BUG_ON(sizeof(struct virtio_dma_buf_export_info)
+> > > > +                != sizeof(struct dma_buf_export_info));
+> > >
+> > > This is the only part that gives me pause. Why do we need this hack?
+> > > What's wrong with just using dma_buf_export_info directly,
+> > > and if you want the virtio ops, just using container_off?
+> > >
+> > >
+> > >
+> > > > +
+> > > > +   return dma_buf_export(&exp_info);
+> > > > +}
+> > > > +EXPORT_SYMBOL(virtio_dma_buf_export);
+> > > > +
+> > > > +/**
+> > > > + * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
+> > > > + */
+> > > > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > > > +                     struct dma_buf_attachment *attach)
+> > > > +{
+> > > > +   int ret;
+> > > > +   const struct virtio_dma_buf_ops *ops = container_of(
+> > > > +                   dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > > > +
+> > > > +   if (ops->device_attach) {
+> > > > +           ret = ops->device_attach(dma_buf, attach);
+> > > > +           if (ret)
+> > > > +                   return ret;
+> > > > +   }
+> > > > +   return 0;
+> > > > +}
+> > > > +EXPORT_SYMBOL(virtio_dma_buf_attach);
+> > > > +
+> > > > +/**
+> > > > + * is_virtio_dma_buf - returns true if the given dma-buf is a virtio dma-buf
+> > > > + * @dma_buf: buffer to query
+> > > > + */
+> > > > +bool is_virtio_dma_buf(struct dma_buf *dma_buf)
+> > > > +{
+> > > > +   return dma_buf->ops->attach == &virtio_dma_buf_attach;
+> > > > +}
+> > > > +EXPORT_SYMBOL(is_virtio_dma_buf);
+> > > > +
+> > > > +/**
+> > > > + * virtio_dma_buf_get_uuid - gets the uuid of the virtio dma-buf's exported object
+> > > > + * @dma_buf: [in] buffer to query
+> > > > + * @uuid: [out] the uuid
+> > > > + *
+> > > > + * Returns: 0 on success, negative on failure.
+> > > > + */
+> > > > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf,
+> > > > +                       uuid_t *uuid)
+> > > > +{
+> > > > +   const struct virtio_dma_buf_ops *ops = container_of(
+> > > > +                   dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > > > +
+> > > > +   if (!is_virtio_dma_buf(dma_buf))
+> > > > +           return -EINVAL;
+> > > > +
+> > > > +   return ops->get_uuid(dma_buf, uuid);
+> > > > +}
+> > > > +EXPORT_SYMBOL(virtio_dma_buf_get_uuid);
+> > > > diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+> > > > index 15f906e4a748..9397e25616c4 100644
+> > > > --- a/include/linux/virtio.h
+> > > > +++ b/include/linux/virtio.h
+> > > > @@ -128,6 +128,7 @@ static inline struct virtio_device *dev_to_virtio(struct device *_dev)
+> > > >  void virtio_add_status(struct virtio_device *dev, unsigned int status);
+> > > >  int register_virtio_device(struct virtio_device *dev);
+> > > >  void unregister_virtio_device(struct virtio_device *dev);
+> > > > +bool is_virtio_device(struct device *dev);
+> > > >
+> > > >  void virtio_break_device(struct virtio_device *dev);
+> > > >
+> > > > diff --git a/include/linux/virtio_dma_buf.h b/include/linux/virtio_dma_buf.h
+> > > > new file mode 100644
+> > > > index 000000000000..29fee167afbd
+> > > > --- /dev/null
+> > > > +++ b/include/linux/virtio_dma_buf.h
+> > > > @@ -0,0 +1,58 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +/*
+> > > > + * dma-bufs for virtio exported objects
+> > > > + *
+> > > > + * Copyright (C) 2020 Google, Inc.
+> > > > + */
+> > > > +
+> > > > +#ifndef _LINUX_VIRTIO_DMA_BUF_H
+> > > > +#define _LINUX_VIRTIO_DMA_BUF_H
+> > > > +
+> > > > +#include <linux/dma-buf.h>
+> > > > +#include <linux/uuid.h>
+> > > > +#include <linux/virtio.h>
+> > > > +
+> > > > +/**
+> > > > + * struct virtio_dma_buf_ops - operations possible on exported object dma-buf
+> > > > + * @ops: the base dma_buf_ops. ops.attach MUST be virtio_dma_buf_attach.
+> > > > + * @device_attach: [optional] callback invoked by virtio_dma_buf_attach during
+> > > > + *            all attach operations.
+> > > > + * @get_uid: [required] callback to get the uuid of the exported object.
+> > > > + */
+> > > > +struct virtio_dma_buf_ops {
+> > > > +   struct dma_buf_ops ops;
+> > > > +   int (*device_attach)(struct dma_buf *dma_buf,
+> > > > +                        struct dma_buf_attachment *attach);
+> > > > +   int (*get_uuid)(struct dma_buf *dma_buf, uuid_t *uuid);
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct virtio_dma_buf_export_info - see struct dma_buf_export_info
+> > > > + */
+> > > > +struct virtio_dma_buf_export_info {
+> > > > +   const char *exp_name;
+> > > > +   struct module *owner;
+> > > > +   const struct virtio_dma_buf_ops *ops;
+> > > > +   size_t size;
+> > > > +   int flags;
+> > > > +   struct dma_resv *resv;
+> > > > +   void *priv;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO - helper macro for exporters
+> > > > + */
+> > > > +#define DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO(name)    \
+> > > > +   struct virtio_dma_buf_export_info name = { \
+> > > > +           .exp_name = KBUILD_MODNAME, \
+> > > > +           .owner = THIS_MODULE }
+> > > > +
+> > > > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > > > +                     struct dma_buf_attachment *attach);
+> > > > +
+> > > > +struct dma_buf *virtio_dma_buf_export(
+> > > > +           const struct virtio_dma_buf_export_info *virtio_exp_info);
+> > > > +bool is_virtio_dma_buf(struct dma_buf *dma_buf);
+> > > > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf, uuid_t *uuid);
+> > > > +
+> > > > +#endif /* _LINUX_VIRTIO_DMA_BUF_H */
+> > > > --
+> > > > 2.27.0.rc0.183.gde8f92d652-goog
+> > >
+> > > _______________________________________________
+> > > Virtualization mailing list
+> > > Virtualization@lists.linux-foundation.org
+> > > https://lists.linuxfoundation.org/mailman/listinfo/virtualization
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
