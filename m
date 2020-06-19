@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4995F2016B1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 18:36:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D47201A00
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 20:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD1A6E271;
-	Fri, 19 Jun 2020 16:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 260BD6E42B;
+	Fri, 19 Jun 2020 18:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED246E271
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 16:36:21 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id t18so10304650wru.6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 09:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=gci/rzi/r86SZhlVL91AZzd/0vyAuqiVZxFyRt5Bh+A=;
- b=HPitT0n2I20VTLtr53OTpHd/o4LF2c2agmg19XJIuI9sDjjveMq7H09WjW+MnJPlO1
- PiahKfc7sw9x2DkoNAzqlEwSrb3PaZ22hltd3E6dgTyA7x98iUmam3NcflSXha8M5vWk
- Pt6dkmab6hzs/ZLEwM5kNIwVGw3mwCbN7DsW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=gci/rzi/r86SZhlVL91AZzd/0vyAuqiVZxFyRt5Bh+A=;
- b=jDUBNnfpSlzMq8QgDR3nvnYop9Of74V1Z1The1JuYQ/SXZR0DPoz0J3jI6yq6N2go+
- RL5eDsfQovVgsVVgiYMmOsCL7dHAMRuqjVrJpo5D+FCpvHy89fJ0Z3I0EZqkp6/VielB
- OCpJH9Wu++wVicolHjeYZeoLNVzN+Qz762ar3jTbM+EaU7T45gIaKTQcWZ9N2XuggcBo
- EHnDPgwohdGeywfqH3GsXzD6ZOt9Q4H4xabyBxHpuWQ3QeehzBKXH8xeE7gim7BbfsBj
- y/lzmMycrX/zhNmEEr36A7NzSh9E37BfvMZqMNCw/YBXP1wDt6eosI/E0V3wMgOsAGuC
- L//w==
-X-Gm-Message-State: AOAM532p2svdAQmGC6bIDhWlT1sOzv4yLmZDP1BgHgXvsNuaoKKz0S4b
- 498NVsmcPPQBb0HwDWLntsDAvg==
-X-Google-Smtp-Source: ABdhPJy81yw1QC5wnZ7VnKlHJ3eZGi007n/nfsD+w8uaOAO6oQv98fYbV3Y1mN+YrsuQMWESpACBzA==
-X-Received: by 2002:adf:ef4a:: with SMTP id c10mr4842514wrp.32.1592584580369; 
- Fri, 19 Jun 2020 09:36:20 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k14sm7382147wrq.97.2020.06.19.09.36.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Jun 2020 09:36:19 -0700 (PDT)
-Date: Fri, 19 Jun 2020 18:36:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Brian Starkey <brian.starkey@arm.com>
-Subject: Re: [PATCH v4] drm/fourcc: document modifier uniqueness requirements
-Message-ID: <20200619163617.GU20149@phenom.ffwll.local>
-References: <vlSGwy1E6HtqHtZVsFs1gEiN4t9ofmU-YtyumzN0U0DjbusaQj7C3pTFcd0uI9oN_zMCkh0Wb7FxqK6RGtFgGXwHXflBG6bEE-DvjB1vuAI=@emersion.fr>
- <20200619123934.m6mul3sul5rvumfh@DESKTOP-E1NTVVP.localdomain>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFF126E197
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 18:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1592590185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=khXjE23/qfT8jkgymY8FGHl3y1nZCObamf5x1h4Z6l4=;
+ b=cGDZ1mh6E0dV9NnlDmA90K60bizj4etVppSuTfTXVfWCBgaLwESSUV6/89CODtCTzgIMuM
+ 25YyfrhYSvAYYSt96IHtbgcXyIr0FFaZYAJ5Q/d70HBrE/Kegjq4lAPSV2h+gjfSz/R0JX
+ BApBYiad+R9r/xa0RQNz60J9Ewr638E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-NaeDjSMGMDa8QaLfGotVwQ-1; Fri, 19 Jun 2020 14:09:41 -0400
+X-MC-Unique: NaeDjSMGMDa8QaLfGotVwQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A1D464;
+ Fri, 19 Jun 2020 18:09:39 +0000 (UTC)
+Received: from redhat.com (ovpn-112-200.rdu2.redhat.com [10.10.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FD907C1E8;
+ Fri, 19 Jun 2020 18:09:37 +0000 (UTC)
+Date: Fri, 19 Jun 2020 14:09:35 -0400
+From: Jerome Glisse <jglisse@redhat.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+Message-ID: <20200619180935.GA10009@redhat.com>
+References: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca>
+ <20200618150051.GS20149@phenom.ffwll.local>
+ <20200618172338.GM6578@ziepe.ca>
+ <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+ <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200619123934.m6mul3sul5rvumfh@DESKTOP-E1NTVVP.localdomain>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200619172308.GQ6578@ziepe.ca>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,87 +67,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nd@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTksIDIwMjAgYXQgMDE6Mzk6MzRQTSArMDEwMCwgQnJpYW4gU3RhcmtleSB3
-cm90ZToKPiBIaSBTaW1vbiwKPiAKPiBPbiBGcmksIEp1biAxOSwgMjAyMCBhdCAxMToxMjoyNUFN
-ICswMDAwLCBTaW1vbiBTZXIgd3JvdGU6Cj4gPiBUaGVyZSBoYXZlIHN1Z2dlc3Rpb25zIHRvIGJh
-a2UgcGl0Y2ggYWxpZ25tZW50LCBhZGRyZXNzIGFsaWduZW1lbnQsCj4gPiBjb250aWd1b3VzIG1l
-bW9yeSBvciBvdGhlciBwbGFjZW1lbnQgKGhpZGRlbiBWUkFNLCBHVFQvQkFSLCBldGMpCj4gPiBj
-b25zdHJhaW50cyBpbnRvIG1vZGlmaWVycy4gTGFzdCB0aW1lIHRoaXMgd2FzIGJyb3VnaHQgdXAg
-aXQgc2VlbWVkCj4gPiBsaWtlIHRoZSBjb25zZW5zdXMgd2FzIHRvIG5vdCBhbGxvdyB0aGlzLiBE
-b2N1bWVudCB0aGlzIGluIGRybV9mb3VyY2MuaC4KPiA+IAo+ID4gVGhlcmUgYXJlIHNldmVyYWwg
-cmVhc29ucyBmb3IgdGhpcy4KPiA+IAo+ID4gLSBFbmNvZGluZyBhbGwgb2YgdGhlc2UgY29uc3Ry
-YWludHMgaW4gdGhlIG1vZGlmaWVycyB3b3VsZCBleHBsb2RlIHRoZQo+ID4gICBzZWFyY2ggc3Bh
-Y2UgcHJldHR5IHF1aWNrbHkgKHdlIG9ubHkgaGF2ZSA2NCBiaXRzIHRvIHdvcmsgd2l0aCkuCj4g
-PiAtIE1vZGlmaWVycyBuZWVkIHRvIGJlIHVuYW1iaWd1b3VzOiBhIGJ1ZmZlciBjYW4gb25seSBo
-YXZlIGEgc2luZ2xlCj4gPiAgIG1vZGlmaWVyLgo+ID4gLSBNb2RpZmllciB1c2VycyBhcmVuJ3Qg
-ZXhwZWN0ZWQgdG8gcGFyc2UgbW9kaWZpZXJzIChleGNlcHQgZHJpdmVycykuCj4gPiAKPiA+IHYy
-OiBhZGQgcGFyYWdyYXBoIGFib3V0IGFsaWFzZXMgKERhbmllbCkKPiA+IAo+ID4gdjM6IGZpeCB1
-bnJlbGF0ZWQgY2hhbmdlcyBzZW50IHdpdGggdGhlIHBhdGNoCj4gPiAKPiA+IHY0OiBkaXNhbWJp
-Z3VhdGUgdXNlcnMgYmV0d2VlbiBkcml2ZXIgYW5kIGhpZ2hlci1sZXZlbCBwcm9ncmFtcyAoQnJp
-YW4sCj4gPiBEYW5pZWwpCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFNpbW9uIFNlciA8Y29udGFj
-dEBlbWVyc2lvbi5mcj4KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPgo+ID4gQ2M6IERhbmllbCBTdG9uZSA8ZGFuaWVsQGZvb2lzaGJhci5vcmc+
-Cj4gPiBDYzogQmFzIE5pZXV3ZW5odWl6ZW4gPGJhc0BiYXNuaWV1d2VuaHVpemVuLm5sPgo+ID4g
-Q2M6IERhdmUgQWlybGllIDxhaXJsaWVkQGdtYWlsLmNvbT4KPiA+IENjOiBNYXJlayBPbMWhw6Fr
-IDxtYXJhZW9AZ21haWwuY29tPgo+ID4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGRldWNoZXJAZ21h
-aWwuY29tPgo+ID4gQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4K
-PiA+IENjOiBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRhZW56ZXIubmV0Pgo+ID4gQ2M6IEJyaWFu
-IFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4KPiA+IC0tLQo+ID4gIGluY2x1ZGUvdWFw
-aS9kcm0vZHJtX2ZvdXJjYy5oIHwgMjIgKysrKysrKysrKysrKysrKysrKysrKwo+ID4gIDEgZmls
-ZSBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRl
-L3VhcGkvZHJtL2RybV9mb3VyY2MuaCBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4g
-PiBpbmRleCA0OTAxNDM1MDBhNTAuLjRkM2Y4MTlkY2EwYiAxMDA2NDQKPiA+IC0tLSBhL2luY2x1
-ZGUvdWFwaS9kcm0vZHJtX2ZvdXJjYy5oCj4gPiArKysgYi9pbmNsdWRlL3VhcGkvZHJtL2RybV9m
-b3VyY2MuaAo+ID4gQEAgLTU4LDYgKzU4LDI4IEBAIGV4dGVybiAiQyIgewo+ID4gICAqIG1heSBw
-cmVzZXJ2ZSBtZWFuaW5nIC0gc3VjaCBhcyBudW1iZXIgb2YgcGxhbmVzIC0gZnJvbSB0aGUgZm91
-cmNjIGNvZGUsCj4gPiAgICogd2hlcmVhcyBvdGhlcnMgbWF5IG5vdC4KPiA+ICAgKgo+ID4gKyAq
-IE1vZGlmaWVycyBtdXN0IHVuaXF1ZWx5IGVuY29kZSBidWZmZXIgbGF5b3V0LiBJbiBvdGhlciB3
-b3JkcywgYSBidWZmZXIgbXVzdAo+ID4gKyAqIG1hdGNoIG9ubHkgYSBzaW5nbGUgbW9kaWZpZXIu
-IEEgbW9kaWZpZXIgbXVzdCBub3QgYmUgYSBzdWJzZXQgb2YgbGF5b3V0cyBvZgo+ID4gKyAqIGFu
-b3RoZXIgbW9kaWZpZXIuIEZvciBpbnN0YW5jZSwgaXQncyBpbmNvcnJlY3QgdG8gZW5jb2RlIHBp
-dGNoIGFsaWdubWVudCBpbgo+ID4gKyAqIGEgbW9kaWZpZXI6IGEgYnVmZmVyIG1heSBtYXRjaCBh
-IDY0LXBpeGVsIGFsaWduZWQgbW9kaWZpZXIgYW5kIGEgMzItcGl4ZWwKPiA+ICsgKiBhbGlnbmVk
-IG1vZGlmaWVyLiBUaGF0IHNhaWQsIG1vZGlmaWVycyBjYW4gaGF2ZSBpbXBsaWNpdCBtaW5pbWFs
-Cj4gPiArICogcmVxdWlyZW1lbnRzLgo+ID4gKyAqCj4gPiArICogRm9yIG1vZGlmaWVycyB3aGVy
-ZSB0aGUgY29tYmluYXRpb24gb2YgZm91cmNjIGNvZGUgYW5kIG1vZGlmaWVyIGNhbiBhbGlhcywK
-PiA+ICsgKiBhIGNhbm9uaWNhbCBwYWlyIG5lZWRzIHRvIGJlIGRlZmluZWQgYW5kIHVzZWQgYnkg
-YWxsIGRyaXZlcnMuIEFuIGV4YW1wbGUKPiA+ICsgKiBpcyBBRkJDLCB3aGVyZSBib3RoIEFSR0Ig
-YW5kIEFCR1IgaGF2ZSB0aGUgZXhhY3Qgc2FtZSBjb21wcmVzc2VkIGxheW91dC4KPiAKPiBJIHN0
-aWxsIGRvbid0IGFncmVlIHdpdGggdGhpcyBzZW50ZW5jZS4gQVJHQiBhbmQgQUJHUiBoYXZlIGRp
-ZmZlcmVudAo+IGNvbXByZXNzZWQgbGF5b3V0cyBpbiBBRkJDLgoKSG0gdGhlbiBtYXliZSBJIGdv
-dCBjb25mdXNlZCBmb3IgdGhlIGV4YWN0IHJlYXNvbiB3aHkgYWZiYyBoYXMgZGVmaW5lZApjYW5v
-bmljYWwgZm91cmNjIGNvZGVzIGluIERvY3VtZW50YXRpb24vZ3B1L2FmYmMucnN0PyBUaGV5IGFs
-bCB1c2UgdGhlCkJHUiB2ZXJzaW9ucywgbm8gUkdCIGFueXdoZXJlIHRvIGJlIGZvdW5kLgoKV2hh
-dCdzIHRoZSByZWFzb24gdGhlbiBiZWhpbmQgdGhlICJGb3JtYXRzIHdoaWNoIGFyZSBub3QgbGlz
-dGVkIHNob3VsZCBiZQphdm9pZGVkLiIgaW4gdGhhdCBkb2M/IFRoYXQncyB0aGUgY2FzZSBJIHdh
-bnRlZCB0byByZWZlciB0byBoZXJlLgotRGFuaWVsCgo+IAo+IFRoYW5rcywKPiAtQnJpYW4KPiAK
-PiA+ICsgKgo+ID4gKyAqIFRoZXJlIGFyZSB0d28ga2luZHMgb2YgbW9kaWZpZXIgdXNlcnM6Cj4g
-PiArICoKPiA+ICsgKiAtIEtlcm5lbCBhbmQgdXNlci1zcGFjZSBkcml2ZXJzOiBmb3IgZHJpdmVy
-cyBpdCdzIGltcG9ydGFudCB0aGF0IG1vZGlmaWVycwo+ID4gKyAqICAgZG9uJ3QgYWxpYXMsIG90
-aGVyd2lzZSB0d28gZHJpdmVycyBtaWdodCBzdXBwb3J0IHRoZSBzYW1lIGZvcm1hdCBidXQgdXNl
-Cj4gPiArICogICBkaWZmZXJlbnQgYWxpYXNlcywgcHJldmVudGluZyB0aGVtIGZyb20gc2hhcmlu
-ZyBidWZmZXJzIGluIGFuIGVmZmljaWVudAo+ID4gKyAqICAgZm9ybWF0Lgo+ID4gKyAqIC0gSGln
-aGVyLWxldmVsIHByb2dyYW1zIGludGVyZmFjaW5nIHdpdGggS01TL0dCTS9FR0wvVnVsa2FuL2V0
-YzogdGhlc2UgdXNlcnMKPiA+ICsgKiAgIHNlZSBtb2RpZmllcnMgYXMgb3BhcXVlIHRva2VucyB0
-aGV5IGNhbiBjaGVjayBmb3IgZXF1YWxpdHkgYW5kIGludGVyc2VjdC4KPiA+ICsgKiAgIFRoZXNl
-IHVzZXJzIG11c24ndCBuZWVkIHRvIGtub3cgdG8gcmVhc29uIGFib3V0IHRoZSBtb2RpZmllciB2
-YWx1ZQo+ID4gKyAqICAgKGkuZS4gdGhleSBhcmUgbm90IGV4cGVjdGVkIHRvIGV4dHJhY3QgaW5m
-b3JtYXRpb24gb3V0IG9mIHRoZSBtb2RpZmllcikuCj4gPiArICoKPiA+ICAgKiBWZW5kb3JzIHNo
-b3VsZCBkb2N1bWVudCB0aGVpciBtb2RpZmllciB1c2FnZSBpbiBhcyBtdWNoIGRldGFpbCBhcwo+
-ID4gICAqIHBvc3NpYmxlLCB0byBlbnN1cmUgbWF4aW11bSBjb21wYXRpYmlsaXR5IGFjcm9zcyBk
-ZXZpY2VzLCBkcml2ZXJzIGFuZAo+ID4gICAqIGFwcGxpY2F0aW9ucy4KPiA+IC0tIAo+ID4gMi4y
-Ny4wCj4gPiAKPiA+IAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVs
-IENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
+> =
+
+> > The madness is only that device B's mmu notifier might need to wait
+> > for fence_B so that the dma operation finishes. Which in turn has to
+> > wait for device A to finish first.
+> =
+
+> So, it sound, fundamentally you've got this graph of operations across
+> an unknown set of drivers and the kernel cannot insert itself in
+> dma_fence hand offs to re-validate any of the buffers involved?
+> Buffers which by definition cannot be touched by the hardware yet.
+> =
+
+> That really is a pretty horrible place to end up..
+> =
+
+> Pinning really is right answer for this kind of work flow. I think
+> converting pinning to notifers should not be done unless notifier
+> invalidation is relatively bounded. =
+
+> =
+
+> I know people like notifiers because they give a bit nicer performance
+> in some happy cases, but this cripples all the bad cases..
+> =
+
+> If pinning doesn't work for some reason maybe we should address that?
+
+Note that the dma fence is only true for user ptr buffer which predate
+any HMM work and thus were using mmu notifier already. You need the
+mmu notifier there because of fork and other corner cases.
+
+For nouveau the notifier do not need to wait for anything it can update
+the GPU page table right away. Modulo needing to write to GPU memory
+using dma engine if the GPU page table is in GPU memory that is not
+accessible from the CPU but that's never the case for nouveau so far
+(but i expect it will be at one point).
+
+
+So i see this as 2 different cases, the user ptr case, which does pin
+pages by the way, where things are synchronous. Versus the HMM cases
+where everything is asynchronous.
+
+
+I probably need to warn AMD folks again that using HMM means that you
+must be able to update the GPU page table asynchronously without
+fence wait. The issue for AMD is that they already update their GPU
+page table using DMA engine. I believe this is still doable if they
+use a kernel only DMA engine context, where only kernel can queue up
+jobs so that you do not need to wait for unrelated things and you can
+prioritize GPU page table update which should translate in fast GPU
+page table update without DMA fence.
+
+
+> > Full disclosure: We are aware that we've designed ourselves into an
+> > impressive corner here, and there's lots of talks going on about
+> > untangling the dma synchronization from the memory management
+> > completely. But
+> =
+
+> I think the documenting is really important: only GPU should be using
+> this stuff and driving notifiers this way. Complete NO for any
+> totally-not-a-GPU things in drivers/accel for sure.
+
+Yes for user that expect HMM they need to be asynchronous. But it is
+hard to revert user ptr has it was done a long time ago.
+
+Cheers,
+J=E9r=F4me
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
