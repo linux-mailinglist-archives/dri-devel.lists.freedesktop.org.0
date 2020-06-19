@@ -1,62 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDDE20301B
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C58203040
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C84326E160;
-	Mon, 22 Jun 2020 07:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C89566E584;
+	Mon, 22 Jun 2020 07:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13636EC9E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 11:57:31 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1592567854; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Date: Message-ID: Subject: From: Cc: To: Sender;
- bh=yxSnad5euOraE9R6X/yaFZQEvD8fvlYxjxhLwBIPjZw=;
- b=iXH8JwE3oWTcCEeAdF35QcLV615PrQ9xRS3JDdjuc5KT+TL4LqINs2KI13qETtMYG98yyS/q
- n+t3bZcnPdw6QVRnyiC7c8SrWYNoxGb5dyTn5/ZqdvU1y9oa5d8CPeyOR/T7KhL+Oct9u4Yx
- xbdNwPQIHY0GRIMvkBz/Cm0Cl1E=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5eeca8256bebe35debc8046a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Jun 2020 11:57:25
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 16E19C43387; Fri, 19 Jun 2020 11:57:25 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: charante)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 39BB3C433C8;
- Fri, 19 Jun 2020 11:57:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 39BB3C433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=charante@codeaurora.org
-To: Sumit Semwal <sumit.semwal@linaro.org>, michael.j.ruhl@intel.com,
- David.Laight@ACULAB.COM,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-From: Charan Teja Kalla <charante@codeaurora.org>
-Subject: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
-Message-ID: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
-Date: Fri, 19 Jun 2020 17:27:19 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC5C6ECA0;
+ Fri, 19 Jun 2020 12:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1592568935;
+ bh=45UgeJv4t65eu4zPCmJvNpVnUo7ZfpKmm0k9LndJsks=;
+ h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
+ b=Yecaf6gj4cR2Pksp9Js8UeVO+MNjZbWGmDnsnuhS3sHsSWrInRQI3/qsmEJ18sBHj
+ rhpx+N4EJ8qCvTB9d/JIl7U1uFetrGORYRz1R+hvcNFP5qF9vpgTlKP+5Zzc6mrEl9
+ T3U/K54jm3PqYM0gZ5Ya6X0wZrgDKFmw4K+IIes4=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.132.139.231]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LecN4-1j5kAj0xig-00qRCG; Fri, 19
+ Jun 2020 14:15:35 +0200
+Subject: Re: [PATCH] drm/amdkfd: Fix memory leaks according to error branches
+From: Markus Elfring <Markus.Elfring@web.de>
+To: Bernard Zhao <bernard@vivo.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <c966b91e-765f-c36c-2563-4e348fd1daf6@web.de>
+Date: Fri, 19 Jun 2020 14:15:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Language: en-US
+Content-Language: en-GB
+X-Provags-ID: V03:K1:bW/jlvnVLAJqZr8DAAisjb74aEUzKSMI3tkulAuAkBcRr7D/Ac8
+ Js053pNH47f7md+XQThFTIy3GMK4avN5YSs0NxDfhGprk5wAJ2isK/4Aar5h1wCJ3wv5e5D
+ 9Kz1RLx7jf8jLjWWtD3SdqykCQfwkJjPd1yrbVdbQJ/PcrVGh6cTWGQzBRWaRI4UMHx9TzY
+ Vq8D3r3AEo4v+R0v3GJsw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NNc4CFBbVQw=:aBMbY0JcBtV/ZHsxAV/gBT
+ 8lGmEqt61nXy2U2c/Kk3x37uN/RhQHlIskwB1kwAsjKipFcTTv1uUOc4QoquWWKcn3SeH5/Zn
+ JOSX4uoZKjhp0b52BmlLC6k9iXMzof65X7S1hmtBKLsHiuL7tghnbNxqBT5erMGjBwZ4mDG8d
+ Jwd1vRfrbvPo3IFFeYhxgtOY1JJldNCgiz0RG5QVKNW/UzYzi4wsmTZVW06fHLHBz7Ib5j4di
+ de4jCwh0qBPSpaAyUPop7ujZ+spuiFKgElUeo98PCY5ys6fA6WghMot0hePPb2EjpVo+ZCjgH
+ AilZInQO7QtQo7AxZbYLVICdzehvI6j0FKQrLVveFSonIGpn/Z4vz1AuaazrW9dzLkjk7Y24k
+ KrHscqcR7iS2wtpLRgUKg5zRyM7AQFiijR8Y8KCuUHWoUKn+YvbDmefZ/5EEj9+wyVbDByorg
+ 6tC5sXC3EhKpKhgy/dIVE5ouoK4hWVXddtU51B6+Q2elxXIILJMrWxWcyZWZOSSDD69UZmwfv
+ Jvr+sayG7hhYuL7pTEwmMs6IWOI3Wo4mJvLxffVp52UXVl2BSzGQIDaP30Qq0NMOORSOZNxGT
+ lCObH0pH6iv5dzDZHh9F7cZclfJ4SQ8rdPSCm0pyBVzogCCuHCsTuGQXZaUlSKSFE8j8Jai0J
+ 3/qTPwMQ+zxfoW5LC1uWDpg4K1+gSEa3eyFF7Oj5wd5ArIOg6zwu/TvhISlxhWi7BWFN02uZk
+ 5Jqm8JYu4jbVwHrI8xn2X4OimKf2mI4wt3H8S+C/Xn75rLncuBplavNHGnHilvIKFOEBeFBTZ
+ ubLA+KatpfW3qjmstpvp1yIqHAuRcrDOFUMB9U+r9XRdg0zjmfbGzcfizberKPZQlKgv4YjP5
+ gVMaKk2Yb2x6FmnLbr0A8bhlcDWuS5SRhpMiWS0Tc0JeAt+C815s3Zxp1/zXnkTtq0NR90RKw
+ rBsQ1gYI95VhsU6vur8XdP9+yV+cuR2pLZaJSZ5f5uy1aTDFbx+5WibMpPY2gFNj6iAAI6Gdg
+ TZrTfoSD90/bDxcip5aOBYJuAdn21gu4WffcT7ZuqKMZxjdzsm3KfM5rrVG+jSoyAC1iC21Y0
+ UKoWc1ZCcRrYElPYt6yQ47BX2J4Vd+hHkeZJOAAKnQcdnYWnvOaKLJLB+fGdtMiz5wft9cKmE
+ hzOSV6GCh29oQr0g8xgyfs2K1H9GPCFD1BcenayOKAyndHsjcOwdnxIOziUe3lDaQhWsNioDJ
+ Mp5EPu0irg/USbzU2
 X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,137 +113,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ Kangjie Lu <kjlu@umn.edu>,
+ =?UTF-8?Q?Felix_K=c3=bchling?= <Felix.Kuehling@amd.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Navid Emamdoost <emamd001@umn.edu>, Qiushi Wu <wu000273@umn.edu>,
+ Aditya Pakki <pakki001@umn.edu>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There exists a sleep-while-atomic bug while accessing the dmabuf->name
-under mutex in the dmabuffs_dname(). This is caused from the SELinux
-permissions checks on a process where it tries to validate the inherited
-files from fork() by traversing them through iterate_fd() (which
-traverse files under spin_lock) and call
-match_file(security/selinux/hooks.c) where the permission checks happen.
-This audit information is logged using dump_common_audit_data() where it
-calls d_path() to get the file path name. If the file check happen on
-the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
-access dmabuf->name. The flow will be like below:
-flush_unauthorized_files()
-  iterate_fd()
-    spin_lock() --> Start of the atomic section.
-      match_file()
-        file_has_perm()
-          avc_has_perm()
-            avc_audit()
-              slow_avc_audit()
-	        common_lsm_audit()
-		  dump_common_audit_data()
-		    audit_log_d_path()
-		      d_path()
-                        dmabuffs_dname()
-                          mutex_lock()--> Sleep while atomic.
-
-Call trace captured (on 4.19 kernels) is below:
-___might_sleep+0x204/0x208
-__might_sleep+0x50/0x88
-__mutex_lock_common+0x5c/0x1068
-__mutex_lock_common+0x5c/0x1068
-mutex_lock_nested+0x40/0x50
-dmabuffs_dname+0xa0/0x170
-d_path+0x84/0x290
-audit_log_d_path+0x74/0x130
-common_lsm_audit+0x334/0x6e8
-slow_avc_audit+0xb8/0xf8
-avc_has_perm+0x154/0x218
-file_has_perm+0x70/0x180
-match_file+0x60/0x78
-iterate_fd+0x128/0x168
-selinux_bprm_committing_creds+0x178/0x248
-security_bprm_committing_creds+0x30/0x48
-install_exec_creds+0x1c/0x68
-load_elf_binary+0x3a4/0x14e0
-search_binary_handler+0xb0/0x1e0
-
-So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
-
-Cc: <stable@vger.kernel.org> [5.3+]
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
-
-Changes in V2: Addressed review comments from Ruhl, Michael J
-
-Changes in V1: https://lore.kernel.org/patchwork/patch/1255055/
-
- drivers/dma-buf/dma-buf.c | 11 +++++++----
- include/linux/dma-buf.h   |  1 +
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 01ce125..d81d298 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- 	size_t ret = 0;
- 
- 	dmabuf = dentry->d_fsdata;
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- 
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
-@@ -341,8 +341,10 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 		kfree(name);
- 		goto out_unlock;
- 	}
-+	spin_lock(&dmabuf->name_lock);
- 	kfree(dmabuf->name);
- 	dmabuf->name = name;
-+	spin_unlock(&dmabuf->name_lock);
- 
- out_unlock:
- 	dma_resv_unlock(dmabuf->resv);
-@@ -405,10 +407,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- 	/* Don't count the temporary reference taken inside procfs seq_show */
- 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
- 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		seq_printf(m, "name:\t%s\n", dmabuf->name);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- }
- 
- static const struct file_operations dma_buf_fops = {
-@@ -546,6 +548,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	dmabuf->size = exp_info->size;
- 	dmabuf->exp_name = exp_info->exp_name;
- 	dmabuf->owner = exp_info->owner;
-+	spin_lock_init(&dmabuf->name_lock);
- 	init_waitqueue_head(&dmabuf->poll);
- 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
- 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index ab0c156..93108fd 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -311,6 +311,7 @@ struct dma_buf {
- 	void *vmap_ptr;
- 	const char *exp_name;
- 	const char *name;
-+	spinlock_t name_lock;
- 	struct module *owner;
- 	struct list_head list_node;
- 	void *priv;
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+PiBUaGUgZnVuY3Rpb24ga29iamVjdF9pbml0X2FuZF9hZGQgYWxsb2MgbWVtb3J5IGxpa2U6Cj4g
+a29iamVjdF9pbml0X2FuZF9hZGQtPmtvYmplY3RfYWRkX3ZhcmctPmtvYmplY3Rfc2V0X25hbWVf
+dmFyZ3MKPiAtPmt2YXNwcmludGZfY29uc3QtPmtzdHJkdXBfY29uc3QtPmtzdHJkdXAtPmttYWxs
+b2NfdHJhY2tfY2FsbGVyCj4gLT5rbWFsbG9jX3NsYWIsIGluIGVyciBicmFuY2ggdGhpcyBtZW1v
+cnkgbm90IGZyZWUuIElmIHVzZQo+IGttZW1sZWFrLCB0aGlzIHBhdGggbWF5YmUgY2F0Y2hlZC4K
+PiBUaGVzZSBjaGFuZ2VzIGFyZSB0byBhZGQga29iamVjdF9wdXQgaW4ga29iamVjdF9pbml0X2Fu
+ZF9hZGQKPiBmYWlsZWQgYnJhbmNoLCBmaXggcG90ZW50aWFsIG1lbWxlYWsuCgpJIHN1Z2dlc3Qg
+dG8gaW1wcm92ZSB0aGlzIGNoYW5nZSBkZXNjcmlwdGlvbi4KCiogQ2FuIGFuIG90aGVyIHdvcmRp
+bmcgdmFyaWFudCBiZSBuaWNlcj8KCiogV2lsbCB0aGUgdGFnIOKAnEZpeGVz4oCdIGJlY29tZSBo
+ZWxwZnVsPwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
