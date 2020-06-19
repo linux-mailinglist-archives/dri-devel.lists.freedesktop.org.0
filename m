@@ -1,44 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0490B201A88
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 20:41:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABAB201AF1
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 21:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348F76E4AD;
-	Fri, 19 Jun 2020 18:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284DA6E4F3;
+	Fri, 19 Jun 2020 19:11:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 650BF6E4A2;
- Fri, 19 Jun 2020 18:41:46 +0000 (UTC)
-IronPort-SDR: 3+sc+CtlWhqxiCySBjZIU2HSK2FyEZn6AWGr5aajaWl7Hb+nWBtIBAyACrd1WnO74T9bs8J9Ra
- USRsdkKuG6lg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9657"; a="140573199"
-X-IronPort-AV: E=Sophos;i="5.75,256,1589266800"; d="scan'208";a="140573199"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 11:41:46 -0700
-IronPort-SDR: bZCyhcpJfDqn2vB/ZvbzAIVl3dK/Efz2nZPYQV+rOphBFkchja26alTtDbyPDgFO6eg02+4gdA
- kAKovAweBHQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,256,1589266800"; d="scan'208";a="383911997"
-Received: from labuser-z97x-ud5h.jf.intel.com (HELO intel.com)
- ([10.165.21.211])
- by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2020 11:41:44 -0700
-Date: Fri, 19 Jun 2020 11:42:39 -0700
-From: Manasi Navare <manasi.d.navare@intel.com>
-To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-Subject: Re: [v8 3/3] drm/debug: Expose connector VRR monitor range via debugfs
-Message-ID: <20200619184239.GA4000@intel.com>
-References: <20200619212356.19285-1-bhanuprakash.modem@intel.com>
- <20200619212356.19285-4-bhanuprakash.modem@intel.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B4B6E430;
+ Fri, 19 Jun 2020 19:11:25 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id y20so10062122wmi.2;
+ Fri, 19 Jun 2020 12:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=chbWz7xzFy579TbWBa7IgoDaVrcNNu3e+ZV8C+3+5ts=;
+ b=olNdwx7EKNULbKgME9rHSKmUDJKGownFmH7K7UdqCiyAe31tms05xsgDMDHl0NOZyn
+ e4JT2rb2s3q5lfqM11BP72moDoCJO7fo8XhUHqRhLmM9Rkjt/Mcz6AzymyLaafuA8Ulb
+ XTVeNEMS1qKMS0ZFjOH4/+4FZ+XMgy0Z+itG4tjjFKBv1tiJ5h7bNhFkbXDaSQ/Fpz4X
+ ea1xDim6+696Be1q0Zr3RvYmOvlbnd3iJrBAwzkYAU7fiPUm1Tydf4L5z5X/RqFkIs6D
+ rXFOo0qB32FQo9vj/cdysyW33DCxg/zYBiOMh8UCXO3mP8EhhV49/E8yMaB/+LvgfTFf
+ Q3rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=chbWz7xzFy579TbWBa7IgoDaVrcNNu3e+ZV8C+3+5ts=;
+ b=U+9zevBiTWKbG7VPPzBFjrAsiJZcyrMcAMNfwDNKSXfCcHErqSbGmZlkLoW9UjYfQI
+ D3sNMRonLFCMIJhh5okvaRPu0tCNbTwcPSLHE4vZiB/ES3L1E4Ji4EEyUzZvwN7ZSElw
+ 9PTemgikYaaw3sql7Hel3ij+yGubxUx7+/KCUY9TPSDbXHyWG2vDh5wJPCA2+zjgLOx0
+ wkDHvDyswOq427N3sf2QLafhNgI9OjKlfQpj76/3aKEMK2hu6GuGzx2ZqQioouJ5Jf/w
+ dGc0LV9zOZimVbSiOa6MtfZAF7FKjoHNl3cxjxq/gwoP+1IBTEmjIXpMW+zVm6+ErIwy
+ u8Uw==
+X-Gm-Message-State: AOAM530kGCDGRjiGQZjlf1v6t+PuT18c0MJO5s8ksSBYa3TkHuQ4B1+Q
+ w8d5CdNiVLyY4cRgSTWGpIeytYqcHUR+0SvYKuw=
+X-Google-Smtp-Source: ABdhPJwcHFy0tih4Jg9lH/i7Ldu0yNdrmwrIvxAKTo0TP4xm3PszQ+8aXnDybDwn0lmkl3Yy4KGqnVo3R2CnXN9sXgU=
+X-Received: by 2002:a7b:cd96:: with SMTP id y22mr5280023wmj.56.1592593883868; 
+ Fri, 19 Jun 2020 12:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200619212356.19285-4-bhanuprakash.modem@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca> <20200618150051.GS20149@phenom.ffwll.local>
+ <20200618172338.GM6578@ziepe.ca>
+ <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+ <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca> <20200619180935.GA10009@redhat.com>
+In-Reply-To: <20200619180935.GA10009@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 19 Jun 2020 15:11:12 -0400
+Message-ID: <CADnq5_Pw_85Kzh1of=MbDi4g9POeF3jO4AJ7p2FjY5XZW0=vsQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+To: Jerome Glisse <jglisse@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,183 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bhanu,
-
-Thanks for the patch, functionality wise looks good. Have you tested this
-with kms_vrr IGT, do we see the vrr_range properly exposed?
-
-Also please find some comments below
-
-On Sat, Jun 20, 2020 at 02:53:56AM +0530, Bhanuprakash Modem wrote:
-> [Why]
-> It's useful to know the min and max vrr range for IGT testing.
-> =
-
-> [How]
-> Expose the min and max vfreq for the connector via a debugfs file
-> on the connector, "vrr_range".
-> =
-
-> Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> =
-
-> v2:
-> * Fix the typo in max_vfreq (Manasi)
-> * Change the name of node to i915_vrr_info so we can add
-> other vrr info for more debug info (Manasi)
-> * Change the VRR capable to display Yes or No (Manasi)
-> * Fix indentation checkpatch errors (Manasi)
-> v3:
-> * Remove the unnecessary debug print (Manasi)
-> v4:
-> * Rebase
-> v5:
-> * Rename to vrr_range to match AMD debugfs
-> v6:
-> * Rebase (manasi)
-> v7:
-> * Fix cmpilation due to rebase
-> v8:
-> * Move debugfs node creation logic to DRM (Emil)
-> * Remove AMD specific logic (Emil)
-> =
-
-> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-> Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 20 -----------------
->  drivers/gpu/drm/drm_debugfs.c                 | 22 +++++++++++++++++++
->  2 files changed, 22 insertions(+), 20 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 076af267b488..71387d2af2ed 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -820,24 +820,6 @@ static int output_bpc_show(struct seq_file *m, void =
-*data)
->  	return res;
->  }
->  =
-
-> -/*
-> - * Returns the min and max vrr vfreq through the connector's debugfs fil=
-e.
-> - * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> - */
-> -static int vrr_range_show(struct seq_file *m, void *data)
-> -{
-> -	struct drm_connector *connector =3D m->private;
-> -	struct amdgpu_dm_connector *aconnector =3D to_amdgpu_dm_connector(conne=
-ctor);
-> -
-> -	if (connector->status !=3D connector_status_connected)
-> -		return -ENODEV;
-> -
-> -	seq_printf(m, "Min: %u\n", (unsigned int)aconnector->min_vfreq);
-> -	seq_printf(m, "Max: %u\n", (unsigned int)aconnector->max_vfreq);
-> -
-> -	return 0;
-> -}
-> -
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->  /*
->   * Returns the HDCP capability of the Display (1.4 for now).
-> @@ -1001,7 +983,6 @@ static ssize_t dp_dpcd_data_read(struct file *f, cha=
-r __user *buf,
->  DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
->  DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
->  DEFINE_SHOW_ATTRIBUTE(output_bpc);
-> -DEFINE_SHOW_ATTRIBUTE(vrr_range);
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->  DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
->  #endif
-> @@ -1059,7 +1040,6 @@ static const struct {
->  		{"phy_settings", &dp_phy_settings_debugfs_fop},
->  		{"test_pattern", &dp_phy_test_pattern_fops},
->  		{"output_bpc", &output_bpc_fops},
-> -		{"vrr_range", &vrr_range_fops},
->  #ifdef CONFIG_DRM_AMD_DC_HDCP
->  		{"hdcp_sink_capability", &hdcp_sink_capability_fops},
->  #endif
-
-I think the AMD sepecific debugfs removal should be in a separate patch fol=
-lwing the drm_debugfs addition
-patch because from merging pov that patch will get merged through AMD tree
-and drm patch will get merged through drm_misc
-Also cc the amd dev mailing list for that patch.
-
-@Harry does that sound okay from merging pov?
-
-Manasi
-
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index bfe4602f206b..3d7182001004 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -376,6 +376,24 @@ static ssize_t edid_write(struct file *file, const c=
-har __user *ubuf,
->  	return (ret) ? ret : len;
->  }
->  =
-
-> +/*
-> + * Returns the min and max vrr vfreq through the connector's debugfs fil=
-e.
-> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/vrr_range
-> + */
-> +static int vrr_range_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_connector *connector =3D m->private;
-> +
-> +	if (connector->status !=3D connector_status_connected)
-> +		return -ENODEV;
-> +
-> +	seq_printf(m, "Min: %u\n", (u8)connector->display_info.monitor_range.mi=
-n_vfreq);
-> +	seq_printf(m, "Max: %u\n", (u8)connector->display_info.monitor_range.ma=
-x_vfreq);
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(vrr_range);
-> +
->  static const struct file_operations drm_edid_fops =3D {
->  	.owner =3D THIS_MODULE,
->  	.open =3D edid_open,
-> @@ -413,6 +431,10 @@ void drm_debugfs_connector_add(struct drm_connector =
-*connector)
->  	/* edid */
->  	debugfs_create_file("edid_override", S_IRUGO | S_IWUSR, root, connector,
->  			    &drm_edid_fops);
-> +
-> +	/* vrr range */
-> +	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
-> +			    &vrr_range_fops);
->  }
->  =
-
->  void drm_debugfs_connector_remove(struct drm_connector *connector)
-> -- =
-
-> 2.20.1
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBKdW4gMTksIDIwMjAgYXQgMjowOSBQTSBKZXJvbWUgR2xpc3NlIDxqZ2xpc3NlQHJl
+ZGhhdC5jb20+IHdyb3RlOgo+Cj4gT24gRnJpLCBKdW4gMTksIDIwMjAgYXQgMDI6MjM6MDhQTSAt
+MDMwMCwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+ID4gT24gRnJpLCBKdW4gMTksIDIwMjAgYXQg
+MDY6MTk6NDFQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+Cj4gPiA+IFRoZSBtYWRu
+ZXNzIGlzIG9ubHkgdGhhdCBkZXZpY2UgQidzIG1tdSBub3RpZmllciBtaWdodCBuZWVkIHRvIHdh
+aXQKPiA+ID4gZm9yIGZlbmNlX0Igc28gdGhhdCB0aGUgZG1hIG9wZXJhdGlvbiBmaW5pc2hlcy4g
+V2hpY2ggaW4gdHVybiBoYXMgdG8KPiA+ID4gd2FpdCBmb3IgZGV2aWNlIEEgdG8gZmluaXNoIGZp
+cnN0Lgo+ID4KPiA+IFNvLCBpdCBzb3VuZCwgZnVuZGFtZW50YWxseSB5b3UndmUgZ290IHRoaXMg
+Z3JhcGggb2Ygb3BlcmF0aW9ucyBhY3Jvc3MKPiA+IGFuIHVua25vd24gc2V0IG9mIGRyaXZlcnMg
+YW5kIHRoZSBrZXJuZWwgY2Fubm90IGluc2VydCBpdHNlbGYgaW4KPiA+IGRtYV9mZW5jZSBoYW5k
+IG9mZnMgdG8gcmUtdmFsaWRhdGUgYW55IG9mIHRoZSBidWZmZXJzIGludm9sdmVkPwo+ID4gQnVm
+ZmVycyB3aGljaCBieSBkZWZpbml0aW9uIGNhbm5vdCBiZSB0b3VjaGVkIGJ5IHRoZSBoYXJkd2Fy
+ZSB5ZXQuCj4gPgo+ID4gVGhhdCByZWFsbHkgaXMgYSBwcmV0dHkgaG9ycmlibGUgcGxhY2UgdG8g
+ZW5kIHVwLi4KPiA+Cj4gPiBQaW5uaW5nIHJlYWxseSBpcyByaWdodCBhbnN3ZXIgZm9yIHRoaXMg
+a2luZCBvZiB3b3JrIGZsb3cuIEkgdGhpbmsKPiA+IGNvbnZlcnRpbmcgcGlubmluZyB0byBub3Rp
+ZmVycyBzaG91bGQgbm90IGJlIGRvbmUgdW5sZXNzIG5vdGlmaWVyCj4gPiBpbnZhbGlkYXRpb24g
+aXMgcmVsYXRpdmVseSBib3VuZGVkLgo+ID4KPiA+IEkga25vdyBwZW9wbGUgbGlrZSBub3RpZmll
+cnMgYmVjYXVzZSB0aGV5IGdpdmUgYSBiaXQgbmljZXIgcGVyZm9ybWFuY2UKPiA+IGluIHNvbWUg
+aGFwcHkgY2FzZXMsIGJ1dCB0aGlzIGNyaXBwbGVzIGFsbCB0aGUgYmFkIGNhc2VzLi4KPiA+Cj4g
+PiBJZiBwaW5uaW5nIGRvZXNuJ3Qgd29yayBmb3Igc29tZSByZWFzb24gbWF5YmUgd2Ugc2hvdWxk
+IGFkZHJlc3MgdGhhdD8KPgo+IE5vdGUgdGhhdCB0aGUgZG1hIGZlbmNlIGlzIG9ubHkgdHJ1ZSBm
+b3IgdXNlciBwdHIgYnVmZmVyIHdoaWNoIHByZWRhdGUKPiBhbnkgSE1NIHdvcmsgYW5kIHRodXMg
+d2VyZSB1c2luZyBtbXUgbm90aWZpZXIgYWxyZWFkeS4gWW91IG5lZWQgdGhlCj4gbW11IG5vdGlm
+aWVyIHRoZXJlIGJlY2F1c2Ugb2YgZm9yayBhbmQgb3RoZXIgY29ybmVyIGNhc2VzLgo+Cj4gRm9y
+IG5vdXZlYXUgdGhlIG5vdGlmaWVyIGRvIG5vdCBuZWVkIHRvIHdhaXQgZm9yIGFueXRoaW5nIGl0
+IGNhbiB1cGRhdGUKPiB0aGUgR1BVIHBhZ2UgdGFibGUgcmlnaHQgYXdheS4gTW9kdWxvIG5lZWRp
+bmcgdG8gd3JpdGUgdG8gR1BVIG1lbW9yeQo+IHVzaW5nIGRtYSBlbmdpbmUgaWYgdGhlIEdQVSBw
+YWdlIHRhYmxlIGlzIGluIEdQVSBtZW1vcnkgdGhhdCBpcyBub3QKPiBhY2Nlc3NpYmxlIGZyb20g
+dGhlIENQVSBidXQgdGhhdCdzIG5ldmVyIHRoZSBjYXNlIGZvciBub3V2ZWF1IHNvIGZhcgo+IChi
+dXQgaSBleHBlY3QgaXQgd2lsbCBiZSBhdCBvbmUgcG9pbnQpLgo+Cj4KPiBTbyBpIHNlZSB0aGlz
+IGFzIDIgZGlmZmVyZW50IGNhc2VzLCB0aGUgdXNlciBwdHIgY2FzZSwgd2hpY2ggZG9lcyBwaW4K
+PiBwYWdlcyBieSB0aGUgd2F5LCB3aGVyZSB0aGluZ3MgYXJlIHN5bmNocm9ub3VzLiBWZXJzdXMg
+dGhlIEhNTSBjYXNlcwo+IHdoZXJlIGV2ZXJ5dGhpbmcgaXMgYXN5bmNocm9ub3VzLgo+Cj4KPiBJ
+IHByb2JhYmx5IG5lZWQgdG8gd2FybiBBTUQgZm9sa3MgYWdhaW4gdGhhdCB1c2luZyBITU0gbWVh
+bnMgdGhhdCB5b3UKPiBtdXN0IGJlIGFibGUgdG8gdXBkYXRlIHRoZSBHUFUgcGFnZSB0YWJsZSBh
+c3luY2hyb25vdXNseSB3aXRob3V0Cj4gZmVuY2Ugd2FpdC4gVGhlIGlzc3VlIGZvciBBTUQgaXMg
+dGhhdCB0aGV5IGFscmVhZHkgdXBkYXRlIHRoZWlyIEdQVQo+IHBhZ2UgdGFibGUgdXNpbmcgRE1B
+IGVuZ2luZS4gSSBiZWxpZXZlIHRoaXMgaXMgc3RpbGwgZG9hYmxlIGlmIHRoZXkKPiB1c2UgYSBr
+ZXJuZWwgb25seSBETUEgZW5naW5lIGNvbnRleHQsIHdoZXJlIG9ubHkga2VybmVsIGNhbiBxdWV1
+ZSB1cAo+IGpvYnMgc28gdGhhdCB5b3UgZG8gbm90IG5lZWQgdG8gd2FpdCBmb3IgdW5yZWxhdGVk
+IHRoaW5ncyBhbmQgeW91IGNhbgo+IHByaW9yaXRpemUgR1BVIHBhZ2UgdGFibGUgdXBkYXRlIHdo
+aWNoIHNob3VsZCB0cmFuc2xhdGUgaW4gZmFzdCBHUFUKPiBwYWdlIHRhYmxlIHVwZGF0ZSB3aXRo
+b3V0IERNQSBmZW5jZS4KCkFsbCBkZXZpY2VzIHdoaWNoIHN1cHBvcnQgcmVjb3ZlcmFibGUgcGFn
+ZSBmYXVsdHMgYWxzbyBoYXZlIGEKZGVkaWNhdGVkIHBhZ2luZyBlbmdpbmUgZm9yIHRoZSBrZXJu
+ZWwgZHJpdmVyIHdoaWNoIHRoZSBkcml2ZXIgYWxyZWFkeQptYWtlcyB1c2Ugb2YuICBXZSBjYW4g
+YWxzbyB1cGRhdGUgdGhlIEdQVSBwYWdlIHRhYmxlcyB3aXRoIHRoZSBDUFUuCgpBbGV4Cgo+Cj4K
+PiA+ID4gRnVsbCBkaXNjbG9zdXJlOiBXZSBhcmUgYXdhcmUgdGhhdCB3ZSd2ZSBkZXNpZ25lZCBv
+dXJzZWx2ZXMgaW50byBhbgo+ID4gPiBpbXByZXNzaXZlIGNvcm5lciBoZXJlLCBhbmQgdGhlcmUn
+cyBsb3RzIG9mIHRhbGtzIGdvaW5nIG9uIGFib3V0Cj4gPiA+IHVudGFuZ2xpbmcgdGhlIGRtYSBz
+eW5jaHJvbml6YXRpb24gZnJvbSB0aGUgbWVtb3J5IG1hbmFnZW1lbnQKPiA+ID4gY29tcGxldGVs
+eS4gQnV0Cj4gPgo+ID4gSSB0aGluayB0aGUgZG9jdW1lbnRpbmcgaXMgcmVhbGx5IGltcG9ydGFu
+dDogb25seSBHUFUgc2hvdWxkIGJlIHVzaW5nCj4gPiB0aGlzIHN0dWZmIGFuZCBkcml2aW5nIG5v
+dGlmaWVycyB0aGlzIHdheS4gQ29tcGxldGUgTk8gZm9yIGFueQo+ID4gdG90YWxseS1ub3QtYS1H
+UFUgdGhpbmdzIGluIGRyaXZlcnMvYWNjZWwgZm9yIHN1cmUuCj4KPiBZZXMgZm9yIHVzZXIgdGhh
+dCBleHBlY3QgSE1NIHRoZXkgbmVlZCB0byBiZSBhc3luY2hyb25vdXMuIEJ1dCBpdCBpcwo+IGhh
+cmQgdG8gcmV2ZXJ0IHVzZXIgcHRyIGhhcyBpdCB3YXMgZG9uZSBhIGxvbmcgdGltZSBhZ28uCj4K
+PiBDaGVlcnMsCj4gSsOpcsO0bWUKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vYW1kLWdmeApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
