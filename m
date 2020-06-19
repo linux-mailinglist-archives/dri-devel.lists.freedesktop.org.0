@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBAB200480
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 11:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA172004BD
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 11:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF85D6EC39;
-	Fri, 19 Jun 2020 09:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7559F6EC4D;
+	Fri, 19 Jun 2020 09:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 127466EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 09:00:26 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A12452B;
- Fri, 19 Jun 2020 02:00:25 -0700 (PDT)
-Received: from [192.168.1.84] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D341E3F71F;
- Fri, 19 Jun 2020 02:00:23 -0700 (PDT)
-Subject: Re: [PATCH 2/2] panfrost: Add compatible string for bifrost
-To: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- LKML <linux-kernel@vger.kernel.org>
-References: <20200611085900.49740-1-tomeu.vizoso@collabora.com>
- <20200611085900.49740-2-tomeu.vizoso@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <1b72d5ad-365f-e7fb-624e-b88420ff264b@arm.com>
-Date: Fri, 19 Jun 2020 10:00:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895676EC4C;
+ Fri, 19 Jun 2020 09:14:07 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 21546831-1500050 for multiple; Fri, 19 Jun 2020 10:13:39 +0100
 MIME-Version: 1.0
-In-Reply-To: <20200611085900.49740-2-tomeu.vizoso@collabora.com>
-Content-Language: en-GB
+In-Reply-To: <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch>
+ <159186243606.1506.4437341616828968890@build.alporthouse.com>
+ <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+ <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+ <159255511144.7737.12635440776531222029@build.alporthouse.com>
+ <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <159255801588.7737.4425728073225310839@build.alporthouse.com>
+User-Agent: alot/0.8.1
+Date: Fri, 19 Jun 2020 10:13:35 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,45 +44,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, linux-rdma <linux-rdma@vger.kernel.org>, Intel Graphics Development <intel-gfx@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, DRI Development <dri-devel@lists.freedesktop.org>, "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, Thomas Hellstrom <thomas.hellstrom@intel.com>, Daniel Vetter <daniel.vetter@intel.com>, Mika Kuoppala <mika.kuoppala@intel.com>, Christian König <christian.koenig@amd.com>, Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06/2020 09:58, Tomeu Vizoso wrote:
-> Mesa now supports some Bifrost devices, so enable it.
+Quoting Daniel Vetter (2020-06-19 09:51:59)
+> On Fri, Jun 19, 2020 at 10:25 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > Forcing a generic primitive to always be part of the same global map is
+> > horrible.
 > 
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-I've also dug out my Hikey960 (from the box it's been in since lock down 
-started), so I'll see if I can get things running on there, at the 
-moment I'm seeing some DATA_INVALID_FAULT regressions running my hacked 
-DDK :(
-
-Steve
-
-> ---
->   drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
->   1 file changed, 1 insertion(+)
+> And  no concrete example or reason for why that's not possible.
+> Because frankly it's not horrible, this is what upstream is all about:
+> Shared concepts, shared contracts, shared code.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 882fecc33fdb..8ff8e140f91e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -677,6 +677,7 @@ static const struct of_device_id dt_match[] = {
->   	{ .compatible = "arm,mali-t830", .data = &default_data, },
->   	{ .compatible = "arm,mali-t860", .data = &default_data, },
->   	{ .compatible = "arm,mali-t880", .data = &default_data, },
-> +	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
->   	{}
->   };
->   MODULE_DEVICE_TABLE(of, dt_match);
-> 
+> The proposed patches might very well encode the wrong contract, that's
+> all up for discussion. But fundamentally questioning that we need one
+> is missing what upstream is all about.
 
+Then I have not clearly communicated, as my opinion is not that
+validation is worthless, but that the implementation is enshrining a
+global property on a low level primitive that prevents it from being
+used elsewhere. And I want to replace completion [chains] with fences, and
+bio with fences, and closures with fences, and what other equivalencies
+there are in the kernel. The fence is as central a locking construct as
+struct completion and deserves to be a foundational primitive provided
+by kernel/ used throughout all drivers for discrete problem domains.
+
+This is narrowing dma_fence whereby adding
+	struct lockdep_map *dma_fence::wait_map
+and annotating linkage, allows you to continue to specify that all
+dma_fence used for a particular purpose must follow common rules,
+without restricting the primitive for uses outside of this scope.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
