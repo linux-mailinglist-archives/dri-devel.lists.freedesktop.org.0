@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFFE200C39
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 16:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CE9200E30
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 17:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EC3D6E161;
-	Fri, 19 Jun 2020 14:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C2B6E0FD;
+	Fri, 19 Jun 2020 15:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE7486E0F1;
- Fri, 19 Jun 2020 14:45:05 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id g1so7815586edv.6;
- Fri, 19 Jun 2020 07:45:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CFD46E05C
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 15:06:17 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id a21so8706155oic.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 08:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n3TBE7tx6S7GnpZVCrwlr/3N+oOzUPGbvusmUOmG/T0=;
- b=AxLuXevQ37Qe6irR4ELS8KP+FbtI7KzXJI7NPPBrQFIdiz2bPyjW2dwsDyUEuAZ6Gj
- obAXbSqGvGp46HL1svoQ4ohhMLjIhlffXnHZ/rd6JE333aLAHAfe6p6IEAkDpMyo0pXz
- 3gqCLLWBaQXFA+AKx51giDtpvGcOTXpNZQBkXRmjuL5/eK+mv5WjFpQ7EHYykN0iQqJQ
- 5tiAnbC+hsmw05IcJKVRoieT8Q91BROe1dS0b8nEaqn6ub+ly4za5VRH9v4PT/EhZQS7
- GynsqTBgTG8dn/wZF0n7EHmYWJlx404GKADvC7euqmHvIFUdOyYzOlOpc7sXgaE5Mzfs
- JnlA==
+ :cc:content-transfer-encoding;
+ bh=l5bPDp6tSQ6UB25Tmr+FxCYVIvJPeZJlOAF1u+aQ9Rs=;
+ b=V1jFXKxH9JLOzMoiPIzD5AaSDKHq7RFlO6xezDKhJyRYz93hCrYjWgdK7OEyodFwM2
+ kDzGATay8IHh8e80+mnVWhb8ejljyl7TC9nAm9rnfWCRB2CH7Y5/uH3a16+C1ds/YG6W
+ L2ObS2Ab5ArSWEXfmwsNABGkjrImJGIKuRrck=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n3TBE7tx6S7GnpZVCrwlr/3N+oOzUPGbvusmUOmG/T0=;
- b=JS3sfZW4j8AQzMmLxUvfADzHuRZJbI3SDkPaBq3XG/wd3Et34SP6OrVRcH4USQZVEa
- 5zq7iM16+HWs3e6vxTwDjMPJuuetwvP57+BAQPQq64JUxDjS6hzFJuPiVO51l19j9AzT
- m+AhjdTpmkAC0+npltZ1mIZ9f7xhyQDgFVvf+Fi7NOfezpfveLaZ4/gZ4w+b9BDwGUYT
- EzcR1/56q3wxGXVsADHYNmpqQw7EW4jKBZgMC5HPLd5aAnRZT+aQuzUcrZpBL0hYKQfc
- rFKjbbEFcKb+M6nlOh0yHX5URhYcpmRB+LRZUYuM28ikeZ3JPMtTQPfk/VK9Mf77uguO
- gKNw==
-X-Gm-Message-State: AOAM533nlpuFhaZAWwoRkhxWO9j0cCzuRXPE+cgXUhgUgvzgkgSWBu16
- ElLBN+TrHu6EiMDYQC5IrBE3VlxJpYtpKFA6aFU=
-X-Google-Smtp-Source: ABdhPJyrHWOsI7xCVBWiV5yZaFNfurId9widfkp7/AgosrKLWEbgVSdn17jhr9iXO5CndhUq8INILlVyez+GNc7k8GQ=
-X-Received: by 2002:aa7:da14:: with SMTP id r20mr3712651eds.7.1592577904398;
- Fri, 19 Jun 2020 07:45:04 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=l5bPDp6tSQ6UB25Tmr+FxCYVIvJPeZJlOAF1u+aQ9Rs=;
+ b=fZrDMHfBcgSBV52hMzR4U+jJwMNjXtj0j5NNQ36AVviFmyXqdW2O+F4mvIDOj+qpXe
+ OM39czrSIetb7oJvD+UGCw3pLnQpBEKsyNNIGmJaLcbQ5j+y3nimUHQriVioxlMT9xiu
+ +xWc8FgXtDUB38Qo5bZ5WP7pjzTyks7N4LJsiBp3n6e+8Zrk7ro+W6QWIu8uVwfczWV+
+ joO0zhxfRQAs7MMl3jV6u0eTCkXZnPF8ZDWphudTU/2pdw3c+mRyEIYn+GJHZX9dJBi5
+ EMSbxlb7UyOE/jhTXjJvUCkKc8+PkfkXi+FqbVr4GFDx/BSmQ/a7gg7uouPwACya9xMK
+ BKXg==
+X-Gm-Message-State: AOAM532qXKdAmI1pvT5ZdBs1d9G8NTM3oJPSpSiMLGieOcSBuz7zWHoP
+ AJlPs4vsykRI1KISwth1akNfHvAlMbR0qgYhry1yKw==
+X-Google-Smtp-Source: ABdhPJzkpCIjuIXUDXsaWuT9KnXo7xRSxKpK3kVIgCwYzrv9QHH1pbq5icbg335wwjGkDiUm4Nr1W4w/4YXBEbh0gJs=
+X-Received: by 2002:aca:aaca:: with SMTP id t193mr3427302oie.14.1592579176624; 
+ Fri, 19 Jun 2020 08:06:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20200619103702eucas1p1c57147013bbac3968f6ba073caec68b5@eucas1p1.samsung.com>
- <20200619103636.11974-1-m.szyprowski@samsung.com>
- <20200619103636.11974-14-m.szyprowski@samsung.com>
-In-Reply-To: <20200619103636.11974-14-m.szyprowski@samsung.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 19 Jun 2020 07:45:32 -0700
-Message-ID: <CAF6AEGv9We+wD72_px3mucsXQuTFZ3ZX_CAA1LTysMBdiDcEFw@mail.gmail.com>
-Subject: Re: [PATCH v7 13/36] drm: msm: fix common struct sg_table related
- issues
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+References: <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca> <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca> <20200618150051.GS20149@phenom.ffwll.local>
+ <20200618172338.GM6578@ziepe.ca>
+ <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+In-Reply-To: <20200619113934.GN6578@ziepe.ca>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 19 Jun 2020 17:06:04 +0200
+Message-ID: <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+To: Jason Gunthorpe <jgg@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,144 +66,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-rdma <linux-rdma@vger.kernel.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Mika Kuoppala <mika.kuoppala@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 19, 2020 at 3:37 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-> returns the number of the created entries in the DMA address space.
-> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-> dma_unmap_sg must be called with the original number of the entries
-> passed to the dma_map_sg().
->
-> struct sg_table is a common structure used for describing a non-contiguous
-> memory buffer, used commonly in the DRM and graphics subsystems. It
-> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-> and DMA mapped pages (nents entry).
->
-> It turned out that it was a common mistake to misuse nents and orig_nents
-> entries, calling DMA-mapping functions with a wrong number of entries or
-> ignoring the number of mapped entries returned by the dma_map_sg()
-> function.
->
-> To avoid such issues, lets use a common dma-mapping wrappers operating
-> directly on the struct sg_table objects and use scatterlist page
-> iterators where possible. This, almost always, hides references to the
-> nents and orig_nents entries, making the code robust, easier to follow
-> and copy/paste safe.
->
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-Acked-by: Rob Clark <robdclark@gmail.com>
-
-(let me know if you want me to take this one in via msm-next or if the
-plan is to take the series via drm-misc)
-
-
-> ---
->  drivers/gpu/drm/msm/msm_gem.c    | 13 +++++--------
->  drivers/gpu/drm/msm/msm_gpummu.c | 14 ++++++--------
->  drivers/gpu/drm/msm/msm_iommu.c  |  2 +-
->  3 files changed, 12 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 38b0c0e1f83e..e0d5fd36ea8f 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -53,11 +53,10 @@ static void sync_for_device(struct msm_gem_object *msm_obj)
->         struct device *dev = msm_obj->base.dev->dev;
->
->         if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
-> -               dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
-> -                       msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
-> +               dma_sync_sgtable_for_device(dev, msm_obj->sgt,
-> +                                           DMA_BIDIRECTIONAL);
->         } else {
-> -               dma_map_sg(dev, msm_obj->sgt->sgl,
-> -                       msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
-> +               dma_map_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
->         }
->  }
->
-> @@ -66,11 +65,9 @@ static void sync_for_cpu(struct msm_gem_object *msm_obj)
->         struct device *dev = msm_obj->base.dev->dev;
->
->         if (get_dma_ops(dev) && IS_ENABLED(CONFIG_ARM64)) {
-> -               dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
-> -                       msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
-> +               dma_sync_sgtable_for_cpu(dev, msm_obj->sgt, DMA_BIDIRECTIONAL);
->         } else {
-> -               dma_unmap_sg(dev, msm_obj->sgt->sgl,
-> -                       msm_obj->sgt->nents, DMA_BIDIRECTIONAL);
-> +               dma_unmap_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
->         }
->  }
->
-> diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-> index 310a31b05faa..319f06c28235 100644
-> --- a/drivers/gpu/drm/msm/msm_gpummu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpummu.c
-> @@ -30,21 +30,19 @@ static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
->  {
->         struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
->         unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
-> -       struct scatterlist *sg;
-> +       struct sg_dma_page_iter dma_iter;
->         unsigned prot_bits = 0;
-> -       unsigned i, j;
->
->         if (prot & IOMMU_WRITE)
->                 prot_bits |= 1;
->         if (prot & IOMMU_READ)
->                 prot_bits |= 2;
->
-> -       for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> -               dma_addr_t addr = sg->dma_address;
-> -               for (j = 0; j < sg->length / GPUMMU_PAGE_SIZE; j++, idx++) {
-> -                       gpummu->table[idx] = addr | prot_bits;
-> -                       addr += GPUMMU_PAGE_SIZE;
-> -               }
-> +       for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
-> +               dma_addr_t addr = sg_page_iter_dma_address(&dma_iter);
-> +
-> +               BUILD_BUG_ON(GPUMMU_PAGE_SIZE != PAGE_SIZE);
-> +               gpummu->table[idx++] = addr | prot_bits;
->         }
->
->         /* we can improve by deferring flush for multiple map() */
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> index 3a381a9674c9..6c31e65834c6 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -36,7 +36,7 @@ static int msm_iommu_map(struct msm_mmu *mmu, uint64_t iova,
->         struct msm_iommu *iommu = to_msm_iommu(mmu);
->         size_t ret;
->
-> -       ret = iommu_map_sg(iommu->domain, iova, sgt->sgl, sgt->nents, prot);
-> +       ret = iommu_map_sgtable(iommu->domain, iova, sgt, prot);
->         WARN_ON(!ret);
->
->         return (ret == len) ? 0 : -EINVAL;
-> --
-> 2.17.1
->
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBKdW4gMTksIDIwMjAgYXQgMTozOSBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVw
+ZS5jYT4gd3JvdGU6Cj4KPiBPbiBGcmksIEp1biAxOSwgMjAyMCBhdCAwOToyMjowOUFNICswMjAw
+LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gPiBBcyBJJ3ZlIHVuZGVyc3Rvb2QgR1BVIHRoYXQg
+bWVhbnMgeW91IG5lZWQgdG8gc2hvdyB0aGF0IHRoZSBjb21tYW5kcwo+ID4gPiBhc3NvY2lhdGVk
+IHdpdGggdGhlIGJ1ZmZlciBoYXZlIGNvbXBsZXRlZC4gVGhpcyBpcyBhbGwgbG9jYWwgc3R1ZmYK
+PiA+ID4gd2l0aGluIHRoZSBkcml2ZXIsIHJpZ2h0PyBXaHkgdXNlIGZlbmNlIChvdGhlciB0aGFu
+IGl0IGFscmVhZHkgZXhpc3RzKQo+ID4KPiA+IEJlY2F1c2UgdGhhdCdzIHRoZSBlbmQtb2YtZG1h
+IHRoaW5nLiBBbmQgaXQncyBjcm9zcy1kcml2ZXIgZm9yIHRoZQo+ID4gYWJvdmUgcmVhc29ucywg
+ZS5nLgo+ID4gLSBkZXZpY2UgQSByZW5kZXJzIHNvbWUgc3R1ZmYuIFVzZXJzcGFjZSBnZXRzIGRt
+YV9mZW5jZSBBIG91dCBvZiB0aGF0Cj4gPiAod2VsbCBzeW5jX2ZpbGUgb3Igb25lIG9mIHRoZSBv
+dGhlciB1YXBpIGludGVyZmFjZXMsIGJ1dCB5b3UgZ2V0IHRoZQo+ID4gaWRlYSkKPiA+IC0gdXNl
+cnNwYWNlIChhY3Jvc3MgcHJvY2VzcyBvciBqdXN0IGRpZmZlcmVudCBkcml2ZXIpIGlzc3VlcyBt
+b3JlCj4gPiByZW5kZXJpbmcgZm9yIGRldmljZSBCLCB3aGljaCBkZXBlbmRzIHVwb24gdGhlIHJl
+bmRlcmluZyBkb25lIG9uCj4gPiBkZXZpY2UgQS4gU28gZG1hX2ZlbmNlIEEgaXMgYW4gZGVwZW5k
+ZW5jeSBhbmQgd2lsbCBibG9jayB0aGlzIGRtYQo+ID4gb3BlcmF0aW9uLiBVc2Vyc3BhY2UgKGFu
+ZCB0aGUga2VybmVsKSBnZXRzIGRtYV9mZW5jZSBCIG91dCBvZiB0aGlzCj4gPiAtIGJlY2F1c2Ug
+dW5mb3J0dW5hdGUgcmVhc29ucywgdGhlIHNhbWUgcmVuZGVyaW5nIG9uIGRldmljZSBCIGFsc28K
+PiA+IG5lZWRzIGEgdXNlcnB0ciBidWZmZXIsIHdoaWNoIG1lYW5zIHRoYXQgZG1hX2ZlbmNlIEIg
+aXMgYWxzbyB0aGUgb25lCj4gPiB0aGF0IHRoZSBtbXVfcmFuZ2Vfbm90aWZpZXIgbmVlZHMgdG8g
+d2FpdCBvbiBiZWZvcmUgaXQgY2FuIHRlbGwgY29yZQo+ID4gbW0gdGhhdCBpdCBjYW4gZ28gYWhl
+YWQgYW5kIHJlbGVhc2UgdGhvc2UgcGFnZXMKPgo+IEkgd2FzIGFmcmFpZCB5b3UnZCBzYXkgdGhp
+cyAtIHRoaXMgaXMgY29tcGxldGUgbWFkbmVzcyBmb3Igb3RoZXIgRE1BCj4gZGV2aWNlcyB0byBi
+b3Jyb3cgdGhlIG5vdGlmaWVyIGhvb2sgb2YgdGhlIGZpcnN0IGRldmljZSEKClRoZSBmaXJzdCBk
+ZXZpY2UgbWlnaHQgbm90IGV2ZW4gaGF2ZSBhIG5vdGlmaWVyLiBUaGlzIGlzIHRoZSAybmQKZGV2
+aWNlLCB3YWl0aW5nIG9uIGEgZG1hX2ZlbmNlIG9mIGl0cyBvd24sIGJ1dCB3aGljaCBoYXBwZW5z
+IHRvIGJlCnF1ZXVlZCB1cCBhcyBhIGRtYSBvcGVyYXRpb24gYmVoaW5kIHNvbWV0aGluZyBlbHNl
+LgoKPiBXaGF0IGlmIHRoZSBmaXJzdCBkZXZpY2UgaXMgYSBwYWdlIGZhdWx0aW5nIGRldmljZSBh
+bmQgZG9lc24ndCBjYWxsCj4gZG1hX2ZlbmNlPz8KCk5vdCBzdXJlIHdoYXQgeW91IG1lYW4gd2l0
+aCB0aGlzIC4uLiBldmVuIGlmIGl0IGRvZXMgcGFnZS1mYXVsdGluZyBmb3IKc29tZSBvdGhlciBy
+ZWFzb25zLCBpdCdsbCBlbWl0IGEgZG1hX2ZlbmNlIHdoaWNoIHRoZSAybmQgZGV2aWNlIGNhbgpj
+b25zdW1lIGFzIGEgZGVwZW5kZW5jeS4KCj4gSXQgeW91IGFyZSBnb2luZyB0byB0cmVhdCB0aGlu
+Z3MgdGhpcyB3YXkgdGhlbiB0aGUgbW11IG5vdGlmaWVyIHJlYWxseQo+IG5lZWRzIHRvIGJlIHBh
+cnQgb2YgdGhlIHNvbWUgY29yZSBETUEgYnVmLCBhbmQgbm90IHJhbmRvbWx5IHNwcmlua2xlZAo+
+IGluIGRyaXZlcnMKClNvIG1heWJlIGFnYWluIHVuY2xlYXIsIHdlIGRvbid0IGFsbG93IHN1Y2gg
+dXNlcnB0ciBkbWEtYnVmIHRvIGV2ZW4gYmUKc2hhcmVkLiBUaGV5J3JlIGp1c3QgZm9yIHNsdXJw
+aW5nIGluIHN0dWZmIGluIHRoZSBsb2NhbCBkZXZpY2UKKGdlbmVyYWwgZnJvbSBmaWxlIGlvIG9y
+IHNvbWV0aGluZyB0aGUgY3B1IGhhcyBkb25lIG9yIHNpbWlsYXIpLiBUaGVyZQpoYXZlIGJlZW4g
+YXR0ZW1wdHMgdG8gdXNlIGl0IGFzIHRoZSBnZW5lcmFsIGJhY2tpbmcgc3RvcmFnZSwgYnV0IHRo
+YXQKZGlkbid0IGdvIGRvd24gdG9vIHdlbGwgYmVjYXVzZSB3YXkgdG9vIG1hbnkgY29tcGxpY2F0
+aW9ucy4KCkdlbmVyYWxseSBtb3N0IG1lbW9yeSB0aGUgZ3B1IG9wZXJhdGVzIG9uIGlzbid0IHN0
+dWZmIHRoYXQncwptbXVfbm90aWZpZXInZWQuIEFuZCBhbHNvLCB0aGUgZGV2aWNlIHdpdGggdXNl
+cnB0ciBzdXBwb3J0IG9ubHkgd2FpdHMKZm9yIGl0cyBvd24gZG1hX2ZlbmNlIChiZWNhdXNlIHdl
+bGwgeW91IGNhbid0IHNoYXJlIHRoaXMgc3R1ZmYsIHdlCmRpc2FsbG93IHRoYXQpLgoKVGhlIHBy
+b2JsZW0gaXMgdGhhdCB0aGVyZSdzIHBpbGVzIG9mIG90aGVyIGRlcGVuZGVuY2llcyBmb3IgYSBk
+bWEgam9iLgpHUFUgZG9lc24ndCBqdXN0IGNvbnN1bWUgYSBzaW5nbGUgYnVmZmVyIGVhY2ggdGlt
+ZSwgaXQgY29uc3VtZXMgZW50aXJlCmxpc3RzIG9mIGJ1ZmZlcnMgYW5kIG1peGVzIHRoZW0gYWxs
+IHVwIGluIGZ1bm55IHdheXMuIFNvbWUgb2YgdGhlc2UKYnVmZmVycyBhcmUgdXNlcnB0ciwgZW50
+aXJlbHkgbG9jYWwgdG8gdGhlIGRldmljZS4gT3RoZXIgYnVmZmVycyBhcmUKanVzdCBub3JtYWwg
+ZGV2aWNlIGRyaXZlciBhbGxvY2F0aW9ucyAoYW5kIG1hbmFnZWQgd2l0aCBzb21lIHNocmlua2Vy
+CnRvIGtlZXAgdGhlbSBpbiBjaGVjaykuIEFuZCB0aGVuIHRoZXJlJ3MgdGhlIGFjdHVhbGx5IHNo
+YXJlZCBkbWEtYnVmCndpdGggb3RoZXIgZGV2aWNlcy4gVGhlIHRyb3VibGUgaXMgdGhhdCB0aGV5
+J3JlIGFsbCBidW5kbGVkIHVwCnRvZ2V0aGVyLgoKTm93IHdlIHByb2JhYmx5IHNob3VsZCBoYXZl
+IHNvbWUgaGVscGVyIGNvZGUgZm9yIHVzZXJwdHIgc28gdGhhdCBhbGwKZHJpdmVycyBkbyB0aGlz
+IHJvdWdobHkgdGhlIHNhbWUsIGJ1dCB0aGF0J3MganVzdCBub3QgdGhlcmUgeWV0LiBCdXQKaXQg
+Y2FuJ3QgYmUgYSBkbWEtYnVmIGV4cG9ydGVyIGJlaGluZCB0aGUgZG1hLWJ1ZiBpbnRlcmZhY2Vz
+LCBiZWNhdXNlCmV2ZW4ganVzdCBwaW5uZWQgZ2V0X3VzZXJfcGFnZXMgd291bGQgYmUgdG9vIGRp
+ZmZlcmVudCBzZW1hbnRpY3MKY29tcGFyZWQgdG8gbm9ybWFsIHNoYXJlZCBkbWEtYnVmIG9iamVj
+dHMsIHRoYXQncyBhbGwgdmVyeSB0aWdodGx5CnRpZWQgaW50byB0aGUgc3BlY2lmaWMgZHJpdmVy
+LgoKPiBCdXQgcmVhbGx5IHRoaXMgaXMgd2hhdCBwYWdlIHBpbm5pbmcgaXMgc3VwcG9zZWQgdG8g
+YmUgdXNlZCBmb3IsIHRoZQo+IE1NIGJlaGF2aW9yIHdoZW4gaXQgYmxvY2tzIG9uIGEgcGlubmVk
+IHBhZ2UgaXMgbGVzcyBpbnZhc2l2ZSB0aGFuIGlmCj4gaXQgc3RhbGxzIGluc2lkZSBhIG1tdSBu
+b3RpZmllci4KPgo+IFlvdSBjYW4gbWl4IGl0LCB1c2UgbW11IG5vdGlmaWZlcnMgdG8ga2VlcCB0
+cmFjayBpZiB0aGUgYnVmZmVyIGlzCj4gc3RpbGwgbGl2ZSwgYnV0IHdoZW4geW91IHdhbnQgdG8g
+dHJpZ2dlciBETUEgdGhlbiBwaW4gdGhlIHBhZ2VzIGFuZAo+IGtlZXAgdGhlbSBwaW5uZWQgdW50
+aWwgRE1BIGlzIGRvbmUuIFRoZSBwaW4gcHJvdGVjdHMgdGhpbmdzICh3ZWxsLAo+IGZvcmsgaXMg
+c3RpbGwgYSBwcm9ibGVtKQoKSG0gSSB0aG91Z2h0IGFtZGdwdSBoYWQgdGhhdCAob3IgZHJtL3Jh
+ZGVvbiBhcyB0aGUgcHJldmlvdXMKaW5jYXJuYXRpb24gb2YgdGhhdCBzdGFjayksIGFuZCB3YXMg
+dW5oYXBweSBhYm91dCB0aGUgaXNzdWVzLiBXb3VsZApuZWVkIENocmlzdGlhbiBLw7ZuaWcgdG8g
+Y2hpbWUgaW4uCgo+IERvIG5vdCBuZWVkIHRvIHdhaXQgb24gZG1hX2ZlbmNlIGluIG5vdGlmaWVy
+cy4KCk1heWJlIDotKSBUaGUgZ29hbCBvZiB0aGlzIHNlcmllcyBpcyBtb3JlIHRvIGRvY3VtZW50
+IGN1cnJlbnQgcnVsZXMKYW5kIG1ha2UgdGhlbSBtb3JlIGNvbnNpc3RlbnQuIEZpeGluZyB0aGVt
+IGlmIHdlIGRvbid0IGxpa2UgdGhlbSBtaWdodApiZSBhIGZvbGxvdy11cCB0YXNrLCBidXQgdGhh
+dCB3b3VsZCBsaWtlbHkgYmUgYSBwaWxlIG1vcmUgd29yay4gRmlyc3QKd2UgbmVlZCB0byBrbm93
+IHdoYXQgdGhlIGV4YWN0IHNoYXBlIG9mIHRoZSBwcm9ibGVtIGV2ZW4gaXMuCi1EYW5pZWwKLS0g
+CkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6
+Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
