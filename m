@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F93200A0C
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:28:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D43A5200A43
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:35:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1896ECBD;
-	Fri, 19 Jun 2020 13:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD476ECBF;
+	Fri, 19 Jun 2020 13:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EF16ECBB;
- Fri, 19 Jun 2020 13:27:56 +0000 (UTC)
-IronPort-SDR: wEK+eVcWZ600z/VzJTy7JhZbS+fPYIuBIu0HlEipwMTeqLG9dm0Kla9cC2kjUKnraXhyzLyOQW
- nHANfMk/ZDHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="208188901"
-X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="208188901"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2020 06:27:56 -0700
-IronPort-SDR: e3WpgZ/KA5DpaA76t5xMegdycJhEmc+1CnPvripZwGxMVCnjHYsZAAyCRnifrZVeF+E5NkP3gC
- jXyTHGtk2TMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="421849405"
-Received: from bhanu-nuc8i7beh.iind.intel.com ([10.145.162.210])
- by orsmga004.jf.intel.com with ESMTP; 19 Jun 2020 06:27:53 -0700
-From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
-To: bhanuprakash.modem@intel.com, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [v8 3/3] drm/debug: Expose connector VRR monitor range via debugfs
-Date: Sat, 20 Jun 2020 02:53:56 +0530
-Message-Id: <20200619212356.19285-4-bhanuprakash.modem@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200619212356.19285-1-bhanuprakash.modem@intel.com>
-References: <20200619212356.19285-1-bhanuprakash.modem@intel.com>
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70EF76ECBC;
+ Fri, 19 Jun 2020 13:34:59 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0bac004d57d24caa4a0e33.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0b:ac00:4d57:d24c:aa4a:e33])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EB6C81EC03D0;
+ Fri, 19 Jun 2020 15:34:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1592573697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=u1GbBe13gJ4BTiGHsY3PCYbsBzZ3KFyUO+55Ve0pR54=;
+ b=L0o8zXrCdiGsWBnTPoYSrRxtzWeXTGACHWMrRpLgDbX6BXPrI8HiyVTYCS/RWukSK4Ofsz
+ mbhXGH1l8VKsrOmCeBqf6jsf864MZlN3BDKOWZwlCpmWGTWb6asrbx8jZetpKzaSerQOhE
+ CcGVMpI6l/Hfh8bLprQOFcIpSAjqt54=
+Date: Fri, 19 Jun 2020 15:34:49 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: Re: [Nouveau] 2dd4d163cd9c ("drm/nouveau: remove open-coded version
+ of remove_conflicting_pci_framebuffers()")
+Message-ID: <20200619133449.GD32683@zn.tnic>
+References: <20200618200106.GF27951@zn.tnic>
+ <CAKb7UviibvRfqJgtLkePEuXFa6mQfi4h=7eeW+YQxB-StVjjrA@mail.gmail.com>
+ <20200618203907.GG27951@zn.tnic>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200618203907.GG27951@zn.tnic>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,86 +51,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1doeV0KSXQncyB1c2VmdWwgdG8ga25vdyB0aGUgbWluIGFuZCBtYXggdnJyIHJhbmdlIGZvciBJ
-R1QgdGVzdGluZy4KCltIb3ddCkV4cG9zZSB0aGUgbWluIGFuZCBtYXggdmZyZXEgZm9yIHRoZSBj
-b25uZWN0b3IgdmlhIGEgZGVidWdmcyBmaWxlCm9uIHRoZSBjb25uZWN0b3IsICJ2cnJfcmFuZ2Ui
-LgoKRXhhbXBsZSB1c2FnZTogY2F0IC9zeXMva2VybmVsL2RlYnVnL2RyaS8wL0RQLTEvdnJyX3Jh
-bmdlCgp2MjoKKiBGaXggdGhlIHR5cG8gaW4gbWF4X3ZmcmVxIChNYW5hc2kpCiogQ2hhbmdlIHRo
-ZSBuYW1lIG9mIG5vZGUgdG8gaTkxNV92cnJfaW5mbyBzbyB3ZSBjYW4gYWRkCm90aGVyIHZyciBp
-bmZvIGZvciBtb3JlIGRlYnVnIGluZm8gKE1hbmFzaSkKKiBDaGFuZ2UgdGhlIFZSUiBjYXBhYmxl
-IHRvIGRpc3BsYXkgWWVzIG9yIE5vIChNYW5hc2kpCiogRml4IGluZGVudGF0aW9uIGNoZWNrcGF0
-Y2ggZXJyb3JzIChNYW5hc2kpCnYzOgoqIFJlbW92ZSB0aGUgdW5uZWNlc3NhcnkgZGVidWcgcHJp
-bnQgKE1hbmFzaSkKdjQ6CiogUmViYXNlCnY1OgoqIFJlbmFtZSB0byB2cnJfcmFuZ2UgdG8gbWF0
-Y2ggQU1EIGRlYnVnZnMKdjY6CiogUmViYXNlIChtYW5hc2kpCnY3OgoqIEZpeCBjbXBpbGF0aW9u
-IGR1ZSB0byByZWJhc2UKdjg6CiogTW92ZSBkZWJ1Z2ZzIG5vZGUgY3JlYXRpb24gbG9naWMgdG8g
-RFJNIChFbWlsKQoqIFJlbW92ZSBBTUQgc3BlY2lmaWMgbG9naWMgKEVtaWwpCgpTaWduZWQtb2Zm
-LWJ5OiBCaGFudXByYWthc2ggTW9kZW0gPGJoYW51cHJha2FzaC5tb2RlbUBpbnRlbC5jb20+ClNp
-Z25lZC1vZmYtYnk6IE1hbmFzaSBOYXZhcmUgPG1hbmFzaS5kLm5hdmFyZUBpbnRlbC5jb20+CkNj
-OiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tPgpDYzogVmlsbGUgU3ly
-asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IEhhcnJ5IFdlbnRsYW5k
-IDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgotLS0KIC4uLi9hbWQvZGlzcGxheS9hbWRncHVfZG0v
-YW1kZ3B1X2RtX2RlYnVnZnMuYyB8IDIwIC0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2RlYnVnZnMuYyAgICAgICAgICAgICAgICAgfCAyMiArKysrKysrKysrKysrKysrKysr
-CiAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDIwIGRlbGV0aW9ucygtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2Rt
-X2RlYnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1
-X2RtX2RlYnVnZnMuYwppbmRleCAwNzZhZjI2N2I0ODguLjcxMzg3ZDJhZjJlZCAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG1fZGVidWdm
-cy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2Rt
-X2RlYnVnZnMuYwpAQCAtODIwLDI0ICs4MjAsNiBAQCBzdGF0aWMgaW50IG91dHB1dF9icGNfc2hv
-dyhzdHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRhdGEpCiAJcmV0dXJuIHJlczsKIH0KIAotLyoK
-LSAqIFJldHVybnMgdGhlIG1pbiBhbmQgbWF4IHZyciB2ZnJlcSB0aHJvdWdoIHRoZSBjb25uZWN0
-b3IncyBkZWJ1Z2ZzIGZpbGUuCi0gKiBFeGFtcGxlIHVzYWdlOiBjYXQgL3N5cy9rZXJuZWwvZGVi
-dWcvZHJpLzAvRFAtMS92cnJfcmFuZ2UKLSAqLwotc3RhdGljIGludCB2cnJfcmFuZ2Vfc2hvdyhz
-dHJ1Y3Qgc2VxX2ZpbGUgKm0sIHZvaWQgKmRhdGEpCi17Ci0Jc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvciA9IG0tPnByaXZhdGU7Ci0Jc3RydWN0IGFtZGdwdV9kbV9jb25uZWN0b3IgKmFj
-b25uZWN0b3IgPSB0b19hbWRncHVfZG1fY29ubmVjdG9yKGNvbm5lY3Rvcik7Ci0KLQlpZiAoY29u
-bmVjdG9yLT5zdGF0dXMgIT0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQpCi0JCXJldHVybiAt
-RU5PREVWOwotCi0Jc2VxX3ByaW50ZihtLCAiTWluOiAldVxuIiwgKHVuc2lnbmVkIGludClhY29u
-bmVjdG9yLT5taW5fdmZyZXEpOwotCXNlcV9wcmludGYobSwgIk1heDogJXVcbiIsICh1bnNpZ25l
-ZCBpbnQpYWNvbm5lY3Rvci0+bWF4X3ZmcmVxKTsKLQotCXJldHVybiAwOwotfQotCiAjaWZkZWYg
-Q09ORklHX0RSTV9BTURfRENfSERDUAogLyoKICAqIFJldHVybnMgdGhlIEhEQ1AgY2FwYWJpbGl0
-eSBvZiB0aGUgRGlzcGxheSAoMS40IGZvciBub3cpLgpAQCAtMTAwMSw3ICs5ODMsNiBAQCBzdGF0
-aWMgc3NpemVfdCBkcF9kcGNkX2RhdGFfcmVhZChzdHJ1Y3QgZmlsZSAqZiwgY2hhciBfX3VzZXIg
-KmJ1ZiwKIERFRklORV9TSE9XX0FUVFJJQlVURShkbXViX2Z3X3N0YXRlKTsKIERFRklORV9TSE9X
-X0FUVFJJQlVURShkbXViX3RyYWNlYnVmZmVyKTsKIERFRklORV9TSE9XX0FUVFJJQlVURShvdXRw
-dXRfYnBjKTsKLURFRklORV9TSE9XX0FUVFJJQlVURSh2cnJfcmFuZ2UpOwogI2lmZGVmIENPTkZJ
-R19EUk1fQU1EX0RDX0hEQ1AKIERFRklORV9TSE9XX0FUVFJJQlVURShoZGNwX3NpbmtfY2FwYWJp
-bGl0eSk7CiAjZW5kaWYKQEAgLTEwNTksNyArMTA0MCw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ewogCQl7InBoeV9zZXR0aW5ncyIsICZkcF9waHlfc2V0dGluZ3NfZGVidWdmc19mb3B9LAogCQl7
-InRlc3RfcGF0dGVybiIsICZkcF9waHlfdGVzdF9wYXR0ZXJuX2ZvcHN9LAogCQl7Im91dHB1dF9i
-cGMiLCAmb3V0cHV0X2JwY19mb3BzfSwKLQkJeyJ2cnJfcmFuZ2UiLCAmdnJyX3JhbmdlX2ZvcHN9
-LAogI2lmZGVmIENPTkZJR19EUk1fQU1EX0RDX0hEQ1AKIAkJeyJoZGNwX3NpbmtfY2FwYWJpbGl0
-eSIsICZoZGNwX3NpbmtfY2FwYWJpbGl0eV9mb3BzfSwKICNlbmRpZgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMu
-YwppbmRleCBiZmU0NjAyZjIwNmIuLjNkNzE4MjAwMTAwNCAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9kZWJ1Z2ZzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzLmMK
-QEAgLTM3Niw2ICszNzYsMjQgQEAgc3RhdGljIHNzaXplX3QgZWRpZF93cml0ZShzdHJ1Y3QgZmls
-ZSAqZmlsZSwgY29uc3QgY2hhciBfX3VzZXIgKnVidWYsCiAJcmV0dXJuIChyZXQpID8gcmV0IDog
-bGVuOwogfQogCisvKgorICogUmV0dXJucyB0aGUgbWluIGFuZCBtYXggdnJyIHZmcmVxIHRocm91
-Z2ggdGhlIGNvbm5lY3RvcidzIGRlYnVnZnMgZmlsZS4KKyAqIEV4YW1wbGUgdXNhZ2U6IGNhdCAv
-c3lzL2tlcm5lbC9kZWJ1Zy9kcmkvMC9EUC0xL3Zycl9yYW5nZQorICovCitzdGF0aWMgaW50IHZy
-cl9yYW5nZV9zaG93KHN0cnVjdCBzZXFfZmlsZSAqbSwgdm9pZCAqZGF0YSkKK3sKKwlzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yID0gbS0+cHJpdmF0ZTsKKworCWlmIChjb25uZWN0b3It
-PnN0YXR1cyAhPSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZCkKKwkJcmV0dXJuIC1FTk9ERVY7
-CisKKwlzZXFfcHJpbnRmKG0sICJNaW46ICV1XG4iLCAodTgpY29ubmVjdG9yLT5kaXNwbGF5X2lu
-Zm8ubW9uaXRvcl9yYW5nZS5taW5fdmZyZXEpOworCXNlcV9wcmludGYobSwgIk1heDogJXVcbiIs
-ICh1OCljb25uZWN0b3ItPmRpc3BsYXlfaW5mby5tb25pdG9yX3JhbmdlLm1heF92ZnJlcSk7CisK
-KwlyZXR1cm4gMDsKK30KK0RFRklORV9TSE9XX0FUVFJJQlVURSh2cnJfcmFuZ2UpOworCiBzdGF0
-aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBkcm1fZWRpZF9mb3BzID0gewogCS5vd25l
-ciA9IFRISVNfTU9EVUxFLAogCS5vcGVuID0gZWRpZF9vcGVuLApAQCAtNDEzLDYgKzQzMSwxMCBA
-QCB2b2lkIGRybV9kZWJ1Z2ZzX2Nvbm5lY3Rvcl9hZGQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
-bm5lY3RvcikKIAkvKiBlZGlkICovCiAJZGVidWdmc19jcmVhdGVfZmlsZSgiZWRpZF9vdmVycmlk
-ZSIsIFNfSVJVR08gfCBTX0lXVVNSLCByb290LCBjb25uZWN0b3IsCiAJCQkgICAgJmRybV9lZGlk
-X2ZvcHMpOworCisJLyogdnJyIHJhbmdlICovCisJZGVidWdmc19jcmVhdGVfZmlsZSgidnJyX3Jh
-bmdlIiwgU19JUlVHTywgcm9vdCwgY29ubmVjdG9yLAorCQkJICAgICZ2cnJfcmFuZ2VfZm9wcyk7
-CiB9CiAKIHZvaWQgZHJtX2RlYnVnZnNfY29ubmVjdG9yX3JlbW92ZShzdHJ1Y3QgZHJtX2Nvbm5l
-Y3RvciAqY29ubmVjdG9yKQotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Jun 18, 2020 at 10:39:07PM +0200, Borislav Petkov wrote:
+> I'll redo the bisection tomorrow, on a fresh head, to check.
+
+Ok, just did it again, similar bisection log, points at the same commit.
+
+The commit before it:
+
+fb172f5fe880 ("drm/nouveau/gr/gk20a: move MODULE_FIRMWARE firmware definitions")
+
+boots ok but
+
+2dd4d163cd9c ("drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()")
+
+doesn't.
+
+Ideas?
+
+git bisect start
+# good: [3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162] Linux 5.7
+git bisect good 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+# bad: [5e857ce6eae7ca21b2055cca4885545e29228fe2] Merge branch 'hch' (maccess patches from Christoph Hellwig)
+git bisect bad 5e857ce6eae7ca21b2055cca4885545e29228fe2
+# bad: [a98f670e41a99f53acb1fb33cee9c6abbb2e6f23] Merge tag 'media/v5.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+git bisect bad a98f670e41a99f53acb1fb33cee9c6abbb2e6f23
+# bad: [5be993432821750f382809df5e20bf4c129b24f7] mm/hugetlb: define a generic fallback for arch_clear_hugepage_flags()
+git bisect bad 5be993432821750f382809df5e20bf4c129b24f7
+# good: [cfa3b8068b09f25037146bfd5eed041b78878bee] Merge tag 'for-linus-hmm' of git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma
+git bisect good cfa3b8068b09f25037146bfd5eed041b78878bee
+# good: [a1fb548962397bb8609bb46e566809a9a1b30044] Merge tag 'drm-intel-next-2020-04-30' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
+git bisect good a1fb548962397bb8609bb46e566809a9a1b30044
+# bad: [750a02ab8d3c49ca7d23102be90d3d1db19e2827] Merge tag 'for-5.8/block-2020-06-01' of git://git.kernel.dk/linux-block
+git bisect bad 750a02ab8d3c49ca7d23102be90d3d1db19e2827
+# good: [e20bb857dea2f620ff37ae541ed8aee70e3c89f1] Merge tag 'exynos-drm-next-for-v5.8' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next
+git bisect good e20bb857dea2f620ff37ae541ed8aee70e3c89f1
+# good: [e6e7abffe386b614a194ec32457a00c304c980f4] blk-mq: simplify the blk_mq_get_request calling convention
+git bisect good e6e7abffe386b614a194ec32457a00c304c980f4
+# bad: [7dbbdd37f2ae7dd4175ba3f86f4335c463b18403] drm/nouveau: use correct conflicting framebuffer API
+git bisect bad 7dbbdd37f2ae7dd4175ba3f86f4335c463b18403
+# bad: [0f85bbb6ae517d9a4308527188afe35c2012bbc9] drm/nouveau/device: use regular PRI accessors in chipset detection
+git bisect bad 0f85bbb6ae517d9a4308527188afe35c2012bbc9
+# good: [fa4f4c213f5f7807360c41f2501a3031a9940f3a] drm/nouveau/kms: Support NVIDIA format modifiers
+git bisect good fa4f4c213f5f7807360c41f2501a3031a9940f3a
+# bad: [e3d8b08904694e9ccae5163d0bb7d35fa66e5bdc] drm/nouveau/svm: map pages after migration
+git bisect bad e3d8b08904694e9ccae5163d0bb7d35fa66e5bdc
+# good: [fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb] drm/nouveau/gr/gk20a: move MODULE_FIRMWARE firmware definitions
+git bisect good fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb
+# bad: [b950c8c5d082d822b0134d1fc058101ab346e503] drm/nouveau/bios: move ACPI _ROM handling
+git bisect bad b950c8c5d082d822b0134d1fc058101ab346e503
+# bad: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
+git bisect bad 2dd4d163cd9c15432524aa9863155bc03a821361
+# first bad commit: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
