@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EED201D52
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 23:53:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11265201D59
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 23:55:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404BF6EB2B;
-	Fri, 19 Jun 2020 21:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350ED6EB6B;
+	Fri, 19 Jun 2020 21:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3F026EB2B
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 21:53:46 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A37D380518;
- Fri, 19 Jun 2020 23:53:43 +0200 (CEST)
-Date: Fri, 19 Jun 2020 23:53:41 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: backlight: Convert common backlight
- bindings to DT schema
-Message-ID: <20200619215341.GA6857@ravnborg.org>
-References: <20200618224413.1115849-1-robh@kernel.org>
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C23C6EB6B
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 21:55:12 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1592603713; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=wam1wyE1W3Of+tegUUPP3NeNpIntvTygPj4lrZBjm+o=;
+ b=l37D54Lvb9I6/dh+ec9lhSko6K/W20mx5d78XIJ9a1umbbOtkIdtKUzYszXDw3iWtYWBitL/
+ EWS4vMtHAraKGBY7reLdXWBpo9+r/TDIJbbXezZC6ZWZoTDRVtTBPOsnyLd2VkPP+ds+xyAL
+ jsZj3WYz6CjH07mVw5OSdaxnHbw=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n12.prod.us-west-2.postgun.com with SMTP id
+ 5eed343dad153efa34c33807 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Jun 2020 21:55:09
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 59C22C4339C; Fri, 19 Jun 2020 21:55:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: tanmay)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 7C819C433CA;
+ Fri, 19 Jun 2020 21:55:08 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200618224413.1115849-1-robh@kernel.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=G88y7es5 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8
- a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8 a=xaQA2OYNmvnDas3ntOUA:9
- a=N7sUtPlMTdWnEY4o:21 a=Y38N-j4GBFhqJDI7:21 a=CjuIK1q_8ugA:10
- a=cvBusfyB2V15izCimMoJ:22 a=AjGcO6oz07-iQ99wixmX:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
+Date: Fri, 19 Jun 2020 14:55:08 -0700
+From: tanmay@codeaurora.org
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2] arm64: dts: qcom: sc7180: Add Display Port dt node
+In-Reply-To: <159252916745.62212.16228625951632835694@swboyd.mtv.corp.google.com>
+References: <20200618232113.22687-1-tanmay@codeaurora.org>
+ <159252916745.62212.16228625951632835694@swboyd.mtv.corp.google.com>
+Message-ID: <c110cd89a3144a20b21ec392f50eee68@codeaurora.org>
+X-Sender: tanmay@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,413 +64,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: devicetree@vger.kernel.org, bjorn.andersson@linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, agross@kernel.org,
+ seanpaul@chromium.org, abhinavk@codeaurora.org, aravindh@codeaurora.org,
+ freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob.
+Thanks Stephen for reviews.
+I will post new change addressing your all comments.
 
-Good to have these converted. A few comments in the following. One
-comment is for the backlight people as you copied the original text.
-
-	Sam
-
-On Thu, Jun 18, 2020 at 04:44:13PM -0600, Rob Herring wrote:
-> Convert the common GPIO, LED, and PWM backlight bindings to DT schema
-> format.
+On 2020-06-18 18:12, Stephen Boyd wrote:
+> Quoting Tanmay Shah (2020-06-18 16:21:13)
+>> Enable DP driver for sc7180.
 > 
-> Given there's only 2 common properties and the descriptions are slightly
-> different, I opted to not create a common backlight schema.
+> Add DP device node on sc7180? This isn't a driver.
 > 
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../leds/backlight/gpio-backlight.txt         | 16 ---
->  .../leds/backlight/gpio-backlight.yaml        | 41 ++++++++
->  .../bindings/leds/backlight/led-backlight.txt | 28 ------
->  .../leds/backlight/led-backlight.yaml         | 58 +++++++++++
->  .../bindings/leds/backlight/pwm-backlight.txt | 61 ------------
->  .../leds/backlight/pwm-backlight.yaml         | 98 +++++++++++++++++++
->  6 files changed, 197 insertions(+), 105 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
+Done.
+>> 
+>> This change depends-on following series:
+>> https://patchwork.freedesktop.org/series/78583/
+>> and https://patchwork.freedesktop.org/patch/351990/
+>> 
+>> Changes in v2:
+>> 
+>> - Add assigned-clocks and assigned-clock-parents
+>> - Remove cell-index and pixel_rcg
+>> - Change compatible to qcom,sc7180-dp
+>> 
+>> Signed-off-by: Tanmay Shah <tanmay@codeaurora.org>
+>> ---
+>>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 57 
+>> ++++++++++++++++++++++++++--
+>>  1 file changed, 53 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi 
+>> b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> index 916401f7e87c..26fe623e3b0f 100644
+>> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+>> @@ -2216,10 +2216,19 @@ ports {
+>>                                         #address-cells = <1>;
+>>                                         #size-cells = <0>;
+>> 
+>> +                                       port@1 {
+>> +                                               reg = <1>;
+>> +                                               dpu_intf1_out: 
+>> endpoint {
+>> +                                                       
+>> remote-endpoint =
+>> +                                                                
+>> <&dsi0_in>;
+>> +                                               };
+>> +                                       };
+>> +
+>>                                         port@0 {
+>>                                                 reg = <0>;
+>> -                                               dpu_intf1_out: 
+>> endpoint {
+>> -                                                       
+>> remote-endpoint = <&dsi0_in>;
+>> +                                               dpu_intf0_out: 
+>> endpoint {
+>> +                                                       
+>> remote-endpoint =
+>> +                                                                
+>> <&dp_in>;
+>>                                                 };
+>>                                         };
+>>                                 };
 > 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
-> deleted file mode 100644
-> index 321be6640533..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.txt
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -gpio-backlight bindings
-> -
-> -Required properties:
-> -  - compatible: "gpio-backlight"
-> -  - gpios: describes the gpio that is used for enabling/disabling the backlight.
-> -    refer to bindings/gpio/gpio.txt for more details.
-> -
-> -Optional properties:
-> -  - default-on: enable the backlight at boot.
-> -
-> -Example:
-> -	backlight {
-> -		compatible = "gpio-backlight";
-> -		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
-> -		default-on;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> new file mode 100644
-> index 000000000000..75cc569b9c55
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/gpio-backlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: gpio-backlight bindings
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: gpio-backlight
-> +
-> +  gpios:
-> +    description: The gpio that is used for enabling/disabling the backlight.
-> +    maxItems: 1
-> +
-> +  default-on:
-> +    description: enable the backlight at boot.
-> +    type: boolean
-> +
-> +required:
-> +  - compatible
-> +  - gpios
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    backlight {
-> +        compatible = "gpio-backlight";
-> +        gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
-> +        default-on;
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> deleted file mode 100644
-> index 4c7dfbe7f67a..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.txt
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -led-backlight bindings
-> -
-> -This binding is used to describe a basic backlight device made of LEDs.
-> -It can also be used to describe a backlight device controlled by the output of
-> -a LED driver.
-> -
-> -Required properties:
-> -  - compatible: "led-backlight"
-> -  - leds: a list of LEDs
-> -
-> -Optional properties:
-> -  - brightness-levels: Array of distinct brightness levels. The levels must be
-> -                       in the range accepted by the underlying LED devices.
-> -                       This is used to translate a backlight brightness level
-> -                       into a LED brightness level. If it is not provided, the
-> -                       identity mapping is used.
-> -
-> -  - default-brightness-level: The default brightness level.
-> -
-> -Example:
-> -
-> -	backlight {
-> -		compatible = "led-backlight";
-> -
-> -		leds = <&led1>, <&led2>;
-> -		brightness-levels = <0 4 8 16 32 64 128 255>;
-> -		default-brightness-level = <6>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> new file mode 100644
-> index 000000000000..ae50945d2798
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/led-backlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: led-backlight bindings
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +description:
-> +  This binding is used to describe a basic backlight device made of LEDs. It
-> +  can also be used to describe a backlight device controlled by the output of
-> +  a LED driver.
-> +
-> +properties:
-> +  compatible:
-> +    const: led-backlight
-> +
-> +  leds:
-> +    description: A list of LED nodes
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +
-> +  brightness-levels:
-> +    description: Array of distinct brightness levels. The levels must be
-> +      in the range accepted by the underlying LED devices. This is used
-> +      to translate a backlight brightness level into a LED brightness level.
-> +      If it is not provided, the identity mapping is used.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-bike-shedding. To me it is a tad easier to read when multi-line
-descriptions are on a separate line.
-So "description:" on one line, and the text on following lines.
-example-schema.yaml does both - so both are official acceptable.
-
-> +
-> +  default-brightness-level:
-> +    description: The default brightness level (index into the array defined
-> +      by the "brightness-levels" property).
-This description does not match my understading.
-The description says "index into", but in reality this is a value that
-matches somewhere in the range specified by brightness-levels.
-So it is not an index.
-
-Maybe I just read it wrong and the description is fine. But when I read
-index the when it says 6 I would look for brightness-levels[6] equals
-128 in the example below.
-And this is not how it is coded.
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [brightness-levels]
-So if we have efault-brightness-level then we must have
-brightness-levels.
-Sounds right.
-
-> +
-> +required:
-> +  - compatible
-> +  - leds
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    backlight {
-> +        compatible = "led-backlight";
-> +
-> +        leds = <&led1>, <&led2>;
-> +        brightness-levels = <0 4 8 16 32 64 128 255>;
-> +        default-brightness-level = <6>;
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> deleted file mode 100644
-> index 64fa2fbd98c9..000000000000
-> --- a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.txt
-> +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -pwm-backlight bindings
-> -
-> -Required properties:
-> -  - compatible: "pwm-backlight"
-> -  - pwms: OF device-tree PWM specification (see PWM binding[0])
-> -  - power-supply: regulator for supply voltage
-> -
-> -Optional properties:
-> -  - pwm-names: a list of names for the PWM devices specified in the
-> -               "pwms" property (see PWM binding[0])
-> -  - enable-gpios: contains a single GPIO specifier for the GPIO which enables
-> -                  and disables the backlight (see GPIO binding[1])
-> -  - post-pwm-on-delay-ms: Delay in ms between setting an initial (non-zero) PWM
-> -                          and enabling the backlight using GPIO.
-> -  - pwm-off-delay-ms: Delay in ms between disabling the backlight using GPIO
-> -                      and setting PWM value to 0.
-> -  - brightness-levels: Array of distinct brightness levels. Typically these
-> -                       are in the range from 0 to 255, but any range starting at
-> -                       0 will do. The actual brightness level (PWM duty cycle)
-> -                       will be interpolated from these values. 0 means a 0% duty
-> -                       cycle (darkest/off), while the last value in the array
-> -                       represents a 100% duty cycle (brightest).
-> -  - default-brightness-level: The default brightness level (index into the
-> -                              array defined by the "brightness-levels" property).
-> -  - num-interpolated-steps: Number of interpolated steps between each value
-> -                            of brightness-levels table. This way a high
-> -                            resolution pwm duty cycle can be used without
-> -                            having to list out every possible value in the
-> -                            brightness-level array.
-> -
-> -[0]: Documentation/devicetree/bindings/pwm/pwm.txt
-> -[1]: Documentation/devicetree/bindings/gpio/gpio.txt
-> -
-> -Example:
-> -
-> -	backlight {
-> -		compatible = "pwm-backlight";
-> -		pwms = <&pwm 0 5000000>;
-> -
-> -		brightness-levels = <0 4 8 16 32 64 128 255>;
-> -		default-brightness-level = <6>;
-> -
-> -		power-supply = <&vdd_bl_reg>;
-> -		enable-gpios = <&gpio 58 0>;
-> -		post-pwm-on-delay-ms = <10>;
-> -		pwm-off-delay-ms = <10>;
-> -	};
-> -
-> -Example using num-interpolation-steps:
-> -
-> -	backlight {
-> -		compatible = "pwm-backlight";
-> -		pwms = <&pwm 0 5000000>;
-> -
-> -		brightness-levels = <0 2048 4096 8192 16384 65535>;
-> -		num-interpolated-steps = <2048>;
-> -		default-brightness-level = <4096>;
-> -
-> -		power-supply = <&vdd_bl_reg>;
-> -		enable-gpios = <&gpio 58 0>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> new file mode 100644
-> index 000000000000..7e1f109a38a4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/pwm-backlight.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/pwm-backlight.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: pwm-backlight bindings
-> +
-> +maintainers:
-> +  - Lee Jones <lee.jones@linaro.org>
-> +  - Daniel Thompson <daniel.thompson@linaro.org>
-> +  - Jingoo Han <jingoohan1@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: pwm-backlight
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  pwm-names: true
-> +
-> +  power-supply:
-> +    description: regulator for supply voltage
-> +
-> +  enable-gpios:
-> +    description: Contains a single GPIO specifier for the GPIO which enables
-> +      and disables the backlight
-> +    maxItems: 1
-> +
-> +  post-pwm-on-delay-ms:
-> +    description: Delay in ms between setting an initial (non-zero) PWM and
-> +      enabling the backlight using GPIO.
-> +
-> +  pwm-off-delay-ms:
-> +    description: Delay in ms between disabling the backlight using GPIO
-> +      and setting PWM value to 0.
-> +
-> +  brightness-levels:
-> +    description: Array of distinct brightness levels. Typically these are
-> +      in the range from 0 to 255, but any range starting at 0 will do. The
-> +      actual brightness level (PWM duty cycle) will be interpolated from
-> +      these values. 0 means a 0% duty cycle (darkest/off), while the last
-> +      value in the array represents a 100% duty cycle (brightest).
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
-> +  default-brightness-level:
-> +    description: The default brightness level (index into the array defined
-> +      by the "brightness-levels" property).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-Same comment as before...
-
-> +
-> +  num-interpolated-steps:
-> +    description: Number of interpolated steps between each value of brightness-levels
-> +      table. This way a high resolution pwm duty cycle can be used without
-> +      having to list out every possible value in the brightness-level array.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +dependencies:
-> +  default-brightness-level: [brightness-levels]
-> +  num-interpolated-steps: [brightness-levels]
-> +
-> +required:
-> +  - compatible
-> +  - pwms
-> +  - power-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    backlight {
-> +        compatible = "pwm-backlight";
-> +        pwms = <&pwm 0 5000000>;
-> +
-> +        brightness-levels = <0 4 8 16 32 64 128 255>;
-> +        default-brightness-level = <6>;
-> +
-> +        power-supply = <&vdd_bl_reg>;
-> +        enable-gpios = <&gpio 58 0>;
-> +        post-pwm-on-delay-ms = <10>;
-> +        pwm-off-delay-ms = <10>;
-> +    };
-> +
-> +  - |
-> +    // Example using num-interpolation-steps:
-> +    backlight {
-> +        compatible = "pwm-backlight";
-> +        pwms = <&pwm 0 5000000>;
-> +
-> +        brightness-levels = <0 2048 4096 8192 16384 65535>;
-> +        num-interpolated-steps = <2048>;
-> +        default-brightness-level = <4096>;
-> +
-> +        power-supply = <&vdd_bl_reg>;
-> +        enable-gpios = <&gpio 58 0>;
-> +    };
-> +
-> +...
-> -- 
-> 2.25.1
+> I thought this wasn't supposed to change? At least according to the
+> binding it shouldn't be needed.
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Thanks. Yes it should be port@2 as per new dpu-sc7180.yaml bindings in 
+below patch.
+https://patchwork.freedesktop.org/patch/371087/?series=78583&rev=1
+
+>> @@ -2293,6 +2302,46 @@ dsi_phy: dsi-phy@ae94400 {
+>>                         };
+>>                 };
+>> 
+>> +               msm_dp: displayport-controller@ae90000{
+>> +                       status = "ok";
+> 
+> Please use status = "disabled";
+> 
+Ok got it. Board's DT will enable it.
+
+>> +                       compatible = "qcom,sc7180-dp";
+>> +
+>> +                       reg = <0 0xae90000 0 0x1400>;
+>> +                       reg-names = "dp_controller";
+>> +
+>> +                       interrupt-parent = <&mdss>;
+> 
+> Any reason why this isn't under the mdss node like the other display
+> device nodes?
+> 
+Done. Moved msm_dp node under mdss.
+>> +                       interrupts = <12 0>;
+>> +
+>> +                       clocks = <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
+>> +                                <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
+>> +                                <&dispcc 
+>> DISP_CC_MDSS_DP_LINK_INTF_CLK>,
+>> +                                <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
+>> +                       clock-names = "core_aux", "ctrl_link",
+>> +                                     "ctrl_link_iface", 
+>> "stream_pixel";
+>> +                       #clock-cells = <1>;
+>> +                       assigned-clocks = <&dispcc 
+>> DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
+>> +                       assigned-clock-parents = <&msm_dp 1>;
+>> +
+>> +                       data-lanes = <0 1>;
+> 
+> This can and should be left to the board files. At the SoC level my
+> understanding is that there are four lanes possible, so no need to
+> artificially limit it here.
+> 
+Removed from here. Driver changes I will be posting accordingly.
+>> +
+>> +                       ports {
+>> +                               #address-cells = <1>;
+>> +                               #size-cells = <0>;
+>> +                               port@0 {
+>> +                                       reg = <0>;
+>> +                                       dp_in: endpoint {
+>> +                                               remote-endpoint =
+>> +                                                        
+>> <&dpu_intf0_out>;
+> 
+> I'd prefer these were on one line, regardless of the 80 character line
+> limit/suggestion.
+> 
+ok done.
+>> +                                       };
+>> +                               };
+>> +
+>> +                               port@1 {
+>> +                                       reg = <1>;
+>> +                                       dp_out: endpoint { };
+>> +                               };
+>> +                       };
+>> +               };
+>> +
+>>                 dispcc: clock-controller@af00000 {
+>>                         compatible = "qcom,sc7180-dispcc";
+>>                         reg = <0 0x0af00000 0 0x200000>;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
