@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944841FFEBE
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 01:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6251FFF4F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 02:35:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1F56EBDB;
-	Thu, 18 Jun 2020 23:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483866EBF7;
+	Fri, 19 Jun 2020 00:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAAE86EBDA
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jun 2020 23:39:33 +0000 (UTC)
-IronPort-SDR: 8FALpRmBVWpJhPwTBxZJF5pc7X5EHxNTjc7h8jUGXvOLih3i6beQZvpV3q/5BEJsv1j6N3a51K
- dloKyOUyBqaw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="142694426"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD136EBF7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 00:35:05 +0000 (UTC)
+IronPort-SDR: v2QdxLg7+FMbq+HjAlk4HlcvTeoshhqRPSRLOmaQTOv2YoOAZBB9Rm4muqqmkjeePWy2x+DsAK
+ JMAOHC7lUOKg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="131183272"
 X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; 
- d="gz'50?scan'50,208,50";a="142694426"
+ d="gz'50?scan'50,208,50";a="131183272"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2020 16:39:32 -0700
-IronPort-SDR: YuW/hixVAWAgYYR5XGx4iZzXWWgWF1LfgTbimY33hPfBHK5ab+i5VISGbBJGlrR0h+UA43OJFT
- /yJTCkaEYsYQ==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 17:35:04 -0700
+IronPort-SDR: AgnT+gip0myjcdI8Ms17wq1hbKEwdsAM0aSptfysZ0pJTuvWIDB0rlwGD0D+OcLz+JUo5vAN6h
+ W3O7w2qpweYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; 
- d="gz'50?scan'50,208,50";a="477427625"
+ d="gz'50?scan'50,208,50";a="299884034"
 Received: from lkp-server02.sh.intel.com (HELO 5ce11009e457) ([10.239.97.151])
- by fmsmga005.fm.intel.com with ESMTP; 18 Jun 2020 16:39:28 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 18 Jun 2020 17:35:00 -0700
 Received: from kbuild by 5ce11009e457 with local (Exim 4.92)
  (envelope-from <lkp@intel.com>)
- id 1jm47z-0000SN-Ht; Thu, 18 Jun 2020 23:39:27 +0000
-Date: Fri, 19 Jun 2020 07:39:19 +0800
+ id 1jm4zj-0000Tv-NC; Fri, 19 Jun 2020 00:34:59 +0000
+Date: Fri, 19 Jun 2020 08:34:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Marek Szyprowski <m.szyprowski@samsung.com>,
  dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 32/36] rapidio: fix common struct sg_table related
- issues
-Message-ID: <202006190751.ig6njyK8%lkp@intel.com>
-References: <20200618153956.29558-33-m.szyprowski@samsung.com>
+Subject: Re: [PATCH v6 35/36] videobuf2: use sgtable-based scatterlist wrappers
+Message-ID: <202006190824.T4QZEyel%lkp@intel.com>
+References: <20200618153956.29558-36-m.szyprowski@samsung.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="7AUc2qLy4jB3hD7Z"
+Content-Type: multipart/mixed; boundary="opJtzjQTFsWo+cga"
 Content-Disposition: inline
-In-Reply-To: <20200618153956.29558-33-m.szyprowski@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200618153956.29558-36-m.szyprowski@samsung.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,16 +61,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: kbuild-all@lists.01.org,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Alexandre Bounine <alex.bou9@gmail.com>,
- Matt Porter <mporter@kernel.crashing.org>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+ David Airlie <airlied@linux.ie>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---7AUc2qLy4jB3hD7Z
-Content-Type: text/plain; charset=us-ascii
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 Hi Marek,
 
@@ -96,177 +97,544 @@ reproduce (this is a W=1 build):
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/dma-mapping.h:11,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:25:
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c: In function 'amdgpu_vram_mgr_alloc_sgt':
->> include/linux/scatterlist.h:158:17: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                 ^~
-   include/linux/scatterlist.h:152:22: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                      ^~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:480:2: note: in expansion of macro 'for_each_sgtable_sg'
-     480 |  for_each_sgtable_sg(*sgt, sg, i)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/scatterlist.h:158:31: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                               ^~
-   include/linux/scatterlist.h:152:38: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                                      ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:480:2: note: in expansion of macro 'for_each_sgtable_sg'
-     480 |  for_each_sgtable_sg(*sgt, sg, i)
-         |  ^~~~~~~~~~~~~~~~~~~
->> include/linux/scatterlist.h:158:17: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                 ^~
-   include/linux/scatterlist.h:152:22: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                      ^~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:484:2: note: in expansion of macro 'for_each_sgtable_sg'
-     484 |  for_each_sgtable_sg(*sgt, sg, i) {
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/scatterlist.h:158:31: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                               ^~
-   include/linux/scatterlist.h:152:38: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                                      ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:484:2: note: in expansion of macro 'for_each_sgtable_sg'
-     484 |  for_each_sgtable_sg(*sgt, sg, i) {
-         |  ^~~~~~~~~~~~~~~~~~~
->> include/linux/scatterlist.h:158:17: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                 ^~
-   include/linux/scatterlist.h:152:22: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                      ^~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:504:2: note: in expansion of macro 'for_each_sgtable_sg'
-     504 |  for_each_sgtable_sg(*sgt, sg, i) {
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/scatterlist.h:158:31: error: '*sgt' is a pointer; did you mean to use '->'?
-     158 |  for_each_sg(sgt->sgl, sg, sgt->orig_nents, i)
-         |                               ^~
-   include/linux/scatterlist.h:152:38: note: in definition of macro 'for_each_sg'
-     152 |  for (__i = 0, sg = (sglist); __i < (nr); __i++, sg = sg_next(sg))
-         |                                      ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:504:2: note: in expansion of macro 'for_each_sgtable_sg'
-     504 |  for_each_sgtable_sg(*sgt, sg, i) {
-         |  ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:26:
-   At top level:
-   drivers/gpu/drm/amd/amdgpu/amdgpu.h:190:18: warning: 'sched_policy' defined but not used [-Wunused-const-variable=]
-     190 | static const int sched_policy = KFD_SCHED_POLICY_HWS;
-         |                  ^~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:33,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:65,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c:26:
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
-      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
-         |                                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
-      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
-         |                                ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
-      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
-         |                                ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
-      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
-         |                                ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
-      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
-         |                                ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
-      67 | static const struct fixed31_32 dc_fixpt_zero = { 0 };
-         |                                ^~~~~~~~~~~~~
---
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/delay.h:22,
-                    from drivers/gpu/drm/v3d/v3d_drv.h:4,
-                    from drivers/gpu/drm/v3d/v3d_mmu.c:21:
-   drivers/gpu/drm/v3d/v3d_mmu.c: In function 'v3d_mmu_insert_ptes':
->> include/linux/compiler.h:339:38: error: call to '__compiletime_assert_254' declared with attribute error: BUILD_BUG_ON failed: V3D_MMU_PAGE_SHIFT != PAGE_SIZE
-     339 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler.h:320:4: note: in definition of macro '__compiletime_assert'
-     320 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler.h:339:2: note: in expansion of macro '_compiletime_assert'
-     339 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/v3d/v3d_mmu.c:100:3: note: in expansion of macro 'BUILD_BUG_ON'
-     100 |   BUILD_BUG_ON(V3D_MMU_PAGE_SHIFT != PAGE_SIZE);
-         |   ^~~~~~~~~~~~
---
-   drivers/rapidio/devices/rio_mport_cdev.c: In function 'dma_req_free':
->> drivers/rapidio/devices/rio_mport_cdev.c:576:48: error: incompatible type for argument 2 of 'dma_unmap_sgtable'
-     576 |  dma_unmap_sgtable(req->dmach->device->dev, req->sgt, req->dir, 0);
-         |                                             ~~~^~~~~
-         |                                                |
-         |                                                struct sg_table
-   In file included from drivers/rapidio/devices/rio_mport_cdev.c:32:
-   include/linux/dma-mapping.h:651:75: note: expected 'struct sg_table *' but argument is of type 'struct sg_table'
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_alloc':
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:173:13: error: invalid storage class for function 'vb2_dma_sg_put'
+     173 | static void vb2_dma_sg_put(void *buf_priv)
+         |             ^~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:173:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     173 | static void vb2_dma_sg_put(void *buf_priv)
+         | ^~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:195:13: error: invalid storage class for function 'vb2_dma_sg_prepare'
+     195 | static void vb2_dma_sg_prepare(void *buf_priv)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:207:13: error: invalid storage class for function 'vb2_dma_sg_finish'
+     207 | static void vb2_dma_sg_finish(void *buf_priv)
+         |             ^~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:219:14: error: invalid storage class for function 'vb2_dma_sg_get_userptr'
+     219 | static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_get_userptr':
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:278:13: error: invalid storage class for function 'vb2_dma_sg_put_userptr'
+     278 | static void vb2_dma_sg_put_userptr(void *buf_priv)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:278:1: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     278 | static void vb2_dma_sg_put_userptr(void *buf_priv)
+         | ^~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:298:14: error: invalid storage class for function 'vb2_dma_sg_vaddr'
+     298 | static void *vb2_dma_sg_vaddr(void *buf_priv)
+         |              ^~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:315:21: error: invalid storage class for function 'vb2_dma_sg_num_users'
+     315 | static unsigned int vb2_dma_sg_num_users(void *buf_priv)
+         |                     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:322:12: error: invalid storage class for function 'vb2_dma_sg_mmap'
+     322 | static int vb2_dma_sg_mmap(void *buf_priv, struct vm_area_struct *vma)
+         |            ^~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:358:12: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_attach'
+     358 | static int vb2_dma_sg_dmabuf_ops_attach(struct dma_buf *dbuf,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:396:13: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_detach'
+     396 | static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_dmabuf_ops_detach':
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:409:3: error: too few arguments to function 'dma_unmap_sgtable'
+     409 |   dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir);
+         |   ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/dma-buf.h:20,
+                    from include/media/videobuf2-core.h:18,
+                    from include/media/videobuf2-v4l2.h:16,
+                    from drivers/media/common/videobuf2/videobuf2-dma-sg.c:21:
+   include/linux/dma-mapping.h:651:20: note: declared here
      651 | static inline void dma_unmap_sgtable(struct device *dev, struct sg_table *sgt,
-         |                                                          ~~~~~~~~~~~~~~~~~^~~
-   drivers/rapidio/devices/rio_mport_cdev.c: In function 'rio_dma_transfer':
->> drivers/rapidio/devices/rio_mport_cdev.c:932:46: error: incompatible type for argument 2 of 'dma_map_sgtable'
-     932 |  ret = dma_map_sgtable(chan->device->dev, req->sgt, dir, 0);
-         |                                           ~~~^~~~~
-         |                                              |
-         |                                              struct sg_table
-   In file included from drivers/rapidio/devices/rio_mport_cdev.c:32:
-   include/linux/dma-mapping.h:628:72: note: expected 'struct sg_table *' but argument is of type 'struct sg_table'
-     628 | static inline int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
-         |                                                       ~~~~~~~~~~~~~~~~~^~~
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_get_userptr':
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:415:25: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_map'
+     415 | static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_dmabuf_ops_map':
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:434:3: error: too few arguments to function 'dma_unmap_sgtable'
+     434 |   dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir);
+         |   ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/dma-buf.h:20,
+                    from include/media/videobuf2-core.h:18,
+                    from include/media/videobuf2-v4l2.h:16,
+                    from drivers/media/common/videobuf2/videobuf2-dma-sg.c:21:
+   include/linux/dma-mapping.h:651:20: note: declared here
+     651 | static inline void dma_unmap_sgtable(struct device *dev, struct sg_table *sgt,
+         |                    ^~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_get_userptr':
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:452:13: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_unmap'
+     452 | static void vb2_dma_sg_dmabuf_ops_unmap(struct dma_buf_attachment *db_attach,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:458:13: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_release'
+     458 | static void vb2_dma_sg_dmabuf_ops_release(struct dma_buf *dbuf)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:464:14: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_vmap'
+     464 | static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:471:12: error: invalid storage class for function 'vb2_dma_sg_dmabuf_ops_mmap'
+     471 | static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:478:12: error: initializer element is not constant
+     478 |  .attach = vb2_dma_sg_dmabuf_ops_attach,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:478:12: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.attach')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:479:12: error: initializer element is not constant
+     479 |  .detach = vb2_dma_sg_dmabuf_ops_detach,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:479:12: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.detach')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:480:17: error: initializer element is not constant
+     480 |  .map_dma_buf = vb2_dma_sg_dmabuf_ops_map,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:480:17: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.map_dma_buf')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:481:19: error: initializer element is not constant
+     481 |  .unmap_dma_buf = vb2_dma_sg_dmabuf_ops_unmap,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:481:19: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.unmap_dma_buf')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:482:10: error: initializer element is not constant
+     482 |  .vmap = vb2_dma_sg_dmabuf_ops_vmap,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:482:10: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.vmap')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:483:10: error: initializer element is not constant
+     483 |  .mmap = vb2_dma_sg_dmabuf_ops_mmap,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:483:10: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.mmap')
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:484:13: error: initializer element is not constant
+     484 |  .release = vb2_dma_sg_dmabuf_ops_release,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:484:13: note: (near initialization for 'vb2_dma_sg_dmabuf_ops.release')
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:487:24: error: invalid storage class for function 'vb2_dma_sg_get_dmabuf'
+     487 | static struct dma_buf *vb2_dma_sg_get_dmabuf(void *buf_priv, unsigned long flags)
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/common/videobuf2/videobuf2-dma-sg.c:515:12: error: invalid storage class for function 'vb2_dma_sg_map_dmabuf'
+     515 | static int vb2_dma_sg_map_dmabuf(void *mem_priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:543:13: error: invalid storage class for function 'vb2_dma_sg_unmap_dmabuf'
+     543 | static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:567:13: error: invalid storage class for function 'vb2_dma_sg_detach_dmabuf'
+     567 | static void vb2_dma_sg_detach_dmabuf(void *mem_priv)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:580:14: error: invalid storage class for function 'vb2_dma_sg_attach_dmabuf'
+     580 | static void *vb2_dma_sg_attach_dmabuf(struct device *dev, struct dma_buf *dbuf,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:612:14: error: invalid storage class for function 'vb2_dma_sg_cookie'
+     612 | static void *vb2_dma_sg_cookie(void *buf_priv)
+         |              ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:8,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:12,
+                    from drivers/media/common/videobuf2/videobuf2-dma-sg.c:13:
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:636:19: error: extern declaration of 'vb2_dma_sg_memops' follows declaration with no linkage
+     636 | EXPORT_SYMBOL_GPL(vb2_dma_sg_memops);
+         |                   ^~~~~~~~~~~~~~~~~
+   include/linux/export.h:98:21: note: in definition of macro '___EXPORT_SYMBOL'
+      98 |  extern typeof(sym) sym;       \
+         |                     ^~~
+   include/linux/export.h:155:34: note: in expansion of macro '__EXPORT_SYMBOL'
+     155 | #define _EXPORT_SYMBOL(sym, sec) __EXPORT_SYMBOL(sym, sec, "")
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/export.h:159:33: note: in expansion of macro '_EXPORT_SYMBOL'
+     159 | #define EXPORT_SYMBOL_GPL(sym)  _EXPORT_SYMBOL(sym, "_gpl")
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:636:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     636 | EXPORT_SYMBOL_GPL(vb2_dma_sg_memops);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:619:26: note: previous definition of 'vb2_dma_sg_memops' was here
+     619 | const struct vb2_mem_ops vb2_dma_sg_memops = {
+         |                          ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:8,
+                    from include/linux/list.h:9,
+                    from include/linux/module.h:12,
+                    from drivers/media/common/videobuf2/videobuf2-dma-sg.c:13:
+   include/linux/export.h:67:2: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+      67 |  static const struct kernel_symbol __ksymtab_##sym  \
+         |  ^~~~~~
+   include/linux/export.h:108:2: note: in expansion of macro '__KSYMTAB_ENTRY'
+     108 |  __KSYMTAB_ENTRY(sym, sec)
+         |  ^~~~~~~~~~~~~~~
+   include/linux/export.h:147:39: note: in expansion of macro '___EXPORT_SYMBOL'
+     147 | #define __EXPORT_SYMBOL(sym, sec, ns) ___EXPORT_SYMBOL(sym, sec, ns)
+         |                                       ^~~~~~~~~~~~~~~~
+   include/linux/export.h:155:34: note: in expansion of macro '__EXPORT_SYMBOL'
+     155 | #define _EXPORT_SYMBOL(sym, sec) __EXPORT_SYMBOL(sym, sec, "")
+         |                                  ^~~~~~~~~~~~~~~
+   include/linux/export.h:159:33: note: in expansion of macro '_EXPORT_SYMBOL'
+     159 | #define EXPORT_SYMBOL_GPL(sym)  _EXPORT_SYMBOL(sym, "_gpl")
+         |                                 ^~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:636:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     636 | EXPORT_SYMBOL_GPL(vb2_dma_sg_memops);
+         | ^~~~~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:640:1: error: expected declaration or statement at end of input
+     640 | MODULE_LICENSE("GPL");
+         | ^~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: In function 'vb2_dma_sg_alloc':
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:640:1: error: expected declaration or statement at end of input
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c: At top level:
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:56:13: warning: 'vb2_dma_sg_put' used but never defined
+      56 | static void vb2_dma_sg_put(void *buf_priv);
+         |             ^~~~~~~~~~~~~~
+   drivers/media/common/videobuf2/videobuf2-dma-sg.c:219:14: warning: 'vb2_dma_sg_get_userptr' defined but not used [-Wunused-function]
+     219 | static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+         |              ^~~~~~~~~~~~~~~~~~~~~~
 
-vim +/dma_unmap_sgtable +576 drivers/rapidio/devices/rio_mport_cdev.c
+vim +/vb2_dma_sg_put +173 drivers/media/common/videobuf2/videobuf2-dma-sg.c
 
-   569	
-   570	static void dma_req_free(struct kref *ref)
-   571	{
-   572		struct mport_dma_req *req = container_of(ref, struct mport_dma_req,
-   573				refcount);
-   574		struct mport_cdev_priv *priv = req->priv;
-   575	
- > 576		dma_unmap_sgtable(req->dmach->device->dev, req->sgt, req->dir, 0);
-   577		sg_free_table(&req->sgt);
-   578		if (req->page_list) {
-   579			unpin_user_pages(req->page_list, req->nr_pages);
-   580			kfree(req->page_list);
-   581		}
-   582	
-   583		if (req->map) {
-   584			mutex_lock(&req->map->md->buf_mutex);
-   585			kref_put(&req->map->ref, mport_release_mapping);
-   586			mutex_unlock(&req->map->md->buf_mutex);
-   587		}
-   588	
-   589		kref_put(&priv->dma_ref, mport_release_dma);
-   590	
-   591		kfree(req);
-   592	}
-   593	
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29   55  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  @56  static void vb2_dma_sg_put(void *buf_priv);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29   57  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   58  static int vb2_dma_sg_alloc_compacted(struct vb2_dma_sg_buf *buf,
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   59  		gfp_t gfp_flags)
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   60  {
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   61  	unsigned int last_page = 0;
+14f28f5cea9e399 drivers/media/common/videobuf2/videobuf2-dma-sg.c Sakari Ailus          2018-12-12   62  	unsigned long size = buf->size;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   63  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   64  	while (size > 0) {
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   65  		struct page *pages;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   66  		int order;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   67  		int i;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   68  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   69  		order = get_order(size);
+4b129dc907e9b95 drivers/media/common/videobuf2/videobuf2-dma-sg.c Mauro Carvalho Chehab 2019-02-18   70  		/* Don't over allocate*/
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   71  		if ((PAGE_SIZE << order) > size)
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   72  			order--;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   73  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   74  		pages = NULL;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   75  		while (!pages) {
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   76  			pages = alloc_pages(GFP_KERNEL | __GFP_ZERO |
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   77  					__GFP_NOWARN | gfp_flags, order);
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   78  			if (pages)
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   79  				break;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   80  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   81  			if (order == 0) {
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   82  				while (last_page--)
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   83  					__free_page(buf->pages[last_page]);
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   84  				return -ENOMEM;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   85  			}
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   86  			order--;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   87  		}
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   88  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   89  		split_page(pages, order);
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   90  		for (i = 0; i < (1 << order); i++)
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   91  			buf->pages[last_page++] = &pages[i];
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   92  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   93  		size -= PAGE_SIZE << order;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   94  	}
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   95  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   96  	return 0;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   97  }
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02   98  
+00085f1efa387a8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Krzysztof Kozlowski   2016-08-03   99  static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+d16e832da23edff drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-04-15  100  			      unsigned long size, enum dma_data_direction dma_dir,
+d16e832da23edff drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-04-15  101  			      gfp_t gfp_flags)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  102  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  103  	struct vb2_dma_sg_buf *buf;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  104  	struct sg_table *sgt;
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  105  	int ret;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  106  	int num_pages;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  107  
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  108  	if (WARN_ON(!dev))
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  109  		return ERR_PTR(-EINVAL);
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  110  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  111  	buf = kzalloc(sizeof *buf, GFP_KERNEL);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  112  	if (!buf)
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  113  		return ERR_PTR(-ENOMEM);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  114  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  115  	buf->vaddr = NULL;
+d935c57e8fb6902 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  116  	buf->dma_dir = dma_dir;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  117  	buf->offset = 0;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  118  	buf->size = size;
+7f8414594e47552 drivers/media/v4l2-core/videobuf2-dma-sg.c        Mauro Carvalho Chehab 2013-04-19  119  	/* size is already page aligned */
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  120  	buf->num_pages = size >> PAGE_SHIFT;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  121  	buf->dma_sgt = &buf->sg_table;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  122  
+758d90e161382c1 drivers/media/v4l2-core/videobuf2-dma-sg.c        Tomasz Figa           2017-06-19  123  	buf->pages = kvmalloc_array(buf->num_pages, sizeof(struct page *),
+758d90e161382c1 drivers/media/v4l2-core/videobuf2-dma-sg.c        Tomasz Figa           2017-06-19  124  				    GFP_KERNEL | __GFP_ZERO);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  125  	if (!buf->pages)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  126  		goto fail_pages_array_alloc;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  127  
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  128  	ret = vb2_dma_sg_alloc_compacted(buf, gfp_flags);
+df23728118cd0f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  129  	if (ret)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  130  		goto fail_pages_alloc;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  131  
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  132  	ret = sg_alloc_table_from_pages(buf->dma_sgt, buf->pages,
+47bc59c52b005f5 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-08-01  133  			buf->num_pages, 0, size, GFP_KERNEL);
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  134  	if (ret)
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  135  		goto fail_table_alloc;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  136  
+0c3a14c177aa85a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  137  	/* Prevent the device from being released while the buffer is used */
+36c0f8b32c4bd4f drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-04-15  138  	buf->dev = get_device(dev);
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  139  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  140  	sgt = &buf->sg_table;
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  141  	/*
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  142  	 * No need to sync to the device, this will happen later when the
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  143  	 * prepare() memop is called.
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  144  	 */
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  145  	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  146  			    DMA_ATTR_SKIP_CPU_SYNC)) {
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  147  		goto fail_map;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  148  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  149  	buf->handler.refcount = &buf->refcount;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  150  	buf->handler.put = vb2_dma_sg_put;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  151  	buf->handler.arg = buf;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  152  
+6c4bb65d0be8f34 drivers/media/v4l2-core/videobuf2-dma-sg.c        Elena Reshetova       2017-03-06  153  	refcount_set(&buf->refcount, 1);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  154  
+ffdc78efe1a8a01 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2013-03-02  155  	dprintk(1, "%s: Allocated buffer of %d pages\n",
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  156  		__func__, buf->num_pages);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  157  	return buf;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  158  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  159  fail_map:
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  160  	put_device(buf->dev);
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  161  	sg_free_table(buf->dma_sgt);
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  162  fail_table_alloc:
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  163  	num_pages = buf->num_pages;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  164  	while (num_pages--)
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  165  		__free_page(buf->pages[num_pages]);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  166  fail_pages_alloc:
+758d90e161382c1 drivers/media/v4l2-core/videobuf2-dma-sg.c        Tomasz Figa           2017-06-19  167  	kvfree(buf->pages);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  168  fail_pages_array_alloc:
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  169  	kfree(buf);
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  170  	return ERR_PTR(-ENOMEM);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  171  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  172  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29 @173  static void vb2_dma_sg_put(void *buf_priv)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  174  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  175  	struct vb2_dma_sg_buf *buf = buf_priv;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  176  	struct sg_table *sgt = &buf->sg_table;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  177  	int i = buf->num_pages;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  178  
+6c4bb65d0be8f34 drivers/media/v4l2-core/videobuf2-dma-sg.c        Elena Reshetova       2017-03-06  179  	if (refcount_dec_and_test(&buf->refcount)) {
+ffdc78efe1a8a01 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2013-03-02  180  		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  181  			buf->num_pages);
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  182  		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  183  				  DMA_ATTR_SKIP_CPU_SYNC);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  184  		if (buf->vaddr)
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  185  			vm_unmap_ram(buf->vaddr, buf->num_pages);
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  186  		sg_free_table(buf->dma_sgt);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  187  		while (--i >= 0)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  188  			__free_page(buf->pages[i]);
+758d90e161382c1 drivers/media/v4l2-core/videobuf2-dma-sg.c        Tomasz Figa           2017-06-19  189  		kvfree(buf->pages);
+0c3a14c177aa85a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  190  		put_device(buf->dev);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  191  		kfree(buf);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  192  	}
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  193  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  194  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24 @195  static void vb2_dma_sg_prepare(void *buf_priv)
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  196  {
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  197  	struct vb2_dma_sg_buf *buf = buf_priv;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  198  	struct sg_table *sgt = buf->dma_sgt;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  199  
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  200  	/* DMABUF exporter will flush the cache for us */
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  201  	if (buf->db_attach)
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  202  		return;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  203  
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  204  	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  205  }
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  206  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24 @207  static void vb2_dma_sg_finish(void *buf_priv)
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  208  {
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  209  	struct vb2_dma_sg_buf *buf = buf_priv;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  210  	struct sg_table *sgt = buf->dma_sgt;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  211  
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  212  	/* DMABUF exporter will flush the cache for us */
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  213  	if (buf->db_attach)
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  214  		return;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  215  
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  216  	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  217  }
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  218  
+36c0f8b32c4bd4f drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-04-15 @219  static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+cd474037c4a9a9c drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  220  				    unsigned long size,
+cd474037c4a9a9c drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  221  				    enum dma_data_direction dma_dir)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  222  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  223  	struct vb2_dma_sg_buf *buf;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  224  	struct sg_table *sgt;
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  225  	struct frame_vector *vec;
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  226  
+10791829eb52d57 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  227  	if (WARN_ON(!dev))
+10791829eb52d57 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  228  		return ERR_PTR(-EINVAL);
+10791829eb52d57 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  229  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  230  	buf = kzalloc(sizeof *buf, GFP_KERNEL);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  231  	if (!buf)
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  232  		return ERR_PTR(-ENOMEM);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  233  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  234  	buf->vaddr = NULL;
+36c0f8b32c4bd4f drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-04-15  235  	buf->dev = dev;
+cd474037c4a9a9c drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  236  	buf->dma_dir = dma_dir;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  237  	buf->offset = vaddr & ~PAGE_MASK;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  238  	buf->size = size;
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  239  	buf->dma_sgt = &buf->sg_table;
+707947247e9517b drivers/media/common/videobuf2/videobuf2-dma-sg.c Hans Verkuil          2019-04-04  240  	vec = vb2_create_framevec(vaddr, size);
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  241  	if (IS_ERR(vec))
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  242  		goto userptr_fail_pfnvec;
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  243  	buf->vec = vec;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  244  
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  245  	buf->pages = frame_vector_pages(vec);
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  246  	if (IS_ERR(buf->pages))
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  247  		goto userptr_fail_sgtable;
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  248  	buf->num_pages = frame_vector_count(vec);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  249  
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  250  	if (sg_alloc_table_from_pages(buf->dma_sgt, buf->pages,
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  251  			buf->num_pages, buf->offset, size, 0))
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  252  		goto userptr_fail_sgtable;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  253  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  254  	sgt = &buf->sg_table;
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  255  	/*
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  256  	 * No need to sync to the device, this will happen later when the
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  257  	 * prepare() memop is called.
+251a79f8f5adfd8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  258  	 */
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  259  	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  260  			    DMA_ATTR_SKIP_CPU_SYNC)) {
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  261  		goto userptr_fail_map;
+6a5d77cbf26078e drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2015-04-29  262  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  263  	return buf;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  264  
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  265  userptr_fail_map:
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  266  	sg_free_table(&buf->sg_table);
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  267  userptr_fail_sgtable:
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  268  	vb2_destroy_framevec(vec);
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  269  userptr_fail_pfnvec:
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  270  	kfree(buf);
+0ff657b0f6120cb drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2016-07-21  271  	return ERR_PTR(-ENOMEM);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  272  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  273  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  274  /*
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  275   * @put_userptr: inform the allocator that a USERPTR buffer will no longer
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  276   *		 be used
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  277   */
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29 @278  static void vb2_dma_sg_put_userptr(void *buf_priv)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  279  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  280  	struct vb2_dma_sg_buf *buf = buf_priv;
+d790b7eda953df4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-24  281  	struct sg_table *sgt = &buf->sg_table;
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  282  	int i = buf->num_pages;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  283  
+ffdc78efe1a8a01 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2013-03-02  284  	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  285  	       __func__, buf->num_pages);
+b8bd9d592f68e3c drivers/media/common/videobuf2/videobuf2-dma-sg.c Marek Szyprowski      2020-06-18  286  	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  287  	if (buf->vaddr)
+223012475968fb8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Ricardo Ribalda       2013-08-02  288  		vm_unmap_ram(buf->vaddr, buf->num_pages);
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  289  	sg_free_table(buf->dma_sgt);
+5b6f9abe5a49df8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Stanimir Varbanov     2017-08-21  290  	if (buf->dma_dir == DMA_FROM_DEVICE ||
+5b6f9abe5a49df8 drivers/media/v4l2-core/videobuf2-dma-sg.c        Stanimir Varbanov     2017-08-21  291  	    buf->dma_dir == DMA_BIDIRECTIONAL)
+c0cb76589c77b9a drivers/media/v4l2-core/videobuf2-dma-sg.c        Stanimir Varbanov     2017-08-29  292  		while (--i >= 0)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  293  			set_page_dirty_lock(buf->pages[i]);
+3336c24f25ec932 drivers/media/v4l2-core/videobuf2-dma-sg.c        Jan Kara              2015-07-13  294  	vb2_destroy_framevec(buf->vec);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  295  	kfree(buf);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  296  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  297  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29 @298  static void *vb2_dma_sg_vaddr(void *buf_priv)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  299  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  300  	struct vb2_dma_sg_buf *buf = buf_priv;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  301  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  302  	BUG_ON(!buf);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  303  
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  304  	if (!buf->vaddr) {
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  305  		if (buf->db_attach)
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  306  			buf->vaddr = dma_buf_vmap(buf->db_attach->dmabuf);
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  307  		else
+d4efd79a81abc70 drivers/media/common/videobuf2/videobuf2-dma-sg.c Christoph Hellwig     2020-06-01  308  			buf->vaddr = vm_map_ram(buf->pages, buf->num_pages, -1);
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  309  	}
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  310  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  311  	/* add offset in case userptr is not page-aligned */
+e078b79d8aa70a4 drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  312  	return buf->vaddr ? buf->vaddr + buf->offset : NULL;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  313  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  314  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29 @315  static unsigned int vb2_dma_sg_num_users(void *buf_priv)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  316  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  317  	struct vb2_dma_sg_buf *buf = buf_priv;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  318  
+6c4bb65d0be8f34 drivers/media/v4l2-core/videobuf2-dma-sg.c        Elena Reshetova       2017-03-06  319  	return refcount_read(&buf->refcount);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  320  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  321  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29 @322  static int vb2_dma_sg_mmap(void *buf_priv, struct vm_area_struct *vma)
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  323  {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  324  	struct vb2_dma_sg_buf *buf = buf_priv;
+a17ae14766935aa drivers/media/common/videobuf2/videobuf2-dma-sg.c Souptick Joarder      2019-05-13  325  	int err;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  326  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  327  	if (!buf) {
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  328  		printk(KERN_ERR "No memory to map\n");
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  329  		return -EINVAL;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  330  	}
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  331  
+a17ae14766935aa drivers/media/common/videobuf2/videobuf2-dma-sg.c Souptick Joarder      2019-05-13  332  	err = vm_map_pages(vma, buf->pages, buf->num_pages);
+a17ae14766935aa drivers/media/common/videobuf2/videobuf2-dma-sg.c Souptick Joarder      2019-05-13  333  	if (err) {
+a17ae14766935aa drivers/media/common/videobuf2/videobuf2-dma-sg.c Souptick Joarder      2019-05-13  334  		printk(KERN_ERR "Remapping memory, error: %d\n", err);
+a17ae14766935aa drivers/media/common/videobuf2/videobuf2-dma-sg.c Souptick Joarder      2019-05-13  335  		return err;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  336  	}
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  337  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  338  	/*
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  339  	 * Use common vm_area operations to track buffer refcount.
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  340  	 */
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  341  	vma->vm_private_data	= &buf->handler;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  342  	vma->vm_ops		= &vb2_common_vm_ops;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  343  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  344  	vma->vm_ops->open(vma);
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  345  
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  346  	return 0;
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  347  }
+5ba3f757f0592ca drivers/media/video/videobuf2-dma-sg.c            Andrzej Pietrasiewicz 2010-11-29  348  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  349  /*********************************************/
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  350  /*         DMABUF ops for exporters          */
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  351  /*********************************************/
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  352  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  353  struct vb2_dma_sg_attachment {
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  354  	struct sg_table sgt;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  355  	enum dma_data_direction dma_dir;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  356  };
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  357  
+a19741e5e5a9f1f drivers/media/common/videobuf2/videobuf2-dma-sg.c Christian König       2018-05-28 @358  static int vb2_dma_sg_dmabuf_ops_attach(struct dma_buf *dbuf,
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  359  	struct dma_buf_attachment *dbuf_attach)
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  360  {
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  361  	struct vb2_dma_sg_attachment *attach;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  362  	unsigned int i;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  363  	struct scatterlist *rd, *wr;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  364  	struct sg_table *sgt;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  365  	struct vb2_dma_sg_buf *buf = dbuf->priv;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  366  	int ret;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  367  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  368  	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  369  	if (!attach)
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  370  		return -ENOMEM;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  371  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  372  	sgt = &attach->sgt;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  373  	/* Copy the buf->base_sgt scatter list to the attachment, as we can't
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  374  	 * map the same scatter list to multiple attachments at the same time.
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  375  	 */
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  376  	ret = sg_alloc_table(sgt, buf->dma_sgt->orig_nents, GFP_KERNEL);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  377  	if (ret) {
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  378  		kfree(attach);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  379  		return -ENOMEM;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  380  	}
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  381  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  382  	rd = buf->dma_sgt->sgl;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  383  	wr = sgt->sgl;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  384  	for (i = 0; i < sgt->orig_nents; ++i) {
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  385  		sg_set_page(wr, sg_page(rd), rd->length, rd->offset);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  386  		rd = sg_next(rd);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  387  		wr = sg_next(wr);
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  388  	}
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  389  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  390  	attach->dma_dir = DMA_NONE;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  391  	dbuf_attach->priv = attach;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  392  
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  393  	return 0;
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  394  }
+041c7b6ac74ee7a drivers/media/v4l2-core/videobuf2-dma-sg.c        Hans Verkuil          2014-11-18  395  
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---7AUc2qLy4jB3hD7Z
+--opJtzjQTFsWo+cga
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICLXw614AAy5jb25maWcAlFxJc9w4sr73r6iQLzOH9mhzPfd7oQNIglXoIgkaAGvRhVGW
+H4sICJP/614AAy5jb25maWcAlFxJc9w4sr73r6iQLzOH9mhzPfd7oQNIglXoIgkaAGvRhVGW
 y7aiZUkhlWbG8+tfJrhhI8vTlzbzS2yJRG5A6d1v72bk7fj0Y3+8v9s/PPycfTs8Hl72x8OX
 2df7h8P/zRI+K7ia0YSp98Cc3T++/fsf+4fn7/vZh/cf35///nJ3MVsdXh4PD7P46fHr/bc3
 aH7/9Pjbu99iXqRsUcdxvaZCMl7Uim7VzZlu/vsDdvX7t7u72d8Wcfz32R/vr96fnxmNmKwB
@@ -1474,7 +1842,7 @@ c6AtIoxcF1XaXaJJ176Tk50mnB3b36oksxeoKoHcVWqDaS3Of5rhYt7smwti/okXSRYICJ/H
 eNDwsnfFYVubMSpqkTNfw4SjAEhl7Ohi4DwKau59qVJmXObj25DMX6O/NZwk/w9BZLJT/y8E
 AA==
 
---7AUc2qLy4jB3hD7Z
+--opJtzjQTFsWo+cga
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1485,4 +1853,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---7AUc2qLy4jB3hD7Z--
+--opJtzjQTFsWo+cga--
