@@ -1,31 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522A0201C49
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 22:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE506201C5A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 22:25:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8026EA51;
-	Fri, 19 Jun 2020 20:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA2066EA19;
+	Fri, 19 Jun 2020 20:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E124B6EA51
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 20:20:34 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 642172CD;
- Fri, 19 Jun 2020 20:20:31 +0000 (UTC)
-Date: Fri, 19 Jun 2020 14:20:30 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 00/22] ReST conversion patches (final?)
-Message-ID: <20200619142030.6feed35e@lwn.net>
-In-Reply-To: <cover.1592203650.git.mchehab+huawei@kernel.org>
-References: <cover.1592203650.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC246EA19
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 20:25:23 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.7-rc2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592598323;
+ bh=P2SsJqPjthAAmm3aJvqDFeEcXcH3hqQHTcjrBRY981s=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=C0Kn/yvyoHTzuF9949MuGeqiazp9hLBpl8Cdtna9ZDCidtIBGsHJS27j8gV7Osz3j
+ x1eoRit0xfS13Eis/SGaNNHvccGhfsJf+vqcim+vLfbeL+1FEjdwEs6tKoJ0A8BJaP
+ EnhcQTFdLQp5nQTB2czwwcrT8dxsJIrPtLtUxKzI=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tzY6Md_x57APC-u0eWTztTmB1g-78XQk-dFS++7W1DtgQ@mail.gmail.com>
+References: <CAPM=9tzY6Md_x57APC-u0eWTztTmB1g-78XQk-dFS++7W1DtgQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tzY6Md_x57APC-u0eWTztTmB1g-78XQk-dFS++7W1DtgQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-06-19
+X-PR-Tracked-Commit-Id: 8a7a3d1d0dcf2bb63dafe7275020420005e13e54
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 62c91ead977a5d5023be3d791cbff8535f7d5433
+Message-Id: <159259832312.1498.1663559978022920624.pr-tracker-bot@kernel.org>
+Date: Fri, 19 Jun 2020 20:25:23 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,63 +46,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rich Felker <dalias@libc.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, linux-pci@vger.kernel.org,
- Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Howells <dhowells@redhat.com>, linux-mm@kvack.org,
- Harry Wei <harryxiyou@gmail.com>, Paul Mackerras <paulus@samba.org>,
- Alex Shi <alex.shi@linux.alibaba.com>, Will Deacon <will@kernel.org>,
- Javi Merino <javi.merino@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Michael Ellerman <mpe@ellerman.id.au>, linux-sh@vger.kernel.org,
- Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, linux-crypto@vger.kernel.org,
- Ohad Ben-Cohen <ohad@wizery.com>, devicetree@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>, linux-pm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- Dan Williams <dan.j.williams@intel.com>, linux-arm-kernel@lists.infradead.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Amit Daniel Kachhap <amit.kachhap@gmail.com>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, tee-dev@lists.linaro.org,
- Vinod Koul <vkoul@kernel.org>, keyrings@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Masami Hiramatsu <mhiramat@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dmaengine@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Jun 2020 08:50:05 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+The pull request you sent on Fri, 19 Jun 2020 13:00:42 +1000:
 
-> That's my final(*) series of conversion patches from .txt to ReST.
-> 
-> (*) Well, running the script I'm using to check, I noticed a couple of new *.txt files.
-> If I have some time, I'll try to address those last pending things for v5.9.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-06-19
 
-OK, I've applied the set except for parts:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/62c91ead977a5d5023be3d791cbff8535f7d5433
 
- 1: |copy| as mentioned before
- 18: because of the license boilerplate
- 19: doesn't apply at all (perhaps because of one of the above)
- 22: because I don't like the latex markup.
+Thank you!
 
-Also, I took the liberty of just reverting the |copy| change in #10.
-
-Getting there..!
-
-Thanks,
-
-jon
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
