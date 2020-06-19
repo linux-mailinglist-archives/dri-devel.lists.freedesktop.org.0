@@ -2,43 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43A5200A43
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323EF200A5E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jun 2020 15:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD476ECBF;
-	Fri, 19 Jun 2020 13:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBD56ECC0;
+	Fri, 19 Jun 2020 13:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70EF76ECBC;
- Fri, 19 Jun 2020 13:34:59 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f0bac004d57d24caa4a0e33.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0b:ac00:4d57:d24c:aa4a:e33])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EB6C81EC03D0;
- Fri, 19 Jun 2020 15:34:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1592573697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=u1GbBe13gJ4BTiGHsY3PCYbsBzZ3KFyUO+55Ve0pR54=;
- b=L0o8zXrCdiGsWBnTPoYSrRxtzWeXTGACHWMrRpLgDbX6BXPrI8HiyVTYCS/RWukSK4Ofsz
- mbhXGH1l8VKsrOmCeBqf6jsf864MZlN3BDKOWZwlCpmWGTWb6asrbx8jZetpKzaSerQOhE
- CcGVMpI6l/Hfh8bLprQOFcIpSAjqt54=
-Date: Fri, 19 Jun 2020 15:34:49 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [Nouveau] 2dd4d163cd9c ("drm/nouveau: remove open-coded version
- of remove_conflicting_pci_framebuffers()")
-Message-ID: <20200619133449.GD32683@zn.tnic>
-References: <20200618200106.GF27951@zn.tnic>
- <CAKb7UviibvRfqJgtLkePEuXFa6mQfi4h=7eeW+YQxB-StVjjrA@mail.gmail.com>
- <20200618203907.GG27951@zn.tnic>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6596ECC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jun 2020 13:41:05 +0000 (UTC)
+IronPort-SDR: 8QxQo3ej9YPIAWryP+UZ5CYvLPKJzvvDrgbwnnG5i1IK1rhr7dVGjUbYTqosUfRlLtHqNi+mLe
+ xaUhvKQkpCbg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="161063857"
+X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="161063857"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2020 06:41:05 -0700
+IronPort-SDR: 7a6fRNvxQocMKFtpy6dheILuMZlNC+47soiadq6ZNoMhv0FDBFbc26o7AeG0lq/RmKEjJnIqPR
+ NRo405rUk2Vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,255,1589266800"; d="scan'208";a="300061811"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga004.fm.intel.com with ESMTP; 19 Jun 2020 06:41:04 -0700
+Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 19 Jun 2020 06:41:04 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.193]) by
+ fmsmsx158.amr.corp.intel.com ([169.254.15.146]) with mapi id 14.03.0439.000;
+ Fri, 19 Jun 2020 06:41:04 -0700
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: Charan Teja Kalla <charante@codeaurora.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, "David.Laight@ACULAB.COM"
+ <David.Laight@ACULAB.COM>, "open list:DMA BUFFER SHARING FRAMEWORK"
+ <linux-media@vger.kernel.org>, DRI mailing list
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Topic: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Index: AQHWRjDU8ynrfmeG7EGyHovmSs13oqjf8L+w
+Date: Fri, 19 Jun 2020 13:41:03 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
+References: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
+In-Reply-To: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.108]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200618203907.GG27951@zn.tnic>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,73 +67,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>
+Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 18, 2020 at 10:39:07PM +0200, Borislav Petkov wrote:
-> I'll redo the bisection tomorrow, on a fresh head, to check.
+>-----Original Message-----
+>From: charante=codeaurora.org@mg.codeaurora.org
+><charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan Teja
+>Kalla
+>Sent: Friday, June 19, 2020 7:57 AM
+>To: Sumit Semwal <sumit.semwal@linaro.org>; Ruhl, Michael J
+><michael.j.ruhl@intel.com>; David.Laight@ACULAB.COM; open list:DMA
+>BUFFER SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing
+>list <dri-devel@lists.freedesktop.org>
+>Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>; LKML <linux-
+>kernel@vger.kernel.org>
+>Subject: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+>
+>There exists a sleep-while-atomic bug while accessing the dmabuf->name
+>under mutex in the dmabuffs_dname(). This is caused from the SELinux
+>permissions checks on a process where it tries to validate the inherited
+>files from fork() by traversing them through iterate_fd() (which
+>traverse files under spin_lock) and call
+>match_file(security/selinux/hooks.c) where the permission checks happen.
+>This audit information is logged using dump_common_audit_data() where it
+>calls d_path() to get the file path name. If the file check happen on
+>the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+>access dmabuf->name. The flow will be like below:
+>flush_unauthorized_files()
+>  iterate_fd()
+>    spin_lock() --> Start of the atomic section.
+>      match_file()
+>        file_has_perm()
+>          avc_has_perm()
+>            avc_audit()
+>              slow_avc_audit()
+>	        common_lsm_audit()
+>		  dump_common_audit_data()
+>		    audit_log_d_path()
+>		      d_path()
+>                        dmabuffs_dname()
+>                          mutex_lock()--> Sleep while atomic.
+>
+>Call trace captured (on 4.19 kernels) is below:
+>___might_sleep+0x204/0x208
+>__might_sleep+0x50/0x88
+>__mutex_lock_common+0x5c/0x1068
+>__mutex_lock_common+0x5c/0x1068
+>mutex_lock_nested+0x40/0x50
+>dmabuffs_dname+0xa0/0x170
+>d_path+0x84/0x290
+>audit_log_d_path+0x74/0x130
+>common_lsm_audit+0x334/0x6e8
+>slow_avc_audit+0xb8/0xf8
+>avc_has_perm+0x154/0x218
+>file_has_perm+0x70/0x180
+>match_file+0x60/0x78
+>iterate_fd+0x128/0x168
+>selinux_bprm_committing_creds+0x178/0x248
+>security_bprm_committing_creds+0x30/0x48
+>install_exec_creds+0x1c/0x68
+>load_elf_binary+0x3a4/0x14e0
+>search_binary_handler+0xb0/0x1e0
+>
+>So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+>
+>Cc: <stable@vger.kernel.org> [5.3+]
+>Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>---
+>
+>Changes in V2: Addressed review comments from Ruhl, Michael J
+>
+>Changes in V1: https://lore.kernel.org/patchwork/patch/1255055/
+>
+> drivers/dma-buf/dma-buf.c | 11 +++++++----
+> include/linux/dma-buf.h   |  1 +
+> 2 files changed, 8 insertions(+), 4 deletions(-)
+>
+>diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>index 01ce125..d81d298 100644
+>--- a/drivers/dma-buf/dma-buf.c
+>+++ b/drivers/dma-buf/dma-buf.c
+>@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
+>char *buffer, int buflen)
+> 	size_t ret = 0;
+>
+> 	dmabuf = dentry->d_fsdata;
+>-	dma_resv_lock(dmabuf->resv, NULL);
+>+	spin_lock(&dmabuf->name_lock);
+> 	if (dmabuf->name)
+> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>-	dma_resv_unlock(dmabuf->resv);
+>+	spin_unlock(&dmabuf->name_lock);
+>
+> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+> 			     dentry->d_name.name, ret > 0 ? name : "");
+>@@ -341,8 +341,10 @@ static long dma_buf_set_name(struct dma_buf
+>*dmabuf, const char __user *buf)
+> 		kfree(name);
+> 		goto out_unlock;
+> 	}
+>+	spin_lock(&dmabuf->name_lock);
+> 	kfree(dmabuf->name);
+> 	dmabuf->name = name;
+>+	spin_unlock(&dmabuf->name_lock);
 
-Ok, just did it again, similar bisection log, points at the same commit.
+While this code path is ok, I would have separated the protection of the
+attachment list and the name manipulation.
 
-The commit before it:
+dma_resv_lock(resv)
+if (!list_empty(attachment)
+	ret = -EBUSY
+dma_resv_unlock(resv)
 
-fb172f5fe880 ("drm/nouveau/gr/gk20a: move MODULE_FIRMWARE firmware definitions")
+if (ret) {
+	kfree(name)
+	return ret;
+}
 
-boots ok but
+spinlock(nam_lock)
+...
 
-2dd4d163cd9c ("drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()")
+Nesting locks  that don't need to be nested always makes me nervous
+for future use that misses the lock/unlock pattern.
 
-doesn't.
+However, this looks reasonable.
 
-Ideas?
+With this current code, or if you update to the above pattern:
 
-git bisect start
-# good: [3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162] Linux 5.7
-git bisect good 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
-# bad: [5e857ce6eae7ca21b2055cca4885545e29228fe2] Merge branch 'hch' (maccess patches from Christoph Hellwig)
-git bisect bad 5e857ce6eae7ca21b2055cca4885545e29228fe2
-# bad: [a98f670e41a99f53acb1fb33cee9c6abbb2e6f23] Merge tag 'media/v5.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
-git bisect bad a98f670e41a99f53acb1fb33cee9c6abbb2e6f23
-# bad: [5be993432821750f382809df5e20bf4c129b24f7] mm/hugetlb: define a generic fallback for arch_clear_hugepage_flags()
-git bisect bad 5be993432821750f382809df5e20bf4c129b24f7
-# good: [cfa3b8068b09f25037146bfd5eed041b78878bee] Merge tag 'for-linus-hmm' of git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma
-git bisect good cfa3b8068b09f25037146bfd5eed041b78878bee
-# good: [a1fb548962397bb8609bb46e566809a9a1b30044] Merge tag 'drm-intel-next-2020-04-30' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
-git bisect good a1fb548962397bb8609bb46e566809a9a1b30044
-# bad: [750a02ab8d3c49ca7d23102be90d3d1db19e2827] Merge tag 'for-5.8/block-2020-06-01' of git://git.kernel.dk/linux-block
-git bisect bad 750a02ab8d3c49ca7d23102be90d3d1db19e2827
-# good: [e20bb857dea2f620ff37ae541ed8aee70e3c89f1] Merge tag 'exynos-drm-next-for-v5.8' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next
-git bisect good e20bb857dea2f620ff37ae541ed8aee70e3c89f1
-# good: [e6e7abffe386b614a194ec32457a00c304c980f4] blk-mq: simplify the blk_mq_get_request calling convention
-git bisect good e6e7abffe386b614a194ec32457a00c304c980f4
-# bad: [7dbbdd37f2ae7dd4175ba3f86f4335c463b18403] drm/nouveau: use correct conflicting framebuffer API
-git bisect bad 7dbbdd37f2ae7dd4175ba3f86f4335c463b18403
-# bad: [0f85bbb6ae517d9a4308527188afe35c2012bbc9] drm/nouveau/device: use regular PRI accessors in chipset detection
-git bisect bad 0f85bbb6ae517d9a4308527188afe35c2012bbc9
-# good: [fa4f4c213f5f7807360c41f2501a3031a9940f3a] drm/nouveau/kms: Support NVIDIA format modifiers
-git bisect good fa4f4c213f5f7807360c41f2501a3031a9940f3a
-# bad: [e3d8b08904694e9ccae5163d0bb7d35fa66e5bdc] drm/nouveau/svm: map pages after migration
-git bisect bad e3d8b08904694e9ccae5163d0bb7d35fa66e5bdc
-# good: [fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb] drm/nouveau/gr/gk20a: move MODULE_FIRMWARE firmware definitions
-git bisect good fb172f5fe880cd0ddb4370b2fcc9ad4848c98bbb
-# bad: [b950c8c5d082d822b0134d1fc058101ab346e503] drm/nouveau/bios: move ACPI _ROM handling
-git bisect bad b950c8c5d082d822b0134d1fc058101ab346e503
-# bad: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
-git bisect bad 2dd4d163cd9c15432524aa9863155bc03a821361
-# first bad commit: [2dd4d163cd9c15432524aa9863155bc03a821361] drm/nouveau: remove open-coded version of remove_conflicting_pci_framebuffers()
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 
-Thx.
+Mike
 
--- 
-Regards/Gruss,
-    Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> out_unlock:
+> 	dma_resv_unlock(dmabuf->resv);
+>@@ -405,10 +407,10 @@ static void dma_buf_show_fdinfo(struct seq_file
+>*m, struct file *file)
+> 	/* Don't count the temporary reference taken inside procfs seq_show
+>*/
+> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+>-	dma_resv_lock(dmabuf->resv, NULL);
+>+	spin_lock(&dmabuf->name_lock);
+> 	if (dmabuf->name)
+> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+>-	dma_resv_unlock(dmabuf->resv);
+>+	spin_unlock(&dmabuf->name_lock);
+> }
+>
+> static const struct file_operations dma_buf_fops = {
+>@@ -546,6 +548,7 @@ struct dma_buf *dma_buf_export(const struct
+>dma_buf_export_info *exp_info)
+> 	dmabuf->size = exp_info->size;
+> 	dmabuf->exp_name = exp_info->exp_name;
+> 	dmabuf->owner = exp_info->owner;
+>+	spin_lock_init(&dmabuf->name_lock);
+> 	init_waitqueue_head(&dmabuf->poll);
+> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>index ab0c156..93108fd 100644
+>--- a/include/linux/dma-buf.h
+>+++ b/include/linux/dma-buf.h
+>@@ -311,6 +311,7 @@ struct dma_buf {
+> 	void *vmap_ptr;
+> 	const char *exp_name;
+> 	const char *name;
+>+	spinlock_t name_lock;
+> 	struct module *owner;
+> 	struct list_head list_node;
+> 	void *priv;
+>--
+>The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>Forum, a Linux Foundation Collaborative Project
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
