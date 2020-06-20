@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C0920304C
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C7B20301D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAEF6E554;
-	Mon, 22 Jun 2020 07:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BF26E147;
+	Mon, 22 Jun 2020 07:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 663EE6E37F
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 22:09:00 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id cy7so4131592edb.5
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 15:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6JksLNN6DcvIJvN1uS8+aK+pThl40vXn2UGn3QiWYXA=;
- b=qEpQu2PpcRu/SMk/Wuz8ebNVu12qZBJCwRsxzTCcM6faEE4mor2N3RONbprbdXyPYg
- Tw+2eCuGD/khcXlbumYZU5/n4fadGFgRKiUz1KUsmUcyulYGn2Rk9RRTlc2aUZ/StzfO
- fgOrktccZ/Suf6E4qiEyZwfBIoRv/PI/flkMuOBLESzeaFwOyPolwVbauMLQC4+kxqh3
- FMK7kRydxQnPY+oLDMTupODP6ZP0l+rYpf/VBTREkq57imO3qOn5W2B0oUjigdkX0Fzq
- of7AqncGV8ekVGZhLJWecDIkmT4IgWR4J+2MhVfWk/YQCLbX/aN1ydqD6bWT621gfvWq
- f7yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6JksLNN6DcvIJvN1uS8+aK+pThl40vXn2UGn3QiWYXA=;
- b=enhkom3GCDvGZPJCLx/mVYQc341HqaevdIxvfIwsk8fR1vEZpRd52Zc5VjXJf0j4Oq
- CSk8FjDJodBhYNP7pmz2VWLSMylZ969vFAQu4qgTiS/Hpv03n/nAP+PTjEB8Iw4r/Kmv
- nobZBWbhxR9SDX+kwZlTZqPYhDEKkqR73OgnK8jKtB5Jn8tF/bbjFmHLTRpkz1cVWEDk
- 5jrym30XxYivLyKhSEvcnreAEkjI2FybzNEq2vQ6TkwF+E3fBK/68eZ+t8QpEh/9mZ1R
- sDJmpPIUdsmQbISLwBXOshr5C+26WPy6zhu3sp6DSAMsgFdd+MumHQSuTztAfMQJP5E6
- 85NA==
-X-Gm-Message-State: AOAM532f3wZANgodZjUJxbmT8jcgzsDm9TEi/sbr//6Ph3q0zwf6NDen
- NaU0I2BoDJ32cOvubDdRT6GpEDr3dw6k8AG8qzM=
-X-Google-Smtp-Source: ABdhPJxkl+rDboTvgcLfuUPdbiLfvkL3LzwuMpHr5BEKmrgLzgEok4YTijdr+Ovbd1nlFSQR4Id78TPGb4wSpdP/0HM=
-X-Received: by 2002:a05:6402:148f:: with SMTP id
- e15mr10109759edv.368.1592690938884; 
- Sat, 20 Jun 2020 15:08:58 -0700 (PDT)
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1A26E379
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 22:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1592692211; bh=o/7Yzdmy5gH1hcVkxuWnC/QxTBTcIhA6vkCr7hEqMXA=;
+ h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+ b=P+5b4e69aQ9lGIm66j5akB5qC4ZTUPCdZRJAoiXZ1hmcUtMRswNxxlaPevzOOn/ZO
+ /chzy31VREJoeccG8DNwePFZ4ActX0PJ4Uej16FqKn5mAnlaPEvQEG/+wUdlP+55xE
+ NrDPColO4ydfwNb6OwETw9iwcFHhWI4b+8YxmBmI=
+Date: Sun, 21 Jun 2020 00:30:10 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v4 3/5] drm: panel: Add Xingbangda XBD599 panel (ST7703
+ controller)
+Message-ID: <20200620223010.fqjwijiixxkewk3p@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-sunxi@googlegroups.com,
+ Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
+ Samuel Holland <samuel@sholland.org>, Bhushan Shah <bshah@kde.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, Martijn Braam <martijn@brixit.nl>,
+ linux-arm-kernel@lists.infradead.org
+References: <20200617003209.670819-1-megous@megous.com>
+ <20200617003209.670819-4-megous@megous.com>
+ <20200620212529.GB74146@ravnborg.org>
 MIME-Version: 1.0
-References: <202006210249.QHly8bQZ%lkp@intel.com>
-In-Reply-To: <202006210249.QHly8bQZ%lkp@intel.com>
-From: Vladimir Oltean <olteanv@gmail.com>
-Date: Sun, 21 Jun 2020 01:08:47 +0300
-Message-ID: <CA+h21hpABfDvthiwq_JwWGpqZ68VJxu5TOBVbw_Gaxpq8j+XQg@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/panel/panel-samsung-ld9040.c:240:12: warning:
- stack frame size of 8312 bytes in function 'ld9040_prepare'
-To: kernel test robot <lkp@intel.com>, thierry.reding@gmail.com,
- sam@ravnborg.org, 
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20200620212529.GB74146@ravnborg.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,287 +57,644 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: clang-built-linux@googlegroups.com, Mark Brown <broonie@kernel.org>,
- kbuild-all@lists.01.org, lkml <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Martijn Braam <martijn@brixit.nl>,
+ Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ Bhushan Shah <bshah@kde.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-kernel@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+ linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 20 Jun 2020 at 21:22, kernel test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   4333a9b0b67bb4e8bcd91bdd80da80b0ec151162
-> commit: 79591b7db21d255db158afaa48c557dcab631a1c spi: Add a PTP system timestamp to the transfer structure
-> date:   9 months ago
-> config: x86_64-randconfig-a014-20200620 (attached as .config)
-> compiler: clang version 11.0.0 (https://github.com/llvm/llvm-project f5bbe390d23d7da0ffb110cdb24b583c2dc87eba)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install x86_64 cross compiling tool for clang build
->         # apt-get install binutils-x86-64-linux-gnu
->         git checkout 79591b7db21d255db158afaa48c557dcab631a1c
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=x86_64
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> drivers/gpu/drm/panel/panel-samsung-ld9040.c:240:12: warning: stack frame size of 8312 bytes in function 'ld9040_prepare' [-Wframe-larger-than=]
-> static int ld9040_prepare(struct drm_panel *panel)
-> ^
-> 1 warning generated.
->
-> vim +/ld9040_prepare +240 drivers/gpu/drm/panel/panel-samsung-ld9040.c
->
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  239
-> 099b3e8699322e drivers/gpu/drm/panel/panel-ld9040.c Ajay Kumar    2014-07-31 @240  static int ld9040_prepare(struct drm_panel *panel)
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  241  {
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  242       struct ld9040 *ctx = panel_to_ld9040(panel);
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  243       int ret;
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  244
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  245       ret = ld9040_power_on(ctx);
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  246       if (ret < 0)
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  247               return ret;
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  248
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  249       ld9040_init(ctx);
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  250
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  251       ret = ld9040_clear_error(ctx);
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  252
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  253       if (ret < 0)
-> 8141028278c2ea drivers/gpu/drm/panel/panel-ld9040.c Ajay Kumar    2014-07-31  254               ld9040_unprepare(panel);
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  255
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  256       return ret;
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  257  }
-> ff219937763253 drivers/gpu/drm/panel/panel-ld9040.c Andrzej Hajda 2014-03-26  258
->
-> :::::: The code at line 240 was first introduced by commit
-> :::::: 099b3e8699322efb7229913d2c1651588205f182 drm/panel: ld9040: Add dummy prepare and unprepare routines
->
-> :::::: TO: Ajay Kumar <ajaykumar.rs@samsung.com>
-> :::::: CC: Thierry Reding <treding@nvidia.com>
->
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+On Sat, Jun 20, 2020 at 11:25:29PM +0200, Sam Ravnborg wrote:
+> Hi Ondrej et al.
+> 
+> On Wed, Jun 17, 2020 at 02:32:07AM +0200, Ondrej Jirman wrote:
+> > From: Icenowy Zheng <icenowy@aosc.io>
+> > 
+> > Xingbangda XBD599 is a 5.99" 720x1440 MIPI-DSI IPS LCD panel made by
+> > Xingbangda, which is used on PinePhone final assembled phones.
+> > 
+> > It is based on Sitronix ST7703 LCD controller.
+> 
+> I am a little late to the game here - so sorry if this has been
+> discussed before.
+> We already have panel-rocktech-jh057n00900.c which is a panle driver
+> based on st7703.
+> Why is it we need a new driver?
 
-I really don't get what's the problem here. The listing of
-ld9040_prepare at the given commit and with the given .config is:
+No reason other than the driver not being named after the controller,
+so I didn't notice.
 
-0000000000000630 <ld9040_prepare>:
-{
- 630:    f3 0f 1e fa              endbr64
- 634:    e8 00 00 00 00           callq  639 <ld9040_prepare+0x9>
-            635: R_X86_64_PLT32    __fentry__-0x4
- 639:    41 56                    push   %r14
-    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 63b:    48 8d 77 30              lea    0x30(%rdi),%rsi
-{
- 63f:    41 55                    push   %r13
- 641:    41 54                    push   %r12
-    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 643:    4c 8d 67 f8              lea    -0x8(%rdi),%r12
-{
- 647:    55                       push   %rbp
- 648:    48 89 fd                 mov    %rdi,%rbp
-    ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 64b:    bf 02 00 00 00           mov    $0x2,%edi
- 650:    e8 00 00 00 00           callq  655 <ld9040_prepare+0x25>
-            651: R_X86_64_PLT32    regulator_bulk_enable-0x4
- 655:    41 89 c5                 mov    %eax,%r13d
-    if (ret < 0)
- 658:    85 c0                    test   %eax,%eax
- 65a:    0f 88 3f 02 00 00        js     89f <ld9040_prepare+0x26f>
-    msleep(ctx->power_on_delay);
- 660:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 667:    fc ff df
- 66a:    48 8d 7d 68              lea    0x68(%rbp),%rdi
- 66e:    48 89 fa                 mov    %rdi,%rdx
- 671:    48 c1 ea 03              shr    $0x3,%rdx
- 675:    0f b6 04 02              movzbl (%rdx,%rax,1),%eax
- 679:    84 c0                    test   %al,%al
- 67b:    74 08                    je     685 <ld9040_prepare+0x55>
- 67d:    3c 03                    cmp    $0x3,%al
- 67f:    0f 8e 38 02 00 00        jle    8bd <ld9040_prepare+0x28d>
- 685:    8b 7d 68                 mov    0x68(%rbp),%edi
-    gpiod_set_value(ctx->reset_gpio, 0);
- 688:    4c 8d 75 60              lea    0x60(%rbp),%r14
-    msleep(ctx->power_on_delay);
- 68c:    e8 00 00 00 00           callq  691 <ld9040_prepare+0x61>
-            68d: R_X86_64_PLT32    msleep-0x4
-    gpiod_set_value(ctx->reset_gpio, 0);
- 691:    4c 89 f2                 mov    %r14,%rdx
- 694:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 69b:    fc ff df
- 69e:    48 c1 ea 03              shr    $0x3,%rdx
- 6a2:    80 3c 02 00              cmpb   $0x0,(%rdx,%rax,1)
- 6a6:    0f 85 53 02 00 00        jne    8ff <ld9040_prepare+0x2cf>
- 6ac:    48 8b 7d 60              mov    0x60(%rbp),%rdi
-    msleep(ctx->reset_delay);
- 6b0:    4c 8d 6d 6c              lea    0x6c(%rbp),%r13
-    gpiod_set_value(ctx->reset_gpio, 0);
- 6b4:    31 f6                    xor    %esi,%esi
- 6b6:    e8 00 00 00 00           callq  6bb <ld9040_prepare+0x8b>
-            6b7: R_X86_64_PLT32    gpiod_set_value-0x4
-    msleep(ctx->reset_delay);
- 6bb:    4c 89 ea                 mov    %r13,%rdx
- 6be:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 6c5:    fc ff df
- 6c8:    48 c1 ea 03              shr    $0x3,%rdx
- 6cc:    0f b6 14 02              movzbl (%rdx,%rax,1),%edx
- 6d0:    4c 89 e8                 mov    %r13,%rax
- 6d3:    83 e0 07                 and    $0x7,%eax
- 6d6:    83 c0 03                 add    $0x3,%eax
- 6d9:    38 d0                    cmp    %dl,%al
- 6db:    7c 08                    jl     6e5 <ld9040_prepare+0xb5>
- 6dd:    84 d2                    test   %dl,%dl
- 6df:    0f 85 00 02 00 00        jne    8e5 <ld9040_prepare+0x2b5>
- 6e5:    8b 7d 6c                 mov    0x6c(%rbp),%edi
- 6e8:    e8 00 00 00 00           callq  6ed <ld9040_prepare+0xbd>
-            6e9: R_X86_64_PLT32    msleep-0x4
-    gpiod_set_value(ctx->reset_gpio, 1);
- 6ed:    4c 89 f2                 mov    %r14,%rdx
- 6f0:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 6f7:    fc ff df
- 6fa:    48 c1 ea 03              shr    $0x3,%rdx
- 6fe:    80 3c 02 00              cmpb   $0x0,(%rdx,%rax,1)
- 702:    0f 85 ea 01 00 00        jne    8f2 <ld9040_prepare+0x2c2>
- 708:    48 8b 7d 60              mov    0x60(%rbp),%rdi
- 70c:    be 01 00 00 00           mov    $0x1,%esi
- 711:    e8 00 00 00 00           callq  716 <ld9040_prepare+0xe6>
-            712: R_X86_64_PLT32    gpiod_set_value-0x4
-    msleep(ctx->reset_delay);
- 716:    4c 89 ea                 mov    %r13,%rdx
- 719:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 720:    fc ff df
- 723:    48 c1 ea 03              shr    $0x3,%rdx
- 727:    0f b6 14 02              movzbl (%rdx,%rax,1),%edx
- 72b:    4c 89 e8                 mov    %r13,%rax
- 72e:    83 e0 07                 and    $0x7,%eax
- 731:    83 c0 03                 add    $0x3,%eax
- 734:    38 d0                    cmp    %dl,%al
- 736:    7c 08                    jl     740 <ld9040_prepare+0x110>
- 738:    84 d2                    test   %dl,%dl
- 73a:    0f 85 98 01 00 00        jne    8d8 <ld9040_prepare+0x2a8>
- 740:    8b 7d 6c                 mov    0x6c(%rbp),%edi
- 743:    e8 00 00 00 00           callq  748 <ld9040_prepare+0x118>
-            744: R_X86_64_PLT32    msleep-0x4
-    ld9040_dcs_write_seq_static(ctx, MCS_USER_SETTING, 0x5a, 0x5a);
- 748:    ba 03 00 00 00           mov    $0x3,%edx
- 74d:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            750: R_X86_64_32S    .rodata+0x520
- 754:    4c 89 e7                 mov    %r12,%rdi
- 757:    e8 f4 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_PANEL_CONDITION,
- 75c:    ba 18 00 00 00           mov    $0x18,%edx
- 761:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            764: R_X86_64_32S    .rodata+0x4e0
- 768:    4c 89 e7                 mov    %r12,%rdi
- 76b:    e8 e0 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_DISPCTL,
- 770:    ba 06 00 00 00           mov    $0x6,%edx
- 775:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            778: R_X86_64_32S    .rodata+0x4a0
- 77c:    4c 89 e7                 mov    %r12,%rdi
- 77f:    e8 cc fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_MANPWR, 0x04);
- 784:    ba 02 00 00 00           mov    $0x2,%edx
- 789:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            78c: R_X86_64_32S    .rodata+0x460
- 790:    4c 89 e7                 mov    %r12,%rdi
- 793:    e8 b8 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_POWER_CTRL,
- 798:    ba 08 00 00 00           mov    $0x8,%edx
- 79d:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            7a0: R_X86_64_32S    .rodata+0x420
- 7a4:    4c 89 e7                 mov    %r12,%rdi
- 7a7:    e8 a4 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_ELVSS_ON, 0x0d, 0x00, 0x16);
- 7ac:    ba 04 00 00 00           mov    $0x4,%edx
- 7b1:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            7b4: R_X86_64_32S    .rodata+0x3e0
- 7b8:    4c 89 e7                 mov    %r12,%rdi
- 7bb:    e8 90 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_GTCON, 0x09, 0x00, 0x00);
- 7c0:    ba 04 00 00 00           mov    $0x4,%edx
- 7c5:    4c 89 e7                 mov    %r12,%rdi
- 7c8:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            7cb: R_X86_64_32S    .rodata+0x3a0
- 7cf:    e8 7c fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write(ctx, ld9040_gammas[ctx->brightness],
- 7d4:    48 8d bd a8 00 00 00     lea    0xa8(%rbp),%rdi
- 7db:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 7e2:    fc ff df
- 7e5:    48 89 fa                 mov    %rdi,%rdx
- 7e8:    48 c1 ea 03              shr    $0x3,%rdx
- 7ec:    0f b6 04 02              movzbl (%rdx,%rax,1),%eax
- 7f0:    84 c0                    test   %al,%al
- 7f2:    74 08                    je     7fc <ld9040_prepare+0x1cc>
- 7f4:    3c 03                    cmp    $0x3,%al
- 7f6:    0f 8e d2 00 00 00        jle    8ce <ld9040_prepare+0x29e>
- 7fc:    48 63 85 a8 00 00 00     movslq 0xa8(%rbp),%rax
- 803:    4c 89 e7                 mov    %r12,%rdi
- 806:    48 8d 14 80              lea    (%rax,%rax,4),%rdx
- 80a:    48 8d 04 50              lea    (%rax,%rdx,2),%rax
- 80e:    ba 16 00 00 00           mov    $0x16,%edx
- 813:    48 8d b4 00 00 00 00     lea    0x0(%rax,%rax,1),%rsi
- 81a:    00
-            817: R_X86_64_32S    .rodata+0x840
- 81b:    e8 30 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MCS_GAMMA_CTRL, 0x02, 0x5a);
- 820:    ba 03 00 00 00           mov    $0x3,%edx
- 825:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            828: R_X86_64_32S    .rodata+0x2e0
- 82c:    4c 89 e7                 mov    %r12,%rdi
- 82f:    e8 1c fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
- 834:    ba 01 00 00 00           mov    $0x1,%edx
- 839:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            83c: R_X86_64_32S    .rodata+0x360
- 840:    4c 89 e7                 mov    %r12,%rdi
- 843:    e8 08 fc ff ff           callq  450 <ld9040_dcs_write>
-    ld9040_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
- 848:    ba 01 00 00 00           mov    $0x1,%edx
- 84d:    4c 89 e7                 mov    %r12,%rdi
- 850:    48 c7 c6 00 00 00 00     mov    $0x0,%rsi
-            853: R_X86_64_32S    .rodata+0x320
- 857:    e8 f4 fb ff ff           callq  450 <ld9040_dcs_write>
-    int ret = ctx->error;
- 85c:    48 8d bd ac 00 00 00     lea    0xac(%rbp),%rdi
- 863:    48 b8 00 00 00 00 00     movabs $0xdffffc0000000000,%rax
- 86a:    fc ff df
- 86d:    48 89 fa                 mov    %rdi,%rdx
- 870:    48 c1 ea 03              shr    $0x3,%rdx
- 874:    0f b6 14 02              movzbl (%rdx,%rax,1),%edx
- 878:    48 89 f8                 mov    %rdi,%rax
- 87b:    83 e0 07                 and    $0x7,%eax
- 87e:    83 c0 03                 add    $0x3,%eax
- 881:    38 d0                    cmp    %dl,%al
- 883:    7c 04                    jl     889 <ld9040_prepare+0x259>
- 885:    84 d2                    test   %dl,%dl
- 887:    75 3e                    jne    8c7 <ld9040_prepare+0x297>
- 889:    44 8b ad ac 00 00 00     mov    0xac(%rbp),%r13d
-    ctx->error = 0;
- 890:    c7 85 ac 00 00 00 00     movl   $0x0,0xac(%rbp)
- 897:    00 00 00
-    if (ret < 0)
- 89a:    45 85 ed                 test   %r13d,%r13d
- 89d:    78 0b                    js     8aa <ld9040_prepare+0x27a>
-}
- 89f:    5d                       pop    %rbp
- 8a0:    44 89 e8                 mov    %r13d,%eax
- 8a3:    41 5c                    pop    %r12
- 8a5:    41 5d                    pop    %r13
- 8a7:    41 5e                    pop    %r14
- 8a9:    c3                       retq
+> Would it not be better to have one st7703 driver that suipports both
+> panels?
+>
+> The driver would need dedicated init functions depending on the panel.
+> But a lot could also be shared.
 
-I don't see it having a stack frame of 8312 bytes?
+I guess I can move the code there. 
 
-Thanks,
--Vladimir
+regards,
+	o.
+
+> 	Sam
+> 
+> > 
+> > Add support for it.
+> > 
+> > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> > ---
+> >  drivers/gpu/drm/panel/Kconfig                 |  10 +
+> >  drivers/gpu/drm/panel/Makefile                |   1 +
+> >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 535 ++++++++++++++++++
+> >  3 files changed, 546 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> > 
+> > diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> > index 39055c1f0e2f..b7bc157b0612 100644
+> > --- a/drivers/gpu/drm/panel/Kconfig
+> > +++ b/drivers/gpu/drm/panel/Kconfig
+> > @@ -395,6 +395,16 @@ config DRM_PANEL_SITRONIX_ST7701
+> >  	  ST7701 controller for 480X864 LCD panels with MIPI/RGB/SPI
+> >  	  system interfaces.
+> >  
+> > +config DRM_PANEL_SITRONIX_ST7703
+> > +	tristate "Sitronix ST7703 panel driver"
+> > +	depends on OF
+> > +	depends on DRM_MIPI_DSI
+> > +	depends on BACKLIGHT_CLASS_DEVICE
+> > +	help
+> > +	  Say Y here if you want to enable support for the Sitronix
+> > +	  ST7703 controller for 720X1440 LCD panels with MIPI/RGB/SPI
+> > +	  system interfaces.
+> > +
+> >  config DRM_PANEL_SITRONIX_ST7789V
+> >  	tristate "Sitronix ST7789V panel"
+> >  	depends on OF && SPI
+> > diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> > index de74f282c433..47f4789a8685 100644
+> > --- a/drivers/gpu/drm/panel/Makefile
+> > +++ b/drivers/gpu/drm/panel/Makefile
+> > @@ -41,6 +41,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
+> >  obj-$(CONFIG_DRM_PANEL_SHARP_LS037V7DW01) += panel-sharp-ls037v7dw01.o
+> >  obj-$(CONFIG_DRM_PANEL_SHARP_LS043T1LE01) += panel-sharp-ls043t1le01.o
+> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
+> > +obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
+> >  obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
+> >  obj-$(CONFIG_DRM_PANEL_SONY_ACX424AKP) += panel-sony-acx424akp.o
+> >  obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
+> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> > new file mode 100644
+> > index 000000000000..dbd46b6c0b46
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+> > @@ -0,0 +1,535 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * DRM driver for Sitronix ST7703 MIPI DSI panel
+> > + *
+> > + * Copyright (C) 2020 Ondrej Jirman <megous@megous.com>
+> > + * Copyright (C) 2019-2020 Icenowy Zheng <icenowy@aosc.io>
+> > + *
+> > + * Based on panel-rocktech-jh057n00900.c, which is:
+> > + *   Copyright (C) Purism SPC 2019
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_device.h>
+> > +#include <linux/regulator/consumer.h>
+> > +
+> > +#include <drm/drm_mipi_dsi.h>
+> > +#include <drm/drm_modes.h>
+> > +#include <drm/drm_panel.h>
+> > +#include <drm/drm_print.h>
+> > +
+> > +/* Manufacturer specific DCS commands */
+> > +#define ST7703_CMD_SETDISP	0xB2
+> > +#define ST7703_CMD_SETRGBIF	0xB3
+> > +#define ST7703_CMD_SETCYC	0xB4
+> > +#define ST7703_CMD_SETBGP	0xB5
+> > +#define ST7703_CMD_SETVCOM	0xB6
+> > +#define ST7703_CMD_SETOTP	0xB7
+> > +#define ST7703_CMD_SETPOWER_EXT	0xB8
+> > +#define ST7703_CMD_SETEXTC	0xB9
+> > +#define ST7703_CMD_SETMIPI	0xBA
+> > +#define ST7703_CMD_SETVDC	0xBC
+> > +#define ST7703_CMD_UNK_BF	0xBF
+> > +#define ST7703_CMD_SETSCR	0xC0
+> > +#define ST7703_CMD_SETPOWER	0xC1
+> > +#define ST7703_CMD_UNK_C6	0xC6
+> > +#define ST7703_CMD_SETPANEL	0xCC
+> > +#define ST7703_CMD_RDID1	0xDA
+> > +#define ST7703_CMD_RDID2	0xDB
+> > +#define ST7703_CMD_RDID3	0xDC
+> > +#define ST7703_CMD_SETGAMMA	0xE0
+> > +#define ST7703_CMD_SETEQ	0xE3
+> > +#define ST7703_CMD_SETGIP1	0xE9
+> > +#define ST7703_CMD_SETGIP2	0xEA
+> > +
+> > +struct st7703_panel_desc {
+> > +	const struct drm_display_mode *mode;
+> > +	unsigned int lanes;
+> > +	unsigned long flags;
+> > +	enum mipi_dsi_pixel_format format;
+> > +	const char *const *supply_names;
+> > +	unsigned int num_supplies;
+> > +};
+> > +
+> > +struct st7703 {
+> > +	struct device *dev;
+> > +	struct drm_panel panel;
+> > +	struct gpio_desc *reset_gpio;
+> > +	struct regulator_bulk_data *supplies;
+> > +	const struct st7703_panel_desc *desc;
+> > +	bool prepared;
+> > +};
+> > +
+> > +static inline struct st7703 *panel_to_st7703(struct drm_panel *panel)
+> > +{
+> > +	return container_of(panel, struct st7703, panel);
+> > +}
+> > +
+> > +#define dsi_dcs_write_seq(dsi, cmd, seq...) do {			\
+> > +		static const u8 d[] = { seq };				\
+> > +		int ret;						\
+> > +		ret = mipi_dsi_dcs_write(dsi, cmd, d, ARRAY_SIZE(d));	\
+> > +		if (ret < 0)						\
+> > +			return ret;					\
+> > +	} while (0)
+> > +
+> > +
+> > +static int st7703_init_sequence(struct st7703 *ctx)
+> > +{
+> > +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +	struct device *dev = ctx->dev;
+> > +
+> > +	/*
+> > +	 * Init sequence was supplied by the panel vendor.
+> > +	 */
+> > +
+> > +	/* Magic sequence to unlock user commands below. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xF1, 0x12, 0x83);
+> > +
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI,
+> > +			  0x33, /* VC_main = 0, Lane_Number = 3 (4 lanes) */
+> > +			  0x81, /* DSI_LDO_SEL = 1.7V, RTERM = 90 Ohm */
+> > +			  0x05, /* IHSRX = x6 (Low High Speed driving ability) */
+> > +			  0xF9, /* TX_CLK_SEL = fDSICLK/16 */
+> > +			  0x0E, /* HFP_OSC (min. HFP number in DSI mode) */
+> > +			  0x0E, /* HBP_OSC (min. HBP number in DSI mode) */
+> > +			  /* The rest is undocumented in ST7703 datasheet */
+> > +			  0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +			  0x44, 0x25, 0x00, 0x91, 0x0a, 0x00, 0x00, 0x02,
+> > +			  0x4F, 0x11, 0x00, 0x00, 0x37);
+> > +
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT,
+> > +			  0x25, /* PCCS = 2, ECP_DC_DIV = 1/4 HSYNC */
+> > +			  0x22, /* DT = 15ms XDK_ECP = x2 */
+> > +			  0x20, /* PFM_DC_DIV = /1 */
+> > +			  0x03  /* ECP_SYNC_EN = 1, VGX_SYNC_EN = 1 */);
+> > +
+> > +	/* RGB I/F porch timing */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF,
+> > +			  0x10, /* VBP_RGB_GEN */
+> > +			  0x10, /* VFP_RGB_GEN */
+> > +			  0x05, /* DE_BP_RGB_GEN */
+> > +			  0x05, /* DE_FP_RGB_GEN */
+> > +			  /* The rest is undocumented in ST7703 datasheet */
+> > +			  0x03, 0xFF,
+> > +			  0x00, 0x00,
+> > +			  0x00, 0x00);
+> > +
+> > +	/* Source driving settings. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR,
+> > +			  0x73, /* N_POPON */
+> > +			  0x73, /* N_NOPON */
+> > +			  0x50, /* I_POPON */
+> > +			  0x50, /* I_NOPON */
+> > +			  0x00, /* SCR[31,24] */
+> > +			  0xC0, /* SCR[23,16] */
+> > +			  0x08, /* SCR[15,8] */
+> > +			  0x70, /* SCR[7,0] */
+> > +			  0x00  /* Undocumented */);
+> > +
+> > +	/* NVDDD_SEL = -1.8V, VDDD_SEL = out of range (possibly 1.9V?) */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x4E);
+> > +
+> > +	/*
+> > +	 * SS_PANEL = 1 (reverse scan), GS_PANEL = 0 (normal scan)
+> > +	 * REV_PANEL = 1 (normally black panel), BGR_PANEL = 1 (BGR)
+> > +	 */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0B);
+> > +
+> > +	/* Zig-Zag Type C column inversion. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
+> > +
+> > +	/* Set display resolution. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP,
+> > +			  0xF0, /* NL = 240 */
+> > +			  0x12, /* RES_V_LSB = 0, BLK_CON = VSSD,
+> > +				 * RESO_SEL = 720RGB
+> > +				 */
+> > +			  0xF0  /* WHITE_GND_EN = 1 (GND),
+> > +				 * WHITE_FRAME_SEL = 7 frames,
+> > +				 * ISC = 0 frames
+> > +				 */);
+> > +
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ,
+> > +			  0x00, /* PNOEQ */
+> > +			  0x00, /* NNOEQ */
+> > +			  0x0B, /* PEQGND */
+> > +			  0x0B, /* NEQGND */
+> > +			  0x10, /* PEQVCI */
+> > +			  0x10, /* NEQVCI */
+> > +			  0x00, /* PEQVCI1 */
+> > +			  0x00, /* NEQVCI1 */
+> > +			  0x00, /* reserved */
+> > +			  0x00, /* reserved */
+> > +			  0xFF, /* reserved */
+> > +			  0x00, /* reserved */
+> > +			  0xC0, /* ESD_DET_DATA_WHITE = 1, ESD_WHITE_EN = 1 */
+> > +			  0x10  /* SLPIN_OPTION = 1 (no need vsync after sleep-in)
+> > +				 * VEDIO_NO_CHECK_EN = 0
+> > +				 * ESD_WHITE_GND_EN = 0
+> > +				 * ESD_DET_TIME_SEL = 0 frames
+> > +				 */);
+> > +
+> > +	/* Undocumented command. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_UNK_C6, 0x01, 0x00, 0xFF, 0xFF, 0x00);
+> > +
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
+> > +			  0x74, /* VBTHS, VBTLS: VGH = 17V, VBL = -11V */
+> > +			  0x00, /* FBOFF_VGH = 0, FBOFF_VGL = 0 */
+> > +			  0x32, /* VRP  */
+> > +			  0x32, /* VRN */
+> > +			  0x77, /* reserved */
+> > +			  0xF1, /* APS = 1 (small),
+> > +				 * VGL_DET_EN = 1, VGH_DET_EN = 1,
+> > +				 * VGL_TURBO = 1, VGH_TURBO = 1
+> > +				 */
+> > +			  0xFF, /* VGH1_L_DIV, VGL1_L_DIV (1.5MHz) */
+> > +			  0xFF, /* VGH1_R_DIV, VGL1_R_DIV (1.5MHz) */
+> > +			  0xCC, /* VGH2_L_DIV, VGL2_L_DIV (2.6MHz) */
+> > +			  0xCC, /* VGH2_R_DIV, VGL2_R_DIV (2.6MHz) */
+> > +			  0x77, /* VGH3_L_DIV, VGL3_L_DIV (4.5MHz) */
+> > +			  0x77  /* VGH3_R_DIV, VGL3_R_DIV (4.5MHz) */);
+> > +
+> > +	/* Reference voltage. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
+> > +			  0x07, /* VREF_SEL = 4.2V */
+> > +			  0x07  /* NVREF_SEL = 4.2V */);
+> > +
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
+> > +			  0x2C, /* VCOMDC_F = -0.67V */
+> > +			  0x2C  /* VCOMDC_B = -0.67V */);
+> > +
+> > +	/* Undocumented command. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_UNK_BF, 0x02, 0x11, 0x00);
+> > +
+> > +	/* This command is to set forward GIP timing. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1,
+> > +			  0x82, 0x10, 0x06, 0x05, 0xA2, 0x0A, 0xA5, 0x12,
+> > +			  0x31, 0x23, 0x37, 0x83, 0x04, 0xBC, 0x27, 0x38,
+> > +			  0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
+> > +			  0x03, 0x00, 0x00, 0x00, 0x75, 0x75, 0x31, 0x88,
+> > +			  0x88, 0x88, 0x88, 0x88, 0x88, 0x13, 0x88, 0x64,
+> > +			  0x64, 0x20, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> > +			  0x02, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+> > +
+> > +	/* This command is to set backward GIP timing. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2,
+> > +			  0x02, 0x21, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +			  0x00, 0x00, 0x00, 0x00, 0x02, 0x46, 0x02, 0x88,
+> > +			  0x88, 0x88, 0x88, 0x88, 0x88, 0x64, 0x88, 0x13,
+> > +			  0x57, 0x13, 0x88, 0x88, 0x88, 0x88, 0x88, 0x88,
+> > +			  0x75, 0x88, 0x23, 0x14, 0x00, 0x00, 0x02, 0x00,
+> > +			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> > +			  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 0x0A,
+> > +			  0xA5, 0x00, 0x00, 0x00, 0x00);
+> > +
+> > +	/* Adjust the gamma characteristics of the panel. */
+> > +	dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA,
+> > +			  0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41, 0x35,
+> > +			  0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12, 0x12,
+> > +			  0x18, 0x00, 0x09, 0x0D, 0x23, 0x27, 0x3C, 0x41,
+> > +			  0x35, 0x07, 0x0D, 0x0E, 0x12, 0x13, 0x10, 0x12,
+> > +			  0x12, 0x18);
+> > +
+> > +	DRM_DEV_DEBUG_DRIVER(dev, "Panel init sequence done\n");
+> > +	return 0;
+> > +}
+> > +
+> > +static int st7703_read_id(struct st7703 *ctx)
+> > +{
+> > +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +	u8 id1, id2, id3;
+> > +	int ret;
+> > +
+> > +	ret = mipi_dsi_dcs_read(dsi, ST7703_CMD_RDID1, &id1, 1);
+> > +	if (ret < 0) {
+> > +		DRM_DEV_ERROR(ctx->dev, "could not read ID1\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = mipi_dsi_dcs_read(dsi, ST7703_CMD_RDID2, &id2, 1);
+> > +	if (ret < 0) {
+> > +		DRM_DEV_ERROR(ctx->dev, "could not read ID2\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = mipi_dsi_dcs_read(dsi, ST7703_CMD_RDID3, &id3, 1);
+> > +	if (ret < 0) {
+> > +		DRM_DEV_ERROR(ctx->dev, "could not read ID3\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	DRM_DEV_INFO(ctx->dev,
+> > +		     "manufacturer: %02x version: %02x driver: %02x\n",
+> > +		     id1, id2, id3);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int st7703_prepare(struct drm_panel *panel)
+> > +{
+> > +	struct st7703 *ctx = panel_to_st7703(panel);
+> > +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +	int ret;
+> > +
+> > +	if (ctx->prepared)
+> > +		return 0;
+> > +
+> > +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> > +
+> > +	ret = regulator_bulk_enable(ctx->desc->num_supplies, ctx->supplies);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/* Wait for regulators to stabilize. */
+> > +	usleep_range(10000, 20000);
+> > +
+> > +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+> > +
+> > +	/* There needs to be at least 15ms post-reset delay. */
+> > +	usleep_range(15000, 20000);
+> > +
+> > +	ret = st7703_read_id(ctx);
+> > +	if (ret < 0)
+> > +		goto err_poweroff;
+> > +
+> > +	ret = st7703_init_sequence(ctx);
+> > +	if (ret < 0) {
+> > +		DRM_DEV_ERROR(ctx->dev,
+> > +			      "Panel init sequence failed (%d)\n", ret);
+> > +		goto err_poweroff;
+> > +	}
+> > +
+> > +	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> > +	if (ret < 0) {
+> > +		DRM_DEV_ERROR(ctx->dev,
+> > +			      "Failed to exit sleep mode (%d)\n", ret);
+> > +		goto err_poweroff;
+> > +	}
+> > +
+> > +	msleep(120);
+> > +
+> > +	ret = mipi_dsi_dcs_set_display_on(dsi);
+> > +	if (ret) {
+> > +		DRM_DEV_ERROR(ctx->dev,
+> > +			      "Failed to turn on the display (%d)\n", ret);
+> > +		goto err_poweroff;
+> > +	}
+> > +
+> > +	ctx->prepared = true;
+> > +
+> > +	return 0;
+> > +
+> > +err_poweroff:
+> > +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> > +	regulator_bulk_disable(ctx->desc->num_supplies, ctx->supplies);
+> > +	return ret;
+> > +}
+> > +
+> > +static int st7703_enable(struct drm_panel *panel)
+> > +{
+> > +	/*
+> > +	 * Avoid flicker by waiting for slightly more than 1
+> > +	 * frame's interval.
+> > +	 */
+> > +	msleep(50);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int st7703_unprepare(struct drm_panel *panel)
+> > +{
+> > +	struct st7703 *ctx = panel_to_st7703(panel);
+> > +	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +	int ret;
+> > +
+> > +	if (!ctx->prepared)
+> > +		return 0;
+> > +
+> > +	ret = mipi_dsi_dcs_set_display_off(dsi);
+> > +	if (ret < 0)
+> > +		DRM_DEV_ERROR(ctx->dev,
+> > +			      "Failed to turn off the display (%d)\n", ret);
+> > +
+> > +	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> > +	if (ret < 0)
+> > +		DRM_DEV_ERROR(ctx->dev,
+> > +			      "Failed to enter sleep mode (%d)\n", ret);
+> > +
+> > +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> > +	regulator_bulk_disable(ctx->desc->num_supplies, ctx->supplies);
+> > +	ctx->prepared = false;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int st7703_get_modes(struct drm_panel *panel,
+> > +			    struct drm_connector *connector)
+> > +{
+> > +	struct st7703 *ctx = panel_to_st7703(panel);
+> > +	struct drm_display_mode *mode;
+> > +
+> > +	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
+> > +	if (!mode) {
+> > +		DRM_DEV_ERROR(ctx->dev, "Failed to add mode\n");
+> > +		return -ENOMEM;
+> > +	}
+> > +
+> > +	drm_mode_set_name(mode);
+> > +
+> > +	connector->display_info.width_mm = mode->width_mm;
+> > +	connector->display_info.height_mm = mode->height_mm;
+> > +	drm_mode_probed_add(connector, mode);
+> > +
+> > +	return 1;
+> > +}
+> > +
+> > +static const struct drm_panel_funcs st7703_drm_funcs = {
+> > +	.prepare   = st7703_prepare,
+> > +	.enable    = st7703_enable,
+> > +	.unprepare = st7703_unprepare,
+> > +	.get_modes = st7703_get_modes,
+> > +};
+> > +
+> > +static const struct drm_display_mode xbd599_mode = {
+> > +	.hdisplay    = 720,
+> > +	.hsync_start = 720 + 40,
+> > +	.hsync_end   = 720 + 40 + 40,
+> > +	.htotal	     = 720 + 40 + 40 + 40,
+> > +	.vdisplay    = 1440,
+> > +	.vsync_start = 1440 + 18,
+> > +	.vsync_end   = 1440 + 18 + 10,
+> > +	.vtotal	     = 1440 + 18 + 10 + 17,
+> > +	.vrefresh    = 60,
+> > +	.clock	     = 69000,
+> > +	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > +
+> > +	.width_mm    = 68,
+> > +	.height_mm   = 136,
+> > +	.type        = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> > +};
+> > +
+> > +static const char * const xbd599_supply_names[] = {
+> > +	"iovcc",
+> > +	"vcc",
+> > +};
+> > +
+> > +static const struct st7703_panel_desc xbd599_desc = {
+> > +	.mode = &xbd599_mode,
+> > +	.lanes = 4,
+> > +	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+> > +	.format = MIPI_DSI_FMT_RGB888,
+> > +	.supply_names = xbd599_supply_names,
+> > +	.num_supplies = ARRAY_SIZE(xbd599_supply_names),
+> > +};
+> > +
+> > +static int st7703_probe(struct mipi_dsi_device *dsi)
+> > +{
+> > +	const struct st7703_panel_desc *desc;
+> > +	struct device *dev = &dsi->dev;
+> > +	struct st7703 *ctx;
+> > +	int i, ret;
+> > +
+> > +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> > +	if (!ctx)
+> > +		return -ENOMEM;
+> > +
+> > +	ctx->dev = dev;
+> > +	ctx->desc = desc = of_device_get_match_data(dev);
+> > +
+> > +	dsi->mode_flags = desc->flags;
+> > +	dsi->format = desc->format;
+> > +	dsi->lanes = desc->lanes;
+> > +
+> > +	ctx->supplies = devm_kcalloc(&dsi->dev, desc->num_supplies,
+> > +					sizeof(*ctx->supplies),
+> > +					GFP_KERNEL);
+> > +	if (!ctx->supplies)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i = 0; i < desc->num_supplies; i++)
+> > +		ctx->supplies[i].supply = desc->supply_names[i];
+> > +
+> > +	ret = devm_regulator_bulk_get(&dsi->dev, desc->num_supplies,
+> > +				      ctx->supplies);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> > +	if (IS_ERR(ctx->reset_gpio)) {
+> > +		DRM_DEV_ERROR(dev, "Can't get reset gpio\n");
+> > +		return PTR_ERR(ctx->reset_gpio);
+> > +	}
+> > +
+> > +	mipi_dsi_set_drvdata(dsi, ctx);
+> > +
+> > +	drm_panel_init(&ctx->panel, &dsi->dev, &st7703_drm_funcs,
+> > +		       DRM_MODE_CONNECTOR_DSI);
+> > +
+> > +	ret = drm_panel_of_backlight(&ctx->panel);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	drm_panel_add(&ctx->panel);
+> > +
+> > +	ret = mipi_dsi_attach(dsi);
+> > +	if (ret < 0) {
+> > +		drm_panel_remove(&ctx->panel);
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void st7703_shutdown(struct mipi_dsi_device *dsi)
+> > +{
+> > +	struct st7703 *ctx = mipi_dsi_get_drvdata(dsi);
+> > +	int ret;
+> > +
+> > +	ret = drm_panel_unprepare(&ctx->panel);
+> > +	if (ret < 0)
+> > +		DRM_DEV_ERROR(&dsi->dev,
+> > +			      "Failed to unprepare panel (%d)\n", ret);
+> > +}
+> > +
+> > +static int st7703_remove(struct mipi_dsi_device *dsi)
+> > +{
+> > +	struct st7703 *ctx = mipi_dsi_get_drvdata(dsi);
+> > +	int ret;
+> > +
+> > +	st7703_shutdown(dsi);
+> > +
+> > +	ret = mipi_dsi_detach(dsi);
+> > +	if (ret < 0)
+> > +		DRM_DEV_ERROR(&dsi->dev,
+> > +			      "Failed to detach from DSI host (%d)\n", ret);
+> > +
+> > +	drm_panel_remove(&ctx->panel);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct of_device_id st7703_of_match[] = {
+> > +	{ .compatible = "xingbangda,xbd599", .data = &xbd599_desc },
+> > +	{ /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, st7703_of_match);
+> > +
+> > +static struct mipi_dsi_driver st7703_driver = {
+> > +	.probe	= st7703_probe,
+> > +	.remove = st7703_remove,
+> > +	.shutdown = st7703_shutdown,
+> > +	.driver = {
+> > +		.name = "st7703",
+> > +		.of_match_table = st7703_of_match,
+> > +	},
+> > +};
+> > +module_mipi_dsi_driver(st7703_driver);
+> > +
+> > +MODULE_AUTHOR("Icenowy Zheng <icenowy@aosc.io>");
+> > +MODULE_DESCRIPTION("DRM driver for Sitronix ST7703 MIPI DSI panel");
+> > +MODULE_LICENSE("GPL v2");
+> > -- 
+> > 2.27.0
+> > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
