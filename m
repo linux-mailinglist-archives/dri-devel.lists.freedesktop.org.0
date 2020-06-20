@@ -1,109 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992AF20304E
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CFF203054
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F012A6E563;
-	Mon, 22 Jun 2020 07:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A4E6E588;
+	Mon, 22 Jun 2020 07:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACED56E2F9;
- Sat, 20 Jun 2020 16:14:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1592669686;
- bh=GkxzUop8V8rXlGE6J5+lqYfRSh4yg12UHlm3n3ahwyA=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=a4rlFE8XGqBVbLrc2TKCv/EK1RI7adEXxpN8LsGUkf3KlPTUZ4cIoMpUaRn7xh28o
- EufulKaKRdD+xVXbuKCYfm3WjZwuhsYQaMVFJFMcMQnjctiFdyJwRoTm8WuZ8O+o0x
- PJoYALwx9Uk5i1T79TGZrj0Bj6p4NofVA5qr6Cv8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.243.139.185]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MkElZ-1j2rnA3nvl-00kiT8; Sat, 20
- Jun 2020 18:14:46 +0200
-Subject: Re: [v2] drm/amdkfd: Fix memory leaks according to error branches
-To: Julia Lawall <julia.lawall@inria.fr>, Bernard Zhao <bernard@vivo.com>,
- opensource.kernel@vivo.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <0e76e678-94b1-8f69-d52c-2b67608d5ef8@web.de>
- <alpine.DEB.2.22.394.2006201126130.2918@hadrien>
-From: Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <24b55845-6aac-fa4c-c65f-e479de1bbd6f@web.de>
-Date: Sat, 20 Jun 2020 18:14:44 +0200
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8586E2EC
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 16:18:14 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id o4so7272948lfi.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 09:18:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y/B8+Wt8t65HyAHFIvqCHVw/CPSbL5JP5E6zK3iaABQ=;
+ b=sdlRvIKhkaKKZTjU3Hr85BxtzEcUie+Z3KoUUKlgApYqjtNyyX/51yd9pc/UOLjIcK
+ hej1uV1emdGGYFG5l21iPSkSiVOPTRGWnOCsMsjWYYVuDacDmqkzr35Bb4Lfuird1PCp
+ USG1+oG64s8bR6UOHuxYwiJaJQBvUODlSJi+cmIkfpAygnHxhYeEfsBb2COzHCVH/O3h
+ /aEu0wTZKiFFlBIqOWZS98UF4baUwPhWI38g6BtUUh1+uH/5GUkR6CL+c1McgBNtZj9E
+ Z5FhHfP8Gs+bFwBFNlzziN1F78+Is/EHr8bS35gWFn46NzSyFXfp+c7p83RD45r/FJnf
+ oGXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y/B8+Wt8t65HyAHFIvqCHVw/CPSbL5JP5E6zK3iaABQ=;
+ b=LcnAIpKPEMm5Z+RCAty3+iuTWKjrLs0ZbsVyCkH3F/tBs6YbrGM+YU2oh84kVyMgGn
+ Sd6tl7sAm+XpwMzlSz7RmCfek/2qFKBtxK2IssHzdpddLOciocaTiOuZ6W4S8PwYXHst
+ alIejRceGrp7a9qVQYO1GYU6KPMP5nz8dxPRmHkWlGjwxnj93NNWiFXpi9WOrGV6BDEJ
+ xNy5UCL5v+aTAITxjf1TW3zpKDp3V1hVPMETD+LfCzouOd6bijMOFGHI8Cp2EHoTzQ9i
+ Ncy3R15S5tkz4WRM/QuNDseQ9zDgOMB9KTG96F8nE4jEUZZcrSdCFsWzkvPlL4PIzm4D
+ 4jWw==
+X-Gm-Message-State: AOAM533aerigEEDZhkZLvUrlGLYBL8fLs6r3+Nsa3AR+ZPR4JVPRytJm
+ bm76OOs5nBtpKpq3m6PlAVQYmG/h
+X-Google-Smtp-Source: ABdhPJxC4Ue/7La+Ph2+EqjG4x2knGuQ7LL1+gFoJ+jfuTZGL3POZpxRQSk77anQqyHqi4QWMaYbmw==
+X-Received: by 2002:a19:e93:: with SMTP id 141mr4959112lfo.107.1592669892976; 
+ Sat, 20 Jun 2020 09:18:12 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
+ [79.139.237.54])
+ by smtp.googlemail.com with ESMTPSA id u8sm2158588lff.38.2020.06.20.09.18.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Jun 2020 09:18:11 -0700 (PDT)
+Subject: Re: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for
+ some panels
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20200617222703.17080-1-digetx@gmail.com>
+ <20200617222703.17080-8-digetx@gmail.com>
+ <20200620112132.GB16901@ravnborg.org>
+ <20200620114934.GB5829@pendragon.ideasonboard.com>
+ <ea421084-a91c-bc03-5997-1723075b7cae@gmail.com>
+ <20200620143114.GA22329@ravnborg.org>
+ <e77a34c1-3e0b-7f30-25d0-a955ec8d8c86@gmail.com>
+ <20200620153012.GA22743@ravnborg.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ce053d7d-7458-20a0-4e9e-77f7f99d364b@gmail.com>
+Date: Sat, 20 Jun 2020 19:18:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2006201126130.2918@hadrien>
-Content-Language: en-GB
-X-Provags-ID: V03:K1:dddi+ST13hC+JmXVRlll4n8RIaaozevP2KyZmxxSr0Lc1Hhn+Zi
- 9FO2dis//To4bxqww6Rlja6+NVXoZhhQt9O7GBijMse7rTvK4ldvI0fKH1RGXH3H/BbJuMn
- ax4MfwlhZzH87vLTFTHLnxvy1+EJ2Q6+GOuRM08O1Ot19skxZwoPH0i6gs5P5VExpxlAUrs
- E3hjstk2JbtmoQ24/OcOA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QU3a1UHBLwo=:87SR8wZ7bGgtI8yEYmPdRC
- WgUh77PdI5t0vyqiemJU0sCFxd7U8xoDj+4fSRBdLIaI1gzgAEXc631jim/bCx16q/ZKNROoB
- 49YWmcOKM4D52lF3dwyZLuwnIYurYm9VdW8rb9rQSF4qxDDMV6XSpvJhto2y4w0BIuKQqqLV5
- i4gZqkS5YH4mj44u5eWOyw7WJ6Ooj8trdnyolbjiDear8NRwtg5JoM1RAVPVOXjrpbCJwXtl9
- UfGLiXnhAsGocdypDPsZ0yvVjM+wM+QOboBUvgDTOGCO3VYDX0+ubyO8mOfimX0QQVC1eoJv1
- MeqlUHleKyfWitRVnJLiA8r9Nq2uRhxy8qI3I/K2ECtGBfckfngaXBkZxoIknYOr5PtEsOKwh
- AJVmFQw1mknh2hl3rRcpHz5nf7D+OJ5oeQqAtrQghfUCu0z74YCuEmtbr15zurjd+B19ophZb
- zyyFo/iFTXABOyy6jG/9jVxN/X8BWJe6aXkiGAyTd/W723uP/3CeRAQgFx3mAHmg3c6of9U4h
- N0tnOGrMSU5y9fcL54HbumH7AFSTlQh5r9ok8j9ieuwgPe3nI8H2srNmoTYeo4ddvYBsRjaOL
- fcHcCuAhhJKXs5lMrlwUv1YgakjOcP330Z8G5u2SmWpn9nWuQiJuQGaVGCTmHEym7wWjVnl4f
- z9X0ShPbRpSIs1ko6xGTEBB/mXJW6yelMr9ZYIRvUc8mW3DDbVhU/Gcf+kLixibwLWPKJu0AK
- rzKbpmFmHkd78osYgdsV4fwMsHm62EVLi2EdLMiBgdSfxBvo7e6/y18ibb84MCP4QcFjeMjdg
- CxyPeUATrnvyKH2ChlgZw66FKBx9TKBPW4dS0bj4vyvlz2aQb7UqExWB7YJHRSobgB5i9C1T/
- f40/ndnQ8xLPoB2jtU5mfso0+iA8IMyH5GOCnXfvGu0GfLc+n74YJ0unQOSy7UyyCwdpqJhAh
- 4SPJSEzmOK84MEGOvwIoNTsFturOFZ5UWjyA/MOziUACfZ05mlbD4fKNpLkQaQ7uiRQoU6jJc
- FA6bEJV2H2OxIH+fZ3iwvbHNwB5/nxR67v8oy3u16rP10lReib7Q/JhqbWPk5bV8NqTFuDfW/
- C0EXEmxbPNWjRLU6UeWaX+pnFoxLziwbhanvi1gBRJNnPip7GnhgnX+RyIdhnhIQEduGVRIV3
- tg7HINzV7/vWnqGN/1m068iwXcum0Bdeo3wU8jOTKEgI0l1Og25wXDOjX5S5nCa1PtmEBzwi6
- 2DtcCxmq/Pe0oOqdn
+In-Reply-To: <20200620153012.GA22743@ravnborg.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,28 +79,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Felix_K=c3=bchling?= <Felix.Kuehling@amd.com>,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> memleak is also not an English word.  Memory leak is only a few more
-> characters, and doesn't require the reader to make the small extra effort
-> to figure out what you mean.
-
-Would you like to achieve similar adjustments at any more places?
-
-How do you think about effects from a corresponding jargon?
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/msm/msm_submitqueue.c?id=177d3819633cd520e3f95df541a04644aab4c657
-
-Regards,
-Markus
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjAuMDYuMjAyMCAxODozMCwgU2FtIFJhdm5ib3JnINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5Cj4g
+T24gU2F0LCBKdW4gMjAsIDIwMjAgYXQgMDY6MDU6MzdQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+PiAyMC4wNi4yMDIwIDE3OjMxLCBTYW0gUmF2bmJvcmcg0L/QuNGI0LXRgjoKPj4+
+IEhpIERtaXRyeQo+Pj4KPj4+Pgo+Pj4+IE9vcHMhIEdvb2QgY2F0Y2ghCj4+PiBZZXAsIHRoYW5r
+cyBMYXVyZW50LiBTaG91bGQgaGF2ZSB0YWtlbiBhIGJldHRlciBsb29rIGJlZm9yZSBhcHBseWlu
+Zy4KPj4+Cj4+Pj4gSW5kZWVkLCBJIGJsaW5kbHkgc2V0IHRoZSBMVkRTIHR5cGUgdG8gYWxsIHRo
+ZXNlCj4+Pj4gcGFuZWxzLiBQbGVhc2UgcmV2ZXJ0IHRoaXMgcGF0Y2gsIEknbGwgZG91YmxlIGNo
+ZWNrIGVhY2ggcGFuZWwgYW5kCj4+Pj4gcHJlcGFyZSBhbiB1cGRhdGVkIHZlcnNpb24gb2YgdGhp
+cyBwYXRjaC4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgdGhlCj4+Pj4gcmV2aWV3IQo+Pj4KPj4+
+IElmIHlvdSBjYW4gcHJlcGFyZSBhIGZpeCB3aXRoaW4gYSBmZXcgZGF5cyB0aGVuIGxldHMgd2Fp
+dCBmb3IgdGhhdC4KPj4+IEkgd2lsbCBkbyBhIGJldHRlciByZXZpZXcgbmV4dCB0aW1lLgo+Pgo+
+PiBIZWxsbyBTYW0sCj4+Cj4+IEkgc2hvdWxkIGJlIGFibGUgdG8gbWFrZSBpdCBsYXRlciB0b2Rh
+eSBvciB0b21vcnJvdy4gQ291bGQgeW91IHBsZWFzZQo+PiBjbGFyaWZ5IHdoYXQgZG8geW91IG1l
+YW4gYnkgdGhlIGZpeCwgZG8geW91IHdoYXQgaXQgdG8gYmUgYXMgYW4KPj4gYWRkaXRpb25hbCBw
+YXRjaCBvbiB0b3Agb2YgdGhlIGFwcGxpZWQgb25lIG9yIGEgbmV3IHZlcnNpb24gb2YgdGhlIHBh
+dGNoPwo+IEFuIGFkZGl0aW9uYWwgcGF0Y2ggb24gdG9wIG9mIHRoZSBvbmUgYXBwbGllZC4KPiBJ
+dCBzaGFsbCBjYXJyeSBhIHByb3BlciBmaXhlczogdGFnIGxpa2UgdGhpczoKPiAKPiBGaXhlczog
+OTRmMDc5MTdlYmU4ICgiZHJtL3BhbmVsLXNpbXBsZTogQWRkIG1pc3NpbmcgY29ubmVjdG9yIHR5
+cGUgZm9yIHNvbWUgcGFuZWxzIikKPiBDYzogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwu
+Y29tPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6IFRoaWVycnkg
+UmVkaW5nIDx0aGllcnJ5LnJlZGluZ0BnbWFpbC5jb20+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKCk9rYXkhCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbAo=
