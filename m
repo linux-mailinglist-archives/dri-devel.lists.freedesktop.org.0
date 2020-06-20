@@ -1,70 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A013203028
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:08:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CF820304A
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jun 2020 09:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DC96E1F7;
-	Mon, 22 Jun 2020 07:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C99FB6E22C;
+	Mon, 22 Jun 2020 07:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DC06E09A
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 15:05:40 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id n24so14652487lji.10
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 08:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cC/kgYZ98AFtKsSnL1c9eWREKRXoMKu60JHedrpuptk=;
- b=ClaI3OCondxVk+pVJYSeistUsa1TfvZDmkq0JpZHtC8xsR0LnmmdEkgjNYoEkQnUKX
- tkGbCfVDf5tlH3C/BWaojJPDXgntX4ZpNhYO4Ax7KghREvaXj+aqxhECGB80nF2imTy1
- gLkDagTcQr9S2bxcx8R568dCyifzswvs+hpf218s6lNwETXVWrQQlbVl7Gex1GeWy3ob
- ffKGeJkYgbSUhhr5e78mHzksFV1Kz4JuMTz0bSdC2ekCuqu9Nvy4KDYjaOEdihGSuPgo
- kmd/8X3rH/OWDyIe7rA3eEAoRAfPms3tfjFq4TUc/8k63p0OsH48dycl5dLFVPmUZEy4
- osQQ==
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24A2892B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 15:58:17 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id gl26so13516113ejb.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jun 2020 08:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=URfmF5zJlOcOhtFLjxyic0QyuCH3AQC3KnEdMwqUPZ0=;
+ b=aRRZnSLCo8mhBuXJUHE+8cMgPXIWw4czxpU/mgGuaOBBYdCnqoQ3wLrG7/+2XxRyQQ
+ kGxzAemV1pF2eJ2eWCRHjJJplwjeTI9QTCjmAq2y9EClfnWnqMr5jZaK1Q4QVlt2HUZK
+ 0K5YaK3/ZiENJlUg9jHch9mmLFYmDa/RV3IFLz+KXM6zlcLFPa3uElrJyVRCfReE+BE7
+ y5Iam7JDs0Vn9w+C1t/Quau0USaKxYJ2l+12AH1u6ZLX86OBbRh5XXMHf2OgPp4Uh8cv
+ z8u9O7YCIk0XHrzHU9x0mcHmrGvlQY1FqqbcEpSp9Q3B+SYW4dEKb3yWcf6+C5jvhYuF
+ y4gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cC/kgYZ98AFtKsSnL1c9eWREKRXoMKu60JHedrpuptk=;
- b=UXawRNSmAJBbjJRcyrNGWvOL67+ZPnjKfYxfE78K1oi4Iee+g5aPGXjZ552pdVjstB
- NzyZh0b6XZr+Akm5ED88wnK8KHQn9pkYahjZ9v96L4OVuRfNsz8O/5B8IN0hXh4oXlOu
- 1R/LMJ+/Jla09QaCq98A99EsGeH5R5LQXfq08ZSmTYcpHBV2JAz6Mub/Gop52dABV5DI
- C+S/yPUbsP8uvkLTyWi5vGRWsU0r52qLqUswX7Y2AgokwKm9nKm26XsYqttYdzfiIV+9
- +0EiEWIGJR7KGg3JQimyg2A0WDtr12YbgovNLnX319semCEvuFQCmlb4mk0IXm2FSjYP
- h9dA==
-X-Gm-Message-State: AOAM531mxEw0WRrW+llkOaufgRIhtIHS7yfY5uY47ZY2frD431c3T1WU
- oVKKhKhs7gOwqeJGeBIC/eM9tnzX
-X-Google-Smtp-Source: ABdhPJxkAwkMqQA+UTB5xAzf8ceKNP0+Ozy6OZt8rrWp77P4n6g60+DuTrmnJPIWs/EOJyIZCJJ6aw==
-X-Received: by 2002:a2e:8601:: with SMTP id a1mr3935669lji.255.1592665539062; 
- Sat, 20 Jun 2020 08:05:39 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru.
- [79.139.237.54])
- by smtp.googlemail.com with ESMTPSA id m11sm2131027lfl.70.2020.06.20.08.05.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Jun 2020 08:05:38 -0700 (PDT)
-Subject: Re: [PATCH v8 7/7] drm/panel-simple: Add missing connector type for
- some panels
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20200617222703.17080-1-digetx@gmail.com>
- <20200617222703.17080-8-digetx@gmail.com>
- <20200620112132.GB16901@ravnborg.org>
- <20200620114934.GB5829@pendragon.ideasonboard.com>
- <ea421084-a91c-bc03-5997-1723075b7cae@gmail.com>
- <20200620143114.GA22329@ravnborg.org>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e77a34c1-3e0b-7f30-25d0-a955ec8d8c86@gmail.com>
-Date: Sat, 20 Jun 2020 18:05:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=URfmF5zJlOcOhtFLjxyic0QyuCH3AQC3KnEdMwqUPZ0=;
+ b=HMGGC3AgM4Zi7wv1RoRdYBfjlaOgp6085fouCXRktdrX/kikyixkXrGsxphDV6Mo3N
+ kcrNRP1FKtoo/p7fPjB47VgCmFyaY+HNWlKEPjWFMgiWUTZIQnmiRXeTKJsn/VJrVatg
+ iXF+Tz3xHdjeantjIRUxDgIoS/oOVXcGGiEeM5ymN+LxxPUyM5jz22nBTr8ctmkBKa6I
+ f2Jj8zG/lNrmo1WkUUzKkfIC3RdGZPp3twQ/sfwg7wIwvRARWTu0dtYK8Wl++YpjWczb
+ u/0//3PE3KWOSA3i5/fyCMBkLlWOGNt5UUeOLq4gKiJi05Smb8eVVpHl6ueyfJDMJvWT
+ g0sQ==
+X-Gm-Message-State: AOAM531dmTgJoptwTL0ZaYj31eZjGeQVmmJzd7oH6nX/E9D99YnR841C
+ vYFZ0RQ4N3CxdCoyd8/pnXo=
+X-Google-Smtp-Source: ABdhPJy99Zp7FW/lLQW54XKAHKHdIN3zBL7LCt43g0W5sKxHR8WoM342wP5Z9toUDOBG31W2t+Jp2w==
+X-Received: by 2002:a17:906:2e4b:: with SMTP id
+ r11mr3004840eji.227.1592668696360; 
+ Sat, 20 Jun 2020 08:58:16 -0700 (PDT)
+Received: from localhost.localdomain
+ (p200300f1371df700428d5cfffeb99db8.dip0.t-ipconnect.de.
+ [2003:f1:371d:f700:428d:5cff:feb9:9db8])
+ by smtp.googlemail.com with ESMTPSA id gj10sm7545001ejb.61.2020.06.20.08.58.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Jun 2020 08:58:15 -0700 (PDT)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: narmstrong@baylibre.com, jmasson@baylibre.com,
+ linux-amlogic@lists.infradead.org
+Subject: [PATCH RESEND v1] drm/meson: viu: fix setting the OSD burst length in
+ VIU_OSD1_FIFO_CTRL_STAT
+Date: Sat, 20 Jun 2020 17:57:52 +0200
+Message-Id: <20200620155752.21065-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200620143114.GA22329@ravnborg.org>
-Content-Language: en-US
-X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:46 +0000
+X-Mailman-Approved-At: Mon, 22 Jun 2020 07:07:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,29 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-tegra@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjAuMDYuMjAyMCAxNzozMSwgU2FtIFJhdm5ib3JnINC/0LjRiNC10YI6Cj4gSGkgRG1pdHJ5Cj4g
-Cj4+Cj4+IE9vcHMhIEdvb2QgY2F0Y2ghCj4gWWVwLCB0aGFua3MgTGF1cmVudC4gU2hvdWxkIGhh
-dmUgdGFrZW4gYSBiZXR0ZXIgbG9vayBiZWZvcmUgYXBwbHlpbmcuCj4gCj4+IEluZGVlZCwgSSBi
-bGluZGx5IHNldCB0aGUgTFZEUyB0eXBlIHRvIGFsbCB0aGVzZQo+PiBwYW5lbHMuIFBsZWFzZSBy
-ZXZlcnQgdGhpcyBwYXRjaCwgSSdsbCBkb3VibGUgY2hlY2sgZWFjaCBwYW5lbCBhbmQKPj4gcHJl
-cGFyZSBhbiB1cGRhdGVkIHZlcnNpb24gb2YgdGhpcyBwYXRjaC4gVGhhbmsgeW91IHZlcnkgbXVj
-aCBmb3IgdGhlCj4+IHJldmlldyEKPiAKPiBJZiB5b3UgY2FuIHByZXBhcmUgYSBmaXggd2l0aGlu
-IGEgZmV3IGRheXMgdGhlbiBsZXRzIHdhaXQgZm9yIHRoYXQuCj4gSSB3aWxsIGRvIGEgYmV0dGVy
-IHJldmlldyBuZXh0IHRpbWUuCgpIZWxsbyBTYW0sCgpJIHNob3VsZCBiZSBhYmxlIHRvIG1ha2Ug
-aXQgbGF0ZXIgdG9kYXkgb3IgdG9tb3Jyb3cuIENvdWxkIHlvdSBwbGVhc2UKY2xhcmlmeSB3aGF0
-IGRvIHlvdSBtZWFuIGJ5IHRoZSBmaXgsIGRvIHlvdSB3aGF0IGl0IHRvIGJlIGFzIGFuCmFkZGl0
-aW9uYWwgcGF0Y2ggb24gdG9wIG9mIHRoZSBhcHBsaWVkIG9uZSBvciBhIG5ldyB2ZXJzaW9uIG9m
-IHRoZSBwYXRjaD8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-Cg==
+The burst length is configured in VIU_OSD1_FIFO_CTRL_STAT[31] and
+VIU_OSD1_FIFO_CTRL_STAT[11:10]. The public S905D3 datasheet describes
+this as:
+- 0x0 = up to 24 per burst
+- 0x1 = up to 32 per burst
+- 0x2 = up to 48 per burst
+- 0x3 = up to 64 per burst
+- 0x4 = up to 96 per burst
+- 0x5 = up to 128 per burst
+
+The lower two bits map to VIU_OSD1_FIFO_CTRL_STAT[11:10] while the upper
+bit maps to VIU_OSD1_FIFO_CTRL_STAT[31].
+
+Replace meson_viu_osd_burst_length_reg() with pre-defined macros which
+set these values. meson_viu_osd_burst_length_reg() always returned 0
+(for the two used values: 32 and 64 at least) and thus incorrectly set
+the burst size to 24.
+
+Fixes: 147ae1cbaa1842 ("drm: meson: viu: use proper macros instead of magic constants")
+Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+---
+re-send of v1 [0] with no changes as I still noticed that this is
+sitting in my tree and I wasn't asked to change anything in v1.
+
+
+[0] https://patchwork.kernel.org/patch/11510045/
+
+
+ drivers/gpu/drm/meson/meson_registers.h |  6 ++++++
+ drivers/gpu/drm/meson/meson_viu.c       | 11 ++---------
+ 2 files changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/meson/meson_registers.h b/drivers/gpu/drm/meson/meson_registers.h
+index 8ea00546cd4e..049c4bfe2a3a 100644
+--- a/drivers/gpu/drm/meson/meson_registers.h
++++ b/drivers/gpu/drm/meson/meson_registers.h
+@@ -261,6 +261,12 @@
+ #define VIU_OSD_FIFO_DEPTH_VAL(val)      ((val & 0x7f) << 12)
+ #define VIU_OSD_WORDS_PER_BURST(words)   (((words & 0x4) >> 1) << 22)
+ #define VIU_OSD_FIFO_LIMITS(size)        ((size & 0xf) << 24)
++#define VIU_OSD_BURST_LENGTH_24          (0x0 << 31 | 0x0 << 10)
++#define VIU_OSD_BURST_LENGTH_32          (0x0 << 31 | 0x1 << 10)
++#define VIU_OSD_BURST_LENGTH_48          (0x0 << 31 | 0x2 << 10)
++#define VIU_OSD_BURST_LENGTH_64          (0x0 << 31 | 0x3 << 10)
++#define VIU_OSD_BURST_LENGTH_96          (0x1 << 31 | 0x0 << 10)
++#define VIU_OSD_BURST_LENGTH_128         (0x1 << 31 | 0x1 << 10)
+ 
+ #define VD1_IF0_GEN_REG 0x1a50
+ #define VD1_IF0_CANVAS0 0x1a51
+diff --git a/drivers/gpu/drm/meson/meson_viu.c b/drivers/gpu/drm/meson/meson_viu.c
+index 304f8ff1339c..aede0c67a57f 100644
+--- a/drivers/gpu/drm/meson/meson_viu.c
++++ b/drivers/gpu/drm/meson/meson_viu.c
+@@ -411,13 +411,6 @@ void meson_viu_gxm_disable_osd1_afbc(struct meson_drm *priv)
+ 			    priv->io_base + _REG(VIU_MISC_CTRL1));
+ }
+ 
+-static inline uint32_t meson_viu_osd_burst_length_reg(uint32_t length)
+-{
+-	uint32_t val = (((length & 0x80) % 24) / 12);
+-
+-	return (((val & 0x3) << 10) | (((val & 0x4) >> 2) << 31));
+-}
+-
+ void meson_viu_init(struct meson_drm *priv)
+ {
+ 	uint32_t reg;
+@@ -444,9 +437,9 @@ void meson_viu_init(struct meson_drm *priv)
+ 		VIU_OSD_FIFO_LIMITS(2);      /* fifo_lim: 2*16=32 */
+ 
+ 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+-		reg |= meson_viu_osd_burst_length_reg(32);
++		reg |= VIU_OSD_BURST_LENGTH_32;
+ 	else
+-		reg |= meson_viu_osd_burst_length_reg(64);
++		reg |= VIU_OSD_BURST_LENGTH_64;
+ 
+ 	writel_relaxed(reg, priv->io_base + _REG(VIU_OSD1_FIFO_CTRL_STAT));
+ 	writel_relaxed(reg, priv->io_base + _REG(VIU_OSD2_FIFO_CTRL_STAT));
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
